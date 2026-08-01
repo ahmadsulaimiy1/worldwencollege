@@ -1,10 +1,12 @@
 // WEC-LC — Student Portal client-side auth guard.
 //
 // Included only on portal pages (student-portal/preview/ and its
-// sub-pages). Reads js/auth-config.js for the Clerk publishable key.
+// sub-pages). Page-specific layer on top of the shared
+// js/portal-guard.js shell — see that file for the reusable part of
+// this pattern (also used by js/finance-dashboard.js).
 //
-// With no key configured (the shipped default), this script does
-// nothing at all — the page stays exactly the static, illustrative
+// With no key configured (the shipped default), js/portal-guard.js
+// does nothing at all — the page stays exactly the static, illustrative
 // design preview it already is. The moment a real publishable key is
 // set at deploy time, the same markup and script begin gating the page
 // behind a real Clerk session with no further changes here, mirroring
@@ -12,43 +14,17 @@
 // (see docs/api-reference.md — Frontend Integration Pattern).
 //
 // Implemented against Clerk's documented framework-less ("vanilla JS")
-// integration: https://clerk.com/docs, via the shared bootstrap in
-// js/clerk-loader.js (decode the publishable key to find the Frontend
-// API host, load clerk.browser.js from it, then use Clerk.load() /
-// Clerk.user / Clerk.session / Clerk.redirectToSignIn()). Not yet
-// exercised against a real Clerk instance — see
-// docs/auth-architecture.md — What's genuinely untested.
+// integration: https://clerk.com/docs. Not yet exercised against a
+// real Clerk instance — see docs/auth-architecture.md — What's
+// genuinely untested.
 (function () {
-  var cfg = window.WEC_LC_AUTH || {};
-  var pk = cfg.clerkPublishableKey;
-  if (!pk) return;
-
-  var gate = buildGate();
-  document.body.appendChild(gate);
-
-  window.WEC_LC_loadClerk(pk, function (err, clerk) {
-    if (err) { removeGate(gate); return; }
-
-    if (!clerk.user) {
-      clerk.redirectToSignIn({ redirectUrl: window.location.href });
-      return;
-    }
-
-    wireSignOut(clerk);
-    wireSecurityLinks(clerk);
-    applyRealUser(clerk, function () { removeGate(gate); });
+  window.WEC_LC_guardPortal({
+    signOutRedirect: '/student-portal/',
+    onAuthenticated: function (clerk, done) {
+      wireSecurityLinks(clerk);
+      applyRealUser(clerk, done);
+    },
   });
-
-  function wireSignOut(clerk) {
-    document.querySelectorAll('[data-sign-out]').forEach(function (el) {
-      el.classList.remove('disabled-link');
-      el.removeAttribute('aria-disabled');
-      el.addEventListener('click', function (e) {
-        e.preventDefault();
-        clerk.signOut(function () { window.location.href = '/student-portal/'; });
-      });
-    });
-  }
 
   function wireSecurityLinks(clerk) {
     // Clerk hosts password, 2FA and active-session management itself —
@@ -94,18 +70,5 @@
         document.querySelectorAll('[data-user-name]').forEach(function (el) { el.textContent = me.preferredName; });
       }
     }).catch(function () {}).then(done, done);
-  }
-
-  function buildGate() {
-    var el = document.createElement('div');
-    el.className = 'auth-gate';
-    el.setAttribute('role', 'status');
-    el.setAttribute('aria-live', 'polite');
-    el.innerHTML = '<div class="auth-gate__spinner" aria-hidden="true"></div><p class="auth-gate__text">Checking your session…</p>';
-    return el;
-  }
-
-  function removeGate(gate) {
-    if (gate && gate.parentNode) gate.parentNode.removeChild(gate);
   }
 })();

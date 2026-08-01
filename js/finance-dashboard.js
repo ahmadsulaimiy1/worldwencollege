@@ -1,9 +1,9 @@
 // WEC-LC — Finance dashboard client-side auth + data guard.
 //
-// Included only on finance/preview/index.html. Reads js/auth-config.js
-// for the Clerk publishable key, same as js/portal-auth.js — with no
-// key configured, this does nothing and the page stays the static,
-// illustrative preview it ships as.
+// Included only on finance/preview/index.html. Page-specific layer on
+// top of the shared js/portal-guard.js shell (also used by
+// js/portal-auth.js for the Student Portal) — see that file for the
+// reusable gate/redirect/sign-out part of this pattern.
 //
 // Unlike the Student Portal, this page is role-gated: any signed-in
 // Clerk user reaching it who isn't staff/admin sees an access-denied
@@ -12,35 +12,10 @@
 // server-side (requireStaff(), functions/_lib/auth/session.js)
 // regardless of what this script does.
 (function () {
-  var cfg = window.WEC_LC_AUTH || {};
-  var pk = cfg.clerkPublishableKey;
-  if (!pk) return;
-
-  var gate = buildGate();
-  document.body.appendChild(gate);
-
-  window.WEC_LC_loadClerk(pk, function (err, clerk) {
-    if (err) { removeGate(gate); return; }
-
-    if (!clerk.user) {
-      clerk.redirectToSignIn({ redirectUrl: window.location.href });
-      return;
-    }
-
-    wireSignOut(clerk);
-    authorizeAndLoad(clerk, function () { removeGate(gate); });
+  window.WEC_LC_guardPortal({
+    signOutRedirect: '/',
+    onAuthenticated: authorizeAndLoad,
   });
-
-  function wireSignOut(clerk) {
-    document.querySelectorAll('[data-sign-out]').forEach(function (el) {
-      el.classList.remove('disabled-link');
-      el.removeAttribute('aria-disabled');
-      el.addEventListener('click', function (e) {
-        e.preventDefault();
-        clerk.signOut(function () { window.location.href = '/'; });
-      });
-    });
-  }
 
   function authorizeAndLoad(clerk, done) {
     var token;
@@ -173,16 +148,4 @@
     }
   }
 
-  function buildGate() {
-    var el = document.createElement('div');
-    el.className = 'auth-gate';
-    el.setAttribute('role', 'status');
-    el.setAttribute('aria-live', 'polite');
-    el.innerHTML = '<div class="auth-gate__spinner" aria-hidden="true"></div><p class="auth-gate__text">Checking your session…</p>';
-    return el;
-  }
-
-  function removeGate(gate) {
-    if (gate && gate.parentNode) gate.parentNode.removeChild(gate);
-  }
 })();

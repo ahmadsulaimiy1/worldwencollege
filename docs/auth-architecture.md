@@ -58,12 +58,56 @@ either.
 
 ---
 
-## Client-side integration (`js/portal-auth.js`)
+## Client-side integration and the portal pattern
+
+Three shared scripts, loaded in this order, form a "flagship" pattern
+every portal page after the Student Portal (Faculty, Administration,
+Executive, Corporate, Alumni — see `docs/master-roadmap.md`) should
+build on rather than reimplement:
+
+1. **`js/auth-config.js`** — one config value, `clerkPublishableKey`,
+   shipped empty. The single line that needs a real value at
+   deployment; see the file's own comment for why it's safe to ship
+   publicly.
+2. **`js/clerk-loader.js`** — `window.WEC_LC_loadClerk(publishableKey, done)`.
+   Decodes the key to find Clerk's Frontend API host, loads
+   `clerk.browser.js` from it, calls `Clerk.load()`, and hands back the
+   ready `Clerk` instance. The one place this project's Clerk
+   CDN-loading approach lives.
+3. **`js/portal-guard.js`** — `window.WEC_LC_guardPortal({ signOutRedirect, onAuthenticated })`.
+   The reusable shell: with no key configured, it's a no-op (returns
+   `false`) and the page stays whatever static preview it already is.
+   With a key configured, it shows a full-page `.auth-gate` loading
+   overlay, loads Clerk, redirects to Clerk's hosted sign-in if no
+   session exists, wires the page's `[data-sign-out]` link to a real
+   `Clerk.signOut()`, and then calls `onAuthenticated(clerk, done)` —
+   the one part every portal actually differs on.
+
+A new portal's own script (`js/portal-auth.js` for the Student Portal,
+`js/finance-dashboard.js` for Finance — see
+`docs/payments-architecture.md` § Financial reporting &
+reconciliation) is only ever the `onAuthenticated` callback: what
+identity/role check to run and what data to fetch and render. Nothing
+about the gate, the redirect, or sign-out needs to be rewritten per
+portal — that's the entire point of "flagship implementation other
+portals inherit."
+
+**Role-gating is opt-in per portal, not part of the shared shell.**
+The Student Portal's callback (`js/portal-auth.js`) trusts any signed-in
+Clerk user (it's the student's own account). The Finance dashboard's
+callback (`js/finance-dashboard.js`) additionally calls `/api/auth/me`
+and checks `role`, showing an access-denied state for a non-staff
+account — because *that* page's data is sensitive across users, not
+because the shared guard enforces it. A future Faculty or Executive
+portal would follow the same choice its own data calls for. In every
+case the client-side check is defense-in-depth only: the actual
+authorization boundary is server-side (`requireUser()` /
+`requireStaff()` in `functions/_lib/auth/session.js`), which rejects an
+unauthorized caller regardless of what any frontend script does.
 
 The Student Portal preview pages (`student-portal/preview/` and
-`student-portal/preview/profile/`) now load `js/auth-config.js` +
-`js/portal-auth.js`. The config file holds exactly one value —
-`clerkPublishableKey`, shipped empty.
+`student-portal/preview/profile/`) load all three shared scripts plus
+`js/portal-auth.js`.
 
 **Empty (shipped default):** `portal-auth.js` does nothing at all. Both
 pages behave exactly as they always have — a static, illustrative
