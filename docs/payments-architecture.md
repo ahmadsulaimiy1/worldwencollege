@@ -141,6 +141,33 @@ wiring this in later is an endpoint change, not a migration.
 
 ---
 
+## Executive Decision #3: the phased gateway rollout needs no code change
+
+The requested rollout order — Phase 1: Stripe, Phase 2: Paystack +
+Flutterwave, Phase 3: Opay "where appropriate" — is already how
+`router.js`'s `suggestGateway()` behaves, without any change: it
+filters a country's `preferred_gateways` list down to `isConfigured()`
+gateways (those with real env-var credentials actually set), and
+suggests the first surviving one. During Phase 1, only
+`STRIPE_SECRET_KEY` exists anywhere, so `configured` is `['stripe']`
+for every country regardless of that country's routing preference —
+Stripe is suggested everywhere, by construction, not because anything
+special-cases Phase 1. Once Paystack/Flutterwave credentials are added
+(Phase 2), a country whose `preferred_gateways` lists them ahead of
+Stripe (e.g. Nigeria: `["paystack","flutterwave","opay","stripe"]`)
+starts suggesting Paystack automatically — no deploy, no code change,
+just setting the two new Pages secrets. Opay's phase-3 arrival works
+the same way. **What this means operationally: the rollout order isn't
+something to implement — it's a direct consequence of the order real
+merchant credentials get added as Pages secrets.** The one thing worth
+confirming before Phase 3: Opay's adapter has its own low-confidence
+flag (its field names are implemented against publicly-documented
+conventions, not a verified merchant dashboard — see the adapter's own
+header) and should be checked against Opay's current docs before its
+credentials go live.
+
+---
+
 ## UX: suggested, never forced
 
 `functions/_lib/payments/router.js`'s `suggestGateway()` and
