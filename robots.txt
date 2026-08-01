@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.wec-lc.org/sitemap.xml
+Sitemap: https://www.worldwencollege.co.uk/sitemap.xml
