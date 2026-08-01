@@ -2,8 +2,8 @@
   {
     "slug": "home",
     "output": "index.html",
-    "title": "WorldWide English College — London Campus | Empowering the World Through English Excellence",
-    "description": "WorldWide English College, London Campus (WEC-LC) is a premium international English language institution delivering the International English Fluency Course (IEFC) — six CEFR-aligned levels, live and on-demand instruction, and a modern digital campus.",
+    "title": "WorldWide English College — London Campus | WEC-LC",
+    "description": "WEC-LC delivers the International English Fluency Course (IEFC) — six CEFR-aligned levels from A1 to C2, taught entirely online over 24 months.",
     "contentFile": "home.html",
     "lang": "en",
     "dir": "ltr",
@@ -12,7 +12,7 @@
   {
     "slug": "about",
     "output": "about/index.html",
-    "title": "About WEC-LC | Vision, Mission &amp; Institutional Status — WorldWide English College",
+    "title": "About WEC-LC | Vision, Mission &amp; Status",
     "description": "The vision, mission, core values and honest institutional status of WorldWide English College, London Campus.",
     "contentFile": "about.html",
     "lang": "en",
@@ -22,7 +22,7 @@
   {
     "slug": "academics",
     "output": "academics/index.html",
-    "title": "Academics | Curriculum, Methodology &amp; Digital Campus — WorldWide English College",
+    "title": "Academics | Curriculum &amp; Methodology — WEC-LC",
     "description": "How WEC-LC teaches: curriculum areas, teaching methodology, and the digital learning environment behind the International English Fluency Course.",
     "contentFile": "academics.html",
     "lang": "en",
@@ -32,7 +32,7 @@
   {
     "slug": "academics-iefc",
     "output": "academics/iefc/index.html",
-    "title": "The IEFC Programme | Six CEFR-Aligned Levels — WorldWide English College",
+    "title": "The IEFC Programme | Six CEFR Levels — WEC-LC",
     "description": "The International English Fluency Course: six levels from Foundation (CEFR A1) to English Mastery (CEFR C2), 24 months, 720 learning units.",
     "contentFile": "academics-iefc.html",
     "lang": "en",
@@ -103,8 +103,8 @@
   {
     "slug": "home-ar",
     "output": "ar/index.html",
-    "title": "الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن | نُمكّن العالم من خلال التميّز في اللغة الإنجليزية",
-    "description": "الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن (WEC-LC) مؤسسة دولية رائدة لتعليم اللغة الإنجليزية، تقدّم برنامج الطلاقة الدولي (IEFC) بستة مستويات متوافقة مع الإطار الأوروبي المرجعي.",
+    "title": "الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن",
+    "description": "الكلية العالمية للغة الإنجليزية تقدّم برنامج الطلاقة الدولي (IEFC) بستة مستويات متوافقة مع CEFR، من A1 إلى C2، عبر الإنترنت بالكامل على مدى 24 شهرًا.",
     "contentFile": "home.ar.html",
     "lang": "ar",
     "dir": "rtl",
@@ -113,7 +113,7 @@
   {
     "slug": "about-ar",
     "output": "ar/about/index.html",
-    "title": "عن الكلية | الرؤية والرسالة والوضع المؤسسي — الكلية العالمية للغة الإنجليزية",
+    "title": "عن الكلية | الرؤية والرسالة والوضع المؤسسي",
     "description": "رؤية ورسالة والقيم الجوهرية والوضع المؤسسي الصادق للكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن.",
     "contentFile": "about.ar.html",
     "lang": "ar",
@@ -123,7 +123,7 @@
   {
     "slug": "academics-ar",
     "output": "ar/academics/index.html",
-    "title": "البرامج الأكاديمية | المنهج والمنهجية والحرم الرقمي — الكلية العالمية للغة الإنجليزية",
+    "title": "البرامج الأكاديمية | المنهج والمنهجية",
     "description": "كيف تُدرّس الكلية العالمية للغة الإنجليزية: مجالات المنهج، منهجية التدريس، وبيئة التعلّم الرقمية وراء برنامج IEFC.",
     "contentFile": "academics.ar.html",
     "lang": "ar",
@@ -133,7 +133,7 @@
   {
     "slug": "academics-iefc-ar",
     "output": "ar/academics/iefc/index.html",
-    "title": "برنامج IEFC | ستة مستويات متوافقة مع CEFR — الكلية العالمية للغة الإنجليزية",
+    "title": "برنامج IEFC | ستة مستويات متوافقة مع CEFR",
     "description": "برنامج الطلاقة الدولي في اللغة الإنجليزية: ستة مستويات من التأسيسي (A1) إلى الإتقان (C2)، على مدى 24 شهرًا و720 وحدة تعليمية.",
     "contentFile": "academics-iefc.ar.html",
     "lang": "ar",
@@ -163,7 +163,7 @@
   {
     "slug": "faculty-ar",
     "output": "ar/faculty/index.html",
-    "title": "هيئة التدريس ومنهجية التعليم — الكلية العالمية للغة الإنجليزية",
+    "title": "هيئة التدريس ومعايير التوظيف — WEC-LC",
     "description": "فلسفة التدريس ومعايير المدرّسين في الكلية العالمية للغة الإنجليزية، والوضع الحالي لتشكيل هيئة التدريس التأسيسية.",
     "contentFile": "faculty.ar.html",
     "lang": "ar",
@@ -193,7 +193,7 @@
   {
     "slug": "contact-ar",
     "output": "ar/contact/index.html",
-    "title": "تواصل معنا — الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن",
+    "title": "تواصل معنا — الكلية العالمية للغة الإنجليزية",
     "description": "تواصل مع الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن — استفسارات القبول، التواصل العام، والوضع الحالي للحرم الجامعي.",
     "contentFile": "contact.ar.html",
     "lang": "ar",
