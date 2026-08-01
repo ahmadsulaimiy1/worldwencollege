@@ -60,13 +60,31 @@ decision, not a technical one.
 
 ---
 
+## Business policy lives in `platform_config`, not in code
+
+Executive Decision #5 requires refunds, promo codes, scholarships,
+corporate invoicing, instalment schedules, and discount rules to stay
+"configurable wherever practical." `platform_config` (a generic
+`key`/`value` table, JSON-encoded values, read via
+`functions/_lib/config.js`) is that mechanism for policy values that
+are scalars or small objects rather than full relational records —
+today: `full_programme_price_usd_cents` (1900000 — the already-
+published $19,000 figure), `full_programme_unlock_mode`
+(`"progressive"`), `discount_stacking_policy`
+(`{"allowPromoAndScholarship":false}`, a conservative default), and
+`instalment_default_count`. A policy that needs real relational
+structure keeps its own table instead — `promo_codes`, `scholarships`,
+`instalment_plans` above are exactly that.
+
+---
+
 ## Feature-by-feature status
 
 | Feature | Status | Where |
 |---|---|---|
 | Level-by-level (one-time, single-level) payment | **Working** | `create-checkout.js` (`kind='single_level'`, tested against the seeded 6 levels) |
-| Full-programme (one-time, all six levels) payment | Schema-ready, not implemented | `payments.kind='full_programme'` and a `NULL` `level_id` are real, valid schema states, but no code path can currently create one — `create-checkout.js` requires `levelId` and hardcodes `kind='single_level'`. Deferred deliberately: it's not a mechanical gap but an undecided one — does paying for the full programme up front create all six `enrolments` rows immediately, or unlock them progressively as the student completes each level? That's a product decision, not something to guess at. `enrolment/confirm.js` does defensively reject a `NULL`-`level_id` payment with a clear 422 rather than crashing, so this stays a safe no-op until the decision is made — see the executive decision brief. |
-| Instalment plans | Schema-ready | `instalment_plans` table exists; no endpoint creates/advances a plan yet — needs a decision on instalment count/cadence, which isn't in any decision list yet (worth adding) |
+| Full-programme (one-time, all six levels) payment | **Working** — progressive unlock (Executive Decision #1) | `create-checkout.js` accepts `{ fullProgramme: true }` in place of `levelId`, priced from `platform_config.full_programme_price_usd_cents` (see below) rather than a hardcoded constant. `enrolment/confirm.js` creates Level I's enrolment on first confirmation. Levels II-VI are **not** created up front — each unlocks automatically only once the level before it is marked completed, via `functions/_lib/student/progression.js`'s `completeLevel()`. Today `completeLevel()` is called only from the staff-only `POST /api/lms/complete-level` — WEC-LC has no automated grading engine yet, so a human confirms a level is finished; once the LMS's own assessment engine exists (see `docs/lms-architecture.md`), it can call the same function programmatically. 19 fixture-based assertions in `tests/progression-and-config.test.mjs` cover the auto-unlock, its idempotency (no duplicate enrolment on a replayed completion), and that a single-level-only student never gets an unrequested auto-unlock. |
+| Instalment plans | Schema-ready | `instalment_plans` table exists; no endpoint creates/advances a plan yet — a `platform_config.instalment_default_count` policy value exists as a starting point, but no decision on real cadence has been made |
 | Scholarships | Schema-ready | `scholarships` table, `payments.scholarship_id` FK exist; discount application logic is a `TODO` in `create-checkout.js`, deliberately not implemented — see below |
 | Promo codes | Schema-ready | `promo_codes` table, `payments.promo_code` FK exist; same TODO |
 | Corporate invoicing | Schema-ready | `corporate_accounts` / `corporate_seats` tables exist; no invoicing endpoint yet — needs a real corporate client to design against (see `master-roadmap.md` Phase 4's Corporate Portal reasoning) |

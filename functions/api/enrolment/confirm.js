@@ -9,13 +9,16 @@
 // payment confirmed outside any gateway (a corporate invoice, a
 // manual bank transfer during the Stage C manual-bridge period) —
 // same enrolment logic either way.
+//
+// Full-programme payments (kind='full_programme', level_id=NULL) are
+// handled here too, per Executive Decision #1: the payment covers all
+// six levels financially, but only Level I's enrolment is created now.
+// Levels II-VI unlock automatically as each prior level is completed —
+// see functions/_lib/student/progression.js.
 
 import { db, newId, nowIso, jsonResponse, errorResponse, ValidationError, NotFoundError, readJsonBody } from '../../_lib/db.js';
 import { requireUser } from '../../_lib/auth/session.js';
 import { notify } from '../../_lib/notifications/events.js';
-import { LmsProviderInterface } from '../../_lib/lms/provider-interface.js';
-
-const lms = new LmsProviderInterface(); // no adapter yet — see that file's header
 
 export async function onRequestPost({ request, env }) {
   try {
@@ -31,27 +34,22 @@ export async function onRequestPost({ request, env }) {
     if (payment.status !== 'succeeded') {
       throw new ValidationError('Payment has not succeeded yet — nothing to enrol.', { status: payment.status });
     }
-    // A NULL level_id (schema-documented as "full-programme payment")
-    // has no single-level enrolment to create — there's no endpoint
-    // that can produce this today (see docs/payments-architecture.md),
-    // but guarding it here means a future or manually-inserted
-    // full-programme payment fails cleanly with a 422 explaining why,
-    // instead of the level lookup below silently returning nothing and
-    // every field access on it throwing a raw TypeError.
-    if (payment.level_id == null) {
-      throw new ValidationError(
-        'This payment covers the full programme, which has no single-level enrolment to confirm — full-programme enrolment isn\'t implemented yet.',
-        { paymentId: 'Full-programme enrolment not supported' },
-      );
+
+    // A NULL level_id is valid only for a full_programme payment
+    // (enrolment starts at Level I); any other kind with a NULL
+    // level_id is a data inconsistency, not something to guess at.
+    const enrolLevelId = payment.level_id != null ? payment.level_id : (payment.kind === 'full_programme' ? 1 : null);
+    if (enrolLevelId == null) {
+      throw new ValidationError('This payment has no programme level to enrol into.', { paymentId: 'No level' });
     }
 
     const existing = await db(env)
       .prepare('SELECT * FROM enrolments WHERE user_id = ? AND level_id = ?')
-      .bind(payment.user_id, payment.level_id)
+      .bind(payment.user_id, enrolLevelId)
       .first();
     if (existing) return jsonResponse(toEnrolmentResponse(existing)); // idempotent
 
-    const level = await db(env).prepare('SELECT * FROM programme_levels WHERE id = ?').bind(payment.level_id).first();
+    const level = await db(env).prepare('SELECT * FROM programme_levels WHERE id = ?').bind(enrolLevelId).first();
     const enrolId = newId('enr');
     const startedAt = nowIso(); // matches the ISO format every other timestamp
     // column in the schema uses — the previous SQL-literal
@@ -61,18 +59,8 @@ export async function onRequestPost({ request, env }) {
     await db(env)
       .prepare(`INSERT INTO enrolments (id, user_id, application_id, level_id, status, started_at)
         VALUES (?, ?, NULL, ?, 'active', ?)`)
-      .bind(enrolId, payment.user_id, payment.level_id, startedAt)
+      .bind(enrolId, payment.user_id, enrolLevelId, startedAt)
       .run();
-
-    // LMS enrolment: attempted, but a missing vendor must not block
-    // the platform's own enrolment record from existing — a student
-    // who paid is enrolled in WEC-LC's records regardless of whether
-    // the (not yet chosen) LMS integration succeeded.
-    try {
-      await lms.enrolStudent({ userId: payment.user_id, email: user.email, name: user.preferred_name || user.email, levelId: level.id, levelName: level.name }, env);
-    } catch (err) {
-      console.error('LMS enrolment step skipped (no vendor configured yet):', err.message);
-    }
 
     await notify(env, 'enrolment_confirmed', { to: user.email, name: user.preferred_name || user.email, levelName: level.name });
 

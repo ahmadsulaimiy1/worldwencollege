@@ -111,6 +111,24 @@ CREATE TABLE country_payment_routing (
 );
 
 -- ---------------------------------------------------------------------
+-- Platform configuration — a generic key/value store for business
+-- policy that Executive Decision #5 requires to stay "configurable
+-- wherever practical," rather than hardcoded into application logic
+-- (full-programme pricing, discount stacking, instalment defaults,
+-- and future policy keys as they're needed). Values are JSON-encoded
+-- text, read via functions/_lib/config.js. A policy that needs real
+-- relational structure gets its own table instead (promo_codes,
+-- scholarships, instalment_plans above) — this table is for scalar
+-- and small-object policy values only.
+-- ---------------------------------------------------------------------
+CREATE TABLE platform_config (
+  key               TEXT PRIMARY KEY,
+  value             TEXT NOT NULL,      -- JSON-encoded
+  updated_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  updated_by        TEXT REFERENCES users(id)  -- NULL for seed-inserted defaults
+);
+
+-- ---------------------------------------------------------------------
 -- Discounts & promo codes — schema-ready; endpoint not yet implemented
 -- (see docs/payments-architecture.md § Not Yet Implemented).
 -- ---------------------------------------------------------------------
@@ -289,6 +307,124 @@ CREATE TABLE notification_log (
 );
 
 -- ---------------------------------------------------------------------
+-- Learning Management System (LMS) — Milestone 1, per the Executive
+-- Directive that WEC-LC builds and owns its LMS as a proprietary asset
+-- rather than integrating a third-party product (see
+-- docs/lms-architecture.md). Content hierarchy is
+-- Course → Unit → LearningItem, matching the "one course per level,
+-- ordered units, polymorphic content items" shape recommended for a
+-- sequential CEFR-levelled programme like the IEFC.
+--
+-- Deliberately empty of curriculum content: `courses` is seeded
+-- (structural — one row per already-published programme level, titled
+-- with that level's real, already-public name) but `units`,
+-- `learning_items`, and `quiz_questions` are NOT seeded with any
+-- lesson, quiz, or assignment content. Inventing curriculum content
+-- would violate this project's standing rule against fabricating
+-- institutional facts — real units are authored by WEC-LC academic
+-- staff once a content-authoring workflow exists (Milestone 2+).
+-- ---------------------------------------------------------------------
+CREATE TABLE courses (
+  id                TEXT PRIMARY KEY,   -- 'crs_' + uuid
+  level_id          INTEGER NOT NULL UNIQUE REFERENCES programme_levels(id), -- one course per level for Milestone 1
+  title             TEXT NOT NULL,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+
+CREATE TABLE units (
+  id                TEXT PRIMARY KEY,   -- 'unt_' + uuid
+  course_id         TEXT NOT NULL REFERENCES courses(id),
+  sequence          INTEGER NOT NULL,   -- display/completion order within the course
+  title             TEXT NOT NULL,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_units_course ON units(course_id);
+
+-- Polymorphic content item within a unit. `body` is kind-dependent:
+-- reading → the reading text itself; video → a video URL (Cloudflare
+-- Stream once wired, see docs/lms-architecture.md); assignment →
+-- instructions; live_session/quiz → unused (their own tables carry
+-- the real data, joined via learning_item_id).
+CREATE TABLE learning_items (
+  id                TEXT PRIMARY KEY,   -- 'itm_' + uuid
+  unit_id           TEXT NOT NULL REFERENCES units(id),
+  sequence          INTEGER NOT NULL,
+  kind              TEXT NOT NULL CHECK (kind IN ('reading','video','quiz','assignment','live_session')),
+  title             TEXT NOT NULL,
+  body              TEXT,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_learning_items_unit ON learning_items(unit_id);
+
+CREATE TABLE quiz_questions (
+  id                TEXT PRIMARY KEY,   -- 'qq_' + uuid
+  learning_item_id  TEXT NOT NULL REFERENCES learning_items(id),
+  sequence          INTEGER NOT NULL,
+  prompt            TEXT NOT NULL,
+  choices_json      TEXT NOT NULL,      -- JSON array of choice strings
+  correct_index     INTEGER NOT NULL    -- index into choices_json
+);
+CREATE INDEX idx_quiz_questions_item ON quiz_questions(learning_item_id);
+
+CREATE TABLE quiz_attempts (
+  id                TEXT PRIMARY KEY,   -- 'qat_' + uuid
+  learning_item_id  TEXT NOT NULL REFERENCES learning_items(id),
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  answers_json      TEXT NOT NULL,      -- JSON array of selected indices, aligned to question sequence
+  score             REAL NOT NULL,      -- fraction correct, 0..1, computed server-side at submission
+  submitted_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_quiz_attempts_user ON quiz_attempts(user_id);
+CREATE INDEX idx_quiz_attempts_item ON quiz_attempts(learning_item_id);
+
+CREATE TABLE assignment_submissions (
+  id                TEXT PRIMARY KEY,   -- 'asub_' + uuid
+  learning_item_id  TEXT NOT NULL REFERENCES learning_items(id),
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  content           TEXT,               -- text submission, or a URL once file upload exists
+  status            TEXT NOT NULL DEFAULT 'submitted' CHECK (status IN ('submitted','graded','returned')),
+  grade             REAL,
+  feedback          TEXT,
+  submitted_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  graded_at         TEXT,
+  graded_by         TEXT REFERENCES users(id)
+);
+CREATE INDEX idx_assignment_submissions_user ON assignment_submissions(user_id);
+CREATE INDEX idx_assignment_submissions_item ON assignment_submissions(learning_item_id);
+
+-- Materialized per-student completion, one row per (user, unit) —
+-- avoids recomputing "is this unit done" from quiz/assignment rows on
+-- every dashboard load. Written by the same code path that records a
+-- quiz attempt or a graded assignment; read by the Student Portal and
+-- by progression.completeLevel() (see functions/_lib/student/progression.js).
+CREATE TABLE unit_progress (
+  id                TEXT PRIMARY KEY,   -- 'uprg_' + uuid
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  unit_id           TEXT NOT NULL REFERENCES units(id),
+  status            TEXT NOT NULL DEFAULT 'not_started' CHECK (status IN ('not_started','in_progress','completed')),
+  completed_at      TEXT,
+  UNIQUE(user_id, unit_id)
+);
+CREATE INDEX idx_unit_progress_user ON unit_progress(user_id);
+
+-- Live classes are scheduled external join-links (Zoom/Meet/Teams),
+-- not custom WebRTC — see docs/lms-architecture.md for why that's the
+-- right MVP scope. `unit_id` is NULL for a level-wide session (e.g. a
+-- weekly conversation class) not tied to one specific unit.
+CREATE TABLE live_sessions (
+  id                TEXT PRIMARY KEY,   -- 'lsn_' + uuid
+  level_id          INTEGER NOT NULL REFERENCES programme_levels(id),
+  unit_id           TEXT REFERENCES units(id),
+  host_user_id      TEXT REFERENCES users(id),  -- staff member hosting
+  title             TEXT NOT NULL,
+  starts_at         TEXT NOT NULL,
+  duration_minutes  INTEGER NOT NULL DEFAULT 60,
+  join_url          TEXT,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_live_sessions_level ON live_sessions(level_id);
+
+-- ---------------------------------------------------------------------
 -- Seed data — the one part of this file safe to run against a real DB
 -- immediately, since these are already-confirmed public facts, not
 -- placeholders.
@@ -322,3 +458,37 @@ INSERT INTO country_payment_routing (country_code, default_currency, preferred_g
   ('AE', 'AED', '["stripe","flutterwave"]'),
   ('QA', 'QAR', '["stripe"]'),
   ('KW', 'KWD', '["stripe"]');
+
+-- Platform configuration defaults. Every value here is either an
+-- already-published public fact (the $19,000 full-programme price) or
+-- a deliberately conservative default policy, never a fabricated
+-- figure — see docs/executive-decision-brief.md.
+INSERT INTO platform_config (key, value) VALUES
+  ('full_programme_price_usd_cents', '1900000'),
+  -- $19,000 flat, matching the figure already published at
+  -- /admissions/tuition/ — not derived from 6 × $3,166.67 (which
+  -- rounds to $19,000.02), because $19,000 is the actual advertised
+  -- and charged figure.
+  ('full_programme_unlock_mode', '"progressive"'),
+  -- Executive Decision #1: a full-programme payment enrols the
+  -- student in Level I immediately; each subsequent level's enrolment
+  -- is created automatically only once the prior level is marked
+  -- completed. See functions/_lib/student/progression.js.
+  ('discount_stacking_policy', '{"allowPromoAndScholarship":false}'),
+  -- Conservative default (no stacking of a promo code and a
+  -- scholarship on the same payment) pending a real institutional
+  -- policy decision.
+  ('instalment_default_count', '4');
+  -- Number of instalments offered by default when an instalment plan
+  -- is created, pending a real cadence policy decision.
+
+-- One course per programme level for Milestone 1 — purely structural
+-- (titled with the level's own real, already-published name), not
+-- fabricated curriculum content. See the LMS section above.
+INSERT INTO courses (id, level_id, title) VALUES
+  ('crs_level_1', 1, 'Foundation Programme'),
+  ('crs_level_2', 2, 'Elementary Programme'),
+  ('crs_level_3', 3, 'Intermediate Programme'),
+  ('crs_level_4', 4, 'Upper Intermediate Programme'),
+  ('crs_level_5', 5, 'Advanced Programme'),
+  ('crs_level_6', 6, 'English Mastery Programme');

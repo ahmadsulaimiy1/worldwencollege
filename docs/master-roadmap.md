@@ -215,10 +215,12 @@ Public Website  ──▶  Admissions CRM  ──▶  Student Portal ──▶ L
 ```
 
 - **Relationships that matter:** the Student Portal and LMS are the same
-  system from a student's point of view but should be architected as
-  separate services (portal = identity/records/payments; LMS = content
-  delivery/assessment) so a future LMS vendor swap doesn't require
-  rebuilding identity and payments.
+  system from a student's point of view but are architected as separate
+  services (portal = identity/records/payments; LMS = content
+  delivery/assessment — see `docs/lms-architecture.md`) — the same
+  separation-of-concerns discipline applied throughout this platform
+  (auth/payments/notifications/currency each behind their own boundary),
+  now including a proprietary LMS built in-house per Executive Decision #4.
 - **Public website's role going forward:** stays the single source of
   truth for programme facts (curriculum, pricing) that the portal/LMS
   *read from* rather than duplicate — avoids the classic failure mode of a
@@ -340,36 +342,50 @@ endpoint) — those remain real scope, not just an activation step.
 
 ## Phase 9 — Learning Management System
 
-**Status:** 🔭 Aspirational. **Recommendation: buy, don't build, for v1.**
+**Status:** 🚧 In active development, Milestone 1. **Superseded
+recommendation, kept for record: this phase originally recommended
+buy-don't-build (below). Executive Decision #4 explicitly overrode
+that recommendation — WEC-LC now builds and owns its LMS as a
+long-term strategic institutional asset. `docs/lms-architecture.md` is
+the authoritative plan going forward; this entry stays as a record of
+the reasoning that was weighed and deliberately overridden, not as
+current guidance.**
 
-- **Reasoning:** a bespoke LMS competing with Canvas/Moodle/Teachable-class
-  maturity is a multi-year engineering investment for capability WEC-LC's
-  brand doesn't actually depend on — students don't choose an English
-  college for its LMS UI, they choose it for outcomes. Recommend
-  integrating a proven LMS (or a lighter tool like Thinkific/LearnWorlds
-  for content delivery) behind WEC-LC's own branded portal shell (Phase 8),
-  rather than building live-class hosting, video infrastructure, and
-  quiz/exam engines from scratch.
-- **Where custom build *is* justified:** the competency-tracking/progress
-  analytics layer that's specific to the six-level CEFR framework — that's
-  WEC-LC's real IP, worth building once the underlying delivery
-  infrastructure is bought, not built.
+- **Original reasoning (overridden):** a bespoke LMS competing with
+  Canvas/Moodle/Teachable-class maturity is a multi-year engineering
+  investment for capability WEC-LC's brand doesn't actually depend on —
+  students don't choose an English college for its LMS UI, they choose
+  it for outcomes. The counter-consideration the executive decision
+  weighed: a proprietary LMS is a defining, differentiated institutional
+  asset rather than a rented commodity, and WEC-LC's own engineering
+  capacity (this project) makes "build" a materially lower-cost path
+  than the market-rate estimate above assumed.
+- **What's actually being built, and how it stays scoped:** phased
+  milestones (M1: content model + assignments/quizzes + progressive
+  unlock — in progress; M2+: grading depth, live-class/video wiring,
+  analytics — see `docs/lms-architecture.md`), each shipped as tested,
+  working code rather than a single all-at-once build — the discipline
+  this roadmap's other phases already apply.
 - **AI-assisted learning:** deferred to Phase 12 — explicitly not part of
   an MVP LMS.
-- **Effort:** LMS integration (vendor + branded wrapper) — 6–10 weeks;
-  bespoke competency-tracking layer — a further 6–8 weeks.
+- **Effort:** superseded — see `docs/lms-architecture.md` for the current
+  milestone-by-milestone scope and status instead of a single estimate.
 
 ---
 
 ## Phase 10 — Faculty & Administration Systems
 
-**Status:** 🔭 Aspirational, Stage D. Scope depends entirely on whether
-Phase 9 is bought or built — a bought LMS likely already includes a
-gradebook and scheduling; building a redundant one is waste.
+**Status:** 🔭 Aspirational, Stage D. Phase 9's buy-vs-build question is
+now resolved (build — see above), so this phase's scope is the
+Faculty/Administration surfaces of WEC-LC's own LMS (gradebook,
+scheduling, staff-facing reporting) rather than "wrap whatever a
+vendor doesn't cover" — sequenced per Executive Decision #8's launch
+order (Faculty Portal after Student Portal + LMS integration,
+Administration Portal after that).
 
-- **Recommendation:** before specifying this phase further, complete Phase
-  9's buy-vs-build decision — this phase's real scope is "what the chosen
-  LMS/portal vendor doesn't already cover" (WEC-LC-specific reporting,
+- **Recommendation (partially superseded by the above):** this phase's
+  real scope is "what the LMS's own content/assessment layer doesn't
+  already cover" (WEC-LC-specific reporting,
   the three-tier institutional sign-off pattern already established for
   policies in `editorial-bible.md`, finance reconciliation against Stripe).
 - **Effort:** unknown until Phase 9 is resolved — placeholder, not a gap.
@@ -683,7 +699,7 @@ detail, not after.
 | 7 | Single-product ($19,000 IEFC) revenue concentration | Low (near-term) | Moderate | 18 | Monitor via the manual bridge's real conversion data; revisit pricing tiers later if warranted | Finance Lead |
 | 8 | Trademark exposure from a descriptive name | Low | Moderate | 19 | UK IPO/EUIPO search before further brand spend | Founder/CEO |
 | 9 | Handle/domain squatting before marketing launch | Low | Low–Moderate | 19 | Secure handles this week | Admissions/Experience Lead |
-| 10 | Bespoke LMS/portal over-build before proving demand | Low (already mitigated by Phase 9's buy-recommendation) | Severe if ignored | 8, 9, 18 | Hold the buy-and-wrap + manual-bridge recommendation; resist scope creep | Founder/CEO |
+| 10 | Proprietary LMS scope creep — building analytics/gamification/depth the brand doesn't need before the core (content + assessment + progress) is solid | Medium — Executive Decision #4 commits to build, which raises this risk vs. the original buy-recommendation; mitigated by shipping in scoped, tested milestones (see `docs/lms-architecture.md`) rather than one large build | Severe if ignored — a stalled from-scratch LMS blocks the entire remaining launch sequence (Decision #8) | 8, 9, 18 | Hold the milestone discipline (M1 before M2, each independently shippable); resist building Faculty/Executive/Analytics depth before the Student-facing core is proven; hold the manual-bridge recommendation for near-term revenue while the LMS is built | Founder/CEO |
 
 ---
 
@@ -751,24 +767,49 @@ as a list of what genuinely can't be resolved without you — those
 decisions haven't gone away, only the amount of code waiting on them
 has grown.*
 
+**Update: 8 of the open strategic questions below were resolved by your
+Executive Decisions message and are now locked-in working assumptions**
+— see `docs/executive-decision-brief.md` § Executive Decisions (locked
+in) for the full list. In short: full-programme payments unlock
+progressively (was open question #2's pricing-model half); the
+platform is built multi-currency with GBP/USD primary (question #2's
+currency half — the *strategy* is resolved, a real GBP rate/policy is
+still pending, see below); gateway rollout is Stripe → Paystack/
+Flutterwave → Opay (question #4, confirmed, not changed); **the LMS
+question (former #6) is resolved as build, not buy** — WEC-LC develops
+its own proprietary LMS (see `docs/lms-architecture.md`); financial
+policy (refunds, promos, scholarships, instalments, corporate
+invoicing) is config-driven via `platform_config`; Arabic localisation
+sequencing is confirmed (public site now, Student Portal after it
+reaches English production quality); infra provisioning order and
+launch sequence are both set. What remains below is what genuinely
+still can't be resolved without you — real accounts, real money, real
+legal ownership — not product-strategy questions anymore.
+
 The next session should start from whichever of these you resolve:
 
 1. **Hosting/DNS** — where should `worldwencollege.co.uk` actually point?
-   *Building against: Cloudflare Pages (see "Provisional Assumptions" above) —
-   confirm or override before the first real deploy.*
-2. **Currency & pricing** — confirm USD tuition stands, or convert to GBP.
-   *Building against: config-driven multi-currency, USD-only active until
-   this is resolved — see `payments-architecture.md`.*
+   *Building against: Cloudflare Pages, first in the confirmed provisioning
+   order (see "Provisional Assumptions" above) — confirm or override before
+   the first real deploy.*
+2. **A real GBP exchange rate or policy-fixed rate** — the currency
+   *strategy* (multi-currency, GBP/USD primary) is decided; GBP itself
+   stays inactive at checkout until either a real FX feed is connected
+   or WEC-LC sets a policy-fixed rate — see `payments-architecture.md`
+   § Multi-currency. No rate is fabricated to unblock this.
 3. **Legal/compliance owner** — who reviews data protection before any
    real application form goes live?
-4. **Payment processor** — *Building against: Stripe + Paystack + Flutterwave +
-   Opay, modular — confirm the four, or add/remove one before real merchant
-   accounts are opened.*
+4. ~~**Payment processor**~~ — resolved: Stripe → Paystack/Flutterwave →
+   Opay, in that order (Executive Decision #3). Each still needs a real
+   merchant account before its phase activates.
 5. **Auth provider** — *Building against: Clerk, behind a swappable interface
-   — confirm or override before a real Clerk instance is created.*
-6. **LMS: buy or build?** — *Building against: buy-and-wrap — vendor still
-   unpicked; nothing further can be built here without one (see
-   `functions/_lib/lms/provider-interface.js`).*
+   — confirm or override before a real Clerk instance is created, next in
+   the confirmed provisioning order after Cloudflare D1.*
+6. ~~**LMS: buy or build?**~~ — resolved: build. WEC-LC's own proprietary
+   LMS is now Milestone-based work in active development — see
+   `docs/lms-architecture.md`. `functions/_lib/lms/provider-interface.js`
+   (the buy-and-wrap adapter contract) has been removed; it no longer
+   reflects the platform's direction.
 7. **Budget/team for Stage C** — what's actually resourced, and by when?
 8. **Physical London Campus: real plan, or brand naming?** — resolves the
    Phase 19 "London Campus" vs. "100% Online" ambiguity, and determines

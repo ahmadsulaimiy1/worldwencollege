@@ -1,5 +1,10 @@
 // POST /api/payments/create-checkout
-// Body: { levelId, currency?, gateway?, promoCode? }
+// Body: { levelId, currency?, gateway?, promoCode? } for a single-level
+// payment, or { fullProgramme: true, currency?, gateway?, promoCode? }
+// for a full-programme payment (Executive Decision #1 — progressive
+// unlocking: this creates one payment for all six levels, but
+// enrolment still unlocks level-by-level as each is completed, via
+// functions/_lib/student/progression.js).
 // Requires auth — a payment always belongs to a real user account
 // (created at Step 4 of admissions, via Clerk), never an anonymous
 // applicant. Full contract in docs/api-reference.md.
@@ -8,15 +13,23 @@ import { db, newId, jsonResponse, errorResponse, ValidationError, NotFoundError,
 import { requireUser } from '../../_lib/auth/session.js';
 import { convertFromUsdCents, getCurrency, suggestRouting } from '../../_lib/currency.js';
 import { createCheckout, suggestGateway, GATEWAYS } from '../../_lib/payments/router.js';
+import { getConfigJson } from '../../_lib/config.js';
 
 export async function onRequestPost({ request, env }) {
   try {
     const user = await requireUser(request, env);
     const body = await readJsonBody(request);
-    if (!body?.levelId) throw new ValidationError('levelId is required.', { levelId: 'Required' });
+    if (!body?.levelId && !body?.fullProgramme) {
+      throw new ValidationError('Either levelId or fullProgramme is required.', { levelId: 'Required unless fullProgramme is true' });
+    }
+    if (body?.levelId && body?.fullProgramme) {
+      throw new ValidationError('Provide either levelId or fullProgramme, not both.', {});
+    }
 
-    const level = await db(env).prepare('SELECT * FROM programme_levels WHERE id = ?').bind(body.levelId).first();
-    if (!level) throw new NotFoundError('Unknown programme level.');
+    const level = body.levelId
+      ? await db(env).prepare('SELECT * FROM programme_levels WHERE id = ?').bind(body.levelId).first()
+      : null;
+    if (body.levelId && !level) throw new NotFoundError('Unknown programme level.');
 
     // Gateway name is validated against the known adapter map before
     // it's used anywhere — an unknown name is a routine client bug
@@ -48,7 +61,10 @@ export async function onRequestPost({ request, env }) {
       throw new ValidationError(`${currencyCode} isn't available for checkout yet.`, { currency: 'Not active' });
     }
 
-    const amountUsdCents = level.price_usd_cents; // promo/scholarship discounting: see TODO below
+    // promo/scholarship discounting: see TODO below
+    const amountUsdCents = body.fullProgramme
+      ? await getConfigJson(env, 'full_programme_price_usd_cents')
+      : level.price_usd_cents;
     const amountMinor = await convertFromUsdCents(env, amountUsdCents, currencyCode);
 
     // Gateway: explicit request wins; otherwise the routed suggestion
@@ -57,13 +73,15 @@ export async function onRequestPost({ request, env }) {
     const gatewayName = body.gateway || routing.suggested;
 
     const paymentId = newId('pay');
+    const kind = body.fullProgramme ? 'full_programme' : 'single_level';
     await db(env)
       .prepare(`INSERT INTO payments
         (id, user_id, kind, level_id, amount_cents, currency, amount_usd_cents, promo_code, provider, status)
-        VALUES (?, ?, 'single_level', ?, ?, ?, ?, ?, ?, 'pending')`)
-      .bind(paymentId, user.id, level.id, amountMinor, currencyCode, amountUsdCents, body.promoCode || null, gatewayName)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`)
+      .bind(paymentId, user.id, kind, level ? level.id : null, amountMinor, currencyCode, amountUsdCents, body.promoCode || null, gatewayName)
       .run();
 
+    const description = body.fullProgramme ? 'WEC-LC — Full Programme (all six levels)' : `WEC-LC — ${level.name}`;
     const origin = new URL(request.url).origin;
     let checkoutUrl, providerRef;
     try {
@@ -74,7 +92,7 @@ export async function onRequestPost({ request, env }) {
         customerEmail: user.email,
         successUrl: `${origin}/student-portal/payment-complete/?payment=${paymentId}`,
         cancelUrl: `${origin}/admissions/tuition/`,
-        metadata: { description: `WEC-LC — ${level.name}`, levelId: level.id, currencyDecimalPlaces: currency.decimal_places },
+        metadata: { description, levelId: level ? level.id : null, currencyDecimalPlaces: currency.decimal_places },
       }, env));
     } catch (err) {
       // Without this, a gateway failure (today: always
