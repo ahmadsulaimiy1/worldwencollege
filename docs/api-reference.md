@@ -69,6 +69,61 @@ notification.
 
 ---
 
+## Frontend Integration Pattern
+
+The public admissions form (`pages/admissions.html`, `pages/admissions.ar.html`,
+wired in `js/site.js`'s `[data-admissions-form]` handler) is the reference
+implementation for how *every* public-facing form on WEC-LC should talk to
+the backend. It exists specifically so the "seamless transition" requirement
+holds: once Cloudflare Pages, D1, and provider credentials are live, this
+same markup and script start using the real backend with **zero further
+frontend changes** — `/api/admissions/apply` already exists; today it 404s
+(no Pages Functions deployment target), and the day it starts returning 2xx
+the form starts working end-to-end.
+
+**Contract a form must satisfy to use this pattern:**
+
+1. The `<form>` carries `data-*` attributes for everything environment- or
+   copy-specific (endpoint path, fallback mailbox, storage key, and every
+   user-facing string for loading/error/success/fallback/retry states) —
+   the JS handler is generic and reads these, so it never hardcodes English
+   copy that would break the Arabic mirror.
+2. Submission always attempts the real API first
+   (`fetch(endpoint, { method: 'POST', body: JSON.stringify(payload) })`,
+   an `AbortController` timeout at 8s so a hung connection can't strand the
+   user).
+3. Outcomes are classified into exactly three buckets, each with distinct
+   UI treatment:
+   - **2xx success** → success-styled status, form fields disabled,
+     draft cleared from `sessionStorage`.
+   - **422 validation error** → error-styled status, the specific invalid
+     fields highlighted inline (`.field.is-invalid` + `field__error`
+     text) using the `fields` map the API returns. No fallback — the user
+     fixes the input and resubmits against the same API.
+   - **Anything else** (network failure, timeout, non-2xx/422, malformed
+     JSON) → treated as "API unavailable": info-styled status explaining
+     what happened, and a `mailto:` draft is opened pre-filled with the
+     same field values, built from the `data-fallback-email` attribute.
+     The submit button relabels to the `data-retry-label` text so the user
+     can attempt the live API again without re-typing anything.
+4. Draft persistence: field values are written to `sessionStorage` under
+   `data-storage-key` on every input and restored on page load, and are
+   only cleared on confirmed API success — a failed submission (of either
+   kind) never loses the applicant's typed data, including across a page
+   reload.
+5. Cross-component wiring stays event-based, not tightly coupled: the
+   self-assessment quiz dispatches a `wec:level-suggested` CustomEvent
+   (and persists the suggestion to `sessionStorage`) that the admissions
+   form listens for independently — either component can be removed or
+   replaced without the other needing code changes.
+
+Copying this pattern to a new form means: add the `data-*` attributes,
+reuse `setLoading()` / `buildMailtoFallback()` / `submitToApi()` as-is, and
+write one new submit-event handler that maps the form's specific fields
+into the API payload shape.
+
+---
+
 ## Verification
 
 Every claim of "working" above was checked, not assumed — the same

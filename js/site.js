@@ -81,6 +81,10 @@
     status.textContent = text;
     status.className = 'form-status is-visible form-status--' + kind;
   }
+  function hideFormStatus(form) {
+    var status = form.querySelector('[data-form-status]');
+    if (status) status.className = 'form-status';
+  }
 
   document.querySelectorAll('[data-mailto-form]').forEach(function (form) {
     var nameField = form.querySelector('[name="name"]');
@@ -145,7 +149,8 @@
       var resultBox = form.querySelector('[data-level-quiz-result]');
       var resultText = form.querySelector('[data-level-quiz-text]');
       if (!checked || !resultBox || !resultText) return;
-      var level = levels[parseInt(checked.value, 10)];
+      var index = parseInt(checked.value, 10);
+      var level = levels[index];
       if (!level) return;
       var text = template
         .replace('{roman}', level.roman)
@@ -154,6 +159,200 @@
       resultText.textContent = text;
       resultBox.hidden = false;
       resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      // Hand the result to the application form below (same page) and
+      // persist it, so a level chosen here still shows up on the
+      // application form even if the visitor leaves and comes back —
+      // see the [data-admissions-form] handler.
+      var suggestion = { levelId: index + 1, roman: level.roman, name: level.name, cefr: level.cefr, text: text };
+      try { sessionStorage.setItem('wec-lc-suggested-level', JSON.stringify(suggestion)); } catch (err) { /* storage unavailable — degrade silently */ }
+      document.dispatchEvent(new CustomEvent('wec:level-suggested', { detail: suggestion }));
+    });
+  });
+
+  // Admissions application form — tries the real API
+  // (functions/api/admissions/apply.js) first, and falls back to the
+  // existing mailto pattern automatically if that API isn't reachable
+  // (which it won't be until hosting/D1 are live — see
+  // docs/technical-architecture.md). Same interface either way, so
+  // going live later needs no frontend change: the API path just
+  // starts succeeding instead of falling through.
+  document.querySelectorAll('[data-admissions-form]').forEach(function (form) {
+    var endpoint = form.getAttribute('data-endpoint') || '/api/admissions/apply';
+    var fallbackEmail = form.getAttribute('data-fallback-email') || 'info@worldwencollege.co.uk';
+    var storageKey = form.getAttribute('data-storage-key') || 'wec-lc-admissions-draft';
+    var nameField = form.querySelector('[name="fullName"]');
+    var emailField = form.querySelector('[name="email"]');
+    var countryField = form.querySelector('[name="country"]');
+    var submitBtn = form.querySelector('[data-submit-btn]');
+    var btnLabel = form.querySelector('[data-btn-label]');
+    var levelSummary = form.querySelector('[data-level-summary]');
+    var levelSummaryText = form.querySelector('[data-level-summary-text]');
+    var defaultLabel = btnLabel ? btnLabel.textContent : 'Submit Application';
+    var suggestedLevelId = null;
+
+    var text = {
+      loading: form.getAttribute('data-loading-text') || 'Submitting…',
+      fieldError: form.getAttribute('data-error-text') || 'Please fix the highlighted fields below.',
+      success: form.getAttribute('data-success-text') || 'Application received — we’ll be in touch soon.',
+      fallback: form.getAttribute('data-fallback-text') || 'We couldn’t reach our online application system, so we’ve opened your email app with your details ready to send — please hit send to complete your application.',
+      retry: form.getAttribute('data-retry-label') || 'Try Again',
+    };
+
+    // --- Draft persistence (requirement: don't lose data on failure) ---
+    function saveDraft() {
+      try {
+        sessionStorage.setItem(storageKey, JSON.stringify({
+          fullName: nameField.value, email: emailField.value, country: countryField.value,
+        }));
+      } catch (err) { /* storage unavailable (private browsing etc.) — degrade silently */ }
+    }
+    function restoreDraft() {
+      try {
+        var raw = sessionStorage.getItem(storageKey);
+        if (!raw) return;
+        var draft = JSON.parse(raw);
+        if (draft.fullName) nameField.value = draft.fullName;
+        if (draft.email) emailField.value = draft.email;
+        if (draft.country) countryField.value = draft.country;
+      } catch (err) { /* corrupt/unavailable draft — start clean, not fatal */ }
+    }
+    function clearDraft() {
+      try { sessionStorage.removeItem(storageKey); } catch (err) { /* no-op */ }
+    }
+    restoreDraft();
+    [nameField, emailField, countryField].forEach(function (field) {
+      field.addEventListener('input', saveDraft);
+      field.addEventListener('change', saveDraft);
+    });
+
+    // --- Suggested level, from the self-assessment quiz above ---
+    function applySuggestion(detail) {
+      suggestedLevelId = detail.levelId;
+      if (levelSummaryText) levelSummaryText.textContent = form.getAttribute('data-level-summary-template')
+        ? form.getAttribute('data-level-summary-template').replace('{text}', detail.text)
+        : ('Suggested starting level: ' + detail.text);
+      if (levelSummary) levelSummary.hidden = false;
+    }
+    document.addEventListener('wec:level-suggested', function (e) { applySuggestion(e.detail); });
+    try {
+      var stored = sessionStorage.getItem('wec-lc-suggested-level');
+      if (stored) applySuggestion(JSON.parse(stored));
+    } catch (err) { /* no stored suggestion — the quiz is optional, form works without it */ }
+
+    // --- Validation (mirrors functions/api/admissions/apply.js's own checks,
+    //     so a visitor sees the same rule client-side and server-side) ---
+    function validate() {
+      var ok = true;
+      if (!nameField.value.trim()) { setFieldInvalid(nameField); ok = false; } else { setFieldValid(nameField); }
+      if (!EMAIL_RE.test(emailField.value.trim())) { setFieldInvalid(emailField); ok = false; } else { setFieldValid(emailField); }
+      if (!countryField.value) { setFieldInvalid(countryField); ok = false; } else { setFieldValid(countryField); }
+      return ok;
+    }
+    [nameField, emailField, countryField].forEach(function (field) {
+      field.addEventListener('input', function () {
+        var ok = field === emailField ? EMAIL_RE.test(field.value.trim()) : Boolean(field.value.trim());
+        if (ok) setFieldValid(field);
+      });
+    });
+
+    function setLoading(isLoading) {
+      submitBtn.disabled = isLoading;
+      [nameField, emailField, countryField].forEach(function (f) { f.disabled = isLoading; });
+      if (btnLabel) btnLabel.textContent = isLoading ? text.loading : defaultLabel;
+      submitBtn.classList.toggle('btn--loading', isLoading);
+    }
+
+    function buildMailtoFallback() {
+      var subject = 'IEFC Application — ' + nameField.value.trim();
+      var lines = [
+        'Full name: ' + nameField.value.trim(),
+        'Email: ' + emailField.value.trim(),
+        'Country: ' + countryField.options[countryField.selectedIndex].text,
+        suggestedLevelId ? 'Self-assessed starting level: ' + (levelSummaryText ? levelSummaryText.textContent : suggestedLevelId) : '',
+        '',
+        '(Sent automatically because the online application system was unreachable.)',
+      ].filter(Boolean);
+      return 'mailto:' + encodeURIComponent(fallbackEmail) +
+        '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+    }
+
+    async function submitToApi(payload) {
+      var controller = new AbortController();
+      var timeout = window.setTimeout(function () { controller.abort(); }, 8000);
+      try {
+        var resp = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+        });
+        window.clearTimeout(timeout);
+
+        if (resp.status === 422) {
+          var errBody = await resp.json().catch(function () { return null; });
+          return { outcome: 'validation-error', fields: errBody && errBody.fields };
+        }
+        if (!resp.ok) return { outcome: 'unavailable' }; // 404 (not deployed yet), 5xx, etc.
+
+        var data = await resp.json().catch(function () { return null; });
+        if (!data || !data.applicationId) return { outcome: 'unavailable' }; // malformed 2xx — treat as untrustworthy, not a crash
+        return { outcome: 'success', applicationId: data.applicationId };
+      } catch (err) {
+        window.clearTimeout(timeout);
+        return { outcome: 'unavailable' }; // network error, timeout, CORS, or no Functions runtime deployed yet
+      }
+    }
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      if (!validate()) {
+        var firstInvalid = form.querySelector('.field.is-invalid input, .field.is-invalid select');
+        if (firstInvalid) firstInvalid.focus();
+        showFormStatus(form, 'error', text.fieldError);
+        return;
+      }
+
+      setLoading(true);
+      hideFormStatus(form); // clear any previous status while we try
+
+      var result = await submitToApi({
+        fullName: nameField.value.trim(),
+        email: emailField.value.trim(),
+        country: countryField.value,
+        selfAssessedLevelId: suggestedLevelId,
+      });
+
+      setLoading(false);
+
+      if (result.outcome === 'success') {
+        clearDraft();
+        showFormStatus(form, 'success', text.success + (result.applicationId ? ' (Reference: ' + result.applicationId + ')' : ''));
+        form.reset();
+        if (levelSummary) levelSummary.hidden = true;
+        [nameField, emailField, countryField].forEach(function (f) { f.disabled = true; });
+        submitBtn.disabled = true;
+        if (btnLabel) btnLabel.textContent = defaultLabel;
+        return;
+      }
+
+      if (result.outcome === 'validation-error') {
+        if (result.fields) {
+          Object.keys(result.fields).forEach(function (name) {
+            var field = form.querySelector('[name="' + name + '"]');
+            if (field) setFieldInvalid(field);
+          });
+        }
+        showFormStatus(form, 'error', text.fieldError);
+        return; // draft preserved, form re-enabled by setLoading(false) above — retry in place
+      }
+
+      // outcome === 'unavailable' — the documented fallback path. Not
+      // styled as a full success: the email still needs the visitor
+      // to actually hit send.
+      showFormStatus(form, 'info', text.fallback);
+      if (btnLabel) btnLabel.textContent = text.retry; // next click retries the API, not a second mailto
+      window.setTimeout(function () { window.location.href = buildMailtoFallback(); }, 500);
     });
   });
 
