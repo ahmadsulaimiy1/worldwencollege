@@ -60,7 +60,9 @@ Public website (existing, static)
 Admissions apply (functions/api/admissions/apply.js)  ──► D1: applications
         │  (offline: Admissions reviews, sets placement_level_id)
         ▼
-Account creation (Clerk, client-side — not yet wired into any page)
+Account creation (Clerk, client-side — js/clerk-loader.js + js/portal-guard.js,
+                   wired into every portal page; a no-op until a real
+                   publishable key is configured — see auth-architecture.md)
         │  Clerk webhook syncs the user
         ▼
 functions/api/auth/webhook-clerk.js  ──► D1: users
@@ -75,15 +77,23 @@ Stripe / Paystack / Flutterwave / Opay  ──►  webhook  ──►  D1: payme
 Enrolment (functions/api/enrolment/confirm.js)  ──►  D1: enrolments
         │  attempts LMS enrolment (no vendor chosen — see lms/provider-interface.js)
         ▼
-Student Portal (today: /student-portal/preview/, static demo data —
-                tomorrow: functions/api/auth/me.js + real enrolment/
-                progress data replace the demo stepper/stat-tiles)
+Student Portal (js/portal-auth.js — with a real Clerk key configured,
+                GET /api/auth/me + GET /api/student/dashboard replace
+                the illustrative stepper/stat-tiles/payment history
+                with this student's real data; with no key, the
+                preview pages stay exactly the static demo they ship as)
+
+Admin Reports (separately, staff/admin only — js/finance-dashboard.js
+               + requireStaff() ──► GET /api/admin/reports/{revenue,reconciliation}
+               ──► D1: payments, payment_webhook_events, receipts — see
+               payments-architecture.md § Financial reporting & reconciliation)
 ```
 
 Every arrow above that isn't yet backed by a real third-party account
 is still backed by real, tested code — see `docs/api-reference.md` for
 which endpoints are fully exercised vs. which throw a clear
-"not configured" error until secrets exist.
+"not configured" error until secrets exist, and `tests/README.md` for
+how to run that verification yourself.
 
 ---
 
@@ -109,14 +119,24 @@ functions/
       events.js                notify() — the ONLY import endpoints use for email
     lms/
       provider-interface.js  Contract only — no vendor chosen (Decision #6 provisional)
+    reports/
+      revenue.js              buildRevenueReport() — totals/breakdowns, USD-normalised
+      reconciliation.js       buildReconciliationReport() — webhook/payment integrity checks
+    student/
+      dashboard.js            buildStudentDashboard() — a student's own enrolment/payment data
   api/                     Thin HTTP handlers — validate input, call _lib/, return JSON
     admissions/            apply.js, status.js
     payments/              create-checkout.js, verify.js, webhook-{stripe,paystack,flutterwave,opay}.js
     auth/                  webhook-clerk.js, me.js
     enrolment/              confirm.js
+    admin/reports/          revenue.js, reconciliation.js — staff/admin only (requireStaff())
+    student/                dashboard.js — the caller's own data only, no id param accepted
 sql/schema.sql             The full data model — see its own header comments
 wrangler.toml               Cloudflare Pages + D1 config (placeholder database_id)
 .env.example                 Every secret this platform needs, none of them set
+tests/                        npm test — functional tests against a real SQLite engine
+                              (see tests/README.md for what's covered vs. still can't be
+                              from here without a live third-party account)
 ```
 
 **Design rule enforced throughout:** an `api/` file never imports a
@@ -135,8 +155,10 @@ gateway touches one line in `router.js`'s `GATEWAYS` map.
 - `payments.amount_cents` is in whatever currency the student paid in.
 - `payments.amount_usd_cents` is always also stored, computed at
   checkout time from the (real, policy-set) FX rate — so financial
-  reporting (schema-ready, not yet built) can sum across currencies
-  without re-deriving historical rates later.
+  reporting (`GET /api/admin/reports/revenue`, working — see
+  `docs/payments-architecture.md` § Financial reporting &
+  reconciliation) can sum across currencies without re-deriving
+  historical rates later.
 - `payment_webhook_events` logs every webhook received, verified or
   not, keyed on `(provider, event_id)` — a gateway retry is a 200
   response, not a duplicate `payments` update or a duplicate

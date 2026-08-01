@@ -41,12 +41,16 @@ keeps all fifteen domains — nothing is dropped — but sequences them by
 stage, rather than building everything at once.
 
 **What's actually true right now:** WEC-LC has a complete, bilingual,
-premium public website (Phase 0 below) and no confirmed budget, engineering
-team, hosting account, payment processor, or legal/accreditation status.
-Every phase from 8 onward assumes those get resourced; none of them can be
-"built" for real inside a coding session without that resourcing existing
-first. Where a phase can be substantially advanced today with what already
-exists (design system, content, IA), I say so.
+premium public website plus a written-and-tested (but not live)
+backend (Phase 0 below) and no confirmed budget, engineering team,
+hosting account, activated payment processor account, or legal/
+accreditation status. Every phase from 8 onward assumes those get
+resourced; none of them can go *live* for real inside a coding session
+without that resourcing existing first — code can be written and
+tested against everything short of a real third-party account, which
+is exactly what Phase 0's update below describes. Where a phase can be
+substantially advanced today with what already exists (design system,
+content, IA, backend architecture), I say so.
 
 ---
 
@@ -69,9 +73,24 @@ it: this is the actual current state.*
 - Honest placeholders (`.callout` components) everywhere a fact isn't
   confirmed yet — physical address, named leadership, accreditation,
   first-cohort date.
-- **Not built:** any backend, database, authentication, payment
-  processing, or the LMS/portals described from Phase 8 onward. All
-  "Apply"/"Contact" flows are `mailto:`-based by design, not a stopgap bug.
+- **Update — Stage C has since been built as code, though nothing is
+  live:** a full backend now exists (D1 schema, Clerk auth, four
+  payment gateway adapters, admissions/enrolment/student-dashboard/
+  admin-reporting endpoints — see `docs/technical-architecture.md`,
+  `docs/payments-architecture.md`, `docs/auth-architecture.md`,
+  `docs/api-reference.md`) and the admissions form now tries that real
+  API first, falling back to `mailto:` only if it's unreachable — so
+  "Apply"/"Contact" are no longer `mailto:`-only by design, they're
+  `mailto:`-as-fallback. Written, functionally tested against a real
+  SQLite engine (`npm test` — see `tests/README.md`), never exercised
+  against a live Cloudflare/D1/Clerk/Stripe/Paystack/Flutterwave/Opay/
+  Resend account, because none exists. "Built" here means "code exists
+  and is tested against everything that doesn't require a live
+  account" — not "deployed" or "live." The LMS/portal UI beyond the
+  Student Portal (Faculty/Administration/Executive/Corporate/Alumni)
+  genuinely isn't built — see `docs/dashboard-design-system.md` for
+  what exists (a Finance dashboard, as the first non-Student-Portal
+  instance of the shared portal pattern) versus what doesn't.
 
 ---
 
@@ -280,8 +299,19 @@ justified there — not repeated here).
 
 ## Phase 8 — Student Portal
 
-**Status:** 🔭 Aspirational until Stage C is funded. Below is the MVP scope
-I'd recommend *for the first real build*, not the full brief's ambition.
+**Status:** 🔨 Code written and functionally tested (`npm test`), not
+live — distinct from "not started." The MVP scope below is
+substantially built: `GET /api/auth/me` + `GET /api/student/dashboard`
++ `js/portal-auth.js` (`docs/auth-architecture.md`, `docs/api-reference.md`
+§ Student) already replace the dashboard's illustrative programme-
+progress stepper and current-level tile with a signed-in student's
+real enrolment status, and add a real Payment History panel — but only
+once a real Clerk publishable key is configured; today, with none set,
+the Student Portal preview pages behave exactly as this section
+originally described them (static demo). What's still genuinely
+missing, not just unconfigured: document/transcript download and
+secure messaging to Admissions have no backend at all (no table, no
+endpoint) — those remain real scope, not just an activation step.
 
 - **MVP scope (Stage C):** account creation post-payment, a dashboard
   showing current level/progress, a document/transcript download, and a
@@ -710,8 +740,18 @@ edited to hide that it changed.
 
 ## Decisions Needed From You Before Further Build Work
 
-This roadmap deliberately stops short of writing code for anything beyond
-Phase 0. The next session should start from whichever of these you resolve:
+*Update: this originally said the roadmap "stops short of writing code
+for anything beyond Phase 0" — that's no longer true. Everything
+implementable without a business decision or a live third-party
+account has since been built (backend architecture, admissions API
+wiring, Clerk auth wiring, financial reporting, student dashboard, a
+production-readiness audit — see `docs/executive-readiness-report.md`
+for the current, authoritative state). What follows is still accurate
+as a list of what genuinely can't be resolved without you — those
+decisions haven't gone away, only the amount of code waiting on them
+has grown.*
+
+The next session should start from whichever of these you resolve:
 
 1. **Hosting/DNS** — where should `worldwencollege.co.uk` actually point?
    *Building against: Cloudflare Pages (see "Provisional Assumptions" above) —

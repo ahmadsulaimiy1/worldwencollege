@@ -64,13 +64,13 @@ decision, not a technical one.
 
 | Feature | Status | Where |
 |---|---|---|
-| One-time / full-programme payment | **Working** | `create-checkout.js` (`kind='full_programme'` — level omitted) |
-| Level-by-level payment | **Working** | `create-checkout.js` (`kind='single_level'`, tested against the seeded 6 levels) |
+| Level-by-level (one-time, single-level) payment | **Working** | `create-checkout.js` (`kind='single_level'`, tested against the seeded 6 levels) |
+| Full-programme (one-time, all six levels) payment | Schema-ready, not implemented | `payments.kind='full_programme'` and a `NULL` `level_id` are real, valid schema states, but no code path can currently create one — `create-checkout.js` requires `levelId` and hardcodes `kind='single_level'`. Deferred deliberately: it's not a mechanical gap but an undecided one — does paying for the full programme up front create all six `enrolments` rows immediately, or unlock them progressively as the student completes each level? That's a product decision, not something to guess at. `enrolment/confirm.js` does defensively reject a `NULL`-`level_id` payment with a clear 422 rather than crashing, so this stays a safe no-op until the decision is made — see the executive decision brief. |
 | Instalment plans | Schema-ready | `instalment_plans` table exists; no endpoint creates/advances a plan yet — needs a decision on instalment count/cadence, which isn't in any decision list yet (worth adding) |
 | Scholarships | Schema-ready | `scholarships` table, `payments.scholarship_id` FK exist; discount application logic is a `TODO` in `create-checkout.js`, deliberately not implemented — see below |
 | Promo codes | Schema-ready | `promo_codes` table, `payments.promo_code` FK exist; same TODO |
 | Corporate invoicing | Schema-ready | `corporate_accounts` / `corporate_seats` tables exist; no invoicing endpoint yet — needs a real corporate client to design against (see `master-roadmap.md` Phase 4's Corporate Portal reasoning) |
-| Receipts | **Working** (record only) | `webhook-handler.js` issues a sequential receipt number on every successful payment; `receipts.pdf_url` stays null — no PDF generation step built |
+| Receipts | **Working** (record only) | `webhook-handler.js` issues a sequential receipt number on every successful payment (atomically, via the `counters` table — see below), only if one doesn't already exist for that payment; `receipts.pdf_url` stays null — no PDF generation step built |
 | Refund workflow | Partially working | `refund()` is implemented for Stripe/Paystack/Flutterwave (Opay explicitly throws — see its adapter's confidence flag); nothing calls it yet, because refund *policy* (who approves, under what circumstances) doesn't exist — `refunds.approved_by` is there waiting for it |
 | Financial reporting | **Working** | `GET /api/admin/reports/revenue` (staff/admin only) — totals, and breakdowns by status/currency/level/provider/day, all in USD via `amount_usd_cents` (see `functions/_lib/reports/revenue.js`) |
 | Payment reconciliation | **Working**, scoped to what the schema can prove | `GET /api/admin/reports/reconciliation` (staff/admin only) — webhook volume by provider/type/verification, unverified-signature attempts, orphaned webhooks (a verified event naming a payment id that doesn't exist), stale pending/processing payments, succeeded payments missing a receipt. Does **not** cross-check against a gateway's own dashboard — no such integration exists (see below) |
@@ -107,7 +107,19 @@ desired" exactly. No endpoint anywhere hard-codes "Nigerian IP address
   `parseWebhookEvent` even runs).
 - Every webhook is logged with a `(provider, event_id)` idempotency
   key — a gateway retrying a webhook cannot double-confirm a payment
-  or double-enrol a student.
+  or double-enrol a student. This goes further than same-event-id
+  retries: a `handled_at` column (only set once processing completes
+  without throwing) means a *partial* failure — e.g. the payment status
+  updates but receipt issuance then throws — doesn't get silently
+  swallowed by the idempotency check either. A retry of that same event
+  re-attempts the remaining steps, which are each individually
+  idempotent (receipt issuance checks-before-inserting; the payment
+  status UPDATE is a single conditional statement, not read-then-write).
+  Receipt numbering itself is drawn from an atomic
+  `UPDATE counters ... RETURNING value`, not a `SELECT count(*)` —
+  the latter is a real race under concurrent webhook deliveries. See
+  `functions/_lib/payments/webhook-handler.js`'s header comment and
+  `tests/webhook-handler.test.mjs` for the fixture-proof of all of this.
 - Amounts are stored in minor units (cents/kobo) as integers
   throughout — no floating-point currency math anywhere in the payment
   path.

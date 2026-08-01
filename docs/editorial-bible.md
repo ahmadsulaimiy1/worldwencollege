@@ -187,13 +187,18 @@ palette, no stand-and-smile stock photography.
 
 ## Part IV — Open Decisions
 
-1. **Bilingual (English + Arabic RTL)** — decided and built. Every English
-   page has a full Arabic counterpart under `/ar/`, sharing one
-   `[dir="rtl"]` design system (structural mirrors, Amiri/Cairo fallbacks)
-   rather than a translation-plugin afterthought. A native Arabic speaker
-   should still review the translated copy before this goes live —
-   particularly institutional/legal phrasing on the Tuition and Contact
-   pages.
+1. **Bilingual (English + Arabic RTL)** — decided and built, **for the
+   public marketing site**. Every English page under `pages/manifest.json`
+   has a full Arabic counterpart under `/ar/`, sharing one `[dir="rtl"]`
+   design system (structural mirrors, Amiri/Cairo fallbacks) rather than
+   a translation-plugin afterthought. A native Arabic speaker should
+   still review the translated copy before this goes live — particularly
+   institutional/legal phrasing on the Tuition and Contact pages. This
+   discipline has **not** been extended to the newer authenticated
+   dashboard layer (`/student-portal/preview/*`, `/finance/preview/`) —
+   those are English-only with no `[dir="rtl"]` build, a real gap flagged
+   for a resourcing decision in `docs/executive-readiness-report.md`,
+   not silently carried over as "done."
 2. **Full multi-page site** — decided and built (10 English pages / 10
    Arabic pages — see `site-architecture.md`). Course Catalogue and Blog/
    News were deliberately not built as separate pages in this pass (see
@@ -203,12 +208,18 @@ palette, no stand-and-smile stock photography.
    named or quoted testimonials would be fabricated claims from people who
    don't exist. This is called out explicitly rather than left as a silent
    gap, consistent with the rest of the honesty discipline in this bible.
-4. **Student Portal / LMS backend** — not built. The Student Portal page is
-   a preview of what the digital campus will contain, with an honest
-   "request early access" path (a `mailto:` link), not a fake login form.
-   Building the real thing needs hosting, a database, and real student
-   accounts — infrastructure decisions for WEC-LC's operators, not
-   something to fabricate into this repo.
+4. **Student Portal backend vs. LMS — two different things, only one built.**
+   The Student Portal backend (Clerk auth, D1 schema, enrolment/payment
+   data) is now real, written and functionally tested code — see
+   `docs/auth-architecture.md` and `docs/api-reference.md` § Student —
+   though nothing is *live*: it activates the moment a real Clerk key
+   and Cloudflare/D1 credentials exist, not before. The **LMS** genuinely
+   isn't built at all — `functions/_lib/lms/provider-interface.js` is a
+   contract only, no vendor chosen, no adapter written, because *which*
+   LMS to buy-and-wrap is a real vendor decision for WEC-LC's operators,
+   not something this repo can pick on its own. The public Student
+   Portal *page* stays a preview either way, with an honest "request
+   early access" path (a `mailto:` link), not a fake login form.
 
 This bible will be extended as those decisions are revisited and as real
 operational data arrives to retire the remaining placeholders.

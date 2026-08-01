@@ -12,31 +12,52 @@ through every page.*
 /about                     Vision, Mission, Core Values, Brand Character, Our Operating Model, Institutional Status
 /academics                 Hub: curriculum areas, teaching methodology, digital learning environment
 /academics/iefc            The IEFC Programme in full — 6-level ledger, CEFR mapping, assessment
-/admissions                Who it's for, level self-assessment tool, the 5-step application journey, Apply
+/admissions                Who it's for, level self-assessment tool, the 5-step application journey; a real
+                           application form (tries POST /api/admissions/apply first, falls back to mailto:
+                           only if unreachable — see api-reference.md § Frontend Integration Pattern)
 /admissions/tuition        Per-level pricing, what's included, additional fees, payment plans
 /faculty                   Teaching philosophy, hiring standards, founding faculty roster status
 /student-portal            Digital campus preview + early-access request
-/student-portal/preview    Dashboard design preview (English only; noindex'd, not in sitemap — see below)
-/faq                       Accordion FAQ
-/contact                   Contact form (mailto-based), direct lines, campus status
+/student-portal/preview            Dashboard design preview — see below
+/student-portal/preview/profile    Profile / Account Settings design preview — same pattern as above
+/faq                       Accordion FAQ, now with matching FAQPage JSON-LD structured data
+/contact                   Contact form (mailto-based only — not wired to a backend endpoint), direct lines, campus status
 /404                       Branded not-found page
 
-/ar/...                    Full Arabic (RTL) mirror of every indexed path above (not /student-portal/preview)
+/ar/...                    Full Arabic (RTL) mirror of every indexed path above (not the three
+                           /student-portal/preview* pages or /finance/preview — see below)
+
+/finance/preview           Finance dashboard design preview — staff/admin-role-gated, English only,
+                           not part of the Student Portal's page family (see below)
 ```
 
-11 English content pages + 1 English-only design preview + 1 404, 11 Arabic content pages + 1 404 — 22 built HTML files with a `<meta>` tag total, 20 of which are in `sitemap.xml` (the preview and both 404 pages are intentionally excluded).
+11 English content pages + 1 404, 11 Arabic content pages + 1 404, plus 3 hand-authored preview
+pages outside the `pages/manifest.json` build (`/student-portal/preview/`,
+`/student-portal/preview/profile/`, `/finance/preview/`) — 25 built HTML files with a `<meta>` tag
+total, 20 of which are in `sitemap.xml` (the three previews and both 404 pages are intentionally
+excluded).
 
-### `/student-portal/preview` — why this isn't "just another page"
+### `/student-portal/preview*` and `/finance/preview` — why these aren't "just another page"
 
 Added as the Phase 6 (dashboard UI system) and Phase 8 (Student Portal)
-design deliverable: a high-fidelity, front-end-only mockup of the
-student dashboard, built on a new `css/dashboard.css` component layer
-(app shell, level stepper, stat tiles, status pills) so the eventual
-real portal doesn't visually diverge from the marketing site. It is
-deliberately: English-only (a demo, not a shipped product surface),
+design deliverable: high-fidelity, front-end mockups of the student
+dashboard, profile/account-settings screen, and (later, as the first
+non-Student-Portal instance of the same pattern — see
+`docs/dashboard-design-system.md`) a staff Finance dashboard, all built
+on a shared `css/dashboard.css` component layer (app shell, level
+stepper, stat tiles, status pills) so the eventual real portals don't
+visually diverge from the marketing site. All three are deliberately:
+English-only (no Arabic/RTL build exists for the dashboard layer —
+flagged as a real gap, see `docs/executive-readiness-report.md`),
 excluded from `sitemap.xml` and `robots.txt`, `noindex`'d, unlinked
-from primary navigation, and carries a permanent "Design Preview — not
-a live account" banner. See `README.md` for the full reasoning.
+from primary navigation, and carry a permanent "Design Preview — not a
+live account" banner. Unlike a pure mockup, though, all three now load
+real client-side auth (`js/portal-guard.js` + `js/clerk-loader.js`) —
+with no Clerk key configured (the shipped state) they stay exactly the
+static preview described here; once one is configured, the Student
+Portal pages start showing a signed-in student's real enrolment/
+payment data and the Finance page starts showing real reports to a
+signed-in staff account. See `docs/auth-architecture.md`.
 
 ### Admissions level self-assessment
 

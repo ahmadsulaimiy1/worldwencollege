@@ -199,6 +199,28 @@ account to spring into existence.
 
 ---
 
+## Security hardening added during the production-readiness audit
+
+- **Timing-safe signature comparison.** `verifyWebhookSignature`'s Svix
+  check (and every payment gateway adapter's own signature check) now
+  compares the computed vs. received signature with `timingSafeEqual()`
+  (`functions/_lib/db.js`) instead of plain `===` — a naive
+  early-exit string comparison leaks timing information proportional
+  to how many leading bytes match, a real (if narrow) attack surface
+  for anything guarding a secret.
+- **Optional authorized-party check.** `verifySessionToken` now also
+  checks `payload.azp` against `env.CLERK_AUTHORIZED_PARTIES`
+  (comma-separated allowed origins) *if that env var is set* — off by
+  default, so it changes nothing until deployment deliberately
+  configures it. Without it, any token signed by keys behind
+  `CLERK_JWKS_URL` is accepted regardless of which Clerk-connected
+  application minted it — worth setting once this Clerk instance backs
+  more than one frontend (a real future case, per the
+  Faculty/Administration/Executive/Corporate/Alumni portal pattern
+  described above).
+
+---
+
 ## What's genuinely untested here
 
 JWT/JWKS verification and Svix signature verification are implemented

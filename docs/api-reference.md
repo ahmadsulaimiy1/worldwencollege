@@ -195,52 +195,48 @@ into the API payload shape.
 
 ## Verification
 
-Every claim of "working" above was checked, not assumed — the same
-standard applied to the rest of this project:
+Every claim of "working" above was checked, not assumed — and, unlike
+earlier in this project's history, that's no longer something you have
+to take on faith: **`npm test`** runs the real backend test suite
+committed at `tests/` (see `tests/README.md`) against the actual,
+unmodified `functions/**` source. Run it yourself:
 
-- **33/33 files** pass `node --check` (syntax) and a real ES-module
-  import resolution check (every `import` path actually resolves to
-  an existing file/export).
-- **13/13 functional assertions pass** running the real endpoint code
-  (`apply.js`, `status.js`) and real `_lib/currency.js` logic against
-  an actual SQLite engine (`node:sqlite`) loaded with the real
-  `sql/schema.sql` — not a mock. Covers: successful application
-  submission, validation rejection with the correct field flagged,
-  status lookup round-tripping the real inserted row, 404 for an
-  unknown id, currency conversion refusing an inactive/rate-less
-  currency, exact USD passthrough, routing fallback for an unmapped
-  country, and confirmation that exactly one currency (USD) is active
-  today.
-- **21/21 further functional assertions pass** for the Admin Reports
-  endpoints, against the same real SQLite engine loaded with fixture
-  payments, refunds, receipts and webhook events: revenue totals,
-  refund netting, status/currency/provider/level/day breakdowns,
-  date-range filtering, every reconciliation signal (orphaned webhooks,
-  unverified-signature attempts, stale payments, missing receipts),
-  the 401-with-no-Authorization-header path on both endpoints, and
-  `assertStaffRole()`'s role gate itself (student rejected, staff/admin
-  accepted) tested directly against real `users` rows.
-- **14/14 further functional assertions pass** for
-  `buildStudentDashboard()` against fixture enrolments/payments/receipts
-  on the same real SQLite engine — active-level detection,
-  completed-level tracking, receipt attachment, payment ordering, two
-  students' data never leaking into each other's response, a brand-new
-  user with nothing yet not crashing, the 401-with-no-Authorization-header
-  path, and confirmation the endpoint's source never reads a URL
-  parameter for a user id.
-- **13/13 Playwright assertions pass** for `js/portal-auth.js` (Student
-  Portal) confirming zero behavior change with no Clerk key configured,
-  plus correct gate/redirect/script-URL-derivation once a key is set;
-  **6/6 more** for `js/finance-dashboard.js` confirming the same
-  no-key-configured baseline and graceful handling of an unreachable
-  Clerk instance; **13/13 more still** for `js/portal-auth.js`'s
-  dashboard-rendering logic specifically, driven through a functional
-  fake Clerk global (not just the unreachable-Clerk path) confirming
-  real enrolment/payment data correctly overrides every illustrative
-  default — the stepper's is-done/is-current state, the current-level
-  stat tile, the sidebar level line, and payment-history row order.
-- **Not yet possible to verify**: anything requiring a real Clerk/
-  Stripe/Paystack/Flutterwave/Opay/Resend account — signature
-  verification logic is implemented against each provider's publicly
-  documented scheme (see `auth-architecture.md` § What's genuinely
-  untested), not exercised against a live account.
+```
+npm test
+# 33 files import-checked cleanly
+# 94 functional assertions, 0 failures
+```
+
+What it covers, briefly (full breakdown in `tests/README.md`):
+application submission/validation, currency conversion/routing,
+financial reporting and reconciliation query logic (including every
+reconciliation signal — orphaned webhooks, unverified-signature
+attempts, stale payments, missing receipts), `assertStaffRole()`'s role
+gate, the student dashboard's per-student data isolation, the payment
+webhook handler's race-condition and partial-failure-recovery fixes
+(via real HMAC-SHA256 signed requests), and the input-validation/
+HTML-escaping/timing-safe-comparison hardening added during the
+production-readiness audit.
+
+**What `npm test` can't cover, and why:** anything requiring a real
+Clerk/Stripe/Paystack/Flutterwave/Opay/Resend account — signature
+verification logic is implemented against each provider's publicly
+documented scheme (see `auth-architecture.md` § What's genuinely
+untested), not exercised against a live account. Every authenticated
+endpoint's test confirms the 401 boundary holds on an invalid token,
+not what happens past `requireUser()`'s full JWT-verification path,
+which needs a real Clerk-signed token to reach.
+
+**What's verified but not committed:** the frontend (`js/portal-auth.js`,
+`js/finance-dashboard.js`, `js/portal-guard.js`, and the admissions
+form's try-API-then-fallback flow) was checked this session with
+Playwright — real browser automation, not eyeballed — confirming zero
+behavior change with no Clerk key configured, correct gate/redirect
+behavior once one is set, and (via a functional fake Clerk global, not
+just the unreachable-Clerk path) that real enrolment/payment/report
+data correctly overrides every illustrative default. Those Playwright
+scripts are not yet part of this repository — `npm test` today is
+backend-only. Adding a committed frontend test suite (Playwright as a
+devDependency, scripts under e.g. `tests/e2e/`) is a reasonable next
+step, not done here to avoid taking on a large new dependency without
+that being asked for.
