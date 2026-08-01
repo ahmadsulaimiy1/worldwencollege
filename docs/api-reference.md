@@ -37,15 +37,35 @@ account yet). Returns `{ id, status, created_at }` only.
 ## Payments
 
 ### `POST /api/payments/create-checkout`
-**Requires auth.** Body: `{ levelId, currency?, gateway?, promoCode? }`
-for a single-level payment, or `{ fullProgramme: true, currency?,
-gateway?, promoCode? }` for a full-programme payment (Executive
-Decision #1 — priced from `platform_config.full_programme_price_usd_cents`,
-not `levelId`; provide exactly one of `levelId`/`fullProgramme`).
+**Requires auth.** Body — exactly one of `levelId`, `fullProgramme`, or
+`instalmentPlanId`, plus optional `currency`/`gateway`:
+- `{ levelId, currency?, gateway?, promoCode?, scholarshipId? }` — a
+  single-level payment.
+- `{ fullProgramme: true, currency?, gateway?, promoCode?,
+  scholarshipId? }` — a full-programme payment (Executive Decision
+  #1 — priced from `platform_config.full_programme_price_usd_cents`).
+- `{ instalmentPlanId, currency?, gateway? }` — pays the next
+  instalment of a plan created via `POST /api/payments/instalment-plan`
+  (Executive Decision #5). Cannot be combined with `promoCode`/
+  `scholarshipId`.
+
+`promoCode`/`scholarshipId` (single-level and full-programme modes
+only) apply a discount via `functions/_lib/payments/discounts.js` —
+both together are rejected with a 422 unless
+`platform_config.discount_stacking_policy` explicitly allows it.
+
 Returns `{ paymentId, checkoutUrl, gateway, currency, amountMinor }`.
 `currency`/`gateway` are optional — omitted, they're inferred from the
 account's country via `_lib/currency.js`'s routing suggestion, per
 `payments-architecture.md` § UX.
+
+### `POST /api/payments/instalment-plan`
+**Requires auth.** Body: `{ levelId }` or `{ fullProgramme: true }`.
+Creates an instalment plan — instalment count from
+`platform_config.instalment_default_count` (default 4), equal-split
+amounts. Returns `{ id, userId, levelId, totalAmountUsdCents,
+instalmentCount, status, amounts }`. Pay each instalment in turn via
+`POST /api/payments/create-checkout` with `{ instalmentPlanId: id }`.
 
 ### `GET /api/payments/verify?id=pay_xxx`
 **Requires auth**, and the payment must belong to the caller. Returns
@@ -280,8 +300,8 @@ unmodified `functions/**` source. Run it yourself:
 
 ```
 npm test
-# 47 files import-checked cleanly
-# 156 functional assertions, 0 failures
+# 50 files import-checked cleanly
+# 183 functional assertions, 0 failures
 ```
 
 What it covers, briefly (full breakdown in `tests/README.md`):

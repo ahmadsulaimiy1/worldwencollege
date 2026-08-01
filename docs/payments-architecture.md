@@ -120,9 +120,9 @@ structure keeps its own table instead — `promo_codes`, `scholarships`,
 |---|---|---|
 | Level-by-level (one-time, single-level) payment | **Working** | `create-checkout.js` (`kind='single_level'`, tested against the seeded 6 levels) |
 | Full-programme (one-time, all six levels) payment | **Working** — progressive unlock (Executive Decision #1) | `create-checkout.js` accepts `{ fullProgramme: true }` in place of `levelId`, priced from `platform_config.full_programme_price_usd_cents` (see below) rather than a hardcoded constant. `enrolment/confirm.js` creates Level I's enrolment on first confirmation. Levels II-VI are **not** created up front — each unlocks automatically only once the level before it is marked completed, via `functions/_lib/student/progression.js`'s `completeLevel()`. Today `completeLevel()` is called only from the staff-only `POST /api/lms/complete-level` — WEC-LC has no automated grading engine yet, so a human confirms a level is finished; once the LMS's own assessment engine exists (see `docs/lms-architecture.md`), it can call the same function programmatically. 19 fixture-based assertions in `tests/progression-and-config.test.mjs` cover the auto-unlock, its idempotency (no duplicate enrolment on a replayed completion), and that a single-level-only student never gets an unrequested auto-unlock. |
-| Instalment plans | Schema-ready | `instalment_plans` table exists; no endpoint creates/advances a plan yet — a `platform_config.instalment_default_count` policy value exists as a starting point, but no decision on real cadence has been made |
-| Scholarships | Schema-ready | `scholarships` table, `payments.scholarship_id` FK exist; discount application logic is a `TODO` in `create-checkout.js`, deliberately not implemented — see below |
-| Promo codes | Schema-ready | `promo_codes` table, `payments.promo_code` FK exist; same TODO |
+| Instalment plans | **Working** (Executive Decision #5) | `POST /api/payments/instalment-plan` creates a plan (`platform_config.instalment_default_count`, default 4, equal-split cadence — real per-level/currency cadence policy still undecided); `POST /api/payments/create-checkout` accepts `{ instalmentPlanId }` to pay the next instalment; `webhook-handler.js` marks the plan `completed` once every instalment has succeeded. See `functions/_lib/payments/instalments.js`. |
+| Scholarships | **Working** (Executive Decision #5) | `scholarships` table; `create-checkout.js` accepts `{ scholarshipId }` (ownership-checked — only the awarded student can use it) and applies it via `functions/_lib/payments/discounts.js`. Real eligibility/award policy is still an institutional decision — this is the *mechanism*, not a policy. |
+| Promo codes | **Working** (Executive Decision #5) | `promo_codes` table; `create-checkout.js` accepts `{ promoCode }` and applies it the same way. Stacking a promo code with a scholarship on one payment is governed by `platform_config.discount_stacking_policy` — off by default (conservative), until a real institutional stacking policy is set. |
 | Corporate invoicing | Schema-ready | `corporate_accounts` / `corporate_seats` tables exist; no invoicing endpoint yet — needs a real corporate client to design against (see `master-roadmap.md` Phase 4's Corporate Portal reasoning) |
 | Receipts | **Working** (record only) | `webhook-handler.js` issues a sequential receipt number on every successful payment (atomically, via the `counters` table — see below), only if one doesn't already exist for that payment; `receipts.pdf_url` stays null — no PDF generation step built |
 | Refund workflow | Partially working | `refund()` is implemented for Stripe/Paystack/Flutterwave (Opay explicitly throws — see its adapter's confidence flag); nothing calls it yet, because refund *policy* (who approves, under what circumstances) doesn't exist — `refunds.approved_by` is there waiting for it |
@@ -130,14 +130,26 @@ structure keeps its own table instead — `promo_codes`, `scholarships`,
 | Payment reconciliation | **Working**, scoped to what the schema can prove | `GET /api/admin/reports/reconciliation` (staff/admin only) — webhook volume by provider/type/verification, unverified-signature attempts, orphaned webhooks (a verified event naming a payment id that doesn't exist), stale pending/processing payments, succeeded payments missing a receipt. Does **not** cross-check against a gateway's own dashboard — no such integration exists (see below) |
 | Secure payment status tracking | **Working** | `verify.js` (student-facing poll) + the `payments.status` state machine (`pending → processing → succeeded/failed → refunded`) |
 
-**Why discounts (scholarships/promo codes) are schema-ready but not
-wired into `create-checkout.js`:** applying a discount changes the
-amount a student is legally charged. Guessing at stacking rules
-("can a promo code apply on top of a scholarship?"), eligibility, or
-maximum discount without an institutional policy would mean the
-platform silently making a pricing decision — the financial-data
-equivalent of inventing an exchange rate. The schema is ready so
-wiring this in later is an endpoint change, not a migration.
+**How discount stacking avoids silently making a pricing decision:**
+applying a discount changes the amount a student is legally charged, so
+the stacking rule itself — can a promo code apply on top of a
+scholarship? — is read from `platform_config.discount_stacking_policy`
+(`functions/_lib/payments/discounts.js`) rather than assumed in code.
+The shipped default is conservative (no stacking): a checkout request
+supplying both a promo code and a scholarship is rejected with a clear
+422 unless a real institutional policy has explicitly turned stacking
+on. This is the mechanism Executive Decision #5 asked for
+("configurable wherever practical, do not hard-code institutional
+policy") — what's still genuinely undecided is the real eligibility
+and maximum-discount policy for both scholarships and promo codes,
+which stays an operational/admissions decision, not a schema or code
+gap. 27 fixture-based assertions in
+`tests/discounts-and-instalments.test.mjs` cover the discount math
+(including that it never goes negative and that a full scholarship
+zeroes the amount regardless of any other discount present), the
+ownership boundary on scholarships, and the instalment plan's
+per-instalment amount breakdown, retry-safe next-instalment lookup, and
+completion tracking.
 
 ---
 

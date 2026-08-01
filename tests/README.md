@@ -84,6 +84,11 @@ gap requires provisioning real credentials, not more test code.
   submission/grading, live-session listing (Executive Decision #4,
   Milestone 1). Fixture content is placeholder mechanism-testing data,
   not real curriculum.
+- `discounts-and-instalments.test.mjs` — `functions/_lib/payments/
+  discounts.js` (discount math, stacking-policy enforcement, the
+  scholarship ownership boundary) and `functions/_lib/payments/
+  instalments.js` (per-instalment amount breakdown, next-instalment
+  lookup, plan completion) — Executive Decision #5.
 - `run.mjs` — runs everything above and reports a combined summary.
 
 ## Adding a new test

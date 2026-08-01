@@ -31,10 +31,14 @@ implementation status of each, updated as work lands:
    true by construction — see §8 (cross-reference) below.
 4. **Proprietary WEC-LC LMS, not a third-party product.** In active
    development, Milestone 1. See `docs/lms-architecture.md`.
-5. **Configurable financial policy modules.** Partially built —
-   `platform_config` (the mechanism) exists; discount stacking and
-   instalment defaults are wired to it; refund policy and corporate
-   invoicing remain undecided (see the cross-reference list below).
+5. **Configurable financial policy modules.** Mostly built — promo
+   codes, scholarships, and instalment plans are now working
+   checkout-time mechanisms, all reading their policy from
+   `platform_config` rather than hardcoding it (stacking rules,
+   instalment cadence). Refund policy and corporate invoicing remain
+   undecided (see the cross-reference list below) — those still need a
+   real institutional policy before there's a mechanism to build
+   against, the same reasoning that held discounts back until now.
 6. **Arabic: public site now, Student Portal after English reaches
    production quality.** Confirmed as the sequencing; no change in
    status — the public site's bilingual support was already complete,
@@ -219,13 +223,17 @@ only confirmed the code correctly waits on each rather than guessing:
   buy). See `docs/lms-architecture.md` for what's built vs. planned.
 - **Refund policy** — who approves a refund, under what circumstances —
   `refund()` is implemented per-gateway but nothing calls it.
-- **Discount/promo-code policy** — a conservative default
-  (`platform_config.discount_stacking_policy`, no stacking) now exists
-  so the mechanism isn't blocked, but the real institutional policy
-  (eligibility, maximum discount) is still undecided.
-- **Instalment plan cadence** — a default count now exists in
-  `platform_config.instalment_default_count`; real cadence policy
-  (frequency, whether it varies by level/currency) is still undecided.
+- **Discount/promo-code policy** — resolved as a *mechanism*
+  (Executive Decision #5: working checkout-time application, stacking
+  gated by `platform_config.discount_stacking_policy`, conservative
+  default of no stacking). Still undecided: the real institutional
+  policy — who gets a scholarship, at what eligibility/maximum
+  discount — which is an admissions/finance decision, not a technical
+  one.
+- **Instalment plan cadence** — resolved as a *mechanism* (equal-split
+  instalments, count from `platform_config.instalment_default_count`,
+  default 4). Still undecided: the real cadence policy (frequency,
+  whether it varies by level/currency, any fee/interest component).
 - **Corporate invoicing** — needs a real corporate client relationship
   to design the actual invoicing flow against.
 - **Legal/compliance review** — a named owner for the GDPR/UK GDPR data-

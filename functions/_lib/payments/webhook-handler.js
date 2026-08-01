@@ -36,6 +36,7 @@ import { getGateway } from './router.js';
 import { db, newId, nowIso } from '../db.js';
 import { notify } from '../notifications/events.js';
 import { formatMinorUnits } from '../currency.js';
+import { markPlanCompletedIfFullyPaid } from './instalments.js';
 
 export async function handleWebhook(gatewayName, request, env) {
   const rawBody = await request.text();
@@ -161,6 +162,9 @@ async function applyPaymentUpdate(env, event) {
 
   if (event.status === 'succeeded') {
     await issueReceiptIfMissing(env, payment.id);
+    if (payment.instalment_plan_id) {
+      await markPlanCompletedIfFullyPaid(env, payment.instalment_plan_id);
+    }
     await notify(env, 'payment_confirmed', {
       to: user.email,
       name: user.preferred_name || user.email,
