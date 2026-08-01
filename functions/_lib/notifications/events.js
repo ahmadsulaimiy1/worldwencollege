@@ -27,7 +27,38 @@ const TEMPLATES = {
     subject: 'You\'re enrolled — welcome to WEC-LC',
     html: `<p>Hi ${data.name},</p><p>You're enrolled in ${data.levelName}. Your Student Portal access details follow separately.</p>`,
   }),
+  // Staff-facing, not applicant-facing — see notifyStaff() below. Sent
+  // to env.NOTIFICATION_EMAIL, a deploy-time config value rather than
+  // anything hardcoded, so the recipient can move from a working inbox
+  // during early operations to an official mailbox later with no code
+  // change.
+  new_application_alert: (data) => ({
+    subject: `New WEC-LC application — ${data.name}`,
+    html: `<p>A new admissions application was submitted.</p>
+      <ul>
+        <li>Name: ${data.name}</li>
+        <li>Email: ${data.email}</li>
+        <li>Country: ${data.country || 'not provided'}</li>
+        <li>Application ID: ${data.applicationId}</li>
+      </ul>`,
+  }),
 };
+
+// For events WEC-LC staff need to see (a new application, say) rather
+// than the applicant. Recipient is env.NOTIFICATION_EMAIL — a single
+// deploy-time config value, not a hardcoded address — so the working
+// inbox used during early operations can be swapped for an official
+// one later purely by changing that one Pages environment variable.
+// If it isn't set, the event is logged as skipped rather than thrown,
+// since a missing staff notification should never fail the caller's
+// real transaction (the application itself is already saved).
+export async function notifyStaff(env, eventType, data) {
+  if (!env.NOTIFICATION_EMAIL) {
+    console.warn(`Staff notification "${eventType}" skipped — NOTIFICATION_EMAIL is not configured.`);
+    return { sent: false, skipped: true };
+  }
+  return notify(env, eventType, { to: env.NOTIFICATION_EMAIL, ...data });
+}
 
 export async function notify(env, eventType, { userId, to, ...data }) {
   const template = TEMPLATES[eventType];

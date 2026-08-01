@@ -43,7 +43,7 @@
     </ul>
     <div class="app-sidebar__foot">
       <a href="/student-portal/">&larr; Back to public site</a>
-      <a href="#" class="disabled-link" aria-disabled="true">Sign out (preview)</a>
+      <a href="#" class="disabled-link" aria-disabled="true" data-sign-out>Sign out <span data-demo-tag>(preview)</span></a>
     </div>
   </aside>
 
@@ -51,13 +51,13 @@
     <div class="app-topline">
       <div>
         <span class="eyebrow" style="margin-bottom:8px">Dashboard</span>
-        <h1>Welcome back, A. Student.</h1>
+        <h1>Welcome back, <span data-user-name>A. Student</span>.</h1>
         <p class="lede">Here's where your IEFC progress stands today.</p>
       </div>
       <a class="app-student" href="/student-portal/preview/profile/" style="color:inherit;text-decoration:none">
-        <div class="app-student__avatar">AS</div>
+        <div class="app-student__avatar" data-user-initials>AS</div>
         <div>
-          <div class="app-student__name">A. Student <span style="color:var(--ink-soft);font-weight:400">(demo)</span></div>
+          <div class="app-student__name"><span data-user-name>A. Student</span> <span data-demo-tag style="color:var(--ink-soft);font-weight:400">(demo)</span></div>
           <div class="app-student__level">Level III · Intermediate Programme</div>
         </div>
       </a>
@@ -203,6 +203,9 @@
     }, 1600);
   })();
 </script>
+
+<script src="/js/auth-config.js"></script>
+<script src="/js/portal-auth.js"></script>
 
 </body>
 </html>

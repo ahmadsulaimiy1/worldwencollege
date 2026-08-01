@@ -9,7 +9,15 @@
 ## Admissions
 
 ### `POST /api/admissions/apply`
-Public, no auth. Step 2 of the public admissions journey.
+Public, no auth. Step 2 of the public admissions journey. On success,
+sends the applicant a confirmation email and — separately — alerts WEC-LC
+staff at `env.NOTIFICATION_EMAIL` (`notifyStaff()` in
+`functions/_lib/notifications/events.js`; see `.env.example`). That
+address is deploy-time config, not hardcoded, specifically so it can
+point at a working inbox during early operations and move to an
+official mailbox later with no code change. If unset, the staff alert is
+skipped (logged, not thrown) — it never blocks the applicant's
+submission.
 
 ```jsonc
 // Request
@@ -54,8 +62,10 @@ Clerk-only (Svix-signature-verified). Syncs `user.created`/
 
 ### `GET /api/auth/me`
 **Requires auth.** Returns `{ id, email, preferredName, preferredLanguage, role }`
-— the endpoint that eventually replaces "A. Student (demo)" in the
-Student Portal preview with a real identity.
+— called from `js/portal-auth.js` (see `docs/auth-architecture.md` §
+Client-side integration) to layer WEC-LC's own record on top of Clerk's
+`user` object once a real Clerk key is configured. Today, with no key
+configured, it's never called — the Student Portal preview stays static.
 
 ---
 

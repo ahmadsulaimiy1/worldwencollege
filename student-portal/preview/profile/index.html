@@ -43,7 +43,7 @@
     </ul>
     <div class="app-sidebar__foot">
       <a href="/student-portal/">&larr; Back to public site</a>
-      <a href="#" class="disabled-link" aria-disabled="true">Sign out (preview)</a>
+      <a href="#" class="disabled-link" aria-disabled="true" data-sign-out>Sign out <span data-demo-tag>(preview)</span></a>
     </div>
   </aside>
 
@@ -58,11 +58,11 @@
 
     <div class="profile-header">
       <div class="profile-header__avatar">
-        AS
+        <span data-user-initials>AS</span>
         <span class="profile-header__avatar-edit" aria-hidden="true" title="Preview only">&#9998;</span>
       </div>
       <div>
-        <div class="profile-header__name">A. Student <span style="color:var(--ink-soft);font-weight:400;font-size:.85rem">(demo)</span></div>
+        <div class="profile-header__name"><span data-user-name>A. Student</span> <span data-demo-tag style="color:var(--ink-soft);font-weight:400;font-size:.85rem">(demo)</span></div>
         <div class="profile-header__meta">
           <span class="profile-header__id">Student ID: WEC-LC-DEMO-000001</span>
           <span>·</span>
@@ -82,11 +82,11 @@
           <div class="form-grid">
             <div class="field field--full field-display">
               <label for="pname">Preferred Name</label>
-              <input id="pname" type="text" value="A. Student" disabled>
+              <input id="pname" type="text" value="A. Student" disabled data-user-name>
             </div>
             <div class="field field-display">
               <label for="pemail">Email Address</label>
-              <input id="pemail" type="email" placeholder="you@example.com" disabled>
+              <input id="pemail" type="email" placeholder="you@example.com" disabled data-user-email>
             </div>
             <div class="field field-display">
               <label for="pphone">Mobile Number <span style="text-transform:none;font-weight:400">(optional)</span></label>
@@ -141,7 +141,7 @@
           </div>
           <div class="security-row">
             <div><div class="pref-row__label">Password</div><div class="pref-row__desc">Last changed — not applicable in preview</div></div>
-            <button type="button" class="btn btn--outline" disabled style="opacity:.6;cursor:not-allowed">Change</button>
+            <button type="button" class="btn btn--outline" disabled style="opacity:.6;cursor:not-allowed" data-open-account-security>Change</button>
           </div>
           <div class="security-row">
             <div><div class="pref-row__label">Two-factor authentication</div><div class="pref-row__desc">Add an extra layer of protection</div></div>
@@ -149,7 +149,7 @@
           </div>
           <div class="security-row">
             <div><div class="pref-row__label">Active sessions</div><div class="pref-row__desc">Review devices signed in to your account</div></div>
-            <button type="button" class="btn btn--outline" disabled style="opacity:.6;cursor:not-allowed">View</button>
+            <button type="button" class="btn btn--outline" disabled style="opacity:.6;cursor:not-allowed" data-open-account-security>View</button>
           </div>
         </div>
 
@@ -169,6 +169,9 @@
     </div>
   </main>
 </div>
+
+<script src="/js/auth-config.js"></script>
+<script src="/js/portal-auth.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,137 @@
+// WEC-LC — Student Portal client-side auth guard.
+//
+// Included only on portal pages (student-portal/preview/ and its
+// sub-pages). Reads js/auth-config.js for the Clerk publishable key.
+//
+// With no key configured (the shipped default), this script does
+// nothing at all — the page stays exactly the static, illustrative
+// design preview it already is. The moment a real publishable key is
+// set at deploy time, the same markup and script begin gating the page
+// behind a real Clerk session with no further changes here, mirroring
+// the try-live-then-fall-back philosophy used for the admissions form
+// (see docs/api-reference.md — Frontend Integration Pattern).
+//
+// Implemented against Clerk's documented framework-less ("vanilla JS")
+// integration: https://clerk.com/docs — decode the publishable key to
+// find the Frontend API host, load clerk.browser.js from it, then use
+// Clerk.load() / Clerk.user / Clerk.session / Clerk.redirectToSignIn().
+// Not yet exercised against a real Clerk instance — see
+// docs/auth-architecture.md — What's genuinely untested.
+(function () {
+  var cfg = window.WEC_LC_AUTH || {};
+  var pk = cfg.clerkPublishableKey;
+  if (!pk) return;
+
+  var gate = buildGate();
+  document.body.appendChild(gate);
+
+  loadClerkScript(pk, function (err) {
+    if (err) { removeGate(gate); return; }
+
+    window.Clerk.load().then(function () {
+      var clerk = window.Clerk;
+
+      if (!clerk.user) {
+        clerk.redirectToSignIn({ redirectUrl: window.location.href });
+        return;
+      }
+
+      wireSignOut(clerk);
+      wireSecurityLinks(clerk);
+      applyRealUser(clerk, function () { removeGate(gate); });
+    }).catch(function () { removeGate(gate); });
+  });
+
+  function frontendApiFromPublishableKey(key) {
+    var encoded = key.split('_').pop();
+    try {
+      var decoded = atob(encoded);
+      return decoded.replace(/\$$/, '');
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function loadClerkScript(key, cb) {
+    var fapi = frontendApiFromPublishableKey(key);
+    if (!fapi) { cb(new Error('invalid Clerk publishable key')); return; }
+    var script = document.createElement('script');
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.setAttribute('data-clerk-publishable-key', key);
+    script.src = 'https://' + fapi + '/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
+    script.addEventListener('load', function () { cb(null); });
+    script.addEventListener('error', function () { cb(new Error('failed to load Clerk')); });
+    document.head.appendChild(script);
+  }
+
+  function wireSignOut(clerk) {
+    document.querySelectorAll('[data-sign-out]').forEach(function (el) {
+      el.classList.remove('disabled-link');
+      el.removeAttribute('aria-disabled');
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        clerk.signOut(function () { window.location.href = '/student-portal/'; });
+      });
+    });
+  }
+
+  function wireSecurityLinks(clerk) {
+    // Clerk hosts password, 2FA and active-session management itself —
+    // WEC-LC doesn't rebuild that UI. These buttons deep-link into
+    // Clerk's own account-management UI once a session exists.
+    document.querySelectorAll('[data-open-account-security]').forEach(function (el) {
+      el.disabled = false;
+      el.removeAttribute('style');
+      el.addEventListener('click', function () { clerk.openUserProfile(); });
+    });
+  }
+
+  function applyRealUser(clerk, done) {
+    var user = clerk.user;
+    var initials = (user.firstName ? user.firstName[0] : '') + (user.lastName ? user.lastName[0] : '');
+    var displayName = [user.firstName, user.lastName].filter(Boolean).join(' ') || user.primaryEmailAddress.emailAddress;
+    var email = user.primaryEmailAddress ? user.primaryEmailAddress.emailAddress : '';
+
+    setText(document.querySelectorAll('[data-user-name]'), displayName);
+    setText(document.querySelectorAll('[data-user-initials]'), initials || '—');
+    setText(document.querySelectorAll('[data-user-email]'), email);
+    document.querySelectorAll('[data-demo-tag]').forEach(function (el) { el.hidden = true; });
+
+    function setText(nodeList, value) {
+      nodeList.forEach(function (el) {
+        if ('value' in el) el.value = value; else el.textContent = value;
+      });
+    }
+
+    // /api/auth/me carries WEC-LC's own record (role, preferred language,
+    // programme fields) beyond what Clerk's user object knows about. If
+    // it isn't reachable yet (not deployed, or the users row hasn't been
+    // created by the webhook), the page still works — Clerk auth itself
+    // succeeded, so we just keep the illustrative programme data as-is
+    // rather than showing a broken page over a secondary fetch failing.
+    clerk.session.getToken().then(function (token) {
+      return fetch('/api/auth/me', { headers: { Authorization: 'Bearer ' + token } });
+    }).then(function (resp) {
+      if (!resp.ok) throw new Error('auth/me unavailable');
+      return resp.json();
+    }).then(function (me) {
+      if (me.preferredName) {
+        document.querySelectorAll('[data-user-name]').forEach(function (el) { el.textContent = me.preferredName; });
+      }
+    }).catch(function () {}).then(done, done);
+  }
+
+  function buildGate() {
+    var el = document.createElement('div');
+    el.className = 'auth-gate';
+    el.setAttribute('role', 'status');
+    el.setAttribute('aria-live', 'polite');
+    el.innerHTML = '<div class="auth-gate__spinner" aria-hidden="true"></div><p class="auth-gate__text">Checking your session…</p>';
+    return el;
+  }
+
+  function removeGate(gate) {
+    if (gate && gate.parentNode) gate.parentNode.removeChild(gate);
+  }
+})();

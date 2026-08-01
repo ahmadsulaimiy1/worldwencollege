@@ -58,10 +58,68 @@ either.
 
 ---
 
+## Client-side integration (`js/portal-auth.js`)
+
+The Student Portal preview pages (`student-portal/preview/` and
+`student-portal/preview/profile/`) now load `js/auth-config.js` +
+`js/portal-auth.js`. The config file holds exactly one value —
+`clerkPublishableKey`, shipped empty.
+
+**Empty (shipped default):** `portal-auth.js` does nothing at all. Both
+pages behave exactly as they always have — a static, illustrative
+design preview, `noindex`ed, no auth calls attempted. This is verified
+by a Playwright regression check, not assumed.
+
+**Set to a real key:** the same markup and script begin gating the page
+behind a real Clerk session with no further frontend changes, the same
+"provisional building, seamless transition" pattern used for the
+admissions form (`docs/api-reference.md` § Frontend Integration
+Pattern):
+
+1. A full-page `.auth-gate` overlay (`css/dashboard.css`) appears while
+   the Clerk client SDK loads and checks for a session.
+2. No session → `Clerk.redirectToSignIn({ redirectUrl: <this page> })`.
+   WEC-LC does not build or maintain a custom sign-in form — Clerk's own
+   hosted Account Portal handles sign-in/sign-up, and returns the
+   browser here once authenticated.
+3. A session exists → `[data-user-name]` / `[data-user-initials]` /
+   `[data-user-email]` elements across the page (the sidebar avatar, the
+   topline greeting, the Profile screen's name/email fields) are
+   populated from `clerk.user`, the `(demo)`/`(preview)` tags
+   (`[data-demo-tag]`) are hidden, and the Sign Out link becomes live
+   (`clerk.signOut()`).
+4. `GET /api/auth/me` is then called with the session token to layer in
+   WEC-LC's own record (today: `preferredName`) beyond what Clerk's
+   `user` object knows. This call is best-effort: if it isn't reachable
+   yet, Clerk auth has still genuinely succeeded, so the page keeps
+   working with Clerk-only identity data rather than showing an error
+   over a secondary fetch failing.
+5. The Security panel's "Change" (password) and "View" (active
+   sessions) buttons deep-link into Clerk's own hosted account UI via
+   `clerk.openUserProfile()` — WEC-LC doesn't rebuild password/2FA/
+   session-management screens Clerk already provides.
+
+**What this does *not* yet do:** programme progress, level, attendance,
+assignments and the rest of the dashboard's content remain the existing
+illustrative data regardless of auth state — no `/api/student/...`
+endpoint exists yet to back that content with something real, and
+`/api/auth/me`'s response shape doesn't include it either (see
+`docs/api-reference.md`). Wiring that is a distinct, larger backend
+task, not part of this pass.
+
+**Implemented against, not tested against:** the CDN-loading approach
+(decode the publishable key to find the Frontend API host, then load
+`clerk.browser.js` from it) is Clerk's documented framework-less
+integration path, chosen specifically because it needs no bundler,
+matching this site's zero-build-step philosophy. It has not been
+exercised against a real Clerk instance — same caveat as the rest of
+this section.
+
 ## Request flow
 
 ```
-Browser (Clerk's own client-side SDK — not yet added to any page)
+Browser (now carries js/portal-auth.js on Student Portal pages — see
+above)
   → gets a session JWT from Clerk
   → sends it as `Authorization: Bearer <jwt>` to any WEC-LC API endpoint
 
