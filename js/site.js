@@ -65,26 +65,67 @@
 
   // Contact form — opens the visitor's email client with a pre-filled
   // message. No backend exists yet, so this is the honest alternative
-  // to a fake "submitted" confirmation.
+  // to a fake "submitted" confirmation. Validates inline first so a
+  // visitor never gets bounced to their email app over a typo'd address.
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function setFieldValid(field) {
+    if (field) field.closest('.field').classList.remove('is-invalid');
+  }
+  function setFieldInvalid(field) {
+    if (field) field.closest('.field').classList.add('is-invalid');
+  }
+  function showFormStatus(form, kind, text) {
+    var status = form.querySelector('[data-form-status]');
+    if (!status) return;
+    status.textContent = text;
+    status.className = 'form-status is-visible form-status--' + kind;
+  }
+
   document.querySelectorAll('[data-mailto-form]').forEach(function (form) {
+    var nameField = form.querySelector('[name="name"]');
+    var emailField = form.querySelector('[name="email"]');
+    var messageField = form.querySelector('[name="message"]');
+
+    // Clear a field's error state as soon as the visitor fixes it —
+    // don't make them re-submit to find out it's valid now.
+    [nameField, emailField, messageField].forEach(function (field) {
+      if (!field) return;
+      field.addEventListener('input', function () {
+        var ok = field === emailField ? EMAIL_RE.test(field.value.trim()) : field.value.trim().length > 0;
+        if (ok) setFieldValid(field);
+      });
+    });
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var to = form.getAttribute('data-mailto-to') || 'admissions@wec-lc.org';
-      var name = form.querySelector('[name="name"]');
-      var email = form.querySelector('[name="email"]');
+      var valid = true;
+      if (!nameField || !nameField.value.trim()) { setFieldInvalid(nameField); valid = false; } else { setFieldValid(nameField); }
+      if (!emailField || !EMAIL_RE.test(emailField.value.trim())) { setFieldInvalid(emailField); valid = false; } else { setFieldValid(emailField); }
+      if (!messageField || !messageField.value.trim()) { setFieldInvalid(messageField); valid = false; } else { setFieldValid(messageField); }
+
+      if (!valid) {
+        var firstInvalid = form.querySelector('.field.is-invalid input, .field.is-invalid textarea');
+        if (firstInvalid) firstInvalid.focus();
+        showFormStatus(form, 'error', form.getAttribute('data-error-text') || 'Please fix the highlighted fields below.');
+        return;
+      }
+
+      var to = form.getAttribute('data-mailto-to') || 'info@worldwencollege.co.uk';
       var topic = form.querySelector('[name="topic"]');
-      var message = form.querySelector('[name="message"]');
       var subject = 'Website Enquiry' + (topic && topic.value ? ' — ' + topic.value : '');
       var bodyLines = [
-        name && name.value ? 'Name: ' + name.value : '',
-        email && email.value ? 'Email: ' + email.value : '',
+        'Name: ' + nameField.value.trim(),
+        'Email: ' + emailField.value.trim(),
         '',
-        message ? message.value : ''
+        messageField.value.trim()
       ];
       var mailto = 'mailto:' + encodeURIComponent(to) +
         '?subject=' + encodeURIComponent(subject) +
         '&body=' + encodeURIComponent(bodyLines.join('\n'));
-      window.location.href = mailto;
+
+      showFormStatus(form, 'success', form.getAttribute('data-success-text') || 'Opening your email app with your message ready to send…');
+      window.setTimeout(function () { window.location.href = mailto; }, 400);
     });
   });
 

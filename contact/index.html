@@ -139,14 +139,19 @@
     <div>
       <span class="module-marker">Get in Touch</span>
       <h2>Send us a message.</h2>
-      <form class="form-grid" data-mailto-form data-mailto-to="info@worldwencollege.co.uk">
+      <form class="form-grid" data-mailto-form data-mailto-to="info@worldwencollege.co.uk" novalidate>
+        <div class="field field--full">
+          <div class="form-status" data-form-status role="status" aria-live="polite"></div>
+        </div>
         <div class="field">
           <label for="name">Full Name</label>
-          <input id="name" name="name" type="text" required>
+          <input id="name" name="name" type="text" required aria-describedby="name-error">
+          <span class="field__error" id="name-error" role="alert">Please enter your name.</span>
         </div>
         <div class="field">
           <label for="email">Email Address</label>
-          <input id="email" name="email" type="email" required>
+          <input id="email" name="email" type="email" required aria-describedby="email-error">
+          <span class="field__error" id="email-error" role="alert">Please enter a valid email address.</span>
         </div>
         <div class="field field--full">
           <label for="topic">Topic</label>
@@ -160,7 +165,8 @@
         </div>
         <div class="field field--full">
           <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
+          <textarea id="message" name="message" rows="5" required aria-describedby="message-error"></textarea>
+          <span class="field__error" id="message-error" role="alert">Please add a short message so we know how to help.</span>
         </div>
         <div class="field field--full">
           <button type="submit" class="btn btn--red">Send via Email</button>
