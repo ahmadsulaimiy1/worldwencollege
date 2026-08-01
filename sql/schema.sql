@@ -478,9 +478,16 @@ INSERT INTO platform_config (key, value) VALUES
   -- Conservative default (no stacking of a promo code and a
   -- scholarship on the same payment) pending a real institutional
   -- policy decision.
-  ('instalment_default_count', '4');
+  ('instalment_default_count', '4'),
   -- Number of instalments offered by default when an instalment plan
   -- is created, pending a real cadence policy decision.
+  ('lms_pass_threshold', '0.7');
+  -- Fraction (0..1) a quiz score or assignment grade must meet to mark
+  -- a unit "completed" (functions/_lib/lms/content.js). A mechanism
+  -- default, not a published WEC-LC academic standard — real
+  -- competency thresholds are an Academic Director decision (see
+  -- docs/master-roadmap.md § Decisions Needed, item 9), to be set here
+  -- once one exists.
 
 -- One course per programme level for Milestone 1 — purely structural
 -- (titled with the level's own real, already-published name), not

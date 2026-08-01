@@ -208,16 +208,20 @@ palette, no stand-and-smile stock photography.
    named or quoted testimonials would be fabricated claims from people who
    don't exist. This is called out explicitly rather than left as a silent
    gap, consistent with the rest of the honesty discipline in this bible.
-4. **Student Portal backend vs. LMS — two different things, only one built.**
-   The Student Portal backend (Clerk auth, D1 schema, enrolment/payment
-   data) is now real, written and functionally tested code — see
-   `docs/auth-architecture.md` and `docs/api-reference.md` § Student —
-   though nothing is *live*: it activates the moment a real Clerk key
-   and Cloudflare/D1 credentials exist, not before. The **LMS** genuinely
-   isn't built at all — `functions/_lib/lms/provider-interface.js` is a
-   contract only, no vendor chosen, no adapter written, because *which*
-   LMS to buy-and-wrap is a real vendor decision for WEC-LC's operators,
-   not something this repo can pick on its own. The public Student
+4. **Student Portal backend and LMS backend are both now real code; no
+   real curriculum content exists yet.** The Student Portal backend
+   (Clerk auth, D1 schema, enrolment/payment data) and the LMS backend
+   (content model, quizzes, assignments, progressive unlock — see
+   `docs/lms-architecture.md`, Milestone 1) are both written and
+   functionally tested code — see `docs/auth-architecture.md` and
+   `docs/api-reference.md` § Student — though nothing is *live*: both
+   activate the moment a real Clerk key and Cloudflare/D1 credentials
+   exist, not before. What genuinely doesn't exist yet is real
+   curriculum content — no lesson, quiz, or assignment for any of the
+   six levels is seeded anywhere, because inventing one would be
+   exactly the kind of fabricated institutional fact this bible exists
+   to prevent; that's real WEC-LC academic staff's work (see
+   `docs/lms-architecture.md`'s Milestone 2). The public Student
    Portal *page* stays a preview either way, with an honest "request
    early access" path (a `mailto:` link), not a fake login form.
 

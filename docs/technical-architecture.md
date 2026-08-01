@@ -75,7 +75,9 @@ Stripe / Paystack / Flutterwave / Opay  ──►  webhook  ──►  D1: payme
         │
         ▼
 Enrolment (functions/api/enrolment/confirm.js)  ──►  D1: enrolments
-        │  attempts LMS enrolment (no vendor chosen — see lms/provider-interface.js)
+        │  full-programme payments start at Level I; later levels unlock
+        │  automatically via progression.completeLevel() — see
+        │  docs/lms-architecture.md and docs/payments-architecture.md
         ▼
 Student Portal (js/portal-auth.js — with a real Clerk key configured,
                 GET /api/auth/me + GET /api/student/dashboard replace

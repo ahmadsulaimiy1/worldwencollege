@@ -37,7 +37,11 @@ account yet). Returns `{ id, status, created_at }` only.
 ## Payments
 
 ### `POST /api/payments/create-checkout`
-**Requires auth.** Body: `{ levelId, currency?, gateway?, promoCode? }`.
+**Requires auth.** Body: `{ levelId, currency?, gateway?, promoCode? }`
+for a single-level payment, or `{ fullProgramme: true, currency?,
+gateway?, promoCode? }` for a full-programme payment (Executive
+Decision #1 — priced from `platform_config.full_programme_price_usd_cents`,
+not `levelId`; provide exactly one of `levelId`/`fullProgramme`).
 Returns `{ paymentId, checkoutUrl, gateway, currency, amountMinor }`.
 `currency`/`gateway` are optional — omitted, they're inferred from the
 account's country via `_lib/currency.js`'s routing suggestion, per
@@ -45,8 +49,9 @@ account's country via `_lib/currency.js`'s routing suggestion, per
 
 ### `GET /api/payments/verify?id=pay_xxx`
 **Requires auth**, and the payment must belong to the caller. Returns
-`{ id, status, currency, amount_cents, level_id }` — polled by the
-checkout success page while waiting for the webhook.
+`{ id, status, currency, amountCents, levelId }` — polled by the
+checkout success page while waiting for the webhook. `levelId` is
+`null` for a full-programme payment.
 
 ### `POST /api/payments/webhook-{stripe,paystack,flutterwave,opay}`
 Gateway-only (signature-verified, not user-callable). Each is five
@@ -104,6 +109,27 @@ for what each one covers and deliberately doesn't.
 
 ---
 
+## Admin Currency
+
+Both require auth **and** staff/admin role. See
+`docs/payments-architecture.md` § Multi-currency for the mechanism.
+
+### `POST /api/admin/currency/set-rate`
+Body: `{ code, rateToUsd, activate? }`. Sets a policy-fixed exchange
+rate. `activate` (default `false`) additionally flips `is_active` —
+kept separate so a rate can be staged before going live at checkout.
+Returns `{ code, rateToUsd, activated, updated }`.
+
+### `POST /api/admin/currency/refresh-rates`
+Body: `{ codes: string[] }`. Fetches current rates for the given codes
+from the configured live feed (Frankfurter/ECB today) and applies
+whichever ones it actually covers. Returns `{ updated, skipped,
+notReturnedByProvider }` — a code the feed doesn't carry (NGN, SAR,
+AED, QAR, KWD today) comes back in `notReturnedByProvider`, never a
+fabricated rate.
+
+---
+
 ## Student
 
 ### `GET /api/student/dashboard`
@@ -122,9 +148,11 @@ Called from `js/portal-auth.js` to replace the Student Portal's
 illustrative programme-progress stepper, "Current Level" stat tile, and
 a real "Payment History" panel with this student's actual data once
 signed in. Stops there deliberately — classes, assignments, digital
-library, attendance and units-completed have no backing table yet (no
-LMS integration exists); those stay illustrative regardless of auth
-state.
+library, attendance and units-completed still show the existing
+illustrative preview data regardless of auth state: the LMS backend
+now exists (see § LMS below) but `js/portal-auth.js` doesn't call it
+yet — that frontend wiring is LMS Milestone 3, see
+`docs/lms-architecture.md`.
 
 ---
 
@@ -132,9 +160,58 @@ state.
 
 ### `POST /api/enrolment/confirm`
 **Requires auth.** Body: `{ paymentId }`. Idempotent — safe to call
-more than once for the same payment. Creates the `enrolments` row,
-attempts (non-blocking) LMS enrolment, sends the `enrolment_confirmed`
-notification.
+more than once for the same payment. Creates the `enrolments` row
+(Level I, for a full-programme payment's first confirmation — see
+Executive Decision #1) and sends the `enrolment_confirmed` notification.
+
+---
+
+## LMS
+
+*Milestone 1 — see `docs/lms-architecture.md` for the entity model and
+roadmap. Every endpoint below requires auth; the read/write ones also
+enforce that the caller holds an active/completed enrolment for the
+relevant level (403 otherwise) — see that document's § Access control.
+No real curriculum content is seeded anywhere yet.*
+
+### `GET /api/lms/units?levelId=<n>`
+Returns `{ levelId, units: [{ id, sequence, title, progressStatus, completedAt }] }`, ordered.
+
+### `GET /api/lms/unit?id=unt_xxx`
+Full detail: ordered `learning_items`, each with `{ id, sequence, kind, title, body }`.
+A `kind:'quiz'` item additionally carries `questions: [{ id, sequence, prompt, choices }]`
+— never the correct answer, which is scored server-side only. A
+`kind:'assignment'` item carries `mySubmission` (the caller's own
+latest submission, or `null`).
+
+### `POST /api/lms/quiz-attempt`
+Body: `{ learningItemId, answers: number[] }` (one choice index per
+question, in question order). Returns `{ id, score, correctCount,
+totalQuestions, passed, submittedAt }`. Append-only — every attempt is
+its own row; a later low score never un-completes a unit already
+passed.
+
+### `POST /api/lms/assignment-submission`
+Body: `{ learningItemId, content }`. Returns `{ id, status:'submitted', submittedAt }`.
+Marks the unit `in_progress`, not `completed` — grading is what can complete it.
+
+### `POST /api/lms/grade-assignment`
+**Staff/admin only.** Body: `{ submissionId, grade, feedback? }` —
+`grade` is a fraction 0..1. Returns `{ id, status:'graded', grade,
+feedback, gradedAt }`. A grade at or above
+`platform_config.lms_pass_threshold` (default 0.7) marks the unit
+`completed`.
+
+### `GET /api/lms/live-sessions?levelId=<n>`
+Returns `{ levelId, sessions: [{ id, title, startsAt, durationMinutes, joinUrl, unitId }] }`.
+External join links (Zoom/Meet/Teams) — no custom video infrastructure.
+
+### `POST /api/lms/complete-level`
+**Staff/admin only.** Body: `{ userId, levelId }`. Marks that
+enrolment `completed`; if the student holds a succeeded full-programme
+payment, automatically creates the next level's `enrolments` row as
+`active` (Executive Decision #1's progressive unlock —
+`functions/_lib/student/progression.js`). Idempotent.
 
 ---
 
@@ -203,20 +280,24 @@ unmodified `functions/**` source. Run it yourself:
 
 ```
 npm test
-# 33 files import-checked cleanly
-# 94 functional assertions, 0 failures
+# 47 files import-checked cleanly
+# 156 functional assertions, 0 failures
 ```
 
 What it covers, briefly (full breakdown in `tests/README.md`):
-application submission/validation, currency conversion/routing,
-financial reporting and reconciliation query logic (including every
-reconciliation signal — orphaned webhooks, unverified-signature
-attempts, stale payments, missing receipts), `assertStaffRole()`'s role
-gate, the student dashboard's per-student data isolation, the payment
-webhook handler's race-condition and partial-failure-recovery fixes
-(via real HMAC-SHA256 signed requests), and the input-validation/
-HTML-escaping/timing-safe-comparison hardening added during the
-production-readiness audit.
+application submission/validation, currency conversion/routing and the
+configurable FX service (policy-fixed rates, a stubbed live-feed
+refresh), financial reporting and reconciliation query logic
+(including every reconciliation signal — orphaned webhooks,
+unverified-signature attempts, stale payments, missing receipts),
+`assertStaffRole()`'s role gate, the student dashboard's per-student
+data isolation, the payment webhook handler's race-condition and
+partial-failure-recovery fixes (via real HMAC-SHA256 signed requests),
+the input-validation/HTML-escaping/timing-safe-comparison hardening
+added during the production-readiness audit, the progressive
+full-programme unlock (Executive Decision #1), and the LMS's access
+control, quiz scoring, and assignment grading (Executive Decision #4,
+Milestone 1).
 
 **What `npm test` can't cover, and why:** anything requiring a real
 Clerk/Stripe/Paystack/Flutterwave/Opay/Resend account — signature

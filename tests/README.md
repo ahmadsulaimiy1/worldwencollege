@@ -73,6 +73,17 @@ gap requires provisioning real credentials, not more test code.
 - `validation-and-security.test.mjs` — `timingSafeEqual()`,
   `readJsonBody()`, `escapeHtml()`/`sanitizeHeaderText()`, and the
   input-validation hardening added to `apply.js`/`create-checkout.js`.
+- `progression-and-config.test.mjs` — `platform_config` (`config.js`)
+  and the progressive full-programme unlock
+  (`student/progression.js`'s `completeLevel()`, Executive Decision #1).
+- `currency-fx.test.mjs` — `functions/_lib/currency/fx-service.js`'s
+  rate-writing logic and a stubbed-provider version of the live-feed
+  refresh path (Executive Decision #2).
+- `lms-content.test.mjs` — `functions/_lib/lms/content.js`: level-based
+  access control, quiz scoring and retake history, assignment
+  submission/grading, live-session listing (Executive Decision #4,
+  Milestone 1). Fixture content is placeholder mechanism-testing data,
+  not real curriculum.
 - `run.mjs` — runs everything above and reports a combined summary.
 
 ## Adding a new test
