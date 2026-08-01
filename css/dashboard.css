@@ -1,0 +1,155 @@
+/* =========================================================
+   WEC-LC Student Portal — Dashboard Component Layer
+   Extends css/brand.css tokens for data-dense, authenticated UI.
+   Design preview only — not wired to a real backend.
+   ========================================================= */
+
+:root {
+  --status-good: #3F6B52;
+  --status-good-soft: #E4EDE4;
+  --status-progress: var(--gold);
+  --status-progress-soft: #F6EAD2;
+  --status-critical: var(--red);
+  --status-critical-soft: #F3E3E1;
+  --surface: var(--paper);
+  --app-sidebar-w: 248px;
+}
+
+body.app { background: var(--ivory); }
+
+.preview-banner {
+  background: var(--gold); color: var(--royal-deep); text-align: center;
+  font-size: .82rem; font-weight: 700; letter-spacing: .02em;
+  padding: 10px 16px; position: sticky; top: 0; z-index: 60;
+}
+.preview-banner strong { text-transform: uppercase; letter-spacing: .08em; margin-right: .5em; }
+
+.app-shell { display: flex; min-height: 100vh; }
+
+/* ---------------- Sidebar ---------------- */
+.app-sidebar {
+  width: var(--app-sidebar-w); flex-shrink: 0; background: var(--royal-deep);
+  color: rgba(247,244,236,.82); padding: 24px 18px; display: flex; flex-direction: column;
+  position: sticky; top: 41px; height: calc(100vh - 41px);
+}
+.app-sidebar__brand { display: flex; align-items: center; gap: 10px; padding: 0 6px 22px; border-bottom: 1px solid var(--line-dark); margin-bottom: 18px; }
+.app-sidebar__brand .brand__crest { width: 28px; height: 33px; }
+.app-sidebar__brand span { font-family: var(--font-display); font-weight: 600; font-size: .88rem; color: #fff; }
+.app-nav { list-style: none; margin: 0; padding: 0; flex: 1; }
+.app-nav li { margin-bottom: 2px; }
+.app-nav a {
+  display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 6px;
+  color: rgba(247,244,236,.75); font-size: .88rem; font-weight: 600;
+}
+.app-nav a .ic { width: 18px; text-align: center; opacity: .8; font-size: .95rem; }
+.app-nav a:hover { background: rgba(255,255,255,.06); color: #fff; }
+.app-nav li.active a { background: rgba(199,162,74,.14); color: var(--gold-bright); }
+.app-sidebar__foot { border-top: 1px solid var(--line-dark); padding-top: 14px; display: flex; flex-direction: column; gap: 2px; }
+.app-sidebar__foot a { color: rgba(247,244,236,.55); font-size: .82rem; padding: 8px 12px; border-radius: 6px; }
+.app-sidebar__foot a:hover { background: rgba(255,255,255,.05); color: rgba(247,244,236,.85); }
+
+/* ---------------- Main column ---------------- */
+.app-main { flex: 1; min-width: 0; padding: 36px 40px 80px; }
+.app-topline { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
+.app-topline h1 { font-size: 1.6rem; margin-bottom: .2em; }
+.app-topline .lede { margin: 0; color: var(--ink-soft); }
+.app-student { display: flex; align-items: center; gap: 12px; }
+.app-student__avatar {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--royal);
+  color: var(--gold-bright); display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 700; font-size: .9rem; flex-shrink: 0;
+}
+.app-student__name { font-weight: 700; font-size: .9rem; }
+.app-student__level { font-size: .76rem; color: var(--ink-soft); }
+
+/* ---------------- Status pills ---------------- */
+.status-pill { display: inline-flex; align-items: center; gap: .5em; border-radius: 999px; padding: .35em .95em; font-size: .74rem; font-weight: 700; letter-spacing: .03em; }
+.status-pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; }
+.status-pill--good { background: var(--status-good-soft); color: var(--status-good); }
+.status-pill--good::before { background: var(--status-good); }
+.status-pill--progress { background: var(--status-progress-soft); color: #8A6A20; }
+.status-pill--progress::before { background: var(--status-progress); }
+.status-pill--critical { background: var(--status-critical-soft); color: var(--status-critical); }
+.status-pill--critical::before { background: var(--status-critical); }
+.status-pill--muted { background: rgba(20,38,74,.06); color: var(--ink-soft); }
+.status-pill--muted::before { background: var(--ink-soft); }
+
+/* ---------------- Stepper (programme progress) ---------------- */
+.stepper-card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 28px 30px; margin-bottom: 24px; }
+.stepper-card__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 22px; flex-wrap: wrap; gap: 10px; }
+.stepper-card__head h2 { font-size: 1.05rem; margin: 0; }
+.stepper { display: flex; align-items: center; }
+.stepper__node { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+.stepper__dot {
+  width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 700; font-size: .82rem; border: 2px solid var(--line); color: var(--ink-soft);
+  background: var(--paper); flex-shrink: 0; z-index: 1;
+}
+.stepper__node.is-done .stepper__dot { background: var(--status-good); border-color: var(--status-good); color: #fff; }
+.stepper__node.is-current .stepper__dot { background: var(--gold); border-color: var(--gold); color: var(--royal-deep); box-shadow: 0 0 0 4px var(--status-progress-soft); }
+.stepper__label { font-size: .7rem; text-align: center; color: var(--ink-soft); font-weight: 600; line-height: 1.3; }
+.stepper__node.is-current .stepper__label { color: var(--ink); }
+.stepper__line { flex: 1; height: 2px; background: var(--line); margin: 0 -2px 26px; }
+.stepper__line.is-done { background: var(--status-good); }
+
+.progress-meter { height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; margin-top: 18px; }
+.progress-meter__fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--gold), var(--gold-bright)); }
+.progress-meter__caption { display: flex; justify-content: space-between; font-size: .78rem; color: var(--ink-soft); margin-top: 8px; font-variant-numeric: tabular-nums; }
+
+/* ---------------- Stat tiles ---------------- */
+.stat-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+@media (max-width: 900px) { .stat-tiles { grid-template-columns: repeat(2, 1fr); } }
+.stat-tile { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; }
+.stat-tile__label { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; margin-bottom: 10px; }
+.stat-tile__value { font-family: var(--font-display); font-size: 1.7rem; font-weight: 600; color: var(--royal-deep); font-variant-numeric: tabular-nums; }
+.stat-tile__sub { font-size: .8rem; color: var(--ink-soft); margin-top: 4px; }
+
+/* ---------------- Panels / two-col layout ---------------- */
+.app-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 22px; align-items: start; }
+@media (max-width: 1080px) { .app-grid { grid-template-columns: 1fr; } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 24px 26px; margin-bottom: 22px; }
+.panel__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.panel__head h2 { font-size: 1rem; margin: 0; }
+.panel__head a { font-size: .8rem; font-weight: 700; color: var(--red); }
+
+.class-row { display: flex; align-items: center; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+.class-row:last-child { border-bottom: none; }
+.class-row__when { width: 92px; flex-shrink: 0; font-size: .78rem; color: var(--ink-soft); line-height: 1.3; }
+.class-row__when strong { display: block; color: var(--ink); font-family: var(--font-display); font-size: .95rem; }
+.class-row__body { flex: 1; min-width: 0; }
+.class-row__body h4 { margin: 0 0 2px; font-family: var(--font-body); font-weight: 700; font-size: .9rem; }
+.class-row__body span { font-size: .8rem; color: var(--ink-soft); }
+.class-row .btn { flex-shrink: 0; padding: .6em 1.2em; font-size: .78rem; }
+
+.assign-table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+.assign-table th { text-align: left; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+.assign-table td { padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.assign-table tr:last-child td { border-bottom: none; }
+
+.mini-list { list-style: none; margin: 0; padding: 0; }
+.mini-list li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: .86rem; }
+.mini-list li:last-child { border-bottom: none; }
+.mini-list a.disabled-link { color: var(--ink-soft); pointer-events: none; opacity: .55; font-size: .74rem; font-weight: 700; }
+
+.message-card { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; background: var(--ivory); }
+.message-card__from { font-weight: 700; font-size: .84rem; display: flex; justify-content: space-between; }
+.message-card__from time { font-weight: 400; color: var(--ink-soft); font-size: .74rem; }
+.message-card p { margin: 6px 0 0; font-size: .84rem; color: var(--ink-soft); }
+
+.disabled-note { font-size: .74rem; color: var(--ink-soft); margin-top: 6px; }
+button.btn[disabled], a.btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; pointer-events: none; }
+
+@media (max-width: 640px) {
+  .stepper { overflow-x: auto; padding-bottom: 6px; }
+  .stepper__node { flex: 0 0 68px; min-width: 68px; }
+  .stepper__line { flex: 0 0 22px; min-width: 22px; }
+  .stepper__label { font-size: .66rem; }
+}
+
+@media (max-width: 760px) {
+  .app-shell { flex-direction: column; }
+  .app-sidebar { width: 100%; height: auto; position: static; flex-direction: row; overflow-x: auto; padding: 14px; }
+  .app-sidebar__brand, .app-sidebar__foot { display: none; }
+  .app-nav { display: flex; gap: 6px; }
+  .app-main { padding: 24px 18px 60px; }
+}

@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /student-portal/preview/
 
 Sitemap: https://www.worldwencollege.co.uk/sitemap.xml

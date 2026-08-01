@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard Preview — WEC-LC Student Portal</title>
+<meta name="description" content="A design preview of the WEC-LC Student Portal dashboard — illustrative, not a live student account.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="app">
+
+<div class="preview-banner">
+  <strong>Design Preview</strong>Illustrative interface with demo data — not a live student account. <a href="/student-portal/" style="color:var(--royal-deep);text-decoration:underline;margin-left:.6em;">Back to Student Portal overview →</a>
+</div>
+
+<div class="app-shell">
+  <aside class="app-sidebar">
+    <div class="app-sidebar__brand">
+      <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
+        <path class="crest__shield" d="M24 2 L44 9 V27 C44 40 35.5 50 24 54 C12.5 50 4 40 4 27 V9 Z"/>
+        <path class="crest__inner" d="M24 8 L38 13 V27 C38 37 31.5 45.5 24 48.5 C16.5 45.5 10 37 10 27 V13 Z"/>
+        <text x="24" y="31" text-anchor="middle" class="crest__mono">WEC</text>
+      </svg>
+      <span>Student Portal</span>
+    </div>
+    <ul class="app-nav">
+      <li class="active"><a href="#" aria-current="page"><span class="ic">&#9679;</span>Dashboard</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9737;</span>My Level</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9636;</span>Classes</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9998;</span>Assignments</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9733;</span>Digital Library</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9993;</span>Messages</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#127894;</span>Certificates</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9881;</span>Profile</a></li>
+    </ul>
+    <div class="app-sidebar__foot">
+      <a href="/student-portal/">&larr; Back to public site</a>
+      <a href="#" class="disabled-link" aria-disabled="true">Sign out (preview)</a>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <div class="app-topline">
+      <div>
+        <span class="eyebrow" style="margin-bottom:8px">Dashboard</span>
+        <h1>Welcome back, A. Student.</h1>
+        <p class="lede">Here's where your IEFC progress stands today.</p>
+      </div>
+      <div class="app-student">
+        <div class="app-student__avatar">AS</div>
+        <div>
+          <div class="app-student__name">A. Student <span style="color:var(--ink-soft);font-weight:400">(demo)</span></div>
+          <div class="app-student__level">Level III · Intermediate Programme</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stepper-card">
+      <div class="stepper-card__head">
+        <h2>Programme Progress — International English Fluency Course</h2>
+        <span class="status-pill status-pill--progress">In Progress · Level III</span>
+      </div>
+      <div class="stepper">
+        <div class="stepper__node is-done"><div class="stepper__dot">I</div><div class="stepper__label">Foundation<br>A1</div></div>
+        <div class="stepper__line is-done"></div>
+        <div class="stepper__node is-done"><div class="stepper__dot">II</div><div class="stepper__label">Elementary<br>A2</div></div>
+        <div class="stepper__line is-done"></div>
+        <div class="stepper__node is-current"><div class="stepper__dot">III</div><div class="stepper__label">Intermediate<br>B1</div></div>
+        <div class="stepper__line"></div>
+        <div class="stepper__node"><div class="stepper__dot">IV</div><div class="stepper__label">Up. Intermediate<br>B2</div></div>
+        <div class="stepper__line"></div>
+        <div class="stepper__node"><div class="stepper__dot">V</div><div class="stepper__label">Advanced<br>C1</div></div>
+        <div class="stepper__line"></div>
+        <div class="stepper__node"><div class="stepper__dot">VI</div><div class="stepper__label">Mastery<br>C2</div></div>
+      </div>
+      <div class="progress-meter"><div class="progress-meter__fill" style="width:47%"></div></div>
+      <div class="progress-meter__caption"><span>340 / 720 units completed</span><span>47%</span></div>
+    </div>
+
+    <div class="stat-tiles">
+      <div class="stat-tile"><div class="stat-tile__label">Current Level</div><div class="stat-tile__value">III</div><div class="stat-tile__sub">Intermediate · CEFR B1</div></div>
+      <div class="stat-tile"><div class="stat-tile__label">Units Completed</div><div class="stat-tile__value">340<span style="font-size:1rem;color:var(--ink-soft)">/720</span></div><div class="stat-tile__sub">47% of full programme</div></div>
+      <div class="stat-tile"><div class="stat-tile__label">Attendance</div><div class="stat-tile__value">96%</div><div class="stat-tile__sub">Live classes, this level</div></div>
+      <div class="stat-tile"><div class="stat-tile__label">Next Assessment</div><div class="stat-tile__value">12<span style="font-size:1rem;color:var(--ink-soft)">d</span></div><div class="stat-tile__sub">Level III mid-level exam</div></div>
+    </div>
+
+    <div class="app-grid">
+      <div>
+        <div class="panel">
+          <div class="panel__head"><h2>Upcoming Classes</h2><a href="#" class="disabled-link" aria-disabled="true">View schedule</a></div>
+          <div class="class-row">
+            <div class="class-row__when">Mon<strong>10:00</strong></div>
+            <div class="class-row__body"><h4>Speaking Practice — Connected Speech</h4><span>Level III · Live class</span></div>
+            <a href="#" class="btn btn--outline" aria-disabled="true" style="pointer-events:none;opacity:.6">Join</a>
+          </div>
+          <div class="class-row">
+            <div class="class-row__when">Wed<strong>10:00</strong></div>
+            <div class="class-row__body"><h4>Writing Workshop — Structured Opinion Essays</h4><span>Level III · Live class</span></div>
+            <a href="#" class="btn btn--outline" aria-disabled="true" style="pointer-events:none;opacity:.6">Join</a>
+          </div>
+          <div class="class-row">
+            <div class="class-row__when">Fri<strong>13:00</strong></div>
+            <div class="class-row__body"><h4>Mid-Level Exam — Listening &amp; Reading</h4><span>Level III · Assessment</span></div>
+            <a href="#" class="btn btn--outline" aria-disabled="true" style="pointer-events:none;opacity:.6">Details</a>
+          </div>
+          <p class="disabled-note">Live class links activate for enrolled students inside the real portal.</p>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head"><h2>Assignments</h2><a href="#" class="disabled-link" aria-disabled="true">View all</a></div>
+          <table class="assign-table">
+            <thead><tr><th>Assignment</th><th>Level</th><th>Due</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Opinion Essay — "Remote Work"</td><td>III</td><td>Yesterday</td><td><span class="status-pill status-pill--good">Submitted</span></td></tr>
+              <tr><td>Listening Log — Unit 34</td><td>III</td><td>In 2 days</td><td><span class="status-pill status-pill--progress">Due Soon</span></td></tr>
+              <tr><td>Speaking Recording — Unit 32</td><td>III</td><td>3 days ago</td><td><span class="status-pill status-pill--critical">Overdue</span></td></tr>
+              <tr><td>Grammar Quiz — Conditionals</td><td>III</td><td>In 6 days</td><td><span class="status-pill status-pill--muted">Not started</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel">
+          <div class="panel__head"><h2>Digital Library</h2></div>
+          <ul class="mini-list">
+            <li>Level III Reading Pack <a href="#" class="disabled-link" aria-disabled="true">Open</a></li>
+            <li>IELTS Listening Practice Set 4 <a href="#" class="disabled-link" aria-disabled="true">Open</a></li>
+            <li>Grammar Reference — Conditionals <a href="#" class="disabled-link" aria-disabled="true">Open</a></li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head"><h2>Certificates &amp; Transcript</h2></div>
+          <p class="lede" style="font-size:.86rem">Your transcript updates after every level. A certificate is issued on completion of Level VI.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+            <a href="#" class="btn btn--outline" aria-disabled="true" style="pointer-events:none;opacity:.6">Download Transcript</a>
+            <a href="#" class="btn btn--outline" aria-disabled="true" style="pointer-events:none;opacity:.6">Certificate — Locked</a>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head"><h2>Messages</h2></div>
+          <div class="message-card">
+            <div class="message-card__from"><span>Admissions Team (demo)</span><time>2 days ago</time></div>
+            <p>Your Level III mid-level exam is scheduled for Friday at 13:00. Let us know if you need a different time.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>
