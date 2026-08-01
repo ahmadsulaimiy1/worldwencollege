@@ -29,6 +29,18 @@ function partialFor(name, lang) {
 
 const SITE_URL = 'https://www.worldwencollege.co.uk';
 
+const LATIN_FONTS = 'family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800';
+const ARABIC_FONTS = '&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700';
+
+// English pages never render Arabic script — skip Amiri/Cairo entirely
+// rather than paying for two unused font families on every EN page load.
+// Arabic pages still need Playfair/Inter too, for embedded Latin runs
+// (IEFC, CEFR codes, emails) wrapped in dir="ltr" spans.
+function fontsUrlFor(lang) {
+  const families = lang === 'ar' ? LATIN_FONTS + ARABIC_FONTS : LATIN_FONTS;
+  return `https://fonts.googleapis.com/css2?${families}&display=swap`;
+}
+
 // "about/index.html" -> "/about/"; "index.html" -> "/"
 function urlPathFor(outputPath) {
   const trimmed = outputPath.replace(/index\.html$/, '');
@@ -53,6 +65,7 @@ function build() {
       CANONICAL: canonical,
       HREFLANG_EN: hreflangEn,
       HREFLANG_AR: hreflangAr,
+      FONTS_URL: fontsUrlFor(lang),
     });
     const topbar = fill(partialFor('topbar', lang), {
       ALT_HREF: entry.altHref || '/',
@@ -60,6 +73,7 @@ function build() {
     const header = partialFor('header', lang);
     const footer = partialFor('footer', lang);
     const content = read(path.join(PAGES, entry.contentFile));
+    const skipLabel = lang === 'ar' ? 'تخطَّ إلى المحتوى الرئيسي' : 'Skip to main content';
 
     const html = `<!DOCTYPE html>
 <html lang="${lang}" dir="${dir}">
@@ -67,9 +81,10 @@ function build() {
 ${head}
 </head>
 <body>
+<a class="skip-link" href="#main">${skipLabel}</a>
 ${topbar}
 ${header}
-<main>
+<main id="main">
 ${content}
 </main>
 ${footer}
