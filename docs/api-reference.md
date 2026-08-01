@@ -69,6 +69,41 @@ configured, it's never called — the Student Portal preview stays static.
 
 ---
 
+## Admin Reports
+
+Both require auth **and** staff/admin role (`requireStaff()` — 403 for
+a signed-in student, 401 for no/invalid session). See
+`docs/payments-architecture.md` § Financial reporting & reconciliation
+for what each one covers and deliberately doesn't.
+
+### `GET /api/admin/reports/revenue?from=<ISO>&to=<ISO>`
+```jsonc
+{
+  "range": { "from": null, "to": null },
+  "totals": { "succeededCount": 18, "grossUsdCents": 5699986, "refundedUsdCents": 100000, "netUsdCents": 5599986 },
+  "byStatus": [{ "status": "succeeded", "count": 18, "amountUsdCents": 5699986 }],
+  "byCurrency": [{ "currency": "USD", "count": 18, "amountUsdCents": 5699986 }],
+  "byLevel": [{ "levelId": 3, "levelName": "Intermediate Programme", "count": 9, "amountUsdCents": 2850003 }],
+  "byProvider": [{ "provider": "stripe", "count": 11, "amountUsdCents": 3483337 }],
+  "byDay": [{ "date": "2026-07-01", "count": 2, "amountUsdCents": 633334 }]
+}
+```
+
+### `GET /api/admin/reports/reconciliation`
+```jsonc
+{
+  "generatedAt": "2026-08-01T12:00:00.000Z",
+  "staleAfterMinutes": 60,
+  "webhookVolume": [{ "provider": "stripe", "event_type": "checkout.session.completed", "signature_verified": 1, "count": 12 }],
+  "unverifiedWebhooks": [{ "id": "whe_...", "provider": "paystack", "event_type": "charge.success", "received_at": "..." }],
+  "orphanedWebhooks": [{ "id": "whe_...", "provider": "stripe", "event_type": "...", "payment_id": "pay_unknown", "received_at": "..." }],
+  "stalePayments": [{ "id": "pay_...", "user_id": "usr_...", "provider": "stripe", "amount_usd_cents": 316667, "status": "pending", "created_at": "..." }],
+  "succeededPaymentsMissingReceipts": [{ "id": "pay_...", "user_id": "usr_...", "amount_usd_cents": 316667, "confirmed_at": "..." }]
+}
+```
+
+---
+
 ## Enrolment
 
 ### `POST /api/enrolment/confirm`
@@ -139,7 +174,7 @@ into the API payload shape.
 Every claim of "working" above was checked, not assumed — the same
 standard applied to the rest of this project:
 
-- **27/27 files** pass `node --check` (syntax) and a real ES-module
+- **31/31 files** pass `node --check` (syntax) and a real ES-module
   import resolution check (every `import` path actually resolves to
   an existing file/export).
 - **13/13 functional assertions pass** running the real endpoint code
@@ -152,6 +187,21 @@ standard applied to the rest of this project:
   currency, exact USD passthrough, routing fallback for an unmapped
   country, and confirmation that exactly one currency (USD) is active
   today.
+- **21/21 further functional assertions pass** for the Admin Reports
+  endpoints, against the same real SQLite engine loaded with fixture
+  payments, refunds, receipts and webhook events: revenue totals,
+  refund netting, status/currency/provider/level/day breakdowns,
+  date-range filtering, every reconciliation signal (orphaned webhooks,
+  unverified-signature attempts, stale payments, missing receipts),
+  the 401-with-no-Authorization-header path on both endpoints, and
+  `assertStaffRole()`'s role gate itself (student rejected, staff/admin
+  accepted) tested directly against real `users` rows.
+- **13/13 Playwright assertions pass** for `js/portal-auth.js` (Student
+  Portal) confirming zero behavior change with no Clerk key configured,
+  plus correct gate/redirect/script-URL-derivation once a key is set;
+  **6/6 more** for `js/finance-dashboard.js` confirming the same
+  no-key-configured baseline and graceful handling of an unreachable
+  Clerk instance.
 - **Not yet possible to verify**: anything requiring a real Clerk/
   Stripe/Paystack/Flutterwave/Opay/Resend account — signature
   verification logic is implemented against each provider's publicly

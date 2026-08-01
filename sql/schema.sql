@@ -204,10 +204,23 @@ CREATE TABLE payment_webhook_events (
   event_type        TEXT NOT NULL,
   payload_json       TEXT NOT NULL,
   signature_verified INTEGER NOT NULL DEFAULT 0,
+  payment_id        TEXT,               -- our payment id, from the verified event's own
+                    -- reference — set at log time so reconciliation reports can
+                    -- LEFT JOIN payments directly instead of re-parsing payload_json
+                    -- per gateway. NULL for unverified events or events that don't
+                    -- carry a reference (parseWebhookEvent never ran for either).
+                    -- Deliberately NOT a REFERENCES payments(id) FK: with
+                    -- PRAGMA foreign_keys=ON (see top of this file), a hard
+                    -- FK would make logging a webhook that names an
+                    -- unknown/deleted payment id throw instead of insert —
+                    -- exactly the case this column exists to let a
+                    -- reconciliation report surface (see
+                    -- functions/_lib/reports/reconciliation.js).
   processed_at      TEXT,
   received_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   UNIQUE(provider, event_id)
 );
+CREATE INDEX idx_webhook_events_payment ON payment_webhook_events(payment_id);
 
 -- ---------------------------------------------------------------------
 -- Receipts, refunds, reconciliation — schema-ready. Receipt generation

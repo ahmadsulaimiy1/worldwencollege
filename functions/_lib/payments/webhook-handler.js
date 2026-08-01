@@ -21,7 +21,7 @@ export async function handleWebhook(gatewayName, request, env) {
   }
 
   const event = gateway.parseWebhookEvent(rawBody, request);
-  const alreadyProcessed = await logWebhookEvent(env, gatewayName, rawBody, true, event.type);
+  const alreadyProcessed = await logWebhookEvent(env, gatewayName, rawBody, true, event.type, event.reference);
   if (alreadyProcessed) {
     // Same event id seen before (gateway retry) — 200 immediately so
     // the gateway stops retrying, without re-running side effects.
@@ -35,7 +35,7 @@ export async function handleWebhook(gatewayName, request, env) {
   return new Response('OK', { status: 200 });
 }
 
-async function logWebhookEvent(env, provider, rawBody, verified, eventType) {
+async function logWebhookEvent(env, provider, rawBody, verified, eventType, paymentId) {
   const parsed = JSON.parse(rawBody);
   const eventId = parsed.id || parsed.event_id || parsed.data?.id || crypto.randomUUID();
   const existing = await db(env)
@@ -46,9 +46,9 @@ async function logWebhookEvent(env, provider, rawBody, verified, eventType) {
 
   await db(env)
     .prepare(`INSERT INTO payment_webhook_events
-      (id, provider, event_id, event_type, payload_json, signature_verified, processed_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?)`)
-    .bind(newId('whe'), provider, String(eventId), eventType || 'unknown', rawBody, verified ? 1 : 0, verified ? nowIso() : null)
+      (id, provider, event_id, event_type, payload_json, signature_verified, payment_id, processed_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`)
+    .bind(newId('whe'), provider, String(eventId), eventType || 'unknown', rawBody, verified ? 1 : 0, paymentId || null, verified ? nowIso() : null)
     .run();
   return false;
 }

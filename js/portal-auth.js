@@ -12,10 +12,11 @@
 // (see docs/api-reference.md — Frontend Integration Pattern).
 //
 // Implemented against Clerk's documented framework-less ("vanilla JS")
-// integration: https://clerk.com/docs — decode the publishable key to
-// find the Frontend API host, load clerk.browser.js from it, then use
-// Clerk.load() / Clerk.user / Clerk.session / Clerk.redirectToSignIn().
-// Not yet exercised against a real Clerk instance — see
+// integration: https://clerk.com/docs, via the shared bootstrap in
+// js/clerk-loader.js (decode the publishable key to find the Frontend
+// API host, load clerk.browser.js from it, then use Clerk.load() /
+// Clerk.user / Clerk.session / Clerk.redirectToSignIn()). Not yet
+// exercised against a real Clerk instance — see
 // docs/auth-architecture.md — What's genuinely untested.
 (function () {
   var cfg = window.WEC_LC_AUTH || {};
@@ -25,45 +26,18 @@
   var gate = buildGate();
   document.body.appendChild(gate);
 
-  loadClerkScript(pk, function (err) {
+  window.WEC_LC_loadClerk(pk, function (err, clerk) {
     if (err) { removeGate(gate); return; }
 
-    window.Clerk.load().then(function () {
-      var clerk = window.Clerk;
-
-      if (!clerk.user) {
-        clerk.redirectToSignIn({ redirectUrl: window.location.href });
-        return;
-      }
-
-      wireSignOut(clerk);
-      wireSecurityLinks(clerk);
-      applyRealUser(clerk, function () { removeGate(gate); });
-    }).catch(function () { removeGate(gate); });
-  });
-
-  function frontendApiFromPublishableKey(key) {
-    var encoded = key.split('_').pop();
-    try {
-      var decoded = atob(encoded);
-      return decoded.replace(/\$$/, '');
-    } catch (e) {
-      return null;
+    if (!clerk.user) {
+      clerk.redirectToSignIn({ redirectUrl: window.location.href });
+      return;
     }
-  }
 
-  function loadClerkScript(key, cb) {
-    var fapi = frontendApiFromPublishableKey(key);
-    if (!fapi) { cb(new Error('invalid Clerk publishable key')); return; }
-    var script = document.createElement('script');
-    script.async = true;
-    script.crossOrigin = 'anonymous';
-    script.setAttribute('data-clerk-publishable-key', key);
-    script.src = 'https://' + fapi + '/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
-    script.addEventListener('load', function () { cb(null); });
-    script.addEventListener('error', function () { cb(new Error('failed to load Clerk')); });
-    document.head.appendChild(script);
-  }
+    wireSignOut(clerk);
+    wireSecurityLinks(clerk);
+    applyRealUser(clerk, function () { removeGate(gate); });
+  });
 
   function wireSignOut(clerk) {
     document.querySelectorAll('[data-sign-out]').forEach(function (el) {

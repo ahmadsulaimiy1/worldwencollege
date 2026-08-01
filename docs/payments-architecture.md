@@ -72,8 +72,8 @@ decision, not a technical one.
 | Corporate invoicing | Schema-ready | `corporate_accounts` / `corporate_seats` tables exist; no invoicing endpoint yet — needs a real corporate client to design against (see `master-roadmap.md` Phase 4's Corporate Portal reasoning) |
 | Receipts | **Working** (record only) | `webhook-handler.js` issues a sequential receipt number on every successful payment; `receipts.pdf_url` stays null — no PDF generation step built |
 | Refund workflow | Partially working | `refund()` is implemented for Stripe/Paystack/Flutterwave (Opay explicitly throws — see its adapter's confidence flag); nothing calls it yet, because refund *policy* (who approves, under what circumstances) doesn't exist — `refunds.approved_by` is there waiting for it |
-| Financial reporting | Schema-ready | `amount_usd_cents` is captured on every payment specifically so a future report can sum across currencies; no report/dashboard built |
-| Payment reconciliation | Schema-ready | `payment_webhook_events` logs every inbound webhook (verified or not) with idempotency; no reconciliation *report* comparing that log against gateway dashboards exists yet |
+| Financial reporting | **Working** | `GET /api/admin/reports/revenue` (staff/admin only) — totals, and breakdowns by status/currency/level/provider/day, all in USD via `amount_usd_cents` (see `functions/_lib/reports/revenue.js`) |
+| Payment reconciliation | **Working**, scoped to what the schema can prove | `GET /api/admin/reports/reconciliation` (staff/admin only) — webhook volume by provider/type/verification, unverified-signature attempts, orphaned webhooks (a verified event naming a payment id that doesn't exist), stale pending/processing payments, succeeded payments missing a receipt. Does **not** cross-check against a gateway's own dashboard — no such integration exists (see below) |
 | Secure payment status tracking | **Working** | `verify.js` (student-facing poll) + the `payments.status` state machine (`pending → processing → succeeded/failed → refunded`) |
 
 **Why discounts (scholarships/promo codes) are schema-ready but not
@@ -118,3 +118,61 @@ desired" exactly. No endpoint anywhere hard-codes "Nigerian IP address
 This satisfies "provider-agnostic, scalable, secure, and easy to
 maintain" as a design property proven by tests, not asserted as a
 claim about an unbuilt system.
+
+---
+
+## Financial reporting & reconciliation
+
+Two staff/admin-only endpoints, both role-gated by
+`requireStaff()` (`functions/_lib/auth/session.js` — checks
+`users.role IN ('staff','admin')`, a WEC-LC-owned field, not anything
+Clerk-asserted). Their query logic lives in `functions/_lib/reports/`,
+deliberately separated from the HTTP/auth wrapper so it can be
+functionally tested directly against fixture data (21 assertions
+against a real SQLite engine — successful-payment totals, refund
+netting, currency/level/provider/day breakdowns, date-range filtering,
+and every reconciliation signal below — rather than only import-checked
+like most of the rest of this untested-against-a-real-account backend).
+
+**`GET /api/admin/reports/revenue`** — totals plus breakdowns by
+status, currency, level and provider, all summed via
+`amount_usd_cents` so nothing here ever needs a display exchange rate
+(see § Multi-currency above). Accepts optional `from`/`to` ISO-date
+query params.
+
+**`GET /api/admin/reports/reconciliation`** — surfaces exactly what
+`payment_webhook_events` and `payments` can prove against each other:
+
+- Webhook volume by provider/event type/signature-verification state.
+- Webhooks whose signature failed verification (potential probing or a
+  rotated/misconfigured secret).
+- **Orphaned webhooks** — a signature-verified event naming a payment
+  id that doesn't exist in `payments`. Made possible by a schema
+  addition: `payment_webhook_events.payment_id`, populated at log time
+  from the event's own reference (`webhook-handler.js`). It is
+  deliberately **not** a `REFERENCES payments(id)` foreign key — with
+  `PRAGMA foreign_keys = ON` (set at the top of `sql/schema.sql`), a
+  hard FK would make logging exactly this case throw instead of insert,
+  which would break the very webhook it's supposed to help diagnose.
+- Payments stuck in `pending`/`processing` for over an hour — a
+  checkout was started but never resolved, gateway-lost-webhook or
+  abandoned-by-the-student either way.
+- Succeeded payments with no matching `receipts` row — `issueReceipt()`
+  runs unconditionally on every successful webhook today, so a gap here
+  means that step silently failed.
+
+**What this deliberately does not do:** compare WEC-LC's own records
+against a payment gateway's own dashboard (Stripe/Paystack/Flutterwave/
+Opay). No such integration exists — building one means calling each
+gateway's read API to pull their transaction list, which is a real,
+separate piece of work, not something to fake by asserting the two
+already agree.
+
+A preview UI for both reports lives at `finance/preview/` — the same
+"static illustrative demo, wired to real data the moment a Clerk key is
+configured" pattern as the Student Portal (see
+`docs/auth-architecture.md`), with one addition: it's role-gated, so a
+signed-in Clerk user who isn't staff/admin sees an access-denied state
+rather than financial data. That client-side gate is defense-in-depth
+only — the real boundary is `requireStaff()` on the API itself, which
+rejects a non-staff caller regardless of what the frontend does.
