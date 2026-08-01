@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile — WEC-LC Student Portal Preview</title>
+<meta name="description" content="A design preview of the WEC-LC Student Portal profile and account settings screen — illustrative, not a live student account.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="app">
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="preview-banner">
+  <strong>Design Preview</strong>Illustrative interface with placeholder data — not a live student account. <a href="/student-portal/" style="color:var(--royal-deep);text-decoration:underline;margin-left:.6em;">Back to Student Portal overview →</a>
+</div>
+
+<div class="app-shell">
+  <aside class="app-sidebar">
+    <div class="app-sidebar__brand">
+      <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
+        <path class="crest__shield" d="M24 2 L44 9 V27 C44 40 35.5 50 24 54 C12.5 50 4 40 4 27 V9 Z"/>
+        <path class="crest__inner" d="M24 8 L38 13 V27 C38 37 31.5 45.5 24 48.5 C16.5 45.5 10 37 10 27 V13 Z"/>
+        <text x="24" y="31" text-anchor="middle" class="crest__mono">WEC</text>
+      </svg>
+      <span>Student Portal</span>
+    </div>
+    <ul class="app-nav">
+      <li><a href="/student-portal/preview/"><span class="ic">&#9679;</span>Dashboard</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9737;</span>My Level</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9636;</span>Classes</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9998;</span>Assignments</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9733;</span>Digital Library</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9993;</span>Messages</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#127894;</span>Certificates</a></li>
+      <li class="active"><a href="#" aria-current="page"><span class="ic">&#9881;</span>Profile</a></li>
+    </ul>
+    <div class="app-sidebar__foot">
+      <a href="/student-portal/">&larr; Back to public site</a>
+      <a href="#" class="disabled-link" aria-disabled="true">Sign out (preview)</a>
+    </div>
+  </aside>
+
+  <main class="app-main" id="main">
+    <div class="app-topline">
+      <div>
+        <span class="eyebrow" style="margin-bottom:8px">Profile</span>
+        <h1>Your account.</h1>
+        <p class="lede">Manage how WEC-LC contacts you and keeps your account secure.</p>
+      </div>
+    </div>
+
+    <div class="profile-header">
+      <div class="profile-header__avatar">
+        AS
+        <span class="profile-header__avatar-edit" aria-hidden="true" title="Preview only">&#9998;</span>
+      </div>
+      <div>
+        <div class="profile-header__name">A. Student <span style="color:var(--ink-soft);font-weight:400;font-size:.85rem">(demo)</span></div>
+        <div class="profile-header__meta">
+          <span class="profile-header__id">Student ID: WEC-LC-DEMO-000001</span>
+          <span>·</span>
+          <span class="status-pill status-pill--good">Founding Cohort</span>
+          <span class="status-pill status-pill--progress">Level III · Intermediate</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-grid">
+      <div>
+        <div class="settings-group">
+          <div class="settings-group__head">
+            <h2>Account Information</h2>
+            <p>How your name and contact details appear across the portal.</p>
+          </div>
+          <div class="form-grid">
+            <div class="field field--full field-display">
+              <label for="pname">Preferred Name</label>
+              <input id="pname" type="text" value="A. Student" disabled>
+            </div>
+            <div class="field field-display">
+              <label for="pemail">Email Address</label>
+              <input id="pemail" type="email" placeholder="you@example.com" disabled>
+            </div>
+            <div class="field field-display">
+              <label for="pphone">Mobile Number <span style="text-transform:none;font-weight:400">(optional)</span></label>
+              <input id="pphone" type="tel" placeholder="Not provided" disabled>
+            </div>
+            <div class="field field-display">
+              <label for="planguage">Preferred Language</label>
+              <select id="planguage" disabled>
+                <option>English</option>
+                <option>Arabic — العربية</option>
+              </select>
+            </div>
+            <div class="field field-display">
+              <label for="ptimezone">Time Zone</label>
+              <select id="ptimezone" disabled>
+                <option>Set automatically from your device</option>
+              </select>
+            </div>
+          </div>
+          <p class="disabled-note" style="margin-top:16px">Editing activates once your real account is live. Preview fields are shown disabled on purpose.</p>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group__head">
+            <h2>Communication Preferences</h2>
+            <p>Choose how WEC-LC reaches you about classes, assignments and results.</p>
+          </div>
+          <div class="pref-row">
+            <div><div class="pref-row__label">Class reminders</div><div class="pref-row__desc">Email 30 minutes before each live class</div></div>
+            <label class="toggle"><input type="checkbox" checked disabled><span class="toggle__track"></span></label>
+          </div>
+          <div class="pref-row">
+            <div><div class="pref-row__label">Assignment &amp; result notifications</div><div class="pref-row__desc">Grading updates and new assignments</div></div>
+            <label class="toggle"><input type="checkbox" checked disabled><span class="toggle__track"></span></label>
+          </div>
+          <div class="pref-row">
+            <div><div class="pref-row__label">Programme announcements</div><div class="pref-row__desc">Occasional updates from Admissions and Academics</div></div>
+            <label class="toggle"><input type="checkbox" checked disabled><span class="toggle__track"></span></label>
+          </div>
+          <div class="pref-row">
+            <div><div class="pref-row__label">SMS reminders</div><div class="pref-row__desc">Only for time-sensitive items, such as exam day</div></div>
+            <label class="toggle"><input type="checkbox" disabled><span class="toggle__track"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="settings-group">
+          <div class="settings-group__head">
+            <h2>Security</h2>
+            <p>Keep your account protected.</p>
+          </div>
+          <div class="security-row">
+            <div><div class="pref-row__label">Password</div><div class="pref-row__desc">Last changed — not applicable in preview</div></div>
+            <button type="button" class="btn btn--outline" disabled style="opacity:.6;cursor:not-allowed">Change</button>
+          </div>
+          <div class="security-row">
+            <div><div class="pref-row__label">Two-factor authentication</div><div class="pref-row__desc">Add an extra layer of protection</div></div>
+            <span class="status-pill status-pill--muted">Not enabled</span>
+          </div>
+          <div class="security-row">
+            <div><div class="pref-row__label">Active sessions</div><div class="pref-row__desc">Review devices signed in to your account</div></div>
+            <button type="button" class="btn btn--outline" disabled style="opacity:.6;cursor:not-allowed">View</button>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group__head">
+            <h2>Academic Record</h2>
+            <p>Read-only — maintained by the Registrar.</p>
+          </div>
+          <ul class="mini-list">
+            <li>Programme <span>International English Fluency Course</span></li>
+            <li>Current Level <span>III · Intermediate (B1)</span></li>
+            <li>Study Mode <span>Online</span></li>
+            <li>Enrolment Status <span class="status-pill status-pill--good">Active</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

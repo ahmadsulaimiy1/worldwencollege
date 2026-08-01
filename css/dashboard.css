@@ -182,6 +182,66 @@ button.btn[disabled], a.btn[aria-disabled="true"] { opacity: .5; cursor: not-all
 .skeleton--title { height: 22px; width: 60%; margin-bottom: 14px; }
 @media (prefers-reduced-motion: reduce) { .skeleton::after { animation: none; } }
 
+/* ---------------- Profile / settings ---------------- */
+.profile-header {
+  display: flex; align-items: center; gap: 24px; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 10px; padding: 30px 32px; margin-bottom: 24px; flex-wrap: wrap;
+}
+.profile-header__avatar {
+  width: 84px; height: 84px; border-radius: 50%; background: var(--royal); color: var(--gold-bright);
+  display: flex; align-items: center; justify-content: center; font-family: var(--font-display);
+  font-weight: 700; font-size: 1.9rem; flex-shrink: 0; position: relative; border: 3px solid var(--gold);
+}
+.profile-header__avatar-edit {
+  position: absolute; bottom: -4px; right: -4px; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--gold); color: var(--royal-deep); border: 2px solid var(--surface);
+  display: flex; align-items: center; justify-content: center; font-size: .8rem; cursor: not-allowed; opacity: .8;
+}
+.profile-header__name { font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 4px; }
+.profile-header__meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: .84rem; color: var(--ink-soft); }
+.profile-header__id { font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+
+.settings-group { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 28px 30px; margin-bottom: 22px; }
+.settings-group__head { margin-bottom: 22px; }
+.settings-group__head h2 { font-size: 1rem; margin-bottom: 4px; }
+.settings-group__head p { font-size: .84rem; color: var(--ink-soft); margin: 0; }
+
+.field-display { display: flex; flex-direction: column; gap: 6px; }
+.field-display label { font-size: .72rem; letter-spacing: .07em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); }
+.field-display input, .field-display select {
+  font-family: var(--font-body); font-size: .92rem; padding: 11px 13px; border: 1px solid var(--line);
+  border-radius: 5px; background: var(--paper); color: var(--ink); width: 100%;
+}
+.field-display input::placeholder { color: var(--ink-soft); opacity: .7; }
+.field-display input:disabled, .field-display select:disabled { color: var(--ink-soft); cursor: not-allowed; }
+
+.pref-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  padding: 16px 0; border-bottom: 1px solid var(--line);
+}
+.pref-row:last-child { border-bottom: none; }
+.pref-row__label { font-weight: 700; font-size: .9rem; }
+.pref-row__desc { font-size: .82rem; color: var(--ink-soft); margin-top: 2px; }
+
+/* Toggle switch — generic on/off pattern, reusable anywhere a
+   preference needs a binary state (notifications, 2FA, visibility). */
+.toggle { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle__track {
+  position: absolute; inset: 0; background: var(--line); border-radius: 999px; cursor: pointer; transition: background .2s ease;
+}
+.toggle__track::before {
+  content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: #fff;
+  border-radius: 50%; transition: transform .2s ease; box-shadow: 0 1px 3px rgba(0,0,0,.25);
+}
+.toggle input:checked + .toggle__track { background: var(--gold); }
+.toggle input:checked + .toggle__track::before { transform: translateX(20px); }
+.toggle input:focus-visible + .toggle__track { outline: 2px solid var(--gold); outline-offset: 2px; }
+[dir="rtl"] .toggle input:checked + .toggle__track::before { transform: translateX(-20px); }
+
+.security-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 14px 0; }
+.security-row + .security-row { border-top: 1px solid var(--line); }
+
 @media (max-width: 640px) {
   .stepper { overflow-x: auto; padding-bottom: 6px; }
   .stepper__node { flex: 0 0 68px; min-width: 68px; }
