@@ -39,14 +39,17 @@
         {"roman":"الخامس","name":"البرنامج المتقدم","cefr":"C1"},
         {"roman":"السادس","name":"برنامج الإتقان","cefr":"C2"}
       ]'>
-      <div class="level-quiz__options">
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="0"><span>أستطيع فهم واستخدام عبارات يومية بسيطة والتعريف بنفسي، لكنني أحتاج مساعدة في معظم المحادثات.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="1"><span>أستطيع التحدث عن مواضيع مألوفة مثل عائلتي ومدرستي وروتيني اليومي بجمل بسيطة.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="2"><span>أستطيع التعامل مع معظم المواقف اليومية، ووصف تجاربي، وإعطاء أسباب بسيطة لآرائي.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="3"><span>أستطيع مناقشة مجموعة واسعة من المواضيع بطلاقة، ومتابعة الأفكار الرئيسية للنصوص المعقّدة، والتفاعل بشكل طبيعي مع الناطقين الأصليين.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="4"><span>أستطيع التعبير عن نفسي بطلاقة وعفوية حول مواضيع معقّدة، واستخدام الإنجليزية بمرونة لأغراض أكاديمية أو مهنية.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="5"><span>أستطيع فهم كل ما أقرأه أو أسمعه تقريبًا، وتلخيص معلومات من مصادر مختلفة، والتعبير عن نفسي بدقة في أي موقف.</span></label>
-      </div>
+      <fieldset>
+        <legend class="sr-only">أي عبارة تصف مستواك اليوم؟</legend>
+        <div class="level-quiz__options">
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="0"><span>أستطيع فهم واستخدام عبارات يومية بسيطة والتعريف بنفسي، لكنني أحتاج مساعدة في معظم المحادثات.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="1"><span>أستطيع التحدث عن مواضيع مألوفة مثل عائلتي ومدرستي وروتيني اليومي بجمل بسيطة.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="2"><span>أستطيع التعامل مع معظم المواقف اليومية، ووصف تجاربي، وإعطاء أسباب بسيطة لآرائي.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="3"><span>أستطيع مناقشة مجموعة واسعة من المواضيع بطلاقة، ومتابعة الأفكار الرئيسية للنصوص المعقّدة، والتفاعل بشكل طبيعي مع الناطقين الأصليين.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="4"><span>أستطيع التعبير عن نفسي بطلاقة وعفوية حول مواضيع معقّدة، واستخدام الإنجليزية بمرونة لأغراض أكاديمية أو مهنية.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="5"><span>أستطيع فهم كل ما أقرأه أو أسمعه تقريبًا، وتلخيص معلومات من مصادر مختلفة، والتعبير عن نفسي بدقة في أي موقف.</span></label>
+        </div>
+      </fieldset>
       <button type="submit" class="btn btn--gold">اعرف مستواك المقترح للبدء</button>
       <div class="level-quiz__result" data-level-quiz-result hidden>
         <span class="callout__label" style="color:var(--gold-bright)">نقطة الانطلاق المقترحة</span>
@@ -161,7 +164,7 @@
 <section class="section--light cta-band">
   <div class="container reveal">
     <h2>تريد معرفة تكلفة كل مستوى؟</h2>
-    <div class="btn-row" style="justify-content:center">
+    <div class="btn-row u-center">
       <a href="/ar/admissions/tuition/" class="btn btn--red">اطّلع على الرسوم الدراسية</a>
     </div>
   </div>

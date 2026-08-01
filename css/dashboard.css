@@ -99,6 +99,10 @@ body.app { background: var(--ivory); }
 /* ---------------- Stat tiles ---------------- */
 .stat-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
 @media (max-width: 900px) { .stat-tiles { grid-template-columns: repeat(2, 1fr); } }
+/* A 2-column phone width still only leaves ~140-160px per tile after
+   padding — tight for a value like "$56,999.86" at 1.7rem. Drop to a
+   single column below ~420px rather than let it crowd or wrap badly. */
+@media (max-width: 420px) { .stat-tiles { grid-template-columns: 1fr; } }
 .stat-tile { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; }
 .stat-tile__label { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; margin-bottom: 10px; }
 .stat-tile__value { font-family: var(--font-display); font-size: 1.7rem; font-weight: 600; color: var(--royal-deep); font-variant-numeric: tabular-nums; }
@@ -129,7 +133,18 @@ body.app { background: var(--ivory); }
 .mini-list { list-style: none; margin: 0; padding: 0; }
 .mini-list li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: .86rem; }
 .mini-list li:last-child { border-bottom: none; }
-.mini-list a.disabled-link { color: var(--ink-soft); pointer-events: none; opacity: .55; font-size: .74rem; font-weight: 700; }
+/* Applies everywhere .disabled-link is used — sidebar nav placeholders,
+   "View all"/"View schedule" panel links, Sign Out before a real
+   session exists, not just inside .mini-list. Previously scoped to
+   `.mini-list a.disabled-link` only, which meant every other instance
+   (most of them — the sidebar nav is the majority use) got none of
+   this styling and, more importantly, remained genuinely clickable
+   despite aria-disabled="true" and looking inert. pointer-events:none
+   still doesn't stop keyboard activation on its own — see tabindex="-1"
+   on each element in the markup, which is the part that actually
+   removes them from the tab order. */
+.disabled-link { color: var(--ink-soft); pointer-events: none; cursor: not-allowed; opacity: .55; }
+.mini-list a.disabled-link { font-size: .74rem; font-weight: 700; }
 
 .message-card { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; background: var(--ivory); }
 .message-card__from { font-weight: 700; font-size: .84rem; display: flex; justify-content: space-between; }

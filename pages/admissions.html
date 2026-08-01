@@ -39,14 +39,17 @@
         {"roman":"V","name":"Advanced Programme","cefr":"C1"},
         {"roman":"VI","name":"English Mastery Programme","cefr":"C2"}
       ]'>
-      <div class="level-quiz__options">
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="0"><span>I can understand and use simple everyday phrases and introduce myself, but I need help with most conversations.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="1"><span>I can talk about familiar topics like my family, school, and daily routine in simple sentences.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="2"><span>I can handle most everyday situations, describe experiences, and give simple reasons for my opinions.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="3"><span>I can discuss a range of topics fluently, follow the main ideas of complex texts, and interact naturally with native speakers.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="4"><span>I can express myself fluently and spontaneously on complex subjects, using English flexibly for academic or professional purposes.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="5"><span>I can understand virtually everything I read or hear, summarise information from different sources, and express myself precisely in any situation.</span></label>
-      </div>
+      <fieldset>
+        <legend class="sr-only">Which statement sounds most like you today?</legend>
+        <div class="level-quiz__options">
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="0"><span>I can understand and use simple everyday phrases and introduce myself, but I need help with most conversations.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="1"><span>I can talk about familiar topics like my family, school, and daily routine in simple sentences.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="2"><span>I can handle most everyday situations, describe experiences, and give simple reasons for my opinions.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="3"><span>I can discuss a range of topics fluently, follow the main ideas of complex texts, and interact naturally with native speakers.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="4"><span>I can express myself fluently and spontaneously on complex subjects, using English flexibly for academic or professional purposes.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="5"><span>I can understand virtually everything I read or hear, summarise information from different sources, and express myself precisely in any situation.</span></label>
+        </div>
+      </fieldset>
       <button type="submit" class="btn btn--gold">See My Recommended Starting Level</button>
       <div class="level-quiz__result" data-level-quiz-result hidden>
         <span class="callout__label" style="color:var(--gold-bright)">Suggested Starting Point</span>
@@ -161,7 +164,7 @@
 <section class="section--light cta-band">
   <div class="container reveal">
     <h2>Curious what each level costs?</h2>
-    <div class="btn-row" style="justify-content:center">
+    <div class="btn-row u-center">
       <a href="/admissions/tuition/" class="btn btn--red">View Tuition &amp; Fees</a>
     </div>
   </div>

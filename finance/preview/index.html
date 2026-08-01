@@ -18,7 +18,7 @@
 <a class="skip-link" href="#main">Skip to main content</a>
 
 <div class="preview-banner">
-  <strong>Design Preview</strong>Illustrative interface with demo data — not live financial data. <a href="/student-portal/" style="color:var(--royal-deep);text-decoration:underline;margin-left:.6em;">Back to the public site →</a>
+  <strong>Design Preview</strong>Illustrative interface with demo data — not live financial data. <a href="/" style="color:var(--royal-deep);text-decoration:underline;margin-left:.6em;">Back to the public site →</a>
 </div>
 
 <div class="app-shell">
@@ -33,14 +33,14 @@
     </div>
     <ul class="app-nav">
       <li class="active"><a href="#" aria-current="page"><span class="ic">&#9679;</span>Overview</a></li>
-      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9636;</span>Instalment Plans</a></li>
-      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9998;</span>Refunds</a></li>
-      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9733;</span>Scholarships &amp; Promo Codes</a></li>
-      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#127894;</span>Corporate Invoicing</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9636;</span>Instalment Plans</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9998;</span>Refunds</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9733;</span>Scholarships &amp; Promo Codes</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#127894;</span>Corporate Invoicing</a></li>
     </ul>
     <div class="app-sidebar__foot">
       <a href="/">&larr; Back to public site</a>
-      <a href="#" class="disabled-link" aria-disabled="true" data-sign-out>Sign out <span data-demo-tag>(preview)</span></a>
+      <a href="#" class="disabled-link" aria-disabled="true" tabindex="-1" data-sign-out>Sign out <span data-demo-tag>(preview)</span></a>
     </div>
   </aside>
 
@@ -76,27 +76,31 @@
       <div>
         <div class="panel">
           <div class="panel__head"><h2>Revenue by Gateway</h2></div>
-          <table class="assign-table">
-            <thead><tr><th>Provider</th><th>Payments</th><th>Amount (USD)</th></tr></thead>
-            <tbody data-report-by-provider>
-              <tr><td>stripe</td><td>11</td><td>$34,833.37</td></tr>
-              <tr><td>paystack</td><td>5</td><td>$15,833.35</td></tr>
-              <tr><td>flutterwave</td><td>2</td><td>$6,333.34</td></tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table class="assign-table">
+              <thead><tr><th>Provider</th><th>Payments</th><th>Amount (USD)</th></tr></thead>
+              <tbody data-report-by-provider>
+                <tr><td>stripe</td><td>11</td><td>$34,833.37</td></tr>
+                <tr><td>paystack</td><td>5</td><td>$15,833.35</td></tr>
+                <tr><td>flutterwave</td><td>2</td><td>$6,333.34</td></tr>
+              </tbody>
+            </table>
+          </div>
           <p class="disabled-note">Populated from live data once signed in as staff — see js/finance-dashboard.js.</p>
         </div>
 
         <div class="panel">
           <div class="panel__head"><h2>Revenue by Level</h2></div>
-          <table class="assign-table">
-            <thead><tr><th>Level</th><th>Payments</th><th>Amount (USD)</th></tr></thead>
-            <tbody data-report-by-level>
-              <tr><td>Foundation Programme</td><td>4</td><td>$12,666.68</td></tr>
-              <tr><td>Elementary Programme</td><td>5</td><td>$15,833.35</td></tr>
-              <tr><td>Intermediate Programme</td><td>9</td><td>$28,500.03</td></tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table class="assign-table">
+              <thead><tr><th>Level</th><th>Payments</th><th>Amount (USD)</th></tr></thead>
+              <tbody data-report-by-level>
+                <tr><td>Foundation Programme</td><td>4</td><td>$12,666.68</td></tr>
+                <tr><td>Elementary Programme</td><td>5</td><td>$15,833.35</td></tr>
+                <tr><td>Intermediate Programme</td><td>9</td><td>$28,500.03</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 

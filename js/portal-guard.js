@@ -25,11 +25,21 @@ window.WEC_LC_guardPortal = function (opts) {
   var pk = cfg.clerkPublishableKey;
   if (!pk) return false;
 
+  // While the gate is up, the real page content behind it must not be
+  // reachable by keyboard — a full-page visual overlay alone doesn't
+  // stop Tab from moving focus into whatever's underneath it. `inert`
+  // removes the shell from both the tab order and the accessibility
+  // tree until it's restored below; focus moves onto the gate itself
+  // so a screen reader user lands somewhere meaningful immediately.
+  var shell = document.querySelector('.app-shell');
+  if (shell) shell.inert = true;
+
   var gate = buildGate();
   document.body.appendChild(gate);
+  gate.focus();
 
   window.WEC_LC_loadClerk(pk, function (err, clerk) {
-    if (err) { removeGate(gate); return; }
+    if (err) { removeGate(gate, shell); return; }
 
     if (!clerk.user) {
       clerk.redirectToSignIn({ redirectUrl: window.location.href });
@@ -37,7 +47,7 @@ window.WEC_LC_guardPortal = function (opts) {
     }
 
     wireSignOut(clerk, opts.signOutRedirect || '/');
-    opts.onAuthenticated(clerk, function () { removeGate(gate); });
+    opts.onAuthenticated(clerk, function () { removeGate(gate, shell); });
   });
 
   return true;
@@ -46,6 +56,7 @@ window.WEC_LC_guardPortal = function (opts) {
     document.querySelectorAll('[data-sign-out]').forEach(function (el) {
       el.classList.remove('disabled-link');
       el.removeAttribute('aria-disabled');
+      el.removeAttribute('tabindex'); // was -1 (removed from tab order) while inert — see css/dashboard.css .disabled-link
       el.addEventListener('click', function (e) {
         e.preventDefault();
         clerk.signOut(function () { window.location.href = redirectTo; });
@@ -58,11 +69,13 @@ window.WEC_LC_guardPortal = function (opts) {
     el.className = 'auth-gate';
     el.setAttribute('role', 'status');
     el.setAttribute('aria-live', 'polite');
+    el.tabIndex = -1; // focusable programmatically (gate.focus() above) without joining the tab order itself
     el.innerHTML = '<div class="auth-gate__spinner" aria-hidden="true"></div><p class="auth-gate__text">Checking your session…</p>';
     return el;
   }
 
-  function removeGate(gate) {
+  function removeGate(gate, shell) {
     if (gate && gate.parentNode) gate.parentNode.removeChild(gate);
+    if (shell) shell.inert = false;
   }
 };

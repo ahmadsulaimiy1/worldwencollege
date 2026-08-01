@@ -14,6 +14,24 @@
     });
   }
 
+  // Desktop nav dropdown: the submenu itself is shown/hidden by CSS
+  // (:hover/:focus-within on .nav__item--has-menu — see css/brand.css),
+  // not JS, so aria-expanded on the trigger link needs a matching pair
+  // of listeners to stay truthful about whether the menu is actually
+  // visible right now, since a screen reader has no way to observe the
+  // CSS state on its own.
+  document.querySelectorAll('.nav__item--has-menu > a[aria-haspopup]').forEach(function (trigger) {
+    var item = trigger.parentElement;
+    function open() { trigger.setAttribute('aria-expanded', 'true'); }
+    function close() { trigger.setAttribute('aria-expanded', 'false'); }
+    item.addEventListener('mouseenter', open);
+    item.addEventListener('mouseleave', close);
+    item.addEventListener('focusin', open);
+    item.addEventListener('focusout', function (e) {
+      if (!item.contains(e.relatedTarget)) close();
+    });
+  });
+
   // Accordion (FAQ / policy style)
   document.querySelectorAll('.accordion__q').forEach(function (btn, i) {
     // Wire ARIA relationships programmatically so every accordion instance

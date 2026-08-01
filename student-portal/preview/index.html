@@ -33,17 +33,17 @@
     </div>
     <ul class="app-nav">
       <li class="active"><a href="#" aria-current="page"><span class="ic">&#9679;</span>Dashboard</a></li>
-      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9737;</span>My Level</a></li>
-      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9636;</span>Classes</a></li>
-      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9998;</span>Assignments</a></li>
-      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9733;</span>Digital Library</a></li>
-      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#9993;</span>Messages</a></li>
-      <li><a href="#" class="disabled-link" aria-disabled="true"><span class="ic">&#127894;</span>Certificates</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9737;</span>My Level</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9636;</span>Classes</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9998;</span>Assignments</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9733;</span>Digital Library</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9993;</span>Messages</a></li>
+      <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#127894;</span>Certificates</a></li>
       <li><a href="/student-portal/preview/profile/"><span class="ic">&#9881;</span>Profile</a></li>
     </ul>
     <div class="app-sidebar__foot">
       <a href="/student-portal/">&larr; Back to public site</a>
-      <a href="#" class="disabled-link" aria-disabled="true" data-sign-out>Sign out <span data-demo-tag>(preview)</span></a>
+      <a href="#" class="disabled-link" aria-disabled="true" tabindex="-1" data-sign-out>Sign out <span data-demo-tag>(preview)</span></a>
     </div>
   </aside>
 
@@ -107,36 +107,38 @@
     <div class="app-grid">
       <div>
         <div class="panel">
-          <div class="panel__head"><h2>Upcoming Classes</h2><a href="#" class="disabled-link" aria-disabled="true">View schedule</a></div>
+          <div class="panel__head"><h2>Upcoming Classes</h2><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1">View schedule</a></div>
           <div class="class-row">
             <div class="class-row__when">Mon<strong>10:00</strong></div>
             <div class="class-row__body"><h3>Speaking Practice — Connected Speech</h3><span>Level III · Live class</span></div>
-            <a href="#" class="btn btn--outline" aria-disabled="true" style="pointer-events:none;opacity:.6">Join</a>
+            <a href="#" class="btn btn--outline" aria-disabled="true" tabindex="-1">Join</a>
           </div>
           <div class="class-row">
             <div class="class-row__when">Wed<strong>10:00</strong></div>
             <div class="class-row__body"><h3>Writing Workshop — Structured Opinion Essays</h3><span>Level III · Live class</span></div>
-            <a href="#" class="btn btn--outline" aria-disabled="true" style="pointer-events:none;opacity:.6">Join</a>
+            <a href="#" class="btn btn--outline" aria-disabled="true" tabindex="-1">Join</a>
           </div>
           <div class="class-row">
             <div class="class-row__when">Fri<strong>13:00</strong></div>
             <div class="class-row__body"><h3>Mid-Level Exam — Listening &amp; Reading</h3><span>Level III · Assessment</span></div>
-            <a href="#" class="btn btn--outline" aria-disabled="true" style="pointer-events:none;opacity:.6">Details</a>
+            <a href="#" class="btn btn--outline" aria-disabled="true" tabindex="-1">Details</a>
           </div>
           <p class="disabled-note">Live class links activate for enrolled students inside the real portal.</p>
         </div>
 
         <div class="panel">
-          <div class="panel__head"><h2>Assignments</h2><a href="#" class="disabled-link" aria-disabled="true">View all</a></div>
-          <table class="assign-table">
-            <thead><tr><th>Assignment</th><th>Level</th><th>Due</th><th>Status</th></tr></thead>
-            <tbody>
-              <tr><td>Opinion Essay — "Remote Work"</td><td>III</td><td>Yesterday</td><td><span class="status-pill status-pill--good">Submitted</span></td></tr>
-              <tr><td>Listening Log — Unit 34</td><td>III</td><td>In 2 days</td><td><span class="status-pill status-pill--progress">Due Soon</span></td></tr>
-              <tr><td>Speaking Recording — Unit 32</td><td>III</td><td>3 days ago</td><td><span class="status-pill status-pill--critical">Overdue</span></td></tr>
-              <tr><td>Grammar Quiz — Conditionals</td><td>III</td><td>In 6 days</td><td><span class="status-pill status-pill--muted">Not started</span></td></tr>
-            </tbody>
-          </table>
+          <div class="panel__head"><h2>Assignments</h2><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1">View all</a></div>
+          <div class="table-scroll">
+            <table class="assign-table">
+              <thead><tr><th>Assignment</th><th>Level</th><th>Due</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Opinion Essay — "Remote Work"</td><td>III</td><td>Yesterday</td><td><span class="status-pill status-pill--good">Submitted</span></td></tr>
+                <tr><td>Listening Log — Unit 34</td><td>III</td><td>In 2 days</td><td><span class="status-pill status-pill--progress">Due Soon</span></td></tr>
+                <tr><td>Speaking Recording — Unit 32</td><td>III</td><td>3 days ago</td><td><span class="status-pill status-pill--critical">Overdue</span></td></tr>
+                <tr><td>Grammar Quiz — Conditionals</td><td>III</td><td>In 6 days</td><td><span class="status-pill status-pill--muted">Not started</span></td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -144,20 +146,22 @@
         <div class="panel">
           <div class="panel__head"><h2>Digital Library</h2></div>
           <ul class="mini-list">
-            <li>Level III Reading Pack <a href="#" class="disabled-link" aria-disabled="true">Open</a></li>
-            <li>IELTS Listening Practice Set 4 <a href="#" class="disabled-link" aria-disabled="true">Open</a></li>
-            <li>Grammar Reference — Conditionals <a href="#" class="disabled-link" aria-disabled="true">Open</a></li>
+            <li>Level III Reading Pack <a href="#" class="disabled-link" aria-disabled="true" tabindex="-1">Open</a></li>
+            <li>IELTS Listening Practice Set 4 <a href="#" class="disabled-link" aria-disabled="true" tabindex="-1">Open</a></li>
+            <li>Grammar Reference — Conditionals <a href="#" class="disabled-link" aria-disabled="true" tabindex="-1">Open</a></li>
           </ul>
         </div>
 
         <div class="panel">
           <div class="panel__head"><h2>Payment History</h2></div>
-          <table class="assign-table">
-            <thead><tr><th>Date</th><th>Level</th><th>Amount</th><th>Status</th></tr></thead>
-            <tbody data-payment-history>
-              <tr><td>—</td><td>—</td><td>—</td><td><span class="status-pill status-pill--muted">(demo)</span></td></tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table class="assign-table">
+              <thead><tr><th>Date</th><th>Level</th><th>Amount</th><th>Status</th></tr></thead>
+              <tbody data-payment-history>
+                <tr><td>—</td><td>—</td><td>—</td><td><span class="status-pill status-pill--muted">(demo)</span></td></tr>
+              </tbody>
+            </table>
+          </div>
           <p class="disabled-note">Populated from your real payment records once signed in — see js/portal-auth.js.</p>
         </div>
 
@@ -165,8 +169,8 @@
           <div class="panel__head"><h2>Certificates &amp; Transcript</h2></div>
           <p class="lede" style="font-size:.86rem">Your transcript updates after every level. A certificate is issued on completion of Level VI.</p>
           <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-            <a href="#" class="btn btn--outline" aria-disabled="true" style="pointer-events:none;opacity:.6">Download Transcript</a>
-            <a href="#" class="btn btn--outline" aria-disabled="true" style="pointer-events:none;opacity:.6">Certificate — Locked</a>
+            <a href="#" class="btn btn--outline" aria-disabled="true" tabindex="-1">Download Transcript</a>
+            <a href="#" class="btn btn--outline" aria-disabled="true" tabindex="-1">Certificate — Locked</a>
           </div>
         </div>
 

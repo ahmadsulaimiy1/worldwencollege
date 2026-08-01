@@ -12,17 +12,22 @@
 <meta name="theme-color" content="#14264A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/brand.css">
+<meta property="og:site_name" content="الكلية العالمية للغة الإنجليزية">
+<meta property="og:locale" content="ar_AR">
 <meta property="og:title" content="القبول | كيفية التقديم — الكلية العالمية للغة الإنجليزية">
 <meta property="og:description" content="كيفية التقديم إلى برنامج IEFC: شروط القبول، رحلة التقديم، والفئات التي صُمم البرنامج من أجلها.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.worldwencollege.co.uk/ar/admissions/">
-<meta property="og:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.png">
+<meta property="og:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.png">
+<meta name="twitter:title" content="القبول | كيفية التقديم — الكلية العالمية للغة الإنجليزية">
+<meta name="twitter:description" content="كيفية التقديم إلى برنامج IEFC: شروط القبول، رحلة التقديم، والفئات التي صُمم البرنامج من أجلها.">
+<meta name="twitter:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
 <link rel="canonical" href="https://www.worldwencollege.co.uk/ar/admissions/">
 <link rel="alternate" hreflang="en" href="https://www.worldwencollege.co.uk/admissions/">
 <link rel="alternate" hreflang="ar" href="https://www.worldwencollege.co.uk/ar/admissions/">
@@ -85,14 +90,14 @@
         <a href="/ar/about/">عن الكلية</a>
       </div>
       <div class="nav__item nav__item--has-menu">
-        <a href="/ar/academics/">البرامج الأكاديمية</a>
+        <a href="/ar/academics/" aria-haspopup="true" aria-expanded="false">البرامج الأكاديمية</a>
         <div class="nav__menu">
           <a href="/ar/academics/">نظرة عامة على البرنامج</a>
           <a href="/ar/academics/iefc/">برنامج IEFC</a>
         </div>
       </div>
       <div class="nav__item nav__item--has-menu">
-        <a href="/ar/admissions/">القبول</a>
+        <a href="/ar/admissions/" aria-haspopup="true" aria-expanded="false">القبول</a>
         <div class="nav__menu">
           <a href="/ar/admissions/">كيفية التقديم</a>
           <a href="/ar/admissions/tuition/">الرسوم الدراسية</a>
@@ -167,14 +172,17 @@
         {"roman":"الخامس","name":"البرنامج المتقدم","cefr":"C1"},
         {"roman":"السادس","name":"برنامج الإتقان","cefr":"C2"}
       ]'>
-      <div class="level-quiz__options">
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="0"><span>أستطيع فهم واستخدام عبارات يومية بسيطة والتعريف بنفسي، لكنني أحتاج مساعدة في معظم المحادثات.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="1"><span>أستطيع التحدث عن مواضيع مألوفة مثل عائلتي ومدرستي وروتيني اليومي بجمل بسيطة.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="2"><span>أستطيع التعامل مع معظم المواقف اليومية، ووصف تجاربي، وإعطاء أسباب بسيطة لآرائي.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="3"><span>أستطيع مناقشة مجموعة واسعة من المواضيع بطلاقة، ومتابعة الأفكار الرئيسية للنصوص المعقّدة، والتفاعل بشكل طبيعي مع الناطقين الأصليين.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="4"><span>أستطيع التعبير عن نفسي بطلاقة وعفوية حول مواضيع معقّدة، واستخدام الإنجليزية بمرونة لأغراض أكاديمية أو مهنية.</span></label>
-        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="5"><span>أستطيع فهم كل ما أقرأه أو أسمعه تقريبًا، وتلخيص معلومات من مصادر مختلفة، والتعبير عن نفسي بدقة في أي موقف.</span></label>
-      </div>
+      <fieldset>
+        <legend class="sr-only">أي عبارة تصف مستواك اليوم؟</legend>
+        <div class="level-quiz__options">
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="0"><span>أستطيع فهم واستخدام عبارات يومية بسيطة والتعريف بنفسي، لكنني أحتاج مساعدة في معظم المحادثات.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="1"><span>أستطيع التحدث عن مواضيع مألوفة مثل عائلتي ومدرستي وروتيني اليومي بجمل بسيطة.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="2"><span>أستطيع التعامل مع معظم المواقف اليومية، ووصف تجاربي، وإعطاء أسباب بسيطة لآرائي.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="3"><span>أستطيع مناقشة مجموعة واسعة من المواضيع بطلاقة، ومتابعة الأفكار الرئيسية للنصوص المعقّدة، والتفاعل بشكل طبيعي مع الناطقين الأصليين.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="4"><span>أستطيع التعبير عن نفسي بطلاقة وعفوية حول مواضيع معقّدة، واستخدام الإنجليزية بمرونة لأغراض أكاديمية أو مهنية.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="5"><span>أستطيع فهم كل ما أقرأه أو أسمعه تقريبًا، وتلخيص معلومات من مصادر مختلفة، والتعبير عن نفسي بدقة في أي موقف.</span></label>
+        </div>
+      </fieldset>
       <button type="submit" class="btn btn--gold">اعرف مستواك المقترح للبدء</button>
       <div class="level-quiz__result" data-level-quiz-result hidden>
         <span class="callout__label" style="color:var(--gold-bright)">نقطة الانطلاق المقترحة</span>
@@ -289,7 +297,7 @@
 <section class="section--light cta-band">
   <div class="container reveal">
     <h2>تريد معرفة تكلفة كل مستوى؟</h2>
-    <div class="btn-row" style="justify-content:center">
+    <div class="btn-row u-center">
       <a href="/ar/admissions/tuition/" class="btn btn--red">اطّلع على الرسوم الدراسية</a>
     </div>
   </div>

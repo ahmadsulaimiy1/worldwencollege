@@ -1,0 +1,34 @@
+# Cloudflare Pages cache-control config.
+#
+# Deliberately conservative: scripts/build.js does not content-hash
+# CSS/JS/asset filenames (they're always /css/brand.css, /js/site.js,
+# etc.), so an aggressive `immutable, max-age=1y` here would mean a
+# browser that cached a file before a deploy keeps serving the OLD
+# version for up to a year after the real file changes — a
+# correctness bug, not just a missed optimization. These durations are
+# short enough that a stale asset self-heals within the hour/day
+# rather than requiring a hard-refresh, and `must-revalidate` means an
+# expired-but-unchanged file still costs only a cheap conditional
+# request (304), not a full re-download. Move to long-lived immutable
+# caching only once/if the build gains content-hashed filenames.
+
+/css/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/js/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/assets/*
+  Cache-Control: public, max-age=86400, must-revalidate
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/manifest.webmanifest
+  Cache-Control: public, max-age=86400
+
+/robots.txt
+  Cache-Control: public, max-age=3600
+
+/sitemap.xml
+  Cache-Control: public, max-age=3600

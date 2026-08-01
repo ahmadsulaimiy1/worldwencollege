@@ -29,7 +29,15 @@ function partialFor(name, lang) {
 
 const SITE_URL = 'https://www.worldwencollege.co.uk';
 
-const LATIN_FONTS = 'family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800';
+// Weight 500 deliberately omitted from both families below — verified
+// (grep across css/ and every page) that no font-weight:500 is used
+// anywhere in the codebase, so requesting it would just be unused
+// bytes on every single page load. Italic Playfair requests weight
+// 400, not 600/700: the only italic usage (.pull-quote, a bare
+// <blockquote>) sets no explicit font-weight, so it renders at the
+// browser default (400) — the previously-requested italic 500/600
+// were never actually the weight being displayed.
+const LATIN_FONTS = 'family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;600;700;800';
 const ARABIC_FONTS = '&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700';
 
 // English pages never render Arabic script — skip Amiri/Cairo entirely
@@ -66,6 +74,8 @@ function build() {
       HREFLANG_EN: hreflangEn,
       HREFLANG_AR: hreflangAr,
       FONTS_URL: fontsUrlFor(lang),
+      OG_LOCALE: lang === 'ar' ? 'ar_AR' : 'en_GB',
+      OG_SITE_NAME: lang === 'ar' ? 'الكلية العالمية للغة الإنجليزية' : 'WorldWide English College',
     });
     const topbar = fill(partialFor('topbar', lang), {
       ALT_HREF: entry.altHref || '/',
