@@ -112,6 +112,15 @@ literally cannot have real content before there are corporate clients or
 alumni — building them now would mean fabricating placeholder "corporate
 partners" the way `editorial-bible.md` already commits WEC-LC not to do.
 
+**Confirmed by Executive Decision #8:** Admissions → Payments →
+Student Portal → LMS integration → Faculty Portal → Administration
+Portal → Executive Dashboard → Corporate Portal → Alumni Platform →
+Mobile Applications. This matches the reasoning above — Admissions and
+Payments are both real, working backend code today (Stage A/B/C is
+already substantially built for them); Student Portal + LMS Milestone
+1 are in active development; Faculty/Administration/Executive/
+Corporate/Alumni/Mobile remain Stage D/E, in that order, not yet begun.
+
 ---
 
 ## Phase 1 — Discovery & Institutional Strategy
@@ -735,13 +744,22 @@ the purpose of what was actually built — see
 `docs/technical-architecture.md`, `docs/payments-architecture.md`,
 `docs/auth-architecture.md` for the implementations.
 
+**Numbering note, to avoid confusion:** the "Decision #N" labels in the
+table below are this table's own original numbering, from earlier in
+this project. They are a **different, unrelated numbering** from the
+8 Executive Decisions you later approved (Executive Decision #1 =
+progressive full-programme unlock, #2 = currency strategy, etc. — see
+`docs/executive-decision-brief.md` § Executive Decisions (locked in)).
+Where a row below has since been superseded by one of those 8, it says
+so explicitly.
+
 | Area | Provisional assumption | Still needs confirmation |
 |---|---|---|
-| Hosting (Decision #1) | Cloudflare Pages + Pages Functions + D1 | Real account, real `database_id` in `wrangler.toml` |
-| Payments (Decision #4) | Modular multi-gateway: Stripe, Paystack, Flutterwave, Opay — provider-agnostic core, no gateway hardcoded in | Real merchant accounts for all four; Opay's adapter additionally needs its field names verified against current docs (see its file header) |
-| Auth (Decision #5) | Clerk, behind a swappable interface | Real Clerk instance; `CLERK_JWKS_URL`/`CLERK_WEBHOOK_SECRET` |
-| LMS (Decision #6) | Buy-and-wrap | Which vendor — nothing is implementable further until one is chosen (see `functions/_lib/lms/provider-interface.js`) |
-| Currency (Decision #2) | Config-driven, multi-currency-ready | Which currencies actually activate, and whether GBP uses a live feed or a policy-fixed rate — see `payments-architecture.md` § Multi-currency |
+| Hosting (Decision #1) | Cloudflare Pages + Pages Functions + D1, first in Executive Decision #7's confirmed provisioning order | Real account, real `database_id` in `wrangler.toml` |
+| Payments (Decision #4) | Modular multi-gateway: Stripe, Paystack, Flutterwave, Opay — provider-agnostic core, no gateway hardcoded in; rollout order confirmed as Executive Decision #3 | Real merchant accounts for all four; Opay's adapter additionally needs its field names verified against current docs (see its file header) |
+| Auth (Decision #5) | Clerk, behind a swappable interface, third in Executive Decision #7's provisioning order | Real Clerk instance; `CLERK_JWKS_URL`/`CLERK_WEBHOOK_SECRET` |
+| LMS (Decision #6) | **Superseded by Executive Decision #4: build, not buy.** WEC-LC's own proprietary LMS is in active development (Milestone 1 shipped) — see `docs/lms-architecture.md`. The buy-and-wrap contract this row originally pointed to has been removed. | Real curriculum content (Milestone 2+); nothing about vendor selection remains open, because there is no longer a vendor to select |
+| Currency (Decision #2) | Config-driven, multi-currency-ready; GBP/USD confirmed primary as Executive Decision #2 | Which currencies actually activate, and whether GBP uses a live feed or a policy-fixed rate — mechanism now built, see `payments-architecture.md` § Multi-currency |
 
 **What changed vs. the original recommendation:** the roadmap above
 (Phase 9) recommended Stripe alone for simplicity; the updated

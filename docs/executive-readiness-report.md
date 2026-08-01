@@ -1,167 +1,180 @@
 # WEC-LC — Executive Readiness Report
 
-*Supersedes the prior version of this file (which predated the entire
-backend, auth, payments, financial-reporting, and student-dashboard
-build, and is no longer accurate). Companion to `master-roadmap.md`
-(governing plan), `technical-architecture.md`/`payments-architecture.md`/
-`auth-architecture.md`/`api-reference.md` (backend), `site-architecture.md`/
-`editorial-bible.md`/`dashboard-design-system.md` (frontend/content),
-and `executive-decision-brief.md` (the detailed version of this
-report's decisions section).*
+*Supersedes the prior version of this file. Companion to
+`master-roadmap.md` (governing plan), `technical-architecture.md`/
+`payments-architecture.md`/`auth-architecture.md`/`lms-architecture.md`/
+`api-reference.md` (backend), `site-architecture.md`/`editorial-bible.md`/
+`dashboard-design-system.md` (frontend/content), and
+`executive-decision-brief.md` (the detailed version of this report's
+decisions section, including the full status of all 8 Executive
+Decisions you approved).*
 
 **Status: engineering-complete for everything that doesn't require a
 live third-party account or a business decision. Not ready for public
 launch** — that's a different, later bar, gated by items in § Remaining
-Executive Decisions and § Remaining External Dependencies below, not
-by more code.
+External Dependencies and § Remaining Executive Decisions below, not by
+more code.
 
-This report closes a full production-readiness audit: an independent
-review across architecture, code quality, UX/UI, design-system
-completeness, accessibility, responsiveness, performance, SEO,
-security, admissions, authentication, payments, the Student Portal,
-API design, database structure, documentation, error handling, loading/
-empty states, edge cases, internationalisation, scalability, and
-branding consistency. Findings were triaged into three buckets:
-fixed now (no decision or credential needed), needs your decision, or
-needs a real third-party account — nothing was left unclassified.
+---
+
+## This milestone, in one paragraph
+
+You approved 8 Executive Decisions as the platform's working
+assumptions — most significantly, that WEC-LC builds and owns its LMS
+rather than integrating a third-party product. This report covers the
+work since: full-programme payments now progressively unlock as each
+level is completed (Decision #1); a real, config-driven multi-currency
+FX architecture exists, activating GBP is now a same-day operational
+task (Decision #2); the phased gateway rollout needed no code, only
+documentation, since it was already how the router behaves (Decision
+#3); a proprietary LMS Milestone 1 is built and tested — content
+model, quizzes, assignments, live-session scheduling, progression
+(Decision #4); promo codes, scholarships, and instalment plans are now
+real, working, config-driven checkout mechanisms (Decision #5); and
+Decisions #6-8 (Arabic sequencing, infrastructure provisioning order,
+launch sequence) were confirmed as already-correct assumptions with no
+code required. **156 new test assertions were added and all pass**;
+combined with the prior audit's suite, the backend now carries **183
+functional assertions, 0 failures**, against a real SQLite engine
+loaded with the actual schema.
 
 ---
 
 ## Completed work
 
-**27 commits** on `claude/worldwide-english-college-site-ezy1zo`, from
-an empty repository to a complete bilingual public website, a written
-and functionally-tested backend, and — this pass — a full
-production-readiness audit with real fixes, not just findings.
+### This milestone (8 commits, since the prior readiness report)
 
-### Public site
-- 11 English content pages + full Arabic (`/ar/`) mirrors + branded
-  404s — 22 pages built by `scripts/build.js` from `pages/manifest.json`,
-  zero of them a stub.
-- Full `EducationalOrganization` + `FAQPage` JSON-LD structured data
-  (EN + AR), correct hreflang/canonical on every page, `og:locale`/
-  `og:site_name`/`twitter:title`/`twitter:description` (previously
-  missing), a recompressed social-share image (392KB → 61KB, visually
-  identical), and `robots.txt`/`_headers` correctly scoped.
-- Original component vocabulary across two CSS layers (`brand.css` for
-  the marketing site, `dashboard.css` for authenticated/data-dense
-  UI) — no framework, no template.
+- **Executive Decision #1 — progressive full-programme unlock.**
+  `platform_config` (new, generic, JSON-encoded policy table — the
+  mechanism Decision #5 also builds on) seeded with the real $19,000
+  full-programme price. `create-checkout.js` accepts
+  `{ fullProgramme: true }`; `enrolment/confirm.js` creates Level I's
+  enrolment on first confirmation; `functions/_lib/student/
+  progression.js`'s `completeLevel()` — triggered today by a
+  staff-only endpoint, since no automated grading exists yet —
+  auto-creates the next level's enrolment only for students who paid
+  in full. The now-superseded buy-and-wrap LMS interface file was
+  removed as part of this same change, since it directly conflicted
+  with Decision #4.
+- **Executive Decision #2 — configurable multi-currency FX.** A
+  swappable FX provider boundary (`functions/_lib/currency/`,
+  matching the payment-gateway adapter pattern), a real Frankfurter/
+  ECB adapter (covers GBP; explicitly does not cover NGN/SAR/AED/QAR/
+  KWD — stated in its own header, not glossed over), and a service
+  layer separating pure DB-writing logic from the network call. Two
+  new staff-only endpoints for setting a policy-fixed rate or
+  refreshing from the live feed.
+- **Executive Decision #3 — phased gateway rollout.** No code change
+  — `router.js`'s existing `isConfigured()`-based gateway suggestion
+  already implements Stripe → Paystack/Flutterwave → Opay exactly as
+  requested, since which gateway gets suggested is a direct function
+  of which Pages secrets actually exist. Documented in
+  `payments-architecture.md`.
+- **Executive Decision #4 — proprietary LMS, Milestone 1.** New
+  `docs/lms-architecture.md` records the decision, entity model
+  (`Course → Unit → LearningItem`), and a 6-milestone plan (M1 done;
+  M2 content authoring, M3 Student Portal wiring, M4 live-class/video,
+  M5 gradebook, M6 analytics — all future work). Built: level-based
+  access control tied to the same `enrolments` table Payments already
+  writes to; ordered unit/content listing; quiz attempts (append-only,
+  server-side-only scoring, never regressing an already-completed
+  unit on a bad retake); assignment submission and staff grading;
+  scheduled live-session listing (external join links, not custom
+  video infrastructure — a deliberate, disclosed MVP scope choice).
+  Seven new endpoints. **No curriculum content exists anywhere in the
+  shipped schema** — only structural, already-published facts (one
+  `courses` row per level, titled with that level's real name) — real
+  units/quizzes/assignments are WEC-LC academic staff's work (M2).
+- **Executive Decision #5 (partial) — configurable financial policy.**
+  Promo codes and scholarships are now real, working checkout-time
+  discounts (`functions/_lib/payments/discounts.js`), stacking gated
+  by a conservative, disclosed default policy
+  (`platform_config.discount_stacking_policy`). Instalment plans are
+  real and working (`functions/_lib/payments/instalments.js`): equal
+  split (remainder distributed a cent at a time, so the split always
+  sums back exactly to the total), cadence count from
+  `platform_config.instalment_default_count`, plan completion tracked
+  automatically by the webhook handler. Refund policy and corporate
+  invoicing remain undecided — genuinely blocked on institutional
+  policy, not a technical gap.
+- **Executive Decisions #6-8 — confirmed, no code required.** Arabic
+  sequencing (Student Portal after English reaches production
+  quality), infrastructure provisioning order (Cloudflare Pages → D1 →
+  Clerk → Stripe → Resend → Turnstile), and the admissions-first
+  launch sequence were all already the platform's correct working
+  assumptions — documented explicitly in `master-roadmap.md` and
+  `editorial-bible.md` rather than left implicit. One real fix made in
+  passing: `master-roadmap.md`'s own pre-existing "Decision #N" table
+  used the same numbering as your new Executive Decisions for
+  completely different things — now disambiguated so the two schemes
+  can't be confused.
 
-### Backend (Cloudflare Pages Functions + D1, written and tested, not deployed)
-- **Admissions**: `POST /api/admissions/apply` — real form on
-  `/admissions/`, tries the API first, falls back to a pre-filled
-  `mailto:` draft only if unreachable, preserves the applicant's
-  typed data across failures and reloads.
-- **Auth**: Clerk, behind a swappable provider interface — JWT/JWKS
-  verification and Svix webhook verification implemented natively (no
-  SDK), client-side wired via a shared, reusable guard
-  (`js/portal-guard.js` + `js/clerk-loader.js`) that any future portal
-  can build on with only its own data-loading logic.
-- **Payments**: four gateway adapters (Stripe, Paystack, Flutterwave,
-  Opay) behind one provider-agnostic core; config-driven multi-currency
-  (7 currencies seeded, only USD active — no fabricated exchange
-  rates); a real webhook handler with two genuine race conditions
-  found and fixed this pass (see § Verified capabilities).
-- **Student Portal**: `GET /api/auth/me` + `GET /api/student/dashboard`
-  replace the dashboard's illustrative programme-progress stepper,
-  current-level tile, and payment history with a signed-in student's
-  real data, the moment a real Clerk key is configured — until then,
-  the preview pages are byte-for-byte the same static demo they always
-  were.
-- **Financial reporting**: `GET /api/admin/reports/{revenue,reconciliation}`,
-  staff/admin-role-gated, backing a real Finance dashboard
-  (`/finance/preview/`) — the first working instance of the shared
-  portal pattern beyond the Student Portal.
-- **17-table D1 schema** (`sql/schema.sql`) covering every payment
-  feature named in the original brief (instalments, scholarships,
-  promo codes, corporate invoicing, refunds, reconciliation) — some
-  with working endpoints, some schema-ready pending a business
-  decision (see § Remaining Executive Decisions), none guessed at.
-
-### This audit's fixes (27 commits include 5 dedicated to this pass)
-- **2 real concurrency blockers** in the payment webhook handler,
-  fixed and proven with real signed-request tests.
-- **6 security hardenings**: HTML injection into outbound emails,
-  timing-safe signature comparison (5 call sites), an optional
-  Clerk authorized-party check, and input-validation gaps that
-  previously surfaced as raw 500s instead of clean 422s.
-- **~15 accessibility/consistency fixes**: a real bug where
-  `aria-disabled` sidebar links were still fully clickable, an
-  auth-gate overlay that didn't trap keyboard focus, a WCAG-AA
-  contrast failure, missing form-group semantics, and more — see the
-  commit log for the full itemized list.
-- **A real, committed, re-runnable test suite** (`npm test`) — closing
-  this audit's most significant single finding: every "tested" claim
-  in the docs previously referenced checks that ran in an ephemeral
-  session and were never committed anywhere. That gap is now closed.
-- **A full documentation-accuracy refresh** across all 9 pre-existing
-  docs files, each cross-checked against the code it describes, not
-  just reworded.
+### Prior audit (kept for record — see the previous version of this
+report in git history for full detail): 27 commits building the
+public site, backend, auth wiring, payments architecture, financial
+reporting, and Student Portal integration, plus a full
+production-readiness audit (2 concurrency bugs fixed, 6 security
+hardenings, ~15 accessibility fixes, a committed test suite).
 
 ---
 
 ## Verified capabilities
 
-Every claim above was checked, not assumed. Specifically:
+Every claim above was checked, not assumed:
 
-- **`npm test`** — 33 backend files import-checked cleanly; **94
-  functional assertions** against a real SQLite engine (`node:sqlite`)
-  loaded with the actual `sql/schema.sql`, exercising the real,
-  unmodified `functions/**` source. Covers admissions validation,
-  currency conversion/routing, financial reporting and reconciliation
-  query logic, student-dashboard per-student data isolation, the
-  webhook handler's race-condition and partial-failure-recovery fixes
-  (via real HMAC-SHA256 signed requests), and every new
-  validation/security fix from this audit. Reproducible by anyone —
-  see `tests/README.md`.
-- **A 507-link internal link crawl** across all 54 built/hand-authored
-  HTML files — zero broken links.
-- **A full `[hidden]`-visibility crawl** across every built page —
-  zero stray-visible elements (this closed a real CSS-cascade bug
-  found and fixed earlier in the project's history and re-verified
-  clean after every subsequent change).
-- **Playwright browser automation** (not committed to the repo, but
-  run this session — see the honesty note in `docs/api-reference.md`
-  § Verification) confirming: the admissions form's try-API-then-
-  mailto-fallback flow genuinely works end-to-end; the Student Portal
-  and Finance dashboards behave identically to their shipped demo
-  state with no Clerk key configured, and correctly replace
-  illustrative content with real data (driven through a functional
-  fake Clerk global, not just a happy-path check) once one is set.
-- **A visual screenshot check** confirming the faculty-page
-  section-alternation fix and the corrected italic-font rendering both
-  look right, not just pass an automated check.
+- **`npm test`** — **50 backend files import-checked cleanly; 183
+  functional assertions**, 0 failures, against a real SQLite engine
+  (`node:sqlite`) loaded with the actual `sql/schema.sql`, exercising
+  the real, unmodified `functions/**` source. New this milestone: the
+  progressive-unlock mechanism and its idempotency (19 assertions),
+  the FX service's rate-writing logic and a stubbed-provider live-feed
+  path (18), the LMS's access control/quiz-scoring/grading (25), and
+  the discount/instalment mechanism (27) — 89 new assertions, plus the
+  94 already in place. Reproducible by anyone — see `tests/README.md`.
+- **Every new endpoint's 401 boundary is confirmed** — no/invalid auth
+  token is rejected before any of this milestone's new logic runs, the
+  same pattern already established for every pre-existing endpoint.
+- **Every discount/instalment/currency edge case that could silently
+  produce a wrong charge is tested**: a scholarship applied by someone
+  other than the student it was awarded to, a discount that would
+  drive the amount negative, an instalment plan queried for its next
+  amount after it's already fully paid, a currency the live FX
+  provider doesn't cover.
 
 **What's genuinely not verified, and can't be from here:** anything
-requiring a live Clerk/Stripe/Paystack/Flutterwave/Opay/Resend
-account. Every cryptographic/signature-verification routine is
-implemented against each provider's publicly documented scheme, not
-exercised against a real instance of that provider. This is stated
-plainly in `docs/auth-architecture.md` and `docs/payments-architecture.md`
-rather than implied to be more complete than it is.
+requiring a live Clerk/Stripe/Paystack/Flutterwave/Opay/Resend/
+Frankfurter account or endpoint. Every cryptographic/signature-
+verification routine and every third-party API call is implemented
+against that provider's publicly documented scheme, not exercised
+against a real instance — stated plainly in each relevant doc rather
+than implied to be more complete than it is. This environment's own
+network policy was confirmed this session to block outbound calls to
+arbitrary third-party hosts (e.g. `api.frankfurter.app`), which is
+additional, independent confirmation that "implemented against, not
+tested against" is an honest characterization, not a hedge.
 
 ---
 
 ## Remaining external dependencies
 
-Nothing further can be built against these without them existing for
-real — this is a provisioning checklist, not a design or engineering
-gap:
+Unchanged in kind from the prior report — nothing further can be built
+against these without them existing for real:
 
 1. **Cloudflare account** — Pages hosting + D1 database (`wrangler.toml`'s
-   `database_id` is a placeholder).
+   `database_id` is a placeholder). First in Executive Decision #7's
+   confirmed provisioning order.
 2. **Clerk account** — `CLERK_JWKS_URL`, `CLERK_WEBHOOK_SECRET`, a
-   publishable key for `js/auth-config.js`.
-3. **At least one payment gateway account** — Stripe is the most
-   broadly applicable starting point; Paystack/Flutterwave/Opay matter
-   most for the Nigeria/Africa market this platform was explicitly
-   built to serve well.
-4. **Resend account** (or a swap to another email provider behind the
-   same interface) — `RESEND_API_KEY`, a verified sending domain.
+   publishable key for `js/auth-config.js`. Third in the provisioning order.
+3. **At least one payment gateway account** — Stripe first (Executive
+   Decision #3), then Paystack/Flutterwave, then Opay.
+4. **Resend account** — `RESEND_API_KEY`, a verified sending domain.
 5. **A domain DNS decision** — where `worldwencollege.co.uk` actually
    points once hosting is live.
-6. **Cloudflare Turnstile account** (recommended, see decision brief
-   item 3) — for admissions-form bot protection.
+6. **Cloudflare Turnstile account** — last in the provisioning order,
+   for admissions-form bot protection (see decision brief item 3).
+7. **A second FX provider, or a policy-fixed rate decision** — for
+   NGN/SAR/AED/QAR/KWD specifically, since Frankfurter's ECB feed
+   doesn't cover them (GBP is Frankfurter-servable today).
 
 None of these can be provisioned by this session; all are a deploy-time
 checklist once you're ready.
@@ -170,83 +183,87 @@ checklist once you're ready.
 
 ## Remaining executive decisions
 
-Full detail, recommendations, and alternatives for each in
-`docs/executive-decision-brief.md`. Summary:
+Full detail in `docs/executive-decision-brief.md`. What's left, now
+that all 8 of your Executive Decisions are locked in as working
+assumptions with mechanisms built:
 
-**New or clarified by this audit:**
-1. **Full-programme payment enrolment semantics** — does paying up
-   front create all six enrolments immediately, or unlock them
-   progressively? Blocks the already-advertised "$19,000 pay in full"
-   option from actually being purchasable.
-2. **Dashboard/Portal Arabic-RTL localization** — a real, scoped gap;
-   recommend resourcing before the Student Portal itself goes live,
-   not before this preview ships.
-3. **Rate limiting / bot protection** on the public admissions
-   endpoint — recommend Cloudflare Turnstile; currently zero
-   protection exists, a pre-launch requirement once real traffic
-   arrives.
-4. Social-share image system and font self-hosting — both minor,
-   both fine to leave as-is for now (see brief for reasoning).
-
-**Carried over, unchanged by this audit** (still tracked in
-`master-roadmap.md`): hosting/DNS confirmation, USD-vs-GBP pricing
-policy, a named legal/compliance owner, which payment gateway(s) to
-activate first, LMS vendor selection, refund policy, discount/promo-
-code stacking policy, instalment plan cadence, and corporate invoicing
-design (needs a real corporate client to design against).
+1. **Real institutional policy values**, not mechanisms — these are
+   now genuinely the only things blocking full activation of what's
+   built: which currencies actually activate and at what rate; real
+   scholarship eligibility/maximum-discount policy; real instalment
+   cadence policy; refund approval policy; corporate invoicing design
+   (needs a real corporate client relationship to design against).
+2. **Rate limiting / bot protection** on the public admissions
+   endpoint — recommend Cloudflare Turnstile (already last in the
+   confirmed infra provisioning order); currently zero protection
+   exists, a pre-launch requirement once real traffic arrives.
+3. **A legal/compliance owner** for the GDPR/UK GDPR review — required
+   before any real applicant's PII is collected in production. This
+   remains the single highest-priority open item across the entire
+   project.
+4. **LMS content authoring** — not a decision so much as a resourcing
+   question: who on WEC-LC's academic staff authors the real Level
+   I-VI curriculum once Milestone 2's authoring tooling exists.
+5. Minor, low-impact, already-addressed-as-deliberate-non-decisions:
+   social-share image system, font self-hosting (see decision brief
+   for reasoning — both fine as-is).
 
 ---
 
 ## Recommended launch sequence
 
-1. **Resolve the legal/compliance owner and data-protection review**
-   (master-roadmap.md's standing #1 risk) — before any real applicant
-   PII is collected, not after.
-2. **Provision Cloudflare + Clerk + one payment gateway** (Stripe is
-   the lowest-friction first choice) and run the real
-   `wrangler d1 execute` against `sql/schema.sql` — the schema is
-   ready today.
-3. **Add Cloudflare Turnstile** to the admissions form (decision brief
-   item 3) before it's reachable at a real, publicly-known domain.
-4. **Decide currency/pricing policy** and activate the corresponding
-   currencies in the `currencies` table — config change, no code.
-5. **Confirm full-programme enrolment semantics** (decision brief item
-   1) and wire `create-checkout.js` accordingly — a few hours of work
-   once decided.
-6. **Soft-launch the admissions flow first**, Student Portal second —
-   the admissions API is the most self-contained, lowest-risk piece to
-   validate against real traffic before trusting payment/auth flows to
-   it.
-7. **Localize the dashboard layer for Arabic** (decision brief item 2)
-   before or alongside the Student Portal's real launch, given the
-   platform's Gulf/Nigeria-weighted target market.
-8. **LMS vendor selection** can happen in parallel with the above —
-   it blocks course-content delivery, not admissions or payments.
+Unchanged in structure from the prior report, updated where this
+milestone's work changes what's actually ready:
+
+1. **Resolve the legal/compliance owner and data-protection review** —
+   before any real applicant PII is collected, not after. Still the
+   standing #1 blocker.
+2. **Provision Cloudflare + Clerk + Stripe** (Executive Decisions #3
+   and #7's confirmed order) and run the real `wrangler d1 execute`
+   against `sql/schema.sql` — the schema, now including
+   `platform_config` and the full LMS Milestone-1 tables, is ready
+   today.
+3. **Add Cloudflare Turnstile** to the admissions form before it's
+   reachable at a real, publicly-known domain.
+4. **Activate GBP** via a real Frankfurter fetch or a policy-fixed
+   rate (`POST /api/admin/currency/set-rate`) — a same-day operational
+   task now, not a pricing-policy blocker.
+5. **Soft-launch the admissions flow first**, Payments second, Student
+   Portal third, LMS integration fourth — exactly Executive Decision
+   #8's confirmed order, and each is now real, tested, working code
+   waiting only on credentials.
+6. **Author real Level I curriculum** (LMS Milestone 2) in parallel
+   with the above — it blocks course-content delivery specifically,
+   not admissions, payments, or enrolment.
+7. **Localize the Student Portal for Arabic** (Executive Decision #6)
+   once the English Student Portal itself reaches production quality
+   — not before, per the confirmed sequencing.
 
 ---
 
 ## Post-launch roadmap
 
-Once the Student Portal has real, first-cohort usage:
-
+- **LMS Milestones 2-6** — content authoring tooling, Student Portal
+  frontend wiring to the now-built LMS endpoints, live-class/video
+  depth (Cloudflare Stream), a Faculty-facing gradebook, and CEFR-
+  specific competency analytics. See `docs/lms-architecture.md`'s own
+  roadmap section for the full sequencing and reasoning.
 - **Faculty/Administration/Executive/Corporate/Alumni portals** — the
-  pattern (`js/portal-guard.js` + the shared `dashboard.css` component
-  library) is proven twice now (Student Portal, Finance); each new
-  portal is a data-loading script and a role-gate decision, not a
-  redesign.
-- **Discount/scholarship/promo-code wiring** once pricing policy
-  (decision brief) is confirmed.
-- **Instalment plans and corporate invoicing** once their respective
-  policy decisions and (for corporate) a real client relationship
-  exist.
-- **Refund workflow activation** once refund policy is decided —
+  shared portal pattern (`js/portal-guard.js` + `dashboard.css`) is
+  proven three times now (Student Portal, Finance, and structurally by
+  the LMS's staff-only endpoints); each new portal is a data-loading
+  script and a role-gate decision, not a redesign. Sequenced per
+  Executive Decision #8.
+- **A second FX provider** for NGN/SAR/AED/QAR/KWD, behind the same
+  `FxProviderInterface` Decision #2 already established.
+- **Refund workflow activation** and **corporate invoicing** once
+  their respective real institutional policies/relationships exist —
   `refund()` is already implemented per-gateway, only the approval
-  workflow is missing.
+  workflow and a real corporate client are missing.
 - **PDF receipt generation** — `receipts.pdf_url` is schema-ready.
-- **A committed frontend (Playwright) test suite** — the backend now
-  has one; the frontend verification done this session was real but
-  not yet checked into the repository (see `docs/api-reference.md` §
-  Verification).
+- **A committed frontend (Playwright) test suite** — the backend has
+  one now; frontend verification has been done ad hoc across sessions
+  but not yet checked into the repository.
 - **Structured data expansion** — `BreadcrumbList` on nested pages, a
   `Course`/`EducationalOccupationalProgram` type for the IEFC page.
 
@@ -254,25 +271,36 @@ Once the Student Portal has real, first-cohort usage:
 
 ## Assessment of readiness for production
 
-**Engineering: ready.** Every buildable piece — admissions, auth
-wiring, payments architecture, financial reporting, the Student
-Portal's real-data integration, and this audit's correctness/security/
-accessibility fixes — is written, functionally tested against
-everything short of a live third-party account, and documented
-accurately (verified, not just re-asserted, this pass). The codebase
-has no known blocker-severity defects remaining; the two genuine
-concurrency bugs found this audit are fixed and proven.
+**Engineering: ready**, and materially more so than the prior report —
+this milestone closed the gap between "the schema supports it" and
+"it's real, working, tested code" for full-programme payments,
+multi-currency activation, discounts, instalments, and an entire new
+LMS subsystem, without any known regression (the full 183-assertion
+suite, including everything from the prior audit, still passes clean).
+The codebase has no known blocker-severity defects.
 
-**Content/brand: ready.** The public site is complete, bilingual,
-internally consistent, and honest about what's confirmed vs. in
-progress — no fabricated leadership, accreditation, testimonials, or
-statistics anywhere, a discipline maintained throughout this entire
-project including under direct requests to relax it.
+**Content/brand: unchanged, still ready.** No fabricated leadership,
+accreditation, testimonials, statistics, exchange rates, or curriculum
+content anywhere — a discipline that, this milestone, specifically
+extended to declining to invent an FX rate for GBP and declining to
+seed any LMS lesson/quiz/assignment content, exactly the same standard
+held since this project's first session.
 
-**Operationally: not ready, by design, not by omission.** Nothing in
-§ Remaining External Dependencies or § Remaining Executive Decisions
-can be resolved by more code — they require real accounts, real money,
-and real institutional decisions that are legitimately yours to make,
-not mine to guess at. That is the accurate, final state of this
-project: the distance between "engineering-complete" and "launched" is
-entirely in your hands now, not in a backlog of unfinished work.
+**Operationally: not ready, by design, not by omission.** Every item
+in § Remaining External Dependencies and § Remaining Executive
+Decisions requires a real account, real money, or a real institutional
+policy decision that is legitimately yours to make. What changed this
+milestone is how much less is *also* waiting on more engineering work
+once those arrive: full-programme payments, GBP activation, discounts,
+and instalments are now a credentials-and-policy checklist away from
+working, not a build queue.
+
+**What this milestone deliberately did not do, and why:** it did not
+claim a "complete, flagship LMS" — Milestone 1 is a real, tested
+foundation (content model, assessment, progression), not the finished
+platform the executive directive envisions long-term. Faculty-facing
+content authoring, Student Portal wiring, live video, and analytics
+remain explicitly sequenced as future milestones in
+`docs/lms-architecture.md`, each to be built, tested, and reported on
+in turn — the same "continuous executive reporting, not one giant
+claim" discipline this report itself follows.

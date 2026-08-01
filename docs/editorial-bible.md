@@ -196,9 +196,13 @@ palette, no stand-and-smile stock photography.
    institutional/legal phrasing on the Tuition and Contact pages. This
    discipline has **not** been extended to the newer authenticated
    dashboard layer (`/student-portal/preview/*`, `/finance/preview/`) —
-   those are English-only with no `[dir="rtl"]` build, a real gap flagged
-   for a resourcing decision in `docs/executive-readiness-report.md`,
-   not silently carried over as "done."
+   those are English-only with no `[dir="rtl"]` build — Executive
+   Decision #6 confirms this gap's resolution sequencing explicitly:
+   Student Portal Arabic localisation begins once the English Student
+   Portal itself reaches production quality, not before, though the
+   architecture (see `docs/auth-architecture.md`) is built to support
+   RTL from the outset rather than needing a retrofit when that work
+   starts.
 2. **Full multi-page site** — decided and built (10 English pages / 10
    Arabic pages — see `site-architecture.md`). Course Catalogue and Blog/
    News were deliberately not built as separate pages in this pass (see
