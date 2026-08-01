@@ -18,7 +18,10 @@ export async function onRequestGet({ request, env }) {
       .first();
     if (!payment) throw new NotFoundError('No payment found with that id for this account.');
 
-    return jsonResponse(payment);
+    // camelCase in the response, matching every other endpoint's
+    // convention (raw snake_case DB columns never cross this API
+    // boundary) — see docs/api-reference.md.
+    return jsonResponse({ id: payment.id, status: payment.status, currency: payment.currency, amountCents: payment.amount_cents, levelId: payment.level_id });
   } catch (err) {
     return errorResponse(err);
   }

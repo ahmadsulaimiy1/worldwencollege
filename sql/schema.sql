@@ -22,9 +22,9 @@ CREATE TABLE users (
   auth_provider_id  TEXT NOT NULL,               -- Clerk user id (sub claim)
   email             TEXT NOT NULL,
   email_verified    INTEGER NOT NULL DEFAULT 0,  -- 0/1
-  role              TEXT NOT NULL DEFAULT 'student', -- student | staff | admin
+  role              TEXT NOT NULL DEFAULT 'student' CHECK (role IN ('student','staff','admin')),
   preferred_name    TEXT,
-  preferred_language TEXT NOT NULL DEFAULT 'en', -- en | ar
+  preferred_language TEXT NOT NULL DEFAULT 'en' CHECK (preferred_language IN ('en','ar')),
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   updated_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   UNIQUE(auth_provider, auth_provider_id)
@@ -58,9 +58,9 @@ CREATE TABLE applications (
   country           TEXT,                -- ISO 3166-1 alpha-2, drives currency default
   self_assessed_level_id INTEGER REFERENCES programme_levels(id), -- from the public quiz, non-binding
   placement_level_id     INTEGER REFERENCES programme_levels(id), -- confirmed by Step 3 assessment
-  status            TEXT NOT NULL DEFAULT 'submitted',
-                    -- submitted | placement_pending | offer_sent | accepted | enrolled | withdrawn | rejected
-  source            TEXT NOT NULL DEFAULT 'website', -- website | manual_bridge | referral
+  status            TEXT NOT NULL DEFAULT 'submitted'
+                    CHECK (status IN ('submitted','placement_pending','offer_sent','accepted','enrolled','withdrawn','rejected')),
+  source            TEXT NOT NULL DEFAULT 'website' CHECK (source IN ('website','manual_bridge','referral')),
   notes             TEXT,
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   updated_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
@@ -78,8 +78,8 @@ CREATE TABLE enrolments (
   user_id           TEXT NOT NULL REFERENCES users(id),
   application_id    TEXT REFERENCES applications(id),
   level_id          INTEGER NOT NULL REFERENCES programme_levels(id),
-  status            TEXT NOT NULL DEFAULT 'pending_payment',
-                    -- pending_payment | active | completed | withdrawn
+  status            TEXT NOT NULL DEFAULT 'pending_payment'
+                    CHECK (status IN ('pending_payment','active','completed','withdrawn')),
   started_at        TEXT,
   completed_at      TEXT,
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
@@ -116,7 +116,7 @@ CREATE TABLE country_payment_routing (
 -- ---------------------------------------------------------------------
 CREATE TABLE promo_codes (
   code              TEXT PRIMARY KEY,
-  kind              TEXT NOT NULL,      -- 'percent' | 'fixed_amount'
+  kind              TEXT NOT NULL CHECK (kind IN ('percent','fixed_amount')),
   value              REAL NOT NULL,      -- 15 (=15%) or 5000 (=$50.00 in cents context)
   currency          TEXT REFERENCES currencies(code), -- NULL if percent-based
   max_redemptions   INTEGER,
@@ -129,7 +129,7 @@ CREATE TABLE promo_codes (
 CREATE TABLE scholarships (
   id                TEXT PRIMARY KEY,
   user_id           TEXT NOT NULL REFERENCES users(id),
-  kind              TEXT NOT NULL,      -- 'percent' | 'fixed_amount' | 'full'
+  kind              TEXT NOT NULL CHECK (kind IN ('percent','fixed_amount','full')),
   value             REAL,
   approved_by       TEXT,               -- staff user id — ties into the 3-signature pattern
   notes             TEXT,
@@ -152,7 +152,7 @@ CREATE TABLE corporate_seats (
   id                TEXT PRIMARY KEY,
   corporate_account_id TEXT NOT NULL REFERENCES corporate_accounts(id),
   user_id           TEXT REFERENCES users(id),  -- NULL until the seat is claimed
-  status            TEXT NOT NULL DEFAULT 'unclaimed' -- unclaimed | claimed | revoked
+  status            TEXT NOT NULL DEFAULT 'unclaimed' CHECK (status IN ('unclaimed','claimed','revoked'))
 );
 
 -- ---------------------------------------------------------------------
@@ -167,7 +167,7 @@ CREATE TABLE instalment_plans (
   level_id          INTEGER REFERENCES programme_levels(id), -- NULL if plan spans the full programme
   total_amount_usd_cents INTEGER NOT NULL,
   instalment_count  INTEGER NOT NULL,
-  status            TEXT NOT NULL DEFAULT 'active' -- active | completed | defaulted | cancelled
+  status            TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active','completed','defaulted','cancelled'))
 );
 
 CREATE TABLE payments (
@@ -175,7 +175,7 @@ CREATE TABLE payments (
   user_id           TEXT NOT NULL REFERENCES users(id),
   enrolment_id      TEXT REFERENCES enrolments(id),
   corporate_account_id TEXT REFERENCES corporate_accounts(id), -- set for corporate-invoiced payments
-  kind              TEXT NOT NULL,      -- 'full_programme' | 'single_level' | 'instalment'
+  kind              TEXT NOT NULL CHECK (kind IN ('full_programme','single_level','instalment')),
   level_id          INTEGER REFERENCES programme_levels(id), -- NULL for full-programme payments
   instalment_plan_id TEXT REFERENCES instalment_plans(id),
   amount_cents      INTEGER NOT NULL,   -- in `currency`'s minor unit
@@ -183,10 +183,10 @@ CREATE TABLE payments (
   amount_usd_cents  INTEGER NOT NULL,   -- normalised, for reporting/reconciliation across currencies
   promo_code        TEXT REFERENCES promo_codes(code),
   scholarship_id    TEXT REFERENCES scholarships(id),
-  provider          TEXT NOT NULL,      -- 'stripe' | 'paystack' | 'flutterwave' | 'opay'
+  provider          TEXT NOT NULL CHECK (provider IN ('stripe','paystack','flutterwave','opay')),
   provider_ref      TEXT,               -- the gateway's own charge/session id
-  status            TEXT NOT NULL DEFAULT 'pending',
-                    -- pending | processing | succeeded | failed | refunded | partially_refunded
+  status            TEXT NOT NULL DEFAULT 'pending'
+                    CHECK (status IN ('pending','processing','succeeded','failed','refunded','partially_refunded')),
   failure_reason    TEXT,
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   confirmed_at      TEXT
@@ -216,7 +216,17 @@ CREATE TABLE payment_webhook_events (
                     -- exactly the case this column exists to let a
                     -- reconciliation report surface (see
                     -- functions/_lib/reports/reconciliation.js).
-  processed_at      TEXT,
+  processed_at      TEXT,               -- set once the event is signature-verified
+                    -- and logged — NOT the same as "fully handled," see handled_at.
+  handled_at        TEXT,               -- set only once applyPaymentUpdate() (and
+                    -- any receipt/notification it triggers) completes without
+                    -- throwing. A retried delivery of the same (provider, event_id)
+                    -- short-circuits to "already processed" only when this is
+                    -- set — if a prior attempt logged the event but then failed
+                    -- partway through side effects, handled_at stays NULL and a
+                    -- gateway retry correctly re-attempts them (safe to retry:
+                    -- applyPaymentUpdate's own guards make every step idempotent).
+                    -- See functions/_lib/payments/webhook-handler.js.
   received_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   UNIQUE(provider, event_id)
 );
@@ -233,8 +243,24 @@ CREATE TABLE receipts (
   payment_id        TEXT NOT NULL REFERENCES payments(id),
   receipt_number    TEXT NOT NULL UNIQUE, -- sequential, human-facing
   issued_at         TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
-  pdf_url           TEXT                  -- set once a PDF-generation step exists
+  pdf_url           TEXT,                 -- set once a PDF-generation step exists
+  UNIQUE(payment_id)                      -- at most one receipt per payment — closes a
+                    -- real race window where two concurrent webhook deliveries for the
+                    -- same payment could otherwise both issue one (see webhook-handler.js).
 );
+
+-- A tiny atomic counter table — used for receipt numbering via
+-- `UPDATE counters SET value = value + 1 WHERE name = ? RETURNING value`,
+-- which SQLite (and D1) execute as a single atomic statement. This
+-- replaces a `SELECT count(*) FROM receipts` approach, which is a real
+-- race under concurrent webhook deliveries (two requests can read the
+-- same count before either INSERT commits). See
+-- functions/_lib/payments/webhook-handler.js.
+CREATE TABLE counters (
+  name              TEXT PRIMARY KEY,
+  value             INTEGER NOT NULL DEFAULT 0
+);
+INSERT INTO counters (name, value) VALUES ('receipt_number', 0);
 
 CREATE TABLE refunds (
   id                TEXT PRIMARY KEY,
@@ -242,7 +268,7 @@ CREATE TABLE refunds (
   amount_cents      INTEGER NOT NULL,
   reason            TEXT NOT NULL,
   approved_by       TEXT,               -- staff user id — refunds need a named approver, not self-service
-  status            TEXT NOT NULL DEFAULT 'requested', -- requested | approved | processed | rejected
+  status            TEXT NOT NULL DEFAULT 'requested' CHECK (status IN ('requested','approved','processed','rejected')),
   provider_refund_ref TEXT,
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
@@ -255,10 +281,10 @@ CREATE TABLE notification_log (
   id                TEXT PRIMARY KEY,
   user_id           TEXT REFERENCES users(id),
   event_type        TEXT NOT NULL,      -- 'application_received' | 'payment_confirmed' | ...
-  channel           TEXT NOT NULL,      -- 'email' | 'sms'
+  channel           TEXT NOT NULL CHECK (channel IN ('email','sms')),
   provider          TEXT NOT NULL,
   provider_ref      TEXT,
-  status            TEXT NOT NULL DEFAULT 'queued', -- queued | sent | failed
+  status            TEXT NOT NULL DEFAULT 'queued' CHECK (status IN ('queued','sent','failed')),
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 

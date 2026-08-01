@@ -4,6 +4,7 @@
 // separate signing secret). Neither is set anywhere real.
 
 import { GatewayNotConfiguredError } from './provider-interface.js';
+import { timingSafeEqual } from '../db.js';
 
 const API_BASE = 'https://api.paystack.co';
 
@@ -46,7 +47,7 @@ export const paystackAdapter = {
     );
     const mac = await crypto.subtle.sign('HMAC', cryptoKey, new TextEncoder().encode(rawBody));
     const expectedHex = [...new Uint8Array(mac)].map((b) => b.toString(16).padStart(2, '0')).join('');
-    return expectedHex === sigHeader;
+    return timingSafeEqual(expectedHex, sigHeader);
   },
 
   parseWebhookEvent(rawBody) {

@@ -17,6 +17,7 @@
 // OPAY_SECRET_KEY.
 
 import { GatewayNotConfiguredError } from './provider-interface.js';
+import { timingSafeEqual } from '../db.js';
 
 const API_BASE = 'https://api.opaycheckout.com/api/v1/international/cashier'; // VERIFY against current Opay docs
 
@@ -66,7 +67,7 @@ export const opayAdapter = {
     const header = request.headers.get('signature') || request.headers.get('x-opay-signature');
     if (!header) return false;
     const expected = await hmacSha512Hex(env.OPAY_SECRET_KEY, rawBody);
-    return header === expected;
+    return timingSafeEqual(header, expected);
   },
 
   parseWebhookEvent(rawBody) {

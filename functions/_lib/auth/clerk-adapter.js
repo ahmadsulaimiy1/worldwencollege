@@ -11,6 +11,8 @@
 //   CLERK_JWKS_URL        e.g. https://<your-instance>.clerk.accounts.dev/.well-known/jwks.json
 //   CLERK_WEBHOOK_SECRET  the "whsec_..." signing secret from the Clerk dashboard
 
+import { timingSafeEqual } from '../db.js';
+
 let jwksCache = { keys: null, fetchedAt: 0 };
 const JWKS_TTL_MS = 10 * 60 * 1000;
 
@@ -79,6 +81,21 @@ export const clerkAdapter = {
     if (payload.exp && nowSec >= payload.exp) return null;
     if (payload.nbf && nowSec < payload.nbf) return null;
 
+    // Optional authorized-party check: if CLERK_AUTHORIZED_PARTIES is
+    // set (comma-separated origins, e.g. "https://worldwencollege.co.uk"),
+    // a token whose azp claim isn't in that list is rejected. Off by
+    // default (unset = skip this check) so it never blocks anything
+    // until deployment deliberately configures it — but worth setting
+    // at deploy time: without it, any token signed by keys behind
+    // CLERK_JWKS_URL is accepted regardless of which Clerk-connected
+    // application minted it, which matters the moment more than one
+    // frontend shares this Clerk instance (e.g. a future portal on a
+    // different subdomain). See docs/auth-architecture.md.
+    if (env.CLERK_AUTHORIZED_PARTIES) {
+      const allowed = env.CLERK_AUTHORIZED_PARTIES.split(',').map((s) => s.trim()).filter(Boolean);
+      if (allowed.length && (!payload.azp || !allowed.includes(payload.azp))) return null;
+    }
+
     return {
       providerId: payload.sub,
       email: payload.email || null,
@@ -105,7 +122,7 @@ export const clerkAdapter = {
     const mac = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(signedContent));
     const expected = btoa(String.fromCharCode(...new Uint8Array(mac)));
 
-    return svixSignature.split(' ').some((entry) => entry.split(',')[1] === expected);
+    return svixSignature.split(' ').some((entry) => timingSafeEqual(entry.split(',')[1], expected));
   },
 
   parseWebhookEvent(rawBody) {

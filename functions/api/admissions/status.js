@@ -17,7 +17,10 @@ export async function onRequestGet({ request, env }) {
       .first();
     if (!app) throw new NotFoundError('No application found with that id.');
 
-    return jsonResponse(app);
+    // camelCase in the response, matching every other endpoint's
+    // convention (raw snake_case DB columns never cross this API
+    // boundary) — see docs/api-reference.md.
+    return jsonResponse({ id: app.id, status: app.status, createdAt: app.created_at });
   } catch (err) {
     return errorResponse(err);
   }

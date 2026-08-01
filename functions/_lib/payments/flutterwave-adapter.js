@@ -5,6 +5,7 @@
 // is set anywhere real.
 
 import { GatewayNotConfiguredError } from './provider-interface.js';
+import { timingSafeEqual } from '../db.js';
 
 const API_BASE = 'https://api.flutterwave.com/v3';
 
@@ -42,7 +43,7 @@ export const flutterwaveAdapter = {
   async verifyWebhookSignature(request, _rawBody, env) {
     if (!env.FLW_WEBHOOK_SECRET_HASH) throw new GatewayNotConfiguredError('Flutterwave', 'FLW_WEBHOOK_SECRET_HASH');
     const header = request.headers.get('verif-hash');
-    return header === env.FLW_WEBHOOK_SECRET_HASH;
+    return timingSafeEqual(header, env.FLW_WEBHOOK_SECRET_HASH);
   },
 
   parseWebhookEvent(rawBody) {

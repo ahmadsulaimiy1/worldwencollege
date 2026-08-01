@@ -11,7 +11,12 @@ export async function onRequestPost({ request, env }) {
     const verified = await authProvider.verifyWebhookSignature(request, rawBody, env);
     if (!verified) return new Response('Signature verification failed.', { status: 400 });
 
-    const event = authProvider.parseWebhookEvent(rawBody);
+    let event;
+    try {
+      event = authProvider.parseWebhookEvent(rawBody);
+    } catch (err) {
+      return new Response('Malformed webhook payload.', { status: 400 });
+    }
     if (event.type === 'user.created' || event.type === 'user.updated') {
       const primaryEmail = event.data.email_addresses?.find((e) => e.id === event.data.primary_email_address_id);
       await upsertUserFromProviderEvent(env, {

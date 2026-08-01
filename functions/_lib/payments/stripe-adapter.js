@@ -4,6 +4,7 @@
 // anywhere real — see docs/payments-architecture.md.
 
 import { GatewayNotConfiguredError } from './provider-interface.js';
+import { timingSafeEqual } from '../db.js';
 
 const API_BASE = 'https://api.stripe.com/v1';
 
@@ -73,7 +74,7 @@ export const stripeAdapter = {
     );
     const mac = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(`${parts.t}.${rawBody}`));
     const expectedHex = [...new Uint8Array(mac)].map((b) => b.toString(16).padStart(2, '0')).join('');
-    return expectedHex === parts.v1;
+    return timingSafeEqual(expectedHex, parts.v1);
   },
 
   parseWebhookEvent(rawBody) {
