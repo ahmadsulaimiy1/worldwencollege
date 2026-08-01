@@ -680,21 +680,55 @@ today, ranked by how much more expensive they get if delayed:
 
 ---
 
+## Provisional Assumptions Now Locked for Building (Stage C)
+
+Per explicit instruction: build ahead of confirmation, document the
+assumption, flag for later sign-off rather than stopping. These
+supersede the "recommended" language elsewhere in this document for
+the purpose of what was actually built — see
+`docs/technical-architecture.md`, `docs/payments-architecture.md`,
+`docs/auth-architecture.md` for the implementations.
+
+| Area | Provisional assumption | Still needs confirmation |
+|---|---|---|
+| Hosting (Decision #1) | Cloudflare Pages + Pages Functions + D1 | Real account, real `database_id` in `wrangler.toml` |
+| Payments (Decision #4) | Modular multi-gateway: Stripe, Paystack, Flutterwave, Opay — provider-agnostic core, no gateway hardcoded in | Real merchant accounts for all four; Opay's adapter additionally needs its field names verified against current docs (see its file header) |
+| Auth (Decision #5) | Clerk, behind a swappable interface | Real Clerk instance; `CLERK_JWKS_URL`/`CLERK_WEBHOOK_SECRET` |
+| LMS (Decision #6) | Buy-and-wrap | Which vendor — nothing is implementable further until one is chosen (see `functions/_lib/lms/provider-interface.js`) |
+| Currency (Decision #2) | Config-driven, multi-currency-ready | Which currencies actually activate, and whether GBP uses a live feed or a policy-fixed rate — see `payments-architecture.md` § Multi-currency |
+
+**What changed vs. the original recommendation:** the roadmap above
+(Phase 9) recommended Stripe alone for simplicity; the updated
+instruction explicitly required a modular multi-gateway architecture
+from the outset given WEC-LC's global, Nigeria-inclusive target market.
+The architecture built reflects the updated instruction, not the
+original recommendation — Phase 9's text is left as written above for
+the historical record of how the recommendation evolved, rather than
+edited to hide that it changed.
+
+---
+
 ## Decisions Needed From You Before Further Build Work
 
 This roadmap deliberately stops short of writing code for anything beyond
 Phase 0. The next session should start from whichever of these you resolve:
 
 1. **Hosting/DNS** — where should `worldwencollege.co.uk` actually point?
-   (Netlify/Vercel/Cloudflare Pages are all zero-cost fits for the current
-   static build.)
+   *Building against: Cloudflare Pages (see "Provisional Assumptions" above) —
+   confirm or override before the first real deploy.*
 2. **Currency & pricing** — confirm USD tuition stands, or convert to GBP.
+   *Building against: config-driven multi-currency, USD-only active until
+   this is resolved — see `payments-architecture.md`.*
 3. **Legal/compliance owner** — who reviews data protection before any
    real application form goes live?
-4. **Payment processor** — Stripe (recommended) or an alternative?
-5. **Auth provider** — Clerk/Auth0 (recommended) or in-house?
-6. **LMS: buy or build?** — my recommendation is buy-and-wrap (Phase 9);
-   confirm or override.
+4. **Payment processor** — *Building against: Stripe + Paystack + Flutterwave +
+   Opay, modular — confirm the four, or add/remove one before real merchant
+   accounts are opened.*
+5. **Auth provider** — *Building against: Clerk, behind a swappable interface
+   — confirm or override before a real Clerk instance is created.*
+6. **LMS: buy or build?** — *Building against: buy-and-wrap — vendor still
+   unpicked; nothing further can be built here without one (see
+   `functions/_lib/lms/provider-interface.js`).*
 7. **Budget/team for Stage C** — what's actually resourced, and by when?
 8. **Physical London Campus: real plan, or brand naming?** — resolves the
    Phase 19 "London Campus" vs. "100% Online" ambiguity, and determines

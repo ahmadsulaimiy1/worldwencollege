@@ -1,0 +1,4 @@
+{
+  "type": "module",
+  "comment": "Scoped to functions/ only, deliberately not set at the repo root — see the comment in the root package.json. Every file under here uses import/export; scripts/build.js at the repo root does not."
+}

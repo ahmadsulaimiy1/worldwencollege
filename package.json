@@ -1,0 +1,20 @@
+{
+  "name": "wec-lc",
+  "private": true,
+  "description": "WorldWide English College, London Campus — public site (static, no framework) + backend (Cloudflare Pages Functions, no npm runtime dependencies).",
+  "comment_on_modules": "No root-level \"type\" field, deliberately: scripts/build.js (the existing static-site generator) is CommonJS, while functions/**/*.js (Pages Functions) use ES module import/export. Node 22's built-in CJS/ESM syntax auto-detection handles both correctly from one tree without a type field — verified by running both. Do not add \"type\": \"module\" here without also converting scripts/build.js, or it breaks the static build.",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "dev": "wrangler pages dev . --d1=DB",
+    "db:create": "wrangler d1 create wec-lc",
+    "db:schema": "wrangler d1 execute wec-lc --remote --file=sql/schema.sql",
+    "db:schema:local": "wrangler d1 execute wec-lc --local --file=sql/schema.sql",
+    "deploy": "wrangler pages deploy ."
+  },
+  "devDependencies": {
+    "wrangler": "^3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
