@@ -3,7 +3,10 @@
 *Governing planning document. Companion to `editorial-bible.md` (brand
 system) and `site-architecture.md` (public site IA). Status: **draft,
 awaiting approval** — nothing beyond the public website described in
-Phase 0 has been built.*
+Phase 0 has been built. Part I (Phases 1–15) is the original roadmap;
+Part II (Phases 16–20) is a continued executive review, added
+unprompted, covering legal/regulatory, governance, financial, and brand
+risk gaps the original fifteen phases didn't reach.*
 
 ---
 
@@ -455,6 +458,228 @@ your review of this roadmap and Phase 1's open decisions.
 
 ---
 
+# Part II — Institutional Readiness Review
+
+*Added on continued executive review, not requested in the original
+fifteen phases. These are gaps a strategy firm would raise unprompted
+before presenting a roadmap to a Board — not restatements of Part I.*
+
+## Phase 16 — Regulatory & Legal Readiness (UK-Specific)
+
+**Status:** 🔭 Not addressed until now. **None of this is legal advice —
+every item needs sign-off from a UK solicitor before you rely on it. My
+job here is to make sure the right questions reach that solicitor, not to
+answer them myself.**
+
+- **Company name risk.** "University" cannot be used in a UK company name
+  without Privy Council consent — settled law. Whether "College" carries
+  a similar restriction under Companies House's "sensitive words" regime
+  is less certain from where I sit; **treat this as unresolved, not
+  cleared**, and run the formal sensitive-words check before incorporating
+  WEC-LC as a UK entity under this name.
+- **Registered office.** Regardless of whether a teaching campus ever
+  exists, a UK limited company needs a registered office address on file
+  with Companies House. This is separate from, and cheaper/faster than,
+  the "physical London Campus" question in `about.html`'s Institutional
+  Status callout — resolve it first, independently.
+- **Data protection.** The moment a real application form collects a real
+  applicant's data, UK GDPR applies and ICO registration (a modest annual
+  fee, tiered by size) is very likely required. This should land on
+  whoever owns Decision #3 in the original list, with a named person
+  functioning as Data Protection Officer even before a full-time hire
+  exists — a "fractional DPO" service is a reasonable bridge.
+- **Immigration/visa sponsorship — good news, not a gap.** A UK Student
+  Sponsor Licence (needed to issue a CAS and sponsor a Student visa) is
+  only required for institutions delivering **in-person** study in the
+  UK. As currently marketed ("100% Online Digital Campus"), WEC-LC likely
+  avoids this entire regulatory track — a real advantage worth *keeping*
+  deliberately, not losing by accident if Phase 16's naming question (see
+  Phase 19) drifts toward implying in-person delivery.
+- **Safeguarding.** The target-audience list explicitly includes "school
+  pupils" and "secondary school students." A fully online, supplementary
+  (non-full-time) English course is unlikely to trigger Ofsted
+  registration as an independent educational institution — but that's a
+  *floor*, not a safeguarding standard. Recommended regardless of legal
+  minimum: DBS-equivalent checks for any instructor who may work with
+  under-18s, a written online-safety/safe-messaging policy, and parental
+  consent capture for applicants under 13 (the UK's threshold for a
+  child's own consent to an online service) built into Phase 8's
+  onboarding flow from day one, not retrofitted later.
+- **Advertising claims.** UK marketing is governed by the ASA's CAP
+  Code — claims must be accurate and not misleading. See Phase 19 for the
+  specific claim this roadmap flags as currently ambiguous.
+- **Effort:** a single scoping call with a UK solicitor experienced in
+  EdTech/private education (2–4 hours) can answer the company-name,
+  registered-office, DPO, and safeguarding-registration questions
+  together — cheaper done as one engagement than four.
+
+---
+
+## Phase 17 — Governance & Organisational Design
+
+**Status:** 🔭 Not addressed until now.
+
+WEC-LC currently has no named leadership at all — not even a founder
+listed publicly (an honest, deliberate omission per `editorial-bible.md`).
+That's defensible for a pre-launch marketing site; it is not a
+governance structure an accreditor, a bank, or a payment processor's
+underwriting team will accept once real money moves. A minimal viable
+governance structure, buildable on paper before any hire is made:
+
+| Role | Owns | Can be fractional/interim? |
+|---|---|---|
+| Founder / CEO | Vision, final accountability | No |
+| Academic Director | Learning outcomes, QA framework (Phase 3's open gaps), instructor standards | Yes — a part-time academic consultant can hold this early |
+| Compliance & Data Protection Lead | ICO registration, safeguarding policy, the PII posture Phase 8 depends on | Yes — fractional DPO services exist specifically for this stage |
+| Admissions & Student Experience Lead | The admissions journey, the `info@` inbox today, the portal tomorrow | Could be the Founder initially |
+| Finance Lead | Stripe reconciliation, the unit-economics model in Phase 18 | Yes — a part-time bookkeeper/fractional CFO is sufficient pre-Stage-D |
+
+- **Recommendation:** stand up a light **Academic Board** — even just
+  Founder + Academic Director + one external subject-matter adviser —
+  meeting quarterly to review learning outcomes and assessment
+  consistency. This costs almost nothing before Phase 3's QA framework is
+  written, and is exactly the kind of documented governance cadence a
+  future British Council accreditation application will ask to see
+  evidence of having existed *before* the application, not invented for it.
+- **Extend the existing sign-off pattern.** `editorial-bible.md` already
+  establishes a three-signature prepared/reviewed/approved chain for
+  policies. Extend that same pattern to grade appeals, certificate
+  issuance, and safeguarding incidents now, on paper — cheap to design
+  before there are real cases, expensive to improvise under pressure once
+  there are.
+- **Risk if skipped:** Stripe, banking partners, and any future
+  accreditation body all underwrite *governance*, not just product. An
+  institution that can't name who's accountable for a safeguarding
+  incident or a grade dispute reads as higher-risk to every one of them.
+
+---
+
+## Phase 18 — Financial Model & Unit Economics
+
+**Status:** 🔭 Not addressed until now. **Every number below is an
+illustrative placeholder to show the shape of the model — not a real
+estimate. Replace every input with a real quote before relying on the
+output.**
+
+**Breakeven framework:**
+
+```
+Breakeven cohort size = Fixed annual costs ÷ (Revenue per student − Variable cost per student)
+```
+
+| Input | Illustrative placeholder | Source needed |
+|---|---|---|
+| Revenue per student (full IEFC) | $19,000 | ✅ Confirmed (Phase 3) |
+| Variable cost per student (instruction time, LMS seat fee, ~3% payment processing, certificate/admin) | $4,000–$6,000 (placeholder range) | Real instructor rates, real LMS vendor quote |
+| Fixed annual costs (Stage C/D team, hosting, DPO, base marketing) | $150,000–$250,000/yr (placeholder range) | Real hiring plan from Phase 17 |
+| **Illustrative breakeven** | **≈15–25 fully-enrolled students/year** | — |
+
+- **Why this matters even as a placeholder:** it suggests WEC-LC's model
+  does *not* require hundreds of students to sustain a lean founding
+  team — a small, high-conversion founding cohort could plausibly cover
+  Stage C/D operating costs. That's a materially different fundraising
+  and hiring conversation than assuming this needs venture-scale volume
+  to work. **Get real quotes and rebuild this table before acting on it.**
+- **Cash-flow risk, and a concrete fix.** Phase 8/9/11 (the MVP portal +
+  LMS integration) cost real money *before* they generate a single
+  dollar of portal-driven revenue. **Recommendation: don't wait.** The
+  admissions flow already works today via `mailto:` — pair it with a
+  **Stripe Payment Link** (zero engineering, live in under an hour) and
+  Zoom/Google Classroom for the first cohort's live classes and materials.
+  This "manual bridge" lets WEC-LC accept paying students *now*, prove
+  real demand, and fund Stage C's proper build from real revenue and real
+  proof — rather than spending $50k–150k (illustrative) upfront on
+  infrastructure for a demand level that's currently unverified.
+- **Concentration risk.** 100% of projected revenue depends on one
+  $19,000 product. Worth naming, not solving now: if realized demand at
+  this price point is softer than hoped, a lower-priced "taster" tier
+  (a single level, or a short diagnostic course) could de-risk acquisition
+  — flagged for a future pricing review once the manual bridge above
+  produces real conversion data, not designed speculatively today.
+
+---
+
+## Phase 19 — Brand & Naming Risk Review
+
+**Status:** 🔭 Not addressed until now — and the most time-sensitive item
+in this addendum, because it gets more expensive to fix the longer it's
+left.
+
+- **The "London Campus" vs. "100% Online" tension.** The site currently
+  states, in the same breath, that WEC-LC is a "**100% Online Digital
+  Campus**" (home page hero stat) and is named "**WorldWide English
+  College — *London Campus***," with a physical London address flagged as
+  "to be confirmed" — i.e., currently pending, not currently false, but
+  actively ambiguous about which is true. Under the ASA's CAP Code,
+  marketing claims must be accurate and not misleading; "Campus" carries a
+  strong physical-premises connotation to a reasonable consumer. **This
+  isn't mine to resolve** — it depends on whether a real London campus is
+  genuinely planned (in which case the current "online" framing should be
+  softened to "hybrid" or scoped clearly) or whether "Campus" is
+  permanent brand naming for a fully online institution (in which case a
+  short, honest clarifying line is worth adding, in the same register as
+  every other Institutional Status callout already on the site). **Adding
+  this as Decision #8 below rather than resolving it myself** — the
+  existing site content doesn't tell me which future you're planning for.
+- **Name genericness.** "WorldWide English College" is highly descriptive
+  — good for immediate comprehension, weaker as a trademark (descriptive
+  marks are harder to register and defend than distinctive/invented ones).
+  Recommend a UK IPO (and EUIPO, given the GCC/Gulf target market often
+  routes through EU-adjacent registration practice) trademark search
+  *before* further spend on collateral, and treat the crest/logotype
+  device (once Phase 2's real logo is commissioned) as carrying more of
+  the actual legal protection than the name text alone will.
+- **Handle/domain squatting risk.** Cheap to fix now, sometimes impossible
+  later: confirm `@worldwencollege`-pattern handles are secured across
+  LinkedIn, Instagram, X, YouTube and TikTok before Phase 13's marketing
+  execution begins, not after.
+
+---
+
+## Phase 20 — Consolidated Risk Register
+
+**Status:** synthesis of every risk flagged across Phases 1–19, ranked.
+A Board reviewing this roadmap should read this table before the phase
+detail, not after.
+
+| # | Risk | Likelihood | Impact | Phase | Mitigation | Owner (Phase 17 role) |
+|---|---|---|---|---|---|---|
+| 1 | Real PII/payment data collected before UK GDPR/DPO posture is resolved | Medium | Severe | 8, 16 | Resolve Decision #3 and appoint (even fractional) DPO before Phase 8 ships | Compliance Lead |
+| 2 | "London Campus" claim read as misleading under ASA CAP Code | Medium | Moderate–Severe | 19 | Resolve Decision #8 explicitly; update copy to match the real plan | Founder/CEO |
+| 3 | Stage C capital spent before demand is validated | Medium | Severe | 18 | Use the Stripe Payment Link + manual bridge to prove demand first | Finance Lead |
+| 4 | Under-18 target audience without a written safeguarding policy | Medium | Severe | 16 | Draft policy + instructor vetting before any under-18 enrols | Compliance Lead |
+| 5 | Company name / "College" naming rejected or challenged at incorporation | Low–Medium | Moderate | 16, 19 | Run the Companies House sensitive-words check before incorporating | Founder/CEO |
+| 6 | No named governance — underwriting friction with banks/Stripe/future accreditors | Medium | Moderate | 17 | Stand up the minimal governance table now, on paper | Founder/CEO |
+| 7 | Single-product ($19,000 IEFC) revenue concentration | Low (near-term) | Moderate | 18 | Monitor via the manual bridge's real conversion data; revisit pricing tiers later if warranted | Finance Lead |
+| 8 | Trademark exposure from a descriptive name | Low | Moderate | 19 | UK IPO/EUIPO search before further brand spend | Founder/CEO |
+| 9 | Handle/domain squatting before marketing launch | Low | Low–Moderate | 19 | Secure handles this week | Admissions/Experience Lead |
+| 10 | Bespoke LMS/portal over-build before proving demand | Low (already mitigated by Phase 9's buy-recommendation) | Severe if ignored | 8, 9, 18 | Hold the buy-and-wrap + manual-bridge recommendation; resist scope creep | Founder/CEO |
+
+---
+
+## Do This Week — No/Low-Cost Actions, Independent of Any Decision Above
+
+Six items that need no budget approval and no resolved decision to start
+today, ranked by how much more expensive they get if delayed:
+
+1. **Run the Companies House sensitive-words + UK IPO trademark search**
+   for "WorldWide English College," "WEC-LC," and "IEFC" — free-to-cheap,
+   and the single most time-sensitive item on this list.
+2. **Secure `@worldwencollege`-pattern social handles** across LinkedIn,
+   Instagram, X, YouTube, TikTok.
+3. **Create a Stripe account and a Payment Link** for the IEFC's first
+   level — unlocks the Phase 18 revenue bridge immediately, no engineering.
+4. **Register with the ICO** once the first real application form
+   collects real data (small annual fee) — don't let this lag the first
+   real applicant.
+5. **Confirm a registered office address** for eventual UK incorporation —
+   independent of whether a teaching campus ever exists.
+6. **Draft a one-page safeguarding policy** (instructor vetting, safe
+   messaging, parental consent for under-13s) before, not after, the
+   first under-18 applicant arrives.
+
+---
+
 ## Decisions Needed From You Before Further Build Work
 
 This roadmap deliberately stops short of writing code for anything beyond
@@ -471,6 +696,18 @@ Phase 0. The next session should start from whichever of these you resolve:
 6. **LMS: buy or build?** — my recommendation is buy-and-wrap (Phase 9);
    confirm or override.
 7. **Budget/team for Stage C** — what's actually resourced, and by when?
+8. **Physical London Campus: real plan, or brand naming?** — resolves the
+   Phase 19 "London Campus" vs. "100% Online" ambiguity, and determines
+   whether the current Student-visa-sponsorship-free status (Phase 16) is
+   worth deliberately preserving.
+9. **Who holds the Academic Director / Compliance Lead / Finance Lead
+   roles** (Phase 17) — even as fractional/interim assignments, so
+   Phase 3's QA framework and Phase 16's DPO registration have a named
+   owner instead of defaulting to the Founder for everything.
+10. **Approve the manual-bridge strategy** (Phase 18) — start accepting
+    real applicants via Stripe Payment Link + Zoom now, ahead of Phase 8's
+    full portal build, to fund Stage C from real revenue instead of
+    upfront capital.
 
 Once any of these are answered, I can turn the relevant phase from
 🔭/📋 into active implementation.
