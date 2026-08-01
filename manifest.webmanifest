@@ -1,0 +1,16 @@
+{
+  "name": "WorldWide English College — London Campus",
+  "short_name": "WEC-LC",
+  "description": "The International English Fluency Course — six CEFR-aligned levels, taught entirely online.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F7F4EC",
+  "theme_color": "#14264A",
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    { "src": "/assets/images/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/images/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
