@@ -75,8 +75,9 @@ as a `file://` URL.
 ## What this is (and isn't) yet
 
 This is the full public institutional website — home, about, academics
-(programme hub + the IEFC programme in detail), admissions, tuition, faculty,
-a student portal preview, FAQ, and contact, in English and Arabic.
+(programme hub + the IEFC programme in detail), admissions (including a
+client-side level self-assessment tool), tuition, faculty, a student portal
+preview, FAQ, contact, and a branded 404 — in English and Arabic.
 
 It is **not** a working Learning Management System, student/staff/admin
 portals with real authentication, a payments backend, or a mobile app —
@@ -84,10 +85,18 @@ those need real infrastructure, credentials, and operational decisions
 (hosting, a database, a payment processor, real staff accounts) that belong
 to WEC-LC's actual operators, not something to fabricate into a repo. The
 Student Portal page previews what that experience will contain and gives a
-route to request early access; the "Apply"/"Contact" flows are honest
-`mailto:` links, not fake AJAX submissions, until a real backend exists.
+route to request early access; `/student-portal/preview/` is a high-fidelity,
+front-end-only *design* preview of the dashboard (built on `css/dashboard.css`,
+a new dashboard-oriented component layer) — noindex'd, excluded from
+`sitemap.xml`/`robots.txt`, unlinked from primary navigation, and permanently
+banner-labelled as illustrative, not a real account. The "Apply"/"Contact"
+flows are honest `mailto:` links, not fake AJAX submissions, until a real
+backend exists.
 
-Facts not yet confirmed (physical London address, named leadership/faculty,
-formal accreditation, first-cohort start date) are shown as clearly labelled
-"Institutional Status" callouts rather than invented — see
-`docs/editorial-bible.md` for why.
+Facts not yet confirmed (registered London HQ address, named leadership/
+faculty, formal accreditation, first-cohort start date) are shown as clearly
+labelled "Institutional Status" callouts rather than invented — see
+`docs/editorial-bible.md` for why. "London Campus" itself is resolved: it
+names WEC-LC's administrative headquarters — delivery is online-first
+worldwide by design, not a placeholder for premises that don't exist (see
+About → Our Operating Model).

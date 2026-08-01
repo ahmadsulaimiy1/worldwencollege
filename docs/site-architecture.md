@@ -5,24 +5,48 @@ through every page.*
 
 ---
 
-## Site Map (v1 — built)
+## Site Map (v1.1 — built)
 
 ```
 /                          Home — flagship digest
-/about                     Vision, Mission, Core Values, Brand Character, Institutional Status
+/about                     Vision, Mission, Core Values, Brand Character, Our Operating Model, Institutional Status
 /academics                 Hub: curriculum areas, teaching methodology, digital learning environment
 /academics/iefc            The IEFC Programme in full — 6-level ledger, CEFR mapping, assessment
-/admissions                Who it's for, the 5-step application journey, Apply
+/admissions                Who it's for, level self-assessment tool, the 5-step application journey, Apply
 /admissions/tuition        Per-level pricing, what's included, additional fees, payment plans
-/faculty                   Teaching philosophy + founding faculty roster status
+/faculty                   Teaching philosophy, hiring standards, founding faculty roster status
 /student-portal            Digital campus preview + early-access request
+/student-portal/preview    Dashboard design preview (English only; noindex'd, not in sitemap — see below)
 /faq                       Accordion FAQ
 /contact                   Contact form (mailto-based), direct lines, campus status
+/404                       Branded not-found page
 
-/ar/...                    Full Arabic (RTL) mirror of every path above
+/ar/...                    Full Arabic (RTL) mirror of every indexed path above (not /student-portal/preview)
 ```
 
-10 English pages, 10 Arabic pages, 20 built HTML files total.
+11 English content pages + 1 English-only design preview + 1 404, 11 Arabic content pages + 1 404 — 22 built HTML files with a `<meta>` tag total, 20 of which are in `sitemap.xml` (the preview and both 404 pages are intentionally excluded).
+
+### `/student-portal/preview` — why this isn't "just another page"
+
+Added as the Phase 6 (dashboard UI system) and Phase 8 (Student Portal)
+design deliverable: a high-fidelity, front-end-only mockup of the
+student dashboard, built on a new `css/dashboard.css` component layer
+(app shell, level stepper, stat tiles, status pills) so the eventual
+real portal doesn't visually diverge from the marketing site. It is
+deliberately: English-only (a demo, not a shipped product surface),
+excluded from `sitemap.xml` and `robots.txt`, `noindex`'d, unlinked
+from primary navigation, and carries a permanent "Design Preview — not
+a live account" banner. See `README.md` for the full reasoning.
+
+### Admissions level self-assessment
+
+`/admissions/#self-assessment` (EN + AR): a client-side-only tool —
+six CEFR-derived self-assessment statements map to a suggested IEFC
+starting level. No backend, no data collected; explicitly framed as a
+guide to Step 1 of the journey, not a replacement for the real
+placement assessment in Step 3. Content (the six statements, per
+level) lives in the page HTML as data attributes; the interaction
+logic in `js/site.js` is language-agnostic.
 
 ---
 
