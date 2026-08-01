@@ -143,13 +143,22 @@ Pattern):
    `clerk.openUserProfile()` — WEC-LC doesn't rebuild password/2FA/
    session-management screens Clerk already provides.
 
-**What this does *not* yet do:** programme progress, level, attendance,
-assignments and the rest of the dashboard's content remain the existing
-illustrative data regardless of auth state — no `/api/student/...`
-endpoint exists yet to back that content with something real, and
-`/api/auth/me`'s response shape doesn't include it either (see
-`docs/api-reference.md`). Wiring that is a distinct, larger backend
-task, not part of this pass.
+**What this now does, beyond identity:** `GET /api/student/dashboard`
+(`docs/api-reference.md` § Student) is also called from
+`js/portal-auth.js`, and its response replaces several previously-always-
+illustrative pieces with this student's real data: the programme-progress
+stepper's completed/current level markers, the "Current Level" stat
+tile, the sidebar's level line, and a new "Payment History" panel. A
+student with no enrolments yet, or no payments yet, sees a real "not
+yet enrolled" / "no payments on record" state rather than fabricated
+numbers.
+
+**What this still does *not* do:** classes, assignments, digital
+library content, attendance and units-completed remain the existing
+illustrative data regardless of auth state — no LMS integration exists
+to back them with something real (see `docs/master-roadmap.md`,
+Decision: LMS), and `/api/student/dashboard`'s response shape
+deliberately doesn't invent fields for them either.
 
 **Implemented against, not tested against:** the CDN-loading approach
 (decode the publishable key to find the Frontend API host, then load

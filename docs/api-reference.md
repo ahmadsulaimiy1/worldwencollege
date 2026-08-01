@@ -104,6 +104,30 @@ for what each one covers and deliberately doesn't.
 
 ---
 
+## Student
+
+### `GET /api/student/dashboard`
+**Requires auth.** No id/user parameter accepted — always the caller's
+own data, by construction, so this endpoint can never be used to look
+up another student's enrolment or payment history.
+```jsonc
+{
+  "enrolments": [{ "id": "enr_...", "levelId": 3, "levelName": "Intermediate Programme", "roman": "III", "cefr": "B1", "status": "active", "startedAt": "...", "completedAt": null }],
+  "payments": [{ "id": "pay_...", "levelId": 3, "levelName": "Intermediate Programme", "amountCents": 316667, "currency": "USD", "status": "succeeded", "provider": "stripe", "createdAt": "...", "confirmedAt": "...", "receiptNumber": "WEC-R-000001" }],
+  "activeLevelId": 3,
+  "completedLevelIds": [1, 2]
+}
+```
+Called from `js/portal-auth.js` to replace the Student Portal's
+illustrative programme-progress stepper, "Current Level" stat tile, and
+a real "Payment History" panel with this student's actual data once
+signed in. Stops there deliberately — classes, assignments, digital
+library, attendance and units-completed have no backing table yet (no
+LMS integration exists); those stay illustrative regardless of auth
+state.
+
+---
+
 ## Enrolment
 
 ### `POST /api/enrolment/confirm`
@@ -174,7 +198,7 @@ into the API payload shape.
 Every claim of "working" above was checked, not assumed — the same
 standard applied to the rest of this project:
 
-- **31/31 files** pass `node --check` (syntax) and a real ES-module
+- **33/33 files** pass `node --check` (syntax) and a real ES-module
   import resolution check (every `import` path actually resolves to
   an existing file/export).
 - **13/13 functional assertions pass** running the real endpoint code
@@ -196,12 +220,25 @@ standard applied to the rest of this project:
   the 401-with-no-Authorization-header path on both endpoints, and
   `assertStaffRole()`'s role gate itself (student rejected, staff/admin
   accepted) tested directly against real `users` rows.
+- **14/14 further functional assertions pass** for
+  `buildStudentDashboard()` against fixture enrolments/payments/receipts
+  on the same real SQLite engine — active-level detection,
+  completed-level tracking, receipt attachment, payment ordering, two
+  students' data never leaking into each other's response, a brand-new
+  user with nothing yet not crashing, the 401-with-no-Authorization-header
+  path, and confirmation the endpoint's source never reads a URL
+  parameter for a user id.
 - **13/13 Playwright assertions pass** for `js/portal-auth.js` (Student
   Portal) confirming zero behavior change with no Clerk key configured,
   plus correct gate/redirect/script-URL-derivation once a key is set;
   **6/6 more** for `js/finance-dashboard.js` confirming the same
   no-key-configured baseline and graceful handling of an unreachable
-  Clerk instance.
+  Clerk instance; **13/13 more still** for `js/portal-auth.js`'s
+  dashboard-rendering logic specifically, driven through a functional
+  fake Clerk global (not just the unreachable-Clerk path) confirming
+  real enrolment/payment data correctly overrides every illustrative
+  default — the stepper's is-done/is-current state, the current-level
+  stat tile, the sidebar level line, and payment-history row order.
 - **Not yet possible to verify**: anything requiring a real Clerk/
   Stripe/Paystack/Flutterwave/Opay/Resend account — signature
   verification logic is implemented against each provider's publicly

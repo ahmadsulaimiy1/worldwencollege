@@ -58,7 +58,7 @@
         <div class="app-student__avatar" data-user-initials>AS</div>
         <div>
           <div class="app-student__name"><span data-user-name>A. Student</span> <span data-demo-tag style="color:var(--ink-soft);font-weight:400">(demo)</span></div>
-          <div class="app-student__level">Level III · Intermediate Programme</div>
+          <div class="app-student__level" data-user-level>Level III · Intermediate Programme</div>
         </div>
       </a>
     </div>
@@ -66,20 +66,20 @@
     <div class="stepper-card">
       <div class="stepper-card__head">
         <h2>Programme Progress — International English Fluency Course</h2>
-        <span class="status-pill status-pill--progress">In Progress · Level III</span>
+        <span class="status-pill status-pill--progress" data-stepper-status>In Progress · Level III</span>
       </div>
-      <div class="stepper">
-        <div class="stepper__node is-done"><div class="stepper__dot">I</div><div class="stepper__label">Foundation<br>A1</div></div>
+      <div class="stepper" data-stepper>
+        <div class="stepper__node is-done" data-level-id="1"><div class="stepper__dot">I</div><div class="stepper__label">Foundation<br>A1</div></div>
         <div class="stepper__line is-done"></div>
-        <div class="stepper__node is-done"><div class="stepper__dot">II</div><div class="stepper__label">Elementary<br>A2</div></div>
+        <div class="stepper__node is-done" data-level-id="2"><div class="stepper__dot">II</div><div class="stepper__label">Elementary<br>A2</div></div>
         <div class="stepper__line is-done"></div>
-        <div class="stepper__node is-current"><div class="stepper__dot">III</div><div class="stepper__label">Intermediate<br>B1</div></div>
+        <div class="stepper__node is-current" data-level-id="3"><div class="stepper__dot">III</div><div class="stepper__label">Intermediate<br>B1</div></div>
         <div class="stepper__line"></div>
-        <div class="stepper__node"><div class="stepper__dot">IV</div><div class="stepper__label">Up. Intermediate<br>B2</div></div>
+        <div class="stepper__node" data-level-id="4"><div class="stepper__dot">IV</div><div class="stepper__label">Up. Intermediate<br>B2</div></div>
         <div class="stepper__line"></div>
-        <div class="stepper__node"><div class="stepper__dot">V</div><div class="stepper__label">Advanced<br>C1</div></div>
+        <div class="stepper__node" data-level-id="5"><div class="stepper__dot">V</div><div class="stepper__label">Advanced<br>C1</div></div>
         <div class="stepper__line"></div>
-        <div class="stepper__node"><div class="stepper__dot">VI</div><div class="stepper__label">Mastery<br>C2</div></div>
+        <div class="stepper__node" data-level-id="6"><div class="stepper__dot">VI</div><div class="stepper__label">Mastery<br>C2</div></div>
       </div>
       <div class="progress-meter"><div class="progress-meter__fill" style="width:47%"></div></div>
       <div class="progress-meter__caption"><span>340 / 720 units completed</span><span>47%</span></div>
@@ -88,7 +88,7 @@
     <div class="stat-tiles" data-loading-group>
       <div class="stat-tile" data-loading>
         <div class="skeleton skeleton--text" style="width:55%"></div><div class="skeleton skeleton--title"></div><div class="skeleton skeleton--text" style="width:70%"></div>
-        <div class="stat-tile__content" hidden><div class="stat-tile__label">Current Level</div><div class="stat-tile__value">III</div><div class="stat-tile__sub">Intermediate · CEFR B1</div></div>
+        <div class="stat-tile__content" hidden><div class="stat-tile__label">Current Level</div><div class="stat-tile__value" data-current-level-value>III</div><div class="stat-tile__sub" data-current-level-sub>Intermediate · CEFR B1</div></div>
       </div>
       <div class="stat-tile" data-loading>
         <div class="skeleton skeleton--text" style="width:65%"></div><div class="skeleton skeleton--title"></div><div class="skeleton skeleton--text" style="width:60%"></div>
@@ -148,6 +148,17 @@
             <li>IELTS Listening Practice Set 4 <a href="#" class="disabled-link" aria-disabled="true">Open</a></li>
             <li>Grammar Reference — Conditionals <a href="#" class="disabled-link" aria-disabled="true">Open</a></li>
           </ul>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head"><h2>Payment History</h2></div>
+          <table class="assign-table">
+            <thead><tr><th>Date</th><th>Level</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody data-payment-history>
+              <tr><td>—</td><td>—</td><td>—</td><td><span class="status-pill status-pill--muted">(demo)</span></td></tr>
+            </tbody>
+          </table>
+          <p class="disabled-note">Populated from your real payment records once signed in — see js/portal-auth.js.</p>
         </div>
 
         <div class="panel">
