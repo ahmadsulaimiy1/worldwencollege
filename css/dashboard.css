@@ -139,6 +139,49 @@ body.app { background: var(--ivory); }
 .disabled-note { font-size: .74rem; color: var(--ink-soft); margin-top: 6px; }
 button.btn[disabled], a.btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; pointer-events: none; }
 
+/* ---------------- Empty state ---------------- */
+/* Generic, content-agnostic — any panel (Classes, Assignments, Library,
+   Messages, and later Faculty/Admin equivalents) uses this same markup
+   when it has nothing to show, instead of a blank panel or ad-hoc copy. */
+.empty-state { text-align: center; padding: 40px 20px; color: var(--ink-soft); }
+.empty-state__icon {
+  width: 44px; height: 44px; margin: 0 auto 14px; border-radius: 50%;
+  background: rgba(20,38,74,.06); display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; color: var(--ink-soft);
+}
+.empty-state h3 { font-size: .95rem; color: var(--ink); margin-bottom: 4px; }
+.empty-state p { font-size: .84rem; margin: 0 auto 14px; max-width: 40ch; }
+
+/* ---------------- Toast / notification ---------------- */
+/* Generic transient feedback for any action across any portal —
+   "Saved", "Submitted", "Link copied" — status-colored, not
+   institution-specific. */
+.toast-region { position: fixed; bottom: 24px; right: 24px; z-index: 200; display: flex; flex-direction: column; gap: 10px; }
+[dir="rtl"] .toast-region { right: auto; left: 24px; }
+.toast {
+  display: flex; align-items: center; gap: 12px; background: var(--royal-deep); color: #fff;
+  border-radius: 8px; padding: 14px 18px; box-shadow: var(--shadow); font-size: .86rem; font-weight: 600;
+  min-width: 260px; max-width: 360px; opacity: 0; transform: translateY(8px); transition: opacity .25s ease, transform .25s ease;
+}
+.toast.is-visible { opacity: 1; transform: none; }
+.toast::before { content: ''; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--status-good); }
+.toast--error::before { background: var(--status-critical); }
+
+/* ---------------- Loading skeleton ---------------- */
+/* Generic shimmer placeholder for any async panel while real data
+   loads — same shape family as stat tiles / panels / table rows, so
+   loading states don't introduce a different visual rhythm. */
+.skeleton { position: relative; overflow: hidden; background: rgba(20,38,74,.08); border-radius: 6px; }
+.skeleton::after {
+  content: ''; position: absolute; inset: 0; transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes skeleton-shimmer { 100% { transform: translateX(100%); } }
+.skeleton--text { height: 14px; margin-bottom: 8px; }
+.skeleton--title { height: 22px; width: 60%; margin-bottom: 14px; }
+@media (prefers-reduced-motion: reduce) { .skeleton::after { animation: none; } }
+
 @media (max-width: 640px) {
   .stepper { overflow-x: auto; padding-bottom: 6px; }
   .stepper__node { flex: 0 0 68px; min-width: 68px; }
