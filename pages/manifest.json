@@ -1,0 +1,203 @@
+[
+  {
+    "slug": "home",
+    "output": "index.html",
+    "title": "WorldWide English College — London Campus | Empowering the World Through English Excellence",
+    "description": "WorldWide English College, London Campus (WEC-LC) is a premium international English language institution delivering the International English Fluency Course (IEFC) — six CEFR-aligned levels, live and on-demand instruction, and a modern digital campus.",
+    "contentFile": "home.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/"
+  },
+  {
+    "slug": "about",
+    "output": "about/index.html",
+    "title": "About WEC-LC | Vision, Mission &amp; Institutional Status — WorldWide English College",
+    "description": "The vision, mission, core values and honest institutional status of WorldWide English College, London Campus.",
+    "contentFile": "about.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/about/"
+  },
+  {
+    "slug": "academics",
+    "output": "academics/index.html",
+    "title": "Academics | Curriculum, Methodology &amp; Digital Campus — WorldWide English College",
+    "description": "How WEC-LC teaches: curriculum areas, teaching methodology, and the digital learning environment behind the International English Fluency Course.",
+    "contentFile": "academics.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/academics/"
+  },
+  {
+    "slug": "academics-iefc",
+    "output": "academics/iefc/index.html",
+    "title": "The IEFC Programme | Six CEFR-Aligned Levels — WorldWide English College",
+    "description": "The International English Fluency Course: six levels from Foundation (CEFR A1) to English Mastery (CEFR C2), 24 months, 720 learning units.",
+    "contentFile": "academics-iefc.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/academics/iefc/"
+  },
+  {
+    "slug": "admissions",
+    "output": "admissions/index.html",
+    "title": "Admissions | How to Apply — WorldWide English College",
+    "description": "How to apply to WEC-LC's International English Fluency Course: eligibility, the application journey, and who the programme is designed for.",
+    "contentFile": "admissions.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/admissions/"
+  },
+  {
+    "slug": "admissions-tuition",
+    "output": "admissions/tuition/index.html",
+    "title": "Tuition &amp; Fees | WorldWide English College",
+    "description": "IEFC tuition, per-level pricing, payment plans and additional fees at WorldWide English College, London Campus.",
+    "contentFile": "admissions-tuition.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/admissions/tuition/"
+  },
+  {
+    "slug": "faculty",
+    "output": "faculty/index.html",
+    "title": "Faculty &amp; Teaching Approach — WorldWide English College",
+    "description": "The teaching philosophy and instructor standards behind WEC-LC, and the current status of the founding faculty roster.",
+    "contentFile": "faculty.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/faculty/"
+  },
+  {
+    "slug": "student-portal",
+    "output": "student-portal/index.html",
+    "title": "Student Portal — WorldWide English College",
+    "description": "A preview of the WEC-LC Student Portal: dashboard, live classes, assignments, digital library, transcripts and certificates.",
+    "contentFile": "student-portal.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/student-portal/"
+  },
+  {
+    "slug": "faq",
+    "output": "faq/index.html",
+    "title": "Frequently Asked Questions — WorldWide English College",
+    "description": "Answers to common questions about the IEFC programme, admissions, tuition, and studying with WEC-LC.",
+    "contentFile": "faq.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/faq/"
+  },
+  {
+    "slug": "contact",
+    "output": "contact/index.html",
+    "title": "Contact — WorldWide English College, London Campus",
+    "description": "Get in touch with WorldWide English College, London Campus — admissions enquiries, general contact, and our current London Campus status.",
+    "contentFile": "contact.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/contact/"
+  },
+
+  {
+    "slug": "home-ar",
+    "output": "ar/index.html",
+    "title": "الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن | نُمكّن العالم من خلال التميّز في اللغة الإنجليزية",
+    "description": "الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن (WEC-LC) مؤسسة دولية رائدة لتعليم اللغة الإنجليزية، تقدّم برنامج الطلاقة الدولي (IEFC) بستة مستويات متوافقة مع الإطار الأوروبي المرجعي.",
+    "contentFile": "home.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/"
+  },
+  {
+    "slug": "about-ar",
+    "output": "ar/about/index.html",
+    "title": "عن الكلية | الرؤية والرسالة والوضع المؤسسي — الكلية العالمية للغة الإنجليزية",
+    "description": "رؤية ورسالة والقيم الجوهرية والوضع المؤسسي الصادق للكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن.",
+    "contentFile": "about.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/about/"
+  },
+  {
+    "slug": "academics-ar",
+    "output": "ar/academics/index.html",
+    "title": "البرامج الأكاديمية | المنهج والمنهجية والحرم الرقمي — الكلية العالمية للغة الإنجليزية",
+    "description": "كيف تُدرّس الكلية العالمية للغة الإنجليزية: مجالات المنهج، منهجية التدريس، وبيئة التعلّم الرقمية وراء برنامج IEFC.",
+    "contentFile": "academics.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/academics/"
+  },
+  {
+    "slug": "academics-iefc-ar",
+    "output": "ar/academics/iefc/index.html",
+    "title": "برنامج IEFC | ستة مستويات متوافقة مع CEFR — الكلية العالمية للغة الإنجليزية",
+    "description": "برنامج الطلاقة الدولي في اللغة الإنجليزية: ستة مستويات من التأسيسي (A1) إلى الإتقان (C2)، على مدى 24 شهرًا و720 وحدة تعليمية.",
+    "contentFile": "academics-iefc.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/academics/iefc/"
+  },
+  {
+    "slug": "admissions-ar",
+    "output": "ar/admissions/index.html",
+    "title": "القبول | كيفية التقديم — الكلية العالمية للغة الإنجليزية",
+    "description": "كيفية التقديم إلى برنامج IEFC: شروط القبول، رحلة التقديم، والفئات التي صُمم البرنامج من أجلها.",
+    "contentFile": "admissions.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/admissions/"
+  },
+  {
+    "slug": "admissions-tuition-ar",
+    "output": "ar/admissions/tuition/index.html",
+    "title": "الرسوم الدراسية — الكلية العالمية للغة الإنجليزية",
+    "description": "رسوم برنامج IEFC، التسعير لكل مستوى، خطط السداد والرسوم الإضافية في الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن.",
+    "contentFile": "admissions-tuition.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/admissions/tuition/"
+  },
+  {
+    "slug": "faculty-ar",
+    "output": "ar/faculty/index.html",
+    "title": "هيئة التدريس ومنهجية التعليم — الكلية العالمية للغة الإنجليزية",
+    "description": "فلسفة التدريس ومعايير المدرّسين في الكلية العالمية للغة الإنجليزية، والوضع الحالي لتشكيل هيئة التدريس التأسيسية.",
+    "contentFile": "faculty.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/faculty/"
+  },
+  {
+    "slug": "student-portal-ar",
+    "output": "ar/student-portal/index.html",
+    "title": "بوابة الطالب — الكلية العالمية للغة الإنجليزية",
+    "description": "نظرة عامة على بوابة طالب WEC-LC: لوحة التحكم، الحصص المباشرة، الواجبات، المكتبة الرقمية، الكشوف والشهادات.",
+    "contentFile": "student-portal.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/student-portal/"
+  },
+  {
+    "slug": "faq-ar",
+    "output": "ar/faq/index.html",
+    "title": "الأسئلة الشائعة — الكلية العالمية للغة الإنجليزية",
+    "description": "إجابات عن الأسئلة الشائعة حول برنامج IEFC، القبول، الرسوم، والدراسة في الكلية العالمية للغة الإنجليزية.",
+    "contentFile": "faq.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/faq/"
+  },
+  {
+    "slug": "contact-ar",
+    "output": "ar/contact/index.html",
+    "title": "تواصل معنا — الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن",
+    "description": "تواصل مع الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن — استفسارات القبول، التواصل العام، والوضع الحالي للحرم الجامعي.",
+    "contentFile": "contact.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/contact/"
+  }
+]
