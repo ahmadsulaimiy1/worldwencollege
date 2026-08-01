@@ -15,23 +15,34 @@
   }
 
   // Accordion (FAQ / policy style)
-  document.querySelectorAll('.accordion__q').forEach(function (btn) {
+  document.querySelectorAll('.accordion__q').forEach(function (btn, i) {
+    // Wire ARIA relationships programmatically so every accordion instance
+    // gets correct semantics without hand-authoring ids per FAQ item.
+    var item = btn.closest('.accordion__item');
+    var answer = item.querySelector('.accordion__a');
+    var answerId = answer.id || 'accordion-panel-' + i + '-' + Math.random().toString(36).slice(2, 7);
+    answer.id = answerId;
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', answerId);
+    answer.setAttribute('role', 'region');
+
     btn.addEventListener('click', function () {
-      var item = btn.closest('.accordion__item');
-      var answer = item.querySelector('.accordion__a');
       var isOpen = item.classList.contains('is-open');
       item.parentElement.querySelectorAll('.accordion__item.is-open').forEach(function (openItem) {
         if (openItem !== item) {
           openItem.classList.remove('is-open');
           openItem.querySelector('.accordion__a').style.maxHeight = null;
+          openItem.querySelector('.accordion__q').setAttribute('aria-expanded', 'false');
         }
       });
       if (isOpen) {
         item.classList.remove('is-open');
         answer.style.maxHeight = null;
+        btn.setAttribute('aria-expanded', 'false');
       } else {
         item.classList.add('is-open');
         answer.style.maxHeight = answer.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
       }
     });
   });

@@ -27,6 +27,14 @@ function partialFor(name, lang) {
   return read(path.join(PARTIALS, `${name}.html`));
 }
 
+const SITE_URL = 'https://www.worldwencollege.co.uk';
+
+// "about/index.html" -> "/about/"; "index.html" -> "/"
+function urlPathFor(outputPath) {
+  const trimmed = outputPath.replace(/index\.html$/, '');
+  return '/' + trimmed;
+}
+
 function build() {
   const manifest = JSON.parse(read(path.join(PAGES, 'manifest.json')));
   let count = 0;
@@ -34,10 +42,17 @@ function build() {
   manifest.forEach((entry) => {
     const lang = entry.lang || 'en';
     const dir = entry.dir || 'ltr';
+    const canonical = SITE_URL + urlPathFor(entry.output);
+    const altUrl = SITE_URL + (entry.altHref || '/');
+    const hreflangEn = lang === 'en' ? canonical : altUrl;
+    const hreflangAr = lang === 'ar' ? canonical : altUrl;
 
     const head = fill(partialFor('head', lang), {
       TITLE: entry.title,
       DESCRIPTION: entry.description,
+      CANONICAL: canonical,
+      HREFLANG_EN: hreflangEn,
+      HREFLANG_AR: hreflangAr,
     });
     const topbar = fill(partialFor('topbar', lang), {
       ALT_HREF: entry.altHref || '/',
