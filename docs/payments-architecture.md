@@ -44,19 +44,55 @@ checkout. That's not a limitation I ran out of time on — it's the
 direct consequence of not fabricating exchange rates. Activating GBP,
 NGN, SAR, AED, QAR, or KWD means one of:
 
-1. A real FX data feed gets connected (e.g. openexchangerates.org),
-   updating `fx_rate_to_usd` / `fx_rate_source` / `fx_rate_as_of` on a
-   schedule, or
+1. A real FX data feed gets connected, updating `fx_rate_to_usd` /
+   `fx_rate_source` / `fx_rate_as_of` on a schedule, or
 2. WEC-LC sets a **policy-fixed** rate (common for tuition — many
    institutions intentionally don't float tuition with daily FX) and
    an admin sets it once, with `fx_rate_source = 'policy_fixed'`.
 
-Either way is a config change (`UPDATE currencies SET is_active=1,
-fx_rate_to_usd=..., fx_rate_source=... WHERE code=...`), never a code
-change. **Decision #2 (currency policy) determines which of the two
-approaches to use for GBP** specifically, since it's listed as
-"Primary" — I haven't picked one, because that's a pricing policy
-decision, not a technical one.
+Both paths are now real, working code — `functions/_lib/currency/`:
+
+- **`fx-provider-interface.js`** — the swappable contract (one method,
+  `getRates`), the same pattern as the payment-gateway and auth
+  provider interfaces. Nothing outside this directory imports a
+  provider adapter directly.
+- **`frankfurter-adapter.js`** — a real adapter against Frankfurter
+  (frankfurter.app), a free, no-API-key ECB reference-rate feed.
+  **Genuine limitation, stated in its own header rather than hidden:**
+  ECB reference rates cover GBP but not NGN, SAR, AED, QAR, or KWD —
+  those five need a different provider (a straightforward future
+  adapter behind the same interface) or a policy-fixed rate. Like
+  every payment gateway adapter, this is implemented against
+  Frankfurter's documented API shape but not exercised against the
+  live endpoint — this environment's network policy blocks outbound
+  calls to arbitrary third-party hosts (confirmed during this session).
+- **`fx-service.js`** — `refreshFromLiveFeed()` (calls a provider,
+  applies whatever rates it actually returns — a currency the feed
+  doesn't cover is reported back, never guessed) and
+  `setPolicyFixedRate()` (the staff-driven path for the five Gulf/
+  Nigeria currencies, and an alternative for GBP too if WEC-LC prefers
+  a fixed tuition-equivalent rate over a floating one). Neither
+  function ever flips `is_active` implicitly — activation is always a
+  separate, explicit `activate: true`, so a rate can be staged before
+  a currency goes live at checkout.
+- **`POST /api/admin/currency/set-rate`** / **`POST
+  /api/admin/currency/refresh-rates`** — staff/admin-only endpoints
+  over the above. 18 fixture-based assertions in
+  `tests/currency-fx.test.mjs` cover the DB-writing logic directly
+  (including the "provider doesn't cover this currency" and "rate is
+  invalid" rejection paths) and a stubbed-provider version of the
+  live-feed path, since the real feed can't be reached from this
+  environment.
+
+Either way is now a config change through a real endpoint (`UPDATE
+currencies SET is_active=1, fx_rate_to_usd=..., fx_rate_source=...
+WHERE code=...`, or the endpoints above), never a code change.
+**Decision #2 (currency policy) confirms GBP/USD as the primary
+display currencies** — activating GBP specifically (Frankfurter can
+serve it) is now a same-day operational task once a real Cloudflare D1
+database exists, not a pricing policy question anymore; the five
+Gulf/Nigeria currencies still need either a policy-fixed rate decision
+or a second FX provider.
 
 ---
 

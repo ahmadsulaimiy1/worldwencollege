@@ -10,7 +10,50 @@ them.*
 
 ---
 
+## Executive Decisions (locked in)
+
+You approved 8 numbered decisions covering full-programme enrolment,
+currency strategy, gateway rollout order, the proprietary LMS
+directive, financial policy configurability, Arabic localisation
+sequencing, infrastructure rollout order, and the admissions-first
+launch sequence. These are now the platform's working assumptions —
+implementation status of each, updated as work lands:
+
+1. **Full-programme payment → progressive unlocking.** Built. See
+   §1 below (kept for its original reasoning) and
+   `docs/payments-architecture.md` § Feature-by-feature status.
+2. **Currency: GBP/USD primary, NGN/SAR/AED/QAR/KWD supported,
+   config-driven FX.** Built — the FX provider architecture
+   (`functions/_lib/currency/`) exists; GBP is live-feed-capable
+   today via Frankfurter, the other five need a policy-fixed rate or a
+   second provider. See `docs/payments-architecture.md` § Multi-currency.
+3. **Gateway rollout: Stripe → Paystack/Flutterwave → Opay.** Already
+   true by construction — see §8 (cross-reference) below.
+4. **Proprietary WEC-LC LMS, not a third-party product.** In active
+   development, Milestone 1. See `docs/lms-architecture.md`.
+5. **Configurable financial policy modules.** Partially built —
+   `platform_config` (the mechanism) exists; discount stacking and
+   instalment defaults are wired to it; refund policy and corporate
+   invoicing remain undecided (see the cross-reference list below).
+6. **Arabic: public site now, Student Portal after English reaches
+   production quality.** Confirmed as the sequencing; no change in
+   status — the public site's bilingual support was already complete,
+   the Student Portal remains English-only by design until it's
+   further along.
+7. **Infra rollout: Cloudflare Pages → D1 → Clerk → Stripe → Resend →
+   Turnstile.** Confirmed provisioning order; no code changes required
+   — this is a sequencing decision for when real accounts are opened,
+   already reflected in `docs/master-roadmap.md`'s decision list.
+8. **Launch sequence: Admissions → Payments → Student Portal → LMS →
+   Faculty → Administration → Executive Dashboard → Corporate →
+   Alumni → Mobile.** Confirmed; matches the phase ordering already in
+   `docs/master-roadmap.md`.
+
+---
+
 ## 1. Full-programme payment: how does up-front enrolment work?
+
+**Status: resolved and built — kept below for the original reasoning.**
 
 **Issue.** The schema supports a full-programme payment
 (`payments.kind='full_programme'`, `level_id=NULL`) but no code path
@@ -25,26 +68,20 @@ programme up front, does WEC-LC:
   subsequent level's enrolment automatically as the student completes
   the one before it?
 
-**Recommendation.** (b) — progressive unlocking. It matches how the
+**Decision made: (b) — progressive unlocking.** It matches how the
 programme is actually taught (sequential, 4 months per level) and
 avoids a student technically being "enrolled" in Level VI content
-before they've earned placement into it. Mechanically: add an
-`unlocks_on_completion` flag to `instalment_plans`-style tracking, or
-simpler, have `enrolment/confirm.js`'s completion-of-a-level trigger
-the next level's enrolment automatically when the payment record shows
-`kind='full_programme'`.
+before they've earned placement into it. Built via
+`functions/_lib/student/progression.js`'s `completeLevel()`, triggered
+today by a staff-only endpoint (no automated grading engine exists
+yet) — see `docs/payments-architecture.md` § Feature-by-feature status.
 
-**Alternatives.** (a) is simpler to build and matches a "you bought it,
-it's yours" mental model some students may expect; a hybrid — release
-Level II's *content* immediately but keep the *enrolment* status
-progressive for reporting/completion-tracking purposes — is also
-possible but adds complexity for a marginal benefit.
-
-**Expected impact.** Until resolved, the "$19,000 pay in full" option
-already advertised on `/admissions/tuition/` is not actually purchasable
-through checkout — a real gap between marketing copy and product
-capability. Low effort to build once decided (a few hours), since the
-schema and pricing already exist.
+**Alternative not taken.** (a) is simpler to build and matches a "you
+bought it, it's yours" mental model some students may expect; a
+hybrid — release Level II's *content* immediately but keep the
+*enrolment* status progressive for reporting/completion-tracking
+purposes — was also possible but adds complexity for a marginal
+benefit.
 
 ---
 
@@ -162,10 +199,14 @@ only confirmed the code correctly waits on each rather than guessing:
 
 - **Hosting/DNS** — Cloudflare Pages is the provisional build target;
   needs a real account and `wrangler.toml`'s `database_id`.
-- **Currency & pricing policy** — USD is the only active currency;
-  GBP/NGN/SAR/AED/QAR/KWD activation needs either a real FX feed or a
-  policy-fixed rate, and a decision on whether GBP (the `.co.uk`
-  domain's natural currency) becomes primary.
+- **Currency activation** — the *strategy* is resolved (Executive
+  Decision #2: GBP/USD primary, config-driven multi-currency, no
+  fabricated rates — see `docs/payments-architecture.md`
+  § Multi-currency). USD is still the only *active* currency: GBP
+  needs a real Frankfurter fetch or a policy-fixed rate set via the
+  now-built `POST /api/admin/currency/set-rate`; NGN/SAR/AED/QAR/KWD
+  need a policy-fixed rate or a second FX provider, since Frankfurter's
+  ECB feed doesn't cover them.
 - **Auth provider** — Clerk is provisional; needs a real instance,
   `CLERK_JWKS_URL`/`CLERK_WEBHOOK_SECRET`, and (per this audit) a
   decision on whether/when to set the new optional
@@ -174,15 +215,17 @@ only confirmed the code correctly waits on each rather than guessing:
   merchant accounts; Opay's adapter additionally needs its field names
   re-verified against Opay's current merchant docs before going live
   (flagged low-confidence in its own file header).
-- **LMS vendor** — buy-and-wrap is the provisional approach; no vendor
-  chosen, nothing further is buildable here until one is.
+- **LMS** — resolved (Executive Decision #4: proprietary, build not
+  buy). See `docs/lms-architecture.md` for what's built vs. planned.
 - **Refund policy** — who approves a refund, under what circumstances —
   `refund()` is implemented per-gateway but nothing calls it.
-- **Discount/promo-code policy** — stacking rules, eligibility, maximum
-  discount — schema-ready, deliberately not wired into checkout without
-  a real policy.
-- **Instalment plan cadence** — count/frequency of instalments —
-  schema-ready, no endpoint yet.
+- **Discount/promo-code policy** — a conservative default
+  (`platform_config.discount_stacking_policy`, no stacking) now exists
+  so the mechanism isn't blocked, but the real institutional policy
+  (eligibility, maximum discount) is still undecided.
+- **Instalment plan cadence** — a default count now exists in
+  `platform_config.instalment_default_count`; real cadence policy
+  (frequency, whether it varies by level/currency) is still undecided.
 - **Corporate invoicing** — needs a real corporate client relationship
   to design the actual invoicing flow against.
 - **Legal/compliance review** — a named owner for the GDPR/UK GDPR data-
