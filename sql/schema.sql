@@ -315,14 +315,18 @@ CREATE TABLE notification_log (
 -- ordered units, polymorphic content items" shape recommended for a
 -- sequential CEFR-levelled programme like the IEFC.
 --
--- Deliberately empty of curriculum content: `courses` is seeded
+-- This file itself stays content-free: `courses` is seeded here
 -- (structural — one row per already-published programme level, titled
--- with that level's real, already-public name) but `units`,
--- `learning_items`, and `quiz_questions` are NOT seeded with any
--- lesson, quiz, or assignment content. Inventing curriculum content
--- would violate this project's standing rule against fabricating
--- institutional facts — real units are authored by WEC-LC academic
--- staff once a content-authoring workflow exists (Milestone 2+).
+-- with that level's real, already-public name), but `units`,
+-- `learning_items`, and `quiz_questions` are NOT seeded in this file.
+-- Real curriculum content — authored per the Executive Directive
+-- "Curriculum First" — lives in its own, separate seed file(s)
+-- (sql/seed-curriculum-level-1.sql today; more as each level is
+-- authored — see docs/curriculum-framework.md), applied after this
+-- file, never baked into the schema itself. That separation is
+-- deliberate: schema.sql is mechanism-only DDL, and curriculum content
+-- will keep growing over many future authoring milestones — it does
+-- not belong versioned alongside table definitions.
 -- ---------------------------------------------------------------------
 CREATE TABLE courses (
   id                TEXT PRIMARY KEY,   -- 'crs_' + uuid

@@ -89,6 +89,12 @@ gap requires provisioning real credentials, not more test code.
   scholarship ownership boundary) and `functions/_lib/payments/
   instalments.js` (per-instalment amount breakdown, next-instalment
   lookup, plan completion) — Executive Decision #5.
+- `curriculum-level-1.test.mjs` — loads `sql/seed-curriculum-level-1.sql`
+  (the real, authored Level I / Module 1 content — see
+  `docs/curriculum-level-1-foundation.md`) on top of the schema and
+  proves it works through the real LMS endpoints: the real quiz scores
+  correctly against its real answer key, a wrong attempt correctly
+  fails, and the real assignment can be submitted and staff-graded.
 - `run.mjs` — runs everything above and reports a combined summary.
 
 ## Adding a new test

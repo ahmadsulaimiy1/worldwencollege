@@ -108,13 +108,11 @@ Staff bypass this for grading (`gradeAssignment()`), the same
 
 **Schema** (`sql/schema.sql`): `courses`, `units`, `learning_items`,
 `quiz_questions`, `quiz_attempts`, `assignment_submissions`,
-`unit_progress`, `live_sessions`. Seeded: one `courses` row per
+`unit_progress`, `live_sessions`. Seeded here: one `courses` row per
 programme level (structural, titled with that level's real published
-name) — **deliberately no seeded `units`/`learning_items`/
-`quiz_questions` content.** Inventing lesson or quiz content would
-violate this project's standing rule against fabricating institutional
-facts; real units are authored by WEC-LC academic staff once a
-content-authoring workflow exists (Milestone 2+ — see below).
+name). `schema.sql` itself stays content-free — real curriculum
+content lives in its own seed file(s), applied separately (see
+Milestone 2 below, which is where the first real content landed).
 
 **Logic** (`functions/_lib/lms/content.js`, `functions/_lib/student/
 progression.js`): list units + a student's own progress; full unit
@@ -147,20 +145,62 @@ resembling it is seeded into the shipped schema.
 
 - **Content-authoring tooling.** There's no endpoint yet for staff to
   create/edit units, learning items, or quiz questions — today that's
-  a direct SQL insert against the schema above. A real authoring UI
-  (or even a staff-facing CRUD API) is Milestone 2+ work, sequenced
-  after Faculty Portal per Executive Decision #8's launch order.
+  a direct SQL insert against the schema above (see Milestone 2's
+  seed-file approach below, used as an interim path while real
+  authoring tooling doesn't exist yet). A real authoring UI (or even a
+  staff-facing CRUD API) is Milestone 2+ work, sequenced after Faculty
+  Portal per Executive Decision #8's launch order.
 - **Student Portal frontend wiring.** `js/portal-auth.js` doesn't yet
   call any `/api/lms/*` endpoint — the Student Portal's "classes,
   assignments, digital library, attendance, units-completed" sections
   remain the existing illustrative preview data (see
   `docs/auth-architecture.md`) until this wiring lands. The backend is
-  ready for it; this is a frontend task, not a schema or logic gap.
-  Recommended as the next LMS-adjacent milestone once M2's content
-  actually exists to display.
-- **Real curriculum content.** No units/lessons/quizzes for any of the
-  six levels exist anywhere in this system yet — that's genuinely
-  WEC-LC academic staff's work, not something to simulate.
+  ready for it, and now has real content to display — this is purely a
+  frontend task.
+
+---
+
+## Milestone 2 (in progress) — Curriculum First
+
+Per your Executive Directive re-prioritising curriculum ahead of
+further LMS feature work: `docs/curriculum-framework.md` is the
+complete six-level curriculum architecture (learning objectives, CEFR
+alignment, thematic modules, grammar/vocabulary progression, skills
+foci, assessment strategy — every level of the already-published IEFC
+programme). `docs/curriculum-level-1-foundation.md` builds Level I's
+Module 1 out to full lesson-by-lesson depth as the worked example and
+authoring-quality standard: two complete lesson plans, an 8-question
+answer-keyed quiz, and a rubric-graded speaking assignment.
+
+That exact content — not a summary or a mock-up of it — is seeded into
+the live schema via `sql/seed-curriculum-level-1.sql` (deliberately a
+separate file from `schema.sql`, since curriculum content will keep
+growing across many future authoring passes and doesn't belong baked
+into DDL) and verified to actually work through the Milestone 1
+platform: `tests/curriculum-level-1.test.mjs` (14 assertions) confirms
+the real module loads via `listUnits`/`getUnitDetail`, the real quiz
+scores correctly against its real answer key (and correctly rejects a
+wrong-answer attempt), and the real assignment can be submitted and
+staff-graded — proving the curriculum functions on the platform, not
+just that it reads well as prose.
+
+**What Milestone 2 has NOT yet done, stated plainly:** content-
+authoring tooling (a staff UI/API to create content — today's seed-
+file approach is a stopgap, not the long-term authoring workflow);
+Level I's remaining nine modules; any content for Levels II-VI; and
+the broader LMS feature backlog your original Milestone 2 message
+named (course authoring studio, structured curriculum/lesson
+builders, multimedia lesson management, exam authoring, question
+banks and randomisation, rubric-based assessment beyond the single
+manual rubric above, instructor feedback tools, discussion forums,
+announcements, learning analytics, attendance/engagement tracking,
+academic calendar, certificates/transcripts, competency/CEFR outcome
+dashboards, instructor workload management, moderation/QA workflows,
+reusable content templates, and deeper accessibility/multilingual
+tooling). All of that remains explicitly deferred until the
+curriculum foundation is further along, per your own "curriculum
+first" sequencing — not forgotten, and not started ahead of that
+instruction.
 
 ---
 
@@ -198,17 +238,20 @@ institution's differentiated IP:
 
 ---
 
-## Roadmap beyond Milestone 1 (not yet built — sequencing only)
+## Roadmap beyond Milestone 1
 
-Ordered by dependency, not by date — each is its own future milestone
-with its own executive report on completion, per the standing
-"Continuous Executive Reporting" instruction:
+Ordered by dependency, not by date — each is its own milestone with
+its own executive report on completion, per the standing "Continuous
+Executive Reporting" instruction:
 
-- **M2 — Content authoring & real curriculum.** Staff-facing
-  create/edit endpoints for units/learning items/quiz questions (or a
-  minimal admin UI); WEC-LC academic staff author real Level I-VI
-  content. Nothing before this milestone can have real curriculum
-  data, by design.
+- **M2 — Content authoring & real curriculum. In progress** — see
+  § Milestone 2 above for what's actually landed (the six-level
+  framework, Level I / Module 1 built and seeded to full depth,
+  verified end-to-end). Remaining: staff-facing create/edit endpoints
+  for units/learning items/quiz questions (a real authoring UI/API —
+  today's real content was seeded via a one-off SQL file, an interim
+  path, not the long-term workflow); the remaining nine modules of
+  Level I; all of Levels II-VI.
 - **M3 — Student Portal integration.** Wire `js/portal-auth.js` (or a
   new `js/lms-portal.js` following the same shared-shell pattern as
   `docs/auth-architecture.md` describes) to the Milestone-1 endpoints,
