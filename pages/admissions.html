@@ -22,6 +22,45 @@
   </div>
 </section>
 
+<section class="section--dark section-pad" id="self-assessment">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Step One · Know Your Starting Point</span>
+      <h2>Which statement sounds most like you today?</h2>
+      <p class="lede">A 30-second self-assessment to guide your application — not the official placement test, which happens during Step 3.</p>
+    </div>
+    <form class="level-quiz" data-level-quiz
+      data-result-template="Based on your answer, we'd suggest starting at Level {roman} — {name} ({cefr})."
+      data-levels='[
+        {"roman":"I","name":"Foundation Programme","cefr":"A1"},
+        {"roman":"II","name":"Elementary Programme","cefr":"A2"},
+        {"roman":"III","name":"Intermediate Programme","cefr":"B1"},
+        {"roman":"IV","name":"Upper Intermediate Programme","cefr":"B2"},
+        {"roman":"V","name":"Advanced Programme","cefr":"C1"},
+        {"roman":"VI","name":"English Mastery Programme","cefr":"C2"}
+      ]'>
+      <div class="level-quiz__options">
+        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="0"><span>I can understand and use simple everyday phrases and introduce myself, but I need help with most conversations.</span></label>
+        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="1"><span>I can talk about familiar topics like my family, school, and daily routine in simple sentences.</span></label>
+        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="2"><span>I can handle most everyday situations, describe experiences, and give simple reasons for my opinions.</span></label>
+        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="3"><span>I can discuss a range of topics fluently, follow the main ideas of complex texts, and interact naturally with native speakers.</span></label>
+        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="4"><span>I can express myself fluently and spontaneously on complex subjects, using English flexibly for academic or professional purposes.</span></label>
+        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="5"><span>I can understand virtually everything I read or hear, summarise information from different sources, and express myself precisely in any situation.</span></label>
+      </div>
+      <button type="submit" class="btn btn--gold">See My Recommended Starting Level</button>
+      <div class="level-quiz__result" data-level-quiz-result hidden>
+        <span class="callout__label" style="color:var(--gold-bright)">Suggested Starting Point</span>
+        <p data-level-quiz-text></p>
+        <div class="btn-row">
+          <a href="/academics/iefc/" class="btn btn--ghost">See This Level on the IEFC Programme</a>
+          <a href="#apply" class="btn btn--gold">Start Your Application</a>
+        </div>
+      </div>
+      <p class="form-note">This is a self-guided estimate to help you apply with confidence — your actual starting level is confirmed by the placement assessment in Step 3.</p>
+    </form>
+  </div>
+</section>
+
 <section class="section--paper section-pad">
   <div class="container reveal">
     <div class="section-head">

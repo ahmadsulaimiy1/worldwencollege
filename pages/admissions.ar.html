@@ -22,6 +22,45 @@
   </div>
 </section>
 
+<section class="section--dark section-pad" id="self-assessment">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الخطوة الأولى · اعرف نقطة انطلاقك</span>
+      <h2>أي عبارة تصف مستواك اليوم؟</h2>
+      <p class="lede">تقييم ذاتي مدته 30 ثانية لمساعدتك على التقديم — وليس الاختبار الرسمي لتحديد المستوى، الذي يتم في الخطوة الثالثة.</p>
+    </div>
+    <form class="level-quiz" data-level-quiz
+      data-result-template="بناءً على إجابتك، نقترح أن تبدأ من المستوى {roman} — {name} ({cefr})."
+      data-levels='[
+        {"roman":"الأول","name":"برنامج التأسيس","cefr":"A1"},
+        {"roman":"الثاني","name":"البرنامج الابتدائي","cefr":"A2"},
+        {"roman":"الثالث","name":"البرنامج المتوسط","cefr":"B1"},
+        {"roman":"الرابع","name":"المتوسط المتقدم","cefr":"B2"},
+        {"roman":"الخامس","name":"البرنامج المتقدم","cefr":"C1"},
+        {"roman":"السادس","name":"برنامج الإتقان","cefr":"C2"}
+      ]'>
+      <div class="level-quiz__options">
+        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="0"><span>أستطيع فهم واستخدام عبارات يومية بسيطة والتعريف بنفسي، لكنني أحتاج مساعدة في معظم المحادثات.</span></label>
+        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="1"><span>أستطيع التحدث عن مواضيع مألوفة مثل عائلتي ومدرستي وروتيني اليومي بجمل بسيطة.</span></label>
+        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="2"><span>أستطيع التعامل مع معظم المواقف اليومية، ووصف تجاربي، وإعطاء أسباب بسيطة لآرائي.</span></label>
+        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="3"><span>أستطيع مناقشة مجموعة واسعة من المواضيع بطلاقة، ومتابعة الأفكار الرئيسية للنصوص المعقّدة، والتفاعل بشكل طبيعي مع الناطقين الأصليين.</span></label>
+        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="4"><span>أستطيع التعبير عن نفسي بطلاقة وعفوية حول مواضيع معقّدة، واستخدام الإنجليزية بمرونة لأغراض أكاديمية أو مهنية.</span></label>
+        <label class="level-quiz__option"><input type="radio" name="level-quiz" value="5"><span>أستطيع فهم كل ما أقرأه أو أسمعه تقريبًا، وتلخيص معلومات من مصادر مختلفة، والتعبير عن نفسي بدقة في أي موقف.</span></label>
+      </div>
+      <button type="submit" class="btn btn--gold">اعرف مستواك المقترح للبدء</button>
+      <div class="level-quiz__result" data-level-quiz-result hidden>
+        <span class="callout__label" style="color:var(--gold-bright)">نقطة الانطلاق المقترحة</span>
+        <p data-level-quiz-text></p>
+        <div class="btn-row">
+          <a href="/ar/academics/iefc/" class="btn btn--ghost">اطّلع على هذا المستوى في برنامج IEFC</a>
+          <a href="#apply" class="btn btn--gold">ابدأ طلبك الآن</a>
+        </div>
+      </div>
+      <p class="form-note">هذا تقدير ذاتي إرشادي لمساعدتك على التقديم بثقة — يتم تأكيد مستواك الفعلي عبر تقييم تحديد المستوى في الخطوة الثالثة.</p>
+    </form>
+  </div>
+</section>
+
 <section class="section--paper section-pad">
   <div class="container reveal">
     <div class="section-head">

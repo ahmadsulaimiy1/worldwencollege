@@ -88,6 +88,34 @@
     });
   });
 
+  // Level self-assessment (client-side only — a guide, not the real placement test)
+  document.querySelectorAll('[data-level-quiz]').forEach(function (form) {
+    var levels, template;
+    try {
+      levels = JSON.parse(form.getAttribute('data-levels') || '[]');
+    } catch (e) {
+      levels = [];
+    }
+    template = form.getAttribute('data-result-template') || '{roman} — {name} ({cefr})';
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var checked = form.querySelector('input[name="level-quiz"]:checked');
+      var resultBox = form.querySelector('[data-level-quiz-result]');
+      var resultText = form.querySelector('[data-level-quiz-text]');
+      if (!checked || !resultBox || !resultText) return;
+      var level = levels[parseInt(checked.value, 10)];
+      if (!level) return;
+      var text = template
+        .replace('{roman}', level.roman)
+        .replace('{name}', level.name)
+        .replace('{cefr}', level.cefr);
+      resultText.textContent = text;
+      resultBox.hidden = false;
+      resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  });
+
   // Portal preview form (no backend yet — informative only)
   var portalForm = document.querySelector('[data-portal-form]');
   if (portalForm) {

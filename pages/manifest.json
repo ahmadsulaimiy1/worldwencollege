@@ -199,5 +199,26 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/contact/"
+  },
+
+  {
+    "slug": "404",
+    "output": "404.html",
+    "title": "Page Not Found — WorldWide English College",
+    "description": "The page you're looking for doesn't exist or has moved.",
+    "contentFile": "404.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/404.html"
+  },
+  {
+    "slug": "404-ar",
+    "output": "ar/404.html",
+    "title": "الصفحة غير موجودة — الكلية العالمية للغة الإنجليزية",
+    "description": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+    "contentFile": "404.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/404.html"
   }
 ]

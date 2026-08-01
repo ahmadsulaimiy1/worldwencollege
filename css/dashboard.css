@@ -67,7 +67,7 @@ body.app { background: var(--ivory); }
 .status-pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; }
 .status-pill--good { background: var(--status-good-soft); color: var(--status-good); }
 .status-pill--good::before { background: var(--status-good); }
-.status-pill--progress { background: var(--status-progress-soft); color: #8A6A20; }
+.status-pill--progress { background: var(--status-progress-soft); color: #6E5218; }
 .status-pill--progress::before { background: var(--status-progress); }
 .status-pill--critical { background: var(--status-critical-soft); color: var(--status-critical); }
 .status-pill--critical::before { background: var(--status-critical); }
