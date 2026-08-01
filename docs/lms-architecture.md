@@ -167,40 +167,48 @@ further LMS feature work: `docs/curriculum-framework.md` is the
 complete six-level curriculum architecture (learning objectives, CEFR
 alignment, thematic modules, grammar/vocabulary progression, skills
 foci, assessment strategy — every level of the already-published IEFC
-programme). `docs/curriculum-level-1-foundation.md` builds Level I's
-Module 1 out to full lesson-by-lesson depth as the worked example and
-authoring-quality standard: two complete lesson plans, an 8-question
-answer-keyed quiz, and a rubric-graded speaking assignment.
+programme), built against the confirmed six-level structure (Executive
+Decision: no separate Pre-Intermediate level — see that document).
+
+**Level I ("Foundation Programme," A1) is now complete** — all 10
+modules built to full publication-quality, lesson-by-lesson depth:
+`docs/curriculum-level-1-foundation.md` (Module 1, the original worked
+example) plus `docs/curriculum/level-1/module-{02..10}-*.md`. Every
+module carries two full lesson plans (Module 10: a structured revision
+lesson plus a comprehensive mock exam), a real answer-keyed quiz (92
+questions across the level, including a 20-question cumulative
+end-of-level exam), and a real staff-gradable assignment.
 
 That exact content — not a summary or a mock-up of it — is seeded into
 the live schema via `sql/seed-curriculum-level-1.sql` (deliberately a
 separate file from `schema.sql`, since curriculum content will keep
 growing across many future authoring passes and doesn't belong baked
 into DDL) and verified to actually work through the Milestone 1
-platform: `tests/curriculum-level-1.test.mjs` (14 assertions) confirms
-the real module loads via `listUnits`/`getUnitDetail`, the real quiz
-scores correctly against its real answer key (and correctly rejects a
-wrong-answer attempt), and the real assignment can be submitted and
-staff-graded — proving the curriculum functions on the platform, not
-just that it reads well as prose.
+platform: `tests/curriculum-level-1.test.mjs` does a deep,
+independently hand-verified check of Module 1; `tests/curriculum-
+level-1-complete.test.mjs` (76 assertions) sweeps all 10 modules —
+every module loads, every quiz's own seeded correct answers score
+100% when submitted (and a weak attempt correctly fails), no quiz ever
+leaks its answer key to the client, and every assignment can be
+submitted and staff-graded — proving the curriculum functions on the
+platform across the whole level, not just that it reads well as prose.
 
 **What Milestone 2 has NOT yet done, stated plainly:** content-
 authoring tooling (a staff UI/API to create content — today's seed-
 file approach is a stopgap, not the long-term authoring workflow);
-Level I's remaining nine modules; any content for Levels II-VI; and
-the broader LMS feature backlog your original Milestone 2 message
-named (course authoring studio, structured curriculum/lesson
-builders, multimedia lesson management, exam authoring, question
-banks and randomisation, rubric-based assessment beyond the single
-manual rubric above, instructor feedback tools, discussion forums,
-announcements, learning analytics, attendance/engagement tracking,
-academic calendar, certificates/transcripts, competency/CEFR outcome
-dashboards, instructor workload management, moderation/QA workflows,
-reusable content templates, and deeper accessibility/multilingual
-tooling). All of that remains explicitly deferred until the
-curriculum foundation is further along, per your own "curriculum
-first" sequencing — not forgotten, and not started ahead of that
-instruction.
+any content for Levels II-VI (Level II, "Elementary Programme," is the
+explicit next step — same process, same depth standard); and the
+broader LMS feature backlog your original Milestone 2 message named
+(course authoring studio, structured curriculum/lesson builders,
+multimedia lesson management, exam authoring, question banks and
+randomisation, rubric-based assessment beyond the manual rubrics
+above, instructor feedback tools, discussion forums, announcements,
+learning analytics, attendance/engagement tracking, academic calendar,
+certificates/transcripts, competency/CEFR outcome dashboards,
+instructor workload management, moderation/QA workflows, reusable
+content templates, and deeper accessibility/multilingual tooling). All
+of that remains explicitly deferred per your own "curriculum first"
+sequencing — not forgotten, and not started ahead of that instruction.
 
 ---
 

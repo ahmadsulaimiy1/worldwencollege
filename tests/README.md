@@ -90,11 +90,19 @@ gap requires provisioning real credentials, not more test code.
   instalments.js` (per-instalment amount breakdown, next-instalment
   lookup, plan completion) — Executive Decision #5.
 - `curriculum-level-1.test.mjs` — loads `sql/seed-curriculum-level-1.sql`
-  (the real, authored Level I / Module 1 content — see
+  (the real, authored Level I curriculum — see
   `docs/curriculum-level-1-foundation.md`) on top of the schema and
-  proves it works through the real LMS endpoints: the real quiz scores
-  correctly against its real answer key, a wrong attempt correctly
-  fails, and the real assignment can be submitted and staff-graded.
+  does a deep, independently hand-verified check of Module 1
+  specifically: the real quiz scores correctly against its real answer
+  key, a wrong attempt correctly fails, and the real assignment can be
+  submitted and staff-graded.
+- `curriculum-level-1-complete.test.mjs` — sweeps all 10 modules of
+  the now-complete Level I curriculum: every module loads with a
+  reading/quiz/assignment, every quiz's own seeded correct answers
+  (fetched directly from the DB) score 100% when submitted, no quiz
+  ever leaks its answer key to the client, every assignment can be
+  submitted and graded, and a weak attempt on the Module 10 mock exam
+  correctly fails rather than falsely passing.
 - `run.mjs` — runs everything above and reports a combined summary.
 
 ## Adding a new test

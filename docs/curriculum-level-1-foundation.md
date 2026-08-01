@@ -2,13 +2,17 @@
 
 *Companion to `docs/curriculum-framework.md` (the six-level
 architecture this document implements one level of) and
-`docs/lms-architecture.md` (the platform). This is the worked example
-that sets WEC-LC's lesson-design standard: Module 1 is built to full
-lesson-by-lesson depth, including two complete, ready-to-teach lesson
-plans and a real, answer-keyed unit quiz — and that exact content is
-seeded into the live schema (`sql/seed-curriculum-level-1.sql`), not
-just written as prose. See § Scope and next steps at the end for
-exactly what is and isn't built yet.*
+`docs/lms-architecture.md` (the platform). **Level I is now complete**
+— all 10 modules built to full publication-quality, lesson-by-lesson
+depth, and that exact content is seeded into the live schema
+(`sql/seed-curriculum-level-1.sql`), verified end-to-end through the
+real LMS platform (`tests/curriculum-level-1-complete.test.mjs`), not
+just written as prose. This document holds Module 1 in full (the
+original worked example that set the authoring standard) plus the
+level-wide module map and revision guide; Modules 2-10 each have their
+own full document under `docs/curriculum/level-1/` — see the module
+map below for links. See § Scope and next steps at the end for exactly
+what this means for Level II onward.*
 
 ---
 
@@ -17,20 +21,21 @@ exactly what is and isn't built yet.*
 (Full CEFR alignment, grammar/vocabulary progression, and assessment
 strategy for the level are in `curriculum-framework.md`; this section
 is the module-by-module breakdown that framework document only listed
-by title.)
+by title. Every module below is now built to full depth — this table
+links to each one.)
 
-| # | Module | Can-do focus | Key grammar | Key vocabulary |
-|---|---|---|---|---|
-| 1 | Meeting People | Introduce myself and others; ask/answer simple personal questions | `to be` (am/is/are), subject pronouns, question formation | greetings, personal information, nationalities |
-| 2 | Everyday Objects & Places | Name and locate common objects and places | `there is/are`, demonstratives (this/that/these/those) | classroom, home, city objects |
-| 3 | Family & Routines | Describe my family and daily routine | present simple, telling the time | family members, daily routine verbs, time |
-| 4 | Food & Shopping | Make simple purchases and requests | countable/uncountable nouns, `some/any`, prices | food, shops, numbers/money |
-| 5 | Around Town | Ask for and give basic directions | prepositions of place, imperatives | places in town, directions |
-| 6 | Describing People & Things | Describe appearance and possessions | possessives (`'s`, possessive adjectives), adjectives | appearance, colours, sizes |
-| 7 | Past Experiences I | Talk about yesterday/last week in simple terms | simple past (regular + common irregular) | common past-time expressions, regular/irregular verbs |
-| 8 | Plans & Abilities | Talk about ability and near-future plans | `can`, `going to` | abilities, weekend/holiday plans |
-| 9 | Health & Feelings | Describe how I feel and give simple advice | `have/has`, `should` (light intro) | health, feelings, body |
-| 10 | Review & Consolidation | Consolidate all Level I outcomes | cumulative review | cumulative review |
+| # | Module | Can-do focus | Key grammar | Key vocabulary | Full module document |
+|---|---|---|---|---|---|
+| 1 | Meeting People | Introduce myself and others; ask/answer simple personal questions | `to be` (am/is/are), subject pronouns, question formation | greetings, personal information, nationalities | *below, in this document* |
+| 2 | Everyday Objects & Places | Name and locate common objects and places | `there is/are`, demonstratives (this/that/these/those) | classroom, home, city objects | `docs/curriculum/level-1/module-02-everyday-objects-places.md` |
+| 3 | Family & Routines | Describe my family and daily routine | present simple, telling the time | family members, daily routine verbs, time | `docs/curriculum/level-1/module-03-family-routines.md` |
+| 4 | Food & Shopping | Make simple purchases and requests | countable/uncountable nouns, `some/any`, prices | food, shops, numbers/money | `docs/curriculum/level-1/module-04-food-shopping.md` |
+| 5 | Around Town | Ask for and give basic directions | prepositions of place, imperatives | places in town, directions | `docs/curriculum/level-1/module-05-around-town.md` |
+| 6 | Describing People & Things | Describe appearance and possessions | possessives (`'s`, possessive adjectives), adjectives | appearance, colours, sizes | `docs/curriculum/level-1/module-06-describing-people-things.md` |
+| 7 | Past Experiences I | Talk about yesterday/last week in simple terms | simple past (regular + common irregular) | common past-time expressions, regular/irregular verbs | `docs/curriculum/level-1/module-07-past-experiences-i.md` |
+| 8 | Plans & Abilities | Talk about ability and near-future plans | `can`, `going to` | abilities, weekend/holiday plans | `docs/curriculum/level-1/module-08-plans-abilities.md` |
+| 9 | Health & Feelings | Describe how I feel and give simple advice | `have/has`, `should` (light intro) | health, feelings, body | `docs/curriculum/level-1/module-09-health-feelings.md` |
+| 10 | Review & Consolidation | Consolidate all Level I outcomes; Foundation-level end-of-level examination | cumulative review | cumulative review | `docs/curriculum/level-1/module-10-review-consolidation.md` |
 
 ---
 
@@ -294,31 +299,43 @@ running on real platform logic, not a design mock-up.
 
 ## Scope and next steps — stated honestly
 
-**Built to full depth this milestone:** Module 1 ("Meeting People") of
-Level I — two complete lesson plans, one real answer-keyed quiz, one
-real staff-gradable assignment, all seeded as actual rows in
+**Level I is complete.** All 10 modules — two complete lesson plans
+each (Module 10: a structured revision lesson plus a comprehensive
+mock exam in place of a second "new content" lesson, since it
+introduces no new grammar/vocabulary by design), a real answer-keyed
+quiz each (92 questions total across the level, 20 of them in Module
+10's cumulative end-of-level exam), and a real staff-gradable
+assignment each — are seeded as actual rows in
 `sql/seed-curriculum-level-1.sql` and verified to work end-to-end
-through the live LMS endpoints (`tests/curriculum-level-1.test.mjs` —
-see that file for exactly what was checked: the quiz scores correctly
-against the real answer key, the assignment can be submitted and
-graded, and a passing grade marks the unit complete).
+through the live LMS endpoints. `tests/curriculum-level-1.test.mjs`
+does a deep, independently-hand-verified check of Module 1
+specifically; `tests/curriculum-level-1-complete.test.mjs` sweeps all
+10 modules structurally and functionally — every module loads, every
+quiz's own seeded correct answers score 100% when submitted (and a
+weak attempt correctly fails, not just the good-faith case), no quiz
+ever leaks its answer key to the client, and every assignment can be
+submitted and staff-graded to completion. 76 assertions, 0 failures,
+in that sweep alone.
 
-**Framework-level only, not yet lesson-by-lesson:** Modules 2-10 of
-Level I (table above) have their can-do focus, grammar, and vocabulary
-targets defined, but not yet full lesson plans, quizzes, or seeded
-content — that is real, substantial authorial work, and doing it
-honestly (to the standard Module 1 sets) takes real time per module. I
-have not seeded placeholder or lower-quality content for modules 2-10
-to create an appearance of completeness; they stay genuinely
-unbuilt until authored to the same standard.
+**What "complete" means here, precisely:** every module meets the
+Module 1 standard — genuinely usable, specific, pedagogically
+sequenced lesson content, not a thinner or lower-quality pass to
+create an appearance of coverage. What it does **not** mean: this is
+one authoring pass, not a claim of a finished, field-tested course. A
+real WEC-LC instructor should still review this content before it's
+used with real students — the same caveat this project applies to
+every "implemented against, not tested against a live account" claim
+elsewhere, now applied to pedagogy rather than a third-party API.
 
 **Not yet started:** Levels II-VI's lesson-by-lesson content
 (framework-level detail for all six levels exists in
-`curriculum-framework.md`).
+`curriculum-framework.md`; Level III's framework already notes where
+Pre-Intermediate outcomes will be incorporated, per the Executive
+Decision confirming the six-level structure).
 
-**Recommended next step:** continue authoring Level I's remaining nine
-modules to this same depth before moving to Level II — finishing one
-level completely is more valuable than thin coverage across several,
-both pedagogically (a real, usable Foundation-level course) and for
-proving the authoring-and-seeding pipeline at scale before repeating it
-five more times.
+**Recommended next step:** begin Level II ("Elementary Programme,"
+A2) to this same depth, following exactly the process this level
+proved out: author each module's full lesson plans, quiz, and
+assignment; seed it into a new `sql/seed-curriculum-level-2.sql`; add
+it to a full-level test sweep the same way
+`tests/curriculum-level-1-complete.test.mjs` does for Level I.

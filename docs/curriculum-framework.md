@@ -13,36 +13,21 @@ standing discipline on this).*
 
 ---
 
-## A discrepancy to resolve before this goes further
+## Executive Decision: six-level structure confirmed
 
-Your directive lists seven stages: Foundation, Elementary,
-**Pre-Intermediate**, Intermediate, Upper Intermediate, Advanced,
-English Mastery. WEC-LC's already-published programme — the six
-levels seeded in `sql/schema.sql`, priced and described on
-`/admissions/tuition/` and `/academics/iefc/` (six levels, four months
-each, $3,166.67/level, $19,000 for the full programme, 720 total
-"learning units") — has **six** stages, with no Pre-Intermediate
-level:
-
-Foundation (I, A1) → Elementary (II, A2) → Intermediate (III, B1) →
-Upper Intermediate (IV, B2) → Advanced (V, C1) → English Mastery
-(VI, C2).
-
-I have **not** added a seventh level. Restructuring the programme —
-adding a level, changing the $19,000/$3,166.67 pricing, changing the
-four-month/120-unit-per-level shape, or renumbering the already-live
-`programme_levels` rows that `enrolments`, `payments`, and this
-session's own progressive-unlock mechanism (`programme_levels.id`,
-Executive Decision #1) all key off — is a pricing and programme-
-structure decision, not a curriculum-design one, and would silently
-contradict marketing copy already published as a confirmed fact. This
-curriculum is built against the **existing, confirmed six-level
-structure**. If a genuine Pre-Intermediate stage is wanted (a common
-and defensible choice — many schools do split B1 into a lower and
-upper band), that's a real product decision with real pricing/schema
-consequences I'd want your explicit sign-off on, not something to
-infer from a list and quietly implement. Flagging it here rather than
-guessing either way.
+Resolved. You confirmed WEC-LC retains its existing, published
+six-level structure — Foundation (I, A1) → Elementary (II, A2) →
+Intermediate (III, B1) → Upper Intermediate (IV, B2) → Advanced
+(V, C1) → English Mastery (VI, C2) — with **no separate
+Pre-Intermediate level**. Pre-Intermediate learning outcomes are
+instead incorporated *within* Level III's own progression (see that
+level's section below, and its module sequencing, once authored) —
+a lower-to-upper B1 progression inside one level rather than a
+seventh programme tier. This preserves the published tuition model
+($19,000/$3,166.67 per level), the seeded `programme_levels` table,
+and every mechanism keyed off it (`enrolments`, `payments`, the
+progressive-unlock logic in Executive Decision #1) exactly as they
+already are — no schema or pricing change resulted from this decision.
 
 ---
 
@@ -311,6 +296,18 @@ coping with most travel/work/study situations, expressing and
 defending opinions, and beginning structured, purposeful writing. This
 is also where **academic English begins**, introduced deliberately
 early rather than left until Advanced.
+
+**Executive Decision note:** Level III carries the full A2→B1
+transition in one level rather than a separate Pre-Intermediate
+programme tier (see § Executive Decision above). In practice this
+means Level III's early modules (roughly modules 1-3, once authored to
+full depth) should deliberately open at a lower-B1/upper-A2 register
+— consolidating and lightly extending Level II's A2 output — before
+modules 4 onward move firmly into independent B1 territory and the
+academic-English strand described below. This is a sequencing note for
+Level III's own authoring pass, not a change to this document's
+existing 10-module list, which already opens with a present-perfect-
+and-experience-narration module suited to that transition.
 
 **Learning objectives (can-do).** By the end of Level III, the learner
 can: describe experiences, hopes, and ambitions with reasons; give a

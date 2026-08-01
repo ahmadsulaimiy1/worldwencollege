@@ -25,8 +25,14 @@ db.prepare(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role)
 db.prepare(`INSERT INTO enrolments (id, user_id, level_id, status, started_at) VALUES ('enr_student_l1', 'usr_student', 1, 'active', '2026-01-01T00:00:00.000Z')`).run();
 
 // --- The real Module 1 loads via listUnits for Level I ---
+// Level I now has all 10 modules seeded (see
+// tests/curriculum-level-1-complete.test.mjs for the full-level sweep)
+// — this file stays focused on Module 1 specifically, so it checks
+// Module 1 is present and correct rather than assuming it's the only
+// module.
 const units = await listUnits(env, { userId: 'usr_student', levelId: 1 });
-check('Level I has the real seeded Module 1 (not a placeholder)', units.length === 1 && units[0].id === 'unt_l1_m1' && units[0].title === 'Module 1: Meeting People');
+const module1 = units.find((u) => u.id === 'unt_l1_m1');
+check('Level I includes the real seeded Module 1 (not a placeholder)', module1 && module1.title === 'Module 1: Meeting People' && module1.sequence === 1);
 
 // --- Full unit detail: real lessons, real quiz (no leaked answers), real assignment ---
 const detail = await getUnitDetail(env, { userId: 'usr_student', unitId: 'unt_l1_m1' });
