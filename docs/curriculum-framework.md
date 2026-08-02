@@ -856,7 +856,7 @@ end-to-end:
 
 | Level | CEFR | Index document | Per-module documents | Seed | Test sweep |
 |---|---|---|---|---|---|
-| I | A1 | `docs/curriculum-level-1-foundation.md` | `docs/curriculum/level-1/` | `sql/seed-curriculum-level-1.sql` | `tests/curriculum-content.test.mjs` |
+| I | A1 | `docs/curriculum-level-1-foundation.md` | `docs/curriculum/level-1/` | `sql/seed-curriculum-level-1.sql` | `tests/curriculum-level-1.test.mjs` + `tests/curriculum-level-1-complete.test.mjs` |
 | II | A2 | `docs/curriculum-level-2-elementary.md` | `docs/curriculum/level-2/` | `sql/seed-curriculum-level-2.sql` | `tests/curriculum-level-2.test.mjs` |
 | III | B1 | `docs/curriculum-level-3-intermediate.md` | `docs/curriculum/level-3/` | `sql/seed-curriculum-level-3.sql` | `tests/curriculum-level-3.test.mjs` |
 | IV | B2 | `docs/curriculum-level-4-upper-intermediate.md` | `docs/curriculum/level-4/` | `sql/seed-curriculum-level-4.sql` | `tests/curriculum-level-4.test.mjs` |
