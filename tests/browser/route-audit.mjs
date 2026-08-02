@@ -16,8 +16,15 @@ import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = dirname(dirname(HERE));
+// Point at a deployed origin to audit it directly:
+//   LAB_BASE=https://wec-lc.pages.dev node tests/browser/route-audit.mjs
+// The route LIST still comes from this checkout, which is the point:
+// it audits the deployment against the routes this commit says should
+// exist, so a page that failed to publish shows up as a 404 rather
+// than silently not being checked.
+const REMOTE = process.env.LAB_BASE ? process.env.LAB_BASE.replace(/\/$/, '') : null;
 const PORT = process.env.LAB_PORT || 8809;
-const BASE = `http://localhost:${PORT}`;
+const BASE = REMOTE || `http://localhost:${PORT}`;
 
 // Source directories, not build output.
 const SKIP = new Set(['node_modules', 'tests', 'pages', 'partials', 'docs', 'sql', 'functions', 'scripts', '.git', 'assets']);
@@ -35,14 +42,20 @@ const routes = [];
 })(ROOT);
 routes.sort();
 
-const server = spawn(process.execPath, ['--experimental-sqlite', join(HERE, 'lab-server.mjs')], {
+// Only the local harness needs starting. Against a real origin there is
+// nothing to spawn — Cloudflare is the server.
+const server = REMOTE ? null : spawn(process.execPath, ['--experimental-sqlite', join(HERE, 'lab-server.mjs')], {
   env: { ...process.env, LAB_PORT: String(PORT) }, stdio: ['ignore', 'pipe', 'pipe'],
 });
-await new Promise((resolve, reject) => {
-  const t = setTimeout(() => reject(new Error('server did not start')), 20000);
-  server.stdout.on('data', (d) => { if (String(d).includes('ready')) { clearTimeout(t); resolve(); } });
-  server.stderr.on('data', (d) => { if (!/ExperimentalWarning|trace-warnings/.test(String(d))) process.stderr.write(d); });
-});
+if (server) {
+  await new Promise((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error('server did not start')), 20000);
+    server.stdout.on('data', (d) => { if (String(d).includes('ready')) { clearTimeout(t); resolve(); } });
+    server.stderr.on('data', (d) => { if (!/ExperimentalWarning|trace-warnings/.test(String(d))) process.stderr.write(d); });
+  });
+} else {
+  console.log(`Auditing deployed origin: ${BASE}\n`);
+}
 
 const exe = process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const browser = await chromium.launch(existsSync(exe) ? { executablePath: exe } : {});
@@ -52,6 +65,10 @@ const browser = await chromium.launch(existsSync(exe) ? { executablePath: exe } 
 const FONTS = /fonts\.(googleapis|gstatic)\.com/;
 
 const bad = { status: [], assets: [], errors: [], title: [], lang: [], h1: [], alt: [], overflow: [] };
+// Routes that only answered on the second attempt. Reported, never
+// silently swallowed — a retry that hides a consistently slow page is
+// the same lie as a flaky failure, just in the other direction.
+const retried = [];
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 // Abort external webfont requests outright. Through this sandbox's proxy
 // they HANG rather than failing fast, which turned a 30-second sweep into
@@ -69,8 +86,19 @@ for (const route of routes) {
   page.on('pageerror', (e) => errs.push(`${route}: ${e.message}`));
   page.on('requestfailed', (r) => { if (!FONTS.test(r.url())) reqs.push(`${route}: ${r.url()}`); });
 
-  const resp = await page.goto(BASE + route, { waitUntil: 'domcontentloaded', timeout: 12000 }).catch(() => null);
-  if (!resp || resp.status() >= 400) { bad.status.push(`${route} -> ${resp ? resp.status() : 'no response'}`); continue; }
+  // One retry before calling a route broken. A navigation that times
+  // out or returns nothing is far more often a cold start or a network
+  // hiccup than a genuinely missing page — and this audit is a
+  // pre-deployment gate, so a flaky failure is worse than useless: it
+  // trains people to re-run it until it goes green. A real 4xx/5xx is
+  // NOT retried, because that is a definite answer from the server.
+  let resp = await page.goto(BASE + route, { waitUntil: 'domcontentloaded', timeout: 15000 }).catch(() => null);
+  if (!resp) {
+    await page.waitForTimeout(500);
+    resp = await page.goto(BASE + route, { waitUntil: 'domcontentloaded', timeout: 15000 }).catch(() => null);
+    if (resp) retried.push(route);
+  }
+  if (!resp || resp.status() >= 400) { bad.status.push(`${route} -> ${resp ? resp.status() : 'no response after 2 attempts'}`); continue; }
   await page.waitForTimeout(120);
 
   const info = await page.evaluate(() => ({
@@ -104,7 +132,11 @@ check(`Every route has exactly one h1${bad.h1.length ? ' — ' + list(bad.h1, 6)
 check(`Every image carries an alt attribute${bad.alt.length ? ' — ' + list(bad.alt, 6) : ''}`, !bad.alt.length);
 check(`No horizontal overflow at 1440px${bad.overflow.length ? ' — ' + list(bad.overflow) : ''}`, !bad.overflow.length);
 
+if (retried.length) {
+  console.log(`\nNOTE ${retried.length} route(s) needed a second attempt: ${list(retried)}`);
+  console.log('     Not a failure, but worth watching against a deployed origin.');
+}
 console.log(`\n${pass} passed, ${fail} failed.`);
 await browser.close();
-server.kill();
+if (server) server.kill();
 process.exit(fail ? 1 : 0);
