@@ -663,3 +663,327 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 ('qq_l5_m6_8', 'itm_l5_m6_quiz', 8, 'Which phrase means "suggest something indirectly, without stating it outright"?', '["spell out","hint at","dodge","deflect"]', 1),
 ('qq_l5_m6_9', 'itm_l5_m6_quiz', 9, 'Which phrase means "avoid answering a question directly, often evasively"?', '["hint at","spell out","dodge","come across as"]', 2),
 ('qq_l5_m6_10', 'itm_l5_m6_quiz', 10, 'Combined subtext analysis (as taught in this module) means:', '["naming a single rhetorical technique in isolation","explaining how multiple techniques work together to construct an implied meaning","only analysing grammar","ignoring word choice entirely"]', 1);
+
+-- ---------------------------------------------------------------------
+-- Module 7: Research & Presentation
+-- Full prose version: docs/curriculum/level-5/module-07-research-presentation.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l5_m7', 'crs_level_5', 7, 'Module 7: Research & Presentation');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l5_m7_overview', 'unt_l5_m7', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: Insofar as... -- Notwithstanding [X],... -- By the same token,... -- Conversely,... -- That said,... -- With this in mind,...
+
+DISCOURSE MARKERS (functional set -- complex argument structuring): "insofar as" (to the extent that), "notwithstanding" (despite, formal), "by the same token" (extending reasoning by analogy), "conversely" (a contrasting parallel point), "that said" (a pivot acknowledging a prior point) -- capable of holding a genuinely multi-layered argument together across many moves.
+
+PHRASAL VERBS & COLLOCATIONS: "narrow down [a topic]" (reduce it to a specific, manageable focus), "home in on [a finding]" (focus precisely on a significant result), "tease out [a nuance]" (carefully extract a subtle distinction), "open up [a discussion]" (invite broader participation), "bring [something] to a close" (end it in a considered, deliberate way).
+
+BrE / AmE NOTE: British English uses "postgraduate" (or "postgrad") for study beyond a first (bachelor''s) degree, while American English uses "graduate" (as in "graduate school," "graduate student") for the identical level of study.
+
+KEY VOCABULARY: research vocabulary (research question, scope, methodology, findings, implications, limitations), presentation vocabulary (abstract, keynote, discussant, plenary, breakout session). Intercultural note: conference and academic presentation norms vary by academic discipline and country.'),
+
+('itm_l5_m7_lesson1', 'unt_l5_m7', 2, 'reading', 'Lesson 7.1 -- Structuring the Argument -- Discourse Markers for Complex Argumentation',
+'LEARNING OBJECTIVES: (1) use insofar as, notwithstanding, by the same token, conversely, that said correctly to structure a multi-layered argument, (2) build an argument with more than a simple two-part contrast, (3) narrow a broad research topic down to a specific, answerable focus, (4) write a concise conference abstract.
+
+PREREQUISITE KNOWLEDGE: Level V, Module 2 (essay-level cohesion).
+
+WARM-UP (5 min): Your instructor presents a short argument using only "however" and "because" repeatedly, then a revised version using this module''s richer connector set -- which sounds more sophisticated and precisely structured?
+
+PRESENTATION (10 min): "Insofar as remote work increases flexibility, it benefits most employees. Notwithstanding this, certain roles genuinely require in-person collaboration. By the same token, some industries face constraints that others don''t. Conversely, fully remote industries show few such limitations. That said, the overall trend favours flexible arrangements where feasible." Each connector performs a distinct structural job -- qualifying scope, conceding despite a point, extending reasoning by analogy, introducing a parallel contrast, pivoting to a considered final position.
+
+GUIDED PRACTICE (10 min): Complete 8 sentence pairs using the correct connector from this module''s set for the structural relationship described.
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Write a short multi-move argument (5-6 sentences) on a topic of your choice, using at least 4 different connectors from this module''s set, then read it to a partner, who identifies each connector''s structural function.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think a sophisticated argument often needs more than just ''X, but Y'' -- what does a multi-move structure let a writer do that a simple two-part contrast can''t?"
+
+LISTENING ACTIVITY (5 min): Listen to a short complex argument (7-8 sentences, using several connectors from this module) and identify each connector and its structural function.
+
+READING ACTIVITY -- EXTENDED READING & CRITICAL EVALUATION (8 min): Read a short academic-style argument excerpt (180-200 words) using this module''s connector set. Answer 2 literal questions and 2 evaluative questions.
+
+WRITING TASK (5 min): Narrow a broad topic of your choice down to a specific, answerable research focus (one sentence), then write a 150-200 word conference abstract.
+
+PRONUNCIATION PRACTICE (5 min): Measured, deliberate pacing and clear stress on each connector when reading a complex, multi-move argument aloud.
+
+VOCABULARY REINFORCEMENT: a connector-function matching game: match 10 example sentences to the correct connector based on the structural relationship needed.
+
+FORMATIVE ASSESSMENT: Instructor checks correct, purposeful use of the connector set and a genuinely narrowed, specific research focus, during independent practice.
+
+HOMEWORK: Finalise your conference abstract and research focus, ready for Lesson 7.2''s presentation work.
+
+REVISION: Lesson 7.2 opens with learners briefly sharing their research focus in one sentence.
+
+EXTENSION: Add one additional connector from the set to extend your multi-move argument with a further qualification or parallel point.'),
+
+('itm_l5_m7_lesson2', 'unt_l5_m7', 3, 'reading', 'Lesson 7.2 -- The Floor Is Yours -- Structuring & Delivering a Research-Informed Presentation & Facilitating Q&A',
+'LEARNING OBJECTIVES: (1) structure a 6-8 minute research-informed presentation (context, research question, findings/argument, implications, conclusion), (2) deliver it with sustained, well-paced formal register, (3) actively facilitate Q&A, (4) write a fuller research essay expanding on the conference abstract.
+
+PREREQUISITE KNOWLEDGE: Lesson 7.1 (complex argumentation, conference abstract), Level IV Module 6 (the 4-5 minute presentation).
+
+WARM-UP (5 min): Your instructor contrasts a presenter who simply answers questions one at a time with one who actively facilitates -- which creates a more genuinely engaged discussion?
+
+PRESENTATION (10 min): The extended presentation structure: CONTEXT (why this matters, briefly); RESEARCH QUESTION/FOCUS (precisely stated); FINDINGS/ARGUMENT (the substantive core, using this module''s connector set); IMPLICATIONS (why the findings matter beyond the immediate topic); CONCLUSION (a clear, memorable closing statement). Active Q&A facilitation: explicitly inviting questions ("I''d welcome your questions -- what''s on your mind?"), synthesising across questions, and gracefully managing time or redirecting an off-topic question.
+
+GUIDED PRACTICE (10 min): In pairs, take turns delivering a 2-minute mini-version of your presentation, while the partner asks 2 questions and the presenter practises facilitating rather than just answering.
+
+INDEPENDENT PRACTICE (10 min): Develop your full presentation outline (context, research question, findings, implications, conclusion) from your Lesson 7.1 conference abstract, and rehearse it once.
+
+SPEAKING ACTIVITY -- FLAGSHIP RESEARCH-INFORMED PRESENTATION: Deliver your full 6-8 minute presentation to a small group (or the class), facilitating a genuine Q&A round afterward (inviting, synthesising, and gracefully managing at least 3 questions).
+
+CRITICAL THINKING / DISCUSSION PROMPT: "What''s the difference between a presenter who merely tolerates questions and one who genuinely uses Q&A to strengthen their argument? What does the second kind of presenter actually do differently?"
+
+LISTENING ACTIVITY (5 min): Listen to a presenter facilitating Q&A (3-4 exchanges) and identify moments of active facilitation versus simple question-answering.
+
+READING ACTIVITY (5 min): Read a short written presentation outline/script excerpt and label its five structural parts.
+
+WRITING TASK (5 min): Expand your conference abstract into the opening two paragraphs (context and research question) of your full research essay.
+
+PRONUNCIATION PRACTICE (5 min): Sustained vocal energy and pacing across a longer, 6-8 minute talk -- varied pitch to prevent monotony, and warm, inviting intonation for Q&A-invitation phrases.
+
+VOCABULARY REINFORCEMENT: a presentation/research vocabulary matching game (research question, scope, methodology, findings, implications, limitations, abstract, plenary).
+
+FORMATIVE ASSESSMENT: Instructor checks for a genuine five-part presentation structure and active Q&A facilitation during the presentation task.
+
+HOMEWORK: Complete your full research essay draft, ready for Module 7''s assignment.
+
+REVISION: This lesson opens with the Lesson 7.1 research-focus recap. Module 7''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Prepare one anticipated difficult question in advance and rehearse a response that uses this module''s connector set.'),
+
+('itm_l5_m7_quiz', 'unt_l5_m7', 4, 'quiz', 'Module 7 Quiz -- Research & Presentation', NULL),
+
+('itm_l5_m7_assignment', 'unt_l5_m7', 5, 'assignment', 'Module 7 Assignment -- A Research Essay, Conference Abstract & Presentation',
+'INSTRUCTIONS: Complete three connected parts on one narrowed research focus of your choice. PART A: a conference abstract (150-200 words) -- this level''s seventh writing genre. PART B: a research essay (450-550 words) expanding on the abstract, using at least 3 connectors from this module''s set to structure a multi-move argument -- this level''s eighth writing genre. PART C (speaking, the flagship task): Record yourself (or perform live) a 6-8 minute research-informed presentation based on your essay, structured in five clear parts, and facilitate a Q&A round (real or simulated) with at least 3 questions, actively inviting and synthesising rather than just answering.
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct, purposeful use of this module''s advanced connector set. (2) Vocabulary range -- at least 4 distinct research/presentation words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- abstract, essay, and a fully structured presentation with active Q&A facilitation all present. (4) Evidence & argument quality -- is the research focus genuinely narrowed and specific, and does the multi-move argument in the essay hold together as one coherent position? (5) Discourse coherence & register -- is the register consistently formal and academic across all three parts, and does the presentation''s delivery reinforce the written argument''s sophistication?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l5_m7_1', 'itm_l5_m7_quiz', 1, '"___ remote work increases flexibility, it benefits most employees." (to the extent that)', '["Notwithstanding","Insofar as","Conversely","That said"]', 1),
+('qq_l5_m7_2', 'itm_l5_m7_quiz', 2, '"___ this, certain roles genuinely require in-person collaboration." (despite, formal)', '["Insofar as","Notwithstanding","By the same token","Conversely"]', 1),
+('qq_l5_m7_3', 'itm_l5_m7_quiz', 3, '"___, some industries face constraints that others don''t." (extending reasoning by analogy)', '["By the same token","Conversely","Insofar as","Notwithstanding"]', 0),
+('qq_l5_m7_4', 'itm_l5_m7_quiz', 4, '"___, the overall trend favours flexible arrangements where feasible." (a pivot to a final position)', '["Insofar as","By the same token","That said","Notwithstanding"]', 2),
+('qq_l5_m7_5', 'itm_l5_m7_quiz', 5, 'What does a conference abstract typically summarise?', '["only the presenter''s biography","background, focus/question, key finding, and implication","the entire full-length paper word-for-word","nothing; it is just a title"]', 1),
+('qq_l5_m7_6', 'itm_l5_m7_quiz', 6, 'In British English, study beyond a first (bachelor''s) degree is commonly called:', '["graduate study","postgraduate study","undergraduate study","pre-graduate study"]', 1),
+('qq_l5_m7_7', 'itm_l5_m7_quiz', 7, 'What does active Q&A facilitation include, beyond simply answering questions?', '["ignoring all questions","inviting questions and synthesising across them","refusing to take more than one question","reading directly from notes only"]', 1),
+('qq_l5_m7_8', 'itm_l5_m7_quiz', 8, 'Which phrase means "focus precisely on a specific, significant result"?', '["narrow down","home in on","tease out","open up"]', 1),
+('qq_l5_m7_9', 'itm_l5_m7_quiz', 9, 'Which phrase means "carefully extract a subtle distinction through analysis"?', '["narrow down","home in on","tease out","bring to a close"]', 2),
+('qq_l5_m7_10', 'itm_l5_m7_quiz', 10, 'A 6-8 minute research-informed presentation typically includes context, research question, findings, implications, and:', '["no conclusion","a clear, memorable conclusion","only a Q&A section","a second, unrelated topic"]', 1);
+
+-- ---------------------------------------------------------------------
+-- Module 8: Professional Advocacy
+-- Full prose version: docs/curriculum/level-5/module-08-professional-advocacy.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l5_m8', 'crs_level_5', 8, 'Module 8: Professional Advocacy');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l5_m8_overview', 'unt_l5_m8', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: It has been established that... -- The claim is supported by... -- Concerns have been raised and must be addressed. -- We are aware of the situation and are taking the following steps... -- The evidence clearly shows... -- Crucially,...
+
+DISCOURSE MARKERS (functional set -- advocacy emphasis): "the evidence clearly shows", "it is well established that", "the case rests on", "crucially" -- language for building and signalling the strongest points of a formal case, distinct from Module 4''s hedging register.
+
+PHRASAL VERBS & COLLOCATIONS: "stand by [a claim/decision]" (continue to support it under challenge), "back down (from a position)" (concede or retreat), "hold one''s ground" (maintain a position firmly), "own up to [a mistake]" (admit it honestly), "get ahead of [a story/issue]" (address a problem proactively).
+
+BrE / AmE NOTE: British English distinguishes "barrister" (who represents clients in court) from "solicitor" (who handles legal advice and preparation) -- two distinct professional roles; American English uses "lawyer" or "attorney" for both functions, without this formal split.
+
+KEY VOCABULARY: advocacy vocabulary (case, claim, burden of proof, credibility, corroboration), crisis-communication vocabulary (transparency, accountability, mitigation, stakeholder trust, reputational risk). Intercultural note: expectations around crisis communication vary by country, industry, and legal system.'),
+
+('itm_l5_m8_lesson1', 'unt_l5_m8', 2, 'reading', 'Lesson 8.1 -- The Case Has Been Made... -- Advanced Passive Under Formal Pressure',
+'LEARNING OBJECTIVES: (1) use advanced passive constructions to build a formal, credible case, (2) distinguish confident, well-supported assertion from either overclaiming or excessive hedging, (3) structure a case with a clear claim, supporting evidence, and an anticipated counter-argument addressed, (4) recognise when passive voice strengthens advocacy writing versus when active voice would be more direct and forceful.
+
+PREREQUISITE KNOWLEDGE: Level IV, Module 5 (passive voice II).
+
+WARM-UP (5 min): Your instructor presents one claim stated tentatively and the same claim stated with confident, evidence-backed passive constructions -- which sounds more credible in a formal advocacy context?
+
+PRESENTATION (10 min): "It has been established that the proposed approach reduces costs significantly. The claim is supported by independent analysis conducted over the past year. Concerns have been raised about implementation timelines, and these must be addressed directly, not dismissed." Advanced passive here builds credibility by foregrounding the claim and its support rather than the arguer -- genuinely persuasive, though still requiring genuine evidence, not passive voice used to disguise a weak claim.
+
+GUIDED PRACTICE (10 min): Convert 8 active, tentative sentences into confident, passive-supported advocacy statements, checking that each remains honestly proportionate to genuine supporting evidence.
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Write 5 sentences building a case for a real or invented proposal, using advanced passive constructions confidently, then read one to a partner, who evaluates whether it sounds credibly supported or overclaimed.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Where do you think the line is between confidently advocating for a position and overstating the evidence behind it? Is this always easy to judge from the outside?"
+
+LISTENING ACTIVITY (5 min): Listen to a short formal case statement (6-7 sentences, using advanced passive) and evaluate whether its claims sound proportionate to the evidence cited.
+
+READING ACTIVITY -- EXTENDED READING & CRITICAL EVALUATION (8 min): Read a short strategic-proposal-style excerpt (180-200 words) building a case using advanced passive constructions. Answer 2 literal questions and 2 evaluative questions.
+
+WRITING TASK (5 min): Write 4-5 sentences building a case for a real or invented proposal, using advanced passive constructions confidently and proportionately.
+
+PRONUNCIATION PRACTICE (5 min): Confident, level, credible delivery for advocacy statements -- steady pacing and clear stress on key evidence words.
+
+VOCABULARY REINFORCEMENT: an advocacy-vocabulary matching game (case, claim, burden of proof, credibility, corroboration).
+
+FORMATIVE ASSESSMENT: Instructor checks correct advanced passive formation and genuinely proportionate, credible advocacy statements during independent practice.
+
+HOMEWORK: Choose a real or invented proposal you''d advocate for professionally, and jot down its core claim and 2-3 supporting points, ready for Lesson 8.2''s crisis-communication and panel-discussion work.
+
+REVISION: Lesson 8.2 opens with learners briefly stating their homework proposal''s core claim.
+
+EXTENSION: Add one sentence explicitly addressing an anticipated counter-argument using advanced passive.'),
+
+('itm_l5_m8_lesson2', 'unt_l5_m8', 3, 'reading', 'Lesson 8.2 -- Responding Under Pressure -- Crisis Communication & Panel Discussion Under Challenge',
+'LEARNING OBJECTIVES: (1) apply core crisis-communication principles (acknowledge, provide facts, show accountability and action, avoid speculation), (2) own a mistake or problem honestly without either over-apologising or deflecting, (3) defend a position in a panel discussion against direct, pointed challenge while staying composed, (4) write a strategic proposal that builds and defends a case.
+
+PREREQUISITE KNOWLEDGE: Lesson 8.1 (advanced passive, advocacy register), Level IV Module 4 (advanced concession language).
+
+WARM-UP (5 min): Your instructor presents one poorly handled crisis response and one well-handled one on the same invented scenario -- what are the specific differences?
+
+PRESENTATION (10 min): Crisis-communication principles: ACKNOWLEDGE ("We are aware of the situation") -- not denying or minimising; PROVIDE FACTS ("Here is what we currently know...") -- avoiding speculation; SHOW ACCOUNTABILITY AND ACTION ("We are taking the following steps...") -- genuine ownership; AVOID OVER-PROMISING -- commit only to what can genuinely be delivered. Panel discussion under challenge: a panellist maintains their position calmly under a direct, pointed question, using "stand by/hold one''s ground" language while still genuinely engaging with the substance of the challenge.
+
+GUIDED PRACTICE (10 min): Practise responding to 4 crisis scenarios using the four-part crisis-communication structure, checking each response avoids speculation and genuinely commits to action.
+
+INDEPENDENT PRACTICE (10 min): Using your Lesson 8.1 homework proposal, prepare for a panel discussion: 2-3 anticipated challenging questions and composed, substantive responses that hold your ground without becoming defensive.
+
+SPEAKING ACTIVITY -- PANEL DISCUSSION UNDER CHALLENGE: Present your proposal to a small panel (your classmates), who pose genuinely challenging questions; respond under real time pressure, staying composed and substantive. A brief crisis-communication roleplay follows, applying the four-part structure live.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Is it always right to ''hold your ground'' when challenged, or is there a point where genuinely reconsidering your position is the more credible response? How would you tell the difference in the moment?"
+
+LISTENING ACTIVITY (5 min): Listen to a short crisis-communication response and evaluate whether it follows the four-part structure.
+
+READING ACTIVITY (5 min): Read a short written crisis statement and a panel-discussion exchange under challenge, identifying strong and weak moments in each.
+
+WRITING TASK (5 min): Write a short crisis-communication statement (5-6 sentences) for an invented scenario, following the four-part structure.
+
+PRONUNCIATION PRACTICE (5 min): Calm, steady intonation under pressure -- avoiding a rising, defensive pitch or a flat, dismissive one.
+
+VOCABULARY REINFORCEMENT: a crisis-communication vocabulary matching game (transparency, accountability, mitigation, stakeholder trust, reputational risk).
+
+FORMATIVE ASSESSMENT: Instructor checks for genuine application of the four-part crisis structure and composed, substantive responses under panel challenge.
+
+HOMEWORK: Finalise your strategic proposal, incorporating your panel discussion''s strongest points and responses, ready for Module 8''s assignment.
+
+REVISION: This lesson opens with the Lesson 8.1 proposal recap. Module 8''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Prepare a crisis-communication response to a genuinely difficult, realistic scenario of your own invention, applying all four principles under a self-imposed time constraint.'),
+
+('itm_l5_m8_quiz', 'unt_l5_m8', 4, 'quiz', 'Module 8 Quiz -- Professional Advocacy', NULL),
+
+('itm_l5_m8_assignment', 'unt_l5_m8', 5, 'assignment', 'Module 8 Assignment -- A Strategic Proposal & Crisis Response',
+'INSTRUCTIONS: Complete two parts. PART A (writing, this level''s ninth genre): a strategic proposal, 400-500 words, building and defending a case for a real or invented course of action. Use advanced passive constructions confidently and proportionately (at least 3), address at least one anticipated counter-argument, and use at least 2 advocacy-emphasis discourse markers from this module. PART B (speaking): Record yourself (or perform live) two short responses: (1) a panel-discussion response to a genuinely challenging question about your proposal, holding your ground while substantively engaging with the challenge; (2) a brief crisis-communication statement (60-90 seconds) for an invented scenario, following the four-part structure.
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct advanced passive formation. (2) Vocabulary range -- at least 4 distinct advocacy/crisis-communication words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- a claim, evidence, a counter-argument addressed, and advocacy markers in Part A; a substantive panel response and a complete four-part crisis statement in Part B. (4) Evidence & argument quality -- is the proposal''s case genuinely proportionate to its stated evidence, and does the panel response genuinely engage with the challenge? (5) Discourse coherence & register -- is the register consistently confident, formal, and credible throughout Part A, and does Part B''s delivery stay composed and substantive under simulated pressure?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l5_m8_1', 'itm_l5_m8_quiz', 1, '"It ___ established that the proposed approach reduces costs significantly." (advanced passive)', '["is","has been","was","will be"]', 1),
+('qq_l5_m8_2', 'itm_l5_m8_quiz', 2, '"The claim ___ supported by independent analysis."', '["is","has","was being","will"]', 0),
+('qq_l5_m8_3', 'itm_l5_m8_quiz', 3, 'What distinguishes confident advocacy from overclaiming?', '["there is no difference","confident advocacy remains proportionate to genuine supporting evidence","overclaiming always uses active voice","confident advocacy never uses passive voice"]', 1),
+('qq_l5_m8_4', 'itm_l5_m8_quiz', 4, 'What is the first step in effective crisis communication?', '["deny the situation","acknowledge the situation","speculate about causes","remain silent"]', 1),
+('qq_l5_m8_5', 'itm_l5_m8_quiz', 5, 'Effective crisis communication should generally:', '["speculate freely about unconfirmed details","avoid speculation and stick to confirmed facts","over-promise to reassure people","deflect all responsibility"]', 1),
+('qq_l5_m8_6', 'itm_l5_m8_quiz', 6, 'In British English, the legal professional who represents clients in court (especially higher courts) is typically called a:', '["solicitor","barrister","attorney","paralegal"]', 1),
+('qq_l5_m8_7', 'itm_l5_m8_quiz', 7, 'Which phrase means "maintain a position firmly despite challenge"?', '["back down","hold one''s ground","own up to","get ahead of"]', 1),
+('qq_l5_m8_8', 'itm_l5_m8_quiz', 8, 'Which phrase means "admit a mistake honestly"?', '["stand by","back down","own up to","hold one''s ground"]', 2),
+('qq_l5_m8_9', 'itm_l5_m8_quiz', 9, '"Concerns have been raised and ___ be addressed."', '["must","might","could","would"]', 0),
+('qq_l5_m8_10', 'itm_l5_m8_quiz', 10, 'Which phrase means "address a problem proactively before it escalates"?', '["back down","hold one''s ground","get ahead of","own up to"]', 2);
+
+-- ---------------------------------------------------------------------
+-- Module 9: Style & Voice
+-- Full prose version: docs/curriculum/level-5/module-09-style-voice.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l5_m9', 'crs_level_5', 9, 'Module 9: Style & Voice');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l5_m9_overview', 'unt_l5_m9', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: In short,... -- Put simply,... -- The bottom line is... -- To be precise,... -- Bottom line up front:... -- I''ll keep this brief.
+
+DISCOURSE MARKERS (functional set -- concision and directness): "in short", "put simply", "the bottom line is", "to be precise" -- language that explicitly signals compression, essential to the executive register.
+
+PHRASAL VERBS & COLLOCATIONS: "trim down [a document]" (remove unnecessary length), "pare back [unnecessary detail]" (reduce to its essential core), "get straight to the point", "distil [the key point]" (extract the essential meaning), "tighten up [a piece of writing]".
+
+BrE / AmE NOTE: British English commonly uses "PA" (Personal Assistant) for the role supporting a senior executive, while American English more commonly uses "EA" (Executive Assistant) for the equivalent role.
+
+KEY VOCABULARY: editing vocabulary (redundancy, concision, precision, clarity, register), executive-communication vocabulary (bottom line up front, executive summary, action item, key takeaway). Intercultural note: expectations around directness and brevity in executive communication vary by professional culture.'),
+
+('itm_l5_m9_lesson1', 'unt_l5_m9', 2, 'reading', 'Lesson 9.1 -- Cutting the Clutter -- Editing for Concision & Precision',
+'LEARNING OBJECTIVES: (1) identify and remove redundant words and phrases from your own writing, (2) replace vague or weak phrasing with precise language, (3) choose actively between active and passive voice deliberately for effect, (4) edit a piece of writing for concision while preserving its full meaning.
+
+PREREQUISITE KNOWLEDGE: All prior levels'' register and cohesion work.
+
+WARM-UP (5 min): Your instructor shows one wordy, cluttered sentence and its edited, concise equivalent -- what was removed or changed?
+
+PRESENTATION (10 min): "Due to the fact that there has been a significant increase in the number of customer complaints in recent months, it is something that we are going to need to think about and possibly take some sort of action on" -> "Customer complaints have risen significantly in recent months and require action." Redundancy removal, precision, and directness -- but editing for concision never means cutting genuinely necessary hedges, evidence, or nuance.
+
+GUIDED PRACTICE (10 min): Edit 8 wordy, cluttered sentences into concise, precise equivalents, checking that no genuine meaning is lost.
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Bring (or use a given) piece of your own earlier writing and edit one paragraph for concision, then compare your edited version with a partner''s edit of the same original, discussing any differences.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Is there a risk that editing for concision can accidentally remove genuinely important nuance or hedging? How do you tell the difference between clutter and necessary complexity?"
+
+LISTENING ACTIVITY (5 min): Listen to a wordy spoken explanation and a concise, edited version of the same content, identifying what changed.
+
+READING ACTIVITY -- EXTENDED READING & CRITICAL EVALUATION (8 min): Read a short wordy paragraph (150-180 words) and identify at least 5 specific opportunities for concision editing.
+
+WRITING TASK (5 min): Edit the paragraph from the reading activity into a concise version, aiming to reduce its length by at least a third while preserving its full meaning.
+
+PRONUNCIATION PRACTICE (5 min): Crisp, efficient delivery pacing -- fewer filler words, more deliberate pauses at genuinely meaningful points.
+
+VOCABULARY REINFORCEMENT: a redundant-phrase-to-concise-equivalent matching game ("due to the fact that" -> "because"; "at this point in time" -> "now"; "in the event that" -> "if").
+
+FORMATIVE ASSESSMENT: Instructor checks that edits genuinely preserve meaning while reducing length, and that genuine hedges/nuance are correctly preserved, during independent practice.
+
+HOMEWORK: Choose a real or invented business situation requiring a concise executive report, and jot down its core recommendation and 2-3 supporting points, ready for Lesson 9.2''s executive-briefing work.
+
+REVISION: Lesson 9.2 opens with learners briefly stating their homework recommendation in one sentence.
+
+EXTENSION: Edit a second paragraph from an earlier level''s own assignment work, reflecting on how your writing has changed across the programme.'),
+
+('itm_l5_m9_lesson2', 'unt_l5_m9', 3, 'reading', 'Lesson 9.2 -- Finding Your Voice -- Varying Register & Tone for Audience & Purpose & the Executive Briefing',
+'LEARNING OBJECTIVES: (1) deliberately vary register and tone for a specific audience and purpose while maintaining a consistent underlying voice, (2) structure information "bottom-line-up-front" for a time-constrained audience, (3) deliver an efficient executive briefing under real time pressure, (4) write a concise, action-oriented executive report.
+
+PREREQUISITE KNOWLEDGE: Lesson 9.1 (editing for concision), Level V Module 1 (register-shifting).
+
+WARM-UP (5 min): Your instructor delivers the same core message in two different registers but points out one consistent underlying value or priority present in both -- what stayed the same despite the register shift?
+
+PRESENTATION (10 min): The bottom-line-up-front executive report structure: RECOMMENDATION FIRST ("We recommend proceeding with X"), BRIEF SUPPORTING RATIONALE (2-3 concise points), KEY RISK OR CONSIDERATION (one, clearly flagged), NEXT STEP (a specific, actionable close). An executive briefing delivered under real time pressure -- noticeably faster pacing, no preamble, immediate substance -- while still recognisably reflecting the same underlying "voice."
+
+GUIDED PRACTICE (10 min): Restructure a longer, more narrative piece of writing into bottom-line-up-front executive-report format, identifying the core recommendation to lead with.
+
+INDEPENDENT PRACTICE (10 min): Using your Lesson 9.1 homework notes, draft a bottom-line-up-front executive report (recommendation, rationale, risk, next step) and prepare a 60-90 second spoken briefing version of the same content.
+
+SPEAKING ACTIVITY -- EXECUTIVE BRIEFING: Deliver your 60-90 second executive briefing to a partner or small group playing time-constrained senior executives, who may interrupt with one direct question requiring an immediate, concise answer.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Do you think a person''s underlying ''voice'' -- their core values, priorities, or way of reasoning -- should stay recognisable across very different registers? Or should each situation call for a completely different persona?"
+
+LISTENING ACTIVITY (5 min): Listen to an executive briefing delivered under time pressure and identify its bottom-line-up-front structure and one moment reflecting the speaker''s consistent voice.
+
+READING ACTIVITY (5 min): Read a short written executive report and identify its four structural parts.
+
+WRITING TASK (5 min): Finalise your executive report''s written form, checking it follows the bottom-line-up-front structure concisely.
+
+PRONUNCIATION PRACTICE (5 min): Brisk, confident, no-preamble delivery appropriate to a time-constrained executive audience.
+
+VOCABULARY REINFORCEMENT: an executive-communication vocabulary matching game (bottom line up front, executive summary, action item, key takeaway).
+
+FORMATIVE ASSESSMENT: Instructor checks for a genuine bottom-line-up-front structure and efficient, substantive delivery under simulated time pressure during the briefing task.
+
+HOMEWORK: Finalise your executive report and briefing for Module 9''s assignment.
+
+REVISION: This lesson opens with the Lesson 9.1 recommendation recap. Module 9''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Prepare a second, even shorter (30-second) version of your briefing for an even more time-constrained scenario.'),
+
+('itm_l5_m9_quiz', 'unt_l5_m9', 4, 'quiz', 'Module 9 Quiz -- Style & Voice', NULL),
+
+('itm_l5_m9_assignment', 'unt_l5_m9', 5, 'assignment', 'Module 9 Assignment -- An Executive Report & Briefing',
+'INSTRUCTIONS: Complete two parts on one real or invented business recommendation of your choice. PART A (writing, this level''s tenth and final writing genre): an executive report, 200-300 words (deliberately concise -- length itself is part of the assessment), structured bottom-line-up-front: recommendation first, brief supporting rationale, one clearly flagged risk or consideration, and a specific next step. Edit it rigorously for concision. PART B (speaking): Record yourself (or perform live) a 60-90 second executive briefing based on your report, delivered under simulated time pressure, responding concisely to at least one interrupting question.
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct, precise, edited sentence structures throughout. (2) Vocabulary range -- at least 3 distinct concision/executive-communication phrases used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- recommendation, rationale, risk, and next step all present and genuinely concise in Part A; a briefing with a concise response to an interruption in Part B. (4) Rhetorical effectiveness -- is the report genuinely concise without sacrificing necessary meaning, and does the briefing sound efficient and authoritative under time pressure? (5) Discourse coherence & register -- is the bottom-line-up-front structure genuinely followed, and is a consistent, recognisable voice maintained across both the written report and the spoken briefing?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l5_m9_1', 'itm_l5_m9_quiz', 1, '"Due to the fact that..." can usually be edited down to:', '["Because","Due to","It is a fact that","On account of the fact"]', 0),
+('qq_l5_m9_2', 'itm_l5_m9_quiz', 2, 'What does editing for concision NOT mean?', '["removing redundant words","cutting genuinely necessary hedges or nuance","replacing vague phrasing with precise language","tightening sentence structure"]', 1),
+('qq_l5_m9_3', 'itm_l5_m9_quiz', 3, 'What is the "bottom-line-up-front" structure?', '["the conclusion comes last, after extended context","the recommendation comes first, followed by brief supporting rationale","there is no structure at all","only questions, no statements"]', 1),
+('qq_l5_m9_4', 'itm_l5_m9_quiz', 4, 'What is "voice," as distinct from "register" in this module?', '["they are exactly the same thing","a consistent underlying identity or priority that persists even as register shifts","only how loudly someone speaks","a formal register only"]', 1),
+('qq_l5_m9_5', 'itm_l5_m9_quiz', 5, 'An executive report''s core recommendation should typically appear:', '["at the very end","first","nowhere; it should be implied only","in a footnote"]', 1),
+('qq_l5_m9_6', 'itm_l5_m9_quiz', 6, 'In British English, the common abbreviation for a role supporting a senior executive with administrative tasks is:', '["EA","PA","AA","SA"]', 1),
+('qq_l5_m9_7', 'itm_l5_m9_quiz', 7, 'Which phrase means "extract the essential meaning from a larger body of information"?', '["trim down","pare back","distil","tighten up"]', 2),
+('qq_l5_m9_8', 'itm_l5_m9_quiz', 8, 'Which phrase means "state the main idea immediately, without preamble"?', '["get straight to the point","trim down","pare back","tighten up"]', 0),
+('qq_l5_m9_9', 'itm_l5_m9_quiz', 9, '"___, we recommend proceeding with the proposal." (a concision marker)', '["In short","Insofar as","Notwithstanding","By the same token"]', 0),
+('qq_l5_m9_10', 'itm_l5_m9_quiz', 10, 'An executive briefing delivered under time pressure should generally:', '["include extensive preamble before the main point","begin with immediate substance and no preamble","avoid stating a recommendation","be as long as possible"]', 1);
