@@ -17,7 +17,8 @@ import { ROOT, loadUrl } from './helpers.mjs';
 
 const schema = readFileSync(`${ROOT}/sql/schema.sql`, 'utf8');
 const curriculumSeed = readFileSync(`${ROOT}/sql/seed-curriculum-level-1.sql`, 'utf8');
-const env = { DB: makeD1(schema + '\n' + curriculumSeed) };
+const audioSeed = readFileSync(`${ROOT}/sql/seed-audio-level-1.sql`, 'utf8');
+const env = { DB: makeD1(schema + '\n' + curriculumSeed + '\n' + audioSeed) };
 const db = env.DB;
 
 const { listUnits, getUnitDetail, submitQuizAttempt, submitAssignment, gradeAssignment } = await import(loadUrl('functions/_lib/lms/content.js'));

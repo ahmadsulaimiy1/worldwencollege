@@ -69,7 +69,7 @@ export async function getUnitDetail(env, { userId, unitId }) {
     }
     delete item.audioAssetId;
 
-    if (item.kind === 'quiz') {
+    if (item.kind === 'quiz' || item.kind === 'listening') {
       // Never send correct_index to the client — see submitQuizAttempt
       // for where grading actually happens, server-side only.
       const { results: questions } = await db(env)
@@ -77,16 +77,22 @@ export async function getUnitDetail(env, { userId, unitId }) {
         .bind(item.id)
         .all();
       item.questions = questions.map(({ choicesJson, ...q }) => ({ ...q, choices: JSON.parse(choicesJson) }));
-    } else if (item.kind === 'pronunciation') {
+    }
+
+    if (item.kind === 'pronunciation') {
       const { results: targets } = await db(env)
         .prepare('SELECT id, sequence, focus, target, example, guidance FROM pronunciation_targets WHERE learning_item_id = ? ORDER BY sequence ASC')
         .bind(item.id)
         .all();
       item.targets = targets;
+    }
+    // Both audio item kinds accept learner voice — shadowing on a
+    // listening item, drilling on a pronunciation one.
+    if (item.kind === 'pronunciation' || item.kind === 'listening') {
       item.myRecordings = await listMyRecordings(env, { userId, learningItemId: item.id });
-    } else if (item.kind === 'listening') {
-      item.myRecordings = await listMyRecordings(env, { userId, learningItemId: item.id });
-    } else if (item.kind === 'assignment') {
+    }
+
+    if (item.kind === 'assignment') {
       item.mySubmission = await db(env)
         .prepare('SELECT id, status, grade, feedback, submitted_at as submittedAt, graded_at as gradedAt FROM assignment_submissions WHERE learning_item_id = ? AND user_id = ? ORDER BY submitted_at DESC LIMIT 1')
         .bind(item.id, userId)
@@ -122,7 +128,12 @@ async function upsertUnitProgress(env, { userId, unitId, status, completedAt = n
 
 export async function submitQuizAttempt(env, { userId, learningItemId, answers }) {
   const item = await db(env).prepare('SELECT * FROM learning_items WHERE id = ?').bind(learningItemId).first();
-  if (!item || item.kind !== 'quiz') throw new NotFoundError('Unknown quiz.');
+  // A listening item carries its own comprehension questions, so it is
+  // gradeable through this same path. That is the whole point of the
+  // audio layer reusing quiz_questions rather than inventing a parallel
+  // assessment mechanism: listening became assessable without a second
+  // scoring implementation to keep in step with this one.
+  if (!item || (item.kind !== 'quiz' && item.kind !== 'listening')) throw new NotFoundError('Unknown quiz.');
   const levelId = await getLevelIdForUnit(env, item.unit_id);
   await assertLevelAccess(env, userId, levelId);
 

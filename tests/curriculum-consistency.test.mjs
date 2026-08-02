@@ -18,13 +18,20 @@
 // Every rule below is stated normatively in
 // docs/curriculum-framework.md § Rubric policy. If a rule here and the
 // document disagree, that is itself the bug.
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { makeD1 } from './d1-shim.mjs';
 import { ROOT } from './helpers.mjs';
 
 const schema = readFileSync(`${ROOT}/sql/schema.sql`, 'utf8');
 let sql = schema;
 for (let n = 1; n <= 6; n++) sql += '\n' + readFileSync(`${ROOT}/sql/seed-curriculum-level-${n}.sql`, 'utf8');
+// Audio seeds are separate files, applied per level as the strand is
+// built out. existsSync rather than a hard list so a newly-authored
+// level is picked up without editing this line.
+for (let n = 1; n <= 6; n++) {
+  const p = `${ROOT}/sql/seed-audio-level-${n}.sql`;
+  if (existsSync(p)) sql += '\n' + readFileSync(p, 'utf8');
+}
 const db = makeD1(sql);
 
 let pass = 0, fail = 0;
@@ -136,7 +143,10 @@ check('Every rubric size is within the policy band for its level', true);
   const counts = db.prepare(
     `SELECT u.course_id AS lvl, u.sequence AS seq, COUNT(q.id) AS c
      FROM quiz_questions q JOIN learning_items i ON i.id = q.learning_item_id
-     JOIN units u ON u.id = i.unit_id GROUP BY 1, 2 ORDER BY 1, 2`
+     JOIN units u ON u.id = i.unit_id
+     WHERE i.kind = 'quiz'   -- listening items carry their own comprehension
+                             -- questions; this rule is about module quizzes
+     GROUP BY 1, 2 ORDER BY 1, 2`
   ).all().results;
   const contentBad = counts.filter((r) => r.seq !== 10 && r.c !== 10);
   const examBad = counts.filter((r) => r.seq === 10 && r.c !== 20);
@@ -149,13 +159,47 @@ for (const lv of LEVELS) {
   const units = db.prepare('SELECT COUNT(*) AS c FROM units WHERE course_id = ?').bind(`crs_level_${lv}`).first();
   check(`Level ${lv} has exactly 10 modules`, units.c === 10);
 }
+// A module's baseline is 5 learning items (4 for Module 10). A module
+// that has gained the audio strand carries 2 more: a listening item and
+// a pronunciation lab. Both shapes are legal; anything else is not.
+// AUDIO_MODULES is the explicit, declared rollout state — it is listed
+// here rather than inferred so that a module silently LOSING its audio
+// strand fails the build instead of being read as "not rolled out yet".
+const AUDIO_MODULES = new Set(['unt_l1_m1']);
 {
   const rows = db.prepare(
-    `SELECT u.course_id AS lvl, u.sequence AS seq, COUNT(i.id) AS c
-     FROM learning_items i JOIN units u ON u.id = i.unit_id GROUP BY 1, 2`
+    `SELECT u.id AS unitId, u.course_id AS lvl, u.sequence AS seq, COUNT(i.id) AS c
+     FROM learning_items i JOIN units u ON u.id = i.unit_id GROUP BY 1, 2, 3`
   ).all().results;
-  const bad = rows.filter((r) => (r.seq === 10 ? r.c !== 4 : r.c !== 5));
-  check(`Every content module has 5 learning items and every Module 10 has 4${bad.length ? ' — offenders: ' + bad.map((r) => r.lvl + '.M' + r.seq + '=' + r.c).join(', ') : ''}`, bad.length === 0);
+  const expected = (r) => (r.seq === 10 ? 4 : 5) + (AUDIO_MODULES.has(r.unitId) ? 2 : 0);
+  const bad = rows.filter((r) => r.c !== expected(r));
+  check(`Every module has its expected learning-item count (5, or 4 for Module 10, plus 2 where the audio strand has been built)${bad.length ? ' — offenders: ' + bad.map((r) => r.unitId + '=' + r.c + ' (expected ' + expected(r) + ')').join(', ') : ''}`, bad.length === 0);
+}
+{
+  // Every declared audio module must carry BOTH strands, a real script,
+  // and cue segmentation. Half-built audio is worse than none: it makes
+  // the interface promise a listening lesson it cannot deliver.
+  const bad = [];
+  for (const unitId of AUDIO_MODULES) {
+    const kinds = db.prepare(`SELECT kind FROM learning_items WHERE unit_id = ?`).bind(unitId).all().results.map((r) => r.kind);
+    if (!kinds.includes('listening') || !kinds.includes('pronunciation')) { bad.push(`${unitId}: missing a strand`); continue; }
+    const assets = db.prepare(
+      `SELECT a.id, a.transcript, (SELECT COUNT(*) FROM audio_cues c WHERE c.audio_asset_id = a.id) AS cues
+       FROM audio_assets a JOIN learning_items i ON i.audio_asset_id = a.id WHERE i.unit_id = ?`
+    ).bind(unitId).all().results;
+    if (!assets.length) bad.push(`${unitId}: no audio asset`);
+    for (const a of assets) {
+      if (!a.transcript || !a.transcript.trim()) bad.push(`${a.id}: empty transcript`);
+    }
+    const listening = db.prepare(`SELECT id FROM learning_items WHERE unit_id = ? AND kind = 'listening'`).bind(unitId).first();
+    const qs = db.prepare('SELECT COUNT(*) AS c FROM quiz_questions WHERE learning_item_id = ?').bind(listening.id).first();
+    if (qs.c < 3) bad.push(`${listening.id}: only ${qs.c} comprehension questions`);
+    const cued = db.prepare('SELECT COUNT(*) AS c FROM quiz_questions WHERE learning_item_id = ? AND audio_cue_id IS NOT NULL').bind(listening.id).first();
+    if (cued.c !== qs.c) bad.push(`${listening.id}: ${qs.c - cued.c} questions not anchored to a cue`);
+    const targets = db.prepare(`SELECT COUNT(*) AS c FROM pronunciation_targets t JOIN learning_items i ON i.id = t.learning_item_id WHERE i.unit_id = ?`).bind(unitId).first();
+    if (targets.c < 2) bad.push(`${unitId}: only ${targets.c} pronunciation targets`);
+  }
+  check(`Every module with the audio strand has both item kinds, a real transcript, cue-anchored comprehension questions, and pronunciation targets${bad.length ? ' — ' + bad.join('; ') : ''}`, bad.length === 0);
 }
 
 // --- Rule 9: every module has one quiz and one assignment ----------------

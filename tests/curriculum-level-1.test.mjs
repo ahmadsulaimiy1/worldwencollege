@@ -12,7 +12,8 @@ import { ROOT, loadUrl } from './helpers.mjs';
 
 const schema = readFileSync(`${ROOT}/sql/schema.sql`, 'utf8');
 const curriculumSeed = readFileSync(`${ROOT}/sql/seed-curriculum-level-1.sql`, 'utf8');
-const env = { DB: makeD1(schema + '\n' + curriculumSeed) };
+const audioSeed = readFileSync(`${ROOT}/sql/seed-audio-level-1.sql`, 'utf8');
+const env = { DB: makeD1(schema + '\n' + curriculumSeed + '\n' + audioSeed) };
 const db = env.DB;
 
 const { listUnits, getUnitDetail, submitQuizAttempt, submitAssignment, gradeAssignment } = await import(loadUrl('functions/_lib/lms/content.js'));
@@ -36,7 +37,21 @@ check('Level I includes the real seeded Module 1 (not a placeholder)', module1 &
 
 // --- Full unit detail: real lessons, real quiz (no leaked answers), real assignment ---
 const detail = await getUnitDetail(env, { userId: 'usr_student', unitId: 'unt_l1_m1' });
-check('Module 1 has all 5 real learning items in sequence', detail.items.length === 5);
+// 7 since the audio strand was built: overview, two lessons, a
+// listening item, a pronunciation lab, the quiz and the assignment.
+check('Module 1 has all 7 real learning items in sequence', detail.items.length === 7);
+check('Module 1 carries a listening item with a real transcript and cues', (() => {
+  const l = detail.items.find((i) => i.kind === 'listening');
+  return l && l.audio && l.audio.cues.length === 7 && l.questions.length === 4;
+})());
+check('Module 1 carries a pronunciation lab with real drill targets', (() => {
+  const p = detail.items.find((i) => i.kind === 'pronunciation');
+  return p && p.targets.length === 3 && p.targets.some((t) => t.focus === 'intonation');
+})());
+check('Module 1 audio is honestly reported as scripted-but-not-yet-recorded', (() => {
+  const l = detail.items.find((i) => i.kind === 'listening');
+  return l.audio.isRecorded === false && l.audio.isSynchronised === false && l.audio.transcript.length > 0;
+})());
 check('Item 1 is the real module overview reading', detail.items[0].id === 'itm_l1_m1_overview' && detail.items[0].body.includes('Key phrases introduced this module'));
 check('Item 2 is the real Lesson 1.1 with actual lesson-plan content', detail.items[1].id === 'itm_l1_m1_lesson1' && detail.items[1].body.includes('LEARNING OBJECTIVES') && detail.items[1].body.includes('Hello! My name is Sofia'));
 check('Item 3 is the real Lesson 1.2', detail.items[2].id === 'itm_l1_m1_lesson2' && detail.items[2].body.includes('Where are you from?'));
