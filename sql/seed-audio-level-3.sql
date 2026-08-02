@@ -59,10 +59,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l3_m1_3', 'itm_l3_m1_pronunciation', 3, 'intonation', 'Ever-questions rise; experience answers fall', 'Have you EVER taught adults? (rise) -- I TAUGHT a class last summer. (fall)', 'The rise invites a yes/no; the falling answer signals a completed anecdote is starting. Following that shift is how you know an answer is going to be a story.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l3_m1_ls1', 'itm_l3_m1_listening', 1, 'How long has the applicant worked with the literacy charity?', '["Six months","About a year","About two years","Since last summer"]', 2, 'cue_l3_m1_2'),
+('qq_l3_m1_ls1', 'itm_l3_m1_listening', 1, 'How long has the applicant worked with the literacy charity?', '["Six months","About a year","Since last summer","About two years"]', 3, 'cue_l3_m1_2'),
 ('qq_l3_m1_ls2', 'itm_l3_m1_listening', 2, 'When did the applicant teach adults?', '["This year","Last summer","For two years","They never have"]', 1, 'cue_l3_m1_4'),
-('qq_l3_m1_ls3', 'itm_l3_m1_listening', 3, 'What has been the hardest part for the applicant?', '["Finding time","Learning not to fill silences","Managing large classes","Speaking in public"]', 1, 'cue_l3_m1_6'),
-('qq_l3_m1_ls4', 'itm_l3_m1_listening', 4, 'Has the applicant fully solved that difficulty?', '["Yes, completely","No, they still catch themselves","They never had it","They do not say"]', 1, 'cue_l3_m1_8');
+('qq_l3_m1_ls3', 'itm_l3_m1_listening', 3, 'What has been the hardest part for the applicant?', '["Learning not to fill silences","Finding time","Managing large classes","Speaking in public"]', 0, 'cue_l3_m1_6'),
+('qq_l3_m1_ls4', 'itm_l3_m1_listening', 4, 'Has the applicant fully solved that difficulty?', '["Yes, completely","They never had it","No, they still catch themselves","They do not say"]', 2, 'cue_l3_m1_8');
 
 -- ---------------------------------------------------------------------
 -- Module 2: Education & Learning
@@ -104,10 +104,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l3_m2_3', 'itm_l3_m2_pronunciation', 3, 'sentence_stress', 'The contrast pair takes the heaviest stress', 'FaMILiarity is not the same as reCALL.', 'When a speaker sets two ideas against each other, both take strong stress. That double stress is the audible marker of the main point of a section.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l3_m2_ls1', 'itm_l3_m2_listening', 1, 'How many topics does the tutor announce at the start?', '["Two","Three","Four","Five"]', 1, 'cue_l3_m2_1'),
-('qq_l3_m2_ls2', 'itm_l3_m2_listening', 2, 'Why does re-reading feel productive?', '["It takes a long time","The text becomes familiar","It is recommended by tutors","It improves recall"]', 1, 'cue_l3_m2_4'),
+('qq_l3_m2_ls1', 'itm_l3_m2_listening', 1, 'How many topics does the tutor announce at the start?', '["Three","Two","Four","Five"]', 0, 'cue_l3_m2_1'),
+('qq_l3_m2_ls2', 'itm_l3_m2_listening', 2, 'Why does re-reading feel productive?', '["It takes a long time","It is recommended by tutors","The text becomes familiar","It improves recall"]', 2, 'cue_l3_m2_4'),
 ('qq_l3_m2_ls3', 'itm_l3_m2_listening', 3, 'What is the tutor''s central distinction?', '["Reading versus listening","Familiarity versus recall","Speed versus accuracy","Notes versus highlighting"]', 1, 'cue_l3_m2_5'),
-('qq_l3_m2_ls4', 'itm_l3_m2_listening', 4, 'What practical step does the tutor recommend?', '["Re-read three times","Highlight key points","Close the book and write what you remember","Study with others"]', 2, 'cue_l3_m2_7');
+('qq_l3_m2_ls4', 'itm_l3_m2_listening', 4, 'What practical step does the tutor recommend?', '["Re-read three times","Highlight key points","Study with others","Close the book and write what you remember"]', 3, 'cue_l3_m2_7');
 
 -- ---------------------------------------------------------------------
 -- Module 3: Work, Careers & Entrepreneurship
@@ -150,10 +150,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l3_m3_3', 'itm_l3_m3_pronunciation', 3, 'word_stress', 'Slightly and only limit the criticism, and are stressed', 'It feels SLIGHTly optimistic. My ONly concern is...', 'These limiters carry real meaning: they tell you how big the problem is. Missing their stress means missing the size of the objection.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l3_m3_ls1', 'itm_l3_m3_listening', 1, 'What does the mentor praise?', '["The pricing","The clarity of the problem","The market size","The team"]', 1, 'cue_l3_m3_3'),
-('qq_l3_m3_ls2', 'itm_l3_m3_listening', 2, 'What is the mentor''s main concern?', '["The team","The pricing","The technology","The timeline for launch"]', 1, 'cue_l3_m3_4'),
-('qq_l3_m3_ls3', 'itm_l3_m3_listening', 3, 'What assumption does the mentor question?', '["That the product works","That customers switch within three months","That funding is available","That competitors will not react"]', 1, 'cue_l3_m3_6'),
-('qq_l3_m3_ls4', 'itm_l3_m3_listening', 4, 'What does the mentor advise doing with the assumption?', '["Remove it","Test it for a year","State it openly","Base it on more interviews first"]', 2, 'cue_l3_m3_8');
+('qq_l3_m3_ls1', 'itm_l3_m3_listening', 1, 'What does the mentor praise?', '["The pricing","The market size","The clarity of the problem","The team"]', 2, 'cue_l3_m3_3'),
+('qq_l3_m3_ls2', 'itm_l3_m3_listening', 2, 'What is the mentor''s main concern?', '["The pricing","The team","The technology","The timeline for launch"]', 0, 'cue_l3_m3_4'),
+('qq_l3_m3_ls3', 'itm_l3_m3_listening', 3, 'What assumption does the mentor question?', '["That the product works","That funding is available","That competitors will not react","That customers switch within three months"]', 3, 'cue_l3_m3_6'),
+('qq_l3_m3_ls4', 'itm_l3_m3_listening', 4, 'What does the mentor advise doing with the assumption?', '["Remove it","State it openly","Test it for a year","Base it on more interviews first"]', 1, 'cue_l3_m3_8');
 
 -- ---------------------------------------------------------------------
 -- Module 4: Opinions & Debate
@@ -196,10 +196,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l3_m4_3', 'itm_l3_m4_pronunciation', 3, 'connected_speech', 'That''s a fair point compresses to a single unit', '/ðætsəˈfeəpɔɪnt/', 'Formulaic concessions are said as one word. Treating them as four separate words costs you the following clause, which is where the actual argument is.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l3_m4_ls1', 'itm_l3_m4_listening', 1, 'What is Rachel''s main argument?', '["Cost savings","Air quality data","Traffic reduction","Tourism"]', 1, 'cue_l3_m4_2'),
-('qq_l3_m4_ls2', 'itm_l3_m4_listening', 2, 'What does Sam explicitly NOT dispute?', '["The cost","The air quality","The public support","The legality"]', 1, 'cue_l3_m4_4'),
+('qq_l3_m4_ls1', 'itm_l3_m4_listening', 1, 'What is Rachel''s main argument?', '["Air quality data","Cost savings","Traffic reduction","Tourism"]', 0, 'cue_l3_m4_2'),
+('qq_l3_m4_ls2', 'itm_l3_m4_listening', 2, 'What does Sam explicitly NOT dispute?', '["The cost","The public support","The air quality","The legality"]', 2, 'cue_l3_m4_4'),
 ('qq_l3_m4_ls3', 'itm_l3_m4_listening', 3, 'Who does Sam say would be affected?', '["Tourists","Delivery drivers and disabled residents","Shop owners","Cyclists"]', 1, 'cue_l3_m4_5'),
-('qq_l3_m4_ls4', 'itm_l3_m4_listening', 4, 'What does Rachel call a design problem rather than an objection?', '["Cost","Enforcement","Exemptions","Public consultation"]', 2, 'cue_l3_m4_7');
+('qq_l3_m4_ls4', 'itm_l3_m4_listening', 4, 'What does Rachel call a design problem rather than an objection?', '["Cost","Enforcement","Public consultation","Exemptions"]', 3, 'cue_l3_m4_7');
 
 -- ---------------------------------------------------------------------
 -- Module 5: Environment, Ethics & Global Citizenship
@@ -242,10 +242,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l3_m5_3', 'itm_l3_m5_pronunciation', 3, 'connected_speech', 'rose from X to Y links across the numbers', 'from thirty-one to thirty-eight -> /frəmˌθɜːtiˈwʌntəˌθɜːtiˈeɪt/', 'The prepositions vanish between the figures. Learners often hear two unconnected numbers and miss which direction the change went.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l3_m5_ls1', 'itm_l3_m5_listening', 1, 'What happened to household recycling?', '["It fell to 31 per cent","It rose to 38 per cent","It stayed the same","It rose to 31 per cent"]', 1, 'cue_l3_m5_2'),
+('qq_l3_m5_ls1', 'itm_l3_m5_listening', 1, 'What happened to household recycling?', '["It fell to 31 per cent","It stayed the same","It rose to 31 per cent","It rose to 38 per cent"]', 3, 'cue_l3_m5_2'),
 ('qq_l3_m5_ls2', 'itm_l3_m5_listening', 2, 'What happened to food waste collection?', '["It rose by 4 per cent","It fell by about 4 per cent","It doubled","It was not measured"]', 1, 'cue_l3_m5_3'),
-('qq_l3_m5_ls3', 'itm_l3_m5_listening', 3, 'What does the officer explicitly label as interpretation rather than fact?', '["The recycling figures","The explanation for the fall","The April proposal","The resident''s question"]', 1, 'cue_l3_m5_5'),
-('qq_l3_m5_ls4', 'itm_l3_m5_listening', 4, 'What does the officer promise if things do not improve?', '["To repeat the audit","To admit the interpretation was wrong","To change officers","To reduce collections"]', 1, 'cue_l3_m5_8');
+('qq_l3_m5_ls3', 'itm_l3_m5_listening', 3, 'What does the officer explicitly label as interpretation rather than fact?', '["The explanation for the fall","The recycling figures","The April proposal","The resident''s question"]', 0, 'cue_l3_m5_5'),
+('qq_l3_m5_ls4', 'itm_l3_m5_listening', 4, 'What does the officer promise if things do not improve?', '["To repeat the audit","To change officers","To admit the interpretation was wrong","To reduce collections"]', 2, 'cue_l3_m5_8');
 
 -- ---------------------------------------------------------------------
 -- Module 6: Technology & Media
@@ -288,10 +288,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l3_m6_3', 'itm_l3_m6_pronunciation', 3, 'connected_speech', 'more likely to report compresses heavily', '/mɔːˈlaɪklitərɪˈpɔːt/', 'The careful qualifiers of research language are exactly the parts that compress in speech, which is part of why they are so easily lost.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l3_m6_ls1', 'itm_l3_m6_listening', 1, 'What word does the first report use for its finding?', '["Proves","Suggests","Demonstrates","Confirms"]', 1, 'cue_l3_m6_2'),
-('qq_l3_m6_ls2', 'itm_l3_m6_listening', 2, 'What does the second report claim?', '["Sleep may affect mood","Lack of sleep causes depression","Scientists disagree","More research is needed"]', 1, 'cue_l3_m6_3'),
+('qq_l3_m6_ls1', 'itm_l3_m6_listening', 1, 'What word does the first report use for its finding?', '["Suggests","Proves","Demonstrates","Confirms"]', 0, 'cue_l3_m6_2'),
+('qq_l3_m6_ls2', 'itm_l3_m6_listening', 2, 'What does the second report claim?', '["Sleep may affect mood","Scientists disagree","Lack of sleep causes depression","More research is needed"]', 2, 'cue_l3_m6_3'),
 ('qq_l3_m6_ls3', 'itm_l3_m6_listening', 3, 'What has changed between the two reports?', '["The sample size","The hedges have been removed","The topic","The date of the study"]', 1, 'cue_l3_m6_5'),
-('qq_l3_m6_ls4', 'itm_l3_m6_listening', 4, 'What does the tutor say the task is?', '["To distrust all news","To notice the swap","To read only the original study","To avoid headlines"]', 1, 'cue_l3_m6_8');
+('qq_l3_m6_ls4', 'itm_l3_m6_listening', 4, 'What does the tutor say the task is?', '["To distrust all news","To read only the original study","To avoid headlines","To notice the swap"]', 3, 'cue_l3_m6_8');
 
 -- ---------------------------------------------------------------------
 -- Module 7: Health, Body & Mind
@@ -334,10 +334,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l3_m7_3', 'itm_l3_m7_pronunciation', 3, 'intonation', 'Cause-and-effect chains step down in pitch', 'FOUR hours left. // Then THREE. // And that CALculation must RAISE your alertness.', 'Each step in a causal chain sits slightly lower than the last, then resets at the conclusion. Following the steps is how you follow the reasoning.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l3_m7_ls1', 'itm_l3_m7_listening', 1, 'According to the specialist, what is usually NOT the problem?', '["Worrying","Waking briefly at night","Going to bed late","Caffeine"]', 1, 'cue_l3_m7_2'),
-('qq_l3_m7_ls2', 'itm_l3_m7_listening', 2, 'What starts the harmful cycle?', '["Noise","Checking the clock","Eating late","Screen light"]', 1, 'cue_l3_m7_3'),
+('qq_l3_m7_ls1', 'itm_l3_m7_listening', 1, 'According to the specialist, what is usually NOT the problem?', '["Waking briefly at night","Worrying","Going to bed late","Caffeine"]', 0, 'cue_l3_m7_2'),
+('qq_l3_m7_ls2', 'itm_l3_m7_listening', 2, 'What starts the harmful cycle?', '["Noise","Eating late","Checking the clock","Screen light"]', 2, 'cue_l3_m7_3'),
 ('qq_l3_m7_ls3', 'itm_l3_m7_listening', 3, 'How certain is the specialist that worry is the whole explanation?', '["Completely certain","Certain it is not the whole story","Certain it is irrelevant","Undecided"]', 1, 'cue_l3_m7_6'),
-('qq_l3_m7_ls4', 'itm_l3_m7_listening', 4, 'What practical advice is given?', '["Take medication","Turn the clock away","Get up and read","Set an alarm"]', 1, 'cue_l3_m7_8');
+('qq_l3_m7_ls4', 'itm_l3_m7_listening', 4, 'What practical advice is given?', '["Take medication","Get up and read","Set an alarm","Turn the clock away"]', 3, 'cue_l3_m7_8');
 
 -- ---------------------------------------------------------------------
 -- Module 8: Travel & Culture
@@ -380,10 +380,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l3_m8_3', 'itm_l3_m8_pronunciation', 3, 'sentence_stress', 'Repair stresses the pronoun taking responsibility', 'I should have exPLAINED. -- No, I should have ASKED.', 'Stressing the pronoun is how each speaker claims the fault. That pronoun stress is the audible mechanism of a repair, and it is easy to miss.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l3_m8_ls1', 'itm_l3_m8_listening', 1, 'How does the host open the conversation?', '["Directly and formally","By minimising it -- nothing serious","With an apology","By email"]', 1, 'cue_l3_m8_1'),
-('qq_l3_m8_ls2', 'itm_l3_m8_listening', 2, 'What has been happening?', '["Amir has missed lessons","The food has gone cold","Amir has been noisy","The rent is late"]', 1, 'cue_l3_m8_3'),
+('qq_l3_m8_ls1', 'itm_l3_m8_listening', 1, 'How does the host open the conversation?', '["By minimising it -- nothing serious","Directly and formally","With an apology","By email"]', 0, 'cue_l3_m8_1'),
+('qq_l3_m8_ls2', 'itm_l3_m8_listening', 2, 'What has been happening?', '["Amir has missed lessons","Amir has been noisy","The food has gone cold","The rent is late"]', 2, 'cue_l3_m8_3'),
 ('qq_l3_m8_ls3', 'itm_l3_m8_listening', 3, 'Why did Amir not realise?', '["He was told the wrong time","In his family people eat when hungry","He does not eat dinner","He was working late"]', 1, 'cue_l3_m8_4'),
-('qq_l3_m8_ls4', 'itm_l3_m8_listening', 4, 'How does the exchange end?', '["In disagreement","With both taking some responsibility","With the host apologising only","With no resolution"]', 1, 'cue_l3_m8_8');
+('qq_l3_m8_ls4', 'itm_l3_m8_listening', 4, 'How does the exchange end?', '["In disagreement","With the host apologising only","With no resolution","With both taking some responsibility"]', 3, 'cue_l3_m8_8');
 
 -- ---------------------------------------------------------------------
 -- Module 9: Academic Foundations
@@ -426,10 +426,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l3_m9_3', 'itm_l3_m9_pronunciation', 3, 'intonation', 'Conditional consequences fall on the outcome', 'If you genuinely CAN''T trace it, // either FIND a source // or STATE it as your own.', 'The condition rises, the options fall. Hearing that shape lets you count the options before you have decoded them.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l3_m9_ls1', 'itm_l3_m9_listening', 1, 'What does the librarian say NOT to do?', '["Cite the idea","Guess a source","Ask a tutor","Remove the sentence"]', 1, 'cue_l3_m9_2'),
-('qq_l3_m9_ls2', 'itm_l3_m9_listening', 2, 'Why is a wrong citation worse than none?', '["It is easier to detect","It sends the reader somewhere that does not support the claim","It takes longer to fix","It breaks the word limit"]', 1, 'cue_l3_m9_4'),
-('qq_l3_m9_ls3', 'itm_l3_m9_listening', 3, 'What two options does the librarian offer?', '["Delete it or rewrite it","Find a supporting source or claim it as own reasoning","Ask a friend or guess","Cite the textbook or omit"]', 1, 'cue_l3_m9_5'),
-('qq_l3_m9_ls4', 'itm_l3_m9_listening', 4, 'How does the librarian define referencing?', '["A formality","A style requirement","How a reader checks you","A university rule"]', 2, 'cue_l3_m9_7');
+('qq_l3_m9_ls1', 'itm_l3_m9_listening', 1, 'What does the librarian say NOT to do?', '["Cite the idea","Ask a tutor","Guess a source","Remove the sentence"]', 2, 'cue_l3_m9_2'),
+('qq_l3_m9_ls2', 'itm_l3_m9_listening', 2, 'Why is a wrong citation worse than none?', '["It sends the reader somewhere that does not support the claim","It is easier to detect","It takes longer to fix","It breaks the word limit"]', 0, 'cue_l3_m9_4'),
+('qq_l3_m9_ls3', 'itm_l3_m9_listening', 3, 'What two options does the librarian offer?', '["Delete it or rewrite it","Ask a friend or guess","Cite the textbook or omit","Find a supporting source or claim it as own reasoning"]', 3, 'cue_l3_m9_5'),
+('qq_l3_m9_ls4', 'itm_l3_m9_listening', 4, 'How does the librarian define referencing?', '["A formality","How a reader checks you","A style requirement","A university rule"]', 1, 'cue_l3_m9_7');
 
 -- ---------------------------------------------------------------------
 -- Module 10: Review & Consolidation
@@ -472,8 +472,8 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l3_m10_3', 'itm_l3_m10_pronunciation', 3, 'intonation', 'Recommendations end on a fall, conditions on a rise', 'KEEP the projects, HALVE the reading. // If we DON''T, we''ll LOSE the benefit.', 'A firm falling recommendation followed by a rising-then-falling conditional warning. This is the shape of professional advice, and it recurs throughout Levels IV to VI.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l3_m10_ls1', 'itm_l3_m10_listening', 1, 'By how much has attendance risen?', '["Two per cent","Ten per cent","About twelve per cent","Twenty per cent"]', 2, 'cue_l3_m10_2'),
-('qq_l3_m10_ls2', 'itm_l3_m10_listening', 2, 'What does Marín NOT dispute?', '["The recommendation","The figure","The workload","The timetable"]', 1, 'cue_l3_m10_3'),
-('qq_l3_m10_ls3', 'itm_l3_m10_listening', 3, 'What alternative explanation is offered?', '["Better teaching","The timetable change","Smaller classes","Easier assessment"]', 1, 'cue_l3_m10_4'),
-('qq_l3_m10_ls4', 'itm_l3_m10_listening', 4, 'What is Tanaka''s final recommendation?', '["Remove the projects","Keep the projects and halve the reading","Increase the reading","Postpone the decision"]', 1, 'cue_l3_m10_8');
+('qq_l3_m10_ls1', 'itm_l3_m10_listening', 1, 'By how much has attendance risen?', '["Two per cent","About twelve per cent","Ten per cent","Twenty per cent"]', 1, 'cue_l3_m10_2'),
+('qq_l3_m10_ls2', 'itm_l3_m10_listening', 2, 'What does Marín NOT dispute?', '["The recommendation","The workload","The timetable","The figure"]', 3, 'cue_l3_m10_3'),
+('qq_l3_m10_ls3', 'itm_l3_m10_listening', 3, 'What alternative explanation is offered?', '["Better teaching","Smaller classes","The timetable change","Easier assessment"]', 2, 'cue_l3_m10_4'),
+('qq_l3_m10_ls4', 'itm_l3_m10_listening', 4, 'What is Tanaka''s final recommendation?', '["Keep the projects and halve the reading","Remove the projects","Increase the reading","Postpone the decision"]', 0, 'cue_l3_m10_8');
 

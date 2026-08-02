@@ -19,7 +19,8 @@
 // error. Screenshots are a by-product for human review.
 import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
-import { mkdirSync, existsSync } from 'node:fs';
+import { mkdirSync, existsSync, readFileSync } from 'node:fs';
+import { DatabaseSync } from 'node:sqlite';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -47,6 +48,28 @@ await new Promise((resolve, reject) => {
 // Playwright's own resolution, so the test runs in CI and here alike
 // without ever downloading a browser.
 const explicit = process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+// The answer key is read HERE, in the test process, from the same seed
+// files the server loads — never from the page. That preserves the
+// property under test (the key never reaches the browser) while keeping
+// the test independent of answer POSITIONS. An earlier version hard-coded
+// the indices and broke the moment the programme-wide answer-key rebalance
+// permuted them; deriving it is the fix, exactly as in
+// tests/curriculum-level-1.test.mjs.
+function seededKey(learningItemId) {
+  const mem = new DatabaseSync(':memory:');
+  mem.exec(readFileSync(join(HERE, '../../sql/schema.sql'), 'utf8'));
+  for (let n = 1; n <= 6; n++) mem.exec(readFileSync(join(HERE, `../../sql/seed-curriculum-level-${n}.sql`), 'utf8'));
+  for (let n = 1; n <= 6; n++) {
+    const p = join(HERE, `../../sql/seed-audio-level-${n}.sql`);
+    if (existsSync(p)) mem.exec(readFileSync(p, 'utf8'));
+  }
+  const rows = mem.prepare('SELECT id, correct_index FROM quiz_questions WHERE learning_item_id = ? ORDER BY sequence ASC').all(learningItemId);
+  const key = {};
+  for (const r of rows) key[r.id] = r.correct_index;
+  return key;
+}
+const LISTENING_KEY = seededKey('itm_l1_m1_listening');
+
 const browser = await chromium.launch(existsSync(explicit) ? { executablePath: explicit } : {});
 try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 2 });
@@ -130,16 +153,15 @@ try {
   check('Notes survive a reload', /linking is my target/.test(persisted.notes));
 
   // --- comprehension is graded server-side ------------------------------
-  const picked = await page.evaluate(() => {
-    const key = { qq_l1_m1_ls1: 1, qq_l1_m1_ls2: 0, qq_l1_m1_ls3: 2, qq_l1_m1_ls4: 3 };
+  const picked = await page.evaluate((key) => {
     let n = 0;
     for (const [qid, idx] of Object.entries(key)) {
       const el = document.querySelector(`input[name="${qid}"][value="${idx}"]`);
       if (el) { el.checked = true; n++; }
     }
     return n;
-  });
-  check('All four questions could be answered', picked === 4);
+  }, LISTENING_KEY);
+  check(`All four questions could be answered (key read from the seed, not the page)`, picked === 4);
   const leaked = await page.evaluate(() => /correctIndex|correct_index/.test(JSON.stringify(window.__lab.item.questions)));
   check('The answer key is never delivered to the browser', leaked === false);
 

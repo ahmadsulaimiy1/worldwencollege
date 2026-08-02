@@ -68,9 +68,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l1_m1_ls1', 'itm_l1_m1_listening', 1, 'Where does this conversation happen?', '["At a hotel","At a language school","At an airport","At a shop"]', 1, 'cue_l1_m1_1'),
-('qq_l1_m1_ls2', 'itm_l1_m1_listening', 2, 'Where is Sofia from?', '["Italy","Spain","Portugal","France"]', 0, 'cue_l1_m1_4'),
+('qq_l1_m1_ls2', 'itm_l1_m1_listening', 2, 'Where is Sofia from?', '["Spain","Portugal","France","Italy"]', 3, 'cue_l1_m1_4'),
 ('qq_l1_m1_ls3', 'itm_l1_m1_listening', 3, 'Which city does Sofia live in?', '["Milan","Naples","Rome","Turin"]', 2, 'cue_l1_m1_4'),
-('qq_l1_m1_ls4', 'itm_l1_m1_listening', 4, 'Which room is her class in?', '["Room two","Room three","Room fourteen","Room four"]', 3, 'cue_l1_m1_7');
+('qq_l1_m1_ls4', 'itm_l1_m1_listening', 4, 'Which room is her class in?', '["Room four","Room two","Room three","Room fourteen"]', 0, 'cue_l1_m1_7');
 -- WEC-LC — Audio curriculum seed: Level I (Foundation, A1), Modules 2-10.
 --
 -- Companion to the Module 1 block in this file's sibling section; see
@@ -136,10 +136,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l1_m2_3', 'itm_l1_m2_pronunciation', 3, 'sentence_stress', 'Content words carry the beat', 'There''s a BED near the WINdow.', 'Say only the capitalised words first, keeping the rhythm, then add the small words quietly between them. English rhythm is built on stressed words, not on syllable count.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l1_m2_ls1', 'itm_l1_m2_listening', 1, 'Where is Sofia?', '["At school","In her new room","At a shop","In the garden"]', 1, 'cue_l1_m2_1'),
+('qq_l1_m2_ls1', 'itm_l1_m2_listening', 1, 'Where is Sofia?', '["In her new room","At school","At a shop","In the garden"]', 0, 'cue_l1_m2_1'),
 ('qq_l1_m2_ls2', 'itm_l1_m2_listening', 2, 'What is near the window?', '["A desk","A chair","A bed","A bookshelf"]', 2, 'cue_l1_m2_3'),
 ('qq_l1_m2_ls3', 'itm_l1_m2_listening', 3, 'How many chairs are there?', '["One","Two","Three","Four"]', 1, 'cue_l1_m2_5'),
-('qq_l1_m2_ls4', 'itm_l1_m2_listening', 4, 'Are there pictures on the wall?', '["Yes, two","Yes, many","No, none yet","The speaker does not say"]', 2, 'cue_l1_m2_7');
+('qq_l1_m2_ls4', 'itm_l1_m2_listening', 4, 'Are there pictures on the wall?', '["Yes, two","Yes, many","The speaker does not say","No, none yet"]', 3, 'cue_l1_m2_7');
 
 -- ---------------------------------------------------------------------
 -- Module 3: Family & Routines
@@ -179,9 +179,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l1_m3_3', 'itm_l1_m3_pronunciation', 3, 'word_stress', 'Clock times keep the stress on the number', 'half past FIVE; SEven o''CLOCK', 'Times carry information, so the numbers are stressed. Flattening them makes a time hard to catch even when every sound is correct.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l1_m3_ls1', 'itm_l1_m3_listening', 1, 'What time does Chidi''s mother get up?', '["Five o''clock","Half past five","Six o''clock","Seven o''clock"]', 1, 'cue_l1_m3_2'),
-('qq_l1_m3_ls2', 'itm_l1_m3_listening', 2, 'Where does Chidi''s father work?', '["In a school","In a shop","In a bank","In a hospital"]', 2, 'cue_l1_m3_3'),
-('qq_l1_m3_ls3', 'itm_l1_m3_listening', 3, 'What does Chidi do FIRST?', '["He has breakfast","He walks to school","He washes","He watches television"]', 2, 'cue_l1_m3_4'),
+('qq_l1_m3_ls1', 'itm_l1_m3_listening', 1, 'What time does Chidi''s mother get up?', '["Five o''clock","Six o''clock","Half past five","Seven o''clock"]', 2, 'cue_l1_m3_2'),
+('qq_l1_m3_ls2', 'itm_l1_m3_listening', 2, 'Where does Chidi''s father work?', '["In a bank","In a school","In a shop","In a hospital"]', 0, 'cue_l1_m3_3'),
+('qq_l1_m3_ls3', 'itm_l1_m3_listening', 3, 'What does Chidi do FIRST?', '["He has breakfast","He walks to school","He watches television","He washes"]', 3, 'cue_l1_m3_4'),
 ('qq_l1_m3_ls4', 'itm_l1_m3_listening', 4, 'Why is Chidi''s sister always late?', '["She gets up at seven","She watches television","She walks to school","She makes breakfast"]', 1, 'cue_l1_m3_5');
 
 -- ---------------------------------------------------------------------
@@ -225,10 +225,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l1_m4_3', 'itm_l1_m4_pronunciation', 3, 'intonation', 'Polite requests rise at the end', 'Can I have some bread, please? (voice goes up)', 'A falling voice on a request sounds like an instruction. The rise is what makes it polite -- in English, politeness is carried by melody at least as much as by the word please.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l1_m4_ls1', 'itm_l1_m4_listening', 1, 'What does the customer want first?', '["Bread","Apples","Milk","Eggs"]', 1, 'cue_l1_m4_2'),
-('qq_l1_m4_ls2', 'itm_l1_m4_listening', 2, 'How many apples does the customer buy?', '["Four","Five","Six","Seven"]', 2, 'cue_l1_m4_4'),
-('qq_l1_m4_ls3', 'itm_l1_m4_listening', 3, 'Which bread does the customer choose?', '["White","Brown","Both","Neither"]', 1, 'cue_l1_m4_6'),
-('qq_l1_m4_ls4', 'itm_l1_m4_listening', 4, 'How much is the total?', '["Four pounds fifteen","Four pounds fifty","Fourteen pounds","Five pounds forty"]', 1, 'cue_l1_m4_7');
+('qq_l1_m4_ls1', 'itm_l1_m4_listening', 1, 'What does the customer want first?', '["Bread","Milk","Eggs","Apples"]', 3, 'cue_l1_m4_2'),
+('qq_l1_m4_ls2', 'itm_l1_m4_listening', 2, 'How many apples does the customer buy?', '["Four","Six","Five","Seven"]', 1, 'cue_l1_m4_4'),
+('qq_l1_m4_ls3', 'itm_l1_m4_listening', 3, 'Which bread does the customer choose?', '["Brown","White","Both","Neither"]', 0, 'cue_l1_m4_6'),
+('qq_l1_m4_ls4', 'itm_l1_m4_listening', 4, 'How much is the total?', '["Four pounds fifteen","Fourteen pounds","Four pounds fifty","Five pounds forty"]', 2, 'cue_l1_m4_7');
 
 -- ---------------------------------------------------------------------
 -- Module 5: Around Town
@@ -270,10 +270,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l1_m5_3', 'itm_l1_m5_pronunciation', 3, 'intonation', 'Excuse me rises to open politely', 'exCUSE me (voice up), how do I GET to the library? (voice down)', 'The opening rise gets attention politely; the Wh-question then falls. Getting these the wrong way round sounds either aggressive or uncertain.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l1_m5_ls1', 'itm_l1_m5_listening', 1, 'What is the visitor looking for?', '["The post office","The library","A cafe","King Street"]', 1, 'cue_l1_m5_1'),
-('qq_l1_m5_ls2', 'itm_l1_m5_listening', 2, 'Which way do they turn at the traffic lights?', '["Left","Right","Straight on","Back"]', 1, 'cue_l1_m5_3'),
-('qq_l1_m5_ls3', 'itm_l1_m5_listening', 3, 'What is the library opposite?', '["A cafe","A school","The post office","The station"]', 2, 'cue_l1_m5_4'),
-('qq_l1_m5_ls4', 'itm_l1_m5_listening', 4, 'How long does it take to walk there?', '["About five minutes","About fifteen minutes","About fifty minutes","The speaker does not say"]', 0, 'cue_l1_m5_6');
+('qq_l1_m5_ls1', 'itm_l1_m5_listening', 1, 'What is the visitor looking for?', '["The library","The post office","A cafe","King Street"]', 0, 'cue_l1_m5_1'),
+('qq_l1_m5_ls2', 'itm_l1_m5_listening', 2, 'Which way do they turn at the traffic lights?', '["Left","Straight on","Right","Back"]', 2, 'cue_l1_m5_3'),
+('qq_l1_m5_ls3', 'itm_l1_m5_listening', 3, 'What is the library opposite?', '["A cafe","The post office","A school","The station"]', 1, 'cue_l1_m5_4'),
+('qq_l1_m5_ls4', 'itm_l1_m5_listening', 4, 'How long does it take to walk there?', '["About fifteen minutes","About fifty minutes","The speaker does not say","About five minutes"]', 3, 'cue_l1_m5_6');
 
 -- ---------------------------------------------------------------------
 -- Module 6: Describing People & Things
@@ -317,9 +317,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l1_m6_ls1', 'itm_l1_m6_listening', 1, 'Where did the traveller leave the bag?', '["On a bus","On the train","In a taxi","At the hotel"]', 1, 'cue_l1_m6_2'),
-('qq_l1_m6_ls2', 'itm_l1_m6_listening', 2, 'What colour is the bag?', '["Brown","Blue","Black","Grey"]', 2, 'cue_l1_m6_4'),
-('qq_l1_m6_ls3', 'itm_l1_m6_listening', 3, 'What colour is the notebook?', '["Black","Red","Green","White"]', 1, 'cue_l1_m6_6'),
-('qq_l1_m6_ls4', 'itm_l1_m6_listening', 4, 'What else is in the bag, besides the notebook and the glasses?', '["A phone","A camera","A book","A wallet"]', 1, 'cue_l1_m6_6');
+('qq_l1_m6_ls2', 'itm_l1_m6_listening', 2, 'What colour is the bag?', '["Brown","Blue","Grey","Black"]', 3, 'cue_l1_m6_4'),
+('qq_l1_m6_ls3', 'itm_l1_m6_listening', 3, 'What colour is the notebook?', '["Black","Green","Red","White"]', 2, 'cue_l1_m6_6'),
+('qq_l1_m6_ls4', 'itm_l1_m6_listening', 4, 'What else is in the bag, besides the notebook and the glasses?', '["A camera","A phone","A book","A wallet"]', 0, 'cue_l1_m6_6');
 
 -- ---------------------------------------------------------------------
 -- Module 7: Past Experiences
@@ -361,9 +361,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l1_m7_ls1', 'itm_l1_m7_listening', 1, 'What did Amina do on Saturday?', '["Played football","Visited her grandmother","Watched a film","Studied"]', 1, 'cue_l1_m7_2'),
-('qq_l1_m7_ls2', 'itm_l1_m7_listening', 2, 'Who did she play football with?', '["Her grandmother","Kwame","Her brother","Her team"]', 2, 'cue_l1_m7_4'),
-('qq_l1_m7_ls3', 'itm_l1_m7_listening', 3, 'Why did they go home early on Sunday?', '["They were tired","It rained","The film started","Her brother was ill"]', 1, 'cue_l1_m7_5'),
-('qq_l1_m7_ls4', 'itm_l1_m7_listening', 4, 'What did Kwame do at the weekend?', '["He cooked","He played football","He studied","He visited family"]', 2, 'cue_l1_m7_6');
+('qq_l1_m7_ls2', 'itm_l1_m7_listening', 2, 'Who did she play football with?', '["Her grandmother","Kwame","Her team","Her brother"]', 3, 'cue_l1_m7_4'),
+('qq_l1_m7_ls3', 'itm_l1_m7_listening', 3, 'Why did they go home early on Sunday?', '["They were tired","The film started","It rained","Her brother was ill"]', 2, 'cue_l1_m7_5'),
+('qq_l1_m7_ls4', 'itm_l1_m7_listening', 4, 'What did Kwame do at the weekend?', '["He studied","He cooked","He played football","He visited family"]', 0, 'cue_l1_m7_6');
 
 -- ---------------------------------------------------------------------
 -- Module 8: Plans & Abilities
@@ -404,10 +404,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l1_m8_3', 'itm_l1_m8_pronunciation', 3, 'sentence_stress', 'Stress falls on can''t, never on can', 'I can SWIM. -- I CAN''T swim.', 'In the positive, the verb is stressed; in the negative, can''t is. This stress difference is what a listener actually uses to tell them apart.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l1_m8_ls1', 'itm_l1_m8_listening', 1, 'What is Leo going to do in the morning?', '["Play tennis","Visit his cousin","Go swimming","Stay at home"]', 1, 'cue_l1_m8_2'),
-('qq_l1_m8_ls2', 'itm_l1_m8_listening', 2, 'Can Marta play tennis?', '["Yes, very well","Yes, a little","No, she can''t","She does not say"]', 2, 'cue_l1_m8_4'),
-('qq_l1_m8_ls3', 'itm_l1_m8_listening', 3, 'What can Marta do well?', '["Play tennis","Swim","Cook","Drive"]', 1, 'cue_l1_m8_4'),
-('qq_l1_m8_ls4', 'itm_l1_m8_listening', 4, 'What time are they going to meet?', '["At one","At two","At three","At four"]', 1, 'cue_l1_m8_5');
+('qq_l1_m8_ls1', 'itm_l1_m8_listening', 1, 'What is Leo going to do in the morning?', '["Play tennis","Go swimming","Stay at home","Visit his cousin"]', 3, 'cue_l1_m8_2'),
+('qq_l1_m8_ls2', 'itm_l1_m8_listening', 2, 'Can Marta play tennis?', '["Yes, very well","No, she can''t","Yes, a little","She does not say"]', 1, 'cue_l1_m8_4'),
+('qq_l1_m8_ls3', 'itm_l1_m8_listening', 3, 'What can Marta do well?', '["Swim","Play tennis","Cook","Drive"]', 0, 'cue_l1_m8_4'),
+('qq_l1_m8_ls4', 'itm_l1_m8_listening', 4, 'What time are they going to meet?', '["At one","At three","At two","At four"]', 2, 'cue_l1_m8_5');
 
 -- ---------------------------------------------------------------------
 -- Module 9: Health & Feelings
@@ -450,9 +450,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l1_m9_3', 'itm_l1_m9_pronunciation', 3, 'sentence_stress', 'should and shouldn''t in advice', 'You should DRINK plenty of water. You SHOULDN''T go to work.', 'As with can, the positive stresses the main verb and the negative stresses the modal. This is how advice and prohibition are told apart at speed.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l1_m9_ls1', 'itm_l1_m9_listening', 1, 'What is the customer''s main problem?', '["A cold","A bad headache","A broken arm","A cough"]', 1, 'cue_l1_m9_2'),
-('qq_l1_m9_ls2', 'itm_l1_m9_listening', 2, 'What else hurts?', '["Her back","Her throat","Her leg","Her ear"]', 1, 'cue_l1_m9_4'),
-('qq_l1_m9_ls3', 'itm_l1_m9_listening', 3, 'What does the pharmacist advise?', '["Go to work","Drink water and rest","Take a long walk","Come back tomorrow"]', 1, 'cue_l1_m9_5'),
+('qq_l1_m9_ls1', 'itm_l1_m9_listening', 1, 'What is the customer''s main problem?', '["A cold","A broken arm","A bad headache","A cough"]', 2, 'cue_l1_m9_2'),
+('qq_l1_m9_ls2', 'itm_l1_m9_listening', 2, 'What else hurts?', '["Her throat","Her back","Her leg","Her ear"]', 0, 'cue_l1_m9_4'),
+('qq_l1_m9_ls3', 'itm_l1_m9_listening', 3, 'What does the pharmacist advise?', '["Go to work","Take a long walk","Come back tomorrow","Drink water and rest"]', 3, 'cue_l1_m9_5'),
 ('qq_l1_m9_ls4', 'itm_l1_m9_listening', 4, 'How often should the customer take the medicine?', '["Once a day","Twice a day","Three times a day","Before food only"]', 1, 'cue_l1_m9_6');
 
 -- ---------------------------------------------------------------------
@@ -495,8 +495,8 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l1_m10_3', 'itm_l1_m10_pronunciation', 3, 'sentence_stress', 'Sustaining rhythm across a whole paragraph', 'CLASSES start at NINE and FINish at half past THREE.', 'Level I ends here: keeping stressed words on a steady beat while everything between them is compressed. This is the foundation every later level builds on.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l1_m10_ls1', 'itm_l1_m10_listening', 1, 'Where does Grace work?', '["In the library","In the main office","In the museum","In the park"]', 1, 'cue_l1_m10_2'),
-('qq_l1_m10_ls2', 'itm_l1_m10_listening', 2, 'What time do classes finish?', '["Three o''clock","Half past three","Six o''clock","Nine o''clock"]', 1, 'cue_l1_m10_3'),
+('qq_l1_m10_ls1', 'itm_l1_m10_listening', 1, 'Where does Grace work?', '["In the main office","In the library","In the museum","In the park"]', 0, 'cue_l1_m10_2'),
+('qq_l1_m10_ls2', 'itm_l1_m10_listening', 2, 'What time do classes finish?', '["Three o''clock","Six o''clock","Half past three","Nine o''clock"]', 2, 'cue_l1_m10_3'),
 ('qq_l1_m10_ls3', 'itm_l1_m10_listening', 3, 'What did the new students do last week?', '["They had a party","They walked to the museum","They started classes","They visited the office"]', 1, 'cue_l1_m10_4'),
-('qq_l1_m10_ls4', 'itm_l1_m10_listening', 4, 'What should you do if you feel ill?', '["Come to class anyway","Tell your teacher","Go to the party","Wait until Friday"]', 1, 'cue_l1_m10_6');
+('qq_l1_m10_ls4', 'itm_l1_m10_listening', 4, 'What should you do if you feel ill?', '["Come to class anyway","Go to the party","Wait until Friday","Tell your teacher"]', 3, 'cue_l1_m10_6');
 

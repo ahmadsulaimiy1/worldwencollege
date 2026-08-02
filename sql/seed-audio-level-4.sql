@@ -56,10 +56,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l4_m1_3', 'itm_l4_m1_pronunciation', 3, 'sentence_stress', 'Paired abstractions take equal contrastive stress', 'REASonable and RIGHT aren''t the same thing.', 'When two near-synonyms are set against each other, both are stressed. This is the audible signature of the analytical move this level teaches.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l4_m1_ls1', 'itm_l4_m1_listening', 1, 'What had happened before the speaker took over?', '["The team had been replaced","The team had missed two deadlines","The project had been cancelled","Funding had been cut"]', 1, 'cue_l4_m1_1'),
+('qq_l4_m1_ls1', 'itm_l4_m1_listening', 1, 'What had happened before the speaker took over?', '["The team had been replaced","The project had been cancelled","Funding had been cut","The team had missed two deadlines"]', 3, 'cue_l4_m1_1'),
 ('qq_l4_m1_ls2', 'itm_l4_m1_listening', 2, 'What was the real underlying problem?', '["Bad management","Nobody had been told what success looked like","Insufficient staff","Poor technology"]', 1, 'cue_l4_m1_3'),
-('qq_l4_m1_ls3', 'itm_l4_m1_listening', 3, 'How long did the speaker work on the wrong problem?', '["Six weeks","Three months","Half a year","Two years"]', 2, 'cue_l4_m1_4'),
-('qq_l4_m1_ls4', 'itm_l4_m1_listening', 4, 'What is the speaker''s final distinction?', '["Fast and slow","Reasonable and right","Cheap and expensive","Simple and complex"]', 1, 'cue_l4_m1_7');
+('qq_l4_m1_ls3', 'itm_l4_m1_listening', 3, 'How long did the speaker work on the wrong problem?', '["Half a year","Six weeks","Three months","Two years"]', 0, 'cue_l4_m1_4'),
+('qq_l4_m1_ls4', 'itm_l4_m1_listening', 4, 'What is the speaker''s final distinction?', '["Fast and slow","Cheap and expensive","Reasonable and right","Simple and complex"]', 2, 'cue_l4_m1_7');
 
 -- ---------------------------------------------------------------------
 -- Module 2: Academic Writing I
@@ -103,10 +103,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l4_m2_3', 'itm_l4_m2_pronunciation', 3, 'connected_speech', 'Academic hedges cluster before the point', 'nobody would disagree -> /ˈnəʊbədiwədˌdɪsəˈɡriː/', 'Even direct academic criticism arrives wrapped in fast unstressed hedging. Hearing the wrapper is what keeps the criticism proportionate.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l4_m2_ls1', 'itm_l4_m2_listening', 1, 'What is wrong with the student''s first statement?', '["It is too long","It is a topic, not a thesis","It is ungrammatical","It lacks sources"]', 1, 'cue_l4_m2_3'),
+('qq_l4_m2_ls1', 'itm_l4_m2_listening', 1, 'What is wrong with the student''s first statement?', '["It is too long","It is ungrammatical","It lacks sources","It is a topic, not a thesis"]', 3, 'cue_l4_m2_3'),
 ('qq_l4_m2_ls2', 'itm_l4_m2_listening', 2, 'What does the tutor object to in the second attempt?', '["It is too specific","Nobody would disagree with it","It is off-topic","It is too short"]', 1, 'cue_l4_m2_5'),
-('qq_l4_m2_ls3', 'itm_l4_m2_listening', 3, 'How does the student narrow the claim?', '["By adding dates","By specifying knowledge workers and output","By citing a study","By reducing the scope to one company"]', 1, 'cue_l4_m2_6'),
-('qq_l4_m2_ls4', 'itm_l4_m2_listening', 4, 'What is the tutor''s definition of a thesis?', '["A summary of sources","A statement someone could contest","A question","A description of a topic"]', 1, 'cue_l4_m2_7');
+('qq_l4_m2_ls3', 'itm_l4_m2_listening', 3, 'How does the student narrow the claim?', '["By specifying knowledge workers and output","By adding dates","By citing a study","By reducing the scope to one company"]', 0, 'cue_l4_m2_6'),
+('qq_l4_m2_ls4', 'itm_l4_m2_listening', 4, 'What is the tutor''s definition of a thesis?', '["A summary of sources","A question","A statement someone could contest","A description of a topic"]', 2, 'cue_l4_m2_7');
 
 -- ---------------------------------------------------------------------
 -- Module 3: The World of Work
@@ -150,9 +150,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l4_m3_3', 'itm_l4_m3_pronunciation', 3, 'connected_speech', 'Modal + have compresses in reflection', 'I should have flagged it -> /aɪʃədəvˈflæɡdɪt/; I''d rather -> /aɪdˈrɑːðə/', 'Self-correction and preference structures are heavily reduced. Hearing them accurately is what lets you tell an admission from a deflection.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l4_m3_ls1', 'itm_l4_m3_listening', 1, 'What is the subject of the conversation?', '["A pay review","Two late client reports","A promotion","A team restructure"]', 1, 'cue_l4_m3_1'),
-('qq_l4_m3_ls2', 'itm_l4_m3_listening', 2, 'What does the manager explicitly avoid doing?', '["Setting a deadline","Assuming they know why","Taking notes","Involving HR"]', 1, 'cue_l4_m3_3'),
-('qq_l4_m3_ls3', 'itm_l4_m3_listening', 3, 'What does the employee identify as the real cause?', '["Their own workload","Late handover of data","Unclear instructions","Software problems"]', 1, 'cue_l4_m3_4'),
+('qq_l4_m3_ls1', 'itm_l4_m3_listening', 1, 'What is the subject of the conversation?', '["A pay review","A promotion","Two late client reports","A team restructure"]', 2, 'cue_l4_m3_1'),
+('qq_l4_m3_ls2', 'itm_l4_m3_listening', 2, 'What does the manager explicitly avoid doing?', '["Assuming they know why","Setting a deadline","Taking notes","Involving HR"]', 0, 'cue_l4_m3_3'),
+('qq_l4_m3_ls3', 'itm_l4_m3_listening', 3, 'What does the employee identify as the real cause?', '["Their own workload","Unclear instructions","Software problems","Late handover of data"]', 3, 'cue_l4_m3_4'),
 ('qq_l4_m3_ls4', 'itm_l4_m3_listening', 4, 'What does the manager ask for in future?', '["A written report","Being told the same day","A meeting with the data team","Earlier starts"]', 1, 'cue_l4_m3_7');
 
 -- ---------------------------------------------------------------------
@@ -197,10 +197,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l4_m4_3', 'itm_l4_m4_pronunciation', 3, 'rhythm', 'Conditional challenges chunk into three', 'If you CAN''T state your opponent''s case // BETter than THEY can, // you don''t underSTAND it yet.', 'Long conditional sentences break into rhythmic groups at the clause boundaries. Hearing those boundaries is what makes complex sentences followable in real time.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l4_m4_ls1', 'itm_l4_m4_listening', 1, 'What does the coach say most people attack?', '["The strongest version","The worst version","The most recent version","The written version"]', 1, 'cue_l4_m4_1'),
+('qq_l4_m4_ls1', 'itm_l4_m4_listening', 1, 'What does the coach say most people attack?', '["The strongest version","The most recent version","The written version","The worst version"]', 3, 'cue_l4_m4_1'),
 ('qq_l4_m4_ls2', 'itm_l4_m4_listening', 2, 'What is the weak version of the anti-remote-work case?', '["Productivity falls","Managers just want control","Offices are expensive","Staff prefer offices"]', 1, 'cue_l4_m4_2'),
-('qq_l4_m4_ls3', 'itm_l4_m4_listening', 3, 'What is the strong version?', '["Costs rise","Informal knowledge transfer is lost","Staff are less loyal","Training is harder"]', 1, 'cue_l4_m4_4'),
-('qq_l4_m4_ls4', 'itm_l4_m4_listening', 4, 'What is the coach''s test of understanding?', '["Winning the debate","Stating the opponent''s case better than they can","Citing more evidence","Speaking for longer"]', 1, 'cue_l4_m4_7');
+('qq_l4_m4_ls3', 'itm_l4_m4_listening', 3, 'What is the strong version?', '["Informal knowledge transfer is lost","Costs rise","Staff are less loyal","Training is harder"]', 0, 'cue_l4_m4_4'),
+('qq_l4_m4_ls4', 'itm_l4_m4_listening', 4, 'What is the coach''s test of understanding?', '["Winning the debate","Citing more evidence","Stating the opponent''s case better than they can","Speaking for longer"]', 2, 'cue_l4_m4_7');
 
 -- ---------------------------------------------------------------------
 -- Module 5: Science, Technology & Ethics
@@ -243,10 +243,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l4_m5_3', 'itm_l4_m5_pronunciation', 3, 'intonation', 'Concession before a firm conclusion rises then falls hard', 'It''s conTESted, and reasonable people land DIFFerently. // BUT it CAN''T be resolved by better PAPerwork.', 'The rise on the concession followed by a hard fall on the conclusion is the shape of a decision that has already been taken.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l4_m5_ls1', 'itm_l4_m5_listening', 1, 'What was the procedural objection?', '["Payments were too high","Consent forms were not back-translated","The sample was too small","Results were withheld"]', 1, 'cue_l4_m5_2'),
-('qq_l4_m5_ls2', 'itm_l4_m5_listening', 2, 'How quickly was the procedural issue fixed?', '["Within a day","Within a fortnight","Within three months","It was not fixed"]', 1, 'cue_l4_m5_3'),
+('qq_l4_m5_ls1', 'itm_l4_m5_listening', 1, 'What was the procedural objection?', '["Consent forms were not back-translated","Payments were too high","The sample was too small","Results were withheld"]', 0, 'cue_l4_m5_2'),
+('qq_l4_m5_ls2', 'itm_l4_m5_listening', 2, 'How quickly was the procedural issue fixed?', '["Within a day","Within three months","Within a fortnight","It was not fixed"]', 2, 'cue_l4_m5_3'),
 ('qq_l4_m5_ls3', 'itm_l4_m5_listening', 3, 'What was the substantive objection?', '["Fraud","Payment high enough to undermine voluntariness","Poor data handling","Lack of a control group"]', 1, 'cue_l4_m5_4'),
-('qq_l4_m5_ls4', 'itm_l4_m5_listening', 4, 'Why did the trial remain suspended?', '["The paperwork was still wrong","The substantive issue cannot be fixed by paperwork","Funding was withdrawn","Participants withdrew"]', 1, 'cue_l4_m5_8');
+('qq_l4_m5_ls4', 'itm_l4_m5_listening', 4, 'Why did the trial remain suspended?', '["The paperwork was still wrong","Funding was withdrawn","Participants withdrew","The substantive issue cannot be fixed by paperwork"]', 3, 'cue_l4_m5_8');
 
 -- ---------------------------------------------------------------------
 -- Module 6: Global Issues
@@ -291,10 +291,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l4_m6_3', 'itm_l4_m6_pronunciation', 3, 'connected_speech', 'Agreement formulas compress fully', 'I''d agree with that -> /aɪdəˈɡriːwɪðæt/', 'In fast professional disagreement, the agreements are the most compressed parts. Missing them makes a nuanced exchange sound like a row.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l4_m6_ls1', 'itm_l4_m6_listening', 1, 'By how much does the headline say poverty has fallen?', '["A tenth","A quarter","A third","A half"]', 2, 'cue_l4_m6_1'),
-('qq_l4_m6_ls2', 'itm_l4_m6_listening', 2, 'What does the absolute measure track?', '["Participation","Whether people can eat","Income inequality","Housing quality"]', 1, 'cue_l4_m6_7'),
-('qq_l4_m6_ls3', 'itm_l4_m6_listening', 3, 'What does the relative measure show?', '["A larger fall","Almost no change","A rise","The same result"]', 1, 'cue_l4_m6_4'),
-('qq_l4_m6_ls4', 'itm_l4_m6_listening', 4, 'How does Beatriz characterise the headline?', '["Wrong","Partial","Fabricated","Out of date"]', 1, 'cue_l4_m6_10');
+('qq_l4_m6_ls1', 'itm_l4_m6_listening', 1, 'By how much does the headline say poverty has fallen?', '["A tenth","A third","A quarter","A half"]', 1, 'cue_l4_m6_1'),
+('qq_l4_m6_ls2', 'itm_l4_m6_listening', 2, 'What does the absolute measure track?', '["Participation","Income inequality","Housing quality","Whether people can eat"]', 3, 'cue_l4_m6_7'),
+('qq_l4_m6_ls3', 'itm_l4_m6_listening', 3, 'What does the relative measure show?', '["A larger fall","A rise","Almost no change","The same result"]', 2, 'cue_l4_m6_4'),
+('qq_l4_m6_ls4', 'itm_l4_m6_listening', 4, 'How does Beatriz characterise the headline?', '["Partial","Wrong","Fabricated","Out of date"]', 0, 'cue_l4_m6_10');
 
 -- ---------------------------------------------------------------------
 -- Module 7: Media Literacy & Critical Reading
@@ -338,10 +338,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l4_m7_3', 'itm_l4_m7_pronunciation', 3, 'connected_speech', 'Reported speech compresses around the verb', 'she said that -> /ʃiˈsedðət/; would have been -> /wʊdəvbɪn/', 'The reporting frame is fast and unstressed while the reported content is clear. That asymmetry is how you separate attribution from assertion in real time.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l4_m7_ls1', 'itm_l4_m7_listening', 1, 'How many sources does the reporter have?', '["One","Two","Three","Four"]', 1, 'cue_l4_m7_2'),
-('qq_l4_m7_ls2', 'itm_l4_m7_listening', 2, 'What did the second source actually say?', '["The minister knew","It would have been extraordinary if she had not known","The minister denied it","Nothing on the record"]', 1, 'cue_l4_m7_4'),
+('qq_l4_m7_ls1', 'itm_l4_m7_listening', 1, 'How many sources does the reporter have?', '["Two","One","Three","Four"]', 0, 'cue_l4_m7_2'),
+('qq_l4_m7_ls2', 'itm_l4_m7_listening', 2, 'What did the second source actually say?', '["The minister knew","The minister denied it","It would have been extraordinary if she had not known","Nothing on the record"]', 2, 'cue_l4_m7_4'),
 ('qq_l4_m7_ls3', 'itm_l4_m7_listening', 3, 'Why does the editor reject the second source''s statement?', '["It is anonymous","It is an inference from someone not in the room","It is off the record","It contradicts the first source"]', 1, 'cue_l4_m7_7'),
-('qq_l4_m7_ls4', 'itm_l4_m7_listening', 4, 'What does the editor instruct?', '["Drop the story","Write what the first source said and attribute it","Find a third source","Publish both claims"]', 1, 'cue_l4_m7_7');
+('qq_l4_m7_ls4', 'itm_l4_m7_listening', 4, 'What does the editor instruct?', '["Drop the story","Find a third source","Publish both claims","Write what the first source said and attribute it"]', 3, 'cue_l4_m7_7');
 
 -- ---------------------------------------------------------------------
 -- Module 8: Meetings & Negotiation
@@ -385,10 +385,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l4_m8_3', 'itm_l4_m8_pronunciation', 3, 'connected_speech', 'Negotiation formulas compress', 'we can''t do -> /wiˈkɑːntdu/; I can take that to -> /aɪkənˈteɪkðætə/', 'At full professional speed the framing compresses and only the numbers stay clear. That is deliberate: the figures are what must not be misheard.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l4_m8_ls1', 'itm_l4_m8_listening', 1, 'What increase does Okonjo initially demand?', '["Four per cent","Six per cent","Eight per cent","Ten per cent"]', 2, 'cue_l4_m8_1'),
+('qq_l4_m8_ls1', 'itm_l4_m8_listening', 1, 'What increase does Okonjo initially demand?', '["Four per cent","Six per cent","Ten per cent","Eight per cent"]', 3, 'cue_l4_m8_1'),
 ('qq_l4_m8_ls2', 'itm_l4_m8_listening', 2, 'What is the real constraint on Lindqvist''s side?', '["The rate is too high","The budget is fixed until April","Board approval","A competitor''s offer"]', 1, 'cue_l4_m8_4'),
-('qq_l4_m8_ls3', 'itm_l4_m8_listening', 3, 'What does Lindqvist ask for in return?', '["A discount","Extending the term to three years","Faster payment","A written guarantee"]', 1, 'cue_l4_m8_6'),
-('qq_l4_m8_ls4', 'itm_l4_m8_listening', 4, 'What does Okonjo say was the key move?', '["Offering a discount","Asking what was driving the ceiling","Threatening to walk away","Involving the board"]', 1, 'cue_l4_m8_9');
+('qq_l4_m8_ls3', 'itm_l4_m8_listening', 3, 'What does Lindqvist ask for in return?', '["Extending the term to three years","A discount","Faster payment","A written guarantee"]', 0, 'cue_l4_m8_6'),
+('qq_l4_m8_ls4', 'itm_l4_m8_listening', 4, 'What does Okonjo say was the key move?', '["Offering a discount","Threatening to walk away","Asking what was driving the ceiling","Involving the board"]', 2, 'cue_l4_m8_9');
 
 -- ---------------------------------------------------------------------
 -- Module 9: Academic Writing II
@@ -432,9 +432,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l4_m9_3', 'itm_l4_m9_pronunciation', 3, 'connected_speech', 'Whose and who''s are indistinguishable in speech', 'whose paragraph it is -> /huːzˈpærəɡrɑːfɪtɪz/', 'Context alone disambiguates. At B2 this is worth noticing consciously, because academic English uses both constantly and the ear must rely on syntax rather than sound.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l4_m9_ls1', 'itm_l4_m9_listening', 1, 'What is wrong with the student''s chapter?', '["Missing sources","It reads as eight summaries in a row","It is too short","Incorrect citation style"]', 1, 'cue_l4_m9_1'),
-('qq_l4_m9_ls2', 'itm_l4_m9_listening', 2, 'What are the sources disagreeing about?', '["Sample sizes","Whether the effect holds outside the laboratory","Funding sources","Definitions of the term"]', 1, 'cue_l4_m9_4'),
-('qq_l4_m9_ls3', 'itm_l4_m9_listening', 3, 'How should the chapter be organised?', '["By date","By author","By argument","By methodology"]', 2, 'cue_l4_m9_6'),
+('qq_l4_m9_ls1', 'itm_l4_m9_listening', 1, 'What is wrong with the student''s chapter?', '["Missing sources","It is too short","It reads as eight summaries in a row","Incorrect citation style"]', 2, 'cue_l4_m9_1'),
+('qq_l4_m9_ls2', 'itm_l4_m9_listening', 2, 'What are the sources disagreeing about?', '["Whether the effect holds outside the laboratory","Sample sizes","Funding sources","Definitions of the term"]', 0, 'cue_l4_m9_4'),
+('qq_l4_m9_ls3', 'itm_l4_m9_listening', 3, 'How should the chapter be organised?', '["By date","By author","By methodology","By argument"]', 3, 'cue_l4_m9_6'),
 ('qq_l4_m9_ls4', 'itm_l4_m9_listening', 4, 'What is the supervisor''s test of synthesis?', '["Number of citations","A reader cannot tell whose paragraph it is","Length of each section","Use of subheadings"]', 1, 'cue_l4_m9_7');
 
 -- ---------------------------------------------------------------------
@@ -480,7 +480,7 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l4_m10_ls1', 'itm_l4_m10_listening', 1, 'What is Vance''s evidence?', '["Student satisfaction","Optional takers outperform non-takers","Employer feedback","External benchmarking"]', 1, 'cue_l4_m10_2'),
-('qq_l4_m10_ls2', 'itm_l4_m10_listening', 2, 'What is Ferreira''s objection?', '["The data is old","The comparison is confounded","The sample is small","The module is too hard"]', 1, 'cue_l4_m10_3'),
-('qq_l4_m10_ls3', 'itm_l4_m10_listening', 3, 'What procedural problem does Adeyemi raise?', '["No student consultation","Staffing not approved before advertising","No room allocation","Missing paperwork"]', 1, 'cue_l4_m10_6'),
-('qq_l4_m10_ls4', 'itm_l4_m10_listening', 4, 'What does the board decide?', '["Make it compulsory now","Reject the proposal","Run a pilot with random allocation","Postpone indefinitely"]', 2, 'cue_l4_m10_9');
+('qq_l4_m10_ls2', 'itm_l4_m10_listening', 2, 'What is Ferreira''s objection?', '["The data is old","The sample is small","The module is too hard","The comparison is confounded"]', 3, 'cue_l4_m10_3'),
+('qq_l4_m10_ls3', 'itm_l4_m10_listening', 3, 'What procedural problem does Adeyemi raise?', '["No student consultation","No room allocation","Staffing not approved before advertising","Missing paperwork"]', 2, 'cue_l4_m10_6'),
+('qq_l4_m10_ls4', 'itm_l4_m10_listening', 4, 'What does the board decide?', '["Run a pilot with random allocation","Make it compulsory now","Reject the proposal","Postpone indefinitely"]', 0, 'cue_l4_m10_9');
 

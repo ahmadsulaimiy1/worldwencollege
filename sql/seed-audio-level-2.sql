@@ -61,9 +61,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l2_m1_ls1', 'itm_l2_m1_listening', 1, 'What did Priya do before nursing?', '["She was a student","She worked in an office","She worked in a hospital","She was a teacher"]', 1, 'cue_l2_m1_2'),
-('qq_l2_m1_ls2', 'itm_l2_m1_listening', 2, 'What was she doing when she saw the accident?', '["Driving home","Walking home","Working late","Waiting for a bus"]', 1, 'cue_l2_m1_3'),
-('qq_l2_m1_ls3', 'itm_l2_m1_listening', 3, 'What impressed Priya about the woman helping?', '["She was a doctor","She was completely calm","She was very fast","She knew the man"]', 1, 'cue_l2_m1_4'),
-('qq_l2_m1_ls4', 'itm_l2_m1_listening', 4, 'How long ago did Priya start training?', '["Two years","Five years","Seven years","Eight years"]', 3, 'cue_l2_m1_6');
+('qq_l2_m1_ls2', 'itm_l2_m1_listening', 2, 'What was she doing when she saw the accident?', '["Driving home","Working late","Waiting for a bus","Walking home"]', 3, 'cue_l2_m1_3'),
+('qq_l2_m1_ls3', 'itm_l2_m1_listening', 3, 'What impressed Priya about the woman helping?', '["She was a doctor","She was very fast","She was completely calm","She knew the man"]', 2, 'cue_l2_m1_4'),
+('qq_l2_m1_ls4', 'itm_l2_m1_listening', 4, 'How long ago did Priya start training?', '["Eight years","Two years","Five years","Seven years"]', 0, 'cue_l2_m1_6');
 
 -- ---------------------------------------------------------------------
 -- Module 2: Travel & Transport
@@ -106,10 +106,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l2_m2_3', 'itm_l2_m2_pronunciation', 3, 'intonation', 'Checking back rises steeply', 'Platform THIRty? (sharp rise)', 'A steep rise signals "I am not sure I heard that correctly" and invites repetition. It is a repair strategy, and using it is a skill, not a failure.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l2_m2_ls1', 'itm_l2_m2_listening', 1, 'Why is the traveller worried?', '["The train is cancelled","They have missed a connection","They lost their ticket","They are on the wrong platform"]', 1, 'cue_l2_m2_2'),
-('qq_l2_m2_ls2', 'itm_l2_m2_listening', 2, 'Where is the traveller going?', '["Manchester","Leeds","London","York"]', 1, 'cue_l2_m2_4'),
-('qq_l2_m2_ls3', 'itm_l2_m2_listening', 3, 'Which platform does the next train leave from?', '["Thirty","Three","Thirteen","Thirty-three"]', 2, 'cue_l2_m2_5'),
-('qq_l2_m2_ls4', 'itm_l2_m2_listening', 4, 'What must the traveller do with the existing ticket?', '["Buy a new one","Exchange it at the desk","Show it to the guard","Nothing at all"]', 2, 'cue_l2_m2_7');
+('qq_l2_m2_ls1', 'itm_l2_m2_listening', 1, 'Why is the traveller worried?', '["They have missed a connection","The train is cancelled","They lost their ticket","They are on the wrong platform"]', 0, 'cue_l2_m2_2'),
+('qq_l2_m2_ls2', 'itm_l2_m2_listening', 2, 'Where is the traveller going?', '["Manchester","London","Leeds","York"]', 2, 'cue_l2_m2_4'),
+('qq_l2_m2_ls3', 'itm_l2_m2_listening', 3, 'Which platform does the next train leave from?', '["Thirty","Thirteen","Three","Thirty-three"]', 1, 'cue_l2_m2_5'),
+('qq_l2_m2_ls4', 'itm_l2_m2_listening', 4, 'What must the traveller do with the existing ticket?', '["Buy a new one","Exchange it at the desk","Nothing at all","Show it to the guard"]', 3, 'cue_l2_m2_7');
 
 -- ---------------------------------------------------------------------
 -- Module 3: Work & Study
@@ -154,9 +154,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l2_m3_ls1', 'itm_l2_m3_listening', 1, 'What time does Tomas finish work?', '["Half past four","Five o''clock","Half past five","Six o''clock"]', 1, 'cue_l2_m3_3'),
-('qq_l2_m3_ls2', 'itm_l2_m3_listening', 2, 'What does he do in the mornings?', '["Write reports","Answer the phone and deal with emails","Work with Ana","Attend meetings"]', 1, 'cue_l2_m3_4'),
+('qq_l2_m3_ls2', 'itm_l2_m3_listening', 2, 'What does he do in the mornings?', '["Write reports","Work with Ana","Attend meetings","Answer the phone and deal with emails"]', 3, 'cue_l2_m3_4'),
 ('qq_l2_m3_ls3', 'itm_l2_m3_listening', 3, 'What must he NOT wear?', '["A uniform","A tie","Jeans","Trainers"]', 2, 'cue_l2_m3_7'),
-('qq_l2_m3_ls4', 'itm_l2_m3_listening', 4, 'Who should he ask if the manager is out?', '["Nobody","Ana","The receptionist","Another new employee"]', 1, 'cue_l2_m3_9');
+('qq_l2_m3_ls4', 'itm_l2_m3_listening', 4, 'Who should he ask if the manager is out?', '["Ana","Nobody","The receptionist","Another new employee"]', 0, 'cue_l2_m3_9');
 
 -- ---------------------------------------------------------------------
 -- Module 4: Likes, Dislikes & Opinions
@@ -199,10 +199,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l2_m4_3', 'itm_l2_m4_pronunciation', 3, 'sentence_stress', 'Concession stresses the contrast word', 'I see your POINT, BUT I find the stories WEAK.', 'The stress lands on but and on the criticism. This is the rhythm of English concession, and hearing it tells you a disagreement is coming before the words arrive.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l2_m4_ls1', 'itm_l2_m4_listening', 1, 'How does Lena feel about science fiction?', '["She loves it","She is not keen on it","She has never seen any","She prefers it to comedy"]', 1, 'cue_l2_m4_2'),
+('qq_l2_m4_ls1', 'itm_l2_m4_listening', 1, 'How does Lena feel about science fiction?', '["She is not keen on it","She loves it","She has never seen any","She prefers it to comedy"]', 0, 'cue_l2_m4_2'),
 ('qq_l2_m4_ls2', 'itm_l2_m4_listening', 2, 'What does Marco prefer?', '["Science fiction","Documentaries","Comedies","He has no preference at all"]', 2, 'cue_l2_m4_4'),
 ('qq_l2_m4_ls3', 'itm_l2_m4_listening', 3, 'What is Lena''s criticism of science fiction?', '["The effects are poor","The stories are weak","The films are too long","The acting is bad"]', 1, 'cue_l2_m4_5'),
-('qq_l2_m4_ls4', 'itm_l2_m4_listening', 4, 'What do they finally decide to watch?', '["The science fiction film","A comedy","A documentary","Nothing"]', 1, 'cue_l2_m4_6');
+('qq_l2_m4_ls4', 'itm_l2_m4_listening', 4, 'What do they finally decide to watch?', '["The science fiction film","A documentary","Nothing","A comedy"]', 3, 'cue_l2_m4_6');
 
 -- ---------------------------------------------------------------------
 -- Module 5: Making Plans
@@ -245,9 +245,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l2_m5_3', 'itm_l2_m5_pronunciation', 3, 'intonation', 'Suggestions rise; corrections fall', 'Shall we meet at TWELVE? (up) -- Actually, let''s make it ONE. (down)', 'A rising suggestion invites agreement; a falling correction takes it back gently. This pair is the whole grammar of negotiating a plan.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l2_m5_ls1', 'itm_l2_m5_listening', 1, 'What is Dan already doing on Saturday morning?', '["Visiting a gallery","Meeting his brother","Working","Nothing"]', 1, 'cue_l2_m5_2'),
+('qq_l2_m5_ls1', 'itm_l2_m5_listening', 1, 'What is Dan already doing on Saturday morning?', '["Visiting a gallery","Working","Meeting his brother","Nothing"]', 2, 'cue_l2_m5_2'),
 ('qq_l2_m5_ls2', 'itm_l2_m5_listening', 2, 'What does Sara intend to do?', '["Visit the new gallery","Meet Dan''s brother","Go shopping","Stay at home"]', 0, 'cue_l2_m5_3'),
-('qq_l2_m5_ls3', 'itm_l2_m5_listening', 3, 'What time do they finally agree to meet?', '["Half past twelve","One o''clock","Eleven","Ten"]', 1, 'cue_l2_m5_6'),
+('qq_l2_m5_ls3', 'itm_l2_m5_listening', 3, 'What time do they finally agree to meet?', '["Half past twelve","Eleven","Ten","One o''clock"]', 3, 'cue_l2_m5_6'),
 ('qq_l2_m5_ls4', 'itm_l2_m5_listening', 4, 'What will Sara do if the plan changes?', '["Phone Dan","Text Dan","Email Dan","Nothing"]', 1, 'cue_l2_m5_7');
 
 -- ---------------------------------------------------------------------
@@ -292,9 +292,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l2_m6_ls1', 'itm_l2_m6_listening', 1, 'What is the advantage of the first flat?', '["It is cheaper","It is bigger and brighter","It is near the station","It is quieter"]', 1, 'cue_l2_m6_3'),
-('qq_l2_m6_ls2', 'itm_l2_m6_listening', 2, 'How far is the second flat from the station?', '["Five minutes'' walk","Fifteen minutes'' walk","Fifty minutes'' walk","She does not say"]', 0, 'cue_l2_m6_4'),
-('qq_l2_m6_ls3', 'itm_l2_m6_listening', 3, 'Which neighbourhood does Nadia prefer?', '["The first","The second","Neither","She cannot decide"]', 1, 'cue_l2_m6_6'),
-('qq_l2_m6_ls4', 'itm_l2_m6_listening', 4, 'What is near the second flat?', '["A station","A school","A park","A shopping centre"]', 2, 'cue_l2_m6_6');
+('qq_l2_m6_ls2', 'itm_l2_m6_listening', 2, 'How far is the second flat from the station?', '["Fifteen minutes'' walk","Fifty minutes'' walk","She does not say","Five minutes'' walk"]', 3, 'cue_l2_m6_4'),
+('qq_l2_m6_ls3', 'itm_l2_m6_listening', 3, 'Which neighbourhood does Nadia prefer?', '["The first","Neither","The second","She cannot decide"]', 2, 'cue_l2_m6_6'),
+('qq_l2_m6_ls4', 'itm_l2_m6_listening', 4, 'What is near the second flat?', '["A park","A station","A school","A shopping centre"]', 0, 'cue_l2_m6_6');
 
 -- ---------------------------------------------------------------------
 -- Module 7: Food, Health & Habits
@@ -339,9 +339,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l2_m7_ls1', 'itm_l2_m7_listening', 1, 'What is the patient''s main complaint?', '["Headaches","Tiredness and poor sleep","Back pain","A cough"]', 1, 'cue_l2_m7_2'),
-('qq_l2_m7_ls2', 'itm_l2_m7_listening', 2, 'How often does the patient exercise?', '["Every day","Once a week","Hardly ever","Twice a month"]', 2, 'cue_l2_m7_4'),
+('qq_l2_m7_ls2', 'itm_l2_m7_listening', 2, 'How often does the patient exercise?', '["Every day","Once a week","Twice a month","Hardly ever"]', 3, 'cue_l2_m7_4'),
 ('qq_l2_m7_ls3', 'itm_l2_m7_listening', 3, 'How much coffee does the patient drink daily?', '["One or two cups","Two or three cups","Four or five cups","Ten cups"]', 2, 'cue_l2_m7_6'),
-('qq_l2_m7_ls4', 'itm_l2_m7_listening', 4, 'What does the doctor recommend?', '["Joining a gym","Walking twenty minutes a day","Stopping coffee immediately","Taking medicine"]', 1, 'cue_l2_m7_8');
+('qq_l2_m7_ls4', 'itm_l2_m7_listening', 4, 'What does the doctor recommend?', '["Walking twenty minutes a day","Joining a gym","Stopping coffee immediately","Taking medicine"]', 0, 'cue_l2_m7_8');
 
 -- ---------------------------------------------------------------------
 -- Module 8: Shopping & Services
@@ -384,10 +384,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l2_m8_3', 'itm_l2_m8_pronunciation', 3, 'word_stress', 'Contrastive stress in a change of mind', 'In THAT case, I''d rather have the reFUND.', 'Stressing that signals the reason has changed the decision. Without it the sentence sounds like the customer is repeating themselves.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l2_m8_ls1', 'itm_l2_m8_listening', 1, 'What is wrong with the kettle?', '["It is the wrong colour","It has stopped working","It was too expensive","It is damaged in the box"]', 1, 'cue_l2_m8_1'),
-('qq_l2_m8_ls2', 'itm_l2_m8_listening', 2, 'What does the assistant ask for first?', '["The kettle","The receipt","A bank card","The customer''s name"]', 1, 'cue_l2_m8_2'),
+('qq_l2_m8_ls1', 'itm_l2_m8_listening', 1, 'What is wrong with the kettle?', '["It has stopped working","It is the wrong colour","It was too expensive","It is damaged in the box"]', 0, 'cue_l2_m8_1'),
+('qq_l2_m8_ls2', 'itm_l2_m8_listening', 2, 'What does the assistant ask for first?', '["The kettle","A bank card","The receipt","The customer''s name"]', 2, 'cue_l2_m8_2'),
 ('qq_l2_m8_ls3', 'itm_l2_m8_listening', 3, 'What does the customer want at first?', '["A refund","A replacement","A discount","An apology"]', 1, 'cue_l2_m8_5'),
-('qq_l2_m8_ls4', 'itm_l2_m8_listening', 4, 'Why does the customer change their mind?', '["The refund is faster","That model has sold out","The price has changed","The assistant suggests it"]', 1, 'cue_l2_m8_6');
+('qq_l2_m8_ls4', 'itm_l2_m8_listening', 4, 'Why does the customer change their mind?', '["The refund is faster","The price has changed","The assistant suggests it","That model has sold out"]', 3, 'cue_l2_m8_6');
 
 -- ---------------------------------------------------------------------
 -- Module 9: Telling Stories
@@ -429,10 +429,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l2_m9_3', 'itm_l2_m9_pronunciation', 3, 'intonation', 'Background information drops in pitch', 'We were having dinner -- my whole FAMily, about TEN of us -- and...', 'Parenthetical background is said lower and faster, then the main line resumes at normal pitch. This layering is how an English speaker signals what is scene-setting and what is plot.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l2_m9_ls1', 'itm_l2_m9_listening', 1, 'When did this happen?', '["Last year","About three years ago","When the speaker was a child","Last month"]', 1, 'cue_l2_m9_1'),
-('qq_l2_m9_ls2', 'itm_l2_m9_listening', 2, 'What were they doing when the lights went out?', '["Watching television","Having dinner","Going to bed","Arriving home"]', 1, 'cue_l2_m9_2'),
-('qq_l2_m9_ls3', 'itm_l2_m9_listening', 3, 'What did the uncle knock over?', '["A candle","A chair","A jug of water","A plate"]', 2, 'cue_l2_m9_4'),
-('qq_l2_m9_ls4', 'itm_l2_m9_listening', 4, 'What happened immediately after they got soaked?', '["They found the candles","The lights came back on","They went outside","Someone called for help"]', 1, 'cue_l2_m9_6');
+('qq_l2_m9_ls1', 'itm_l2_m9_listening', 1, 'When did this happen?', '["About three years ago","Last year","When the speaker was a child","Last month"]', 0, 'cue_l2_m9_1'),
+('qq_l2_m9_ls2', 'itm_l2_m9_listening', 2, 'What were they doing when the lights went out?', '["Watching television","Going to bed","Having dinner","Arriving home"]', 2, 'cue_l2_m9_2'),
+('qq_l2_m9_ls3', 'itm_l2_m9_listening', 3, 'What did the uncle knock over?', '["A candle","A jug of water","A chair","A plate"]', 1, 'cue_l2_m9_4'),
+('qq_l2_m9_ls4', 'itm_l2_m9_listening', 4, 'What happened immediately after they got soaked?', '["They found the candles","They went outside","Someone called for help","The lights came back on"]', 3, 'cue_l2_m9_6');
 
 -- ---------------------------------------------------------------------
 -- Module 10: Review & Consolidation
@@ -478,7 +478,7 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l2_m10_ls1', 'itm_l2_m10_listening', 1, 'How long has Elena been here?', '["Three months","Six months","Eight months","A year"]', 2, 'cue_l2_m10_2'),
-('qq_l2_m10_ls2', 'itm_l2_m10_listening', 2, 'What did she do before?', '["Studied at university","Worked in a bookshop","Taught English","Travelled"]', 1, 'cue_l2_m10_4'),
-('qq_l2_m10_ls3', 'itm_l2_m10_listening', 3, 'What surprised her about the place?', '["The cold weather","The size of the city","How friendly people are","The cost of living"]', 2, 'cue_l2_m10_7'),
+('qq_l2_m10_ls2', 'itm_l2_m10_listening', 2, 'What did she do before?', '["Worked in a bookshop","Studied at university","Taught English","Travelled"]', 0, 'cue_l2_m10_4'),
+('qq_l2_m10_ls3', 'itm_l2_m10_listening', 3, 'What surprised her about the place?', '["The cold weather","The size of the city","The cost of living","How friendly people are"]', 3, 'cue_l2_m10_7'),
 ('qq_l2_m10_ls4', 'itm_l2_m10_listening', 4, 'When is she leaving for Scotland?', '["The fifth of July","The fifteenth of July","The fiftieth day","In August"]', 1, 'cue_l2_m10_9');
 

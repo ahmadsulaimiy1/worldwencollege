@@ -248,7 +248,11 @@ const AUDIO_MODULES = new Set(
 // sweeps could never catch this: submitting the real key still scores 100%
 // whatever the key happens to be.
 {
-  const quizzes = db.prepare(`SELECT id FROM learning_items WHERE kind = 'quiz'`).all().results;
+  // EVERY question-bearing item, not just kind='quiz'. Scoping this rule
+  // to module quizzes is exactly how 240 listening questions reached
+  // 81% at position (b) without failing the build — the final v1.0
+  // sweep caught it, the rule did not.
+  const quizzes = db.prepare(`SELECT id FROM learning_items WHERE kind IN ('quiz', 'listening')`).all().results;
   const bad = [];
   const overall = [0, 0, 0, 0];
   for (const qz of quizzes) {

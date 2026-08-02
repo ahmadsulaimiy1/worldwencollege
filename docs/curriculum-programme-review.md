@@ -1,8 +1,11 @@
 # WEC-LC — Academic Review of the Completed Six-Level Curriculum
 
-*Programme-wide evaluation, conducted on completion of Level VI. Covers
-Levels I-VI (CEFR A1-C2): 60 modules, 294 learning items, 642 quiz
-questions, 60 rubric-graded assignments.*
+*Programme-wide evaluation, conducted on completion of Level VI. The
+figures throughout sections 1-6 are those measured AT THE TIME OF THE
+REVIEW — 60 modules, 294 learning items, 642 quiz questions — and are
+deliberately left unchanged so the findings can be read against the
+state that produced them. Section 6a records what each finding became
+and gives the current v1.0 measurement (414 items, 900 questions).*
 
 ---
 
@@ -511,6 +514,49 @@ well set up to find out: every module states its objectives concretely
 enough to be measured against, and the Level VI reflective analysis
 asks graduates to report their own remaining limitations, which is the
 beginning of the evidence base a serious institution would want.
+
+---
+
+## 6a. Post-review resolution — Academic Edition v1.0
+
+Every finding above has been resolved and, where it can be, mechanically
+enforced. Re-measured after the work:
+
+| Finding | Resolution | Enforced by |
+|---|---|---|
+| 1 — listening/pronunciation unassessed | Audio layer built (5 tables); 60 listening scripts, 497 cues, 240 cue-anchored questions, 180 pronunciation targets; Listening Lab and instructor review workspace shipped | `curriculum-consistency` + `browser/listening-lab` |
+| 2 — Level I out of family | 18 questions authored (every level now 110); critical-thinking element added to all 18 Level I lessons | consistency rules 7 and 12 |
+| 3 — rubric model undocumented | Rubric policy published as normative; 21 rubric blocks normalised | consistency rules 1-6 |
+| 4 — rubric headings | Found to be overstated: all 60 already open `GRADING RUBRIC`; six carry a parenthetical the policy now permits | consistency rule 1 |
+| 5 — lexical strand starts at Level III | Collocations added to all 20 Level I-II modules | consistency rule 11d |
+| 6 — dangling "Past Experiences I" | Retitled; a sibling-series rule added | consistency rule 11d |
+| 7 — diagnostics only at Level VI | Entry diagnostics added at Levels III and IV, both revisited in Module 10 | consistency rule 11d |
+| 8 — skill split not declared | Partly addressed: the audio strand makes listening and speaking explicit item kinds. Levels I-III assignment part-labelling is **still outstanding** | — |
+| 9 — no stated resit policy | **Still outstanding** — an academic-policy decision, not an authoring one | — |
+
+**Two defects found during the work that were not in the original
+review, both by measurement rather than reading:**
+
+- **Answer-key position bias.** 66% of all correct answers sat at
+  position (b); one quiz had all ten there. A learner choosing (b) every
+  time passed several modules without reading the questions. All
+  questions were permuted to a balanced distribution and two rules now
+  hold it.
+- **The same defect, reintroduced.** The 240 listening questions
+  authored later reached **81% at (b)**, and the balance rule did not
+  catch it because the rule was scoped to `kind='quiz'` while listening
+  questions live on `kind='listening'` items. Caught by the final v1.0
+  sweep. Rebalanced to 60/60/60/60, and the rule widened to every
+  question-bearing item. The lesson is recorded here because it is the
+  more instructive of the two: a rule that does not cover everything it
+  claims to is worse than no rule, because it is trusted.
+
+**Final v1.0 measurement:** 6 levels, 60 modules, 414 learning items
+(174 reading, 60 listening, 60 pronunciation, 60 quiz, 60 assignment),
+900 quiz questions (660 module + 240 listening), 120 audio assets, 497
+transcript cues, 180 pronunciation targets, ~95,000 authored words.
+Answer distribution 24.4 / 25.6 / 24.8 / 25.2 per cent. Zero recordings
+produced — the one remaining content gap, and a studio task.
 
 ---
 

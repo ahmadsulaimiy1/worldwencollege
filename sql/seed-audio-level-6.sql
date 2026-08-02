@@ -56,9 +56,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l6_m1_3', 'itm_l6_m1_pronunciation', 3, 'intonation', 'Acknowledging criticism without conceding it', 'SOME would, and I''ve HEARD it. // My asSESSment is that it''s the amBIGuity.', 'The acknowledgement rises; the counter-assessment falls. Neither dismisses nor accepts -- this contour is how senior speakers hold a position under challenge.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l6_m1_ls1', 'itm_l6_m1_listening', 1, 'What does the CEO recommend?', '["Delaying the restructure","Approving it this month","Cancelling it","Consulting staff first"]', 1, 'cue_l6_m1_1'),
-('qq_l6_m1_ls2', 'itm_l6_m1_listening', 2, 'What evidence is given for urgency?', '["Falling revenue","Three senior engineers have left since June","Competitor activity","Board pressure"]', 1, 'cue_l6_m1_3'),
-('qq_l6_m1_ls3', 'itm_l6_m1_listening', 3, 'What is the CEO''s assessment of the cause?', '["The restructure itself","The ambiguity, not the direction","Pay levels","Management quality"]', 1, 'cue_l6_m1_5'),
+('qq_l6_m1_ls1', 'itm_l6_m1_listening', 1, 'What does the CEO recommend?', '["Delaying the restructure","Cancelling it","Approving it this month","Consulting staff first"]', 2, 'cue_l6_m1_1'),
+('qq_l6_m1_ls2', 'itm_l6_m1_listening', 2, 'What evidence is given for urgency?', '["Three senior engineers have left since June","Falling revenue","Competitor activity","Board pressure"]', 0, 'cue_l6_m1_3'),
+('qq_l6_m1_ls3', 'itm_l6_m1_listening', 3, 'What is the CEO''s assessment of the cause?', '["The restructure itself","Pay levels","Management quality","The ambiguity, not the direction"]', 3, 'cue_l6_m1_5'),
 ('qq_l6_m1_ls4', 'itm_l6_m1_listening', 4, 'What does the chair insist on?', '["A written memo","Staff hearing it from the CEO directly","A delay","External advice"]', 1, 'cue_l6_m1_7');
 
 -- ---------------------------------------------------------------------
@@ -104,9 +104,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l6_m2_ls1', 'itm_l6_m2_listening', 1, 'What does Delegate A object to?', '["The whole statement","The word ''immediate'' in paragraph four","The signing date","The venue"]', 1, 'cue_l6_m2_3'),
-('qq_l6_m2_ls2', 'itm_l6_m2_listening', 2, 'What alternative wording is proposed?', '["''As soon as possible''","''Without undue delay''","''In due course''","''Promptly''"]', 1, 'cue_l6_m2_4'),
-('qq_l6_m2_ls3', 'itm_l6_m2_listening', 3, 'What does Delegate A actually need?', '["A stronger commitment","To avoid a binding date before their review concludes","More time to translate","A different chair"]', 1, 'cue_l6_m2_7'),
-('qq_l6_m2_ls4', 'itm_l6_m2_listening', 4, 'What does Delegate B need?', '["A binding date","To be able to show movement","A public signing","Nothing specific"]', 1, 'cue_l6_m2_8');
+('qq_l6_m2_ls2', 'itm_l6_m2_listening', 2, 'What alternative wording is proposed?', '["''As soon as possible''","''In due course''","''Promptly''","''Without undue delay''"]', 3, 'cue_l6_m2_4'),
+('qq_l6_m2_ls3', 'itm_l6_m2_listening', 3, 'What does Delegate A actually need?', '["A stronger commitment","More time to translate","To avoid a binding date before their review concludes","A different chair"]', 2, 'cue_l6_m2_7'),
+('qq_l6_m2_ls4', 'itm_l6_m2_listening', 4, 'What does Delegate B need?', '["To be able to show movement","A binding date","A public signing","Nothing specific"]', 0, 'cue_l6_m2_8');
 
 -- ---------------------------------------------------------------------
 -- Module 3: Global Business Strategy
@@ -151,9 +151,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l6_m3_ls1', 'itm_l6_m3_listening', 1, 'What are the three facts presented?', '["Volume, price, competitor price","Revenue, cost, margin","Volume, staff, cost","Price, product, place"]', 0, 'cue_l6_m3_1'),
-('qq_l6_m3_ls2', 'itm_l6_m3_listening', 2, 'What is the director''s inference?', '["Losing volume to product","Losing volume to price","Gaining share","Market is shrinking"]', 1, 'cue_l6_m3_2'),
+('qq_l6_m3_ls2', 'itm_l6_m3_listening', 2, 'What is the director''s inference?', '["Losing volume to product","Gaining share","Losing volume to price","Market is shrinking"]', 2, 'cue_l6_m3_2'),
 ('qq_l6_m3_ls3', 'itm_l6_m3_listening', 3, 'What would make the inference wrong?', '["Competitor price rising","Customers leaving for features rather than cost","A larger sample","Regulatory change"]', 1, 'cue_l6_m3_5'),
-('qq_l6_m3_ls4', 'itm_l6_m3_listening', 4, 'How does the director characterise the evidence?', '["Conclusive","Indicative, not conclusive","Irrelevant","Definitive"]', 1, 'cue_l6_m3_7');
+('qq_l6_m3_ls4', 'itm_l6_m3_listening', 4, 'How does the director characterise the evidence?', '["Conclusive","Irrelevant","Definitive","Indicative, not conclusive"]', 3, 'cue_l6_m3_7');
 
 -- ---------------------------------------------------------------------
 -- Module 4: Public Policy
@@ -196,10 +196,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l6_m4_3', 'itm_l6_m4_pronunciation', 3, 'sentence_stress', 'Criterion framing stresses the criterion', 'AsSESSed against ENFORCEability, the second is WEAKest.', 'Naming the criterion before the verdict is the module''s discipline, and stressing it is how a listener knows a new criterion has been introduced.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l6_m4_ls1', 'itm_l6_m4_listening', 1, 'What does clause seven currently say?', '["The authority must require an inspection","The authority may require an inspection","The authority shall inspect","Inspections are prohibited"]', 1, 'cue_l6_m4_1'),
-('qq_l6_m4_ls2', 'itm_l6_m4_listening', 2, 'What does ''may'' confer?', '["An obligation","Discretion","A prohibition","A deadline"]', 1, 'cue_l6_m4_2'),
+('qq_l6_m4_ls1', 'itm_l6_m4_listening', 1, 'What does clause seven currently say?', '["The authority may require an inspection","The authority must require an inspection","The authority shall inspect","Inspections are prohibited"]', 0, 'cue_l6_m4_1'),
+('qq_l6_m4_ls2', 'itm_l6_m4_listening', 2, 'What does ''may'' confer?', '["An obligation","A prohibition","Discretion","A deadline"]', 2, 'cue_l6_m4_2'),
 ('qq_l6_m4_ls3', 'itm_l6_m4_listening', 3, 'Why is ''must'' problematic?', '["It is unclear","It creates a duty they cannot resource","It is old-fashioned","It requires ministerial approval"]', 1, 'cue_l6_m4_4'),
-('qq_l6_m4_ls4', 'itm_l6_m4_listening', 4, 'What do the officials conclude the decision really is?', '["A drafting decision","A resourcing decision dressed as a drafting decision","A legal decision","A political decision only"]', 1, 'cue_l6_m4_8');
+('qq_l6_m4_ls4', 'itm_l6_m4_listening', 4, 'What do the officials conclude the decision really is?', '["A drafting decision","A legal decision","A political decision only","A resourcing decision dressed as a drafting decision"]', 3, 'cue_l6_m4_8');
 
 -- ---------------------------------------------------------------------
 -- Module 5: Law & Justice
@@ -242,9 +242,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l6_m5_3', 'itm_l6_m5_pronunciation', 3, 'word_stress', 'Locating disagreement stresses the level', 'My disagreement is not with the PREMise but with the SCOPE.', 'Naming premise, warrant, inference or scope, with stress on the chosen term, is the module''s analytical instrument made audible.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l6_m5_ls1', 'itm_l6_m5_listening', 1, 'What does ''subject to section nine'' mean?', '["Your clause overrides section nine","Section nine overrides your clause","Both apply equally","Section nine is repealed"]', 1, 'cue_l6_m5_2'),
-('qq_l6_m5_ls2', 'itm_l6_m5_listening', 2, 'What does ''notwithstanding section nine'' mean?', '["Section nine wins","Your clause wins","Neither applies","They must be read together"]', 1, 'cue_l6_m5_3'),
-('qq_l6_m5_ls3', 'itm_l6_m5_listening', 3, 'What is the strongest case for the defendant?', '["The notice was never sent","The notice period was ambiguous and they acted in good faith","The section does not apply","The claimant delayed"]', 1, 'cue_l6_m5_6'),
+('qq_l6_m5_ls1', 'itm_l6_m5_listening', 1, 'What does ''subject to section nine'' mean?', '["Your clause overrides section nine","Both apply equally","Section nine overrides your clause","Section nine is repealed"]', 2, 'cue_l6_m5_2'),
+('qq_l6_m5_ls2', 'itm_l6_m5_listening', 2, 'What does ''notwithstanding section nine'' mean?', '["Your clause wins","Section nine wins","Neither applies","They must be read together"]', 0, 'cue_l6_m5_3'),
+('qq_l6_m5_ls3', 'itm_l6_m5_listening', 3, 'What is the strongest case for the defendant?', '["The notice was never sent","The section does not apply","The claimant delayed","The notice period was ambiguous and they acted in good faith"]', 3, 'cue_l6_m5_6'),
 ('qq_l6_m5_ls4', 'itm_l6_m5_listening', 4, 'Where does the lecturer locate the disagreement?', '["The premise","The scope","The evidence","The procedure"]', 1, 'cue_l6_m5_7');
 
 -- ---------------------------------------------------------------------
@@ -289,9 +289,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l6_m6_3', 'itm_l6_m6_pronunciation', 3, 'rhythm', 'Enumerated conditions land in equal blocks', 'TWO things: // reagent supply stable for eighteen MONTHS, // and ethics approval by MARCH.', 'Announcing the count then delivering equal blocks lets a panel record both without asking for repetition.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l6_m6_ls1', 'itm_l6_m6_listening', 1, 'What would the approach achieve if it worked?', '["Halve costs","Reduce screening from weeks to hours","Double accuracy","Replace existing methods entirely"]', 1, 'cue_l6_m6_1'),
-('qq_l6_m6_ls2', 'itm_l6_m6_listening', 2, 'What does the researcher say happens if it fails?', '["The funding is wasted","They will have shown the binding assumption is false, which is publishable","The project restarts","Nothing useful"]', 1, 'cue_l6_m6_3'),
-('qq_l6_m6_ls3', 'itm_l6_m6_listening', 3, 'What is the principal risk?', '["Staffing","Reagent supply from a single manufacturer","Ethics approval","Equipment failure"]', 1, 'cue_l6_m6_5'),
+('qq_l6_m6_ls1', 'itm_l6_m6_listening', 1, 'What would the approach achieve if it worked?', '["Halve costs","Double accuracy","Reduce screening from weeks to hours","Replace existing methods entirely"]', 2, 'cue_l6_m6_1'),
+('qq_l6_m6_ls2', 'itm_l6_m6_listening', 2, 'What does the researcher say happens if it fails?', '["They will have shown the binding assumption is false, which is publishable","The funding is wasted","The project restarts","Nothing useful"]', 0, 'cue_l6_m6_3'),
+('qq_l6_m6_ls3', 'itm_l6_m6_listening', 3, 'What is the principal risk?', '["Staffing","Ethics approval","Equipment failure","Reagent supply from a single manufacturer"]', 3, 'cue_l6_m6_5'),
 ('qq_l6_m6_ls4', 'itm_l6_m6_listening', 4, 'Why does the researcher disclose the risk?', '["It is required","The panel would find it, and claiming no risk signals the applicant has not looked","To reduce the budget","A supervisor advised it"]', 1, 'cue_l6_m6_7');
 
 -- ---------------------------------------------------------------------
@@ -337,10 +337,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l6_m7_3', 'itm_l6_m7_pronunciation', 3, 'rhythm', 'The tricolon earns its place by being the only one', 'THREE things: verified contact DEtails, // a public REGister, // and an external AUdit.', 'One rhetorical device in a whole interview lands. Used repeatedly it reads as evasion, which is the module''s governing rule.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l6_m7_ls1', 'itm_l6_m7_listening', 1, 'What premise does the CEO correct?', '["That a recall happened","The timeline -- eleven months, not two years","The number of customers","The cause of the fault"]', 1, 'cue_l6_m7_2'),
-('qq_l6_m7_ls2', 'itm_l6_m7_listening', 2, 'What does the CEO say they would defend least?', '["The timeline","The poor reach of the recall","The product design","The audit"]', 1, 'cue_l6_m7_4'),
+('qq_l6_m7_ls1', 'itm_l6_m7_listening', 1, 'What premise does the CEO correct?', '["The timeline -- eleven months, not two years","That a recall happened","The number of customers","The cause of the fault"]', 0, 'cue_l6_m7_2'),
+('qq_l6_m7_ls2', 'itm_l6_m7_listening', 2, 'What does the CEO say they would defend least?', '["The timeline","The product design","The poor reach of the recall","The audit"]', 2, 'cue_l6_m7_4'),
 ('qq_l6_m7_ls3', 'itm_l6_m7_listening', 3, 'How does the CEO answer ''So you failed''?', '["Denies it entirely","Accepts it on reach, rejects it on identification and action","Refuses to answer","Accepts it fully"]', 1, 'cue_l6_m7_6'),
-('qq_l6_m7_ls4', 'itm_l6_m7_listening', 4, 'What has the CEO asked for regarding the audit?', '["That it be internal","That it be published unedited","That it be delayed","That it exclude them personally"]', 1, 'cue_l6_m7_10');
+('qq_l6_m7_ls4', 'itm_l6_m7_listening', 4, 'What has the CEO asked for regarding the audit?', '["That it be internal","That it be delayed","That it exclude them personally","That it be published unedited"]', 3, 'cue_l6_m7_10');
 
 -- ---------------------------------------------------------------------
 -- Module 8: Research & Scholarship
@@ -384,9 +384,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l6_m8_ls1', 'itm_l6_m8_listening', 1, 'What verb does the abstract use?', '["Suggests","Demonstrates","Indicates","Implies"]', 1, 'cue_l6_m8_1'),
-('qq_l6_m8_ls2', 'itm_l6_m8_listening', 2, 'What does the author say the correct verb is?', '["Proves","Is consistent with","Establishes","Confirms"]', 1, 'cue_l6_m8_2'),
-('qq_l6_m8_ls3', 'itm_l6_m8_listening', 3, 'Why does the author say they over-claimed?', '["Pressure from a supervisor","Stronger verbs feel like better writing","A translation error","The data changed"]', 1, 'cue_l6_m8_4'),
-('qq_l6_m8_ls4', 'itm_l6_m8_listening', 4, 'What is the second objection about?', '["Sample size","Misrepresenting how strongly Aldridge supports the position","Missing citations","Statistical method"]', 1, 'cue_l6_m8_7');
+('qq_l6_m8_ls2', 'itm_l6_m8_listening', 2, 'What does the author say the correct verb is?', '["Proves","Establishes","Confirms","Is consistent with"]', 3, 'cue_l6_m8_2'),
+('qq_l6_m8_ls3', 'itm_l6_m8_listening', 3, 'Why does the author say they over-claimed?', '["Pressure from a supervisor","A translation error","Stronger verbs feel like better writing","The data changed"]', 2, 'cue_l6_m8_4'),
+('qq_l6_m8_ls4', 'itm_l6_m8_listening', 4, 'What is the second objection about?', '["Misrepresenting how strongly Aldridge supports the position","Sample size","Missing citations","Statistical method"]', 0, 'cue_l6_m8_7');
 
 -- ---------------------------------------------------------------------
 -- Module 9: Ethics & Responsible Leadership
@@ -430,9 +430,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l6_m9_3', 'itm_l6_m9_pronunciation', 3, 'sentence_stress', 'Naming the cost stresses who bears it', 'Some PARTicipants will feel deCEIVED even though nothing imPROPer occurred.', 'Stating a position''s cost, with stress on who pays it, is the module''s ethical discipline. The chair''s response marks it as the valuable move.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l6_m9_ls1', 'itm_l6_m9_listening', 1, 'What is being decided?', '["Whether to fund a study","Whether to publish the dataset","Whether to seek new consent","Whether to halt research"]', 1, 'cue_l6_m9_1'),
-('qq_l6_m9_ls2', 'itm_l6_m9_listening', 2, 'Does Ibarra accept that the consent forms permit publication?', '["No","Yes, but does not think it settles the matter","The forms are unclear","It is not discussed"]', 1, 'cue_l6_m9_2'),
-('qq_l6_m9_ls3', 'itm_l6_m9_listening', 3, 'What frame does Osman argue from?', '["Consequences","An obligation","Character","Precedent"]', 1, 'cue_l6_m9_5'),
+('qq_l6_m9_ls1', 'itm_l6_m9_listening', 1, 'What is being decided?', '["Whether to fund a study","Whether to seek new consent","Whether to publish the dataset","Whether to halt research"]', 2, 'cue_l6_m9_1'),
+('qq_l6_m9_ls2', 'itm_l6_m9_listening', 2, 'Does Ibarra accept that the consent forms permit publication?', '["Yes, but does not think it settles the matter","No","The forms are unclear","It is not discussed"]', 0, 'cue_l6_m9_2'),
+('qq_l6_m9_ls3', 'itm_l6_m9_listening', 3, 'What frame does Osman argue from?', '["Consequences","Character","Precedent","An obligation"]', 3, 'cue_l6_m9_5'),
 ('qq_l6_m9_ls4', 'itm_l6_m9_listening', 4, 'What does the chair identify as the real disagreement?', '["The facts","What counts","The procedure","The timing"]', 1, 'cue_l6_m9_7');
 
 -- ---------------------------------------------------------------------
@@ -478,8 +478,8 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l6_m10_3', 'itm_l6_m10_pronunciation', 3, 'rhythm', 'The clean short answer as the strongest answer', 'You could simply have said YES. -- I COULD. It WOULDn''t have been TRUE.', 'Six words, three stresses, complete stop. After six levels of learning to elaborate, the capstone tests whether a speaker knows when not to.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l6_m10_ls1', 'itm_l6_m10_listening', 1, 'What does the portfolio argue?', '["Mitigation over adaptation","Adaptation funding should be prioritised over mitigation","Both should be cut","Neither is affordable"]', 1, 'cue_l6_m10_1'),
-('qq_l6_m10_ls2', 'itm_l6_m10_listening', 2, 'What does the candidate identify as the weakest link?', '["The evidence base","The assumption that the two compete for one budget","The time horizon","The sample of countries"]', 1, 'cue_l6_m10_4'),
+('qq_l6_m10_ls1', 'itm_l6_m10_listening', 1, 'What does the portfolio argue?', '["Adaptation funding should be prioritised over mitigation","Mitigation over adaptation","Both should be cut","Neither is affordable"]', 0, 'cue_l6_m10_1'),
+('qq_l6_m10_ls2', 'itm_l6_m10_listening', 2, 'What does the candidate identify as the weakest link?', '["The evidence base","The time horizon","The assumption that the two compete for one budget","The sample of countries"]', 2, 'cue_l6_m10_4'),
 ('qq_l6_m10_ls3', 'itm_l6_m10_listening', 3, 'How does the candidate answer the question about a landlocked state?', '["Claims it holds","States it is outside the evidence and would test it first","Refuses to answer","Says it definitely fails"]', 1, 'cue_l6_m10_6'),
-('qq_l6_m10_ls4', 'itm_l6_m10_listening', 4, 'What does the candidate volunteer to withdraw?', '["The whole argument","The policy brief''s cost figure","The literature review","Nothing"]', 1, 'cue_l6_m10_10');
+('qq_l6_m10_ls4', 'itm_l6_m10_listening', 4, 'What does the candidate volunteer to withdraw?', '["The whole argument","The literature review","Nothing","The policy brief''s cost figure"]', 3, 'cue_l6_m10_10');
 

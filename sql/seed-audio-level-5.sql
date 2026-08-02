@@ -56,10 +56,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l5_m1_3', 'itm_l5_m1_pronunciation', 3, 'connected_speech', 'Distancing formulas compress', 'I''d never tell you to -> /aɪdˈnevəteljutə/; I''d simply observe -> /aɪdˈsɪmpliəbˈzɜːv/', 'These constructions let a speaker advise without advising. They are fast, formulaic, and their compression is precisely what makes them deniable.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l5_m1_ls1', 'itm_l5_m1_listening', 1, 'What does the senior colleague actually communicate about approval?', '["It is certain","It is unlikely now","It has already been refused","It is not their decision"]', 1, 'cue_l5_m1_2'),
-('qq_l5_m1_ls2', 'itm_l5_m1_listening', 2, 'What does the senior say is good?', '["The timing","The paper","The budget","The board''s mood"]', 1, 'cue_l5_m1_4'),
+('qq_l5_m1_ls1', 'itm_l5_m1_listening', 1, 'What does the senior colleague actually communicate about approval?', '["It is unlikely now","It is certain","It has already been refused","It is not their decision"]', 0, 'cue_l5_m1_2'),
+('qq_l5_m1_ls2', 'itm_l5_m1_listening', 2, 'What does the senior say is good?', '["The timing","The budget","The paper","The board''s mood"]', 2, 'cue_l5_m1_4'),
 ('qq_l5_m1_ls3', 'itm_l5_m1_listening', 3, 'What second reason is given for the poor timing?', '["A staffing change","Halloway''s residual annoyance","A missed deadline","A rival proposal"]', 1, 'cue_l5_m1_6'),
-('qq_l5_m1_ls4', 'itm_l5_m1_listening', 4, 'How does the senior deliver the advice to wait?', '["As a direct instruction","As an observation they will not call advice","In writing","By refusing to answer"]', 1, 'cue_l5_m1_8');
+('qq_l5_m1_ls4', 'itm_l5_m1_listening', 4, 'How does the senior deliver the advice to wait?', '["As a direct instruction","In writing","By refusing to answer","As an observation they will not call advice"]', 3, 'cue_l5_m1_8');
 
 -- ---------------------------------------------------------------------
 -- Module 2: Academic Writing III
@@ -103,10 +103,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l5_m2_3', 'itm_l5_m2_pronunciation', 3, 'connected_speech', 'Page and chapter references stay clear while framing compresses', 'I set those out on page one hundred and four -> framing fast, NUMBER clear', 'As in negotiation, the citable facts resist compression. Speakers protect the parts a listener must be able to check.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l5_m2_ls1', 'itm_l5_m2_listening', 1, 'What is the examiner''s first challenge?', '["The sample is too small","The sample is from one institution","The statistics are wrong","The literature is dated"]', 1, 'cue_l5_m2_1'),
+('qq_l5_m2_ls1', 'itm_l5_m2_listening', 1, 'What is the examiner''s first challenge?', '["The sample is too small","The statistics are wrong","The literature is dated","The sample is from one institution"]', 3, 'cue_l5_m2_1'),
 ('qq_l5_m2_ls2', 'itm_l5_m2_listening', 2, 'On what dimensions does the candidate define comparability?', '["Age, location, size","Size, funding model, intake profile","Funding, staffing, results","Intake, results, reputation"]', 1, 'cue_l5_m2_4'),
-('qq_l5_m2_ls3', 'itm_l5_m2_listening', 3, 'What does the candidate concede?', '["The thesis is wrong","The selection artefact cannot be fully excluded","The method was inappropriate","The data is unreliable"]', 1, 'cue_l5_m2_6'),
-('qq_l5_m2_ls4', 'itm_l5_m2_listening', 4, 'What would be needed to close the objection?', '["A larger sample","A multi-site design","A longer study","Different statistics"]', 1, 'cue_l5_m2_9');
+('qq_l5_m2_ls3', 'itm_l5_m2_listening', 3, 'What does the candidate concede?', '["The selection artefact cannot be fully excluded","The thesis is wrong","The method was inappropriate","The data is unreliable"]', 0, 'cue_l5_m2_6'),
+('qq_l5_m2_ls4', 'itm_l5_m2_listening', 4, 'What would be needed to close the objection?', '["A larger sample","A longer study","A multi-site design","Different statistics"]', 2, 'cue_l5_m2_9');
 
 -- ---------------------------------------------------------------------
 -- Module 3: Leadership & Persuasion
@@ -150,10 +150,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l5_m3_3', 'itm_l5_m3_pronunciation', 3, 'rhythm', 'Structure announced in three beats', 'the deCISion first, // then the REAsoning, // then take QUESTions.', 'Announcing the shape of a difficult message before delivering it is a leadership convention, and the three-beat rhythm makes it memorable under stress.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l5_m3_ls1', 'itm_l5_m3_listening', 1, 'What decision is announced?', '["A merger","Closing the Bristol office","A pay freeze","A restructure of the board"]', 1, 'cue_l5_m3_2'),
+('qq_l5_m3_ls1', 'itm_l5_m3_listening', 1, 'What decision is announced?', '["A merger","A pay freeze","A restructure of the board","Closing the Bristol office"]', 3, 'cue_l5_m3_2'),
 ('qq_l5_m3_ls2', 'itm_l5_m3_listening', 2, 'How does the director handle responsibility?', '["Attributes it to the board","States it was their own recommendation","Blames market conditions","Declines to say"]', 1, 'cue_l5_m3_3'),
-('qq_l5_m3_ls3', 'itm_l5_m3_listening', 3, 'What does the staff member point out?', '["The figures are wrong","The low usage followed an earlier cut","The timing is bad","Other sites are worse"]', 1, 'cue_l5_m3_5'),
-('qq_l5_m3_ls4', 'itm_l5_m3_listening', 4, 'What is offered to staff?', '["Relocation or enhanced redundancy","Redundancy only","Nothing yet","A consultation period"]', 0, 'cue_l5_m3_9');
+('qq_l5_m3_ls3', 'itm_l5_m3_listening', 3, 'What does the staff member point out?', '["The low usage followed an earlier cut","The figures are wrong","The timing is bad","Other sites are worse"]', 0, 'cue_l5_m3_5'),
+('qq_l5_m3_ls4', 'itm_l5_m3_listening', 4, 'What is offered to staff?', '["Redundancy only","Nothing yet","Relocation or enhanced redundancy","A consultation period"]', 2, 'cue_l5_m3_9');
 
 -- ---------------------------------------------------------------------
 -- Module 4: Complex Systems
@@ -197,10 +197,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l5_m4_3', 'itm_l5_m4_pronunciation', 3, 'intonation', 'Chained causation steps down then resets', 'Higher PRICes reduced DEMAND, // which reduced SUPPly, // which RAISED prices aGAIN.', 'Each link drops slightly; the return to the starting term rises. That contour is how a speaker makes a loop audible as a loop.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l5_m4_ls1', 'itm_l5_m4_listening', 1, 'By how much was the forecast wrong?', '["Five per cent","Twenty per cent","About forty per cent","Sixty per cent"]', 2, 'cue_l5_m4_1'),
-('qq_l5_m4_ls2', 'itm_l5_m4_listening', 2, 'How accurate were the inputs?', '["Completely wrong","Within about five per cent","Within twenty per cent","Not measured"]', 1, 'cue_l5_m4_2'),
+('qq_l5_m4_ls1', 'itm_l5_m4_listening', 1, 'By how much was the forecast wrong?', '["About forty per cent","Five per cent","Twenty per cent","Sixty per cent"]', 0, 'cue_l5_m4_1'),
+('qq_l5_m4_ls2', 'itm_l5_m4_listening', 2, 'How accurate were the inputs?', '["Completely wrong","Within twenty per cent","Within about five per cent","Not measured"]', 2, 'cue_l5_m4_2'),
 ('qq_l5_m4_ls3', 'itm_l5_m4_listening', 3, 'What did the model wrongly assume?', '["Prices are fixed","Demand and supply are independent","Demand is constant","There is no lag"]', 1, 'cue_l5_m4_6'),
-('qq_l5_m4_ls4', 'itm_l5_m4_listening', 4, 'How confident is Analyst B in the diagnosis?', '["Certain","Fairly, pending a test against 2019 data","Not at all","Certain only about the inputs"]', 1, 'cue_l5_m4_9');
+('qq_l5_m4_ls4', 'itm_l5_m4_listening', 4, 'How confident is Analyst B in the diagnosis?', '["Certain","Not at all","Certain only about the inputs","Fairly, pending a test against 2019 data"]', 3, 'cue_l5_m4_9');
 
 -- ---------------------------------------------------------------------
 -- Module 5: Cross-Cultural Communication
@@ -245,9 +245,9 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
 ('qq_l5_m5_ls1', 'itm_l5_m5_listening', 1, 'What did Reid believe about the meeting?', '["It went well","Nobody pushed back","Too many objections were raised","The schedule was agreed"]', 1, 'cue_l5_m5_1'),
-('qq_l5_m5_ls2', 'itm_l5_m5_listening', 2, 'How many times does Sato say the Tokyo side pushed back?', '["Once","Twice","Three times","Not at all"]', 2, 'cue_l5_m5_2'),
-('qq_l5_m5_ls3', 'itm_l5_m5_listening', 3, 'What did the four-second pause signal?', '["Confusion","A stronger disagreement","Agreement","Boredom"]', 1, 'cue_l5_m5_5'),
-('qq_l5_m5_ls4', 'itm_l5_m5_listening', 4, 'What does Sato say Reid should have done?', '["Pressed harder in the meeting","Asked privately afterwards","Sent an email","Changed the schedule"]', 1, 'cue_l5_m5_9');
+('qq_l5_m5_ls2', 'itm_l5_m5_listening', 2, 'How many times does Sato say the Tokyo side pushed back?', '["Once","Twice","Not at all","Three times"]', 3, 'cue_l5_m5_2'),
+('qq_l5_m5_ls3', 'itm_l5_m5_listening', 3, 'What did the four-second pause signal?', '["Confusion","Agreement","A stronger disagreement","Boredom"]', 2, 'cue_l5_m5_5'),
+('qq_l5_m5_ls4', 'itm_l5_m5_listening', 4, 'What does Sato say Reid should have done?', '["Asked privately afterwards","Pressed harder in the meeting","Sent an email","Changed the schedule"]', 0, 'cue_l5_m5_9');
 
 -- ---------------------------------------------------------------------
 -- Module 6: Advanced Media & Discourse Analysis
@@ -292,10 +292,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l5_m6_3', 'itm_l5_m6_pronunciation', 3, 'word_stress', 'Empty candour phrases are over-stressed', 'I''ve been COMPLETEly OPEN about this THROUGHout.', 'Heavy stress on every content word with no specific information is a reliable marker of a non-answer. Real answers distribute stress unevenly.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l5_m6_ls1', 'itm_l5_m6_listening', 1, 'What is the first move the analyst identifies?', '["Evasion","A reframe","A premise correction","A denial"]', 1, 'cue_l5_m6_4'),
-('qq_l5_m6_ls2', 'itm_l5_m6_listening', 2, 'What did the minister correct about the warning?', '["Who gave it","The timing -- eleven months, not two years","Its content","Whether it existed"]', 1, 'cue_l5_m6_7'),
+('qq_l5_m6_ls1', 'itm_l5_m6_listening', 1, 'What is the first move the analyst identifies?', '["A reframe","Evasion","A premise correction","A denial"]', 0, 'cue_l5_m6_4'),
+('qq_l5_m6_ls2', 'itm_l5_m6_listening', 2, 'What did the minister correct about the warning?', '["Who gave it","Its content","The timing -- eleven months, not two years","Whether it existed"]', 2, 'cue_l5_m6_7'),
 ('qq_l5_m6_ls3', 'itm_l5_m6_listening', 3, 'How does the analyst characterise premise correction?', '["Evasion","Legitimate","Dishonest","Irrelevant"]', 1, 'cue_l5_m6_8'),
-('qq_l5_m6_ls4', 'itm_l5_m6_listening', 4, 'What is wrong with ''I''ve been completely open throughout''?', '["It is untrue","It contains no information","It is off topic","It is too long"]', 1, 'cue_l5_m6_10');
+('qq_l5_m6_ls4', 'itm_l5_m6_listening', 4, 'What is wrong with ''I''ve been completely open throughout''?', '["It is untrue","It is off topic","It is too long","It contains no information"]', 3, 'cue_l5_m6_10');
 
 -- ---------------------------------------------------------------------
 -- Module 7: Research & Presentation
@@ -339,10 +339,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l5_m7_3', 'itm_l5_m7_pronunciation', 3, 'sentence_stress', 'Declining to speculate stresses the boundary', 'That''s OUTSIDE what my DATA can supPORT.', 'Stressing outside and data marks this as a principled limit rather than an evasion. Said flatly, the same words sound like avoidance.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l5_m7_ls1', 'itm_l5_m7_listening', 1, 'How many steps does the speaker announce?', '["Two","Three","Four","Five"]', 1, 'cue_l5_m7_1'),
+('qq_l5_m7_ls1', 'itm_l5_m7_listening', 1, 'How many steps does the speaker announce?', '["Two","Four","Five","Three"]', 3, 'cue_l5_m7_1'),
 ('qq_l5_m7_ls2', 'itm_l5_m7_listening', 2, 'What limitation does the speaker state unprompted?', '["Small sample","The sample is urban only","Short time frame","Self-reported data"]', 1, 'cue_l5_m7_2'),
-('qq_l5_m7_ls3', 'itm_l5_m7_listening', 3, 'How does the speaker handle the question about Ekstrom''s paper?', '["Claims to have read it","Admits not having read it and commits to follow up","Dismisses it","Asks the chair to move on"]', 1, 'cue_l5_m7_6'),
-('qq_l5_m7_ls4', 'itm_l5_m7_listening', 4, 'How does the speaker answer the rural question?', '["Speculates confidently","States it is outside what the data supports","Refuses to answer","Says it would definitely hold"]', 1, 'cue_l5_m7_8');
+('qq_l5_m7_ls3', 'itm_l5_m7_listening', 3, 'How does the speaker handle the question about Ekstrom''s paper?', '["Admits not having read it and commits to follow up","Claims to have read it","Dismisses it","Asks the chair to move on"]', 0, 'cue_l5_m7_6'),
+('qq_l5_m7_ls4', 'itm_l5_m7_listening', 4, 'How does the speaker answer the rural question?', '["Speculates confidently","Refuses to answer","States it is outside what the data supports","Says it would definitely hold"]', 2, 'cue_l5_m7_8');
 
 -- ---------------------------------------------------------------------
 -- Module 8: Professional Advocacy
@@ -385,10 +385,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l5_m8_3', 'itm_l5_m8_pronunciation', 3, 'sentence_stress', 'Refusal to speculate stresses the action, not the denial', 'I''m not going to SPECulate about a document I HAVEN''T SEEN. // I''ve told you what I''ll DO about it.', 'Ending on the commitment rather than the refusal is what stops a non-answer sounding evasive.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l5_m8_ls1', 'itm_l5_m8_listening', 1, 'What are the two things the spokesperson says are NOT yet known?', '["The cause and the cost","How many customers were affected and whether data was exposed","The time and the regulator''s view","Nothing is unknown"]', 1, 'cue_l5_m8_2'),
-('qq_l5_m8_ls2', 'itm_l5_m8_listening', 2, 'What three actions are described?', '["Offline, external audit, regulator informed","Refund, apology, review","Investigation, dismissal, report","Nothing yet"]', 0, 'cue_l5_m8_3'),
+('qq_l5_m8_ls1', 'itm_l5_m8_listening', 1, 'What are the two things the spokesperson says are NOT yet known?', '["How many customers were affected and whether data was exposed","The cause and the cost","The time and the regulator''s view","Nothing is unknown"]', 0, 'cue_l5_m8_2'),
+('qq_l5_m8_ls2', 'itm_l5_m8_listening', 2, 'What three actions are described?', '["Refund, apology, review","Investigation, dismissal, report","Offline, external audit, regulator informed","Nothing yet"]', 2, 'cue_l5_m8_3'),
 ('qq_l5_m8_ls3', 'itm_l5_m8_listening', 3, 'When will the next update come?', '["Tomorrow","At four o''clock this afternoon","When the audit finishes","No date given"]', 1, 'cue_l5_m8_4'),
-('qq_l5_m8_ls4', 'itm_l5_m8_listening', 4, 'How does the spokesperson respond to the warning allegation?', '["Denies it","Says they do not know and will publish the audit","Confirms it","Refuses to comment at all"]', 1, 'cue_l5_m8_6');
+('qq_l5_m8_ls4', 'itm_l5_m8_listening', 4, 'How does the spokesperson respond to the warning allegation?', '["Denies it","Confirms it","Refuses to comment at all","Says they do not know and will publish the audit"]', 3, 'cue_l5_m8_6');
 
 -- ---------------------------------------------------------------------
 -- Module 9: Style & Voice
@@ -432,10 +432,10 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l5_m9_3', 'itm_l5_m9_pronunciation', 3, 'intonation', 'The diagnostic question is delivered slowly and falls', 'WHO did WHAT to WHOM?', 'Three stresses, evenly weighted, ending on a fall. Delivered as a real question rather than a rhetorical one, it is the module''s whole method in four words.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l5_m9_ls1', 'itm_l5_m9_listening', 1, 'What is the relationship between the two drafts?', '["Different claims","The same claim in different styles","One is a summary","One is a translation"]', 1, 'cue_l5_m9_5'),
+('qq_l5_m9_ls1', 'itm_l5_m9_listening', 1, 'What is the relationship between the two drafts?', '["Different claims","One is a summary","One is a translation","The same claim in different styles"]', 3, 'cue_l5_m9_5'),
 ('qq_l5_m9_ls2', 'itm_l5_m9_listening', 2, 'What does the editor say draft one lacks?', '["Evidence","People, or agents","Length","A conclusion"]', 1, 'cue_l5_m9_6'),
-('qq_l5_m9_ls3', 'itm_l5_m9_listening', 3, 'Is nominalisation condemned outright?', '["Yes","No -- but it hides agents","Only in academic writing","Only in speech"]', 1, 'cue_l5_m9_8'),
-('qq_l5_m9_ls4', 'itm_l5_m9_listening', 4, 'What test does the editor recommend?', '["Count the syllables","Ask who did what to whom","Read it aloud","Check the passive voice"]', 1, 'cue_l5_m9_9');
+('qq_l5_m9_ls3', 'itm_l5_m9_listening', 3, 'Is nominalisation condemned outright?', '["No -- but it hides agents","Yes","Only in academic writing","Only in speech"]', 0, 'cue_l5_m9_8'),
+('qq_l5_m9_ls4', 'itm_l5_m9_listening', 4, 'What test does the editor recommend?', '["Count the syllables","Read it aloud","Ask who did what to whom","Check the passive voice"]', 2, 'cue_l5_m9_9');
 
 -- ---------------------------------------------------------------------
 -- Module 10: Review & Consolidation
@@ -480,8 +480,8 @@ INSERT INTO pronunciation_targets (id, learning_item_id, sequence, focus, target
 ('pron_l5_m10_3', 'itm_l5_m10_pronunciation', 3, 'rhythm', 'The chair''s resolution takes three beats', 'approve MARKet one, // deFER market two, // reVISit in the AUtumn.', 'The same three-beat closure heard at Levels III and IV, now carrying a compromise rather than a decision. It is the standard shape of senior resolution in English.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id) VALUES
-('qq_l5_m10_ls1', 'itm_l5_m10_listening', 1, 'What assumption does Nakamura question?', '["The cost estimates","The nine-month regulatory timeline","The market size","The staffing plan"]', 1, 'cue_l5_m10_2'),
-('qq_l5_m10_ls2', 'itm_l5_m10_listening', 2, 'What does Okoro say about that timeline?', '["It is generous","They have not seen it done under eighteen months","It is accurate","It is irrelevant"]', 1, 'cue_l5_m10_5'),
-('qq_l5_m10_ls3', 'itm_l5_m10_listening', 3, 'How does the payback period change?', '["From three to five years","From five to three years","It is unchanged","It cannot be calculated"]', 0, 'cue_l5_m10_7'),
-('qq_l5_m10_ls4', 'itm_l5_m10_listening', 4, 'What is the final decision?', '["Approve both markets","Reject both","Approve market one, defer market two","Postpone everything"]', 2, 'cue_l5_m10_9');
+('qq_l5_m10_ls1', 'itm_l5_m10_listening', 1, 'What assumption does Nakamura question?', '["The nine-month regulatory timeline","The cost estimates","The market size","The staffing plan"]', 0, 'cue_l5_m10_2'),
+('qq_l5_m10_ls2', 'itm_l5_m10_listening', 2, 'What does Okoro say about that timeline?', '["It is generous","It is accurate","They have not seen it done under eighteen months","It is irrelevant"]', 2, 'cue_l5_m10_5'),
+('qq_l5_m10_ls3', 'itm_l5_m10_listening', 3, 'How does the payback period change?', '["From five to three years","From three to five years","It is unchanged","It cannot be calculated"]', 1, 'cue_l5_m10_7'),
+('qq_l5_m10_ls4', 'itm_l5_m10_listening', 4, 'What is the final decision?', '["Approve both markets","Reject both","Postpone everything","Approve market one, defer market two"]', 3, 'cue_l5_m10_9');
 
