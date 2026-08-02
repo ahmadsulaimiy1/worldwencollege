@@ -987,3 +987,108 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 ('qq_l5_m9_8', 'itm_l5_m9_quiz', 8, 'Which phrase means "state the main idea immediately, without preamble"?', '["get straight to the point","trim down","pare back","tighten up"]', 0),
 ('qq_l5_m9_9', 'itm_l5_m9_quiz', 9, '"___, we recommend proceeding with the proposal." (a concision marker)', '["In short","Insofar as","Notwithstanding","By the same token"]', 0),
 ('qq_l5_m9_10', 'itm_l5_m9_quiz', 10, 'An executive briefing delivered under time pressure should generally:', '["include extensive preamble before the main point","begin with immediate substance and no preamble","avoid stating a recommendation","be as long as possible"]', 1);
+
+-- ---------------------------------------------------------------------
+-- Module 10: Review & Consolidation (Advanced-Level Mock Exam)
+-- Full prose version: docs/curriculum/level-5/module-10-review-consolidation.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l5_m10', 'crs_level_5', 10, 'Module 10: Review & Consolidation');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l5_m10_revguide', 'unt_l5_m10', 1, 'reading', 'Level V Revision Guide',
+'MODULE 1 -- NUANCE & IDIOM: mixed conditionals; discourse markers to put it bluntly/in a nutshell/at the end of the day/for what it''s worth; deliberate register-shifting; professional documentation (writing genre 1).
+
+MODULE 2 -- ACADEMIC WRITING III: advanced ellipsis/substitution/cohesion at essay level; discourse markers the aforementioned/as noted above/collectively; thematic multi-source synthesis; the literature review (writing genre 2).
+
+MODULE 3 -- LEADERSHIP & PERSUASION: inversion for rhetorical emphasis; framing language; a leadership speech and advanced negotiation; the position paper (writing genre 3).
+
+MODULE 4 -- COMPLEX SYSTEMS (SCIENCE, ECONOMICS, POLICY): advanced chained nominalisation; hedging/qualifying language; a stakeholder meeting; the policy brief (writing genre 4).
+
+MODULE 5 -- CROSS-CULTURAL COMMUNICATION: graded politeness modality; positive/negative politeness strategies; intercultural negotiation; the analytical paper (writing genre 5).
+
+MODULE 6 -- ADVANCED MEDIA & DISCOURSE ANALYSIS: cleft sentences; combined subtext analysis; a media interview handling loaded questions; the persuasive article (writing genre 6).
+
+MODULE 7 -- RESEARCH & PRESENTATION: advanced multi-move argumentation; the flagship 6-8 minute research-informed presentation with active Q&A facilitation; the conference abstract and research essay (writing genres 7 and 8).
+
+MODULE 8 -- PROFESSIONAL ADVOCACY: advanced passive for confident case-building; the four-part crisis-communication structure; a panel discussion under genuine challenge; the strategic proposal (writing genre 9).
+
+MODULE 9 -- STYLE & VOICE: rigorous concision editing; bottom-line-up-front structure; an executive briefing under time pressure; the executive report (writing genre 10, capstone).
+
+STRUCTURAL THREAD ACROSS THE LEVEL: Level V moved learners from precision of language through precision of persuasion, precision across cultures and contexts, precision under scrutiny, to precision of voice -- a deliberately WEC-LC-authored intellectual arc, moving learners from language competence into genuine intellectual communication. Module 10 tests all of it together, in authentic, integrated performance.
+
+THE TEN ADVANCED WRITING GENRES: professional documentation (M1), a literature review (M2), a position paper (M3), a policy brief (M4), an analytical paper (M5), a persuasive article (M6), a conference abstract and a research essay (M7), a strategic proposal (M8), and an executive report (M9, capstone).
+
+CUMULATIVE DISCOURSE-MARKER TOOLKIT: idiomatic hedging/framing (to put it bluntly, in a nutshell, at the end of the day, for what it''s worth); essay-level cohesion (the aforementioned, as noted above, collectively); reframing (this isn''t just about X, it''s about Y, what''s really at stake here is); hedging/qualifying (it could be argued that, to some extent, broadly speaking); graded indirectness (would it be possible to, I wonder if you might, I don''t suppose you could); revealing subtext (what emerges from this is, beneath the surface, on the surface... but in reality); complex argument structuring (insofar as, notwithstanding, by the same token, conversely, that said); advocacy emphasis (the evidence clearly shows, it is well established that, crucially); concision and directness (in short, put simply, the bottom line is).
+
+CUMULATIVE BrE/AmE REFERENCE: at a loose end/at loose ends (M1); -ise/-ize (M2); Plc/Corp. Inc. (M3); billion, long scale/short scale (M4); cheers meaning thank you (M5); newsreader/news anchor (M6); postgraduate/graduate (M7); barrister-solicitor/lawyer-attorney (M8); PA/EA (M9).'),
+
+('itm_l5_m10_revlesson', 'unt_l5_m10', 2, 'reading', 'Revision Lesson -- Structured Consolidation Activities',
+'LEARNING OBJECTIVES: (1) correctly select the right grammar structure and rhetorical device from Modules 1-9 given a real professional or academic context, (2) deploy at least 8 discourse markers from across the level''s functional sets fluently, (3) correctly identify at least 8 BrE/AmE differences from across the level, (4) self-identify at least one personal area for further refinement before the mock exam.
+
+PREREQUISITE KNOWLEDGE: All of Modules 1-9.
+
+WARM-UP (5 min): "Grammar auction" -- bid points on whether 8 example sentences (each drawn from a different module) are grammatically correct or incorrect.
+
+PRESENTATION/CONSOLIDATION (15 min): A genre-and-device selection drill: real-life prompts, each requiring a different module''s grammar and rhetorical toolkit ("Emphasise a key point in a persuasive article" -> Module 6 cleft sentences or Module 3 inversion; "Qualify a claim in a policy brief" -> Module 4; "Structure a complex, multi-move argument" -> Module 7; "Respond to a challenge under pressure" -> Module 8).
+
+GUIDED PRACTICE (15 min): Rotate through 4 stations, each reviewing 2-3 modules'' target language, with a final "Deliver a 90-second executive briefing" station recycling Module 9''s capstone skill on a new, simple topic.
+
+INDEPENDENT PRACTICE (10 min): Complete a self-assessment checklist (one line per module: "I can... check/needs practice") and circle your two weakest areas.
+
+SPEAKING ACTIVITY: The structure-selection drill and station rotation above are both fundamentally speaking-driven.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Across this whole level, which shift do you think mattered most -- moving from correct grammar to persuasive rhetoric, or moving from analysis to genuine critical evaluation? Why?"
+
+LISTENING ACTIVITY (5 min): Listen to a single extended talk (someone building a case, qualifying claims, and handling a challenging question).
+
+READING ACTIVITY (5 min): Read a similarly cumulative, sophisticated short text and answer mixed comprehension and critical-evaluation questions spanning several grammar points and at least one BrE/AmE vocabulary item.
+
+WRITING TASK (5 min): Write one well-structured paragraph that uses at least 4 different grammar/rhetorical points from across the level and at least 2 cohesion devices.
+
+PRONUNCIATION PRACTICE (5 min): Rapid-fire review drill of the level''s key pronunciation points: mixed-conditional contractions, inversion/cleft-sentence stress, hedged-claim intonation, and confident, no-preamble executive delivery.
+
+VOCABULARY REINFORCEMENT: a cumulative discourse-marker and phrasal-verb relay game covering all 9 modules'' functional-language sets, including a dedicated BrE/AmE matching round.
+
+FORMATIVE ASSESSMENT: The self-assessment checklist above, reviewed individually with the instructor if time allows.
+
+HOMEWORK: Revise your self-identified weak areas using the module you struggled with most.
+
+REVISION: This entire lesson is revision by design.
+
+EXTENSION: Stronger learners help peers at weaker stations during the rotation activity.'),
+
+('itm_l5_m10_examquiz', 'unt_l5_m10', 3, 'quiz', 'Advanced-Level Mock Exam -- Grammar & Vocabulary', NULL),
+
+('itm_l5_m10_examassignment', 'unt_l5_m10', 4, 'assignment', 'Advanced-Level Mock Exam -- Speaking & Writing',
+'This is your Level V final assessment. Complete both parts.
+
+PART A -- SPEAKING: A PRESENTATION/NEGOTIATION SIMULATION (6-8 minutes, recorded or live with your instructor): Deliver a structured presentation or negotiation simulation on a topic of your choice, drawing on the level''s cumulative skills: a clearly signposted structure with at least one inversion or cleft sentence for emphasis (Modules 3/6); at least one instance of well-calibrated hedging (Module 4); at least one moment of graded, appropriate politeness or diplomatic framing (Module 5); a response to at least one genuinely challenging or loaded question, handled strategically (Modules 6/8); and a composed close. If choosing a negotiation simulation, reach (or honestly fail to reach) a concrete outcome with a simulated counterpart.
+
+PART B -- WRITING: A FULL RUBRIC-GRADED EXTENDED PIECE (600-700 words): Write an extended piece in one of this level''s ten genres (your choice, or a hybrid where genuinely appropriate) that demonstrates the level''s cumulative writing skills. Include: a clear, sophisticated thesis or recommendation; at least one instance of advanced nominalisation or advanced passive (Modules 4/8); at least 2 connectors from Module 7''s complex-argumentation set; at least one cleft sentence or inverted sentence for emphasis; genuine synthesis or evidence-based reasoning; and a rigorously edited, concise final section.
+
+GRADING RUBRIC (weighted toward listening and speaking per the Advanced-level assessment strategy): (1) Grammatical range and accuracy -- correct, varied use of the level''s grammar and rhetorical devices across both parts. (2) Vocabulary range -- discourse markers and phrasal verbs/collocations drawn from at least 6 of the 9 modules across both parts combined. (3) Task completion -- every required element present in both Part A and Part B. (4) Fluency and delivery (Part A) -- reasonably fluent and spontaneous for C1, able to sustain an extended formal turn and respond composedly and substantively to challenge. (5) Coherence (Part B) -- the piece reads as one connected, sophisticated, logically structured whole. (6) Evidence & argument quality -- is the thesis/recommendation genuinely well-supported, and does the piece address the strongest version of the topic? (7) Rhetorical effectiveness -- do the rhetorical devices used genuinely strengthen the piece''s persuasive or communicative impact? (8) Discourse coherence & register -- is the register appropriately sophisticated and consistent throughout?
+
+PROGRESSION REQUIREMENT: A grade at or above the platform''s pass threshold on this comprehensive assessment marks Level V as complete for the learner and, for a full-programme student, triggers Level VI''s enrolment to unlock automatically.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l5_m10_1', 'itm_l5_m10_examquiz', 1, '(M1) "If I ___ medicine, I''d be a doctor now." (past condition, present result)', '["studied","had studied","have studied","study"]', 1),
+('qq_l5_m10_2', 'itm_l5_m10_examquiz', 2, '(M1) In British English, having nothing to do is described as being:', '["at loose ends","at a loose end","at a loose end''s","at loose end"]', 1),
+('qq_l5_m10_3', 'itm_l5_m10_examquiz', 3, '(M2) What is the defining structural feature of a literature review, as opposed to a source-by-source report?', '["it only uses one source","it is organised thematically, not source-by-source","it never cites sources","it is always written in the first person"]', 1),
+('qq_l5_m10_4', 'itm_l5_m10_examquiz', 4, '(M2) In American English, the spelling suffix used exclusively is:', '["-ise","-ize","-yse","-isze"]', 1),
+('qq_l5_m10_5', 'itm_l5_m10_examquiz', 5, '(M3) "Rarely ___ such dedication." (inversion)', '["I have seen","have I seen","I seen","did I saw"]', 1),
+('qq_l5_m10_6', 'itm_l5_m10_examquiz', 6, '(M3) "This isn''t just about budget -- it''s about whether we''re serious about growth." This is an example of:', '["inversion","framing language","a citation","a mixed conditional"]', 1),
+('qq_l5_m10_7', 'itm_l5_m10_examquiz', 7, '(M4) "It ___ be argued that this policy addresses the core issue, though its effectiveness may vary."', '["could","will","must","can''t"]', 0),
+('qq_l5_m10_8', 'itm_l5_m10_examquiz', 8, '(M4) What is a genuine risk of overusing nominalisation?', '["sentences become too short","text can become technically correct but hard to parse","it is always grammatically incorrect","it makes writing too informal"]', 1),
+('qq_l5_m10_9', 'itm_l5_m10_examquiz', 9, '(M5) Which is the most indirect, highly deferential request?', '["Close the window.","Could you close the window?","I don''t suppose you could close the window, could you?","Window, please."]', 2),
+('qq_l5_m10_10', 'itm_l5_m10_examquiz', 10, '(M5) Which best describes "positive politeness"?', '["respecting autonomy and minimising imposition","emphasising shared interests and inclusion","using only formal language","avoiding all requests"]', 1),
+('qq_l5_m10_11', 'itm_l5_m10_examquiz', 11, '(M6) "It was the new policy ___ caused the backlash." (it-cleft)', '["who","that","which is","what"]', 1),
+('qq_l5_m10_12', 'itm_l5_m10_examquiz', 12, '(M6) A loaded interview question is one that:', '["is completely neutral","carries an embedded assumption or bias within the question itself","is always illegal to ask","has only one possible answer"]', 1),
+('qq_l5_m10_13', 'itm_l5_m10_examquiz', 13, '(M7) "___ remote work increases flexibility, it benefits most employees." (to the extent that)', '["Notwithstanding","Insofar as","Conversely","That said"]', 1),
+('qq_l5_m10_14', 'itm_l5_m10_examquiz', 14, '(M7) What does active Q&A facilitation include, beyond simply answering questions?', '["ignoring all questions","inviting questions and synthesising across them","refusing to take more than one question","reading directly from notes only"]', 1),
+('qq_l5_m10_15', 'itm_l5_m10_examquiz', 15, '(M8) "It ___ established that the proposed approach reduces costs significantly." (advanced passive)', '["is","has been","was","will be"]', 1),
+('qq_l5_m10_16', 'itm_l5_m10_examquiz', 16, '(M8) What is the first step in effective crisis communication?', '["deny the situation","acknowledge the situation","speculate about causes","remain silent"]', 1),
+('qq_l5_m10_17', 'itm_l5_m10_examquiz', 17, '(M9) "Due to the fact that..." can usually be edited down to:', '["Because","Due to","It is a fact that","On account of the fact"]', 0),
+('qq_l5_m10_18', 'itm_l5_m10_examquiz', 18, '(M9) What is the "bottom-line-up-front" structure?', '["the conclusion comes last, after extended context","the recommendation comes first, followed by brief supporting rationale","there is no structure at all","only questions, no statements"]', 1),
+('qq_l5_m10_19', 'itm_l5_m10_examquiz', 19, '(Cumulative discourse markers) Which discourse marker signals a pivot, acknowledging a prior point before adding a qualification?', '["that said","insofar as","crucially","beneath the surface"]', 0),
+('qq_l5_m10_20', 'itm_l5_m10_examquiz', 20, '(Cumulative BrE/AmE) In British English, the legal professional who represents clients in court is typically called a:', '["solicitor","barrister","attorney","paralegal"]', 1);

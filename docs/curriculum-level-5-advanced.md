@@ -107,6 +107,25 @@ code is introduced in this curriculum pass.
 | 9 | Style & Voice | Edit and vary register/tone precisely for audience and purpose | consolidated cohesion & register control | executive report; executive briefing | `docs/curriculum/level-5/module-09-style-voice.md` |
 | 10 | Review & Consolidation | Consolidate all Level V outcomes; Advanced-level mock exam | cumulative review | cumulative review | `docs/curriculum/level-5/module-10-review-consolidation.md` |
 
+**Level V is now complete** — all 10 modules built to full
+publication-quality depth and seeded into the live schema via
+`sql/seed-curriculum-level-5.sql`, verified end-to-end by
+`tests/curriculum-level-5.test.mjs` (84 assertions: every module loads
+with a reading/quiz/assignment, every quiz's own seeded correct
+answers score 100% when submitted, no quiz ever leaks its answer key
+to the client, every assignment can be submitted and staff-graded, and
+a weak attempt correctly fails). All ten distinct advanced writing
+genres named in the Executive Academic Objective — professional
+documentation, a literature review, a position paper, a policy brief,
+an analytical paper, a persuasive article, a conference abstract, a
+research essay, a strategic proposal, and an executive report — are
+represented across the ten modules, alongside a genuinely executive/
+professional speaking programme (a leadership speech, advanced
+negotiation, a stakeholder meeting, intercultural negotiation, a media
+interview, the flagship 6-8 minute conference presentation with Q&A
+facilitation, a crisis-communication simulation, a panel discussion
+under challenge, and an executive briefing).
+
 ---
 
 ## Module 1: Nuance & Idiom — full build

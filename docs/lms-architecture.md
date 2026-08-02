@@ -270,12 +270,51 @@ schema or endpoint was required — every Level IV assessment type
 fits the existing polymorphic `reading/quiz/assignment` model,
 consistent with the "curriculum drives platform" principle below.
 
+**Level V ("Advanced Programme," C1) is now also complete** — all 10
+modules built per your Level V Executive Academic Objective:
+establishing WEC-LC as a premium international English institution,
+moving learners beyond language competence into intellectual
+communication. Critical evaluation of methodology, argument quality,
+assumptions, evidence, credibility, and rhetorical strategy (a further
+step beyond Level IV's purpose/bias/tone analysis); ten distinct
+advanced writing genres deliberately distributed across the level's
+nine content modules (professional documentation, a literature
+review, a position paper, a policy brief, an analytical paper, a
+persuasive article, a conference abstract, a research essay, a
+strategic proposal, and a capstone executive report); a genuinely
+executive/professional speaking programme (a leadership speech,
+advanced negotiation, a stakeholder meeting, intercultural
+negotiation, a media interview, the flagship 6-8 minute research-
+informed presentation with active Q&A facilitation, a crisis-
+communication simulation, a panel discussion under genuine challenge,
+and an executive briefing under time pressure); and a distinctive,
+WEC-LC-authored module sequence (precision of language → persuasion →
+cross-cultural/media context → scrutiny → voice) rather than an
+imitation of any single existing programme. See
+`docs/curriculum-level-5-advanced.md` (module map, § What's different
+from Level IV, and the Executive Academic Objective note in
+`docs/curriculum-framework.md`'s Level V section) and
+`docs/curriculum/level-5/module-{02..10}-*.md` for the full lesson-by-
+lesson content. Seeded via `sql/seed-curriculum-level-5.sql` (110
+questions across the level, including a 20-question cumulative
+end-of-level exam) and verified the same way: `tests/curriculum-
+level-5.test.mjs` (84 assertions) sweeps all 10 modules with the
+identical rigor as Levels I-IV's sweeps — real seeded answer keys
+fetched from the DB and submitted, no answer-key leakage, staff
+grading verified, and a weak attempt correctly fails. No new LMS
+schema or endpoint was required — every Level V assessment type
+(leadership speeches, stakeholder meetings, intercultural negotiation,
+media interviews, research presentations, crisis communication, panel
+challenge, executive briefings, and ten writing genres) fits the
+existing polymorphic `reading/quiz/assignment` model, consistent with
+the "curriculum drives platform" principle below.
+
 **What Milestone 2 has NOT yet done, stated plainly:** content-
 authoring tooling (a staff UI/API to create content — today's seed-
 file approach is a stopgap, not the long-term authoring workflow);
-any content for Levels V-VI (Level V, "Advanced Programme," is the
-explicit next step — same process, same depth standard, continuing to
-evolve in sophistication); and the broader LMS feature backlog your
+any content for Level VI (the "English Mastery Programme," C2, is the
+explicit next step — the programme's capstone level — same process,
+same depth standard); and the broader LMS feature backlog your
 original Milestone 2 message named
 (course authoring studio, structured curriculum/lesson builders,
 multimedia lesson management, exam authoring, question banks and
