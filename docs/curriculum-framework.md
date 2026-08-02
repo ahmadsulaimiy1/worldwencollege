@@ -500,6 +500,52 @@ spontaneity in most academic/professional/social contexts and produces
 well-structured extended text — the CEFR B2 "vantage" descriptor,
 applied to WEC-LC's scope.
 
+**Executive Academic Objective (elevated standard):** per your Level
+IV directive, this level marks the transition from independent
+communication to confident academic and professional English — by the
+end of it, a learner should be able to function in universities,
+international workplaces, business environments, and multicultural
+settings using English as their primary language. The step-up is
+**not** simply harder grammar: every module raises intellectual depth,
+communicative sophistication, and academic/professional expectation.
+Concretely: analytical reading of authentic-style texts (adapted
+newspaper/magazine/academic-article/business/policy/speech/opinion
+registers) with explicit analysis of author's purpose, bias, argument
+structure, evidence, rhetorical technique, and implicit meaning;
+evidence-based discussion and persuasive speaking as standing
+expectations, not occasional activities; and eight distinct
+**academic/professional writing genres** distributed deliberately
+across the level rather than repeating one essay format ten times —
+reflective writing (Module 1), the argumentative essay (Module 2),
+formal correspondence and a workplace proposal (Module 3),
+compare-and-contrast writing (Module 5), an analytical report/policy
+proposal (Module 6), a summary-and-critique (Module 7), meeting
+minutes and a negotiation follow-up email (Module 8), and
+research-based writing synthesising supplied source material with
+basic citation mechanics (Module 9, the level's capstone). Speaking
+work is similarly varied across the level by design: a job interview
+(Module 3), structured debate (Module 4), a panel discussion (Module
+5), a formal 4-5 minute presentation with visual-aid support and
+unscripted Q&A (Module 6, the level's flagship public-speaking task),
+and negotiation/meeting participation (Module 8) — deliberately
+covering formal presentations, panel discussions, debate, interviews,
+negotiation, and meetings across the level rather than only one
+speaking format. Every module requires learners to evaluate evidence,
+compare viewpoints, justify a conclusion, identify an assumption, and
+defend an argument respectfully — critical thinking as a standing
+requirement of the module's core task, not a bolt-on discussion
+question.
+
+**AI-readiness (continued, not a build instruction):** as with Level
+III, every rubric in this level is authored as named, weighted,
+machine-legible criteria so that future AI tutoring, writing feedback,
+pronunciation coaching, and adaptive-pathway recommendation could
+plausibly integrate against the same rubric a human instructor uses,
+without rewriting the curriculum. This remains a design property of
+how content is authored — no AI-assessment code is introduced in this
+curriculum pass; see `docs/lms-architecture.md`'s "curriculum drives
+platform" principle for when such a feature would actually get built.
+
 ---
 
 ## Level V — Advanced Programme (C1)
