@@ -1,0 +1,161 @@
+# WEC-LC — deploy to Cloudflare Pages.
+#
+# Manual only (workflow_dispatch). It is deliberately not wired to
+# `push`: until the repository holds real Cloudflare credentials this
+# workflow cannot succeed, and a red X on every commit teaches people to
+# ignore red Xs. Add a `push:` trigger once a deploy has run green by
+# hand.
+#
+# WHAT IT NEEDS BEFORE IT CAN WORK — none of this can be created from
+# the repository; all of it is done once in the Cloudflare dashboard and
+# in this repository's Settings.
+#
+#   Repository secrets (Settings -> Secrets and variables -> Actions):
+#     CLOUDFLARE_API_TOKEN    a token with "Cloudflare Pages: Edit" and
+#                             "D1: Edit" on the account
+#     CLOUDFLARE_ACCOUNT_ID   from the Cloudflare dashboard sidebar
+#
+#   Repository variables (same page, "Variables" tab):
+#     D1_DATABASE_ID          printed by `wrangler d1 create wec-lc`;
+#                             substituted into wrangler.toml at deploy
+#                             time so the placeholder never ships
+#     CLERK_PUBLISHABLE_KEY   optional. Without it the deployment is a
+#                             design preview: the portal, the Listening
+#                             Lab and the instructor workspace all render
+#                             but every authenticated call returns 401.
+#                             Publishable keys are not secret — they are
+#                             embedded in the page — which is why this is
+#                             a variable and not a secret.
+#
+#   Pages secrets, set once with `wrangler pages secret put <NAME>` or in
+#   the dashboard (these are read by the Functions at runtime, not here):
+#     CLERK_JWKS_URL, CLERK_WEBHOOK_SECRET, STRIPE_SECRET_KEY,
+#     STRIPE_WEBHOOK_SECRET, PAYSTACK_SECRET_KEY, FLW_SECRET_KEY,
+#     FLW_WEBHOOK_SECRET_HASH, OPAY_*, RESEND_API_KEY,
+#     RESEND_FROM_ADDRESS, NOTIFICATION_EMAIL
+#   .env.example is the authoritative list.
+
+name: Deploy to Cloudflare Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Pages branch to deploy to. Anything other than the project’s production branch is a preview deployment with its own URL.'
+        required: true
+        default: 'preview'
+      seed_database:
+        description: 'Apply sql/schema.sql and all 12 seed files to the REMOTE D1 database first. Only for a brand-new database — the seeds are INSERTs and are not idempotent.'
+        type: boolean
+        required: true
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  # The Executive directive is explicit that deployment does not skip
+  # verification, so the deploy job depends on this one and a failure
+  # here stops the deploy.
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Static build
+        run: npm run build
+      - name: Backend suite
+        run: npm test
+      - name: Programme-wide curriculum consistency
+        run: node --experimental-sqlite tests/curriculum-consistency.test.mjs
+      - name: Install Chromium for the browser suites
+        run: npx playwright install --with-deps chromium
+      - name: Route audit — every built route
+        run: node tests/browser/route-audit.mjs
+      - name: Listening Lab
+        run: node tests/browser/listening-lab.mjs
+      - name: Auth contract
+        run: node tests/browser/lab-auth.mjs
+
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment:
+      name: cloudflare-${{ inputs.branch }}
+      url: ${{ steps.publish.outputs.url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+
+      - name: Fail early with a useful message if configuration is missing
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          DB_ID: ${{ vars.D1_DATABASE_ID }}
+        run: |
+          missing=""
+          [ -n "$TOKEN" ]   || missing="$missing CLOUDFLARE_API_TOKEN(secret)"
+          [ -n "$ACCOUNT" ] || missing="$missing CLOUDFLARE_ACCOUNT_ID(secret)"
+          [ -n "$DB_ID" ]   || missing="$missing D1_DATABASE_ID(variable)"
+          if [ -n "$missing" ]; then
+            echo "::error::Not configured for Cloudflare yet. Missing:$missing — see the header of this workflow file."
+            exit 1
+          fi
+
+      - name: Point wrangler.toml at the real D1 database
+        run: |
+          # The committed value is a placeholder on purpose: a database
+          # id is account-specific and does not belong in git history.
+          sed -i "s/REPLACE_WITH_REAL_D1_DATABASE_ID/${{ vars.D1_DATABASE_ID }}/" wrangler.toml
+          grep -q "REPLACE_WITH_REAL" wrangler.toml && { echo "::error::placeholder still present"; exit 1; } || true
+
+      - name: Set the Clerk publishable key, if one is configured
+        env:
+          PK: ${{ vars.CLERK_PUBLISHABLE_KEY }}
+        run: |
+          if [ -z "$PK" ]; then
+            echo "::warning::No CLERK_PUBLISHABLE_KEY variable set. The site will deploy as a design preview — the Student Portal, Listening Lab and instructor workspace will render, but every authenticated API call returns 401. See docs/preview-deployment.md § 4."
+          else
+            printf 'window.WEC_LC_AUTH = {\n  clerkPublishableKey: %s\n};\n' "'$PK'" > js/auth-config.js
+            echo "Clerk publishable key applied to js/auth-config.js"
+          fi
+
+      - name: Apply schema and curriculum seeds to the remote D1 database
+        if: ${{ inputs.seed_database }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -e
+          npx wrangler d1 execute wec-lc --remote --yes --file=sql/schema.sql
+          # Curriculum before audio at each level: the audio rows carry
+          # foreign keys onto that level's learning items.
+          for n in 1 2 3 4 5 6; do
+            npx wrangler d1 execute wec-lc --remote --yes --file=sql/seed-curriculum-level-$n.sql
+            npx wrangler d1 execute wec-lc --remote --yes --file=sql/seed-audio-level-$n.sql
+          done
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish
+        id: publish
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          npx wrangler pages deploy . \
+            --project-name=wec-lc \
+            --branch="${{ inputs.branch }}" \
+            --commit-dirty=true | tee deploy.log
+          url=$(grep -oE 'https://[a-z0-9.-]+\.pages\.dev' deploy.log | tail -1)
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "### Deployed: $url" >> "$GITHUB_STEP_SUMMARY"

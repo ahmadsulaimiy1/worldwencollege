@@ -35,15 +35,42 @@
    button honest. Named here so the gap is visible rather than assumed.
 */
 
-const VERSION = 'wec-lab-v1';
+// Bumped to v2: the shell now includes the auth chain, and the
+// curriculum cache is named per learner. activate() drops every
+// wec-lab-* cache that isn't this version, so v1's shared curriculum
+// cache — written before responses were user-scoped — is deleted on
+// upgrade rather than left behind.
+const VERSION = 'wec-lab-v2';
 const SHELL = `${VERSION}-shell`;
 const CURRICULUM = `${VERSION}-curriculum`;
 const AUDIO = `${VERSION}-audio`;
+
+// Who the cached learner-specific responses belong to. The page sets
+// this (js/api-auth.js -> SET_USER) as soon as a Clerk session exists.
+//
+// This matters because the Cache API keys on URL and ignores request
+// headers: /api/lms/unit?id=X is one cache entry no matter who asked
+// for it, and that response carries the asker's own recordings and
+// attempt history. On a shared device — a campus machine, a family
+// laptop — a single cache would hand the next learner the previous
+// one's work. So the cache is named per user, and an authenticated
+// request made before the worker knows who is signed in is neither
+// served from cache nor written to it. Failing closed costs a network
+// round trip; failing open costs someone else's data.
+let CACHE_USER = null;
+const curriculumCacheFor = (user) => `${CURRICULUM}-${user}`;
 
 const SHELL_ASSETS = [
   '/listening-lab.html',
   '/css/brand.css',
   '/css/listening-lab.css',
+  // The auth chain is part of the shell: without these the page loads
+  // offline but never boots, because listening-lab.js starts behind
+  // WEC_LC_guardPortal. Order matches the script tags in the HTML.
+  '/js/auth-config.js',
+  '/js/clerk-loader.js',
+  '/js/portal-guard.js',
+  '/js/api-auth.js',
   '/js/listening-lab.js',
 ];
 
@@ -88,6 +115,21 @@ self.addEventListener('message', (event) => {
         .then((ok) => reply(event, { type: 'AUDIO_DROPPED', url: msg.url, ok }))
     );
   }
+  // Identity handshake. Sent on every page load once the session is
+  // known, and again with a null id on sign-out. Switching users drops
+  // every other user's curriculum cache on this device rather than
+  // leaving it to expire on its own.
+  if (msg.type === 'SET_USER') {
+    CACHE_USER = msg.userId || null;
+    const keep = CACHE_USER ? curriculumCacheFor(CACHE_USER) : null;
+    event.waitUntil(
+      caches.keys()
+        .then((keys) => Promise.all(
+          keys.filter((k) => k.startsWith(`${CURRICULUM}-`) && k !== keep).map((k) => caches.delete(k))
+        ))
+        .then(() => reply(event, { type: 'USER_SET', userId: CACHE_USER }))
+    );
+  }
   if (msg.type === 'AUDIO_STATUS') {
     event.waitUntil(
       caches.open(AUDIO).then((c) => c.keys()).then((keys) =>
@@ -119,13 +161,20 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Curriculum reads: stale-while-revalidate.
+  // Curriculum reads: stale-while-revalidate, in a cache named for the
+  // signed-in learner. These responses mix shared curriculum with the
+  // asker's own recordings, attempts and pronunciation profile, so they
+  // are never shared across identities — see CACHE_USER above.
   if (url.pathname.startsWith('/api/lms/unit') ||
       url.pathname.startsWith('/api/lms/audio') ||
       url.pathname.startsWith('/api/lms/listening-analytics') ||
       url.pathname.startsWith('/api/lms/pronunciation-profile')) {
+    // Authenticated but unidentified: straight to network, no cache on
+    // either side of the exchange.
+    if (!CACHE_USER && req.headers.get('authorization')) return;
+    const cacheName = CACHE_USER ? curriculumCacheFor(CACHE_USER) : CURRICULUM;
     event.respondWith(
-      caches.open(CURRICULUM).then((cache) =>
+      caches.open(cacheName).then((cache) =>
         cache.match(req).then((hit) => {
           const network = fetch(req).then((res) => {
             if (res.ok) cache.put(req, res.clone());

@@ -22,14 +22,19 @@
     ['fluency', 'Fluency', 'Pace and pausing, not speed.'],
   ];
 
+  // Headers come from js/api-auth.js — see the note there. The review
+  // queue is staff-only, so this page needs both a valid token (401)
+  // and a staff role (403); load() distinguishes the two for the
+  // reviewer.
   function api(path, opts) {
-    return fetch(path, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts || {}))
-      .then(function (r) {
-        return r.json().catch(function () { return {}; }).then(function (b) {
-          if (!r.ok) throw Object.assign(new Error(b.message || r.statusText), { status: r.status });
-          return b;
-        });
+    return window.WEC_LC_apiAuth.headers().then(function (headers) {
+      return fetch(path, Object.assign({}, opts || {}, { headers: headers }));
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (b) {
+        if (!r.ok) throw Object.assign(new Error(b.message || r.statusText), { status: r.status });
+        return b;
       });
+    });
   }
 
   function fmt(ms) {
@@ -192,6 +197,17 @@
   document.addEventListener('DOMContentLoaded', function () {
     offline();
     $('#levelFilter').addEventListener('change', load);
-    load();
+    // Same guard-then-load sequence as the Listening Lab — see the note
+    // at the bottom of js/listening-lab.js.
+    var guarded = window.WEC_LC_guardPortal({
+      signOutRedirect: '/',
+      shellSelector: '.lab-body',
+      onAuthenticated: function (clerk, done) {
+        window.WEC_LC_apiAuth.attach(clerk);
+        done();
+        load();
+      },
+    });
+    if (!guarded) load();
   });
 })();

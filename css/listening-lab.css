@@ -415,3 +415,21 @@ body.is-offline .lab-offline { display: inline-flex; }
 .summary b { display: block; font: 700 1.25rem/1.1 var(--font-display); color: var(--royal); }
 .summary span { font-size: .72rem; color: var(--ink-soft); letter-spacing: .04em; }
 @media (max-width: 460px) { .summary { grid-template-columns: 1fr; } }
+
+/* ---------------- Auth gate ----------------
+   Inserted by js/portal-guard.js while a Clerk session is being
+   checked, and only on real deployments — with no publishable key
+   configured this markup is never created. Mirrors the rules in
+   dashboard.css so the Lab and the Student Portal show the same gate;
+   these two pages load brand.css + listening-lab.css only, so the
+   rules have to exist here too. Uses brand.css's btn-spin keyframe. */
+.auth-gate {
+  position: fixed; inset: 0; z-index: 300; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 14px; background: var(--paper);
+}
+.auth-gate__spinner {
+  width: 34px; height: 34px; border: 3px solid rgba(20,38,74,.15); border-top-color: var(--royal-deep);
+  border-radius: 50%; animation: btn-spin .8s linear infinite;
+}
+.auth-gate__text { font-size: .86rem; color: var(--ink-soft); }
+@media (prefers-reduced-motion: reduce) { .auth-gate__spinner { animation-duration: 1.6s; } }

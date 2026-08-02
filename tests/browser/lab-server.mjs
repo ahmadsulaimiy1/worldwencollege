@@ -51,9 +51,45 @@ const content = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/content.j
 
 const MIME = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.json': 'application/json' };
 
+// Auth mode. Off by default, so the existing suite keeps exercising the
+// no-Clerk-key preview state the site actually ships in today.
+//
+// With LAB_REQUIRE_AUTH=1 the harness does what every real endpoint
+// does — reads `Authorization: Bearer <token>` and 401s without it.
+// It exists because the harness's *convenience* (a hard-coded
+// userId, no auth) was hiding a defect: the Lab and the instructor
+// workspace sent no Authorization header at all, so they would have
+// 401'd on every call against a real deployment while passing every
+// test here. A harness that is easier than production tests something
+// production isn't.
+//
+// The token itself is a stub, not a JWT. What is under test is the
+// header contract between page and endpoint; verifying a real Clerk
+// signature needs a real Clerk instance and is disclosed as untested
+// in tests/README.md.
+const REQUIRE_AUTH = process.env.LAB_REQUIRE_AUTH === '1';
+const STUB_TOKENS = { 'stub-demo': 'usr_demo', 'stub-tutor': 'usr_tutor' };
+
+function identify(req) {
+  const header = req.headers.authorization || '';
+  const token = header.startsWith('Bearer ') ? header.slice(7) : null;
+  // Tokens are minted fresh per request by js/api-auth.js, so the stub
+  // ones carry a counter suffix (stub-demo#3). The identity is the part
+  // before it.
+  const id = token ? STUB_TOKENS[token.split('#')[0]] : null;
+  return { token, userId: id };
+}
+
 createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
   try {
+    if (REQUIRE_AUTH && url.pathname.startsWith('/api/')) {
+      const { userId } = identify(req);
+      if (!userId) {
+        res.writeHead(401, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: 'AuthError', message: 'Sign in to continue.' }));
+      }
+    }
     if (url.pathname === '/api/lms/unit') {
       const u = await content.getUnitDetail(env, { userId: 'usr_demo', unitId: url.searchParams.get('id') });
       return json(res, u);

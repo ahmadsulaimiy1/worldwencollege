@@ -182,6 +182,14 @@
   </div>
 </main>
 
+<!-- Auth chain, in dependency order: config -> Clerk loader -> guard ->
+     token helper -> the page itself. Without these the page still
+     renders, but every /api/lms/* call is unauthenticated and returns
+     401 — see js/api-auth.js. -->
+<script src="/js/auth-config.js"></script>
+<script src="/js/clerk-loader.js"></script>
+<script src="/js/portal-guard.js"></script>
+<script src="/js/api-auth.js"></script>
 <script src="/js/listening-lab.js"></script>
 </body>
 </html>

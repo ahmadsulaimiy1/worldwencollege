@@ -67,6 +67,58 @@ Cloudflare is the right target: the repo is already a Pages project
 (`wrangler.toml`, `pages_build_output_dir = "."`) and the API is
 Pages Functions under `functions/`, which no other host runs natively.
 
+### 3.0 What "going live" actually requires — three things, not one
+
+Connecting the repository to Cloudflare is necessary and **not
+sufficient**. The public site goes live on the Pages connection alone.
+The LMS and the Student Portal need all three of the following, and
+each one fails in a different, visible way:
+
+| # | Requirement | If it's missing |
+|---|---|---|
+| 1 | **Pages project** connected to this repository | Nothing is live at all. |
+| 2 | **D1 database** created, bound as `DB`, with `sql/schema.sql` and all 12 seed files applied | Public pages load; every `/api/lms/*` call fails — no curriculum, no quizzes, no listening. |
+| 3 | **Clerk**: `CLERK_JWKS_URL` + `CLERK_WEBHOOK_SECRET` as Pages secrets, **and** a publishable key in `js/auth-config.js` | Everything renders, and every authenticated call returns **401**. `requireUser()` (`functions/_lib/auth/session.js`) has no token to verify, so the Portal shows illustrative static content and the Listening Lab says "Sign in to open the Listening Lab." |
+
+Requirement 3 has two halves and both are needed. The Pages secrets let
+the *server* verify a token; the publishable key lets the *browser*
+obtain one. Setting only the server half leaves the pages exactly as
+unauthenticated as before.
+
+There is also a fourth thing that is not a credential: object storage
+for learner recordings does not exist yet (§ 5.1). Recording works;
+the bytes stay in the browser.
+
+### 3.1 Option A — connect the Git repository (recommended)
+
+This is the "link it with Cloudflare" path, and it needs no CLI and no
+API token. Done once in the dashboard:
+
+1. **Workers & Pages → Create → Pages → Connect to Git**, and pick
+   `ahmadsulaimiy1/worldwencollege`.
+2. Build settings:
+   - Framework preset: **None**
+   - Build command: `npm run build`
+   - Build output directory: `/` (the repo root — matches
+     `pages_build_output_dir = "."`)
+   - Production branch: choose deliberately. Setting it to something
+     other than the working branch means every push to
+     `claude/worldwide-english-college-site-ezy1zo` publishes as a
+     **preview** deployment with its own URL, which is what an internal
+     preview should be.
+3. **Settings → Bindings → D1 database**: create `wec-lc`
+   (Storage & Databases → D1), then bind it with the variable name
+   **`DB`**. The binding name is not cosmetic — every Function reads
+   `env.DB`.
+4. **Settings → Variables and Secrets**: add the secrets listed in
+   § 3.4 as and when they exist.
+5. Seed the database once (§ 3.3). Cloudflare's build step does not do
+   this and never will — it is data, not build output.
+
+After that every push to the connected branch redeploys automatically.
+
+### 3.2 Option B — from a machine with the CLI
+
 ```bash
 # 1. Authenticate (opens a browser, or use CLOUDFLARE_API_TOKEN)
 npx wrangler login
@@ -75,12 +127,7 @@ npx wrangler login
 npx wrangler d1 create wec-lc
 #    -> put that id into wrangler.toml's database_id
 
-# 3. Apply schema, then every curriculum + audio seed IN ORDER
-npx wrangler d1 execute wec-lc --remote --file=sql/schema.sql
-for n in 1 2 3 4 5 6; do
-  npx wrangler d1 execute wec-lc --remote --file=sql/seed-curriculum-level-$n.sql
-  npx wrangler d1 execute wec-lc --remote --file=sql/seed-audio-level-$n.sql
-done
+# 3. Seed it — see § 3.3
 
 # 4. Build and deploy to a PREVIEW branch (not production)
 npm run build
@@ -94,44 +141,97 @@ Step 4 prints the preview URL, of the form
 branch other than the production branch as a preview deployment with
 its own URL, which is what was asked for.
 
+### 3.2b Option C — from CI
+
+`.github/workflows/deploy-cloudflare.yml` does Option B from GitHub
+Actions, which *can* reach Cloudflare's API. It runs the full
+verification suite first and refuses to deploy if anything fails. It is
+manual-dispatch only and tells you exactly which secret or variable is
+missing rather than failing obscurely. The file header lists everything
+it needs.
+
+### 3.3 Seeding — order matters
+
+```bash
+npx wrangler d1 execute wec-lc --remote --file=sql/schema.sql
+for n in 1 2 3 4 5 6; do
+  npx wrangler d1 execute wec-lc --remote --file=sql/seed-curriculum-level-$n.sql
+  npx wrangler d1 execute wec-lc --remote --file=sql/seed-audio-level-$n.sql
+done
+```
+
+Curriculum before audio **at each level**: the audio rows carry foreign
+keys onto that level's learning items, and the schema enforces them.
+The seeds are `INSERT`s, not upserts — run them once, against a new
+database.
+
+### 3.4 Secrets, with their real names
+
+```bash
+npx wrangler pages secret put CLERK_JWKS_URL          # https://<instance>.clerk.accounts.dev/.well-known/jwks.json
+npx wrangler pages secret put CLERK_WEBHOOK_SECRET    # whsec_...
+npx wrangler pages secret put STRIPE_SECRET_KEY       # test key for preview
+npx wrangler pages secret put STRIPE_WEBHOOK_SECRET
+npx wrangler pages secret put PAYSTACK_SECRET_KEY
+npx wrangler pages secret put FLW_SECRET_KEY
+npx wrangler pages secret put FLW_WEBHOOK_SECRET_HASH
+npx wrangler pages secret put OPAY_SECRET_KEY
+npx wrangler pages secret put RESEND_API_KEY
+npx wrangler pages secret put RESEND_FROM_ADDRESS
+npx wrangler pages secret put NOTIFICATION_EMAIL
+```
+
+`.env.example` is the authoritative list. (An earlier revision of this
+document named a `CLERK_SECRET_KEY` — no such variable is read anywhere
+in `functions/`. The two Clerk values above are the real ones.)
+
+The **publishable** key is not a secret and is not set this way. It is
+one line in `js/auth-config.js`:
+
+```js
+window.WEC_LC_AUTH = { clerkPublishableKey: 'pk_live_...' };
+```
+
+Either commit it or let the CI workflow write it from the
+`CLERK_PUBLISHABLE_KEY` repository variable.
+
 ---
 
 ## 4. What will work in the preview, and what will not
 
-### Works fully, no credentials needed
+### Works fully on Pages + D1 alone, no credentials needed
 
 - Every public page (English and Arabic — 27 routes)
-- The Listening Lab: transcripts, cue navigation, bookmarks, notes,
-  comprehension graded server-side, progress, pronunciation profile
-- Instructor review workspace
-- All six curriculum levels, 900 questions, served from D1
-- Offline service worker
+- Admissions form submission
 - All animation, typography and responsive behaviour
+
+### Needs Clerk as well — everything behind `requireUser()`
+
+Named individually, because "the LMS goes live" is not a single switch:
+
+| Surface | Without Clerk | With Clerk |
+|---|---|---|
+| Student Portal | Renders as an illustrative static preview | Real session, real enrolment and payment history |
+| Listening Lab | Loads, then says "Sign in to open the Listening Lab" | Transcripts, cue navigation, bookmarks, notes, recording, comprehension graded server-side, progress, pronunciation profile |
+| Instructor review workspace | "Could not load the queue" | Real queue, real scoring against the learner's own drill targets |
+| Curriculum content (`/api/lms/unit`) | 401 | All six levels, 900 questions, served from D1 |
+| Offline worker | Caches the shell only | Caches this learner's unit content, scoped to their identity |
+
+Every one of those endpoints calls `requireUser()`, which needs a
+verifiable Bearer token. There is no partial state: a deployment with
+D1 but no Clerk serves the public site perfectly and answers 401 to
+every LMS request.
 
 ### Works, but in a deliberately safe preview state
 
 | Area | Behaviour without production credentials |
 |---|---|
-| **Authentication** | No Clerk key configured, so `requireUser()` rejects. The Student Portal preview pages render illustrative static content; the Lab and instructor workspace will 401 until a key exists. |
 | **Payments** | No gateway keys. `create-checkout` will fail at the gateway call. Use Stripe **test** keys for a working sandbox flow. |
 | **Email** | No Resend key. `notifyStaff()` logs and continues — it never blocks a submission. |
 | **Learner recordings** | Recording and playback work in-browser; the audio is a blob URL and the bytes do not reach a server. See § 5. |
 | **Audio playback** | Every listening is in **script mode** — no recordings exist. This is by design, not a deployment gap. |
 
-### Secrets to set when they exist
-
-```bash
-npx wrangler pages secret put CLERK_SECRET_KEY
-npx wrangler pages secret put STRIPE_SECRET_KEY        # test key for preview
-npx wrangler pages secret put STRIPE_WEBHOOK_SECRET
-npx wrangler pages secret put PAYSTACK_SECRET_KEY
-npx wrangler pages secret put FLUTTERWAVE_SECRET_KEY
-npx wrangler pages secret put OPAY_SECRET_KEY
-npx wrangler pages secret put RESEND_API_KEY
-npx wrangler pages secret put NOTIFICATION_EMAIL
-```
-
-`.env.example` is the authoritative list.
+Secret names and the publishable-key line are in § 3.4.
 
 ---
 
@@ -156,6 +256,35 @@ preview is not mistaken for a complete product.
 5. **Auth is untestable from here.** Every authenticated endpoint's 401
    boundary is verified; what happens past it needs a real Clerk token
    (`tests/README.md` § What's covered).
+
+### 5.1 A defect found while preparing this link, now fixed
+
+Worth recording, because of how it survived a green suite.
+
+The Listening Lab and the instructor review workspace sent **no
+`Authorization` header at all**. Both would have returned 401 on every
+single request against a real Cloudflare deployment — including one
+with Clerk fully configured. The 40-assertion browser suite could not
+see it: `tests/browser/lab-server.mjs` hard-coded `userId: 'usr_demo'`
+and never inspected request headers, so the harness had a hole exactly
+where production has a check. The tests measured the page's behaviour
+accurately, against a server that was easier than the real one.
+
+Fixed by routing both pages through `js/api-auth.js`, which mints a
+Clerk token per request (Clerk tokens expire in about a minute; one
+captured at page load would work for the first call and 401 for the
+rest of a listening session). `tests/browser/lab-auth.mjs` now runs the
+harness with `LAB_REQUIRE_AUTH=1` and asserts the header contract
+directly — 14 assertions, and removing the fix fails 8 of them.
+
+The same pass found that the offline cache was keyed by URL only. The
+Cache API ignores request headers, so `/api/lms/unit?id=X` was one
+entry no matter who asked — and that response carries the asker's own
+recordings and attempt history. On a shared machine it would have
+handed the next learner the previous one's work. The curriculum cache
+is now named per signed-in user, an authenticated request made before
+the worker knows who is signed in is neither served from cache nor
+written to it, and signing out drops the caches.
 
 ---
 

@@ -9,10 +9,17 @@
 //
 // window.WEC_LC_guardPortal({
 //   signOutRedirect: '/',                 // where Sign Out sends the browser
+//   shellSelector: '.app-shell',          // optional — the page content to
+//                                          // make inert behind the gate;
+//                                          // defaults to '.app-shell'
 //   onAuthenticated: function(clerk, done) { ... }  // called once a real
 //                                          // session exists; call done()
 //                                          // when ready to remove the
 //                                          // loading gate.
+//   onAuthUnavailable: function(err) { ... }        // optional — the auth
+//                                          // provider could not be
+//                                          // reached at all (offline).
+//                                          // The gate is already gone.
 // })
 //
 // Returns true if a Clerk key is configured (the guard is running) or
@@ -31,7 +38,7 @@ window.WEC_LC_guardPortal = function (opts) {
   // removes the shell from both the tab order and the accessibility
   // tree until it's restored below; focus moves onto the gate itself
   // so a screen reader user lands somewhere meaningful immediately.
-  var shell = document.querySelector('.app-shell');
+  var shell = document.querySelector(opts.shellSelector || '.app-shell');
   if (shell) shell.inert = true;
 
   var gate = buildGate();
@@ -39,7 +46,16 @@ window.WEC_LC_guardPortal = function (opts) {
   gate.focus();
 
   window.WEC_LC_loadClerk(pk, function (err, clerk) {
-    if (err) { removeGate(gate, shell); return; }
+    if (err) {
+      // Clerk's SDK is served from Clerk's own domain, so this is what
+      // being offline looks like. A page with an offline mode (the
+      // Listening Lab) wants to carry on from its cache rather than
+      // sit behind a gate it can never clear; one without says so and
+      // stops. The page decides, not the guard.
+      removeGate(gate, shell);
+      if (opts.onAuthUnavailable) opts.onAuthUnavailable(err);
+      return;
+    }
 
     if (!clerk.user) {
       clerk.redirectToSignIn({ redirectUrl: window.location.href });
@@ -59,6 +75,10 @@ window.WEC_LC_guardPortal = function (opts) {
       el.removeAttribute('tabindex'); // was -1 (removed from tab order) while inert — see css/dashboard.css .disabled-link
       el.addEventListener('click', function (e) {
         e.preventDefault();
+        // Drop this learner's offline cache before the session goes —
+        // signing out on a shared machine has to take the cached work
+        // with it. No-op on pages that don't use the offline worker.
+        if (window.WEC_LC_apiAuth) window.WEC_LC_apiAuth.attach(null);
         clerk.signOut(function () { window.location.href = redirectTo; });
       });
     });

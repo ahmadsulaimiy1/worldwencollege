@@ -170,6 +170,8 @@ so run them explicitly):
 
 ```
 node tests/browser/listening-lab.mjs
+node tests/browser/lab-auth.mjs
+node tests/browser/route-audit.mjs
 ```
 
 - `browser/listening-lab.mjs` — 40 assertions covering the Listening
@@ -187,6 +189,25 @@ node tests/browser/listening-lab.mjs
   In this sandbox Google Fonts is unreachable, so the test splits script
   errors from failed requests and tolerates exactly the two font hosts —
   any other failure still fails.
+- `browser/lab-auth.mjs` — the auth-contract test, and a cautionary
+  tale. `listening-lab.mjs` passed 40 assertions against two pages that
+  sent no `Authorization` header at all and would therefore have 401'd
+  on every request against a real deployment. It could not see that,
+  because `lab-server.mjs` hard-coded `userId: 'usr_demo'` and never
+  looked at request headers — the harness was easier than production
+  exactly where production has a check. This file runs the same harness
+  with `LAB_REQUIRE_AUTH=1`, so any `/api/` request without a Bearer
+  token gets a 401, and asserts the contract rather than the rendering:
+  the no-key state degrades to a clear "sign in" message rather than a
+  blank page; every API request from a signed-in page carries a token;
+  the token is minted **per request**, not captured at page load (Clerk
+  tokens expire in about a minute, and a learner sits on the Lab for
+  much longer); the instructor workspace authenticates its queue; and
+  the offline cache is namespaced per learner, since the Cache API keys
+  on URL alone and those responses carry the asker's own recordings and
+  attempt history. 14 assertions. Removing the fix fails 8 of them —
+  checked, not assumed. The token is a stub: verifying a real Clerk JWT
+  still needs a real Clerk instance and remains untested from here.
 - `browser/route-audit.mjs` — the pre-deployment sweep. Walks every
   built HTML file and loads each one, checking the things that break a
   deployment rather than a unit test: broken routes, missing first-party

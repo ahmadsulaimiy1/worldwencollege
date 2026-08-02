@@ -62,14 +62,20 @@
   }
 
   // ---- API ------------------------------------------------------------
+  // Headers come from js/api-auth.js, which mints a fresh Clerk token
+  // per request. Every endpoint this page calls is behind requireUser(),
+  // so a request without that header is a guaranteed 401 — see the
+  // catch in boot(), which turns it into "Sign in to open the
+  // Listening Lab" rather than a broken page.
   function api(path, opts) {
-    return fetch(path, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts || {}))
-      .then(function (r) {
-        return r.json().catch(function () { return {}; }).then(function (body) {
-          if (!r.ok) throw Object.assign(new Error(body.message || r.statusText), { status: r.status, body: body });
-          return body;
-        });
+    return window.WEC_LC_apiAuth.headers().then(function (headers) {
+      return fetch(path, Object.assign({}, opts || {}, { headers: headers }));
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (body) {
+        if (!r.ok) throw Object.assign(new Error(body.message || r.statusText), { status: r.status, body: body });
+        return body;
       });
+    });
   }
 
   // ---- Waveform -------------------------------------------------------
@@ -802,9 +808,35 @@
     });
   }
 
+  // Start behind the shared portal guard when a Clerk key is
+  // configured, so a real session exists (and api-auth.js can mint
+  // tokens from it) before the first API call. With no key — the
+  // shipped default and the state the local harness runs in — the
+  // guard does nothing and the page boots straight away.
+  function start() {
+    wireOffline();
+    var guarded = window.WEC_LC_guardPortal({
+      signOutRedirect: '/student-portal/',
+      shellSelector: '.lab-body',
+      onAuthenticated: function (clerk, done) {
+        window.WEC_LC_apiAuth.attach(clerk);
+        done();
+        boot();
+      },
+      // Offline: Clerk's SDK is unreachable, so no session can be
+      // established. Boot anyway — the offline worker holds this
+      // learner's cached unit content, and the whole point of the
+      // offline mode is that a dropped connection doesn't end the
+      // lesson. Anything needing the network fails visibly, as it
+      // already does when the connection drops mid-session.
+      onAuthUnavailable: function () { boot(); },
+    });
+    if (!guarded) boot();
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { wireOffline(); boot(); });
-  } else { wireOffline(); boot(); }
+    document.addEventListener('DOMContentLoaded', start);
+  } else { start(); }
 
   // Exposed for the browser test harness only.
   window.__lab = state;
