@@ -33,7 +33,17 @@ PHRASAL VERBS & COLLOCATIONS: "come a long way" (make significant progress over 
 
 BrE / AmE NOTE: British "whilst" (a more formal, literary variant of "while") is rarely used in American English, where "while" covers both registers; British "amongst" vs. American "among" -- both correct, but American English strongly prefers "among" in every register.
 
-KEY VOCABULARY: change/growth vocabulary (milestone, transition, turning point, progression, evolve), reflective-writing connective language (this experience taught me, what I didn''t realise at the time, with hindsight). Intercultural note: how much personal reflection or vulnerability is appropriate to share in academic or professional writing varies by culture and institutional norm.'),
+KEY VOCABULARY: change/growth vocabulary (milestone, transition, turning point, progression, evolve), reflective-writing connective language (this experience taught me, what I didn''t realise at the time, with hindsight). Intercultural note: how much personal reflection or vulnerability is appropriate to share in academic or professional writing varies by culture and institutional norm.
+
+ENTRY DIAGNOSTIC (the highest-value diagnostic in the programme, and here is why it sits at Level IV specifically).
+The B1-to-B2 step is the largest single transition in the six-level sequence. It is where the demand changes from communicating to ARGUING -- from making yourself understood to making a case someone could disagree with. A learner who is fluent and comfortable in B1 conversation can be badly unprepared for evidence-based writing, and will usually not discover this until Module 4 or later. The diagnostic exists to surface it in week one.
+
+(1) ARGUMENT: read the supplied 200-word opinion piece. In two sentences, state the author''''s claim and the evidence offered for it. Most learners arriving at B2 can summarise the topic but not separate the claim from its support -- if that is you, that is the finding, not a failure.
+(2) SPEAKING UNDER CHALLENGE: state a position you hold in 60 seconds. Your instructor gives one genuine counter-argument. Note whether your instinct was to repeat your position or to engage the objection.
+(3) WRITING: write one paragraph arguing for that position. Mark it yourself against one question: could a reasonable person disagree with my thesis as written? If not, it is a topic, not a thesis.
+(4) LISTENING: listen once to the Module 1 recording and note every hedge you heard.
+
+THEN WRITE YOUR PERSONAL FOCUS PLAN: three specific aims, one each for argument, speaking under challenge, and academic writing. Keep it. Module 10 returns to it.'),
 
 ('itm_l4_m1_lesson1', 'unt_l4_m1', 2, 'reading', 'Lesson 1.1 -- I Had Already Left When... -- Past Perfect, Simple & Continuous',
 'LEARNING OBJECTIVES: (1) form past perfect simple correctly (had + past participle), (2) form past perfect continuous correctly (had been + -ing), (3) use past perfect to clarify which of two past events happened first, (4) distinguish past perfect simple (a completed earlier action) from past perfect continuous (an ongoing earlier action, often with duration).
@@ -1056,7 +1066,11 @@ HOMEWORK: Revise your self-identified weak areas using the module you struggled 
 
 REVISION: This entire lesson is revision by design.
 
-EXTENSION: Stronger learners help peers at weaker stations during the rotation activity.'),
+EXTENSION: Stronger learners help peers at weaker stations during the rotation activity.
+
+REVISITING YOUR ENTRY DIAGNOSTIC: return to the personal focus plan from Module 1 and judge each aim as met, partly met, or not met, with evidence.
+
+Then answer the question the Module 1 diagnostic set up: at the start of this level, could you separate a claim from the evidence offered for it? Can you now? Point to a specific piece of your own work from this level as your evidence. If you cannot point to it, the honest answer is not yet -- and that is a more useful conclusion than an optimistic one.'),
 
 ('itm_l4_m10_examquiz', 'unt_l4_m10', 3, 'quiz', 'Upper Intermediate-Level Mock Exam -- Grammar & Vocabulary', NULL),
 

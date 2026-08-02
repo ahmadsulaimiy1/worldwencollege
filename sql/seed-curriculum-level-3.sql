@@ -33,7 +33,19 @@ PHRASAL VERBS & COLLOCATIONS: "grow up" (spend your childhood somewhere), "look 
 
 BrE / AmE NOTE: the present perfect itself is used somewhat more in British English than American English in everyday speech (British speakers often prefer "I''ve just eaten" where American speakers often say "I just ate," both entirely correct within their own variety); the clearest concrete difference is the past participle of "get": British English uses "got" ("I''ve got better at this"), American English commonly uses "gotten" ("I''ve gotten better at this") for the "become/improve" meaning -- both correct, genuinely one of the most noticeable grammatical BrE/AmE differences learners will encounter.
 
-KEY VOCABULARY: experience-related nouns (achievement, milestone, turning point, perspective), reflection language (I realised, it taught me, looking back). Intercultural note: what counts as a "big" life experience varies by culture and personal circumstance.'),
+KEY VOCABULARY: experience-related nouns (achievement, milestone, turning point, perspective), reflection language (I realised, it taught me, looking back). Intercultural note: what counts as a "big" life experience varies by culture and personal circumstance.
+
+ENTRY DIAGNOSTIC (new at this level -- the same diagnostic-and-revisit loop used at Levels IV and VI).
+Before Module 1''s language work begins, complete a short four-skills self-audit with your instructor. It is not graded and it is not a placement test -- you are already placed. Its purpose is to make you the author of your own priorities for this level.
+
+(1) SPEAKING: talk for 90 seconds about a change in your life. Your instructor notes, without correcting you in the moment, where you hesitated and what you avoided saying.
+(2) LISTENING: listen once to the Module 1 recording and write down what you understood. Note specifically what you MISSED, not what you caught.
+(3) READING: read the Module 1 extract and mark every point where you had to re-read.
+(4) WRITING: write six sentences about the same change. Your instructor marks only recurring patterns, not individual errors.
+
+THEN WRITE YOUR PERSONAL FOCUS PLAN: three sentences naming the ONE thing you will work on in each of speaking, listening and writing across this level, each specific enough to be checked. "Improve my English" is not a focus. "Stop translating from my first language before I speak" is.
+
+Keep this plan. Module 10 asks you to return to it and say honestly which aims you met and which you did not. That honesty is the point: a plan you cannot fail is not a plan.'),
 
 ('itm_l3_m1_lesson1', 'unt_l3_m1', 2, 'reading', 'Lesson 1.1 -- Have You Ever...? -- Present Perfect for Experience',
 'LEARNING OBJECTIVES: (1) form present perfect correctly (have/has + past participle) including common irregular participles, (2) ask "Have you ever...?" questions and answer with "I have/I haven''t (ever)...", (3) use present perfect specifically for unspecified-time life experience, not a single completed action, (4) add a brief reason or reaction to an experience answer, not just a bare "yes/no."
@@ -1048,7 +1060,11 @@ HOMEWORK: Revise your self-identified weak areas using the module you struggled 
 
 REVISION: This entire lesson is revision by design.
 
-EXTENSION: Stronger learners help peers at weaker stations during the rotation activity.'),
+EXTENSION: Stronger learners help peers at weaker stations during the rotation activity.
+
+REVISITING YOUR ENTRY DIAGNOSTIC: return to the personal focus plan you wrote in Module 1. For each of your three aims, say plainly: met, partly met, or not met -- and give the evidence, not the impression. "I met it" is not an answer; "I met it, and the evidence is that I no longer pause before the past simple" is.
+
+Then name one aim you would set for Level IV that you could not have named at the start of this level, because you did not yet know it was a problem. That last item is usually the most valuable thing a learner produces at the end of a level.'),
 
 ('itm_l3_m10_examquiz', 'unt_l3_m10', 3, 'quiz', 'Intermediate-Level Mock Exam -- Grammar & Vocabulary', NULL),
 

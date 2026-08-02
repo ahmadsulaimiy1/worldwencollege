@@ -37,7 +37,9 @@ Nice to meet you.
 Where are you from? -- I''m from... / I live in...
 How do you spell that? / Can you repeat that, please?
 
-Alphabet note: you are expected to recite the English alphabet and spell your own name aloud by the end of this module -- this is practised directly in Lesson 1.1''s pronunciation segment.'),
+Alphabet note: you are expected to recite the English alphabet and spell your own name aloud by the end of this module -- this is practised directly in Lesson 1.1''s pronunciation segment.
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): make a friend -- not ''do a friend''; say hello -- not ''speak hello''; ask a question -- not ''make a question''.'),
 
 ('itm_l1_m1_lesson1', 'unt_l1_m1', 2, 'reading', 'Lesson 1.1 -- Hello! Introducing Yourself',
 'LEARNING OBJECTIVES: By the end of this lesson you can (1) greet someone appropriately for the time of day, (2) say your own name using "My name is.../I''m...", (3) ask someone else''s name using "What''s your name?", (4) spell your name aloud using the English alphabet.
@@ -67,6 +69,8 @@ PRONUNCIATION PRACTICE (5 min): Drill the English alphabet, then spell your own 
 VOCABULARY REINFORCEMENT: hello, hi, goodbye, good morning/afternoon/evening, name, nice to meet you.
 
 FORMATIVE ASSESSMENT: Your instructor checks, during practice, whether you can produce a greeting unprompted, state your name, and ask "What''s your name?" correctly -- observation only, not a formal grade.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Two greetings: "Good morning" and "Hi". Which do you say to a teacher? Point to your answer, then say one word why: FORMAL or FRIENDLY.
 
 HOMEWORK: Introduce yourself to one person outside class; bring one new "nice to meet you" partner name to share next lesson.
 
@@ -100,6 +104,8 @@ PRONUNCIATION PRACTICE (5 min): Drill stress on country names relevant to your c
 VOCABULARY REINFORCEMENT: country/nationality pair matching using the pairs introduced above.
 
 FORMATIVE ASSESSMENT: Exit ticket -- say one sentence (name + country + city) to your instructor on the way out.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Someone says "Where are you from?" and someone says "Where do you live?". Are these the same question? Show yes or no with your hand, then say your country and your city.
 
 HOMEWORK: Look up and write the capital city of one country introduced in class that is not your own; share briefly next lesson.
 
@@ -139,7 +145,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l1_m2_overview', 'unt_l1_m2', 1, 'reading', 'Module Overview & Key Phrases',
 'Key phrases introduced this module: There is a.../There are some... -- Is there a...?/Are there any...? -- This is my.../These are my... -- That is a.../Those are... -- Where is the...?
 
-Key vocabulary previewed: classroom objects (desk, chair, board, book, pen, bag, window, door), home objects (bed, table, sofa, lamp, fridge, TV), places in a city (bank, school, hospital, restaurant, supermarket, park, station, hotel).'),
+Key vocabulary previewed: classroom objects (desk, chair, board, book, pen, bag, window, door), home objects (bed, table, sofa, lamp, fridge, TV), places in a city (bank, school, hospital, restaurant, supermarket, park, station, hotel).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): open the door -- not ''open the light''; turn on the light -- for lights and machines; tidy the room -- not ''clean up the room'' at this level.'),
 
 ('itm_l1_m2_lesson1', 'unt_l1_m2', 2, 'reading', 'Lesson 2.1 -- There Is / There Are -- My Classroom and Home',
 'LEARNING OBJECTIVES: (1) name 8+ classroom and home objects, (2) use "there is" with singular nouns and "there are" with plural nouns correctly, (3) ask "Is there a...?"/"Are there any...?" and give short answers, (4) use "a/an" and plural "-s" correctly.
@@ -165,6 +173,8 @@ PRONUNCIATION PRACTICE (5 min): The weak, unstressed "there" in "there is/there 
 VOCABULARY REINFORCEMENT: picture-matching game, classroom/home objects to English names.
 
 FORMATIVE ASSESSMENT: Instructor monitors practice for correct singular/plural agreement with "there is/are".
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Look at two rooms in the picture. Which is a kitchen? How do you know? Name one object that tells you.
 
 HOMEWORK: Draw a simple floor plan of one room at home and label 6 objects in English.
 
@@ -196,6 +206,8 @@ PRONUNCIATION PRACTICE (5 min): The /th/ sound in this/that/these/those, and the
 VOCABULARY REINFORCEMENT: city-places bingo or matching game.
 
 FORMATIVE ASSESSMENT: Exit ticket -- name one real nearby object with "this/these" and one real far object with "that/those".
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Your friend says "There is three chairs." Is this correct? Say the correct sentence.
 
 HOMEWORK: Find or draw a picture of one place in your town not covered in class; bring the English name next lesson.
 
@@ -235,7 +247,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l1_m3_overview', 'unt_l1_m3', 1, 'reading', 'Module Overview & Key Phrases',
 'Key phrases introduced this module: This is my.../I have a... -- What time is it? / It''s ... o''clock -- What time do you...? / I ... at ... -- Every day I... -- On weekdays/weekends I...
 
-Key vocabulary previewed: family members (mother, father, sister, brother, grandmother, grandfather, wife, husband, son, daughter), daily-routine verbs (wake up, get up, have breakfast, go to work/school, come home, have dinner, go to bed), time expressions (o''clock, half past, quarter past/to, in the morning/afternoon/evening/at night).'),
+Key vocabulary previewed: family members (mother, father, sister, brother, grandmother, grandfather, wife, husband, son, daughter), daily-routine verbs (wake up, get up, have breakfast, go to work/school, come home, have dinner, go to bed), time expressions (o''clock, half past, quarter past/to, in the morning/afternoon/evening/at night).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): get up -- leave your bed; have breakfast -- not ''eat breakfast'' in most British usage; go to bed -- no ''the''.'),
 
 ('itm_l1_m3_lesson1', 'unt_l1_m3', 2, 'reading', 'Lesson 3.1 -- My Family',
 'LEARNING OBJECTIVES: (1) name 8+ family members, (2) describe your family using "I have.../This is my...", (3) ask "Do you have any brothers/sisters?" and answer with short forms, (4) use possessive ''s correctly for family relationships.
@@ -261,6 +275,8 @@ PRONUNCIATION PRACTICE (5 min): /f/ vs. /v/ (father/brother; wife/husband); stre
 VOCABULARY REINFORCEMENT: family-tree labelling race in pairs or small groups.
 
 FORMATIVE ASSESSMENT: Instructor checks each learner can correctly name and describe at least 4 family relationships.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Here are two routines: one person gets up at 5, one at 11. Which person works at night? Say one reason.
 
 HOMEWORK: Bring one real (or drawn) family photo/sketch and 3 written sentences about it.
 
@@ -292,6 +308,8 @@ PRONUNCIATION PRACTICE (5 min): The three pronunciations of present-simple -s/-e
 VOCABULARY REINFORCEMENT: time-telling clock-matching game plus a routine-verb sequencing card sort.
 
 FORMATIVE ASSESSMENT: Instructor checks third-person -s accuracy during independent practice.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): "My sister go to school." One word is wrong. Which word? Say the correct sentence.
 
 HOMEWORK: Write out your real daily schedule for tomorrow with times, ready to compare with a partner.
 
@@ -331,7 +349,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l1_m4_overview', 'unt_l1_m4', 1, 'reading', 'Module Overview & Key Phrases',
 'Key phrases introduced this module: Is there any...?/Are there any...? -- I''d like some... -- How much is/are...? -- Can I have..., please? -- That''s $.../£... -- Here you are. / Thank you.
 
-Key vocabulary previewed: foods (bread, rice, milk, eggs, apples, bananas, chicken, water, coffee, tea), shops (bakery, greengrocer, supermarket, market), numbers 20-100, money/price vocabulary.'),
+Key vocabulary previewed: foods (bread, rice, milk, eggs, apples, bananas, chicken, water, coffee, tea), shops (bakery, greengrocer, supermarket, market), numbers 20-100, money/price vocabulary.
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): do the shopping -- not ''make the shopping''; pay the bill -- not ''pay the money''; make a cake -- ''make'' for things you create.'),
 
 ('itm_l1_m4_lesson1', 'unt_l1_m4', 2, 'reading', 'Lesson 4.1 -- Countable & Uncountable -- What''s in the Kitchen?',
 'LEARNING OBJECTIVES: (1) distinguish countable nouns (an egg, three apples) from uncountable nouns (rice, milk, water), (2) use "some" in positive statements and "any" in questions/negatives for both noun types, (3) name 10+ common foods, (4) use "a/an" correctly with countable food nouns.
@@ -357,6 +377,8 @@ PRONUNCIATION PRACTICE (5 min): The reduced, unstressed pronunciation of "some" 
 VOCABULARY REINFORCEMENT: food flashcard/realia naming race, sorted live into countable/uncountable.
 
 FORMATIVE ASSESSMENT: Instructor checks correct some/any choice and countable/uncountable agreement.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): You have $5. An apple is $1 and a cake is $6. What can you buy? Say why not the other one.
 
 HOMEWORK: List everything in your real fridge/cupboard at home (6+ items) in English, for Lesson 4.2''s shopping roleplay.
 
@@ -388,6 +410,8 @@ PRONUNCIATION PRACTICE (5 min): Commonly confused number pairs (thirteen/thirty,
 VOCABULARY REINFORCEMENT: price-matching game (item cards to price cards) in pairs.
 
 FORMATIVE ASSESSMENT: Instructor observes the roleplay for correct is/are choice and politeness phrases.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Which is more polite: "Give me coffee" or "Can I have a coffee, please?" Say the polite one aloud.
 
 HOMEWORK: Practise the shop dialogue once more at home before Module 4''s assignment roleplay.
 
@@ -427,7 +451,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l1_m5_overview', 'unt_l1_m5', 1, 'reading', 'Module Overview & Key Phrases',
 'Key phrases introduced this module: Excuse me, where is the...? -- Go straight on. / Turn left/right. -- It''s next to.../opposite.../between... -- It''s on the corner of... -- Is it far from here? -- It''s five minutes'' walk.
 
-Key vocabulary previewed: prepositions of place (in, on, at, next to, opposite, between, near, in front of, behind), direction verbs (go straight, turn left/right, cross), places (post office, pharmacy, library, cinema).'),
+Key vocabulary previewed: prepositions of place (in, on, at, next to, opposite, between, near, in front of, behind), direction verbs (go straight, turn left/right, cross), places (post office, pharmacy, library, cinema).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): catch a bus -- not ''take a bus'' in British usage; cross the road -- not ''pass the road''; wait for a taxi -- ''wait for'', never ''wait''.'),
 
 ('itm_l1_m5_lesson1', 'unt_l1_m5', 2, 'reading', 'Lesson 5.1 -- Where Is It? -- Prepositions of Place',
 'LEARNING OBJECTIVES: (1) use 6+ prepositions of place correctly, (2) ask "Where is the...?" and answer using a preposition of place, (3) distinguish "next to"/"opposite"/"between" on a simple map.
@@ -453,6 +479,8 @@ PRONUNCIATION PRACTICE (5 min): Word stress on two-word prepositional phrases (n
 VOCABULARY REINFORCEMENT: preposition mime/action game plus a map-labelling race.
 
 FORMATIVE ASSESSMENT: Instructor checks correct preposition choice during the independent map-completion task.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Your friend is at the bank and wants the library. Look at the map. Do they turn left or right? Say the direction.
 
 HOMEWORK: Draw a simple map of 4 real places near your home with correct prepositional relationships noted.
 
@@ -484,6 +512,8 @@ PRONUNCIATION PRACTICE (5 min): Imperative sentence stress (GO straight, TURN le
 VOCABULARY REINFORCEMENT: direction-verb charades in small groups.
 
 FORMATIVE ASSESSMENT: Instructor checks whether learners can both give and correctly follow a 2-3 step direction.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Someone says "Go straight on" but points backwards. Which do you follow -- the words or the hand? Say your answer and one reason.
 
 HOMEWORK: Write directions from your home to one place you visit often, ready to read aloud next lesson.
 
@@ -523,7 +553,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l1_m6_overview', 'unt_l1_m6', 1, 'reading', 'Module Overview & Key Phrases',
 'Key phrases introduced this module: What does he/she look like? -- He/She has.../He/She is... -- It''s mine/yours/his/hers/ours/theirs. -- Whose is this? -- It''s a big red bag.
 
-Key vocabulary previewed: appearance adjectives (tall, short, young, old, thin, curly/straight hair, brown/blue eyes), general adjectives (big, small, new, old, expensive, cheap), colours.'),
+Key vocabulary previewed: appearance adjectives (tall, short, young, old, thin, curly/straight hair, brown/blue eyes), general adjectives (big, small, new, old, expensive, cheap), colours.
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): have long hair -- not ''have longs hairs'' -- hair is uncountable; wear glasses -- not ''use glasses''; look like -- resemble; ''look'' alone means seem.'),
 
 ('itm_l1_m6_lesson1', 'unt_l1_m6', 2, 'reading', 'Lesson 6.1 -- What Does She Look Like? -- Describing People',
 'LEARNING OBJECTIVES: (1) describe a person''s appearance using "He/She is.../He/She has...", (2) use 8+ appearance adjectives correctly, (3) ask "What does he/she look like?", (4) use "has/have got" (light preview) for physical features.
@@ -549,6 +581,8 @@ PRONUNCIATION PRACTICE (5 min): The weak-form "has" in connected speech versus i
 VOCABULARY REINFORCEMENT: appearance-adjective picture-matching game.
 
 FORMATIVE ASSESSMENT: Instructor checks correct is/has choice during the guess-who activity.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Two people: one is tall with short hair, one is short with long hair. A friend says "the tall one". Which person? Point, then describe them in three words.
 
 HOMEWORK: Write a description of one family member''s appearance (3-4 sentences), for Module 6''s assignment.
 
@@ -581,6 +615,8 @@ VOCABULARY REINFORCEMENT: "Whose is it?" belongings game in small groups.
 
 FORMATIVE ASSESSMENT: Instructor checks correct possessive adjective/pronoun choice and adjective order.
 
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Is "a red big car" correct English? Say the correct order.
+
 HOMEWORK: Write 3 sentences describing 3 different belongings using possessives and two-adjective ordering.
 
 REVISION: This lesson opens with the Lesson 6.1 family-description sharing recap. Module 6''s Quiz and Assignment draw on both lessons.
@@ -609,17 +645,19 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 ('qq_l1_m6_10', 'itm_l1_m6_quiz', 10, '"He''s got a ___ car." (correct adjective order)', '["red small nice","nice small red","small nice red","nice red small"]', 1);
 
 -- ---------------------------------------------------------------------
--- Module 7: Past Experiences I
+-- Module 7: Past Experiences
 -- Full prose version: docs/curriculum/level-1/module-07-past-experiences-i.md
 -- ---------------------------------------------------------------------
 INSERT INTO units (id, course_id, sequence, title) VALUES
-  ('unt_l1_m7', 'crs_level_1', 7, 'Module 7: Past Experiences I');
+  ('unt_l1_m7', 'crs_level_1', 7, 'Module 7: Past Experiences');
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l1_m7_overview', 'unt_l1_m7', 1, 'reading', 'Module Overview & Key Phrases',
 'Key phrases introduced this module: Yesterday I.../Last week I... -- Did you...? Yes, I did. / No, I didn''t. -- What did you do? -- Two days ago... -- I went.../I saw.../I had...
 
-Key vocabulary previewed: regular past verbs (worked, watched, studied, played, cooked, cleaned, visited), common irregular past verbs (went, saw, had, ate, did, made, bought), past-time expressions (yesterday, last night/week/weekend, two days ago).'),
+Key vocabulary previewed: regular past verbs (worked, watched, studied, played, cooked, cleaned, visited), common irregular past verbs (went, saw, had, ate, did, made, bought), past-time expressions (yesterday, last night/week/weekend, two days ago).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): have a good time -- not ''pass a good time''; take a photo -- not ''make a photo''; meet a friend -- ''meet'', not ''know'', for arranging to see someone.'),
 
 ('itm_l1_m7_lesson1', 'unt_l1_m7', 2, 'reading', 'Lesson 7.1 -- Yesterday -- Regular Past Verbs',
 'LEARNING OBJECTIVES: (1) form the regular simple past correctly (-ed), (2) use 8+ regular past verbs to talk about yesterday, (3) form simple past negative statements (didn''t + base verb), (4) use "yesterday"/"last night" correctly with the simple past.
@@ -645,6 +683,8 @@ PRONUNCIATION PRACTICE (5 min): The three pronunciations of regular past -ed (/t
 VOCABULARY REINFORCEMENT: past-tense verb bingo (base form called, learners mark the past form).
 
 FORMATIVE ASSESSMENT: Instructor checks correct -ed formation and correct "didn''t + base verb" during independent writing.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): "Yesterday I go to the park." One word is wrong. Which one? Say the correct sentence.
 
 HOMEWORK: Write 3 more sentences about last night using regular past verbs, for Lesson 7.2.
 
@@ -676,6 +716,8 @@ PRONUNCIATION PRACTICE (5 min): Natural sentence stress in short-answer forms ("
 VOCABULARY REINFORCEMENT: irregular-verb pairs memory/matching game.
 
 FORMATIVE ASSESSMENT: Instructor checks correct question formation (Did + base verb) during the interview activity.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Someone tells you three things they did. Which one happened first? Say the time word that tells you.
 
 HOMEWORK: Prepare 4-5 sentences about a real past holiday or trip, for Module 7''s assignment.
 
@@ -715,7 +757,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l1_m8_overview', 'unt_l1_m8', 1, 'reading', 'Module Overview & Key Phrases',
 'Key phrases introduced this module: I can/can''t... -- Can you...? Yes, I can. / No, I can''t. -- I''m going to... -- What are you going to do this weekend? -- He''s/She''s going to...
 
-Key vocabulary previewed: ability verbs (swim, cook, drive, play an instrument, speak a language, ride a bike), weekend/holiday-plan vocabulary (visit, travel, meet, relax, go shopping).'),
+Key vocabulary previewed: ability verbs (swim, cook, drive, play an instrument, speak a language, ride a bike), weekend/holiday-plan vocabulary (visit, travel, meet, relax, go shopping).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): play football -- ''play'' for games and sports; ride a bike -- not ''drive a bike''; learn to swim -- ''learn to'' + verb.'),
 
 ('itm_l1_m8_lesson1', 'unt_l1_m8', 2, 'reading', 'Lesson 8.1 -- Can You...? -- Talking About Ability',
 'LEARNING OBJECTIVES: (1) use can/can''t correctly to talk about ability, (2) ask "Can you...?" and give short answers, (3) use 8+ ability-related verbs, (4) form the negative can''t correctly.
@@ -741,6 +785,8 @@ PRONUNCIATION PRACTICE (5 min): The reduced, unstressed "can" versus the fully s
 VOCABULARY REINFORCEMENT: ability-verb charades.
 
 FORMATIVE ASSESSMENT: Instructor listens during the mingling survey for clear can/can''t pronunciation and correct base-verb form.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): "I can swim" and "I am going to swim". One is about ability and one is about a plan. Which is which? Say one sentence about yourself with each.
 
 HOMEWORK: Ask one family member 3 "Can you...?" questions and note the answers.
 
@@ -772,6 +818,8 @@ PRONUNCIATION PRACTICE (5 min): The natural connected-speech contraction "gonna"
 VOCABULARY REINFORCEMENT: weekend-plan picture cards matched to "going to" sentence starters.
 
 FORMATIVE ASSESSMENT: Instructor checks correct going-to form and correct distinction from can.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Your friend says "I can play piano very good." One word is wrong. Which word? Say the correct sentence.
 
 HOMEWORK: Finalise and rehearse your weekend-plans description for Module 8''s assignment.
 
@@ -811,7 +859,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l1_m9_overview', 'unt_l1_m9', 1, 'reading', 'Module Overview & Key Phrases',
 'Key phrases introduced this module: How are you feeling? -- I have a headache/a cold/a stomachache. -- I feel sick/tired/better. -- You should.../You shouldn''t... -- Get well soon!
 
-Key vocabulary previewed: body parts (head, stomach, back, throat, arm, leg, ear, tooth), health problems (headache, cold, fever, cough, stomachache), feelings (happy, sad, tired, sick, better, worried).'),
+Key vocabulary previewed: body parts (head, stomach, back, throat, arm, leg, ear, tooth), health problems (headache, cold, fever, cough, stomachache), feelings (happy, sad, tired, sick, better, worried).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): catch a cold -- not ''take a cold''; take medicine -- not ''drink medicine''; feel better -- not ''feel more good''.'),
 
 ('itm_l1_m9_lesson1', 'unt_l1_m9', 2, 'reading', 'Lesson 9.1 -- How Are You Feeling? -- Body & Health',
 'LEARNING OBJECTIVES: (1) name 8+ body parts, (2) describe common health problems using have/has, (3) describe feelings using "feel + adjective", (4) ask "What''s the matter?/How are you feeling?" appropriately.
@@ -837,6 +887,8 @@ PRONUNCIATION PRACTICE (5 min): Body-part word stress (STOMach, HEADache) and a 
 VOCABULARY REINFORCEMENT: body-part labelling diagram race in pairs.
 
 FORMATIVE ASSESSMENT: Instructor checks correct have/has vs. feel + adjective choice during the roleplay.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): A person says "I have a headache" and another says "I have a broken leg". Who needs a doctor today? Say one reason.
 
 HOMEWORK: Write 2 sentences about a time you felt sick (using simple past "had", connecting back to Module 7) and 2 sentences about how you feel today.
 
@@ -868,6 +920,8 @@ PRONUNCIATION PRACTICE (5 min): The correct pronunciation of "should" (commonly 
 VOCABULARY REINFORCEMENT: problem-advice matching game, timed, in small groups.
 
 FORMATIVE ASSESSMENT: Instructor checks that advice given logically matches the stated problem and uses correct should/shouldn''t form.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Which is kinder to say to a sick friend: "Get well soon" or "Good luck"? Choose, and say when you use the other one.
 
 HOMEWORK: Prepare a short "sick day" roleplay script (problem + advice + well-wishing) for Module 9''s assignment.
 
@@ -915,7 +969,9 @@ Module 7 -- Past Experiences I: simple past (regular -ed and common irregular fo
 Module 8 -- Plans & Abilities: can/can''t (ability), going to (near-future plans); ability verbs, weekend/holiday-plan vocabulary.
 Module 9 -- Health & Feelings: have/has and feel + adjective (fully consolidated), should/shouldn''t; body parts, health problems, feelings.
 
-Structural thread across the level: introducing yourself and your world (Modules 1-4), navigating and describing it (Modules 5-6), then talking about time beyond the present moment (Modules 7-9: past, future, and advice).'),
+Structural thread across the level: introducing yourself and your world (Modules 1-4), navigating and describing it (Modules 5-6), then talking about time beyond the present moment (Modules 7-9: past, future, and advice).
+
+COLLOCATIONS ACROSS THIS LEVEL: every module in this level introduced words that habitually go together. Revise them all, and add these summary items: make a mistake -- the single most useful collocation at A1 -- never ''do a mistake''; do homework -- ''do'' for work and tasks; have a break -- not ''make a break''.'),
 
 ('itm_l1_m10_revlesson', 'unt_l1_m10', 2, 'reading', 'Revision Lesson -- Structured Consolidation Activities',
 'LEARNING OBJECTIVES: (1) correctly select the right grammar structure from Modules 1-9 given a real-use context, (2) recall and use at least 60 headwords from across the level''s vocabulary sets, (3) self-identify at least one personal area needing further revision before the mock exam.
@@ -943,6 +999,8 @@ PRONUNCIATION PRACTICE (5 min): Rapid-fire review of the level''s key pronunciat
 VOCABULARY REINFORCEMENT: a cumulative vocabulary relay game covering all 9 modules'' word sets.
 
 FORMATIVE ASSESSMENT: The self-assessment checklist, reviewed individually with the instructor if time allows.
+
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Look back at the nine modules. Choose the ONE thing you found hardest. Say it in one sentence beginning "For me, the hardest thing was...". Then say one thing you can do now that you could not do in Module 1.
 
 HOMEWORK: Revise your self-identified weak areas using the module you struggled with most.
 

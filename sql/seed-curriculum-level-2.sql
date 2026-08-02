@@ -37,7 +37,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 
 BrE / AmE note (introductory, general): from this level onward, spelling differences appear across vocabulary (British favourite, colour, travelled; American favorite, color, traveled). WEC-LC materials use British spelling as the house style, but both are entirely correct, standard English, and learners should be able to recognise either. This module models British spelling/pronunciation; later modules flag specific vocabulary differences as they arise.
 
-Key vocabulary previewed: life-event nouns (childhood, career, marriage, graduation), sequencing/narrative connectors (when, while, during, at that time), used-to-relevant lifestyle-change vocabulary (move, change, grow up).'),
+Key vocabulary previewed: life-event nouns (childhood, career, marriage, graduation), sequencing/narrative connectors (when, while, during, at that time), used-to-relevant lifestyle-change vocabulary (move, change, grow up).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): make a decision -- not ''take a decision'' in most usage; change your mind -- not ''change your idea''; take a chance -- accept a risk; look back on -- reflect on the past.'),
 
 ('itm_l2_m1_lesson1', 'unt_l2_m1', 2, 'reading', 'Lesson 1.1 -- What Were You Doing? -- Past Simple vs. Past Continuous',
 'LEARNING OBJECTIVES: (1) form past continuous correctly (was/were + -ing), (2) choose correctly between simple past (a completed event) and past continuous (background action in progress), (3) combine both correctly in one sentence with "when" or "while", (4) ask "What were you doing when...?" and answer appropriately.
@@ -139,7 +141,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 
 BrE / AmE note: holiday (BrE) / vacation (AmE); coach (BrE, a long-distance bus) / motorcoach or bus (AmE); return ticket (BrE) / round-trip ticket (AmE); petrol (BrE) / gas (AmE). WEC-LC materials use British terms as the house style; learners should recognise both.
 
-Key vocabulary previewed: transport modes (plane, train, coach/bus, ferry, underground/subway), travel actions (book, check in, board, depart, arrive, transfer), comparison adjectives (fast/faster/fastest, expensive/more expensive/most expensive, good/better/best).'),
+Key vocabulary previewed: transport modes (plane, train, coach/bus, ferry, underground/subway), travel actions (book, check in, board, depart, arrive, transfer), comparison adjectives (fast/faster/fastest, expensive/more expensive/most expensive, good/better/best).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): miss a train -- not ''lose a train''; book a ticket -- reserve in advance; get lost -- not ''become lost''; catch a connection -- ''catch'', as with buses and trains.'),
 
 ('itm_l2_m2_lesson1', 'unt_l2_m2', 2, 'reading', 'Lesson 2.1 -- Which Is Better? -- Comparatives & Superlatives',
 'LEARNING OBJECTIVES: (1) form regular comparatives (-er/more) and superlatives (-est/most) correctly, including common irregulars, (2) use "than" correctly, (3) compare three or more options and identify "the most/-est", (4) justify a comparative opinion with "because".
@@ -199,6 +203,8 @@ VOCABULARY REINFORCEMENT: a travel-vocabulary bingo or matching game.
 
 FORMATIVE ASSESSMENT: Instructor observes the booking roleplay for correct booking language and appropriate politeness.
 
+CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expressed with the language available at this level -- pointing, choosing, or a single corrected sentence): Two travellers give directions to the same place and they disagree. What is the first question you would ask to find out who is right? Say your question aloud.
+
 HOMEWORK: Research or invent a real trip you''d like to take, noting transport options, approximate cost, and travel time, for Module 2''s assignment.
 
 REVISION: This lesson opens with the itinerary-reading vocabulary recap. Module 2''s Quiz and Assignment draw on both lessons.
@@ -239,7 +245,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 
 BrE / AmE note: CV (BrE, curriculum vitae) / résumé (AmE) -- both mean the document summarising your work history, though in the US a CV specifically refers to an academic-style long-form document. Also: flat (BrE) / apartment (AmE); "annual leave" is the neutral, formal term for holiday/vacation in international professional writing.
 
-Key vocabulary previewed: job/workplace nouns (colleague, manager, deadline, meeting, project, client), study nouns (assignment, lecture, exam, degree, classmate), ambition language (I''d like to become..., my goal is to..., I''m planning to study...).'),
+Key vocabulary previewed: job/workplace nouns (colleague, manager, deadline, meeting, project, client), study nouns (assignment, lecture, exam, degree, classmate), ambition language (I''d like to become..., my goal is to..., I''m planning to study...).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): apply for a job -- ''for'', never ''to''; work hard -- not ''work hardly'' -- which means barely working; take a break -- not ''make a break''; meet a deadline -- not ''reach a deadline''.'),
 
 ('itm_l2_m3_lesson1', 'unt_l2_m3', 2, 'reading', 'Lesson 3.1 -- What Are You Doing? -- Present Continuous vs. Present Simple',
 'LEARNING OBJECTIVES: (1) use present continuous correctly for actions happening right now or temporarily, (2) use present simple correctly for habits, routines, and permanent facts, (3) choose correctly between the two based on context, (4) recognise state verbs (know, like, believe, want) rarely used in continuous form.
@@ -341,7 +349,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 
 BrE / AmE note: British speakers often soften an opinion with "I''d say..."/"I suppose..."; American speakers more often use "I feel like...", notably informal in written British academic register. WEC-LC teaches "In my opinion.../I think..." as the neutral, register-safe form in both varieties.
 
-Key vocabulary previewed: opinion verbs (love, like, enjoy, don''t mind, dislike, hate, prefer), agreement/disagreement language (I agree, I see your point, I''m not so sure, I disagree), comparison connectors (whereas, on the other hand).'),
+Key vocabulary previewed: opinion verbs (love, like, enjoy, don''t mind, dislike, hate, prefer), agreement/disagreement language (I agree, I see your point, I''m not so sure, I disagree), comparison connectors (whereas, on the other hand).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): have a point -- concede the other person is partly right; strongly agree -- ''strongly'', not ''hardly''; completely disagree -- not ''totally not agree''; see your point -- acknowledge before disagreeing.'),
 
 ('itm_l2_m4_lesson1', 'unt_l2_m4', 2, 'reading', 'Lesson 4.1 -- I Love Reading -- Gerunds After Verbs',
 'LEARNING OBJECTIVES: (1) form the gerund (-ing form as a noun) correctly after opinion verbs, (2) rank preferences from strongest to weakest, (3) use "prefer + gerund + to + gerund" to compare two activities, (4) avoid the common error of using "to + base verb" after these opinion verbs.
@@ -443,7 +453,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 
 BrE / AmE note: "Shall we...?" sounds formal/dated in American English, where "How about we...?" or "Let''s..." is more natural; both taught here. Diary vocabulary: British "I''m free at the weekend" vs. American "I''m free this weekend".
 
-Key vocabulary previewed: invitation/arrangement verbs (arrange, confirm, reschedule, cancel, postpone), time-arrangement phrases (how about..., what time suits you, I''ll pencil it in), polite refusal language (I''m afraid..., unfortunately..., I already have plans).'),
+Key vocabulary previewed: invitation/arrangement verbs (arrange, confirm, reschedule, cancel, postpone), time-arrangement phrases (how about..., what time suits you, I''ll pencil it in), polite refusal language (I''m afraid..., unfortunately..., I already have plans).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): make plans -- not ''do plans''; put something off -- postpone it; look forward to -- + -ing, never + infinitive; fit something in -- find time for it.'),
 
 ('itm_l2_m5_lesson1', 'unt_l2_m5', 2, 'reading', 'Lesson 5.1 -- Will, Going To, or Present Continuous? -- Future Forms Review',
 'LEARNING OBJECTIVES: (1) distinguish "will" (spontaneous decision/prediction) from "going to" (a prior plan), (2) use present continuous for a fixed, arranged future event, (3) choose the correct future form based on context, (4) use "will" correctly for offers and promises.
@@ -545,7 +557,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 
 BrE / AmE note: flat (BrE) / apartment (AmE); ground floor (BrE, street level) / first floor (AmE, street level -- Britain''s "first floor" is one level up, a genuinely confusing false-friend pair); garden (BrE) / yard (AmE); block of flats (BrE) / apartment building (AmE).
 
-Key vocabulary previewed: housing types (flat/apartment, house, terraced house, detached house, block of flats), neighbourhood features (park, playground, shops, public transport links, green space), description adjectives (quiet, lively, convenient, safe, crowded).'),
+Key vocabulary previewed: housing types (flat/apartment, house, terraced house, detached house, block of flats), neighbourhood features (park, playground, shops, public transport links, green space), description adjectives (quiet, lively, convenient, safe, crowded).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): move house -- British usage; American ''move''; pay rent -- no article; do the washing-up -- British; American ''do the dishes''; get on with someone -- have a good relationship.'),
 
 ('itm_l2_m6_lesson1', 'unt_l2_m6', 2, 'reading', 'Lesson 6.1 -- There Was a Park Near My House -- Past Existence & Description',
 'LEARNING OBJECTIVES: (1) use "there was/there were" correctly for singular/plural past existence, (2) describe a past home or neighbourhood in reasonable detail, (3) contrast "there was/were" with "there is/are" explicitly, (4) use "used to be" as an alternative way to describe a past state.
@@ -647,7 +661,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 
 BrE / AmE note: chips (BrE, American "fries") vs. crisps (BrE) / chips (AmE, the bagged snack); biscuit (BrE) / cookie (AmE); sweets (BrE) / candy (AmE); courgette (BrE) / zucchini (AmE); aubergine (BrE) / eggplant (AmE) -- one of the highest-practical-value BrE/AmE vocabulary sets in the programme.
 
-Key vocabulary previewed: frequency adverbs (always, usually, often, sometimes, rarely, never), health/lifestyle vocabulary (balanced diet, regular exercise, get enough sleep, stay hydrated, cut down on, give up).'),
+Key vocabulary previewed: frequency adverbs (always, usually, often, sometimes, rarely, never), health/lifestyle vocabulary (balanced diet, regular exercise, get enough sleep, stay hydrated, cut down on, give up).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): keep fit -- not ''maintain fit''; put on weight -- not ''take weight''; give up smoking -- + -ing; have a rest -- not ''make a rest''.'),
 
 ('itm_l2_m7_lesson1', 'unt_l2_m7', 2, 'reading', 'Lesson 7.1 -- How Often? -- Adverbs of Frequency',
 'LEARNING OBJECTIVES: (1) use 6+ adverbs of frequency correctly and in the correct sentence position, (2) ask and answer "How often do you...?", (3) rank frequency adverbs from "always" to "never", (4) use frequency expressions with a specific time period.
@@ -749,7 +765,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 
 BrE / AmE NOTE: "receipt" is used in both varieties, but "till" (BrE, the checkout/cash register) vs. "register"/"checkout" (AmE); "queue" (BrE, a line of waiting people/to wait in line) vs. "line" (AmE) -- "stand in a queue" (BrE) vs. "stand in line" (AmE); "shop assistant" (BrE) vs. "sales associate/clerk" (AmE); "shopping trolley" (BrE) vs. "shopping cart" (AmE).
 
-KEY VOCABULARY: shopping/service nouns (receipt, refund, replacement, exchange, warranty, faulty), complaint language (I''m afraid there''s a problem, this isn''t working properly, I''d like to speak to a manager), polite problem-solving responses (I understand, let me check, I can offer you...).'),
+KEY VOCABULARY: shopping/service nouns (receipt, refund, replacement, exchange, warranty, faulty), complaint language (I''m afraid there''s a problem, this isn''t working properly, I''d like to speak to a manager), polite problem-solving responses (I understand, let me check, I can offer you...).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): make a complaint -- not ''do a complaint''; get a refund -- not ''take a refund''; save money -- not ''economise money''; waste money -- not ''lose money'' unless it is literal.'),
 
 ('itm_l2_m8_lesson1', 'unt_l2_m8', 2, 'reading', 'Lesson 8.1 -- Did You Buy It Here? -- Past Simple Questions',
 'LEARNING OBJECTIVES: (1) form detailed past simple wh- and yes/no questions correctly (review and extension of Level I Module 7), (2) ask a sequence of questions to establish the facts of a purchase or problem, (3) use past simple questions in a service/shopping context specifically, (4) answer past simple questions with appropriate detail, not just short answers.
@@ -851,7 +869,9 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 
 BrE / AmE NOTE: narrative connectors are almost entirely shared between British and American English, but one small, useful difference: British speakers often say "at the weekend" when placing a story in time ("It happened at the weekend"), while American speakers say "on the weekend" -- the same pattern first introduced with scheduling language in Module 5, now recycled in a storytelling context.
 
-KEY VOCABULARY: sequencing connectors (first, after that, next, then, suddenly, all of a sudden, eventually, in the end, finally), narrative-shape vocabulary (a hook/opening line, a turning point, a problem, a resolution), reaction language for listeners (No way! What happened next? That''s amazing!).'),
+KEY VOCABULARY: sequencing connectors (first, after that, next, then, suddenly, all of a sudden, eventually, in the end, finally), narrative-shape vocabulary (a hook/opening line, a turning point, a problem, a resolution), reaction language for listeners (No way! What happened next? That''s amazing!).
+
+COLLOCATIONS THIS MODULE (new at this level -- words that habitually go together; getting these right does more for natural English at this level than any extra grammar): tell a story -- ''tell'', never ''say'', with story; keep a secret -- not ''hold a secret''; burst out laughing -- + -ing; lose track of time -- not ''lose the time''.'),
 
 ('itm_l2_m9_lesson1', 'unt_l2_m9', 2, 'reading', 'Lesson 9.1 -- First... Then... Suddenly... -- Sequencing a Story',
 'LEARNING OBJECTIVES: (1) use a full range of sequencing connectors to order events clearly, (2) combine past simple (main events) and past continuous (background/interrupted action) correctly within a single connected narrative, (3) use "suddenly"/"all of a sudden" specifically to mark an unexpected interruption to the background action, (4) tell a short story (5-6 sentences) with clear, correctly sequenced structure.
@@ -969,7 +989,9 @@ MODULE 9 -- TELLING STORIES: sequencing connectors, past simple/past continuous 
 
 STRUCTURAL THREAD ACROSS THE LEVEL: Level II took Level I''s isolated single-structure grammar and put it to real communicative work -- contrasting structures against each other in the same lesson, extending short exchanges into connected sequences and full narratives, and adding a genuine critical-thinking and intercultural layer that Level I''s more foundational scope did not yet require. Module 10 tests all of it together, not in isolation.
 
-CUMULATIVE BrE/AmE REFERENCE (all differences introduced this level): flat/apartment, ground floor/first floor (Module 6); till/register or checkout, queue/line, shop assistant/sales associate, shopping trolley/shopping cart (Module 8); chips/fries, crisps/chips, biscuit/cookie, sweets/candy, courgette/zucchini, aubergine/eggplant (Module 7); "Shall we...?"/"How about we...?", free at the weekend/free this weekend (Module 5); at the weekend/on the weekend (Module 9); opinion-softening register ("I''d say.../I suppose..." vs. "I feel like...", Module 4).'),
+CUMULATIVE BrE/AmE REFERENCE (all differences introduced this level): flat/apartment, ground floor/first floor (Module 6); till/register or checkout, queue/line, shop assistant/sales associate, shopping trolley/shopping cart (Module 8); chips/fries, crisps/chips, biscuit/cookie, sweets/candy, courgette/zucchini, aubergine/eggplant (Module 7); "Shall we...?"/"How about we...?", free at the weekend/free this weekend (Module 5); at the weekend/on the weekend (Module 9); opinion-softening register ("I''d say.../I suppose..." vs. "I feel like...", Module 4).
+
+COLLOCATIONS ACROSS THIS LEVEL: every module in this level introduced words that habitually go together. Revise them all, and add these summary items: make an effort -- the level''s summary collocation; take responsibility -- not ''take the responsibility'' when general; pay attention -- no article; keep in touch -- not ''keep in contact'' at this level.'),
 
 ('itm_l2_m10_revlesson', 'unt_l2_m10', 2, 'reading', 'Revision Lesson -- Structured Consolidation Activities',
 'LEARNING OBJECTIVES: (1) correctly select the right grammar structure from Modules 1-9 given a real-use context, (2) recall and use at least 60 headwords from across the level''s vocabulary sets, (3) correctly identify at least 6 BrE/AmE vocabulary pairs from across the level, (4) self-identify at least one personal area needing further revision before the mock exam.

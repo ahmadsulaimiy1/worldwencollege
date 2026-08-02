@@ -313,14 +313,60 @@ const AUDIO_MODULES = new Set(
   check(`Every audio asset has a real transcript and a consistent recording state${bad.length ? ' — offenders: ' + bad.map((b) => b.id).join(', ') : ''}`, bad.length === 0);
 }
 
+// --- Rule 11d: v1.0 curriculum refinements stay applied ------------------
+{
+  const overviewHas = (id, needle) => {
+    const r = db.prepare('SELECT body FROM learning_items WHERE id = ?').bind(id).first();
+    return Boolean(r && r.body && r.body.includes(needle));
+  };
+  // The lexical strand must reach Levels I and II, not start abruptly at
+  // Level III. Every module at both levels carries collocations.
+  const missingColl = [];
+  for (const lv of [1, 2]) {
+    for (let m = 1; m <= 10; m++) {
+      const id = m === 10 ? `itm_l${lv}_m10_revguide` : `itm_l${lv}_m${m}_overview`;
+      if (!overviewHas(id, 'COLLOCATION')) missingColl.push(id);
+    }
+  }
+  check(`Levels I and II carry a collocation strand in all 20 modules${missingColl.length ? ' — missing: ' + missingColl.join(', ') : ''}`, missingColl.length === 0);
+
+  // The diagnostic-and-revisit loop at the programme's two largest steps
+  // (A2->B1 and B1->B2) plus the C2 mastery diagnostic. A diagnostic
+  // written but never revisited is just a worksheet, so both ends are
+  // asserted.
+  const diagMissing = [];
+  for (const lv of [3, 4]) {
+    if (!overviewHas(`itm_l${lv}_m1_overview`, 'ENTRY DIAGNOSTIC')) diagMissing.push(`L${lv} entry`);
+    if (!overviewHas(`itm_l${lv}_m10_revlesson`, 'REVISITING YOUR ENTRY DIAGNOSTIC')) diagMissing.push(`L${lv} revisit`);
+  }
+  if (!overviewHas('itm_l6_m10_examassignment', 'MODULE 1 MASTERY DIAGNOSTIC')) diagMissing.push('L6 revisit');
+  check(`Entry diagnostics are set AND revisited at every level that has one${diagMissing.length ? ' — missing: ' + diagMissing.join(', ') : ''}`, diagMissing.length === 0);
+
+  // A roman numeral in a module title promises a sequel. "Past
+  // Experiences I" had none anywhere in the 60 modules. The comparison
+  // strips the "Module N: " prefix first — an earlier version of this
+  // rule did not, and wrongly flagged Academic Writing I/II/III, which
+  // genuinely do form a series across Levels IV and V.
+  const stripNum = (t) => t.replace(/^Module\s+\d+:\s*/, '');
+  const seriesBase = (t) => stripNum(t).replace(/\s+(I{1,3}|IV|V)$/, '').trim();
+  const titles = db.prepare('SELECT title FROM units').all().results.map((u) => u.title);
+  const numbered = titles.filter((t) => /\s+(I{1,3}|IV|V)$/.test(stripNum(t)));
+  const orphans = numbered.filter((t) => titles.filter((o) => seriesBase(o) === seriesBase(t)).length < 2);
+  check(`Every numbered module title has a real sibling in its series${orphans.length ? ' — orphaned: ' + orphans.join(', ') : ''} (${numbered.length} numbered titles checked)`, orphans.length === 0);
+}
+
 // --- Rule 12: lesson template elements -----------------------------------
 {
   const lessons = db.prepare(
     `SELECT id, body FROM learning_items WHERE kind = 'reading' AND (id LIKE '%lesson%')`
   ).all().results;
+  // CRITICAL THINKING joined this list in v1.0. It was previously absent
+  // from all 18 Level I lessons and one Level II lesson; at A1 the prompt
+  // is choice-based or a single corrected sentence rather than an
+  // abstract discussion, but the element is now genuinely universal.
   const REQUIRED = ['LEARNING OBJECTIVES', 'WARM-UP', 'PRESENTATION', 'LISTENING', 'READING ACTIVITY',
     'WRITING TASK', 'PRONUNCIATION PRACTICE', 'VOCABULARY REINFORCEMENT', 'FORMATIVE ASSESSMENT',
-    'HOMEWORK', 'EXTENSION'];
+    'HOMEWORK', 'EXTENSION', 'CRITICAL THINKING'];
   for (const el of REQUIRED) {
     const bad = lessons.filter((l) => !l.body.includes(el));
     check(`Template element "${el}" present in all ${lessons.length} lesson items${bad.length ? ' — missing from: ' + bad.slice(0, 6).map((b) => b.id).join(', ') : ''}`, bad.length === 0);
