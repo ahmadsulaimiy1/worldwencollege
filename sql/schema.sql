@@ -344,6 +344,116 @@ CREATE TABLE units (
 );
 CREATE INDEX idx_units_course ON units(course_id);
 
+-- ---------------------------------------------------------------------
+-- Audio layer — listening, pronunciation, learner voice, instructor
+-- voice feedback.
+--
+-- Built because the curriculum demanded it, not speculatively: all 114
+-- authored lesson items specify a LISTENING ACTIVITY and a
+-- PRONUNCIATION PRACTICE, and before this layer existed the platform
+-- had nowhere to put either (see docs/curriculum-programme-review.md,
+-- Finding 1 — 0 rows of kind 'video', 2 of 660 quiz questions
+-- referencing listening).
+--
+-- THE LOAD-BEARING DESIGN DECISION: `transcript` is NOT NULL while
+-- `media_url` and the cue timings are NULLABLE. A listening script is
+-- authored curriculum and exists now; the recording of it is a studio
+-- production task with real voice talent and does not. Making the
+-- script mandatory and the audio optional means the platform tells the
+-- truth about its own state, degrades gracefully (a transcript-only
+-- listening lesson is still a usable lesson), and never requires a
+-- placeholder audio file to stand in for one that has not been made.
+-- ---------------------------------------------------------------------
+
+CREATE TABLE audio_assets (
+  id                TEXT PRIMARY KEY,   -- 'aud_' + uuid
+  kind              TEXT NOT NULL CHECK (kind IN ('listening','model_pronunciation','instructor_feedback','learner_recording')),
+  title             TEXT NOT NULL,
+  -- The authored script. Always present: it IS the curriculum content.
+  transcript        TEXT NOT NULL,
+  -- NULL until the recording is produced. Never a placeholder path.
+  media_url         TEXT,
+  duration_ms       INTEGER,
+  -- Declared, not incidental: this programme teaches BrE/AmE
+  -- differences explicitly, so a listening asset must state which
+  -- variety a learner is hearing.
+  variety           TEXT CHECK (variety IN ('BrE','AmE','other','mixed')),
+  speaker_count     INTEGER NOT NULL DEFAULT 1,
+  -- Words per minute the script is intended to be delivered at. Carries
+  -- the level's listening difficulty explicitly instead of leaving it to
+  -- whoever books the studio.
+  target_wpm        INTEGER,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+
+-- One row per transcript segment: the unit of synchronisation, of
+-- speaker attribution, and of "replay just this line". start_ms/end_ms
+-- are NULL until the asset is recorded and timed; the segmentation
+-- itself is authored up front and is useful without timings.
+CREATE TABLE audio_cues (
+  id                TEXT PRIMARY KEY,   -- 'cue_' + uuid
+  audio_asset_id    TEXT NOT NULL REFERENCES audio_assets(id),
+  sequence          INTEGER NOT NULL,
+  speaker           TEXT,               -- 'Narrator', 'Amara', 'Interviewer'
+  text              TEXT NOT NULL,
+  start_ms          INTEGER,
+  end_ms            INTEGER,
+  UNIQUE(audio_asset_id, sequence)
+);
+CREATE INDEX idx_audio_cues_asset ON audio_cues(audio_asset_id);
+
+-- What a pronunciation item actually drills. Structured rather than
+-- prose so that progress can be reported per FOCUS ("your word stress
+-- is behind your individual sounds") instead of per module, and so a
+-- future speech-recognition scorer has a target to score against.
+CREATE TABLE pronunciation_targets (
+  id                TEXT PRIMARY KEY,   -- 'pron_' + uuid
+  learning_item_id  TEXT NOT NULL REFERENCES learning_items(id),
+  sequence          INTEGER NOT NULL,
+  focus             TEXT NOT NULL CHECK (focus IN ('phoneme','word_stress','sentence_stress','intonation','connected_speech','rhythm')),
+  target            TEXT NOT NULL,      -- '/θ/ vs /s/'; 'PHOtograph -> phoTOGrapher'
+  example           TEXT NOT NULL,      -- a sentence the learner says
+  guidance          TEXT                -- what to do with the mouth/voice
+);
+CREATE INDEX idx_pronunciation_targets_item ON pronunciation_targets(learning_item_id);
+
+CREATE TABLE learner_recordings (
+  id                TEXT PRIMARY KEY,   -- 'rec_' + uuid
+  learning_item_id  TEXT NOT NULL REFERENCES learning_items(id),
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  media_url         TEXT NOT NULL,
+  duration_ms       INTEGER,
+  attempt           INTEGER NOT NULL DEFAULT 1,  -- learners re-record; keep the history
+  status            TEXT NOT NULL DEFAULT 'submitted' CHECK (status IN ('submitted','reviewed')),
+  submitted_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_learner_recordings_user ON learner_recordings(user_id);
+CREATE INDEX idx_learner_recordings_item ON learner_recordings(learning_item_id);
+
+-- Feedback on a learner recording. `source` is what makes this layer
+-- AI-ready without any AI being built: an automated pronunciation
+-- scorer writes rows here with source='automated' and reviewer_id NULL,
+-- alongside — never instead of — instructor rows, so the two can be
+-- compared rather than silently substituted. The five sub-scores are
+-- the assessment criteria the pronunciation strand is taught against.
+CREATE TABLE pronunciation_feedback (
+  id                TEXT PRIMARY KEY,   -- 'pfb_' + uuid
+  recording_id      TEXT NOT NULL REFERENCES learner_recordings(id),
+  source            TEXT NOT NULL CHECK (source IN ('instructor','automated')),
+  reviewer_id       TEXT REFERENCES users(id),   -- NULL when source='automated'
+  -- The instructor's own spoken feedback: modelling the correct form is
+  -- worth more than describing it in text.
+  audio_asset_id    TEXT REFERENCES audio_assets(id),
+  comment           TEXT,
+  intelligibility   REAL,               -- all 0..1, NULL if not assessed
+  word_stress       REAL,
+  sentence_stress   REAL,
+  individual_sounds REAL,
+  fluency           REAL,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_pronunciation_feedback_recording ON pronunciation_feedback(recording_id);
+
 -- Polymorphic content item within a unit. `body` is kind-dependent:
 -- reading → the reading text itself; video → a video URL (Cloudflare
 -- Stream once wired, see docs/lms-architecture.md); assignment →
@@ -353,9 +463,15 @@ CREATE TABLE learning_items (
   id                TEXT PRIMARY KEY,   -- 'itm_' + uuid
   unit_id           TEXT NOT NULL REFERENCES units(id),
   sequence          INTEGER NOT NULL,
-  kind              TEXT NOT NULL CHECK (kind IN ('reading','video','quiz','assignment','live_session')),
+  kind              TEXT NOT NULL CHECK (kind IN ('reading','video','quiz','assignment','live_session','listening','pronunciation')),
   title             TEXT NOT NULL,
   body              TEXT,
+  -- Set for kind='listening' and kind='pronunciation' (the audio the
+  -- item is built around), and OPTIONALLY for kind='quiz' — a listening
+  -- comprehension quiz is just a quiz whose item carries audio, which
+  -- is why submitQuizAttempt() needed no changes to support listening
+  -- assessment.
+  audio_asset_id    TEXT REFERENCES audio_assets(id),
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 CREATE INDEX idx_learning_items_unit ON learning_items(unit_id);
@@ -366,7 +482,12 @@ CREATE TABLE quiz_questions (
   sequence          INTEGER NOT NULL,
   prompt            TEXT NOT NULL,
   choices_json      TEXT NOT NULL,      -- JSON array of choice strings
-  correct_index     INTEGER NOT NULL    -- index into choices_json
+  correct_index     INTEGER NOT NULL,   -- index into choices_json
+  -- For listening questions: the exact transcript segment this question
+  -- tests. Lets a learner who got it wrong replay precisely the three
+  -- seconds they misheard, rather than the whole recording — the single
+  -- most useful thing a listening interface can do.
+  audio_cue_id      TEXT REFERENCES audio_cues(id)
 );
 CREATE INDEX idx_quiz_questions_item ON quiz_questions(learning_item_id);
 

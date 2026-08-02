@@ -55,19 +55,37 @@ export async function getUnitDetail(env, { userId, unitId }) {
   await assertLevelAccess(env, userId, levelId);
 
   const { results: items } = await db(env)
-    .prepare('SELECT id, sequence, kind, title, body FROM learning_items WHERE unit_id = ? ORDER BY sequence ASC')
+    .prepare('SELECT id, sequence, kind, title, body, audio_asset_id as audioAssetId FROM learning_items WHERE unit_id = ? ORDER BY sequence ASC')
     .bind(unitId)
     .all();
 
   for (const item of items) {
+    // Any item may carry audio — a listening item, a pronunciation item,
+    // or a quiz that tests a recording. Attaching it here rather than in
+    // a kind-specific branch is what let listening assessment reuse the
+    // existing quiz path untouched.
+    if (item.audioAssetId) {
+      item.audio = await getAudioAsset(env, { audioAssetId: item.audioAssetId });
+    }
+    delete item.audioAssetId;
+
     if (item.kind === 'quiz') {
       // Never send correct_index to the client — see submitQuizAttempt
       // for where grading actually happens, server-side only.
       const { results: questions } = await db(env)
-        .prepare('SELECT id, sequence, prompt, choices_json as choicesJson FROM quiz_questions WHERE learning_item_id = ? ORDER BY sequence ASC')
+        .prepare('SELECT id, sequence, prompt, choices_json as choicesJson, audio_cue_id as audioCueId FROM quiz_questions WHERE learning_item_id = ? ORDER BY sequence ASC')
         .bind(item.id)
         .all();
       item.questions = questions.map(({ choicesJson, ...q }) => ({ ...q, choices: JSON.parse(choicesJson) }));
+    } else if (item.kind === 'pronunciation') {
+      const { results: targets } = await db(env)
+        .prepare('SELECT id, sequence, focus, target, example, guidance FROM pronunciation_targets WHERE learning_item_id = ? ORDER BY sequence ASC')
+        .bind(item.id)
+        .all();
+      item.targets = targets;
+      item.myRecordings = await listMyRecordings(env, { userId, learningItemId: item.id });
+    } else if (item.kind === 'listening') {
+      item.myRecordings = await listMyRecordings(env, { userId, learningItemId: item.id });
     } else if (item.kind === 'assignment') {
       item.mySubmission = await db(env)
         .prepare('SELECT id, status, grade, feedback, submitted_at as submittedAt, graded_at as gradedAt FROM assignment_submissions WHERE learning_item_id = ? AND user_id = ? ORDER BY submitted_at DESC LIMIT 1')
@@ -175,6 +193,154 @@ export async function gradeAssignment(env, { gradedBy, submissionId, grade, feed
   }
 
   return { id: submissionId, status: 'graded', grade, feedback: feedback || null, gradedAt };
+}
+
+// ---------------------------------------------------------------------
+// Audio: listening, pronunciation, learner voice, instructor voice.
+//
+// Built because the authored curriculum requires it — every one of the
+// 114 lesson items specifies a listening activity and a pronunciation
+// practice, and until this existed there was nowhere to put either.
+// ---------------------------------------------------------------------
+
+// Returns the asset plus its ordered cues. `isRecorded` is computed
+// rather than stored: the client needs to know whether to render a
+// player or a transcript-only view, and deriving it from media_url
+// means there is exactly one source of truth for "does this audio
+// actually exist yet".
+export async function getAudioAsset(env, { audioAssetId }) {
+  const asset = await db(env)
+    .prepare('SELECT id, kind, title, transcript, media_url as mediaUrl, duration_ms as durationMs, variety, speaker_count as speakerCount, target_wpm as targetWpm FROM audio_assets WHERE id = ?')
+    .bind(audioAssetId)
+    .first();
+  if (!asset) throw new NotFoundError('Unknown audio asset.');
+  const { results: cues } = await db(env)
+    .prepare('SELECT id, sequence, speaker, text, start_ms as startMs, end_ms as endMs FROM audio_cues WHERE audio_asset_id = ? ORDER BY sequence ASC')
+    .bind(audioAssetId)
+    .all();
+  return {
+    ...asset,
+    isRecorded: Boolean(asset.mediaUrl),
+    // True once the recording has been timed against the script. Until
+    // then the transcript is readable but cannot be followed along with,
+    // so the client shows it as a plain script rather than a broken
+    // karaoke view.
+    isSynchronised: cues.length > 0 && cues.every((c) => c.startMs !== null && c.endMs !== null),
+    cues,
+  };
+}
+
+async function listMyRecordings(env, { userId, learningItemId }) {
+  const { results } = await db(env)
+    .prepare('SELECT id, media_url as mediaUrl, duration_ms as durationMs, attempt, status, submitted_at as submittedAt FROM learner_recordings WHERE learning_item_id = ? AND user_id = ? ORDER BY attempt DESC')
+    .bind(learningItemId, userId)
+    .all();
+  for (const rec of results) {
+    const { results: fb } = await db(env)
+      .prepare('SELECT id, source, comment, intelligibility, word_stress as wordStress, sentence_stress as sentenceStress, individual_sounds as individualSounds, fluency, audio_asset_id as audioAssetId, created_at as createdAt FROM pronunciation_feedback WHERE recording_id = ? ORDER BY created_at ASC')
+      .bind(rec.id)
+      .all();
+    rec.feedback = fb;
+  }
+  return results;
+}
+
+// A learner submits a voice recording against a listening or
+// pronunciation item. Attempt numbers increment rather than overwrite:
+// hearing your first attempt next to your fifth is the single most
+// motivating thing a pronunciation tool can show, and discarding
+// earlier takes would throw that away.
+export async function submitLearnerRecording(env, { userId, learningItemId, mediaUrl, durationMs = null }) {
+  const item = await db(env).prepare('SELECT * FROM learning_items WHERE id = ?').bind(learningItemId).first();
+  if (!item) throw new NotFoundError('Unknown learning item.');
+  if (item.kind !== 'pronunciation' && item.kind !== 'listening') {
+    throw new ValidationError('Recordings can only be submitted against a listening or pronunciation item.');
+  }
+  if (!mediaUrl) throw new ValidationError('A recording URL is required.');
+  const levelId = await getLevelIdForUnit(env, item.unit_id);
+  await assertLevelAccess(env, userId, levelId);
+
+  const prior = await db(env)
+    .prepare('SELECT MAX(attempt) as maxAttempt FROM learner_recordings WHERE learning_item_id = ? AND user_id = ?')
+    .bind(learningItemId, userId)
+    .first();
+  const attempt = (prior && prior.maxAttempt ? prior.maxAttempt : 0) + 1;
+
+  const id = newId('rec');
+  await db(env)
+    .prepare('INSERT INTO learner_recordings (id, learning_item_id, user_id, media_url, duration_ms, attempt, status, submitted_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+    .bind(id, learningItemId, userId, mediaUrl, durationMs, attempt, 'submitted', nowIso())
+    .run();
+
+  // Speaking practice counts as engagement with the unit, but never as
+  // completion — a recording is only complete once it has been assessed.
+  await upsertUnitProgress(env, { userId, unitId: item.unit_id, status: 'in_progress' });
+  return { id, attempt, status: 'submitted' };
+}
+
+// Feedback on a recording. `source` distinguishes an instructor from an
+// automated scorer; both write here, so an automated score can be shown
+// beside a human one and compared, never silently substituted for it.
+export async function reviewRecording(env, { recordingId, source = 'instructor', reviewerId = null, comment = null, scores = {}, audioAssetId = null }) {
+  const rec = await db(env).prepare('SELECT * FROM learner_recordings WHERE id = ?').bind(recordingId).first();
+  if (!rec) throw new NotFoundError('Unknown recording.');
+  if (source !== 'instructor' && source !== 'automated') throw new ValidationError('Feedback source must be instructor or automated.');
+  if (source === 'instructor' && !reviewerId) throw new ValidationError('Instructor feedback requires a reviewer.');
+
+  const FIELDS = ['intelligibility', 'wordStress', 'sentenceStress', 'individualSounds', 'fluency'];
+  for (const f of FIELDS) {
+    const v = scores[f];
+    if (v !== undefined && v !== null && (typeof v !== 'number' || v < 0 || v > 1)) {
+      throw new ValidationError(`Pronunciation score "${f}" must be between 0 and 1.`);
+    }
+  }
+
+  const id = newId('pfb');
+  await db(env)
+    .prepare('INSERT INTO pronunciation_feedback (id, recording_id, source, reviewer_id, audio_asset_id, comment, intelligibility, word_stress, sentence_stress, individual_sounds, fluency, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    .bind(id, recordingId, source, reviewerId, audioAssetId, comment,
+      scores.intelligibility ?? null, scores.wordStress ?? null, scores.sentenceStress ?? null,
+      scores.individualSounds ?? null, scores.fluency ?? null, nowIso())
+    .run();
+  await db(env).prepare('UPDATE learner_recordings SET status = ? WHERE id = ?').bind('reviewed', recordingId).run();
+  return { id, recordingId, source, status: 'reviewed' };
+}
+
+// Per-focus pronunciation profile for one learner: the average of every
+// assessed sub-score across all their reviewed recordings at a level.
+// Reported per DIMENSION rather than per module because that is what a
+// learner can act on — "your word stress trails your individual sounds"
+// tells them what to practise; a module average does not.
+export async function getPronunciationProfile(env, { userId, levelId = null }) {
+  let sql = `SELECT f.intelligibility, f.word_stress AS wordStress, f.sentence_stress AS sentenceStress,
+                    f.individual_sounds AS individualSounds, f.fluency
+             FROM pronunciation_feedback f
+             JOIN learner_recordings r ON r.id = f.recording_id
+             JOIN learning_items i ON i.id = r.learning_item_id
+             JOIN units u ON u.id = i.unit_id
+             JOIN courses c ON c.id = u.course_id
+             WHERE r.user_id = ?`;
+  const binds = [userId];
+  if (levelId !== null) { sql += ' AND c.level_id = ?'; binds.push(levelId); }
+  const { results } = await db(env).prepare(sql).bind(...binds).all();
+
+  const DIMENSIONS = ['intelligibility', 'wordStress', 'sentenceStress', 'individualSounds', 'fluency'];
+  const profile = {};
+  for (const d of DIMENSIONS) {
+    const vals = results.map((r) => r[d]).filter((v) => v !== null && v !== undefined);
+    // null, not 0 — "not yet assessed" and "assessed as zero" are
+    // different facts and a dashboard must not conflate them.
+    profile[d] = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
+  }
+  const assessed = DIMENSIONS.filter((d) => profile[d] !== null);
+  return {
+    userId,
+    levelId,
+    reviewedRecordings: results.length,
+    ...profile,
+    // The weakest assessed dimension — what to practise next.
+    weakest: assessed.length ? assessed.reduce((a, b) => (profile[a] <= profile[b] ? a : b)) : null,
+  };
 }
 
 export async function listLiveSessions(env, { userId, levelId }) {

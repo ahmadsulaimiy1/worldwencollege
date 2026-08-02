@@ -353,6 +353,54 @@ A programme-wide academic review of the completed curriculum —
 sequencing, repetition, gaps, assessment, and the improvements it
 recommends — is in `docs/curriculum-programme-review.md`.
 
+### The audio layer (Academic Edition v1.0) — the first capability the curriculum earned
+
+For six levels no new schema was required. The programme review ended
+that, on measurement rather than opinion: all 114 authored lesson items
+specify a `LISTENING ACTIVITY` and a `PRONUNCIATION PRACTICE`, and the
+platform had nowhere to put either — 0 rows of kind `video`, 0 of
+`live_session`, 2 of 660 quiz questions referencing listening, 0
+referencing pronunciation. A programme that assesses speaking in 9 of
+10 Level VI assignments while never assessing listening is not
+defensible, and that is what the numbers showed.
+
+Five new tables, all in `sql/schema.sql`:
+
+| Table | Carries |
+|---|---|
+| `audio_assets` | the authored script, plus `media_url`/`duration_ms` once recorded, the declared English `variety`, and `target_wpm` |
+| `audio_cues` | one row per transcript segment — speaker, text, and `start_ms`/`end_ms` once timed |
+| `pronunciation_targets` | what an item drills: `focus` (phoneme, word stress, sentence stress, intonation, connected speech, rhythm), the target, an example, and guidance |
+| `learner_recordings` | learner voice, with `attempt` history rather than overwrite |
+| `pronunciation_feedback` | instructor **or** automated feedback, with five sub-scores and an optional spoken-feedback asset |
+
+Plus `learning_items.audio_asset_id` and `quiz_questions.audio_cue_id`.
+
+**The load-bearing decision: `transcript` is `NOT NULL`; `media_url`
+and the cue timings are nullable.** A listening script is authored
+curriculum and exists now. The recording of it is a studio production
+task with real voice talent and does not. Making the script mandatory
+and the audio optional means the platform states its own status
+honestly (`isRecorded`, `isSynchronised`, both computed), degrades
+gracefully — a transcript-only listening lesson is still a usable
+lesson — and never needs a placeholder audio file standing in for one
+that has not been made. `tests/lms-audio.test.mjs` asserts that
+unrecorded state as a first-class path, not an error.
+
+**Two consequences worth noting.** First, listening assessment required
+*no* change to `submitQuizAttempt()`: a listening comprehension quiz is
+simply a quiz whose item carries audio, and each question may anchor to
+the exact cue it tests, so a learner who answers wrong can replay the
+three seconds they misheard rather than the whole recording. Second,
+`pronunciation_feedback.source` makes the layer AI-ready without any AI
+being built — an automated scorer writes rows with `source='automated'`
+and a null reviewer, *alongside* instructor rows rather than instead of
+them, so the two can be compared rather than silently substituted.
+
+Recording the audio itself remains a production task. Until it is done,
+the honest public statement is that listening and pronunciation are
+**instructor-delivered** components.
+
 **What Milestone 2 has NOT yet done, stated plainly:** content-
 authoring tooling (a staff UI/API to create content — today's seed-
 file approach is a stopgap, not the long-term authoring workflow, and

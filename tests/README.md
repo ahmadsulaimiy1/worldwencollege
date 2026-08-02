@@ -141,6 +141,28 @@ gap requires provisioning real credentials, not more test code.
   falsely passing. Module 10 is the capstone plus the 20-question
   Mastery Examination, and the sweep asserts that count explicitly
   rather than assuming the 10-question default.
+- `curriculum-consistency.test.mjs` — the programme-wide consistency
+  harness. Where the six per-level sweeps verify that each level
+  *works*, this verifies the six levels agree with **each other** and
+  with the normative rubric policy in `docs/curriculum-framework.md`:
+  the core three criteria on all 60 assignments, each level's signature
+  criterion on every assignment of that level, every end-of-level exam
+  carrying each signature still live at its level, no undeclared
+  criterion names, uniform quiz lengths, well-formed answer keys, and
+  balanced answer-key distribution (no quiz over half at one position;
+  each position 20-30% programme-wide). It exists because
+  `docs/curriculum-programme-review.md` found cross-level
+  inconsistencies no per-level test could see — and it immediately
+  found one more that no per-level test *could* see, since submitting
+  the real answer key scores 100% however skewed that key is.
+- `lms-audio.test.mjs` — the audio layer: listening items, synchronised
+  transcript cues, pronunciation drill targets, learner voice
+  recordings with attempt history, instructor spoken feedback,
+  automated-scorer feedback stored distinguishably alongside it, and
+  the per-dimension pronunciation profile. Covers the layer's central
+  design decision explicitly: a script with no recording yet is a
+  first-class usable state (`isRecorded: false`), never an error and
+  never a placeholder file.
 - `run.mjs` — runs everything above and reports a combined summary.
 
 ## Adding a new test
