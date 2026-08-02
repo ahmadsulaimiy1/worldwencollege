@@ -339,3 +339,327 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 ('qq_l5_m3_8', 'itm_l5_m3_quiz', 8, 'Which phrase means "emphasise a point so it''s fully understood and remembered"?', '["rally behind","win over","drive home","set the tone"]', 2),
 ('qq_l5_m3_9', 'itm_l5_m3_quiz', 9, 'When negotiating as a leader with multiple stakeholders, an effective approach is to:', '["ignore competing interests","acknowledge multiple stakeholders'' concerns before proposing a path forward","only address the loudest stakeholder","avoid proposing any solution"]', 1),
 ('qq_l5_m3_10', 'itm_l5_m3_quiz', 10, 'Which phrase means "unite in support of a cause"?', '["win over","rally behind","drive home","take the lead"]', 1);
+
+-- ---------------------------------------------------------------------
+-- Module 4: Complex Systems (Science, Economics, Policy)
+-- Full prose version: docs/curriculum/level-5/module-04-complex-systems.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l5_m4', 'crs_level_5', 4, 'Module 4: Complex Systems (Science, Economics, Policy)');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l5_m4_overview', 'unt_l5_m4', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: The widespread adoption of... -- This appears to suggest... -- It could be argued that... -- To some extent,... -- Broadly speaking,... -- This tends to result in...
+
+DISCOURSE MARKERS (functional set -- hedging and qualifying claims): "it could be argued that", "to some extent", "broadly speaking", "this appears to suggest" -- precise ways of qualifying a claim''s strength.
+
+PHRASAL VERBS & COLLOCATIONS: "factor in [a variable]" (include it in a calculation), "level off" (stop increasing or decreasing), "trickle down" (spread gradually from a source to wider effect), "offset [a cost]" (counterbalance it with a corresponding gain), "tip the balance" (be the deciding factor).
+
+BrE / AmE NOTE: "billion" is a case of full historical convergence: British English traditionally used the "long scale" (a billion = a million million), while American English always used the "short scale" (a billion = a thousand million); the UK officially adopted the short scale in 1974, and virtually all modern British usage now matches the American figure.
+
+KEY VOCABULARY: economics/policy vocabulary (inflation, regulation, subsidy, market failure, externality, fiscal policy), science-as-vehicle vocabulary (variable, correlation, causation, threshold, systemic). Intercultural note: policy priorities and economic philosophy vary significantly by country and political tradition.'),
+
+('itm_l5_m4_lesson1', 'unt_l5_m4', 2, 'reading', 'Lesson 4.1 -- The Implementation of... -- Advanced Nominalisation for Technical Register',
+'LEARNING OBJECTIVES: (1) form dense, technical nominalised noun phrases from full clauses, (2) use nominalisation to compress information efficiently in technical/policy writing, (3) recognise when nominalisation aids clarity versus when it obscures meaning, (4) use science/economics/policy vocabulary accurately as a vehicle for precise expression.
+
+PREREQUISITE KNOWLEDGE: Level IV, Module 6 (basic nominalisation).
+
+WARM-UP (5 min): Your instructor shows one verb-based sentence and its increasingly nominalised versions -- what''s gained and potentially lost at each step?
+
+PRESENTATION (10 min): "The widespread adoption of automation technologies has led to significant productivity gains. The implementation of this policy will require careful monitoring of its distributional effects." Advanced nominalisation chains multiple nominalised elements together to compress information into a formal, technical register -- genuinely useful, but overuse produces text that''s technically correct but hard to parse.
+
+GUIDED PRACTICE (10 min): Convert 8 verb-based sentences about science/economics/policy topics into nominalised technical register, then identify which conversions genuinely improve precision and which start to feel overly dense.
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Write 5 sentences about a science, economics, or policy topic of your choice, using nominalised technical register, then read one to a partner, who tries to "un-nominalise" it back into a plainer verb-based sentence.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Is highly nominalised, technical writing always a sign of rigour, or can it sometimes be used to make a weak or vague claim sound more authoritative than it really is?"
+
+LISTENING ACTIVITY (5 min): Listen to a short technical policy briefing (6-7 sentences, heavily nominalised) and identify the underlying, simpler claims beneath the technical phrasing.
+
+READING ACTIVITY -- EXTENDED READING & CRITICAL EVALUATION (8 min): Read a short policy-report-style excerpt (180-200 words) using dense nominalisation. Answer 2 literal questions and 2 evaluative questions.
+
+WRITING TASK (5 min): Write 4-5 sentences about a complex systems topic, using nominalised technical register deliberately and precisely.
+
+PRONUNCIATION PRACTICE (5 min): Stress patterns across long, multi-syllable technical nominalised phrases (imPLEmentAtion, diSTRIButional, REGuLAtory).
+
+VOCABULARY REINFORCEMENT: an economics/policy vocabulary matching game (inflation, regulation, subsidy, market failure, externality, fiscal policy).
+
+FORMATIVE ASSESSMENT: Instructor checks correct nominalisation formation and a genuine understanding of when it aids versus obscures clarity, during independent practice.
+
+HOMEWORK: Choose one real complex issue with multiple affected stakeholders and jot down 3-4 notes on the different interests involved, ready for Lesson 4.2''s stakeholder meeting.
+
+REVISION: Lesson 4.2 opens with learners briefly naming their chosen issue.
+
+EXTENSION: Take one of your nominalised sentences and deliberately "de-nominalise" it, comparing which version would suit a general-audience report versus a technical one.'),
+
+('itm_l5_m4_lesson2', 'unt_l5_m4', 3, 'reading', 'Lesson 4.2 -- It Could Be Argued That... -- Hedging & Qualifying Claims & a Stakeholder Meeting',
+'LEARNING OBJECTIVES: (1) hedge a claim appropriately using a precise range of qualifying language, (2) distinguish a well-calibrated hedge from either overclaiming or excessive, meaningless vagueness, (3) participate in a stakeholder meeting, representing one perspective while genuinely engaging with others'', (4) write a concise policy brief presenting an issue, evidence, and a recommendation.
+
+PREREQUISITE KNOWLEDGE: Lesson 4.1 (nominalisation, technical register), Level III Module 7 (modals of deduction).
+
+WARM-UP (5 min): Your instructor states one overclaimed statement, one excessively vague one, and one well-calibrated one -- which is most credible and why?
+
+PRESENTATION (10 min): "It could be argued that this policy addresses the core issue, though its effectiveness may vary by region. This tends to result in a modest but measurable improvement. Broadly speaking, the evidence supports the proposal, to some extent." Well-calibrated hedging communicates genuine uncertainty precisely. Stakeholder meeting format: each participant represents a distinct stakeholder perspective on a complex issue, states their position with appropriately hedged claims, and must genuinely engage with other perspectives before the group works toward a recommendation.
+
+GUIDED PRACTICE (10 min): You are given 6 claims at varying strength and revise each to be appropriately, precisely hedged for the strength of evidence described.
+
+INDEPENDENT PRACTICE (10 min): In small groups, you are assigned distinct stakeholder perspectives on your Lesson 4.1 homework issue and prepare 2-3 hedged claims supporting your assigned perspective.
+
+SPEAKING ACTIVITY -- STAKEHOLDER MEETING: Groups hold a structured stakeholder meeting: each stakeholder states their position with appropriately hedged claims, responds to at least one other stakeholder''s point, and the group works toward a brief joint recommendation.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "In a real stakeholder meeting about a complex issue, is it more useful to reach a quick compromise, or to genuinely understand where the positions irreconcilably differ, even if no agreement is reached? Why?"
+
+LISTENING ACTIVITY (5 min): Listen to a short stakeholder meeting exchange and identify each speaker''s hedged claims and their stakeholder perspective.
+
+READING ACTIVITY (5 min): Read a short written stakeholder position statement and identify its hedging language and how well-calibrated it is to the evidence described.
+
+WRITING TASK (5 min): Write a short summary (5-6 sentences) of your stakeholder meeting''s discussion and outcome, using at least 2 hedging expressions.
+
+PRONUNCIATION PRACTICE (5 min): Measured, credible delivery for hedged claims -- avoiding both overly confident and overly tentative intonation.
+
+VOCABULARY REINFORCEMENT: a hedging-strength card-sorting game: sort 9 example claims from strongly hedged to strongly asserted.
+
+FORMATIVE ASSESSMENT: Instructor checks that hedging is genuinely well-calibrated and that stakeholders genuinely engage with other perspectives, during the meeting.
+
+HOMEWORK: Draft your policy brief based on your stakeholder meeting''s issue and discussion, ready for Module 4''s assignment.
+
+REVISION: This lesson opens with the Lesson 4.1 issue-naming recap. Module 4''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Identify one claim from your group''s discussion that was, on reflection, under- or over-hedged, and revise it.'),
+
+('itm_l5_m4_quiz', 'unt_l5_m4', 4, 'quiz', 'Module 4 Quiz -- Complex Systems (Science, Economics, Policy)', NULL),
+
+('itm_l5_m4_assignment', 'unt_l5_m4', 5, 'assignment', 'Module 4 Assignment -- A Policy Brief',
+'INSTRUCTIONS: Write a policy brief, 350-450 words, on a real or invented complex issue (a science, economics, or policy topic) of your choice. This is this level''s fourth writing genre -- the policy brief. Your brief must include: a concise statement of the issue; a summary of relevant evidence, using at least 2 well-calibrated hedged claims; at least 2 instances of dense, technical nominalisation used precisely; an acknowledgement of at least one competing stakeholder perspective; and a clear, specific recommendation.
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct nominalisation formation, correct hedging language. (2) Vocabulary range -- at least 4 distinct economics/policy/science words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- issue statement, evidence summary, a stakeholder acknowledgement, and a recommendation all present. (4) Evidence & argument quality -- is the hedging genuinely well-calibrated to the strength of the evidence presented, and is the recommendation actually justified by the evidence? (5) Discourse coherence & register -- is the register appropriately formal, technical, and policy-appropriate throughout, and does the nominalisation aid clarity rather than obscure it?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l5_m4_1', 'itm_l5_m4_quiz', 1, '"The widespread ___ of automation technologies has led to significant productivity gains." (nominalisation of "adopt")', '["adopting","adoption","adopted","adopts"]', 1),
+('qq_l5_m4_2', 'itm_l5_m4_quiz', 2, '"The ___ of this policy will require careful monitoring." (nominalisation of "implement")', '["implement","implementing","implementation","implemented"]', 2),
+('qq_l5_m4_3', 'itm_l5_m4_quiz', 3, 'What is a genuine risk of overusing nominalisation?', '["sentences become too short","text can become technically correct but hard to parse","it is always grammatically incorrect","it makes writing too informal"]', 1),
+('qq_l5_m4_4', 'itm_l5_m4_quiz', 4, '"It ___ be argued that this policy addresses the core issue, though its effectiveness may vary."', '["could","will","must","can''t"]', 0),
+('qq_l5_m4_5', 'itm_l5_m4_quiz', 5, 'Which is a well-calibrated hedge, neither overclaiming nor excessively vague?', '["This policy will definitely solve the problem.","This policy is likely to reduce the problem to some extent, though its full impact remains uncertain.","Some people think this might possibly help, maybe.","This policy is perfect."]', 1),
+('qq_l5_m4_6', 'itm_l5_m4_quiz', 6, 'Historically, the British "long scale" billion equalled:', '["a thousand million","a million million","a hundred million","ten million"]', 1),
+('qq_l5_m4_7', 'itm_l5_m4_quiz', 7, 'Which phrase means "include a variable in a calculation or consideration"?', '["level off","factor in","offset","tip the balance"]', 1),
+('qq_l5_m4_8', 'itm_l5_m4_quiz', 8, 'In a stakeholder meeting, an effective participant should:', '["dismiss other perspectives entirely","state their position and genuinely engage with other perspectives","refuse to state a position","only listen, never speak"]', 1),
+('qq_l5_m4_9', 'itm_l5_m4_quiz', 9, '"This tends to ___ in a modest but measurable improvement."', '["result","results","resulting","resulted"]', 0),
+('qq_l5_m4_10', 'itm_l5_m4_quiz', 10, 'Which phrase means "be the deciding factor between two possibilities"?', '["level off","trickle down","offset","tip the balance"]', 3);
+
+-- ---------------------------------------------------------------------
+-- Module 5: Cross-Cultural Communication
+-- Full prose version: docs/curriculum/level-5/module-05-cross-cultural-communication.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l5_m5', 'crs_level_5', 5, 'Module 5: Cross-Cultural Communication');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l5_m5_overview', 'unt_l5_m5', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: Would it be possible to...? -- I wonder if you might... -- I don''t suppose you could...? -- If it''s not too much trouble,... -- Might I suggest...? -- I don''t want to impose, but...
+
+DISCOURSE MARKERS (functional set -- graded indirectness): "would it be possible to", "I wonder if you might", "I don''t suppose you could", "if it''s not too much trouble" -- a genuine scale of politeness modality, each phrase signalling a different degree of deference and indirectness.
+
+PHRASAL VERBS & COLLOCATIONS: "smooth over [a misunderstanding]" (resolve tension diplomatically), "bridge the gap (between cultures/perspectives)", "lose something in translation", "get off on the wrong foot" (start an interaction badly), "find common ground".
+
+BrE / AmE NOTE: British English uses "cheers" informally to mean "thank you" (alongside its more universal use meaning "goodbye" or as a drinking toast) -- a usage that would sound distinctly unusual from an American speaker, who would say "thanks" in the same situation.
+
+KEY VOCABULARY: pragmatics vocabulary (implicature, indirect speech act, face, politeness strategy, deference), cross-cultural vocabulary (norm, convention, high-context/low-context communication, cultural competence). Intercultural note: this entire module is, by design, about the fact that directness/indirectness norms vary significantly by culture.'),
+
+('itm_l5_m5_lesson1', 'unt_l5_m5', 2, 'reading', 'Lesson 5.1 -- Would It Be Possible To... -- Advanced Modality for Politeness & Pragmatics',
+'LEARNING OBJECTIVES: (1) use a graded range of politeness modality accurately, from neutral to highly indirect, (2) recognise an indirect speech act, (3) respond appropriately to an indirect request, (4) choose the right degree of politeness modality for a given social/professional distance.
+
+PREREQUISITE KNOWLEDGE: Level II, Module 5 (basic polite requests).
+
+WARM-UP (5 min): Your instructor says "It''s quite cold in here" in a meeting-room context -- what is the speaker actually, indirectly asking for?
+
+PRESENTATION (10 min): A graded politeness scale: "Close the window" (bare imperative) -> "Could you close the window?" (standard polite request) -> "Would it be possible to close the window?" (more indirect) -> "I don''t suppose you could close the window, could you?" (highly indirect) -> "It''s quite cold in here" (an indirect speech act, no request form at all). Choosing the right degree of indirectness depends on social distance, power relationship, and the size of the imposition.
+
+GUIDED PRACTICE (10 min): You are given 8 scenarios varying in social distance/imposition and choose the most appropriate politeness level for a request in each, justifying your choice.
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Write 5 requests at different points on the politeness scale for 5 different scenarios, then compare choices with a partner, discussing any disagreement about appropriate directness.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think being too indirect can sometimes cause as much miscommunication as being too direct? Can you think of an example where an indirect request was simply missed?"
+
+LISTENING ACTIVITY (5 min): Listen to a short exchange containing an indirect speech act and identify what''s actually being requested or implied beneath the literal words.
+
+READING ACTIVITY -- EXTENDED READING & CRITICAL EVALUATION (8 min): Read a short workplace-communication excerpt (150-180 words) containing several requests at different politeness levels. Answer 2 literal questions and 2 evaluative questions.
+
+WRITING TASK (5 min): Write the same request at three different politeness levels for three different addressees.
+
+PRONUNCIATION PRACTICE (5 min): Rising, tentative intonation for highly indirect requests versus more level, confident intonation for standard polite requests.
+
+VOCABULARY REINFORCEMENT: a politeness-scale ordering game: order 9 request forms from most direct to most indirect.
+
+FORMATIVE ASSESSMENT: Instructor checks that politeness-level choices are well-justified by social distance/imposition reasoning during independent practice.
+
+HOMEWORK: Think of one real or invented cross-cultural communication misunderstanding and jot down what happened, ready for Lesson 5.2''s analysis and negotiation work.
+
+REVISION: Lesson 5.2 opens with learners briefly naming their homework scenario.
+
+EXTENSION: Add one indirect speech act of your own invention and have a partner guess its intended meaning.'),
+
+('itm_l5_m5_lesson2', 'unt_l5_m5', 3, 'reading', 'Lesson 5.2 -- Reading the Cultural Context -- Politeness Strategies & Intercultural Negotiation',
+'LEARNING OBJECTIVES: (1) distinguish positive politeness from negative politeness, (2) recognise how directness norms vary across cultural communication styles, without stereotyping, (3) negotiate diplomatically, adapting your communication style to your counterpart''s apparent expectations, (4) analyse a cross-cultural communication case study critically.
+
+PREREQUISITE KNOWLEDGE: Lesson 5.1 (politeness modality), Level IV Module 8 (negotiation and diplomatic disagreement).
+
+WARM-UP (5 min): Your instructor models two different ways of starting a business meeting -- one jumping straight to the agenda, one opening with extended relationship-building small talk -- which might be expected in different professional contexts you know of?
+
+PRESENTATION (10 min): POSITIVE POLITENESS emphasises shared interests, compliments, and inclusion ("We''re all in this together -- I really value your input here"); NEGATIVE POLITENESS emphasises respecting the other person''s autonomy and minimising imposition ("I don''t want to take up too much of your time, but..."). Both are genuinely polite, just oriented differently. Intercultural negotiation language: explicitly checking understanding ("I want to make sure I''ve understood your position correctly -- could you confirm...?"), and flexibly adapting register/directness based on a counterpart''s apparent style.
+
+GUIDED PRACTICE (10 min): Identify 6 example utterances as primarily positive-politeness or negative-politeness strategies, discussing what each is designed to achieve.
+
+INDEPENDENT PRACTICE (10 min): In pairs, roleplay a short negotiation where each person is assigned a different communication style preference and must adapt to reach a working agreement, explicitly checking understanding at least once.
+
+SPEAKING ACTIVITY -- INTERCULTURAL NEGOTIATION: The negotiation roleplay above, extended to a full 90-second-2-minute exchange, observed by a third learner who notes moments of adaptation and any remaining friction.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Is it the responsibility of one person to adapt to another''s communication style in a cross-cultural interaction, or should both sides meet somewhere in the middle? Does it depend on the context?"
+
+LISTENING ACTIVITY (5 min): Listen to a short intercultural negotiation exchange and identify one moment of successful adaptation and one moment of potential friction or miscommunication.
+
+READING ACTIVITY (5 min): Read a short written cross-cultural communication case study (generic, invented, respectfully framed) and identify the miscommunication, its likely cause, and how it might have been avoided.
+
+WRITING TASK (5 min): Write a short analysis (5-6 sentences) of your Lesson 5.1 homework scenario, identifying the likely communication-style factors involved.
+
+PRONUNCIATION PRACTICE (5 min): Flexible register-shifting mid-conversation -- moving fluidly between a more relationship-focused, warmer delivery and a more efficient, task-focused one.
+
+VOCABULARY REINFORCEMENT: a pragmatics vocabulary matching game (implicature, indirect speech act, face, politeness strategy, deference).
+
+FORMATIVE ASSESSMENT: Instructor checks for genuine adaptive behaviour and explicit understanding-checking during the negotiation roleplay.
+
+HOMEWORK: Finalise your case-study analysis for Module 5''s assignment.
+
+REVISION: This lesson opens with the Lesson 5.1 scenario recap. Module 5''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Propose one concrete communication-style adjustment that could have prevented your case study''s miscommunication.'),
+
+('itm_l5_m5_quiz', 'unt_l5_m5', 4, 'quiz', 'Module 5 Quiz -- Cross-Cultural Communication', NULL),
+
+('itm_l5_m5_assignment', 'unt_l5_m5', 5, 'assignment', 'Module 5 Assignment -- An Analytical Paper -- A Cross-Cultural Communication Case Study',
+'INSTRUCTIONS: Write an analytical paper, 350-450 words, examining a real or invented cross-cultural communication case study (kept generic and respectfully framed, not stereotyping any real culture). This is this level''s fifth writing genre -- the analytical paper. Your paper must include: a description of the miscommunication or communication challenge; analysis using this module''s pragmatics vocabulary (positive/negative politeness, indirect speech acts, face); at least 2 requests or statements at different politeness levels, analysed for their appropriateness; a discussion of the likely underlying cause; and a concrete, actionable recommendation for avoiding similar miscommunication in future.
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct, graded politeness modality used accurately throughout the analysis. (2) Vocabulary range -- at least 4 distinct pragmatics/cross-cultural words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- case description, pragmatic analysis, a cause discussion, and a concrete recommendation all present. (4) Evidence & argument quality -- is the pragmatic analysis genuinely insightful, and is the recommendation specific and actionable rather than generic advice? (5) Discourse coherence & register -- is the register appropriately analytical and respectful throughout, and does the paper read as one connected, well-reasoned analysis?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l5_m5_1', 'itm_l5_m5_quiz', 1, 'Which is the most indirect, highly deferential request?', '["Close the window.","Could you close the window?","I don''t suppose you could close the window, could you?","Window, please."]', 2),
+('qq_l5_m5_2', 'itm_l5_m5_quiz', 2, '"It''s quite cold in here" said in a meeting is an example of:', '["a direct imperative","an indirect speech act","a formal citation","a mixed conditional"]', 1),
+('qq_l5_m5_3', 'itm_l5_m5_quiz', 3, 'What determines the appropriate degree of politeness indirectness?', '["the time of day only","social distance, power relationship, and size of imposition","the speaker''s age only","nothing; it''s random"]', 1),
+('qq_l5_m5_4', 'itm_l5_m5_quiz', 4, 'Which best describes "positive politeness"?', '["respecting autonomy and minimising imposition","emphasising shared interests and inclusion","using only formal language","avoiding all requests"]', 1),
+('qq_l5_m5_5', 'itm_l5_m5_quiz', 5, 'Which best describes "negative politeness"?', '["being rude on purpose","respecting the other person''s autonomy and minimising imposition","emphasising shared interests","refusing to negotiate"]', 1),
+('qq_l5_m5_6', 'itm_l5_m5_quiz', 6, 'In British English, "cheers" used informally can mean:', '["only \"goodbye\"","\"thank you\"","\"hello\"","\"please\""]', 1),
+('qq_l5_m5_7', 'itm_l5_m5_quiz', 7, 'Which phrase means "resolve tension diplomatically"?', '["bridge the gap","smooth over","lose in translation","find common ground"]', 1),
+('qq_l5_m5_8', 'itm_l5_m5_quiz', 8, 'Which phrase means "identify shared interests despite differences"?', '["get off on the wrong foot","lose in translation","find common ground","smooth over"]', 2),
+('qq_l5_m5_9', 'itm_l5_m5_quiz', 9, 'In intercultural negotiation, explicitly checking understanding is:', '["unnecessary if both speak English","a useful way to bridge potential communication-style gaps","considered rude in all cultures","only needed at the very end"]', 1),
+('qq_l5_m5_10', 'itm_l5_m5_quiz', 10, 'What is a genuine risk of being too indirect in a request?', '["it is always more polite with no downside","it can be missed entirely, causing as much miscommunication as being too direct","it is grammatically incorrect","it always sounds rude"]', 1);
+
+-- ---------------------------------------------------------------------
+-- Module 6: Advanced Media & Discourse Analysis
+-- Full prose version: docs/curriculum/level-5/module-06-advanced-media-discourse-analysis.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l5_m6', 'crs_level_5', 6, 'Module 6: Advanced Media & Discourse Analysis');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l5_m6_overview', 'unt_l5_m6', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: It was [X] that... -- What really matters is... -- What emerges from this is... -- Beneath the surface,... -- On the surface..., but in reality,... -- That''s an interesting question, but what I''d really emphasise is...
+
+DISCOURSE MARKERS (functional set -- revealing subtext): "what emerges from this is", "beneath the surface", "the subtext here is", "on the surface... but in reality..." -- language for articulating an implied meaning beneath a text''s literal content.
+
+PHRASAL VERBS & COLLOCATIONS: "hint at [something]" (suggest it indirectly), "dodge [a question]" (avoid answering it directly), "deflect [criticism]" (redirect it away from oneself), "come across as [a certain way]" (create a particular impression), "spell out [something]" (state it explicitly, the opposite of hinting).
+
+BrE / AmE NOTE: British broadcasting uses "newsreader" for the person presenting televised or radio news, while American broadcasting uses "news anchor" (or simply "anchor") for the equivalent role.
+
+KEY VOCABULARY: advanced media-analysis vocabulary (subtext, framing, loaded question, spin, media literacy, discourse), interview vocabulary (leading question, follow-up, on the record, soundbite). Intercultural note: expectations around directness in media interviews vary by media culture and professional context.'),
+
+('itm_l5_m6_lesson1', 'unt_l5_m6', 2, 'reading', 'Lesson 6.1 -- It Was This That Changed Everything -- Cleft Sentences for Emphasis',
+'LEARNING OBJECTIVES: (1) form it-clefts correctly (It was/is [X] that...) to emphasise a specific element of a sentence, (2) form wh-clefts/pseudo-clefts correctly (What [X] is...) to emphasise an action or idea, (3) choose between a cleft sentence and its plain equivalent based on what needs emphasis, (4) use cleft sentences deliberately in persuasive writing and speech.
+
+PREREQUISITE KNOWLEDGE: Level V, Module 3 (inversion for emphasis).
+
+WARM-UP (5 min): Your instructor states one plain sentence and its cleft equivalent ("The new policy caused the backlash" vs. "It was the new policy that caused the backlash") -- what shifted in emphasis?
+
+PRESENTATION (10 min): IT-CLEFTS: "It was the new policy that caused the backlash"; "It wasn''t the cost that concerned investors -- it was the lack of transparency." WH-CLEFTS: "What really matters here is trust"; "What the data actually shows is a more complicated picture." Both cleft types isolate one element of a sentence and mark it as the important, emphasised part -- different from inversion, which emphasises through front-placement and unusual word order.
+
+GUIDED PRACTICE (10 min): Convert 8 plain sentences into either it-cleft or wh-cleft form (as directed), checking the emphasis lands on the intended element.
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Write 5 cleft sentences (a mix of it-clefts and wh-clefts) about a topic you have an opinion on, then read them to a partner, who identifies which element is being emphasised in each.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think a writer or speaker might choose a cleft sentence instead of just adding a stress mark or saying a word more loudly? What does the sentence structure itself contribute?"
+
+LISTENING ACTIVITY (5 min): Listen to a short persuasive talk excerpt (6-7 sentences, including 2-3 cleft sentences) and identify each cleft and what it emphasises.
+
+READING ACTIVITY -- EXTENDED READING & CRITICAL EVALUATION (8 min): Read a short opinion/persuasive-article excerpt (180-200 words) using cleft sentences. Answer 2 literal questions and 2 evaluative questions.
+
+WRITING TASK (5 min): Write 3-4 cleft sentences (a mix of both types) suitable for a persuasive article on a topic of your choice.
+
+PRONUNCIATION PRACTICE (5 min): Strong stress on the emphasised element in a cleft sentence ("It was the POLICY that caused the backlash") and the natural, slightly lower-pitched delivery of the that-clause that follows.
+
+VOCABULARY REINFORCEMENT: a cleft-sentence transformation relay: convert 10 plain sentences into cleft form, alternating it-cleft and wh-cleft patterns.
+
+FORMATIVE ASSESSMENT: Instructor checks correct cleft formation (both types) and that the intended element is genuinely emphasised, during independent practice.
+
+HOMEWORK: Choose a topic for your persuasive article and jot down 2-3 points you''d want to emphasise using cleft sentences, ready for Lesson 6.2''s media interview work.
+
+REVISION: Lesson 6.2 opens with learners briefly naming their homework topic.
+
+EXTENSION: Write one sentence using a negative it-cleft ("It wasn''t X that mattered -- it was Y") to emphasise a contrast.'),
+
+('itm_l5_m6_lesson2', 'unt_l5_m6', 3, 'reading', 'Lesson 6.2 -- Beneath the Surface -- Analysing Subtext & Bias at Depth & a Media Interview',
+'LEARNING OBJECTIVES: (1) analyse a text''s subtext at depth, explaining how specific choices create that implication, (2) identify how rhetorical devices work together to construct a persuasive effect, (3) respond to a leading or loaded question in a media interview strategically and honestly, (4) write a persuasive article using rhetorical emphasis deliberately.
+
+PREREQUISITE KNOWLEDGE: Lesson 6.1 (cleft sentences), Level IV Module 7 (identifying purpose/bias/tone/technique).
+
+WARM-UP (5 min): Your instructor asks one clearly loaded interview question ("Given how badly this has gone, don''t you think it''s time to admit failure?") -- what assumption is embedded in the question itself?
+
+PRESENTATION (10 min): "On the surface, this article simply reports the figures. But in reality, the choice to lead with the most alarming statistic, combined with the cleft sentence ''It was mismanagement that caused this'' rather than a more neutral phrasing, constructs a subtext of blame before any evidence is presented." This combines observations into one coherent claim about the text''s underlying implication. Responding to a loaded interview question strategically: acknowledging the question''s framing without accepting its embedded assumption ("I''d actually push back on the framing there -- the situation is more nuanced than ''failure,'' and here''s why...").
+
+GUIDED PRACTICE (10 min): You are given 3 short media excerpts and write a combined subtext analysis for each -- explaining how 2-3 techniques work together.
+
+INDEPENDENT PRACTICE (10 min): In pairs, Learner A interviews Learner B (using their Lesson 6.1 homework topic) with at least one genuinely loaded or leading question; Learner B responds strategically, acknowledging the framing honestly without being derailed, then swap.
+
+SPEAKING ACTIVITY -- MEDIA INTERVIEW: The interview roleplay above, extended to include 3-4 questions (a mix of neutral and loaded/leading), with the interviewee maintaining message discipline while staying honest and substantive.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "What''s the difference between skilfully addressing a loaded question''s framing and simply dodging it? How can a listener tell the difference?"
+
+LISTENING ACTIVITY (5 min): Listen to a short media interview exchange with one loaded question and evaluate whether the response addresses the framing honestly or dodges it.
+
+READING ACTIVITY (5 min): Read a short media article excerpt and write a combined subtext analysis identifying at least 2 techniques working together.
+
+WRITING TASK (5 min): Draft your persuasive article''s opening paragraph, using at least one cleft sentence deliberately for emphasis.
+
+PRONUNCIATION PRACTICE (5 min): Composed, credible delivery for handling a difficult interview question -- a brief thoughtful pause before responding, and level, confident intonation.
+
+VOCABULARY REINFORCEMENT: an interview-language matching game (leading question, follow-up, on the record, soundbite, dodge, deflect).
+
+FORMATIVE ASSESSMENT: Instructor checks for genuine combined subtext analysis and honest, substantive interview responses during the roleplay.
+
+HOMEWORK: Complete your persuasive article draft for Module 6''s assignment.
+
+REVISION: This lesson opens with the Lesson 6.1 topic recap. Module 6''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Identify a real (or realistically invented) example of a public figure handling a difficult question particularly well or poorly, analysing what made the difference.'),
+
+('itm_l5_m6_quiz', 'unt_l5_m6', 4, 'quiz', 'Module 6 Quiz -- Advanced Media & Discourse Analysis', NULL),
+
+('itm_l5_m6_assignment', 'unt_l5_m6', 5, 'assignment', 'Module 6 Assignment -- A Persuasive Article & Media Interview',
+'INSTRUCTIONS: Complete two parts on one topic of your choice. PART A (writing, this level''s sixth genre): a persuasive article, 350-450 words, arguing a clear position. Use at least 3 cleft sentences (a mix of it-clefts and wh-clefts) deliberately for rhetorical emphasis, and demonstrate awareness of how your word choice and framing construct your article''s overall persuasive effect. PART B (speaking): Record yourself (or perform with a partner) a media interview, 90 seconds to 2 minutes, about your article''s topic, including at least one loaded or leading question and a strategic, honest response that addresses the framing without dodging.
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct cleft sentence formation (both types). (2) Vocabulary range -- at least 4 distinct media-analysis/interview words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- a clear position, at least 3 cleft sentences, and rhetorical awareness in Part A; a loaded question and a strategic response in Part B. (4) Rhetorical effectiveness -- do the cleft sentences genuinely strengthen the article''s persuasive impact, and does the interview response handle the loaded question skilfully? (5) Discourse coherence & register -- is the article''s register appropriately persuasive and professional throughout, and does the interview response sound composed and credible?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l5_m6_1', 'itm_l5_m6_quiz', 1, '"It was the new policy ___ caused the backlash." (it-cleft)', '["who","that","which is","what"]', 1),
+('qq_l5_m6_2', 'itm_l5_m6_quiz', 2, '"What really ___ here is trust." (wh-cleft)', '["matter","matters","mattering","mattered"]', 1),
+('qq_l5_m6_3', 'itm_l5_m6_quiz', 3, '"It wasn''t the cost ___ concerned investors -- it was the lack of transparency."', '["which","that","what","who"]', 1),
+('qq_l5_m6_4', 'itm_l5_m6_quiz', 4, 'What is the main function of a cleft sentence?', '["to make a sentence longer for no reason","to isolate and emphasise one specific element of a sentence","to avoid using any emphasis at all","to make a sentence grammatically incorrect"]', 1),
+('qq_l5_m6_5', 'itm_l5_m6_quiz', 5, 'A loaded interview question is one that:', '["is completely neutral","carries an embedded assumption or bias within the question itself","is always illegal to ask","has only one possible answer"]', 1),
+('qq_l5_m6_6', 'itm_l5_m6_quiz', 6, 'What distinguishes strategic, honest handling of a loaded question from simply dodging it?', '["there is no difference","acknowledging the framing while staying substantive, versus avoiding the question entirely","speaking for a very long time","refusing to answer"]', 1),
+('qq_l5_m6_7', 'itm_l5_m6_quiz', 7, 'In British broadcasting, the person presenting televised news is often called a:', '["news anchor","newsreader","news host","presenter only"]', 1),
+('qq_l5_m6_8', 'itm_l5_m6_quiz', 8, 'Which phrase means "suggest something indirectly, without stating it outright"?', '["spell out","hint at","dodge","deflect"]', 1),
+('qq_l5_m6_9', 'itm_l5_m6_quiz', 9, 'Which phrase means "avoid answering a question directly, often evasively"?', '["hint at","spell out","dodge","come across as"]', 2),
+('qq_l5_m6_10', 'itm_l5_m6_quiz', 10, 'Combined subtext analysis (as taught in this module) means:', '["naming a single rhetorical technique in isolation","explaining how multiple techniques work together to construct an implied meaning","only analysing grammar","ignoring word choice entirely"]', 1);
