@@ -110,6 +110,10 @@ gap requires provisioning real credentials, not more test code.
   when submitted, no quiz ever leaks its answer key to the client,
   every assignment can be submitted and graded, and a weak attempt
   correctly fails rather than falsely passing.
+- `curriculum-level-3.test.mjs` — the same sweep pattern for Level III
+  (Intermediate, B1) — currently Modules 1-3 (see
+  `docs/curriculum-level-3-intermediate.md`'s module map; Modules 4-10
+  are mapped but not yet authored).
 - `run.mjs` — runs everything above and reports a combined summary.
 
 ## Adding a new test

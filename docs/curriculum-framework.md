@@ -320,15 +320,46 @@ topics; ask clarifying questions to manage a conversation.
 
 **Thematic modules (10):**
 1. Present Perfect & Life Experience — present perfect vs. past simple, experience narration
-2. Education & Learning — academic vocabulary I, note-taking basics
-3. Work & Careers — conditionals I (zero/first), workplace vocabulary
-4. Opinions & Debate — expressing/justifying opinion, agreeing/disagreeing formally
-5. The Environment & Society — passive voice I, issue-based vocabulary
-6. Technology & Media — reported speech I, media/technology vocabulary
-7. Health, Body & Mind — modals of deduction (must/might/can't), health register
-8. Travel & Culture — second conditional, cultural-comparison language
-9. Academic Foundations — paragraph structure, topic sentences, basic citation awareness
+2. Education & Learning — academic vocabulary I, note-taking basics, university-life context
+3. Work, Careers & Entrepreneurship — conditionals I (zero/first), workplace and start-up vocabulary, first structured presentation task
+4. Opinions & Debate — expressing/justifying opinion, agreeing/disagreeing formally, structured debate, leadership as a discussion theme
+5. Environment, Ethics & Global Citizenship — passive voice I, issue-based vocabulary, environmental/global-citizenship/contemporary-issues context
+6. Technology & Media — reported speech I, media/technology vocabulary, media-literacy and inference focus
+7. Health, Body & Mind — modals of deduction (must/might/can't), health register, healthcare context
+8. Travel & Culture — second conditional, cultural-comparison language, intercultural-communication focus
+9. Academic Foundations — paragraph structure, topic sentences, basic citation awareness, consolidated presentation/note-taking/summarising practice
 10. Review & Consolidation — cumulative revision, Intermediate-level mock exam
+
+**Executive Directive note (elevated skill set):** per your Level III
+directive, every module above weaves in — proportionate to the
+module's theme, not mechanically forced into each lesson — extended
+authentic-style reading with inference (not just literal
+comprehension) questions; structured writing building toward
+paragraph/short-essay coherence; discourse markers taught explicitly
+as a functional set (not left implicit); phrasal verbs, collocations,
+and idiomatic language flagged the same deliberate way Level II
+flagged BrE/AmE differences; note-taking, summarising, and paraphrasing
+as recurring, explicitly practised sub-skills (formally introduced in
+Module 2, reused and extended from Module 3 onward); at least one
+genuine presentation task per module from Module 3 onward; pronunciation
+work that targets fluency and intelligibility (connected speech,
+stress/rhythm, attitude-carrying intonation) rather than isolated
+accuracy drilling alone; and intercultural communication as a running
+thread, not confined to Module 8. This is the same "curriculum
+evolves, mechanism stays consistent" principle applied at Levels I→II,
+now applied at Level II→III.
+
+**AI-readiness design intent (not a build instruction):** Level III's
+assignments are authored with the same structured `instructions +
+rubric` shape used since Level I, and that shape is deliberately kept
+machine-legible (named, weighted rubric criteria; explicit task
+elements) so that a future AI learning assistant could plausibly
+pre-score a draft against the same rubric a human instructor uses,
+without requiring a schema change. This is a design property of how
+content is authored, not a new LMS feature — no AI-scoring code is
+built as part of this curriculum pass; see `docs/lms-architecture.md`
+for the standing "curriculum drives platform" principle that governs
+when a feature like that would actually get built.
 
 **Grammar progression.** Present perfect simple (vs. past simple);
 present perfect continuous (introduction); zero and first conditionals;
