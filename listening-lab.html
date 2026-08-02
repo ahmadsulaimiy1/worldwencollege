@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Listening Lab | WEC-LC</title>
+<meta name="description" content="The WEC-LC Listening Lab — synchronised transcripts, pronunciation practice, voice recording and instructor feedback.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#14264A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/listening-lab.css">
+</head>
+<body class="lab">
+
+<a class="sr-only" href="#labMain">Skip to the listening</a>
+
+<header class="lab-head">
+  <div class="lab-head__wrap">
+    <p class="lab-eyebrow">
+      <span id="labUnit">Listening Lab</span>
+      <span data-sep id="labVariety"></span>
+      <span data-sep id="labWpm"></span>
+      <span class="lab-offline" data-sep>offline — submissions will wait</span>
+    </p>
+    <h1 class="lab-title" id="labTitle">Listening Lab</h1>
+    <p class="lab-sub" id="labSub">Loading…</p>
+  </div>
+</header>
+
+<main class="lab-body" id="labMain">
+
+  <!-- ============ Left column ============ -->
+  <div>
+    <p id="labError" role="alert" style="color:var(--red);font-weight:600;margin:0 0 1rem"></p>
+
+    <section class="lab-card" aria-labelledby="playerH">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="playerH">The recording</h2>
+        <span class="lab-card__meta" id="time">--:-- / --:--</span>
+      </div>
+      <div class="lab-card__body">
+
+        <div class="lab-status" id="labStatus" hidden>
+          <span class="lab-status__dot" aria-hidden="true"></span>
+          <p class="lab-status__text" id="labStatusText"></p>
+        </div>
+
+        <div class="wave" id="wave" role="slider" tabindex="0"
+             aria-label="Audio position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <canvas id="waveCanvas" aria-hidden="true"></canvas>
+          <div class="wave__region" id="region" hidden></div>
+          <div class="wave__playhead" id="playhead" style="left:0"></div>
+        </div>
+
+        <div class="transport">
+          <button class="tbtn tbtn--primary" id="play" type="button">Play</button>
+          <button class="tbtn" id="back" type="button" aria-label="Back five seconds">↺ 5s</button>
+          <button class="tbtn" id="fwd" type="button" aria-label="Forward five seconds">5s ↻</button>
+          <button class="tbtn" id="ab" type="button" aria-pressed="false">Set A–B</button>
+          <button class="tbtn" id="loop" type="button" aria-pressed="false">Loop</button>
+          <span class="speed">
+            <label for="speed">Speed</label>
+            <select id="speed">
+              <option value="0.6">0.6×</option>
+              <option value="0.75">0.75×</option>
+              <option value="0.9">0.9×</option>
+              <option value="1" selected>1×</option>
+              <option value="1.25">1.25×</option>
+              <option value="1.5">1.5×</option>
+            </select>
+          </span>
+        </div>
+
+        <p class="lab-note">
+          Keyboard: <strong>space</strong> play/pause, <strong>←</strong>/<strong>→</strong> skip five seconds.
+          Slower speeds are for decoding a line you cannot catch — return to 1× before you judge whether you understood it.
+        </p>
+      </div>
+    </section>
+
+    <section class="lab-card" aria-labelledby="tsH" style="margin-top:1.35rem">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="tsH">Synchronised transcript</h2>
+        <span class="lab-card__meta">Select any line to jump to it</span>
+      </div>
+      <div class="lab-card__body">
+        <ol class="cues" id="cues"></ol>
+        <p class="sr-only" id="cueLive" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="lab-card" aria-labelledby="qH" style="margin-top:1.35rem">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="qH">Comprehension</h2>
+        <span class="lab-card__meta">Graded on the server</span>
+      </div>
+      <div class="lab-card__body">
+        <div id="questions"></div>
+        <button class="tbtn tbtn--primary" id="submitQuiz" type="button" style="margin-top:.9rem">Submit answers</button>
+        <div class="result" id="quizResult" role="status">Answer every question, then submit. Each question links back to the exact line it tests.</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ Right column ============ -->
+  <div>
+    <section class="lab-card" aria-labelledby="recH">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="recH">Your voice</h2>
+        <span class="lab-card__meta">Every take is kept</span>
+      </div>
+      <div class="lab-card__body">
+        <div class="rec">
+          <button class="tbtn tbtn--rec" id="rec" type="button" aria-pressed="false">Record</button>
+          <span class="rec__meter" id="recMeter" aria-hidden="true"><i></i></span>
+          <span class="rec__time" id="recTime">00:00</span>
+        </div>
+        <p class="lab-note" id="recNote">
+          Record, then listen back. Listening back is the step learners skip and the step that works — you cannot correct a sound you have not heard yourself produce.
+        </p>
+        <ul class="takes" id="takes"></ul>
+      </div>
+    </section>
+
+    <section class="lab-card" aria-labelledby="pronH" style="margin-top:1.35rem">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="pronH">Pronunciation lab</h2>
+        <span class="lab-card__meta" id="pronTitle"></span>
+      </div>
+      <div class="lab-card__body"><div id="targets"></div></div>
+    </section>
+
+    <section class="lab-card" aria-labelledby="profH" style="margin-top:1.35rem">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="profH">Pronunciation profile</h2>
+        <span class="lab-card__meta" id="profileMeta"></span>
+      </div>
+      <div class="lab-card__body">
+        <div class="dims" id="dims"></div>
+        <p class="lab-note">Reported by dimension rather than by module, because “your word stress trails your individual sounds” is something you can act on. A dimension nobody has assessed shows as unassessed, never as zero.</p>
+      </div>
+    </section>
+
+    <section class="lab-card" aria-labelledby="markH" style="margin-top:1.35rem">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="markH">Bookmarks</h2>
+      </div>
+      <div class="lab-card__body"><ul class="marks" id="marks"></ul></div>
+    </section>
+
+    <section class="lab-card notes" aria-labelledby="noteH" style="margin-top:1.35rem">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="noteH">Notes</h2>
+      </div>
+      <div class="lab-card__body">
+        <label class="sr-only" for="notes">Your notes on this listening</label>
+        <textarea id="notes" placeholder="What surprised you between what you heard and what is written? That gap is your pronunciation target."></textarea>
+        <div class="notes__row"><span class="notes__saved" id="notesSaved"></span></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="/js/listening-lab.js"></script>
+</body>
+</html>
