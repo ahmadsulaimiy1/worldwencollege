@@ -128,6 +128,27 @@ jobs:
             echo "Clerk publishable key applied to js/auth-config.js"
           fi
 
+      - name: Ensure the Pages project exists
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # `pages deploy` fails outright against a project that does not
+          # exist, and creating one is interactive by default — so on a
+          # first run this is the step between "configured correctly" and
+          # an opaque error. Idempotent: create only if absent.
+          if npx wrangler pages project list 2>/dev/null | grep -qw 'wec-lc'; then
+            echo "Pages project wec-lc already exists."
+          else
+            echo "Creating Pages project wec-lc…"
+            # Production branch is deliberately a branch that does not
+            # exist in this repository. Every deploy from a real branch
+            # is then a PREVIEW deploy with its own URL, which is what an
+            # internal preview should be. Change this once the site is
+            # meant to be publicly launched.
+            npx wrangler pages project create wec-lc --production-branch=main
+          fi
+
       - name: Apply schema and curriculum seeds to the remote D1 database
         if: ${{ inputs.seed_database }}
         env:
