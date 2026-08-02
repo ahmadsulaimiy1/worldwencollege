@@ -165,7 +165,7 @@ for (const lv of LEVELS) {
 // AUDIO_MODULES is the explicit, declared rollout state — it is listed
 // here rather than inferred so that a module silently LOSING its audio
 // strand fails the build instead of being read as "not rolled out yet".
-const AUDIO_LEVELS = [1, 2];
+const AUDIO_LEVELS = [1, 2, 3, 4, 5, 6];
 const AUDIO_MODULES = new Set(
   AUDIO_LEVELS.flatMap((lv) => Array.from({ length: 10 }, (_, i) => `unt_l${lv}_m${i + 1}`))
 );
@@ -262,6 +262,55 @@ const AUDIO_MODULES = new Set(
   const shares = overall.map((c) => c / total);
   check(`Programme-wide answer positions are each 20-30% of the key (a/b/c/d = ${overall.join('/')} of ${total})`,
     shares.every((s) => s >= 0.2 && s <= 0.3));
+}
+
+// --- Rule 11c: the audio curriculum actually escalates -------------------
+// Structural completeness is not pedagogical progression. These rules
+// assert that the listening strand gets genuinely harder across the six
+// levels rather than merely existing at each of them.
+{
+  const perLevel = [];
+  for (const lv of AUDIO_LEVELS) {
+    const rows = db.prepare(`SELECT target_wpm AS w, transcript AS t FROM audio_assets WHERE kind = 'listening' AND id LIKE 'aud_l${lv}_%'`).all().results;
+    perLevel.push({
+      lv,
+      minWpm: Math.min(...rows.map((r) => r.w)),
+      maxWpm: Math.max(...rows.map((r) => r.w)),
+      avgWords: rows.reduce((a, r) => a + r.t.split(/\s+/).length, 0) / rows.length,
+    });
+  }
+  const wpmRises = perLevel.every((p, i) => i === 0 || p.minWpm > perLevel[i - 1].minWpm);
+  check(`Listening pace rises at every level (${perLevel.map((p) => `L${p.lv}:${p.minWpm}-${p.maxWpm}`).join(' ')})`, wpmRises);
+  const lengthRises = perLevel.every((p, i) => i === 0 || p.avgWords >= perLevel[i - 1].avgWords);
+  check(`Listening scripts lengthen at every level (${perLevel.map((p) => `L${p.lv}:${Math.round(p.avgWords)}w`).join(' ')})`, lengthRises);
+  // A1 must stay well below natural conversational pace (~150 wpm) and
+  // C2 must reach it: an unaccommodated C2 listening at A1 pace would be
+  // the level failing its own objective.
+  check('A1 listening stays well below natural conversational pace', perLevel[0].maxWpm <= 110);
+  check('C2 listening reaches unmodified native professional pace', perLevel[perLevel.length - 1].minWpm >= 150);
+}
+{
+  // No script, comprehension question or piece of pronunciation guidance
+  // may be reused anywhere in the programme. Duplication here would be
+  // the exact "padding to create an appearance of completeness" this
+  // project has refused throughout.
+  const dup = (rows, label) => {
+    const seen = new Set(); const bad = [];
+    for (const v of rows) { if (seen.has(v)) bad.push(v.slice(0, 40)); seen.add(v); }
+    check(`No duplicate ${label} anywhere in the programme (${rows.length} items)${bad.length ? ' — repeated: ' + bad.slice(0, 3).join(' | ') : ''}`, bad.length === 0);
+  };
+  dup(db.prepare("SELECT transcript AS v FROM audio_assets WHERE kind = 'listening'").all().results.map((r) => r.v.trim()), 'listening script');
+  dup(db.prepare("SELECT q.prompt AS v FROM quiz_questions q JOIN learning_items i ON i.id = q.learning_item_id WHERE i.kind = 'listening'").all().results.map((r) => r.v.trim()), 'listening comprehension question');
+  dup(db.prepare('SELECT guidance AS v FROM pronunciation_targets').all().results.map((r) => r.v.trim()), 'pronunciation guidance');
+}
+{
+  // Every audio asset must be honest about its recording status: a
+  // transcript always, and either a full recording (url AND duration) or
+  // none at all. A url with no duration would be a half-wired asset the
+  // player could not lay out.
+  const bad = db.prepare(`SELECT id, transcript, media_url AS u, duration_ms AS d FROM audio_assets`).all().results
+    .filter((a) => !a.transcript || !a.transcript.trim() || (a.u === null) !== (a.d === null));
+  check(`Every audio asset has a real transcript and a consistent recording state${bad.length ? ' — offenders: ' + bad.map((b) => b.id).join(', ') : ''}`, bad.length === 0);
 }
 
 // --- Rule 12: lesson template elements -----------------------------------
