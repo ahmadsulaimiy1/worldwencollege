@@ -717,30 +717,75 @@ learner's English development, demonstrating command of the language
 as a system, not just as a skill.
 
 **Thematic modules (10):**
-1. Mastery Diagnostic & Individual Pathway — diagnostic assessment, personalised focus areas
-2. Executive & Diplomatic Communication — high-register negotiation, diplomatic phrasing, crisis communication
-3. Advanced Academic Discourse — graduate-level argumentation, literature synthesis at depth
-4. Publication-Quality Writing — editorial polish, publication conventions, self- and peer-editing at a professional standard
-5. Rhetoric & Persuasion at Scale — keynote-style public speaking, audience adaptation, rhetorical device mastery
-6. Cross-Cultural Leadership Communication — leading multicultural teams/discussions in English
-7. Media & Public Presence — interview technique, media training register, public-facing communication
-8. Specialised Register Immersion (learner-selected track: business, academic, legal/medical-adjacent, diplomatic) — terminology and register for the learner's real-world context
-9. Capstone Project I — a substantial independent research/communication project, proposal and drafting
-10. Capstone Project II & Mastery Examination — project completion, presentation, comprehensive mastery examination
+1. Mastery Diagnostic & Executive Leadership — diagnostic assessment, personalised focus areas, subjunctive/high-formal register
+2. Diplomacy & International Relations — diplomatic hedging, extreme-formality register, negotiation at state/institutional level
+3. Global Business Strategy — complex inversion and fronting for strategic emphasis, boardroom register
+4. Public Policy — modality of obligation and recommendation, policy-analysis register
+5. Law & Justice — legal-reasoning precision, defined terms, conditional structures in legal discourse
+6. Innovation & Emerging Technologies — speculative and hypothetical register, future-in-the-past, technical-to-general translation
+7. Media & Public Communication — rhetorical devices at scale, crisis leadership communication, media register
+8. Research & Scholarship — academic metadiscourse and hedging at publication standard
+9. Ethics & Responsible Leadership — concessive-conditional and moral-reasoning register, chairing deliberation
+10. Capstone: Global Challenges & Sustainable Development, and the Mastery Examination — integrated capstone project, professional portfolio, oral defence, six-level reflective analysis
+
+**Executive Academic Objective (capstone standard).** Per your Level
+VI directive, this level is *the capstone of the WEC-LC academic
+journey* — mastery, not merely proficiency. Graduates should use
+English naturally and effectively in the highest academic,
+professional, executive, governmental, legal, diplomatic, media,
+research, and international contexts. The ten modules above were
+**deliberately re-themed** from this document's original Level VI
+draft (which organised by *communication mode* — academic discourse,
+publication writing, rhetoric, media) to organise instead by
+**professional domain**, matching the ten capstone themes named in
+your directive. The pedagogical spine of the original design is
+preserved intact — an entry diagnostic (Module 1), a keynote-scale
+public-speaking demand (Module 6), a media/crisis simulation (Module
+7), and a substantial capstone project with oral defence and mastery
+examination (Module 10) — but the *content vehicle* for each is now a
+genuine professional domain rather than a skill category. This is a
+recorded curriculum revision, made because a C2 learner is no longer
+practising communication modes in the abstract: at mastery level, the
+domain *is* the difficulty, and register mastery is only demonstrable
+inside a real professional field.
+
+Ten distinct publication-quality **writing genres** are distributed
+one per module: a reflective leadership essay (M1), strategic
+recommendations (M2), an executive report (M3), a policy analysis
+(M4), a scholarly critique (M5), a grant/project proposal (M6), an
+opinion editorial (M7), a research paper (M8), a conference paper
+(M9), and a professional portfolio integrating the level's work (M10).
+Nine high-level **speaking formats** are similarly distributed: an
+executive briefing (M1), a diplomatic negotiation (M2), a boardroom
+presentation (M3), a policy panel discussion (M4), oral defence of a
+complex argument (M5), a keynote address (M6), a media interview and
+crisis leadership statement (M7), a conference presentation (M8), a
+chaired ethical deliberation (M9), and the capstone presentation with
+sustained questioning (M10).
+
+**AI-readiness (continued, not a build instruction):** as at Levels
+III-V, every rubric is authored as named, weighted, machine-legible
+criteria, so future AI tutoring, writing feedback, pronunciation
+coaching, and adaptive revision could integrate against the same
+rubric a human instructor uses. No AI-assessment code is introduced by
+this curriculum pass.
 
 **Grammar and vocabulary.** By Level VI, grammar instruction is no
 longer sequential/new-item-driven — the learner already commands the
 full system. Focus shifts to **precision, style, and register
 control**: eliminating residual first-language interference patterns,
 mastering rare/formal constructions (subjunctive mood, complex
-inversion, formal hedging), and vocabulary work becomes bespoke —
-domain-specific terminology tied to the learner's selected
-specialised-register track (module 8), rather than a fixed headword
-list. (Running total through Level V: ~4,600-4,900 headwords; Level
-VI adds a domain-specific vocabulary set sized to the learner's chosen
-track rather than a fixed programme-wide figure — this is a
-deliberate, disclosed departure from the fixed-headword-list model
-used in Levels I-V, appropriate for a capstone/mastery level.)
+inversion, formal hedging), and vocabulary work becomes **domain-
+driven** — each module supplies the specialist terminology of its own
+professional field (diplomatic, strategic, policy, legal, technical,
+media, scholarly, ethical), and the learner's capstone (Module 10)
+concentrates on whichever of those domains their own project and
+career direction require. (Running total through Level V: ~4,600-4,900
+headwords; Level VI adds domain-specific sets rather than a fixed
+programme-wide figure — a deliberate, disclosed departure from the
+fixed-headword-list model used in Levels I-V, appropriate to a
+capstone/mastery level where vocabulary is selected by professional
+purpose, not sequenced by frequency.)
 
 **Pronunciation focus.** Full native-like command of connected speech,
 stress, and intonation; refining any residual first-language accent
@@ -759,17 +804,22 @@ integrated; this level's actual content *is* advanced academic,
 professional, and diplomatic register, applied to real, substantial
 learner-directed work.
 
-**Critical thinking / public speaking.** The level's spine: a keynote-
-style presentation (module 5), a media-style interview simulation
-(module 7), and a capstone project presentation (module 10) — the
-most sustained public-communication demand in the programme.
+**Critical thinking / public speaking.** The level's spine: a keynote
+address (module 6), a media interview and crisis leadership statement
+(module 7), a chaired ethical deliberation (module 9), and the
+capstone presentation with sustained questioning and oral defence
+(module 10) — the most sustained public-communication demand in the
+programme.
 
-**Assessment strategy.** Diagnostic at entry (module 1) rather than a
-standard unit-quiz sequence throughout, since content is
-individually-pathed from module 8 onward; a substantial capstone
-project (proposal, draft, final submission, presentation) assessed by
-detailed rubric; a comprehensive mastery examination covering all four
-skills at C2 depth plus the learner's specialised-register work.
+**Assessment strategy.** Diagnostic at entry (module 1) informing a
+personalised focus plan carried through the level, alongside the
+standard unit-quiz sequence retained for consistency with Levels I-V;
+a substantial capstone project (proposal, draft, final submission,
+presentation, oral defence) assessed by detailed rubric; a
+professional portfolio assembling the level's ten written genres; and
+a comprehensive mastery examination covering all four skills at C2
+depth, including a reflective analysis of the learner's development
+across all six levels.
 
 **Revision units.** Module 1 functions as both diagnostic and
 personalised-revision-planning; module 10 combines final revision with
