@@ -114,16 +114,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct invariant subjunctive forms 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l6_m1_1', 'itm_l6_m1_quiz', 1, '"It is imperative that every director ___ briefed before the vote." (mandative subjunctive)', '["is","be","will be","being"]', 1),
+('qq_l6_m1_1', 'itm_l6_m1_quiz', 1, '"It is imperative that every director ___ briefed before the vote." (mandative subjunctive)', '["is","will be","being","be"]', 3),
 ('qq_l6_m1_2', 'itm_l6_m1_quiz', 2, '"The board requires that the report ___ circulated in advance."', '["is","be","was","has been"]', 1),
-('qq_l6_m1_3', 'itm_l6_m1_quiz', 3, '"We propose that the chair ___ an extraordinary meeting."', '["convenes","convene","convened","is convening"]', 1),
-('qq_l6_m1_4', 'itm_l6_m1_quiz', 4, 'How is the mandative subjunctive negated?', '["with \"doesn''t\" + base form","with \"not\" + base form","with \"isn''t\"","it cannot be negated"]', 1),
-('qq_l6_m1_5', 'itm_l6_m1_quiz', 5, 'Which is the more common British alternative to the bare subjunctive in a formal recommendation?', '["\"should\" + base form","\"will\" + base form","the past simple","the present continuous"]', 0),
-('qq_l6_m1_6', 'itm_l6_m1_quiz', 6, 'In British corporate governance, a director who is not part of the company''s management team is usually called a:', '["outside director","non-executive director","board observer","silent partner"]', 1),
-('qq_l6_m1_7', 'itm_l6_m1_quiz', 7, 'Which opening is most appropriate for an executive briefing to a senior audience?', '["an extended account of the background","the decision required","an apology for taking their time","a list of everyone consulted"]', 1),
-('qq_l6_m1_8', 'itm_l6_m1_quiz', 8, 'Which of these is genuine reflection rather than self-promotion?', '["\"My greatest weakness is that I care too much about quality.\"","\"I delayed the decision by three weeks because I over-weighted one stakeholder''s objection; next time I will set a decision deadline in advance.\"","\"Everything went well because of my leadership.\"","\"Mistakes were made by the team.\""]', 1),
-('qq_l6_m1_9', 'itm_l6_m1_quiz', 9, 'Which phrase means "face a difficulty or one''s own error openly"?', '["step up","front up to","set the direction","own the outcome"]', 1),
-('qq_l6_m1_10', 'itm_l6_m1_quiz', 10, 'In British usage, "remit" most precisely means:', '["a payment","the scope of one''s authority or responsibility","a reminder","a resignation"]', 1);
+('qq_l6_m1_3', 'itm_l6_m1_quiz', 3, '"We propose that the chair ___ an extraordinary meeting."', '["convene","convenes","convened","is convening"]', 0),
+('qq_l6_m1_4', 'itm_l6_m1_quiz', 4, 'How is the mandative subjunctive negated?', '["with \"doesn''t\" + base form","with \"isn''t\"","with \"not\" + base form","it cannot be negated"]', 2),
+('qq_l6_m1_5', 'itm_l6_m1_quiz', 5, 'Which is the more common British alternative to the bare subjunctive in a formal recommendation?', '["\"will\" + base form","\"should\" + base form","the past simple","the present continuous"]', 1),
+('qq_l6_m1_6', 'itm_l6_m1_quiz', 6, 'In British corporate governance, a director who is not part of the company''s management team is usually called a:', '["outside director","board observer","silent partner","non-executive director"]', 3),
+('qq_l6_m1_7', 'itm_l6_m1_quiz', 7, 'Which opening is most appropriate for an executive briefing to a senior audience?', '["an extended account of the background","an apology for taking their time","the decision required","a list of everyone consulted"]', 2),
+('qq_l6_m1_8', 'itm_l6_m1_quiz', 8, 'Which of these is genuine reflection rather than self-promotion?', '["\"I delayed the decision by three weeks because I over-weighted one stakeholder''s objection; next time I will set a decision deadline in advance.\"","\"My greatest weakness is that I care too much about quality.\"","\"Everything went well because of my leadership.\"","\"Mistakes were made by the team.\""]', 0),
+('qq_l6_m1_9', 'itm_l6_m1_quiz', 9, 'Which phrase means "face a difficulty or one''s own error openly"?', '["front up to","step up","set the direction","own the outcome"]', 0),
+('qq_l6_m1_10', 'itm_l6_m1_quiz', 10, 'In British usage, "remit" most precisely means:', '["a payment","a reminder","the scope of one''s authority or responsibility","a resignation"]', 2);
 
 -- ---------------------------------------------------------------------
 -- Module 2: Diplomacy & International Relations
@@ -224,16 +224,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- accurate impersonal constructions an
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l6_m2_1', 'itm_l6_m2_quiz', 1, 'In British and Commonwealth usage, "to table a proposal" means:', '["to postpone it","to put it forward for discussion","to reject it","to vote on it immediately"]', 1),
-('qq_l6_m2_2', 'itm_l6_m2_quiz', 2, 'In American usage, "to table a proposal" means:', '["to put it forward for discussion","to postpone or shelve it","to ratify it","to publish it"]', 1),
+('qq_l6_m2_1', 'itm_l6_m2_quiz', 1, 'In British and Commonwealth usage, "to table a proposal" means:', '["to put it forward for discussion","to postpone it","to reject it","to vote on it immediately"]', 0),
+('qq_l6_m2_2', 'itm_l6_m2_quiz', 2, 'In American usage, "to table a proposal" means:', '["to put it forward for discussion","to ratify it","to postpone or shelve it","to publish it"]', 2),
 ('qq_l6_m2_3', 'itm_l6_m2_quiz', 3, 'Which is the strongest objection, in diplomatic register?', '["We have some concerns.","This is not a position we could readily support.","We would like more information.","We note the proposal."]', 1),
-('qq_l6_m2_4', 'itm_l6_m2_quiz', 4, '"It may be felt in some quarters that further consultation would be prudent." The main function of this construction is to:', '["identify precisely who holds the view","advance a position without attributing it to a named person","express strong personal emotion","close the discussion permanently"]', 1),
-('qq_l6_m2_5', 'itm_l6_m2_quiz', 5, '"Not unhelpful" conveys:', '["stronger praise than \"helpful\"","weaker praise than \"helpful\"","exactly the same as \"helpful\"","outright criticism"]', 1),
-('qq_l6_m2_6', 'itm_l6_m2_quiz', 6, 'What is the difference between a party''s position and its interest?', '["there is none","the position is what it says it wants; the interest is why","the interest is always public","the position is always hidden"]', 1),
-('qq_l6_m2_7', 'itm_l6_m2_quiz', 7, 'In the United Kingdom, the head of a government department is typically titled:', '["Minister or Secretary of State","Attorney","Governor","Commissioner only"]', 0),
+('qq_l6_m2_4', 'itm_l6_m2_quiz', 4, '"It may be felt in some quarters that further consultation would be prudent." The main function of this construction is to:', '["identify precisely who holds the view","express strong personal emotion","close the discussion permanently","advance a position without attributing it to a named person"]', 3),
+('qq_l6_m2_5', 'itm_l6_m2_quiz', 5, '"Not unhelpful" conveys:', '["stronger praise than \"helpful\"","exactly the same as \"helpful\"","weaker praise than \"helpful\"","outright criticism"]', 2),
+('qq_l6_m2_6', 'itm_l6_m2_quiz', 6, 'What is the difference between a party''s position and its interest?', '["the position is what it says it wants; the interest is why","there is none","the interest is always public","the position is always hidden"]', 0),
+('qq_l6_m2_7', 'itm_l6_m2_quiz', 7, 'In the United Kingdom, the head of a government department is typically titled:', '["Attorney","Governor","Commissioner only","Minister or Secretary of State"]', 3),
 ('qq_l6_m2_8', 'itm_l6_m2_quiz', 8, 'Which phrase means "discreetly test a party''s position before committing"?', '["walk back","sound out","paper over","broker"]', 1),
-('qq_l6_m2_9', 'itm_l6_m2_quiz', 9, 'Which phrase means "conceal a disagreement rather than resolve it"?', '["broker","sound out","paper over","table"]', 2),
-('qq_l6_m2_10', 'itm_l6_m2_quiz', 10, 'A strategic recommendation is strongest when it is:', '["general enough to suit any situation","specific, prioritised, and honest about its trade-off","presented as costless","unattributed to any owner"]', 1);
+('qq_l6_m2_9', 'itm_l6_m2_quiz', 9, 'Which phrase means "conceal a disagreement rather than resolve it"?', '["broker","paper over","sound out","table"]', 1),
+('qq_l6_m2_10', 'itm_l6_m2_quiz', 10, 'A strategic recommendation is strongest when it is:', '["general enough to suit any situation","presented as costless","unattributed to any owner","specific, prioritised, and honest about its trade-off"]', 3);
 
 -- ---------------------------------------------------------------------
 -- Module 3: Global Business Strategy
@@ -332,16 +332,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct inversion after fronting; ac
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l6_m3_1', 'itm_l6_m3_quiz', 1, '"Central to this strategy ___ a fundamental shift in capital allocation." (fronted complement)', '["is","it is","being","which is"]', 0),
-('qq_l6_m3_2', 'itm_l6_m3_quiz', 2, '"So significant ___ the first-quarter gains that the board approved a second phase."', '["was","were","they were","have been"]', 1),
-('qq_l6_m3_3', 'itm_l6_m3_quiz', 3, '"___ was the scale of the change that three functions were restructured."', '["So","Such","Very","Much"]', 1),
+('qq_l6_m3_1', 'itm_l6_m3_quiz', 1, '"Central to this strategy ___ a fundamental shift in capital allocation." (fronted complement)', '["it is","being","is","which is"]', 2),
+('qq_l6_m3_2', 'itm_l6_m3_quiz', 2, '"So significant ___ the first-quarter gains that the board approved a second phase."', '["were","was","they were","have been"]', 0),
+('qq_l6_m3_3', 'itm_l6_m3_quiz', 3, '"___ was the scale of the change that three functions were restructured."', '["So","Very","Much","Such"]', 3),
 ('qq_l6_m3_4', 'itm_l6_m3_quiz', 4, 'What is the characteristic failure of emphasis constructions in strategic writing?', '["they are grammatically incorrect","overuse, so that nothing registers as emphasised","they are too informal","they cannot be used in reports"]', 1),
-('qq_l6_m3_5', 'itm_l6_m3_quiz', 5, 'In British business English, "turnover" normally means:', '["staff attrition","revenue","profit","inventory"]', 1),
-('qq_l6_m3_6', 'itm_l6_m3_quiz', 6, 'In American business English, "turnover" most often means:', '["revenue","staff attrition","dividend","market share"]', 1),
-('qq_l6_m3_7', 'itm_l6_m3_quiz', 7, '"Unit sales fell 12% across two consecutive quarters." In the three-layer discipline, this is:', '["evidence","inference","recommendation","assumption"]', 0),
-('qq_l6_m3_8', 'itm_l6_m3_quiz', 8, '"From which we infer that the decline is structural rather than seasonal." This is:', '["evidence","inference","recommendation","observation"]', 1),
-('qq_l6_m3_9', 'itm_l6_m3_quiz', 9, 'Why does a serious strategy document state its working assumptions explicitly?', '["to lengthen the report","to tell the reader exactly which assumption to interrogate, and to pre-commit the author to changing their view if it fails","to avoid making a recommendation","to prevent any challenge"]', 1),
-('qq_l6_m3_10', 'itm_l6_m3_quiz', 10, 'Which phrase means "strengthen something that is weakening"?', '["scale back","spin off","shore up","bed in"]', 2);
+('qq_l6_m3_5', 'itm_l6_m3_quiz', 5, 'In British business English, "turnover" normally means:', '["revenue","staff attrition","profit","inventory"]', 0),
+('qq_l6_m3_6', 'itm_l6_m3_quiz', 6, 'In American business English, "turnover" most often means:', '["revenue","dividend","staff attrition","market share"]', 2),
+('qq_l6_m3_7', 'itm_l6_m3_quiz', 7, '"Unit sales fell 12% across two consecutive quarters." In the three-layer discipline, this is:', '["inference","evidence","recommendation","assumption"]', 1),
+('qq_l6_m3_8', 'itm_l6_m3_quiz', 8, '"From which we infer that the decline is structural rather than seasonal." This is:', '["evidence","recommendation","observation","inference"]', 3),
+('qq_l6_m3_9', 'itm_l6_m3_quiz', 9, 'Why does a serious strategy document state its working assumptions explicitly?', '["to lengthen the report","to avoid making a recommendation","to prevent any challenge","to tell the reader exactly which assumption to interrogate, and to pre-commit the author to changing their view if it fails"]', 3),
+('qq_l6_m3_10', 'itm_l6_m3_quiz', 10, 'Which phrase means "strengthen something that is weakening"?', '["scale back","shore up","spin off","bed in"]', 1);
 
 -- ---------------------------------------------------------------------
 -- Module 4: Public Policy
@@ -440,15 +440,15 @@ GRADING RUBRIC: (1) Grammatical accuracy -- modal verbs used with correct and co
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l6_m4_1', 'itm_l6_m4_quiz', 1, 'In regulatory drafting, "The authority may publish guidance" confers:', '["a binding obligation","a discretion the authority cannot be compelled to exercise","a prohibition","non-binding guidance to the public"]', 1),
+('qq_l6_m4_1', 'itm_l6_m4_quiz', 1, 'In regulatory drafting, "The authority may publish guidance" confers:', '["a binding obligation","a prohibition","non-binding guidance to the public","a discretion the authority cannot be compelled to exercise"]', 3),
 ('qq_l6_m4_2', 'itm_l6_m4_quiz', 2, 'Which modal creates a binding obligation and is preferred by plain-language drafting movements?', '["should","must","may","might"]', 1),
-('qq_l6_m4_3', 'itm_l6_m4_quiz', 3, 'Why do plain-language drafters criticise "shall"?', '["it is grammatically incorrect","lay readers often read it as a future tense rather than an obligation","it is too modern","it cannot be used with institutions"]', 1),
-('qq_l6_m4_4', 'itm_l6_m4_quiz', 4, '"Providers are to ensure that records are retained." This provision is:', '["binding","purely advisory","a prohibition","a discretion"]', 0),
+('qq_l6_m4_3', 'itm_l6_m4_quiz', 3, 'Why do plain-language drafters criticise "shall"?', '["lay readers often read it as a future tense rather than an obligation","it is grammatically incorrect","it is too modern","it cannot be used with institutions"]', 0),
+('qq_l6_m4_4', 'itm_l6_m4_quiz', 4, '"Providers are to ensure that records are retained." This provision is:', '["purely advisory","a prohibition","binding","a discretion"]', 2),
 ('qq_l6_m4_5', 'itm_l6_m4_quiz', 5, 'Substituting "should" for "must" in a provision typically:', '["strengthens it","removes its enforceability","has no effect","makes it retrospective"]', 1),
-('qq_l6_m4_6', 'itm_l6_m4_quiz', 6, 'In British English, which is standard when the members of a body are acting individually?', '["\"The Government is considering\" only","\"The Government are considering\"","neither is acceptable","\"The Government were consider\""]', 1),
-('qq_l6_m4_7', 'itm_l6_m4_quiz', 7, 'What is the characteristic failure of a weak policy analysis?', '["too many options considered","criteria reverse-engineered to justify a predetermined option","declaring criteria in advance","assessing every option fairly"]', 1),
-('qq_l6_m4_8', 'itm_l6_m4_quiz', 8, 'A serious policy analysis states its recommendation together with:', '["nothing further","its distributional consequence -- who bears the cost and who receives the benefit","only its political feasibility","a guarantee of success"]', 1),
-('qq_l6_m4_9', 'itm_l6_m4_quiz', 9, 'In British usage, to "ring-fence" funding means to:', '["reduce it","protect it from being spent on anything else","delay it","publish it"]', 1),
+('qq_l6_m4_6', 'itm_l6_m4_quiz', 6, 'In British English, which is standard when the members of a body are acting individually?', '["\"The Government is considering\" only","neither is acceptable","\"The Government were consider\"","\"The Government are considering\""]', 3),
+('qq_l6_m4_7', 'itm_l6_m4_quiz', 7, 'What is the characteristic failure of a weak policy analysis?', '["too many options considered","declaring criteria in advance","criteria reverse-engineered to justify a predetermined option","assessing every option fairly"]', 2),
+('qq_l6_m4_8', 'itm_l6_m4_quiz', 8, 'A serious policy analysis states its recommendation together with:', '["its distributional consequence -- who bears the cost and who receives the benefit","nothing further","only its political feasibility","a guarantee of success"]', 0),
+('qq_l6_m4_9', 'itm_l6_m4_quiz', 9, 'In British usage, to "ring-fence" funding means to:', '["protect it from being spent on anything else","reduce it","delay it","publish it"]', 0),
 ('qq_l6_m4_10', 'itm_l6_m4_quiz', 10, 'Which phrase means "weaken a provision, usually through negotiation"?', '["roll out","phase in","water down","bring into force"]', 2);
 
 -- ---------------------------------------------------------------------
@@ -548,16 +548,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- precise use of conditional and excep
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l6_m5_1', 'itm_l6_m5_quiz', 1, '"A licence shall be granted, provided that the applicant has held no prior revocation." The proviso:', '["removes the obligation entirely","attaches a condition that must be satisfied for the provision to operate","applies only to appeals","has no legal effect"]', 1),
+('qq_l6_m5_1', 'itm_l6_m5_quiz', 1, '"A licence shall be granted, provided that the applicant has held no prior revocation." The proviso:', '["removes the obligation entirely","applies only to appeals","has no legal effect","attaches a condition that must be satisfied for the provision to operate"]', 3),
 ('qq_l6_m5_2', 'itm_l6_m5_quiz', 2, 'If provision A is expressed to be "subject to" provision B, then in a conflict:', '["A prevails","B prevails","both are void","the later-numbered provision prevails"]', 1),
 ('qq_l6_m5_3', 'itm_l6_m5_quiz', 3, 'If provision A applies "notwithstanding" provision B, then in a conflict:', '["A prevails","B prevails","neither applies","a court must strike both out"]', 0),
-('qq_l6_m5_4', 'itm_l6_m5_quiz', 4, '"For the purposes of this section, ''employee'' includes a contractor engaged for more than 90 days." Within this document, "employee":', '["retains its ordinary everyday meaning","means exactly what the definition says, regardless of ordinary usage","is ambiguous and unenforceable","applies only to contractors"]', 1),
+('qq_l6_m5_4', 'itm_l6_m5_quiz', 4, '"For the purposes of this section, ''employee'' includes a contractor engaged for more than 90 days." Within this document, "employee":', '["retains its ordinary everyday meaning","is ambiguous and unenforceable","means exactly what the definition says, regardless of ordinary usage","applies only to contractors"]', 2),
 ('qq_l6_m5_5', 'itm_l6_m5_quiz', 5, 'What does the "steelman before critique" discipline require?', '["restating the target argument in its weakest form","restating it in its strongest, most charitable form before criticising","ignoring the original argument","agreeing with it"]', 1),
-('qq_l6_m5_6', 'itm_l6_m5_quiz', 6, '"The argument''s second premise holds only for publicly-listed firms, which the conclusion does not restrict itself to." This criticism attacks the argument''s:', '["scope","grammar","author","publication venue"]', 0),
-('qq_l6_m5_7', 'itm_l6_m5_quiz', 7, 'In England and Wales, the party bringing a civil action is now called the:', '["plaintiff","claimant","petitioner only","prosecutor"]', 1),
-('qq_l6_m5_8', 'itm_l6_m5_quiz', 8, 'Which phrase means "depend decisively on a point"?', '["fall within","turn on","set aside","give rise to"]', 1),
-('qq_l6_m5_9', 'itm_l6_m5_quiz', 9, 'Which phrase means "annul a decision on review"?', '["give rise to","draw a distinction","set aside","fall outside"]', 2),
-('qq_l6_m5_10', 'itm_l6_m5_quiz', 10, 'Which is a genuine critique rather than a mere objection?', '["\"I disagree with this article.\"","\"The warrant does not license the inference: the correlation reported supports association, not the causal claim drawn from it.\"","\"This is badly written.\"","\"The author is not well known.\""]', 1);
+('qq_l6_m5_6', 'itm_l6_m5_quiz', 6, '"The argument''s second premise holds only for publicly-listed firms, which the conclusion does not restrict itself to." This criticism attacks the argument''s:', '["grammar","author","publication venue","scope"]', 3),
+('qq_l6_m5_7', 'itm_l6_m5_quiz', 7, 'In England and Wales, the party bringing a civil action is now called the:', '["plaintiff","petitioner only","claimant","prosecutor"]', 2),
+('qq_l6_m5_8', 'itm_l6_m5_quiz', 8, 'Which phrase means "depend decisively on a point"?', '["turn on","fall within","set aside","give rise to"]', 0),
+('qq_l6_m5_9', 'itm_l6_m5_quiz', 9, 'Which phrase means "annul a decision on review"?', '["set aside","give rise to","draw a distinction","fall outside"]', 0),
+('qq_l6_m5_10', 'itm_l6_m5_quiz', 10, 'Which is a genuine critique rather than a mere objection?', '["\"I disagree with this article.\"","\"This is badly written.\"","\"The warrant does not license the inference: the correlation reported supports association, not the causal claim drawn from it.\"","\"The author is not well known.\""]', 2);
 
 -- ---------------------------------------------------------------------
 -- Module 6: Innovation & Emerging Technologies
@@ -656,16 +656,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correctly formed inverted conditiona
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l6_m6_1', 'itm_l6_m6_quiz', 1, '"___ this to succeed, it would change the field." (inverted conditional)', '["If were","Were","Was","If it were to were"]', 1),
+('qq_l6_m6_1', 'itm_l6_m6_quiz', 1, '"___ this to succeed, it would change the field." (inverted conditional)', '["If were","Was","If it were to were","Were"]', 3),
 ('qq_l6_m6_2', 'itm_l6_m6_quiz', 2, '"___ the approach been available five years ago, the outcome would have differed."', '["If had","Had","Have","Should have"]', 1),
-('qq_l6_m6_3', 'itm_l6_m6_quiz', 3, 'In an inverted conditional, "if" must be:', '["retained before the inversion","omitted","replaced with \"whether\"","moved to the end"]', 1),
-('qq_l6_m6_4', 'itm_l6_m6_quiz', 4, 'Which converts a vague innovation claim into a testable one?', '["\"This technology could transform logistics.\"","\"For this to transform logistics, unit cost would have to fall below X and regulatory approval would have to extend to Y.\"","\"This technology is revolutionary.\"","\"Experts are excited about this.\""]', 1),
+('qq_l6_m6_3', 'itm_l6_m6_quiz', 3, 'In an inverted conditional, "if" must be:', '["omitted","retained before the inversion","replaced with \"whether\"","moved to the end"]', 0),
+('qq_l6_m6_4', 'itm_l6_m6_quiz', 4, 'Which converts a vague innovation claim into a testable one?', '["\"This technology could transform logistics.\"","\"This technology is revolutionary.\"","\"For this to transform logistics, unit cost would have to fall below X and regulatory approval would have to extend to Y.\"","\"Experts are excited about this.\""]', 2),
 ('qq_l6_m6_5', 'itm_l6_m6_quiz', 5, 'What are the two failure modes of technical-to-general translation?', '["length and brevity","distortion and condescension","formality and informality","speed and hesitation"]', 1),
-('qq_l6_m6_6', 'itm_l6_m6_quiz', 6, 'A keynote address should be organised around:', '["as many ideas as time allows","a single controlling idea","a list of facts","the speaker''s biography"]', 1),
-('qq_l6_m6_7', 'itm_l6_m6_quiz', 7, 'Why does honestly disclosing risk generally strengthen a grant proposal?', '["it shortens the proposal","assessors discount proposals claiming no risk, concluding the applicant has not thought hard enough","it is legally required everywhere","it removes the need for milestones"]', 1),
-('qq_l6_m6_8', 'itm_l6_m6_quiz', 8, 'In British usage, a formal competitive procurement process is called a:', '["solicitation","tender","requisition","docket"]', 1),
-('qq_l6_m6_9', 'itm_l6_m6_quiz', 9, 'Which phrase means "of evidence, to confirm a hypothesis"?', '["pan out","bear out","scale up","rule out"]', 1),
-('qq_l6_m6_10', 'itm_l6_m6_quiz', 10, 'Which pair differ mainly in register, meaning roughly "work out successfully"?', '["rule out / build on","bear out (neutral-formal, transitive) / pan out (informal, intransitive)","scale up / scale back","build on / bear out"]', 1);
+('qq_l6_m6_6', 'itm_l6_m6_quiz', 6, 'A keynote address should be organised around:', '["as many ideas as time allows","a list of facts","the speaker''s biography","a single controlling idea"]', 3),
+('qq_l6_m6_7', 'itm_l6_m6_quiz', 7, 'Why does honestly disclosing risk generally strengthen a grant proposal?', '["it shortens the proposal","it is legally required everywhere","assessors discount proposals claiming no risk, concluding the applicant has not thought hard enough","it removes the need for milestones"]', 2),
+('qq_l6_m6_8', 'itm_l6_m6_quiz', 8, 'In British usage, a formal competitive procurement process is called a:', '["tender","solicitation","requisition","docket"]', 0),
+('qq_l6_m6_9', 'itm_l6_m6_quiz', 9, 'Which phrase means "of evidence, to confirm a hypothesis"?', '["bear out","pan out","scale up","rule out"]', 0),
+('qq_l6_m6_10', 'itm_l6_m6_quiz', 10, 'Which pair differ mainly in register, meaning roughly "work out successfully"?', '["rule out / build on","scale up / scale back","bear out (neutral-formal, transitive) / pan out (informal, intransitive)","build on / bear out"]', 2);
 
 -- ---------------------------------------------------------------------
 -- Module 7: Media & Public Communication
@@ -766,15 +766,15 @@ GRADING RUBRIC: (1) Grammatical accuracy -- accurately constructed rhetorical de
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l6_m7_1', 'itm_l6_m7_quiz', 1, '"It is a question of fairness, of practicality, and of whether we are willing to be judged by what we do." This is an example of:', '["anaphora","tricolon","antithesis","litotes"]', 1),
-('qq_l6_m7_2', 'itm_l6_m7_quiz', 2, '"Not because it is easy, but because it is right." This is an example of:', '["tricolon","anaphora","antithesis","ellipsis"]', 2),
-('qq_l6_m7_3', 'itm_l6_m7_quiz', 3, 'Repetition of the same opening words across successive clauses is called:', '["antithesis","anaphora","tricolon","nominalisation"]', 1),
+('qq_l6_m7_1', 'itm_l6_m7_quiz', 1, '"It is a question of fairness, of practicality, and of whether we are willing to be judged by what we do." This is an example of:', '["anaphora","antithesis","tricolon","litotes"]', 2),
+('qq_l6_m7_2', 'itm_l6_m7_quiz', 2, '"Not because it is easy, but because it is right." This is an example of:', '["antithesis","tricolon","anaphora","ellipsis"]', 0),
+('qq_l6_m7_3', 'itm_l6_m7_quiz', 3, 'Repetition of the same opening words across successive clauses is called:', '["antithesis","tricolon","nominalisation","anaphora"]', 3),
 ('qq_l6_m7_4', 'itm_l6_m7_quiz', 4, 'What is the governing rule for using rhetorical devices at scale?', '["use one in every sentence","they work by contrast with plainer surrounding text","they should be hidden from the audience","they replace the need for evidence"]', 1),
-('qq_l6_m7_5', 'itm_l6_m7_quiz', 5, 'In an opinion editorial, the strongest counter-argument should be conceded:', '["at the very end, as an afterthought","early, where it reads as confidence rather than damage control","never","only if the editor requires it"]', 1),
-('qq_l6_m7_6', 'itm_l6_m7_quiz', 6, '"Let me correct the premise there -- the warnings were received eleven months ago, not two years." This is:', '["evasion","premise correction, which answers the corrected question directly","speculation","a refusal to answer"]', 1),
+('qq_l6_m7_5', 'itm_l6_m7_quiz', 5, 'In an opinion editorial, the strongest counter-argument should be conceded:', '["early, where it reads as confidence rather than damage control","at the very end, as an afterthought","never","only if the editor requires it"]', 0),
+('qq_l6_m7_6', 'itm_l6_m7_quiz', 6, '"Let me correct the premise there -- the warnings were received eleven months ago, not two years." This is:', '["evasion","speculation","premise correction, which answers the corrected question directly","a refusal to answer"]', 2),
 ('qq_l6_m7_7', 'itm_l6_m7_quiz', 7, 'Which element do most organisations omit from a crisis holding statement, and which most builds credibility?', '["what we know","what we do not yet know","what we are doing","the organisation''s name"]', 1),
-('qq_l6_m7_8', 'itm_l6_m7_quiz', 8, 'In British media usage, "Fleet Street" is a metonym for:', '["broadcasting regulators","the national newspaper industry","advertising agencies","the film industry"]', 1),
-('qq_l6_m7_9', 'itm_l6_m7_quiz', 9, 'Which phrase means "address an emerging story proactively rather than reactively"?', '["put out","front-foot","stand up","head off"]', 1),
+('qq_l6_m7_8', 'itm_l6_m7_quiz', 8, 'In British media usage, "Fleet Street" is a metonym for:', '["broadcasting regulators","advertising agencies","the film industry","the national newspaper industry"]', 3),
+('qq_l6_m7_9', 'itm_l6_m7_quiz', 9, 'Which phrase means "address an emerging story proactively rather than reactively"?', '["put out","stand up","head off","front-foot"]', 3),
 ('qq_l6_m7_10', 'itm_l6_m7_quiz', 10, 'In journalism, to "stand up" a claim means to:', '["publish it without checking","verify it sufficiently to publish","retract it","deny it publicly"]', 1);
 
 -- ---------------------------------------------------------------------
@@ -876,16 +876,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- accurate metadiscourse; sustained pu
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l6_m8_1', 'itm_l6_m8_quiz', 1, 'On the hedging ladder, which of these makes the STRONGEST claim?', '["is consistent with","may indicate","demonstrates","suggests"]', 2),
-('qq_l6_m8_2', 'itm_l6_m8_quiz', 2, 'An unearned booster ("this clearly proves...") is dangerous chiefly because:', '["it is grammatically incorrect","it costs the reader trust in every other claim in the paper","journals ban the word clearly","it lengthens the sentence"]', 1),
-('qq_l6_m8_3', 'itm_l6_m8_quiz', 3, '"Ramirez (2019) argues that..." is an example of:', '["non-integral citation","integral citation","a hedge","an engagement marker"]', 1),
+('qq_l6_m8_1', 'itm_l6_m8_quiz', 1, 'On the hedging ladder, which of these makes the STRONGEST claim?', '["is consistent with","demonstrates","may indicate","suggests"]', 1),
+('qq_l6_m8_2', 'itm_l6_m8_quiz', 2, 'An unearned booster ("this clearly proves...") is dangerous chiefly because:', '["it is grammatically incorrect","journals ban the word clearly","it lengthens the sentence","it costs the reader trust in every other claim in the paper"]', 3),
+('qq_l6_m8_3', 'itm_l6_m8_quiz', 3, '"Ramirez (2019) argues that..." is an example of:', '["non-integral citation","a hedge","integral citation","an engagement marker"]', 2),
 ('qq_l6_m8_4', 'itm_l6_m8_quiz', 4, 'Non-integral citation is the right choice when:', '["the claim matters more than who made it","the author is famous","you are criticising the source","the source is very recent"]', 0),
-('qq_l6_m8_5', 'itm_l6_m8_quiz', 5, 'Which reporting verb signals SCEPTICISM towards the source?', '["argues","demonstrates","claims","notes"]', 2),
+('qq_l6_m8_5', 'itm_l6_m8_quiz', 5, 'Which reporting verb signals SCEPTICISM towards the source?', '["argues","demonstrates","notes","claims"]', 3),
 ('qq_l6_m8_6', 'itm_l6_m8_quiz', 6, 'In a three-move introduction, move two:', '["states the paper''s conclusion","establishes the gap the paper will occupy","thanks the funders","summarises the methods"]', 1),
-('qq_l6_m8_7', 'itm_l6_m8_quiz', 7, '"Consider the case of..." and "one might object that..." are examples of:', '["hedges","boosters","engagement markers","attitude markers"]', 2),
-('qq_l6_m8_8', 'itm_l6_m8_quiz', 8, 'British "logical quotation" places a full stop OUTSIDE the closing quotation mark when:', '["always, without exception","the stop was not part of the original quoted material","the quotation is longer than one line","the source is American"]', 1),
-('qq_l6_m8_9', 'itm_l6_m8_quiz', 9, 'Which phrasal verb means "support a hypothesis with evidence"?', '["rule out","bear out","draw on","follow up"]', 1),
-('qq_l6_m8_10', 'itm_l6_m8_quiz', 10, 'A questioner spends ninety seconds describing their own related research. The professional response is to:', '["apologise for not citing them","find the one element that genuinely bears on your work, respond to it, and stop","decline to answer","agree with everything said"]', 1);
+('qq_l6_m8_7', 'itm_l6_m8_quiz', 7, '"Consider the case of..." and "one might object that..." are examples of:', '["engagement markers","hedges","boosters","attitude markers"]', 0),
+('qq_l6_m8_8', 'itm_l6_m8_quiz', 8, 'British "logical quotation" places a full stop OUTSIDE the closing quotation mark when:', '["always, without exception","the quotation is longer than one line","the stop was not part of the original quoted material","the source is American"]', 2),
+('qq_l6_m8_9', 'itm_l6_m8_quiz', 9, 'Which phrasal verb means "support a hypothesis with evidence"?', '["rule out","draw on","bear out","follow up"]', 2),
+('qq_l6_m8_10', 'itm_l6_m8_quiz', 10, 'A questioner spends ninety seconds describing their own related research. The professional response is to:', '["find the one element that genuinely bears on your work, respond to it, and stop","apologise for not citing them","decline to answer","agree with everything said"]', 0);
 
 -- ---------------------------------------------------------------------
 -- Module 9: Ethics & Responsible Leadership
@@ -986,16 +986,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- concessive and concessive-conditiona
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l6_m9_1', 'itm_l6_m9_quiz', 1, '"Even though the trial was rushed, the drug works." The speaker is committed to the view that:', '["the trial may not have been rushed","the trial WAS rushed","the drug does not work","nothing about the trial"]', 1),
-('qq_l6_m9_2', 'itm_l6_m9_quiz', 2, '"Even if that were true, it would not follow that..." is useful because it:', '["concedes the opponent''s conclusion","grants the premise without accepting it, then defeats the inference","avoids the argument","changes the subject"]', 1),
+('qq_l6_m9_1', 'itm_l6_m9_quiz', 1, '"Even though the trial was rushed, the drug works." The speaker is committed to the view that:', '["the trial WAS rushed","the trial may not have been rushed","the drug does not work","nothing about the trial"]', 0),
+('qq_l6_m9_2', 'itm_l6_m9_quiz', 2, '"Even if that were true, it would not follow that..." is useful because it:', '["concedes the opponent''s conclusion","avoids the argument","grants the premise without accepting it, then defeats the inference","changes the subject"]', 2),
 ('qq_l6_m9_3', 'itm_l6_m9_quiz', 3, 'Which is correctly formed?', '["However the argument is compelling","However compelling the argument may be","However compelling may be the argument","However is compelling the argument"]', 1),
-('qq_l6_m9_4', 'itm_l6_m9_quiz', 4, '"Regardless of outcome, we owe our staff an honest account" is an argument from:', '["consequences","duties","character","precedent"]', 1),
-('qq_l6_m9_5', 'itm_l6_m9_quiz', 5, 'Naming the frame an opponent is arguing from is valuable chiefly because:', '["it wins the argument","it converts a stalled disagreement into a productive one","it is polite","it ends the discussion"]', 1),
-('qq_l6_m9_6', 'itm_l6_m9_quiz', 6, 'In British English, "a compliance scheme" means:', '["a plot to evade compliance","an organised official arrangement for compliance","a legal penalty","an audit failure"]', 1),
-('qq_l6_m9_7', 'itm_l6_m9_quiz', 7, 'Which phrasal verb means "deliberately fail to notice"?', '["weigh up","stand by","turn a blind eye to","speak up"]', 2),
+('qq_l6_m9_4', 'itm_l6_m9_quiz', 4, '"Regardless of outcome, we owe our staff an honest account" is an argument from:', '["consequences","character","precedent","duties"]', 3),
+('qq_l6_m9_5', 'itm_l6_m9_quiz', 5, 'Naming the frame an opponent is arguing from is valuable chiefly because:', '["it wins the argument","it is polite","it converts a stalled disagreement into a productive one","it ends the discussion"]', 2),
+('qq_l6_m9_6', 'itm_l6_m9_quiz', 6, 'In British English, "a compliance scheme" means:', '["an organised official arrangement for compliance","a plot to evade compliance","a legal penalty","an audit failure"]', 0),
+('qq_l6_m9_7', 'itm_l6_m9_quiz', 7, 'Which phrasal verb means "deliberately fail to notice"?', '["weigh up","stand by","speak up","turn a blind eye to"]', 3),
 ('qq_l6_m9_8', 'itm_l6_m9_quiz', 8, 'Deliberation differs from debate in that its success is measured by:', '["whose position prevailed","whether everyone can state the decision, its reasons and the strongest objection to it","how long it lasted","whether a vote was unanimous"]', 1),
 ('qq_l6_m9_9', 'itm_l6_m9_quiz', 9, 'The hardest chairing skill named in this module is:', '["keeping to time","summarising a position you oppose in terms its holder would accept","opening the meeting","taking the minute"]', 1),
-('qq_l6_m9_10', 'itm_l6_m9_quiz', 10, 'A position stated with no acknowledged cost is treated in this module as:', '["especially strong","probably concealing something","correctly hedged","an argument from character"]', 1);
+('qq_l6_m9_10', 'itm_l6_m9_quiz', 10, 'A position stated with no acknowledged cost is treated in this module as:', '["especially strong","correctly hedged","an argument from character","probably concealing something"]', 3);
 
 -- ---------------------------------------------------------------------
 -- Module 10: Capstone -- Global Challenges & Sustainable Development,
@@ -1082,28 +1082,28 @@ PART C -- THE ORAL DEFENCE. 15 minutes of questioning by examiners who have read
 
 PART D -- THE SIX-LEVEL REFLECTIVE ANALYSIS. 700-900 words accounting for your development across the whole programme. It must name at least one specific capability acquired at each of Levels III, IV, V and VI; revisit the personal focus plan written in the MODULE 1 MASTERY DIAGNOSTIC and state honestly which of its aims were met and which were not; and identify at least one genuine remaining limitation, stated specifically enough that a reader could design the next piece of work to address it.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- accuracy sustained across five genres and three spoken formats, with each genre''s characteristic structures correctly deployed; errors, where they occur, do not impede meaning at any point. (2) Vocabulary range -- precise domain vocabulary across at least four of Level VI''s nine domains, with register consistently matched to reader; one variety of English chosen and held. (3) Task completion -- five distinct genres with contents page in Part A; controlling idea, stated limitation and falsification condition in Part B; premise challenge, honest non-answer, and reasoned defence or concession in Part C; per-level capabilities, Module 1 diagnostic revisited, and a specific remaining limitation in Part D. (4) Independent judgement -- the criterion that distinguishes mastery from proficiency: are the choices made inside each genre ones you have reasoned to and can defend under challenge, and is your position on the chosen challenge one you hold rather than one you have assembled? (5) Rhetorical effectiveness -- does each portfolio piece work on the reader it names, and does the presentation land its controlling idea with a mixed audience? (6) Discourse coherence & register -- do five pieces on one challenge read as five genuinely different genres addressed to five different readers, rather than one register retitled?
+GRADING RUBRIC: (1) Grammatical accuracy -- accuracy sustained across five genres and three spoken formats, with each genre''s characteristic structures correctly deployed; errors, where they occur, do not impede meaning at any point. (2) Vocabulary range -- precise domain vocabulary across at least four of Level VI''s nine domains, with register consistently matched to reader; one variety of English chosen and held. (3) Task completion -- five distinct genres with contents page in Part A; controlling idea, stated limitation and falsification condition in Part B; premise challenge, honest non-answer, and reasoned defence or concession in Part C; per-level capabilities, Module 1 diagnostic revisited, and a specific remaining limitation in Part D. (4) Evidence & argument quality -- is every claim across the portfolio placed at a strength its evidence supports, and does the capstone position rest on evidence the learner can produce under defence? (5) Independent judgement -- the criterion that distinguishes mastery from proficiency: are the choices made inside each genre ones you have reasoned to and can defend under challenge, and is your position on the chosen challenge one you hold rather than one you have assembled? (6) Rhetorical effectiveness -- does each portfolio piece work on the reader it names, and does the presentation land its controlling idea with a mixed audience? (7) Discourse coherence & register -- do five pieces on one challenge read as five genuinely different genres addressed to five different readers, rather than one register retitled?
 
 A grade at or above the platform''s pass threshold marks Module 10, Level VI, and the WEC-LC programme complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l6_m10_1', 'itm_l6_m10_examquiz', 1, '(M1) "The board recommends that the chief executive ___ the findings before publication."', '["reviews","review","will review","reviewed"]', 1),
-('qq_l6_m10_2', 'itm_l6_m10_examquiz', 2, '(M1) An executive briefing that takes responsibility uses:', '["the process failed","I took the decision, and it was wrong","mistakes were made","circumstances intervened"]', 1),
+('qq_l6_m10_1', 'itm_l6_m10_examquiz', 1, '(M1) "The board recommends that the chief executive ___ the findings before publication."', '["review","reviews","will review","reviewed"]', 0),
+('qq_l6_m10_2', 'itm_l6_m10_examquiz', 2, '(M1) An executive briefing that takes responsibility uses:', '["the process failed","mistakes were made","I took the decision, and it was wrong","circumstances intervened"]', 2),
 ('qq_l6_m10_3', 'itm_l6_m10_examquiz', 3, '(M2) "That would not be unhelpful" sits on the litotes scale:', '["below not helpful","between not helpful and helpful","above helpful","identical to unhelpful"]', 1),
-('qq_l6_m10_4', 'itm_l6_m10_examquiz', 4, '(M2) A negotiator''s INTEREST, as distinct from their POSITION, is:', '["what they are asking for","what they need the outcome to achieve","their opening offer","their walk-away point"]', 1),
-('qq_l6_m10_5', 'itm_l6_m10_examquiz', 5, '(M3) "Central to this strategy ___ the assumption that demand recovers by 2028."', '["is","are","it is","being"]', 0),
-('qq_l6_m10_6', 'itm_l6_m10_examquiz', 6, '(M3) In British business usage, "turnover" most commonly means:', '["staff attrition","revenue","profit margin","inventory rotation"]', 1),
-('qq_l6_m10_7', 'itm_l6_m10_examquiz', 7, '(M4) Which modal confers DISCRETION rather than obligation in policy drafting?', '["shall","must","may","is to"]', 2),
+('qq_l6_m10_4', 'itm_l6_m10_examquiz', 4, '(M2) A negotiator''s INTEREST, as distinct from their POSITION, is:', '["what they are asking for","their opening offer","their walk-away point","what they need the outcome to achieve"]', 3),
+('qq_l6_m10_5', 'itm_l6_m10_examquiz', 5, '(M3) "Central to this strategy ___ the assumption that demand recovers by 2028."', '["are","it is","is","being"]', 2),
+('qq_l6_m10_6', 'itm_l6_m10_examquiz', 6, '(M3) In British business usage, "turnover" most commonly means:', '["revenue","staff attrition","profit margin","inventory rotation"]', 0),
+('qq_l6_m10_7', 'itm_l6_m10_examquiz', 7, '(M4) Which modal confers DISCRETION rather than obligation in policy drafting?', '["shall","must","is to","may"]', 3),
 ('qq_l6_m10_8', 'itm_l6_m10_examquiz', 8, '(M4) A criterion-based option appraisal requires that:', '["only the preferred option is assessed","every option is assessed against every declared criterion, including the disfavoured option","criteria are chosen after the conclusion","trade-offs are omitted"]', 1),
 ('qq_l6_m10_9', 'itm_l6_m10_examquiz', 9, '(M5) "___ any provision to the contrary, this section applies." (the operator that OVERRIDES)', '["Subject to","Notwithstanding","Provided that","Save where"]', 1),
-('qq_l6_m10_10', 'itm_l6_m10_examquiz', 10, '(M5) To STEELMAN an argument before critiquing it means to:', '["restate it in its strongest defensible form","restate it in its weakest form","ignore it","attribute it to an authority"]', 0),
-('qq_l6_m10_11', 'itm_l6_m10_examquiz', 11, '(M6) "___ the trial to confirm these results, deployment could begin next year." (inverted conditional)', '["If","Should","Unless","Provided"]', 1),
-('qq_l6_m10_12', 'itm_l6_m10_examquiz', 12, '(M6) Asking "what would have to be true for this to work?" principally serves to:', '["generate optimism","convert a vague claim into a testable proposition","avoid commitment","shorten the proposal"]', 1),
-('qq_l6_m10_13', 'itm_l6_m10_examquiz', 13, '(M7) "It is a question of cost, of fairness, and of whether we are willing to be judged by what we do." This is:', '["anaphora","tricolon","antithesis","litotes"]', 1),
+('qq_l6_m10_10', 'itm_l6_m10_examquiz', 10, '(M5) To STEELMAN an argument before critiquing it means to:', '["restate it in its weakest form","ignore it","attribute it to an authority","restate it in its strongest defensible form"]', 3),
+('qq_l6_m10_11', 'itm_l6_m10_examquiz', 11, '(M6) "___ the trial to confirm these results, deployment could begin next year." (inverted conditional)', '["Should","If","Unless","Provided"]', 0),
+('qq_l6_m10_12', 'itm_l6_m10_examquiz', 12, '(M6) Asking "what would have to be true for this to work?" principally serves to:', '["generate optimism","avoid commitment","convert a vague claim into a testable proposition","shorten the proposal"]', 2),
+('qq_l6_m10_13', 'itm_l6_m10_examquiz', 13, '(M7) "It is a question of cost, of fairness, and of whether we are willing to be judged by what we do." This is:', '["anaphora","antithesis","litotes","tricolon"]', 3),
 ('qq_l6_m10_14', 'itm_l6_m10_examquiz', 14, '(M7) The element most organisations omit from a crisis holding statement -- and the one that most builds credibility -- is:', '["what we know","what we do not yet know","what we are doing","the next update time"]', 1),
 ('qq_l6_m10_15', 'itm_l6_m10_examquiz', 15, '(M8) On the hedging ladder, which claim is WEAKEST?', '["demonstrates","indicates","may indicate","suggests"]', 2),
-('qq_l6_m10_16', 'itm_l6_m10_examquiz', 16, '(M8) "It has been argued that... (Ramirez, 2019)" is NON-INTEGRAL citation, appropriate when:', '["the author is the subject of discussion","the claim matters more than who made it","the source is being criticised","the source is unpublished"]', 1),
+('qq_l6_m10_16', 'itm_l6_m10_examquiz', 16, '(M8) "It has been argued that... (Ramirez, 2019)" is NON-INTEGRAL citation, appropriate when:', '["the claim matters more than who made it","the author is the subject of discussion","the source is being criticised","the source is unpublished"]', 0),
 ('qq_l6_m10_17', 'itm_l6_m10_examquiz', 17, '(M9) "___ the commercial case may be, the obligation stands."', '["However compelling","However the compelling","How compelling","Whatever compelling"]', 0),
-('qq_l6_m10_18', 'itm_l6_m10_examquiz', 18, '(M9) "Even if the data were accurate, the conclusion would not follow." The speaker:', '["accepts that the data are accurate","does not commit to the data being accurate","rejects the conclusion''s premise","concedes the conclusion"]', 1),
+('qq_l6_m10_18', 'itm_l6_m10_examquiz', 18, '(M9) "Even if the data were accurate, the conclusion would not follow." The speaker:', '["accepts that the data are accurate","rejects the conclusion''s premise","does not commit to the data being accurate","concedes the conclusion"]', 2),
 ('qq_l6_m10_19', 'itm_l6_m10_examquiz', 19, '(M2/M9) Which pair of terms is NEUTRAL in British English but misleading or pejorative to an American reader?', '["lift / elevator","table [a motion] and scheme","autumn / fall","queue / line"]', 1),
-('qq_l6_m10_20', 'itm_l6_m10_examquiz', 20, '(M8/M4) A writer states criteria only after reaching a conclusion, and reports a finding as "demonstrates" where the method supports "is consistent with". These are, respectively:', '["two stylistic preferences","reverse-engineered criteria and an over-claim","correct practice in both cases","hedging and boosting"]', 1);
+('qq_l6_m10_20', 'itm_l6_m10_examquiz', 20, '(M8/M4) A writer states criteria only after reaching a conclusion, and reports a finding as "demonstrates" where the method supports "is consistent with". These are, respectively:', '["two stylistic preferences","correct practice in both cases","hedging and boosting","reverse-engineered criteria and an over-claim"]', 3);

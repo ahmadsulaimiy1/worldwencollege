@@ -189,88 +189,105 @@ prompt to `itm_l2_m2_lesson2`, which is a straightforward omission.
 
 ---
 
-### Finding 3 (P1) — Rubrics are not cumulative in practice, though the documentation says they are
+### Finding 3 (P1) — The rubric model is undocumented, and two levels break their own signature criterion
 
-This is the most substantial academic finding in the review.
+> **Correction notice.** This finding was substantially rewritten after
+> its first publication. The original version was produced by a regex
+> that excluded parenthesised text, and it therefore silently dropped
+> any criterion written as `Communicative quality (new emphasis at
+> this level) --`. Three claims in the original were wrong and are
+> withdrawn: that Level II Module 1 carries only three criteria (it
+> carries four); that the six Module 10 assessments lack rubric
+> criteria (they carry the *most* criteria in the programme — up to
+> eight — and are the one place where cumulativity is fully
+> implemented); and that Level III Module 9's `fluency and delivery`
+> is a naming error (it is a legitimate spoken-assessment criterion
+> also used by all six end-of-level examinations). The re-measurement
+> and the corrected findings are below. The original overstated the
+> disorder; the real defects are narrower and sharper.
 
-**Evidence.** Every assignment's rubric criteria were extracted and
-counted across all 60 assignments. The stated policy — repeated in
-each level's index document — is that each level *keeps* the previous
-levels' criteria and *adds* one. The measured reality is that rubrics
-hold at **3 constant criteria plus 1-2 level-specific ones**, with the
-fourth slot **rotating module by module**:
+**Evidence.** All 60 assignment bodies were re-parsed with a parser
+that tolerates parentheses and reads the numbered criterion list in
+order. Seventeen distinct criterion names are in use. Consolidated:
 
 | Criterion | L1 | L2 | L3 | L4 | L5 | L6 |
 |---|---|---|---|---|---|---|
-| Grammatical accuracy | 9/10 | 9/10 | 9/10 | 9/10 | 9/10 | 10/10 |
-| Vocabulary range | 9/10 | 10/10 | 10/10 | 10/10 | 10/10 | 10/10 |
-| Task completion | 9/10 | 10/10 | 10/10 | 10/10 | 10/10 | 10/10 |
-| Communicative quality | — | 8/10 | 8/10 | 3/10 | 0/10 | 0/10 |
-| Discourse coherence & register | — | — | 9/10 | 9/10 | 9/10 | 10/10 |
-| Evidence & argument quality | — | — | — | 6/10 | 5/10 | **0/10** |
-| Rhetorical effectiveness | — | — | — | — | 4/10 | 5/10 |
+| Grammatical accuracy *(exams: "grammatical range and accuracy")* | 10/10 | 10/10 | 10/10 | 10/10 | 10/10 | 10/10 |
+| Vocabulary range | **9/10** | 10/10 | 10/10 | 10/10 | 10/10 | 10/10 |
+| Task completion | **9/10** | 10/10 | 10/10 | 10/10 | 10/10 | 10/10 |
+| Communicative quality | — | 10/10 | 8/10 | 3/10 | 0/10 | 0/10 |
+| Discourse coherence & register | — | — | 10/10 | 10/10 | 10/10 | 10/10 |
+| Evidence & argument quality | — | — | — | **7/10** | **6/10** | **0/10** |
+| Rhetorical effectiveness | — | — | — | — | **5/10** | 5/10 |
 | Independent judgement | — | — | — | — | — | 10/10 |
 
-*(Counts below 10 in the top three rows are Module 10 assessments,
-which use a different rubric heading — see Finding 4 — not missing
-criteria.)*
+The core three are close to universal: grammatical accuracy 60/60,
+vocabulary range 59/60, task completion 59/60 — the single exception
+in each case being Level I Module 1, discussed below. The structure is
+far more orderly than first reported: Level II is fully conformant,
+and every end-of-level examination carries the full cumulative set for
+its level (Level IV's exam carries 7 criteria, Level V's 8).
 
-Five specific defects follow from this:
+**The three genuine defects that remain:**
 
-1. **`Evidence & argument quality` appears in zero Level VI
-   assignments**, while `docs/curriculum-level-6-mastery.md` states
-   that Level VI rubrics "keep Level V's *evidence & argument
-   quality*… criteria". The documentation is simply wrong about the
-   content it describes. At C2 — where the whole level rests on
-   claim calibration and warrant — this is the criterion least
-   defensible to drop.
-2. **`Rhetorical effectiveness` is applied unevenly within a level.**
-   Level V applies it in 4 of 10 assignments (Modules 1, 3, 6, 9);
-   Level VI in 5 (Modules 6-10). Level VI Modules 1-5 therefore carry
-   5 rubric criteria and Modules 6-10 carry 6.
-3. **`Communicative quality` decays without ever being formally
-   retired** — 8/10 at Level II, 8/10 at Level III, 3/10 at Level IV,
-   absent thereafter. Superseding it is reasonable; doing so silently
-   is not.
-4. **Level II Module 1's rubric has only three criteria**, because it
-   was authored before `communicative quality` was introduced at
-   Module 2. The level's first assignment is graded on a different
-   basis from its other eight.
-5. **Naming is inconsistent.** Level III Module 9 uses `Fluency and
-   delivery` where the rest of the level uses `Communicative
-   quality`. Level I's fourth criterion appears under four different
-   names across nine assignments — `Clarity`, `Coherence`, `Logical
-   coherence`, and `Delivery & politeness`.
+1. **Level IV breaks its own signature criterion.** `Evidence &
+   argument quality` is the criterion Level IV exists to introduce,
+   and Modules 1, 3 and 8 do not use it — they use `communicative
+   quality` in that slot instead. 7 of 10 is not a level criterion.
+2. **Level V breaks its own signature criterion, more severely.**
+   `Rhetorical effectiveness` — the criterion that defines C1 in this
+   model — appears in only Modules 1, 3, 6, 9 and the exam. Five of
+   the nine content modules never assess it.
+3. **Level VI never assesses `evidence & argument quality` at all —
+   including in its Mastery Examination.** Levels IV and V both carry
+   it into their end-of-level exams; Level VI does not. This is the
+   one place where cumulativity genuinely breaks, and it breaks at the
+   top of the programme, on the criterion a C2 level can least afford
+   to drop. `docs/curriculum-level-6-mastery.md` states that Level VI
+   rubrics keep it, so the documentation is wrong about its own level.
 
-**Assessment.** Rotating the genre-sensitive criterion is *good
-pedagogy* — grading a boardroom presentation on "evidence quality" and
-an op-ed on "rhetorical effectiveness" is more honest than applying a
-seven-criterion rubric uniformly to everything. The defect is not the
-rotation; it is that the rotation is undocumented, that it is
-described as its opposite, and that it lets a level's **signature**
-criterion apply to only half the level. A criterion a prospectus names
-as defining a level must apply to every assignment at that level, or
-it is not a level criterion.
+Two lesser items: `communicative quality` decays from 10/10 at Level
+II to zero after Level IV without being formally retired; and Level
+I's fourth slot carries **five different names for one idea**
+(`clarity`, `coherence`, `logical coherence`, `delivery & politeness`,
+plus Module 1's outlier set of `content completeness` /
+`pronunciation & intelligibility` / `delivery`, which is the only
+assignment in the programme lacking `vocabulary range` and `task
+completion`).
 
-**Recommendation.** Publish an explicit **rubric policy** in
-`docs/curriculum-framework.md` with three tiers, then normalise the 60
-assignments against it:
+**Assessment.** Rotating a genre-sensitive criterion is *good
+pedagogy* — grading a boardroom presentation on evidence quality and
+an op-ed on rhetorical effectiveness is more honest than applying one
+uniform seven-criterion rubric to everything. The defect is not the
+rotation. It is that (a) the rotation was never written down, so it
+reads as inconsistency rather than design; and (b) it was allowed to
+rotate the **level's own signature criterion** out of half that
+level's assignments, which is a different and more serious thing.
 
-- **Core (mandatory, every assignment, every level):** grammatical
-  accuracy, vocabulary range, task completion.
-- **Level signature (mandatory across the whole level that introduces
-  it, and every level above):** communicative quality (II), discourse
-  coherence & register (III), evidence & argument quality (IV),
-  rhetorical effectiveness (V), independent judgement (VI).
-- **Genre-selected (1 per assignment, chosen for the task):** drawn
-  from the same pool, applied where the genre makes it meaningful.
+**Recommendation.** Publish the model, then conform to it. The model
+the content already nearly implements, made explicit:
 
-Under that policy the concrete corrective work is: add `evidence &
-argument quality` to all 10 Level VI assignments and the 4 Level V
-ones lacking it; extend `rhetorical effectiveness` to Level VI
-Modules 1-5; retire `communicative quality` explicitly at Level IV
-with a stated reason; normalise Level I's fourth criterion to one
-name; and bring Level II Module 1 into line with its level.
+- **Core (3, mandatory, every assignment at every level):**
+  grammatical accuracy; vocabulary range; task completion.
+- **Level signature (1, mandatory on every assignment of its level):**
+  clarity & intelligibility (I); communicative quality (II); discourse
+  coherence & register (III); evidence & argument quality (IV);
+  rhetorical effectiveness (V); independent judgement (VI).
+- **Genre-selected (0-2, chosen for the task from the declared
+  pool):** any earlier signature, plus `fluency and delivery` and
+  `coherence` for spoken work.
+- **End-of-level examination (Module 10):** carries the full
+  cumulative set for its level. This is the guarantee that no learner
+  completes a level without every inherited criterion having been
+  assessed at least once.
+
+Corrective work under that policy is bounded and specific: add
+`evidence & argument quality` to Level IV Modules 1, 3, 8; add
+`rhetorical effectiveness` to Level V Modules 2, 4, 5, 7, 8; add
+`evidence & argument quality` to Level VI's Mastery Examination;
+normalise Level I's fourth criterion to one declared name across all
+ten assignments; and formally retire `communicative quality` at Level
+V with a stated reason. Eighteen assignment edits in total.
 
 ---
 

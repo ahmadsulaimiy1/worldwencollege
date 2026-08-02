@@ -112,19 +112,21 @@ EXTENSION: Write a 4-line dialogue for two new invented people meeting for the f
 ('itm_l1_m1_assignment', 'unt_l1_m1', 5, 'assignment', 'Module 1 Speaking Assignment -- Introduce Yourself',
 'INSTRUCTIONS: Record yourself (or perform live for your instructor) a short spoken self-introduction, 30-60 seconds long. Include: a greeting appropriate to the time of day, your name, the country you are from, and the city you live in. Speak clearly and try to use full sentences from this module.
 
-GRADING RUBRIC (for the instructor): (1) Content completeness -- all 4 required elements present. (2) Grammatical accuracy -- "to be" forms, "I''m from"/"I live in" distinction. (3) Pronunciation & intelligibility -- greeting stress, country-name pronunciation drilled in Lesson 1.2. (4) Delivery -- audible, reasonably fluent for A1, not read word-by-word from a script.
+GRADING RUBRIC (for the instructor): (1) Task completion -- all 4 required elements present. (2) Grammatical accuracy -- "to be" forms, "I''m from"/"I live in" distinction. (3) Vocabulary range -- at least 4 of the required content words (greeting, name, country, city) produced without prompting, and the country name said rather than spelled. (4) Clarity & intelligibility -- greeting stress, country-name pronunciation drilled in Lesson 1.2. (5) Fluency and delivery -- audible, reasonably fluent for A1, not read word-by-word from a script.
 
 A grade at or above the platform''s pass threshold marks this module complete for the learner.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l1_m1_1', 'itm_l1_m1_quiz', 1, '"___ name is Sofia."', '["I","My","Me","Mine"]', 1),
-('qq_l1_m1_2', 'itm_l1_m1_quiz', 2, '"___ you from Brazil?"', '["Are","Is","Am","Be"]', 0),
-('qq_l1_m1_3', 'itm_l1_m1_quiz', 3, '"I ___ from Nigeria."', '["is","are","am","be"]', 2),
-('qq_l1_m1_4', 'itm_l1_m1_quiz', 4, '"Nice to ___ you."', '["meet","meeting","met","meets"]', 0),
-('qq_l1_m1_5', 'itm_l1_m1_quiz', 5, 'It is 8 o''clock in the evening. What do you say?', '["Good morning","Good afternoon","Good evening","Good night-time"]', 2),
-('qq_l1_m1_6', 'itm_l1_m1_quiz', 6, '"What''s your ___?" (asking for someone''s name)', '["from","name","live","meet"]', 1),
-('qq_l1_m1_7', 'itm_l1_m1_quiz', 7, '"I''m from Italy. I ___ in Rome."', '["am","live","from","is"]', 1),
-('qq_l1_m1_8', 'itm_l1_m1_quiz', 8, 'Which question asks about someone''s country?', '["What''s your name?","How are you?","Where are you from?","Nice to meet you?"]', 2);
+('qq_l1_m1_1', 'itm_l1_m1_quiz', 1, '"___ name is Sofia."', '["I","Me","Mine","My"]', 3),
+('qq_l1_m1_2', 'itm_l1_m1_quiz', 2, '"___ you from Brazil?"', '["Is","Are","Am","Be"]', 1),
+('qq_l1_m1_3', 'itm_l1_m1_quiz', 3, '"I ___ from Nigeria."', '["am","is","are","be"]', 0),
+('qq_l1_m1_4', 'itm_l1_m1_quiz', 4, '"Nice to ___ you."', '["meeting","met","meet","meets"]', 2),
+('qq_l1_m1_5', 'itm_l1_m1_quiz', 5, 'It is 8 o''clock in the evening. What do you say?', '["Good morning","Good evening","Good afternoon","Good night-time"]', 1),
+('qq_l1_m1_6', 'itm_l1_m1_quiz', 6, '"What''s your ___?" (asking for someone''s name)', '["from","live","meet","name"]', 3),
+('qq_l1_m1_7', 'itm_l1_m1_quiz', 7, '"I''m from Italy. I ___ in Rome."', '["am","from","live","is"]', 2),
+('qq_l1_m1_8', 'itm_l1_m1_quiz', 8, 'Which question asks about someone''s country?', '["Where are you from?","What''s your name?","How are you?","Nice to meet you?"]', 0),
+('qq_l1_m1_9', 'itm_l1_m1_quiz', 9, '"This is Kenji. ___ is from Japan."', '["His","Him","He","He''s"]', 2),
+('qq_l1_m1_10', 'itm_l1_m1_quiz', 10, 'Someone says "Nice to meet you." A natural reply is:', '["You''re welcome.","Nice to meet you too.","Yes, please.","See you."]', 1);
 
 -- ---------------------------------------------------------------------
 -- Module 2: Everyday Objects & Places
@@ -206,19 +208,21 @@ EXTENSION: Write a short 4-sentence "tour guide" description of your neighbourho
 ('itm_l1_m2_assignment', 'unt_l1_m2', 5, 'assignment', 'Module 2 Assignment -- Describe Your Room',
 'INSTRUCTIONS: Write (or record yourself speaking) 5-6 sentences describing one room in your home. Use "there is/there are" for at least 3 objects, and "this is/that is/these are/those are" for at least 2 objects. Add one sentence naming a nearby place (a shop, park, or similar) using this module''s vocabulary.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct "there is/are" agreement, correct demonstrative choice. (2) Vocabulary range -- at least 5 distinct objects/places named correctly. (3) Task completion -- all required sentence types present. (4) Clarity -- describes a real room, not a disconnected list of nouns.
+GRADING RUBRIC: (1) Grammatical accuracy -- correct "there is/are" agreement, correct demonstrative choice. (2) Vocabulary range -- at least 5 distinct objects/places named correctly. (3) Task completion -- all required sentence types present. (4) Clarity & intelligibility -- describes a real room, not a disconnected list of nouns.
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l1_m2_1', 'itm_l1_m2_quiz', 1, '"___ a book on the table."', '["There is","There are","This is","These are"]', 0),
-('qq_l1_m2_2', 'itm_l1_m2_quiz', 2, '"___ any chairs in the room?"', '["Is there","Are there","Is this","Are these"]', 1),
-('qq_l1_m2_3', 'itm_l1_m2_quiz', 3, 'Pointing at something in your hand: "___ is my pen."', '["That","Those","This","These"]', 2),
-('qq_l1_m2_4', 'itm_l1_m2_quiz', 4, 'Pointing at something across the room: "___ is the door."', '["This","These","That","Those"]', 2),
-('qq_l1_m2_5', 'itm_l1_m2_quiz', 5, '"There ___ ten students in my class."', '["is","are","am","be"]', 1),
+('qq_l1_m2_1', 'itm_l1_m2_quiz', 1, '"___ a book on the table."', '["There are","This is","There is","These are"]', 2),
+('qq_l1_m2_2', 'itm_l1_m2_quiz', 2, '"___ any chairs in the room?"', '["Are there","Is there","Is this","Are these"]', 0),
+('qq_l1_m2_3', 'itm_l1_m2_quiz', 3, 'Pointing at something in your hand: "___ is my pen."', '["That","Those","These","This"]', 3),
+('qq_l1_m2_4', 'itm_l1_m2_quiz', 4, 'Pointing at something across the room: "___ is the door."', '["This","That","These","Those"]', 1),
+('qq_l1_m2_5', 'itm_l1_m2_quiz', 5, '"There ___ ten students in my class."', '["are","is","am","be"]', 0),
 ('qq_l1_m2_6', 'itm_l1_m2_quiz', 6, 'Which place do you go to buy food?', '["hospital","station","supermarket","hotel"]', 2),
-('qq_l1_m2_7', 'itm_l1_m2_quiz', 7, '"___ are my books." (pointing at several books near you)', '["This","That","These","Those"]', 2),
-('qq_l1_m2_8', 'itm_l1_m2_quiz', 8, '"Where ___ the bank?"', '["is","are","am","do"]', 0);
+('qq_l1_m2_7', 'itm_l1_m2_quiz', 7, '"___ are my books." (pointing at several books near you)', '["This","These","That","Those"]', 1),
+('qq_l1_m2_8', 'itm_l1_m2_quiz', 8, '"Where ___ the bank?"', '["are","am","do","is"]', 3),
+('qq_l1_m2_9', 'itm_l1_m2_quiz', 9, '"There ___ any milk in the fridge." (negative)', '["aren''t","no is","isn''t","not is"]', 2),
+('qq_l1_m2_10', 'itm_l1_m2_quiz', 10, 'Pointing at several books across the room: "___ are my books."', '["Those","These","This","That"]', 0);
 
 -- ---------------------------------------------------------------------
 -- Module 3: Family & Routines
@@ -300,19 +304,21 @@ EXTENSION: Write 2 additional sentences contrasting weekday and weekend routines
 ('itm_l1_m3_assignment', 'unt_l1_m3', 5, 'assignment', 'Module 3 Assignment -- A Typical Day in My Life',
 'INSTRUCTIONS: Write (or record) 6-8 sentences describing your typical weekday. Include at least 4 different times (o''clock/half past/quarter past/to), at least 4 routine verbs from this module, and correct present-simple third-person -s if you also describe someone else''s day.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- present-simple -s agreement, correct time expressions. (2) Vocabulary range -- at least 4 distinct routine verbs and 2 family members if describing someone else. (3) Task completion -- at least 6 sentences, at least 4 times stated. (4) Coherence -- activities presented in a logical time sequence.
+GRADING RUBRIC: (1) Grammatical accuracy -- present-simple -s agreement, correct time expressions. (2) Vocabulary range -- at least 4 distinct routine verbs and 2 family members if describing someone else. (3) Task completion -- at least 6 sentences, at least 4 times stated. (4) Clarity & intelligibility -- activities presented in a logical time sequence.
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l1_m3_1', 'itm_l1_m3_quiz', 1, '"She ___ two brothers."', '["have","has","is","are"]', 1),
+('qq_l1_m3_1', 'itm_l1_m3_quiz', 1, '"She ___ two brothers."', '["have","is","has","are"]', 2),
 ('qq_l1_m3_2', 'itm_l1_m3_quiz', 2, '"I ___ up at 7 o''clock every day."', '["wake","wakes","waking","woke"]', 0),
-('qq_l1_m3_3', 'itm_l1_m3_quiz', 3, '"He ___ to work at 8 o''clock."', '["go","goes","going","gone"]', 1),
-('qq_l1_m3_4', 'itm_l1_m3_quiz', 4, 'It is 7:30. How do you say this time?', '["Half past seven","Quarter past seven","Seven o''clock","Quarter to seven"]', 0),
-('qq_l1_m3_5', 'itm_l1_m3_quiz', 5, '"This is my father''s sister. She is my ___."', '["grandmother","aunt","cousin","niece"]', 1),
-('qq_l1_m3_6', 'itm_l1_m3_quiz', 6, '"What ___ do you have breakfast?"', '["time","when","who","which"]', 0),
-('qq_l1_m3_7', 'itm_l1_m3_quiz', 7, '"I have dinner ___ the evening."', '["at","on","in","to"]', 2),
-('qq_l1_m3_8', 'itm_l1_m3_quiz', 8, 'Which word means "comes before all the others"?', '["then","first","finally","after"]', 1);
+('qq_l1_m3_3', 'itm_l1_m3_quiz', 3, '"He ___ to work at 8 o''clock."', '["go","going","gone","goes"]', 3),
+('qq_l1_m3_4', 'itm_l1_m3_quiz', 4, 'It is 7:30. How do you say this time?', '["Quarter past seven","Half past seven","Seven o''clock","Quarter to seven"]', 1),
+('qq_l1_m3_5', 'itm_l1_m3_quiz', 5, '"This is my father''s sister. She is my ___."', '["aunt","grandmother","cousin","niece"]', 0),
+('qq_l1_m3_6', 'itm_l1_m3_quiz', 6, '"What ___ do you have breakfast?"', '["when","who","time","which"]', 2),
+('qq_l1_m3_7', 'itm_l1_m3_quiz', 7, '"I have dinner ___ the evening."', '["at","in","on","to"]', 1),
+('qq_l1_m3_8', 'itm_l1_m3_quiz', 8, 'Which word means "comes before all the others"?', '["then","finally","after","first"]', 3),
+('qq_l1_m3_9', 'itm_l1_m3_quiz', 9, '"My mother''s mother is my ___."', '["aunt","cousin","sister","grandmother"]', 3),
+('qq_l1_m3_10', 'itm_l1_m3_quiz', 10, '"___ she work on Saturdays?"', '["Do","Does","Is","Are"]', 1);
 
 -- ---------------------------------------------------------------------
 -- Module 4: Food & Shopping
@@ -394,19 +400,21 @@ EXTENSION: Extend the dialogue with a complaint/request for a different item ("D
 ('itm_l1_m4_assignment', 'unt_l1_m4', 5, 'assignment', 'Module 4 Assignment -- At the Market Roleplay',
 'INSTRUCTIONS: Record yourself (or perform live) a short shop dialogue, 45-60 seconds, playing both the customer and the shopkeeper (or with a partner). Include: a greeting, a purchase request using "Can I have...?", at least 2 food items (at least one countable, one uncountable), a "How much is/are...?" question with a stated price, and a polite closing exchange.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct some/any, correct is/are with prices. (2) Vocabulary range -- at least 2 distinct food items, at least one price stated correctly. (3) Task completion -- all required dialogue elements present. (4) Delivery & politeness -- appropriate please/thank you usage, audible and reasonably fluent for A1.
+GRADING RUBRIC: (1) Grammatical accuracy -- correct some/any, correct is/are with prices. (2) Vocabulary range -- at least 2 distinct food items, at least one price stated correctly. (3) Task completion -- all required dialogue elements present. (4) Clarity & intelligibility -- appropriate please/thank you usage, audible and reasonably fluent for A1.
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l1_m4_1', 'itm_l1_m4_quiz', 1, '"There is ___ milk in the fridge."', '["a","some","many","an"]', 1),
-('qq_l1_m4_2', 'itm_l1_m4_quiz', 2, '"Is there ___ bread?"', '["some","any","a","much"]', 1),
-('qq_l1_m4_3', 'itm_l1_m4_quiz', 3, 'Which is uncountable?', '["apple","egg","rice","banana"]', 2),
-('qq_l1_m4_4', 'itm_l1_m4_quiz', 4, '"How much ___ the apples?"', '["is","are","am","be"]', 1),
-('qq_l1_m4_5', 'itm_l1_m4_quiz', 5, '"Can I ___ some coffee, please?"', '["have","has","having","had"]', 0),
-('qq_l1_m4_6', 'itm_l1_m4_quiz', 6, '"That''s $5. Here you ___."', '["am","is","are","be"]', 2),
-('qq_l1_m4_7', 'itm_l1_m4_quiz', 7, 'Where do you buy bread?', '["greengrocer","bakery","bank","station"]', 1),
-('qq_l1_m4_8', 'itm_l1_m4_quiz', 8, '"There are ___ eggs in the box."', '["some","any","a","an"]', 0);
+('qq_l1_m4_1', 'itm_l1_m4_quiz', 1, '"There is ___ milk in the fridge."', '["some","a","many","an"]', 0),
+('qq_l1_m4_2', 'itm_l1_m4_quiz', 2, '"Is there ___ bread?"', '["some","a","any","much"]', 2),
+('qq_l1_m4_3', 'itm_l1_m4_quiz', 3, 'Which is uncountable?', '["apple","rice","egg","banana"]', 1),
+('qq_l1_m4_4', 'itm_l1_m4_quiz', 4, '"How much ___ the apples?"', '["is","am","be","are"]', 3),
+('qq_l1_m4_5', 'itm_l1_m4_quiz', 5, '"Can I ___ some coffee, please?"', '["has","having","have","had"]', 2),
+('qq_l1_m4_6', 'itm_l1_m4_quiz', 6, '"That''s $5. Here you ___."', '["are","am","is","be"]', 0),
+('qq_l1_m4_7', 'itm_l1_m4_quiz', 7, 'Where do you buy bread?', '["greengrocer","bank","station","bakery"]', 3),
+('qq_l1_m4_8', 'itm_l1_m4_quiz', 8, '"There are ___ eggs in the box."', '["any","some","a","an"]', 1),
+('qq_l1_m4_9', 'itm_l1_m4_quiz', 9, '"I''d like ___ apples, please."', '["any","much","some","a"]', 2),
+('qq_l1_m4_10', 'itm_l1_m4_quiz', 10, '"How ___ sugar do you want?"', '["many","much","a lot","some"]', 1);
 
 -- ---------------------------------------------------------------------
 -- Module 5: Around Town
@@ -488,19 +496,21 @@ EXTENSION: Add a second destination to your direction-giving dialogue, requiring
 ('itm_l1_m5_assignment', 'unt_l1_m5', 5, 'assignment', 'Module 5 Assignment -- Direct a Visitor',
 'INSTRUCTIONS: Imagine a visitor to your town asks you for directions to a real place near where you live. Record yourself (or write) giving clear directions, 45-60 seconds or 5-6 sentences. Include: a polite opening, at least 2 imperative direction instructions, at least 1 preposition of place describing the destination''s location, and an estimated walking time.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct imperative forms, correct preposition of place. (2) Vocabulary range -- at least 2 distinct direction verbs used. (3) Task completion -- all required elements present. (4) Clarity -- directions are logical and could realistically be followed.
+GRADING RUBRIC: (1) Grammatical accuracy -- correct imperative forms, correct preposition of place. (2) Vocabulary range -- at least 2 distinct direction verbs used. (3) Task completion -- all required elements present. (4) Clarity & intelligibility -- directions are logical and could realistically be followed.
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
 ('qq_l1_m5_1', 'itm_l1_m5_quiz', 1, '"The bank is ___ the supermarket." (right beside it)', '["opposite","between","next to","behind"]', 2),
 ('qq_l1_m5_2', 'itm_l1_m5_quiz', 2, '"The park is ___ the school." (facing it, across the street)', '["opposite","next to","in","at"]', 0),
-('qq_l1_m5_3', 'itm_l1_m5_quiz', 3, '"The hotel is ___ the bank and the station."', '["next to","between","opposite","in front of"]', 1),
-('qq_l1_m5_4', 'itm_l1_m5_quiz', 4, '"Excuse me, how do I ___ to the library?"', '["get","going","goes","went"]', 0),
-('qq_l1_m5_5', 'itm_l1_m5_quiz', 5, '"___ straight on, then turn left."', '["Going","Go","Goes","Went"]', 1),
-('qq_l1_m5_6', 'itm_l1_m5_quiz', 6, 'Which is a polite way to start asking for help in the street?', '["Hey, you!","Excuse me","Where?","Now!"]', 1),
+('qq_l1_m5_3', 'itm_l1_m5_quiz', 3, '"The hotel is ___ the bank and the station."', '["next to","opposite","in front of","between"]', 3),
+('qq_l1_m5_4', 'itm_l1_m5_quiz', 4, '"Excuse me, how do I ___ to the library?"', '["going","get","goes","went"]', 1),
+('qq_l1_m5_5', 'itm_l1_m5_quiz', 5, '"___ straight on, then turn left."', '["Go","Going","Goes","Went"]', 0),
+('qq_l1_m5_6', 'itm_l1_m5_quiz', 6, 'Which is a polite way to start asking for help in the street?', '["Hey, you!","Where?","Excuse me","Now!"]', 2),
 ('qq_l1_m5_7', 'itm_l1_m5_quiz', 7, '"It''s about five ___ walk."', '["minute","minutes''","minutes","minuting"]', 1),
-('qq_l1_m5_8', 'itm_l1_m5_quiz', 8, '"The pharmacy is ___ the corner."', '["on","at","in","next"]', 0);
+('qq_l1_m5_8', 'itm_l1_m5_quiz', 8, '"The pharmacy is ___ the corner."', '["at","in","next","on"]', 3),
+('qq_l1_m5_9', 'itm_l1_m5_quiz', 9, '"Turn ___ at the traffic lights."', '["straight","near","next","right"]', 3),
+('qq_l1_m5_10', 'itm_l1_m5_quiz', 10, '"The bus stop is ___ from the station." (a short distance away)', '["not far","no far","not long","not near"]', 0);
 
 -- ---------------------------------------------------------------------
 -- Module 6: Describing People & Things
@@ -582,19 +592,21 @@ EXTENSION: Write a short "lost and found" notice combining a person description 
 ('itm_l1_m6_assignment', 'unt_l1_m6', 5, 'assignment', 'Module 6 Assignment -- Describe a Family Member',
 'INSTRUCTIONS: Write (or record) 5-6 sentences describing one family member''s appearance and one of their belongings. Use at least 2 has/is appearance sentences, correct possessive adjectives, and one two-adjective description (size + colour) of an object belonging to them.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct is/has choice, correct possessives, correct adjective order. (2) Vocabulary range -- at least 3 distinct adjectives used correctly. (3) Task completion -- describes both a person and an object. (4) Clarity -- specific and coherent, not a list of disconnected words.
+GRADING RUBRIC: (1) Grammatical accuracy -- correct is/has choice, correct possessives, correct adjective order. (2) Vocabulary range -- at least 3 distinct adjectives used correctly. (3) Task completion -- describes both a person and an object. (4) Clarity & intelligibility -- specific and coherent, not a list of disconnected words.
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l1_m6_1', 'itm_l1_m6_quiz', 1, '"She ___ long brown hair."', '["is","has","have","are"]', 1),
+('qq_l1_m6_1', 'itm_l1_m6_quiz', 1, '"She ___ long brown hair."', '["is","have","are","has"]', 3),
 ('qq_l1_m6_2', 'itm_l1_m6_quiz', 2, '"He ___ tall and young."', '["has","is","have","are"]', 1),
-('qq_l1_m6_3', 'itm_l1_m6_quiz', 3, '"___ is this bag? -- It''s mine."', '["Who","Whose","Which","What"]', 1),
-('qq_l1_m6_4', 'itm_l1_m6_quiz', 4, '"This isn''t my pen. It''s ___."', '["her","hers","she","she''s"]', 1),
+('qq_l1_m6_3', 'itm_l1_m6_quiz', 3, '"___ is this bag? -- It''s mine."', '["Whose","Who","Which","What"]', 0),
+('qq_l1_m6_4', 'itm_l1_m6_quiz', 4, '"This isn''t my pen. It''s ___."', '["her","she","hers","she''s"]', 2),
 ('qq_l1_m6_5', 'itm_l1_m6_quiz', 5, 'Which sentence has the correct adjective order?', '["a red big bag","a big red bag","a bag big red","a big bag red"]', 1),
-('qq_l1_m6_6', 'itm_l1_m6_quiz', 6, '"That''s not our car. It''s ___."', '["their","theirs","they","them"]', 1),
-('qq_l1_m6_7', 'itm_l1_m6_quiz', 7, '"Is this ___ book?" (asking someone directly)', '["you","your","yours","you''re"]', 1),
-('qq_l1_m6_8', 'itm_l1_m6_quiz', 8, '"My sister has short ___ hair."', '["curly","tall","expensive","cheap"]', 0);
+('qq_l1_m6_6', 'itm_l1_m6_quiz', 6, '"That''s not our car. It''s ___."', '["their","they","them","theirs"]', 3),
+('qq_l1_m6_7', 'itm_l1_m6_quiz', 7, '"Is this ___ book?" (asking someone directly)', '["you","yours","your","you''re"]', 2),
+('qq_l1_m6_8', 'itm_l1_m6_quiz', 8, '"My sister has short ___ hair."', '["curly","tall","expensive","cheap"]', 0),
+('qq_l1_m6_9', 'itm_l1_m6_quiz', 9, '"Maria is my friend. ___ eyes are blue."', '["She","Hers","Her","She''s"]', 2),
+('qq_l1_m6_10', 'itm_l1_m6_quiz', 10, '"He''s got a ___ car." (correct adjective order)', '["red small nice","nice small red","small nice red","nice red small"]', 1);
 
 -- ---------------------------------------------------------------------
 -- Module 7: Past Experiences I
@@ -676,19 +688,21 @@ EXTENSION: Add one negative irregular past sentence ("I didn''t see...") and one
 ('itm_l1_m7_assignment', 'unt_l1_m7', 5, 'assignment', 'Module 7 Assignment -- My Last Holiday',
 'INSTRUCTIONS: Write (or record) 6-8 sentences narrating a real (or invented, if preferred) recent holiday or trip. Use at least 3 regular past verbs and at least 3 irregular past verbs. Include at least one past-time expression and present events in a logical time order.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct regular -ed forms, correct irregular past forms, correct negative form if used. (2) Vocabulary range -- at least 3 regular and 3 irregular verbs used correctly. (3) Task completion -- at least 6 sentences, at least one time expression. (4) Coherence -- events presented in a logical narrative sequence.
+GRADING RUBRIC: (1) Grammatical accuracy -- correct regular -ed forms, correct irregular past forms, correct negative form if used. (2) Vocabulary range -- at least 3 regular and 3 irregular verbs used correctly. (3) Task completion -- at least 6 sentences, at least one time expression. (4) Clarity & intelligibility -- events presented in a logical narrative sequence.
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l1_m7_1', 'itm_l1_m7_quiz', 1, '"I ___ TV yesterday evening."', '["watch","watched","watching","watches"]', 1),
-('qq_l1_m7_2', 'itm_l1_m7_quiz', 2, '"She ___ study last night."', '["don''t","doesn''t","didn''t","isn''t"]', 2),
-('qq_l1_m7_3', 'itm_l1_m7_quiz', 3, '"___ you go to the party?"', '["Do","Does","Did","Were"]', 2),
+('qq_l1_m7_1', 'itm_l1_m7_quiz', 1, '"I ___ TV yesterday evening."', '["watch","watching","watched","watches"]', 2),
+('qq_l1_m7_2', 'itm_l1_m7_quiz', 2, '"She ___ study last night."', '["didn''t","don''t","doesn''t","isn''t"]', 0),
+('qq_l1_m7_3', 'itm_l1_m7_quiz', 3, '"___ you go to the party?"', '["Do","Does","Were","Did"]', 3),
 ('qq_l1_m7_4', 'itm_l1_m7_quiz', 4, '"Yes, I ___."', '["do","did","does","was"]', 1),
-('qq_l1_m7_5', 'itm_l1_m7_quiz', 5, '"We ___ to the beach last weekend."', '["go","goed","went","going"]', 2),
-('qq_l1_m7_6', 'itm_l1_m7_quiz', 6, '"What ___ you eat for breakfast?"', '["did","do","does","were"]', 0),
+('qq_l1_m7_5', 'itm_l1_m7_quiz', 5, '"We ___ to the beach last weekend."', '["went","go","goed","going"]', 0),
+('qq_l1_m7_6', 'itm_l1_m7_quiz', 6, '"What ___ you eat for breakfast?"', '["do","does","did","were"]', 2),
 ('qq_l1_m7_7', 'itm_l1_m7_quiz', 7, 'Which is the correct past form of "buy"?', '["buyed","bought","buys","buying"]', 1),
-('qq_l1_m7_8', 'itm_l1_m7_quiz', 8, '"Two days ___ I visited my grandmother."', '["before","last","ago","past"]', 2);
+('qq_l1_m7_8', 'itm_l1_m7_quiz', 8, '"Two days ___ I visited my grandmother."', '["before","last","past","ago"]', 3),
+('qq_l1_m7_9', 'itm_l1_m7_quiz', 9, '"They ___ at home last night."', '["was","been","are","were"]', 3),
+('qq_l1_m7_10', 'itm_l1_m7_quiz', 10, '"I saw her ___ week."', '["ago","last","yesterday","before"]', 1);
 
 -- ---------------------------------------------------------------------
 -- Module 8: Plans & Abilities
@@ -770,19 +784,21 @@ EXTENSION: Add one ability-related justification to a plan ("I''m going to go sw
 ('itm_l1_m8_assignment', 'unt_l1_m8', 5, 'assignment', 'Module 8 Assignment -- My Weekend Plans',
 'INSTRUCTIONS: Record yourself (or write) 5-6 sentences about your real plans for the coming weekend, using "going to". Include at least one ability-related sentence using can/can''t that connects logically to one of your plans.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct going-to form, correct can/can''t form. (2) Vocabulary range -- at least 3 distinct planned activities named. (3) Task completion -- at least one can/can''t sentence logically connected to a plan. (4) Coherence -- plans are specific and clearly future-oriented.
+GRADING RUBRIC: (1) Grammatical accuracy -- correct going-to form, correct can/can''t form. (2) Vocabulary range -- at least 3 distinct planned activities named. (3) Task completion -- at least one can/can''t sentence logically connected to a plan. (4) Clarity & intelligibility -- plans are specific and clearly future-oriented.
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
 ('qq_l1_m8_1', 'itm_l1_m8_quiz', 1, '"I ___ speak French, but I can''t speak German."', '["can","cans","canning","could"]', 0),
-('qq_l1_m8_2', 'itm_l1_m8_quiz', 2, '"___ you swim?"', '["Do","Can","Are","Does"]', 1),
-('qq_l1_m8_3', 'itm_l1_m8_quiz', 3, '"No, I ___."', '["don''t","not","can''t","isn''t"]', 2),
-('qq_l1_m8_4', 'itm_l1_m8_quiz', 4, '"She ___ going to visit her grandmother tomorrow."', '["am","is","are","do"]', 1),
-('qq_l1_m8_5', 'itm_l1_m8_quiz', 5, '"What are you ___ to do this weekend?"', '["go","going","goes","went"]', 1),
-('qq_l1_m8_6', 'itm_l1_m8_quiz', 6, 'Which sentence is about ability, not a plan?', '["I''m going to cook dinner.","I can cook well.","She''s going to visit Rome.","They''re going to play football."]', 1),
-('qq_l1_m8_7', 'itm_l1_m8_quiz', 7, '"We ___ going to travel next month."', '["am","is","are","be"]', 2),
-('qq_l1_m8_8', 'itm_l1_m8_quiz', 8, '"He can play the guitar ___."', '["good","well","fine","nice"]', 1);
+('qq_l1_m8_2', 'itm_l1_m8_quiz', 2, '"___ you swim?"', '["Do","Are","Can","Does"]', 2),
+('qq_l1_m8_3', 'itm_l1_m8_quiz', 3, '"No, I ___."', '["don''t","can''t","not","isn''t"]', 1),
+('qq_l1_m8_4', 'itm_l1_m8_quiz', 4, '"She ___ going to visit her grandmother tomorrow."', '["am","are","do","is"]', 3),
+('qq_l1_m8_5', 'itm_l1_m8_quiz', 5, '"What are you ___ to do this weekend?"', '["go","goes","going","went"]', 2),
+('qq_l1_m8_6', 'itm_l1_m8_quiz', 6, 'Which sentence is about ability, not a plan?', '["I can cook well.","I''m going to cook dinner.","She''s going to visit Rome.","They''re going to play football."]', 0),
+('qq_l1_m8_7', 'itm_l1_m8_quiz', 7, '"We ___ going to travel next month."', '["am","is","be","are"]', 3),
+('qq_l1_m8_8', 'itm_l1_m8_quiz', 8, '"He can play the guitar ___."', '["good","well","fine","nice"]', 1),
+('qq_l1_m8_9', 'itm_l1_m8_quiz', 9, '"She can''t ___ very well."', '["swims","swim","swimming","to swim"]', 1),
+('qq_l1_m8_10', 'itm_l1_m8_quiz', 10, '"I''m going ___ study tonight."', '["for","at","to","of"]', 2);
 
 -- ---------------------------------------------------------------------
 -- Module 9: Health & Feelings
@@ -864,19 +880,21 @@ EXTENSION: Add a second piece of advice using shouldn''t to your roleplay script
 ('itm_l1_m9_assignment', 'unt_l1_m9', 5, 'assignment', 'Module 9 Assignment -- At the Doctor''s Roleplay',
 'INSTRUCTIONS: Record yourself (or perform with a partner) a short roleplay, 45-60 seconds, as a patient describing a health problem to a doctor (or friend) and receiving advice. Include: a greeting, at least one have/has or feel sentence describing the problem, at least two pieces of advice using should/shouldn''t, and a polite closing.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct have/has/feel choice, correct should/shouldn''t form. (2) Vocabulary range -- at least 2 health/body words and 2 advice verbs used correctly. (3) Task completion -- all required elements present. (4) Logical coherence -- the advice given genuinely matches the stated problem.
+GRADING RUBRIC: (1) Grammatical accuracy -- correct have/has/feel choice, correct should/shouldn''t form. (2) Vocabulary range -- at least 2 health/body words and 2 advice verbs used correctly. (3) Task completion -- all required elements present. (4) Clarity & intelligibility -- the advice given genuinely matches the stated problem.
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l1_m9_1', 'itm_l1_m9_quiz', 1, '"I ___ a terrible headache."', '["am","have","has","feel"]', 1),
-('qq_l1_m9_2', 'itm_l1_m9_quiz', 2, '"I ___ very tired today."', '["have","has","feel","feels"]', 2),
-('qq_l1_m9_3', 'itm_l1_m9_quiz', 3, '"She ___ a cold."', '["have","has","is","feel"]', 1),
-('qq_l1_m9_4', 'itm_l1_m9_quiz', 4, '"You ___ rest if you feel sick."', '["should","shoulds","shouldn''t","must not"]', 0),
-('qq_l1_m9_5', 'itm_l1_m9_quiz', 5, '"You ___ stay up too late -- you need sleep."', '["should","shouldn''t","can","have"]', 1),
+('qq_l1_m9_1', 'itm_l1_m9_quiz', 1, '"I ___ a terrible headache."', '["am","has","have","feel"]', 2),
+('qq_l1_m9_2', 'itm_l1_m9_quiz', 2, '"I ___ very tired today."', '["feel","have","has","feels"]', 0),
+('qq_l1_m9_3', 'itm_l1_m9_quiz', 3, '"She ___ a cold."', '["have","is","feel","has"]', 3),
+('qq_l1_m9_4', 'itm_l1_m9_quiz', 4, '"You ___ rest if you feel sick."', '["shoulds","should","shouldn''t","must not"]', 1),
+('qq_l1_m9_5', 'itm_l1_m9_quiz', 5, '"You ___ stay up too late -- you need sleep."', '["shouldn''t","should","can","have"]', 0),
 ('qq_l1_m9_6', 'itm_l1_m9_quiz', 6, 'Which body part do you use to listen?', '["throat","arm","ear","tooth"]', 2),
-('qq_l1_m9_7', 'itm_l1_m9_quiz', 7, '"What''s the ___?" (asking what''s wrong)', '["matter","feeling","health","problem"]', 0),
-('qq_l1_m9_8', 'itm_l1_m9_quiz', 8, 'A polite thing to say to someone who is sick:', '["Get well soon!","Well done!","Good luck!","See you later!"]', 0);
+('qq_l1_m9_7', 'itm_l1_m9_quiz', 7, '"What''s the ___?" (asking what''s wrong)', '["feeling","matter","health","problem"]', 1),
+('qq_l1_m9_8', 'itm_l1_m9_quiz', 8, 'A polite thing to say to someone who is sick:', '["Well done!","Good luck!","See you later!","Get well soon!"]', 3),
+('qq_l1_m9_9', 'itm_l1_m9_quiz', 9, '"My ___ hurts. I can''t walk."', '["ear","nose","hand","leg"]', 3),
+('qq_l1_m9_10', 'itm_l1_m9_quiz', 10, '"You look sad. ___ wrong?"', '["How''s","What''s","Where''s","Who''s"]', 1);
 
 -- ---------------------------------------------------------------------
 -- Module 10: Review & Consolidation (Foundation-level end-of-level exam)
@@ -941,28 +959,28 @@ PART A -- SPEAKING (2-3 minutes, recorded or live with your instructor): Give an
 
 PART B -- WRITING (10-12 sentences): Write a personal letter to a new pen pal covering: an introduction (Module 1); a description of your home or room using "there is/are" and "this/that" (Module 2); a description of one family member''s appearance (Module 6); how you''re feeling today and one piece of health advice you''d give a friend (Module 9); and directions from your home to one place you often visit (Module 5).
 
-GRADING RUBRIC (weighted toward listening and speaking, per the Foundation-level assessment strategy): (1) Grammatical range and accuracy -- correct, varied use of the level''s grammar points across both parts. (2) Vocabulary range -- words drawn from at least 6 of the 9 modules combined. (3) Task completion -- every required element present in both parts. (4) Fluency and delivery (Part A) -- reasonably fluent for A1, audible, able to respond to an unscripted follow-up question. (5) Coherence (Part B) -- reads as one connected personal message.
+GRADING RUBRIC (weighted toward listening and speaking, per the Foundation-level assessment strategy): (1) Grammatical range and accuracy -- correct, varied use of the level''s grammar points across both parts. (2) Vocabulary range -- words drawn from at least 6 of the 9 modules combined. (3) Task completion -- every required element present in both parts. (4) Clarity & intelligibility -- is the learner understood by a listener who does not already know what they are trying to say, across both parts? (5) Fluency and delivery (Part A) -- reasonably fluent for A1, audible, able to respond to an unscripted follow-up question. (6) Coherence (Part B) -- reads as one connected personal message.
 
 PROGRESSION REQUIREMENT: A grade at or above the platform''s pass threshold on this comprehensive assessment marks Level I complete for the learner.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l1_m10_1', 'itm_l1_m10_examquiz', 1, '(Module 1) "___ name is Carlos."', '["I","My","Me","Mine"]', 1),
+('qq_l1_m10_1', 'itm_l1_m10_examquiz', 1, '(Module 1) "___ name is Carlos."', '["My","I","Me","Mine"]', 0),
 ('qq_l1_m10_2', 'itm_l1_m10_examquiz', 2, '(Module 1) "I ___ from Mexico."', '["is","are","am","be"]', 2),
 ('qq_l1_m10_3', 'itm_l1_m10_examquiz', 3, '(Module 2) "There ___ two windows in this room."', '["is","are","am","be"]', 1),
-('qq_l1_m10_4', 'itm_l1_m10_examquiz', 4, '(Module 2) "___ is my bag." (in your hand)', '["That","Those","This","These"]', 2),
-('qq_l1_m10_5', 'itm_l1_m10_examquiz', 5, '(Module 3) "He ___ breakfast at 7 o''clock."', '["have","has","is","are"]', 1),
+('qq_l1_m10_4', 'itm_l1_m10_examquiz', 4, '(Module 2) "___ is my bag." (in your hand)', '["That","Those","These","This"]', 3),
+('qq_l1_m10_5', 'itm_l1_m10_examquiz', 5, '(Module 3) "He ___ breakfast at 7 o''clock."', '["have","is","has","are"]', 2),
 ('qq_l1_m10_6', 'itm_l1_m10_examquiz', 6, '(Module 3) It is 3:30. How do you say this time?', '["Half past three","Quarter past three","Three o''clock","Quarter to three"]', 0),
-('qq_l1_m10_7', 'itm_l1_m10_examquiz', 7, '(Module 4) "Is there ___ milk?"', '["some","any","a","much"]', 1),
+('qq_l1_m10_7', 'itm_l1_m10_examquiz', 7, '(Module 4) "Is there ___ milk?"', '["some","a","much","any"]', 3),
 ('qq_l1_m10_8', 'itm_l1_m10_examquiz', 8, '(Module 4) "How much ___ the apples?"', '["is","are","am","be"]', 1),
-('qq_l1_m10_9', 'itm_l1_m10_examquiz', 9, '(Module 5) "The bank is ___ the supermarket." (right beside it)', '["opposite","between","next to","behind"]', 2),
-('qq_l1_m10_10', 'itm_l1_m10_examquiz', 10, '(Module 5) "___ straight on, then turn left."', '["Going","Go","Goes","Went"]', 1),
-('qq_l1_m10_11', 'itm_l1_m10_examquiz', 11, '(Module 6) "She ___ long brown hair."', '["is","has","have","are"]', 1),
-('qq_l1_m10_12', 'itm_l1_m10_examquiz', 12, '(Module 6) "This isn''t my pen. It''s ___."', '["her","hers","she","she''s"]', 1),
-('qq_l1_m10_13', 'itm_l1_m10_examquiz', 13, '(Module 7) "I ___ TV yesterday evening."', '["watch","watched","watching","watches"]', 1),
-('qq_l1_m10_14', 'itm_l1_m10_examquiz', 14, '(Module 7) "___ you go to the party? -- Yes, I did."', '["Do","Does","Did","Were"]', 2),
-('qq_l1_m10_15', 'itm_l1_m10_examquiz', 15, '(Module 8) "I ___ speak French, but I can''t speak German."', '["can","cans","canning","could"]', 0),
-('qq_l1_m10_16', 'itm_l1_m10_examquiz', 16, '(Module 8) "What are you ___ to do this weekend?"', '["go","going","goes","went"]', 1),
-('qq_l1_m10_17', 'itm_l1_m10_examquiz', 17, '(Module 9) "I ___ a terrible headache."', '["am","have","has","feel"]', 1),
-('qq_l1_m10_18', 'itm_l1_m10_examquiz', 18, '(Module 9) "You ___ rest if you feel sick."', '["should","shoulds","shouldn''t","must not"]', 0),
+('qq_l1_m10_9', 'itm_l1_m10_examquiz', 9, '(Module 5) "The bank is ___ the supermarket." (right beside it)', '["opposite","next to","between","behind"]', 1),
+('qq_l1_m10_10', 'itm_l1_m10_examquiz', 10, '(Module 5) "___ straight on, then turn left."', '["Going","Goes","Went","Go"]', 3),
+('qq_l1_m10_11', 'itm_l1_m10_examquiz', 11, '(Module 6) "She ___ long brown hair."', '["has","is","have","are"]', 0),
+('qq_l1_m10_12', 'itm_l1_m10_examquiz', 12, '(Module 6) "This isn''t my pen. It''s ___."', '["her","she","hers","she''s"]', 2),
+('qq_l1_m10_13', 'itm_l1_m10_examquiz', 13, '(Module 7) "I ___ TV yesterday evening."', '["watch","watching","watches","watched"]', 3),
+('qq_l1_m10_14', 'itm_l1_m10_examquiz', 14, '(Module 7) "___ you go to the party? -- Yes, I did."', '["Do","Did","Does","Were"]', 1),
+('qq_l1_m10_15', 'itm_l1_m10_examquiz', 15, '(Module 8) "I ___ speak French, but I can''t speak German."', '["cans","canning","can","could"]', 2),
+('qq_l1_m10_16', 'itm_l1_m10_examquiz', 16, '(Module 8) "What are you ___ to do this weekend?"', '["going","go","goes","went"]', 0),
+('qq_l1_m10_17', 'itm_l1_m10_examquiz', 17, '(Module 9) "I ___ a terrible headache."', '["have","am","has","feel"]', 0),
+('qq_l1_m10_18', 'itm_l1_m10_examquiz', 18, '(Module 9) "You ___ rest if you feel sick."', '["shoulds","shouldn''t","should","must not"]', 2),
 ('qq_l1_m10_19', 'itm_l1_m10_examquiz', 19, '(Cumulative vocabulary) Which word is a family member, not a place?', '["hospital","grandmother","station","pharmacy"]', 1),
-('qq_l1_m10_20', 'itm_l1_m10_examquiz', 20, '(Cumulative vocabulary) Which word describes ability, not future plans?', '["going to","will","can","tomorrow"]', 2);
+('qq_l1_m10_20', 'itm_l1_m10_examquiz', 20, '(Cumulative vocabulary) Which word describes ability, not future plans?', '["going to","will","tomorrow","can"]', 3);

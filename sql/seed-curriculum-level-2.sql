@@ -115,16 +115,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct past continuous/simple past 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l2_m1_1', 'itm_l2_m1_quiz', 1, '"I ___ TV when the phone rang."', '["watched","was watching","watch","am watching"]', 1),
+('qq_l2_m1_1', 'itm_l2_m1_quiz', 1, '"I ___ TV when the phone rang."', '["watched","watch","am watching","was watching"]', 3),
 ('qq_l2_m1_2', 'itm_l2_m1_quiz', 2, '"While I ___ dinner, my sister called."', '["cooked","was cooking","cook","cooks"]', 1),
 ('qq_l2_m1_3', 'itm_l2_m1_quiz', 3, '"___ you use to live in London?"', '["Did","Do","Were","Was"]', 0),
 ('qq_l2_m1_4', 'itm_l2_m1_quiz', 4, '"I didn''t use to ___ coffee, but now I love it."', '["liked","liking","like","likes"]', 2),
 ('qq_l2_m1_5', 'itm_l2_m1_quiz', 5, 'Which sentence is correct?', '["I used to visit her last year.","I visited her last year.","I use to visited her last year.","I was visiting her last year only."]', 1),
-('qq_l2_m1_6', 'itm_l2_m1_quiz', 6, '"When I ___ the door, I saw my friend outside."', '["was opening","opened","open","opens"]', 1),
-('qq_l2_m1_7', 'itm_l2_m1_quiz', 7, '"___ were you doing at 8pm yesterday?"', '["What","When","Where","Who"]', 0),
-('qq_l2_m1_8', 'itm_l2_m1_quiz', 8, 'Which describes a repeated past habit, not a single event?', '["I went to Paris in 2019.","I used to go to the cinema every Friday.","I was watching TV at 9pm.","I saw a great film last night."]', 1),
-('qq_l2_m1_9', 'itm_l2_m1_quiz', 9, '"She ___ shy when she was a child, but now she''s very confident."', '["use to be","used to being","used to be","was use to be"]', 2),
-('qq_l2_m1_10', 'itm_l2_m1_quiz', 10, 'Which word often introduces the "background" action in a past narrative?', '["when","while","then","after"]', 1);
+('qq_l2_m1_6', 'itm_l2_m1_quiz', 6, '"When I ___ the door, I saw my friend outside."', '["was opening","open","opens","opened"]', 3),
+('qq_l2_m1_7', 'itm_l2_m1_quiz', 7, '"___ were you doing at 8pm yesterday?"', '["When","Where","What","Who"]', 2),
+('qq_l2_m1_8', 'itm_l2_m1_quiz', 8, 'Which describes a repeated past habit, not a single event?', '["I used to go to the cinema every Friday.","I went to Paris in 2019.","I was watching TV at 9pm.","I saw a great film last night."]', 0),
+('qq_l2_m1_9', 'itm_l2_m1_quiz', 9, '"She ___ shy when she was a child, but now she''s very confident."', '["used to be","use to be","used to being","was use to be"]', 0),
+('qq_l2_m1_10', 'itm_l2_m1_quiz', 10, 'Which word often introduces the "background" action in a past narrative?', '["when","then","while","after"]', 2);
 
 -- ---------------------------------------------------------------------
 -- Module 2: Travel & Transport
@@ -215,16 +215,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct comparative/superlative form
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l2_m2_1', 'itm_l2_m2_quiz', 1, '"The train is ___ than the bus." (fast)', '["fastest","faster","more fast","most fast"]', 1),
+('qq_l2_m2_1', 'itm_l2_m2_quiz', 1, '"The train is ___ than the bus." (fast)', '["faster","fastest","more fast","most fast"]', 0),
 ('qq_l2_m2_2', 'itm_l2_m2_quiz', 2, '"This is ___ hotel in the city." (expensive)', '["more expensive","expensiver","the most expensive","the expensivest"]', 2),
-('qq_l2_m2_3', 'itm_l2_m2_quiz', 3, '"Flying is ___ than taking the train, but it''s much faster." (bad)', '["worse","more bad","badder","worst"]', 0),
-('qq_l2_m2_4', 'itm_l2_m2_quiz', 4, '"This is ___ way to travel." (good)', '["the goodest","the best","the better","more good"]', 1),
-('qq_l2_m2_5', 'itm_l2_m2_quiz', 5, '"I''d ___ to book a ticket, please."', '["like","liking","likes","liked"]', 0),
-('qq_l2_m2_6', 'itm_l2_m2_quiz', 6, '"How ___ does the journey take?"', '["much","long","many","far"]', 1),
-('qq_l2_m2_7', 'itm_l2_m2_quiz', 7, 'Which British word means the same as the American "vacation"?', '["trip","journey","holiday","travel"]', 2),
-('qq_l2_m2_8', 'itm_l2_m2_quiz', 8, '"The train ___ from Platform 4 at 9am."', '["departs","arrives","boards","transfers"]', 0),
+('qq_l2_m2_3', 'itm_l2_m2_quiz', 3, '"Flying is ___ than taking the train, but it''s much faster." (bad)', '["more bad","worse","badder","worst"]', 1),
+('qq_l2_m2_4', 'itm_l2_m2_quiz', 4, '"This is ___ way to travel." (good)', '["the goodest","the better","more good","the best"]', 3),
+('qq_l2_m2_5', 'itm_l2_m2_quiz', 5, '"I''d ___ to book a ticket, please."', '["liking","likes","like","liked"]', 2),
+('qq_l2_m2_6', 'itm_l2_m2_quiz', 6, '"How ___ does the journey take?"', '["long","much","many","far"]', 0),
+('qq_l2_m2_7', 'itm_l2_m2_quiz', 7, 'Which British word means the same as the American "vacation"?', '["trip","journey","travel","holiday"]', 3),
+('qq_l2_m2_8', 'itm_l2_m2_quiz', 8, '"The train ___ from Platform 4 at 9am."', '["arrives","departs","boards","transfers"]', 1),
 ('qq_l2_m2_9', 'itm_l2_m2_quiz', 9, '"The bus is cheaper, ___ it takes much longer."', '["so","but","because","and"]', 1),
-('qq_l2_m2_10', 'itm_l2_m2_quiz', 10, 'Which is a British term for a long-distance bus?', '["subway","coach","trolley","shuttle"]', 1);
+('qq_l2_m2_10', 'itm_l2_m2_quiz', 10, 'Which is a British term for a long-distance bus?', '["subway","trolley","shuttle","coach"]', 3);
 
 -- ---------------------------------------------------------------------
 -- Module 3: Work & Study
@@ -317,16 +317,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct present simple/continuous ch
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l2_m3_1', 'itm_l2_m3_quiz', 1, '"I ___ in an office, but this week I ___ from home."', '["work / work","work / am working","am working / work","am working / am working"]', 1),
-('qq_l2_m3_2', 'itm_l2_m3_quiz', 2, '"She ___ the answer." (a fact, not a temporary state)', '["is knowing","knows","is know","know"]', 1),
-('qq_l2_m3_3', 'itm_l2_m3_quiz', 3, '"Look! It ___ outside."', '["rains","is raining","rain","raining"]', 1),
+('qq_l2_m3_1', 'itm_l2_m3_quiz', 1, '"I ___ in an office, but this week I ___ from home."', '["work / work","am working / work","work / am working","am working / am working"]', 2),
+('qq_l2_m3_2', 'itm_l2_m3_quiz', 2, '"She ___ the answer." (a fact, not a temporary state)', '["knows","is knowing","is know","know"]', 0),
+('qq_l2_m3_3', 'itm_l2_m3_quiz', 3, '"Look! It ___ outside."', '["rains","rain","raining","is raining"]', 3),
 ('qq_l2_m3_4', 'itm_l2_m3_quiz', 4, '"I usually ___ the bus to work."', '["am taking","take","takes","taking"]', 1),
 ('qq_l2_m3_5', 'itm_l2_m3_quiz', 5, '"My main ___ is planning the weekly schedule."', '["responsibility","deadline","colleague","client"]', 0),
-('qq_l2_m3_6', 'itm_l2_m3_quiz', 6, '"I''d like to ___ a manager one day."', '["become","becoming","becomes","became"]', 0),
-('qq_l2_m3_7', 'itm_l2_m3_quiz', 7, 'Which word means "the document that summarises your work history" in British English?', '["résumé","portfolio","CV","profile"]', 2),
-('qq_l2_m3_8', 'itm_l2_m3_quiz', 8, '"I enjoy my job ___ it''s challenging and creative."', '["so","but","because","although"]', 2),
-('qq_l2_m3_9', 'itm_l2_m3_quiz', 9, '"At the moment, I ___ on a big project."', '["work","am working","works","worked"]', 1),
-('qq_l2_m3_10', 'itm_l2_m3_quiz', 10, 'Which verb is rarely used in the continuous form?', '["run","cook","know","write"]', 2);
+('qq_l2_m3_6', 'itm_l2_m3_quiz', 6, '"I''d like to ___ a manager one day."', '["becoming","becomes","become","became"]', 2),
+('qq_l2_m3_7', 'itm_l2_m3_quiz', 7, 'Which word means "the document that summarises your work history" in British English?', '["résumé","CV","portfolio","profile"]', 1),
+('qq_l2_m3_8', 'itm_l2_m3_quiz', 8, '"I enjoy my job ___ it''s challenging and creative."', '["so","but","although","because"]', 3),
+('qq_l2_m3_9', 'itm_l2_m3_quiz', 9, '"At the moment, I ___ on a big project."', '["work","works","worked","am working"]', 3),
+('qq_l2_m3_10', 'itm_l2_m3_quiz', 10, 'Which verb is rarely used in the continuous form?', '["run","know","cook","write"]', 1);
 
 -- ---------------------------------------------------------------------
 -- Module 4: Likes, Dislikes & Opinions
@@ -420,15 +420,15 @@ A grade at or above the platform''s pass threshold marks this module complete.')
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
 ('qq_l2_m4_1', 'itm_l2_m4_quiz', 1, '"I love ___ books."', '["read","reading","to reading","reads"]', 1),
-('qq_l2_m4_2', 'itm_l2_m4_quiz', 2, '"She hates ___ up early."', '["waking","wake","to wake","wakes"]', 0),
-('qq_l2_m4_3', 'itm_l2_m4_quiz', 3, '"I prefer tea ___ coffee."', '["than","to","that","from"]', 1),
-('qq_l2_m4_4', 'itm_l2_m4_quiz', 4, '"In my ___, this is the best option."', '["idea","think","opinion","mind"]', 2),
-('qq_l2_m4_5', 'itm_l2_m4_quiz', 5, '"I ___ disagree -- I think the film was better."', '["totally don''t","really","don''t","not"]', 2),
+('qq_l2_m4_2', 'itm_l2_m4_quiz', 2, '"She hates ___ up early."', '["wake","to wake","wakes","waking"]', 3),
+('qq_l2_m4_3', 'itm_l2_m4_quiz', 3, '"I prefer tea ___ coffee."', '["than","that","to","from"]', 2),
+('qq_l2_m4_4', 'itm_l2_m4_quiz', 4, '"In my ___, this is the best option."', '["opinion","idea","think","mind"]', 0),
+('qq_l2_m4_5', 'itm_l2_m4_quiz', 5, '"I ___ disagree -- I think the film was better."', '["totally don''t","really","not","don''t"]', 3),
 ('qq_l2_m4_6', 'itm_l2_m4_quiz', 6, '"That''s a good point, ___ I still think..."', '["so","but","because","and"]', 1),
-('qq_l2_m4_7', 'itm_l2_m4_quiz', 7, 'Which sentence expresses an opinion, not a fact?', '["Water boils at 100C.","London is the capital of the UK.","I think this book is boring.","The meeting is at 3pm."]', 2),
-('qq_l2_m4_8', 'itm_l2_m4_quiz', 8, '"I''d ___ walk than take the bus."', '["prefer","rather","like","want"]', 1),
-('qq_l2_m4_9', 'itm_l2_m4_quiz', 9, '"He doesn''t ___ waiting in queues."', '["mind","minds","minding","to mind"]', 0),
-('qq_l2_m4_10', 'itm_l2_m4_quiz', 10, 'Which response politely disagrees rather than bluntly rejecting the idea?', '["No, that''s wrong.","I see your point, but I think...","That''s not true.","I don''t agree at all."]', 1);
+('qq_l2_m4_7', 'itm_l2_m4_quiz', 7, 'Which sentence expresses an opinion, not a fact?', '["I think this book is boring.","Water boils at 100C.","London is the capital of the UK.","The meeting is at 3pm."]', 0),
+('qq_l2_m4_8', 'itm_l2_m4_quiz', 8, '"I''d ___ walk than take the bus."', '["prefer","like","rather","want"]', 2),
+('qq_l2_m4_9', 'itm_l2_m4_quiz', 9, '"He doesn''t ___ waiting in queues."', '["minds","minding","mind","to mind"]', 2),
+('qq_l2_m4_10', 'itm_l2_m4_quiz', 10, 'Which response politely disagrees rather than bluntly rejecting the idea?', '["I see your point, but I think...","No, that''s wrong.","That''s not true.","I don''t agree at all."]', 0);
 
 -- ---------------------------------------------------------------------
 -- Module 5: Making Plans
@@ -521,16 +521,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- all three future forms used correctl
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l2_m5_1', 'itm_l2_m5_quiz', 1, '"It''s cold in here. I ___ close the window." (decided now)', '["am going to","will","am closing","close"]', 1),
+('qq_l2_m5_1', 'itm_l2_m5_quiz', 1, '"It''s cold in here. I ___ close the window." (decided now)', '["am going to","am closing","will","close"]', 2),
 ('qq_l2_m5_2', 'itm_l2_m5_quiz', 2, '"I ___ my parents this weekend." (already decided)', '["am going to visit","will visit","visit","visited"]', 0),
-('qq_l2_m5_3', 'itm_l2_m5_quiz', 3, '"I ___ my manager at 3pm on Thursday." (a fixed arrangement)', '["will meet","am meeting","meet","am going to meeting"]', 1),
-('qq_l2_m5_4', 'itm_l2_m5_quiz', 4, '"___ you like to come to the cinema?"', '["Would","Will","Do","Are"]', 0),
-('qq_l2_m5_5', 'itm_l2_m5_quiz', 5, '"I''d ___ to! What time?"', '["like","love","prefer","rather"]', 1),
-('qq_l2_m5_6', 'itm_l2_m5_quiz', 6, '"I''m afraid I can''t -- I already ___ plans."', '["have","has","having","had"]', 0),
+('qq_l2_m5_3', 'itm_l2_m5_quiz', 3, '"I ___ my manager at 3pm on Thursday." (a fixed arrangement)', '["will meet","meet","am going to meeting","am meeting"]', 3),
+('qq_l2_m5_4', 'itm_l2_m5_quiz', 4, '"___ you like to come to the cinema?"', '["Will","Would","Do","Are"]', 1),
+('qq_l2_m5_5', 'itm_l2_m5_quiz', 5, '"I''d ___ to! What time?"', '["love","like","prefer","rather"]', 0),
+('qq_l2_m5_6', 'itm_l2_m5_quiz', 6, '"I''m afraid I can''t -- I already ___ plans."', '["has","having","have","had"]', 2),
 ('qq_l2_m5_7', 'itm_l2_m5_quiz', 7, '"How about Friday ___?"', '["already","instead","also","too"]', 1),
-('qq_l2_m5_8', 'itm_l2_m5_quiz', 8, 'Which is a polite way to decline an invitation?', '["No.","I can''t.","I''m afraid I can''t, but how about Friday?","I don''t want to."]', 2),
-('qq_l2_m5_9', 'itm_l2_m5_quiz', 9, '"I promise I ___ call you when I arrive."', '["am going to","will","am calling","call"]', 1),
-('qq_l2_m5_10', 'itm_l2_m5_quiz', 10, 'Which future form usually describes a spontaneous decision made at the moment of speaking?', '["going to","present continuous","will","present simple"]', 2);
+('qq_l2_m5_8', 'itm_l2_m5_quiz', 8, 'Which is a polite way to decline an invitation?', '["No.","I can''t.","I don''t want to.","I''m afraid I can''t, but how about Friday?"]', 3),
+('qq_l2_m5_9', 'itm_l2_m5_quiz', 9, '"I promise I ___ call you when I arrive."', '["am going to","am calling","call","will"]', 3),
+('qq_l2_m5_10', 'itm_l2_m5_quiz', 10, 'Which future form usually describes a spontaneous decision made at the moment of speaking?', '["going to","will","present continuous","present simple"]', 1);
 
 -- ---------------------------------------------------------------------
 -- Module 6: Homes & Neighbourhoods
@@ -624,15 +624,15 @@ A grade at or above the platform''s pass threshold marks this module complete.')
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
 ('qq_l2_m6_1', 'itm_l2_m6_quiz', 1, '"There ___ a park near my house when I was young."', '["is","was","were","be"]', 1),
-('qq_l2_m6_2', 'itm_l2_m6_quiz', 2, '"There ___ lots of trees on my street."', '["was","were","is","has"]', 1),
-('qq_l2_m6_3', 'itm_l2_m6_quiz', 3, '"It ___ be very quiet here, but now it''s busy."', '["is used to","used to","use to","using to"]', 1),
-('qq_l2_m6_4', 'itm_l2_m6_quiz', 4, 'In British English, a "flat" is the same as which American word?', '["house","apartment","yard","block"]', 1),
-('qq_l2_m6_5', 'itm_l2_m6_quiz', 5, '"One ___ of city life is convenient transport."', '["advantage","advantaged","advantages","advantageous"]', 0),
-('qq_l2_m6_6', 'itm_l2_m6_quiz', 6, '"The shop is ___ walking distance of my flat."', '["at","in","within","on"]', 2),
-('qq_l2_m6_7', 'itm_l2_m6_quiz', 7, '"The countryside is quieter, ___ it''s further from the city."', '["so","but","because","also"]', 1),
-('qq_l2_m6_8', 'itm_l2_m6_quiz', 8, 'Which British term means the same as the American "yard" (private outdoor space at a house)?', '["park","garden","court","green"]', 1),
+('qq_l2_m6_2', 'itm_l2_m6_quiz', 2, '"There ___ lots of trees on my street."', '["was","is","has","were"]', 3),
+('qq_l2_m6_3', 'itm_l2_m6_quiz', 3, '"It ___ be very quiet here, but now it''s busy."', '["is used to","use to","used to","using to"]', 2),
+('qq_l2_m6_4', 'itm_l2_m6_quiz', 4, 'In British English, a "flat" is the same as which American word?', '["apartment","house","yard","block"]', 0),
+('qq_l2_m6_5', 'itm_l2_m6_quiz', 5, '"One ___ of city life is convenient transport."', '["advantaged","advantages","advantageous","advantage"]', 3),
+('qq_l2_m6_6', 'itm_l2_m6_quiz', 6, '"The shop is ___ walking distance of my flat."', '["at","within","in","on"]', 1),
+('qq_l2_m6_7', 'itm_l2_m6_quiz', 7, '"The countryside is quieter, ___ it''s further from the city."', '["but","so","because","also"]', 0),
+('qq_l2_m6_8', 'itm_l2_m6_quiz', 8, 'Which British term means the same as the American "yard" (private outdoor space at a house)?', '["park","court","garden","green"]', 2),
 ('qq_l2_m6_9', 'itm_l2_m6_quiz', 9, '"There ___ a cinema here, but it closed."', '["is","are","used to be","uses to be"]', 2),
-('qq_l2_m6_10', 'itm_l2_m6_quiz', 10, 'In American English, the ___ floor is at street level.', '["ground","first","second","lobby"]', 1);
+('qq_l2_m6_10', 'itm_l2_m6_quiz', 10, 'In American English, the ___ floor is at street level.', '["first","ground","second","lobby"]', 0);
 
 -- ---------------------------------------------------------------------
 -- Module 7: Food, Health & Habits
@@ -726,15 +726,15 @@ A grade at or above the platform''s pass threshold marks this module complete.')
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
 ('qq_l2_m7_1', 'itm_l2_m7_quiz', 1, '"I ___ go to bed at 11pm." (this is my normal routine)', '["usually","am usually","usual","usually am"]', 0),
-('qq_l2_m7_2', 'itm_l2_m7_quiz', 2, '"I am ___ tired in the morning." (frequency + "to be")', '["always","am always","always am","usual"]', 0),
+('qq_l2_m7_2', 'itm_l2_m7_quiz', 2, '"I am ___ tired in the morning." (frequency + "to be")', '["am always","always am","always","usual"]', 2),
 ('qq_l2_m7_3', 'itm_l2_m7_quiz', 3, '"___ do you exercise?"', '["How much","How often","How many","How long"]', 1),
-('qq_l2_m7_4', 'itm_l2_m7_quiz', 4, '"I go to the gym ___ a week."', '["two time","twice","two times a","second time"]', 1),
-('qq_l2_m7_5', 'itm_l2_m7_quiz', 5, 'In British English, "chips" usually means the same as the American word:', '["crisps","fries","cookies","candy"]', 1),
+('qq_l2_m7_4', 'itm_l2_m7_quiz', 4, '"I go to the gym ___ a week."', '["two time","two times a","second time","twice"]', 3),
+('qq_l2_m7_5', 'itm_l2_m7_quiz', 5, 'In British English, "chips" usually means the same as the American word:', '["crisps","cookies","fries","candy"]', 2),
 ('qq_l2_m7_6', 'itm_l2_m7_quiz', 6, '"You ___ better see a doctor."', '["had","have","should","would"]', 0),
-('qq_l2_m7_7', 'itm_l2_m7_quiz', 7, '"If I ___ you, I''d cut down on sugar."', '["am","was","were","will be"]', 2),
-('qq_l2_m7_8', 'itm_l2_m7_quiz', 8, 'Which is the strongest piece of advice?', '["You could try...","You should...","You''d better...","Maybe you should..."]', 2),
-('qq_l2_m7_9', 'itm_l2_m7_quiz', 9, '"She ___ eats vegetables -- almost every meal."', '["never","rarely","usually","hardly ever"]', 2),
-('qq_l2_m7_10', 'itm_l2_m7_quiz', 10, '"It''s important ___ stay hydrated."', '["to","for","that","of"]', 0);
+('qq_l2_m7_7', 'itm_l2_m7_quiz', 7, '"If I ___ you, I''d cut down on sugar."', '["am","was","will be","were"]', 3),
+('qq_l2_m7_8', 'itm_l2_m7_quiz', 8, 'Which is the strongest piece of advice?', '["You could try...","You''d better...","You should...","Maybe you should..."]', 1),
+('qq_l2_m7_9', 'itm_l2_m7_quiz', 9, '"She ___ eats vegetables -- almost every meal."', '["never","usually","rarely","hardly ever"]', 1),
+('qq_l2_m7_10', 'itm_l2_m7_quiz', 10, '"It''s important ___ stay hydrated."', '["for","that","of","to"]', 3);
 
 -- ---------------------------------------------------------------------
 -- Module 8: Shopping & Services
@@ -827,16 +827,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct past simple question formati
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l2_m8_1', 'itm_l2_m8_quiz', 1, '"___ you buy this online?"', '["Do","Did","Were","Have"]', 1),
-('qq_l2_m8_2', 'itm_l2_m8_quiz', 2, '"When ___ you buy it?"', '["did","do","does","were"]', 0),
-('qq_l2_m8_3', 'itm_l2_m8_quiz', 3, '"I ___ it last week."', '["buy","buys","bought","buying"]', 2),
-('qq_l2_m8_4', 'itm_l2_m8_quiz', 4, '"I''d like to make a ___."', '["complain","complaint","complaining","complained"]', 1),
-('qq_l2_m8_5', 'itm_l2_m8_quiz', 5, '"Could I ___ a refund, please?"', '["get","getting","got","gets"]', 0),
-('qq_l2_m8_6', 'itm_l2_m8_quiz', 6, 'In British English, the checkout is often called the:', '["register","till","counter","desk"]', 1),
-('qq_l2_m8_7', 'itm_l2_m8_quiz', 7, '"I''m sorry to hear that. ___ me take a look."', '["Let","Lets","Letting","Left"]', 0),
-('qq_l2_m8_8', 'itm_l2_m8_quiz', 8, 'Which is the more polite complaint opener?', '["This is broken!","Excuse me, I''d like to make a complaint.","I want my money back.","This doesn''t work!"]', 1),
-('qq_l2_m8_9', 'itm_l2_m8_quiz', 9, '"In British English, you stand in a ___; in American English, you stand in a line."', '["row","queue","column","rank"]', 1),
-('qq_l2_m8_10', 'itm_l2_m8_quiz', 10, '"I understand your ___ -- let me help."', '["frustration","frustrated","frustrating","frustrate"]', 0);
+('qq_l2_m8_1', 'itm_l2_m8_quiz', 1, '"___ you buy this online?"', '["Do","Were","Have","Did"]', 3),
+('qq_l2_m8_2', 'itm_l2_m8_quiz', 2, '"When ___ you buy it?"', '["do","did","does","were"]', 1),
+('qq_l2_m8_3', 'itm_l2_m8_quiz', 3, '"I ___ it last week."', '["bought","buy","buys","buying"]', 0),
+('qq_l2_m8_4', 'itm_l2_m8_quiz', 4, '"I''d like to make a ___."', '["complain","complaining","complaint","complained"]', 2),
+('qq_l2_m8_5', 'itm_l2_m8_quiz', 5, '"Could I ___ a refund, please?"', '["getting","get","got","gets"]', 1),
+('qq_l2_m8_6', 'itm_l2_m8_quiz', 6, 'In British English, the checkout is often called the:', '["register","counter","desk","till"]', 3),
+('qq_l2_m8_7', 'itm_l2_m8_quiz', 7, '"I''m sorry to hear that. ___ me take a look."', '["Lets","Letting","Let","Left"]', 2),
+('qq_l2_m8_8', 'itm_l2_m8_quiz', 8, 'Which is the more polite complaint opener?', '["Excuse me, I''d like to make a complaint.","This is broken!","I want my money back.","This doesn''t work!"]', 0),
+('qq_l2_m8_9', 'itm_l2_m8_quiz', 9, '"In British English, you stand in a ___; in American English, you stand in a line."', '["queue","row","column","rank"]', 0),
+('qq_l2_m8_10', 'itm_l2_m8_quiz', 10, '"I understand your ___ -- let me help."', '["frustrated","frustrating","frustration","frustrate"]', 2);
 
 -- ---------------------------------------------------------------------
 -- Module 9: Telling Stories
@@ -929,16 +929,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct past simple/past continuous 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l2_m9_1', 'itm_l2_m9_quiz', 1, '"___, I left the house at 8am." (the very first event)', '["Finally","First","Suddenly","Eventually"]', 1),
+('qq_l2_m9_1', 'itm_l2_m9_quiz', 1, '"___, I left the house at 8am." (the very first event)', '["First","Finally","Suddenly","Eventually"]', 0),
 ('qq_l2_m9_2', 'itm_l2_m9_quiz', 2, '"I was waiting for the bus when ___ it started to rain."', '["first","after that","suddenly","finally"]', 2),
-('qq_l2_m9_3', 'itm_l2_m9_quiz', 3, '"I ___ waiting for the train when I realised I''d forgotten my phone." (background action)', '["was","am","were","is"]', 0),
-('qq_l2_m9_4', 'itm_l2_m9_quiz', 4, '"___, everything worked out fine." (the closing event)', '["First","Then","In the end","Suddenly"]', 2),
+('qq_l2_m9_3', 'itm_l2_m9_quiz', 3, '"I ___ waiting for the train when I realised I''d forgotten my phone." (background action)', '["am","was","were","is"]', 1),
+('qq_l2_m9_4', 'itm_l2_m9_quiz', 4, '"___, everything worked out fine." (the closing event)', '["First","Then","Suddenly","In the end"]', 3),
 ('qq_l2_m9_5', 'itm_l2_m9_quiz', 5, 'Which word usually signals an unexpected interruption to a story?', '["after that","next","suddenly","finally"]', 2),
 ('qq_l2_m9_6', 'itm_l2_m9_quiz', 6, '"You''ll ___ believe what happened!"', '["never","not","no","any"]', 0),
-('qq_l2_m9_7', 'itm_l2_m9_quiz', 7, 'Which is a good example of a storytelling "hook"?', '["I went shopping yesterday.","You''ll never believe what happened at the shopping centre!","I bought a shirt.","Then I went home."]', 1),
-('qq_l2_m9_8', 'itm_l2_m9_quiz', 8, 'Which is an appropriate listener-reaction phrase?', '["That''s amazing!","I don''t care.","Stop talking.","That''s not true."]', 0),
+('qq_l2_m9_7', 'itm_l2_m9_quiz', 7, 'Which is a good example of a storytelling "hook"?', '["I went shopping yesterday.","I bought a shirt.","Then I went home.","You''ll never believe what happened at the shopping centre!"]', 3),
+('qq_l2_m9_8', 'itm_l2_m9_quiz', 8, 'Which is an appropriate listener-reaction phrase?', '["I don''t care.","That''s amazing!","Stop talking.","That''s not true."]', 1),
 ('qq_l2_m9_9', 'itm_l2_m9_quiz', 9, '"In British English, something might happen ___ the weekend."', '["in","at","on","for"]', 1),
-('qq_l2_m9_10', 'itm_l2_m9_quiz', 10, 'Which sentence correctly combines past continuous and past simple?', '["I was walk home when it started to rain.","I was walking home when it started to rain.","I walk home when it was starting to rain.","I am walking home when it started to rain."]', 1);
+('qq_l2_m9_10', 'itm_l2_m9_quiz', 10, 'Which sentence correctly combines past continuous and past simple?', '["I was walk home when it started to rain.","I walk home when it was starting to rain.","I am walking home when it started to rain.","I was walking home when it started to rain."]', 3);
 
 -- ---------------------------------------------------------------------
 -- Module 10: Review & Consolidation (Elementary-Level Mock Exam)
@@ -1020,23 +1020,23 @@ GRADING RUBRIC (weighted toward listening and speaking per the Elementary-level 
 PROGRESSION REQUIREMENT: A grade at or above the platform''s pass threshold on this comprehensive assessment marks Level II as complete for the learner and, for a full-programme student, triggers Level III''s enrolment to unlock automatically.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l2_m10_1', 'itm_l2_m10_examquiz', 1, '(Module 1) "I ___ TV when the phone rang."', '["watch","watched","was watching","am watching"]', 2),
-('qq_l2_m10_2', 'itm_l2_m10_examquiz', 2, '(Module 1) "I ___ play football every weekend when I was a child."', '["used to","use to","am used to","was using to"]', 0),
-('qq_l2_m10_3', 'itm_l2_m10_examquiz', 3, '(Module 2) "This hotel is ___ than the last one we stayed in."', '["comfortable","more comfortable","most comfortable","comfortabler"]', 1),
-('qq_l2_m10_4', 'itm_l2_m10_examquiz', 4, '(Module 2) "This is the ___ flight of the three."', '["cheaper","more cheap","cheapest","most cheap"]', 2),
-('qq_l2_m10_5', 'itm_l2_m10_examquiz', 5, '(Module 3) "She ___ for a new job at the moment."', '["looks","is looking","look","looked"]', 1),
-('qq_l2_m10_6', 'itm_l2_m10_examquiz', 6, '(Module 3) "He ___ to the gym every Tuesday." (a routine)', '["is going","go","goes","going"]', 2),
-('qq_l2_m10_7', 'itm_l2_m10_examquiz', 7, '(Module 4) "I really enjoy ___ new languages."', '["learn","learning","to learning","learns"]', 1),
+('qq_l2_m10_1', 'itm_l2_m10_examquiz', 1, '(Module 1) "I ___ TV when the phone rang."', '["watch","was watching","watched","am watching"]', 1),
+('qq_l2_m10_2', 'itm_l2_m10_examquiz', 2, '(Module 1) "I ___ play football every weekend when I was a child."', '["use to","am used to","was using to","used to"]', 3),
+('qq_l2_m10_3', 'itm_l2_m10_examquiz', 3, '(Module 2) "This hotel is ___ than the last one we stayed in."', '["comfortable","most comfortable","more comfortable","comfortabler"]', 2),
+('qq_l2_m10_4', 'itm_l2_m10_examquiz', 4, '(Module 2) "This is the ___ flight of the three."', '["cheapest","cheaper","more cheap","most cheap"]', 0),
+('qq_l2_m10_5', 'itm_l2_m10_examquiz', 5, '(Module 3) "She ___ for a new job at the moment."', '["looks","look","looked","is looking"]', 3),
+('qq_l2_m10_6', 'itm_l2_m10_examquiz', 6, '(Module 3) "He ___ to the gym every Tuesday." (a routine)', '["is going","goes","go","going"]', 1),
+('qq_l2_m10_7', 'itm_l2_m10_examquiz', 7, '(Module 4) "I really enjoy ___ new languages."', '["learning","learn","to learning","learns"]', 0),
 ('qq_l2_m10_8', 'itm_l2_m10_examquiz', 8, '(Module 4) "I''d ___ stay home than go out tonight."', '["prefer","like","rather","want"]', 2),
-('qq_l2_m10_9', 'itm_l2_m10_examquiz', 9, '(Module 5) "I ___ visit my parents this weekend." (already decided)', '["will visit","am going to visit","visit","am visit"]', 1),
+('qq_l2_m10_9', 'itm_l2_m10_examquiz', 9, '(Module 5) "I ___ visit my parents this weekend." (already decided)', '["will visit","visit","am going to visit","am visit"]', 2),
 ('qq_l2_m10_10', 'itm_l2_m10_examquiz', 10, '(Module 5) "I''m afraid I can''t -- I already ___ plans."', '["have","has","having","had"]', 0),
-('qq_l2_m10_11', 'itm_l2_m10_examquiz', 11, '(Module 6) "There ___ a cinema here, but it closed."', '["is","are","used to be","uses to be"]', 2),
-('qq_l2_m10_12', 'itm_l2_m10_examquiz', 12, '(Module 6) "The shop is ___ walking distance of my flat."', '["at","in","within","on"]', 2),
+('qq_l2_m10_11', 'itm_l2_m10_examquiz', 11, '(Module 6) "There ___ a cinema here, but it closed."', '["is","used to be","are","uses to be"]', 1),
+('qq_l2_m10_12', 'itm_l2_m10_examquiz', 12, '(Module 6) "The shop is ___ walking distance of my flat."', '["at","in","on","within"]', 3),
 ('qq_l2_m10_13', 'itm_l2_m10_examquiz', 13, '(Module 7) "I am ___ tired in the morning." (frequency + "to be")', '["always","am always","always am","usual"]', 0),
-('qq_l2_m10_14', 'itm_l2_m10_examquiz', 14, '(Module 7) "You ___ better see a doctor."', '["had","have","should","would"]', 0),
-('qq_l2_m10_15', 'itm_l2_m10_examquiz', 15, '(Module 8) "___ you buy this online?"', '["Do","Did","Were","Have"]', 1),
+('qq_l2_m10_14', 'itm_l2_m10_examquiz', 14, '(Module 7) "You ___ better see a doctor."', '["have","should","had","would"]', 2),
+('qq_l2_m10_15', 'itm_l2_m10_examquiz', 15, '(Module 8) "___ you buy this online?"', '["Do","Were","Have","Did"]', 3),
 ('qq_l2_m10_16', 'itm_l2_m10_examquiz', 16, '(Module 8) "I''d like to make a ___."', '["complain","complaint","complaining","complained"]', 1),
-('qq_l2_m10_17', 'itm_l2_m10_examquiz', 17, '(Module 9) "I ___ waiting for the train when suddenly, I realised I''d forgotten my phone."', '["was","am","were","is"]', 0),
-('qq_l2_m10_18', 'itm_l2_m10_examquiz', 18, '(Module 9) Which word usually signals an unexpected interruption to a story?', '["after that","next","suddenly","finally"]', 2),
-('qq_l2_m10_19', 'itm_l2_m10_examquiz', 19, '(Cumulative BrE/AmE) In British English, "chips" usually means the same as the American word:', '["crisps","fries","cookies","candy"]', 1),
-('qq_l2_m10_20', 'itm_l2_m10_examquiz', 20, '(Cumulative BrE/AmE) In American English, the ___ floor is at street level.', '["ground","first","second","lobby"]', 1);
+('qq_l2_m10_17', 'itm_l2_m10_examquiz', 17, '(Module 9) "I ___ waiting for the train when suddenly, I realised I''d forgotten my phone."', '["am","was","were","is"]', 1),
+('qq_l2_m10_18', 'itm_l2_m10_examquiz', 18, '(Module 9) Which word usually signals an unexpected interruption to a story?', '["after that","next","finally","suddenly"]', 3),
+('qq_l2_m10_19', 'itm_l2_m10_examquiz', 19, '(Cumulative BrE/AmE) In British English, "chips" usually means the same as the American word:', '["crisps","cookies","fries","candy"]', 2),
+('qq_l2_m10_20', 'itm_l2_m10_examquiz', 20, '(Cumulative BrE/AmE) In American English, the ___ floor is at street level.', '["first","ground","second","lobby"]', 0);

@@ -108,21 +108,21 @@ EXTENSION: Add a closing sentence using "since then" to bridge from the reflecte
 ('itm_l4_m1_assignment', 'unt_l4_m1', 5, 'assignment', 'Module 1 Assignment -- Looking Back -- A Reflective Piece on Change',
 'INSTRUCTIONS: Write (or record) a reflective piece, 12-15 sentences, about a real period of change or growth in your life or career. This is this level''s first of eight distinct writing genres -- reflective writing -- and should read as genuine reflection, not a chronological list of events. Include: at least one past perfect sentence clarifying the order of two events; at least one present perfect continuous sentence describing an ongoing state or duration; a mix of at least 4 different tense forms overall; "looking back"/"in retrospect" framing; and an explicit contrast between what you understood then and what you understand now.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct past perfect (simple and continuous) formation, correct tense choices across the piece. (2) Vocabulary range -- at least 4 distinct change/growth or reflective-language words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- clear sequencing of at least two past events, a then-vs-now contrast, and reflective framing language all present. (4) Communicative quality -- does the reflection show genuine, specific insight, and does it read as authentic reflection rather than a plain narrative? (5) Discourse coherence & register -- does the piece flow as one connected reflective account with purposeful tense variety, and is the register appropriately thoughtful and personal without becoming a bare list?
+GRADING RUBRIC: (1) Grammatical accuracy -- correct past perfect (simple and continuous) formation, correct tense choices across the piece. (2) Vocabulary range -- at least 4 distinct change/growth or reflective-language words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- clear sequencing of at least two past events, a then-vs-now contrast, and reflective framing language all present. (4) Evidence & argument quality -- is the then-vs-now contrast actually supported by the events narrated, or asserted over them? (5) Communicative quality -- does the reflection show genuine, specific insight, and does it read as authentic reflection rather than a plain narrative? (6) Discourse coherence & register -- does the piece flow as one connected reflective account with purposeful tense variety, and is the register appropriately thoughtful and personal without becoming a bare list?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l4_m1_1', 'itm_l4_m1_quiz', 1, '"By the time I arrived, the meeting ___ already started."', '["has","had","was","did"]', 1),
-('qq_l4_m1_2', 'itm_l4_m1_quiz', 2, '"I''d ___ working there for two years when the company was acquired."', '["be","been","being","was"]', 1),
-('qq_l4_m1_3', 'itm_l4_m1_quiz', 3, 'Which sentence correctly marks the earlier of two past events?', '["I ate breakfast before I woke up.","I had already eaten breakfast when I left the house.","I have eaten breakfast when I left.","I was eating breakfast before I leave."]', 1),
-('qq_l4_m1_4', 'itm_l4_m1_quiz', 4, '"I didn''t realise it ___, but I was slowly losing confidence."', '["at the time","since then","up until now","by then"]', 0),
-('qq_l4_m1_5', 'itm_l4_m1_quiz', 5, '"___, that period taught me more than any success has." (a reflective framing phrase)', '["By the time","Looking back","Even though","As of yet"]', 1),
-('qq_l4_m1_6', 'itm_l4_m1_quiz', 6, 'In British formal writing, a more literary variant of "while" is:', '["whilst","whereas","since","during"]', 0),
+('qq_l4_m1_1', 'itm_l4_m1_quiz', 1, '"By the time I arrived, the meeting ___ already started."', '["has","was","had","did"]', 2),
+('qq_l4_m1_2', 'itm_l4_m1_quiz', 2, '"I''d ___ working there for two years when the company was acquired."', '["been","be","being","was"]', 0),
+('qq_l4_m1_3', 'itm_l4_m1_quiz', 3, 'Which sentence correctly marks the earlier of two past events?', '["I ate breakfast before I woke up.","I have eaten breakfast when I left.","I was eating breakfast before I leave.","I had already eaten breakfast when I left the house."]', 3),
+('qq_l4_m1_4', 'itm_l4_m1_quiz', 4, '"I didn''t realise it ___, but I was slowly losing confidence."', '["since then","at the time","up until now","by then"]', 1),
+('qq_l4_m1_5', 'itm_l4_m1_quiz', 5, '"___, that period taught me more than any success has." (a reflective framing phrase)', '["Looking back","By the time","Even though","As of yet"]', 0),
+('qq_l4_m1_6', 'itm_l4_m1_quiz', 6, 'In British formal writing, a more literary variant of "while" is:', '["whereas","since","whilst","during"]', 2),
 ('qq_l4_m1_7', 'itm_l4_m1_quiz', 7, 'Which phrase means "make significant progress over time"?', '["turn a corner","come a long way","take stock","move forward"]', 1),
-('qq_l4_m1_8', 'itm_l4_m1_quiz', 8, '"I ___ already left when you called."', '["have","had","was","did"]', 1),
-('qq_l4_m1_9', 'itm_l4_m1_quiz', 9, 'Which tense best emphasises an ongoing state connecting the past to now?', '["past simple","past perfect","present perfect","past continuous"]', 2),
-('qq_l4_m1_10', 'itm_l4_m1_quiz', 10, 'Which phrase means "pause to assess a situation carefully before deciding what''s next"?', '["build on","move forward","take stock","turn a corner"]', 2);
+('qq_l4_m1_8', 'itm_l4_m1_quiz', 8, '"I ___ already left when you called."', '["have","was","did","had"]', 3),
+('qq_l4_m1_9', 'itm_l4_m1_quiz', 9, 'Which tense best emphasises an ongoing state connecting the past to now?', '["past simple","past perfect","past continuous","present perfect"]', 3),
+('qq_l4_m1_10', 'itm_l4_m1_quiz', 10, 'Which phrase means "pause to assess a situation carefully before deciding what''s next"?', '["build on","take stock","move forward","turn a corner"]', 1);
 
 -- ---------------------------------------------------------------------
 -- Module 2: Academic Writing I
@@ -221,16 +221,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct, varied sentence structures 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l4_m2_1', 'itm_l4_m2_quiz', 1, 'Which is the strongest, most specific and arguable thesis statement?', '["Social media is a topic that affects many people.","Social media is bad.","Social media platforms should be required to disclose how their algorithms rank content, because users cannot currently make informed choices.","Many people use social media every day."]', 2),
-('qq_l4_m2_2', 'itm_l4_m2_quiz', 2, 'In a 5-paragraph essay, what does the conclusion typically do?', '["introduce a brand new argument","restate the thesis''s significance, not just repeat it","simply repeat the introduction word-for-word","list every source used"]', 1),
-('qq_l4_m2_3', 'itm_l4_m2_quiz', 3, '"The first point supports the thesis well. ___, the second point provides even stronger evidence."', '["Moreover","Because","So","If"]', 0),
-('qq_l4_m2_4', 'itm_l4_m2_quiz', 4, 'Which is a genuine paraphrase (not just synonym-swapping)?', '["\"Many researchers believe X\" -> \"Lots of researchers think X.\"","\"Many researchers believe X, though evidence is mixed\" -> \"While the connection is not fully settled, a considerable body of research points toward X.\"","\"Many researchers believe X\" -> \"Many researchers believe X.\"","\"Many researchers believe X\" -> \"X is believed by many researchers.\" (word order only)"]', 1),
+('qq_l4_m2_1', 'itm_l4_m2_quiz', 1, 'Which is the strongest, most specific and arguable thesis statement?', '["Social media platforms should be required to disclose how their algorithms rank content, because users cannot currently make informed choices.","Social media is a topic that affects many people.","Social media is bad.","Many people use social media every day."]', 0),
+('qq_l4_m2_2', 'itm_l4_m2_quiz', 2, 'In a 5-paragraph essay, what does the conclusion typically do?', '["introduce a brand new argument","simply repeat the introduction word-for-word","restate the thesis''s significance, not just repeat it","list every source used"]', 2),
+('qq_l4_m2_3', 'itm_l4_m2_quiz', 3, '"The first point supports the thesis well. ___, the second point provides even stronger evidence."', '["Because","Moreover","So","If"]', 1),
+('qq_l4_m2_4', 'itm_l4_m2_quiz', 4, 'Which is a genuine paraphrase (not just synonym-swapping)?', '["\"Many researchers believe X\" -> \"Lots of researchers think X.\"","\"Many researchers believe X\" -> \"Many researchers believe X.\"","\"Many researchers believe X\" -> \"X is believed by many researchers.\" (word order only)","\"Many researchers believe X, though evidence is mixed\" -> \"While the connection is not fully settled, a considerable body of research points toward X.\""]', 3),
 ('qq_l4_m2_5', 'itm_l4_m2_quiz', 5, 'Swapping only a few synonyms while keeping the same sentence structure as the original is:', '["always acceptable","a form of genuine paraphrasing","a common, often accidental form of plagiarism","required by academic convention"]', 2),
-('qq_l4_m2_6', 'itm_l4_m2_quiz', 6, 'In American English, an extended piece of independent research writing at the doctoral level is usually called a:', '["thesis","dissertation","paper","report"]', 1),
-('qq_l4_m2_7', 'itm_l4_m2_quiz', 7, '"The evidence is limited. ___, the argument remains worth considering."', '["Consequently","Nevertheless","Moreover","Because"]', 1),
-('qq_l4_m2_8', 'itm_l4_m2_quiz', 8, 'Which phrase means "present an argument clearly and in order"?', '["flesh out","hinge on","lay out","boil down to"]', 2),
+('qq_l4_m2_6', 'itm_l4_m2_quiz', 6, 'In American English, an extended piece of independent research writing at the doctoral level is usually called a:', '["dissertation","thesis","paper","report"]', 0),
+('qq_l4_m2_7', 'itm_l4_m2_quiz', 7, '"The evidence is limited. ___, the argument remains worth considering."', '["Consequently","Moreover","Because","Nevertheless"]', 3),
+('qq_l4_m2_8', 'itm_l4_m2_quiz', 8, 'Which phrase means "present an argument clearly and in order"?', '["flesh out","lay out","hinge on","boil down to"]', 1),
 ('qq_l4_m2_9', 'itm_l4_m2_quiz', 9, 'A body paragraph''s topic sentence should:', '["introduce a completely unrelated idea","clearly support the essay''s thesis","restate the conclusion","always start with \"Moreover\""]', 1),
-('qq_l4_m2_10', 'itm_l4_m2_quiz', 10, 'Which phrase means "depend critically on something"?', '["flesh out","hinge on","lay out","boil down to"]', 1);
+('qq_l4_m2_10', 'itm_l4_m2_quiz', 10, 'Which phrase means "depend critically on something"?', '["flesh out","lay out","boil down to","hinge on"]', 3);
 
 -- ---------------------------------------------------------------------
 -- Module 3: The World of Work
@@ -324,21 +324,21 @@ EXTENSION: Draft a brief written workplace proposal (3-4 sentences: context, rec
 ('itm_l4_m3_assignment', 'unt_l4_m3', 5, 'assignment', 'Module 3 Assignment -- A Professional Email & Mock Interview',
 'INSTRUCTIONS: Complete two parts. PART A (formal correspondence, this level''s third writing genre): Write a professional email, 150-200 words, either applying for a role, following up after an interview, or proposing a workplace idea. Use correct formal structure (subject line, greeting, clear purpose, body, closing, sign-off) and include at least one phrasal verb from this module. PART B (interview speaking task): Record yourself (or perform live) answering one behavioural interview question ("Tell me about a time when...") using the STAR structure, including at least one third-conditional reflective sentence about what might have happened differently.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct third-conditional formation, correct formal email structures. (2) Vocabulary range -- at least 3 distinct professional-correspondence or interview words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- full email structure present in Part A; a complete STAR structure with a genuine third-conditional reflection in Part B. (4) Communicative quality -- does the email sound genuinely professional and purposeful, and does the interview answer reveal real reflection, not a rehearsed, generic response? (5) Discourse coherence & register -- is the email''s register consistently formal throughout, and does the interview answer sound composed and appropriately professional in delivery?
+GRADING RUBRIC: (1) Grammatical accuracy -- correct third-conditional formation, correct formal email structures. (2) Vocabulary range -- at least 3 distinct professional-correspondence or interview words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- full email structure present in Part A; a complete STAR structure with a genuine third-conditional reflection in Part B. (4) Evidence & argument quality -- does the STAR answer''s Result follow from the Action described, and is the email''s request supported by a stated reason rather than by politeness alone? (5) Communicative quality -- does the email sound genuinely professional and purposeful, and does the interview answer reveal real reflection, not a rehearsed, generic response? (6) Discourse coherence & register -- is the email''s register consistently formal throughout, and does the interview answer sound composed and appropriately professional in delivery?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l4_m3_1', 'itm_l4_m3_quiz', 1, '"If I ___ known about the deadline earlier, I would have submitted on time." (third conditional)', '["have","had","has","was"]', 1),
+('qq_l4_m3_1', 'itm_l4_m3_quiz', 1, '"If I ___ known about the deadline earlier, I would have submitted on time." (third conditional)', '["have","has","had","was"]', 2),
 ('qq_l4_m3_2', 'itm_l4_m3_quiz', 2, '"If she hadn''t taken that internship, she ___ discovered her interest in data analysis."', '["wouldn''t have","wouldn''t","didn''t","hadn''t"]', 0),
-('qq_l4_m3_3', 'itm_l4_m3_quiz', 3, 'Which sentence is second conditional (still possible now), not third (an unchangeable past)?', '["If I had been braver, I would have applied.","If I were braver, I would apply.","If I had known, I would have said something.","If she had asked, I would have helped."]', 1),
+('qq_l4_m3_3', 'itm_l4_m3_quiz', 3, 'Which sentence is second conditional (still possible now), not third (an unchangeable past)?', '["If I had been braver, I would have applied.","If I had known, I would have said something.","If she had asked, I would have helped.","If I were braver, I would apply."]', 3),
 ('qq_l4_m3_4', 'itm_l4_m3_quiz', 4, '"___ your email, please find the attached proposal."', '["With regard to","Further to","Given that","Provided that"]', 1),
 ('qq_l4_m3_5', 'itm_l4_m3_quiz', 5, 'Which is an appropriate professional email closing before a formal named sign-off in British English?', '["Kind regards","See ya","Talk soon","Bye for now"]', 0),
-('qq_l4_m3_6', 'itm_l4_m3_quiz', 6, 'In American English, a common professional email closing is:', '["Yours faithfully","Best regards","Ta","Cheers"]', 1),
+('qq_l4_m3_6', 'itm_l4_m3_quiz', 6, 'In American English, a common professional email closing is:', '["Yours faithfully","Ta","Best regards","Cheers"]', 2),
 ('qq_l4_m3_7', 'itm_l4_m3_quiz', 7, 'What does the "R" in the STAR interview-answer structure stand for?', '["Reason","Result","Response","Review"]', 1),
-('qq_l4_m3_8', 'itm_l4_m3_quiz', 8, 'Which phrase means "make brief contact to check in"?', '["reach out","touch base","circle back","follow up"]', 1),
-('qq_l4_m3_9', 'itm_l4_m3_quiz', 9, '"As a result, we delivered the project on time. ___, we hadn''t asked for help early on, the project would have taken much longer."', '["If","Unless","Because","So"]', 0),
-('qq_l4_m3_10', 'itm_l4_m3_quiz', 10, 'Which phrase means "return to a topic later"?', '["reach out","touch base","circle back","get back to"]', 2);
+('qq_l4_m3_8', 'itm_l4_m3_quiz', 8, 'Which phrase means "make brief contact to check in"?', '["reach out","circle back","follow up","touch base"]', 3),
+('qq_l4_m3_9', 'itm_l4_m3_quiz', 9, '"As a result, we delivered the project on time. ___, we hadn''t asked for help early on, the project would have taken much longer."', '["Unless","Because","So","If"]', 3),
+('qq_l4_m3_10', 'itm_l4_m3_quiz', 10, 'Which phrase means "return to a topic later"?', '["reach out","circle back","touch base","get back to"]', 1);
 
 -- ---------------------------------------------------------------------
 -- Module 4: Arguing a Position
@@ -437,16 +437,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct, varied use of concession an
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l4_m4_1', 'itm_l4_m4_quiz', 1, '"___, remote work can make spontaneous collaboration harder." (an advanced concession opener)', '["Because","Granted","Therefore","So"]', 1),
-('qq_l4_m4_2', 'itm_l4_m4_quiz', 2, 'What distinguishes a strong concession from a weak/trap-like one?', '["A strong concession is longer.","A strong concession acknowledges something specific without undermining the overall position.","A strong concession always agrees completely with the other side.","A weak concession is always false."]', 1),
-('qq_l4_m4_3', 'itm_l4_m4_quiz', 3, '"___ some roles genuinely require in-person presence, this doesn''t undermine the broader case."', '["While it''s true that","Because","So","Unless"]', 0),
+('qq_l4_m4_1', 'itm_l4_m4_quiz', 1, '"___, remote work can make spontaneous collaboration harder." (an advanced concession opener)', '["Because","Therefore","Granted","So"]', 2),
+('qq_l4_m4_2', 'itm_l4_m4_quiz', 2, 'What distinguishes a strong concession from a weak/trap-like one?', '["A strong concession acknowledges something specific without undermining the overall position.","A strong concession is longer.","A strong concession always agrees completely with the other side.","A weak concession is always false."]', 0),
+('qq_l4_m4_3', 'itm_l4_m4_quiz', 3, '"___ some roles genuinely require in-person presence, this doesn''t undermine the broader case."', '["Because","So","Unless","While it''s true that"]', 3),
 ('qq_l4_m4_4', 'itm_l4_m4_quiz', 4, 'In a formal debate, what is "the motion"?', '["a side''s final score","a clear, debatable statement the debate is about","a type of rebuttal","the adjudicator''s decision"]', 1),
-('qq_l4_m4_5', 'itm_l4_m4_quiz', 5, 'What should a rebuttal do?', '["simply restate your own opening argument","directly address and challenge the other side''s specific points","ignore what the other side said","only ask questions"]', 1),
-('qq_l4_m4_6', 'itm_l4_m4_quiz', 6, 'In British English (and originally), a "moot point" is one that is:', '["irrelevant","open to debate or uncertain","always false","already decided"]', 1),
+('qq_l4_m4_5', 'itm_l4_m4_quiz', 5, 'What should a rebuttal do?', '["directly address and challenge the other side''s specific points","simply restate your own opening argument","ignore what the other side said","only ask questions"]', 0),
+('qq_l4_m4_6', 'itm_l4_m4_quiz', 6, 'In British English (and originally), a "moot point" is one that is:', '["irrelevant","always false","open to debate or uncertain","already decided"]', 2),
 ('qq_l4_m4_7', 'itm_l4_m4_quiz', 7, 'Which phrase means "identify weaknesses in an argument"?', '["hold up","poke holes in","come round to","dig in"]', 1),
-('qq_l4_m4_8', 'itm_l4_m4_quiz', 8, 'A closing statement in a formal debate should ideally include:', '["a completely new argument","at least one graceful concession","no reference to the other side","only a summary of the motion"]', 1),
-('qq_l4_m4_9', 'itm_l4_m4_quiz', 9, 'Which phrase means "refuse to change position, often stubbornly"?', '["give ground","come round to","dig in","hold up"]', 2),
-('qq_l4_m4_10', 'itm_l4_m4_quiz', 10, 'Which phrase means "make a concession, especially reluctantly"?', '["give ground","dig in","hold up","poke holes in"]', 0);
+('qq_l4_m4_8', 'itm_l4_m4_quiz', 8, 'A closing statement in a formal debate should ideally include:', '["a completely new argument","no reference to the other side","only a summary of the motion","at least one graceful concession"]', 3),
+('qq_l4_m4_9', 'itm_l4_m4_quiz', 9, 'Which phrase means "refuse to change position, often stubbornly"?', '["give ground","come round to","hold up","dig in"]', 3),
+('qq_l4_m4_10', 'itm_l4_m4_quiz', 10, 'Which phrase means "make a concession, especially reluctantly"?', '["dig in","give ground","hold up","poke holes in"]', 1);
 
 -- ---------------------------------------------------------------------
 -- Module 5: Science, Technology & Ethics
@@ -545,16 +545,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct advanced passive formation, 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l4_m5_1', 'itm_l4_m5_quiz', 1, '"It ___ argued that artificial intelligence will transform the workplace." (present perfect passive)', '["is","has been","was","will be"]', 1),
-('qq_l4_m5_2', 'itm_l4_m5_quiz', 2, '"This technology ___ regulated to prevent misuse." (modal passive)', '["should be","should","is","has been"]', 0),
-('qq_l4_m5_3', 'itm_l4_m5_quiz', 3, '"The industry ___ significantly affected by new legislation." (future passive)', '["is","was","will be","has been"]', 2),
-('qq_l4_m5_4', 'itm_l4_m5_quiz', 4, 'Direct: "Is this ethical?" Reported: "She asked ___ it was ethical."', '["that","whether","what","which"]', 1),
+('qq_l4_m5_1', 'itm_l4_m5_quiz', 1, '"It ___ argued that artificial intelligence will transform the workplace." (present perfect passive)', '["is","was","will be","has been"]', 3),
+('qq_l4_m5_2', 'itm_l4_m5_quiz', 2, '"This technology ___ regulated to prevent misuse." (modal passive)', '["should","should be","is","has been"]', 1),
+('qq_l4_m5_3', 'itm_l4_m5_quiz', 3, '"The industry ___ significantly affected by new legislation." (future passive)', '["will be","is","was","has been"]', 0),
+('qq_l4_m5_4', 'itm_l4_m5_quiz', 4, 'Direct: "Is this ethical?" Reported: "She asked ___ it was ethical."', '["that","what","whether","which"]', 2),
 ('qq_l4_m5_5', 'itm_l4_m5_quiz', 5, 'Direct: "What are the risks?" Reported: "He asked what the risks ___."', '["are","were","is","was being"]', 1),
-('qq_l4_m5_6', 'itm_l4_m5_quiz', 6, 'Direct: "Regulate this now!" Reported: "The panellist ___ the committee to regulate it immediately."', '["said","told","urged","asked"]', 2),
-('qq_l4_m5_7', 'itm_l4_m5_quiz', 7, 'In British English, "___" specifically refers to computer software, matching the American spelling, while the general sense (a plan, schedule, broadcast) uses a different spelling.', '["programme","program","progam","programe"]', 1),
-('qq_l4_m5_8', 'itm_l4_m5_quiz', 8, 'Which phrase means "struggle seriously to understand or resolve an issue"?', '["shed light on","call into question","grapple with","raise concerns about"]', 2),
+('qq_l4_m5_6', 'itm_l4_m5_quiz', 6, 'Direct: "Regulate this now!" Reported: "The panellist ___ the committee to regulate it immediately."', '["said","told","asked","urged"]', 3),
+('qq_l4_m5_7', 'itm_l4_m5_quiz', 7, 'In British English, "___" specifically refers to computer software, matching the American spelling, while the general sense (a plan, schedule, broadcast) uses a different spelling.', '["programme","progam","program","programe"]', 2),
+('qq_l4_m5_8', 'itm_l4_m5_quiz', 8, 'Which phrase means "struggle seriously to understand or resolve an issue"?', '["grapple with","shed light on","call into question","raise concerns about"]', 0),
 ('qq_l4_m5_9', 'itm_l4_m5_quiz', 9, '"___, the benefits of this approach outweigh the risks." (a formal comparison/evaluation marker)', '["On balance","Although","Because","So"]', 0),
-('qq_l4_m5_10', 'itm_l4_m5_quiz', 10, 'Which phrase means "find a reasonable middle position"?', '["grapple with","call into question","shed light on","strike a balance"]', 3);
+('qq_l4_m5_10', 'itm_l4_m5_quiz', 10, 'Which phrase means "find a reasonable middle position"?', '["grapple with","call into question","strike a balance","shed light on"]', 2);
 
 -- ---------------------------------------------------------------------
 -- Module 6: Global Issues
@@ -653,16 +653,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct speculative modal use, corre
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l4_m6_1', 'itm_l4_m6_quiz', 1, '"This is likely ___ a combination of factors."', '["due to","because","since","so"]', 0),
-('qq_l4_m6_2', 'itm_l4_m6_quiz', 2, '"This could potentially ___ further instability in the region."', '["leads to","lead to","leading to","led to"]', 1),
-('qq_l4_m6_3', 'itm_l4_m6_quiz', 3, 'Which is the correct nominalisation of "decide"?', '["decisive","decision","deciding","decided"]', 1),
-('qq_l4_m6_4', 'itm_l4_m6_quiz', 4, 'Which is the correct nominalisation of "aware"?', '["awareness","awaring","awared","awarely"]', 0),
+('qq_l4_m6_1', 'itm_l4_m6_quiz', 1, '"This is likely ___ a combination of factors."', '["because","since","due to","so"]', 2),
+('qq_l4_m6_2', 'itm_l4_m6_quiz', 2, '"This could potentially ___ further instability in the region."', '["lead to","leads to","leading to","led to"]', 0),
+('qq_l4_m6_3', 'itm_l4_m6_quiz', 3, 'Which is the correct nominalisation of "decide"?', '["decisive","deciding","decided","decision"]', 3),
+('qq_l4_m6_4', 'itm_l4_m6_quiz', 4, 'Which is the correct nominalisation of "aware"?', '["awaring","awareness","awared","awarely"]', 1),
 ('qq_l4_m6_5', 'itm_l4_m6_quiz', 5, '"___ by outlining the three main causes of this issue." (a presentation opening signpost)', '["Let me begin","Moving on","To summarise","In conclusion"]', 0),
-('qq_l4_m6_6', 'itm_l4_m6_quiz', 6, '"___ to the second point, the economic impact is significant."', '["Moving on","Let me begin","To summarise","On balance"]', 0),
+('qq_l4_m6_6', 'itm_l4_m6_quiz', 6, '"___ to the second point, the economic impact is significant."', '["Let me begin","To summarise","Moving on","On balance"]', 2),
 ('qq_l4_m6_7', 'itm_l4_m6_quiz', 7, 'In British English, 15 March 2026 written numerically is:', '["3/15/2026","15/03/2026","2026/03/15","03/2026/15"]', 1),
-('qq_l4_m6_8', 'itm_l4_m6_quiz', 8, 'Which phrase means "highlight something for an audience, often referring to a visual aid"?', '["touch on","draw attention to","wrap up","field a question"]', 1),
-('qq_l4_m6_9', 'itm_l4_m6_quiz', 9, 'When fielding a difficult question you''re unsure of, the most professional response is to:', '["pretend to know the answer with full confidence","honestly hedge and offer to look into it further","refuse to answer at all","change the subject"]', 1),
-('qq_l4_m6_10', 'itm_l4_m6_quiz', 10, 'Which phrase means "respond to an audience question, especially an unexpected one"?', '["open the floor","wrap up","touch on","field a question"]', 3);
+('qq_l4_m6_8', 'itm_l4_m6_quiz', 8, 'Which phrase means "highlight something for an audience, often referring to a visual aid"?', '["touch on","wrap up","field a question","draw attention to"]', 3),
+('qq_l4_m6_9', 'itm_l4_m6_quiz', 9, 'When fielding a difficult question you''re unsure of, the most professional response is to:', '["pretend to know the answer with full confidence","refuse to answer at all","change the subject","honestly hedge and offer to look into it further"]', 3),
+('qq_l4_m6_10', 'itm_l4_m6_quiz', 10, 'Which phrase means "respond to an audience question, especially an unexpected one"?', '["open the floor","field a question","wrap up","touch on"]', 1);
 
 -- ---------------------------------------------------------------------
 -- Module 7: Media Literacy & Critical Reading
@@ -761,14 +761,14 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct, clear ellipsis and substitu
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l4_m7_1', 'itm_l4_m7_quiz', 1, '"This piece uses the rhetorical question ''Can we really afford to wait?'' to create a sense of urgency." What is being identified here?', '["bias only","a rhetorical technique","a grammar error","a citation"]', 1),
-('qq_l4_m7_2', 'itm_l4_m7_quiz', 2, 'Which best describes "tone" in critical reading?', '["whether a text is true or false","the emotional colouring of the language","the number of paragraphs","the author''s job title"]', 1),
-('qq_l4_m7_3', 'itm_l4_m7_quiz', 3, '"She wanted to go, but couldn''t ___." (ellipsis -- what''s omitted?)', '["go","went","going","goes"]', 0),
+('qq_l4_m7_1', 'itm_l4_m7_quiz', 1, '"This piece uses the rhetorical question ''Can we really afford to wait?'' to create a sense of urgency." What is being identified here?', '["bias only","a grammar error","a rhetorical technique","a citation"]', 2),
+('qq_l4_m7_2', 'itm_l4_m7_quiz', 2, 'Which best describes "tone" in critical reading?', '["the emotional colouring of the language","whether a text is true or false","the number of paragraphs","the author''s job title"]', 0),
+('qq_l4_m7_3', 'itm_l4_m7_quiz', 3, '"She wanted to go, but couldn''t ___." (ellipsis -- what''s omitted?)', '["went","going","goes","go"]', 3),
 ('qq_l4_m7_4', 'itm_l4_m7_quiz', 4, '"I liked the first article, but not the second ___." (substitution)', '["it","one","so","do"]', 1),
-('qq_l4_m7_5', 'itm_l4_m7_quiz', 5, '"He said the report was biased, and I think ___ too." (clause substitution)', '["it","one","so","that"]', 2),
-('qq_l4_m7_6', 'itm_l4_m7_quiz', 6, 'Which is a genuine risk of overusing ellipsis and substitution?', '["sentences become too long","the reference can become unclear or ambiguous","it is always grammatically incorrect","it makes writing too formal"]', 1),
+('qq_l4_m7_5', 'itm_l4_m7_quiz', 5, '"He said the report was biased, and I think ___ too." (clause substitution)', '["so","it","one","that"]', 0),
+('qq_l4_m7_6', 'itm_l4_m7_quiz', 6, 'Which is a genuine risk of overusing ellipsis and substitution?', '["sentences become too long","it is always grammatically incorrect","the reference can become unclear or ambiguous","it makes writing too formal"]', 2),
 ('qq_l4_m7_7', 'itm_l4_m7_quiz', 7, 'An American-originated term for an opinion piece, now used internationally, is:', '["editorial note","op-ed","comment column","feature article"]', 1),
-('qq_l4_m7_8', 'itm_l4_m7_quiz', 8, 'Which phrase means "minimise the apparent importance of an issue"?', '["play up","play down","gloss over","spin"]', 1),
+('qq_l4_m7_8', 'itm_l4_m7_quiz', 8, 'Which phrase means "minimise the apparent importance of an issue"?', '["play up","gloss over","spin","play down"]', 3),
 ('qq_l4_m7_9', 'itm_l4_m7_quiz', 9, 'Which phrase means "present information in a biased way to create a particular impression"?', '["read into","play down","gloss over","spin"]', 3),
 ('qq_l4_m7_10', 'itm_l4_m7_quiz', 10, '"The writer appears to favour immediate action. ___, the tone here suggests real alarm." (a critical-reading discourse marker)', '["Arguably","This is reinforced by the fact that","Because","So"]', 1);
 
@@ -864,21 +864,21 @@ EXTENSION: Add a moment where your negotiation nearly reaches a stalemate, then 
 ('itm_l4_m8_assignment', 'unt_l4_m8', 5, 'assignment', 'Module 8 Assignment -- A Negotiation Roleplay & Meeting Minutes',
 'INSTRUCTIONS: Complete two parts based on a real or invented workplace negotiation scenario. PART A (speaking): Record yourself (or perform with a partner) a negotiation roleplay, 90 seconds to 2 minutes, including at least one diplomatic disagreement, one conditional proposal (provided that/on the condition that), and a clear outcome. Use at least one non-defining relative clause naturally within the roleplay. PART B (formal correspondence): Write brief meeting minutes (5-8 bullet points, including at least one action point with a name and deadline) and a short professional follow-up email summarising the outcome.
 
-GRADING RUBRIC: (1) Grammatical accuracy -- correct non-defining relative clause formation, correct negotiation conditional structures. (2) Vocabulary range -- at least 3 distinct meeting/negotiation words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- diplomatic disagreement, a conditional proposal, and a clear outcome in Part A; complete minutes with an action point and a follow-up email in Part B. (4) Communicative quality -- does the negotiation sound genuinely professional and realistic, and do the minutes accurately and concisely capture what was decided? (5) Discourse coherence & register -- is the spoken negotiation''s tone diplomatic throughout, and is the written correspondence''s register consistently professional?
+GRADING RUBRIC: (1) Grammatical accuracy -- correct non-defining relative clause formation, correct negotiation conditional structures. (2) Vocabulary range -- at least 3 distinct meeting/negotiation words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- diplomatic disagreement, a conditional proposal, and a clear outcome in Part A; complete minutes with an action point and a follow-up email in Part B. (4) Evidence & argument quality -- is the conditional proposal grounded in a stated interest rather than a restated position, and do the minutes record what was actually agreed rather than what the writer wished had been? (5) Communicative quality -- does the negotiation sound genuinely professional and realistic, and do the minutes accurately and concisely capture what was decided? (6) Discourse coherence & register -- is the spoken negotiation''s tone diplomatic throughout, and is the written correspondence''s register consistently professional?
 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l4_m8_1', 'itm_l4_m8_quiz', 1, 'Which sentence uses a non-defining relative clause correctly?', '["The colleague who reviewed the proposal had concerns.","My colleague, who has worked here for ten years, had concerns.","My colleague that has worked here for ten years had concerns.","My colleague, that has worked here, had concerns."]', 1),
-('qq_l4_m8_2', 'itm_l4_m8_quiz', 2, '"The meeting ran long, ___ frustrated several attendees." (referring to the whole previous clause)', '["that","which","who","whose"]', 1),
+('qq_l4_m8_1', 'itm_l4_m8_quiz', 1, 'Which sentence uses a non-defining relative clause correctly?', '["My colleague, who has worked here for ten years, had concerns.","The colleague who reviewed the proposal had concerns.","My colleague that has worked here for ten years had concerns.","My colleague, that has worked here, had concerns."]', 0),
+('qq_l4_m8_2', 'itm_l4_m8_quiz', 2, '"The meeting ran long, ___ frustrated several attendees." (referring to the whole previous clause)', '["that","who","which","whose"]', 2),
 ('qq_l4_m8_3', 'itm_l4_m8_quiz', 3, 'If a non-defining relative clause is removed from a sentence, the core meaning:', '["is completely lost","stays essentially intact","becomes grammatically incorrect","reverses entirely"]', 1),
-('qq_l4_m8_4', 'itm_l4_m8_quiz', 4, '"I hear what you''re saying, ___ I''d push back on one part of that."', '["so","but","because","if"]', 1),
-('qq_l4_m8_5', 'itm_l4_m8_quiz', 5, '"I could accept Monday, ___ we get a progress update on Wednesday."', '["provided that","because","so","unless"]', 0),
-('qq_l4_m8_6', 'itm_l4_m8_quiz', 6, 'Which phrase means "each side compromises equally"?', '["hold firm","meet halfway","sweeten the deal","hammer out"]', 1),
-('qq_l4_m8_7', 'itm_l4_m8_quiz', 7, 'In British English, checking your schedule for a meeting is often called checking your:', '["calendar","diary","planner","agenda"]', 1),
+('qq_l4_m8_4', 'itm_l4_m8_quiz', 4, '"I hear what you''re saying, ___ I''d push back on one part of that."', '["so","because","if","but"]', 3),
+('qq_l4_m8_5', 'itm_l4_m8_quiz', 5, '"I could accept Monday, ___ we get a progress update on Wednesday."', '["because","so","provided that","unless"]', 2),
+('qq_l4_m8_6', 'itm_l4_m8_quiz', 6, 'Which phrase means "each side compromises equally"?', '["meet halfway","hold firm","sweeten the deal","hammer out"]', 0),
+('qq_l4_m8_7', 'itm_l4_m8_quiz', 7, 'In British English, checking your schedule for a meeting is often called checking your:', '["calendar","planner","agenda","diary"]', 3),
 ('qq_l4_m8_8', 'itm_l4_m8_quiz', 8, 'Which phrase means "resolve minor remaining problems"?', '["hammer out","iron out","hold firm","meet halfway"]', 1),
 ('qq_l4_m8_9', 'itm_l4_m8_quiz', 9, '"So, to confirm, [name] will handle X by [date]." This sentence is an example of:', '["a diplomatic disagreement","an action point","a rhetorical question","a non-defining relative clause"]', 1),
-('qq_l4_m8_10', 'itm_l4_m8_quiz', 10, 'Which phrase means "refuse to compromise on something specific"?', '["meet halfway","sweeten the deal","hold firm","iron out"]', 2);
+('qq_l4_m8_10', 'itm_l4_m8_quiz', 10, 'Which phrase means "refuse to compromise on something specific"?', '["meet halfway","sweeten the deal","iron out","hold firm"]', 3);
 
 -- ---------------------------------------------------------------------
 -- Module 9: Academic Writing II
@@ -978,15 +978,15 @@ A grade at or above the platform''s pass threshold marks this module complete.')
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
 ('qq_l4_m9_1', 'itm_l4_m9_quiz', 1, 'What is genuine synthesis, as opposed to parallel summary?', '["summarising Source A, then separately summarising Source B","relating two sources'' claims to each other in one coherent point","only using Source A and ignoring Source B","copying both sources word-for-word"]', 1),
-('qq_l4_m9_2', 'itm_l4_m9_quiz', 2, '"___ Source A suggests remote work improves focus, Source B notes this depends on having a dedicated workspace."', '["While","Because","So","Since"]', 0),
-('qq_l4_m9_3', 'itm_l4_m9_quiz', 3, '"Taken together, these sources ___ that the benefit is real but conditional."', '["suggest","suggests","suggesting","suggested"]', 0),
-('qq_l4_m9_4', 'itm_l4_m9_quiz', 4, 'What does "coherence" refer to in academic writing?', '["the specific grammatical devices used","the logical flow and progression of ideas","the total word count","the citation style used"]', 1),
-('qq_l4_m9_5', 'itm_l4_m9_quiz', 5, 'What does "cohesion" refer to in academic writing?', '["the logical flow of ideas only","the grammatical \"glue\" (specific devices) that makes that flow readable","the essay''s overall length","the number of sources used"]', 1),
+('qq_l4_m9_2', 'itm_l4_m9_quiz', 2, '"___ Source A suggests remote work improves focus, Source B notes this depends on having a dedicated workspace."', '["Because","So","Since","While"]', 3),
+('qq_l4_m9_3', 'itm_l4_m9_quiz', 3, '"Taken together, these sources ___ that the benefit is real but conditional."', '["suggests","suggesting","suggest","suggested"]', 2),
+('qq_l4_m9_4', 'itm_l4_m9_quiz', 4, 'What does "coherence" refer to in academic writing?', '["the logical flow and progression of ideas","the specific grammatical devices used","the total word count","the citation style used"]', 0),
+('qq_l4_m9_5', 'itm_l4_m9_quiz', 5, 'What does "cohesion" refer to in academic writing?', '["the logical flow of ideas only","the essay''s overall length","the number of sources used","the grammatical \"glue\" (specific devices) that makes that flow readable"]', 3),
 ('qq_l4_m9_6', 'itm_l4_m9_quiz', 6, 'In American academic writing, the default quotation mark for a direct quote is usually:', '["single ('' '')","double (\"\" \"\")","angled (guillemets)","none are used"]', 1),
-('qq_l4_m9_7', 'itm_l4_m9_quiz', 7, 'Which phrase means "confirm a claim using independent evidence or a second source"?', '["draw together","tie in with","corroborate","cross-reference"]', 2),
-('qq_l4_m9_8', 'itm_l4_m9_quiz', 8, '"This is ___ by a second, independent study."', '["corroborated","drawn together","tied in","cross-referenced"]', 0),
-('qq_l4_m9_9', 'itm_l4_m9_quiz', 9, 'Which best describes this level''s stated goal for citation mechanics?', '["full mastery of one formal system (APA/MLA/Chicago)","the underlying habit and logic of honest, consistent attribution","avoiding citation entirely","memorising citation rules without applying them"]', 1),
-('qq_l4_m9_10', 'itm_l4_m9_quiz', 10, 'Which phrase means "combine ideas into one coherent whole"?', '["tie in with","draw together","corroborate","cross-reference"]', 1);
+('qq_l4_m9_7', 'itm_l4_m9_quiz', 7, 'Which phrase means "confirm a claim using independent evidence or a second source"?', '["corroborate","draw together","tie in with","cross-reference"]', 0),
+('qq_l4_m9_8', 'itm_l4_m9_quiz', 8, '"This is ___ by a second, independent study."', '["drawn together","tied in","corroborated","cross-referenced"]', 2),
+('qq_l4_m9_9', 'itm_l4_m9_quiz', 9, 'Which best describes this level''s stated goal for citation mechanics?', '["full mastery of one formal system (APA/MLA/Chicago)","avoiding citation entirely","the underlying habit and logic of honest, consistent attribution","memorising citation rules without applying them"]', 2),
+('qq_l4_m9_10', 'itm_l4_m9_quiz', 10, 'Which phrase means "combine ideas into one coherent whole"?', '["draw together","tie in with","corroborate","cross-reference"]', 0);
 
 -- ---------------------------------------------------------------------
 -- Module 10: Review & Consolidation (Upper Intermediate-Level Mock Exam)
@@ -1067,28 +1067,28 @@ PART A -- SPEAKING: A FULL FORMAL PRESENTATION WITH Q&A (5-6 minutes, recorded o
 
 PART B -- WRITING: A FULL RUBRIC-GRADED ESSAY (500-600 words): Write a structured essay -- argumentative or research-based, your choice -- that draws on the level''s cumulative writing skills. Include: a clear, specific, arguable thesis (Module 2); at least one passive construction and one reported-speech sentence (Module 5); at least one non-defining relative clause (Module 8); at least 2 nominalisations (Module 6); at least one instance of ellipsis or substitution (Module 7); and, if choosing the research-based option, genuine synthesis of at least two distinct perspectives with basic citation mechanics (Module 9). Structure the essay with a clear introduction, body paragraphs, and conclusion (Module 2).
 
-GRADING RUBRIC (weighted toward listening and speaking per the Upper Intermediate-level assessment strategy): (1) Grammatical range and accuracy -- correct, varied use of the level''s grammar points across both parts. (2) Vocabulary range -- discourse markers and phrasal verbs/collocations drawn from at least 6 of the 9 modules across both parts combined. (3) Task completion -- every required element present in both Part A and Part B. (4) Fluency and delivery (Part A) -- reasonably fluent for B2, audible, able to sustain a longer formal presentation and respond composedly to unscripted follow-up questions, including one you are not fully certain of. (5) Coherence (Part B) -- the essay reads as one connected, logically structured piece with clear paragraph-level organisation. (6) Evidence & argument quality -- is the thesis genuinely specific and arguable, is the reasoning or synthesis actually convincing, and does the piece address the strongest version of the topic? (7) Discourse coherence & register -- is the register appropriately formal/academic or professional throughout, and does the connector toolkit genuinely aid clarity?
+GRADING RUBRIC (weighted toward listening and speaking per the Upper Intermediate-level assessment strategy): (1) Grammatical range and accuracy -- correct, varied use of the level''s grammar points across both parts. (2) Vocabulary range -- discourse markers and phrasal verbs/collocations drawn from at least 6 of the 9 modules across both parts combined. (3) Task completion -- every required element present in both Part A and Part B. (4) Communicative quality -- does the writing reach its intended reader with a purpose that reader would recognise, not merely satisfy the task specification? (5) Fluency and delivery (Part A) -- reasonably fluent for B2, audible, able to sustain a longer formal presentation and respond composedly to unscripted follow-up questions, including one you are not fully certain of. (6) Coherence (Part B) -- the essay reads as one connected, logically structured piece with clear paragraph-level organisation. (7) Evidence & argument quality -- is the thesis genuinely specific and arguable, is the reasoning or synthesis actually convincing, and does the piece address the strongest version of the topic? (8) Discourse coherence & register -- is the register appropriately formal/academic or professional throughout, and does the connector toolkit genuinely aid clarity?
 
 PROGRESSION REQUIREMENT: A grade at or above the platform''s pass threshold on this comprehensive assessment marks Level IV as complete for the learner and, for a full-programme student, triggers Level V''s enrolment to unlock automatically.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
 ('qq_l4_m10_1', 'itm_l4_m10_examquiz', 1, '(M1) "By the time I arrived, the meeting ___ already started."', '["has","had","was","did"]', 1),
-('qq_l4_m10_2', 'itm_l4_m10_examquiz', 2, '(M1) Which tense best emphasises an ongoing state connecting the past to now?', '["past simple","past perfect","present perfect","past continuous"]', 2),
+('qq_l4_m10_2', 'itm_l4_m10_examquiz', 2, '(M1) Which tense best emphasises an ongoing state connecting the past to now?', '["past simple","past perfect","past continuous","present perfect"]', 3),
 ('qq_l4_m10_3', 'itm_l4_m10_examquiz', 3, '(M2) Which is the strongest, most specific and arguable thesis statement?', '["Social media is a topic that affects many people.","Social media is bad.","Social media platforms should be required to disclose how their algorithms rank content, because users cannot currently make informed choices.","Many people use social media every day."]', 2),
-('qq_l4_m10_4', 'itm_l4_m10_examquiz', 4, '(M2) Swapping only a few synonyms while keeping the same sentence structure as the original is:', '["always acceptable","a form of genuine paraphrasing","a common, often accidental form of plagiarism","required by academic convention"]', 2),
-('qq_l4_m10_5', 'itm_l4_m10_examquiz', 5, '(M3) "If I ___ known about the deadline earlier, I would have submitted on time." (third conditional)', '["have","had","has","was"]', 1),
+('qq_l4_m10_4', 'itm_l4_m10_examquiz', 4, '(M2) Swapping only a few synonyms while keeping the same sentence structure as the original is:', '["a common, often accidental form of plagiarism","always acceptable","a form of genuine paraphrasing","required by academic convention"]', 0),
+('qq_l4_m10_5', 'itm_l4_m10_examquiz', 5, '(M3) "If I ___ known about the deadline earlier, I would have submitted on time." (third conditional)', '["have","has","was","had"]', 3),
 ('qq_l4_m10_6', 'itm_l4_m10_examquiz', 6, '(M3) What does the "R" in the STAR interview-answer structure stand for?', '["Reason","Result","Response","Review"]', 1),
-('qq_l4_m10_7', 'itm_l4_m10_examquiz', 7, '(M4) "___, remote work can make spontaneous collaboration harder." (an advanced concession opener)', '["Because","Granted","Therefore","So"]', 1),
-('qq_l4_m10_8', 'itm_l4_m10_examquiz', 8, '(M4) What should a rebuttal do?', '["simply restate your own opening argument","directly address and challenge the other side''s specific points","ignore what the other side said","only ask questions"]', 1),
-('qq_l4_m10_9', 'itm_l4_m10_examquiz', 9, '(M5) "It ___ argued that artificial intelligence will transform the workplace." (present perfect passive)', '["is","has been","was","will be"]', 1),
-('qq_l4_m10_10', 'itm_l4_m10_examquiz', 10, '(M5) Direct: "What are the risks?" Reported: "He asked what the risks ___."', '["are","were","is","was being"]', 1),
+('qq_l4_m10_7', 'itm_l4_m10_examquiz', 7, '(M4) "___, remote work can make spontaneous collaboration harder." (an advanced concession opener)', '["Granted","Because","Therefore","So"]', 0),
+('qq_l4_m10_8', 'itm_l4_m10_examquiz', 8, '(M4) What should a rebuttal do?', '["simply restate your own opening argument","ignore what the other side said","directly address and challenge the other side''s specific points","only ask questions"]', 2),
+('qq_l4_m10_9', 'itm_l4_m10_examquiz', 9, '(M5) "It ___ argued that artificial intelligence will transform the workplace." (present perfect passive)', '["is","was","has been","will be"]', 2),
+('qq_l4_m10_10', 'itm_l4_m10_examquiz', 10, '(M5) Direct: "What are the risks?" Reported: "He asked what the risks ___."', '["were","are","is","was being"]', 0),
 ('qq_l4_m10_11', 'itm_l4_m10_examquiz', 11, '(M6) Which is the correct nominalisation of "decide"?', '["decisive","decision","deciding","decided"]', 1),
-('qq_l4_m10_12', 'itm_l4_m10_examquiz', 12, '(M6) "___ to the second point, the economic impact is significant."', '["Moving on","Let me begin","To summarise","On balance"]', 0),
-('qq_l4_m10_13', 'itm_l4_m10_examquiz', 13, '(M7) Which best describes "tone" in critical reading?', '["whether a text is true or false","the emotional colouring of the language","the number of paragraphs","the author''s job title"]', 1),
-('qq_l4_m10_14', 'itm_l4_m10_examquiz', 14, '(M7) "I liked the first article, but not the second ___." (substitution)', '["it","one","so","do"]', 1),
-('qq_l4_m10_15', 'itm_l4_m10_examquiz', 15, '(M8) Which sentence uses a non-defining relative clause correctly?', '["The colleague who reviewed the proposal had concerns.","My colleague, who has worked here for ten years, had concerns.","My colleague that has worked here for ten years had concerns.","My colleague, that has worked here, had concerns."]', 1),
+('qq_l4_m10_12', 'itm_l4_m10_examquiz', 12, '(M6) "___ to the second point, the economic impact is significant."', '["Let me begin","To summarise","On balance","Moving on"]', 3),
+('qq_l4_m10_13', 'itm_l4_m10_examquiz', 13, '(M7) Which best describes "tone" in critical reading?', '["the emotional colouring of the language","whether a text is true or false","the number of paragraphs","the author''s job title"]', 0),
+('qq_l4_m10_14', 'itm_l4_m10_examquiz', 14, '(M7) "I liked the first article, but not the second ___." (substitution)', '["it","so","one","do"]', 2),
+('qq_l4_m10_15', 'itm_l4_m10_examquiz', 15, '(M8) Which sentence uses a non-defining relative clause correctly?', '["The colleague who reviewed the proposal had concerns.","My colleague that has worked here for ten years had concerns.","My colleague, that has worked here, had concerns.","My colleague, who has worked here for ten years, had concerns."]', 3),
 ('qq_l4_m10_16', 'itm_l4_m10_examquiz', 16, '(M8) "I hear what you''re saying, ___ I''d push back on one part of that."', '["so","but","because","if"]', 1),
 ('qq_l4_m10_17', 'itm_l4_m10_examquiz', 17, '(M9) What is genuine synthesis, as opposed to parallel summary?', '["summarising Source A, then separately summarising Source B","relating two sources'' claims to each other in one coherent point","only using Source A and ignoring Source B","copying both sources word-for-word"]', 1),
-('qq_l4_m10_18', 'itm_l4_m10_examquiz', 18, '(M9) What does "cohesion" refer to in academic writing?', '["the logical flow of ideas only","the grammatical \"glue\" (specific devices) that makes that flow readable","the essay''s overall length","the number of sources used"]', 1),
-('qq_l4_m10_19', 'itm_l4_m10_examquiz', 19, '(Cumulative discourse markers) Which discourse marker signals a formal, evaluative comparison between two options?', '["on balance","in other words","although","apparently"]', 0),
-('qq_l4_m10_20', 'itm_l4_m10_examquiz', 20, '(Cumulative BrE/AmE) In British English, 15 March 2026 written numerically is:', '["3/15/2026","15/03/2026","2026/03/15","03/2026/15"]', 1);
+('qq_l4_m10_18', 'itm_l4_m10_examquiz', 18, '(M9) What does "cohesion" refer to in academic writing?', '["the logical flow of ideas only","the essay''s overall length","the number of sources used","the grammatical \"glue\" (specific devices) that makes that flow readable"]', 3),
+('qq_l4_m10_19', 'itm_l4_m10_examquiz', 19, '(Cumulative discourse markers) Which discourse marker signals a formal, evaluative comparison between two options?', '["in other words","although","on balance","apparently"]', 2),
+('qq_l4_m10_20', 'itm_l4_m10_examquiz', 20, '(Cumulative BrE/AmE) In British English, 15 March 2026 written numerically is:', '["15/03/2026","3/15/2026","2026/03/15","03/2026/15"]', 0);

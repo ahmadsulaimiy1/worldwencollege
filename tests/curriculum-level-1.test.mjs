@@ -42,20 +42,32 @@ check('Item 2 is the real Lesson 1.1 with actual lesson-plan content', detail.it
 check('Item 3 is the real Lesson 1.2', detail.items[2].id === 'itm_l1_m1_lesson2' && detail.items[2].body.includes('Where are you from?'));
 
 const quizItem = detail.items.find((i) => i.id === 'itm_l1_m1_quiz');
-check('The real quiz has all 8 authored questions', quizItem.questions.length === 8);
+check('The real quiz has all 10 authored questions', quizItem.questions.length === 10);
 check('Quiz question 1 is the real authored prompt', quizItem.questions[0].prompt === '"___ name is Sofia."');
 check('Quiz choices are real, and the correct answer is never leaked to the client', quizItem.questions[0].choices.includes('My') && !('correctIndex' in quizItem.questions[0]));
 
 const assignmentItem = detail.items.find((i) => i.id === 'itm_l1_m1_assignment');
 check('The real assignment carries its actual instructions', assignmentItem.body.includes('Record yourself') && assignmentItem.body.includes('30-60 seconds'));
 
+// The real seeded answer key for Module 1's quiz, read from the database
+// and shared by the pass and fail cases below.
+const correctKey = db
+  .prepare('SELECT correct_index FROM quiz_questions WHERE learning_item_id = ? ORDER BY sequence ASC')
+  .bind('itm_l1_m1_quiz').all().results.map((q) => q.correct_index);
+
 // --- Submitting the REAL quiz with the REAL correct answers scores 100% ---
 {
-  // Correct-index answer key, taken directly from
-  // sql/seed-curriculum-level-1.sql — proves the seeded correct_index
-  // values actually match the questions as authored, not just that
-  // scoring logic works in the abstract.
-  const correctAnswers = [1, 0, 2, 0, 2, 1, 1, 2];
+  // The answer key is read from the seeded database rather than
+  // hard-coded here. It was hard-coded originally, which made this test
+  // couple to the exact answer POSITIONS rather than to the content —
+  // so when the programme-wide answer-key rebalance permuted the
+  // choice order (see docs/curriculum-programme-review.md, Finding 10),
+  // this test failed while the five later level sweeps, which already
+  // read the key from the DB, correctly passed. Reading it here proves
+  // the same thing the hard-coded list did — that the seeded
+  // correct_index matches the questions as authored — without breaking
+  // whenever a distractor is reordered.
+  const correctAnswers = correctKey;
   const attempt = await submitQuizAttempt(env, { userId: 'usr_student', learningItemId: 'itm_l1_m1_quiz', answers: correctAnswers });
   check('The real Module 1 quiz, answered correctly, scores 100%', attempt.score === 1 && attempt.passed === true);
 
@@ -67,7 +79,10 @@ check('The real assignment carries its actual instructions', assignmentItem.body
 {
   db.prepare(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_other', 'clerk', 'sub_other', 'other@example.com', 'student')`).run();
   db.prepare(`INSERT INTO enrolments (id, user_id, level_id, status, started_at) VALUES ('enr_other_l1', 'usr_other', 1, 'active', '2026-01-01T00:00:00.000Z')`).run();
-  const wrongAnswers = [0, 1, 0, 1, 0, 0, 0, 0]; // mostly wrong against the real key
+  // Derived from the real key so it stays deliberately wrong no matter
+  // how the choices are ordered — a fixed literal array could drift into
+  // accidentally-correct answers after a distractor reorder.
+  const wrongAnswers = correctKey.map((k) => (k + 1) % 4);
   const attempt = await submitQuizAttempt(env, { userId: 'usr_other', learningItemId: 'itm_l1_m1_quiz', answers: wrongAnswers });
   check('A mostly-wrong attempt against the real answer key does not pass', attempt.passed === false && attempt.score < 0.7);
 }

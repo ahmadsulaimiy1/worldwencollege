@@ -123,6 +123,113 @@ from zero — see § Assessment design principles.
 
 ---
 
+## Rubric policy (normative — Academic Edition v1.0)
+
+Every rubric-graded assignment in the programme conforms to this
+model. It is **normative, not descriptive**: it is enforced
+mechanically by `tests/curriculum-consistency.test.mjs`, which parses
+all 60 assignment bodies out of the seed files and fails the build if
+any assignment departs from it. Documentation, curriculum content, and
+grading logic therefore cannot drift apart — a change to one that is
+not made in the others breaks the test.
+
+**Every assignment carries, in this order:**
+
+1. **The core three — mandatory, every assignment, every level.**
+   `Grammatical accuracy`; `Vocabulary range`; `Task completion`.
+   These are what makes a grade comparable across sixty modules and
+   six levels. The end-of-level examinations use `Grammatical range
+   and accuracy` for the first of these — the same criterion widened
+   to a whole level's grammar rather than one module's.
+
+2. **The level signature — mandatory on every assignment of its
+   level.** One per level, and the criterion that level exists to
+   introduce:
+
+   | Level | CEFR | Signature criterion |
+   |---|---|---|
+   | I | A1 | `Clarity & intelligibility` |
+   | II | A2 | `Communicative quality` |
+   | III | B1 | `Discourse coherence & register` |
+   | IV | B2 | `Evidence & argument quality` |
+   | V | C1 | `Rhetorical effectiveness` |
+   | VI | C2 | `Independent judgement` |
+
+   A criterion that appears in only some of its level's assignments is
+   not a level signature. This rule exists because the programme
+   previously failed it: before v1.0, Level IV omitted its own
+   signature from 3 of 9 content modules and Level V from 5 of 9.
+
+3. **Genre-selected criteria — 0-2, chosen for the task.** Drawn from
+   the declared pool: any *earlier* level's signature, plus `Fluency
+   and delivery` and `Coherence` for predominantly spoken work.
+   Rotating these is deliberate: a boardroom presentation should be
+   graded on evidence quality and an opinion editorial on rhetorical
+   effectiveness, and applying one uniform seven-criterion rubric to
+   both would be less honest, not more rigorous.
+
+**Total per assignment:** 4 at Level I-II, 5-6 at Levels III-VI.
+
+**Subsumption.** Three of the six signatures assess the same
+underlying dimension — *does this land on a reader or listener?* — at
+rising standards, and each **subsumes** its predecessor rather than
+sitting beside it:
+
+> `Clarity & intelligibility` (I) → `Communicative quality` (II-IV) →
+> `Rhetorical effectiveness` (V-VI)
+
+A C1 speaker who is rhetorically effective is necessarily
+communicatively effective, and an A2 learner with communicative
+quality is necessarily intelligible; neither implication runs
+backwards. So a criterion is **live** at its own level and until its
+successor takes over, then formally retires. This is why
+`Communicative quality` disappears after Level IV and
+`Clarity & intelligibility` after Level I — retirement by subsumption,
+declared here, not silent decay.
+
+The other three signatures — `Discourse coherence & register` (III),
+`Evidence & argument quality` (IV), `Independent judgement` (VI) —
+assess distinct dimensions and stay live for the rest of the
+programme.
+
+**The end-of-level examination (Module 10) is the cumulativity
+guarantee.** It carries **every signature still live at its level**:
+
+| Exam | Live signatures it must carry |
+|---|---|
+| Level I | clarity & intelligibility |
+| Level II | communicative quality |
+| Level III | communicative quality; discourse coherence & register |
+| Level IV | communicative quality; discourse coherence & register; evidence & argument quality |
+| Level V | discourse coherence & register; evidence & argument quality; rhetorical effectiveness |
+| Level VI | discourse coherence & register; evidence & argument quality; rhetorical effectiveness; independent judgement |
+
+This is the mechanism that ensures no learner completes a level
+without every criterion still in force being assessed at least once,
+even though individual module rubrics rotate their genre-selected
+slot. Before v1.0 this guarantee held at Levels II and V and was
+broken at Levels I, III, IV and VI — most seriously at Level VI, whose
+Mastery Examination omitted `Evidence & argument quality` entirely.
+
+**Answer-key distribution.** Correct answers must be distributed
+across the four choice positions. No quiz may place more than half its
+answers at any single position, and across the programme the four
+positions must each hold 20-30% of all answers. This is an assessment
+*validity* rule, not a cosmetic one: before v1.0, 66% of all 642
+correct answers sat at position (b) and only 5 sat at (d), so a
+learner who always chose (b) scored above the pass threshold on
+several modules without reading the questions. Enforced by the
+consistency test.
+
+**Heading format.** Every rubric opens with the exact string `GRADING
+RUBRIC:`, optionally followed by a parenthetical qualifier, then a
+numbered list in which each criterion is `(n) Name -- description`.
+This is a machine contract, not a style preference: the staff
+rubric-grading interface planned in `docs/lms-architecture.md` parses
+it, and the consistency test enforces it.
+
+---
+
 ## Level I — Foundation Programme (A1)
 
 *Built out to full lesson-by-lesson depth in

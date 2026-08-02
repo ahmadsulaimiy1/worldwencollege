@@ -35,7 +35,7 @@ check('Level I has exactly 10 modules', units.length === 10);
 check('Modules are in the correct sequence order', units.every((u, i) => u.sequence === i + 1));
 check('Module 10 is Review & Consolidation (the level exam)', units[9].title === 'Module 10: Review & Consolidation');
 
-const expectedQuizCounts = { 1: 8, 2: 8, 3: 8, 4: 8, 5: 8, 6: 8, 7: 8, 8: 8, 9: 8, 10: 20 };
+const expectedQuizCounts = { 1: 10, 2: 10, 3: 10, 4: 10, 5: 10, 6: 10, 7: 10, 8: 10, 9: 10, 10: 20 };
 
 let totalQuestionsChecked = 0;
 let totalAssignmentsGraded = 0;
@@ -74,7 +74,7 @@ for (const unit of units) {
   totalAssignmentsGraded++;
 }
 
-check('Every quiz question across all 10 modules was verified against its real seeded answer key', totalQuestionsChecked === 92);
+check('Every quiz question across all 10 modules was verified against its real seeded answer key', totalQuestionsChecked === 110);
 check('Every one of the 10 modules has a gradable assignment', totalAssignmentsGraded === 10);
 
 // --- A wrong attempt on the final mock exam correctly fails, not a false pass ---

@@ -111,15 +111,15 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct present perfect formation an
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l3_m1_1', 'itm_l3_m1_quiz', 1, '"___ you ever visited another country?"', '["Do","Did","Have","Are"]', 2),
+('qq_l3_m1_1', 'itm_l3_m1_quiz', 1, '"___ you ever visited another country?"', '["Do","Did","Are","Have"]', 3),
 ('qq_l3_m1_2', 'itm_l3_m1_quiz', 2, '"Yes, I ___. I''ve visited several."', '["did","have","do","was"]', 1),
-('qq_l3_m1_3', 'itm_l3_m1_quiz', 3, '"I ___ to Berlin in 2019." (a specific time is given)', '["have gone","went","have been","go"]', 1),
-('qq_l3_m1_4', 'itm_l3_m1_quiz', 4, '"When ___ you go?"', '["have","did","do","has"]', 1),
+('qq_l3_m1_3', 'itm_l3_m1_quiz', 3, '"I ___ to Berlin in 2019." (a specific time is given)', '["went","have gone","have been","go"]', 0),
+('qq_l3_m1_4', 'itm_l3_m1_quiz', 4, '"When ___ you go?"', '["have","do","did","has"]', 2),
 ('qq_l3_m1_5', 'itm_l3_m1_quiz', 5, '"I''ve never ___ sushi."', '["try","tried","tries","trying"]', 1),
-('qq_l3_m1_6', 'itm_l3_m1_quiz', 6, 'Which sentence uses present perfect correctly for unspecified-time experience?', '["I have visited Paris last year.","I have visited Paris.","I have visit Paris.","I visited Paris ever."]', 1),
-('qq_l3_m1_7', 'itm_l3_m1_quiz', 7, '"I lived in Berlin for a year. ___, it changed how I see my own country."', '["In fact","Which is why","It completely changed","Actually"]', 3),
-('qq_l3_m1_8', 'itm_l3_m1_quiz', 8, '"It taught me a lot about independence -- ___ I''d recommend it to anyone."', '["in fact","which is why","actually","so far"]', 1),
-('qq_l3_m1_9', 'itm_l3_m1_quiz', 9, 'In American English, the past participle of "get" (meaning "become/improve") is often:', '["got","gotten","getting","get"]', 1),
+('qq_l3_m1_6', 'itm_l3_m1_quiz', 6, 'Which sentence uses present perfect correctly for unspecified-time experience?', '["I have visited Paris last year.","I have visit Paris.","I visited Paris ever.","I have visited Paris."]', 3),
+('qq_l3_m1_7', 'itm_l3_m1_quiz', 7, '"I lived in Berlin for a year. ___, it changed how I see my own country."', '["In fact","Which is why","Actually","It completely changed"]', 2),
+('qq_l3_m1_8', 'itm_l3_m1_quiz', 8, '"It taught me a lot about independence -- ___ I''d recommend it to anyone."', '["which is why","in fact","actually","so far"]', 0),
+('qq_l3_m1_9', 'itm_l3_m1_quiz', 9, 'In American English, the past participle of "get" (meaning "become/improve") is often:', '["gotten","got","getting","get"]', 0),
 ('qq_l3_m1_10', 'itm_l3_m1_quiz', 10, 'Which phrase means "become familiar or comfortable with something over time"?', '["grow up","look back on","get used to","make an impression"]', 2);
 
 -- ---------------------------------------------------------------------
@@ -217,16 +217,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct present perfect continuous f
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l3_m2_1', 'itm_l3_m2_quiz', 1, '"I''ve ___ studying English since 2022."', '["been","be","was","being"]', 0),
+('qq_l3_m2_1', 'itm_l3_m2_quiz', 1, '"I''ve ___ studying English since 2022."', '["be","was","being","been"]', 3),
 ('qq_l3_m2_2', 'itm_l3_m2_quiz', 2, '"I''m taking a course ___ focuses on marketing."', '["who","which","where","when"]', 1),
-('qq_l3_m2_3', 'itm_l3_m2_quiz', 3, 'Which sentence uses a correct defining relative clause?', '["I''m taking a course, that focuses on marketing.","I''m taking a course that focuses on marketing.","I''m taking a course which it focuses on marketing.","I''m taking a course focuses on marketing."]', 1),
-('qq_l3_m2_4', 'itm_l3_m2_quiz', 4, '"___, time management is a common challenge for students." (a paraphrase signal)', '["According to","In other words","As a matter of fact","Which is why"]', 1),
+('qq_l3_m2_3', 'itm_l3_m2_quiz', 3, 'Which sentence uses a correct defining relative clause?', '["I''m taking a course that focuses on marketing.","I''m taking a course, that focuses on marketing.","I''m taking a course which it focuses on marketing.","I''m taking a course focuses on marketing."]', 0),
+('qq_l3_m2_4', 'itm_l3_m2_quiz', 4, '"___, time management is a common challenge for students." (a paraphrase signal)', '["According to","As a matter of fact","In other words","Which is why"]', 2),
 ('qq_l3_m2_5', 'itm_l3_m2_quiz', 5, 'What is the main difference between summarising and paraphrasing?', '["They are exactly the same thing.","Summarising shortens; paraphrasing keeps similar length but different words.","Paraphrasing always uses the exact same words.","Summarising is only for spoken language."]', 1),
-('qq_l3_m2_6', 'itm_l3_m2_quiz', 6, '"I''ve been ___ this book for two weeks."', '["read","reading","reads","to read"]', 1),
-('qq_l3_m2_7', 'itm_l3_m2_quiz', 7, 'In British English, a student who studies law at university would say:', '["I major in law.","I read law.","I take law.","I grade in law."]', 1),
-('qq_l3_m2_8', 'itm_l3_m2_quiz', 8, 'Which word means "stay on schedule with ongoing coursework"?', '["fall behind","keep up with","take in","cram"]', 1),
-('qq_l3_m2_9', 'itm_l3_m2_quiz', 9, '"The teacher ___ I mentioned earlier is running the seminar." (a person, defining clause)', '["which","who","whose","when"]', 1),
-('qq_l3_m2_10', 'itm_l3_m2_quiz', 10, 'Good note-taking generally means:', '["writing down every word the speaker says","writing only headings and short phrases capturing main points","memorising instead of writing","copying the speaker''s exact sentences"]', 1);
+('qq_l3_m2_6', 'itm_l3_m2_quiz', 6, '"I''ve been ___ this book for two weeks."', '["read","reads","to read","reading"]', 3),
+('qq_l3_m2_7', 'itm_l3_m2_quiz', 7, 'In British English, a student who studies law at university would say:', '["I major in law.","I take law.","I read law.","I grade in law."]', 2),
+('qq_l3_m2_8', 'itm_l3_m2_quiz', 8, 'Which word means "stay on schedule with ongoing coursework"?', '["keep up with","fall behind","take in","cram"]', 0),
+('qq_l3_m2_9', 'itm_l3_m2_quiz', 9, '"The teacher ___ I mentioned earlier is running the seminar." (a person, defining clause)', '["who","which","whose","when"]', 0),
+('qq_l3_m2_10', 'itm_l3_m2_quiz', 10, 'Good note-taking generally means:', '["writing down every word the speaker says","memorising instead of writing","writing only headings and short phrases capturing main points","copying the speaker''s exact sentences"]', 2);
 
 -- ---------------------------------------------------------------------
 -- Module 3: Work, Careers & Entrepreneurship
@@ -325,16 +325,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct zero-conditional and first-c
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l3_m3_1', 'itm_l3_m3_quiz', 1, '"If you ___ a deadline, your manager is satisfied." (a general fact)', '["meet","will meet","met","meeting"]', 0),
+('qq_l3_m3_1', 'itm_l3_m3_quiz', 1, '"If you ___ a deadline, your manager is satisfied." (a general fact)', '["will meet","met","meeting","meet"]', 3),
 ('qq_l3_m3_2', 'itm_l3_m3_quiz', 2, '"If we launch this product in spring, we ___ more customers." (a real future possibility)', '["reach","will reach","reached","reaching"]', 1),
-('qq_l3_m3_3', 'itm_l3_m3_quiz', 3, 'Which sentence is a general truth (zero conditional), not a specific future prediction?', '["If we hire more staff, we''ll meet the target.","If a business doesn''t adapt, it fails.","If it rains tomorrow, we''ll cancel the launch.","If sales increase next month, we''ll expand."]', 1),
-('qq_l3_m3_4', 'itm_l3_m3_quiz', 4, '"Demand has grown this year. ___, the company needs to hire more staff."', '["If","As a result","Even though","Unless"]', 1),
+('qq_l3_m3_3', 'itm_l3_m3_quiz', 3, 'Which sentence is a general truth (zero conditional), not a specific future prediction?', '["If a business doesn''t adapt, it fails.","If we hire more staff, we''ll meet the target.","If it rains tomorrow, we''ll cancel the launch.","If sales increase next month, we''ll expand."]', 0),
+('qq_l3_m3_4', 'itm_l3_m3_quiz', 4, '"Demand has grown this year. ___, the company needs to hire more staff."', '["If","Even though","As a result","Unless"]', 2),
 ('qq_l3_m3_5', 'itm_l3_m3_quiz', 5, '"If demand is high, we ___ more funding."', '["need","will need","needed","needing"]', 1),
-('qq_l3_m3_6', 'itm_l3_m3_quiz', 6, 'In British English, the document you send when applying for a job is usually called a:', '["resume","CV","portfolio","bio"]', 1),
-('qq_l3_m3_7', 'itm_l3_m3_quiz', 7, 'A good short pitch typically includes the idea, the benefit, and also:', '["a list of every possible feature","an honestly acknowledged challenge","a guarantee of success","no questions allowed"]', 1),
-('qq_l3_m3_8', 'itm_l3_m3_quiz', 8, 'Which phrase means "start a company"?', '["run a company","set up a business","scale up","take a risk"]', 1),
-('qq_l3_m3_9', 'itm_l3_m3_quiz', 9, '"If a competitor launches something similar, we ___ a clear advantage."', '["need","will need","needed","needing"]', 1),
-('qq_l3_m3_10', 'itm_l3_m3_quiz', 10, 'Which word describes someone who takes responsibility for their decisions?', '["decisive","accountable","delegate","inspire"]', 1);
+('qq_l3_m3_6', 'itm_l3_m3_quiz', 6, 'In British English, the document you send when applying for a job is usually called a:', '["resume","portfolio","bio","CV"]', 3),
+('qq_l3_m3_7', 'itm_l3_m3_quiz', 7, 'A good short pitch typically includes the idea, the benefit, and also:', '["a list of every possible feature","a guarantee of success","an honestly acknowledged challenge","no questions allowed"]', 2),
+('qq_l3_m3_8', 'itm_l3_m3_quiz', 8, 'Which phrase means "start a company"?', '["set up a business","run a company","scale up","take a risk"]', 0),
+('qq_l3_m3_9', 'itm_l3_m3_quiz', 9, '"If a competitor launches something similar, we ___ a clear advantage."', '["will need","need","needed","needing"]', 0),
+('qq_l3_m3_10', 'itm_l3_m3_quiz', 10, 'Which word describes someone who takes responsibility for their decisions?', '["decisive","delegate","accountable","inspire"]', 2);
 
 -- ---------------------------------------------------------------------
 -- Module 4: Opinions & Debate
@@ -433,16 +433,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct formal opinion structures, c
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l3_m4_1', 'itm_l3_m4_quiz', 1, '"___, remote work benefits most employees." (a formal opinion phrase)', '["I think","In my view","Maybe","Sort of"]', 1),
+('qq_l3_m4_1', 'itm_l3_m4_quiz', 1, '"___, remote work benefits most employees." (a formal opinion phrase)', '["I think","Maybe","In my view","Sort of"]', 2),
 ('qq_l3_m4_2', 'itm_l3_m4_quiz', 2, '"Although some people miss the office, I ___ think the benefits outweigh that."', '["still","never","don''t","barely"]', 0),
-('qq_l3_m4_3', 'itm_l3_m4_quiz', 3, 'Which response shows partial agreement?', '["I completely agree.","I see your point, but I''m not sure that''s true in every case.","I''d have to disagree.","That''s completely wrong."]', 1),
+('qq_l3_m4_3', 'itm_l3_m4_quiz', 3, 'Which response shows partial agreement?', '["I completely agree.","I''d have to disagree.","That''s completely wrong.","I see your point, but I''m not sure that''s true in every case."]', 3),
 ('qq_l3_m4_4', 'itm_l3_m4_quiz', 4, '"That''s a fair point, ___ I still think my original idea is stronger."', '["so","however","because","if"]', 1),
-('qq_l3_m4_5', 'itm_l3_m4_quiz', 5, 'Which phrase means "support a claim with evidence or reasons"?', '["bring up","back up","get across","weigh up"]', 1),
-('qq_l3_m4_6', 'itm_l3_m4_quiz', 6, 'In British English, "That''s quite good" often means:', '["very good","moderately good","not good at all","perfect"]', 1),
+('qq_l3_m4_5', 'itm_l3_m4_quiz', 5, 'Which phrase means "support a claim with evidence or reasons"?', '["back up","bring up","get across","weigh up"]', 0),
+('qq_l3_m4_6', 'itm_l3_m4_quiz', 6, 'In British English, "That''s quite good" often means:', '["very good","not good at all","moderately good","perfect"]', 2),
 ('qq_l3_m4_7', 'itm_l3_m4_quiz', 7, 'Conceding a fair point during a debate generally suggests:', '["a weak argument","a thoughtful, genuinely listening arguer","that you have lost","that you agree with everything"]', 1),
-('qq_l3_m4_8', 'itm_l3_m4_quiz', 8, '"___ some people prefer working alone, others do their best work in a team."', '["Whereas","Because","So","If"]', 0),
-('qq_l3_m4_9', 'itm_l3_m4_quiz', 9, 'Which phrase means "introduce a topic or idea into a discussion"?', '["stand by","weigh up","bring up","back up"]', 2),
-('qq_l3_m4_10', 'itm_l3_m4_quiz', 10, '"I''d have to disagree, ___ the evidence doesn''t support that claim."', '["because","although","however","but still"]', 0);
+('qq_l3_m4_8', 'itm_l3_m4_quiz', 8, '"___ some people prefer working alone, others do their best work in a team."', '["Because","So","If","Whereas"]', 3),
+('qq_l3_m4_9', 'itm_l3_m4_quiz', 9, 'Which phrase means "introduce a topic or idea into a discussion"?', '["stand by","weigh up","back up","bring up"]', 3),
+('qq_l3_m4_10', 'itm_l3_m4_quiz', 10, '"I''d have to disagree, ___ the evidence doesn''t support that claim."', '["although","because","however","but still"]', 1);
 
 -- ---------------------------------------------------------------------
 -- Module 5: Environment, Ethics & Global Citizenship
@@ -541,16 +541,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct present-simple and past-simp
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l3_m5_1', 'itm_l3_m5_quiz', 1, '"Plastic ___ in many countries." (present simple passive)', '["recycles","is recycled","recycling","recycled"]', 1),
+('qq_l3_m5_1', 'itm_l3_m5_quiz', 1, '"Plastic ___ in many countries." (present simple passive)', '["recycles","recycling","recycled","is recycled"]', 3),
 ('qq_l3_m5_2', 'itm_l3_m5_quiz', 2, '"Emissions ___ by environmental agencies."', '["monitor","are monitored","monitoring","monitored by"]', 1),
-('qq_l3_m5_3', 'itm_l3_m5_quiz', 3, '"The area ___ by flooding last year." (past simple passive)', '["affects","was affected","affected","is affected"]', 1),
-('qq_l3_m5_4', 'itm_l3_m5_quiz', 4, '"A large amount of habitat ___."', '["destroyed","was destroyed","destroys","is destroying"]', 1),
+('qq_l3_m5_3', 'itm_l3_m5_quiz', 3, '"The area ___ by flooding last year." (past simple passive)', '["was affected","affects","affected","is affected"]', 0),
+('qq_l3_m5_4', 'itm_l3_m5_quiz', 4, '"A large amount of habitat ___."', '["destroyed","destroys","was destroyed","is destroying"]', 2),
 ('qq_l3_m5_5', 'itm_l3_m5_quiz', 5, '"Deforestation has increased. ___, biodiversity loss has become a serious issue."', '["Due to","This has led to","On the one hand","Which is why"]', 1),
-('qq_l3_m5_6', 'itm_l3_m5_quiz', 6, 'In British English, rubbish is put in a:', '["trash can","bin","garbage can","waste zone"]', 1),
-('qq_l3_m5_7', 'itm_l3_m5_quiz', 7, '"___ hand, the factory would create jobs; on the other, it could harm the environment."', '["In one","On the one","From one","At one"]', 1),
-('qq_l3_m5_8', 'itm_l3_m5_quiz', 8, 'Which phrase means "gradually stop using something over time"?', '["carry out","give rise to","phase out","cut down"]', 2),
-('qq_l3_m5_9', 'itm_l3_m5_quiz', 9, 'Why might a writer choose the passive voice in a factual report?', '["to make the sentence longer","to focus on the action/result rather than who did it","it is always required in reports","to avoid using verbs"]', 1),
-('qq_l3_m5_10', 'itm_l3_m5_quiz', 10, '"Several species ___ as a result of the flooding."', '["displaced","were displaced","displace","are displacing"]', 1);
+('qq_l3_m5_6', 'itm_l3_m5_quiz', 6, 'In British English, rubbish is put in a:', '["trash can","garbage can","waste zone","bin"]', 3),
+('qq_l3_m5_7', 'itm_l3_m5_quiz', 7, '"___ hand, the factory would create jobs; on the other, it could harm the environment."', '["In one","From one","On the one","At one"]', 2),
+('qq_l3_m5_8', 'itm_l3_m5_quiz', 8, 'Which phrase means "gradually stop using something over time"?', '["phase out","carry out","give rise to","cut down"]', 0),
+('qq_l3_m5_9', 'itm_l3_m5_quiz', 9, 'Why might a writer choose the passive voice in a factual report?', '["to focus on the action/result rather than who did it","to make the sentence longer","it is always required in reports","to avoid using verbs"]', 0),
+('qq_l3_m5_10', 'itm_l3_m5_quiz', 10, '"Several species ___ as a result of the flooding."', '["displaced","displace","were displaced","are displacing"]', 2);
 
 -- ---------------------------------------------------------------------
 -- Module 6: Technology & Media
@@ -647,16 +647,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct reported-speech formation an
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l3_m6_1', 'itm_l3_m6_quiz', 1, 'Direct: "This app is easy to use." Reported: "The reviewer said (that) the app ___ easy to use."', '["is","was","be","has been"]', 1),
+('qq_l3_m6_1', 'itm_l3_m6_quiz', 1, 'Direct: "This app is easy to use." Reported: "The reviewer said (that) the app ___ easy to use."', '["is","be","has been","was"]', 3),
 ('qq_l3_m6_2', 'itm_l3_m6_quiz', 2, 'Direct: "I''ll update it next week." Reported: "She said (that) she ___ update it next week."', '["will","would","updates","updated"]', 1),
-('qq_l3_m6_3', 'itm_l3_m6_quiz', 3, '"___ the article, the update improves battery life."', '["Told","According to","Reported","Said"]', 1),
-('qq_l3_m6_4', 'itm_l3_m6_quiz', 4, 'Which is a fact, not an opinion?', '["This is the best app ever made.","The app was released in March.","Everyone should use this app.","This app is amazing."]', 1),
+('qq_l3_m6_3', 'itm_l3_m6_quiz', 3, '"___ the article, the update improves battery life."', '["According to","Told","Reported","Said"]', 0),
+('qq_l3_m6_4', 'itm_l3_m6_quiz', 4, 'Which is a fact, not an opinion?', '["This is the best app ever made.","Everyone should use this app.","The app was released in March.","This app is amazing."]', 2),
 ('qq_l3_m6_5', 'itm_l3_m6_quiz', 5, 'Which is a sign a claim might be less reliable?', '["A clear source is named.","No source is given at all.","The claim can be checked.","The headline matches the article."]', 1),
-('qq_l3_m6_6', 'itm_l3_m6_quiz', 6, 'In British English, the device most people carry is usually called a:', '["cell phone","mobile phone","hand computer","pocket device"]', 1),
-('qq_l3_m6_7', 'itm_l3_m6_quiz', 7, '"___, the company has released a statement about the issue." (a hedge for secondhand information)', '["Apparently","Certainly","Definitely","Obviously"]', 0),
-('qq_l3_m6_8', 'itm_l3_m6_quiz', 8, 'Which phrase means "spread very quickly online"?', '["come out","go viral","log into","roll out"]', 1),
+('qq_l3_m6_6', 'itm_l3_m6_quiz', 6, 'In British English, the device most people carry is usually called a:', '["cell phone","hand computer","pocket device","mobile phone"]', 3),
+('qq_l3_m6_7', 'itm_l3_m6_quiz', 7, '"___, the company has released a statement about the issue." (a hedge for secondhand information)', '["Certainly","Definitely","Apparently","Obviously"]', 2),
+('qq_l3_m6_8', 'itm_l3_m6_quiz', 8, 'Which phrase means "spread very quickly online"?', '["go viral","come out","log into","roll out"]', 0),
 ('qq_l3_m6_9', 'itm_l3_m6_quiz', 9, '"He told me ___ he could fix it himself."', '["that","if","when","so"]', 0),
-('qq_l3_m6_10', 'itm_l3_m6_quiz', 10, 'When evaluating a headline, a critical reader should ask:', '["Does the headline match the actual article?","Is the headline exciting?","Is the headline short?","Does the headline use capital letters?"]', 0);
+('qq_l3_m6_10', 'itm_l3_m6_quiz', 10, 'When evaluating a headline, a critical reader should ask:', '["Is the headline exciting?","Is the headline short?","Does the headline match the actual article?","Does the headline use capital letters?"]', 2);
 
 -- ---------------------------------------------------------------------
 -- Module 7: Health, Body & Mind
@@ -755,16 +755,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct present- and past-deduction 
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l3_m7_1', 'itm_l3_m7_quiz', 1, '"He''s been yawning all day. He ___ be exhausted." (confident deduction)', '["must","might","can''t","should"]', 0),
+('qq_l3_m7_1', 'itm_l3_m7_quiz', 1, '"He''s been yawning all day. He ___ be exhausted." (confident deduction)', '["might","can''t","should","must"]', 3),
 ('qq_l3_m7_2', 'itm_l3_m7_quiz', 2, '"She''s smiling and humming. She ___ be in a good mood." (a plausible, less certain guess)', '["must","might","can''t","has to"]', 1),
-('qq_l3_m7_3', 'itm_l3_m7_quiz', 3, '"It ___ be that serious -- she''s still laughing about it." (evidence contradicts it)', '["must","might","can''t","could"]', 2),
-('qq_l3_m7_4', 'itm_l3_m7_quiz', 4, '"She looked exhausted this morning. She ___ badly." (past deduction)', '["must sleep","must have slept","must slept","must sleeping"]', 1),
+('qq_l3_m7_3', 'itm_l3_m7_quiz', 3, '"It ___ be that serious -- she''s still laughing about it." (evidence contradicts it)', '["can''t","must","might","could"]', 0),
+('qq_l3_m7_4', 'itm_l3_m7_quiz', 4, '"She looked exhausted this morning. She ___ badly." (past deduction)', '["must sleep","must slept","must have slept","must sleeping"]', 2),
 ('qq_l3_m7_5', 'itm_l3_m7_quiz', 5, '"He didn''t answer any calls. He ___ busy." (a plausible past guess)', '["might be","might have been","might been","might has been"]', 1),
-('qq_l3_m7_6', 'itm_l3_m7_quiz', 6, '"___, he''s just tired from the journey." (a paraphrase for "must be")', '["It''s likely that","There''s no way that","It''s impossible that","It''s certain that never"]', 0),
-('qq_l3_m7_7', 'itm_l3_m7_quiz', 7, 'In British English, you would go to the ___ to buy over-the-counter medicine.', '["drugstore","chemist''s","clinic","surgery store"]', 1),
-('qq_l3_m7_8', 'itm_l3_m7_quiz', 8, 'Which phrase means "feel exhausted or below your normal energy level"?', '["come down with","get over","feel run down","wear off"]', 2),
-('qq_l3_m7_9', 'itm_l3_m7_quiz', 9, '"Could you describe your ___?" (an opening healthcare-interview question)', '["opinion","symptoms","history","plans"]', 1),
-('qq_l3_m7_10', 'itm_l3_m7_quiz', 10, '"That ___ have been easy for them." (a sympathetic past deduction)', '["can''t","mustn''t","shouldn''t","won''t"]', 0);
+('qq_l3_m7_6', 'itm_l3_m7_quiz', 6, '"___, he''s just tired from the journey." (a paraphrase for "must be")', '["There''s no way that","It''s impossible that","It''s certain that never","It''s likely that"]', 3),
+('qq_l3_m7_7', 'itm_l3_m7_quiz', 7, 'In British English, you would go to the ___ to buy over-the-counter medicine.', '["drugstore","clinic","chemist''s","surgery store"]', 2),
+('qq_l3_m7_8', 'itm_l3_m7_quiz', 8, 'Which phrase means "feel exhausted or below your normal energy level"?', '["feel run down","come down with","get over","wear off"]', 0),
+('qq_l3_m7_9', 'itm_l3_m7_quiz', 9, '"Could you describe your ___?" (an opening healthcare-interview question)', '["symptoms","opinion","history","plans"]', 0),
+('qq_l3_m7_10', 'itm_l3_m7_quiz', 10, '"That ___ have been easy for them." (a sympathetic past deduction)', '["mustn''t","shouldn''t","can''t","won''t"]', 2);
 
 -- ---------------------------------------------------------------------
 -- Module 8: Travel & Culture
@@ -864,15 +864,15 @@ A grade at or above the platform''s pass threshold marks this module complete.')
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
 ('qq_l3_m8_1', 'itm_l3_m8_quiz', 1, '"If I ___ more, I would learn about different cultures." (second conditional)', '["travel","travelled","will travel","am travelling"]', 1),
-('qq_l3_m8_2', 'itm_l3_m8_quiz', 2, '"If I had more time off, I ___ visit South America."', '["will","would","am","do"]', 1),
-('qq_l3_m8_3', 'itm_l3_m8_quiz', 3, 'Which sentence describes a real, likely plan (first conditional), not a hypothetical?', '["If I travelled every year, I''d run out of savings.","If I travel next year, I will visit three countries.","If I could live anywhere, I''d choose the coast.","If money were no object, I''d travel constantly."]', 1),
-('qq_l3_m8_4', 'itm_l3_m8_quiz', 4, '"If you ___ late to a casual meeting here, people probably wouldn''t mind."', '["arrive","arrived","will arrive","arriving"]', 1),
-('qq_l3_m8_5', 'itm_l3_m8_quiz', 5, '"In my country, that''s fine. ___, in some other places, it would be considered rude."', '["Similarly","In contrast","Because","Therefore"]', 1),
-('qq_l3_m8_6', 'itm_l3_m8_quiz', 6, 'Which phrase means "become comfortable and adjusted somewhere new"?', '["stand out","fit in","settle in","pick up"]', 2),
-('qq_l3_m8_7', 'itm_l3_m8_quiz', 7, 'What does "gap year" traditionally refer to?', '["a type of passport","a year students take between school and university to travel, work, or volunteer","a discount on flights","a type of visa"]', 1),
-('qq_l3_m8_8', 'itm_l3_m8_quiz', 8, 'Which is the more respectful, hedged way to describe a custom?', '["All people from that country do this.","In many places I''ve read about, this is common, though it varies.","Everyone there believes this.","This is simply how that culture is."]', 1),
+('qq_l3_m8_2', 'itm_l3_m8_quiz', 2, '"If I had more time off, I ___ visit South America."', '["will","am","do","would"]', 3),
+('qq_l3_m8_3', 'itm_l3_m8_quiz', 3, 'Which sentence describes a real, likely plan (first conditional), not a hypothetical?', '["If I travelled every year, I''d run out of savings.","If I could live anywhere, I''d choose the coast.","If I travel next year, I will visit three countries.","If money were no object, I''d travel constantly."]', 2),
+('qq_l3_m8_4', 'itm_l3_m8_quiz', 4, '"If you ___ late to a casual meeting here, people probably wouldn''t mind."', '["arrived","arrive","will arrive","arriving"]', 0),
+('qq_l3_m8_5', 'itm_l3_m8_quiz', 5, '"In my country, that''s fine. ___, in some other places, it would be considered rude."', '["Similarly","Because","Therefore","In contrast"]', 3),
+('qq_l3_m8_6', 'itm_l3_m8_quiz', 6, 'Which phrase means "become comfortable and adjusted somewhere new"?', '["stand out","settle in","fit in","pick up"]', 1),
+('qq_l3_m8_7', 'itm_l3_m8_quiz', 7, 'What does "gap year" traditionally refer to?', '["a year students take between school and university to travel, work, or volunteer","a type of passport","a discount on flights","a type of visa"]', 0),
+('qq_l3_m8_8', 'itm_l3_m8_quiz', 8, 'Which is the more respectful, hedged way to describe a custom?', '["All people from that country do this.","Everyone there believes this.","In many places I''ve read about, this is common, though it varies.","This is simply how that culture is."]', 2),
 ('qq_l3_m8_9', 'itm_l3_m8_quiz', 9, '"If I ___ you, I''d try the local food." (recycling a familiar structure)', '["am","was","were","will be"]', 2),
-('qq_l3_m8_10', 'itm_l3_m8_quiz', 10, 'Which phrase means "be noticeably different from those around you"?', '["fit in","stand out","settle in","adjust to"]', 1);
+('qq_l3_m8_10', 'itm_l3_m8_quiz', 10, 'Which phrase means "be noticeably different from those around you"?', '["stand out","fit in","settle in","adjust to"]', 0);
 
 -- ---------------------------------------------------------------------
 -- Module 9: Academic Foundations
@@ -971,16 +971,16 @@ GRADING RUBRIC: (1) Grammatical accuracy -- correct, varied use of the discourse
 A grade at or above the platform''s pass threshold marks this module complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l3_m9_1', 'itm_l3_m9_quiz', 1, 'What is the main function of a topic sentence?', '["to end the paragraph","to state the paragraph''s one main idea","to give an example","to cite a source"]', 1),
-('qq_l3_m9_2', 'itm_l3_m9_quiz', 2, '"___, employees no longer lose time commuting." (introducing an example)', '["However","For example","In conclusion","So"]', 1),
-('qq_l3_m9_3', 'itm_l3_m9_quiz', 3, '"Although some workers miss in-person contact, ___ report feeling more in control of their schedule."', '["most","none","nobody","any"]', 0),
-('qq_l3_m9_4', 'itm_l3_m9_quiz', 4, 'What should a concluding sentence generally do?', '["repeat the topic sentence word-for-word","close the paragraph, often restating the main idea''s significance","introduce a brand new idea","ask a question"]', 1),
-('qq_l3_m9_5', 'itm_l3_m9_quiz', 5, 'Which phrase shows honest, basic citation awareness (not full formal citation)?', '["This is definitely 100% true.","According to several studies I''ve come across...","Everyone knows this.","I read it somewhere, so it must be true."]', 1),
-('qq_l3_m9_6', 'itm_l3_m9_quiz', 6, 'In British English, the "." punctuation mark is usually called a:', '["period","full stop","point","dot"]', 1),
-('qq_l3_m9_7', 'itm_l3_m9_quiz', 7, 'A short structured talk in this module generally follows which order?', '["conclusion, thesis, points","thesis, supporting points, conclusion","points, conclusion, thesis","no particular order"]', 1),
-('qq_l3_m9_8', 'itm_l3_m9_quiz', 8, 'Which phrase means "use something as a basis for your own point"?', '["point out","sum up","draw on","set out"]', 2),
+('qq_l3_m9_1', 'itm_l3_m9_quiz', 1, 'What is the main function of a topic sentence?', '["to state the paragraph''s one main idea","to end the paragraph","to give an example","to cite a source"]', 0),
+('qq_l3_m9_2', 'itm_l3_m9_quiz', 2, '"___, employees no longer lose time commuting." (introducing an example)', '["However","In conclusion","For example","So"]', 2),
+('qq_l3_m9_3', 'itm_l3_m9_quiz', 3, '"Although some workers miss in-person contact, ___ report feeling more in control of their schedule."', '["none","most","nobody","any"]', 1),
+('qq_l3_m9_4', 'itm_l3_m9_quiz', 4, 'What should a concluding sentence generally do?', '["repeat the topic sentence word-for-word","introduce a brand new idea","ask a question","close the paragraph, often restating the main idea''s significance"]', 3),
+('qq_l3_m9_5', 'itm_l3_m9_quiz', 5, 'Which phrase shows honest, basic citation awareness (not full formal citation)?', '["This is definitely 100% true.","Everyone knows this.","According to several studies I''ve come across...","I read it somewhere, so it must be true."]', 2),
+('qq_l3_m9_6', 'itm_l3_m9_quiz', 6, 'In British English, the "." punctuation mark is usually called a:', '["full stop","period","point","dot"]', 0),
+('qq_l3_m9_7', 'itm_l3_m9_quiz', 7, 'A short structured talk in this module generally follows which order?', '["conclusion, thesis, points","points, conclusion, thesis","no particular order","thesis, supporting points, conclusion"]', 3),
+('qq_l3_m9_8', 'itm_l3_m9_quiz', 8, 'Which phrase means "use something as a basis for your own point"?', '["point out","draw on","sum up","set out"]', 1),
 ('qq_l3_m9_9', 'itm_l3_m9_quiz', 9, '"___, remote work seems to offer more flexibility than it costs in connection." (closing a paragraph)', '["For example","Overall","Firstly","Because"]', 1),
-('qq_l3_m9_10', 'itm_l3_m9_quiz', 10, 'What is this level''s stated goal regarding citation, as opposed to full academic citation mechanics?', '["memorising formal reference formats","the habit of honestly acknowledging where an idea comes from","avoiding mentioning sources at all","quoting sources word-for-word only"]', 1);
+('qq_l3_m9_10', 'itm_l3_m9_quiz', 10, 'What is this level''s stated goal regarding citation, as opposed to full academic citation mechanics?', '["memorising formal reference formats","avoiding mentioning sources at all","quoting sources word-for-word only","the habit of honestly acknowledging where an idea comes from"]', 3);
 
 -- ---------------------------------------------------------------------
 -- Module 10: Review & Consolidation (Intermediate-Level Mock Exam)
@@ -1059,28 +1059,28 @@ PART A -- SPEAKING (4-5 minutes, recorded or live with your instructor): Deliver
 
 PART B -- WRITING (a short structured essay, 15-18 sentences): Write a structured opinion essay on a topic of your choice. Include: a clear thesis stated in your opening paragraph; at least one paragraph using the passive voice to describe a general process or past event (Module 5); at least one reported-speech sentence relaying a claim you have read or heard (Module 6); at least one whereas/in contrast comparison (Module 8); correctly used topic sentences and a concluding paragraph that restates your thesis''s significance (Module 9); and at least one honest citation-awareness phrase.
 
-GRADING RUBRIC (weighted toward listening and speaking per the Intermediate-level assessment strategy): (1) Grammatical range and accuracy -- correct, varied use of the level''s grammar points across both parts. (2) Vocabulary range -- discourse markers and phrasal verbs/collocations drawn from at least 6 of the 9 modules across both parts combined. (3) Task completion -- every required element present in both Part A and Part B. (4) Fluency and delivery (Part A) -- reasonably fluent for B1, audible, able to sustain a longer structured turn and respond composedly to unscripted follow-up questions. (5) Coherence (Part B) -- the essay reads as one connected, logically structured piece with clear topic sentences and paragraph-level organisation. (6) Discourse coherence & register -- is the register appropriately formal/academic throughout, and does the connector toolkit genuinely aid clarity rather than being inserted mechanically?
+GRADING RUBRIC (weighted toward listening and speaking per the Intermediate-level assessment strategy): (1) Grammatical range and accuracy -- correct, varied use of the level''s grammar points across both parts. (2) Vocabulary range -- discourse markers and phrasal verbs/collocations drawn from at least 6 of the 9 modules across both parts combined. (3) Task completion -- every required element present in both Part A and Part B. (4) Communicative quality -- does each part communicate a clear, followable message with genuine content, rather than correct sentences assembled around nothing? (5) Fluency and delivery (Part A) -- reasonably fluent for B1, audible, able to sustain a longer structured turn and respond composedly to unscripted follow-up questions. (6) Coherence (Part B) -- the essay reads as one connected, logically structured piece with clear topic sentences and paragraph-level organisation. (7) Discourse coherence & register -- is the register appropriately formal/academic throughout, and does the connector toolkit genuinely aid clarity rather than being inserted mechanically?
 
 PROGRESSION REQUIREMENT: A grade at or above the platform''s pass threshold on this comprehensive assessment marks Level III as complete for the learner and, for a full-programme student, triggers Level IV''s enrolment to unlock automatically.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
-('qq_l3_m10_1', 'itm_l3_m10_examquiz', 1, '(M1) "___ you ever visited another country?"', '["Do","Did","Have","Are"]', 2),
-('qq_l3_m10_2', 'itm_l3_m10_examquiz', 2, '(M1) "I ___ to Berlin in 2019." (a specific time is given)', '["have gone","went","have been","go"]', 1),
-('qq_l3_m10_3', 'itm_l3_m10_examquiz', 3, '(M2) "I''ve ___ studying English since 2022."', '["been","be","was","being"]', 0),
-('qq_l3_m10_4', 'itm_l3_m10_examquiz', 4, '(M2) "I''m taking a course ___ focuses on marketing."', '["who","which","where","when"]', 1),
-('qq_l3_m10_5', 'itm_l3_m10_examquiz', 5, '(M3) "If you ___ a deadline, your manager is satisfied." (a general fact)', '["meet","will meet","met","meeting"]', 0),
-('qq_l3_m10_6', 'itm_l3_m10_examquiz', 6, '(M3) "If we launch this product in spring, we ___ more customers." (a real future possibility)', '["reach","will reach","reached","reaching"]', 1),
-('qq_l3_m10_7', 'itm_l3_m10_examquiz', 7, '(M4) "___, remote work benefits most employees." (a formal opinion phrase)', '["I think","In my view","Maybe","Sort of"]', 1),
+('qq_l3_m10_1', 'itm_l3_m10_examquiz', 1, '(M1) "___ you ever visited another country?"', '["Have","Do","Did","Are"]', 0),
+('qq_l3_m10_2', 'itm_l3_m10_examquiz', 2, '(M1) "I ___ to Berlin in 2019." (a specific time is given)', '["have gone","have been","went","go"]', 2),
+('qq_l3_m10_3', 'itm_l3_m10_examquiz', 3, '(M2) "I''ve ___ studying English since 2022."', '["be","been","was","being"]', 1),
+('qq_l3_m10_4', 'itm_l3_m10_examquiz', 4, '(M2) "I''m taking a course ___ focuses on marketing."', '["who","where","when","which"]', 3),
+('qq_l3_m10_5', 'itm_l3_m10_examquiz', 5, '(M3) "If you ___ a deadline, your manager is satisfied." (a general fact)', '["will meet","met","meet","meeting"]', 2),
+('qq_l3_m10_6', 'itm_l3_m10_examquiz', 6, '(M3) "If we launch this product in spring, we ___ more customers." (a real future possibility)', '["will reach","reach","reached","reaching"]', 0),
+('qq_l3_m10_7', 'itm_l3_m10_examquiz', 7, '(M4) "___, remote work benefits most employees." (a formal opinion phrase)', '["I think","Maybe","Sort of","In my view"]', 3),
 ('qq_l3_m10_8', 'itm_l3_m10_examquiz', 8, '(M4) Which response shows partial agreement?', '["I completely agree.","I see your point, but I''m not sure that''s true in every case.","I''d have to disagree.","That''s completely wrong."]', 1),
 ('qq_l3_m10_9', 'itm_l3_m10_examquiz', 9, '(M5) "Plastic ___ in many countries." (present simple passive)', '["recycles","is recycled","recycling","recycled"]', 1),
-('qq_l3_m10_10', 'itm_l3_m10_examquiz', 10, '(M5) "The area ___ by flooding last year." (past simple passive)', '["affects","was affected","affected","is affected"]', 1),
-('qq_l3_m10_11', 'itm_l3_m10_examquiz', 11, '(M6) Direct: "This app is easy to use." Reported: "The reviewer said (that) the app ___ easy to use."', '["is","was","be","has been"]', 1),
-('qq_l3_m10_12', 'itm_l3_m10_examquiz', 12, '(M6) "___ the article, the update improves battery life."', '["Told","According to","Reported","Said"]', 1),
-('qq_l3_m10_13', 'itm_l3_m10_examquiz', 13, '(M7) "He''s been yawning all day. He ___ be exhausted." (confident deduction)', '["must","might","can''t","should"]', 0),
+('qq_l3_m10_10', 'itm_l3_m10_examquiz', 10, '(M5) "The area ___ by flooding last year." (past simple passive)', '["affects","affected","is affected","was affected"]', 3),
+('qq_l3_m10_11', 'itm_l3_m10_examquiz', 11, '(M6) Direct: "This app is easy to use." Reported: "The reviewer said (that) the app ___ easy to use."', '["was","is","be","has been"]', 0),
+('qq_l3_m10_12', 'itm_l3_m10_examquiz', 12, '(M6) "___ the article, the update improves battery life."', '["Told","Reported","According to","Said"]', 2),
+('qq_l3_m10_13', 'itm_l3_m10_examquiz', 13, '(M7) "He''s been yawning all day. He ___ be exhausted." (confident deduction)', '["might","can''t","should","must"]', 3),
 ('qq_l3_m10_14', 'itm_l3_m10_examquiz', 14, '(M7) "She looked exhausted this morning. She ___ badly." (past deduction)', '["must sleep","must have slept","must slept","must sleeping"]', 1),
-('qq_l3_m10_15', 'itm_l3_m10_examquiz', 15, '(M8) "If I ___ more, I would learn about different cultures." (second conditional)', '["travel","travelled","will travel","am travelling"]', 1),
-('qq_l3_m10_16', 'itm_l3_m10_examquiz', 16, '(M8) Which is the more respectful, hedged way to describe a custom?', '["All people from that country do this.","In many places I''ve read about, this is common, though it varies.","Everyone there believes this.","This is simply how that culture is."]', 1),
-('qq_l3_m10_17', 'itm_l3_m10_examquiz', 17, '(M9) What is the main function of a topic sentence?', '["to end the paragraph","to state the paragraph''s one main idea","to give an example","to cite a source"]', 1),
-('qq_l3_m10_18', 'itm_l3_m10_examquiz', 18, '(M9) Which phrase shows honest, basic citation awareness?', '["This is definitely 100% true.","According to several studies I''ve come across...","Everyone knows this.","I read it somewhere, so it must be true."]', 1),
+('qq_l3_m10_15', 'itm_l3_m10_examquiz', 15, '(M8) "If I ___ more, I would learn about different cultures." (second conditional)', '["travel","will travel","travelled","am travelling"]', 2),
+('qq_l3_m10_16', 'itm_l3_m10_examquiz', 16, '(M8) Which is the more respectful, hedged way to describe a custom?', '["In many places I''ve read about, this is common, though it varies.","All people from that country do this.","Everyone there believes this.","This is simply how that culture is."]', 0),
+('qq_l3_m10_17', 'itm_l3_m10_examquiz', 17, '(M9) What is the main function of a topic sentence?', '["to state the paragraph''s one main idea","to end the paragraph","to give an example","to cite a source"]', 0),
+('qq_l3_m10_18', 'itm_l3_m10_examquiz', 18, '(M9) Which phrase shows honest, basic citation awareness?', '["This is definitely 100% true.","Everyone knows this.","According to several studies I''ve come across...","I read it somewhere, so it must be true."]', 2),
 ('qq_l3_m10_19', 'itm_l3_m10_examquiz', 19, '(Cumulative discourse markers) Which discourse marker signals a paraphrase (rephrasing an idea in different words)?', '["as a result","in other words","although","apparently"]', 1),
-('qq_l3_m10_20', 'itm_l3_m10_examquiz', 20, '(Cumulative BrE/AmE) In American English, the past participle of "get" (meaning "become/improve") is often:', '["got","gotten","getting","get"]', 1);
+('qq_l3_m10_20', 'itm_l3_m10_examquiz', 20, '(Cumulative BrE/AmE) In American English, the past participle of "get" (meaning "become/improve") is often:', '["got","getting","get","gotten"]', 3);
