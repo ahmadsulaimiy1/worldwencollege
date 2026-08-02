@@ -657,3 +657,327 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 ('qq_l3_m6_8', 'itm_l3_m6_quiz', 8, 'Which phrase means "spread very quickly online"?', '["come out","go viral","log into","roll out"]', 1),
 ('qq_l3_m6_9', 'itm_l3_m6_quiz', 9, '"He told me ___ he could fix it himself."', '["that","if","when","so"]', 0),
 ('qq_l3_m6_10', 'itm_l3_m6_quiz', 10, 'When evaluating a headline, a critical reader should ask:', '["Does the headline match the actual article?","Is the headline exciting?","Is the headline short?","Does the headline use capital letters?"]', 0);
+
+-- ---------------------------------------------------------------------
+-- Module 7: Health, Body & Mind
+-- Full prose version: docs/curriculum/level-3/module-07-health-body-mind.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l3_m7', 'crs_level_3', 7, 'Module 7: Health, Body & Mind');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l3_m7_overview', 'unt_l3_m7', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: He must be.../She might be... -- That can''t be right. -- It''s likely that.../It''s possible that... -- Could you describe your symptoms? -- I''ve been feeling... -- There''s no way that...
+
+DISCOURSE MARKERS (functional set -- degrees of certainty): "it''s likely that", "it''s possible that", "there''s no way that" -- hedging language expressing confidence in a claim, alongside the modal verbs themselves.
+
+PHRASAL VERBS & COLLOCATIONS: "come down with [an illness]" (start to suffer from it), "look after [yourself/someone]" (take care of), "get over [an illness]" (recover from), "wear off" (an effect gradually disappears), "feel run down" (feel exhausted or below your normal energy level).
+
+BrE / AmE NOTE: British "chemist''s" (the shop, also "pharmacy") vs. American "drugstore/pharmacy"; British "GP" (general practitioner) vs. American "primary care physician"; British "off sick" vs. American "out sick."
+
+KEY VOCABULARY: physical health vocabulary (symptom, diagnosis, prescription, recovery, exhausted, dizzy), mental wellbeing vocabulary (stress, anxious, overwhelmed, burnout, cope with). Intercultural note: openness about discussing mental health varies significantly by culture and personal comfort -- all scenarios here are invented/generic.'),
+
+('itm_l3_m7_lesson1', 'unt_l3_m7', 2, 'reading', 'Lesson 7.1 -- He Must Be Exhausted -- Modals of Deduction, Present',
+'LEARNING OBJECTIVES: (1) use must + base verb to express a confident deduction based on evidence, (2) use might/could + base verb to express a possible, less certain deduction, (3) use can''t + base verb to express that something is logically impossible given the evidence, (4) support a deduction with a stated reason.
+
+PREREQUISITE KNOWLEDGE: Level III, Module 3 (modal-adjacent conditional forms).
+
+WARM-UP (5 min): Your instructor describes a simple scenario with clear evidence ("My colleague has been yawning all day and drinking a lot of coffee") and asks you to guess what''s true.
+
+PRESENTATION (10 min): "He''s been yawning all day. He must be exhausted. She''s smiling and humming -- she might be in a good mood. It can''t be that serious -- she''s still laughing about it." "Must" = a confident, evidence-based conclusion (a different use from obligation); "might/could" = a plausible but uncertain guess; "can''t" = confident that something is NOT true, based on contradicting evidence.
+
+GUIDED PRACTICE (10 min): You are given 8 short scenario cards (each with 2-3 pieces of evidence) and make a deduction for each using must/might/can''t, stating your reason.
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): In pairs, Learner A describes a short invented scenario with some evidence; Learner B makes a deduction using the correct modal and explains their reasoning, then swap. Then join a whole-class "mystery scenario" activity.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Is it possible to be completely confident about a deduction and still be wrong? Can you think of a time you were sure about something and later found out you were mistaken?"
+
+LISTENING ACTIVITY (5 min): Listen to a short conversation in which two people make deductions about a third person''s wellbeing and note which modal each speaker uses and why.
+
+READING ACTIVITY -- EXTENDED READING & INFERENCE (8 min): Read a short text (150 words) describing someone''s recent behaviour. Answer 2 literal questions and 2 inference questions using deduction modals in your answers.
+
+WRITING TASK (5 min): Write 4-5 deduction sentences about an invented scenario of your choice, using must/might/could/can''t correctly with a stated reason for each.
+
+PRONUNCIATION PRACTICE (5 min): The contracted, connected form "can''t" (BrE vs. AmE pronunciation) and stress on the modal itself when the deduction is the main point of the sentence ("She MUST be exhausted").
+
+VOCABULARY REINFORCEMENT: a deduction-strength card-sorting game (sort 9 example sentences by must/might/can''t).
+
+FORMATIVE ASSESSMENT: Instructor checks that the chosen modal matches the strength of the evidence given during independent practice.
+
+HOMEWORK: Prepare one invented healthcare-style scenario (3-4 symptoms or pieces of evidence, entirely fictional) ready for Lesson 7.2''s interview roleplay.
+
+REVISION: Lesson 7.2 opens with learners briefly describing their homework scenario in one sentence.
+
+EXTENSION: Add one sentence using "must not" (a confident negative obligation-based deduction).'),
+
+('itm_l3_m7_lesson2', 'unt_l3_m7', 3, 'reading', 'Lesson 7.2 -- She Might Have Been Stressed -- Modals of Deduction, Past & a Healthcare Interview',
+'LEARNING OBJECTIVES: (1) form past deduction modals correctly (must have/might have/can''t have + past participle), (2) use them to deduce about a past situation based on later evidence, (3) ask and answer healthcare-interview-style questions clearly, sensitively, and with appropriate formality, (4) describe both physical and mental wellbeing using appropriate vocabulary and register.
+
+PREREQUISITE KNOWLEDGE: Lesson 7.1 (present deduction modals), Level III Module 1 (present perfect, the past participle''s other major use).
+
+WARM-UP (5 min): Your instructor describes a simple past scenario with evidence discovered afterward ("The meeting room light was still on when I left last night") and elicits a guess using must have/might have.
+
+PRESENTATION (10 min): "She looked exhausted this morning -- she must have slept badly. He didn''t answer any calls yesterday -- he might have been busy, or he might have been unwell. That can''t have been easy for them." Direct present->past mapping: must be -> must have been; might be -> might have been; can''t be -> can''t have been. Healthcare-interview structure: a clear opening question, specific follow-up questions, and a clear, calm closing summary.
+
+GUIDED PRACTICE (10 min): Convert 6 present-deduction sentences into past-deduction sentences, checking past participle accuracy.
+
+INDEPENDENT PRACTICE (10 min): In pairs, Learner A plays a patient describing invented symptoms using present perfect ("I''ve been feeling...") from their Lesson 7.1 homework scenario; Learner B plays a healthcare professional, asking clarifying questions and making one appropriate past-deduction statement, then swap roles.
+
+SPEAKING ACTIVITY -- INTERVIEW TASK: The full patient/professional interview roleplay above. All scenarios are invented; the goal is clear, sensitive communication, not medical accuracy.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think it''s important for a healthcare professional to ask several specific questions, rather than just guessing what''s wrong? How is this similar to the fact-finding questions you practised in Level II?"
+
+LISTENING ACTIVITY (5 min): Listen to a short healthcare-style interview (5-6 exchanges) and note the symptoms described and the professional''s closing summary.
+
+READING ACTIVITY (5 min): Read a short written healthcare-advice text (generic, fictional, for language purposes only) and identify its opening question, follow-up questions, and closing summary structure.
+
+WRITING TASK (5 min): Write a short written summary (5-6 sentences) of an invented healthcare interview, using at least one present-deduction and one past-deduction sentence.
+
+PRONUNCIATION PRACTICE (5 min): The connected, weak-form pronunciation of "have" in past deduction modals ("must have") in natural fast speech, and calm, reassuring intonation appropriate to a healthcare-interview context.
+
+VOCABULARY REINFORCEMENT: a wellbeing-vocabulary matching game (symptom, diagnosis, prescription, recovery, stress, anxious, overwhelmed, cope with).
+
+FORMATIVE ASSESSMENT: Instructor checks correct past-deduction modal formation and a genuinely sensitive, appropriately formal interview register during the roleplay.
+
+HOMEWORK: Finalise your interview roleplay (or a written summary of it) for Module 7''s assignment.
+
+REVISION: This lesson opens with the Lesson 7.1 scenario recap. Module 7''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Add one "must not have" sentence, correctly distinguishing it from "can''t have."'),
+
+('itm_l3_m7_quiz', 'unt_l3_m7', 4, 'quiz', 'Module 7 Quiz -- Health, Body & Mind', NULL),
+
+('itm_l3_m7_assignment', 'unt_l3_m7', 5, 'assignment', 'Module 7 Assignment -- A Healthcare Interview -- Roleplay & Reflection',
+'INSTRUCTIONS: Record yourself (or perform with a partner) a healthcare-interview roleplay, 90 seconds to 2 minutes, using entirely invented/fictional symptoms and details (never real personal health information). Include: a healthcare professional opening with "Could you describe your symptoms?" and at least 2 specific follow-up questions; a patient describing symptoms using present perfect ("I''ve been feeling..."); at least one present-deduction sentence (must/might/can''t be); at least one past-deduction sentence (must have/might have/can''t have been); and a clear closing summary from the professional.
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct present- and past-deduction modal formation, correct present perfect for describing ongoing symptoms. (2) Vocabulary range -- at least 4 distinct health/wellbeing words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- opening question, follow-up questions, symptom description, both deduction types, and a closing summary all present. (4) Communicative quality -- does the interview sound genuinely attentive and sensitive, not mechanical or rushed? (5) Discourse coherence & register -- is the register calm, professional, and appropriately formal throughout, and does the closing summary genuinely and accurately reflect what was discussed?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l3_m7_1', 'itm_l3_m7_quiz', 1, '"He''s been yawning all day. He ___ be exhausted." (confident deduction)', '["must","might","can''t","should"]', 0),
+('qq_l3_m7_2', 'itm_l3_m7_quiz', 2, '"She''s smiling and humming. She ___ be in a good mood." (a plausible, less certain guess)', '["must","might","can''t","has to"]', 1),
+('qq_l3_m7_3', 'itm_l3_m7_quiz', 3, '"It ___ be that serious -- she''s still laughing about it." (evidence contradicts it)', '["must","might","can''t","could"]', 2),
+('qq_l3_m7_4', 'itm_l3_m7_quiz', 4, '"She looked exhausted this morning. She ___ badly." (past deduction)', '["must sleep","must have slept","must slept","must sleeping"]', 1),
+('qq_l3_m7_5', 'itm_l3_m7_quiz', 5, '"He didn''t answer any calls. He ___ busy." (a plausible past guess)', '["might be","might have been","might been","might has been"]', 1),
+('qq_l3_m7_6', 'itm_l3_m7_quiz', 6, '"___, he''s just tired from the journey." (a paraphrase for "must be")', '["It''s likely that","There''s no way that","It''s impossible that","It''s certain that never"]', 0),
+('qq_l3_m7_7', 'itm_l3_m7_quiz', 7, 'In British English, you would go to the ___ to buy over-the-counter medicine.', '["drugstore","chemist''s","clinic","surgery store"]', 1),
+('qq_l3_m7_8', 'itm_l3_m7_quiz', 8, 'Which phrase means "feel exhausted or below your normal energy level"?', '["come down with","get over","feel run down","wear off"]', 2),
+('qq_l3_m7_9', 'itm_l3_m7_quiz', 9, '"Could you describe your ___?" (an opening healthcare-interview question)', '["opinion","symptoms","history","plans"]', 1),
+('qq_l3_m7_10', 'itm_l3_m7_quiz', 10, '"That ___ have been easy for them." (a sympathetic past deduction)', '["can''t","mustn''t","shouldn''t","won''t"]', 0);
+
+-- ---------------------------------------------------------------------
+-- Module 8: Travel & Culture
+-- Full prose version: docs/curriculum/level-3/module-08-travel-culture.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l3_m8', 'crs_level_3', 8, 'Module 8: Travel & Culture');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l3_m8_overview', 'unt_l3_m8', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: If I travelled more, I would... -- If you could live anywhere, where would you live? -- That would be considered.../In my culture,... -- Whereas.../In contrast,... -- I don''t think there''s a "right" way -- just a different one.
+
+DISCOURSE MARKERS (functional set -- comparison across two things): "whereas", "in contrast", "similarly" -- used to compare two customs, places, or norms directly and evenhandedly, without implying one is better.
+
+PHRASAL VERBS & COLLOCATIONS: "fit in" (feel/be accepted as part of a group or place), "stand out" (be noticeably different, not necessarily negative), "pick up [a language/habit]" (learn informally), "settle in [a new place]" (become comfortable somewhere new), "adjust to [a new culture]" (gradually adapt).
+
+BrE / AmE NOTE: "gap year" -- a British-originated term (a year students often take between school and university to travel, work, or volunteer) that has spread internationally; British "fancy dress" (a costume for a themed party) vs. American "costume" for the same idea.
+
+KEY VOCABULARY: travel vocabulary (itinerary, excursion, accommodation, local customs, jet lag), intercultural vocabulary (etiquette, norm, custom, culture shock, hospitality). Intercultural note: this module is explicitly about comparing cultures respectfully -- "different, not better or worse."'),
+
+('itm_l3_m8_lesson1', 'unt_l3_m8', 2, 'reading', 'Lesson 8.1 -- If I Travelled More... -- Second Conditional',
+'LEARNING OBJECTIVES: (1) form the second conditional correctly (If + past simple, would + base verb), (2) use it for hypothetical, imaginary, or unlikely situations, (3) ask and answer classic hypothetical questions, (4) use the second conditional to imagine a travel scenario in reasonable detail.
+
+PREREQUISITE KNOWLEDGE: Level III, Module 3 (first conditional -- the essential contrast point).
+
+WARM-UP (5 min): Your instructor asks one classic hypothetical question ("If you could visit any country tomorrow, where would you go?") and takes a few quick answers.
+
+PRESENTATION (10 min): "If I travelled more, I would learn about different cultures. If I had more time off, I''d visit South America." Contrast with a first-conditional sentence about a real plan: "If I travel next year, I will visit three countries" vs. "If I travelled every year, I''d run out of savings." Second conditional uses past simple in the if-clause (despite present/future meaning) and would + base verb in the result clause.
+
+GUIDED PRACTICE (10 min): Complete 8 second-conditional sentence halves about hypothetical travel scenarios, then identify which of 4 additional example sentences are first vs. second conditional, explaining your reasoning.
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Write 5 second-conditional sentences about hypothetical travel scenarios, then interview a partner using at least 3 "If you could..., would you...?" questions. Share one especially interesting hypothetical travel answer with the class.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Do you think imagining a hypothetical situation (like an unlimited travel budget) can actually teach you something real about your own priorities? Why or why not?"
+
+LISTENING ACTIVITY (5 min): Listen to someone describing a hypothetical travel dream (6-7 sentences, second conditional) and complete a simple "if / would" grid worksheet.
+
+READING ACTIVITY -- EXTENDED READING & INFERENCE (8 min): Read a short "If I could travel anywhere..." blog-style excerpt (150 words). Answer 2 literal questions and 2 inference questions.
+
+WRITING TASK (5 min): Write a short paragraph (5-6 sentences) describing your own hypothetical dream trip, using second conditional correctly at least 3 times.
+
+PRONUNCIATION PRACTICE (5 min): The contracted, connected form "''d" for "would" in natural speech ("I''d visit South America") and the correct, non-reduced pronunciation of "if" at the start of a sentence versus its weak, unstressed form mid-sentence.
+
+VOCABULARY REINFORCEMENT: a travel-vocabulary matching game (itinerary, excursion, accommodation, local customs, jet lag).
+
+FORMATIVE ASSESSMENT: Instructor checks correct second-conditional formation and correct distinction from first conditional during guided practice.
+
+HOMEWORK: Think of one real custom or norm from your own culture or background that might surprise someone from elsewhere, and jot down a few notes, ready for Lesson 8.2''s comparison activity.
+
+REVISION: Lesson 8.2 opens with learners briefly naming their homework custom in one sentence.
+
+EXTENSION: Add one sentence using "were" instead of "was" in the second conditional for all subjects ("If I were you, I''d...").'),
+
+('itm_l3_m8_lesson2', 'unt_l3_m8', 3, 'reading', 'Lesson 8.2 -- That Would Be Considered Rude Where I''m From -- Cultural Comparison',
+'LEARNING OBJECTIVES: (1) use the second conditional to describe how a hypothetical action would be perceived in a particular cultural context, (2) compare two customs or norms respectfully using whereas/in contrast/similarly, (3) discuss what "culture shock" or adjusting to a new place might involve, (4) avoid overgeneralising when describing a culture, using appropriately hedged language.
+
+PREREQUISITE KNOWLEDGE: Lesson 8.1 (second conditional), Level III Module 4 (formal opinion/contrast language, now applied to cultural comparison).
+
+WARM-UP (5 min): Your instructor shares one genuine, respectfully-framed example of a cultural norm difference and models hedged language ("In many places I''ve read about... though this certainly isn''t true everywhere").
+
+PRESENTATION (10 min): "If you arrived a few minutes late to a casual meeting in my country, people probably wouldn''t mind much. In contrast, in some other places, that would be considered quite rude." The second conditional describes a hypothetical social reaction; deliberate hedging language ("in many places," "some other places," "this varies") avoids sweeping claims about an entire country or culture.
+
+GUIDED PRACTICE (10 min): You are given 6 "custom" prompt cards (generic, non-stereotyping) and build a second-conditional + whereas comparison sentence for each, comparing two hypothetical/generalised contexts without naming specific real countries reductively.
+
+INDEPENDENT PRACTICE (10 min): Using your Lesson 8.1 homework notes, prepare a short comparison (3-4 sentences) of a real custom from your own background against a different one you''ve learned about or experienced, using hedged, respectful language and at least one second-conditional sentence.
+
+SPEAKING ACTIVITY: Share your comparison in a small group, discussing: "What''s something you found surprising or interesting (not right or wrong) about a custom different from your own?"
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think it''s easy to accidentally make a whole culture sound like it''s ''one way,'' even when that''s not true? How can careful language help avoid that?"
+
+LISTENING ACTIVITY (5 min): Listen to someone describing a moment of "culture shock" or adjustment (6-7 sentences) and note what surprised them and how they adapted.
+
+READING ACTIVITY (5 min): Read a short respectful cultural-comparison text (generic, hedged, non-stereotyping) and identify its whereas/in contrast/similarly comparison points and its hedging language.
+
+WRITING TASK (5 min): Write a short paragraph (5-6 sentences) comparing two customs respectfully, using whereas/in contrast and at least one second-conditional sentence.
+
+PRONUNCIATION PRACTICE (5 min): Warm, curious intonation for asking about someone''s customs ("What would happen if...?") versus flat, potentially judgemental-sounding intonation.
+
+VOCABULARY REINFORCEMENT: an intercultural-vocabulary matching game (etiquette, norm, custom, culture shock, hospitality).
+
+FORMATIVE ASSESSMENT: Instructor checks that comparisons stay hedged and respectful (no sweeping "all people from X do Y" statements) during independent practice.
+
+HOMEWORK: Finalise your cultural comparison paragraph for Module 8''s assignment.
+
+REVISION: This lesson opens with the Lesson 8.1 custom-naming recap. Module 8''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Add one sentence acknowledging that customs vary within a culture too, not just between cultures.'),
+
+('itm_l3_m8_quiz', 'unt_l3_m8', 4, 'quiz', 'Module 8 Quiz -- Travel & Culture', NULL),
+
+('itm_l3_m8_assignment', 'unt_l3_m8', 5, 'assignment', 'Module 8 Assignment -- Comparing Customs -- A Respectful Cultural Comparison',
+'INSTRUCTIONS: Write (or record) a short respectful comparison, 10-12 sentences, of one custom or norm from your own background and a different one you''ve learned about or experienced. Include: at least 2 second-conditional sentences describing a hypothetical situation and how it might be perceived; at least one whereas/in contrast/similarly comparison sentence; hedged, non-stereotyping language throughout; and a brief reflection on what you found interesting about the difference.
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct second-conditional formation. (2) Vocabulary range -- at least 4 distinct travel/intercultural words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- hypothetical comparison, a direct whereas/in contrast comparison, and a personal reflection all present. (4) Communicative quality -- is the comparison genuinely specific and thoughtful, not generic? (5) Discourse coherence & register -- is the language appropriately hedged and respectful throughout, and does the piece read as a genuine, curious comparison rather than a ranking of "better" and "worse"?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l3_m8_1', 'itm_l3_m8_quiz', 1, '"If I ___ more, I would learn about different cultures." (second conditional)', '["travel","travelled","will travel","am travelling"]', 1),
+('qq_l3_m8_2', 'itm_l3_m8_quiz', 2, '"If I had more time off, I ___ visit South America."', '["will","would","am","do"]', 1),
+('qq_l3_m8_3', 'itm_l3_m8_quiz', 3, 'Which sentence describes a real, likely plan (first conditional), not a hypothetical?', '["If I travelled every year, I''d run out of savings.","If I travel next year, I will visit three countries.","If I could live anywhere, I''d choose the coast.","If money were no object, I''d travel constantly."]', 1),
+('qq_l3_m8_4', 'itm_l3_m8_quiz', 4, '"If you ___ late to a casual meeting here, people probably wouldn''t mind."', '["arrive","arrived","will arrive","arriving"]', 1),
+('qq_l3_m8_5', 'itm_l3_m8_quiz', 5, '"In my country, that''s fine. ___, in some other places, it would be considered rude."', '["Similarly","In contrast","Because","Therefore"]', 1),
+('qq_l3_m8_6', 'itm_l3_m8_quiz', 6, 'Which phrase means "become comfortable and adjusted somewhere new"?', '["stand out","fit in","settle in","pick up"]', 2),
+('qq_l3_m8_7', 'itm_l3_m8_quiz', 7, 'What does "gap year" traditionally refer to?', '["a type of passport","a year students take between school and university to travel, work, or volunteer","a discount on flights","a type of visa"]', 1),
+('qq_l3_m8_8', 'itm_l3_m8_quiz', 8, 'Which is the more respectful, hedged way to describe a custom?', '["All people from that country do this.","In many places I''ve read about, this is common, though it varies.","Everyone there believes this.","This is simply how that culture is."]', 1),
+('qq_l3_m8_9', 'itm_l3_m8_quiz', 9, '"If I ___ you, I''d try the local food." (recycling a familiar structure)', '["am","was","were","will be"]', 2),
+('qq_l3_m8_10', 'itm_l3_m8_quiz', 10, 'Which phrase means "be noticeably different from those around you"?', '["fit in","stand out","settle in","adjust to"]', 1);
+
+-- ---------------------------------------------------------------------
+-- Module 9: Academic Foundations
+-- Full prose version: docs/curriculum/level-3/module-09-academic-foundations.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l3_m9', 'crs_level_3', 9, 'Module 9: Academic Foundations');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l3_m9_overview', 'unt_l3_m9', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: This paragraph will focus on... -- For example,.../For instance,... -- In conclusion,.../To sum up,... -- According to [the source],... -- This idea comes from... -- Firstly,.../Secondly,.../Finally,...
+
+DISCOURSE MARKERS (a consolidation set -- the level''s full connector toolkit, used together for the first time): cause (because, so), contrast (although, however), illustration (for example, for instance), sequencing an argument (firstly, secondly, finally), and closing (in conclusion, to sum up).
+
+PHRASAL VERBS & COLLOCATIONS: "draw on [a source/idea]" (use it as a basis for your own point), "point out [something]" (highlight or mention it explicitly), "set out [an argument]" (present it clearly, in order), "sum up" (summarise, especially at the end), "build on [an idea]" (develop or extend it further).
+
+BrE / AmE NOTE: British "full stop" vs. American "period" for the "." punctuation mark; British "brackets" vs. American "parentheses" for "( )".
+
+KEY VOCABULARY: academic-writing vocabulary (topic sentence, supporting detail, thesis, structure, coherence, source), consolidating academic vocabulary from Module 2 (lecture, seminar, coursework). Intercultural note: expectations around how directly a thesis should be stated up front can differ across academic and rhetorical traditions.'),
+
+('itm_l3_m9_lesson1', 'unt_l3_m9', 2, 'reading', 'Lesson 9.1 -- One Idea, Well Supported -- Paragraph Structure & Topic Sentences',
+'LEARNING OBJECTIVES: (1) write a clear topic sentence stating a paragraph''s one main idea, (2) support it with 2-3 specific details or examples, using for example/for instance, (3) use because/so/although/however to connect ideas smoothly within the paragraph, (4) write a concluding sentence that closes the paragraph without simply repeating the topic sentence word-for-word.
+
+PREREQUISITE KNOWLEDGE: Level III, Module 2 (note-taking, summarising); Modules 3-8 (all the discourse markers this lesson now consolidates).
+
+WARM-UP (5 min): Your instructor shows one well-organised paragraph and one disorganised list of the same facts -- which is easier to follow and why?
+
+PRESENTATION (10 min): A full annotated paragraph: TOPIC SENTENCE: "Remote work has changed how many people balance their professional and personal lives." SUPPORTING DETAIL: "For example, employees no longer lose time commuting..." SUPPORTING DETAIL WITH CONTRAST: "Although some workers miss daily in-person contact, most report feeling more in control of their schedule." CONCLUDING SENTENCE: "Overall, remote work seems to offer more flexibility than it costs in connection." One paragraph = one main idea; supporting details make it concrete; the concluding sentence closes the thought, restating significance rather than exact wording.
+
+GUIDED PRACTICE (10 min): You are given a jumbled paragraph (topic sentence, 2 supporting details, and a conclusion, all mixed up) and reorder it correctly, identifying each part''s function.
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Choose one topic you know well and write a full structured paragraph (topic sentence + 2 supporting details using "for example" + one "although/however" contrast + a concluding sentence), then swap with a partner, who identifies each structural part. Read your paragraph aloud to a partner, who summarises it back in one sentence.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think starting a paragraph with the main idea is a useful convention in a lot of academic and professional English writing? Can you think of a situation where a different structure might work better?"
+
+LISTENING ACTIVITY (5 min): Listen to a short spoken explanation structured as a paragraph and identify each part on a simple worksheet.
+
+READING ACTIVITY -- EXTENDED READING & INFERENCE (8 min): Read a well-structured paragraph (150-180 words) on a generic academic or professional topic. Answer 2 literal questions and 2 inference questions.
+
+WRITING TASK (5 min): Revise your independent-practice paragraph based on your partner''s one-sentence summary -- does it match what you intended?
+
+PRONUNCIATION PRACTICE (5 min): Clear, deliberate pausing between a paragraph''s structural parts when reading aloud.
+
+VOCABULARY REINFORCEMENT: an academic-writing vocabulary matching game (topic sentence, supporting detail, thesis, structure, coherence, source).
+
+FORMATIVE ASSESSMENT: Instructor checks that each paragraph has one clear main idea, genuine specific supporting detail, and a real concluding sentence, during independent practice.
+
+HOMEWORK: Choose a topic you''d like to argue an opinion about and jot down a thesis statement and 2 supporting points, ready for Lesson 9.2.
+
+REVISION: Lesson 9.2 opens with learners briefly stating their homework thesis in one sentence.
+
+EXTENSION: Add a second supporting paragraph on a different aspect of the same topic.'),
+
+('itm_l3_m9_lesson2', 'unt_l3_m9', 3, 'reading', 'Lesson 9.2 -- According to the Source... -- Acknowledging Ideas & a Structured Talk',
+'LEARNING OBJECTIVES: (1) acknowledge where an idea, fact, or opinion comes from using basic citation-awareness language, (2) outline a short structured essay or talk (thesis + two supporting points + conclusion), (3) deliver a longer (2-3 minute) structured prepared talk using the level''s full discourse-marker toolkit, (4) respond calmly and clearly to two follow-up questions.
+
+PREREQUISITE KNOWLEDGE: Lesson 9.1 (paragraph structure), Level III Module 3 (presentation skills, now extended), Level III Module 6 (attributing a claim to a source, now formalised).
+
+WARM-UP (5 min): Your instructor makes one claim and then immediately models acknowledging where it came from ("...this is based on what I''ve read in several general news reports, not a specific statistic I can cite precisely").
+
+PRESENTATION (10 min): The thesis + two supporting points + conclusion structure: THESIS (your main argued position, one sentence) -> POINT 1 (with a supporting example, "for example") -> POINT 2, ideally acknowledging a counter-consideration ("although") -> CONCLUSION ("in conclusion/to sum up", restating the thesis''s significance). Basic citation awareness: name where a fact generally comes from ("According to several studies I''ve come across.../This idea draws on something I read recently...") rather than stating it as pure personal knowledge. Full citation mechanics are a Level IV+ skill; this level''s goal is the habit of acknowledging sources honestly.
+
+GUIDED PRACTICE (10 min): Take your Lesson 9.1 homework thesis and 2 points and build a full outline using the four-part structure, checking with a partner that the thesis is a genuine, arguable position.
+
+INDEPENDENT PRACTICE (10 min): Develop your outline into a full short talk script (using firstly/secondly/finally, for example, although/however, and in conclusion), and rehearse it once.
+
+SPEAKING ACTIVITY -- PRESENTATION TASK (CAPSTONE): Deliver your 2-3 minute structured talk to a small group (or the class), who listen for the four structural parts and ask 2 follow-up questions each, which you answer on the spot.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "When you don''t have an exact source for something you believe to be true, do you think it''s better to state it plainly, acknowledge the uncertainty honestly, or avoid mentioning it at all? Why?"
+
+LISTENING ACTIVITY (5 min): Listen to a short structured talk (the four-part shape) and take notes identifying each part.
+
+READING ACTIVITY (5 min): Read a short written short-essay excerpt using the same four-part structure and one basic citation-awareness phrase, and label each structural part.
+
+WRITING TASK (5 min): Write your talk''s four-part outline as a clean short written version (a short essay, 8-10 sentences).
+
+PRONUNCIATION PRACTICE (5 min): Confident, clearly-paced delivery across a longer, multi-part talk, including deliberate, brief pauses at each structural transition, and calm, composed intonation when answering an unscripted follow-up question.
+
+VOCABULARY REINFORCEMENT: a citation-awareness phrase-matching game (according to, this idea comes from, based on, draws on).
+
+FORMATIVE ASSESSMENT: Instructor checks for a genuine four-part structure, at least one honest source-acknowledgement, and composed responses to follow-up questions during the presentation task.
+
+HOMEWORK: Refine your talk script based on any questions or feedback received, ready for Module 9''s assignment.
+
+REVISION: This lesson opens with the Lesson 9.1 thesis recap. Module 9''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Add a third supporting point to your talk, adjusting your firstly/secondly/finally sequencing language accordingly.'),
+
+('itm_l3_m9_quiz', 'unt_l3_m9', 4, 'quiz', 'Module 9 Quiz -- Academic Foundations', NULL),
+
+('itm_l3_m9_assignment', 'unt_l3_m9', 5, 'assignment', 'Module 9 Assignment -- A Short Structured Essay & Talk',
+'INSTRUCTIONS: Prepare and deliver (record yourself, or perform live) a structured talk, 2-3 minutes, on a topic of your choice that you can genuinely argue a position on. Your talk must include: a clear one-sentence thesis; two supporting points, each with a specific example (for example/for instance); at least one although/however acknowledgement of a counter-consideration; at least one honest citation-awareness phrase; and a conclusion that restates your thesis''s significance (in conclusion/to sum up). Also submit your talk''s written outline (8-10 sentences).
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct, varied use of the discourse markers practised this module. (2) Vocabulary range -- at least 4 distinct academic-writing words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- thesis, two supported points, a counter-consideration, a citation-awareness phrase, and a conclusion all present in both the spoken talk and the written outline. (4) Fluency and delivery -- reasonably fluent and clearly paced for B1, with composed responses to any follow-up questions received. (5) Discourse coherence & register -- does the talk read/sound as one connected, logically structured argument, and is the register appropriately academic/professional throughout?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l3_m9_1', 'itm_l3_m9_quiz', 1, 'What is the main function of a topic sentence?', '["to end the paragraph","to state the paragraph''s one main idea","to give an example","to cite a source"]', 1),
+('qq_l3_m9_2', 'itm_l3_m9_quiz', 2, '"___, employees no longer lose time commuting." (introducing an example)', '["However","For example","In conclusion","So"]', 1),
+('qq_l3_m9_3', 'itm_l3_m9_quiz', 3, '"Although some workers miss in-person contact, ___ report feeling more in control of their schedule."', '["most","none","nobody","any"]', 0),
+('qq_l3_m9_4', 'itm_l3_m9_quiz', 4, 'What should a concluding sentence generally do?', '["repeat the topic sentence word-for-word","close the paragraph, often restating the main idea''s significance","introduce a brand new idea","ask a question"]', 1),
+('qq_l3_m9_5', 'itm_l3_m9_quiz', 5, 'Which phrase shows honest, basic citation awareness (not full formal citation)?', '["This is definitely 100% true.","According to several studies I''ve come across...","Everyone knows this.","I read it somewhere, so it must be true."]', 1),
+('qq_l3_m9_6', 'itm_l3_m9_quiz', 6, 'In British English, the "." punctuation mark is usually called a:', '["period","full stop","point","dot"]', 1),
+('qq_l3_m9_7', 'itm_l3_m9_quiz', 7, 'A short structured talk in this module generally follows which order?', '["conclusion, thesis, points","thesis, supporting points, conclusion","points, conclusion, thesis","no particular order"]', 1),
+('qq_l3_m9_8', 'itm_l3_m9_quiz', 8, 'Which phrase means "use something as a basis for your own point"?', '["point out","sum up","draw on","set out"]', 2),
+('qq_l3_m9_9', 'itm_l3_m9_quiz', 9, '"___, remote work seems to offer more flexibility than it costs in connection." (closing a paragraph)', '["For example","Overall","Firstly","Because"]', 1),
+('qq_l3_m9_10', 'itm_l3_m9_quiz', 10, 'What is this level''s stated goal regarding citation, as opposed to full academic citation mechanics?', '["memorising formal reference formats","the habit of honestly acknowledging where an idea comes from","avoiding mentioning sources at all","quoting sources word-for-word only"]', 1);
