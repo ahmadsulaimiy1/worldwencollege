@@ -211,13 +211,40 @@ identical rigor as Level I's sweep — real seeded answer keys fetched
 from the DB and submitted, no answer-key leakage, staff grading
 verified, and a weak attempt correctly fails.
 
+**Level III ("Intermediate Programme," B1) is now also complete** —
+all 10 modules built to a further-elevated standard per your Level III
+Executive Directive: extended reading with explicit inference
+questions, discourse markers taught as named functional sets (emphasis,
+paraphrase, cause/effect, contrast, attribution, certainty,
+illustration, sequencing, closing), phrasal verbs/collocations flagged
+per module, note-taking/summarising/paraphrasing formally introduced
+and reused, a genuine presentation task in most modules (a business
+pitch, a case-study report-out, a healthcare interview, a capstone
+thesis-plus-two-points talk), fluency-focused pronunciation work, and
+intercultural communication as a running thread rather than confined
+to one module. See `docs/curriculum-level-3-intermediate.md` (module
+map, § What's different from Level II, and the Executive Directive
+note in `docs/curriculum-framework.md`'s Level III section) and
+`docs/curriculum/level-3/module-{02..10}-*.md` for the full
+lesson-by-lesson content. Seeded via `sql/seed-curriculum-level-3.sql`
+(110 questions across the level, including a 20-question cumulative
+end-of-level exam) and verified the same way: `tests/curriculum-
+level-3.test.mjs` (84 assertions) sweeps all 10 modules with the
+identical rigor as Levels I-II's sweeps — real seeded answer keys
+fetched from the DB and submitted, no answer-key leakage, staff
+grading verified, and a weak attempt correctly fails. No new LMS
+schema or endpoint was required — every Level III assessment type
+(pitches, interviews, case-study reports, structured essays) fits the
+existing polymorphic `reading/quiz/assignment` model, consistent with
+the "curriculum drives platform" principle below.
+
 **What Milestone 2 has NOT yet done, stated plainly:** content-
 authoring tooling (a staff UI/API to create content — today's seed-
 file approach is a stopgap, not the long-term authoring workflow);
-any content for Levels III-VI (Level III, "Pre-Intermediate/
-Intermediate Programme," is the explicit next step — same process,
-same depth standard, continuing to evolve in sophistication); and the
-broader LMS feature backlog your original Milestone 2 message named
+any content for Levels IV-VI (Level IV, "Upper Intermediate
+Programme," is the explicit next step — same process, same depth
+standard, continuing to evolve in sophistication); and the broader
+LMS feature backlog your original Milestone 2 message named
 (course authoring studio, structured curriculum/lesson builders,
 multimedia lesson management, exam authoring, question banks and
 randomisation, rubric-based assessment beyond the manual rubrics

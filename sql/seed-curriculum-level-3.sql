@@ -981,3 +981,106 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 ('qq_l3_m9_8', 'itm_l3_m9_quiz', 8, 'Which phrase means "use something as a basis for your own point"?', '["point out","sum up","draw on","set out"]', 2),
 ('qq_l3_m9_9', 'itm_l3_m9_quiz', 9, '"___, remote work seems to offer more flexibility than it costs in connection." (closing a paragraph)', '["For example","Overall","Firstly","Because"]', 1),
 ('qq_l3_m9_10', 'itm_l3_m9_quiz', 10, 'What is this level''s stated goal regarding citation, as opposed to full academic citation mechanics?', '["memorising formal reference formats","the habit of honestly acknowledging where an idea comes from","avoiding mentioning sources at all","quoting sources word-for-word only"]', 1);
+
+-- ---------------------------------------------------------------------
+-- Module 10: Review & Consolidation (Intermediate-Level Mock Exam)
+-- Full prose version: docs/curriculum/level-3/module-10-review-consolidation.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l3_m10', 'crs_level_3', 10, 'Module 10: Review & Consolidation');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l3_m10_revguide', 'unt_l3_m10', 1, 'reading', 'Level III Revision Guide',
+'MODULE 1 -- PRESENT PERFECT & LIFE EXPERIENCE: present perfect (experience) vs. past simple; discourse markers in fact/actually/as a matter of fact; phrasal verbs grow up, look back on, get used to.
+
+MODULE 2 -- EDUCATION & LEARNING: present perfect continuous, defining relative clauses; discourse markers in other words/to put it another way; note-taking, summarising, and paraphrasing formally introduced.
+
+MODULE 3 -- WORK, CAREERS & ENTREPRENEURSHIP: zero and first conditionals; discourse markers as a result/therefore; the programme''s first structured presentation task.
+
+MODULE 4 -- OPINIONS & DEBATE: formal opinion language; discourse markers although/however/on the other hand/whereas; the full agree/partially-agree/disagree/concede scale; structured debate.
+
+MODULE 5 -- ENVIRONMENT, ETHICS & GLOBAL CITIZENSHIP: present and past simple passive voice; discourse markers as a consequence/this has led to/due to; a structured ethical case-study discussion.
+
+MODULE 6 -- TECHNOLOGY & MEDIA: reported speech for statements (with backshift); discourse markers according to/apparently; a media-literacy evaluation checklist.
+
+MODULE 7 -- HEALTH, BODY & MIND: present and past modals of deduction (must/might/can''t, must have/might have/can''t have); discourse markers it''s likely that/there''s no way that; a healthcare-interview roleplay.
+
+MODULE 8 -- TRAVEL & CULTURE: second conditional; discourse markers whereas/in contrast/similarly; respectful, hedged cultural comparison.
+
+MODULE 9 -- ACADEMIC FOUNDATIONS: paragraph structure and topic sentences; the full connector toolkit consolidated; basic citation awareness; a capstone thesis + two-points + conclusion structured talk.
+
+STRUCTURAL THREAD ACROSS THE LEVEL: Level III moved learners from narrating their own experience through describing their learning and working lives, arguing and evaluating ideas, reasoning about health, culture, and abstract situations, before formalising everything into structured academic writing and speaking. Each module''s grammar was chosen for a real communicative job rather than taught as an abstract rule in isolation. Module 10 tests all of it together, in connected use.
+
+CUMULATIVE DISCOURSE-MARKER TOOLKIT: emphasis/detail (in fact, actually); paraphrase (in other words, to put it another way); cause/effect (as a result, therefore, as a consequence, this has led to, due to); contrast (although, however, on the other hand, whereas); attribution (according to, apparently, this idea comes from); certainty (it''s likely that, there''s no way that); illustration (for example, for instance); sequencing (firstly, secondly, finally); closing (in conclusion, to sum up).
+
+CUMULATIVE BrE/AmE REFERENCE: got/gotten (M1); university/college, read a subject/major in, marks/grades (M2); CV/resume, made redundant/laid off, line manager/manager (M3); "quite" moderately vs. very (M4); rubbish-bin/trash-garbage, petrol/gas (M5); mobile phone/cell phone (M6); chemist''s/drugstore, GP/primary care physician, off sick/out sick (M7); gap year, fancy dress/costume (M8); full stop/period, brackets/parentheses (M9).'),
+
+('itm_l3_m10_revlesson', 'unt_l3_m10', 2, 'reading', 'Revision Lesson -- Structured Consolidation Activities',
+'LEARNING OBJECTIVES: (1) correctly select the right grammar structure from Modules 1-9 given a real-use context, (2) deploy at least 8 discourse markers from across the level''s functional sets fluently within one connected talk, (3) correctly identify at least 8 BrE/AmE differences from across the level, (4) self-identify at least one personal area needing further revision before the mock exam.
+
+PREREQUISITE KNOWLEDGE: All of Modules 1-9.
+
+WARM-UP (5 min): "Grammar auction" -- bid points on whether 8 example sentences (each drawn from a different module) are grammatically correct or incorrect.
+
+PRESENTATION/CONSOLIDATION (15 min): A structure-selection drill: real-life prompts, each requiring a different module''s grammar to answer correctly ("Describe something you''ve never done but would like to" -> Module 1/8; "Explain a general workplace policy" -> Module 3/5; "Relay what a colleague told you" -> Module 6; "Guess why someone looks tired" -> Module 7).
+
+GUIDED PRACTICE (15 min): Rotate through 4 stations, each reviewing 2-3 modules'' target language, with a final "Give a 30-second structured mini-talk" station recycling Module 9''s capstone skill on a new, simple topic.
+
+INDEPENDENT PRACTICE (10 min): Complete a self-assessment checklist (one line per module: "I can... check/needs practice") and circle your two weakest areas.
+
+SPEAKING ACTIVITY: The structure-selection drill and station rotation above are both fundamentally speaking-driven.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Across this whole level, which skill do you think will be most useful to you outside the classroom -- presenting, debating, deducing, or structuring an argument in writing? Why?"
+
+LISTENING ACTIVITY (5 min): Listen to a single extended talk (someone narrating an experience, describing their work, giving a reasoned opinion, and reporting something they read).
+
+READING ACTIVITY (5 min): Read a similarly cumulative short text and answer mixed comprehension and inference questions spanning several grammar points and at least one BrE/AmE vocabulary item.
+
+WRITING TASK (5 min): Write one well-structured paragraph (topic sentence, supporting detail, conclusion) that uses at least 4 different grammar points from across the level.
+
+PRONUNCIATION PRACTICE (5 min): Rapid-fire review drill of the level''s key pronunciation points: connected ''ve/been, weak-form was/were, stress in passive constructions, can''t (BrE vs. AmE), and confident presentation pacing.
+
+VOCABULARY REINFORCEMENT: a cumulative discourse-marker and phrasal-verb relay game covering all 9 modules'' functional-language sets, including a dedicated BrE/AmE matching round.
+
+FORMATIVE ASSESSMENT: The self-assessment checklist above, reviewed individually with the instructor if time allows.
+
+HOMEWORK: Revise your self-identified weak areas using the module you struggled with most.
+
+REVISION: This entire lesson is revision by design.
+
+EXTENSION: Stronger learners help peers at weaker stations during the rotation activity.'),
+
+('itm_l3_m10_examquiz', 'unt_l3_m10', 3, 'quiz', 'Intermediate-Level Mock Exam -- Grammar & Vocabulary', NULL),
+
+('itm_l3_m10_examassignment', 'unt_l3_m10', 4, 'assignment', 'Intermediate-Level Mock Exam -- Speaking & Writing',
+'This is your Level III final assessment. Complete both parts.
+
+PART A -- SPEAKING (4-5 minutes, recorded or live with your instructor): Deliver a structured talk covering: a real life experience narrated using present perfect and past simple, with at least one discourse marker for emphasis (Module 1); a description of something you''ve been doing for a period of time, using present perfect continuous (Module 2); a stated opinion on a topic of your choice, using formal opinion language and at least one although/however counter-point (Module 4); a deduction about a hypothetical or uncertain situation, using a modal of deduction (Module 7); and a brief hypothetical reflection using the second conditional (Module 8). Structure the whole talk with a clear opening, body, and conclusion (Module 9), and respond to at least two unscripted follow-up questions from your instructor.
+
+PART B -- WRITING (a short structured essay, 15-18 sentences): Write a structured opinion essay on a topic of your choice. Include: a clear thesis stated in your opening paragraph; at least one paragraph using the passive voice to describe a general process or past event (Module 5); at least one reported-speech sentence relaying a claim you have read or heard (Module 6); at least one whereas/in contrast comparison (Module 8); correctly used topic sentences and a concluding paragraph that restates your thesis''s significance (Module 9); and at least one honest citation-awareness phrase.
+
+GRADING RUBRIC (weighted toward listening and speaking per the Intermediate-level assessment strategy): (1) Grammatical range and accuracy -- correct, varied use of the level''s grammar points across both parts. (2) Vocabulary range -- discourse markers and phrasal verbs/collocations drawn from at least 6 of the 9 modules across both parts combined. (3) Task completion -- every required element present in both Part A and Part B. (4) Fluency and delivery (Part A) -- reasonably fluent for B1, audible, able to sustain a longer structured turn and respond composedly to unscripted follow-up questions. (5) Coherence (Part B) -- the essay reads as one connected, logically structured piece with clear topic sentences and paragraph-level organisation. (6) Discourse coherence & register -- is the register appropriately formal/academic throughout, and does the connector toolkit genuinely aid clarity rather than being inserted mechanically?
+
+PROGRESSION REQUIREMENT: A grade at or above the platform''s pass threshold on this comprehensive assessment marks Level III as complete for the learner and, for a full-programme student, triggers Level IV''s enrolment to unlock automatically.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l3_m10_1', 'itm_l3_m10_examquiz', 1, '(M1) "___ you ever visited another country?"', '["Do","Did","Have","Are"]', 2),
+('qq_l3_m10_2', 'itm_l3_m10_examquiz', 2, '(M1) "I ___ to Berlin in 2019." (a specific time is given)', '["have gone","went","have been","go"]', 1),
+('qq_l3_m10_3', 'itm_l3_m10_examquiz', 3, '(M2) "I''ve ___ studying English since 2022."', '["been","be","was","being"]', 0),
+('qq_l3_m10_4', 'itm_l3_m10_examquiz', 4, '(M2) "I''m taking a course ___ focuses on marketing."', '["who","which","where","when"]', 1),
+('qq_l3_m10_5', 'itm_l3_m10_examquiz', 5, '(M3) "If you ___ a deadline, your manager is satisfied." (a general fact)', '["meet","will meet","met","meeting"]', 0),
+('qq_l3_m10_6', 'itm_l3_m10_examquiz', 6, '(M3) "If we launch this product in spring, we ___ more customers." (a real future possibility)', '["reach","will reach","reached","reaching"]', 1),
+('qq_l3_m10_7', 'itm_l3_m10_examquiz', 7, '(M4) "___, remote work benefits most employees." (a formal opinion phrase)', '["I think","In my view","Maybe","Sort of"]', 1),
+('qq_l3_m10_8', 'itm_l3_m10_examquiz', 8, '(M4) Which response shows partial agreement?', '["I completely agree.","I see your point, but I''m not sure that''s true in every case.","I''d have to disagree.","That''s completely wrong."]', 1),
+('qq_l3_m10_9', 'itm_l3_m10_examquiz', 9, '(M5) "Plastic ___ in many countries." (present simple passive)', '["recycles","is recycled","recycling","recycled"]', 1),
+('qq_l3_m10_10', 'itm_l3_m10_examquiz', 10, '(M5) "The area ___ by flooding last year." (past simple passive)', '["affects","was affected","affected","is affected"]', 1),
+('qq_l3_m10_11', 'itm_l3_m10_examquiz', 11, '(M6) Direct: "This app is easy to use." Reported: "The reviewer said (that) the app ___ easy to use."', '["is","was","be","has been"]', 1),
+('qq_l3_m10_12', 'itm_l3_m10_examquiz', 12, '(M6) "___ the article, the update improves battery life."', '["Told","According to","Reported","Said"]', 1),
+('qq_l3_m10_13', 'itm_l3_m10_examquiz', 13, '(M7) "He''s been yawning all day. He ___ be exhausted." (confident deduction)', '["must","might","can''t","should"]', 0),
+('qq_l3_m10_14', 'itm_l3_m10_examquiz', 14, '(M7) "She looked exhausted this morning. She ___ badly." (past deduction)', '["must sleep","must have slept","must slept","must sleeping"]', 1),
+('qq_l3_m10_15', 'itm_l3_m10_examquiz', 15, '(M8) "If I ___ more, I would learn about different cultures." (second conditional)', '["travel","travelled","will travel","am travelling"]', 1),
+('qq_l3_m10_16', 'itm_l3_m10_examquiz', 16, '(M8) Which is the more respectful, hedged way to describe a custom?', '["All people from that country do this.","In many places I''ve read about, this is common, though it varies.","Everyone there believes this.","This is simply how that culture is."]', 1),
+('qq_l3_m10_17', 'itm_l3_m10_examquiz', 17, '(M9) What is the main function of a topic sentence?', '["to end the paragraph","to state the paragraph''s one main idea","to give an example","to cite a source"]', 1),
+('qq_l3_m10_18', 'itm_l3_m10_examquiz', 18, '(M9) Which phrase shows honest, basic citation awareness?', '["This is definitely 100% true.","According to several studies I''ve come across...","Everyone knows this.","I read it somewhere, so it must be true."]', 1),
+('qq_l3_m10_19', 'itm_l3_m10_examquiz', 19, '(Cumulative discourse markers) Which discourse marker signals a paraphrase (rephrasing an idea in different words)?', '["as a result","in other words","although","apparently"]', 1),
+('qq_l3_m10_20', 'itm_l3_m10_examquiz', 20, '(Cumulative BrE/AmE) In American English, the past participle of "get" (meaning "become/improve") is often:', '["got","gotten","getting","get"]', 1);

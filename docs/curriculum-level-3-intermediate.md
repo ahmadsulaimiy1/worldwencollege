@@ -113,6 +113,15 @@ when such a feature would actually get built.
 | 9 | Academic Foundations | Structure a paragraph/short essay; acknowledge a source; give a longer prepared talk | paragraph structure, topic sentences, basic citation awareness | academic/professional writing | `docs/curriculum/level-3/module-09-academic-foundations.md` |
 | 10 | Review & Consolidation | Consolidate all Level III outcomes; Intermediate-level mock exam | cumulative review | cumulative review | `docs/curriculum/level-3/module-10-review-consolidation.md` |
 
+**Level III is now complete** — all 10 modules built to full
+publication-quality depth and seeded into the live schema via
+`sql/seed-curriculum-level-3.sql`, verified end-to-end by
+`tests/curriculum-level-3.test.mjs` (84 assertions: every module loads
+with a reading/quiz/assignment, every quiz's own seeded correct
+answers score 100% when submitted, no quiz ever leaks its answer key
+to the client, every assignment can be submitted and staff-graded, and
+a weak attempt correctly fails).
+
 ---
 
 ## Module 1: Present Perfect & Life Experience — full build
