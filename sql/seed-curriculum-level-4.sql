@@ -663,3 +663,327 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 ('qq_l4_m6_8', 'itm_l4_m6_quiz', 8, 'Which phrase means "highlight something for an audience, often referring to a visual aid"?', '["touch on","draw attention to","wrap up","field a question"]', 1),
 ('qq_l4_m6_9', 'itm_l4_m6_quiz', 9, 'When fielding a difficult question you''re unsure of, the most professional response is to:', '["pretend to know the answer with full confidence","honestly hedge and offer to look into it further","refuse to answer at all","change the subject"]', 1),
 ('qq_l4_m6_10', 'itm_l4_m6_quiz', 10, 'Which phrase means "respond to an audience question, especially an unexpected one"?', '["open the floor","wrap up","touch on","field a question"]', 3);
+
+-- ---------------------------------------------------------------------
+-- Module 7: Media Literacy & Critical Reading
+-- Full prose version: docs/curriculum/level-4/module-07-media-literacy-critical-reading.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l4_m7', 'crs_level_4', 7, 'Module 7: Media Literacy & Critical Reading');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l4_m7_overview', 'unt_l4_m7', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: This implies.../The tone here suggests... -- Arguably,... -- It could be inferred that... -- The writer appears to favour... -- This technique is used to... -- In summary, the piece argues...; however, it overlooks...
+
+DISCOURSE MARKERS (functional set -- critical-reading meta-language): "this implies", "the tone here suggests", "arguably", "it could be inferred that" -- hedged, analytical language for describing what a text does and suggests.
+
+PHRASAL VERBS & COLLOCATIONS: "read into [something]" (interpret a deeper or additional meaning), "play down [an issue]" (minimise its apparent importance), "play up [an issue]" (exaggerate its apparent importance), "gloss over [something]" (address briefly and superficially), "spin [a story]" (present information in a biased way).
+
+BrE / AmE NOTE: "op-ed" -- an American-originated term -- has spread internationally, though British publications have traditionally been just as likely to use "opinion piece" or "comment piece" for the same genre.
+
+KEY VOCABULARY: media-analysis vocabulary (bias, tone, rhetoric, framing, loaded language, objectivity), cohesion vocabulary (ellipsis, substitution, antecedent, reference). Intercultural note: what counts as "neutral" versus "biased" media varies by media tradition and country.'),
+
+('itm_l4_m7_lesson1', 'unt_l4_m7', 2, 'reading', 'Lesson 7.1 -- Reading Between the Lines -- Identifying Bias, Tone & Rhetorical Technique',
+'LEARNING OBJECTIVES: (1) identify an author''s likely purpose and bias in a text, (2) describe a text''s tone using precise vocabulary, not just "positive/negative", (3) recognise common rhetorical techniques (rhetorical questions, repetition, appeals to emotion or authority) and explain their intended effect, (4) infer implicit meaning and justify it with specific textual evidence.
+
+PREREQUISITE KNOWLEDGE: Level III, Module 6 (basic media-literacy evaluation checklist).
+
+WARM-UP (5 min): Your instructor reads two short opening sentences on the same event, written in noticeably different tones -- describe the difference in one word each.
+
+PRESENTATION (10 min): "This piece uses the rhetorical question ''Can we really afford to wait?'' to create a sense of urgency -- the tone here suggests real alarm, not neutral reporting. The writer appears to favour immediate action, and this is reinforced by the repeated phrase ''time is running out.''" Four things to look for: PURPOSE (to inform, persuade, entertain); BIAS (a leaning revealed through word choice, selective facts, or framing); TONE (the emotional colouring of the language); RHETORICAL TECHNIQUE (a deliberate device used to persuade or engage).
+
+GUIDED PRACTICE (10 min): You are given 3 short text excerpts (generic, invented, representing different tones/biases) and identify the purpose, tone, and at least one rhetorical technique in each.
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Choose one excerpt and write a short analysis (4-5 sentences) identifying its purpose, tone, bias, and one rhetorical technique with its intended effect, then compare your analysis with a partner''s.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Is it possible for a text to be biased and still be honest and useful? Or does bias always mean you should distrust a source?"
+
+LISTENING ACTIVITY (5 min): Listen to a short persuasive speech excerpt and identify its tone and at least one rhetorical technique used.
+
+READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read a longer authentic-style opinion piece (200-220 words) on a generic topic. Answer 2 literal questions and 2 analytical questions.
+
+WRITING TASK (5 min): Write a short analytical paragraph (5-6 sentences) identifying the purpose, tone, and one rhetorical technique in a text of your choice.
+
+PRONUNCIATION PRACTICE (5 min): Analytical, evaluative intonation when describing a text''s tone or bias aloud -- a measured, slightly detached delivery.
+
+VOCABULARY REINFORCEMENT: a tone-vocabulary expansion game: sort 12 precise tone words by rough emotional "temperature."
+
+FORMATIVE ASSESSMENT: Instructor checks that analyses name specific textual evidence, not just vague impressions, during independent practice.
+
+HOMEWORK: Find (or recall) a short real text excerpt and bring notes on its purpose, tone, and one technique, ready for Lesson 7.2''s summary-and-critique work.
+
+REVISION: Lesson 7.2 opens with learners briefly sharing their homework text''s tone in one word.
+
+EXTENSION: Identify a second rhetorical technique in the same homework text and compare its effect to the first.'),
+
+('itm_l4_m7_lesson2', 'unt_l4_m7', 3, 'reading', 'Lesson 7.2 -- It, This, One -- Ellipsis & Substitution for Cohesion',
+'LEARNING OBJECTIVES: (1) use ellipsis correctly to omit repeated words where meaning stays clear, (2) use substitution (one/ones, so/not, do so) to avoid repeating a noun or clause, (3) recognise ellipsis and substitution when reading, correctly identifying what''s been omitted or replaced, (4) write a concise, cohesive summary-and-critique of a media text.
+
+PREREQUISITE KNOWLEDGE: Lesson 7.1 (critical-reading analysis), Level III Module 2 (summarising basics).
+
+WARM-UP (5 min): Your instructor shows one repetitive sentence pair and one economical version using ellipsis -- what was removed and why does it still make sense?
+
+PRESENTATION (10 min): ELLIPSIS: "She wanted to go, but couldn''t [go]" (the repeated verb phrase is omitted). SUBSTITUTION: "I liked the first article, but not the second one" (one substitutes for the repeated noun); "He said the report was biased, and I think so too" (so substitutes for the whole reported clause); "She read the article carefully, and he did so too" (do so substitutes for a repeated verb phrase). Both avoid clunky repetition and are hallmarks of genuinely fluent, cohesive written English.
+
+GUIDED PRACTICE (10 min): Rewrite 8 repetitive sentence pairs using ellipsis or substitution as appropriate, then identify the antecedent in 4 given examples.
+
+INDEPENDENT PRACTICE (10 min): Write a first-draft summary (4-5 sentences) of your Lesson 7.1 homework text, deliberately using at least 2 instances of ellipsis or substitution, then swap with a partner, who checks whether the omitted/substituted meaning is still clear.
+
+SPEAKING ACTIVITY: Discuss with a partner one place where ellipsis or substitution in your summary could be ambiguous, and revise it together.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think overusing ellipsis or substitution in a written summary could actually make it harder to understand, even though each individual technique makes a sentence shorter?"
+
+LISTENING ACTIVITY (5 min): Listen to a short spoken summary using ellipsis and substitution naturally, and identify what each instance refers back to.
+
+READING ACTIVITY (5 min): Read a short written summary-and-critique example and identify its use of ellipsis/substitution, its summary section, and its critique section.
+
+WRITING TASK (5 min): Revise your independent-practice summary into a full summary-and-critique: add 2-3 sentences evaluating the original text''s purpose, tone, and at least one rhetorical technique.
+
+PRONUNCIATION PRACTICE (5 min): Natural sentence rhythm around ellipsis and substitution in spoken English -- a brief pause or slight stress shift onto the substituted word.
+
+VOCABULARY REINFORCEMENT: an ellipsis/substitution identification game: find and mark all instances in a short provided text.
+
+FORMATIVE ASSESSMENT: Instructor checks that ellipsis/substitution is used correctly and that the critique section engages with Lesson 7.1''s analytical categories, during independent practice.
+
+HOMEWORK: Finalise your summary-and-critique for Module 7''s assignment.
+
+REVISION: This lesson opens with the Lesson 7.1 tone-word recap. Module 7''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Identify one place in a provided dense academic-style text where you had to pause and work out what an ellipsis or substitution referred to.'),
+
+('itm_l4_m7_quiz', 'unt_l4_m7', 4, 'quiz', 'Module 7 Quiz -- Media Literacy & Critical Reading', NULL),
+
+('itm_l4_m7_assignment', 'unt_l4_m7', 5, 'assignment', 'Module 7 Assignment -- A Summary-and-Critique of a Media Text',
+'INSTRUCTIONS: Write a summary-and-critique, 250-300 words, of a real or realistic media text (an article, opinion piece, or advertisement) of your choice. This is this level''s sixth writing genre -- the summary-and-critique. Structure it in two clear parts: A SUMMARY (3-4 sentences, genuinely condensed, using at least 2 instances of ellipsis or substitution for economy); and A CRITIQUE (5-6 sentences, identifying the text''s purpose, tone, at least one specific bias or rhetorical technique with its intended effect, and your own reasoned evaluation of whether the text is persuasive, fair, or misleading).
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct, clear ellipsis and substitution use (no ambiguous reference). (2) Vocabulary range -- at least 4 distinct media-analysis words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- a genuine summary and a genuine critique, both present and clearly distinguished. (4) Evidence & argument quality -- is the critique''s identification of bias/technique supported by specific textual evidence, and is the overall evaluation reasoned rather than a bare opinion? (5) Discourse coherence & register -- is the summary genuinely condensed, and is the critique''s register appropriately analytical and measured throughout?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l4_m7_1', 'itm_l4_m7_quiz', 1, '"This piece uses the rhetorical question ''Can we really afford to wait?'' to create a sense of urgency." What is being identified here?', '["bias only","a rhetorical technique","a grammar error","a citation"]', 1),
+('qq_l4_m7_2', 'itm_l4_m7_quiz', 2, 'Which best describes "tone" in critical reading?', '["whether a text is true or false","the emotional colouring of the language","the number of paragraphs","the author''s job title"]', 1),
+('qq_l4_m7_3', 'itm_l4_m7_quiz', 3, '"She wanted to go, but couldn''t ___." (ellipsis -- what''s omitted?)', '["go","went","going","goes"]', 0),
+('qq_l4_m7_4', 'itm_l4_m7_quiz', 4, '"I liked the first article, but not the second ___." (substitution)', '["it","one","so","do"]', 1),
+('qq_l4_m7_5', 'itm_l4_m7_quiz', 5, '"He said the report was biased, and I think ___ too." (clause substitution)', '["it","one","so","that"]', 2),
+('qq_l4_m7_6', 'itm_l4_m7_quiz', 6, 'Which is a genuine risk of overusing ellipsis and substitution?', '["sentences become too long","the reference can become unclear or ambiguous","it is always grammatically incorrect","it makes writing too formal"]', 1),
+('qq_l4_m7_7', 'itm_l4_m7_quiz', 7, 'An American-originated term for an opinion piece, now used internationally, is:', '["editorial note","op-ed","comment column","feature article"]', 1),
+('qq_l4_m7_8', 'itm_l4_m7_quiz', 8, 'Which phrase means "minimise the apparent importance of an issue"?', '["play up","play down","gloss over","spin"]', 1),
+('qq_l4_m7_9', 'itm_l4_m7_quiz', 9, 'Which phrase means "present information in a biased way to create a particular impression"?', '["read into","play down","gloss over","spin"]', 3),
+('qq_l4_m7_10', 'itm_l4_m7_quiz', 10, '"The writer appears to favour immediate action. ___, the tone here suggests real alarm." (a critical-reading discourse marker)', '["Arguably","This is reinforced by the fact that","Because","So"]', 1);
+
+-- ---------------------------------------------------------------------
+-- Module 8: Meetings & Negotiation
+-- Full prose version: docs/curriculum/level-4/module-08-meetings-negotiation.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l4_m8', 'crs_level_4', 8, 'Module 8: Meetings & Negotiation');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l4_m8_overview', 'unt_l4_m8', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: I hear what you''re saying, but... -- Let''s find some middle ground. -- Would you be open to...? -- That''s a good starting point, but... -- Can I just come in here? -- On the condition that.../Provided that...
+
+DISCOURSE MARKERS (functional set -- negotiation conditions): "on the condition that", "provided that", "in exchange for", "as long as" -- connectors specific to proposing and accepting conditional compromises.
+
+PHRASAL VERBS & COLLOCATIONS: "meet halfway" (each side compromises equally), "hammer out [a deal]" (work through difficulties to reach an agreement), "iron out [details]" (resolve minor remaining problems), "hold firm (on a point)" (refuse to compromise on something specific), "sweeten the deal" (make an offer more attractive).
+
+BrE / AmE NOTE: British professionals typically check their "diary" when scheduling, while American English uses "calendar" for the same everyday scheduling sense (British "diary" can also mean a personal journal, while American "diary" is almost always the journal sense).
+
+KEY VOCABULARY: meeting vocabulary (agenda, minutes, action point, chair, quorum), negotiation vocabulary (leverage, concession, stalemate, compromise, terms). Intercultural note: norms around directness in disagreement and negotiation pace vary significantly by culture and industry.'),
+
+('itm_l4_m8_lesson1', 'unt_l4_m8', 2, 'reading', 'Lesson 8.1 -- My Colleague, Who Has Worked Here for Ten Years... -- Non-Defining Relative Clauses',
+'LEARNING OBJECTIVES: (1) form non-defining relative clauses correctly, using commas, (2) use them to add extra, non-essential information smoothly, (3) distinguish non-defining relative clauses from defining relative clauses, (4) use "which" correctly to refer back to an entire preceding clause.
+
+PREREQUISITE KNOWLEDGE: Level III, Module 2 (defining relative clauses).
+
+WARM-UP (5 min): Your instructor shows two similar sentences -- one with a defining relative clause, one with a non-defining one -- what changes if the relative clause is removed from each?
+
+PRESENTATION (10 min): "The colleague who reviewed the proposal had some concerns" (defining -- specifies which colleague) vs. "My colleague, who has worked here for ten years, had some concerns" (non-defining -- extra information; removing the clause leaves the core meaning intact). Non-defining clauses are always set off by commas; "that" is never used in a non-defining clause. "Which" can refer back to an entire previous clause: "The meeting ran long, which frustrated several attendees."
+
+GUIDED PRACTICE (10 min): You are given 8 sentence pairs and decide whether each needs a defining or non-defining relative clause based on context, adding commas correctly where needed.
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Write 5 sentences about real or invented colleagues, meetings, or projects, using at least 3 non-defining relative clauses, then read them to a partner, who confirms which information was "extra" versus "essential."
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think it matters, in professional writing, whether information is ''essential'' or just ''extra''? Can you think of a situation where getting this distinction wrong could actually cause confusion?"
+
+LISTENING ACTIVITY (5 min): Listen to a short professional account (6-7 sentences, mixing defining and non-defining relative clauses) and identify which type each clause is and why.
+
+READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read a short professional report excerpt (180-200 words) using both clause types. Answer 2 literal questions and 2 analytical questions.
+
+WRITING TASK (5 min): Write 4-5 sentences about your own workplace or study context, using at least 2 non-defining relative clauses correctly, with commas.
+
+PRONUNCIATION PRACTICE (5 min): The natural intonation dip and brief pause that typically surrounds a spoken non-defining relative clause, distinct from the smoother, unpaused flow of a defining relative clause.
+
+VOCABULARY REINFORCEMENT: a clause-type sorting game: sort 10 example sentences into defining vs. non-defining relative clauses, checking comma placement.
+
+FORMATIVE ASSESSMENT: Instructor checks correct comma use and correct defining/non-defining distinction during independent practice.
+
+HOMEWORK: Think of one real or invented workplace negotiation scenario and jot down each side''s likely position, ready for Lesson 8.2''s negotiation roleplay.
+
+REVISION: Lesson 8.2 opens with learners briefly naming their homework negotiation scenario.
+
+EXTENSION: Add one sentence combining a defining and a non-defining relative clause in the same sentence, correctly punctuated.'),
+
+('itm_l4_m8_lesson2', 'unt_l4_m8', 3, 'reading', 'Lesson 8.2 -- I Hear What You''re Saying, But... -- Negotiation & Meeting Language',
+'LEARNING OBJECTIVES: (1) disagree diplomatically in a professional register, (2) participate in a meeting, proposing and responding to agenda items appropriately, (3) negotiate toward a compromise using structured conditional language, (4) write accurate meeting minutes and a professional follow-up email.
+
+PREREQUISITE KNOWLEDGE: Lesson 8.1 (non-defining relative clauses), Level III Module 4 (formal opinion/agreement language, now extended into live negotiation).
+
+WARM-UP (5 min): Your instructor models one overly blunt disagreement ("No, that''s wrong") and one diplomatically phrased one ("I hear what you''re saying, but I''d push back on one part of that") -- which is more likely to keep a negotiation productive?
+
+PRESENTATION (10 min): "A: We need this delivered by Friday. B: I hear what you''re saying, but that timeline is tight given the resources we have. Would you be open to Monday instead? A: I could accept Monday, provided that we get a progress update on Wednesday. B: That works -- let''s meet halfway and confirm Wednesday and Monday." Diplomatic disagreement (acknowledge, then push back specifically); proposing a condition (provided that/on the condition that); finding middle ground (meet halfway). Meeting participation language: proposing an agenda item, politely interrupting, confirming an action point.
+
+GUIDED PRACTICE (10 min): In pairs, practise 4 short negotiation exchanges from prompt cards, each requiring one diplomatic disagreement, one conditional proposal, and one compromise phrase.
+
+INDEPENDENT PRACTICE (10 min): Using your Lesson 8.1 homework scenario, prepare your side''s opening position, one anticipated point of disagreement, and one possible conditional compromise.
+
+SPEAKING ACTIVITY -- NEGOTIATION & MEETING ROLEPLAY: In pairs or small groups, hold a full negotiation roleplay on your prepared scenario, framed as part of a short meeting (one person acts as chair, opening and closing the discussion and confirming action points).
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Is it always possible to find a compromise that satisfies both sides equally? What happens, professionally, when a negotiation genuinely can''t reach middle ground?"
+
+LISTENING ACTIVITY (5 min): Listen to a short negotiation exchange and identify the diplomatic disagreement, the conditional proposal, and whether a compromise was reached.
+
+READING ACTIVITY (5 min): Read a short set of meeting minutes and identify the agenda items discussed, the decisions made, and the action points assigned.
+
+WRITING TASK (5 min): Write brief minutes (5-6 bullet points) for your Lesson 8.2 negotiation roleplay, including at least one action point with a name and a deadline.
+
+PRONUNCIATION PRACTICE (5 min): Calm, non-confrontational intonation for diplomatic disagreement in a live negotiation, and clear, confirming intonation when stating an agreed action point.
+
+VOCABULARY REINFORCEMENT: a negotiation-phrasal-verb matching game (meet halfway, hammer out, iron out, hold firm, sweeten the deal).
+
+FORMATIVE ASSESSMENT: Instructor checks that disagreement stays diplomatic and specific and that any compromise reached is genuinely two-sided, during the roleplay.
+
+HOMEWORK: Write a short professional follow-up email summarising your negotiation''s outcome and confirming next steps, ready for Module 8''s assignment.
+
+REVISION: This lesson opens with the Lesson 8.1 scenario-naming recap. Module 8''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Add a moment where your negotiation nearly reaches a stalemate, then practise language for proposing a genuinely creative alternative to break the deadlock.'),
+
+('itm_l4_m8_quiz', 'unt_l4_m8', 4, 'quiz', 'Module 8 Quiz -- Meetings & Negotiation', NULL),
+
+('itm_l4_m8_assignment', 'unt_l4_m8', 5, 'assignment', 'Module 8 Assignment -- A Negotiation Roleplay & Meeting Minutes',
+'INSTRUCTIONS: Complete two parts based on a real or invented workplace negotiation scenario. PART A (speaking): Record yourself (or perform with a partner) a negotiation roleplay, 90 seconds to 2 minutes, including at least one diplomatic disagreement, one conditional proposal (provided that/on the condition that), and a clear outcome. Use at least one non-defining relative clause naturally within the roleplay. PART B (formal correspondence): Write brief meeting minutes (5-8 bullet points, including at least one action point with a name and deadline) and a short professional follow-up email summarising the outcome.
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct non-defining relative clause formation, correct negotiation conditional structures. (2) Vocabulary range -- at least 3 distinct meeting/negotiation words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- diplomatic disagreement, a conditional proposal, and a clear outcome in Part A; complete minutes with an action point and a follow-up email in Part B. (4) Communicative quality -- does the negotiation sound genuinely professional and realistic, and do the minutes accurately and concisely capture what was decided? (5) Discourse coherence & register -- is the spoken negotiation''s tone diplomatic throughout, and is the written correspondence''s register consistently professional?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l4_m8_1', 'itm_l4_m8_quiz', 1, 'Which sentence uses a non-defining relative clause correctly?', '["The colleague who reviewed the proposal had concerns.","My colleague, who has worked here for ten years, had concerns.","My colleague that has worked here for ten years had concerns.","My colleague, that has worked here, had concerns."]', 1),
+('qq_l4_m8_2', 'itm_l4_m8_quiz', 2, '"The meeting ran long, ___ frustrated several attendees." (referring to the whole previous clause)', '["that","which","who","whose"]', 1),
+('qq_l4_m8_3', 'itm_l4_m8_quiz', 3, 'If a non-defining relative clause is removed from a sentence, the core meaning:', '["is completely lost","stays essentially intact","becomes grammatically incorrect","reverses entirely"]', 1),
+('qq_l4_m8_4', 'itm_l4_m8_quiz', 4, '"I hear what you''re saying, ___ I''d push back on one part of that."', '["so","but","because","if"]', 1),
+('qq_l4_m8_5', 'itm_l4_m8_quiz', 5, '"I could accept Monday, ___ we get a progress update on Wednesday."', '["provided that","because","so","unless"]', 0),
+('qq_l4_m8_6', 'itm_l4_m8_quiz', 6, 'Which phrase means "each side compromises equally"?', '["hold firm","meet halfway","sweeten the deal","hammer out"]', 1),
+('qq_l4_m8_7', 'itm_l4_m8_quiz', 7, 'In British English, checking your schedule for a meeting is often called checking your:', '["calendar","diary","planner","agenda"]', 1),
+('qq_l4_m8_8', 'itm_l4_m8_quiz', 8, 'Which phrase means "resolve minor remaining problems"?', '["hammer out","iron out","hold firm","meet halfway"]', 1),
+('qq_l4_m8_9', 'itm_l4_m8_quiz', 9, '"So, to confirm, [name] will handle X by [date]." This sentence is an example of:', '["a diplomatic disagreement","an action point","a rhetorical question","a non-defining relative clause"]', 1),
+('qq_l4_m8_10', 'itm_l4_m8_quiz', 10, 'Which phrase means "refuse to compromise on something specific"?', '["meet halfway","sweeten the deal","hold firm","iron out"]', 2);
+
+-- ---------------------------------------------------------------------
+-- Module 9: Academic Writing II
+-- Full prose version: docs/curriculum/level-4/module-09-academic-writing-ii.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l4_m9', 'crs_level_4', 9, 'Module 9: Academic Writing II');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l4_m9_overview', 'unt_l4_m9', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: According to Source A,..., while Source B suggests... -- Both sources agree that... -- This is corroborated by... -- Taken together, these sources suggest... -- (Source A) / (Source B) -- a genuine point of tension between these two perspectives is...
+
+DISCOURSE MARKERS (functional set -- synthesis): "both sources agree that", "while Source A suggests..., Source B indicates...", "taken together", "this is corroborated by" -- the level''s most academically demanding connector set, for holding two sources in relation to each other.
+
+PHRASAL VERBS & COLLOCATIONS: "draw together [ideas]" (combine them into one coherent whole), "tie in with [something]" (connect naturally or logically to it), "cross-reference [two things]" (check them against each other), "build a case (from multiple sources)", "corroborate [a claim]" (confirm it using independent evidence).
+
+BrE / AmE NOTE: British academic writing commonly uses single quotation marks ('' '') as the default for a direct quotation, with double marks reserved for a quote-within-a-quote; American academic writing commonly uses double quotation marks ("" "") as the default, with single marks reserved for a quote-within-a-quote.
+
+KEY VOCABULARY: citation vocabulary (source, citation, attribution, corroborate, synthesis, in-text citation), the module''s consolidated cohesion toolkit (nominalisation, ellipsis, substitution, non-defining relative clauses, formal connectors). Intercultural note: formal citation systems vary by academic discipline and country; full mastery of any one system is deferred to Level V+.'),
+
+('itm_l4_m9_lesson1', 'unt_l4_m9', 2, 'reading', 'Lesson 9.1 -- According to Source A... -- Synthesising Multiple Sources',
+'LEARNING OBJECTIVES: (1) accurately identify a source''s main claim and key supporting points, (2) compare two sources, identifying where they agree, disagree, or offer complementary angles, (3) use basic citation mechanics ((Source A)-style attribution) consistently, (4) begin synthesising two sources into one coherent point, rather than summarising each separately.
+
+PREREQUISITE KNOWLEDGE: Level III, Module 9 (basic citation awareness); Level IV, Module 2 (genuine paraphrasing) and Module 7 (summary skills).
+
+WARM-UP (5 min): Your instructor reads two short, generic invented "source" statements on the same topic that partially agree and partially disagree -- where do they align and where do they differ?
+
+PRESENTATION (10 min): Reading two short supplied source excerpts (Source A and Source B, 80-100 words each) and identifying: Source A''s main claim, Source B''s main claim, where they agree, where they disagree or offer a different angle. Synthesis: "According to Source A, remote work improves focus; Source B largely agrees, though it notes this depends heavily on having a dedicated workspace (Source B). Taken together, these sources suggest that the benefit is real but conditional." Genuine synthesis relates the two claims to each other, not two separate summaries.
+
+GUIDED PRACTICE (10 min): You are given two more short source excerpts and identify each one''s main claim, then write one sentence using "both sources agree that" or "while Source A suggests..., Source B indicates..." to relate them.
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Read a new pair of source excerpts and write a short synthesised paragraph (4-5 sentences) that genuinely combines both sources'' perspectives, using basic citation mechanics, then swap with a partner, who checks whether the paragraph synthesises or merely summarises each source in turn. Discuss one point of genuine tension between the two sources and how you each handled it.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think it''s tempting to just summarise sources one after another rather than truly synthesising them? What does genuine synthesis require that summary alone doesn''t?"
+
+LISTENING ACTIVITY (5 min): Listen to someone verbally synthesising two sources and identify where they state agreement, disagreement, and their own overall conclusion.
+
+READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read two short source excerpts (150 words each) on a generic academic/professional topic. Answer 2 literal questions (one per source) and 2 analytical/synthesis questions.
+
+WRITING TASK (5 min): Write 2-3 sentences synthesising the two reading-activity sources, using at least one citation mechanic and one synthesis discourse marker.
+
+PRONUNCIATION PRACTICE (5 min): Clear stress on source attribution when speaking ("According to SOURCE A..." with a brief pause before naming the source).
+
+VOCABULARY REINFORCEMENT: a synthesis-language matching game (both sources agree that, while X suggests Y indicates, taken together, this is corroborated by).
+
+FORMATIVE ASSESSMENT: Instructor checks for genuine synthesis, not parallel summary, and consistent citation mechanics, during independent practice.
+
+HOMEWORK: Re-read your two Lesson 9.1 source excerpts and jot down one additional point of connection or tension you haven''t yet used, ready for Lesson 9.2''s full essay draft.
+
+REVISION: Lesson 9.2 opens with learners briefly sharing their additional point in one sentence.
+
+EXTENSION: Identify a plausible reason why the two sources might disagree (different context, different timeframe, different assumptions) rather than simply noting that they do.'),
+
+('itm_l4_m9_lesson2', 'unt_l4_m9', 3, 'reading', 'Lesson 9.2 -- Bringing It All Together -- Coherence, Cohesion & the Research-Based Essay',
+'LEARNING OBJECTIVES: (1) deploy the level''s full cohesion toolkit (nominalisation, ellipsis/substitution, non-defining relative clauses, formal connectors) within one extended piece, (2) structure a research-based essay that synthesises two sources into a genuine argument, (3) maintain coherence across multiple paragraphs, (4) draft a complete research-based essay using supplied source material.
+
+PREREQUISITE KNOWLEDGE: Lesson 9.1 (synthesis, citation mechanics); Module 2 (thesis/essay architecture), Module 6 (nominalisation), Module 7 (ellipsis/substitution), Module 8 (non-defining relative clauses).
+
+WARM-UP (5 min): Your instructor shows one short paragraph missing clear logical progression and one revised version with clear coherence -- what specifically was fixed?
+
+PRESENTATION (10 min): The research-based essay structure: INTRODUCTION (context, a thesis informed by both sources); BODY PARAGRAPHS (each developing one point, synthesising both sources where relevant, using citation mechanics); CONCLUSION (restating the synthesised position''s significance). A worked paragraph combining a nominalisation ("the implementation of this policy"), a non-defining relative clause ("Source A, which surveyed over a thousand employees, found..."), substitution ("Source B reached a similar conclusion, and Source A did so too"), and a formal connector ("Moreover, both sources note..."). COHERENCE is the logical flow of ideas; COHESION is the grammatical "glue" that makes that flow readable.
+
+GUIDED PRACTICE (10 min): Revise a provided paragraph with weak coherence by reordering sentences and adding appropriate connectors, then identify which cohesion devices could strengthen it further.
+
+INDEPENDENT PRACTICE (10 min): Using your Lesson 9.1 synthesis work, draft your research-based essay''s introduction and first body paragraph, deliberately incorporating at least 2 different cohesion devices.
+
+SPEAKING ACTIVITY: Read your draft introduction aloud to a partner, who identifies the thesis and checks whether it genuinely reflects a synthesis of both sources.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Looking back across this entire level, which of the cohesion devices you''ve learned do you find yourself using most naturally now, and which still feels effortful? Why might that be?"
+
+LISTENING ACTIVITY (5 min): Listen to a short research-based talk that synthesises two sources and identify at least 3 different cohesion devices used.
+
+READING ACTIVITY (5 min): Read a model research-based essay excerpt (200-220 words) and annotate it for coherence and specific cohesion devices used.
+
+WRITING TASK (5 min): Continue drafting your essay''s second body paragraph and conclusion.
+
+PRONUNCIATION PRACTICE (5 min): Sustained, well-paced formal delivery appropriate to presenting a research-based argument aloud.
+
+VOCABULARY REINFORCEMENT: a cohesion-device identification relay: find one example of each of the level''s five major cohesion devices within a single provided dense paragraph.
+
+FORMATIVE ASSESSMENT: Instructor checks for genuine coherence and correct, purposeful use of cohesion devices during independent practice.
+
+HOMEWORK: Complete your full research-based essay draft for Module 9''s assignment.
+
+REVISION: This lesson opens with the Lesson 9.1 connection-point recap. Module 9''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Add a brief acknowledgement of a limitation in your own synthesis as a sophisticated closing move.'),
+
+('itm_l4_m9_quiz', 'unt_l4_m9', 4, 'quiz', 'Module 9 Quiz -- Academic Writing II', NULL),
+
+('itm_l4_m9_assignment', 'unt_l4_m9', 5, 'assignment', 'Module 9 Assignment -- A Research-Based Essay from Supplied Sources',
+'INSTRUCTIONS: You will be given two short supplied source excerpts (generic, invented, 100-120 words each) on the same topic, representing partially agreeing, partially disagreeing, or complementary perspectives. Write a research-based essay, 400-500 words, that synthesises both sources into one coherent argument. This is this level''s capstone, eighth writing genre. Your essay must include: a clear thesis informed by both sources; at least 2 genuine synthesis statements using this module''s discourse markers; consistent basic citation mechanics throughout; and at least 3 different cohesion devices from this level''s toolkit, used purposefully.
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct, varied use of the level''s cohesion devices. (2) Vocabulary range -- at least 4 distinct citation/synthesis words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- a synthesised thesis, genuine synthesis, consistent citation, and at least 3 cohesion devices all present. (4) Evidence & argument quality -- does the essay genuinely engage with both sources'' claims, and is the final position actually justified by that engagement? (5) Discourse coherence & register -- does the essay read as one logically progressing, well-glued piece of formal academic writing?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l4_m9_1', 'itm_l4_m9_quiz', 1, 'What is genuine synthesis, as opposed to parallel summary?', '["summarising Source A, then separately summarising Source B","relating two sources'' claims to each other in one coherent point","only using Source A and ignoring Source B","copying both sources word-for-word"]', 1),
+('qq_l4_m9_2', 'itm_l4_m9_quiz', 2, '"___ Source A suggests remote work improves focus, Source B notes this depends on having a dedicated workspace."', '["While","Because","So","Since"]', 0),
+('qq_l4_m9_3', 'itm_l4_m9_quiz', 3, '"Taken together, these sources ___ that the benefit is real but conditional."', '["suggest","suggests","suggesting","suggested"]', 0),
+('qq_l4_m9_4', 'itm_l4_m9_quiz', 4, 'What does "coherence" refer to in academic writing?', '["the specific grammatical devices used","the logical flow and progression of ideas","the total word count","the citation style used"]', 1),
+('qq_l4_m9_5', 'itm_l4_m9_quiz', 5, 'What does "cohesion" refer to in academic writing?', '["the logical flow of ideas only","the grammatical \"glue\" (specific devices) that makes that flow readable","the essay''s overall length","the number of sources used"]', 1),
+('qq_l4_m9_6', 'itm_l4_m9_quiz', 6, 'In American academic writing, the default quotation mark for a direct quote is usually:', '["single ('' '')","double (\"\" \"\")","angled (guillemets)","none are used"]', 1),
+('qq_l4_m9_7', 'itm_l4_m9_quiz', 7, 'Which phrase means "confirm a claim using independent evidence or a second source"?', '["draw together","tie in with","corroborate","cross-reference"]', 2),
+('qq_l4_m9_8', 'itm_l4_m9_quiz', 8, '"This is ___ by a second, independent study."', '["corroborated","drawn together","tied in","cross-referenced"]', 0),
+('qq_l4_m9_9', 'itm_l4_m9_quiz', 9, 'Which best describes this level''s stated goal for citation mechanics?', '["full mastery of one formal system (APA/MLA/Chicago)","the underlying habit and logic of honest, consistent attribution","avoiding citation entirely","memorising citation rules without applying them"]', 1),
+('qq_l4_m9_10', 'itm_l4_m9_quiz', 10, 'Which phrase means "combine ideas into one coherent whole"?', '["tie in with","draw together","corroborate","cross-reference"]', 1);
