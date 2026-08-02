@@ -20,6 +20,43 @@ the institution it belongs to. That's the failure mode this file exists
 to prevent: a premium marketing site bolted to a generic-SaaS-feeling
 app.
 
+## Executive Design Directive — premium experience standard (target, logged now, applied in its own milestone)
+
+You issued a platform-wide directive: every visual surface — marketing
+site, dashboards, every future portal — should read as elegant,
+prestigious, refined, modern, and intentionally crafted (restrained
+gold accents, considered depth/shadow, glass/layered surfaces only
+where they aid readability, purposeful motion — page transitions,
+section reveals, hover/button micro-interactions, card animations,
+loading/success states, `prefers-reduced-motion` alternatives
+throughout), with strict cross-surface consistency in type, spacing,
+colour, iconography, motion, and interaction patterns, and without
+ever trading performance or accessibility for decoration.
+
+**Logged as standing guidance, not yet executed as a redesign pass.**
+This session's work since the directive arrived has been curriculum
+authoring (`docs/curriculum-framework.md` et al.) — pure content and
+backend, no frontend surface touched — so there is nothing yet to
+retrofit. The honest state: `css/brand.css` and `css/dashboard.css`
+already establish one coherent token system (colour, type, radius)
+across the marketing site and the dashboard layer (see § Why this
+exists as its own layer, above) and already use motion with restraint
+(hover states, a toast, loading skeletons — see the component
+inventory below) — a real foundation, not a blank slate. But a
+dedicated pass explicitly auditing every existing screen against this
+directive's specific bar (page-transition choreography, parallax,
+completion animations, elegant onboarding sequences, etc.) has not
+happened. That's real, scoped design work — deserving its own
+milestone with its own before/after verification (a screenshot/
+Playwright pass, the same discipline applied to every other claim in
+this project), not a few CSS tweaks made in passing while authoring
+curriculum content. Recommended sequencing: once the current
+curriculum-authoring milestone reaches a natural stopping point, or
+immediately if you'd rather reprioritise — your call, and either is a
+reasonable next step from here.
+
+---
+
 ## Component inventory (all in `css/dashboard.css`)
 
 | Component | Class(es) | Used today in the preview |
