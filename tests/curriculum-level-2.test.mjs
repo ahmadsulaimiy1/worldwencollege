@@ -1,8 +1,7 @@
 // Run with: node --experimental-sqlite tests/curriculum-level-2.test.mjs
-// Covers Level II (Elementary Programme, A2) — currently Modules 1-3
-// (see docs/curriculum-level-2-elementary.md's honest scope note;
-// Modules 4-10 are mapped but not yet authored/seeded). Same pattern
-// as tests/curriculum-level-1-complete.test.mjs: sweep every seeded
+// Covers Level II (Elementary Programme, A2) — all 10 modules, fully
+// authored and seeded. Same pattern as
+// tests/curriculum-level-1-complete.test.mjs: sweep every seeded
 // module, submit each quiz's own real seeded correct answers (read
 // directly from the DB, not hand-copied), confirm a perfect score, no
 // leaked answer key, and that assignments can be submitted and
@@ -26,13 +25,25 @@ db.prepare(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role)
 db.prepare(`INSERT INTO enrolments (id, user_id, level_id, status, started_at) VALUES ('enr_student_l2', 'usr_student', 2, 'active', '2026-01-01T00:00:00.000Z')`).run();
 
 const units = await listUnits(env, { userId: 'usr_student', levelId: 2 });
-check('Level II has the 3 modules built so far (Modules 1-3)', units.length === 3);
+check('Level II has all 10 modules built', units.length === 10);
 check('Modules are in the correct sequence order', units.every((u, i) => u.sequence === i + 1));
-check('Module 1 is Life Stories', units[0].title === 'Module 1: Life Stories');
-check('Module 2 is Travel & Transport', units[1].title === 'Module 2: Travel & Transport');
-check('Module 3 is Work & Study', units[2].title === 'Module 3: Work & Study');
+const expectedTitles = {
+  1: 'Module 1: Life Stories',
+  2: 'Module 2: Travel & Transport',
+  3: 'Module 3: Work & Study',
+  4: 'Module 4: Likes, Dislikes & Opinions',
+  5: 'Module 5: Making Plans',
+  6: 'Module 6: Homes & Neighbourhoods',
+  7: 'Module 7: Food, Health & Habits',
+  8: 'Module 8: Shopping & Services',
+  9: 'Module 9: Telling Stories',
+  10: 'Module 10: Review & Consolidation',
+};
+for (const unit of units) {
+  check(`Module ${unit.sequence} title is correct`, unit.title === expectedTitles[unit.sequence]);
+}
 
-const expectedQuizCounts = { 1: 10, 2: 10, 3: 10 };
+const expectedQuizCounts = { 1: 10, 2: 10, 3: 10, 4: 10, 5: 10, 6: 10, 7: 10, 8: 10, 9: 10, 10: 20 };
 let totalQuestionsChecked = 0;
 
 for (const unit of units) {
@@ -62,7 +73,7 @@ for (const unit of units) {
   check(`Module ${moduleNum}: assignment can be graded by staff`, graded.status === 'graded' && graded.grade === 0.85);
 }
 
-check('Every quiz question across all built Level II modules was verified against its real seeded answer key', totalQuestionsChecked === 30);
+check('Every quiz question across all 10 Level II modules was verified against its real seeded answer key', totalQuestionsChecked === 110);
 
 // --- A weak attempt correctly fails, not a false pass (Module 1's quiz) ---
 {

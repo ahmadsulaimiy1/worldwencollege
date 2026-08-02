@@ -193,11 +193,30 @@ leaks its answer key to the client, and every assignment can be
 submitted and staff-graded — proving the curriculum functions on the
 platform across the whole level, not just that it reads well as prose.
 
+**Level II ("Elementary Programme," A2) is now also complete** — all
+10 modules built to the same publication-quality standard, plus a
+deliberately elevated depth: grammar contrast structures taught
+against each other in the same lesson rather than in isolation, an
+explicit BrE/AmE note in every module documenting genuine British/
+American English differences, an embedded critical-thinking/discussion
+prompt in most lessons, and a "communicative quality" rubric criterion
+alongside grammatical accuracy on every assignment. See
+`docs/curriculum-level-2-elementary.md` (module map and index) and
+`docs/curriculum/level-2/module-{02..10}-*.md` for the full lesson-by-
+lesson content. Seeded via `sql/seed-curriculum-level-2.sql` (110
+questions across the level, including a 20-question cumulative
+end-of-level exam) and verified the same way: `tests/curriculum-
+level-2.test.mjs` (84 assertions) sweeps all 10 modules with the
+identical rigor as Level I's sweep — real seeded answer keys fetched
+from the DB and submitted, no answer-key leakage, staff grading
+verified, and a weak attempt correctly fails.
+
 **What Milestone 2 has NOT yet done, stated plainly:** content-
 authoring tooling (a staff UI/API to create content — today's seed-
 file approach is a stopgap, not the long-term authoring workflow);
-any content for Levels II-VI (Level II, "Elementary Programme," is the
-explicit next step — same process, same depth standard); and the
+any content for Levels III-VI (Level III, "Pre-Intermediate/
+Intermediate Programme," is the explicit next step — same process,
+same depth standard, continuing to evolve in sophistication); and the
 broader LMS feature backlog your original Milestone 2 message named
 (course authoring studio, structured curriculum/lesson builders,
 multimedia lesson management, exam authoring, question banks and

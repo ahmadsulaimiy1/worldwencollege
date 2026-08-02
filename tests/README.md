@@ -104,9 +104,12 @@ gap requires provisioning real credentials, not more test code.
   submitted and graded, and a weak attempt on the Module 10 mock exam
   correctly fails rather than falsely passing.
 - `curriculum-level-2.test.mjs` — the same sweep pattern for Level II
-  (Elementary, A2) — currently Modules 1-3 (see
-  `docs/curriculum-level-2-elementary.md`'s honest scope note; Modules
-  4-10 are mapped but not yet authored).
+  (Elementary, A2), now covering the complete, 10-module curriculum:
+  every module loads with a reading/quiz/assignment, every quiz's own
+  seeded correct answers (fetched directly from the DB) score 100%
+  when submitted, no quiz ever leaks its answer key to the client,
+  every assignment can be submitted and graded, and a weak attempt
+  correctly fails rather than falsely passing.
 - `run.mjs` — runs everything above and reports a combined summary.
 
 ## Adding a new test

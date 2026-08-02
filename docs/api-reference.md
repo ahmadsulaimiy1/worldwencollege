@@ -301,7 +301,7 @@ unmodified `functions/**` source. Run it yourself:
 ```
 npm test
 # 50 files import-checked cleanly
-# 301 functional assertions, 0 failures
+# 357 functional assertions, 0 failures
 ```
 
 What it covers, briefly (full breakdown in `tests/README.md`):

@@ -70,13 +70,22 @@ reliable.
 | 1 | Life Stories | Narrate past experiences, distinguishing background from key events; describe past habits/states | past simple vs. past continuous, `used to` | biography/life-event vocabulary, time-sequencing connectors | *below, in this document* |
 | 2 | Travel & Transport | Compare travel options and justify a choice | comparatives/superlatives | travel, transport, booking vocabulary | `docs/curriculum/level-2/module-02-travel-transport.md` |
 | 3 | Work & Study | Describe current work/study activity vs. routine; discuss ambitions | present continuous (current) vs. present simple (habit) | jobs, workplace, study vocabulary | `docs/curriculum/level-2/module-03-work-study.md` |
-| 4 | Likes, Dislikes & Opinions | Express and mildly justify preferences | gerunds, `like/love/hate + -ing` | opinion/preference language | *(future authoring pass)* |
-| 5 | Making Plans | Make, accept, and decline invitations/arrangements | future forms review | invitations, arrangements | *(future authoring pass)* |
-| 6 | Homes & Neighbourhoods | Describe past and present homes/places | `there was/were`, prepositions review | housing, neighbourhood vocabulary | *(future authoring pass)* |
-| 7 | Food, Health & Habits | Discuss habits and give lifestyle advice | frequency adverbs, `should/shouldn't` (extended) | lifestyle, health vocabulary | *(future authoring pass)* |
-| 8 | Shopping & Services | Handle a service problem or complaint | past simple questions, complaint language | shopping, services, money vocabulary | *(future authoring pass)* |
-| 9 | Telling Stories | Narrate a sequenced past story with connectors | sequencing language, past narration | storytelling connectors | *(future authoring pass)* |
-| 10 | Review & Consolidation | Consolidate all Level II outcomes | cumulative review | cumulative review | *(future authoring pass)* |
+| 4 | Likes, Dislikes & Opinions | Express and justify preferences; agree/disagree politely | gerunds after opinion verbs, `prefer...to...`, `would rather` | opinion/preference language | `docs/curriculum/level-2/module-04-likes-dislikes-opinions.md` |
+| 5 | Making Plans | Make, accept, and decline invitations/arrangements | `will` vs. `going to` vs. present continuous (future) | invitations, arrangements | `docs/curriculum/level-2/module-05-making-plans.md` |
+| 6 | Homes & Neighbourhoods | Describe past and present homes/places; weigh advantages/disadvantages | `there was/were`, `used to be`, prepositions review | housing, neighbourhood vocabulary | `docs/curriculum/level-2/module-06-homes-neighbourhoods.md` |
+| 7 | Food, Health & Habits | Discuss habits and give lifestyle advice at different strengths | frequency adverbs, `should/shouldn't` (extended) | lifestyle, health vocabulary | `docs/curriculum/level-2/module-07-food-health-habits.md` |
+| 8 | Shopping & Services | Handle a service problem or complaint | past simple questions (fact-finding sequences), complaint language | shopping, services, money vocabulary | `docs/curriculum/level-2/module-08-shopping-services.md` |
+| 9 | Telling Stories | Narrate a sequenced past story with connectors, a hook, and a resolution | sequencing connectors, past simple/continuous combined | storytelling connectors | `docs/curriculum/level-2/module-09-telling-stories.md` |
+| 10 | Review & Consolidation | Consolidate all Level II outcomes; Elementary-level mock exam | cumulative review | cumulative review | `docs/curriculum/level-2/module-10-review-consolidation.md` |
+
+**Level II is now complete** — all 10 modules built to full
+publication-quality depth and seeded into the live schema via
+`sql/seed-curriculum-level-2.sql`, verified end-to-end by
+`tests/curriculum-level-2.test.mjs` (84 assertions: every module loads
+with a reading/quiz/assignment, every quiz's own seeded correct
+answers score 100% when submitted, no quiz ever leaks its answer key
+to the client, every assignment can be submitted and staff-graded, and
+a weak attempt correctly fails).
 
 ---
 
