@@ -200,6 +200,63 @@ try {
   check('Cards are fully visible under reduced motion — nothing depends on a transition having run', mobState.opacity === '1');
   check('No horizontal overflow at 390px', mobState.noOverflow === true);
 
+  // --- listening progress panel ----------------------------------------
+  const prog = await page.evaluate(() => ({
+    tiles: document.querySelectorAll('#lpSummary div').length,
+    rows: document.querySelectorAll('#lpModules .prog__row').length,
+    notAttempted: [...document.querySelectorAll('.prog__v')].filter((e) => e.dataset.none === 'true').length,
+    meta: document.getElementById('lpMeta').textContent,
+  }));
+  check(`Listening progress shows all 10 modules of the level (got ${prog.rows})`, prog.rows === 10);
+  check('Coverage and outcome are reported as separate figures', prog.tiles === 3);
+  check('An unattempted listening reads "not attempted", never 0%', prog.notAttempted >= 1);
+
+  // --- download management ----------------------------------------------
+  const dl = await page.evaluate(() => ({
+    disabled: document.getElementById('dl').disabled,
+    state: document.getElementById('dlState').textContent,
+  }));
+  check('Download is disabled in script mode and explains why', dl.disabled === true && /has not been made/.test(dl.state));
+
+  // --- loading states ----------------------------------------------------
+  const skel = await page.evaluate(() => document.querySelectorAll('.lab-skel').length);
+  check(`Skeletons are replaced once content arrives (${skel} remaining)`, skel === 0);
+
+  await page.screenshot({ path: join(OUT, '06-progress-and-download.png'), fullPage: true });
+
+  // --- instructor workspace ---------------------------------------------
+  const staff = await browser.newPage({ viewport: { width: 1280, height: 1000 }, deviceScaleFactor: 1 });
+  const staffErrors = [];
+  staff.on('pageerror', (e) => staffErrors.push(e.message));
+  // Seed a submission so the queue has something real in it.
+  await staff.goto(`${BASE}/listening-lab.html?unit=unt_l1_m2&level=1`, { waitUntil: 'networkidle' });
+  await staff.evaluate(() => fetch('/api/lms/recording', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ learningItemId: 'itm_l1_m2_pronunciation', mediaUrl: 'blob:demo-take-1', durationMs: 9200 }),
+  }).then((r) => r.json()));
+
+  await staff.goto(`${BASE}/instructor-review.html`, { waitUntil: 'networkidle' });
+  await staff.waitForSelector('article.lab-card', { timeout: 8000 });
+  const q = await staff.evaluate(() => ({
+    cards: document.querySelectorAll('article.lab-card').length,
+    sliders: document.querySelectorAll('article input[type=range]').length,
+    targets: document.querySelectorAll('article .target').length,
+    count: document.getElementById('qCount').textContent,
+  }));
+  check(`The review queue renders a real pending submission (${q.cards})`, q.cards === 1);
+  check('Each submission is scored on the five profile dimensions', q.sliders === 5);
+  check('The drill targets the learner worked against are shown to the reviewer', q.targets >= 2);
+  check(`The queue reports its depth (${q.count})`, /awaiting review/.test(q.count));
+  await staff.screenshot({ path: join(OUT, '07-instructor-queue.png'), fullPage: true });
+
+  // submit a real review and confirm it clears
+  await staff.click('article .tbtn--primary');
+  await staff.waitForFunction(() => document.querySelectorAll('article.lab-card').length === 0, { timeout: 6000 });
+  const cleared = await staff.evaluate(() => document.getElementById('qCount').textContent);
+  check(`Sending feedback clears the item from the queue (${cleared})`, /queue clear/.test(cleared));
+  check(`No script errors in the instructor workspace${staffErrors.length ? ' — ' + staffErrors[0] : ''}`, staffErrors.length === 0);
+  await staff.screenshot({ path: join(OUT, '08-instructor-cleared.png') });
+
   console.log(`\nScreenshots written to ${OUT}`);
 } finally {
   await browser.close();

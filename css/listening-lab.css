@@ -352,3 +352,66 @@ body.is-offline .lab-offline { display: inline-flex; }
   .tbtn:hover:not(:disabled) { transform: none; }
   .cue__mark:hover { transform: none; }
 }
+
+/* ---------- Loading states ------------------------------------------ */
+/* A skeleton that matches the shape of what is arriving, not a spinner.
+   A spinner tells a learner to wait; a skeleton tells them what they are
+   waiting for, and makes the transition to real content feel like the
+   page settling rather than swapping. */
+.lab-skel {
+  border-radius: var(--lab-radius);
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(100deg, transparent 20%, rgba(255,255,255,.75) 40%, transparent 60%),
+    var(--lab-sunken);
+  background-size: 220% 100%, auto;
+  background-position: 120% 0, 0 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .lab-skel { animation: labSheen 1.5s var(--ease-premium) infinite; }
+  @keyframes labSheen { to { background-position: -60% 0, 0 0; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Still, but still legible as a placeholder — not an empty box. */
+  .lab-skel { animation: none; background: var(--lab-sunken); }
+}
+.cue-skel { height: 42px; border-radius: var(--lab-radius-sm); margin-bottom: .3rem; }
+
+/* Content arriving replaces skeletons with a settle, not a flash. */
+@media (prefers-reduced-motion: no-preference) {
+  .lab-in { animation: labIn var(--dur-med) var(--ease-premium) both; }
+  @keyframes labIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+}
+@media (prefers-reduced-motion: reduce) { .lab-in { animation: none; } }
+
+/* ---------- Download management ------------------------------------- */
+.dl {
+  display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
+  margin-top: .85rem; padding-top: .85rem; border-top: 1px solid var(--lab-rail);
+}
+.dl__state { font-size: .8rem; color: var(--ink-soft); }
+.dl__state[data-on="true"] { color: #1B6B3A; font-weight: 600; }
+
+/* ---------- Listening progress -------------------------------------- */
+.prog { display: grid; gap: .45rem; }
+.prog__row {
+  display: grid; grid-template-columns: 2.1rem 1fr auto; gap: .6rem; align-items: center;
+  font-size: .83rem;
+}
+.prog__n { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.prog__bar { height: 6px; border-radius: 999px; background: var(--lab-sunken); overflow: hidden; border: 1px solid var(--line); }
+.prog__bar i { display: block; height: 100%; background: var(--gold-gradient); width: 0; transition: width var(--dur-slow) var(--ease-premium); }
+.prog__v { font-weight: 700; color: var(--royal); font-variant-numeric: tabular-nums; min-width: 3.1rem; text-align: right; }
+.prog__v[data-none="true"] { color: var(--ink-soft); font-weight: 400; }
+@media (prefers-reduced-motion: reduce) { .prog__bar i { transition: none; } }
+
+.summary {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; margin-bottom: .9rem;
+}
+.summary div {
+  background: var(--lab-sunken); border: 1px solid var(--line);
+  border-radius: var(--lab-radius-sm); padding: .7rem .8rem; text-align: center;
+}
+.summary b { display: block; font: 700 1.25rem/1.1 var(--font-display); color: var(--royal); }
+.summary span { font-size: .72rem; color: var(--ink-soft); letter-spacing: .04em; }
+@media (max-width: 460px) { .summary { grid-template-columns: 1fr; } }

@@ -75,6 +75,11 @@
           </span>
         </div>
 
+        <div class="dl">
+          <button class="tbtn" id="dl" type="button" aria-pressed="false">Keep offline</button>
+          <span class="dl__state" id="dlState" data-on="false">Not downloaded</span>
+        </div>
+
         <p class="lab-note">
           Keyboard: <strong>space</strong> play/pause, <strong>←</strong>/<strong>→</strong> skip five seconds.
           Slower speeds are for decoding a line you cannot catch — return to 1× before you judge whether you understood it.
@@ -88,7 +93,7 @@
         <span class="lab-card__meta">Select any line to jump to it</span>
       </div>
       <div class="lab-card__body">
-        <ol class="cues" id="cues"></ol>
+        <ol class="cues" id="cues"><li class="lab-skel cue-skel"></li><li class="lab-skel cue-skel"></li><li class="lab-skel cue-skel"></li><li class="lab-skel cue-skel"></li></ol>
         <p class="sr-only" id="cueLive" aria-live="polite"></p>
       </div>
     </section>
@@ -99,7 +104,7 @@
         <span class="lab-card__meta">Graded on the server</span>
       </div>
       <div class="lab-card__body">
-        <div id="questions"></div>
+        <div id="questions"><div class="lab-skel" style="height:88px;margin-bottom:.6rem"></div><div class="lab-skel" style="height:88px"></div></div>
         <button class="tbtn tbtn--primary" id="submitQuiz" type="button" style="margin-top:.9rem">Submit answers</button>
         <div class="result" id="quizResult" role="status">Answer every question, then submit. Each question links back to the exact line it tests.</div>
       </div>
@@ -131,7 +136,19 @@
         <h2 class="lab-card__title" id="pronH">Pronunciation lab</h2>
         <span class="lab-card__meta" id="pronTitle"></span>
       </div>
-      <div class="lab-card__body"><div id="targets"></div></div>
+      <div class="lab-card__body"><div id="targets"><div class="lab-skel" style="height:120px"></div></div></div>
+    </section>
+
+    <section class="lab-card" aria-labelledby="lpH" style="margin-top:1.35rem">
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="lpH">Listening progress</h2>
+        <span class="lab-card__meta" id="lpMeta"></span>
+      </div>
+      <div class="lab-card__body">
+        <div class="summary" id="lpSummary"></div>
+        <div class="prog" id="lpModules"></div>
+        <p class="lab-note">Coverage and outcome are reported separately on purpose. “Attempted 8 of 10” and “averaged 72%” answer different questions, and one blended number would hide a learner who scores well only on the few they attempt.</p>
+      </div>
     </section>
 
     <section class="lab-card" aria-labelledby="profH" style="margin-top:1.35rem">
@@ -140,7 +157,7 @@
         <span class="lab-card__meta" id="profileMeta"></span>
       </div>
       <div class="lab-card__body">
-        <div class="dims" id="dims"></div>
+        <div class="dims" id="dims"><div class="lab-skel" style="height:96px"></div></div>
         <p class="lab-note">Reported by dimension rather than by module, because “your word stress trails your individual sounds” is something you can act on. A dimension nobody has assessed shows as unassessed, never as zero.</p>
       </div>
     </section>

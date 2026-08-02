@@ -66,6 +66,17 @@ createServer(async (req, res) => {
       const body = JSON.parse(await read(req));
       return json(res, await content.submitLearnerRecording(env, { userId: 'usr_demo', ...body }), 201);
     }
+    if (url.pathname === '/api/lms/listening-analytics') {
+      return json(res, await content.getListeningAnalytics(env, { userId: 'usr_demo', levelId: Number(url.searchParams.get('levelId')) }));
+    }
+    if (url.pathname === '/api/lms/review-queue') {
+      const lv = url.searchParams.get('levelId');
+      return json(res, await content.listRecordingsForReview(env, { levelId: lv ? Number(lv) : null }));
+    }
+    if (url.pathname === '/api/lms/recording-review' && req.method === 'POST') {
+      const body = JSON.parse(await read(req));
+      return json(res, await content.reviewRecording(env, { reviewerId: 'usr_tutor', source: 'instructor', ...body }));
+    }
     if (url.pathname === '/api/lms/quiz-attempt' && req.method === 'POST') {
       const body = JSON.parse(await read(req));
       return json(res, await content.submitQuizAttempt(env, { userId: 'usr_demo', ...body }));

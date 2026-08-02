@@ -599,6 +599,106 @@
     });
   }
 
+  // ---- Offline download management --------------------------------------
+  // Audio is the only heavy asset in the Lab, and a large share of an
+  // international student body is on metered or intermittent
+  // connections. So audio is NEVER cached implicitly — the learner opts
+  // in per recording, and can drop it again to reclaim the space.
+  function wireDownload() {
+    var btn = $('#dl'), state = $('#dlState');
+    if (!btn || !state) return;
+
+    if (!('serviceWorker' in navigator)) {
+      btn.disabled = true;
+      state.textContent = 'Offline storage is not supported in this browser';
+      return;
+    }
+
+    function refresh() {
+      var url = state.dataset.url;
+      // Script mode: there is no file yet. Saying so is more useful than
+      // a disabled button with no explanation.
+      if (!url) {
+        btn.disabled = true;
+        state.dataset.on = 'false';
+        state.textContent = 'Nothing to download yet — the recording has not been made';
+        return;
+      }
+      btn.disabled = false;
+      navigator.serviceWorker.ready.then(function (reg) {
+        if (!reg.active) return;
+        var onMsg = function (ev) {
+          if (!ev.data || ev.data.type !== 'AUDIO_STATUS') return;
+          navigator.serviceWorker.removeEventListener('message', onMsg);
+          var held = ev.data.urls.some(function (u) { return u.indexOf(url) >= 0 || url.indexOf(u) >= 0; });
+          state.dataset.on = held ? 'true' : 'false';
+          state.textContent = held ? 'Available offline' : 'Not downloaded';
+          btn.setAttribute('aria-pressed', held ? 'true' : 'false');
+          btn.textContent = held ? 'Remove download' : 'Keep offline';
+        };
+        navigator.serviceWorker.addEventListener('message', onMsg);
+        reg.active.postMessage({ type: 'AUDIO_STATUS' });
+      });
+    }
+
+    btn.addEventListener('click', function () {
+      var url = state.dataset.url;
+      if (!url) return;
+      var held = btn.getAttribute('aria-pressed') === 'true';
+      state.textContent = held ? 'removing…' : 'downloading…';
+      navigator.serviceWorker.ready.then(function (reg) {
+        var onMsg = function (ev) {
+          if (!ev.data || (ev.data.type !== 'AUDIO_CACHED' && ev.data.type !== 'AUDIO_DROPPED')) return;
+          navigator.serviceWorker.removeEventListener('message', onMsg);
+          if (ev.data.type === 'AUDIO_CACHED' && !ev.data.ok) {
+            state.textContent = 'Download failed — try again on a better connection';
+            return;
+          }
+          refresh();
+        };
+        navigator.serviceWorker.addEventListener('message', onMsg);
+        reg.active.postMessage({ type: held ? 'DROP_AUDIO' : 'CACHE_AUDIO', url: url });
+      });
+    });
+
+    refresh();
+  }
+
+  // ---- Listening progress -----------------------------------------------
+  function renderAnalytics(a) {
+    var sum = $('#lpSummary');
+    sum.innerHTML = '';
+    [[a.attempted + ' / ' + a.totalListenings, 'listenings attempted'],
+     [a.averageBest === null ? '—' : Math.round(a.averageBest * 100) + '%', 'average best score'],
+     [String(a.recordingsMade), 'recordings made']].forEach(function (pair) {
+      var d = document.createElement('div');
+      d.innerHTML = '<b></b><span></span>';
+      $('b', d).textContent = pair[0];
+      $('span', d).textContent = pair[1];
+      sum.appendChild(d);
+    });
+
+    var box = $('#lpModules');
+    box.innerHTML = '';
+    a.modules.forEach(function (m) {
+      var row = document.createElement('div');
+      row.className = 'prog__row';
+      row.innerHTML = '<span class="prog__n"></span><span class="prog__bar"><i></i></span><span class="prog__v"></span>';
+      $('.prog__n', row).textContent = 'M' + m.moduleSeq;
+      var none = m.bestScore === null;
+      $('.prog__v', row).textContent = none ? 'not attempted' : Math.round(m.bestScore * 100) + '%';
+      $('.prog__v', row).dataset.none = none ? 'true' : 'false';
+      row.title = m.title + (m.recordings ? ' — ' + m.recordings + ' recording(s)' : '');
+      box.appendChild(row);
+      requestAnimationFrame(function () {
+        $('.prog__bar i', row).style.width = none ? '0%' : (m.bestScore * 100) + '%';
+      });
+    });
+    $('#lpMeta').textContent = a.attempted
+      ? a.attempted + ' of ' + a.totalListenings + ' attempted'
+      : 'nothing attempted yet';
+  }
+
   // ---- Boot ------------------------------------------------------------
   function boot() {
     var params = new URLSearchParams(location.search);
@@ -661,7 +761,17 @@
         if (state.peaks) drawWave(canvas, state.peaks, state.el && state.el.duration ? state.el.currentTime / state.el.duration : 0);
       });
 
+      // Tell the download control which file it governs (empty in script mode).
+      var dlState = $('#dlState');
+      if (dlState) dlState.dataset.url = state.audio.mediaUrl || '';
+      wireDownload();
+
       var lvl = params.get('level');
+      if (lvl) {
+        api('/api/lms/listening-analytics?levelId=' + encodeURIComponent(lvl))
+          .then(renderAnalytics)
+          .catch(function () { $('#lpModules').textContent = 'Progress unavailable.'; });
+      }
       api('/api/lms/pronunciation-profile' + (lvl ? '?levelId=' + encodeURIComponent(lvl) : ''))
         .then(renderProfile)
         .catch(function () { $('#dims').textContent = 'Profile unavailable.'; });
@@ -681,6 +791,15 @@
     window.addEventListener('online', update);
     window.addEventListener('offline', update);
     update();
+  }
+
+  // Register the offline worker. Failure is non-fatal: the Lab works
+  // fully online without it, so a registration error must never block
+  // the page.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw-lab.js').catch(function () {});
+    });
   }
 
   if (document.readyState === 'loading') {

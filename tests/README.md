@@ -165,6 +165,29 @@ gap requires provisioning real credentials, not more test code.
   never a placeholder file.
 - `run.mjs` — runs everything above and reports a combined summary.
 
+**Browser tests** (not in `run.mjs` — they need Chromium and a server,
+so run them explicitly):
+
+```
+node tests/browser/listening-lab.mjs
+```
+
+- `browser/listening-lab.mjs` — 40 assertions covering the Listening
+  Lab and the instructor review workspace. It starts
+  `browser/lab-server.mjs`, which serves the real static files and runs
+  the real `functions/_lib/lms/content.js` against the real seeded
+  curriculum, so the pages under test are driven by production logic and
+  production content — only the HTTP shell is local. It asserts
+  behaviour rather than appearance: both rendering modes, transcript
+  interaction, bookmark/note persistence across a reload, server-side
+  grading with no answer-key leakage, the progress panel's null
+  handling, download management, and a real instructor review clearing
+  an item from the queue. Screenshots land in `browser/screenshots/`
+  (gitignored) for human review.
+  In this sandbox Google Fonts is unreachable, so the test splits script
+  errors from failed requests and tolerates exactly the two font hosts —
+  any other failure still fails.
+
 ## Adding a new test
 
 Match the existing style: plain `console.log((cond ? 'PASS ' : 'FAIL ') + label)`

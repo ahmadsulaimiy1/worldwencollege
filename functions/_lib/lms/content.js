@@ -354,6 +354,86 @@ export async function getPronunciationProfile(env, { userId, levelId = null }) {
   };
 }
 
+// Staff review queue. Ordered oldest-first deliberately: a review queue
+// sorted newest-first quietly starves the learners who have waited
+// longest, which is the failure mode of every unmoderated feedback
+// backlog.
+export async function listRecordingsForReview(env, { levelId = null, status = 'submitted', limit = 50 } = {}) {
+  let sql = `SELECT r.id, r.media_url AS mediaUrl, r.duration_ms AS durationMs, r.attempt,
+                    r.status, r.submitted_at AS submittedAt,
+                    u.id AS userId, u.email,
+                    i.id AS learningItemId, i.kind, i.title AS itemTitle,
+                    un.title AS unitTitle, c.level_id AS levelId
+             FROM learner_recordings r
+             JOIN users u ON u.id = r.user_id
+             JOIN learning_items i ON i.id = r.learning_item_id
+             JOIN units un ON un.id = i.unit_id
+             JOIN courses c ON c.id = un.course_id
+             WHERE 1 = 1`;
+  const binds = [];
+  if (status) { sql += ' AND r.status = ?'; binds.push(status); }
+  if (levelId !== null) { sql += ' AND c.level_id = ?'; binds.push(levelId); }
+  sql += ' ORDER BY r.submitted_at ASC LIMIT ?';
+  binds.push(limit);
+  const { results } = await db(env).prepare(sql).bind(...binds).all();
+
+  for (const rec of results) {
+    // The drill targets the learner was working against. A reviewer
+    // scoring pronunciation without seeing the target is guessing.
+    const { results: targets } = await db(env)
+      .prepare('SELECT focus, target, example FROM pronunciation_targets WHERE learning_item_id = ? ORDER BY sequence ASC')
+      .bind(rec.learningItemId).all();
+    rec.targets = targets;
+    const prior = await db(env)
+      .prepare('SELECT COUNT(*) AS c FROM learner_recordings WHERE learning_item_id = ? AND user_id = ? AND attempt < ?')
+      .bind(rec.learningItemId, rec.userId, rec.attempt).first();
+    rec.priorAttempts = prior ? prior.c : 0;
+  }
+  return results;
+}
+
+// Listening analytics for one learner. Deliberately reports coverage
+// and outcomes separately: "attempted 8 of 10" and "averaged 72%" answer
+// different questions, and a single blended number would hide a learner
+// who scores well on the few they attempt.
+export async function getListeningAnalytics(env, { userId, levelId }) {
+  const items = await db(env).prepare(
+    `SELECT i.id, i.title, un.sequence AS moduleSeq
+     FROM learning_items i JOIN units un ON un.id = i.unit_id JOIN courses c ON c.id = un.course_id
+     WHERE i.kind = 'listening' AND c.level_id = ? ORDER BY un.sequence ASC`
+  ).bind(levelId).all();
+
+  const modules = [];
+  for (const item of items.results) {
+    const best = await db(env).prepare(
+      'SELECT MAX(score) AS best, COUNT(*) AS attempts FROM quiz_attempts WHERE learning_item_id = ? AND user_id = ?'
+    ).bind(item.id, userId).first();
+    const recs = await db(env).prepare(
+      'SELECT COUNT(*) AS c FROM learner_recordings WHERE learning_item_id = ? AND user_id = ?'
+    ).bind(item.id, userId).first();
+    modules.push({
+      learningItemId: item.id,
+      title: item.title,
+      moduleSeq: item.moduleSeq,
+      attempts: best ? best.attempts : 0,
+      bestScore: best && best.attempts ? best.best : null,
+      recordings: recs ? recs.c : 0,
+    });
+  }
+  const attempted = modules.filter((m) => m.attempts > 0);
+  const scored = attempted.map((m) => m.bestScore);
+  return {
+    levelId,
+    totalListenings: modules.length,
+    attempted: attempted.length,
+    // null rather than 0 when nothing has been attempted — an untouched
+    // level and a failed level are different facts.
+    averageBest: scored.length ? scored.reduce((a, b) => a + b, 0) / scored.length : null,
+    recordingsMade: modules.reduce((a, m) => a + m.recordings, 0),
+    modules,
+  };
+}
+
 export async function listLiveSessions(env, { userId, levelId }) {
   await assertLevelAccess(env, userId, levelId);
   const { results } = await db(env)
