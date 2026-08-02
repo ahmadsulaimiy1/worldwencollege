@@ -339,3 +339,327 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 ('qq_l4_m3_8', 'itm_l4_m3_quiz', 8, 'Which phrase means "make brief contact to check in"?', '["reach out","touch base","circle back","follow up"]', 1),
 ('qq_l4_m3_9', 'itm_l4_m3_quiz', 9, '"As a result, we delivered the project on time. ___, we hadn''t asked for help early on, the project would have taken much longer."', '["If","Unless","Because","So"]', 0),
 ('qq_l4_m3_10', 'itm_l4_m3_quiz', 10, 'Which phrase means "return to a topic later"?', '["reach out","touch base","circle back","get back to"]', 2);
+
+-- ---------------------------------------------------------------------
+-- Module 4: Arguing a Position
+-- Full prose version: docs/curriculum/level-4/module-04-arguing-a-position.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l4_m4', 'crs_level_4', 4, 'Module 4: Arguing a Position');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l4_m4_overview', 'unt_l4_m4', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: While it''s true that..., this doesn''t undermine... -- Granted,...; nevertheless,... -- It would be naive to deny that..., yet... -- I''d like to propose the motion that... -- In rebuttal,... -- To conclude, the case for/against this motion is...
+
+DISCOURSE MARKERS (functional set -- advanced concession): "granted", "admittedly", "while it''s true that", "it would be naive to deny that" -- more sophisticated concession openers than Level III''s "that''s a fair point, however."
+
+PHRASAL VERBS & COLLOCATIONS: "hold up (under scrutiny)" (remain valid when closely examined), "poke holes in [an argument]" (identify weaknesses in it), "come round to [a viewpoint]" (gradually start to agree with it), "dig in" (refuse to change position, often stubbornly), "give ground" (make a concession, especially reluctantly).
+
+BrE / AmE NOTE: "moot point" has genuinely drifted apart in meaning: in British English (and the term''s original legal sense), a moot point is open to debate or uncertain; in informal American usage, "moot" has increasingly come to mean irrelevant or no longer worth discussing -- almost opposite meanings.
+
+KEY VOCABULARY: debate vocabulary (motion, proposition, opposition, rebuttal, floor, adjudicator), leadership vocabulary recycled from Level III Module 4 (decisive, accountable, delegate, inspire). Intercultural note: formal competitive debate is one widely used international-academic convention, not a universal way of resolving disagreement.'),
+
+('itm_l4_m4_lesson1', 'unt_l4_m4', 2, 'reading', 'Lesson 4.1 -- While It''s True That... -- Advanced Concession Language',
+'LEARNING OBJECTIVES: (1) use advanced concession phrases (granted, admittedly, while it''s true that, it would be naive to deny that) to acknowledge a genuine counter-point, (2) follow a concession with a clear reason your overall position still holds, (3) distinguish a genuine, confidence-building concession from a rhetorical trap, (4) evaluate whether an argument "holds up under scrutiny."
+
+PREREQUISITE KNOWLEDGE: Level III, Module 4 (formal opinion language, the basic agree/partially-agree/disagree/concede scale).
+
+WARM-UP (5 min): Your instructor states one opinion, then models two different concessions to the same counter-point -- one that accidentally undermines their whole position, one that strengthens it -- what''s the difference?
+
+PRESENTATION (10 min): "Granted, remote work can make spontaneous collaboration harder. Nevertheless, the flexibility it offers most employees outweighs that cost for the majority of roles." Then: "While it''s true that some roles genuinely require in-person presence, this doesn''t undermine the case for flexible policies more broadly." A strong concession acknowledges something real and specific, then explains precisely why the overall position still holds; a weak concession accidentally admits something that breaks the whole argument.
+
+GUIDED PRACTICE (10 min): You are given 6 argument-plus-counter-point pairs and, for each, write a strong concession that acknowledges the counter-point without undermining the overall position.
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Choose one of your own opinions and prepare a concession to the strongest counter-argument you can think of, then present both the concession and your maintained position to a partner, who evaluates whether the concession was genuine and whether the position still "held up."
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think acknowledging a weakness in your own argument can sometimes make you more persuasive, not less? Is there a risk to conceding too much?"
+
+LISTENING ACTIVITY (5 min): Listen to a short structured argument including a concession and evaluate whether the concession is strong or weak.
+
+READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read a short opinion-piece excerpt (180-200 words) that includes at least one concession. Answer 2 literal questions and 2 analytical questions.
+
+WRITING TASK (5 min): Write a short paragraph (5-6 sentences) presenting an opinion, a genuine concession, and a clear explanation of why your position still holds.
+
+PRONUNCIATION PRACTICE (5 min): Measured, confident intonation on concession openers ("Granted...", "Admittedly...") followed by a clear strengthening of tone on the "nevertheless" clause.
+
+VOCABULARY REINFORCEMENT: a concession-strength card-sorting game: sort 8 example concessions into "strengthens the argument" vs. "accidentally undermines it."
+
+FORMATIVE ASSESSMENT: Instructor checks that concessions are genuine and specific and that the maintained position is clearly reasoned, during independent practice.
+
+HOMEWORK: Choose a position on a leadership-related motion and prepare 2-3 reasons plus one anticipated counter-argument, ready for Lesson 4.2''s formal debate.
+
+REVISION: Lesson 4.2 opens with learners briefly stating their homework position in one sentence.
+
+EXTENSION: Prepare a concession to your own anticipated strongest counter-argument in advance.'),
+
+('itm_l4_m4_lesson2', 'unt_l4_m4', 3, 'reading', 'Lesson 4.2 -- The Motion Is... -- Formal Debate Structure',
+'LEARNING OBJECTIVES: (1) understand and use standard formal-debate structure and vocabulary (motion, proposition, opposition, rebuttal), (2) deliver a structured opening statement for a position, (3) rebut an opposing argument directly and specifically, (4) deliver a closing statement that synthesises the debate, including at least one graceful concession.
+
+PREREQUISITE KNOWLEDGE: Lesson 4.1 (concession language), Level III Module 4 (the 3-round mini-debate).
+
+WARM-UP (5 min): Your instructor states a debate motion ("This house believes that remote work should be the default for all office-based roles") and asks you to quickly generate one argument for and one against.
+
+PRESENTATION (10 min): The formal debate structure: THE MOTION (a clear, debatable statement); PROPOSITION (arguing for) and OPPOSITION (arguing against); OPENING STATEMENTS (each side states its position and 2 main reasons); REBUTTAL (each side directly addresses and challenges the other side''s specific points); CLOSING STATEMENTS (each side synthesises their case, ideally including one graceful concession, before a final restatement). Rebuttal must engage with what the other side actually said, not a generic restatement.
+
+GUIDED PRACTICE (10 min): In small groups, you are assigned proposition or opposition on a provided motion and prepare a 2-point opening statement together, then practise rebutting a sample opposing point provided by the instructor.
+
+INDEPENDENT PRACTICE (10 min): Finalise your opening statement and prepare at least one anticipated rebuttal point for the other side''s likely argument.
+
+SPEAKING ACTIVITY -- FORMAL DEBATE: The class holds a full structured debate on the leadership-related motion from Lesson 4.1''s homework: opening statements, a rebuttal round, and closing statements (including at least one genuine concession).
+
+CRITICAL THINKING / DISCUSSION PROMPT: "After the debate, has anyone''s actual opinion shifted, even slightly? What was it that moved you, if anything?"
+
+LISTENING ACTIVITY (5 min): Listen to a short formal debate exchange (an opening statement and a rebuttal) and identify whether the rebuttal genuinely engages with the opening statement''s specific points.
+
+READING ACTIVITY (5 min): Read a short written debate transcript excerpt (opening statement + rebuttal + closing) and label each structural part.
+
+WRITING TASK (5 min): Write your side''s closing statement (4-5 sentences) as a clean written version, including at least one concession.
+
+PRONUNCIATION PRACTICE (5 min): Confident, persuasive delivery pace and pausing for a formal opening/closing statement, and a composed, non-defensive tone when delivering a rebuttal.
+
+VOCABULARY REINFORCEMENT: a debate-vocabulary matching game (motion, proposition, opposition, rebuttal, floor, adjudicator).
+
+FORMATIVE ASSESSMENT: Instructor checks that rebuttals genuinely engage with the other side''s specific points and that closing statements include a real concession, during the debate.
+
+HOMEWORK: Write a short written reflection (3-4 sentences) on which side''s argument you found most compelling and why, ready for Module 4''s assignment.
+
+REVISION: This lesson opens with the Lesson 4.1 position recap. Module 4''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Argue the side you personally disagree with, as an exercise in genuine perspective-taking.'),
+
+('itm_l4_m4_quiz', 'unt_l4_m4', 4, 'quiz', 'Module 4 Quiz -- Arguing a Position', NULL),
+
+('itm_l4_m4_assignment', 'unt_l4_m4', 5, 'assignment', 'Module 4 Assignment -- A Formal Debate -- Leadership Communication',
+'INSTRUCTIONS: Record yourself (or perform live, alone or with a partner) delivering a formal debate contribution on a leadership-related motion of your choice, 2-3 minutes total. Include: a clear opening statement with your position and at least 2 reasons; at least one direct rebuttal of a specific opposing point (real or anticipated); at least one advanced concession using this module''s language (granted/admittedly/while it''s true that), followed by a clear reason your position still holds; and a closing statement synthesising your case.
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct, varied use of concession and debate structures. (2) Vocabulary range -- at least 3 distinct debate/concession phrases used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- opening statement, a specific rebuttal, a genuine concession, and a closing statement all present. (4) Evidence & argument quality -- is the reasoning genuinely persuasive and specific, does the rebuttal actually engage with the opposing point, and does the concession strengthen rather than undermine the overall position? (5) Discourse coherence & register -- is the register appropriately formal throughout, and does the contribution stay respectful and evidence-based, even under the pressure of rebuttal?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l4_m4_1', 'itm_l4_m4_quiz', 1, '"___, remote work can make spontaneous collaboration harder." (an advanced concession opener)', '["Because","Granted","Therefore","So"]', 1),
+('qq_l4_m4_2', 'itm_l4_m4_quiz', 2, 'What distinguishes a strong concession from a weak/trap-like one?', '["A strong concession is longer.","A strong concession acknowledges something specific without undermining the overall position.","A strong concession always agrees completely with the other side.","A weak concession is always false."]', 1),
+('qq_l4_m4_3', 'itm_l4_m4_quiz', 3, '"___ some roles genuinely require in-person presence, this doesn''t undermine the broader case."', '["While it''s true that","Because","So","Unless"]', 0),
+('qq_l4_m4_4', 'itm_l4_m4_quiz', 4, 'In a formal debate, what is "the motion"?', '["a side''s final score","a clear, debatable statement the debate is about","a type of rebuttal","the adjudicator''s decision"]', 1),
+('qq_l4_m4_5', 'itm_l4_m4_quiz', 5, 'What should a rebuttal do?', '["simply restate your own opening argument","directly address and challenge the other side''s specific points","ignore what the other side said","only ask questions"]', 1),
+('qq_l4_m4_6', 'itm_l4_m4_quiz', 6, 'In British English (and originally), a "moot point" is one that is:', '["irrelevant","open to debate or uncertain","always false","already decided"]', 1),
+('qq_l4_m4_7', 'itm_l4_m4_quiz', 7, 'Which phrase means "identify weaknesses in an argument"?', '["hold up","poke holes in","come round to","dig in"]', 1),
+('qq_l4_m4_8', 'itm_l4_m4_quiz', 8, 'A closing statement in a formal debate should ideally include:', '["a completely new argument","at least one graceful concession","no reference to the other side","only a summary of the motion"]', 1),
+('qq_l4_m4_9', 'itm_l4_m4_quiz', 9, 'Which phrase means "refuse to change position, often stubbornly"?', '["give ground","come round to","dig in","hold up"]', 2),
+('qq_l4_m4_10', 'itm_l4_m4_quiz', 10, 'Which phrase means "make a concession, especially reluctantly"?', '["give ground","dig in","hold up","poke holes in"]', 0);
+
+-- ---------------------------------------------------------------------
+-- Module 5: Science, Technology & Ethics
+-- Full prose version: docs/curriculum/level-4/module-05-science-technology-ethics.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l4_m5', 'crs_level_4', 5, 'Module 5: Science, Technology & Ethics');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l4_m5_overview', 'unt_l4_m5', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: It has been argued/suggested that... -- This technology should be regulated... -- Concerns have been raised about... -- She asked whether/if... -- He urged them to... -- On balance,.../When weighed against...
+
+DISCOURSE MARKERS (functional set -- formal comparison and evaluation): "on balance", "when weighed against", "by comparison", "by contrast" -- more formal comparison connectors than Level III''s "whereas/in contrast."
+
+PHRASAL VERBS & COLLOCATIONS: "grapple with [an issue]" (struggle seriously to understand or resolve it), "call into question [something]" (cause doubt about its validity), "shed light on [something]" (help explain or clarify it), "raise concerns about [something]", "strike a balance (between two things)".
+
+BrE / AmE NOTE: British English distinguishes "programme" (a general plan, schedule, or broadcast) from "program" (specifically computer software, matching American spelling); American English uses "program" for both meanings without distinction.
+
+KEY VOCABULARY: technology/ethics vocabulary (algorithm, regulation, innovation, unintended consequence, safeguard, dilemma), academic hedging language (it could be argued, arguably, to some extent). Intercultural note: attitudes toward new technology vary significantly by country, generation, and institution.'),
+
+('itm_l4_m5_lesson1', 'unt_l4_m5', 2, 'reading', 'Lesson 5.1 -- It Has Been Argued That... -- Passive Voice II, Advanced Tenses',
+'LEARNING OBJECTIVES: (1) form present perfect passive correctly (has/have been + past participle), (2) form modal passive correctly (modal + be + past participle), (3) form future passive correctly (will be + past participle), (4) choose the passive deliberately for academic distance when discussing technology and ethics.
+
+PREREQUISITE KNOWLEDGE: Level III, Module 5 (present/past simple passive).
+
+WARM-UP (5 min): Your instructor shows one active sentence about a technology issue and models converting it through several passive forms -- what changes in meaning/emphasis each time?
+
+PRESENTATION (10 min): "It has been argued that artificial intelligence will transform the workplace. This technology should be regulated to prevent misuse. Concerns have been raised about data privacy. The industry will be significantly affected by new legislation." Present perfect passive reports an ongoing or recently established claim; modal passive expresses necessity, possibility, or recommendation; future passive predicts a future effect.
+
+GUIDED PRACTICE (10 min): Convert 8 active sentences about technology/ethics topics into the passive form indicated (present perfect, modal, or future).
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Write 5 sentences about a technology or ethical issue of your choice, using at least 3 different passive forms, then explain to a partner why you chose the passive rather than active voice for each.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think academic and journalistic writing about technology and ethics often uses passive constructions like ''it has been argued that'' rather than naming exactly who argued it? Is this always a good thing?"
+
+LISTENING ACTIVITY (5 min): Listen to a short news-style report about a technology issue and identify each passive construction and its tense/modal.
+
+READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read a short technology-ethics article excerpt (180-200 words) using a range of passive constructions. Answer 2 literal questions and 2 analytical questions.
+
+WRITING TASK (5 min): Write 4-5 sentences about a technology or ethical issue, using present perfect, modal, and future passive at least once each.
+
+PRONUNCIATION PRACTICE (5 min): Stress on the past participle in passive constructions across longer verb phrases ("has been REGulated," "should be adDRESSed").
+
+VOCABULARY REINFORCEMENT: a technology/ethics vocabulary matching game (algorithm, regulation, innovation, unintended consequence, safeguard, dilemma).
+
+FORMATIVE ASSESSMENT: Instructor checks correct formation across all three advanced passive forms and deliberate choice of passive during independent practice.
+
+HOMEWORK: Choose two related technologies or two ethical approaches to the same issue and jot down 2-3 notes on each, ready for Lesson 5.2''s panel discussion.
+
+REVISION: Lesson 5.2 opens with learners briefly naming their two chosen technologies/approaches.
+
+EXTENSION: Add one present continuous passive sentence as a recognition-level review ("The technology is being adopted rapidly").'),
+
+('itm_l4_m5_lesson2', 'unt_l4_m5', 3, 'reading', 'Lesson 5.2 -- She Asked Whether... -- Reported Speech II & a Panel Discussion',
+'LEARNING OBJECTIVES: (1) report yes/no questions correctly using whether/if, (2) report wh-questions correctly, with correct word order (no inversion), (3) report commands and strong recommendations using advanced reporting verbs (urged, insisted, warned), (4) participate in a panel discussion, representing an assigned position and responding to other panellists'' points.
+
+PREREQUISITE KNOWLEDGE: Level III, Module 6 (reported speech for statements).
+
+WARM-UP (5 min): Your instructor asks the class a direct question ("Is this technology ethical?") and immediately models reporting it ("I just asked whether this technology was ethical").
+
+PRESENTATION (10 min): Direct: "Is this ethical?" -> Reported: "She asked whether/if it was ethical." Direct: "What are the risks?" -> Reported: "He asked what the risks were" (no question-word inversion). Direct: "Regulate this now!" -> Reported: "The panellist urged the committee to regulate it immediately." Advanced reporting verbs beyond say/tell/ask: urged, insisted, warned, claimed, argued.
+
+GUIDED PRACTICE (10 min): Convert 8 direct questions/commands (yes/no questions, wh-questions, and commands, technology/ethics-themed) into reported speech, choosing an appropriate reporting verb for each.
+
+INDEPENDENT PRACTICE (10 min): In small groups (3-4), you are each assigned a distinct position on a technology-ethics issue and prepare 2-3 points for your assigned position, including at least one passive construction from Lesson 5.1.
+
+SPEAKING ACTIVITY -- PANEL DISCUSSION: Groups hold a structured panel discussion: each panellist states their position, responds to at least one other panellist directly (using reported speech), and the discussion closes with each panellist briefly summarising where they''d be willing to compromise.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "When you represented a position in this discussion that wasn''t necessarily your own personal view, did preparing good arguments for it change how you think about that position at all? Why might that be useful?"
+
+LISTENING ACTIVITY (5 min): Listen to a short panel exchange and note each panellist''s position and one instance of accurate reported-speech relay of another panellist''s point.
+
+READING ACTIVITY (5 min): Read a short written panel-discussion transcript excerpt and identify its reported questions/commands and the reporting verbs used.
+
+WRITING TASK (5 min): Write a short summary (5-6 sentences) of your panel discussion, using reported speech to relay at least 2 different panellists'' positions accurately.
+
+PRONUNCIATION PRACTICE (5 min): Composed, professional intonation for panel-discussion turn-taking -- a brief, polite interruption phrase and clear, non-confrontational stress when directly referencing another speaker''s point.
+
+VOCABULARY REINFORCEMENT: an advanced-reporting-verb matching game (urged, insisted, warned, claimed, argued) matched to example direct quotations.
+
+FORMATIVE ASSESSMENT: Instructor checks correct reported-question/command formation and accurate, fair representation of other panellists'' points during the discussion.
+
+HOMEWORK: Begin drafting your compare-and-contrast essay outline using your Lesson 5.1 homework notes.
+
+REVISION: This lesson opens with the Lesson 5.1 technology/approach-naming recap. Module 5''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Add a reported command using a stronger reporting verb than "urged" ("insisted that... must..."), noting the increased force this conveys.'),
+
+('itm_l4_m5_quiz', 'unt_l4_m5', 4, 'quiz', 'Module 5 Quiz -- Science, Technology & Ethics', NULL),
+
+('itm_l4_m5_assignment', 'unt_l4_m5', 5, 'assignment', 'Module 5 Assignment -- A Compare-and-Contrast Essay -- Two Technologies or Approaches',
+'INSTRUCTIONS: Write a compare-and-contrast essay, 350-450 words, evaluating two related technologies or two different ethical/regulatory approaches to the same issue. This is this level''s fourth writing genre -- compare-and-contrast writing. Structure your essay clearly (either point-by-point or subject-by-subject organisation). Include: at least 2 passive constructions from Lesson 5.1 (present perfect, modal, or future); at least one reported-speech sentence relaying a claim or argument you''ve encountered about either option; at least one formal comparison connector (on balance/when weighed against/by comparison/by contrast); and a reasoned conclusion about which option you find more compelling, or under what conditions each might be preferable.
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct advanced passive formation, correct reported speech. (2) Vocabulary range -- at least 4 distinct technology/ethics words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- both options genuinely compared, a passive construction, a reported claim, and a reasoned conclusion all present. (4) Evidence & argument quality -- is the comparison genuinely balanced and specific, and is the conclusion actually justified by the comparison? (5) Discourse coherence & register -- is the essay''s organisation clear and consistent, and is the register appropriately formal and academic throughout?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l4_m5_1', 'itm_l4_m5_quiz', 1, '"It ___ argued that artificial intelligence will transform the workplace." (present perfect passive)', '["is","has been","was","will be"]', 1),
+('qq_l4_m5_2', 'itm_l4_m5_quiz', 2, '"This technology ___ regulated to prevent misuse." (modal passive)', '["should be","should","is","has been"]', 0),
+('qq_l4_m5_3', 'itm_l4_m5_quiz', 3, '"The industry ___ significantly affected by new legislation." (future passive)', '["is","was","will be","has been"]', 2),
+('qq_l4_m5_4', 'itm_l4_m5_quiz', 4, 'Direct: "Is this ethical?" Reported: "She asked ___ it was ethical."', '["that","whether","what","which"]', 1),
+('qq_l4_m5_5', 'itm_l4_m5_quiz', 5, 'Direct: "What are the risks?" Reported: "He asked what the risks ___."', '["are","were","is","was being"]', 1),
+('qq_l4_m5_6', 'itm_l4_m5_quiz', 6, 'Direct: "Regulate this now!" Reported: "The panellist ___ the committee to regulate it immediately."', '["said","told","urged","asked"]', 2),
+('qq_l4_m5_7', 'itm_l4_m5_quiz', 7, 'In British English, "___" specifically refers to computer software, matching the American spelling, while the general sense (a plan, schedule, broadcast) uses a different spelling.', '["programme","program","progam","programe"]', 1),
+('qq_l4_m5_8', 'itm_l4_m5_quiz', 8, 'Which phrase means "struggle seriously to understand or resolve an issue"?', '["shed light on","call into question","grapple with","raise concerns about"]', 2),
+('qq_l4_m5_9', 'itm_l4_m5_quiz', 9, '"___, the benefits of this approach outweigh the risks." (a formal comparison/evaluation marker)', '["On balance","Although","Because","So"]', 0),
+('qq_l4_m5_10', 'itm_l4_m5_quiz', 10, 'Which phrase means "find a reasonable middle position"?', '["grapple with","call into question","shed light on","strike a balance"]', 3);
+
+-- ---------------------------------------------------------------------
+-- Module 6: Global Issues
+-- Full prose version: docs/curriculum/level-4/module-06-global-issues.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l4_m6', 'crs_level_4', 6, 'Module 6: Global Issues');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l4_m6_overview', 'unt_l4_m6', 1, 'reading', 'Module Overview & Key Phrases',
+'KEY PHRASES: This is likely due to... -- This could potentially lead to... -- The reduction of.../The awareness of... -- Let me begin by... -- Moving on to... -- To summarise,...
+
+DISCOURSE MARKERS (functional set -- presentation signposting): "let me begin by", "moving on to", "turning now to", "to summarise" -- spoken structural signposts that let an audience follow a longer talk''s shape by ear.
+
+PHRASAL VERBS & COLLOCATIONS: "draw attention to [something]" (highlight it for an audience), "touch on [a point]" (mention it briefly), "wrap up" (bring a talk to a close), "open the floor (to questions)", "field a question" (respond to an unexpected audience question).
+
+BrE / AmE NOTE: British English writes dates day/month/year (15 March 2026, or 15/03/2026), while American English writes month/day/year (March 15, 2026, or 3/15/2026) -- the same numeric date can refer to two different actual dates depending on the convention used.
+
+KEY VOCABULARY: global-issues vocabulary (inequality, sustainability, migration, public health, resource scarcity, governance), nominalised academic vocabulary (reduction, awareness, implementation, urgency, intervention). Intercultural note: which global issues are treated as most urgent varies significantly by country, resource level, and political context.'),
+
+('itm_l4_m6_lesson1', 'unt_l4_m6', 2, 'reading', 'Lesson 6.1 -- This Is Likely Due To... -- Modals for Speculation & Nominalisation',
+'LEARNING OBJECTIVES: (1) use a precise range of modal expressions to speculate about causes and outcomes of a global issue, (2) form nominalisations correctly (verb/adjective -> noun: reduce -> reduction, aware -> awareness, decide -> decision, urgent -> urgency), (3) use nominalisation to shift a sentence into a more formal, academic register, (4) discuss a global issue''s causes and outcomes with appropriate speculative hedging.
+
+PREREQUISITE KNOWLEDGE: Level III, Module 7 (modals of deduction).
+
+WARM-UP (5 min): Your instructor states a global-issue fact and models two ways of speculating about its cause -- one casual, one nominalised and formal -- what''s the register difference?
+
+PRESENTATION (10 min): "This is likely due to a combination of factors. This could potentially lead to further instability in the region." Nominalisation: "Governments decided to intervene" -> "the decision to intervene"; "People are becoming more aware of the issue" -> "growing awareness of the issue"; "It is urgent that we act" -> "the urgency of the situation." Nominalisation turns a verb or adjective into a noun, letting a writer build a longer, more formal noun phrase.
+
+GUIDED PRACTICE (10 min): Convert 8 verb/adjective phrases into nominalised noun forms, then use each in a short formal sentence about a global issue.
+
+INDEPENDENT PRACTICE / SPEAKING ACTIVITY (10 min): Write 5 sentences speculating about the causes or outcomes of a global issue of your choice, using at least 3 different speculative modal expressions and at least 2 nominalisations, then read one aloud to a partner, who identifies the nominalisation used.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Why do you think formal, nominalised language (''the reduction of emissions'') can sometimes feel more distant or impersonal than the equivalent verb form (''reducing emissions'')? Is that distance always a disadvantage in formal writing?"
+
+LISTENING ACTIVITY (5 min): Listen to a short formal talk speculating about a global issue''s causes and note each speculative expression and nominalised noun phrase used.
+
+READING ACTIVITY -- EXTENDED READING & ANALYSIS (8 min): Read a short policy-report-style excerpt (180-200 words) on a global issue, heavy with nominalisation. Answer 2 literal questions and 2 analytical questions.
+
+WRITING TASK (5 min): Write 4-5 sentences about a global issue''s likely causes and outcomes, using speculative modals and at least 2 nominalisations.
+
+PRONUNCIATION PRACTICE (5 min): Stress patterns on longer nominalised words (imPLEmentation, interVENtion, sustainaBILity) and clear, measured pacing appropriate to formal speculation.
+
+VOCABULARY REINFORCEMENT: a nominalisation-conversion relay game: convert 10 verb/adjective cards into their noun forms as quickly and accurately as possible.
+
+FORMATIVE ASSESSMENT: Instructor checks correct nominalisation formation and appropriate, non-mechanical use of speculative modals during independent practice.
+
+HOMEWORK: Choose one real global issue for your Module 6 report/presentation and jot down 3-4 notes on its likely causes and possible responses, ready for Lesson 6.2.
+
+REVISION: Lesson 6.2 opens with learners briefly naming their chosen global issue.
+
+EXTENSION: Nominalise a full sentence from your independent-practice work into an even more formal, report-style single noun-phrase-heavy sentence.'),
+
+('itm_l4_m6_lesson2', 'unt_l4_m6', 3, 'reading', 'Lesson 6.2 -- Ladies and Gentlemen... -- Briefing an Audience: The Formal Presentation',
+'LEARNING OBJECTIVES: (1) structure a formal 4-5 minute presentation with a clear opening, body, and close, (2) verbally reference and describe a visual aid naturally, (3) use presentation signposting language to help an audience follow a longer talk, (4) handle unscripted audience questions calmly and professionally, including one you don''t fully know the answer to.
+
+PREREQUISITE KNOWLEDGE: Lesson 6.1 (speculation, nominalisation), Level III Module 9 (the capstone thesis + two-points + conclusion talk).
+
+WARM-UP (5 min): Your instructor delivers 30 seconds of a talk with no signposting at all, then the same content with clear signposting -- which was easier to follow and why?
+
+PRESENTATION (10 min): The formal presentation structure: OPENING ("Let me begin by outlining...", a brief statement of what the talk will cover); BODY (2-3 main points, each clearly signposted -- "Moving on to..., Turning now to..." -- each ideally referencing a described visual aid, "As you can see on this chart, ... This illustrates..."); CLOSE ("To summarise...", a clear final takeaway); Q&A ("I''d be happy to open the floor to questions" / calmly fielding a question you''re unsure of: "That''s a fair question -- based on what I know, I''d say..., though I''d want to look into it further"). A confident answer to a difficult question doesn''t require pretending certainty.
+
+GUIDED PRACTICE (10 min): In pairs, take turns delivering a 60-second mini-version of a presentation on a provided topic, using at least 2 signposting phrases and one described visual-aid reference, while your partner listens for and names the structural parts.
+
+INDEPENDENT PRACTICE (10 min): Develop your Lesson 6.1 homework notes into a full presentation outline (opening, 2-3 signposted body points each with a described visual aid, a close), and rehearse it once.
+
+SPEAKING ACTIVITY -- FLAGSHIP FORMAL PRESENTATION: Deliver your full 4-5 minute presentation to a small group (or the class), describing at least one visual aid naturally within the talk, using signposting throughout, and fielding at least 2 unscripted audience questions.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "What''s the difference between confidently answering a question and confidently pretending to know something you don''t? Why does that distinction matter, especially in a professional or academic setting?"
+
+LISTENING ACTIVITY (5 min): Listen to a short formal presentation excerpt (opening + one signposted body point) and identify the signposting language and the described visual-aid reference used.
+
+READING ACTIVITY (5 min): Read a short written presentation script excerpt and label its opening, signposted body points, and close.
+
+WRITING TASK (5 min): Write your presentation''s opening and closing statements as clean written text (3-4 sentences each).
+
+PRONUNCIATION PRACTICE (5 min): Confident, well-paced formal delivery across a longer talk -- deliberate pauses at each signposted transition, varied pitch to maintain audience engagement, and calm, unhurried intonation when fielding an unscripted question.
+
+VOCABULARY REINFORCEMENT: a presentation-signposting phrase-matching game (let me begin by, moving on to, turning now to, to summarise) matched to their position in a talk.
+
+FORMATIVE ASSESSMENT: Instructor checks for a genuine, clearly signposted structure, natural visual-aid description, and composed handling of unscripted questions during the presentation task.
+
+HOMEWORK: Refine your presentation based on any audience feedback or questions received, and draft the accompanying written report for Module 6''s assignment.
+
+REVISION: This lesson opens with the Lesson 6.1 issue-naming recap. Module 6''s Quiz and Assignment draw on both lessons.
+
+EXTENSION: Add a second described visual aid to your presentation, choosing a genuinely different type and describing each appropriately.'),
+
+('itm_l4_m6_quiz', 'unt_l4_m6', 4, 'quiz', 'Module 6 Quiz -- Global Issues', NULL),
+
+('itm_l4_m6_assignment', 'unt_l4_m6', 5, 'assignment', 'Module 6 Assignment -- A Global Issue Briefing -- Report & Formal Presentation',
+'INSTRUCTIONS: Complete two parts on one real global issue of your choice. PART A (report/proposal writing, this level''s fifth writing genre): Write a short analytical report, 250-350 words, describing the issue, speculating about its likely causes using this module''s modal expressions, and proposing a response -- use at least 3 nominalisations. PART B (the flagship formal presentation): Record yourself (or perform live) a 4-5 minute presentation based on your report, with a clearly signposted opening, body, and close; describe at least one visual aid naturally within the talk; and respond to at least 2 unscripted follow-up questions from your audience.
+
+GRADING RUBRIC: (1) Grammatical accuracy -- correct speculative modal use, correct nominalisation formation. (2) Vocabulary range -- at least 4 distinct global-issues or nominalised academic words used correctly, plus one phrasal verb/collocation from this module. (3) Task completion -- the report describes the issue, speculates about causes, and proposes a response; the presentation includes a signposted structure, a described visual aid, and composed Q&A handling. (4) Evidence & argument quality -- is the proposed response genuinely justified by the analysis, and are the speculative claims appropriately hedged rather than overstated? (5) Discourse coherence & register -- is the report''s register formal and report-appropriate throughout, and does the presentation sound genuinely structured and audience-aware, not just read aloud?
+
+A grade at or above the platform''s pass threshold marks this module complete.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l4_m6_1', 'itm_l4_m6_quiz', 1, '"This is likely ___ a combination of factors."', '["due to","because","since","so"]', 0),
+('qq_l4_m6_2', 'itm_l4_m6_quiz', 2, '"This could potentially ___ further instability in the region."', '["leads to","lead to","leading to","led to"]', 1),
+('qq_l4_m6_3', 'itm_l4_m6_quiz', 3, 'Which is the correct nominalisation of "decide"?', '["decisive","decision","deciding","decided"]', 1),
+('qq_l4_m6_4', 'itm_l4_m6_quiz', 4, 'Which is the correct nominalisation of "aware"?', '["awareness","awaring","awared","awarely"]', 0),
+('qq_l4_m6_5', 'itm_l4_m6_quiz', 5, '"___ by outlining the three main causes of this issue." (a presentation opening signpost)', '["Let me begin","Moving on","To summarise","In conclusion"]', 0),
+('qq_l4_m6_6', 'itm_l4_m6_quiz', 6, '"___ to the second point, the economic impact is significant."', '["Moving on","Let me begin","To summarise","On balance"]', 0),
+('qq_l4_m6_7', 'itm_l4_m6_quiz', 7, 'In British English, 15 March 2026 written numerically is:', '["3/15/2026","15/03/2026","2026/03/15","03/2026/15"]', 1),
+('qq_l4_m6_8', 'itm_l4_m6_quiz', 8, 'Which phrase means "highlight something for an audience, often referring to a visual aid"?', '["touch on","draw attention to","wrap up","field a question"]', 1),
+('qq_l4_m6_9', 'itm_l4_m6_quiz', 9, 'When fielding a difficult question you''re unsure of, the most professional response is to:', '["pretend to know the answer with full confidence","honestly hedge and offer to look into it further","refuse to answer at all","change the subject"]', 1),
+('qq_l4_m6_10', 'itm_l4_m6_quiz', 10, 'Which phrase means "respond to an audience question, especially an unexpected one"?', '["open the floor","wrap up","touch on","field a question"]', 3);
