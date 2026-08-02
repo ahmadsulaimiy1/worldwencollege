@@ -631,6 +631,71 @@ registers, recognising implicit meaning and nuance — the CEFR C1
 "effective operational proficiency" descriptor, applied to WEC-LC's
 scope.
 
+**Executive Academic Objective (elevated standard):** per your Level V
+directive, learners are no longer treated as language learners alone
+— they begin functioning as academics, professionals, executives,
+researchers, entrepreneurs, and global communicators who use English
+naturally, precisely, and confidently, operating in demanding
+academic, professional, corporate, governmental, diplomatic, and
+international environments. This moves beyond language competence
+into **intellectual communication**: critical analysis, academic
+argumentation, synthesis of multiple viewpoints, research
+communication, executive communication, strategic thinking, persuasive
+and leadership communication, intercultural negotiation, and policy
+discussion — developed as the level's core content, not an add-on to
+grammar practice.
+
+Concretely: **analytical reading** of sophisticated authentic-style
+texts (adapted journal articles, research summaries, policy papers,
+think-tank reports, business analyses, speeches, editorials, long-form
+journalism) requiring learners to evaluate methodology, argument
+quality, assumptions, evidence, credibility, rhetorical strategy,
+bias, and implications — a further step beyond Level IV's purpose/
+bias/tone/technique analysis into genuine critical evaluation of how
+well an argument is actually made. **Ten distinct advanced writing
+genres**, distributed deliberately across the level's nine content
+modules so each is taught for its own real communicative purpose:
+professional documentation (Module 1), a literature review (Module
+2), a position paper (Module 3), a policy brief (Module 4), an
+analytical paper (Module 5), a persuasive article (Module 6), a
+research essay and a conference abstract (Module 7), a strategic
+proposal (Module 8), and an executive report (Module 9). **A varied
+executive/professional speaking programme**, similarly distributed:
+a leadership speech and negotiation (Module 3), a stakeholder meeting
+(Module 4), intercultural negotiation (Module 5), a media interview
+(Module 6), the flagship 6-8 minute conference presentation with Q&A
+facilitation (Module 7), a crisis-communication simulation and panel
+discussion under challenge (Module 8), and an executive briefing
+(Module 9) — deliberately covering the range of high-stakes real-world
+speaking situations named in the directive, not one format repeated.
+Every module requires learners to evaluate evidence, compare
+viewpoints, justify conclusions, identify assumptions, solve realistic
+problems, and defend arguments respectfully, at a genuinely
+C1 level of sophistication.
+
+**AI-readiness (continued, not a build instruction):** as with Levels
+III-IV, every rubric in this level is authored as named, weighted,
+machine-legible criteria so that future AI tutoring, writing feedback,
+pronunciation coaching, adaptive revision, and personalised learning
+could plausibly integrate against the same rubric a human instructor
+uses, without rewriting the curriculum. This remains a design property
+of how content is authored — no AI-assessment code is introduced in
+this curriculum pass; see `docs/lms-architecture.md`'s "curriculum
+drives platform" principle for when such a feature would actually get
+built.
+
+**Distinctive WEC-LC identity:** per your directive, Level V does not
+imitate any single existing English programme. Its module sequence
+(idiom/register → academic synthesis → leadership/persuasion →
+technical/policy register → cross-cultural pragmatics → media/
+discourse analysis → research presentation → professional advocacy →
+style/voice mastery → consolidation) is a deliberately WEC-LC-authored
+progression from precision of language to precision of thought,
+designed so every module leaves learners better prepared for
+universities, executive careers, entrepreneurship, and international
+collaboration — the level's stated measure of success, alongside (not
+instead of) linguistic accuracy.
+
 ---
 
 ## Level VI — English Mastery Programme (C2)

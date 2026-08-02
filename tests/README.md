@@ -124,6 +124,10 @@ gap requires provisioning real credentials, not more test code.
   score 100% when submitted, no quiz ever leaks its answer key to the
   client, every assignment can be submitted and graded, and a weak
   attempt correctly fails rather than falsely passing.
+- `curriculum-level-5.test.mjs` — the same sweep pattern for Level V
+  (Advanced, C1) — currently Modules 1-3 (see
+  `docs/curriculum-level-5-advanced.md`'s module map; Modules 4-10
+  are mapped but not yet authored).
 - `run.mjs` — runs everything above and reports a combined summary.
 
 ## Adding a new test

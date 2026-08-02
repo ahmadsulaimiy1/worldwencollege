@@ -109,6 +109,50 @@ was verified for regression (existing breakpoints untouched, reveal/
 motion changes respect them) but not separately re-audited beyond
 that.
 
+## Executive Design Directive v2 — "The WEC-LC Flagship Experience" (supersedes the v1.0 lock)
+
+After the v1.0 pass above shipped, you explicitly locked the design
+system ("Design System v1.0... do not continue making repeated
+cosmetic refinements... only revisit later if a genuine usability,
+accessibility, performance, or consistency issue is discovered") and
+redirected effort to curriculum. Alongside the Level V curriculum
+directive, you issued a new, broader directive — "THE WEC-LC FLAGSHIP
+EXPERIENCE" — explicitly covering every current and future surface
+(website, LMS, student/faculty/admin/executive portals, mobile,
+curriculum screens) and explicitly framed as standing, continuous
+guidance ("do not treat design as a completed phase... as every new
+feature is built, evaluate whether it reaches flagship quality"),
+rather than a one-time pass. As the same authority that issued the
+v1.0 lock, this directive supersedes it: it is now the **standing
+design bar for all future UI work**, not a resumed one-off project.
+
+**What this means in practice, going forward:**
+- Any new UI surface built from here on (a new LMS feature, a new
+  portal, a new page) is designed to this flagship standard from the
+  start — world-class typography/spacing/composition/hierarchy,
+  intentional premium motion (transitions, reveals, hover states,
+  loading/onboarding sequences), and the full component list named in
+  the directive (hero, nav, buttons, cards, forms, tables, charts,
+  dashboards, calendars, lesson pages, quizzes, assignments,
+  certificates, transcripts, profile pages, notifications, settings,
+  progress indicators) — never something bolted on generically.
+- Performance, accessibility (including `prefers-reduced-motion`), and
+  maintainability remain non-negotiable alongside the visual bar, per
+  the directive's own "Performance" section — beauty is never traded
+  for speed or usability.
+- This directive does **not**, by itself, trigger a fresh
+  ground-up visual audit of already-shipped pages absent a concrete
+  trigger (a new page, a genuine usability/consistency issue, or an
+  explicit instruction to run a design pass) — consistent with this
+  project's standing "curriculum drives platform" / "build when
+  genuinely needed" discipline. Per your own sequencing in this same
+  message ("Continue autonomously until Level V is fully completed"),
+  Level V curriculum work — which is pure content (docs/SQL/tests) and
+  triggers no new UI surface — proceeds first; this directive is
+  logged here as the mandate that governs whenever UI work does come
+  next (a new LMS feature genuinely required by curriculum, or an
+  explicit design-pass instruction).
+
 ---
 
 ## Component inventory (all in `css/dashboard.css`)
