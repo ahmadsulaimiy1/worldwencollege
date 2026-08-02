@@ -309,12 +309,55 @@ challenge, executive briefings, and ten writing genres) fits the
 existing polymorphic `reading/quiz/assignment` model, consistent with
 the "curriculum drives platform" principle below.
 
+**Level VI ("English Mastery Programme," C2) is now also complete, and
+with it the entire six-level curriculum** — all 10 modules built per
+your Level VI directive, which asked for the capstone of the WEC-LC
+academic journey rather than simply another language level. The level
+is organised by **professional domain** rather than by communication
+mode — a recorded revision to this document's original Level VI draft,
+reasoned in `docs/curriculum-framework.md`'s Level VI section — because
+at mastery level the domain *is* the difficulty and register is only
+demonstrable inside a real field: executive leadership, diplomacy and
+international relations, global business strategy, public policy, law
+and justice, innovation and emerging technologies, media and public
+communication, research and scholarship, ethics and responsible
+leadership, and a capstone on global challenges and sustainable
+development. Ten writing genres (reflective leadership essay, strategic
+recommendations, executive report, policy analysis, scholarly critique,
+grant proposal, opinion editorial, research paper, conference paper,
+professional portfolio) and nine speaking formats (executive briefing,
+diplomatic negotiation, boardroom presentation, policy panel, oral
+defence, keynote address, media interview with crisis statement,
+conference presentation, chaired ethical deliberation) are distributed
+one per module, culminating in a capstone presentation with oral
+defence. Assignment rubrics add **independent judgement** — the
+criterion that distinguishes C2 from C1 in WEC-LC's assessment model —
+to the five inherited from Levels II-V. See
+`docs/curriculum-level-6-mastery.md` (module map, § What's different
+from Level V, the graduate-attribute mapping, and Module 1's full
+build) and `docs/curriculum/level-6/module-{02..10}-*.md` for the full
+lesson-by-lesson content. Seeded via `sql/seed-curriculum-level-6.sql`
+(110 questions across the level, including the 20-question Mastery
+Examination) and verified the same way: `tests/curriculum-level-6.
+test.mjs` (84 assertions) sweeps all 10 modules with the identical
+rigor as Levels I-V's sweeps. **No new LMS schema or endpoint was
+required for any of the six levels** — every assessment type in the
+programme, up to and including the capstone portfolio and oral
+defence, fits the existing polymorphic `reading/quiz/assignment`
+model. That is the strongest available evidence for the
+"curriculum drives platform" principle below: six levels of
+genuinely escalating academic demand were delivered without a
+speculative feature being built.
+
+A programme-wide academic review of the completed curriculum —
+sequencing, repetition, gaps, assessment, and the improvements it
+recommends — is in `docs/curriculum-programme-review.md`.
+
 **What Milestone 2 has NOT yet done, stated plainly:** content-
 authoring tooling (a staff UI/API to create content — today's seed-
-file approach is a stopgap, not the long-term authoring workflow);
-any content for Level VI (the "English Mastery Programme," C2, is the
-explicit next step — the programme's capstone level — same process,
-same depth standard); and the broader LMS feature backlog your
+file approach is a stopgap, not the long-term authoring workflow, and
+now that all six levels exist it is the clearest next platform
+investment); and the broader LMS feature backlog your
 original Milestone 2 message named
 (course authoring studio, structured curriculum/lesson builders,
 multimedia lesson management, exam authoring, question banks and

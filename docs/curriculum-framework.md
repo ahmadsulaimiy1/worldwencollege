@@ -847,13 +847,40 @@ duration) or WEC-LC's own original curriculum design, written for this
 programme specifically — not copied from, or claimed to be certified
 by, any external examination board or publisher.
 
-**Isn't, yet:** lesson-by-lesson content for Levels II-VI. Level I is
-built out to full depth in `docs/curriculum-level-1-foundation.md` as
-the worked example and quality standard; producing that same depth for
-the remaining five levels is real, substantial authorial work,
-explicitly sequenced as this curriculum programme's next milestones —
-see that document's closing section for the honest scope statement,
-and `docs/lms-architecture.md` for how this connects back to
-Milestone 2's LMS feature work (content-authoring tooling, question
-banks, rubric grading, etc. — deliberately paused per your own
-"curriculum first" instruction until this foundation is in place).
+**Also is, now:** lesson-by-lesson content for **all six levels**.
+When this section was first written, only Level I was built out to
+full depth, and this paragraph honestly recorded that the remaining
+five levels did not yet exist. They now do. Every level is authored to
+the same standard, seeded into the live LMS schema, and verified
+end-to-end:
+
+| Level | CEFR | Index document | Per-module documents | Seed | Test sweep |
+|---|---|---|---|---|---|
+| I | A1 | `docs/curriculum-level-1-foundation.md` | `docs/curriculum/level-1/` | `sql/seed-curriculum-level-1.sql` | `tests/curriculum-content.test.mjs` |
+| II | A2 | `docs/curriculum-level-2-elementary.md` | `docs/curriculum/level-2/` | `sql/seed-curriculum-level-2.sql` | `tests/curriculum-level-2.test.mjs` |
+| III | B1 | `docs/curriculum-level-3-intermediate.md` | `docs/curriculum/level-3/` | `sql/seed-curriculum-level-3.sql` | `tests/curriculum-level-3.test.mjs` |
+| IV | B2 | `docs/curriculum-level-4-upper-intermediate.md` | `docs/curriculum/level-4/` | `sql/seed-curriculum-level-4.sql` | `tests/curriculum-level-4.test.mjs` |
+| V | C1 | `docs/curriculum-level-5-advanced.md` | `docs/curriculum/level-5/` | `sql/seed-curriculum-level-5.sql` | `tests/curriculum-level-5.test.mjs` |
+| VI | C2 | `docs/curriculum-level-6-mastery.md` | `docs/curriculum/level-6/` | `sql/seed-curriculum-level-6.sql` | `tests/curriculum-level-6.test.mjs` |
+
+Totals across the six levels: **60 modules, 294 learning items, 60
+quizzes (642 questions), and 60 rubric-graded assignments.**
+
+**Isn't, and is not intended to be:** an external accreditation, an
+equivalence claim against any named examination board or publisher, or
+a substitute for the trained instructors who deliver it. Every lesson
+in this programme is written for classroom delivery by a teacher; the
+LMS carries the content, the assessment mechanics, and the progress
+record, but nothing in it claims to replace instruction.
+
+**Isn't, yet:** Milestone 2's LMS content-authoring tooling — an
+in-app editor, question banks, and a rubric-grading interface for
+staff. Curriculum content currently reaches the platform through
+reviewed SQL seed files rather than a UI. That was a deliberate
+sequencing choice ("curriculum first"), and it remains the correct
+one: the authoring tool should be built to fit a curriculum that
+exists, not the reverse. See `docs/lms-architecture.md`.
+
+A full academic review of the completed six-level programme —
+sequencing, repetition, gaps, and assessment — is in
+`docs/curriculum-programme-review.md`.

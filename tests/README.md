@@ -131,6 +131,16 @@ gap requires provisioning real credentials, not more test code.
   when submitted, no quiz ever leaks its answer key to the client,
   every assignment can be submitted and graded, and a weak attempt
   correctly fails rather than falsely passing.
+- `curriculum-level-6.test.mjs` — the same sweep pattern for Level VI
+  (English Mastery, C2), the programme's capstone level, covering the
+  complete 10-module curriculum: every module loads with a
+  reading/quiz/assignment, every quiz's own seeded correct answers
+  (fetched directly from the DB) score 100% when submitted, no quiz
+  ever leaks its answer key to the client, every assignment can be
+  submitted and graded, and a weak attempt correctly fails rather than
+  falsely passing. Module 10 is the capstone plus the 20-question
+  Mastery Examination, and the sweep asserts that count explicitly
+  rather than assuming the 10-question default.
 - `run.mjs` — runs everything above and reports a combined summary.
 
 ## Adding a new test

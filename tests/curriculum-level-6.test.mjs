@@ -1,8 +1,9 @@
 // Run with: node --experimental-sqlite tests/curriculum-level-6.test.mjs
 // Covers Level VI (English Mastery Programme, C2) — the programme's
-// capstone level. Currently Modules 1-4 (see
-// docs/curriculum-level-6-mastery.md's module map; Modules 5-10 are
-// mapped but not yet authored/seeded). Same pattern as
+// capstone level, all 10 modules (see
+// docs/curriculum-level-6-mastery.md's module map). Module 10 is the
+// capstone + Mastery Examination and follows the same shape used at
+// every level: 4 learning items and a 20-question exam. Same pattern as
 // tests/curriculum-level-5.test.mjs: sweep every seeded module,
 // submit each quiz's own real seeded correct answers (read directly
 // from the DB, not hand-copied), confirm a perfect score, no leaked
@@ -26,19 +27,25 @@ db.prepare(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role)
 db.prepare(`INSERT INTO enrolments (id, user_id, level_id, status, started_at) VALUES ('enr_student_l6', 'usr_student', 6, 'active', '2026-01-01T00:00:00.000Z')`).run();
 
 const units = await listUnits(env, { userId: 'usr_student', levelId: 6 });
-check('Level VI has the 4 modules built so far (Modules 1-4)', units.length === 4);
+check('Level VI has all 10 modules', units.length === 10);
 check('Modules are in the correct sequence order', units.every((u, i) => u.sequence === i + 1));
 const expectedTitles = {
   1: 'Module 1: Mastery Diagnostic & Executive Leadership',
   2: 'Module 2: Diplomacy & International Relations',
   3: 'Module 3: Global Business Strategy',
   4: 'Module 4: Public Policy',
+  5: 'Module 5: Law & Justice',
+  6: 'Module 6: Innovation & Emerging Technologies',
+  7: 'Module 7: Media & Public Communication',
+  8: 'Module 8: Research & Scholarship',
+  9: 'Module 9: Ethics & Responsible Leadership',
+  10: 'Module 10: Capstone -- Global Challenges & Mastery Examination',
 };
 for (const unit of units) {
   check(`Module ${unit.sequence} title is correct`, unit.title === expectedTitles[unit.sequence]);
 }
 
-const expectedQuizCounts = { 1: 10, 2: 10, 3: 10, 4: 10 };
+const expectedQuizCounts = { 1: 10, 2: 10, 3: 10, 4: 10, 5: 10, 6: 10, 7: 10, 8: 10, 9: 10, 10: 20 };
 let totalQuestionsChecked = 0;
 
 for (const unit of units) {
@@ -68,7 +75,7 @@ for (const unit of units) {
   check(`Module ${moduleNum}: assignment can be graded by staff`, graded.status === 'graded' && graded.grade === 0.85);
 }
 
-check('Every quiz question across all built Level VI modules was verified against its real seeded answer key', totalQuestionsChecked === 40);
+check('Every quiz question across all 10 Level VI modules was verified against its real seeded answer key', totalQuestionsChecked === 110);
 
 // --- A weak attempt correctly fails, not a false pass (Module 1's quiz) ---
 {

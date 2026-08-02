@@ -104,6 +104,30 @@ plan, revisited in M10's six-level reflective analysis).
 | 9 | Ethics & Responsible Leadership | Applied ethics, governance | concessive-conditional and moral-reasoning register | conference paper; chaired ethical deliberation | `docs/curriculum/level-6/module-09-ethics-responsible-leadership.md` |
 | 10 | Capstone: Global Challenges & Sustainable Development + Mastery Examination | Global development | integration; self-editing to publication standard | professional portfolio; capstone presentation with oral defence | `docs/curriculum/level-6/module-10-capstone-mastery-examination.md` |
 
+**Status: complete.** All ten Level VI modules are authored, seeded
+into the LMS (`sql/seed-curriculum-level-6.sql` — 10 units, 49
+learning items, 110 quiz questions), and verified end-to-end by
+`tests/curriculum-level-6.test.mjs` (84 assertions, 0 failures). The
+sweep does not merely check that rows exist: for every module it
+reads the *real seeded* answer key out of the database, submits it
+through `submitQuizAttempt()`, and asserts a 100% score and a
+completed `unit_progress` row — while separately asserting that
+`getUnitDetail()` never exposes `correct_index` to a client. Modules
+1-9 carry 5 learning items and a 10-question quiz each; Module 10
+carries 4 and a 20-question Mastery Examination, the pattern used by
+the tenth module at every level.
+
+**With this level, the six-level WEC-LC curriculum is complete** —
+Levels I-VI, 60 modules, 294 learning items, 60 quizzes, 60
+rubric-graded assignments, and 642 authored quiz questions, all
+seeded and all verified. (Levels II-VI carry 110 questions each;
+Level I carries 92, because its earliest modules were authored to a
+lighter quiz pattern before the 10-per-module standard settled — a
+genuine inconsistency, recorded rather than glossed over, and
+addressed in the review below.) The programme-wide academic
+review of the completed curriculum is in
+`docs/curriculum-programme-review.md`.
+
 ---
 
 ## Module 1: Mastery Diagnostic & Executive Leadership — full build
