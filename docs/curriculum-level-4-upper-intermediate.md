@@ -102,6 +102,23 @@ code is introduced in this curriculum pass.
 | 9 | Academic Writing II | Synthesise multiple sources into one coherent argument, with citation | citation mechanics, cohesion/coherence devices | research-based writing from supplied sources (capstone) | `docs/curriculum/level-4/module-09-academic-writing-ii.md` |
 | 10 | Review & Consolidation | Consolidate all Level IV outcomes; Upper Intermediate-level mock exam | cumulative review | cumulative review | `docs/curriculum/level-4/module-10-review-consolidation.md` |
 
+**Level IV is now complete** — all 10 modules built to full
+publication-quality depth and seeded into the live schema via
+`sql/seed-curriculum-level-4.sql`, verified end-to-end by
+`tests/curriculum-level-4.test.mjs` (84 assertions: every module loads
+with a reading/quiz/assignment, every quiz's own seeded correct
+answers score 100% when submitted, no quiz ever leaks its answer key
+to the client, every assignment can be submitted and staff-graded, and
+a weak attempt correctly fails). All eight distinct academic/
+professional writing genres named in the Executive Academic
+Objective — reflective writing, the argumentative essay, formal
+correspondence/proposal, compare-and-contrast, a report/proposal, a
+summary-and-critique, meeting minutes/follow-up email, and
+research-based writing from supplied sources — are represented across
+the ten modules, alongside a varied speaking programme (a job
+interview, formal debate, a panel discussion, the flagship 4-5 minute
+presentation with Q&A, and a negotiation roleplay).
+
 ---
 
 ## Module 1: Advanced Present & Past Systems — full build

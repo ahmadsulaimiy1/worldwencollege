@@ -987,3 +987,108 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 ('qq_l4_m9_8', 'itm_l4_m9_quiz', 8, '"This is ___ by a second, independent study."', '["corroborated","drawn together","tied in","cross-referenced"]', 0),
 ('qq_l4_m9_9', 'itm_l4_m9_quiz', 9, 'Which best describes this level''s stated goal for citation mechanics?', '["full mastery of one formal system (APA/MLA/Chicago)","the underlying habit and logic of honest, consistent attribution","avoiding citation entirely","memorising citation rules without applying them"]', 1),
 ('qq_l4_m9_10', 'itm_l4_m9_quiz', 10, 'Which phrase means "combine ideas into one coherent whole"?', '["tie in with","draw together","corroborate","cross-reference"]', 1);
+
+-- ---------------------------------------------------------------------
+-- Module 10: Review & Consolidation (Upper Intermediate-Level Mock Exam)
+-- Full prose version: docs/curriculum/level-4/module-10-review-consolidation.md
+-- ---------------------------------------------------------------------
+INSERT INTO units (id, course_id, sequence, title) VALUES
+  ('unt_l4_m10', 'crs_level_4', 10, 'Module 10: Review & Consolidation');
+
+INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
+('itm_l4_m10_revguide', 'unt_l4_m10', 1, 'reading', 'Level IV Revision Guide',
+'MODULE 1 -- ADVANCED PRESENT & PAST SYSTEMS: past perfect (simple and continuous), mixed-tense narration; discourse markers looking back/in retrospect/up until that point/since then; reflective writing (writing genre 1).
+
+MODULE 2 -- ACADEMIC WRITING I: thesis statements, 5-paragraph essay structure, genuine paraphrasing; discourse markers moreover/furthermore/nevertheless/consequently; the argumentative essay (writing genre 2).
+
+MODULE 3 -- THE WORLD OF WORK: third conditional; discourse markers with regard to/further to/given that/provided that; formal correspondence and a workplace proposal (writing genre 3); a job interview (STAR structure).
+
+MODULE 4 -- ARGUING A POSITION: advanced concession language (granted/admittedly/while it''s true that); a full formal debate structure.
+
+MODULE 5 -- SCIENCE, TECHNOLOGY & ETHICS: passive voice II (present perfect, modal, future); reported questions and commands with advanced reporting verbs; a panel discussion; compare-and-contrast writing (writing genre 4).
+
+MODULE 6 -- GLOBAL ISSUES: speculative modals, nominalisation; discourse markers let me begin by/moving on to/to summarise; an analytical report/proposal (writing genre 5); the flagship formal presentation with described visual aids and Q&A.
+
+MODULE 7 -- MEDIA LITERACY & CRITICAL READING: identifying purpose, bias, tone, and rhetorical technique; ellipsis and substitution for cohesion; a summary-and-critique (writing genre 6).
+
+MODULE 8 -- MEETINGS & NEGOTIATION: non-defining relative clauses; diplomatic disagreement and negotiation conditional language; a negotiation roleplay; meeting minutes and a follow-up email (writing genre 7).
+
+MODULE 9 -- ACADEMIC WRITING II: genuine multi-source synthesis, basic citation mechanics, the full cohesion toolkit consolidated; a research-based essay from supplied sources (writing genre 8, capstone).
+
+STRUCTURAL THREAD ACROSS THE LEVEL: Level IV moved learners from completing the tense system and reflecting on their own experience through progressively more demanding academic and professional genres, before culminating in genuine multi-source academic synthesis. Each module paired one grammar system with one real communicative genre. Module 10 tests all of it together, in connected, authentic performance.
+
+THE EIGHT WRITING GENRES, DISTRIBUTED ACROSS THE LEVEL: reflective writing (M1), the argumentative essay (M2), formal correspondence and a workplace proposal (M3), compare-and-contrast writing (M5), an analytical report/proposal (M6), a summary-and-critique (M7), meeting minutes and a follow-up email (M8), and research-based writing from supplied sources (M9, capstone).
+
+CUMULATIVE DISCOURSE-MARKER TOOLKIT: reflective framing (looking back, in retrospect, up until that point, since then); formal academic cohesion (moreover, furthermore, nevertheless, consequently); formal correspondence (with regard to, further to, given that, provided that); advanced concession (granted, admittedly, while it''s true that, it would be naive to deny that); formal comparison/evaluation (on balance, when weighed against, by comparison, by contrast); presentation signposting (let me begin by, moving on to, turning now to, to summarise); critical-reading meta-language (this implies, the tone here suggests, arguably, it could be inferred that); negotiation conditions (on the condition that, provided that, in exchange for, as long as); synthesis (both sources agree that, while X suggests Y indicates, taken together, this is corroborated by).
+
+CUMULATIVE BrE/AmE REFERENCE: whilst/while, amongst/among (M1); dissertation/thesis (M2); Kind regards/Best regards (M3); moot point (M4); programme/program (M5); date formatting (M6); op-ed (M7); diary/calendar (M8); single vs. double quotation marks (M9).'),
+
+('itm_l4_m10_revlesson', 'unt_l4_m10', 2, 'reading', 'Revision Lesson -- Structured Consolidation Activities',
+'LEARNING OBJECTIVES: (1) correctly select the right grammar structure from Modules 1-9 given a real academic or professional context, (2) deploy at least 8 discourse markers from across the level''s functional sets fluently within one connected talk or piece of writing, (3) correctly identify at least 8 BrE/AmE differences from across the level, (4) self-identify at least one personal area needing further revision before the mock exam.
+
+PREREQUISITE KNOWLEDGE: All of Modules 1-9.
+
+WARM-UP (5 min): "Grammar auction" -- bid points on whether 8 example sentences (each drawn from a different module) are grammatically correct or incorrect.
+
+PRESENTATION/CONSOLIDATION (15 min): A genre-and-structure selection drill: real-life prompts, each requiring a different module''s grammar and genre knowledge ("Reflect on a period of change" -> Module 1; "Argue a position on a policy question" -> Module 2/4; "Write a professional follow-up email" -> Module 3/8; "Speculate about a global issue''s cause" -> Module 6; "Synthesise two conflicting claims" -> Module 9).
+
+GUIDED PRACTICE (15 min): Rotate through 4 stations, each reviewing 2-3 modules'' target language, with a final "Draft one synthesised paragraph" station recycling Module 9''s capstone skill on a new, simple pair of sources.
+
+INDEPENDENT PRACTICE (10 min): Complete a self-assessment checklist (one line per module: "I can... check/needs practice") and circle your two weakest areas.
+
+SPEAKING ACTIVITY: The structure-selection drill and station rotation above are both fundamentally speaking-driven.
+
+CRITICAL THINKING / DISCUSSION PROMPT: "Across this whole level, which genre or skill do you think will be most useful to you in a real university or workplace setting -- the argumentative essay, the formal presentation, negotiation, or synthesis writing? Why?"
+
+LISTENING ACTIVITY (5 min): Listen to a single extended talk (someone reflecting on a career change, arguing a position, and briefly speculating about a global issue).
+
+READING ACTIVITY (5 min): Read a similarly cumulative short text and answer mixed comprehension and analytical questions spanning several grammar points and at least one BrE/AmE vocabulary item.
+
+WRITING TASK (5 min): Write one well-structured paragraph that uses at least 4 different grammar points from across the level and at least 2 cohesion devices.
+
+PRONUNCIATION PRACTICE (5 min): Rapid-fire review drill of the level''s key pronunciation points: contracted ''d/''ve been, stress in advanced passive constructions, nominalised-word stress patterns, concession-opener intonation, and confident presentation pacing.
+
+VOCABULARY REINFORCEMENT: a cumulative discourse-marker and phrasal-verb relay game covering all 9 modules'' functional-language sets, including a dedicated BrE/AmE matching round.
+
+FORMATIVE ASSESSMENT: The self-assessment checklist above, reviewed individually with the instructor if time allows.
+
+HOMEWORK: Revise your self-identified weak areas using the module you struggled with most.
+
+REVISION: This entire lesson is revision by design.
+
+EXTENSION: Stronger learners help peers at weaker stations during the rotation activity.'),
+
+('itm_l4_m10_examquiz', 'unt_l4_m10', 3, 'quiz', 'Upper Intermediate-Level Mock Exam -- Grammar & Vocabulary', NULL),
+
+('itm_l4_m10_examassignment', 'unt_l4_m10', 4, 'assignment', 'Upper Intermediate-Level Mock Exam -- Speaking & Writing',
+'This is your Level IV final assessment. Complete both parts.
+
+PART A -- SPEAKING: A FULL FORMAL PRESENTATION WITH Q&A (5-6 minutes, recorded or live with your instructor): Deliver a structured presentation on a topic of your choice, drawing on the level''s cumulative skills: a clearly signposted opening, body, and close (Module 6); at least one described visual aid; a stated position with a supporting argument and at least one advanced concession (Modules 2/4); at least one reported claim relayed accurately (Module 5); and composed handling of at least 2 unscripted audience questions.
+
+PART B -- WRITING: A FULL RUBRIC-GRADED ESSAY (500-600 words): Write a structured essay -- argumentative or research-based, your choice -- that draws on the level''s cumulative writing skills. Include: a clear, specific, arguable thesis (Module 2); at least one passive construction and one reported-speech sentence (Module 5); at least one non-defining relative clause (Module 8); at least 2 nominalisations (Module 6); at least one instance of ellipsis or substitution (Module 7); and, if choosing the research-based option, genuine synthesis of at least two distinct perspectives with basic citation mechanics (Module 9). Structure the essay with a clear introduction, body paragraphs, and conclusion (Module 2).
+
+GRADING RUBRIC (weighted toward listening and speaking per the Upper Intermediate-level assessment strategy): (1) Grammatical range and accuracy -- correct, varied use of the level''s grammar points across both parts. (2) Vocabulary range -- discourse markers and phrasal verbs/collocations drawn from at least 6 of the 9 modules across both parts combined. (3) Task completion -- every required element present in both Part A and Part B. (4) Fluency and delivery (Part A) -- reasonably fluent for B2, audible, able to sustain a longer formal presentation and respond composedly to unscripted follow-up questions, including one you are not fully certain of. (5) Coherence (Part B) -- the essay reads as one connected, logically structured piece with clear paragraph-level organisation. (6) Evidence & argument quality -- is the thesis genuinely specific and arguable, is the reasoning or synthesis actually convincing, and does the piece address the strongest version of the topic? (7) Discourse coherence & register -- is the register appropriately formal/academic or professional throughout, and does the connector toolkit genuinely aid clarity?
+
+PROGRESSION REQUIREMENT: A grade at or above the platform''s pass threshold on this comprehensive assessment marks Level IV as complete for the learner and, for a full-programme student, triggers Level V''s enrolment to unlock automatically.');
+
+INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
+('qq_l4_m10_1', 'itm_l4_m10_examquiz', 1, '(M1) "By the time I arrived, the meeting ___ already started."', '["has","had","was","did"]', 1),
+('qq_l4_m10_2', 'itm_l4_m10_examquiz', 2, '(M1) Which tense best emphasises an ongoing state connecting the past to now?', '["past simple","past perfect","present perfect","past continuous"]', 2),
+('qq_l4_m10_3', 'itm_l4_m10_examquiz', 3, '(M2) Which is the strongest, most specific and arguable thesis statement?', '["Social media is a topic that affects many people.","Social media is bad.","Social media platforms should be required to disclose how their algorithms rank content, because users cannot currently make informed choices.","Many people use social media every day."]', 2),
+('qq_l4_m10_4', 'itm_l4_m10_examquiz', 4, '(M2) Swapping only a few synonyms while keeping the same sentence structure as the original is:', '["always acceptable","a form of genuine paraphrasing","a common, often accidental form of plagiarism","required by academic convention"]', 2),
+('qq_l4_m10_5', 'itm_l4_m10_examquiz', 5, '(M3) "If I ___ known about the deadline earlier, I would have submitted on time." (third conditional)', '["have","had","has","was"]', 1),
+('qq_l4_m10_6', 'itm_l4_m10_examquiz', 6, '(M3) What does the "R" in the STAR interview-answer structure stand for?', '["Reason","Result","Response","Review"]', 1),
+('qq_l4_m10_7', 'itm_l4_m10_examquiz', 7, '(M4) "___, remote work can make spontaneous collaboration harder." (an advanced concession opener)', '["Because","Granted","Therefore","So"]', 1),
+('qq_l4_m10_8', 'itm_l4_m10_examquiz', 8, '(M4) What should a rebuttal do?', '["simply restate your own opening argument","directly address and challenge the other side''s specific points","ignore what the other side said","only ask questions"]', 1),
+('qq_l4_m10_9', 'itm_l4_m10_examquiz', 9, '(M5) "It ___ argued that artificial intelligence will transform the workplace." (present perfect passive)', '["is","has been","was","will be"]', 1),
+('qq_l4_m10_10', 'itm_l4_m10_examquiz', 10, '(M5) Direct: "What are the risks?" Reported: "He asked what the risks ___."', '["are","were","is","was being"]', 1),
+('qq_l4_m10_11', 'itm_l4_m10_examquiz', 11, '(M6) Which is the correct nominalisation of "decide"?', '["decisive","decision","deciding","decided"]', 1),
+('qq_l4_m10_12', 'itm_l4_m10_examquiz', 12, '(M6) "___ to the second point, the economic impact is significant."', '["Moving on","Let me begin","To summarise","On balance"]', 0),
+('qq_l4_m10_13', 'itm_l4_m10_examquiz', 13, '(M7) Which best describes "tone" in critical reading?', '["whether a text is true or false","the emotional colouring of the language","the number of paragraphs","the author''s job title"]', 1),
+('qq_l4_m10_14', 'itm_l4_m10_examquiz', 14, '(M7) "I liked the first article, but not the second ___." (substitution)', '["it","one","so","do"]', 1),
+('qq_l4_m10_15', 'itm_l4_m10_examquiz', 15, '(M8) Which sentence uses a non-defining relative clause correctly?', '["The colleague who reviewed the proposal had concerns.","My colleague, who has worked here for ten years, had concerns.","My colleague that has worked here for ten years had concerns.","My colleague, that has worked here, had concerns."]', 1),
+('qq_l4_m10_16', 'itm_l4_m10_examquiz', 16, '(M8) "I hear what you''re saying, ___ I''d push back on one part of that."', '["so","but","because","if"]', 1),
+('qq_l4_m10_17', 'itm_l4_m10_examquiz', 17, '(M9) What is genuine synthesis, as opposed to parallel summary?', '["summarising Source A, then separately summarising Source B","relating two sources'' claims to each other in one coherent point","only using Source A and ignoring Source B","copying both sources word-for-word"]', 1),
+('qq_l4_m10_18', 'itm_l4_m10_examquiz', 18, '(M9) What does "cohesion" refer to in academic writing?', '["the logical flow of ideas only","the grammatical \"glue\" (specific devices) that makes that flow readable","the essay''s overall length","the number of sources used"]', 1),
+('qq_l4_m10_19', 'itm_l4_m10_examquiz', 19, '(Cumulative discourse markers) Which discourse marker signals a formal, evaluative comparison between two options?', '["on balance","in other words","although","apparently"]', 0),
+('qq_l4_m10_20', 'itm_l4_m10_examquiz', 20, '(Cumulative BrE/AmE) In British English, 15 March 2026 written numerically is:', '["3/15/2026","15/03/2026","2026/03/15","03/2026/15"]', 1);

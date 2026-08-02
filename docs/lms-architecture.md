@@ -238,13 +238,45 @@ schema or endpoint was required — every Level III assessment type
 existing polymorphic `reading/quiz/assignment` model, consistent with
 the "curriculum drives platform" principle below.
 
+**Level IV ("Upper Intermediate Programme," B2) is now also
+complete** — all 10 modules built per your Level IV Executive Academic
+Objective: the transition from independent communication to confident
+academic and professional English. Analytical reading (author's
+purpose, bias, tone, rhetorical technique — not just inference);
+eight distinct academic/professional writing genres deliberately
+distributed across the level rather than one essay format repeated
+(reflective writing, the argumentative essay, formal correspondence/a
+workplace proposal, compare-and-contrast writing, an analytical
+report/proposal, a summary-and-critique, meeting minutes/a follow-up
+email, and a capstone research-based essay synthesising two supplied
+sources with basic citation mechanics); a varied speaking programme (a
+job interview, a full formal debate, a panel discussion, the flagship
+4-5 minute presentation with described visual aids and unscripted
+Q&A, and a negotiation roleplay); and critical thinking built into
+every module's core task rather than appended as a discussion
+question. See `docs/curriculum-level-4-upper-intermediate.md` (module
+map, § What's different from Level III, and the Executive Academic
+Objective note in `docs/curriculum-framework.md`'s Level IV section)
+and `docs/curriculum/level-4/module-{02..10}-*.md` for the full
+lesson-by-lesson content. Seeded via `sql/seed-curriculum-level-4.sql`
+(110 questions across the level, including a 20-question cumulative
+end-of-level exam) and verified the same way: `tests/curriculum-
+level-4.test.mjs` (84 assertions) sweeps all 10 modules with the
+identical rigor as Levels I-III's sweeps — real seeded answer keys
+fetched from the DB and submitted, no answer-key leakage, staff
+grading verified, and a weak attempt correctly fails. No new LMS
+schema or endpoint was required — every Level IV assessment type
+(debates, panels, negotiations, presentations, multi-genre writing)
+fits the existing polymorphic `reading/quiz/assignment` model,
+consistent with the "curriculum drives platform" principle below.
+
 **What Milestone 2 has NOT yet done, stated plainly:** content-
 authoring tooling (a staff UI/API to create content — today's seed-
 file approach is a stopgap, not the long-term authoring workflow);
-any content for Levels IV-VI (Level IV, "Upper Intermediate
-Programme," is the explicit next step — same process, same depth
-standard, continuing to evolve in sophistication); and the broader
-LMS feature backlog your original Milestone 2 message named
+any content for Levels V-VI (Level V, "Advanced Programme," is the
+explicit next step — same process, same depth standard, continuing to
+evolve in sophistication); and the broader LMS feature backlog your
+original Milestone 2 message named
 (course authoring studio, structured curriculum/lesson builders,
 multimedia lesson management, exam authoring, question banks and
 randomisation, rubric-based assessment beyond the manual rubrics
