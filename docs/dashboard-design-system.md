@@ -155,6 +155,117 @@ design bar for all future UI work**, not a resumed one-off project.
 
 ---
 
+## Executive Design Mandate — "The Highest Standard of Prestige" (v3, permanent; supersedes v1.0 and v2)
+
+Issued alongside the Level VI curriculum directive, and explicitly
+framed by you as final: *"This directive supersedes every previous
+design instruction and becomes the permanent design philosophy for the
+entire WEC-LC ecosystem… This level of quality is now the minimum
+acceptable standard for every future page, feature, animation,
+dashboard, and interaction built for WEC-LC."*
+
+It is recorded here as the governing standard. The v1.0 lock and the
+v2 flagship directive above are retained as history — they explain how
+the current CSS came to look the way it does — but where any of the
+three differ, **v3 governs.**
+
+### The standard, in the terms it was issued
+
+**Brand emotion.** Every surface should communicate prestige,
+distinction, academic authority, trust, elegance, sophistication,
+warmth, aspiration, and confidence. Warmth is on that list
+deliberately and is the hardest of the nine: prestige without warmth
+reads as coldness, and an institution that teaches people to speak
+cannot present itself as unapproachable.
+
+**Design philosophy — "every pixel should have a purpose."** This is
+the operative constraint and the one that makes the rest coherent. It
+is a mandate for *restraint*, not for decoration: an element that
+cannot justify its presence is removed, not refined. Luxury here is
+achieved through what is left out.
+
+**Premium materials.** Layered surfaces; subtle glass **only where it
+improves clarity**, never as an effect; restrained shadows; tasteful
+gold highlights; refined gradients; premium textures. Each of these is
+qualified in the directive itself — *subtle*, *restrained*,
+*tasteful*, *refined* — and those qualifiers are the instruction, not
+padding.
+
+**Motion and interaction — a signature interaction language.** Motion
+should be identifiably WEC-LC's: consistent easing, consistent
+durations, consistent entrance behaviour, so that a transition on a
+lesson page and a transition on a finance dashboard read as the same
+institution. Motion must remain fully functional under
+`prefers-reduced-motion`, which is not an accessibility footnote here
+but part of the standard — a signature that breaks when a user needs
+it off is not a signature.
+
+**Editorial quality.** Typography, rhythm, and composition held to the
+standard of a printed institutional publication rather than a web
+template.
+
+**Dashboard excellence.** Data density with hierarchy: a dashboard is
+judged on whether the most important number is found first, not on how
+much fits.
+
+**Performance.** Fast, accessible, responsive, scalable, maintainable.
+Explicitly non-negotiable and explicitly *not* tradeable against the
+visual bar.
+
+**Continuous design review.** The seven self-check questions in the
+directive apply to every surface before it is called done. Design is
+never a completed phase.
+
+### What this means in practice
+
+1. **Every new UI surface is built to this standard from the first
+   commit** — not built generically and elevated later. There is no
+   "make it work, then make it beautiful" path any more; the standard
+   is a definition of done.
+2. **Applies to the whole ecosystem**, not the dashboard alone: public
+   site, LMS, every portal, mobile, and every curriculum-facing screen
+   (lesson pages, quizzes, assignment submission, progress,
+   certificates, transcripts).
+3. **The three qualifiers govern the materials.** Glass only where it
+   improves clarity; shadows restrained; gold tasteful. When in doubt
+   between two treatments, the mandate's own philosophy resolves it:
+   choose the one with fewer elements.
+4. **Reduced-motion parity is part of the signature**, checked on
+   every animated surface, not retrofitted.
+5. **Verification is unchanged and still applies** — the Playwright
+   discipline in § Verification discipline below is the mechanism by
+   which "done" is demonstrated rather than asserted. A surface that
+   has not been checked has not met the standard, however it looks in
+   a screenshot.
+
+### Where this standard lands first, concretely
+
+This mandate was issued during curriculum work, and curriculum work
+creates no UI surface — so, as with v2, logging it is the honest
+action rather than launching a speculative visual pass over shipped
+pages. But unlike v2, **there is now a specific, curriculum-earned UI
+surface waiting for it.**
+
+`docs/curriculum-programme-review.md`'s Finding 1 establishes by
+measurement that all 114 lesson items across the six levels contain a
+listening activity and a pronunciation practice, and that no audio
+asset exists anywhere in the platform to carry them — the `video` and
+`live_session` item kinds are seeded zero times. That review
+recommends, as the programme's single highest-priority action, an
+audio-bearing learning item and a listening-comprehension question
+type.
+
+That is the first UI work the completed curriculum has genuinely
+earned, and it is where this mandate applies first: an audio player
+and a listening-question interface built to the prestige standard from
+the outset — a restrained, editorial player with a signature
+transport and waveform treatment, transcript disclosure that improves
+rather than clutters, and full keyboard and reduced-motion parity,
+because a listening interface that is inaccessible has failed at its
+own purpose before any question of elegance arises.
+
+---
+
 ## Component inventory (all in `css/dashboard.css`)
 
 | Component | Class(es) | Used today in the preview |
