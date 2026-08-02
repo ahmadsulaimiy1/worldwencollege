@@ -165,7 +165,10 @@ for (const lv of LEVELS) {
 // AUDIO_MODULES is the explicit, declared rollout state — it is listed
 // here rather than inferred so that a module silently LOSING its audio
 // strand fails the build instead of being read as "not rolled out yet".
-const AUDIO_MODULES = new Set(['unt_l1_m1']);
+const AUDIO_LEVELS = [1, 2];
+const AUDIO_MODULES = new Set(
+  AUDIO_LEVELS.flatMap((lv) => Array.from({ length: 10 }, (_, i) => `unt_l${lv}_m${i + 1}`))
+);
 {
   const rows = db.prepare(
     `SELECT u.id AS unitId, u.course_id AS lvl, u.sequence AS seq, COUNT(i.id) AS c
