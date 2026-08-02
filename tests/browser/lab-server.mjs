@@ -8,7 +8,7 @@
 // REAL seeded curriculum, so the page under test is driven by production
 // logic and production data — not fixtures.
 import { createServer } from 'node:http';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, statSync } from 'node:fs';
 import { extname, join } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { pathToFileURL } from 'node:url';
@@ -81,11 +81,31 @@ createServer(async (req, res) => {
       const body = JSON.parse(await read(req));
       return json(res, await content.submitQuizAttempt(env, { userId: 'usr_demo', ...body }));
     }
-    let p = url.pathname === '/' ? '/index.html' : url.pathname;
-    const file = join(ROOT, p);
-    if (existsSync(file)) {
-      res.writeHead(200, { 'Content-Type': MIME[extname(file)] || 'application/octet-stream' });
-      return res.end(readFileSync(file));
+    // Static resolution mirroring Cloudflare Pages: a bare path tries
+    // the file, then <path>/index.html, then <path>.html. Without the
+    // directory-index step every built route like /about/ 404s here
+    // while working correctly in production — which is exactly the kind
+    // of harness/production divergence that produces false failures.
+    const candidates = [];
+    const p = url.pathname;
+    if (p === '/') candidates.push('/index.html');
+    else {
+      candidates.push(p);
+      if (p.endsWith('/')) candidates.push(p + 'index.html');
+      else candidates.push(p + '/index.html', p + '.html');
+    }
+    for (const c of candidates) {
+      const file = join(ROOT, c);
+      if (existsSync(file) && statSync(file).isFile()) {
+        res.writeHead(200, { 'Content-Type': MIME[extname(file)] || 'application/octet-stream' });
+        return res.end(readFileSync(file));
+      }
+    }
+    // Pages serves 404.html with a 404 status for unknown routes.
+    const nf = join(ROOT, '404.html');
+    if (existsSync(nf)) {
+      res.writeHead(404, { 'Content-Type': 'text/html' });
+      return res.end(readFileSync(nf));
     }
     res.writeHead(404); res.end('not found');
   } catch (e) {

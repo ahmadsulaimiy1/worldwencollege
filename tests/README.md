@@ -187,6 +187,17 @@ node tests/browser/listening-lab.mjs
   In this sandbox Google Fonts is unreachable, so the test splits script
   errors from failed requests and tolerates exactly the two font hosts —
   any other failure still fails.
+- `browser/route-audit.mjs` — the pre-deployment sweep. Walks every
+  built HTML file and loads each one, checking the things that break a
+  deployment rather than a unit test: broken routes, missing first-party
+  assets, uncaught script errors, and the accessibility basics (title,
+  lang, exactly one h1, alt on every image) on EVERY route rather than a
+  sample. 8 assertions across all 27 routes. Webfont requests are
+  aborted, so every page is verified rendering on the brand.css fallback
+  stack — the state a visitor with a blocked CDN actually sees.
+- `browser/gallery.mjs` — not an assertion suite. Captures every key
+  route at 1440px and 390px into `browser/screenshots/gallery/` for
+  visual review.
 
 ## Adding a new test
 
