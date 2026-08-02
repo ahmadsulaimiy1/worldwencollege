@@ -20,40 +20,94 @@ the institution it belongs to. That's the failure mode this file exists
 to prevent: a premium marketing site bolted to a generic-SaaS-feeling
 app.
 
-## Executive Design Directive — premium experience standard (target, logged now, applied in its own milestone)
+## Executive Design Directive — premium experience standard
 
 You issued a platform-wide directive: every visual surface — marketing
 site, dashboards, every future portal — should read as elegant,
 prestigious, refined, modern, and intentionally crafted (restrained
-gold accents, considered depth/shadow, glass/layered surfaces only
-where they aid readability, purposeful motion — page transitions,
-section reveals, hover/button micro-interactions, card animations,
-loading/success states, `prefers-reduced-motion` alternatives
-throughout), with strict cross-surface consistency in type, spacing,
-colour, iconography, motion, and interaction patterns, and without
-ever trading performance or accessibility for decoration.
+gold accents, considered depth/shadow, purposeful motion — page
+transitions, section reveals, hover/button micro-interactions, card
+animations, loading/success states, `prefers-reduced-motion`
+alternatives throughout), with strict cross-surface consistency, and
+without ever trading performance or accessibility for decoration. You
+then explicitly re-prioritised this ahead of continuing Level II
+curriculum work.
 
-**Logged as standing guidance, not yet executed as a redesign pass.**
-This session's work since the directive arrived has been curriculum
-authoring (`docs/curriculum-framework.md` et al.) — pure content and
-backend, no frontend surface touched — so there is nothing yet to
-retrofit. The honest state: `css/brand.css` and `css/dashboard.css`
-already establish one coherent token system (colour, type, radius)
-across the marketing site and the dashboard layer (see § Why this
-exists as its own layer, above) and already use motion with restraint
-(hover states, a toast, loading skeletons — see the component
-inventory below) — a real foundation, not a blank slate. But a
-dedicated pass explicitly auditing every existing screen against this
-directive's specific bar (page-transition choreography, parallax,
-completion animations, elegant onboarding sequences, etc.) has not
-happened. That's real, scoped design work — deserving its own
-milestone with its own before/after verification (a screenshot/
-Playwright pass, the same discipline applied to every other claim in
-this project), not a few CSS tweaks made in passing while authoring
-curriculum content. Recommended sequencing: once the current
-curriculum-authoring milestone reaches a natural stopping point, or
-immediately if you'd rather reprioritise — your call, and either is a
-reasonable next step from here.
+**Executed, at the token and component level, across both CSS layers
+(`css/brand.css` and `css/dashboard.css` — one shared system, so
+neither surface drifts from the other):**
+
+- **Motion tokens.** One easing curve (`--ease-premium`, a considered
+  ease-out) and a three-step duration scale (`--dur-fast/med/slow`)
+  used everywhere instead of ad hoc per-rule timings, so every
+  interaction across the platform decelerates the same way.
+- **Elevation scale.** `--shadow-sm/md/lg` plus `--shadow-gold` (a
+  warm-toned shadow reserved for the primary CTA's hover state) —
+  replacing flat single-shadow/border-only surfaces with considered
+  depth tiers.
+- **Buttons.** A restrained diagonal shine sweep on hover (one signature
+  micro-interaction on the platform's most-clicked element family,
+  deliberately not repeated everywhere), a gold gradient fill, lift +
+  shadow on hover, a press state on `:active`.
+- **Cards.** A hairline gold accent rule that draws in from the left on
+  hover, refined lift/shadow, consistent premium easing.
+- **Navigation.** Dropdown menus now scale+fade in with the premium
+  curve instead of a flat opacity toggle; menu items get a subtle
+  indent-in on hover. The dashboard sidebar's active item gets a gold
+  accent bar that animates in.
+- **Hero.** A staggered entrance (headline → lede → CTA → stat row,
+  80ms apart) on page load, and a 40-second ambient drift on the crest
+  watermark — deliberately not scroll-triggered, since hero content is
+  already in view at load; "parallax in spirit" without a scroll
+  listener.
+- **Scroll reveal, activated platform-wide.** `.reveal`/`.is-visible`
+  (with its own `prefers-reduced-motion` handling) already existed in
+  `brand.css` but was applied to almost nothing in practice. `js/site.js`
+  now auto-tags every `.card`, `.stat-row__item`, `.pull-quote`, and
+  `.callout` on any page with `.reveal` and gives siblings a short
+  staggered cascade — every current and future page inherits this with
+  zero HTML changes. Interactive elements (accordion items) are
+  deliberately excluded from auto-reveal — see `js/site.js`'s own
+  comment for why a focusable control briefly invisible before
+  `IntersectionObserver` fires is a risk not worth taking.
+- **Forms, tables, dashboard surfaces.** Focus glow alongside (never
+  replacing) the existing accessible focus outline; table row hover
+  states; stat tiles, panels, and settings groups all carry a resting
+  elevation shadow instead of a flat border; interactive rows
+  (`.class-row`, `.mini-list li` links, `.message-card`) get hover
+  feedback.
+- **The institutional crest.** You supplied reference artwork (crown,
+  laurel wreath, shield with book/monogram/Union Jack, banner tagline)
+  and confirmed — after an explicit check on the crown/flag symbolism,
+  given this project's standing discipline against implying credentials
+  WEC-LC doesn't hold — that it should be used as designed. The full
+  artwork (`assets/images/crest-seal.jpg`) now drives the favicon-
+  adjacent icons (`apple-touch-icon.png`, `icon-512.png`), the social
+  share image (`og-image.jpg`, composited onto the site's own
+  `--royal-deep` tone), and the homepage hero watermark (blended in via
+  `mix-blend-mode: screen`, which drops the artwork's own dark
+  background out entirely against the hero's gradient, so the full
+  crest reads without a visible image-rectangle edge). The small
+  34×40px inline header/footer mark stays the existing lightweight
+  vector shield — a raster crest of this detail degrades to mush at
+  that size regardless of background handling, a legibility constraint
+  distinct from the symbolism decision.
+- **Verified, not just asserted.** Every change above was screenshotted
+  before and after (`npm run build` + a headless Chromium pass), and
+  the full backend suite (301 assertions) re-run to confirm zero
+  regression — this pass touched no backend file.
+
+**Deliberately not yet done, stated plainly:** Faculty, Administration,
+Executive Dashboard, and Corporate portals don't exist as pages yet
+(see `docs/master-roadmap.md`'s launch sequence) — there is nothing to
+retrofit there; they inherit this token system automatically once
+built. Deeper per-page choreography beyond what's listed above
+(dedicated onboarding sequences, chart components — none exist yet
+either — completion animations beyond the existing toast/skeleton
+pair) remains open for a future pass if warranted. Mobile experience
+was verified for regression (existing breakpoints untouched, reveal/
+motion changes respect them) but not separately re-audited beyond
+that.
 
 ---
 

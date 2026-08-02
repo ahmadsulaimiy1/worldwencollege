@@ -18,7 +18,29 @@
   --ink-soft:     #4B5768;
   --line:         rgba(199,162,74,.35);
   --line-dark:    rgba(231,201,122,.22);
-  --shadow:       0 20px 60px -20px rgba(10,23,48,.35);
+
+  /* Elevation scale — a resting, a hover, and a floating (dropdown/
+     modal/dialog) tier, all sharing the same warm, low-chroma shadow
+     colour so depth reads as "considered," not as a generic drop
+     shadow lifted from a UI kit. --shadow kept as the existing name
+     (now aliased to the floating tier) so every pre-existing caller
+     is untouched. */
+  --shadow-sm:    0 2px 10px -4px rgba(10,23,48,.18);
+  --shadow-md:    0 14px 32px -14px rgba(10,23,48,.28);
+  --shadow-lg:    0 20px 60px -20px rgba(10,23,48,.35);
+  --shadow:       var(--shadow-lg);
+  --shadow-gold:  0 10px 28px -12px rgba(199,162,74,.45);
+
+  /* Motion tokens — one considered easing curve (a gentle ease-out,
+     decisive but never bouncy) and a small duration scale, used
+     everywhere instead of ad hoc `.15s ease` / `.2s ease` per rule, so
+     every interaction across the platform decelerates the same way. */
+  --ease-premium: cubic-bezier(.16,.84,.44,1);
+  --dur-fast:     .18s;
+  --dur-med:      .34s;
+  --dur-slow:     .6s;
+
+  --gold-gradient: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
 
   --font-display: 'Playfair Display', Georgia, 'Amiri', serif;
   --font-body:    'Inter', -apple-system, 'Cairo', sans-serif;
@@ -128,15 +150,34 @@ section { position: relative; }
   border-radius: 3px;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: transform .15s ease, background .2s ease, border-color .2s ease, color .2s ease;
+  position: relative;
+  isolation: isolate; /* keeps ::before's shine sweep clipped to this button, not painting over siblings */
+  overflow: hidden;
+  transition: transform var(--dur-fast) var(--ease-premium), box-shadow var(--dur-fast) var(--ease-premium),
+              background var(--dur-med) var(--ease-premium), border-color var(--dur-fast) ease, color var(--dur-fast) ease;
 }
-.btn--gold { background: var(--gold); color: var(--royal-deep); }
-.btn--gold:hover { background: var(--gold-bright); transform: translateY(-1px); }
+/* A restrained diagonal shine that sweeps across on hover — the one
+   "premium micro-interaction" flourish on the platform's single most-
+   clicked element family, deliberately not repeated on every card so
+   it stays a signature rather than noise. Purely decorative (a ::before
+   layer), so it never affects the button's hit area or focus ring. */
+.btn::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.35) 48%, transparent 66%);
+  transform: translateX(-120%); transition: transform var(--dur-slow) var(--ease-premium);
+}
+.btn:hover::before { transform: translateX(120%); }
+.btn--gold { background: var(--gold-gradient); color: var(--royal-deep); box-shadow: var(--shadow-sm); }
+.btn--gold:hover { box-shadow: var(--shadow-gold); transform: translateY(-2px); }
+.btn--gold:active { transform: translateY(0); box-shadow: var(--shadow-sm); }
 .btn--outline { border-color: var(--gold); color: inherit; }
-.btn--outline:hover { background: rgba(199,162,74,.1); }
-.btn--red { background: var(--red); color: #fff; }
-.btn--red:hover { background: var(--red-bright); }
+.btn--outline:hover { background: rgba(199,162,74,.1); transform: translateY(-2px); }
+.btn--outline:active { transform: translateY(0); }
+.btn--red { background: var(--red); color: #fff; box-shadow: var(--shadow-sm); }
+.btn--red:hover { background: var(--red-bright); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.btn--red:active { transform: translateY(0); }
 .btn--ghost { color: var(--gold-bright); border-color: var(--line-dark); }
+.btn--ghost:hover { border-color: var(--gold); background: rgba(231,201,122,.06); }
 /* Every other focusable control (.field inputs, .toggle) gets an
    explicit gold focus ring — .btn was relying entirely on the browser
    UA default, which is inconsistent with that and, behind
@@ -204,13 +245,16 @@ section { position: relative; }
   position: absolute; top: 100%; left: 0; min-width: 240px;
   background: var(--paper); border: 1px solid var(--line); border-radius: 6px;
   box-shadow: var(--shadow); padding: 10px; opacity: 0; visibility: hidden;
-  transform: translateY(6px); transition: all .18s ease; z-index: 10;
+  transform: translateY(6px) scale(.98); transform-origin: top left;
+  transition: opacity var(--dur-fast) var(--ease-premium), transform var(--dur-fast) var(--ease-premium), visibility var(--dur-fast);
+  z-index: 10;
 }
-[dir="rtl"] .nav__menu { left: auto; right: 0; }
+[dir="rtl"] .nav__menu { left: auto; right: 0; transform-origin: top right; }
 .nav__item--has-menu:hover .nav__menu,
-.nav__item--has-menu:focus-within .nav__menu { opacity: 1; visibility: visible; transform: translateY(0); }
-.nav__menu a { display: block; padding: 10px 12px; border-radius: 4px; color: var(--ink); font-size: .86rem; font-weight: 600; }
-.nav__menu a:hover { background: var(--ivory); color: var(--red); }
+.nav__item--has-menu:focus-within .nav__menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+.nav__menu a { display: block; padding: 10px 12px; border-radius: 4px; color: var(--ink); font-size: .86rem; font-weight: 600; transition: background var(--dur-fast) ease, color var(--dur-fast) ease, padding-left var(--dur-fast) var(--ease-premium); }
+.nav__menu a:hover { background: var(--ivory); color: var(--red); padding-left: 16px; }
+[dir="rtl"] .nav__menu a:hover { padding-left: 12px; padding-right: 16px; }
 
 .header__actions { display: flex; align-items: center; gap: 16px; }
 .nav__toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
@@ -233,21 +277,50 @@ section { position: relative; }
     linear-gradient(180deg, var(--royal) 0%, var(--royal-deep) 100%);
   color: #fff; padding: 120px 0 100px; overflow: hidden; position: relative;
 }
+/* The institution's crest seal (assets/images/crest-seal.jpg), used
+   as a large ambient watermark rather than a literal logo placement.
+   mix-blend-mode: screen drops the seal's own dark-navy background
+   out entirely against the hero's dark gradient — only the gold
+   crown/shield/lettering read, with no visible image-rectangle edge —
+   so the full artwork can be used here even though it isn't a
+   transparent PNG. */
 .hero__crest-watermark {
-  position: absolute; right: -60px; top: -40px; width: 480px; height: 560px;
-  opacity: .06; pointer-events: none;
+  position: absolute; right: -80px; top: -60px; width: 560px; height: 560px;
+  background-image: url('/assets/images/crest-seal.jpg');
+  background-size: cover; background-position: center;
+  opacity: .16; pointer-events: none; mix-blend-mode: screen;
+  animation: hero-watermark-drift 40s var(--ease-premium) infinite alternate;
 }
-.hero__crest-watermark .crest__shield { stroke: var(--gold-bright); }
-.hero__crest-watermark .crest__inner { display: none; }
+/* An extremely slow, subtle drift — "parallax" in spirit (the
+   watermark shifts independently of scroll-fixed content) without
+   requiring a scroll listener: a 40s alternate animation reads as
+   ambient depth, not motion a learner is meant to consciously track. */
+@keyframes hero-watermark-drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-16px, 12px) scale(1.03); }
+}
 .hero__inner { max-width: 760px; }
-.hero h1 { font-size: clamp(2.2rem, 4.6vw, 3.6rem); font-weight: 600; }
-.hero .lede { font-size: 1.2rem; margin-bottom: 8px; }
+.hero h1 {
+  font-size: clamp(2.2rem, 4.6vw, 3.6rem); font-weight: 600;
+  animation: hero-rise var(--dur-slow) var(--ease-premium) both;
+}
+.hero .lede { font-size: 1.2rem; margin-bottom: 8px; animation: hero-rise var(--dur-slow) var(--ease-premium) .08s both; }
+.hero .btn-row { animation: hero-rise var(--dur-slow) var(--ease-premium) .16s both; }
 .hero__stats {
   display: flex; gap: 40px; margin-top: 48px; flex-wrap: wrap;
   border-top: 1px solid var(--line-dark); padding-top: 28px;
+  animation: hero-rise var(--dur-slow) var(--ease-premium) .24s both;
 }
 .hero__stat strong { display: block; font-family: var(--font-display); font-size: 1.9rem; color: var(--gold-bright); }
 .hero__stat span { font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(247,244,236,.65); }
+/* Onboarding-grade entrance for the single most important content on
+   the site — a page's first paint. Staggered by 80ms per element
+   above so the headline settles a beat before the supporting copy,
+   lede, CTA, and stat row follow — deliberate, not simultaneous. */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
 
 /* -------------------- Cards / grid -------------------- */
 .grid { display: grid; gap: 28px; }
@@ -259,10 +332,22 @@ section { position: relative; }
 
 .card {
   background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
-  padding: 32px; transition: transform .18s ease, box-shadow .18s ease;
+  padding: 32px; position: relative; overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-med) var(--ease-premium), box-shadow var(--dur-med) var(--ease-premium), border-color var(--dur-med) ease;
 }
-.card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+/* A hairline gold rule that draws in from the left on hover — the
+   card equivalent of the button's shine sweep, at a scale appropriate
+   to a resting surface rather than a call to action. */
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--gold-gradient); transform: scaleX(0); transform-origin: left;
+  transition: transform var(--dur-med) var(--ease-premium);
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(199,162,74,.55); }
+.card:hover::before { transform: scaleX(1); }
 .card--dark { background: rgba(255,255,255,.04); border-color: var(--line-dark); }
+.card--dark:hover { border-color: var(--line-dark); }
 .card h3 { font-size: 1.1rem; }
 .card__num { font-family: var(--font-display); font-size: .82rem; color: var(--gold); font-weight: 700; margin-bottom: 10px; display: block; }
 /* Gold-on-paper computes to ~2.3:1, well under WCAG AA's 4.5:1 for
@@ -278,9 +363,11 @@ section { position: relative; }
   color: var(--gold); font-weight: 700; padding: 12px 14px; border-bottom: 1px solid var(--line);
 }
 .section--light .ledger th, .section--paper .ledger th { color: var(--red); border-color: rgba(163,38,56,.25); }
-.ledger td { padding: 16px 14px; border-bottom: 1px solid var(--line-dark); vertical-align: top; font-size: .94rem; }
+.ledger td { padding: 16px 14px; border-bottom: 1px solid var(--line-dark); vertical-align: top; font-size: .94rem; transition: background var(--dur-fast) ease; }
 .section--light .ledger td, .section--paper .ledger td { border-color: var(--line); }
 .ledger tr:last-child td { border-bottom: none; }
+.ledger tr:hover td { background: rgba(199,162,74,.05); }
+.section--dark .ledger tr:hover td, .section--deep .ledger tr:hover td { background: rgba(231,201,122,.05); }
 .ledger td strong { font-family: var(--font-display); font-weight: 600; font-size: 1rem; }
 [dir="rtl"] .ledger th, [dir="rtl"] .ledger td { text-align: right; }
 .table-scroll { overflow-x: auto; }
@@ -340,10 +427,13 @@ section { position: relative; }
   padding: 22px 0; font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; color: inherit;
 }
 [dir="rtl"] .accordion__q { text-align: right; }
-.accordion__q .plus { color: var(--gold); font-size: 1.3rem; transition: transform .2s ease; flex-shrink: 0; }
+.accordion__q .plus { color: var(--gold); font-size: 1.3rem; transition: transform var(--dur-med) var(--ease-premium); flex-shrink: 0; }
 .section--light .accordion__q .plus, .section--paper .accordion__q .plus { color: var(--red); }
-.accordion__item.is-open .plus { transform: rotate(45deg); }
-.accordion__a { max-height: 0; overflow: hidden; transition: max-height .25s ease; }
+.accordion__item.is-open .plus { transform: rotate(135deg); }
+.accordion__q { transition: color var(--dur-fast) ease; }
+.accordion__q:hover { color: var(--gold); }
+.section--light .accordion__q:hover, .section--paper .accordion__q:hover { color: var(--red); }
+.accordion__a { max-height: 0; overflow: hidden; transition: max-height var(--dur-med) var(--ease-premium); }
 .accordion__a-inner { padding-bottom: 22px; color: var(--ink-soft); max-width: 68ch; }
 .section--dark .accordion__a-inner { color: rgba(247,244,236,.75); }
 
@@ -357,7 +447,14 @@ section { position: relative; }
 .field input, .field select, .field textarea {
   font-family: var(--font-body); font-size: .95rem; padding: 12px 14px;
   border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink);
+  transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) var(--ease-premium);
 }
+/* A soft glow alongside the existing outline (below) rather than
+   replacing border-color on focus — .field.is-invalid's red border
+   and red focus outline (below) must still win on an invalid field;
+   this only adds depth, it never changes which colour "means error." */
+.field input:focus, .field select:focus, .field textarea:focus { box-shadow: 0 0 0 3px rgba(199,162,74,.15); }
+.field.is-invalid input:focus, .field.is-invalid select:focus, .field.is-invalid textarea:focus { box-shadow: 0 0 0 3px rgba(163,38,56,.15); }
 .section--dark .field input, .section--dark .field select, .section--dark .field textarea,
 .section--deep .field input, .section--deep .field select, .section--deep .field textarea {
   background: rgba(255,255,255,.06); border-color: var(--line-dark); color: #fff;
@@ -465,15 +562,33 @@ ul.check-list li::before {
 .tag-row { display: flex; flex-wrap: wrap; gap: 10px; }
 .tag { border: 1px solid var(--line); border-radius: 999px; padding: .5em 1.1em; font-size: .82rem; font-weight: 600; }
 
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+.reveal {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity var(--dur-slow) var(--ease-premium), transform var(--dur-slow) var(--ease-premium);
+  transition-delay: var(--reveal-delay, 0s);
+}
 .reveal.is-visible { opacity: 1; transform: none; }
+
+/* One rule, covering every motion added in this pass — new
+   animations/transforms added later should stay listed here rather
+   than each shipping its own reduced-motion carve-out, so this stays
+   the single source of truth for "what we consider non-essential
+   motion" on this platform. */
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
   html { scroll-behavior: auto; }
+  .hero__crest-watermark { animation: none; }
+  .hero h1, .hero .lede, .hero .btn-row, .hero__stats { animation: none; opacity: 1; transform: none; }
+  .btn, .btn::before, .card, .card::before, .nav__menu, .nav__menu a {
+    transition-duration: .01ms !important;
+  }
+  .btn--gold:hover, .btn--outline:hover, .btn--red:hover, .card:hover {
+    transform: none;
+  }
 }
 
 /* -------------------- RTL global -------------------- */
 [dir="rtl"] body { font-family: var(--font-body); }
 [dir="rtl"] .eyebrow::before { order: 2; }
 [dir="rtl"] .card__num, [dir="rtl"] .module-marker { direction: ltr; display: inline-block; }
-[dir="rtl"] .hero__crest-watermark { right: auto; left: -60px; }
+[dir="rtl"] .hero__crest-watermark { right: auto; left: -80px; }

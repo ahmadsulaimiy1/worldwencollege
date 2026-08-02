@@ -65,7 +65,39 @@
     });
   });
 
-  // Scroll reveal
+  // Scroll reveal — css/brand.css's .reveal/.is-visible pair (with its
+  // own prefers-reduced-motion carve-out) is applied automatically to
+  // every common content-block component below, so every page —
+  // current and future — inherits the same considered entrance with
+  // no markup changes required. An explicit class="reveal" elsewhere
+  // in the HTML still works exactly as before; this only adds more
+  // elements to the set already being observed.
+  // Deliberately excludes interactive elements like .accordion__item —
+  // reveal fades from opacity:0, and a focusable/clickable control
+  // sitting briefly invisible before IntersectionObserver fires is an
+  // avoidable interaction risk this selector list simply doesn't take
+  // on. Everything here is non-interactive display content.
+  var AUTO_REVEAL_SELECTOR = '.card, .stat-row__item, .pull-quote, .callout';
+  var autoRevealEls = document.querySelectorAll(AUTO_REVEAL_SELECTOR);
+  autoRevealEls.forEach(function (el) { el.classList.add('reveal'); });
+
+  // Elements sharing a parent (a grid of cards, a row of stats) get a
+  // small staggered delay so they cascade in rather than arriving
+  // simultaneously — capped at 6 steps so a long list's last item
+  // isn't left waiting nearly a second before it even starts.
+  var revealGroups = new Map();
+  autoRevealEls.forEach(function (el) {
+    var parent = el.parentElement;
+    if (!parent) return;
+    if (!revealGroups.has(parent)) revealGroups.set(parent, []);
+    revealGroups.get(parent).push(el);
+  });
+  revealGroups.forEach(function (siblings) {
+    siblings.forEach(function (el, i) {
+      el.style.setProperty('--reveal-delay', (Math.min(i, 6) * 0.08) + 's');
+    });
+  });
+
   var reveals = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && reveals.length) {
     var io = new IntersectionObserver(function (entries) {

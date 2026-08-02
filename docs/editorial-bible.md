@@ -159,10 +159,19 @@ gradient-hero conventions:
 - **Institutional Status callouts** — a consistent, dashed-border component
   used site-wide anywhere a fact isn't confirmed yet, so "we don't know this
   yet" reads as considered honesty, not an apologetic gap.
-- **Crest watermark** — a faint, oversized low-opacity shield mark on dark
-  hero sections, echoing a letterhead seal without literal skeuomorphism.
-- **Restrained motion only** — a hairline-paced scroll-reveal, respecting
-  `prefers-reduced-motion`. No scroll-jacking, no gimmick animation.
+- **Crest watermark** — the full institutional crest
+  (`assets/images/crest-seal.jpg` — crown, laurel wreath, shield,
+  banner tagline), blended into the homepage hero at low opacity via
+  `mix-blend-mode: screen` so it reads as an ambient seal, not a
+  pasted-in logo rectangle. The small inline header/footer mark stays
+  a lightweight vector shield — legible at 34×40px in a way a raster
+  crest of this detail isn't.
+- **Restrained motion only** — a staggered scroll-reveal (cards, stat
+  rows, pull-quotes, callouts) and a considered hero entrance,
+  respecting `prefers-reduced-motion` throughout. No scroll-jacking, no
+  gimmick animation — see `docs/dashboard-design-system.md`'s
+  Executive Design Directive section for the full account of what
+  changed and why.
 
 ### Tone of Voice
 - Numbers spelled with precision, not superlatives: "six levels," "720

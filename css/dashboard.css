@@ -39,11 +39,23 @@ body.app { background: var(--ivory); }
 .app-nav li { margin-bottom: 2px; }
 .app-nav a {
   display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 6px;
-  color: rgba(247,244,236,.75); font-size: .88rem; font-weight: 600;
+  color: rgba(247,244,236,.75); font-size: .88rem; font-weight: 600; position: relative;
+  transition: background var(--dur-fast) ease, color var(--dur-fast) ease, padding-left var(--dur-fast) var(--ease-premium);
 }
 .app-nav a .ic { width: 18px; text-align: center; opacity: .8; font-size: .95rem; }
-.app-nav a:hover { background: rgba(255,255,255,.06); color: #fff; }
+.app-nav a:hover { background: rgba(255,255,255,.06); color: #fff; padding-left: 16px; }
 .app-nav li.active a { background: rgba(199,162,74,.14); color: var(--gold-bright); }
+/* A gold accent bar on the active item, scaling in from the centre —
+   the sidebar's equivalent of the marketing cards' top accent line,
+   so the "current location" reads instantly without relying on
+   colour alone. */
+.app-nav li.active a::before {
+  content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%) scaleY(0);
+  width: 3px; height: 60%; background: var(--gold-gradient); border-radius: 3px 0 0 3px;
+  animation: nav-accent-in var(--dur-med) var(--ease-premium) forwards;
+}
+@keyframes nav-accent-in { to { transform: translateY(-50%) scaleY(1); } }
+[dir="rtl"] .app-nav li.active a::before { left: auto; right: 0; border-radius: 0 3px 3px 0; }
 .app-sidebar__foot { border-top: 1px solid var(--line-dark); padding-top: 14px; display: flex; flex-direction: column; gap: 2px; }
 .app-sidebar__foot a { color: rgba(247,244,236,.55); font-size: .82rem; padding: 8px 12px; border-radius: 6px; }
 .app-sidebar__foot a:hover { background: rgba(255,255,255,.05); color: rgba(247,244,236,.85); }
@@ -75,7 +87,7 @@ body.app { background: var(--ivory); }
 .status-pill--muted::before { background: var(--ink-soft); }
 
 /* ---------------- Stepper (programme progress) ---------------- */
-.stepper-card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 28px 30px; margin-bottom: 24px; }
+.stepper-card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 28px 30px; margin-bottom: 24px; box-shadow: var(--shadow-sm); }
 .stepper-card__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 22px; flex-wrap: wrap; gap: 10px; }
 .stepper-card__head h2 { font-size: 1.05rem; margin: 0; }
 .stepper { display: flex; align-items: center; }
@@ -103,7 +115,11 @@ body.app { background: var(--ivory); }
    padding — tight for a value like "$56,999.86" at 1.7rem. Drop to a
    single column below ~420px rather than let it crowd or wrap badly. */
 @media (max-width: 420px) { .stat-tiles { grid-template-columns: 1fr; } }
-.stat-tile { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; }
+.stat-tile {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px;
+  box-shadow: var(--shadow-sm); transition: box-shadow var(--dur-med) var(--ease-premium), transform var(--dur-med) var(--ease-premium);
+}
+.stat-tile:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 .stat-tile__label { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; margin-bottom: 10px; }
 .stat-tile__value { font-family: var(--font-display); font-size: 1.7rem; font-weight: 600; color: var(--royal-deep); font-variant-numeric: tabular-nums; }
 .stat-tile__sub { font-size: .8rem; color: var(--ink-soft); margin-top: 4px; }
@@ -111,12 +127,14 @@ body.app { background: var(--ivory); }
 /* ---------------- Panels / two-col layout ---------------- */
 .app-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 22px; align-items: start; }
 @media (max-width: 1080px) { .app-grid { grid-template-columns: 1fr; } }
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 24px 26px; margin-bottom: 22px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 24px 26px; margin-bottom: 22px; box-shadow: var(--shadow-sm); }
 .panel__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
 .panel__head h2 { font-size: 1rem; margin: 0; }
-.panel__head a { font-size: .8rem; font-weight: 700; color: var(--red); }
+.panel__head a { font-size: .8rem; font-weight: 700; color: var(--red); transition: color var(--dur-fast) ease; }
+.panel__head a:hover { color: var(--red-bright); }
 
-.class-row { display: flex; align-items: center; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+.class-row { display: flex; align-items: center; gap: 16px; padding: 13px 10px; margin: 0 -10px; border-radius: 6px; border-bottom: 1px solid var(--line); transition: background var(--dur-fast) ease; }
+.class-row:hover { background: rgba(199,162,74,.05); }
 .class-row:last-child { border-bottom: none; }
 .class-row__when { width: 92px; flex-shrink: 0; font-size: .78rem; color: var(--ink-soft); line-height: 1.3; }
 .class-row__when strong { display: block; color: var(--ink); font-family: var(--font-display); font-size: .95rem; }
@@ -127,11 +145,13 @@ body.app { background: var(--ivory); }
 
 .assign-table { width: 100%; border-collapse: collapse; font-size: .86rem; }
 .assign-table th { text-align: left; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; padding: 8px 10px; border-bottom: 1px solid var(--line); }
-.assign-table td { padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.assign-table td { padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; transition: background var(--dur-fast) ease; }
+.assign-table tbody tr:hover td { background: rgba(199,162,74,.05); }
 .assign-table tr:last-child td { border-bottom: none; }
 
 .mini-list { list-style: none; margin: 0; padding: 0; }
-.mini-list li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: .86rem; }
+.mini-list li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 10px; margin: 0 -10px; border-radius: 6px; border-bottom: 1px solid var(--line); font-size: .86rem; transition: background var(--dur-fast) ease; }
+.mini-list li:has(a:not(.disabled-link)):hover { background: rgba(199,162,74,.05); }
 .mini-list li:last-child { border-bottom: none; }
 /* Applies everywhere .disabled-link is used — sidebar nav placeholders,
    "View all"/"View schedule" panel links, Sign Out before a real
@@ -146,7 +166,8 @@ body.app { background: var(--ivory); }
 .disabled-link { color: var(--ink-soft); pointer-events: none; cursor: not-allowed; opacity: .55; }
 .mini-list a.disabled-link { font-size: .74rem; font-weight: 700; }
 
-.message-card { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; background: var(--ivory); }
+.message-card { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; background: var(--ivory); transition: box-shadow var(--dur-med) var(--ease-premium), transform var(--dur-med) var(--ease-premium); }
+.message-card:hover { box-shadow: var(--shadow-sm); transform: translateY(-1px); }
 .message-card__from { font-weight: 700; font-size: .84rem; display: flex; justify-content: space-between; }
 .message-card__from time { font-weight: 400; color: var(--ink-soft); font-size: .74rem; }
 .message-card p { margin: 6px 0 0; font-size: .84rem; color: var(--ink-soft); }
@@ -176,9 +197,11 @@ button.btn[disabled], a.btn[aria-disabled="true"] { opacity: .5; cursor: not-all
 .toast {
   display: flex; align-items: center; gap: 12px; background: var(--royal-deep); color: #fff;
   border-radius: 8px; padding: 14px 18px; box-shadow: var(--shadow); font-size: .86rem; font-weight: 600;
-  min-width: 260px; max-width: 360px; opacity: 0; transform: translateY(8px); transition: opacity .25s ease, transform .25s ease;
+  min-width: 260px; max-width: 360px; opacity: 0; transform: translateY(8px) scale(.96);
+  transition: opacity var(--dur-med) var(--ease-premium), transform var(--dur-med) var(--ease-premium);
 }
 .toast.is-visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .toast, .class-row, .mini-list li, .message-card, .stat-tile, .app-nav a, .app-nav li.active a::before { transition-duration: .01ms !important; animation-duration: .01ms !important; } .stat-tile:hover, .message-card:hover { transform: none; } }
 .toast::before { content: ''; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--status-good); }
 .toast--error::before { background: var(--status-critical); }
 
@@ -218,6 +241,7 @@ button.btn[disabled], a.btn[aria-disabled="true"] { opacity: .5; cursor: not-all
 .profile-header {
   display: flex; align-items: center; gap: 24px; background: var(--surface);
   border: 1px solid var(--line); border-radius: 10px; padding: 30px 32px; margin-bottom: 24px; flex-wrap: wrap;
+  box-shadow: var(--shadow-sm);
 }
 .profile-header__avatar {
   width: 84px; height: 84px; border-radius: 50%; background: var(--royal); color: var(--gold-bright);
@@ -233,7 +257,7 @@ button.btn[disabled], a.btn[aria-disabled="true"] { opacity: .5; cursor: not-all
 .profile-header__meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: .84rem; color: var(--ink-soft); }
 .profile-header__id { font-variant-numeric: tabular-nums; letter-spacing: .02em; }
 
-.settings-group { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 28px 30px; margin-bottom: 22px; }
+.settings-group { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 28px 30px; margin-bottom: 22px; box-shadow: var(--shadow-sm); }
 .settings-group__head { margin-bottom: 22px; }
 .settings-group__head h2 { font-size: 1rem; margin-bottom: 4px; }
 .settings-group__head p { font-size: .84rem; color: var(--ink-soft); margin: 0; }
