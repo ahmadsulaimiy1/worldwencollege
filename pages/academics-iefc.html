@@ -2,12 +2,19 @@
   <div class="container">
     <span class="eyebrow">Flagship Programme</span>
     <h1>The International English Fluency Course</h1>
-    <p class="lede">One structured pathway from a first sentence to executive-level command of English — six levels, twenty-four months, seven hundred and twenty learning units.</p>
+    <p class="lede">CEFR-aligned English mastery, enhanced by leadership, executive communication, intercultural competence, critical thinking, professional communication and real-world performance — six levels, twenty-four months, one flagship qualification.</p>
+    <!-- Headline metrics are ACADEMIC WORKLOAD, not a content count.
+         An hours figure is comparable across institutions and cannot be
+         padded without becoming absurd; a lesson count is unverifiable
+         by the reader and trivially inflated. The lesson count still
+         appears in the structural table below — it is true — but it is
+         no longer what the College leads with. See
+         docs/academic-framework.md § I. -->
     <div class="stat-row" style="margin-top:40px">
       <div class="stat-row__item"><strong>6</strong><span>Academic Levels</span></div>
-      <div class="stat-row__item"><strong>4 mo.</strong><span>Per Level</span></div>
-      <div class="stat-row__item"><strong>120</strong><span>Units Per Level</span></div>
-      <div class="stat-row__item"><strong>720</strong><span>Units Total</span></div>
+      <div class="stat-row__item"><strong>120</strong><span>WEC Credits</span></div>
+      <div class="stat-row__item"><strong>1,200</strong><span>Total Qualification Time (hrs)</span></div>
+      <div class="stat-row__item"><strong>≈12</strong><span>Hours Per Week</span></div>
       <div class="stat-row__item"><strong>24 mo.</strong><span>Full Programme</span></div>
     </div>
   </div>
@@ -22,7 +29,7 @@
     </div>
     <div class="table-scroll">
       <table class="ledger">
-        <thead><tr><th>Level</th><th>CEFR</th><th>Focus</th><th>Duration</th><th>Units</th></tr></thead>
+        <thead><tr><th>Level</th><th>CEFR</th><th>Focus</th><th>Duration</th><th>Lessons</th></tr></thead>
         <tbody>
           <tr>
             <td><strong>I · Foundation Programme</strong></td><td>A1</td>
@@ -57,17 +64,19 @@
         </tbody>
       </table>
     </div>
-    <!-- The Units column is the DESIGNED size of each level, taken from
-         the curriculum framework (10 thematic modules of roughly twelve
-         learning units each). It is not a count of what is loaded in the
-         learning platform today, and saying so is not optional: a
-         prospective student reads this table to decide whether to pay.
-         tests/published-claims.test.mjs measures the real figure against
-         the database and fails the build if this disclosure goes
-         missing, so the two cannot drift apart again quietly. -->
+    <!-- The Lessons column is the DESIGNED size of each level (ten
+         modules of roughly twelve lessons each). It is not a count of
+         what is loaded in the learning platform today, and saying so is
+         not optional: a prospective student reads this table to decide
+         whether to pay. tests/published-claims.test.mjs measures the
+         real figure against the database and fails the build if this
+         disclosure goes missing, so the two cannot drift apart quietly
+         again. -->
     <div class="callout" id="curriculum-status">
-      <span class="callout__label">Curriculum status — read this alongside the table</span>
-      <p><strong>The Units column above is the designed size of each level, not the amount of content published in the learning platform today.</strong> Each level is designed as ten thematic modules of roughly twelve learning units. All sixty modules across all six levels are authored and live, together with every module quiz and assignment; the full complement of learning units within them is still being written and is released continuously. We publish the design figure because it is what the programme is being built to — and we tell you it is the design figure, because presenting it as delivered content would not be true.</p>
+      <span class="callout__label">Academic workload and curriculum status</span>
+      <p><strong>How the programme is measured.</strong> Each level carries <strong>20 WEC Credits</strong> and a <strong>Total Qualification Time of 200 hours</strong> — 80 Guided Learning Hours and 120 Independent Learning Hours — across four months, or about twelve hours a week. The full programme is 120 WEC Credits and 1,200 hours. A WEC Credit is the College's own internal measure (one credit represents ten notional learning hours); it is not ECTS or CATS and carries no transfer entitlement to any institution.</p>
+      <p><strong>These hours are a design figure, not a measurement.</strong> We will replace them with hours measured from real time-on-task once enough learners have completed a level, and we will say publicly where the measurement differs from the design. Total Qualification Time counts guided study plus the independent study expected within the programme; it does not count a learner's own wider exposure to English, which is substantial and is where much acquisition happens. It is not a claim that CEFR C2 can be reached in 1,200 hours from no English.</p>
+      <p><strong>The Lessons column is the designed size of each level, not the amount of content published in the learning platform today.</strong> All sixty modules across all six levels are authored and live, with every module examination and assignment; the full complement of lessons within them is still being written and is released continuously. We publish the design figure because it is what the programme is being built to — and we tell you it is the design figure, because presenting it as delivered content would not be true.</p>
     </div>
   </div>
 </section>

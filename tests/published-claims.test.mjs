@@ -20,7 +20,7 @@
 // silently.** Where a number is not backed by the database, the page
 // carrying it must also carry an explicit statement of what is
 // designed versus what is delivered.
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 import path from 'node:path';
 import { ROOT } from './helpers.mjs';
@@ -80,8 +80,57 @@ const PUBLISHED_UNITS_TOTAL = 720;
 const backed = items >= PUBLISHED_UNITS_TOTAL;
 
 check('The page still publishes the design figure this test is watching',
-  /<td>120<\/td>/.test(iefc) && /seven hundred and twenty learning units/i.test(iefc),
-  'the claim moved — update this test rather than deleting it');
+  /<td>120<\/td>/.test(iefc), 'the claim moved — update this test rather than deleting it');
+
+// ---------------------------------------------------------------------
+// The terminology register (docs/academic-framework.md § XVII)
+// ---------------------------------------------------------------------
+// "Unit" previously meant a level, a module AND a lesson depending on
+// where you read it, and that collision is exactly what let a published
+// figure drift from the delivered content for months without anyone
+// noticing. Ambiguity is not a style problem; it is how institutions
+// come to misdescribe themselves. One word per concept, enforced.
+const PUBLIC_PAGES = readdirSync(path.join(ROOT, 'pages'))
+  .filter((f) => f.endsWith('.html'))
+  .map((f) => [f, readFileSync(path.join(ROOT, 'pages', f), 'utf8')]);
+
+const unitOffenders = PUBLIC_PAGES.filter(([, body]) =>
+  // "United Kingdom", "United Arab Emirates" and friends are not the
+  // word we are policing.
+  /\bunits?\b/i.test(body.replace(/United\s+\w+/gi, '')));
+check('No public page uses "unit" — the word means three different things and is retired',
+  unitOffenders.length === 0, unitOffenders.map(([f]) => f).join(', '));
+
+// ---------------------------------------------------------------------
+// Workload is the headline, not a content count
+// ---------------------------------------------------------------------
+// An hours figure is comparable across institutions and cannot be padded
+// without becoming absurd; a lesson count is unverifiable by the reader
+// and trivially inflated. The count is still true and still published in
+// the structural table — it is simply no longer what the College leads
+// with.
+const iefcHead = iefc.slice(0, iefc.indexOf('</section>'));
+check('The IEFC page leads with academic workload, not a lesson count',
+  /WEC Credits/.test(iefcHead) && /Total Qualification Time/.test(iefcHead), 'headline metrics are not workload');
+check('...and no longer leads with a raw content count',
+  !/Lessons Total|Units Total|Lessons Per Level|Units Per Level/i.test(iefcHead));
+
+// The hours figure is the most checkable claim the College could get
+// wrong, so the qualifications on it are mandatory, not optional.
+check('The hours figure is declared a design figure, not a measurement',
+  /design figure, not a measurement/i.test(iefc));
+check('...with the commitment to replace it with measured hours',
+  /measured from real time-on-task/i.test(iefc));
+check('...and does NOT claim C2 is reachable in that time from no English',
+  /not a claim that CEFR C2 can be reached/i.test(iefc));
+check('The WEC Credit is declared internal, not ECTS or CATS',
+  /not ECTS or CATS/i.test(iefc) && /no transfer entitlement/i.test(iefc));
+
+// Per-lesson pricing tied to undelivered lessons was the most exposed
+// claim on the site, and per-item pricing is discount language besides.
+const tuition = readFileSync(path.join(ROOT, 'pages/admissions-tuition.html'), 'utf8');
+check('Tuition is priced by level and credit, never per lesson',
+  !/per\s*(unit|lesson)/i.test(tuition), 'per-item pricing found');
 
 if (backed) {
   check('The published unit count is now fully backed by the curriculum — the disclosure can be retired',
