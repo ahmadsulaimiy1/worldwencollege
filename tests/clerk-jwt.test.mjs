@@ -98,6 +98,31 @@ const ENV = { CLERK_JWKS_URL: 'https://stub.clerk.accounts.dev/.well-known/jwks.
 }
 
 // ---------------------------------------------------------------------
+// The email_verified claim, in whichever shape Clerk sends it
+// ---------------------------------------------------------------------
+{
+  // The claim comes from a Clerk JWT template written as
+  //   "email_verified": "{{user.email_verified}}"
+  // — a shortcode inside JSON quotes. Whether Clerk preserves the
+  // boolean or substitutes the string "true" is the vendor's choice,
+  // invisible from our side, and exactly the sort of thing a dashboard
+  // release changes. A strict === true would have recorded every
+  // learner as unverified with nothing appearing broken.
+  const kp = await makeKeypair('kid-primary');
+  jwksKeys = [kp.jwk];
+  const adapter = await freshAdapter();
+  const verified = async (v) => (await adapter.verifySessionToken(await sign(kp, claims({ email_verified: v })), ENV)).emailVerified;
+
+  check('email_verified as a boolean true is verified', await verified(true) === true);
+  check('email_verified as the string "true" is verified', await verified('true') === true);
+  check('email_verified as boolean false is not verified', await verified(false) === false);
+  check('email_verified as the string "false" is NOT verified — Boolean() would get this wrong',
+    await verified('false') === false);
+  check('a missing email_verified claim is not verified', await verified(undefined) === false);
+  check('email_verified as null is not verified', await verified(null) === false);
+}
+
+// ---------------------------------------------------------------------
 // Forgery — the cases that decide whether this is security or theatre
 // ---------------------------------------------------------------------
 {

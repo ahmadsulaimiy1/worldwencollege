@@ -140,7 +140,20 @@ export const clerkAdapter = {
     return {
       providerId: payload.sub,
       email: payload.email || null,
-      emailVerified: payload.email_verified === true,
+      // Not `=== true`. The claim is produced by a Clerk JWT template
+      // written as `"email_verified": "{{user.email_verified}}"` —
+      // a shortcode inside JSON quotes. Whether the substitution keeps
+      // the boolean type or yields the string "true" is the vendor's
+      // choice, it is not visible from our side, and it is the kind of
+      // thing that changes in a dashboard release. A strict comparison
+      // would silently record every learner as unverified and nothing
+      // would look broken.
+      //
+      // So: accept the value in whichever shape it arrives, and treat
+      // anything else — absent, null, "false", 0 — as not verified.
+      // Deliberately not `Boolean(...)`, which would read the string
+      // "false" as true.
+      emailVerified: payload.email_verified === true || payload.email_verified === 'true',
     };
   },
 
