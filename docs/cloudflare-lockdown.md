@@ -136,6 +136,20 @@ That endpoint is not unprotected as a result: it verifies a Svix
 signature against `CLERK_WEBHOOK_SECRET` and rejects anything unsigned
 or replayed. Access was never what was protecting it.
 
+**A near miss worth recording.** The first attempt at the bypass
+application submitted with the Path field empty, so its destination was
+the bare `wec-lc.pages.dev` — the same hostname the site-wide Allow
+application already claims. Cloudflare refused it with
+`access.api.error.application_already_exists`, which reads like a
+nuisance and is in fact the thing that stopped the site going public.
+Access evaluates Bypass policies **first**, so had two applications been
+allowed to claim one hostname — one demanding login, one bypassing it —
+the bypass would have won and every page would have been open to
+anyone, while the dashboard showed two healthy applications and a
+successful create. The lesson generalises: after adding any Bypass,
+re-test a protected URL from a signed-out device. A Bypass that is
+wider than intended does not announce itself.
+
 The same will be needed for each of `/api/payments/webhook-stripe`,
 `webhook-paystack`, `webhook-flutterwave` and `webhook-opay` when a
 gateway goes live — one bypass per path. Adding a bypass is the
