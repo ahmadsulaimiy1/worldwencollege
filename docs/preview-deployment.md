@@ -391,6 +391,37 @@ one database state and made shipping migration 003 impossible, because
 001's `ALTER TABLE ADD COLUMN` fails on a database that already has
 those columns.
 
+### What the first ledgered run found — 3 August 2026, run #6
+
+Worth recording, because the prediction and the reality differed and the
+difference was not cosmetic:
+
+```
+~ 001-recording-storage.sql — already present, recorded as baseline
++ 002-enrolment-integrity.sql — applying
++ 003-appointments.sql — applying
+```
+
+**002 had never been applied.** The expectation — stated confidently
+beforehand — was that only 003 was missing. So until that run,
+production had neither `enrolment_events` (the audit table behind every
+"who changed this enrolment and why") nor
+`idx_enrolments_one_live_per_level`, the partial unique index that stops
+one learner holding two live enrolments in the same level. The second is
+the integrity defect migration 002 exists to fix; it had been live and
+unfixed since the database was seeded, and the old runner could never
+have closed it, because it would have died on 001 before reaching 002.
+One root cause produced both the gap and the inability to close it.
+
+`CREATE UNIQUE INDEX` fails against rows that violate it. 002 applied
+cleanly, which is **evidence** rather than reassurance that no duplicate
+live enrolments existed.
+
+The lesson is the one this project keeps relearning: the database's
+state was asserted from memory of what had been built, and the database
+disagreed. A probe that asks is worth more than a maintainer who
+remembers.
+
 What is deliberately still absent is **policy**: who ought to hold each
 access level, what a pass mark is, how many resits are allowed, how
 long a recording may be kept. Those are drafted as recommendations in
