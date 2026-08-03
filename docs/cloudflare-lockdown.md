@@ -43,31 +43,58 @@ somebody not on the list shows them a login screen, not the site.
 application's path from the whole host to those three paths. Same
 application, one field.
 
-### The steps
+### What was actually done — 3 August 2026, verified
 
-Cloudflare's dashboard is reorganised regularly, so these are described
-by what you are looking for rather than by an exact menu path.
+Zero Trust team domain: `raspy-cloud-4feb.cloudflareaccess.com`.
 
-1. **Cloudflare dashboard → Zero Trust.** First time only, it asks you
-   to pick a team name — any name; it becomes part of the login URL —
-   and to choose a plan. **Free** covers up to 50 users. It may ask for
-   a payment method to complete the free plan; nothing is charged.
+Application **WEC-LC preview**, created under **Access controls →
+Applications → Add an application → Self-hosted and private → Public
+DNS**, with **two** destinations:
 
-2. **Zero Trust → Access → Applications → Add an application →
-   Self-hosted.**
+| Destination | Covers |
+|---|---|
+| `wec-lc.pages.dev` | the production URL |
+| `*.wec-lc.pages.dev` | the `preview.` alias **and every per-deployment URL** |
 
-3. **Application domain:** `preview.wec-lc.pages.dev`, path left empty
-   (the whole site).
+Policy `Owner only`: Action **Allow**, Include → **Emails** → the
+owner's address. Session duration 24 hours.
 
-4. **Policy:** name it something like `Owner only`. Action **Allow**.
-   Rule: **Include → Emails →** your own address.
+Verified from a phone on mobile data — a genuinely separate device
+rather than a private window on the same machine. Both
+`wec-lc.pages.dev` and `preview.wec-lc.pages.dev` returned the
+Cloudflare Access login screen instead of the site.
 
-5. **Identity provider:** if none is configured, enable **One-time PIN**.
-   That emails a code to the address on the list, which needs no Google
-   or Microsoft setup and is enough for one person.
+### Two things worth knowing for next time
 
-6. Save. Open the preview URL in a private window — you should get a
-   Cloudflare login screen, not the site.
+**The Domain dropdown does not list `pages.dev`.** It only offers zones
+in the account, and `pages.dev` is Cloudflare's own. The way through is
+the **Switch to custom input** link directly beneath the Subdomain box —
+easy to miss, and not in the dropdown itself. Once the first destination
+exists, `wec-lc.pages.dev` *does* appear in the dropdown for later rows,
+so the wildcard row can be entered as Subdomain `*` + Domain
+`wec-lc.pages.dev` using the ordinary formatted fields.
+
+**Two destinations, not one — this is the part that would have looked
+finished while leaving the site open.** Pages gives every deployment a
+permanent public URL of the form `<hash>.wec-lc.pages.dev`. Those never
+expire, several already exist from earlier deploy runs, and they serve
+the same site. Protecting `preview.wec-lc.pages.dev` alone would have
+left all of them reachable. The wildcard is what closes them, including
+ones that do not exist yet.
+
+### Login method
+
+The Cloudflare identity provider works but is a poor fit here: signing in
+means a Cloudflare dashboard login **plus** an OAuth consent screen
+titled "Unknown app wants to access your account" — which is legitimate
+(it is the Access application asking to read which email you are signed
+in as) but reads exactly like a phishing page, every time the 24-hour
+session expires.
+
+**One-time PIN** was added alongside it: email address, emailed code,
+in. Nothing to configure, and it means adding someone later is just
+their address on the policy rather than asking them to create a
+Cloudflare account first.
 
 ### Two things that will bite
 
@@ -82,6 +109,39 @@ knowing before it happens at an awkward moment.
 answers "may this person reach the site", not "may this person read that
 learner's file". Every role check still applies underneath it, and
 `tests/admin-route-guards.test.mjs` is what keeps them honest.
+
+### It also blocks machines — the webhook bypass
+
+Access turns away anything without a session, and a webhook has no
+session. `POST /api/auth/webhook-clerk` is called by Clerk's servers
+when someone signs up or changes their email; with the site-wide policy
+in place those calls are refused at the edge, and Clerk eventually stops
+retrying.
+
+How much this matters, stated accurately: **sign-up still works.**
+`requireUser()` provisions a local account on a learner's first
+authenticated request rather than waiting for the webhook — built that
+way deliberately, so a webhook that has not fired yet cannot break
+somebody's first minute (see `tests/auth-provisioning.test.mjs`). What
+stops working is the sync of email changes and account deletions from
+Clerk.
+
+The fix is a **second Access application** whose destination is the
+single path `wec-lc.pages.dev/api/auth/webhook-clerk`, carrying a
+**Bypass** policy with Everyone. Access evaluates the most specific
+destination first, so the narrow bypass sits underneath the site-wide
+Allow without opening anything else.
+
+That endpoint is not unprotected as a result: it verifies a Svix
+signature against `CLERK_WEBHOOK_SECRET` and rejects anything unsigned
+or replayed. Access was never what was protecting it.
+
+The same will be needed for each of `/api/payments/webhook-stripe`,
+`webhook-paystack`, `webhook-flutterwave` and `webhook-opay` when a
+gateway goes live — one bypass per path. Adding a bypass is the
+*deliberate* act of putting a route back on the public internet, so it
+is worth doing them one at a time rather than bypassing `/api/*`, which
+would hand the whole API back to the open internet in a single click.
 
 ---
 
