@@ -85,6 +85,35 @@ CREATE TABLE enrolments (
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 CREATE INDEX idx_enrolments_user ON enrolments(user_id);
+-- One LIVE enrolment per learner per level (migration 002). PARTIAL,
+-- excluding 'withdrawn', because withdrawing and re-enrolling is a real
+-- thing an institution does — history is kept, two *live* enrolments in
+-- one level are not. Without this, student/progression.js can mark one
+-- duplicate completed while another stays active, leaving a learner
+-- simultaneously finished and in progress.
+CREATE UNIQUE INDEX idx_enrolments_one_live_per_level
+  ON enrolments(user_id, level_id)
+  WHERE status != 'withdrawn';
+
+-- Why an enrolment exists. A row in `enrolments` says a learner has
+-- access; it does not say who granted it or why. Once staff can enrol
+-- somebody without a payment, a scholarship, a bank transfer, a staff
+-- test account and a mistake all look identical without this.
+-- actor_id NULL means the system did it (a payment webhook) — honest,
+-- because no person made that decision.
+CREATE TABLE enrolment_events (
+  id                TEXT PRIMARY KEY,           -- 'eev_' + uuid
+  enrolment_id      TEXT NOT NULL REFERENCES enrolments(id),
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  level_id          INTEGER NOT NULL REFERENCES programme_levels(id),
+  from_status       TEXT,                       -- NULL when first created
+  to_status         TEXT NOT NULL,
+  actor_id          TEXT REFERENCES users(id),  -- staff member, or NULL for system
+  reason            TEXT,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_enrolment_events_user ON enrolment_events(user_id, created_at);
+CREATE INDEX idx_enrolment_events_enrolment ON enrolment_events(enrolment_id);
 
 -- ---------------------------------------------------------------------
 -- Currency — config-driven, not hardcoded into application logic.

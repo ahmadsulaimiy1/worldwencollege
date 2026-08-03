@@ -91,6 +91,8 @@ jobs:
         run: node tests/browser/lab-auth.mjs
       - name: Recording upload, end to end
         run: node tests/browser/recording-upload.mjs
+      - name: Enrolment administration
+        run: node tests/browser/admin-enrolments.mjs
 
   deploy:
     needs: verify

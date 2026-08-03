@@ -215,6 +215,17 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   Confirmed to detect its own regression by sabotaging
   `requireUser()` — which also revealed that the happy-path assertions
   crashed rather than reporting, now fixed.
+- `admin-enrolments.test.mjs` — staff enrolment management
+  (`functions/_lib/admin/enrolments.js`). Weighted towards the two
+  things that turn an admin tool into a liability: granting yourself
+  access, and changing someone's access without leaving a trace. Also
+  covers the integrity defect that prompted it — before migration 002
+  the enrolments table had no uniqueness, so running the manual SQL
+  twice (exactly how the platform's first learner was enrolled) created
+  two live enrolments in one level, after which `completeLevel()` would
+  mark one completed and leave the other active. 39 assertions;
+  confirmed by sabotage to detect both the missing self-guard and the
+  missing index.
 - `run.mjs` — runs everything above and reports a combined summary.
 
 **Browser tests** (not in `run.mjs` — they need Chromium and a server,
@@ -270,6 +281,14 @@ node tests/browser/route-audit.mjs
   first run by finding that the content-type allow-list rejected
   `audio/webm;codecs=opus` — every recording any real browser makes.
   13 assertions.
+- `browser/admin-enrolments.mjs` — the enrolment administration page in
+  a real browser, against the real enrolment module: search, open a
+  learner, withdraw a level, re-enrol, read the audit trail back, and
+  confirm that dismissing the reason prompt changes nothing. It found a
+  real defect on its first run — the page mapped every 403 to "you do
+  not have staff access", so a staff member refused for enrolling
+  *themselves* was told they were not staff, which would have sent them
+  to ask for access they already had. 18 assertions.
 - `browser/route-audit.mjs` — the pre-deployment sweep. Walks every
   built HTML file and loads each one, checking the things that break a
   deployment rather than a unit test: broken routes, missing first-party

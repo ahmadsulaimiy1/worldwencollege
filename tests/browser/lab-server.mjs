@@ -48,6 +48,7 @@ function wrap(k) {
 }
 
 const content = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/content.js`));
+const adminEnrol = await import(pathToFileURL(`${ROOT}/functions/_lib/admin/enrolments.js`));
 const recordings = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/recording-storage.js`));
 const { makeR2 } = await import(pathToFileURL(`${ROOT}/tests/r2-shim.mjs`));
 // The same in-memory R2 stand-in the unit tests use, so the browser
@@ -102,6 +103,20 @@ createServer(async (req, res) => {
     if (url.pathname === '/api/lms/pronunciation-profile') {
       const lv = url.searchParams.get('levelId');
       return json(res, await content.getPronunciationProfile(env, { userId: 'usr_demo', levelId: lv ? Number(lv) : null }));
+    }
+    // Staff enrolment administration, driven by the real module. The
+    // harness acts as a fixed staff member, the same way it acts as a
+    // fixed learner elsewhere -- what is under test is the page and the
+    // enrolment logic, not the role check, which has its own tests.
+    if (url.pathname === '/api/admin/learners' && req.method === 'GET') {
+      const id = url.searchParams.get('id');
+      if (id) return json(res, await adminEnrol.getLearner(env, { userId: id }));
+      return json(res, await adminEnrol.searchLearners(env, { q: url.searchParams.get('q') || '' }));
+    }
+    if (url.pathname === '/api/admin/enrolment' && req.method === 'POST') {
+      const body = JSON.parse(await read(req));
+      const actor = { id: 'usr_tutor', role: 'staff', email: 'tutor@example.com' };
+      return json(res, await adminEnrol.setEnrolmentStatus(env, { actor, ...body }), 201);
     }
     if (url.pathname === '/api/lms/recording' && req.method === 'POST') {
       const body = JSON.parse(await read(req));

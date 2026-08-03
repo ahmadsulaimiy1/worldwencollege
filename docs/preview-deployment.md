@@ -335,3 +335,32 @@ LAB_BASE=https://<your-preview>.pages.dev node tests/browser/route-audit.mjs
 (The audit currently targets its local harness; pointing it at a remote
 origin is a small change to `BASE` and is the natural next step once a
 preview URL exists.)
+
+---
+
+## 7. Enrolling a learner who did not pay by card
+
+`/admin-enrolments.html` — staff only. Search a learner, see all six
+levels, grant or withdraw one, and give a reason that is recorded
+against your name. This replaces writing SQL into the D1 console, which
+is how the platform's first learner was enrolled and is not a process.
+
+**Bootstrap: the first staff account.** Everyone provisions as a
+student, so exactly one out-of-band step is unavoidable — the first
+administrator cannot be appointed by an administrator. Once, in the D1
+console:
+
+```sql
+UPDATE users SET role = 'admin' WHERE email = 'you@example.com';
+```
+
+After that the page works, and nothing else needs SQL. Promoting other
+people to staff is deliberately NOT in this page: who may hold staff
+access is a governance decision, and a screen that grants it before
+that decision exists would be inventing the policy.
+
+**Requires migration 002** (`apply_migrations` on the deploy workflow),
+which adds the audit table and — more importantly — a partial unique
+index that stops the same learner holding two live enrolments in one
+level. Without it, `completeLevel()` can mark one duplicate completed
+and leave the other active.
