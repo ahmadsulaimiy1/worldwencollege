@@ -232,10 +232,36 @@ somebody may later have to substantiate.
 **Decision:** ☐ awaiting
 
 ### C4. The IEFC award architecture
-**Recommendation:** adopt `docs/iefc-award-architecture.md` in full —
-six named awards (Aspirant, Practitioner, Communicator, Envoy, Orator,
-Laureate), post-nominals AWEC–LWEC, honours of Pass/Merit/Distinction,
-the Register of the Ascent, and four College traditions.
+**Recommendation:** adopt `docs/iefc-award-architecture.md` (second
+reading) in full — six named awards of **standing** (Aspirant,
+Candidate, Associate, Envoy, Orator, Laureate), post-nominals
+ApWEC–LrWEC, five honours, one Alumni Society with six Chapters, the
+Register of the Ascent, and four College traditions.
+
+**What changed at second reading.** The first draft proposed a ladder of
+*capability*; the Executive returned one of *standing* and was right.
+Capability language duplicates the qualification descriptors and dates
+badly — "Communicator" is a word of its decade. Standing language does
+not: aspirant, candidate, associate, envoy, orator and laureate will
+still be legible when everyone who founded this College is dead. That is
+the correct test and it decided the ladder.
+
+**Two sub-decisions the Board has separated out because they are not
+naming questions:**
+
+- **C4a — the office of Chancellor.** The Executive asked for a
+  "Chancellor's Distinction". WEC-LC has no Chancellor and, by the
+  standing rule against fabricated leadership, cannot print one on a
+  certificate. Either constitute the office as a real appointment, or
+  adopt **"the Distinction of the College"** until one exists.
+  **Recommendation: the latter now, the former when there is a
+  Chancellor.**
+- **C4b — the Professional Interpreter Pathway.** Held back
+  deliberately. Interpreting has established certification regimes and
+  the consequences of under-qualified interpreting fall on third parties
+  — a patient, a defendant — who never chose the College. It is the one
+  item in the architecture capable of harming someone who is not a
+  student, and must not launch on enthusiasm.
 
 **What it changes about C1:** C1 proposes a Certificate of Completion
 per level. C4 supersedes that with a *named award* per level, because a
