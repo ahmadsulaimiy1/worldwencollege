@@ -137,6 +137,16 @@ const after6 = await page.locator('#levels > div').nth(5).textContent();
 check('Withdrawing a level updates the page immediately',
   /Not enrolled/.test(after6 || ''), (after6 || '').trim().slice(0, 70));
 
+// The audit record begins on the day migration 002 reached the live
+// database, so for any older account this panel shows a record that
+// starts mid-story. Rendering the rows and saying nothing else asserts
+// "this is what happened to this learner", which is false.
+const histText = await page.textContent('#history');
+check('The history says when the record begins, rather than implying it is complete',
+  /record begins on 2026-08-03/i.test(histText || ''), (histText || '').trim().slice(0, 120));
+check('...and says the earlier changes are gone rather than that none happened',
+  /cannot be recovered/i.test(histText || ''), (histText || '').trim().slice(0, 160));
+
 const history = await page.locator('#history > div').allTextContents();
 check('The withdrawal appears in the history', history.length >= 1, history.length);
 check('...attributed to the staff member who did it',

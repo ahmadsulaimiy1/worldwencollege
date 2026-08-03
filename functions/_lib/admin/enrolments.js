@@ -68,6 +68,10 @@ export async function getLearner(env, { userId }) {
   if (!user) throw new NotFoundError('Unknown learner.');
   user.enrolments = await enrolmentsFor(env, userId);
   user.history = await enrolmentHistory(env, { userId });
+  // Sent with every learner rather than fetched separately: the page
+  // cannot render the history honestly without it, so it should never
+  // be in a position to render the history without it.
+  user.auditRecord = await auditRecordStart(env);
   return user;
 }
 
@@ -93,6 +97,46 @@ export async function enrolmentHistory(env, { userId, limit = 50 }) {
   // actorEmail null is not missing data — it is the system, and the
   // caller should be able to say so rather than render a blank.
   return results.map((r) => ({ ...r, actor: r.actorEmail || null, bySystem: !r.actorEmail }));
+}
+
+// When the enrolment audit record actually begins.
+//
+// enrolment_events was added by migration 002, which reached the live
+// database on 3 August 2026 — long after the first learners were
+// enrolled. Every change before that has no record and never will: the
+// events were not written, so there is nothing to recover.
+//
+// A history panel that renders those rows and says nothing else is
+// making an implicit claim — "this is what happened to this learner" —
+// that is false for any account older than the table. "No enrolment
+// changes recorded yet" is worse still: it reads as "nothing happened",
+// when the truth is "nothing was being written down".
+//
+// The migration ledger already knows the answer, so it is asked rather
+// than hardcoded:
+//
+//   method 'applied'  — the table was added to an existing database, so
+//                       there IS a gap, and applied_at is where the
+//                       record starts.
+//   method 'baseline' — the table was present when the database was
+//                       created, so no enrolment predates it and the
+//                       record is complete.
+//   no row            — a database older than the ledger itself. Say
+//                       "unknown" rather than guess either way.
+export async function auditRecordStart(env) {
+  let row = null;
+  try {
+    row = await db(env)
+      .prepare("SELECT applied_at AS appliedAt, method FROM schema_migrations WHERE filename = '002-enrolment-integrity.sql'")
+      .first();
+  } catch {
+    // No schema_migrations table at all — a database that predates the
+    // ledger. Not an error worth failing a learner lookup over.
+    return { known: false, complete: false, since: null };
+  }
+  if (!row) return { known: false, complete: false, since: null };
+  if (row.method === 'baseline') return { known: true, complete: true, since: null };
+  return { known: true, complete: false, since: row.appliedAt };
 }
 
 // Create or move an enrolment, recording who and why.

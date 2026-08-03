@@ -114,7 +114,7 @@
         (l.emailVerified ? ' · email verified' : ' · email not verified');
       renderLevels(l);
       renderAccess(l);
-      renderHistory(l.history);
+      renderHistory(l.history, l.auditRecord);
       renderAppointments(l);
       $('#learnerCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }).catch(fail);
@@ -363,14 +363,40 @@
     }).catch(fail);
   }
 
-  function renderHistory(history) {
+  // Turn the audit-record start into one plain sentence.
+  //
+  // The enrolment_events table reached the live database on 3 August
+  // 2026, well after the first learners were enrolled, so for older
+  // accounts this panel shows a record that begins mid-story. Rendering
+  // the rows and saying nothing else asserts "this is what happened to
+  // this learner", which is false. Saying "No enrolment changes recorded
+  // yet" is worse — it reads as "nothing happened", when the truth is
+  // "nothing was being written down".
+  function auditNote(audit, empty) {
+    if (!audit || audit.complete) {
+      return empty ? 'No enrolment changes recorded for this learner.' : null;
+    }
+    if (!audit.known) {
+      return 'This record may be incomplete: it is not known when enrolment changes began being recorded on this database.';
+    }
+    var when = String(audit.since || '').slice(0, 10);
+    return empty
+      ? 'No enrolment changes recorded since ' + when + ', which is when this record began. Anything earlier happened before changes were being written down.'
+      : 'This record begins on ' + when + '. Enrolment changes made before that date were not recorded and cannot be recovered.';
+  }
+
+  function renderHistory(history, audit) {
     var box = $('#history');
     box.innerHTML = '';
-    if (!history || !history.length) {
-      box.textContent = 'No enrolment changes recorded yet.';
-      box.style.color = 'var(--ink-soft)';
-      return;
+    var empty = !history || !history.length;
+    var note = auditNote(audit, empty);
+    if (note) {
+      var p = document.createElement('p');
+      p.style.cssText = 'margin:0 0 .6rem;color:var(--ink-soft);font-size:.82rem';
+      p.textContent = note;
+      box.appendChild(p);
     }
+    if (empty) { box.style.color = 'var(--ink-soft)'; return; }
     box.style.color = '';
     history.forEach(function (h) {
       var lv = LEVELS.filter(function (l) { return l[0] === h.levelId; })[0];

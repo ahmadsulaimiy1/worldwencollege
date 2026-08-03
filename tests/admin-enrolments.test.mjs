@@ -202,5 +202,52 @@ const STAFF = { id: 'usr_reg', role: 'staff', email: 'registrar@example.com' };
   check('An unknown learner is a clean 404', gone && gone.name === 'NotFoundError', gone && gone.name);
 }
 
+// ---------------------------------------------------------------------
+// When the audit record actually begins
+// ---------------------------------------------------------------------
+// enrolment_events reached the live database on 3 August 2026, long
+// after the first learners were enrolled. A history panel that renders
+// its rows and says nothing else asserts "this is what happened to this
+// learner" — false for any account older than the table. So the record's
+// start date is reported alongside it, taken from the migration ledger
+// rather than hardcoded.
+{
+  const env = freshEnv();
+
+  // A database built from schema.sql: the table existed from the start,
+  // so nothing predates it and there is no gap to warn about.
+  env.DB.prepare(`INSERT INTO schema_migrations (filename, applied_at, method)
+    VALUES ('002-enrolment-integrity.sql', '2026-08-03T12:15:21.000Z', 'baseline')`).bind().run();
+  const complete = await admin.auditRecordStart(env);
+  check('A database that always had the table reports a complete record',
+    complete.known === true && complete.complete === true, JSON.stringify(complete));
+
+  // The live case: the table was ADDED to an existing database, so
+  // everything before that timestamp is missing and unrecoverable.
+  env.DB.prepare("DELETE FROM schema_migrations WHERE filename = '002-enrolment-integrity.sql'").bind().run();
+  env.DB.prepare(`INSERT INTO schema_migrations (filename, applied_at, method)
+    VALUES ('002-enrolment-integrity.sql', '2026-08-03T12:15:21.000Z', 'applied')`).bind().run();
+  const partial = await admin.auditRecordStart(env);
+  check('A database the table was ADDED to reports an incomplete record',
+    partial.known === true && partial.complete === false, JSON.stringify(partial));
+  check('...and says exactly when the record starts',
+    partial.since === '2026-08-03T12:15:21.000Z', partial.since);
+
+  // A database with no ledger row at all: honest ignorance beats a
+  // guess in either direction.
+  env.DB.prepare("DELETE FROM schema_migrations WHERE filename = '002-enrolment-integrity.sql'").bind().run();
+  const unknown = await admin.auditRecordStart(env);
+  check('With nothing in the ledger it reports "unknown", not "complete"',
+    unknown.known === false && unknown.complete === false, JSON.stringify(unknown));
+
+  // It travels WITH the learner. A page that has to make a second
+  // request for it is a page that can render the history without it.
+  env.DB.prepare(`INSERT INTO schema_migrations (filename, applied_at, method)
+    VALUES ('002-enrolment-integrity.sql', '2026-08-03T12:15:21.000Z', 'applied')`).bind().run();
+  const learner = await admin.getLearner(env, { userId: 'usr_learner' });
+  check('Every learner record carries the audit-record start with it',
+    !!learner.auditRecord && learner.auditRecord.complete === false, JSON.stringify(learner.auditRecord));
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

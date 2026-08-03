@@ -25,6 +25,13 @@ sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role
 sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_tutor','clerk','sub_tutor','tutor@example.com','staff')`);
 sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_admin','clerk','sub_admin','admin@example.com','admin')`);
 for (let n = 1; n <= 6; n++) sqlite.exec(`INSERT INTO enrolments (id,user_id,level_id,status,started_at) VALUES ('enr_${n}','usr_demo',${n},'active','2026-01-01T00:00:00.000Z')`);
+// Mirror the LIVE database, not the convenient one: enrolment_events was
+// ADDED to an existing database (migration 002, 3 Aug 2026), so the
+// audit record begins mid-story and the page has to say so. A harness
+// built from schema.sql alone would report a complete record and the
+// browser test would never see the sentence that matters.
+sqlite.exec(`INSERT INTO schema_migrations (filename, applied_at, method)
+  VALUES ('002-enrolment-integrity.sql','2026-08-03T12:15:21.000Z','applied')`);
 
 const { makeD1 } = await import(pathToFileURL(`${ROOT}/tests/d1-shim.mjs`));
 const env = { DB: makeD1FromExisting() };
