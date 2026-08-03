@@ -637,6 +637,27 @@
   }
 
   // ---- Comprehension ---------------------------------------------------
+  //
+  // Bring the result into view. On a phone the result box sits below a
+  // full screen of questions, so a learner tapped Submit, got a correct
+  // and correctly-graded answer, and saw absolutely nothing happen —
+  // found by someone using the real site on a real phone, having passed
+  // every desktop test, where the box happens to be on screen already.
+  //
+  // `role="status"` already announced it to a screen reader. Sighted
+  // mobile users got silence. An announcement only some users receive
+  // is not feedback.
+  function showResult() {
+    var el = $('#quizResult');
+    if (!el) return;
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Nearest, not centre: the last questions stay visible above the
+    // result, which is what a learner wants when the message says to go
+    // back to the lines they missed.
+    try { el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'nearest' }); }
+    catch (e) { el.scrollIntoView(); }   // older Safari: no options object
+  }
+
   function wireQuiz(questions) {
     $('#submitQuiz').addEventListener('click', function () {
       var answers = questions.map(function (q) {
@@ -646,8 +667,10 @@
       if (answers.indexOf(-1) >= 0) {
         $('#quizResult').innerHTML = '<strong>Answer every question first.</strong> ' +
           (answers.filter(function (a) { return a === -1; }).length) + ' still unanswered.';
+        showResult();
         return;
       }
+      $('#quizResult').textContent = 'Marking your answers…';
       api('/api/lms/quiz-attempt', {
         method: 'POST',
         body: JSON.stringify({ learningItemId: state.item.id, answers: answers }),
@@ -656,8 +679,10 @@
         $('#quizResult').innerHTML = '<strong>' + pct + '%</strong> — ' +
           (res.passed ? 'passed. ' : 'not yet passed. ') +
           'Use the replay links to go back to the lines you missed, then try again.';
+        showResult();
       }).catch(function (err) {
         $('#quizResult').textContent = 'Could not submit: ' + err.message;
+        showResult();
       });
     });
   }

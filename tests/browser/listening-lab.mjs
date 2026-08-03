@@ -222,6 +222,50 @@ try {
   check('Cards are fully visible under reduced motion — nothing depends on a transition having run', mobState.opacity === '1');
   check('No horizontal overflow at 390px', mobState.noOverflow === true);
 
+  // Submitting the comprehension quiz ON A PHONE. This is where the
+  // desktop tests were blind: at 1440px the result box is already on
+  // screen, so "the score appears" passed while a real learner on a
+  // real phone tapped Submit, was graded correctly, and saw nothing —
+  // the result sits below a full screen of questions.
+  //
+  // Assert what the learner actually experiences: after submitting, the
+  // outcome is IN THE VIEWPORT. Not merely that the text changed.
+  const before = await mob.evaluate(() => {
+    document.querySelectorAll('#questions .q').forEach((q) => {
+      const first = q.querySelector('input[type=radio]');
+      if (first) first.checked = true;
+    });
+    // Back to the top, so the result is genuinely off-screen when the
+    // quiz is submitted. Without this the test proves nothing.
+    window.scrollTo(0, 0);
+    const r = document.getElementById('quizResult').getBoundingClientRect();
+    return { resultVisible: r.top < window.innerHeight && r.bottom > 0 };
+  });
+  // The precondition, asserted rather than assumed: if the result were
+  // already on screen there would be nothing to scroll and the check
+  // below would pass for the wrong reason.
+  check('Precondition: at 390px the result starts below the fold', before.resultVisible === false);
+
+  // Clicked from inside the page, NOT via Playwright's locator.click().
+  // Playwright scrolls an element into view before clicking it, which
+  // drags the result box up as a side effect — the first version of
+  // this test passed even with the fix removed, for exactly that
+  // reason. A real thumb does not scroll the page before tapping.
+  await mob.evaluate(() => document.getElementById('submitQuiz').click());
+  await mob.waitForTimeout(1200);
+  const resultView = await mob.evaluate(() => {
+    const el = document.getElementById('quizResult');
+    const r = el.getBoundingClientRect();
+    return {
+      text: el.textContent.trim(),
+      inViewport: r.top < window.innerHeight && r.bottom > 0,
+    };
+  });
+  check(`The score is reported on mobile (${resultView.text.slice(0, 24)}…)`, /%/.test(resultView.text));
+  check('...and is scrolled into view, not left below the fold', resultView.inViewport === true,
+    `"${resultView.text.slice(0, 40)}" out of view`);
+  await mob.screenshot({ path: join(OUT, '05b-mobile-quiz-result.png') });
+
   // --- listening progress panel ----------------------------------------
   const prog = await page.evaluate(() => ({
     tiles: document.querySelectorAll('#lpSummary div').length,

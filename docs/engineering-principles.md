@@ -28,6 +28,7 @@ project, each of which passed a green suite:
 | The Listening Lab and instructor workspace sent **no `Authorization` header** — every request would have 401'd in production, even with Clerk fully configured | `lab-server.mjs` hard-coded a `userId` and never read request headers. The harness was easier than production exactly where production has a check | `tests/browser/lab-auth.mjs`, which made the harness require auth |
 | The recording content-type allow-list rejected `audio/webm;codecs=opus` — **every recording any real browser produces** | 62 unit tests picked their own tidy `audio/webm`. No browser ever says that | `tests/browser/recording-upload.mjs`, a real `MediaRecorder` on Chromium's fake microphone |
 | An unknown `kid` was rejected without refetching the JWKS, so **Clerk rotating its signing keys would sign out every learner** for up to ten minutes | Nothing exercised verification past the 401 boundary at all | `tests/clerk-jwt.test.mjs`, real RSA keypairs and real signatures |
+| On a phone, submitting the comprehension quiz produced **no visible response** — graded correctly, result rendered below the fold, learner saw nothing | Every browser test ran at 1440px, where the result box is already on screen | A person using the real site on a real phone |
 
 The rule that follows:
 
