@@ -17,6 +17,15 @@ environment** — see § 1.*
 - Verification ran before the deploy and passed: static build, backend
   suite, curriculum consistency, route audit, Listening Lab, auth
   contract
+- Confirmed live in a browser, not inferred from a green build: the
+  home page renders on the real typography, and
+  `GET /api/admissions/status?id=nope` returns
+  `No application found with that id.` — which exercises the whole
+  chain end to end (Pages route → Functions runtime → `env.DB`
+  binding → a real query against the seeded schema). A missing or
+  unbound D1 fails this with a binding error rather than a clean
+  not-found, so the *shape* of the answer is the evidence, not merely
+  that a response arrived.
 
 Not yet configured: Clerk (so the Portal, Listening Lab and instructor
 workspace render but 401 on every API call — § 4), payment gateways,
