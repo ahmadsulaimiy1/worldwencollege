@@ -140,26 +140,30 @@ async function sha256Hex(text) {
 /**
  * The tail of the chain — the award nothing has been chained onto yet.
  *
- * Defined STRUCTURALLY, by the links, not by time. An earlier version
- * asked for the most recent row (`ORDER BY created_at DESC, id DESC`)
- * and it was wrong in a way that only appears under the register's
- * intended use: at a conferral ceremony, awards are written in a batch,
- * several land in the same millisecond, and the tiebreak falls to a
- * random UUID. The query then returns a row that is not the tail, the
- * next conferral chains onto an already-extended record, and
- * `prev_digest UNIQUE` refuses it.
+ * NOT ordered by time. An earlier version asked for the most recent row
+ * (`ORDER BY created_at DESC, id DESC`) and it was wrong in a way that
+ * only appears under the register's intended use: at a conferral
+ * ceremony, awards are written in a batch, several land in the same
+ * millisecond, and the tiebreak falls to a random UUID. The query then
+ * returned a row that was not the tail, the next conferral chained onto
+ * an already-extended record, and `prev_digest UNIQUE` refused it.
  *
- * That refusal is the constraint doing its job — the alternative was a
- * forked register — but the failure should never have been reachable.
- * Time is not what orders this structure. The links are, and exactly one
- * row's digest appears in no other row's `prev_digest`.
+ * The replacement asked the structural question — "whose digest is
+ * nobody's predecessor" — which is correct, and which reads the whole
+ * table. Measured at 11.8ms against 50,000 awards, on every conferral,
+ * growing without bound. That is the wrong shape for a permanent
+ * record: the cost lands on the institution's future.
+ *
+ * So the position is stored (`seq`, UNIQUE, indexed) and the head is an
+ * index seek. The LINKS remain the authority — `verifyChain()` asserts
+ * the two orders agree, so `seq` cannot quietly drift into being a
+ * second version of the truth.
  */
 async function chainHead(env) {
   const row = await db(env)
-    .prepare(`SELECT a.digest FROM awards a
-       WHERE NOT EXISTS (SELECT 1 FROM awards b WHERE b.prev_digest = a.digest)`)
+    .prepare('SELECT digest, seq FROM awards ORDER BY seq DESC LIMIT 1')
     .first();
-  return row ? row.digest : GENESIS;
+  return { digest: row ? row.digest : GENESIS, seq: row ? (row.seq || 0) + 1 : 1 };
 }
 
 /**
@@ -211,27 +215,29 @@ export async function conferAward(env, {
   // retry on a register write would turn a genuine constraint problem
   // into a hang at a graduation ceremony, and the registrar would learn
   // about it from the graduates.
-  let prev = null, digest = null, lastErr = null;
+  let lastErr = null;
   for (let attempt = 0; attempt < 5; attempt++) {
-    prev = await chainHead(env);
-    digest = await sha256Hex(canonical(award, prev));
+    const head = await chainHead(env);
+    const digest = await sha256Hex(canonical(award, head.digest));
     try {
       await db(env)
         .prepare(`INSERT INTO awards (id, user_id, level_id, award_title, post_nominal, cefr, honour,
             credits, tqt_hours, citation, holder_name, conferred_on, verification_code,
-            status, public_consent, prev_digest, digest, created_at)
-          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?, 'conferred', ?, ?, ?, ?)`)
+            status, public_consent, prev_digest, digest, seq, created_at)
+          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?, 'conferred', ?, ?, ?, ?, ?)`)
         .bind(award.id, award.user_id, award.level_id, award.award_title, award.post_nominal,
           award.cefr, award.honour, award.credits, award.tqt_hours, citation, award.holder_name,
-          award.conferred_on, award.verification_code, publicConsent ? 1 : 0, prev, digest,
-          new Date(now).toISOString())
+          award.conferred_on, award.verification_code, publicConsent ? 1 : 0, head.digest, digest,
+          head.seq, new Date(now).toISOString())
         .run();
-      return { ...award, digest, prevDigest: prev, status: 'conferred' };
+      return { ...award, digest, prevDigest: head.digest, seq: head.seq, status: 'conferred' };
     } catch (err) {
-      // Only a lost race is retried. A duplicate award for the same
-      // person and level, or any other constraint, is a real refusal and
-      // must surface rather than be retried into a different error.
-      if (!/prev_digest/i.test(String(err && err.message))) throw err;
+      // Only a lost race is retried — either link or position, since
+      // both are UNIQUE and either can be the one that collides. A
+      // duplicate award for the same person and level, or any other
+      // constraint, is a real refusal and must surface rather than be
+      // retried into a different error.
+      if (!/prev_digest|seq/i.test(String(err && err.message))) throw err;
       lastErr = err;
     }
   }
@@ -470,10 +476,12 @@ export async function verifyChain(env) {
 
   let expectedPrev = GENESIS;
   let checked = 0;
+  const order = [];
   while (byPrev.has(expectedPrev)) {
     const a = byPrev.get(expectedPrev);
     byPrev.delete(expectedPrev);
     checked++;
+    order.push(a);
     const recomputed = await sha256Hex(canonical(a, a.prev_digest));
     if (recomputed !== a.digest) {
       return { intact: false, checked: total, brokenAt: a.id,
@@ -488,10 +496,21 @@ export async function verifyChain(env) {
   // in a stable order rather than whichever the database happened to
   // return.
   if (byPrev.size) {
-    const orphans = [...byPrev.values()].sort((x, y) =>
-      (x.created_at < y.created_at ? -1 : x.created_at > y.created_at ? 1 : (x.id < y.id ? -1 : 1)));
+    const orphans = [...byPrev.values()].sort((x, y) => (x.seq || 0) - (y.seq || 0));
     return { intact: false, checked: total, brokenAt: orphans[0].id,
       reason: 'This award does not follow the one before it — a record has been inserted, removed or reordered.' };
+  }
+
+  // `seq` is a denormalisation, and a denormalisation nothing checks is
+  // a second source of truth waiting to disagree with the first. The
+  // links are the authority; this asserts the stored order still agrees
+  // with them, so a tampered or backfilled `seq` is a finding rather
+  // than a silent divergence.
+  for (let i = 1; i < order.length; i++) {
+    if (!(order[i].seq > order[i - 1].seq)) {
+      return { intact: false, checked: total, brokenAt: order[i].id,
+        reason: 'This award\'s recorded position contradicts the chain — the register\'s ordering has been altered.' };
+    }
   }
   return { intact: true, checked, brokenAt: null, reason: null };
 }

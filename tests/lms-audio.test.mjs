@@ -65,6 +65,17 @@ db.prepare(`INSERT INTO pronunciation_targets (id, learning_item_id, sequence, f
 
 db.prepare(`INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id)
             VALUES ('qq_a1', 'itm_lquiz', 1, 'How many loaves does the customer ask for?', '["One","Two","Three","Four"]', 1, 'cue_2')`).run();
+// Comprehension questions hang off the LISTENING item itself, which is
+// how the authored curriculum is actually shaped — all 60 listening
+// items across the six levels carry their own questions, and none of
+// them route through a separate quiz item. The fixture did not have
+// that shape, so getListeningAnalytics() — which counts attempts
+// against listening items — could never see an attempt here and was
+// effectively untested against the structure it was written for.
+db.prepare(`INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id)
+            VALUES ('qq_l1', 'itm_listen', 1, 'What does the customer order first?', '["Bread","Cake","Coffee","Nothing"]', 0, 'cue_1')`).run();
+db.prepare(`INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index, audio_cue_id)
+            VALUES ('qq_l2', 'itm_listen', 2, 'What time does the bakery close?', '["Four","Five","Six","Seven"]', 2, 'cue_2')`).run();
 
 // --- Asset retrieval ----------------------------------------------------
 {
@@ -158,6 +169,74 @@ await throws('Feedback on an unknown recording raises NotFound', () => reviewRec
   check('An automated scorer can record feedback with no human reviewer', auto.source === 'automated');
   const rows = db.prepare('SELECT source, reviewer_id FROM pronunciation_feedback WHERE recording_id = ?').bind(rec.id).all().results;
   check('Automated feedback is stored with a null reviewer, distinguishable from human feedback', rows.some((r) => r.source === 'automated' && r.reviewer_id === null));
+}
+
+// --- Feedback belongs to ONE recording ----------------------------------
+// Attempt 2 carries the instructor's review; attempt 1 carries the
+// automated one. Nothing asserted that they stay apart, and they were
+// fetched one recording at a time, so nothing could go wrong — until the
+// query was rewritten to fetch them all at once and group them in code.
+// Sabotage proved the gap: assigning every recording every recording's
+// feedback passed all 41 assertions in this file.
+//
+// The failure it guards is worse than untidy. Attempt history exists so
+// a learner can hear their first take against their fifth, and feedback
+// attached to the wrong take tells them they fixed a sound they did not.
+{
+  const detail = await getUnitDetail(env, { userId: 'usr_s', unitId: 'unt_a' });
+  const pron = detail.items.find((i) => i.id === 'itm_pron');
+  const one = pron.myRecordings.find((r) => r.attempt === 1);
+  const two = pron.myRecordings.find((r) => r.attempt === 2);
+
+  check('Each attempt carries only its own feedback',
+    one.feedback.length === 1 && two.feedback.length === 1);
+  check("...so an instructor's note does not appear on an attempt they never reviewed",
+    !one.feedback.some((f) => (f.comment || '').includes('/θ/')));
+  check('...and an automated score does not appear on the attempt a human reviewed',
+    !two.feedback.some((f) => f.source === 'automated'));
+  check('Every piece of feedback is attributed to exactly one attempt',
+    pron.myRecordings.reduce((n, r) => n + r.feedback.length, 0)
+      === db.prepare(`SELECT COUNT(*) AS n FROM pronunciation_feedback pf
+                        JOIN learner_recordings lr ON lr.id = pf.recording_id
+                       WHERE lr.learning_item_id = 'itm_pron'`).first().n);
+  // The response shape is part of the contract: nothing should have to
+  // strip a join column back out on the client.
+  check('Feedback carries no join bookkeeping into the response',
+    !Object.prototype.hasOwnProperty.call(one.feedback[0], 'recordingId'),
+    Object.keys(one.feedback[0]).join(','));
+}
+
+// --- A zero is a score, not an absence ----------------------------------
+// `bestScore` is guarded on the attempt COUNT, not on the score being
+// truthy. Guarding on the score reports a learner who scored 0 as never
+// having attempted the module — which is the one learner most in need of
+// the platform noticing them. Sabotage-verified: the weaker guard passed
+// every assertion here before this block existed.
+{
+  // Every answer wrong, on purpose: the score is 0, and 0 is a result.
+  const key = db.prepare('SELECT id, correct_index FROM quiz_questions WHERE learning_item_id = ? ORDER BY sequence')
+    .bind('itm_listen').all().results;
+  const zero = await submitQuizAttempt(env, {
+    userId: 'usr_s', learningItemId: 'itm_listen',
+    answers: key.map((q) => (q.correct_index === 0 ? 1 : 0)),
+  }).catch((e) => { console.log('  (fixture note: ' + e.message.slice(0, 70) + ')'); return null; });
+  if (zero) check('A wholly incorrect attempt scores zero rather than failing to record', zero.score === 0, zero.score);
+
+  const { getListeningAnalytics } = await import(loadUrl('functions/_lib/lms/content.js'));
+  const an = await getListeningAnalytics(env, { userId: 'usr_s', levelId: 1 });
+  const scored = an.modules.filter((m) => m.attempts > 0);
+  check('Listening analytics reports every listening module of the level',
+    an.modules.length >= 1, an.modules.length);
+  if (zero && scored.length) {
+    check('A learner who scored zero is reported as having attempted it',
+      scored.every((m) => m.bestScore !== null),
+      JSON.stringify(scored.map((m) => [m.attempts, m.bestScore])));
+  } else {
+    // Stated rather than skipped silently: a test that quietly reports
+    // nothing is indistinguishable from one that passed.
+    check('Zero-score fixture could not be built — assertion NOT exercised', false,
+      'no scorable listening quiz in the fixture');
+  }
 }
 
 // --- Pronunciation profile ----------------------------------------------

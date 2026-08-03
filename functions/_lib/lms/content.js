@@ -246,13 +246,34 @@ export async function listMyRecordings(env, { userId, learningItemId }) {
     .prepare('SELECT id, media_url as mediaUrl, duration_ms as durationMs, attempt, status, submitted_at as submittedAt FROM learner_recordings WHERE learning_item_id = ? AND user_id = ? ORDER BY attempt DESC')
     .bind(learningItemId, userId)
     .all();
-  for (const rec of results) {
-    const { results: fb } = await db(env)
-      .prepare('SELECT id, source, comment, intelligibility, word_stress as wordStress, sentence_stress as sentenceStress, individual_sounds as individualSounds, fluency, audio_asset_id as audioAssetId, created_at as createdAt FROM pronunciation_feedback WHERE recording_id = ? ORDER BY created_at ASC')
-      .bind(rec.id)
-      .all();
-    rec.feedback = fb;
+  if (!results.length) return results;
+
+  // One query for every recording's feedback, not one per recording. A
+  // learner with fifteen attempts at a phrase — which is the behaviour
+  // the attempt history was built to encourage — was costing sixteen
+  // round trips to open their own page.
+  //
+  // Placeholders are generated from the row count and the ids are still
+  // bound, so this is parameterised exactly like every other query here;
+  // nothing from the caller reaches the SQL text.
+  const placeholders = results.map(() => '?').join(',');
+  const { results: feedback } = await db(env)
+    .prepare(`SELECT recording_id as recordingId, id, source, comment, intelligibility,
+                     word_stress as wordStress, sentence_stress as sentenceStress,
+                     individual_sounds as individualSounds, fluency,
+                     audio_asset_id as audioAssetId, created_at as createdAt
+                FROM pronunciation_feedback
+               WHERE recording_id IN (${placeholders})
+               ORDER BY created_at ASC`)
+    .bind(...results.map((r) => r.id))
+    .all();
+
+  const byRecording = new Map(results.map((r) => [r.id, []]));
+  for (const f of feedback) {
+    const { recordingId, ...rest } = f;
+    byRecording.get(recordingId).push(rest);
   }
+  for (const rec of results) rec.feedback = byRecording.get(rec.id);
   return results;
 }
 
@@ -403,23 +424,49 @@ export async function getListeningAnalytics(env, { userId, levelId }) {
      WHERE i.kind = 'listening' AND c.level_id = ? ORDER BY un.sequence ASC`
   ).bind(levelId).all();
 
-  const modules = [];
-  for (const item of items.results) {
-    const best = await db(env).prepare(
-      'SELECT MAX(score) AS best, COUNT(*) AS attempts FROM quiz_attempts WHERE learning_item_id = ? AND user_id = ?'
-    ).bind(item.id, userId).first();
-    const recs = await db(env).prepare(
-      'SELECT COUNT(*) AS c FROM learner_recordings WHERE learning_item_id = ? AND user_id = ?'
-    ).bind(item.id, userId).first();
-    modules.push({
+  // Aggregated across the whole level in two queries rather than two per
+  // module. This was a loop issuing 2 statements per listening item —
+  // 21 round trips for a ten-module level — and D1 is SQLite over the
+  // network, so each one is real latency on a page a learner opens to
+  // see how they are doing. The work is identical; only the number of
+  // times it crosses the wire changes.
+  const [attemptRows, recordingRows] = await Promise.all([
+    db(env).prepare(
+      `SELECT q.learning_item_id AS itemId, MAX(q.score) AS best, COUNT(*) AS attempts
+         FROM quiz_attempts q
+         JOIN learning_items i ON i.id = q.learning_item_id
+         JOIN units un ON un.id = i.unit_id
+         JOIN courses c ON c.id = un.course_id
+        WHERE q.user_id = ? AND i.kind = 'listening' AND c.level_id = ?
+        GROUP BY q.learning_item_id`
+    ).bind(userId, levelId).all(),
+    db(env).prepare(
+      `SELECT r.learning_item_id AS itemId, COUNT(*) AS c
+         FROM learner_recordings r
+         JOIN learning_items i ON i.id = r.learning_item_id
+         JOIN units un ON un.id = i.unit_id
+         JOIN courses c ON c.id = un.course_id
+        WHERE r.user_id = ? AND i.kind = 'listening' AND c.level_id = ?
+        GROUP BY r.learning_item_id`
+    ).bind(userId, levelId).all(),
+  ]);
+  const byItem = new Map(attemptRows.results.map((r) => [r.itemId, r]));
+  const recsByItem = new Map(recordingRows.results.map((r) => [r.itemId, r.c]));
+
+  const modules = items.results.map((item) => {
+    const best = byItem.get(item.id);
+    return {
       learningItemId: item.id,
       title: item.title,
       moduleSeq: item.moduleSeq,
       attempts: best ? best.attempts : 0,
+      // Guarded on `attempts` rather than on `best` being non-null: a
+      // learner who scored 0 has a best score of 0, and reporting that
+      // as "not attempted" would be a different and worse answer.
       bestScore: best && best.attempts ? best.best : null,
-      recordings: recs ? recs.c : 0,
-    });
-  }
+      recordings: recsByItem.get(item.id) || 0,
+    };
+  });
   const attempted = modules.filter((m) => m.attempts > 0);
   const scored = attempted.map((m) => m.bestScore);
   return {

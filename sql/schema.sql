@@ -51,6 +51,12 @@ CREATE TABLE users (
   UNIQUE(auth_provider, auth_provider_id)
 );
 CREATE INDEX idx_users_email ON users(email);
+-- Counting the remaining administrators before a demotion, and listing
+-- appointees, both scanned this table in full. The first guards the
+-- "you cannot remove the last administrator" rule, and a guard that
+-- gets slower as the College grows is a guard that eventually gets
+-- removed for being slow.
+CREATE INDEX idx_users_role ON users(role);
 
 -- Appointments: who holds staff or administrator access (migration 003).
 -- Separate from enrolment_events on purpose — an enrolment change says
@@ -329,6 +335,12 @@ CREATE TABLE payment_webhook_events (
   UNIQUE(provider, event_id)
 );
 CREATE INDEX idx_webhook_events_payment ON payment_webhook_events(payment_id);
+-- Events whose signature did not verify: the reconciliation report's
+-- security question, and the first thing anybody investigating a
+-- suspected forgery reaches for. PARTIAL, because these rows are — and
+-- must remain — a vanishing fraction of the table.
+CREATE INDEX idx_webhook_unverified
+  ON payment_webhook_events(received_at DESC) WHERE signature_verified = 0;
 
 -- ---------------------------------------------------------------------
 -- Receipts, refunds, reconciliation — schema-ready. Receipt generation
@@ -704,10 +716,28 @@ CREATE TABLE awards (
   prev_digest       TEXT NOT NULL UNIQUE,
   digest            TEXT NOT NULL UNIQUE,
 
+  -- The chain's position, as an explicit total order. The LINKS remain
+  -- the authority on order; this is a lookup convenience so that finding
+  -- the end of the chain is an index seek rather than a scan of every
+  -- award the College has ever made. verifyChain() asserts the two agree
+  -- rather than trusting this column — a denormalisation nothing checks
+  -- is a second source of truth waiting to disagree with the first.
+  -- Deliberately not part of the hashed content: the digest covers what
+  -- the certificate asserts, and sequence is bookkeeping.
+  seq               INTEGER,
+
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 CREATE INDEX idx_awards_user ON awards(user_id);
 CREATE INDEX idx_awards_conferred ON awards(conferred_on);
+-- UNIQUE so two conferrals cannot claim the same position: a lost race
+-- becomes a refused INSERT the caller retries, exactly as prev_digest
+-- UNIQUE already does for the links.
+CREATE UNIQUE INDEX idx_awards_seq ON awards(seq);
+-- The public roll as /api/register asks for it: live, consented, newest
+-- first. Equality predicates then the sort column, so the planner seeks
+-- and never sorts. Measured 7.25ms -> 1.88ms at 50,000 awards.
+CREATE INDEX idx_awards_roll ON awards(status, public_consent, conferred_on DESC);
 -- One LIVE award per learner per level. PARTIAL, excluding replaced and
 -- revoked rows, because a certificate can legitimately be replaced more
 -- than once — a name correction, then a later one — and every superseded

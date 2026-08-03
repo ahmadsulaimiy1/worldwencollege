@@ -325,6 +325,52 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   be enforced by the schema rather than by good intentions. Consent is
   tested to scope the browsable register and **not** verification: a
   code is something the graduate chose to hand someone. 59 assertions.
+- `route-guard-census.test.mjs` — every endpoint's authentication
+  boundary, enumerated from disk. `admin-route-guards.test.mjs` asks
+  WHICH ROLE may reach each administrative endpoint; it covers
+  `functions/api/admin/` and nothing else, which leaves the more basic
+  question unasked everywhere else: does this endpoint require a session
+  at all? A new file under `functions/api/lms/` that forgets
+  `requireUser()` returns learner data to anybody who asks, and every
+  existing test still passes, because the tests call the module
+  underneath the route where there is no session to omit.
+  So this walks `functions/api/`, finds every exported `onRequest*`, and
+  requires each to either appear in a PUBLIC allowlist **with a written
+  reason** or refuse an unauthenticated request with 401. The list is
+  closed in both directions: an endpoint missing from the census fails,
+  and a PUBLIC entry naming a route that no longer exists fails too —
+  a stale exemption is how a route quietly becomes public years after
+  someone decided it should not be. The guard is exercised at runtime,
+  not grepped for, because a route can import `requireUser()` and never
+  call it.
+  Webhooks are asserted separately and in two states, since public is
+  not the same as unauthenticated: configured, they must refuse an
+  unsigned request with a 4xx (a verdict, not an outage a provider will
+  retry); unconfigured — the College's actual state for gateways it has
+  not enabled — they must still refuse, because accepting a payment
+  instruction whose signature cannot be checked is the one outcome with
+  no defence. An earlier draft set only `OPAY_SECRET_KEY`, got a 503,
+  and reported it as a defect; it was not — `requireConfig` also wants
+  `OPAY_MERCHANT_ID`, so the signature path was never reached and the
+  test was measuring its own omission. Sabotage-verified three ways:
+  a guard replaced by a query parameter, a brand-new unguarded route,
+  and a stale exemption. 61 assertions.
+- `build-output.test.mjs` — the 22 generated pages match their sources.
+  The site is assembled from `pages/*.html` plus `partials/`, and the
+  output is committed because Cloudflare Pages serves the repository
+  root directly. That is a legitimate choice with one sharp edge: two
+  copies of every marketing page, and nothing noticing when they
+  disagree. The failure is quiet — someone fixes a typo in
+  `about/index.html`, the file whose path matches the URL and the
+  obvious one to open; it reviews correctly and deploys correctly once,
+  then the next build regenerates it from a source that never had the
+  fix and the typo returns with no diff and no error. CI was actively
+  hiding this: it runs `npm run build`, so it rebuilt over the hand
+  edit in the runner and tested the regenerated file. The test builds
+  and compares, and **restores whatever it found before reporting**, so
+  a failing run leaves the working tree exactly as it was rather than
+  destroying the edit it is complaining about. Also asserts the reverse:
+  a page source with no manifest entry is authored but never served.
 - `migrate.test.mjs` — the migration runner (`scripts/migrate.mjs`).
   The runner it replaced applied every file in `sql/migrations/`
   unconditionally, which works on exactly one database state — a fresh

@@ -354,6 +354,45 @@ const AWARD = {
 }
 
 // ---------------------------------------------------------------------
+// `seq` is a convenience, and it is checked against the thing it copies
+// ---------------------------------------------------------------------
+// Finding the end of the chain by asking "whose digest is nobody's
+// predecessor" is correct and reads the whole table — 11.8ms against
+// 50,000 awards, on every conferral, growing without bound. So the
+// position is stored and indexed. That trade buys speed with a
+// denormalisation, and a denormalisation nothing checks is a second
+// source of truth waiting to disagree with the first.
+{
+  const env = freshEnv();
+  const a1 = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, now: T0 });
+  const a2 = await reg.conferAward(env, { userId: 'usr_2', ...AWARD, now: T0 + 1000 });
+  const a3 = await reg.conferAward(env, { userId: 'usr_3', ...AWARD, now: T0 + 2000 });
+
+  check('Each award records its position in the chain',
+    a1.seq === 1 && a2.seq === 2 && a3.seq === 3, [a1.seq, a2.seq, a3.seq].join(','));
+  check('Precondition: chain intact', (await reg.verifyChain(env)).intact === true);
+
+  // Reordering the register by editing positions alone — the digests
+  // still verify, every link still resolves, and only the stored order
+  // now lies. Without the cross-check this passes.
+  env.DB.prepare(`UPDATE awards SET seq = 99 WHERE id = '${a1.id}'`).bind().run();
+  const drift = await reg.verifyChain(env);
+  check('Editing a stored position contradicts the chain and is caught',
+    drift.intact === false, JSON.stringify(drift).slice(0, 120));
+  check('...naming the record whose position is wrong', drift.brokenAt === a2.id, drift.brokenAt);
+  check('...and saying the ordering was altered, not the contents',
+    /ordering has been altered/i.test(drift.reason || ''), drift.reason);
+
+  // Two positions cannot be claimed at once: the constraint, not the
+  // application, is what enforces it.
+  env.DB.prepare(`UPDATE awards SET seq = 1 WHERE id = '${a1.id}'`).bind().run();
+  const clash = await throws(() => env.DB.prepare(
+    `UPDATE awards SET seq = 1 WHERE id = '${a3.id}'`).bind().run());
+  check('Two awards cannot occupy the same position in the register', !!clash,
+    clash && clash.message.slice(0, 50));
+}
+
+// ---------------------------------------------------------------------
 // The browsable register — every level, and bounded
 // ---------------------------------------------------------------------
 {
