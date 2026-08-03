@@ -52,6 +52,7 @@ const PUBLIC = {
   'verify/[code].js': 'The whole point. A credential a checker must register to verify is a credential nobody checks.',
   'graduate/[handle].js': 'A published graduate profile. Only reaches profiles the graduate chose to publish; an unpublished one is NotFound, because "exists but hidden" confirms the person is a graduate.',
   'share/[token].js': 'A record slice a graduate shared with an employer or registrar who has no account. The token IS the authorisation — high-entropy, expiring, revocable, stored only as a hash.',
+  'credentials/jwks.js': 'The College\'s published signing keys. Verification that requires the issuer to participate is not verification. Public halves only — asserted in tests/signing.test.mjs.',
   'register/index.js': 'The Graduate Register. A roll of award holders published behind a login is not published. Consent-scoped and capped in the query.',
 };
 

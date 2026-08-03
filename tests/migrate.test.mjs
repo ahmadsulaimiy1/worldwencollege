@@ -228,6 +228,9 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 008 — credential signing.
+  db.exec('DROP INDEX idx_credential_signatures_subject; DROP INDEX idx_credential_signatures_kid; DROP TABLE credential_signatures;');
+  db.exec('DROP INDEX idx_signing_keys_one_active; DROP TABLE signing_keys;');
   db.exec('DROP TABLE profile_shares');
   db.exec('DROP TABLE cpd_records');
   db.exec('DROP INDEX idx_graduate_profiles_public; DROP TABLE graduate_profiles;');

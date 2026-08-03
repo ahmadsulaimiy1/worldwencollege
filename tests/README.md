@@ -325,6 +325,30 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   be enforced by the schema rather than by good intentions. Consent is
   tested to scope the browsable register and **not** verification: a
   code is something the graduate chose to hand someone. 59 assertions.
+- `signing.test.mjs` — cryptographic trust for issued credentials
+  (Executive Decision P2.1). A signing layer fails silently for years: a
+  signature nothing can verify, a rotation that voids every certificate
+  ever issued, a "development" signature presented as proof of origin.
+  None announce themselves; all surface in someone else's hands. So the
+  assertions are attacks — alter a claim, lift a signature onto another
+  award, forge with the wrong key, rotate, revoke.
+  Three properties carry the design. **Verification uses the public key
+  only** — proved by erasing the private material from the database and
+  checking a credential still verifies, which is what lets an employer
+  run the same check in their own systems. **Rotation never invalidates**
+  — a credential signed before a rotation still verifies after it, and
+  sabotage revealed something stronger than the test claimed: rewriting
+  rotation to DELETE the old key raises a foreign-key violation, because
+  `credential_signatures.kid` references it. That is now asserted
+  directly, so a schema change that drops the reference is caught by a
+  test rather than by a graduate. **Development is not production** —
+  every signature says which it is, read from the signature record rather
+  than the key's present backend, so a key later re-registered against a
+  KMS does not retrospectively upgrade its old signatures.
+  The no-private-material assertion is an allowlist over private JWK
+  members of every algorithm plus a check that the stored secret appears
+  nowhere in the response — a denylist of `d` would only catch the
+  algorithm somebody thought of. 67 assertions.
 - `profile.test.mjs` — the graduate's permanent academic identity
   (`functions/_lib/registry/profile.js`). This module decides what a
   stranger learns about a person's education, so almost every assertion

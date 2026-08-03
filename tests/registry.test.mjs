@@ -72,12 +72,60 @@ const AWARD = {
   // whole reason for a check character — it is not security, it is
   // preventing the worst possible wrong answer.
   const body = code.replace(/^WEC-/, '').replace(/-/g, '');
-  const swapped = body.slice(0, 3) + body[4] + body[3] + body.slice(5);
+  // Swap the first ADJACENT PAIR THAT DIFFERS. Fixing on positions 3 and
+  // 4 made this test flaky at roughly one run in thirty: when those two
+  // characters happened to be identical the "swap" produced the original
+  // string, which of course still parsed, and the failure looked like a
+  // defect in parseCode. A test that depends on random data must pick
+  // its case from the data rather than assume it.
+  let i = 0;
+  while (i < body.length - 1 && body[i] === body[i + 1]) i++;
+  const swapped = body.slice(0, i) + body[i + 1] + body[i] + body.slice(i + 2);
   check('A transposed pair of characters is rejected, not silently resolved',
-    reg.parseCode('WEC-' + swapped).ok === false, swapped);
+    swapped !== body && reg.parseCode('WEC-' + swapped).ok === false, `${body} -> ${swapped}`);
 
   const altered = (body[0] === 'A' ? 'B' : 'A') + body.slice(1);
   check('A single wrong character is rejected', reg.parseCode('WEC-' + altered).ok === false);
+
+  // EXHAUSTIVE, not sampled. This assertion exists because the original
+  // check character was weighted mod 30 — the alphabet size — and
+  // 30 = 2 x 3 x 5, so whenever (index delta x position weight) was a
+  // multiple of 30 the check character came out unchanged and the typo
+  // verified as a real code. 8.6% of all single-character substitutions
+  // were undetected, while the comment above the function claimed it
+  // caught every one.
+  //
+  // It surfaced as a "flaky test" — one run in fifteen — which is
+  // exactly how a defect of this shape presents: the random case that
+  // exposes it is rare, and the obvious reading is that the test is
+  // unreliable rather than the code. Chasing the flake found the bug.
+  //
+  // Every position, every replacement character, across many codes. A
+  // sample would have missed the original defect too.
+  {
+    let substitutions = 0, missed = 0, transpositions = 0, missedSwaps = 0;
+    for (let n = 0; n < 200; n++) {
+      const c = reg.newVerificationCode().replace(/^WEC-/, '').replace(/-/g, '');
+      const stem = c.slice(0, 12);
+      for (let i = 0; i < 12; i++) {
+        for (const ch of '23456789ABCDEFGHJKMNPQRSTVWXYZ') {
+          if (ch === stem[i]) continue;
+          substitutions++;
+          if (reg.parseCode('WEC-' + stem.slice(0, i) + ch + stem.slice(i + 1) + c[12]).ok) missed++;
+        }
+      }
+      for (let i = 0; i < 11; i++) {
+        if (stem[i] === stem[i + 1]) continue;
+        transpositions++;
+        const sw = stem.slice(0, i) + stem[i + 1] + stem[i] + stem.slice(i + 2);
+        if (reg.parseCode('WEC-' + sw + c[12]).ok) missedSwaps++;
+      }
+    }
+    check('EVERY single-character substitution is detected',
+      missed === 0 && substitutions > 60000, `${missed} missed of ${substitutions}`);
+    check('EVERY adjacent transposition is detected',
+      missedSwaps === 0 && transpositions > 1000, `${missedSwaps} missed of ${transpositions}`);
+  }
   check('Nonsense is rejected', reg.parseCode('hello').ok === false);
   check('An empty code is rejected', reg.parseCode('').ok === false);
   check('A non-string is rejected without throwing', reg.parseCode(null).ok === false);
@@ -307,6 +355,54 @@ const AWARD = {
 
   const ghost = await throws(() => reg.conferAward(env, { userId: 'usr_nobody', ...AWARD }));
   check('An award to a person who does not exist is refused', ghost && ghost.name === 'NotFoundError');
+}
+
+// ---------------------------------------------------------------------
+// Awards are SIGNED at conferral, and the signature is checked on
+// verification rather than recited
+// ---------------------------------------------------------------------
+// Executive Decision P2.1. Two separate protections, and they catch
+// different attacks: the hash chain detects a record altered inside the
+// College's own database; the signature detects a CERTIFICATE altered
+// after it left. A forged printout never touches the chain.
+{
+  const env = freshEnv();
+  const a = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, honour: 'merit', now: T0 });
+  check('A conferral produces a signature', !!a.signature && !!a.signature.signature);
+  check('...marked development while no KMS is provisioned', a.signature.mode === 'development');
+
+  const v = await reg.verifyCode(env, { code: a.verification_code, now: T0 + 1000 });
+  check('Verification returns the signature alongside the record', v.signature.present === true);
+  check('...having actually checked it, not merely fetched it', v.signature.valid === true);
+  check('...and says what a development signature does and does not prove',
+    /not proof of College origin/i.test(v.signature.assurance || ''), v.signature.assurance);
+
+  // The decisive one. Editing the register row breaks the chain — but it
+  // must ALSO break the signature, because these are independent
+  // guarantees and a reader relying on either must be protected.
+  env.DB.prepare(`UPDATE awards SET honour = 'college_distinction' WHERE id = '${a.id}'`).bind().run();
+  const after = await reg.verifyCode(env, { code: a.verification_code, now: T0 + 2000 });
+  check('Editing a conferred award invalidates its signature too',
+    after.signature.valid === false, JSON.stringify(after.signature).slice(0, 100));
+  check('...saying the credential was altered since it was issued',
+    /altered since it was issued/i.test(after.signature.message || ''));
+  check('...and the chain independently reports the same record',
+    (await reg.verifyChain(env)).brokenAt === a.id);
+}
+
+{
+  // An award written before the signing layer existed. A missing
+  // signature is not an invalid one, and saying "failed" would
+  // retrospectively cast doubt on records that are perfectly sound.
+  const env = freshEnv();
+  const a = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, now: T0 });
+  env.DB.prepare('DELETE FROM credential_signatures').bind().run();
+  const v = await reg.verifyCode(env, { code: a.verification_code, now: T0 + 1000 });
+  check('An unsigned older award verifies as an award, with no signature',
+    v.outcome === 'valid' && v.signature.present === false);
+  check('...saying it predates the signing layer rather than reporting a failure',
+    /predates/i.test(v.signature.message) && v.signature.valid === undefined,
+    v.signature.message);
 }
 
 // ---------------------------------------------------------------------

@@ -1060,3 +1060,106 @@ CREATE TABLE profile_shares (
 );
 CREATE INDEX idx_profile_shares_token ON profile_shares(token_hash);
 CREATE INDEX idx_profile_shares_user ON profile_shares(user_id, created_at DESC);
+
+-- =====================================================================
+-- CREDENTIAL SIGNING (migration 008) — Executive Decision P2.1, ADOPTED
+--
+-- Public-key infrastructure for everything the College issues. The
+-- private key never appears in application code or an ordinary
+-- environment variable; the architecture targets a KMS/HSM from the
+-- outset; until one is provisioned the layer is marked DEVELOPMENT and
+-- claims no production assurance; verification uses the public key only;
+-- rotation never invalidates a credential already issued; and every
+-- signing operation leaves an immutable record.
+--
+-- The CHECK constraints below are how those rules are ENFORCED rather
+-- than merely documented — most importantly, a row with backend='kms'
+-- is structurally incapable of holding private key material.
+-- =====================================================================
+CREATE TABLE signing_keys (
+  -- The key id that travels inside every signature. Long-lived and
+  -- public: it appears in the JWKS and in each issued credential.
+  kid             TEXT PRIMARY KEY,
+
+  -- 'development' — a key this platform generated and holds.
+  -- 'kms'         — a key held by a Key Management Service or HSM; the
+  --                 College holds only its public half and asks the
+  --                 service to sign.
+  backend         TEXT NOT NULL CHECK (backend IN ('development','kms')),
+
+  -- ES256 (ECDSA P-256 + SHA-256). Chosen over RSA for signature size —
+  -- these end up in QR codes and printed footers — and because every
+  -- major KMS offers it. Recorded per key rather than assumed, so a
+  -- future algorithm change is a new key rather than a schema change.
+  algorithm       TEXT NOT NULL DEFAULT 'ES256',
+
+  public_jwk      TEXT NOT NULL,
+
+  -- DEVELOPMENT ONLY, and the CHECK is what guarantees that.
+  dev_private_jwk TEXT,
+
+  -- For backend='kms': the service's own identifier for the key. The
+  -- College never holds the private half; it holds the address of the
+  -- thing that does.
+  kms_key_ref     TEXT,
+
+  status          TEXT NOT NULL DEFAULT 'active'
+                  CHECK (status IN ('active','retired','revoked')),
+
+  -- 'retired' means "no longer signs, still verifies" — the ordinary end
+  -- of a key's life. 'revoked' means the key is believed compromised and
+  -- signatures made with it can no longer be trusted; that is a
+  -- different and much more serious statement, and conflating the two
+  -- would let a routine rotation read as a security incident, or worse,
+  -- the reverse.
+  revoked_reason  TEXT,
+
+  created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  activated_at    TEXT,
+  retired_at      TEXT,
+
+  CHECK (dev_private_jwk IS NULL OR backend = 'development'),
+  CHECK (backend != 'kms' OR kms_key_ref IS NOT NULL),
+  CHECK (status != 'revoked' OR revoked_reason IS NOT NULL)
+);
+
+-- One key signs at a time. Partial, so retired keys accumulate freely.
+CREATE UNIQUE INDEX idx_signing_keys_one_active
+  ON signing_keys(status) WHERE status = 'active';
+
+-- Every signing operation, permanently.
+--
+-- Append-only by intent: nothing in the application updates or deletes a
+-- row here. It answers the question an investigator actually asks —
+-- "what did this institution sign, with which key, and when" — including
+-- for keys since retired and credentials since withdrawn.
+CREATE TABLE credential_signatures (
+  id              TEXT PRIMARY KEY,
+  kid             TEXT NOT NULL REFERENCES signing_keys(kid),
+
+  -- What was signed. Not a foreign key: the same machinery signs awards,
+  -- transcripts, diploma supplements and verification statements, and a
+  -- column that could only point at one table would have forced a second
+  -- audit trail for the others.
+  subject_type    TEXT NOT NULL
+                  CHECK (subject_type IN ('award','transcript','diploma_supplement','verification','profile')),
+  subject_id      TEXT NOT NULL,
+
+  -- SHA-256 of the canonical payload. The payload itself is NOT stored:
+  -- it is reconstructible from the record it describes, and keeping a
+  -- second copy would create a second thing that can disagree with the
+  -- first.
+  payload_digest  TEXT NOT NULL,
+  signature       TEXT NOT NULL,
+
+  -- Carried on the record, not inferred from the key at read time. A
+  -- credential signed in development must still say so in 2047, even if
+  -- the key that signed it has since been re-registered against a KMS.
+  mode            TEXT NOT NULL CHECK (mode IN ('development','production')),
+
+  signed_by       TEXT REFERENCES users(id),
+  signed_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_credential_signatures_kid ON credential_signatures(kid, signed_at DESC);
+CREATE INDEX idx_credential_signatures_subject
+  ON credential_signatures(subject_type, subject_id);

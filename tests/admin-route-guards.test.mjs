@@ -113,6 +113,10 @@ const ROUTES = [
   { file: 'functions/api/admin/recordings/purge.js', method: 'POST', minRole: 'staff',
     why: 'Documented as staff-only, and dry-run by default. See governance A5.' },
 
+  // Cryptographic trust.
+  { file: 'functions/api/admin/signing-keys.js', method: 'GET', minRole: 'admin',
+    why: 'The key register and the signing audit. Administrator rather than staff: it is the record of what the institution has cryptographically asserted. Rotation and revocation are deliberately NOT exposed over HTTP at all.' },
+
   // Institutional quality.
   { file: 'functions/api/admin/quality/competency-coverage.js', method: 'GET', minRole: 'staff',
     why: 'Whether the curriculum meets the framework\'s own competency rule. Contains no personal data, and a quality measure only improves anything if the people doing the teaching can see it.' },

@@ -44,6 +44,7 @@
 //    purpose of the system.
 
 import { db, newId, nowIso, ValidationError, NotFoundError } from '../db.js';
+import { signCredential, verifyCredential } from './signing.js';
 
 // Crockford-style: no 0/O, no 1/I/L, no U (it turns words into
 // accidents). 30 symbols, 12 of them per code, so ~59 bits — not
@@ -61,13 +62,49 @@ export const HONOUR_LABEL = {
   college_distinction: 'Distinction of the College',
 };
 
-function checkChar(body) {
-  // Weighted mod-30 over the alphabet. Catches every single-character
-  // substitution and the transpositions people actually make reading a
-  // code aloud, which is what a check character is for — not security.
+// The modulus is PRIME, and that is the whole design.
+//
+// The first version of this weighted mod 30 — the alphabet size — and
+// 30 = 2 x 3 x 5. A substitution changes the weighted sum by
+// (delta x weight), so whenever that product was a multiple of 30 the
+// check character came out unchanged and the typo verified. Measured
+// against the real alphabet: 8.6% of all single-character substitutions
+// were undetected, and the comment above the function claimed it caught
+// every one of them.
+//
+// That is the worst kind of wrong for this particular function. Its
+// entire purpose is that a mistyped code fails cleanly rather than
+// resolving to a stranger's award, and one typo in twelve was doing
+// exactly that.
+//
+// With a prime modulus, (delta x weight) = 0 (mod 31) forces delta = 0,
+// since 31 divides neither factor. Every single-character substitution
+// is detected. Weights are consecutive, so an adjacent transposition
+// shifts the sum by (a - b) x 1, which is zero only when the two
+// characters are identical and the "transposition" is not one. Both
+// properties are proved exhaustively in tests/registry.test.mjs rather
+// than asserted here.
+const CHECK_MOD = 31;
+
+function checkValue(body) {
   let sum = 0;
-  for (let i = 0; i < body.length; i++) sum += (ALPHABET.indexOf(body[i]) + 1) * (i + 2);
-  return ALPHABET[sum % ALPHABET.length];
+  for (let i = 0; i < body.length; i++) sum += (ALPHABET.indexOf(body[i]) + 1) * (i + 1);
+  return sum % CHECK_MOD;
+}
+
+/**
+ * Returns null when the check value is 30 — one residue more than the
+ * alphabet has symbols.
+ *
+ * The alternative was a 31st check-only glyph, as Crockford does with
+ * '*'. These codes are read aloud down a telephone and typed off print,
+ * and a symbol that appears in one code in thirty-one is a support call
+ * every time. Drawing a fresh body instead costs 1/31 of the keyspace —
+ * leaving ~58 bits, which is not enumerable by any margin that matters.
+ */
+function checkChar(body) {
+  const v = checkValue(body);
+  return v < ALPHABET.length ? ALPHABET[v] : null;
 }
 
 function randomBody(length = BODY_LENGTH) {
@@ -88,8 +125,14 @@ export function formatCode(body, check) {
 }
 
 export function newVerificationCode() {
-  const body = randomBody();
-  return formatCode(body, checkChar(body));
+  // Loops only when the check value lands on the one residue the
+  // alphabet cannot express — 1 in 31, so this runs once almost always
+  // and is bounded by the randomness, not by a retry limit.
+  for (;;) {
+    const body = randomBody();
+    const check = checkChar(body);
+    if (check !== null) return formatCode(body, check);
+  }
 }
 
 /**
@@ -116,6 +159,9 @@ export function parseCode(input) {
   const body = cleaned.slice(0, BODY_LENGTH);
   const check = cleaned[BODY_LENGTH];
   if ([...body].some((c) => !ALPHABET.includes(c))) return { ok: false, reason: 'malformed' };
+  // checkChar() returns null when the value is the unexpressible
+  // residue. A real code never has that, so null !== check refuses it —
+  // which is correct: such a string was never issued.
   if (checkChar(body) !== check) return { ok: false, reason: 'malformed' };
   return { ok: true, code: formatCode(body, check) };
 }
@@ -178,7 +224,7 @@ async function chainHead(env) {
 export async function conferAward(env, {
   userId, levelId, awardTitle, postNominal, cefr, honour = 'pass',
   credits, tqtHours, holderName, citation = null, conferredOn = null,
-  publicConsent = false, now = Date.now(),
+  publicConsent = false, actorId = null, now = Date.now(),
 }) {
   if (!userId || !levelId) throw new ValidationError('userId and levelId are required.');
   if (!HONOURS.includes(honour)) {
@@ -230,7 +276,20 @@ export async function conferAward(env, {
           award.conferred_on, award.verification_code, publicConsent ? 1 : 0, head.digest, digest,
           head.seq, new Date(now).toISOString())
         .run();
-      return { ...award, digest, prevDigest: head.digest, seq: head.seq, status: 'conferred' };
+      // Signed at the moment of conferral, not retrofitted. A credential
+      // signed later is a credential that existed unsigned, and there is
+      // no way afterwards to tell which of those a given certificate was.
+      //
+      // Executive Decision P2.1. The signature covers exactly what the
+      // certificate asserts — see signedClaims() — so a verifier checks
+      // the document in front of them rather than a record they have to
+      // trust us about.
+      const signature = await signCredential(env, {
+        subjectType: 'award', subjectId: award.id,
+        claims: signedClaims({ ...award, citation, digest }),
+        actorId: actorId, now,
+      });
+      return { ...award, digest, prevDigest: head.digest, seq: head.seq, status: 'conferred', signature };
     } catch (err) {
       // Only a lost race is retried — either link or position, since
       // both are UNIQUE and either can be the one that collides. A
@@ -345,7 +404,42 @@ export async function verifyCode(env, { code, channel = 'public', now = Date.now
     replacementCode = next ? next.verification_code : null;
   }
 
-  return { outcome, award: publicView(award, replacementCode), message: null };
+  // The signature travels WITH the answer, and it is verified here
+  // rather than merely fetched. A portal that displayed a stored
+  // signature without checking it would be showing a padlock icon, not
+  // performing a verification.
+  const signature = await awardSignature(env, award);
+  return { outcome, award: publicView(award, replacementCode), signature, message: null };
+}
+
+/**
+ * Exactly what the signature covers.
+ *
+ * The fields a CERTIFICATE ASSERTS, and no others. Deliberately not the
+ * whole row: `public_consent` and `seq` are administrative and can
+ * legitimately change after conferral, and a signature over them would
+ * break every time a graduate updated a privacy setting — which reads
+ * to a verifier as tampering.
+ *
+ * The chain digest IS included. It binds the signature to the
+ * register position, so a signed credential cannot be presented for an
+ * award that was later removed from the chain.
+ */
+function signedClaims(a) {
+  return {
+    holderName: a.holder_name,
+    awardTitle: a.award_title,
+    postNominal: a.post_nominal,
+    levelId: a.level_id,
+    cefr: a.cefr,
+    honour: a.honour,
+    credits: a.credits,
+    tqtHours: a.tqt_hours,
+    citation: a.citation ?? null,
+    conferredOn: a.conferred_on,
+    verificationCode: a.verification_code,
+    registerDigest: a.digest,
+  };
 }
 
 /**
@@ -375,6 +469,33 @@ function publicView(a, replacementCode = null) {
     replacementCode,
     digest: a.digest,
   };
+}
+
+/**
+ * The credential signature for one award, checked rather than recited.
+ *
+ * Returns null when an award predates the signing layer. That is a true
+ * answer about older records and must not be dressed up: a missing
+ * signature is not an invalid one, and the verification page says
+ * "unsigned" rather than "failed".
+ */
+async function awardSignature(env, award) {
+  const row = await db(env)
+    .prepare(`SELECT signature, kid, mode, signed_at FROM credential_signatures
+               WHERE subject_type = 'award' AND subject_id = ?
+               ORDER BY signed_at DESC LIMIT 1`)
+    .bind(award.id).first();
+  if (!row) {
+    return {
+      present: false,
+      message: 'This award predates the College\'s credential signing layer. Its authenticity rests on the Register entry above.',
+    };
+  }
+  const result = await verifyCredential(env, {
+    subjectType: 'award', subjectId: award.id,
+    claims: signedClaims(award), signature: row.signature, kid: row.kid,
+  });
+  return { present: true, ...result, signedAt: row.signed_at };
 }
 
 async function logVerification(env, { awardId, code, outcome, channel, now }) {
