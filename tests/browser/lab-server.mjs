@@ -48,6 +48,11 @@ function wrap(k) {
 }
 
 const content = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/content.js`));
+const recordings = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/recording-storage.js`));
+const { makeR2 } = await import(pathToFileURL(`${ROOT}/tests/r2-shim.mjs`));
+// The same in-memory R2 stand-in the unit tests use, so the browser
+// drives the REAL upload logic end to end rather than a mock of it.
+env.RECORDINGS = makeR2();
 
 const MIME = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.json': 'application/json' };
 
@@ -102,6 +107,39 @@ createServer(async (req, res) => {
       const body = JSON.parse(await read(req));
       return json(res, await content.submitLearnerRecording(env, { userId: 'usr_demo', ...body }), 201);
     }
+    // Resumable upload, driven by the real recording-storage.js against
+    // the r2-shim bucket above. These exist so the browser test can
+    // record with a fake microphone and put the whole path under test:
+    // init -> parts -> complete -> authorised playback.
+    if (url.pathname === '/api/lms/recording/init' && req.method === 'POST') {
+      const body = JSON.parse(await read(req));
+      return json(res, await recordings.initRecordingUpload(env, { userId: 'usr_demo', ...body }), 201);
+    }
+    if (url.pathname === '/api/lms/recording/init' && req.method === 'GET') {
+      return json(res, await recordings.getUploadState(env, { userId: 'usr_demo', recordingId: url.searchParams.get('id') }));
+    }
+    if (url.pathname === '/api/lms/recording/part' && req.method === 'PUT') {
+      const buf = await readBuffer(req);
+      return json(res, await recordings.uploadRecordingPart(env, {
+        userId: 'usr_demo',
+        recordingId: url.searchParams.get('id'),
+        partNumber: Number(url.searchParams.get('part')),
+        body: new Uint8Array(buf),
+        bytes: Number(req.headers['content-length'] ?? buf.length),
+      }));
+    }
+    if (url.pathname === '/api/lms/recording/complete' && req.method === 'POST') {
+      const body = JSON.parse(await read(req));
+      return json(res, await recordings.completeRecordingUpload(env, { userId: 'usr_demo', ...body }), 201);
+    }
+    if (url.pathname === '/api/lms/recording/audio' && req.method === 'GET') {
+      const obj = await recordings.getRecordingObject(env, {
+        recordingId: url.searchParams.get('id'),
+        requester: { id: 'usr_demo', role: 'student' },
+      });
+      res.writeHead(200, { 'Content-Type': obj.contentType, 'Content-Length': String(obj.body.length), 'Accept-Ranges': 'bytes' });
+      return res.end(Buffer.from(obj.body));
+    }
     if (url.pathname === '/api/lms/listening-analytics') {
       return json(res, await content.getListeningAnalytics(env, { userId: 'usr_demo', levelId: Number(url.searchParams.get('levelId')) }));
     }
@@ -152,3 +190,8 @@ createServer(async (req, res) => {
 
 function json(res, obj, code = 200) { res.writeHead(code, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(obj)); }
 function read(req) { return new Promise((r) => { let d = ''; req.on('data', (c) => d += c); req.on('end', () => r(d)); }); }
+// Audio parts are binary — reading them as a string would corrupt them,
+// and the corruption would only show up as a wrong SHA-256 much later.
+function readBuffer(req) {
+  return new Promise((r) => { const cs = []; req.on('data', (c) => cs.push(c)); req.on('end', () => r(Buffer.concat(cs))); });
+}

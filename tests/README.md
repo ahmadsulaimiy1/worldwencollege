@@ -163,6 +163,22 @@ gap requires provisioning real credentials, not more test code.
   design decision explicitly: a script with no recording yet is a
   first-class usable state (`isRecorded: false`), never an error and
   never a placeholder file.
+- `recording-storage.test.mjs` — object storage for learner voice
+  (`functions/_lib/lms/recording-storage.js`) against the real SQLite
+  engine and `r2-shim.mjs`. Weighted towards what must NEVER happen —
+  another learner reading a recording, a gap in the parts assembling
+  into a plausible-looking take, an unset retention policy being read
+  as "delete" — because those are the failures that are silent in
+  production. Also covers resumption after a dropped connection,
+  re-uploading a part, the size cap being enforced against bytes
+  received rather than declared, attempt history surviving a re-record,
+  purge keeping the assessment row while destroying the audio, and the
+  content types real browsers actually emit.
+- `r2-shim.mjs` — the in-memory R2 stand-in, in the spirit of
+  `d1-shim.mjs`. It enforces the two multipart rules that bite in
+  production (no gaps; non-final parts ≥ 5 MiB) rather than accepting
+  anything — a shim more permissive than the real service tests nothing
+  where it matters.
 - `run.mjs` — runs everything above and reports a combined summary.
 
 **Browser tests** (not in `run.mjs` — they need Chromium and a server,
@@ -208,6 +224,16 @@ node tests/browser/route-audit.mjs
   attempt history. 14 assertions. Removing the fix fails 8 of them —
   checked, not assumed. The token is a stub: verifying a real Clerk JWT
   still needs a real Clerk instance and remains untested from here.
+- `browser/recording-upload.mjs` — record → upload → play back, in a
+  real browser with Chromium's fake microphone driving a real
+  `MediaRecorder`. It exists because `recording-storage.test.mjs` can
+  prove the storage layer is correct while proving nothing about
+  whether the Lab ever calls it — unit-testing a subsystem and never
+  exercising its only caller is exactly how both pages shipped with no
+  `Authorization` header and a green suite. It earned its keep on the
+  first run by finding that the content-type allow-list rejected
+  `audio/webm;codecs=opus` — every recording any real browser makes.
+  13 assertions.
 - `browser/route-audit.mjs` — the pre-deployment sweep. Walks every
   built HTML file and loads each one, checking the things that break a
   deployment rather than a unit test: broken routes, missing first-party

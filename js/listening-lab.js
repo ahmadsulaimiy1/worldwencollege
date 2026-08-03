@@ -347,7 +347,9 @@
     state.takes.forEach(function (t) {
       var li = document.createElement('li');
       var n = document.createElement('span');
-      n.className = 'n'; n.textContent = 'Take ' + t.attempt;
+      // A take being uploaded has no attempt number yet — the server
+      // assigns it. "Take null" would be worse than saying so.
+      n.className = 'n'; n.textContent = t.attempt ? 'Take ' + t.attempt : 'New take';
       li.appendChild(n);
       if (t.mediaUrl) {
         var a = document.createElement('audio');
@@ -356,7 +358,14 @@
       }
       var st = document.createElement('span');
       st.style.color = 'var(--ink-soft)'; st.style.fontSize = '.8rem';
-      st.textContent = t.status === 'reviewed' ? 'reviewed' : 'awaiting review';
+      // Each state says exactly what is true of this take. "Not
+      // uploaded" is the one that matters: the audio is playable right
+      // now and will be gone on reload, and the learner has to know
+      // that rather than assume it was saved.
+      st.textContent = t.status === 'reviewed' ? 'reviewed'
+        : t.status === 'uploading' ? 'uploading…'
+          : t.status === 'not uploaded' ? 'on this device only — not saved'
+            : 'awaiting review';
       li.appendChild(st);
 
       (t.feedback || []).forEach(function (f) {
@@ -532,22 +541,98 @@
     }
   }
 
+  // Uploads the take in parts and only then calls it saved.
+  //
+  // The local object URL is still created immediately, because a learner
+  // wants to hear what they just said without waiting for a network
+  // round trip. But it is playback only — the take is not reported as
+  // "sent for review" until the bytes are committed server-side, which
+  // is the distinction the previous version could not make.
+  //
+  // Failure is where the care goes. A dropped upload leaves the local
+  // audio playable and says the take is on this device only, rather
+  // than claiming a save that did not happen. Retry resumes from the
+  // parts the server already holds.
   function submitTake(blob, durationMs) {
-    // The blob is held as an object URL for immediate playback. Uploading
-    // the bytes needs object storage, which is not wired yet — so the
-    // recording is registered against the item with its duration and
-    // attempt number, and the note below says so rather than implying
-    // the file reached a server.
-    var url = URL.createObjectURL(blob);
-    api('/api/lms/recording', {
-      method: 'POST',
-      body: JSON.stringify({ learningItemId: state.item.id, mediaUrl: url, durationMs: durationMs }),
+    var localUrl = URL.createObjectURL(blob);
+    var note = $('#recNote');
+    var take = { attempt: null, mediaUrl: localUrl, status: 'uploading', local: true, feedback: [] };
+    state.takes.unshift(take);
+    renderTakes();
+    note.textContent = 'Uploading your take…';
+
+    uploadRecording(blob, durationMs, function (sent, total) {
+      note.textContent = 'Uploading your take… ' + Math.round((sent / total) * 100) + '%';
     }).then(function (res) {
-      state.takes.unshift({ attempt: res.attempt, mediaUrl: url, status: res.status, feedback: [] });
+      take.attempt = res.attempt;
+      take.status = res.status;
+      take.local = false;
+      // Play back from the server from now on, so the take survives a
+      // reload and plays on the learner's other devices.
+      take.mediaUrl = res.mediaUrl;
       renderTakes();
-      $('#recNote').textContent = 'Take ' + res.attempt + ' saved and sent for review. Listen back before you record again.';
+      note.textContent = 'Take ' + res.attempt + ' uploaded and sent for review. Listen back before you record again.';
     }).catch(function (err) {
-      $('#recNote').textContent = 'Could not save the take: ' + err.message;
+      take.status = 'not uploaded';
+      renderTakes();
+      note.textContent = err.status === 401
+        ? 'Sign in to save this take. It is still playable on this device until you reload.'
+        : 'Could not upload the take: ' + err.message + ' It is still playable on this device until you reload — press Record to try again.';
+    });
+  }
+
+  // Resumable multipart upload. The server decides the part size and
+  // tells us which parts it already holds, so a retry never re-sends
+  // what landed.
+  function uploadRecording(blob, durationMs, onProgress) {
+    var recordingId, partSize;
+    return api('/api/lms/recording/init', {
+      method: 'POST',
+      body: JSON.stringify({
+        learningItemId: state.item.id,
+        contentType: blob.type || 'audio/webm',
+        declaredBytes: blob.size,
+        durationMs: durationMs,
+      }),
+    }).then(function (init) {
+      recordingId = init.recordingId;
+      partSize = init.partSize;
+      var already = {};
+      (init.uploadedParts || []).forEach(function (n) { already[n] = true; });
+      var total = Math.max(1, Math.ceil(blob.size / partSize));
+
+      // Sequential, not parallel: a learner on a weak connection is
+      // better served by one part at a time completing reliably than by
+      // several competing for the same narrow pipe.
+      var chain = Promise.resolve();
+      for (var n = 1; n <= total; n++) {
+        (function (part) {
+          chain = chain.then(function () {
+            if (already[part]) return null;
+            var slice = blob.slice((part - 1) * partSize, part * partSize);
+            return window.WEC_LC_apiAuth.headers({ 'Content-Type': 'application/octet-stream' })
+              .then(function (headers) {
+                return fetch('/api/lms/recording/part?id=' + encodeURIComponent(recordingId) + '&part=' + part, {
+                  method: 'PUT', headers: headers, body: slice,
+                });
+              })
+              .then(function (r) {
+                if (!r.ok) {
+                  return r.json().catch(function () { return {}; }).then(function (b) {
+                    throw Object.assign(new Error(b.message || r.statusText), { status: r.status });
+                  });
+                }
+                if (onProgress) onProgress(Math.min(blob.size, part * partSize), blob.size);
+              });
+          });
+        })(n);
+      }
+      return chain;
+    }).then(function () {
+      return api('/api/lms/recording/complete', {
+        method: 'POST',
+        body: JSON.stringify({ recordingId: recordingId, durationMs: durationMs }),
+      });
     });
   }
 

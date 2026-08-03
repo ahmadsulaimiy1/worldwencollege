@@ -12,6 +12,21 @@ binding = "DB"
 database_name = "wec-lc"
 database_id = "REPLACE_WITH_REAL_D1_DATABASE_ID"
 
+# Object storage for learner voice recordings. The bucket is PRIVATE and
+# must stay private — nothing in the application ever hands out a public
+# or signed URL for it. Playback goes through
+# /api/lms/recording/audio, which authorises every request against the
+# same rules as the rest of the LMS. See
+# functions/_lib/lms/recording-storage.js and
+# docs/audio-platform-architecture.md § 4.
+#
+# Create it once with:
+#   wrangler r2 bucket create wec-lc-recordings
+# (the deploy workflow does this automatically if it is missing)
+[[r2_buckets]]
+binding = "RECORDINGS"
+bucket_name = "wec-lc-recordings"
+
 # Secrets (Stripe/Paystack/Flutterwave/Opay keys, Clerk keys, Resend
 # key) are deliberately NOT set here — wrangler.toml is committed to
 # git. Set them with `wrangler pages secret put <NAME>` once real

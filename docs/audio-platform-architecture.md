@@ -141,13 +141,7 @@ retrofit later.
 
 Stated so these are visible gaps rather than assumed capabilities.
 
-- **Object storage for learner recordings.** Takes are held as blob
-  object URLs in the browser and registered server-side with their
-  duration and attempt number. The bytes do not reach a server. The Lab
-  says "saved and sent for review" only after the row is created, and
-  the instructor queue shows the item — but on a different device the
-  audio will not play. **This is the largest remaining gap in the audio
-  platform** and it blocks 3.1, 3.5 and 3.6 in production.
+- ~~**Object storage for learner recordings.**~~ **Built** — see § 4a.
 - **Background sync of offline submissions.** `sw-lab.js` deliberately
   never caches mutations. A queued-submission outbox needs durable
   storage and conflict rules; a half-built version would silently drop
@@ -158,6 +152,62 @@ Stated so these are visible gaps rather than assumed capabilities.
   against real timed audio.
 - **Automated speech scoring.** The `source` column exists; no scorer
   does.
+
+---
+
+## 4a. Learner recording storage
+
+`functions/_lib/lms/recording-storage.js`, R2 bucket `wec-lc-recordings`
+bound as `RECORDINGS`. Schema in `sql/migrations/001-recording-storage.sql`.
+
+| Requirement | How it is met | What is *not* claimed |
+|---|---|---|
+| Secure uploads | Every endpoint behind `requireUser()`; level access checked before any storage is reserved | — |
+| Secure playback | `/api/lms/recording/audio` — owner or staff only, `private, no-store`, Range supported. No signed or public URL exists; the bucket is private | — |
+| Resumable | R2 multipart, part etags persisted in `recording_upload_parts`. `GET /api/lms/recording/init?id=` reports which parts are held; the client sends only the rest | — |
+| Encrypted | R2 encrypts at rest (AES-256), keys managed by Cloudflare | **No application-layer envelope encryption.** If key custody must be ours, that is real work, not a flag |
+| Retention | `retention_until` stamped per recording from `platform_config.recording_retention_days` | **The number is not set.** Default `null` = keep indefinitely, purge nothing — a governance decision, deliberately not invented |
+| Instructor review | Unchanged queue; takes now play back on any device, which is what made review real | — |
+| Certification evidence | SHA-256 of the assembled object on the row; purge deletes audio and keeps the row | — |
+| Future AI evaluation | A scorer reads `object_key` via `getRecordingObject()` and writes `pronunciation_feedback` with `source='automated'` | No scorer exists |
+
+**Endpoints.** `POST /api/lms/recording/init` → `PUT …/part?id=&part=N`
+(raw bytes) → `POST …/complete`. `DELETE …/complete?id=` abandons.
+`POST /api/admin/recordings/purge` runs retention (staff only, **dry run
+unless `confirm: true`**) or erases one learner's audio on request.
+
+**Deliberate decisions worth knowing.**
+
+- `media_url` keeps its meaning and its NOT NULL: for an R2-backed take
+  it holds the authorised endpoint. That avoided a table rebuild and
+  meant every existing reader kept working unchanged.
+- Rows predating storage have `object_key IS NULL` and say so on
+  playback rather than pretending to have audio.
+- A gap in the part sequence fails completion. An object silently
+  missing audio in the middle is worse than a failed upload, because it
+  looks like a valid take.
+- The size cap is enforced against bytes **received**, not the size the
+  client declared.
+- The Lab shows a take as "on this device only — not saved" when an
+  upload fails, instead of the old unconditional "saved".
+
+**Still open.** The retention purge has no schedule. Pages Functions
+have no cron trigger, and the endpoint is staff-only — so scheduling it
+needs a service identity, which needs Clerk. Writing a workflow that
+cannot authenticate would be theatre. Once auth is live: a scheduled
+job calling the endpoint with `confirm: true`. Until a retention figure
+is approved it would be a no-op anyway.
+
+**Verification.** 62 assertions in `tests/recording-storage.test.mjs`
+against a real SQLite engine and an R2 stand-in that enforces the
+multipart rules that actually bite, plus 13 in
+`tests/browser/recording-upload.mjs` — a real browser, Chromium's fake
+microphone, a real `MediaRecorder`, the real upload path, and the bytes
+fetched back. That browser test earned its keep immediately: it found
+that the allow-list rejected `audio/webm;codecs=opus`, i.e. **every
+recording any real browser produces**. The unit tests could not see it,
+because they chose their own tidy content type. Real R2 remains
+untested from here — same disclosure as Clerk.
 
 ---
 

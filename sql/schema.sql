@@ -417,6 +417,20 @@ CREATE TABLE pronunciation_targets (
 );
 CREATE INDEX idx_pronunciation_targets_item ON pronunciation_targets(learning_item_id);
 
+-- `media_url` is where to PLAY this take from. For an R2-backed
+-- recording that is the authorised streaming endpoint
+-- (/api/lms/recording/audio?id=...), never a public URL — learner voice
+-- is not publicly addressable. Rows predating object storage hold a
+-- browser blob URL and have object_key IS NULL.
+--
+-- upload_status carries no CHECK constraint on purpose. These columns
+-- reach existing databases through sql/migrations/001-recording-storage.sql,
+-- and a constraint present on fresh databases but absent on migrated
+-- ones is worse than none — it makes the schema the tests load differ
+-- from the schema production runs. The allowed values
+-- (pending|stored|failed|purged) are enforced in
+-- functions/_lib/lms/recording-storage.js and asserted in
+-- tests/recording-storage.test.mjs.
 CREATE TABLE learner_recordings (
   id                TEXT PRIMARY KEY,   -- 'rec_' + uuid
   learning_item_id  TEXT NOT NULL REFERENCES learning_items(id),
@@ -425,10 +439,36 @@ CREATE TABLE learner_recordings (
   duration_ms       INTEGER,
   attempt           INTEGER NOT NULL DEFAULT 1,  -- learners re-record; keep the history
   status            TEXT NOT NULL DEFAULT 'submitted' CHECK (status IN ('submitted','reviewed')),
-  submitted_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+  submitted_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  -- Object storage (migration 001)
+  object_key        TEXT,               -- R2 key; NULL for pre-storage rows
+  content_type      TEXT,
+  bytes             INTEGER,
+  sha256            TEXT,               -- integrity + de-duplication evidence
+  upload_status     TEXT NOT NULL DEFAULT 'stored',
+  upload_id         TEXT,               -- R2 multipart id while in flight
+  retention_until   TEXT,               -- NULL = no retention policy set; never purged
+  purged_at         TEXT                -- set when audio was deleted, row kept
 );
 CREATE INDEX idx_learner_recordings_user ON learner_recordings(user_id);
 CREATE INDEX idx_learner_recordings_item ON learner_recordings(learning_item_id);
+CREATE INDEX idx_learner_recordings_upload_status ON learner_recordings(upload_status);
+CREATE INDEX idx_learner_recordings_retention ON learner_recordings(retention_until)
+  WHERE retention_until IS NOT NULL AND purged_at IS NULL;
+
+-- What makes an upload resumable rather than merely restartable. R2
+-- returns a part's etag per request; those etags are required to
+-- complete the upload and would otherwise die with the Worker
+-- invocation. Recording them means a learner whose connection drops
+-- resumes from the parts already held instead of re-sending the lot.
+CREATE TABLE recording_upload_parts (
+  recording_id      TEXT NOT NULL REFERENCES learner_recordings(id),
+  part_number       INTEGER NOT NULL,
+  etag              TEXT NOT NULL,
+  bytes             INTEGER NOT NULL,
+  uploaded_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  PRIMARY KEY (recording_id, part_number)
+);
 
 -- Feedback on a learner recording. `source` is what makes this layer
 -- AI-ready without any AI being built: an automated pronunciation
@@ -606,13 +646,22 @@ INSERT INTO platform_config (key, value) VALUES
   ('instalment_default_count', '4'),
   -- Number of instalments offered by default when an instalment plan
   -- is created, pending a real cadence policy decision.
-  ('lms_pass_threshold', '0.7');
+  ('lms_pass_threshold', '0.7'),
   -- Fraction (0..1) a quiz score or assignment grade must meet to mark
   -- a unit "completed" (functions/_lib/lms/content.js). A mechanism
   -- default, not a published WEC-LC academic standard — real
   -- competency thresholds are an Academic Director decision (see
   -- docs/master-roadmap.md § Decisions Needed, item 9), to be set here
   -- once one exists.
+  ('recording_retention_days', 'null');
+  -- How long a learner's voice recording may be kept. `null` means
+  -- keep indefinitely and purge nothing, and it is null because this
+  -- is a governance decision with data-protection consequences that
+  -- has NOT been made — inventing a number here would be inventing
+  -- policy. Only recordings completed while a real value is set are
+  -- ever given a retention_until date, and only dated rows are ever
+  -- eligible for deletion. Changing it does not retroactively shorten
+  -- the terms a learner already recorded under.
 
 -- One course per programme level for Milestone 1 — purely structural
 -- (titled with the level's own real, already-published name), not

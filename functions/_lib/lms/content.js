@@ -17,7 +17,7 @@ import { db, newId, nowIso, NotFoundError, ValidationError } from '../db.js';
 import { AuthorizationError } from '../auth/session.js';
 import { getConfigJson } from '../config.js';
 
-async function assertLevelAccess(env, userId, levelId) {
+export async function assertLevelAccess(env, userId, levelId) {
   const enrolment = await db(env)
     .prepare(`SELECT id FROM enrolments WHERE user_id = ? AND level_id = ? AND status IN ('active','completed')`)
     .bind(userId, levelId)
@@ -25,7 +25,7 @@ async function assertLevelAccess(env, userId, levelId) {
   if (!enrolment) throw new AuthorizationError('You are not enrolled in this programme level.');
 }
 
-async function getLevelIdForUnit(env, unitId) {
+export async function getLevelIdForUnit(env, unitId) {
   const row = await db(env)
     .prepare(`SELECT c.level_id as levelId FROM units u JOIN courses c ON c.id = u.course_id WHERE u.id = ?`)
     .bind(unitId)
@@ -113,7 +113,7 @@ export async function getUnitDetail(env, { userId, unitId }) {
 
 // Never downgrades a unit already marked 'completed' — a lower-scoring
 // quiz retake or a re-submitted assignment doesn't erase a prior pass.
-async function upsertUnitProgress(env, { userId, unitId, status, completedAt = null }) {
+export async function upsertUnitProgress(env, { userId, unitId, status, completedAt = null }) {
   const existing = await db(env).prepare('SELECT * FROM unit_progress WHERE user_id = ? AND unit_id = ?').bind(userId, unitId).first();
   if (existing) {
     if (existing.status === 'completed') return; // idempotent, never regresses
@@ -241,7 +241,7 @@ export async function getAudioAsset(env, { audioAssetId }) {
   };
 }
 
-async function listMyRecordings(env, { userId, learningItemId }) {
+export async function listMyRecordings(env, { userId, learningItemId }) {
   const { results } = await db(env)
     .prepare('SELECT id, media_url as mediaUrl, duration_ms as durationMs, attempt, status, submitted_at as submittedAt FROM learner_recordings WHERE learning_item_id = ? AND user_id = ? ORDER BY attempt DESC')
     .bind(learningItemId, userId)
