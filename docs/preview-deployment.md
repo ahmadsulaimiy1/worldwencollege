@@ -7,6 +7,32 @@ environment** — see § 1.*
 
 ---
 
+## 0. Status — deployed
+
+**Live at https://preview.wec-lc.pages.dev** (3 August 2026, via
+`.github/workflows/deploy-cloudflare.yml`, run #2).
+
+- Pages project `wec-lc`, branch `preview`, 207 files + Functions bundle
+- D1 `wec-lc` (`531b5b52-…`) created and seeded: 31 tables, 1.74 MB
+- Verification ran before the deploy and passed: static build, backend
+  suite, curriculum consistency, route audit, Listening Lab, auth
+  contract
+
+Not yet configured: Clerk (so the Portal, Listening Lab and instructor
+workspace render but 401 on every API call — § 4), payment gateways,
+Resend, object storage for recordings (§ 5).
+
+**The URL is publicly reachable.** A Pages preview URL is not private;
+put Cloudflare Access in front of the project if this needs to stay
+internal.
+
+§ 1 below is kept as the record of why this took a runbook rather than
+a single command: the development sandbox has no route to Cloudflare's
+API, and still doesn't — the deploy runs from GitHub Actions, which
+does.
+
+---
+
 ## 1. Why this is a runbook and not a URL
 
 The deployment was requested and could not be performed. Stated
