@@ -234,6 +234,25 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   recovery is editing the live database by hand — precisely the
   situation the module exists to end). 32 assertions; each of the three
   guards confirmed by removal.
+- `published-claims.test.mjs` — the numbers on the public site,
+  measured against the database that is meant to back them. It exists
+  because of a real one: `/academics/iefc/` publishes a Units column of
+  120 per level and "seven hundred and twenty learning units", and the
+  curriculum holds 49 per level, 294 in total — 41%. Nobody wrote that
+  as a lie; it **drifted**, because the framework was written first, the
+  copy took its figures, and the authoring caught up more slowly than
+  the copy implied. Drift is the ordinary way an institution ends up
+  misrepresenting itself, and a document asking people to remember does
+  not stop it. The rule enforced: a page may publish a design figure,
+  but not silently — where a number is not backed by the database, the
+  page carrying it must also carry an explicit design-versus-delivered
+  statement, positioned with the claim rather than elsewhere. Claims the
+  database *can* confirm (six levels, sixty modules, a quiz and an
+  assignment per module) are simply asserted true. The test also prints
+  the real figures on every run, so the shortfall is visible rather than
+  filed, and it flips to "the disclosure can be retired" automatically
+  once the content catches up. 12 assertions; confirmed by deleting the
+  disclosure and watching four of them fail.
 - `study-plan.test.mjs` — where a learner is and what they should open
   next (`functions/_lib/student/study-plan.js`). The gap it closes was
   invisible from inside the code and obvious to anyone trying to be a
