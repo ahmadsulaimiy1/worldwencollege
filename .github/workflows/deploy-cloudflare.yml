@@ -183,12 +183,45 @@ jobs:
           # letting the deploy fail later with a binding error.
           if npx wrangler r2 bucket list 2>/dev/null | grep -qw 'wec-lc-recordings'; then
             echo "R2 bucket wec-lc-recordings already exists."
-          elif npx wrangler r2 bucket create wec-lc-recordings; then
-            echo "Created R2 bucket wec-lc-recordings (private by default — never expose it publicly)."
-          else
-            echo "::error::Could not create the R2 bucket. Add \"Workers R2 Storage: Edit\" to the CLOUDFLARE_API_TOKEN, or create 'wec-lc-recordings' by hand in the dashboard."
-            exit 1
+            exit 0
           fi
+          if npx wrangler r2 bucket create wec-lc-recordings 2>r2-error.log; then
+            cat r2-error.log || true
+            echo "Created R2 bucket wec-lc-recordings (private by default — never expose it publicly)."
+            exit 0
+          fi
+
+          # Recording storage is one capability, not the deployment.
+          # Refusing to deploy the whole platform because voice takes
+          # cannot be stored is the wrong trade -- it would hold the
+          # curriculum, the portal and authentication hostage to an
+          # unrelated account setting. So: warn loudly, drop the binding
+          # so the deploy is valid without it, and carry on.
+          #
+          # Nothing is silently broken by this. The application already
+          # treats a missing RECORDINGS binding as a clear configuration
+          # error at the point of use (see recording-storage.js), so a
+          # learner gets an honest message rather than a take that
+          # vanishes.
+          cat r2-error.log || true
+          if grep -q '10042' r2-error.log; then
+            echo "::warning::R2 is not enabled on this Cloudflare account. Enable it once at Dashboard -> R2 (it asks for a payment method even for the free tier), then re-run this workflow. Deploying WITHOUT recording storage: learner voice recordings will report a configuration error instead of uploading. Everything else is unaffected."
+          else
+            echo "::warning::Could not create the R2 bucket -- most likely the API token is missing \"Workers R2 Storage: Edit\". Deploying WITHOUT recording storage; everything else is unaffected."
+          fi
+
+          # Remove the binding rather than leave it pointing at a bucket
+          # that does not exist: `pages deploy` rejects that outright,
+          # which would put us back to a blocked deployment.
+          python3 - <<'PY'
+          import re
+          src = open('wrangler.toml').read()
+          out = re.sub(r'\n\[\[r2_buckets\]\]\n(?:[^\[\n].*\n|\n(?=\s*[a-z_]+\s*=))*', '\n', src)
+          assert '[[r2_buckets]]' not in out and '[[d1_databases]]' in out, 'wrangler.toml edit went wrong'
+          open('wrangler.toml', 'w').write(out)
+          print('Removed the r2_buckets binding for this deploy.')
+          PY
+          echo "R2_SKIPPED=1" >> "$GITHUB_ENV"
 
       - name: Apply schema and curriculum seeds to the remote D1 database
         if: ${{ inputs.seed_database }}
@@ -238,3 +271,10 @@ jobs:
           url=$(grep -oE 'https://[a-z0-9.-]+\.pages\.dev' deploy.log | tail -1)
           echo "url=$url" >> "$GITHUB_OUTPUT"
           echo "### Deployed: $url" >> "$GITHUB_STEP_SUMMARY"
+          # Say plainly, in the place people look, what this deployment
+          # does NOT have. A capability quietly missing is worse than one
+          # that announces itself.
+          if [ "${R2_SKIPPED:-}" = "1" ]; then
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "⚠️ **Deployed without recording storage.** R2 was unavailable, so learner voice recordings will report a configuration error instead of uploading. Enable R2 in the Cloudflare dashboard and re-run to add it. Nothing else is affected." >> "$GITHUB_STEP_SUMMARY"
+          fi
