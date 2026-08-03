@@ -31,7 +31,7 @@
     pending_payment: 'Awaiting payment', withdrawn: 'Withdrawn',
   };
 
-  var state = { learner: null, viewer: null };
+  var state = { learner: null, viewer: null, registerLoaded: false };
 
   function api(path, opts) {
     return window.WEC_LC_apiAuth.headers().then(function (headers) {
@@ -70,6 +70,11 @@
     var q = $('#q').value.trim();
     return api('/api/admin/learners?q=' + encodeURIComponent(q)).then(function (res) {
       state.viewer = res.viewer || null;
+      // Once, on the first response that tells us who the viewer is —
+      // not on every search, which would refetch an unchanged list each
+      // time someone types a name. appoint() refreshes it explicitly,
+      // because that is the one action that changes it.
+      if (!state.registerLoaded) { state.registerLoaded = true; renderRegister(); }
       $('#resultCount').textContent = res.count === 1 ? '1 learner' : res.count + ' learners';
       var box = $('#results');
       box.innerHTML = '';
@@ -110,8 +115,109 @@
       renderLevels(l);
       renderAccess(l);
       renderHistory(l.history);
+      renderAppointments(l);
       $('#learnerCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }).catch(fail);
+  }
+
+  // The appointment trail for one person, administrator-only because
+  // the endpoint is. Fetched separately rather than folded into the
+  // learner record: staff open learner records all day, and who
+  // appointed whom is not theirs to read.
+  //
+  // Kept apart from the enrolment history below it for the same reason
+  // the tables are separate — an enrolment change says what one learner
+  // may study, an appointment says what one person may do to everybody
+  // else's records. Merging them buries the few entries that matter in
+  // the many that do not.
+  function renderAppointments(learner) {
+    var head = $('#appointmentsHead');
+    var box = $('#appointments');
+    box.innerHTML = '';
+    if (!state.viewer || state.viewer.role !== 'admin') {
+      head.hidden = true; box.hidden = true;
+      return;
+    }
+    head.hidden = false; box.hidden = false;
+    box.textContent = 'Loading…';
+    box.style.color = 'var(--ink-soft)';
+    api('/api/admin/role?userId=' + encodeURIComponent(learner.id)).then(function (res) {
+      box.innerHTML = '';
+      var list = res.appointments || [];
+      if (!list.length) {
+        // The honest reading, and the common one: most people have never
+        // been appointed to anything. Saying so beats an empty box.
+        box.textContent = learner.role === 'student'
+          ? 'No appointments — this account has never held staff or administrator access.'
+          : 'No appointment recorded. This access predates the appointments record, or was set directly in the database.';
+        box.style.color = 'var(--ink-soft)';
+        return;
+      }
+      box.style.color = '';
+      list.forEach(function (a) {
+        var row = document.createElement('div');
+        row.style.cssText = 'padding:.5rem 0;border-bottom:1px solid rgba(20,38,74,.06);font-size:.85rem';
+        var when = String(a.createdAt || '').replace('T', ' ').slice(0, 16);
+        var head2 = document.createElement('div');
+        head2.innerHTML = '<strong>' + (ROLE_LABEL[a.fromRole] || a.fromRole) + ' → ' +
+          (ROLE_LABEL[a.toRole] || a.toRole) + '</strong>' +
+          ' <span style="color:var(--ink-soft)">· ' + when + '</span>';
+        row.appendChild(head2);
+        var by = document.createElement('div');
+        by.style.cssText = 'color:var(--ink-soft)';
+        by.textContent = (a.actorEmail || 'Unknown') + (a.reason ? ' — ' + a.reason : '');
+        row.appendChild(by);
+        // Shown on its own line rather than run together with the
+        // reason: "under whose decision" is the line somebody is
+        // looking for when they are looking, and it should be findable.
+        if (a.authority) {
+          var auth = document.createElement('div');
+          auth.style.cssText = 'color:var(--ink-soft)';
+          auth.textContent = 'Authority: ' + a.authority;
+          row.appendChild(auth);
+        }
+        box.appendChild(row);
+      });
+    }).catch(function (err) {
+      box.style.color = 'var(--ink-soft)';
+      box.textContent = 'Could not load the appointment record — ' + (err.message || 'please try again.');
+    });
+  }
+
+  // Everyone who holds access above learner. Administrator-only, and
+  // rendered before anybody searches for anything, because "who can see
+  // student records" is a question with a one-list answer and it
+  // previously required a hand-written database query.
+  function renderRegister() {
+    var card = $('#registerCard');
+    if (!state.viewer || state.viewer.role !== 'admin') { card.hidden = true; return; }
+    return api('/api/admin/role').then(function (res) {
+      card.hidden = false;
+      var box = $('#register');
+      box.innerHTML = '';
+      var list = res.appointees || [];
+      $('#registerCount').textContent = list.length === 1 ? '1 person' : list.length + ' people';
+      if (!list.length) { box.textContent = 'Nobody holds staff or administrator access.'; box.style.color = 'var(--ink-soft)'; return; }
+      box.style.color = '';
+      list.forEach(function (p) {
+        var row = document.createElement('button');
+        row.type = 'button';
+        row.className = 'tbtn';
+        row.style.cssText = 'display:flex;width:100%;justify-content:space-between;gap:1rem;text-align:left;margin-bottom:.4rem;align-items:center';
+        var who = document.createElement('span');
+        who.textContent = p.preferredName ? p.preferredName + ' · ' + p.email : p.email;
+        var what = document.createElement('span');
+        what.style.cssText = 'font-size:.78rem;white-space:nowrap;color:' + (p.role === 'admin' ? 'var(--royal)' : 'var(--ink-soft)');
+        what.textContent = ROLE_LABEL[p.role] || p.role;
+        row.appendChild(who); row.appendChild(what);
+        row.addEventListener('click', function () { openLearner(p.id); });
+        box.appendChild(row);
+      });
+    }).catch(function () {
+      // A staff member reaching this page gets a 403 here, which is
+      // correct and not an error to shout about — just no register.
+      card.hidden = true;
+    });
   }
 
   function renderLevels(learner) {
@@ -251,7 +357,10 @@
     api('/api/admin/role', {
       method: 'POST',
       body: JSON.stringify({ userId: userId, role: role, reason: reason.trim(), authority: authority.trim() || null }),
-    }).then(function () { return openLearner(userId); }).catch(fail);
+    }).then(function () {
+      renderRegister();
+      return openLearner(userId);
+    }).catch(fail);
   }
 
   function renderHistory(history) {

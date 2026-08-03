@@ -234,6 +234,26 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   recovery is editing the live database by hand — precisely the
   situation the module exists to end). 32 assertions; each of the three
   guards confirmed by removal.
+- `admin-route-guards.test.mjs` — who may call each administrative
+  endpoint, asserted **at the route**, with real signed tokens. It
+  exists because of a defect the rest of the suite was structurally
+  incapable of seeing: `GET /api/admin/role` shipped under a comment
+  reading "Administrator only" and a guard reading `requireStaff()`, so
+  every tutor could pull the complete register of who can read student
+  records. `admin-roles.test.mjs` could not catch it — `listAppointees()`
+  takes no actor, so there was no actor to get wrong — and the browser
+  suite only ever opens the page as an administrator. The rule lived in
+  one place, the guard, and the guard was the thing that was wrong.
+  The contract is now a table in the file, and each row is asserted in
+  **both** directions: the intended role gets past the guard, and the
+  role one step below is refused with 403 — a one-directional test
+  would pass against an endpoint that refuses everybody. An
+  unauthenticated caller must get 401, not 403, because "who are you"
+  and "not you" are different answers. Two further assertions stop the
+  table going stale: every file under `functions/api/admin/` must
+  appear in it, and so must every method each of them exports. 36
+  assertions; confirmed by restoring the original guard and watching
+  exactly the one row fail with `200` where `403` was required.
 - `demo-people.test.mjs` — the guard on `sql/seed-demo-people.sql`, the
   fictional eighteen-person staff list used to design the
   administration screens (`docs/org-chart-placeholders.md`). The
@@ -322,7 +342,16 @@ node tests/browser/route-audit.mjs
   else's record and *not* on their own (a control that can only ever
   fail is not a control), that appointing asks two distinct questions —
   why this person, and under whose decision — and that the change lands
-  on the record. 24 assertions.
+  on the record. It then reads the appointment back off the page: the
+  transition, who made it, the reason, and the authority on its own
+  line. `role_events` was written and unit-tested from the day it was
+  added and for that whole time no page displayed it — an accountability
+  record nobody can read without a database query does not do the job it
+  exists for. Same for the access register ("who can see student
+  records"), which is asserted **on arrival**, before anything else
+  happens: `appoint()` refreshes the register itself, so a check placed
+  after the appointment passes even when the page never renders it on
+  load. Found by sabotaging exactly that. 37 assertions.
 - `browser/route-audit.mjs` — the pre-deployment sweep. Walks every
   built HTML file and loads each one, checking the things that break a
   deployment rather than a unit test: broken routes, missing first-party

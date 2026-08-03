@@ -361,10 +361,20 @@ paragraph below describes what it does.)
 
 Administrators additionally see an **Access** section on a learner's
 record, to appoint them as staff or administrator. Every appointment
-records who made it, why, and under what authority. Nobody can change
-their own access, and the last administrator cannot be removed —
-because the only recovery from zero administrators is editing the live
-database by hand.
+records who made it, why, and under what authority, and the trail is
+readable on the record itself under **Appointments** — kept separate
+from enrolment history, because what one learner may study and what one
+person may do to everybody else's records are different questions with
+different readers. Nobody can change their own access, and the last
+administrator cannot be removed — because the only recovery from zero
+administrators is editing the live database by hand.
+
+Administrators also land on a **Who has access** register at the top of
+the page: everyone holding staff or administrator access, listed
+without having to search for anyone first. That is the question an
+institution is actually asked, and before this it required a
+hand-written SQL query. Staff do not see it — the register of who can
+reach student records is not itself staff-readable.
 
 **Requires migrations 002 and 003** (`apply_migrations` on the deploy workflow),
 which add the enrolment audit table, the appointment record, and — most

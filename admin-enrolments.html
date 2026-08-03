@@ -46,6 +46,20 @@
       </div>
     </section>
 
+    <!-- The register. Administrator-only, and above the search on
+         purpose: "who can see student records" is the question an
+         institution is asked, and it should not require knowing whose
+         name to type in first. -->
+    <section class="lab-card" id="registerCard" hidden>
+      <div class="lab-card__head">
+        <h2 class="lab-card__title">Who has access</h2>
+        <span id="registerCount" style="font-size:.8rem;color:var(--ink-soft)"></span>
+      </div>
+      <div class="lab-card__body">
+        <div id="register"></div>
+      </div>
+    </section>
+
     <section class="lab-card" id="learnerCard" hidden>
       <div class="lab-card__head">
         <h2 class="lab-card__title" id="learnerName">Learner</h2>
@@ -60,7 +74,10 @@
           <div id="access"></div>
         </div>
 
-        <h3 style="font:700 .78rem/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:1.4rem 0 .7rem">History</h3>
+        <h3 id="appointmentsHead" hidden style="font:700 .78rem/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:1.4rem 0 .7rem">Appointments</h3>
+        <div id="appointments" hidden></div>
+
+        <h3 style="font:700 .78rem/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:1.4rem 0 .7rem">Enrolment history</h3>
         <div id="history"></div>
       </div>
     </section>

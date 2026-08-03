@@ -105,6 +105,44 @@ quibble, and `none` or an `is_employee` flag is worth the addition.
 
 **Decision:** ☐ awaiting
 
+### A5. Whether staff should hold financial and erasure powers
+**Raised by:** writing down the access level of every administrative
+endpoint (`tests/admin-route-guards.test.mjs`). Doing that made the
+current answer visible for the first time, and it is broader than it
+looks. Today **any staff account** can:
+
+| Endpoint | What it does |
+|---|---|
+| `GET /api/admin/reports/revenue` | Read total revenue for any period |
+| `GET /api/admin/reports/reconciliation` | Read the payment reconciliation |
+| `POST /api/admin/currency/set-rate` | Fix the exchange rate a currency is charged at |
+| `POST /api/admin/currency/refresh-rates` | Pull live rates and update tuition pricing |
+| `POST /api/admin/recordings/purge` | Destroy learner voice recordings (dry-run by default) |
+
+Every one of those is *documented* as staff-only, so the code matches
+its stated intent — this is not a defect. It is a question nobody has
+been asked: should a language tutor be able to read the institution's
+revenue, change what learners are charged, or delete their coursework?
+
+**Recommendation:** move the four financial endpoints and the purge to
+administrator, and leave learner records at staff. Teaching staff need
+learner records; they do not need the accounts, and the purge is
+irreversible destruction of learner work.
+
+**Cost of the change, stated honestly:** whoever handles finance would
+then need administrator access, which under A1 means access to every
+learner record too — so the recommendation trades one over-grant for a
+different one. That trade is only avoidable with a fourth role, which
+is A4. **A4 and A5 should be decided together.**
+
+**Not changed unilaterally.** The role.js guard was fixed because the
+code contradicted its own documented contract; these do not. Who may
+touch money and who may destroy learner work are decisions for the
+institution, and quietly tightening them would be inventing policy by
+another route.
+
+**Decision:** ☐ awaiting
+
 ---
 
 ## B. Assessment and progression

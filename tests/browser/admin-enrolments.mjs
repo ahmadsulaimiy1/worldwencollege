@@ -51,6 +51,26 @@ page.on('dialog', async (d) => { lastPrompt = d.message(); await d.accept(prompt
 await page.goto(`${BASE}/admin-enrolments.html`, { waitUntil: 'domcontentloaded' });
 await page.waitForTimeout(700);
 
+// --- The register, on arrival ----------------------------------------
+// Asserted HERE, before anything else happens on the page, and not
+// after the appointment further down: appoint() refreshes the register
+// itself, so a check placed after it passes even when the page never
+// renders the register on load. Found by sabotaging exactly that and
+// watching the later assertions stay green.
+check('An administrator sees the access register on arrival, without searching for anyone',
+  (await page.locator('#registerCard').isVisible()) === true);
+const register0 = await page.locator('#register button').allTextContents();
+check('...listing everyone who holds access above learner', register0.length >= 2, register0.join(' | '));
+check('...with the access level each of them holds',
+  register0.some((t) => /Administrator/.test(t)) && register0.some((t) => /Staff/.test(t)), register0.join(' | '));
+// Learners are the overwhelming majority; a register that listed them
+// would answer a different question than the one being asked.
+// `.every()` on an empty list is true, so the length is part of the
+// assertion — otherwise a register that rendered nothing at all would
+// report that it correctly excluded learners.
+check('...but not ordinary learners',
+  register0.length > 0 && register0.every((t) => !/Learner$/.test(t.trim())), register0.join(' | '));
+
 // --- Search -----------------------------------------------------------
 const initial = await page.locator('#results button').count();
 check('The page lists existing accounts without being asked', initial >= 2, initial);
@@ -177,6 +197,43 @@ check('...the second being about authority, not a repeat of the first',
   /whose decision/i.test(asked[1] || ''), asked[1]);
 const meta = await page.textContent('#learnerMeta');
 check('The appointment takes effect on the record', /staff/.test(meta || ''), (meta || '').trim());
+
+// --- The appointment is READABLE afterwards ---------------------------
+// role_events was written and unit-tested from the day it was added,
+// and for that whole time no page displayed it. An accountability
+// record nobody can read without a database query does not do the job
+// it exists for, so this asserts the trail is on the page.
+await page.waitForTimeout(600);
+const appts = await page.locator('#appointments > div').allTextContents();
+check('The appointment appears on the record, not only in the database', appts.length >= 1, appts.length);
+check('...showing the transition, so a demotion reads differently from a promotion',
+  /Learner\s*→\s*Staff/.test(appts[0] || ''), (appts[0] || '').slice(0, 60));
+check('...naming who made it', /admin@example\.com/.test(appts[0] || ''), (appts[0] || '').slice(0, 100));
+check('...with the reason', /Level II cohort/.test(appts[0] || ''), (appts[0] || '').slice(0, 140));
+check('...and the authority on its own line, since that is the line people look for',
+  /Authority: Board minute 2026-03/.test(appts[0] || ''), (appts[0] || '').slice(0, 200));
+
+// Enrolment history and appointments are separate sections on purpose:
+// what one learner may study and what one person may do to everybody
+// else's records are different questions with different readers.
+const enrolHist = await page.locator('#history > div').allTextContents();
+check('Appointments are kept out of the enrolment history, not merged into it',
+  !enrolHist.some((t) => /Board minute/.test(t)), enrolHist.length);
+
+// --- The register keeps up with an appointment ------------------------
+// A register that is right only until somebody uses the page is a
+// register nobody can trust, so this is asserted against the list read
+// at load time rather than merely "is non-empty".
+const register = await page.locator('#register button').allTextContents();
+check('The register grows when someone is appointed', register.length === register0.length + 1,
+  `${register0.length} -> ${register.length}`);
+check('...and the person just appointed is in it',
+  register.some((t) => /learner@example\.com|demo@example\.com/.test(t)), register.join(' | '));
+
+await page.locator('#register button').first().click();
+await page.waitForTimeout(600);
+check('Clicking someone in the register opens their record',
+  (await page.locator('#learnerCard').isVisible()) === true);
 
 // Nobody may change their own access, so the block must not be offered
 // on the viewer's own record — a control that always fails is not one.

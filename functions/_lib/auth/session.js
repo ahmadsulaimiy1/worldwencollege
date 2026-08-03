@@ -115,6 +115,31 @@ export async function requireStaff(request, env) {
   return assertStaffRole(user);
 }
 
+// Administrator, not merely staff. The distinction is the whole point
+// of having two levels: staff act on learners, administrators act on
+// staff. Endpoints that decide, or merely reveal, who holds access
+// belong here.
+//
+// This exists because GET /api/admin/role shipped with requireStaff()
+// under a comment saying "Administrator only" — every tutor could pull
+// the complete register of who can read student records. No unit test
+// could have caught it: listAppointees() takes no actor at all, so the
+// only place the rule lived was the guard, and the guard was the thing
+// that was wrong. Where a rule cannot be enforced inside the function
+// that does the work, it needs a named guard and a test that drives
+// the endpoint.
+export function assertAdminRole(user) {
+  if (user.role !== 'admin') {
+    throw new AuthorizationError('Administrator access required.');
+  }
+  return user;
+}
+
+export async function requireAdmin(request, env) {
+  const user = await requireUser(request, env);
+  return assertAdminRole(user);
+}
+
 // Called from functions/api/auth/webhook-clerk.js on a verified
 // "user.created" / "user.updated" event — the only place a `users`
 // row is written from provider data.

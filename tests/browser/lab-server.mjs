@@ -120,6 +120,8 @@ createServer(async (req, res) => {
       return json(res, { ...(await adminEnrol.searchLearners(env, { q: url.searchParams.get('q') || '' })), viewer: me });
     }
     if (url.pathname === '/api/admin/role' && req.method === 'GET') {
+      const who = url.searchParams.get('userId');
+      if (who) return json(res, { userId: who, appointments: await adminRoles.appointmentHistory(env, { userId: who }) });
       return json(res, await adminRoles.listAppointees(env));
     }
     if (url.pathname === '/api/admin/role' && req.method === 'POST') {
