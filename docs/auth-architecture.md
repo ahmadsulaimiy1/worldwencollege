@@ -168,6 +168,81 @@ matching this site's zero-build-step philosophy. It has not been
 exercised against a real Clerk instance — same caveat as the rest of
 this section.
 
+## Setting Clerk up — the exact values
+
+Five things, in this order. Steps 2 and 4 are the ones most often
+missed, and each has a distinct failure signature so a wrong setup is
+diagnosable rather than mysterious.
+
+**1. Create the Clerk application.** Any sign-in methods. Note the
+publishable key (`pk_test_…` / `pk_live_…`) and the instance domain.
+
+**2. Customise the session token — REQUIRED, not optional.**
+Dashboard → **Sessions → Customize session token**, add:
+
+```json
+{ "email": "{{user.primary_email_address}}", "email_verified": "{{user.email_verified}}" }
+```
+
+Clerk's default session token carries no email. `users.email` is NOT
+NULL and an email address must never be invented, so without this claim
+a learner whose webhook has not yet landed gets a 401 explaining
+exactly that. See "First-request provisioning" below.
+
+**3. Pages secrets** (Workers & Pages → wec-lc → Settings → Variables
+and Secrets, encrypted):
+
+| Name | Value |
+|---|---|
+| `CLERK_JWKS_URL` | `https://<instance>.clerk.accounts.dev/.well-known/jwks.json` |
+| `CLERK_WEBHOOK_SECRET` | `whsec_…` from Clerk → Webhooks |
+| `CLERK_AUTHORIZED_PARTIES` | *optional*, comma-separated origins — see "Security hardening" |
+
+`CLERK_SECRET_KEY` is **not** read anywhere. Nothing calls Clerk's
+backend API; verification is done against the published JWKS.
+
+**4. Webhook.** Clerk → **Webhooks → Add endpoint**:
+`https://<your-deployment>/api/auth/webhook-clerk`, subscribed to
+**`user.created`** and **`user.updated`**. This is what keeps email and
+verification state current. Other event types are received and 200'd
+but not acted on.
+
+**5. Publishable key in the browser.** `js/auth-config.js`, or the
+`CLERK_PUBLISHABLE_KEY` repository variable, which the deploy workflow
+writes into that file. Publishable keys are not secret.
+
+### Failure signatures
+
+| Symptom | Cause |
+|---|---|
+| Pages render but never ask you to sign in | No publishable key (step 5) |
+| Sign-in works, every API call 401s, message mentions **the webhook and a missing email claim** | Step 2 missing *and* webhook not delivering |
+| Sign-in works, everything works, but a name change never updates | Step 4 missing (step 2 alone provisions, but does not reconcile) |
+| Every request 401s with no message | `CLERK_JWKS_URL` wrong or unreachable |
+| Everyone signed out at once, recovers on its own | Historic. Key rotation with no JWKS refetch — fixed, and covered by `tests/clerk-jwt.test.mjs` |
+
+### First-request provisioning
+
+A verified session token and a verified webhook are the same assertion
+by Clerk over different transports, so `requireUser()` will create a
+local account from the token when no row exists yet, provided the token
+carries an email claim. This exists because webhook delivery is
+best-effort and retried, while first use is often seconds after
+sign-up — and the failure it prevents is the worst kind: sign-up
+appears to succeed and then every request fails.
+
+The webhook remains the source of truth for *updates*. Both paths write
+through one `ON CONFLICT` statement, so a first request racing an
+in-flight webhook produces one account rather than a constraint error
+(asserted in `tests/auth-provisioning.test.mjs`).
+
+An earlier version of this document argued the opposite — that a user
+must never be created from "a client claim". That framing was wrong
+about what a verified token is, and it is corrected here rather than
+quietly replaced.
+
+---
+
 ## Request flow
 
 ```

@@ -203,6 +203,18 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   request amplifier against Clerk's own endpoint. 31 assertions. What
   remains untested is Clerk's specific claim set and rotation cadence,
   not the cryptography.
+- `auth-provisioning.test.mjs` — `requireUser()` end to end with real
+  signed tokens and a real database: the account-provisioning path
+  every learner hits on their first request after signing up. Asserts
+  that a verified token with no local row provisions the account
+  instead of failing, that a token with NO email claim provisions
+  nothing (an email address must never be invented), that a forged or
+  expired token provisions nothing, that a provisioned account is a
+  student and is refused by the staff guard, and that a webhook racing
+  a first request produces one account rather than a UNIQUE violation.
+  Confirmed to detect its own regression by sabotaging
+  `requireUser()` — which also revealed that the happy-path assertions
+  crashed rather than reporting, now fixed.
 - `run.mjs` — runs everything above and reports a combined summary.
 
 **Browser tests** (not in `run.mjs` — they need Chromium and a server,
