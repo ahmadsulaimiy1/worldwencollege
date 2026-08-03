@@ -234,6 +234,21 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   recovery is editing the live database by hand — precisely the
   situation the module exists to end). 32 assertions; each of the three
   guards confirmed by removal.
+- `study-plan.test.mjs` — where a learner is and what they should open
+  next (`functions/_lib/student/study-plan.js`). The gap it closes was
+  invisible from inside the code and obvious to anyone trying to be a
+  student: `/listening-lab.html` requires `?unit=<id>` and without it
+  says "No unit specified. Open this page from a module." **There was no
+  module page.** A signed-in learner could not reach a lesson at all.
+  Most of the assertions are about states nobody thinks to build for —
+  no enrolment, a level whose units are not loaded, every unit finished,
+  two active levels at once, a withdrawn enrolment — because those are
+  what a platform meets in its first months and each has a different
+  honest answer. Also asserts the two judgement calls: a unit in
+  progress is **resumed** rather than skipped, and finishing every unit
+  reports `units_complete` and stops, never claiming the level is passed
+  (that is governance B4, undecided — and a dashboard is the one place a
+  learner would believe it). 29 assertions.
 - `migrate.test.mjs` — the migration runner (`scripts/migrate.mjs`).
   The runner it replaced applied every file in `sql/migrations/`
   unconditionally, which works on exactly one database state — a fresh
@@ -374,6 +389,17 @@ node tests/browser/route-audit.mjs
   happens: `appoint()` refreshes the register itself, so a check placed
   after the appointment passes even when the page never renders it on
   load. Found by sabotaging exactly that. 37 assertions.
+- `browser/my-programme.mjs` — the route from signing in to a lesson,
+  in a real browser. The assertion it exists for is not that the page
+  renders: it follows the "Begin" link and checks the Lab does **not**
+  show "No unit specified", because a button leading to that error would
+  look identical to a working one in every screenshot. Confirmed by
+  sabotage — stripping the unit id from the link reproduces exactly that
+  message. Also covers the resume-not-restart case, the unenrolled
+  state, that the progress bar carries the same sentence for a screen
+  reader as the visible count, and that on a 390px viewport the primary
+  action is above the fold and at least 44px tall — the defect class
+  that already shipped once on the quiz result card. 22 assertions.
 - `browser/route-audit.mjs` — the pre-deployment sweep. Walks every
   built HTML file and loads each one, checking the things that break a
   deployment rather than a unit test: broken routes, missing first-party

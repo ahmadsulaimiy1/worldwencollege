@@ -33,7 +33,11 @@
     </div>
     <ul class="app-nav">
       <li class="active"><a href="#" aria-current="page"><span class="ic">&#9679;</span>Dashboard</a></li>
-      <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9737;</span>My Level</a></li>
+      <!-- The only live item besides Dashboard and Profile, and it is
+           live because it is the route to an actual lesson. Everything
+           else on this list is still an illustrative design preview and
+           stays disabled rather than pretending. -->
+      <li><a href="/my-programme.html"><span class="ic">&#9737;</span>My Programme</a></li>
       <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9636;</span>Classes</a></li>
       <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9998;</span>Assignments</a></li>
       <li><a href="#" class="disabled-link" aria-disabled="true" tabindex="-1"><span class="ic">&#9733;</span>Digital Library</a></li>

@@ -33,6 +33,20 @@ for (let n = 1; n <= 6; n++) sqlite.exec(`INSERT INTO enrolments (id,user_id,lev
 sqlite.exec(`INSERT INTO schema_migrations (filename, applied_at, method)
   VALUES ('002-enrolment-integrity.sql','2026-08-03T12:15:21.000Z','applied')`);
 
+// Learners in the states the study plan has to handle. usr_demo covers
+// the happy path; these two cover the ones a real platform spends its
+// first months in and which a single fixture would never reach.
+sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_prog','clerk','sub_prog','midway@example.com','student')`);
+sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_none','clerk','sub_none','unenrolled@example.com','student')`);
+sqlite.exec(`INSERT INTO enrolments (id,user_id,level_id,status,started_at) VALUES ('enr_prog_1','usr_prog',1,'active','2026-01-01T00:00:00.000Z')`);
+{
+  const units = sqlite.prepare(
+    `SELECT u.id FROM units u JOIN courses c ON c.id = u.course_id WHERE c.level_id = 1 ORDER BY u.sequence ASC LIMIT 2`,
+  ).all();
+  if (units[0]) sqlite.exec(`INSERT INTO unit_progress (id,user_id,unit_id,status,completed_at) VALUES ('uprg_p1','usr_prog','${units[0].id}','completed','2026-02-01T00:00:00.000Z')`);
+  if (units[1]) sqlite.exec(`INSERT INTO unit_progress (id,user_id,unit_id,status) VALUES ('uprg_p2','usr_prog','${units[1].id}','in_progress')`);
+}
+
 const { makeD1 } = await import(pathToFileURL(`${ROOT}/tests/d1-shim.mjs`));
 const env = { DB: makeD1FromExisting() };
 function makeD1FromExisting() {
@@ -58,6 +72,7 @@ function wrap(k) {
 const content = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/content.js`));
 const adminEnrol = await import(pathToFileURL(`${ROOT}/functions/_lib/admin/enrolments.js`));
 const adminRoles = await import(pathToFileURL(`${ROOT}/functions/_lib/admin/roles.js`));
+const studyPlan = await import(pathToFileURL(`${ROOT}/functions/_lib/student/study-plan.js`));
 // The harness acts as an ADMINISTRATOR so the appointment controls are
 // exercised; the role check itself has its own unit tests.
 const ADMIN_ACTOR = { id: 'usr_admin', role: 'admin', email: 'admin@example.com' };
@@ -125,6 +140,15 @@ createServer(async (req, res) => {
       const me = { id: ADMIN_ACTOR.id, role: ADMIN_ACTOR.role, email: ADMIN_ACTOR.email };
       if (id) return json(res, { ...(await adminEnrol.getLearner(env, { userId: id })), viewer: me });
       return json(res, { ...(await adminEnrol.searchLearners(env, { q: url.searchParams.get('q') || '' })), viewer: me });
+    }
+    // The study plan is served for whichever learner the test asks for,
+    // because the states worth testing (no enrolment, awaiting content,
+    // every unit finished) are properties of a LEARNER, not of the
+    // page. One fixed user would only ever exercise the happy path,
+    // which is the state nobody gets stuck in.
+    if (url.pathname === '/api/student/study-plan' && req.method === 'GET') {
+      const who = url.searchParams.get('as') || 'usr_demo';
+      return json(res, await studyPlan.buildStudyPlan(env, who));
     }
     if (url.pathname === '/api/admin/role' && req.method === 'GET') {
       const who = url.searchParams.get('userId');

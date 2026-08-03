@@ -93,6 +93,8 @@ jobs:
         run: node tests/browser/recording-upload.mjs
       - name: Enrolment administration
         run: node tests/browser/admin-enrolments.mjs
+      - name: My Programme — the route from signing in to a lesson
+        run: node tests/browser/my-programme.mjs
 
   deploy:
     needs: verify

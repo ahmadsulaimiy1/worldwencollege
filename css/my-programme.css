@@ -1,0 +1,135 @@
+/* My Programme — the route from signing in to a lesson.
+   Builds on css/listening-lab.css (the .lab shell) rather than
+   restating it, so the two pages stay visibly one product. */
+
+/* The next-step card is the only element on the page competing for
+   attention, and it is meant to win. A learner with fifteen minutes
+   should not have to choose where to start — the choice has already
+   been made for them, correctly. */
+.mp-next {
+  border: 1px solid rgba(20, 38, 74, .1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .96), rgba(255, 255, 255, .9)),
+    radial-gradient(120% 140% at 0% 0%, rgba(20, 38, 74, .1), transparent 60%);
+  box-shadow: 0 18px 40px -28px rgba(20, 38, 74, .5);
+}
+.mp-next__eyebrow {
+  margin: 0 0 .35rem;
+  font: 700 .72rem/1 var(--font-body);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--royal, #14264A);
+}
+.mp-next__title {
+  margin: 0;
+  font: 600 clamp(1.3rem, 1rem + 1.4vw, 1.9rem)/1.2 var(--font-display, Georgia, serif);
+  color: var(--ink, #14264A);
+}
+.mp-next__meta {
+  margin: .4rem 0 0;
+  color: var(--ink-soft);
+  font-size: .88rem;
+}
+.mp-next__cta {
+  margin-top: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  /* Comfortably past the 44px minimum touch target: this is the one
+     control the page exists to offer, and it is most often tapped on a
+     phone. */
+  min-height: 48px;
+  padding-inline: 1.4rem;
+}
+
+/* Progress. A fraction ("4 of 10 units") beats a percentage for a
+   learner — it names the remaining work rather than abstracting it. The
+   bar is decoration on top of that, which is why the count is text and
+   carries the accessible name. */
+.mp-bar {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(20, 38, 74, .1);
+  overflow: hidden;
+  margin: 0 0 1.1rem;
+}
+.mp-bar__fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--royal, #14264A), var(--gold, #C6A15B));
+  transition: width .5s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-bar__fill { transition: none; }
+}
+
+.mp-units { display: flex; flex-direction: column; }
+
+.mp-unit {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  padding: .7rem .25rem;
+  border-bottom: 1px solid rgba(20, 38, 74, .08);
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px;
+}
+.mp-unit:hover { background: rgba(20, 38, 74, .035); }
+.mp-unit:focus-visible {
+  outline: 2px solid var(--royal, #14264A);
+  outline-offset: 2px;
+}
+
+/* The sequence marker doubles as the status indicator. A separate badge
+   would say the same thing twice and widen every row on a phone. */
+.mp-unit__seq {
+  flex: 0 0 auto;
+  width: 2rem; height: 2rem;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  font: 700 .78rem/1 var(--font-body);
+  background: rgba(20, 38, 74, .07);
+  color: var(--ink-soft);
+}
+.mp-unit.is-done .mp-unit__seq { background: var(--royal, #14264A); color: #fff; }
+.mp-unit.is-current .mp-unit__seq {
+  background: var(--gold, #C6A15B);
+  color: #1a1206;
+  box-shadow: 0 0 0 3px rgba(198, 161, 91, .25);
+}
+
+.mp-unit__title { flex: 1 1 auto; min-width: 0; font-weight: 600; }
+.mp-unit__status {
+  flex: 0 0 auto;
+  font-size: .76rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.mp-unit.is-current .mp-unit__status { color: var(--royal, #14264A); font-weight: 700; }
+
+@media (max-width: 30rem) {
+  /* Below this width the status text and the title fight for the same
+     line and the title loses. The status is inferable from the marker,
+     so it is the one that goes. */
+  .mp-unit__status { display: none; }
+  .mp-unit.is-current .mp-unit__status {
+    display: block;
+    flex-basis: 100%;
+    padding-left: 2.85rem;
+  }
+  .mp-unit { flex-wrap: wrap; }
+}
+
+.mp-done-level {
+  display: flex; justify-content: space-between; gap: 1rem;
+  padding: .5rem .25rem;
+  border-bottom: 1px solid rgba(20, 38, 74, .06);
+  font-size: .9rem;
+}
+
+/* The way back out of a lesson. Lives here rather than in
+   listening-lab.css because it only exists to point at this page. */
+.lab-back { margin: .75rem 0 0; font-size: .85rem; }
+.lab-back a { color: inherit; opacity: .75; text-decoration: none; border-bottom: 1px solid currentColor; }
+.lab-back a:hover, .lab-back a:focus-visible { opacity: 1; }

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Programme | WEC-LC</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#14264A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/listening-lab.css">
+<link rel="stylesheet" href="/css/my-programme.css">
+</head>
+<body class="lab">
+
+<header class="lab-head">
+  <div class="lab-head__wrap">
+    <p class="lab-eyebrow">
+      <span>International English Fluency Course</span>
+      <span data-sep id="levelEyebrow">—</span>
+      <span class="lab-offline" data-sep>offline — showing your last saved position</span>
+    </p>
+    <h1 class="lab-title">My Programme</h1>
+    <p class="lab-sub" id="planSub">Where you are, and the next thing to open.</p>
+  </div>
+</header>
+
+<main class="lab-body" id="main" style="grid-template-columns:minmax(0,1fr)">
+  <div>
+    <p id="planError" role="alert" style="color:var(--red);font-weight:600;margin:0 0 1rem"></p>
+
+    <!-- The single most important element on the page: one action, not
+         a menu. A learner arriving with fifteen minutes should not have
+         to decide where to start. -->
+    <section class="lab-card mp-next" id="nextCard" hidden>
+      <div class="lab-card__body">
+        <p class="mp-next__eyebrow" id="nextEyebrow">Next</p>
+        <h2 class="mp-next__title" id="nextTitle">—</h2>
+        <p class="mp-next__meta" id="nextMeta"></p>
+        <a class="tbtn tbtn--primary mp-next__cta" id="nextCta" href="#">Begin</a>
+      </div>
+    </section>
+
+    <!-- Shown instead of the above when there is genuinely nothing to
+         open. Each state says something different because each state
+         IS something different. -->
+    <section class="lab-card" id="stateCard" hidden>
+      <div class="lab-card__body">
+        <h2 class="lab-card__title" id="stateTitle">—</h2>
+        <p id="stateBody" style="margin:.5rem 0 0;color:var(--ink-soft)"></p>
+        <p id="stateAction" style="margin:.9rem 0 0"></p>
+      </div>
+    </section>
+
+    <section class="lab-card" id="progressCard" hidden>
+      <div class="lab-card__head">
+        <h2 class="lab-card__title" id="progressTitle">Your current level</h2>
+        <span id="progressCount" style="font-size:.8rem;color:var(--ink-soft)"></span>
+      </div>
+      <div class="lab-card__body">
+        <div class="mp-bar" role="img" id="progressBar" aria-label="Progress through this level">
+          <div class="mp-bar__fill" id="progressFill" style="width:0%"></div>
+        </div>
+        <div id="units" class="mp-units"></div>
+      </div>
+    </section>
+
+    <section class="lab-card" id="doneCard" hidden>
+      <div class="lab-card__head">
+        <h2 class="lab-card__title">Levels you have completed</h2>
+      </div>
+      <div class="lab-card__body">
+        <div id="doneLevels"></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- Auth chain — see the note in listening-lab.html. -->
+<script src="/js/auth-config.js"></script>
+<script src="/js/clerk-loader.js"></script>
+<script src="/js/portal-guard.js"></script>
+<script src="/js/api-auth.js"></script>
+<script src="/js/my-programme.js"></script>
+</body>
+</html>
