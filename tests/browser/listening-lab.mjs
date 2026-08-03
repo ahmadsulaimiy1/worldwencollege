@@ -186,8 +186,40 @@ try {
   // fall back through the font stack in brand.css. Any OTHER console
   // error still fails the test — the filter names exactly one host
   // rather than muting the channel.
+  // --- Time on task --------------------------------------------------
+  // The measured-hours commitment (docs/academic-framework.md § I) is
+  // worth exactly as much as the beacon feeding it. A file that loads
+  // and never fires is the same defect as the Lab that rendered
+  // perfectly and sent no Authorization header, so this asserts a beat
+  // actually reached the server from a real browser.
+  {
+    const res = await fetch(`${BASE}/__beats`);
+    const { beats } = await res.json();
+    check('Opening a module starts the time-on-task measurement',
+      beats.length >= 1, JSON.stringify(beats).slice(0, 120));
+    check('...identifying the module being studied',
+      beats.every((b) => typeof b.unitId === 'string' && b.unitId.length > 0),
+      JSON.stringify(beats[0] || {}));
+    // The decision the whole measurement rests on: the browser never
+    // says how long it studied, so the published figure cannot be
+    // edited from a console.
+    check('...and sends NO duration — the server times it, not the client',
+      beats.length > 0 && beats.every((b) => Object.keys(b).length === 1 && 'unitId' in b),
+      JSON.stringify(beats[0] || {}));
+  }
+
   check(`No uncaught script errors${scriptErrors.length ? ' — ' + scriptErrors.slice(0, 2).join(' | ') : ''}`, scriptErrors.length === 0);
-  const nonFont = failedRequests.filter((u) => !/fonts\.(googleapis|gstatic)\.com/.test(u));
+  // The time-on-task beacon is deliberately fire-and-forget, and its
+  // final beat is sent as the page is being torn down. A navigation
+  // cancelling that request is the expected path, not a defect — the
+  // beat is sent with keepalive precisely so the browser may still
+  // deliver it, and a learner must never see an error because our
+  // bookkeeping request lost a race with their click.
+  //
+  // Named as one endpoint rather than muting the channel: any OTHER
+  // first-party request that fails still fails this test.
+  const nonFont = failedRequests.filter((u) =>
+    !/fonts\.(googleapis|gstatic)\.com/.test(u) && !/\/api\/lms\/time-on-task/.test(u));
   const fontFails = failedRequests.length - nonFont.length;
   check(`Every failed request is an external webfont the sandbox blocks${nonFont.length ? ' — also failed: ' + nonFont.slice(0, 2).join(', ') : ''}${fontFails ? ` (${fontFails} font request(s))` : ''}`, nonFont.length === 0);
 

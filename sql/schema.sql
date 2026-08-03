@@ -652,6 +652,27 @@ CREATE TABLE unit_progress (
 );
 CREATE INDEX idx_unit_progress_user ON unit_progress(user_id);
 
+-- Time on task — the measurement behind the College's measured-hours
+-- commitment (docs/academic-framework.md § I). One row per learner per
+-- module, holding a total: the least data that answers "how long does
+-- this module take", which is the only question it exists to answer.
+--
+-- `seconds` is incremented SERVER-SIDE from the server's own clock. The
+-- client says only "I am still working". A client-supplied duration
+-- would make the College's headline academic metric editable from a
+-- browser console — see functions/_lib/lms/time-on-task.js.
+CREATE TABLE time_on_task (
+  id            TEXT PRIMARY KEY,   -- 'tot_' + uuid
+  user_id       TEXT NOT NULL REFERENCES users(id),
+  unit_id       TEXT NOT NULL REFERENCES units(id),  -- a MODULE in framework terms
+  seconds       INTEGER NOT NULL DEFAULT 0,
+  first_seen_at TEXT NOT NULL,
+  last_seen_at  TEXT NOT NULL,
+  UNIQUE(user_id, unit_id)
+);
+CREATE INDEX idx_time_on_task_user ON time_on_task(user_id);
+CREATE INDEX idx_time_on_task_module ON time_on_task(unit_id);
+
 -- Live classes are scheduled external join-links (Zoom/Meet/Teams),
 -- not custom WebRTC — see docs/lms-architecture.md for why that's the
 -- right MVP scope. `unit_id` is NULL for a level-wide session (e.g. a

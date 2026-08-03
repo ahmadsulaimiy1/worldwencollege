@@ -112,8 +112,10 @@ for (const f of files) {
   const out = await runMigrations(io(db));
   check('Only the missing migration is applied',
     out.applied.length === 1 && out.applied[0] === '003-appointments.sql', out.applied.join(', '));
-  check('...and the two already-present ones are baselined, not re-run',
-    out.baselined.length === 2, out.baselined.join(', '));
+  // Derived from the directory rather than hardcoded, so adding
+  // migration 005 next month does not break a test about migration 003.
+  check('...and every already-present migration is baselined, not re-run',
+    out.baselined.length === files.length - 1, out.baselined.join(', '));
 
   const after = db.prepare("SELECT COUNT(*) AS n FROM sqlite_master WHERE name='role_events'").get();
   check('role_events now exists', after.n === 1, after.n);
@@ -121,7 +123,7 @@ for (const f of files) {
   const rows = ledger(db);
   check('The ledger distinguishes what was run from what was adopted',
     rows.find((r) => r.filename === '003-appointments.sql').method === 'applied'
-    && rows.filter((r) => r.method === 'baseline').length === 2,
+    && rows.filter((r) => r.method === 'baseline').length === files.length - 1,
     JSON.stringify(rows));
 
   // The appointment feature must actually work afterwards — the point of
@@ -220,6 +222,7 @@ for (const f of files) {
   db.exec('DROP INDEX idx_role_events_actor; DROP INDEX idx_role_events_user; DROP TABLE role_events;');
   db.exec('DROP INDEX idx_enrolment_events_enrolment; DROP INDEX idx_enrolment_events_user; DROP TABLE enrolment_events;');
   db.exec('DROP INDEX idx_enrolments_one_live_per_level');
+  db.exec('DROP INDEX idx_time_on_task_module; DROP INDEX idx_time_on_task_user; DROP TABLE time_on_task;');
   db.exec('DROP TABLE recording_upload_parts');
   db.exec('DROP TABLE learner_recordings');
   db.exec(`CREATE TABLE learner_recordings (

@@ -73,6 +73,10 @@ const content = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/content.j
 const adminEnrol = await import(pathToFileURL(`${ROOT}/functions/_lib/admin/enrolments.js`));
 const adminRoles = await import(pathToFileURL(`${ROOT}/functions/_lib/admin/roles.js`));
 const studyPlan = await import(pathToFileURL(`${ROOT}/functions/_lib/student/study-plan.js`));
+const timeOnTask = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/time-on-task.js`));
+// Beats reaching the harness, so a browser test can assert the beacon
+// actually fires rather than that the file merely loads.
+const beats = [];
 // The harness acts as an ADMINISTRATOR so the appointment controls are
 // exercised; the role check itself has its own unit tests.
 const ADMIN_ACTOR = { id: 'usr_admin', role: 'admin', email: 'admin@example.com' };
@@ -146,6 +150,12 @@ createServer(async (req, res) => {
     // every unit finished) are properties of a LEARNER, not of the
     // page. One fixed user would only ever exercise the happy path,
     // which is the state nobody gets stuck in.
+    if (url.pathname === '/api/lms/time-on-task' && req.method === 'POST') {
+      const body = JSON.parse(await read(req));
+      beats.push(body);
+      return json(res, await timeOnTask.recordBeat(env, { userId: 'usr_demo', unitId: body.unitId }));
+    }
+    if (url.pathname === '/__beats' && req.method === 'GET') return json(res, { beats });
     if (url.pathname === '/api/student/study-plan' && req.method === 'GET') {
       const who = url.searchParams.get('as') || 'usr_demo';
       return json(res, await studyPlan.buildStudyPlan(env, who));

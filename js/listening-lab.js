@@ -822,6 +822,13 @@
     var itemId = params.get('item');
     if (!unitId) { $('#labError').textContent = 'No unit specified. Open this page from a module.'; return; }
 
+    // Start measuring. This is the College's measured-hours commitment
+    // in practice (docs/academic-framework.md § I) — it begins the
+    // moment a learner opens a module, and every session that happens
+    // before it is instrumented is one the measurement can never
+    // recover.
+    if (window.WEC_LC_timeOnTask) window.WEC_LC_timeOnTask.start(unitId);
+
     api('/api/lms/unit?id=' + encodeURIComponent(unitId)).then(function (unit) {
       var item = itemId
         ? unit.items.filter(function (i) { return i.id === itemId; })[0]

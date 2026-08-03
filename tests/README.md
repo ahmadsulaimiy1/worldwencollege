@@ -234,6 +234,27 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   recovery is editing the live database by hand — precisely the
   situation the module exists to end). 32 assertions; each of the three
   guards confirmed by removal.
+- `time-on-task.test.mjs` — the measurement behind the College's
+  measured-hours commitment (`docs/academic-framework.md` § I). Almost
+  every assertion is about a way a measurement becomes a lie, because
+  that is the only interesting failure mode: publishing *measured*
+  Guided Learning Hours is the strongest claim available to an
+  institution with no accreditation, and a measurement anybody can edit
+  is worth less than none at all — it invites belief it has not earned.
+  So the client never supplies a duration (asserted against
+  `js/time-on-task.js` itself, not just the server); a beat can only
+  credit the real interval since the last one, taken from the server's
+  clock; a tab left open for eight hours credits one interval and says
+  it was capped; a backwards clock credits nothing rather than a
+  negative; one runaway row is capped so it cannot move an average; and
+  a figure from four learners is computed but **not publishable**, with
+  the reason in words so nobody publishes a null. The published figure
+  is the **median**, and the test proves why — one extreme outlier moves
+  the mean and leaves the median alone. Also asserts the beacon treats
+  playing audio as activity, because an idle rule built only on keyboard
+  and pointer input would score the programme's core listening practice
+  at zero. `now` is injected throughout: a test that reads the clock
+  measures the test runner. 28 assertions.
 - `published-claims.test.mjs` — the numbers on the public site,
   measured against the database that is meant to back them. It exists
   because of a real one: `/academics/iefc/` publishes a Units column of
