@@ -23,12 +23,15 @@
     [1, 'I', 'Foundation', 'A1'], [2, 'II', 'Elementary', 'A2'], [3, 'III', 'Intermediate', 'B1'],
     [4, 'IV', 'Upper Intermediate', 'B2'], [5, 'V', 'Advanced', 'C1'], [6, 'VI', 'English Mastery', 'C2'],
   ];
+  var ROLE_ORDER = ['student', 'staff', 'admin'];
+  var ROLE_LABEL = { student: 'Learner', staff: 'Staff', admin: 'Administrator' };
+  var ROLE_ACTION = { student: 'Remove access', staff: 'Appoint as staff', admin: 'Appoint as administrator' };
   var STATUS_LABEL = {
     active: 'Active', completed: 'Completed',
     pending_payment: 'Awaiting payment', withdrawn: 'Withdrawn',
   };
 
-  var state = { learner: null };
+  var state = { learner: null, viewer: null };
 
   function api(path, opts) {
     return window.WEC_LC_apiAuth.headers().then(function (headers) {
@@ -66,6 +69,7 @@
     $('#admError').textContent = '';
     var q = $('#q').value.trim();
     return api('/api/admin/learners?q=' + encodeURIComponent(q)).then(function (res) {
+      state.viewer = res.viewer || null;
       $('#resultCount').textContent = res.count === 1 ? '1 learner' : res.count + ' learners';
       var box = $('#results');
       box.innerHTML = '';
@@ -98,11 +102,13 @@
   function openLearner(userId) {
     return api('/api/admin/learners?id=' + encodeURIComponent(userId)).then(function (l) {
       state.learner = l;
+      if (l.viewer) state.viewer = l.viewer;
       $('#learnerCard').hidden = false;
       $('#learnerName').textContent = l.preferredName || l.email;
       $('#learnerMeta').textContent = l.email + ' · ' + l.role +
         (l.emailVerified ? ' · email verified' : ' · email not verified');
       renderLevels(l);
+      renderAccess(l);
       renderHistory(l.history);
       $('#learnerCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }).catch(fail);
@@ -181,6 +187,71 @@
     }).then(function () {
       return openLearner(userId);
     }).catch(fail);
+  }
+
+  // Appointment controls, administrator-only.
+  //
+  // Hidden rather than disabled for staff: a disabled button that says
+  // "make administrator" still tells a staff member the platform will
+  // let them try, and the honest thing is that it will not. The server
+  // refuses regardless -- this only decides what is worth offering.
+  //
+  // Not shown at all for a learner's own record when that learner is
+  // the viewer, because nobody may change their own access and a
+  // control that always fails is not a control.
+  function renderAccess(learner) {
+    var box = $('#access');
+    var block = $('#accessBlock');
+    box.innerHTML = '';
+    var viewer = state.viewer;
+    if (!viewer || viewer.role !== 'admin' || viewer.id === learner.id) {
+      block.hidden = true;
+      return;
+    }
+    block.hidden = false;
+
+    var now = document.createElement('p');
+    now.style.cssText = 'margin:0 0 .6rem;color:var(--ink-soft);font-size:.85rem';
+    now.textContent = 'Currently: ' + ROLE_LABEL[learner.role] + '. ' +
+      'An appointment records who made it and under what authority.';
+    box.appendChild(now);
+
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;gap:.5rem;flex-wrap:wrap';
+    ROLE_ORDER.forEach(function (r) {
+      if (r === learner.role) return;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'tbtn' + (r === 'admin' ? '' : ' tbtn--primary');
+      b.textContent = ROLE_ACTION[r];
+      b.addEventListener('click', function () { appoint(learner.id, r); });
+      row.appendChild(b);
+    });
+    box.appendChild(row);
+  }
+
+  function appoint(userId, role) {
+    var reason = window.prompt(
+      'Why is ' + ROLE_ACTION[role].toLowerCase() + ' the right decision for this person?\n\nThis is recorded against your name.');
+    if (reason === null) return;
+    if (reason.trim().length < 3) {
+      $('#admError').textContent = 'A reason of at least a few words is required.';
+      return;
+    }
+    // Asked separately because it is a different question. "Why this
+    // person" is a management answer; "under whose decision" is what an
+    // institution needs when it has to account for who held access.
+    // Optional, because not every appointment rests on a minuted
+    // decision and forcing one just produces "n/a" everywhere.
+    var authority = window.prompt(
+      'Under whose decision? A board minute, a directorship, a dated approval.\n\nLeave blank if there is no formal record.');
+    if (authority === null) return;
+
+    $('#admError').textContent = '';
+    api('/api/admin/role', {
+      method: 'POST',
+      body: JSON.stringify({ userId: userId, role: role, reason: reason.trim(), authority: authority.trim() || null }),
+    }).then(function () { return openLearner(userId); }).catch(fail);
   }
 
   function renderHistory(history) {

@@ -143,6 +143,51 @@ check('Dismissing the reason prompt changes nothing', cancelled && /Active/.test
 const history3 = await page.locator('#history > div').allTextContents();
 check('...and writes no event', history3.length === history2.length, `${history2.length} -> ${history3.length}`);
 
+// --- Appointments -----------------------------------------------------
+// The harness signs in as an administrator, so the access controls
+// should be offered on other people's records.
+page.removeAllListeners('dialog');
+const asked = [];
+let answers = ['Appointed to lead the Level II cohort', 'Board minute 2026-03, item 4'];
+page.on('dialog', async (d) => { asked.push(d.message()); await d.accept(answers[asked.length - 1] || ''); });
+
+await page.fill('#q', 'learner@');
+await page.locator('#searchForm button[type=submit]').click();
+await page.waitForTimeout(500);
+if (await page.locator('#results button').count() === 0) {
+  await page.fill('#q', 'demo@');
+  await page.locator('#searchForm button[type=submit]').click();
+  await page.waitForTimeout(500);
+}
+await page.locator('#results button').first().click();
+await page.waitForTimeout(600);
+
+check('An administrator is offered access controls on a learner', (await page.locator('#accessBlock').isVisible()) === true);
+const accessBtns = await page.locator('#access button').allTextContents();
+check('...to appoint as staff or administrator, but not to the role they already hold',
+  accessBtns.some((t) => /Appoint as staff/.test(t)) && accessBtns.some((t) => /administrator/i.test(t))
+  && !accessBtns.some((t) => /Remove access/.test(t)),
+  accessBtns.join(' | '));
+
+await page.locator('#access button', { hasText: 'Appoint as staff' }).click();
+await page.waitForTimeout(900);
+check('Appointing asks TWO questions — why this person, and under whose decision',
+  asked.length === 2, asked.length);
+check('...the second being about authority, not a repeat of the first',
+  /whose decision/i.test(asked[1] || ''), asked[1]);
+const meta = await page.textContent('#learnerMeta');
+check('The appointment takes effect on the record', /staff/.test(meta || ''), (meta || '').trim());
+
+// Nobody may change their own access, so the block must not be offered
+// on the viewer's own record — a control that always fails is not one.
+await page.fill('#q', 'admin@');
+await page.locator('#searchForm button[type=submit]').click();
+await page.waitForTimeout(500);
+await page.locator('#results button').first().click();
+await page.waitForTimeout(600);
+check('The access controls are NOT offered on your own record',
+  (await page.locator('#accessBlock').isVisible()) === false);
+
 check('No uncaught script errors', errs.length === 0, errs.slice(0, 2).join(' | '));
 await page.screenshot({ path: join(HERE, 'screenshots', 'admin-enrolments.png'), fullPage: true }).catch(() => {});
 

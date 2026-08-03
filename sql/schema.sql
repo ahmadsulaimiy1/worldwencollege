@@ -31,6 +31,36 @@ CREATE TABLE users (
 );
 CREATE INDEX idx_users_email ON users(email);
 
+-- Appointments: who holds staff or administrator access (migration 003).
+-- Separate from enrolment_events on purpose — an enrolment change says
+-- what one learner may study; an appointment says what one person may
+-- do to everybody else's records. Different questions, different
+-- readers, and conflating them buries the few entries that matter.
+--
+-- `authority` is not `reason`, and both are required:
+--   reason    — why this person
+--   authority — under whose decision
+-- Nothing here validates that the authority is real; it records what
+-- was claimed, attributed to whoever claimed it.
+--
+-- actor_id is NOT NULL, unlike enrolment_events. A payment can create
+-- an enrolment with no human involved; nothing should appoint an
+-- administrator with no human involved. A future automated path would
+-- have to change this constraint deliberately rather than slip through
+-- a nullable column.
+CREATE TABLE role_events (
+  id                TEXT PRIMARY KEY,            -- 'rev_' + uuid
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  from_role         TEXT NOT NULL,
+  to_role           TEXT NOT NULL,
+  actor_id          TEXT NOT NULL REFERENCES users(id),
+  reason            TEXT NOT NULL,
+  authority         TEXT,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_role_events_user ON role_events(user_id, created_at);
+CREATE INDEX idx_role_events_actor ON role_events(actor_id, created_at);
+
 -- ---------------------------------------------------------------------
 -- Programme structure — mirrors the confirmed IEFC facts already
 -- published on the public site (academics-iefc.html). Seeded once,

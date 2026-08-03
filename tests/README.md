@@ -226,7 +226,36 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   mark one completed and leave the other active. 39 assertions;
   confirmed by sabotage to detect both the missing self-guard and the
   missing index.
+- `admin-roles.test.mjs` — appointments
+  (`functions/_lib/admin/roles.js`). Every assertion corresponds to a
+  specific way a permission system goes wrong: staff appointing staff,
+  self-promotion, an administrator locking themselves out mid-mistake,
+  and the last administrator being removed (from which the only
+  recovery is editing the live database by hand — precisely the
+  situation the module exists to end). 32 assertions; each of the three
+  guards confirmed by removal.
+- `demo-people.test.mjs` — the guard on `sql/seed-demo-people.sql`, the
+  fictional eighteen-person staff list used to design the
+  administration screens (`docs/org-chart-placeholders.md`). The
+  arrangement is only acceptable while two promises hold: the invented
+  people never reach production, and they never reach a page the public
+  can load — and a promise that nothing checks lasts until the first
+  person in a hurry. So it scans every `.html`/`.js`/`.css`/`.json` the
+  site serves for every placeholder name, surname, address and id;
+  asserts the three properties that make an accidental application
+  survivable (`usr_demo_*` ids, `.invalid` addresses that can never
+  receive mail, `demo_*` auth ids that no real Clerk token can match);
+  and asserts that neither the migrations directory nor the deploy
+  workflow can carry the file remote — including that the seed step
+  still names its files rather than globbing `sql/seed-*.sql`. It also
+  refuses to run its derived assertions if the seed loads zero rows,
+  since `[].every(...)` is true and a scan for nothing finds nothing.
+  23 assertions; the leak scan confirmed by pasting a placeholder name
+  into `faculty/index.html` and watching it fail.
 - `run.mjs` — runs everything above and reports a combined summary.
+  It discovers `*.test.mjs` by directory listing, so a new backend test
+  is picked up by `npm test` and by the CI verify job without either
+  being edited.
 
 **Browser tests** (not in `run.mjs` — they need Chromium and a server,
 so run them explicitly):
@@ -237,7 +266,7 @@ node tests/browser/lab-auth.mjs
 node tests/browser/route-audit.mjs
 ```
 
-- `browser/listening-lab.mjs` — 40 assertions covering the Listening
+- `browser/listening-lab.mjs` — 43 assertions covering the Listening
   Lab and the instructor review workspace. It starts
   `browser/lab-server.mjs`, which serves the real static files and runs
   the real `functions/_lib/lms/content.js` against the real seeded
@@ -288,7 +317,12 @@ node tests/browser/route-audit.mjs
   real defect on its first run — the page mapped every 403 to "you do
   not have staff access", so a staff member refused for enrolling
   *themselves* was told they were not staff, which would have sent them
-  to ask for access they already had. 18 assertions.
+  to ask for access they already had. It also drives the appointment
+  controls: that they are offered to an administrator on someone
+  else's record and *not* on their own (a control that can only ever
+  fail is not a control), that appointing asks two distinct questions —
+  why this person, and under whose decision — and that the change lands
+  on the record. 24 assertions.
 - `browser/route-audit.mjs` — the pre-deployment sweep. Walks every
   built HTML file and loads each one, checking the things that break a
   deployment rather than a unit test: broken routes, missing first-party

@@ -10,17 +10,22 @@ import { searchLearners, getLearner } from '../../_lib/admin/enrolments.js';
 
 export async function onRequestGet({ request, env }) {
   try {
-    await requireStaff(request, env);
+    const viewer = await requireStaff(request, env);
     const url = new URL(request.url);
     const id = url.searchParams.get('id');
-    if (id) return jsonResponse(await getLearner(env, { userId: id }));
+    // The page needs to know what the VIEWER may do, not just what
+    // the record contains: appointment controls are administrator-only,
+    // and a page that renders them for staff and then fails the request
+    // is worse than one that never offered them.
+    const me = { id: viewer.id, role: viewer.role, email: viewer.email };
+    if (id) return jsonResponse({ ...(await getLearner(env, { userId: id })), viewer: me });
 
     const limitRaw = url.searchParams.get('limit');
     const limit = limitRaw ? Number(limitRaw) : 25;
     if (limitRaw && !Number.isInteger(limit)) {
       throw new ValidationError('limit must be an integer.', { limit: 'Invalid' });
     }
-    return jsonResponse(await searchLearners(env, { q: url.searchParams.get('q') || '', limit }));
+    return jsonResponse({ ...(await searchLearners(env, { q: url.searchParams.get('q') || '', limit })), viewer: me });
   } catch (err) {
     return errorResponse(err);
   }

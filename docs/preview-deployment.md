@@ -354,13 +354,46 @@ console:
 UPDATE users SET role = 'admin' WHERE email = 'you@example.com';
 ```
 
-After that the page works, and nothing else needs SQL. Promoting other
-people to staff is deliberately NOT in this page: who may hold staff
-access is a governance decision, and a screen that grants it before
-that decision exists would be inventing the policy.
+After that the page works, and nothing else needs SQL — including
+appointing everyone else. (An earlier version of this page said
+promoting people was deliberately left out; it is now built, and the
+paragraph below describes what it does.)
 
-**Requires migration 002** (`apply_migrations` on the deploy workflow),
-which adds the audit table and — more importantly — a partial unique
-index that stops the same learner holding two live enrolments in one
-level. Without it, `completeLevel()` can mark one duplicate completed
-and leave the other active.
+Administrators additionally see an **Access** section on a learner's
+record, to appoint them as staff or administrator. Every appointment
+records who made it, why, and under what authority. Nobody can change
+their own access, and the last administrator cannot be removed —
+because the only recovery from zero administrators is editing the live
+database by hand.
+
+**Requires migrations 002 and 003** (`apply_migrations` on the deploy workflow),
+which add the enrolment audit table, the appointment record, and — most
+importantly — a partial unique index that stops the same learner
+holding two live enrolments in one level. Without it, `completeLevel()`
+can mark one duplicate completed and leave the other active.
+
+What is deliberately still absent is **policy**: who ought to hold each
+access level, what a pass mark is, how many resits are allowed, how
+long a recording may be kept. Those are drafted as recommendations in
+`docs/governance-decisions.md`, awaiting approval. None is adopted.
+
+### The placeholder staff list is local-only
+
+`sql/seed-demo-people.sql` holds eighteen **invented** people, so the
+screens above can be designed against something that looks like a real
+staff list instead of three accounts called `demo@example.com`. The
+full chart, and the reasoning behind which position gets which access
+level, is in `docs/org-chart-placeholders.md`.
+
+**Do not apply it to the remote database, and do not put any of those
+names on a page.** The preview URL is reachable by anyone who has it,
+and a fabricated staff list on an education provider's site is a
+misrepresentation regardless of intent. The seed is not referenced by
+this workflow, is not in `sql/migrations/`, and every one of those
+statements is asserted by `tests/demo-people.test.mjs` — which also
+scans every file the site serves for every placeholder name and fails
+the build if one appears. Locally:
+
+```bash
+npx wrangler d1 execute wec-lc --local --file=sql/seed-demo-people.sql
+```

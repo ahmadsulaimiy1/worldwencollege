@@ -23,6 +23,7 @@ for (let n = 1; n <= 6; n++) sqlite.exec(readFileSync(`${ROOT}/sql/seed-curricul
 for (let n = 1; n <= 6; n++) { const p = `${ROOT}/sql/seed-audio-level-${n}.sql`; if (existsSync(p)) sqlite.exec(readFileSync(p, 'utf8')); }
 sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_demo','clerk','sub_demo','demo@example.com','student')`);
 sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_tutor','clerk','sub_tutor','tutor@example.com','staff')`);
+sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_admin','clerk','sub_admin','admin@example.com','admin')`);
 for (let n = 1; n <= 6; n++) sqlite.exec(`INSERT INTO enrolments (id,user_id,level_id,status,started_at) VALUES ('enr_${n}','usr_demo',${n},'active','2026-01-01T00:00:00.000Z')`);
 
 const { makeD1 } = await import(pathToFileURL(`${ROOT}/tests/d1-shim.mjs`));
@@ -49,6 +50,10 @@ function wrap(k) {
 
 const content = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/content.js`));
 const adminEnrol = await import(pathToFileURL(`${ROOT}/functions/_lib/admin/enrolments.js`));
+const adminRoles = await import(pathToFileURL(`${ROOT}/functions/_lib/admin/roles.js`));
+// The harness acts as an ADMINISTRATOR so the appointment controls are
+// exercised; the role check itself has its own unit tests.
+const ADMIN_ACTOR = { id: 'usr_admin', role: 'admin', email: 'admin@example.com' };
 const recordings = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/recording-storage.js`));
 const { makeR2 } = await import(pathToFileURL(`${ROOT}/tests/r2-shim.mjs`));
 // The same in-memory R2 stand-in the unit tests use, so the browser
@@ -110,8 +115,16 @@ createServer(async (req, res) => {
     // enrolment logic, not the role check, which has its own tests.
     if (url.pathname === '/api/admin/learners' && req.method === 'GET') {
       const id = url.searchParams.get('id');
-      if (id) return json(res, await adminEnrol.getLearner(env, { userId: id }));
-      return json(res, await adminEnrol.searchLearners(env, { q: url.searchParams.get('q') || '' }));
+      const me = { id: ADMIN_ACTOR.id, role: ADMIN_ACTOR.role, email: ADMIN_ACTOR.email };
+      if (id) return json(res, { ...(await adminEnrol.getLearner(env, { userId: id })), viewer: me });
+      return json(res, { ...(await adminEnrol.searchLearners(env, { q: url.searchParams.get('q') || '' })), viewer: me });
+    }
+    if (url.pathname === '/api/admin/role' && req.method === 'GET') {
+      return json(res, await adminRoles.listAppointees(env));
+    }
+    if (url.pathname === '/api/admin/role' && req.method === 'POST') {
+      const body = JSON.parse(await read(req));
+      return json(res, await adminRoles.setUserRole(env, { actor: ADMIN_ACTOR, ...body }));
     }
     if (url.pathname === '/api/admin/enrolment' && req.method === 'POST') {
       const body = JSON.parse(await read(req));
