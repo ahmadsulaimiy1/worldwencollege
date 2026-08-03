@@ -223,13 +223,36 @@ account to spring into existence.
 
 ## What's genuinely untested here
 
-JWT/JWKS verification and Svix signature verification are implemented
-against Clerk's publicly documented schemes, but neither has been
-exercised against a **real** Clerk instance (no account exists) — only
-syntax-checked and import-checked (see `docs/api-reference.md`
-§ Verification). The cryptographic primitives (`crypto.subtle.verify`
-with RSASSA-PKCS1-v1_5/SHA-256, HMAC-SHA256) are standard and correctly
-used, but "correctly used against the spec" and "verified against a
-real Clerk session token" are different claims — only the first is
-true today. Confirming the second is a five-minute check once a real
-Clerk instance exists, not a redesign.
+**This section previously overstated the gap, and the correction
+matters more than the original claim.** It said JWT verification was
+"only syntax-checked" and that closing the gap needed a real Clerk
+instance. Getting a token *from Clerk* does need an account. Producing
+a *real RS256 JWT* does not: Web Crypto generates an RSA keypair,
+publishes it as a JWKS and signs a token, and `verifySessionToken()`
+cannot tell the difference — the algorithm, key format and verification
+path are identical.
+
+`tests/clerk-jwt.test.mjs` now does exactly that: 31 assertions with
+genuine signatures, covering forgery by a different key, payload
+tampering, `alg: none`, HS256 alg-confusion using the public key as the
+HMAC secret, expiry and `nbf`, `azp` enforcement, malformed input, and
+key rotation. Writing it found two real defects that had been sitting
+behind the "untested, but standard" description:
+
+1. An unknown `kid` was rejected without refetching the JWKS — so the
+   first time Clerk rotated its signing keys, every live session would
+   have been rejected for up to the 10-minute cache TTL.
+2. The obvious fix made `kid` — which is entirely attacker-controlled —
+   into a request amplifier against Clerk's own JWKS endpoint. The
+   forced refetch is now floored at one per 30 seconds.
+
+Neither was visible from reading the code; both fell out of testing it
+with real inputs. "Correctly used against the spec" was doing more work
+in that old paragraph than it could bear.
+
+**What is still genuinely untested:** Clerk's *specific claim set* and
+its real rotation cadence, and Svix webhook verification against a
+captured real payload (the HMAC scheme is exercised with real
+signatures computed the way the adapter verifies them, but the payload
+shape is ours, not Clerk's). Those do need an account. See
+`docs/engineering-principles.md` § 3 for the full register.

@@ -40,16 +40,24 @@ race-condition and partial-failure-recovery fixes (via real HMAC-SHA256
 signed requests, computed the same way `stripe-adapter.js` verifies
 one), and the HTML-escaping/timing-safe-comparison security fixes.
 
-**Not covered, and can't be from here** — anything that requires a
-real Stripe/Paystack/Flutterwave/Opay/Clerk/Resend account: end-to-end
-checkout against a live gateway, real webhook payloads from a real
-gateway, `requireUser()`'s full JWT-verification path with a real
-Clerk-signed token (every test that needs to be authenticated
-confirms the 401 boundary holds, not what happens past it — see the
-inline comments in `validation-and-security.test.mjs`). This mirrors
-the disclosure already in `docs/api-reference.md` § Verification and
-`docs/auth-architecture.md` § What's genuinely untested — closing that
-gap requires provisioning real credentials, not more test code.
+**Now covered, and previously mis-disclosed** — the JWT verification
+path. Earlier revisions of this file said it needed a real Clerk
+account. That conflated two things: getting a token *from Clerk* needs
+an account, but producing a *real RS256 JWT* does not. `clerk-jwt.test.mjs`
+generates real keypairs with Web Crypto, publishes them as a JWKS and
+signs real tokens — the adapter cannot tell the difference, because
+there isn't one. Writing it found two real defects (see that file).
+The claim "closing that gap requires provisioning real credentials, not
+more test code" was wrong, and is corrected here rather than quietly
+dropped.
+
+**Not covered, and can't be from here** — anything that genuinely
+requires a live third-party account: end-to-end checkout against a real
+gateway, captured real webhook payloads, Clerk's *specific claim set
+and rotation cadence* (the cryptography is covered; the vendor's exact
+claims are not), real R2 semantics beyond what `r2-shim.mjs` models,
+the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
+§ 3 keeps the authoritative register, with what would close each row.
 
 ## Files
 
