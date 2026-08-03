@@ -231,6 +231,43 @@ somebody may later have to substantiate.
 
 **Decision:** ☐ awaiting
 
+### C4. The IEFC award architecture
+**Recommendation:** adopt `docs/iefc-award-architecture.md` in full —
+six named awards (Aspirant, Practitioner, Communicator, Envoy, Orator,
+Laureate), post-nominals AWEC–LWEC, honours of Pass/Merit/Distinction,
+the Register of the Ascent, and four College traditions.
+
+**What it changes about C1:** C1 proposes a Certificate of Completion
+per level. C4 supersedes that with a *named award* per level, because a
+"Certificate of Completion in Level III" is a receipt and an "English
+Communicator of Worldwide English College" is an achievement, and the
+difference decides whether a learner continues to Level IV. **Approving
+C4 approves C1 as amended.**
+
+**What it depends on, and cannot proceed without:**
+- **C3** — the Level Address is the spine of every conferral. If
+  speaking does not count toward certification, this architecture has no
+  spine and should not be adopted in this form.
+- **B1/B2** — no honour can be conferred without a pass mark.
+- **B4** — an award becomes due when a level is "completed", and that
+  word has no definition yet.
+- **D1/D2** — the First Word tradition keeps a learner's voice for years
+  and replays it publicly. That needs consent for that specific purpose,
+  taken when the recording is made.
+
+**One item is not a decision but a task:** a designation and trade-mark
+search on all six post-nominal strings before any of them is published.
+The Board is not aware of collisions; that is not the same as having
+checked.
+
+**Explicitly NOT claimed anywhere in it:** accreditation, regulatory
+recognition, equivalence to a degree or to any external test, or a
+proficiency level above CEFR C2. "Beyond CEFR" means broader in what is
+certified, never higher on the scale — the second is a benchmarking
+claim with nothing behind it and would fail on first serious reading.
+
+**Decision:** ☐ awaiting
+
 ### C3. Whether speaking assessment counts toward certification
 **Recommendation:** not yet. Learner recordings are stored and can be
 reviewed, but no moderated marking standard exists, and certifying
