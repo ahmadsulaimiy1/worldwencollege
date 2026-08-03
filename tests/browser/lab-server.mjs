@@ -112,6 +112,34 @@ const DEMO = {};
     awardId: DEMO.replacedSrc.id, reason: 'Holder name corrected.',
     changes: { holderName: 'Corrected Demonstration' },
   })).replacement;
+
+  // Entries for the browsable roll. Deliberately spread across levels —
+  // the register's central claim is that it holds award holders at every
+  // level and not only Laureates, and a fixture with one level in it
+  // could not tell a working page from a broken one.
+  //
+  // `usr_demo` already holds a Level III award above, so these use the
+  // other demonstration learners: one live conferral per person per
+  // level is enforced by a partial unique index, not by convention.
+  DEMO.listed = [];
+  const ROLL = [
+    ['usr_none', 6, 'English Laureate of Worldwide English College', 'LrWEC', 'C2', 'Laureate Demonstration', 'college_distinction'],
+    ['usr_prog', 4, 'English Fellow of Worldwide English College', 'FlWEC', 'B2', 'Fellow Demonstration', 'merit'],
+    ['usr_tutor', 1, 'English Aspirant of Worldwide English College', 'ApWEC', 'A1', 'Aspirant Demonstration', 'pass'],
+  ];
+  for (let i = 0; i < ROLL.length; i++) {
+    const [userId, levelId, awardTitle, postNominal, cefr, holderName, honour] = ROLL[i];
+    DEMO.listed.push(await conf({
+      userId, levelId, awardTitle, postNominal, cefr, holderName, honour, publicConsent: true,
+    }));
+  }
+  // Not listed, and must stay unlisted. Without one of these the consent
+  // assertion on the page would be checking that a filter does not
+  // remove rows nothing was asking it to remove.
+  DEMO.unlisted = await conf({
+    userId: 'usr_prog', levelId: 5, holderName: 'Unlisted Demonstration',
+    awardTitle: 'English Scholar of Worldwide English College', postNominal: 'ScWEC', cefr: 'C1',
+  });
 }
 const recordings = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/recording-storage.js`));
 const { makeR2 } = await import(pathToFileURL(`${ROOT}/tests/r2-shim.mjs`));
@@ -157,7 +185,10 @@ createServer(async (req, res) => {
     // auth-required harness. A verification endpoint behind a login is
     // one nobody uses, and testing it as authenticated would test a
     // product we deliberately did not build.
-    if (REQUIRE_AUTH && url.pathname.startsWith('/api/') && !url.pathname.startsWith('/api/verify/')) {
+    // /api/register is public for the same reason: a roll of award
+    // holders published behind a login is not published.
+    if (REQUIRE_AUTH && url.pathname.startsWith('/api/')
+        && !url.pathname.startsWith('/api/verify/') && url.pathname !== '/api/register') {
       const { userId } = identify(req);
       if (!userId) {
         res.writeHead(401, { 'Content-Type': 'application/json' });
@@ -193,6 +224,14 @@ createServer(async (req, res) => {
       const code = decodeURIComponent(url.pathname.slice('/api/verify/'.length));
       const via = url.searchParams.get('via');
       return json(res, await registry.verifyCode(env, { code, channel: via === 'qr' ? 'qr' : 'public' }));
+    }
+    if (url.pathname === '/api/register' && req.method === 'GET') {
+      const raw = url.searchParams.get('level');
+      return json(res, await registry.publicRegister(env, {
+        levelId: /^[1-6]$/.test(raw || '') ? Number(raw) : null,
+        q: url.searchParams.get('q'),
+        limit: url.searchParams.get('limit'),
+      }));
     }
     if (url.pathname === '/api/lms/time-on-task' && req.method === 'POST') {
       const body = JSON.parse(await read(req));

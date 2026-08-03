@@ -137,9 +137,27 @@ async function sha256Hex(text) {
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
+/**
+ * The tail of the chain — the award nothing has been chained onto yet.
+ *
+ * Defined STRUCTURALLY, by the links, not by time. An earlier version
+ * asked for the most recent row (`ORDER BY created_at DESC, id DESC`)
+ * and it was wrong in a way that only appears under the register's
+ * intended use: at a conferral ceremony, awards are written in a batch,
+ * several land in the same millisecond, and the tiebreak falls to a
+ * random UUID. The query then returns a row that is not the tail, the
+ * next conferral chains onto an already-extended record, and
+ * `prev_digest UNIQUE` refuses it.
+ *
+ * That refusal is the constraint doing its job — the alternative was a
+ * forked register — but the failure should never have been reachable.
+ * Time is not what orders this structure. The links are, and exactly one
+ * row's digest appears in no other row's `prev_digest`.
+ */
 async function chainHead(env) {
   const row = await db(env)
-    .prepare('SELECT digest FROM awards ORDER BY created_at DESC, id DESC LIMIT 1')
+    .prepare(`SELECT a.digest FROM awards a
+       WHERE NOT EXISTS (SELECT 1 FROM awards b WHERE b.prev_digest = a.digest)`)
     .first();
   return row ? row.digest : GENESIS;
 }
@@ -184,21 +202,40 @@ export async function conferAward(env, {
     verification_code: newVerificationCode(),
   };
 
-  const prev = await chainHead(env);
-  const digest = await sha256Hex(canonical(award, prev));
-
-  await db(env)
-    .prepare(`INSERT INTO awards (id, user_id, level_id, award_title, post_nominal, cefr, honour,
-        credits, tqt_hours, citation, holder_name, conferred_on, verification_code,
-        status, public_consent, prev_digest, digest, created_at)
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?, 'conferred', ?, ?, ?, ?)`)
-    .bind(award.id, award.user_id, award.level_id, award.award_title, award.post_nominal,
-      award.cefr, award.honour, award.credits, award.tqt_hours, citation, award.holder_name,
-      award.conferred_on, award.verification_code, publicConsent ? 1 : 0, prev, digest,
-      new Date(now).toISOString())
-    .run();
-
-  return { ...award, digest, prevDigest: prev, status: 'conferred' };
+  // Two conferrals racing to extend the same head cannot both succeed —
+  // `prev_digest UNIQUE` refuses the second, which is exactly what keeps
+  // the chain a chain rather than a tree. The loser re-reads the head
+  // and tries again against it.
+  //
+  // Bounded, and it fails loudly when the bound is reached. An unbounded
+  // retry on a register write would turn a genuine constraint problem
+  // into a hang at a graduation ceremony, and the registrar would learn
+  // about it from the graduates.
+  let prev = null, digest = null, lastErr = null;
+  for (let attempt = 0; attempt < 5; attempt++) {
+    prev = await chainHead(env);
+    digest = await sha256Hex(canonical(award, prev));
+    try {
+      await db(env)
+        .prepare(`INSERT INTO awards (id, user_id, level_id, award_title, post_nominal, cefr, honour,
+            credits, tqt_hours, citation, holder_name, conferred_on, verification_code,
+            status, public_consent, prev_digest, digest, created_at)
+          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?, 'conferred', ?, ?, ?, ?)`)
+        .bind(award.id, award.user_id, award.level_id, award.award_title, award.post_nominal,
+          award.cefr, award.honour, award.credits, award.tqt_hours, citation, award.holder_name,
+          award.conferred_on, award.verification_code, publicConsent ? 1 : 0, prev, digest,
+          new Date(now).toISOString())
+        .run();
+      return { ...award, digest, prevDigest: prev, status: 'conferred' };
+    } catch (err) {
+      // Only a lost race is retried. A duplicate award for the same
+      // person and level, or any other constraint, is a real refusal and
+      // must surface rather than be retried into a different error.
+      if (!/prev_digest/i.test(String(err && err.message))) throw err;
+      lastErr = err;
+    }
+  }
+  throw lastErr;
 }
 
 /** Withdraw an award. Marked and reasoned — never deleted. */
@@ -360,20 +397,53 @@ export async function awardHistory(env, { userId }) {
   };
 }
 
-/** The browsable register — consented, current awards only. */
-export async function publicRegister(env, { levelId = null, limit = 100 } = {}) {
+/**
+ * The browsable register — consented, current awards only.
+ *
+ * EVERY LEVEL, NOT ONLY THE HIGHEST. Each IEFC level is a complete award
+ * of the College and appears here in its own right. A register listing
+ * only its C2 graduates would say, by omission, that the other five
+ * awards were waypoints rather than achievements — which is the opposite
+ * of what the award architecture was designed to mean.
+ *
+ * Three filters, all of them narrowing: consent, live status, and
+ * whatever the visitor asked for. There is no parameter that widens the
+ * result set, which is what keeps the privacy promise a property of the
+ * query rather than of the caller's good manners.
+ *
+ * The verification code IS published for listed graduates. That looks
+ * like a leak and is not one: a code identifies an award, it does not
+ * authorise anything, and verifying it returns the true holder's name —
+ * so someone quoting a stranger's code is immediately contradicted by
+ * the portal. The alternative, a register of names that cannot be
+ * checked, is a claim on a webpage, and the College's whole position is
+ * that its public claims are verifiable.
+ */
+export async function publicRegister(env, { levelId = null, q = null, limit = 100 } = {}) {
+  // Bounded here rather than trusted from the caller. This is a public
+  // endpoint, and `limit` arriving from a query string is exactly how a
+  // register becomes a bulk download of every graduate's name.
+  const capped = Math.max(1, Math.min(Number(limit) || 100, 200));
+  const needle = q && String(q).trim() ? `%${String(q).trim().toLowerCase()}%` : null;
   const { results } = await db(env)
     .prepare(`SELECT a.holder_name AS holderName, a.award_title AS awardTitle,
                      a.post_nominal AS postNominal, a.honour, a.conferred_on AS conferredOn,
-                     a.verification_code AS verificationCode, a.level_id AS levelId, l.roman
+                     a.verification_code AS verificationCode, a.level_id AS levelId,
+                     l.roman, l.name AS levelName, a.cefr
        FROM awards a JOIN programme_levels l ON l.id = a.level_id
        WHERE a.status = 'conferred' AND a.public_consent = 1
          AND (? IS NULL OR a.level_id = ?)
+         AND (? IS NULL OR LOWER(a.holder_name) LIKE ?)
        ORDER BY a.conferred_on DESC, a.holder_name ASC
        LIMIT ?`)
-    .bind(levelId, levelId, limit)
+    .bind(levelId, levelId, needle, needle, capped)
     .all();
-  return { count: results.length, entries: results };
+  return {
+    count: results.length,
+    limit: capped,
+    truncated: results.length === capped,
+    entries: results.map((r) => ({ ...r, honourLabel: HONOUR_LABEL[r.honour] || r.honour })),
+  };
 }
 
 /**
@@ -384,24 +454,46 @@ export async function publicRegister(env, { levelId = null, limit = 100 } = {}) 
  * schedule and on demand, and publish the result.
  */
 export async function verifyChain(env) {
-  const { results } = await db(env)
-    .prepare('SELECT * FROM awards ORDER BY created_at ASC, id ASC')
-    .all();
+  const { results } = await db(env).prepare('SELECT * FROM awards').all();
+  const total = results.length;
+  if (!total) return { intact: true, checked: 0, brokenAt: null, reason: null };
+
+  // Walk the LINKS, not the timestamps. Ordering by `created_at` was the
+  // same mistake as in chainHead() and here it was the more damaging of
+  // the two: two awards conferred in the same millisecond could sort
+  // into the wrong order and this function would report the College's
+  // register as broken when it was perfectly intact. A false alarm on
+  // an integrity claim costs more than a missing one, because it is
+  // acted upon.
+  const byPrev = new Map();
+  for (const a of results) byPrev.set(a.prev_digest, a);
 
   let expectedPrev = GENESIS;
-  for (const a of results) {
-    if (a.prev_digest !== expectedPrev) {
-      return { intact: false, checked: results.length, brokenAt: a.id,
-        reason: 'This award does not follow the one before it — a record has been inserted, removed or reordered.' };
-    }
+  let checked = 0;
+  while (byPrev.has(expectedPrev)) {
+    const a = byPrev.get(expectedPrev);
+    byPrev.delete(expectedPrev);
+    checked++;
     const recomputed = await sha256Hex(canonical(a, a.prev_digest));
     if (recomputed !== a.digest) {
-      return { intact: false, checked: results.length, brokenAt: a.id,
+      return { intact: false, checked: total, brokenAt: a.id,
         reason: 'This award\'s stored digest does not match its contents — the record has been altered since it was conferred.' };
     }
     expectedPrev = a.digest;
   }
-  return { intact: true, checked: results.length, brokenAt: null, reason: null };
+
+  // Anything the walk never reached is an orphan: its predecessor was
+  // deleted, or a record was inserted out of sequence. Naming the first
+  // such record is what lets a registrar find the gap, so it is reported
+  // in a stable order rather than whichever the database happened to
+  // return.
+  if (byPrev.size) {
+    const orphans = [...byPrev.values()].sort((x, y) =>
+      (x.created_at < y.created_at ? -1 : x.created_at > y.created_at ? 1 : (x.id < y.id ? -1 : 1)));
+    return { intact: false, checked: total, brokenAt: orphans[0].id,
+      reason: 'This award does not follow the one before it — a record has been inserted, removed or reordered.' };
+  }
+  return { intact: true, checked, brokenAt: null, reason: null };
 }
 
 /** How often an award has been verified. Counts only — never who. */

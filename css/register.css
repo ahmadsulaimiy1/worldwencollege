@@ -1,0 +1,127 @@
+/* The Graduate Register — the browsable roll.
+   Layered on css/verify.css: the two pages are one system and a visitor
+   moving between them should not feel they have changed institution. */
+
+.reg-provisional {
+  margin: 2rem 0 0;
+  padding: .95rem 1.15rem;
+  border-radius: 10px;
+  border: 1px solid rgba(154, 122, 56, .3);
+  background: rgba(198, 161, 91, .1);
+  line-height: 1.6;
+  font-size: .92rem;
+}
+.reg-provisional strong { color: var(--gold-deep, #9A7A38); }
+
+/* The form does not overlap the header the way the verification form
+   does — the notice above it is the first thing to read here. */
+.reg-form { margin-top: 1.2rem; }
+
+.reg-controls {
+  display: grid;
+  gap: .8rem;
+  grid-template-columns: 1fr;
+  align-items: end;
+}
+@media (min-width: 44rem) {
+  .reg-controls { grid-template-columns: 2fr 1.6fr auto; }
+}
+.reg-control { min-width: 0; }
+.reg-control input,
+.reg-control select {
+  width: 100%;
+  min-height: 48px;              /* past the 44px tap target on a phone */
+  padding: .8rem 1rem;
+  border: 1px solid rgba(20, 38, 74, .22);
+  border-radius: 10px;
+  background: #fff; color: inherit;
+  font: 400 1rem/1.2 var(--font-body, Inter, system-ui, sans-serif);
+}
+.reg-control input:focus-visible,
+.reg-control select:focus-visible {
+  outline: 2px solid var(--royal, #14264A);
+  outline-offset: 2px;
+  border-color: transparent;
+}
+.reg-go { min-height: 48px; }
+@media (max-width: 43.99rem) { .reg-go { width: 100%; } }
+
+/* ---- Results --------------------------------------------------------- */
+.reg-results { margin-top: 2rem; }
+.reg-results[aria-busy="true"] { opacity: .55; }
+
+.reg-count {
+  margin: 0 0 1rem;
+  font: 700 .75rem/1.4 var(--font-body, Inter, sans-serif);
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-soft, #5A6479);
+}
+
+.reg-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
+
+.reg-entry {
+  background: #fff;
+  border: 1px solid rgba(20, 38, 74, .12);
+  border-radius: 12px;
+  padding: 1.1rem 1.3rem;
+  display: grid;
+  gap: .15rem .9rem;
+  box-shadow: 0 18px 44px -40px rgba(16, 31, 60, .7);
+}
+@media (min-width: 40rem) {
+  .reg-entry { grid-template-columns: 1fr auto; align-items: center; }
+}
+
+.reg-entry__name {
+  margin: 0;
+  font: 600 1.15rem/1.25 var(--font-display, "Playfair Display", Georgia, serif);
+}
+.reg-entry__post {
+  font: 700 .8rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: .06em;
+  color: var(--gold-deep, #9A7A38);
+  margin-left: .5rem;
+}
+.reg-entry__award { margin: .2rem 0 0; font-size: .92rem; color: var(--ink-soft, #5A6479); line-height: 1.5; }
+.reg-entry__meta {
+  margin: .35rem 0 0; font-size: .82rem; color: var(--ink-soft, #5A6479);
+}
+.reg-entry__honour {
+  display: inline-block;
+  padding: .12rem .5rem;
+  border-radius: 999px;
+  background: rgba(198, 161, 91, .16);
+  color: var(--gold-deep, #9A7A38);
+  font-weight: 700; font-size: .74rem;
+  letter-spacing: .04em;
+}
+.reg-entry__check {
+  justify-self: start;
+  font: 600 .86rem/1 var(--font-body, Inter, sans-serif);
+  white-space: nowrap;
+}
+@media (min-width: 40rem) { .reg-entry__check { justify-self: end; } }
+.reg-entry__code {
+  display: block;
+  margin-top: .3rem;
+  font: 400 .74rem/1.3 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color: var(--ink-soft, #5A6479);
+  letter-spacing: .05em;
+  word-break: break-all;
+}
+
+/* The empty state is not a failure state. Until the first conferral this
+   is what every visitor sees, so it has to read as a register that is
+   waiting rather than as a page that is broken. */
+.reg-empty {
+  margin: 0;
+  padding: 2.2rem 1.4rem;
+  text-align: center;
+  border: 1px dashed rgba(20, 38, 74, .22);
+  border-radius: 12px;
+  color: var(--ink-soft, #5A6479);
+  line-height: 1.7;
+}
+.reg-empty strong { display: block; color: var(--ink, #14264A); margin-bottom: .3rem; font-size: 1.02rem; }
+
+.reg-more { margin: 1rem 0 0; font-size: .84rem; color: var(--ink-soft, #5A6479); }

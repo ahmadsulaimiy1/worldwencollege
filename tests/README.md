@@ -398,6 +398,7 @@ node tests/browser/listening-lab.mjs
 node tests/browser/lab-auth.mjs
 node tests/browser/route-audit.mjs
 node tests/browser/verify.mjs
+node tests/browser/register.mjs
 ```
 
 - `browser/listening-lab.mjs` — 43 assertions covering the Listening
@@ -510,6 +511,30 @@ node tests/browser/verify.mjs
   these from print, and the 390px phone case — a phone camera on a
   printed certificate is the overwhelmingly common way this page is
   opened. 39 assertions.
+- `browser/register.mjs` — the browsable Graduate Register. Also run
+  under `LAB_REQUIRE_AUTH=1`: a roll of award holders published behind a
+  login is not published.
+  Two failure modes drove the assertions. The page can publish somebody
+  who did not consent — the query is tested, but a page that called the
+  endpoint without the filter would leak a name while every backend
+  assertion stayed green, so the fixture contains a real graduate who
+  really declined and the page is checked for their absence. And it can
+  look **broken** when it is merely **empty**, which is the state every
+  visitor sees until the first conferral: "0 results" on the College's
+  own register reads as a fault, so the empty state is asserted to say
+  what it means and why the page exists in advance of any award.
+  Holder names are transcribed from certificates by people, so one
+  assertion feeds a name containing markup through the renderer and
+  checks it is displayed rather than executed. Truncation is asserted to
+  be *disclosed*: a silently capped roll invites "they only have two
+  graduates", a conclusion the visitor never learns is wrong.
+  This suite is also why `textOf()` exists here rather than bare
+  `page.textContent()`. Sabotaging the empty-state render made the suite
+  **crash** on a 30-second locator timeout instead of failing — one line
+  of stack in place of the twelve results that would have located the
+  regression, with every later assertion silently skipped. Detection is
+  not enough on its own; the shape of the failure is part of the test.
+  28 assertions.
 - `browser/route-audit.mjs` — the pre-deployment sweep. Walks every
   built HTML file and loads each one, checking the things that break a
   deployment rather than a unit test: broken routes, missing first-party

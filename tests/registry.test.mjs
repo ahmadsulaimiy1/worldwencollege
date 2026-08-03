@@ -309,5 +309,122 @@ const AWARD = {
   check('An award to a person who does not exist is refused', ghost && ghost.name === 'NotFoundError');
 }
 
+// ---------------------------------------------------------------------
+// A batch conferral — the register's intended use, not an edge case
+// ---------------------------------------------------------------------
+// Awards are conferred at a ceremony, in a batch, and several land in
+// the same millisecond. The first version of chainHead() asked the
+// database for the most RECENT row and tiebroke on a random UUID, so it
+// could return a record that was not the tail; the next conferral then
+// chained onto an already-extended award and prev_digest UNIQUE refused
+// it. verifyChain() had the same bug in the more damaging direction —
+// it walked in timestamp order, so two same-millisecond awards could
+// sort the wrong way round and it would report an intact register as
+// broken. Nothing in the suite noticed, because every other test hands
+// conferAward an explicit, distinct `now`.
+{
+  const env = { DB: makeD1(schema) };
+  for (let i = 1; i <= 12; i++) {
+    env.DB.prepare(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role)
+      VALUES ('usr_${i}','clerk','c_${i}','g${i}@example.com','student')`).bind().run();
+  }
+  // No `now` — every award takes the clock, exactly as a caller would,
+  // and they collide.
+  let conferred = 0;
+  let err = null;
+  for (let i = 1; i <= 12; i++) {
+    try {
+      await reg.conferAward(env, { ...AWARD, userId: `usr_${i}`, holderName: `Ceremony Graduate ${i}` });
+      conferred++;
+    } catch (e) { err = err || e; }
+  }
+  check('Twelve awards conferred in one batch all succeed',
+    conferred === 12, `${conferred}/12${err ? ` — ${err.message}` : ''}`);
+
+  const chain = await reg.verifyChain(env);
+  check('...and the chain reports itself intact rather than raising a false alarm',
+    chain.intact === true, JSON.stringify(chain).slice(0, 140));
+  check('...having checked every one of them', chain.checked === 12, chain.checked);
+
+  // The structural property the fix rests on: the chain is a path, so
+  // exactly one record is nobody's predecessor.
+  const tails = env.DB.prepare(`SELECT COUNT(*) AS n FROM awards a
+    WHERE NOT EXISTS (SELECT 1 FROM awards b WHERE b.prev_digest = a.digest)`).bind().first();
+  check('...and the register has exactly one tail, whatever the clock did', tails.n === 1, tails.n);
+}
+
+// ---------------------------------------------------------------------
+// The browsable register — every level, and bounded
+// ---------------------------------------------------------------------
+{
+  const env = { DB: makeD1(schema) };
+  for (let i = 1; i <= 8; i++) {
+    env.DB.prepare(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role)
+      VALUES ('usr_${i}','clerk','c_${i}','g${i}@example.com','student')`).bind().run();
+  }
+  const LEVELS = [
+    [1, 'English Aspirant of Worldwide English College', 'ApWEC', 'A1'],
+    [2, 'English Candidate of Worldwide English College', 'CnWEC', 'A2'],
+    [3, 'English Associate of Worldwide English College', 'AsWEC', 'B1'],
+    [4, 'English Fellow of Worldwide English College', 'FlWEC', 'B2'],
+    [5, 'English Scholar of Worldwide English College', 'ScWEC', 'C1'],
+    [6, 'English Laureate of Worldwide English College', 'LrWEC', 'C2'],
+  ];
+  for (let i = 0; i < LEVELS.length; i++) {
+    const [levelId, awardTitle, postNominal, cefr] = LEVELS[i];
+    await reg.conferAward(env, {
+      ...AWARD, userId: `usr_${i + 1}`, levelId, awardTitle, postNominal, cefr,
+      holderName: `Graduate Number ${i + 1}`, publicConsent: true, now: T0 + i * 1000,
+    });
+  }
+
+  // The directive this table exists to satisfy: the roll is not a list
+  // of Laureates. A register that showed only its summit would tell five
+  // graduates in six that their award was not worth recording.
+  const all = await reg.publicRegister(env);
+  const levelsShown = new Set(all.entries.map((e) => e.levelId));
+  check('The register lists award holders at every level, not only the highest',
+    levelsShown.size === 6, [...levelsShown].join(','));
+  check('...naming the award in full for each of them',
+    all.entries.every((e) => /of Worldwide English College$/.test(e.awardTitle)));
+  check('...and carrying the honour in words the reader understands',
+    all.entries.every((e) => typeof e.honourLabel === 'string' && e.honourLabel.length > 0));
+
+  const lvl6 = await reg.publicRegister(env, { levelId: 6 });
+  check('Filtering by award narrows to that award',
+    lvl6.count === 1 && lvl6.entries[0].levelId === 6, lvl6.count);
+
+  const byName = await reg.publicRegister(env, { q: 'number 4' });
+  check('A name search matches regardless of case',
+    byName.count === 1 && byName.entries[0].holderName === 'Graduate Number 4', byName.count);
+  check('A name that matches nobody returns an empty roll rather than everybody',
+    (await reg.publicRegister(env, { q: 'Nobody At All' })).count === 0);
+
+  // The bound is the point. `limit` reaches this function straight from
+  // a public query string, and an uncapped one turns the register into a
+  // bulk export of every graduate's name.
+  const huge = await reg.publicRegister(env, { limit: 100000 });
+  check('A caller cannot raise the page size past the cap',
+    huge.limit === 200, huge.limit);
+  check('...nor drive it to zero or below', (await reg.publicRegister(env, { limit: -5 })).limit === 1);
+  check('...nor smuggle one past it as text',
+    (await reg.publicRegister(env, { limit: '99999' })).limit === 200);
+
+  const two = await reg.publicRegister(env, { limit: 2 });
+  check('A truncated page says it is truncated, rather than reading as the whole roll',
+    two.count === 2 && two.truncated === true, JSON.stringify({ c: two.count, t: two.truncated }));
+  check('...and a complete page does not claim to be truncated', all.truncated === false);
+
+  // Withdrawal leaves the roll but never the Register: the award is
+  // still verifiable by code, and its page states its standing.
+  const l6 = lvl6.entries[0];
+  const row = env.DB.prepare('SELECT id FROM awards WHERE verification_code = ?').bind(l6.verificationCode).first();
+  await reg.revokeAward(env, { awardId: row.id, reason: 'Withdrawn following an integrity finding.', now: T0 + 99000 });
+  check('A withdrawn award leaves the browsable roll',
+    (await reg.publicRegister(env)).count === 5);
+  check('...but is still answerable by its code',
+    (await reg.verifyCode(env, { code: l6.verificationCode, now: T0 + 99999 })).outcome === 'revoked');
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

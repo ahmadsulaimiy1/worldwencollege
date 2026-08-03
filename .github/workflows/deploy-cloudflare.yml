@@ -97,6 +97,8 @@ jobs:
         run: node tests/browser/my-programme.mjs
       - name: Award verification — the portal a stranger opens
         run: node tests/browser/verify.mjs
+      - name: The Graduate Register — the browsable roll
+        run: node tests/browser/register.mjs
 
   deploy:
     needs: verify
