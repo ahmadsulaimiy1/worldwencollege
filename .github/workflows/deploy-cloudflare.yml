@@ -95,6 +95,8 @@ jobs:
         run: node tests/browser/admin-enrolments.mjs
       - name: My Programme — the route from signing in to a lesson
         run: node tests/browser/my-programme.mjs
+      - name: Award verification — the portal a stranger opens
+        run: node tests/browser/verify.mjs
 
   deploy:
     needs: verify

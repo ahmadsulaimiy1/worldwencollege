@@ -1,0 +1,242 @@
+/* Award Verification portal.
+   Standalone rather than an extension of the marketing shell: this page
+   is most often opened by a stranger — an employer, a registrar — who
+   arrives from a QR code on a printed certificate and has never seen the
+   College before. It has to read as an official record on first sight,
+   at arm's length, on a phone. */
+
+.vfy {
+  margin: 0;
+  background:
+    radial-gradient(120% 90% at 50% -10%, rgba(20, 38, 74, .07), transparent 60%),
+    var(--paper, #FBF9F5);
+  color: var(--ink, #14264A);
+  font-family: var(--font-body, Inter, system-ui, sans-serif);
+}
+
+.vfy-wrap { width: min(64rem, calc(100% - 2.5rem)); margin-inline: auto; }
+
+/* ---- Header --------------------------------------------------------- */
+.vfy-head {
+  background: linear-gradient(160deg, #101F3C 0%, var(--royal, #14264A) 55%, #1B3054 100%);
+  color: #fff;
+  padding: clamp(2rem, 1rem + 5vw, 4rem) 0 clamp(2.5rem, 1rem + 6vw, 4.5rem);
+}
+.vfy-head__wrap { width: min(64rem, calc(100% - 2.5rem)); margin-inline: auto; }
+
+.vfy-crest {
+  display: inline-flex; align-items: center; gap: .7rem;
+  color: inherit; text-decoration: none;
+  font: 700 .95rem/1.15 var(--font-body, Inter, sans-serif);
+  letter-spacing: .01em;
+  margin-bottom: clamp(1.4rem, 1rem + 2vw, 2.4rem);
+}
+.vfy-crest small { display: block; font-weight: 400; opacity: .72; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; }
+
+.vfy-head h1 {
+  margin: 0;
+  font: 600 clamp(1.9rem, 1.2rem + 3.2vw, 3.1rem)/1.08 var(--font-display, "Playfair Display", Georgia, serif);
+  letter-spacing: -.01em;
+}
+.vfy-lede { margin: .9rem 0 0; max-width: 46ch; opacity: .88; line-height: 1.6; }
+.vfy-note {
+  margin: 1.1rem 0 0;
+  font-size: .82rem;
+  opacity: .68;
+  padding-left: .85rem;
+  border-left: 2px solid var(--gold, #C6A15B);
+}
+
+/* ---- The form ------------------------------------------------------- */
+.vfy-form {
+  margin-top: clamp(-2rem, -1rem - 3vw, -2.6rem);
+  background: #fff;
+  border: 1px solid rgba(20, 38, 74, .1);
+  border-radius: 14px;
+  padding: clamp(1.2rem, .8rem + 1.6vw, 1.9rem);
+  box-shadow: 0 24px 60px -38px rgba(16, 31, 60, .65);
+  position: relative;
+}
+.vfy-label {
+  display: block;
+  font: 700 .72rem/1 var(--font-body, Inter, sans-serif);
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-soft, #5A6479);
+  margin-bottom: .6rem;
+}
+.vfy-field { display: flex; gap: .6rem; flex-wrap: wrap; }
+.vfy-field input {
+  flex: 1 1 18rem; min-width: 0;
+  padding: .9rem 1rem;
+  border: 1px solid rgba(20, 38, 74, .22);
+  border-radius: 10px;
+  /* Monospaced and tracked out: this is a code being transcribed from
+     print, and character-by-character legibility beats prettiness. */
+  font: 600 1.05rem/1.2 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  background: #fff; color: inherit;
+}
+.vfy-field input:focus-visible {
+  outline: 2px solid var(--royal, #14264A);
+  outline-offset: 2px;
+  border-color: transparent;
+}
+.vfy-submit {
+  flex: 0 0 auto;
+  min-height: 48px;              /* comfortably past the 44px target */
+  padding-inline: 1.6rem;
+  border: 0; border-radius: 10px;
+  background: var(--royal, #14264A); color: #fff;
+  font: 700 .95rem/1 var(--font-body, Inter, sans-serif);
+  cursor: pointer;
+}
+.vfy-submit:hover { background: #1B3054; }
+.vfy-submit:focus-visible { outline: 2px solid var(--gold, #C6A15B); outline-offset: 3px; }
+.vfy-submit[aria-busy="true"] { opacity: .6; cursor: progress; }
+
+.vfy-help { margin: .7rem 0 0; font-size: .82rem; color: var(--ink-soft, #5A6479); }
+.vfy-error { margin: .6rem 0 0; font-size: .88rem; font-weight: 600; color: var(--red, #A32135); min-height: 0; }
+.vfy-error:empty { display: none; }
+
+/* ---- The record ----------------------------------------------------- */
+.vfy-result { margin-top: 2rem; }
+
+.vfy-card {
+  background: #fff;
+  border: 1px solid rgba(20, 38, 74, .12);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px -50px rgba(16, 31, 60, .7);
+}
+
+/* The band carries the standing. Colour alone never does the work — the
+   status is spelled out in words inside it, because roughly one man in
+   twelve cannot rely on a green/amber distinction, and because a
+   photograph of this card has to be readable in monochrome. */
+.vfy-card__band {
+  padding: .85rem 1.4rem;
+  font: 700 .78rem/1.3 var(--font-body, Inter, sans-serif);
+  letter-spacing: .14em; text-transform: uppercase;
+  color: #fff;
+  background: var(--ink-soft, #5A6479);
+}
+.vfy-card.is-valid .vfy-card__band { background: linear-gradient(90deg, var(--royal, #14264A), #24406E); }
+.vfy-card.is-revoked .vfy-card__band { background: linear-gradient(90deg, #7C1927, var(--red, #A32135)); }
+.vfy-card.is-replaced .vfy-card__band { background: linear-gradient(90deg, #7A5A1E, #A8823A); }
+
+.vfy-card__body { padding: clamp(1.3rem, .9rem + 2vw, 2.4rem); }
+.vfy-card__eyebrow {
+  margin: 0; font-size: .76rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-soft, #5A6479);
+}
+.vfy-card__holder {
+  margin: .35rem 0 1.1rem;
+  font: 600 clamp(1.5rem, 1.1rem + 2vw, 2.3rem)/1.15 var(--font-display, "Playfair Display", Georgia, serif);
+}
+.vfy-card__award {
+  margin: 0;
+  font: 600 clamp(1.02rem, .95rem + .5vw, 1.2rem)/1.4 var(--font-body, Inter, sans-serif);
+  color: var(--royal, #14264A);
+}
+.vfy-card__post {
+  margin: .2rem 0 1.4rem;
+  font: 700 .95rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: .06em;
+  color: var(--gold-deep, #9A7A38);
+}
+.vfy-card__post:empty { display: none; }
+
+.vfy-facts {
+  display: grid; gap: .9rem 1.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  margin: 0 0 1.2rem; padding: 1.2rem 0 0;
+  border-top: 1px solid rgba(20, 38, 74, .1);
+}
+.vfy-facts dt {
+  font: 700 .68rem/1 var(--font-body, Inter, sans-serif);
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-soft, #5A6479); margin-bottom: .3rem;
+}
+.vfy-facts dd { margin: 0; font-weight: 600; }
+
+.vfy-citation {
+  margin: 0 0 1.2rem; padding: .9rem 1.1rem;
+  border-left: 3px solid var(--gold, #C6A15B);
+  background: rgba(198, 161, 91, .07);
+  font-style: italic; line-height: 1.6;
+}
+
+.vfy-alert {
+  margin: 0 0 1.2rem; padding: .9rem 1.1rem;
+  border-radius: 10px;
+  background: rgba(163, 33, 53, .07);
+  border: 1px solid rgba(163, 33, 53, .22);
+  line-height: 1.6;
+}
+.vfy-alert.is-replaced { background: rgba(198, 161, 91, .1); border-color: rgba(154, 122, 56, .3); }
+
+/* ---- Seal ----------------------------------------------------------- */
+.vfy-seal {
+  display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap;
+  padding-top: 1.2rem; border-top: 1px solid rgba(20, 38, 74, .1);
+}
+.vfy-seal__qr {
+  flex: 0 0 auto; width: 104px; height: 104px;
+  border: 1px solid rgba(20, 38, 74, .12); border-radius: 10px;
+  padding: 6px; background: #fff;
+}
+.vfy-seal__qr svg { display: block; width: 100%; height: 100%; }
+.vfy-seal__meta { flex: 1 1 14rem; min-width: 0; }
+.vfy-seal__code {
+  margin: 0 0 .3rem;
+  font: 700 1rem/1.3 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: .08em;
+  word-break: break-all;
+}
+.vfy-seal__digest {
+  margin: 0 0 .3rem; font-size: .74rem; color: var(--ink-soft, #5A6479);
+}
+.vfy-seal__digest span {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  word-break: break-all;
+}
+.vfy-seal__link { margin: 0; font-size: .84rem; }
+
+.vfy-scope {
+  margin: 1.2rem 0 0; font-size: .82rem; line-height: 1.65;
+  color: var(--ink-soft, #5A6479);
+}
+
+/* ---- About ---------------------------------------------------------- */
+.vfy-about { margin: clamp(2.5rem, 1.5rem + 4vw, 4.5rem) 0; }
+.vfy-about h2 {
+  margin: 0 0 1.4rem;
+  font: 600 clamp(1.3rem, 1.1rem + 1vw, 1.7rem)/1.2 var(--font-display, "Playfair Display", Georgia, serif);
+}
+.vfy-about__grid { display: grid; gap: 1.6rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+.vfy-about h3 { margin: 0 0 .4rem; font-size: .98rem; }
+.vfy-about p { margin: 0; color: var(--ink-soft, #5A6479); line-height: 1.65; font-size: .9rem; }
+
+/* ---- Footer --------------------------------------------------------- */
+.vfy-foot {
+  border-top: 1px solid rgba(20, 38, 74, .1);
+  padding: 1.6rem 0 2.4rem;
+  font-size: .84rem; color: var(--ink-soft, #5A6479);
+}
+.vfy-foot p { margin: .2rem 0; }
+
+@media print {
+  /* A verification is often printed and filed by the checking party.
+     The form, the explanatory sections and the chrome are not part of
+     the evidence; the card is. */
+  .vfy-head, .vfy-form, .vfy-about, .vfy-foot { display: none !important; }
+  .vfy { background: #fff; }
+  .vfy-card { box-shadow: none; border-color: #999; }
+  .vfy-card__band { background: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* Stated on the card itself, not only in a footer. A capability that is
+   coming is not a capability, and the card is where someone forms their
+   judgement about whether this register is serious. */
+.vfy-seal__pending { margin: .35rem 0 0; font-size: .76rem; color: var(--ink-soft, #5A6479); }

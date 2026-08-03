@@ -301,6 +301,49 @@ against an unmoderated single-reviewer score is not defensible.
 
 **Decision:** ☐ awaiting
 
+### C5. Who may confer, withdraw and replace an award
+**Currently:** `conferAward()`, `revokeAward()` and `replaceAward()` are
+library functions with no actor argument and no administrative endpoint.
+That is deliberate and should not be read as an omission: until the
+Board settles this row there is no correct answer to put in an
+authorisation check, and a plausible-looking one would be worse than an
+absent one. Nothing can reach these functions over HTTP today.
+
+**Recommendation:** conferral on the authority of the Registrar acting
+under a Board-approved pass list; withdrawal and replacement by the
+Registrar with a recorded reason, **countersigned by one other officer**.
+The countersignature matters more than it looks: withdrawing an award is
+the one operation in the system that destroys something a person owns,
+and it should not be within the unilateral power of any single account,
+including the founder's.
+
+**Rationale:** the register is tamper-evident, which means an improper
+conferral cannot be quietly undone — it can only be visibly revoked. The
+control has to sit *before* the write, because after it the record is
+permanent by design.
+
+**Decision:** ☐ awaiting
+
+### C6. Whether the browsable register is opt-in or opt-out
+**Currently:** `public_consent` defaults to **off**. A graduate's award
+is verifiable by code — the code is something they chose to hand
+someone — but they do not appear in the browsable register unless they
+say so.
+
+**Recommendation:** keep it opt-in. The opposite reading is defensible —
+a public register of graduates is an ordinary academic tradition, and the
+College's own honours architecture is weakened if the roll is thin — but
+opt-in is the only default that is safe for a graduate whose safety
+depends on not being findable, and the College cannot know which
+graduates those are. A prompt at conferral will recover most of the
+difference honestly.
+
+**Rationale:** this is also the cheaper mistake to correct. Asking
+graduates to opt in later is an email; removing a name that was
+published without being asked is an apology.
+
+**Decision:** ☐ awaiting
+
 ---
 
 ## D. Data and retention
@@ -326,6 +369,35 @@ which I cannot supply.
 at any time; the audio is destroyed, the assessment record is kept. The
 endpoint exists (`POST /api/admin/recordings/purge` with a `userId`)
 and requires an explicit confirmation.
+
+**Decision:** ☐ awaiting
+
+### D3. Erasure against a permanent academic register
+This row exists because the Graduate Register creates a genuine conflict
+with D2 that I do not want discovered by a graduate's solicitor rather
+than by the Board.
+
+**The conflict:** the register is designed to be permanent and
+tamper-evident. Deleting a row breaks the hash chain for every award
+conferred after it, and `verifyChain()` will report the register as
+broken from that point forward — which is exactly the behaviour that
+makes the chain worth having. So a request to erase an award record
+cannot be honoured the way a request to erase a voice recording can.
+
+**Recommendation:** treat a conferred award as a record the College
+holds in the public interest and in the interest of every party who may
+rely on it, and **do not** delete it on request. Offer instead: removal
+from the browsable register (immediate, unconditional, no reason
+required), and suppression of the holder's name from the verification
+response, leaving the award verifiable as an award. What cannot be
+offered is making a conferred qualification un-checkable, because the
+people harmed by that are third parties who acted on it.
+
+Whether that position holds under UK GDPR is a legal question and not
+mine to answer. What I can say precisely is what the system does and why
+it cannot quietly do otherwise, which is what this row is for. It should
+be settled **before the first conferral**, not after — the architecture
+is much easier to change while the register is empty.
 
 **Decision:** ☐ awaiting
 

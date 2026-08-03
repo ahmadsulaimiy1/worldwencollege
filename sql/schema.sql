@@ -652,6 +652,95 @@ CREATE TABLE unit_progress (
 );
 CREATE INDEX idx_unit_progress_user ON unit_progress(user_id);
 
+-- ---------------------------------------------------------------------
+-- The Graduate Register (migration 005) — the College's permanent
+-- academic record. Certificates, transcripts, digital badges and alumni
+-- Chapters all derive their worth from being checkable against it.
+--
+-- TAMPER-EVIDENT: every award carries a SHA-256 digest over its own
+-- fields AND the digest of the award before it. Altering a record breaks
+-- every link after it. `prev_digest` is UNIQUE, which is what makes the
+-- chain a chain rather than a tree — two conferrals racing to extend the
+-- same head cannot both succeed. Deliberately NOT a blockchain and never
+-- to be described as one; it is a hash chain in one institution's
+-- database, which is the only honest meaning of "blockchain-ready".
+--
+-- REVOCATION IS VISIBLE: a withdrawn award is marked, never deleted.
+-- CONSENT-SCOPED: public_consent gates the browsable register, never
+-- verification by code — a code is something the graduate handed over.
+-- ---------------------------------------------------------------------
+CREATE TABLE awards (
+  id                TEXT PRIMARY KEY,   -- 'awd_' + uuid
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  level_id          INTEGER NOT NULL REFERENCES programme_levels(id),
+
+  -- Denormalised on purpose. A certificate conferred in 2027 must still
+  -- read as it did in 2027 even if the College later renames an award or
+  -- restructures a level. An academic record that changes retrospectively
+  -- because a lookup table changed is not a record.
+  award_title       TEXT NOT NULL,      -- 'English Associate of Worldwide English College'
+  post_nominal      TEXT NOT NULL,      -- 'AsWEC'
+  cefr              TEXT NOT NULL,
+  honour            TEXT NOT NULL DEFAULT 'pass'
+                    CHECK (honour IN ('pass','merit','distinction','high_distinction','college_distinction')),
+  credits           INTEGER NOT NULL,
+  tqt_hours         INTEGER NOT NULL,
+  citation          TEXT,
+  holder_name       TEXT NOT NULL,      -- as it appears on the certificate
+
+  conferred_on      TEXT NOT NULL,      -- date, not timestamp: a conferral is a day
+  verification_code TEXT NOT NULL UNIQUE,
+
+  status            TEXT NOT NULL DEFAULT 'conferred'
+                    CHECK (status IN ('conferred','revoked','replaced')),
+  revoked_at        TEXT,
+  revoked_reason    TEXT,
+  replaced_by_id    TEXT REFERENCES awards(id),
+
+  -- Publication consent, separate from verification. Default 0: a
+  -- graduate opts IN to being listed, never out.
+  public_consent    INTEGER NOT NULL DEFAULT 0,
+
+  prev_digest       TEXT NOT NULL UNIQUE,
+  digest            TEXT NOT NULL UNIQUE,
+
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_awards_user ON awards(user_id);
+CREATE INDEX idx_awards_conferred ON awards(conferred_on);
+-- One LIVE award per learner per level. PARTIAL, excluding replaced and
+-- revoked rows, because a certificate can legitimately be replaced more
+-- than once — a name correction, then a later one — and every superseded
+-- row must survive. A plain UNIQUE(user_id, level_id, status) was tried
+-- first and is wrong twice over: it forbids a second replacement, and it
+-- blocks replacement entirely, since the successor is conferred before
+-- the predecessor is marked. Found by tests/registry.test.mjs.
+CREATE UNIQUE INDEX idx_awards_one_live_per_level
+  ON awards(user_id, level_id) WHERE status = 'conferred';
+
+-- Verification audit — WITHOUT identifying the checker.
+--
+-- The graduate and the College can see that an award was verified, how
+-- often and with what result. Nobody can see WHO checked. That is not an
+-- omission: the whole value of the portal is that a stranger can verify
+-- without an account, and a log of checkers' identities would both
+-- destroy that and create a personal-data holding with no purpose the
+-- College could defend.
+--
+-- `code_attempted` is stored even when it matches nothing, because a run
+-- of failed lookups is the signature of somebody enumerating the
+-- register, and that is worth being able to see.
+CREATE TABLE award_verifications (
+  id                TEXT PRIMARY KEY,   -- 'ver_' + uuid
+  award_id          TEXT REFERENCES awards(id),   -- NULL when the code matched nothing
+  code_attempted    TEXT NOT NULL,
+  outcome           TEXT NOT NULL CHECK (outcome IN ('valid','revoked','replaced','not_found','malformed')),
+  channel           TEXT NOT NULL DEFAULT 'public' CHECK (channel IN ('public','api','qr')),
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_award_verifications_time ON award_verifications(created_at);
+CREATE INDEX idx_award_verifications_award ON award_verifications(award_id);
+
 -- Time on task — the measurement behind the College's measured-hours
 -- commitment (docs/academic-framework.md § I). One row per learner per
 -- module, holding a total: the least data that answers "how long does

@@ -74,12 +74,45 @@ const adminEnrol = await import(pathToFileURL(`${ROOT}/functions/_lib/admin/enro
 const adminRoles = await import(pathToFileURL(`${ROOT}/functions/_lib/admin/roles.js`));
 const studyPlan = await import(pathToFileURL(`${ROOT}/functions/_lib/student/study-plan.js`));
 const timeOnTask = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/time-on-task.js`));
+const registry = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/awards.js`));
 // Beats reaching the harness, so a browser test can assert the beacon
 // actually fires rather than that the file merely loads.
 const beats = [];
 // The harness acts as an ADMINISTRATOR so the appointment controls are
 // exercised; the role check itself has its own unit tests.
 const ADMIN_ACTOR = { id: 'usr_admin', role: 'admin', email: 'admin@example.com' };
+
+// DEMONSTRATION awards, conferred here and nowhere else. No award may be
+// conferred in production until the Executive adopts the award
+// architecture (governance C4), so the live Register ships EMPTY and
+// this harness is the only place a record exists. The names are
+// invented — the same rule as sql/seed-demo-people.sql, stated at length
+// there.
+const DEMO = {};
+{
+  const conf = (opts) => registry.conferAward(env, {
+    credits: 20, tqtHours: 200, ...opts,
+  });
+  DEMO.valid = await conf({
+    userId: 'usr_demo', levelId: 3, holderName: 'Demonstration Graduate',
+    awardTitle: 'English Associate of Worldwide English College', postNominal: 'AsWEC',
+    cefr: 'B1', honour: 'distinction', publicConsent: true,
+    citation: 'In recognition of a structured presentation delivered and defended under questioning.',
+  });
+  DEMO.revokedSrc = await conf({
+    userId: 'usr_prog', levelId: 2, holderName: 'Withdrawn Demonstration',
+    awardTitle: 'English Candidate of Worldwide English College', postNominal: 'CnWEC', cefr: 'A2',
+  });
+  await registry.revokeAward(env, { awardId: DEMO.revokedSrc.id, reason: 'Conferred in error during a demonstration.' });
+  DEMO.replacedSrc = await conf({
+    userId: 'usr_none', levelId: 1, holderName: 'Corrected Demonstratoin',
+    awardTitle: 'English Aspirant of Worldwide English College', postNominal: 'ApWEC', cefr: 'A1',
+  });
+  DEMO.replacement = (await registry.replaceAward(env, {
+    awardId: DEMO.replacedSrc.id, reason: 'Holder name corrected.',
+    changes: { holderName: 'Corrected Demonstration' },
+  })).replacement;
+}
 const recordings = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/recording-storage.js`));
 const { makeR2 } = await import(pathToFileURL(`${ROOT}/tests/r2-shim.mjs`));
 // The same in-memory R2 stand-in the unit tests use, so the browser
@@ -120,7 +153,11 @@ function identify(req) {
 createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
   try {
-    if (REQUIRE_AUTH && url.pathname.startsWith('/api/')) {
+    // /api/verify/* is PUBLIC by design and stays public even in the
+    // auth-required harness. A verification endpoint behind a login is
+    // one nobody uses, and testing it as authenticated would test a
+    // product we deliberately did not build.
+    if (REQUIRE_AUTH && url.pathname.startsWith('/api/') && !url.pathname.startsWith('/api/verify/')) {
       const { userId } = identify(req);
       if (!userId) {
         res.writeHead(401, { 'Content-Type': 'application/json' });
@@ -150,12 +187,27 @@ createServer(async (req, res) => {
     // every unit finished) are properties of a LEARNER, not of the
     // page. One fixed user would only ever exercise the happy path,
     // which is the state nobody gets stuck in.
+    // Public verification — no auth, deliberately, even under
+    // LAB_REQUIRE_AUTH. See the exemption above the auth gate.
+    if (url.pathname.startsWith('/api/verify/') && req.method === 'GET') {
+      const code = decodeURIComponent(url.pathname.slice('/api/verify/'.length));
+      const via = url.searchParams.get('via');
+      return json(res, await registry.verifyCode(env, { code, channel: via === 'qr' ? 'qr' : 'public' }));
+    }
     if (url.pathname === '/api/lms/time-on-task' && req.method === 'POST') {
       const body = JSON.parse(await read(req));
       beats.push(body);
       return json(res, await timeOnTask.recordBeat(env, { userId: 'usr_demo', unitId: body.unitId }));
     }
     if (url.pathname === '/__beats' && req.method === 'GET') return json(res, { beats });
+    if (url.pathname === '/__demo-awards' && req.method === 'GET') {
+      return json(res, {
+        valid: DEMO.valid.verification_code,
+        revoked: DEMO.revokedSrc.verification_code,
+        replaced: DEMO.replacedSrc.verification_code,
+        replacement: DEMO.replacement.verification_code,
+      });
+    }
     if (url.pathname === '/api/student/study-plan' && req.method === 'GET') {
       const who = url.searchParams.get('as') || 'usr_demo';
       return json(res, await studyPlan.buildStudyPlan(env, who));

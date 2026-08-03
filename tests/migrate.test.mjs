@@ -222,6 +222,8 @@ for (const f of files) {
   db.exec('DROP INDEX idx_role_events_actor; DROP INDEX idx_role_events_user; DROP TABLE role_events;');
   db.exec('DROP INDEX idx_enrolment_events_enrolment; DROP INDEX idx_enrolment_events_user; DROP TABLE enrolment_events;');
   db.exec('DROP INDEX idx_enrolments_one_live_per_level');
+  db.exec('DROP INDEX idx_award_verifications_award; DROP INDEX idx_award_verifications_time; DROP TABLE award_verifications;');
+  db.exec('DROP INDEX idx_awards_one_live_per_level; DROP INDEX idx_awards_conferred; DROP INDEX idx_awards_user; DROP TABLE awards;');
   db.exec('DROP INDEX idx_time_on_task_module; DROP INDEX idx_time_on_task_user; DROP TABLE time_on_task;');
   db.exec('DROP TABLE recording_upload_parts');
   db.exec('DROP TABLE learner_recordings');

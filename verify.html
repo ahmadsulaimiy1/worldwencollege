@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verify an Award | Worldwide English College</title>
+<meta name="description" content="Verify a Worldwide English College award. Enter the verification code from any WEC-LC certificate to confirm the award, the holder, the level and its current standing.">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#14264A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/verify.css">
+</head>
+<body class="vfy">
+
+<a class="sr-only" href="#main">Skip to verification</a>
+
+<header class="vfy-head">
+  <div class="vfy-head__wrap">
+    <a class="vfy-crest" href="/">
+      <img src="/assets/images/favicon.svg" alt="" width="40" height="40" aria-hidden="true">
+      <span>Worldwide English College<small>London Campus</small></span>
+    </a>
+    <h1>Award Verification</h1>
+    <p class="vfy-lede">Every award conferred by Worldwide English College carries a verification code. Enter it below to confirm the award, its holder and its current standing.</p>
+    <!-- Stated at the top rather than in a footer nobody reads. It is
+         the property that makes the portal usable, and saying it plainly
+         is also what stops anyone assuming we log who is checking. -->
+    <p class="vfy-note">No account. No sign-in. We do not record who performs a check.</p>
+  </div>
+</header>
+
+<main id="main">
+  <div class="vfy-wrap">
+
+    <form class="vfy-form" id="verifyForm" novalidate>
+      <label class="vfy-label" for="code">Verification code</label>
+      <div class="vfy-field">
+        <input id="code" name="code" type="text" inputmode="latin" autocomplete="off"
+               spellcheck="false" autocapitalize="characters"
+               placeholder="WEC-XXXX-XXXX-XXXXX"
+               aria-describedby="codeHelp codeError">
+        <button class="vfy-submit" type="submit">Verify</button>
+      </div>
+      <p class="vfy-help" id="codeHelp">Printed on the certificate. Capitals, dashes and spacing do not matter.</p>
+      <p class="vfy-error" id="codeError" role="alert"></p>
+    </form>
+
+    <!-- The result. One card, three possible standings, and the standing
+         is never implied by the absence of something — a withdrawn award
+         says withdrawn, in words, with a date. -->
+    <section class="vfy-result" id="result" hidden aria-live="polite">
+      <div class="vfy-card" id="card">
+        <div class="vfy-card__band" id="band">
+          <span class="vfy-card__status" id="status">—</span>
+        </div>
+
+        <div class="vfy-card__body">
+          <p class="vfy-card__eyebrow">This award was conferred upon</p>
+          <p class="vfy-card__holder" id="holder">—</p>
+
+          <p class="vfy-card__award" id="awardTitle">—</p>
+          <p class="vfy-card__post" id="postNominal"></p>
+
+          <dl class="vfy-facts">
+            <div><dt>Level</dt><dd id="fLevel">—</dd></div>
+            <div><dt>CEFR</dt><dd id="fCefr">—</dd></div>
+            <div><dt>Honour</dt><dd id="fHonour">—</dd></div>
+            <div><dt>WEC Credits</dt><dd id="fCredits">—</dd></div>
+            <div><dt>Total Qualification Time</dt><dd id="fTqt">—</dd></div>
+            <div><dt>Conferred</dt><dd id="fDate">—</dd></div>
+          </dl>
+
+          <blockquote class="vfy-citation" id="citation" hidden></blockquote>
+
+          <div class="vfy-alert" id="alert" hidden></div>
+
+          <div class="vfy-seal">
+            <div class="vfy-seal__qr" id="qr" aria-hidden="true" hidden></div>
+            <div class="vfy-seal__meta">
+              <p class="vfy-seal__code" id="codeOut">—</p>
+              <p class="vfy-seal__digest">Record digest <span id="digest">—</span></p>
+              <p class="vfy-seal__link"><a id="permalink" href="#">Permanent verification link</a></p>
+              <p class="vfy-seal__pending">QR verification is designed and not yet issued — the permanent link above carries the same record.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="vfy-scope">
+        This page confirms what the College's Graduate Register records. It states the award, the holder as named on the certificate, and the award's current standing — and nothing further. Marks, progress and contact details are not published here.
+      </p>
+    </section>
+
+    <section class="vfy-about">
+      <h2>About this register</h2>
+      <div class="vfy-about__grid">
+        <div>
+          <h3>Every award, not only the highest</h3>
+          <p>The Register records every award of the International English Fluency Course, from English Aspirant to English Laureate. Each level is a complete academic achievement of the College and is verifiable in its own right.</p>
+        </div>
+        <div>
+          <h3>Withdrawn awards stay visible</h3>
+          <p>An award that has been withdrawn or replaced is never removed from the Register. Its page says so, with the date. A verification that simply failed would tell you nothing.</p>
+        </div>
+        <div>
+          <h3>Tamper-evident records</h3>
+          <p>Each entry carries a cryptographic digest computed over its own contents and the entry before it. Altering a record after conferral breaks that sequence and is detectable. This is a hash chain in the College's register; it is not a blockchain, and we do not describe it as one.</p>
+        </div>
+        <div>
+          <h3>What is not yet in place</h3>
+          <p>The award architecture is proposed and awaiting approval by the Executive, and no award has yet been conferred. This portal is live so that verification exists from the first conferral rather than after it. QR rendering, downloadable verification certificates and institutional API access are designed and not yet issued; each will appear here when it works, not when it is announced.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="vfy-foot">
+  <div class="vfy-wrap">
+    <p>Worldwide English College · London Campus — Graduate Register</p>
+    <p><a href="/">Return to the College</a></p>
+  </div>
+</footer>
+
+<script src="/js/verify.js"></script>
+</body>
+</html>

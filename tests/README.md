@@ -304,6 +304,27 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   contractual weight. `now` is injected throughout: a test that reads the
   clock passes on Tuesday and fails on the last day of February.
   48 assertions.
+- `registry.test.mjs` — the Graduate Register: conferral, verification,
+  withdrawal, replacement and the hash chain that makes the whole thing
+  worth trusting. The chain assertions are the point, and they are
+  written as attacks rather than as confirmations: edit a conferred
+  award's honour directly in the database and `verifyChain()` must name
+  that row; delete a row from the middle and it must notice the gap
+  rather than walking happily past it; confer two awards against the
+  same chain head and the second must be **refused**, because a register
+  that forks is a register with two versions of the truth. That last one
+  is enforced by `prev_digest UNIQUE`, not by application code, so it
+  holds even if a future request path forgets to care.
+  The scope assertions guard the other promise: the verification
+  response is checked against an allowlist of keys, so it fails when a
+  refactor starts returning a field nobody approved rather than only
+  when someone leaks a field a test author happened to imagine. The
+  audit log is checked for the *absence* of columns — no IP, no user
+  agent, no referrer, no session — because the portal tells every
+  checker it does not record who is checking, and that sentence has to
+  be enforced by the schema rather than by good intentions. Consent is
+  tested to scope the browsable register and **not** verification: a
+  code is something the graduate chose to hand someone. 59 assertions.
 - `migrate.test.mjs` — the migration runner (`scripts/migrate.mjs`).
   The runner it replaced applied every file in `sql/migrations/`
   unconditionally, which works on exactly one database state — a fresh
@@ -376,6 +397,7 @@ so run them explicitly):
 node tests/browser/listening-lab.mjs
 node tests/browser/lab-auth.mjs
 node tests/browser/route-audit.mjs
+node tests/browser/verify.mjs
 ```
 
 - `browser/listening-lab.mjs` — 43 assertions covering the Listening
@@ -460,6 +482,34 @@ node tests/browser/route-audit.mjs
   pace at all would have reported that its pace wording was admirably
   non-threatening. Found by sabotage and fixed with a length check.
   27 assertions.
+- `browser/verify.mjs` — the Award Verification portal, in a real
+  browser. It runs with `LAB_REQUIRE_AUTH=1` — the harness mode that
+  401s everything — deliberately, because the one property that matters
+  most here is that verification works with **no session at all**, and
+  the only way to prove that is to run it in a harness hostile to
+  anonymous requests.
+  The decisive assertion is that a **withdrawn** award still resolves
+  and says "withdrawn", with a date and a reason. If a revoked
+  certificate produced an error or an empty page, its holder could
+  present it and say the portal was down, and every screenshot of a
+  working page would look identical. Confirmed by sabotage: making
+  `verifyCode()` treat a non-conferred award as "no such code" — the
+  obvious, plausible bug — fails nine assertions, including the
+  superseded case that would otherwise dead-end a checker holding a
+  corrected certificate.
+  The scope assertion was rewritten after it was caught being vacuous:
+  it originally scanned the page for `@example.com`, an address that
+  appears nowhere in the fixture and that the `awards` table has no
+  column to hold, so it could never fail. It now allowlists the keys of
+  the JSON the page is actually *sent*, which fails the moment
+  `publicView()` spreads the database row — the real form the leak would
+  take, and one that leaks 17 fields without changing a single pixel.
+  Also covered: the QR/permalink path (a scan must land on the record,
+  not on a form the scanner has to fill in from the certificate in their
+  hand), lower-case and space-separated codes because people retype
+  these from print, and the 390px phone case — a phone camera on a
+  printed certificate is the overwhelmingly common way this page is
+  opened. 39 assertions.
 - `browser/route-audit.mjs` — the pre-deployment sweep. Walks every
   built HTML file and loads each one, checking the things that break a
   deployment rather than a unit test: broken routes, missing first-party
