@@ -112,6 +112,10 @@ const ROUTES = [
   // Destruction.
   { file: 'functions/api/admin/recordings/purge.js', method: 'POST', minRole: 'staff',
     why: 'Documented as staff-only, and dry-run by default. See governance A5.' },
+
+  // Institutional quality.
+  { file: 'functions/api/admin/quality/competency-coverage.js', method: 'GET', minRole: 'staff',
+    why: 'Whether the curriculum meets the framework\'s own competency rule. Contains no personal data, and a quality measure only improves anything if the people doing the teaching can see it.' },
 ];
 
 const METHOD_EXPORT = { GET: 'onRequestGet', POST: 'onRequestPost', PUT: 'onRequestPut', DELETE: 'onRequestDelete' };

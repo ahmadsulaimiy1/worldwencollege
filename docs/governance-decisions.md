@@ -344,6 +344,91 @@ published without being asked is an apology.
 
 **Decision:** ☐ awaiting
 
+### A6d. Mapping the curriculum to the competency framework
+**This is the largest gap between the College's constitutional document
+and its platform, and it was found by building the graduate profile.**
+
+`docs/academic-framework.md` § IV states the rule that distinguishes the
+IEFC from a repackaged proficiency scale:
+
+> every assessment maps to at least one competency, and every competency
+> is assessed at least three times per level. A competency assessed once
+> is an aspiration.
+
+Nothing implemented it. There was no competency table, no mapping from
+assessment to competency, and no per-competency mark; rubrics are prose
+inside a text column and a graded submission carries one aggregate score.
+The framework's related requirement — "marks by skill and by competency,
+not one aggregate" — is equally unimplemented.
+
+So the College's central academic claim was a document rather than a
+system. An accreditation reviewer asking *"show me competency 5 was
+assessed three times at Level IV"* could not have been answered.
+
+**What has been built:** the spine — `competencies` (the six, quoted from
+the framework), `assessment_competencies`, `competency_marks` — and
+`competencyCoverage()`, which measures the rule and currently reports
+**0 of 360 assessments mapped, 36 shortfalls**. Visible at
+`GET /api/admin/quality/competency-coverage`.
+
+**What has deliberately NOT been done:** the mapping itself. Deciding
+which competencies each of 360 assessments assesses is academic work for
+the Academic Director. Generating it here would have produced exactly the
+fabricated academic record the Executive forbade, and it would have been
+undetectable — a plausible mapping looks like a real one.
+
+**Recommendation:** commission the mapping as a defined piece of academic
+work before any award is conferred. Until it exists, the graduate profile
+reports competency attainment as *unmapped* rather than showing a score,
+and should continue to.
+
+**Decision:** ☐ awaiting
+
+### A6e. Restructuring rubrics to carry competency marks
+Consequent on A6d. Marking against six competencies needs rubrics with
+structured criteria, not prose. The existing prose rubrics are
+pedagogically sound and were normalised to the rubric policy; they simply
+cannot be marked against machine-readable criteria.
+
+**Recommendation:** restructure alongside A6d rather than separately —
+mapping assessments to competencies and giving those assessments
+competency criteria are the same piece of work seen from two ends.
+
+**Decision:** ☐ awaiting
+
+### C7. The graduate profile: publication defaults
+**Currently implemented:** every field of a graduate profile defaults to
+private. Publication is per-section (awards, transcript, competencies,
+CPD, study time) rather than one switch, because they are separate
+decisions — a graduate may want an employer to see their awards and not
+their study hours.
+
+Share links are scoped, expiring (1–365 days, never indefinite),
+revocable, and stored only as a hash so the College cannot reproduce a
+link it issued. A share's scope is **intersected** with current
+visibility, never unioned: turning a section private removes it from
+every link already issued.
+
+**Recommendation:** ratify these as the College's standing defaults. They
+are engineering decisions taken under the autonomy granted, and they
+carry data-protection weight, so the Board should own them.
+
+**Decision:** ☐ awaiting
+
+### C8. Study time on a graduate's record
+Measured time on task says how long someone struggled. It is reported
+separately from TQT and never conflated with it — TQT is the College's
+design figure for the qualification and is identical for every holder,
+whereas measured time differs per person, and presenting a learner's own
+hours as their qualification time would mean a fast learner held a
+smaller qualification.
+
+**Recommendation:** confirm that measured study time is never published
+by default and never appears on a certificate or transcript. It is
+formative information for the learner, not a property of the award.
+
+**Decision:** ☐ awaiting
+
 ---
 
 ## D. Data and retention

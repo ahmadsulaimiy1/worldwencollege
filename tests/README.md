@@ -325,6 +325,28 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   be enforced by the schema rather than by good intentions. Consent is
   tested to scope the browsable register and **not** verification: a
   code is something the graduate chose to hand someone. 59 assertions.
+- `profile.test.mjs` — the graduate's permanent academic identity
+  (`functions/_lib/registry/profile.js`). This module decides what a
+  stranger learns about a person's education, so almost every assertion
+  is about a way it could disclose something the graduate did not agree
+  to, or state something untrue.
+  The scoping one is decisive: a share's agreed sections are
+  **intersected** with the graduate's current visibility, never unioned,
+  so turning a section private removes it from every link already issued.
+  Sabotage-verified — a union leaks four sections while the happy path
+  still passes.
+  Two assertions exist because silence is not neutral on a document like
+  this. A withdrawn award's credits must not count toward the total (the
+  one number that must never be wrong), and an unmapped competency
+  framework must report as `unmapped` rather than as a graduate who
+  scored zero.
+  The SQL-allowlist block was itself found to be wrong before it was
+  right: an earlier version put every hostile key in one object, and the
+  keys that BROKE the statement threw first, so the one that would have
+  silently worked — a raw column name, `is_public` — never landed and the
+  assertion passed for entirely the wrong reason. A hostile payload that
+  fails early protects the code from the test. They are now exercised
+  separately. 71 assertions.
 - `route-guard-census.test.mjs` — every endpoint's authentication
   boundary, enumerated from disk. `admin-route-guards.test.mjs` asks
   WHICH ROLE may reach each administrative endpoint; it covers
@@ -445,6 +467,7 @@ node tests/browser/lab-auth.mjs
 node tests/browser/route-audit.mjs
 node tests/browser/verify.mjs
 node tests/browser/register.mjs
+node tests/browser/graduate.mjs
 ```
 
 - `browser/listening-lab.mjs` — 43 assertions covering the Listening
@@ -581,6 +604,24 @@ node tests/browser/register.mjs
   regression, with every later assertion silently skipped. Detection is
   not enough on its own; the shape of the failure is part of the test.
   28 assertions.
+- `browser/graduate.mjs` — the graduate record, as its two real readers
+  reach it: an employer opening a published address, and an employer
+  opening a link the graduate sent them. Run under `LAB_REQUIRE_AUTH`,
+  because a record an employer must register to read is a record they
+  will not read.
+  Nearly every assertion is about a way the page could mislead someone
+  about a person's education. **Silence** — a section that is absent
+  reads as a section that is empty, so anything withheld is named as
+  withheld and the reader is told that absence is not a statement of
+  nothing. **A zero that is not a mark** — no competency has been
+  assessed by anybody, because the curriculum is not mapped to the
+  framework, and rendering that as 0% would attribute a failing mark to a
+  graduate who was never assessed. **Declared versus verified** — CPD
+  entries the College has evidenced and entries the graduate simply
+  typed must never look the same, or the list is the graduate's own word
+  set in the College's typeface. **A withdrawn award** stays on the
+  record, marked, never dropped.
+  All four sabotage-verified. 43 assertions.
 - `browser/route-audit.mjs` — the pre-deployment sweep. Walks every
   built HTML file and loads each one, checking the things that break a
   deployment rather than a unit test: broken routes, missing first-party

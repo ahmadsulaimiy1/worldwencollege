@@ -99,6 +99,8 @@ jobs:
         run: node tests/browser/verify.mjs
       - name: The Graduate Register — the browsable roll
         run: node tests/browser/register.mjs
+      - name: The graduate record
+        run: node tests/browser/graduate.mjs
 
   deploy:
     needs: verify

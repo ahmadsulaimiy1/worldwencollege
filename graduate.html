@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Graduate Record | Worldwide English College</title>
+<meta name="description" content="A Worldwide English College graduate record — awards, academic transcript and continuing professional development, published or shared with the graduate's consent and verifiable against the Graduate Register.">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#14264A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/verify.css">
+<link rel="stylesheet" href="/css/graduate.css">
+</head>
+<body class="vfy grad">
+
+<a class="sr-only" href="#main">Skip to the record</a>
+
+<header class="vfy-head grad-head">
+  <div class="vfy-head__wrap">
+    <a class="vfy-crest" href="/">
+      <img src="/assets/images/favicon.svg" alt="" width="40" height="40" aria-hidden="true">
+      <span>Worldwide English College<small>London Campus</small></span>
+    </a>
+    <p class="grad-eyebrow" id="eyebrow">Graduate Record</p>
+    <h1 id="name">—</h1>
+    <p class="vfy-lede" id="headline"></p>
+    <!-- Stated where a reader forms their judgement, not in a footer.
+         A record that did not say how much of itself was shown would be
+         read as the whole record. -->
+    <p class="vfy-note" id="scopeNote">Loading this record…</p>
+  </div>
+</header>
+
+<main id="main">
+  <div class="vfy-wrap">
+
+    <section class="grad-state" id="state" aria-live="polite"></section>
+
+    <section class="grad-section" id="secBiography" hidden>
+      <h2>Academic biography</h2>
+      <p class="grad-bio" id="biography"></p>
+    </section>
+
+    <section class="grad-section" id="secAwards" hidden>
+      <h2>Awards conferred</h2>
+      <ol class="grad-awards" id="awards"></ol>
+    </section>
+
+    <section class="grad-section" id="secTranscript" hidden>
+      <h2>Academic transcript</h2>
+      <div class="grad-totals" id="totals"></div>
+      <div class="grad-tablewrap">
+        <table class="grad-table">
+          <caption class="sr-only">Levels of the International English Fluency Course entered by this graduate, and their outcome</caption>
+          <thead>
+            <tr>
+              <th scope="col">Level</th>
+              <th scope="col">CEFR</th>
+              <th scope="col">Entered</th>
+              <th scope="col">Modules</th>
+              <th scope="col">Outcome</th>
+            </tr>
+          </thead>
+          <tbody id="transcript"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="grad-section" id="secCompetencies" hidden>
+      <h2>Competency framework</h2>
+      <p class="grad-note" id="competencyNote"></p>
+      <ul class="grad-competencies" id="competencies"></ul>
+    </section>
+
+    <section class="grad-section" id="secCpd" hidden>
+      <h2>Continuing professional development</h2>
+      <p class="grad-note">Entries marked <strong>verified</strong> have been evidenced to the College. Entries without that mark are declared by the graduate and have not been checked.</p>
+      <ul class="grad-cpd" id="cpd"></ul>
+    </section>
+
+    <section class="grad-section" id="secStudyTime" hidden>
+      <h2>Measured study time</h2>
+      <p class="grad-note">Time this graduate spent working, measured by the platform. It is <strong>not</strong> the qualification's Total Qualification Time, which is the College's design figure for the award and is the same for every holder.</p>
+      <p class="grad-hours" id="studyTime"></p>
+    </section>
+
+    <section class="grad-withheld" id="withheldBox" hidden>
+      <h2>Not shown here</h2>
+      <p id="withheld"></p>
+    </section>
+
+  </div>
+</main>
+
+<footer class="vfy-foot">
+  <div class="vfy-wrap">
+    <p>Worldwide English College · London Campus — Graduate Register</p>
+    <p><a href="/verify.html">Verify an award by code</a> · <a href="/register.html">The Graduate Register</a> · <a href="/">Return to the College</a></p>
+  </div>
+</footer>
+
+<script src="/js/graduate.js"></script>
+</body>
+</html>

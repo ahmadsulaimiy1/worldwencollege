@@ -75,6 +75,7 @@ const adminRoles = await import(pathToFileURL(`${ROOT}/functions/_lib/admin/role
 const studyPlan = await import(pathToFileURL(`${ROOT}/functions/_lib/student/study-plan.js`));
 const timeOnTask = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/time-on-task.js`));
 const registry = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/awards.js`));
+const profile = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/profile.js`));
 // Beats reaching the harness, so a browser test can assert the beacon
 // actually fires rather than that the file merely loads.
 const beats = [];
@@ -136,6 +137,22 @@ const DEMO = {};
   // Not listed, and must stay unlisted. Without one of these the consent
   // assertion on the page would be checking that a filter does not
   // remove rows nothing was asking it to remove.
+  // A published profile and a shared link, so the graduate record page
+  // can be driven the way a real reader reaches it.
+  await profile.updateProfile(env, { userId: 'usr_demo', changes: {
+    handle: 'demonstration-graduate', displayName: 'Demonstration Graduate',
+    headline: 'Demonstration record — not a real graduate',
+    biography: 'This profile is demonstration data used to develop and test the graduate record. It does not describe a real person.',
+    isPublic: true, transcript: true,
+  } });
+  env.DB.prepare(`INSERT INTO cpd_records (id,user_id,title,provider,kind,hours,completed_on,verified_at)
+    VALUES ('cpd_v','usr_demo','A verified workshop','Demonstration Provider','workshop',6,'2027-07-01','2027-07-05T00:00:00.000Z')`).bind().run();
+  env.DB.prepare(`INSERT INTO cpd_records (id,user_id,title,provider,kind,hours,completed_on)
+    VALUES ('cpd_d','usr_demo','A self-declared conference','Demonstration Provider','conference',3,'2027-08-01')`).bind().run();
+  DEMO.share = await profile.createShare(env, {
+    userId: 'usr_demo', sections: ['awards', 'transcript', 'cpd'], days: 30, label: 'Demonstration share',
+  });
+
   DEMO.unlisted = await conf({
     userId: 'usr_prog', levelId: 5, holderName: 'Unlisted Demonstration',
     awardTitle: 'English Scholar of Worldwide English College', postNominal: 'ScWEC', cefr: 'C1',
@@ -188,7 +205,8 @@ createServer(async (req, res) => {
     // /api/register is public for the same reason: a roll of award
     // holders published behind a login is not published.
     if (REQUIRE_AUTH && url.pathname.startsWith('/api/')
-        && !url.pathname.startsWith('/api/verify/') && url.pathname !== '/api/register') {
+        && !url.pathname.startsWith('/api/verify/') && url.pathname !== '/api/register'
+        && !url.pathname.startsWith('/api/graduate/') && !url.pathname.startsWith('/api/share/')) {
       const { userId } = identify(req);
       if (!userId) {
         res.writeHead(401, { 'Content-Type': 'application/json' });
@@ -225,6 +243,15 @@ createServer(async (req, res) => {
       const via = url.searchParams.get('via');
       return json(res, await registry.verifyCode(env, { code, channel: via === 'qr' ? 'qr' : 'public' }));
     }
+    if (url.pathname.startsWith('/api/graduate/') && req.method === 'GET') {
+      const handle = decodeURIComponent(url.pathname.slice('/api/graduate/'.length));
+      try { return json(res, await profile.publicProfile(env, { handle })); }
+      catch { res.writeHead(404, { 'Content-Type': 'application/json' }); return res.end('{"error":"NotFound"}'); }
+    }
+    if (url.pathname.startsWith('/api/share/') && req.method === 'GET') {
+      const token = decodeURIComponent(url.pathname.slice('/api/share/'.length));
+      return json(res, await profile.viewShare(env, { token }));
+    }
     if (url.pathname === '/api/register' && req.method === 'GET') {
       const raw = url.searchParams.get('level');
       return json(res, await registry.publicRegister(env, {
@@ -245,6 +272,7 @@ createServer(async (req, res) => {
         revoked: DEMO.revokedSrc.verification_code,
         replaced: DEMO.replacedSrc.verification_code,
         replacement: DEMO.replacement.verification_code,
+        shareToken: DEMO.share.token,
       });
     }
     if (url.pathname === '/api/student/study-plan' && req.method === 'GET') {

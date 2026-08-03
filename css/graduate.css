@@ -1,0 +1,208 @@
+/* The graduate record.
+   Layered on css/verify.css so the Register, the verification portal and
+   this page read as one institution. A graduate sends this link to an
+   employer; it is the College's letterhead as much as the graduate's CV,
+   and it should look like a document rather than a dashboard. */
+
+.grad-eyebrow {
+  margin: 0 0 .4rem;
+  font: 700 .74rem/1 var(--font-body, Inter, sans-serif);
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold-bright, #E7C97A);
+}
+.grad-head h1 {
+  margin: 0;
+  font: 600 clamp(2rem, 1.2rem + 3.4vw, 3.2rem)/1.06 var(--font-display, "Playfair Display", Georgia, serif);
+  letter-spacing: -.015em;
+}
+
+/* ---- Sections -------------------------------------------------------- */
+.grad-section {
+  margin: clamp(2rem, 1.2rem + 3vw, 3.4rem) 0;
+}
+.grad-section h2 {
+  margin: 0 0 1.1rem;
+  padding-bottom: .6rem;
+  border-bottom: 1px solid rgba(20, 38, 74, .12);
+  font: 600 clamp(1.15rem, 1rem + .8vw, 1.5rem)/1.2 var(--font-display, "Playfair Display", Georgia, serif);
+}
+/* The rule under each heading carries a short gold lead-in — the one
+   piece of ornament on the page, and it earns its place by making the
+   document scannable rather than by decorating it. */
+.grad-section h2::after {
+  content: ""; display: block;
+  width: 3rem; height: 2px; margin-top: .6rem; margin-bottom: -.7rem;
+  background: var(--gold, #C7A24A);
+}
+
+.grad-note { margin: 0 0 1.1rem; color: var(--ink-soft, #4B5768); line-height: 1.7; font-size: .9rem; }
+.grad-bio { margin: 0; line-height: 1.8; max-width: 62ch; }
+
+/* ---- State ----------------------------------------------------------- */
+.grad-state:empty { display: none; }
+.grad-state {
+  margin: 2.4rem 0;
+  padding: 2.2rem 1.4rem;
+  text-align: center;
+  border: 1px dashed rgba(20, 38, 74, .22);
+  border-radius: 12px;
+  color: var(--ink-soft, #4B5768);
+  line-height: 1.7;
+}
+.grad-state strong { display: block; color: var(--ink, #16202E); margin-bottom: .35rem; font-size: 1.05rem; }
+
+/* ---- Awards ---------------------------------------------------------- */
+.grad-awards { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+.grad-award {
+  background: #fff;
+  border: 1px solid rgba(20, 38, 74, .12);
+  border-left: 3px solid var(--gold, #C7A24A);
+  border-radius: 12px;
+  padding: 1.15rem 1.35rem;
+  box-shadow: 0 18px 44px -40px rgba(16, 31, 60, .7);
+}
+/* A withdrawn award is never hidden — it is marked. Colour is not doing
+   the work: the standing is written in the badge. */
+.grad-award.is-revoked { border-left-color: var(--red, #A32638); background: rgba(163, 38, 56, .03); }
+.grad-award.is-replaced { border-left-color: #A8823A; background: rgba(199, 162, 74, .05); }
+
+.grad-award__title {
+  margin: 0;
+  font: 600 1.06rem/1.4 var(--font-body, Inter, sans-serif);
+  color: var(--royal, #14264A);
+}
+.grad-award__post {
+  margin: .15rem 0 .5rem;
+  font: 700 .86rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: .06em; color: var(--gold-deep, #9A7A38);
+}
+.grad-award__meta { margin: 0; font-size: .84rem; color: var(--ink-soft, #4B5768); line-height: 1.6; }
+.grad-award__meta a { font-weight: 600; }
+.grad-badge {
+  display: inline-block; padding: .12rem .55rem; border-radius: 999px;
+  font: 700 .7rem/1.6 var(--font-body, Inter, sans-serif);
+  letter-spacing: .05em; margin-right: .4rem;
+}
+.grad-badge--honour { background: rgba(199, 162, 74, .18); color: #8A6B2E; }
+.grad-badge--revoked { background: rgba(163, 38, 56, .12); color: #8C1F2F; }
+.grad-badge--replaced { background: rgba(154, 122, 56, .15); color: #7A5A1E; }
+
+/* ---- Transcript ------------------------------------------------------ */
+.grad-totals {
+  display: grid; gap: .9rem;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  margin: 0 0 1.4rem;
+}
+.grad-total {
+  background: #fff; border: 1px solid rgba(20, 38, 74, .1);
+  border-radius: 10px; padding: .9rem 1rem;
+}
+.grad-total dt {
+  font: 700 .66rem/1.3 var(--font-body, Inter, sans-serif);
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-soft, #4B5768); margin-bottom: .25rem;
+}
+.grad-total dd {
+  margin: 0;
+  font: 600 1.5rem/1.1 var(--font-display, "Playfair Display", Georgia, serif);
+}
+
+/* A table is a table. It is the correct element for a transcript, it is
+   what a screen reader announces usefully, and it is what a registrar
+   expects to see. It scrolls inside its own box rather than pushing the
+   page sideways on a phone. */
+.grad-tablewrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.grad-table {
+  width: 100%; border-collapse: collapse; min-width: 34rem;
+  font-size: .9rem;
+}
+.grad-table th, .grad-table td {
+  text-align: left; padding: .7rem .8rem;
+  border-bottom: 1px solid rgba(20, 38, 74, .1);
+  vertical-align: top;
+}
+.grad-table thead th {
+  font: 700 .68rem/1.3 var(--font-body, Inter, sans-serif);
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-soft, #4B5768);
+  border-bottom-width: 2px;
+}
+.grad-table tbody tr:last-child td { border-bottom: 0; }
+.grad-table__level { font-weight: 600; }
+.grad-table__sub { display: block; font-weight: 400; font-size: .82rem; color: var(--ink-soft, #4B5768); }
+
+/* ---- Competencies ---------------------------------------------------- */
+.grad-competencies { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
+.grad-competency {
+  display: grid; gap: .15rem .9rem;
+  background: #fff; border: 1px solid rgba(20, 38, 74, .1);
+  border-radius: 10px; padding: .9rem 1.1rem;
+}
+@media (min-width: 40rem) { .grad-competency { grid-template-columns: 1fr auto; align-items: center; } }
+.grad-competency__name { margin: 0; font-weight: 600; }
+.grad-competency__what { margin: .15rem 0 0; font-size: .85rem; color: var(--ink-soft, #4B5768); line-height: 1.55; }
+/* "Not yet assessed" is set in words, not as an empty bar or a zero. A
+   zero would be read as a mark. */
+.grad-competency__mark {
+  font: 600 .84rem/1 var(--font-body, Inter, sans-serif);
+  color: var(--ink-soft, #4B5768);
+  white-space: nowrap;
+}
+.grad-competency__mark.is-marked {
+  font-family: var(--font-display, "Playfair Display", Georgia, serif);
+  font-size: 1.3rem; color: var(--royal, #14264A);
+}
+
+/* ---- CPD ------------------------------------------------------------- */
+.grad-cpd { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+.grad-cpd li {
+  background: #fff; border: 1px solid rgba(20, 38, 74, .1);
+  border-radius: 10px; padding: .85rem 1.1rem;
+}
+.grad-cpd__title { margin: 0; font-weight: 600; }
+.grad-cpd__meta { margin: .2rem 0 0; font-size: .83rem; color: var(--ink-soft, #4B5768); }
+.grad-badge--verified { background: rgba(20, 38, 74, .1); color: var(--royal, #14264A); }
+.grad-badge--declared { background: rgba(75, 87, 104, .12); color: var(--ink-soft, #4B5768); }
+
+.grad-hours { margin: 0; font: 600 1.6rem/1.2 var(--font-display, "Playfair Display", Georgia, serif); }
+.grad-hours small { display: block; font: 400 .85rem/1.6 var(--font-body, Inter, sans-serif); color: var(--ink-soft, #4B5768); margin-top: .3rem; }
+
+/* ---- Withheld -------------------------------------------------------- */
+/* Named rather than omitted. An employer who cannot see a section must
+   know it exists and was not shared, or they will conclude the graduate
+   has none. */
+.grad-withheld {
+  margin: clamp(2rem, 1.2rem + 3vw, 3.4rem) 0;
+  padding: 1.1rem 1.3rem;
+  border-radius: 12px;
+  background: rgba(20, 38, 74, .04);
+  border: 1px solid rgba(20, 38, 74, .1);
+}
+.grad-withheld h2 {
+  margin: 0 0 .4rem; border: 0; padding: 0;
+  font: 700 .72rem/1 var(--font-body, Inter, sans-serif);
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft, #4B5768);
+}
+.grad-withheld h2::after { display: none; }
+.grad-withheld p { margin: 0; font-size: .88rem; line-height: 1.7; color: var(--ink-soft, #4B5768); }
+
+/* ---- Motion ---------------------------------------------------------- */
+/* Restraint by design: one short, small rise as each section arrives, and
+   nothing that moves after the reader starts reading. Anything more on a
+   document like this reads as a marketing page, which is precisely the
+   impression an academic record must not give. */
+@media (prefers-reduced-motion: no-preference) {
+  .grad-section, .grad-withheld {
+    animation: grad-rise var(--dur-med, .34s) var(--ease-premium, cubic-bezier(.16,.84,.44,1)) both;
+  }
+  @keyframes grad-rise {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: none; }
+  }
+}
+
+@media print {
+  .vfy-head, .vfy-foot { display: none !important; }
+  .grad-section { break-inside: avoid; }
+  .grad-award, .grad-competency, .grad-cpd li { box-shadow: none; }
+}

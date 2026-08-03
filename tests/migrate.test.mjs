@@ -225,6 +225,15 @@ for (const f of files) {
   db.exec('DROP INDEX idx_award_verifications_award; DROP INDEX idx_award_verifications_time; DROP TABLE award_verifications;');
   db.exec('DROP INDEX idx_awards_one_live_per_level; DROP INDEX idx_awards_conferred; DROP INDEX idx_awards_user; DROP TABLE awards;');
   db.exec('DROP INDEX idx_time_on_task_module; DROP INDEX idx_time_on_task_user; DROP TABLE time_on_task;');
+  // 007 — the graduate identity spine. Dropping the tables takes their
+  // indexes with them; the profile index is partial and named, so it is
+  // dropped explicitly for the same reason as the others above.
+  db.exec('DROP TABLE profile_shares');
+  db.exec('DROP TABLE cpd_records');
+  db.exec('DROP INDEX idx_graduate_profiles_public; DROP TABLE graduate_profiles;');
+  db.exec('DROP TABLE competency_marks');
+  db.exec('DROP TABLE assessment_competencies');
+  db.exec('DROP TABLE competencies');
   db.exec('DROP TABLE recording_upload_parts');
   db.exec('DROP TABLE learner_recordings');
   db.exec(`CREATE TABLE learner_recordings (
