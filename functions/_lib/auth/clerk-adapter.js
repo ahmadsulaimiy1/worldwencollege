@@ -13,21 +13,56 @@
 
 import { timingSafeEqual } from '../db.js';
 
-let jwksCache = { keys: null, fetchedAt: 0 };
+let jwksCache = { keys: null, fetchedAt: 0, lastForcedAt: 0 };
 const JWKS_TTL_MS = 10 * 60 * 1000;
+// Floor between rotation-triggered refetches. See findSigningKey().
+const JWKS_FORCE_MIN_INTERVAL_MS = 30 * 1000;
 
-async function getJwks(env) {
+async function getJwks(env, { force = false } = {}) {
   if (!env.CLERK_JWKS_URL) {
     throw new Error('CLERK_JWKS_URL is not configured.');
   }
   const fresh = Date.now() - jwksCache.fetchedAt < JWKS_TTL_MS;
-  if (jwksCache.keys && fresh) return jwksCache.keys;
+  if (jwksCache.keys && fresh && !force) return jwksCache.keys;
 
   const resp = await fetch(env.CLERK_JWKS_URL);
   if (!resp.ok) throw new Error(`Failed to fetch Clerk JWKS: ${resp.status}`);
   const { keys } = await resp.json();
-  jwksCache = { keys, fetchedAt: Date.now() };
+  jwksCache = { keys, fetchedAt: Date.now(), lastForcedAt: force ? Date.now() : jwksCache.lastForcedAt };
   return keys;
+}
+
+// Resolves a token's `kid` against the JWKS, refetching ONCE if the key
+// is unknown.
+//
+// Without that refetch, key rotation signs everyone out. Clerk rotates
+// its signing keys; the moment it does, every token carries a kid this
+// isolate has never seen, and a cache-only lookup rejects all of them
+// for the remaining TTL — up to ten minutes of "your session expired"
+// across every signed-in learner, self-healing but indistinguishable
+// from an outage while it lasts.
+//
+// The refetch is then rate-limited, because "unknown kid" is fully
+// attacker-controlled: anyone can send a token naming a key id that
+// does not exist, and an unconditional refetch turns each such request
+// into an outbound request to Clerk. That is a request amplifier
+// pointed at our own auth provider, and rate-limiting it is the whole
+// reason this floor exists. (Written after a test proved the first
+// version of this function did exactly that — the code comment here
+// previously claimed it was safe, and was wrong.)
+//
+// Cost of the floor: if a junk kid forces a refetch and Clerk rotates
+// its keys moments later, real tokens are rejected for up to
+// JWKS_FORCE_MIN_INTERVAL_MS. Thirty seconds against the ten minutes a
+// cache-only lookup would cost is the trade being made deliberately.
+async function findSigningKey(env, kid) {
+  const cached = await getJwks(env);
+  const hit = cached.find((k) => k.kid === kid);
+  if (hit) return hit;
+  if (!jwksCache.keys || jwksCache.fetchedAt === 0) return null;
+  if (Date.now() - jwksCache.lastForcedAt < JWKS_FORCE_MIN_INTERVAL_MS) return null;
+  const refreshed = await getJwks(env, { force: true });
+  return refreshed.find((k) => k.kid === kid) || null;
 }
 
 function base64UrlToUint8Array(b64url) {
@@ -67,8 +102,14 @@ export const clerkAdapter = {
       return null; // malformed token — treat as unauthenticated, not an error
     }
 
-    const keys = await getJwks(env);
-    const jwk = keys.find((k) => k.kid === header.kid);
+    // Only RS256 is accepted, and it is checked BEFORE the key lookup.
+    // Two classic forgeries die here: `alg: "none"`, and an HS256 token
+    // whose "signature" is an HMAC computed with the public key as the
+    // secret — a public key being, by definition, something an attacker
+    // has. Trusting the header's own alg is how both work.
+    if (header.alg !== 'RS256') return null;
+
+    const jwk = await findSigningKey(env, header.kid);
     if (!jwk) return null;
 
     const key = await importJwk(jwk);

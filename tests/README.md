@@ -179,6 +179,22 @@ gap requires provisioning real credentials, not more test code.
   production (no gaps; non-final parts ≥ 5 MiB) rather than accepting
   anything — a shim more permissive than the real service tests nothing
   where it matters.
+- `clerk-jwt.test.mjs` — session-token verification with GENUINELY
+  signed tokens. The earlier disclosure that "a real Clerk JWT needs a
+  real Clerk account" conflated two things: getting a token *from
+  Clerk* needs an account; producing a *real RS256 JWT* does not — Web
+  Crypto generates the keypair, publishes it as a JWKS and signs, and
+  the adapter cannot tell the difference because there isn't one.
+  Covers forgery by a different key, payload tampering, `alg: none`,
+  HS256 alg-confusion using the public key as the HMAC secret, expiry
+  and nbf, azp enforcement, malformed input returning null rather than
+  throwing, and key rotation. The rotation cases found two real
+  defects: an unknown `kid` was rejected without refetching (Clerk
+  rotating keys would have signed out every learner for up to ten
+  minutes), and the first fix made an attacker-controlled `kid` into a
+  request amplifier against Clerk's own endpoint. 31 assertions. What
+  remains untested is Clerk's specific claim set and rotation cadence,
+  not the cryptography.
 - `run.mjs` — runs everything above and reports a combined summary.
 
 **Browser tests** (not in `run.mjs` — they need Chromium and a server,
