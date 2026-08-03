@@ -1,5 +1,10 @@
 -- Migration 003 — appointments: who holds staff or administrator access.
 --
+-- probe: SELECT 1 FROM sqlite_master WHERE type='index' AND name='idx_role_events_actor'
+--
+-- Last object created by this file — see the ordering note in
+-- scripts/migrate.mjs.
+--
 -- Until now nothing in the platform could change a person's role. The
 -- only way to appoint anyone was an UPDATE in the database console,
 -- which means every appointment happened with no record of who made it,

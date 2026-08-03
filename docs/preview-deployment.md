@@ -376,11 +376,20 @@ institution is actually asked, and before this it required a
 hand-written SQL query. Staff do not see it — the register of who can
 reach student records is not itself staff-readable.
 
-**Requires migrations 002 and 003** (`apply_migrations` on the deploy workflow),
-which add the enrolment audit table, the appointment record, and — most
-importantly — a partial unique index that stops the same learner
-holding two live enrolments in one level. Without it, `completeLevel()`
-can mark one duplicate completed and leave the other active.
+**Requires migrations 002 and 003** (`apply_migrations` on the deploy
+workflow, now on by default), which add the enrolment audit table, the
+appointment record, and — most importantly — a partial unique index that
+stops the same learner holding two live enrolments in one level. Without
+it, `completeLevel()` can mark one duplicate completed and leave the
+other active.
+
+`apply_migrations` is safe to leave on. The runner
+(`scripts/migrate.mjs`) keeps a `schema_migrations` ledger and applies
+only what is missing, so re-running it does nothing. It replaced a shell
+loop that applied every file unconditionally — which worked on exactly
+one database state and made shipping migration 003 impossible, because
+001's `ALTER TABLE ADD COLUMN` fails on a database that already has
+those columns.
 
 What is deliberately still absent is **policy**: who ought to hold each
 access level, what a pass mark is, how many resits are allowed, how

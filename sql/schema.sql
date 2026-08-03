@@ -13,6 +13,27 @@
 PRAGMA foreign_keys = ON;
 
 -- ---------------------------------------------------------------------
+-- Migration ledger — which files in sql/migrations/ this database has.
+--
+-- A database built from THIS file already contains every migration's end
+-- state, so it needs none of them applied. scripts/migrate.mjs works
+-- that out on its own: each migration declares a probe, the probes all
+-- match here, and every file is recorded as `baseline` without being
+-- run. Nothing has to be hand-entered, and a database that predates the
+-- ledger is adopted the same way.
+--
+-- `method` distinguishes the two honestly: `applied` means this runner
+-- executed the file; `baseline` means the effect was already present
+-- and the file was recorded, not run. Collapsing them would lose the
+-- one fact anybody investigating a schema drift needs.
+-- ---------------------------------------------------------------------
+CREATE TABLE schema_migrations (
+  filename   TEXT PRIMARY KEY,
+  applied_at TEXT NOT NULL,
+  method     TEXT NOT NULL CHECK (method IN ('applied','baseline'))
+);
+
+-- ---------------------------------------------------------------------
 -- Identity — mirrors the auth provider (Clerk today), never the source
 -- of truth for credentials. See docs/auth-architecture.md.
 -- ---------------------------------------------------------------------

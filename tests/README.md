@@ -234,6 +234,28 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   recovery is editing the live database by hand — precisely the
   situation the module exists to end). 32 assertions; each of the three
   guards confirmed by removal.
+- `migrate.test.mjs` — the migration runner (`scripts/migrate.mjs`).
+  The runner it replaced applied every file in `sql/migrations/`
+  unconditionally, which works on exactly one database state — a fresh
+  one with none applied — and fails on every other. The production
+  database had two of three, so shipping the third was impossible:
+  migration 001's `ALTER TABLE ADD COLUMN` errors on a duplicate column
+  long before 003 is reached, and the deploy reports a broken migration
+  when the truth is a runner that cannot count. The replacement keeps a
+  `schema_migrations` ledger and asks each file's declared **probe**
+  whether its effect is already present, so an existing database is
+  adopted without anybody hand-editing a ledger. Tested against the four
+  states a real database is in: built from `schema.sql` (everything
+  baselined, nothing run), the production state (only the missing one
+  runs), a new migration arriving next week (only that one runs — done
+  against a real extra file in a temp directory, not by faking ledger
+  rows), and a genuinely pre-migration database (all three applied in
+  order, for real). Two further assertions: a migration declaring no
+  probe is a hard error rather than a guess, and a half-applied
+  migration stops the run instead of being recorded as done. The last
+  test asserts that the **old** behaviour still fails against a real
+  database — without it, the passing tests above would not be measuring
+  anything. 29 assertions.
 - `admin-route-guards.test.mjs` — who may call each administrative
   endpoint, asserted **at the route**, with real signed tokens. It
   exists because of a defect the rest of the suite was structurally

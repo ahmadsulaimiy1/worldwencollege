@@ -1,5 +1,11 @@
 -- Migration 002 — enrolment integrity and an audit trail.
 --
+-- probe: SELECT 1 FROM sqlite_master WHERE type='index' AND name='idx_enrolment_events_enrolment'
+--
+-- Last object created by this file — see the ordering note in
+-- scripts/migrate.mjs. Probing anything earlier would let a partial
+-- run be recorded as complete.
+--
 -- Prompted by real use: the first learner account on the deployed
 -- preview had to be enrolled by hand-writing SQL into the D1 console,
 -- because nothing in the platform can enrol anybody except a completed

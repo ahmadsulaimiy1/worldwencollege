@@ -1,5 +1,12 @@
 -- Migration 001 — object storage for learner recordings.
 --
+-- probe: SELECT 1 FROM sqlite_master WHERE type='table' AND name='recording_upload_parts'
+--
+-- The probe names recording_upload_parts because this file creates it
+-- LAST. scripts/migrate.mjs treats a satisfied probe as "already
+-- applied", so the probe target must be the final object created —
+-- otherwise a run that failed part way would look complete.
+--
 -- Applies to a database already created from sql/schema.sql. Fresh
 -- databases get the same shape directly from schema.sql; the two are
 -- kept deliberately identical (see the note on CHECK below), because a

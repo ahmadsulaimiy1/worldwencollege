@@ -54,10 +54,10 @@ on:
         required: true
         default: false
       apply_migrations:
-        description: 'Apply every file in sql/migrations/ to the REMOTE D1 database. Needed once after a schema change; NOT idempotent (ALTER TABLE errors if the column exists). Leave off if the database was just seeded — schema.sql already includes them.'
+        description: 'Bring the REMOTE D1 database up to date with sql/migrations/. Safe to leave on: the runner applies only what is missing, records the rest, and does nothing on a database that is already current. See scripts/migrate.mjs.'
         type: boolean
         required: true
-        default: false
+        default: true
 
 permissions:
   contents: read
@@ -240,22 +240,26 @@ jobs:
             npx wrangler d1 execute wec-lc --remote --yes --file=sql/seed-audio-level-$n.sql
           done
 
-      - name: Apply pending migrations to the remote D1 database
-        if: ${{ inputs.apply_migrations && !inputs.seed_database }}
+      - name: Bring the remote D1 database up to date
+        if: ${{ inputs.apply_migrations }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: |
-          set -e
-          # Guarded against seed_database on purpose: a freshly seeded
-          # database was built from schema.sql, which already contains
-          # everything the migrations add, so running both would fail on
-          # a duplicate column and look like a broken migration rather
-          # than a redundant one.
-          for f in sql/migrations/*.sql; do
-            echo "Applying $f"
-            npx wrangler d1 execute wec-lc --remote --yes --file="$f"
-          done
+        run: node scripts/migrate-remote.mjs --remote
+        # This used to be a shell loop applying every file in
+        # sql/migrations/ unconditionally, guarded by "don't run this if
+        # you just seeded". That is not a migration runner — it works on
+        # exactly one database state and fails on every other, and ours
+        # had two of three migrations applied, which made shipping the
+        # third impossible.
+        #
+        # scripts/migrate.mjs keeps a ledger and applies only what is
+        # missing, so this step is safe to leave on, safe to re-run, and
+        # no longer needs a rule anyone has to remember. It is tested
+        # against the four states a real database is in — see
+        # tests/migrate.test.mjs, which also asserts that the old
+        # behaviour genuinely fails, so the fix is measured against a
+        # real failure rather than a hypothetical one.
 
       - name: Build
         run: npm run build
