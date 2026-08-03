@@ -117,6 +117,31 @@ async function openAs(who, viewport) {
   check('The progress bar carries the same meaning for a screen reader',
     /units completed/.test(barLabel || ''), barLabel);
 
+  // --- Pace ----------------------------------------------------------
+  // This learner started 1 January 2026 and has finished one module, so
+  // by any later date they are past the designed four months. The
+  // assertion is stable for every future run rather than only today.
+  const pace = (await page.textContent('#paceNote') || '').trim();
+  check('The learner is shown their own rate against the published pace',
+    /published pace of 4 months a level/.test(pace), pace.slice(0, 140));
+  check('...naming the gap in modules, which is the unit they work in',
+    /you would be at \d+ of \d+ modules by now/.test(pace), pace.slice(0, 140));
+  check('The pace marker is drawn on the same bar as their progress',
+    (await page.locator('#paceMarker').isVisible()) === true);
+
+  // Wording, deliberately. Nothing here threatens, because no policy
+  // behind a threat exists — access does not expire, nothing is
+  // withdrawn, no extension is chargeable. A dashboard that implied
+  // otherwise would be inventing a contract term.
+  // The length check is not padding. Without it this passes against an
+  // empty string — a page that renders no pace at all would report that
+  // its pace wording is admirably non-threatening. Found by sabotage.
+  check('Pace informs rather than threatens — no deadline, expiry or penalty language',
+    pace.length > 20 && !/deadline|expire|expired|suspend|withdraw|penalt|at risk|overdue|fail/i.test(pace),
+    pace.slice(0, 160) || '(empty)');
+  check('...and a learner far behind is still offered their next unit',
+    (await page.locator('#nextCard').isVisible()) === true);
+
   // Every unit row is a link, so the list is a way in and not a display.
   const hrefs = await page.locator('.mp-unit').evaluateAll((els) => els.map((e) => e.getAttribute('href')));
   check('Every unit row links into the Lab',

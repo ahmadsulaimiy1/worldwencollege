@@ -233,5 +233,154 @@ const progress = (run, unitId, status) =>
     `${mine.completedCount} vs ${theirs.state}`);
 }
 
+// ---------------------------------------------------------------------
+// Pace — the learner's own rate against the published design
+// ---------------------------------------------------------------------
+// Four months per level is in the database (programme_levels), so this
+// compares against a real specification. It is measured in MODULES,
+// because all sixty exist; the 120-learning-units-per-level figure is a
+// design the content has not caught up with, and measuring against a
+// number the platform cannot show would be wrong for everybody.
+//
+// `now` is injected throughout. A test that reads the clock passes on
+// Tuesday and fails on the last day of February.
+const DAY = 86400000;
+const T0 = Date.parse('2026-01-01T00:00:00.000Z');
+const at = (days) => T0 + days * DAY;
+
+{
+  const { env, run } = freshEnv();
+  enrol(run, 1, 'active');                       // started_at '2026-01-01'
+  addCourse(run, 1, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']); // ten modules, as designed
+
+  // Day 61 of a 4-month (≈122-day) level: half way, so five of ten.
+  const half = await plan.buildStudyPlan(env, 'usr_l', { now: at(61) });
+  check('Pace says what the designed rate would have reached by now',
+    half.pace && half.pace.expectedByNow === 5, half.pace && half.pace.expectedByNow);
+  check('...and a learner who has done none of it is behind',
+    half.pace.standing === 'behind', half.pace.standing);
+  check('...with elapsed time reported, not just a verdict',
+    half.pace.elapsedDays === 61, half.pace.elapsedDays);
+  check('...and the designed length it is being judged against',
+    half.pace.designMonths === 4, half.pace.designMonths);
+}
+
+{
+  const { env, run } = freshEnv();
+  enrol(run, 1, 'active');
+  addCourse(run, 1, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']);
+  progress(run, 'unt_1_1', 'completed');
+  progress(run, 'unt_1_2', 'completed');
+  progress(run, 'unt_1_3', 'completed');
+  progress(run, 'unt_1_4', 'completed');
+  progress(run, 'unt_1_5', 'completed');
+
+  const p = await plan.buildStudyPlan(env, 'usr_l', { now: at(61) });
+  check('A learner exactly at the designed rate reads on_track',
+    p.pace.standing === 'on_track', `${p.completedCount} vs ${p.pace.expectedByNow} -> ${p.pace.standing}`);
+
+  // Ordinary fortnight-to-fortnight variation must not read as failure.
+  const slightly = await plan.buildStudyPlan(env, 'usr_l', { now: at(73) });
+  check('...and one module of ordinary variation is still on_track, not "behind"',
+    slightly.pace.standing === 'on_track', `${slightly.completedCount} vs ${slightly.pace.expectedByNow} -> ${slightly.pace.standing}`);
+}
+
+{
+  const { env, run } = freshEnv();
+  enrol(run, 1, 'active');
+  addCourse(run, 1, ['A', 'B', 'C', 'D', 'E']);
+  progress(run, 'unt_1_1', 'completed');
+  progress(run, 'unt_1_2', 'completed');
+  progress(run, 'unt_1_3', 'completed');
+  progress(run, 'unt_1_4', 'completed');
+  const p = await plan.buildStudyPlan(env, 'usr_l', { now: at(30) });
+  check('A learner ahead of the designed rate is told so',
+    p.pace.standing === 'ahead', `${p.completedCount} vs ${p.pace.expectedByNow}`);
+}
+
+// --- Refusing to project when a projection would be noise ------------
+{
+  const { env, run } = freshEnv();
+  enrol(run, 1, 'active');
+  addCourse(run, 1, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']);
+  progress(run, 'unt_1_1', 'completed');
+  progress(run, 'unt_1_2', 'completed');
+
+  const early = await plan.buildStudyPlan(env, 'usr_l', { now: at(3) });
+  check('Two modules in three days is not a rate — no finish date is offered',
+    early.pace.projectable === false && early.pace.projectedFinish === null, JSON.stringify(early.pace));
+
+  const settled = await plan.buildStudyPlan(env, 'usr_l', { now: at(24) });
+  check('After a fortnight and a couple of modules, a projection is offered',
+    settled.pace.projectable === true && !!settled.pace.projectedFinish, JSON.stringify(settled.pace));
+  check('...as a plain date a learner can plan around',
+    /^\d{4}-\d{2}-\d{2}$/.test(settled.pace.projectedFinish || ''), settled.pace.projectedFinish);
+  // 2 modules in 24 days -> 12 days each -> 8 remaining -> 96 days out.
+  check('...computed from their actual rate, not the designed one',
+    settled.pace.projectedFinish === new Date(at(24) + 96 * DAY).toISOString().slice(0, 10),
+    settled.pace.projectedFinish);
+}
+
+{
+  // A rate implying four times the designed length has not settled.
+  // "You will finish in 2031" is worse than saying nothing.
+  const { env, run } = freshEnv();
+  enrol(run, 1, 'active');
+  addCourse(run, 1, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']);
+  progress(run, 'unt_1_1', 'completed');
+  progress(run, 'unt_1_2', 'completed');
+  const p = await plan.buildStudyPlan(env, 'usr_l', { now: at(200) });
+  check('An unsettled, very slow rate produces no projection rather than an absurd date',
+    p.pace.projectable === false && p.pace.projectedFinish === null, JSON.stringify(p.pace));
+  check('...but the learner is still told plainly they are behind',
+    p.pace.standing === 'behind', p.pace.standing);
+}
+
+{
+  // Nothing finished at all: expected is reported, no projection from
+  // a rate of zero (which would divide by nothing and mean nothing).
+  const { env, run } = freshEnv();
+  enrol(run, 1, 'active');
+  addCourse(run, 1, ['A', 'B', 'C']);
+  const p = await plan.buildStudyPlan(env, 'usr_l', { now: at(40) });
+  check('With nothing completed there is no projection', p.pace.projectable === false);
+  check('...but there is still an expectation to compare against', p.pace.expectedByNow >= 0, p.pace.expectedByNow);
+}
+
+{
+  // Expected can never exceed the level. "Expected 14 of 10" is
+  // nonsense a learner would rightly distrust.
+  const { env, run } = freshEnv();
+  enrol(run, 1, 'active');
+  addCourse(run, 1, ['A', 'B', 'C']);
+  const p = await plan.buildStudyPlan(env, 'usr_l', { now: at(900) });
+  check('Expected-by-now is capped at the size of the level',
+    p.pace.expectedByNow === 3, p.pace.expectedByNow);
+}
+
+// --- What pace deliberately does not carry ---------------------------
+// Access does not expire, nothing is withdrawn, no extension is
+// chargeable. None of those policies exists, and each carries
+// contractual weight. This reports; it does not enforce.
+{
+  const { env, run } = freshEnv();
+  enrol(run, 1, 'active');
+  addCourse(run, 1, ['A', 'B']);
+  const p = await plan.buildStudyPlan(env, 'usr_l', { now: at(400) });
+  check('Pace carries no deadline, expiry or penalty field',
+    !('deadline' in p.pace) && !('expiresAt' in p.pace) && !('atRisk' in p.pace) && !('locked' in p.pace),
+    Object.keys(p.pace).join(', '));
+  check('...and a long-overdue learner still has their next unit offered',
+    p.nextUnit !== null, JSON.stringify(p.nextUnit));
+}
+
+{
+  // No enrolment, no pace. There is nothing to measure and inventing a
+  // zero would render as "behind".
+  const { env } = freshEnv();
+  const p = await plan.buildStudyPlan(env, 'usr_l', { now: at(30) });
+  check('A learner with no enrolment has no pace, not a pace of zero', p.pace === null);
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

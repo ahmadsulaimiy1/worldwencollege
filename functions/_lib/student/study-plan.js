@@ -45,9 +45,80 @@ export function unitHref(unitId) {
  *   completedLevels: Array<{id:number, roman:string, name:string}>,
  * }>}
  */
-export async function buildStudyPlan(env, userId) {
+// How the learner's own rate compares with the designed one.
+//
+// The programme is published as four months per level, and that figure
+// is in the database (programme_levels.duration_months), so this is a
+// comparison against a real specification rather than an invented
+// target. It is measured in MODULES, not the "learning units" the
+// marketing figure counts: there are ten modules per level and all of
+// them exist, whereas the 120-units-per-level figure is a design the
+// content has not caught up with (see tests/published-claims.test.mjs).
+// Measuring against a number the platform cannot show would produce a
+// progress bar that is wrong for everybody.
+//
+// WHAT THIS IS FOR: a learner three weeks behind in month two can still
+// fix it; one who discovers it in month eleven cannot. That is the whole
+// argument for showing it.
+//
+// WHAT IT IS NOT: a deadline, a warning, or a consequence. Access does
+// not expire, nothing is withdrawn, no extension is chargeable — none
+// of those policies exists, and every one of them carries contractual
+// and consumer-protection weight. This reports; it does not enforce.
+//
+// It also declines to project when a projection would be noise. Two
+// completed modules in ten days is not a rate, and "you will finish in
+// 2031" from a slow first fortnight is worse than saying nothing.
+const MS_PER_DAY = 86400000;
+const DAYS_PER_MONTH = 30.44;      // mean Gregorian month
+const MIN_DAYS_TO_PROJECT = 14;
+const MIN_MODULES_TO_PROJECT = 2;
+const ON_TRACK_TOLERANCE = 1;      // modules either side, so a fortnight's ordinary variation is not "behind"
+
+export function computePace({ startedAt, completedCount, totalCount, durationMonths, now }) {
+  if (!startedAt || !totalCount || !durationMonths) return null;
+  const started = Date.parse(startedAt);
+  if (Number.isNaN(started)) return null;
+
+  const elapsedDays = Math.max(0, (now - started) / MS_PER_DAY);
+  const designDays = durationMonths * DAYS_PER_MONTH;
+
+  // What the designed pace would have reached by now, capped at the
+  // level: "expected 12 of 10" is nonsense a learner would rightly
+  // distrust.
+  const expectedByNow = Math.min(totalCount, Math.floor((totalCount / designDays) * elapsedDays));
+
+  const diff = completedCount - expectedByNow;
+  const standing = Math.abs(diff) <= ON_TRACK_TOLERANCE ? 'on_track' : (diff > 0 ? 'ahead' : 'behind');
+
+  const pace = {
+    startedAt,
+    elapsedDays: Math.floor(elapsedDays),
+    designMonths: durationMonths,
+    expectedByNow,
+    standing,
+    projectedFinish: null,
+    projectable: false,
+  };
+
+  if (completedCount >= MIN_MODULES_TO_PROJECT && elapsedDays >= MIN_DAYS_TO_PROJECT && completedCount < totalCount) {
+    const daysPerModule = elapsedDays / completedCount;
+    const daysLeft = daysPerModule * (totalCount - completedCount);
+    // A rate implying four times the designed length is a rate that has
+    // not settled. Reporting a date from it invites a learner to plan
+    // around a number that will move.
+    if (elapsedDays + daysLeft <= designDays * 4) {
+      pace.projectable = true;
+      pace.projectedFinish = new Date(now + daysLeft * MS_PER_DAY).toISOString().slice(0, 10);
+    }
+  }
+  return pace;
+}
+
+export async function buildStudyPlan(env, userId, { now = Date.now() } = {}) {
   const { results: enrolments } = await db(env)
-    .prepare(`SELECT e.level_id AS levelId, e.status, l.roman, l.name, l.cefr
+    .prepare(`SELECT e.level_id AS levelId, e.status, e.started_at AS startedAt,
+                     l.roman, l.name, l.cefr, l.duration_months AS durationMonths
        FROM enrolments e JOIN programme_levels l ON l.id = e.level_id
        WHERE e.user_id = ? AND e.status != 'withdrawn'
        ORDER BY e.level_id ASC`)
@@ -68,7 +139,7 @@ export async function buildStudyPlan(env, userId) {
 
   const base = {
     level: null, units: [], nextUnit: null,
-    completedCount: 0, totalCount: 0, completedLevels,
+    completedCount: 0, totalCount: 0, completedLevels, pace: null,
   };
 
   if (!current) {
@@ -121,5 +192,12 @@ export async function buildStudyPlan(env, userId) {
     completedCount,
     totalCount: withHref.length,
     completedLevels,
+    pace: computePace({
+      startedAt: current.startedAt,
+      completedCount,
+      totalCount: withHref.length,
+      durationMonths: current.durationMonths,
+      now,
+    }),
   };
 }

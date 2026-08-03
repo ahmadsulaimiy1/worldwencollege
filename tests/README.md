@@ -267,7 +267,22 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   progress is **resumed** rather than skipped, and finishing every unit
   reports `units_complete` and stops, never claiming the level is passed
   (that is governance B4, undecided — and a dashboard is the one place a
-  learner would believe it). 29 assertions.
+  learner would believe it). Also covers **pace** — the learner's own
+  rate against the published four months a level, which is a real figure
+  from `programme_levels.duration_months` rather than an invented target.
+  Measured in modules, because all sixty exist, whereas the
+  120-units-per-level figure is a design the content has not caught up
+  with; measuring against a number the platform cannot show would be
+  wrong for everybody. The pace assertions are mostly about refusing to
+  speak: two modules in three days is not a rate, a rate implying four
+  times the designed length produces no date rather than "you will
+  finish in 2031", and expected-by-now is capped at the size of the level
+  because "expected 14 of 10" is nonsense a learner would rightly
+  distrust. One asserts an absence — pace carries no deadline, expiry or
+  penalty field, because no such policy exists and each would carry
+  contractual weight. `now` is injected throughout: a test that reads the
+  clock passes on Tuesday and fails on the last day of February.
+  48 assertions.
 - `migrate.test.mjs` — the migration runner (`scripts/migrate.mjs`).
   The runner it replaced applied every file in `sql/migrations/`
   unconditionally, which works on exactly one database state — a fresh
@@ -418,7 +433,12 @@ node tests/browser/route-audit.mjs
   state, that the progress bar carries the same sentence for a screen
   reader as the visible count, and that on a 390px viewport the primary
   action is above the fold and at least 44px tall — the defect class
-  that already shipped once on the quiz result card. 22 assertions.
+  that already shipped once on the quiz result card. The pace assertions
+  include one on wording — no deadline, expiry or penalty language —
+  which initially passed against an empty string, so a page rendering no
+  pace at all would have reported that its pace wording was admirably
+  non-threatening. Found by sabotage and fixed with a length check.
+  27 assertions.
 - `browser/route-audit.mjs` — the pre-deployment sweep. Walks every
   built HTML file and loads each one, checking the things that break a
   deployment rather than a unit test: broken routes, missing first-party

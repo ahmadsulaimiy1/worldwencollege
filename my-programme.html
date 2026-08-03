@@ -63,7 +63,13 @@
       <div class="lab-card__body">
         <div class="mp-bar" role="img" id="progressBar" aria-label="Progress through this level">
           <div class="mp-bar__fill" id="progressFill" style="width:0%"></div>
+          <!-- Where the designed pace would have you today. A marker on
+               the same bar rather than a second number: the comparison
+               is the point, and two figures side by side make the reader
+               do the subtraction. -->
+          <span class="mp-bar__pacer" id="paceMarker" hidden></span>
         </div>
+        <p class="mp-pace" id="paceNote" hidden></p>
         <div id="units" class="mp-units"></div>
       </div>
     </section>

@@ -138,6 +138,8 @@
     // rather than a bare percentage a screen reader can do nothing with.
     $('#progressBar').setAttribute('aria-label', count);
 
+    renderPace(plan);
+
     var nextId = plan.nextUnit ? plan.nextUnit.id : null;
     plan.units.forEach(function (u) {
       var row = document.createElement('a');
@@ -166,6 +168,65 @@
       row.appendChild(seq); row.appendChild(title); row.appendChild(status);
       box.appendChild(row);
     });
+  }
+
+  // Pace: the learner's own rate against the published four months a
+  // level. Written as information, not a verdict.
+  //
+  // The wording is the feature. "You are behind" is a judgement a
+  // learner can only receive; "at the published pace you would be at
+  // module 5" is a fact they can act on, and it names the gap in the
+  // unit they work in. Nothing here threatens: access does not expire,
+  // nothing is withdrawn, and no such policy exists to reference.
+  //
+  // A learner three weeks behind in month two can still fix it. One who
+  // finds out in month eleven cannot. That is the whole argument for
+  // showing it at all — so it is stated early, plainly, and without
+  // drama.
+  function paceSentence(pace, plan) {
+    var parts = [];
+    var expected = pace.expectedByNow;
+
+    if (pace.standing === 'behind') {
+      parts.push('At the published pace of ' + pace.designMonths + ' months a level, you would be at '
+        + expected + ' of ' + plan.totalCount + ' modules by now.');
+    } else if (pace.standing === 'ahead') {
+      parts.push('You are ahead of the published pace of ' + pace.designMonths + ' months a level.');
+    } else {
+      parts.push('You are on the published pace of ' + pace.designMonths + ' months a level.');
+    }
+
+    if (pace.projectable && pace.projectedFinish) {
+      parts.push('At your current rate you would finish this level around ' + formatDate(pace.projectedFinish) + '.');
+    } else if (pace.elapsedDays < 14) {
+      // Saying nothing here would read as a missing feature. Saying why
+      // reads as a system that knows what it does not yet know.
+      parts.push('It is too early to estimate a finish date.');
+    }
+    return parts.join(' ');
+  }
+
+  function formatDate(iso) {
+    var d = new Date(iso + 'T00:00:00Z');
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+  }
+
+  function renderPace(plan) {
+    var note = $('#paceNote');
+    var marker = $('#paceMarker');
+    var pace = plan.pace;
+    if (!pace || !plan.totalCount) { note.hidden = true; marker.hidden = true; return; }
+
+    note.hidden = false;
+    note.textContent = paceSentence(pace, plan);
+    note.className = 'mp-pace is-' + pace.standing;
+
+    // The marker sits on the same bar as the learner's progress, so the
+    // gap is visible without reading two numbers and subtracting.
+    var pct = Math.min(100, (pace.expectedByNow / plan.totalCount) * 100);
+    marker.hidden = false;
+    marker.style.left = pct + '%';
   }
 
   function renderCompleted(levels) {
