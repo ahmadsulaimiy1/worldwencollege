@@ -55,6 +55,7 @@ const PUBLIC = {
   'verify/document/[code].js': 'Verification of an issued transcript or supplement, by the same rule as award verification: a document a checker must register to verify is a document nobody checks.',
   'credentials/jwks.js': 'The College\'s published signing keys. Verification that requires the issuer to participate is not verification. Public halves only — asserted in tests/signing.test.mjs.',
   'register/index.js': 'The Graduate Register. A roll of award holders published behind a login is not published. Consent-scoped and capped in the query.',
+  'credentials/qr.js': 'The QR image for a verification code. It renders the public verification URL that is printed in plain text beside it, holds no personal data, and looks NOTHING up — deliberately, so it cannot become an enumeration oracle reporting which codes exist by whether an image comes back. It answers 400 to a malformed code and 200 to any well-formed one, real or not. A QR an employer must sign in to fetch is a QR nobody scans.',
 };
 
 // Webhooks are public but not unauthenticated — they are authenticated

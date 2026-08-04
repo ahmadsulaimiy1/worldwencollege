@@ -1001,6 +1001,12 @@ CREATE TABLE graduate_profiles (
   -- says how long someone struggled, which is not what a certificate
   -- asserts and not an employer's business unless the graduate says so.
   show_study_time   INTEGER NOT NULL DEFAULT 0,
+  -- 012 — the two sections migration 011 introduced. Separate switches:
+  -- an employer reads "Writing" and knows what it means, where
+  -- "Judgement" needs the College's framework explained, so a graduate
+  -- may reasonably publish one and not the other.
+  show_skills       INTEGER NOT NULL DEFAULT 0,
+  show_distinctions INTEGER NOT NULL DEFAULT 0,
 
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   updated_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))

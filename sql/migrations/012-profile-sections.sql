@@ -1,0 +1,33 @@
+-- Migration 012 — publication control for the two new record sections.
+--
+-- probe: SELECT 1 FROM pragma_table_info('graduate_profiles') WHERE name = 'show_distinctions'
+--
+-- The probe must RETURN A ROW when the migration has been applied — the
+-- runner tests `rows.length > 0`. A `SELECT show_distinctions FROM
+-- graduate_profiles LIMIT 0` names the right column and returns nothing
+-- either way, so it reads as "not applied" on a database that already
+-- has it, and the runner then tries to add a duplicate column. Written
+-- that way first; caught by tests/migrate.test.mjs against a fresh
+-- schema.sql database.
+--
+-- show_distinctions is the SECOND column added below, which is what
+-- makes this the right thing to probe: see the ordering note in
+-- scripts/migrate.mjs. A half-applied migration must not be recorded as
+-- complete.
+--
+-- Migration 011 introduced the language-skill framework and academic
+-- distinctions. Both belong to the graduate, so both need the same
+-- switch every other section of the record already has.
+--
+-- They are separate switches rather than folded into an existing one.
+-- Skills are not competencies: an employer reads "Writing" and knows
+-- what it means, where "Judgement" needs the College's framework
+-- explained, and a graduate may reasonably publish one and not the
+-- other. A distinction for service to the College is a different kind
+-- of private than an unfinished level.
+--
+-- DEFAULT 0, as every other section does. A graduate opts in to being
+-- seen. A migration that switched anything on would publish records
+-- that nobody consented to publish, in one statement, silently.
+ALTER TABLE graduate_profiles ADD COLUMN show_skills INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE graduate_profiles ADD COLUMN show_distinctions INTEGER NOT NULL DEFAULT 0;

@@ -76,6 +76,8 @@ const studyPlan = await import(pathToFileURL(`${ROOT}/functions/_lib/student/stu
 const timeOnTask = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/time-on-task.js`));
 const registry = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/awards.js`));
 const profile = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/profile.js`));
+const qr = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/qr.js`));
+const distinctions = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/distinctions.js`));
 const documents = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/documents.js`));
 // Beats reaching the harness, so a browser test can assert the beacon
 // actually fires rather than that the file merely loads.
@@ -150,6 +152,34 @@ const DEMO = {};
     VALUES ('cpd_v','usr_demo','A verified workshop','Demonstration Provider','workshop',6,'2027-07-01','2027-07-05T00:00:00.000Z')`).bind().run();
   env.DB.prepare(`INSERT INTO cpd_records (id,user_id,title,provider,kind,hours,completed_on)
     VALUES ('cpd_d','usr_demo','A self-declared conference','Demonstration Provider','conference',3,'2027-08-01')`).bind().run();
+  // The two sections added with the Digital Academic Identity, so the
+  // page renders them against real module output rather than the
+  // browser suite proving only that hidden sections stay hidden.
+  //
+  // Skills are deliberately left UNMAPPED — no assessment_skills rows —
+  // because that is the state the platform is actually in, and it is
+  // the state the page most needs to get right.
+  await profile.updateProfile(env, { userId: 'usr_demo', changes: {
+    skills: true, distinctions: true,
+  } });
+  const approved = await distinctions.propose(env, {
+    userId: 'usr_demo', kind: 'presentation',
+    title: 'Presented at the demonstration colloquium',
+    summary: 'Demonstration data. Not a record of a real presentation by a real person.',
+    awardedOn: '2027-06-14', awardedBy: 'Worldwide English College',
+  });
+  await distinctions.approve(env, { id: approved.id, approvedBy: 'usr_admin' });
+  // One withdrawn and one still proposed: the page must show the first
+  // marked, and must not show the second at all.
+  const gone = await distinctions.propose(env, {
+    userId: 'usr_demo', kind: 'prize', title: 'A demonstration prize', awardedOn: '2027-05-01',
+  });
+  await distinctions.approve(env, { id: gone.id, approvedBy: 'usr_admin' });
+  await distinctions.withdraw(env, { id: gone.id, reason: 'Demonstration withdrawal, to exercise the withdrawn state.' });
+  await distinctions.propose(env, {
+    userId: 'usr_demo', kind: 'leadership', title: 'An unapproved demonstration claim', awardedOn: '2027-04-01',
+  });
+
   DEMO.share = await profile.createShare(env, {
     userId: 'usr_demo', sections: ['awards', 'transcript', 'cpd'], days: 30, label: 'Demonstration share',
   });
@@ -205,8 +235,13 @@ createServer(async (req, res) => {
     // product we deliberately did not build.
     // /api/register is public for the same reason: a roll of award
     // holders published behind a login is not published.
+    // /api/credentials/qr is public for the third time over: it renders
+    // the same public verification URL that is printed in plain text
+    // beside it, it looks nothing up, and a QR an employer must sign in
+    // to fetch is a QR nobody scans.
     if (REQUIRE_AUTH && url.pathname.startsWith('/api/')
         && !url.pathname.startsWith('/api/verify/') && url.pathname !== '/api/register'
+        && url.pathname !== '/api/credentials/qr'
         && !url.pathname.startsWith('/api/graduate/') && !url.pathname.startsWith('/api/share/')) {
       const { userId } = identify(req);
       if (!userId) {
@@ -243,6 +278,16 @@ createServer(async (req, res) => {
       const code = decodeURIComponent(url.pathname.slice('/api/verify/'.length));
       const via = url.searchParams.get('via');
       return json(res, await registry.verifyCode(env, { code, channel: via === 'qr' ? 'qr' : 'public' }));
+    }
+    // The QR for a verification code. Public and unauthenticated, like
+    // the rest of verification: a QR nobody can fetch is a QR nobody
+    // scans.
+    if (url.pathname === '/api/credentials/qr' && req.method === 'GET') {
+      const parsed = registry.parseCode(url.searchParams.get('code') || '');
+      if (!parsed.ok) { res.writeHead(400, { 'Content-Type': 'text/plain' }); return res.end('malformed'); }
+      const target = `http://localhost:${process.env.LAB_PORT || 8787}/verify.html?code=${encodeURIComponent(parsed.code)}`;
+      res.writeHead(200, { 'Content-Type': 'image/svg+xml; charset=utf-8' });
+      return res.end(qr.toSvg(target, { level: 'Q', label: `Verify award ${parsed.code}` }));
     }
     if (url.pathname.startsWith('/api/graduate/') && req.method === 'GET') {
       const handle = decodeURIComponent(url.pathname.slice('/api/graduate/'.length));

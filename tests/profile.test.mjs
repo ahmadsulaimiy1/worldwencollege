@@ -291,8 +291,16 @@ const AWARD = {
   check('...and the graduate\'s own headline', pub.headline === 'Translator');
   check('...but not study hours, which nobody switched on', pub.studyTime === undefined);
   check('...nor the transcript', pub.transcript === undefined);
+  // Derived from SECTIONS rather than counted by hand: the property
+  // being asserted is "every section is accounted for, as shared or as
+  // withheld", and a hardcoded 4 turns that into a test that breaks
+  // whenever a section is added without being any better at catching
+  // the failure it exists for.
   check('The reader is told the record continues past what they can see',
-    pub.sectionsWithheld.length === 4 && pub.sectionsShared.length === 1,
+    pub.sectionsShared.length === 1
+    && pub.sectionsShared[0] === 'awards'
+    && pub.sectionsWithheld.length === P.SECTIONS.length - 1
+    && [...pub.sectionsShared, ...pub.sectionsWithheld].sort().join() === [...P.SECTIONS].sort().join(),
     JSON.stringify(pub.sectionsWithheld));
 }
 

@@ -228,6 +228,11 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 012 — the two publication switches. SQLite before 3.35 could not
+  // drop a column; node:sqlite is newer, and this is the only honest
+  // way to reconstruct a pre-012 database.
+  db.exec('ALTER TABLE graduate_profiles DROP COLUMN show_distinctions');
+  db.exec('ALTER TABLE graduate_profiles DROP COLUMN show_skills');
   // 011 — the language-skill framework and academic distinctions.
   db.exec('DROP INDEX idx_distinctions_user; DROP TABLE academic_distinctions;');
   db.exec('DROP INDEX idx_assessment_skills_unique; DROP INDEX idx_assessment_skills_item;');

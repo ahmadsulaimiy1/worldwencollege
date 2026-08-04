@@ -26,7 +26,10 @@
 
   var SECTION_NAMES = {
     awards: 'awards', transcript: 'academic transcript',
-    competencies: 'competency framework', cpd: 'professional development',
+    skills: 'language skill profile',
+    competencies: 'competency framework',
+    distinctions: 'distinctions and contribution',
+    cpd: 'professional development',
     studyTime: 'measured study time',
   };
 
@@ -182,6 +185,141 @@
     show('#secCpd');
   }
 
+
+  // --- Language skills -------------------------------------------------
+  // CEFR is defined skill by skill, so this is the section an employer
+  // reads first. It is also the section most likely to invite a
+  // fabrication: four plausible bars would look far better than the
+  // truth, which is that the curriculum is not yet mapped.
+  function renderSkills(sk) {
+    $('#skillNote').textContent = sk.note || '';
+    $('#skillNote').hidden = !sk.note;
+    var list = $('#skills');
+    list.textContent = '';
+    sk.skills.forEach(function (x) {
+      var li = el('li', 'grad-skill');
+      var main = el('div');
+      main.appendChild(el('p', 'grad-skill__name', x.name));
+      main.appendChild(el('p', 'grad-skill__what', x.description));
+      main.appendChild(el('p', 'grad-skill__mode',
+        x.mode === 'receptive' ? 'Receptive skill' : 'Productive skill'));
+      li.appendChild(main);
+      // Same rule as the competencies, for the same reason: null is not
+      // zero. A bar drawn at 0% puts a failing mark against somebody who
+      // was never assessed.
+      if (x.attainment === null) {
+        li.appendChild(el('span', 'grad-skill__mark', 'Not yet assessed'));
+      } else {
+        var wrap = el('div', 'grad-skill__scale');
+        var bar = el('div', 'grad-skill__bar');
+        bar.style.width = Math.max(0, Math.min(100, x.attainment)) + '%';
+        wrap.appendChild(bar);
+        var box = el('div', 'grad-skill__value');
+        box.appendChild(el('span', 'grad-skill__mark is-marked', x.attainment + '%'));
+        box.appendChild(wrap);
+        li.appendChild(box);
+      }
+      list.appendChild(li);
+    });
+    show('#secSkills');
+  }
+
+  // --- Distinctions ----------------------------------------------------
+  function renderDistinctions(d) {
+    var host = $('#distinctions');
+    host.textContent = '';
+    if (!d.byKind || !d.byKind.length) return;   // nothing approved: no empty section
+    d.byKind.forEach(function (group) {
+      host.appendChild(el('h3', 'grad-dgroup', group.label));
+      var ul = el('ul', 'grad-distinctions');
+      group.items.forEach(function (i) {
+        var li = el('li', 'grad-distinction' + (i.status === 'withdrawn' ? ' is-withdrawn' : ''));
+        li.appendChild(el('p', 'grad-distinction__title', i.title));
+        var meta = el('p', 'grad-distinction__meta');
+        if (i.status === 'withdrawn') {
+          meta.appendChild(el('span', 'grad-badge grad-badge--withdrawn', 'Withdrawn'));
+        }
+        meta.appendChild(document.createTextNode(
+          [i.awardedBy, i.level ? 'Level ' + i.level.roman : null, fmtDate(i.awardedOn)]
+            .filter(Boolean).join(' \u00B7 ')));
+        li.appendChild(meta);
+        if (i.summary) li.appendChild(el('p', 'grad-distinction__what', i.summary));
+        // A withdrawal without its reason invites the reader to assume
+        // the worst available explanation, which is usually not the one.
+        if (i.withdrawnReason) {
+          li.appendChild(el('p', 'grad-distinction__why', 'Withdrawn: ' + i.withdrawnReason));
+        }
+        ul.appendChild(li);
+      });
+      host.appendChild(ul);
+    });
+    show('#secDistinctions');
+  }
+
+  // --- Verification ----------------------------------------------------
+  // What separates a credential from a web page: everything here is
+  // checkable by the reader without taking the College's word for it.
+  function renderVerification(p) {
+    var awards = (p.awards || []).filter(function (a) { return a.standing === 'conferred'; });
+    if (!awards.length) return;                  // nothing to verify: no panel
+    // The most senior live award is the one a reader checks first.
+    var a = awards[awards.length - 1];
+
+    var dl = $('#verifyFacts');
+    dl.textContent = '';
+    function fact(term, value, cls) {
+      dl.appendChild(el('dt', null, term));
+      dl.appendChild(el('dd', cls || null, value));
+    }
+    fact('Graduate Register number', a.verificationCode, 'grad-facts__code');
+    fact('Award', a.title);
+    fact('Post-nominal', a.postNominal);
+    fact('CEFR level', a.cefr);
+    fact('Conferred', fmtDate(a.conferredOn));
+    fact('Standing', 'Conferred and current');
+
+    // The URL a reader can type, and the URL inside the QR: the same
+    // one. A QR that went somewhere the page did not name would be
+    // asking for trust the panel exists to avoid needing.
+    var url = location.origin + '/verify.html?code=' + encodeURIComponent(a.verificationCode);
+    var link = el('a', 'grad-verify__link', url.replace(/^https?:\/\//, ''));
+    link.href = url;
+    dl.appendChild(el('dt', null, 'Check this award'));
+    var dd = document.createElement('dd');
+    dd.appendChild(link);
+    dl.appendChild(dd);
+
+    $('#verifyNote').textContent = 'Anyone may check this award against the Graduate Register '
+      + 'without an account. The check confirms the award, its standing and the date it was conferred; '
+      + 'it does not reveal who asked.';
+
+    // The QR is drawn by the server, which is where the encoder lives —
+    // and it is fetched rather than assumed, so a failure leaves the
+    // typed URL above rather than a broken image beside a promise.
+    var box = $('#qrBox');
+    fetch('/api/credentials/qr?code=' + encodeURIComponent(a.verificationCode))
+      .then(function (r) { return r.ok ? r.text() : Promise.reject(new Error(String(r.status))); })
+      .then(function (svg) {
+        var host = $('#qr');
+        host.textContent = '';
+        // Parsed, not assigned: the response is the College's own SVG,
+        // and parsing it as a document rather than as markup inside this
+        // page keeps a future change to that endpoint from becoming a
+        // script-injection route.
+        var doc = new DOMParser().parseFromString(svg, 'image/svg+xml');
+        if (doc.querySelector('parsererror') || !doc.documentElement
+            || doc.documentElement.nodeName.toLowerCase() !== 'svg') {
+          box.hidden = true;
+          return;
+        }
+        host.appendChild(document.importNode(doc.documentElement, true));
+        $('#qrCaption').textContent = 'Scan to verify';
+      })
+      .catch(function () { box.hidden = true; });
+
+    show('#secVerify');
+  }
+
   // --- Assemble -------------------------------------------------------
   function render(p) {
     $('#name').textContent = p.displayName || p.handle || 'Graduate record';
@@ -190,8 +328,11 @@
 
     if (p.biography) { $('#biography').textContent = p.biography; show('#secBiography'); }
     if (p.awards) renderAwards(p.awards);
+    if (p.awards) renderVerification(p);
     if (p.transcript) renderTranscript(p.transcript);
+    if (p.skills) renderSkills(p.skills);
     if (p.competencies) renderCompetencies(p.competencies);
+    if (p.distinctions) renderDistinctions(p.distinctions);
     if (p.cpd) renderCpd(p.cpd);
     if (p.studyTime) {
       var h = $('#studyTime');

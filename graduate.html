@@ -49,6 +49,29 @@
       <ol class="grad-awards" id="awards"></ol>
     </section>
 
+    <!-- THE VERIFICATION PANEL ---------------------------------------
+         The part that makes this a credential rather than a web page.
+         Everything in it is checkable by the reader without taking the
+         College's word for anything: a register number they can look
+         up, a QR that opens the public check, and the state of the
+         signature and the register chain.
+
+         Rendered only when there is an award to verify. A verification
+         panel with nothing behind it would be theatre. -->
+    <section class="grad-verify" id="secVerify" hidden>
+      <h2>Verification</h2>
+      <div class="grad-verify__grid">
+        <div class="grad-verify__facts">
+          <dl class="grad-facts" id="verifyFacts"></dl>
+          <p class="grad-note" id="verifyNote"></p>
+        </div>
+        <figure class="grad-qr" id="qrBox">
+          <div id="qr"></div>
+          <figcaption id="qrCaption"></figcaption>
+        </figure>
+      </div>
+    </section>
+
     <section class="grad-section" id="secTranscript" hidden>
       <h2>Academic transcript</h2>
       <div class="grad-totals" id="totals"></div>
@@ -69,10 +92,29 @@
       </div>
     </section>
 
+    <!-- CEFR is defined skill by skill, so a record that gave one level
+         without saying which skills stood where would hide the most
+         useful thing it knows. Until the curriculum is mapped, this
+         section says exactly that rather than showing four empty bars. -->
+    <section class="grad-section" id="secSkills" hidden>
+      <h2>Language skills</h2>
+      <p class="grad-note" id="skillNote"></p>
+      <ul class="grad-skills" id="skills"></ul>
+    </section>
+
     <section class="grad-section" id="secCompetencies" hidden>
       <h2>Competency framework</h2>
       <p class="grad-note" id="competencyNote"></p>
       <ul class="grad-competencies" id="competencies"></ul>
+    </section>
+
+    <!-- Leadership, presentation, research, service and prizes: the part
+         of a record that is not a mark. Only what the College has
+         approved appears here; a proposed claim is the graduate's own
+         word and publishing it would make the College assert it. -->
+    <section class="grad-section" id="secDistinctions" hidden>
+      <h2>Distinctions and contribution</h2>
+      <div id="distinctions"></div>
     </section>
 
     <section class="grad-section" id="secCpd" hidden>

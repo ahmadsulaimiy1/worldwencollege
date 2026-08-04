@@ -25,15 +25,19 @@
  */
 import { db, NotFoundError, ValidationError } from '../db.js';
 import { awardHistory } from './awards.js';
+import { skillProfile } from './skills.js';
+import { forUser as distinctionsFor } from './distinctions.js';
 
 const HANDLE_RE = /^[a-z0-9][a-z0-9-]{2,30}[a-z0-9]$/;
 
 /** Sections a graduate can publish or share, and what each discloses. */
-export const SECTIONS = ['awards', 'transcript', 'competencies', 'cpd', 'studyTime'];
+export const SECTIONS = ['awards', 'transcript', 'skills', 'competencies', 'distinctions', 'cpd', 'studyTime'];
 
 const FLAG_FOR = {
   transcript: 'show_transcript',
+  skills: 'show_skills',
   competencies: 'show_competencies',
+  distinctions: 'show_distinctions',
   cpd: 'show_cpd',
   studyTime: 'show_study_time',
 };
@@ -348,11 +352,17 @@ export async function cpdHistory(env, { userId }) {
  */
 export async function fullProfile(env, { userId }) {
   const profile = await getOrCreateProfile(env, { userId });
-  const [tr, time, comp, cpd] = await Promise.all([
+  const [tr, time, comp, cpd, skills, dist] = await Promise.all([
     transcript(env, { userId }),
     studyTime(env, { userId }),
     competencyAttainment(env, { userId }),
     cpdHistory(env, { userId }),
+    skillProfile(env, { userId }),
+    // 'self' here, not 'public': fullProfile() is the complete record,
+    // and project() below is the single place that decides what any
+    // other reader sees. Filtering twice, in two files, is how the two
+    // rules drift apart.
+    distinctionsFor(env, { userId, audience: 'self' }),
   ]);
   return {
     handle: profile.handle,
@@ -363,13 +373,17 @@ export async function fullProfile(env, { userId }) {
     visibility: {
       isPublic: !!profile.is_public,
       transcript: !!profile.show_transcript,
+      skills: !!profile.show_skills,
       competencies: !!profile.show_competencies,
+      distinctions: !!profile.show_distinctions,
       cpd: !!profile.show_cpd,
       studyTime: !!profile.show_study_time,
     },
     awards: tr.entries.filter((e) => e.award).map((e) => ({ ...e.award, roman: e.roman, levelName: e.levelName, cefr: e.cefr })),
     transcript: tr,
+    skills,
     competencies: comp,
+    distinctions: dist,
     cpd,
     studyTime: time,
   };
@@ -409,7 +423,20 @@ export function project(full, { audience, scope = [] }) {
   };
   if (allowed.has('awards')) out.awards = full.awards;
   if (allowed.has('transcript')) out.transcript = full.transcript;
+  if (allowed.has('skills')) out.skills = full.skills;
   if (allowed.has('competencies')) out.competencies = full.competencies;
+  if (allowed.has('distinctions')) {
+    // Only what the College has approved leaves the building. A
+    // proposed claim is the graduate's own word; publishing it under
+    // the College's name would make the College the one asserting it.
+    out.distinctions = {
+      ...full.distinctions,
+      items: full.distinctions.items.filter((i) => i.status !== 'proposed'),
+      byKind: full.distinctions.byKind
+        .map((g) => ({ ...g, items: g.items.filter((i) => i.status !== 'proposed') }))
+        .filter((g) => g.items.length > 0),
+    };
+  }
   if (allowed.has('cpd')) out.cpd = full.cpd;
   if (allowed.has('studyTime')) out.studyTime = full.studyTime;
   return out;

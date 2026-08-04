@@ -262,12 +262,92 @@ async function open(url, viewport) {
       const w = document.querySelector('.grad-tablewrap');
       return !!w && getComputedStyle(w).overflowX === 'auto';
     }));
+  // --- The Digital Academic Identity ---------------------------------
+  // The verification panel is what makes this a credential rather than
+  // a web page: a register number, a QR, and the state of the award,
+  // all checkable by the reader without taking the College's word.
+  check('The verification panel is shown', (await page.locator('#secVerify').isVisible()) === true);
+  {
+    const facts = await textOf(page, '#verifyFacts');
+    check('...carrying the Graduate Register number', /WEC-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{5}/.test(facts), facts.slice(0, 120));
+    check('...the award and its post-nominal', /Post-nominal/.test(facts) && /CEFR level/.test(facts));
+    check('...and the date it was conferred', /Conferred/.test(facts));
+
+    // The QR must go where the page says it goes. A QR pointing
+    // somewhere the panel did not name would be asking for exactly the
+    // trust the panel exists to make unnecessary.
+    const svg = page.locator('#qr svg');
+    check('A QR code is rendered', (await svg.count()) === 1);
+    const printed = (facts.match(/WEC-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{5}/) || [])[0];
+    const label = (await svg.count()) ? await svg.getAttribute('aria-label') : '';
+    check('...labelled with the same code the panel prints',
+      !!printed && (label || '').includes(printed), `${label} vs ${printed}`);
+    const typed = await page.getAttribute('.grad-verify__link', 'href');
+    check('...and the typed link carries that code too',
+      !!printed && (typed || '').includes(printed), typed);
+  }
+
+  // Skills: the section most likely to invite a fabrication, because
+  // four plausible bars would look far better than the truth.
+  check('The language-skill section is shown', (await page.locator('#secSkills').isVisible()) === true);
+  {
+    const txt = await textOf(page, '#secSkills');
+    check('...naming all four skills', ['Listening', 'Reading', 'Speaking', 'Writing'].every((k) => txt.includes(k)), txt.slice(0, 80));
+    check('...saying plainly that the curriculum is not yet mapped',
+      /not yet mapped its assessments/.test(txt), txt.slice(0, 200));
+    // The decisive one. A bar at 0% puts a failing mark against a
+    // graduate nobody assessed.
+    // Asserted positively — four labels reading "Not yet assessed" —
+    // rather than negatively as "the text contains no 0%". The negative
+    // form was written first and was nearly useless: textContent
+    // concatenates without separators, so the string reads
+    // "...Productive skill0%", and `\b0%` finds no word boundary
+    // between "l" and "0". Sabotaging the page to render zeros left it
+    // passing. A positive assertion cannot fail that way.
+    const notAssessed = await page.locator('.grad-skill__mark').allTextContents();
+    check('...and showing "Not yet assessed" rather than a zero',
+      notAssessed.length === 4 && notAssessed.every((t) => /Not yet assessed/.test(t)),
+      JSON.stringify(notAssessed));
+    check('...with no progress bar drawn at all',
+      (await page.locator('.grad-skill__bar').count()) === 0);
+  }
+
+  // Distinctions: approved shown, withdrawn shown and marked, proposed
+  // absent — because a proposed claim is the graduate's own word and
+  // publishing it would make the College the one asserting it.
+  check('The distinctions section is shown', (await page.locator('#secDistinctions').isVisible()) === true);
+  {
+    const txt = await textOf(page, '#secDistinctions');
+    check('...showing an approved distinction', /demonstration colloquium/.test(txt));
+    check('...showing a withdrawn one, marked rather than removed',
+      /A demonstration prize/.test(txt) && /Withdrawn/.test(txt));
+    check('...carrying the reason it was withdrawn',
+      /to exercise the withdrawn state/.test(txt), txt.slice(0, 200));
+    check('...and NOT showing a claim the College has not approved',
+      !/unapproved demonstration claim/.test(txt), txt.slice(0, 240));
+  }
+
   check('Exactly one h1', (await page.locator('h1').count()) === 1);
   check('The record region announces itself', (await page.getAttribute('#state', 'aria-live')) === 'polite');
   check('The transcript table has a caption for screen readers',
     (await page.locator('.grad-table caption').count()) === 1);
-  check('Every heading level below h1 is an h2, so the outline is not skipped',
-    (await page.locator('h3').count()) === 0);
+  // The real rule is that no level is SKIPPED — an h3 under an h2 is
+  // correct nesting, and the distinction groups are exactly that. This
+  // assertion used to check `h3 count === 0`, which was a proxy that
+  // happened to hold while nothing on the page nested, and it reported
+  // a defect the moment something legitimately did.
+  const skips = await page.evaluate(() => {
+    const levels = [...document.querySelectorAll('h1,h2,h3,h4,h5,h6')]
+      .filter((h) => h.offsetParent !== null || h.tagName === 'H1')
+      .map((h) => Number(h.tagName[1]));
+    const bad = [];
+    for (let i = 1; i < levels.length; i++) {
+      if (levels[i] > levels[i - 1] + 1) bad.push(`h${levels[i - 1]} -> h${levels[i]}`);
+    }
+    return { bad, levels };
+  });
+  check('No heading level is skipped, so the outline stays navigable',
+    skips.bad.length === 0, skips.bad.join(', ') + ' in ' + skips.levels.join(','));
   await page.screenshot({ path: join(HERE, 'screenshots', 'graduate-mobile.png'), fullPage: true }).catch(() => {});
   await page.close();
 }
