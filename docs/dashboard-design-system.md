@@ -20,6 +20,35 @@ the institution it belongs to. That's the failure mode this file exists
 to prevent: a premium marketing site bolted to a generic-SaaS-feeling
 app.
 
+## Standing design principle (permanent)
+
+> **Every screen should be polished enough to appear in an accreditation
+> visit, an investor presentation, a university partnership meeting, or
+> an international marketing brochure without requiring redesign.**
+
+Adopted as a permanent standard, not a milestone. It applies to every
+surface the platform has and every surface it will gain, and it is
+deliberately phrased as four *audiences* rather than a checklist,
+because those four judge different things and a screen has to survive
+all of them at once:
+
+| Audience | What it looks at |
+|---|---|
+| Accreditation visit | Whether governance, evidence and academic status are stated honestly and legibly — including what is *missing* |
+| Investor presentation | Whether the thing is real and operating, not a prototype in a screenshot |
+| University partnership meeting | Whether an academic peer recognises the qualification structure and the record-keeping |
+| International marketing brochure | Whether it stands up at print resolution, in another language, out of context |
+
+The practical consequence is that there is no such thing as an internal
+screen to be tidied later. An admin table, an error state, an empty
+state and a "nothing has been assessed yet" state are all screens a
+reviewer can be shown, so each is designed once, properly.
+
+This does not license decoration over substance: the Truth-is-a-feature
+rule outranks it. A screen must never look more complete than the
+institution behind it actually is. Polish is how an honest statement is
+presented, never a substitute for one.
+
 ## Executive Design Directive — premium experience standard
 
 You issued a platform-wide directive: every visual surface — marketing

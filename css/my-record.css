@@ -1,0 +1,189 @@
+/* My Academic Record — the learner's own view of what the College holds
+   and control over who else can see it.
+
+   Layered on verify.css and graduate.css so a graduate moving between
+   their own record, a shared view of it and the public verification
+   portal never feels they have changed institution. The three pages are
+   one system seen from three sides. */
+
+.rec-nav {
+  display: flex;
+  gap: .4rem;
+  flex-wrap: wrap;
+  margin-top: 1.4rem;
+}
+.rec-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, .8);
+  text-decoration: none;
+  font: 600 .88rem/1 var(--font-body, Inter, sans-serif);
+  border: 1px solid rgba(255, 255, 255, .18);
+  transition: background var(--dur-fast, .18s) var(--ease-premium, ease),
+              color var(--dur-fast, .18s) var(--ease-premium, ease);
+}
+.rec-nav a:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+/* The current page is marked, not merely styled — aria-current carries
+   it to a screen reader, and the ring carries it to everyone else. */
+.rec-nav a[aria-current="page"] {
+  background: var(--gold, #C7A24A);
+  border-color: var(--gold, #C7A24A);
+  color: #14264A;
+}
+.rec-nav a:focus-visible { outline: 2px solid var(--gold-bright, #E7C97A); outline-offset: 3px; }
+
+.rec-state {
+  margin: 2.4rem 0;
+  padding: 2rem 1.4rem;
+  text-align: center;
+  border: 1px dashed rgba(20, 38, 74, .22);
+  border-radius: 12px;
+  color: var(--ink-soft, #4B5768);
+  line-height: 1.7;
+}
+.rec-state:empty { display: none; }
+
+/* ---- Privacy --------------------------------------------------------- */
+.rec-privacy { display: grid; gap: .8rem; }
+
+.rec-toggle {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .5rem 1.2rem;
+  align-items: center;
+  background: #fff;
+  border: 1px solid rgba(20, 38, 74, .12);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+}
+.rec-toggle__name { display: block; font-weight: 600; }
+.rec-toggle__what {
+  display: block;
+  font-size: .85rem;
+  color: var(--ink-soft, #4B5768);
+  line-height: 1.55;
+  margin-top: .15rem;
+  max-width: 54ch;
+}
+/* A real checkbox, scaled up. A custom switch would need its own focus,
+   keyboard and screen-reader behaviour rebuilt, and the native control
+   already has all three — and gets the platform's own accessibility
+   affordances for free. */
+.rec-toggle input[type="checkbox"] {
+  width: 28px; height: 28px;
+  accent-color: var(--royal, #14264A);
+  cursor: pointer;
+  /* The label is the target on a phone; this keeps the box itself a
+     comfortable one too. */
+  margin: 8px;
+}
+
+.rec-handle { background: #fff; border: 1px solid rgba(20,38,74,.12); border-radius: 12px; padding: 1rem 1.2rem; }
+.rec-handle__row { display: flex; align-items: center; flex-wrap: wrap; gap: .3rem; }
+.rec-handle__prefix {
+  font: 400 .82rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color: var(--ink-soft, #4B5768);
+}
+.rec-handle input {
+  flex: 1 1 12rem; min-width: 0; min-height: 44px;
+  padding: .6rem .8rem;
+  border: 1px solid rgba(20, 38, 74, .22);
+  border-radius: 8px;
+  font: 600 .95rem/1.2 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+.rec-saved { margin: .4rem 0 0; font-size: .88rem; font-weight: 600; color: #1E6B3A; min-height: 1.2em; }
+
+/* ---- Shares ---------------------------------------------------------- */
+.rec-newshare {
+  background: #fff; border: 1px solid rgba(20,38,74,.12);
+  border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 1.2rem;
+}
+.rec-newshare summary {
+  cursor: pointer; font-weight: 600; min-height: 44px;
+  display: flex; align-items: center;
+}
+.rec-fieldset { border: 0; padding: 1rem 0 0; margin: 0; display: grid; gap: .2rem; }
+.rec-fieldset legend {
+  padding: 0;
+  font: 700 .72rem/1 var(--font-body, Inter, sans-serif);
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft, #4B5768);
+}
+.rec-fieldset label {
+  display: flex; align-items: center; gap: .6rem;
+  min-height: 44px; cursor: pointer;
+}
+.rec-fieldset input { width: 22px; height: 22px; accent-color: var(--royal, #14264A); }
+.rec-sharemeta { display: grid; gap: .8rem; margin: 1rem 0; }
+@media (min-width: 40rem) { .rec-sharemeta { grid-template-columns: 2fr 1fr; } }
+.rec-sharemeta input, .rec-sharemeta select {
+  width: 100%; min-height: 44px; padding: .6rem .8rem;
+  border: 1px solid rgba(20, 38, 74, .22); border-radius: 8px;
+  font: 400 .95rem/1.2 var(--font-body, Inter, sans-serif);
+}
+
+/* The link is shown once and cannot be shown again — the College keeps
+   only a hash. The styling says "copy this now" rather than leaving it
+   looking like any other row. */
+.rec-newlink {
+  margin-top: 1rem; padding: 1rem 1.2rem;
+  border-radius: 10px;
+  background: rgba(198, 161, 91, .12);
+  border: 1px solid rgba(154, 122, 56, .35);
+}
+.rec-newlink code {
+  display: block; margin: .5rem 0;
+  font: 600 .82rem/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  word-break: break-all;
+}
+.rec-newlink strong { display: block; margin-bottom: .2rem; }
+
+.rec-shares, .rec-docs { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+.rec-share, .rec-doc {
+  background: #fff; border: 1px solid rgba(20,38,74,.12);
+  border-radius: 12px; padding: .95rem 1.2rem;
+  display: grid; gap: .3rem .9rem;
+}
+@media (min-width: 44rem) {
+  .rec-share, .rec-doc { grid-template-columns: 1fr auto; align-items: center; }
+}
+.rec-share__label, .rec-doc__title { margin: 0; font-weight: 600; }
+.rec-share__meta, .rec-doc__meta { margin: 0; font-size: .83rem; color: var(--ink-soft, #4B5768); line-height: 1.55; }
+.rec-share.is-inactive, .rec-doc.is-inactive { opacity: .72; background: rgba(20, 38, 74, .02); }
+
+.rec-badge {
+  display: inline-block; padding: .1rem .5rem; border-radius: 999px;
+  font: 700 .7rem/1.6 var(--font-body, Inter, sans-serif); margin-right: .4rem;
+}
+.rec-badge--live { background: rgba(30, 107, 58, .12); color: #1E6B3A; }
+.rec-badge--ended { background: rgba(75, 87, 104, .12); color: var(--ink-soft, #4B5768); }
+.rec-badge--superseded { background: rgba(199, 162, 74, .18); color: #8A6B2E; }
+.rec-badge--withdrawn { background: rgba(163, 38, 56, .12); color: #8C1F2F; }
+
+.rec-revoke {
+  min-height: 44px; padding: 0 1rem;
+  border: 1px solid rgba(163, 38, 56, .35); border-radius: 8px;
+  background: #fff; color: #8C1F2F;
+  font: 600 .85rem/1 var(--font-body, Inter, sans-serif); cursor: pointer;
+}
+.rec-revoke:hover { background: rgba(163, 38, 56, .06); }
+.rec-revoke:focus-visible { outline: 2px solid var(--red, #A32638); outline-offset: 2px; }
+
+/* The route from a document to the public check on it. Sized as a
+   target rather than set as small print, because following it is the
+   whole point of having issued the document. */
+.rec-doclink {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 0 1rem;
+  border: 1px solid rgba(20, 38, 74, .22); border-radius: 8px;
+  color: var(--royal, #14264A); text-decoration: none;
+  font: 600 .85rem/1 var(--font-body, Inter, sans-serif);
+}
+.rec-doclink:hover { background: rgba(20, 38, 74, .05); }
+.rec-doclink:focus-visible { outline: 2px solid var(--gold, #C7A24A); outline-offset: 2px; }
+
+.rec-issue { display: flex; gap: .7rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+.rec-empty { margin: 0; padding: 1.2rem; text-align: center; color: var(--ink-soft, #4B5768);
+  border: 1px dashed rgba(20,38,74,.2); border-radius: 10px; line-height: 1.6; }

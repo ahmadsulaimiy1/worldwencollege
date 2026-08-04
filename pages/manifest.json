@@ -77,7 +77,12 @@
     "contentFile": "student-portal.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/student-portal/"
+    "altHref": "/ar/student-portal/",
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-entry.js"
+    ]
   },
   {
     "slug": "faq",
@@ -99,7 +104,6 @@
     "dir": "ltr",
     "altHref": "/ar/contact/"
   },
-
   {
     "slug": "home-ar",
     "output": "ar/index.html",
@@ -178,7 +182,12 @@
     "contentFile": "student-portal.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/student-portal/"
+    "altHref": "/student-portal/",
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-entry.js"
+    ]
   },
   {
     "slug": "faq-ar",
@@ -200,7 +209,6 @@
     "dir": "rtl",
     "altHref": "/contact/"
   },
-
   {
     "slug": "404",
     "output": "404.html",

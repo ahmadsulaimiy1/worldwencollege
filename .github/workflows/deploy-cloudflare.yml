@@ -101,6 +101,8 @@ jobs:
         run: node tests/browser/register.mjs
       - name: The graduate record
         run: node tests/browser/graduate.mjs
+      - name: My Academic Record — what the learner controls
+        run: node tests/browser/my-record.mjs
 
   deploy:
     needs: verify

@@ -84,6 +84,15 @@ function build() {
     const footer = partialFor('footer', lang);
     const content = read(path.join(PAGES, entry.contentFile));
     const skipLabel = lang === 'ar' ? 'تخطَّ إلى المحتوى الرئيسي' : 'Skip to main content';
+    // Per-page scripts, declared in the manifest. Opt-in rather than
+    // loaded everywhere: js/portal-entry.js reaches for the auth
+    // provider, and there is no reason for the tuition page to do that.
+    // The leading newline is part of the value so a page that declares
+    // none produces no blank line, and the built output of the other
+    // thirty pages stays byte-identical.
+    const extraScripts = (entry.scripts || [])
+      .map((src) => `\n<script src="${src}"></script>`)
+      .join('');
 
     const html = `<!DOCTYPE html>
 <html lang="${lang}" dir="${dir}">
@@ -98,7 +107,7 @@ ${header}
 ${content}
 </main>
 ${footer}
-<script src="/js/site.js"></script>
+<script src="/js/site.js"></script>${extraScripts}
 </body>
 </html>
 `;

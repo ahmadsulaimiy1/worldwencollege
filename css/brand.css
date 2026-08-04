@@ -621,3 +621,23 @@ ul.check-list li::before {
 [dir="rtl"] .eyebrow::before { order: 2; }
 [dir="rtl"] .card__num, [dir="rtl"] .module-marker { direction: ltr; display: inline-block; }
 [dir="rtl"] .hero__crest-watermark { right: auto; left: -80px; }
+
+/* ---------------------------------------------------------------------
+   THE SIGNED-IN LEARNER'S ROUTE INTO THE PORTAL
+   ---------------------------------------------------------------------
+   Rendered only when a real session exists (js/portal-entry.js). In the
+   shipped no-key state this selector matches nothing, so the Student
+   Portal page stays exactly as authored. */
+.portal-entry {
+  background: linear-gradient(160deg, #101F3C 0%, var(--royal) 55%, #1B3054 100%);
+  color: #fff;
+  padding: clamp(2rem, 1.2rem + 3vw, 3rem) 0;
+}
+.portal-entry[hidden] { display: none; }
+.portal-entry > * { width: min(var(--wrap), calc(100% - 2.5rem)); margin-inline: auto; }
+.portal-entry__welcome {
+  margin: 0 0 .3rem;
+  font: 600 clamp(1.5rem, 1.1rem + 2vw, 2.2rem)/1.15 var(--font-display);
+}
+.portal-entry__lede { margin: 0 0 1.3rem; opacity: .85; }
+.portal-entry .btn-row { display: flex; gap: .8rem; flex-wrap: wrap; }

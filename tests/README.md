@@ -578,6 +578,7 @@ node tests/browser/route-audit.mjs
 node tests/browser/verify.mjs
 node tests/browser/register.mjs
 node tests/browser/graduate.mjs
+node tests/browser/my-record.mjs
 ```
 
 - `browser/listening-lab.mjs` — 43 assertions covering the Listening
@@ -732,6 +733,49 @@ node tests/browser/graduate.mjs
   set in the College's typeface. **A withdrawn award** stays on the
   record, marked, never dropped.
   All four sabotage-verified. 43 assertions.
+- `browser/my-record.mjs` — the same record from the inside: the
+  learner's own view, and the controls over who else may see it. The
+  APIs behind this page existed with no interface at all, so a graduate
+  could not exercise a single privacy decision the platform was built to
+  give them.
+  The decisive assertion is that **turning a section private removes it
+  from a link already issued**. The page states this in words, and a page
+  that said so while the server did otherwise would be worse than
+  silence. Sabotage-verified: dropping the intersection in `project()`
+  so a share honours only the scope it was created with — a change that
+  looks entirely reasonable in isolation — fails it immediately, and
+  fails the paired assertion that the link *names* what it is withholding
+  rather than going quiet.
+  The tap-target check measures the region that accepts the pointer, not
+  the painted control: a 28px checkbox beside a 60px label that toggles
+  it is a 60px target, and reporting it as a defect would teach the
+  reader to ignore the measurement. It still fails a control with no
+  label, or a label that does not cover the control's row — verified by
+  removing the crest's `min-height` and watching it name the offender.
+  The skip link is checked by moving focus and looking at where the link
+  lands, because height alone cannot tell a visible skip link from one
+  parked off-screen forever. That check found five pages using `.sr-only`
+  for their skip link, which never becomes visible: a keyboard user tabs
+  onto it, sees no change, and cannot tell the route past the header
+  exists. Fixed at the source — the site already had a working
+  `.skip-link`.
+  It also covers the route *into* these pages. `/student-portal/` is
+  where the site's navigation and footer send every learner, and it now
+  loads `js/portal-entry.js` to offer a signed-in one the way through.
+  That script fails silent when its host element is missing — which is
+  precisely what the Arabic build did, downloading three scripts to
+  accomplish nothing, so an Arabic learner kept the whole problem the
+  English page had just had fixed. The wording now lives on the host as
+  `data-` attributes rather than inside the script, which makes the
+  Arabic page a translation instead of a second copy of the file, and
+  the suite checks both builds for a host carrying every string. The
+  last of those assertions compares the two `data-lede` values, because
+  a host present but left in English is the failure that a
+  presence check alone would pass.
+  Read through `evaluate()` rather than a locator: a missing host must
+  return `null` and fail, not time out and take the rest of the suite
+  with it. Verified by removing the Arabic host and confirming the run
+  still reports 50 passed, 4 failed. 54 assertions.
 - `browser/route-audit.mjs` — the pre-deployment sweep, now at two
   viewports. It measured overflow at 1440px only and passed on every
   route while `/student-portal/preview/` overflowed by 40px at 390px —

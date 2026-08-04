@@ -76,6 +76,7 @@ const studyPlan = await import(pathToFileURL(`${ROOT}/functions/_lib/student/stu
 const timeOnTask = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/time-on-task.js`));
 const registry = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/awards.js`));
 const profile = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/profile.js`));
+const documents = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/documents.js`));
 // Beats reaching the harness, so a browser test can assert the beacon
 // actually fires rather than that the file merely loads.
 const beats = [];
@@ -251,6 +252,53 @@ createServer(async (req, res) => {
     if (url.pathname.startsWith('/api/share/') && req.method === 'GET') {
       const token = decodeURIComponent(url.pathname.slice('/api/share/'.length));
       return json(res, await profile.viewShare(env, { token }));
+    }
+    // The learner's own record. The harness identifies usr_demo, the
+    // same fixture the study plan uses, so My Record is driven by the
+    // same data a learner would actually have.
+    if (url.pathname === '/api/student/profile' && req.method === 'GET') {
+      return json(res, await profile.fullProfile(env, { userId: 'usr_demo' }));
+    }
+    if (url.pathname === '/api/student/profile' && req.method === 'PATCH') {
+      const body = JSON.parse(await read(req));
+      try {
+        await profile.updateProfile(env, { userId: 'usr_demo', changes: body });
+        return json(res, await profile.fullProfile(env, { userId: 'usr_demo' }));
+      } catch (e) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: e.name, message: e.message }));
+      }
+    }
+    if (url.pathname === '/api/student/profile-shares' && req.method === 'GET') {
+      return json(res, { shares: await profile.listShares(env, { userId: 'usr_demo' }) });
+    }
+    if (url.pathname === '/api/student/profile-shares' && req.method === 'POST') {
+      const body = JSON.parse(await read(req));
+      try {
+        return json(res, await profile.createShare(env, { userId: 'usr_demo', ...body }));
+      } catch (e) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: e.name, message: e.message }));
+      }
+    }
+    if (url.pathname === '/api/student/profile-shares' && req.method === 'DELETE') {
+      return json(res, await profile.revokeShare(env, {
+        userId: 'usr_demo', shareId: url.searchParams.get('id'),
+      }));
+    }
+    if (url.pathname === '/api/student/documents' && req.method === 'GET') {
+      return json(res, await documents.myDocuments(env, { userId: 'usr_demo' }));
+    }
+    if (url.pathname === '/api/student/documents' && req.method === 'POST') {
+      const body = JSON.parse(await read(req));
+      try {
+        return json(res, await documents.issueDocument(env, {
+          documentType: body.documentType || 'transcript', userId: 'usr_demo', issuedBy: 'usr_demo',
+        }));
+      } catch (e) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: e.name, message: e.message }));
+      }
     }
     if (url.pathname === '/api/register' && req.method === 'GET') {
       const raw = url.searchParams.get('level');

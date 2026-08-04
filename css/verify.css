@@ -26,6 +26,9 @@
 
 .vfy-crest {
   display: inline-flex; align-items: center; gap: .7rem;
+  /* The way back to the College, and on a phone the crest is the first
+     thing a thumb reaches for. 40px of artwork is not 44px of target. */
+  min-height: 44px;
   color: inherit; text-decoration: none;
   font: 700 .95rem/1.15 var(--font-body, Inter, sans-serif);
   letter-spacing: .01em;
@@ -225,6 +228,10 @@
   font-size: .84rem; color: var(--ink-soft, #5A6479);
 }
 .vfy-foot p { margin: .2rem 0; }
+/* Inline-flex rather than block: the links sit in a run separated by
+   middots, so they must stay on the line while still being large enough
+   to hit with a thumb. */
+.vfy-foot a { display: inline-flex; align-items: center; min-height: 44px; }
 
 @media print {
   /* A verification is often printed and filed by the checking party.

@@ -1,3 +1,19 @@
+<!-- The signed-in learner's route into their own programme.
+     Hidden by default and populated only by js/portal-entry.js when a
+     real session exists. With no Clerk key configured — the shipped
+     default — this renders nothing, and the page stays the honest
+     description of a portal opening with the founding cohort. -->
+<!-- The wording lives here, not in the script, so the Arabic page can
+     carry its own without portal-entry.js knowing any language.
+     {name} is replaced with the learner's first name where one is
+     known; the -anon variant is used where none is. -->
+<section class="portal-entry" id="portalEntry" hidden aria-live="polite"
+         data-welcome="Welcome back, {name}."
+         data-welcome-anon="Welcome back."
+         data-lede="Your programme is open. Continue where you left off."
+         data-go="Enter my programme"
+         data-record="My academic record"></section>
+
 <section class="section--dark section-pad">
   <div class="container">
     <span class="eyebrow">Student Portal</span>

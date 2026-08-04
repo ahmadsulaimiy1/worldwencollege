@@ -131,6 +131,17 @@
 </header>
 
 <main id="main">
+<!-- المسار المباشر للطالب المسجَّل إلى برنامجه. مخفي افتراضيًا،
+     ولا يُملأ إلا عبر js/portal-entry.js عند وجود جلسة حقيقية.
+     الصفحتان المقصودتان بالإنجليزية حاليًا، وهذا مذكور صراحةً في
+     نصّ الزرّ كما هو معتاد في بقية الموقع. -->
+<section class="portal-entry" id="portalEntry" hidden aria-live="polite"
+         data-welcome="أهلًا بعودتك، {name}."
+         data-welcome-anon="أهلًا بعودتك."
+         data-lede="برنامجك مفتوح. تابع من حيث توقّفت."
+         data-go="ادخل إلى برنامجي (بالإنجليزية)"
+         data-record="سجلّي الأكاديمي (بالإنجليزية)"></section>
+
 <section class="section--dark section-pad">
   <div class="container">
     <span class="eyebrow">بوابة الطالب</span>
@@ -229,5 +240,8 @@
 </footer>
 
 <script src="/js/site.js"></script>
+<script src="/js/auth-config.js"></script>
+<script src="/js/clerk-loader.js"></script>
+<script src="/js/portal-entry.js"></script>
 </body>
 </html>
