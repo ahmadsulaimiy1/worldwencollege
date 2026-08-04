@@ -444,6 +444,23 @@ export const OMISSIONS = [
       + 'photograph of a model captioned as a student of this College would be a fabrication.' },
 ];
 
+/**
+ * The photographic credits.
+ *
+ * Set in the colophon rather than beside the images. A caption under a
+ * photograph in an institutional publication invites the reader to read
+ * it as a record of that institution; these are editorial illustrations
+ * and are credited as such, in the place a book credits its sources.
+ */
+export const PHOTO_CREDITS = [
+  ['I', 'A student\u2019s hand writing in an exercise book', 'AdobeStock_107317330'],
+  ['II', 'Friends in conversation', 'AdobeStock_303569584'],
+  ['III', 'Students preparing together for a seminar', 'AdobeStock_160362594'],
+  ['IV', 'Colleagues working through a project', 'AdobeStock_473276830'],
+  ['V', 'A speaker addressing a conference', 'AdobeStock_569325921'],
+  ['VI', 'A graduate at conferral', 'AdobeStock_427428198'],
+];
+
 export function backMatter(id, pages) {
   return `
 <section class="omissions">
@@ -480,6 +497,15 @@ export function backMatter(id, pages) {
   <p>The verification codes are produced by the same encoder that prints the code on a graduate's
     certificate, and are verified in the College's test suite against an independently written
     decoder.</p>
+  <p>The six plates facing the level dividers are licensed editorial photography, graded to a
+    duotone in each level\u2019s own ink so that six images by six photographers read as one series
+    and belong to the colour system rather than sitting on top of it. They illustrate the
+    educational settings the programme is taught in; they are not records of this College, its
+    students or its premises.</p>
+  <table class="credits"><thead><tr><th scope="col">Plate</th><th scope="col">Subject</th>
+    <th scope="col">Source</th></tr></thead><tbody>${PHOTO_CREDITS.map(([r, sub, ref]) =>
+    `<tr><td class="mono">${esc(r)}</td><td>${esc(sub)}</td>
+      <td class="mono">${esc(ref)} · Adobe Stock, licensed</td></tr>`).join('')}</tbody></table>
   <p class="col__meta">${esc(id.publicationId)} · Document ID ${esc(id.documentId)} ·
     Issue ${esc(id.issueCode)} · ${pages ? `${pages} pages · ` : ''}Generated ${esc(id.generated)}</p>
   <div class="col__band">${guillocheBand({ width: 480, height: 18, stroke: C.royalGold, opacity: 0.5 })}</div>

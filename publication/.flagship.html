@@ -334,6 +334,43 @@ ol.q__c li.is-key::before { color:var(--mid); }
 .answerkey__g span { color:var(--ink); }
 .answerkey__g b { color:var(--soft); font-weight:400; margin-right:2.5pt; font-size:7.4pt; }
 
+/* ---------- The photographic plate ---------- */
+/* NO BLEED. The plate fills the type area exactly, and that is an
+ * engine limitation recorded rather than a preference.
+ *
+ * Two bleed techniques were tried; both were worse than they looked.
+ *
+ * A 297 mm plate with negative margins on all four sides — the textbook
+ * way to escape a margin box — consumed two pages per plate in
+ * isolation, and in the full book the count FELL by seventeen when six
+ * plates were added.
+ *
+ * Horizontal-only bleed was worse, and worse in a way that would have
+ * shipped. Any element wider than the page content box makes Chromium
+ * shrink-to-fit the WHOLE DOCUMENT: the book came out at 444 pages
+ * instead of ~487 because every page was being scaled down. Every
+ * content assertion still passed — the words were all in the HTML — and
+ * the defect showed only as a page count that made no sense. A reader
+ * would have received a book printed at about 91%, with type below its
+ * specified size throughout and a spine calculated from a false extent.
+ *
+ * So the plate is exactly the content box: 168 x 265 mm. It does not
+ * reach the trim. A plate held within the type area is a legitimate and
+ * long-established form in fine bookmaking, but it is not full bleed,
+ * and full bleed is not available in this pipeline. */
+.plate { break-before:page; position:relative; height:265mm;
+  overflow:hidden; background:var(--ink); }
+.plate__img { width:100%; height:100%; object-fit:cover; display:block; }
+/* A veil weighted to the foot, so the numeral holds against any image
+   without dimming the photograph as a whole. */
+.plate__veil { position:absolute; inset:0;
+  background:linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,.42) 100%); }
+.plate__mark { position:absolute; left:12mm; bottom:12mm; display:flex;
+  align-items:center; gap:7mm; }
+.plate__n { font-family:var(--serif); font-size:30pt; font-weight:700; color:#fff;
+  line-height:1; letter-spacing:.02em; }
+.plate__r { display:block; width:26mm; height:1.2pt; background:var(--champagne); }
+
 /* ---------- The quiet leaf ---------- */
 .quietleaf { break-before:page; height:250mm; display:flex; flex-direction:column;
   align-items:center; justify-content:center; gap:14pt; }
@@ -436,7 +473,79 @@ table.rubric td { padding:3.8pt 6pt; border-bottom: .4pt solid rgba(0,0,0,.09);
 .col__meta { font-family:var(--sans); font-size:7pt; letter-spacing:.06em; color:var(--soft);
   text-align:center !important; margin-top:14pt !important; }
 .col__band { margin:12pt auto 0; max-width:70%; }
-</style></head><body>
+table.credits { width:100%; max-width:30em; margin:8pt auto 10pt; border-collapse:collapse;
+  font-size:8pt; text-align:left; }
+table.credits th { background:var(--ink); color:#fff; padding:3.4pt 6pt; font-family:var(--sans);
+  font-size:6.2pt; letter-spacing:.12em; text-transform:uppercase; }
+table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vertical-align:top; }
+</style></head><body><svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs><filter id="duo-I" color-interpolation-filters="sRGB">
+    <feColorMatrix type="matrix" values="
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0.106 0.929"/>
+      <feFuncG type="table" tableValues="0.184 0.953"/>
+      <feFuncB type="table" tableValues="0.361 1"/>
+    </feComponentTransfer>
+  </filter><filter id="duo-II" color-interpolation-filters="sRGB">
+    <feColorMatrix type="matrix" values="
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0 0.902"/>
+      <feFuncG type="table" tableValues="0.22 0.965"/>
+      <feFuncB type="table" tableValues="0.267 0.984"/>
+    </feComponentTransfer>
+  </filter><filter id="duo-III" color-interpolation-filters="sRGB">
+    <feColorMatrix type="matrix" values="
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0 0.914"/>
+      <feFuncG type="table" tableValues="0.239 0.969"/>
+      <feFuncB type="table" tableValues="0.133 0.933"/>
+    </feComponentTransfer>
+  </filter><filter id="duo-IV" color-interpolation-filters="sRGB">
+    <feColorMatrix type="matrix" values="
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0.267 0.98"/>
+      <feFuncG type="table" tableValues="0.173 0.949"/>
+      <feFuncB type="table" tableValues="0 0.902"/>
+    </feComponentTransfer>
+  </filter><filter id="duo-V" color-interpolation-filters="sRGB">
+    <feColorMatrix type="matrix" values="
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0.333 1"/>
+      <feFuncG type="table" tableValues="0.11 0.933"/>
+      <feFuncB type="table" tableValues="0.114 0.929"/>
+    </feComponentTransfer>
+  </filter><filter id="duo-VI" color-interpolation-filters="sRGB">
+    <feColorMatrix type="matrix" values="
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0.263 0.973"/>
+      <feFuncG type="table" tableValues="0.129 0.937"/>
+      <feFuncB type="table" tableValues="0.302 0.984"/>
+    </feComponentTransfer>
+  </filter></defs></svg>
 
 <!-- INSIDE FRONT COVER / ENDPAPER -->
 <section class="endpaper endpaper--front">
@@ -3555,16 +3664,11 @@ table.rubric td { padding:3.8pt 6pt; border-bottom: .4pt solid rgba(0,0,0,.09);
       founding task of the Board of Academic Standards and Curriculum Excellence.</p>
   </figure>
 </section>
-<section class="quietleaf" style="--ink:#1B2F5C;--mid:#4C6AA8;--wash:#EDF3FF">
-    <span class="quietleaf__n">I</span>
-    <span class="quietleaf__o"><svg viewBox="0 0 90 18" width="90" height="18" aria-hidden="true"
-    xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 9 H23" stroke="#4C6AA8" stroke-width="0.6"/>
-    <path d="M67 9 H90" stroke="#4C6AA8" stroke-width="0.6"/>
-    <path d="M31 9 L45 3 L59 9
-             L45 15 Z" fill="none" stroke="#4C6AA8" stroke-width="0.9"/>
-    <circle cx="45" cy="9" r="1.8" fill="#4C6AA8"/>
-  </svg></span>
+<section class="plate" style="--ink:#1B2F5C;--mid:#4C6AA8;--wash:#EDF3FF">
+    <img class="plate__img" src="img/level-I.jpg" alt="A student’s hand writing in an exercise book"
+      style="filter:url(#duo-I)">
+    <div class="plate__veil"></div>
+    <div class="plate__mark"><span class="plate__n">I</span><span class="plate__r"></span></div>
   </section>
 <div class="level" data-level="I" style="--ink:#1B2F5C;--mid:#4C6AA8;--wash:#EDF3FF;--edge:#324B81">
   <section class="opener" id="lvl-I">
@@ -7755,6 +7859,23 @@ table.rubric td { padding:3.8pt 6pt; border-bottom: .4pt solid rgba(0,0,0,.09);
   </article>
   </section>
   </div>
+<section class="quietleaf" style="--ink:#003844;--mid:#00798F;--wash:#E6F6FB">
+    <span class="quietleaf__n">II</span>
+    <span class="quietleaf__o"><svg viewBox="0 0 90 18" width="90" height="18" aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 9 H23" stroke="#00798F" stroke-width="0.6"/>
+    <path d="M67 9 H90" stroke="#00798F" stroke-width="0.6"/>
+    <path d="M31 9 L45 3 L59 9
+             L45 15 Z" fill="none" stroke="#00798F" stroke-width="0.9"/>
+    <circle cx="45" cy="9" r="1.8" fill="#00798F"/>
+  </svg></span>
+  </section>
+<section class="plate" style="--ink:#003844;--mid:#00798F;--wash:#E6F6FB">
+    <img class="plate__img" src="img/level-II.jpg" alt="Friends in conversation"
+      style="filter:url(#duo-II)">
+    <div class="plate__veil"></div>
+    <div class="plate__mark"><span class="plate__n">II</span><span class="plate__r"></span></div>
+  </section>
 <div class="level" data-level="II" style="--ink:#003844;--mid:#00798F;--wash:#E6F6FB;--edge:#005767">
   <section class="opener" id="lvl-II">
     <div class="opener__field"><svg viewBox="0 0 420 420" width="420" height="420" aria-hidden="true"
@@ -12018,6 +12139,23 @@ table.rubric td { padding:3.8pt 6pt; border-bottom: .4pt solid rgba(0,0,0,.09);
   </article>
   </section>
   </div>
+<section class="quietleaf" style="--ink:#003D22;--mid:#297E54;--wash:#E9F7EE">
+    <span class="quietleaf__n">III</span>
+    <span class="quietleaf__o"><svg viewBox="0 0 90 18" width="90" height="18" aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 9 H23" stroke="#297E54" stroke-width="0.6"/>
+    <path d="M67 9 H90" stroke="#297E54" stroke-width="0.6"/>
+    <path d="M31 9 L45 3 L59 9
+             L45 15 Z" fill="none" stroke="#297E54" stroke-width="0.9"/>
+    <circle cx="45" cy="9" r="1.8" fill="#297E54"/>
+  </svg></span>
+  </section>
+<section class="plate" style="--ink:#003D22;--mid:#297E54;--wash:#E9F7EE">
+    <img class="plate__img" src="img/level-III.jpg" alt="Students preparing together for a seminar"
+      style="filter:url(#duo-III)">
+    <div class="plate__veil"></div>
+    <div class="plate__mark"><span class="plate__n">III</span><span class="plate__r"></span></div>
+  </section>
 <div class="level" data-level="III" style="--ink:#003D22;--mid:#297E54;--wash:#E9F7EE;--edge:#085C38">
   <section class="opener" id="lvl-III">
     <div class="opener__field"><svg viewBox="0 0 420 420" width="420" height="420" aria-hidden="true"
@@ -16480,6 +16618,23 @@ table.rubric td { padding:3.8pt 6pt; border-bottom: .4pt solid rgba(0,0,0,.09);
   </article>
   </section>
   </div>
+<section class="quietleaf" style="--ink:#442C00;--mid:#8D6310;--wash:#FAF2E6">
+    <span class="quietleaf__n">IV</span>
+    <span class="quietleaf__o"><svg viewBox="0 0 90 18" width="90" height="18" aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 9 H23" stroke="#8D6310" stroke-width="0.6"/>
+    <path d="M67 9 H90" stroke="#8D6310" stroke-width="0.6"/>
+    <path d="M31 9 L45 3 L59 9
+             L45 15 Z" fill="none" stroke="#8D6310" stroke-width="0.9"/>
+    <circle cx="45" cy="9" r="1.8" fill="#8D6310"/>
+  </svg></span>
+  </section>
+<section class="plate" style="--ink:#442C00;--mid:#8D6310;--wash:#FAF2E6">
+    <img class="plate__img" src="img/level-IV.jpg" alt="Colleagues working through a project"
+      style="filter:url(#duo-IV)">
+    <div class="plate__veil"></div>
+    <div class="plate__mark"><span class="plate__n">IV</span><span class="plate__r"></span></div>
+  </section>
 <div class="level" data-level="IV" style="--ink:#442C00;--mid:#8D6310;--wash:#FAF2E6;--edge:#674600">
   <section class="opener" id="lvl-IV">
     <div class="opener__field"><svg viewBox="0 0 420 420" width="420" height="420" aria-hidden="true"
@@ -20980,6 +21135,23 @@ table.rubric td { padding:3.8pt 6pt; border-bottom: .4pt solid rgba(0,0,0,.09);
   </article>
   </section>
   </div>
+<section class="quietleaf" style="--ink:#551C1D;--mid:#A05150;--wash:#FFEEED">
+    <span class="quietleaf__n">V</span>
+    <span class="quietleaf__o"><svg viewBox="0 0 90 18" width="90" height="18" aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 9 H23" stroke="#A05150" stroke-width="0.6"/>
+    <path d="M67 9 H90" stroke="#A05150" stroke-width="0.6"/>
+    <path d="M31 9 L45 3 L59 9
+             L45 15 Z" fill="none" stroke="#A05150" stroke-width="0.9"/>
+    <circle cx="45" cy="9" r="1.8" fill="#A05150"/>
+  </svg></span>
+  </section>
+<section class="plate" style="--ink:#551C1D;--mid:#A05150;--wash:#FFEEED">
+    <img class="plate__img" src="img/level-V.jpg" alt="A speaker addressing a conference"
+      style="filter:url(#duo-V)">
+    <div class="plate__veil"></div>
+    <div class="plate__mark"><span class="plate__n">V</span><span class="plate__r"></span></div>
+  </section>
 <div class="level" data-level="V" style="--ink:#551C1D;--mid:#A05150;--wash:#FFEEED;--edge:#793535">
   <section class="opener" id="lvl-V">
     <div class="opener__field"><svg viewBox="0 0 420 420" width="420" height="420" aria-hidden="true"
@@ -25474,6 +25646,23 @@ table.rubric td { padding:3.8pt 6pt; border-bottom: .4pt solid rgba(0,0,0,.09);
   </article>
   </section>
   </div>
+<section class="quietleaf" style="--ink:#43214D;--mid:#855793;--wash:#F8EFFB">
+    <span class="quietleaf__n">VI</span>
+    <span class="quietleaf__o"><svg viewBox="0 0 90 18" width="90" height="18" aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 9 H23" stroke="#855793" stroke-width="0.6"/>
+    <path d="M67 9 H90" stroke="#855793" stroke-width="0.6"/>
+    <path d="M31 9 L45 3 L59 9
+             L45 15 Z" fill="none" stroke="#855793" stroke-width="0.9"/>
+    <circle cx="45" cy="9" r="1.8" fill="#855793"/>
+  </svg></span>
+  </section>
+<section class="plate" style="--ink:#43214D;--mid:#855793;--wash:#F8EFFB">
+    <img class="plate__img" src="img/level-VI.jpg" alt="A graduate at conferral"
+      style="filter:url(#duo-VI)">
+    <div class="plate__veil"></div>
+    <div class="plate__mark"><span class="plate__n">VI</span><span class="plate__r"></span></div>
+  </section>
 <div class="level" data-level="VI" style="--ink:#43214D;--mid:#855793;--wash:#F8EFFB;--edge:#623B6E">
   <section class="opener" id="lvl-VI">
     <div class="opener__field"><svg viewBox="0 0 420 420" width="420" height="420" aria-hidden="true"
@@ -29971,6 +30160,19 @@ table.rubric td { padding:3.8pt 6pt; border-bottom: .4pt solid rgba(0,0,0,.09);
   <p>The verification codes are produced by the same encoder that prints the code on a graduate's
     certificate, and are verified in the College's test suite against an independently written
     decoder.</p>
+  <p>The six plates facing the level dividers are licensed editorial photography, graded to a
+    duotone in each level’s own ink so that six images by six photographers read as one series
+    and belong to the colour system rather than sitting on top of it. They illustrate the
+    educational settings the programme is taught in; they are not records of this College, its
+    students or its premises.</p>
+  <table class="credits"><thead><tr><th scope="col">Plate</th><th scope="col">Subject</th>
+    <th scope="col">Source</th></tr></thead><tbody><tr><td class="mono">I</td><td>A student’s hand writing in an exercise book</td>
+      <td class="mono">AdobeStock_107317330 · Adobe Stock, licensed</td></tr><tr><td class="mono">II</td><td>Friends in conversation</td>
+      <td class="mono">AdobeStock_303569584 · Adobe Stock, licensed</td></tr><tr><td class="mono">III</td><td>Students preparing together for a seminar</td>
+      <td class="mono">AdobeStock_160362594 · Adobe Stock, licensed</td></tr><tr><td class="mono">IV</td><td>Colleagues working through a project</td>
+      <td class="mono">AdobeStock_473276830 · Adobe Stock, licensed</td></tr><tr><td class="mono">V</td><td>A speaker addressing a conference</td>
+      <td class="mono">AdobeStock_569325921 · Adobe Stock, licensed</td></tr><tr><td class="mono">VI</td><td>A graduate at conferral</td>
+      <td class="mono">AdobeStock_427428198 · Adobe Stock, licensed</td></tr></tbody></table>
   <p class="col__meta">WEC-LC/IEFC/CUR/2026/E01 · Document ID RP6Y-KFPF-2NJ5-8SW9 ·
     Issue E01.R00.01 · Generated 2026-08-04</p>
   <div class="col__band"><svg viewBox="0 0 480 18" width="100%" height="18"

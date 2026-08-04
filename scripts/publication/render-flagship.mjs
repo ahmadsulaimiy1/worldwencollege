@@ -250,6 +250,96 @@ function renderModule(mod, lv) {
 }
 
 /**
+ * THE PHOTOGRAPHIC PLATES.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * WHERE PHOTOGRAPHY EARNS ITS PLACE, AND WHERE IT DOES NOT
+ * ────────────────────────────────────────────────────────────────────
+ * Six photographs, one per level, each on the verso facing its level
+ * divider — so a level opens as a designed SPREAD: image left,
+ * typographic divider right.
+ *
+ * There is no photography anywhere else in this book, and that is a
+ * decision rather than a shortage. This is a working teacher\u2019s manual;
+ * a photograph beside a lesson stage competes with the thing the
+ * teacher is trying to read, and 294 decorated lesson openings would be
+ * clutter with a budget. Six plates, at the six moments the reader
+ * crosses into a new world, is the whole of the case for photography
+ * here — and it is a strong one.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * ONE PHOTOGRAPHIC DIRECTION
+ * ────────────────────────────────────────────────────────────────────
+ * Six images by six photographers, shot years apart on different
+ * cameras in different light, will never read as a series on their own.
+ * They are graded into a duotone — luminance mapped onto a ramp from
+ * the level\u2019s own ink to its wash — which does two things at once: it
+ * makes six unrelated photographs read as one commissioned series, and
+ * it binds the photography to the colour system, so a plate belongs to
+ * its level rather than sitting on top of it.
+ *
+ * The grade is computed from the palette, not eyeballed. Change a level
+ * hue and its plate follows.
+ */
+const PLATES = {
+  I: { file: 'img/level-I.jpg', id: '107317330',
+    subject: 'A student\u2019s hand writing in an exercise book' },
+  II: { file: 'img/level-II.jpg', id: '303569584',
+    subject: 'Friends in conversation' },
+  III: { file: 'img/level-III.jpg', id: '160362594',
+    subject: 'Students preparing together for a seminar' },
+  IV: { file: 'img/level-IV.jpg', id: '473276830',
+    subject: 'Colleagues working through a project' },
+  V: { file: 'img/level-V.jpg', id: '569325921',
+    subject: 'A speaker addressing a conference' },
+  VI: { file: 'img/level-VI.jpg', id: '427428198',
+    subject: 'A graduate at conferral' },
+};
+
+const hexToRgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
+
+/** A duotone: luminance, then a two-stop ramp from ink to wash. */
+function duotoneFilter(roman, pal) {
+  const [dr, dg, db] = hexToRgb(pal.ink);
+  const [lr, lg, lb] = hexToRgb(pal.wash);
+  const t = (a, b) => `${Math.round(a * 1000) / 1000} ${Math.round(b * 1000) / 1000}`;
+  return `<filter id="duo-${roman}" color-interpolation-filters="sRGB">
+    <feColorMatrix type="matrix" values="
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="${t(dr, lr)}"/>
+      <feFuncG type="table" tableValues="${t(dg, lg)}"/>
+      <feFuncB type="table" tableValues="${t(db, lb)}"/>
+    </feComponentTransfer>
+  </filter>`;
+}
+
+const DUOTONES = `<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>${ROMAN.map((r) => duotoneFilter(r, paletteFor(r))).join('')}</defs></svg>`;
+
+/**
+ * A full-bleed plate. The image carries no caption: a caption on a
+ * photograph in an institutional publication invites a reader to
+ * believe it documents the institution, and these are editorial
+ * illustrations, not records of this College. Credits are set in the
+ * colophon, where a book\u2019s credits belong.
+ */
+function photoPlate(lv) {
+  const p = paletteFor(lv.roman);
+  const plate = PLATES[lv.roman];
+  if (!plate) return '';
+  return `<section class="plate" style="--ink:${p.ink};--mid:${p.mid};--wash:${p.wash}">
+    <img class="plate__img" src="${plate.file}" alt="${esc(plate.subject)}"
+      style="filter:url(#duo-${lv.roman})">
+    <div class="plate__veil"></div>
+    <div class="plate__mark"><span class="plate__n">${lv.roman}</span><span class="plate__r"></span></div>
+  </section>`;
+}
+
+/**
  * The quiet leaf that precedes a level divider when the divider would
  * otherwise fall on a verso.
  *
@@ -796,6 +886,43 @@ ol.q__c li.is-key::before { color:var(--mid); }
 .answerkey__g span { color:var(--ink); }
 .answerkey__g b { color:var(--soft); font-weight:400; margin-right:2.5pt; font-size:7.4pt; }
 
+/* ---------- The photographic plate ---------- */
+/* NO BLEED. The plate fills the type area exactly, and that is an
+ * engine limitation recorded rather than a preference.
+ *
+ * Two bleed techniques were tried; both were worse than they looked.
+ *
+ * A 297 mm plate with negative margins on all four sides — the textbook
+ * way to escape a margin box — consumed two pages per plate in
+ * isolation, and in the full book the count FELL by seventeen when six
+ * plates were added.
+ *
+ * Horizontal-only bleed was worse, and worse in a way that would have
+ * shipped. Any element wider than the page content box makes Chromium
+ * shrink-to-fit the WHOLE DOCUMENT: the book came out at 444 pages
+ * instead of ~487 because every page was being scaled down. Every
+ * content assertion still passed — the words were all in the HTML — and
+ * the defect showed only as a page count that made no sense. A reader
+ * would have received a book printed at about 91%, with type below its
+ * specified size throughout and a spine calculated from a false extent.
+ *
+ * So the plate is exactly the content box: 168 x 265 mm. It does not
+ * reach the trim. A plate held within the type area is a legitimate and
+ * long-established form in fine bookmaking, but it is not full bleed,
+ * and full bleed is not available in this pipeline. */
+.plate { break-before:page; position:relative; height:265mm;
+  overflow:hidden; background:var(--ink); }
+.plate__img { width:100%; height:100%; object-fit:cover; display:block; }
+/* A veil weighted to the foot, so the numeral holds against any image
+   without dimming the photograph as a whole. */
+.plate__veil { position:absolute; inset:0;
+  background:linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,.42) 100%); }
+.plate__mark { position:absolute; left:12mm; bottom:12mm; display:flex;
+  align-items:center; gap:7mm; }
+.plate__n { font-family:var(--serif); font-size:30pt; font-weight:700; color:#fff;
+  line-height:1; letter-spacing:.02em; }
+.plate__r { display:block; width:26mm; height:1.2pt; background:var(--champagne); }
+
 /* ---------- The quiet leaf ---------- */
 .quietleaf { break-before:page; height:250mm; display:flex; flex-direction:column;
   align-items:center; justify-content:center; gap:14pt; }
@@ -898,6 +1025,11 @@ table.rubric td { padding:3.8pt 6pt; border-bottom: .4pt solid rgba(0,0,0,.09);
 .col__meta { font-family:var(--sans); font-size:7pt; letter-spacing:.06em; color:var(--soft);
   text-align:center !important; margin-top:14pt !important; }
 .col__band { margin:12pt auto 0; max-width:70%; }
+table.credits { width:100%; max-width:30em; margin:8pt auto 10pt; border-collapse:collapse;
+  font-size:8pt; text-align:left; }
+table.credits th { background:var(--ink); color:#fff; padding:3.4pt 6pt; font-family:var(--sans);
+  font-size:6.2pt; letter-spacing:.12em; text-transform:uppercase; }
+table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vertical-align:top; }
 `;
 
 /* The cover artwork is its own document: a spread at trim + bleed, with
@@ -1003,7 +1135,7 @@ const HEAD = `<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
 <meta name="author" content="Worldwide English College">
 <meta name="subject" content="English language curriculum; complete teaching programme">
 <meta name="keywords" content="IEFC, Worldwide English College, CEFR, English curriculum, lesson plans">
-<style>${CSS}</style></head><body>`;
+<style>${CSS}</style></head><body>${DUOTONES}`;
 
 const SECTIONS = [FRONT, ...C.levels.map(renderLevel), BACK];
 const document_ = (parts) => `${HEAD}\n${parts.join('\n')}\n</body></html>`;
@@ -1057,25 +1189,45 @@ const impositionLog = [];
 SECTIONS.forEach((sec, i) => {
   const isLevel = i >= 1 && i <= C.levels.length;
   if (isLevel) {
-    const startsOn = cursor + 1;            // 1-based; odd = recto
-    if (startsOn % 2 === 0) {
-      parts.push(rectoLeaf(C.levels[i - 1]));
+    const lv = C.levels[i - 1];
+    // The target composition is a spread: PLATE on the verso, DIVIDER on
+    // the facing recto. Pages are 1-based, so odd is recto.
+    //
+    //   next page even  → it is a verso: plate there, divider follows. 1pp.
+    //   next page odd   → a plate there would be a recto and the divider
+    //                     would fall on the verso, which is the failure
+    //                     this whole mechanism exists to prevent. A quiet
+    //                     leaf takes the recto, the plate takes the verso
+    //                     behind it, the divider takes the next recto. 2pp.
+    let next = cursor + 1;
+    if (next % 2 === 1) {
+      parts.push(rectoLeaf(lv));
       cursor += 1;
       inserted += 1;
-      impositionLog.push(`${C.levels[i - 1].roman} would open on p${startsOn} (verso) — leaf inserted`);
-    } else {
-      impositionLog.push(`${C.levels[i - 1].roman} opens on p${startsOn} (recto)`);
+      next += 1;
     }
+    parts.push(photoPlate(lv));
+    cursor += 1;
+    inserted += 1;
+    impositionLog.push(`${lv.roman}: plate p${next} (verso) · divider p${next + 1} (recto)`);
   }
   parts.push(sec);
   cursor += measured[i];
 });
 
 const html = document_(parts);
-writeFileSync(path.join(ROOT, 'publication', '.flagship.html'), html);
+const htmlPath = path.join(ROOT, 'publication', '.flagship.html');
+writeFileSync(htmlPath, html);
 
+// Navigated rather than injected: setContent() has no base URL, so the
+// plates' relative image paths would resolve to nothing and six pages
+// would print as empty ink-coloured rectangles — a failure that looks
+// like a design choice.
 const page = await browser.newPage();
-await page.setContent(html, { waitUntil: 'load' });
+await page.goto(`file://${htmlPath}`, { waitUntil: 'load' });
+await page.evaluate(() => Promise.all(
+  [...document.images].filter((i) => !i.complete)
+    .map((i) => new Promise((r) => { i.onload = r; i.onerror = r; }))));
 const out = path.join(ROOT, 'publication', 'IEFC Complete Curriculum.pdf');
 await page.pdf({
   path: out, format: 'A4', printBackground: true, preferCSSPageSize: true,

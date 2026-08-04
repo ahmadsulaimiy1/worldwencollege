@@ -266,3 +266,68 @@ export function vocabulary(html) {
     strokes: grab(/stroke-width="([\d.]+)"/g, html),
   };
 }
+
+
+/**
+ * Every element wider than the page's content box.
+ *
+ * This is the cheapest possible check and it guards the most expensive
+ * possible mistake. Chromium responds to print-time horizontal overflow
+ * by scaling the whole document down to fit, so a single over-wide
+ * element silently reduces the type size of every page in the book.
+ */
+export async function overflowing(htmlPath = `${ROOT}/publication/.flagship.html`) {
+  const exe = process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+  const browser = await chromium.launch(existsSync(exe) ? { executablePath: exe } : {});
+  const page = await browser.newPage();
+  await page.goto(`file://${htmlPath}`, { waitUntil: 'load' });
+  const found = await page.evaluate((maxPx) => {
+    const out = [];
+    document.body.style.width = `${maxPx}px`;
+    for (const el of document.querySelectorAll('body *')) {
+      const cs = getComputedStyle(el);
+      if (cs.position === 'absolute' || cs.position === 'fixed') continue;
+      if (el.closest('svg')) continue;
+      const w = el.getBoundingClientRect().width;
+      // A 1px tolerance for sub-pixel rounding.
+      if (w > maxPx + 1) {
+        out.push({
+          cls: (typeof el.className === 'string' && el.className) || el.tagName.toLowerCase(),
+          w: Math.round(w), max: maxPx,
+        });
+      }
+    }
+    return out;
+  }, MEASURE_PX);
+  await browser.close();
+  return found;
+}
+
+/**
+ * The effective resolution of each placed photograph: its natural pixel
+ * width divided by the width it is actually printed at.
+ *
+ * A 6000 px image is not "high resolution" — it is high resolution at
+ * one size and low at another, and only the ratio matters.
+ */
+export async function imageResolutions(htmlPath = `${ROOT}/publication/.flagship.html`) {
+  const exe = process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+  const browser = await chromium.launch(existsSync(exe) ? { executablePath: exe } : {});
+  const page = await browser.newPage();
+  await page.goto(`file://${htmlPath}`, { waitUntil: 'load' });
+  await page.evaluate(() => Promise.all([...document.images].filter((i) => !i.complete)
+    .map((i) => new Promise((r) => { i.onload = r; i.onerror = r; }))));
+  const out = await page.evaluate(() => [...document.images].map((img) => {
+    const r = img.getBoundingClientRect();
+    // Rendered width in CSS px -> inches at 96 px/in.
+    const inches = r.width / 96;
+    return {
+      file: (img.getAttribute('src') || '').split('/').pop(),
+      natural: { w: img.naturalWidth, h: img.naturalHeight },
+      printedMm: Math.round((r.width / 96) * 25.4),
+      dpi: inches > 0 ? Math.round(img.naturalWidth / inches) : 0,
+    };
+  }));
+  await browser.close();
+  return out;
+}

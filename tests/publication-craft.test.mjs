@@ -23,7 +23,8 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { ROOT, loadUrl } from './helpers.mjs';
 
-const { audit, vocabulary, MEASURE_MM } = await import(loadUrl('scripts/publication/audit.mjs'));
+const { audit, vocabulary, overflowing, MEASURE_MM } =
+  await import(loadUrl('scripts/publication/audit.mjs'));
 
 let pass = 0, fail = 0;
 const check = (label, cond, detail) => {
@@ -112,6 +113,25 @@ check(`Audited ${f.counts.textEls} text elements at the true measure of ${MEASUR
     `${tooFine.length} below 0.25: ${[...new Set(tooFine)].slice(0, 6).join(' ')}`);
 }
 
+// --- Page-box overflow -------------------------------------------------
+{
+  // THE ASSERTION THAT WOULD HAVE CAUGHT THE WORST DEFECT IN THIS BOOK.
+  //
+  // Any element wider than the page's content box makes Chromium
+  // shrink-to-fit the ENTIRE DOCUMENT. A full-bleed plate 210 mm wide in
+  // a 168 mm content box silently rescaled all 487 pages to about 91%:
+  // every type size below its specification, every margin wrong, and the
+  // spine computed from a false extent.
+  //
+  // Nothing else caught it. Every content assertion passed, because the
+  // words were all present in the HTML. The only symptom was a page
+  // count that made no sense — 444 where 487 was expected — and a page
+  // count is not something most suites check the plausibility of.
+  const over = await overflowing(HTML);
+  check('No element overflows the page content box', over.length === 0,
+    over.slice(0, 4).map((o) => `${o.cls} ${o.w}px > ${o.max}px`).join('; '));
+}
+
 // --- Print production --------------------------------------------------
 {
   const { TRIM, BLEED, CALIPER_MM, spineWidth } = await import(loadUrl('scripts/publication/covers.mjs'));
@@ -135,11 +155,18 @@ check(`Audited ${f.counts.textEls} text elements at the true measure of ${MEASUR
     coverHtml.includes(`width:${w}mm`) && coverHtml.includes(`height:${h}mm`),
     `expected ${w} × ${h} mm`);
 
-  // No raster anywhere: nothing to specify an effective resolution for,
-  // and nothing that can be supplied at the wrong one.
-  const rasters = (html.match(/<img|url\(data:image\/(png|jpe?g)/g) || []).length;
-  check('The book contains no raster image at any resolution', rasters === 0,
-    `${rasters} raster references`);
+  // Effective resolution of every placed photograph, at the size it is
+  // actually printed. 300 dpi is the floor for offset litho; below it a
+  // photograph goes soft in a way that is obvious on paper and invisible
+  // on screen.
+  const { imageResolutions } = await import(loadUrl('scripts/publication/audit.mjs'));
+  const imgs = await imageResolutions(HTML);
+  check(`All ${imgs.length} placed photographs are present and measurable`,
+    imgs.length === 6 && imgs.every((i) => i.natural.w > 0),
+    imgs.map((i) => `${i.file}:${i.natural.w}x${i.natural.h}`).join(' '));
+  const soft = imgs.filter((i) => i.dpi < 300);
+  check('...and every one clears 300 dpi at its printed size', soft.length === 0,
+    soft.map((i) => `${i.file} ${i.dpi}dpi`).join('; '));
 
   // Mirrored margins mean a gutter allowance exists at all. Creep
   // compensation is a bindery calculation and is documented rather than
