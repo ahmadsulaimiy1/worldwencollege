@@ -325,6 +325,37 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   be enforced by the schema rather than by good intentions. Consent is
   tested to scope the browsable register and **not** verification: a
   code is something the graduate chose to hand someone. 59 assertions.
+- `institutional-metrics.test.mjs` — the Institutional Metric Register.
+  The value of that module is almost entirely in what it REFUSES to say,
+  so the assertions are about refusals.
+  A metric with **no instrument** is declared, not omitted: attendance,
+  academic misconduct and student feedback have no table anywhere in the
+  platform, and a dashboard would simply not show them — an absent panel
+  reads as "nothing to report". Sabotage confirms it: dropping the
+  uninstrumented entries fails six assertions.
+  A rate over a **small cohort** is suppressed, not rounded, and the
+  assertion checks the percentage appears nowhere in the response rather
+  than merely that a flag was set. Counts are still published: knowing
+  four people enrolled identifies nobody, knowing three of four completed
+  identifies everybody.
+  An **active enrolment is not a failure** — the completion rate is taken
+  over concluded enrolments only. Sabotaged to the obvious wrong
+  denominator, recruiting eighteen learners drops the rate from 83.3% to
+  33.3%, which is precisely backwards.
+  A **known non-compliance is a finding, not missing data**: competency
+  coverage reports `measured` with `compliant: false`, because "we cannot
+  tell" and "the answer is no" are different statements and reporting the
+  second as the first hides it.
+  Accreditation readiness carries **no score**, because a number invites
+  the reading that a high one means recognition is near — recognition is
+  granted by a body, not earned by a checklist. A sweep asserts no
+  fabricated benchmark language ("sector average", "top quartile") anywhere
+  in the response.
+  One correction recorded in the tests: an earlier draft refused to sum
+  receipts across currencies at all. That was over-cautious — the
+  platform already stores each payment normalised at the rate on ITS OWN
+  date, so that sum is legitimate; what must never be added is the native
+  amounts. 56 assertions.
 - `documents.test.mjs` — issued transcripts, diploma supplements and
   institutional verification. The assertion the whole design exists for:
   **a transcript issued today must still verify after the graduate

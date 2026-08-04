@@ -429,6 +429,60 @@ formative information for the learner, not a property of the award.
 
 **Decision:** ☐ awaiting
 
+### A7. Three institutional metrics have no instrument at all
+**Raised by:** building the Institutional Metric Register
+(`functions/_lib/reports/institutional.js`). Asked to report on twelve
+executive KPIs, the platform can compute five, has three blocked behind
+A6d, and has **no data collection whatsoever** for three:
+
+| Metric | What is missing |
+|---|---|
+| Live session attendance | `live_sessions` exists; nothing records who attended |
+| Academic misconduct | No case register, no documented procedure |
+| Student feedback | No instrument collects learner opinion |
+
+**Why this is recorded rather than quietly built:** each is an
+institutional process first and a table second. An attendance table is
+trivial; deciding what attendance *means* for an asynchronous online
+programme is not, and a misconduct register without an approved
+procedure would invite staff to record allegations against learners with
+no defined process, no right of reply and no appeal. That is worse than
+having neither.
+
+**Recommendation:** take them in this order.
+1. **Attendance** — lowest risk. Needs one decision: does attendance mean
+   presence at a live session, or engagement with the module? The
+   platform can measure both.
+2. **Student feedback** — needs an instrument and a decision on
+   anonymity. Anonymous feedback is more honest and harder to act on.
+3. **Academic misconduct** — needs an approved procedure BEFORE any
+   register exists, including right of reply and appeal (see C9).
+
+**Meanwhile the register reports them as `not_instrumented`**, never as
+zero. "No cases recorded" and "no cases occurred" are different
+statements and only the first is true.
+
+**Decision:** ☐ awaiting
+
+### C9. Academic misconduct procedure
+**Prerequisite for A7 item 3, and recorded separately because it is a
+governance document, not a feature.**
+
+**Recommendation:** the Board adopts a procedure covering: what
+constitutes misconduct on an online language programme (the common cases
+being submitted work that is not the learner's own, and impersonation in
+a spoken assessment); who investigates; the learner's right to respond
+before a finding; the range of outcomes; and an appeal to someone not
+involved in the original decision.
+
+**Rationale:** the platform stores voice recordings and written
+submissions, which makes detection possible and therefore makes the
+absence of a procedure a live risk rather than a theoretical one. A
+finding made without a documented process is not defensible, to the
+learner or to a future reviewer.
+
+**Decision:** ☐ awaiting
+
 ---
 
 ## D. Data and retention
