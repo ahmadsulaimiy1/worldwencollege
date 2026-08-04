@@ -732,14 +732,22 @@ node tests/browser/graduate.mjs
   set in the College's typeface. **A withdrawn award** stays on the
   record, marked, never dropped.
   All four sabotage-verified. 43 assertions.
-- `browser/route-audit.mjs` — the pre-deployment sweep. Walks every
-  built HTML file and loads each one, checking the things that break a
-  deployment rather than a unit test: broken routes, missing first-party
-  assets, uncaught script errors, and the accessibility basics (title,
-  lang, exactly one h1, alt on every image) on EVERY route rather than a
-  sample. 8 assertions across all 27 routes. Webfont requests are
-  aborted, so every page is verified rendering on the brand.css fallback
-  stack — the state a visitor with a blocked CDN actually sees.
+- `browser/route-audit.mjs` — the pre-deployment sweep, now at two
+  viewports. It measured overflow at 1440px only and passed on every
+  route while `/student-portal/preview/` overflowed by 40px at 390px —
+  auditing the least common case and reporting it as the whole answer.
+  It now also checks: overflow at 390px, heading-level skips, that every
+  route offers a way back to the College, and sub-44px tap targets
+  against a stated budget of 12. The budget is a judgement, written down:
+  inline links inside a paragraph are legitimately their line height, and
+  demanding 44px for every one would force either enormous body text or
+  overlapping hit areas. It targets navigation and controls. Measured
+  before it was set — pages built to the Design Mandate score 3-9, the
+  older marketing pages scored 22-31.
+  The chrome check first demanded a link to `/`, which reported eight
+  correctly-built Arabic pages as broken because their home is `/ar/` —
+  a false finding is how an audit teaches people to ignore it. Corrected
+  to accept the language root. 12 assertions across all 32 routes.
 - `browser/gallery.mjs` — not an assertion suite. Captures every key
   route at 1440px and 390px into `browser/screenshots/gallery/` for
   visual review.

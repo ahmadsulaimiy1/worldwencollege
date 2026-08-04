@@ -64,7 +64,30 @@ const browser = await chromium.launch(existsSync(exe) ? { executablePath: exe } 
 // asset failure is never hidden by a blanket filter.
 const FONTS = /fonts\.(googleapis|gstatic)\.com/;
 
-const bad = { status: [], assets: [], errors: [], title: [], lang: [], h1: [], alt: [], overflow: [] };
+// A BUDGET, not zero, and the number is a judgement worth stating.
+//
+// Inline links inside a paragraph are legitimately the height of their
+// line, and demanding 44px for every one of them would force either
+// enormous body text or link boxes that overlap the lines above. The
+// budget targets NAVIGATION and CONTROLS — the things a thumb actually
+// aims at — and a route far above it has a real problem.
+//
+// Measured before setting: the pages built to the Design Mandate score
+// 3-9; the older marketing pages score 22-31, which is what this is here
+// to hold the line on.
+const TAP_BUDGET = 12;
+
+const bad = { status: [], assets: [], errors: [], title: [], lang: [], h1: [], alt: [],
+  overflow: [], mobileOverflow: [], taps: [], chrome: [], headingSkip: [] };
+
+// A SECOND VIEWPORT, because the first one was hiding things.
+//
+// This audit checked overflow at 1440px only, and passed on every route
+// while /student-portal/preview/ overflowed by 40px at 390px. Most
+// people who ever open these pages will do so on a phone, so the
+// desktop-only check was auditing the least common case and reporting it
+// as the whole answer.
+const MOBILE = { width: 390, height: 780 };
 // Routes that only answered on the second attempt. Reported, never
 // silently swallowed — a retry that hides a consistently slow page is
 // the same lie as a flaky failure, just in the other direction.
@@ -101,13 +124,30 @@ for (const route of routes) {
   if (!resp || resp.status() >= 400) { bad.status.push(`${route} -> ${resp ? resp.status() : 'no response after 2 attempts'}`); continue; }
   await page.waitForTimeout(120);
 
-  const info = await page.evaluate(() => ({
-    title: (document.title || '').trim(),
-    lang: document.documentElement.getAttribute('lang'),
-    h1: document.querySelectorAll('h1').length,
-    imgsNoAlt: [...document.images].filter((i) => !i.hasAttribute('alt')).length,
-    overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
-  })).catch(() => null);
+  const info = await page.evaluate(() => {
+    // Heading order, checked because a skipped level is invisible to a
+    // sighted reader and disorienting to anyone navigating by headings.
+    const levels = [...document.querySelectorAll('h1,h2,h3,h4,h5,h6')].map((h) => +h.tagName[1]);
+    let skips = 0;
+    for (let i = 1; i < levels.length; i++) if (levels[i] - levels[i - 1] > 1) skips++;
+    return {
+      title: (document.title || '').trim(),
+      lang: document.documentElement.getAttribute('lang'),
+      h1: document.querySelectorAll('h1').length,
+      imgsNoAlt: [...document.images].filter((i) => !i.hasAttribute('alt')).length,
+      overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+      headingSkips: skips,
+      // The institution's own chrome. A learner crossing from the
+      // marketing site into the portal should not lose the College.
+      //
+      // The language root counts. An Arabic page linking to /ar/ is
+      // correct, and an earlier version of this check demanded "/" —
+      // reporting eight correctly-built pages as broken, which is the
+      // kind of false finding that teaches people to ignore the audit.
+      hasHome: !!document.querySelector(
+        'a[href="/"], a[href^="/#"], a[href="/ar/"], a[href="/en/"]'),
+    };
+  }).catch(() => null);
   if (!info) continue;
 
   if (!info.title) bad.title.push(route);
@@ -115,8 +155,32 @@ for (const route of routes) {
   if (info.h1 !== 1) bad.h1.push(`${route} (${info.h1})`);
   if (info.imgsNoAlt) bad.alt.push(`${route} (${info.imgsNoAlt})`);
   if (info.overflow) bad.overflow.push(route);
+  if (info.headingSkips) bad.headingSkip.push(`${route} (${info.headingSkips})`);
+  if (!info.hasHome) bad.chrome.push(route);
   bad.errors.push(...errs);
   bad.assets.push(...reqs);
+
+  // Same route, phone viewport. Reusing one page and resizing is far
+  // cheaper than a second browser context, and the reflow is what is
+  // being measured anyway.
+  await page.setViewportSize(MOBILE);
+  await page.waitForTimeout(80);
+  const m = await page.evaluate(() => ({
+    overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    // Interactive targets under 44px. Measured on rendered geometry
+    // rather than declared CSS, so padding and line-height count — which
+    // is what a thumb encounters.
+    smallTaps: [...document.querySelectorAll('a, button, input, select, [role="button"]')]
+      .filter((e) => {
+        const r = e.getBoundingClientRect();
+        return r.height > 0 && r.width > 0 && r.height < 44;
+      }).length,
+  })).catch(() => null);
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  if (m) {
+    if (m.overflow > 1) bad.mobileOverflow.push(`${route} (+${m.overflow}px)`);
+    if (m.smallTaps > TAP_BUDGET) bad.taps.push(`${route} (${m.smallTaps})`);
+  }
 }
 
 let pass = 0, fail = 0;
@@ -131,6 +195,10 @@ check(`Every route declares a lang attribute${bad.lang.length ? ' — ' + list(b
 check(`Every route has exactly one h1${bad.h1.length ? ' — ' + list(bad.h1, 6) : ''}`, !bad.h1.length);
 check(`Every image carries an alt attribute${bad.alt.length ? ' — ' + list(bad.alt, 6) : ''}`, !bad.alt.length);
 check(`No horizontal overflow at 1440px${bad.overflow.length ? ' — ' + list(bad.overflow) : ''}`, !bad.overflow.length);
+check(`No horizontal overflow at 390px${bad.mobileOverflow.length ? ' — ' + list(bad.mobileOverflow) : ''}`, !bad.mobileOverflow.length);
+check(`No route skips a heading level${bad.headingSkip.length ? ' — ' + list(bad.headingSkip, 6) : ''}`, !bad.headingSkip.length);
+check(`Every route offers a way back to the College${bad.chrome.length ? ' — ' + list(bad.chrome, 8) : ''}`, !bad.chrome.length);
+check(`No route exceeds ${TAP_BUDGET} sub-44px tap targets at 390px${bad.taps.length ? ' — ' + list(bad.taps, 8) : ''}`, !bad.taps.length);
 
 if (retried.length) {
   console.log(`\nNOTE ${retried.length} route(s) needed a second attempt: ${list(retried)}`);

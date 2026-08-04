@@ -312,3 +312,117 @@ button.btn[disabled], a.btn[aria-disabled="true"] { opacity: .5; cursor: not-all
   .app-nav { display: flex; gap: 6px; }
   .app-main { padding: 24px 18px 60px; }
 }
+
+/* ---------------------------------------------------------------------
+   THE DASHBOARD ON A PHONE
+   ---------------------------------------------------------------------
+   `.app-shell` was a flex row with a fixed 248px sidebar and no
+   breakpoint below it, so at 390px the sidebar took two thirds of the
+   screen and the content ran off the edge — 40px of horizontal overflow,
+   with the navigation list itself rendering 1003px wide inside a 390px
+   viewport.
+
+   It went unnoticed because the route audit only measured overflow at
+   1440px. Most people who open a student dashboard do so on a phone, so
+   the check was auditing the least common case and reporting it as the
+   whole answer. Both are measured now.
+
+   The sidebar becomes a horizontal band that SCROLLS INSIDE ITSELF
+   rather than pushing the page sideways — the same rule the transcript
+   table follows on the graduate record. */
+@media (max-width: 860px) {
+  .app-shell { flex-direction: column; }
+
+  .app-sidebar {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    flex-shrink: 1;
+    padding: 14px 0 0;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+  .app-sidebar__brand {
+    padding: 0 16px 12px;
+    margin-bottom: 12px;
+  }
+
+  /* Horizontal, scrollable, and the scroll is contained.
+     `min-width: 0` matters on a flex item because the default of
+     `min-width: auto` refuses to shrink below content, so a declared
+     overflow can fail to engage. See the note further down on which of
+     these rules is actually load-bearing — measured, and it is not a
+     single one of them. */
+  .app-nav {
+    display: flex;
+    gap: 4px;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 12px 12px;
+    /* No scrollbar gutter on a touch device, but the overflow still
+       works — and on a trackpad the shadow at the edge is the cue. */
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+  .app-nav::-webkit-scrollbar { display: none; }
+  .app-nav li { margin-bottom: 0; flex: 0 0 auto; scroll-snap-align: start; }
+  .app-nav a {
+    white-space: nowrap;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  /* The hover indent shifts layout in a scrolling row, which reads as a
+     jitter rather than as feedback. */
+  .app-nav a:hover { padding-left: 12px; }
+
+  .app-sidebar__foot {
+    flex-direction: row;
+    gap: 8px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    min-width: 0;
+    max-width: 100%;
+    scrollbar-width: none;
+  }
+  .app-sidebar__foot::-webkit-scrollbar { display: none; }
+  .app-sidebar__foot a { white-space: nowrap; min-height: 44px; display: flex; align-items: center; }
+
+  .app-main { min-width: 0; }
+}
+
+/* Nothing inside the dashboard may push the page sideways. A wide table
+   or a long code string scrolls in its own box — the page never does. */
+.app-main table { display: block; overflow-x: auto; max-width: 100%; }
+
+/* THE SAME ROOT CAUSE, IN A THIRD PLACE.
+   Grid and flex children both default to `min-width: auto`, which
+   refuses to shrink below their content — that is what produced a 412px
+   panel inside a 390px viewport.
+
+   ON WHICH RULE ACTUALLY FIXES IT, measured rather than assumed:
+   removing this declaration alone does NOT reintroduce the overflow, and
+   neither does removing the whole 860px breakpoint alone. Removing BOTH
+   does. The fix is overdetermined — the stacked layout and the
+   shrinkable children each independently prevent it.
+
+   Recorded because the first version of this comment claimed the
+   min-width rule was the fix and the earlier attempts had "changed
+   nothing measurable". Isolating them showed otherwise, and a comment
+   that tells a tidier story than the evidence is how the next person
+   deletes the half that was doing the work. Both are kept, and neither
+   is load-bearing alone. */
+.app-grid > *, .app-main > *, .panel, .stat-tiles > *, .class-row, .mini-list li {
+  min-width: 0;
+}
+/* Long unbroken strings — verification codes, digests, email addresses —
+   wrap rather than setting the width of everything around them. */
+.panel, .class-row, .mini-list li { overflow-wrap: anywhere; }
+
+/* The sidebar mark is the way back to the College. It was rendered but
+   inert — the crest of an institution you could look at and not reach. */
+a.app-sidebar__brand { text-decoration: none; }
+a.app-sidebar__brand:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }

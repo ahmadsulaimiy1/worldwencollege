@@ -209,7 +209,11 @@ section { position: relative; }
 .topbar__lang { font-weight: 600; letter-spacing: .04em; }
 .topbar__lang:hover { color: var(--gold-bright); }
 .topbar__social { display: flex; gap: 10px; }
+.topbar__item, .topbar__lang {
+  display: inline-flex; align-items: center; min-height: 44px;
+}
 .topbar__social a {
+  min-height: 44px; min-width: 44px;
   width: 24px; height: 24px; border: 1px solid rgba(247,244,236,.25); border-radius: 50%;
   display: flex; align-items: center; justify-content: center; font-size: .65rem; text-transform: uppercase;
 }
@@ -225,7 +229,7 @@ section { position: relative; }
   max-width: var(--wrap); margin: 0 auto; padding: 14px 24px;
   display: flex; align-items: center; justify-content: space-between; gap: 24px;
 }
-.brand { display: flex; align-items: center; gap: 12px; color: #fff; }
+.brand { display: flex; align-items: center; gap: 12px; color: #fff; min-height: 44px; }
 .brand__crest { width: 34px; height: 40px; flex-shrink: 0; }
 .crest__shield { fill: none; stroke: var(--gold); stroke-width: 1.4; }
 .crest__inner { fill: none; stroke: var(--gold-bright); stroke-width: .8; opacity: .7; }
@@ -257,7 +261,13 @@ section { position: relative; }
 [dir="rtl"] .nav__menu a:hover { padding-left: 12px; padding-right: 16px; }
 
 .header__actions { display: flex; align-items: center; gap: 16px; }
-.nav__toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
+.nav__toggle {
+  display: none; flex-direction: column; gap: 5px; background: none;
+  border: none; cursor: pointer; padding: 6px;
+  /* The single most important control on a phone: it is how the whole
+     site is navigated, and it was 22px tall. */
+  min-height: 44px; min-width: 44px; align-items: center; justify-content: center;
+}
 .nav__toggle span { width: 22px; height: 2px; background: var(--gold); display: block; }
 .nav-mobile { display: none; flex-direction: column; padding: 12px 24px 20px; gap: 4px; background: var(--royal); border-top: 1px solid var(--line-dark); }
 .nav-mobile a { color: rgba(247,244,236,.9); padding: 10px 0; font-weight: 600; font-size: .92rem; border-bottom: 1px solid var(--line-dark); }
@@ -446,6 +456,12 @@ section { position: relative; }
 .section--dark .field label, .section--deep .field label { color: rgba(247,244,236,.7); }
 .field input, .field select, .field textarea {
   font-family: var(--font-body); font-size: .95rem; padding: 12px 14px;
+  /* A comfortable thumb target. 12px padding on a .95rem line came out
+     at 41px rendered — close enough to look right on a desktop mock and
+     under the mark on the device where nearly every admissions form is
+     actually filled in. Measured, not estimated: the route audit counts
+     rendered geometry at 390px. */
+  min-height: 44px;
   border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink);
   transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) var(--ease-premium);
 }
@@ -525,6 +541,19 @@ section { position: relative; }
 .portal-shell .lede { text-align: center; margin: 0 auto 24px; font-size: .95rem; }
 
 /* -------------------- Footer -------------------- */
+/* Footer navigation is the largest single source of small tap targets
+   on the marketing site — fifteen per page, on every page, because they
+   are inline links at their line height. Made block-level with vertical
+   padding so the target matches what the link looks like it is.
+   Deliberately scoped to the footer's navigation columns: inline links
+   inside body copy stay inline, because turning those into blocks would
+   break the sentences they sit in. */
+.footer__col a {
+  display: block;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
 .site-footer { background: var(--royal-deep); color: rgba(247,244,236,.75); }
 .site-footer__inner {
   max-width: var(--wrap); margin: 0 auto; padding: 72px 24px 40px;
@@ -536,7 +565,7 @@ section { position: relative; }
 .footer__name { font-family: var(--font-display); color: #fff; font-size: 1.05rem; font-weight: 600; }
 .footer__name span { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-bright); }
 .footer__motto { font-style: italic; font-size: .86rem; margin-top: 12px; color: rgba(247,244,236,.6); max-width: 26ch; }
-.footer__col h3 { font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.footer__col h2 { font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
 .footer__col a, .footer__col p { display: block; font-size: .88rem; margin-bottom: 12px; color: rgba(247,244,236,.72); }
 .footer__col a:hover { color: var(--gold-bright); }
 .footer__note { color: rgba(247,244,236,.5); }
