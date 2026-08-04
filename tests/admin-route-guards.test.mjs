@@ -124,6 +124,8 @@ const ROUTES = [
     why: 'The key register and the signing audit. Administrator rather than staff: it is the record of what the institution has cryptographically asserted. Rotation and revocation are deliberately NOT exposed over HTTP at all.' },
 
   // Institutional quality.
+  { file: 'functions/api/admin/evidence/index.js', method: 'GET', minRole: 'staff',
+    why: 'The Accreditation Evidence Centre. No personal data, and a quality register only administrators can read is one nobody acts on — the people who would close a gap need to see it.' },
   { file: 'functions/api/admin/institutional-metrics.js', method: 'GET', minRole: 'staff',
     why: 'The Institutional Metric Register. Contains no personal data — small cohorts are suppressed before the module returns — and a quality instrument only improves anything if the people doing the work can see it.' },
   { file: 'functions/api/admin/quality/competency-coverage.js', method: 'GET', minRole: 'staff',

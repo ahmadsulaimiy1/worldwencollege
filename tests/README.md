@@ -325,6 +325,37 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   be enforced by the schema rather than by good intentions. Consent is
   tested to scope the browsable register and **not** verification: a
   code is something the graduate chose to hand someone. 59 assertions.
+- `evidence-centre.test.mjs` — the Accreditation Evidence Centre and the
+  relation model beneath it. Two assertions carry the file, and both are
+  about fabrication.
+  **Every cited document must open.** A register that cites a document
+  nobody can produce is worse than an empty one: it converts a known gap
+  into an unknown one, because a reviewer ticks the row and the absence
+  surfaces only when they ask to see it. The test opens every
+  `source_path` on disk, and rejects any that is too short to be evidence
+  of anything.
+  **No relation may be approved that nobody approved.** "This lesson
+  teaches this competency" is an academic judgement; a graph that
+  inferred it would look complete and be undetectable fiction, because a
+  plausible mapping is indistinguishable from a real one. Relations are
+  `proposed` until a named reviewer accepts them, and
+  `approvedRelations()` — the query feeding every academic conclusion —
+  reads approved edges only. Sabotage found something stronger than the
+  test claimed: rewriting `relate()` to insert an approved edge raises a
+  CHECK violation, because the schema requires an approved relation to
+  carry an approval timestamp. Now asserted directly.
+  The register is also tested for refusing to flatter the College — gaps
+  counted as prominently as holdings, every state carrying an
+  explanation, ownership naming posts rather than invented individuals,
+  and no view able to render without the disclaimer. Relations are
+  checked for dangling references in both directions: every governance
+  reference must exist in `docs/governance-decisions.md`, and every KPI
+  must exist in the Metric Register.
+  One design correction it caught: `evidenceBlocked` counted only items
+  in `governance_pending`, which understated A6d — the decision that most
+  needs taking — because it also holds shut an item recorded as
+  `not_instrumented`. It now counts every entry a decision would unblock,
+  broken down by why. 48 assertions.
 - `institutional-metrics.test.mjs` — the Institutional Metric Register.
   The value of that module is almost entirely in what it REFUSES to say,
   so the assertions are about refusals.

@@ -228,6 +228,10 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 010 — the Evidence Centre and the relation model.
+  db.exec('DROP INDEX idx_academic_relations_object; DROP INDEX idx_academic_relations_subject; DROP TABLE academic_relations;');
+  db.exec('DROP INDEX idx_evidence_versions_item; DROP TABLE evidence_versions;');
+  db.exec('DROP INDEX idx_evidence_review; DROP INDEX idx_evidence_state; DROP INDEX idx_evidence_collection; DROP TABLE evidence_items;');
   // 009 — issued documents and institutional verification.
   db.exec('DROP INDEX idx_institution_checks_institution; DROP TABLE institution_checks;');
   db.exec('DROP TABLE verifying_institutions');
