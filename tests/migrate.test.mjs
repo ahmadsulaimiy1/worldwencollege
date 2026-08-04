@@ -228,6 +228,11 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 011 — the language-skill framework and academic distinctions.
+  db.exec('DROP INDEX idx_distinctions_user; DROP TABLE academic_distinctions;');
+  db.exec('DROP INDEX idx_assessment_skills_unique; DROP INDEX idx_assessment_skills_item;');
+  db.exec('DROP INDEX idx_assessment_skills_skill; DROP TABLE assessment_skills;');
+  db.exec('DROP TABLE language_skills;');
   // 010 — the Evidence Centre and the relation model.
   db.exec('DROP INDEX idx_academic_relations_object; DROP INDEX idx_academic_relations_subject; DROP TABLE academic_relations;');
   db.exec('DROP INDEX idx_evidence_versions_item; DROP TABLE evidence_versions;');
