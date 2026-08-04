@@ -50,13 +50,22 @@ body { margin:0; color:var(--body); background:#FAFBFC;
 h1, h2, h3, h4, h5, .lead, .fig__c, .lesson__h h4, .moduleopen__ti h3,
 .opener__t, .opener__award, .ded__t, .half__t {
   text-wrap: pretty; }
+/* And on body prose, where the audit measured 209 paragraphs ending in a
+   single stranded word across the book. text-wrap:pretty is Chromium's
+   own last-lines pass: it costs a little layout time and reflows the
+   final lines of a paragraph to avoid the runt. Applied here rather
+   than by hand-inserting non-breaking spaces, because 209 manual
+   bindings would be 209 chances to alter the curriculum text. */
+.stage__b p, .lvintro p, .preface p, .editorial p, .fig__n, .back__b,
+ol.items li, ol.quiz > li, .q__p, td, .small, .col__meta {
+  text-wrap: pretty; }
 /* Never hyphenate a heading, a proper name in a title, or a code. */
 h1, h2, h3, h4, h5, .mono, .lesson__ref, .lesson__k { hyphens: none; }
 .sans { font-family: var(--sans); }
 p { margin:0 0 5.5pt; orphans:3; widows:3; }
 h2,h3,h4,h5 { color:var(--ink); break-after:avoid; }
 .label { font-family:Calibri,"Nimbus Sans",Arial,sans-serif; font-size:7pt; font-weight:700;
-  letter-spacing:.14em; text-transform:uppercase; color:var(--bronze); margin:12pt 0 3pt; }
+  letter-spacing:.12em; text-transform:uppercase; color:var(--bronze); margin:12pt 0 3pt; }
 .small { font-size:7.6pt; color:var(--soft); font-family:Calibri,"Nimbus Sans",Arial,sans-serif; }
 .lead { font-size:11pt; line-height:1.55; color:var(--ink); }
 
@@ -79,7 +88,7 @@ h2,h3,h4,h5 { color:var(--ink); break-after:avoid; }
 .half { background:#FAFBFC; }
 .half__t { font-family:var(--serif); font-size:15pt; font-weight:700; letter-spacing:.06em;
   color:var(--ink); margin:14pt 0 6pt; line-height:1.7; }
-.half__s { font-family:var(--sans); font-size:8pt; letter-spacing:.3em; text-transform:uppercase;
+.half__s { font-family:var(--sans); font-size:8pt; letter-spacing:.34em; text-transform:uppercase;
   color:var(--soft); margin:0 0 14pt; }
 .half__orn { opacity:.9; }
 
@@ -94,7 +103,7 @@ h2,h3,h4,h5 { color:var(--ink); break-after:avoid; }
 .frontis__rung { display:flex; align-items:center; gap:7pt; margin:0 0 6pt; }
 .frontis__r { font-family:var(--serif); font-size:9.5pt; font-weight:700; color:var(--champagne);
   min-width:2.2em; text-align:right; }
-.frontis__n { font-family:var(--sans); font-size:6.6pt; letter-spacing:.14em; text-transform:uppercase;
+.frontis__n { font-family:var(--sans); font-size:6.6pt; letter-spacing:.12em; text-transform:uppercase;
   color:#C9CEDA; min-width:11em; text-align:left; }
 .frontis__rung i { height:2.6pt; background:var(--champagne); opacity:.85; display:block; }
 .frontis__cap { font-size:8pt; color:var(--soft); font-style:italic; margin:9pt 0 0;
@@ -105,7 +114,7 @@ h2,h3,h4,h5 { color:var(--ink); break-after:avoid; }
 .tp__in { position:relative; padding:0 22mm; }
 .tp__crest { margin:0 0 12pt; }
 .tp__inst { font-family:var(--sans); font-size:8.5pt; font-weight:700;
-  letter-spacing:.36em; text-transform:uppercase; color:var(--bronze); margin:0 0 2pt; }
+  letter-spacing:.34em; text-transform:uppercase; color:var(--bronze); margin:0 0 2pt; }
 .tp__camp { font-style:italic; color:var(--soft); font-size:9pt; margin:0; }
 .tp__hair { width:22%; height:.5pt; background:var(--rule); margin:14pt auto 20pt; }
 .tp__the { font-style:italic; font-size:15pt; color:var(--bronze); margin:0 0 2pt; }
@@ -115,13 +124,13 @@ h2,h3,h4,h5 { color:var(--ink); break-after:avoid; }
 .tp__orn { margin:14pt auto 12pt; }
 .tp__sub { font-style:italic; font-size:14pt; color:var(--ink); margin:0 0 7pt; }
 .tp__vol { font-family:var(--sans); font-size:7.6pt; color:var(--soft);
-  letter-spacing:.08em; margin:0; }
+  letter-spacing:.06em; margin:0; }
 .tp__spacer { height:34pt; }
 .tp__ed { font-family:var(--sans); font-size:8pt; font-weight:700;
   letter-spacing:.24em; text-transform:uppercase; color:var(--ink); margin:0 0 10pt; }
 .tp__press { font-family:var(--sans); font-size:7pt;
-  letter-spacing:.2em; text-transform:uppercase; color:var(--soft); margin:0 0 3pt; }
-.tp__year { font-family:var(--sans); font-size:7pt; letter-spacing:.2em; color:var(--soft); margin:0; }
+  letter-spacing:.18em; text-transform:uppercase; color:var(--soft); margin:0 0 3pt; }
+.tp__year { font-family:var(--sans); font-size:7pt; letter-spacing:.18em; color:var(--soft); margin:0; }
 
 .dedication { background:#FAFBFC; }
 .ded__t { font-family:var(--serif); font-style:italic; font-size:12.5pt; line-height:1.9;
@@ -137,19 +146,19 @@ h2,h3,h4,h5 { color:var(--ink); break-after:avoid; }
   background:linear-gradient(90deg,var(--gold) 0 22%,var(--rule) 22%); margin:7pt 0 13pt; }
 .editorial h3 { font-size:12pt; margin:18pt 0 6pt; }
 .ed__eyebrow, .pre__eyebrow { font-family:var(--sans); font-size:7pt; font-weight:700;
-  letter-spacing:.26em; text-transform:uppercase; color:var(--bronze); margin:0 0 4pt; }
+  letter-spacing:.24em; text-transform:uppercase; color:var(--bronze); margin:0 0 4pt; }
 .imp__title { font-size:10.5pt; }
 
 /* Identification block — set as a document of record, not as decoration. */
-.idblock { border:.7pt solid var(--rule); border-top:2.2pt solid var(--ink);
+.idblock { border: .6pt solid var(--rule); border-top: 2pt solid var(--ink);
   background:#FCFCFD; padding:10pt 12pt; margin:14pt 0; display:flex; gap:14pt;
   align-items:flex-start; break-inside:avoid; }
 .idblock__h { font-family:var(--sans); font-size:7pt; font-weight:700; letter-spacing:.18em;
   text-transform:uppercase; color:var(--ink); margin:0 0 6pt; }
 .idtable { border-collapse:collapse; font-family:var(--sans); font-size:7.4pt; flex:1; }
 .idtable th { text-align:left; padding:2.6pt 10pt 2.6pt 0; color:var(--soft); font-weight:700;
-  white-space:nowrap; vertical-align:top; border-bottom:.4pt solid #EDEFF3; }
-.idtable td { padding:2.6pt 0; color:var(--ink); border-bottom:.4pt solid #EDEFF3;
+  white-space:nowrap; vertical-align:top; border-bottom: .4pt solid #EDEFF3; }
+.idtable td { padding:2.6pt 0; color:var(--ink); border-bottom: .4pt solid #EDEFF3;
   vertical-align:top; }
 .mono { font-family:"Consolas","DejaVu Sans Mono",monospace; font-size:7.2pt; letter-spacing:.02em; }
 .digest { word-break:break-all; line-height:1.35; color:var(--bronze); }
@@ -165,10 +174,10 @@ h2,h3,h4,h5 { color:var(--ink); break-after:avoid; }
   color:var(--bronze); padding:3pt 6pt 0 0; }
 .pre__sign { font-family:var(--sans); font-size:8pt; font-weight:700; letter-spacing:.18em;
   text-transform:uppercase; color:var(--ink); margin:16pt 0 3pt; }
-.pre__note { font-size:8pt; font-style:italic; color:var(--soft); border-top:.5pt solid var(--rule);
+.pre__note { font-size:8pt; font-style:italic; color:var(--soft); border-top: .4pt solid var(--rule);
   padding-top:6pt; }
 
-.panel { border-left:2.4pt solid var(--gold); background:#FBF6EA; padding:9pt 12pt; margin:12pt 0; break-inside:avoid; }
+.panel { border-left: 2.6pt solid var(--gold); background:#FBF6EA; padding:9pt 12pt; margin:12pt 0; break-inside:avoid; }
 .panel__h { font-family:Calibri,"Nimbus Sans",Arial,sans-serif; font-size:7pt; font-weight:700;
   letter-spacing:.12em; text-transform:uppercase; color:var(--bronze); margin:0 0 4pt; }
 .panel p { font-size:9pt; line-height:1.5; margin:0 0 4pt; }
@@ -177,18 +186,18 @@ h2,h3,h4,h5 { color:var(--ink); break-after:avoid; }
 table.claims { width:100%; border-collapse:collapse; font-family:Calibri,"Nimbus Sans",Arial,sans-serif;
   font-size:8.5pt; margin:8pt 0; }
 table.claims th { background:#1F3E7C; color:#fff; text-align:left; padding:5pt 7pt;
-  font-size:7pt; letter-spacing:.08em; text-transform:uppercase; }
-table.claims td { padding:5pt 7pt; border-bottom:.5pt solid #E4E8EF; }
+  font-size:7pt; letter-spacing:.06em; text-transform:uppercase; }
+table.claims td { padding:5pt 7pt; border-bottom: .4pt solid #E4E8EF; }
 .s-ok { color:#1E6B3A; font-weight:700; } .s-warn { color:#8A6B2E; font-weight:700; }
 .s-gap { color:#8C1F2F; font-weight:700; }
 
 .clist { list-style:none; margin:0; padding:0; }
-.clist > li { margin:0 0 11pt; padding:0 0 9pt; border-bottom:.5pt solid var(--rule); break-inside:avoid; }
+.clist > li { margin:0 0 11pt; padding:0 0 9pt; border-bottom: .4pt solid var(--rule); break-inside:avoid; }
 .clist a { text-decoration:none; display:flex; align-items:baseline; gap:10pt; }
 .c__n { font-size:17pt; font-weight:700; color:var(--mid); min-width:2.4em; }
 .c__t { font-size:12pt; color:#1F3E7C; }
 .c__t em { display:block; font-style:normal; font-family:Calibri,"Nimbus Sans",Arial,sans-serif;
-  font-size:7.5pt; color:var(--soft); letter-spacing:.04em; margin-top:1pt; }
+  font-size:7.5pt; color:var(--soft); letter-spacing:.06em; margin-top:1pt; }
 .c__mods { margin:5pt 0 0 3.4em; padding:0; list-style:none; columns:2; column-gap:14pt;
   font-size:8pt; color:var(--soft); font-family:Calibri,"Nimbus Sans",Arial,sans-serif; }
 .c__mods li { margin:0 0 2pt; break-inside:avoid; }
@@ -213,7 +222,7 @@ table.claims td { padding:5pt 7pt; border-bottom:.5pt solid #E4E8EF; }
 .opener__in { position:relative; padding:0 20mm; width:100%; }
 .opener__crest { margin:0 0 8pt; }
 .opener__eyebrow { font-family:var(--sans); font-size:7pt; font-weight:700;
-  letter-spacing:.28em; text-transform:uppercase; color:var(--mid); margin:0 0 6pt; }
+  letter-spacing:.24em; text-transform:uppercase; color:var(--mid); margin:0 0 6pt; }
 .opener__ros { position:absolute; top:34pt; left:50%; transform:translateX(-50%); }
 .opener__num { position:relative; font-size:112pt; line-height:.94; font-weight:700;
   color:var(--ink); margin:0; letter-spacing:.02em; }
@@ -221,60 +230,60 @@ table.claims td { padding:5pt 7pt; border-bottom:.5pt solid #E4E8EF; }
 .opener__cefr { font-family:var(--sans); font-size:8.4pt; font-weight:700;
   letter-spacing:.24em; text-transform:uppercase; color:var(--mid); margin:0 0 14pt; }
 .opener__orn { margin:0 0 16pt; display:flex; justify-content:center; }
-.opener__awardbox { border-top:.6pt solid var(--mid); border-bottom:.6pt solid var(--mid);
+.opener__awardbox { border-top: .6pt solid var(--mid); border-bottom: .6pt solid var(--mid);
   padding:10pt 0 9pt; margin:0 auto 16pt; max-width:32em; }
-.opener__awardh { font-family:var(--sans); font-size:6.4pt; font-weight:700; letter-spacing:.22em;
+.opener__awardh { font-family:var(--sans); font-size:6.4pt; font-weight:700; letter-spacing:.24em;
   text-transform:uppercase; color:var(--soft); margin:0 0 5pt; }
 .opener__award { font-size:14pt; font-style:italic; color:var(--ink); margin:0 0 3pt; }
 .opener__pn { font-family:var(--sans); font-size:9.5pt; font-weight:700;
-  letter-spacing:.14em; color:var(--mid); margin:0 0 6pt; }
+  letter-spacing:.12em; color:var(--mid); margin:0 0 6pt; }
 .opener__st { font-size:9.4pt; color:var(--soft); max-width:30em; margin:0 auto; }
 .opener__stats { display:flex; gap:20pt; justify-content:center; margin:0 0 18pt; }
 .opener__stats div { text-align:center; min-width:16mm; }
 .opener__stats b { display:block; font-size:19pt; color:var(--ink); line-height:1.1; }
 .opener__stats span { font-family:var(--sans); font-size:6.4pt;
-  letter-spacing:.16em; text-transform:uppercase; color:var(--soft); }
+  letter-spacing:.18em; text-transform:uppercase; color:var(--soft); }
 .opener__band { opacity:.9; }
 
 .lvintro { break-before:page; }
 .drop::first-letter { float:left; font-size:40pt; line-height:.84; font-weight:700;
   color:var(--mid); padding:2pt 6pt 0 0; }
 .lvintro { font-size:10.4pt; line-height:1.6; }
-.lvintro__why { margin-top:12pt; border-left:2.2pt solid var(--mid); background:var(--wash);
+.lvintro__why { margin-top:12pt; border-left: 2pt solid var(--mid); background:var(--wash);
   padding:9pt 12pt; break-inside:avoid; }
 .lvintro__why p:last-child { margin:0; font-size:9.4pt; }
 
 /* ---------- Module ---------- */
 .module { break-before:page; }
-.module__h { display:flex; gap:12pt; align-items:flex-start; border-bottom:1.6pt solid var(--mid);
+.module__h { display:flex; gap:12pt; align-items:flex-start; border-bottom: 1.2pt solid var(--mid);
   padding-bottom:8pt; margin-bottom:12pt; break-after:avoid; }
 .module__n { background:var(--ink); color:#fff; padding:6pt 9pt 7pt; text-align:center; min-width:15mm; }
 .module__n span { display:block; font-family:Calibri,"Nimbus Sans",Arial,sans-serif; font-size:6pt;
-  letter-spacing:.16em; text-transform:uppercase; opacity:.8; }
+  letter-spacing:.18em; text-transform:uppercase; opacity:.8; }
 .module__n b { display:block; font-size:19pt; line-height:1.05; }
 .module__t h3 { font-size:16pt; margin:0 0 2pt; line-height:1.2; }
 .module__m { font-family:Calibri,"Nimbus Sans",Arial,sans-serif; font-size:7.5pt; color:var(--soft);
   margin:0; letter-spacing:.02em; }
 
 /* ---------- Lesson ---------- */
-.lesson { break-inside:auto; margin:0 0 16pt; padding:0 0 12pt; border-bottom:.5pt solid var(--rule); }
+.lesson { break-inside:auto; margin:0 0 16pt; padding:0 0 12pt; border-bottom: .4pt solid var(--rule); }
 .lesson:last-child { border-bottom:0; }
 .lesson__h { break-after:avoid; margin:0 0 8pt; padding:0 0 5pt;
-  border-bottom:.5pt solid var(--rule); }
+  border-bottom: .4pt solid var(--rule); }
 .lesson__top { display:flex; justify-content:space-between; align-items:baseline; }
 .lesson__k { font-family:var(--sans); font-size:6.6pt; font-weight:700;
   letter-spacing:.18em; text-transform:uppercase; color:var(--mid); margin:0 0 1pt; }
-.lesson__ref { font-family:var(--sans); font-size:6.6pt; letter-spacing:.1em;
+.lesson__ref { font-family:var(--sans); font-size:6.6pt; letter-spacing:.12em;
   color:var(--soft); margin:0; }
 .lesson__h h4 { font-size:13.5pt; margin:1pt 0 0; line-height:1.22; letter-spacing:-.008em; }
 .lesson__meta { font-family:var(--sans); font-size:6.6pt; color:var(--soft); margin:2.5pt 0 0;
-  letter-spacing:.04em; }
+  letter-spacing:.06em; }
 
 /* An assessed item is an occasion. The ceremonial header says so before
    a word is read: the level's ink as a ground, the rule doubled. */
 .lesson--assessed { break-before:page; }
 .lesson__h--cer { background:var(--ink); color:#fff; padding:8pt 10pt 8pt;
-  border-bottom:2.4pt solid var(--mid); margin:0 0 10pt; }
+  border-bottom: 2.6pt solid var(--mid); margin:0 0 10pt; }
 .lesson__h--cer .lesson__k { color:#fff; opacity:.9; }
 .lesson__h--cer .lesson__ref { color:#fff; opacity:.7; }
 .lesson__h--cer h4 { color:#fff; font-size:15pt; }
@@ -285,19 +294,19 @@ table.claims td { padding:5pt 7pt; border-bottom:.5pt solid #E4E8EF; }
 .stage { margin:0 0 7pt; break-inside:avoid; }
 .stage--intro { font-size:9.6pt; }
 .stage__h { font-family:Calibri,"Nimbus Sans",Arial,sans-serif; font-size:7.4pt; font-weight:700;
-  letter-spacing:.1em; text-transform:uppercase; color:var(--ink); margin:0 0 2.5pt;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink); margin:0 0 2.5pt;
   display:flex; align-items:baseline; gap:5pt; }
 .stage__mk { color:var(--mid); font-size:8.5pt; min-width:1em; }
-.stage__t { font-weight:400; letter-spacing:.04em; text-transform:none; color:var(--soft);
+.stage__t { font-weight:400; letter-spacing:.06em; text-transform:none; color:var(--soft);
   font-size:7pt; font-style:italic; }
 .stage__b p { margin:0 0 4pt; }
-.stage--emph { background:var(--wash); border-left:2pt solid var(--mid); padding:7pt 10pt 5pt; }
+.stage--emph { background:var(--wash); border-left: 2pt solid var(--mid); padding:7pt 10pt 5pt; }
 .stage--emph .stage__h { color:var(--ink); }
 
-.dialogue { border-left:1.4pt solid var(--mid); padding:4pt 0 4pt 9pt; margin:4pt 0 6pt; break-inside:avoid; }
+.dialogue { border-left: 1.2pt solid var(--mid); padding:4pt 0 4pt 9pt; margin:4pt 0 6pt; break-inside:avoid; }
 .dialogue p { margin:0 0 2pt; font-size:9.6pt; }
 .dialogue .sp { font-family:Calibri,"Nimbus Sans",Arial,sans-serif; font-weight:700; font-size:7.4pt;
-  color:var(--mid); letter-spacing:.08em; display:inline-block; min-width:2.1em; }
+  color:var(--mid); letter-spacing:.06em; display:inline-block; min-width:2.1em; }
 
 ol.items { margin:3pt 0 5pt; padding:0; list-style:none; }
 ol.items li { margin:0 0 2.5pt; padding-left:14pt; text-indent:-14pt; }
@@ -317,9 +326,9 @@ ol.q__c li::before { content:counter(c, upper-alpha); position:absolute; left:0;
   color:var(--soft); font-weight:700; font-size:7.6pt; }
 ol.q__c li.is-key { color:var(--ink); font-weight:700; }
 ol.q__c li.is-key::before { color:var(--mid); }
-.answerkey { background:var(--wash); border-left:2pt solid var(--mid); padding:6pt 10pt; break-inside:avoid; }
+.answerkey { background:var(--wash); border-left: 2pt solid var(--mid); padding:6pt 10pt; break-inside:avoid; }
 .answerkey__h { font-family:Calibri,"Nimbus Sans",Arial,sans-serif; font-size:6.8pt; font-weight:700;
-  letter-spacing:.14em; text-transform:uppercase; color:var(--ink); margin:0 0 3pt; }
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink); margin:0 0 3pt; }
 .answerkey__g { display:flex; flex-wrap:wrap; gap:4pt 10pt;
   font-family:Calibri,"Nimbus Sans",Arial,sans-serif; font-size:8.4pt; }
 .answerkey__g span { color:var(--ink); }
@@ -329,7 +338,7 @@ ol.q__c li.is-key::before { color:var(--mid); }
 .quietleaf { break-before:page; height:250mm; display:flex; flex-direction:column;
   align-items:center; justify-content:center; gap:14pt; }
 .quietleaf__n { font-family:var(--serif); font-size:62pt; font-weight:700; color:var(--wash);
-  line-height:1; letter-spacing:.04em; }
+  line-height:1; letter-spacing:.06em; }
 .quietleaf__o { opacity:.5; }
 
 /* ---------- The icon language ---------- */
@@ -343,7 +352,7 @@ ol.q__c li.is-key::before { color:var(--mid); }
    a few pages from an event. */
 .moduleopen { break-before:page; break-inside:avoid; break-after:avoid;
   background:var(--wash); padding:11mm 12mm 10mm; margin:0 0 9pt;
-  border-top:2.6pt solid var(--ink); position:relative; }
+  border-top: 2.6pt solid var(--ink); position:relative; }
 .moduleopen__orn { position:absolute; left:12mm; right:12mm; bottom:5mm; opacity:.75; }
 .moduleopen__hd { display:flex; gap:11pt; align-items:flex-start; margin:0 0 12pt; }
 .moduleopen__num { background:var(--ink); color:#fff; padding:7pt 10pt 8pt; text-align:center;
@@ -352,20 +361,20 @@ ol.q__c li.is-key::before { color:var(--mid); }
   letter-spacing:.18em; text-transform:uppercase; opacity:.82; }
 .moduleopen__num b { display:block; font-size:27pt; line-height:1; margin:1pt 0; }
 .moduleopen__num i { display:block; font-family:var(--sans); font-size:5.6pt; font-style:normal;
-  letter-spacing:.1em; opacity:.7; }
+  letter-spacing:.12em; opacity:.7; }
 .moduleopen__eyebrow { font-family:var(--sans); font-size:6.4pt; font-weight:700;
-  letter-spacing:.2em; text-transform:uppercase; color:var(--mid); margin:2pt 0 3pt; }
+  letter-spacing:.18em; text-transform:uppercase; color:var(--mid); margin:2pt 0 3pt; }
 .moduleopen__ti h3 { font-size:21pt; margin:0; line-height:1.14; letter-spacing:-.012em; }
-.moduleopen__stats { display:flex; gap:16pt; border-top:.6pt solid var(--mid);
-  border-bottom:.6pt solid var(--mid); padding:7pt 0; margin:0 0 11pt; }
+.moduleopen__stats { display:flex; gap:16pt; border-top: .6pt solid var(--mid);
+  border-bottom: .6pt solid var(--mid); padding:7pt 0; margin:0 0 11pt; }
 .moduleopen__stats b { display:block; font-size:15pt; color:var(--ink); line-height:1.1; }
-.moduleopen__stats span { font-family:var(--sans); font-size:5.8pt; letter-spacing:.14em;
+.moduleopen__stats span { font-family:var(--sans); font-size:5.8pt; letter-spacing:.12em;
   text-transform:uppercase; color:var(--soft); }
-.moduleopen__ch { font-family:var(--sans); font-size:6.2pt; font-weight:700; letter-spacing:.22em;
+.moduleopen__ch { font-family:var(--sans); font-size:6.2pt; font-weight:700; letter-spacing:.24em;
   text-transform:uppercase; color:var(--soft); margin:0 0 5pt; }
 .moduleopen__list { list-style:none; margin:0 0 11pt; padding:0; }
 .mo__i { display:flex; align-items:baseline; gap:7pt; padding:2.6pt 0;
-  border-bottom:.4pt solid rgba(0,0,0,.07); }
+  border-bottom: .4pt solid rgba(0,0,0,.07); }
 .mo__ref { font-family:var(--sans); font-size:6.4pt; color:var(--soft); min-width:5.4em; }
 .mo__t { flex:1; font-size:9.2pt; color:#1A1A1A; }
 .mo__k { font-family:var(--sans); font-size:5.8pt; letter-spacing:.12em; text-transform:uppercase;
@@ -378,7 +387,7 @@ ol.q__c li.is-key::before { color:var(--mid); }
 /* ---------- The stage tape ---------- */
 /* The shape of the session, drawn from its own stages, above the title. */
 .tape { display:flex; flex-wrap:wrap; gap:3.4pt; margin:4pt 0 0; padding:3.4pt 0 0;
-  border-top:.4pt solid var(--rule); }
+  border-top: .4pt solid var(--rule); }
 .tape__i { color:var(--mid); opacity:.72; line-height:0; }
 
 /* ---------- Rubric table ---------- */
@@ -388,7 +397,7 @@ table.rubric { width:100%; border-collapse:collapse; margin:4pt 0 5pt; break-ins
 table.rubric th { background:var(--ink); color:#fff; text-align:left; padding:3.4pt 6pt;
   font-family:var(--sans); font-size:6.2pt; letter-spacing:.12em; text-transform:uppercase;
   font-weight:700; }
-table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
+table.rubric td { padding:3.8pt 6pt; border-bottom: .4pt solid rgba(0,0,0,.09);
   vertical-align:top; font-size:8.8pt; line-height:1.42; }
 .rb__n { width:12pt; font-family:var(--sans); font-size:7pt; font-weight:700; color:var(--mid);
   text-align:center; }
@@ -397,23 +406,23 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
 
 /* ---------- Figures ---------- */
 .arch { break-before:page; }
-.fig { margin:0 0 16pt; padding:0 0 12pt; border-bottom:.5pt solid var(--rule);
+.fig { margin:0 0 16pt; padding:0 0 12pt; border-bottom: .4pt solid var(--rule);
   break-inside:avoid; }
 .fig--break { break-before:page; }
-.fig__c { font-family:var(--sans); font-size:7pt; letter-spacing:.14em; text-transform:uppercase;
-  color:var(--soft); margin:0 0 7pt; padding-bottom:3pt; border-bottom:.5pt solid var(--rule); }
+.fig__c { font-family:var(--sans); font-size:7pt; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--soft); margin:0 0 7pt; padding-bottom:3pt; border-bottom: .4pt solid var(--rule); }
 .fig__c b { color:var(--ink); font-weight:700; }
 .fig__n { font-size:8.4pt; line-height:1.5; color:#3A3A3A; margin:8pt 0 0; max-width:38em; }
 
 /* ---------- Back matter ---------- */
-.clist__after { margin-top:12pt; padding-top:8pt; border-top:.5pt solid var(--rule); }
+.clist__after { margin-top:12pt; padding-top:8pt; border-top: .4pt solid var(--rule); }
 .clist__after p:last-child { font-family:var(--sans); font-size:8pt; color:var(--soft); margin:0; }
 
 .omt { width:100%; border-collapse:collapse; font-size:8.2pt; margin:10pt 0; }
 .omt th { background:#1F3E7C; color:#fff; text-align:left; padding:5pt 7pt;
-  font-family:var(--sans); font-size:6.8pt; letter-spacing:.1em; text-transform:uppercase; }
-.omt td { padding:5.5pt 7pt; border-bottom:.5pt solid #E4E8EF; vertical-align:top; line-height:1.45; }
-.omt__s { font-family:var(--sans); font-size:6.8pt; font-weight:700; letter-spacing:.1em;
+  font-family:var(--sans); font-size:6.8pt; letter-spacing:.12em; text-transform:uppercase; }
+.omt td { padding:5.5pt 7pt; border-bottom: .4pt solid #E4E8EF; vertical-align:top; line-height:1.45; }
+.omt__s { font-family:var(--sans); font-size:6.8pt; font-weight:700; letter-spacing:.12em;
   text-transform:uppercase; color:var(--bronze); white-space:nowrap; }
 .omt__i { font-weight:700; color:var(--ink); width:26%; }
 .omt__st { font-family:var(--sans); font-size:7.2pt; color:var(--crimson); font-weight:700;
@@ -424,7 +433,7 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
   margin:7pt auto 14pt; }
 .colophon p { max-width:30em; margin:0 auto 8pt; font-size:9.4pt; line-height:1.6; text-align:left; }
 .col__orn { display:flex; justify-content:center; margin:0 0 10pt; }
-.col__meta { font-family:var(--sans); font-size:7pt; letter-spacing:.08em; color:var(--soft);
+.col__meta { font-family:var(--sans); font-size:7pt; letter-spacing:.06em; color:var(--soft);
   text-align:center !important; margin-top:14pt !important; }
 .col__band { margin:12pt auto 0; max-width:70%; }
 </style></head><body>
@@ -2281,28 +2290,26 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     role="img" aria-label="Worldwide English College crest"
     xmlns="http://www.w3.org/2000/svg">
     <path d="M8 6 H112 V78 C112 104 92 122 60 134 C28 122 8 104 8 78 Z"
-      fill="none" stroke="#E4D5A8" stroke-width="1.533"/>
+      fill="none" stroke="#E4D5A8" stroke-width="2"/>
     <path d="M14 12 H106 V77 C106 100 88 116 60 127 C32 116 14 100 14 77 Z"
-      fill="none" stroke="#E4D5A8" stroke-width="0.46" opacity="0.65"/>
+      fill="none" stroke="#E4D5A8" stroke-width="0.6" opacity="0.65"/>
     <!-- the open book -->
     <path d="M28 60 C40 54 52 54 60 58 C68 54 80 54 92 60 L92 82 C80 76 68 76 60 80
-             C52 76 40 76 28 82 Z" fill="none" stroke="#E4D5A8" stroke-width="1.227"
+             C52 76 40 76 28 82 Z" fill="none" stroke="#E4D5A8" stroke-width="1.6"
       stroke-linejoin="round"/>
-    <path d="M60 58 V80" stroke="#E4D5A8" stroke-width="0.92"/>
+    <path d="M60 58 V80" stroke="#E4D5A8" stroke-width="1.2"/>
     <!-- six bars: the ascent -->
-    <rect x="34" y="46" width="3.833" height="3"
-       fill="#E4D5A8" opacity="0.45"/><rect x="43" y="43" width="3.833" height="6"
-       fill="#E4D5A8" opacity="0.56"/><rect x="52" y="40" width="3.833" height="9"
-       fill="#E4D5A8" opacity="0.67"/><rect x="61" y="37" width="3.833" height="12"
-       fill="#E4D5A8" opacity="0.78"/><rect x="70" y="34" width="3.833" height="15"
-       fill="#E4D5A8" opacity="0.89"/><rect x="79" y="31" width="3.833" height="18"
+    <rect x="34" y="46" width="5" height="3"
+       fill="#E4D5A8" opacity="0.45"/><rect x="43" y="43" width="5" height="6"
+       fill="#E4D5A8" opacity="0.56"/><rect x="52" y="40" width="5" height="9"
+       fill="#E4D5A8" opacity="0.67"/><rect x="61" y="37" width="5" height="12"
+       fill="#E4D5A8" opacity="0.78"/><rect x="70" y="34" width="5" height="15"
+       fill="#E4D5A8" opacity="0.89"/><rect x="79" y="31" width="5" height="18"
        fill="#E4D5A8" opacity="1"/>
     <text x="60" y="103" text-anchor="middle" fill="#E4D5A8"
-      font-family="Georgia, 'Times New Roman', serif" font-size="11.5"
-      letter-spacing="1.533" font-weight="700">WEC</text>
-    <text x="60" y="115" text-anchor="middle" fill="#E4D5A8" opacity="0.8"
-      font-family="Calibri, Arial, sans-serif" font-size="4.907"
-      letter-spacing="1.84">LONDON</text>
+      font-family="Georgia, 'Times New Roman', serif" font-size="15"
+      letter-spacing="2" font-weight="700">WEC</text>
+    
   </svg></div>
     <div class="frontis__ladder">
       <div class="frontis__rung">
@@ -2356,28 +2363,26 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     role="img" aria-label="Worldwide English College crest"
     xmlns="http://www.w3.org/2000/svg">
     <path d="M8 6 H112 V78 C112 104 92 122 60 134 C28 122 8 104 8 78 Z"
-      fill="#0F1D38" stroke="#B4933E" stroke-width="1.1"/>
+      fill="#0F1D38" stroke="#B4933E" stroke-width="2"/>
     <path d="M14 12 H106 V77 C106 100 88 116 60 127 C32 116 14 100 14 77 Z"
-      fill="none" stroke="#B4933E" stroke-width="0.33" opacity="0.65"/>
+      fill="none" stroke="#B4933E" stroke-width="0.6" opacity="0.65"/>
     <!-- the open book -->
     <path d="M28 60 C40 54 52 54 60 58 C68 54 80 54 92 60 L92 82 C80 76 68 76 60 80
-             C52 76 40 76 28 82 Z" fill="none" stroke="#B4933E" stroke-width="0.88"
+             C52 76 40 76 28 82 Z" fill="none" stroke="#B4933E" stroke-width="1.6"
       stroke-linejoin="round"/>
-    <path d="M60 58 V80" stroke="#B4933E" stroke-width="0.66"/>
+    <path d="M60 58 V80" stroke="#B4933E" stroke-width="1.2"/>
     <!-- six bars: the ascent -->
-    <rect x="34" y="46" width="2.75" height="3"
-       fill="#B4933E" opacity="0.45"/><rect x="43" y="43" width="2.75" height="6"
-       fill="#B4933E" opacity="0.56"/><rect x="52" y="40" width="2.75" height="9"
-       fill="#B4933E" opacity="0.67"/><rect x="61" y="37" width="2.75" height="12"
-       fill="#B4933E" opacity="0.78"/><rect x="70" y="34" width="2.75" height="15"
-       fill="#B4933E" opacity="0.89"/><rect x="79" y="31" width="2.75" height="18"
+    <rect x="34" y="46" width="5" height="3"
+       fill="#B4933E" opacity="0.45"/><rect x="43" y="43" width="5" height="6"
+       fill="#B4933E" opacity="0.56"/><rect x="52" y="40" width="5" height="9"
+       fill="#B4933E" opacity="0.67"/><rect x="61" y="37" width="5" height="12"
+       fill="#B4933E" opacity="0.78"/><rect x="70" y="34" width="5" height="15"
+       fill="#B4933E" opacity="0.89"/><rect x="79" y="31" width="5" height="18"
        fill="#B4933E" opacity="1"/>
     <text x="60" y="103" text-anchor="middle" fill="#B4933E"
-      font-family="Georgia, 'Times New Roman', serif" font-size="8.25"
-      letter-spacing="1.1" font-weight="700">WEC</text>
-    <text x="60" y="115" text-anchor="middle" fill="#B4933E" opacity="0.8"
-      font-family="Calibri, Arial, sans-serif" font-size="3.52"
-      letter-spacing="1.32">LONDON</text>
+      font-family="Georgia, 'Times New Roman', serif" font-size="15"
+      letter-spacing="2" font-weight="700">WEC</text>
+    
   </svg></div>
     <p class="tp__inst">Worldwide English College</p>
     <p class="tp__camp">London Campus</p>
@@ -2419,22 +2424,22 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
   <div class="idblock">
     <p class="idblock__h">Identification and security features</p>
     <table class="idtable">
-      <tr><th>Publication ID</th><td class="mono">WEC-LC/IEFC/CUR/2026/E01</td></tr>
-      <tr><th>Document ID</th><td class="mono">RP6Y-KFPF-2NJ5-8SW9</td></tr>
-      <tr><th>Edition code</th><td class="mono">E01</td></tr>
-      <tr><th>Revision code</th><td class="mono">R00</td></tr>
-      <tr><th>Issue code</th><td class="mono">E01.R00.01</td></tr>
-      <tr><th>Version</th><td class="mono">1.0.1</td></tr>
-      <tr><th>Print identifier</th><td class="mono">E01.R00.01-MXS5</td></tr>
-      <tr><th>Content digest (SHA-256, leading 64 hex)</th>
+      <tr><th scope="col">Publication ID</th><td class="mono">WEC-LC/IEFC/CUR/2026/E01</td></tr>
+      <tr><th scope="col">Document ID</th><td class="mono">RP6Y-KFPF-2NJ5-8SW9</td></tr>
+      <tr><th scope="col">Edition code</th><td class="mono">E01</td></tr>
+      <tr><th scope="col">Revision code</th><td class="mono">R00</td></tr>
+      <tr><th scope="col">Issue code</th><td class="mono">E01.R00.01</td></tr>
+      <tr><th scope="col">Version</th><td class="mono">1.0.1</td></tr>
+      <tr><th scope="col">Print identifier</th><td class="mono">E01.R00.01-MXS5</td></tr>
+      <tr><th scope="col">Content digest (SHA-256, leading 64 hex)</th>
         <td class="mono digest">5876867e53cf16efe2f5f225a8d95c497f7b14b5743db965345318208723f00c</td></tr>
-      <tr><th>ISBN</th><td>Not assigned
+      <tr><th scope="col">ISBN</th><td>Not assigned
         <span class="auth">— issued by International ISBN Agency; the College holds no such
-        assignment</span></td></tr><tr><th>DOI</th><td>Not registered
+        assignment</span></td></tr><tr><th scope="col">DOI</th><td>Not registered
         <span class="auth">— issued by A DOI registration agency; the College holds no such
-        assignment</span></td></tr><tr><th>Legal deposit</th><td>Not deposited
+        assignment</span></td></tr><tr><th scope="col">Legal deposit</th><td>Not deposited
         <span class="auth">— issued by The British Library; the College holds no such
-        assignment</span></td></tr><tr><th>Library catalogue</th><td>Not catalogued
+        assignment</span></td></tr><tr><th scope="col">Library catalogue</th><td>Not catalogued
         <span class="auth">— issued by A depository library; the College holds no such
         assignment</span></td></tr>
     </table>
@@ -2553,7 +2558,7 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     Each element of that definition is assessed below against the evidence actually present in the
     academic database.</p>
   <table class="claims">
-  <thead><tr><th>Element of the definition</th><th>Position</th></tr></thead>
+  <thead><tr><th scope="col">Element of the definition</th><th scope="col">Position</th></tr></thead>
   <tbody><tr><td>Built on CEFR proficiency</td><td class="s-ok">Evidenced</td></tr><tr><td>Extended through competency verification</td><td class="s-gap">Not evidenced</td></tr><tr><td>Extended through leadership</td><td class="s-warn">Partial</td></tr><tr><td>Extended through professional communication</td><td class="s-ok">Evidenced</td></tr><tr><td>Extended through critical thinking</td><td class="s-ok">Evidenced</td></tr><tr><td>Extended through authentic assessment</td><td class="s-ok">Evidenced</td></tr><tr><td>Independently verifiable digital credentials</td><td class="s-warn">Partial</td></tr></tbody></table>
   <p class="small">Derived from the academic database at generation, not asserted. Where an element
     is marked <em>not evidenced</em>, the College's position is that the element is intended and
@@ -2669,142 +2674,142 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     aria-label="Words of lesson content at each level, with words per authored item marked; the structural counts are identical at every level"
     xmlns="http://www.w3.org/2000/svg">
     <rect x="0" y="0" width="760" height="20" fill="#F6F1E4"/>
-    <text x="8" y="13.5" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6" font-weight="700" letter-spacing="1.1"
+    <text x="8" y="13.5" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53" font-weight="700" letter-spacing="1.1"
       fill="#7A5C2E">EVERY LEVEL: 10 MODULES · 49 AUTHORED ITEMS · 110 ASSESSMENT QUESTIONS · 4 MONTHS</text>
-    <text x="46" y="36" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.4" letter-spacing="1.2"
+    <text x="46" y="36" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21" letter-spacing="1.2"
       fill="#1F3E7C">BARS · WORDS OF LESSON CONTENT</text>
-    <text x="706" y="36" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.4" letter-spacing="1.2"
+    <text x="706" y="36" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21" letter-spacing="1.2"
       fill="#8C1F2F">RULES · WORDS PER NAMED STAGE</text>
     <line x1="46" y1="196" x2="706" y2="196"
         stroke="#D8DCE3" stroke-width="0.4"/>
-      <text x="41" y="199" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6"
+      <text x="41" y="199" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.58"
         fill="#6B7280">5k</text><line x1="46" y1="148" x2="706" y2="148"
         stroke="#D8DCE3" stroke-width="0.4"/>
-      <text x="41" y="151" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6"
+      <text x="41" y="151" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.58"
         fill="#6B7280">10k</text><line x1="46" y1="100" x2="706" y2="100"
         stroke="#D8DCE3" stroke-width="0.4"/>
-      <text x="41" y="103" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6"
+      <text x="41" y="103" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.58"
         fill="#6B7280">15k</text><line x1="46" y1="52" x2="706" y2="52"
         stroke="#D8DCE3" stroke-width="0.4"/>
-      <text x="41" y="55" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6"
+      <text x="41" y="55" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.58"
         fill="#6B7280">20k</text><g>
       <rect x="59.2" y="149.2" width="83.6" height="94.8"
         fill="#EDF3FF" stroke="#4C6AA8" stroke-width="0.7"/>
       <rect x="59.2" y="149.2" width="83.6" height="3" fill="#1B2F5C"/>
-      <text x="101" y="143.2" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.4"
+      <text x="101" y="143.2" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
         font-weight="700" fill="#1B2F5C">9,664</text>
       <line x1="52.6" y1="138.94" x2="149.4" y2="138.94"
         stroke="#8C1F2F" stroke-width="1.3"/>
       <circle cx="101" cy="138.94" r="2.1" fill="#8C1F2F"/>
-      <text x="52.6" y="134.94" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="52.6" y="134.94" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         font-weight="700" fill="#8C1F2F">29</text>
-      <text x="52.6" y="147.94" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="5.6"
+      <text x="52.6" y="147.94" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
         fill="#8C1F2F" opacity=".75">336 stages</text>
-      <text x="101" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="14"
+      <text x="101" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="22.34"
         font-weight="700" fill="#1B2F5C">I</text>
-      <text x="101" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="101" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         font-weight="700" fill="#4C6AA8">A1</text>
-      <text x="101" y="282" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2"
+      <text x="101" y="282" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
         fill="#6B7280">Foundation</text>
     </g><g>
       <rect x="169.2" y="133.98" width="83.6" height="110.02"
         fill="#E6F6FB" stroke="#00798F" stroke-width="0.7"/>
       <rect x="169.2" y="133.98" width="83.6" height="3" fill="#003844"/>
-      <text x="211" y="127.98" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.4"
+      <text x="211" y="127.98" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
         font-weight="700" fill="#003844">11,216</text>
       <line x1="162.6" y1="128.08" x2="259.4" y2="128.08"
         stroke="#8C1F2F" stroke-width="1.3"/>
       <circle cx="211" cy="128.08" r="2.1" fill="#8C1F2F"/>
-      <text x="162.6" y="124.08" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="162.6" y="124.08" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         font-weight="700" fill="#8C1F2F">32</text>
-      <text x="162.6" y="137.08" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="5.6"
+      <text x="162.6" y="137.08" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
         fill="#8C1F2F" opacity=".75">351 stages</text>
-      <text x="211" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="14"
+      <text x="211" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="22.34"
         font-weight="700" fill="#003844">II</text>
-      <text x="211" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="211" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         font-weight="700" fill="#00798F">A2</text>
-      <text x="211" y="282" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2"
+      <text x="211" y="282" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
         fill="#6B7280">Elementary</text>
     </g><g>
       <rect x="279.2" y="108.04" width="83.6" height="135.96"
         fill="#E9F7EE" stroke="#297E54" stroke-width="0.7"/>
       <rect x="279.2" y="108.04" width="83.6" height="3" fill="#003D22"/>
-      <text x="321" y="102.04" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.4"
+      <text x="321" y="102.04" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
         font-weight="700" fill="#003D22">13,860</text>
       <line x1="272.6" y1="113.58" x2="369.4" y2="113.58"
         stroke="#8C1F2F" stroke-width="1.3"/>
       <circle cx="321" cy="113.58" r="2.1" fill="#8C1F2F"/>
-      <text x="272.6" y="109.58" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="272.6" y="109.58" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         font-weight="700" fill="#8C1F2F">36</text>
-      <text x="272.6" y="122.58" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="5.6"
+      <text x="272.6" y="122.58" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
         fill="#8C1F2F" opacity=".75">382 stages</text>
-      <text x="321" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="14"
+      <text x="321" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="22.34"
         font-weight="700" fill="#003D22">III</text>
-      <text x="321" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="321" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         font-weight="700" fill="#297E54">B1</text>
-      <text x="321" y="282" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2"
+      <text x="321" y="282" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
         fill="#6B7280">Intermediate</text>
     </g><g>
       <rect x="389.2" y="105.05" width="83.6" height="138.95"
         fill="#FAF2E6" stroke="#8D6310" stroke-width="0.7"/>
       <rect x="389.2" y="105.05" width="83.6" height="3" fill="#442C00"/>
-      <text x="431" y="99.05" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.4"
+      <text x="431" y="99.05" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
         font-weight="700" fill="#442C00">14,165</text>
       <line x1="382.6" y1="109.96" x2="479.4" y2="109.96"
         stroke="#8C1F2F" stroke-width="1.3"/>
       <circle cx="431" cy="109.96" r="2.1" fill="#8C1F2F"/>
-      <text x="382.6" y="105.96" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="382.6" y="105.96" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         font-weight="700" fill="#8C1F2F">37</text>
-      <text x="382.6" y="118.96" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="5.6"
+      <text x="382.6" y="118.96" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
         fill="#8C1F2F" opacity=".75">386 stages</text>
-      <text x="431" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="14"
+      <text x="431" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="22.34"
         font-weight="700" fill="#442C00">IV</text>
-      <text x="431" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="431" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         font-weight="700" fill="#8D6310">B2</text>
-      <text x="431" y="282" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2"
+      <text x="431" y="282" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
         fill="#6B7280">Upper Intermediate</text>
     </g><g>
       <rect x="499.2" y="112.07" width="83.6" height="131.93"
         fill="#FFEEED" stroke="#A05150" stroke-width="0.7"/>
       <rect x="499.2" y="112.07" width="83.6" height="3" fill="#551C1D"/>
-      <text x="541" y="106.07" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.4"
+      <text x="541" y="106.07" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
         font-weight="700" fill="#551C1D">13,449</text>
       <line x1="492.6" y1="117.21" x2="589.4" y2="117.21"
         stroke="#8C1F2F" stroke-width="1.3"/>
       <circle cx="541" cy="117.21" r="2.1" fill="#8C1F2F"/>
-      <text x="492.6" y="113.21" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="492.6" y="113.21" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         font-weight="700" fill="#8C1F2F">35</text>
-      <text x="492.6" y="126.21" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="5.6"
+      <text x="492.6" y="126.21" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
         fill="#8C1F2F" opacity=".75">384 stages</text>
-      <text x="541" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="14"
+      <text x="541" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="22.34"
         font-weight="700" fill="#551C1D">V</text>
-      <text x="541" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="541" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         font-weight="700" fill="#A05150">C1</text>
-      <text x="541" y="282" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2"
+      <text x="541" y="282" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
         fill="#6B7280">Advanced</text>
     </g><g>
       <rect x="609.2" y="52" width="83.6" height="192"
         fill="#F8EFFB" stroke="#855793" stroke-width="0.7"/>
       <rect x="609.2" y="52" width="83.6" height="3" fill="#43214D"/>
-      <text x="651" y="46" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.4"
+      <text x="651" y="46" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
         font-weight="700" fill="#43214D">19,573</text>
       <line x1="602.6" y1="52" x2="699.4" y2="52"
         stroke="#8C1F2F" stroke-width="1.3"/>
       <circle cx="651" cy="52" r="2.1" fill="#8C1F2F"/>
-      <text x="602.6" y="48" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="602.6" y="48" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         font-weight="700" fill="#8C1F2F">53</text>
-      <text x="602.6" y="61" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="5.6"
+      <text x="602.6" y="61" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
         fill="#8C1F2F" opacity=".75">371 stages</text>
-      <text x="651" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="14"
+      <text x="651" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="22.34"
         font-weight="700" fill="#43214D">VI</text>
-      <text x="651" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="651" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         font-weight="700" fill="#855793">C2</text>
-      <text x="651" y="282" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2"
+      <text x="651" y="282" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
         fill="#6B7280">English Mastery</text>
     </g>
     <line x1="46" y1="244" x2="706" y2="244"
       stroke="#1F3E7C" stroke-width="1"/>
-    <text x="380" y="296" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.4"
+    <text x="380" y="296" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
       fill="#6B7280">Identical architecture throughout: content rises 2× and the
       average stage grows 1.8× longer between the first level and the sixth.</text>
   </svg>
@@ -2830,383 +2835,383 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     aria-label="All sixty modules, six levels of ten, each divided into teaching items and its two assessments"
     xmlns="http://www.w3.org/2000/svg"><g transform="translate(74 8)">
       <rect width="9" height="7" fill="#4C6AA8" opacity="0.55"/>
-      <text x="14" y="6.6" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6" fill="#6B7280">Teaching lesson</text></g><g transform="translate(224 8)">
+      <text x="14" y="6.6" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53" fill="#6B7280">Teaching lesson</text></g><g transform="translate(224 8)">
       <rect width="9" height="7" fill="#1B2F5C" opacity="1"/>
-      <text x="14" y="6.6" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6" fill="#6B7280">Assessed quiz</text></g><g transform="translate(374 8)">
+      <text x="14" y="6.6" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53" fill="#6B7280">Assessed quiz</text></g><g transform="translate(374 8)">
       <rect width="9" height="7" fill="#8C1F2F" opacity="1"/>
-      <text x="14" y="6.6" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6" fill="#6B7280">Assessed assignment</text></g><text x="0" y="52" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="12" font-weight="700"
+      <text x="14" y="6.6" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53" fill="#6B7280">Assessed assignment</text></g><text x="0" y="52" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="19.15" font-weight="700"
         fill="#1B2F5C">I</text>
-      <text x="17" y="52" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2" fill="#6B7280"
+      <text x="17" y="52" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89" fill="#6B7280"
         >A1</text><rect x="74" y="39" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="74" y="45" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="74" y="51" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="74" y="57" width="62.8" height="5.1"
           fill="#1B2F5C" opacity="1"/><rect x="74" y="63" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="105.4" y="35" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">1</text><rect x="141.8" y="39" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">1</text><rect x="141.8" y="39" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="141.8" y="45" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="141.8" y="51" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="141.8" y="57" width="62.8" height="5.1"
           fill="#1B2F5C" opacity="1"/><rect x="141.8" y="63" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="173.2" y="35" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">2</text><rect x="209.6" y="39" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">2</text><rect x="209.6" y="39" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="209.6" y="45" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="209.6" y="51" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="209.6" y="57" width="62.8" height="5.1"
           fill="#1B2F5C" opacity="1"/><rect x="209.6" y="63" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="241" y="35" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">3</text><rect x="277.4" y="39" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">3</text><rect x="277.4" y="39" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="277.4" y="45" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="277.4" y="51" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="277.4" y="57" width="62.8" height="5.1"
           fill="#1B2F5C" opacity="1"/><rect x="277.4" y="63" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="308.8" y="35" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">4</text><rect x="345.2" y="39" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">4</text><rect x="345.2" y="39" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="345.2" y="45" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="345.2" y="51" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="345.2" y="57" width="62.8" height="5.1"
           fill="#1B2F5C" opacity="1"/><rect x="345.2" y="63" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="376.6" y="35" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">5</text><rect x="413" y="39" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">5</text><rect x="413" y="39" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="413" y="45" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="413" y="51" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="413" y="57" width="62.8" height="5.1"
           fill="#1B2F5C" opacity="1"/><rect x="413" y="63" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="444.4" y="35" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">6</text><rect x="480.8" y="39" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">6</text><rect x="480.8" y="39" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="480.8" y="45" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="480.8" y="51" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="480.8" y="57" width="62.8" height="5.1"
           fill="#1B2F5C" opacity="1"/><rect x="480.8" y="63" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="512.2" y="35" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">7</text><rect x="548.6" y="39" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">7</text><rect x="548.6" y="39" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="548.6" y="45" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="548.6" y="51" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="548.6" y="57" width="62.8" height="5.1"
           fill="#1B2F5C" opacity="1"/><rect x="548.6" y="63" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="580" y="35" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">8</text><rect x="616.4" y="39" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">8</text><rect x="616.4" y="39" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="616.4" y="45" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="616.4" y="51" width="62.8" height="5.1"
           fill="#4C6AA8" opacity="0.55"/><rect x="616.4" y="57" width="62.8" height="5.1"
           fill="#1B2F5C" opacity="1"/><rect x="616.4" y="63" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="647.8" y="35" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">9</text><rect x="684.2" y="39" width="62.8" height="6.6"
+        font-size="9.26" fill="#6B7280">9</text><rect x="684.2" y="39" width="62.8" height="6.6"
           fill="#4C6AA8" opacity="0.55"/><rect x="684.2" y="46.5" width="62.8" height="6.6"
           fill="#4C6AA8" opacity="0.55"/><rect x="684.2" y="54" width="62.8" height="6.6"
           fill="#1B2F5C" opacity="1"/><rect x="684.2" y="61.5" width="62.8" height="6.6"
           fill="#8C1F2F" opacity="1"/><text x="715.6" y="35" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">10</text><text x="0" y="103" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="12" font-weight="700"
+        font-size="9.26" fill="#6B7280">10</text><text x="0" y="103" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="19.15" font-weight="700"
         fill="#003844">II</text>
-      <text x="17" y="103" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2" fill="#6B7280"
+      <text x="17" y="103" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89" fill="#6B7280"
         >A2</text><rect x="74" y="90" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="74" y="96" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="74" y="102" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="74" y="108" width="62.8" height="5.1"
           fill="#003844" opacity="1"/><rect x="74" y="114" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="105.4" y="86" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">1</text><rect x="141.8" y="90" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">1</text><rect x="141.8" y="90" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="141.8" y="96" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="141.8" y="102" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="141.8" y="108" width="62.8" height="5.1"
           fill="#003844" opacity="1"/><rect x="141.8" y="114" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="173.2" y="86" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">2</text><rect x="209.6" y="90" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">2</text><rect x="209.6" y="90" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="209.6" y="96" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="209.6" y="102" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="209.6" y="108" width="62.8" height="5.1"
           fill="#003844" opacity="1"/><rect x="209.6" y="114" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="241" y="86" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">3</text><rect x="277.4" y="90" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">3</text><rect x="277.4" y="90" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="277.4" y="96" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="277.4" y="102" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="277.4" y="108" width="62.8" height="5.1"
           fill="#003844" opacity="1"/><rect x="277.4" y="114" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="308.8" y="86" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">4</text><rect x="345.2" y="90" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">4</text><rect x="345.2" y="90" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="345.2" y="96" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="345.2" y="102" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="345.2" y="108" width="62.8" height="5.1"
           fill="#003844" opacity="1"/><rect x="345.2" y="114" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="376.6" y="86" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">5</text><rect x="413" y="90" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">5</text><rect x="413" y="90" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="413" y="96" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="413" y="102" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="413" y="108" width="62.8" height="5.1"
           fill="#003844" opacity="1"/><rect x="413" y="114" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="444.4" y="86" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">6</text><rect x="480.8" y="90" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">6</text><rect x="480.8" y="90" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="480.8" y="96" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="480.8" y="102" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="480.8" y="108" width="62.8" height="5.1"
           fill="#003844" opacity="1"/><rect x="480.8" y="114" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="512.2" y="86" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">7</text><rect x="548.6" y="90" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">7</text><rect x="548.6" y="90" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="548.6" y="96" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="548.6" y="102" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="548.6" y="108" width="62.8" height="5.1"
           fill="#003844" opacity="1"/><rect x="548.6" y="114" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="580" y="86" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">8</text><rect x="616.4" y="90" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">8</text><rect x="616.4" y="90" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="616.4" y="96" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="616.4" y="102" width="62.8" height="5.1"
           fill="#00798F" opacity="0.55"/><rect x="616.4" y="108" width="62.8" height="5.1"
           fill="#003844" opacity="1"/><rect x="616.4" y="114" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="647.8" y="86" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">9</text><rect x="684.2" y="90" width="62.8" height="6.6"
+        font-size="9.26" fill="#6B7280">9</text><rect x="684.2" y="90" width="62.8" height="6.6"
           fill="#00798F" opacity="0.55"/><rect x="684.2" y="97.5" width="62.8" height="6.6"
           fill="#00798F" opacity="0.55"/><rect x="684.2" y="105" width="62.8" height="6.6"
           fill="#003844" opacity="1"/><rect x="684.2" y="112.5" width="62.8" height="6.6"
           fill="#8C1F2F" opacity="1"/><text x="715.6" y="86" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">10</text><text x="0" y="154" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="12" font-weight="700"
+        font-size="9.26" fill="#6B7280">10</text><text x="0" y="154" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="19.15" font-weight="700"
         fill="#003D22">III</text>
-      <text x="17" y="154" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2" fill="#6B7280"
+      <text x="17" y="154" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89" fill="#6B7280"
         >B1</text><rect x="74" y="141" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="74" y="147" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="74" y="153" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="74" y="159" width="62.8" height="5.1"
           fill="#003D22" opacity="1"/><rect x="74" y="165" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="105.4" y="137" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">1</text><rect x="141.8" y="141" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">1</text><rect x="141.8" y="141" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="141.8" y="147" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="141.8" y="153" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="141.8" y="159" width="62.8" height="5.1"
           fill="#003D22" opacity="1"/><rect x="141.8" y="165" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="173.2" y="137" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">2</text><rect x="209.6" y="141" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">2</text><rect x="209.6" y="141" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="209.6" y="147" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="209.6" y="153" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="209.6" y="159" width="62.8" height="5.1"
           fill="#003D22" opacity="1"/><rect x="209.6" y="165" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="241" y="137" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">3</text><rect x="277.4" y="141" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">3</text><rect x="277.4" y="141" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="277.4" y="147" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="277.4" y="153" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="277.4" y="159" width="62.8" height="5.1"
           fill="#003D22" opacity="1"/><rect x="277.4" y="165" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="308.8" y="137" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">4</text><rect x="345.2" y="141" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">4</text><rect x="345.2" y="141" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="345.2" y="147" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="345.2" y="153" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="345.2" y="159" width="62.8" height="5.1"
           fill="#003D22" opacity="1"/><rect x="345.2" y="165" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="376.6" y="137" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">5</text><rect x="413" y="141" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">5</text><rect x="413" y="141" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="413" y="147" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="413" y="153" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="413" y="159" width="62.8" height="5.1"
           fill="#003D22" opacity="1"/><rect x="413" y="165" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="444.4" y="137" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">6</text><rect x="480.8" y="141" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">6</text><rect x="480.8" y="141" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="480.8" y="147" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="480.8" y="153" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="480.8" y="159" width="62.8" height="5.1"
           fill="#003D22" opacity="1"/><rect x="480.8" y="165" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="512.2" y="137" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">7</text><rect x="548.6" y="141" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">7</text><rect x="548.6" y="141" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="548.6" y="147" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="548.6" y="153" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="548.6" y="159" width="62.8" height="5.1"
           fill="#003D22" opacity="1"/><rect x="548.6" y="165" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="580" y="137" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">8</text><rect x="616.4" y="141" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">8</text><rect x="616.4" y="141" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="616.4" y="147" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="616.4" y="153" width="62.8" height="5.1"
           fill="#297E54" opacity="0.55"/><rect x="616.4" y="159" width="62.8" height="5.1"
           fill="#003D22" opacity="1"/><rect x="616.4" y="165" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="647.8" y="137" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">9</text><rect x="684.2" y="141" width="62.8" height="6.6"
+        font-size="9.26" fill="#6B7280">9</text><rect x="684.2" y="141" width="62.8" height="6.6"
           fill="#297E54" opacity="0.55"/><rect x="684.2" y="148.5" width="62.8" height="6.6"
           fill="#297E54" opacity="0.55"/><rect x="684.2" y="156" width="62.8" height="6.6"
           fill="#003D22" opacity="1"/><rect x="684.2" y="163.5" width="62.8" height="6.6"
           fill="#8C1F2F" opacity="1"/><text x="715.6" y="137" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">10</text><text x="0" y="205" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="12" font-weight="700"
+        font-size="9.26" fill="#6B7280">10</text><text x="0" y="205" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="19.15" font-weight="700"
         fill="#442C00">IV</text>
-      <text x="17" y="205" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2" fill="#6B7280"
+      <text x="17" y="205" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89" fill="#6B7280"
         >B2</text><rect x="74" y="192" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="74" y="198" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="74" y="204" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="74" y="210" width="62.8" height="5.1"
           fill="#442C00" opacity="1"/><rect x="74" y="216" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="105.4" y="188" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">1</text><rect x="141.8" y="192" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">1</text><rect x="141.8" y="192" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="141.8" y="198" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="141.8" y="204" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="141.8" y="210" width="62.8" height="5.1"
           fill="#442C00" opacity="1"/><rect x="141.8" y="216" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="173.2" y="188" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">2</text><rect x="209.6" y="192" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">2</text><rect x="209.6" y="192" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="209.6" y="198" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="209.6" y="204" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="209.6" y="210" width="62.8" height="5.1"
           fill="#442C00" opacity="1"/><rect x="209.6" y="216" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="241" y="188" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">3</text><rect x="277.4" y="192" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">3</text><rect x="277.4" y="192" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="277.4" y="198" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="277.4" y="204" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="277.4" y="210" width="62.8" height="5.1"
           fill="#442C00" opacity="1"/><rect x="277.4" y="216" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="308.8" y="188" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">4</text><rect x="345.2" y="192" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">4</text><rect x="345.2" y="192" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="345.2" y="198" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="345.2" y="204" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="345.2" y="210" width="62.8" height="5.1"
           fill="#442C00" opacity="1"/><rect x="345.2" y="216" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="376.6" y="188" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">5</text><rect x="413" y="192" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">5</text><rect x="413" y="192" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="413" y="198" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="413" y="204" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="413" y="210" width="62.8" height="5.1"
           fill="#442C00" opacity="1"/><rect x="413" y="216" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="444.4" y="188" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">6</text><rect x="480.8" y="192" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">6</text><rect x="480.8" y="192" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="480.8" y="198" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="480.8" y="204" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="480.8" y="210" width="62.8" height="5.1"
           fill="#442C00" opacity="1"/><rect x="480.8" y="216" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="512.2" y="188" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">7</text><rect x="548.6" y="192" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">7</text><rect x="548.6" y="192" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="548.6" y="198" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="548.6" y="204" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="548.6" y="210" width="62.8" height="5.1"
           fill="#442C00" opacity="1"/><rect x="548.6" y="216" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="580" y="188" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">8</text><rect x="616.4" y="192" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">8</text><rect x="616.4" y="192" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="616.4" y="198" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="616.4" y="204" width="62.8" height="5.1"
           fill="#8D6310" opacity="0.55"/><rect x="616.4" y="210" width="62.8" height="5.1"
           fill="#442C00" opacity="1"/><rect x="616.4" y="216" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="647.8" y="188" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">9</text><rect x="684.2" y="192" width="62.8" height="6.6"
+        font-size="9.26" fill="#6B7280">9</text><rect x="684.2" y="192" width="62.8" height="6.6"
           fill="#8D6310" opacity="0.55"/><rect x="684.2" y="199.5" width="62.8" height="6.6"
           fill="#8D6310" opacity="0.55"/><rect x="684.2" y="207" width="62.8" height="6.6"
           fill="#442C00" opacity="1"/><rect x="684.2" y="214.5" width="62.8" height="6.6"
           fill="#8C1F2F" opacity="1"/><text x="715.6" y="188" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">10</text><text x="0" y="256" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="12" font-weight="700"
+        font-size="9.26" fill="#6B7280">10</text><text x="0" y="256" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="19.15" font-weight="700"
         fill="#551C1D">V</text>
-      <text x="17" y="256" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2" fill="#6B7280"
+      <text x="17" y="256" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89" fill="#6B7280"
         >C1</text><rect x="74" y="243" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="74" y="249" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="74" y="255" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="74" y="261" width="62.8" height="5.1"
           fill="#551C1D" opacity="1"/><rect x="74" y="267" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="105.4" y="239" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">1</text><rect x="141.8" y="243" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">1</text><rect x="141.8" y="243" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="141.8" y="249" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="141.8" y="255" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="141.8" y="261" width="62.8" height="5.1"
           fill="#551C1D" opacity="1"/><rect x="141.8" y="267" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="173.2" y="239" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">2</text><rect x="209.6" y="243" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">2</text><rect x="209.6" y="243" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="209.6" y="249" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="209.6" y="255" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="209.6" y="261" width="62.8" height="5.1"
           fill="#551C1D" opacity="1"/><rect x="209.6" y="267" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="241" y="239" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">3</text><rect x="277.4" y="243" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">3</text><rect x="277.4" y="243" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="277.4" y="249" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="277.4" y="255" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="277.4" y="261" width="62.8" height="5.1"
           fill="#551C1D" opacity="1"/><rect x="277.4" y="267" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="308.8" y="239" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">4</text><rect x="345.2" y="243" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">4</text><rect x="345.2" y="243" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="345.2" y="249" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="345.2" y="255" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="345.2" y="261" width="62.8" height="5.1"
           fill="#551C1D" opacity="1"/><rect x="345.2" y="267" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="376.6" y="239" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">5</text><rect x="413" y="243" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">5</text><rect x="413" y="243" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="413" y="249" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="413" y="255" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="413" y="261" width="62.8" height="5.1"
           fill="#551C1D" opacity="1"/><rect x="413" y="267" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="444.4" y="239" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">6</text><rect x="480.8" y="243" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">6</text><rect x="480.8" y="243" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="480.8" y="249" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="480.8" y="255" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="480.8" y="261" width="62.8" height="5.1"
           fill="#551C1D" opacity="1"/><rect x="480.8" y="267" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="512.2" y="239" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">7</text><rect x="548.6" y="243" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">7</text><rect x="548.6" y="243" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="548.6" y="249" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="548.6" y="255" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="548.6" y="261" width="62.8" height="5.1"
           fill="#551C1D" opacity="1"/><rect x="548.6" y="267" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="580" y="239" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">8</text><rect x="616.4" y="243" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">8</text><rect x="616.4" y="243" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="616.4" y="249" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="616.4" y="255" width="62.8" height="5.1"
           fill="#A05150" opacity="0.55"/><rect x="616.4" y="261" width="62.8" height="5.1"
           fill="#551C1D" opacity="1"/><rect x="616.4" y="267" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="647.8" y="239" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">9</text><rect x="684.2" y="243" width="62.8" height="6.6"
+        font-size="9.26" fill="#6B7280">9</text><rect x="684.2" y="243" width="62.8" height="6.6"
           fill="#A05150" opacity="0.55"/><rect x="684.2" y="250.5" width="62.8" height="6.6"
           fill="#A05150" opacity="0.55"/><rect x="684.2" y="258" width="62.8" height="6.6"
           fill="#551C1D" opacity="1"/><rect x="684.2" y="265.5" width="62.8" height="6.6"
           fill="#8C1F2F" opacity="1"/><text x="715.6" y="239" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">10</text><text x="0" y="307" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="12" font-weight="700"
+        font-size="9.26" fill="#6B7280">10</text><text x="0" y="307" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="19.15" font-weight="700"
         fill="#43214D">VI</text>
-      <text x="17" y="307" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2" fill="#6B7280"
+      <text x="17" y="307" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89" fill="#6B7280"
         >C2</text><rect x="74" y="294" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="74" y="300" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="74" y="306" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="74" y="312" width="62.8" height="5.1"
           fill="#43214D" opacity="1"/><rect x="74" y="318" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="105.4" y="290" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">1</text><rect x="141.8" y="294" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">1</text><rect x="141.8" y="294" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="141.8" y="300" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="141.8" y="306" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="141.8" y="312" width="62.8" height="5.1"
           fill="#43214D" opacity="1"/><rect x="141.8" y="318" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="173.2" y="290" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">2</text><rect x="209.6" y="294" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">2</text><rect x="209.6" y="294" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="209.6" y="300" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="209.6" y="306" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="209.6" y="312" width="62.8" height="5.1"
           fill="#43214D" opacity="1"/><rect x="209.6" y="318" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="241" y="290" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">3</text><rect x="277.4" y="294" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">3</text><rect x="277.4" y="294" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="277.4" y="300" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="277.4" y="306" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="277.4" y="312" width="62.8" height="5.1"
           fill="#43214D" opacity="1"/><rect x="277.4" y="318" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="308.8" y="290" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">4</text><rect x="345.2" y="294" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">4</text><rect x="345.2" y="294" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="345.2" y="300" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="345.2" y="306" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="345.2" y="312" width="62.8" height="5.1"
           fill="#43214D" opacity="1"/><rect x="345.2" y="318" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="376.6" y="290" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">5</text><rect x="413" y="294" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">5</text><rect x="413" y="294" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="413" y="300" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="413" y="306" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="413" y="312" width="62.8" height="5.1"
           fill="#43214D" opacity="1"/><rect x="413" y="318" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="444.4" y="290" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">6</text><rect x="480.8" y="294" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">6</text><rect x="480.8" y="294" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="480.8" y="300" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="480.8" y="306" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="480.8" y="312" width="62.8" height="5.1"
           fill="#43214D" opacity="1"/><rect x="480.8" y="318" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="512.2" y="290" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">7</text><rect x="548.6" y="294" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">7</text><rect x="548.6" y="294" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="548.6" y="300" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="548.6" y="306" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="548.6" y="312" width="62.8" height="5.1"
           fill="#43214D" opacity="1"/><rect x="548.6" y="318" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="580" y="290" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">8</text><rect x="616.4" y="294" width="62.8" height="5.1"
+        font-size="9.26" fill="#6B7280">8</text><rect x="616.4" y="294" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="616.4" y="300" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="616.4" y="306" width="62.8" height="5.1"
           fill="#855793" opacity="0.55"/><rect x="616.4" y="312" width="62.8" height="5.1"
           fill="#43214D" opacity="1"/><rect x="616.4" y="318" width="62.8" height="5.1"
           fill="#8C1F2F" opacity="1"/><text x="647.8" y="290" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">9</text><rect x="684.2" y="294" width="62.8" height="6.6"
+        font-size="9.26" fill="#6B7280">9</text><rect x="684.2" y="294" width="62.8" height="6.6"
           fill="#855793" opacity="0.55"/><rect x="684.2" y="301.5" width="62.8" height="6.6"
           fill="#855793" opacity="0.55"/><rect x="684.2" y="309" width="62.8" height="6.6"
           fill="#43214D" opacity="1"/><rect x="684.2" y="316.5" width="62.8" height="6.6"
           fill="#8C1F2F" opacity="1"/><text x="715.6" y="290" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-        font-size="5.8" fill="#6B7280">10</text></svg>
+        font-size="9.26" fill="#6B7280">10</text></svg>
     <p class="fig__n">Every module in the programme, one cell each, divided into its teaching items
       and its two assessments. The claim this figure makes is about regularity: the assessment spine
       is identical in all sixty, at every level, and a departure from that pattern would be visible
@@ -3218,138 +3223,138 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <svg viewBox="0 0 760 311" width="100%" role="img"
     aria-label="Lesson stages ranked by frequency across all authored items, with median designed timing"
     xmlns="http://www.w3.org/2000/svg">
-    <text x="210" y="10" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2" letter-spacing="1.2"
+    <text x="210" y="10" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89" letter-spacing="1.2"
       fill="#6B7280">OCCURRENCES ACROSS 2210 NAMED STAGES</text>
-    <text x="760" y="10" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2" letter-spacing="1.2"
+    <text x="760" y="10" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89" letter-spacing="1.2"
       fill="#6B7280">MEDIAN DESIGNED TIMING</text>
-    <text x="204" y="28" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+    <text x="204" y="28" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">LEARNING OBJECTIVES</text>
       <rect x="210" y="21.5" width="454" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
-      <text x="669" y="28.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="669" y="28.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
-      <text x="760" y="28.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#D8DCE3">not timed</text><text x="204" y="43.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="28.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#D8DCE3">not timed</text><text x="204" y="43.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">PREREQUISITE KNOWLEDGE</text>
       <rect x="210" y="37" width="454" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
-      <text x="669" y="43.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="669" y="43.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
-      <text x="760" y="43.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#D8DCE3">not timed</text><text x="204" y="59" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="43.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#D8DCE3">not timed</text><text x="204" y="59" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">WARM-UP</text>
       <rect x="210" y="52.5" width="454" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
-      <text x="669" y="59.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="669" y="59.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
-      <text x="760" y="59.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#7A5C2E">5 min</text><text x="204" y="74.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="59.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#7A5C2E">5 min</text><text x="204" y="74.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">GUIDED PRACTICE</text>
       <rect x="210" y="68" width="454" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
-      <text x="669" y="74.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="669" y="74.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
-      <text x="760" y="74.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#7A5C2E">10 min</text><text x="204" y="90" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="74.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#7A5C2E">10 min</text><text x="204" y="90" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">LISTENING ACTIVITY</text>
       <rect x="210" y="83.5" width="454" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
-      <text x="669" y="90.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="669" y="90.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
-      <text x="760" y="90.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#7A5C2E">5 min</text><text x="204" y="105.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="90.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#7A5C2E">5 min</text><text x="204" y="105.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">WRITING TASK</text>
       <rect x="210" y="99" width="454" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
-      <text x="669" y="105.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="669" y="105.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
-      <text x="760" y="105.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#7A5C2E">5 min</text><text x="204" y="121" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="105.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#7A5C2E">5 min</text><text x="204" y="121" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">PRONUNCIATION PRACTICE</text>
       <rect x="210" y="114.5" width="454" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
-      <text x="669" y="121.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="669" y="121.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
-      <text x="760" y="121.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#7A5C2E">5 min</text><text x="204" y="136.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="121.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#7A5C2E">5 min</text><text x="204" y="136.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">VOCABULARY REINFORCEMENT</text>
       <rect x="210" y="130" width="454" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
-      <text x="669" y="136.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="669" y="136.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
-      <text x="760" y="136.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#D8DCE3">not timed</text><text x="204" y="152" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="136.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#D8DCE3">not timed</text><text x="204" y="152" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">FORMATIVE ASSESSMENT</text>
       <rect x="210" y="145.5" width="454" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
-      <text x="669" y="152.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="669" y="152.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
-      <text x="760" y="152.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#D8DCE3">not timed</text><text x="204" y="167.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="152.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#D8DCE3">not timed</text><text x="204" y="167.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">CRITICAL THINKING / DISCUSSION PROMPT</text>
       <rect x="210" y="161" width="454" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
-      <text x="669" y="167.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="669" y="167.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
-      <text x="760" y="167.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#D8DCE3">not timed</text><text x="204" y="183" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="167.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#D8DCE3">not timed</text><text x="204" y="183" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">HOMEWORK</text>
       <rect x="210" y="176.5" width="454" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
-      <text x="669" y="183.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="669" y="183.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
-      <text x="760" y="183.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#D8DCE3">not timed</text><text x="204" y="198.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="183.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#D8DCE3">not timed</text><text x="204" y="198.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">EXTENSION</text>
       <rect x="210" y="192" width="454" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
-      <text x="669" y="198.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="669" y="198.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
-      <text x="760" y="198.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#D8DCE3">not timed</text><text x="204" y="214" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="198.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#D8DCE3">not timed</text><text x="204" y="214" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">REVISION</text>
       <rect x="210" y="207.5" width="450.02" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
-      <text x="665.02" y="214.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="665.02" y="214.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">113</text>
-      <text x="760" y="214.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#D8DCE3">not timed</text><text x="204" y="229.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="214.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#D8DCE3">not timed</text><text x="204" y="229.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">PRESENTATION</text>
       <rect x="210" y="223" width="434.09" height="8.5"
         fill="#1F3E7C" opacity="0.88"/>
-      <text x="649.09" y="229.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="649.09" y="229.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">109</text>
-      <text x="760" y="229.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#7A5C2E">10 min</text><text x="204" y="245" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="229.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#7A5C2E">10 min</text><text x="204" y="245" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">READING ACTIVITY</text>
       <rect x="210" y="238.5" width="310.63" height="8.5"
         fill="#1F3E7C" opacity="0.73"/>
-      <text x="525.63" y="245.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="525.63" y="245.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">78</text>
-      <text x="760" y="245.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#7A5C2E">5 min</text><text x="204" y="260.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="245.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#7A5C2E">5 min</text><text x="204" y="260.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">INDEPENDENT PRACTICE / SPEAKING ACTIVITY</text>
       <rect x="210" y="254" width="290.72" height="8.5"
         fill="#1F3E7C" opacity="0.7"/>
-      <text x="505.72" y="260.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="505.72" y="260.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">73</text>
-      <text x="760" y="260.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#7A5C2E">10 min</text><text x="204" y="276" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="260.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#7A5C2E">10 min</text><text x="204" y="276" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">GRADING RUBRIC</text>
       <rect x="210" y="269.5" width="238.95" height="8.5"
         fill="#1F3E7C" opacity="0.64"/>
-      <text x="453.95" y="276.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="453.95" y="276.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">60</text>
-      <text x="760" y="276.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
-        fill="#D8DCE3">not timed</text><text x="204" y="291.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7"
+      <text x="760" y="276.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+        fill="#D8DCE3">not timed</text><text x="204" y="291.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">INSTRUCTIONS</text>
       <rect x="210" y="285" width="219.04" height="8.5"
         fill="#1F3E7C" opacity="0.62"/>
-      <text x="434.04" y="291.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.8"
+      <text x="434.04" y="291.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">55</text>
-      <text x="760" y="291.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6"
+      <text x="760" y="291.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
         fill="#D8DCE3">not timed</text>
-    <text x="210" y="307" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.4"
+    <text x="210" y="307" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
       fill="#6B7280">and 83 further stage names occurring less often</text>
   </svg>
     <p class="fig__n">What the house structure actually is, counted across every named stage in the
@@ -3369,53 +3374,53 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <svg viewBox="0 0 760 220" width="100%" role="img"
     aria-label="Named skill stages per hundred items at each level, for speaking, listening, reading and writing"
     xmlns="http://www.w3.org/2000/svg">
-    <text x="34" y="10" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2" letter-spacing="1.2"
+    <text x="34" y="10" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89" letter-spacing="1.2"
       fill="#6B7280">NAMED SKILL STAGES PER 100 AUTHORED ITEMS</text>
     <line x1="34" y1="186" x2="664" y2="186"
         stroke="#D8DCE3" stroke-width="0.4"/>
-      <text x="29" y="189" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6"
+      <text x="29" y="189" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.58"
         fill="#6B7280">0</text><line x1="34" y1="144.5" x2="664" y2="144.5"
         stroke="#D8DCE3" stroke-width="0.4"/>
-      <text x="29" y="147.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6"
+      <text x="29" y="147.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.58"
         fill="#6B7280">12</text><line x1="34" y1="103" x2="664" y2="103"
         stroke="#D8DCE3" stroke-width="0.4"/>
-      <text x="29" y="106" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6"
+      <text x="29" y="106" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.58"
         fill="#6B7280">23</text><line x1="34" y1="61.5" x2="664" y2="61.5"
         stroke="#D8DCE3" stroke-width="0.4"/>
-      <text x="29" y="64.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6"
+      <text x="29" y="64.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.58"
         fill="#6B7280">35</text><line x1="34" y1="20" x2="664" y2="20"
         stroke="#D8DCE3" stroke-width="0.4"/>
-      <text x="29" y="23" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6"
+      <text x="29" y="23" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.58"
         fill="#6B7280">47</text><path d="M34 41.65L160 41.65L286 41.65L412 41.65L538 41.65L664 63.3" fill="none" stroke="#1F3E7C" stroke-width="1.4"
         stroke-linejoin="round"/><circle cx="34" cy="41.65" r="2.2" fill="#1F3E7C"/><circle cx="160" cy="41.65" r="2.2" fill="#1F3E7C"/><circle cx="286" cy="41.65" r="2.2" fill="#1F3E7C"/><circle cx="412" cy="41.65" r="2.2" fill="#1F3E7C"/><circle cx="538" cy="41.65" r="2.2" fill="#1F3E7C"/><circle cx="664" cy="63.3" r="2.2" fill="#1F3E7C"/>
-      <text x="672" y="66.3" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7.4"
+      <text x="672" y="66.3" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.81"
         font-weight="700" fill="#1F3E7C">Speaking</text><path d="M34 48.87L160 48.87L286 48.87L412 48.87L538 48.87L664 48.87" fill="none" stroke="#16306B" stroke-width="1.4"
         stroke-linejoin="round"/><circle cx="34" cy="48.87" r="2.2" fill="#16306B"/><circle cx="160" cy="48.87" r="2.2" fill="#16306B"/><circle cx="286" cy="48.87" r="2.2" fill="#16306B"/><circle cx="412" cy="48.87" r="2.2" fill="#16306B"/><circle cx="538" cy="48.87" r="2.2" fill="#16306B"/><circle cx="664" cy="48.87" r="2.2" fill="#16306B"/>
-      <text x="672" y="51.87" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7.4"
+      <text x="672" y="51.87" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.81"
         font-weight="700" fill="#16306B">Listening</text><path d="M34 48.87L160 48.87L286 48.87L412 41.65L538 48.87L664 63.3" fill="none" stroke="#7A5C2E" stroke-width="1.4"
         stroke-linejoin="round"/><circle cx="34" cy="48.87" r="2.2" fill="#7A5C2E"/><circle cx="160" cy="48.87" r="2.2" fill="#7A5C2E"/><circle cx="286" cy="48.87" r="2.2" fill="#7A5C2E"/><circle cx="412" cy="41.65" r="2.2" fill="#7A5C2E"/><circle cx="538" cy="48.87" r="2.2" fill="#7A5C2E"/><circle cx="664" cy="63.3" r="2.2" fill="#7A5C2E"/>
-      <text x="672" y="66.3" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7.4"
+      <text x="672" y="66.3" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.81"
         font-weight="700" fill="#7A5C2E">Reading</text><path d="M34 41.65L160 41.65L286 41.65L412 20L538 27.22L664 48.87" fill="none" stroke="#8C1F2F" stroke-width="1.4"
         stroke-linejoin="round"/><circle cx="34" cy="41.65" r="2.2" fill="#8C1F2F"/><circle cx="160" cy="41.65" r="2.2" fill="#8C1F2F"/><circle cx="286" cy="41.65" r="2.2" fill="#8C1F2F"/><circle cx="412" cy="20" r="2.2" fill="#8C1F2F"/><circle cx="538" cy="27.22" r="2.2" fill="#8C1F2F"/><circle cx="664" cy="48.87" r="2.2" fill="#8C1F2F"/>
-      <text x="672" y="51.87" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="7.4"
-        font-weight="700" fill="#8C1F2F">Writing</text><text x="34" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="9.5"
+      <text x="672" y="51.87" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.81"
+        font-weight="700" fill="#8C1F2F">Writing</text><text x="34" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="15.16"
       font-weight="700" fill="#1B2F5C">I</text>
-     <text x="34" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2"
-      fill="#6B7280">A1</text><text x="160" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="9.5"
+     <text x="34" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
+      fill="#6B7280">A1</text><text x="160" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="15.16"
       font-weight="700" fill="#003844">II</text>
-     <text x="160" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2"
-      fill="#6B7280">A2</text><text x="286" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="9.5"
+     <text x="160" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
+      fill="#6B7280">A2</text><text x="286" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="15.16"
       font-weight="700" fill="#003D22">III</text>
-     <text x="286" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2"
-      fill="#6B7280">B1</text><text x="412" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="9.5"
+     <text x="286" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
+      fill="#6B7280">B1</text><text x="412" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="15.16"
       font-weight="700" fill="#442C00">IV</text>
-     <text x="412" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2"
-      fill="#6B7280">B2</text><text x="538" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="9.5"
+     <text x="412" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
+      fill="#6B7280">B2</text><text x="538" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="15.16"
       font-weight="700" fill="#551C1D">V</text>
-     <text x="538" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2"
-      fill="#6B7280">C1</text><text x="664" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="9.5"
+     <text x="538" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
+      fill="#6B7280">C1</text><text x="664" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="15.16"
       font-weight="700" fill="#43214D">VI</text>
-     <text x="664" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.2"
+     <text x="664" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
       fill="#6B7280">C2</text></svg>
     <p class="fig__n">Named skill stages per hundred authored items, normalised because the levels
       differ in size and raw counts would say only that some levels are longer. Reading and writing
@@ -3426,12 +3431,12 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <figcaption class="fig__c"><b>Figure 5</b> The assessment map</figcaption>
     <svg viewBox="0 0 760 286" width="100%" role="img"
     aria-label="Assessment at each level: quizzes, questions, assignments, rubric criteria, and competency mapping"
-    xmlns="http://www.w3.org/2000/svg"><text x="0" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.4"
-    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">LEVEL</text><text x="150" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.4"
-    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">ASSESSED QUIZZES</text><text x="300" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.4"
-    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">QUESTIONS</text><text x="420" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.4"
-    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">ASSIGNMENTS</text><text x="540" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.4"
-    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">RUBRIC CRITERIA</text><text x="640" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.4"
+    xmlns="http://www.w3.org/2000/svg"><text x="0" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
+    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">LEVEL</text><text x="150" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
+    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">ASSESSED QUIZZES</text><text x="300" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
+    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">QUESTIONS</text><text x="420" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
+    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">ASSIGNMENTS</text><text x="540" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
+    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">RUBRIC CRITERIA</text><text x="640" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
     font-weight="700" letter-spacing="1.1" fill="#1F3E7C">MAPPED TO COMPETENCY</text><line x1="0" y1="22" x2="760" y2="22"
         stroke="#D8DCE3" stroke-width="0.5"/>
       <rect x="0" y="22" width="3" height="36" fill="#4C6AA8"/>
@@ -3448,7 +3453,7 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
       <text x="540" y="44" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
       font-size="9" 
       fill="#2E2A26">43</text>
-      <text x="640" y="44" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8" font-weight="700"
+      <text x="640" y="44" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77" font-weight="700"
         fill="#8C1F2F">None</text><line x1="0" y1="62" x2="760" y2="62"
         stroke="#D8DCE3" stroke-width="0.5"/>
       <rect x="0" y="62" width="3" height="36" fill="#00798F"/>
@@ -3465,7 +3470,7 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
       <text x="540" y="84" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
       font-size="9" 
       fill="#2E2A26">42</text>
-      <text x="640" y="84" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8" font-weight="700"
+      <text x="640" y="84" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77" font-weight="700"
         fill="#8C1F2F">None</text><line x1="0" y1="102" x2="760" y2="102"
         stroke="#D8DCE3" stroke-width="0.5"/>
       <rect x="0" y="102" width="3" height="36" fill="#297E54"/>
@@ -3482,7 +3487,7 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
       <text x="540" y="124" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
       font-size="9" 
       fill="#2E2A26">52</text>
-      <text x="640" y="124" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8" font-weight="700"
+      <text x="640" y="124" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77" font-weight="700"
         fill="#8C1F2F">None</text><line x1="0" y1="142" x2="760" y2="142"
         stroke="#D8DCE3" stroke-width="0.5"/>
       <rect x="0" y="142" width="3" height="36" fill="#8D6310"/>
@@ -3499,7 +3504,7 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
       <text x="540" y="164" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
       font-size="9" 
       fill="#2E2A26">56</text>
-      <text x="640" y="164" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8" font-weight="700"
+      <text x="640" y="164" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77" font-weight="700"
         fill="#8C1F2F">None</text><line x1="0" y1="182" x2="760" y2="182"
         stroke="#D8DCE3" stroke-width="0.5"/>
       <rect x="0" y="182" width="3" height="36" fill="#A05150"/>
@@ -3516,7 +3521,7 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
       <text x="540" y="204" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
       font-size="9" 
       fill="#2E2A26">58</text>
-      <text x="640" y="204" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8" font-weight="700"
+      <text x="640" y="204" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77" font-weight="700"
         fill="#8C1F2F">None</text><line x1="0" y1="222" x2="760" y2="222"
         stroke="#D8DCE3" stroke-width="0.5"/>
       <rect x="0" y="222" width="3" height="36" fill="#855793"/>
@@ -3533,12 +3538,12 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
       <text x="540" y="244" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
       font-size="9" 
       fill="#2E2A26">56</text>
-      <text x="640" y="244" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8" font-weight="700"
+      <text x="640" y="244" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77" font-weight="700"
         fill="#8C1F2F">None</text>
     <line x1="0" y1="268" x2="760" y2="268" stroke="#1F3E7C" stroke-width="1"/>
-    <text x="0" y="281" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6" fill="#6B7280"
+    <text x="0" y="281" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53" fill="#6B7280"
       >Counted from the academic database at generation.</text>
-    <text x="640" y="281" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="6.6" fill="#8C1F2F"
+    <text x="640" y="281" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53" fill="#8C1F2F"
       >0 of 120 assessments mapped.</text>
   </svg>
     <p class="fig__n">The right-hand column is the one that matters. Every module carries two
@@ -3624,28 +3629,24 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     role="img" aria-label="Worldwide English College crest"
     xmlns="http://www.w3.org/2000/svg">
     <path d="M8 6 H112 V78 C112 104 92 122 60 134 C28 122 8 104 8 78 Z"
-      fill="none" stroke="#4C6AA8" stroke-width="0.767"/>
+      fill="none" stroke="#4C6AA8" stroke-width="2"/>
     <path d="M14 12 H106 V77 C106 100 88 116 60 127 C32 116 14 100 14 77 Z"
-      fill="none" stroke="#4C6AA8" stroke-width="0.23" opacity="0.65"/>
+      fill="none" stroke="#4C6AA8" stroke-width="0.6" opacity="0.65"/>
     <!-- the open book -->
     <path d="M28 60 C40 54 52 54 60 58 C68 54 80 54 92 60 L92 82 C80 76 68 76 60 80
-             C52 76 40 76 28 82 Z" fill="none" stroke="#4C6AA8" stroke-width="0.613"
+             C52 76 40 76 28 82 Z" fill="none" stroke="#4C6AA8" stroke-width="1.6"
       stroke-linejoin="round"/>
-    <path d="M60 58 V80" stroke="#4C6AA8" stroke-width="0.46"/>
+    <path d="M60 58 V80" stroke="#4C6AA8" stroke-width="1.2"/>
     <!-- six bars: the ascent -->
-    <rect x="34" y="46" width="1.917" height="3"
-       fill="#4C6AA8" opacity="0.45"/><rect x="43" y="43" width="1.917" height="6"
-       fill="#4C6AA8" opacity="0.56"/><rect x="52" y="40" width="1.917" height="9"
-       fill="#4C6AA8" opacity="0.67"/><rect x="61" y="37" width="1.917" height="12"
-       fill="#4C6AA8" opacity="0.78"/><rect x="70" y="34" width="1.917" height="15"
-       fill="#4C6AA8" opacity="0.89"/><rect x="79" y="31" width="1.917" height="18"
+    <rect x="34" y="46" width="5" height="3"
+       fill="#4C6AA8" opacity="0.45"/><rect x="43" y="43" width="5" height="6"
+       fill="#4C6AA8" opacity="0.56"/><rect x="52" y="40" width="5" height="9"
+       fill="#4C6AA8" opacity="0.67"/><rect x="61" y="37" width="5" height="12"
+       fill="#4C6AA8" opacity="0.78"/><rect x="70" y="34" width="5" height="15"
+       fill="#4C6AA8" opacity="0.89"/><rect x="79" y="31" width="5" height="18"
        fill="#4C6AA8" opacity="1"/>
-    <text x="60" y="103" text-anchor="middle" fill="#4C6AA8"
-      font-family="Georgia, 'Times New Roman', serif" font-size="5.75"
-      letter-spacing="0.767" font-weight="700">WEC</text>
-    <text x="60" y="115" text-anchor="middle" fill="#4C6AA8" opacity="0.8"
-      font-family="Calibri, Arial, sans-serif" font-size="2.453"
-      letter-spacing="0.92">LONDON</text>
+    
+    
   </svg></div>
       <p class="opener__eyebrow">The Ascent · Stage 1 of 6</p>
       <div class="opener__ros"><svg viewBox="0 0 190 190" width="190" height="190" aria-hidden="true"
@@ -4096,8 +4097,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Task completion</td>
@@ -4511,8 +4512,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -4923,8 +4924,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -5335,8 +5336,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -5747,8 +5748,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -6159,8 +6160,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -6571,8 +6572,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -6983,8 +6984,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -7395,8 +7396,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -7722,8 +7723,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical range and accuracy</td>
@@ -7817,28 +7818,24 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     role="img" aria-label="Worldwide English College crest"
     xmlns="http://www.w3.org/2000/svg">
     <path d="M8 6 H112 V78 C112 104 92 122 60 134 C28 122 8 104 8 78 Z"
-      fill="none" stroke="#00798F" stroke-width="0.767"/>
+      fill="none" stroke="#00798F" stroke-width="2"/>
     <path d="M14 12 H106 V77 C106 100 88 116 60 127 C32 116 14 100 14 77 Z"
-      fill="none" stroke="#00798F" stroke-width="0.23" opacity="0.65"/>
+      fill="none" stroke="#00798F" stroke-width="0.6" opacity="0.65"/>
     <!-- the open book -->
     <path d="M28 60 C40 54 52 54 60 58 C68 54 80 54 92 60 L92 82 C80 76 68 76 60 80
-             C52 76 40 76 28 82 Z" fill="none" stroke="#00798F" stroke-width="0.613"
+             C52 76 40 76 28 82 Z" fill="none" stroke="#00798F" stroke-width="1.6"
       stroke-linejoin="round"/>
-    <path d="M60 58 V80" stroke="#00798F" stroke-width="0.46"/>
+    <path d="M60 58 V80" stroke="#00798F" stroke-width="1.2"/>
     <!-- six bars: the ascent -->
-    <rect x="34" y="46" width="1.917" height="3"
-       fill="#00798F" opacity="0.45"/><rect x="43" y="43" width="1.917" height="6"
-       fill="#00798F" opacity="0.56"/><rect x="52" y="40" width="1.917" height="9"
-       fill="#00798F" opacity="0.67"/><rect x="61" y="37" width="1.917" height="12"
-       fill="#00798F" opacity="0.78"/><rect x="70" y="34" width="1.917" height="15"
-       fill="#00798F" opacity="0.89"/><rect x="79" y="31" width="1.917" height="18"
+    <rect x="34" y="46" width="5" height="3"
+       fill="#00798F" opacity="0.45"/><rect x="43" y="43" width="5" height="6"
+       fill="#00798F" opacity="0.56"/><rect x="52" y="40" width="5" height="9"
+       fill="#00798F" opacity="0.67"/><rect x="61" y="37" width="5" height="12"
+       fill="#00798F" opacity="0.78"/><rect x="70" y="34" width="5" height="15"
+       fill="#00798F" opacity="0.89"/><rect x="79" y="31" width="5" height="18"
        fill="#00798F" opacity="1"/>
-    <text x="60" y="103" text-anchor="middle" fill="#00798F"
-      font-family="Georgia, 'Times New Roman', serif" font-size="5.75"
-      letter-spacing="0.767" font-weight="700">WEC</text>
-    <text x="60" y="115" text-anchor="middle" fill="#00798F" opacity="0.8"
-      font-family="Calibri, Arial, sans-serif" font-size="2.453"
-      letter-spacing="0.92">LONDON</text>
+    
+    
   </svg></div>
       <p class="opener__eyebrow">The Ascent · Stage 2 of 6</p>
       <div class="opener__ros"><svg viewBox="0 0 190 190" width="190" height="190" aria-hidden="true"
@@ -8296,8 +8293,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -8708,8 +8705,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -9120,8 +9117,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -9532,8 +9529,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -9944,8 +9941,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -10356,8 +10353,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -10768,8 +10765,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -11190,8 +11187,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -11612,8 +11609,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -11989,8 +11986,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical range and accuracy</td>
@@ -12084,28 +12081,24 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     role="img" aria-label="Worldwide English College crest"
     xmlns="http://www.w3.org/2000/svg">
     <path d="M8 6 H112 V78 C112 104 92 122 60 134 C28 122 8 104 8 78 Z"
-      fill="none" stroke="#297E54" stroke-width="0.767"/>
+      fill="none" stroke="#297E54" stroke-width="2"/>
     <path d="M14 12 H106 V77 C106 100 88 116 60 127 C32 116 14 100 14 77 Z"
-      fill="none" stroke="#297E54" stroke-width="0.23" opacity="0.65"/>
+      fill="none" stroke="#297E54" stroke-width="0.6" opacity="0.65"/>
     <!-- the open book -->
     <path d="M28 60 C40 54 52 54 60 58 C68 54 80 54 92 60 L92 82 C80 76 68 76 60 80
-             C52 76 40 76 28 82 Z" fill="none" stroke="#297E54" stroke-width="0.613"
+             C52 76 40 76 28 82 Z" fill="none" stroke="#297E54" stroke-width="1.6"
       stroke-linejoin="round"/>
-    <path d="M60 58 V80" stroke="#297E54" stroke-width="0.46"/>
+    <path d="M60 58 V80" stroke="#297E54" stroke-width="1.2"/>
     <!-- six bars: the ascent -->
-    <rect x="34" y="46" width="1.917" height="3"
-       fill="#297E54" opacity="0.45"/><rect x="43" y="43" width="1.917" height="6"
-       fill="#297E54" opacity="0.56"/><rect x="52" y="40" width="1.917" height="9"
-       fill="#297E54" opacity="0.67"/><rect x="61" y="37" width="1.917" height="12"
-       fill="#297E54" opacity="0.78"/><rect x="70" y="34" width="1.917" height="15"
-       fill="#297E54" opacity="0.89"/><rect x="79" y="31" width="1.917" height="18"
+    <rect x="34" y="46" width="5" height="3"
+       fill="#297E54" opacity="0.45"/><rect x="43" y="43" width="5" height="6"
+       fill="#297E54" opacity="0.56"/><rect x="52" y="40" width="5" height="9"
+       fill="#297E54" opacity="0.67"/><rect x="61" y="37" width="5" height="12"
+       fill="#297E54" opacity="0.78"/><rect x="70" y="34" width="5" height="15"
+       fill="#297E54" opacity="0.89"/><rect x="79" y="31" width="5" height="18"
        fill="#297E54" opacity="1"/>
-    <text x="60" y="103" text-anchor="middle" fill="#297E54"
-      font-family="Georgia, 'Times New Roman', serif" font-size="5.75"
-      letter-spacing="0.767" font-weight="700">WEC</text>
-    <text x="60" y="115" text-anchor="middle" fill="#297E54" opacity="0.8"
-      font-family="Calibri, Arial, sans-serif" font-size="2.453"
-      letter-spacing="0.92">LONDON</text>
+    
+    
   </svg></div>
       <p class="opener__eyebrow">The Ascent · Stage 3 of 6</p>
       <div class="opener__ros"><svg viewBox="0 0 190 190" width="190" height="190" aria-hidden="true"
@@ -12583,8 +12576,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -13013,8 +13006,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -13450,8 +13443,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -13887,8 +13880,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -14324,8 +14317,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -14754,8 +14747,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -15191,8 +15184,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -15628,8 +15621,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -16065,8 +16058,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -16452,8 +16445,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical range and accuracy</td>
@@ -16550,28 +16543,24 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     role="img" aria-label="Worldwide English College crest"
     xmlns="http://www.w3.org/2000/svg">
     <path d="M8 6 H112 V78 C112 104 92 122 60 134 C28 122 8 104 8 78 Z"
-      fill="none" stroke="#8D6310" stroke-width="0.767"/>
+      fill="none" stroke="#8D6310" stroke-width="2"/>
     <path d="M14 12 H106 V77 C106 100 88 116 60 127 C32 116 14 100 14 77 Z"
-      fill="none" stroke="#8D6310" stroke-width="0.23" opacity="0.65"/>
+      fill="none" stroke="#8D6310" stroke-width="0.6" opacity="0.65"/>
     <!-- the open book -->
     <path d="M28 60 C40 54 52 54 60 58 C68 54 80 54 92 60 L92 82 C80 76 68 76 60 80
-             C52 76 40 76 28 82 Z" fill="none" stroke="#8D6310" stroke-width="0.613"
+             C52 76 40 76 28 82 Z" fill="none" stroke="#8D6310" stroke-width="1.6"
       stroke-linejoin="round"/>
-    <path d="M60 58 V80" stroke="#8D6310" stroke-width="0.46"/>
+    <path d="M60 58 V80" stroke="#8D6310" stroke-width="1.2"/>
     <!-- six bars: the ascent -->
-    <rect x="34" y="46" width="1.917" height="3"
-       fill="#8D6310" opacity="0.45"/><rect x="43" y="43" width="1.917" height="6"
-       fill="#8D6310" opacity="0.56"/><rect x="52" y="40" width="1.917" height="9"
-       fill="#8D6310" opacity="0.67"/><rect x="61" y="37" width="1.917" height="12"
-       fill="#8D6310" opacity="0.78"/><rect x="70" y="34" width="1.917" height="15"
-       fill="#8D6310" opacity="0.89"/><rect x="79" y="31" width="1.917" height="18"
+    <rect x="34" y="46" width="5" height="3"
+       fill="#8D6310" opacity="0.45"/><rect x="43" y="43" width="5" height="6"
+       fill="#8D6310" opacity="0.56"/><rect x="52" y="40" width="5" height="9"
+       fill="#8D6310" opacity="0.67"/><rect x="61" y="37" width="5" height="12"
+       fill="#8D6310" opacity="0.78"/><rect x="70" y="34" width="5" height="15"
+       fill="#8D6310" opacity="0.89"/><rect x="79" y="31" width="5" height="18"
        fill="#8D6310" opacity="1"/>
-    <text x="60" y="103" text-anchor="middle" fill="#8D6310"
-      font-family="Georgia, 'Times New Roman', serif" font-size="5.75"
-      letter-spacing="0.767" font-weight="700">WEC</text>
-    <text x="60" y="115" text-anchor="middle" fill="#8D6310" opacity="0.8"
-      font-family="Calibri, Arial, sans-serif" font-size="2.453"
-      letter-spacing="0.92">LONDON</text>
+    
+    
   </svg></div>
       <p class="opener__eyebrow">The Ascent · Stage 4 of 6</p>
       <div class="opener__ros"><svg viewBox="0 0 190 190" width="190" height="190" aria-hidden="true"
@@ -17056,8 +17045,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -17496,8 +17485,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -17933,8 +17922,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -18373,8 +18362,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -18810,8 +18799,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -19247,8 +19236,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -19684,8 +19673,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -20121,8 +20110,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -20561,8 +20550,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -20953,8 +20942,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical range and accuracy</td>
@@ -21054,28 +21043,24 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     role="img" aria-label="Worldwide English College crest"
     xmlns="http://www.w3.org/2000/svg">
     <path d="M8 6 H112 V78 C112 104 92 122 60 134 C28 122 8 104 8 78 Z"
-      fill="none" stroke="#A05150" stroke-width="0.767"/>
+      fill="none" stroke="#A05150" stroke-width="2"/>
     <path d="M14 12 H106 V77 C106 100 88 116 60 127 C32 116 14 100 14 77 Z"
-      fill="none" stroke="#A05150" stroke-width="0.23" opacity="0.65"/>
+      fill="none" stroke="#A05150" stroke-width="0.6" opacity="0.65"/>
     <!-- the open book -->
     <path d="M28 60 C40 54 52 54 60 58 C68 54 80 54 92 60 L92 82 C80 76 68 76 60 80
-             C52 76 40 76 28 82 Z" fill="none" stroke="#A05150" stroke-width="0.613"
+             C52 76 40 76 28 82 Z" fill="none" stroke="#A05150" stroke-width="1.6"
       stroke-linejoin="round"/>
-    <path d="M60 58 V80" stroke="#A05150" stroke-width="0.46"/>
+    <path d="M60 58 V80" stroke="#A05150" stroke-width="1.2"/>
     <!-- six bars: the ascent -->
-    <rect x="34" y="46" width="1.917" height="3"
-       fill="#A05150" opacity="0.45"/><rect x="43" y="43" width="1.917" height="6"
-       fill="#A05150" opacity="0.56"/><rect x="52" y="40" width="1.917" height="9"
-       fill="#A05150" opacity="0.67"/><rect x="61" y="37" width="1.917" height="12"
-       fill="#A05150" opacity="0.78"/><rect x="70" y="34" width="1.917" height="15"
-       fill="#A05150" opacity="0.89"/><rect x="79" y="31" width="1.917" height="18"
+    <rect x="34" y="46" width="5" height="3"
+       fill="#A05150" opacity="0.45"/><rect x="43" y="43" width="5" height="6"
+       fill="#A05150" opacity="0.56"/><rect x="52" y="40" width="5" height="9"
+       fill="#A05150" opacity="0.67"/><rect x="61" y="37" width="5" height="12"
+       fill="#A05150" opacity="0.78"/><rect x="70" y="34" width="5" height="15"
+       fill="#A05150" opacity="0.89"/><rect x="79" y="31" width="5" height="18"
        fill="#A05150" opacity="1"/>
-    <text x="60" y="103" text-anchor="middle" fill="#A05150"
-      font-family="Georgia, 'Times New Roman', serif" font-size="5.75"
-      letter-spacing="0.767" font-weight="700">WEC</text>
-    <text x="60" y="115" text-anchor="middle" fill="#A05150" opacity="0.8"
-      font-family="Calibri, Arial, sans-serif" font-size="2.453"
-      letter-spacing="0.92">LONDON</text>
+    
+    
   </svg></div>
       <p class="opener__eyebrow">The Ascent · Stage 5 of 6</p>
       <div class="opener__ros"><svg viewBox="0 0 190 190" width="190" height="190" aria-hidden="true"
@@ -21555,8 +21540,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -21992,8 +21977,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -22432,8 +22417,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -22869,8 +22854,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -23309,8 +23294,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -23749,8 +23734,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -24186,8 +24171,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -24626,8 +24611,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -25066,8 +25051,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -25451,8 +25436,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical range and accuracy</td>
@@ -25552,28 +25537,24 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     role="img" aria-label="Worldwide English College crest"
     xmlns="http://www.w3.org/2000/svg">
     <path d="M8 6 H112 V78 C112 104 92 122 60 134 C28 122 8 104 8 78 Z"
-      fill="none" stroke="#855793" stroke-width="0.767"/>
+      fill="none" stroke="#855793" stroke-width="2"/>
     <path d="M14 12 H106 V77 C106 100 88 116 60 127 C32 116 14 100 14 77 Z"
-      fill="none" stroke="#855793" stroke-width="0.23" opacity="0.65"/>
+      fill="none" stroke="#855793" stroke-width="0.6" opacity="0.65"/>
     <!-- the open book -->
     <path d="M28 60 C40 54 52 54 60 58 C68 54 80 54 92 60 L92 82 C80 76 68 76 60 80
-             C52 76 40 76 28 82 Z" fill="none" stroke="#855793" stroke-width="0.613"
+             C52 76 40 76 28 82 Z" fill="none" stroke="#855793" stroke-width="1.6"
       stroke-linejoin="round"/>
-    <path d="M60 58 V80" stroke="#855793" stroke-width="0.46"/>
+    <path d="M60 58 V80" stroke="#855793" stroke-width="1.2"/>
     <!-- six bars: the ascent -->
-    <rect x="34" y="46" width="1.917" height="3"
-       fill="#855793" opacity="0.45"/><rect x="43" y="43" width="1.917" height="6"
-       fill="#855793" opacity="0.56"/><rect x="52" y="40" width="1.917" height="9"
-       fill="#855793" opacity="0.67"/><rect x="61" y="37" width="1.917" height="12"
-       fill="#855793" opacity="0.78"/><rect x="70" y="34" width="1.917" height="15"
-       fill="#855793" opacity="0.89"/><rect x="79" y="31" width="1.917" height="18"
+    <rect x="34" y="46" width="5" height="3"
+       fill="#855793" opacity="0.45"/><rect x="43" y="43" width="5" height="6"
+       fill="#855793" opacity="0.56"/><rect x="52" y="40" width="5" height="9"
+       fill="#855793" opacity="0.67"/><rect x="61" y="37" width="5" height="12"
+       fill="#855793" opacity="0.78"/><rect x="70" y="34" width="5" height="15"
+       fill="#855793" opacity="0.89"/><rect x="79" y="31" width="5" height="18"
        fill="#855793" opacity="1"/>
-    <text x="60" y="103" text-anchor="middle" fill="#855793"
-      font-family="Georgia, 'Times New Roman', serif" font-size="5.75"
-      letter-spacing="0.767" font-weight="700">WEC</text>
-    <text x="60" y="115" text-anchor="middle" fill="#855793" opacity="0.8"
-      font-family="Calibri, Arial, sans-serif" font-size="2.453"
-      letter-spacing="0.92">LONDON</text>
+    
+    
   </svg></div>
       <p class="opener__eyebrow">The Ascent · Stage 6 of 6</p>
       <div class="opener__ros"><svg viewBox="0 0 190 190" width="190" height="190" aria-hidden="true"
@@ -26053,8 +26034,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -26495,8 +26476,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -26932,8 +26913,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -27369,8 +27350,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -27806,8 +27787,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -28243,8 +28224,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -28688,8 +28669,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -29128,8 +29109,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -29561,8 +29542,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -29882,8 +29863,8 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     <div class="stage__b">
     
     <table class="rubric"><thead><tr>
-      <th class="rb__n"></th><th class="rb__c">Criterion</th>
-      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <th scope="col" class="rb__n"></th><th scope="col" class="rb__c">Criterion</th>
+      <th scope="col" class="rb__d">What the marker is looking for</th></tr></thead>
       <tbody><tr>
     <td class="rb__n">1</td>
     <td class="rb__c">Grammatical accuracy</td>
@@ -29922,7 +29903,7 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     have been written convincingly enough that no reader would have questioned it; that is the
     reason none of them has been. A teacher teaches what is on the page.</p>
   <table class="omt">
-    <thead><tr><th>Scope</th><th>Component specified</th><th>Status</th><th>What is printed instead</th></tr></thead>
+    <thead><tr><th scope="col">Scope</th><th scope="col">Component specified</th><th scope="col">Status</th><th scope="col">What is printed instead</th></tr></thead>
     <tbody><tr>
       <td class="omt__s">Level</td>
       <td class="omt__i">Level philosophy</td>
@@ -31095,28 +31076,26 @@ table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
     role="img" aria-label="Worldwide English College crest"
     xmlns="http://www.w3.org/2000/svg">
     <path d="M8 6 H112 V78 C112 104 92 122 60 134 C28 122 8 104 8 78 Z"
-      fill="none" stroke="#E4D5A8" stroke-width="1.167"/>
+      fill="none" stroke="#E4D5A8" stroke-width="2"/>
     <path d="M14 12 H106 V77 C106 100 88 116 60 127 C32 116 14 100 14 77 Z"
-      fill="none" stroke="#E4D5A8" stroke-width="0.35" opacity="0.65"/>
+      fill="none" stroke="#E4D5A8" stroke-width="0.6" opacity="0.65"/>
     <!-- the open book -->
     <path d="M28 60 C40 54 52 54 60 58 C68 54 80 54 92 60 L92 82 C80 76 68 76 60 80
-             C52 76 40 76 28 82 Z" fill="none" stroke="#E4D5A8" stroke-width="0.933"
+             C52 76 40 76 28 82 Z" fill="none" stroke="#E4D5A8" stroke-width="1.6"
       stroke-linejoin="round"/>
-    <path d="M60 58 V80" stroke="#E4D5A8" stroke-width="0.7"/>
+    <path d="M60 58 V80" stroke="#E4D5A8" stroke-width="1.2"/>
     <!-- six bars: the ascent -->
-    <rect x="34" y="46" width="2.917" height="3"
-       fill="#E4D5A8" opacity="0.45"/><rect x="43" y="43" width="2.917" height="6"
-       fill="#E4D5A8" opacity="0.56"/><rect x="52" y="40" width="2.917" height="9"
-       fill="#E4D5A8" opacity="0.67"/><rect x="61" y="37" width="2.917" height="12"
-       fill="#E4D5A8" opacity="0.78"/><rect x="70" y="34" width="2.917" height="15"
-       fill="#E4D5A8" opacity="0.89"/><rect x="79" y="31" width="2.917" height="18"
+    <rect x="34" y="46" width="5" height="3"
+       fill="#E4D5A8" opacity="0.45"/><rect x="43" y="43" width="5" height="6"
+       fill="#E4D5A8" opacity="0.56"/><rect x="52" y="40" width="5" height="9"
+       fill="#E4D5A8" opacity="0.67"/><rect x="61" y="37" width="5" height="12"
+       fill="#E4D5A8" opacity="0.78"/><rect x="70" y="34" width="5" height="15"
+       fill="#E4D5A8" opacity="0.89"/><rect x="79" y="31" width="5" height="18"
        fill="#E4D5A8" opacity="1"/>
     <text x="60" y="103" text-anchor="middle" fill="#E4D5A8"
-      font-family="Georgia, 'Times New Roman', serif" font-size="8.75"
-      letter-spacing="1.167" font-weight="700">WEC</text>
-    <text x="60" y="115" text-anchor="middle" fill="#E4D5A8" opacity="0.8"
-      font-family="Calibri, Arial, sans-serif" font-size="3.733"
-      letter-spacing="1.4">LONDON</text>
+      font-family="Georgia, 'Times New Roman', serif" font-size="15"
+      letter-spacing="2" font-weight="700">WEC</text>
+    
   </svg></div>
 </section>
 </body></html>

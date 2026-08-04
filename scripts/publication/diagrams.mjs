@@ -36,10 +36,34 @@ const SERIF = `font-family="${TYPE.serif.replace(/"/g, "'")}"`;
 /**
  * One label scale and one rule weight for every figure, so five charts
  * built at different times read as one hand.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * THE SIZES BELOW ARE PRINTED POINTS, NOT VIEWBOX UNITS
+ * ────────────────────────────────────────────────────────────────────
+ * The figures are drawn in a 760-unit viewBox and rendered at the text
+ * measure, 168 mm — about 476 pt. So one viewBox unit is 0.626 pt, and
+ * a label written as `font-size="${fs(6.2)}"` prints at 3.9 pt. The audit
+ * measured thirteen distinct type sizes in the figures below the 5.5 pt
+ * legibility floor, the smallest at 1.8 pt.
+ *
+ * Nothing about the figures looked wrong on screen, because on screen
+ * they are large. This is the classic SVG-in-print defect and it is
+ * invisible until someone measures the rendered size or prints a proof.
+ *
+ * The sizes here are therefore declared in the units that matter — the
+ * points the reader's eye receives — and converted at emission by
+ * `fs()`. Change the viewBox width and the conversion follows.
  */
+export const VIEW_W = 760;
+export const PRINT_W_PT = (168 / 25.4) * 72;      // the text measure, in points
+export const UNITS_PER_PT = VIEW_W / PRINT_W_PT;  // ≈ 1.596
+
+/** A printed point size, expressed in viewBox units. */
+export const fs = (pt) => Math.round(pt * UNITS_PER_PT * 100) / 100;
+
 export const FIG = {
-  axis: 6.2, tick: 6, label: 6.8, value: 8.4, unit: 5.8, roman: 14,
-  hair: 0.4, rule: 0.7, bar: 1.3, frame: 1,
+  axis: fs(6), tick: fs(5.8), label: fs(6.4), value: fs(8), unit: fs(5.6),
+  roman: fs(10), hair: 0.4, rule: 0.7, bar: 1.3, frame: 1,
 };
 
 // ─────────────────────────────────────────────────────────────────────
@@ -121,20 +145,20 @@ export function ascentChart(levels, { w = 760, h = 300 } = {}) {
       <rect x="${n(x + bw * 0.12)}" y="${n(y)}" width="${n(bw * 0.76)}" height="${n(bh)}"
         fill="${p.wash}" stroke="${p.mid}" stroke-width="0.7"/>
       <rect x="${n(x + bw * 0.12)}" y="${n(y)}" width="${n(bw * 0.76)}" height="3" fill="${p.ink}"/>
-      <text x="${n(cx)}" y="${n(y - 6)}" text-anchor="middle" ${FONT} font-size="8.4"
+      <text x="${n(cx)}" y="${n(y - 6)}" text-anchor="middle" ${FONT} font-size="${fs(8.4)}"
         font-weight="700" fill="${p.ink}">${r.words.toLocaleString('en-GB')}</text>
       <line x1="${n(x + bw * 0.06)}" y1="${n(py)}" x2="${n(x + bw * 0.94)}" y2="${n(py)}"
         stroke="${PAL.deepCrimson}" stroke-width="1.3"/>
       <circle cx="${n(cx)}" cy="${n(py)}" r="2.1" fill="${PAL.deepCrimson}"/>
-      <text x="${n(x + bw * 0.06)}" y="${n(py - 4)}" ${FONT} font-size="6.8"
+      <text x="${n(x + bw * 0.06)}" y="${n(py - 4)}" ${FONT} font-size="${fs(6.8)}"
         font-weight="700" fill="${PAL.deepCrimson}">${r.perStage}</text>
-      <text x="${n(x + bw * 0.06)}" y="${n(py + 9)}" ${FONT} font-size="5.6"
+      <text x="${n(x + bw * 0.06)}" y="${n(py + 9)}" ${FONT} font-size="${fs(5.6)}"
         fill="${PAL.deepCrimson}" opacity=".75">${r.stages} stages</text>
-      <text x="${n(cx)}" y="${n(pad.t + ih + 16)}" text-anchor="middle" ${SERIF} font-size="14"
+      <text x="${n(cx)}" y="${n(pad.t + ih + 16)}" text-anchor="middle" ${SERIF} font-size="${fs(14.0)}"
         font-weight="700" fill="${p.ink}">${esc(r.lv.roman)}</text>
-      <text x="${n(cx)}" y="${n(pad.t + ih + 27)}" text-anchor="middle" ${FONT} font-size="6.8"
+      <text x="${n(cx)}" y="${n(pad.t + ih + 27)}" text-anchor="middle" ${FONT} font-size="${fs(6.8)}"
         font-weight="700" fill="${p.mid}">${esc(r.lv.cefr)}</text>
-      <text x="${n(cx)}" y="${n(pad.t + ih + 38)}" text-anchor="middle" ${FONT} font-size="6.2"
+      <text x="${n(cx)}" y="${n(pad.t + ih + 38)}" text-anchor="middle" ${FONT} font-size="${fs(6.2)}"
         fill="${PAL.slateGrey}">${esc(r.lv.name.replace(/ Programme$/, ''))}</text>
     </g>`;
   }).join('');
@@ -143,7 +167,7 @@ export function ascentChart(levels, { w = 760, h = 300 } = {}) {
     const y = pad.t + ih - f * ih;
     return `<line x1="${pad.l}" y1="${n(y)}" x2="${n(pad.l + iw)}" y2="${n(y)}"
         stroke="${PAL.platinum}" stroke-width="0.4"/>
-      <text x="${pad.l - 5}" y="${n(y + 3)}" text-anchor="end" ${FONT} font-size="6"
+      <text x="${pad.l - 5}" y="${n(y + 3)}" text-anchor="end" ${FONT} font-size="${fs(6.0)}"
         fill="${PAL.slateGrey}">${Math.round((f * max) / 1000)}k</text>`;
   }).join('');
 
@@ -154,16 +178,16 @@ export function ascentChart(levels, { w = 760, h = 300 } = {}) {
     aria-label="Words of lesson content at each level, with words per authored item marked; the structural counts are identical at every level"
     xmlns="http://www.w3.org/2000/svg">
     <rect x="0" y="0" width="${w}" height="20" fill="${PAL.softCream}"/>
-    <text x="8" y="13.5" ${FONT} font-size="6.6" font-weight="700" letter-spacing="1.1"
+    <text x="8" y="13.5" ${FONT} font-size="${fs(6.6)}" font-weight="700" letter-spacing="1.1"
       fill="${PAL.bronze}">${constants}</text>
-    <text x="${pad.l}" y="36" ${FONT} font-size="6.4" letter-spacing="1.2"
+    <text x="${pad.l}" y="36" ${FONT} font-size="${fs(6.4)}" letter-spacing="1.2"
       fill="${PAL.royalBlue}">BARS · WORDS OF LESSON CONTENT</text>
-    <text x="${n(pad.l + iw)}" y="36" text-anchor="end" ${FONT} font-size="6.4" letter-spacing="1.2"
+    <text x="${n(pad.l + iw)}" y="36" text-anchor="end" ${FONT} font-size="${fs(6.4)}" letter-spacing="1.2"
       fill="${PAL.deepCrimson}">RULES · WORDS PER NAMED STAGE</text>
     ${grid}${bars}
     <line x1="${pad.l}" y1="${n(pad.t + ih)}" x2="${n(pad.l + iw)}" y2="${n(pad.t + ih)}"
       stroke="${PAL.royalBlue}" stroke-width="1"/>
-    <text x="${n(w / 2)}" y="${n(h - 4)}" text-anchor="middle" ${FONT} font-size="6.4"
+    <text x="${n(w / 2)}" y="${n(h - 4)}" text-anchor="middle" ${FONT} font-size="${fs(6.4)}"
       fill="${PAL.slateGrey}">Identical architecture throughout: content rises ${growth}× and the
       average stage grows ${stageGrowth}× longer between the first level and the sixth.</text>
   </svg>`;
@@ -212,11 +236,11 @@ export function architectureGrid(levels, { w = 760, cell = 62, gap = 5 } = {}) {
         return r;
       }).join('');
       return `${bars}<text x="${n(x + cw / 2)}" y="${n(y + 9)}" text-anchor="middle" ${FONT}
-        font-size="5.8" fill="${PAL.slateGrey}">${m.sequence}</text>`;
+        font-size="${fs(5.8)}" fill="${PAL.slateGrey}">${m.sequence}</text>`;
     }).join('');
-    return `<text x="0" y="${n(y + 26)}" ${SERIF} font-size="12" font-weight="700"
+    return `<text x="0" y="${n(y + 26)}" ${SERIF} font-size="${fs(12.0)}" font-weight="700"
         fill="${p.ink}">${esc(lv.roman)}</text>
-      <text x="17" y="${n(y + 26)}" ${FONT} font-size="6.2" fill="${PAL.slateGrey}"
+      <text x="17" y="${n(y + 26)}" ${FONT} font-size="${fs(6.2)}" fill="${PAL.slateGrey}"
         >${esc(lv.cefr)}</text>${cells}`;
   }).join('');
 
@@ -225,7 +249,7 @@ export function architectureGrid(levels, { w = 760, cell = 62, gap = 5 } = {}) {
     ['Assessed assignment', PAL.deepCrimson, 1]]
     .map(([label, col, op], i) => `<g transform="translate(${labelW + i * 150} 8)">
       <rect width="9" height="7" fill="${col}" opacity="${op}"/>
-      <text x="14" y="6.6" ${FONT} font-size="6.6" fill="${PAL.slateGrey}">${label}</text></g>`).join('');
+      <text x="14" y="6.6" ${FONT} font-size="${fs(6.6)}" fill="${PAL.slateGrey}">${label}</text></g>`).join('');
 
   return `<svg viewBox="0 0 ${w} ${h}" width="100%" role="img"
     aria-label="All sixty modules, six levels of ten, each divided into teaching items and its two assessments"
@@ -272,13 +296,13 @@ export function lessonAnatomy(curriculum, { w = 760 } = {}) {
     const bw = (e.count / max) * barW;
     const med = e.mins.length
       ? e.mins.slice().sort((a, b) => a - b)[Math.floor(e.mins.length / 2)] : null;
-    return `<text x="${labelW - 6}" y="${n(y + 8)}" text-anchor="end" ${FONT} font-size="7"
+    return `<text x="${labelW - 6}" y="${n(y + 8)}" text-anchor="end" ${FONT} font-size="${fs(7.0)}"
         fill="${PAL.warmCharcoal}">${esc(e.head)}</text>
       <rect x="${labelW}" y="${n(y + 1.5)}" width="${n(bw)}" height="8.5"
         fill="${PAL.royalBlue}" opacity="${n(0.35 + 0.55 * (e.count / max))}"/>
-      <text x="${n(labelW + bw + 5)}" y="${n(y + 8.4)}" ${FONT} font-size="6.8"
+      <text x="${n(labelW + bw + 5)}" y="${n(y + 8.4)}" ${FONT} font-size="${fs(6.8)}"
         fill="${PAL.slateGrey}">${e.count}</text>
-      <text x="${w}" y="${n(y + 8.4)}" text-anchor="end" ${FONT} font-size="6.6"
+      <text x="${w}" y="${n(y + 8.4)}" text-anchor="end" ${FONT} font-size="${fs(6.6)}"
         fill="${med ? PAL.bronze : PAL.platinum}">${med ? `${med} min` : 'not timed'}</text>`;
   }).join('');
 
@@ -286,12 +310,12 @@ export function lessonAnatomy(curriculum, { w = 760 } = {}) {
   return `<svg viewBox="0 0 ${w} ${h}" width="100%" role="img"
     aria-label="Lesson stages ranked by frequency across all authored items, with median designed timing"
     xmlns="http://www.w3.org/2000/svg">
-    <text x="${labelW}" y="10" ${FONT} font-size="6.2" letter-spacing="1.2"
+    <text x="${labelW}" y="10" ${FONT} font-size="${fs(6.2)}" letter-spacing="1.2"
       fill="${PAL.slateGrey}">OCCURRENCES ACROSS ${stages.length} NAMED STAGES</text>
-    <text x="${w}" y="10" text-anchor="end" ${FONT} font-size="6.2" letter-spacing="1.2"
+    <text x="${w}" y="10" text-anchor="end" ${FONT} font-size="${fs(6.2)}" letter-spacing="1.2"
       fill="${PAL.slateGrey}">MEDIAN DESIGNED TIMING</text>
     ${rows}
-    ${tail > 0 ? `<text x="${labelW}" y="${n(h - 4)}" ${FONT} font-size="6.4"
+    ${tail > 0 ? `<text x="${labelW}" y="${n(h - 4)}" ${FONT} font-size="${fs(6.4)}"
       fill="${PAL.slateGrey}">and ${tail} further stage names occurring less often</text>` : ''}
   </svg>`;
 }
@@ -317,7 +341,7 @@ export function assessmentMap(levels, rubricCriteria, { w = 760 } = {}) {
   const colX = [0, 150, 300, 420, 540, 640];
   const heads = ['Level', 'Assessed quizzes', 'Questions', 'Assignments',
     'Rubric criteria', 'Mapped to competency'];
-  const head = heads.map((t, i) => `<text x="${colX[i]}" y="12" ${FONT} font-size="6.4"
+  const head = heads.map((t, i) => `<text x="${colX[i]}" y="12" ${FONT} font-size="${fs(6.4)}"
     font-weight="700" letter-spacing="1.1" fill="${PAL.royalBlue}">${t.toUpperCase()}</text>`).join('');
 
   const rows = levels.map((lv, i) => {
@@ -337,7 +361,7 @@ export function assessmentMap(levels, rubricCriteria, { w = 760 } = {}) {
       ${cellTxt(colX[0] + 8, `${lv.roman} · ${esc(lv.name)}`, true)}
       ${cellTxt(colX[1], quizzes)}${cellTxt(colX[2], qs)}${cellTxt(colX[3], asg)}
       ${cellTxt(colX[4], crit)}
-      <text x="${colX[5]}" y="${n(y + 18)}" ${FONT} font-size="8" font-weight="700"
+      <text x="${colX[5]}" y="${n(y + 18)}" ${FONT} font-size="${fs(8.0)}" font-weight="700"
         fill="${PAL.deepCrimson}">None</text>`;
   }).join('');
 
@@ -345,9 +369,9 @@ export function assessmentMap(levels, rubricCriteria, { w = 760 } = {}) {
     aria-label="Assessment at each level: quizzes, questions, assignments, rubric criteria, and competency mapping"
     xmlns="http://www.w3.org/2000/svg">${head}${rows}
     <line x1="0" y1="${n(h - 18)}" x2="${w}" y2="${n(h - 18)}" stroke="${PAL.royalBlue}" stroke-width="1"/>
-    <text x="0" y="${n(h - 5)}" ${FONT} font-size="6.6" fill="${PAL.slateGrey}"
+    <text x="0" y="${n(h - 5)}" ${FONT} font-size="${fs(6.6)}" fill="${PAL.slateGrey}"
       >Counted from the academic database at generation.</text>
-    <text x="${colX[5]}" y="${n(h - 5)}" ${FONT} font-size="6.6" fill="${PAL.deepCrimson}"
+    <text x="${colX[5]}" y="${n(h - 5)}" ${FONT} font-size="${fs(6.6)}" fill="${PAL.deepCrimson}"
       >0 of 120 assessments mapped.</text>
   </svg>`;
 }
@@ -394,7 +418,7 @@ export function skillsAcrossLevels(levels, { w = 760, h = 220 } = {}) {
     const last = s.pts[s.pts.length - 1];
     return `<path d="${d}" fill="none" stroke="${s.col}" stroke-width="1.4"
         stroke-linejoin="round"/>${dots}
-      <text x="${n(px(levels.length - 1) + 8)}" y="${n(py(last) + 3)}" ${FONT} font-size="7.4"
+      <text x="${n(px(levels.length - 1) + 8)}" y="${n(py(last) + 3)}" ${FONT} font-size="${fs(7.4)}"
         font-weight="700" fill="${s.col}">${s.name}</text>`;
   }).join('');
 
@@ -402,20 +426,20 @@ export function skillsAcrossLevels(levels, { w = 760, h = 220 } = {}) {
     const y = pad.t + ih - f * ih;
     return `<line x1="${pad.l}" y1="${n(y)}" x2="${n(pad.l + iw)}" y2="${n(y)}"
         stroke="${PAL.platinum}" stroke-width="0.4"/>
-      <text x="${pad.l - 5}" y="${n(y + 3)}" text-anchor="end" ${FONT} font-size="6"
+      <text x="${pad.l - 5}" y="${n(y + 3)}" text-anchor="end" ${FONT} font-size="${fs(6.0)}"
         fill="${PAL.slateGrey}">${Math.round(f * max)}</text>`;
   }).join('');
 
   const xlabels = levels.map((lv, i) =>
-    `<text x="${n(px(i))}" y="${n(pad.t + ih + 14)}" text-anchor="middle" ${SERIF} font-size="9.5"
+    `<text x="${n(px(i))}" y="${n(pad.t + ih + 14)}" text-anchor="middle" ${SERIF} font-size="${fs(9.5)}"
       font-weight="700" fill="${LEVEL_PALETTES[i].ink}">${esc(lv.roman)}</text>
-     <text x="${n(px(i))}" y="${n(pad.t + ih + 24)}" text-anchor="middle" ${FONT} font-size="6.2"
+     <text x="${n(px(i))}" y="${n(pad.t + ih + 24)}" text-anchor="middle" ${FONT} font-size="${fs(6.2)}"
       fill="${PAL.slateGrey}">${esc(lv.cefr)}</text>`).join('');
 
   return `<svg viewBox="0 0 ${w} ${h}" width="100%" role="img"
     aria-label="Named skill stages per hundred items at each level, for speaking, listening, reading and writing"
     xmlns="http://www.w3.org/2000/svg">
-    <text x="${pad.l}" y="10" ${FONT} font-size="6.2" letter-spacing="1.2"
+    <text x="${pad.l}" y="10" ${FONT} font-size="${fs(6.2)}" letter-spacing="1.2"
       fill="${PAL.slateGrey}">NAMED SKILL STAGES PER 100 AUTHORED ITEMS</text>
     ${grid}${lines}${xlabels}</svg>`;
 }

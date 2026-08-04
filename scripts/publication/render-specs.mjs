@@ -343,7 +343,7 @@ tr { break-inside:avoid; }
   <li><b>Orphans and widows</b><span>3 lines minimum, enforced in the stylesheet</span></li>
 </ul>
 <h3>The scale</h3>
-<table><thead><tr><th>Role</th><th>Size</th><th>Family</th><th>Treatment</th></tr></thead><tbody>
+<table><thead><tr><th scope="col">Role</th><th scope="col">Size</th><th scope="col">Family</th><th scope="col">Treatment</th></tr></thead><tbody>
 ${[['Cover title', TYPE.scale.coverTitle, 'Serif', 'Foil gradient, embossed lighting'],
     ['Level numeral', TYPE.scale.levelNumeral, 'Serif', 'Blind emboss on the level wash'],
     ['Level title', TYPE.scale.levelTitle, 'Serif', 'Bold, level ink'],
@@ -385,7 +385,7 @@ ${[['Cover title', TYPE.scale.coverTitle, 'Serif', 'Foil gradient, embossed ligh
   completes a split-complementary triad: related enough to belong, distant enough to alarm when it
   is used, which is what an accent is for. Crimson appears only on assessment and on statements of
   what is not evidenced. It is never decorative.</p>
-<table><thead><tr><th></th><th>Colour</th><th>Hex</th><th>RGB</th><th>CMYK*</th><th>Role</th></tr></thead>
+<table><thead><tr><th scope="col"></th><th scope="col">Colour</th><th scope="col">Hex</th><th scope="col">RGB</th><th scope="col">CMYK*</th><th scope="col">Role</th></tr></thead>
 <tbody>${colourRows}</tbody></table>
 <p class="small">* Uncalibrated conversion. Provided as a prepress starting point, not as final
   separations — a saturated blue in particular will need adjustment against the press profile.</p>
@@ -394,8 +394,8 @@ ${[['Cover title', TYPE.scale.coverTitle, 'Serif', 'Foil gradient, embossed ligh
 <p>Every pairing the design actually uses, measured by the WCAG relative-luminance formula. This
   table is computed at generation: if a colour changes and a pair falls below its floor, the row
   turns and this document says so.</p>
-<table><thead><tr><th>Pairing</th><th>Foreground</th><th>Ground</th><th>Ratio</th><th>Floor</th>
-<th>Result</th></tr></thead><tbody>${contrastRows}</tbody></table>
+<table><thead><tr><th scope="col">Pairing</th><th scope="col">Foreground</th><th scope="col">Ground</th><th scope="col">Ratio</th><th scope="col">Floor</th>
+<th scope="col">Result</th></tr></thead><tbody>${contrastRows}</tbody></table>
 ${contrastFails.length ? `<div class="panel"><p class="panel__h">Outstanding</p><p>${
   contrastFails.length} pairing(s) fall below the stated floor and must be resolved before
   press.</p></div>` : ''}
@@ -404,8 +404,8 @@ ${contrastFails.length ? `<div class="panel"><p class="panel__h">Outstanding</p>
 <p>Six palettes, one family. Close in value and saturation so the book reads as one work rather
   than as six pamphlets bound together, and separated enough that a reader opening the volume
   anywhere knows which level they are in before reading the running head.</p>
-<table><thead><tr><th>Level</th><th>Name</th><th>Ink</th><th>Mid</th><th>Wash</th>
-<th>Ink on wash</th><th>CEFR</th></tr></thead><tbody>${levelRows}</tbody></table>
+<table><thead><tr><th scope="col">Level</th><th scope="col">Name</th><th scope="col">Ink</th><th scope="col">Mid</th><th scope="col">Wash</th>
+<th scope="col">Ink on wash</th><th scope="col">CEFR</th></tr></thead><tbody>${levelRows}</tbody></table>
 
 <h2>4 · Illustration specification</h2>
 <p class="lead">Every mark in this publication is computed from its own geometry at render time.</p>
@@ -414,7 +414,7 @@ ${contrastFails.length ? `<div class="panel"><p class="panel__h">Outstanding</p>
   carry no licence question into a reprint — and partly a truthfulness one: a stock photograph of a
   model captioned as a student of this College would be a fabrication, and this publication does
   not contain one.</p>
-<table><thead><tr><th>Mark</th><th>Name and source</th><th>Construction</th><th>Where used</th></tr></thead>
+<table><thead><tr><th scope="col">Mark</th><th scope="col">Name and source</th><th scope="col">Construction</th><th scope="col">Where used</th></tr></thead>
 <tbody>${ornRows}</tbody></table>
 <h3>Figures</h3>
 <p>Five figures in the front matter, each computed from the curriculum rather than drawn to
@@ -422,7 +422,7 @@ ${contrastFails.length ? `<div class="panel"><p class="panel__h">Outstanding</p>
   items, and every label is generated with the mark it labels. The constraint is deliberate and it
   has teeth — these figures become wrong the moment the curriculum changes, which is the property
   that separates information design from decoration.</p>
-<table><thead><tr><th>Figure</th><th>What it measures</th><th>Source</th></tr></thead><tbody>
+<table><thead><tr><th scope="col">Figure</th><th scope="col">What it measures</th><th scope="col">Source</th></tr></thead><tbody>
 ${[['1 · The ascent', 'Words of lesson content per level, with words per named stage.',
     'diagrams.mjs · ascentChart()'],
     ['2 · Sixty modules', 'Item composition of every module, as small multiples.',
@@ -450,12 +450,12 @@ ${[['1 · The ascent', 'Words of lesson content per level, with words per named 
 <h2>5 · Asset inventory</h2>
 <p class="lead">What is delivered, and what generates it.</p>
 <h3>Deliverable files</h3>
-<table><thead><tr><th>File</th><th>Purpose</th><th>Format</th><th>Size</th><th>State</th></tr></thead>
+<table><thead><tr><th scope="col">File</th><th scope="col">Purpose</th><th scope="col">Format</th><th scope="col">Size</th><th scope="col">State</th></tr></thead>
 <tbody>${fileRows}</tbody></table>
 <h3>Source</h3>
 <p>The publication has no binary assets. Its entire source is text, which means the whole book —
   content, colour, ornament, identifiers — is diffable, reviewable and reproducible.</p>
-<table><thead><tr><th>Module</th><th>Responsibility</th><th>State</th></tr></thead>
+<table><thead><tr><th scope="col">Module</th><th scope="col">Responsibility</th><th scope="col">State</th></tr></thead>
 <tbody>${srcRows}</tbody></table>
 <h3>External assets</h3>
 <p><b>None.</b> No embedded font file, no image file, no icon set, no CDN reference, no licensed
@@ -523,7 +523,7 @@ ${[['1 · The ascent', 'Words of lesson content per level, with words per named 
 </ul>
 
 <h3>Paper and board</h3>
-<table><thead><tr><th>Component</th><th>Stock</th><th>Why</th></tr></thead><tbody>
+<table><thead><tr><th scope="col">Component</th><th scope="col">Stock</th><th scope="col">Why</th></tr></thead><tbody>
 ${[['Text block', '100 gsm uncoated offset, high bulk, natural white, FSC',
     'Uncoated because this is a book a teacher writes in. High opacity so the reverse of a tinted '
     + 'module opener does not show through the lesson behind it.'],
@@ -569,7 +569,7 @@ ${[['Text block', '100 gsm uncoated offset, high bulk, natural white, FSC',
 <h2>7 · Production checklist</h2>
 <p class="lead">Verified automatically at generation. A tick here means a machine confirmed it, not
   that someone remembered to.</p>
-<table><thead><tr><th></th><th>Check</th><th>Evidence</th><th>State</th></tr></thead>
+<table><thead><tr><th scope="col"></th><th scope="col">Check</th><th scope="col">Evidence</th><th scope="col">State</th></tr></thead>
 <tbody>${checkRows}</tbody></table>
 <h3>Manual steps before press</h3>
 <p>These cannot be verified by a build and are therefore listed separately rather than mixed in
@@ -623,7 +623,7 @@ ${[['Text block', '100 gsm uncoated offset, high bulk, natural white, FSC',
 <p>Carried here from the Register of Omissions printed in the publication itself, so that a
   production house working from this document alone knows what is missing and why nothing was
   written to cover it.</p>
-<table><thead><tr><th>Scope</th><th>Component</th><th>Status</th></tr></thead>
+<table><thead><tr><th scope="col">Scope</th><th scope="col">Component</th><th scope="col">Status</th></tr></thead>
 <tbody>${OMISSIONS.map((o) => `<tr><td>${esc(o.scope)}</td><td>${esc(o.item)}</td>
   <td class="gap">${esc(o.status)}</td></tr>`).join('')}</tbody></table>
 

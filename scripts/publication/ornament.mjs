@@ -234,10 +234,48 @@ export function girihField({ w = 600, h = 840, cell = 84, stroke = '#FFFFFF', op
  * motto in a language the College has not adopted. It is a mark, and
  * it says only what is true: a college, a book, six levels.
  */
+/**
+ * MINIMUM SIZES FOR THE CREST'S LETTERING.
+ *
+ * A mark that carries type has a size below which the type stops being
+ * type. The audit measured "LONDON" rendering at 1.8 pt on the level
+ * dividers and 2.6 pt on the title page — sizes at which the counters
+ * close up on uncoated stock and the word becomes a grey smudge that
+ * looks like a printing fault.
+ *
+ * The lettering is therefore dropped below these thresholds and the
+ * device — shield, book, six bars — carries the mark alone. This is the
+ * ordinary practice for an identity used across a size range, and it is
+ * better than the alternative of scaling the whole crest up: the crest
+ * is small on a divider because it should be small there.
+ *
+ * The numbers are derived, not chosen. The svg is `size` px wide over a
+ * 120-unit viewBox, so a glyph at N units renders at N × size / 120 px,
+ * which is × 0.75 in points. Solving for 5.5 pt gives the two floors
+ * below.
+ */
+export const WEC_MIN = Math.ceil((5.5 / 0.75) * (120 / 15));      // ≈ 59 px
+export const LONDON_MIN = Math.ceil((5.5 / 0.75) * (120 / 6.4));  // ≈ 138 px
+
 export function crest({ size = 120, gold = '#B4933E', ink = '#0F1D38', mono = false } = {}) {
   const g = mono ? gold : gold;
-  const k = size / 120;
-  const s = (v) => n(v * k);
+  // NOTE: there is deliberately no scale helper here.
+  //
+  // An earlier version multiplied every stroke width, bar width and font
+  // size by size/120 before writing it into the markup. But the markup
+  // is a viewBox — the browser ALREADY scales user units by size/120 —
+  // so those values were scaled twice. At the 46 px crest on a level
+  // divider the shield outline came out at 0.09 px, and the six ascent
+  // bars at two-fifths of their intended width.
+  //
+  // Nothing looked wrong at size 120, where the factor is 1 and the bug
+  // is invisible. It was found by the craftsmanship audit measuring a
+  // drawn line at 0.23 units against the 0.25 floor below which fine
+  // line-work drops out on press.
+  //
+  // Every number below is therefore in plain viewBox units, the same
+  // units the path coordinates already use.
+  const s = (v) => v;
   return `<svg viewBox="0 0 120 140" width="${size}" height="${n(size * 140 / 120)}"
     role="img" aria-label="Worldwide English College crest"
     xmlns="http://www.w3.org/2000/svg">
@@ -254,12 +292,12 @@ export function crest({ size = 120, gold = '#B4933E', ink = '#0F1D38', mono = fa
     ${Array.from({ length: 6 }, (_, i) =>
     `<rect x="${n(34 + i * 9)}" y="${n(46 - i * 3)}" width="${s(5)}" height="${n(3 + i * 3)}"
        fill="${g}" opacity="${n(0.45 + i * 0.11)}"/>`).join('')}
-    <text x="60" y="103" text-anchor="middle" fill="${g}"
+    ${size >= WEC_MIN ? `<text x="60" y="103" text-anchor="middle" fill="${g}"
       font-family="Georgia, 'Times New Roman', serif" font-size="${s(15)}"
-      letter-spacing="${s(2)}" font-weight="700">WEC</text>
-    <text x="60" y="115" text-anchor="middle" fill="${g}" opacity="0.8"
+      letter-spacing="${s(2)}" font-weight="700">WEC</text>` : ''}
+    ${size >= LONDON_MIN ? `<text x="60" y="115" text-anchor="middle" fill="${g}" opacity="0.8"
       font-family="Calibri, Arial, sans-serif" font-size="${s(6.4)}"
-      letter-spacing="${s(2.4)}">LONDON</text>
+      letter-spacing="${s(2.4)}">LONDON</text>` : ''}
   </svg>`;
 }
 

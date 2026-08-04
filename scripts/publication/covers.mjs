@@ -254,16 +254,16 @@ export function frontMatter(id, I, C_, contentsHtml, howtoHtml) {
   <div class="idblock">
     <p class="idblock__h">Identification and security features</p>
     <table class="idtable">
-      <tr><th>Publication ID</th><td class="mono">${esc(id.publicationId)}</td></tr>
-      <tr><th>Document ID</th><td class="mono">${esc(id.documentId)}</td></tr>
-      <tr><th>Edition code</th><td class="mono">${esc(id.editionCode)}</td></tr>
-      <tr><th>Revision code</th><td class="mono">${esc(id.revisionCode)}</td></tr>
-      <tr><th>Issue code</th><td class="mono">${esc(id.issueCode)}</td></tr>
-      <tr><th>Version</th><td class="mono">${esc(id.version)}</td></tr>
-      <tr><th>Print identifier</th><td class="mono">${esc(id.printIdentifier)}</td></tr>
-      <tr><th>Content digest (SHA-256, leading 64 hex)</th>
+      <tr><th scope="col">Publication ID</th><td class="mono">${esc(id.publicationId)}</td></tr>
+      <tr><th scope="col">Document ID</th><td class="mono">${esc(id.documentId)}</td></tr>
+      <tr><th scope="col">Edition code</th><td class="mono">${esc(id.editionCode)}</td></tr>
+      <tr><th scope="col">Revision code</th><td class="mono">${esc(id.revisionCode)}</td></tr>
+      <tr><th scope="col">Issue code</th><td class="mono">${esc(id.issueCode)}</td></tr>
+      <tr><th scope="col">Version</th><td class="mono">${esc(id.version)}</td></tr>
+      <tr><th scope="col">Print identifier</th><td class="mono">${esc(id.printIdentifier)}</td></tr>
+      <tr><th scope="col">Content digest (SHA-256, leading 64 hex)</th>
         <td class="mono digest">${esc(id.contentDigest)}</td></tr>
-      ${id.registrations.map((r) => `<tr><th>${esc(r.field)}</th><td>${esc(r.value)}
+      ${id.registrations.map((r) => `<tr><th scope="col">${esc(r.field)}</th><td>${esc(r.value)}
         <span class="auth">— issued by ${esc(r.authority)}; the College holds no such
         assignment</span></td></tr>`).join('')}
     </table>
@@ -455,7 +455,7 @@ export function backMatter(id, pages) {
     have been written convincingly enough that no reader would have questioned it; that is the
     reason none of them has been. A teacher teaches what is on the page.</p>
   <table class="omt">
-    <thead><tr><th>Scope</th><th>Component specified</th><th>Status</th><th>What is printed instead</th></tr></thead>
+    <thead><tr><th scope="col">Scope</th><th scope="col">Component specified</th><th scope="col">Status</th><th scope="col">What is printed instead</th></tr></thead>
     <tbody>${OMISSIONS.map((o) => `<tr>
       <td class="omt__s">${esc(o.scope)}</td>
       <td class="omt__i">${esc(o.item)}</td>
