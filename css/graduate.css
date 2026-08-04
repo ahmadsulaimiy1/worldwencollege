@@ -342,3 +342,13 @@
   color: #8C1F2F; max-width: 62ch;
 }
 .grad-badge--withdrawn { background: rgba(163, 38, 56, .12); color: #8C1F2F; }
+
+/* The descriptor's own words, under its name. A band called
+   "Proficient" means nothing to a reader who has not been told what the
+   College means by it, and a legend elsewhere on the page is a legend
+   nobody reads. */
+.grad-skill__band {
+  display: block; margin-top: .2rem;
+  font: 400 .78rem/1.5 var(--font-body, Inter, sans-serif);
+  color: var(--ink-soft, #4B5768);
+}

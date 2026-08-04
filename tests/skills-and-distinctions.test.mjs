@@ -78,11 +78,12 @@ function freshEnv() {
   check('A graduate\'s skill profile reports unmapped, not empty', prof.state === 'unmapped');
   check('...still naming all four skills, so the reader sees what is missing',
     prof.skills.length === 4);
-  // The decisive one. A zero here would put a failing mark against
-  // somebody who was never assessed.
-  check('...with every attainment null rather than zero',
-    prof.skills.every((s) => s.attainment === null),
-    JSON.stringify(prof.skills.map((s) => s.attainment)));
+  // The decisive one. Not 0, and not "Emerging" — the lowest descriptor
+  // is still a judgement somebody made, and a graduate who was never
+  // assessed has not been judged to be emerging.
+  check('...with every descriptor null rather than zero or the lowest band',
+    prof.skills.every((s) => s.descriptor === null),
+    JSON.stringify(prof.skills.map((s) => s.descriptor)));
 }
 
 // --- The software must keep declining even when tempted ---------------
@@ -96,8 +97,8 @@ function freshEnv() {
                   VALUES ('asub_1','itm_w','usr_grad','graded',0.82)`).bind().run();
 
   const prof = await S.skillProfile(env, { userId: 'usr_grad' });
-  check('A graded assignment with no mapping still yields no skill attainment',
-    prof.state === 'unmapped' && prof.skills.every((s) => s.attainment === null),
+  check('A graded assignment with no mapping still yields no skill descriptor',
+    prof.state === 'unmapped' && prof.skills.every((s) => s.descriptor === null),
     prof.state);
 }
 
@@ -113,7 +114,7 @@ function freshEnv() {
     cov.state === 'awaiting_approval', cov.state);
   const prof = await S.skillProfile(env, { userId: 'usr_grad' });
   check('...and an unapproved judgement never reaches a graduate\'s profile',
-    prof.state === 'awaiting_approval' && prof.skills.every((s) => s.attainment === null),
+    prof.state === 'awaiting_approval' && prof.skills.every((s) => s.descriptor === null),
     prof.state);
 }
 
@@ -126,12 +127,80 @@ function freshEnv() {
   const ok = await S.approveMapping(env, { id: m.id, approvedBy: 'usr_dean' });
   check('A mapping can be approved', ok.ok === true, JSON.stringify(ok));
 
+  // An approved mapping is NOT enough on its own. The Senate must also
+  // approve what evidence earns which descriptor, and until it has,
+  // there is evidence but no way to name a band. That is a third state,
+  // and collapsing it into either neighbour would tell a reader
+  // something false.
   const prof = await S.skillProfile(env, { userId: 'usr_grad' });
-  check('...and the skill it evidences now reports attainment', prof.state === 'assessed', prof.state);
+  check('An approved mapping alone reports thresholds_pending, not a descriptor',
+    prof.state === 'thresholds_pending', prof.state);
+  check('...naming the Academic Senate as the body that has not decided',
+    /Academic Senate has not yet approved the thresholds/.test(prof.note || ''), prof.note);
+  check('...and still no descriptor on any skill',
+    prof.skills.every((s) => s.descriptor === null));
+}
+
+// --- Descriptors, and the thresholds that are not yet set -------------
+{
+  const env = freshEnv();
+  const scale = await S.descriptorScale(env);
+  check('The five descriptors are seeded, in order',
+    scale.descriptors.map((d) => d.code).join(',')
+      === 'EMERGING,DEVELOPING,PROFICIENT,ADVANCED,DISTINGUISHED',
+    scale.descriptors.map((d) => d.code).join(','));
+  check('...with no thresholds approved', scale.state === 'thresholds_pending', scale.state);
+  check('...and the distinction stated: the names are decided, the evidence is not',
+    /descriptors themselves are decided; what evidence earns each one is not/.test(scale.note || ''),
+    scale.note);
+}
+
+{
+  // A scale whose thresholds do not rise is incoherent: bandFor() would
+  // return whichever band came last and it would look considered.
+  // Refused once, at approval, rather than defended at every read.
+  const env = freshEnv();
+  await S.approveThreshold(env, { code: 'EMERGING', thresholdMin: 0.2, approvedBy: 'usr_dean' });
+  await S.approveThreshold(env, { code: 'DEVELOPING', thresholdMin: 0.4, approvedBy: 'usr_dean' });
+  const bad = await S.approveThreshold(env, { code: 'PROFICIENT', thresholdMin: 0.3, approvedBy: 'usr_dean' });
+  check('A threshold that does not exceed the band below it is refused',
+    bad.ok === false && bad.reason === 'not_ascending', JSON.stringify(bad));
+  check('...naming both bands, so it can be corrected',
+    /PROFICIENT/.test(bad.detail || '') && /DEVELOPING/.test(bad.detail || ''), bad.detail);
+  check('An out-of-range threshold is refused',
+    await threw(() => S.approveThreshold(env, { code: 'ADVANCED', thresholdMin: 1.4, approvedBy: 'usr_dean' }),
+      /between 0 and 1/) === null);
+  check('A threshold approval must name who made it',
+    await threw(() => S.approveThreshold(env, { code: 'ADVANCED', thresholdMin: 0.6 }),
+      /must record who/) === null);
+}
+
+{
+  // The whole chain: mapping approved, thresholds approved, descriptor
+  // reported — and reported as a NAME, never a number.
+  const env = freshEnv();
+  env.DB.prepare(`INSERT INTO assignment_submissions (id, learning_item_id, user_id, status, grade)
+                  VALUES ('asub_1','itm_w','usr_grad','graded',0.82)`).bind().run();
+  const m = await S.proposeMapping(env, { learningItemId: 'itm_w', skillId: 'skl_writing', proposedBy: 'usr_dean' });
+  await S.approveMapping(env, { id: m.id, approvedBy: 'usr_dean' });
+  for (const [code, t] of [['EMERGING', 0], ['DEVELOPING', 0.4], ['PROFICIENT', 0.6],
+    ['ADVANCED', 0.8], ['DISTINGUISHED', 0.95]]) {
+    await S.approveThreshold(env, { code, thresholdMin: t, approvedBy: 'usr_dean' });
+  }
+
+  const prof = await S.skillProfile(env, { userId: 'usr_grad' });
+  check('With both approvals in place, a descriptor is reported', prof.state === 'assessed', prof.state);
   const writing = prof.skills.find((s) => s.code === 'WRITING');
-  check('...at the graded value', writing.attainment === 82, writing.attainment);
-  check('...while the three unassessed skills stay null, not zero',
-    prof.skills.filter((s) => s.code !== 'WRITING').every((s) => s.attainment === null));
+  check('...as the band the evidence reaches', writing.descriptor && writing.descriptor.code === 'ADVANCED',
+    JSON.stringify(writing.descriptor));
+  check('...carrying the words a reader needs, not a number',
+    !!writing.descriptor.description && !/%/.test(JSON.stringify(writing.descriptor)),
+    JSON.stringify(writing.descriptor));
+  // The Executive decision, asserted directly: no percentage anywhere.
+  check('No percentage appears anywhere in a skill profile',
+    !/\d+(\.\d+)?\s*%/.test(JSON.stringify(prof)), JSON.stringify(prof).slice(0, 160));
+  check('...while the three unassessed skills stay null',
+    prof.skills.filter((s) => s.code !== 'WRITING').every((s) => s.descriptor === null));
 }
 
 {
@@ -147,11 +216,17 @@ function freshEnv() {
   await S.approveMapping(env, { id: a.id, approvedBy: 'usr_dean' });
   await S.approveMapping(env, { id: b.id, approvedBy: 'usr_dean' });
 
+  for (const [code, t] of [['EMERGING', 0], ['DEVELOPING', 0.4], ['PROFICIENT', 0.6],
+    ['ADVANCED', 0.8], ['DISTINGUISHED', 0.95]]) {
+    await S.approveThreshold(env, { code, thresholdMin: t, approvedBy: 'usr_dean' });
+  }
   const prof = await S.skillProfile(env, { userId: 'usr_grad' });
   const writing = prof.skills.find((s) => s.code === 'WRITING');
-  // Weighted: (1.0x1.0 + 0.0x0.25) / 1.25 = 0.8. An unweighted mean
-  // would be 0.5, so this fails if the weights are ignored.
-  check('Weighted marks are weighted, not averaged flat', writing.attainment === 80, writing.attainment);
+  // Weighted: (1.0x1.0 + 0.0x0.25) / 1.25 = 0.8 -> ADVANCED. An
+  // unweighted mean would be 0.5 -> DEVELOPING, two bands lower, so
+  // this fails loudly if the weights are ignored.
+  check('Weighted marks are weighted, not averaged flat',
+    writing.descriptor && writing.descriptor.code === 'ADVANCED', JSON.stringify(writing.descriptor));
 }
 
 {

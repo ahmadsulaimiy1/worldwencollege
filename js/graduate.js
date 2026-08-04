@@ -204,19 +204,22 @@
       main.appendChild(el('p', 'grad-skill__mode',
         x.mode === 'receptive' ? 'Receptive skill' : 'Productive skill'));
       li.appendChild(main);
-      // Same rule as the competencies, for the same reason: null is not
-      // zero. A bar drawn at 0% puts a failing mark against somebody who
-      // was never assessed.
-      if (x.attainment === null) {
+      // Descriptors, never percentages — the Executive decision, and the
+      // reason there is no bar to draw. "Writing: 82%" claims a
+      // precision no rubric supports and invites comparisons between
+      // graduates that the marks cannot bear.
+      //
+      // A null descriptor is not the lowest band. "Emerging" is a
+      // judgement somebody made; a graduate nobody assessed has not been
+      // judged to be emerging.
+      if (!x.descriptor) {
         li.appendChild(el('span', 'grad-skill__mark', 'Not yet assessed'));
       } else {
-        var wrap = el('div', 'grad-skill__scale');
-        var bar = el('div', 'grad-skill__bar');
-        bar.style.width = Math.max(0, Math.min(100, x.attainment)) + '%';
-        wrap.appendChild(bar);
         var box = el('div', 'grad-skill__value');
-        box.appendChild(el('span', 'grad-skill__mark is-marked', x.attainment + '%'));
-        box.appendChild(wrap);
+        box.appendChild(el('span', 'grad-skill__mark is-marked', x.descriptor.name));
+        if (x.descriptor.description) {
+          box.appendChild(el('span', 'grad-skill__band', x.descriptor.description));
+        }
         li.appendChild(box);
       }
       list.appendChild(li);

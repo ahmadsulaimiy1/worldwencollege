@@ -559,4 +559,79 @@ have, and a plausible-looking number would be worse than an open item.
 
 ## Adopted decisions
 
-*(empty — nothing in this document has been approved)*
+Recorded here when the Executive takes them, with where each one lives
+in the code. A decision that exists only in prose is a decision nobody
+can check.
+
+### G1 — Executive Portrait Policy *(adopted 4 Aug 2026)*
+
+Every graduate **may** upload a professional portrait. Optional, never
+required. Square, professional appearance. Reviewed before publication.
+Removed immediately if an award is withdrawn or at the graduate's
+request. **Certificates and verification remain valid regardless of
+portrait status.**
+
+- `functions/_lib/registry/portraits.js`; columns on `graduate_profiles`
+  (migration 013).
+- The final clause is enforced structurally rather than by convention:
+  the portrait lives on the profile, nothing in the module touches
+  `awards`, and `tests/governance-decisions.test.mjs` verifies an award,
+  removes the portrait, and verifies again — comparing the two results
+  field by field, not merely checking both say "valid".
+- Sabotage-verified: adding a JOIN from `awards` to
+  `portrait_status = 'published'` makes a real award report `not_found`,
+  and the test catches it. That is the precise failure the clause exists
+  to prevent.
+
+### G2 — Alumni Chapters *(adopted 4 Aug 2026)*
+
+One real organisation — the **Worldwide English College Alumni Society**
+— with six chapters, one per IEFC award: Aspirant, Candidate, Associate,
+Envoy, Orator, Laureate. A graduate belongs to the chapter of their
+highest award, automatically.
+
+- `functions/_lib/registry/alumni.js`; `alumni_chapters` (migration 013).
+- **Membership is derived, never stored.** It is already a fact in the
+  awards table; a copy would go wrong the first time an award was
+  revoked. Revoking a Level V award returns the holder to the Associate
+  Chapter with nothing to update.
+- No officers are seeded and none are invented. Chapters record
+  `officers_elected = 0` until members elect them.
+
+### G3 — Skill descriptors, not percentages *(adopted 4 Aug 2026)*
+
+Attainment is reported as one of five ordered descriptors — Emerging,
+Developing, Proficient, Advanced, Distinguished — never as a percentage.
+
+- `skill_descriptors` (migration 013); `descriptorScale()` and
+  `approveThreshold()` in `functions/_lib/registry/skills.js`.
+- **The descriptors are decided; the thresholds are not.** Nobody has
+  said what evidence makes a graduate Proficient rather than Developing,
+  and that is a harder academic question than naming the bands. The
+  threshold column is nullable with no default, because a default would
+  *be* the decision, made by whoever typed the migration.
+- A descriptor therefore needs **two** approvals: the assessment-to-skill
+  mapping, and the threshold. With only the first, the profile reports
+  `thresholds_pending` — a third state, distinct from both "not
+  assessed" and an answer.
+- `approveThreshold()` refuses a set of thresholds that does not rise
+  with the scale, once, rather than defending the ordering at every read.
+
+### G4 — Board of Academic Standards and Curriculum Excellence *(established 4 Aug 2026)*
+
+**BASCE** is the authority for the competency framework: defining
+competencies, mapping every assessment to one or more of them, ensuring
+each is assessed multiple times across each level, approving descriptors,
+reviewing mappings annually, and maintaining the framework's integrity.
+
+The **Academic Senate** is recorded alongside it as the authority for the
+language-skill mapping and its descriptor thresholds.
+
+- `academic_bodies` (migration 013).
+- **Established, not yet constituted.** `members_appointed` is 0 and no
+  members are seeded. A board with invented members would be worse than
+  no board, and every interface must be able to say which of the two this
+  is.
+- This supersedes governance item A6d as the route to a competency
+  framework: the blocker is no longer "somebody should map the
+  curriculum" but "BASCE should be constituted and should map it".

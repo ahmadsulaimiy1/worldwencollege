@@ -308,7 +308,12 @@ async function open(url, viewport) {
     check('...and showing "Not yet assessed" rather than a zero',
       notAssessed.length === 4 && notAssessed.every((t) => /Not yet assessed/.test(t)),
       JSON.stringify(notAssessed));
-    check('...with no progress bar drawn at all',
+    // Executive decision G3: descriptors, never percentages. Asserted
+    // over the whole section rather than by the absence of one CSS
+    // class, so a percentage reintroduced in any form is caught.
+    check('...with no percentage anywhere in the section',
+      !/\d\s*%/.test(txt), (txt.match(/\d+\s*%/g) || []).join(','));
+    check('...and no progress bar drawn at all',
       (await page.locator('.grad-skill__bar').count()) === 0);
   }
 

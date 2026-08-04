@@ -228,6 +228,15 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 013 — the four adopted governance decisions.
+  db.exec('DROP INDEX idx_portrait_review');
+  db.exec('DROP TABLE academic_bodies');
+  db.exec('DROP TABLE skill_descriptors');
+  db.exec('DROP TABLE alumni_chapters');
+  for (const c of ['portrait_note', 'portrait_reviewed_at', 'portrait_reviewed_by',
+    'portrait_submitted_at', 'portrait_status', 'portrait_key']) {
+    db.exec(`ALTER TABLE graduate_profiles DROP COLUMN ${c}`);
+  }
   // 012 — the two publication switches. SQLite before 3.35 could not
   // drop a column; node:sqlite is newer, and this is the only honest
   // way to reconstruct a pre-012 database.

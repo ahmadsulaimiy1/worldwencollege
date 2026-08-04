@@ -24,6 +24,25 @@
  * because a program guessed would be worse than one that reports
  * nothing: the second is incomplete, the first is wrong in a way
  * nobody downstream can detect.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * DESCRIPTORS, NOT PERCENTAGES
+ * ────────────────────────────────────────────────────────────────────
+ * Executive decision: attainment is reported as one of five ordered
+ * descriptors — Emerging, Developing, Proficient, Advanced,
+ * Distinguished — and never as a percentage. "Writing: 82%" claims a
+ * precision that no rubric supports and invites comparisons between
+ * graduates that the marks cannot bear.
+ *
+ * That makes TWO approvals necessary before any descriptor appears:
+ *
+ *   1. the assessment-to-skill mapping        (Academic Senate)
+ *   2. the thresholds between the descriptors (Academic Senate)
+ *
+ * The second is the harder question and is deliberately unanswered.
+ * Nobody has said what evidence makes a graduate Proficient rather than
+ * Developing, and filling it with round numbers would make a decision
+ * on the Senate's behalf while looking like configuration.
  */
 
 const db = (env) => env.DB;
@@ -110,6 +129,8 @@ export async function coverage(env) {
 export async function skillProfile(env, { userId }) {
   const skills = await framework(env);
   const cover = await coverage(env);
+  const scale = await descriptorScale(env);
+  const bands = scale.descriptors.filter((d) => d.thresholdMin !== null);
 
   if (cover.state !== 'mapped') {
     return {
@@ -118,9 +139,10 @@ export async function skillProfile(env, { userId }) {
       skills: skills.map((s) => ({
         skillId: s.id, code: s.code, name: s.name, mode: s.mode,
         description: s.description,
-        // Explicitly null, never 0. Zero is a mark, and a graduate who
-        // was never assessed has not scored zero.
-        attainment: null, assessments: 0,
+        // Explicitly null. Not 0, and not the lowest descriptor —
+        // "Emerging" is a judgement somebody made, and a graduate who
+        // was never assessed has not been judged to be emerging.
+        descriptor: null, assessments: 0,
       })),
     };
   }
@@ -147,15 +169,31 @@ export async function skillProfile(env, { userId }) {
 
   const rows = skills.map((s) => {
     const m = bySkill.get(s.id);
+    const evidence = m && m.weightSum > 0 ? m.weighted / m.weightSum : null;
     return {
       skillId: s.id, code: s.code, name: s.name, mode: s.mode,
       description: s.description,
-      attainment: m && m.weightSum > 0 ? Math.round((m.weighted / m.weightSum) * 1000) / 10 : null,
+      descriptor: evidence === null ? null : bandFor(evidence, bands),
       assessments: m ? m.assessments : 0,
     };
   });
 
-  const assessed = rows.filter((r) => r.attainment !== null);
+  // With no approved thresholds there is evidence but no way to name a
+  // band, which is a THIRD state and not the same as "not assessed".
+  // Collapsing it into either neighbour would tell a reader something
+  // false: that the graduate was never assessed, or that they were and
+  // this is the answer.
+  if (!bands.length) {
+    return {
+      state: 'thresholds_pending',
+      note: 'Assessments are mapped to the four skills and this graduate has been assessed '
+        + 'against them, but the Academic Senate has not yet approved the thresholds that turn '
+        + 'assessed evidence into a descriptor. No descriptor can be reported until it does.',
+      skills: rows.map((r) => ({ ...r, descriptor: null })),
+    };
+  }
+
+  const assessed = rows.filter((r) => r.descriptor !== null);
   return {
     state: assessed.length ? 'assessed' : 'not_yet_assessed',
     note: assessed.length
@@ -164,6 +202,47 @@ export async function skillProfile(env, { userId }) {
         + 'assessed against any of the mapped assessments.',
     skills: rows,
   };
+}
+
+/**
+ * The five descriptors, with whichever thresholds the Senate has
+ * approved. A descriptor with no threshold is a name without a rule,
+ * and is excluded from banding rather than treated as zero.
+ */
+export async function descriptorScale(env) {
+  const { results } = await db(env).prepare(
+    `SELECT id, code, name, description, threshold_min AS thresholdMin,
+            approved_at AS approvedAt
+       FROM skill_descriptors ORDER BY sequence`).all();
+  const approved = results.filter((d) => d.thresholdMin !== null);
+  return {
+    descriptors: results,
+    // Named states, as everywhere else in the platform.
+    state: approved.length === results.length ? 'approved'
+      : approved.length ? 'partially_approved'
+        : 'thresholds_pending',
+    note: approved.length === results.length ? null
+      : 'The Academic Senate has not approved the evidence thresholds for '
+        + `${results.length - approved.length} of the ${results.length} descriptors. `
+        + 'The descriptors themselves are decided; what evidence earns each one is not.',
+  };
+}
+
+/**
+ * The band an evidence proportion falls into — the highest descriptor
+ * whose threshold it reaches.
+ *
+ * Bands must be sorted ascending by threshold, which descriptorScale()
+ * guarantees by ordering on `sequence`; a descriptor scale whose
+ * thresholds did not rise with its sequence would be incoherent, and
+ * that is checked when they are approved rather than assumed here.
+ */
+function bandFor(evidence, bands) {
+  let found = null;
+  for (const b of bands) {
+    if (evidence >= b.thresholdMin) found = b;
+  }
+  return found ? { code: found.code, name: found.name, description: found.description } : null;
 }
 
 /**
@@ -181,6 +260,40 @@ export async function proposeMapping(env, { learningItemId, skillId, weight = 1.
      VALUES (?, ?, ?, ?, 'proposed', ?, ?)`)
     .bind(id, learningItemId, skillId, weight, proposedBy || null, rationale).run();
   return { id, status: 'proposed' };
+}
+
+/**
+ * Approve the threshold for a descriptor.
+ *
+ * Refuses a set of thresholds that does not rise with the scale: a
+ * "Proficient" threshold below "Developing" would make bandFor() return
+ * whichever band happened to be last, and the result would look like a
+ * considered judgement. The coherence of the scale is checked HERE,
+ * once, rather than defended at every read.
+ */
+export async function approveThreshold(env, { code, thresholdMin, approvedBy, now = Date.now() }) {
+  if (!approvedBy) throw new Error('an approval must record who made it');
+  if (!(thresholdMin >= 0 && thresholdMin <= 1)) {
+    throw new Error('a threshold is a proportion of available evidence, between 0 and 1');
+  }
+  const { results } = await db(env).prepare(
+    'SELECT code, sequence, threshold_min AS thresholdMin FROM skill_descriptors ORDER BY sequence').all();
+  const target = results.find((d) => d.code === code);
+  if (!target) return { ok: false, reason: 'not_found' };
+
+  const proposed = results.map((d) => (d.code === code ? { ...d, thresholdMin } : d));
+  const set = proposed.filter((d) => d.thresholdMin !== null);
+  for (let i = 1; i < set.length; i++) {
+    if (set[i].thresholdMin <= set[i - 1].thresholdMin) {
+      return { ok: false, reason: 'not_ascending',
+        detail: `${set[i].code} (${set[i].thresholdMin}) does not exceed ${set[i - 1].code} (${set[i - 1].thresholdMin})` };
+    }
+  }
+
+  await db(env).prepare(
+    'UPDATE skill_descriptors SET threshold_min = ?, approved_by = ?, approved_at = ? WHERE code = ?')
+    .bind(thresholdMin, approvedBy, new Date(now).toISOString(), code).run();
+  return { ok: true };
 }
 
 /** Approve a mapping. Records who and when; the CHECK enforces both. */
