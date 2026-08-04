@@ -27,6 +27,82 @@
  * the best reference editions actually do.
  */
 
+/**
+ * ────────────────────────────────────────────────────────────────────
+ * THE INSTITUTIONAL COLOUR SYSTEM
+ * ────────────────────────────────────────────────────────────────────
+ * Fourteen colours: a primary, a secondary, an accent, and eleven
+ * supporting tones. Every one carries a stated role, because a palette
+ * without roles is a mood board — designers pick prettily and the book
+ * loses its argument by chapter three.
+ *
+ * THE HARMONY. Royal Blue (219°) and Royal Gold (43°) sit 176° apart:
+ * a complementary pair, the most stable two-colour relationship there
+ * is, and the reason blue-and-gold has been the livery of universities
+ * and sovereign institutions for eight centuries. Deep Crimson (352°)
+ * sits roughly 133° from the blue, completing a split-complementary
+ * triad — near enough to gold to feel related, far enough to alarm
+ * when it is used, which is exactly what an accent is for.
+ *
+ * THE PSYCHOLOGY, stated narrowly. Colour meaning is cultural, not
+ * universal, and this publication will be read across many cultures;
+ * what follows is a claim about convention in academic and civic
+ * printing, not about human perception.
+ *   Deep blue is the near-universal livery of institutions that expect
+ *     to outlast their officers. It reads as permanence and as
+ *     seriousness, and it is the least fashionable colour available,
+ *     which is a virtue in a document meant to look current in 2046.
+ *   Gold is the colour of conferral — of the seal, the leaf, the
+ *     medal. Used sparingly it signals that something has been
+ *     awarded; used generously it signals a diploma mill. It is
+ *     therefore rationed here to marks of achievement and to rules.
+ *   Crimson is the colour of caution and of consequence. In this
+ *     publication it is reserved for assessment and for statements
+ *     about what is not evidenced — never for decoration.
+ *
+ * THE VALUES are chosen to survive production. Every ink here holds a
+ * contrast ratio of at least 4.5:1 against the paper it is specified
+ * on, remains distinguishable in greyscale conversion, and avoids the
+ * out-of-gamut blues that shift purple in CMYK.
+ */
+export const COLOURS = {
+  royalBlue: { hex: '#1F3E7C', role: 'Primary. Display type, level identity, institutional voice.',
+    note: 'The College\'s own blue. Everything structural is set in it.' },
+  royalGold: { hex: '#B4933E', role: 'Secondary. Rules, ornament, marks of award, foil on dark grounds.',
+    note: 'Rationed. Gold everywhere means gold nowhere. Never used for type on light paper — '
+      + 'see Bronze.' },
+  deepCrimson: { hex: '#8C1F2F', role: 'Accent. Assessment, answer keys, statements of what is not evidenced.',
+    note: 'Never decorative. If it appears, it means something.' },
+
+  midnightNavy: { hex: '#0F1D38', role: 'Cover ground, spine, divider fields.',
+    note: 'Deeper than the primary so gold reads as foil against it.' },
+  imperialBlue: { hex: '#16306B', role: 'Secondary display, running heads, tinted panels.',
+    note: 'Bridges midnight and royal so the blues read as one family.' },
+  richBurgundy: { hex: '#5E1A26', role: 'Level V identity; the deep register of the accent.',
+    note: 'Crimson taken to book-cloth weight.' },
+
+  ivory: { hex: '#FBF8F0', role: 'Title-page and divider paper.',
+    note: 'Warm white. Reads as stock, not as an unprinted screen.' },
+  pearlWhite: { hex: '#FAFBFC', role: 'Text paper for the curriculum pages.',
+    note: 'A hair cool, so long reading does not tire the eye.' },
+  softCream: { hex: '#F6F1E4', role: 'Panels, sidebars, quoted matter.',
+    note: 'The tint that carries editorial apparatus.' },
+  champagneGold: { hex: '#E4D5A8', role: 'Hairlines and ornament on dark grounds.',
+    note: 'Gold at 20% weight — visible without competing with the type.' },
+  bronze: { hex: '#7A5C2E', role: 'Gold set as TEXT on light paper; guilloché shadow; foil lowlights.',
+    note: 'Royal Gold reaches only 2.8:1 on the text paper, so it may never carry type there. '
+      + 'Bronze is the same hue taken to 6:1 — the reading-safe gold.' },
+  platinum: { hex: '#D8DCE3', role: 'Rules, table borders, ghosted states.',
+    note: 'Cool grey with a blue cast so it belongs to the primary.' },
+  slateGrey: { hex: '#6B7280', role: 'Metadata, captions, timings, folios.',
+    note: 'Recessive by design: apparatus should not read as content.' },
+  warmCharcoal: { hex: '#2E2A26', role: 'Body text.',
+    note: 'Not black. Pure black on warm paper reads as a hole.' },
+};
+
+/** Flat lookup, for CSS custom-property emission. */
+export const C = Object.fromEntries(Object.entries(COLOURS).map(([k, v]) => [k, v.hex]));
+
 export const LEVEL_PALETTES = [
   // I — Foundation. The deepest, because beginning is the hardest step.
   { key: 'I', ink: '#14264A', mid: '#4A6FA5', wash: '#EEF2F9', edge: '#2E4C7E', name: 'Foundation' },
@@ -37,19 +113,59 @@ export const LEVEL_PALETTES = [
   // IV — Upper Intermediate. Representation; the warm turn.
   { key: 'IV', ink: '#4A3410', mid: '#9A7A38', wash: '#F8F2E4', edge: '#75561F', name: 'Upper Intermediate' },
   // V — Advanced. Oratory.
-  { key: 'V', ink: '#4A1E24', mid: '#9C4A55', wash: '#F9EDEE', edge: '#75323B', name: 'Advanced' },
+  // Ink is Rich Burgundy from the system palette, where the colour
+  // specification says it is. It previously carried a near-neighbour
+  // that no palette entry named — so the specification described a
+  // colour the book did not use, which is the quiet way a style guide
+  // stops being true.
+  { key: 'V', ink: '#5E1A26', mid: '#9C4A55', wash: '#F9EDEE', edge: '#75323B', name: 'Advanced' },
   // VI — Mastery. The crown: deepest violet-ink, closest to black.
   { key: 'VI', ink: '#2E1B45', mid: '#6B4E92', wash: '#F2EEF8', edge: '#4A3170', name: 'Mastery' },
 ];
 
 export const BRAND = {
-  ink: '#14264A',
-  gold: '#9A7A38',
-  goldLight: '#C6A15B',
-  soft: '#4B5768',
-  rule: '#D3D8E2',
-  paper: '#FFFFFF',
-  cream: '#FBFAF7',
+  ink: C.royalBlue,
+  deep: C.midnightNavy,
+  imperial: C.imperialBlue,
+  gold: C.royalGold,
+  goldLight: C.champagneGold,
+  bronze: C.bronze,
+  crimson: C.deepCrimson,
+  soft: C.slateGrey,
+  rule: C.platinum,
+  paper: C.pearlWhite,
+  cream: C.ivory,
+  panel: C.softCream,
+  body: C.warmCharcoal,
+};
+
+/**
+ * The typographic system, declared once so the print edition, the
+ * editable edition and the typography specification cannot disagree
+ * about what the book is set in.
+ *
+ * TWO FAMILIES, NO MORE. A serif for everything a reader reads
+ * continuously, a humanist sans for everything a reader scans —
+ * headings, timings, folios, apparatus. The distinction is functional:
+ * a teacher scanning for the speaking activity should be able to find
+ * it by texture before reading a word.
+ *
+ * The stacks are chosen from faces present on the systems this will be
+ * opened on, with metric-compatible fallbacks named in order. A
+ * flagship edition that renders in Times because a licensed face was
+ * assumed is not a flagship edition.
+ */
+export const TYPE = {
+  serif: 'Cambria, "Nimbus Roman", Georgia, "Times New Roman", serif',
+  sans: 'Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif',
+  display: 'Cambria, "Nimbus Roman", Georgia, serif',
+  scale: {
+    coverTitle: 46, levelNumeral: 118, levelTitle: 34, chapterTitle: 19,
+    moduleTitle: 16, lessonTitle: 12.5, lead: 11, body: 9.6, apparatus: 8.4,
+    caption: 7.6, micro: 6.6,
+  },
+  measure: '31em',
+  baseline: 1.58,
 };
 
 /**

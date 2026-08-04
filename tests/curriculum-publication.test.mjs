@@ -224,6 +224,112 @@ check('The editable edition carries the curriculum', editText.length > 400000, e
     (printText.match(/(president|dean|professor)\s+[a-z]+\s+[a-z]+,/g) || []).slice(0, 2).join('; '));
 }
 
+// --- The collector's-edition apparatus --------------------------------
+// The design pass added a cover system, identifiers, a preface and a
+// register of omissions. None of it is worth anything if it is not on
+// the page, and all of it is the kind of thing that fails silently: a
+// template literal that renders `undefined`, an SVG that draws nothing,
+// an identifier computed but never printed.
+{
+  const { publicationIdentity } = await import(loadUrl('scripts/publication/identity.mjs'));
+  const { OMISSIONS } = await import(loadUrl('scripts/publication/covers.mjs'));
+  const { COLOURS } = await import(loadUrl('scripts/publication/design.mjs'));
+  const ID = publicationIdentity(C, { edition: 1, revision: 0, impression: 1 });
+  const rawPrint = readFileSync(PDF_HTML, 'utf8');
+
+  // Identifiers, in BOTH editions. The digest is the one that matters:
+  // it is computed from the curriculum, so if the printed value were
+  // stale or hard-coded this comparison is what would catch it.
+  for (const [edition, body] of [['print', printText], ['editable', editText]]) {
+    const ids = [ID.publicationId, ID.documentId, ID.issueCode, ID.printIdentifier,
+      ID.contentDigest];
+    const missing = ids.filter((v) => !body.includes(norm(v)));
+    check(`Every publication identifier is printed in the ${edition} edition`,
+      missing.length === 0, missing.join('; '));
+  }
+
+  // The digest must actually depend on the curriculum. A digest that is
+  // constant across different content is a decoration shaped like a
+  // security feature, which is worse than none.
+  {
+    const altered = JSON.parse(JSON.stringify({ levels: C.levels, totals: C.totals }));
+    altered.levels[0].modules[0].lessons[0].title += ' (changed)';
+    const alt = publicationIdentity(altered, { edition: 1, revision: 0, impression: 1 });
+    check('The Document ID changes when the curriculum changes',
+      alt.documentId !== ID.documentId, `${ID.documentId} vs ${alt.documentId}`);
+    check('...and is stable when it does not',
+      publicationIdentity(C, { edition: 1, revision: 0, impression: 1 }).documentId === ID.documentId);
+  }
+
+  check('No ISBN or DOI is invented',
+    /isbn[^.]{0,40}not assigned/.test(printText) && /doi[^.]{0,40}not registered/.test(printText));
+
+  // Front matter, by structure rather than by phrase — a phrase check
+  // passes on a mention, and the preface is mentioned in the contents.
+  for (const cls of ['endpaper', 'half', 'frontis', 'titlepage', 'imprint', 'dedication',
+    'preface', 'editorial', 'contents', 'howto', 'omissions', 'colophon']) {
+    check(`The ${cls} leaf is present in the print edition`,
+      new RegExp(`class="${cls}[ "]`).test(rawPrint));
+  }
+
+  // Ornament. Counted as drawn paths, because an SVG that renders an
+  // empty <g> is still an <svg> element.
+  const paths = (rawPrint.match(/<path /g) || []).length;
+  check('The drawn ornament reaches the page', paths > 400, `${paths} paths`);
+  const svgs = (rawPrint.match(/<svg /g) || []).length;
+  check('...across the cover system, dividers and apparatus', svgs > 30, `${svgs} svg elements`);
+
+  // The QR is REAL, checked by re-encoding rather than by looking for an
+  // <svg>. An empty or wrong matrix is still a valid SVG element and
+  // would sail past any structural check; comparing the printed module
+  // path against a fresh encoding of the verification URL cannot.
+  {
+    const { toSvg } = await import(loadUrl('functions/_lib/registry/qr.js'));
+    const expected = toSvg(ID.verifyUrl, { level: 'M', size: 96, quiet: 2 });
+    const modules = expected.match(/<path d="([^"]+)"/);
+    check('The printed QR encodes the verification URL, module for module',
+      !!modules && rawPrint.includes(modules[1]),
+      `${modules ? modules[1].length : 0} chars of module path`);
+    // And a different URL must produce a different matrix, or the
+    // comparison above would pass on any code at all.
+    const other = toSvg(`${ID.verifyUrl}X`, { level: 'M', size: 96, quiet: 2 });
+    check('...and a different address would produce a different code',
+      other.match(/<path d="([^"]+)"/)[1] !== modules[1]);
+  }
+
+  // The register of omissions, entry by entry. This is the page that
+  // makes the rest of the book honest; a truncated render of it would
+  // leave the volume claiming completeness it does not have.
+  const missingOm = OMISSIONS.filter((o) => !printText.includes(norm(o.item.slice(0, 40))));
+  check(`All ${OMISSIONS.length} registered omissions are printed`, missingOm.length === 0,
+    missingOm.map((o) => o.item).join('; '));
+  check('...and the editable edition carries them too',
+    OMISSIONS.every((o) => editText.includes(norm(o.item.slice(0, 40)))));
+  check('The register names the six lesson components with no source',
+    /reflection; self-assessment; portfolio task/.test(printText));
+
+  // Colour. Every ink the system declares must reach the stylesheet —
+  // a palette defined and unused is a specification that lies.
+  const css = rawPrint.match(/<style>[\s\S]*?<\/style>/)[0].toLowerCase();
+  // Searched across the whole document, not only the stylesheet: the
+  // six level identities are emitted as inline custom properties on the
+  // level wrapper, so a stylesheet-only search reports them missing and
+  // sends you looking for a palette bug that is not there.
+  const doc = rawPrint.toLowerCase();
+  const unusedColours = Object.entries(COLOURS)
+    .filter(([, v]) => !doc.includes(v.hex.toLowerCase()));
+  check(`All ${Object.keys(COLOURS).length} system colours are used in the print edition`,
+    unusedColours.length === 0, unusedColours.map(([k]) => k).join(', '));
+
+  // Royal Gold reaches 2.82:1 on the text paper. It may carry rules and
+  // ornament; it may not carry type. This is the assertion that keeps
+  // the fix from being quietly reverted by a later designer who thinks
+  // the labels looked better in gold.
+  const goldAsText = css.match(/color:\s*(var\(--gold\)|#b4933e)/g) || [];
+  check('Royal Gold is never set as text colour on the light stock',
+    goldAsText.length === 0, `${goldAsText.length} declaration(s)`);
+}
+
 {
   const size = statSync(PDF).size;
   check('The print edition is a book, not a pamphlet', size > 2 * 1024 * 1024,

@@ -8,7 +8,9 @@
  * edit the curriculum rather than only read it.
  */
 import { buildCurriculum } from './curriculum.mjs';
-import { paletteFor, STAGE_MARK, EMPHASIS_STAGES } from './design.mjs';
+import { paletteFor, STAGE_MARK, EMPHASIS_STAGES, BRAND } from './design.mjs';
+import { publicationIdentity, AUTHENTICITY_NOTICE } from './identity.mjs';
+import { OMISSIONS } from './covers.mjs';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,6 +22,7 @@ import {
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const C = buildCurriculum();
+const ID = publicationIdentity(C, { edition: 1, revision: 0, impression: 1 });
 const SERIF = 'Cambria';
 const SANS = 'Calibri';
 const hex = (h) => h.replace('#', '').toUpperCase();
@@ -113,8 +116,72 @@ children.push(new Paragraph({ heading: HeadingLevel.HEADING_1, spacing: { after:
 children.push(new TableOfContents('Contents', { hyperlinks: true, headingStyleRange: '1-3' }));
 children.push(new Paragraph({ children: [new PageBreak()] }));
 
-children.push(new Paragraph({ heading: HeadingLevel.HEADING_1, spacing: { after: 140 },
-  children: [new TextRun({ text: 'Editorial Note', font: SERIF, size: 32, bold: true, color: '14264A' })] }));
+const H1 = (t) => new Paragraph({ heading: HeadingLevel.HEADING_1, spacing: { after: 140 },
+  pageBreakBefore: true,
+  children: [new TextRun({ text: t, font: SERIF, size: 32, bold: true, color: hex(BRAND.ink) })] });
+
+// ---- Publication information and security features -------------------
+children.push(H1('Publication Information'));
+children.push(P([{ t: 'The International English Fluency Certificate: The Complete Curriculum', bold: true }],
+  { size: 21 }));
+children.push(P(`${ID.editionName} edition, ${ID.year}. Published by Worldwide English College Press, `
+  + 'London Campus. © Worldwide English College. All rights reserved.'));
+children.push(P('IDENTIFICATION AND SECURITY FEATURES', { font: SANS, size: 14, bold: true,
+  caps: true, tracking: 60, color: hex(BRAND.ink), before: 180, after: 60 }));
+for (const [k, v] of [
+  ['Publication ID', ID.publicationId], ['Document ID', ID.documentId],
+  ['Edition code', ID.editionCode], ['Revision code', ID.revisionCode],
+  ['Issue code', ID.issueCode], ['Version', ID.version],
+  ['Print identifier', ID.printIdentifier],
+  ['Content digest (SHA-256)', ID.contentDigest],
+  ...ID.registrations.map((r) => [r.field, `${r.value} — issued by ${r.authority}; the College holds `
+    + 'no such assignment']),
+]) {
+  children.push(P([
+    { t: `${k}  `, font: SANS, size: 14, bold: true, color: '6B7280' },
+    { t: v, font: 'Consolas', size: 14, color: hex(BRAND.ink) },
+  ], { after: 30 }));
+}
+children.push(P('Digital authenticity notice', { font: SANS, size: 14, bold: true, caps: true,
+  tracking: 40, color: hex(BRAND.bronze), before: 150, after: 40 }));
+children.push(P(AUTHENTICITY_NOTICE, { size: 17, fill: 'F6F1E4', leftBar: hex(BRAND.gold) }));
+children.push(P('Status of the institution', { font: SANS, size: 14, bold: true, caps: true,
+  tracking: 40, color: hex(BRAND.bronze), before: 150, after: 40 }));
+children.push(P('The College is not an accredited institution. This publication makes no claim of '
+  + 'accreditation, recognition, validation or external approval by any awarding body, government '
+  + 'department or quality-assurance agency, and none should be inferred.',
+{ size: 17, fill: 'F6F1E4', leftBar: hex(BRAND.gold) }));
+
+// ---- Preface ---------------------------------------------------------
+children.push(H1('Preface'));
+for (const para of [
+  'This book contains a curriculum rather than an account of one. Every lesson the College has '
+  + 'authored is printed here in full and verbatim: its objectives, its staged practice with the '
+  + 'designed timing of each stage, the language modelled for the class, the formative check that '
+  + 'tells a teacher whether to move on, and — for every assessed quiz — the answer key set '
+  + 'immediately beneath the questions.',
+  `That decision has a cost and a reason. The cost is length: ${C.totals.bodyWords.toLocaleString('en-GB')} `
+  + 'words of lesson content do not compress into a prospectus. The reason is that a curriculum '
+  + 'which cannot be taught from is not a curriculum. A syllabus lists topics; a scheme of work '
+  + 'lists weeks; neither has ever helped anyone at nine o\'clock on a Monday. What helps is a '
+  + 'lesson that is finished.',
+  'The programme is organised as an ascent of six levels, each mapped to a band of the Common '
+  + 'European Framework of Reference and each conferring an award in its own right. The levels are '
+  + 'cumulative: each is a prerequisite to the next, and each is designed to be a defensible '
+  + 'stopping point for a learner whose purpose is met there.',
+  'Within each level the work is divided into modules, and within each module into items of three '
+  + 'kinds: teaching lessons, an assessed quiz, and an assessed assignment carrying a grading '
+  + 'rubric. The structure repeats without variation across all six levels, which is deliberate. A '
+  + 'teacher who has taught one module of this programme has learned the shape of all sixty.',
+]) children.push(P(para, { size: 20 }));
+children.push(P('Worldwide English College Press', { font: SANS, size: 15, bold: true, caps: true,
+  tracking: 70, color: hex(BRAND.ink), before: 200, after: 40 }));
+children.push(P('This preface is issued by the publisher. It is unsigned because the College has '
+  + 'not appointed the officers who would conventionally sign it, and this edition does not compose '
+  + 'words for people who do not hold office.', { size: 16, italic: true, color: '6B7280' }));
+
+// ---- A note on this edition -----------------------------------------
+children.push(H1('A Note on This Edition'));
 children.push(P('This volume carries the curriculum itself — every authored lesson, every assessment '
   + 'question with its answer key, and every assignment brief with its rubric, set from the '
   + 'College\'s academic database.', { size: 21 }));
@@ -125,9 +192,14 @@ children.push(P(`The College's public materials state 720 learning units across 
   + `That figure is not met: the module architecture is complete at ${C.totals.modules} modules, `
   + `but lesson-level depth within them is still being authored. This volume prints what exists `
   + `and does not pad it.`));
-children.push(P('The print edition carries the same content with a full editorial design — per-level '
-  + 'colour identity, chapter openers and typographic apparatus that DOCX cannot reproduce. This '
-  + 'edition exists so the curriculum can be edited, not only read.'));
+children.push(P('A publication of this kind conventionally opens with a Foreword and a message from '
+  + 'the head of the institution. The College has no appointed President, and its Academic Senate '
+  + 'and Board of Academic Standards and Curriculum Excellence are established but not yet '
+  + 'constituted. Writing those pages would mean composing the words of officers who do not exist, '
+  + 'so they are absent.'));
+children.push(P('The print edition carries the same content with a full editorial design — the cover '
+  + 'system, per-level colour identity, drawn ornament and typographic apparatus that DOCX cannot '
+  + 'reproduce. This edition exists so the curriculum can be edited, not only read.'));
 
 // The curriculum
 for (const lv of C.levels) {
@@ -164,6 +236,38 @@ for (const lv of C.levels) {
     }
   }
 }
+
+// ---- Back matter -----------------------------------------------------
+children.push(H1('Register of Omissions'));
+children.push(P('Components specified for this edition for which no source exists in the curriculum, '
+  + 'and what is printed in their place. Each entry below could have been written convincingly '
+  + 'enough that no reader would have questioned it; that is the reason none of them has been.',
+{ size: 20 }));
+for (const o of OMISSIONS) {
+  children.push(P([
+    { t: `${o.scope.toUpperCase()}  `, font: SANS, size: 13, bold: true, tracking: 40, color: hex(BRAND.bronze) },
+    { t: o.item, bold: true, color: hex(BRAND.ink), size: 19 },
+  ], { before: 140, after: 30 }));
+  children.push(P([
+    { t: `${o.status}. `, font: SANS, size: 15, bold: true, color: hex(BRAND.crimson) },
+    { t: o.instead },
+  ], { after: 40, indent: { left: 200 } }));
+}
+
+children.push(H1('Colophon'));
+children.push(P('This edition was set in a two-family system: a transitional serif for continuous '
+  + 'reading and a humanist sans for apparatus — headings, stage marks, timings and tables.',
+{ size: 20 }));
+children.push(P('The ornament in the print edition is computed rather than drawn. The rosettes are '
+  + 'hypotrochoids — the engine-turned guilloché of security printing. The star figures are '
+  + 'eight-fold girih constructions derived from a single division of the circle. The crest, the '
+  + 'border system, the corner fans and the fleurons are generated from their own geometry at '
+  + 'render time. Nothing is a stock asset, a traced image or a licensed illustration.'));
+children.push(P('The verification codes are produced by the same encoder that prints the code on a '
+  + 'graduate\'s certificate, and are verified in the College\'s test suite against an '
+  + 'independently written decoder.'));
+children.push(P(`${ID.publicationId} · Document ID ${ID.documentId} · Issue ${ID.issueCode} · `
+  + `Generated ${ID.generated}`, { font: SANS, size: 14, color: '6B7280', before: 180 }));
 
 const PAGE = {
   size: { width: convertInchesToTwip(8.27), height: convertInchesToTwip(11.69) },
