@@ -228,6 +228,8 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 015 — the programme definition and its claims.
+  db.exec('DROP INDEX idx_programme_claims_state; DROP TABLE programme_claims; DROP TABLE programme_definition;');
   // 014 — award definitions.
   db.exec('DROP INDEX idx_award_definitions_level; DROP TABLE award_definitions;');
   // 013 — the four adopted governance decisions.

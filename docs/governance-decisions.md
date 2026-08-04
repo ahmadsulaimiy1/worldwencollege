@@ -617,6 +617,44 @@ Developing, Proficient, Advanced, Distinguished — never as a percentage.
 - `approveThreshold()` refuses a set of thresholds that does not rise
   with the scale, once, rather than defending the ordering at every read.
 
+### G6 — The definition of the IEFC *(adopted 4 Aug 2026)*
+
+> IEFC is an advanced academic qualification built on CEFR proficiency,
+> extending it through competency verification, leadership, professional
+> communication, critical thinking, authentic assessment, and
+> independently verifiable digital credentials.
+
+- `programme_definition` and `programme_claims` (migration 015);
+  `functions/_lib/registry/programme.js`.
+- Stored **whole**, because a definition paraphrased differently on each
+  page is not a definition — and **decomposed into its seven claims**,
+  because the standing rule is that every public claim must be
+  verifiable and a sentence cannot be verified as a whole.
+- The position today, derived from live data rather than asserted:
+
+  | Element | State |
+  |---|---|
+  | CEFR proficiency | Evidenced |
+  | **Competency verification** | **Not evidenced** |
+  | Leadership | Partial — taught, not yet assessed against a framework |
+  | Professional communication | Evidenced |
+  | Critical thinking | Evidenced |
+  | Authentic assessment | Evidenced |
+  | Verifiable digital credentials | Partial — development-mode signing key |
+
+- **The gap is the load-bearing one.** Zero of the sixty assessments are
+  mapped to any competency, so nothing has been verified against any
+  competency for anybody. That is the element distinguishing an advanced
+  academic qualification from a well-built CEFR course, and closing it is
+  BASCE's founding task.
+- `publishableStatement()` returns the sentence and its caveat as
+  separate fields, so no page can render one without the other while an
+  element is unevidenced.
+- The two derivable states are **re-derived on every read** and a
+  disagreement with the stored row is reported. This is deliberately
+  bidirectional: when BASCE completes the mapping, the observation moves
+  on its own rather than leaving the College understating itself.
+
 ### G5 — Principle of Institutional Verification *(adopted 4 Aug 2026)*
 
 Every verification result distinguishes three **independent** layers of
