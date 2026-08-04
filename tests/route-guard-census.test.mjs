@@ -52,6 +52,7 @@ const PUBLIC = {
   'verify/[code].js': 'The whole point. A credential a checker must register to verify is a credential nobody checks.',
   'graduate/[handle].js': 'A published graduate profile. Only reaches profiles the graduate chose to publish; an unpublished one is NotFound, because "exists but hidden" confirms the person is a graduate.',
   'share/[token].js': 'A record slice a graduate shared with an employer or registrar who has no account. The token IS the authorisation — high-entropy, expiring, revocable, stored only as a hash.',
+  'verify/document/[code].js': 'Verification of an issued transcript or supplement, by the same rule as award verification: a document a checker must register to verify is a document nobody checks.',
   'credentials/jwks.js': 'The College\'s published signing keys. Verification that requires the issuer to participate is not verification. Public halves only — asserted in tests/signing.test.mjs.',
   'register/index.js': 'The Graduate Register. A roll of award holders published behind a login is not published. Consent-scoped and capped in the query.',
 };
@@ -74,6 +75,21 @@ const PUBLIC = {
 // the test was measuring its own omission. Both states are now covered
 // explicitly rather than by accident of which variables happened to be
 // set.
+// A THIRD CATEGORY, and the census needed it rather than a looser rule.
+//
+// These routes take no session, so they are not GUARDED; but they refuse
+// an anonymous caller, so they are not PUBLIC either. They authenticate
+// by API key. Filing them under PUBLIC would have meant asserting they
+// are reachable without credentials — which is exactly what they must
+// not be — and filing them under GUARDED would have meant asserting they
+// demand a session, which would be a different product.
+//
+// Webhooks are the same shape one step further out: public routing,
+// signature-authenticated. Both get their own assertions below.
+const KEY_AUTHENTICATED = {
+  'institutional/verify.js': 'Verification for registered institutions. No session — an admissions office has no account — but never anonymous: the API key identifies the institution and every check is recorded against it. That asymmetry with the public portal is the consent argument, stated in the module.',
+};
+
 const WEBHOOKS = Object.keys(PUBLIC).filter((f) => /webhook/.test(f));
 
 const GATEWAY_CONFIG = {
@@ -127,7 +143,7 @@ function request(method, url, body) {
   });
 }
 
-let guarded = 0, publicFound = 0;
+let guarded = 0, publicFound = 0, keyed = 0;
 const uncovered = [];
 
 for (const file of files) {
@@ -138,6 +154,7 @@ for (const file of files) {
   if (!handlers.length) { uncovered.push(`${file} (no onRequest* export)`); continue; }
 
   const isPublic = Object.prototype.hasOwnProperty.call(PUBLIC, file);
+  const isKeyed = Object.prototype.hasOwnProperty.call(KEY_AUTHENTICATED, file);
 
   for (const m of handlers) {
     const method = (m || 'Get').toUpperCase();
@@ -153,6 +170,15 @@ for (const file of files) {
       status = res && res.status;
     } catch (e) { threw = e; }
 
+    if (isKeyed) {
+      keyed++;
+      // Refuses an anonymous caller — like a guarded route — but the
+      // credential is a key, not a session. Both halves are asserted:
+      // that it refuses, and (below) that a key gets through.
+      check(`KEYED   ${file} ${method} — refuses a caller with no API key`,
+        threw === null && status === 401, threw ? `threw ${threw.message}` : `status ${status}`);
+      continue;
+    }
     if (isPublic) {
       publicFound++;
       // A public route must not 401 — that would mean the exemption is
@@ -173,8 +199,31 @@ check('The guarded surface is the larger part of the API', guarded > publicFound
 // A stale exemption is the dangerous direction: the route it named was
 // renamed or split, the entry stayed, and the new route inherited an
 // exemption nobody granted it.
+check('Every key-authenticated route is exercised', keyed >= 1, keyed);
+
+// A key that works must actually work, or the category is just an
+// elaborate way of saying "broken".
+{
+  const { registerInstitution } = await import(loadUrl('functions/_lib/registry/documents.js'));
+  const mod = await import(loadUrl('functions/api/institutional/verify.js'));
+  const env = freshEnv();
+  env.DB.prepare(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role)
+    VALUES ('usr_a','clerk','c_a','a@example.com','admin')`).bind().run();
+  const inst = await registerInstitution(env, { name: 'Census Test University', kind: 'university' });
+  const res = await mod.onRequestGet({
+    request: new Request('https://wec-lc.test/api/institutional/verify?code=WEC-AAAA-BBBB-CCCCC', {
+      headers: { Authorization: `Bearer ${inst.apiKey}` },
+    }),
+    env, waitUntil: () => {},
+  });
+  check('KEYED   institutional/verify.js — a valid key is admitted', res.status === 200, res.status);
+}
+
 const stale = Object.keys(PUBLIC).filter((f) => !files.includes(f));
+const staleKeyed = Object.keys(KEY_AUTHENTICATED).filter((f) => !files.includes(f));
 check('No PUBLIC entry names a route that no longer exists', stale.length === 0, stale.join(', '));
+check('No key-authenticated entry names a route that no longer exists',
+  staleKeyed.length === 0, staleKeyed.join(', '));
 
 // Every exemption carries a reason a reviewer can weigh.
 const unreasoned = Object.entries(PUBLIC).filter(([, why]) => !why || why.length < 30);

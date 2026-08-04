@@ -113,6 +113,12 @@ const ROUTES = [
   { file: 'functions/api/admin/recordings/purge.js', method: 'POST', minRole: 'staff',
     why: 'Documented as staff-only, and dry-run by default. See governance A5.' },
 
+  // Institutional access to the Register.
+  { file: 'functions/api/admin/institutions.js', method: 'POST', minRole: 'admin',
+    why: 'Granting an institution bulk programmatic access to graduate records is an institutional decision, not a teaching one.' },
+  { file: 'functions/api/admin/institutions.js', method: 'GET', minRole: 'admin',
+    why: 'Who has been reading the Register, and how much of it.' },
+
   // Cryptographic trust.
   { file: 'functions/api/admin/signing-keys.js', method: 'GET', minRole: 'admin',
     why: 'The key register and the signing audit. Administrator rather than staff: it is the record of what the institution has cryptographically asserted. Rotation and revocation are deliberately NOT exposed over HTTP at all.' },

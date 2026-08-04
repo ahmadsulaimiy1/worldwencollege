@@ -325,6 +325,30 @@ the FX provider feed, and Resend delivery. `docs/engineering-principles.md`
   be enforced by the schema rather than by good intentions. Consent is
   tested to scope the browsable register and **not** verification: a
   code is something the graduate chose to hand someone. 59 assertions.
+- `documents.test.mjs` — issued transcripts, diploma supplements and
+  institutional verification. The assertion the whole design exists for:
+  **a transcript issued today must still verify after the graduate
+  completes more of the programme.** An award is immutable; a transcript
+  is a snapshot. If verification worked by regenerating the document from
+  live data, every transcript would begin failing the moment its holder
+  finished another module — and it would fail exactly the way a forgery
+  fails, telling a university the document had been altered. Sabotage
+  confirms it: regenerating instead of reading the frozen payload turns
+  "20 credits" into "40 credits" and breaks the signature.
+  **Superseded is not invalid.** A university asks "did the College issue
+  this document", not "is this the newest one". A superseded transcript
+  reports its status separately from its signature, because the signature
+  is sound and calling it invalid would be false.
+  Expiry and withdrawal are likewise distinguished: expiry is a statement
+  about currency, withdrawal about reliance.
+  The document names the holder as the AWARD records them, never as the
+  profile says — a display name is editable by its subject, and an issued
+  document must not be.
+  Institutional verification is deliberately unlike the public portal:
+  identified, capped and recorded, because a graduate handing an employer
+  a code consented to that check, while an institution making bulk
+  automated queries is doing something the College should be able to see
+  and stop. 53 assertions.
 - `signing.test.mjs` — cryptographic trust for issued credentials
   (Executive Decision P2.1). A signing layer fails silently for years: a
   signature nothing can verify, a rotation that voids every certificate
