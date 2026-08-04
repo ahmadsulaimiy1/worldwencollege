@@ -269,10 +269,17 @@ check('The editable edition carries the curriculum', editText.length > 400000, e
 
 // --- Honesty ----------------------------------------------------------
 {
-  check('The edition states the counted number of items, not the published claim',
-    printText.includes(`will find ${C.totals.lessons}`), String(C.totals.lessons));
-  check('...and says plainly that the 720 figure is not met',
-    /that figure is not met/.test(printText));
+  // The public edition states its own counts and no longer comments on
+  // the College's 720-unit claim. That silence is a deliberate editorial
+  // decision, not an accident — so what is asserted here is the pair of
+  // conditions that make it defensible: the book's own figures are
+  // truthful, and the discrepancy is recorded in the Internal Editorial
+  // Bible where it can be acted on. The Bible half is asserted below.
+  check('The edition states its own counted totals',
+    printText.includes(String(C.totals.lessons))
+    && printText.includes(String(C.totals.questions)), String(C.totals.lessons));
+  check('...and never asserts the unmet 720 figure as its own',
+    !/720 learning units/i.test(printText));
   check('The College is not described as accredited',
     /makes no claim of\s+accreditation|makes no claim of accreditation/.test(printText));
   check('No officer is named',
@@ -323,7 +330,7 @@ check('The editable edition carries the curriculum', editText.length > 400000, e
   // Front matter, by structure rather than by phrase — a phrase check
   // passes on a mention, and the preface is mentioned in the contents.
   for (const cls of ['endpaper', 'half', 'frontis', 'titlepage', 'imprint', 'dedication',
-    'preface', 'editorial', 'contents', 'howto', 'omissions', 'colophon']) {
+    'preface', 'editorial', 'contents', 'howto', 'colophon']) {
     check(`The ${cls} leaf is present in the print edition`,
       new RegExp(`class="${cls}[ "]`).test(rawPrint));
   }
@@ -353,16 +360,19 @@ check('The editable edition carries the curriculum', editText.length > 400000, e
       other.match(/<path d="([^"]+)"/)[1] !== modules[1]);
   }
 
-  // The register of omissions, entry by entry. This is the page that
-  // makes the rest of the book honest; a truncated render of it would
-  // leave the volume claiming completeness it does not have.
-  const missingOm = OMISSIONS.filter((o) => !printText.includes(norm(o.item.slice(0, 40))));
-  check(`All ${OMISSIONS.length} registered omissions are printed`, missingOm.length === 0,
-    missingOm.map((o) => o.item).join('; '));
-  check('...and the editable edition carries them too',
-    OMISSIONS.every((o) => editText.includes(norm(o.item.slice(0, 40)))));
-  check('The register names the six lesson components with no source',
-    /reflection; self-assessment; portfolio task/.test(printText));
+  // The Register of Omissions is DELIBERATELY ABSENT from the public
+  // edition and lives in the Internal Editorial Bible instead.
+  //
+  // A volume for students, teachers and reviewers should not open by
+  // listing its own absences. But moving it is only defensible if it
+  // genuinely moved, so the two halves are asserted together: gone from
+  // the book, complete in the Bible. Deleting the register and never
+  // rebuilding it elsewhere would look identical to this from inside
+  // the public edition alone.
+  check('The public edition carries no Register of Omissions',
+    !/class="omissions"/.test(rawPrint) && !/register of omissions/i.test(printText));
+  check('...and the editable edition does not either',
+    !/register of omissions/i.test(editText));
 
   // Colour. Every ink the system declares must reach the stylesheet —
   // a palette defined and unused is a specification that lies.
@@ -399,6 +409,22 @@ check('The editable edition carries the curriculum', editText.length > 400000, e
     .filter(([, v]) => !v.role?.trim() || !v.note?.trim());
   check('...and every one states a role and its reasoning', undocumented.length === 0,
     undocumented.map(([k]) => k).join(', '));
+
+  // The public edition must not assert the unevidenced elements of the
+  // definition. 0 of 120 assessments are mapped to a competency, so a
+  // prospectus claiming competency verification as a property of the
+  // qualification would be an overclaim — the claim itself was removed
+  // rather than the table that exposed it.
+  check('The public edition does not assert competency verification',
+    !/extending it through competency verification/i.test(printText),
+    'the unevidenced claim is still printed publicly');
+  check('...and prints no evidence-audit table', !/class="claims"/.test(rawPrint));
+
+  // What it must still say: its own counts, truthfully.
+  check('The public edition still states its counted totals',
+    printText.includes(String(C.totals.lessons))
+    && printText.includes(C.totals.bodyWords.toLocaleString('en-GB').toLowerCase()),
+    'counted figures missing from the public edition');
 
   // Royal Gold reaches 2.82:1 on the text paper. It may carry rules and
   // ornament; it may not carry type. This is the assertion that keeps
@@ -481,6 +507,52 @@ check('The editable edition carries the curriculum', editText.length > 400000, e
   check('Body text is justified and hyphenated together', justified && hyphenated,
     `justify=${justified} hyphens=${hyphenated}`);
   check('Headings are never hyphenated', /h1, h2, h3, h4, h5, \.mono[^{]*\{[^}]*hyphens:\s*none/.test(css));
+}
+
+// --- The Internal Editorial Bible -------------------------------------
+{
+  const BIBLE = `${ROOT}/publication/IEFC Internal Editorial Bible.pdf`;
+  const BIBLE_HTML = `${ROOT}/publication/.bible.html`;
+  check('The Internal Editorial Bible exists', existsSync(BIBLE) && existsSync(BIBLE_HTML));
+
+  if (existsSync(BIBLE_HTML)) {
+    const bibleRaw = readFileSync(BIBLE_HTML, 'utf8');
+    const bibleText = htmlText(BIBLE_HTML);
+    const { ALL_ENTRIES, REGISTERS, GOVERNANCE } =
+      await import(loadUrl('scripts/publication/bible.mjs'));
+
+    check(`All ${REGISTERS.length} registers are rendered`,
+      REGISTERS.every(([name]) => bibleText.includes(norm(name))),
+      REGISTERS.filter(([n]) => !bibleText.includes(norm(n))).map(([n]) => n).join('; '));
+
+    const missing = ALL_ENTRIES.filter((e) => !bibleText.includes(norm(e.item)));
+    check(`All ${ALL_ENTRIES.length} register entries reach the page`, missing.length === 0,
+      missing.slice(0, 3).map((e) => e.item).join('; '));
+
+    const missingGov = GOVERNANCE.filter((g) => !bibleText.includes(norm(g.item)));
+    check(`All ${GOVERNANCE.length} governance items reach the page`, missingGov.length === 0,
+      missingGov.map((g) => g.item).join('; '));
+
+    // Every entry must name an owner. A finding without an owner is a
+    // complaint, and the whole point of the move was to make each one
+    // somebody's problem.
+    const ownerless = ALL_ENTRIES.filter((e) => !e.owner);
+    check('Every entry names who has to act', ownerless.length === 0,
+      ownerless.map((e) => e.item).join('; '));
+
+    // The two disclosures that left the public edition must be here, or
+    // the move was a deletion.
+    check('The Bible records the 720-unit discrepancy',
+      /720/.test(bibleText) && /unchallenged wherever it is published/.test(bibleText));
+    check('The Bible carries the evidence audit that left the front matter',
+      /the definition, audited/.test(bibleText));
+    check('The Bible states that moving a finding does not license inventing a fix',
+      /must never be satisfied by writing plausible text/.test(bibleText));
+
+    // It must not be mistakable for the public edition.
+    check('The Bible is marked internal on every page',
+      /internal — not for distribution/i.test(bibleRaw));
+  }
 }
 
 {

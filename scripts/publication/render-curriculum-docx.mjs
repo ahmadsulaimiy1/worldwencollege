@@ -10,7 +10,6 @@
 import { buildCurriculum } from './curriculum.mjs';
 import { paletteFor, STAGE_MARK, EMPHASIS_STAGES, BRAND } from './design.mjs';
 import { publicationIdentity, AUTHENTICITY_NOTICE } from './identity.mjs';
-import { OMISSIONS } from './covers.mjs';
 import { parseRubric } from './curriculum.mjs';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
@@ -256,22 +255,6 @@ for (const lv of C.levels) {
 }
 
 // ---- Back matter -----------------------------------------------------
-children.push(H1('Register of Omissions'));
-children.push(P('Components specified for this edition for which no source exists in the curriculum, '
-  + 'and what is printed in their place. Each entry below could have been written convincingly '
-  + 'enough that no reader would have questioned it; that is the reason none of them has been.',
-{ size: 20 }));
-for (const o of OMISSIONS) {
-  children.push(P([
-    { t: `${o.scope.toUpperCase()}  `, font: SANS, size: 13, bold: true, tracking: 40, color: hex(BRAND.bronze) },
-    { t: o.item, bold: true, color: hex(BRAND.ink), size: 19 },
-  ], { before: 140, after: 30 }));
-  children.push(P([
-    { t: `${o.status}. `, font: SANS, size: 15, bold: true, color: hex(BRAND.crimson) },
-    { t: o.instead },
-  ], { after: 40, indent: { left: 200 } }));
-}
-
 children.push(H1('Colophon'));
 children.push(P('This edition was set in a two-family system: a transitional serif for continuous '
   + 'reading and a humanist sans for apparatus — headings, stage marks, timings and tables.',

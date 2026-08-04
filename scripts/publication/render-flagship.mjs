@@ -424,9 +424,10 @@ const contents = C.levels.map((lv) => {
     `<li>${m.sequence}. ${typo(m.title)}</li>`).join('')}</ol></li>`;
 }).join('');
 
-const CLAIMS = `<table class="claims">
-  <thead><tr><th scope="col">Element of the definition</th><th scope="col">Position</th></tr></thead>
-  <tbody>${claimRows}</tbody></table>`;
+// The per-claim evidence audit is an internal quality instrument and is
+// published in the Internal Editorial Bible, not in a prospectus. What
+// remains public is what the curriculum demonstrably contains.
+void claimRows;
 
 const CONTENTS = `<section class="contents">
   <p class="ed__eyebrow">Contents</p>
@@ -434,7 +435,7 @@ const CONTENTS = `<section class="contents">
   <ol class="clist">${contents}</ol>
   <div class="clist__after">
     <p class="label">Apparatus</p>
-    <p>How to Read a Lesson · Register of Omissions · Colophon</p>
+    <p>How to Read a Lesson · The Shape of the Programme · Colophon</p>
   </div>
 </section>`;
 
@@ -551,7 +552,7 @@ const ARCHITECTURE = `<section class="arch">
   </figure>
 </section>`;
 
-const FRONT = frontMatter(ID, I, CLAIMS, CONTENTS, HOWTO + ARCHITECTURE);
+const FRONT = frontMatter(ID, I, CONTENTS, HOWTO + ARCHITECTURE);
 const BACK = backMatter(ID);
 
 // ---- The stylesheet --------------------------------------------------
@@ -697,6 +698,14 @@ h2,h3,h4,h5 { color:var(--ink); break-after:avoid; }
   content:''; display:block; width:100%; height:.8pt;
   background:linear-gradient(90deg,var(--gold) 0 22%,var(--rule) 22%); margin:7pt 0 13pt; }
 .editorial h3 { font-size:12pt; margin:18pt 0 6pt; }
+.figures { display:flex; gap:10pt; margin:14pt 0 16pt; }
+.figures__i { flex:1; border-top:2pt solid var(--ink); padding-top:7pt; }
+.figures__i b { display:block; font-size:20pt; color:var(--ink); line-height:1.05;
+  letter-spacing:-.01em; }
+.figures__i span { display:block; font-family:var(--sans); font-size:6.4pt; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--bronze); margin:3pt 0 2pt; }
+.figures__i em { display:block; font-style:normal; font-size:7.6pt; color:var(--soft);
+  line-height:1.35; }
 .ed__eyebrow, .pre__eyebrow { font-family:var(--sans); font-size:7pt; font-weight:700;
   letter-spacing:.24em; text-transform:uppercase; color:var(--bronze); margin:0 0 4pt; }
 .imp__title { font-size:10.5pt; }

@@ -1,0 +1,536 @@
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
+<title>IEFC — Internal Editorial Bible (not for distribution)</title>
+<style>
+@page { size:A4; margin:20mm 18mm 16mm; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:Cambria, "Nimbus Roman", Georgia, "Times New Roman", serif; font-size:9.6pt; line-height:1.55;
+  color:#2E2A26; background:#fff;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+h1,h2,h3 { color:#1F3E7C; break-after:avoid; }
+h1 { font-size:24pt; margin:0 0 6pt; line-height:1.12; }
+h2 { font-size:16pt; margin:0 0 3pt; }
+h2::after { content:''; display:block; height:.6pt; background:#D8DCE3; margin:6pt 0 10pt; }
+h3 { font-size:10.5pt; margin:0; }
+p { margin:0 0 6pt; }
+.lead { font-size:10pt; color:#1F3E7C; margin-bottom:12pt; }
+.eyebrow { font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:6.6pt; font-weight:700; letter-spacing:.24em;
+  text-transform:uppercase; color:#7A5C2E; margin:0 0 4pt; }
+.small { font-size:8pt; color:#6B7280; }
+.mono { font-family:"Consolas","DejaVu Sans Mono",monospace; font-size:7.6pt; }
+
+/* The cover is plain on purpose: this must never be mistaken for the
+   public edition, so it borrows none of its livery. */
+.cover { height:245mm; display:flex; flex-direction:column; justify-content:center;
+  break-after:page; border-top:8pt solid #8C1F2F; }
+.cover__stamp { font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:9pt; font-weight:700; letter-spacing:.3em;
+  text-transform:uppercase; color:#8C1F2F; border:1.4pt solid #8C1F2F;
+  padding:7pt 12pt; align-self:flex-start; margin:0 0 22pt; }
+.cover__meta { margin-top:auto; font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:8pt; color:#6B7280;
+  line-height:1.7; }
+
+.reg { break-before:page; }
+.entry { break-inside:avoid; border-top:.6pt solid #D8DCE3; padding:9pt 0 7pt; }
+.entry header { display:flex; justify-content:space-between; align-items:baseline; gap:10pt;
+  margin:0 0 5pt; }
+.own { font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:6.4pt; font-weight:700; letter-spacing:.12em;
+  text-transform:uppercase; padding:2.4pt 6pt; white-space:nowrap; color:#fff;
+  background:#6B7280; }
+.own--ed { background:#1F3E7C; }
+.own--au { background:#7A5C2E; }
+.own--gov { background:#8C1F2F; }
+.own--prod { background:#16306B; }
+.own--eng { background:#2E2A26; }
+dl { margin:0; }
+dt { font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:6.4pt; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:#6B7280; margin:4pt 0 1pt; }
+dd { margin:0; font-size:9.4pt; line-height:1.5; }
+.meta { font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:7.4pt; color:#6B7280; margin:6pt 0 0; }
+.meta b { color:#2E2A26; }
+
+table { width:100%; border-collapse:collapse; font-size:8.6pt; margin:8pt 0 12pt; }
+th { background:#1F3E7C; color:#fff; text-align:left; padding:4.5pt 7pt;
+  font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:6.6pt; letter-spacing:.1em; text-transform:uppercase; }
+td { padding:4.5pt 7pt; border-bottom:.5pt solid #E6E9F0; vertical-align:top; }
+tr { break-inside:avoid; }
+.s-ok { color:#1E6B3A; font-weight:700; } .s-warn { color:#7A5C2E; font-weight:700; }
+.s-gap { color:#8C1F2F; font-weight:700; }
+.u-imm { color:#8C1F2F; font-weight:700; }
+
+.panel { border-left:2.4pt solid #8C1F2F; background:#FBF1F1; padding:9pt 12pt;
+  margin:12pt 0; break-inside:avoid; }
+.panel--calm { border-left-color:#B4933E; background:#F6F1E4; }
+.panel__h { font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:7pt; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:#8C1F2F; margin:0 0 4pt; }
+.panel--calm .panel__h { color:#7A5C2E; }
+.panel p:last-child { margin:0; }
+</style></head><body>
+
+<section class="cover">
+  <p class="cover__stamp">Internal — not for distribution</p>
+  <p class="eyebrow">Worldwide English College · London Campus</p>
+  <h1>The Internal Editorial Bible</h1>
+  <p class="lead">Working registers for <i>The International English Fluency Certificate:
+    The Complete Curriculum</i>, 487 pages.</p>
+  <p style="max-width:34em">Seven registers of legitimate improvement, and a governance register of
+    decisions that only the institution can take. Every entry names who has to act, because the
+    single most common failure of a document like this is to record a finding without recording
+    whose problem it is.</p>
+  <div class="cover__meta">
+    WEC-LC/IEFC/CUR/2026/E01 · Document ID RP6Y-KFPF-2NJ5-8SW9<br>
+    Generated 2026-08-04 · 31 entries across
+    7 registers, plus 6 governance items
+  </div>
+</section>
+
+<section class="reg" style="break-before:auto">
+  <p class="eyebrow">Purpose</p>
+  <h2>How this document is meant to be used</h2>
+  <p class="lead">This replaces the Register of Omissions that previously appeared in the public
+    edition.</p>
+  <p>That register was honest and it was the wrong instrument in the wrong document. A volume
+    intended for students, teachers and reviewers had been opening by listing its own absences,
+    which teaches a reader to look for absences. Nothing has been concealed: every finding it
+    carried is in this document, and several have been sharpened by having to name an owner.</p>
+  <p>What changed is the separation of three things the omissions register had collapsed into one.
+    Some findings are <b>editorial</b> — the publication can fix them itself, and it should. Some
+    require <b>academic authoring</b> by qualified people. Some are <b>governance decisions</b> that
+    only the institution can take. Filing them together made all three look equally like defects in
+    the book, when only the first kind are.</p>
+
+  <div class="panel">
+    <p class="panel__h">The rule this document does not repeal</p>
+    <p>Moving a finding out of the public edition does not license inventing a solution to it. An
+      entry marked <b>Academic authoring</b> or <b>Governance</b> must never be satisfied by
+      writing plausible text — that is precisely what the omissions register existed to prevent,
+      and the guard survives the move. What changed is where the finding is filed, not what may be
+      done about it.</p>
+  </div>
+
+  <h3 style="margin-top:14pt">Where the work sits</h3>
+  <table><thead><tr><th scope="col">Owner</th><th scope="col">Entries</th>
+    <th scope="col">What it means</th></tr></thead><tbody>
+    <tr><td><span class="own own--ed">Editorial</span></td>
+      <td class="mono">15</td><td>The publication can do this itself. No new curriculum, no decision.</td></tr><tr><td><span class="own own--au">Academic authoring</span></td>
+      <td class="mono">4</td><td>Needs qualified academic authors. Not inventable.</td></tr><tr><td><span class="own own--gov">Governance</span></td>
+      <td class="mono">7</td><td>Needs an institutional decision or an external authority.</td></tr><tr><td><span class="own own--prod">Production</span></td>
+      <td class="mono">2</td><td>Needs a printer, a proof, or a colour-managed workflow.</td></tr><tr><td><span class="own own--eng">Tooling limit</span></td>
+      <td class="mono">3</td><td>Blocked by the rendering pipeline, not by effort or willingness.</td></tr>
+  </tbody></table>
+</section>
+
+
+<section class="reg">
+  <p class="eyebrow">Register 1 of 7</p>
+  <h2>Editorial Opportunity Register</h2>
+  <p class="lead">Improvements the publication can make to itself — no new curriculum, no institutional decision. These should simply be done.</p>
+  <article class="entry">
+    <header>
+      <h3>A subject index</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>The volume has a contents list but no index.</dd>
+      <dt>Opportunity</dt><dd>Every grammar point, function and topic in the programme already exists as a lesson title or a named stage. An index can be generated from that material with no new writing at all, and an index is the single clearest signal that a book is a reference work rather than a brochure.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> High &nbsp;·&nbsp; <b>Effort</b> Medium</p>
+  </article><article class="entry">
+    <header>
+      <h3>A vocabulary and phrase index</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>KEY VOCABULARY, KEY PHRASES and PHRASAL VERBS &amp; COLLOCATIONS appear as named stages throughout, but only in the lesson where they are taught.</dd>
+      <dt>Opportunity</dt><dd>Collate them into a back-matter index keyed to level and module. A learner revising for an assessment currently has no way to find where a word was introduced.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> High &nbsp;·&nbsp; <b>Effort</b> Medium</p>
+  </article><article class="entry">
+    <header>
+      <h3>A teacher’s introduction</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>"How to Read a Lesson" explains the page. Nothing explains how to run the programme.</dd>
+      <dt>Opportunity</dt><dd>A two-page introduction on sequencing, pacing against the designed timings, using the formative checks to decide whether to move on, and marking from the rubrics. All of it describes apparatus that already exists in the book.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> High &nbsp;·&nbsp; <b>Effort</b> Low</p>
+  </article><article class="entry">
+    <header>
+      <h3>Pull quotes and highlighted insights</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Not used. The lesson pages are evenly weighted from top to bottom.</dd>
+      <dt>Opportunity</dt><dd>Lesson bodies already contain memorable formulations. Setting a few per level as pull quotes would give long stretches of instructional text a change of pace — but only where the sentence genuinely carries the idea, never as decoration.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> Low</p>
+  </article><article class="entry">
+    <header>
+      <h3>Cross-references between related modules</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Lesson bodies frequently say things like "recycled from Module 3" in prose.</dd>
+      <dt>Opportunity</dt><dd>Those references are real and already written. Turning them into printed cross-references with module numbers would make the spiral structure of the programme visible instead of implied.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> Medium</p>
+  </article><article class="entry">
+    <header>
+      <h3>A glossary of programme terminology</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Terms such as formative assessment, discourse marker, collocation and CEFR band are used throughout without definition.</dd>
+      <dt>Opportunity</dt><dd>A short glossary serves the teacher who is new to the vocabulary of the field. These are standard terms of art with settled meanings — defining them is editorial work, not an institutional claim.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> Low</p>
+  </article>
+</section>
+<section class="reg">
+  <p class="eyebrow">Register 2 of 7</p>
+  <h2>Curriculum Enhancement Register</h2>
+  <p class="lead">Where the curriculum itself could be stronger. Every entry needs qualified academic authoring; none may be filled editorially.</p>
+  <article class="entry">
+    <header>
+      <h3>Lesson-level depth against the published figure</h3>
+      <span class="own own--au">Academic authoring</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>The curriculum holds 294 authored items. The College’s public materials state 720 learning units.</dd>
+      <dt>Opportunity</dt><dd>Either author the remaining items, or correct the public figure. Both are legitimate; leaving the two numbers to disagree is not. See the Governance Register.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Critical &nbsp;·&nbsp; <b>Effort</b> High</p>
+  </article><article class="entry">
+    <header>
+      <h3>Stage-name consistency</h3>
+      <span class="own own--au">Academic authoring</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Twelve stage names occur exactly 114 times each — once in every teaching lesson, which is strong evidence the house structure is real. A further 83 names occur in a long tail.</dd>
+      <dt>Opportunity</dt><dd>Some of that tail is deliberate variation and some is almost certainly two authors naming the same teaching move differently. Reconciling it would tighten the programme and shorten the anatomy chart’s tail. Measured, not guessed: the figure is in Figure 3 of the publication.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> Medium</p>
+  </article><article class="entry">
+    <header>
+      <h3>Reflection, self-assessment and mastery checklists</h3>
+      <span class="own own--au">Academic authoring</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Not present in any lesson.</dd>
+      <dt>Opportunity</dt><dd>Genuinely valuable pedagogically and genuinely absent. Must be authored by academics against the existing objectives — generating them from lesson text would produce plausible prose that no one had validated as assessment instruments.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> High &nbsp;·&nbsp; <b>Effort</b> High</p>
+  </article><article class="entry">
+    <header>
+      <h3>Portfolio and collaborative tasks</h3>
+      <span class="own own--au">Academic authoring</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Not present as named stages, though speaking and writing tasks exist throughout.</dd>
+      <dt>Opportunity</dt><dd>Several existing writing tasks would serve as portfolio pieces with an authored wrapper defining what is collected and how it is judged.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> Medium</p>
+  </article>
+</section>
+<section class="reg">
+  <p class="eyebrow">Register 3 of 7</p>
+  <h2>Pedagogical Enhancement Register</h2>
+  <p class="lead">Learning support that can be built around the curriculum without altering or inventing it.</p>
+  <article class="entry">
+    <header>
+      <h3>Designed study time made visible per module</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Already computed and printed on each module opener, summed from the timings the curriculum sets on its own stages.</dd>
+      <dt>Opportunity</dt><dd>Extend the same derivation to level openers and the contents, so a learner can plan a term. The data exists; only the presentation is missing.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> Low</p>
+  </article><article class="entry">
+    <header>
+      <h3>A revision route through the programme</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Every level ends with a Review &amp; Consolidation module, and REVISION appears as a named stage 113 times.</dd>
+      <dt>Opportunity</dt><dd>Collate those into a printed revision path — what to return to before each assessed quiz. Derived entirely from existing stages.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> High &nbsp;·&nbsp; <b>Effort</b> Medium</p>
+  </article><article class="entry">
+    <header>
+      <h3>Pronunciation support surfaced</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>PRONUNCIATION PRACTICE occurs in 114 lessons with a median designed timing of five minutes.</dd>
+      <dt>Opportunity</dt><dd>A short front-matter note on how the pronunciation strand runs through the programme would help a teacher who currently meets it lesson by lesson.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> Low</p>
+  </article><article class="entry">
+    <header>
+      <h3>Assessment guidance for markers</h3>
+      <span class="own own--gov">Governance</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>All 60 rubrics are printed with 307 criteria. There is no guidance on applying them consistently between markers.</dd>
+      <dt>Opportunity</dt><dd>Inter-marker reliability guidance is a real institutional need. Writing it requires the Board to set the standard first — it cannot be inferred from the rubrics.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> High &nbsp;·&nbsp; <b>Effort</b> Medium</p>
+  </article>
+</section>
+<section class="reg">
+  <p class="eyebrow">Register 4 of 7</p>
+  <h2>Reader Experience Register</h2>
+  <p class="lead">How the volume behaves in the hands of the person using it.</p>
+  <article class="entry">
+    <header>
+      <h3>Running heads do not identify the level</h3>
+      <span class="own own--eng">Tooling limit</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>A single running head runs throughout.</dd>
+      <dt>Opportunity</dt><dd>A reader opening the book at random relies on the level dividers. Chromium cannot vary a running head by page side or section in its print pipeline, so this needs either a different tool or a printed thumb-index on the page edge.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> High</p>
+  </article><article class="entry">
+    <header>
+      <h3>Level thumb index</h3>
+      <span class="own own--eng">Tooling limit</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Not present.</dd>
+      <dt>Opportunity</dt><dd>A block of colour bleeding off the outer edge, stepping down the page as the levels progress, would make the six levels findable with the book closed. This is a classic reference-book device and needs no new content — but it requires bleed, which this pipeline cannot currently produce.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> Medium</p>
+  </article><article class="entry">
+    <header>
+      <h3>Editable edition lacks the figures and plates</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>The DOCX carries every word of the curriculum but none of the five figures, the six photographic plates or the level colour identity.</dd>
+      <dt>Opportunity</dt><dd>Faculty editing the curriculum currently work without the apparatus their readers will see. The figures could be embedded as images.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> Medium</p>
+  </article><article class="entry">
+    <header>
+      <h3>No large-print or screen-reading variant</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>One typographic specification serves both print and screen.</dd>
+      <dt>Opportunity</dt><dd>The source is HTML and the type scale is declared in one place, so a larger-type variant is a configuration rather than a redesign.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> Low</p>
+  </article>
+</section>
+<section class="reg">
+  <p class="eyebrow">Register 5 of 7</p>
+  <h2>Visual Enhancement Register</h2>
+  <p class="lead">Including one opportunity considered and deliberately declined, recorded so it is not repeatedly re-proposed.</p>
+  <article class="entry">
+    <header>
+      <h3>Module openers carry no imagery</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Sixty typographic module openers; photography appears only on the six level plates.</dd>
+      <dt>Opportunity</dt><dd>Deliberately so. Sixty images would be clutter with a budget and would compete with the contents list each opener carries. Recorded here as considered and declined, so it is not repeatedly re-proposed.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Low &nbsp;·&nbsp; <b>Effort</b> High</p>
+  </article><article class="entry">
+    <header>
+      <h3>Plates do not bleed to the trim</h3>
+      <span class="own own--eng">Tooling limit</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>The six plates fill the type area and stop at it.</dd>
+      <dt>Opportunity</dt><dd>Full bleed is not achievable in this rendering pipeline: any element wider than the page content box makes the engine scale the entire document. If the book is ever originated in a professional layout application, restore full bleed there.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> High</p>
+  </article><article class="entry">
+    <header>
+      <h3>Process diagrams for the learner journey</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Five figures describe the programme’s shape. None describes a learner’s path through a level.</dd>
+      <dt>Opportunity</dt><dd>The path is real and documented — modules in sequence, an assessed quiz and an assessed assignment at the end of each. A process graphic would carry it better than the prose currently does.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> Medium</p>
+  </article><article class="entry">
+    <header>
+      <h3>Comparison table of the six awards</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Each award appears on its own level divider.</dd>
+      <dt>Opportunity</dt><dd>A single table setting the six awards, post-nominals, CEFR bands and standings side by side would let a reader see the whole qualification at once. Every value already exists in the award definitions.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> High &nbsp;·&nbsp; <b>Effort</b> Low</p>
+  </article>
+</section>
+<section class="reg">
+  <p class="eyebrow">Register 6 of 7</p>
+  <h2>Publishing Improvement Register</h2>
+  <p class="lead">The apparatus of a published work, and the steps between this file and a printed book.</p>
+  <article class="entry">
+    <header>
+      <h3>No ISBN, DOI or legal deposit</h3>
+      <span class="own own--gov">Governance</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Printed as unassigned, with the issuing authority named.</dd>
+      <dt>Opportunity</dt><dd>An ISBN is inexpensive and makes the volume orderable and catalogable. A DOI makes it citable. Both require the College to apply; neither can be self-issued.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> High &nbsp;·&nbsp; <b>Effort</b> Low</p>
+  </article><article class="entry">
+    <header>
+      <h3>Never proofed on paper</h3>
+      <span class="own own--prod">Production</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Every finding in this project is measured from source. Nothing has been read on a printed sheet.</dd>
+      <dt>Opportunity</dt><dd>Six checks in the production specification cannot be verified any other way — guilloché line weights at the chosen screen ruling, spot UV trap, show-through on tinted module openers, and whether the QR scans off matt laminate.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Critical &nbsp;·&nbsp; <b>Effort</b> Low</p>
+  </article><article class="entry">
+    <header>
+      <h3>CMYK values are uncalibrated</h3>
+      <span class="own own--prod">Production</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>The colour specification prints a naive conversion and says so.</dd>
+      <dt>Opportunity</dt><dd>Convert against the printer’s ICC profile and re-proof the blues, which drift furthest.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> High &nbsp;·&nbsp; <b>Effort</b> Low</p>
+  </article><article class="entry">
+    <header>
+      <h3>No edition history</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>The identity block carries edition, revision and issue codes but the volume has no page recording what changed between editions.</dd>
+      <dt>Opportunity</dt><dd>From the second edition onward, a short edition history is standard in a reference work and is the reader’s only way to know whether their copy is current.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> Low</p>
+  </article>
+</section>
+<section class="reg">
+  <p class="eyebrow">Register 7 of 7</p>
+  <h2>Future Development Register</h2>
+  <p class="lead">Longer-horizon work, most of it gated on institutional decisions rather than effort.</p>
+  <article class="entry">
+    <header>
+      <h3>Competency mapping</h3>
+      <span class="own own--gov">Governance</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>0 of 120 assessments are mapped to any named competency.</dd>
+      <dt>Opportunity</dt><dd>This is the element that distinguishes the IEFC from a CEFR course, and it is the founding task of the Board of Academic Standards and Curriculum Excellence. Until it exists the public definition should not assert it.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Critical &nbsp;·&nbsp; <b>Effort</b> High</p>
+  </article><article class="entry">
+    <header>
+      <h3>Credit value and total qualification time</h3>
+      <span class="own own--gov">Governance</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Not assigned. Duration in months is printed instead.</dd>
+      <dt>Opportunity</dt><dd>Credits and TQT are assigned by an awarding framework the College has not entered. Printing a figure would imply a framework that does not exist.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> High &nbsp;·&nbsp; <b>Effort</b> High</p>
+  </article><article class="entry">
+    <header>
+      <h3>Career and professional outcomes</h3>
+      <span class="own own--gov">Governance</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Not authored, and no outcome data exists.</dd>
+      <dt>Opportunity</dt><dd>Naming the roles a CEFR band qualifies someone for is a claim about the labour market. It requires evidence the College does not hold, and should not be written until it does.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> High</p>
+  </article><article class="entry">
+    <header>
+      <h3>A Foreword by an officer of the College</h3>
+      <span class="own own--gov">Governance</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>No President is appointed; the Academic Senate and the Board are established but not constituted. The preface is issued unsigned by the publisher.</dd>
+      <dt>Opportunity</dt><dd>When officers are appointed, a signed Foreword is the single strongest institutional signal a publication of this kind can carry.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> High &nbsp;·&nbsp; <b>Effort</b> Low</p>
+  </article><article class="entry">
+    <header>
+      <h3>Translated and localised editions</h3>
+      <span class="own own--gov">Governance</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>English only.</dd>
+      <dt>Opportunity</dt><dd>The platform already serves an Arabic interface. The curriculum apparatus — stage names, rubric criteria, front matter — is separable from the English content a learner is studying, so a bilingual teacher’s edition is feasible.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium &nbsp;·&nbsp; <b>Effort</b> High</p>
+  </article>
+</section>
+
+<section class="reg">
+  <p class="eyebrow">Governance</p>
+  <h2>Decisions only the institution can take</h2>
+  <p class="lead">Nothing in this list can be resolved by writing text, and the first two are the
+    reason this document exists rather than a longer front matter.</p>
+  <table><thead><tr><th scope="col">Decision</th><th scope="col">Urgency</th></tr></thead><tbody>
+    <tr><td><b>Reconcile the published 720-unit figure</b><br><span class="small">Public materials state 720 learning units across the qualification; the curriculum holds 294 authored items. The publication states its own counts truthfully and no longer comments on the discrepancy — which means the public figure is now the only place the overstatement appears, and it must be corrected there or met by authoring.</span></td>
+      <td class="u-imm">Immediate</td></tr><tr><td><b>Competency verification in the public definition</b><br><span class="small">The adopted definition asserts that the IEFC extends CEFR proficiency through competency verification. No assessment is mapped to a competency. Either establish the mapping or qualify the definition wherever it is published.</span></td>
+      <td class="u-imm">Immediate</td></tr><tr><td><b>Constitute the Board of Academic Standards and Curriculum Excellence</b><br><span class="small">Established but not constituted. It is the body that would own the competency mapping, the stage-name reconciliation and inter-marker reliability.</span></td>
+      <td class="">High</td></tr><tr><td><b>Appoint officers</b><br><span class="small">No President is appointed. This is why the publication carries no Foreword and no signed message, and why its preface is issued by the publisher.</span></td>
+      <td class="">Medium</td></tr><tr><td><b>Apply for an ISBN and a DOI</b><br><span class="small">Neither can be self-issued. Both are inexpensive and both materially change how the volume can be distributed and cited.</span></td>
+      <td class="">Medium</td></tr><tr><td><b>Approve the photography policy</b><br><span class="small">Six licensed editorial photographs are used as level plates, credited in the colophon and explicitly not presented as records of the College. Confirm this is the institution’s standing position before the edition is distributed.</span></td>
+      <td class="">Medium</td></tr>
+  </tbody></table>
+
+  <div class="panel">
+    <p class="panel__h">What removing the public register changed, exactly</p>
+    <p>The public edition previously stated that the College’s materials claim 720 learning units
+      and that the figure is not met. It no longer says so. The book still prints its own counts
+      truthfully — 294 authored items — but it no longer draws attention to the
+      discrepancy, which means <b>the 720 figure is now unchallenged wherever it is published</b>.
+      That is an acceptable editorial decision only if the figure is corrected at source or met by
+      authoring. Until one of those happens, the overstatement lives on unqualified, and this
+      paragraph is the only record that it was a deliberate choice rather than an oversight.</p>
+  </div>
+
+  <h3 style="margin-top:14pt">The definition, audited</h3>
+  <p>The College defines the IEFC as an advanced academic qualification built on CEFR proficiency
+    and extending it through competency verification, leadership, professional communication,
+    critical thinking, authentic assessment, and independently verifiable digital credentials. Each
+    element is assessed below against the evidence present in the academic database. This table was
+    previously printed in the public edition and has been moved here — it is a quality instrument,
+    not a marketing one.</p>
+  <table><thead><tr><th scope="col">Element of the definition</th><th scope="col">Position</th>
+    </tr></thead><tbody><tr><td>Built on CEFR proficiency</td><td class="s-ok">Evidenced</td></tr><tr><td>Extended through competency verification</td><td class="s-gap">Not evidenced</td></tr><tr><td>Extended through leadership</td><td class="s-warn">Partial</td></tr><tr><td>Extended through professional communication</td><td class="s-ok">Evidenced</td></tr><tr><td>Extended through critical thinking</td><td class="s-ok">Evidenced</td></tr><tr><td>Extended through authentic assessment</td><td class="s-ok">Evidenced</td></tr><tr><td>Independently verifiable digital credentials</td><td class="s-warn">Partial</td></tr></tbody></table>
+  <p class="small">Derived from the academic database at generation. Where an element is
+    <i>not evidenced</i>, the College’s position is that it is intended and not yet demonstrated.
+    The public edition no longer asserts those elements; it describes what the curriculum
+    demonstrably contains.</p>
+</section>
+
+<section class="reg">
+  <p class="eyebrow">Standing</p>
+  <h2>What the publication may and may not claim</h2>
+  <div class="panel panel--calm">
+    <p class="panel__h">Safe to state — verified at generation</p>
+    <p>Six levels; 60 modules; 294 authored items;
+      660 assessment questions each printed with its answer key; sixty grading
+      rubrics carrying 307 criteria; 81,927 words of lesson
+      content; a uniform architecture of ten modules per level each ending in an assessed quiz and
+      an assessed assignment; designed study time summed from the curriculum’s own stage timings.</p>
+  </div>
+  <div class="panel">
+    <p class="panel__h">Must not be stated until it becomes true</p>
+    <p>Accreditation, recognition or external approval of any kind. Competency verification as a
+      demonstrated property. Credit value or total qualification time. Career or employment
+      outcomes. 720 learning units. Any named officer, partnership, ranking or statistic not held
+      in the College’s own records.</p>
+  </div>
+</section>
+
+</body></html>

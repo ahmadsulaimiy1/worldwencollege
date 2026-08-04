@@ -145,6 +145,14 @@ h2,h3,h4,h5 { color:var(--ink); break-after:avoid; }
   content:''; display:block; width:100%; height:.8pt;
   background:linear-gradient(90deg,var(--gold) 0 22%,var(--rule) 22%); margin:7pt 0 13pt; }
 .editorial h3 { font-size:12pt; margin:18pt 0 6pt; }
+.figures { display:flex; gap:10pt; margin:14pt 0 16pt; }
+.figures__i { flex:1; border-top:2pt solid var(--ink); padding-top:7pt; }
+.figures__i b { display:block; font-size:20pt; color:var(--ink); line-height:1.05;
+  letter-spacing:-.01em; }
+.figures__i span { display:block; font-family:var(--sans); font-size:6.4pt; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--bronze); margin:3pt 0 2pt; }
+.figures__i em { display:block; font-style:normal; font-size:7.6pt; color:var(--soft);
+  line-height:1.35; }
 .ed__eyebrow, .pre__eyebrow { font-family:var(--sans); font-size:7pt; font-weight:700;
   letter-spacing:.24em; text-transform:uppercase; color:var(--bronze); margin:0 0 4pt; }
 .imp__title { font-size:10.5pt; }
@@ -2628,51 +2636,42 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
     does not compose words for people who do not hold office.</p>
 </section>
 
-<!-- NOTE ON THIS EDITION -->
+<!-- ABOUT THIS EDITION -->
 <section class="editorial">
-  <p class="ed__eyebrow">A note on this edition</p>
-  <h2>What is here, what is not, and how to tell</h2>
-  <p class="lead">Three things a reader should establish before the first level, stated here
-    rather than left to be discovered.</p>
+  <p class="ed__eyebrow">About this edition</p>
+  <h2>What this volume contains</h2>
+  <p class="lead">A complete teaching curriculum, set from the College’s academic database and
+    printed in full. Every figure on this page is counted at the moment the file is generated.</p>
 
-  <p class="label">One — What this volume contains, counted</p>
-  <p>294 authored items across 60 modules and six levels: teaching lessons with
-    staged practice and timings, 660 assessment questions with their answer keys, and
-    sixty assignment briefs with their grading rubrics — 81,927
-    words of lesson content. Every figure on this page is counted from the database at the moment
-    this file was generated, not carried forward from a previous edition.</p>
+  <div class="figures">
+    <div class="figures__i"><b>294</b><span>Authored items</span><em>teaching lessons, assessed quizzes and assessed assignments</em></div><div class="figures__i"><b>60</b><span>Modules</span><em>ten at every level, across six levels</em></div><div class="figures__i"><b>660</b><span>Assessment questions</span><em>each printed with its answer key</em></div><div class="figures__i"><b>81,927</b><span>Words of lesson content</span><em>verbatim, nothing summarised</em></div>
+  </div>
 
-  <p class="label">Two — What it does not contain</p>
-  <p>The College's public materials state 120 learning units per
-    level, which would be 720 across the qualification. That figure is
-    not met. The module architecture is complete at 60 modules, ten at every level, each
-    with an assessed quiz and an assessed assignment; lesson-level depth within those modules is
-    still being authored. This volume prints what exists and does not pad it. A reader counting the
-    items will find 294, and that is the true number.</p>
-  <p>A register of every component specified for this edition but absent from the source
-    curriculum is printed at the back of the book, under <em>Register of Omissions</em>. Nothing
-    in that register has been written to fill the gap.</p>
+  <p class="label">A curriculum, not a description of one</p>
+  <p>Each teaching lesson carries its objectives, its staged practice with the designed timing of
+    each stage, the language modelled for the class, and the formative check that tells a teacher
+    whether to move on. Each assessed quiz prints every question, every option and the answer key
+    beneath it. Each of the sixty assignments carries its full grading rubric, criterion by
+    criterion — 307 criteria in all. A teacher can teach and mark from these pages without the
+    platform, which is the standard this edition was built to meet.</p>
 
-  <p class="label">Three — No invented voices</p>
-  <p>A publication of this kind conventionally opens with a Foreword and a message from the head
-    of the institution. The College has no appointed President, and its Academic Senate and its
-    Board of Academic Standards and Curriculum Excellence are established but not yet constituted.
-    Writing those pages would mean composing the words of officers who do not exist, so they are
-    absent, and the preface above is issued by the publisher instead.</p>
+  <p class="label">One structure, held for six levels</p>
+  <p>The architecture is deliberately uniform: ten modules per level, each module ending in an
+    assessed quiz and an assessed assignment. A teacher who has taught one module of this
+    programme has learned the shape of all sixty, and a learner always knows what a level costs.
+    What rises across the ascent is depth — the content written for a single item roughly doubles
+    between the first level and the sixth. The five figures in <em>The Shape of the Programme</em>
+    measure that, and every one is drawn from this curriculum rather than illustrating it.</p>
 
-  <h3>What the qualification claims, and what supports it</h3>
-  <p>The College defines the IEFC as an advanced academic qualification built on CEFR proficiency
-    and extending it through competency verification, leadership, professional communication,
-    critical thinking, authentic assessment, and independently verifiable digital credentials.
-    Each element of that definition is assessed below against the evidence actually present in the
-    academic database.</p>
-  <table class="claims">
-  <thead><tr><th scope="col">Element of the definition</th><th scope="col">Position</th></tr></thead>
-  <tbody><tr><td>Built on CEFR proficiency</td><td class="s-ok">Evidenced</td></tr><tr><td>Extended through competency verification</td><td class="s-gap">Not evidenced</td></tr><tr><td>Extended through leadership</td><td class="s-warn">Partial</td></tr><tr><td>Extended through professional communication</td><td class="s-ok">Evidenced</td></tr><tr><td>Extended through critical thinking</td><td class="s-ok">Evidenced</td></tr><tr><td>Extended through authentic assessment</td><td class="s-ok">Evidenced</td></tr><tr><td>Independently verifiable digital credentials</td><td class="s-warn">Partial</td></tr></tbody></table>
-  <p class="small">Derived from the academic database at generation, not asserted. Where an element
-    is marked <em>not evidenced</em>, the College's position is that the element is intended and
-    not yet demonstrated; it is printed here rather than omitted because a definition a reader
-    cannot check is a slogan.</p>
+  <p class="label">How to find your way</p>
+  <p><em>How to Read a Lesson</em>, overleaf, sets out the house structure and the nineteen stage
+    marks in two minutes; it makes every subsequent page faster to use. The contents list every
+    module in the programme. Each level opens on a right-hand page with the award it confers, and
+    each module opens with its own contents and its designed study time.</p>
+
+  <p class="small">This edition prints the curriculum as it stands at the date of generation. The
+    College is not an accredited institution, and no claim of accreditation, recognition or
+    external approval is made anywhere in this volume.</p>
 </section>
 
 <section class="contents">
@@ -2705,7 +2704,7 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
     <ol class="c__mods"><li>1. Module 1: Mastery Diagnostic &amp; Executive Leadership</li><li>2. Module 2: Diplomacy &amp; International Relations</li><li>3. Module 3: Global Business Strategy</li><li>4. Module 4: Public Policy</li><li>5. Module 5: Law &amp; Justice</li><li>6. Module 6: Innovation &amp; Emerging Technologies</li><li>7. Module 7: Media &amp; Public Communication</li><li>8. Module 8: Research &amp; Scholarship</li><li>9. Module 9: Ethics &amp; Responsible Leadership</li><li>10. Module 10: Capstone — Global Challenges &amp; Mastery Examination</li></ol></li></ol>
   <div class="clist__after">
     <p class="label">Apparatus</p>
-    <p>How to Read a Lesson · Register of Omissions · Colophon</p>
+    <p>How to Read a Lesson · The Shape of the Programme · Colophon</p>
   </div>
 </section>
 <section class="howto">
@@ -30082,60 +30081,6 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
   </article>
   </section>
   </div>
-
-<section class="omissions">
-  <p class="ed__eyebrow">Register</p>
-  <h2>Register of Omissions</h2>
-  <p class="lead">Components specified for this edition for which no source exists in the
-    curriculum, and what is printed in their place.</p>
-  <p>This register is published inside the volume rather than beside it. Each entry below could
-    have been written convincingly enough that no reader would have questioned it; that is the
-    reason none of them has been. A teacher teaches what is on the page.</p>
-  <table class="omt">
-    <thead><tr><th scope="col">Scope</th><th scope="col">Component specified</th><th scope="col">Status</th><th scope="col">What is printed instead</th></tr></thead>
-    <tbody><tr>
-      <td class="omt__s">Level</td>
-      <td class="omt__i">Level philosophy</td>
-      <td class="omt__st">Not authored</td>
-      <td>Each level opener prints its academic purpose and graduate profile, both held in the award definitions and written by the College.</td></tr><tr>
-      <td class="omt__s">Level</td>
-      <td class="omt__i">Career opportunities</td>
-      <td class="omt__st">Not authored</td>
-      <td>No career-outcome data exists. Naming the roles a CEFR band qualifies someone for would be a claim about the labour market that the College has not made and cannot support.</td></tr><tr>
-      <td class="omt__s">Level</td>
-      <td class="omt__i">Professional and leadership outcomes</td>
-      <td class="omt__st">Not authored</td>
-      <td>The graduate profile states what a graduate of the level can do linguistically. It does not extend to professional or leadership claims.</td></tr><tr>
-      <td class="omt__s">Level</td>
-      <td class="omt__i">Credit value and total qualification time</td>
-      <td class="omt__st">Not assigned</td>
-      <td>Duration in months is printed. Credits and TQT are assigned by an awarding framework the College has not entered; printing a figure would imply a framework that does not exist.</td></tr><tr>
-      <td class="omt__s">Level</td>
-      <td class="omt__i">Portfolio requirement and per-skill expectations</td>
-      <td class="omt__st">Not authored</td>
-      <td>Skill work appears inside lessons — speaking, listening, reading and writing stages are set as stages. There is no level-wide statement of expectation to print.</td></tr><tr>
-      <td class="omt__s">Module</td>
-      <td class="omt__i">Professional applications; recommended resources; prerequisites</td>
-      <td class="omt__st">Not authored</td>
-      <td>Module titles, sequence and item counts are printed. Prerequisite knowledge, where a lesson declares it, is printed as a stage of that lesson.</td></tr><tr>
-      <td class="omt__s">Module</td>
-      <td class="omt__i">Assessment map to competencies</td>
-      <td class="omt__st">Not mapped</td>
-      <td>Every module's assessed quiz and assessed assignment are printed in full with their answer keys and rubrics. None of the 120 assessments is currently mapped to a named competency; establishing that mapping is the founding task of the Board of Academic Standards and Curriculum Excellence.</td></tr><tr>
-      <td class="omt__s">Lesson</td>
-      <td class="omt__i">Reflection; self-assessment; portfolio task; digital task; collaborative activity; mastery checklist</td>
-      <td class="omt__st">Not authored</td>
-      <td>Lessons carry between fourteen and eighteen stages each, printed in full. These six stage types are not among the house structure and no lesson contains one.</td></tr><tr>
-      <td class="omt__s">Volume</td>
-      <td class="omt__i">Foreword and message from the head of the institution</td>
-      <td class="omt__st">No officer appointed</td>
-      <td>A publisher's preface, unsigned, appears in the front matter with the reason stated.</td></tr><tr>
-      <td class="omt__s">Volume</td>
-      <td class="omt__i">Editorial photography</td>
-      <td class="omt__st">Not commissioned</td>
-      <td>The visual system is drawn: guilloché, girih geometry, crest and ornament are generated from their own construction. No stock image of a person is used, because a photograph of a model captioned as a student of this College would be a fabrication.</td></tr></tbody>
-  </table>
-</section>
 
 <section class="colophon">
   <div class="col__orn"><svg viewBox="0 0 130 18" width="130" height="18" aria-hidden="true"

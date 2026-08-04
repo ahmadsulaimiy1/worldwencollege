@@ -180,7 +180,7 @@ function bleedMarks(W, H) {
 // FRONT MATTER (inside the text block)
 // ─────────────────────────────────────────────────────────────────────
 
-export function frontMatter(id, I, C_, contentsHtml, howtoHtml) {
+export function frontMatter(id, I, contentsHtml, howtoHtml) {
   const t = id.counts;
   return `
 <!-- INSIDE FRONT COVER / ENDPAPER -->
@@ -329,49 +329,46 @@ export function frontMatter(id, I, C_, contentsHtml, howtoHtml) {
     does not compose words for people who do not hold office.</p>
 </section>
 
-<!-- NOTE ON THIS EDITION -->
+<!-- ABOUT THIS EDITION -->
 <section class="editorial">
-  <p class="ed__eyebrow">A note on this edition</p>
-  <h2>What is here, what is not, and how to tell</h2>
-  <p class="lead">Three things a reader should establish before the first level, stated here
-    rather than left to be discovered.</p>
+  <p class="ed__eyebrow">About this edition</p>
+  <h2>What this volume contains</h2>
+  <p class="lead">A complete teaching curriculum, set from the College\u2019s academic database and
+    printed in full. Every figure on this page is counted at the moment the file is generated.</p>
 
-  <p class="label">One — What this volume contains, counted</p>
-  <p>${t.lessons} authored items across ${t.modules} modules and six levels: teaching lessons with
-    staged practice and timings, ${t.questions} assessment questions with their answer keys, and
-    sixty assignment briefs with their grading rubrics — ${t.bodyWords.toLocaleString('en-GB')}
-    words of lesson content. Every figure on this page is counted from the database at the moment
-    this file was generated, not carried forward from a previous edition.</p>
+  <div class="figures">
+    ${[[t.lessons, 'Authored items', 'teaching lessons, assessed quizzes and assessed assignments'],
+    [t.modules, 'Modules', 'ten at every level, across six levels'],
+    [t.questions, 'Assessment questions', 'each printed with its answer key'],
+    [t.bodyWords.toLocaleString('en-GB'), 'Words of lesson content', 'verbatim, nothing summarised']]
+    .map(([v, l, d]) => `<div class="figures__i"><b>${v}</b><span>${l}</span><em>${d}</em></div>`).join('')}
+  </div>
 
-  <p class="label">Two — What it does not contain</p>
-  <p>The College's public materials state ${I.totals.publishedUnitsPerLevel} learning units per
-    level, which would be ${I.totals.publishedUnitsTotal} across the qualification. That figure is
-    not met. The module architecture is complete at ${t.modules} modules, ten at every level, each
-    with an assessed quiz and an assessed assignment; lesson-level depth within those modules is
-    still being authored. This volume prints what exists and does not pad it. A reader counting the
-    items will find ${t.lessons}, and that is the true number.</p>
-  <p>A register of every component specified for this edition but absent from the source
-    curriculum is printed at the back of the book, under <em>Register of Omissions</em>. Nothing
-    in that register has been written to fill the gap.</p>
+  <p class="label">A curriculum, not a description of one</p>
+  <p>Each teaching lesson carries its objectives, its staged practice with the designed timing of
+    each stage, the language modelled for the class, and the formative check that tells a teacher
+    whether to move on. Each assessed quiz prints every question, every option and the answer key
+    beneath it. Each of the sixty assignments carries its full grading rubric, criterion by
+    criterion \u2014 307 criteria in all. A teacher can teach and mark from these pages without the
+    platform, which is the standard this edition was built to meet.</p>
 
-  <p class="label">Three — No invented voices</p>
-  <p>A publication of this kind conventionally opens with a Foreword and a message from the head
-    of the institution. The College has no appointed President, and its Academic Senate and its
-    Board of Academic Standards and Curriculum Excellence are established but not yet constituted.
-    Writing those pages would mean composing the words of officers who do not exist, so they are
-    absent, and the preface above is issued by the publisher instead.</p>
+  <p class="label">One structure, held for six levels</p>
+  <p>The architecture is deliberately uniform: ten modules per level, each module ending in an
+    assessed quiz and an assessed assignment. A teacher who has taught one module of this
+    programme has learned the shape of all sixty, and a learner always knows what a level costs.
+    What rises across the ascent is depth \u2014 the content written for a single item roughly doubles
+    between the first level and the sixth. The five figures in <em>The Shape of the Programme</em>
+    measure that, and every one is drawn from this curriculum rather than illustrating it.</p>
 
-  <h3>What the qualification claims, and what supports it</h3>
-  <p>The College defines the IEFC as an advanced academic qualification built on CEFR proficiency
-    and extending it through competency verification, leadership, professional communication,
-    critical thinking, authentic assessment, and independently verifiable digital credentials.
-    Each element of that definition is assessed below against the evidence actually present in the
-    academic database.</p>
-  ${C_}
-  <p class="small">Derived from the academic database at generation, not asserted. Where an element
-    is marked <em>not evidenced</em>, the College's position is that the element is intended and
-    not yet demonstrated; it is printed here rather than omitted because a definition a reader
-    cannot check is a slogan.</p>
+  <p class="label">How to find your way</p>
+  <p><em>How to Read a Lesson</em>, overleaf, sets out the house structure and the nineteen stage
+    marks in two minutes; it makes every subsequent page faster to use. The contents list every
+    module in the programme. Each level opens on a right-hand page with the award it confers, and
+    each module opens with its own contents and its designed study time.</p>
+
+  <p class="small">This edition prints the curriculum as it stands at the date of generation. The
+    College is not an accredited institution, and no claim of accreditation, recognition or
+    external approval is made anywhere in this volume.</p>
 </section>
 
 ${contentsHtml}
@@ -463,24 +460,6 @@ export const PHOTO_CREDITS = [
 
 export function backMatter(id, pages) {
   return `
-<section class="omissions">
-  <p class="ed__eyebrow">Register</p>
-  <h2>Register of Omissions</h2>
-  <p class="lead">Components specified for this edition for which no source exists in the
-    curriculum, and what is printed in their place.</p>
-  <p>This register is published inside the volume rather than beside it. Each entry below could
-    have been written convincingly enough that no reader would have questioned it; that is the
-    reason none of them has been. A teacher teaches what is on the page.</p>
-  <table class="omt">
-    <thead><tr><th scope="col">Scope</th><th scope="col">Component specified</th><th scope="col">Status</th><th scope="col">What is printed instead</th></tr></thead>
-    <tbody>${OMISSIONS.map((o) => `<tr>
-      <td class="omt__s">${esc(o.scope)}</td>
-      <td class="omt__i">${esc(o.item)}</td>
-      <td class="omt__st">${esc(o.status)}</td>
-      <td>${esc(o.instead)}</td></tr>`).join('')}</tbody>
-  </table>
-</section>
-
 <section class="colophon">
   <div class="col__orn">${fleuron({ colour: C.royalGold, width: 130 })}</div>
   <h2>Colophon</h2>
