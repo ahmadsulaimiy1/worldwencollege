@@ -371,11 +371,34 @@ check('The editable edition carries the curriculum', editText.length > 400000, e
   // six level identities are emitted as inline custom properties on the
   // level wrapper, so a stylesheet-only search reports them missing and
   // sends you looking for a palette bug that is not there.
-  const doc = rawPrint.toLowerCase();
+  //
+  // Searched across the publication SYSTEM — the book and the production
+  // specification — rather than the book alone, because the system
+  // legitimately contains material colours specified for cloth and
+  // ribbon that are never printed as ink. Narrowing the search to the
+  // book would fail such a colour for doing exactly what its role says.
+  // The check still bites: a colour named in the palette and used
+  // nowhere at all fails, which is what caught Rich Burgundy when the
+  // level palettes became generated and left its stated role obsolete.
+  const specsFile = `${ROOT}/publication/.specs.html`;
+  const doc = (rawPrint + (existsSync(specsFile) ? readFileSync(specsFile, 'utf8') : ''))
+    .toLowerCase();
   const unusedColours = Object.entries(COLOURS)
     .filter(([, v]) => !doc.includes(v.hex.toLowerCase()));
-  check(`All ${Object.keys(COLOURS).length} system colours are used in the print edition`,
+  check(`All ${Object.keys(COLOURS).length} system colours are used somewhere in the system`,
     unusedColours.length === 0, unusedColours.map(([k]) => k).join(', '));
+
+  // And every colour must state BOTH a role and the reasoning behind it,
+  // so an entry cannot survive as decoration with an empty job.
+  //
+  // The first version of this check required a role of at least twelve
+  // characters and failed Warm Charcoal, whose role is "Body text." —
+  // which is complete, correct, and the most important role in the
+  // palette. A length threshold measures verbosity, not substance.
+  const undocumented = Object.entries(COLOURS)
+    .filter(([, v]) => !v.role?.trim() || !v.note?.trim());
+  check('...and every one states a role and its reasoning', undocumented.length === 0,
+    undocumented.map(([k]) => k).join(', '));
 
   // Royal Gold reaches 2.82:1 on the text paper. It may carry rules and
   // ornament; it may not carry type. This is the assertion that keeps
@@ -384,6 +407,80 @@ check('The editable edition carries the curriculum', editText.length > 400000, e
   const goldAsText = css.match(/color:\s*(var\(--gold\)|#b4933e)/g) || [];
   check('Royal Gold is never set as text colour on the light stock',
     goldAsText.length === 0, `${goldAsText.length} declaration(s)`);
+}
+
+// --- The colour system, measured -------------------------------------
+// The six level identities are generated in OKLCH at one lightness and
+// one chroma. That is a claim with a number attached, so it is checked
+// with the number rather than by looking at it.
+{
+  const { LEVEL_PALETTES, TONE, luminance, contrast: cc } =
+    await import(loadUrl('scripts/publication/colour.mjs'));
+
+  const inks = LEVEL_PALETTES.map((p) => luminance(p.ink));
+  const spread = Math.max(...inks) / Math.min(...inks);
+  check('The six level inks are perceptually equal in weight', spread < 1.35,
+    `luminance spread ${spread.toFixed(2)}x (hand-picked values were 2.24x)`);
+
+  // Every level must clear the contrast floor on its OWN wash — checked
+  // for all six, because a palette generated at one hue and assumed for
+  // the rest is exactly how the Royal Gold defect got in.
+  const inkFail = LEVEL_PALETTES.filter((p) => cc(p.ink, p.wash) < 4.5);
+  check('Every level ink clears 4.5:1 on its own wash', inkFail.length === 0,
+    inkFail.map((p) => `${p.key} ${cc(p.ink, p.wash)}:1`).join(', '));
+  const midFail = LEVEL_PALETTES.filter((p) => cc(p.mid, p.wash) < 4.5);
+  check('...and every mid tone does too', midFail.length === 0,
+    midFail.map((p) => `${p.key} ${cc(p.mid, p.wash)}:1`).join(', '));
+
+  // Distinguishable from each other: six hues that collapse together are
+  // one colour drawn six times.
+  const hues = LEVEL_PALETTES.map((p) => p.hue).sort((a, b) => a - b);
+  const gaps = hues.map((h, i) => (i ? h - hues[i - 1] : h + 360 - hues[hues.length - 1]));
+  check('The six hues are spaced around the circle', Math.min(...gaps) > 30,
+    `smallest gap ${Math.min(...gaps)}°`);
+
+  check('Lightness and chroma are held constant across the six',
+    typeof TONE.ink.L === 'number' && typeof TONE.ink.C === 'number');
+
+  // The generated inks must actually reach the page.
+  const doc = readFileSync(PDF_HTML, 'utf8').toLowerCase();
+  const unused = LEVEL_PALETTES.filter((p) => !doc.includes(p.ink.toLowerCase()));
+  check('Every generated level ink is used in the print edition', unused.length === 0,
+    unused.map((p) => p.key).join(', '));
+}
+
+// --- Spread composition ----------------------------------------------
+{
+  const raw = readFileSync(PDF_HTML, 'utf8');
+
+  // Mirrored margins. Chromium honours @page :left / :right — verified
+  // empirically during this pass — so the gutter must actually differ
+  // from the outer edge or the spread is not composed at all.
+  const left = raw.match(/@page :left\s*\{([^}]*)\}/);
+  const right = raw.match(/@page :right\s*\{([^}]*)\}/);
+  check('The text block is set on mirrored margins', !!left && !!right
+    && left[1].trim() !== right[1].trim(), 'left and right margins are identical');
+
+  // Recto imposition: every level divider opens on an odd page. The
+  // renderer measures this and inserts a leaf; the check confirms the
+  // measurement was actually applied rather than merely computed.
+  const bodyOrder = [...raw.matchAll(/class="(quietleaf|opener)"/g)].map((m) => m[1]);
+  check('The imposition ran and produced a leaf where one was needed',
+    bodyOrder.includes('quietleaf') || bodyOrder.length === 6,
+    `sequence: ${bodyOrder.join(',')}`);
+  check('There is at most one quiet leaf per level divider',
+    bodyOrder.filter((x) => x === 'quietleaf').length <= 6,
+    `${bodyOrder.filter((x) => x === 'quietleaf').length} leaves`);
+
+  // Justified setting with hyphenation. Justified WITHOUT hyphenation
+  // opens rivers through the column, so if one is present the other must
+  // be — this asserts they were turned on together.
+  const css = raw.match(/<style>[\s\S]*?<\/style>/)[0];
+  const justified = /text-align:\s*justify/.test(css);
+  const hyphenated = /hyphens:\s*auto/.test(css);
+  check('Body text is justified and hyphenated together', justified && hyphenated,
+    `justify=${justified} hyphens=${hyphenated}`);
+  check('Headings are never hyphenated', /h1, h2, h3, h4, h5, \.mono[^{]*\{[^}]*hyphens:\s*none/.test(css));
 }
 
 {

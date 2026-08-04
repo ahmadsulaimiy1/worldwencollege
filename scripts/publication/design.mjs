@@ -27,6 +27,8 @@
  * the best reference editions actually do.
  */
 
+import { LEVEL_PALETTES as OKLCH_PALETTES } from './colour.mjs';
+
 /**
  * ────────────────────────────────────────────────────────────────────
  * THE INSTITUTIONAL COLOUR SYSTEM
@@ -78,8 +80,15 @@ export const COLOURS = {
     note: 'Deeper than the primary so gold reads as foil against it.' },
   imperialBlue: { hex: '#16306B', role: 'Secondary display, running heads, tinted panels.',
     note: 'Bridges midnight and royal so the blues read as one family.' },
-  richBurgundy: { hex: '#5E1A26', role: 'Level V identity; the deep register of the accent.',
-    note: 'Crimson taken to book-cloth weight.' },
+  // Its stated role was "Level V identity" until the level palettes
+  // became generated in OKLCH, at which point Level V acquired a
+  // computed ink and this colour had no job. Rather than leave a
+  // specification describing a use that no longer exists — or invent a
+  // decorative one to justify keeping it — it is re-roled to the place
+  // it genuinely belongs: a material colour in the finishing
+  // specification, where it is specified for cloth and ribbon.
+  richBurgundy: { hex: '#5E1A26', role: 'Material colour: case cloth, second ribbon, head bands.',
+    note: 'Crimson taken to book-cloth weight. Specified for finishing, not for ink on the page.' },
 
   ivory: { hex: '#FBF8F0', role: 'Title-page and divider paper.',
     note: 'Warm white. Reads as stock, not as an unprinted screen.' },
@@ -103,25 +112,22 @@ export const COLOURS = {
 /** Flat lookup, for CSS custom-property emission. */
 export const C = Object.fromEntries(Object.entries(COLOURS).map(([k, v]) => [k, v.hex]));
 
-export const LEVEL_PALETTES = [
-  // I — Foundation. The deepest, because beginning is the hardest step.
-  { key: 'I', ink: '#14264A', mid: '#4A6FA5', wash: '#EEF2F9', edge: '#2E4C7E', name: 'Foundation' },
-  // II — Elementary.
-  { key: 'II', ink: '#123A46', mid: '#3E7F8C', wash: '#EAF4F5', edge: '#245C68', name: 'Elementary' },
-  // III — Intermediate. The turn toward membership.
-  { key: 'III', ink: '#14402F', mid: '#3F8163', wash: '#EAF4EF', edge: '#256349', name: 'Intermediate' },
-  // IV — Upper Intermediate. Representation; the warm turn.
-  { key: 'IV', ink: '#4A3410', mid: '#9A7A38', wash: '#F8F2E4', edge: '#75561F', name: 'Upper Intermediate' },
-  // V — Advanced. Oratory.
-  // Ink is Rich Burgundy from the system palette, where the colour
-  // specification says it is. It previously carried a near-neighbour
-  // that no palette entry named — so the specification described a
-  // colour the book did not use, which is the quiet way a style guide
-  // stops being true.
-  { key: 'V', ink: '#5E1A26', mid: '#9C4A55', wash: '#F9EDEE', edge: '#75323B', name: 'Advanced' },
-  // VI — Mastery. The crown: deepest violet-ink, closest to black.
-  { key: 'VI', ink: '#2E1B45', mid: '#6B4E92', wash: '#F2EEF8', edge: '#4A3170', name: 'Mastery' },
-];
+/**
+ * The six level identities, generated in OKLCH at fixed lightness and
+ * chroma so that only hue varies.
+ *
+ * These were hand-picked hexes until this pass. They looked like a
+ * family because they had been chosen to, and measurement said they
+ * were not one: the ink luminances spanned a 2.24× range, so the greens
+ * and golds read visibly lighter than the blues and violets and the
+ * ascent sagged in the middle when the six dividers were seen in
+ * sequence. Generated at one lightness the spread is 1.23×, which is
+ * about as close to perceptually equal as sRGB allows once each hue has
+ * been gamut-mapped.
+ *
+ * See colour.mjs for the space, the gamut mapping and the hue rotation.
+ */
+export const LEVEL_PALETTES = OKLCH_PALETTES;
 
 export const BRAND = {
   ink: C.royalBlue,
@@ -199,8 +205,13 @@ export function ascentOrnament(currentRoman, palette) {
   const bars = LEVEL_PALETTES.map((p, i) => {
     const h = 8 + i * 9;
     const on = i <= idx;
+    // The ghosted bars take the LEVEL's own wash, not a fixed grey. A
+    // cool grey against the warm levels read as a foreign object on the
+    // page — the one element of the divider that did not belong to it.
     return `<rect x="${i * 22}" y="${64 - h}" width="12" height="${h}" rx="1.5"
-      fill="${on ? palette.mid : '#E6E9F0'}" ${i === idx ? `stroke="${palette.ink}" stroke-width="1.5"` : ''}/>`;
+      fill="${on ? palette.mid : palette.wash}"
+      ${on ? '' : `stroke="${palette.mid}" stroke-width="0.6" stroke-opacity="0.35"`}
+      ${i === idx ? `stroke="${palette.ink}" stroke-width="1.5"` : ''}/>`;
   }).join('');
   return `<svg viewBox="0 0 122 66" width="122" height="66" role="img"
     aria-label="Level ${currentRoman} of six in the IEFC ascent">${bars}</svg>`;

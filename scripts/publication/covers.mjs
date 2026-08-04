@@ -185,8 +185,8 @@ export function frontMatter(id, I, C_, contentsHtml, howtoHtml) {
   return `
 <!-- INSIDE FRONT COVER / ENDPAPER -->
 <section class="endpaper endpaper--front">
-  <div class="endpaper__field">${girihField({ w: 420, h: 594, cell: 62, stroke: C.royalBlue, opacity: 0.07 })}</div>
-  <div class="endpaper__mark">${fleuron({ colour: C.royalGold, width: 140 })}</div>
+  <div class="endpaper__field">${girihField({ w: 420, h: 594, cell: 58, stroke: C.royalGold, opacity: 0.3 })}</div>
+  <div class="endpaper__mark">${fleuron({ colour: C.champagneGold, width: 140 })}</div>
 </section>
 
 <!-- HALF TITLE -->
@@ -486,8 +486,8 @@ export function backMatter(id, pages) {
 </section>
 
 <section class="endpaper endpaper--back">
-  <div class="endpaper__field">${girihField({ w: 420, h: 594, cell: 62, stroke: C.royalBlue, opacity: 0.07 })}</div>
-  <div class="endpaper__mark">${crest({ size: 70, gold: C.royalGold, ink: C.midnightNavy })}</div>
+  <div class="endpaper__field">${girihField({ w: 420, h: 594, cell: 58, stroke: C.royalGold, opacity: 0.3 })}</div>
+  <div class="endpaper__mark">${crest({ size: 70, gold: C.champagneGold, ink: 'none', mono: true })}</div>
 </section>`;
 }
 

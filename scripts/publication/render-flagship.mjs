@@ -249,6 +249,29 @@ function renderModule(mod, lv) {
   </section>`;
 }
 
+/**
+ * The quiet leaf that precedes a level divider when the divider would
+ * otherwise fall on a verso.
+ *
+ * A chapter opening belongs on a RECTO — the right-hand page, the one
+ * the eye meets when the spread is turned. A divider on a verso is seen
+ * simultaneously with the end of the previous chapter and loses its
+ * occasion entirely.
+ *
+ * Fine books solve this with a blank. A blank in a working teacher's
+ * manual reads as a printing fault, so this leaf is not blank: it is a
+ * half-title verso carrying the level's numeral as a large blind mark
+ * and nothing else. It does the structural job of the blank and looks
+ * like a decision.
+ */
+function rectoLeaf(lv) {
+  const p = paletteFor(lv.roman);
+  return `<section class="quietleaf" style="--ink:${p.ink};--mid:${p.mid};--wash:${p.wash}">
+    <span class="quietleaf__n">${lv.roman}</span>
+    <span class="quietleaf__o">${fleuron({ colour: p.mid, width: 90 })}</span>
+  </section>`;
+}
+
 function renderLevel(lv) {
   const p = paletteFor(lv.roman);
   const modules = lv.modules.map((m) => renderModule(m, lv)).join('');
@@ -443,7 +466,19 @@ const BACK = backMatter(ID);
 
 // ---- The stylesheet --------------------------------------------------
 const CSS = `
-@page { size: A4; margin: 20mm 20mm 18mm; }
+/* MIRRORED MARGINS.
+   A book is read in spreads, and a spread has a gutter down the middle
+   where the binding swallows paper. Symmetric margins put the text
+   block off-centre on every spread and crowd the fold; mirrored margins
+   put the wider measure at the binding, so the two text blocks sit
+   symmetrically about the fold as one composition.
+
+   Chromium honours @page :left / :right here — verified empirically
+   rather than assumed, because CSS.supports() claims support for
+   break-before:recto in this same engine and that one does nothing. */
+@page { size: A4; margin: 17mm 16mm 15mm 26mm; }
+@page :left  { margin: 17mm 26mm 15mm 16mm; }  /* verso: gutter on the right */
+@page :right { margin: 17mm 16mm 15mm 26mm; }  /* recto: gutter on the left  */
 @page :first { margin: 0; }
 :root { --ink:${BRAND.ink}; --mid:${BRAND.gold}; --wash:#F4F6FA; --edge:${BRAND.ink};
   --gold:${BRAND.gold}; --soft:${BRAND.soft}; --rule:${BRAND.rule};
@@ -455,6 +490,30 @@ const CSS = `
 body { margin:0; color:var(--body); background:${PAL.pearlWhite};
   font-family: var(--serif); font-size:9.6pt; line-height:1.58;
   -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+/* THE SETTING.
+   Justified with hyphenation, which is the setting a book of continuous
+   prose wants: an even right edge is what makes a spread read as two
+   panels of one composition rather than as two ragged shapes. Justified
+   WITHOUT hyphenation is the worst of both — it opens rivers of white
+   through the column — so the two are turned on together or not at all.
+
+   text-wrap:pretty is Chromium's line-breaking pass that trades a
+   little speed for fewer short last lines and better rag; it is applied
+   to headings and short blocks, where a single-word last line is most
+   visible. Verified supported in this engine.
+
+   hanging-punctuation is NOT supported here. True optical margin
+   alignment — quotes and hyphens hung into the margin — is therefore
+   not achieved in this edition, and the typography specification says
+   so rather than implying it was done. */
+.stage__b p, .lvintro p, .preface p, .editorial p, .fig__n, .back__b {
+  text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+h1, h2, h3, h4, h5, .lead, .fig__c, .lesson__h h4, .moduleopen__ti h3,
+.opener__t, .opener__award, .ded__t, .half__t {
+  text-wrap: pretty; }
+/* Never hyphenate a heading, a proper name in a title, or a code. */
+h1, h2, h3, h4, h5, .mono, .lesson__ref, .lesson__k { hyphens: none; }
 .sans { font-family: var(--sans); }
 p { margin:0 0 5.5pt; orphans:3; widows:3; }
 h2,h3,h4,h5 { color:var(--ink); break-after:avoid; }
@@ -471,7 +530,11 @@ h2,h3,h4,h5 { color:var(--ink); break-after:avoid; }
 .endpaper, .half, .frontis, .titlepage, .dedication { height:297mm; break-after:page;
   position:relative; display:flex; flex-direction:column; align-items:center;
   justify-content:center; text-align:center; overflow:hidden; }
-.endpaper { background:var(--ivory); }
+/* The endpaper is the first and last thing seen, and a plain white one
+   behind a foiled cover is the clearest sign a budget ran out at the
+   end. Solid Midnight Navy with the girih field in gold — the cover's
+   own material, carried inside. */
+.endpaper { background:var(--navy); }
 .endpaper__field { position:absolute; inset:0; }
 .endpaper__mark { position:relative; }
 
@@ -724,6 +787,13 @@ ol.q__c li.is-key::before { color:var(--mid); }
 .answerkey__g span { color:var(--ink); }
 .answerkey__g b { color:var(--soft); font-weight:400; margin-right:2.5pt; font-size:7.4pt; }
 
+/* ---------- The quiet leaf ---------- */
+.quietleaf { break-before:page; height:250mm; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:14pt; }
+.quietleaf__n { font-family:var(--serif); font-size:62pt; font-weight:700; color:var(--wash);
+  line-height:1; letter-spacing:.04em; }
+.quietleaf__o { opacity:.5; }
+
 /* ---------- The icon language ---------- */
 /* Icons inherit currentColor, so a stage mark is always exactly the
    colour of the level it sits in and no per-level asset exists. */
@@ -919,22 +989,82 @@ body { margin:0; -webkit-print-color-adjust:exact; print-color-adjust:exact;
 .spine__crest { position:relative; margin-bottom:1mm; }
 `;
 
-const html = `<!doctype html><html lang="en"><head><meta charset="utf-8">
+const HEAD = `<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
 <title>The International English Fluency Certificate — The Complete Curriculum</title>
 <meta name="author" content="Worldwide English College">
 <meta name="subject" content="English language curriculum; complete teaching programme">
 <meta name="keywords" content="IEFC, Worldwide English College, CEFR, English curriculum, lesson plans">
-<style>${CSS}</style></head><body>
-${FRONT}
-${C.levels.map(renderLevel).join('\n')}
-${BACK}
-</body></html>`;
+<style>${CSS}</style></head><body>`;
+
+const SECTIONS = [FRONT, ...C.levels.map(renderLevel), BACK];
+const document_ = (parts) => `${HEAD}\n${parts.join('\n')}\n</body></html>`;
 
 mkdirSync(path.join(ROOT, 'publication'), { recursive: true });
-writeFileSync(path.join(ROOT, 'publication', '.flagship.html'), html);
 
 const exe = process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const browser = await chromium.launch(existsSync(exe) ? { executablePath: exe } : {});
+
+/**
+ * Count the pages a fragment occupies when set with the book's own CSS.
+ *
+ * Valid as a measure of its position in the whole book only because
+ * every section begins with `break-before: page` and nothing flows
+ * across a section boundary — so a section occupies the same number of
+ * pages alone as it does in place.
+ */
+async function pagesOf(parts) {
+  const pg = await browser.newPage();
+  await pg.setContent(document_(parts), { waitUntil: 'load' });
+  const buf = await pg.pdf({ format: 'A4', printBackground: true, preferCSSPageSize: true });
+  await pg.close();
+  return (buf.toString('latin1').match(/\/Type\s*\/Page(?![s])/g) || []).length;
+}
+
+/**
+ * ────────────────────────────────────────────────────────────────────
+ * RECTO IMPOSITION
+ * ────────────────────────────────────────────────────────────────────
+ * A level divider belongs on a recto. Chromium's `break-before: recto`
+ * reports as supported by CSS.supports() and does nothing — verified,
+ * not assumed — so the imposition is done here instead: measure where
+ * each level actually starts, and where it would fall on a verso,
+ * insert the quiet leaf that pushes it across the fold.
+ *
+ * ONLY the six level dividers are imposed. The sixty module openers are
+ * deliberately NOT, and that is an editorial decision rather than an
+ * omission: forcing sixty openers to recto would insert roughly thirty
+ * near-empty leaves into a working teacher's manual to buy an effect
+ * the reader of a reference book does not get to enjoy. Six leaves at
+ * most is a rounding error; thirty is padding, and padding a book to
+ * look luxurious is the opposite of designing it.
+ */
+const measured = [];
+for (const sec of SECTIONS) measured.push(await pagesOf([sec]));
+
+const parts = [];
+let cursor = 0;      // pages placed so far
+let inserted = 0;
+const impositionLog = [];
+SECTIONS.forEach((sec, i) => {
+  const isLevel = i >= 1 && i <= C.levels.length;
+  if (isLevel) {
+    const startsOn = cursor + 1;            // 1-based; odd = recto
+    if (startsOn % 2 === 0) {
+      parts.push(rectoLeaf(C.levels[i - 1]));
+      cursor += 1;
+      inserted += 1;
+      impositionLog.push(`${C.levels[i - 1].roman} would open on p${startsOn} (verso) — leaf inserted`);
+    } else {
+      impositionLog.push(`${C.levels[i - 1].roman} opens on p${startsOn} (recto)`);
+    }
+  }
+  parts.push(sec);
+  cursor += measured[i];
+});
+
+const html = document_(parts);
+writeFileSync(path.join(ROOT, 'publication', '.flagship.html'), html);
+
 const page = await browser.newPage();
 await page.setContent(html, { waitUntil: 'load' });
 const out = path.join(ROOT, 'publication', 'IEFC Complete Curriculum.pdf');
@@ -988,6 +1118,8 @@ console.log(`FLAGSHIP  ${out}`);
 console.log(`  ${C.totals.lessons} items · ${C.totals.modules} modules · ${C.totals.questions} questions · `
   + `${C.totals.bodyWords.toLocaleString('en-GB')} words of lesson content`);
 console.log(`  ${pages} pages · Document ID ${ID.documentId} · issue ${ID.issueCode}`);
+console.log(`  imposition: ${inserted} recto leaf/leaves inserted`);
+for (const line of impositionLog) console.log(`    ${line}`);
 console.log(`COVER     ${coverOut}`);
 console.log(`  spread ${TRIM.w * 2 + spine + BLEED * 2} × ${TRIM.h + BLEED * 2} mm · `
   + `spine ${spine} mm at ${pages} pages · ${BLEED} mm bleed`);

@@ -26,8 +26,21 @@ import { LEVEL_PALETTES, C as PAL, TYPE } from './design.mjs';
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const n = (v) => Math.round(v * 100) / 100;
 
-const FONT = `font-family="Calibri, 'Nimbus Sans', Arial, sans-serif"`;
-const SERIF = `font-family="Cambria, 'Nimbus Roman', Georgia, serif"`;
+// Drawn from the type system rather than restated. These were hardcoded
+// font strings, which meant the figures were one substitution away from
+// being set in a different face from the book around them — the kind of
+// drift nobody notices until it is printed.
+const FONT = `font-family="${TYPE.sans.replace(/"/g, "'")}"`;
+const SERIF = `font-family="${TYPE.serif.replace(/"/g, "'")}"`;
+
+/**
+ * One label scale and one rule weight for every figure, so five charts
+ * built at different times read as one hand.
+ */
+export const FIG = {
+  axis: 6.2, tick: 6, label: 6.8, value: 8.4, unit: 5.8, roman: 14,
+  hair: 0.4, rule: 0.7, bar: 1.3, frame: 1,
+};
 
 // ─────────────────────────────────────────────────────────────────────
 // 1 · THE ASCENT
