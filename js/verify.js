@@ -54,6 +54,18 @@
     },
   };
 
+  // Every value that reaches this page goes through textContent. A
+  // verification page renders a stranger's name and a College's own
+  // statements side by side, and the difference between "a name with an
+  // angle bracket in it" and an attack only exists if the page never
+  // gives it the chance to be the second.
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined && text !== null && text !== '') n.textContent = text;
+    return n;
+  }
+
   function fmtDate(iso) {
     if (!iso) return 'an unrecorded date';
     var d = new Date(iso.length === 10 ? iso + 'T00:00:00Z' : iso);
@@ -114,7 +126,7 @@
     var link = location.origin + '/verify.html?code=' + encodeURIComponent(a.verificationCode);
     $('#permalink').href = link;
     $('#permalink').textContent = link;
-    drawQr($('#qr'), link);
+    drawQr($('#qr'), a.verificationCode);
 
     $('#result').hidden = false;
     // Move focus to the result rather than scrolling silently: a screen
@@ -128,24 +140,33 @@
     });
   }
 
-  /* QR rendering is DESIGNED AND NOT YET IMPLEMENTED, and the page says
-     so rather than showing a placeholder.
+  /* The QR, fetched from the College's own encoder.
+     Written as a stub for a long time because a QR that does not scan
+     fails in front of an employer holding a phone. It is real now:
+     functions/_lib/registry/qr.js is verified against jsQR — an
+     independently written decoder — across every version and
+     error-correction level, so this draws a code that has been proven
+     to read rather than one that merely looks like one.
 
-     Two honest reasons it is not here yet. A QR image fetched from a
-     third-party service would tell that service which awards are being
-     checked — exactly the information this portal promises not to
-     collect, so that route is closed permanently rather than
-     temporarily. And a locally-drawn encoder could be written, but it
-     could not be VERIFIED from the environment this was built in: there
-     is no way to scan the output and confirm it decodes. An unscannable
-     QR printed on a certificate is worse than none, because the failure
-     appears years later, in someone else's hands.
-
-     What a QR would encode is the permalink, which is shown in full
-     immediately below it. Nothing is lost but a convenience, and the
-     convenience returns when it can be tested on real devices. */
-  function drawQr(host) {
-    host.hidden = true;
+     Fetched rather than assumed. If the request fails the box stays
+     hidden and the permalink below carries the same record, which is
+     the state this page shipped in for months and is still correct. */
+  function drawQr(host, code) {
+    if (!code) { host.hidden = true; return; }
+    fetch('/api/credentials/qr?code=' + encodeURIComponent(code))
+      .then(function (r) { return r.ok ? r.text() : Promise.reject(new Error(String(r.status))); })
+      .then(function (svg) {
+        // Parsed as a document, not assigned as markup: a future change
+        // to that endpoint must not become a script-injection route
+        // into the page an employer is reading.
+        var doc = new DOMParser().parseFromString(svg, 'image/svg+xml');
+        if (doc.querySelector('parsererror')
+            || doc.documentElement.nodeName.toLowerCase() !== 'svg') { host.hidden = true; return; }
+        host.textContent = '';
+        host.appendChild(document.importNode(doc.documentElement, true));
+        host.hidden = false;
+      })
+      .catch(function () { host.hidden = true; });
   }
 
   function submit(e) {
@@ -161,16 +182,81 @@
     $('#codeError').textContent = '';
 
     var via = new URLSearchParams(location.search).get('via');
-    fetch('/api/verify/' + encodeURIComponent(raw) + (via === 'qr' ? '?via=qr' : ''), {
+    // The institutional endpoint answers across all three layers AND
+    // carries the certificate view the card already renders, so one
+    // request serves both. Verification is a single act; two requests
+    // could report two different standings if a withdrawal landed
+    // between them.
+    fetch('/api/verify/institutional/' + encodeURIComponent(raw) + (via === 'qr' ? '?via=qr' : ''), {
       headers: { Accept: 'application/json' },
     })
       .then(function (r) { return r.json(); })
-      .then(show)
+      .then(function (d) {
+        // The card speaks the older shape. Adapting here rather than
+        // rewriting it keeps thirty-nine assertions about the card
+        // meaningful and testing the same thing they always did.
+        show({ outcome: d.outcome, award: d.award, message: d.message, signature: null });
+        renderLayers(d);
+      })
       .catch(function () {
         $('#result').hidden = true;
         $('#codeError').textContent = 'The Register could not be reached. This is a fault on our side — please try again shortly.';
       })
       .then(function () { btn.removeAttribute('aria-busy'); });
+  }
+
+  // --- The three layers ------------------------------------------------
+  // Rendered as three separate lists, never merged and never scored
+  // against each other. A verifier reading "6 of 7 passed" learns
+  // nothing; a verifier reading "identity verified, integrity verified,
+  // standing WITHDRAWN" knows exactly what they are holding.
+  var STATE_LABEL = {
+    verified: 'Verified',
+    failed: 'Not verified',
+    not_applicable: 'Not applicable',
+    unavailable: 'Could not be checked',
+    development: 'Development signature',
+  };
+
+  function renderChecks(hostId, checks) {
+    var host = $(hostId);
+    host.textContent = '';
+    checks.forEach(function (c) {
+      var li = el('li', 'vfy-check vfy-check--' + c.state);
+      var head = el('div', 'vfy-check__head');
+      head.appendChild(el('span', 'vfy-check__label', c.label));
+      head.appendChild(el('span', 'vfy-check__state', STATE_LABEL[c.state] || c.state));
+      li.appendChild(head);
+      // Every status carries its explanation with it, so a verifier
+      // never has to guess what was and was not checked.
+      li.appendChild(el('p', 'vfy-check__what', c.statement));
+      if (c.detail) li.appendChild(el('p', 'vfy-check__detail', c.detail));
+      host.appendChild(li);
+    });
+  }
+
+  function renderLayers(d) {
+    if (!d || !d.layers) { $('#layers').hidden = true; $('#meaning').hidden = true; return; }
+
+    $('#summaryHeadline').textContent = d.summary.headline;
+    $('#summaryHeadline').className = 'is-' + (d.summary.headline === 'Verified' ? 'ok' : 'warn');
+    $('#summaryStatement').textContent = d.summary.statement;
+    renderChecks('#checksIdentity', d.layers.identity);
+    renderChecks('#checksIntegrity', d.layers.integrity);
+    renderChecks('#checksStanding', d.layers.standing);
+    $('#layers').hidden = false;
+
+    if (d.definition) {
+      $('#mTitle').textContent = d.definition.officialTitle
+        + ' (' + d.definition.postNominal + ' \u00B7 CEFR ' + d.definition.cefr + ')';
+      $('#mStanding').textContent = d.definition.standing;
+      $('#mPurpose').textContent = d.definition.academicPurpose;
+      $('#mProfile').textContent = d.definition.graduateProfile;
+      $('#mOutcomes').textContent = d.definition.learningOutcomes;
+      $('#meaning').hidden = false;
+    } else {
+      $('#meaning').hidden = true;
+    }
   }
 
   document.addEventListener('DOMContentLoaded', function () {

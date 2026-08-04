@@ -617,6 +617,35 @@ Developing, Proficient, Advanced, Distinguished — never as a percentage.
 - `approveThreshold()` refuses a set of thresholds that does not rise
   with the scale, once, rather than defending the ordering at every read.
 
+### G5 — Principle of Institutional Verification *(adopted 4 Aug 2026)*
+
+Every verification result distinguishes three **independent** layers of
+trust, and never averages them:
+
+| Layer | The question it answers |
+|---|---|
+| Identity authenticity | Is this the person the College awarded? |
+| Credential integrity | Has this credential been altered? |
+| Institutional standing | What is the status of this award today? |
+
+- `functions/_lib/registry/institutional-verification.js`;
+  `/api/verify/institutional/:code`; the panel on `/verify.html`.
+- The reason to separate them is that they genuinely disagree. A
+  withdrawn award reports **identity verified, integrity verified,
+  standing failed** — simultaneously. Every single-verdict system gets
+  this wrong in one of two serious ways: "invalid" accuses a real person
+  of forgery, "valid" admits them on a qualification the College has
+  withdrawn.
+- Asserted directly, in the module tests and again in the browser, and
+  sabotage-verified in both.
+- The summary is led by **standing**, never by a count of passing
+  checks. The dangerous misreading is a withdrawn award with impeccable
+  paperwork.
+- A development-mode signature is its own state, styled its own colour —
+  neither green nor red. Folding it into "verified" would be the
+  overclaim decision P2.1 forbids; folding it into "failed" would be a
+  false alarm about a genuine credential.
+
 ### G4 — Board of Academic Standards and Curriculum Excellence *(established 4 Aug 2026)*
 
 **BASCE** is the authority for the competency framework: defining

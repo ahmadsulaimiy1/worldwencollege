@@ -77,6 +77,7 @@ const timeOnTask = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/time-o
 const registry = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/awards.js`));
 const profile = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/profile.js`));
 const qr = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/qr.js`));
+const instVerify = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/institutional-verification.js`));
 const distinctions = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/distinctions.js`));
 const documents = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/documents.js`));
 // Beats reaching the harness, so a browser test can assert the beacon
@@ -274,6 +275,16 @@ createServer(async (req, res) => {
     // which is the state nobody gets stuck in.
     // Public verification — no auth, deliberately, even under
     // LAB_REQUIRE_AUTH. See the exemption above the auth gate.
+    // Tested BEFORE the generic /api/verify/ route below, which would
+    // otherwise read "institutional/CODE" as the code itself and
+    // report every lookup malformed.
+    // The Employer and University Verification Portal — three layers.
+    if (url.pathname.startsWith('/api/verify/institutional/') && req.method === 'GET') {
+      const code = decodeURIComponent(url.pathname.slice('/api/verify/institutional/'.length));
+      return json(res, await instVerify.institutionalVerification(env, {
+        code, channel: url.searchParams.get('via') === 'qr' ? 'qr' : 'public',
+      }));
+    }
     if (url.pathname.startsWith('/api/verify/') && req.method === 'GET') {
       const code = decodeURIComponent(url.pathname.slice('/api/verify/'.length));
       const via = url.searchParams.get('via');

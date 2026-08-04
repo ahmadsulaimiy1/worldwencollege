@@ -247,3 +247,112 @@
    coming is not a capability, and the card is where someone forms their
    judgement about whether this register is serious. */
 .vfy-seal__pending { margin: .35rem 0 0; font-size: .76rem; color: var(--ink-soft, #5A6479); }
+
+/* ==== The Principle of Institutional Verification ====================
+   Three independent layers, presented as three, because they genuinely
+   disagree: a certificate can be authentic, belong to the right person,
+   and still confer nothing. The layout must never let a reader average
+   them into one impression. */
+
+.vfy-layers { margin: 2rem 0; }
+.vfy-layers__head {
+  padding: 1.4rem 1.6rem;
+  border-radius: 12px 12px 0 0;
+  background: linear-gradient(158deg, #101F3C 0%, var(--royal, #14264A) 60%, #1B3054 100%);
+  color: #fff;
+}
+.vfy-layers__head h2 {
+  margin: 0;
+  font: 600 clamp(1.3rem, 1rem + 1.4vw, 1.9rem)/1.15 var(--font-display, "Playfair Display", Georgia, serif);
+}
+/* The headline is driven by STANDING, not by a count of passes, so its
+   colour must be too — a withdrawn award with impeccable paperwork is
+   the dangerous misreading this page exists to prevent. */
+.vfy-layers__head h2.is-ok { color: #9FE3B5; }
+.vfy-layers__head h2.is-warn { color: var(--gold-bright, #E7C97A); }
+.vfy-layers__head p { margin: .5rem 0 0; opacity: .85; line-height: 1.6; max-width: 60ch; }
+
+.vfy-layer {
+  border: 1px solid rgba(20, 38, 74, .12);
+  border-top: 0;
+  padding: 1.2rem 1.6rem;
+  background: #fff;
+}
+.vfy-layer:last-child { border-radius: 0 0 12px 12px; }
+.vfy-layer h3 {
+  margin: 0 0 .8rem;
+  font: 700 .74rem/1.6 var(--font-body, Inter, sans-serif);
+  letter-spacing: .13em; text-transform: uppercase; color: var(--royal, #14264A);
+}
+/* The question each layer answers, beside its name. A verifier should
+   never have to work out what "integrity" means here. */
+.vfy-layer h3 small {
+  display: block; margin-top: .2rem;
+  font: 400 .82rem/1.5 var(--font-body, Inter, sans-serif);
+  letter-spacing: 0; text-transform: none; color: var(--ink-soft, #5A6479);
+}
+
+.vfy-checks { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.vfy-check {
+  padding: .8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(20, 38, 74, .1);
+  border-left-width: 4px;
+}
+.vfy-check__head { display: flex; flex-wrap: wrap; gap: .3rem 1rem; align-items: baseline; justify-content: space-between; }
+.vfy-check__label { font-weight: 600; }
+.vfy-check__state { font: 700 .74rem/1.6 var(--font-body, Inter, sans-serif); letter-spacing: .06em; text-transform: uppercase; }
+.vfy-check__what { margin: .35rem 0 0; font-size: .88rem; line-height: 1.6; color: var(--ink-soft, #5A6479); max-width: 66ch; }
+.vfy-check__detail {
+  margin: .3rem 0 0;
+  font: 400 .8rem/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color: var(--ink-soft, #5A6479); overflow-wrap: anywhere;
+}
+
+.vfy-check--verified { border-left-color: #1E6B3A; }
+.vfy-check--verified .vfy-check__state { color: #1E6B3A; }
+.vfy-check--failed { border-left-color: var(--red, #A32638); background: rgba(163, 38, 56, .04); }
+.vfy-check--failed .vfy-check__state { color: #8C1F2F; }
+/* Development is its OWN colour, neither green nor red. Folding it into
+   either would be the overclaim (or the false alarm) that the P2.1
+   decision exists to prevent. */
+.vfy-check--development { border-left-color: #8A6B2E; background: rgba(199, 162, 74, .07); }
+.vfy-check--development .vfy-check__state { color: #8A6B2E; }
+.vfy-check--not_applicable, .vfy-check--unavailable { border-left-color: rgba(75, 87, 104, .4); }
+.vfy-check--not_applicable .vfy-check__state,
+.vfy-check--unavailable .vfy-check__state { color: var(--ink-soft, #5A6479); }
+
+/* ---- What the qualification certifies -------------------------------- */
+.vfy-meaning {
+  margin: 2rem 0;
+  padding: 1.4rem 1.6rem;
+  border: 1px solid rgba(20, 38, 74, .12);
+  border-radius: 12px;
+  background: rgba(20, 38, 74, .02);
+}
+.vfy-meaning h2 {
+  margin: 0 0 .6rem;
+  font: 700 .74rem/1.6 var(--font-body, Inter, sans-serif);
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-soft, #5A6479);
+}
+.vfy-meaning__title {
+  margin: 0 0 1rem;
+  font: 600 clamp(1.1rem, 1rem + .8vw, 1.4rem)/1.3 var(--font-display, "Playfair Display", Georgia, serif);
+  color: var(--royal, #14264A);
+}
+.vfy-meaning__body { margin: 0; display: grid; gap: .2rem 1.4rem; }
+@media (min-width: 44rem) { .vfy-meaning__body { grid-template-columns: 14rem 1fr; } }
+.vfy-meaning__body dt {
+  font: 700 .68rem/1.9 var(--font-body, Inter, sans-serif);
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft, #5A6479);
+}
+.vfy-meaning__body dd { margin: 0 0 .9rem; line-height: 1.65; max-width: 66ch; }
+
+@media print {
+  /* The verification is often printed and filed. The layers are the
+     evidence and must survive the page. */
+  .vfy-layers, .vfy-meaning { break-inside: avoid; }
+  .vfy-layers__head { background: #fff !important; color: #000; border: 1px solid #999; }
+  .vfy-layers__head h2.is-ok, .vfy-layers__head h2.is-warn { color: #000; }
+  .vfy-layers__head p { color: #333; }
+}

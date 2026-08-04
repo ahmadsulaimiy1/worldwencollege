@@ -83,11 +83,50 @@
               <p class="vfy-seal__code" id="codeOut">—</p>
               <p class="vfy-seal__digest">Record digest <span id="digest">—</span></p>
               <p class="vfy-seal__link"><a id="permalink" href="#">Permanent verification link</a></p>
-              <p class="vfy-seal__pending">QR verification is designed and not yet issued — the permanent link above carries the same record.</p>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- THE PRINCIPLE OF INSTITUTIONAL VERIFICATION ---------------
+           Three independent layers, answered separately, because they
+           genuinely disagree. A certificate can be entirely authentic,
+           belong to exactly the person named on it, and still confer
+           nothing because the award was withdrawn. One verdict cannot
+           say that, and every way of collapsing it misleads somebody. -->
+      <section class="vfy-layers" id="layers" hidden>
+        <div class="vfy-layers__head">
+          <h2 id="summaryHeadline">—</h2>
+          <p id="summaryStatement"></p>
+        </div>
+
+        <div class="vfy-layer" id="layerIdentity">
+          <h3>Identity authenticity <small>Is this the person the College awarded?</small></h3>
+          <ul class="vfy-checks" id="checksIdentity"></ul>
+        </div>
+        <div class="vfy-layer" id="layerIntegrity">
+          <h3>Credential integrity <small>Has this credential been altered?</small></h3>
+          <ul class="vfy-checks" id="checksIntegrity"></ul>
+        </div>
+        <div class="vfy-layer" id="layerStanding">
+          <h3>Institutional standing <small>What is the status of this award today?</small></h3>
+          <ul class="vfy-checks" id="checksStanding"></ul>
+        </div>
+      </section>
+
+      <!-- What the qualification actually certifies, from the
+           institutional data model — the same text the certificate, the
+           profile and the API use. -->
+      <section class="vfy-meaning" id="meaning" hidden>
+        <h2>What this qualification certifies</h2>
+        <p class="vfy-meaning__title" id="mTitle">—</p>
+        <dl class="vfy-meaning__body">
+          <dt>Standing conferred</dt><dd id="mStanding">—</dd>
+          <dt>Academic purpose</dt><dd id="mPurpose">—</dd>
+          <dt>The holder, at conferral</dt><dd id="mProfile">—</dd>
+          <dt>What they can do</dt><dd id="mOutcomes">—</dd>
+        </dl>
+      </section>
 
       <p class="vfy-scope">
         This page confirms what the College's Graduate Register records. It states the award, the holder as named on the certificate, and the award's current standing — and nothing further. Marks, progress and contact details are not published here.

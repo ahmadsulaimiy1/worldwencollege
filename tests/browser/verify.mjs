@@ -44,6 +44,15 @@ const exe = process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-li
 const browser = await chromium.launch(existsSync(exe) ? { executablePath: exe } : {});
 const errs = [];
 
+// Tolerant reads, so a missing element FAILS an assertion instead of
+// hanging for thirty seconds and killing the run. This suite lost a
+// whole run to exactly that when the QR stub was removed and an
+// assertion kept waiting for the sentence that used to explain it.
+async function textOf(page, sel) {
+  const n = page.locator(sel);
+  return (await n.count()) ? ((await n.first().textContent()) || '') : '';
+}
+
 async function open(url, viewport) {
   const page = await browser.newPage({ viewport: viewport || { width: 1280, height: 1000 } });
   await page.route('**://fonts.googleapis.com/**', (r) => r.abort());
@@ -112,11 +121,63 @@ async function verify(page, code) {
 
   check('A permanent link is offered for the record',
     /verify\.html\?code=WEC-/.test(await page.getAttribute('#permalink', 'href')));
-  // QR is designed and not built, and the page says so rather than
-  // showing an empty box that looks broken.
-  check('QR is declared not-yet-issued rather than shown as a placeholder',
-    (await page.locator('#qr').isVisible()) === false
-    && /not yet issued/i.test(await page.textContent('.vfy-seal__pending')));
+  // The QR was a stub for months, and the page said so rather than
+  // showing an empty box. It is real now — proven against an
+  // independent decoder — so the assertion is that it renders AND
+  // carries the same code the page prints, not that it is absent.
+  await page.waitForTimeout(400);
+  const qrCount = await page.locator('#qr svg').count();
+  check('A QR code is rendered', qrCount === 1, qrCount);
+  const qrLabel = qrCount ? await page.getAttribute('#qr svg', 'aria-label') : '';
+  const printed = (await textOf(page, '#codeOut')).trim();
+  check('...for the same code the page prints',
+    !!printed && (qrLabel || '').includes(printed), `${qrLabel} vs ${printed}`);
+  // The page must no longer claim the QR is unbuilt. Left in place, that
+  // sentence would be the platform understating itself — the same
+  // direction of error the Student Portal was making.
+  check('...and the page no longer says QR is not yet issued',
+    !/not yet issued/i.test(await textOf(page, '.vfy-seal')));
+
+  // --- The Principle of Institutional Verification -------------------
+  // Three layers, answered separately, because they genuinely disagree.
+  check('The three-layer verification panel is shown',
+    (await page.locator('#layers').isVisible()) === true);
+  check('...naming identity authenticity, credential integrity and standing',
+    (await page.locator('#layerIdentity').isVisible())
+    && (await page.locator('#layerIntegrity').isVisible())
+    && (await page.locator('#layerStanding').isVisible()));
+  check('...with the question each layer answers, beside its name',
+    /Is this the person the College awarded/.test(await textOf(page, '#layerIdentity'))
+    && /Has this credential been altered/.test(await textOf(page, '#layerIntegrity')),
+    (await textOf(page, '#layerIdentity')).slice(0, 80));
+  // Every status carries its explanation, so a verifier never has to
+  // guess what was and was not checked.
+  const explained = await page.evaluate(() => [...document.querySelectorAll('.vfy-check')]
+    .every((c) => (c.querySelector('.vfy-check__what')?.textContent || '').length > 20));
+  check('...and every single check explains itself in words', explained);
+
+  // The signature must not overclaim. Executive decision P2.1.
+  const sigTxt = await page.evaluate(() => {
+    const c = [...document.querySelectorAll('.vfy-check')]
+      .find((n) => /Digital signature/.test(n.textContent));
+    return c ? { cls: c.className, text: c.textContent } : null;
+  });
+  check('A development-mode signature is styled and labelled as its own state',
+    !!sigTxt && /vfy-check--development/.test(sigTxt.cls), sigTxt && sigTxt.cls);
+  check('...saying it is not production-grade',
+    !!sigTxt && /not yet carry production-grade assurance/.test(sigTxt.text),
+    sigTxt && sigTxt.text.slice(0, 100));
+
+  // What the qualification certifies, from the institutional data model.
+  check('The qualification\'s official meaning is shown',
+    (await page.locator('#meaning').isVisible()) === true);
+  const meaning = await textOf(page, '#meaning');
+  check('...its official title and post-nominal',
+    /English Associate of Worldwide English College/.test(meaning) && /AsWEC/.test(meaning),
+    meaning.slice(0, 90));
+  check('...the standing it confers', /Established member of the academic community/.test(meaning));
+  check('...and what the holder can do', /Learning objectives|can:/.test(meaning) || meaning.length > 600,
+    meaning.length);
   await page.close();
 }
 
@@ -136,6 +197,38 @@ async function verify(page, code) {
   check('...and an instruction not to rely on it', /should not be relied upon/i.test(alert));
   check('The card is visually distinct from a valid one',
     (await page.getAttribute('#card', 'class')).includes('is-revoked'));
+
+  // THE ASSERTION THE THREE-LAYER DESIGN EXISTS FOR.
+  //
+  // The three layers must disagree here, on the page, in front of the
+  // employer. Identity and integrity pass — this IS the person, and the
+  // certificate is NOT a forgery — while standing fails. Every
+  // single-verdict system gets this wrong in one of two ways, and both
+  // are serious: "invalid" accuses a real person of forgery, "valid"
+  // admits them on a qualification the College has withdrawn.
+  const states = await page.evaluate(() => {
+    const read = (sel) => [...document.querySelectorAll(sel + ' .vfy-check')]
+      .map((c) => (c.className.match(/vfy-check--(\w+)/) || [])[1]);
+    return { identity: read('#layerIdentity'), integrity: read('#layerIntegrity'),
+      standing: read('#layerStanding') };
+  });
+  check('Identity still reads VERIFIED for a withdrawn award',
+    states.identity.length > 0 && states.identity.every((x) => x === 'verified'),
+    JSON.stringify(states.identity));
+  check('...integrity too: the certificate is not called a forgery',
+    states.integrity.includes('verified') && !states.integrity.includes('failed'),
+    JSON.stringify(states.integrity));
+  check('...while standing reads NOT VERIFIED',
+    states.standing.includes('failed'), JSON.stringify(states.standing));
+
+  // Standing leads the summary, whatever the other layers say.
+  check('The headline says Withdrawn, not a count of passing checks',
+    (await textOf(page, '#summaryHeadline')).trim() === 'Withdrawn',
+    await textOf(page, '#summaryHeadline'));
+  check('...and tells the verifier the credential is authentic but does not stand',
+    /authentic but the award it records does not currently stand/.test(
+      await textOf(page, '#summaryStatement')),
+    await textOf(page, '#summaryStatement'));
   await page.close();
 }
 
