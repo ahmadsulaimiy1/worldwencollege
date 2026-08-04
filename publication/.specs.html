@@ -36,10 +36,11 @@ tr { break-inside:avoid; }
 .panel__h { font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:7pt; font-weight:700; letter-spacing:.14em;
   text-transform:uppercase; color:#7A5C2E; margin:0 0 4pt; }
 .orn__a { width:62pt; text-align:center; line-height:0; }
-.marks { columns:4; column-gap:12pt; list-style:none; padding:0; margin:6pt 0 10pt;
+.marks { columns:3; column-gap:12pt; list-style:none; padding:0; margin:6pt 0 10pt;
   font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:7.6pt; }
 .marks li { break-inside:avoid; margin:0 0 3pt; }
-.marks .mk { display:inline-block; min-width:1.4em; color:#7A5C2E; font-size:9pt; }
+.marks .mk { display:inline-block; min-width:1.6em; color:#7A5C2E; line-height:0;
+  vertical-align:-0.3em; }
 .spec { list-style:none; padding:0; margin:6pt 0 10pt; }
 .spec li { display:flex; gap:8pt; padding:3.5pt 0; border-bottom:.4pt solid #EDEFF3; break-inside:avoid; }
 .spec b { font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:7.6pt; letter-spacing:.06em; color:#6B7280;
@@ -100,10 +101,10 @@ tr { break-inside:avoid; }
   <li><b>Trim size</b><span>210 × 297 mm (A4 portrait)</span></li>
   <li><b>Bleed</b><span>3 mm on all four edges of the cover artwork. The text block is
     supplied without bleed; no element runs to the edge.</span></li>
-  <li><b>Extent</b><span>376 pages, self-cover excluded</span></li>
-  <li><b>Spine width</b><span>22.8 mm, calculated as (376 ÷ 2) × 0.115 mm
+  <li><b>Extent</b><span>477 pages, self-cover excluded</span></li>
+  <li><b>Spine width</b><span>28.6 mm, calculated as (477 ÷ 2) × 0.115 mm
     caliper plus 1.2 mm for the cover boards and adhesive</span></li>
-  <li><b>Cover spread</b><span>448.8 × 303 mm
+  <li><b>Cover spread</b><span>454.6 × 303 mm
     including bleed</span></li>
   <li><b>Text stock</b><span>100 gsm uncoated offset, high opacity, natural white. Uncoated because
     this is a book a teacher writes in.</span></li>
@@ -148,10 +149,58 @@ tr { break-inside:avoid; }
   lapsed or a CDN went down. If a production house prefers a licensed pair, substitute at the same
   optical size and measure — the grid is set in points, not in glyphs.</p></div>
 
-<h3>Stage marks</h3>
-<p>Nineteen typographic marks, one per lesson stage. Drawn from the type stream rather than as
-  images so they survive greyscale photocopying, which is what actually happens to a curriculum.</p>
-<ul class="marks"><li><span class="mk">◆</span><b>objectives</b></li><li><span class="mk">◇</span><b>prereq</b></li><li><span class="mk">○</span><b>warmup</b></li><li><span class="mk">●</span><b>present</b></li><li><span class="mk">◐</span><b>guided</b></li><li><span class="mk">◑</span><b>independent</b></li><li><span class="mk">❯</span><b>speaking</b></li><li><span class="mk">≈</span><b>listening</b></li><li><span class="mk">▤</span><b>reading</b></li><li><span class="mk">✎</span><b>writing</b></li><li><span class="mk">◈</span><b>pronunciation</b></li><li><span class="mk">▦</span><b>vocabulary</b></li><li><span class="mk">✓</span><b>assess</b></li><li><span class="mk">?</span><b>thinking</b></li><li><span class="mk">▥</span><b>rubric</b></li><li><span class="mk">▶</span><b>instructions</b></li><li><span class="mk">⌂</span><b>homework</b></li><li><span class="mk">+</span><b>extension</b></li><li><span class="mk">↻</span><b>revision</b></li></ul>
+<h3>The stage icon language</h3>
+<p>19 icons, one per lesson stage, drawn on a single 24-unit grid with a 1.6-unit
+  stroke, round caps and joins, and a 2-unit optical margin. That shared construction — not a shared
+  style — is what makes them one family. They are stroked rather than filled so they hold at 8 pt on
+  uncoated stock, where a filled mark of that size fills in to a blot, and they inherit
+  <span class="mono">currentColor</span>, so a stage icon is always exactly the colour of the level
+  it sits in and no per-level asset exists.</p>
+<ul class="marks"><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></span><b>objectives</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="12" r="3.5"/><path d="M11.5 12H20"/><path d="M17 12v3"/><path d="M20 12v2.5"/></svg></span><b>prereq</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="14" r="4"/><path d="M12 4v2.5M4.6 14H3M21 14h-1.6M6.2 8.2 5.1 7.1M17.8 8.2l1.1-1.1"/><path d="M3 19h18"/></svg></span><b>warmup</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M7 9h10M7 12.5h6"/><path d="M12 17v3"/></svg></span><b>present</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="8.6" r="2.9"/><path d="M3.4 18.6c.7-2.9 2.9-4.7 5.6-4.7s4.9 1.8 5.6 4.7"/><circle cx="17.4" cy="9.6" r="2.1" opacity=".55"/><path d="M15 18.6c.4-2 1.5-3.4 2.9-3.4 1.3 0 2.4 1.2 2.9 3" opacity=".55"/></svg></span><b>guided</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8.4" r="3.1"/><path d="M5.6 19c.8-3.2 3.3-5.2 6.4-5.2s5.6 2 6.4 5.2"/></svg></span><b>independent</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M20 12.5c0 3.6-3.6 6.5-8 6.5-1 0-2-.15-2.9-.42L4 20l1.6-3.2C4.6 15.9 4 14.3 4 12.5 4 8.9 7.6 6 12 6s8 2.9 8 6.5z"/><path d="M9 12h6"/></svg></span><b>speaking</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M6.4 9.4a5.6 5.6 0 0 1 11.2 0c0 2.9-2 4.4-3.2 5.7-.9 1-1 2-1 3.2a2.4 2.4 0 0 1-4.8 0"/><path d="M9.6 9.6a2.4 2.4 0 0 1 4.8 0c0 1.2-.8 1.8-1.5 2.5"/><path d="M20.4 5.2a7 7 0 0 1 0 8.4" opacity=".5"/></svg></span><b>listening</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M12 7.5C10.2 6.2 8 5.5 4 5.5V18c4 0 6.2.7 8 2 1.8-1.3 4-2 8-2V5.5c-4 0-6.2.7-8 2z"/><path d="M12 7.5V20"/></svg></span><b>reading</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M4 20l1.2-4L16 5.2a2.1 2.1 0 0 1 3 3L8.2 19z"/><path d="M14.2 7l3 3"/><path d="M4 20h6"/></svg></span><b>writing</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M3 12h2.2l1.6-4.5 2 9 2-11 2 13.5 2-9.5 1.4 2.5H21"/></svg></span><b>pronunciation</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="7.6" width="12.6" height="9.4" rx="1.5"/><path d="M7.4 4.6h11.1A2.5 2.5 0 0 1 21 7.1v9.4"/><path d="M6.4 12.3h5.8"/></svg></span><b>vocabulary</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8.2 12.4l2.6 2.6L16 9.8"/></svg></span><b>assess</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.8a6.2 6.2 0 0 0-3.6 11.3V16h7.2v-1.9A6.2 6.2 0 0 0 12 2.8z"/><path d="M9.4 18.6h5.2"/><path d="M10.4 21.1h3.2"/></svg></span><b>thinking</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect x="3.5" y="5" width="17" height="14" rx="1.5"/><path d="M3.5 9.5h17"/><path d="M9.5 9.5V19"/><path d="M3.5 14.25h17"/></svg></span><b>rubric</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M9 7h11M9 12h11M9 17h11"/><path d="M4 6.2h1.4V9"/><path d="M4.1 11.4a1.3 1.3 0 0 1 2.1 1c0 .9-2.1 1.7-2.1 2.6h2.2"/><path d="M4.2 16.2h2l-1.1 1.4a1.2 1.2 0 1 1-1 1.9"/></svg></span><b>instructions</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M4 10.5 12 4l8 6.5V19a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19z"/><path d="M9.5 20.5v-6h5v6"/></svg></span><b>homework</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="8.5"/><path d="M12 8.2v7.6M8.2 12h7.6"/></svg></span><b>extension</b></li><li><span class="mk"><svg class="ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V9h-4.5"/></svg></span><b>revision</b></li></ul>
+<div class="panel"><p class="panel__h">Why these replaced the previous glyphs</p>
+<p>The earlier edition marked each stage with a typographic character — ◆, ≈, ✎. Those come from
+  different type designers working to unrelated briefs, so set beside each other at 8 pt they had
+  different weights and optical centres and the column of marks down a lesson read as a jumble. A
+  glyph is also at the mercy of the font stack: a book whose navigation depends on ✎ is a book that
+  can lose its navigation to a missing character.</p></div>
 
 <h2>3 · Colour specification</h2>
 <p class="lead">Fourteen colours, each with a stated role. A palette without roles is a mood board.</p>
@@ -451,6 +500,21 @@ tr { break-inside:avoid; }
   </svg></div></td>
   <td><b>Fleuron</b><em class="mono">ornament.mjs · fleuron()</em></td>
   <td>Centred lozenge flourish between two rules.</td><td>Half title, dedication, contents break, colophon, back cover.</td></tr></tbody></table>
+<h3>Figures</h3>
+<p>Five figures in the front matter, each computed from the curriculum rather than drawn to
+  illustrate it: bar lengths are proportional to counts, frequencies are tallied across all authored
+  items, and every label is generated with the mark it labels. The constraint is deliberate and it
+  has teeth — these figures become wrong the moment the curriculum changes, which is the property
+  that separates information design from decoration.</p>
+<table><thead><tr><th>Figure</th><th>What it measures</th><th>Source</th></tr></thead><tbody>
+<tr><td><b>1 · The ascent</b></td><td>Words of lesson content per level, with words per named stage.</td><td class="mono">diagrams.mjs · ascentChart()</td></tr><tr><td><b>2 · Sixty modules</b></td><td>Item composition of every module, as small multiples.</td><td class="mono">diagrams.mjs · architectureGrid()</td></tr><tr><td><b>3 · Anatomy of a lesson</b></td><td>Stage frequency across every named stage, with median timing.</td><td class="mono">diagrams.mjs · lessonAnatomy()</td></tr><tr><td><b>4 · Four skills</b></td><td>Named skill stages per hundred items, by level.</td><td class="mono">diagrams.mjs · skillsAcrossLevels()</td></tr><tr><td><b>5 · Assessment map</b></td><td>Quizzes, questions, assignments, rubric criteria and competency mapping.</td><td class="mono">diagrams.mjs · assessmentMap()</td></tr>
+</tbody></table>
+<div class="panel"><p class="panel__h">A figure that cannot be wrong was never saying anything</p>
+<p>Figure 1 was drawn twice. The first version plotted duration against item count under the caption
+  <em>the six levels are not six equal steps</em>, and rendered as six identical columns — because
+  they are six equal steps. The chart was accurate; the caption was not. Both were replaced rather
+  than the caption alone, and the note recording that stands in the published figure.</p></div>
+
 <div class="panel"><p class="panel__h">Line weights at press</p>
 <p>Guilloché and girih line-work runs between 0.28 pt and 0.70 pt. Below roughly 0.25 pt fine gold
   line-work on uncoated stock will begin to drop out. Proof the cover and the frontispiece plate on
@@ -463,16 +527,16 @@ tr { break-inside:avoid; }
 <table><thead><tr><th>File</th><th>Purpose</th><th>Format</th><th>Size</th><th>State</th></tr></thead>
 <tbody><tr><td class="mono">IEFC Complete Curriculum.pdf</td><td>Press-quality text block</td>
     <td>PDF, A4 portrait, tagged, bookmarked</td>
-    <td class="mono">7.01 MB</td>
+    <td class="mono">12.13 MB</td>
     <td class="ok">Present</td></tr><tr><td class="mono">IEFC Cover Artwork.pdf</td><td>Cover spread</td>
     <td>PDF, single page, trim + bleed, no marks in live area</td>
     <td class="mono">0.52 MB</td>
     <td class="ok">Present</td></tr><tr><td class="mono">IEFC Complete Curriculum.docx</td><td>Editable companion</td>
     <td>DOCX, A4, styled headings, navigable</td>
-    <td class="mono">0.36 MB</td>
+    <td class="mono">0.37 MB</td>
     <td class="ok">Present</td></tr><tr><td class="mono">IEFC Production Specifications.pdf</td><td>This document</td>
     <td>PDF, A4 portrait</td>
-    <td class="mono">0.47 MB</td>
+    <td class="mono">0.48 MB</td>
     <td class="ok">Present</td></tr></tbody></table>
 <h3>Source</h3>
 <p>The publication has no binary assets. Its entire source is text, which means the whole book —
@@ -498,13 +562,13 @@ tr { break-inside:avoid; }
 <table><thead><tr><th></th><th>Check</th><th>Evidence</th><th>State</th></tr></thead>
 <tbody><tr>
   <td class="chk">✓</td><td>Text block renders without error</td>
-  <td class="mono">376 pages</td>
+  <td class="mono">477 pages</td>
   <td class="ok">Verified</td></tr><tr>
   <td class="chk">✓</td><td>Cover artwork built at trim plus bleed</td>
-  <td class="mono">448.8 × 303 mm</td>
+  <td class="mono">454.6 × 303 mm</td>
   <td class="ok">Verified</td></tr><tr>
   <td class="chk">✓</td><td>Spine width calculated from the bound page count</td>
-  <td class="mono">22.8 mm at 0.115 mm per leaf</td>
+  <td class="mono">28.6 mm at 0.115 mm per leaf</td>
   <td class="ok">Verified</td></tr><tr>
   <td class="chk">✓</td><td>Every colour pair meets its contrast floor</td>
   <td class="mono">9 pairs checked</td>

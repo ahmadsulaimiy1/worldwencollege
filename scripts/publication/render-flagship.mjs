@@ -14,6 +14,9 @@ import { paletteFor, BRAND, TYPE, C as PAL, STAGE_MARK, EMPHASIS_STAGES, ascentO
 import { publicationIdentity } from './identity.mjs';
 import { frontMatter, backMatter, coverSpread, spineWidth, TRIM, BLEED } from './covers.mjs';
 import { guillocheRosette, guillocheBand, girihRosette, frame, cornerFan, fleuron, crest, EMBOSS } from './ornament.mjs';
+import { stageIcon, GENERIC_ICON } from './icons.mjs';
+import { parseRubric } from './curriculum.mjs';
+import { ascentChart, architectureGrid, lessonAnatomy, assessmentMap, skillsAcrossLevels } from './diagrams.mjs';
 import { writeFileSync, readFileSync, mkdirSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -65,13 +68,40 @@ function renderParts(parts) {
 
 function renderStage(s) {
   if (!s.head) return `<div class="stage stage--intro">${renderParts(s.parts)}</div>`;
-  const mark = s.icon ? STAGE_MARK[s.icon] : '·';
+  const mark = (s.icon && stageIcon(s.icon, { size: 13 })) || GENERIC_ICON;
   const emph = s.icon && EMPHASIS_STAGES.has(s.icon) ? ' stage--emph' : '';
+
+  // A grading rubric is an instrument, not a paragraph. Where it parses
+  // into named criteria it is set as a table; where it does not, the
+  // original prose prints unchanged.
+  let body;
+  if (s.icon === 'rubric') {
+    const r = parseRubric(s);
+    body = r ? renderRubric(r) : `<div class="stage__b">${renderParts(s.parts)}</div>`;
+  } else {
+    body = `<div class="stage__b">${renderParts(s.parts)}</div>`;
+  }
+
   return `<section class="stage${emph}">
     <h5 class="stage__h"><span class="stage__mk">${mark}</span>${typo(s.head)}${
   s.timing ? `<span class="stage__t">${typo(s.timing)}</span>` : ''}</h5>
-    <div class="stage__b">${renderParts(s.parts)}</div>
+    ${body}
   </section>`;
+}
+
+function renderRubric(r) {
+  const rows = r.criteria.map((c) => `<tr>
+    <td class="rb__n">${c.n}</td>
+    <td class="rb__c">${typo(c.name)}</td>
+    <td class="rb__d">${typo(c.descriptor)}</td></tr>`).join('');
+  return `<div class="stage__b">
+    ${r.preamble ? `<p>${typo(r.preamble)}</p>` : ''}
+    <table class="rubric"><thead><tr>
+      <th class="rb__n"></th><th class="rb__c">Criterion</th>
+      <th class="rb__d">What the marker is looking for</th></tr></thead>
+      <tbody>${rows}</tbody></table>
+    ${r.trailing ? `<p class="rubric__note">${typo(r.trailing)}</p>` : ''}
+  </div>`;
 }
 
 function renderQuiz(les) {
@@ -86,33 +116,135 @@ function renderQuiz(les) {
     <div class="answerkey"><p class="answerkey__h">Answer key</p><div class="answerkey__g">${key}</div></div>`;
 }
 
+/**
+ * The designed duration of a lesson, summed from the timings the
+ * curriculum itself sets on its stages.
+ *
+ * Derived, not invented: if no stage carries a timing the lesson shows
+ * none rather than an estimate. A teacher planning a session needs to
+ * know whether this fills forty minutes or ninety, and that number was
+ * already in the text — it had simply never been added up.
+ */
+function designedMinutes(les) {
+  const mins = les.stages
+    .map((s) => (s.timing || '').match(/(\d+)/))
+    .filter(Boolean).map((m) => Number(m[1]));
+  return mins.length ? mins.reduce((a, b) => a + b, 0) : null;
+}
+
+/**
+ * The module title with its own number stripped from the front.
+ *
+ * The titles are stored as "Module 4: Opinions & Debate", which is right
+ * for a database and wrong beside a numeral panel already reading
+ * MODULE 4 — the reader is told twice and the second telling makes the
+ * first look like a mistake. The full stored title still appears in the
+ * contents, so nothing is lost from the volume.
+ */
+function shortModuleTitle(mod) {
+  return String(mod.title).replace(/^\s*Module\s+\d+\s*[:\u2014\u2013-]\s*/i, '');
+}
+
 function renderLesson(les, lv, mod) {
   const kind = KIND_LABEL[les.kind] || 'Lesson';
+  const ref = `${lv.roman}.${mod.sequence}.${les.sequence}`;
+  const mins = designedMinutes(les);
+  const named = les.stages.filter((s) => s.head).length;
+  const isAssessed = les.kind !== 'reading';
+
+  // The stage tape: the shape of the session, drawn from its own stages,
+  // set above the title so a teacher sees the shape before reading it.
+  //
+  // It is suppressed unless the stages actually DIFFER. A lesson whose
+  // four stages are all vocabulary produced four identical marks in a
+  // row — noise wearing the costume of information, which is worse than
+  // no diagram at all because a reader stops trusting the ones that do
+  // carry meaning.
+  const marks = les.stages.filter((s) => s.head);
+  const distinct = new Set(marks.map((s) => s.icon || '?')).size;
+  const tape = distinct >= 3 ? `<div class="tape">${marks.map((st) => {
+    const ic = (st.icon && stageIcon(st.icon, { size: 11 })) || GENERIC_ICON;
+    return `<span class="tape__i" title="${esc(st.head)}">${ic}</span>`;
+  }).join('')}</div>` : '';
+
+  // What is worth stating differs by kind. "2 stages" tells a marker
+  // nothing about an assignment; the number of criteria they will mark
+  // against tells them what they need.
+  const rubric = les.kind === 'assignment'
+    ? parseRubric(les.stages.find((st) => st.icon === 'rubric')) : null;
+  const meta = [
+    les.kind === 'quiz' ? `${les.questions.length} questions` : null,
+    rubric ? `${rubric.criteria.length} rubric criteria` : null,
+    les.kind === 'reading' && named ? `${named} stages` : null,
+    mins ? `${mins} min designed` : null,
+  ].filter(Boolean).join(' · ');
+
   const body = les.kind === 'quiz'
     ? (les.stages.length ? les.stages.map(renderStage).join('') : '') + renderQuiz(les)
     : les.stages.map(renderStage).join('');
-  return `<article class="lesson" id="l-${lv.roman}-${mod.sequence}-${les.sequence}">
-    <header class="lesson__h">
-      <p class="lesson__k">${esc(kind)} ${lv.roman}.${mod.sequence}.${les.sequence}</p>
+
+  return `<article class="lesson${isAssessed ? ' lesson--assessed' : ''}"
+    id="l-${lv.roman}-${mod.sequence}-${les.sequence}">
+    <header class="lesson__h${isAssessed ? ' lesson__h--cer' : ''}">
+      <div class="lesson__top">
+        <p class="lesson__k">${esc(kind)}</p>
+        <p class="lesson__ref">${ref}</p>
+      </div>
       <h4>${typo(les.title)}</h4>
+      ${meta ? `<p class="lesson__meta">${meta}</p>` : ''}
+      ${tape}
     </header>
     ${body}
   </article>`;
 }
 
+/**
+ * The module opener.
+ *
+ * Every module gets a leaf of its own: numeral, title, its own contents
+ * list, and the assessment it ends with. Sixty of these are what give
+ * the book its rhythm — the reader is never more than a few pages from
+ * an event, and a teacher opening the book at random always lands
+ * somewhere that says where they are.
+ */
 function renderModule(mod, lv) {
   const lessons = mod.lessons.map((l) => renderLesson(l, lv, mod)).join('');
   const counts = mod.lessons.reduce((a, l) => { a[l.kind] = (a[l.kind] || 0) + 1; return a; }, {});
+  const p = paletteFor(lv.roman);
+  const mins = mod.lessons.map(designedMinutes).filter(Boolean).reduce((a, b) => a + b, 0);
+  const qs = mod.lessons.reduce((a, l) => a + l.questions.length, 0);
+
+  const contents = mod.lessons.map((l) => `<li class="mo__i mo__i--${l.kind}">
+    <span class="mo__ref">${lv.roman}.${mod.sequence}.${l.sequence}</span>
+    <span class="mo__t">${typo(l.title)}</span>
+    <span class="mo__k">${esc(KIND_LABEL[l.kind] || 'Lesson')}</span></li>`).join('');
+
   return `<section class="module" id="m-${lv.roman}-${mod.sequence}">
-    <header class="module__h">
-      <div class="module__n"><span>Module</span><b>${mod.sequence}</b></div>
-      <div class="module__t">
-        <h3>${typo(mod.title)}</h3>
-        <p class="module__m">Level ${lv.roman} · ${esc(lv.name)} · CEFR ${esc(lv.cefr)} —
-          ${mod.lessons.length} items: ${counts.reading || 0} teaching, ${counts.quiz || 0} assessed quiz,
-          ${counts.assignment || 0} assessed assignment</p>
+    <section class="moduleopen">
+      <div class="moduleopen__orn">${guillocheBand({ width: 420, height: 12, stroke: p.mid, opacity: 0.4 })}</div>
+      <div class="moduleopen__hd">
+        <div class="moduleopen__num">
+          <span>Module</span><b>${mod.sequence}</b>
+          <i>of ${lv.modules.length}</i>
+        </div>
+        <div class="moduleopen__ti">
+          <p class="moduleopen__eyebrow">Level ${lv.roman} · ${esc(lv.name)} · CEFR ${esc(lv.cefr)}</p>
+          <h3>${typo(shortModuleTitle(mod))}</h3>
+        </div>
       </div>
-    </header>
+      <div class="moduleopen__stats">
+        ${[[mod.lessons.length, 'Items'], [counts.reading || 0, 'Teaching'],
+    [qs, 'Questions'], [mins || '—', mins ? 'Minutes designed' : 'Not timed']]
+    .map(([v, l]) => `<div><b>${v}</b><span>${l}</span></div>`).join('')}
+      </div>
+      <p class="moduleopen__ch">In this module</p>
+      <ol class="moduleopen__list">${contents}</ol>
+      <div class="moduleopen__foot">
+        <span class="moduleopen__seal">${girihRosette({ size: 34, stroke: p.mid, width: 0.7, opacity: 0.7 })}</span>
+        <p>Every module in this programme ends with an assessed quiz and an assessed assignment
+          carrying a full grading rubric. This one is no exception.</p>
+      </div>
+    </section>
     ${lessons}
   </section>`;
 }
@@ -215,7 +347,8 @@ const HOWTO = `<section class="howto">
     ['homework', 'Homework', 'Consolidation between sessions.'],
     ['extension', 'Extension', 'For learners who finish early or want further.'],
     ['revision', 'Revision', 'Deliberate return to earlier material.']]
-    .map(([k, n, d]) => `<div class="legend__i"><span class="legend__m">${STAGE_MARK[k]}</span>
+    .map(([k, n, d]) => `<div class="legend__i"><span class="legend__m">${
+  stageIcon(k, { size: 17 }) || GENERIC_ICON}</span>
       <div><b>${n}</b><p>${d}</p></div></div>`).join('')}
   </div>
   <p>A timing in brackets after a stage heading is the designed duration for that stage. Stages
@@ -224,7 +357,88 @@ const HOWTO = `<section class="howto">
     beneath it — this is a teacher's edition.</p>
 </section>`;
 
-const FRONT = frontMatter(ID, I, CLAIMS, CONTENTS, HOWTO);
+// Rubric criteria per level, counted so the assessment map states a
+// measured figure rather than a representative one.
+const critByLevel = Object.fromEntries(C.levels.map((lv) => [lv.roman,
+  lv.modules.flatMap((m) => m.lessons)
+    .filter((x) => x.kind === 'assignment')
+    .reduce((a, x) => {
+      const r = parseRubric(x.stages.find((st) => st.icon === 'rubric'));
+      return a + (r ? r.criteria.length : 0);
+    }, 0)]));
+
+const ARCHITECTURE = `<section class="arch">
+  <p class="ed__eyebrow">The Architecture</p>
+  <h2>The Shape of the Programme</h2>
+  <p class="lead">Five figures, each measured from the curriculum in this volume rather than drawn
+    to illustrate it. If the programme changes, they change; if a figure here is unflattering, it
+    is because the measurement was.</p>
+
+  <figure class="fig">
+    <figcaption class="fig__c"><b>Figure 1</b> The ascent</figcaption>
+    ${ascentChart(C.levels)}
+    <p class="fig__n">The architecture of this programme is deliberately uniform: every level is ten
+      modules, forty-nine authored items, a hundred and ten assessment questions and four months.
+      A learner always knows what a level costs. What rises is depth — the lesson content written
+      for a single item roughly doubles between the first level and the sixth, which is the demand
+      curve a teacher actually feels and the reason the later levels are harder to teach even
+      though they are not longer. The crimson rules carry the finding underneath that one: the
+      sixth level writes <em>fewer</em> stages than the third or fourth, each of them substantially
+      longer. The shape of a lesson changes as the ascent proceeds — from many short moves to few
+      sustained ones — and that change is invisible in any total.</p>
+    <p class="fig__n">An earlier draft of this figure plotted duration against item count under the
+      caption <em>the six levels are not six equal steps</em>. It rendered as six identical columns,
+      because they are six equal steps. The chart was accurate and the caption was not; both were
+      replaced rather than the caption alone, because a figure with no variance to show is a figure
+      with nothing to say.</p>
+  </figure>
+
+  <figure class="fig">
+    <figcaption class="fig__c"><b>Figure 2</b> Sixty modules, one architecture</figcaption>
+    ${architectureGrid(C.levels)}
+    <p class="fig__n">Every module in the programme, one cell each, divided into its teaching items
+      and its two assessments. The claim this figure makes is about regularity: the assessment spine
+      is identical in all sixty, at every level, and a departure from that pattern would be visible
+      here without a word of commentary.</p>
+  </figure>
+
+  <figure class="fig">
+    <figcaption class="fig__c"><b>Figure 3</b> The anatomy of a lesson</figcaption>
+    ${lessonAnatomy(C)}
+    <p class="fig__n">What the house structure actually is, counted across every named stage in the
+      book, with the median designed timing where the curriculum sets one. Twelve stage names occur
+      exactly 114 times each — once in every teaching lesson in the programme — which is the
+      strongest evidence in this volume that the house structure is real rather than aspirational.</p>
+    <p class="fig__n">The tail is the honest part. Beyond the eighteen shown, a further eighty-three
+      stage names occur less often. Some of that is deliberate variation; some is almost certainly
+      drift in naming, where the same teaching move has been written under two headings by different
+      hands. This figure does not decide which, and it is not the place to: reconciling the tail is
+      an editorial task for the Board of Academic Standards and Curriculum Excellence, and it is
+      recorded here because a chart of only the head would have concealed it.</p>
+  </figure>
+
+  <figure class="fig">
+    <figcaption class="fig__c"><b>Figure 4</b> The four skills across the ascent</figcaption>
+    ${skillsAcrossLevels(C.levels)}
+    <p class="fig__n">Named skill stages per hundred authored items, normalised because the levels
+      differ in size and raw counts would say only that some levels are longer. Reading and writing
+      rise as the ascent proceeds; speaking is present throughout.</p>
+  </figure>
+
+  <figure class="fig fig--break">
+    <figcaption class="fig__c"><b>Figure 5</b> The assessment map</figcaption>
+    ${assessmentMap(C.levels, critByLevel)}
+    <p class="fig__n">The right-hand column is the one that matters. Every module carries two
+      assessments and a full grading rubric — 120 assessments and
+      ${Object.values(critByLevel).reduce((a, b) => a + b, 0)} rubric criteria in total. None of the
+      120 is mapped to a named competency. The College defines the IEFC as a qualification extending
+      CEFR proficiency through competency verification; until that column is populated, the
+      definition is an intention rather than a demonstration, and establishing the mapping is the
+      founding task of the Board of Academic Standards and Curriculum Excellence.</p>
+  </figure>
+</section>`;
+
+const FRONT = frontMatter(ID, I, CLAIMS, CONTENTS, HOWTO + ARCHITECTURE);
 const BACK = backMatter(ID);
 
 // ---- The stylesheet --------------------------------------------------
@@ -444,10 +658,28 @@ table.claims td { padding:5pt 7pt; border-bottom:.5pt solid #E4E8EF; }
 /* ---------- Lesson ---------- */
 .lesson { break-inside:auto; margin:0 0 16pt; padding:0 0 12pt; border-bottom:.5pt solid var(--rule); }
 .lesson:last-child { border-bottom:0; }
-.lesson__h { break-after:avoid; margin:0 0 7pt; }
-.lesson__k { font-family:Calibri,"Nimbus Sans",Arial,sans-serif; font-size:6.6pt; font-weight:700;
-  letter-spacing:.16em; text-transform:uppercase; color:var(--mid); margin:0 0 1pt; }
-.lesson__h h4 { font-size:12.5pt; margin:0; line-height:1.25; }
+.lesson__h { break-after:avoid; margin:0 0 8pt; padding:0 0 5pt;
+  border-bottom:.5pt solid var(--rule); }
+.lesson__top { display:flex; justify-content:space-between; align-items:baseline; }
+.lesson__k { font-family:var(--sans); font-size:6.6pt; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--mid); margin:0 0 1pt; }
+.lesson__ref { font-family:var(--sans); font-size:6.6pt; letter-spacing:.1em;
+  color:var(--soft); margin:0; }
+.lesson__h h4 { font-size:13.5pt; margin:1pt 0 0; line-height:1.22; letter-spacing:-.008em; }
+.lesson__meta { font-family:var(--sans); font-size:6.6pt; color:var(--soft); margin:2.5pt 0 0;
+  letter-spacing:.04em; }
+
+/* An assessed item is an occasion. The ceremonial header says so before
+   a word is read: the level's ink as a ground, the rule doubled. */
+.lesson--assessed { break-before:page; }
+.lesson__h--cer { background:var(--ink); color:#fff; padding:8pt 10pt 8pt;
+  border-bottom:2.4pt solid var(--mid); margin:0 0 10pt; }
+.lesson__h--cer .lesson__k { color:#fff; opacity:.9; }
+.lesson__h--cer .lesson__ref { color:#fff; opacity:.7; }
+.lesson__h--cer h4 { color:#fff; font-size:15pt; }
+.lesson__h--cer .lesson__meta { color:#fff; opacity:.72; }
+.lesson__h--cer .tape { border-top-color:rgba(255,255,255,.28); }
+.lesson__h--cer .tape__i { color:#fff; opacity:.72; }
 
 .stage { margin:0 0 7pt; break-inside:avoid; }
 .stage--intro { font-size:9.6pt; }
@@ -491,6 +723,79 @@ ol.q__c li.is-key::before { color:var(--mid); }
   font-family:Calibri,"Nimbus Sans",Arial,sans-serif; font-size:8.4pt; }
 .answerkey__g span { color:var(--ink); }
 .answerkey__g b { color:var(--soft); font-weight:400; margin-right:2.5pt; font-size:7.4pt; }
+
+/* ---------- The icon language ---------- */
+/* Icons inherit currentColor, so a stage mark is always exactly the
+   colour of the level it sits in and no per-level asset exists. */
+.ic { vertical-align:-0.14em; }
+.stage__mk .ic { color:var(--mid); }
+
+/* ---------- Module opener ---------- */
+/* Sixty of these give the book its rhythm: the reader is never more than
+   a few pages from an event. */
+.moduleopen { break-before:page; break-inside:avoid; break-after:avoid;
+  background:var(--wash); padding:11mm 12mm 10mm; margin:0 0 9pt;
+  border-top:2.6pt solid var(--ink); position:relative; }
+.moduleopen__orn { position:absolute; left:12mm; right:12mm; bottom:5mm; opacity:.75; }
+.moduleopen__hd { display:flex; gap:11pt; align-items:flex-start; margin:0 0 12pt; }
+.moduleopen__num { background:var(--ink); color:#fff; padding:7pt 10pt 8pt; text-align:center;
+  min-width:20mm; }
+.moduleopen__num span { display:block; font-family:var(--sans); font-size:5.8pt;
+  letter-spacing:.18em; text-transform:uppercase; opacity:.82; }
+.moduleopen__num b { display:block; font-size:27pt; line-height:1; margin:1pt 0; }
+.moduleopen__num i { display:block; font-family:var(--sans); font-size:5.6pt; font-style:normal;
+  letter-spacing:.1em; opacity:.7; }
+.moduleopen__eyebrow { font-family:var(--sans); font-size:6.4pt; font-weight:700;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--mid); margin:2pt 0 3pt; }
+.moduleopen__ti h3 { font-size:21pt; margin:0; line-height:1.14; letter-spacing:-.012em; }
+.moduleopen__stats { display:flex; gap:16pt; border-top:.6pt solid var(--mid);
+  border-bottom:.6pt solid var(--mid); padding:7pt 0; margin:0 0 11pt; }
+.moduleopen__stats b { display:block; font-size:15pt; color:var(--ink); line-height:1.1; }
+.moduleopen__stats span { font-family:var(--sans); font-size:5.8pt; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--soft); }
+.moduleopen__ch { font-family:var(--sans); font-size:6.2pt; font-weight:700; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--soft); margin:0 0 5pt; }
+.moduleopen__list { list-style:none; margin:0 0 11pt; padding:0; }
+.mo__i { display:flex; align-items:baseline; gap:7pt; padding:2.6pt 0;
+  border-bottom:.4pt solid rgba(0,0,0,.07); }
+.mo__ref { font-family:var(--sans); font-size:6.4pt; color:var(--soft); min-width:5.4em; }
+.mo__t { flex:1; font-size:9.2pt; color:#1A1A1A; }
+.mo__k { font-family:var(--sans); font-size:5.8pt; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--soft); }
+.mo__i--quiz .mo__t, .mo__i--assignment .mo__t { font-weight:700; color:var(--ink); }
+.mo__i--quiz .mo__k, .mo__i--assignment .mo__k { color:var(--crimson); font-weight:700; }
+.moduleopen__foot { display:flex; gap:8pt; align-items:center; padding-bottom:6mm; }
+.moduleopen__foot p { font-size:8pt; font-style:italic; color:var(--soft); margin:0; max-width:34em; }
+
+/* ---------- The stage tape ---------- */
+/* The shape of the session, drawn from its own stages, above the title. */
+.tape { display:flex; flex-wrap:wrap; gap:3.4pt; margin:4pt 0 0; padding:3.4pt 0 0;
+  border-top:.4pt solid var(--rule); }
+.tape__i { color:var(--mid); opacity:.72; line-height:0; }
+
+/* ---------- Rubric table ---------- */
+/* A rubric is the instrument a teacher marks with. Set as prose it
+   cannot be read down or compared across criteria. */
+table.rubric { width:100%; border-collapse:collapse; margin:4pt 0 5pt; break-inside:avoid; }
+table.rubric th { background:var(--ink); color:#fff; text-align:left; padding:3.4pt 6pt;
+  font-family:var(--sans); font-size:6.2pt; letter-spacing:.12em; text-transform:uppercase;
+  font-weight:700; }
+table.rubric td { padding:3.8pt 6pt; border-bottom:.4pt solid rgba(0,0,0,.09);
+  vertical-align:top; font-size:8.8pt; line-height:1.42; }
+.rb__n { width:12pt; font-family:var(--sans); font-size:7pt; font-weight:700; color:var(--mid);
+  text-align:center; }
+.rb__c { width:27%; font-weight:700; color:var(--ink); }
+.rubric__note { font-size:8pt; font-style:italic; color:var(--soft); margin:3pt 0 0; }
+
+/* ---------- Figures ---------- */
+.arch { break-before:page; }
+.fig { margin:0 0 16pt; padding:0 0 12pt; border-bottom:.5pt solid var(--rule);
+  break-inside:avoid; }
+.fig--break { break-before:page; }
+.fig__c { font-family:var(--sans); font-size:7pt; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--soft); margin:0 0 7pt; padding-bottom:3pt; border-bottom:.5pt solid var(--rule); }
+.fig__c b { color:var(--ink); font-weight:700; }
+.fig__n { font-size:8.4pt; line-height:1.5; color:#3A3A3A; margin:8pt 0 0; max-width:38em; }
 
 /* ---------- Back matter ---------- */
 .clist__after { margin-top:12pt; padding-top:8pt; border-top:.5pt solid var(--rule); }

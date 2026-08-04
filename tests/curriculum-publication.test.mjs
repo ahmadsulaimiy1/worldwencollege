@@ -112,6 +112,19 @@ check('The editable edition carries the curriculum', editText.length > 400000, e
   const lessons = C.levels.flatMap((l) => l.modules).flatMap((m) => m.lessons);
   const stages = lessons.flatMap((x) => x.stages.map((s) => ({ lesson: x, stage: s })));
 
+  // Rubric stages are excluded from the contiguous-prose probe below and
+  // checked separately, criterion by criterion.
+  //
+  // The sixty rubrics are stored as one unbroken run — "(1) Task
+  // completion -- ... (2) Grammatical accuracy -- ..." — and both
+  // editions now SET them as separate criteria, which is the whole point
+  // of the change. Demanding the original run still appear contiguously
+  // would be demanding the defect back. The replacement check is
+  // stricter, not looser: it asserts all 307 criterion names and all 307
+  // descriptors independently, where the old probe looked at the first
+  // twelve words of each rubric and nothing else.
+  const isRubric = (s) => s.icon === 'rubric';
+
   const partText = (s) => s.parts.map((p) => p.text).join(' ');
   const probe = (text, n = 12) => {
     const w = norm(text).split(' ').filter(Boolean);
@@ -133,7 +146,8 @@ check('The editable edition carries the curriculum', editText.length > 400000, e
     // purpose. Per part is both correct and stricter: it checks every
     // paragraph in the book rather than the first twelve words of each
     // stage.
-    const parts = stages.flatMap(({ stage }) => stage.parts.map((p) => ({ stage, p })));
+    const parts = stages.filter(({ stage }) => !isRubric(stage))
+      .flatMap(({ stage }) => stage.parts.map((p) => ({ stage, p })));
     const missingBody = parts.filter(({ p }) =>
       norm(p.text).length > 25 && !body.includes(probe(p.text)));
     check(`...and every paragraph of every stage reaches the ${edition} edition`,
@@ -153,6 +167,48 @@ check('The editable edition carries the curriculum', editText.length > 400000, e
   }
   check(`Checked across all ${stages.length} stages of ${lessons.length} items`,
     stages.length > 1800 && lessons.length === 294, `${stages.length} / ${lessons.length}`);
+}
+
+// --- The rubrics, criterion by criterion ------------------------------
+{
+  const { parseRubric } = await import(loadUrl('scripts/publication/curriculum.mjs'));
+  const assignments = C.levels.flatMap((l) => l.modules).flatMap((m) => m.lessons)
+    .filter((x) => x.kind === 'assignment');
+
+  const parsed = assignments.map((a) => ({
+    a, r: parseRubric(a.stages.find((s) => s.icon === 'rubric')),
+  }));
+  const unparsed = parsed.filter((x) => !x.r);
+  check(`All ${assignments.length} grading rubrics parse into named criteria`,
+    unparsed.length === 0, unparsed.slice(0, 3).map((x) => x.a.title).join('; '));
+
+  const criteria = parsed.filter((x) => x.r).flatMap((x) => x.r.criteria);
+  check(`The rubrics carry ${criteria.length} criteria in total`, criteria.length === 307,
+    criteria.length);
+
+  for (const [edition, body] of [['print', printText], ['editable', editText]]) {
+    const missingName = criteria.filter((c) => !body.includes(norm(c.name)));
+    check(`Every criterion name reaches the ${edition} edition`, missingName.length === 0,
+      `${missingName.length} of ${criteria.length}: ${
+        missingName.slice(0, 3).map((c) => c.name).join('; ')}`);
+
+    const probe = (t) => norm(t).split(' ').filter(Boolean).slice(0, 10).join(' ');
+    const missingDesc = criteria.filter((c) => !body.includes(probe(c.descriptor)));
+    check(`...and every criterion descriptor with it`, missingDesc.length === 0,
+      `${missingDesc.length} of ${criteria.length}: "${
+        missingDesc[0] ? probe(missingDesc[0].descriptor).slice(0, 60) : ''}"`);
+  }
+
+  // Structurally set, not merely present as prose. Sixty tables, one per
+  // assignment — a rubric that reverted to a run of text would still
+  // contain every word and would still be unusable at a desk.
+  const raw = readFileSync(PDF_HTML, 'utf8');
+  const tables = (raw.match(/<table class="rubric">/g) || []).length;
+  check('Each rubric is set as a table, not a paragraph', tables === 60,
+    `${tables} tables for ${assignments.length} assignments`);
+  const rows = (raw.match(/class="rb__c"/g) || []).length;
+  check('...with one row per criterion', rows === criteria.length + 60,
+    `${rows} cells for ${criteria.length} criteria plus ${60} headers`);
 }
 
 // --- Assessment: questions, options and answer keys --------------------

@@ -22,7 +22,8 @@
  * it. It cannot describe a book that was not built.
  */
 import { buildCurriculum } from './curriculum.mjs';
-import { COLOURS, TYPE, LEVEL_PALETTES, STAGE_MARK, BRAND, C as PAL } from './design.mjs';
+import { COLOURS, TYPE, LEVEL_PALETTES, BRAND, C as PAL } from './design.mjs';
+import { stageIcon, ICON_KEYS } from './icons.mjs';
 import { publicationIdentity, AUTHENTICITY_NOTICE } from './identity.mjs';
 import { TRIM, BLEED, CALIPER_MM, spineWidth, OMISSIONS } from './covers.mjs';
 import {
@@ -165,9 +166,9 @@ const ornRows = ORNAMENTS.map(([fn, name, geom, use, art]) => `<tr>
   <td><b>${esc(name)}</b><em class="mono">ornament.mjs · ${esc(fn)}()</em></td>
   <td>${esc(geom)}</td><td>${esc(use)}</td></tr>`).join('');
 
-// ── Stage marks ──────────────────────────────────────────────────────
-const markRows = Object.entries(STAGE_MARK).map(([k, g]) =>
-  `<li><span class="mk">${g}</span><b>${esc(k)}</b></li>`).join('');
+// ── Stage icons ──────────────────────────────────────────────────────
+const markRows = ICON_KEYS.map((k) =>
+  `<li><span class="mk">${stageIcon(k, { size: 15 })}</span><b>${esc(k)}</b></li>`).join('');
 
 // ── Asset inventory ──────────────────────────────────────────────────
 const FILES = [
@@ -271,10 +272,11 @@ tr { break-inside:avoid; }
 .panel__h { font-family:${TYPE.sans}; font-size:7pt; font-weight:700; letter-spacing:.14em;
   text-transform:uppercase; color:${PAL.bronze}; margin:0 0 4pt; }
 .orn__a { width:62pt; text-align:center; line-height:0; }
-.marks { columns:4; column-gap:12pt; list-style:none; padding:0; margin:6pt 0 10pt;
+.marks { columns:3; column-gap:12pt; list-style:none; padding:0; margin:6pt 0 10pt;
   font-family:${TYPE.sans}; font-size:7.6pt; }
 .marks li { break-inside:avoid; margin:0 0 3pt; }
-.marks .mk { display:inline-block; min-width:1.4em; color:${PAL.bronze}; font-size:9pt; }
+.marks .mk { display:inline-block; min-width:1.6em; color:${PAL.bronze}; line-height:0;
+  vertical-align:-0.3em; }
 .spec { list-style:none; padding:0; margin:6pt 0 10pt; }
 .spec li { display:flex; gap:8pt; padding:3.5pt 0; border-bottom:.4pt solid #EDEFF3; break-inside:avoid; }
 .spec b { font-family:${TYPE.sans}; font-size:7.6pt; letter-spacing:.06em; color:${PAL.slateGrey};
@@ -361,10 +363,20 @@ ${[['Cover title', TYPE.scale.coverTitle, 'Serif', 'Foil gradient, embossed ligh
   lapsed or a CDN went down. If a production house prefers a licensed pair, substitute at the same
   optical size and measure — the grid is set in points, not in glyphs.</p></div>
 
-<h3>Stage marks</h3>
-<p>Nineteen typographic marks, one per lesson stage. Drawn from the type stream rather than as
-  images so they survive greyscale photocopying, which is what actually happens to a curriculum.</p>
+<h3>The stage icon language</h3>
+<p>${ICON_KEYS.length} icons, one per lesson stage, drawn on a single 24-unit grid with a 1.6-unit
+  stroke, round caps and joins, and a 2-unit optical margin. That shared construction — not a shared
+  style — is what makes them one family. They are stroked rather than filled so they hold at 8 pt on
+  uncoated stock, where a filled mark of that size fills in to a blot, and they inherit
+  <span class="mono">currentColor</span>, so a stage icon is always exactly the colour of the level
+  it sits in and no per-level asset exists.</p>
 <ul class="marks">${markRows}</ul>
+<div class="panel"><p class="panel__h">Why these replaced the previous glyphs</p>
+<p>The earlier edition marked each stage with a typographic character — ◆, ≈, ✎. Those come from
+  different type designers working to unrelated briefs, so set beside each other at 8 pt they had
+  different weights and optical centres and the column of marks down a lesson read as a jumble. A
+  glyph is also at the mercy of the font stack: a book whose navigation depends on ✎ is a book that
+  can lose its navigation to a missing character.</p></div>
 
 <h2>3 · Colour specification</h2>
 <p class="lead">Fourteen colours, each with a stated role. A palette without roles is a mood board.</p>
@@ -404,6 +416,31 @@ ${contrastFails.length ? `<div class="panel"><p class="panel__h">Outstanding</p>
   not contain one.</p>
 <table><thead><tr><th>Mark</th><th>Name and source</th><th>Construction</th><th>Where used</th></tr></thead>
 <tbody>${ornRows}</tbody></table>
+<h3>Figures</h3>
+<p>Five figures in the front matter, each computed from the curriculum rather than drawn to
+  illustrate it: bar lengths are proportional to counts, frequencies are tallied across all authored
+  items, and every label is generated with the mark it labels. The constraint is deliberate and it
+  has teeth — these figures become wrong the moment the curriculum changes, which is the property
+  that separates information design from decoration.</p>
+<table><thead><tr><th>Figure</th><th>What it measures</th><th>Source</th></tr></thead><tbody>
+${[['1 · The ascent', 'Words of lesson content per level, with words per named stage.',
+    'diagrams.mjs · ascentChart()'],
+    ['2 · Sixty modules', 'Item composition of every module, as small multiples.',
+      'diagrams.mjs · architectureGrid()'],
+    ['3 · Anatomy of a lesson', 'Stage frequency across every named stage, with median timing.',
+      'diagrams.mjs · lessonAnatomy()'],
+    ['4 · Four skills', 'Named skill stages per hundred items, by level.',
+      'diagrams.mjs · skillsAcrossLevels()'],
+    ['5 · Assessment map', 'Quizzes, questions, assignments, rubric criteria and competency mapping.',
+      'diagrams.mjs · assessmentMap()']]
+    .map(([a, b, c]) => `<tr><td><b>${a}</b></td><td>${b}</td><td class="mono">${c}</td></tr>`).join('')}
+</tbody></table>
+<div class="panel"><p class="panel__h">A figure that cannot be wrong was never saying anything</p>
+<p>Figure 1 was drawn twice. The first version plotted duration against item count under the caption
+  <em>the six levels are not six equal steps</em>, and rendered as six identical columns — because
+  they are six equal steps. The chart was accurate; the caption was not. Both were replaced rather
+  than the caption alone, and the note recording that stands in the published figure.</p></div>
+
 <div class="panel"><p class="panel__h">Line weights at press</p>
 <p>Guilloché and girih line-work runs between 0.28 pt and 0.70 pt. Below roughly 0.25 pt fine gold
   line-work on uncoated stock will begin to drop out. Proof the cover and the frontispiece plate on

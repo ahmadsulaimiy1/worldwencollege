@@ -137,6 +137,65 @@ function classify(text) {
   return parts;
 }
 
+/**
+ * Split a GRADING RUBRIC stage into its criteria.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * WHY THIS IS A SEPARATE PARSE
+ * ────────────────────────────────────────────────────────────────────
+ * The sixty rubrics are written as "(1) Task completion -- descriptor.
+ * (2) Grammatical accuracy -- descriptor." — all on ONE line. The
+ * general lesson parser splits on line starts, so it saw one item and
+ * set all five criteria as a single undifferentiated run of text.
+ *
+ * That was not a decoration problem. A rubric is the instrument a
+ * teacher marks with and a student is judged by; run together as prose
+ * it cannot be read down, cannot be compared across criteria, and
+ * cannot be used at the desk. Sixty of them were printed that way.
+ *
+ * Every one of the 307 criteria in the curriculum carries a name and a
+ * descriptor separated by a dash — checked, not assumed, and asserted
+ * in tests/curriculum-publication.test.mjs. Where a rubric does not
+ * match that shape this returns null and the caller prints the original
+ * prose unchanged, so a rubric written differently in future degrades
+ * to the old behaviour rather than being mangled or dropped.
+ */
+export function parseRubric(stage) {
+  if (!stage) return null;
+  const text = stage.parts
+    .map((p) => (p.type === 'item' ? `(${p.marker.replace(/^\(/, '')}) ${p.text}` : p.text))
+    .join(' ');
+
+  // Split on the numbered markers, keeping what follows each.
+  const pieces = text.split(/\((\d{1,2})\)\s*/);
+  if (pieces.length < 5) return null;
+
+  const criteria = [];
+  let trailing = '';
+  for (let i = 1; i < pieces.length; i += 2) {
+    const n = Number(pieces[i]);
+    const body = (pieces[i + 1] || '').trim();
+    if (!body) return null;
+    // "Name -- descriptor". The source uses a double hyphen for the dash.
+    const m = body.match(/^(.{2,60}?)\s+(?:--|—|–)\s+([\s\S]+)$/);
+    if (!m) return null;
+    let descriptor = m[2].trim();
+    // The closing sentence about the pass threshold belongs to the
+    // rubric as a whole, not to its last criterion.
+    const tail = descriptor.match(/(\s*A grade at or above[\s\S]*)$/);
+    if (tail) {
+      trailing = tail[1].trim();
+      descriptor = descriptor.slice(0, tail.index).trim();
+    }
+    criteria.push({ n, name: m[1].trim().replace(/[.:]$/, ''), descriptor });
+  }
+  if (criteria.length < 3) return null;
+  // The leading fragment before "(1)" is normally an empty string; if a
+  // rubric carries a preamble it is kept rather than silently dropped.
+  const preamble = pieces[0].trim();
+  return { criteria, preamble, trailing };
+}
+
 export function buildCurriculum() {
   const db = new DatabaseSync(':memory:');
   db.exec(readFileSync(`${ROOT}/sql/schema.sql`, 'utf8'));

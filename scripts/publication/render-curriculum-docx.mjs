@@ -11,6 +11,7 @@ import { buildCurriculum } from './curriculum.mjs';
 import { paletteFor, STAGE_MARK, EMPHASIS_STAGES, BRAND } from './design.mjs';
 import { publicationIdentity, AUTHENTICITY_NOTICE } from './identity.mjs';
 import { OMISSIONS } from './covers.mjs';
+import { parseRubric } from './curriculum.mjs';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -48,6 +49,23 @@ function stageParas(s, pal) {
     if (s.timing) runs.push({ t: `   ${s.timing}`, font: SANS, size: 14, italic: true, color: '6B7280' });
     out.push(P(runs, { before: 130, after: 50,
       fill: s.icon && EMPHASIS_STAGES.has(s.icon) ? hex(pal.wash) : undefined }));
+  }
+  // A grading rubric is set as criteria, matching the print edition. A
+  // rubric run together as prose cannot be read down or marked from.
+  if (s.icon === 'rubric') {
+    const r = parseRubric(s);
+    if (r) {
+      if (r.preamble) out.push(P(r.preamble, { after: 60 }));
+      for (const c of r.criteria) {
+        out.push(P([
+          { t: `${c.n}  `, font: SANS, size: 14, bold: true, color: hex(pal.mid) },
+          { t: `${c.name} — `, bold: true, color: hex(pal.ink) },
+          { t: c.descriptor },
+        ], { indent: { left: 340, hanging: 240 }, after: 50 }));
+      }
+      if (r.trailing) out.push(P(r.trailing, { italic: true, color: '6B7280', before: 60 }));
+      return out;
+    }
   }
   for (const p of s.parts) {
     if (p.type === 'dialogue') {
