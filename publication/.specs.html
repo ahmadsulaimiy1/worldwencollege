@@ -506,9 +506,15 @@ tr { break-inside:avoid; }
   <li><b>Grade</b><span>Duotone, computed per level: luminance mapped onto a ramp from the level’s
     ink to its wash. The grade is derived from the palette, so changing a level hue changes its
     plate.</span></li>
-  <li><b>Effective resolution</b><span>Every plate exceeds 300 dpi at its printed size; the
-    smallest source is 5,631 px wide. Verified on every build, not at selection — a large file is
-    high resolution at one size and low at another, and only the ratio matters.</span></li>
+  <li><b>Effective resolution</b><span>Each plate is placed at 2,400 px across a 168 mm frame:
+    <b>363 dpi</b>, above the 300 dpi offset floor with headroom for slight enlargement. Verified
+    on every build at the print measure, because a file that is 363 dpi in a 168 mm frame is
+    180 dpi in a 340 mm one — only the ratio matters.</span></li>
+  <li><b>Resampling</b><span>Sources are 5,631–8,192 px and are resampled to the placed size before
+    binding. Embedding an 8,192 px image in a 168 mm frame does not make the plate sharper — the
+    printer's RIP downsamples it anyway — it made a 42 MB PDF. Resampled, the same book is 21 MB.
+    Full-resolution originals are retained outside the publication for any future edition that
+    places them larger.</span></li>
   <li><b>Placement</b><span>Always a verso, facing its divider on the recto, so a level opens as a
     single spread composition.</span></li>
   <li><b>Bleed</b><span>None. The plates fill the type area (168 × 265 mm) and stop at it. Full
@@ -551,7 +557,7 @@ tr { break-inside:avoid; }
 <table><thead><tr><th scope="col">File</th><th scope="col">Purpose</th><th scope="col">Format</th><th scope="col">Size</th><th scope="col">State</th></tr></thead>
 <tbody><tr><td class="mono">IEFC Complete Curriculum.pdf</td><td>Press-quality text block</td>
     <td>PDF, A4 portrait, tagged, bookmarked</td>
-    <td class="mono">41.85 MB</td>
+    <td class="mono">20.09 MB</td>
     <td class="ok">Present</td></tr><tr><td class="mono">IEFC Cover Artwork.pdf</td><td>Cover spread</td>
     <td>PDF, single page, trim + bleed, no marks in live area</td>
     <td class="mono">0.52 MB</td>
@@ -560,7 +566,7 @@ tr { break-inside:avoid; }
     <td class="mono">0.37 MB</td>
     <td class="ok">Present</td></tr><tr><td class="mono">IEFC Production Specifications.pdf</td><td>This document</td>
     <td>PDF, A4 portrait</td>
-    <td class="mono">0.51 MB</td>
+    <td class="mono">0.52 MB</td>
     <td class="ok">Present</td></tr></tbody></table>
 <h3>Source</h3>
 <p>The publication has no binary assets. Its entire source is text, which means the whole book —

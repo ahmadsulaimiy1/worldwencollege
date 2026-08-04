@@ -3,3 +3,9 @@
 # tests/browser/listening-lab.mjs; not source)
 tests/browser/screenshots/
 node_modules/
+
+# Licensed photographic originals. The book places 2,400px derivatives
+# (363 dpi at the plate size); these full-resolution sources are archival
+# and too large for version control. Re-download via the licence if a
+# future edition places them larger.
+publication/img/source/

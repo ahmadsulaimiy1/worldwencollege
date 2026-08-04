@@ -426,9 +426,15 @@ ${contrastFails.length ? `<div class="panel"><p class="panel__h">Outstanding</p>
   <li><b>Grade</b><span>Duotone, computed per level: luminance mapped onto a ramp from the level’s
     ink to its wash. The grade is derived from the palette, so changing a level hue changes its
     plate.</span></li>
-  <li><b>Effective resolution</b><span>Every plate exceeds 300 dpi at its printed size; the
-    smallest source is 5,631 px wide. Verified on every build, not at selection — a large file is
-    high resolution at one size and low at another, and only the ratio matters.</span></li>
+  <li><b>Effective resolution</b><span>Each plate is placed at 2,400 px across a 168 mm frame:
+    <b>363 dpi</b>, above the 300 dpi offset floor with headroom for slight enlargement. Verified
+    on every build at the print measure, because a file that is 363 dpi in a 168 mm frame is
+    180 dpi in a 340 mm one — only the ratio matters.</span></li>
+  <li><b>Resampling</b><span>Sources are 5,631–8,192 px and are resampled to the placed size before
+    binding. Embedding an 8,192 px image in a 168 mm frame does not make the plate sharper — the
+    printer's RIP downsamples it anyway — it made a 42 MB PDF. Resampled, the same book is 21 MB.
+    Full-resolution originals are retained outside the publication for any future edition that
+    places them larger.</span></li>
   <li><b>Placement</b><span>Always a verso, facing its divider on the recto, so a level opens as a
     single spread composition.</span></li>
   <li><b>Bleed</b><span>None. The plates fill the type area (168 × 265 mm) and stop at it. Full

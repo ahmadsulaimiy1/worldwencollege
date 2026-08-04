@@ -317,17 +317,28 @@ export async function imageResolutions(htmlPath = `${ROOT}/publication/.flagship
   await page.goto(`file://${htmlPath}`, { waitUntil: 'load' });
   await page.evaluate(() => Promise.all([...document.images].filter((i) => !i.complete)
     .map((i) => new Promise((r) => { i.onload = r; i.onerror = r; }))));
-  const out = await page.evaluate(() => [...document.images].map((img) => {
-    const r = img.getBoundingClientRect();
-    // Rendered width in CSS px -> inches at 96 px/in.
-    const inches = r.width / 96;
-    return {
-      file: (img.getAttribute('src') || '').split('/').pop(),
-      natural: { w: img.naturalWidth, h: img.naturalHeight },
-      printedMm: Math.round((r.width / 96) * 25.4),
-      dpi: inches > 0 ? Math.round(img.naturalWidth / inches) : 0,
-    };
-  }));
+  // Constrain to the PRINT measure before measuring.
+  //
+  // Without this the plates are laid out against the browser viewport —
+  // 1280 px rather than the 635 px of the real text block — and every
+  // image reports half its true effective resolution. The first run of
+  // this check returned 180 dpi for six files that are 363 dpi on the
+  // page, and the finding was in the measurement, not the book.
+  const out = await page.evaluate((measure) => {
+    document.body.style.width = `${measure}px`;
+    document.body.style.margin = '0';
+    return [...document.images].map((img) => {
+      const r = img.getBoundingClientRect();
+      // Rendered width in CSS px -> inches at 96 px/in.
+      const inches = r.width / 96;
+      return {
+        file: (img.getAttribute('src') || '').split('/').pop(),
+        natural: { w: img.naturalWidth, h: img.naturalHeight },
+        printedMm: Math.round((r.width / 96) * 25.4),
+        dpi: inches > 0 ? Math.round(img.naturalWidth / inches) : 0,
+      };
+    });
+  }, MEASURE_PX);
   await browser.close();
   return out;
 }
