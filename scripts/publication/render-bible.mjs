@@ -16,7 +16,7 @@ import { buildCurriculum } from './curriculum.mjs';
 import { build as buildInstitutional } from './canonical.mjs';
 import { TYPE, C as PAL } from './design.mjs';
 import { publicationIdentity } from './identity.mjs';
-import { REGISTERS, GOVERNANCE, ALL_ENTRIES, OWNER } from './bible.mjs';
+import { REGISTERS, GOVERNANCE, ALL_ENTRIES, EXECUTED, OWNER } from './bible.mjs';
 import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -146,8 +146,9 @@ tr { break-inside:avoid; }
     whose problem it is.</p>
   <div class="cover__meta">
     ${esc(ID.publicationId)} · Document ID ${esc(ID.documentId)}<br>
-    Generated ${esc(ID.generated)} · ${ALL_ENTRIES.length} entries across
-    ${REGISTERS.length} registers, plus ${GOVERNANCE.length} governance items
+    Generated ${esc(ID.generated)} · ${EXECUTED.length} items executed ·
+    ${ALL_ENTRIES.length} remaining across ${REGISTERS.length} registers,
+    plus ${GOVERNANCE.length} governance items
   </div>
 </section>
 
@@ -186,6 +187,25 @@ tr { break-inside:avoid; }
     .map(([o, d]) => `<tr><td><span class="${OWNER_CLASS[o]}">${esc(o)}</span></td>
       <td class="mono">${byOwner(o)}</td><td>${esc(d)}</td></tr>`).join('')}
   </tbody></table>
+</section>
+
+<section class="reg">
+  <p class="eyebrow">Completed</p>
+  <h2>Executed in this edition</h2>
+  <p class="lead">${EXECUTED.length} items that were on these registers and are now in the book.
+    They are recorded rather than deleted: a register that only ever shrinks gives no account of
+    what was actually done, and the next edition's editor needs to know a subject index exists —
+    and how it is derived — before proposing one.</p>
+  <table><thead><tr><th scope="col">Item</th><th scope="col">What was built</th></tr></thead>
+    <tbody>${EXECUTED.map((e) => `<tr><td><b>${esc(e.item)}</b></td>
+      <td>${esc(e.built)}</td></tr>`).join('')}</tbody></table>
+  <div class="panel panel--calm">
+    <p class="panel__h">The standard applied</p>
+    <p>Every register entry was tested against one question: can this be done here, with no new
+      curriculum, no institutional decision and no external authority? Where the answer was yes it
+      was built rather than recorded. What remains below is what the answer was no to — and for
+      each, the reason is named.</p>
+  </div>
 </section>
 
 ${registerHtml}
@@ -271,6 +291,6 @@ await page.pdf({
 await browser.close();
 
 console.log(`BIBLE     ${out}`);
-console.log(`  ${ALL_ENTRIES.length} entries · ${REGISTERS.length} registers · `
-  + `${GOVERNANCE.length} governance items`);
+console.log(`  ${EXECUTED.length} executed · ${ALL_ENTRIES.length} remaining · `
+  + `${REGISTERS.length} registers · ${GOVERNANCE.length} governance items`);
 console.log(`  by owner: ${Object.values(OWNER).map((o) => `${o} ${byOwner(o)}`).join(' · ')}`);

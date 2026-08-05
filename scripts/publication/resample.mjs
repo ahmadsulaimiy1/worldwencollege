@@ -51,8 +51,8 @@ await page.goto(`file://${path.join(IMG, '.resample.html')}`, { waitUntil: 'load
 // file aside, so a second run enumerating the live directory silently
 // skipped it — the plate stayed at full resolution and nothing said so.
 const names = new Set([
-  ...readdirSync(IMG).filter((f) => /^level-[IVX]+\.jpg$/.test(f)),
-  ...(existsSync(ORIG) ? readdirSync(ORIG).filter((f) => /^level-[IVX]+\.jpg$/.test(f)) : []),
+  ...readdirSync(IMG).filter((f) => /^(?:level-[IVX]+|band-[a-z]+)\.jpg$/.test(f)),
+  ...(existsSync(ORIG) ? readdirSync(ORIG).filter((f) => /^(?:level-[IVX]+|band-[a-z]+)\.jpg$/.test(f)) : []),
 ]);
 for (const file of [...names].sort()) {
   const live = path.join(IMG, file);

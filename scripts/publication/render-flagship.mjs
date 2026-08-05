@@ -17,6 +17,7 @@ import { guillocheRosette, guillocheBand, girihRosette, frame, cornerFan, fleuro
 import { stageIcon, GENERIC_ICON } from './icons.mjs';
 import { parseRubric } from './curriculum.mjs';
 import { ascentChart, architectureGrid, lessonAnatomy, assessmentMap, skillsAcrossLevels } from './diagrams.mjs';
+import { subjectIndex, lexicalIndex, assessmentIndex, alphabetise, topicOf } from './indexes.mjs';
 import { writeFileSync, readFileSync, mkdirSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -318,7 +319,23 @@ function duotoneFilter(roman, pal) {
 }
 
 const DUOTONES = `<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>${ROMAN.map((r) => duotoneFilter(r, paletteFor(r))).join('')}</defs></svg>`;
+  <defs>${ROMAN.map((r) => duotoneFilter(r, paletteFor(r))).join('')}
+  ${duotoneFilter('brand', { ink: PAL.royalBlue, wash: '#F4F7FD' })}</defs></svg>`;
+
+/**
+ * A photographic band at the head of an institutional section.
+ *
+ * The level plates belong to their levels and take the level's duotone.
+ * These three belong to the institution, so they take the College's own
+ * royal blue — the same construction, one tier up. Set as a band rather
+ * than a full page because these sections carry reference matter a
+ * reader has come to USE, and a full-page image before an index is a
+ * page between the reader and the thing they are looking up.
+ */
+function photoBand(file, alt) {
+  return `<div class="band"><img src="${file}" alt="${esc(alt)}"
+    style="filter:url(#duo-brand)"><span class="band__rule"></span></div>`;
+}
 
 /**
  * A full-bleed plate. The image carries no caption: a caption on a
@@ -552,8 +569,125 @@ const ARCHITECTURE = `<section class="arch">
   </figure>
 </section>`;
 
-const FRONT = frontMatter(ID, I, CONTENTS, HOWTO + ARCHITECTURE);
-const BACK = backMatter(ID);
+// ---- The awards, side by side ---------------------------------------
+// Every value already exists in the award definitions. Set as one table
+// a reader can see the whole qualification at once, which six separate
+// dividers cannot do however well each is designed.
+const AWARDS = `<section class="awards">
+  ${photoBand('img/band-awards.jpg', 'Students in conversation in a university library')}
+  <p class="ed__eyebrow">The qualification</p>
+  <h2>The Six Awards</h2>
+  <p class="lead">Each level confers an award in its own right, and each is a prerequisite to the
+    next. A learner whose purpose is met at the third level leaves with the third award.</p>
+  <table class="awt"><thead><tr>
+    <th scope="col">Level</th><th scope="col">Programme</th><th scope="col">CEFR</th>
+    <th scope="col">Award conferred</th><th scope="col">Post-nominal</th>
+    <th scope="col">Standing</th></tr></thead>
+    <tbody>${C.levels.map((lv) => {
+    const p = paletteFor(lv.roman);
+    return `<tr>
+      <td class="awt__r" style="color:${p.ink}">${esc(lv.roman)}</td>
+      <td><b>${typo(lv.name)}</b></td>
+      <td class="awt__c">${esc(lv.cefr)}</td>
+      <td>${typo(lv.awardTitle || '—')}</td>
+      <td class="awt__p" style="color:${p.mid}">${esc(lv.postNominal || '—')}</td>
+      <td class="awt__s">${typo(lv.standing || '—')}</td></tr>`;
+  }).join('')}</tbody></table>
+  <p class="small">Every award, post-nominal and standing above is held in the College\u2019s award
+    definitions and printed from them. Duration is four months per level, twenty-four months for
+    the full ascent.</p>
+</section>`;
+
+// ---- Teaching from this book ----------------------------------------
+const GUIDE = `<section class="guide">
+  ${photoBand('img/band-guide.jpg', 'A student working at a laptop in a library')}
+  <p class="ed__eyebrow">For the teacher</p>
+  <h2>Teaching from This Book</h2>
+  <p class="lead">The apparatus on every lesson page is designed to be used in a particular way.
+    This page explains it once, so the rest of the volume does not have to.</p>
+
+  <h3>Before the session</h3>
+  <p>Read the objectives first: they are always the opening stage and they state what the learner
+    should be able to do by the end, not what will be covered. Then look at the stage tape beneath
+    the lesson title \u2014 the row of marks showing the shape of the session at a glance \u2014 and the
+    designed minutes beside it. That figure is summed from the timings the curriculum sets on its
+    own stages, so a lesson showing 45 minutes was built to fill 45 minutes.</p>
+
+  <h3>During the session</h3>
+  <p>The stages run in the printed order. Timings in brackets are designed durations, not limits;
+    a stage without a timing is not time-boxed and is meant to expand or contract with the class.
+    Model dialogue is set apart from instruction, with the speaker labels in the level\u2019s colour,
+    so it can be found without reading the page. Numbered practice items are the learner\u2019s to do
+    \u2014 they are not examples for the teacher to work through.</p>
+  <p>The formative assessment stage is the decision point. It exists to tell you whether to move
+    on, and it is placed where the answer still changes what you do next. If the check fails, the
+    revision stage of the following lesson is the designed place to return.</p>
+
+  <h3>Assessing</h3>
+  <p>Every module ends the same way: an assessed quiz, then an assessed assignment. The quiz
+    prints its answer key immediately beneath the questions, because this is a teacher\u2019s edition
+    and hunting for a key at the back of a 487-page book is a design failure. The assignment
+    carries a full grading rubric set as a table \u2014 the criterion on the left, what the marker is
+    looking for on the right. Mark down the criteria in order; the rubric is the instrument, not a
+    summary of one.</p>
+
+  <h3>Finding your way back</h3>
+  <p>Three indexes close the volume. The <em>Subject Index</em> answers "which lessons cover
+    this?"; the <em>Vocabulary and Phrase Index</em> answers "where was this word taught?"; the
+    <em>Assessment Index</em> lists all 120 assessed items in one place for planning a term.
+    All three point to lesson references \u2014 ${'IV.7.3'} means Level IV, Module 7, item 3 \u2014 rather
+    than page numbers, so they stay correct across editions and match the numbering used on the
+    platform.</p>
+</section>`;
+
+// ---- The indexes ------------------------------------------------------
+const SUBJECTS = subjectIndex(C);
+const LEXIS = lexicalIndex(C);
+const ASSESSMENTS = assessmentIndex(C);
+
+const indexBlock = (entries, cls) => `<div class="idx ${cls}">${
+  alphabetise(entries).map(([letter, rows]) => `<div class="idx__g">
+    <p class="idx__l">${letter}</p>
+    ${rows.map((e) => `<p class="idx__e">${typo(e.term)}<span class="idx__r">${
+  e.refs.join(', ')}</span></p>`).join('')}
+  </div>`).join('')}</div>`;
+
+const INDEXES = `<section class="index">
+  ${photoBand('img/band-index.jpg', 'Students at a university lecture')}
+  <p class="ed__eyebrow">Index one of three</p>
+  <h2>Subject Index</h2>
+  <p class="lead">${SUBJECTS.length} subjects, from the titles the curriculum gives its own
+    lessons. References are LEVEL.MODULE.ITEM.</p>
+  ${indexBlock(SUBJECTS, 'idx--subject')}
+</section>
+<section class="index">
+  <p class="ed__eyebrow">Index two of three</p>
+  <h2>Vocabulary and Phrase Index</h2>
+  <p class="lead">${LEXIS.length} words, phrases and collocations, taken from the terms the
+    curriculum quotes in its own vocabulary stages \u2014 with the lesson where each is taught.</p>
+  ${indexBlock(LEXIS, 'idx--lex')}
+</section>
+<section class="index index--assess">
+  <p class="ed__eyebrow">Index three of three</p>
+  <h2>Assessment Index</h2>
+  <p class="lead">All 120 assessed items in the programme: sixty quizzes carrying
+    ${C.totals.questions} questions, and sixty assignments carrying 307 rubric criteria.</p>
+  ${ASSESSMENTS.map(({ lv, rows }) => {
+    const p = paletteFor(lv.roman);
+    return `<div class="asx" style="--ink:${p.ink};--mid:${p.mid}">
+      <p class="asx__h">Level ${esc(lv.roman)} · ${typo(lv.name)} · CEFR ${esc(lv.cefr)}</p>
+      <table class="asx__t"><thead><tr><th scope="col">Module</th>
+        <th scope="col">Assessed quiz</th><th scope="col">Qs</th>
+        <th scope="col">Assessed assignment</th></tr></thead><tbody>
+        ${rows.map((r) => `<tr><td><b>${r.module}</b> ${typo(r.title)}</td>
+          <td class="mono">${r.quizRef || '—'}</td><td class="mono">${r.questions || '—'}</td>
+          <td class="mono">${r.asgRef || '—'}</td></tr>`).join('')}
+      </tbody></table></div>`;
+  }).join('')}
+</section>`;
+
+const FRONT = frontMatter(ID, I, CONTENTS, HOWTO + AWARDS + GUIDE + ARCHITECTURE);
+const BACK = INDEXES + backMatter(ID);
 
 // ---- The stylesheet --------------------------------------------------
 const CSS = `
@@ -1011,6 +1145,60 @@ table.rubric td { padding:3.8pt 6pt; border-bottom: .4pt solid rgba(0,0,0,.09);
   color:var(--soft); margin:0 0 7pt; padding-bottom:3pt; border-bottom: .4pt solid var(--rule); }
 .fig__c b { color:var(--ink); font-weight:700; }
 .fig__n { font-size:8.4pt; line-height:1.5; color:#3A3A3A; margin:8pt 0 0; max-width:38em; }
+
+/* ---------- Photographic band ---------- */
+/* Width is the content box exactly. Anything wider triggers the
+   document-wide shrink-to-fit the plates already taught this book about. */
+.band { position:relative; height:52mm; overflow:hidden; margin:0 0 11pt;
+  background:${PAL.royalBlue}; break-inside:avoid; break-after:avoid; }
+.band img { width:100%; height:100%; object-fit:cover; display:block; }
+.band__rule { position:absolute; left:0; right:0; bottom:0; height:2pt;
+  background:${BRAND.gold}; }
+
+/* ---------- Awards table ---------- */
+.awards, .guide, .index { break-before:page; }
+.awards h2, .guide h2, .index h2 { font-size:19pt; margin:0 0 4pt; }
+.awards h2::after, .guide h2::after, .index h2::after { content:''; display:block; width:100%;
+  height:.6pt; background:linear-gradient(90deg,var(--gold) 0 22%,var(--rule) 22%);
+  margin:7pt 0 13pt; }
+.guide h3 { font-size:11pt; margin:14pt 0 4pt; }
+table.awt { width:100%; border-collapse:collapse; font-size:8.4pt; margin:10pt 0; }
+table.awt th { background:${BRAND.ink}; color:#fff; text-align:left; padding:4.5pt 6pt;
+  font-family:var(--sans); font-size:6.4pt; letter-spacing:.12em; text-transform:uppercase; }
+table.awt td { padding:5pt 6pt; border-bottom:.4pt solid var(--rule); vertical-align:top;
+  line-height:1.4; }
+.awt__r { font-family:var(--serif); font-size:13pt; font-weight:700; text-align:center; }
+.awt__c { font-family:var(--sans); font-size:7.4pt; font-weight:700; white-space:nowrap; }
+.awt__p { font-family:var(--sans); font-size:7.6pt; font-weight:700; white-space:nowrap; }
+.awt__s { font-size:7.8pt; color:var(--soft); }
+
+/* ---------- Indexes ---------- */
+/* Two columns, because an index in one column wastes half the page and
+   an index in three sets the references too tight to scan. */
+.idx { columns:2; column-gap:12pt; margin-top:8pt; }
+.idx__g { break-inside:avoid-column; margin:0 0 7pt; }
+/* Bronze, not Royal Gold: these are 9pt letter heads on the text paper,
+   where Royal Gold reaches only 2.82:1. Introduced as gold and caught by
+   the standing check within minutes of being written. */
+.idx__l { font-family:var(--sans); font-size:9pt; font-weight:700; color:var(--bronze);
+  border-bottom:.6pt solid var(--rule); margin:0 0 3pt; padding-bottom:1.5pt; }
+.idx__e { font-size:8.2pt; line-height:1.38; margin:0 0 1.2pt; padding-left:9pt;
+  text-indent:-9pt; break-inside:avoid; }
+.idx__r { font-family:var(--sans); font-size:7pt; color:var(--soft); margin-left:5pt; }
+.idx--lex .idx__e { font-style:italic; }
+.idx--lex .idx__r { font-style:normal; }
+.index--assess { columns:auto; }
+.asx { break-inside:avoid; margin:0 0 12pt; }
+.asx__h { font-family:var(--sans); font-size:7.4pt; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink); margin:0 0 4pt; padding-bottom:2.5pt;
+  border-bottom:1.2pt solid var(--mid); }
+table.asx__t { width:100%; border-collapse:collapse; font-size:8.2pt; }
+table.asx__t th { text-align:left; padding:2.6pt 6pt; font-family:var(--sans); font-size:6.2pt;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--soft);
+  border-bottom:.4pt solid var(--rule); }
+table.asx__t td { padding:2.8pt 6pt; border-bottom:.4pt solid #EEF0F4; }
+table.asx__t .mono { font-family:"Consolas","DejaVu Sans Mono",monospace; font-size:7.4pt;
+  color:var(--mid); }
 
 /* ---------- Back matter ---------- */
 .clist__after { margin-top:12pt; padding-top:8pt; border-top: .4pt solid var(--rule); }

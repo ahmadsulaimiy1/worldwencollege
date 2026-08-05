@@ -52,29 +52,37 @@ const E = OWNER;
  * Improvements the publication can make to itself, without new
  * curriculum and without an institutional decision.
  */
+/**
+ * EXECUTED. Items that were on the registers and are now in the book.
+ *
+ * They are kept rather than deleted for two reasons: a register that
+ * only ever shrinks gives no account of what the editorial team did,
+ * and the next edition's editor needs to know that a subject index
+ * exists and how it is derived before proposing one.
+ */
+export const EXECUTED = [
+  { item: 'Subject index', built: '251 subjects extracted from the titles the curriculum gives '
+    + 'its own lessons, indexed by lesson reference rather than page so it survives reflow.' },
+  { item: 'Vocabulary and phrase index', built: '352 words, phrases and collocations taken from '
+    + 'the terms the curriculum quotes in its own vocabulary stages, each pointing to the lesson '
+    + 'where it is taught.' },
+  { item: 'Assessment index', built: 'All 120 assessed items in one table per level, with '
+    + 'question counts and references, for planning a term.' },
+  { item: 'Teacher’s introduction', built: '"Teaching from This Book" — before the session, '
+    + 'during it, assessing, and finding your way back. Describes only apparatus that exists.' },
+  { item: 'Awards comparison table', built: '"The Six Awards" — level, programme, CEFR band, '
+    + 'award, post-nominal and standing side by side, printed from the award definitions.' },
+  { item: 'Photography beyond the chapter openings', built: 'Three further licensed photographs '
+    + 'as duotone bands at the head of the institutional sections, graded in the College’s own '
+    + 'blue rather than a level colour — the same construction one tier up.' },
+  { item: 'Module study time', built: 'Designed minutes summed from the curriculum’s own stage '
+    + 'timings and printed on every module opener.' },
+];
+
 export const EDITORIAL_OPPORTUNITIES = [
-  { item: 'A subject index',
-    state: 'The volume has a contents list but no index.',
-    opportunity: 'Every grammar point, function and topic in the programme already exists as a '
-      + 'lesson title or a named stage. An index can be generated from that material with no new '
-      + 'writing at all, and an index is the single clearest signal that a book is a reference '
-      + 'work rather than a brochure.',
-    owner: E.EDITORIAL, impact: 'High', effort: 'Medium' },
-
-  { item: 'A vocabulary and phrase index',
-    state: 'KEY VOCABULARY, KEY PHRASES and PHRASAL VERBS & COLLOCATIONS appear as named stages '
-      + 'throughout, but only in the lesson where they are taught.',
-    opportunity: 'Collate them into a back-matter index keyed to level and module. A learner '
-      + 'revising for an assessment currently has no way to find where a word was introduced.',
-    owner: E.EDITORIAL, impact: 'High', effort: 'Medium' },
-
-  { item: 'A teacher’s introduction',
-    state: '"How to Read a Lesson" explains the page. Nothing explains how to run the programme.',
-    opportunity: 'A two-page introduction on sequencing, pacing against the designed timings, '
-      + 'using the formative checks to decide whether to move on, and marking from the rubrics. '
-      + 'All of it describes apparatus that already exists in the book.',
-    owner: E.EDITORIAL, impact: 'High', effort: 'Low' },
-
+  
+  
+  
   { item: 'Pull quotes and highlighted insights',
     state: 'Not used. The lesson pages are evenly weighted from top to bottom.',
     opportunity: 'Lesson bodies already contain memorable formulations. Setting a few per level '
@@ -141,13 +149,7 @@ export const CURRICULUM_ENHANCEMENTS = [
  * altering or inventing it.
  */
 export const PEDAGOGICAL_ENHANCEMENTS = [
-  { item: 'Designed study time made visible per module',
-    state: 'Already computed and printed on each module opener, summed from the timings the '
-      + 'curriculum sets on its own stages.',
-    opportunity: 'Extend the same derivation to level openers and the contents, so a learner can '
-      + 'plan a term. The data exists; only the presentation is missing.',
-    owner: E.EDITORIAL, impact: 'Medium', effort: 'Low' },
-
+  
   { item: 'A revision route through the programme',
     state: 'Every level ends with a Review & Consolidation module, and REVISION appears as a '
       + 'named stage 113 times.',
@@ -229,13 +231,7 @@ export const VISUAL_ENHANCEMENTS = [
       + 'the prose currently does.',
     owner: E.EDITORIAL, impact: 'Medium', effort: 'Medium' },
 
-  { item: 'Comparison table of the six awards',
-    state: 'Each award appears on its own level divider.',
-    opportunity: 'A single table setting the six awards, post-nominals, CEFR bands and standings '
-      + 'side by side would let a reader see the whole qualification at once. Every value already '
-      + 'exists in the award definitions.',
-    owner: E.EDITORIAL, impact: 'High', effort: 'Low' },
-];
+  ];
 
 /**
  * 6 · PUBLISHING IMPROVEMENT REGISTER

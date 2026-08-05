@@ -459,6 +459,60 @@ table.rubric td { padding:3.8pt 6pt; border-bottom: .4pt solid rgba(0,0,0,.09);
 .fig__c b { color:var(--ink); font-weight:700; }
 .fig__n { font-size:8.4pt; line-height:1.5; color:#3A3A3A; margin:8pt 0 0; max-width:38em; }
 
+/* ---------- Photographic band ---------- */
+/* Width is the content box exactly. Anything wider triggers the
+   document-wide shrink-to-fit the plates already taught this book about. */
+.band { position:relative; height:52mm; overflow:hidden; margin:0 0 11pt;
+  background:#1F3E7C; break-inside:avoid; break-after:avoid; }
+.band img { width:100%; height:100%; object-fit:cover; display:block; }
+.band__rule { position:absolute; left:0; right:0; bottom:0; height:2pt;
+  background:#B4933E; }
+
+/* ---------- Awards table ---------- */
+.awards, .guide, .index { break-before:page; }
+.awards h2, .guide h2, .index h2 { font-size:19pt; margin:0 0 4pt; }
+.awards h2::after, .guide h2::after, .index h2::after { content:''; display:block; width:100%;
+  height:.6pt; background:linear-gradient(90deg,var(--gold) 0 22%,var(--rule) 22%);
+  margin:7pt 0 13pt; }
+.guide h3 { font-size:11pt; margin:14pt 0 4pt; }
+table.awt { width:100%; border-collapse:collapse; font-size:8.4pt; margin:10pt 0; }
+table.awt th { background:#1F3E7C; color:#fff; text-align:left; padding:4.5pt 6pt;
+  font-family:var(--sans); font-size:6.4pt; letter-spacing:.12em; text-transform:uppercase; }
+table.awt td { padding:5pt 6pt; border-bottom:.4pt solid var(--rule); vertical-align:top;
+  line-height:1.4; }
+.awt__r { font-family:var(--serif); font-size:13pt; font-weight:700; text-align:center; }
+.awt__c { font-family:var(--sans); font-size:7.4pt; font-weight:700; white-space:nowrap; }
+.awt__p { font-family:var(--sans); font-size:7.6pt; font-weight:700; white-space:nowrap; }
+.awt__s { font-size:7.8pt; color:var(--soft); }
+
+/* ---------- Indexes ---------- */
+/* Two columns, because an index in one column wastes half the page and
+   an index in three sets the references too tight to scan. */
+.idx { columns:2; column-gap:12pt; margin-top:8pt; }
+.idx__g { break-inside:avoid-column; margin:0 0 7pt; }
+/* Bronze, not Royal Gold: these are 9pt letter heads on the text paper,
+   where Royal Gold reaches only 2.82:1. Introduced as gold and caught by
+   the standing check within minutes of being written. */
+.idx__l { font-family:var(--sans); font-size:9pt; font-weight:700; color:var(--bronze);
+  border-bottom:.6pt solid var(--rule); margin:0 0 3pt; padding-bottom:1.5pt; }
+.idx__e { font-size:8.2pt; line-height:1.38; margin:0 0 1.2pt; padding-left:9pt;
+  text-indent:-9pt; break-inside:avoid; }
+.idx__r { font-family:var(--sans); font-size:7pt; color:var(--soft); margin-left:5pt; }
+.idx--lex .idx__e { font-style:italic; }
+.idx--lex .idx__r { font-style:normal; }
+.index--assess { columns:auto; }
+.asx { break-inside:avoid; margin:0 0 12pt; }
+.asx__h { font-family:var(--sans); font-size:7.4pt; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink); margin:0 0 4pt; padding-bottom:2.5pt;
+  border-bottom:1.2pt solid var(--mid); }
+table.asx__t { width:100%; border-collapse:collapse; font-size:8.2pt; }
+table.asx__t th { text-align:left; padding:2.6pt 6pt; font-family:var(--sans); font-size:6.2pt;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--soft);
+  border-bottom:.4pt solid var(--rule); }
+table.asx__t td { padding:2.8pt 6pt; border-bottom:.4pt solid #EEF0F4; }
+table.asx__t .mono { font-family:"Consolas","DejaVu Sans Mono",monospace; font-size:7.4pt;
+  color:var(--mid); }
+
 /* ---------- Back matter ---------- */
 .clist__after { margin-top:12pt; padding-top:8pt; border-top: .4pt solid var(--rule); }
 .clist__after p:last-child { font-family:var(--sans); font-size:8pt; color:var(--soft); margin:0; }
@@ -552,6 +606,18 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
       <feFuncR type="table" tableValues="0.263 0.973"/>
       <feFuncG type="table" tableValues="0.129 0.937"/>
       <feFuncB type="table" tableValues="0.302 0.984"/>
+    </feComponentTransfer>
+  </filter>
+  <filter id="duo-brand" color-interpolation-filters="sRGB">
+    <feColorMatrix type="matrix" values="
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0.2126 0.7152 0.0722 0 0
+      0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0.122 0.957"/>
+      <feFuncG type="table" tableValues="0.243 0.969"/>
+      <feFuncB type="table" tableValues="0.486 0.992"/>
     </feComponentTransfer>
   </filter></defs></svg>
 
@@ -2769,6 +2835,97 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
     without a timing are not time-boxed. Model dialogue is set apart from instruction so that a
     teacher can find it at a glance, and an assessed quiz prints its answer key immediately
     beneath it — this is a teacher's edition.</p>
+</section><section class="awards">
+  <div class="band"><img src="img/band-awards.jpg" alt="Students in conversation in a university library"
+    style="filter:url(#duo-brand)"><span class="band__rule"></span></div>
+  <p class="ed__eyebrow">The qualification</p>
+  <h2>The Six Awards</h2>
+  <p class="lead">Each level confers an award in its own right, and each is a prerequisite to the
+    next. A learner whose purpose is met at the third level leaves with the third award.</p>
+  <table class="awt"><thead><tr>
+    <th scope="col">Level</th><th scope="col">Programme</th><th scope="col">CEFR</th>
+    <th scope="col">Award conferred</th><th scope="col">Post-nominal</th>
+    <th scope="col">Standing</th></tr></thead>
+    <tbody><tr>
+      <td class="awt__r" style="color:#1B2F5C">I</td>
+      <td><b>Foundation Programme</b></td>
+      <td class="awt__c">A1</td>
+      <td>English Aspirant of Worldwide English College</td>
+      <td class="awt__p" style="color:#4C6AA8">ApWEC</td>
+      <td class="awt__s">Entry into the tradition</td></tr><tr>
+      <td class="awt__r" style="color:#003844">II</td>
+      <td><b>Elementary Programme</b></td>
+      <td class="awt__c">A2</td>
+      <td>English Candidate of Worldwide English College</td>
+      <td class="awt__p" style="color:#00798F">CnWEC</td>
+      <td class="awt__s">Recognised learner of the College</td></tr><tr>
+      <td class="awt__r" style="color:#003D22">III</td>
+      <td><b>Intermediate Programme</b></td>
+      <td class="awt__c">B1</td>
+      <td>English Associate of Worldwide English College</td>
+      <td class="awt__p" style="color:#297E54">AsWEC</td>
+      <td class="awt__s">Established member of the academic community</td></tr><tr>
+      <td class="awt__r" style="color:#442C00">IV</td>
+      <td><b>Upper Intermediate Programme</b></td>
+      <td class="awt__c">B2</td>
+      <td>English Envoy of Worldwide English College</td>
+      <td class="awt__p" style="color:#8D6310">EnWEC</td>
+      <td class="awt__s">Trusted representative and communicator</td></tr><tr>
+      <td class="awt__r" style="color:#551C1D">V</td>
+      <td><b>Advanced Programme</b></td>
+      <td class="awt__c">C1</td>
+      <td>English Orator of Worldwide English College</td>
+      <td class="awt__p" style="color:#A05150">OrWEC</td>
+      <td class="awt__s">High-level intellectual and professional communicator</td></tr><tr>
+      <td class="awt__r" style="color:#43214D">VI</td>
+      <td><b>English Mastery Programme</b></td>
+      <td class="awt__c">C2</td>
+      <td>English Laureate of Worldwide English College</td>
+      <td class="awt__p" style="color:#855793">LrWEC</td>
+      <td class="awt__s">Distinguished master of the programme</td></tr></tbody></table>
+  <p class="small">Every award, post-nominal and standing above is held in the College’s award
+    definitions and printed from them. Duration is four months per level, twenty-four months for
+    the full ascent.</p>
+</section><section class="guide">
+  <div class="band"><img src="img/band-guide.jpg" alt="A student working at a laptop in a library"
+    style="filter:url(#duo-brand)"><span class="band__rule"></span></div>
+  <p class="ed__eyebrow">For the teacher</p>
+  <h2>Teaching from This Book</h2>
+  <p class="lead">The apparatus on every lesson page is designed to be used in a particular way.
+    This page explains it once, so the rest of the volume does not have to.</p>
+
+  <h3>Before the session</h3>
+  <p>Read the objectives first: they are always the opening stage and they state what the learner
+    should be able to do by the end, not what will be covered. Then look at the stage tape beneath
+    the lesson title — the row of marks showing the shape of the session at a glance — and the
+    designed minutes beside it. That figure is summed from the timings the curriculum sets on its
+    own stages, so a lesson showing 45 minutes was built to fill 45 minutes.</p>
+
+  <h3>During the session</h3>
+  <p>The stages run in the printed order. Timings in brackets are designed durations, not limits;
+    a stage without a timing is not time-boxed and is meant to expand or contract with the class.
+    Model dialogue is set apart from instruction, with the speaker labels in the level’s colour,
+    so it can be found without reading the page. Numbered practice items are the learner’s to do
+    — they are not examples for the teacher to work through.</p>
+  <p>The formative assessment stage is the decision point. It exists to tell you whether to move
+    on, and it is placed where the answer still changes what you do next. If the check fails, the
+    revision stage of the following lesson is the designed place to return.</p>
+
+  <h3>Assessing</h3>
+  <p>Every module ends the same way: an assessed quiz, then an assessed assignment. The quiz
+    prints its answer key immediately beneath the questions, because this is a teacher’s edition
+    and hunting for a key at the back of a 487-page book is a design failure. The assignment
+    carries a full grading rubric set as a table — the criterion on the left, what the marker is
+    looking for on the right. Mark down the criteria in order; the rubric is the instrument, not a
+    summary of one.</p>
+
+  <h3>Finding your way back</h3>
+  <p>Three indexes close the volume. The <em>Subject Index</em> answers "which lessons cover
+    this?"; the <em>Vocabulary and Phrase Index</em> answers "where was this word taught?"; the
+    <em>Assessment Index</em> lists all 120 assessed items in one place for planning a term.
+    All three point to lesson references — IV.7.3 means Level IV, Module 7, item 3 — rather
+    than page numbers, so they stay correct across editions and match the numbering used on the
+    platform.</p>
 </section><section class="arch">
   <p class="ed__eyebrow">The Architecture</p>
   <h2>The Shape of the Programme</h2>
@@ -30081,7 +30238,323 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
   </article>
   </section>
   </div>
-
+<section class="index">
+  <div class="band"><img src="img/band-index.jpg" alt="Students at a university lecture"
+    style="filter:url(#duo-brand)"><span class="band__rule"></span></div>
+  <p class="ed__eyebrow">Index one of three</p>
+  <h2>Subject Index</h2>
+  <p class="lead">251 subjects, from the titles the curriculum gives its own
+    lessons. References are LEVEL.MODULE.ITEM.</p>
+  <div class="idx idx--subject"><div class="idx__g">
+    <p class="idx__l">A</p>
+    <p class="idx__e">Academic<span class="idx__r">III.9.4, IV.2.4, IV.9.4, V.2.4</span></p><p class="idx__e">Academic Foundations<span class="idx__r">III.9.1, III.9.2, III.9.3, III.9.4, III.9.5</span></p><p class="idx__e">Academic Writing I<span class="idx__r">IV.2.1, IV.2.2, IV.2.3, IV.2.4, IV.2.5</span></p><p class="idx__e">Academic Writing II<span class="idx__r">IV.9.1, IV.9.2, IV.9.3, IV.9.4, IV.9.5</span></p><p class="idx__e">Academic Writing III<span class="idx__r">V.2.1, V.2.2, V.2.3, V.2.4, V.2.5</span></p><p class="idx__e">Address<span class="idx__r">VI.6.3, VI.6.5</span></p><p class="idx__e">Advanced<span class="idx__r">IV.1.4, IV.4.2, IV.5.2, V.2.3, V.3.3, V.4.2, V.5.2, V.6.4, V.8.2, V.10.3, V.10.4</span></p><p class="idx__e">Advanced Media &amp; Discourse Analysis<span class="idx__r">V.6.1, V.6.2, V.6.3, V.6.4, V.6.5</span></p><p class="idx__e">Advanced Present &amp; Past Systems<span class="idx__r">IV.1.1, IV.1.2, IV.1.3, IV.1.4, IV.1.5</span></p><p class="idx__e">Advice<span class="idx__r">I.9.3, II.7.3</span></p><p class="idx__e">Analysis<span class="idx__r">V.6.4, VI.4.3, VI.4.5</span></p><p class="idx__e">Argued<span class="idx__r">IV.5.2, V.4.3</span></p><p class="idx__e">Arguing a Position<span class="idx__r">IV.4.1, IV.4.2, IV.4.3, IV.4.4, IV.4.5</span></p><p class="idx__e">Around<span class="idx__r">I.2.3, I.5.4, VI.2.3</span></p><p class="idx__e">Around Town<span class="idx__r">I.5.1, I.5.2, I.5.3, I.5.4, I.5.5</span></p><p class="idx__e">Audience<span class="idx__r">IV.6.3, V.9.3</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">B</p>
+    <p class="idx__e">Back<span class="idx__r">IV.1.3, IV.1.5</span></p><p class="idx__e">Based<span class="idx__r">IV.9.3, IV.9.5</span></p><p class="idx__e">Been<span class="idx__r">III.2.2, III.7.3, IV.5.2, V.8.2</span></p><p class="idx__e">Bias<span class="idx__r">IV.7.2, V.6.3</span></p><p class="idx__e">Boardroom<span class="idx__r">VI.3.3, VI.3.5</span></p><p class="idx__e">Body<span class="idx__r">I.9.2, III.7.4, V.2.2</span></p><p class="idx__e">Briefing<span class="idx__r">IV.6.3, IV.6.5, V.9.3, V.9.5, VI.1.3, VI.1.5</span></p><p class="idx__e">Business<span class="idx__r">III.3.3, III.3.5, VI.3.4</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">C</p>
+    <p class="idx__e">Capstone — Global Challenges &amp; Mastery Examination<span class="idx__r">VI.10.1, VI.10.2, VI.10.3, VI.10.4</span></p><p class="idx__e">Case<span class="idx__r">III.5.3, V.5.5, V.8.2, VI.5.3</span></p><p class="idx__e">Chaired<span class="idx__r">VI.9.3, VI.9.5</span></p><p class="idx__e">Changed<span class="idx__r">III.1.5, V.6.2</span></p><p class="idx__e">City<span class="idx__r">I.2.3, II.6.3</span></p><p class="idx__e">Claims<span class="idx__r">III.6.3, V.4.3</span></p><p class="idx__e">Clauses<span class="idx__r">III.2.2, IV.8.2</span></p><p class="idx__e">Cohesion<span class="idx__r">IV.7.3, IV.9.3, V.2.3</span></p><p class="idx__e">Communication<span class="idx__r">IV.4.5, V.1.5, V.5.4, V.5.5, V.8.3, VI.7.3, VI.7.4</span></p><p class="idx__e">Comparing<span class="idx__r">II.6.3, III.8.5</span></p><p class="idx__e">Comparison<span class="idx__r">III.8.3, III.8.5</span></p><p class="idx__e">Complex<span class="idx__r">V.4.4, V.7.2, VI.3.2</span></p><p class="idx__e">Complex Systems (Science, Economics, Policy)<span class="idx__r">V.4.1, V.4.2, V.4.3, V.4.4, V.4.5</span></p><p class="idx__e">Conditional<span class="idx__r">III.3.2, III.3.3, III.8.2, IV.3.2</span></p><p class="idx__e">Conference<span class="idx__r">V.7.5, VI.8.3, VI.8.5, VI.9.3, VI.9.5</span></p><p class="idx__e">Continuous<span class="idx__r">II.1.2, II.3.2, II.5.2, III.2.2, IV.1.2</span></p><p class="idx__e">Crisis<span class="idx__r">V.8.3, V.8.5, VI.7.3, VI.7.5</span></p><p class="idx__e">Critique<span class="idx__r">III.6.5, IV.7.5, VI.5.3, VI.5.5</span></p><p class="idx__e">Cross<span class="idx__r">V.5.4, V.5.5</span></p><p class="idx__e">Cross — Cultural Communication<span class="idx__r">V.5.1, V.5.2, V.5.3, V.5.4, V.5.5</span></p><p class="idx__e">Cultural<span class="idx__r">III.8.3, III.8.5, V.5.3, V.5.4, V.5.5</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">D</p>
+    <p class="idx__e">Debate<span class="idx__r">II.4.5, III.4.3, III.4.4, III.4.5, IV.4.3, IV.4.5</span></p><p class="idx__e">Deduction<span class="idx__r">III.7.2, III.7.3</span></p><p class="idx__e">Defence<span class="idx__r">VI.5.3, VI.5.5</span></p><p class="idx__e">Defining<span class="idx__r">III.2.2, IV.8.2</span></p><p class="idx__e">Deliberation<span class="idx__r">VI.9.3, VI.9.5</span></p><p class="idx__e">Describe<span class="idx__r">I.2.5, I.6.5</span></p><p class="idx__e">Describing<span class="idx__r">I.6.2, I.6.3, I.6.4</span></p><p class="idx__e">Describing People &amp; Things<span class="idx__r">I.6.1, I.6.2, I.6.3, I.6.4, I.6.5</span></p><p class="idx__e">Diplomacy &amp; International Relations<span class="idx__r">VI.2.1, VI.2.2, VI.2.3, VI.2.4, VI.2.5</span></p><p class="idx__e">Diplomatic<span class="idx__r">VI.2.2, VI.2.3, VI.2.5</span></p><p class="idx__e">Discourse<span class="idx__r">V.6.4, V.7.2</span></p><p class="idx__e">Discussion<span class="idx__r">IV.5.3, V.8.3</span></p><p class="idx__e">Doing<span class="idx__r">II.1.2, II.3.2</span></p><p class="idx__e">Drafting<span class="idx__r">V.2.3, VI.4.2</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">E</p>
+    <p class="idx__e">Editing<span class="idx__r">V.9.2, VI.10.2</span></p><p class="idx__e">Editorial<span class="idx__r">VI.7.2, VI.7.5</span></p><p class="idx__e">Education &amp; Learning<span class="idx__r">III.2.1, III.2.2, III.2.3, III.2.4, III.2.5</span></p><p class="idx__e">Elementary<span class="idx__r">II.10.3, II.10.4</span></p><p class="idx__e">Emphasis<span class="idx__r">V.3.2, V.6.2, VI.3.2</span></p><p class="idx__e">Environment, Ethics &amp; Global Citizenship<span class="idx__r">III.5.1, III.5.2, III.5.3, III.5.4, III.5.5</span></p><p class="idx__e">Essay<span class="idx__r">III.9.5, IV.2.2, IV.2.5, IV.5.5, IV.9.3, IV.9.5, V.2.3, V.7.5, VI.1.5</span></p><p class="idx__e">Ethical<span class="idx__r">III.5.3, VI.9.3, VI.9.5</span></p><p class="idx__e">Ethics<span class="idx__r">III.5.4, IV.5.4, VI.9.4</span></p><p class="idx__e">Ethics &amp; Responsible Leadership<span class="idx__r">VI.9.1, VI.9.2, VI.9.3, VI.9.4, VI.9.5</span></p><p class="idx__e">Everyday Objects &amp; Places<span class="idx__r">I.2.1, I.2.2, I.2.3, I.2.4, I.2.5</span></p><p class="idx__e">Exam<span class="idx__r">I.10.3, I.10.4, II.10.3, II.10.4, III.10.3, III.10.4, IV.10.3, IV.10.4, V.10.3, V.10.4</span></p><p class="idx__e">Examination<span class="idx__r">VI.10.3, VI.10.4</span></p><p class="idx__e">Executive<span class="idx__r">V.9.3, V.9.5, VI.1.2, VI.1.3, VI.1.4, VI.1.5, VI.3.3, VI.3.5</span></p><p class="idx__e">Experience<span class="idx__r">III.1.2, III.1.4, III.1.5</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">F</p>
+    <p class="idx__e">Family<span class="idx__r">I.3.2, I.3.4, I.6.5</span></p><p class="idx__e">Family &amp; Routines<span class="idx__r">I.3.1, I.3.2, I.3.3, I.3.4, I.3.5</span></p><p class="idx__e">Food<span class="idx__r">I.4.4, II.7.4</span></p><p class="idx__e">Food &amp; Shopping<span class="idx__r">I.4.1, I.4.2, I.4.3, I.4.4, I.4.5</span></p><p class="idx__e">Food, Health &amp; Habits<span class="idx__r">II.7.1, II.7.2, II.7.3, II.7.4, II.7.5</span></p><p class="idx__e">Formal<span class="idx__r">III.4.3, IV.4.3, IV.4.5, IV.6.3, IV.6.5, V.8.2</span></p><p class="idx__e">Foundation<span class="idx__r">I.10.3, I.10.4</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">G</p>
+    <p class="idx__e">Giving<span class="idx__r">I.5.3, I.9.3, II.4.3</span></p><p class="idx__e">Global<span class="idx__r">III.5.4, III.5.5, IV.6.4, IV.6.5, VI.3.4</span></p><p class="idx__e">Global Business Strategy<span class="idx__r">VI.3.1, VI.3.2, VI.3.3, VI.3.4, VI.3.5</span></p><p class="idx__e">Global Issues<span class="idx__r">IV.6.1, IV.6.2, IV.6.3, IV.6.4, IV.6.5</span></p><p class="idx__e">Going<span class="idx__r">I.8.3, II.5.2</span></p><p class="idx__e">Grammar<span class="idx__r">I.10.3, II.10.3, III.10.3, IV.10.3, V.10.3, VI.10.3</span></p><p class="idx__e">Grammar &amp; Vocabulary<span class="idx__r">I.10.3, II.10.3, III.10.3, IV.10.3, V.10.3</span></p><p class="idx__e">Grant<span class="idx__r">VI.6.3, VI.6.5</span></p><p class="idx__e">Guide<span class="idx__r">I.10.1, II.10.1, III.10.1, IV.10.1, V.1.5, V.10.1, VI.10.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">H</p>
+    <p class="idx__e">Health<span class="idx__r">I.9.2, I.9.4, II.7.4, III.7.4</span></p><p class="idx__e">Health &amp; Feelings<span class="idx__r">I.9.1, I.9.2, I.9.3, I.9.4, I.9.5</span></p><p class="idx__e">Health, Body &amp; Mind<span class="idx__r">III.7.1, III.7.2, III.7.3, III.7.4, III.7.5</span></p><p class="idx__e">Healthcare<span class="idx__r">III.7.3, III.7.5</span></p><p class="idx__e">Hedging<span class="idx__r">V.4.3, VI.2.2</span></p><p class="idx__e">Homes &amp; Neighbourhoods<span class="idx__r">II.6.1, II.6.2, II.6.3, II.6.4, II.6.5</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">I</p>
+    <p class="idx__e">Idea<span class="idx__r">III.3.3, III.3.5, III.9.2</span></p><p class="idx__e">Idiom<span class="idx__r">V.1.3, V.1.4</span></p><p class="idx__e">Informed<span class="idx__r">V.7.3, VI.1.2</span></p><p class="idx__e">Innovation &amp; Emerging Technologies<span class="idx__r">VI.6.1, VI.6.2, VI.6.3, VI.6.4, VI.6.5</span></p><p class="idx__e">Intermediate<span class="idx__r">III.10.3, III.10.4, IV.10.3, IV.10.4</span></p><p class="idx__e">Interview<span class="idx__r">III.7.3, III.7.5, IV.3.3, IV.3.5, V.6.3, V.6.5, VI.7.3</span></p><p class="idx__e">Inversion<span class="idx__r">V.3.2, VI.3.2</span></p><p class="idx__e">Issue<span class="idx__r">III.5.5, IV.6.5</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">K</p>
+    <p class="idx__e">Keynote<span class="idx__r">VI.6.3, VI.6.5</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">L</p>
+    <p class="idx__e">Language<span class="idx__r">III.4.2, IV.4.2, IV.8.3, VI.9.2</span></p><p class="idx__e">Last<span class="idx__r">I.7.3, I.7.5</span></p><p class="idx__e">Law &amp; Justice<span class="idx__r">VI.5.1, VI.5.2, VI.5.3, VI.5.4, VI.5.5</span></p><p class="idx__e">Leadership<span class="idx__r">IV.4.5, V.3.4, V.3.5, VI.1.3, VI.1.4, VI.1.5, VI.7.3, VI.9.4</span></p><p class="idx__e">Leadership &amp; Persuasion<span class="idx__r">V.3.1, V.3.2, V.3.3, V.3.4, V.3.5</span></p><p class="idx__e">Leading<span class="idx__r">V.3.3, VI.1.3</span></p><p class="idx__e">Learning<span class="idx__r">III.2.4, III.2.5</span></p><p class="idx__e">Level<span class="idx__r">I.10.1, I.10.3, I.10.4, II.10.1, II.10.3, II.10.4, III.10.1, III.10.3, III.10.4, IV.10.1, IV.10.3, IV.10.4, V.2.3, V.10.1, V.10.3, V.10.4, VI.10.1</span></p><p class="idx__e">Level Mock Exam<span class="idx__r">I.10.3, I.10.4, II.10.3, II.10.4, III.10.3, III.10.4, IV.10.3, IV.10.4, V.10.3, V.10.4</span></p><p class="idx__e">Life<span class="idx__r">I.3.5, II.1.3, II.1.4, II.1.5, II.3.5, III.1.4, III.1.5</span></p><p class="idx__e">Life Stories<span class="idx__r">II.1.1, II.1.2, II.1.3, II.1.4, II.1.5</span></p><p class="idx__e">Like<span class="idx__r">I.6.2, II.8.3</span></p><p class="idx__e">Likes, Dislikes &amp; Opinions<span class="idx__r">II.4.1, II.4.2, II.4.3, II.4.4, II.4.5</span></p><p class="idx__e">Literacy<span class="idx__r">III.6.3, IV.7.4</span></p><p class="idx__e">Literature<span class="idx__r">V.2.2, V.2.3, V.2.5</span></p><p class="idx__e">Looking<span class="idx__r">IV.1.3, IV.1.5</span></p><p class="idx__e">Looking Back<span class="idx__r">IV.1.3, IV.1.5</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">M</p>
+    <p class="idx__e">Making Plans<span class="idx__r">II.5.1, II.5.2, II.5.3, II.5.4, II.5.5</span></p><p class="idx__e">Mastery<span class="idx__r">VI.1.4, VI.10.3, VI.10.4</span></p><p class="idx__e">Mastery Diagnostic &amp; Executive Leadership<span class="idx__r">VI.1.1, VI.1.2, VI.1.3, VI.1.4, VI.1.5</span></p><p class="idx__e">Mastery Examination<span class="idx__r">VI.10.3, VI.10.4</span></p><p class="idx__e">Media<span class="idx__r">III.6.3, III.6.4, III.6.5, IV.7.4, IV.7.5, V.6.3, V.6.4, V.6.5, VI.7.4</span></p><p class="idx__e">Media &amp; Public Communication<span class="idx__r">VI.7.1, VI.7.2, VI.7.3, VI.7.4, VI.7.5</span></p><p class="idx__e">Media Literacy &amp; Critical Reading<span class="idx__r">IV.7.1, IV.7.2, IV.7.3, IV.7.4, IV.7.5</span></p><p class="idx__e">Meet<span class="idx__r">II.5.5, III.3.2</span></p><p class="idx__e">Meeting<span class="idx__r">I.1.4, IV.8.3, IV.8.5, V.4.3</span></p><p class="idx__e">Meeting People<span class="idx__r">I.1.1, I.1.2, I.1.3, I.1.4, I.1.5</span></p><p class="idx__e">Meetings &amp; Negotiation<span class="idx__r">IV.8.1, IV.8.2, IV.8.3, IV.8.4, IV.8.5</span></p><p class="idx__e">Minutes<span class="idx__r">IV.8.5, VI.8.3</span></p><p class="idx__e">Mixed<span class="idx__r">IV.1.3, V.1.2</span></p><p class="idx__e">Mock<span class="idx__r">I.10.3, I.10.4, II.10.3, II.10.4, III.10.3, III.10.4, IV.3.5, IV.10.3, IV.10.4, V.10.3, V.10.4</span></p><p class="idx__e">Modality<span class="idx__r">V.5.2, VI.4.2</span></p><p class="idx__e">Modals<span class="idx__r">III.7.2, III.7.3, IV.6.2</span></p><p class="idx__e">Must<span class="idx__r">III.7.2, VI.4.2</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">N</p>
+    <p class="idx__e">Negotiation<span class="idx__r">IV.8.3, IV.8.4, IV.8.5, V.3.3, V.5.3, VI.2.3, VI.2.5</span></p><p class="idx__e">Nominalisation<span class="idx__r">IV.6.2, V.4.2</span></p><p class="idx__e">Nuance &amp; Idiom<span class="idx__r">V.1.1, V.1.2, V.1.3, V.1.4, V.1.5</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">O</p>
+    <p class="idx__e">Opinion<span class="idx__r">II.4.5, III.4.2, VI.7.2, VI.7.5</span></p><p class="idx__e">Opinions<span class="idx__r">II.4.3, II.4.4, III.4.4</span></p><p class="idx__e">Opinions &amp; Debate<span class="idx__r">III.4.1, III.4.2, III.4.3, III.4.4, III.4.5</span></p><p class="idx__e">Oral<span class="idx__r">VI.5.3, VI.5.5</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">P</p>
+    <p class="idx__e">Panel<span class="idx__r">IV.5.3, V.8.3, VI.4.3, VI.4.5</span></p><p class="idx__e">Paper<span class="idx__r">V.3.5, V.5.5, VI.8.2, VI.8.5, VI.9.3, VI.9.5</span></p><p class="idx__e">Paraphrasing<span class="idx__r">III.2.3, IV.2.3</span></p><p class="idx__e">Passive<span class="idx__r">III.5.2, III.5.3, IV.5.2, V.8.2</span></p><p class="idx__e">Past<span class="idx__r">I.7.2, I.7.3, I.7.4, II.1.2, II.6.2, II.8.2, III.1.3, III.5.3, III.7.3, IV.1.2, IV.1.4</span></p><p class="idx__e">Past Experiences<span class="idx__r">I.7.1, I.7.2, I.7.3, I.7.4, I.7.5</span></p><p class="idx__e">People<span class="idx__r">I.1.4, I.6.2, I.6.4</span></p><p class="idx__e">Perfect<span class="idx__r">III.1.2, III.1.3, III.1.4, III.2.2, IV.1.2</span></p><p class="idx__e">Persuasion<span class="idx__r">V.3.3, V.3.4</span></p><p class="idx__e">Places<span class="idx__r">I.2.4, II.6.3</span></p><p class="idx__e">Plan<span class="idx__r">II.2.5, II.7.5</span></p><p class="idx__e">Plans<span class="idx__r">I.8.3, I.8.4, I.8.5, II.5.4</span></p><p class="idx__e">Plans &amp; Abilities<span class="idx__r">I.8.1, I.8.2, I.8.3, I.8.4, I.8.5</span></p><p class="idx__e">Policy<span class="idx__r">V.4.4, V.4.5, VI.4.2, VI.4.3, VI.4.4, VI.4.5</span></p><p class="idx__e">Politeness<span class="idx__r">V.5.2, V.5.3</span></p><p class="idx__e">Position<span class="idx__r">IV.2.2, IV.4.4, V.3.5</span></p><p class="idx__e">Precision<span class="idx__r">V.9.2, VI.5.2</span></p><p class="idx__e">Present<span class="idx__r">I.3.3, II.3.2, II.5.2, III.1.2, III.1.3, III.1.4, III.2.2, III.5.2, III.7.2, IV.1.4</span></p><p class="idx__e">Present Perfect &amp; Life Experience<span class="idx__r">III.1.1, III.1.2, III.1.3, III.1.4, III.1.5</span></p><p class="idx__e">Presentation<span class="idx__r">IV.6.3, IV.6.5, V.7.3, V.7.4, V.7.5, VI.3.3, VI.3.5, VI.8.3, VI.8.5</span></p><p class="idx__e">Pressure<span class="idx__r">V.8.2, V.8.3</span></p><p class="idx__e">Professional<span class="idx__r">IV.3.3, IV.3.5, V.8.4</span></p><p class="idx__e">Professional Advocacy<span class="idx__r">V.8.1, V.8.2, V.8.3, V.8.4, V.8.5</span></p><p class="idx__e">Proposal<span class="idx__r">V.8.5, VI.6.3, VI.6.5</span></p><p class="idx__e">Public<span class="idx__r">VI.4.4, VI.7.4</span></p><p class="idx__e">Public Policy<span class="idx__r">VI.4.1, VI.4.2, VI.4.3, VI.4.4, VI.4.5</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">Q</p>
+    <p class="idx__e">Questions<span class="idx__r">I.7.3, II.8.2, VI.8.3</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">R</p>
+    <p class="idx__e">Reading<span class="idx__r">II.4.2, IV.7.2, IV.7.4, V.1.3, V.5.3</span></p><p class="idx__e">Recommendations<span class="idx__r">VI.2.3, VI.2.5</span></p><p class="idx__e">Reflection<span class="idx__r">III.5.5, III.7.5</span></p><p class="idx__e">Reflective<span class="idx__r">III.2.5, IV.1.3, IV.1.5, VI.1.3, VI.1.5</span></p><p class="idx__e">Register<span class="idx__r">V.1.3, V.4.2, V.9.3, VI.1.2, VI.2.2, VI.6.2</span></p><p class="idx__e">Relative<span class="idx__r">III.2.2, IV.8.2</span></p><p class="idx__e">Report<span class="idx__r">III.2.5, III.5.5, IV.6.5, V.9.5, VI.3.3, VI.3.5</span></p><p class="idx__e">Reported<span class="idx__r">III.6.2, IV.5.3</span></p><p class="idx__e">Research<span class="idx__r">IV.9.3, IV.9.5, V.7.3, V.7.4, V.7.5, VI.8.2, VI.8.4, VI.8.5</span></p><p class="idx__e">Research &amp; Presentation<span class="idx__r">V.7.1, V.7.2, V.7.3, V.7.4, V.7.5</span></p><p class="idx__e">Research &amp; Scholarship<span class="idx__r">VI.8.1, VI.8.2, VI.8.3, VI.8.4, VI.8.5</span></p><p class="idx__e">Responding<span class="idx__r">II.4.3, V.8.3</span></p><p class="idx__e">Response<span class="idx__r">V.8.5, VI.7.5</span></p><p class="idx__e">Review &amp; Consolidation<span class="idx__r">I.10.1, I.10.2, I.10.3, I.10.4, II.10.1, II.10.2, II.10.3, II.10.4, III.10.1, III.10.2, III.10.3, III.10.4, IV.10.1, IV.10.2, IV.10.3, IV.10.4, V.10.1, V.10.2, V.10.3, V.10.4</span></p><p class="idx__e">Revision<span class="idx__r">I.10.1, I.10.2, II.10.1, II.10.2, III.10.1, III.10.2, IV.10.1, IV.10.2, V.10.1, V.10.2, VI.10.1, VI.10.2</span></p><p class="idx__e">Revision Lesson<span class="idx__r">I.10.2, II.10.2, III.10.2, IV.10.2, V.10.2, VI.10.2</span></p><p class="idx__e">Rhetorical<span class="idx__r">IV.7.2, V.3.2, VI.7.2</span></p><p class="idx__e">Roleplay<span class="idx__r">I.4.5, I.9.5, III.7.5, IV.8.5</span></p><p class="idx__e">Room<span class="idx__r">I.2.5, V.1.3, V.3.3, VI.9.3</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">S</p>
+    <p class="idx__e">Scholarly<span class="idx__r">VI.5.3, VI.5.5</span></p><p class="idx__e">Science<span class="idx__r">IV.5.4, V.4.4</span></p><p class="idx__e">Science, Technology &amp; Ethics<span class="idx__r">IV.5.1, IV.5.2, IV.5.3, IV.5.4, IV.5.5</span></p><p class="idx__e">Sentences<span class="idx__r">III.9.2, V.6.2</span></p><p class="idx__e">Shopping<span class="idx__r">I.4.4, II.8.4</span></p><p class="idx__e">Shopping &amp; Services<span class="idx__r">II.8.1, II.8.2, II.8.3, II.8.4, II.8.5</span></p><p class="idx__e">Short<span class="idx__r">II.4.5, III.2.5, III.9.5</span></p><p class="idx__e">Should<span class="idx__r">I.9.3, II.7.3, VI.4.2</span></p><p class="idx__e">Simple<span class="idx__r">I.3.3, I.9.3, II.1.2, II.3.2, II.8.2, III.1.3, III.5.2, III.5.3, IV.1.2</span></p><p class="idx__e">Source<span class="idx__r">III.9.3, IV.9.2</span></p><p class="idx__e">Sources<span class="idx__r">IV.9.2, IV.9.5, V.2.2</span></p><p class="idx__e">Speaking<span class="idx__r">I.10.4, II.10.4, III.10.4, IV.10.4, V.10.4</span></p><p class="idx__e">Speaking &amp; Writing<span class="idx__r">I.10.4, II.10.4, III.10.4, IV.10.4, V.10.4</span></p><p class="idx__e">Speech<span class="idx__r">III.6.2, IV.5.3, V.3.5</span></p><p class="idx__e">Statements<span class="idx__r">III.6.2, IV.2.2</span></p><p class="idx__e">Stories<span class="idx__r">II.1.4, II.9.4</span></p><p class="idx__e">Story<span class="idx__r">II.1.5, II.9.2, II.9.3, II.9.5</span></p><p class="idx__e">Strategic<span class="idx__r">V.8.5, VI.2.3, VI.2.5, VI.3.2</span></p><p class="idx__e">Strategy<span class="idx__r">VI.3.2, VI.3.4</span></p><p class="idx__e">Structure<span class="idx__r">III.9.2, IV.4.3</span></p><p class="idx__e">Structured<span class="idx__r">I.10.2, II.10.2, III.4.2, III.4.5, III.9.3, III.9.5, III.10.2, IV.10.2, V.10.2</span></p><p class="idx__e">Structured Consolidation Activities<span class="idx__r">I.10.2, II.10.2, III.10.2, IV.10.2, V.10.2</span></p><p class="idx__e">Structuring<span class="idx__r">V.7.2, V.7.3</span></p><p class="idx__e">Study<span class="idx__r">II.3.4, III.5.3, V.5.5</span></p><p class="idx__e">Style<span class="idx__r">V.1.5, V.9.4</span></p><p class="idx__e">Style &amp; Voice<span class="idx__r">V.9.1, V.9.2, V.9.3, V.9.4, V.9.5</span></p><p class="idx__e">Synthesising<span class="idx__r">IV.9.2, V.2.2</span></p><p class="idx__e">Systems<span class="idx__r">IV.1.4, V.4.4</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">T</p>
+    <p class="idx__e">Taking<span class="idx__r">III.2.3, IV.2.2</span></p><p class="idx__e">Talk<span class="idx__r">III.9.3, III.9.5</span></p><p class="idx__e">Talking<span class="idx__r">I.8.2, I.8.3</span></p><p class="idx__e">Technical<span class="idx__r">V.4.2, VI.6.2</span></p><p class="idx__e">Technologies<span class="idx__r">IV.5.5, VI.6.4</span></p><p class="idx__e">Technology<span class="idx__r">III.6.4, III.6.5, IV.5.4</span></p><p class="idx__e">Technology &amp; Media<span class="idx__r">III.6.1, III.6.2, III.6.3, III.6.4, III.6.5</span></p><p class="idx__e">Telling<span class="idx__r">II.9.3, II.9.4</span></p><p class="idx__e">Telling Stories<span class="idx__r">II.9.1, II.9.2, II.9.3, II.9.4, II.9.5</span></p><p class="idx__e">The World of Work<span class="idx__r">IV.3.1, IV.3.2, IV.3.3, IV.3.4, IV.3.5</span></p><p class="idx__e">Things<span class="idx__r">I.6.3, I.6.4, VI.7.2</span></p><p class="idx__e">Together<span class="idx__r">IV.9.3, V.2.3</span></p><p class="idx__e">Tone<span class="idx__r">IV.7.2, V.9.3</span></p><p class="idx__e">Transport<span class="idx__r">II.2.3, II.2.4</span></p><p class="idx__e">Travel<span class="idx__r">II.2.3, II.2.4, III.8.4</span></p><p class="idx__e">Travel &amp; Culture<span class="idx__r">III.8.1, III.8.2, III.8.3, III.8.4, III.8.5</span></p><p class="idx__e">Travel &amp; Transport<span class="idx__r">II.2.1, II.2.2, II.2.3, II.2.4, II.2.5</span></p><p class="idx__e">Trip<span class="idx__r">II.2.3, II.2.5</span></p><p class="idx__e">True<span class="idx__r">III.6.3, IV.4.2</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">U</p>
+    <p class="idx__e">Under<span class="idx__r">V.8.2, V.8.3, VI.7.3</span></p><p class="idx__e">Upper<span class="idx__r">IV.10.3, IV.10.4</span></p><p class="idx__e">Upper Intermediate<span class="idx__r">IV.10.3, IV.10.4</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">V</p>
+    <p class="idx__e">Verbs<span class="idx__r">I.7.2, I.7.3, II.4.2</span></p><p class="idx__e">Vocabulary<span class="idx__r">I.10.3, II.2.3, II.10.3, III.10.3, IV.10.3, V.10.3, VI.10.3</span></p><p class="idx__e">Voice<span class="idx__r">III.5.2, III.5.3, IV.5.2, V.9.3, V.9.4</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">W</p>
+    <p class="idx__e">Weekend<span class="idx__r">I.7.3, I.8.5</span></p><p class="idx__e">Work<span class="idx__r">II.3.3, II.3.4, III.3.4, IV.3.4</span></p><p class="idx__e">Work &amp; Study<span class="idx__r">II.3.1, II.3.2, II.3.3, II.3.4, II.3.5</span></p><p class="idx__e">Work, Careers &amp; Entrepreneurship<span class="idx__r">III.3.1, III.3.2, III.3.3, III.3.4, III.3.5</span></p><p class="idx__e">Writing<span class="idx__r">I.10.4, II.10.4, III.10.4, IV.1.3, IV.2.4, IV.9.4, IV.10.4, V.2.4, V.10.4, VI.1.3</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">Y</p>
+    <p class="idx__e">Yourself<span class="idx__r">I.1.2, I.1.5</span></p>
+  </div></div>
+</section>
+<section class="index">
+  <p class="ed__eyebrow">Index two of three</p>
+  <h2>Vocabulary and Phrase Index</h2>
+  <p class="lead">352 words, phrases and collocations, taken from the terms the
+    curriculum quotes in its own vocabulary stages — with the lesson where each is taught.</p>
+  <div class="idx idx--lex"><div class="idx__g">
+    <p class="idx__l">A</p>
+    <p class="idx__e">according to<span class="idx__r">III.2.1, III.6.1</span></p><p class="idx__e">actually<span class="idx__r">III.1.1</span></p><p class="idx__e">ad/commercial<span class="idx__r">VI.7.1</span></p><p class="idx__e">admittedly<span class="idx__r">IV.4.1</span></p><p class="idx__e">advert/advertisement<span class="idx__r">VI.7.1</span></p><p class="idx__e">although<span class="idx__r">III.4.1</span></p><p class="idx__e">aluminium<span class="idx__r">VI.6.1</span></p><p class="idx__e">aluminum<span class="idx__r">VI.6.1</span></p><p class="idx__e">among<span class="idx__r">IV.1.1</span></p><p class="idx__e">amongst<span class="idx__r">IV.1.1</span></p><p class="idx__e">anchor<span class="idx__r">V.6.1</span></p><p class="idx__e">apparently<span class="idx__r">III.6.1</span></p><p class="idx__e">appropriately direct<span class="idx__r">V.1.1</span></p><p class="idx__e">arguably<span class="idx__r">IV.7.1</span></p><p class="idx__e">as a consequence<span class="idx__r">III.5.1</span></p><p class="idx__e">as a matter of fact<span class="idx__r">III.1.1</span></p><p class="idx__e">as a result<span class="idx__r">III.3.1</span></p><p class="idx__e">as long as<span class="idx__r">IV.8.1</span></p><p class="idx__e">as noted above<span class="idx__r">V.2.1</span></p><p class="idx__e">assessed against the criterion of<span class="idx__r">VI.4.1</span></p><p class="idx__e">at a loose end<span class="idx__r">V.1.1</span></p><p class="idx__e">at loose ends<span class="idx__r">V.1.1</span></p><p class="idx__e">at the end of the day<span class="idx__r">V.1.1</span></p><p class="idx__e">at the weekend<span class="idx__r">II.9.1</span></p><p class="idx__e">at this point in time<span class="idx__r">V.9.2</span></p><p class="idx__e">attorney<span class="idx__r">V.8.1, VI.5.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">B</p>
+    <p class="idx__e">barrister<span class="idx__r">V.8.1, VI.5.1</span></p><p class="idx__e">barrister’s chambers<span class="idx__r">VI.5.1</span></p><p class="idx__e">bear out<span class="idx__r">VI.6.1</span></p><p class="idx__e">because<span class="idx__r">V.9.2</span></p><p class="idx__e">become/improve<span class="idx__r">III.1.1</span></p><p class="idx__e">bed in<span class="idx__r">VI.3.1</span></p><p class="idx__e">beneath the surface<span class="idx__r">V.6.1</span></p><p class="idx__e">Best regards<span class="idx__r">IV.3.1</span></p><p class="idx__e">biased<span class="idx__r">IV.7.1</span></p><p class="idx__e">bid<span class="idx__r">VI.6.1, VI.6.3</span></p><p class="idx__e">big<span class="idx__r">III.1.1</span></p><p class="idx__e">billion<span class="idx__r">V.4.1</span></p><p class="idx__e">bin<span class="idx__r">III.5.1</span></p><p class="idx__e">bingo<span class="idx__r">III.1.2</span></p><p class="idx__e">board member<span class="idx__r">VI.1.1</span></p><p class="idx__e">board of directors<span class="idx__r">VI.1.1</span></p><p class="idx__e">both sources agree that<span class="idx__r">IV.9.1</span></p><p class="idx__e">broaden your horizons<span class="idx__r">III.1.1</span></p><p class="idx__e">broadly speaking<span class="idx__r">V.4.1</span></p><p class="idx__e">by comparison<span class="idx__r">IV.5.1</span></p><p class="idx__e">by contrast<span class="idx__r">IV.5.1</span></p><p class="idx__e">by the same token<span class="idx__r">V.7.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">C</p>
+    <p class="idx__e">calendar<span class="idx__r">IV.8.1</span></p><p class="idx__e">carry the can<span class="idx__r">VI.1.1, VI.1.3</span></p><p class="idx__e">cell<span class="idx__r">III.6.1</span></p><p class="idx__e">cell phone<span class="idx__r">III.6.1</span></p><p class="idx__e">chair<span class="idx__r">VI.8.3</span></p><p class="idx__e">Chairman of the Board<span class="idx__r">VI.1.1</span></p><p class="idx__e">chairman/chair<span class="idx__r">VI.1.1</span></p><p class="idx__e">checkout<span class="idx__r">II.8.1</span></p><p class="idx__e">chemist’s<span class="idx__r">III.7.1</span></p><p class="idx__e">choose your words carefully<span class="idx__r">V.1.1</span></p><p class="idx__e">claimant<span class="idx__r">VI.5.1</span></p><p class="idx__e">collectively<span class="idx__r">V.2.1</span></p><p class="idx__e">college<span class="idx__r">III.2.1</span></p><p class="idx__e">come a long way<span class="idx__r">IV.1.1</span></p><p class="idx__e">come out<span class="idx__r">III.6.1</span></p><p class="idx__e">comment piece<span class="idx__r">IV.7.1</span></p><p class="idx__e">Congress<span class="idx__r">VI.4.1</span></p><p class="idx__e">consequently<span class="idx__r">IV.2.1</span></p><p class="idx__e">conversely<span class="idx__r">V.7.1</span></p><p class="idx__e">costume<span class="idx__r">III.8.1</span></p><p class="idx__e">crucially<span class="idx__r">V.8.1</span></p><p class="idx__e">CV<span class="idx__r">III.3.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">D</p>
+    <p class="idx__e">demonstrates<span class="idx__r">VI.8.1</span></p><p class="idx__e">Department<span class="idx__r">VI.2.1</span></p><p class="idx__e">diary<span class="idx__r">IV.8.1</span></p><p class="idx__e">dig in<span class="idx__r">IV.4.1</span></p><p class="idx__e">discussant<span class="idx__r">VI.8.3</span></p><p class="idx__e">dissertation<span class="idx__r">IV.2.1</span></p><p class="idx__e">do a degree<span class="idx__r">III.2.1</span></p><p class="idx__e">drugstore/pharmacy<span class="idx__r">III.7.1</span></p><p class="idx__e">due to<span class="idx__r">III.5.1</span></p><p class="idx__e">due to the fact that<span class="idx__r">V.9.2</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">E</p>
+    <p class="idx__e">EA<span class="idx__r">V.9.1</span></p><p class="idx__e">early story<span class="idx__r">II.9.2</span></p><p class="idx__e">ethics scheme<span class="idx__r">VI.9.1</span></p><p class="idx__e">even if<span class="idx__r">VI.9.1</span></p><p class="idx__e">even if the policy raised costs<span class="idx__r">VI.9.1</span></p><p class="idx__e">even though the policy raised costs<span class="idx__r">VI.9.1</span></p><p class="idx__e">executive<span class="idx__r">VI.1.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">F</p>
+    <p class="idx__e">fall behind<span class="idx__r">III.2.1</span></p><p class="idx__e">fancy dress<span class="idx__r">III.8.1</span></p><p class="idx__e">feel run down<span class="idx__r">III.7.1</span></p><p class="idx__e">field a question<span class="idx__r">IV.6.1</span></p><p class="idx__e">fit in<span class="idx__r">III.8.1</span></p><p class="idx__e">Fleet Street<span class="idx__r">VI.7.1</span></p><p class="idx__e">for<span class="idx__r">III.9.1</span></p><p class="idx__e">for what it’s worth<span class="idx__r">V.1.1</span></p><p class="idx__e">from which we infer<span class="idx__r">VI.3.1</span></p><p class="idx__e">full stop<span class="idx__r">III.9.1</span></p><p class="idx__e">further to your email/our conversation<span class="idx__r">IV.3.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">G</p>
+    <p class="idx__e">gap year<span class="idx__r">III.8.1</span></p><p class="idx__e">gas<span class="idx__r">III.5.1</span></p><p class="idx__e">gas/gasoline<span class="idx__r">III.5.1</span></p><p class="idx__e">genuine paraphrase<span class="idx__r">IV.2.3</span></p><p class="idx__e">get<span class="idx__r">III.1.1</span></p><p class="idx__e">get straight to the point<span class="idx__r">V.9.1</span></p><p class="idx__e">get to the point<span class="idx__r">V.1.1</span></p><p class="idx__e">give ground<span class="idx__r">IV.4.1</span></p><p class="idx__e">given that<span class="idx__r">IV.3.1</span></p><p class="idx__e">go viral<span class="idx__r">III.6.1</span></p><p class="idx__e">going to<span class="idx__r">I.8.3</span></p><p class="idx__e">got<span class="idx__r">III.1.1</span></p><p class="idx__e">gotten<span class="idx__r">III.1.1</span></p><p class="idx__e">GP<span class="idx__r">III.7.1</span></p><p class="idx__e">grades<span class="idx__r">III.2.1</span></p><p class="idx__e">graduate<span class="idx__r">V.7.1</span></p><p class="idx__e">graduate student<span class="idx__r">V.7.1</span></p><p class="idx__e">granted<span class="idx__r">IV.4.1</span></p><p class="idx__e">grow up<span class="idx__r">III.1.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">H</p>
+    <p class="idx__e">hands-on learning<span class="idx__r">III.2.1</span></p><p class="idx__e">hold one’s ground<span class="idx__r">V.8.1</span></p><p class="idx__e">host<span class="idx__r">VI.7.1</span></p><p class="idx__e">however<span class="idx__r">III.4.1, IV.2.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">I</p>
+    <p class="idx__e">I argue<span class="idx__r">VI.8.1</span></p><p class="idx__e">I don’t suppose you could<span class="idx__r">V.5.1</span></p><p class="idx__e">I take responsibility for<span class="idx__r">VI.1.1</span></p><p class="idx__e">I wonder if you might<span class="idx__r">V.5.1</span></p><p class="idx__e">I’ve got better at this<span class="idx__r">III.1.1</span></p><p class="idx__e">I’ve gotten better at this<span class="idx__r">III.1.1</span></p><p class="idx__e">I’ve just eaten<span class="idx__r">III.1.1</span></p><p class="idx__e">if<span class="idx__r">V.9.2</span></p><p class="idx__e">if it’s not too much trouble<span class="idx__r">V.5.1</span></p><p class="idx__e">in a nutshell<span class="idx__r">V.1.1</span></p><p class="idx__e">in contrast<span class="idx__r">III.8.1</span></p><p class="idx__e">in exchange for<span class="idx__r">IV.8.1</span></p><p class="idx__e">in fact<span class="idx__r">III.1.1</span></p><p class="idx__e">in other words<span class="idx__r">III.2.1</span></p><p class="idx__e">in retrospect<span class="idx__r">IV.1.1</span></p><p class="idx__e">in short<span class="idx__r">V.9.1</span></p><p class="idx__e">in some quarters<span class="idx__r">VI.2.1</span></p><p class="idx__e">in the event that<span class="idx__r">V.9.2</span></p><p class="idx__e">in the studies discussed thus far<span class="idx__r">V.2.1</span></p><p class="idx__e">income statement<span class="idx__r">VI.3.1, VI.3.3</span></p><p class="idx__e">informally to mean<span class="idx__r">V.5.1</span></p><p class="idx__e">inside<span class="idx__r">VI.1.1</span></p><p class="idx__e">insofar as<span class="idx__r">V.7.1</span></p><p class="idx__e">is consistent with<span class="idx__r">VI.8.1</span></p><p class="idx__e">it could be argued that<span class="idx__r">V.4.1</span></p><p class="idx__e">it could be inferred that<span class="idx__r">IV.7.1</span></p><p class="idx__e">it follows that<span class="idx__r">VI.5.1</span></p><p class="idx__e">It happened at the weekend<span class="idx__r">II.9.1</span></p><p class="idx__e">it is reported that<span class="idx__r">III.6.1</span></p><p class="idx__e">it is well established that<span class="idx__r">V.8.1</span></p><p class="idx__e">it may be felt that<span class="idx__r">VI.2.1</span></p><p class="idx__e">it’s likely that<span class="idx__r">III.7.1</span></p><p class="idx__e">it’s possible that<span class="idx__r">III.7.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">K</p>
+    <p class="idx__e">Kind regards<span class="idx__r">IV.3.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">L</p>
+    <p class="idx__e">laid off<span class="idx__r">III.3.1</span></p><p class="idx__e">late story<span class="idx__r">II.9.2</span></p><p class="idx__e">law firm<span class="idx__r">VI.5.1</span></p><p class="idx__e">lawyer<span class="idx__r">V.8.1, VI.5.1</span></p><p class="idx__e">layoff<span class="idx__r">VI.9.1</span></p><p class="idx__e">let me begin by<span class="idx__r">IV.6.1</span></p><p class="idx__e">level off<span class="idx__r">V.4.1</span></p><p class="idx__e">life moments<span class="idx__r">II.1.2</span></p><p class="idx__e">like scale<span class="idx__r">II.4.2</span></p><p class="idx__e">line<span class="idx__r">II.8.1</span></p><p class="idx__e">line manager<span class="idx__r">III.3.1</span></p><p class="idx__e">logical quotation<span class="idx__r">VI.8.1</span></p><p class="idx__e">long scale<span class="idx__r">V.4.1</span></p><p class="idx__e">looking back<span class="idx__r">IV.1.1</span></p><p class="idx__e">Ltd<span class="idx__r">V.3.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">M</p>
+    <p class="idx__e">made redundant<span class="idx__r">III.3.1</span></p><p class="idx__e">major in a subject<span class="idx__r">III.2.1</span></p><p class="idx__e">make a lasting impression<span class="idx__r">III.1.1</span></p><p class="idx__e">make notes/take notes<span class="idx__r">III.2.1</span></p><p class="idx__e">manager/supervisor<span class="idx__r">III.3.1</span></p><p class="idx__e">marks<span class="idx__r">III.2.1</span></p><p class="idx__e">math<span class="idx__r">VI.6.1</span></p><p class="idx__e">maths<span class="idx__r">VI.6.1</span></p><p class="idx__e">meet halfway<span class="idx__r">IV.8.1</span></p><p class="idx__e">Minister<span class="idx__r">VI.2.1</span></p><p class="idx__e">mistakes were made<span class="idx__r">VI.1.1</span></p><p class="idx__e">mobile<span class="idx__r">III.6.1</span></p><p class="idx__e">mobile phone<span class="idx__r">III.6.1</span></p><p class="idx__e">moot<span class="idx__r">IV.4.1</span></p><p class="idx__e">moot point<span class="idx__r">IV.4.1</span></p><p class="idx__e">moreover, furthermore<span class="idx__r">IV.2.1</span></p><p class="idx__e">move forward<span class="idx__r">IV.1.1</span></p><p class="idx__e">moving on to<span class="idx__r">IV.6.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">N</p>
+    <p class="idx__e">neutral<span class="idx__r">IV.7.1</span></p><p class="idx__e">nevertheless<span class="idx__r">IV.2.1</span></p><p class="idx__e">news anchor<span class="idx__r">V.6.1, VI.7.1</span></p><p class="idx__e">newsreader<span class="idx__r">V.6.1, VI.7.1</span></p><p class="idx__e">non-executive directors<span class="idx__r">VI.1.1</span></p><p class="idx__e">notwithstanding<span class="idx__r">V.7.1</span></p><p class="idx__e">now<span class="idx__r">V.9.2</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">O</p>
+    <p class="idx__e">off sick<span class="idx__r">III.7.1</span></p><p class="idx__e">off the record<span class="idx__r">VI.7.3</span></p><p class="idx__e">on background<span class="idx__r">VI.7.3</span></p><p class="idx__e">on balance<span class="idx__r">IV.5.1</span></p><p class="idx__e">on reflection<span class="idx__r">VI.1.1</span></p><p class="idx__e">on that basis we recommend<span class="idx__r">VI.3.1</span></p><p class="idx__e">on that reasoning<span class="idx__r">VI.5.1</span></p><p class="idx__e">on the condition that<span class="idx__r">IV.8.1</span></p><p class="idx__e">on the other hand<span class="idx__r">III.4.1</span></p><p class="idx__e">on the weekend<span class="idx__r">II.9.1</span></p><p class="idx__e">on this measure<span class="idx__r">VI.4.1</span></p><p class="idx__e">op-ed<span class="idx__r">IV.7.1</span></p><p class="idx__e">opinion piece<span class="idx__r">IV.7.1</span></p><p class="idx__e">our working assumption is<span class="idx__r">VI.3.1</span></p><p class="idx__e">outside directors<span class="idx__r">VI.1.1</span></p><p class="idx__e">owing to<span class="idx__r">III.5.1</span></p><p class="idx__e">own the outcome<span class="idx__r">VI.1.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">P</p>
+    <p class="idx__e">PA<span class="idx__r">V.9.1</span></p><p class="idx__e">pan out<span class="idx__r">VI.6.1</span></p><p class="idx__e">Parliament<span class="idx__r">VI.4.1</span></p><p class="idx__e">period<span class="idx__r">III.9.1</span></p><p class="idx__e">petrol<span class="idx__r">III.5.1</span></p><p class="idx__e">pharmacy<span class="idx__r">III.7.1</span></p><p class="idx__e">phase in/phase out<span class="idx__r">VI.4.1</span></p><p class="idx__e">plaintiff<span class="idx__r">VI.5.1</span></p><p class="idx__e">Plc<span class="idx__r">V.3.1</span></p><p class="idx__e">postgrad<span class="idx__r">V.7.1</span></p><p class="idx__e">postgraduate<span class="idx__r">V.7.1</span></p><p class="idx__e">presenter<span class="idx__r">VI.7.1</span></p><p class="idx__e">primary care physician<span class="idx__r">III.7.1</span></p><p class="idx__e">profit and loss account<span class="idx__r">VI.3.1, VI.3.3</span></p><p class="idx__e">program<span class="idx__r">IV.5.1, VI.8.1</span></p><p class="idx__e">programme<span class="idx__r">IV.5.1</span></p><p class="idx__e">proposal<span class="idx__r">VI.6.1, VI.6.3</span></p><p class="idx__e">provided that<span class="idx__r">IV.3.1, IV.8.1</span></p><p class="idx__e">punctuation mark; British<span class="idx__r">III.9.1</span></p><p class="idx__e">put simply<span class="idx__r">V.9.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">Q</p>
+    <p class="idx__e">queue<span class="idx__r">II.8.1</span></p><p class="idx__e">quite<span class="idx__r">III.4.1, III.10.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">R</p>
+    <p class="idx__e">read a subject<span class="idx__r">III.2.1</span></p><p class="idx__e">read between the lines<span class="idx__r">V.1.1</span></p><p class="idx__e">receipt<span class="idx__r">II.8.1</span></p><p class="idx__e">redtop<span class="idx__r">VI.7.1</span></p><p class="idx__e">redundancy<span class="idx__r">VI.9.1</span></p><p class="idx__e">register<span class="idx__r">II.8.1</span></p><p class="idx__e">remit<span class="idx__r">VI.1.2</span></p><p class="idx__e">resume/résumé<span class="idx__r">III.3.1</span></p><p class="idx__e">right<span class="idx__r">III.8.1</span></p><p class="idx__e">rubbish<span class="idx__r">III.5.1</span></p><p class="idx__e">run a company<span class="idx__r">III.3.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">S</p>
+    <p class="idx__e">sales associate/clerk<span class="idx__r">II.8.1</span></p><p class="idx__e">scale back<span class="idx__r">VI.6.1</span></p><p class="idx__e">scale up<span class="idx__r">III.3.1, VI.6.1</span></p><p class="idx__e">scheme<span class="idx__r">VI.9.1</span></p><p class="idx__e">Secretary<span class="idx__r">VI.2.1</span></p><p class="idx__e">Secretary of State<span class="idx__r">VI.2.1</span></p><p class="idx__e">set the direction<span class="idx__r">VI.1.1</span></p><p class="idx__e">set the record straight<span class="idx__r">VI.7.1</span></p><p class="idx__e">set the tone<span class="idx__r">V.3.1</span></p><p class="idx__e">set up a business<span class="idx__r">III.3.1</span></p><p class="idx__e">shares<span class="idx__r">VI.3.3</span></p><p class="idx__e">shares/shareholder<span class="idx__r">VI.3.1</span></p><p class="idx__e">she read law at university<span class="idx__r">III.2.1</span></p><p class="idx__e">shop assistant<span class="idx__r">II.8.1</span></p><p class="idx__e">shopping cart<span class="idx__r">II.8.1</span></p><p class="idx__e">shopping trolley<span class="idx__r">II.8.1</span></p><p class="idx__e">short scale<span class="idx__r">V.4.1</span></p><p class="idx__e">similarly<span class="idx__r">III.8.1</span></p><p class="idx__e">since then<span class="idx__r">IV.1.1</span></p><p class="idx__e">solicitation<span class="idx__r">VI.6.1, VI.6.3</span></p><p class="idx__e">solicitor<span class="idx__r">V.8.1, VI.5.1</span></p><p class="idx__e">specialisation<span class="idx__r">VI.6.1</span></p><p class="idx__e">specialization<span class="idx__r">VI.6.1</span></p><p class="idx__e">specific-time<span class="idx__r">III.1.3</span></p><p class="idx__e">stand in a queue<span class="idx__r">II.8.1</span></p><p class="idx__e">stand in line<span class="idx__r">II.8.1</span></p><p class="idx__e">stand out<span class="idx__r">III.8.1</span></p><p class="idx__e">stand something up<span class="idx__r">VI.7.1</span></p><p class="idx__e">step up<span class="idx__r">VI.1.1</span></p><p class="idx__e">stock<span class="idx__r">VI.3.3</span></p><p class="idx__e">stock/stockholder<span class="idx__r">VI.3.1</span></p><p class="idx__e">strengthens the argument<span class="idx__r">IV.4.2</span></p><p class="idx__e">strike the right tone<span class="idx__r">V.1.1</span></p><p class="idx__e">subject to the caveat that<span class="idx__r">VI.4.1</span></p><p class="idx__e">sum up<span class="idx__r">III.9.1</span></p><p class="idx__e">sweeten the deal<span class="idx__r">IV.8.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">T</p>
+    <p class="idx__e">table<span class="idx__r">VI.2.3</span></p><p class="idx__e">take a risk/take on a risk<span class="idx__r">III.3.1</span></p><p class="idx__e">tender<span class="idx__r">VI.6.1, VI.6.3</span></p><p class="idx__e">thanks<span class="idx__r">V.5.1</span></p><p class="idx__e">that said<span class="idx__r">V.7.1</span></p><p class="idx__e">That’s quite good<span class="idx__r">III.4.1</span></p><p class="idx__e">the aforementioned<span class="idx__r">V.2.1</span></p><p class="idx__e">the bottom line is<span class="idx__r">V.9.1</span></p><p class="idx__e">the case rests on<span class="idx__r">V.8.1</span></p><p class="idx__e">the decision rests with<span class="idx__r">VI.1.1</span></p><p class="idx__e">the distinction is material because<span class="idx__r">VI.5.1</span></p><p class="idx__e">the evidence clearly shows<span class="idx__r">V.8.1</span></p><p class="idx__e">the evidence indicates<span class="idx__r">VI.3.1</span></p><p class="idx__e">the federal bureaucracy<span class="idx__r">VI.4.1</span></p><p class="idx__e">the government IS considering<span class="idx__r">VI.4.1</span></p><p class="idx__e">the media<span class="idx__r">VI.7.1</span></p><p class="idx__e">the option that best satisfies<span class="idx__r">VI.4.1</span></p><p class="idx__e">the press<span class="idx__r">VI.7.1</span></p><p class="idx__e">the real question is<span class="idx__r">V.3.1</span></p><p class="idx__e">the subtext here is<span class="idx__r">V.6.1</span></p><p class="idx__e">the tone here suggests<span class="idx__r">IV.7.1</span></p><p class="idx__e">the Treasury<span class="idx__r">VI.4.1</span></p><p class="idx__e">the Treasury Department<span class="idx__r">VI.4.1</span></p><p class="idx__e">Then vs. Now<span class="idx__r">II.1.3</span></p><p class="idx__e">there is a view that<span class="idx__r">VI.2.1</span></p><p class="idx__e">there’s no way that<span class="idx__r">III.7.1</span></p><p class="idx__e">therefore<span class="idx__r">III.3.1</span></p><p class="idx__e">thesis<span class="idx__r">IV.2.1</span></p><p class="idx__e">this appears to suggest<span class="idx__r">V.4.1</span></p><p class="idx__e">this does not, however, establish that<span class="idx__r">VI.5.1</span></p><p class="idx__e">this has led to<span class="idx__r">III.5.1</span></p><p class="idx__e">this implies<span class="idx__r">IV.7.1</span></p><p class="idx__e">this means that<span class="idx__r">III.3.1</span></p><p class="idx__e">till<span class="idx__r">II.8.1</span></p><p class="idx__e">tip the balance<span class="idx__r">V.4.1</span></p><p class="idx__e">to be precise<span class="idx__r">V.9.1</span></p><p class="idx__e">to put it another way<span class="idx__r">III.2.1</span></p><p class="idx__e">to put it bluntly<span class="idx__r">V.1.1</span></p><p class="idx__e">to some extent<span class="idx__r">V.4.1</span></p><p class="idx__e">to summarise<span class="idx__r">IV.6.1</span></p><p class="idx__e">to table a proposal<span class="idx__r">VI.2.1</span></p><p class="idx__e">too blunt<span class="idx__r">V.1.1</span></p><p class="idx__e">trash can<span class="idx__r">III.5.1</span></p><p class="idx__e">trash/garbage<span class="idx__r">III.5.1</span></p><p class="idx__e">trickle down<span class="idx__r">V.4.1</span></p><p class="idx__e">turn a corner<span class="idx__r">IV.1.1</span></p><p class="idx__e">turning now to<span class="idx__r">IV.6.1</span></p><p class="idx__e">turnover<span class="idx__r">VI.3.1, VI.3.3</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">U</p>
+    <p class="idx__e">university<span class="idx__r">III.2.1</span></p><p class="idx__e">unspecified-time<span class="idx__r">III.1.3</span></p><p class="idx__e">up until that point<span class="idx__r">IV.1.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">V</p>
+    <p class="idx__e">vs. American<span class="idx__r">III.9.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">W</p>
+    <p class="idx__e">walk a fine line<span class="idx__r">V.1.1</span></p><p class="idx__e">we would be reluctant to see<span class="idx__r">VI.2.1</span></p><p class="idx__e">wear off<span class="idx__r">III.7.1</span></p><p class="idx__e">were this to succeed<span class="idx__r">VI.6.1</span></p><p class="idx__e">what emerges from this is<span class="idx__r">V.6.1</span></p><p class="idx__e">what I would do differently is<span class="idx__r">VI.1.1</span></p><p class="idx__e">what’s really at stake here is<span class="idx__r">V.3.1</span></p><p class="idx__e">when weighed against<span class="idx__r">IV.5.1</span></p><p class="idx__e">whereas<span class="idx__r">III.4.1, III.8.1</span></p><p class="idx__e">while<span class="idx__r">IV.1.1</span></p><p class="idx__e">while it’s true that<span class="idx__r">IV.4.1</span></p><p class="idx__e">whilst<span class="idx__r">IV.1.1</span></p><p class="idx__e">Whitehall<span class="idx__r">VI.4.1</span></p><p class="idx__e">Whose is it?<span class="idx__r">I.6.3</span></p><p class="idx__e">with regard to<span class="idx__r">IV.3.1</span></p><p class="idx__e">would it be possible to<span class="idx__r">V.5.1</span></p><p class="idx__e">wrap up<span class="idx__r">IV.6.1</span></p>
+  </div><div class="idx__g">
+    <p class="idx__l">Y</p>
+    <p class="idx__e">Your Honor<span class="idx__r">VI.5.1</span></p><p class="idx__e">Yours sincerely<span class="idx__r">IV.3.1</span></p>
+  </div></div>
+</section>
+<section class="index index--assess">
+  <p class="ed__eyebrow">Index three of three</p>
+  <h2>Assessment Index</h2>
+  <p class="lead">All 120 assessed items in the programme: sixty quizzes carrying
+    660 questions, and sixty assignments carrying 307 rubric criteria.</p>
+  <div class="asx" style="--ink:#1B2F5C;--mid:#4C6AA8">
+      <p class="asx__h">Level I · Foundation Programme · CEFR A1</p>
+      <table class="asx__t"><thead><tr><th scope="col">Module</th>
+        <th scope="col">Assessed quiz</th><th scope="col">Qs</th>
+        <th scope="col">Assessed assignment</th></tr></thead><tbody>
+        <tr><td><b>1</b> Meeting People</td>
+          <td class="mono">I.1.4</td><td class="mono">10</td>
+          <td class="mono">I.1.5</td></tr><tr><td><b>2</b> Everyday Objects &amp; Places</td>
+          <td class="mono">I.2.4</td><td class="mono">10</td>
+          <td class="mono">I.2.5</td></tr><tr><td><b>3</b> Family &amp; Routines</td>
+          <td class="mono">I.3.4</td><td class="mono">10</td>
+          <td class="mono">I.3.5</td></tr><tr><td><b>4</b> Food &amp; Shopping</td>
+          <td class="mono">I.4.4</td><td class="mono">10</td>
+          <td class="mono">I.4.5</td></tr><tr><td><b>5</b> Around Town</td>
+          <td class="mono">I.5.4</td><td class="mono">10</td>
+          <td class="mono">I.5.5</td></tr><tr><td><b>6</b> Describing People &amp; Things</td>
+          <td class="mono">I.6.4</td><td class="mono">10</td>
+          <td class="mono">I.6.5</td></tr><tr><td><b>7</b> Past Experiences</td>
+          <td class="mono">I.7.4</td><td class="mono">10</td>
+          <td class="mono">I.7.5</td></tr><tr><td><b>8</b> Plans &amp; Abilities</td>
+          <td class="mono">I.8.4</td><td class="mono">10</td>
+          <td class="mono">I.8.5</td></tr><tr><td><b>9</b> Health &amp; Feelings</td>
+          <td class="mono">I.9.4</td><td class="mono">10</td>
+          <td class="mono">I.9.5</td></tr><tr><td><b>10</b> Review &amp; Consolidation</td>
+          <td class="mono">I.10.3</td><td class="mono">20</td>
+          <td class="mono">I.10.4</td></tr>
+      </tbody></table></div><div class="asx" style="--ink:#003844;--mid:#00798F">
+      <p class="asx__h">Level II · Elementary Programme · CEFR A2</p>
+      <table class="asx__t"><thead><tr><th scope="col">Module</th>
+        <th scope="col">Assessed quiz</th><th scope="col">Qs</th>
+        <th scope="col">Assessed assignment</th></tr></thead><tbody>
+        <tr><td><b>1</b> Life Stories</td>
+          <td class="mono">II.1.4</td><td class="mono">10</td>
+          <td class="mono">II.1.5</td></tr><tr><td><b>2</b> Travel &amp; Transport</td>
+          <td class="mono">II.2.4</td><td class="mono">10</td>
+          <td class="mono">II.2.5</td></tr><tr><td><b>3</b> Work &amp; Study</td>
+          <td class="mono">II.3.4</td><td class="mono">10</td>
+          <td class="mono">II.3.5</td></tr><tr><td><b>4</b> Likes, Dislikes &amp; Opinions</td>
+          <td class="mono">II.4.4</td><td class="mono">10</td>
+          <td class="mono">II.4.5</td></tr><tr><td><b>5</b> Making Plans</td>
+          <td class="mono">II.5.4</td><td class="mono">10</td>
+          <td class="mono">II.5.5</td></tr><tr><td><b>6</b> Homes &amp; Neighbourhoods</td>
+          <td class="mono">II.6.4</td><td class="mono">10</td>
+          <td class="mono">II.6.5</td></tr><tr><td><b>7</b> Food, Health &amp; Habits</td>
+          <td class="mono">II.7.4</td><td class="mono">10</td>
+          <td class="mono">II.7.5</td></tr><tr><td><b>8</b> Shopping &amp; Services</td>
+          <td class="mono">II.8.4</td><td class="mono">10</td>
+          <td class="mono">II.8.5</td></tr><tr><td><b>9</b> Telling Stories</td>
+          <td class="mono">II.9.4</td><td class="mono">10</td>
+          <td class="mono">II.9.5</td></tr><tr><td><b>10</b> Review &amp; Consolidation</td>
+          <td class="mono">II.10.3</td><td class="mono">20</td>
+          <td class="mono">II.10.4</td></tr>
+      </tbody></table></div><div class="asx" style="--ink:#003D22;--mid:#297E54">
+      <p class="asx__h">Level III · Intermediate Programme · CEFR B1</p>
+      <table class="asx__t"><thead><tr><th scope="col">Module</th>
+        <th scope="col">Assessed quiz</th><th scope="col">Qs</th>
+        <th scope="col">Assessed assignment</th></tr></thead><tbody>
+        <tr><td><b>1</b> Present Perfect &amp; Life Experience</td>
+          <td class="mono">III.1.4</td><td class="mono">10</td>
+          <td class="mono">III.1.5</td></tr><tr><td><b>2</b> Education &amp; Learning</td>
+          <td class="mono">III.2.4</td><td class="mono">10</td>
+          <td class="mono">III.2.5</td></tr><tr><td><b>3</b> Work, Careers &amp; Entrepreneurship</td>
+          <td class="mono">III.3.4</td><td class="mono">10</td>
+          <td class="mono">III.3.5</td></tr><tr><td><b>4</b> Opinions &amp; Debate</td>
+          <td class="mono">III.4.4</td><td class="mono">10</td>
+          <td class="mono">III.4.5</td></tr><tr><td><b>5</b> Environment, Ethics &amp; Global Citizenship</td>
+          <td class="mono">III.5.4</td><td class="mono">10</td>
+          <td class="mono">III.5.5</td></tr><tr><td><b>6</b> Technology &amp; Media</td>
+          <td class="mono">III.6.4</td><td class="mono">10</td>
+          <td class="mono">III.6.5</td></tr><tr><td><b>7</b> Health, Body &amp; Mind</td>
+          <td class="mono">III.7.4</td><td class="mono">10</td>
+          <td class="mono">III.7.5</td></tr><tr><td><b>8</b> Travel &amp; Culture</td>
+          <td class="mono">III.8.4</td><td class="mono">10</td>
+          <td class="mono">III.8.5</td></tr><tr><td><b>9</b> Academic Foundations</td>
+          <td class="mono">III.9.4</td><td class="mono">10</td>
+          <td class="mono">III.9.5</td></tr><tr><td><b>10</b> Review &amp; Consolidation</td>
+          <td class="mono">III.10.3</td><td class="mono">20</td>
+          <td class="mono">III.10.4</td></tr>
+      </tbody></table></div><div class="asx" style="--ink:#442C00;--mid:#8D6310">
+      <p class="asx__h">Level IV · Upper Intermediate Programme · CEFR B2</p>
+      <table class="asx__t"><thead><tr><th scope="col">Module</th>
+        <th scope="col">Assessed quiz</th><th scope="col">Qs</th>
+        <th scope="col">Assessed assignment</th></tr></thead><tbody>
+        <tr><td><b>1</b> Advanced Present &amp; Past Systems</td>
+          <td class="mono">IV.1.4</td><td class="mono">10</td>
+          <td class="mono">IV.1.5</td></tr><tr><td><b>2</b> Academic Writing I</td>
+          <td class="mono">IV.2.4</td><td class="mono">10</td>
+          <td class="mono">IV.2.5</td></tr><tr><td><b>3</b> The World of Work</td>
+          <td class="mono">IV.3.4</td><td class="mono">10</td>
+          <td class="mono">IV.3.5</td></tr><tr><td><b>4</b> Arguing a Position</td>
+          <td class="mono">IV.4.4</td><td class="mono">10</td>
+          <td class="mono">IV.4.5</td></tr><tr><td><b>5</b> Science, Technology &amp; Ethics</td>
+          <td class="mono">IV.5.4</td><td class="mono">10</td>
+          <td class="mono">IV.5.5</td></tr><tr><td><b>6</b> Global Issues</td>
+          <td class="mono">IV.6.4</td><td class="mono">10</td>
+          <td class="mono">IV.6.5</td></tr><tr><td><b>7</b> Media Literacy &amp; Critical Reading</td>
+          <td class="mono">IV.7.4</td><td class="mono">10</td>
+          <td class="mono">IV.7.5</td></tr><tr><td><b>8</b> Meetings &amp; Negotiation</td>
+          <td class="mono">IV.8.4</td><td class="mono">10</td>
+          <td class="mono">IV.8.5</td></tr><tr><td><b>9</b> Academic Writing II</td>
+          <td class="mono">IV.9.4</td><td class="mono">10</td>
+          <td class="mono">IV.9.5</td></tr><tr><td><b>10</b> Review &amp; Consolidation</td>
+          <td class="mono">IV.10.3</td><td class="mono">20</td>
+          <td class="mono">IV.10.4</td></tr>
+      </tbody></table></div><div class="asx" style="--ink:#551C1D;--mid:#A05150">
+      <p class="asx__h">Level V · Advanced Programme · CEFR C1</p>
+      <table class="asx__t"><thead><tr><th scope="col">Module</th>
+        <th scope="col">Assessed quiz</th><th scope="col">Qs</th>
+        <th scope="col">Assessed assignment</th></tr></thead><tbody>
+        <tr><td><b>1</b> Nuance &amp; Idiom</td>
+          <td class="mono">V.1.4</td><td class="mono">10</td>
+          <td class="mono">V.1.5</td></tr><tr><td><b>2</b> Academic Writing III</td>
+          <td class="mono">V.2.4</td><td class="mono">10</td>
+          <td class="mono">V.2.5</td></tr><tr><td><b>3</b> Leadership &amp; Persuasion</td>
+          <td class="mono">V.3.4</td><td class="mono">10</td>
+          <td class="mono">V.3.5</td></tr><tr><td><b>4</b> Complex Systems (Science, Economics, Policy)</td>
+          <td class="mono">V.4.4</td><td class="mono">10</td>
+          <td class="mono">V.4.5</td></tr><tr><td><b>5</b> Cross — Cultural Communication</td>
+          <td class="mono">V.5.4</td><td class="mono">10</td>
+          <td class="mono">V.5.5</td></tr><tr><td><b>6</b> Advanced Media &amp; Discourse Analysis</td>
+          <td class="mono">V.6.4</td><td class="mono">10</td>
+          <td class="mono">V.6.5</td></tr><tr><td><b>7</b> Research &amp; Presentation</td>
+          <td class="mono">V.7.4</td><td class="mono">10</td>
+          <td class="mono">V.7.5</td></tr><tr><td><b>8</b> Professional Advocacy</td>
+          <td class="mono">V.8.4</td><td class="mono">10</td>
+          <td class="mono">V.8.5</td></tr><tr><td><b>9</b> Style &amp; Voice</td>
+          <td class="mono">V.9.4</td><td class="mono">10</td>
+          <td class="mono">V.9.5</td></tr><tr><td><b>10</b> Review &amp; Consolidation</td>
+          <td class="mono">V.10.3</td><td class="mono">20</td>
+          <td class="mono">V.10.4</td></tr>
+      </tbody></table></div><div class="asx" style="--ink:#43214D;--mid:#855793">
+      <p class="asx__h">Level VI · English Mastery Programme · CEFR C2</p>
+      <table class="asx__t"><thead><tr><th scope="col">Module</th>
+        <th scope="col">Assessed quiz</th><th scope="col">Qs</th>
+        <th scope="col">Assessed assignment</th></tr></thead><tbody>
+        <tr><td><b>1</b> Mastery Diagnostic &amp; Executive Leadership</td>
+          <td class="mono">VI.1.4</td><td class="mono">10</td>
+          <td class="mono">VI.1.5</td></tr><tr><td><b>2</b> Diplomacy &amp; International Relations</td>
+          <td class="mono">VI.2.4</td><td class="mono">10</td>
+          <td class="mono">VI.2.5</td></tr><tr><td><b>3</b> Global Business Strategy</td>
+          <td class="mono">VI.3.4</td><td class="mono">10</td>
+          <td class="mono">VI.3.5</td></tr><tr><td><b>4</b> Public Policy</td>
+          <td class="mono">VI.4.4</td><td class="mono">10</td>
+          <td class="mono">VI.4.5</td></tr><tr><td><b>5</b> Law &amp; Justice</td>
+          <td class="mono">VI.5.4</td><td class="mono">10</td>
+          <td class="mono">VI.5.5</td></tr><tr><td><b>6</b> Innovation &amp; Emerging Technologies</td>
+          <td class="mono">VI.6.4</td><td class="mono">10</td>
+          <td class="mono">VI.6.5</td></tr><tr><td><b>7</b> Media &amp; Public Communication</td>
+          <td class="mono">VI.7.4</td><td class="mono">10</td>
+          <td class="mono">VI.7.5</td></tr><tr><td><b>8</b> Research &amp; Scholarship</td>
+          <td class="mono">VI.8.4</td><td class="mono">10</td>
+          <td class="mono">VI.8.5</td></tr><tr><td><b>9</b> Ethics &amp; Responsible Leadership</td>
+          <td class="mono">VI.9.4</td><td class="mono">10</td>
+          <td class="mono">VI.9.5</td></tr><tr><td><b>10</b> Capstone — Global Challenges &amp; Mastery Examination</td>
+          <td class="mono">VI.10.3</td><td class="mono">20</td>
+          <td class="mono">VI.10.4</td></tr>
+      </tbody></table></div>
+</section>
 <section class="colophon">
   <div class="col__orn"><svg viewBox="0 0 130 18" width="130" height="18" aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg">
@@ -30119,7 +30592,7 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
       <td class="mono">AdobeStock_569325921 · Adobe Stock, licensed</td></tr><tr><td class="mono">VI</td><td>A graduate at conferral</td>
       <td class="mono">AdobeStock_427428198 · Adobe Stock, licensed</td></tr></tbody></table>
   <p class="col__meta">WEC-LC/IEFC/CUR/2026/E01 · Document ID RP6Y-KFPF-2NJ5-8SW9 ·
-    Issue E01.R00.01 · Generated 2026-08-04</p>
+    Issue E01.R00.01 · Generated 2026-08-05</p>
   <div class="col__band"><svg viewBox="0 0 480 18" width="100%" height="18"
     preserveAspectRatio="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
     ><path d="M0 9L1.2 10.128L2.4 11.184L3.6 12.101L4.8 12.824L6 13.312L7.2 13.543L8.4 13.514L9.6 13.241L10.8 12.759L12 12.117L13.2 11.373L14.4 10.592L15.6 9.838L16.8 9.169L18 8.632L19.2 8.26L20.4 8.071L21.6 8.06L22.8 8.21L24 8.485L25.2 8.838L26.4 9.215L27.6 9.561L28.8 9.82L30 9.949L31.2 9.914L32.4 9.697L33.6 9.301L34.8 8.743L36 8.058L37.2 7.297L38.4 6.517L39.6 5.784L40.8 5.161L42 4.706L43.2 4.466L44.4 4.474L45.6 4.742L46.8 5.266L48 6.02L49.2 6.96L50.4 8.031L51.6 9.163L52.8 10.285L54 11.325L55.2 12.217L56.4 12.909L57.6 13.361L58.8 13.555L60 13.489L61.2 13.184L62.4 12.676L63.6 12.015L64.8 11.262L66 10.481L67.2 9.736L68.4 9.083L69.6 8.568L70.8 8.222L72 8.058L73.2 8.072L74.4 8.242L75.6 8.532L76.8 8.892L78 9.268L79.2 9.604L80.4 9.847L81.6 9.954L82.8 9.894L84 9.652L85.2 9.231L86.4 8.652L87.6 7.953L88.8 7.185L90 6.408L91.2 5.687L92.4 5.084L93.6 4.658L94.8 4.452L96 4.496L97.2 4.802L98.4 5.36L99.6 6.144L100.8 7.107L102 8.19L103.2 9.325L104.4 10.44L105.6 11.462L106.8 12.329L108 12.989L109.2 13.405L110.4 13.561L111.6 13.46L112.8 13.123L114 12.59L115.2 11.912L116.4 11.151L117.6 10.371L118.8 9.636L120 9L121.2 8.508L122.4 8.187L123.6 8.05L124.8 8.088L126 8.277L127.2 8.58L128.4 8.946L129.6 9.32L130.8 9.646L132 9.872L133.2 9.956L134.4 9.871L135.6 9.602L136.8 9.157L138 8.558L139.2 7.846L140.4 7.073L141.6 6.3L142.8 5.592L144 5.011L145.2 4.614L146.4 4.442L147.6 4.524L148.8 4.866L150 5.459L151.2 6.271L152.4 7.256L153.6 8.351L154.8 9.488L156 10.593L157.2 11.597L158.4 12.437L159.6 13.064L160.8 13.443L162 13.562L163.2 13.425L164.4 13.058L165.6 12.5L166.8 11.807L168 11.039L169.2 10.262L170.4 9.538L171.6 8.92L172.8 8.451L174 8.157L175.2 8.045L176.4 8.106L177.6 8.315L178.8 8.629L180 9L181.2 9.371L182.4 9.685L183.6 9.894L184.8 9.955L186 9.843L187.2 9.549L188.4 9.08L189.6 8.462L190.8 7.738L192 6.961L193.2 6.193L194.4 5.5L195.6 4.942L196.8 4.575L198 4.438L199.2 4.557L200.4 4.936L201.6 5.563L202.8 6.403L204 7.407L205.2 8.512L206.4 9.649L207.6 10.744L208.8 11.729L210 12.541L211.2 13.134L212.4 13.476L213.6 13.558L214.8 13.386L216 12.989L217.2 12.408L218.4 11.7L219.6 10.927L220.8 10.154L222 9.442L223.2 8.843L224.4 8.398L225.6 8.129L226.8 8.044L228 8.128L229.2 8.354L230.4 8.68L231.6 9.054L232.8 9.42L234 9.723L235.2 9.912L236.4 9.95L237.6 9.813L238.8 9.492L240 9L241.2 8.364L242.4 7.629L243.6 6.849L244.8 6.088L246 5.41L247.2 4.877L248.4 4.54L249.6 4.439L250.8 4.595L252 5.011L253.2 5.671L254.4 6.538L255.6 7.56L256.8 8.675L258 9.81L259.2 10.893L260.4 11.856L261.6 12.64L262.8 13.198L264 13.504L265.2 13.548L266.4 13.342L267.6 12.916L268.8 12.313L270 11.592L271.2 10.815L272.4 10.047L273.6 9.348L274.8 8.769L276 8.348L277.2 8.106L278.4 8.046L279.6 8.153L280.8 8.396L282 8.732L283.2 9.108L284.4 9.468L285.6 9.758L286.8 9.928L288 9.942L289.2 9.778L290.4 9.432L291.6 8.917L292.8 8.264L294 7.519L295.2 6.738L296.4 5.985L297.6 5.324L298.8 4.816L300 4.511L301.2 4.445L302.4 4.639L303.6 5.091L304.8 5.783L306 6.675L307.2 7.715L308.4 8.837L309.6 9.969L310.8 11.04L312 11.98L313.2 12.734L314.4 13.258L315.6 13.526L316.8 13.534L318 13.294L319.2 12.839L320.4 12.216L321.6 11.483L322.8 10.703L324 9.942L325.2 9.257L326.4 8.699L327.6 8.303L328.8 8.086L330 8.051L331.2 8.18L332.4 8.439L333.6 8.785L334.8 9.162L336 9.515L337.2 9.79L338.4 9.94L339.6 9.929L340.8 9.74L342 9.368L343.2 8.831L344.4 8.162L345.6 7.408L346.8 6.627L348 5.883L349.2 5.241L350.4 4.759L351.6 4.486L352.8 4.457L354 4.688L355.2 5.176L356.4 5.899L357.6 6.816L358.8 7.872L360 9L361.2 10.128L362.4 11.184L363.6 12.101L364.8 12.824L366 13.312L367.2 13.543L368.4 13.514L369.6 13.241L370.8 12.759L372 12.117L373.2 11.373L374.4 10.592L375.6 9.838L376.8 9.169L378 8.632L379.2 8.26L380.4 8.071L381.6 8.06L382.8 8.21L384 8.485L385.2 8.838L386.4 9.215L387.6 9.561L388.8 9.82L390 9.949L391.2 9.914L392.4 9.697L393.6 9.301L394.8 8.743L396 8.058L397.2 7.297L398.4 6.517L399.6 5.784L400.8 5.161L402 4.706L403.2 4.466L404.4 4.474L405.6 4.742L406.8 5.266L408 6.02L409.2 6.96L410.4 8.031L411.6 9.163L412.8 10.285L414 11.325L415.2 12.217L416.4 12.909L417.6 13.361L418.8 13.555L420 13.489L421.2 13.184L422.4 12.676L423.6 12.015L424.8 11.262L426 10.481L427.2 9.736L428.4 9.083L429.6 8.568L430.8 8.222L432 8.058L433.2 8.072L434.4 8.242L435.6 8.532L436.8 8.892L438 9.268L439.2 9.604L440.4 9.847L441.6 9.954L442.8 9.894L444 9.652L445.2 9.231L446.4 8.652L447.6 7.953L448.8 7.185L450 6.408L451.2 5.687L452.4 5.084L453.6 4.658L454.8 4.452L456 4.496L457.2 4.802L458.4 5.36L459.6 6.144L460.8 7.107L462 8.19L463.2 9.325L464.4 10.44L465.6 11.462L466.8 12.329L468 12.989L469.2 13.405L470.4 13.561L471.6 13.46L472.8 13.123L474 12.59L475.2 11.912L476.4 11.151L477.6 10.371L478.8 9.636L480 9" fill="none" stroke="#B4933E" stroke-width="0.3"

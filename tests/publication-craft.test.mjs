@@ -161,8 +161,9 @@ check(`Audited ${f.counts.textEls} text elements at the true measure of ${MEASUR
   // on screen.
   const { imageResolutions } = await import(loadUrl('scripts/publication/audit.mjs'));
   const imgs = await imageResolutions(HTML);
+  // Six level plates plus three institutional section bands.
   check(`All ${imgs.length} placed photographs are present and measurable`,
-    imgs.length === 6 && imgs.every((i) => i.natural.w > 0),
+    imgs.length === 9 && imgs.every((i) => i.natural.w > 0),
     imgs.map((i) => `${i.file}:${i.natural.w}x${i.natural.h}`).join(' '));
   const soft = imgs.filter((i) => i.dpi < 300);
   check('...and every one clears 300 dpi at its printed size', soft.length === 0,
