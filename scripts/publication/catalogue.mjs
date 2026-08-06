@@ -146,6 +146,10 @@ export function inventory(C = buildCurriculum()) {
     // the Workbook is not published: "Combine 8 sentence pairs" is a
     // brief to a teacher, and a learner holding a workbook printed
     // from it would find the instruction and not the eight pairs.
+    // Superseded by suppliedMaterials below, and kept because the
+    // Workbook's history is worth being able to read: this measured
+    // whether a lesson had enumerated items anywhere in its practice,
+    // found nought of 114, and overstated the gap by a factor of two.
     practiceItems: items.filter(({ item }) => item.stages
       .filter((st) => ['guided', 'independent', 'homework', 'extension'].includes(st.icon))
       .some((st) => st.parts.some((p) => p.type === 'item'))).length,
@@ -159,6 +163,20 @@ export function inventory(C = buildCurriculum()) {
     rubrics: withStage('rubric'),
     rubricCriteria,
     examPapers: countFiles('docs/exams', /\.md$/),
+    // The real supplied-materials position, read from the exercise
+    // tables: how many of the 49 practice stages that hand a learner
+    // something now have the something.
+    suppliedMaterialSets: (() => {
+      const d = new DatabaseSync(':memory:');
+      d.exec(readFileSync(`${ROOT}/sql/schema.sql`, 'utf8'));
+      for (let n = 1; n <= 6; n++) {
+        d.exec(readFileSync(`${ROOT}/sql/seed-curriculum-level-${n}.sql`, 'utf8'));
+      }
+      d.exec(readFileSync(`${ROOT}/sql/seed-exercises.sql`, 'utf8'));
+      const n = d.prepare('SELECT COUNT(*) AS n FROM exercise_sets').get().n;
+      d.close();
+      return n;
+    })(),
 
     // Audio: scripted, not recorded — and the two are counted apart
     listeningScripts: one("SELECT COUNT(*) AS n FROM audio_assets WHERE kind = 'listening'"),
@@ -323,14 +341,16 @@ export const TITLES = [
     needs: [need('lessons with guided practice', 'guidedStages', 114),
       need('lessons with homework', 'homeworkStages', 114),
       need('lessons with extension work', 'extensionStages', 114),
-      need('lessons with printable practice items', 'practiceItems', 114)],
+      need('supplied-material sets authored', 'suppliedMaterialSets', 49)],
     source: 'Every teaching lesson carries guided practice, homework and extension — and every '
       + 'one of them is a BRIEF, not an exercise: "Combine 8 sentence pairs into one sentence '
       + 'using a defining relative clause." Nought of 114 lessons carries the eight pairs. This '
       + 'title was ranked first for publication and the requirement was rewritten when the volume '
       + 'was attempted: the original requirement measured that practice was described, not that a '
       + 'learner had anything to work on. A workbook of instructions with no exercises is worse '
-      + 'than no workbook, because it looks like one.',
+      + 'than no workbook, because it looks like one. The requirement was then rewritten a second '
+      + 'time, downwards: most practice here is learner-generated and needs nothing supplied. The '
+      + 'real gap is 49 practice stages that hand the learner something, of which 10 now have it.',
   }),
   t({
     n: 7, family: 'IEFC Student Series', wave: 1,

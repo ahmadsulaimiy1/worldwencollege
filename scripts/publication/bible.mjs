@@ -61,6 +61,29 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'Fifty instructions pointing at nothing, found and counted', built: 'Asking the '
+    + 'mastery question — can a learner who finishes this lesson do something they could not '
+    + 'do before — found 50 practice stages across 48 lessons that hand the learner material '
+    + 'which did not exist: "you are given 8 sentence pairs", "sort 10 sentence prompts", '
+    + '"revise a provided paragraph". A learner alone met a task they could not begin; a teacher '
+    + 'invented the items before every class, differently each time. Detection is mechanised and '
+    + 'classification is declared in two registers, so a candidate in neither fails the build — '
+    + 'and the first version of that check was false, passing by construction until a sabotage '
+    + 'run exposed it.' },
+  { item: 'The first ten exercise sets authored', built: 'sql/seed-exercises.sql: 10 sets, 60 '
+    + 'items, 43 with model answers, covering every supplied-material stage in Levels I and II — '
+    + 'taken first because beginners are least able to improvise what is missing. Every set is '
+    + 'press_drafted and none claims academic approval, because the College has no appointed '
+    + 'academic body to give it. Three sets replace a picture the curriculum asks for by '
+    + 'describing the frames in words; the illustration itself is recorded as outstanding rather '
+    + 'than pretended away. 39 sets remain, each one named.' },
+  { item: 'The Workbook requirement, corrected twice', built: 'First it measured that practice '
+    + 'was DESCRIBED and found the Workbook derivable when it was not. Then it measured printable '
+    + 'items and reported nought of 114 lessons, which overstated the gap by a factor of two: '
+    + 'most practice here is learner-generated and needs nothing supplied. The requirement now '
+    + 'reads 49 supplied-material sets, of which 10 exist. A metric that overstates a gap is not '
+    + 'safer than one that understates it — it costs the same credibility and sends the authoring '
+    + 'effort to the wrong place.' },
   { item: 'The Workbook was withdrawn by attempting it', built: 'It ranked first for '
     + 'educational impact and the catalogue said it was derivable: every lesson carries guided '
     + 'practice, homework and extension. Every one of those is a BRIEF — "Combine 8 sentence '

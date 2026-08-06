@@ -2017,3 +2017,57 @@ INSERT OR IGNORE INTO programme_claims
 
 -- Created last: the probe at the top looks for it.
 CREATE INDEX IF NOT EXISTS idx_programme_claims_state ON programme_claims(state, sequence);
+
+-- ─────────────────────────────────────────────────────────────────────
+-- EXERCISE MATERIALS
+--
+-- Fifty practice stages across the programme hand the learner something:
+-- "You are given 8 sentence pairs", "Sort 10 sentence prompts", "a
+-- provided paragraph". Until this table existed, none of those things
+-- did. The instruction was in the lesson and the material it referred
+-- to was nowhere, which meant a learner working alone met a task they
+-- could not start and a teacher had to invent the items before every
+-- class.
+--
+-- APPROVAL IS PART OF THE RECORD, NOT A PROCESS AROUND IT.
+-- These items are curriculum. They were drafted by the Press to fill a
+-- gap the Press found, and the College has no appointed academic body
+-- to approve them. So the approval state is a column: every set says
+-- who drafted it and whether anyone with academic standing has signed
+-- it off. Nothing prints as approved until something is.
+-- ─────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS exercise_sets (
+  id                TEXT PRIMARY KEY,
+  learning_item_id  TEXT NOT NULL REFERENCES learning_items(id),
+  -- Which stage of the lesson the set belongs to: 'guided',
+  -- 'independent', 'homework', 'extension'.
+  stage             TEXT NOT NULL,
+  -- The instruction as the lesson states it, copied so that a set can
+  -- be checked against the task it claims to serve.
+  brief             TEXT NOT NULL,
+  -- What the learner is handed: 'sentence_pairs', 'jumbled', 'cards',
+  -- 'excerpts', 'gapped', 'matching', 'sorting'.
+  kind              TEXT NOT NULL,
+  approval_state    TEXT NOT NULL DEFAULT 'press_drafted'
+                      CHECK (approval_state IN ('press_drafted','academically_approved')),
+  drafted_by        TEXT NOT NULL DEFAULT 'WEC Press',
+  approved_by       TEXT,
+  approved_on       TEXT,
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+
+CREATE TABLE IF NOT EXISTS exercise_items (
+  id                TEXT PRIMARY KEY,
+  exercise_set_id   TEXT NOT NULL REFERENCES exercise_sets(id),
+  sequence          INTEGER NOT NULL,
+  -- What the learner reads.
+  prompt            TEXT NOT NULL,
+  -- The expected answer where one exists. NULL where the task is open
+  -- and a learner's own sentence is the answer -- never a placeholder.
+  answer            TEXT,
+  note              TEXT,
+  UNIQUE (exercise_set_id, sequence)
+);
+
+CREATE INDEX IF NOT EXISTS idx_exercise_sets_item ON exercise_sets(learning_item_id);
+CREATE INDEX IF NOT EXISTS idx_exercise_items_set ON exercise_items(exercise_set_id);

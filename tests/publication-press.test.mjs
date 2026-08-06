@@ -596,7 +596,93 @@ check('the dashboard reports both coverage figures and does not collapse them',
   && DASH.publishedPct <= DASH.materialPct,
   `${DASH.materialPct}% material · ${DASH.publishedPct}% published`);
 
-// ── 10 · The volume itself ───────────────────────────────────────────
+// ── 10 · Mastery: the learner as the unit of excellence ──────────────
+
+const mast = await import(loadUrl('scripts/publication/mastery.mjs'));
+const { PRACTICE, OPEN, ILLUSTRATION_PENDING, candidates, authored, suppliedMaterials,
+  metrics, distinctiveness, assessmentDefence } = mast;
+
+const CAND = candidates(C);
+const SUP = suppliedMaterials(C);
+const MET = metrics(C);
+
+check('every practice stage that hands the learner something is detected',
+  CAND.length > 40 && CAND.every((c) => c.ref && c.stage && c.text.length > 20),
+  `${CAND.length} candidates`);
+
+// Both directions, as with the readiness exceptions: an undeclared
+// candidate fails, and a declaration with no candidate behind it fails.
+const keys = new Set(CAND.map((c) => `${c.ref}|${c.stage}`));
+const staleDeclarations = [...OPEN].filter((k) => !keys.has(k));
+check('no declaration survives the stage it was written about',
+  staleDeclarations.length === 0, staleDeclarations.join(' · '));
+
+check('every candidate is declared supplied or open, in a register that must be told',
+  SUP.undeclared.length === 0,
+  SUP.undeclared.map((r) => r.key).join(' · '));
+
+check('no declaration in either register survives its stage',
+  [...mast.SUPPLIED, ...OPEN].every((k) => keys.has(k)),
+  [...mast.SUPPLIED, ...OPEN].filter((k) => !keys.has(k)).join(' · '));
+
+check('a stage declared supplied and authored has items behind it',
+  SUP.rows.filter((r) => r.set).every((r) => r.set.items >= 2),
+  SUP.rows.filter((r) => r.set && r.set.items < 2).map((r) => r.key).join(' · '));
+
+check('authored exercise sets state who drafted them and are not claimed as approved',
+  authored().length > 0
+  && authored().every((a) => a.draftedBy && a.approval === 'press_drafted'),
+  authored().filter((a) => a.approval !== 'press_drafted').map((a) => a.id).join(' · '));
+
+check('the outstanding count is the honest remainder, not a rounded one',
+  SUP.needed === SUP.authored + SUP.outstanding.length,
+  `${SUP.needed} needed = ${SUP.authored} authored + ${SUP.outstanding.length} outstanding`);
+
+check('an exercise set that replaces a picture records the illustration as outstanding',
+  ILLUSTRATION_PENDING.every((k) => keys.has(k)),
+  ILLUSTRATION_PENDING.filter((k) => !keys.has(k)).join(' · '));
+
+// The practice architecture: absences must be explained.
+check('every practice type either maps to a stage or states why it does not',
+  PRACTICE.length === 10 && PRACTICE.every((p) => p.icon || (p.why && p.why.length > 60)),
+  PRACTICE.filter((p) => !p.icon && (!p.why || p.why.length <= 60)).map((p) => p.name).join(' · '));
+
+check('the practice architecture names the self-check as absent rather than omitting it',
+  PRACTICE.some((p) => p.key === 'selfcheck' && /DOES NOT EXIST/.test(p.why)));
+
+// The seven metrics.
+check('seven mastery metrics, each a property of lessons and each explained',
+  MET.figures.length === 7
+  && MET.figures.every((f) => f.n >= 0 && f.n <= MET.lessons && f.what.length > 40),
+  MET.figures.map((f) => `${f.pct}%`).join(' '));
+
+check('no metric can exceed the lesson count',
+  MET.figures.every((f) => f.n <= MET.lessons));
+
+check('complete mastery coverage is nought while no lesson has a self-check',
+  MET.figures.find((f) => /complete mastery coverage/i.test(f.name)).n === 0,
+  'a metric that reported otherwise would be measuring something else');
+
+// A lesson pointing at material that does not exist is not teachable
+// from print, and the metric must move when the material arrives.
+const blockedRefs = new Set(SUP.outstanding.map((r) => r.ref));
+check('a lesson whose material is still missing is not counted as teachable from print',
+  MET.rows.filter((r) => blockedRefs.has(r.ref)).every((r) => !r.teachableFromPrint),
+  MET.rows.filter((r) => blockedRefs.has(r.ref) && r.teachableFromPrint)
+    .map((r) => r.ref).join(' · '));
+
+check('distinctiveness is answered with evidence rather than adjectives',
+  distinctiveness(C).length >= 5
+  && distinctiveness(C).every(([, why]) => /\d/.test(why) || why.length > 120),
+  distinctiveness(C).map(([k]) => k).join(' · '));
+
+const DEF = assessmentDefence(C);
+check('the assessment defence reports the competency mapping rather than assuming it',
+  DEF.modules === 60 && DEF.soleEvidence === 60 && DEF.mappedToCompetency === 0
+  && /only by\s*\n?\s*inference|only by inference/.test(DEF.verdict.replace(/\s+/g, ' ')),
+  DEF.verdict.slice(0, 60));
+
+// ── 11 · The volume itself ───────────────────────────────────────────
 
 const VOLUME = `${ROOT}/publication/WEC Press — The Publishing Constitution.pdf`;
 if (existsSync(VOLUME)) {
