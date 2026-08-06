@@ -145,15 +145,35 @@ export function ascentChart(levels, { w = 760, h = 300 } = {}) {
       <rect x="${n(x + bw * 0.12)}" y="${n(y)}" width="${n(bw * 0.76)}" height="${n(bh)}"
         fill="${p.wash}" stroke="${p.mid}" stroke-width="0.7"/>
       <rect x="${n(x + bw * 0.12)}" y="${n(y)}" width="${n(bw * 0.76)}" height="3" fill="${p.ink}"/>
-      <text x="${n(cx)}" y="${n(y - 6)}" text-anchor="middle" ${FONT} font-size="${fs(8.4)}"
+      <!-- THE TWO SERIES ARE SEPARATED HORIZONTALLY, NOT VERTICALLY.
+           Both label the same column, and where the words-per-stage
+           rule ran near the bar top they shared a line and printed
+           through each other — "336 stages" through "9,664". Two
+           attempts to fix that by moving labels up or down each cured
+           one level and broke another, which is what nudging always
+           does: it encodes today's numbers rather than the geometry.
+           The bar value is now anchored to the left edge of its bar and
+           the crimson pair to the right edge, so they cannot meet at
+           any vertical position the data produces. -->
+      <text x="${n(x + bw * 0.12)}" y="${n(y - 6)}" ${FONT} font-size="${fs(8.4)}"
         font-weight="700" fill="${p.ink}">${r.words.toLocaleString('en-GB')}</text>
       <line x1="${n(x + bw * 0.06)}" y1="${n(py)}" x2="${n(x + bw * 0.94)}" y2="${n(py)}"
         stroke="${PAL.deepCrimson}" stroke-width="1.3"/>
       <circle cx="${n(cx)}" cy="${n(py)}" r="2.1" fill="${PAL.deepCrimson}"/>
-      <text x="${n(x + bw * 0.06)}" y="${n(py - 4)}" ${FONT} font-size="${fs(6.8)}"
-        font-weight="700" fill="${PAL.deepCrimson}">${r.perStage}</text>
-      <text x="${n(x + bw * 0.06)}" y="${n(py + 9)}" ${FONT} font-size="${fs(5.6)}"
-        fill="${PAL.deepCrimson}" opacity=".75">${r.stages} stages</text>
+      <!-- The halo is not decoration. Where the words-per-stage rule
+           runs close to the bar top, these labels sit over the bar's
+           ink top rule, and at Level II "351 stages" printed with a
+           dark line through it. A label collision with a GRAPHIC is
+           invisible to a text-extent audit, which measures boxes and
+           not what is drawn underneath them; a paper-coloured stroke
+           laid down before the fill makes the label legible over
+           anything the figure can put behind it. -->
+      <text x="${n(x + bw * 0.94)}" y="${n(py - 4)}" text-anchor="end" ${FONT} font-size="${fs(6.8)}"
+        font-weight="700" fill="${PAL.deepCrimson}" paint-order="stroke"
+        stroke="${PAL.pearlWhite}" stroke-width="2.4" stroke-linejoin="round">${r.perStage}</text>
+      <text x="${n(x + bw * 0.94)}" y="${n(py + 9)}" text-anchor="end" ${FONT} font-size="${fs(5.6)}"
+        fill="${PAL.deepCrimson}" opacity=".85" paint-order="stroke"
+        stroke="${PAL.pearlWhite}" stroke-width="2.2" stroke-linejoin="round">${r.stages} stages</text>
       <text x="${n(cx)}" y="${n(pad.t + ih + 16)}" text-anchor="middle" ${SERIF} font-size="${fs(14.0)}"
         font-weight="700" fill="${p.ink}">${esc(r.lv.roman)}</text>
       <text x="${n(cx)}" y="${n(pad.t + ih + 27)}" text-anchor="middle" ${FONT} font-size="${fs(6.8)}"
@@ -294,7 +314,13 @@ export function lessonAnatomy(curriculum, { w = 760 } = {}) {
   const shown = ranked.slice(0, 18);
   const max = shown[0].count;
   const rowH = 15.5;
-  const labelW = 210;
+  // Wide enough for the longest stage name the curriculum uses.
+  // At 210 the two longest — INDEPENDENT PRACTICE / SPEAKING ACTIVITY
+  // and CRITICAL THINKING / DISCUSSION PROMPT — were right-aligned to a
+  // point that put their first fifty units outside the viewBox, so they
+  // printed with their opening words sliced off. SVG does not report
+  // that; it just draws past the edge and lets the frame clip it.
+  const labelW = 272;
   const barW = w - labelW - 96;
   const h = shown.length * rowH + 32;
 
@@ -345,11 +371,30 @@ export function lessonAnatomy(curriculum, { w = 760 } = {}) {
 export function assessmentMap(levels, rubricCriteria, { w = 760 } = {}) {
   const rowH = 40;
   const h = levels.length * rowH + 46;
-  const colX = [0, 150, 300, 420, 540, 640];
-  const heads = ['Level', 'Assessed quizzes', 'Questions', 'Assignments',
-    'Rubric criteria', 'Mapped to competency'];
-  const head = heads.map((t, i) => `<text x="${colX[i]}" y="12" ${FONT} font-size="${fs(6.4)}"
-    font-weight="700" letter-spacing="1.1" fill="${PAL.royalBlue}">${t.toUpperCase()}</text>`).join('');
+  // THE COLUMN THAT WOULD NOT FIT WAS THE POINT OF THE FIGURE.
+  //
+  // The last column began at 640 in a 760-unit frame and its heading,
+  // MAPPED TO COMPETENCY, is 157 units long — so the figure whose whole
+  // argument is that this column is empty printed its name as MAPPED TO
+  // COMPET. The footer stating "0 of 120 assessments mapped" was cut in
+  // the same place. Meanwhile the level names ran into the quiz counts
+  // at three of six rows, because "IV · Upper Intermediate Programme"
+  // is wider than the 150 units the first column allowed.
+  //
+  // The last column is now anchored to the right edge and grows
+  // leftwards, which is the only arrangement that cannot overflow, and
+  // the level names drop the word "Programme" they all share.
+  const colX = [8, 250, 330, 410, 500];
+  // The heads are set a step smaller than the body of the figure, and
+  // still above the 5.5 pt floor. At 6.4 pt the last two ran into each
+  // other by thirty units — RUBRIC CRITERIRAAPPED TO COMPETENCY — and
+  // the only alternatives were shortening the one heading the figure
+  // exists to print or dropping a column.
+  const heads = ['Level', 'Quizzes', 'Questions', 'Assignments', 'Rubric criteria'];
+  const head = heads.map((t, i) => `<text x="${colX[i]}" y="12" ${FONT} font-size="${fs(5.8)}"
+    font-weight="700" letter-spacing="1.1" fill="${PAL.royalBlue}">${t.toUpperCase()}</text>`).join('')
+    + `<text x="${w}" y="12" text-anchor="end" ${FONT} font-size="${fs(5.8)}" font-weight="700"
+      letter-spacing="1.1" fill="${PAL.royalBlue}">MAPPED TO COMPETENCY</text>`;
 
   const rows = levels.map((lv, i) => {
     const p = LEVEL_PALETTES[i];
@@ -360,16 +405,16 @@ export function assessmentMap(levels, rubricCriteria, { w = 760 } = {}) {
     const asg = items.filter((x) => x.kind === 'assignment').length;
     const crit = rubricCriteria[lv.roman] || 0;
     const cellTxt = (x, t, bold) => `<text x="${x}" y="${n(y + 18)}" ${bold ? SERIF : FONT}
-      font-size="${bold ? 12 : 9}" ${bold ? 'font-weight="700"' : ''}
+      font-size="${bold ? fs(9.5) : fs(7.4)}" ${bold ? 'font-weight="700"' : ''}
       fill="${bold ? p.ink : PAL.warmCharcoal}">${t}</text>`;
     return `<line x1="0" y1="${n(y - 4)}" x2="${w}" y2="${n(y - 4)}"
         stroke="${PAL.platinum}" stroke-width="0.5"/>
       <rect x="0" y="${n(y - 4)}" width="3" height="${n(rowH - 4)}" fill="${p.mid}"/>
-      ${cellTxt(colX[0] + 8, `${lv.roman} · ${esc(lv.name)}`, true)}
+      ${cellTxt(colX[0], `${lv.roman} · ${esc(lv.name.replace(/ Programme$/, ''))}`, true)}
       ${cellTxt(colX[1], quizzes)}${cellTxt(colX[2], qs)}${cellTxt(colX[3], asg)}
       ${cellTxt(colX[4], crit)}
-      <text x="${colX[5]}" y="${n(y + 18)}" ${FONT} font-size="${fs(8.0)}" font-weight="700"
-        fill="${PAL.deepCrimson}">None</text>`;
+      <text x="${w}" y="${n(y + 18)}" text-anchor="end" ${FONT} font-size="${fs(8.0)}"
+        font-weight="700" fill="${PAL.deepCrimson}">None</text>`;
   }).join('');
 
   return `<svg viewBox="0 0 ${w} ${h}" width="100%" role="img"
@@ -378,78 +423,52 @@ export function assessmentMap(levels, rubricCriteria, { w = 760 } = {}) {
     <line x1="0" y1="${n(h - 18)}" x2="${w}" y2="${n(h - 18)}" stroke="${PAL.royalBlue}" stroke-width="1"/>
     <text x="0" y="${n(h - 5)}" ${FONT} font-size="${fs(6.6)}" fill="${PAL.slateGrey}"
       >Counted from the academic database at generation.</text>
-    <text x="${colX[5]}" y="${n(h - 5)}" ${FONT} font-size="${fs(6.6)}" fill="${PAL.deepCrimson}"
-      >0 of 120 assessments mapped.</text>
+    <text x="${w}" y="${n(h - 5)}" text-anchor="end" ${FONT} font-size="${fs(6.6)}"
+      fill="${PAL.deepCrimson}">0 of 120 assessments mapped.</text>
   </svg>`;
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// 5 · THE FOUR SKILLS ACROSS THE ASCENT
+// 5 · THE FOUR SKILLS ACROSS THE ASCENT — BUILT, MEASURED, WITHDRAWN
 // ─────────────────────────────────────────────────────────────────────
 
 /**
- * How often each productive and receptive skill is practised as a named
- * stage, level by level — a small-multiple line for each skill.
+ * There is no function here, and that is the finding.
  *
- * Normalised per hundred items, because the levels differ in size and
- * raw counts would say only that some levels are longer.
+ * ────────────────────────────────────────────────────────────────────
+ * WHAT THE FIGURE WAS, AND WHAT IT ACTUALLY SHOWED
+ * ────────────────────────────────────────────────────────────────────
+ * `skillsAcrossLevels()` plotted named speaking, listening, reading and
+ * writing stages per hundred authored items, one line each across the
+ * six levels, under the caption "Reading and writing rise as the ascent
+ * proceeds; speaking is present throughout."
+ *
+ * Rasterised and looked at, it showed four nearly coincident, nearly
+ * flat lines and two pairs of labels printed through each other. The
+ * measurement, per hundred items:
+ *
+ *     Level      I     II    III     IV      V     VI
+ *     Speaking  40.8  40.8  40.8   40.8   40.8   34.7
+ *     Listening 38.8  38.8  38.8   38.8   38.8   38.8
+ *     Reading   38.8  38.8  38.8   40.8   38.8   34.7
+ *     Writing   40.8  40.8  40.8   46.9   44.9   38.8
+ *
+ * Reading does not rise; it is flat at 38.8 everywhere except Level IV
+ * and FALLS at Level VI. The caption was a claim the numbers did not
+ * support, and had been printed in three editions.
+ *
+ * The reason the lines are flat is more interesting than the figure:
+ * every teaching lesson in this programme carries a named stage for
+ * every skill, so the series is not measuring the balance of skills at
+ * all — it is measuring the ratio of teaching lessons to total items,
+ * which is fixed by the architecture. It could never have shown what
+ * its caption claimed.
+ *
+ * That is the same finding the routes page reports and Figure 3
+ * demonstrates, both of which carry it better. So the figure is gone
+ * rather than redrawn: a chart with no variance to show is a chart with
+ * nothing to say, and removing a page is the opposite of padding one.
  */
-export function skillsAcrossLevels(levels, { w = 760, h = 220 } = {}) {
-  const SKILLS = [
-    ['Speaking', /SPEAKING/i, PAL.royalBlue],
-    ['Listening', /LISTENING/i, PAL.imperialBlue],
-    ['Reading', /READING/i, PAL.bronze],
-    ['Writing', /WRITING/i, PAL.deepCrimson],
-  ];
-  const pad = { l: 34, r: 96, t: 20, b: 34 };
-  const iw = w - pad.l - pad.r;
-  const ih = h - pad.t - pad.b;
-
-  const series = SKILLS.map(([name, re, col]) => {
-    const pts = levels.map((lv) => {
-      const items = lv.modules.flatMap((m) => m.lessons);
-      const hits = items.flatMap((x) => x.stages).filter((s) => s.head && re.test(s.head)).length;
-      return items.length ? (hits / items.length) * 100 : 0;
-    });
-    return { name, col, pts };
-  });
-  const max = Math.max(10, ...series.flatMap((s) => s.pts));
-
-  const px = (i) => pad.l + (i / (levels.length - 1)) * iw;
-  const py = (v) => pad.t + ih - (v / max) * ih;
-
-  const lines = series.map((s) => {
-    const d = s.pts.map((v, i) => `${i ? 'L' : 'M'}${n(px(i))} ${n(py(v))}`).join('');
-    const dots = s.pts.map((v, i) =>
-      `<circle cx="${n(px(i))}" cy="${n(py(v))}" r="2.2" fill="${s.col}"/>`).join('');
-    const last = s.pts[s.pts.length - 1];
-    return `<path d="${d}" fill="none" stroke="${s.col}" stroke-width="1.4"
-        stroke-linejoin="round"/>${dots}
-      <text x="${n(px(levels.length - 1) + 8)}" y="${n(py(last) + 3)}" ${FONT} font-size="${fs(7.4)}"
-        font-weight="700" fill="${s.col}">${s.name}</text>`;
-  }).join('');
-
-  const grid = [0, 0.25, 0.5, 0.75, 1].map((f) => {
-    const y = pad.t + ih - f * ih;
-    return `<line x1="${pad.l}" y1="${n(y)}" x2="${n(pad.l + iw)}" y2="${n(y)}"
-        stroke="${PAL.platinum}" stroke-width="0.4"/>
-      <text x="${pad.l - 5}" y="${n(y + 3)}" text-anchor="end" ${FONT} font-size="${fs(6.0)}"
-        fill="${PAL.slateGrey}">${Math.round(f * max)}</text>`;
-  }).join('');
-
-  const xlabels = levels.map((lv, i) =>
-    `<text x="${n(px(i))}" y="${n(pad.t + ih + 14)}" text-anchor="middle" ${SERIF} font-size="${fs(9.5)}"
-      font-weight="700" fill="${LEVEL_PALETTES[i].ink}">${esc(lv.roman)}</text>
-     <text x="${n(px(i))}" y="${n(pad.t + ih + 24)}" text-anchor="middle" ${FONT} font-size="${fs(6.2)}"
-      fill="${PAL.slateGrey}">${esc(lv.cefr)}</text>`).join('');
-
-  return `<svg viewBox="0 0 ${w} ${h}" width="100%" role="img"
-    aria-label="Named skill stages per hundred items at each level, for speaking, listening, reading and writing"
-    xmlns="http://www.w3.org/2000/svg">
-    <text x="${pad.l}" y="10" ${FONT} font-size="${fs(6.2)}" letter-spacing="1.2"
-      fill="${PAL.slateGrey}">NAMED SKILL STAGES PER 100 AUTHORED ITEMS</text>
-    ${grid}${lines}${xlabels}</svg>`;
-}
 
 // ─────────────────────────────────────────────────────────────────────
 // 6 · THE LEARNER'S PATH

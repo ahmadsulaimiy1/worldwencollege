@@ -61,6 +61,34 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'Figure text measured, not assumed', built: 'Every label in every figure is now measured '
+    + 'as a rendered box against its own frame and against its neighbours. SVG has no layout '
+    + 'engine: a label that runs past the edge is clipped in silence and one drawn at the same '
+    + 'height as another simply prints through it. Four defects were found this way, in three of '
+    + 'the seven figures — including the assessment map printing its last column as MAPPED TO '
+    + 'COMPET, in the figure whose whole argument is that the column is empty.' },
+  { item: 'The four-skills figure, withdrawn', built: 'Built, measured, and removed. It plotted '
+    + 'four series that are flat at 38.8–40.8 per hundred items across all six levels, under a '
+    + 'caption claiming reading and writing rise — reading is flat everywhere but Level IV and '
+    + 'falls at Level VI. The lines are flat because every teaching lesson carries a stage for '
+    + 'every skill, so the figure was measuring the ratio of teaching lessons to total items and '
+    + 'could never have shown what it claimed. Figure 3 and the routes coverage table carry the '
+    + 'finding properly.' },
+  { item: 'Photographic credits completed', built: 'The colophon credited the six level plates '
+    + 'while five further licensed photographs printed as section bands with no credit and no '
+    + 'licence reference recorded anywhere in the source. Nothing was unlicensed; the record did '
+    + 'not exist. All eleven are now credited with their references, and the test suite counts the '
+    + 'placed images against the credits table so the two cannot drift apart again.' },
+  { item: 'Two further licensed photographs', built: 'A dictionary thumb index opening the '
+    + 'glossary and a revision desk opening the routes, so the reference apparatus at the back of '
+    + 'the book carries the same photographic rhythm as the front. A third was licensed for the '
+    + 'pronunciation strand and not used: a posed classroom with a bare-shouldered top, which '
+    + 'fails the modesty requirement and does not match the observational direction of the other '
+    + 'ten. The licence is spent; printing it would have cost more.' },
+  { item: 'Table headings that survive a page break', built: 'thead is set to table-header-group '
+    + 'and rows are kept whole, so the pronunciation strand and the revision route repeat their '
+    + 'column headings on every page they continue onto instead of presenting a reader with three '
+    + 'unlabelled columns of references.' },
   { item: 'Glossary of programme terminology', built: '50 terms of art, defined as the field '
     + 'defines them and never as a claim about the College. Every headword is counted across the '
     + 'curriculum before it is printed and carries its first use and total; three proposed '

@@ -16,7 +16,7 @@ import { frontMatter, backMatter, coverSpread, spineWidth, TRIM, BLEED } from '.
 import { guillocheRosette, guillocheBand, girihRosette, frame, cornerFan, fleuron, crest, EMBOSS } from './ornament.mjs';
 import { stageIcon, GENERIC_ICON } from './icons.mjs';
 import { parseRubric } from './curriculum.mjs';
-import { ascentChart, architectureGrid, lessonAnatomy, assessmentMap, skillsAcrossLevels,
+import { ascentChart, architectureGrid, lessonAnatomy, assessmentMap,
   learnerJourney, spiralMap } from './diagrams.mjs';
 import { subjectIndex, lexicalIndex, assessmentIndex, alphabetise, topicOf } from './indexes.mjs';
 import { crossReferences, pullQuotes, glossary, routes as buildRoutes, revisionByModule,
@@ -599,7 +599,7 @@ const critByLevel = Object.fromEntries(C.levels.map((lv) => [lv.roman,
 const ARCHITECTURE = `<section class="arch">
   <p class="ed__eyebrow">The Architecture</p>
   <h2>The Shape of the Programme</h2>
-  <p class="lead">Seven figures, each measured from the curriculum in this volume rather than drawn
+  <p class="lead">Six figures, each measured from the curriculum in this volume rather than drawn
     to illustrate it. If the programme changes, they change; if a figure here is unflattering, it
     is because the measurement was.</p>
 
@@ -646,16 +646,8 @@ const ARCHITECTURE = `<section class="arch">
       recorded here because a chart of only the head would have concealed it.</p>
   </figure>
 
-  <figure class="fig">
-    <figcaption class="fig__c"><b>Figure 4</b> The four skills across the ascent</figcaption>
-    ${skillsAcrossLevels(C.levels)}
-    <p class="fig__n">Named skill stages per hundred authored items, normalised because the levels
-      differ in size and raw counts would say only that some levels are longer. Reading and writing
-      rise as the ascent proceeds; speaking is present throughout.</p>
-  </figure>
-
   <figure class="fig fig--break">
-    <figcaption class="fig__c"><b>Figure 5</b> The assessment map</figcaption>
+    <figcaption class="fig__c"><b>Figure 4</b> The assessment map</figcaption>
     ${assessmentMap(C.levels, critByLevel)}
     <p class="fig__n">The right-hand column is the one that matters. Every module carries two
       assessments and a full grading rubric — 120 assessments and
@@ -667,7 +659,7 @@ const ARCHITECTURE = `<section class="arch">
   </figure>
 
   <figure class="fig fig--break">
-    <figcaption class="fig__c"><b>Figure 6</b> A learner's path</figcaption>
+    <figcaption class="fig__c"><b>Figure 5</b> A learner's path</figcaption>
     ${learnerJourney(C.levels)}
     <p class="fig__n">The same shape at three scales. A module is a run of teaching lessons closed
       by two assessments; a level is ten modules closed by an award; the programme is six levels,
@@ -680,7 +672,7 @@ const ARCHITECTURE = `<section class="arch">
   </figure>
 
   <figure class="fig fig--break">
-    <figcaption class="fig__c"><b>Figure 7</b> The spiral, measured</figcaption>
+    <figcaption class="fig__c"><b>Figure 6</b> The spiral, measured</figcaption>
     ${spiralMap(C.levels, XREF.back)}
     <p class="fig__n">Every teaching lesson in this programme opens by naming what must already be
       secure, and ${XREF.forward.size} of them name a specific module. Collected, those declarations
@@ -763,7 +755,7 @@ const GUIDE = `<section class="guide">
     own prerequisite stage names, set as references so they can be followed. The module openers
     carry the same relation in both directions \u2014 what the module builds on, and which later
     lessons come back to it \u2014 which is how the spiral structure of the programme becomes visible
-    from inside it. Figure 7 shows the whole of that graph at once.</p>
+    from inside it. Figure 6 shows the whole of that graph at once.</p>
   <p>Where a module opener ends in a quoted question, that question is the module\u2019s own discussion
     prompt, lifted from the lesson named beside it. It is there to say what the module is really
     about before the reader meets the first stage.</p>
@@ -788,6 +780,7 @@ const GUIDE = `<section class="guide">
 // can check that this page describes the book rather than the field.
 // Three proposed headwords were dropped by that check.
 const GLOSSARY = `<section class="gloss">
+  ${photoBand('img/band-glossary.jpg', 'The thumb index of a printed English dictionary')}
   <p class="ed__eyebrow">Reference</p>
   <h2>Glossary of Programme Terminology</h2>
   <p class="lead">${GLOSS.length} terms of art the curriculum uses, defined as the field defines
@@ -808,6 +801,7 @@ const GLOSSARY = `<section class="gloss">
 
 // ---- The routes -------------------------------------------------------
 const ROUTE_SECTION = `<section class="routes">
+  ${photoBand('img/band-routes.jpg', 'Two students working through notes and textbooks at a desk')}
   <p class="ed__eyebrow">Reference</p>
   <h2>Routes Through the Programme</h2>
   <p class="lead">Ways to move through this book other than front to back — for a learner revising
@@ -1017,6 +1011,22 @@ h1, h2, h3, h4, h5, .mono, .lesson__ref, .lesson__k { hyphens: none; }
 .sans { font-family: var(--sans); }
 p { margin:0 0 5.5pt; orphans:3; widows:3; }
 h2,h3,h4,h5 { color:var(--ink); break-after:avoid; }
+
+/* TABLES THAT CROSS A PAGE.
+   The pronunciation strand runs to nineteen rows in a level and the
+   revision route to ten in each of six; both are longer than a page can
+   hold. When such a table breaks, the reader on the second page sees
+   three columns of references with nothing saying which is which — and
+   nothing about the first page looks wrong, which is why this kind of
+   defect survives a proofread of the opening spread.
+
+   table-header-group makes Chromium repeat the thead at the top of
+   every page the table continues onto. break-inside:avoid on the row
+   stops a two-line focus splitting its own sentence across the fold.
+   Neither is visible when the table fits; both are the difference
+   between a reference table and a heap of numbers when it does not. */
+thead { display: table-header-group; }
+tr { break-inside: avoid; }
 .label { font-family:Calibri,"Nimbus Sans",Arial,sans-serif; font-size:7pt; font-weight:700;
   letter-spacing:.12em; text-transform:uppercase; color:var(--bronze); margin:12pt 0 3pt; }
 .small { font-size:7.6pt; color:var(--soft); font-family:Calibri,"Nimbus Sans",Arial,sans-serif; }
@@ -1849,7 +1859,7 @@ await page.pdf({
  * The DOCX carried every word of the curriculum and none of the seven
  * figures, so a faculty member editing the programme worked without the
  * apparatus their readers would see — which is exactly the reader who
- * most needs to know that Figure 5 shows no competency mapping.
+ * most needs to know that Figure 4 shows no competency mapping.
  *
  * DOCX cannot hold SVG in a form Word and LibreOffice both render, so
  * the figures are rasterised here, where a browser is already running,
@@ -1867,10 +1877,9 @@ const FIGURES = [
   ['fig-1-ascent', 'Figure 1 · The ascent', ascentChart(C.levels)],
   ['fig-2-architecture', 'Figure 2 · Sixty modules, one architecture', architectureGrid(C.levels)],
   ['fig-3-anatomy', 'Figure 3 · The anatomy of a lesson', lessonAnatomy(C)],
-  ['fig-4-skills', 'Figure 4 · The four skills across the ascent', skillsAcrossLevels(C.levels)],
-  ['fig-5-assessment', 'Figure 5 · The assessment map', assessmentMap(C.levels, critByLevel)],
-  ['fig-6-journey', 'Figure 6 · A learner’s path', learnerJourney(C.levels)],
-  ['fig-7-spiral', 'Figure 7 · The spiral, measured', spiralMap(C.levels, XREF.back)],
+  ['fig-4-assessment', 'Figure 4 · The assessment map', assessmentMap(C.levels, critByLevel)],
+  ['fig-5-journey', 'Figure 5 · A learner’s path', learnerJourney(C.levels)],
+  ['fig-6-spiral', 'Figure 6 · The spiral, measured', spiralMap(C.levels, XREF.back)],
 ];
 if (!LARGE) {
   const fp = await browser.newPage({ viewport: { width: 1480, height: 900 },

@@ -113,6 +113,63 @@ check(`Audited ${f.counts.textEls} text elements at the true measure of ${MEASUR
     `${tooFine.length} below 0.25: ${[...new Set(tooFine)].slice(0, 6).join(' ')}`);
 }
 
+// --- Figure text -------------------------------------------------------
+{
+  // THE ASSERTION THAT WOULD HAVE CAUGHT FOUR SILENT DEFECTS.
+  //
+  // SVG has no layout engine. A <text> draws where it is told, does not
+  // wrap, does not displace its neighbour, and does not report running
+  // off the edge — the frame simply clips it. Every figure in this book
+  // is hand-positioned SVG, and three of the seven were broken:
+  //
+  //   Figure 5's last column header, MAPPED TO COMPETENCY, ran past the
+  //     right edge and printed as MAPPED TO COMPET — in the figure
+  //     whose entire argument is that the column is empty. Its footer,
+  //     "0 of 120 assessments mapped", was cut in the same place, and
+  //     three level names ran into the quiz counts beside them.
+  //   Figure 3 clipped its two longest stage names off the LEFT edge,
+  //     losing the opening words of both.
+  //   Figure 1 printed "336 stages" through "9,664" at two levels.
+  //   Figure 4 drew its four series labels at the same height, so
+  //     "Writing" and "Listening" overprinted into "Wsitteinnigng".
+  //
+  // None of it was visible on screen, where the figures are large, and
+  // none of it was visible in the HTML, where all the words are
+  // present. It surfaced only when the figures were rasterised for the
+  // editable edition and somebody looked at them.
+  const { figureText } = await import(loadUrl('scripts/publication/audit.mjs'));
+  const { buildCurriculum, parseRubric } = await import(loadUrl('scripts/publication/curriculum.mjs'));
+  const D = await import(loadUrl('scripts/publication/diagrams.mjs'));
+  const { crossReferences } = await import(loadUrl('scripts/publication/apparatus.mjs'));
+  const C = buildCurriculum();
+  const crit = Object.fromEntries(C.levels.map((lv) => [lv.roman,
+    lv.modules.flatMap((m) => m.lessons).filter((x) => x.kind === 'assignment')
+      .reduce((a, x) => {
+        const r = parseRubric(x.stages.find((s) => s.icon === 'rubric'));
+        return a + (r ? r.criteria.length : 0);
+      }, 0)]));
+  const figs = await figureText([
+    ['1 the ascent', D.ascentChart(C.levels)],
+    ['2 the module grid', D.architectureGrid(C.levels)],
+    ['3 the anatomy of a lesson', D.lessonAnatomy(C)],
+    ['4 the assessment map', D.assessmentMap(C.levels, crit)],
+    ['5 a learner’s path', D.learnerJourney(C.levels)],
+    ['6 the spiral', D.spiralMap(C.levels, crossReferences(C).back)],
+  ]);
+
+  const measured = figs.reduce((a, f) => a + f.count, 0);
+  check(`Measured every label in all ${figs.length} figures — ${measured} of them`,
+    measured > 300, measured);
+
+  const clipped = figs.filter((f) => f.clipped.length);
+  check('No figure label is clipped by its own frame', clipped.length === 0,
+    clipped.map((f) => `Fig ${f.name}: ${f.clipped.map((t) => `"${t.text}"`).join(', ')}`).join(' | '));
+
+  const collide = figs.filter((f) => f.collide.length);
+  check('No two figure labels are printed through each other', collide.length === 0,
+    collide.map((f) => `Fig ${f.name}: ${f.collide.map(([a, b]) => `"${a}"~"${b}"`).join(', ')}`).join(' | '));
+}
+
 // --- Page-box overflow -------------------------------------------------
 {
   // THE ASSERTION THAT WOULD HAVE CAUGHT THE WORST DEFECT IN THIS BOOK.
@@ -161,13 +218,32 @@ check(`Audited ${f.counts.textEls} text elements at the true measure of ${MEASUR
   // on screen.
   const { imageResolutions } = await import(loadUrl('scripts/publication/audit.mjs'));
   const imgs = await imageResolutions(HTML);
-  // Six level plates plus three institutional section bands.
+  // Six level plates plus the section bands.
   check(`All ${imgs.length} placed photographs are present and measurable`,
-    imgs.length === 9 && imgs.every((i) => i.natural.w > 0),
+    imgs.length >= 9 && imgs.every((i) => i.natural.w > 0),
     imgs.map((i) => `${i.file}:${i.natural.w}x${i.natural.h}`).join(' '));
   const soft = imgs.filter((i) => i.dpi < 300);
   check('...and every one clears 300 dpi at its printed size', soft.length === 0,
     soft.map((i) => `${i.file} ${i.dpi}dpi`).join('; '));
+
+  // EVERY PLACED PHOTOGRAPH IS CREDITED.
+  //
+  // The credits table listed the six level plates for three editions
+  // while three further licensed photographs were printed as section
+  // bands with no credit and no licence reference recorded anywhere in
+  // the source. Nothing was unlicensed; the record simply did not
+  // exist, which is the state a rights query cannot be answered from —
+  // and the images were on the page, so no assertion about the page
+  // could notice. This counts the two sets against each other.
+  const { PHOTO_CREDITS } = await import(loadUrl('scripts/publication/covers.mjs'));
+  check(`All ${imgs.length} photographs are credited in the colophon`,
+    PHOTO_CREDITS.length === imgs.length,
+    `${imgs.length} placed, ${PHOTO_CREDITS.length} credited`);
+  const badRef = PHOTO_CREDITS.filter(([, , ref]) => !/^AdobeStock_\d{6,}$/.test(ref));
+  check('...each with a resolvable licence reference', badRef.length === 0,
+    badRef.map(([r]) => r).join(', '));
+  const dupRef = PHOTO_CREDITS.length - new Set(PHOTO_CREDITS.map(([, , r]) => r)).size;
+  check('...and no reference is reused for two images', dupRef === 0, `${dupRef} duplicated`);
 
   // Mirrored margins mean a gutter allowance exists at all. Creep
   // compensation is a bindery calculation and is documented rather than

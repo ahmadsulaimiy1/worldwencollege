@@ -99,10 +99,10 @@ tr { break-inside:avoid; }
   <li><b>Trim size</b><span>210 × 297 mm (A4 portrait)</span></li>
   <li><b>Bleed</b><span>3 mm on all four edges of the cover artwork. The text block is
     supplied without bleed; no element runs to the edge.</span></li>
-  <li><b>Extent</b><span>524 pages, self-cover excluded</span></li>
-  <li><b>Spine width</b><span>31.3 mm, calculated as (524 ÷ 2) × 0.115 mm
+  <li><b>Extent</b><span>522 pages, self-cover excluded</span></li>
+  <li><b>Spine width</b><span>31.2 mm, calculated as (522 ÷ 2) × 0.115 mm
     caliper plus 1.2 mm for the cover boards and adhesive</span></li>
-  <li><b>Cover spread</b><span>457.3 × 303 mm
+  <li><b>Cover spread</b><span>457.2 × 303 mm
     including bleed</span></li>
   <li><b>Text stock</b><span>100 gsm uncoated offset, high opacity, natural white. Uncoated because
     this is a book a teacher writes in.</span></li>
@@ -537,7 +537,7 @@ tr { break-inside:avoid; }
   has teeth — these figures become wrong the moment the curriculum changes, which is the property
   that separates information design from decoration.</p>
 <table><thead><tr><th scope="col">Figure</th><th scope="col">What it measures</th><th scope="col">Source</th></tr></thead><tbody>
-<tr><td><b>1 · The ascent</b></td><td>Words of lesson content per level, with words per named stage.</td><td class="mono">diagrams.mjs · ascentChart()</td></tr><tr><td><b>2 · Sixty modules</b></td><td>Item composition of every module, as small multiples.</td><td class="mono">diagrams.mjs · architectureGrid()</td></tr><tr><td><b>3 · Anatomy of a lesson</b></td><td>Stage frequency across every named stage, with median timing.</td><td class="mono">diagrams.mjs · lessonAnatomy()</td></tr><tr><td><b>4 · Four skills</b></td><td>Named skill stages per hundred items, by level.</td><td class="mono">diagrams.mjs · skillsAcrossLevels()</td></tr><tr><td><b>5 · Assessment map</b></td><td>Quizzes, questions, assignments, rubric criteria and competency mapping.</td><td class="mono">diagrams.mjs · assessmentMap()</td></tr>
+<tr><td><b>1 · The ascent</b></td><td>Words of lesson content per level, with words per named stage.</td><td class="mono">diagrams.mjs · ascentChart()</td></tr><tr><td><b>2 · Sixty modules</b></td><td>Item composition of every module, as small multiples.</td><td class="mono">diagrams.mjs · architectureGrid()</td></tr><tr><td><b>3 · Anatomy of a lesson</b></td><td>Stage frequency across every named stage, with median timing.</td><td class="mono">diagrams.mjs · lessonAnatomy()</td></tr><tr><td><b>4 · Assessment map</b></td><td>Quizzes, questions, assignments, rubric criteria and competency mapping.</td><td class="mono">diagrams.mjs · assessmentMap()</td></tr><tr><td><b>5 · A learner’s path</b></td><td>The module cycle, the level, and the ascent, at three scales.</td><td class="mono">diagrams.mjs · learnerJourney()</td></tr><tr><td><b>6 · The spiral, measured</b></td><td>Every module weighted by the later lessons that name it.</td><td class="mono">diagrams.mjs · spiralMap()</td></tr>
 </tbody></table>
 <div class="panel"><p class="panel__h">A figure that cannot be wrong was never saying anything</p>
 <p>Figure 1 was drawn twice. The first version plotted duration against item count under the caption
@@ -557,13 +557,13 @@ tr { break-inside:avoid; }
 <table><thead><tr><th scope="col">File</th><th scope="col">Purpose</th><th scope="col">Format</th><th scope="col">Size</th><th scope="col">State</th></tr></thead>
 <tbody><tr><td class="mono">IEFC Complete Curriculum.pdf</td><td>Press-quality text block</td>
     <td>PDF, A4 portrait, tagged, bookmarked</td>
-    <td class="mono">24.79 MB</td>
+    <td class="mono">26.60 MB</td>
     <td class="ok">Present</td></tr><tr><td class="mono">IEFC Cover Artwork.pdf</td><td>Cover spread</td>
     <td>PDF, single page, trim + bleed, no marks in live area</td>
     <td class="mono">0.52 MB</td>
     <td class="ok">Present</td></tr><tr><td class="mono">IEFC Complete Curriculum.docx</td><td>Editable companion</td>
     <td>DOCX, A4, styled headings, navigable</td>
-    <td class="mono">1.51 MB</td>
+    <td class="mono">1.48 MB</td>
     <td class="ok">Present</td></tr><tr><td class="mono">IEFC Production Specifications.pdf</td><td>This document</td>
     <td>PDF, A4 portrait</td>
     <td class="mono">0.52 MB</td>
@@ -656,7 +656,7 @@ tr { break-inside:avoid; }
 <h3>Binding</h3>
 <ul class="spec">
   <li><b>Recommended</b><span>Section-sewn, then either cased in or drawn on with a soft cover.
-    At 524 pages the block is thick enough that a glued-only
+    At 522 pages the block is thick enough that a glued-only
     spine will crack the first time it is opened flat on a desk, which is the posture this book is
     used in.</span></li>
   <li><b>Acceptable alternative</b><span>PUR perfect binding. Stronger and more flexible than EVA
@@ -666,7 +666,7 @@ tr { break-inside:avoid; }
     (no spine to carry a title, and this book must be findable on a shelf).</span></li>
   <li><b>Grain direction</b><span>Parallel to the spine, without exception. Cross-grain at this
     bulk gives a block that will not lie flat and a cover that curls in a damp room.</span></li>
-  <li><b>Signature count</b><span>524 pages — confirm the imposition
+  <li><b>Signature count</b><span>522 pages — confirm the imposition
     with the printer. The text block is designed so that the six level dividers fall on a recto;
     that imposition is computed at generation and will change if the extent changes, so re-generate
     rather than adjusting by hand.</span></li>
@@ -684,13 +684,13 @@ tr { break-inside:avoid; }
 <table><thead><tr><th scope="col"></th><th scope="col">Check</th><th scope="col">Evidence</th><th scope="col">State</th></tr></thead>
 <tbody><tr>
   <td class="chk">✓</td><td>Text block renders without error</td>
-  <td class="mono">524 pages</td>
+  <td class="mono">522 pages</td>
   <td class="ok">Verified</td></tr><tr>
   <td class="chk">✓</td><td>Cover artwork built at trim plus bleed</td>
-  <td class="mono">457.3 × 303 mm</td>
+  <td class="mono">457.2 × 303 mm</td>
   <td class="ok">Verified</td></tr><tr>
   <td class="chk">✓</td><td>Spine width calculated from the bound page count</td>
-  <td class="mono">31.3 mm at 0.115 mm per leaf</td>
+  <td class="mono">31.2 mm at 0.115 mm per leaf</td>
   <td class="ok">Verified</td></tr><tr>
   <td class="chk">✓</td><td>Every colour pair meets its contrast floor</td>
   <td class="mono">9 pairs checked</td>

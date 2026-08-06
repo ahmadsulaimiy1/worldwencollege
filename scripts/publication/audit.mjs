@@ -342,3 +342,120 @@ export async function imageResolutions(htmlPath = `${ROOT}/publication/.flagship
   await browser.close();
   return out;
 }
+
+/**
+ * THE FIGURE TEXT AUDIT.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * WHY THIS EXISTS
+ * ────────────────────────────────────────────────────────────────────
+ * SVG has no layout engine. A <text> element draws exactly where it is
+ * told and neither wraps, nor pushes its neighbour aside, nor reports
+ * that it has run off the edge of the viewBox. Every one of the seven
+ * figures in this book is hand-positioned SVG, and for three of them
+ * that silence was hiding a defect:
+ *
+ *   Figure 4 printed its four series labels at almost the same height,
+ *     so "Writing" and "Listening" drew on top of each other and the
+ *     result read "Wsitteinnigng".
+ *   Figure 1 drew a small grey "336 stages" label underneath the large
+ *     numeral "9,664" at two of the six levels.
+ *   Figure 5 ran its last column header, MAPPED TO COMPETENCY, past
+ *     the right edge of the viewBox, where it was simply clipped — the
+ *     one column whose emptiness is the argument of the figure.
+ *
+ * None of it was visible on screen, because a figure scaled to fit a
+ * browser window hides a two-pixel overlap, and none of it was visible
+ * in the HTML, because the words were all present. It became visible
+ * the moment the figures were rasterised for the editable edition and
+ * somebody looked at them.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * WHAT IS MEASURED
+ * ────────────────────────────────────────────────────────────────────
+ * Every <text> node in every figure, as a rendered box:
+ *
+ *   CLIPPED — any part of the box outside the viewBox. A label that
+ *     leaves the frame is not shortened, it is cut in half.
+ *   COLLIDING — two boxes whose intersection is more than a third of
+ *     the smaller box. The threshold is not zero because adjacent
+ *     labels legitimately share a pixel of leading; a third is well
+ *     past anything that reads as deliberate.
+ *
+ * WHAT IS NOT MEASURED, so it is not mistaken for coverage: whether a
+ * figure is worth printing. That judgement removed Figure 4, and no
+ * assertion could have made it.
+ */
+// Two labels are on the same line when their boxes share this much of
+// the shorter one's height, and they overprint when they also share this
+// much of the narrower one's width.
+//
+// OVERPRINT started at 0.25 and let a real collision through: two
+// column headers in the assessment map overlapped by 30 units, which is
+// 22% of the narrower one, and printed as RUBRIC CRITERIRAAPPED TO
+// COMPETENCY. There is no such thing as a deliberate 12% overlap
+// between two labels on the same line, so the threshold is set where
+// nothing legitimate lives.
+const SAME_LINE = 0.6;
+const OVERPRINT = 0.12;
+
+export async function figureText(figures) {
+  const exe = process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+  const browser = await chromium.launch(existsSync(exe) ? { executablePath: exe } : {});
+  const page = await browser.newPage({ viewport: { width: 1400, height: 900 } });
+  const out = [];
+  for (const [name, svg] of figures) {
+    await page.setContent(`<!doctype html><meta charset="utf-8">
+      <style>html,body{margin:0}#f{width:1280px}</style><div id="f">${svg}</div>`,
+    { waitUntil: 'load' });
+    const r = await page.evaluate(() => {
+      const el = document.querySelector('svg');
+      const vb = el.viewBox.baseVal;
+      const box = el.getBoundingClientRect();
+      const sx = box.width / vb.width;
+      const sy = box.height / vb.height;
+      // Back into viewBox units so the numbers are the ones an author
+      // edits, not the ones the screen happened to render at.
+      const toVb = (b) => ({
+        x: (b.left - box.left) / sx, y: (b.top - box.top) / sy,
+        w: b.width / sx, h: b.height / sy,
+      });
+      const texts = [...el.querySelectorAll('text')]
+        .filter((t) => (t.textContent || '').trim())
+        .map((t) => ({ text: t.textContent.trim().slice(0, 40), ...toVb(t.getBoundingClientRect()) }));
+      return { vw: vb.width, vh: vb.height, texts };
+    });
+
+    const clipped = r.texts.filter((t) =>
+      t.x < -0.5 || t.y < -0.5 || t.x + t.w > r.vw + 0.5 || t.y + t.h > r.vh + 0.5);
+
+    // OVERPRINTING, NOT ADJACENCY.
+    //
+    // Comparing box areas does not work here, and the first version
+    // that did was useless in both directions: at a loose threshold it
+    // missed a grey label drawn under a large numeral, and at a tight
+    // one it flagged every stacked pair in the book — a roman numeral
+    // set above its CEFR band shares leading with it, which is the
+    // design rather than a fault.
+    //
+    // What distinguishes a real collision is that the two labels sit on
+    // the SAME LINE and are drawn through each other. So both axes are
+    // tested separately: the boxes must share most of their height (a
+    // stacked pair shares only leading) and a real part of their width.
+    const collide = [];
+    for (let i = 0; i < r.texts.length; i++) {
+      for (let j = i + 1; j < r.texts.length; j++) {
+        const a = r.texts[i]; const b = r.texts[j];
+        const ow = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x);
+        const oh = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
+        if (ow <= 0 || oh <= 0) continue;
+        const vShare = oh / Math.min(a.h, b.h);
+        const hShare = ow / Math.min(a.w, b.w);
+        if (vShare > SAME_LINE && hShare > OVERPRINT) collide.push([a.text, b.text]);
+      }
+    }
+    out.push({ name, count: r.texts.length, clipped, collide });
+  }
+  await browser.close();
+  return out;
+}

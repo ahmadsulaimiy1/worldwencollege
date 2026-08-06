@@ -13,20 +13,16 @@
       "caption": "Figure 3 · The anatomy of a lesson"
     },
     {
-      "slug": "fig-4-skills",
-      "caption": "Figure 4 · The four skills across the ascent"
+      "slug": "fig-4-assessment",
+      "caption": "Figure 4 · The assessment map"
     },
     {
-      "slug": "fig-5-assessment",
-      "caption": "Figure 5 · The assessment map"
+      "slug": "fig-5-journey",
+      "caption": "Figure 5 · A learner’s path"
     },
     {
-      "slug": "fig-6-journey",
-      "caption": "Figure 6 · A learner’s path"
-    },
-    {
-      "slug": "fig-7-spiral",
-      "caption": "Figure 7 · The spiral, measured"
+      "slug": "fig-6-spiral",
+      "caption": "Figure 6 · The spiral, measured"
     }
   ],
   "plates": [

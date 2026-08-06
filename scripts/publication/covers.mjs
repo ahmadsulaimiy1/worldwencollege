@@ -449,13 +449,34 @@ export const OMISSIONS = [
  * it as a record of that institution; these are editorial illustrations
  * and are credited as such, in the place a book credits its sources.
  */
+/**
+ * EVERY PLACED PHOTOGRAPH, NOT EVERY LEVEL PLATE.
+ *
+ * This table listed the six level plates and nothing else, while five
+ * further licensed photographs were printed as section bands with no
+ * credit and \u2014 worse \u2014 no recorded licence reference anywhere in the
+ * source. The images were properly licensed; the record that they were
+ * had simply never been written down, which is the state a rights
+ * query cannot be answered from.
+ *
+ * The three missing references were recovered from the session that
+ * licensed them and are set here. Adding a photograph to this book now
+ * means adding a row here: tests/publication-craft.test.mjs counts the
+ * placed images and this table and fails if they disagree.
+ */
 export const PHOTO_CREDITS = [
-  ['I', 'A student\u2019s hand writing in an exercise book', 'AdobeStock_107317330'],
-  ['II', 'Friends in conversation', 'AdobeStock_303569584'],
-  ['III', 'Students preparing together for a seminar', 'AdobeStock_160362594'],
-  ['IV', 'Colleagues working through a project', 'AdobeStock_473276830'],
-  ['V', 'A speaker addressing a conference', 'AdobeStock_569325921'],
-  ['VI', 'A graduate at conferral', 'AdobeStock_427428198'],
+  ['Plate I', 'A student\u2019s hand writing in an exercise book', 'AdobeStock_107317330'],
+  ['Plate II', 'Friends in conversation', 'AdobeStock_303569584'],
+  ['Plate III', 'Students preparing together for a seminar', 'AdobeStock_160362594'],
+  ['Plate IV', 'Colleagues working through a project', 'AdobeStock_473276830'],
+  ['Plate V', 'A speaker addressing a conference', 'AdobeStock_569325921'],
+  ['Plate VI', 'A graduate at conferral', 'AdobeStock_427428198'],
+  ['The Six Awards', 'Two students in conversation in a university library', 'AdobeStock_489036417'],
+  ['Teaching from This Book', 'A student working at a laptop in a library', 'AdobeStock_494627505'],
+  ['Glossary', 'The thumb index of a printed English dictionary', 'AdobeStock_326365561'],
+  ['Routes Through the Programme', 'Two students working through notes and textbooks at a desk',
+    'AdobeStock_280184475'],
+  ['Subject Index', 'Students at a university lecture', 'AdobeStock_522561589'],
 ];
 
 export function backMatter(id, pages) {
@@ -476,14 +497,16 @@ export function backMatter(id, pages) {
   <p>The verification codes are produced by the same encoder that prints the code on a graduate's
     certificate, and are verified in the College's test suite against an independently written
     decoder.</p>
-  <p>The six plates facing the level dividers are licensed editorial photography, graded to a
-    duotone in each level\u2019s own ink so that six images by six photographers read as one series
-    and belong to the colour system rather than sitting on top of it. They illustrate the
-    educational settings the programme is taught in; they are not records of this College, its
-    students or its premises.</p>
-  <table class="credits"><thead><tr><th scope="col">Plate</th><th scope="col">Subject</th>
+  <p>Every photograph in this volume is licensed editorial photography, graded to a duotone: the six
+    plates facing the level dividers take their own level\u2019s ink, and the section bands take the
+    College\u2019s blue. Grading them is what makes ${PHOTO_CREDITS.length} images by
+    ${PHOTO_CREDITS.length} photographers read as one commissioned series and belong to the colour
+    system rather than sit on top of it. They illustrate the educational settings the programme is
+    taught in; they are not records of this College, its students or its premises, and none is
+    captioned as though it were.</p>
+  <table class="credits"><thead><tr><th scope="col">Placed at</th><th scope="col">Subject</th>
     <th scope="col">Source</th></tr></thead><tbody>${PHOTO_CREDITS.map(([r, sub, ref]) =>
-    `<tr><td class="mono">${esc(r)}</td><td>${esc(sub)}</td>
+    `<tr><td>${esc(r)}</td><td>${esc(sub)}</td>
       <td class="mono">${esc(ref)} · Adobe Stock, licensed</td></tr>`).join('')}</tbody></table>
   <p class="col__meta">${esc(id.publicationId)} · Document ID ${esc(id.documentId)} ·
     Issue ${esc(id.issueCode)} · ${pages ? `${pages} pages · ` : ''}Generated ${esc(id.generated)}</p>

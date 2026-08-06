@@ -463,10 +463,12 @@ ${[['1 · The ascent', 'Words of lesson content per level, with words per named 
       'diagrams.mjs · architectureGrid()'],
     ['3 · Anatomy of a lesson', 'Stage frequency across every named stage, with median timing.',
       'diagrams.mjs · lessonAnatomy()'],
-    ['4 · Four skills', 'Named skill stages per hundred items, by level.',
-      'diagrams.mjs · skillsAcrossLevels()'],
-    ['5 · Assessment map', 'Quizzes, questions, assignments, rubric criteria and competency mapping.',
-      'diagrams.mjs · assessmentMap()']]
+    ['4 · Assessment map', 'Quizzes, questions, assignments, rubric criteria and competency mapping.',
+      'diagrams.mjs · assessmentMap()'],
+    ['5 · A learner\u2019s path', 'The module cycle, the level, and the ascent, at three scales.',
+      'diagrams.mjs · learnerJourney()'],
+    ['6 · The spiral, measured', 'Every module weighted by the later lessons that name it.',
+      'diagrams.mjs · spiralMap()']]
     .map(([a, b, c]) => `<tr><td><b>${a}</b></td><td>${b}</td><td class="mono">${c}</td></tr>`).join('')}
 </tbody></table>
 <div class="panel"><p class="panel__h">A figure that cannot be wrong was never saying anything</p>

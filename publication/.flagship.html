@@ -64,6 +64,22 @@ h1, h2, h3, h4, h5, .mono, .lesson__ref, .lesson__k { hyphens: none; }
 .sans { font-family: var(--sans); }
 p { margin:0 0 5.5pt; orphans:3; widows:3; }
 h2,h3,h4,h5 { color:var(--ink); break-after:avoid; }
+
+/* TABLES THAT CROSS A PAGE.
+   The pronunciation strand runs to nineteen rows in a level and the
+   revision route to ten in each of six; both are longer than a page can
+   hold. When such a table breaks, the reader on the second page sees
+   three columns of references with nothing saying which is which — and
+   nothing about the first page looks wrong, which is why this kind of
+   defect survives a proofread of the opening spread.
+
+   table-header-group makes Chromium repeat the thead at the top of
+   every page the table continues onto. break-inside:avoid on the row
+   stops a two-line focus splitting its own sentence across the fold.
+   Neither is visible when the table fits; both are the difference
+   between a reference table and a heap of numbers when it does not. */
+thead { display: table-header-group; }
+tr { break-inside: avoid; }
 .label { font-family:Calibri,"Nimbus Sans",Arial,sans-serif; font-size:7pt; font-weight:700;
   letter-spacing:.12em; text-transform:uppercase; color:var(--bronze); margin:12pt 0 3pt; }
 .small { font-size:7.6pt; color:var(--soft); font-family:Calibri,"Nimbus Sans",Arial,sans-serif; }
@@ -3030,7 +3046,7 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
     own prerequisite stage names, set as references so they can be followed. The module openers
     carry the same relation in both directions — what the module builds on, and which later
     lessons come back to it — which is how the spiral structure of the programme becomes visible
-    from inside it. Figure 7 shows the whole of that graph at once.</p>
+    from inside it. Figure 6 shows the whole of that graph at once.</p>
   <p>Where a module opener ends in a quoted question, that question is the module’s own discussion
     prompt, lifted from the lesson named beside it. It is there to say what the module is really
     about before the reader meets the first stage.</p>
@@ -3050,7 +3066,7 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
 </section><section class="arch">
   <p class="ed__eyebrow">The Architecture</p>
   <h2>The Shape of the Programme</h2>
-  <p class="lead">Seven figures, each measured from the curriculum in this volume rather than drawn
+  <p class="lead">Six figures, each measured from the curriculum in this volume rather than drawn
     to illustrate it. If the programme changes, they change; if a figure here is unflattering, it
     is because the measurement was.</p>
 
@@ -3082,15 +3098,35 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
       <rect x="59.2" y="149.2" width="83.6" height="94.8"
         fill="#EDF3FF" stroke="#4C6AA8" stroke-width="0.7"/>
       <rect x="59.2" y="149.2" width="83.6" height="3" fill="#1B2F5C"/>
-      <text x="101" y="143.2" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
+      <!-- THE TWO SERIES ARE SEPARATED HORIZONTALLY, NOT VERTICALLY.
+           Both label the same column, and where the words-per-stage
+           rule ran near the bar top they shared a line and printed
+           through each other — "336 stages" through "9,664". Two
+           attempts to fix that by moving labels up or down each cured
+           one level and broke another, which is what nudging always
+           does: it encodes today's numbers rather than the geometry.
+           The bar value is now anchored to the left edge of its bar and
+           the crimson pair to the right edge, so they cannot meet at
+           any vertical position the data produces. -->
+      <text x="59.2" y="143.2" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
         font-weight="700" fill="#1B2F5C">9,664</text>
       <line x1="52.6" y1="138.94" x2="149.4" y2="138.94"
         stroke="#8C1F2F" stroke-width="1.3"/>
       <circle cx="101" cy="138.94" r="2.1" fill="#8C1F2F"/>
-      <text x="52.6" y="134.94" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
-        font-weight="700" fill="#8C1F2F">29</text>
-      <text x="52.6" y="147.94" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
-        fill="#8C1F2F" opacity=".75">336 stages</text>
+      <!-- The halo is not decoration. Where the words-per-stage rule
+           runs close to the bar top, these labels sit over the bar's
+           ink top rule, and at Level II "351 stages" printed with a
+           dark line through it. A label collision with a GRAPHIC is
+           invisible to a text-extent audit, which measures boxes and
+           not what is drawn underneath them; a paper-coloured stroke
+           laid down before the fill makes the label legible over
+           anything the figure can put behind it. -->
+      <text x="149.4" y="134.94" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
+        font-weight="700" fill="#8C1F2F" paint-order="stroke"
+        stroke="#FAFBFC" stroke-width="2.4" stroke-linejoin="round">29</text>
+      <text x="149.4" y="147.94" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
+        fill="#8C1F2F" opacity=".85" paint-order="stroke"
+        stroke="#FAFBFC" stroke-width="2.2" stroke-linejoin="round">336 stages</text>
       <text x="101" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="22.34"
         font-weight="700" fill="#1B2F5C">I</text>
       <text x="101" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
@@ -3101,15 +3137,35 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
       <rect x="169.2" y="133.98" width="83.6" height="110.02"
         fill="#E6F6FB" stroke="#00798F" stroke-width="0.7"/>
       <rect x="169.2" y="133.98" width="83.6" height="3" fill="#003844"/>
-      <text x="211" y="127.98" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
+      <!-- THE TWO SERIES ARE SEPARATED HORIZONTALLY, NOT VERTICALLY.
+           Both label the same column, and where the words-per-stage
+           rule ran near the bar top they shared a line and printed
+           through each other — "336 stages" through "9,664". Two
+           attempts to fix that by moving labels up or down each cured
+           one level and broke another, which is what nudging always
+           does: it encodes today's numbers rather than the geometry.
+           The bar value is now anchored to the left edge of its bar and
+           the crimson pair to the right edge, so they cannot meet at
+           any vertical position the data produces. -->
+      <text x="169.2" y="127.98" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
         font-weight="700" fill="#003844">11,216</text>
       <line x1="162.6" y1="128.08" x2="259.4" y2="128.08"
         stroke="#8C1F2F" stroke-width="1.3"/>
       <circle cx="211" cy="128.08" r="2.1" fill="#8C1F2F"/>
-      <text x="162.6" y="124.08" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
-        font-weight="700" fill="#8C1F2F">32</text>
-      <text x="162.6" y="137.08" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
-        fill="#8C1F2F" opacity=".75">351 stages</text>
+      <!-- The halo is not decoration. Where the words-per-stage rule
+           runs close to the bar top, these labels sit over the bar's
+           ink top rule, and at Level II "351 stages" printed with a
+           dark line through it. A label collision with a GRAPHIC is
+           invisible to a text-extent audit, which measures boxes and
+           not what is drawn underneath them; a paper-coloured stroke
+           laid down before the fill makes the label legible over
+           anything the figure can put behind it. -->
+      <text x="259.4" y="124.08" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
+        font-weight="700" fill="#8C1F2F" paint-order="stroke"
+        stroke="#FAFBFC" stroke-width="2.4" stroke-linejoin="round">32</text>
+      <text x="259.4" y="137.08" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
+        fill="#8C1F2F" opacity=".85" paint-order="stroke"
+        stroke="#FAFBFC" stroke-width="2.2" stroke-linejoin="round">351 stages</text>
       <text x="211" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="22.34"
         font-weight="700" fill="#003844">II</text>
       <text x="211" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
@@ -3120,15 +3176,35 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
       <rect x="279.2" y="108.04" width="83.6" height="135.96"
         fill="#E9F7EE" stroke="#297E54" stroke-width="0.7"/>
       <rect x="279.2" y="108.04" width="83.6" height="3" fill="#003D22"/>
-      <text x="321" y="102.04" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
+      <!-- THE TWO SERIES ARE SEPARATED HORIZONTALLY, NOT VERTICALLY.
+           Both label the same column, and where the words-per-stage
+           rule ran near the bar top they shared a line and printed
+           through each other — "336 stages" through "9,664". Two
+           attempts to fix that by moving labels up or down each cured
+           one level and broke another, which is what nudging always
+           does: it encodes today's numbers rather than the geometry.
+           The bar value is now anchored to the left edge of its bar and
+           the crimson pair to the right edge, so they cannot meet at
+           any vertical position the data produces. -->
+      <text x="279.2" y="102.04" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
         font-weight="700" fill="#003D22">13,860</text>
       <line x1="272.6" y1="113.58" x2="369.4" y2="113.58"
         stroke="#8C1F2F" stroke-width="1.3"/>
       <circle cx="321" cy="113.58" r="2.1" fill="#8C1F2F"/>
-      <text x="272.6" y="109.58" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
-        font-weight="700" fill="#8C1F2F">36</text>
-      <text x="272.6" y="122.58" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
-        fill="#8C1F2F" opacity=".75">382 stages</text>
+      <!-- The halo is not decoration. Where the words-per-stage rule
+           runs close to the bar top, these labels sit over the bar's
+           ink top rule, and at Level II "351 stages" printed with a
+           dark line through it. A label collision with a GRAPHIC is
+           invisible to a text-extent audit, which measures boxes and
+           not what is drawn underneath them; a paper-coloured stroke
+           laid down before the fill makes the label legible over
+           anything the figure can put behind it. -->
+      <text x="369.4" y="109.58" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
+        font-weight="700" fill="#8C1F2F" paint-order="stroke"
+        stroke="#FAFBFC" stroke-width="2.4" stroke-linejoin="round">36</text>
+      <text x="369.4" y="122.58" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
+        fill="#8C1F2F" opacity=".85" paint-order="stroke"
+        stroke="#FAFBFC" stroke-width="2.2" stroke-linejoin="round">382 stages</text>
       <text x="321" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="22.34"
         font-weight="700" fill="#003D22">III</text>
       <text x="321" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
@@ -3139,15 +3215,35 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
       <rect x="389.2" y="105.05" width="83.6" height="138.95"
         fill="#FAF2E6" stroke="#8D6310" stroke-width="0.7"/>
       <rect x="389.2" y="105.05" width="83.6" height="3" fill="#442C00"/>
-      <text x="431" y="99.05" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
+      <!-- THE TWO SERIES ARE SEPARATED HORIZONTALLY, NOT VERTICALLY.
+           Both label the same column, and where the words-per-stage
+           rule ran near the bar top they shared a line and printed
+           through each other — "336 stages" through "9,664". Two
+           attempts to fix that by moving labels up or down each cured
+           one level and broke another, which is what nudging always
+           does: it encodes today's numbers rather than the geometry.
+           The bar value is now anchored to the left edge of its bar and
+           the crimson pair to the right edge, so they cannot meet at
+           any vertical position the data produces. -->
+      <text x="389.2" y="99.05" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
         font-weight="700" fill="#442C00">14,165</text>
       <line x1="382.6" y1="109.96" x2="479.4" y2="109.96"
         stroke="#8C1F2F" stroke-width="1.3"/>
       <circle cx="431" cy="109.96" r="2.1" fill="#8C1F2F"/>
-      <text x="382.6" y="105.96" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
-        font-weight="700" fill="#8C1F2F">37</text>
-      <text x="382.6" y="118.96" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
-        fill="#8C1F2F" opacity=".75">386 stages</text>
+      <!-- The halo is not decoration. Where the words-per-stage rule
+           runs close to the bar top, these labels sit over the bar's
+           ink top rule, and at Level II "351 stages" printed with a
+           dark line through it. A label collision with a GRAPHIC is
+           invisible to a text-extent audit, which measures boxes and
+           not what is drawn underneath them; a paper-coloured stroke
+           laid down before the fill makes the label legible over
+           anything the figure can put behind it. -->
+      <text x="479.4" y="105.96" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
+        font-weight="700" fill="#8C1F2F" paint-order="stroke"
+        stroke="#FAFBFC" stroke-width="2.4" stroke-linejoin="round">37</text>
+      <text x="479.4" y="118.96" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
+        fill="#8C1F2F" opacity=".85" paint-order="stroke"
+        stroke="#FAFBFC" stroke-width="2.2" stroke-linejoin="round">386 stages</text>
       <text x="431" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="22.34"
         font-weight="700" fill="#442C00">IV</text>
       <text x="431" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
@@ -3158,15 +3254,35 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
       <rect x="499.2" y="112.07" width="83.6" height="131.93"
         fill="#FFEEED" stroke="#A05150" stroke-width="0.7"/>
       <rect x="499.2" y="112.07" width="83.6" height="3" fill="#551C1D"/>
-      <text x="541" y="106.07" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
+      <!-- THE TWO SERIES ARE SEPARATED HORIZONTALLY, NOT VERTICALLY.
+           Both label the same column, and where the words-per-stage
+           rule ran near the bar top they shared a line and printed
+           through each other — "336 stages" through "9,664". Two
+           attempts to fix that by moving labels up or down each cured
+           one level and broke another, which is what nudging always
+           does: it encodes today's numbers rather than the geometry.
+           The bar value is now anchored to the left edge of its bar and
+           the crimson pair to the right edge, so they cannot meet at
+           any vertical position the data produces. -->
+      <text x="499.2" y="106.07" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
         font-weight="700" fill="#551C1D">13,449</text>
       <line x1="492.6" y1="117.21" x2="589.4" y2="117.21"
         stroke="#8C1F2F" stroke-width="1.3"/>
       <circle cx="541" cy="117.21" r="2.1" fill="#8C1F2F"/>
-      <text x="492.6" y="113.21" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
-        font-weight="700" fill="#8C1F2F">35</text>
-      <text x="492.6" y="126.21" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
-        fill="#8C1F2F" opacity=".75">384 stages</text>
+      <!-- The halo is not decoration. Where the words-per-stage rule
+           runs close to the bar top, these labels sit over the bar's
+           ink top rule, and at Level II "351 stages" printed with a
+           dark line through it. A label collision with a GRAPHIC is
+           invisible to a text-extent audit, which measures boxes and
+           not what is drawn underneath them; a paper-coloured stroke
+           laid down before the fill makes the label legible over
+           anything the figure can put behind it. -->
+      <text x="589.4" y="113.21" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
+        font-weight="700" fill="#8C1F2F" paint-order="stroke"
+        stroke="#FAFBFC" stroke-width="2.4" stroke-linejoin="round">35</text>
+      <text x="589.4" y="126.21" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
+        fill="#8C1F2F" opacity=".85" paint-order="stroke"
+        stroke="#FAFBFC" stroke-width="2.2" stroke-linejoin="round">384 stages</text>
       <text x="541" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="22.34"
         font-weight="700" fill="#551C1D">V</text>
       <text x="541" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
@@ -3177,15 +3293,35 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
       <rect x="609.2" y="52" width="83.6" height="192"
         fill="#F8EFFB" stroke="#855793" stroke-width="0.7"/>
       <rect x="609.2" y="52" width="83.6" height="3" fill="#43214D"/>
-      <text x="651" y="46" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
+      <!-- THE TWO SERIES ARE SEPARATED HORIZONTALLY, NOT VERTICALLY.
+           Both label the same column, and where the words-per-stage
+           rule ran near the bar top they shared a line and printed
+           through each other — "336 stages" through "9,664". Two
+           attempts to fix that by moving labels up or down each cured
+           one level and broke another, which is what nudging always
+           does: it encodes today's numbers rather than the geometry.
+           The bar value is now anchored to the left edge of its bar and
+           the crimson pair to the right edge, so they cannot meet at
+           any vertical position the data produces. -->
+      <text x="609.2" y="46" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="13.41"
         font-weight="700" fill="#43214D">19,573</text>
       <line x1="602.6" y1="52" x2="699.4" y2="52"
         stroke="#8C1F2F" stroke-width="1.3"/>
       <circle cx="651" cy="52" r="2.1" fill="#8C1F2F"/>
-      <text x="602.6" y="48" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
-        font-weight="700" fill="#8C1F2F">53</text>
-      <text x="602.6" y="61" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
-        fill="#8C1F2F" opacity=".75">371 stages</text>
+      <!-- The halo is not decoration. Where the words-per-stage rule
+           runs close to the bar top, these labels sit over the bar's
+           ink top rule, and at Level II "351 stages" printed with a
+           dark line through it. A label collision with a GRAPHIC is
+           invisible to a text-extent audit, which measures boxes and
+           not what is drawn underneath them; a paper-coloured stroke
+           laid down before the fill makes the label legible over
+           anything the figure can put behind it. -->
+      <text x="699.4" y="48" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
+        font-weight="700" fill="#8C1F2F" paint-order="stroke"
+        stroke="#FAFBFC" stroke-width="2.4" stroke-linejoin="round">53</text>
+      <text x="699.4" y="61" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="8.94"
+        fill="#8C1F2F" opacity=".85" paint-order="stroke"
+        stroke="#FAFBFC" stroke-width="2.2" stroke-linejoin="round">371 stages</text>
       <text x="651" y="260" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="22.34"
         font-weight="700" fill="#43214D">VI</text>
       <text x="651" y="271" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
@@ -3609,138 +3745,138 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
     <svg viewBox="0 0 760 311" width="100%" role="img"
     aria-label="Lesson stages ranked by frequency across all authored items, with median designed timing"
     xmlns="http://www.w3.org/2000/svg">
-    <text x="210" y="10" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89" letter-spacing="1.2"
+    <text x="272" y="10" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89" letter-spacing="1.2"
       fill="#6B7280">OCCURRENCES ACROSS 2210 NAMED STAGES</text>
     <text x="760" y="10" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89" letter-spacing="1.2"
       fill="#6B7280">MEDIAN DESIGNED TIMING</text>
-    <text x="204" y="28" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+    <text x="266" y="28" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">LEARNING OBJECTIVES</text>
-      <rect x="210" y="21.5" width="454" height="8.5"
+      <rect x="272" y="21.5" width="392" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
       <text x="669" y="28.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
       <text x="760" y="28.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#D8DCE3">not timed</text><text x="204" y="43.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#D8DCE3">not timed</text><text x="266" y="43.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">PREREQUISITE KNOWLEDGE</text>
-      <rect x="210" y="37" width="454" height="8.5"
+      <rect x="272" y="37" width="392" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
       <text x="669" y="43.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
       <text x="760" y="43.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#D8DCE3">not timed</text><text x="204" y="59" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#D8DCE3">not timed</text><text x="266" y="59" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">WARM-UP</text>
-      <rect x="210" y="52.5" width="454" height="8.5"
+      <rect x="272" y="52.5" width="392" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
       <text x="669" y="59.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
       <text x="760" y="59.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#7A5C2E">5 min</text><text x="204" y="74.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#7A5C2E">5 min</text><text x="266" y="74.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">GUIDED PRACTICE</text>
-      <rect x="210" y="68" width="454" height="8.5"
+      <rect x="272" y="68" width="392" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
       <text x="669" y="74.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
       <text x="760" y="74.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#7A5C2E">10 min</text><text x="204" y="90" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#7A5C2E">10 min</text><text x="266" y="90" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">LISTENING ACTIVITY</text>
-      <rect x="210" y="83.5" width="454" height="8.5"
+      <rect x="272" y="83.5" width="392" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
       <text x="669" y="90.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
       <text x="760" y="90.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#7A5C2E">5 min</text><text x="204" y="105.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#7A5C2E">5 min</text><text x="266" y="105.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">WRITING TASK</text>
-      <rect x="210" y="99" width="454" height="8.5"
+      <rect x="272" y="99" width="392" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
       <text x="669" y="105.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
       <text x="760" y="105.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#7A5C2E">5 min</text><text x="204" y="121" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#7A5C2E">5 min</text><text x="266" y="121" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">PRONUNCIATION PRACTICE</text>
-      <rect x="210" y="114.5" width="454" height="8.5"
+      <rect x="272" y="114.5" width="392" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
       <text x="669" y="121.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
       <text x="760" y="121.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#7A5C2E">5 min</text><text x="204" y="136.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#7A5C2E">5 min</text><text x="266" y="136.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">VOCABULARY REINFORCEMENT</text>
-      <rect x="210" y="130" width="454" height="8.5"
+      <rect x="272" y="130" width="392" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
       <text x="669" y="136.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
       <text x="760" y="136.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#D8DCE3">not timed</text><text x="204" y="152" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#D8DCE3">not timed</text><text x="266" y="152" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">FORMATIVE ASSESSMENT</text>
-      <rect x="210" y="145.5" width="454" height="8.5"
+      <rect x="272" y="145.5" width="392" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
       <text x="669" y="152.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
       <text x="760" y="152.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#D8DCE3">not timed</text><text x="204" y="167.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#D8DCE3">not timed</text><text x="266" y="167.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">CRITICAL THINKING / DISCUSSION PROMPT</text>
-      <rect x="210" y="161" width="454" height="8.5"
+      <rect x="272" y="161" width="392" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
       <text x="669" y="167.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
       <text x="760" y="167.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#D8DCE3">not timed</text><text x="204" y="183" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#D8DCE3">not timed</text><text x="266" y="183" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">HOMEWORK</text>
-      <rect x="210" y="176.5" width="454" height="8.5"
+      <rect x="272" y="176.5" width="392" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
       <text x="669" y="183.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
       <text x="760" y="183.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#D8DCE3">not timed</text><text x="204" y="198.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#D8DCE3">not timed</text><text x="266" y="198.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">EXTENSION</text>
-      <rect x="210" y="192" width="454" height="8.5"
+      <rect x="272" y="192" width="392" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
       <text x="669" y="198.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">114</text>
       <text x="760" y="198.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#D8DCE3">not timed</text><text x="204" y="214" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#D8DCE3">not timed</text><text x="266" y="214" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">REVISION</text>
-      <rect x="210" y="207.5" width="450.02" height="8.5"
+      <rect x="272" y="207.5" width="388.56" height="8.5"
         fill="#1F3E7C" opacity="0.9"/>
-      <text x="665.02" y="214.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
+      <text x="665.56" y="214.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">113</text>
       <text x="760" y="214.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#D8DCE3">not timed</text><text x="204" y="229.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#D8DCE3">not timed</text><text x="266" y="229.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">PRESENTATION</text>
-      <rect x="210" y="223" width="434.09" height="8.5"
+      <rect x="272" y="223" width="374.81" height="8.5"
         fill="#1F3E7C" opacity="0.88"/>
-      <text x="649.09" y="229.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
+      <text x="651.81" y="229.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">109</text>
       <text x="760" y="229.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#7A5C2E">10 min</text><text x="204" y="245" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#7A5C2E">10 min</text><text x="266" y="245" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">READING ACTIVITY</text>
-      <rect x="210" y="238.5" width="310.63" height="8.5"
+      <rect x="272" y="238.5" width="268.21" height="8.5"
         fill="#1F3E7C" opacity="0.73"/>
-      <text x="525.63" y="245.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
+      <text x="545.21" y="245.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">78</text>
       <text x="760" y="245.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#7A5C2E">5 min</text><text x="204" y="260.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#7A5C2E">5 min</text><text x="266" y="260.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">INDEPENDENT PRACTICE / SPEAKING ACTIVITY</text>
-      <rect x="210" y="254" width="290.72" height="8.5"
+      <rect x="272" y="254" width="251.02" height="8.5"
         fill="#1F3E7C" opacity="0.7"/>
-      <text x="505.72" y="260.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
+      <text x="528.02" y="260.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">73</text>
       <text x="760" y="260.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#7A5C2E">10 min</text><text x="204" y="276" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#7A5C2E">10 min</text><text x="266" y="276" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">GRADING RUBRIC</text>
-      <rect x="210" y="269.5" width="238.95" height="8.5"
+      <rect x="272" y="269.5" width="206.32" height="8.5"
         fill="#1F3E7C" opacity="0.64"/>
-      <text x="453.95" y="276.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
+      <text x="483.32" y="276.4" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">60</text>
       <text x="760" y="276.4" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
-        fill="#D8DCE3">not timed</text><text x="204" y="291.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
+        fill="#D8DCE3">not timed</text><text x="266" y="291.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.17"
         fill="#2E2A26">INSTRUCTIONS</text>
-      <rect x="210" y="285" width="219.04" height="8.5"
+      <rect x="272" y="285" width="189.12" height="8.5"
         fill="#1F3E7C" opacity="0.62"/>
-      <text x="434.04" y="291.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
+      <text x="466.12" y="291.9" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.85"
         fill="#6B7280">55</text>
       <text x="760" y="291.9" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
         fill="#D8DCE3">not timed</text>
-    <text x="210" y="307" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
+    <text x="272" y="307" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
       fill="#6B7280">and 83 further stage names occurring less often</text>
   </svg>
     <p class="fig__n">What the house structure actually is, counted across every named stage in the
@@ -3755,182 +3891,124 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
       recorded here because a chart of only the head would have concealed it.</p>
   </figure>
 
-  <figure class="fig">
-    <figcaption class="fig__c"><b>Figure 4</b> The four skills across the ascent</figcaption>
-    <svg viewBox="0 0 760 220" width="100%" role="img"
-    aria-label="Named skill stages per hundred items at each level, for speaking, listening, reading and writing"
-    xmlns="http://www.w3.org/2000/svg">
-    <text x="34" y="10" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89" letter-spacing="1.2"
-      fill="#6B7280">NAMED SKILL STAGES PER 100 AUTHORED ITEMS</text>
-    <line x1="34" y1="186" x2="664" y2="186"
-        stroke="#D8DCE3" stroke-width="0.4"/>
-      <text x="29" y="189" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.58"
-        fill="#6B7280">0</text><line x1="34" y1="144.5" x2="664" y2="144.5"
-        stroke="#D8DCE3" stroke-width="0.4"/>
-      <text x="29" y="147.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.58"
-        fill="#6B7280">12</text><line x1="34" y1="103" x2="664" y2="103"
-        stroke="#D8DCE3" stroke-width="0.4"/>
-      <text x="29" y="106" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.58"
-        fill="#6B7280">23</text><line x1="34" y1="61.5" x2="664" y2="61.5"
-        stroke="#D8DCE3" stroke-width="0.4"/>
-      <text x="29" y="64.5" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.58"
-        fill="#6B7280">35</text><line x1="34" y1="20" x2="664" y2="20"
-        stroke="#D8DCE3" stroke-width="0.4"/>
-      <text x="29" y="23" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.58"
-        fill="#6B7280">47</text><path d="M34 41.65L160 41.65L286 41.65L412 41.65L538 41.65L664 63.3" fill="none" stroke="#1F3E7C" stroke-width="1.4"
-        stroke-linejoin="round"/><circle cx="34" cy="41.65" r="2.2" fill="#1F3E7C"/><circle cx="160" cy="41.65" r="2.2" fill="#1F3E7C"/><circle cx="286" cy="41.65" r="2.2" fill="#1F3E7C"/><circle cx="412" cy="41.65" r="2.2" fill="#1F3E7C"/><circle cx="538" cy="41.65" r="2.2" fill="#1F3E7C"/><circle cx="664" cy="63.3" r="2.2" fill="#1F3E7C"/>
-      <text x="672" y="66.3" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.81"
-        font-weight="700" fill="#1F3E7C">Speaking</text><path d="M34 48.87L160 48.87L286 48.87L412 48.87L538 48.87L664 48.87" fill="none" stroke="#16306B" stroke-width="1.4"
-        stroke-linejoin="round"/><circle cx="34" cy="48.87" r="2.2" fill="#16306B"/><circle cx="160" cy="48.87" r="2.2" fill="#16306B"/><circle cx="286" cy="48.87" r="2.2" fill="#16306B"/><circle cx="412" cy="48.87" r="2.2" fill="#16306B"/><circle cx="538" cy="48.87" r="2.2" fill="#16306B"/><circle cx="664" cy="48.87" r="2.2" fill="#16306B"/>
-      <text x="672" y="51.87" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.81"
-        font-weight="700" fill="#16306B">Listening</text><path d="M34 48.87L160 48.87L286 48.87L412 41.65L538 48.87L664 63.3" fill="none" stroke="#7A5C2E" stroke-width="1.4"
-        stroke-linejoin="round"/><circle cx="34" cy="48.87" r="2.2" fill="#7A5C2E"/><circle cx="160" cy="48.87" r="2.2" fill="#7A5C2E"/><circle cx="286" cy="48.87" r="2.2" fill="#7A5C2E"/><circle cx="412" cy="41.65" r="2.2" fill="#7A5C2E"/><circle cx="538" cy="48.87" r="2.2" fill="#7A5C2E"/><circle cx="664" cy="63.3" r="2.2" fill="#7A5C2E"/>
-      <text x="672" y="66.3" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.81"
-        font-weight="700" fill="#7A5C2E">Reading</text><path d="M34 41.65L160 41.65L286 41.65L412 20L538 27.22L664 48.87" fill="none" stroke="#8C1F2F" stroke-width="1.4"
-        stroke-linejoin="round"/><circle cx="34" cy="41.65" r="2.2" fill="#8C1F2F"/><circle cx="160" cy="41.65" r="2.2" fill="#8C1F2F"/><circle cx="286" cy="41.65" r="2.2" fill="#8C1F2F"/><circle cx="412" cy="20" r="2.2" fill="#8C1F2F"/><circle cx="538" cy="27.22" r="2.2" fill="#8C1F2F"/><circle cx="664" cy="48.87" r="2.2" fill="#8C1F2F"/>
-      <text x="672" y="51.87" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="11.81"
-        font-weight="700" fill="#8C1F2F">Writing</text><text x="34" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="15.16"
-      font-weight="700" fill="#1B2F5C">I</text>
-     <text x="34" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
-      fill="#6B7280">A1</text><text x="160" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="15.16"
-      font-weight="700" fill="#003844">II</text>
-     <text x="160" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
-      fill="#6B7280">A2</text><text x="286" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="15.16"
-      font-weight="700" fill="#003D22">III</text>
-     <text x="286" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
-      fill="#6B7280">B1</text><text x="412" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="15.16"
-      font-weight="700" fill="#442C00">IV</text>
-     <text x="412" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
-      fill="#6B7280">B2</text><text x="538" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="15.16"
-      font-weight="700" fill="#551C1D">V</text>
-     <text x="538" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
-      fill="#6B7280">C1</text><text x="664" y="200" text-anchor="middle" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif" font-size="15.16"
-      font-weight="700" fill="#43214D">VI</text>
-     <text x="664" y="210" text-anchor="middle" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.89"
-      fill="#6B7280">C2</text></svg>
-    <p class="fig__n">Named skill stages per hundred authored items, normalised because the levels
-      differ in size and raw counts would say only that some levels are longer. Reading and writing
-      rise as the ascent proceeds; speaking is present throughout.</p>
-  </figure>
-
   <figure class="fig fig--break">
-    <figcaption class="fig__c"><b>Figure 5</b> The assessment map</figcaption>
+    <figcaption class="fig__c"><b>Figure 4</b> The assessment map</figcaption>
     <svg viewBox="0 0 760 286" width="100%" role="img"
     aria-label="Assessment at each level: quizzes, questions, assignments, rubric criteria, and competency mapping"
-    xmlns="http://www.w3.org/2000/svg"><text x="0" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
-    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">LEVEL</text><text x="150" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
-    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">ASSESSED QUIZZES</text><text x="300" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
-    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">QUESTIONS</text><text x="420" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
-    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">ASSIGNMENTS</text><text x="540" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
-    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">RUBRIC CRITERIA</text><text x="640" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.21"
-    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">MAPPED TO COMPETENCY</text><line x1="0" y1="22" x2="760" y2="22"
+    xmlns="http://www.w3.org/2000/svg"><text x="8" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.26"
+    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">LEVEL</text><text x="250" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.26"
+    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">QUIZZES</text><text x="330" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.26"
+    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">QUESTIONS</text><text x="410" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.26"
+    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">ASSIGNMENTS</text><text x="500" y="12" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.26"
+    font-weight="700" letter-spacing="1.1" fill="#1F3E7C">RUBRIC CRITERIA</text><text x="760" y="12" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="9.26" font-weight="700"
+      letter-spacing="1.1" fill="#1F3E7C">MAPPED TO COMPETENCY</text><line x1="0" y1="22" x2="760" y2="22"
         stroke="#D8DCE3" stroke-width="0.5"/>
       <rect x="0" y="22" width="3" height="36" fill="#4C6AA8"/>
       <text x="8" y="44" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif"
-      font-size="12" font-weight="700"
-      fill="#1B2F5C">I · Foundation Programme</text>
-      <text x="150" y="44" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
-      fill="#2E2A26">10</text><text x="300" y="44" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
-      fill="#2E2A26">110</text><text x="420" y="44" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
+      font-size="15.16" font-weight="700"
+      fill="#1B2F5C">I · Foundation</text>
+      <text x="250" y="44" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
+      fill="#2E2A26">10</text><text x="330" y="44" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
+      fill="#2E2A26">110</text><text x="410" y="44" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
       fill="#2E2A26">10</text>
-      <text x="540" y="44" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
+      <text x="500" y="44" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
       fill="#2E2A26">43</text>
-      <text x="640" y="44" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77" font-weight="700"
-        fill="#8C1F2F">None</text><line x1="0" y1="62" x2="760" y2="62"
+      <text x="760" y="44" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77"
+        font-weight="700" fill="#8C1F2F">None</text><line x1="0" y1="62" x2="760" y2="62"
         stroke="#D8DCE3" stroke-width="0.5"/>
       <rect x="0" y="62" width="3" height="36" fill="#00798F"/>
       <text x="8" y="84" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif"
-      font-size="12" font-weight="700"
-      fill="#003844">II · Elementary Programme</text>
-      <text x="150" y="84" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
-      fill="#2E2A26">10</text><text x="300" y="84" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
-      fill="#2E2A26">110</text><text x="420" y="84" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
+      font-size="15.16" font-weight="700"
+      fill="#003844">II · Elementary</text>
+      <text x="250" y="84" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
+      fill="#2E2A26">10</text><text x="330" y="84" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
+      fill="#2E2A26">110</text><text x="410" y="84" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
       fill="#2E2A26">10</text>
-      <text x="540" y="84" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
+      <text x="500" y="84" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
       fill="#2E2A26">42</text>
-      <text x="640" y="84" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77" font-weight="700"
-        fill="#8C1F2F">None</text><line x1="0" y1="102" x2="760" y2="102"
+      <text x="760" y="84" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77"
+        font-weight="700" fill="#8C1F2F">None</text><line x1="0" y1="102" x2="760" y2="102"
         stroke="#D8DCE3" stroke-width="0.5"/>
       <rect x="0" y="102" width="3" height="36" fill="#297E54"/>
       <text x="8" y="124" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif"
-      font-size="12" font-weight="700"
-      fill="#003D22">III · Intermediate Programme</text>
-      <text x="150" y="124" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
-      fill="#2E2A26">10</text><text x="300" y="124" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
-      fill="#2E2A26">110</text><text x="420" y="124" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
+      font-size="15.16" font-weight="700"
+      fill="#003D22">III · Intermediate</text>
+      <text x="250" y="124" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
+      fill="#2E2A26">10</text><text x="330" y="124" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
+      fill="#2E2A26">110</text><text x="410" y="124" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
       fill="#2E2A26">10</text>
-      <text x="540" y="124" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
+      <text x="500" y="124" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
       fill="#2E2A26">52</text>
-      <text x="640" y="124" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77" font-weight="700"
-        fill="#8C1F2F">None</text><line x1="0" y1="142" x2="760" y2="142"
+      <text x="760" y="124" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77"
+        font-weight="700" fill="#8C1F2F">None</text><line x1="0" y1="142" x2="760" y2="142"
         stroke="#D8DCE3" stroke-width="0.5"/>
       <rect x="0" y="142" width="3" height="36" fill="#8D6310"/>
       <text x="8" y="164" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif"
-      font-size="12" font-weight="700"
-      fill="#442C00">IV · Upper Intermediate Programme</text>
-      <text x="150" y="164" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
-      fill="#2E2A26">10</text><text x="300" y="164" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
-      fill="#2E2A26">110</text><text x="420" y="164" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
+      font-size="15.16" font-weight="700"
+      fill="#442C00">IV · Upper Intermediate</text>
+      <text x="250" y="164" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
+      fill="#2E2A26">10</text><text x="330" y="164" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
+      fill="#2E2A26">110</text><text x="410" y="164" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
       fill="#2E2A26">10</text>
-      <text x="540" y="164" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
+      <text x="500" y="164" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
       fill="#2E2A26">56</text>
-      <text x="640" y="164" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77" font-weight="700"
-        fill="#8C1F2F">None</text><line x1="0" y1="182" x2="760" y2="182"
+      <text x="760" y="164" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77"
+        font-weight="700" fill="#8C1F2F">None</text><line x1="0" y1="182" x2="760" y2="182"
         stroke="#D8DCE3" stroke-width="0.5"/>
       <rect x="0" y="182" width="3" height="36" fill="#A05150"/>
       <text x="8" y="204" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif"
-      font-size="12" font-weight="700"
-      fill="#551C1D">V · Advanced Programme</text>
-      <text x="150" y="204" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
-      fill="#2E2A26">10</text><text x="300" y="204" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
-      fill="#2E2A26">110</text><text x="420" y="204" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
+      font-size="15.16" font-weight="700"
+      fill="#551C1D">V · Advanced</text>
+      <text x="250" y="204" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
+      fill="#2E2A26">10</text><text x="330" y="204" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
+      fill="#2E2A26">110</text><text x="410" y="204" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
       fill="#2E2A26">10</text>
-      <text x="540" y="204" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
+      <text x="500" y="204" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
       fill="#2E2A26">58</text>
-      <text x="640" y="204" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77" font-weight="700"
-        fill="#8C1F2F">None</text><line x1="0" y1="222" x2="760" y2="222"
+      <text x="760" y="204" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77"
+        font-weight="700" fill="#8C1F2F">None</text><line x1="0" y1="222" x2="760" y2="222"
         stroke="#D8DCE3" stroke-width="0.5"/>
       <rect x="0" y="222" width="3" height="36" fill="#855793"/>
       <text x="8" y="244" font-family="Cambria, 'Nimbus Roman', Georgia, 'Times New Roman', serif"
-      font-size="12" font-weight="700"
-      fill="#43214D">VI · English Mastery Programme</text>
-      <text x="150" y="244" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
-      fill="#2E2A26">10</text><text x="300" y="244" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
-      fill="#2E2A26">110</text><text x="420" y="244" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
+      font-size="15.16" font-weight="700"
+      fill="#43214D">VI · English Mastery</text>
+      <text x="250" y="244" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
+      fill="#2E2A26">10</text><text x="330" y="244" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
+      fill="#2E2A26">110</text><text x="410" y="244" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
       fill="#2E2A26">10</text>
-      <text x="540" y="244" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
-      font-size="9" 
+      <text x="500" y="244" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif"
+      font-size="11.81" 
       fill="#2E2A26">56</text>
-      <text x="640" y="244" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77" font-weight="700"
-        fill="#8C1F2F">None</text>
+      <text x="760" y="244" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="12.77"
+        font-weight="700" fill="#8C1F2F">None</text>
     <line x1="0" y1="268" x2="760" y2="268" stroke="#1F3E7C" stroke-width="1"/>
     <text x="0" y="281" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53" fill="#6B7280"
       >Counted from the academic database at generation.</text>
-    <text x="640" y="281" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53" fill="#8C1F2F"
-      >0 of 120 assessments mapped.</text>
+    <text x="760" y="281" text-anchor="end" font-family="Calibri, 'Nimbus Sans', 'Segoe UI', Arial, sans-serif" font-size="10.53"
+      fill="#8C1F2F">0 of 120 assessments mapped.</text>
   </svg>
     <p class="fig__n">The right-hand column is the one that matters. Every module carries two
       assessments and a full grading rubric — 120 assessments and
@@ -3942,7 +4020,7 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
   </figure>
 
   <figure class="fig fig--break">
-    <figcaption class="fig__c"><b>Figure 6</b> A learner's path</figcaption>
+    <figcaption class="fig__c"><b>Figure 5</b> A learner's path</figcaption>
     <svg viewBox="0 0 760 246" width="100%" role="img"
     aria-label="A learner's path: the module cycle, the ten modules of a level closing in an award, and the six-level ascent"
     xmlns="http://www.w3.org/2000/svg">
@@ -4103,7 +4181,7 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
   </figure>
 
   <figure class="fig fig--break">
-    <figcaption class="fig__c"><b>Figure 7</b> The spiral, measured</figcaption>
+    <figcaption class="fig__c"><b>Figure 6</b> The spiral, measured</figcaption>
     <svg viewBox="0 0 760 280" width="100%" role="img"
     aria-label="Each module weighted by the number of later lessons that name it as prerequisite knowledge"
     xmlns="http://www.w3.org/2000/svg">
@@ -4451,17 +4529,6 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
       printed because a figure showing only the returns would have argued rather than measured.</p>
   </figure>
 </section>
-<section class="quietleaf" style="--ink:#1B2F5C;--mid:#4C6AA8;--wash:#EDF3FF">
-    <span class="quietleaf__n">I</span>
-    <span class="quietleaf__o"><svg viewBox="0 0 90 18" width="90" height="18" aria-hidden="true"
-    xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 9 H23" stroke="#4C6AA8" stroke-width="0.6"/>
-    <path d="M67 9 H90" stroke="#4C6AA8" stroke-width="0.6"/>
-    <path d="M31 9 L45 3 L59 9
-             L45 15 Z" fill="none" stroke="#4C6AA8" stroke-width="0.9"/>
-    <circle cx="45" cy="9" r="1.8" fill="#4C6AA8"/>
-  </svg></span>
-  </section>
 <section class="plate" style="--ink:#1B2F5C;--mid:#4C6AA8;--wash:#EDF3FF">
     <img class="plate__img" src="img/level-I.jpg" alt="A student’s hand writing in an exercise book"
       style="filter:url(#duo-I)">
@@ -32994,6 +33061,8 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
   </section>
   </div>
 <section class="gloss">
+  <div class="band"><img src="img/band-glossary.jpg" alt="The thumb index of a printed English dictionary"
+    style="filter:url(#duo-brand)"><span class="band__rule"></span></div>
   <p class="ed__eyebrow">Reference</p>
   <h2>Glossary of Programme Terminology</h2>
   <p class="lead">50 terms of art the curriculum uses, defined as the field defines
@@ -33157,6 +33226,8 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
     <dd>Which syllable of a word carries the main emphasis. Fixed for each English word, not predictable from spelling, and a misplaced stress can make a familiar word unrecognisable.<span class="gl__m">I.5.2 · 6 uses</span></dd>
   </div></dl>
 </section><section class="routes">
+  <div class="band"><img src="img/band-routes.jpg" alt="Two students working through notes and textbooks at a desk"
+    style="filter:url(#duo-brand)"><span class="band__rule"></span></div>
   <p class="ed__eyebrow">Reference</p>
   <h2>Routes Through the Programme</h2>
   <p class="lead">Ways to move through this book other than front to back — for a learner revising
@@ -34142,19 +34213,26 @@ table.credits td { padding:3.4pt 6pt; border-bottom:.4pt solid var(--rule); vert
   <p>The verification codes are produced by the same encoder that prints the code on a graduate's
     certificate, and are verified in the College's test suite against an independently written
     decoder.</p>
-  <p>The six plates facing the level dividers are licensed editorial photography, graded to a
-    duotone in each level’s own ink so that six images by six photographers read as one series
-    and belong to the colour system rather than sitting on top of it. They illustrate the
-    educational settings the programme is taught in; they are not records of this College, its
-    students or its premises.</p>
-  <table class="credits"><thead><tr><th scope="col">Plate</th><th scope="col">Subject</th>
-    <th scope="col">Source</th></tr></thead><tbody><tr><td class="mono">I</td><td>A student’s hand writing in an exercise book</td>
-      <td class="mono">AdobeStock_107317330 · Adobe Stock, licensed</td></tr><tr><td class="mono">II</td><td>Friends in conversation</td>
-      <td class="mono">AdobeStock_303569584 · Adobe Stock, licensed</td></tr><tr><td class="mono">III</td><td>Students preparing together for a seminar</td>
-      <td class="mono">AdobeStock_160362594 · Adobe Stock, licensed</td></tr><tr><td class="mono">IV</td><td>Colleagues working through a project</td>
-      <td class="mono">AdobeStock_473276830 · Adobe Stock, licensed</td></tr><tr><td class="mono">V</td><td>A speaker addressing a conference</td>
-      <td class="mono">AdobeStock_569325921 · Adobe Stock, licensed</td></tr><tr><td class="mono">VI</td><td>A graduate at conferral</td>
-      <td class="mono">AdobeStock_427428198 · Adobe Stock, licensed</td></tr></tbody></table>
+  <p>Every photograph in this volume is licensed editorial photography, graded to a duotone: the six
+    plates facing the level dividers take their own level’s ink, and the section bands take the
+    College’s blue. Grading them is what makes 11 images by
+    11 photographers read as one commissioned series and belong to the colour
+    system rather than sit on top of it. They illustrate the educational settings the programme is
+    taught in; they are not records of this College, its students or its premises, and none is
+    captioned as though it were.</p>
+  <table class="credits"><thead><tr><th scope="col">Placed at</th><th scope="col">Subject</th>
+    <th scope="col">Source</th></tr></thead><tbody><tr><td>Plate I</td><td>A student’s hand writing in an exercise book</td>
+      <td class="mono">AdobeStock_107317330 · Adobe Stock, licensed</td></tr><tr><td>Plate II</td><td>Friends in conversation</td>
+      <td class="mono">AdobeStock_303569584 · Adobe Stock, licensed</td></tr><tr><td>Plate III</td><td>Students preparing together for a seminar</td>
+      <td class="mono">AdobeStock_160362594 · Adobe Stock, licensed</td></tr><tr><td>Plate IV</td><td>Colleagues working through a project</td>
+      <td class="mono">AdobeStock_473276830 · Adobe Stock, licensed</td></tr><tr><td>Plate V</td><td>A speaker addressing a conference</td>
+      <td class="mono">AdobeStock_569325921 · Adobe Stock, licensed</td></tr><tr><td>Plate VI</td><td>A graduate at conferral</td>
+      <td class="mono">AdobeStock_427428198 · Adobe Stock, licensed</td></tr><tr><td>The Six Awards</td><td>Two students in conversation in a university library</td>
+      <td class="mono">AdobeStock_489036417 · Adobe Stock, licensed</td></tr><tr><td>Teaching from This Book</td><td>A student working at a laptop in a library</td>
+      <td class="mono">AdobeStock_494627505 · Adobe Stock, licensed</td></tr><tr><td>Glossary</td><td>The thumb index of a printed English dictionary</td>
+      <td class="mono">AdobeStock_326365561 · Adobe Stock, licensed</td></tr><tr><td>Routes Through the Programme</td><td>Two students working through notes and textbooks at a desk</td>
+      <td class="mono">AdobeStock_280184475 · Adobe Stock, licensed</td></tr><tr><td>Subject Index</td><td>Students at a university lecture</td>
+      <td class="mono">AdobeStock_522561589 · Adobe Stock, licensed</td></tr></tbody></table>
   <p class="col__meta">WEC-LC/IEFC/CUR/2026/E01 · Document ID RP6Y-KFPF-2NJ5-8SW9 ·
     Issue E01.R00.01 · Generated 2026-08-06</p>
   <div class="col__band"><svg viewBox="0 0 480 18" width="100%" height="18"
