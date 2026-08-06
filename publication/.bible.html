@@ -98,7 +98,7 @@ table.auditsum td { padding:4pt 8pt 4pt 0; border-bottom:.4pt solid #E8EBF1; ver
     whose problem it is.</p>
   <div class="cover__meta">
     WEC-LC/IEFC/CUR/2026/E01 · Document ID RP6Y-KFPF-2NJ5-8SW9<br>
-    Generated 2026-08-06 · 28 items executed ·
+    Generated 2026-08-06 · 31 items executed ·
     20 remaining across 7 registers,
     plus 6 governance items
   </div>
@@ -270,12 +270,15 @@ table.auditsum td { padding:4pt 8pt 4pt 0; border-bottom:.4pt solid #E8EBF1; ver
 <section class="reg">
   <p class="eyebrow">Completed</p>
   <h2>Executed in this edition</h2>
-  <p class="lead">28 items that were on these registers and are now in the book.
+  <p class="lead">31 items that were on these registers and are now in the book.
     They are recorded rather than deleted: a register that only ever shrinks gives no account of
     what was actually done, and the next edition's editor needs to know a subject index exists —
     and how it is derived — before proposing one.</p>
   <table><thead><tr><th scope="col">Item</th><th scope="col">What was built</th></tr></thead>
-    <tbody><tr><td><b>Three editions from one source</b></td>
+    <tbody><tr><td><b>The Press constituted as a set of checkable rules</b></td>
+      <td>Twenty-three constitutions covering institutional publishing, editorial, design, typography, colour, photography, illustration, infographics, iconography, accessibility, print production, digital publishing, copyright, licensing, revision, translation, quality assurance, academic integrity, editorial review, visual review, production workflow, version control and governance. Every clause declares its own force — Enforced (a named test fails the build), Observed, Adopted, or For adoption — and tests/publication-press.test.mjs asserts that a clause may only claim enforcement if it names a test file that is on disk, and may only name one if it claims enforcement.</td></tr><tr><td><b>The ten-year publication architecture, computed rather than promised</b></td>
+      <td>42 titles across 10 series and four waves. No status is typed: each title declares what a real edition would require in countable units, and Published / Derivable / Requires authoring / Requires governance falls out of the live academic database. The result is unflattering in the right places — the Reading Programme reports 78 of the 114 lessons it needs, the Academic Framework volume reports nought of 120 assessments mapped, and the Listening Programme reports 120 scripts and nought recordings. The test empties the inventory and asserts every derivable title stops being derivable, which is how a typed status would be caught.</td></tr><tr><td><b>The house visual identity, as a system for the second book</b></td>
+      <td>The Production Specifications describe one book exactly and cannot govern the next. The house identity separates constants (crest, two families, ground, metal, folio, spine architecture) from what varies by series, and derives every number: four formats with margins as proportions of trim under a 75-character measure ceiling, spine bands from the same caliper formula that produced the flagship cover, and one colour per series checked for contrast against the ground it is actually printed on. Three defects in the first assignment were caught by that check — two shared hues, and midnight navy assigned to a series, which measures 1.00 : 1 on a midnight navy spine.</td></tr><tr><td><b>Three editions from one source</b></td>
       <td>IEFC_EDITION selects between the Teacher’s Edition (441pp, answer keys and the teaching guide), the Student Edition (437pp, the same curriculum with the keys and the guide withheld — the rubrics stay, because a learner is entitled to the criteria they are marked against) and the Institutional Edition (53pp: the architecture, the six figures, the awards, every level’s contents and the assessment index, without the lesson bodies). One curriculum, one design system, one set of extractors; each edition binds to its own extent and gets its own cover. tests/publication-editions.test.mjs holds them together — including that the student edition marks no correct answers, that no curriculum text is in one full edition and missing from the other, and that the empty competency column travels into the executive volume rather than being quietly dropped.</td></tr><tr><td><b>Photographic credits follow the edition</b></td>
       <td>The colophon credited a photograph "placed at Teaching from This Book" in the student edition, which has no such section. Credits are now filtered by the images actually placed, read off the assembled markup — and the first attempt at that fix listed the sections by hand and reproduced the same bug, which the edition test caught.</td></tr><tr><td><b>The printed page, rasterised and measured</b></td>
       <td>The book is now rendered back to pixels page by page and each page asked how far down its ink reaches. Pagination happens inside the print pipeline, after every CSS decision, so this is the only place the question "is this page finished?" can be answered. The first run found 172 of 522 pages filling under 60% of the text block and 106 under 40%.</td></tr><tr><td><b>The forced page breaks, removed</b></td>

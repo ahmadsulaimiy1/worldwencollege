@@ -1,0 +1,305 @@
+// WEC Press — the constitution, the catalogue and the house identity.
+//
+// THE ASSERTION THIS FILE EXISTS FOR:
+//
+//   A publishing standards document must not be able to claim more
+//   authority than it has, and a ten-year catalogue must not be able to
+//   claim more material than exists.
+//
+// Both documents fail in the same way, and it is a quiet failure. The
+// constitution says a rule is ENFORCED and names a test; two years
+// later the test has been renamed and the clause is a decoration that
+// reads like a guarantee. The catalogue says a title is DERIVABLE; the
+// curriculum strand it was derived from was never finished, and nobody
+// notices until an editor is three weeks into producing a book that has
+// no content behind it.
+//
+// So the checks below are mostly about the RELATIONSHIP between a claim
+// and its evidence, not about the values:
+//
+//   · a clause may only say ENFORCED if it names a test file that is
+//     on disk, and may only name a test file if it says ENFORCED;
+//   · a title may only say PUBLISHED if it names a build script that
+//     exists and an artefact that is either committed or documented as
+//     built on demand;
+//   · the difference between DERIVABLE and REQUIRES AUTHORING is
+//     recomputed here from a deliberately emptied inventory, so a
+//     status that had been hard-coded would show up as one that does
+//     not move when the material disappears.
+//
+// And the house identity is checked as measurement rather than taste: a
+// series colour that cannot be told apart from the ground it is printed
+// on is a defect that would ship on every title in that series.
+import { existsSync, readFileSync } from 'node:fs';
+import { ROOT, loadUrl } from './helpers.mjs';
+
+const press = await import(loadUrl('scripts/publication/press.mjs'));
+const cat = await import(loadUrl('scripts/publication/catalogue.mjs'));
+const house = await import(loadUrl('scripts/publication/house.mjs'));
+
+const { CONSTITUTIONS, CLAUSES, FORCE, forceCount, contrastEvidence } = press;
+const { STATUS, TITLES, WAVES, SERIES, inventory, catalogue, resolve } = cat;
+
+let pass = 0, fail = 0;
+const check = (label, cond, detail) => {
+  console.log((cond ? 'PASS ' : 'FAIL ') + label + (cond || detail === undefined ? '' : ` — ${detail}`));
+  cond ? pass++ : fail++;
+};
+
+// ── 1 · The constitution binds only as far as it can ─────────────────
+
+check('23 constitutions, numbered 1 to 23 without a gap or a repeat',
+  CONSTITUTIONS.length === 23
+  && CONSTITUTIONS.every((s, i) => s.n === i + 1)
+  && new Set(CONSTITUTIONS.map((s) => s.name)).size === 23,
+  CONSTITUTIONS.map((s) => s.n).join(','));
+
+check('every constitution states a purpose and carries at least two clauses',
+  CONSTITUTIONS.every((s) => s.purpose && s.purpose.length > 12 && s.clauses.length >= 2),
+  CONSTITUTIONS.filter((s) => !s.purpose || s.purpose.length <= 12 || s.clauses.length < 2)
+    .map((s) => `§${s.n}`).join(','));
+
+check('every clause declares one of the four forces',
+  CLAUSES.every((c) => Object.values(FORCE).includes(c.force)),
+  CLAUSES.filter((c) => !Object.values(FORCE).includes(c.force)).length + ' unknown');
+
+const enforced = CLAUSES.filter((c) => c.force === FORCE.ENFORCED);
+const missingTest = enforced.filter((c) => !c.by || !existsSync(`${ROOT}/${c.by}`));
+check('every ENFORCED clause names a test file that exists',
+  enforced.length > 0 && missingTest.length === 0,
+  missingTest.map((c) => c.by || `§${c.section} names none`).join(' · '));
+
+const strayTest = CLAUSES.filter((c) => c.by && c.force !== FORCE.ENFORCED);
+check('only ENFORCED clauses name a test',
+  strayTest.length === 0,
+  strayTest.map((c) => `§${c.section} ${c.force}`).join(' · '));
+
+// A constitution where everything is enforced is lying about what
+// software can check; one where nothing is, is a wish. Both bounds.
+check('the enforced proportion is neither nought nor everything',
+  forceCount(FORCE.ENFORCED) > 5 && forceCount(FORCE.ENFORCED) < CLAUSES.length * 0.6,
+  `${forceCount(FORCE.ENFORCED)} of ${CLAUSES.length}`);
+
+check('the forces sum to the clause count',
+  Object.values(FORCE).reduce((n, f) => n + forceCount(f), 0) === CLAUSES.length);
+
+// The clauses that name the institution's position must keep saying it.
+const allRules = CLAUSES.map((c) => c.rule).join(' ');
+check('§1 states the imprint has no legal personality, staff, prefix or distribution',
+  /no separate legal personality/.test(allRules) && /no ISBN\s*\n?\s*publisher prefix/.test(allRules.replace(/\s+/g, ' ')),
+  'the position statement has been softened or removed');
+
+// The first version of this check searched for "is accredited" and
+// flagged the clause that PROHIBITS the claim. It now looks for the
+// affirmative forms only.
+check('no clause claims accreditation, recognition or an assigned identifier',
+  !/accredited by\s+[A-Z]|recognised by\s+[A-Z]|ISBN\s*97[89]|ISSN\s*\d/.test(allRules),
+  (allRules.match(/accredited by\s+[A-Z]\w+|ISBN\s*97[89][\d-]*/g) || []).join(' · '));
+
+// ── 2 · The colour clauses are recomputed, not restated ──────────────
+
+const ev = contrastEvidence();
+check('the contrast evidence is recomputed and every pairing is measured',
+  ev.length >= 6 && ev.every((r) => typeof r.ratio === 'number' && r.ratio > 0),
+  JSON.stringify(ev.map((r) => r.ratio)));
+
+check('body ink on text paper clears 4.5 : 1',
+  ev.filter((r) => /Warm Charcoal/.test(r.label)).every((r) => r.ratio >= 4.5),
+  ev.filter((r) => /Warm Charcoal/.test(r.label)).map((r) => r.ratio).join(','));
+
+check('each level ink clears 4.5 : 1 on its own wash',
+  ev.filter((r) => /Level/.test(r.label)).length >= 2
+  && ev.filter((r) => /Level/.test(r.label)).every((r) => r.ratio >= 4.5),
+  ev.filter((r) => /Level/.test(r.label)).map((r) => `${r.label} ${r.ratio}`).join(' · '));
+
+// ── 3 · The catalogue cannot claim more than exists ──────────────────
+
+const INV = inventory();
+const ROWS = catalogue(INV);
+
+check('every title has a unique number and belongs to a declared series',
+  new Set(TITLES.map((t) => t.n)).size === TITLES.length
+  && TITLES.every((t) => SERIES.includes(t.series)),
+  TITLES.length + ' titles');
+
+check('every title states a readership and what it would be made from',
+  TITLES.every((t) => t.audience && t.audience.length > 8 && t.source && t.source.length > 30),
+  TITLES.filter((t) => !t.source || t.source.length <= 30).map((t) => t.n).join(','));
+
+check('every title carries evidence: an artefact, a governance blocker, or a measured need',
+  TITLES.every((t) => t.artefact || t.governance || t.needs.length > 0),
+  TITLES.filter((t) => !t.artefact && !t.governance && !t.needs.length).map((t) => t.n).join(','));
+
+const pkg = JSON.parse(readFileSync(`${ROOT}/package.json`, 'utf8'));
+const published = ROWS.filter((r) => r.status === STATUS.PUBLISHED);
+check('every published title names a build script that exists in package.json',
+  published.length > 0 && published.every((r) => r.build && pkg.scripts[r.build]),
+  published.filter((r) => !r.build || !pkg.scripts[r.build]).map((r) => r.build || r.n).join(' · '));
+
+// Naming a script that exists is not enough: the Editorial Bible and
+// the Production Specifications both named `publication`, which builds
+// neither of them. So the script's renderers are read and asked whether
+// they write the file the title claims.
+const writesIt = (r) => {
+  const cmd = pkg.scripts[r.build] || '';
+  const renderers = cmd.match(/scripts\/[\w/-]+\.mjs/g) || [];
+  // Edition suffixes are composed at render time — "(Large Print)" is
+  // appended by a flag, not written into the filename — so the stem
+  // before the first parenthesis is what a renderer can be expected to
+  // contain.
+  const base = r.artefact.replace(/^.*\//, '').replace(/\.[a-z]+$/, '').split(' (')[0].trim();
+  return renderers.some((f) => existsSync(`${ROOT}/${f}`)
+    && readFileSync(`${ROOT}/${f}`, 'utf8').includes(base));
+};
+const wrongScript = published.filter((r) => r.build && pkg.scripts[r.build] && !writesIt(r));
+check('the named build script is the one that actually writes the artefact',
+  wrongScript.length === 0,
+  wrongScript.map((r) => `${r.artefact} ← npm run ${r.build}`).join(' · '));
+
+const missingArtefact = published.filter((r) => !r.onDemand && !existsSync(`${ROOT}/${r.artefact}`));
+check('every committed artefact is on disk; the rest declare that they are built on demand',
+  missingArtefact.length === 0,
+  missingArtefact.map((r) => r.artefact).join(' · '));
+
+check('every measured need points at a key the inventory actually reports',
+  TITLES.every((t) => t.needs.every((n) => Object.prototype.hasOwnProperty.call(INV, n.key))),
+  TITLES.flatMap((t) => t.needs.filter((n) => !(n.key in INV)).map((n) => n.key)).join(' · '));
+
+// ── 4 · The status is derived, and the way to prove it is to remove
+//        the material and watch the statuses move ─────────────────────
+
+const EMPTY = Object.fromEntries(Object.keys(INV).map((k) => [k, 0]));
+const starved = TITLES.map((t) => resolve(t, EMPTY));
+const derivable = ROWS.filter((r) => r.status === STATUS.DERIVABLE);
+const survived = derivable.filter((r) =>
+  starved.find((s) => s.n === r.n).status === STATUS.DERIVABLE);
+check('with the inventory emptied, no derivable title stays derivable',
+  derivable.length > 0 && survived.length === 0,
+  survived.map((r) => r.n).join(',') + ' did not move — status is not computed');
+
+check('a title short of material states the deficit as a number',
+  ROWS.filter((r) => r.status === STATUS.AUTHORING)
+    .every((r) => r.short.length > 0 && r.short.every((s) => s.deficit > 0)),
+  ROWS.filter((r) => r.status === STATUS.AUTHORING && !r.short.length).map((r) => r.n).join(','));
+
+check('a governance blocker names what the decision is, not merely that there is one',
+  ROWS.filter((r) => r.status === STATUS.GOVERNANCE)
+    .every((r) => r.governance && r.governance.length > 60),
+  ROWS.filter((r) => r.status === STATUS.GOVERNANCE && (r.governance || '').length <= 60)
+    .map((r) => r.n).join(','));
+
+check('all four statuses are represented; the catalogue is not uniformly optimistic',
+  [STATUS.PUBLISHED, STATUS.DERIVABLE, STATUS.AUTHORING, STATUS.GOVERNANCE]
+    .every((s) => ROWS.some((r) => r.status === s)),
+  ROWS.map((r) => r.status).join(','));
+
+check('a published title sits in the first wave and a governance title never does',
+  published.every((r) => r.wave === 1)
+  && ROWS.filter((r) => r.status === STATUS.GOVERNANCE).every((r) => r.wave >= 2),
+  ROWS.filter((r) => r.status === STATUS.GOVERNANCE && r.wave < 2).map((r) => r.n).join(','));
+
+check('every wave carries at least one title',
+  WAVES.every((w) => ROWS.some((r) => r.wave === w.n)),
+  WAVES.filter((w) => !ROWS.some((r) => r.wave === w.n)).map((w) => w.n).join(','));
+
+// ── 5 · The inventory is measured, including its zeroes ──────────────
+
+const { buildCurriculum } = await import(loadUrl('scripts/publication/curriculum.mjs'));
+const C = buildCurriculum();
+check('the inventory agrees with the curriculum model it is measured from',
+  INV.modules === C.totals.modules && INV.items === C.totals.lessons
+  && INV.questions === C.totals.questions,
+  `${INV.modules}/${INV.items}/${INV.questions}`);
+
+check('the audio position is counted as scripts and recordings separately',
+  INV.listeningScripts > 0 && INV.audioCues > INV.listeningScripts && INV.recordedAudio === 0,
+  `${INV.listeningScripts} scripts · ${INV.audioCues} cues · ${INV.recordedAudio} recorded`);
+
+check('the cross-references are counted once, not once per direction',
+  INV.crossRefs > 100 && INV.crossRefs < 250, String(INV.crossRefs));
+
+check('the institutional zeroes are still zero, and are still measured',
+  INV.assessmentsMapped === 0 && INV.appointedMembers === 0
+  && INV.electedOfficers === 0 && INV.awardsIssued === 0,
+  `${INV.assessmentsMapped}/${INV.appointedMembers}/${INV.electedOfficers}/${INV.awardsIssued}`);
+
+// A loose keyword sweep once reported thirty business-English lessons
+// and would have marked a business series ready to publish.
+check('a subject appearing inside general English is not counted as a programme',
+  INV.businessModules < 5 && INV.executiveModules < 5 && INV.youngLearnerModules === 0,
+  `${INV.businessModules}/${INV.executiveModules}/${INV.youngLearnerModules}`);
+
+// ── 6 · The house identity, as measurement ───────────────────────────
+
+// seriesColours() throws on a violation rather than returning a bad
+// assignment, which is right for the build and wrong for a test report:
+// a thrown error prints a stack trace instead of naming the defect.
+let colours = [], colourError = null;
+try { colours = house.seriesColours(); } catch (e) { colourError = e.message; }
+check('the series colour assignment is valid', colourError === null, colourError);
+check('every series in the catalogue has a colour, and no colour serves two series',
+  colours.length === SERIES.length
+  && new Set(colours.map((c) => c.token)).size === colours.length,
+  colours.map((c) => c.token).join(','));
+
+check('the house ground is not used as a series colour',
+  colours.every((c) => c.token !== 'midnightNavy'));
+
+check('every series colour reaches 3 : 1 on the ground it is printed on',
+  colours.every((c) => c.ratio >= 3 && ['paper', 'navy'].includes(c.ground)),
+  colours.filter((c) => c.ratio < 3).map((c) => `${c.series} ${c.ratio}`).join(' · '));
+
+check('the four formats are distinct trims and each says why it exists',
+  new Set(house.FORMATS.map((f) => `${f.w}x${f.h}`)).size === house.FORMATS.length
+  && house.FORMATS.every((f) => f.why.length > 40));
+
+check('the flagship format is the trim the flagship was actually produced at',
+  house.formatFor('flagship').w === 210 && house.formatFor('flagship').h === 297);
+
+check('no format is set to a measure beyond the ceiling',
+  house.FORMATS.every((f) =>
+    house.marginsFor(f.key, 300).measureChars <= house.MARGINS.maxMeasureChars),
+  house.FORMATS.map((f) => `${f.key} ${house.marginsFor(f.key, 300).measureChars}`).join(' · '));
+
+check('the gutter grows with extent rather than staying nominal',
+  house.marginsFor('flagship', 500).gutter > house.marginsFor('flagship', 100).gutter,
+  `${house.marginsFor('flagship', 100).gutter} → ${house.marginsFor('flagship', 500).gutter}`);
+
+const spines = [64, 160, 320, 441].map(house.spineFor);
+check('spine width rises with extent and each width states what it can carry',
+  spines.every((s, i) => i === 0 || s.mm > spines[i - 1].mm)
+  && spines.every((s) => s.carries.length > 20),
+  spines.map((s) => `${s.pages}pp ${s.mm}mm`).join(' · '));
+
+// spineWidth() floors at 6 mm, so a 40-page book reports 6 mm and not
+// 2.3 mm. The band table has to describe the floored value or it
+// describes a surface the binder will never produce.
+check('a narrow spine floors at 6 mm and omits the crest at that width',
+  house.spineFor(40).mm === 6 && /crest omitted/i.test(house.spineFor(40).carries),
+  `${house.spineFor(40).mm} mm — ${house.spineFor(40).carries}`);
+
+check('the under-6 mm band describes a book with no spine rather than type on one',
+  /no spine|saddle/i.test(house.SPINE_RULES[0].name + house.SPINE_RULES[0].carries),
+  house.SPINE_RULES[0].name);
+
+const evidence = house.houseEvidence();
+check('the house evidence recomputes rather than restating',
+  evidence.colours.length === SERIES.length && evidence.levelBars === 6
+  && evidence.spines.length === 4);
+
+// ── 7 · The volume itself ────────────────────────────────────────────
+
+const VOLUME = `${ROOT}/publication/WEC Press — The Publishing Constitution.pdf`;
+if (existsSync(VOLUME)) {
+  const raw = readFileSync(VOLUME).toString('latin1');
+  const pageCount = (raw.match(/\/Type\s*\/Page(?![s])/g) || []).length;
+  check('the rendered volume has a plausible extent', pageCount >= 25 && pageCount <= 120,
+    `${pageCount} pages`);
+  check('the volume is tagged and carries a document outline',
+    /\/StructTreeRoot/.test(raw) && /\/Outlines/.test(raw));
+} else {
+  check('the volume has been rendered', false, 'run: npm run press');
+}
+
+console.log(`\n${pass} passed, ${fail} failed`);
+process.exit(fail ? 1 : 0);

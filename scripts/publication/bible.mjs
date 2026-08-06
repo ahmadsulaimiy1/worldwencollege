@@ -61,6 +61,33 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'The Press constituted as a set of checkable rules', built: 'Twenty-three '
+    + 'constitutions covering institutional publishing, editorial, design, typography, colour, '
+    + 'photography, illustration, infographics, iconography, accessibility, print production, '
+    + 'digital publishing, copyright, licensing, revision, translation, quality assurance, '
+    + 'academic integrity, editorial review, visual review, production workflow, version control '
+    + 'and governance. Every clause declares its own force — Enforced (a named test fails the '
+    + 'build), Observed, Adopted, or For adoption — and tests/publication-press.test.mjs asserts '
+    + 'that a clause may only claim enforcement if it names a test file that is on disk, and may '
+    + 'only name one if it claims enforcement.' },
+  { item: 'The ten-year publication architecture, computed rather than promised', built: '42 '
+    + 'titles across 10 series and four waves. No status is typed: each title declares what a '
+    + 'real edition would require in countable units, and Published / Derivable / Requires '
+    + 'authoring / Requires governance falls out of the live academic database. The result is '
+    + 'unflattering in the right places — the Reading Programme reports 78 of the 114 lessons it '
+    + 'needs, the Academic Framework volume reports nought of 120 assessments mapped, and the '
+    + 'Listening Programme reports 120 scripts and nought recordings. The test empties the '
+    + 'inventory and asserts every derivable title stops being derivable, which is how a typed '
+    + 'status would be caught.' },
+  { item: 'The house visual identity, as a system for the second book', built: 'The Production '
+    + 'Specifications describe one book exactly and cannot govern the next. The house identity '
+    + 'separates constants (crest, two families, ground, metal, folio, spine architecture) from '
+    + 'what varies by series, and derives every number: four formats with margins as proportions '
+    + 'of trim under a 75-character measure ceiling, spine bands from the same caliper formula '
+    + 'that produced the flagship cover, and one colour per series checked for contrast against '
+    + 'the ground it is actually printed on. Three defects in the first assignment were caught by '
+    + 'that check — two shared hues, and midnight navy assigned to a series, which measures '
+    + '1.00 : 1 on a midnight navy spine.' },
   { item: 'Three editions from one source', built: 'IEFC_EDITION selects between the Teacher’s '
     + 'Edition (441pp, answer keys and the teaching guide), the Student Edition (437pp, the same '
     + 'curriculum with the keys and the guide withheld — the rubrics stay, because a learner is '
