@@ -424,6 +424,8 @@ export const RESOURCES = [
   r({ cat: 'Student', name: 'Student Workbook',
     serves: ['learner'], improves: ['learning', 'independent study', 'revision'],
     owner: OWNER.PRESS,
+    artefact: 'IEFC Level I Student Workbook.pdf',
+    build: 'render-workbook.mjs',
     needs: [need('lessons with guided, homework and extension practice', 'guided', 19),
       need('supplied material sets for practice that hands the learner something',
         'exerciseSets', 1)] }),

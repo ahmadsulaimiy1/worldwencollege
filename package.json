@@ -22,7 +22,8 @@
     "pronunciation": "node --experimental-sqlite scripts/publication/render-pronunciation.mjs",
     "canon": "node --experimental-sqlite scripts/publication/render-canon.mjs && node --experimental-sqlite scripts/publication/render-canon.mjs",
     "listening": "node --experimental-sqlite scripts/publication/render-listening.mjs",
-    "assessment": "node --experimental-sqlite scripts/publication/render-assessment.mjs"
+    "assessment": "node --experimental-sqlite scripts/publication/render-assessment.mjs",
+    "workbook": "node --experimental-sqlite scripts/publication/render-workbook.mjs"
   },
   "devDependencies": {
     "jsqr": "^1.4.0",

@@ -1,0 +1,2686 @@
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
+<title>The IEFC Level I Student Workbook</title>
+<style>
+@page { size:176mm 250mm; margin:18.8mm 18.5mm 32.5mm 15.8mm; }
+@page :left  { margin-left:18.5mm; margin-right:15.8mm; }
+@page :right { margin-left:15.8mm; margin-right:18.5mm; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:Cambria, "Nimbus Roman", Georgia, "Times New Roman", serif; font-size:9.6pt; line-height:1.55;
+  color:#2E2A26; background:#FAFBFC;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  hyphens:auto; text-wrap:pretty; orphans:3; widows:3; }
+h1,h2,h3 { break-after:avoid; font-weight:700; color:#1F3E7C; }
+h1 { font-size:19pt; line-height:1.12; margin:0 0 4pt; }
+h2 { font-size:11.5pt; margin:12pt 0 4pt; color:#16306B; }
+p { margin:0 0 5pt; }
+b { color:#0F1D38; }
+.eyebrow { font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:6.2pt; font-weight:700; letter-spacing:.24em;
+  text-transform:uppercase; color:#16306B; margin:0 0 4pt; }
+.lead { font-size:9pt; color:#6B7280; margin:0 0 6pt; }
+
+/* Title page */
+.title { height:194.7mm; break-after:page; break-inside:avoid;
+  background:#0F1D38; color:#FAFBFC; padding:15mm 13mm 11mm;
+  display:flex; flex-direction:column; }
+.title h1 { color:#FAFBFC; font-size:24pt; max-width:11em; }
+.title .eyebrow { color:#E4D5A8; }
+.title__rule { height:1.4pt; background:#16306B; width:38mm; margin:9pt 0 11pt; }
+.title__sub { font-size:10pt; color:#D8DCE3; max-width:21em; }
+.title__fill { flex:1; }
+.title__meta { font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:6.6pt; color:#D8DCE3; line-height:1.75; }
+
+.front { break-after:page; }
+.panel { background:#F6F1E4; border-left:2pt solid #16306B;
+  padding:7pt 9pt; margin:9pt 0; break-inside:avoid; }
+.panel__h { font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:7pt; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:#16306B; margin:0 0 4pt; }
+
+.lesson { break-before:page; }
+.lesson__head { border-top:2pt solid #16306B; padding-top:6pt; margin-bottom:8pt;
+  break-inside:avoid; break-after:avoid; position:relative; }
+.lesson__ref { font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:6.8pt; letter-spacing:.14em;
+  color:#6B7280; margin:0; }
+
+.step { margin:0 0 9pt; break-inside:avoid; }
+.step__h { font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:7.6pt; font-weight:700; letter-spacing:.13em;
+  text-transform:uppercase; color:#0F1D38; margin:0 0 5pt;
+  border-bottom:.6pt solid #D8DCE3; padding-bottom:3pt; }
+.step__n { display:inline-block; min-width:11pt; height:11pt; line-height:11pt; text-align:center;
+  background:#16306B; color:#FAFBFC; border-radius:50%; font-size:6.4pt;
+  margin-right:5pt; }
+
+.objs { margin:0 0 5pt; padding-left:14pt; }
+.objs li { margin:0 0 2.5pt; }
+.before { font-size:8.4pt; color:#6B7280; }
+
+table { width:100%; border-collapse:collapse; margin:5pt 0 6pt; font-size:8.4pt; }
+thead { display:table-header-group; }
+th { text-align:left; font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:6.6pt; font-weight:700;
+  letter-spacing:.13em; text-transform:uppercase; color:#6B7280;
+  border-bottom:.8pt solid #6B7280; padding:0 5pt 3pt 0; }
+td { vertical-align:top; padding:4pt 5pt 4pt 0; border-bottom:.4pt solid #D8DCE3; }
+.words td:first-child { width:26%; }
+.words td:last-child { width:34%; }
+.pos { font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:6.2pt; letter-spacing:.1em; color:#6B7280;
+  text-transform:uppercase; }
+.care { font-size:8pt; color:#2E2A26; }
+.none { color:#D8DCE3; }
+
+.task { margin:0 0 4pt; }
+.task__k { display:inline-block; font-family:Calibri, "Nimbus Sans", "Segoe UI", Arial, sans-serif; font-size:6.2pt; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:#16306B;
+  min-width:15mm; }
+
+.supplied { background:#F6F1E4; padding:6pt 8pt; margin:6pt 0 0;
+  border-left:2pt solid #E4D5A8; break-inside:avoid; }
+.supplied__h { font-size:8.4pt; font-style:italic; margin:0 0 4pt; color:#0F1D38; }
+.supplied__list { margin:0; padding-left:14pt; font-size:8.6pt; }
+.supplied__list li { margin:0 0 2.5pt; }
+
+.solo { border:.6pt solid #D8DCE3; padding:7pt 8pt; break-inside:avoid; }
+.solo__serves { font-size:8.2pt; color:#6B7280; margin:0 0 5pt; }
+.solo__do { margin:0 0 5pt; }
+.solo__chk { font-size:8.6pt; margin:0; padding-top:4pt;
+  border-top:.4pt solid #D8DCE3; }
+
+.qs { margin:0 0 6pt; padding-left:14pt; }
+.qs li { margin:0 0 7pt; break-inside:avoid; }
+.rule { display:block; border-bottom:.4pt solid #D8DCE3; height:11pt; margin-top:2pt; }
+.answers-at { font-size:7.8pt; color:#6B7280; font-style:italic; margin:0; }
+
+.returns { font-size:8.2pt; color:#6B7280; border-top:.6pt solid #D8DCE3;
+  padding-top:5pt; margin-top:8pt; break-inside:avoid; }
+
+.answers { break-before:page; }
+.answers__open { border-top:2pt solid #16306B; padding-top:6pt; margin-bottom:9pt;
+  break-inside:avoid; break-after:avoid; }
+.ans { break-inside:avoid; margin:0 0 8pt; }
+.ans ol { margin:0; padding-left:14pt; }
+.ans li { margin:0 0 5pt; break-inside:avoid; }
+.ans__q { font-size:8.4pt; color:#6B7280; margin:0 0 1.5pt; }
+.ans__a { margin:0 0 1.5pt; }
+.ans__t { font-size:8pt; color:#2E2A26; background:#F6F1E4;
+  padding:3pt 5pt; margin:2pt 0 0; border-left:1.5pt solid #16306B; }
+
+.fleuron { text-align:center; margin:10pt 0; }
+.band { margin:8pt 0; }
+</style></head><body>
+
+<section class="title">
+  <p class="eyebrow">Worldwide English College Press</p>
+  <h1>The IEFC Level I Student Workbook</h1>
+  <div class="title__rule"></div>
+  <p class="title__sub">Foundation Programme · A1 · 19 lessons,
+    10 modules. The practice, the words, the work you do alone, and a way to
+    find out whether you have understood — before anybody marks you.</p>
+  <div class="title__fill"></div>
+  <p class="title__meta">IEFC Student Series<br>
+    Edition undefined · Revision undefined · Impression 1<br>
+    </p>
+</section>
+
+<section class="front">
+  <p class="eyebrow">How to use this book</p>
+  <h1>Six steps, every lesson</h1>
+  <p class="lead">This book is not the coursebook with the teaching taken out. It is what you do
+    with the lesson: before it, between classes, and after it.</p>
+
+  <table><thead><tr><th scope="col">Step</th><th scope="col">What it is</th>
+    <th scope="col">When</th></tr></thead><tbody>
+    <tr><td><b>1 · What you will be able to do</b></td>
+      <td>The lesson's own objectives, so you know what you are working towards.</td>
+      <td>Before</td></tr>
+    <tr><td><b>2 · Words for this lesson</b></td>
+      <td>Every word the lesson teaches, with a sentence you could say and — where English is
+        simply arbitrary — a warning.</td><td>Before and after</td></tr>
+    <tr><td><b>3 · Practice</b></td>
+      <td>The tasks from the lesson, with the material printed here where the task hands you
+        something.</td><td>In class and at home</td></tr>
+    <tr><td><b>4 · On your own</b></td>
+      <td>Something to do alone that gets you ready for the class task, or fixes it afterwards.
+        It is not a replacement: the class task needs another person.</td><td>Alone</td></tr>
+    <tr><td><b>5 · Check yourself</b></td>
+      <td>Three or four questions with the answers at the back. Write something before you
+        look.</td><td>After</td></tr>
+    <tr><td><b>6 · Take it further</b></td>
+      <td>For when you have finished and want more.</td><td>Any time</td></tr>
+  </tbody></table>
+
+  <div class="panel">
+    <p class="panel__h">Why some things say "in class"</p>
+    <p>You cannot practise asking a stranger their name without a stranger. 17 of the
+      19 lessons in this level are designed around talking to another person,
+      and that is the point of them rather than a problem with them. Step 4 gets you ready for
+      those tasks; it never pretends to be them. If you do only step 4, you will know the words
+      and you will not be able to use them.</p>
+  </div>
+
+  <div class="panel">
+    <p class="panel__h">What this book contains, counted</p>
+    <p>19 lessons · 199 words with an example sentence for each ·
+      17 activities to do alone, each naming the class task it serves ·
+      58 check-yourself questions with answers, 25 of them aimed at a mistake
+      learners at this level really make. Nothing here was written for this book: every word is
+      read from the same academic record the Complete Curriculum is set from.</p>
+  </div>
+  <div class="fleuron"><svg viewBox="0 0 84 18" width="84" height="18" aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 9 H20" stroke="#16306B" stroke-width="0.6"/>
+    <path d="M64 9 H84" stroke="#16306B" stroke-width="0.6"/>
+    <path d="M28 9 L42 3 L56 9
+             L42 15 Z" fill="none" stroke="#16306B" stroke-width="0.9"/>
+    <circle cx="42" cy="9" r="1.8" fill="#16306B"/>
+  </svg></div>
+</section>
+
+
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 1: Meeting People</p>
+    <h1>Hello! Introducing Yourself</h1>
+    <p class="lesson__ref">I.1.2</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>greet someone appropriately for the time of day</li><li>say your own name using "My name is.../I'm..."</li><li>ask someone else's name using "What's your name?"</li><li>spell your name aloud using the English alphabet</li></ul>
+    <p class="before"><b>Before this lesson:</b> None — this is your first lesson.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Greetings and introductions. In class: Chain drill and "Find Someone Who": each learner greets five classmates and exchanges names.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>hello</b><br><span class="pos">phrase</span></td>
+  <td>Hello! My name is Sofia.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>hi</b><br><span class="pos">phrase</span></td>
+  <td>Hi, Sofia! I'm Daniel.</td>
+  <td class="care">Friendly. Use "hello" with a teacher or a stranger.</td>
+</tr><tr>
+  <td><b>good morning</b><br><span class="pos">phrase</span></td>
+  <td>Good morning, Mr Ali.</td>
+  <td class="care">Until about midday.</td>
+</tr><tr>
+  <td><b>good afternoon</b><br><span class="pos">phrase</span></td>
+  <td>Good afternoon. Please sit down.</td>
+  <td class="care">From midday until about 6 p.m.</td>
+</tr><tr>
+  <td><b>good evening</b><br><span class="pos">phrase</span></td>
+  <td>Good evening. Welcome.</td>
+  <td class="care">From about 6 p.m. It is a greeting; "good night" is a farewell.</td>
+</tr><tr>
+  <td><b>goodbye</b><br><span class="pos">phrase</span></td>
+  <td>Goodbye! See you tomorrow.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>name</b><br><span class="pos">noun</span></td>
+  <td>My name is Ana.</td>
+  <td class="care">Say "My name is Ana" or "I'm Ana" — never both together.</td>
+</tr><tr>
+  <td><b>nice to meet you</b><br><span class="pos">phrase</span></td>
+  <td>Nice to meet you. — Nice to meet you too!</td>
+  <td class="care">Only the first time you meet someone.</td>
+</tr><tr>
+  <td><b>What's your name?</b><br><span class="pos">phrase</span></td>
+  <td>What's your name? — I'm Daniel.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>spell</b><br><span class="pos">verb</span></td>
+  <td>How do you spell your name?</td>
+  <td class="care"><span class="none">—</span></td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Chain drill around the room — ask "What's your name?", answer, then ask the next person.</p>
+    <p class="task"><span class="task__k">In class</span>"Find Someone Who" — greet 5 different classmates, exchanging name and greeting, unscripted.</p>
+    <p class="task"><span class="task__k">Write</span>"Hello! My ___ is ___. I'm ___." with your own real name.</p>
+    <p class="task"><span class="task__k">At home</span>Introduce yourself to one person outside class; bring one new "nice to meet you" partner name to share next lesson.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This prepares</b> the class task:
+        <i>"Find Someone Who" — greet five classmates and exchange names, unscripted.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it.</p>
+      <p class="solo__do">Write the four greetings on four cards with the time of day on the back. Shuffle, turn one over, and say the greeting aloud before you look. Then record yourself saying the whole exchange — greeting, your name, the question, the reply — twice, once as each speaker. Spell your own name aloud at the end.</p>
+      <p class="solo__chk"><b>Check yourself.</b> Play the recording back. Did you say a time-of-day greeting that matches the card? Did you say "My name is Ana" OR "I'm Ana" — and not both together? Could a stranger write your name down correctly from your spelling?</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Before you move on, check that you can greet someone and give your name without stopping to think.</p>
+    <ol class="qs"><li>It is 4 p.m. and you meet your new teacher. What do you say?<span class="rule"></span></li><li>Complete: "______ name is Ana."<span class="rule"></span></li><li>Ask a stranger their name politely.<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.1.2</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Write and act out a 4-line dialogue introducing two invented people to each other.</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> Lesson 1.2 opens by recapping this lesson's "What's your name?" chain drill, and its mingling activity asks for your name alongside your country, so every phrase here is used again there. Module 1's Quiz and Speaking Assignment draw only on Lessons 1.1 and 1.2. The Level I Revision Guide returns to this material under Module 1 — Meeting People before the mock exam.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 1: Meeting People</p>
+    <h1>Where Are You From?</h1>
+    <p class="lesson__ref">I.1.3</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>ask and answer "Where are you from?"</li><li>name your own country correctly in English</li><li>use "I'm from ___" and "I live in ___" correctly and tell them apart</li><li>recognise at least 6 country/nationality word pairs</li></ul>
+    <p class="before"><b>Before this lesson:</b> Lesson 1.1 (greetings, "My name is/I'm", "What's your name?").</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Countries and nationalities. In class: Country/nationality pair matching with the pairs introduced in the presentation.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>country</b><br><span class="pos">noun</span></td>
+  <td>Which country are you from?</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>city</b><br><span class="pos">noun</span></td>
+  <td>I live in a big city.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>Brazil / Brazilian</b><br><span class="pos">noun</span></td>
+  <td>I'm from Brazil. I'm Brazilian.</td>
+  <td class="care">No "the" before most country names.</td>
+</tr><tr>
+  <td><b>Italy / Italian</b><br><span class="pos">noun</span></td>
+  <td>She's from Italy. She's Italian.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>Japan / Japanese</b><br><span class="pos">noun</span></td>
+  <td>He's from Japan. He's Japanese.</td>
+  <td class="care">Not "the Japan".</td>
+</tr><tr>
+  <td><b>Egypt / Egyptian</b><br><span class="pos">noun</span></td>
+  <td>We're from Egypt. We're Egyptian.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>Spain / Spanish</b><br><span class="pos">noun</span></td>
+  <td>They're from Spain. They're Spanish.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>the United Kingdom / British</b><br><span class="pos">noun</span></td>
+  <td>I'm from the United Kingdom. I'm British.</td>
+  <td class="care">This one DOES take "the" — like the Netherlands and the USA.</td>
+</tr><tr>
+  <td><b>be from</b><br><span class="pos">phrase</span></td>
+  <td>Where are you from? — I'm from Brazil.</td>
+  <td class="care">"I'm from" + country. Not "I'm come from".</td>
+</tr><tr>
+  <td><b>live in</b><br><span class="pos">phrase</span></td>
+  <td>I live in Sao Paulo.</td>
+  <td class="care">"Live in" + city. "Be from" + country. They are not the same.</td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Pair work with a country-name card each — ask and answer "Where are you from?", swap cards, repeat 3 times.</p>
+    <p class="task"><span class="task__k">In class</span>Mingle and ask/answer BOTH "What's your name?" AND "Where are you from?" with 5 classmates, using your own real information.</p>
+    <p class="task"><span class="task__k">Write</span>Write 4 lines combining both lessons: "Hello! My name is ___. I'm from ___. I live in ___."</p>
+    <p class="task"><span class="task__k">At home</span>Look up and write the capital city of one country introduced in class that is not your own; share briefly next lesson.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This prepares</b> the class task:
+        <i>Mingle and ask five classmates both "What's your name?" and "Where are you from?", using your own real information.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it.</p>
+      <p class="solo__do">Write your own country and city on a card. Then write six sentences about six real people you know — a relative, a neighbour, someone famous — each using "is from + country" and "lives in + city". Say each aloud.</p>
+      <p class="solo__chk"><b>Check yourself.</b> Check every sentence: is the country after "from" and the city after "lives in"? Did any country need "the"? Only the United Kingdom, the Netherlands and the USA on your list should have it.</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can ask and answer where someone is from, and name your own country in English.</p>
+    <ol class="qs"><li>Answer: "Where are you from?"<span class="rule"></span></li><li>What is wrong with: "I'm from the Japan"?<span class="rule"></span></li><li>Ask the question in a way that works for a city, not a country.<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.1.3</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Write a 4-line dialogue for two new invented people meeting for the first time, using all four target questions/statements from both lessons.</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> This lesson opens with a recap of Lesson 1.1. Module 1's Quiz and Speaking Assignment draw only on Lessons 1.1 and 1.2.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 2: Everyday Objects &amp; Places</p>
+    <h1>There Is / There Are — My Classroom and Home</h1>
+    <p class="lesson__ref">I.2.2</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>name 8+ classroom and home objects</li><li>use "there is" with singular nouns and "there are" with plural nouns correctly</li><li>ask "Is there a...?"/"Are there any...?" and give short answers</li><li>use "a/an" and plural "-s" correctly</li></ul>
+    <p class="before"><b>Before this lesson:</b> Module 1 ("to be", basic question formation).</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Classroom and home objects. In class: Picture-matching game: classroom and home objects to their English names.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>board</b><br><span class="pos">noun</span></td>
+  <td>There is a board in the classroom.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>desk</b><br><span class="pos">noun</span></td>
+  <td>There is a teacher's desk.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>chair</b><br><span class="pos">noun</span></td>
+  <td>There are ten chairs.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>book</b><br><span class="pos">noun</span></td>
+  <td>There are some books on the desk.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>pen</b><br><span class="pos">noun</span></td>
+  <td>Are there any pens? — Yes, there are.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>window</b><br><span class="pos">noun</span></td>
+  <td>Is there a window? — Yes, there is.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>door</b><br><span class="pos">noun</span></td>
+  <td>There is one door.</td>
+  <td class="care">Open the door — not "open the light".</td>
+</tr><tr>
+  <td><b>table</b><br><span class="pos">noun</span></td>
+  <td>There is a table in the kitchen.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>bed</b><br><span class="pos">noun</span></td>
+  <td>There is a bed in my room.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>lamp</b><br><span class="pos">noun</span></td>
+  <td>There is a lamp next to the bed.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>room</b><br><span class="pos">noun</span></td>
+  <td>There are four rooms in my house.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>kitchen</b><br><span class="pos">noun</span></td>
+  <td>There is a small table in the kitchen.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>In pairs, ask "Is there a...?"/"Are there any...?" about 6 objects in a classroom picture, answering with short forms.</p>
+    <p class="task"><span class="task__k">In class</span>Describe your real classroom aloud in pairs, naming at least 6 real objects, then check each other's sentences.</p>
+    <p class="task"><span class="task__k">Write</span>Write 3-4 sentences describing your own bedroom or living room using "there is/there are".</p>
+    <p class="task"><span class="task__k">At home</span>Draw a simple floor plan of one room at home and label 6 objects in English.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This consolidates</b> the class task:
+        <i>In pairs, ask "Is there a...?" and "Are there any...?" about six objects in a classroom picture.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it, or fix it afterwards.</p>
+      <p class="solo__do">Stand in one room of your home and write ten sentences about what is in it — five with "there is", five with "there are". Then turn each of five of them into a question, and write the short answer underneath.</p>
+      <p class="solo__chk"><b>Check yourself.</b> Count the noun after each "there". Singular noun goes with "there is"; plural goes with "there are". In your questions, does "is" or "are" come FIRST? "Is there a window?" — not "There is a window?"</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can say what is in a room using there is and there are.</p>
+    <ol class="qs"><li>Two chairs and one table. Write both sentences.<span class="rule"></span></li><li>Make a question: (a book / on the desk)<span class="rule"></span></li><li>Correct: "There is three windows."<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.2.2</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Write 2 additional sentences using the negative form: "There isn't a.../There aren't any..."</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> Lesson 2.2 opens with learners describing their homework floor plan aloud.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 2: Everyday Objects &amp; Places</p>
+    <h1>This, That, These, Those — Around the City</h1>
+    <p class="lesson__ref">I.2.3</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>use "this/these" for near objects and "that/those" for far objects correctly</li><li>name at least 8 common places in a town or city</li><li>ask "Where is the...?" and give a simple location answer</li><li>distinguish singular (this/that) from plural (these/those) demonstratives</li></ul>
+    <p class="before"><b>Before this lesson:</b> Lesson 2.1 ("there is/are", classroom/home vocabulary).</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Places in a city. In class: City-places bingo or matching game.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>bank</b><br><span class="pos">noun</span></td>
+  <td>This is a bank.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>school</b><br><span class="pos">noun</span></td>
+  <td>That's my school, over there.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>hospital</b><br><span class="pos">noun</span></td>
+  <td>Where is the hospital?</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>restaurant</b><br><span class="pos">noun</span></td>
+  <td>These are restaurants.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>supermarket</b><br><span class="pos">noun</span></td>
+  <td>That's the supermarket.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>park</b><br><span class="pos">noun</span></td>
+  <td>This is a park.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>station</b><br><span class="pos">noun</span></td>
+  <td>What's that? — That's the train station.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>hotel</b><br><span class="pos">noun</span></td>
+  <td>Where is the hotel?</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>this / these</b><br><span class="pos">determiner</span></td>
+  <td>This cup is mine. These books are new.</td>
+  <td class="care">"This" for one thing near you; "these" for more than one.</td>
+</tr><tr>
+  <td><b>that / those</b><br><span class="pos">determiner</span></td>
+  <td>That building is a bank. Those cars are big.</td>
+  <td class="care">"That" for one thing far away; "those" for more than one.</td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Pair work with a city map — point to a near place and ask "What's this?", then a far place with "What's that?" — 6 rounds each, swapping roles.</p>
+    <p class="task"><span class="task__k">In class</span>Create a simple "my neighbourhood" sketch map with 5 labelled places; describe it using "this is/these are" for your own map and "that is/those are" for a place on a partner's map.</p>
+    <p class="task"><span class="task__k">Write</span>Write 4 sentences naming real places in your town using "this is/these are" for nearby familiar places.</p>
+    <p class="task"><span class="task__k">At home</span>Find or draw a picture of one place in your town not covered in class; bring the English name next lesson.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This prepares</b> the class task:
+        <i>Create a "my neighbourhood" sketch map with five labelled places and describe it to a partner.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it.</p>
+      <p class="solo__do">Draw your own sketch map before the class and label five real places near where you live, using the eight city words. Then write eight sentences about it: four with "this/these" for places you can walk to in a minute, four with "that/those" for places further away.</p>
+      <p class="solo__chk"><b>Check yourself.</b> Every "this" and "that" should be followed by ONE thing; every "these" and "those" by more than one. If you wrote "these bank", the word is wrong, not the place.</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can point at things near and far, and ask where a place is.</p>
+    <ol class="qs"><li>A cup in your hand, and a building across the street. Which word for each?<span class="rule"></span></li><li>Make the plural of both.<span class="rule"></span></li><li>Ask where the station is.<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.2.3</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Write a short 4-sentence "tour guide" description of your neighbourhood mixing "there is/are" with "this/that/these/those".</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> This lesson opens with the Lesson 2.1 floor-plan homework recap. Module 2's Quiz and Assignment draw on both lessons.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 3: Family &amp; Routines</p>
+    <h1>My Family</h1>
+    <p class="lesson__ref">I.3.2</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>name 8+ family members</li><li>describe your family using "I have.../This is my..."</li><li>ask "Do you have any brothers/sisters?" and answer with short forms</li><li>use possessive 's correctly for family relationships</li></ul>
+    <p class="before"><b>Before this lesson:</b> Module 2 ("there is/are", possessive groundwork from "this/that").</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Family members. In class: Family-tree labelling race in pairs or small groups.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>mother</b><br><span class="pos">noun</span></td>
+  <td>This is my mother. Her name is Anna.</td>
+  <td class="care">"Mum" in everyday British speech.</td>
+</tr><tr>
+  <td><b>father</b><br><span class="pos">noun</span></td>
+  <td>My father works in a hospital.</td>
+  <td class="care">"Dad" in everyday British speech.</td>
+</tr><tr>
+  <td><b>brother</b><br><span class="pos">noun</span></td>
+  <td>I have two brothers.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>sister</b><br><span class="pos">noun</span></td>
+  <td>Do you have any sisters? — Yes, I do.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>son</b><br><span class="pos">noun</span></td>
+  <td>Their son is six.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>daughter</b><br><span class="pos">noun</span></td>
+  <td>My daughter is at school.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>grandmother</b><br><span class="pos">noun</span></td>
+  <td>My grandmother lives in Cairo.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>grandfather</b><br><span class="pos">noun</span></td>
+  <td>This is my grandfather.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>aunt</b><br><span class="pos">noun</span></td>
+  <td>This is my aunt — my mother's sister.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>uncle</b><br><span class="pos">noun</span></td>
+  <td>My uncle has three children.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>cousin</b><br><span class="pos">noun</span></td>
+  <td>I have four cousins.</td>
+  <td class="care">One word for male and female in English.</td>
+</tr><tr>
+  <td><b>children</b><br><span class="pos">noun</span></td>
+  <td>I have two children.</td>
+  <td class="care">Irregular plural of "child".</td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Label a blank family-tree worksheet, then in pairs quiz each other: "Who is this?"</p>
+    <p class="task"><span class="task__k">In class</span>Draw and label your own real (or, for privacy, an invented) family tree; describe it to a partner using "This is my.../I have...".</p>
+    <p class="task"><span class="task__k">Write</span>Write 3-4 sentences describing your own (or an invented) family using "have/has".</p>
+    <p class="task"><span class="task__k">At home</span>Bring one real (or drawn) family photo/sketch and 3 written sentences about it.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This prepares</b> the class task:
+        <i>Draw and label your own family tree and describe it to a partner.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it.</p>
+      <p class="solo__do">Draw your family tree — real, or invented if you prefer — and label every person with the English word. Then write eight sentences: four beginning "This is my...", four beginning "I have...". Add one sentence with possessive 's ("my mother's sister").</p>
+      <p class="solo__chk"><b>Check yourself.</b> Check the plurals: two brothers, three children — not "two brother", not "childrens". Check the apostrophe sits before the s in "my mother's sister".</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can introduce your family and ask about someone else's.</p>
+    <ol class="qs"><li>Introduce your mother's sister.<span class="rule"></span></li><li>Ask whether someone has brothers or sisters, and give a short answer.<span class="rule"></span></li><li>Say you have two children using 'have'.<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.3.2</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Add extended family (cousin, aunt, uncle, niece, nephew) and describe one extended-family relationship.</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> Lesson 3.2 opens with 2-3 learners briefly sharing their homework family description.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 3: Family &amp; Routines</p>
+    <h1>My Day — Present Simple &amp; Time</h1>
+    <p class="lesson__ref">I.3.3</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>tell the time in English (o'clock, half past, quarter past/to)</li><li>describe a daily routine using present simple with correct third-person -s</li><li>ask and answer "What time do you...?"</li><li>sequence daily activities using "first, then, after that, finally"</li></ul>
+    <p class="before"><b>Before this lesson:</b> Lesson 3.1 (family vocabulary), Module 1 ("to be", question formation).</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Telling the time and daily routine. In class: Clock-matching game plus a routine-verb sequencing card sort.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>o'clock</b><br><span class="pos">phrase</span></td>
+  <td>I wake up at seven o'clock.</td>
+  <td class="care">Only on the hour.</td>
+</tr><tr>
+  <td><b>half past</b><br><span class="pos">phrase</span></td>
+  <td>I have breakfast at half past seven.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>quarter past</b><br><span class="pos">phrase</span></td>
+  <td>The class starts at quarter past nine.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>quarter to</b><br><span class="pos">phrase</span></td>
+  <td>It's quarter to nine.</td>
+  <td class="care">Quarter to NINE means 8:45 — "to" looks forward to the next hour.</td>
+</tr><tr>
+  <td><b>wake up</b><br><span class="pos">verb</span></td>
+  <td>She wakes up at six.</td>
+  <td class="care">Third person takes -s: she wakeS up.</td>
+</tr><tr>
+  <td><b>get up</b><br><span class="pos">verb</span></td>
+  <td>What time do you get up?</td>
+  <td class="care">Waking up and getting out of bed are two different things.</td>
+</tr><tr>
+  <td><b>have breakfast</b><br><span class="pos">phrase</span></td>
+  <td>I have breakfast at home.</td>
+  <td class="care">Not "eat breakfast" in most British usage.</td>
+</tr><tr>
+  <td><b>go to work</b><br><span class="pos">phrase</span></td>
+  <td>He goes to work at eight.</td>
+  <td class="care">No "the": go to work, go to school, go to bed.</td>
+</tr><tr>
+  <td><b>start</b><br><span class="pos">verb</span></td>
+  <td>She starts work at nine.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>finish</b><br><span class="pos">verb</span></td>
+  <td>I finish at five o'clock.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>go to bed</b><br><span class="pos">phrase</span></td>
+  <td>I go to bed at eleven.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>first, then, after that, finally</b><br><span class="pos">adverb</span></td>
+  <td>First I get up, then I have breakfast, after that I go to work.</td>
+  <td class="care">Sequence words for describing a routine in order.</td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Pair work — Learner A says a time, Learner B says what they typically do at that time; swap roles after 5 rounds.</p>
+    <p class="task"><span class="task__k">In class</span>Sequence 6 jumbled routine pictures into a logical order and narrate your own version using time expressions and "first/then/after that".</p>
+    <p class="task"><span class="task__k">Write</span>Write 5-6 sentences describing your own typical day with times, using present simple correctly.</p>
+    <p class="task"><span class="task__k">At home</span>Write out your real daily schedule for tomorrow with times, ready to compare with a partner.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This consolidates</b> the class task:
+        <i>Pair work — Learner A says a time, Learner B says what they typically do at that time.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it, or fix it afterwards.</p>
+      <p class="solo__do">Write out your own real day from waking to sleeping: eight sentences, each with a time and a routine verb, in order, joined with first / then / after that / finally. Then rewrite all eight about someone else in your home, changing "I" to "he" or "she".</p>
+      <p class="solo__chk"><b>Check yourself.</b> In the second set, every verb should end in -s: she wakeS up, he startS. That -s is the single most common Level I mistake and this is where you catch it. Read the times aloud: is 8:45 "quarter to nine"?</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can tell the time and describe a routine.</p>
+    <ol class="qs"><li>Say 7:30 and 8:45 in English.<span class="rule"></span></li><li>Complete: "She ______ (start) work at nine."<span class="rule"></span></li><li>Ask what time someone gets up.<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.3.3</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Write 2 additional sentences contrasting weekday and weekend routines ("On weekdays I... but on weekends I...").</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> This lesson opens with the Lesson 3.1 family-sharing recap. Module 3's Quiz and Assignment draw on both lessons.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 4: Food &amp; Shopping</p>
+    <h1>Countable &amp; Uncountable — What's in the Kitchen?</h1>
+    <p class="lesson__ref">I.4.2</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>distinguish countable nouns (an egg, three apples) from uncountable nouns (rice, milk, water)</li><li>use "some" in positive statements and "any" in questions/negatives for both noun types</li><li>name 10+ common foods</li><li>use "a/an" correctly with countable food nouns</li></ul>
+    <p class="before"><b>Before this lesson:</b> Module 2 ("there is/are", "a/an").</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Food, countable and uncountable. In class: Food flashcard naming race, sorted live into countable and uncountable.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>egg</b><br><span class="pos">noun</span></td>
+  <td>There are some eggs in the fridge.</td>
+  <td class="care">Countable: an egg, two eggs.</td>
+</tr><tr>
+  <td><b>apple</b><br><span class="pos">noun</span></td>
+  <td>Can I have three apples?</td>
+  <td class="care">Countable. Takes "an", not "a".</td>
+</tr><tr>
+  <td><b>banana</b><br><span class="pos">noun</span></td>
+  <td>There are four bananas.</td>
+  <td class="care">Countable.</td>
+</tr><tr>
+  <td><b>rice</b><br><span class="pos">noun</span></td>
+  <td>There is some rice in the cupboard.</td>
+  <td class="care">Uncountable: never "a rice" or "two rices".</td>
+</tr><tr>
+  <td><b>milk</b><br><span class="pos">noun</span></td>
+  <td>Is there any milk? — Yes, there is some.</td>
+  <td class="care">Uncountable.</td>
+</tr><tr>
+  <td><b>water</b><br><span class="pos">noun</span></td>
+  <td>There isn't any water.</td>
+  <td class="care">Uncountable.</td>
+</tr><tr>
+  <td><b>bread</b><br><span class="pos">noun</span></td>
+  <td>We have some bread.</td>
+  <td class="care">Uncountable in English, even though it is countable in many languages.</td>
+</tr><tr>
+  <td><b>cheese</b><br><span class="pos">noun</span></td>
+  <td>Is there any cheese?</td>
+  <td class="care">Uncountable.</td>
+</tr><tr>
+  <td><b>chicken</b><br><span class="pos">noun</span></td>
+  <td>There is some chicken in the fridge.</td>
+  <td class="care">Uncountable when it is food.</td>
+</tr><tr>
+  <td><b>fridge</b><br><span class="pos">noun</span></td>
+  <td>The eggs are in the fridge.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>some</b><br><span class="pos">determiner</span></td>
+  <td>There is some rice.</td>
+  <td class="care">Positive statements.</td>
+</tr><tr>
+  <td><b>any</b><br><span class="pos">determiner</span></td>
+  <td>Is there any milk? There isn't any bread.</td>
+  <td class="care">Questions and negatives.</td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Sort 16 food-word cards into countable/uncountable columns, then build 4 "there is/are some..." sentences each.</p>
+    <p class="task"><span class="task__k">In class</span>Look at a full fridge/cupboard picture, write 5 "some" sentences, then ask a partner 3 "Is there any...?/Are there any...?" questions about it.</p>
+    <p class="task"><span class="task__k">Write</span>Write a shopping list of 6 items you need this week, using correct countable/uncountable forms.</p>
+    <p class="task"><span class="task__k">At home</span>List everything in your real fridge/cupboard at home (6+ items) in English, for Lesson 4.2's shopping roleplay.</p>
+    
+</div>
+
+  
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>Check yourself</p>
+  
+    <p class="lead">Check that you can tell countable from uncountable, and use some and any.</p>
+    <ol class="qs"><li>Countable or uncountable: rice, apple, water, egg, bread?<span class="rule"></span></li><li>Complete: "I have ______ milk" and "Do you have ______ eggs?"<span class="rule"></span></li><li>How do you count an uncountable noun?<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.4.2</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Take it further</p>
+  
+    <p class="task">Write 2 sentences using "a lot of" and "not much/not many" with food nouns.</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> Lesson 4.2 opens with a rapid countable/uncountable sorting recap using new food words.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 4: Food &amp; Shopping</p>
+    <h1>At the Shop — Prices &amp; Requests</h1>
+    <p class="lesson__ref">I.4.3</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>ask "How much is/are...?" correctly for singular/plural items</li><li>state and understand prices in English</li><li>make a polite purchase request ("Can I have..., please?")</li><li>respond appropriately when paying and receiving change</li></ul>
+    <p class="before"><b>Before this lesson:</b> Lesson 4.1 (food vocabulary, countable/uncountable).</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Shopping, prices and requests. In class: Price-matching game in pairs: item cards to price cards.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>How much is...?</b><br><span class="pos">phrase</span></td>
+  <td>How much is the bread?</td>
+  <td class="care">Singular and uncountable things.</td>
+</tr><tr>
+  <td><b>How much are...?</b><br><span class="pos">phrase</span></td>
+  <td>How much are the apples?</td>
+  <td class="care">Plural things.</td>
+</tr><tr>
+  <td><b>Can I have..., please?</b><br><span class="pos">phrase</span></td>
+  <td>Can I have some apples, please?</td>
+  <td class="care">The polite request. "I want" sounds rude in a shop.</td>
+</tr><tr>
+  <td><b>Can I help you?</b><br><span class="pos">phrase</span></td>
+  <td>Can I help you? — Yes, please.</td>
+  <td class="care">What the shop assistant says first.</td>
+</tr><tr>
+  <td><b>Here you are</b><br><span class="pos">phrase</span></td>
+  <td>That's three pounds. — Here you are.</td>
+  <td class="care">Said when you hand something over.</td>
+</tr><tr>
+  <td><b>price</b><br><span class="pos">noun</span></td>
+  <td>What's the price?</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>money</b><br><span class="pos">noun</span></td>
+  <td>I don't have any money.</td>
+  <td class="care">Uncountable: never "moneys".</td>
+</tr><tr>
+  <td><b>change</b><br><span class="pos">noun</span></td>
+  <td>Here's your change.</td>
+  <td class="care">The money you get back.</td>
+</tr><tr>
+  <td><b>pay</b><br><span class="pos">verb</span></td>
+  <td>I pay the bill.</td>
+  <td class="care">Pay the bill — not "pay the money".</td>
+</tr><tr>
+  <td><b>shop</b><br><span class="pos">noun</span></td>
+  <td>The shop is next to the bank.</td>
+  <td class="care">"Store" in American English.</td>
+</tr><tr>
+  <td><b>do the shopping</b><br><span class="pos">phrase</span></td>
+  <td>I do the shopping on Saturday.</td>
+  <td class="care">Not "make the shopping".</td>
+</tr><tr>
+  <td><b>expensive / cheap</b><br><span class="pos">adjective</span></td>
+  <td>This is expensive. That one is cheap.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Pair work with priced picture cards — ask "How much is/are the...?", answer with the price shown, then swap.</p>
+    <p class="task"><span class="task__k">In class</span>Perform the full shop dialogue in pairs using your Lesson 4.1 shopping list, taking turns as shopkeeper and customer.</p>
+    <p class="task"><span class="task__k">Write</span>Write a short 4-line shop dialogue using at least 2 items and prices from this module.</p>
+    <p class="task"><span class="task__k">At home</span>Practise the shop dialogue once more at home before Module 4's assignment roleplay.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This prepares</b> the class task:
+        <i>Perform the full shop dialogue in pairs, taking turns as shopkeeper and customer.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it.</p>
+      <p class="solo__do">Write out both halves of a shop dialogue for a real shopping list of six things — three countable, three uncountable. Then read it aloud twice, taking one part each time, and record the customer half so you can hear yourself.</p>
+      <p class="solo__chk"><b>Check yourself.</b> Check every price question: "How much IS the bread?" for one thing or an uncountable, "How much ARE the apples?" for more than one. Did you ask with "Can I have..., please?" — not "I want"?</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can ask a price and make a polite request.</p>
+    <ol class="qs"><li>Ask the price of one apple, then of three apples.<span class="rule"></span></li><li>Say £4.50 aloud.<span class="rule"></span></li><li>Ask politely for a coffee.<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.4.3</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Extend the dialogue with a complaint/request for a different item ("Do you have any bigger ones?").</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> This lesson opens with the countable/uncountable recap noted above. Module 4's Quiz and Assignment draw on both lessons.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 5: Around Town</p>
+    <h1>Where Is It? — Prepositions of Place</h1>
+    <p class="lesson__ref">I.5.2</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>use 6+ prepositions of place correctly</li><li>ask "Where is the...?" and answer using a preposition of place</li><li>distinguish "next to"/"opposite"/"between" on a simple map</li></ul>
+    <p class="before"><b>Before this lesson:</b> Module 2 (city-place vocabulary, "this/that").</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Prepositions of place. In class: Preposition mime/action game plus a map-labelling race.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>next to</b><br><span class="pos">preposition</span></td>
+  <td>The bank is next to the supermarket.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>opposite</b><br><span class="pos">preposition</span></td>
+  <td>The park is opposite the school.</td>
+  <td class="care">On the other side of the road, facing it.</td>
+</tr><tr>
+  <td><b>between</b><br><span class="pos">preposition</span></td>
+  <td>The hotel is between the bank and the station.</td>
+  <td class="care">Always with two places, joined by "and".</td>
+</tr><tr>
+  <td><b>in front of</b><br><span class="pos">preposition</span></td>
+  <td>There is a car in front of the hotel.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>behind</b><br><span class="pos">preposition</span></td>
+  <td>The park is behind the school.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>on</b><br><span class="pos">preposition</span></td>
+  <td>The book is on the table.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>in</b><br><span class="pos">preposition</span></td>
+  <td>The pen is in my bag.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>under</b><br><span class="pos">preposition</span></td>
+  <td>The bag is under the chair.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>near</b><br><span class="pos">preposition</span></td>
+  <td>The station is near my house.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>on the corner</b><br><span class="pos">phrase</span></td>
+  <td>The pharmacy is on the corner.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Pair work — name a place on a map, say its location using a preposition, then swap; repeat for 6 places.</p>
+    <p class="task"><span class="task__k">In class</span>Given a map with 3 places missing and prepositional clues, place the missing buildings correctly, then check with a partner. Then describe your real route from home to school/work using at least 3 prepositions.</p>
+    <p class="task"><span class="task__k">Write</span>Write 4 sentences locating real places in your town using prepositions from this lesson.</p>
+    <p class="task"><span class="task__k">At home</span>Draw a simple map of 4 real places near your home with correct prepositional relationships noted.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This prepares</b> the class task:
+        <i>Given a map with three places missing and prepositional clues, place the missing buildings correctly, then compare with a partner.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it.</p>
+      <p class="solo__do">Draw a simple street with six buildings from the Module 2 list. Write six sentences describing where each one is, using a different preposition each time. Then cover the drawing and try to redraw it from your sentences alone.</p>
+      <p class="solo__chk"><b>Check yourself.</b> If your second drawing does not match the first, the sentence was ambiguous, not your memory. "Between" always needs two places joined by "and" — "between the bank AND the station".</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can say where something is.</p>
+    <ol class="qs"><li>The cat is not on the box, not in it, but touching its side. Which preposition?<span class="rule"></span></li><li>What is the difference between 'opposite' and 'next to'?<span class="rule"></span></li><li>Ask where the keys are and answer with a preposition.<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.5.2</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Add "in front of" and "behind" to your homework map description.</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> Lesson 5.2 opens with learners sharing their homework map in pairs.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 5: Around Town</p>
+    <h1>Excuse Me, How Do I Get To...? — Giving Directions</h1>
+    <p class="lesson__ref">I.5.3</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>ask for directions politely ("Excuse me, how do I get to...?")</li><li>give simple directions using imperatives ("Go straight on. Turn left/right. Cross the road.")</li><li>understand and follow a short sequence of spoken directions</li><li>estimate/state simple walking distance</li></ul>
+    <p class="before"><b>Before this lesson:</b> Lesson 5.1 (prepositions of place, town vocabulary).</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Asking for and giving directions. In class: Direction-verb charades in small groups.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>Excuse me</b><br><span class="pos">phrase</span></td>
+  <td>Excuse me, how do I get to the library?</td>
+  <td class="care">How you open the question. Without it, it sounds like an order.</td>
+</tr><tr>
+  <td><b>How do I get to...?</b><br><span class="pos">phrase</span></td>
+  <td>How do I get to the station?</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>go straight on</b><br><span class="pos">verb</span></td>
+  <td>Go straight on for two minutes.</td>
+  <td class="care">No "you": the imperative has no subject.</td>
+</tr><tr>
+  <td><b>turn left</b><br><span class="pos">verb</span></td>
+  <td>Turn left at the bank.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>turn right</b><br><span class="pos">verb</span></td>
+  <td>Then turn right.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>cross the road</b><br><span class="pos">verb</span></td>
+  <td>Cross the road at the lights.</td>
+  <td class="care">Not "pass the road".</td>
+</tr><tr>
+  <td><b>take the first left</b><br><span class="pos">phrase</span></td>
+  <td>Take the first left after the park.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>library</b><br><span class="pos">noun</span></td>
+  <td>The library is on the corner.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>pharmacy</b><br><span class="pos">noun</span></td>
+  <td>It's next to the pharmacy.</td>
+  <td class="care">"Chemist's" is also common in British English.</td>
+</tr><tr>
+  <td><b>minutes' walk</b><br><span class="pos">phrase</span></td>
+  <td>It's about five minutes' walk.</td>
+  <td class="care">How distance is usually given in a town.</td>
+</tr><tr>
+  <td><b>catch a bus</b><br><span class="pos">phrase</span></td>
+  <td>I catch a bus to work.</td>
+  <td class="care">British usage; "take a bus" is more American.</td>
+</tr><tr>
+  <td><b>Thank you very much</b><br><span class="pos">phrase</span></td>
+  <td>Thank you very much! — You're welcome.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Pair work with a street map — ask for directions, give a 2-3 step direction using imperatives; swap after each round, 4 rounds.</p>
+    <p class="task"><span class="task__k">In class</span>Follow a partner's spoken directions by tracing a route with your finger on a blank map, then check if you arrived at the correct destination.</p>
+    <p class="task"><span class="task__k">Write</span>Write directions from the school/class location to one real nearby place, using at least 3 imperatives.</p>
+    <p class="task"><span class="task__k">At home</span>Write directions from your home to one place you visit often, ready to read aloud next lesson.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This prepares</b> the class task:
+        <i>Follow a partner's spoken directions by tracing a route on a blank map, then check together.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it.</p>
+      <p class="solo__do">Choose a real walk you know — from your home to a shop. Write the directions in English as if for a stranger: four to six steps, each an imperative, ending with how many minutes' walk it is. Then say them aloud from memory.</p>
+      <p class="solo__chk"><b>Check yourself.</b> Look at the first word of every step. It should be a verb with no "you" in front of it: "Go straight on", not "You go straight on". Did you open with "Excuse me"?</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can ask for and give directions.</p>
+    <ol class="qs"><li>Stop a stranger and ask for the museum.<span class="rule"></span></li><li>Give three directions using imperatives.<span class="rule"></span></li><li>What do you say if you did not understand?<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.5.3</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Add a second destination to your direction-giving dialogue, requiring a longer, multi-step direction.</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> This lesson opens with the Lesson 5.1 homework-map sharing recap. Module 5's Quiz and Assignment draw on both lessons.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 6: Describing People &amp; Things</p>
+    <h1>What Does She Look Like? — Describing People</h1>
+    <p class="lesson__ref">I.6.2</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>describe a person's appearance using "He/She is.../He/She has..."</li><li>use 8+ appearance adjectives correctly</li><li>ask "What does he/she look like?"</li><li>use "has/have got" (light preview) for physical features</li></ul>
+    <p class="before"><b>Before this lesson:</b> Module 3 (family vocabulary, have/has preview), Module 1 ("to be").</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Describing appearance. In class: Appearance-adjective picture-matching game.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>tall</b><br><span class="pos">adjective</span></td>
+  <td>He's tall.</td>
+  <td class="care">He IS tall — not "he has tall".</td>
+</tr><tr>
+  <td><b>short</b><br><span class="pos">adjective</span></td>
+  <td>She's short.</td>
+  <td class="care">Also used for hair: short black hair.</td>
+</tr><tr>
+  <td><b>young</b><br><span class="pos">adjective</span></td>
+  <td>My cousin is young.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>old</b><br><span class="pos">adjective</span></td>
+  <td>My grandfather is old.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>hair</b><br><span class="pos">noun</span></td>
+  <td>He has short black hair.</td>
+  <td class="care">Uncountable: never "hairs" for the hair on your head.</td>
+</tr><tr>
+  <td><b>eyes</b><br><span class="pos">noun</span></td>
+  <td>She has brown eyes.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>long</b><br><span class="pos">adjective</span></td>
+  <td>She has long hair.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>wear glasses</b><br><span class="pos">phrase</span></td>
+  <td>He wears glasses.</td>
+  <td class="care">Not "use glasses".</td>
+</tr><tr>
+  <td><b>beard</b><br><span class="pos">noun</span></td>
+  <td>My uncle has a beard.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>look like</b><br><span class="pos">phrase</span></td>
+  <td>What does she look like? — She's tall.</td>
+  <td class="care">"Look like" asks about appearance. "Look" alone means seem.</td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Pair work — describe a mystery picture person using 3 sentences, partner guesses which of 4 pictured people is described.</p>
+    <p class="task"><span class="task__k">In class</span>Describe a real classmate (with permission, kept respectful and positive) using at least 3 target sentences, for a partner to guess who it is.</p>
+    <p class="task"><span class="task__k">Write</span>Write 4 sentences describing a real or famous person's appearance.</p>
+    <p class="task"><span class="task__k">At home</span>Write a description of one family member's appearance (3-4 sentences), for Module 6's assignment.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This prepares</b> the class task:
+        <i>Describe a real classmate, respectfully, using at least three target sentence patterns.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it.</p>
+      <p class="solo__do">Choose three people you know well and describe each in four sentences, using "is" for general qualities and "has" for specific features. Then write one sentence for each that a stranger could use to pick that person out of a crowd.</p>
+      <p class="solo__chk"><b>Check yourself.</b> The commonest error: "He has tall". Tall, short, young and old go with IS. Hair, eyes and a beard go with HAS. Check "hair" is never plural.</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can describe how someone looks.</p>
+    <ol class="qs"><li>Complete: "She ______ tall and she ______ short hair."<span class="rule"></span></li><li>Ask what someone looks like.<span class="rule"></span></li><li>Give three appearance adjectives in the right order: hair that is short, dark and curly.<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.6.2</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Add a comparison sentence ("My brother is taller than me") as a light preview of Level II's comparatives.</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> Lesson 6.2 opens with 2-3 learners reading their homework description aloud for the class to guess the relationship.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 6: Describing People &amp; Things</p>
+    <h1>Whose Is It? — Possessives &amp; Describing Things</h1>
+    <p class="lesson__ref">I.6.3</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>use possessive adjectives (my/your/his/her/our/their) correctly</li><li>use possessive pronouns (mine/yours/his/hers/ours/theirs) in short answers</li><li>ask "Whose is this/are these?"</li><li>order two adjectives correctly before a noun (size + colour)</li></ul>
+    <p class="before"><b>Before this lesson:</b> Lesson 6.1 (adjectives), Module 3 (possessive 's).</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Belongings and possessives. In class: "Whose is it?" belongings game in small groups.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>my / mine</b><br><span class="pos">pronoun</span></td>
+  <td>This is my bag. It's mine.</td>
+  <td class="care">"My" goes before a noun; "mine" stands alone.</td>
+</tr><tr>
+  <td><b>your / yours</b><br><span class="pos">pronoun</span></td>
+  <td>Is this your pen? — Yes, it's yours.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>his</b><br><span class="pos">pronoun</span></td>
+  <td>That's his coat. It's his.</td>
+  <td class="care">The same word both times — the only one that does this.</td>
+</tr><tr>
+  <td><b>her / hers</b><br><span class="pos">pronoun</span></td>
+  <td>This is her book. It's hers.</td>
+  <td class="care">No apostrophe: hers, not her's.</td>
+</tr><tr>
+  <td><b>our / ours</b><br><span class="pos">pronoun</span></td>
+  <td>This is our classroom. It's ours.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>their / theirs</b><br><span class="pos">pronoun</span></td>
+  <td>That's their car. It's theirs.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>Whose is this?</b><br><span class="pos">phrase</span></td>
+  <td>Whose is this? — It's mine.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>bag</b><br><span class="pos">noun</span></td>
+  <td>A big red bag.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>coat</b><br><span class="pos">noun</span></td>
+  <td>Is this your coat?</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>phone</b><br><span class="pos">noun</span></td>
+  <td>That's my phone.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>big / small</b><br><span class="pos">adjective</span></td>
+  <td>A big red bag. A small blue car.</td>
+  <td class="care">Size comes before colour: big red, not red big.</td>
+</tr><tr>
+  <td><b>red, blue, black, white, green</b><br><span class="pos">adjective</span></td>
+  <td>A small blue car.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Pair work — mix a small pile of real classroom belongings, take turns asking "Whose is this?" and answering with the correct possessive pronoun.</p>
+    <p class="task"><span class="task__k">In class</span>Describe 4 of your own real belongings using size + colour + noun ("my small black bag"), then swap descriptions with a partner who identifies the item from a set on the table.</p>
+    <p class="task"><span class="task__k">Write</span>Write a short "lost and found" notice describing one of your own real or imagined lost items using 2 adjectives in correct order.</p>
+    <p class="task"><span class="task__k">At home</span>Write 3 sentences describing 3 different belongings using possessives and two-adjective ordering.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This consolidates</b> the class task:
+        <i>Pair work — mix a pile of real classroom belongings and take turns asking "Whose is this?"</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it, or fix it afterwards.</p>
+      <p class="solo__do">Put six of your own things on a table. Write twelve sentences about them: six using a possessive adjective before the noun ("This is my black bag"), six using a possessive pronoun alone ("It's mine"). Include a size and a colour in at least four.</p>
+      <p class="solo__chk"><b>Check yourself.</b> Possessive pronouns never take an apostrophe: hers, ours, theirs, yours. And size comes before colour — "a small blue car", never "a blue small car".</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can say what belongs to whom.</p>
+    <ol class="qs"><li>Complete both: "That is ______ book" and "That book is ______." (I)<span class="rule"></span></li><li>Correct: "This is hers book."<span class="rule"></span></li><li>Ask who owns something.<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.6.3</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Write a short "lost and found" notice combining a person description with an object description.</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> This lesson opens with the Lesson 6.1 family-description sharing recap. Module 6's Quiz and Assignment draw on both lessons.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 7: Past Experiences</p>
+    <h1>Yesterday — Regular Past Verbs</h1>
+    <p class="lesson__ref">I.7.2</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>form the regular simple past correctly (-ed)</li><li>use 8+ regular past verbs to talk about yesterday</li><li>form simple past negative statements (didn't + base verb)</li><li>use "yesterday"/"last night" correctly with the simple past</li></ul>
+    <p class="before"><b>Before this lesson:</b> Module 3 (present simple, as the contrast point for this new tense).</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Regular past verbs. In class: Past-tense verb bingo: the base form is called, learners mark the past form.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>work — worked</b><br><span class="pos">verb</span></td>
+  <td>Yesterday I worked in the morning.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>watch — watched</b><br><span class="pos">verb</span></td>
+  <td>I watched TV in the evening.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>study — studied</b><br><span class="pos">verb</span></td>
+  <td>She studied last night.</td>
+  <td class="care">y becomes -ied after a consonant.</td>
+</tr><tr>
+  <td><b>play — played</b><br><span class="pos">verb</span></td>
+  <td>We played football.</td>
+  <td class="care">y stays after a vowel: played, not "plaied".</td>
+</tr><tr>
+  <td><b>listen — listened</b><br><span class="pos">verb</span></td>
+  <td>I listened to music.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>cook — cooked</b><br><span class="pos">verb</span></td>
+  <td>He cooked dinner.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>visit — visited</b><br><span class="pos">verb</span></td>
+  <td>They visited their grandmother.</td>
+  <td class="care">The -ed is a whole syllable here: vi-si-ted.</td>
+</tr><tr>
+  <td><b>stay — stayed</b><br><span class="pos">verb</span></td>
+  <td>I stayed at home.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>yesterday</b><br><span class="pos">adverb</span></td>
+  <td>Yesterday I worked.</td>
+  <td class="care">Goes with the past, never the present.</td>
+</tr><tr>
+  <td><b>last night</b><br><span class="pos">phrase</span></td>
+  <td>I didn't study last night.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>didn't</b><br><span class="pos">verb</span></td>
+  <td>I didn't study.</td>
+  <td class="care">After didn't, use the BASE verb: didn't study, not "didn't studied".</td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Given a picture sequence of someone's yesterday, build 5 sentences together using regular past verbs.</p>
+    <p class="task"><span class="task__k">In class</span>Write 5 true sentences about your own real yesterday (at least 1 negative using didn't), then share with a partner who asks one follow-up "Did you...?" question.</p>
+    <p class="task"><span class="task__k">Write</span>Write a short diary entry (4-5 sentences) about your real yesterday using regular past verbs.</p>
+    <p class="task"><span class="task__k">At home</span>Write 3 more sentences about last night using regular past verbs, for Lesson 7.2.</p>
+    
+<div class="supplied">
+  <p class="supplied__h">Given a picture sequence of someone's yesterday, build 5 sentences together using regular past verbs.</p>
+  <ol class="supplied__list">
+    <li>Frame 1 — a woman closes her laptop at a desk; a wall clock reads 6 p.m.</li><li>Frame 2 — the same woman walks to a bus stop carrying a bag.</li><li>Frame 3 — she waits at the stop; the timetable shows a ten-minute gap.</li><li>Frame 4 — at home, she cooks at a stove with vegetables on the counter.</li><li>Frame 5 — she sits on a sofa watching television; the clock reads 9 p.m.</li>
+  </ol>
+</div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This prepares</b> the class task:
+        <i>Write five true sentences about your own yesterday, including one negative, then share with a partner.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it.</p>
+      <p class="solo__do">Write ten sentences about your real yesterday using regular past verbs — eight positive, two negative with didn't. Then read them aloud, listening for whether the -ed adds a syllable (visited = vi-si-ted) or does not (worked = one syllable).</p>
+      <p class="solo__chk"><b>Check yourself.</b> After "didn't", every verb must be the BASE form: "I didn't study", never "I didn't studied". Check both negatives. Then check the -ied spellings: studied, but played.</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can talk about yesterday with regular verbs.</p>
+    <ol class="qs"><li>Past of: work, live, study, stop.<span class="rule"></span></li><li>Make negative: "I watched television."<span class="rule"></span></li><li>Say how you pronounce the -ed in 'watched', 'played', 'wanted'.<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.7.2</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Identify and correct 2 deliberately-wrong -ed forms in a short error-correction exercise.</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> Lesson 7.2 opens with a rapid regular-past-verb recap game before introducing irregular verbs.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 7: Past Experiences</p>
+    <h1>Last Weekend — Irregular Past Verbs &amp; Questions</h1>
+    <p class="lesson__ref">I.7.3</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>use 8+ common irregular past verbs correctly</li><li>form simple past yes/no questions ("Did you...?") and short answers</li><li>form simple past wh- questions ("What did you...?/Where did you go?")</li><li>narrate a short weekend event in logical sequence</li></ul>
+    <p class="before"><b>Before this lesson:</b> Lesson 7.1 (regular past, didn't).</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Irregular past verbs. In class: Irregular-verb pairs memory/matching game.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>go — went</b><br><span class="pos">verb</span></td>
+  <td>I went to the beach.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>see — saw</b><br><span class="pos">verb</span></td>
+  <td>I saw my cousins.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>have — had</b><br><span class="pos">verb</span></td>
+  <td>We had a great time!</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>eat — ate</b><br><span class="pos">verb</span></td>
+  <td>We ate at a restaurant.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>do — did</b><br><span class="pos">verb</span></td>
+  <td>What did you do?</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>make — made</b><br><span class="pos">verb</span></td>
+  <td>She made a cake.</td>
+  <td class="care">"Make" for things you create; "do" for activities.</td>
+</tr><tr>
+  <td><b>buy — bought</b><br><span class="pos">verb</span></td>
+  <td>I bought a new phone.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>get — got</b><br><span class="pos">verb</span></td>
+  <td>He got home at nine.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>Did you...?</b><br><span class="pos">phrase</span></td>
+  <td>Did you go out last weekend? — Yes, I did.</td>
+  <td class="care">Did + subject + BASE verb: "Did you go", not "Did you went".</td>
+</tr><tr>
+  <td><b>last weekend</b><br><span class="pos">phrase</span></td>
+  <td>Where did you go last weekend?</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>have a good time</b><br><span class="pos">phrase</span></td>
+  <td>We had a good time.</td>
+  <td class="care">Not "pass a good time".</td>
+</tr><tr>
+  <td><b>take a photo</b><br><span class="pos">phrase</span></td>
+  <td>I took a photo of the beach.</td>
+  <td class="care">Not "make a photo".</td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Pair work — ask 4 "Did you...?" questions using irregular verbs from a prompt list, answer truthfully with short answers, then swap.</p>
+    <p class="task"><span class="task__k">In class</span>Interview a partner about their real last weekend using at least 2 wh- questions and report back one fact about your partner to the class.</p>
+    <p class="task"><span class="task__k">Write</span>Write 5-6 sentences narrating a real or invented last weekend, using at least 3 irregular past verbs in logical order.</p>
+    <p class="task"><span class="task__k">At home</span>Prepare 4-5 sentences about a real past holiday or trip, for Module 7's assignment.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This prepares</b> the class task:
+        <i>Interview a partner about their real last weekend using at least two wh- questions, and report back one thing you learned.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it.</p>
+      <p class="solo__do">Write the eight irregular pairs on cards, base form on one side and past on the other, and test yourself in both directions until you can do all eight without hesitating. Then write six questions you would genuinely want to ask someone about their weekend.</p>
+      <p class="solo__chk"><b>Check yourself.</b> Look at every question you wrote. After "Did you" the verb must be the BASE form: "Did you go?", never "Did you went?" That is the error the interview will expose if you take it into class.</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can use irregular pasts and ask past questions.</p>
+    <ol class="qs"><li>Past of: go, have, see, eat, come.<span class="rule"></span></li><li>Ask: did they arrive? Then answer no.<span class="rule"></span></li><li>Ask where someone went last weekend.<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.7.3</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Add one negative irregular past sentence ("I didn't see...") and one follow-up question to your weekend narration.</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> This lesson opens with the Lesson 7.1 regular-verb recap. Module 7's Quiz and Assignment draw on both lessons.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 8: Plans &amp; Abilities</p>
+    <h1>Can You...? — Talking About Ability</h1>
+    <p class="lesson__ref">I.8.2</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>use can/can't correctly to talk about ability</li><li>ask "Can you...?" and give short answers</li><li>use 8+ ability-related verbs</li><li>form the negative can't correctly</li></ul>
+    <p class="before"><b>Before this lesson:</b> Module 1 ("to be", question formation).</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Talking about ability. In class: Ability-verb charades.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>can / can't</b><br><span class="pos">verb</span></td>
+  <td>I can cook. I can't drive.</td>
+  <td class="care">Same form for every subject: she can, not "she cans".</td>
+</tr><tr>
+  <td><b>cook</b><br><span class="pos">verb</span></td>
+  <td>Can you cook? — Yes, I can.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>drive</b><br><span class="pos">verb</span></td>
+  <td>I can't drive.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>swim</b><br><span class="pos">verb</span></td>
+  <td>Can you swim? — No, I can't.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>ride a bike</b><br><span class="pos">phrase</span></td>
+  <td>She can ride a bike.</td>
+  <td class="care">Ride a bike — not "drive a bike".</td>
+</tr><tr>
+  <td><b>play football</b><br><span class="pos">phrase</span></td>
+  <td>They can play football.</td>
+  <td class="care">"Play" for games and sports.</td>
+</tr><tr>
+  <td><b>sing</b><br><span class="pos">verb</span></td>
+  <td>He can sing very well.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>dance</b><br><span class="pos">verb</span></td>
+  <td>I can't dance.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>speak</b><br><span class="pos">verb</span></td>
+  <td>She can speak three languages.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>learn to</b><br><span class="pos">phrase</span></td>
+  <td>I want to learn to swim.</td>
+  <td class="care">"Learn to" + verb.</td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Pair work — ask "Can you...?" using 5 verbs from a prompt list, answer truthfully with short answers, then swap.</p>
+    <p class="task"><span class="task__k">In class</span>Mingle and ask 4 different classmates "Can you...?" questions, recording who can/can't do each of 4 abilities on a grid.</p>
+    <p class="task"><span class="task__k">Write</span>Write 4 sentences about your own real abilities, at least one negative (can't).</p>
+    <p class="task"><span class="task__k">At home</span>Ask one family member 3 "Can you...?" questions and note the answers.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This prepares</b> the class task:
+        <i>Mingle and ask four classmates "Can you...?" questions, recording who can and cannot do each of four things.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it.</p>
+      <p class="solo__do">Make a list of eight things people can do — cook, drive, swim, ride a bike, and four of your own. Write eight sentences about yourself, some positive and some negative, then eight about someone in your family.</p>
+      <p class="solo__chk"><b>Check yourself.</b> Can and can't never change: "she can swim", not "she cans swim". This is the opposite of the -s rule from Module 3, and holding both at once is the point of the lesson.</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can talk about what you can and cannot do.</p>
+    <ol class="qs"><li>Say you are able to swim but not to drive.<span class="rule"></span></li><li>Ask if someone can cook, and give a short answer.<span class="rule"></span></li><li>What is wrong with "I can to play the piano"?<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.8.2</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Add "well"/"a little" to qualify an ability ("I can cook well" / "I can swim a little").</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> Lesson 8.2 opens with 2-3 learners sharing their homework family-ability findings.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 8: Plans &amp; Abilities</p>
+    <h1>I'm Going To... — Talking About Plans</h1>
+    <p class="lesson__ref">I.8.3</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>use "going to" correctly for near-future plans and intentions</li><li>ask "What are you going to do...?" and answer appropriately</li><li>distinguish "going to" (plan/intention) from "can" (ability)</li><li>talk about weekend/holiday plans using target vocabulary</li></ul>
+    <p class="before"><b>Before this lesson:</b> Lesson 8.1 (can/can't), Module 3 (time expressions).</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Plans and free time. In class: Weekend-plan picture cards matched to "going to" sentence starters.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>going to</b><br><span class="pos">phrase</span></td>
+  <td>I'm going to visit my parents.</td>
+  <td class="care">am/is/are + going to + BASE verb. A plan, not an ability.</td>
+</tr><tr>
+  <td><b>this weekend</b><br><span class="pos">phrase</span></td>
+  <td>What are you going to do this weekend?</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>visit</b><br><span class="pos">verb</span></td>
+  <td>She's going to visit her aunt.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>go shopping</b><br><span class="pos">phrase</span></td>
+  <td>We're going to go shopping.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>meet a friend</b><br><span class="pos">phrase</span></td>
+  <td>I'm going to meet a friend.</td>
+  <td class="care">"Meet" for arranging to see someone — not "know".</td>
+</tr><tr>
+  <td><b>stay at home</b><br><span class="pos">phrase</span></td>
+  <td>They're going to stay at home.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>travel</b><br><span class="pos">verb</span></td>
+  <td>He's going to travel next month.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>holiday</b><br><span class="pos">noun</span></td>
+  <td>I'm going to go on holiday.</td>
+  <td class="care">"Vacation" in American English.</td>
+</tr><tr>
+  <td><b>tomorrow</b><br><span class="pos">adverb</span></td>
+  <td>What are you going to do tomorrow?</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>next week</b><br><span class="pos">phrase</span></td>
+  <td>We're going to start next week.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Pair work — ask "What are you going to do this weekend?", answer using at least 2 plans from the target vocabulary, then swap.</p>
+    <p class="task"><span class="task__k">In class</span>Write your real plans for the coming weekend (4-5 sentences using going to), then interview 2 classmates about their plans.</p>
+    <p class="task"><span class="task__k">Write</span>Write a short message to a friend (4-5 sentences) telling them your weekend plans, using going to.</p>
+    <p class="task"><span class="task__k">At home</span>Finalise and rehearse your weekend-plans description for Module 8's assignment.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This prepares</b> the class task:
+        <i>Write your real plans for the coming weekend, then interview two classmates about theirs.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it.</p>
+      <p class="solo__do">Write five real plans for your coming weekend using "going to", then write the question you would use to ask someone else about each one. Say both aloud.</p>
+      <p class="solo__chk"><b>Check yourself.</b> Check the form: am/is/are + going to + base verb. "I'm going to visit", never "I'm going to visiting". And check you wrote plans, not abilities — "I can swim" is not a plan.</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can talk about plans.</p>
+    <ol class="qs"><li>Say what you intend to do tomorrow.<span class="rule"></span></li><li>Ask what someone is going to do at the weekend.<span class="rule"></span></li><li>What is the difference between "I'm going to the shop" and "I'm going to buy bread"?<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.8.3</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Add one ability-related justification to a plan ("I'm going to go swimming because I can swim well").</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> This lesson opens with the Lesson 8.1 family-ability sharing recap. Module 8's Quiz and Assignment draw on both lessons.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 9: Health &amp; Feelings</p>
+    <h1>How Are You Feeling? — Body &amp; Health</h1>
+    <p class="lesson__ref">I.9.2</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>name 8+ body parts</li><li>describe common health problems using have/has</li><li>describe feelings using "feel + adjective"</li><li>ask "What's the matter?/How are you feeling?" appropriately</li></ul>
+    <p class="before"><b>Before this lesson:</b> Module 3 and Module 6 (have/has previewed for family and appearance — this lesson uses it fully and explicitly for the first time).</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">The body, health and feelings. In class: Body-part labelling diagram race in pairs.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>head</b><br><span class="pos">noun</span></td>
+  <td>My head hurts.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>stomach</b><br><span class="pos">noun</span></td>
+  <td>I have a stomach ache.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>throat</b><br><span class="pos">noun</span></td>
+  <td>I have a sore throat.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>back</b><br><span class="pos">noun</span></td>
+  <td>My back hurts.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>leg</b><br><span class="pos">noun</span></td>
+  <td>She has a bad leg.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>arm</b><br><span class="pos">noun</span></td>
+  <td>My arm hurts.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>headache</b><br><span class="pos">noun</span></td>
+  <td>I have a headache.</td>
+  <td class="care">HAVE a headache. Not "I am headache".</td>
+</tr><tr>
+  <td><b>a cold</b><br><span class="pos">noun</span></td>
+  <td>She has a cold.</td>
+  <td class="care">Catch a cold — not "take a cold".</td>
+</tr><tr>
+  <td><b>a temperature</b><br><span class="pos">noun</span></td>
+  <td>He has a temperature.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>feel</b><br><span class="pos">verb</span></td>
+  <td>I feel terrible. I feel sick.</td>
+  <td class="care">FEEL + adjective. No "have" here: "I feel sick", not "I have sick".</td>
+</tr><tr>
+  <td><b>tired</b><br><span class="pos">adjective</span></td>
+  <td>I feel tired.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>What's the matter?</b><br><span class="pos">phrase</span></td>
+  <td>What's the matter? — I have a headache.</td>
+  <td class="care">Also: How are you feeling?</td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Pair work — mime an ailment, partner guesses and states it using have/has, then swap, 5 rounds.</p>
+    <p class="task"><span class="task__k">In class</span>Given 4 short "sick day" scenario cards, roleplay a short phone call explaining why you can't come to school/work today, using have/has and feel.</p>
+    <p class="task"><span class="task__k">Write</span>Write 3-4 sentences describing how you feel today using have/has and feel.</p>
+    <p class="task"><span class="task__k">At home</span>Write 2 sentences about a time you felt sick (using simple past "had", connecting back to Module 7) and 2 sentences about how you feel today.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This prepares</b> the class task:
+        <i>Given four "sick day" scenario cards, roleplay a short phone call explaining why you cannot come in.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it.</p>
+      <p class="solo__do">Label a drawing of a body with eight parts in English. Then write four short phone messages, each naming a different problem, using "I have" for the illness and "I feel" for how it makes you feel. Read them aloud as if leaving a voicemail.</p>
+      <p class="solo__chk"><b>Check yourself.</b> The two patterns must not mix. "I have a headache" — an illness, with HAVE. "I feel terrible" — a feeling, with FEEL and an adjective. "I have sick" and "I feel a headache" are both wrong.</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can describe a health problem and how you feel.</p>
+    <ol class="qs"><li>Name five parts of the body.<span class="rule"></span></li><li>Complete: "I ______ a headache" and "I ______ tired."<span class="rule"></span></li><li>Ask someone what is wrong.<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.9.2</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Add a cause to your health-problem sentence ("I have a headache because I didn't sleep well" — a light preview of "because", formally taught in Level III).</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> Lesson 9.2 opens with 2-3 learners sharing their homework sentences.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 9: Health &amp; Feelings</p>
+    <h1>You Should... — Giving Simple Advice</h1>
+    <p class="lesson__ref">I.9.3</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>give simple advice using should/shouldn't + base verb</li><li>respond appropriately to advice</li><li>connect a health problem to appropriate advice logically</li><li>use polite well-wishing expressions ("Get well soon!")</li></ul>
+    <p class="before"><b>Before this lesson:</b> Lesson 9.1 (health vocabulary, have/has/feel).</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Words for this lesson</p>
+  
+    <p class="lead">Giving advice and well-wishing. In class: Problem-and-advice matching game, timed, in small groups.</p>
+    
+<table class="words"><thead><tr>
+  <th scope="col">Word</th><th scope="col">Example</th><th scope="col">Careful</th>
+</tr></thead><tbody>
+<tr>
+  <td><b>should / shouldn't</b><br><span class="pos">verb</span></td>
+  <td>You should rest. You shouldn't look at your phone.</td>
+  <td class="care">Same form for every subject, and always + BASE verb.</td>
+</tr><tr>
+  <td><b>rest</b><br><span class="pos">verb</span></td>
+  <td>You should rest today.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>take medicine</b><br><span class="pos">phrase</span></td>
+  <td>You should take some medicine.</td>
+  <td class="care">Take medicine — not "drink medicine".</td>
+</tr><tr>
+  <td><b>see a doctor</b><br><span class="pos">phrase</span></td>
+  <td>You should see a doctor.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>drink water</b><br><span class="pos">phrase</span></td>
+  <td>You should drink some water.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>go to bed early</b><br><span class="pos">phrase</span></td>
+  <td>You should go to bed early.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>stay in bed</b><br><span class="pos">phrase</span></td>
+  <td>You should stay in bed today.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>feel better</b><br><span class="pos">phrase</span></td>
+  <td>I feel better now.</td>
+  <td class="care">Not "feel more good".</td>
+</tr><tr>
+  <td><b>Get well soon!</b><br><span class="pos">phrase</span></td>
+  <td>Get well soon! — Thank you.</td>
+  <td class="care"><span class="none">—</span></td>
+</tr><tr>
+  <td><b>That's a good idea</b><br><span class="pos">phrase</span></td>
+  <td>You should rest. — That's a good idea.</td>
+  <td class="care">How you accept advice.</td>
+</tr>
+</tbody></table>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Pair work — state a health problem from a prompt card, give one piece of matching advice using should, then swap, 5 rounds.</p>
+    <p class="task"><span class="task__k">In class</span>In small groups, match 6 health-problem cards to 6 advice cards (more than one logical match is acceptable), then justify one match aloud to the class.</p>
+    <p class="task"><span class="task__k">Write</span>Write a short advice reply (3-4 sentences) to one "Dear Doctor" letter, using at least 2 should/shouldn't sentences.</p>
+    <p class="task"><span class="task__k">At home</span>Prepare a short "sick day" roleplay script (problem + advice + well-wishing) for Module 9's assignment.</p>
+    
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>On your own</p>
+  
+    <div class="solo">
+      <p class="solo__serves"><b>This consolidates</b> the class task:
+        <i>Pair work — state a health problem from a card and give one piece of matching advice.</i> It does not take its place — that task needs
+        another person, and this is how you arrive ready for it, or fix it afterwards.</p>
+      <p class="solo__do">Write six health problems on the left of a page and six pieces of advice on the right, in a different order. Cover the right side and give your own advice for each problem aloud, using should or shouldn't. Then uncover and compare.</p>
+      <p class="solo__chk"><b>Check yourself.</b> Where your advice differs from what you wrote, ask whether both are sensible — often they are, and more than one answer is right. Then check the form: should + BASE verb, same for every subject. "She should rests" is wrong.</p>
+    </div>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">5</span>Check yourself</p>
+  
+    <p class="lead">Check that you can give and receive simple advice.</p>
+    <ol class="qs"><li>Give advice to someone with a cold.<span class="rule"></span></li><li>What is wrong with "You should to see a doctor"?<span class="rule"></span></li><li>Respond to advice you intend to follow.<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.9.3</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">6</span>Take it further</p>
+  
+    <p class="task">Add a second piece of advice using shouldn't to your roleplay script.</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> This lesson opens with the Lesson 9.1 homework-sentence recap. Module 9's Quiz and Assignment draw on both lessons.</p>
+</section>
+<section class="lesson">
+  <header class="lesson__head">
+    <p class="eyebrow">Module 10: Review &amp; Consolidation</p>
+    <h1>Revision Lesson — Structured Consolidation Activities</h1>
+    <p class="lesson__ref">I.10.2</p>
+  </header>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">1</span>What you will be able to do</p>
+  
+    <ul class="objs"><li>correctly select the right grammar structure from Modules 1-9 given a real-use context</li><li>recall and use at least 60 headwords from across the level's vocabulary sets</li><li>self-identify at least one personal area needing further revision before the mock exam</li></ul>
+    <p class="before"><b>Before this lesson:</b> All of Modules 1-9.</p>
+</div>
+
+  
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">2</span>Practice</p>
+  
+    <p class="task"><span class="task__k">In class</span>Rotate through 4 stations reviewing 2-3 modules' target language each through a quick game: Family/Routines + Food/Shopping; Around Town + Describing People/Things; Past Experiences + Plans/Abilities; Health/Feelings + cumulative review.</p>
+    <p class="task"><span class="task__k">In class</span>The structure-selection drill and station rotation above.</p>
+    <p class="task"><span class="task__k">Write</span>Write one paragraph (5+ sentences) using at least 4 different grammar points from across the level.</p>
+    <p class="task"><span class="task__k">At home</span>Revise your self-identified weak areas using the module you struggled with most.</p>
+    
+</div>
+
+  
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">3</span>Check yourself</p>
+  
+    <p class="lead">Check that you can choose the right structure from the whole level without being told which one.</p>
+    <ol class="qs"><li>You want to describe what is in your bag right now.<span class="rule"></span></li><li>You want to describe what you did yesterday evening.<span class="rule"></span></li><li>You want to say what you intend to do next month.<span class="rule"></span></li><li>You want to give a friend advice about studying.<span class="rule"></span></li></ol>
+    <p class="answers-at">Answers on page — see <b>Answers · I.10.2</b> at the back of
+      this book. Do not look until you have written something.</p>
+</div>
+
+  
+<div class="step">
+  <p class="step__h"><span class="step__n">4</span>Take it further</p>
+  
+    <p class="task">Stronger learners help peers at weaker stations during the rotation activity.</p>
+</div>
+
+  <p class="returns"><b>You will come back to this.</b> This entire lesson is revision by design.</p>
+</section>
+
+
+<section class="answers">
+  <div class="answers__open">
+    <p class="eyebrow">Answers</p>
+    <h1>Check yourself — the answers</h1>
+    <p class="lead">Every prompt from every <b>Check yourself</b> in this book, with its answer,
+      and — where the lesson knows about a common confusion — what it is and why it happens.
+      They are here rather than beside the question because a printed page cannot hide an answer
+      and a learner cannot help reading one that is on the same line.</p>
+  </div>
+  
+    <div class="ans">
+      <h2>I.1.2 · Hello! Introducing Yourself</h2>
+      <ol><li>
+        <p class="ans__q">It is 4 p.m. and you meet your new teacher. What do you say?</p>
+        <p class="ans__a">Good afternoon. — 'Good evening' begins at about 6 p.m.</p>
+        <p class="ans__t">Learners often use 'Good night' as a greeting. It is a farewell.</p>
+      </li><li>
+        <p class="ans__q">Complete: "______ name is Ana."</p>
+        <p class="ans__a">My name is Ana. / I'm Ana.</p>
+        <p class="ans__t">'I'm name is Ana' is the commonest first-week error: choose one form, not both.</p>
+      </li><li>
+        <p class="ans__q">Ask a stranger their name politely.</p>
+        <p class="ans__a">What's your name? / May I ask your name?</p>
+        
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.1.3 · Where Are You From?</h2>
+      <ol><li>
+        <p class="ans__q">Answer: "Where are you from?"</p>
+        <p class="ans__a">I'm from + country. E.g. I'm from Brazil.</p>
+        <p class="ans__t">'I come from Brazil' is correct but less common in speech; 'I'm from' is the default.</p>
+      </li><li>
+        <p class="ans__q">What is wrong with: "I'm from the Japan"?</p>
+        <p class="ans__a">No article: I'm from Japan. But: the United Kingdom, the Netherlands, the USA.</p>
+        <p class="ans__t">Article use with country names is arbitrary and must be learned, not reasoned.</p>
+      </li><li>
+        <p class="ans__q">Ask the question in a way that works for a city, not a country.</p>
+        <p class="ans__a">Where in Italy are you from? / Which city are you from?</p>
+        
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.2.2 · There Is / There Are — My Classroom and Home</h2>
+      <ol><li>
+        <p class="ans__q">Two chairs and one table. Write both sentences.</p>
+        <p class="ans__a">There are two chairs. There is one table.</p>
+        
+      </li><li>
+        <p class="ans__q">Make a question: (a book / on the desk)</p>
+        <p class="ans__a">Is there a book on the desk?</p>
+        <p class="ans__t">Word order: Is there, not There is?</p>
+      </li><li>
+        <p class="ans__q">Correct: "There is three windows."</p>
+        <p class="ans__a">There are three windows.</p>
+        <p class="ans__t">The verb agrees with what follows, not with 'there'.</p>
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.2.3 · This, That, These, Those — Around the City</h2>
+      <ol><li>
+        <p class="ans__q">A cup in your hand, and a building across the street. Which word for each?</p>
+        <p class="ans__a">this cup (near) / that building (far)</p>
+        <p class="ans__t">Many learners have one word for both distances in their first language and reach for 'this' by default.</p>
+      </li><li>
+        <p class="ans__q">Make the plural of both.</p>
+        <p class="ans__a">these cups / those buildings</p>
+        
+      </li><li>
+        <p class="ans__q">Ask where the station is.</p>
+        <p class="ans__a">Where is the station?</p>
+        
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.3.2 · My Family</h2>
+      <ol><li>
+        <p class="ans__q">Introduce your mother's sister.</p>
+        <p class="ans__a">This is my aunt.</p>
+        
+      </li><li>
+        <p class="ans__q">Ask whether someone has brothers or sisters, and give a short answer.</p>
+        <p class="ans__a">Do you have any brothers or sisters? — Yes, I do. / No, I don't.</p>
+        <p class="ans__t">'Yes, I have' is incomplete in English: the short answer repeats the auxiliary.</p>
+      </li><li>
+        <p class="ans__q">Say you have two children using 'have'.</p>
+        <p class="ans__a">I have two children.</p>
+        
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.3.3 · My Day — Present Simple &amp; Time</h2>
+      <ol><li>
+        <p class="ans__q">Say 7:30 and 8:45 in English.</p>
+        <p class="ans__a">half past seven / quarter to nine</p>
+        <p class="ans__t">Quarter to NINE, not quarter to eight: 'to' looks forward.</p>
+      </li><li>
+        <p class="ans__q">Complete: "She ______ (start) work at nine."</p>
+        <p class="ans__a">starts — third person singular takes -s.</p>
+        <p class="ans__t">The missing -s is the most common Level I grammar error and it persists for months.</p>
+      </li><li>
+        <p class="ans__q">Ask what time someone gets up.</p>
+        <p class="ans__a">What time do you get up?</p>
+        
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.4.2 · Countable &amp; Uncountable — What's in the Kitchen?</h2>
+      <ol><li>
+        <p class="ans__q">Countable or uncountable: rice, apple, water, egg, bread?</p>
+        <p class="ans__a">Uncountable: rice, water, bread. Countable: apple, egg.</p>
+        
+      </li><li>
+        <p class="ans__q">Complete: "I have ______ milk" and "Do you have ______ eggs?"</p>
+        <p class="ans__a">some milk / any eggs</p>
+        <p class="ans__t">'some' in positives, 'any' in questions and negatives — with the polite-offer exception ('Would you like some tea?').</p>
+      </li><li>
+        <p class="ans__q">How do you count an uncountable noun?</p>
+        <p class="ans__a">With a container or measure: a bottle of water, two slices of bread.</p>
+        
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.4.3 · At the Shop — Prices &amp; Requests</h2>
+      <ol><li>
+        <p class="ans__q">Ask the price of one apple, then of three apples.</p>
+        <p class="ans__a">How much is this apple? / How much are these apples?</p>
+        <p class="ans__t">'How much are' with plurals: the verb changes, 'how much' does not become 'how many' for price.</p>
+      </li><li>
+        <p class="ans__q">Say £4.50 aloud.</p>
+        <p class="ans__a">four pounds fifty</p>
+        
+      </li><li>
+        <p class="ans__q">Ask politely for a coffee.</p>
+        <p class="ans__a">Can I have a coffee, please? / Could I have a coffee, please?</p>
+        
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.5.2 · Where Is It? — Prepositions of Place</h2>
+      <ol><li>
+        <p class="ans__q">The cat is not on the box, not in it, but touching its side. Which preposition?</p>
+        <p class="ans__a">next to (or beside).</p>
+        
+      </li><li>
+        <p class="ans__q">What is the difference between 'opposite' and 'next to'?</p>
+        <p class="ans__a">Opposite = facing, across from. Next to = at the side of.</p>
+        <p class="ans__t">These two are confused more than any other pair at this level.</p>
+      </li><li>
+        <p class="ans__q">Ask where the keys are and answer with a preposition.</p>
+        <p class="ans__a">Where are the keys? — They're under the newspaper.</p>
+        
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.5.3 · Excuse Me, How Do I Get To...? — Giving Directions</h2>
+      <ol><li>
+        <p class="ans__q">Stop a stranger and ask for the museum.</p>
+        <p class="ans__a">Excuse me, how do I get to the museum?</p>
+        <p class="ans__t">Start with 'Excuse me' — the request without it sounds abrupt in English.</p>
+      </li><li>
+        <p class="ans__q">Give three directions using imperatives.</p>
+        <p class="ans__a">Go straight on. Turn left at the lights. Cross the bridge.</p>
+        
+      </li><li>
+        <p class="ans__q">What do you say if you did not understand?</p>
+        <p class="ans__a">Sorry, could you say that again, please?</p>
+        
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.6.2 · What Does She Look Like? — Describing People</h2>
+      <ol><li>
+        <p class="ans__q">Complete: "She ______ tall and she ______ short hair."</p>
+        <p class="ans__a">She IS tall and she HAS short hair.</p>
+        <p class="ans__t">'She has tall' is the classic error: appearance uses both verbs, and which one depends on the word.</p>
+      </li><li>
+        <p class="ans__q">Ask what someone looks like.</p>
+        <p class="ans__a">What does he/she look like?</p>
+        <p class="ans__t">Not 'How does she look like?' — the two questions differ.</p>
+      </li><li>
+        <p class="ans__q">Give three appearance adjectives in the right order: hair that is short, dark and curly.</p>
+        <p class="ans__a">short dark curly hair — size, then colour, then shape is not the only order, but 'curly short' is wrong.</p>
+        
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.6.3 · Whose Is It? — Possessives &amp; Describing Things</h2>
+      <ol><li>
+        <p class="ans__q">Complete both: "That is ______ book" and "That book is ______." (I)</p>
+        <p class="ans__a">my book / mine</p>
+        
+      </li><li>
+        <p class="ans__q">Correct: "This is hers book."</p>
+        <p class="ans__a">This is her book. / This book is hers.</p>
+        <p class="ans__t">Possessive adjective before a noun, possessive pronoun alone.</p>
+      </li><li>
+        <p class="ans__q">Ask who owns something.</p>
+        <p class="ans__a">Whose is this? / Whose book is this?</p>
+        
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.7.2 · Yesterday — Regular Past Verbs</h2>
+      <ol><li>
+        <p class="ans__q">Past of: work, live, study, stop.</p>
+        <p class="ans__a">worked, lived, studied, stopped</p>
+        <p class="ans__t">Spelling changes: -y to -ied, and the doubled consonant in stopped.</p>
+      </li><li>
+        <p class="ans__q">Make negative: "I watched television."</p>
+        <p class="ans__a">I didn't watch television.</p>
+        <p class="ans__t">The -ed disappears after 'didn't'. Learners keep it for weeks.</p>
+      </li><li>
+        <p class="ans__q">Say how you pronounce the -ed in 'watched', 'played', 'wanted'.</p>
+        <p class="ans__a">/t/, /d/, /ɪd/ — three sounds, one spelling.</p>
+        
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.7.3 · Last Weekend — Irregular Past Verbs &amp; Questions</h2>
+      <ol><li>
+        <p class="ans__q">Past of: go, have, see, eat, come.</p>
+        <p class="ans__a">went, had, saw, ate, came</p>
+        
+      </li><li>
+        <p class="ans__q">Ask: did they arrive? Then answer no.</p>
+        <p class="ans__a">Did they arrive? — No, they didn't.</p>
+        
+      </li><li>
+        <p class="ans__q">Ask where someone went last weekend.</p>
+        <p class="ans__a">Where did you go last weekend?</p>
+        <p class="ans__t">Not 'Where did you went' — the auxiliary carries the past.</p>
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.8.2 · Can You...? — Talking About Ability</h2>
+      <ol><li>
+        <p class="ans__q">Say you are able to swim but not to drive.</p>
+        <p class="ans__a">I can swim but I can't drive.</p>
+        
+      </li><li>
+        <p class="ans__q">Ask if someone can cook, and give a short answer.</p>
+        <p class="ans__a">Can you cook? — Yes, I can. / No, I can't.</p>
+        
+      </li><li>
+        <p class="ans__q">What is wrong with "I can to play the piano"?</p>
+        <p class="ans__a">No 'to' after can: I can play the piano.</p>
+        <p class="ans__t">The infinitive marker after modals is a persistent error.</p>
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.8.3 · I'm Going To... — Talking About Plans</h2>
+      <ol><li>
+        <p class="ans__q">Say what you intend to do tomorrow.</p>
+        <p class="ans__a">I'm going to + base verb. E.g. I'm going to visit my sister.</p>
+        
+      </li><li>
+        <p class="ans__q">Ask what someone is going to do at the weekend.</p>
+        <p class="ans__a">What are you going to do at the weekend?</p>
+        
+      </li><li>
+        <p class="ans__q">What is the difference between "I'm going to the shop" and "I'm going to buy bread"?</p>
+        <p class="ans__a">The first is movement; the second is intention. 'Going to' plus a verb is a plan.</p>
+        <p class="ans__t">The overlap between the two 'going to' uses causes real confusion here.</p>
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.9.2 · How Are You Feeling? — Body &amp; Health</h2>
+      <ol><li>
+        <p class="ans__q">Name five parts of the body.</p>
+        <p class="ans__a">e.g. head, arm, leg, stomach, back</p>
+        
+      </li><li>
+        <p class="ans__q">Complete: "I ______ a headache" and "I ______ tired."</p>
+        <p class="ans__a">I HAVE a headache / I FEEL tired.</p>
+        <p class="ans__t">Have for the problem, feel for the state — mixing them is very common.</p>
+      </li><li>
+        <p class="ans__q">Ask someone what is wrong.</p>
+        <p class="ans__a">What's the matter? / How are you feeling?</p>
+        
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.9.3 · You Should... — Giving Simple Advice</h2>
+      <ol><li>
+        <p class="ans__q">Give advice to someone with a cold.</p>
+        <p class="ans__a">You should drink water and rest. / You shouldn't go to work.</p>
+        
+      </li><li>
+        <p class="ans__q">What is wrong with "You should to see a doctor"?</p>
+        <p class="ans__a">No 'to': You should see a doctor.</p>
+        
+      </li><li>
+        <p class="ans__q">Respond to advice you intend to follow.</p>
+        <p class="ans__a">That's a good idea, thank you. / You're right, I will.</p>
+        <p class="ans__t">Silence or a bare 'OK' reads as dismissal in English; the response has to acknowledge the advice.</p>
+      </li></ol>
+    </div>
+    <div class="ans">
+      <h2>I.10.2 · Revision Lesson — Structured Consolidation Activities</h2>
+      <ol><li>
+        <p class="ans__q">You want to describe what is in your bag right now.</p>
+        <p class="ans__a">There is / There are + objects.</p>
+        
+      </li><li>
+        <p class="ans__q">You want to describe what you did yesterday evening.</p>
+        <p class="ans__a">Simple past — regular and irregular verbs.</p>
+        
+      </li><li>
+        <p class="ans__q">You want to say what you intend to do next month.</p>
+        <p class="ans__a">Going to + base verb.</p>
+        
+      </li><li>
+        <p class="ans__q">You want to give a friend advice about studying.</p>
+        <p class="ans__a">should / shouldn't + base verb.</p>
+        <p class="ans__t">Selecting the structure without a prompt is the skill this level ends on; recognising each in isolation is easier than choosing between them.</p>
+      </li></ol>
+    </div>
+</section>
+
+<div class="band"><svg viewBox="0 0 150 9" width="100%" height="9"
+    preserveAspectRatio="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+    ><path d="M0 4.5L0.375 5.064L0.75 5.592L1.125 6.05L1.5 6.412L1.875 6.656L2.25 6.772L2.625 6.757L3 6.621L3.375 6.38L3.75 6.058L4.125 5.686L4.5 5.296L4.875 4.919L5.25 4.584L5.625 4.316L6 4.13L6.375 4.035L6.75 4.03L7.125 4.105L7.5 4.242L7.875 4.419L8.25 4.608L8.625 4.78L9 4.91L9.375 4.974L9.75 4.957L10.125 4.849L10.5 4.651L10.875 4.371L11.25 4.029L11.625 3.648L12 3.259L12.375 2.892L12.75 2.58L13.125 2.353L13.5 2.233L13.875 2.237L14.25 2.371L14.625 2.633L15 3.01L15.375 3.48L15.75 4.015L16.125 4.581L16.5 5.142L16.875 5.662L17.25 6.109L17.625 6.454L18 6.681L18.375 6.777L18.75 6.745L19.125 6.592L19.5 6.338L19.875 6.008L20.25 5.631L20.625 5.241L21 4.868L21.375 4.541L21.75 4.284L22.125 4.111L22.5 4.029L22.875 4.036L23.25 4.121L23.625 4.266L24 4.446L24.375 4.634L24.75 4.802L25.125 4.924L25.5 4.977L25.875 4.947L26.25 4.826L26.625 4.615L27 4.326L27.375 3.977L27.75 3.592L28.125 3.204L28.5 2.843L28.875 2.542L29.25 2.329L29.625 2.226L30 2.248L30.375 2.401L30.75 2.68L31.125 3.072L31.5 3.553L31.875 4.095L32.25 4.663L32.625 5.22L33 5.731L33.375 6.165L33.75 6.494L34.125 6.702L34.5 6.781L34.875 6.73L35.25 6.562L35.625 6.295L36 5.956L36.375 5.575L36.75 5.186L37.125 4.818L37.5 4.5L37.875 4.254L38.25 4.094L38.625 4.025L39 4.044L39.375 4.139L39.75 4.29L40.125 4.473L40.5 4.66L40.875 4.823L41.25 4.936L41.625 4.978L42 4.935L42.375 4.801L42.75 4.578L43.125 4.279L43.5 3.923L43.875 3.537L44.25 3.15L44.625 2.796L45 2.506L45.375 2.307L45.75 2.221L46.125 2.262L46.5 2.433L46.875 2.73L47.25 3.136L47.625 3.628L48 4.175L48.375 4.744L48.75 5.297L49.125 5.799L49.5 6.219L49.875 6.532L50.25 6.722L50.625 6.781L51 6.713L51.375 6.529L51.75 6.25L52.125 5.903L52.5 5.519L52.875 5.131L53.25 4.769L53.625 4.46L54 4.226L54.375 4.078L54.75 4.022L55.125 4.053L55.5 4.157L55.875 4.315L56.25 4.5L56.625 4.685L57 4.843L57.375 4.947L57.75 4.978L58.125 4.922L58.5 4.774L58.875 4.54L59.25 4.231L59.625 3.869L60 3.481L60.375 3.097L60.75 2.75L61.125 2.471L61.5 2.287L61.875 2.219L62.25 2.278L62.625 2.468L63 2.781L63.375 3.201L63.75 3.703L64.125 4.256L64.5 4.825L64.875 5.372L65.25 5.864L65.625 6.27L66 6.567L66.375 6.738L66.75 6.779L67.125 6.693L67.5 6.494L67.875 6.204L68.25 5.85L68.625 5.463L69 5.077L69.375 4.721L69.75 4.422L70.125 4.199L70.5 4.065L70.875 4.022L71.25 4.064L71.625 4.177L72 4.34L72.375 4.527L72.75 4.71L73.125 4.861L73.5 4.956L73.875 4.975L74.25 4.906L74.625 4.746L75 4.5L75.375 4.182L75.75 3.814L76.125 3.425L76.5 3.044L76.875 2.705L77.25 2.438L77.625 2.27L78 2.219L78.375 2.298L78.75 2.506L79.125 2.835L79.5 3.269L79.875 3.78L80.25 4.337L80.625 4.905L81 5.447L81.375 5.928L81.75 6.32L82.125 6.599L82.5 6.752L82.875 6.774L83.25 6.671L83.625 6.458L84 6.157L84.375 5.796L84.75 5.408L85.125 5.023L85.5 4.674L85.875 4.385L86.25 4.174L86.625 4.053L87 4.023L87.375 4.076L87.75 4.198L88.125 4.366L88.5 4.554L88.875 4.734L89.25 4.879L89.625 4.964L90 4.971L90.375 4.889L90.75 4.716L91.125 4.459L91.5 4.132L91.875 3.759L92.25 3.369L92.625 2.992L93 2.662L93.375 2.408L93.75 2.255L94.125 2.223L94.5 2.319L94.875 2.546L95.25 2.891L95.625 3.338L96 3.858L96.375 4.419L96.75 4.985L97.125 5.52L97.5 5.99L97.875 6.367L98.25 6.629L98.625 6.763L99 6.767L99.375 6.647L99.75 6.42L100.125 6.108L100.5 5.741L100.875 5.352L101.25 4.971L101.625 4.629L102 4.349L102.375 4.151L102.75 4.043L103.125 4.026L103.5 4.09L103.875 4.22L104.25 4.392L104.625 4.581L105 4.758L105.375 4.895L105.75 4.97L106.125 4.965L106.5 4.87L106.875 4.684L107.25 4.416L107.625 4.081L108 3.704L108.375 3.314L108.75 2.942L109.125 2.62L109.5 2.379L109.875 2.243L110.25 2.228L110.625 2.344L111 2.588L111.375 2.95L111.75 3.408L112.125 3.936L112.5 4.5L112.875 5.064L113.25 5.592L113.625 6.05L114 6.412L114.375 6.656L114.75 6.772L115.125 6.757L115.5 6.621L115.875 6.38L116.25 6.058L116.625 5.686L117 5.296L117.375 4.919L117.75 4.584L118.125 4.316L118.5 4.13L118.875 4.035L119.25 4.03L119.625 4.105L120 4.242L120.375 4.419L120.75 4.608L121.125 4.78L121.5 4.91L121.875 4.974L122.25 4.957L122.625 4.849L123 4.651L123.375 4.371L123.75 4.029L124.125 3.648L124.5 3.259L124.875 2.892L125.25 2.58L125.625 2.353L126 2.233L126.375 2.237L126.75 2.371L127.125 2.633L127.5 3.01L127.875 3.48L128.25 4.015L128.625 4.581L129 5.142L129.375 5.662L129.75 6.109L130.125 6.454L130.5 6.681L130.875 6.777L131.25 6.745L131.625 6.592L132 6.338L132.375 6.008L132.75 5.631L133.125 5.241L133.5 4.868L133.875 4.541L134.25 4.284L134.625 4.111L135 4.029L135.375 4.036L135.75 4.121L136.125 4.266L136.5 4.446L136.875 4.634L137.25 4.802L137.625 4.924L138 4.977L138.375 4.947L138.75 4.826L139.125 4.615L139.5 4.326L139.875 3.977L140.25 3.592L140.625 3.204L141 2.843L141.375 2.542L141.75 2.329L142.125 2.226L142.5 2.248L142.875 2.401L143.25 2.68L143.625 3.072L144 3.553L144.375 4.095L144.75 4.663L145.125 5.22L145.5 5.731L145.875 6.165L146.25 6.494L146.625 6.702L147 6.781L147.375 6.73L147.75 6.562L148.125 6.295L148.5 5.956L148.875 5.575L149.25 5.186L149.625 4.818L150 4.5" fill="none" stroke="#16306B" stroke-width="0.3"
+        opacity="0.5"/><path d="M0 4.5L0.375 3.936L0.75 3.408L1.125 2.95L1.5 2.588L1.875 2.344L2.25 2.228L2.625 2.243L3 2.379L3.375 2.62L3.75 2.942L4.125 3.314L4.5 3.704L4.875 4.081L5.25 4.416L5.625 4.684L6 4.87L6.375 4.965L6.75 4.97L7.125 4.895L7.5 4.758L7.875 4.581L8.25 4.392L8.625 4.22L9 4.09L9.375 4.026L9.75 4.043L10.125 4.151L10.5 4.349L10.875 4.629L11.25 4.971L11.625 5.352L12 5.741L12.375 6.108L12.75 6.42L13.125 6.647L13.5 6.767L13.875 6.763L14.25 6.629L14.625 6.367L15 5.99L15.375 5.52L15.75 4.985L16.125 4.419L16.5 3.858L16.875 3.338L17.25 2.891L17.625 2.546L18 2.319L18.375 2.223L18.75 2.255L19.125 2.408L19.5 2.662L19.875 2.992L20.25 3.369L20.625 3.759L21 4.132L21.375 4.459L21.75 4.716L22.125 4.889L22.5 4.971L22.875 4.964L23.25 4.879L23.625 4.734L24 4.554L24.375 4.366L24.75 4.198L25.125 4.076L25.5 4.023L25.875 4.053L26.25 4.174L26.625 4.385L27 4.674L27.375 5.023L27.75 5.408L28.125 5.796L28.5 6.157L28.875 6.458L29.25 6.671L29.625 6.774L30 6.752L30.375 6.599L30.75 6.32L31.125 5.928L31.5 5.447L31.875 4.905L32.25 4.337L32.625 3.78L33 3.269L33.375 2.835L33.75 2.506L34.125 2.298L34.5 2.219L34.875 2.27L35.25 2.438L35.625 2.705L36 3.044L36.375 3.425L36.75 3.814L37.125 4.182L37.5 4.5L37.875 4.746L38.25 4.906L38.625 4.975L39 4.956L39.375 4.861L39.75 4.71L40.125 4.527L40.5 4.34L40.875 4.177L41.25 4.064L41.625 4.022L42 4.065L42.375 4.199L42.75 4.422L43.125 4.721L43.5 5.077L43.875 5.463L44.25 5.85L44.625 6.204L45 6.494L45.375 6.693L45.75 6.779L46.125 6.738L46.5 6.567L46.875 6.27L47.25 5.864L47.625 5.372L48 4.825L48.375 4.256L48.75 3.703L49.125 3.201L49.5 2.781L49.875 2.468L50.25 2.278L50.625 2.219L51 2.287L51.375 2.471L51.75 2.75L52.125 3.097L52.5 3.481L52.875 3.869L53.25 4.231L53.625 4.54L54 4.774L54.375 4.922L54.75 4.978L55.125 4.947L55.5 4.843L55.875 4.685L56.25 4.5L56.625 4.315L57 4.157L57.375 4.053L57.75 4.022L58.125 4.078L58.5 4.226L58.875 4.46L59.25 4.769L59.625 5.131L60 5.519L60.375 5.903L60.75 6.25L61.125 6.529L61.5 6.713L61.875 6.781L62.25 6.722L62.625 6.532L63 6.219L63.375 5.799L63.75 5.297L64.125 4.744L64.5 4.175L64.875 3.628L65.25 3.136L65.625 2.73L66 2.433L66.375 2.262L66.75 2.221L67.125 2.307L67.5 2.506L67.875 2.796L68.25 3.15L68.625 3.537L69 3.923L69.375 4.279L69.75 4.578L70.125 4.801L70.5 4.935L70.875 4.978L71.25 4.936L71.625 4.823L72 4.66L72.375 4.473L72.75 4.29L73.125 4.139L73.5 4.044L73.875 4.025L74.25 4.094L74.625 4.254L75 4.5L75.375 4.818L75.75 5.186L76.125 5.575L76.5 5.956L76.875 6.295L77.25 6.562L77.625 6.73L78 6.781L78.375 6.702L78.75 6.494L79.125 6.165L79.5 5.731L79.875 5.22L80.25 4.663L80.625 4.095L81 3.553L81.375 3.072L81.75 2.68L82.125 2.401L82.5 2.248L82.875 2.226L83.25 2.329L83.625 2.542L84 2.843L84.375 3.204L84.75 3.592L85.125 3.977L85.5 4.326L85.875 4.615L86.25 4.826L86.625 4.947L87 4.977L87.375 4.924L87.75 4.802L88.125 4.634L88.5 4.446L88.875 4.266L89.25 4.121L89.625 4.036L90 4.029L90.375 4.111L90.75 4.284L91.125 4.541L91.5 4.868L91.875 5.241L92.25 5.631L92.625 6.008L93 6.338L93.375 6.592L93.75 6.745L94.125 6.777L94.5 6.681L94.875 6.454L95.25 6.109L95.625 5.662L96 5.142L96.375 4.581L96.75 4.015L97.125 3.48L97.5 3.01L97.875 2.633L98.25 2.371L98.625 2.237L99 2.233L99.375 2.353L99.75 2.58L100.125 2.892L100.5 3.259L100.875 3.648L101.25 4.029L101.625 4.371L102 4.651L102.375 4.849L102.75 4.957L103.125 4.974L103.5 4.91L103.875 4.78L104.25 4.608L104.625 4.419L105 4.242L105.375 4.105L105.75 4.03L106.125 4.035L106.5 4.13L106.875 4.316L107.25 4.584L107.625 4.919L108 5.296L108.375 5.686L108.75 6.058L109.125 6.38L109.5 6.621L109.875 6.757L110.25 6.772L110.625 6.656L111 6.412L111.375 6.05L111.75 5.592L112.125 5.064L112.5 4.5L112.875 3.936L113.25 3.408L113.625 2.95L114 2.588L114.375 2.344L114.75 2.228L115.125 2.243L115.5 2.379L115.875 2.62L116.25 2.942L116.625 3.314L117 3.704L117.375 4.081L117.75 4.416L118.125 4.684L118.5 4.87L118.875 4.965L119.25 4.97L119.625 4.895L120 4.758L120.375 4.581L120.75 4.392L121.125 4.22L121.5 4.09L121.875 4.026L122.25 4.043L122.625 4.151L123 4.349L123.375 4.629L123.75 4.971L124.125 5.352L124.5 5.741L124.875 6.108L125.25 6.42L125.625 6.647L126 6.767L126.375 6.763L126.75 6.629L127.125 6.367L127.5 5.99L127.875 5.52L128.25 4.985L128.625 4.419L129 3.858L129.375 3.338L129.75 2.891L130.125 2.546L130.5 2.319L130.875 2.223L131.25 2.255L131.625 2.408L132 2.662L132.375 2.992L132.75 3.369L133.125 3.759L133.5 4.132L133.875 4.459L134.25 4.716L134.625 4.889L135 4.971L135.375 4.964L135.75 4.879L136.125 4.734L136.5 4.554L136.875 4.366L137.25 4.198L137.625 4.076L138 4.023L138.375 4.053L138.75 4.174L139.125 4.385L139.5 4.674L139.875 5.023L140.25 5.408L140.625 5.796L141 6.157L141.375 6.458L141.75 6.671L142.125 6.774L142.5 6.752L142.875 6.599L143.25 6.32L143.625 5.928L144 5.447L144.375 4.905L144.75 4.337L145.125 3.78L145.5 3.269L145.875 2.835L146.25 2.506L146.625 2.298L147 2.219L147.375 2.27L147.75 2.438L148.125 2.705L148.5 3.044L148.875 3.425L149.25 3.814L149.625 4.182L150 4.5" fill="none" stroke="#16306B" stroke-width="0.3"
+        opacity="0.5"/><path d="M0 6.744L0.375 6.717L0.75 6.567L1.125 6.314L1.5 5.989L1.875 5.623L2.25 5.253L2.625 4.911L3 4.627L3.375 4.423L3.75 4.313L4.125 4.299L4.5 4.375L4.875 4.525L5.25 4.727L5.625 4.951L6 5.165L6.375 5.337L6.75 5.441L7.125 5.452L7.5 5.357L7.875 5.151L8.25 4.839L8.625 4.438L9 3.971L9.375 3.471L9.75 2.974L10.125 2.517L10.5 2.137L10.875 1.865L11.25 1.727L11.625 1.736L12 1.898L12.375 2.206L12.75 2.642L13.125 3.178L13.5 3.781L13.875 4.41L14.25 5.026L14.625 5.59L15 6.066L15.375 6.428L15.75 6.658L16.125 6.748L16.5 6.703L16.875 6.537L17.25 6.272L17.625 5.938L18 5.57L18.375 5.201L18.75 4.867L19.125 4.593L19.5 4.402L19.875 4.305L20.25 4.304L20.625 4.392L21 4.552L21.375 4.758L21.75 4.982L22.125 5.192L22.5 5.357L22.875 5.448L23.25 5.445L23.625 5.334L24 5.113L24.375 4.787L24.75 4.375L25.125 3.901L25.5 3.399L25.875 2.905L26.25 2.457L26.625 2.091L27 1.837L27.375 1.719L27.75 1.75L28.125 1.934L28.5 2.261L28.875 2.713L29.25 3.261L29.625 3.87L30 4.5L30.375 5.111L30.75 5.664L31.125 6.125L31.5 6.469L31.875 6.679L32.25 6.75L32.625 6.686L33 6.504L33.375 6.227L33.75 5.887L34.125 5.516L34.5 5.151L34.875 4.823L35.25 4.56L35.625 4.382L36 4.299L36.375 4.312L36.75 4.411L37.125 4.579L37.5 4.79L37.875 5.014L38.25 5.219L38.625 5.375L39 5.454L39.375 5.436L39.75 5.309L40.125 5.072L40.5 4.733L40.875 4.31L41.25 3.83L41.625 3.327L42 2.837L42.375 2.399L42.75 2.047L43.125 1.811L43.5 1.714L43.875 1.767L44.25 1.972L44.625 2.319L45 2.786L45.375 3.345L45.75 3.959L46.125 4.589L46.5 5.194L46.875 5.736L47.25 6.182L47.625 6.507L48 6.698L48.375 6.749L48.75 6.667L49.125 6.47L49.5 6.182L49.875 5.835L50.25 5.463L50.625 5.101L51 4.781L51.375 4.529L51.75 4.364L52.125 4.295L52.5 4.321L52.875 4.431L53.25 4.607L53.625 4.822L54 5.045L54.375 5.245L54.75 5.392L55.125 5.458L55.5 5.425L55.875 5.282L56.25 5.03L56.625 4.677L57 4.244L57.375 3.759L57.75 3.255L58.125 2.771L58.5 2.342L58.875 2.005L59.25 1.788L59.625 1.712L60 1.787L60.375 2.013L60.75 2.379L61.125 2.861L61.5 3.43L61.875 4.049L62.25 4.678L62.625 5.276L63 5.806L63.375 6.236L63.75 6.543L64.125 6.713L64.5 6.745L64.875 6.645L65.25 6.433L65.625 6.135L66 5.782L66.375 5.41L66.75 5.052L67.125 4.74L67.5 4.5L67.875 4.348L68.25 4.293L68.625 4.332L69 4.453L69.375 4.636L69.75 4.854L70.125 5.076L70.5 5.27L70.875 5.407L71.25 5.46L71.625 5.411L72 5.253L72.375 4.985L72.75 4.62L73.125 4.177L73.5 3.687L73.875 3.184L74.25 2.705L74.625 2.288L75 1.966L75.375 1.769L75.75 1.714L76.125 1.811L76.5 2.057L76.875 2.441L77.25 2.938L77.625 3.517L78 4.14L78.375 4.766L78.75 5.357L79.125 5.874L79.5 6.288L79.875 6.576L80.25 6.726L80.625 6.738L81 6.621L81.375 6.395L81.75 6.087L82.125 5.729L82.5 5.357L82.875 5.004L83.25 4.701L83.625 4.473L84 4.334L84.375 4.293L84.75 4.344L85.125 4.476L85.5 4.666L85.875 4.886L86.25 5.106L86.625 5.294L87 5.42L87.375 5.459L87.75 5.395L88.125 5.221L88.5 4.938L88.875 4.561L89.25 4.11L89.625 3.615L90 3.113L90.375 2.641L90.75 2.235L91.125 1.93L91.5 1.752L91.875 1.718L92.25 1.837L92.625 2.104L93 2.506L93.375 3.016L93.75 3.604L94.125 4.23L94.5 4.854L94.875 5.436L95.25 5.94L95.625 6.337L96 6.606L96.375 6.736L96.75 6.729L97.125 6.595L97.5 6.356L97.875 6.038L98.25 5.676L98.625 5.305L99 4.957L99.375 4.663L99.75 4.447L100.125 4.323L100.5 4.295L100.875 4.359L101.25 4.5L101.625 4.696L102 4.918L102.375 5.136L102.75 5.316L103.125 5.431L103.5 5.457L103.875 5.377L104.25 5.187L104.625 4.89L105 4.5L105.375 4.041L105.75 3.543L106.125 3.043L106.5 2.578L106.875 2.185L107.25 1.896L107.625 1.738L108 1.726L108.375 1.866L108.75 2.154L109.125 2.573L109.5 3.096L109.875 3.692L110.25 4.32L110.625 4.941L111 5.514L111.375 6.004L111.75 6.384L112.125 6.633L112.5 6.744L112.875 6.717L113.25 6.567L113.625 6.314L114 5.989L114.375 5.623L114.75 5.253L115.125 4.911L115.5 4.627L115.875 4.423L116.25 4.313L116.625 4.299L117 4.375L117.375 4.525L117.75 4.727L118.125 4.951L118.5 5.165L118.875 5.337L119.25 5.441L119.625 5.452L120 5.357L120.375 5.151L120.75 4.839L121.125 4.438L121.5 3.971L121.875 3.471L122.25 2.974L122.625 2.517L123 2.137L123.375 1.865L123.75 1.727L124.125 1.736L124.5 1.898L124.875 2.206L125.25 2.642L125.625 3.178L126 3.781L126.375 4.41L126.75 5.026L127.125 5.59L127.5 6.066L127.875 6.428L128.25 6.658L128.625 6.748L129 6.703L129.375 6.537L129.75 6.272L130.125 5.938L130.5 5.57L130.875 5.201L131.25 4.867L131.625 4.593L132 4.402L132.375 4.305L132.75 4.304L133.125 4.392L133.5 4.552L133.875 4.758L134.25 4.982L134.625 5.192L135 5.357L135.375 5.448L135.75 5.445L136.125 5.334L136.5 5.113L136.875 4.787L137.25 4.375L137.625 3.901L138 3.399L138.375 2.905L138.75 2.457L139.125 2.091L139.5 1.837L139.875 1.719L140.25 1.75L140.625 1.934L141 2.261L141.375 2.713L141.75 3.261L142.125 3.87L142.5 4.5L142.875 5.111L143.25 5.664L143.625 6.125L144 6.469L144.375 6.679L144.75 6.75L145.125 6.686L145.5 6.504L145.875 6.227L146.25 5.887L146.625 5.516L147 5.151L147.375 4.823L147.75 4.56L148.125 4.382L148.5 4.299L148.875 4.312L149.25 4.411L149.625 4.579L150 4.79" fill="none" stroke="#16306B" stroke-width="0.3"
+        opacity="0.445"/><path d="M0 2.256L0.375 2.283L0.75 2.433L1.125 2.686L1.5 3.011L1.875 3.377L2.25 3.747L2.625 4.089L3 4.373L3.375 4.577L3.75 4.687L4.125 4.701L4.5 4.625L4.875 4.475L5.25 4.273L5.625 4.049L6 3.835L6.375 3.663L6.75 3.559L7.125 3.548L7.5 3.643L7.875 3.849L8.25 4.161L8.625 4.562L9 5.029L9.375 5.529L9.75 6.026L10.125 6.483L10.5 6.863L10.875 7.135L11.25 7.273L11.625 7.264L12 7.102L12.375 6.794L12.75 6.358L13.125 5.822L13.5 5.219L13.875 4.59L14.25 3.974L14.625 3.41L15 2.934L15.375 2.572L15.75 2.342L16.125 2.252L16.5 2.297L16.875 2.463L17.25 2.728L17.625 3.062L18 3.43L18.375 3.799L18.75 4.133L19.125 4.407L19.5 4.598L19.875 4.695L20.25 4.696L20.625 4.608L21 4.448L21.375 4.242L21.75 4.018L22.125 3.808L22.5 3.643L22.875 3.552L23.25 3.555L23.625 3.666L24 3.887L24.375 4.213L24.75 4.625L25.125 5.099L25.5 5.601L25.875 6.095L26.25 6.543L26.625 6.909L27 7.163L27.375 7.281L27.75 7.25L28.125 7.066L28.5 6.739L28.875 6.287L29.25 5.739L29.625 5.13L30 4.5L30.375 3.889L30.75 3.336L31.125 2.875L31.5 2.531L31.875 2.321L32.25 2.25L32.625 2.314L33 2.496L33.375 2.773L33.75 3.113L34.125 3.484L34.5 3.849L34.875 4.177L35.25 4.44L35.625 4.618L36 4.701L36.375 4.688L36.75 4.589L37.125 4.421L37.5 4.21L37.875 3.986L38.25 3.781L38.625 3.625L39 3.546L39.375 3.564L39.75 3.691L40.125 3.928L40.5 4.267L40.875 4.69L41.25 5.17L41.625 5.673L42 6.163L42.375 6.601L42.75 6.953L43.125 7.189L43.5 7.286L43.875 7.233L44.25 7.028L44.625 6.681L45 6.214L45.375 5.655L45.75 5.041L46.125 4.411L46.5 3.806L46.875 3.264L47.25 2.818L47.625 2.493L48 2.302L48.375 2.251L48.75 2.333L49.125 2.53L49.5 2.818L49.875 3.165L50.25 3.537L50.625 3.899L51 4.219L51.375 4.471L51.75 4.636L52.125 4.705L52.5 4.679L52.875 4.569L53.25 4.393L53.625 4.178L54 3.955L54.375 3.755L54.75 3.608L55.125 3.542L55.5 3.575L55.875 3.718L56.25 3.97L56.625 4.323L57 4.756L57.375 5.241L57.75 5.745L58.125 6.229L58.5 6.658L58.875 6.995L59.25 7.212L59.625 7.288L60 7.213L60.375 6.987L60.75 6.621L61.125 6.139L61.5 5.57L61.875 4.951L62.25 4.322L62.625 3.724L63 3.194L63.375 2.764L63.75 2.457L64.125 2.287L64.5 2.255L64.875 2.355L65.25 2.567L65.625 2.865L66 3.218L66.375 3.59L66.75 3.948L67.125 4.26L67.5 4.5L67.875 4.652L68.25 4.707L68.625 4.668L69 4.547L69.375 4.364L69.75 4.146L70.125 3.924L70.5 3.73L70.875 3.593L71.25 3.54L71.625 3.589L72 3.747L72.375 4.015L72.75 4.38L73.125 4.823L73.5 5.313L73.875 5.816L74.25 6.295L74.625 6.712L75 7.034L75.375 7.231L75.75 7.286L76.125 7.189L76.5 6.943L76.875 6.559L77.25 6.062L77.625 5.483L78 4.86L78.375 4.234L78.75 3.643L79.125 3.126L79.5 2.712L79.875 2.424L80.25 2.274L80.625 2.262L81 2.379L81.375 2.605L81.75 2.913L82.125 3.271L82.5 3.643L82.875 3.996L83.25 4.299L83.625 4.527L84 4.666L84.375 4.707L84.75 4.656L85.125 4.524L85.5 4.334L85.875 4.114L86.25 3.894L86.625 3.706L87 3.58L87.375 3.541L87.75 3.605L88.125 3.779L88.5 4.062L88.875 4.439L89.25 4.89L89.625 5.385L90 5.887L90.375 6.359L90.75 6.765L91.125 7.07L91.5 7.248L91.875 7.282L92.25 7.163L92.625 6.896L93 6.494L93.375 5.984L93.75 5.396L94.125 4.77L94.5 4.146L94.875 3.564L95.25 3.06L95.625 2.663L96 2.394L96.375 2.264L96.75 2.271L97.125 2.405L97.5 2.644L97.875 2.962L98.25 3.324L98.625 3.695L99 4.043L99.375 4.337L99.75 4.553L100.125 4.677L100.5 4.705L100.875 4.641L101.25 4.5L101.625 4.304L102 4.082L102.375 3.864L102.75 3.684L103.125 3.569L103.5 3.543L103.875 3.623L104.25 3.813L104.625 4.11L105 4.5L105.375 4.959L105.75 5.457L106.125 5.957L106.5 6.422L106.875 6.815L107.25 7.104L107.625 7.262L108 7.274L108.375 7.134L108.75 6.846L109.125 6.427L109.5 5.904L109.875 5.308L110.25 4.68L110.625 4.059L111 3.486L111.375 2.996L111.75 2.616L112.125 2.367L112.5 2.256L112.875 2.283L113.25 2.433L113.625 2.686L114 3.011L114.375 3.377L114.75 3.747L115.125 4.089L115.5 4.373L115.875 4.577L116.25 4.687L116.625 4.701L117 4.625L117.375 4.475L117.75 4.273L118.125 4.049L118.5 3.835L118.875 3.663L119.25 3.559L119.625 3.548L120 3.643L120.375 3.849L120.75 4.161L121.125 4.562L121.5 5.029L121.875 5.529L122.25 6.026L122.625 6.483L123 6.863L123.375 7.135L123.75 7.273L124.125 7.264L124.5 7.102L124.875 6.794L125.25 6.358L125.625 5.822L126 5.219L126.375 4.59L126.75 3.974L127.125 3.41L127.5 2.934L127.875 2.572L128.25 2.342L128.625 2.252L129 2.297L129.375 2.463L129.75 2.728L130.125 3.062L130.5 3.43L130.875 3.799L131.25 4.133L131.625 4.407L132 4.598L132.375 4.695L132.75 4.696L133.125 4.608L133.5 4.448L133.875 4.242L134.25 4.018L134.625 3.808L135 3.643L135.375 3.552L135.75 3.555L136.125 3.666L136.5 3.887L136.875 4.213L137.25 4.625L137.625 5.099L138 5.601L138.375 6.095L138.75 6.543L139.125 6.909L139.5 7.163L139.875 7.281L140.25 7.25L140.625 7.066L141 6.739L141.375 6.287L141.75 5.739L142.125 5.13L142.5 4.5L142.875 3.889L143.25 3.336L143.625 2.875L144 2.531L144.375 2.321L144.75 2.25L145.125 2.314L145.5 2.496L145.875 2.773L146.25 3.113L146.625 3.484L147 3.849L147.375 4.177L147.75 4.44L148.125 4.618L148.5 4.701L148.875 4.688L149.25 4.589L149.625 4.421L150 4.21" fill="none" stroke="#16306B" stroke-width="0.3"
+        opacity="0.445"/><path d="M0 5.088L0.375 4.807L0.75 4.601L1.125 4.49L1.5 4.483L1.875 4.577L2.25 4.759L2.625 5.006L3 5.288L3.375 5.571L3.75 5.818L4.125 5.994L4.5 6.071L4.875 6.026L5.25 5.849L5.625 5.54L6 5.11L6.375 4.582L6.75 3.987L7.125 3.366L7.5 2.76L7.875 2.213L8.25 1.765L8.625 1.45L9 1.292L9.375 1.304L9.75 1.488L10.125 1.832L10.5 2.313L10.875 2.898L11.25 3.548L11.625 4.218L12 4.864L12.375 5.445L12.75 5.926L13.125 6.28L13.5 6.494L13.875 6.563L14.25 6.497L14.625 6.313L15 6.041L15.375 5.714L15.75 5.369L16.125 5.045L16.5 4.772L16.875 4.579L17.25 4.483L17.625 4.491L18 4.598L18.375 4.791L18.75 5.045L19.125 5.33L19.5 5.609L19.875 5.848L20.25 6.012L20.625 6.072L21 6.009L21.375 5.813L21.75 5.486L22.125 5.04L22.5 4.5L22.875 3.899L23.25 3.277L23.625 2.678L24 2.142L24.375 1.712L24.75 1.417L25.125 1.283L25.5 1.32L25.875 1.528L26.25 1.893L26.625 2.391L27 2.988L27.375 3.643L27.75 4.312L28.125 4.952L28.5 5.52L28.875 5.984L29.25 6.32L29.625 6.513L30 6.562L30.375 6.477L30.75 6.279L31.125 5.996L31.5 5.665L31.875 5.321L32.25 5.002L32.625 4.739L33 4.559L33.375 4.478L33.75 4.5L34.125 4.621L34.5 4.824L34.875 5.085L35.25 5.371L35.625 5.647L36 5.877L36.375 6.027L36.75 6.071L37.125 5.99L37.5 5.774L37.875 5.429L38.25 4.968L38.625 4.417L39 3.811L39.375 3.189L39.75 2.596L40.125 2.074L40.5 1.66L40.875 1.388L41.25 1.278L41.625 1.34L42 1.571L42.375 1.957L42.75 2.471L43.125 3.079L43.5 3.739L43.875 4.407L44.25 5.038L44.625 5.594L45 6.041L45.375 6.356L45.75 6.529L46.125 6.558L46.5 6.455L46.875 6.243L47.25 5.951L47.625 5.616L48 5.273L48.375 4.96L48.75 4.708L49.125 4.541L49.5 4.475L49.875 4.511L50.25 4.645L50.625 4.858L51 5.125L51.375 5.412L51.75 5.683L52.125 5.904L52.5 6.041L52.875 6.068L53.25 5.967L53.625 5.733L54 5.369L54.375 4.894L54.75 4.333L55.125 3.722L55.5 3.102L55.875 2.516L56.25 2.007L56.625 1.612L57 1.362L57.375 1.276L57.75 1.362L58.125 1.617L58.5 2.023L58.875 2.553L59.25 3.171L59.625 3.835L60 4.5L60.375 5.123L60.75 5.665L61.125 6.094L61.5 6.39L61.875 6.541L62.25 6.551L62.625 6.431L63 6.205L63.375 5.905L63.75 5.566L64.125 5.226L64.5 4.92L64.875 4.679L65.25 4.525L65.625 4.473L66 4.525L66.375 4.671L66.75 4.894L67.125 5.165L67.5 5.452L67.875 5.719L68.25 5.929L68.625 6.052L69 6.061L69.375 5.942L69.75 5.688L70.125 5.308L70.5 4.818L70.875 4.248L71.25 3.633L71.625 3.015L72 2.438L72.375 1.943L72.75 1.567L73.125 1.339L73.5 1.278L73.875 1.389L74.25 1.666L74.625 2.092L75 2.637L75.375 3.264L75.75 3.931L76.125 4.593L76.5 5.206L76.875 5.734L77.25 6.145L77.625 6.42L78 6.551L78.375 6.541L78.75 6.404L79.125 6.166L79.5 5.858L79.875 5.517L80.25 5.179L80.625 4.881L81 4.651L81.375 4.512L81.75 4.475L82.125 4.54L82.5 4.699L82.875 4.93L83.25 5.206L83.625 5.492L84 5.753L84.375 5.953L84.75 6.061L85.125 6.052L85.5 5.914L85.875 5.642L86.25 5.244L86.625 4.741L87 4.162L87.375 3.544L87.75 2.929L88.125 2.361L88.5 1.881L88.875 1.525L89.25 1.32L89.625 1.283L90 1.419L90.375 1.719L90.75 2.163L91.125 2.723L91.5 3.358L91.875 4.027L92.25 4.684L92.625 5.288L93 5.8L93.375 6.193L93.75 6.448L94.125 6.558L94.5 6.529L94.875 6.376L95.25 6.126L95.625 5.811L96 5.467L96.375 5.133L96.75 4.843L97.125 4.625L97.5 4.5L97.875 4.478L98.25 4.558L98.625 4.728L99 4.968L99.375 5.247L99.75 5.532L100.125 5.786L100.5 5.974L100.875 6.067L101.25 6.041L101.625 5.883L102 5.592L102.375 5.178L102.75 4.662L103.125 4.075L103.5 3.455L103.875 2.844L104.25 2.286L104.625 1.822L105 1.486L105.375 1.304L105.75 1.292L106.125 1.452L106.5 1.774L106.875 2.237L107.25 2.81L107.625 3.453L108 4.122L108.375 4.775L108.75 5.367L109.125 5.864L109.5 6.238L109.875 6.473L110.25 6.562L110.625 6.514L111 6.345L111.375 6.084L111.75 5.762L112.125 5.418L112.5 5.088L112.875 4.807L113.25 4.601L113.625 4.49L114 4.483L114.375 4.577L114.75 4.759L115.125 5.006L115.5 5.288L115.875 5.571L116.25 5.818L116.625 5.994L117 6.071L117.375 6.026L117.75 5.849L118.125 5.54L118.5 5.11L118.875 4.582L119.25 3.987L119.625 3.366L120 2.76L120.375 2.213L120.75 1.765L121.125 1.45L121.5 1.292L121.875 1.304L122.25 1.488L122.625 1.832L123 2.313L123.375 2.898L123.75 3.548L124.125 4.218L124.5 4.864L124.875 5.445L125.25 5.926L125.625 6.28L126 6.494L126.375 6.563L126.75 6.497L127.125 6.313L127.5 6.041L127.875 5.714L128.25 5.369L128.625 5.045L129 4.772L129.375 4.579L129.75 4.483L130.125 4.491L130.5 4.598L130.875 4.791L131.25 5.045L131.625 5.33L132 5.609L132.375 5.848L132.75 6.012L133.125 6.072L133.5 6.009L133.875 5.813L134.25 5.486L134.625 5.04L135 4.5L135.375 3.899L135.75 3.277L136.125 2.678L136.5 2.142L136.875 1.712L137.25 1.417L137.625 1.283L138 1.32L138.375 1.528L138.75 1.893L139.125 2.391L139.5 2.988L139.875 3.643L140.25 4.312L140.625 4.952L141 5.52L141.375 5.984L141.75 6.32L142.125 6.513L142.5 6.562L142.875 6.477L143.25 6.279L143.625 5.996L144 5.665L144.375 5.321L144.75 5.002L145.125 4.739L145.5 4.559L145.875 4.478L146.25 4.5L146.625 4.621L147 4.824L147.375 5.085L147.75 5.371L148.125 5.647L148.5 5.877L148.875 6.027L149.25 6.071L149.625 5.99L150 5.774" fill="none" stroke="#16306B" stroke-width="0.3"
+        opacity="0.39"/><path d="M0 3.912L0.375 4.193L0.75 4.399L1.125 4.51L1.5 4.517L1.875 4.423L2.25 4.241L2.625 3.994L3 3.712L3.375 3.429L3.75 3.182L4.125 3.006L4.5 2.929L4.875 2.974L5.25 3.151L5.625 3.46L6 3.89L6.375 4.418L6.75 5.013L7.125 5.634L7.5 6.24L7.875 6.787L8.25 7.235L8.625 7.55L9 7.708L9.375 7.696L9.75 7.512L10.125 7.168L10.5 6.687L10.875 6.102L11.25 5.452L11.625 4.782L12 4.136L12.375 3.555L12.75 3.074L13.125 2.72L13.5 2.506L13.875 2.437L14.25 2.503L14.625 2.687L15 2.959L15.375 3.286L15.75 3.631L16.125 3.955L16.5 4.228L16.875 4.421L17.25 4.517L17.625 4.509L18 4.402L18.375 4.209L18.75 3.955L19.125 3.67L19.5 3.391L19.875 3.152L20.25 2.988L20.625 2.928L21 2.991L21.375 3.187L21.75 3.514L22.125 3.96L22.5 4.5L22.875 5.101L23.25 5.723L23.625 6.322L24 6.858L24.375 7.288L24.75 7.583L25.125 7.717L25.5 7.68L25.875 7.472L26.25 7.107L26.625 6.609L27 6.012L27.375 5.357L27.75 4.688L28.125 4.048L28.5 3.48L28.875 3.016L29.25 2.68L29.625 2.487L30 2.438L30.375 2.523L30.75 2.721L31.125 3.004L31.5 3.335L31.875 3.679L32.25 3.998L32.625 4.261L33 4.441L33.375 4.522L33.75 4.5L34.125 4.379L34.5 4.176L34.875 3.915L35.25 3.629L35.625 3.353L36 3.123L36.375 2.973L36.75 2.929L37.125 3.01L37.5 3.226L37.875 3.571L38.25 4.032L38.625 4.583L39 5.189L39.375 5.811L39.75 6.404L40.125 6.926L40.5 7.34L40.875 7.612L41.25 7.722L41.625 7.66L42 7.429L42.375 7.043L42.75 6.529L43.125 5.921L43.5 5.261L43.875 4.593L44.25 3.962L44.625 3.406L45 2.959L45.375 2.644L45.75 2.471L46.125 2.442L46.5 2.545L46.875 2.757L47.25 3.049L47.625 3.384L48 3.727L48.375 4.04L48.75 4.292L49.125 4.459L49.5 4.525L49.875 4.489L50.25 4.355L50.625 4.142L51 3.875L51.375 3.588L51.75 3.317L52.125 3.096L52.5 2.959L52.875 2.932L53.25 3.033L53.625 3.267L54 3.631L54.375 4.106L54.75 4.667L55.125 5.278L55.5 5.898L55.875 6.484L56.25 6.993L56.625 7.388L57 7.638L57.375 7.724L57.75 7.638L58.125 7.383L58.5 6.977L58.875 6.447L59.25 5.829L59.625 5.165L60 4.5L60.375 3.877L60.75 3.335L61.125 2.906L61.5 2.61L61.875 2.459L62.25 2.449L62.625 2.569L63 2.795L63.375 3.095L63.75 3.434L64.125 3.774L64.5 4.08L64.875 4.321L65.25 4.475L65.625 4.527L66 4.475L66.375 4.329L66.75 4.106L67.125 3.835L67.5 3.548L67.875 3.281L68.25 3.071L68.625 2.948L69 2.939L69.375 3.058L69.75 3.312L70.125 3.692L70.5 4.182L70.875 4.752L71.25 5.367L71.625 5.985L72 6.562L72.375 7.057L72.75 7.433L73.125 7.661L73.5 7.722L73.875 7.611L74.25 7.334L74.625 6.908L75 6.363L75.375 5.736L75.75 5.069L76.125 4.407L76.5 3.794L76.875 3.266L77.25 2.855L77.625 2.58L78 2.449L78.375 2.459L78.75 2.596L79.125 2.834L79.5 3.142L79.875 3.483L80.25 3.821L80.625 4.119L81 4.349L81.375 4.488L81.75 4.525L82.125 4.46L82.5 4.301L82.875 4.07L83.25 3.794L83.625 3.508L84 3.247L84.375 3.047L84.75 2.939L85.125 2.948L85.5 3.086L85.875 3.358L86.25 3.756L86.625 4.259L87 4.838L87.375 5.456L87.75 6.071L88.125 6.639L88.5 7.119L88.875 7.475L89.25 7.68L89.625 7.717L90 7.581L90.375 7.281L90.75 6.837L91.125 6.277L91.5 5.642L91.875 4.973L92.25 4.316L92.625 3.712L93 3.2L93.375 2.807L93.75 2.552L94.125 2.442L94.5 2.471L94.875 2.624L95.25 2.874L95.625 3.189L96 3.533L96.375 3.867L96.75 4.157L97.125 4.375L97.5 4.5L97.875 4.522L98.25 4.442L98.625 4.272L99 4.032L99.375 3.753L99.75 3.468L100.125 3.214L100.5 3.026L100.875 2.933L101.25 2.959L101.625 3.117L102 3.408L102.375 3.822L102.75 4.338L103.125 4.925L103.5 5.545L103.875 6.156L104.25 6.714L104.625 7.178L105 7.514L105.375 7.696L105.75 7.708L106.125 7.548L106.5 7.226L106.875 6.763L107.25 6.19L107.625 5.547L108 4.878L108.375 4.225L108.75 3.633L109.125 3.136L109.5 2.762L109.875 2.527L110.25 2.438L110.625 2.486L111 2.655L111.375 2.916L111.75 3.238L112.125 3.582L112.5 3.912L112.875 4.193L113.25 4.399L113.625 4.51L114 4.517L114.375 4.423L114.75 4.241L115.125 3.994L115.5 3.712L115.875 3.429L116.25 3.182L116.625 3.006L117 2.929L117.375 2.974L117.75 3.151L118.125 3.46L118.5 3.89L118.875 4.418L119.25 5.013L119.625 5.634L120 6.24L120.375 6.787L120.75 7.235L121.125 7.55L121.5 7.708L121.875 7.696L122.25 7.512L122.625 7.168L123 6.687L123.375 6.102L123.75 5.452L124.125 4.782L124.5 4.136L124.875 3.555L125.25 3.074L125.625 2.72L126 2.506L126.375 2.437L126.75 2.503L127.125 2.687L127.5 2.959L127.875 3.286L128.25 3.631L128.625 3.955L129 4.228L129.375 4.421L129.75 4.517L130.125 4.509L130.5 4.402L130.875 4.209L131.25 3.955L131.625 3.67L132 3.391L132.375 3.152L132.75 2.988L133.125 2.928L133.5 2.991L133.875 3.187L134.25 3.514L134.625 3.96L135 4.5L135.375 5.101L135.75 5.723L136.125 6.322L136.5 6.858L136.875 7.288L137.25 7.583L137.625 7.717L138 7.68L138.375 7.472L138.75 7.107L139.125 6.609L139.5 6.012L139.875 5.357L140.25 4.688L140.625 4.048L141 3.48L141.375 3.016L141.75 2.68L142.125 2.487L142.5 2.438L142.875 2.523L143.25 2.721L143.625 3.004L144 3.335L144.375 3.679L144.75 3.998L145.125 4.261L145.5 4.441L145.875 4.522L146.25 4.5L146.625 4.379L147 4.176L147.375 3.915L147.75 3.629L148.125 3.353L148.5 3.123L148.875 2.973L149.25 2.929L149.625 3.01L150 3.226" fill="none" stroke="#16306B" stroke-width="0.3"
+        opacity="0.39"/><path d="M0 5.03L0.375 5.326L0.75 5.636L1.125 5.925L1.5 6.161L1.875 6.313L2.25 6.356L2.625 6.275L3 6.064L3.375 5.728L3.75 5.28L4.125 4.747L4.5 4.16L4.875 3.557L5.25 2.979L5.625 2.463L6 2.047L6.375 1.757L6.75 1.613L7.125 1.624L7.5 1.787L7.875 2.09L8.25 2.508L8.625 3.01L9 3.559L9.375 4.117L9.75 4.646L10.125 5.11L10.5 5.483L10.875 5.745L11.25 5.887L11.625 5.91L12 5.827L12.375 5.658L12.75 5.429L13.125 5.172L13.5 4.921L13.875 4.705L14.25 4.552L14.625 4.48L15 4.5L15.375 4.613L15.75 4.809L16.125 5.07L16.5 5.371L16.875 5.68L17.25 5.963L17.625 6.188L18 6.326L18.375 6.352L18.75 6.253L19.125 6.024L19.5 5.67L19.875 5.209L20.25 4.666L20.625 4.074L21 3.472L21.375 2.9L21.75 2.397L22.125 1.997L22.5 1.727L22.875 1.605L23.25 1.638L23.625 1.822L24 2.143L24.375 2.575L24.75 3.086L25.125 3.639L25.5 4.196L25.875 4.717L26.25 5.17L26.625 5.527L27 5.772L27.375 5.897L27.75 5.904L28.125 5.808L28.5 5.628L28.875 5.393L29.25 5.135L29.625 4.887L30 4.679L30.375 4.536L30.75 4.477L31.125 4.511L31.5 4.636L31.875 4.843L32.25 5.111L32.625 5.415L33 5.722L33.375 6L33.75 6.214L34.125 6.337L34.5 6.346L34.875 6.228L35.25 5.981L35.625 5.61L36 5.135L36.375 4.583L36.75 3.988L37.125 3.388L37.5 2.823L37.875 2.333L38.25 1.95L38.625 1.7L39 1.6L39.375 1.655L39.75 1.86L40.125 2.199L40.5 2.644L40.875 3.164L41.25 3.72L41.625 4.273L42 4.786L42.375 5.227L42.75 5.57L43.125 5.798L43.5 5.905L43.875 5.897L44.25 5.786L44.625 5.597L45 5.357L45.375 5.099L45.75 4.854L46.125 4.654L46.5 4.522L46.875 4.476L47.25 4.523L47.625 4.661L48 4.878L48.375 5.153L48.75 5.46L49.125 5.765L49.5 6.035L49.875 6.238L50.25 6.346L50.625 6.337L51 6.201L51.375 5.935L51.75 5.548L52.125 5.061L52.5 4.5L52.875 3.902L53.25 3.304L53.625 2.748L54 2.271L54.375 1.905L54.75 1.676L55.125 1.598L55.5 1.676L55.875 1.901L56.25 2.256L56.625 2.715L57 3.242L57.375 3.8L57.75 4.35L58.125 4.855L58.5 5.283L58.875 5.609L59.25 5.82L59.625 5.911L60 5.887L60.375 5.764L60.75 5.565L61.125 5.32L61.5 5.062L61.875 4.823L62.25 4.631L62.625 4.51L63 4.477L63.375 4.537L63.75 4.687L64.125 4.914L64.5 5.196L64.875 5.504L65.25 5.806L65.625 6.069L66 6.26L66.375 6.352L66.75 6.326L67.125 6.171L67.5 5.887L67.875 5.484L68.25 4.984L68.625 4.416L69 3.815L69.375 3.221L69.75 2.674L70.125 2.211L70.5 1.864L70.875 1.656L71.25 1.6L71.625 1.699L72 1.944L72.375 2.316L72.75 2.787L73.125 3.32L73.5 3.88L73.875 4.425L74.25 4.921L74.625 5.336L75 5.647L75.375 5.841L75.75 5.914L76.125 5.875L76.5 5.739L76.875 5.532L77.25 5.284L77.625 5.026L78 4.792L78.375 4.609L78.75 4.5L79.125 4.48L79.5 4.553L79.875 4.715L80.25 4.952L80.625 5.239L81 5.548L81.375 5.847L81.75 6.101L82.125 6.279L82.5 6.356L82.875 6.312L83.25 6.138L83.625 5.836L84 5.418L84.375 4.906L84.75 4.331L85.125 3.729L85.5 3.139L85.875 2.602L86.25 2.154L86.625 1.825L87 1.638L87.375 1.605L87.75 1.726L88.125 1.99L88.5 2.378L88.875 2.86L89.25 3.4L89.625 3.959L90 4.5L90.375 4.986L90.75 5.387L91.125 5.682L91.5 5.858L91.875 5.915L92.25 5.861L92.625 5.713L93 5.498L93.375 5.247L93.75 4.99L94.125 4.762L94.5 4.588L94.875 4.491L95.25 4.485L95.625 4.571L96 4.745L96.375 4.99L96.75 5.283L97.125 5.592L97.5 5.887L97.875 6.132L98.25 6.297L98.625 6.357L99 6.295L99.375 6.102L99.75 5.783L100.125 5.35L100.5 4.827L100.875 4.246L101.25 3.643L101.625 3.058L102 2.532L102.375 2.099L102.75 1.789L103.125 1.624L103.5 1.613L103.875 1.755L104.25 2.039L104.625 2.442L105 2.934L105.375 3.479L105.75 4.039L106.125 4.574L106.5 5.049L106.875 5.436L107.25 5.715L107.625 5.874L108 5.914L108.375 5.845L108.75 5.686L109.125 5.464L109.5 5.21L109.875 4.955L110.25 4.733L110.625 4.569L111 4.485L111.375 4.491L111.75 4.591L112.125 4.776L112.5 5.03L112.875 5.326L113.25 5.636L113.625 5.925L114 6.161L114.375 6.313L114.75 6.356L115.125 6.275L115.5 6.064L115.875 5.728L116.25 5.28L116.625 4.747L117 4.16L117.375 3.557L117.75 2.979L118.125 2.463L118.5 2.047L118.875 1.757L119.25 1.613L119.625 1.624L120 1.787L120.375 2.09L120.75 2.508L121.125 3.01L121.5 3.559L121.875 4.117L122.25 4.646L122.625 5.11L123 5.483L123.375 5.745L123.75 5.887L124.125 5.91L124.5 5.827L124.875 5.658L125.25 5.429L125.625 5.172L126 4.921L126.375 4.705L126.75 4.552L127.125 4.48L127.5 4.5L127.875 4.613L128.25 4.809L128.625 5.07L129 5.371L129.375 5.68L129.75 5.963L130.125 6.188L130.5 6.326L130.875 6.352L131.25 6.253L131.625 6.024L132 5.67L132.375 5.209L132.75 4.666L133.125 4.074L133.5 3.472L133.875 2.9L134.25 2.397L134.625 1.997L135 1.727L135.375 1.605L135.75 1.638L136.125 1.822L136.5 2.143L136.875 2.575L137.25 3.086L137.625 3.639L138 4.196L138.375 4.717L138.75 5.17L139.125 5.527L139.5 5.772L139.875 5.897L140.25 5.904L140.625 5.808L141 5.628L141.375 5.393L141.75 5.135L142.125 4.887L142.5 4.679L142.875 4.536L143.25 4.477L143.625 4.511L144 4.636L144.375 4.843L144.75 5.111L145.125 5.415L145.5 5.722L145.875 6L146.25 6.214L146.625 6.337L147 6.346L147.375 6.228L147.75 5.981L148.125 5.61L148.5 5.135L148.875 4.583L149.25 3.988L149.625 3.388L150 2.823" fill="none" stroke="#16306B" stroke-width="0.3"
+        opacity="0.335"/><path d="M0 3.97L0.375 3.674L0.75 3.364L1.125 3.075L1.5 2.839L1.875 2.687L2.25 2.644L2.625 2.725L3 2.936L3.375 3.272L3.75 3.72L4.125 4.253L4.5 4.84L4.875 5.443L5.25 6.021L5.625 6.537L6 6.953L6.375 7.243L6.75 7.387L7.125 7.376L7.5 7.213L7.875 6.91L8.25 6.492L8.625 5.99L9 5.441L9.375 4.883L9.75 4.354L10.125 3.89L10.5 3.517L10.875 3.255L11.25 3.113L11.625 3.09L12 3.173L12.375 3.342L12.75 3.571L13.125 3.828L13.5 4.079L13.875 4.295L14.25 4.448L14.625 4.52L15 4.5L15.375 4.387L15.75 4.191L16.125 3.93L16.5 3.629L16.875 3.32L17.25 3.037L17.625 2.812L18 2.674L18.375 2.648L18.75 2.747L19.125 2.976L19.5 3.33L19.875 3.791L20.25 4.334L20.625 4.926L21 5.528L21.375 6.1L21.75 6.603L22.125 7.003L22.5 7.273L22.875 7.395L23.25 7.362L23.625 7.178L24 6.857L24.375 6.425L24.75 5.914L25.125 5.361L25.5 4.804L25.875 4.283L26.25 3.83L26.625 3.473L27 3.228L27.375 3.103L27.75 3.096L28.125 3.192L28.5 3.372L28.875 3.607L29.25 3.865L29.625 4.113L30 4.321L30.375 4.464L30.75 4.523L31.125 4.489L31.5 4.364L31.875 4.157L32.25 3.889L32.625 3.585L33 3.278L33.375 3L33.75 2.786L34.125 2.663L34.5 2.654L34.875 2.772L35.25 3.019L35.625 3.39L36 3.865L36.375 4.417L36.75 5.012L37.125 5.612L37.5 6.177L37.875 6.667L38.25 7.05L38.625 7.3L39 7.4L39.375 7.345L39.75 7.14L40.125 6.801L40.5 6.356L40.875 5.836L41.25 5.28L41.625 4.727L42 4.214L42.375 3.773L42.75 3.43L43.125 3.202L43.5 3.095L43.875 3.103L44.25 3.214L44.625 3.403L45 3.643L45.375 3.901L45.75 4.146L46.125 4.346L46.5 4.478L46.875 4.524L47.25 4.477L47.625 4.339L48 4.122L48.375 3.847L48.75 3.54L49.125 3.235L49.5 2.965L49.875 2.762L50.25 2.654L50.625 2.663L51 2.799L51.375 3.065L51.75 3.452L52.125 3.939L52.5 4.5L52.875 5.098L53.25 5.696L53.625 6.252L54 6.729L54.375 7.095L54.75 7.324L55.125 7.402L55.5 7.324L55.875 7.099L56.25 6.744L56.625 6.285L57 5.758L57.375 5.2L57.75 4.65L58.125 4.145L58.5 3.717L58.875 3.391L59.25 3.18L59.625 3.089L60 3.113L60.375 3.236L60.75 3.435L61.125 3.68L61.5 3.938L61.875 4.177L62.25 4.369L62.625 4.49L63 4.523L63.375 4.463L63.75 4.313L64.125 4.086L64.5 3.804L64.875 3.496L65.25 3.194L65.625 2.931L66 2.74L66.375 2.648L66.75 2.674L67.125 2.829L67.5 3.113L67.875 3.516L68.25 4.016L68.625 4.584L69 5.185L69.375 5.779L69.75 6.326L70.125 6.789L70.5 7.136L70.875 7.344L71.25 7.4L71.625 7.301L72 7.056L72.375 6.684L72.75 6.213L73.125 5.68L73.5 5.12L73.875 4.575L74.25 4.079L74.625 3.664L75 3.353L75.375 3.159L75.75 3.086L76.125 3.125L76.5 3.261L76.875 3.468L77.25 3.716L77.625 3.974L78 4.208L78.375 4.391L78.75 4.5L79.125 4.52L79.5 4.447L79.875 4.285L80.25 4.048L80.625 3.761L81 3.452L81.375 3.153L81.75 2.899L82.125 2.721L82.5 2.644L82.875 2.688L83.25 2.862L83.625 3.164L84 3.582L84.375 4.094L84.75 4.669L85.125 5.271L85.5 5.861L85.875 6.398L86.25 6.846L86.625 7.175L87 7.362L87.375 7.395L87.75 7.274L88.125 7.01L88.5 6.622L88.875 6.14L89.25 5.6L89.625 5.041L90 4.5L90.375 4.014L90.75 3.613L91.125 3.318L91.5 3.142L91.875 3.085L92.25 3.139L92.625 3.287L93 3.502L93.375 3.753L93.75 4.01L94.125 4.238L94.5 4.412L94.875 4.509L95.25 4.515L95.625 4.429L96 4.255L96.375 4.01L96.75 3.717L97.125 3.408L97.5 3.113L97.875 2.868L98.25 2.703L98.625 2.643L99 2.705L99.375 2.898L99.75 3.217L100.125 3.65L100.5 4.173L100.875 4.754L101.25 5.357L101.625 5.942L102 6.468L102.375 6.901L102.75 7.211L103.125 7.376L103.5 7.387L103.875 7.245L104.25 6.961L104.625 6.558L105 6.066L105.375 5.521L105.75 4.961L106.125 4.426L106.5 3.951L106.875 3.564L107.25 3.285L107.625 3.126L108 3.086L108.375 3.155L108.75 3.314L109.125 3.536L109.5 3.79L109.875 4.045L110.25 4.267L110.625 4.431L111 4.515L111.375 4.509L111.75 4.409L112.125 4.224L112.5 3.97L112.875 3.674L113.25 3.364L113.625 3.075L114 2.839L114.375 2.687L114.75 2.644L115.125 2.725L115.5 2.936L115.875 3.272L116.25 3.72L116.625 4.253L117 4.84L117.375 5.443L117.75 6.021L118.125 6.537L118.5 6.953L118.875 7.243L119.25 7.387L119.625 7.376L120 7.213L120.375 6.91L120.75 6.492L121.125 5.99L121.5 5.441L121.875 4.883L122.25 4.354L122.625 3.89L123 3.517L123.375 3.255L123.75 3.113L124.125 3.09L124.5 3.173L124.875 3.342L125.25 3.571L125.625 3.828L126 4.079L126.375 4.295L126.75 4.448L127.125 4.52L127.5 4.5L127.875 4.387L128.25 4.191L128.625 3.93L129 3.629L129.375 3.32L129.75 3.037L130.125 2.812L130.5 2.674L130.875 2.648L131.25 2.747L131.625 2.976L132 3.33L132.375 3.791L132.75 4.334L133.125 4.926L133.5 5.528L133.875 6.1L134.25 6.603L134.625 7.003L135 7.273L135.375 7.395L135.75 7.362L136.125 7.178L136.5 6.857L136.875 6.425L137.25 5.914L137.625 5.361L138 4.804L138.375 4.283L138.75 3.83L139.125 3.473L139.5 3.228L139.875 3.103L140.25 3.096L140.625 3.192L141 3.372L141.375 3.607L141.75 3.865L142.125 4.113L142.5 4.321L142.875 4.464L143.25 4.523L143.625 4.489L144 4.364L144.375 4.157L144.75 3.889L145.125 3.585L145.5 3.278L145.875 3L146.25 2.786L146.625 2.663L147 2.654L147.375 2.772L147.75 3.019L148.125 3.39L148.5 3.865L148.875 4.417L149.25 5.012L149.625 5.612L150 6.177" fill="none" stroke="#16306B" stroke-width="0.3"
+        opacity="0.335"/><path d="M0 6.494L0.375 6.396L0.75 6.174L1.125 5.837L1.5 5.401L1.875 4.892L2.25 4.34L2.625 3.782L3 3.252L3.375 2.787L3.75 2.415L4.125 2.159L4.5 2.034L4.875 2.045L5.25 2.186L5.625 2.442L6 2.792L6.375 3.205L6.75 3.65L7.125 4.092L7.5 4.5L7.875 4.847L8.25 5.111L8.625 5.28L9 5.35L9.375 5.328L9.75 5.226L10.125 5.065L10.5 4.872L10.875 4.674L11.25 4.5L11.625 4.374L12 4.318L12.375 4.342L12.75 4.453L13.125 4.645L13.5 4.906L13.875 5.215L14.25 5.546L14.625 5.867L15 6.149L15.375 6.362L15.75 6.481L16.125 6.488L16.5 6.372L16.875 6.133L17.25 5.78L17.625 5.332L18 4.815L18.375 4.26L18.75 3.703L19.125 3.181L19.5 2.727L19.875 2.37L20.25 2.133L20.625 2.027L21 2.057L21.375 2.216L21.75 2.487L22.125 2.848L22.5 3.267L22.875 3.714L23.25 4.153L23.625 4.554L24 4.89L24.375 5.141L24.75 5.296L25.125 5.353L25.5 5.318L25.875 5.206L26.25 5.039L26.625 4.843L27 4.647L27.375 4.479L27.75 4.362L28.125 4.316L28.5 4.353L28.875 4.476L29.25 4.679L29.625 4.948L30 5.262L30.375 5.593L30.75 5.911L31.125 6.185L31.5 6.386L31.875 6.49L32.25 6.479L32.625 6.345L33 6.089L33.375 5.722L33.75 5.262L34.125 4.737L34.5 4.18L34.875 3.626L35.25 3.111L35.625 2.67L36 2.329L36.375 2.109L36.75 2.023L37.125 2.072L37.5 2.248L37.875 2.534L38.25 2.905L38.625 3.33L39 3.778L39.375 4.213L39.75 4.606L40.125 4.931L40.5 5.169L40.875 5.31L41.25 5.353L41.625 5.306L42 5.185L42.375 5.012L42.75 4.815L43.125 4.621L43.5 4.458L43.875 4.35L44.25 4.316L44.625 4.365L45 4.5L45.375 4.714L45.75 4.991L46.125 5.309L46.5 5.64L46.875 5.953L47.25 6.219L47.625 6.407L48 6.495L48.375 6.467L48.75 6.316L49.125 6.043L49.5 5.661L49.875 5.19L50.25 4.658L50.625 4.1L51 3.549L51.375 3.043L51.75 2.614L52.125 2.29L52.5 2.089L52.875 2.022L53.25 2.09L53.625 2.283L54 2.582L54.375 2.963L54.75 3.394L55.125 3.841L55.5 4.273L55.875 4.657L56.25 4.971L56.625 5.195L57 5.322L57.375 5.351L57.75 5.293L58.125 5.163L58.5 4.985L58.875 4.786L59.25 4.595L59.625 4.439L60 4.341L60.375 4.318L60.75 4.379L61.125 4.526L61.5 4.75L61.875 5.034L62.25 5.356L62.625 5.686L63 5.995L63.375 6.251L63.75 6.426L64.125 6.499L64.5 6.453L64.875 6.284L65.25 5.995L65.625 5.599L66 5.117L66.375 4.579L66.75 4.02L67.125 3.473L67.5 2.976L67.875 2.561L68.25 2.253L68.625 2.071L69 2.024L69.375 2.11L69.75 2.319L70.125 2.632L70.5 3.022L70.875 3.457L71.25 3.905L71.625 4.331L72 4.707L72.375 5.009L72.75 5.219L73.125 5.332L73.5 5.348L73.875 5.278L74.25 5.14L74.625 4.957L75 4.758L75.375 4.57L75.75 4.421L76.125 4.333L76.5 4.321L76.875 4.395L77.25 4.554L77.625 4.787L78 5.079L78.375 5.403L78.75 5.733L79.125 6.035L79.5 6.281L79.875 6.443L80.25 6.5L80.625 6.437L81 6.25L81.375 5.944L81.75 5.534L82.125 5.043L82.5 4.5L82.875 3.94L83.25 3.399L83.625 2.911L84 2.51L84.375 2.219L84.75 2.056L85.125 2.028L85.5 2.133L85.875 2.358L86.25 2.684L86.625 3.082L87 3.521L87.375 3.968L87.75 4.389L88.125 4.755L88.5 5.045L88.875 5.242L89.25 5.34L89.625 5.343L90 5.262L90.375 5.116L90.75 4.929L91.125 4.73L91.5 4.546L91.875 4.404L92.25 4.326L92.625 4.326L93 4.413L93.375 4.583L93.75 4.826L94.125 5.124L94.5 5.451L94.875 5.778L95.25 6.075L95.625 6.31L96 6.458L96.375 6.498L96.75 6.418L97.125 6.214L97.5 5.892L97.875 5.469L98.25 4.968L98.625 4.42L99 3.86L99.375 3.325L99.75 2.848L100.125 2.461L100.5 2.188L100.875 2.043L101.25 2.035L101.625 2.158L102 2.399L102.375 2.737L102.75 3.143L103.125 3.585L103.5 4.03L103.875 4.445L104.25 4.802L104.625 5.079L105 5.262L105.375 5.346L105.75 5.336L106.125 5.244L106.5 5.091L106.875 4.9L107.25 4.702L107.625 4.522L108 4.389L108.375 4.321L108.75 4.333L109.125 4.432L109.5 4.613L109.875 4.865L110.25 5.169L110.625 5.498L111 5.823L111.375 6.113L111.75 6.337L112.125 6.471L112.5 6.494L112.875 6.396L113.25 6.174L113.625 5.837L114 5.401L114.375 4.892L114.75 4.34L115.125 3.782L115.5 3.252L115.875 2.787L116.25 2.415L116.625 2.159L117 2.034L117.375 2.045L117.75 2.186L118.125 2.442L118.5 2.792L118.875 3.205L119.25 3.65L119.625 4.092L120 4.5L120.375 4.847L120.75 5.111L121.125 5.28L121.5 5.35L121.875 5.328L122.25 5.226L122.625 5.065L123 4.872L123.375 4.674L123.75 4.5L124.125 4.374L124.5 4.318L124.875 4.342L125.25 4.453L125.625 4.645L126 4.906L126.375 5.215L126.75 5.546L127.125 5.867L127.5 6.149L127.875 6.362L128.25 6.481L128.625 6.488L129 6.372L129.375 6.133L129.75 5.78L130.125 5.332L130.5 4.815L130.875 4.26L131.25 3.703L131.625 3.181L132 2.727L132.375 2.37L132.75 2.133L133.125 2.027L133.5 2.057L133.875 2.216L134.25 2.487L134.625 2.848L135 3.267L135.375 3.714L135.75 4.153L136.125 4.554L136.5 4.89L136.875 5.141L137.25 5.296L137.625 5.353L138 5.318L138.375 5.206L138.75 5.039L139.125 4.843L139.5 4.647L139.875 4.479L140.25 4.362L140.625 4.316L141 4.353L141.375 4.476L141.75 4.679L142.125 4.948L142.5 5.262L142.875 5.593L143.25 5.911L143.625 6.185L144 6.386L144.375 6.49L144.75 6.479L145.125 6.345L145.5 6.089L145.875 5.722L146.25 5.262L146.625 4.737L147 4.18L147.375 3.626L147.75 3.111L148.125 2.67L148.5 2.329L148.875 2.109L149.25 2.023L149.625 2.072L150 2.248" fill="none" stroke="#16306B" stroke-width="0.3"
+        opacity="0.28"/><path d="M0 2.506L0.375 2.604L0.75 2.826L1.125 3.163L1.5 3.599L1.875 4.108L2.25 4.66L2.625 5.218L3 5.748L3.375 6.213L3.75 6.585L4.125 6.841L4.5 6.966L4.875 6.955L5.25 6.814L5.625 6.558L6 6.208L6.375 5.795L6.75 5.35L7.125 4.908L7.5 4.5L7.875 4.153L8.25 3.889L8.625 3.72L9 3.65L9.375 3.672L9.75 3.774L10.125 3.935L10.5 4.128L10.875 4.326L11.25 4.5L11.625 4.626L12 4.682L12.375 4.658L12.75 4.547L13.125 4.355L13.5 4.094L13.875 3.785L14.25 3.454L14.625 3.133L15 2.851L15.375 2.638L15.75 2.519L16.125 2.512L16.5 2.628L16.875 2.867L17.25 3.22L17.625 3.668L18 4.185L18.375 4.74L18.75 5.297L19.125 5.819L19.5 6.273L19.875 6.63L20.25 6.867L20.625 6.973L21 6.943L21.375 6.784L21.75 6.513L22.125 6.152L22.5 5.733L22.875 5.286L23.25 4.847L23.625 4.446L24 4.11L24.375 3.859L24.75 3.704L25.125 3.647L25.5 3.682L25.875 3.794L26.25 3.961L26.625 4.157L27 4.353L27.375 4.521L27.75 4.638L28.125 4.684L28.5 4.647L28.875 4.524L29.25 4.321L29.625 4.052L30 3.738L30.375 3.407L30.75 3.089L31.125 2.815L31.5 2.614L31.875 2.51L32.25 2.521L32.625 2.655L33 2.911L33.375 3.278L33.75 3.738L34.125 4.263L34.5 4.82L34.875 5.374L35.25 5.889L35.625 6.33L36 6.671L36.375 6.891L36.75 6.977L37.125 6.928L37.5 6.752L37.875 6.466L38.25 6.095L38.625 5.67L39 5.222L39.375 4.787L39.75 4.394L40.125 4.069L40.5 3.831L40.875 3.69L41.25 3.647L41.625 3.694L42 3.815L42.375 3.988L42.75 4.185L43.125 4.379L43.5 4.542L43.875 4.65L44.25 4.684L44.625 4.635L45 4.5L45.375 4.286L45.75 4.009L46.125 3.691L46.5 3.36L46.875 3.047L47.25 2.781L47.625 2.593L48 2.505L48.375 2.533L48.75 2.684L49.125 2.957L49.5 3.339L49.875 3.81L50.25 4.342L50.625 4.9L51 5.451L51.375 5.957L51.75 6.386L52.125 6.71L52.5 6.911L52.875 6.978L53.25 6.91L53.625 6.717L54 6.418L54.375 6.037L54.75 5.606L55.125 5.159L55.5 4.727L55.875 4.343L56.25 4.029L56.625 3.805L57 3.678L57.375 3.649L57.75 3.707L58.125 3.837L58.5 4.015L58.875 4.214L59.25 4.405L59.625 4.561L60 4.659L60.375 4.682L60.75 4.621L61.125 4.474L61.5 4.25L61.875 3.966L62.25 3.644L62.625 3.314L63 3.005L63.375 2.749L63.75 2.574L64.125 2.501L64.5 2.547L64.875 2.716L65.25 3.005L65.625 3.401L66 3.883L66.375 4.421L66.75 4.98L67.125 5.527L67.5 6.024L67.875 6.439L68.25 6.747L68.625 6.929L69 6.976L69.375 6.89L69.75 6.681L70.125 6.368L70.5 5.978L70.875 5.543L71.25 5.095L71.625 4.669L72 4.293L72.375 3.991L72.75 3.781L73.125 3.668L73.5 3.652L73.875 3.722L74.25 3.86L74.625 4.043L75 4.242L75.375 4.43L75.75 4.579L76.125 4.667L76.5 4.679L76.875 4.605L77.25 4.446L77.625 4.213L78 3.921L78.375 3.597L78.75 3.267L79.125 2.965L79.5 2.719L79.875 2.557L80.25 2.5L80.625 2.563L81 2.75L81.375 3.056L81.75 3.466L82.125 3.957L82.5 4.5L82.875 5.06L83.25 5.601L83.625 6.089L84 6.49L84.375 6.781L84.75 6.944L85.125 6.972L85.5 6.867L85.875 6.642L86.25 6.316L86.625 5.918L87 5.479L87.375 5.032L87.75 4.611L88.125 4.245L88.5 3.955L88.875 3.758L89.25 3.66L89.625 3.657L90 3.738L90.375 3.884L90.75 4.071L91.125 4.27L91.5 4.454L91.875 4.596L92.25 4.674L92.625 4.674L93 4.587L93.375 4.417L93.75 4.174L94.125 3.876L94.5 3.549L94.875 3.222L95.25 2.925L95.625 2.69L96 2.542L96.375 2.502L96.75 2.582L97.125 2.786L97.5 3.108L97.875 3.531L98.25 4.032L98.625 4.58L99 5.14L99.375 5.675L99.75 6.152L100.125 6.539L100.5 6.812L100.875 6.957L101.25 6.965L101.625 6.842L102 6.601L102.375 6.263L102.75 5.857L103.125 5.415L103.5 4.97L103.875 4.555L104.25 4.198L104.625 3.921L105 3.738L105.375 3.654L105.75 3.664L106.125 3.756L106.5 3.909L106.875 4.1L107.25 4.298L107.625 4.478L108 4.611L108.375 4.679L108.75 4.667L109.125 4.568L109.5 4.387L109.875 4.135L110.25 3.831L110.625 3.502L111 3.177L111.375 2.887L111.75 2.663L112.125 2.529L112.5 2.506L112.875 2.604L113.25 2.826L113.625 3.163L114 3.599L114.375 4.108L114.75 4.66L115.125 5.218L115.5 5.748L115.875 6.213L116.25 6.585L116.625 6.841L117 6.966L117.375 6.955L117.75 6.814L118.125 6.558L118.5 6.208L118.875 5.795L119.25 5.35L119.625 4.908L120 4.5L120.375 4.153L120.75 3.889L121.125 3.72L121.5 3.65L121.875 3.672L122.25 3.774L122.625 3.935L123 4.128L123.375 4.326L123.75 4.5L124.125 4.626L124.5 4.682L124.875 4.658L125.25 4.547L125.625 4.355L126 4.094L126.375 3.785L126.75 3.454L127.125 3.133L127.5 2.851L127.875 2.638L128.25 2.519L128.625 2.512L129 2.628L129.375 2.867L129.75 3.22L130.125 3.668L130.5 4.185L130.875 4.74L131.25 5.297L131.625 5.819L132 6.273L132.375 6.63L132.75 6.867L133.125 6.973L133.5 6.943L133.875 6.784L134.25 6.513L134.625 6.152L135 5.733L135.375 5.286L135.75 4.847L136.125 4.446L136.5 4.11L136.875 3.859L137.25 3.704L137.625 3.647L138 3.682L138.375 3.794L138.75 3.961L139.125 4.157L139.5 4.353L139.875 4.521L140.25 4.638L140.625 4.684L141 4.647L141.375 4.524L141.75 4.321L142.125 4.052L142.5 3.738L142.875 3.407L143.25 3.089L143.625 2.815L144 2.614L144.375 2.51L144.75 2.521L145.125 2.655L145.5 2.911L145.875 3.278L146.25 3.738L146.625 4.263L147 4.82L147.375 5.374L147.75 5.889L148.125 6.33L148.5 6.671L148.875 6.891L149.25 6.977L149.625 6.928L150 6.752" fill="none" stroke="#16306B" stroke-width="0.3"
+        opacity="0.28"/></svg></div>
+
+<style>
+.lg { break-before:page; }
+.lg h2 { color:#1F3E7C; }
+.lg__eyebrow { font-size:6.6pt; font-weight:700; letter-spacing:.26em; text-transform:uppercase;
+  color:#16306B; margin:0 0 5pt; }
+.lg dl { margin:6pt 0 12pt; font-size:8.4pt; display:grid; grid-template-columns:34% 1fr;
+  column-gap:8pt; }
+.lg dt { padding:3.4pt 0; border-bottom:.4pt solid #D8DCE3; font-size:7.2pt; font-weight:700;
+  letter-spacing:.04em; color:#1F3E7C; }
+.lg dd { padding:3.4pt 0; border-bottom:.4pt solid #D8DCE3; margin:0; }
+.lg__cite { border-left:2.4pt solid #16306B; background:#F6F1E4; padding:9pt 12pt;
+  margin:8pt 0 12pt; break-inside:avoid; }
+.lg__cite p { margin:0 0 5pt; }
+.lg__cite p:last-child { margin:0; }
+.lg__note { font-size:7.6pt; color:#6B7280; margin:0 0 10pt; }
+.lg h3 { font-size:10pt; margin:12pt 0 3pt; }
+.lg ul { margin:0 0 10pt; padding-left:14pt; font-size:8.6pt; }
+.lg li { margin:0 0 2pt; }
+</style>
+<section class="lg">
+  <p class="lg__eyebrow">The record</p>
+  <h2>This publication in the WEC Press record</h2>
+  <p class="lg__note">Every publication of the Press carries this apparatus, generated from one
+    source, so that a reader in twenty years can identify this copy, cite it, catalogue it, and
+    find the publications it belongs beside — without needing anyone who made it.</p>
+
+  <h3>Place in the ecosystem</h3>
+  <dl>
+    <dt>Issue</dt><dd>E01.R00.01 — edition 01, revision 00, impression 01</dd>
+    <dt>Family</dt><dd>IEFC Student Series</dd>
+    <dt>What the family is for</dt><dd>Everything a learner reads, works in, or carries.</dd>
+    <dt>Maturity</dt><dd>First edition</dd>
+    <dt>What that means</dt><dd>One edition issued. It has not been reviewed by anyone other than its makers, and a reader should weigh it accordingly.</dd>
+  </dl>
+  
+
+  <h3>How to cite</h3>
+  <div class="lg__cite">
+    <p>Worldwide English College. The IEFC Level I Student Workbook. First edition. London: Worldwide English College Press, 2026. Document ID QJEX-ZN8T-YAN8-0AEX.</p>
+    <p class="lg__note" style="margin:0">In text: (Worldwide English College 2026)</p>
+  </div>
+
+  <h3>Cataloguing</h3>
+  <p class="lg__note">Cataloguing-in-publication data, prepared by the Press. The four
+    identifiers below are not held by the College; each names the authority that would issue it.
+    The extent is that of the impression on file when this copy was generated: a publication
+    cannot count its own pages while it is being set.</p>
+  <dl><dt>Title</dt><dd>The IEFC Level I Student Workbook</dd><dt>Statement of responsibility</dt><dd>Worldwide English College, London Campus</dd><dt>Family</dt><dd>IEFC Student Series</dd><dt>Edition</dt><dd>First edition</dd><dt>Imprint</dt><dd>London: Worldwide English College Press, 2026</dd><dt>Extent</dt><dd>72 pages</dd><dt>Intended readership</dt><dd>Learners working through IEFC Level I, alone and between classes</dd><dt>Subject terms</dt><dd>English language — Textbooks for foreign speakers · English language — Study and teaching · English language — Problems, exercises</dd><dt>Language</dt><dd>English (en-GB)</dd><dt>ISBN</dt><dd>Not assigned — International ISBN Agency</dd><dt>DOI</dt><dd>Not registered — A DOI registration agency</dd><dt>Legal deposit</dt><dd>Not deposited — The British Library</dd><dt>Library catalogue</dt><dd>Not catalogued — A depository library</dd></dl>
+
+  <h3>Revision history</h3>
+  <p class="lg__note">The artefact is not yet in the source repository’s history.</p>
+
+  <p class="lg__note">Generated 2026-08-06 · Document ID QJEX-ZN8T-YAN8-0AEX ·
+    Issue E01.R00.01 · Worldwide English College Press, an imprint of Worldwide English College, London Campus.</p>
+</section>
+</body></html>

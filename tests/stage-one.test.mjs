@@ -371,5 +371,95 @@ check('the employer criterion is blocked, and every blocker traces to the compet
     .every((r) => r.short.some((s) => s.key === 'competencyMappedAssessments')),
   RD.criteria.find((c) => c.key === 'employer').blockers.map((b) => b.name).join(' · '));
 
+// ── 8 · The Level I Student Workbook ─────────────────────────────────
+//
+// The volume's whole editorial claim is that a learner can work from it
+// alone, and one decision carries that claim: the self-check answers
+// are collected at the back rather than printed beside the prompts,
+// because a page cannot hide an answer and a learner cannot help
+// reading one that is on the same line.
+//
+// That decision is checkable in the output, so it is checked. If a
+// future edition ever sets the answers inline "for convenience", the
+// build fails.
+{
+  const { readFileSync, existsSync } = await import('node:fs');
+  const src = path.join(ROOT, 'publication/.workbook.html');
+  const pdf = path.join(ROOT, 'publication/IEFC Level I Student Workbook.pdf');
+
+  check('the Level I Student Workbook has been built',
+    existsSync(src) && existsSync(pdf), src);
+
+  if (existsSync(src)) {
+    const html = readFileSync(src, 'utf8');
+    const answersAt = html.indexOf('<section class="answers">');
+    const lessons = html.slice(0, answersAt);
+
+    check('the workbook separates the lesson sequence from the answer section',
+      answersAt > 0 && lessons.includes('<section class="lesson">'),
+      `answers begin at ${answersAt}`);
+
+    // Every self-check answer, taken from the database, must appear in
+    // the answer section and NOT in the lesson pages.
+    const { DatabaseSync } = await import('node:sqlite');
+    const db = new DatabaseSync(':memory:');
+    db.exec(readFileSync(path.join(ROOT, 'sql/schema.sql'), 'utf8'));
+    for (let n = 1; n <= 6; n++) {
+      db.exec(readFileSync(path.join(ROOT, `sql/seed-curriculum-level-${n}.sql`), 'utf8'));
+    }
+    db.exec(readFileSync(path.join(ROOT, 'sql/seed-selfchecks.sql'), 'utf8'));
+    const answers = db.prepare(`
+      SELECT x.answer FROM self_check_items x
+        JOIN self_checks s ON s.id = x.self_check_id
+        JOIN learning_items i ON i.id = s.learning_item_id
+        JOIN units u ON u.id = i.unit_id
+        JOIN courses c ON c.id = u.course_id
+        JOIN programme_levels l ON l.id = c.level_id
+       WHERE l.roman = 'I'`).all().map((r) => r.answer);
+    db.close();
+
+    // Compare on a normalised form: the renderer converts the double
+    // hyphen to an em dash and escapes the markup entities.
+    const norm = (s) => String(s).replace(/\s--\s/g, ' — ')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    // Scoped to the check-yourself blocks, which is what the claim is
+    // about. The first version searched the whole lesson page and
+    // flagged four answers that also appear as VOCABULARY EXAMPLES —
+    // "I have two children", "What time do you get up?" — which is not
+    // a leak but the lesson teaching the sentence it later asks for.
+    // An assertion that fails on revision is measuring the wrong thing.
+    const blocks = [...lessons.matchAll(/<ol class="qs">[\s\S]*?<\/ol>/g)].map((m) => m[0]);
+    const leaked = answers.filter((a) => blocks.some((b) => b.includes(norm(a))));
+    check('no self-check answer is printed inside the check-yourself block',
+      answers.length > 0 && blocks.length > 0 && leaked.length === 0,
+      `${leaked.length} of ${answers.length} leaked in ${blocks.length} blocks`
+      + ` · ${leaked.slice(0, 2).join(' | ')}`);
+
+    const present = answers.filter((a) => html.slice(answersAt).includes(norm(a)));
+    check('every self-check answer reaches the answer section',
+      present.length === answers.length,
+      `${present.length} of ${answers.length}`);
+
+    // Every solo activity must carry its "does not take its place"
+    // framing onto the page, not merely into the database.
+    const solos = S.soloActivities('I');
+    check('every solo activity states on the page that it does not replace the class task',
+      solos.every((a) => lessons.includes(norm(a.serves_task)))
+      && (lessons.match(/It does not take its place/g) || []).length === solos.length,
+      `${(lessons.match(/It does not take its place/g) || []).length} of ${solos.length}`);
+  }
+
+  if (existsSync(pdf)) {
+    const bytes = readFileSync(pdf).toString('latin1');
+    const pages = (bytes.match(/\/Type\s*\/Page(?![s])/g) || []).length;
+    check('the workbook has a plausible extent for nineteen lessons and an answer section',
+      pages >= 40 && pages <= 140, `${pages} pages`);
+    check('the workbook is tagged and carries a document outline',
+      /\/StructTreeRoot/.test(bytes) && /\/Outlines/.test(bytes),
+      `tagged ${/\/StructTreeRoot/.test(bytes)} · outline ${/\/Outlines/.test(bytes)}`);
+  }
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 if (fail) process.exitCode = 1;
