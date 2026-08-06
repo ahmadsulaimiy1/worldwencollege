@@ -404,7 +404,103 @@ check('the artefacts that carry the apparatus carry all of it',
   probed.filter((p) => p.readiness.some((r) => r.result === false))
     .map((p) => p.name).join(' · '));
 
-// ── 8 · The volume itself ────────────────────────────────────────────
+// ── 8 · The canon: divisions, relationships, duplication, ranking ────
+
+const canon = await import(loadUrl('scripts/publication/canon.mjs'));
+const {
+  DIVISIONS, SLATE, DUPLICATIONS, RESOLUTION, CRITERIA, IMPACT,
+  canonIndex, ranking, unplaced,
+} = canon;
+
+const IDX = canonIndex(INV);
+
+check('five divisions, each stating a purpose and the reader it is for',
+  DIVISIONS.length === 5
+  && DIVISIONS.every((d) => d.purpose.length > 40 && d.reader.length > 5));
+
+check('every catalogue title is placed in a division — none exists in isolation',
+  unplaced().length === 0,
+  unplaced().map((t) => `${t.n} ${t.name}`).join(' · '));
+
+check('every division carries titles',
+  DIVISIONS.every((d) => IDX.some((r) => r.division === d.n && r.status)),
+  DIVISIONS.filter((d) => !IDX.some((r) => r.division === d.n && r.status))
+    .map((d) => d.n).join(','));
+
+check('every canon slot either maps to a title or is resolved as a duplicate',
+  SLATE.every((x) => x.n || DUPLICATIONS.some((d) => d.slot === x.slot)),
+  SLATE.filter((x) => !x.n && !DUPLICATIONS.some((d) => d.slot === x.slot))
+    .map((x) => x.slot).join(' · '));
+
+// The relationships are the point of the canon: they must resolve.
+const nums = new Set(TITLES.map((t) => t.n));
+const badRel = SLATE.flatMap((x) => [...x.before, ...x.with, ...x.after]
+  .filter((n) => !nums.has(n)).map((n) => `${x.slot} → ${n}`));
+check('every stated relationship points at a title that exists',
+  badRel.length === 0, badRel.join(' · '));
+
+const selfRel = SLATE.filter((x) => x.n
+  && [...x.before, ...x.with, ...x.after].includes(x.n));
+check('no title is its own prerequisite, companion or sequel',
+  selfRel.length === 0, selfRel.map((x) => x.slot).join(' · '));
+
+check('every placed title states what to read before, alongside or after it',
+  SLATE.filter((x) => x.n)
+    .every((x) => x.before.length + x.with.length + x.after.length > 0),
+  SLATE.filter((x) => x.n && !(x.before.length + x.with.length + x.after.length))
+    .map((x) => x.slot).join(' · '));
+
+// The duplication rule, applied to the canon slate itself.
+check('every overlap is resolved by justifying, referencing or removing it',
+  DUPLICATIONS.length > 0
+  && DUPLICATIONS.every((d) => Object.values(RESOLUTION).includes(d.resolution)
+    && d.why.length > 80 && d.into.length > 0),
+  DUPLICATIONS.filter((d) => d.why.length <= 80).map((d) => d.slot).join(' · '));
+
+check('a resolved overlap folds into titles that exist',
+  DUPLICATIONS.every((d) => d.into.every((n) => nums.has(n))),
+  DUPLICATIONS.flatMap((d) => d.into.filter((n) => !nums.has(n))).join(' · '));
+
+check('the register uses more than one resolution — it has decided, not just justified',
+  new Set(DUPLICATIONS.map((d) => d.resolution)).size >= 2,
+  [...new Set(DUPLICATIONS.map((d) => d.resolution))].join(' · '));
+
+// The ranking must cover every derivable title and be ordered by score.
+const RANK = ranking(ROWS);
+check('every derivable title is scored for educational impact',
+  RANK.length > 0 && RANK.every((r) => typeof r.score === 'number' && r.why.length > 40),
+  RANK.filter((r) => r.score === null).map((r) => r.n).join(','));
+
+check('the publishing order is the score order, not the catalogue order',
+  RANK.every((r, i) => i === 0 || RANK[i - 1].score >= r.score),
+  RANK.map((r) => r.score).join(' '));
+
+check('the criteria are weighted and each declares its scale',
+  CRITERIA.every((c) => c.weight >= 1 && c.scale.includes('5 =')),
+  CRITERIA.map((c) => c.name).join(' · '));
+
+check('no title is scored twice, and no score sits outside the declared scale',
+  new Set(IMPACT.map((i) => i.n)).size === IMPACT.length
+  && IMPACT.every((i) => CRITERIA.every((c) => i[c.key] >= 1 && i[c.key] <= 5)),
+  IMPACT.filter((i) => CRITERIA.some((c) => i[c.key] < 1 || i[c.key] > 5))
+    .map((i) => i.n).join(','));
+
+// A tie must be broken by a declared rule rather than by array order.
+const tied = RANK.filter((r, i) => i > 0 && RANK[i - 1].score === r.score);
+check('a tie in the ranking is broken by what the title unblocks',
+  tied.every((r) => {
+    const prev = RANK[RANK.indexOf(r) - 1];
+    return (prev.scores?.unblocks ?? 0) >= (r.scores?.unblocks ?? 0);
+  }),
+  tied.map((r) => r.name).join(' · '));
+
+check('the canon index records everything the directive requires of each entry',
+  IDX.filter((r) => r.status).every((r) => r.division && r.title && r.family && r.audience
+    && r.status && r.maturity && r.derivedFrom),
+  IDX.filter((r) => r.status && !(r.family && r.audience && r.derivedFrom))
+    .map((r) => r.slot).join(' · '));
+
+// ── 9 · The volume itself ────────────────────────────────────────────
 
 const VOLUME = `${ROOT}/publication/WEC Press — The Publishing Constitution.pdf`;
 if (existsSync(VOLUME)) {

@@ -61,6 +61,22 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'The Canon: five divisions, and the eleven titles that were not books',
+    built: 'Every one of the 62 catalogue titles is now placed in one of five divisions, and '
+      + 'every one states what to read before it, alongside it and after it — checked by a test '
+      + 'that fails if a relationship points at a publication which does not exist. The canon was '
+      + 'specified as 51 titles; 11 of them were the same book under another name — a Marking '
+      + 'Guide and a Rubric Handbook and an Assessment Handbook are one volume with three '
+      + 'titles — and each is resolved in the open as justified, referenced or removed, with the '
+      + 'reason printed. One of the eleven was a title the Press had already catalogued itself. '
+      + 'The Canon Index is published as a volume at the scholarly trim.' },
+  { item: 'The publishing order, ranked by educational impact rather than by convenience',
+    built: 'Nineteen derivable titles scored against four weighted criteria — reach, frequency, '
+      + 'what it makes possible, and how hidden the material is now — each with a written reason. '
+      + 'The order falls out of the arithmetic. The Workbook and the Listening Scripts tie at 54, '
+      + 'and the tie-break is declared rather than settled by array order: the title that unblocks '
+      + 'more goes first, so the scripts lead, because listening lessons cannot currently run at '
+      + 'all and workbook lessons can.' },
   { item: 'The first title derived from the catalogue', built: 'The IEFC Pronunciation Handbook '
     + '— 70 pages at royal octavo, the first publication of the Press set at a format other than '
     + 'the flagship\u2019s. 180 pronunciation targets, 114 classroom stages and 60 model scripts '

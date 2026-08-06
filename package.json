@@ -19,7 +19,8 @@
     "curriculum:institutional": "IEFC_EDITION=institutional node --experimental-sqlite scripts/publication/render-flagship.mjs",
     "curriculum:editions": "npm run curriculum:student && npm run curriculum:institutional",
     "press": "node --experimental-sqlite scripts/publication/render-press.mjs && node --experimental-sqlite scripts/publication/render-press.mjs",
-    "pronunciation": "node --experimental-sqlite scripts/publication/render-pronunciation.mjs"
+    "pronunciation": "node --experimental-sqlite scripts/publication/render-pronunciation.mjs",
+    "canon": "node --experimental-sqlite scripts/publication/render-canon.mjs && node --experimental-sqlite scripts/publication/render-canon.mjs"
   },
   "devDependencies": {
     "jsqr": "^1.4.0",

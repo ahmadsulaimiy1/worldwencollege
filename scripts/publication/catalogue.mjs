@@ -125,6 +125,7 @@ export function inventory(C = buildCurriculum()) {
     // count would be a different and larger number — 276 vocabulary
     // stages across 168 lessons — and a book is planned per lesson.
     objectiveStages: withStage('objectives'),
+    warmupStages: withStage('warmup'),
     presentationStages: withStage('present'),
     guidedStages: withStage('guided'),
     vocabularyStages: withStage('vocabulary'),
@@ -191,6 +192,13 @@ export function inventory(C = buildCurriculum()) {
   const lessonsIn = (re) => items.filter(({ mod }) => re.test(mod.title)).length;
   inv.academicWritingLessons = lessonsIn(/Academic Writing|Research/i);
   inv.academicWritingModules = byModule(/Academic Writing|Research/i);
+  // Narrow on purpose: a first attempt matched /Meeting/ and counted
+  // Level I "Meeting People" — a greetings module — as business English.
+  inv.professionalModules = byModule(/Work|Career|Negotiation|Professional Advocacy/i);
+  inv.leadershipModules = byModule(/Leadership|Persuasion/i);
+  inv.researchModules = byModule(/Research|Scholarship/i);
+  inv.careerContent = 0;
+  inv.qaProcedures = countFiles('docs/quality', /\.md$/);
   inv.businessModules = byModule(/Business|Commercial|In-Company/i);
   inv.executiveModules = byModule(/Executive|Intensive/i);
   inv.youngLearnerModules = byModule(/Young Learner|Children|Primary/i);
@@ -397,16 +405,7 @@ export const TITLES = [
       + 'carry 10 each where Levels I and II carry 19. The deficit is 36 stages, and it is '
       + 'the size of the authoring job.',
   }),
-  t({
-    n: 16, family: 'IEFC Student Series', wave: 2,
-    name: 'Academic Writing in the IEFC', edition: 'Levels IV–VI',
-    audience: 'Learners preparing for university study',
-    needs: [need('modules devoted to academic writing or research', 'academicWritingModules', 5),
-      need('lessons with a writing stage', 'writingStages', 114)],
-    source: 'Five modules — Academic Writing I, II and III, Research & Presentation, and '
-      + 'Research & Scholarship — plus the writing stage of every teaching lesson.',
-  }),
-
+  
   // ── Teacher and professional ──────────────────────────────────────
   t({
     n: 17, family: 'WEC Professional Development Series', wave: 2,
@@ -658,6 +657,199 @@ export const TITLES = [
       + 'curriculum itself is not translated — nought of 294 items carries Arabic text — and '
       + 'right-to-left typesetting has not been designed. Both are real work, and neither is '
       + 'a translation memory away.',
+  }),
+
+  // ── Added by the Canon: slots the five divisions require ──────────
+  t({
+    n: 44, family: 'IEFC Student Series', wave: 1,
+    name: 'The IEFC Writing Companion', edition: 'All six levels',
+    audience: 'Learners at every level; teachers setting written work',
+    needs: [need('lessons with a writing stage', 'writingStages', 114),
+      need('modules devoted to academic writing or research', 'academicWritingModules', 5)],
+    source: 'The writing stage of every teaching lesson, with the five academic-writing and '
+      + 'research modules as its senior part. This replaces the separately catalogued Academic '
+      + 'Writing volume: two books drawn from one strand would have repeated Levels IV to VI '
+      + 'word for word, and the Canon forbids it.',
+  }),
+  t({
+    n: 45, family: 'IEFC Student Series', wave: 1,
+    name: 'The Academic English Handbook',
+    audience: 'Learners preparing for English-medium study',
+    needs: [need('modules devoted to academic writing or research', 'academicWritingModules', 5),
+      need('lessons with a critical-thinking prompt', 'thinkingStages', 114)],
+    source: 'The academic-writing and research modules with the critical-thinking strand that '
+      + 'runs through every teaching lesson — argument, evidence, source handling and academic '
+      + 'register, gathered for a learner about to enter a university seminar.',
+  }),
+  t({
+    n: 46, family: 'IEFC Student Series', wave: 2,
+    name: 'The Professional English Handbook',
+    audience: 'Learners and graduates working in English',
+    needs: [need('modules on work, careers or negotiation', 'professionalModules', 6)],
+    source: 'Five modules across Levels II to V — Work & Study, Work, Careers & '
+      + 'Entrepreneurship, The World of Work, Meetings & Negotiation, Professional Advocacy. A '
+      + 'handbook covering the working life of a professional needs one more strand than the '
+      + 'general programme happens to contain.',
+  }),
+  t({
+    n: 47, family: 'IEFC Student Series', wave: 2,
+    name: 'The IEFC Revision Guide', edition: 'Six volumes, one per level',
+    audience: 'Learners revising for level assessment',
+    needs: [need('lessons carrying a revision stage', 'revisionStages', 114)],
+    source: 'The revision stage of every teaching lesson, which names what the class returns '
+      + 'to. One hundred and thirteen of the hundred and fourteen carry one: a single lesson '
+      + 'does not, and a revision guide with a hole in it is worse than none.',
+  }),
+  t({
+    n: 48, family: 'IEFC Student Series', wave: 1,
+    name: 'The IEFC Examination Guide',
+    audience: 'Candidates preparing for level assessment',
+    needs: [need('assignment rubrics', 'rubrics', 60),
+      need('rubric criteria', 'rubricCriteria', 300),
+      need('module quizzes', 'quizzes', 60)],
+    source: 'What is assessed, how it is marked and to what standard — the same rubrics the '
+      + 'Assessment Handbook carries, written for the candidate rather than the examiner and '
+      + 'without the answer keys. Justified as a separate volume because the two readerships '
+      + 'must not be given the same book.',
+  }),
+  t({
+    n: 49, family: 'IEFC Teacher Series', wave: 1,
+    name: 'The Lesson Planning Manual',
+    audience: 'Teaching staff planning a session, a week or a term',
+    needs: [need('lessons with stated objectives', 'objectiveStages', 114),
+      need('lessons with guided practice', 'guidedStages', 114),
+      need('modules', 'modules', 60)],
+    source: 'The stage structure and designed timings of all 114 teaching lessons, arranged as '
+      + 'a planning instrument: what a session contains, how long each stage is designed to '
+      + 'take, and what has to precede it.',
+  }),
+  t({
+    n: 50, family: 'IEFC Teacher Series', wave: 1,
+    name: 'The Classroom Activities Handbook',
+    audience: 'Teaching staff',
+    needs: [need('lessons with a warm-up', 'warmupStages', 114),
+      need('lessons with guided practice', 'guidedStages', 114),
+      need('lessons with extension work', 'extensionStages', 114),
+      need('lessons with a speaking stage', 'speakingStages', 88)],
+    source: 'Every warm-up, guided practice, speaking task and extension activity in the '
+      + 'programme, indexed by what they practise rather than by where they appear — an '
+      + 'activity bank a teacher can reach into mid-lesson.',
+  }),
+  t({
+    n: 51, family: 'WEC Professional Development Series', wave: 2,
+    name: 'The Professional Development Handbook',
+    audience: 'Teaching staff and the wider profession',
+    needs: [need('authored chapters on teaching method', 'pedagogyChapters', 8)],
+    source: 'Nothing yet. Continuing development is a body of professional knowledge, not a '
+      + 'rearrangement of a syllabus, and none of it has been written.',
+  }),
+  t({
+    n: 52, family: 'WEC Academic Framework Series', wave: 1,
+    name: 'The Curriculum Framework',
+    audience: 'Academic reviewers, partner institutions, curriculum designers',
+    needs: [need('modules', 'modules', 60), need('levels', 'levels', 6),
+      need('lesson-to-lesson cross-references', 'crossRefs', 114)],
+    source: 'The design rationale behind the programme — why six levels, why ten modules, why '
+      + 'the lesson has the stages it has, and how the spiral returns. Distinct from the '
+      + 'Programme Architecture, which states what the programme IS rather than why.',
+  }),
+  t({
+    n: 53, family: 'WEC Governance Series', wave: 3,
+    name: 'The Quality Assurance Manual',
+    audience: 'Reviewers, staff, awarding partners',
+    governance: 'Quality assurance is a function, not a document: it requires a body that owns '
+      + 'it, a cycle it runs on, and someone accountable for its findings. Both academic bodies '
+      + 'are established with nought members appointed, so there is nobody for the manual to '
+      + 'describe or bind.',
+    source: 'The rubric policy, the moderation design and the assessment thresholds are '
+      + 'written and consistent; what is missing is the authority that would own them.',
+  }),
+  t({
+    n: 54, family: 'WEC Institutional Series', wave: 2,
+    name: 'The Academic Calendar', edition: 'Published annually',
+    audience: 'Learners, staff, sponsors',
+    governance: 'The cohort structure, term pattern and progression points are designed. The '
+      + 'dates are not: no intake has been scheduled and no cohort exists. A calendar without '
+      + 'dates is a diagram, and a calendar with invented ones is worse.',
+    source: 'The academic calendar design, the four-month level cycle and the progression '
+      + 'points, all recorded and awaiting an intake date.',
+  }),
+  t({
+    n: 55, family: 'WEC Governance Series', wave: 4,
+    name: 'The Governance Manual',
+    audience: 'Officers, staff, external reviewers',
+    governance: 'A governance manual states who decides what. Nought members have been '
+      + 'appointed to either academic body and no officer of the College has been named, so '
+      + 'every sentence of it would describe an authority that does not exist.',
+    source: 'The remits of both bodies and the decision register are recorded; the appointments '
+      + 'are not.',
+  }),
+  t({
+    n: 56, family: 'WEC Governance Series', wave: 4,
+    name: 'Institutional Policies', edition: 'A collected volume',
+    audience: 'Staff, learners, regulators',
+    governance: 'Policies bind, and only a constituted body may adopt them. Drafting them '
+      + 'before that body exists would produce a volume with the authority of a suggestion.',
+    source: 'Admissions, payment, refund, progression and credential policies exist as '
+      + 'implemented behaviour in the platform; none has been adopted as policy.',
+  }),
+  t({
+    n: 57, family: 'WEC Institutional Series', wave: 4,
+    name: 'The Strategic Plan',
+    audience: 'Sponsors, partners, staff',
+    governance: 'A strategic plan commits an institution to a direction over years. It is the '
+      + 'single document the Press is least entitled to draft: it is not an editorial artefact '
+      + 'at all, and writing one would be inventing the intentions of people who have not '
+      + 'stated them.',
+    source: 'Nothing, and nothing that could stand in for it.',
+  }),
+  t({
+    n: 58, family: 'WEC Institutional Series', wave: 1,
+    name: 'The Graduate Handbook',
+    audience: 'Graduates and the employers who verify them',
+    needs: [need('award definitions', 'awardDefinitions', 6),
+      need('levels', 'levels', 6)],
+    source: 'What each award is, what it says about its holder, how the post-nominal is used, '
+      + 'and how a third party verifies it — from the award definitions and the verification '
+      + 'mechanism, both of which exist and work.',
+  }),
+  t({
+    n: 59, family: 'WEC Institutional Series', wave: 3,
+    name: 'The Career Guide',
+    audience: 'Learners and graduates',
+    needs: [need('authored careers guidance', 'careerContent', 1)],
+    source: 'Nothing. Careers guidance is a professional field with its own evidence base, and '
+      + 'a language college writing it from general knowledge would be giving advice it is not '
+      + 'qualified to give.',
+  }),
+  t({
+    n: 60, family: 'WEC Professional Development Series', wave: 3,
+    name: 'The Leadership Handbook',
+    audience: 'Senior professionals studying in English',
+    needs: [need('modules on leadership or persuasion', 'leadershipModules', 6)],
+    source: 'Three modules touch leadership — Leadership & Persuasion, Executive Leadership, '
+      + 'Ethics & Responsible Leadership — all at Levels V and VI. A handbook needs a strand, '
+      + 'not three modules at the top of the programme.',
+  }),
+  t({
+    n: 61, family: 'WEC Research Series', wave: 3,
+    name: 'The Research Handbook',
+    audience: 'Learners and staff undertaking research in English',
+    needs: [need('modules on research or scholarship', 'researchModules', 4)],
+    source: 'Two modules — Research & Presentation and Research & Scholarship. A research '
+      + 'handbook covering question, method, ethics, sources and dissemination needs at least '
+      + 'twice that, and the missing half is method rather than language.',
+  }),
+  t({
+    n: 62, family: 'WEC Governance Series', wave: 1,
+    name: 'The Worldwide English College Canon', edition: 'The Canon Index',
+    audience: 'Every reader of a WEC Press publication, and every editor of a future one',
+    artefact: 'publication/WEC Canon Index.pdf', build: 'canon',
+    htmlSource: 'publication/.canon.html',
+    source: 'The catalogue, the legacy layer and the canon read at generation: five divisions, '
+      + 'every title placed, what to read before, alongside and after each, the register of '
+      + 'overlaps that are not separate books, and the publishing order ranked by educational '
+      + 'impact against declared criteria.',
   }),
 ];
 
