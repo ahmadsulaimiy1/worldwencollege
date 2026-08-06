@@ -99,10 +99,10 @@ tr { break-inside:avoid; }
   <li><b>Trim size</b><span>210 × 297 mm (A4 portrait)</span></li>
   <li><b>Bleed</b><span>3 mm on all four edges of the cover artwork. The text block is
     supplied without bleed; no element runs to the edge.</span></li>
-  <li><b>Extent</b><span>441 pages, self-cover excluded</span></li>
-  <li><b>Spine width</b><span>26.6 mm, calculated as (441 ÷ 2) × 0.115 mm
+  <li><b>Extent</b><span>443 pages, self-cover excluded</span></li>
+  <li><b>Spine width</b><span>26.7 mm, calculated as (443 ÷ 2) × 0.115 mm
     caliper plus 1.2 mm for the cover boards and adhesive</span></li>
-  <li><b>Cover spread</b><span>452.6 × 303 mm
+  <li><b>Cover spread</b><span>452.7 × 303 mm
     including bleed</span></li>
   <li><b>Text stock</b><span>100 gsm uncoated offset, high opacity, natural white. Uncoated because
     this is a book a teacher writes in.</span></li>
@@ -557,7 +557,7 @@ tr { break-inside:avoid; }
 <table><thead><tr><th scope="col">File</th><th scope="col">Purpose</th><th scope="col">Format</th><th scope="col">Size</th><th scope="col">State</th></tr></thead>
 <tbody><tr><td class="mono">IEFC Complete Curriculum.pdf</td><td>Press-quality text block</td>
     <td>PDF, A4 portrait, tagged, bookmarked</td>
-    <td class="mono">26.62 MB</td>
+    <td class="mono">26.63 MB</td>
     <td class="ok">Present</td></tr><tr><td class="mono">IEFC Cover Artwork.pdf</td><td>Cover spread</td>
     <td>PDF, single page, trim + bleed, no marks in live area</td>
     <td class="mono">0.52 MB</td>
@@ -566,7 +566,7 @@ tr { break-inside:avoid; }
     <td class="mono">1.48 MB</td>
     <td class="ok">Present</td></tr><tr><td class="mono">IEFC Production Specifications.pdf</td><td>This document</td>
     <td>PDF, A4 portrait</td>
-    <td class="mono">0.52 MB</td>
+    <td class="mono">0.56 MB</td>
     <td class="ok">Present</td></tr></tbody></table>
 <h3>Source</h3>
 <p>The publication has no binary assets. Its entire source is text, which means the whole book —
@@ -656,7 +656,7 @@ tr { break-inside:avoid; }
 <h3>Binding</h3>
 <ul class="spec">
   <li><b>Recommended</b><span>Section-sewn, then either cased in or drawn on with a soft cover.
-    At 441 pages the block is thick enough that a glued-only
+    At 443 pages the block is thick enough that a glued-only
     spine will crack the first time it is opened flat on a desk, which is the posture this book is
     used in.</span></li>
   <li><b>Acceptable alternative</b><span>PUR perfect binding. Stronger and more flexible than EVA
@@ -666,7 +666,7 @@ tr { break-inside:avoid; }
     (no spine to carry a title, and this book must be findable on a shelf).</span></li>
   <li><b>Grain direction</b><span>Parallel to the spine, without exception. Cross-grain at this
     bulk gives a block that will not lie flat and a cover that curls in a damp room.</span></li>
-  <li><b>Signature count</b><span>441 pages — confirm the imposition
+  <li><b>Signature count</b><span>443 pages — confirm the imposition
     with the printer. The text block is designed so that the six level dividers fall on a recto;
     that imposition is computed at generation and will change if the extent changes, so re-generate
     rather than adjusting by hand.</span></li>
@@ -684,13 +684,13 @@ tr { break-inside:avoid; }
 <table><thead><tr><th scope="col"></th><th scope="col">Check</th><th scope="col">Evidence</th><th scope="col">State</th></tr></thead>
 <tbody><tr>
   <td class="chk">✓</td><td>Text block renders without error</td>
-  <td class="mono">441 pages</td>
+  <td class="mono">443 pages</td>
   <td class="ok">Verified</td></tr><tr>
   <td class="chk">✓</td><td>Cover artwork built at trim plus bleed</td>
-  <td class="mono">452.6 × 303 mm</td>
+  <td class="mono">452.7 × 303 mm</td>
   <td class="ok">Verified</td></tr><tr>
   <td class="chk">✓</td><td>Spine width calculated from the bound page count</td>
-  <td class="mono">26.6 mm at 0.115 mm per leaf</td>
+  <td class="mono">26.7 mm at 0.115 mm per leaf</td>
   <td class="ok">Verified</td></tr><tr>
   <td class="chk">✓</td><td>Every colour pair meets its contrast floor</td>
   <td class="mono">9 pairs checked</td>
@@ -774,4 +774,62 @@ tr { break-inside:avoid; }
   <td class="gap">No officer appointed</td></tr><tr><td>Volume</td><td>Editorial photography</td>
   <td class="gap">Not commissioned</td></tr></tbody></table>
 
+
+<style>
+.lg { break-before:page; }
+.lg h2 { color:#1F3E7C; }
+.lg__eyebrow { font-size:6.6pt; font-weight:700; letter-spacing:.26em; text-transform:uppercase;
+  color:#B4933E; margin:0 0 5pt; }
+.lg dl { margin:6pt 0 12pt; font-size:8.4pt; display:grid; grid-template-columns:34% 1fr;
+  column-gap:8pt; }
+.lg dt { padding:3.4pt 0; border-bottom:.4pt solid #D8DCE3; font-size:7.2pt; font-weight:700;
+  letter-spacing:.04em; color:#1F3E7C; }
+.lg dd { padding:3.4pt 0; border-bottom:.4pt solid #D8DCE3; margin:0; }
+.lg__cite { border-left:2.4pt solid #B4933E; background:#F6F1E4; padding:9pt 12pt;
+  margin:8pt 0 12pt; break-inside:avoid; }
+.lg__cite p { margin:0 0 5pt; }
+.lg__cite p:last-child { margin:0; }
+.lg__note { font-size:7.6pt; color:#6B7280; margin:0 0 10pt; }
+.lg h3 { font-size:10pt; margin:12pt 0 3pt; }
+.lg ul { margin:0 0 10pt; padding-left:14pt; font-size:8.6pt; }
+.lg li { margin:0 0 2pt; }
+</style>
+<section class="lg">
+  <p class="lg__eyebrow">The record</p>
+  <h2>This publication in the WEC Press record</h2>
+  <p class="lg__note">Every publication of the Press carries this apparatus, generated from one
+    source, so that a reader in twenty years can identify this copy, cite it, catalogue it, and
+    find the publications it belongs beside — without needing anyone who made it.</p>
+
+  <h3>Place in the ecosystem</h3>
+  <dl>
+    <dt>Issue</dt><dd>E01.R00.01 — edition 01, revision 00, impression 01</dd>
+    <dt>Family</dt><dd>WEC Governance Series</dd>
+    <dt>What the family is for</dt><dd>How the College publishes, produces and regulates. Includes the documents that bind the Press itself.</dd>
+    <dt>Maturity</dt><dd>First edition</dd>
+    <dt>What that means</dt><dd>One edition issued. It has not been reviewed by anyone other than its makers, and a reader should weigh it accordingly.</dd>
+  </dl>
+  <h3>Published beside this volume</h3>
+  <ul><li>The Staff Induction Manual</li><li>The Academic Regulations</li><li>WEC Press — The Publishing Constitution</li><li>The Internal Editorial Bible</li></ul>
+
+  <h3>How to cite</h3>
+  <div class="lg__cite">
+    <p>Worldwide English College. IEFC Production Specifications. First edition. London: Worldwide English College Press, 2026. Document ID RP6Y-KFPF-2NJ5-8SW9.</p>
+    <p class="lg__note" style="margin:0">In text: (Worldwide English College 2026)</p>
+  </div>
+
+  <h3>Cataloguing</h3>
+  <p class="lg__note">Cataloguing-in-publication data, prepared by the Press. The four
+    identifiers below are not held by the College; each names the authority that would issue it.
+    The extent is that of the impression on file when this copy was generated: a publication
+    cannot count its own pages while it is being set.</p>
+  <dl><dt>Title</dt><dd>IEFC Production Specifications</dd><dt>Statement of responsibility</dt><dd>Worldwide English College, London Campus</dd><dt>Family</dt><dd>WEC Governance Series</dd><dt>Edition</dt><dd>First edition</dd><dt>Imprint</dt><dd>London: Worldwide English College Press, 2026</dd><dt>Extent</dt><dd>18 pages</dd><dt>Intended readership</dt><dd>Printers, binders and production suppliers</dd><dt>Subject terms</dt><dd>Book design · Printing — Specifications · Bookbinding · Colour management</dd><dt>Language</dt><dd>English (en-GB)</dd><dt>ISBN</dt><dd>Not assigned — International ISBN Agency</dd><dt>DOI</dt><dd>Not registered — A DOI registration agency</dd><dt>Legal deposit</dt><dd>Not deposited — The British Library</dd><dt>Library catalogue</dt><dd>Not catalogued — A depository library</dd></dl>
+
+  <h3>Revision history</h3>
+  <p class="lg__note">Derived from the source repository at generation, not kept by hand.
+        First issued 2026-08-04 · 13 revisions
+        · last changed 2026-08-06.</p>
+       <dl><dt>2026-08-06</dt><dd>Constitute the Press: rules that can be checked, a catalogue that cannot flatter</dd><dt>2026-08-06</dt><dd>Three editions from one source</dd><dt>2026-08-06</dt><dd>Rasterise the printed page, and cut 81 pages of white nobody chose</dd><dt>2026-08-06</dt><dd>Measure the figures, and remove the one that could not be true</dd><dt>2026-08-06</dt><dd>Finish the editorial register: the apparatus, extracted and verified</dd><dt>2026-08-05</dt><dd>Execute the editorial register: indexes, guide, awards table, bands</dd><dt>2026-08-04</dt><dd>The Internal Editorial Bible, and the register moved out of the book</dd><dt>2026-08-04</dt><dd>Resample the plates to the size they are actually printed at</dd></dl>
+       <p class="lg__note">5 earlier revisions not listed.</p>
+</section>
 </body></html>

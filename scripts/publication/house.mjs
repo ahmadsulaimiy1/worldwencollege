@@ -23,10 +23,10 @@
  *   the folio position. These are the signature. A publication that
  *   departs from them is not a WEC Press publication.
  *
- *   THE VARIABLES vary by series and only by series, along ONE axis
- *   each: format tells you the kind of book, the series colour tells
- *   you the shelf it belongs on, the cover field tells you whether it
- *   is for a learner, a teacher or an institution. One variable per
+ *   THE VARIABLES vary by publication family and only by family, along
+ *   ONE axis each: format tells you the kind of book, the family colour
+ *   tells you the shelf it belongs on, the cover field tells you whether
+ *   it is for a learner, a teacher or an institution. One variable per
  *   distinction. Four variables carrying the same distinction is not
  *   a system, it is decoration agreeing with itself.
  *
@@ -38,16 +38,16 @@
  * printed sample, a spine is estimated. So every number here that could
  * be derived IS derived — the trim and bleed from covers.mjs, the type
  * scale and the palettes from design.mjs, the spine from the same
- * caliper formula the flagship cover was produced with, and the series
+ * caliper formula the flagship cover was produced with, and the family
  * colours are checked for contrast rather than asserted to be legible.
  *
- * The one thing not computed is the series assignment itself. Which
- * hue belongs to which series is a decision, and it is recorded as one.
+ * The one thing not computed is the family assignment itself. Which hue
+ * belongs to which family is a decision, and it is recorded as one.
  */
 import { COLOURS, C, TYPE, BRAND, LEVEL_PALETTES } from './design.mjs';
 import { TRIM, BLEED, CALIPER_MM, spineWidth } from './covers.mjs';
 import { contrast } from './colour.mjs';
-import { SERIES } from './catalogue.mjs';
+import { FAMILIES_IN_USE } from './catalogue.mjs';
 
 // ─────────────────────────────────────────────────────────────────────
 // 1 · THE CONSTANTS
@@ -68,7 +68,7 @@ export const CONSTANTS = [
     + 'rather than as yellow.'],
   ['Folio', 'Outer edge, foot, sans, small. Same position in every publication so a reader '
     + 'flicking a book they have never opened finds the page number where their hand already is.'],
-  ['Spine architecture', 'Title at the head reading downward, series mark at the foot, crest '
+  ['Spine architecture', 'Title at the head reading downward, family mark at the foot, crest '
     + 'above it where width allows. Downward is the British and international convention; a '
     + 'shelf of our books reads consistently against neighbours.'],
   ['Verification', 'Every publication carrying credential or award content prints the '
@@ -193,13 +193,13 @@ export const COVER_GRID = [
   ['0–2/12 from head', 'Crest, centred, optically not mathematically.'],
   ['3/12', 'Institution line, letterspaced small caps, sans.'],
   ['4–7/12', 'Title field. The one place display type is permitted at cover size.'],
-  ['8/12', 'Series rule — the series colour, full measure, 0.6 mm.'],
+  ['8/12', 'Family rule — the family colour, full measure, 0.6 mm.'],
   ['9–10/12', 'Edition line: which edition of which publication, set plainly.'],
   ['11/12 to foot', 'Clear. A cover with type at the foot loses it to the shelf lip.'],
 ];
 
 export const COVER_FIELDS = [
-  ['Learner publications', 'Photographic field, duotone in the series colour, the crest '
+  ['Learner publications', 'Photographic field, duotone in the family colour, the crest '
     + 'reversed out. Warm, human, aspirational — the cover a learner wants to be seen '
     + 'carrying.'],
   ['Teaching publications', 'Flat deep-navy ground with the guilloché ornament at low '
@@ -207,7 +207,7 @@ export const COVER_FIELDS = [
   ['Institutional publications', 'Flat ground, no photography, gold rule only. Nothing on the '
     + 'cover that could be read as marketing.'],
   ['Scholarly publications', 'Typographic only: title, volume, issue, year. No image, no '
-    + 'ornament, no colour beyond the series rule.'],
+    + 'ornament, no colour beyond the family rule.'],
 ];
 
 export const BACK_COVER = [
@@ -233,14 +233,14 @@ export const BACK_COVER = [
  */
 export const SPINE_RULES = [
   { minMm: 0, name: 'Under 6 mm — no spine', carries: 'Saddle-stitched. There is no spine to '
-    + 'print on, and the series mark moves to the front cover foot. A first draft of this table '
+    + 'print on, and the family mark moves to the front cover foot. A first draft of this table '
     + 'gave the band a typographic rule instead, which could never have fired: the spine '
     + 'calculation floors at 6 mm because a perfect-bound spine below that cannot be squared.' },
-  { minMm: 6, name: '6–12 mm', carries: 'Title, series mark at the foot. Crest omitted: a crest '
+  { minMm: 6, name: '6–12 mm', carries: 'Title, family mark at the foot. Crest omitted: a crest '
     + 'under 12 mm reads as a smudge and damages the mark it is meant to establish.' },
-  { minMm: 12, name: '12–20 mm', carries: 'Title, subtitle, crest at the foot, series colour '
+  { minMm: 12, name: '12–20 mm', carries: 'Title, subtitle, crest at the foot, family colour '
     + 'band at the head.' },
-  { minMm: 20, name: 'Over 20 mm', carries: 'Full architecture: title, subtitle, crest, series '
+  { minMm: 20, name: 'Over 20 mm', carries: 'Full architecture: title, subtitle, crest, family '
     + 'band, and the six level bars where the publication covers all six levels.' },
 ];
 
@@ -258,63 +258,63 @@ export function spineFor(pages) {
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// 6 · SERIES COLOUR
+// 6 · FAMILY COLOUR
 // ─────────────────────────────────────────────────────────────────────
 
 /**
- * One hue per series, assigned as a decision and then CHECKED. The
- * check is the point: a series colour is printed as a rule on a cover
- * and as a band on a spine, and both carry type. A colour that fails
- * against the ground is not a series colour, it is a defect that ships
- * on every title in the series for a decade.
+ * One hue per publication family, assigned as a decision and then
+ * CHECKED. The check is the point: a family colour is printed as a rule
+ * on a cover and as a band on a spine, and both carry type. A colour
+ * that fails against the ground is not a family colour, it is a defect
+ * that ships on every title in the family for a decade.
  *
  * The level palettes are deliberately not reused. They mean level, and
- * a series colour that also meant level would collide the moment a
- * six-level series existed.
+ * a family colour that also meant level would collide the moment a
+ * six-level family existed.
  */
-const SERIES_HUES = {
-  'The IEFC Curriculum': 'royalGold',
-  Practice: 'imperialBlue',
-  Assessment: 'deepCrimson',
-  Skills: 'bronze',
-  Teaching: 'slateGrey',
-  Reference: 'richBurgundy',
-  Institutional: 'royalBlue',
-  'New programmes': 'champagneGold',
-  Scholarly: 'warmCharcoal',
-  Digital: 'platinum',
+const FAMILY_HUES = {
+  'IEFC Student Series': 'imperialBlue',
+  'IEFC Teacher Series': 'bronze',
+  'IEFC Assessment Series': 'deepCrimson',
+  'IEFC Reference Library': 'richBurgundy',
+  'WEC Academic Framework Series': 'royalBlue',
+  'WEC Governance Series': 'warmCharcoal',
+  'WEC Research Series': 'slateGrey',
+  'WEC Professional Development Series': 'platinum',
+  'WEC New Programmes Series': 'champagneGold',
+  'WEC Institutional Series': 'royalGold',
 };
 
 /**
  * Three rules, and all three were broken by the first assignment made
  * by eye — which is the argument for computing them.
  *
- *   ONE COLOUR, ONE SERIES. Two series sharing a hue means the shelf
+ *   ONE COLOUR, ONE FAMILY. Two families sharing a hue means the shelf
  *   signal is decorative. The first draft gave imperial blue to two
- *   series and gold to two more.
- *   THE HOUSE GROUND IS NOT A SERIES COLOUR. Midnight navy was
- *   assigned to Reference, and midnight navy on a midnight navy spine
- *   measures 1.00 : 1. It would have been invisible on the one surface
- *   the series mark exists for.
- *   EVERY SERIES COLOUR IS PRINTED ON THE GROUND WHERE IT REACHES
+ *   and gold to two more.
+ *   THE HOUSE GROUND IS NOT A FAMILY COLOUR. Midnight navy was
+ *   assigned to the Reference Library, and midnight navy on a midnight
+ *   navy spine measures 1.00 : 1. It would have been invisible on the
+ *   one surface the family mark exists for.
+ *   EVERY FAMILY COLOUR IS PRINTED ON THE GROUND WHERE IT REACHES
  *   3 : 1, and the system says which ground that is rather than
  *   leaving it to whoever sets the next cover. Gold cannot carry a
  *   band on paper at 2.82 : 1; on navy it reaches 5.73 : 1.
  */
-export function seriesColours() {
+export function familyColours() {
   const seen = new Map();
-  return SERIES.map((s) => {
-    const key = SERIES_HUES[s];
+  return FAMILIES_IN_USE.map((s) => {
+    const key = FAMILY_HUES[s];
     const hex = COLOURS[key]?.hex;
-    if (!hex) throw new Error(`series "${s}" has no colour assigned`);
-    if (key === 'midnightNavy') throw new Error('the house ground may not be a series colour');
+    if (!hex) throw new Error(`family "${s}" has no colour assigned`);
+    if (key === 'midnightNavy') throw new Error('the house ground may not be a family colour');
     if (seen.has(key)) throw new Error(`"${key}" is already the colour of "${seen.get(key)}"`);
     seen.set(key, s);
     const onPaper = round2(contrast(hex, BRAND.paper));
     const onNavy = round2(contrast(hex, C.midnightNavy));
     const ground = onPaper >= 3 ? 'paper' : onNavy >= 3 ? 'navy' : null;
     if (!ground) throw new Error(`"${key}" reaches 3:1 against neither ground`);
-    return { series: s, token: key, hex, onPaper, onNavy, ground,
+    return { family: s, token: key, hex, onPaper, onNavy, ground,
       ratio: ground === 'paper' ? onPaper : onNavy };
   });
 }
@@ -322,7 +322,7 @@ export function seriesColours() {
 const round2 = (n) => Math.round(n * 100) / 100;
 
 /**
- * Where a series colour may be used, which follows from its contrast
+ * Where a family colour may be used, which follows from its contrast
  * rather than from taste. A hue that fails 3:1 against a ground may
  * still be a rule on that ground — a 0.6 mm line is not text — but it
  * may never carry type there.
@@ -341,10 +341,10 @@ export const OPENERS = [
   ['Part opener', 'Full bleed, deep ground, the part numeral at display size, the part title '
     + 'below it, nothing else. Always recto; the verso before it is left blank rather than '
     + 'filled.'],
-  ['Level or chapter divider', 'Photographic field in the level or series colour, the ascent '
+  ['Level or chapter divider', 'Photographic field in the level or family colour, the ascent '
     + 'ornament stating position in the sequence, the title, and one extracted line from the '
     + 'content itself where one exists. Never an inspirational quotation written for the page.'],
-  ['Module opener', 'Half-page: rule in the series colour, module numeral, title, and the '
+  ['Module opener', 'Half-page: rule in the family colour, module numeral, title, and the '
     + 'module’s own pull quote where the content yields one. Where it does not, the opener is '
     + 'quieter — the alternative is writing a quote, which is forgery of the curriculum’s '
     + 'voice.'],
@@ -402,7 +402,7 @@ export const PHOTOGRAPHY = [
   ['Narrative', 'Photography carries atmosphere and aspiration, never illustration of the '
     + 'obvious. A photograph of a person reading placed beside a passage about reading adds '
     + 'nothing and costs a licence.'],
-  ['Treatment', 'Duotone in the level or series colour for fields and dividers; untreated at '
+  ['Treatment', 'Duotone in the level or family colour for fields and dividers; untreated at '
     + 'full colour only in plates. One treatment per publication.'],
   ['Resampling', 'Every image is resampled to its printed size at 300 ppi before placement, '
     + 'and the untouched original is kept outside version control.'],
@@ -485,7 +485,7 @@ export const DIGITAL_STANDARDS = [
  * go wrong, recomputed. Used by the Press volume and by the tests.
  */
 export function houseEvidence() {
-  const colours = seriesColours();
+  const colours = familyColours();
   return {
     colours,
     typeOnly: colours.filter((c) => c.onNavy >= 4.5).map((c) => c.series),

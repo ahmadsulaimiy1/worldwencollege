@@ -12,6 +12,7 @@ import { buildCurriculum } from './curriculum.mjs';
 import { build as buildInstitutional } from './canonical.mjs';
 import { paletteFor, BRAND, TYPE, C as PAL, STAGE_MARK, EMPHASIS_STAGES, ascentOrnament } from './design.mjs';
 import { publicationIdentity } from './identity.mjs';
+import { legacyBlock, ecosystem } from './legacy.mjs';
 import { frontMatter, backMatter, coverSpread, spineWidth, TRIM, BLEED } from './covers.mjs';
 import { guillocheRosette, guillocheBand, girihRosette, frame, cornerFan, fleuron, crest, EMBOSS } from './ornament.mjs';
 import { stageIcon, GENERIC_ICON } from './icons.mjs';
@@ -1081,7 +1082,28 @@ const PLACED_IMAGES = [...new Set([...(`${CONTENTS}${FRONT_INNER}${BODY_BEFORE_C
   .matchAll(/img\/([a-z0-9-]+\.jpg)/gi))].map((m) => m[1])
   .concat(Object.values(PLATES).map((p) => p.file.split('/').pop())))];
 
-const BACK = BODY_BEFORE_COLOPHON + backMatter(ID, null, PLACED_IMAGES);
+// The legacy apparatus: family, maturity, citation form, cataloguing
+// data and revision history, generated from one source for every
+// publication of the Press rather than written into each renderer.
+const RECORD = ecosystem().find((r) => r.artefact
+  && r.artefact.endsWith(`${EDITION.file}.pdf`));
+const LEGACY = legacyBlock({
+  id: ID,
+  title: 'The International English Fluency Certificate',
+  subtitle: EDITION.key === 'institutional' ? 'Programme Architecture' : 'The Complete Curriculum',
+  family: RECORD ? RECORD.family.key : 'IEFC Teacher Series',
+  audience: RECORD ? RECORD.audience : 'Teaching staff',
+  subjects: ['English language — Study and teaching', 'Language and languages — Curricula',
+    'English language — Examinations', 'Common European Framework of Reference'],
+  pages: null,
+  artefact: RECORD ? RECORD.artefact : null,
+  relatives: RECORD ? RECORD.relatives : [],
+  maturity: RECORD ? RECORD.maturity : undefined,
+  ink: PAL.royalBlue, rule: PAL.platinum, soft: PAL.slateGrey, accent: PAL.royalGold,
+  panel: PAL.softCream,
+});
+
+const BACK = BODY_BEFORE_COLOPHON + backMatter(ID, null, PLACED_IMAGES, LEGACY);
 
 // ---- The stylesheet --------------------------------------------------
 const CSS = `

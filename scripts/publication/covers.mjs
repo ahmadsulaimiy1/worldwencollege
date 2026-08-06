@@ -498,7 +498,7 @@ export const creditsFor = (placedFiles) => (placedFiles
   ? PHOTO_CREDITS.filter(([, , , file]) => placedFiles.includes(file))
   : PHOTO_CREDITS);
 
-export function backMatter(id, pages, placedFiles) {
+export function backMatter(id, pages, placedFiles, legacyHtml = '') {
   const credits = creditsFor(placedFiles);
   return `
 <section class="colophon">
@@ -532,7 +532,7 @@ export function backMatter(id, pages, placedFiles) {
     Issue ${esc(id.issueCode)} · ${pages ? `${pages} pages · ` : ''}Generated ${esc(id.generated)}</p>
   <div class="col__band">${guillocheBand({ width: 480, height: 18, stroke: C.royalGold, opacity: 0.5 })}</div>
 </section>
-
+${legacyHtml}
 <section class="endpaper endpaper--back">
   <div class="endpaper__field">${girihField({ w: 420, h: 594, cell: 58, stroke: C.royalGold, opacity: 0.3 })}</div>
   <div class="endpaper__mark">${crest({ size: 70, gold: C.champagneGold, ink: 'none', mono: true })}</div>

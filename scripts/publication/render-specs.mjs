@@ -24,6 +24,7 @@
 import { buildCurriculum } from './curriculum.mjs';
 import { COLOURS, TYPE, LEVEL_PALETTES, BRAND, C as PAL } from './design.mjs';
 import { stageIcon, ICON_KEYS } from './icons.mjs';
+import { legacyBlock, ecosystem } from './legacy.mjs';
 import { publicationIdentity, AUTHENTICITY_NOTICE } from './identity.mjs';
 import { TRIM, BLEED, CALIPER_MM, spineWidth, OMISSIONS } from './covers.mjs';
 import {
@@ -664,6 +665,19 @@ ${[['Text block', '100 gsm uncoated offset, high bulk, natural white, FSC',
 <tbody>${OMISSIONS.map((o) => `<tr><td>${esc(o.scope)}</td><td>${esc(o.item)}</td>
   <td class="gap">${esc(o.status)}</td></tr>`).join('')}</tbody></table>
 
+${legacyBlock({
+  id: ID,
+  title: 'IEFC Production Specifications',
+  family: 'WEC Governance Series',
+  audience: 'Printers, binders and production suppliers',
+  subjects: ['Book design', 'Printing — Specifications', 'Bookbinding', 'Colour management'],
+  pages: null,
+  artefact: (ecosystem().find((r) => r.name === 'IEFC Production Specifications') || {}).artefact || null,
+  relatives: (ecosystem().find((r) => r.name === 'IEFC Production Specifications') || {}).relatives || [],
+  maturity: (ecosystem().find((r) => r.name === 'IEFC Production Specifications') || {}).maturity,
+  ink: PAL.royalBlue, rule: PAL.platinum, soft: PAL.slateGrey, accent: PAL.royalGold,
+  panel: PAL.softCream,
+})}
 </body></html>`;
 
 mkdirSync(path.join(ROOT, 'publication'), { recursive: true });

@@ -91,7 +91,7 @@ table.auditsum td { padding:4pt 8pt 4pt 0; border-bottom:.4pt solid #E8EBF1; ver
   <p class="eyebrow">Worldwide English College · London Campus</p>
   <h1>The Internal Editorial Bible</h1>
   <p class="lead">Working registers for <i>The International English Fluency Certificate:
-    The Complete Curriculum</i>, 441 pages.</p>
+    The Complete Curriculum</i>, 443 pages.</p>
   <p style="max-width:34em">Seven registers of legitimate improvement, and a governance register of
     decisions that only the institution can take. Every entry names who has to act, because the
     single most common failure of a document like this is to record a finding without recording
@@ -99,7 +99,7 @@ table.auditsum td { padding:4pt 8pt 4pt 0; border-bottom:.4pt solid #E8EBF1; ver
   <div class="cover__meta">
     WEC-LC/IEFC/CUR/2026/E01 · Document ID RP6Y-KFPF-2NJ5-8SW9<br>
     Generated 2026-08-06 · 31 items executed ·
-    20 remaining across 7 registers,
+    21 remaining across 7 registers,
     plus 6 governance items
   </div>
 </section>
@@ -132,7 +132,7 @@ table.auditsum td { padding:4pt 8pt 4pt 0; border-bottom:.4pt solid #E8EBF1; ver
   <table><thead><tr><th scope="col">Owner</th><th scope="col">Entries</th>
     <th scope="col">What it means</th></tr></thead><tbody>
     <tr><td><span class="own own--ed">Editorial</span></td>
-      <td class="mono">2</td><td>The publication can do this itself. No new curriculum, no decision.</td></tr><tr><td><span class="own own--au">Academic authoring</span></td>
+      <td class="mono">3</td><td>The publication can do this itself. No new curriculum, no decision.</td></tr><tr><td><span class="own own--au">Academic authoring</span></td>
       <td class="mono">6</td><td>Needs qualified academic authors. Not inventable.</td></tr><tr><td><span class="own own--gov">Governance</span></td>
       <td class="mono">7</td><td>Needs an institutional decision or an external authority.</td></tr><tr><td><span class="own own--prod">Production</span></td>
       <td class="mono">2</td><td>Needs a printer, a proof, or a colour-managed workflow.</td></tr><tr><td><span class="own own--eng">Tooling limit</span></td>
@@ -322,6 +322,16 @@ table.auditsum td { padding:4pt 8pt 4pt 0; border-bottom:.4pt solid #E8EBF1; ver
   <h2>Editorial Opportunity Register</h2>
   <p class="lead">Improvements the publication can make to itself — no new curriculum, no institutional decision. These should simply be done.</p>
   <article class="entry">
+    <header>
+      <h3>The legacy apparatus in the institutional flagship document</h3>
+      <span class="own own--ed">Editorial</span>
+    </header>
+    <dl>
+      <dt>Current state</dt><dd>Eight of the nine issued artefacts now carry the Press apparatus — family, maturity, issue code, citation form, cataloguing data and revision history. The institutional flagship document does not. It is produced through a different path: one block list rendered twice, to Word and to print, with a test comparing the two token by token. Injecting HTML into the print side alone would break that comparison, which is the guard that keeps the two artefacts identical.</dd>
+      <dt>Opportunity</dt><dd>Express the apparatus as blocks rather than as HTML, so both renderers emit it and the token comparison still holds. The readiness table in the Press volume shows this publication failing three properties until that is done, which is the correct behaviour: the gap is visible in print rather than recorded in a file nobody opens.</dd>
+    </dl>
+    <p class="meta"><b>Impact</b> Medium — one publication of nine is outside the record apparatus. &nbsp;·&nbsp; <b>Effort</b> Medium — three new block kinds and a rebuild of both artefacts.</p>
+  </article><article class="entry">
     <header>
       <h3>Edition history</h3>
       <span class="own own--ed">Editorial</span>
@@ -621,4 +631,62 @@ table.auditsum td { padding:4pt 8pt 4pt 0; border-bottom:.4pt solid #E8EBF1; ver
   </div>
 </section>
 
+
+<style>
+.lg { break-before:page; }
+.lg h2 { color:#1F3E7C; }
+.lg__eyebrow { font-size:6.6pt; font-weight:700; letter-spacing:.26em; text-transform:uppercase;
+  color:#B4933E; margin:0 0 5pt; }
+.lg dl { margin:6pt 0 12pt; font-size:8.4pt; display:grid; grid-template-columns:34% 1fr;
+  column-gap:8pt; }
+.lg dt { padding:3.4pt 0; border-bottom:.4pt solid #D8DCE3; font-size:7.2pt; font-weight:700;
+  letter-spacing:.04em; color:#1F3E7C; }
+.lg dd { padding:3.4pt 0; border-bottom:.4pt solid #D8DCE3; margin:0; }
+.lg__cite { border-left:2.4pt solid #B4933E; background:#F6F1E4; padding:9pt 12pt;
+  margin:8pt 0 12pt; break-inside:avoid; }
+.lg__cite p { margin:0 0 5pt; }
+.lg__cite p:last-child { margin:0; }
+.lg__note { font-size:7.6pt; color:#6B7280; margin:0 0 10pt; }
+.lg h3 { font-size:10pt; margin:12pt 0 3pt; }
+.lg ul { margin:0 0 10pt; padding-left:14pt; font-size:8.6pt; }
+.lg li { margin:0 0 2pt; }
+</style>
+<section class="lg">
+  <p class="lg__eyebrow">The record</p>
+  <h2>This publication in the WEC Press record</h2>
+  <p class="lg__note">Every publication of the Press carries this apparatus, generated from one
+    source, so that a reader in twenty years can identify this copy, cite it, catalogue it, and
+    find the publications it belongs beside — without needing anyone who made it.</p>
+
+  <h3>Place in the ecosystem</h3>
+  <dl>
+    <dt>Issue</dt><dd>E01.R00.01 — edition 01, revision 00, impression 01</dd>
+    <dt>Family</dt><dd>WEC Governance Series</dd>
+    <dt>What the family is for</dt><dd>How the College publishes, produces and regulates. Includes the documents that bind the Press itself.</dd>
+    <dt>Maturity</dt><dd>First edition</dd>
+    <dt>What that means</dt><dd>One edition issued. It has not been reviewed by anyone other than its makers, and a reader should weigh it accordingly.</dd>
+  </dl>
+  <h3>Published beside this volume</h3>
+  <ul><li>The Staff Induction Manual</li><li>The Academic Regulations</li><li>WEC Press — The Publishing Constitution</li><li>IEFC Production Specifications</li></ul>
+
+  <h3>How to cite</h3>
+  <div class="lg__cite">
+    <p>Worldwide English College. The Internal Editorial Bible. First edition. London: Worldwide English College Press, 2026. Document ID RP6Y-KFPF-2NJ5-8SW9.</p>
+    <p class="lg__note" style="margin:0">In text: (Worldwide English College 2026)</p>
+  </div>
+
+  <h3>Cataloguing</h3>
+  <p class="lg__note">Cataloguing-in-publication data, prepared by the Press. The four
+    identifiers below are not held by the College; each names the authority that would issue it.
+    The extent is that of the impression on file when this copy was generated: a publication
+    cannot count its own pages while it is being set.</p>
+  <dl><dt>Title</dt><dd>The Internal Editorial Bible</dd><dt>Statement of responsibility</dt><dd>Worldwide English College, London Campus</dd><dt>Family</dt><dd>WEC Governance Series</dd><dt>Edition</dt><dd>First edition</dd><dt>Imprint</dt><dd>London: Worldwide English College Press, 2026</dd><dt>Extent</dt><dd>22 pages</dd><dt>Intended readership</dt><dd>The editorial function only</dd><dt>Subject terms</dt><dd>Editing · Publishers and publishing — Standards · Editorial policy</dd><dt>Language</dt><dd>English (en-GB)</dd><dt>ISBN</dt><dd>Not assigned — International ISBN Agency</dd><dt>DOI</dt><dd>Not registered — A DOI registration agency</dd><dt>Legal deposit</dt><dd>Not deposited — The British Library</dd><dt>Library catalogue</dt><dd>Not catalogued — A depository library</dd></dl>
+
+  <h3>Revision history</h3>
+  <p class="lg__note">Derived from the source repository at generation, not kept by hand.
+        First issued 2026-08-04 · 8 revisions
+        · last changed 2026-08-06.</p>
+       <dl><dt>2026-08-06</dt><dd>Constitute the Press: rules that can be checked, a catalogue that cannot flatter</dd><dt>2026-08-06</dt><dd>The final publication audit, and the claim it found still live</dd><dt>2026-08-06</dt><dd>Three editions from one source</dd><dt>2026-08-06</dt><dd>Rasterise the printed page, and cut 81 pages of white nobody chose</dd><dt>2026-08-06</dt><dd>Measure the figures, and remove the one that could not be true</dd><dt>2026-08-06</dt><dd>Finish the editorial register: the apparatus, extracted and verified</dd><dt>2026-08-05</dt><dd>Execute the editorial register: indexes, guide, awards table, bands</dd><dt>2026-08-04</dt><dd>The Internal Editorial Bible, and the register moved out of the book</dd></dl>
+       
+</section>
 </body></html>

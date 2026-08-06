@@ -15,6 +15,7 @@
 import { buildCurriculum } from './curriculum.mjs';
 import { build as buildInstitutional } from './canonical.mjs';
 import { TYPE, C as PAL } from './design.mjs';
+import { legacyBlock, ecosystem } from './legacy.mjs';
 import { publicationIdentity } from './identity.mjs';
 import { REGISTERS, GOVERNANCE, ALL_ENTRIES, EXECUTED, OWNER, AUDIT, AUDIT_STATUS } from './bible.mjs';
 import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
@@ -331,6 +332,19 @@ ${registerHtml}
   </div>
 </section>
 
+${legacyBlock({
+  id: ID,
+  title: 'The Internal Editorial Bible',
+  family: 'WEC Governance Series',
+  audience: 'The editorial function only',
+  subjects: ['Editing', 'Publishers and publishing — Standards', 'Editorial policy'],
+  pages: null,
+  artefact: (ecosystem().find((r) => r.name === 'The Internal Editorial Bible') || {}).artefact || null,
+  relatives: (ecosystem().find((r) => r.name === 'The Internal Editorial Bible') || {}).relatives || [],
+  maturity: (ecosystem().find((r) => r.name === 'The Internal Editorial Bible') || {}).maturity,
+  ink: PAL.royalBlue, rule: PAL.platinum, soft: PAL.slateGrey, accent: PAL.royalGold,
+  panel: PAL.softCream,
+})}
 </body></html>`;
 
 mkdirSync(path.join(ROOT, 'publication'), { recursive: true });

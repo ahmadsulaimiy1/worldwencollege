@@ -227,51 +227,56 @@ export const WAVES = [
     gate: 'Requires the College to have a history: graduates, appointed officers, audited years.' },
 ];
 
-const t = (o) => ({ needs: [], governance: null, artefact: null, build: null, ...o });
+const t = (o) => ({ needs: [], governance: null, artefact: null, build: null,
+  htmlSource: null, ...o });
 
 export const TITLES = [
   // ── The curriculum itself ─────────────────────────────────────────
   t({
-    n: 1, series: 'The IEFC Curriculum', wave: 1,
+    n: 1, family: 'IEFC Teacher Series', wave: 1,
     name: 'The International English Fluency Certificate — The Complete Curriculum',
     edition: 'Teacher’s Edition',
     audience: 'Teaching staff, academic reviewers, accreditation panels',
     artefact: 'publication/IEFC Complete Curriculum.pdf', build: 'curriculum',
+    htmlSource: 'publication/.flagship.html',
     source: 'The whole academic database, set as a book: every module, every lesson, '
       + 'every rubric, the answer keys and the teaching guide.',
   }),
   t({
-    n: 2, series: 'The IEFC Curriculum', wave: 1,
+    n: 2, family: 'IEFC Student Series', wave: 1,
     name: 'The International English Fluency Certificate — The Complete Curriculum',
     edition: 'Student Edition',
     audience: 'Enrolled learners',
     artefact: 'publication/IEFC Complete Curriculum (Student Edition).pdf',
+    htmlSource: 'publication/.student.html',
     build: 'curriculum:student', onDemand: true,
     source: 'The same source with the answer keys and teaching guide suppressed, so the '
       + 'two editions cannot drift apart.',
   }),
   t({
-    n: 3, series: 'The IEFC Curriculum', wave: 1,
+    n: 3, family: 'WEC Academic Framework Series', wave: 1,
     name: 'The International English Fluency Certificate — Programme Architecture',
     edition: 'Institutional Edition',
     audience: 'Partner institutions, employers, ministries, quality reviewers',
     artefact: 'publication/IEFC Programme Architecture (Institutional Edition).pdf',
+    htmlSource: 'publication/.institutional.html',
     build: 'curriculum:institutional',
     source: 'The structure without the teaching: levels, modules, awards, frameworks, '
       + 'assessment design and the stated limitations.',
   }),
   t({
-    n: 4, series: 'The IEFC Curriculum', wave: 1,
+    n: 4, family: 'IEFC Student Series', wave: 1,
     name: 'The International English Fluency Certificate — The Complete Curriculum',
     edition: 'Large Print Edition (18 pt)',
     audience: 'Readers with low vision; reading-access provision',
     artefact: 'publication/IEFC Complete Curriculum (Large Print).pdf',
+    htmlSource: 'publication/.flagship-large.html',
     build: 'curriculum:large', onDemand: true,
     source: 'The same text at a type scale that meets the large-print threshold, reflowed '
       + 'rather than magnified.',
   }),
   t({
-    n: 5, series: 'The IEFC Curriculum', wave: 1,
+    n: 5, family: 'IEFC Teacher Series', wave: 1,
     name: 'The International English Fluency Certificate — The Complete Curriculum',
     edition: 'Editable Edition (DOCX)',
     audience: 'Academic staff preparing course materials',
@@ -281,10 +286,11 @@ export const TITLES = [
   }),
 
   t({
-    n: 43, series: 'The IEFC Curriculum', wave: 1,
+    n: 43, family: 'WEC Academic Framework Series', wave: 1,
     name: 'The International English Fluency Certificate', edition: 'Flagship Document',
     audience: 'Reviewers and partners who need the qualification, not the lessons',
     artefact: 'publication/IEFC Flagship Curriculum.pdf', build: 'publication',
+    htmlSource: 'publication/.print.html',
     source: 'The programme definition, the claims audit, the level architecture, the '
       + 'frameworks and the award definitions, rendered from the canonical model to Word and to '
       + 'print from one block list — the two artefacts are compared token by token by a test '
@@ -293,7 +299,7 @@ export const TITLES = [
 
   // ── Practice and assessment ───────────────────────────────────────
   t({
-    n: 6, series: 'Practice', wave: 1,
+    n: 6, family: 'IEFC Student Series', wave: 1,
     name: 'The IEFC Workbook', edition: 'Six volumes, one per level',
     audience: 'Learners working outside class',
     needs: [need('lessons with guided practice', 'guidedStages', 114),
@@ -303,7 +309,7 @@ export const TITLES = [
       + 'teaching lesson, lifted out and given the space to be written in.',
   }),
   t({
-    n: 7, series: 'Practice', wave: 1,
+    n: 7, family: 'IEFC Student Series', wave: 1,
     name: 'The IEFC Vocabulary Companion',
     audience: 'Learners at every level; teachers planning recycling',
     needs: [need('lessons carrying a vocabulary stage', 'vocabularyStages', 114),
@@ -312,7 +318,7 @@ export const TITLES = [
       + 'shows where each item is first taught and where it returns.',
   }),
   t({
-    n: 8, series: 'Assessment', wave: 1,
+    n: 8, family: 'IEFC Assessment Series', wave: 1,
     name: 'The IEFC Assessment Handbook',
     audience: 'Teaching staff, examiners, moderators',
     needs: [need('module quizzes', 'quizzes', 60), need('quiz questions', 'questions', 600),
@@ -321,7 +327,7 @@ export const TITLES = [
       + 'marking standards stated once instead of sixty times.',
   }),
   t({
-    n: 9, series: 'Assessment', wave: 2,
+    n: 9, family: 'IEFC Assessment Series', wave: 2,
     name: 'IEFC Examination Papers and Model Answers',
     audience: 'Candidates preparing for level examinations',
     needs: [need('examination papers', 'examPapers', 12)],
@@ -332,7 +338,7 @@ export const TITLES = [
 
   // ── The skills series ─────────────────────────────────────────────
   t({
-    n: 10, series: 'Skills', wave: 1,
+    n: 10, family: 'IEFC Reference Library', wave: 1,
     name: 'The IEFC Listening Scripts', edition: 'With speaker cues and transcripts',
     audience: 'Teachers running listening work without recorded audio',
     needs: [need('listening scripts', 'listeningScripts', 60),
@@ -342,7 +348,7 @@ export const TITLES = [
       + 'transcript and speaker-attributed cues, which have never been set as a book.',
   }),
   t({
-    n: 11, series: 'Skills', wave: 2,
+    n: 11, family: 'IEFC Student Series', wave: 2,
     name: 'The IEFC Listening Programme', edition: 'Audio with printed script book',
     audience: 'Learners; self-access centres',
     governance: 'The scripts exist and the recordings do not: nought of 120 assets has an '
@@ -352,7 +358,7 @@ export const TITLES = [
       + 'minute for every asset. The written half of this publication is complete.',
   }),
   t({
-    n: 12, series: 'Skills', wave: 1,
+    n: 12, family: 'IEFC Reference Library', wave: 1,
     name: 'The IEFC Pronunciation Handbook',
     audience: 'Learners and teachers across all six levels',
     needs: [need('pronunciation targets with guidance', 'pronunciationTargets', 120),
@@ -362,7 +368,7 @@ export const TITLES = [
       + 'intonation and connected speech.',
   }),
   t({
-    n: 13, series: 'Skills', wave: 1,
+    n: 13, family: 'IEFC Reference Library', wave: 1,
     name: 'A Grammar of the IEFC', edition: 'A reference keyed to the lessons',
     audience: 'Teachers; advanced learners',
     needs: [need('presentation stages', 'presentationStages', 114)],
@@ -371,7 +377,7 @@ export const TITLES = [
       + 'grammar syllabus, and the title must not imply one.',
   }),
   t({
-    n: 14, series: 'Skills', wave: 1,
+    n: 14, family: 'IEFC Student Series', wave: 1,
     name: 'Speaking and Interaction in the IEFC',
     audience: 'Teachers running speaking work; examiners',
     needs: [need('lessons with a speaking stage', 'speakingStages', 88)],
@@ -379,7 +385,7 @@ export const TITLES = [
       + 'Level I, 10 at Level VI — and the volume must show that shape rather than hide it.',
   }),
   t({
-    n: 15, series: 'Skills', wave: 2,
+    n: 15, family: 'IEFC Student Series', wave: 2,
     name: 'The IEFC Reading Programme',
     audience: 'Learners; teachers planning extensive reading',
     needs: [need('lessons with a reading stage', 'readingStages', 114)],
@@ -388,7 +394,7 @@ export const TITLES = [
       + 'the size of the authoring job.',
   }),
   t({
-    n: 16, series: 'Skills', wave: 2,
+    n: 16, family: 'IEFC Student Series', wave: 2,
     name: 'Academic Writing in the IEFC', edition: 'Levels IV–VI',
     audience: 'Learners preparing for university study',
     needs: [need('modules devoted to academic writing or research', 'academicWritingModules', 5),
@@ -399,7 +405,7 @@ export const TITLES = [
 
   // ── Teacher and professional ──────────────────────────────────────
   t({
-    n: 17, series: 'Teaching', wave: 2,
+    n: 17, family: 'WEC Professional Development Series', wave: 2,
     name: 'Teaching the IEFC: A Handbook for Staff',
     audience: 'Teaching staff',
     needs: [need('authored chapters on teaching method', 'pedagogyChapters', 8)],
@@ -407,7 +413,7 @@ export const TITLES = [
       + 'method is a different work and none of it has been written.',
   }),
   t({
-    n: 18, series: 'Teaching', wave: 2,
+    n: 18, family: 'WEC Professional Development Series', wave: 2,
     name: 'Assessment Literacy for IEFC Teachers',
     audience: 'Teaching staff; internal moderators',
     needs: [need('assessments carrying a competency mapping', 'assessmentsMapped', 120),
@@ -417,7 +423,7 @@ export const TITLES = [
       + 'that omitted that would be teaching the wrong lesson.',
   }),
   t({
-    n: 19, series: 'Teaching', wave: 4,
+    n: 19, family: 'WEC Governance Series', wave: 4,
     name: 'The Staff Induction Manual',
     audience: 'Newly appointed teaching and academic staff',
     governance: 'The College has no appointed teaching staff and no appointed members of '
@@ -429,7 +435,7 @@ export const TITLES = [
 
   // ── Reference ─────────────────────────────────────────────────────
   t({
-    n: 20, series: 'Reference', wave: 1,
+    n: 20, family: 'IEFC Reference Library', wave: 1,
     name: 'A Glossary of the IEFC',
     audience: 'Learners, teachers, reviewers',
     needs: [need('headwords defined from curriculum usage', 'glossaryHeadwords', 40)],
@@ -437,7 +443,7 @@ export const TITLES = [
       + 'evidenced by a counted number of occurrences in the lessons.',
   }),
   t({
-    n: 21, series: 'Reference', wave: 1,
+    n: 21, family: 'IEFC Reference Library', wave: 1,
     name: 'The IEFC Companion', edition: 'Cross-references, revision routes and indexes',
     audience: 'Teachers planning sequences; learners revising',
     needs: [need('lesson-to-lesson cross-references', 'crossRefs', 114),
@@ -446,7 +452,7 @@ export const TITLES = [
       + 'a graph: what each module is built on, and what later returns to it.',
   }),
   t({
-    n: 22, series: 'Reference', wave: 1,
+    n: 22, family: 'WEC Academic Framework Series', wave: 1,
     name: 'The Award Architecture of the College',
     audience: 'Employers, partner institutions, verifying bodies',
     needs: [need('award definitions', 'awardDefinitions', 6),
@@ -455,7 +461,7 @@ export const TITLES = [
       + 'academic purpose and graduate profiles, and the verification mechanism.',
   }),
   t({
-    n: 23, series: 'Reference', wave: 2,
+    n: 23, family: 'WEC Academic Framework Series', wave: 2,
     name: 'The Academic Framework of the College',
     audience: 'Quality reviewers; academic partners',
     needs: [need('competencies', 'competencies', 6),
@@ -468,7 +474,7 @@ export const TITLES = [
 
   // ── Institutional ─────────────────────────────────────────────────
   t({
-    n: 24, series: 'Institutional', wave: 1,
+    n: 24, family: 'WEC Institutional Series', wave: 1,
     name: 'The Prospectus',
     audience: 'Prospective learners and their sponsors',
     needs: [need('modules', 'modules', 60), need('award definitions', 'awardDefinitions', 6)],
@@ -476,7 +482,7 @@ export const TITLES = [
       + 'claim standard as the website — which is checked, in both languages, by a test.',
   }),
   t({
-    n: 25, series: 'Institutional', wave: 2,
+    n: 25, family: 'WEC Governance Series', wave: 2,
     name: 'The Academic Regulations',
     audience: 'Learners, staff, external reviewers',
     governance: 'Regulations bind. They are made by a body with the standing to make them, '
@@ -486,7 +492,7 @@ export const TITLES = [
       + 'assessment design are already written and consistent.',
   }),
   t({
-    n: 26, series: 'Institutional', wave: 4,
+    n: 26, family: 'WEC Institutional Series', wave: 4,
     name: 'The Annual Report',
     audience: 'Sponsors, partners, public record',
     governance: 'No academic year has been completed, no learner is enrolled, no award has '
@@ -496,7 +502,7 @@ export const TITLES = [
       + 'reporting instrument exists before the year it would report on.',
   }),
   t({
-    n: 27, series: 'Institutional', wave: 4,
+    n: 27, family: 'WEC Institutional Series', wave: 4,
     name: 'The Alumni Review',
     audience: 'Graduates; the six alumni chapters',
     governance: 'Six chapters are defined; nought officers have been elected and nought '
@@ -504,33 +510,36 @@ export const TITLES = [
     source: 'The chapter architecture, the award titles and the post-nominals are settled.',
   }),
   t({
-    n: 28, series: 'Institutional', wave: 1,
+    n: 28, family: 'WEC Governance Series', wave: 1,
     name: 'WEC Press — The Publishing Constitution',
     audience: 'Everyone who will ever produce a publication for the College',
     artefact: 'publication/WEC Press — The Publishing Constitution.pdf', build: 'press',
+    htmlSource: 'publication/.press.html',
     source: 'Twenty-three constitutions, this catalogue, and the house visual identity, each '
       + 'clause declaring whether a test enforces it.',
   }),
   t({
-    n: 29, series: 'Institutional', wave: 1,
+    n: 29, family: 'WEC Governance Series', wave: 1,
     name: 'IEFC Production Specifications',
     audience: 'Printers, binders, production suppliers',
     artefact: 'publication/IEFC Production Specifications.pdf', build: 'curriculum',
+    htmlSource: 'publication/.specs.html',
     source: 'Trim, stock, ink limits, finishing, the asset inventory and the production '
       + 'checklist for the flagship.',
   }),
   t({
-    n: 30, series: 'Institutional', wave: 1,
+    n: 30, family: 'WEC Governance Series', wave: 1,
     name: 'The Internal Editorial Bible', edition: 'Internal — not for distribution',
     audience: 'The editorial function only',
     artefact: 'publication/IEFC Internal Editorial Bible.pdf', build: 'curriculum',
+    htmlSource: 'publication/.bible.html',
     source: 'What was executed, what remains, who owns each remaining item, and the final '
       + 'publication audit under eighteen headings.',
   }),
 
   // ── New programmes ────────────────────────────────────────────────
   t({
-    n: 31, series: 'New programmes', wave: 3,
+    n: 31, family: 'WEC New Programmes Series', wave: 3,
     name: 'English for Business', edition: 'A series',
     audience: 'Professionals; corporate clients',
     needs: [need('modules written as business English', 'businessModules', 20)],
@@ -540,7 +549,7 @@ export const TITLES = [
       + 'level, not one at the top.',
   }),
   t({
-    n: 32, series: 'New programmes', wave: 3,
+    n: 32, family: 'WEC New Programmes Series', wave: 3,
     name: 'Executive English', edition: 'Intensive, short-form',
     audience: 'Senior professionals with little time',
     needs: [need('modules written for executive delivery', 'executiveModules', 12)],
@@ -550,7 +559,7 @@ export const TITLES = [
       + 'this one.',
   }),
   t({
-    n: 33, series: 'New programmes', wave: 3,
+    n: 33, family: 'WEC New Programmes Series', wave: 3,
     name: 'English for Young Learners', edition: 'A series',
     audience: 'Children and their teachers',
     governance: 'The College admits adults. Publishing for children changes the admissions '
@@ -560,7 +569,7 @@ export const TITLES = [
       + 'adapted without the decisions above being taken first.',
   }),
   t({
-    n: 34, series: 'New programmes', wave: 3,
+    n: 34, family: 'WEC New Programmes Series', wave: 3,
     name: 'English for Academic Purposes', edition: 'Pre-sessional and in-sessional',
     audience: 'Learners entering English-medium universities',
     needs: [need('modules devoted to academic writing or research', 'academicWritingModules', 10)],
@@ -568,7 +577,7 @@ export const TITLES = [
       + 'programme needs roughly twice that, plus seminar skills and source handling.',
   }),
   t({
-    n: 35, series: 'New programmes', wave: 3,
+    n: 35, family: 'WEC New Programmes Series', wave: 3,
     name: 'In-Company Training Materials', edition: 'Contract-specific',
     audience: 'Corporate accounts',
     governance: 'The platform supports corporate accounts and seats. No contract has been '
@@ -580,7 +589,7 @@ export const TITLES = [
 
   // ── Scholarly ─────────────────────────────────────────────────────
   t({
-    n: 36, series: 'Scholarly', wave: 4,
+    n: 36, family: 'WEC Research Series', wave: 4,
     name: 'The WEC Journal of English Language Education',
     audience: 'The field',
     governance: 'A journal requires an editorial board, named peer reviewers, an ISSN from '
@@ -591,7 +600,7 @@ export const TITLES = [
       + 'advance; it cannot constitute a board.',
   }),
   t({
-    n: 37, series: 'Scholarly', wave: 4,
+    n: 37, family: 'WEC Research Series', wave: 4,
     name: 'Conference Proceedings',
     audience: 'Delegates and the field',
     governance: 'No conference has been held. Proceedings are a record of one.',
@@ -599,7 +608,7 @@ export const TITLES = [
       + 'delegates presented; there are no delegates, no papers and no programme committee.',
   }),
   t({
-    n: 38, series: 'Scholarly', wave: 3,
+    n: 38, family: 'WEC Research Series', wave: 3,
     name: 'Research Monographs', edition: 'An occasional series',
     audience: 'Researchers in language education',
     needs: [need('completed research papers', 'researchPapers', 3)],
@@ -609,7 +618,7 @@ export const TITLES = [
 
   // ── Digital, and two further editions of the curriculum ───────────
   t({
-    n: 39, series: 'Digital', wave: 1,
+    n: 39, family: 'IEFC Student Series', wave: 1,
     name: 'The IEFC Digital Edition', edition: 'Reflowable, accessible',
     audience: 'Screen and assistive-technology readers',
     needs: [need('modules', 'modules', 60), need('lesson-to-lesson cross-references', 'crossRefs', 114)],
@@ -617,7 +626,7 @@ export const TITLES = [
       + 'live rather than printed. The print edition is already tagged and outlined.',
   }),
   t({
-    n: 40, series: 'Digital', wave: 2,
+    n: 40, family: 'IEFC Student Series', wave: 2,
     name: 'The IEFC Digital Companion', edition: 'Linked to the learning platform',
     audience: 'Enrolled learners',
     needs: [need('modules', 'modules', 60), need('module quizzes', 'quizzes', 60),
@@ -628,7 +637,7 @@ export const TITLES = [
       + 'is a stated limitation of the first release, not a reason to withhold it.',
   }),
   t({
-    n: 41, series: 'The IEFC Curriculum', wave: 2,
+    n: 41, family: 'WEC Institutional Series', wave: 2,
     name: 'The IEFC Presentation Edition', edition: 'Cloth, foiled, slipcased',
     audience: 'Ceremonial and diplomatic presentation',
     governance: 'The specification is complete — trim, stock, foil, emboss, binding and '
@@ -637,7 +646,7 @@ export const TITLES = [
     source: 'The production specification and the cover artwork, both already published.',
   }),
   t({
-    n: 42, series: 'The IEFC Curriculum', wave: 2,
+    n: 42, family: 'IEFC Student Series', wave: 2,
     name: 'The IEFC Curriculum in Arabic',
     audience: 'Arabic-speaking learners, staff and partners',
     needs: [need('curriculum items carrying Arabic text', 'arabicCurriculumItems', 294)],
@@ -687,5 +696,9 @@ export function plan(rows = catalogue()) {
   return WAVES.map((w) => ({ ...w, titles: rows.filter((r) => r.wave === w.n) }));
 }
 
-/** Every distinct series, in the order the titles first mention them. */
-export const SERIES = [...new Set(TITLES.map((x) => x.series))];
+/**
+ * Every family a title actually belongs to. The family definitions
+ * themselves live in legacy.mjs; this is the list in use, so a family
+ * defined and never used, or used and never defined, is visible.
+ */
+export const FAMILIES_IN_USE = [...new Set(TITLES.map((x) => x.family))];

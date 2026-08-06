@@ -18,6 +18,15 @@
  * is a public document, unlike the Editorial Bible, and it is the one
  * publication whose job is to be shown to a printer, a partner or a
  * reviewer as evidence of how the College publishes.
+ *
+ * It is rendered TWICE by `npm run press`, and the second pass is not
+ * redundant. This volume reports on the artefacts of the Press,
+ * including itself: its own extent and its own readiness are read from
+ * the copy on disk, because a book cannot measure a file it has not yet
+ * written. One pass therefore prints the previous impression's figures.
+ * The second pass reads what the first wrote and converges — the same
+ * reason a typesetting system runs twice to resolve its own
+ * cross-references.
  */
 import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import path from 'node:path';
@@ -29,11 +38,15 @@ import { crest, guillocheBand, fleuron } from './ornament.mjs';
 import { publicationIdentity } from './identity.mjs';
 import { CONSTITUTIONS, CLAUSES, FORCE, forceCount, contrastEvidence } from './press.mjs';
 import {
-  STATUS, STATUS_ORDER, WAVES, inventory, catalogue, statusCounts, plan, SERIES,
+  STATUS, STATUS_ORDER, WAVES, inventory, catalogue, statusCounts, plan, FAMILIES_IN_USE,
 } from './catalogue.mjs';
 import {
+  FAMILIES, MATURITY, MATURITY_ORDER, MATURITY_MEANS, READINESS, UNPROVABLE, FUTURE_PROOFING,
+  REVIEWS, ecosystem, familyTable, readinessOf, legacyBlock,
+} from './legacy.mjs';
+import {
   CONSTANTS, FORMATS, MARGINS, marginsFor, NAVIGATION, COVER_GRID, COVER_FIELDS, BACK_COVER,
-  SPINE_RULES, spineFor, seriesColours, COLOUR_USE, OPENERS, ENDPAPERS, FIGURE_RULES,
+  SPINE_RULES, spineFor, familyColours, COLOUR_USE, OPENERS, ENDPAPERS, FIGURE_RULES,
   TABLE_RULES, PHOTOGRAPHY, ICONOGRAPHY, EDITION_CLASSES, DIGITAL_STANDARDS,
 } from './house.mjs';
 
@@ -44,7 +57,18 @@ const C = buildCurriculum();
 const ID = publicationIdentity(C, { edition: 1, revision: 0, impression: 1 });
 const INV = inventory(C);
 const ROWS = catalogue(INV);
-const COLOURS = seriesColours();
+const SERIES = FAMILIES_IN_USE;
+const COLOURS = familyColours();
+const ECO = ecosystem(INV);
+const OWN = ECO.find((r) => /Publishing Constitution/.test(r.name));
+
+// Every published artefact, probed against the nine readiness
+// properties. The DOCX is included and reports what a DOCX can report:
+// omitting it would have made the table look complete.
+const PROBED = ECO.filter((r) => r.artefact).map((r) => ({
+  name: r.name, edition: r.edition,
+  readiness: readinessOf(r.artefact, r.htmlSource),
+}));
 
 const FORCE_CLASS = {
   [FORCE.ENFORCED]: 'f--enf', [FORCE.OBSERVED]: 'f--obs',
@@ -89,6 +113,8 @@ const titleRow = (r) => `<article class="tit">
     </div>
     <span class="s ${STATUS_CLASS[r.status]}">${esc(r.status)}</span>
   </header>
+  <p class="tit__aud"><b>Family</b> ${esc(r.family)} &nbsp;·&nbsp;
+    <b>Maturity</b> ${esc(ECO.find((e) => e.n === r.n).maturity)}</p>
   <p class="tit__aud"><b>Readership</b> ${esc(r.audience)}</p>
   <p class="tit__src">${esc(r.source)}</p>
   ${r.governance ? `<p class="tit__gov"><span>Governance</span>${esc(r.governance)}</p>` : ''}
@@ -141,6 +167,8 @@ p { margin:0 0 6pt; max-width:34em; }
   text-transform:uppercase; color:${PAL.bronze}; margin:0 0 5pt; }
 .small { font-family:${TYPE.sans}; font-size:7.6pt; color:${PAL.slateGrey}; }
 .nowrap { white-space:nowrap; }
+td.ok { color:#1E6B3A; font-weight:700; text-align:center; }
+td.no { color:${PAL.deepCrimson}; font-weight:700; text-align:center; }
 .mono { font-family:"Consolas","DejaVu Sans Mono",monospace; font-size:7.4pt; }
 
 /* ---------- Title page and part openers ----------
@@ -167,7 +195,7 @@ p { margin:0 0 6pt; max-width:34em; }
 .part h1 { color:${BRAND.paper}; font-size:30pt; }
 .part .eyebrow { color:${PAL.champagneGold}; }
 .part p { color:${PAL.platinum}; font-size:11pt; max-width:30em; }
-.part__n { font-family:${TYPE.sans}; font-size:64pt; font-weight:700; line-height:1;
+.part .part__n { font-family:${TYPE.sans}; font-size:64pt; font-weight:700; line-height:1;
   color:${PAL.royalGold}; opacity:.32; margin:0 0 6pt; }
 
 /* ---------- Clauses ----------
@@ -551,6 +579,108 @@ ${planHtml}
   <div class="fleuron">${fleuron({ colour: PAL.royalGold, width: 110 })}</div>
 </section>
 
+<section class="part">
+  <p class="part__n">IV</p>
+  <p class="eyebrow">Part Four</p>
+  <h1>The Legacy Constitution</h1>
+  <p>Everything before this part assumed one editor — not by intention, by omission. This part
+    adds the apparatus that lets a publication outlive the people who made it.</p>
+</section>
+
+<section class="con">
+  <div class="con__h">
+    <p class="eyebrow">Families</p>
+    <h2>No publication exists in isolation</h2>
+    <p class="lead">Every title belongs to one family with a stated purpose and readership. It is
+      the only grouping axis: an earlier draft carried a series for colour and a family for
+      meaning, which is two taxonomies for one distinction.</p>
+  </div>
+  <table><thead><tr><th scope="col">Family</th><th scope="col">Titles</th>
+    <th scope="col">What it is for</th><th scope="col">Readership</th></tr></thead><tbody>
+    ${familyTable(ECO).map((f) => {
+    const col = COLOURS.find((c) => c.family === f.key);
+    return `<tr><td><b>${col ? `<span class="swatch" style="background:${esc(col.hex)}"></span>` : ''
+    }${esc(f.key)}</b></td><td class="mono">${f.titles.length}</td>
+      <td>${esc(f.purpose)}</td><td>${esc(f.readership)}</td></tr>`;
+  }).join('')}
+  </tbody></table>
+  <p class="small">Every family carries at least one title and every title carries a family; both
+    are asserted by a test rather than checked by eye.</p>
+</section>
+
+<section class="con">
+  <div class="con__h">
+    <p class="eyebrow">Maturity</p>
+    <h2>A first edition is never a settled one</h2>
+    <p class="lead">Maturity is derived, not typed. The temptation to call a first edition mature
+      arrives exactly when the book is being shown to someone.</p>
+  </div>
+  <table><thead><tr><th scope="col">Status</th><th scope="col">Titles</th>
+    <th scope="col">What it means</th></tr></thead><tbody>
+    ${MATURITY_MEANS.map(([m, meaning]) => `<tr><td><b>${esc(m)}</b></td>
+      <td class="mono">${ECO.filter((r) => r.maturity === m).length}</td>
+      <td>${esc(meaning)}</td></tr>`).join('')}
+  </tbody></table>
+  <div class="panel panel--stop">
+    <p class="panel__h">Why nothing is above First edition</p>
+    <p>A publication may only be called Reviewed if a review is recorded by a reader who did not
+      produce it. The review register holds ${REVIEWS.length} entries. Nine artefacts have been
+      issued and not one has been read by anybody outside the editorial function, which is a fact
+      about this Press rather than a judgement about the books, and it is printed here because
+      the alternative is that a reader assumes otherwise.</p>
+  </div>
+</section>
+
+<section class="con">
+  <div class="con__h">
+    <p class="eyebrow">Readiness</p>
+    <h2>Nine properties, probed rather than promised</h2>
+    <p class="lead">"Accessibility-ready" is the easiest sentence in publishing to write and the
+      easiest to be wrong about. Each property below is a function from the artefact to true or
+      false, and the Press prints the result.</p>
+  </div>
+  <table><thead><tr><th scope="col">Property</th>${
+  PROBED.map((p, i) => `<th scope="col" class="nowrap">${String.fromCharCode(65 + i)}</th>`).join('')
+}<th scope="col">What it means</th></tr></thead><tbody>
+    ${READINESS.map((prop, pi) => `<tr><td class="nowrap"><b>${esc(prop.name)}</b></td>${
+  PROBED.map((p) => {
+    const r = p.readiness[pi].result;
+    return `<td class="mono ${r === true ? 'ok' : r === false ? 'no' : ''}">${
+      r === true ? '✓' : r === false ? '✗' : '–'}</td>`;
+  }).join('')}<td>${esc(prop.means)}</td></tr>`).join('')}
+  </tbody></table>
+  <table class="pairs"><tbody>${PROBED.map((p, i) =>
+    `<tr><td class="pairs__k">${String.fromCharCode(65 + i)}</td><td>${esc(p.name)}${
+      p.edition ? ` — ${esc(p.edition)}` : ''}</td></tr>`).join('')}</tbody></table>
+  <p class="small">✓ present · ✗ absent · – not establishable from this artefact. Each publication
+    is probed as it stands on disk when this copy is generated, so this volume's own row describes
+    its previous impression: a book cannot read a file it has not yet written. Structural
+    properties are read from the PDF; document properties from the source the renderer wrote.</p>
+
+  <h3 style="margin-top:12pt">What no probe here can establish</h3>
+  ${pairs(UNPROVABLE)}
+</section>
+
+<section class="con">
+  <div class="con__h">
+    <p class="eyebrow">Continuity</p>
+    <h2>The four questions asked before any publication is approved</h2>
+    <p class="lead">Recorded here rather than in a reviewer's head, with the answer this Press
+      currently gives.</p>
+  </div>
+  ${pairs(FUTURE_PROOFING)}
+  <div class="panel">
+    <p class="panel__h">What a future editorial board inherits</p>
+    <p>A working system and a written account of why it is the way it is. Every artefact is
+      generated from the academic database by a named script and none is hand-edited; every
+      standard is measured rather than remembered; every claim is tested; and every revision is
+      derived from the source repository rather than from a list somebody has to keep updating.
+      The one dependency that would force a rebuild rather than a repair is the toolchain: the
+      renderers rest on one browser engine's paged-media implementation, and that is stated here
+      so that the board which has to replace it knows it was known.</p>
+  </div>
+</section>
+
 <section>
   <p class="eyebrow">Closing</p>
   <h2>What is settled here, and what is not</h2>
@@ -574,6 +704,21 @@ ${planHtml}
     an imprint of Worldwide English College, London Campus · London,
     ${new Date().getFullYear()}</p>
 </section>
+
+${legacyBlock({
+  id: ID,
+  title: 'Worldwide English College Press',
+  subtitle: 'The Publishing Constitution',
+  family: OWN.family.key,
+  audience: OWN.audience,
+  subjects: ['Publishers and publishing — Standards', 'Book design', 'Editorial policy',
+    'Scholarly publishing', 'Educational publishing'],
+  relatives: OWN.relatives,
+  maturity: OWN.maturity,
+  artefact: OWN.artefact,
+  ink: PAL.royalBlue, rule: PAL.platinum, soft: PAL.slateGrey, accent: PAL.royalGold,
+  panel: PAL.softCream,
+})}
 
 </body></html>`;
 

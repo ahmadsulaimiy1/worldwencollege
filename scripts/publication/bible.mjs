@@ -203,6 +203,20 @@ export const EXECUTED = [
 ];
 
 export const EDITORIAL_OPPORTUNITIES = [
+  { item: 'The legacy apparatus in the institutional flagship document',
+    owner: OWNER.EDITORIAL,
+    state: 'Eight of the nine issued artefacts now carry the Press apparatus — family, maturity, '
+      + 'issue code, citation form, cataloguing data and revision history. The institutional '
+      + 'flagship document does not. It is produced through a different path: one block list '
+      + 'rendered twice, to Word and to print, with a test comparing the two token by token. '
+      + 'Injecting HTML into the print side alone would break that comparison, which is the '
+      + 'guard that keeps the two artefacts identical.',
+    opportunity: 'Express the apparatus as blocks rather than as HTML, so both renderers emit '
+      + 'it and the token comparison still holds. The readiness table in the Press volume shows '
+      + 'this publication failing three properties until that is done, which is the correct '
+      + 'behaviour: the gap is visible in print rather than recorded in a file nobody opens.',
+    impact: 'Medium — one publication of nine is outside the record apparatus.',
+    effort: 'Medium — three new block kinds and a rebuild of both artefacts.' },
   { item: 'Edition history',
     state: 'The identity block carries edition, revision and issue codes; there is no page '
       + 'recording what changed between editions, because there is not yet a previous edition to '

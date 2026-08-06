@@ -38,7 +38,7 @@ const cat = await import(loadUrl('scripts/publication/catalogue.mjs'));
 const house = await import(loadUrl('scripts/publication/house.mjs'));
 
 const { CONSTITUTIONS, CLAUSES, FORCE, forceCount, contrastEvidence } = press;
-const { STATUS, TITLES, WAVES, SERIES, inventory, catalogue, resolve } = cat;
+const { STATUS, TITLES, WAVES, FAMILIES_IN_USE, inventory, catalogue, resolve } = cat;
 
 let pass = 0, fail = 0;
 const check = (label, cond, detail) => {
@@ -119,7 +119,7 @@ const ROWS = catalogue(INV);
 
 check('every title has a unique number and belongs to a declared series',
   new Set(TITLES.map((t) => t.n)).size === TITLES.length
-  && TITLES.every((t) => SERIES.includes(t.series)),
+  && TITLES.every((t) => FAMILIES_IN_USE.includes(t.family)),
   TITLES.length + ' titles');
 
 check('every title states a readership and what it would be made from',
@@ -235,19 +235,19 @@ check('a subject appearing inside general English is not counted as a programme'
 // assignment, which is right for the build and wrong for a test report:
 // a thrown error prints a stack trace instead of naming the defect.
 let colours = [], colourError = null;
-try { colours = house.seriesColours(); } catch (e) { colourError = e.message; }
+try { colours = house.familyColours(); } catch (e) { colourError = e.message; }
 check('the series colour assignment is valid', colourError === null, colourError);
-check('every series in the catalogue has a colour, and no colour serves two series',
-  colours.length === SERIES.length
+check('every family in the catalogue has a colour, and no colour serves two families',
+  colours.length === FAMILIES_IN_USE.length
   && new Set(colours.map((c) => c.token)).size === colours.length,
   colours.map((c) => c.token).join(','));
 
-check('the house ground is not used as a series colour',
+check('the house ground is not used as a family colour',
   colours.every((c) => c.token !== 'midnightNavy'));
 
-check('every series colour reaches 3 : 1 on the ground it is printed on',
+check('every family colour reaches 3 : 1 on the ground it is printed on',
   colours.every((c) => c.ratio >= 3 && ['paper', 'navy'].includes(c.ground)),
-  colours.filter((c) => c.ratio < 3).map((c) => `${c.series} ${c.ratio}`).join(' · '));
+  colours.filter((c) => c.ratio < 3).map((c) => `${c.family} ${c.ratio}`).join(' · '));
 
 check('the four formats are distinct trims and each says why it exists',
   new Set(house.FORMATS.map((f) => `${f.w}x${f.h}`)).size === house.FORMATS.length
@@ -284,10 +284,127 @@ check('the under-6 mm band describes a book with no spine rather than type on on
 
 const evidence = house.houseEvidence();
 check('the house evidence recomputes rather than restating',
-  evidence.colours.length === SERIES.length && evidence.levelBars === 6
+  evidence.colours.length === FAMILIES_IN_USE.length && evidence.levelBars === 6
   && evidence.spines.length === 4);
 
-// ── 7 · The volume itself ────────────────────────────────────────────
+// ── 7 · The legacy layer: families, maturity, readiness ──────────────
+
+const legacy = await import(loadUrl('scripts/publication/legacy.mjs'));
+const {
+  FAMILIES, MATURITY, MATURITY_MEANS, READINESS, REVIEWS, READINESS_EXCEPTIONS,
+  ecosystem, familyTable, readinessOf, revisionHistory, maturityOf, citation, cataloguing,
+  relatives,
+} = legacy;
+
+const ECO = ecosystem(INV);
+
+check('every title belongs to a defined family',
+  TITLES.every((t) => FAMILIES.some((f) => f.key === t.family)),
+  TITLES.filter((t) => !FAMILIES.some((f) => f.key === t.family))
+    .map((t) => `${t.n}: ${t.family}`).join(' · '));
+
+check('every defined family carries at least one title — none is aspirational',
+  familyTable(ECO).every((f) => f.titles.length > 0),
+  familyTable(ECO).filter((f) => !f.titles.length).map((f) => f.key).join(' · '));
+
+check('every family states a purpose and a readership',
+  FAMILIES.every((f) => f.purpose.length > 30 && f.readership.length > 10));
+
+check('no publication exists in isolation',
+  TITLES.every((t) => relatives(t).length > 0),
+  TITLES.filter((t) => !relatives(t).length).map((t) => t.n).join(','));
+
+// Maturity is derived, and the derivation is exercised with inputs the
+// Press does not currently have — otherwise the only branch ever run is
+// the one that returns "first edition".
+const asPublished = { artefact: 'publication/x.pdf', status: STATUS.PUBLISHED, build: 'x' };
+check('maturity rises only with recorded reviews and further editions',
+  maturityOf(asPublished, { revisions: [], reviews: [] }) === MATURITY.FIRST
+  && maturityOf(asPublished, { revisions: [], reviews: [{ artefact: 'publication/x.pdf' }] })
+    === MATURITY.REVIEWED
+  && maturityOf(asPublished, {
+    revisions: [{ edition: 1 }, { edition: 2 }], reviews: [{ artefact: 'publication/x.pdf' }],
+  }) === MATURITY.MATURE
+  && maturityOf({ status: STATUS.DERIVABLE, build: null }, {}) === MATURITY.CONCEPT
+  && maturityOf({ status: STATUS.DERIVABLE, build: 'x' }, {}) === MATURITY.DEVELOPMENT);
+
+check('no publication claims a maturity above first edition while no review is recorded',
+  REVIEWS.length === 0
+    ? ECO.every((r) => [MATURITY.CONCEPT, MATURITY.DEVELOPMENT, MATURITY.FIRST]
+      .includes(r.maturity))
+    : true,
+  ECO.filter((r) => ![MATURITY.CONCEPT, MATURITY.DEVELOPMENT, MATURITY.FIRST].includes(r.maturity))
+    .map((r) => r.n).join(','));
+
+check('every maturity status is explained rather than left as a label',
+  MATURITY_MEANS.length === Object.keys(MATURITY).length
+  && MATURITY_MEANS.every(([, meaning]) => meaning.length > 40));
+
+// Revision history is derived from the repository, not kept by hand.
+const hist = revisionHistory('publication/IEFC Complete Curriculum.pdf');
+check('the revision history is derived from the source repository',
+  hist.available && hist.rows.length > 0
+  && hist.rows.every((r) => /^\d{4}-\d{2}-\d{2}$/.test(r.date) && r.subject.length > 3),
+  hist.available ? `${hist.total} revisions since ${hist.issued}` : hist.why);
+
+check('a publication with no artefact reports why rather than an empty history',
+  revisionHistory(null).available === false && revisionHistory(null).why.length > 20);
+
+// The citation and cataloguing apparatus.
+const cite = citation({ title: 'T', edition: 'First', year: 2026, documentId: 'ABCD' });
+check('the citation names the corporate author, edition, place, publisher and document',
+  /Worldwide English College\./.test(cite.note) && /First edition/.test(cite.note)
+  && /London: Worldwide English College Press, 2026/.test(cite.note)
+  && /Document ID ABCD/.test(cite.note), cite.note);
+
+const cip = cataloguing({ title: 'T', family: 'WEC Governance Series', edition: 'First',
+  year: 2026, pages: 40, audience: 'A', subjects: ['S'],
+  registrations: [{ field: 'ISBN', value: 'Not assigned', authority: 'International ISBN Agency' }] });
+check('the cataloguing data names an unheld identifier and the authority that issues it',
+  cip.some(([k, v]) => k === 'ISBN' && /Not assigned/.test(v) && /ISBN Agency/.test(v)),
+  JSON.stringify(cip.find(([k]) => k === 'ISBN')));
+
+// The nine properties, probed across every issued artefact.
+const probed = ECO.filter((r) => r.artefact).map((r) => ({
+  name: r.edition || r.name, artefact: r.artefact, readiness: readinessOf(r.artefact, r.htmlSource),
+}));
+
+check('every issued artefact is probed against all nine properties',
+  probed.length >= 8 && probed.every((p) => p.readiness.length === READINESS.length),
+  `${probed.length} artefacts`);
+
+check('a non-PDF artefact reports what cannot be established rather than reporting failure',
+  probed.filter((p) => /\.docx$/.test(p.artefact))
+    .every((p) => p.readiness.every((r) => r.result === null)),
+  'a DOCX was probed with PDF instruments and reported false');
+
+const failures = probed.flatMap((p) => p.readiness
+  .filter((r) => r.result === false).map((r) => ({ artefact: p.artefact, key: r.key })));
+const declared = (f) => READINESS_EXCEPTIONS.some((e) =>
+  e.artefact === f.artefact && e.properties.includes(f.key));
+check('every readiness failure is a declared exception, with a reason',
+  failures.every(declared),
+  failures.filter((f) => !declared(f)).map((f) => `${f.artefact} ${f.key}`).join(' · '));
+
+// The half that stops the exception list silting up.
+const stale = READINESS_EXCEPTIONS.flatMap((e) => e.properties
+  .filter((k) => !failures.some((f) => f.artefact === e.artefact && f.key === k))
+  .map((k) => `${e.artefact} ${k}`));
+check('no declared exception has quietly started passing',
+  stale.length === 0,
+  stale.join(' · ') + ' — the exception should be removed');
+
+check('every exception explains itself well enough for a stranger to act on',
+  READINESS_EXCEPTIONS.every((e) => e.why.length > 120));
+
+check('the artefacts that carry the apparatus carry all of it',
+  probed.filter((p) => !READINESS_EXCEPTIONS.some((e) => e.artefact === p.artefact)
+    && p.readiness.some((r) => r.result === true))
+    .every((p) => p.readiness.every((r) => r.result !== false)),
+  probed.filter((p) => p.readiness.some((r) => r.result === false))
+    .map((p) => p.name).join(' · '));
+
+// ── 8 · The volume itself ────────────────────────────────────────────
 
 const VOLUME = `${ROOT}/publication/WEC Press — The Publishing Constitution.pdf`;
 if (existsSync(VOLUME)) {
