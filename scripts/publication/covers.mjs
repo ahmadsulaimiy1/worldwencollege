@@ -465,21 +465,41 @@ export const OMISSIONS = [
  * placed images and this table and fails if they disagree.
  */
 export const PHOTO_CREDITS = [
-  ['Plate I', 'A student\u2019s hand writing in an exercise book', 'AdobeStock_107317330'],
-  ['Plate II', 'Friends in conversation', 'AdobeStock_303569584'],
-  ['Plate III', 'Students preparing together for a seminar', 'AdobeStock_160362594'],
-  ['Plate IV', 'Colleagues working through a project', 'AdobeStock_473276830'],
-  ['Plate V', 'A speaker addressing a conference', 'AdobeStock_569325921'],
-  ['Plate VI', 'A graduate at conferral', 'AdobeStock_427428198'],
-  ['The Six Awards', 'Two students in conversation in a university library', 'AdobeStock_489036417'],
-  ['Teaching from This Book', 'A student working at a laptop in a library', 'AdobeStock_494627505'],
-  ['Glossary', 'The thumb index of a printed English dictionary', 'AdobeStock_326365561'],
+  ['Plate I', 'A student\u2019s hand writing in an exercise book', 'AdobeStock_107317330', 'level-I.jpg'],
+  ['Plate II', 'Friends in conversation', 'AdobeStock_303569584', 'level-II.jpg'],
+  ['Plate III', 'Students preparing together for a seminar', 'AdobeStock_160362594', 'level-III.jpg'],
+  ['Plate IV', 'Colleagues working through a project', 'AdobeStock_473276830', 'level-IV.jpg'],
+  ['Plate V', 'A speaker addressing a conference', 'AdobeStock_569325921', 'level-V.jpg'],
+  ['Plate VI', 'A graduate at conferral', 'AdobeStock_427428198', 'level-VI.jpg'],
+  ['The Six Awards', 'Two students in conversation in a university library',
+    'AdobeStock_489036417', 'band-awards.jpg'],
+  ['Teaching from This Book', 'A student working at a laptop in a library',
+    'AdobeStock_494627505', 'band-guide.jpg'],
+  ['Glossary', 'The thumb index of a printed English dictionary',
+    'AdobeStock_326365561', 'band-glossary.jpg'],
   ['Routes Through the Programme', 'Two students working through notes and textbooks at a desk',
-    'AdobeStock_280184475'],
-  ['Subject Index', 'Students at a university lecture', 'AdobeStock_522561589'],
+    'AdobeStock_280184475', 'band-routes.jpg'],
+  ['Subject Index', 'Students at a university lecture', 'AdobeStock_522561589', 'band-index.jpg'],
 ];
 
-export function backMatter(id, pages) {
+/**
+ * The credits for the photographs a given edition actually places.
+ *
+ * The student edition has no teaching guide and the institutional
+ * edition has neither routes nor a subject index, so each places fewer
+ * images than the teacher's edition. A colophon crediting a photograph
+ * "placed at Teaching from This Book" inside a volume that contains no
+ * such section is a false statement about the book in the reader's
+ * hands \u2014 small, but the same kind of false as any other. Passing in
+ * the files actually placed is what keeps the credit page describing
+ * this copy rather than a different one.
+ */
+export const creditsFor = (placedFiles) => (placedFiles
+  ? PHOTO_CREDITS.filter(([, , , file]) => placedFiles.includes(file))
+  : PHOTO_CREDITS);
+
+export function backMatter(id, pages, placedFiles) {
+  const credits = creditsFor(placedFiles);
   return `
 <section class="colophon">
   <div class="col__orn">${fleuron({ colour: C.royalGold, width: 130 })}</div>
@@ -499,13 +519,13 @@ export function backMatter(id, pages) {
     decoder.</p>
   <p>Every photograph in this volume is licensed editorial photography, graded to a duotone: the six
     plates facing the level dividers take their own level\u2019s ink, and the section bands take the
-    College\u2019s blue. Grading them is what makes ${PHOTO_CREDITS.length} images by
-    ${PHOTO_CREDITS.length} photographers read as one commissioned series and belong to the colour
+    College\u2019s blue. Grading them is what makes ${credits.length} images by
+    ${credits.length} photographers read as one commissioned series and belong to the colour
     system rather than sit on top of it. They illustrate the educational settings the programme is
     taught in; they are not records of this College, its students or its premises, and none is
     captioned as though it were.</p>
   <table class="credits"><thead><tr><th scope="col">Placed at</th><th scope="col">Subject</th>
-    <th scope="col">Source</th></tr></thead><tbody>${PHOTO_CREDITS.map(([r, sub, ref]) =>
+    <th scope="col">Source</th></tr></thead><tbody>${credits.map(([r, sub, ref]) =>
     `<tr><td>${esc(r)}</td><td>${esc(sub)}</td>
       <td class="mono">${esc(ref)} · Adobe Stock, licensed</td></tr>`).join('')}</tbody></table>
   <p class="col__meta">${esc(id.publicationId)} · Document ID ${esc(id.documentId)} ·

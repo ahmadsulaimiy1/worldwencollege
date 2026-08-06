@@ -17,3 +17,14 @@ publication/img/source/
 publication/IEFC Complete Curriculum (Large Print).pdf
 publication/.flagship-large.html
 publication/img/.resample.html
+
+# The Student Edition is the Teacher's Edition minus the answer keys and
+# the teaching guide — a 25 MB near-duplicate of a file already in the
+# history. The Institutional Edition is committed because it is a
+# genuinely different book. Build the student edition on demand:
+#   npm run curriculum:student
+publication/IEFC Complete Curriculum (Student Edition).pdf
+publication/IEFC Complete Curriculum (Student Edition) — Cover Artwork.pdf
+publication/.student.html
+publication/.cover-student.html
+publication/.institutional.html

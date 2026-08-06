@@ -61,6 +61,21 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'Three editions from one source', built: 'IEFC_EDITION selects between the Teacher’s '
+    + 'Edition (441pp, answer keys and the teaching guide), the Student Edition (437pp, the same '
+    + 'curriculum with the keys and the guide withheld — the rubrics stay, because a learner is '
+    + 'entitled to the criteria they are marked against) and the Institutional Edition (53pp: the '
+    + 'architecture, the six figures, the awards, every level’s contents and the assessment index, '
+    + 'without the lesson bodies). One curriculum, one design system, one set of extractors; each '
+    + 'edition binds to its own extent and gets its own cover. tests/publication-editions.test.mjs '
+    + 'holds them together — including that the student edition marks no correct answers, that no '
+    + 'curriculum text is in one full edition and missing from the other, and that the empty '
+    + 'competency column travels into the executive volume rather than being quietly dropped.' },
+  { item: 'Photographic credits follow the edition', built: 'The colophon credited a photograph '
+    + '"placed at Teaching from This Book" in the student edition, which has no such section. '
+    + 'Credits are now filtered by the images actually placed, read off the assembled markup — '
+    + 'and the first attempt at that fix listed the sections by hand and reproduced the same bug, '
+    + 'which the edition test caught.' },
   { item: 'The printed page, rasterised and measured', built: 'The book is now rendered back to '
     + 'pixels page by page and each page asked how far down its ink reaches. Pagination happens '
     + 'inside the print pipeline, after every CSS decision, so this is the only place the question '

@@ -55,6 +55,69 @@ const REVISION = revisionByModule(C);
 const GRAMMAR = grammarStages(C);
 const PRON = pronunciationStrand(C);
 
+/**
+ * ────────────────────────────────────────────────────────────────────
+ * THREE EDITIONS FROM ONE SOURCE
+ * ────────────────────────────────────────────────────────────────────
+ * `IEFC_EDITION=student npm run curriculum` and so on. One curriculum,
+ * one design system, one set of extractors; what differs is which
+ * apparatus each reader is given.
+ *
+ * TEACHER'S EDITION (the default, and what this book has always been).
+ *   Everything: answer keys printed beneath their questions, full
+ *   grading rubrics, designed timings, formative-assessment stages, and
+ *   the guide to teaching from the volume.
+ *
+ * STUDENT EDITION.
+ *   The same curriculum, with exactly two removals: the answer keys,
+ *   because a quiz printed with its key beside it is not an assessment,
+ *   and the teacher's guide, which is addressed to somebody else.
+ *
+ *   Nothing else goes. In particular the grading rubrics STAY — a
+ *   learner is entitled to read the criteria they will be marked
+ *   against, and hiding them would be a pedagogical choice dressed as
+ *   an editorial one. Nor is anything added: there is no motivational
+ *   apparatus written for this edition, because writing encouragement
+ *   the curriculum does not contain is exactly the invention this
+ *   project refuses.
+ *
+ * INSTITUTIONAL EDITION.
+ *   For ministries, accreditation panels, university partners and
+ *   employers: the programme's architecture without its 294 lesson
+ *   bodies. Front matter, the six measured figures, the awards, every
+ *   level's divider and plate and contents, the assessment index, the
+ *   glossary and the colophon.
+ *
+ *   It is a shorter book, and being shorter is the point: a reviewer
+ *   asking what this qualification IS should not have to read ninety
+ *   thousand words of lesson content to find out. It also carries the
+ *   same unflattering figures as the full edition — the competency
+ *   column is empty in every edition, because it is empty.
+ */
+const EDITIONS = {
+  teacher: { key: 'teacher', name: 'Teacher’s Edition',
+    file: 'IEFC Complete Curriculum',
+    lessons: true, answerKeys: true, teacherGuide: true,
+    note: 'This is the teacher’s edition. Every assessed quiz prints its answer key immediately '
+      + 'beneath the questions, and every assignment carries the full grading rubric a marker '
+      + 'works from.' },
+  student: { key: 'student', name: 'Student Edition',
+    file: 'IEFC Complete Curriculum (Student Edition)',
+    lessons: true, answerKeys: false, teacherGuide: false,
+    note: 'This is the student edition. It carries the whole curriculum — every lesson, every '
+      + 'assessment brief and every grading rubric, so you can read the criteria you will be '
+      + 'marked against. The answer keys are printed in the teacher’s edition only.' },
+  institutional: { key: 'institutional', name: 'Institutional Edition',
+    file: 'IEFC Programme Architecture (Institutional Edition)',
+    lessons: false, answerKeys: false, teacherGuide: false,
+    note: 'This is the institutional edition: the architecture of the qualification without the '
+      + 'lesson content that fills it. Every figure, count and reference in it is generated from '
+      + 'the same academic database as the complete curriculum, and the complete curriculum is '
+      + 'available in full as a separate volume.' },
+};
+const EDITION = EDITIONS[process.env.IEFC_EDITION || 'teacher'] || EDITIONS.teacher;
+
+
 // ---- Lesson stages ---------------------------------------------------
 function renderParts(parts) {
   const out = [];
@@ -142,8 +205,9 @@ function renderQuiz(les) {
   const qs = les.questions.map((q) => `<li class="q">
     <p class="q__p">${typo(q.prompt)}</p>
     <ol class="q__c">${q.choices.map((c, i) =>
-    `<li${i === q.correctIndex ? ' class="is-key"' : ''}>${typo(c)}</li>`).join('')}</ol>
+    `<li${EDITION.answerKeys && i === q.correctIndex ? ' class="is-key"' : ''}>${typo(c)}</li>`).join('')}</ol>
   </li>`).join('');
+  if (!EDITION.answerKeys) return `<ol class="quiz">${qs}</ol>`;
   const key = les.questions.map((q) =>
     `<span><b>${q.sequence}</b>${String.fromCharCode(65 + q.correctIndex)}</span>`).join('');
   return `<ol class="quiz">${qs}</ol>
@@ -560,7 +624,7 @@ function renderLevel(lv) {
       carrying a full grading rubric. Completing all ten confers
       <b>${typo(lv.awardTitle || '')}</b>${lv.postNominal ? ` (${esc(lv.postNominal)})` : ''}.</p>
   </section>
-  ${modules}
+  ${EDITION.lessons ? modules : ''}
   </div>`;
 }
 
@@ -590,11 +654,17 @@ const CONTENTS = `<section class="contents">
   <p class="ed__eyebrow">Contents</p>
   <h2>The Programme</h2>
   <ol class="clist">${contents}</ol>
+  <div class="editionnote">
+    <p class="label">This edition</p>
+    <p><b>${esc(EDITION.name)}.</b> ${typo(EDITION.note)}</p>
+  </div>
   <div class="clist__after">
     <p class="label">Apparatus</p>
-    <p>How to Read a Lesson · The Six Awards · Teaching from This Book · The Shape of the
-      Programme · Glossary · Routes Through the Programme · The Pronunciation Strand ·
-      Subject Index · Vocabulary and Phrase Index · Assessment Index · Colophon</p>
+    <p>${[EDITION.lessons && 'How to Read a Lesson', 'The Six Awards',
+    EDITION.teacherGuide && 'Teaching from This Book', 'The Shape of the Programme', 'Glossary',
+    EDITION.lessons && 'Routes Through the Programme', EDITION.lessons && 'The Pronunciation Strand',
+    EDITION.lessons && 'Subject Index', EDITION.lessons && 'Vocabulary and Phrase Index',
+    'Assessment Index', 'Colophon'].filter(Boolean).join(' · ')}</p>
   </div>
 </section>`;
 
@@ -626,8 +696,9 @@ const HOWTO = `<section class="howto">
   </div>
   <p>A timing in brackets after a stage heading is the designed duration for that stage. Stages
     without a timing are not time-boxed. Model dialogue is set apart from instruction so that a
-    teacher can find it at a glance, and an assessed quiz prints its answer key immediately
-    beneath it — this is a teacher's edition.</p>
+    teacher can find it at a glance.${EDITION.answerKeys
+    ? ' An assessed quiz prints its answer key immediately beneath it — this is a teacher\u2019s edition.'
+    : ' Answer keys are printed in the teacher\u2019s edition only.'}</p>
 </section>`;
 
 // Rubric criteria per level, counted so the assessment map states a
@@ -967,9 +1038,10 @@ const INDEXES = `<section class="index">
   <p class="lead">${LEXIS.length} words, phrases and collocations, taken from the terms the
     curriculum quotes in its own vocabulary stages \u2014 with the lesson where each is taught.</p>
   ${indexBlock(LEXIS, 'idx--lex')}
-</section>
-<section class="index index--assess">
-  <p class="ed__eyebrow">Index three of three</p>
+</section>`;
+
+const ASSESSMENT_INDEX = `<section class="index index--assess">
+  <p class="ed__eyebrow">${EDITION.lessons ? 'Index three of three' : 'Reference'}</p>
   <h2>Assessment Index</h2>
   <p class="lead">All 120 assessed items in the programme: sixty quizzes carrying
     ${C.totals.questions} questions, and sixty assignments carrying 307 rubric criteria.</p>
@@ -987,11 +1059,29 @@ const INDEXES = `<section class="index">
   }).join('')}
 </section>`;
 
-const FRONT = frontMatter(ID, I, CONTENTS, HOWTO + AWARDS + GUIDE + ARCHITECTURE);
+const FRONT_INNER = (EDITION.lessons ? HOWTO : '') + AWARDS
+  + (EDITION.teacherGuide ? GUIDE : '') + ARCHITECTURE;
+const FRONT = frontMatter(ID, I, CONTENTS, FRONT_INNER);
 // The reference apparatus, in the order a reader reaches for it: what a
 // word means, how to move through the book, the pronunciation strand as
 // a strand, then the three indexes.
-const BACK = GLOSSARY + ROUTE_SECTION + PRONUNCIATION + INDEXES + backMatter(ID);
+const BODY_BEFORE_COLOPHON = EDITION.lessons
+  ? GLOSSARY + ROUTE_SECTION + PRONUNCIATION + INDEXES + ASSESSMENT_INDEX
+  : GLOSSARY + ASSESSMENT_INDEX;
+
+// Which photographs this edition actually places, read off the markup
+// rather than declared, so the colophon can credit exactly those.
+// Scanned off the markup that is ACTUALLY assembled for this edition,
+// not a hand-listed set of sections. The first version listed the
+// sections by name and included the teaching guide unconditionally, so
+// the student edition credited a photograph placed in a section it does
+// not contain — which is the defect this whole mechanism exists to
+// prevent, reproduced inside the fix for it.
+const PLACED_IMAGES = [...new Set([...(`${CONTENTS}${FRONT_INNER}${BODY_BEFORE_COLOPHON}`
+  .matchAll(/img\/([a-z0-9-]+\.jpg)/gi))].map((m) => m[1])
+  .concat(Object.values(PLATES).map((p) => p.file.split('/').pop())))];
+
+const BACK = BODY_BEFORE_COLOPHON + backMatter(ID, null, PLACED_IMAGES);
 
 // ---- The stylesheet --------------------------------------------------
 const CSS = `
@@ -1595,6 +1685,10 @@ table.asx__t .mono { font-family:"Consolas","DejaVu Sans Mono",monospace; font-s
 
 /* ---------- Glossary, routes, pronunciation ---------- */
 .gloss, .routes, .pron { break-before:page; }
+.editionnote { border-left:2.6pt solid var(--gold); background:#FBF6EA; padding:8pt 12pt;
+  margin:14pt 0 0; break-inside:avoid; }
+.editionnote p:last-child { margin:0; font-size:9pt; line-height:1.5; }
+.editionnote b { color:${BRAND.ink}; }
 .gloss h2, .routes h2, .pron h2 { font-size:19pt; margin:0 0 4pt; }
 .gloss h2::after, .routes h2::after, .pron h2::after { content:''; display:block; width:100%;
   height:.6pt; background:linear-gradient(90deg,var(--gold) 0 22%,var(--rule) 22%);
@@ -1814,8 +1908,8 @@ const scaleType = (css) => (LARGE
   : css);
 
 const HEAD = `<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
-<title>The International English Fluency Certificate — The Complete Curriculum${
-  LARGE ? ' (Large Print)' : ''}</title>
+<title>The International English Fluency Certificate — ${EDITION.name}${
+  LARGE ? ' · Large Print' : ''}</title>
 <meta name="author" content="Worldwide English College">
 <meta name="subject" content="English language curriculum; complete teaching programme">
 <meta name="keywords" content="IEFC, Worldwide English College, CEFR, English curriculum, lesson plans">
@@ -1901,7 +1995,7 @@ SECTIONS.forEach((sec, i) => {
 
 const html = document_(parts);
 const htmlPath = path.join(ROOT, 'publication',
-  LARGE ? '.flagship-large.html' : '.flagship.html');
+  `.${EDITION.key === 'teacher' ? 'flagship' : EDITION.key}${LARGE ? '-large' : ''}.html`);
 writeFileSync(htmlPath, html);
 
 // Navigated rather than injected: setContent() has no base URL, so the
@@ -1914,13 +2008,14 @@ await page.evaluate(() => Promise.all(
   [...document.images].filter((i) => !i.complete)
     .map((i) => new Promise((r) => { i.onload = r; i.onerror = r; }))));
 const out = path.join(ROOT, 'publication',
-  LARGE ? 'IEFC Complete Curriculum (Large Print).pdf' : 'IEFC Complete Curriculum.pdf');
+  `${EDITION.file}${LARGE ? ' (Large Print)' : ''}.pdf`);
 await page.pdf({
   path: out, format: 'A4', printBackground: true, preferCSSPageSize: true,
   displayHeaderFooter: true,
   headerTemplate: '<div style="font:400 6pt Calibri,Arial,sans-serif;color:#9AA0AE;width:100%;'
     + 'padding:0 20mm;text-align:right;letter-spacing:.12em;text-transform:uppercase;">'
-    + 'The International English Fluency Certificate · The Complete Curriculum</div>',
+    + `The International English Fluency Certificate · ${EDITION.lessons
+      ? 'The Complete Curriculum' : 'Programme Architecture'}</div>`,
   footerTemplate: '<div style="font:400 7.5pt Calibri,Arial,sans-serif;color:#6B7280;width:100%;'
     + 'padding:0 20mm;text-align:center;"><span class="pageNumber"></span></div>',
   margin: { top: '17mm', bottom: '15mm', left: '20mm', right: '20mm' },
@@ -2036,9 +2131,15 @@ const spine = spineWidth(pages);
 const coverHtml = `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <title>IEFC Complete Curriculum — cover artwork</title>
 <style>${COVER_CSS}</style></head><body>${coverSpread(ID, spine, C.levels)}</body></html>`;
-if (!LARGE) writeFileSync(path.join(ROOT, 'publication', '.cover.html'), coverHtml);
+if (!LARGE) {
+  writeFileSync(path.join(ROOT, 'publication',
+    `.cover${EDITION.key === 'teacher' ? '' : `-${EDITION.key}`}.html`), coverHtml);
+}
 
-const coverOut = path.join(ROOT, 'publication', 'IEFC Cover Artwork.pdf');
+// Each edition binds to a different extent, so each needs its own
+// spine. One cover file for three books is a cover that fits none.
+const coverOut = path.join(ROOT, 'publication',
+  `${EDITION.file} — Cover Artwork.pdf`.replace('IEFC Complete Curriculum — Cover', 'IEFC Cover'));
 if (!LARGE) {
   const cpage = await browser.newPage();
   await cpage.setContent(coverHtml, { waitUntil: 'load' });
@@ -2063,7 +2164,7 @@ function countPages(buf) {
   return (s.match(/\/Type\s*\/Page(?![s])/g) || []).length;
 }
 
-console.log(`${LARGE ? 'LARGE PR' : 'FLAGSHIP'}  ${out}`);
+console.log(`${(LARGE ? 'LARGE PRINT' : EDITION.name).toUpperCase()}\n  ${out}`);
 console.log(`  ${C.totals.lessons} items · ${C.totals.modules} modules · ${C.totals.questions} questions · `
   + `${C.totals.bodyWords.toLocaleString('en-GB')} words of lesson content`);
 console.log(`  ${pages} pages · Document ID ${ID.documentId} · issue ${ID.issueCode}`);
