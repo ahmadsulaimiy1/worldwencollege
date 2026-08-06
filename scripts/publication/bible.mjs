@@ -61,6 +61,22 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'The first title derived from the catalogue', built: 'The IEFC Pronunciation Handbook '
+    + '— 70 pages at royal octavo, the first publication of the Press set at a format other than '
+    + 'the flagship\u2019s. 180 pronunciation targets, 114 classroom stages and 60 model scripts '
+    + 'that were authored for the platform and had never been set as a book: a teacher who wanted '
+    + 'to see the pronunciation strand whole had to open 114 lessons one at a time. Nothing in it '
+    + 'is composed for the volume. The one editorial judgement is the arrangement — by the six '
+    + 'kinds of difficulty rather than by level, because a teacher reaching for a pronunciation '
+    + 'handbook is asking where a problem is taught, not what comes next; the curriculum order is '
+    + 'recovered in an appendix.' },
+  { item: 'The legacy apparatus, and two probes it corrected', built: 'Every publication now '
+    + 'carries family, maturity, issue code, citation form, cataloguing data and a revision '
+    + 'history derived from the source repository. Building the first new title immediately found '
+    + 'two defects in the readiness probes themselves: archive-readiness depended on each renderer '
+    + 'printing a generation stamp, so the apparatus now carries it by construction; and '
+    + 'print-readiness tested for A4, which failed the first book set at one of the house\u2019s '
+    + 'own four trims. The probe was measuring the flagship rather than the standard.' },
   { item: 'The Press constituted as a set of checkable rules', built: 'Twenty-three '
     + 'constitutions covering institutional publishing, editorial, design, typography, colour, '
     + 'photography, illustration, infographics, iconography, accessibility, print production, '

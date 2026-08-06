@@ -361,11 +361,15 @@ export const TITLES = [
     n: 12, family: 'IEFC Reference Library', wave: 1,
     name: 'The IEFC Pronunciation Handbook',
     audience: 'Learners and teachers across all six levels',
+    artefact: 'publication/IEFC Pronunciation Handbook.pdf', build: 'pronunciation',
+    htmlSource: 'publication/.pronunciation.html',
     needs: [need('pronunciation targets with guidance', 'pronunciationTargets', 120),
       need('lessons with a pronunciation stage', 'pronunciationStages', 114)],
-    source: '180 pronunciation targets, each naming a focus, a target, a worked example and '
-      + 'a paragraph of guidance, across phonemes, word stress, sentence stress, rhythm, '
-      + 'intonation and connected speech.',
+    source: '180 pronunciation targets, each naming a focus, a target, a worked example and a '
+      + 'paragraph of guidance, with the 114 classroom stages that teach them and the 60 model '
+      + 'scripts. Ordered by the six kinds of difficulty rather than by level, because a teacher '
+      + 'reaching for this book is asking where a problem is taught, not what comes next; the '
+      + 'curriculum order is recovered in an appendix. Nothing in it is composed for the volume.',
   }),
   t({
     n: 13, family: 'IEFC Reference Library', wave: 1,

@@ -52,6 +52,10 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { TITLES, STATUS, resolve, inventory } from './catalogue.mjs';
+import { FORMATS } from './house.mjs';
+
+/** The declared trims, in points, for the print-readiness probe. */
+const TRIMS_PT = FORMATS.map((f) => [f.w * 72 / 25.4, f.h * 72 / 25.4]);
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -325,8 +329,15 @@ export const READINESS = [
   },
   {
     key: 'print', name: 'Print-ready', where: 'file',
-    means: 'The file is set at a declared trim with a production specification behind it.',
-    probe: (raw) => /\/MediaBox\s*\[\s*0\s+0\s+59[45](?:\.\d+)?\s+84[12]/.test(raw),
+    means: 'The file is set at one of the house\u2019s four declared trims. A first version of '
+      + 'this probe tested for A4 and failed the first publication set at royal octavo — it was '
+      + 'measuring the flagship rather than the standard.',
+    probe: (raw) => {
+      const m = raw.match(/\/MediaBox\s*\[\s*0\s+0\s+([\d.]+)\s+([\d.]+)/);
+      if (!m) return false;
+      const w = Number(m[1]), h = Number(m[2]);
+      return TRIMS_PT.some(([tw, th]) => Math.abs(w - tw) < 2 && Math.abs(h - th) < 2);
+    },
   },
   {
     key: 'digital', name: 'Digital-ready', where: 'file',
@@ -592,6 +603,9 @@ export function legacyBlock({
        ${hist.truncated ? `<p class="lg__note">${hist.truncated} earlier revision${
   hist.truncated === 1 ? '' : 's'} not listed.</p>` : ''}`
     : `<p class="lg__note">${esc(hist.why)}</p>`}
+
+  <p class="lg__note">Generated ${esc(id.generated)} · Document ID ${esc(id.documentId)} ·
+    Issue ${esc(id.issueCode)} · ${IMPRINT.publisher}, an imprint of ${IMPRINT.parent}.</p>
 </section>`;
 }
 
