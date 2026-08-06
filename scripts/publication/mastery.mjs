@@ -339,8 +339,109 @@ export function suppliedMaterials(C = buildCurriculum()) {
   };
 }
 
+
 // ─────────────────────────────────────────────────────────────────────
-// 3 · THE SEVEN MASTERY METRICS
+// 2b · LEARNING MODES
+// ─────────────────────────────────────────────────────────────────────
+
+/**
+ * Five modes, and the reason they exist.
+ *
+ * The metric "lessons independently learnable" read 54 %, and the
+ * obvious response was to author solo alternatives for the other 53
+ * until the number rose. That would have been the worst decision in
+ * this project: a speaking lesson that requires another speaker is
+ * educationally stronger than a weaker exercise redesigned to satisfy
+ * a percentage. The number was not measuring a deficiency. It was
+ * measuring communicative language teaching working as intended.
+ *
+ * So a lesson now declares the mode its objective actually requires,
+ * the three mode figures sum to the lesson count, and no mode is
+ * treated as a failure to be another one.
+ */
+export const MODES = [
+  { key: 'independent', name: 'Independent learning',
+    what: 'A learner can complete the lesson alone with the published resources.' },
+  { key: 'guided', name: 'Guided learning',
+    what: 'A teacher or mentor materially improves the learning, but the objective can be '
+      + 'reached without one.' },
+  { key: 'collaborative', name: 'Collaborative learning',
+    what: 'The objective requires interaction with one or more peers. Not a limitation: the '
+      + 'interaction IS the learning.' },
+  { key: 'instructor', name: 'Instructor-led learning',
+    what: 'The lesson depends on demonstration, coaching, moderation or live correction.' },
+  { key: 'authentic', name: 'Authentic communication',
+    what: 'The lesson requires genuine, unscripted communication with another human being — '
+      + 'the point at which a language stops being studied and starts being used.' },
+];
+
+/**
+ * The signals, and the one exclusion.
+ *
+ * Teaching lessons end with an instructor observation checkpoint, and
+ * that is a dependency of the ASSESSMENT rather than of the LEARNING.
+ * The stage is excluded so that the mode reports what a learner needs
+ * in order to learn, not what the College needs in order to mark.
+ */
+const MODE_SIGNALS = [
+  ['authentic', /unscripted|find someone who|real conversation|genuine exchange|interview a |survey (three|four|five|\d+) (classmates|people)/i],
+  ['collaborative', /pair work|in pairs|with a partner|your partner|in small groups|in groups|group work|take turns|each other|classmates?/i],
+  // 'your instructor checks' is here because the assessment stage says
+  // it, and an assessment dependency is not a learning dependency.
+  //
+  // Two claims were made about this and both were wrong. The first
+  // omitted the phrase entirely, so excluding the assessment stage
+  // excluded nothing. The second said the exclusion PREVENTS all 114
+  // lessons being classified instructor-led — it does not: removing the
+  // exclusion changes no lesson's mode, because instructor ranks below
+  // collaborative and authentic, and the 33 independent lessons do not
+  // carry the phrase. The exclusion is a correct precaution against a
+  // curriculum that has not been written yet, not a load-bearing rule
+  // today, and it is described as such rather than credited with work
+  // it does not do.
+  ['instructor', /your instructor (checks|observes)|teacher model|teacher demonstrat|the teacher (shows|models|corrects)|live feedback|moderat|elicit|drill (around|the class)/i],
+  ['guided', /teacher (support|guidance|help)|with guidance/i],
+];
+
+/** Lessons whose derived mode is overridden, with the reason. Empty. */
+export const MODE_OVERRIDES = new Map();
+
+/**
+ * The mode of one lesson: the most demanding signal present, because a
+ * lesson that needs unscripted exchange also contains pair work, and
+ * the pair work is the rehearsal rather than the objective.
+ */
+export function modeOf(item) {
+  const text = item.stages
+    .filter((s) => s.icon !== 'assess')
+    .map((s) => s.parts.map((p) => p.text).join(' ')).join(' ');
+  for (const [key, re] of MODE_SIGNALS) if (re.test(text)) return key;
+  return 'independent';
+}
+
+export function modes(C = buildCurriculum()) {
+  const teaching = walk(C).filter(({ item }) =>
+    item.stages.some((s) => s.icon === 'objectives'));
+  const rows = teaching.map(({ ref, item }) => ({
+    ref,
+    mode: MODE_OVERRIDES.get(ref) || modeOf(item),
+    overridden: MODE_OVERRIDES.has(ref),
+  }));
+  const counts = MODES.map((m) => ({
+    ...m,
+    n: rows.filter((r) => r.mode === m.key).length,
+  }));
+  return {
+    lessons: rows.length,
+    rows,
+    counts: counts.map((c) => ({ ...c, pct: Math.round((c.n / rows.length) * 100) })),
+    // The three figures the directive asks be reported together.
+    sums: counts.reduce((n, c) => n + c.n, 0),
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// 3 · THE MASTERY METRICS
 // ─────────────────────────────────────────────────────────────────────
 
 const pct = (n, of) => (of ? Math.round((n / of) * 100) : 0);
@@ -375,19 +476,23 @@ export function metrics(C = buildCurriculum()) {
       // Teachable from print alone: no stage refers to material that
       // does not exist, and the timings and objectives are stated.
       teachableFromPrint: !blocked.has(ref) && has(item, 'objectives') && has(item, 'guided'),
-      // Learnable without a teacher: additionally needs practice a
-      // learner can do alone, and no stage that requires a partner or a
-      // classroom to begin.
-      learnableAlone: !blocked.has(ref) && has(item, 'homework') && has(item, 'extension')
-        && !/pair work|in small groups|with a partner/i.test(
-          item.stages.map((s) => s.parts.map((p) => p.text).join(' ')).join(' ')),
+      // A lesson SATISFIES ITS MODE when the published resources supply
+      // everything that mode requires. An independent lesson needs
+      // material a learner can work through alone; a collaborative one
+      // needs the task and the materials for it, and a partner is the
+      // learner's to find. Counting a collaborative lesson as a failure
+      // to be independent was measuring pedagogy as a defect.
+      mode: modeOf(item),
+      modeSatisfied: !blocked.has(ref)
+        && (modeOf(item) !== 'independent'
+          || (has(item, 'homework') && has(item, 'extension'))),
       selfCheck: checked.has(ref),
     };
   });
 
   const count = (k) => rows.filter((r) => r[k]).length;
   const mastery = rows.filter((r) => r.completePractice && r.completeResources
-    && r.teachableFromPrint && r.selfCheck).length;
+    && r.teachableFromPrint && r.selfCheck && r.modeSatisfied).length;
 
   return {
     lessons: rows.length,
@@ -405,9 +510,11 @@ export function metrics(C = buildCurriculum()) {
         'Objectives, prerequisites, presentation, practice, assessment and revision all present.'],
       ['Lessons independently teachable from print', count('teachableFromPrint'),
         'A teacher could run the lesson from the printed page without inventing material first.'],
-      ['Lessons independently learnable without a teacher', count('learnableAlone'),
-        'A learner alone could complete every stage: no missing material, no stage that needs a '
-        + 'partner to begin.'],
+      ['Lessons whose mode is fully supported', count('modeSatisfied'),
+        'The published resources supply everything the lesson’s own mode requires. A '
+        + 'collaborative lesson is supported when its task and materials exist; the partner is '
+        + 'not a resource the Press can print, and treating one as missing was measuring '
+        + 'communicative teaching as a defect.'],
       ['Lessons achieving complete mastery coverage', mastery,
         'All of the above AND a self-check the learner can attempt alone with the answer beside '
         + 'it. Bounded by the self-checks authored so far, which is the honest ceiling.'],

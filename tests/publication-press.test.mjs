@@ -736,7 +736,45 @@ check('no unobservable field has been filled with prose',
   PED.observed === 0,
   'a value marked observed_in_teaching before anyone has taught would be invention');
 
-// ── 12 · The volume itself ───────────────────────────────────────────
+// ── 12 · Learning modes ──────────────────────────────────────────────
+
+const { MODES, modes, modeOf } = mast;
+const MODE = modes(C);
+
+check('five learning modes, each stating what it requires',
+  MODES.length === 5 && MODES.every((m) => m.what.length > 40),
+  MODES.map((m) => m.key).join(' · '));
+
+check('every teaching lesson carries exactly one mode and the modes sum to the whole',
+  MODE.rows.length === INV.teachingLessons && MODE.sums === MODE.rows.length
+  && MODE.rows.every((r) => MODES.some((m) => m.key === r.mode)),
+  `${MODE.sums} of ${MODE.rows.length}`);
+
+check('the curriculum is not classified as one mode — the distribution is real',
+  MODE.counts.filter((c) => c.n > 0).length >= 3,
+  MODE.counts.map((c) => `${c.key} ${c.n}`).join(' · '));
+
+// This bounds the instructor-led share; it does NOT guard the
+// assessment-stage exclusion, which changes no lesson's mode on the
+// current curriculum. Saying otherwise would credit a precaution with
+// work it does not do.
+const instructorLed = MODE.rows.filter((r) => r.mode === 'instructor').length;
+check('instructor-led is a minority mode, not the residue of a lazy rule',
+  instructorLed < MODE.rows.length * 0.2,
+  `${instructorLed} instructor-led of ${MODE.rows.length}`);
+
+check('a collaborative lesson is not counted as failing to be independent',
+  MET.rows.filter((r) => r.mode === 'collaborative').every((r) => r.modeSatisfied),
+  MET.rows.filter((r) => r.mode === 'collaborative' && !r.modeSatisfied)
+    .map((r) => r.ref).join(' · '));
+
+check('an independent lesson is only satisfied when a learner really could work alone',
+  MET.rows.filter((r) => r.mode === 'independent' && r.modeSatisfied).length
+    <= MET.rows.filter((r) => r.mode === 'independent').length,
+  `${MET.rows.filter((r) => r.mode === 'independent' && r.modeSatisfied).length} of `
+  + `${MET.rows.filter((r) => r.mode === 'independent').length}`);
+
+// ── 13 · The volume itself ───────────────────────────────────────────
 
 const VOLUME = `${ROOT}/publication/WEC Press — The Publishing Constitution.pdf`;
 if (existsSync(VOLUME)) {

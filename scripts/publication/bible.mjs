@@ -61,6 +61,17 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'Learning modes, and a metric that was measuring pedagogy as a defect',
+    built: 'Lessons independently learnable read 54 per cent, and the obvious response was to '
+      + 'author solo alternatives for the other 53 until the number rose. That would have been '
+      + 'the worst decision in the project: a speaking lesson that requires another speaker is '
+      + 'stronger than a weaker exercise redesigned to satisfy a percentage. Every lesson now '
+      + 'declares the mode its objective requires — independent 33, collaborative 68, authentic '
+      + 'communication 12, instructor-led 1, guided nought — summing to 114, and a lesson is '
+      + 'measured against its own mode. Lessons whose mode is fully supported: 100 per cent. '
+      + 'Guided is defined and unused, and reported as nought rather than hidden. The '
+      + 'classification is STRUCTURAL — derived from the lesson text — and awaits expert '
+      + 'review.' },
   { item: 'Self-checks: Levels I to III complete', built: '57 of 114 lessons, 174 prompts, 70 '
     + 'of them targeting a named confusion — the present perfect that survives a question naming '
     + 'a time, "In my opinion, I think", the dropped passive auxiliary, over-deduction with '
