@@ -192,7 +192,7 @@ export function inventoryL1(C = buildCurriculum()) {
     db.exec(readFileSync(`${ROOT}/sql/seed-audio-level-${n}.sql`, 'utf8'));
   }
   for (const f of ['seed-exercises', 'seed-selfchecks', 'seed-pedagogy',
-    'seed-vocabulary-level-1', 'seed-solo-level-1', 'seed-competency-level-1']) {
+    'seed-vocabulary-level-1', 'seed-solo-level-1', 'seed-competency-level-1', 'seed-pedagogy-level-1']) {
     db.exec(readFileSync(`${ROOT}/sql/${f}.sql`, 'utf8'));
   }
   const ONE = `JOIN units u ON u.id = i.unit_id
@@ -296,6 +296,14 @@ export function inventoryL1(C = buildCurriculum()) {
     pedagogyObserved: n(`SELECT COUNT(*) AS n FROM pedagogy_entries e
                            JOIN learning_items i ON i.id = e.learning_item_id ${ONE}
                            AND e.evidence_state = 'observed_in_teaching'`),
+    // Knowledge a curriculum designer can supply and a classroom cannot
+    // be faked for. Kept apart from the observed count so that a
+    // publication resting on expertise cannot be read as resting on
+    // experience.
+    pedagogyAuthored: n(`SELECT COUNT(*) AS n FROM pedagogy_entries e
+                           JOIN learning_items i ON i.id = e.learning_item_id ${ONE}
+                           AND e.evidence_state IN
+                             ('established_pedagogy','educational_expertise')`),
 
     // Audio
     listeningScripts: n(`SELECT COUNT(*) AS n FROM audio_assets a
@@ -509,11 +517,20 @@ export const RESOURCES = [
     artefact: 'IEFC Complete Curriculum.pdf', build: 'render-flagship.mjs',
     needs: [need('teaching lessons with answer keys and staged timings', 'teachingLessons', 19),
       need('quiz questions with answers', 'quizQuestions', 100)] }),
+  // Retargeted. These three required observed classroom evidence, which
+  // cannot be invented and blocked them entirely. The directive's
+  // distinction is the fix: what a teacher knows from teaching cannot be
+  // authored, but educational expertise and established pedagogy can,
+  // and most of what these volumes contain is the latter. They now
+  // require AUTHORED pedagogical knowledge, which is honest work, and
+  // each of them prints the evidence state of every claim so a reader
+  // can see which is which.
   r({ cat: 'Teacher', name: "Teacher's Companion",
     serves: ['teacher'], improves: ['teaching', 'educational quality'],
     owner: OWNER.ACADEMIC,
-    needs: [need('pedagogical fields evidenced by observation, not derivation',
-      'pedagogyObserved', 100)] }),
+    needs: [need('pedagogical fields supplied by expertise or established practice',
+      'pedagogyAuthored', 40),
+    need('fields derived from the curriculum itself', 'pedagogyEvidenced', 50)] }),
   r({ cat: 'Teacher', name: 'Teaching Guide',
     serves: ['teacher'], improves: ['teaching', 'classroom delivery'],
     owner: OWNER.PRESS,
@@ -558,12 +575,12 @@ export const RESOURCES = [
   r({ cat: 'Teacher', name: 'Intervention Guide',
     serves: ['teacher'], improves: ['teaching', 'learner success'],
     owner: OWNER.ACADEMIC,
-    needs: [need('lessons with an observed intervention record', 'pedagogyObserved', 19)] }),
+    needs: [need('authored intervention and remediation guidance', 'pedagogyAuthored', 20)] }),
   r({ cat: 'Teacher', name: 'Differentiation Guide',
     serves: ['teacher'], improves: ['teaching', 'learner success'],
     owner: OWNER.ACADEMIC,
-    needs: [need('lessons with observed differentiation in both directions',
-      'pedagogyObserved', 38)] }),
+    needs: [need('authored differentiation guidance in both directions',
+      'pedagogyAuthored', 30)] }),
   r({ cat: 'Teacher', name: 'Classroom Management Notes',
     serves: ['teacher'], improves: ['classroom delivery'],
     owner: OWNER.ACADEMIC,

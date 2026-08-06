@@ -2170,9 +2170,47 @@ CREATE TABLE IF NOT EXISTS pedagogy_entries (
   learning_item_id  TEXT NOT NULL REFERENCES learning_items(id),
   field_key         TEXT NOT NULL REFERENCES pedagogy_fields(key),
   value             TEXT,
+
+  -- ── FIVE KINDS OF KNOWLEDGE, AND WHY THE DISTINCTION IS THE POINT ──
+  --
+  -- This record was built with three states and 1,616 of 1,938 entries
+  -- empty, on the reasoning that a teacher's knowledge comes from
+  -- teaching and this College has taught nobody. That was right about
+  -- one kind of knowledge and wrong about three others, and the
+  -- conflation left the Teacher's Companion unbuildable for a reason
+  -- that did not apply to most of what it would contain.
+  --
+  --   derived_from_curriculum — read off the programme itself. The
+  --     prerequisite a lesson names, the minutes its stages declare,
+  --     the confusion its own self-check trap identifies.
+  --
+  --   established_pedagogy — attested in the international teaching of
+  --     English and not particular to this institution: that the
+  --     third-person -s is among the most persistent errors for
+  --     learners of every first language, that countability is
+  --     arbitrary and must be memorised. Synthesis, not observation,
+  --     and it must be marked as synthesis.
+  --
+  --   educational_expertise — a designed judgement by the people who
+  --     wrote the curriculum: how else to explain this, what analogy
+  --     holds, how to stretch a learner who has finished early. It is
+  --     authored, defensible, and improvable by anyone who teaches it
+  --     and finds better.
+  --
+  --   observed_in_teaching — what happened in a real room with real
+  --     learners. CANNOT BE INVENTED. Nothing may carry this state
+  --     until somebody teaches.
+  --
+  --   not_yet_evidenced — the honest empty. Kept, and still the right
+  --     state for anything the four above cannot truthfully supply.
+  --
+  -- A reader must never mistake the second and third for the fourth,
+  -- which is why they are separate values in a CHECK constraint rather
+  -- than a note in a preface nobody reads.
   evidence_state    TEXT NOT NULL DEFAULT 'not_yet_evidenced'
                       CHECK (evidence_state IN
-                        ('derived_from_curriculum','observed_in_teaching','not_yet_evidenced')),
+                        ('derived_from_curriculum','established_pedagogy',
+                         'educational_expertise','observed_in_teaching','not_yet_evidenced')),
   source            TEXT,
   UNIQUE (learning_item_id, field_key)
 );

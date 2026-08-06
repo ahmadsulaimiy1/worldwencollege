@@ -502,6 +502,86 @@ check('the employer criterion is blocked, and every blocker traces to the compet
   db.close();
 }
 
+// ── 7c · Five kinds of knowledge, kept apart ─────────────────────────
+//
+// The teacher publications were blocked entirely on observed classroom
+// evidence, which cannot be invented. Most of what they contain is not
+// observation: it is established pedagogy and designed expertise, both
+// of which can honestly be authored. Separating them unblocked three
+// volumes — and created the risk this section exists to close, that a
+// reader takes authored guidance for a report of what happened in a
+// room.
+{
+  const { DatabaseSync } = await import('node:sqlite');
+  const { readFileSync } = await import('node:fs');
+  const db = new DatabaseSync(':memory:');
+  db.exec(readFileSync(path.join(ROOT, 'sql/schema.sql'), 'utf8'));
+  for (let n = 1; n <= 6; n++) {
+    db.exec(readFileSync(path.join(ROOT, `sql/seed-curriculum-level-${n}.sql`), 'utf8'));
+  }
+  db.exec(readFileSync(path.join(ROOT, 'sql/seed-pedagogy.sql'), 'utf8'));
+  db.exec(readFileSync(path.join(ROOT, 'sql/seed-pedagogy-level-1.sql'), 'utf8'));
+  const all = (sql) => db.prepare(sql).all();
+
+  const states = all('SELECT evidence_state s, COUNT(*) n FROM pedagogy_entries GROUP BY 1');
+  const by = Object.fromEntries(states.map((r) => [r.s, r.n]));
+
+  check('the record distinguishes five kinds of knowledge, not three',
+    ['derived_from_curriculum', 'established_pedagogy', 'educational_expertise',
+      'not_yet_evidenced'].every((k) => by[k] > 0),
+    states.map((r) => `${r.s} ${r.n}`).join(' · '));
+
+  // THE ONE THAT CANNOT BE RELAXED. Nobody has taught this programme to
+  // anybody. Until they have, no entry may claim to report a classroom.
+  check('nothing is marked observed_in_teaching, because nobody has taught',
+    !by.observed_in_teaching,
+    `${by.observed_in_teaching || 0} entries claim observation`);
+
+  // Authored knowledge must announce itself. An expertise entry whose
+  // source does not say it is authored reads exactly like a report.
+  const authored = all(`SELECT * FROM pedagogy_entries
+     WHERE evidence_state IN ('established_pedagogy','educational_expertise')`);
+  check('every authored entry names its basis, so it cannot read as a classroom report',
+    authored.length > 0 && authored.every((e) => e.source && e.source.length > 20),
+    authored.filter((e) => !e.source || e.source.length <= 20).map((e) => e.id).join(' · '));
+
+  check('established pedagogy states that it is not observed at this College',
+    all("SELECT * FROM pedagogy_entries WHERE evidence_state = 'established_pedagogy'")
+      .every((e) => /not observed at this College/i.test(e.source)),
+    String(all("SELECT * FROM pedagogy_entries WHERE evidence_state = 'established_pedagogy'")
+      .filter((e) => !/not observed at this College/i.test(e.source)).length));
+
+  check('expertise entries are attributed to the curriculum authors, not to a classroom',
+    all("SELECT * FROM pedagogy_entries WHERE evidence_state = 'educational_expertise'")
+      .every((e) => /curriculum authors/i.test(e.source)),
+    String(all("SELECT * FROM pedagogy_entries WHERE evidence_state = 'educational_expertise'")
+      .filter((e) => !/curriculum authors/i.test(e.source)).length));
+
+  // The derived fields must still be derived. common_mistakes is
+  // generated from the self-check traps rather than written a second
+  // time, so the two cannot drift; if it were ever hand-authored it
+  // would stop matching.
+  const derived = all(`SELECT * FROM pedagogy_entries
+     WHERE field_key IN ('common_mistakes','confusable_concepts')
+       AND evidence_state = 'derived_from_curriculum'`);
+  check('the derived fields say what they were derived from',
+    derived.length > 0 && derived.every((e) => /self-check|vocabulary set/i.test(e.source)),
+    String(derived.filter((e) => !/self-check|vocabulary set/i.test(e.source)).length));
+
+  // Every entry that carries a value must carry a state that is not the
+  // empty one, and every entry in the empty state must carry no value.
+  // A field with prose and no evidence is the failure mode the whole
+  // record was designed against.
+  const wrong = all(`SELECT * FROM pedagogy_entries
+     WHERE (evidence_state = 'not_yet_evidenced' AND value IS NOT NULL AND value <> '')
+        OR (evidence_state <> 'not_yet_evidenced' AND (value IS NULL OR value = ''))`);
+  check('no field carries prose without an evidence basis, and none carries a basis without prose',
+    wrong.length === 0,
+    wrong.slice(0, 3).map((e) => `${e.learning_item_id}:${e.field_key}`).join(' · '));
+
+  db.close();
+}
+
 // ── 8 · The Level I Student Workbook ─────────────────────────────────
 //
 // The volume's whole editorial claim is that a learner can work from it
