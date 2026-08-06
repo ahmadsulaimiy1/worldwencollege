@@ -61,6 +61,26 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'Self-checks, and the first non-zero mastery reading', built: '19 self-checks for '
+    + 'Level I — 58 prompts, every one with an answer beside it, and 25 targeting a named '
+    + 'confusion: the missing third-person -s, "quarter to nine" rather than eight, "she has '
+    + 'tall", the -ed that vanishes after didn\u2019t. A self-check is not a lesson stage, '
+    + 'because a printed stage cannot hide an answer; it is a separate record the learner '
+    + 'attempts alone, immediately, rather than discovering ten lessons later at the module quiz '
+    + 'that they misunderstood lesson three. Complete mastery coverage moved from nought to 16 '
+    + 'per cent — bounded by the 19 authored, not by intent. 95 lessons remain.' },
+  { item: 'The pedagogical record, and the 1,616 fields deliberately left empty', built: '17 '
+    + 'fields for each of the 114 teaching lessons: common mistakes, why they are made, '
+    + 'misconceptions, intervention, alternative and faster and visual explanations, analogy, '
+    + 'remediation, differentiation both ways, confusable concepts, prerequisites, time, and what '
+    + 'the lesson unlocks. Three are derived from the curriculum — prerequisites from the lesson '
+    + 'stage, time from its own stage timings, and what it unlocks from the cross-reference '
+    + 'graph. The other fourteen are what a teacher learns by teaching, and this College has '
+    + 'taught nobody, so 1,616 of 1,938 entries are marked not_yet_evidenced and carry no value. '
+    + 'That emptiness is the deliverable: a record filled with plausible prose about '
+    + 'misconceptions nobody has observed would look like classroom knowledge, be guesswork, and '
+    + 'be inherited as fact by every future edition. A test asserts that no field is ever marked '
+    + 'observed_in_teaching while nobody has taught.' },
   { item: 'All 49 supplied-material sets authored', built: 'Every practice stage in the '
     + 'programme that hands a learner something now has the something: 49 sets, 282 items, '
     + 'across all six levels. Complete practice rose from 67 per cent of lessons to 100; lessons '

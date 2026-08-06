@@ -88,9 +88,10 @@ export const PRACTICE = [
   { key: 'reflection', name: 'Reflection', icon: 'thinking',
     why: null },
   { key: 'selfcheck', name: 'Self-check', icon: null,
-    why: 'DOES NOT EXIST. No lesson gives a learner a way to check their own understanding '
-      + 'before the module quiz. This is the largest single hole in the practice architecture '
-      + 'and it is academic authoring: a self-check needs items and answers, not a heading.' },
+    why: 'Not a lesson stage but a separate authored record, because a self-check is attempted '
+      + 'alone with the answer beside it and a printed lesson stage cannot hide an answer. '
+      + 'Authored for 19 of 114 lessons; the rest is the next authoring pass, and the metric '
+      + 'reports the position rather than the intention.' },
   { key: 'challenge', name: 'Challenge exercise', icon: 'extension',
     why: null },
   { key: 'mastery', name: 'Mastery exercise', icon: 'assess',
@@ -239,7 +240,51 @@ function openDb() {
     db.exec(readFileSync(`${ROOT}/sql/seed-curriculum-level-${n}.sql`, 'utf8'));
   }
   db.exec(readFileSync(`${ROOT}/sql/seed-exercises.sql`, 'utf8'));
+  db.exec(readFileSync(`${ROOT}/sql/seed-selfchecks.sql`, 'utf8'));
+  db.exec(readFileSync(`${ROOT}/sql/seed-pedagogy.sql`, 'utf8'));
   return db;
+}
+
+/** Self-checks that exist, by lesson reference. */
+export function selfChecks() {
+  const db = openDb();
+  const rows = db.prepare(`
+    SELECT s.id, s.intro, s.approval_state AS approval,
+           l.roman || '.' || u.sequence || '.' || i.sequence AS ref,
+           (SELECT COUNT(*) FROM self_check_items x WHERE x.self_check_id = s.id) AS items,
+           (SELECT COUNT(*) FROM self_check_items x WHERE x.self_check_id = s.id
+              AND x.trap IS NOT NULL) AS traps
+      FROM self_checks s
+      JOIN learning_items i ON i.id = s.learning_item_id
+      JOIN units u ON u.id = i.unit_id
+      JOIN courses c ON c.id = u.course_id
+      JOIN programme_levels l ON l.id = c.level_id
+     ORDER BY l.id, u.sequence, i.sequence`).all();
+  db.close();
+  return rows;
+}
+
+/**
+ * The pedagogical record: seventeen fields per lesson, three derived
+ * from the curriculum and fourteen awaiting a classroom.
+ */
+export function pedagogy() {
+  const db = openDb();
+  const fields = db.prepare('SELECT * FROM pedagogy_fields ORDER BY sequence').all();
+  const byState = db.prepare(
+    'SELECT evidence_state AS state, COUNT(*) AS n FROM pedagogy_entries GROUP BY evidence_state')
+    .all();
+  const lessons = db.prepare(
+    'SELECT COUNT(DISTINCT learning_item_id) AS n FROM pedagogy_entries').get().n;
+  db.close();
+  return {
+    fields,
+    lessons,
+    entries: byState.reduce((n, r) => n + r.n, 0),
+    derived: (byState.find((r) => r.state === 'derived_from_curriculum') || { n: 0 }).n,
+    observed: (byState.find((r) => r.state === 'observed_in_teaching') || { n: 0 }).n,
+    awaiting: (byState.find((r) => r.state === 'not_yet_evidenced') || { n: 0 }).n,
+  };
 }
 
 /** Exercise sets that exist, keyed by lesson reference and stage. */
@@ -312,6 +357,7 @@ export function metrics(C = buildCurriculum()) {
   const blocked = new Set(sup.outstanding.map((r) => r.ref));
   const has = (item, icon) => item.stages.some((s) => s.icon === icon);
   const modTitle = new Map(teaching.map(({ ref, mod }) => [ref, mod.title]));
+  const checked = new Set(selfChecks().map((s) => s.ref));
   const PROFESSIONAL = /Work|Career|Negotiation|Professional Advocacy/i;
 
   const rows = teaching.map(({ ref, item }) => {
@@ -335,9 +381,7 @@ export function metrics(C = buildCurriculum()) {
       learnableAlone: !blocked.has(ref) && has(item, 'homework') && has(item, 'extension')
         && !/pair work|in small groups|with a partner/i.test(
           item.stages.map((s) => s.parts.map((p) => p.text).join(' ')).join(' ')),
-      // Self-check does not exist anywhere, so full mastery coverage is
-      // nought by construction — and that is the finding, not a bug.
-      selfCheck: false,
+      selfCheck: checked.has(ref),
     };
   });
 
@@ -365,8 +409,8 @@ export function metrics(C = buildCurriculum()) {
         'A learner alone could complete every stage: no missing material, no stage that needs a '
         + 'partner to begin.'],
       ['Lessons achieving complete mastery coverage', mastery,
-        'All of the above AND a self-check. Nought, because no lesson in the programme has a '
-        + 'self-check — the honest figure, and the reason the next authoring pass is obvious.'],
+        'All of the above AND a self-check the learner can attempt alone with the answer beside '
+        + 'it. Bounded by the self-checks authored so far, which is the honest ceiling.'],
     ].map(([name, n, what]) => ({ name, n, pct: pct(n, rows.length), what })),
     supplied: sup,
   };

@@ -654,8 +654,12 @@ check('every practice type either maps to a stage or states why it does not',
   PRACTICE.length === 10 && PRACTICE.every((p) => p.icon || (p.why && p.why.length > 60)),
   PRACTICE.filter((p) => !p.icon && (!p.why || p.why.length <= 60)).map((p) => p.name).join(' · '));
 
-check('the practice architecture names the self-check as absent rather than omitting it',
-  PRACTICE.some((p) => p.key === 'selfcheck' && /DOES NOT EXIST/.test(p.why)));
+// Was: asserts the self-check row says DOES NOT EXIST. It now exists
+// for 19 lessons, so the assertion is that the row explains why it is
+// not a lesson stage and reports the position it has reached.
+check('the self-check row explains its own shape and states how far it has got',
+  PRACTICE.some((p) => p.key === 'selfcheck' && !p.icon && /\d+ of \d+/.test(p.why)),
+  (PRACTICE.find((p) => p.key === 'selfcheck') || {}).why);
 
 // The seven metrics.
 check('seven mastery metrics, each a property of lessons and each explained',
@@ -666,9 +670,14 @@ check('seven mastery metrics, each a property of lessons and each explained',
 check('no metric can exceed the lesson count',
   MET.figures.every((f) => f.n <= MET.lessons));
 
-check('complete mastery coverage is nought while no lesson has a self-check',
-  MET.figures.find((f) => /complete mastery coverage/i.test(f.name)).n === 0,
-  'a metric that reported otherwise would be measuring something else');
+// Was: asserts the figure is nought. It is 18 now, and the assertion
+// that matters is that it can never exceed the lessons that have every
+// component — the metric must stay bounded by evidence, not by hope.
+check('complete mastery coverage never exceeds the lessons that have every component',
+  MET.figures.find((f) => /complete mastery coverage/i.test(f.name)).n
+    <= Math.min(...['completePractice', 'completeResources', 'teachableFromPrint', 'selfCheck']
+      .map((k) => MET.rows.filter((r) => r[k]).length)),
+  MET.figures.find((f) => /complete mastery coverage/i.test(f.name)).n + ' lessons');
 
 // A lesson pointing at material that does not exist is not teachable
 // from print, and the metric must move when the material arrives.
@@ -689,7 +698,45 @@ check('the assessment defence reports the competency mapping rather than assumin
   && /only by\s*\n?\s*inference|only by inference/.test(DEF.verdict.replace(/\s+/g, ' ')),
   DEF.verdict.slice(0, 60));
 
-// ── 11 · The volume itself ───────────────────────────────────────────
+// ── 11 · Self-checks and the pedagogical record ──────────────────────
+
+const SC = mast.selfChecks();
+const PED = mast.pedagogy();
+
+check('every self-check has an intro and at least three prompts, each with an answer',
+  SC.length > 0 && SC.every((x) => x.intro.length > 30 && x.items >= 3),
+  SC.filter((x) => x.items < 3).map((x) => x.ref).join(' · '));
+
+check('self-checks are press-drafted and claim no academic approval',
+  SC.every((x) => x.approval === 'press_drafted'),
+  SC.filter((x) => x.approval !== 'press_drafted').map((x) => x.ref).join(' · '));
+
+check('at least one prompt per self-check targets a known confusion',
+  SC.every((x) => x.traps >= 1),
+  SC.filter((x) => x.traps < 1).map((x) => x.ref).join(' · '));
+
+check('mastery coverage is bounded by the self-checks that exist, not by intent',
+  MET.figures.find((f) => /complete mastery coverage/i.test(f.name)).n <= SC.length,
+  `${MET.figures.find((f) => /complete mastery coverage/i.test(f.name)).n} of ${SC.length}`);
+
+// The pedagogical record: seventeen fields, and the emptiness is the
+// substance. A record that filled the fourteen unobservable fields with
+// plausible prose would be the most damaging invention in the project.
+check('every teaching lesson has a pedagogical record covering all seventeen fields',
+  PED.lessons === INV.teachingLessons && PED.fields.length === 17
+  && PED.entries === PED.lessons * 17,
+  `${PED.lessons} × ${PED.fields.length} = ${PED.entries}`);
+
+check('exactly the three derivable fields carry evidence; the rest await a classroom',
+  PED.fields.filter((f) => f.derivable).length === 3
+  && PED.derived <= PED.lessons * 3 && PED.observed === 0,
+  `${PED.derived} derived · ${PED.observed} observed · ${PED.awaiting} awaiting`);
+
+check('no unobservable field has been filled with prose',
+  PED.observed === 0,
+  'a value marked observed_in_teaching before anyone has taught would be invention');
+
+// ── 12 · The volume itself ───────────────────────────────────────────
 
 const VOLUME = `${ROOT}/publication/WEC Press — The Publishing Constitution.pdf`;
 if (existsSync(VOLUME)) {

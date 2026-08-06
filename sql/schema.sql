@@ -2071,3 +2071,89 @@ CREATE TABLE IF NOT EXISTS exercise_items (
 
 CREATE INDEX IF NOT EXISTS idx_exercise_sets_item ON exercise_sets(learning_item_id);
 CREATE INDEX IF NOT EXISTS idx_exercise_items_set ON exercise_items(exercise_set_id);
+
+-- ─────────────────────────────────────────────────────────────────────
+-- SELF-CHECKS
+--
+-- Every teaching lesson states what a learner can do by the end of it.
+-- Until this table, no lesson gave the learner any way to find out
+-- whether they could. The module quiz arrives ten lessons later, which
+-- is where a learner discovers they misunderstood lesson three.
+--
+-- A self-check is not a quiz. It is three or four short prompts a
+-- learner attempts alone, immediately, with the answer beside them —
+-- and one of them is deliberately the thing learners get wrong.
+-- ─────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS self_checks (
+  id                TEXT PRIMARY KEY,
+  learning_item_id  TEXT NOT NULL UNIQUE REFERENCES learning_items(id),
+  -- What the learner is being asked to verify, in their own terms.
+  intro             TEXT NOT NULL,
+  approval_state    TEXT NOT NULL DEFAULT 'press_drafted'
+                      CHECK (approval_state IN ('press_drafted','academically_approved')),
+  drafted_by        TEXT NOT NULL DEFAULT 'WEC Press',
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+
+CREATE TABLE IF NOT EXISTS self_check_items (
+  id                TEXT PRIMARY KEY,
+  self_check_id     TEXT NOT NULL REFERENCES self_checks(id),
+  sequence          INTEGER NOT NULL,
+  prompt            TEXT NOT NULL,
+  answer            TEXT NOT NULL,
+  -- Where a prompt targets a known confusion, what the confusion is.
+  -- NULL where none has been identified: never a guess.
+  trap              TEXT,
+  UNIQUE (self_check_id, sequence)
+);
+
+-- ─────────────────────────────────────────────────────────────────────
+-- PEDAGOGICAL INTELLIGENCE
+--
+-- Seventeen fields per lesson, of which THREE can be derived from the
+-- curriculum as it stands — prerequisite concepts, time required, and
+-- concepts unlocked — and fourteen cannot. The fourteen are what a
+-- teacher learns by teaching, and this College has taught nobody.
+--
+-- So the record exists with every underived field marked
+-- 'not_yet_evidenced'. That is not a placeholder: it is the difference
+-- between a curriculum that knows what it does not know and one that
+-- fills the gap with plausible prose. When cohorts have been taught,
+-- these fields fill with evidence. Until then the emptiness is the
+-- honest reading, and it is queryable.
+-- ─────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS pedagogy_records (
+  id                TEXT PRIMARY KEY,
+  learning_item_id  TEXT NOT NULL UNIQUE REFERENCES learning_items(id),
+  field             TEXT NOT NULL,
+  value             TEXT,
+  evidence_state    TEXT NOT NULL DEFAULT 'not_yet_evidenced'
+                      CHECK (evidence_state IN
+                        ('derived_from_curriculum','observed_in_teaching','not_yet_evidenced')),
+  source            TEXT
+);
+
+CREATE TABLE IF NOT EXISTS pedagogy_fields (
+  key               TEXT PRIMARY KEY,
+  name              TEXT NOT NULL,
+  sequence          INTEGER NOT NULL,
+  -- Can this field be derived from the curriculum, or must it be
+  -- observed in a classroom?
+  derivable         INTEGER NOT NULL DEFAULT 0,
+  note              TEXT
+);
+
+CREATE TABLE IF NOT EXISTS pedagogy_entries (
+  id                TEXT PRIMARY KEY,
+  learning_item_id  TEXT NOT NULL REFERENCES learning_items(id),
+  field_key         TEXT NOT NULL REFERENCES pedagogy_fields(key),
+  value             TEXT,
+  evidence_state    TEXT NOT NULL DEFAULT 'not_yet_evidenced'
+                      CHECK (evidence_state IN
+                        ('derived_from_curriculum','observed_in_teaching','not_yet_evidenced')),
+  source            TEXT,
+  UNIQUE (learning_item_id, field_key)
+);
+
+CREATE INDEX IF NOT EXISTS idx_selfcheck_item ON self_checks(learning_item_id);
+CREATE INDEX IF NOT EXISTS idx_pedagogy_item ON pedagogy_entries(learning_item_id);
