@@ -441,3 +441,206 @@ export const REGISTERS = [
 /** Every entry, for counting and for the summary table. */
 export const ALL_ENTRIES = REGISTERS.flatMap(([name, rows]) =>
   rows.map((r) => ({ ...r, register: name })));
+
+/**
+ * ─────────────────────────────────────────────────────────────────────
+ * THE FINAL PUBLICATION AUDIT
+ * ─────────────────────────────────────────────────────────────────────
+ * The Editorial Board's sign-off, section by section, before the
+ * edition is released.
+ *
+ * Four statuses, and they are not interchangeable:
+ *
+ *   APPROVED — nothing within editorial authority would materially
+ *     improve this heading.
+ *   APPROVED WITH OBSERVATION — releasable, with a limitation stated
+ *     rather than left to be discovered.
+ *   REQUIRES GOVERNANCE DECISION — the work is blocked on a decision
+ *     no editor may take: an academic mapping, a legal registration,
+ *     an institutional appointment.
+ *   NOT READY FOR PUBLICATION — do not release this heading.
+ *
+ * A board that approves everything has audited nothing. Two headings
+ * below are not approved, and one of them is the reason this audit
+ * exists rather than a summary of it.
+ */
+export const AUDIT_STATUS = {
+  APPROVED: 'Approved',
+  OBSERVED: 'Approved with Observation',
+  GOVERNANCE: 'Requires Governance Decision',
+  NOT_READY: 'Not Ready for Publication',
+};
+
+const A = AUDIT_STATUS;
+
+export const AUDIT = [
+  { heading: 'Educational Excellence', status: A.APPROVED,
+    finding: 'Every one of the 294 authored items is printed whole: objectives, staged practice '
+      + 'with the designed timing of each stage, modelled language, the formative check that tells '
+      + 'a teacher whether to move on, and — in the teacher’s edition — the answer key beneath '
+      + 'each quiz. A teacher can teach from these pages without the platform, which is the only '
+      + 'test of a curriculum that matters.' },
+
+  { heading: 'Academic Integrity', status: A.OBSERVED,
+    finding: 'No fact in this volume is unsupported by the curriculum or the institutional record. '
+      + 'The figures are generated at build time and several are unflattering: the assessment map '
+      + 'prints a competency column that is empty in all six levels, and the stage-frequency figure '
+      + 'prints the naming tail rather than the head alone.',
+    observation: 'Two claims were withdrawn during this audit rather than defended. A four-skills '
+      + 'figure carried the caption "reading and writing rise as the ascent proceeds"; measured, '
+      + 'reading is flat everywhere but one level and falls at the last. It had been printed in '
+      + 'three editions. And the routes page asserted the curriculum names no grammar stage; it '
+      + 'names one, at VI.10.1. Both are corrected, and both are recorded here because the pattern '
+      + 'matters more than either instance: a sentence written from memory of the data outlives '
+      + 'the data.' },
+
+  { heading: 'Editorial Excellence', status: A.APPROVED,
+    finding: 'The apparatus is extracted, never composed: 191 cross-references pulled from the '
+      + 'prerequisite stages, 48 pull quotes that are the curriculum’s own discussion prompts, '
+      + 'a 50-term glossary in which every headword is counted across the corpus before it prints, '
+      + 'and three indexes keyed to lesson references rather than page numbers so they survive '
+      + 'reflow. Where an extraction could not be made honestly — a grammar route, a fourth-skills '
+      + 'figure — nothing was printed and the reason is on the page.' },
+
+  { heading: 'Information Architecture', status: A.APPROVED,
+    finding: 'One house structure holds from the first level to the sixth, and the reader is never '
+      + 'more than a few pages from an event: the measured distance between designed events in the '
+      + 'curriculum body is a median of four pages and a maximum of five. Six figures carry the '
+      + 'architecture, each measured from the database rather than drawn to illustrate it.' },
+
+  { heading: 'Typography', status: A.APPROVED,
+    finding: 'Two families, one measure, one baseline. Nothing is set below the 5.5 pt print '
+      + 'legibility floor — thirteen sizes once were, all inside figures that scale with their '
+      + 'viewBox. Rule weights and tracking are held to small declared scales and counted on every '
+      + 'build. Orphans and widows are set on body prose, headings never break from what follows '
+      + 'them, and table headings repeat across a page break.' },
+
+  { heading: 'Colour', status: A.APPROVED,
+    finding: 'Fourteen institutional colours, each with a stated role, and six level identities '
+      + 'generated in OKLCH at one lightness so only hue varies — the measured ink-luminance '
+      + 'spread is 1.23× where hand-picked hexes gave 2.24×. Every ink carries at least '
+      + '4.5:1 against the paper it is specified on; nine contrast pairs are checked on every '
+      + 'build. Royal Gold is barred from type on light paper at 2.82:1 and Bronze carries it '
+      + 'instead.' },
+
+  { heading: 'Photography', status: A.OBSERVED,
+    finding: 'Eleven licensed editorial photographs, each graded to a duotone — the level plates in '
+      + 'their own level’s ink, the section bands in the College’s blue — so that eleven '
+      + 'images by eleven photographers read as one commissioned series. None is captioned as a '
+      + 'record of this College, because none is.',
+    observation: 'A twelfth was licensed for the pronunciation strand and is not used: a posed '
+      + 'classroom with a bare-shouldered top, failing both the modesty requirement and the '
+      + 'observational direction of the other eleven. The licence is spent. Per-module photography '
+      + 'across all sixty openers remains a licensing question, not an editorial one.' },
+
+  { heading: 'Illustration', status: A.APPROVED,
+    finding: 'Nothing in this volume is a stock illustration or a traced image. The rosettes are '
+      + 'hypotrochoids, the star figures eight-fold girih constructions, and the crest, borders, '
+      + 'corner fans and fleurons are generated from their own geometry at render time. Nineteen '
+      + 'stage icons are drawn on one 24-unit grid at one stroke weight; five were redrawn after '
+      + 'inspection at their printed size of 13 px.' },
+
+  { heading: 'Navigation', status: A.OBSERVED,
+    finding: 'Every lesson carries its reference, its prerequisites and — on the module openers — '
+      + 'the later lessons that return to it. Each level opens with its own ten modules. Six '
+      + 'reference sections close the volume.',
+    observation: 'The running head is the same on every page. Chromium cannot vary a running head '
+      + 'by section in its print pipeline — verified, not assumed — and the printed thumb index '
+      + 'that would replace it needs bleed, which this pipeline also cannot produce. Both are '
+      + 'engine limits, and both are mitigated rather than solved.' },
+
+  { heading: 'Reader Experience', status: A.APPROVED,
+    finding: 'The printed book is rasterised page by page and every page measured for how far its '
+      + 'ink reaches. The first such measurement found 172 of 522 pages under 60% full and 106 '
+      + 'under 40% — one fifth of the book was white space nobody had chosen, inherited from a '
+      + 'forced page break before every assessed item. Removing it took the volume from 522 pages '
+      + 'to 441 with not one word cut. The median page now fills 96%.' },
+
+  { heading: 'Teacher Experience', status: A.APPROVED,
+    finding: 'This is a teacher’s edition and says so. The answer key sits beneath its own '
+      + 'quiz rather than at the back of a 441-page book; every rubric is set as an instrument '
+      + 'with the criterion on the left and what the marker is looking for on the right; the '
+      + 'designed duration of each lesson is summed from timings the curriculum already carried '
+      + 'and had never added up.' },
+
+  { heading: 'Assessment Design', status: A.GOVERNANCE,
+    finding: 'The instrument is complete and regular: 120 assessed items, 660 questions with '
+      + 'answer keys, and 307 rubric criteria across sixty rubrics, identical in structure at '
+      + 'every level.',
+    observation: 'None of the 120 is mapped to a named competency. The College defines the IEFC as '
+      + 'a qualification extending CEFR proficiency through competency verification; until that '
+      + 'column is populated the definition is an intention rather than a demonstration. '
+      + 'Establishing the mapping is academic authoring and belongs to the Board of Academic '
+      + 'Standards and Curriculum Excellence. The empty column is printed in all three editions, '
+      + 'including the one written for accreditation panels.' },
+
+  { heading: 'Print Production', status: A.OBSERVED,
+    finding: 'The text block and the cover are separate files, as a printer receives them. The '
+      + 'spine is calculated from the bound extent at a stated caliper and recalculated per '
+      + 'edition. The cover carries 3 mm bleed on all four edges. Every placed photograph clears '
+      + '300 dpi at its printed size, and no drawn line falls below the 0.25 pt press floor.',
+    observation: 'This book has never been printed. Colour is specified in sRGB and has not been '
+      + 'separated or proofed; ink coverage, show-through and paper interaction are design '
+      + 'intentions until a wet proof says otherwise. Creep compensation is documented rather than '
+      + 'applied, because it depends on the signature scheme the printer chooses. No edition '
+      + 'should go to a full run without a proof.' },
+
+  { heading: 'Accessibility', status: A.OBSERVED,
+    finding: 'The PDF is tagged, carries a document language and a navigable outline. No heading '
+      + 'level is skipped anywhere in the volume; all 82 tables declare header scope and carry '
+      + 'header cells; every placed photograph has descriptive alternative text and every '
+      + 'decorative SVG is hidden from assistive technology while every figure carries a label. A '
+      + 'large-print variant builds from the same source at any type scale.',
+    observation: 'Tagging has not been validated against PDF/UA by an external checker, and the '
+      + 'reading order of the figures has not been tested with a screen reader. Neither is a '
+      + 'defect found; both are checks not yet run.' },
+
+  { heading: 'Brand Identity', status: A.APPROVED,
+    finding: 'One crest, one colour system, one type system, one ornamental language, applied '
+      + 'across the cover, the three editions, the specifications and the platform. The design is '
+      + 'deliberately unfashionable — a transitional serif, a humanist sans, engine-turned '
+      + 'ornament and a blue-and-gold livery — because the volume has to look current in twenty '
+      + 'years, not this season.' },
+
+  { heading: 'Institutional Credibility', status: A.OBSERVED,
+    finding: 'Every public claim in the volume is verifiable. The College is stated plainly to be '
+      + 'unaccredited, in all three editions. No officer is quoted, no partnership named, no '
+      + 'ranking claimed, and the conventional Foreword is absent rather than composed for people '
+      + 'who do not hold office.',
+    observation: 'The volume’s credibility now exceeds the platform’s in one respect: '
+      + 'seven registers of internal findings exist because the institution has more open '
+      + 'questions than a prospectus would admit. That is the right way round, and it means the '
+      + 'Bible must be read alongside the book by anyone answering for it.' },
+
+  { heading: 'Legal & Licensing Compliance', status: A.GOVERNANCE,
+    finding: 'All eleven placed photographs are licensed, credited, and carry a resolvable licence '
+      + 'reference; the credits table is checked against the images actually placed in each '
+      + 'edition on every build. No typeface is used that is not present on the systems the volume '
+      + 'is opened on. Nothing is traced, scraped or generated in imitation of a licensed work.',
+    observation: 'ISBN, DOI and legal deposit are printed as "Not assigned" with the issuing '
+      + 'authority named. Assigning them is an institutional act, not an editorial one, and no '
+      + 'edition should be distributed commercially until they exist.' },
+
+  { heading: 'Digital Companion Consistency', status: A.OBSERVED,
+    finding: 'The editable edition now carries what the print edition carries: the six figures, '
+      + 'the six graded plates, per-level colour identity, the cross-references, the glossary, the '
+      + 'routes and the pronunciation strand. Faculty editing the curriculum had been the only '
+      + 'readers unable to see the figure showing no competency mapping.',
+    observation: 'THIS HEADING FAILED ITS FIRST AUDIT AND IS THE REASON THE AUDIT WAS WORTH '
+      + 'RUNNING. The English site had been migrated to WEC Credits and Total Qualification Time; '
+      + 'the Arabic site had not, and went on publishing the retired scheme in full — 720 learning '
+      + 'units in the lede, in two stat rows, in the fee table and twice in the FAQ — together '
+      + 'with per-unit pricing at $26.39, which the English pages had removed precisely because it '
+      + 'ties a price to content that is 41% authored. The English fee table was separately wrong: '
+      + 'its total row read 720 in a credits column whose own six rows read 20, and carried four '
+      + 'cells where the header declares five, so the tuition total printed under the wrong '
+      + 'heading. All corrected. The guard that should have caught it read only the English pages '
+      + 'and never read the table as a table; it now does both.' },
+
+  { heading: 'Long-term Maintainability', status: A.APPROVED,
+    finding: 'Nothing in the volume is transcribed. Every count, figure, index, cross-reference '
+      + 'and identity code is generated from the academic database at build time, so the book '
+      + 'cannot drift from the curriculum without the build saying so. Three editions and a '
+      + 'large-print variant come from one source. 49 test files stand behind it, and each of the '
+      + 'defects found in this audit left a standing assertion behind rather than a fix alone.' },
+];

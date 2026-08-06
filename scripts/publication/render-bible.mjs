@@ -16,7 +16,7 @@ import { buildCurriculum } from './curriculum.mjs';
 import { build as buildInstitutional } from './canonical.mjs';
 import { TYPE, C as PAL } from './design.mjs';
 import { publicationIdentity } from './identity.mjs';
-import { REGISTERS, GOVERNANCE, ALL_ENTRIES, EXECUTED, OWNER } from './bible.mjs';
+import { REGISTERS, GOVERNANCE, ALL_ENTRIES, EXECUTED, OWNER, AUDIT, AUDIT_STATUS } from './bible.mjs';
 import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -31,6 +31,13 @@ const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').
 const BOOK = path.join(ROOT, 'publication', 'IEFC Complete Curriculum.pdf');
 const pages = existsSync(BOOK)
   ? (readFileSync(BOOK).toString('latin1').match(/\/Type\s*\/Page(?![s])/g) || []).length : null;
+
+const STATUS_CLASS = {
+  [AUDIT_STATUS.APPROVED]: 'st--ok',
+  [AUDIT_STATUS.OBSERVED]: 'st--obs',
+  [AUDIT_STATUS.GOVERNANCE]: 'st--gov',
+  [AUDIT_STATUS.NOT_READY]: 'st--stop',
+};
 
 const OWNER_CLASS = {
   [OWNER.EDITORIAL]: 'own own--ed',
@@ -128,6 +135,27 @@ tr { break-inside:avoid; }
 .panel { border-left:2.4pt solid ${PAL.deepCrimson}; background:#FBF1F1; padding:9pt 12pt;
   margin:12pt 0; break-inside:avoid; }
 .panel--calm { border-left-color:${PAL.royalGold}; background:${PAL.softCream}; }
+/* ---------- The final publication audit ---------- */
+.reg--audit { break-before:page; }
+table.auditsum { width:100%; border-collapse:collapse; font-size:8.6pt; margin:8pt 0 14pt; }
+table.auditsum th { text-align:left; padding:3pt 8pt 3pt 0; font-size:6.8pt; letter-spacing:.14em;
+  text-transform:uppercase; color:#6B7280; border-bottom:.5pt solid #C9CEDA; }
+table.auditsum td { padding:4pt 8pt 4pt 0; border-bottom:.4pt solid #E8EBF1; vertical-align:top; }
+.st { display:inline-block; font-size:6.6pt; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; padding:1.5pt 5pt; border-radius:1.5pt; white-space:nowrap; }
+.st--ok   { background:#E4F0E8; color:#1E6B3A; }
+.st--obs  { background:#F6F1E4; color:#7A5C2E; }
+.st--gov  { background:#FBEAEC; color:#8C1F2F; }
+.st--stop { background:#8C1F2F; color:#fff; }
+.aud { break-inside:avoid; margin:0 0 11pt; padding:0 0 9pt; border-bottom:.4pt solid #E8EBF1; }
+.aud__h { font-size:11pt; font-weight:700; color:#14264A; margin:0 0 4pt;
+  display:flex; justify-content:space-between; align-items:baseline; gap:10pt; }
+.aud__f { font-size:9pt; line-height:1.5; margin:0; }
+.aud__o { font-size:8.6pt; line-height:1.5; margin:5pt 0 0; padding-left:9pt;
+  border-left:2pt solid #B4933E; color:#3A3A3A; }
+.aud__o span { display:block; font-size:6.6pt; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:#7A5C2E; margin-bottom:1.5pt; }
+
 .panel__h { font-family:${TYPE.sans}; font-size:7pt; font-weight:700; letter-spacing:.14em;
   text-transform:uppercase; color:${PAL.deepCrimson}; margin:0 0 4pt; }
 .panel--calm .panel__h { color:${PAL.bronze}; }
@@ -187,6 +215,42 @@ tr { break-inside:avoid; }
     .map(([o, d]) => `<tr><td><span class="${OWNER_CLASS[o]}">${esc(o)}</span></td>
       <td class="mono">${byOwner(o)}</td><td>${esc(d)}</td></tr>`).join('')}
   </tbody></table>
+</section>
+
+<section class="reg reg--audit">
+  <p class="eyebrow">Sign-off</p>
+  <h2>Final Publication Audit</h2>
+  <p class="lead">The Editorial Board's assessment, heading by heading, before this edition is
+    released. Four statuses, and they are not interchangeable: a board that approves everything has
+    audited nothing.</p>
+  <table class="auditsum"><thead><tr><th scope="col">Status</th><th scope="col">Headings</th>
+    <th scope="col">What it means</th></tr></thead><tbody>${
+  [[AUDIT_STATUS.APPROVED, 'Nothing within editorial authority would materially improve this.'],
+    [AUDIT_STATUS.OBSERVED, 'Releasable, with a limitation stated rather than left to be found.'],
+    [AUDIT_STATUS.GOVERNANCE, 'Blocked on a decision no editor may take.'],
+    [AUDIT_STATUS.NOT_READY, 'Do not release this heading.']]
+    .map(([st, meaning]) => `<tr><td><span class="st ${STATUS_CLASS[st]}"
+      >${esc(st)}</span></td><td class="mono">${AUDIT.filter((a) => a.status === st).length}</td>
+      <td>${esc(meaning)}</td></tr>`).join('')}
+  </tbody></table>
+
+  ${AUDIT.map((a) => `<div class="aud">
+    <p class="aud__h">${esc(a.heading)}<span class="st ${STATUS_CLASS[a.status]}"
+      >${esc(a.status)}</span></p>
+    <p class="aud__f">${esc(a.finding)}</p>
+    ${a.observation ? `<p class="aud__o"><span>Observation</span>${esc(a.observation)}</p>` : ''}
+  </div>`).join('')}
+
+  <div class="panel">
+    <p class="panel__h">The condition for signing</p>
+    <p>This edition is declared complete not because it is perfect but because editorial authority
+      is exhausted: nothing further within the Board's power would materially improve learning,
+      credibility, usability, accessibility, visual quality or publication quality. Two headings are
+      not approved and neither is an editorial matter — the competency mapping is academic
+      authoring, and the ISBN, DOI and legal deposit are institutional acts. One further limitation
+      is absolute and belongs to nobody in this room: no edition of this book has been printed, and
+      none should go to a full run without a wet proof.</p>
+  </div>
 </section>
 
 <section class="reg">

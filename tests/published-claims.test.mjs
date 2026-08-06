@@ -169,5 +169,88 @@ check('...and the design figure is one the framework actually specifies',
   || /120/.test(framework),
   'the framework does not state the per-level unit design');
 
+// ---------------------------------------------------------------------
+// EVERY LANGUAGE EDITION CARRIES THE SAME CLAIM
+// ---------------------------------------------------------------------
+// THE BLIND SPOT THIS CLOSES.
+//
+// Everything above reads pages/academics-iefc.html, pages/about.html and
+// pages/admissions-tuition.html — the ENGLISH pages. The Arabic pages
+// were scanned by exactly one check, the retired-word scan, whose regex
+// is \bunits?\b and therefore matches no Arabic at all.
+//
+// So while the English site was migrated to WEC Credits and Total
+// Qualification Time, the Arabic site went on publishing the retired
+// scheme in full: "سبعمائة وعشرون وحدة تعليمية" in the lede, 120 units
+// per level and 720 in total on two pages, the units column in the fee
+// table, the same figure in the FAQ and again in its JSON-LD twin — and
+// "$26.39 لكل وحدة", per-unit pricing, which the English test above
+// explicitly forbids because it ties a price to content that is 41%
+// authored.
+//
+// The suite was green throughout. A guard that reads one language and
+// reports on a bilingual site is not a guard, it is a reassurance.
+{
+  const AR = readdirSync(path.join(ROOT, 'pages'))
+    .filter((f) => f.endsWith('.ar.html'))
+    .map((f) => [f, readFileSync(path.join(ROOT, 'pages', f), 'utf8')]);
+  check(`Arabic editions are checked at all — ${AR.length} pages`, AR.length > 0);
+
+  // The retired figure, in Arabic numerals and in Arabic words.
+  const carries720 = AR.filter(([, b]) => /720/.test(b) || /سبعمائة وعشرون/.test(b));
+  check('No Arabic page publishes the retired 720 figure', carries720.length === 0,
+    carries720.map(([f]) => f).join(', '));
+
+  // The retired noun, as a published measure: "وحدة تعليمية" (learning
+  // unit), "إجمالي الوحدات" (total units), "لكل وحدة" (per unit).
+  const carriesUnit = AR.filter(([, b]) =>
+    /وحدة تعليمية|إجمالي الوحدات|لكل وحدة|وحدة لكل مستوى/.test(b));
+  check('No Arabic page publishes a learning-unit count or a per-unit price',
+    carriesUnit.length === 0, carriesUnit.map(([f]) => f).join(', '));
+
+  // And the corrected scheme has actually arrived, rather than the old
+  // one merely having been deleted.
+  const arIefc = AR.find(([f]) => f === 'academics-iefc.ar.html')[1];
+  const arFee = AR.find(([f]) => f === 'admissions-tuition.ar.html')[1];
+  check('The Arabic IEFC page carries the credit and hours scheme',
+    /رصيد/.test(arIefc) && /الزمن الكلي للمؤهل/.test(arIefc));
+  check('...and so does the Arabic tuition page', /رصيد|الأرصدة/.test(arFee));
+}
+
+// ---------------------------------------------------------------------
+// THE FEE TABLE MUST ADD UP
+// ---------------------------------------------------------------------
+// Nothing above ever read the table as a table. Its total row said 720
+// in a column whose own six rows said 20 — six twenties are 120, not
+// 720 — and the row carried four cells where the header declares five,
+// so the tuition total was printed under Total Qualification Time and
+// the Tuition column had no total at all. On a public pricing page.
+//
+// A published number that contradicts the numbers directly above it is
+// the most damaging kind, because a reader who checks it finds the
+// institution cannot add up.
+for (const [label, file] of [['English', 'admissions-tuition.html'],
+  ['Arabic', 'admissions-tuition.ar.html']]) {
+  const body = readFileSync(path.join(ROOT, 'pages', file), 'utf8');
+  const table = body.slice(body.indexOf('<table class="ledger"'));
+  const rows = [...table.slice(0, table.indexOf('</table>')).matchAll(/<tr>([\s\S]*?)<\/tr>/g)]
+    .map((m) => m[1]);
+  const widthOf = (tr) => [...tr.matchAll(/<t[hd]([^>]*)>/g)]
+    .reduce((a, m) => a + (Number((m[1].match(/colspan="(\d+)"/) || [])[1]) || 1), 0);
+  const widths = [...new Set(rows.map(widthOf))];
+  check(`The ${label} fee table has one column count throughout`, widths.length === 1,
+    `row widths: ${widths.join(', ')}`);
+
+  const nums = (tr) => [...tr.matchAll(/<td[^>]*>(?:<strong>)?([\d,]+)/g)]
+    .map((m) => Number(m[1].replace(/,/g, '')));
+  const bodyRows = rows.slice(1, -1);
+  const totalRow = rows[rows.length - 1];
+  const credits = bodyRows.map((r) => nums(r)[0]).filter(Number.isFinite);
+  const summed = credits.reduce((a, b) => a + b, 0);
+  const printed = nums(totalRow)[0];
+  check(`...and the ${label} credit total equals the sum of its rows`, printed === summed,
+    `printed ${printed}, rows sum to ${summed}`);
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);
