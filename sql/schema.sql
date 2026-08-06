@@ -941,6 +941,28 @@ CREATE TABLE assessment_competencies (
   -- on this competency, so a task that touches Reach in passing does not
   -- count the same as one built around it.
   weight            REAL NOT NULL DEFAULT 1.0 CHECK (weight > 0 AND weight <= 1.0),
+
+  -- THE GOVERNANCE TRAIL.
+  --
+  -- A mapping with no author and no authority is an opinion that has
+  -- acquired the authority of a database row. assessment_skills already
+  -- carried a trail; this table did not, and the difference showed the
+  -- moment a mapping was actually made.
+  --
+  -- 'interim' is the honest state for work done under authority
+  -- delegated to the Press in the absence of appointed members. It is
+  -- NOT 'approved': BASCE exists as a body with members_appointed = 0,
+  -- and a mapping cannot be approved by a board that has no members.
+  -- 'approved' is reserved for the day it does.
+  status            TEXT NOT NULL DEFAULT 'proposed'
+                    CHECK (status IN ('proposed','interim','approved','retired')),
+  -- Which body the decision is made under, by code: 'BASCE', 'SENATE'.
+  authority         TEXT REFERENCES academic_bodies(code),
+  -- Why this assessment bears on this competency. Required in practice
+  -- by the test, not by the schema, because a rationale added later is
+  -- better than a mapping refused now.
+  rationale         TEXT,
+  decided_on        TEXT,
   PRIMARY KEY (learning_item_id, competency_id)
 );
 CREATE INDEX idx_assessment_competencies_competency
@@ -2257,3 +2279,59 @@ CREATE TABLE IF NOT EXISTS solo_activities (
 );
 
 CREATE INDEX IF NOT EXISTS idx_solo_activities_item ON solo_activities(learning_item_id);
+
+-- ─────────────────────────────────────────────────────────────────────
+-- LEARNING OUTCOMES
+--
+-- A learning outcome is a claim about what a learner can do. The
+-- programme has had objectives — per lesson, written for the teacher —
+-- since it was authored, and it has never had outcomes, which are a
+-- different instrument: an objective says what a lesson intends, an
+-- outcome says what the institution will stand behind.
+--
+-- The difference is enforced here rather than trusted. Every outcome
+-- must name at least one ASSESSMENT that evidences it, through
+-- learning_outcome_evidence. An outcome nothing assesses is a claim
+-- nothing tests, and a programme full of those is a prospectus rather
+-- than a curriculum.
+--
+-- `status` uses the same vocabulary as the competency mapping, for the
+-- same reason: 'interim' is work done under authority delegated in the
+-- absence of appointed members, and it is not 'approved'.
+-- ─────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS learning_outcomes (
+  id            TEXT PRIMARY KEY,
+  -- 'level' outcomes are what the award stands behind; 'module'
+  -- outcomes are what a module contributes to them.
+  scope         TEXT NOT NULL CHECK (scope IN ('level','module')),
+  level_roman   TEXT NOT NULL,
+  unit_id       TEXT REFERENCES units(id),
+  code          TEXT NOT NULL UNIQUE,
+  sequence      INTEGER NOT NULL,
+  -- Written in the form an outcome takes: the learner is the subject
+  -- and the verb is something observable.
+  statement     TEXT NOT NULL,
+  -- The competency this outcome bears on. Every outcome belongs to one,
+  -- so the framework and the outcomes cannot drift apart.
+  competency_id TEXT NOT NULL REFERENCES competencies(id),
+  -- For a level outcome, the module outcome it aggregates from is found
+  -- through the evidence table rather than duplicated here.
+  status        TEXT NOT NULL DEFAULT 'proposed'
+                CHECK (status IN ('proposed','interim','approved','retired')),
+  authority     TEXT REFERENCES academic_bodies(code),
+  decided_on    TEXT,
+  CHECK (scope = 'level' OR unit_id IS NOT NULL)
+);
+
+CREATE TABLE IF NOT EXISTS learning_outcome_evidence (
+  outcome_id       TEXT NOT NULL REFERENCES learning_outcomes(id),
+  learning_item_id TEXT NOT NULL REFERENCES learning_items(id),
+  -- What this assessment shows about this outcome. Not decoration: it
+  -- is what an examiner reads when asked why this task counts.
+  shows            TEXT NOT NULL,
+  PRIMARY KEY (outcome_id, learning_item_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_learning_outcomes_level ON learning_outcomes(level_roman, scope);
+CREATE INDEX IF NOT EXISTS idx_outcome_evidence_item
+  ON learning_outcome_evidence(learning_item_id);

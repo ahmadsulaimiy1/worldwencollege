@@ -371,6 +371,137 @@ check('the employer criterion is blocked, and every blocker traces to the compet
     .every((r) => r.short.some((s) => s.key === 'competencyMappedAssessments')),
   RD.criteria.find((c) => c.key === 'employer').blockers.map((b) => b.name).join(' · '));
 
+// ── 7b · The competency framework, made under delegated authority ────
+//
+// The mapping is an academic judgement made by the Press under
+// authority delegated in the absence of appointed board members. That
+// is legitimate and it is NOT approval, and the difference is the thing
+// most likely to be lost the first time someone quotes this framework.
+// So it is asserted rather than trusted.
+{
+  const { DatabaseSync } = await import('node:sqlite');
+  const { readFileSync } = await import('node:fs');
+  const db = new DatabaseSync(':memory:');
+  db.exec(readFileSync(path.join(ROOT, 'sql/schema.sql'), 'utf8'));
+  for (let n = 1; n <= 6; n++) {
+    db.exec(readFileSync(path.join(ROOT, `sql/seed-curriculum-level-${n}.sql`), 'utf8'));
+  }
+  db.exec(readFileSync(path.join(ROOT, 'sql/seed-competency-level-1.sql'), 'utf8'));
+  const all = (sql) => db.prepare(sql).all();
+
+  const L1 = `JOIN learning_items i ON i.id = a.learning_item_id
+              JOIN units u ON u.id = i.unit_id
+              JOIN courses c ON c.id = u.course_id
+              JOIN programme_levels l ON l.id = c.level_id
+             WHERE l.roman = 'I'`;
+
+  const assessments = all(`SELECT i.id FROM learning_items i
+      JOIN units u ON u.id = i.unit_id JOIN courses c ON c.id = u.course_id
+      JOIN programme_levels l ON l.id = c.level_id
+     WHERE l.roman = 'I' AND i.kind IN ('quiz','assignment')`).map((r) => r.id);
+  const mapped = all(`SELECT DISTINCT a.learning_item_id AS id
+      FROM assessment_competencies a ${L1}`).map((r) => r.id);
+
+  check('every Level I assessment carries a competency mapping',
+    assessments.length === 20 && assessments.every((id) => mapped.includes(id)),
+    `${mapped.length} of ${assessments.length}`);
+
+  // Weight records how much of an assessment bears on a competency. If
+  // the weights for one assessment do not sum to 1, either a share is
+  // unaccounted for or the same evidence is being counted twice.
+  const sums = all(`SELECT a.learning_item_id AS id, ROUND(SUM(a.weight), 4) AS w
+      FROM assessment_competencies a ${L1} GROUP BY a.learning_item_id`);
+  check('the weights for each assessment sum to one whole assessment',
+    sums.length > 0 && sums.every((r) => r.w === 1),
+    sums.filter((r) => r.w !== 1).map((r) => `${r.id}:${r.w}`).join(' · '));
+
+  check('every mapping states why this assessment bears on this competency',
+    all(`SELECT a.rationale AS r FROM assessment_competencies a ${L1}`)
+      .every((x) => x.r && x.r.length > 40),
+    String(all(`SELECT a.rationale AS r FROM assessment_competencies a ${L1}`)
+      .filter((x) => !x.r || x.r.length <= 40).length));
+
+  check('every mapping names the body it was decided under',
+    all(`SELECT a.authority AS x FROM assessment_competencies a ${L1}`)
+      .every((r) => r.x === 'BASCE'),
+    [...new Set(all(`SELECT a.authority AS x FROM assessment_competencies a ${L1}`)
+      .map((r) => r.x))].join(' · '));
+
+  // THE ONE THAT MATTERS. A board with no appointed members cannot
+  // approve anything. Delegated authority produces 'interim' rows; if a
+  // row ever reads 'approved' while members_appointed is nought, the
+  // framework is claiming a validation that did not happen.
+  const unconstituted = all(
+    "SELECT code FROM academic_bodies WHERE members_appointed = 0").map((r) => r.code);
+  const overclaimed = all(`SELECT a.learning_item_id AS id, a.status AS s, a.authority AS b
+      FROM assessment_competencies a ${L1} AND a.status = 'approved'`);
+  check('no mapping claims approval by a board that has no appointed members',
+    overclaimed.filter((r) => unconstituted.includes(r.b)).length === 0,
+    overclaimed.map((r) => `${r.id}:${r.b}`).join(' · '));
+
+  check('the mapping is recorded as interim, which is what delegated authority produces',
+    all(`SELECT DISTINCT a.status AS s FROM assessment_competencies a ${L1}`)
+      .every((r) => r.s === 'interim'),
+    [...new Set(all(`SELECT a.status AS s FROM assessment_competencies a ${L1}`)
+      .map((r) => r.s))].join(' · '));
+
+  // Outcomes.
+  const outcomes = all("SELECT * FROM learning_outcomes WHERE level_roman = 'I'");
+  const evidence = all(`SELECT e.*, o.competency_id AS ocmp FROM learning_outcome_evidence e
+      JOIN learning_outcomes o ON o.id = e.outcome_id WHERE o.level_roman = 'I'`);
+
+  check('the level has learning outcomes and each belongs to a competency',
+    outcomes.length >= 4 && outcomes.every((o) => o.competency_id && o.statement.length > 60),
+    `${outcomes.length} outcomes`);
+
+  check('every outcome is evidenced by at least one assessment',
+    outcomes.every((o) => evidence.some((e) => e.outcome_id === o.id)),
+    outcomes.filter((o) => !evidence.some((e) => e.outcome_id === o.id))
+      .map((o) => o.code).join(' · '));
+
+  check('every piece of evidence says what the assessment shows about the outcome',
+    evidence.every((e) => e.shows && e.shows.length > 30),
+    String(evidence.filter((e) => !e.shows || e.shows.length <= 30).length));
+
+  // The assertion that caught a real error. An outcome claiming a
+  // competency must be evidenced by assessments actually mapped to that
+  // competency. A first draft carried a Reach outcome evidenced by
+  // three tasks the mapping assigns to Clarity — a claim nothing tests,
+  // which is the failure the outcome table exists to prevent. The
+  // outcome was withdrawn rather than the mapping bent to fit it.
+  const cmpOf = new Map();
+  for (const r of all(`SELECT a.learning_item_id AS id, a.competency_id AS c
+      FROM assessment_competencies a ${L1}`)) {
+    if (!cmpOf.has(r.id)) cmpOf.set(r.id, new Set());
+    cmpOf.get(r.id).add(r.c);
+  }
+  const unsupportedOutcomes = outcomes.filter((o) =>
+    !evidence.filter((e) => e.outcome_id === o.id)
+      .some((e) => cmpOf.get(e.learning_item_id)?.has(o.competency_id)));
+  check('every outcome is evidenced by an assessment mapped to its own competency',
+    unsupportedOutcomes.length === 0,
+    unsupportedOutcomes.map((o) => `${o.code}:${o.competency_id}`).join(' · '));
+
+  // The framework is six competencies across six levels, not six per
+  // level. A competency Level I cannot evidence must have no outcome,
+  // rather than an outcome nothing supports.
+  const evidenced = new Set(all(`SELECT DISTINCT a.competency_id AS c
+      FROM assessment_competencies a ${L1}`).map((r) => r.c));
+  check('a competency the level does not assess carries no outcome',
+    outcomes.every((o) => evidenced.has(o.competency_id))
+    && evidenced.size < all('SELECT id FROM competencies').length,
+    `${evidenced.size} of 6 competencies evidenced at Level I`);
+
+  // No pass threshold has been invented. Turning competency marks into
+  // a result needs real candidates to calibrate against, and none exist.
+  check('no descriptor threshold has been set, because none can honestly be calibrated yet',
+    all('SELECT threshold_min AS t FROM skill_descriptors').every((r) => r.t === null),
+    all('SELECT code, threshold_min AS t FROM skill_descriptors')
+      .filter((r) => r.t !== null).map((r) => r.code).join(' · '));
+
+  db.close();
+}
+
 // ── 8 · The Level I Student Workbook ─────────────────────────────────
 //
 // The volume's whole editorial claim is that a learner can work from it

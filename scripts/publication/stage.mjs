@@ -192,7 +192,7 @@ export function inventoryL1(C = buildCurriculum()) {
     db.exec(readFileSync(`${ROOT}/sql/seed-audio-level-${n}.sql`, 'utf8'));
   }
   for (const f of ['seed-exercises', 'seed-selfchecks', 'seed-pedagogy',
-    'seed-vocabulary-level-1', 'seed-solo-level-1']) {
+    'seed-vocabulary-level-1', 'seed-solo-level-1', 'seed-competency-level-1']) {
     db.exec(readFileSync(`${ROOT}/sql/${f}.sql`, 'utf8'));
   }
   const ONE = `JOIN units u ON u.id = i.unit_id
@@ -328,6 +328,11 @@ export function inventoryL1(C = buildCurriculum()) {
       `SELECT COUNT(*) AS n FROM assessment_competencies ac
          JOIN learning_items i ON i.id = ac.learning_item_id ${ONE}`),
     videoAssets: 0,
+    levelOutcomes: n(`SELECT COUNT(*) AS n FROM learning_outcomes
+                       WHERE level_roman = 'I' AND scope = 'level'`),
+    outcomeEvidence: n(`SELECT COUNT(*) AS n FROM learning_outcome_evidence e
+                          JOIN learning_outcomes o ON o.id = e.outcome_id
+                         WHERE o.level_roman = 'I'`),
     soloReinforcementActivities: n(`SELECT COUNT(*) AS n FROM solo_activities a
                                       JOIN learning_items i ON i.id = a.learning_item_id ${ONE}`),
   };
@@ -748,7 +753,9 @@ export const RESOURCES = [
     serves: ['institution', 'employer'], improves: ['educational quality', 'assessment'],
     owner: OWNER.ACADEMIC,
     needs: [need('assessments mapped to a competency, without which an outcome is a claim '
-      + 'nothing tests', 'competencyMappedAssessments', 10)] }),
+      + 'nothing tests', 'competencyMappedAssessments', 10),
+    need('level outcomes, each belonging to a competency', 'levelOutcomes', 4),
+    need('assessments evidencing those outcomes', 'outcomeEvidence', 15)] }),
   r({ cat: 'Academic', name: 'Assessment Specifications',
     serves: ['institution', 'examiner'], improves: ['assessment', 'educational quality'],
     owner: OWNER.PRESS,
@@ -773,11 +780,30 @@ export const RESOURCES = [
     serves: ['institution'], improves: ['educational quality'],
     owner: OWNER.PRESS,
     needs: [need('lessons scored against all eleven components', 'teachingLessons', 19)] }),
+  // Internal quality assurance is now delegated and buildable; EXTERNAL
+  // validation is not, and never was the same thing. The register used
+  // to conflate them, which made an authored document look impossible
+  // because an outside body had not read it. Split: this row is the
+  // internal documentation, and the row below records the external
+  // review as the separate, genuinely blocked thing it is.
   r({ cat: 'Academic', name: 'Quality Assurance documentation',
     serves: ['institution'], improves: ['educational quality'],
+    owner: OWNER.ACADEMIC,
+    needs: [need('assessments with a recorded competency mapping and a rationale',
+      'competencyMappedAssessments', 20),
+    need('level outcomes each evidenced by assessment', 'levelOutcomes', 4),
+    need('rubrics stating the criteria before the marking', 'rubrics', 10)] }),
+  r({ cat: 'Academic', name: 'External review of the Level I award',
+    serves: ['employer'], improves: ['educational quality'],
     owner: OWNER.EXTERNAL,
-    needs: [need('externally reviewed assessments, of which there are none until a body '
-      + 'exists to review them', 'competencyMappedAssessments', 20)] }),
+    unsupported: true,
+    why: 'No external examiner, awarding body or peer institution has reviewed this programme, '
+      + 'and none can be recorded as having done so. The competency mapping, the learning '
+      + 'outcomes and the quality-assurance documentation are all authored under authority '
+      + 'delegated internally, and they are marked interim rather than approved for exactly '
+      + 'that reason. This row exists so that the delegation is never mistaken for validation: '
+      + 'an institution may run Level I on this basis, and may not claim it has been '
+      + 'externally examined.' }),
 
   // ── The parent-facing gap the directive surfaced ────────────────────
   r({ cat: 'Student', name: 'Parent & Guardian Guide',
