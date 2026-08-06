@@ -625,9 +625,16 @@ check('no declaration in either register survives its stage',
   [...mast.SUPPLIED, ...OPEN].every((k) => keys.has(k)),
   [...mast.SUPPLIED, ...OPEN].filter((k) => !keys.has(k)).join(' · '));
 
-check('a stage declared supplied and authored has items behind it',
-  SUP.rows.filter((r) => r.set).every((r) => r.set.items >= 2),
-  SUP.rows.filter((r) => r.set && r.set.items < 2).map((r) => r.key).join(' · '));
+// A set of sentence pairs or prompt cards with one item is not a set.
+// A single provided text is: two stages hand the learner one dense
+// passage to work on, and requiring two of those would have added a
+// second passage nobody asked for. The floor is per kind.
+const MULTI = ['sentence_pairs', 'cards', 'jumbled', 'sorting', 'gapped', 'matching', 'sequence'];
+check('an authored set has as many items as its kind implies',
+  SUP.rows.filter((r) => r.set)
+    .every((r) => r.set.items >= (MULTI.includes(r.set.kind) ? 2 : 1)),
+  SUP.rows.filter((r) => r.set && r.set.items < (MULTI.includes(r.set.kind) ? 2 : 1))
+    .map((r) => `${r.key} ${r.set.kind} ${r.set.items}`).join(' · '));
 
 check('authored exercise sets state who drafted them and are not claimed as approved',
   authored().length > 0

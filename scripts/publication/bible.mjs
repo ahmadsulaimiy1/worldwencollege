@@ -61,6 +61,14 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'All 49 supplied-material sets authored', built: 'Every practice stage in the '
+    + 'programme that hands a learner something now has the something: 49 sets, 282 items, '
+    + 'across all six levels. Complete practice rose from 67 per cent of lessons to 100; lessons '
+    + 'independently teachable from print rose from 67 to 100; lessons learnable without a '
+    + 'teacher rose from 33 to 54. Every set is press_drafted and none claims academic approval, '
+    + 'because there is nobody with standing to give it. The Workbook, withdrawn two passes ago '
+    + 'for pointing at material that did not exist, is derivable again — and this time the '
+    + 'material is there.' },
   { item: 'Fifty instructions pointing at nothing, found and counted', built: 'Asking the '
     + 'mastery question — can a learner who finishes this lesson do something they could not '
     + 'do before — found 50 practice stages across 48 lessons that hand the learner material '
