@@ -191,7 +191,8 @@ export function inventoryL1(C = buildCurriculum()) {
     db.exec(readFileSync(`${ROOT}/sql/seed-curriculum-level-${n}.sql`, 'utf8'));
     db.exec(readFileSync(`${ROOT}/sql/seed-audio-level-${n}.sql`, 'utf8'));
   }
-  for (const f of ['seed-exercises', 'seed-selfchecks', 'seed-pedagogy']) {
+  for (const f of ['seed-exercises', 'seed-selfchecks', 'seed-pedagogy',
+    'seed-vocabulary-level-1']) {
     db.exec(readFileSync(`${ROOT}/sql/${f}.sql`, 'utf8'));
   }
   const ONE = `JOIN units u ON u.id = i.unit_id
@@ -218,22 +219,18 @@ export function inventoryL1(C = buildCurriculum()) {
   // bingo" — which name a word set without listing it. Exactly one is
   // an actual list of words.
   //
-  // A flashcard pack needs the words. So the three counts are kept
-  // apart, and the resources that need printable words require the one
-  // that is nearly empty rather than the one that looks full.
-  const ACTIVITY = /\b(game|race|bingo|charades|matching|memory|relay|mime|sort|labelling|cards? matched)\b/i;
+  // A flashcard pack needs the words. So the counts are kept apart —
+  // collocations from the stages, headwords from the authored
+  // vocabulary sets — and the resources that need printable words
+  // require the authored table rather than the stage count that looks
+  // full and is not.
   let collocationEntries = 0;
-  let vocabularyWordLists = 0;
-  let vocabularyWords = 0;
   for (const { item } of rows) {
     const st = item.stages.find((s) => s.icon === 'vocabulary');
     if (!st) continue;
     const text = st.parts.map((p) => p.text).join(' ').trim();
     const collocations = text.split(';').filter((p) => / -- /.test(p));
-    if (collocations.length >= 2) { collocationEntries += collocations.length; continue; }
-    if (ACTIVITY.test(text)) continue;
-    const words = text.replace(/\.$/, '').split(',').map((w) => w.trim()).filter(Boolean);
-    if (words.length >= 3) { vocabularyWordLists += 1; vocabularyWords += words.length; }
+    if (collocations.length >= 2) collocationEntries += collocations.length;
   }
 
   // The volume's terminology glossary — CEFR, rubric, formative — is a
@@ -315,9 +312,15 @@ export function inventoryL1(C = buildCurriculum()) {
     // Apparatus derived across the level
     crossRefs,
     collocationEntries,
-    vocabularyWordLists,
-    vocabularyWords,
     terminologyHeadwords,
+
+    // Authored vocabulary. The stage names the activity; the set
+    // carries the words the activity needs.
+    vocabularySets: n(`SELECT COUNT(*) AS n FROM vocabulary_sets v
+                         JOIN learning_items i ON i.id = v.learning_item_id ${ONE}`),
+    vocabularyWords: n(`SELECT COUNT(*) AS n FROM vocabulary_items x
+                          JOIN vocabulary_sets v ON v.id = x.vocabulary_set_id
+                          JOIN learning_items i ON i.id = v.learning_item_id ${ONE}`),
 
     // Things that do not exist anywhere, and are counted so that a
     // resource depending on them cannot quietly report as ready.
@@ -329,6 +332,36 @@ export function inventoryL1(C = buildCurriculum()) {
   };
   db.close();
   return inv;
+}
+
+/**
+ * The authored vocabulary sets, for the resources that print them and
+ * for the assertions that check them. Returned rather than counted,
+ * because a flashcard pack needs the word, its part of speech, the
+ * example sentence and the caution — and a count of eighteen tells you
+ * nothing about whether any of that is there.
+ */
+export function vocabulary(roman = 'I') {
+  const db = new DatabaseSync(':memory:');
+  db.exec(readFileSync(`${ROOT}/sql/schema.sql`, 'utf8'));
+  for (let i = 1; i <= 6; i++) {
+    db.exec(readFileSync(`${ROOT}/sql/seed-curriculum-level-${i}.sql`, 'utf8'));
+  }
+  db.exec(readFileSync(`${ROOT}/sql/seed-vocabulary-level-1.sql`, 'utf8'));
+  const sets = db.prepare(`
+    SELECT v.id, v.title, v.activity, v.approval_state AS approval,
+           l.roman || '.' || u.sequence || '.' || i.sequence AS ref
+      FROM vocabulary_sets v
+      JOIN learning_items i ON i.id = v.learning_item_id
+      JOIN units u ON u.id = i.unit_id
+      JOIN courses c ON c.id = u.course_id
+      JOIN programme_levels l ON l.id = c.level_id
+     WHERE l.roman = ?
+     ORDER BY u.sequence, i.sequence`).all(roman);
+  const items = db.prepare(
+    'SELECT * FROM vocabulary_items ORDER BY vocabulary_set_id, sequence').all();
+  db.close();
+  return sets.map((s) => ({ ...s, items: items.filter((x) => x.vocabulary_set_id === s.id) }));
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -376,7 +409,8 @@ export const RESOURCES = [
     serves: ['learner'], improves: ['learning', 'revision', 'independent study'],
     owner: OWNER.PRESS,
     needs: [need('lessons carrying a vocabulary stage', 'vocabularyStages', 19),
-      need('lessons whose vocabulary stage is a printable list of words', 'vocabularyWordLists', 19)] }),
+      need('authored vocabulary sets, one per teaching lesson that introduces new words',
+        'vocabularySets', 18)] }),
   r({ cat: 'Student', name: 'Pronunciation Companion',
     serves: ['learner'], improves: ['learning', 'independent study'],
     owner: OWNER.PRESS,
@@ -571,8 +605,7 @@ export const RESOURCES = [
   r({ cat: 'Classroom', name: 'Flashcards',
     serves: ['teacher'], improves: ['classroom delivery', 'learning'],
     owner: OWNER.PRESS,
-    needs: [need('lessons whose vocabulary stage lists the words a card could carry',
-      'vocabularyWordLists', 19)] }),
+    needs: [need('authored vocabulary sets a card pack could be printed from', 'vocabularySets', 18)] }),
   r({ cat: 'Classroom', name: 'Vocabulary Cards',
     serves: ['teacher'], improves: ['classroom delivery', 'learning'],
     owner: OWNER.PRESS,
@@ -622,7 +655,7 @@ export const RESOURCES = [
     serves: ['teacher'], improves: ['revision', 'classroom delivery'],
     owner: OWNER.PRESS,
     needs: [need('revision stages', 'revision', 19),
-      need('printable word sets to play with', 'vocabularyWordLists', 19)] }),
+      need('authored vocabulary sets to play with', 'vocabularySets', 18)] }),
 
   // ── Digital resources ──────────────────────────────────────────────
   r({ cat: 'Digital', name: 'LMS lesson content',

@@ -164,11 +164,52 @@ check('no measured key exceeds what Level I could contain',
 // Twenty-eight lessons carry a vocabulary stage; only a small number
 // list the words a flashcard would need. If word lists ever equals
 // stages, the honest distinction has been lost.
-check('vocabulary word lists are counted apart from vocabulary stages',
-  INV.vocabularyWordLists < INV.vocabularyStages
-  && INV.collocationEntries > 0,
-  `${INV.vocabularyWordLists} lists · ${INV.collocationEntries} collocations `
+check('authored vocabulary sets are counted apart from vocabulary stages',
+  INV.vocabularySets < INV.vocabularyStages && INV.collocationEntries > 0,
+  `${INV.vocabularySets} sets · ${INV.collocationEntries} collocations `
   + `· ${INV.vocabularyStages} stages`);
+
+// The vocabulary sets themselves. A count of eighteen says nothing
+// about whether a card could be printed from them.
+const VOC = S.vocabulary('I');
+
+check('every teaching lesson that introduces new words has a vocabulary set',
+  VOC.length === 18,
+  `${VOC.length} sets`);
+
+check('every vocabulary set carries enough words for the activity it names',
+  VOC.every((v) => v.items.length >= 10 && v.activity.length > 20),
+  VOC.filter((v) => v.items.length < 10).map((v) => `${v.ref}:${v.items.length}`).join(' · '));
+
+check('every headword carries an example sentence, not a bare word',
+  VOC.every((v) => v.items.every((x) => x.example && x.example.length > 8)),
+  VOC.flatMap((v) => v.items.filter((x) => !x.example || x.example.length <= 8)
+    .map((x) => x.headword)).join(' · '));
+
+// The caution field is where English is arbitrary. It must be present
+// often enough to be doing work, and absent often enough not to be
+// filled with invented advice — a note on every word would mean the
+// notes were padding rather than warnings.
+const NOTED = VOC.flatMap((v) => v.items).filter((x) => x.note).length;
+const WORDS = VOC.reduce((n, v) => n + v.items.length, 0);
+check('cautions are present where English is arbitrary and absent where it is not',
+  NOTED > WORDS * 0.25 && NOTED < WORDS * 0.75,
+  `${NOTED} of ${WORDS} carry a note`);
+
+check('vocabulary sets are press-drafted and claim no academic approval',
+  VOC.every((v) => v.approval === 'press_drafted'),
+  VOC.filter((v) => v.approval !== 'press_drafted').map((v) => v.ref).join(' · '));
+
+// The revision lesson's own objective asks a learner to recall at least
+// sixty headwords from across the level. The sets have to satisfy the
+// curriculum's own stated figure, not one chosen here.
+check('the level carries at least the sixty headwords its revision lesson asks for',
+  WORDS >= 60, String(WORDS));
+
+check('no headword is repeated inside a set',
+  VOC.every((v) => new Set(v.items.map((x) => x.headword)).size === v.items.length),
+  VOC.filter((v) => new Set(v.items.map((x) => x.headword)).size !== v.items.length)
+    .map((v) => v.ref).join(' · '));
 
 check('the terminology glossary is not counted as level vocabulary',
   INV.terminologyHeadwords !== INV.vocabularyWords,

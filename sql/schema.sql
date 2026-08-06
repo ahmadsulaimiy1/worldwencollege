@@ -2157,3 +2157,56 @@ CREATE TABLE IF NOT EXISTS pedagogy_entries (
 
 CREATE INDEX IF NOT EXISTS idx_selfcheck_item ON self_checks(learning_item_id);
 CREATE INDEX IF NOT EXISTS idx_pedagogy_item ON pedagogy_entries(learning_item_id);
+
+-- ─────────────────────────────────────────────────────────────────────
+-- VOCABULARY SETS
+--
+-- A lesson's VOCABULARY REINFORCEMENT stage is a good activity — "food
+-- flashcard naming race", "family-tree labelling race" — and it names a
+-- word set without listing it. That is correct for a lesson plan and
+-- useless for a flashcard: the teacher running the race has to invent
+-- the words, differently each time, which is the same failure the
+-- supplied-material pass corrected in the practice stages.
+--
+-- So the words live here rather than being written into the stage. The
+-- stage keeps its activity; the set carries what the activity needs.
+--
+-- Every headword carries an example sentence, because a card with a
+-- word on one side and a translation on the other teaches a word out of
+-- the only context that fixes it. `note` is present where English is
+-- arbitrary — no article with country names, uncountable "hair" — and
+-- NULL where it is not, rather than being filled with a guess.
+--
+-- Press-drafted like everything else authored here. `approval_state`
+-- is a column, not a claim in a comment.
+-- ─────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS vocabulary_sets (
+  id                TEXT PRIMARY KEY,
+  learning_item_id  TEXT NOT NULL UNIQUE REFERENCES learning_items(id),
+  title             TEXT NOT NULL,
+  -- What the lesson's own vocabulary stage does with this set, so the
+  -- printed card pack and the classroom activity stay connected.
+  activity          TEXT NOT NULL,
+  approval_state    TEXT NOT NULL DEFAULT 'press_drafted'
+                      CHECK (approval_state IN ('press_drafted','academically_approved'))
+);
+
+CREATE TABLE IF NOT EXISTS vocabulary_items (
+  id                TEXT PRIMARY KEY,
+  vocabulary_set_id TEXT NOT NULL REFERENCES vocabulary_sets(id),
+  sequence          INTEGER NOT NULL,
+  headword          TEXT NOT NULL,
+  part_of_speech    TEXT NOT NULL CHECK (part_of_speech IN
+                      ('noun','verb','adjective','adverb','phrase','preposition',
+                       'determiner','pronoun','number')),
+  -- A sentence the learner could say, at this level, using only
+  -- language the lesson has taught.
+  example           TEXT NOT NULL,
+  -- Where English is arbitrary and must be learned rather than
+  -- reasoned. NULL where there is nothing to warn about.
+  note              TEXT,
+  UNIQUE (vocabulary_set_id, headword)
+);
+
+CREATE INDEX IF NOT EXISTS idx_vocabulary_set_item ON vocabulary_sets(learning_item_id);
+CREATE INDEX IF NOT EXISTS idx_vocabulary_items_set ON vocabulary_items(vocabulary_set_id);
