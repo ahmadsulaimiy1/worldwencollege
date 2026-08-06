@@ -61,6 +61,38 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'Glossary of programme terminology', built: '50 terms of art, defined as the field '
+    + 'defines them and never as a claim about the College. Every headword is counted across the '
+    + 'curriculum before it is printed and carries its first use and total; three proposed '
+    + 'headwords were dropped because the curriculum does not use them.' },
+  { item: 'Cross-reference system', built: '191 structured references extracted from the '
+    + 'PREREQUISITE KNOWLEDGE stages, printed as a "Builds on" line under each lesson title and in '
+    + 'both directions on the module openers. 82 of them are cross-level, which required carrying '
+    + 'the level context forward through each prerequisite sentence.' },
+  { item: 'The spiral, measured (Figure 7)', built: 'All 60 modules weighted by the number of '
+    + 'later lessons that name them. The programme described itself as spiral; this is the first '
+    + 'edition in which a reader can test that.' },
+  { item: 'A learner’s path (Figure 6)', built: 'The module cycle, the ten modules of a level '
+    + 'closing in an award, and the six-level ascent — the same shape at three scales.' },
+  { item: 'The revision route', built: 'For all 60 modules, what that module’s own revision and '
+    + 'prerequisite stages send the class back to, set against the assessments it precedes.' },
+  { item: 'The pronunciation strand', built: 'All 114 pronunciation stages collected in order, '
+    + 'each printed as the curriculum’s own sentence with its designed timing.' },
+  { item: 'Pull quotes', built: '48 module openers carry the module’s own discussion prompt with '
+    + 'its lesson reference, replacing a boilerplate paragraph that had been printed 60 times. '
+    + 'Level I carries none: its prompts are instructions with a question inside them and do not '
+    + 'stand alone, and the rule was not relaxed to reach a round number.' },
+  { item: 'Module-opening visual system', built: 'A stage fingerprint drawn from the teaching '
+    + 'moves each module actually uses, the level colour band, the cross-references in both '
+    + 'directions and the pull quote — so no two openers are the same page.' },
+  { item: 'Editable edition brought level with the print edition', built: 'The seven figures '
+    + 'rasterised and embedded, the six level plates graded through the print edition’s own '
+    + 'duotone filter, per-level colour identity, and the full apparatus: cross-references, '
+    + 'glossary, routes, revision route and pronunciation strand.' },
+  { item: 'Large-print variant', built: 'IEFC_TYPE_SCALE builds the whole book at any type scale '
+    + 'from the same source; npm run curriculum:large produces it at 135%, 563 pages. Built on '
+    + 'demand rather than committed, because the capability is the deliverable and the file is a '
+    + 'second copy of the same book.' },
   { item: 'Subject index', built: '251 subjects extracted from the titles the curriculum gives '
     + 'its own lessons, indexed by lesson reference rather than page so it survives reflow.' },
   { item: 'Vocabulary and phrase index', built: '352 words, phrases and collocations taken from '
@@ -80,30 +112,24 @@ export const EXECUTED = [
 ];
 
 export const EDITORIAL_OPPORTUNITIES = [
-  
-  
-  
-  { item: 'Pull quotes and highlighted insights',
-    state: 'Not used. The lesson pages are evenly weighted from top to bottom.',
-    opportunity: 'Lesson bodies already contain memorable formulations. Setting a few per level '
-      + 'as pull quotes would give long stretches of instructional text a change of pace — but '
-      + 'only where the sentence genuinely carries the idea, never as decoration.',
+  { item: 'Edition history',
+    state: 'The identity block carries edition, revision and issue codes; there is no page '
+      + 'recording what changed between editions, because there is not yet a previous edition to '
+      + 'record a change from.',
+    opportunity: 'Deferred by design rather than outstanding. From the second edition onward a '
+      + 'short edition history is standard in a reference work and is the reader’s only way to '
+      + 'know whether their copy is current. The apparatus to generate it already exists: the '
+      + 'content digest changes whenever any lesson does.',
     owner: E.EDITORIAL, impact: 'Medium', effort: 'Low' },
 
-  { item: 'Cross-references between related modules',
-    state: 'Lesson bodies frequently say things like "recycled from Module 3" in prose.',
-    opportunity: 'Those references are real and already written. Turning them into printed '
-      + 'cross-references with module numbers would make the spiral structure of the programme '
-      + 'visible instead of implied.',
-    owner: E.EDITORIAL, impact: 'Medium', effort: 'Medium' },
-
-  { item: 'A glossary of programme terminology',
-    state: 'Terms such as formative assessment, discourse marker, collocation and CEFR band are '
-      + 'used throughout without definition.',
-    opportunity: 'A short glossary serves the teacher who is new to the vocabulary of the field. '
-      + 'These are standard terms of art with settled meanings — defining them is editorial '
-      + 'work, not an institutional claim.',
-    owner: E.EDITORIAL, impact: 'Medium', effort: 'Low' },
+  { item: 'Per-module photography',
+    state: 'Sixty module openers, each with a stage fingerprint, colour band, cross-references '
+      + 'and — for 48 of them — a pull quote. No photography.',
+    opportunity: 'The visual system is built and the photography is not, for one reason: sixty '
+      + 'licensed editorial photographs is a licensing budget, and repeating the nine images this '
+      + 'edition holds across sixty openers would read as a shortage rather than a series. This '
+      + 'is an external-licensing item, not an editorial one.',
+    owner: E.EDITORIAL, impact: 'Low', effort: 'High' },
 ];
 
 /**
@@ -129,6 +155,20 @@ export const CURRICULUM_ENHANCEMENTS = [
       + 'in Figure 3 of the publication.',
     owner: E.AUTHORING, impact: 'Medium', effort: 'Medium' },
 
+  // Surfaced by building the routes: the filter that found the strand
+  // also found where it stops.
+  { item: 'The collocation strand stops at the consolidation modules',
+    state: 'Phrasal verbs, collocations and discourse markers are set out in the opening item of '
+      + '56 of the 60 modules. The four without are III.10, IV.10, V.10 and VI.10 — the review '
+      + 'and consolidation module at the end of Levels III to VI. Levels I and II carry one in '
+      + 'their tenth module; the upper four do not.',
+    opportunity: 'This may be deliberate — a consolidation module reviews what has been taught '
+      + 'rather than introducing a further lexical set — or it may be drift between the levels '
+      + 'authored earlier and those authored later. The publication states the fact and does not '
+      + 'decide which, because deciding is an academic judgement about the design of a '
+      + 'consolidation module.',
+    owner: E.AUTHORING, impact: 'Low', effort: 'Low' },
+
   { item: 'Reflection, self-assessment and mastery checklists',
     state: 'Not present in any lesson.',
     opportunity: 'Genuinely valuable pedagogically and genuinely absent. Must be authored by '
@@ -149,20 +189,18 @@ export const CURRICULUM_ENHANCEMENTS = [
  * altering or inventing it.
  */
 export const PEDAGOGICAL_ENHANCEMENTS = [
-  
-  { item: 'A revision route through the programme',
-    state: 'Every level ends with a Review & Consolidation module, and REVISION appears as a '
-      + 'named stage 113 times.',
-    opportunity: 'Collate those into a printed revision path — what to return to before each '
-      + 'assessed quiz. Derived entirely from existing stages.',
-    owner: E.EDITORIAL, impact: 'High', effort: 'Medium' },
-
-  { item: 'Pronunciation support surfaced',
-    state: 'PRONUNCIATION PRACTICE occurs in 114 lessons with a median designed timing of five '
-      + 'minutes.',
-    opportunity: 'A short front-matter note on how the pronunciation strand runs through the '
-      + 'programme would help a teacher who currently meets it lesson by lesson.',
-    owner: E.EDITORIAL, impact: 'Medium', effort: 'Low' },
+  { item: 'A grammar route through the programme',
+    state: 'The curriculum names a grammar stage exactly once, at VI.10.1 — GRAMMAR CONSOLIDATED '
+      + 'ACROSS LEVEL VI — which is a revision summary rather than a strand. The prerequisite '
+      + 'stages name grammar points in parentheses ("Module 2 (“there is/are”, possessive '
+      + 'groundwork)") throughout, so the material to build one exists.',
+    opportunity: 'Every other route in the published edition is a filter on a named stage that '
+      + 'any reader can re-run. A grammar route would mean deciding which of the language points '
+      + 'in each of 294 items counts as grammar — a subject-matter judgement that would be set in '
+      + 'the same type as the verifiable routes and would not be the same kind of thing. It '
+      + 'belongs to the Board, and the published edition says so on the page rather than leaving '
+      + 'the absence to be noticed.',
+    owner: E.AUTHORING, impact: 'High', effort: 'Medium' },
 
   { item: 'Assessment guidance for markers',
     state: 'All 60 rubrics are printed with 307 criteria. There is no guidance on applying them '
@@ -177,10 +215,14 @@ export const PEDAGOGICAL_ENHANCEMENTS = [
  */
 export const READER_EXPERIENCE = [
   { item: 'Running heads do not identify the level',
-    state: 'A single running head runs throughout.',
-    opportunity: 'A reader opening the book at random relies on the level dividers. Chromium '
-      + 'cannot vary a running head by page side or section in its print pipeline, so this needs '
-      + 'either a different tool or a printed thumb-index on the page edge.',
+    state: 'A single running head runs throughout. Partly mitigated: every lesson header now '
+      + 'carries its full reference (IV.7.3), every module opener names its level and CEFR band, '
+      + 'and the cross-references beneath each lesson title are in the same numbering — so a '
+      + 'reader opening at random is never more than a few lines from knowing where they are.',
+    opportunity: 'The running head itself is still the same on every page. Chromium cannot vary '
+      + 'a running head by page side or section in its print pipeline — verified, not assumed — '
+      + 'so closing this needs either a different tool or a printed thumb-index on the page edge, '
+      + 'which needs bleed, which this pipeline also cannot produce.',
     owner: E.ENGINE, impact: 'Medium', effort: 'High' },
 
   { item: 'Level thumb index',
@@ -191,45 +233,18 @@ export const READER_EXPERIENCE = [
       + 'this pipeline cannot currently produce.',
     owner: E.ENGINE, impact: 'Medium', effort: 'Medium' },
 
-  { item: 'Editable edition lacks the figures and plates',
-    state: 'The DOCX carries every word of the curriculum but none of the five figures, the six '
-      + 'photographic plates or the level colour identity.',
-    opportunity: 'Faculty editing the curriculum currently work without the apparatus their '
-      + 'readers will see. The figures could be embedded as images.',
-    owner: E.EDITORIAL, impact: 'Medium', effort: 'Medium' },
-
-  { item: 'No large-print or screen-reading variant',
-    state: 'One typographic specification serves both print and screen.',
-    opportunity: 'The source is HTML and the type scale is declared in one place, so a '
-      + 'larger-type variant is a configuration rather than a redesign.',
-    owner: E.EDITORIAL, impact: 'Medium', effort: 'Low' },
 ];
 
 /**
  * 5 · VISUAL ENHANCEMENT REGISTER
  */
 export const VISUAL_ENHANCEMENTS = [
-  { item: 'Module openers carry no imagery',
-    state: 'Sixty typographic module openers; photography appears only on the six level plates.',
-    opportunity: 'Deliberately so. Sixty images would be clutter with a budget and would compete '
-      + 'with the contents list each opener carries. Recorded here as considered and declined, so '
-      + 'it is not repeatedly re-proposed.',
-    owner: E.EDITORIAL, impact: 'Low', effort: 'High' },
-
   { item: 'Plates do not bleed to the trim',
     state: 'The six plates fill the type area and stop at it.',
     opportunity: 'Full bleed is not achievable in this rendering pipeline: any element wider than '
       + 'the page content box makes the engine scale the entire document. If the book is ever '
       + 'originated in a professional layout application, restore full bleed there.',
     owner: E.ENGINE, impact: 'Medium', effort: 'High' },
-
-  { item: 'Process diagrams for the learner journey',
-    state: 'Five figures describe the programme’s shape. None describes a learner’s path '
-      + 'through a level.',
-    opportunity: 'The path is real and documented — modules in sequence, an assessed quiz and '
-      + 'an assessed assignment at the end of each. A process graphic would carry it better than '
-      + 'the prose currently does.',
-    owner: E.EDITORIAL, impact: 'Medium', effort: 'Medium' },
 
   ];
 
@@ -257,12 +272,6 @@ export const PUBLISHING_IMPROVEMENTS = [
       + 'furthest.',
     owner: E.PRODUCTION, impact: 'High', effort: 'Low' },
 
-  { item: 'No edition history',
-    state: 'The identity block carries edition, revision and issue codes but the volume has no '
-      + 'page recording what changed between editions.',
-    opportunity: 'From the second edition onward, a short edition history is standard in a '
-      + 'reference work and is the reader’s only way to know whether their copy is current.',
-    owner: E.EDITORIAL, impact: 'Medium', effort: 'Low' },
 ];
 
 /**

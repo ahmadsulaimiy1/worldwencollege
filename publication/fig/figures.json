@@ -1,0 +1,64 @@
+{
+  "figures": [
+    {
+      "slug": "fig-1-ascent",
+      "caption": "Figure 1 · The ascent"
+    },
+    {
+      "slug": "fig-2-architecture",
+      "caption": "Figure 2 · Sixty modules, one architecture"
+    },
+    {
+      "slug": "fig-3-anatomy",
+      "caption": "Figure 3 · The anatomy of a lesson"
+    },
+    {
+      "slug": "fig-4-skills",
+      "caption": "Figure 4 · The four skills across the ascent"
+    },
+    {
+      "slug": "fig-5-assessment",
+      "caption": "Figure 5 · The assessment map"
+    },
+    {
+      "slug": "fig-6-journey",
+      "caption": "Figure 6 · A learner’s path"
+    },
+    {
+      "slug": "fig-7-spiral",
+      "caption": "Figure 7 · The spiral, measured"
+    }
+  ],
+  "plates": [
+    {
+      "roman": "I",
+      "file": "plate-I.jpg",
+      "subject": "A student’s hand writing in an exercise book"
+    },
+    {
+      "roman": "II",
+      "file": "plate-II.jpg",
+      "subject": "Friends in conversation"
+    },
+    {
+      "roman": "III",
+      "file": "plate-III.jpg",
+      "subject": "Students preparing together for a seminar"
+    },
+    {
+      "roman": "IV",
+      "file": "plate-IV.jpg",
+      "subject": "Colleagues working through a project"
+    },
+    {
+      "roman": "V",
+      "file": "plate-V.jpg",
+      "subject": "A speaker addressing a conference"
+    },
+    {
+      "roman": "VI",
+      "file": "plate-VI.jpg",
+      "subject": "A graduate at conferral"
+    }
+  ]
+}

@@ -238,9 +238,16 @@ export function architectureGrid(levels, { w = 760, cell = 62, gap = 5 } = {}) {
       return `${bars}<text x="${n(x + cw / 2)}" y="${n(y + 9)}" text-anchor="middle" ${FONT}
         font-size="${fs(5.8)}" fill="${PAL.slateGrey}">${m.sequence}</text>`;
     }).join('');
-    return `<text x="0" y="${n(y + 26)}" ${SERIF} font-size="${fs(12.0)}" font-weight="700"
+    // Stacked, not set side by side. Setting the CEFR band at a fixed
+    // x offset assumed every roman numeral was the same width; "III",
+    // "IV" and "VI" are wider than "I" and "V", so three of the six
+    // rows printed as "IIIB1", "IVB2" and "VIC2". Nothing on screen
+    // showed it — the figure is only ever seen at a size where the
+    // overlap is a few pixels — and it was caught by rasterising the
+    // figures for the editable edition and looking at them.
+    return `<text x="0" y="${n(y + 22)}" ${SERIF} font-size="${fs(12.0)}" font-weight="700"
         fill="${p.ink}">${esc(lv.roman)}</text>
-      <text x="17" y="${n(y + 26)}" ${FONT} font-size="${fs(6.2)}" fill="${PAL.slateGrey}"
+      <text x="0" y="${n(y + 33)}" ${FONT} font-size="${fs(6.2)}" fill="${PAL.slateGrey}"
         >${esc(lv.cefr)}</text>${cells}`;
   }).join('');
 
@@ -442,6 +449,197 @@ export function skillsAcrossLevels(levels, { w = 760, h = 220 } = {}) {
     <text x="${pad.l}" y="10" ${FONT} font-size="${fs(6.2)}" letter-spacing="1.2"
       fill="${PAL.slateGrey}">NAMED SKILL STAGES PER 100 AUTHORED ITEMS</text>
     ${grid}${lines}${xlabels}</svg>`;
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// 6 · THE LEARNER'S PATH
+// ─────────────────────────────────────────────────────────────────────
+
+/**
+ * The one thing the other five figures do not show: what actually
+ * happens to a person.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * WHY THIS IS THREE REGISTERS AND NOT ONE FLOWCHART
+ * ────────────────────────────────────────────────────────────────────
+ * The learner's path is the same shape at three scales — a sequence of
+ * work closed by an assessment — and drawing it once at one scale hides
+ * exactly that. Drawn at all three, the recursion is the point: the
+ * module is a small level, the level is a small programme, and a
+ * learner who has finished one module already knows the shape of the
+ * next twenty-four months.
+ *
+ * Every count is read from the curriculum. If a module were authored
+ * with a different number of teaching items, the top register would
+ * show it.
+ */
+export function learnerJourney(levels, { w = 760 } = {}) {
+  const mods = levels.flatMap((l) => l.modules);
+  const teachPer = mods.map((m) => m.lessons.filter((l) => l.kind === 'reading').length);
+  const teach = Math.round(teachPer.reduce((a, b) => a + b, 0) / mods.length);
+  const lo = Math.min(...teachPer);
+  const hi = Math.max(...teachPer);
+  // "count varies by module" is true and says nothing. The range is the
+  // fact a teacher planning a term actually needs.
+  const spread = lo === hi ? 'the same in every module'
+    : `${lo} ${hi - lo === 1 ? 'or' : 'to'} ${hi} across the ${mods.length} modules`;
+  const modsPerLevel = levels[0].modules.length;
+  const h = 246;
+
+  const node = (x, y, ww, hh, label, sub, fill, stroke, dark) => `
+    <rect x="${n(x)}" y="${n(y)}" width="${n(ww)}" height="${n(hh)}" rx="2.5"
+      fill="${fill}" stroke="${stroke}" stroke-width="0.7"/>
+    <text x="${n(x + ww / 2)}" y="${n(y + (sub ? hh / 2 - 1 : hh / 2 + 3))}" text-anchor="middle"
+      ${FONT} font-size="${fs(6.8)}" font-weight="600"
+      fill="${dark ? '#FFFFFF' : PAL.warmCharcoal}">${esc(label)}</text>
+    ${sub ? `<text x="${n(x + ww / 2)}" y="${n(y + hh / 2 + 8)}" text-anchor="middle" ${FONT}
+      font-size="${fs(5.8)}" fill="${dark ? '#FFFFFF' : PAL.slateGrey}"
+      opacity="${dark ? 0.85 : 1}">${esc(sub)}</text>` : ''}`;
+
+  const arrow = (x1, y, x2) => `<line x1="${n(x1)}" y1="${n(y)}" x2="${n(x2 - 3.4)}" y2="${n(y)}"
+      stroke="${PAL.platinum}" stroke-width="0.9"/>
+    <path d="M${n(x2)} ${n(y)}l-4 -2.1v4.2z" fill="${PAL.platinum}"/>`;
+
+  const band = (y, n_, text) => `
+    <text x="0" y="${n(y)}" ${FONT} font-size="${fs(6.0)}" letter-spacing="1.1"
+      fill="${PAL.slateGrey}">${n_}</text>
+    <text x="${n(w)}" y="${n(y)}" text-anchor="end" ${FONT} font-size="${fs(6.0)}"
+      fill="${PAL.slateGrey}">${esc(text)}</text>
+    <line x1="0" y1="${n(y + 5)}" x2="${n(w)}" y2="${n(y + 5)}"
+      stroke="${PAL.platinum}" stroke-width="0.4"/>`;
+
+  // Register 1 — inside a module.
+  const p1 = LEVEL_PALETTES[2];
+  const r1y = 26;
+  // Wide enough for the longest label at the label size, measured
+  // rather than guessed: "Assessed assignment" set at fs(6.8) is about
+  // 105 viewBox units, and the first version at 92 units clipped it to
+  // "ssessed assignme".
+  const cw1 = 156;
+  const gap1 = 30;
+  const cells1 = [
+    [`${teach} teaching lessons`, spread, p1.wash, p1.mid, false],
+    ['Assessed quiz', 'answer key printed', p1.ink, p1.ink, true],
+    ['Assessed assignment', 'full grading rubric', PAL.deepCrimson, PAL.deepCrimson, true],
+  ];
+  const x0 = (w - (cells1.length * cw1 + (cells1.length - 1) * gap1)) / 2;
+  const reg1 = cells1.map(([l, s, f, st, d], i) => {
+    const x = x0 + i * (cw1 + gap1);
+    return node(x, r1y, cw1, 34, l, s, f, st, d)
+      + (i ? arrow(x - gap1 + 2, r1y + 17, x) : '');
+  }).join('');
+
+  // Register 2 — inside a level.
+  const r2y = 104;
+  const mw = (w - 128 - (modsPerLevel - 1) * 4) / modsPerLevel;
+  const reg2 = levels[0].modules.map((m, i) => {
+    const x = i * (mw + 4);
+    const isLast = i === modsPerLevel - 1;
+    return `<rect x="${n(x)}" y="${n(r2y)}" width="${n(mw)}" height="26" rx="2"
+        fill="${isLast ? p1.mid : p1.wash}" stroke="${p1.mid}" stroke-width="0.6"/>
+      <text x="${n(x + mw / 2)}" y="${n(r2y + 16.5)}" text-anchor="middle" ${FONT}
+        font-size="${fs(6.6)}" font-weight="600"
+        fill="${isLast ? '#FFFFFF' : p1.ink}">${m.sequence}</text>`;
+  }).join('') + arrow(w - 126, r2y + 13, w - 108)
+    + node(w - 106, r2y - 3, 106, 32, 'Award conferred', 'one per level', PAL.softCream, PAL.bronze, false);
+
+  // Register 3 — the whole ascent.
+  const r3y = 182;
+  const lw = (w - 5 * 8) / 6;
+  const reg3 = levels.map((lv, i) => {
+    const p = LEVEL_PALETTES[i];
+    const x = i * (lw + 8);
+    const hgt = 20 + i * 4;
+    return `<rect x="${n(x)}" y="${n(r3y + 26 - hgt)}" width="${n(lw)}" height="${n(hgt)}" rx="2"
+        fill="${p.ink}"/>
+      <text x="${n(x + lw / 2)}" y="${n(r3y + 40)}" text-anchor="middle" ${SERIF}
+        font-size="${fs(9.5)}" font-weight="700" fill="${p.ink}">${esc(lv.roman)}</text>
+      <text x="${n(x + lw / 2)}" y="${n(r3y + 49)}" text-anchor="middle" ${FONT}
+        font-size="${fs(5.8)}" fill="${PAL.slateGrey}">${esc(lv.cefr)} · ${lv.months} mo</text>
+      ${i ? arrow(x - 7.5, r3y + 18, x) : ''}`;
+  }).join('');
+
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" role="img"
+    aria-label="A learner's path: the module cycle, the ten modules of a level closing in an award, and the six-level ascent"
+    xmlns="http://www.w3.org/2000/svg">
+    ${band(12, 'WITHIN A MODULE', 'repeated 60 times across the programme')}${reg1}
+    ${band(90, 'WITHIN A LEVEL', `${modsPerLevel} modules, ${levels[0].months} months`)}${reg2}
+    ${band(168, 'ACROSS THE PROGRAMME', 'each level a prerequisite to the next')}${reg3}
+  </svg>`;
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// 7 · THE SPIRAL
+// ─────────────────────────────────────────────────────────────────────
+
+/**
+ * How often each module is returned to by a later lesson.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * A CLAIM THE BOOK MADE IN PROSE AND COULD NOT PREVIOUSLY SHOW
+ * ────────────────────────────────────────────────────────────────────
+ * The programme describes itself as spiral: material is met, then met
+ * again in a harder setting. That was a claim, and until the
+ * cross-references were extracted from the PREREQUISITE KNOWLEDGE
+ * stages there was no way for a reader to test it — the evidence was
+ * distributed across 114 paragraphs of prose.
+ *
+ * Here it is as a single field. Each cell is a module; its weight is
+ * the number of LATER lessons that name it as prerequisite knowledge.
+ * A pale grid would have meant the spiral was rhetoric.
+ *
+ * The figure is not flattering everywhere, and is printed as measured:
+ * some modules are never named again, and the count falls away in the
+ * last levels for the ordinary reason that there are fewer later
+ * lessons left to name them.
+ */
+export function spiralMap(levels, back, { w = 760 } = {}) {
+  const rowH = 34;
+  const gap = 5;
+  const labelW = 74;
+  const h = levels.length * (rowH + gap) + 46;
+  const counts = levels.flatMap((lv) => lv.modules.map((m) =>
+    (back.get(`${lv.roman}.${m.sequence}`) || []).length));
+  const max = Math.max(1, ...counts);
+
+  const rows = levels.map((lv, i) => {
+    const p = LEVEL_PALETTES[i];
+    const y = 30 + i * (rowH + gap);
+    const cw = (w - labelW - 8) / 10 - gap;
+    const cells = lv.modules.map((m, j) => {
+      const x = labelW + j * (cw + gap);
+      const c = (back.get(`${lv.roman}.${m.sequence}`) || []).length;
+      const op = c ? 0.16 + 0.84 * (c / max) : 0;
+      return `<rect x="${n(x)}" y="${n(y)}" width="${n(cw)}" height="${rowH}" rx="1.5"
+          fill="${p.ink}" fill-opacity="${n(op)}" stroke="${p.mid}" stroke-width="0.4"/>
+        <text x="${n(x + cw / 2)}" y="${n(y + rowH / 2 + 4)}" text-anchor="middle" ${FONT}
+          font-size="${fs(7.4)}" font-weight="600"
+          fill="${op > 0.55 ? '#FFFFFF' : PAL.warmCharcoal}">${c || '·'}</text>
+`;
+    }).join('');
+    return `<text x="0" y="${n(y + 16)}" ${SERIF} font-size="${fs(12.0)}" font-weight="700"
+        fill="${p.ink}">${esc(lv.roman)}</text>
+      <text x="0" y="${n(y + 27)}" ${FONT} font-size="${fs(6.2)}"
+        fill="${PAL.slateGrey}">${esc(lv.cefr)}</text>${cells}`;
+  }).join('');
+
+  // The module numbers run once along the head rather than under every
+  // row: repeated six times they sat on the row below and read as part
+  // of the next level's cells.
+  const cw0 = (w - labelW - 8) / 10 - gap;
+  const heads = Array.from({ length: 10 }, (_, j) =>
+    `<text x="${n(labelW + j * (cw0 + gap) + cw0 / 2)}" y="24" text-anchor="middle" ${FONT}
+      font-size="${fs(6.0)}" fill="${PAL.slateGrey}">${j + 1}</text>`).join('');
+
+  const never = counts.filter((c) => !c).length;
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" role="img"
+    aria-label="Each module weighted by the number of later lessons that name it as prerequisite knowledge"
+    xmlns="http://www.w3.org/2000/svg">
+    <text x="0" y="10" ${FONT} font-size="${fs(6.2)}" letter-spacing="1.2"
+      fill="${PAL.slateGrey}">LATER LESSONS NAMING THIS MODULE AS PREREQUISITE KNOWLEDGE</text>
+    <text x="${n(w)}" y="10" text-anchor="end" ${FONT} font-size="${fs(6.2)}"
+      fill="${PAL.slateGrey}">most-returned module: ${max} · never returned to: ${never} of ${counts.length}</text>
+    ${heads}${rows}</svg>`;
 }
 
 void TYPE;

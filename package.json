@@ -13,7 +13,8 @@
     "db:schema:local": "wrangler d1 execute wec-lc --local --file=sql/schema.sql",
     "deploy": "wrangler pages deploy .",
     "publication": "node --experimental-sqlite scripts/publication/render-docx.mjs && node --experimental-sqlite scripts/publication/render-pdf.mjs",
-    "curriculum": "node --experimental-sqlite scripts/publication/render-flagship.mjs && node --experimental-sqlite scripts/publication/render-curriculum-docx.mjs && node --experimental-sqlite scripts/publication/render-specs.mjs && node --experimental-sqlite scripts/publication/render-bible.mjs"
+    "curriculum": "node --experimental-sqlite scripts/publication/render-flagship.mjs && node --experimental-sqlite scripts/publication/render-curriculum-docx.mjs && node --experimental-sqlite scripts/publication/render-specs.mjs && node --experimental-sqlite scripts/publication/render-bible.mjs",
+    "curriculum:large": "IEFC_TYPE_SCALE=1.35 node --experimental-sqlite scripts/publication/render-flagship.mjs"
   },
   "devDependencies": {
     "jsqr": "^1.4.0",

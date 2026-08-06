@@ -16,9 +16,12 @@ import { frontMatter, backMatter, coverSpread, spineWidth, TRIM, BLEED } from '.
 import { guillocheRosette, guillocheBand, girihRosette, frame, cornerFan, fleuron, crest, EMBOSS } from './ornament.mjs';
 import { stageIcon, GENERIC_ICON } from './icons.mjs';
 import { parseRubric } from './curriculum.mjs';
-import { ascentChart, architectureGrid, lessonAnatomy, assessmentMap, skillsAcrossLevels } from './diagrams.mjs';
+import { ascentChart, architectureGrid, lessonAnatomy, assessmentMap, skillsAcrossLevels,
+  learnerJourney, spiralMap } from './diagrams.mjs';
 import { subjectIndex, lexicalIndex, assessmentIndex, alphabetise, topicOf } from './indexes.mjs';
-import { writeFileSync, readFileSync, mkdirSync, existsSync } from 'node:fs';
+import { crossReferences, pullQuotes, glossary, routes as buildRoutes, revisionByModule,
+  pronunciationStrand, grammarStages } from './apparatus.mjs';
+import { writeFileSync, readFileSync, mkdirSync, existsSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
@@ -40,6 +43,17 @@ const typo = (s) => esc(s)
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 const KIND_LABEL = { reading: 'Lesson', quiz: 'Assessed Quiz', assignment: 'Assessed Assignment' };
+
+// The apparatus, computed once. Every one of these is an extraction
+// from curriculum the College already authored — see apparatus.mjs for
+// what each is taken from and what is deliberately not built.
+const XREF = crossReferences(C);
+const QUOTES = pullQuotes(C);
+const GLOSS = glossary(C);
+const ROUTES = buildRoutes(C);
+const REVISION = revisionByModule(C);
+const GRAMMAR = grammarStages(C);
+const PRON = pronunciationStrand(C);
 
 // ---- Lesson stages ---------------------------------------------------
 function renderParts(parts) {
@@ -184,6 +198,19 @@ function renderLesson(les, lv, mod) {
     ? (les.stages.length ? les.stages.map(renderStage).join('') : '') + renderQuiz(les)
     : les.stages.map(renderStage).join('');
 
+  // THE CROSS-REFERENCES.
+  //
+  // Extracted from the lesson's own PREREQUISITE KNOWLEDGE stage, which
+  // says things like "Level V, Module 3 (inversion for emphasis) and
+  // Module 4 (hedging)". The prose stays exactly where it was — the
+  // parenthetical glosses are more useful than any reference — and this
+  // line adds what the prose could not: a scannable set of references in
+  // the same numbering as the contents, the indexes and the platform.
+  const xrefs = XREF.forward.get(ref) || [];
+  const builds = xrefs.length
+    ? `<p class="xref"><span class="xref__l">Builds on</span>${xrefs.map((r) =>
+      `<span class="xref__r">${esc(r.ref)}</span>`).join('')}</p>` : '';
+
   return `<article class="lesson${isAssessed ? ' lesson--assessed' : ''}"
     id="l-${lv.roman}-${mod.sequence}-${les.sequence}">
     <header class="lesson__h${isAssessed ? ' lesson__h--cer' : ''}">
@@ -193,6 +220,7 @@ function renderLesson(les, lv, mod) {
       </div>
       <h4>${typo(les.title)}</h4>
       ${meta ? `<p class="lesson__meta">${meta}</p>` : ''}
+      ${builds}
       ${tape}
     </header>
     ${body}
@@ -208,6 +236,43 @@ function renderLesson(les, lv, mod) {
  * an event, and a teacher opening the book at random always lands
  * somewhere that says where they are.
  */
+/**
+ * THE MODULE OPENER'S VISUAL SYSTEM.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * WHAT WAS WRONG WITH THE PREVIOUS ONE
+ * ────────────────────────────────────────────────────────────────────
+ * Sixty module openers were laid out identically and ended with the
+ * same sentence — "Every module in this programme ends with an assessed
+ * quiz and an assessed assignment carrying a full grading rubric. This
+ * one is no exception." True, useful once, and printed sixty times. A
+ * reader meets it at Module 2 and stops reading the foot of an opener
+ * for the rest of the book, which is a poor return on sixty
+ * appearances.
+ *
+ * Four things replace it, and every one of them differs by module
+ * because it is read out of that module:
+ *
+ *   THE STAGE FINGERPRINT — the distinct teaching stages this module
+ *     actually uses, drawn from the same icon set as the lesson tapes.
+ *     No two modules produce the same row, so an opener now looks like
+ *     its own module rather than like the template.
+ *
+ *   THE CROSS-REFERENCES — what this module builds on, and which later
+ *     lessons come back to it. Both extracted; see apparatus.mjs.
+ *
+ *   THE PULL QUOTE — the module's own discussion prompt, in the
+ *     curriculum's voice, with its reference. Present for 48 of the 60;
+ *     absent where the curriculum has nothing that stands alone, rather
+ *     than relaxed until something qualified.
+ *
+ *   THE COLOUR BAND — the level's guilloché, as before.
+ *
+ * No photography. Sixty licensed photographs is a budget rather than a
+ * design decision, and the same nine images repeated across sixty
+ * openers would read as a shortage. That one stays in the register as
+ * external licensing, which is what it is.
+ */
 function renderModule(mod, lv) {
   const lessons = mod.lessons.map((l) => renderLesson(l, lv, mod)).join('');
   const counts = mod.lessons.reduce((a, l) => { a[l.kind] = (a[l.kind] || 0) + 1; return a; }, {});
@@ -220,6 +285,31 @@ function renderModule(mod, lv) {
     <span class="mo__t">${typo(l.title)}</span>
     <span class="mo__k">${esc(KIND_LABEL[l.kind] || 'Lesson')}</span></li>`).join('');
 
+  // The stage fingerprint: which teaching moves this module uses, in
+  // the order they are first met.
+  const seen = new Map();
+  for (const les of mod.lessons) {
+    for (const st of les.stages) {
+      if (st.icon && st.head && !seen.has(st.icon)) seen.set(st.icon, st.head);
+    }
+  }
+  const fingerprint = [...seen.entries()].map(([icon, head]) =>
+    `<span class="mfp__i" title="${esc(head)}">${stageIcon(icon, { size: 13 }) || GENERIC_ICON}</span>`).join('');
+
+  // What this module's lessons declare they build on, outside itself.
+  const own = `${lv.roman}.${mod.sequence}`;
+  const buildsOn = [...new Set(mod.lessons.flatMap((l) =>
+    (XREF.forward.get(`${lv.roman}.${mod.sequence}.${l.sequence}`) || [])
+      .map((r) => `${r.level}.${r.module}`))
+    .filter((k) => k !== own))];
+  const returned = XREF.back.get(own) || [];
+
+  const refLine = (label, refs, cls) => (refs.length
+    ? `<p class="mxr ${cls}"><span class="mxr__l">${label}</span>${refs.map((r) =>
+      `<span class="mxr__r">${esc(r)}</span>`).join('')}</p>` : '');
+
+  const quote = QUOTES.get(own);
+
   return `<section class="module" id="m-${lv.roman}-${mod.sequence}">
     <section class="moduleopen">
       <div class="moduleopen__orn">${guillocheBand({ width: 420, height: 12, stroke: p.mid, opacity: 0.4 })}</div>
@@ -231,6 +321,7 @@ function renderModule(mod, lv) {
         <div class="moduleopen__ti">
           <p class="moduleopen__eyebrow">Level ${lv.roman} · ${esc(lv.name)} · CEFR ${esc(lv.cefr)}</p>
           <h3>${typo(shortModuleTitle(mod))}</h3>
+          ${fingerprint ? `<div class="mfp">${fingerprint}</div>` : ''}
         </div>
       </div>
       <div class="moduleopen__stats">
@@ -238,13 +329,18 @@ function renderModule(mod, lv) {
     [qs, 'Questions'], [mins || '—', mins ? 'Minutes designed' : 'Not timed']]
     .map(([v, l]) => `<div><b>${v}</b><span>${l}</span></div>`).join('')}
       </div>
+      ${refLine('Builds on', buildsOn, 'mxr--fwd')}
+      ${refLine('Returned to in', returned, 'mxr--back')}
       <p class="moduleopen__ch">In this module</p>
       <ol class="moduleopen__list">${contents}</ol>
-      <div class="moduleopen__foot">
+      ${quote ? `<figure class="mq">
+        <blockquote>${typo(quote.quote)}</blockquote>
+        <figcaption>Discussion prompt · ${esc(quote.ref)}</figcaption>
+      </figure>` : `<div class="moduleopen__foot">
         <span class="moduleopen__seal">${girihRosette({ size: 34, stroke: p.mid, width: 0.7, opacity: 0.7 })}</span>
-        <p>Every module in this programme ends with an assessed quiz and an assessed assignment
-          carrying a full grading rubric. This one is no exception.</p>
-      </div>
+        <p>This module closes, as all sixty do, with an assessed quiz and an assessed assignment
+          carrying a full grading rubric.</p>
+      </div>`}
     </section>
     ${lessons}
   </section>`;
@@ -452,7 +548,9 @@ const CONTENTS = `<section class="contents">
   <ol class="clist">${contents}</ol>
   <div class="clist__after">
     <p class="label">Apparatus</p>
-    <p>How to Read a Lesson · The Shape of the Programme · Colophon</p>
+    <p>How to Read a Lesson · The Six Awards · Teaching from This Book · The Shape of the
+      Programme · Glossary · Routes Through the Programme · The Pronunciation Strand ·
+      Subject Index · Vocabulary and Phrase Index · Assessment Index · Colophon</p>
   </div>
 </section>`;
 
@@ -501,7 +599,7 @@ const critByLevel = Object.fromEntries(C.levels.map((lv) => [lv.roman,
 const ARCHITECTURE = `<section class="arch">
   <p class="ed__eyebrow">The Architecture</p>
   <h2>The Shape of the Programme</h2>
-  <p class="lead">Five figures, each measured from the curriculum in this volume rather than drawn
+  <p class="lead">Seven figures, each measured from the curriculum in this volume rather than drawn
     to illustrate it. If the programme changes, they change; if a figure here is unflattering, it
     is because the measurement was.</p>
 
@@ -567,6 +665,34 @@ const ARCHITECTURE = `<section class="arch">
       definition is an intention rather than a demonstration, and establishing the mapping is the
       founding task of the Board of Academic Standards and Curriculum Excellence.</p>
   </figure>
+
+  <figure class="fig fig--break">
+    <figcaption class="fig__c"><b>Figure 6</b> A learner's path</figcaption>
+    ${learnerJourney(C.levels)}
+    <p class="fig__n">The same shape at three scales. A module is a run of teaching lessons closed
+      by two assessments; a level is ten modules closed by an award; the programme is six levels,
+      each a prerequisite to the next. That recursion is the reason a teacher who has taught one
+      module of this programme has learned the shape of all sixty, and the reason a learner always
+      knows what the next four months will cost them.</p>
+    <p class="fig__n">The third register is the only one that is not uniform, and the rise it shows
+      is depth rather than duration — the same finding as Figure 1, drawn here as the ascent a
+      learner actually walks.</p>
+  </figure>
+
+  <figure class="fig fig--break">
+    <figcaption class="fig__c"><b>Figure 7</b> The spiral, measured</figcaption>
+    ${spiralMap(C.levels, XREF.back)}
+    <p class="fig__n">Every teaching lesson in this programme opens by naming what must already be
+      secure, and ${XREF.forward.size} of them name a specific module. Collected, those declarations
+      make the spiral testable rather than rhetorical: each cell above is a module, weighted by the
+      number of later lessons that come back to it. ${
+  [...XREF.back.values()].reduce((a, v) => a + v.length, 0)} such returns are printed in this
+      volume, and they are set beside the lessons themselves as cross-references.</p>
+    <p class="fig__n">The pale cells are the honest part. Some modules are never named again by a
+      later lesson; the count also thins toward Level VI for the arithmetic reason that fewer
+      lessons remain to do the naming. Neither observation is a defect on its own, and both are
+      printed because a figure showing only the returns would have argued rather than measured.</p>
+  </figure>
 </section>`;
 
 // ---- The awards, side by side ---------------------------------------
@@ -631,13 +757,150 @@ const GUIDE = `<section class="guide">
     looking for on the right. Mark down the criteria in order; the rubric is the instrument, not a
     summary of one.</p>
 
+  <h3>Following a thread</h3>
+  <p>Beneath the title of most teaching lessons is a line reading <em>Builds on</em>, followed by
+    one or more references. Those are not editorial suggestions: they are the modules the lesson\u2019s
+    own prerequisite stage names, set as references so they can be followed. The module openers
+    carry the same relation in both directions \u2014 what the module builds on, and which later
+    lessons come back to it \u2014 which is how the spiral structure of the programme becomes visible
+    from inside it. Figure 7 shows the whole of that graph at once.</p>
+  <p>Where a module opener ends in a quoted question, that question is the module\u2019s own discussion
+    prompt, lifted from the lesson named beside it. It is there to say what the module is really
+    about before the reader meets the first stage.</p>
+
   <h3>Finding your way back</h3>
-  <p>Three indexes close the volume. The <em>Subject Index</em> answers "which lessons cover
-    this?"; the <em>Vocabulary and Phrase Index</em> answers "where was this word taught?"; the
-    <em>Assessment Index</em> lists all 120 assessed items in one place for planning a term.
-    All three point to lesson references \u2014 ${'IV.7.3'} means Level IV, Module 7, item 3 \u2014 rather
+  <p>Six reference sections close the volume. The <em>Glossary</em> defines the terms of art the
+    curriculum uses, with the lesson that first uses each. <em>Routes Through the Programme</em>
+    gives four ways to move through the book other than front to back \u2014 vocabulary, communication,
+    reading and writing, and the examination route. <em>The Pronunciation Strand</em> collects the
+    pronunciation focus of every lesson that has one, in order. Then three indexes: the
+    <em>Subject Index</em> answers "which lessons cover this?"; the <em>Vocabulary and Phrase
+    Index</em> answers "where was this word taught?"; the <em>Assessment Index</em> lists all 120
+    assessed items in one place for planning a term.</p>
+  <p>All of them point to lesson references \u2014 ${'IV.7.3'} means Level IV, Module 7, item 3 \u2014 rather
     than page numbers, so they stay correct across editions and match the numbering used on the
     platform.</p>
+</section>`;
+
+// ---- The glossary -----------------------------------------------------
+// Every headword is counted across the curriculum before it is printed,
+// and the count and first use are set beside the definition so a reader
+// can check that this page describes the book rather than the field.
+// Three proposed headwords were dropped by that check.
+const GLOSSARY = `<section class="gloss">
+  <p class="ed__eyebrow">Reference</p>
+  <h2>Glossary of Programme Terminology</h2>
+  <p class="lead">${GLOSS.length} terms of art the curriculum uses, defined as the field defines
+    them. Each entry names the lesson that first uses the term and how many times the programme
+    uses it in total.</p>
+  <p class="gloss__note">These are definitions, not claims. Each states what a term means in
+    language teaching and applied linguistics; none describes a standard, a procedure or a
+    validation the College has established. Where the curriculum uses a term in one of its
+    several senses, the sense defined is the one the curriculum teaches — anaphora, for instance,
+    is defined here as the figure of rhetoric taught in Level VI and not as the grammatical
+    reference relation, because the second sense appears nowhere in this programme.</p>
+  <dl class="gl">${GLOSS.map((e) => `<div class="gl__e">
+    <dt>${typo(e.term)}${e.expansion ? `<span class="gl__x">${typo(e.expansion)}</span>` : ''}</dt>
+    <dd>${typo(e.definition)}<span class="gl__m">${esc(e.first)} · ${e.count} use${
+  e.count === 1 ? '' : 's'}</span></dd>
+  </div>`).join('')}</dl>
+</section>`;
+
+// ---- The routes -------------------------------------------------------
+const ROUTE_SECTION = `<section class="routes">
+  <p class="ed__eyebrow">Reference</p>
+  <h2>Routes Through the Programme</h2>
+  <p class="lead">Ways to move through this book other than front to back — for a learner revising
+    before an assessment, or a teacher assembling a short course from what is already written.</p>
+
+  <h3>The strands that are not routes</h3>
+  <p>Five strand routes were built for this section and four of them were withdrawn, because when
+    they were set they were identical to one another and to the contents list. The reason is worth
+    a paragraph, because it is the strongest structural claim this curriculum makes.</p>
+  <p>Of the ${ROUTES.pool} teaching lessons in the programme, these carry the named stage in
+    question:</p>
+  <table class="cov"><thead><tr><th scope="col">Strand</th><th scope="col">Lessons</th>
+    <th scope="col">Coverage</th></tr></thead><tbody>${
+  ROUTES.universal.map((r) => `<tr><td>${typo(r.name.replace(/^The | route$/g, ''))}</td>
+      <td class="mono">${r.total} of ${r.pool}</td>
+      <td class="cov__p">${Math.round(r.coverage * 100)}%</td></tr>`).join('')}</tbody></table>
+  <p>A filter that selects everything is not a route. A learner asking "where is the vocabulary
+    taught?" is asking about all ${ROUTES.pool} lessons, and four pages of references saying so
+    would have been apparatus concealing a finding rather than carrying one. Figure 3 sets out the
+    same measurement across every named stage in the book.</p>
+  <p>There is also no grammar route, and the reason is the same measurement. Across all
+    ${C.totals.lessons} authored items the curriculum names a grammar stage
+    ${GRAMMAR.length === 1 ? 'exactly once' : `${GRAMMAR.length} times`} —
+    ${GRAMMAR.map((g) => `<b>${esc(g.ref)}</b>, <em>${typo(g.head.toLowerCase())}</em>`).join('; ')}
+    — which is a revision summary of what has already been taught rather than a strand running
+    through the book. Assembling a grammar route from the rest would mean reading every lesson and
+    deciding which of the language points it teaches counts as grammar: a subject-matter judgement
+    for the Board of Academic Standards and Curriculum Excellence, not an editorial one. It would
+    have been set in the same type as the route above and would not have been the same kind of
+    thing.</p>
+
+  ${ROUTES.printed.map((r) => `<div class="rt">
+    <p class="rt__h">${esc(r.name)}<span>${r.total} of ${r.pool} items</span></p>
+    <p class="rt__b">${typo(r.blurb)}</p>
+    ${r.perModule
+    ? `<p class="rt__p">It is taught in the opening item of ${r.modules} of the
+        ${C.totals.modules} modules${r.missingModules.length
+  ? `. The ${r.missingModules.length} without it are ${r.missingModules.map((m) =>
+    `<b>${esc(m.ref)}</b>`).join(', ')} — the review and consolidation module at the end of
+        Levels ${[...new Set(r.missingModules.map((m) => m.ref.split('.')[0]))].join(', ')},
+        which consolidates what those levels have already set out rather than introducing a
+        further lexical set` : ''}. Because every one of those items is the module opener, the
+        route is the module list, and it is stated here rather than tabulated.</p>`
+    : r.levels.map(({ lv, mods }) => {
+      const p = paletteFor(lv.roman);
+      return `<p class="rt__l" style="--mid:${p.mid};--ink:${p.ink}">
+        <span class="rt__lv">${esc(lv.roman)}</span>${mods.map((m) =>
+    `<span class="rt__m">${m.refs.join(' ')}</span>`).join('')}</p>`;
+    }).join('')}
+  </div>`).join('')}
+
+  <h3>The revision route</h3>
+  <p>Before each assessed quiz, what the module's own lessons send the class back to. Every
+    reference below is the union of what that module's revision and prerequisite stages already
+    name, outside the module itself — so this is the curriculum's own answer to "what should I
+    revise", collected rather than composed.</p>
+  ${REVISION.map(({ lv, rows }) => {
+    const p = paletteFor(lv.roman);
+    return `<div class="rv" style="--ink:${p.ink};--mid:${p.mid}">
+      <p class="asx__h">Level ${esc(lv.roman)} · ${typo(lv.name)} · CEFR ${esc(lv.cefr)}</p>
+      <table class="rvt"><thead><tr><th scope="col">Module</th>
+        <th scope="col">Return to</th><th scope="col">Before</th></tr></thead><tbody>
+        ${rows.map((r) => `<tr>
+          <td><b>${r.module}</b> ${typo(topicOf(r.title))}</td>
+          <td class="mono">${r.targets.length ? r.targets.join(' · ') : '—'}</td>
+          <td class="mono">${[r.quizRef, r.asgRef].filter(Boolean).join(' · ')}</td></tr>`).join('')}
+      </tbody></table></div>`;
+  }).join('')}
+  <p class="small">A dash means the module's lessons name no module outside their own — true of
+    the first module of the programme, which has nothing behind it.</p>
+</section>`;
+
+// ---- The pronunciation strand ----------------------------------------
+const PRONUNCIATION = `<section class="pron">
+  <p class="ed__eyebrow">Reference</p>
+  <h2>The Pronunciation Strand</h2>
+  <p class="lead">Pronunciation practice is a named stage in ${
+  PRON.reduce((a, g) => a + g.rows.length, 0)} lessons of this programme. Collected here, it can be
+    read as the strand it is: what is drilled, in what order, and where.</p>
+  <p class="gloss__note">Every focus below is the curriculum's own sentence, printed whole. Nothing
+    on this page was written for it.</p>
+  ${PRON.map(({ lv, rows }) => {
+    const p = paletteFor(lv.roman);
+    return `<div class="pron__g" style="--ink:${p.ink};--mid:${p.mid}">
+      <p class="asx__h">Level ${esc(lv.roman)} · ${typo(lv.name)} · CEFR ${esc(lv.cefr)}</p>
+      <table class="prt"><thead><tr>
+        <th scope="col">Item</th><th scope="col">Focus</th><th scope="col">Designed</th>
+      </tr></thead><tbody>${rows.map((r) => `<tr>
+        <td class="mono">${esc(r.ref)}</td>
+        <td>${typo(r.focus)}</td>
+        <td class="prt__t">${r.timing ? typo(r.timing) : '—'}</td></tr>`).join('')}
+      </tbody></table></div>`;
+  }).join('')}
 </section>`;
 
 // ---- The indexes ------------------------------------------------------
@@ -687,7 +950,10 @@ const INDEXES = `<section class="index">
 </section>`;
 
 const FRONT = frontMatter(ID, I, CONTENTS, HOWTO + AWARDS + GUIDE + ARCHITECTURE);
-const BACK = INDEXES + backMatter(ID);
+// The reference apparatus, in the order a reader reaches for it: what a
+// word means, how to move through the book, the pronunciation strand as
+// a strand, then the three indexes.
+const BACK = GLOSSARY + ROUTE_SECTION + PRONUNCIATION + INDEXES + backMatter(ID);
 
 // ---- The stylesheet --------------------------------------------------
 const CSS = `
@@ -1200,6 +1466,109 @@ table.asx__t td { padding:2.8pt 6pt; border-bottom:.4pt solid #EEF0F4; }
 table.asx__t .mono { font-family:"Consolas","DejaVu Sans Mono",monospace; font-size:7.4pt;
   color:var(--mid); }
 
+/* ---------- Cross-references ---------- */
+/* Apparatus, not content: set in the sans at apparatus size so it reads
+   as a finding aid and never competes with the lesson title above it.
+   The references themselves take the level's mid tone, which is the
+   same colour the contents list and the indexes use for a reference —
+   one meaning, one colour, throughout the book. */
+.xref { font-family:var(--sans); font-size:6.6pt; margin:3pt 0 0; display:flex;
+  flex-wrap:wrap; align-items:baseline; gap:4pt; }
+.xref__l { letter-spacing:.14em; text-transform:uppercase; color:var(--soft); font-weight:700; }
+.xref__r { color:var(--mid); font-weight:700; letter-spacing:.02em; }
+.lesson__h--cer .xref__l { color:rgba(255,255,255,.62); }
+.lesson__h--cer .xref__r { color:#fff; opacity:.9; }
+
+/* ---------- Module opener additions ---------- */
+.mfp { display:flex; flex-wrap:wrap; gap:4pt; margin:6pt 0 0; padding:5pt 0 0;
+  border-top:.4pt solid var(--rule); }
+.mfp__i { color:var(--mid); opacity:.8; line-height:0; }
+.mxr { font-family:var(--sans); font-size:6.6pt; margin:0 0 3pt; display:flex;
+  flex-wrap:wrap; align-items:baseline; gap:4pt; }
+.mxr__l { letter-spacing:.14em; text-transform:uppercase; color:var(--soft); font-weight:700;
+  min-width:9em; }
+.mxr__r { color:var(--mid); font-weight:700; }
+.mxr--back .mxr__r { color:var(--soft); font-weight:400; }
+/* The cross-reference lines and the contents heading are set in the
+   same uppercase sans, so without this the heading read as a third
+   cross-reference row. */
+.mxr + .moduleopen__ch, .mxr ~ .moduleopen__ch { margin-top:9pt; padding-top:6pt;
+  border-top:.4pt solid var(--rule); }
+
+/* The pull quote. Its job is a change of pace on a page that is
+   otherwise a list, so it is set in the serif at display size with the
+   level's rule above it — and it is deliberately NOT centred: a
+   flush-left quote beside a flush-left contents list reads as part of
+   the same composition rather than as an ornament dropped on top. */
+.mq { margin:9pt 0 0; padding:8pt 0 0; border-top:1.2pt solid var(--mid); break-inside:avoid; }
+.mq blockquote { margin:0; font-size:11.4pt; line-height:1.42; font-style:italic;
+  color:var(--ink); max-width:32em; }
+.mq blockquote::before { content:'\\201C'; }
+.mq blockquote::after { content:'\\201D'; }
+.mq figcaption { font-family:var(--sans); font-size:6.2pt; font-weight:700; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--soft); margin:5pt 0 0; }
+
+/* ---------- Glossary, routes, pronunciation ---------- */
+.gloss, .routes, .pron { break-before:page; }
+.gloss h2, .routes h2, .pron h2 { font-size:19pt; margin:0 0 4pt; }
+.gloss h2::after, .routes h2::after, .pron h2::after { content:''; display:block; width:100%;
+  height:.6pt; background:linear-gradient(90deg,var(--gold) 0 22%,var(--rule) 22%);
+  margin:7pt 0 13pt; }
+.gloss__note { font-size:8.2pt; line-height:1.5; color:var(--soft); border-left:2pt solid var(--rule);
+  padding-left:9pt; margin:0 0 12pt; max-width:40em; }
+
+.gl { columns:2; column-gap:14pt; margin:0; }
+.gl__e { break-inside:avoid; margin:0 0 7pt; }
+.gl dt { font-family:var(--sans); font-size:8.2pt; font-weight:700; color:${BRAND.ink}; }
+.gl__x { display:block; font-weight:400; font-size:6.6pt; letter-spacing:.02em;
+  color:var(--soft); text-transform:none; }
+.gl dd { margin:1.5pt 0 0; font-size:8.4pt; line-height:1.42; color:#3A3A3A; }
+.gl__m { display:block; font-family:var(--sans); font-size:6.2pt; letter-spacing:.12em;
+  color:var(--soft); margin-top:1.5pt; }
+
+.rt { break-inside:avoid; margin:0 0 13pt; padding:0 0 10pt; border-bottom:.4pt solid var(--rule); }
+.rt__h { font-family:var(--sans); font-size:9pt; font-weight:700; color:${BRAND.ink};
+  margin:0 0 2pt; display:flex; justify-content:space-between; align-items:baseline; }
+.rt__h span { font-size:6.6pt; font-weight:400; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--soft); }
+.rt__b { font-size:8.4pt; color:var(--soft); margin:0 0 6pt; max-width:40em; }
+.rt__l { display:flex; align-items:baseline; gap:6pt; margin:0 0 2pt;
+  font-family:var(--sans); font-size:7.2pt; }
+.rt__lv { font-family:var(--serif); font-size:10pt; font-weight:700; color:var(--ink);
+  min-width:2.4em; }
+.rt__m { color:var(--mid); letter-spacing:.02em; }
+.rt__m + .rt__m { border-left:.4pt solid var(--rule); padding-left:5pt; }
+.routes h3 { font-size:11pt; margin:16pt 0 5pt; }
+.rt__p { font-size:8.8pt; line-height:1.5; margin:0; max-width:40em; }
+.rt__p b { color:var(--ink); font-family:var(--sans); font-size:7.6pt; }
+.routes p { font-size:9.2pt; line-height:1.55; margin:0 0 6pt; max-width:38em; }
+table.cov { border-collapse:collapse; font-size:8.4pt; margin:6pt 0 10pt; min-width:56%; }
+table.cov th { text-align:left; padding:2.6pt 10pt 2.6pt 0; font-family:var(--sans);
+  font-size:6.2pt; letter-spacing:.12em; text-transform:uppercase; color:var(--soft);
+  border-bottom:.4pt solid var(--rule); }
+table.cov td { padding:3pt 10pt 3pt 0; border-bottom:.4pt solid #EEF0F4; }
+.cov__p { font-family:var(--sans); font-size:8pt; font-weight:700; color:${BRAND.ink}; }
+.rv { break-inside:avoid; margin:0 0 12pt; }
+table.rvt { width:100%; border-collapse:collapse; font-size:8.2pt; }
+table.rvt th { text-align:left; padding:2.6pt 6pt; font-family:var(--sans); font-size:6.2pt;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--soft);
+  border-bottom:.4pt solid var(--rule); }
+table.rvt td { padding:2.8pt 6pt; border-bottom:.4pt solid #EEF0F4; vertical-align:top; }
+table.rvt .mono { font-family:"Consolas","DejaVu Sans Mono",monospace; font-size:7.4pt;
+  color:var(--mid); white-space:nowrap; }
+
+.pron__g { margin:0 0 13pt; }
+table.prt { width:100%; border-collapse:collapse; font-size:8.4pt; }
+table.prt th { text-align:left; padding:2.6pt 6pt; font-family:var(--sans); font-size:6.2pt;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--soft);
+  border-bottom:.4pt solid var(--rule); }
+table.prt td { padding:3pt 6pt; border-bottom:.4pt solid #EEF0F4; vertical-align:top;
+  line-height:1.4; }
+table.prt .mono { font-family:"Consolas","DejaVu Sans Mono",monospace; font-size:7.4pt;
+  color:var(--mid); white-space:nowrap; }
+.prt__t { font-family:var(--sans); font-size:7pt; color:var(--soft); white-space:nowrap;
+  text-align:right; }
+
 /* ---------- Back matter ---------- */
 .clist__after { margin-top:12pt; padding-top:8pt; border-top: .4pt solid var(--rule); }
 .clist__after p:last-child { font-family:var(--sans); font-size:8pt; color:var(--soft); margin:0; }
@@ -1327,12 +1696,45 @@ body { margin:0; -webkit-print-color-adjust:exact; print-color-adjust:exact;
 .spine__crest { position:relative; margin-bottom:1mm; }
 `;
 
+/**
+ * THE LARGE-PRINT VARIANT.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * A SCALE FACTOR, NOT A SECOND DESIGN
+ * ────────────────────────────────────────────────────────────────────
+ * `IEFC_TYPE_SCALE=1.35 npm run curriculum` sets the whole book at 135%
+ * and writes it beside the standard edition. Every type size in this
+ * stylesheet is declared in points, so multiplying them all is the
+ * whole of the transformation: the type scale keeps its proportions,
+ * the leading follows because it is a unitless multiple, and the page
+ * furniture stays in millimetres so the trim does not change.
+ *
+ * WHAT THIS DELIBERATELY DOES NOT SCALE. Rules, borders and hairlines
+ * are also declared in points and are left alone. A 0.4 pt rule at
+ * 135% is a 0.54 pt rule, which is a different design rather than the
+ * same one enlarged — and the reader who needs 13 pt body text does not
+ * need heavier rules. Anything below the 0.25 pt press floor would be
+ * a defect; nothing here is.
+ *
+ * The variant is built on demand rather than committed. It is a second
+ * thirty-megabyte artefact of the same book, and the capability, not
+ * the file, is what the register asked for. It renders from this same
+ * source, so it cannot drift from the edition it enlarges.
+ */
+const TYPE_SCALE = Number(process.env.IEFC_TYPE_SCALE || 1);
+const LARGE = TYPE_SCALE !== 1;
+const scaleType = (css) => (LARGE
+  ? css.replace(/font-size:\s*([\d.]+)pt/g, (_, v) =>
+    `font-size:${Math.round(Number(v) * TYPE_SCALE * 100) / 100}pt`)
+  : css);
+
 const HEAD = `<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
-<title>The International English Fluency Certificate — The Complete Curriculum</title>
+<title>The International English Fluency Certificate — The Complete Curriculum${
+  LARGE ? ' (Large Print)' : ''}</title>
 <meta name="author" content="Worldwide English College">
 <meta name="subject" content="English language curriculum; complete teaching programme">
 <meta name="keywords" content="IEFC, Worldwide English College, CEFR, English curriculum, lesson plans">
-<style>${CSS}</style></head><body>${DUOTONES}`;
+<style>${scaleType(CSS)}</style></head><body>${DUOTONES}`;
 
 const SECTIONS = [FRONT, ...C.levels.map(renderLevel), BACK];
 const document_ = (parts) => `${HEAD}\n${parts.join('\n')}\n</body></html>`;
@@ -1413,7 +1815,8 @@ SECTIONS.forEach((sec, i) => {
 });
 
 const html = document_(parts);
-const htmlPath = path.join(ROOT, 'publication', '.flagship.html');
+const htmlPath = path.join(ROOT, 'publication',
+  LARGE ? '.flagship-large.html' : '.flagship.html');
 writeFileSync(htmlPath, html);
 
 // Navigated rather than injected: setContent() has no base URL, so the
@@ -1425,7 +1828,8 @@ await page.goto(`file://${htmlPath}`, { waitUntil: 'load' });
 await page.evaluate(() => Promise.all(
   [...document.images].filter((i) => !i.complete)
     .map((i) => new Promise((r) => { i.onload = r; i.onerror = r; }))));
-const out = path.join(ROOT, 'publication', 'IEFC Complete Curriculum.pdf');
+const out = path.join(ROOT, 'publication',
+  LARGE ? 'IEFC Complete Curriculum (Large Print).pdf' : 'IEFC Complete Curriculum.pdf');
 await page.pdf({
   path: out, format: 'A4', printBackground: true, preferCSSPageSize: true,
   displayHeaderFooter: true,
@@ -1438,25 +1842,128 @@ await page.pdf({
   tagged: true, outline: true,
 });
 
+/**
+ * ────────────────────────────────────────────────────────────────────
+ * THE FIGURES, RASTERISED FOR THE EDITABLE EDITION
+ * ────────────────────────────────────────────────────────────────────
+ * The DOCX carried every word of the curriculum and none of the seven
+ * figures, so a faculty member editing the programme worked without the
+ * apparatus their readers would see — which is exactly the reader who
+ * most needs to know that Figure 5 shows no competency mapping.
+ *
+ * DOCX cannot hold SVG in a form Word and LibreOffice both render, so
+ * the figures are rasterised here, where a browser is already running,
+ * at three times the printed width: 1,440 px across a 168 mm measure is
+ * about 218 dpi, which is more than a screen needs and enough that an
+ * office printer does not show the pixels.
+ *
+ * They are written as files rather than passed in memory because the
+ * two renderers are separate processes, and separate processes are what
+ * keeps a browser out of the DOCX build.
+ */
+const FIG_DIR = path.join(ROOT, 'publication', 'fig');
+if (!LARGE) mkdirSync(FIG_DIR, { recursive: true });
+const FIGURES = [
+  ['fig-1-ascent', 'Figure 1 · The ascent', ascentChart(C.levels)],
+  ['fig-2-architecture', 'Figure 2 · Sixty modules, one architecture', architectureGrid(C.levels)],
+  ['fig-3-anatomy', 'Figure 3 · The anatomy of a lesson', lessonAnatomy(C)],
+  ['fig-4-skills', 'Figure 4 · The four skills across the ascent', skillsAcrossLevels(C.levels)],
+  ['fig-5-assessment', 'Figure 5 · The assessment map', assessmentMap(C.levels, critByLevel)],
+  ['fig-6-journey', 'Figure 6 · A learner’s path', learnerJourney(C.levels)],
+  ['fig-7-spiral', 'Figure 7 · The spiral, measured', spiralMap(C.levels, XREF.back)],
+];
+if (!LARGE) {
+  const fp = await browser.newPage({ viewport: { width: 1480, height: 900 },
+    deviceScaleFactor: 1 });
+  for (const [slug, , svg] of FIGURES) {
+    await fp.setContent(`<!doctype html><meta charset="utf-8">
+      <style>html,body{margin:0;background:#fff;font-family:${TYPE.sans}}
+        #f{width:1440px;padding:20px;background:#fff}</style>
+      <div id="f">${svg}</div>`, { waitUntil: 'load' });
+    await fp.locator('#f').screenshot({ path: path.join(FIG_DIR, `${slug}.png`) });
+  }
+  // The six level plates, graded. The duotone is an SVG filter, so the
+  // editable edition cannot apply it and embedding the raw photographs
+  // there would have put six ungraded images into a book whose whole
+  // photographic argument is that they read as one series. Rendered
+  // here, through the same filter the print edition uses, they arrive
+  // in the DOCX already belonging to their level.
+  // NAVIGATED, NOT setContent().
+  //
+  // The first version used setContent() with a <base href> pointing at
+  // the publication directory. A page created by setContent() has an
+  // about:blank origin, a <base> does not give it one, and the six
+  // plates rendered as six flat rectangles in the level's ink — with a
+  // broken-image glyph two pixels across in the corner. In the editable
+  // edition they would have read as deliberate colour fields.
+  //
+  // This is the same defect the print renderer already carried a
+  // comment about, made a second time in a second place, which is why
+  // the plates now have a size floor asserted in the test suite: a flat
+  // fill compresses to about 9 KB and a photograph cannot.
+  const pw = 1800;
+  const ph = 850;
+  const pp = await browser.newPage({ viewport: { width: pw, height: ph } });
+  const shim = path.join(ROOT, 'publication', '.plate.html');
+  for (const roman of ROMAN) {
+    const plate = PLATES[roman];
+    if (!plate) continue;
+    const p = paletteFor(roman);
+    writeFileSync(shim, `<!doctype html><meta charset="utf-8">
+      <style>html,body{margin:0}#p{width:${pw}px;height:${ph}px;overflow:hidden;background:${p.ink}}
+        img{width:100%;height:100%;object-fit:cover;display:block}</style>
+      ${DUOTONES}<div id="p"><img src="${plate.file}" style="filter:url(#duo-${roman})"></div>`);
+    await pp.goto(`file://${shim}`, { waitUntil: 'load' });
+    await pp.evaluate(() => Promise.all([...document.images]
+      .filter((i) => !i.complete).map((i) => new Promise((r) => { i.onload = r; i.onerror = r; }))));
+    const ok = await pp.evaluate(() => {
+      const i = document.images[0];
+      return Boolean(i && i.naturalWidth > 0);
+    });
+    if (!ok) throw new Error(`plate ${roman}: ${plate.file} did not load — the grade would have `
+      + 'been written as a flat rectangle');
+    await pp.locator('#p').screenshot({ path: path.join(FIG_DIR, `plate-${roman}.jpg`),
+      type: 'jpeg', quality: 84 });
+  }
+  await pp.close();
+  rmSync(shim, { force: true });
+
+  await fp.close();
+  writeFileSync(path.join(FIG_DIR, 'figures.json'),
+    `${JSON.stringify({
+      figures: FIGURES.map(([slug, caption]) => ({ slug, caption })),
+      plates: ROMAN.filter((r) => PLATES[r]).map((r) => ({ roman: r,
+        file: `plate-${r}.jpg`, subject: PLATES[r].subject })),
+    }, null, 2)}\n`);
+}
+
 // ---- The cover artwork ----------------------------------------------
 // Produced only after the text block exists, because the spine width is
 // a function of the bound page count. Rendering the cover first would
 // mean guessing it, and a guessed spine is a cover that wraps.
+//
+// The large-print variant does not produce a cover. Its extent is
+// different, so its spine is different, and writing it to the same file
+// would leave the standard edition with a cover that does not fit it —
+// a failure that is invisible until a printer wraps five hundred
+// copies.
 const pages = countPages(readFileSync(out));
 const spine = spineWidth(pages);
 const coverHtml = `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <title>IEFC Complete Curriculum — cover artwork</title>
 <style>${COVER_CSS}</style></head><body>${coverSpread(ID, spine, C.levels)}</body></html>`;
-writeFileSync(path.join(ROOT, 'publication', '.cover.html'), coverHtml);
+if (!LARGE) writeFileSync(path.join(ROOT, 'publication', '.cover.html'), coverHtml);
 
-const cpage = await browser.newPage();
-await cpage.setContent(coverHtml, { waitUntil: 'load' });
 const coverOut = path.join(ROOT, 'publication', 'IEFC Cover Artwork.pdf');
-await cpage.pdf({
-  path: coverOut, printBackground: true,
-  width: `${TRIM.w * 2 + spine + BLEED * 2}mm`, height: `${TRIM.h + BLEED * 2}mm`,
-  margin: { top: '0', bottom: '0', left: '0', right: '0' },
-});
+if (!LARGE) {
+  const cpage = await browser.newPage();
+  await cpage.setContent(coverHtml, { waitUntil: 'load' });
+  await cpage.pdf({
+    path: coverOut, printBackground: true,
+    width: `${TRIM.w * 2 + spine + BLEED * 2}mm`, height: `${TRIM.h + BLEED * 2}mm`,
+    margin: { top: '0', bottom: '0', left: '0', right: '0' },
+  });
+}
 await browser.close();
 
 /**
@@ -1472,12 +1979,17 @@ function countPages(buf) {
   return (s.match(/\/Type\s*\/Page(?![s])/g) || []).length;
 }
 
-console.log(`FLAGSHIP  ${out}`);
+console.log(`${LARGE ? 'LARGE PR' : 'FLAGSHIP'}  ${out}`);
 console.log(`  ${C.totals.lessons} items · ${C.totals.modules} modules · ${C.totals.questions} questions · `
   + `${C.totals.bodyWords.toLocaleString('en-GB')} words of lesson content`);
 console.log(`  ${pages} pages · Document ID ${ID.documentId} · issue ${ID.issueCode}`);
 console.log(`  imposition: ${inserted} recto leaf/leaves inserted`);
 for (const line of impositionLog) console.log(`    ${line}`);
-console.log(`COVER     ${coverOut}`);
-console.log(`  spread ${TRIM.w * 2 + spine + BLEED * 2} × ${TRIM.h + BLEED * 2} mm · `
-  + `spine ${spine} mm at ${pages} pages · ${BLEED} mm bleed`);
+if (LARGE) {
+  console.log(`  set at ${Math.round(TYPE_SCALE * 100)}% of the standard type size; `
+    + 'no cover is produced for this variant');
+} else {
+  console.log(`COVER     ${coverOut}`);
+  console.log(`  spread ${TRIM.w * 2 + spine + BLEED * 2} × ${TRIM.h + BLEED * 2} mm · `
+    + `spine ${spine} mm at ${pages} pages · ${BLEED} mm bleed`);
+}

@@ -9,3 +9,10 @@ node_modules/
 # and too large for version control. Re-download via the licence if a
 # future edition places them larger.
 publication/img/source/
+
+# The large-print variant, built on demand with `npm run curriculum:large`.
+# It is the same book set at 135% and is a second artefact of the same
+# size as the standard edition; the capability is in the source, so the
+# file does not need to be in the history.
+publication/IEFC Complete Curriculum (Large Print).pdf
+publication/.flagship-large.html

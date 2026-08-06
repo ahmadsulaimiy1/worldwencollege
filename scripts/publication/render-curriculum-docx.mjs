@@ -1,23 +1,35 @@
 /**
  * The editable companion to the flagship edition.
  *
- * Same curriculum, every lesson in full. DOCX cannot carry the print
- * edition's per-level colour identity, chapter openers or drop caps —
- * that limitation is real and is why the PDF is the flagship — but it
- * carries every word, properly styled and navigable, so a faculty can
- * edit the curriculum rather than only read it.
+ * Same curriculum, every lesson in full, and — since this pass — the
+ * same apparatus: the seven measured figures, the six graded level
+ * plates, the per-level colour identity, the cross-references, the
+ * glossary, the routes and the pronunciation strand.
+ *
+ * That list used to be the list of what this edition LACKED. It
+ * mattered more than it sounds: the faculty editing the curriculum were
+ * the only readers who could not see Figure 5, the figure showing that
+ * none of the 120 assessments is mapped to a competency. The people
+ * best placed to act on a finding were the ones it was withheld from.
+ *
+ * What DOCX still cannot carry is the print edition's drawn ornament,
+ * its guilloché and girih, its drop caps and its chapter openers. That
+ * limitation is real, it is why the PDF is the flagship, and it is a
+ * question of typographic set rather than of information.
  */
 import { buildCurriculum } from './curriculum.mjs';
 import { paletteFor, STAGE_MARK, EMPHASIS_STAGES, BRAND } from './design.mjs';
 import { publicationIdentity, AUTHENTICITY_NOTICE } from './identity.mjs';
 import { parseRubric } from './curriculum.mjs';
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { crossReferences, glossary, routes as buildRoutes, revisionByModule, grammarStages,
+  pronunciationStrand, pullQuotes } from './apparatus.mjs';
+import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, PageBreak,
   Table, TableRow, TableCell, WidthType, ShadingType, BorderStyle, TableOfContents,
-  Header, Footer, PageNumber, convertInchesToTwip,
+  Header, Footer, PageNumber, ImageRun, convertInchesToTwip,
 } from 'docx';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -27,6 +39,17 @@ const SERIF = 'Cambria';
 const SANS = 'Calibri';
 const hex = (h) => h.replace('#', '').toUpperCase();
 const KIND_LABEL = { reading: 'Lesson', quiz: 'Assessed Quiz', assignment: 'Assessed Assignment' };
+
+// The same apparatus the print edition carries, computed from the same
+// extractors. Two editions disagreeing about what the curriculum says
+// would be worse than one edition lacking a feature.
+const XREF = crossReferences(C);
+const QUOTES = pullQuotes(C);
+const GLOSS = glossary(C);
+const ROUTES = buildRoutes(C);
+const REVISION = revisionByModule(C);
+const GRAMMAR = grammarStages(C);
+const PRON = pronunciationStrand(C);
 
 const P = (text, o = {}) => new Paragraph({
   alignment: o.align,
@@ -215,14 +238,75 @@ children.push(P('A publication of this kind conventionally opens with a Foreword
   + 'constituted. Writing those pages would mean composing the words of officers who do not exist, '
   + 'so they are absent.'));
 children.push(P('The print edition carries the same content with a full editorial design — the cover '
-  + 'system, per-level colour identity, drawn ornament and typographic apparatus that DOCX cannot '
-  + 'reproduce. This edition exists so the curriculum can be edited, not only read.'));
+  + 'system, drawn ornament and typographic apparatus that DOCX cannot reproduce. This edition '
+  + 'exists so the curriculum can be edited, not only read; it carries the same seven figures, the '
+  + 'same cross-references, the same glossary, routes and pronunciation strand, and the same '
+  + 'per-level colour identity, so an editor working here sees what a reader of the print edition '
+  + 'will see.'));
+
+// ---- The figures -----------------------------------------------------
+/**
+ * The seven measured figures, rasterised by the print renderer.
+ *
+ * Absent from every previous editable edition, which meant faculty
+ * editing the curriculum could not see Figure 5 — the one showing that
+ * none of the 120 assessments is mapped to a competency. The people
+ * best placed to act on a finding were the only readers not shown it.
+ *
+ * If the PNGs are missing the section is skipped rather than faked with
+ * a caption promising a figure that is not there.
+ */
+{
+  const figDir = path.join(ROOT, 'publication', 'fig');
+  const manifest = path.join(figDir, 'figures.json');
+  if (existsSync(manifest)) {
+    const { figures: figs } = JSON.parse(readFileSync(manifest, 'utf8'));
+    children.push(H1('The Shape of the Programme'));
+    children.push(P('Seven figures, each measured from the curriculum in this volume rather than '
+      + 'drawn to illustrate it. If the programme changes, they change.', { size: 21 }));
+    for (const f of figs) {
+      const file = path.join(figDir, `${f.slug}.png`);
+      if (!existsSync(file)) continue;
+      const buf = readFileSync(file);
+      // Read from the PNG header rather than assumed: an aspect ratio
+      // guessed here would silently distort every figure.
+      const pw = buf.readUInt32BE(16);
+      const ph = buf.readUInt32BE(20);
+      const w = 620;
+      children.push(P(f.caption, { font: SANS, size: 14, bold: true, caps: true, tracking: 60,
+        color: hex(BRAND.ink), before: 200, after: 60 }));
+      children.push(new Paragraph({ spacing: { after: 200 },
+        children: [new ImageRun({ data: buf, type: 'png',
+          transformation: { width: w, height: Math.round((ph / pw) * w) } })] }));
+    }
+  }
+}
+
+// The six level plates, graded into their level's duotone by the print
+// renderer. Read once so a missing manifest degrades to no plates
+// rather than to a crash.
+const PLATES = (() => {
+  const m = path.join(ROOT, 'publication', 'fig', 'figures.json');
+  if (!existsSync(m)) return new Map();
+  const { plates = [] } = JSON.parse(readFileSync(m, 'utf8'));
+  return new Map(plates.map((p) => [p.roman, p]));
+})();
 
 // The curriculum
 for (const lv of C.levels) {
   const pal = paletteFor(lv.roman);
+  const plate = PLATES.get(lv.roman);
+  if (plate) {
+    const file = path.join(ROOT, 'publication', 'fig', plate.file);
+    if (existsSync(file)) {
+      children.push(new Paragraph({ pageBreakBefore: true, spacing: { after: 120 },
+        children: [new ImageRun({ data: readFileSync(file), type: 'jpg',
+          transformation: { width: 620, height: 293 },
+          altText: { title: `Level ${lv.roman}`, description: plate.subject, name: plate.file } })] }));
+    }
+  }
   children.push(new Paragraph({
-    heading: HeadingLevel.HEADING_1, pageBreakBefore: true, spacing: { after: 60 },
+    heading: HeadingLevel.HEADING_1, pageBreakBefore: !plate, spacing: { after: 60 },
     children: [new TextRun({ text: `Level ${lv.roman} — ${lv.name}`, font: SERIF, size: 34,
       bold: true, color: hex(pal.ink) })],
   }));
@@ -239,7 +323,32 @@ for (const lv of C.levels) {
         size: 26, bold: true, color: hex(pal.ink) })],
     }));
     children.push(P(`Level ${lv.roman} · ${mod.lessons.length} items`,
-      { font: SANS, size: 15, color: '6B7280', after: 160 }));
+      { font: SANS, size: 15, color: '6B7280', after: 60 }));
+
+    // The module's cross-references, in both directions, and its own
+    // discussion prompt as a pull quote — the same apparatus the print
+    // module openers carry.
+    const own = `${lv.roman}.${mod.sequence}`;
+    const buildsOn = [...new Set(mod.lessons.flatMap((l) =>
+      (XREF.forward.get(`${own}.${l.sequence}`) || []).map((r) => `${r.level}.${r.module}`))
+      .filter((k) => k !== own))];
+    const returned = XREF.back.get(own) || [];
+    for (const [label, refs] of [['Builds on', buildsOn], ['Returned to in', returned]]) {
+      if (!refs.length) continue;
+      children.push(P([
+        { t: `${label}  `, font: SANS, size: 13, bold: true, caps: true, tracking: 60, color: '6B7280' },
+        { t: refs.join('   '), font: SANS, size: 14, bold: true, color: hex(pal.mid) },
+      ], { after: 30 }));
+    }
+    const mq = QUOTES.get(own);
+    if (mq) {
+      children.push(P(`“${mq.quote}”`, { size: 21, italic: true, color: hex(pal.ink),
+        fill: hex(pal.wash), leftBar: hex(pal.mid), before: 100, after: 20 }));
+      children.push(P(`Discussion prompt · ${mq.ref}`, { font: SANS, size: 13, caps: true,
+        tracking: 60, color: '6B7280', after: 160 }));
+    } else {
+      children.push(P('', { after: 100 }));
+    }
 
     for (const les of mod.lessons) {
       children.push(P(`${KIND_LABEL[les.kind] || 'Lesson'} ${lv.roman}.${mod.sequence}.${les.sequence}`,
@@ -248,9 +357,130 @@ for (const lv of C.levels) {
         heading: HeadingLevel.HEADING_3, spacing: { after: 90 },
         children: [new TextRun({ text: les.title, font: SERIF, size: 22, bold: true, color: hex(pal.ink) })],
       }));
+      const xr = XREF.forward.get(`${own}.${les.sequence}`) || [];
+      if (xr.length) {
+        children.push(P([
+          { t: 'Builds on  ', font: SANS, size: 13, bold: true, caps: true, tracking: 60, color: '6B7280' },
+          { t: xr.map((r) => r.ref).join('   '), font: SANS, size: 14, bold: true, color: hex(pal.mid) },
+        ], { after: 70 }));
+      }
       for (const s of les.stages) children.push(...stageParas(s, pal));
       if (les.kind === 'quiz') children.push(...quizParas(les, pal));
     }
+  }
+}
+
+// ---- Reference apparatus ---------------------------------------------
+children.push(H1('Glossary of Programme Terminology'));
+children.push(P(`${GLOSS.length} terms of art the curriculum uses, defined as the field defines `
+  + 'them. Each entry names the lesson that first uses the term and how many times the programme '
+  + 'uses it in total.', { size: 21 }));
+children.push(P('These are definitions, not claims. Each states what a term means in language '
+  + 'teaching and applied linguistics; none describes a standard, a procedure or a validation the '
+  + 'College has established.', { size: 17, italic: true, color: '6B7280',
+  leftBar: hex(BRAND.rule), after: 160 }));
+for (const e of GLOSS) {
+  children.push(P([
+    { t: e.term, font: SANS, size: 18, bold: true, color: hex(BRAND.ink) },
+    ...(e.expansion ? [{ t: `  ${e.expansion}`, font: SANS, size: 14, color: '6B7280' }] : []),
+  ], { before: 90, after: 20 }));
+  children.push(P([
+    { t: e.definition },
+    { t: `   ${e.first} · ${e.count} use${e.count === 1 ? '' : 's'}`, font: SANS, size: 13, color: '8A90A0' },
+  ], { size: 18, after: 40 }));
+}
+
+children.push(H1('Routes Through the Programme'));
+children.push(P('Ways to move through this curriculum other than front to back — for a learner '
+  + 'revising before an assessment, or a teacher assembling a short course from what is already '
+  + 'written.', { size: 21 }));
+children.push(P('The strands that are not routes', { font: SANS, size: 17, bold: true,
+  color: hex(BRAND.ink), before: 180, after: 60 }));
+children.push(P('Five strand routes were built for this section and four were withdrawn, because '
+  + 'when they were set they were identical to one another and to the contents list. Of the '
+  + `${ROUTES.pool} teaching lessons in the programme, these carry the named stage in question:`,
+{ size: 18, after: 60 }));
+for (const r of ROUTES.universal) {
+  children.push(P([
+    { t: `${r.name.replace(/^The | route$/g, '')}  `, font: SANS, size: 15, color: '4B5768' },
+    { t: `${r.total} of ${r.pool}  (${Math.round(r.coverage * 100)}%)`, font: SANS, size: 15,
+      bold: true, color: hex(BRAND.ink) },
+  ], { after: 20, indent: { left: 200 } }));
+}
+children.push(P('A filter that selects everything is not a route, and four pages of references '
+  + 'saying so would have been apparatus concealing a finding rather than carrying one. Figure 3 '
+  + 'sets out the same measurement across every named stage in the book.',
+{ size: 18, before: 80, after: 60 }));
+children.push(P(`There is also no grammar route. Across all ${C.totals.lessons} authored items the `
+  + `curriculum names a grammar stage ${GRAMMAR.length === 1 ? 'exactly once' : `${GRAMMAR.length} times`} — `
+  + `${GRAMMAR.map((g) => `${g.ref}, ${g.head.toLowerCase()}`).join('; ')} — which is a revision `
+  + 'summary of what has already been taught rather than a strand running through the book. '
+  + 'Assembling one from the rest would mean deciding which of the language points each lesson '
+  + 'teaches counts as grammar: a subject-matter judgement for the Board of Academic Standards and '
+  + 'Curriculum Excellence, not an editorial one.', { size: 18, after: 120 }));
+
+for (const r of ROUTES.printed) {
+  children.push(P([
+    { t: r.name, font: SANS, size: 19, bold: true, color: hex(BRAND.ink) },
+    { t: `   ${r.total} of ${r.pool} items`, font: SANS, size: 14, color: '6B7280' },
+  ], { before: 180, after: 20 }));
+  children.push(P(r.blurb, { size: 17, color: '4B5768', after: 60 }));
+  if (r.perModule) {
+    children.push(P(`It is taught in the opening item of ${r.modules} of the ${C.totals.modules} `
+      + `modules${r.missingModules.length
+        ? `. The ${r.missingModules.length} without it are `
+          + `${r.missingModules.map((m) => m.ref).join(', ')} — the review and consolidation `
+          + 'module at the end of those levels'
+        : ''}. Because every one of those items is the module opener, the route is the module `
+      + 'list, and it is stated here rather than tabulated.', { size: 18, after: 60 }));
+  } else {
+    for (const { lv, mods } of r.levels) {
+      const pal = paletteFor(lv.roman);
+      children.push(P([
+        { t: `${lv.roman}   `, font: SERIF, size: 18, bold: true, color: hex(pal.ink) },
+        { t: mods.map((m) => m.refs.join(' ')).join('  ·  '), font: SANS, size: 15,
+          color: hex(pal.mid) },
+      ], { after: 20, indent: { left: 200, hanging: 200 } }));
+    }
+  }
+}
+
+children.push(P('The revision route', { font: SANS, size: 17, bold: true, color: hex(BRAND.ink),
+  before: 200, after: 60 }));
+children.push(P('Before each assessed quiz, what the module’s own lessons send the class back to — '
+  + 'the union of what that module’s revision and prerequisite stages already name, outside the '
+  + 'module itself.', { size: 18, after: 80 }));
+for (const { lv, rows } of REVISION) {
+  const pal = paletteFor(lv.roman);
+  children.push(P(`Level ${lv.roman} · ${lv.name} · CEFR ${lv.cefr}`, { font: SANS, size: 15,
+    bold: true, caps: true, tracking: 60, color: hex(pal.ink), before: 160, after: 50 }));
+  for (const r of rows) {
+    children.push(P([
+      { t: `${r.module}  `, font: SANS, size: 15, bold: true, color: hex(pal.mid) },
+      { t: `${r.title}  ` },
+      { t: `return to ${r.targets.length ? r.targets.join(' · ') : '—'}`,
+        font: SANS, size: 14, color: '6B7280' },
+      { t: `   before ${[r.quizRef, r.asgRef].filter(Boolean).join(' · ')}`,
+        font: SANS, size: 14, color: '8A90A0' },
+    ], { size: 18, after: 25, indent: { left: 300, hanging: 300 } }));
+  }
+}
+
+children.push(H1('The Pronunciation Strand'));
+children.push(P(`Pronunciation practice is a named stage in ${
+  PRON.reduce((a, g) => a + g.rows.length, 0)} lessons of this programme. Collected here, it can be `
+  + 'read as the strand it is: what is drilled, in what order, and where. Every focus below is the '
+  + 'curriculum’s own sentence, printed whole.', { size: 21, after: 160 }));
+for (const { lv, rows } of PRON) {
+  const pal = paletteFor(lv.roman);
+  children.push(P(`Level ${lv.roman} · ${lv.name} · CEFR ${lv.cefr}`, { font: SANS, size: 15,
+    bold: true, caps: true, tracking: 60, color: hex(pal.ink), before: 200, after: 60 }));
+  for (const r of rows) {
+    children.push(P([
+      { t: `${r.ref}  `, font: 'Consolas', size: 14, bold: true, color: hex(pal.mid) },
+      { t: r.focus },
+      ...(r.timing ? [{ t: `  (${r.timing})`, font: SANS, size: 13, color: '8A90A0' }] : []),
+    ], { size: 18, after: 30, indent: { left: 460, hanging: 460 } }));
   }
 }
 
