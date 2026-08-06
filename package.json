@@ -19,7 +19,8 @@
   "devDependencies": {
     "jsqr": "^1.4.0",
     "playwright": "^1.62.1",
-    "wrangler": "^3"
+    "wrangler": "^3",
+    "pdfjs-dist": "^4.6.82"
   },
   "engines": {
     "node": ">=22"

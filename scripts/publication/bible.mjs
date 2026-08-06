@@ -61,6 +61,27 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'The printed page, rasterised and measured', built: 'The book is now rendered back to '
+    + 'pixels page by page and each page asked how far down its ink reaches. Pagination happens '
+    + 'inside the print pipeline, after every CSS decision, so this is the only place the question '
+    + '"is this page finished?" can be answered. The first run found 172 of 522 pages filling '
+    + 'under 60% of the text block and 106 under 40%.' },
+  { item: 'The forced page breaks, removed', built: 'A ceremonial page break stood before each of '
+    + 'the 120 assessed items and each of the 60 module openers. The idea was sound and its price '
+    + 'was a hole on the page before it, every time — one fifth of the book. The dark assessment '
+    + 'header is a strong enough event without a page turn, and mid-page it arguably interrupts '
+    + 'more decisively. 522 pages to 441 with not one word removed; pages under 40% full from 106 '
+    + 'to 15, and most of those fifteen are designed full-page leaves the metric reads as empty.' },
+  { item: 'Every level opens with its own contents', built: 'The level introduction carried the '
+    + 'graduate profile and the purpose and filled 17% of its page — six times, each of them the '
+    + 'page facing a level’s first module. It now carries the ten modules of that level with '
+    + 'their teaching counts and designed minutes, and closes on the award they confer. The global '
+    + 'contents lists them eighty pages earlier; this is where a learner starting the level '
+    + 'actually looks.' },
+  { item: 'Long stage parentheticals set as notes', built: 'Ninety of the thousand stage '
+    + 'parentheticals are not durations but sentences, up to 142 characters. Set as a timing badge '
+    + 'they wrapped into a two-line italic block jammed against a two-line heading. Anything longer '
+    + 'than a short phrase is now a note on its own line at the full measure.' },
   { item: 'Figure text measured, not assumed', built: 'Every label in every figure is now measured '
     + 'as a rendered box against its own frame and against its neighbours. SVG has no layout '
     + 'engine: a label that runs past the edge is clipped in silence and one drawn at the same '

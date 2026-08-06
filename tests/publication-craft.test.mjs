@@ -23,7 +23,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { ROOT, loadUrl } from './helpers.mjs';
 
-const { audit, vocabulary, overflowing, MEASURE_MM } =
+const { audit, vocabulary, overflowing, pageFill, MEASURE_MM } =
   await import(loadUrl('scripts/publication/audit.mjs'));
 
 let pass = 0, fail = 0;
@@ -244,6 +244,45 @@ check(`Audited ${f.counts.textEls} text elements at the true measure of ${MEASUR
     badRef.map(([r]) => r).join(', '));
   const dupRef = PHOTO_CREDITS.length - new Set(PHOTO_CREDITS.map(([, , r]) => r)).size;
   check('...and no reference is reused for two images', dupRef === 0, `${dupRef} duplicated`);
+
+  // HOW MUCH OF EACH PAGE IS ACTUALLY USED.
+  //
+  // THE ASSERTION THAT MEASURED THE BOOK'S WORST HABIT.
+  //
+  // Every other check in this file reads the HTML, which is the right
+  // place for type size and contrast and the wrong place for the
+  // question a book designer asks first: is this page finished?
+  // Pagination happens inside Chromium's print pipeline, after every
+  // CSS decision, and nothing in the DOM knows where a page ends. So
+  // the printed PDF is rendered back to pixels and each page is asked
+  // how far down its ink reaches.
+  //
+  // The first run: 172 of 522 pages filled under 60% of the text block
+  // and 106 filled under 40% — one fifth of the book. The cause was a
+  // forced page break before each of the 120 assessed items and each of
+  // the 60 module openers. A ceremonial break is a good idea and its
+  // price is a hole on the page before it, every time, and nobody had
+  // ever counted the holes. Removing the forced breaks — the dark
+  // assessment header is a strong enough event without one — took the
+  // book from 522 pages to 441 with not one word removed.
+  //
+  // The floor is set where the remainder is genuine: designed
+  // full-page leaves in the front matter that this metric reads as
+  // empty because their composition is vertically centred, plus a
+  // handful of real tails. It is deliberately not zero — a book with no
+  // short pages at all has been squeezed.
+  const fills = await pageFill(PDF);
+  if (!fills) {
+    check('Page fill is measurable (pdfjs-dist installed)', false, 'run: npm install');
+  } else {
+    const short = fills.filter((p) => p.fill < 40);
+    check(`Measured the used height of all ${fills.length} printed pages`,
+      fills.length > 300, fills.length);
+    const median = [...fills].sort((a, b) => a.fill - b.fill)[Math.floor(fills.length / 2)].fill;
+    check('The median page is substantially full', median >= 90, `${median}%`);
+    check('Few pages are left mostly empty', short.length <= 20,
+      `${short.length} under 40%: ${short.slice(0, 8).map((p) => `p${p.page}:${p.fill}%`).join(' ')}`);
+  }
 
   // Mirrored margins mean a gutter allowance exists at all. Creep
   // compensation is a bindery calculation and is documented rather than

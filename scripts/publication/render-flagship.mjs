@@ -81,10 +81,27 @@ function renderParts(parts) {
   return out.join('');
 }
 
+// A stage's parenthetical is usually a duration — "(5 min)" — and is set
+// as a badge beside the heading. Ninety of the thousand are not: they
+// are sentences, up to 142 characters, and setting those as a badge
+// wrapped them into a two-line italic block jammed against a two-line
+// heading. Anything longer than a short phrase is a note and is set as
+// one, on its own line at the full measure.
+const DURATION = /^\d+\s*(?:-\s*\d+\s*)?(?:min|minutes|hrs?|hours?)\b/i;
+const isBadge = (t) => DURATION.test(t.trim()) || t.trim().length <= 26;
+
 function renderStage(s) {
   if (!s.head) return `<div class="stage stage--intro">${renderParts(s.parts)}</div>`;
   const mark = (s.icon && stageIcon(s.icon, { size: 13 })) || GENERIC_ICON;
   const emph = s.icon && EMPHASIS_STAGES.has(s.icon) ? ' stage--emph' : '';
+  // A stage is held whole so a two-line practice note never straddles
+  // the fold. A grading rubric is a stage too, and a five-criterion
+  // rubric is a third of a page: held whole it jumped to the next leaf
+  // and left the assignment brief sitting above a quarter-page of
+  // nothing, sixty times. It is the one stage allowed to split — its
+  // table repeats its heading and keeps its rows whole, so a marker
+  // reading across the fold loses nothing.
+  const splits = s.icon === 'rubric' ? ' stage--splits' : '';
 
   // A grading rubric is an instrument, not a paragraph. Where it parses
   // into named criteria it is set as a table; where it does not, the
@@ -97,9 +114,11 @@ function renderStage(s) {
     body = `<div class="stage__b">${renderParts(s.parts)}</div>`;
   }
 
-  return `<section class="stage${emph}">
+  const badge = s.timing && isBadge(s.timing);
+  return `<section class="stage${emph}${splits}">
     <h5 class="stage__h"><span class="stage__mk">${mark}</span>${typo(s.head)}${
-  s.timing ? `<span class="stage__t">${typo(s.timing)}</span>` : ''}</h5>
+  badge ? `<span class="stage__t">${typo(s.timing)}</span>` : ''}</h5>
+    ${s.timing && !badge ? `<p class="stage__note">${typo(s.timing)}</p>` : ''}
     ${body}
   </section>`;
 }
@@ -515,6 +534,31 @@ function renderLevel(lv) {
       <p class="label">Why this word</p>
       <p>${typo(lv.purpose || '')}</p>
     </div>
+    <!-- THE LEVEL'S OWN CONTENTS.
+         This page carried the graduate profile and the purpose and
+         nothing else, so it filled about a third of its height and then
+         stopped — six times, each of them the page facing the first
+         module opener of a level. The measurement said 17%.
+
+         What belongs in that space is not decoration but the thing the
+         reader has just been promised and cannot see: the ten modules
+         of the level they have opened. The global contents lists them
+         eighty pages earlier; here they are where a learner starting
+         the level actually looks. Everything on it is read from the
+         curriculum. -->
+    <p class="label lvintro__ch">The ten modules of this level</p>
+    <ol class="lvcon">${lv.modules.map((m) => {
+    const teach = m.lessons.filter((x) => x.kind === 'reading').length;
+    const mins = m.lessons.map(designedMinutes).filter(Boolean).reduce((a, b) => a + b, 0);
+    return `<li>
+      <span class="lvcon__n">${m.sequence}</span>
+      <span class="lvcon__t">${typo(shortModuleTitle(m))}</span>
+      <span class="lvcon__m">${teach} teaching · quiz · assignment${mins ? ` · ${mins} min` : ''}</span>
+    </li>`;
+  }).join('')}</ol>
+    <p class="lvintro__close">Every module closes with an assessed quiz and an assessed assignment
+      carrying a full grading rubric. Completing all ten confers
+      <b>${typo(lv.awardTitle || '')}</b>${lv.postNominal ? ` (${esc(lv.postNominal)})` : ''}.</p>
   </section>
   ${modules}
   </div>`;
@@ -1223,9 +1267,21 @@ table.claims td { padding:5pt 7pt; border-bottom: .4pt solid #E4E8EF; }
 .lvintro__why { margin-top:12pt; border-left: 2pt solid var(--mid); background:var(--wash);
   padding:9pt 12pt; break-inside:avoid; }
 .lvintro__why p:last-child { margin:0; font-size:9.4pt; }
+.lvintro__ch { margin:16pt 0 5pt; }
+.lvcon { list-style:none; margin:0 0 12pt; padding:0; }
+.lvcon li { display:flex; align-items:baseline; gap:9pt; padding:4pt 0;
+  border-bottom:.4pt solid var(--rule); break-inside:avoid; }
+.lvcon__n { font-family:var(--serif); font-size:13pt; font-weight:700; color:var(--mid);
+  min-width:1.6em; text-align:right; }
+.lvcon__t { flex:1; font-size:10.4pt; color:var(--ink); }
+.lvcon__m { font-family:var(--sans); font-size:6.8pt; letter-spacing:.02em; color:var(--soft);
+  white-space:nowrap; }
+.lvintro__close { font-size:9.2pt; color:var(--soft); border-top:1.2pt solid var(--mid);
+  padding-top:7pt; margin:0; }
+.lvintro__close b { color:var(--ink); font-style:italic; font-weight:400; }
 
 /* ---------- Module ---------- */
-.module { break-before:page; }
+.module { break-before:auto; }
 .module__h { display:flex; gap:12pt; align-items:flex-start; border-bottom: 1.2pt solid var(--mid);
   padding-bottom:8pt; margin-bottom:12pt; break-after:avoid; }
 .module__n { background:var(--ink); color:#fff; padding:6pt 9pt 7pt; text-align:center; min-width:15mm; }
@@ -1252,7 +1308,8 @@ table.claims td { padding:5pt 7pt; border-bottom: .4pt solid #E4E8EF; }
 
 /* An assessed item is an occasion. The ceremonial header says so before
    a word is read: the level's ink as a ground, the rule doubled. */
-.lesson--assessed { break-before:page; }
+.lesson--assessed { break-before:auto; }
+.lesson--assessed > .lesson__h--cer { break-after:avoid; }
 .lesson__h--cer { background:var(--ink); color:#fff; padding:8pt 10pt 8pt;
   border-bottom: 2.6pt solid var(--mid); margin:0 0 10pt; }
 .lesson__h--cer .lesson__k { color:#fff; opacity:.9; }
@@ -1263,11 +1320,15 @@ table.claims td { padding:5pt 7pt; border-bottom: .4pt solid #E4E8EF; }
 .lesson__h--cer .tape__i { color:#fff; opacity:.72; }
 
 .stage { margin:0 0 7pt; break-inside:avoid; }
+.stage--splits { break-inside:auto; }
 .stage--intro { font-size:9.6pt; }
 .stage__h { font-family:Calibri,"Nimbus Sans",Arial,sans-serif; font-size:7.4pt; font-weight:700;
   letter-spacing:.12em; text-transform:uppercase; color:var(--ink); margin:0 0 2.5pt;
   display:flex; align-items:baseline; gap:5pt; }
 .stage__mk { color:var(--mid); font-size:8.5pt; min-width:1em; }
+.stage__note { font-family:var(--sans); font-size:7.4pt; font-style:italic; line-height:1.4;
+  color:var(--soft); margin:1.5pt 0 3pt; max-width:40em; }
+.stage--emph .stage__note { color:#5C6472; }
 .stage__t { font-weight:400; letter-spacing:.06em; text-transform:none; color:var(--soft);
   font-size:7pt; font-style:italic; }
 .stage__b p { margin:0 0 4pt; }
@@ -1358,7 +1419,7 @@ ol.q__c li.is-key::before { color:var(--mid); }
 /* ---------- Module opener ---------- */
 /* Sixty of these give the book its rhythm: the reader is never more than
    a few pages from an event. */
-.moduleopen { break-before:page; break-inside:avoid; break-after:avoid;
+.moduleopen { break-before:auto; break-inside:avoid; break-after:avoid;
   background:var(--wash); padding:11mm 12mm 10mm; margin:0 0 9pt;
   border-top: 2.6pt solid var(--ink); position:relative; }
 .moduleopen__orn { position:absolute; left:12mm; right:12mm; bottom:5mm; opacity:.75; }
@@ -1401,7 +1462,11 @@ ol.q__c li.is-key::before { color:var(--mid); }
 /* ---------- Rubric table ---------- */
 /* A rubric is the instrument a teacher marks with. Set as prose it
    cannot be read down or compared across criteria. */
-table.rubric { width:100%; border-collapse:collapse; margin:4pt 0 5pt; break-inside:avoid; }
+/* The rubric may now split across a page. Held whole it repeatedly
+   pushed a five-criterion table to the next leaf and stranded a quarter
+   of a page behind it; with thead repeating and rows kept whole, a
+   split rubric loses nothing a marker needs. */
+table.rubric { width:100%; border-collapse:collapse; margin:4pt 0 5pt; }
 table.rubric th { background:var(--ink); color:#fff; text-align:left; padding:3.4pt 6pt;
   font-family:var(--sans); font-size:6.2pt; letter-spacing:.12em; text-transform:uppercase;
   font-weight:700; }
@@ -1410,7 +1475,17 @@ table.rubric td { padding:3.8pt 6pt; border-bottom: .4pt solid rgba(0,0,0,.09);
 .rb__n { width:12pt; font-family:var(--sans); font-size:7pt; font-weight:700; color:var(--mid);
   text-align:center; }
 .rb__c { width:27%; font-weight:700; color:var(--ink); }
-.rubric__note { font-size:8pt; font-style:italic; color:var(--soft); margin:3pt 0 0; }
+/* The pass-threshold sentence belongs to the rubric above it. Once the
+   rubric stage was allowed to split, this two-line tail could tip onto
+   the next leaf and sit there alone above 95% white — which is what it
+   did at the end of Level II and at the Mastery Examination. */
+.rubric__note { font-size:8pt; font-style:italic; color:var(--soft); margin:3pt 0 0;
+  break-before:avoid; }
+/* A companion rule was tried on the closing stage of an assessed item
+   and is not here: break-before:avoid moved two orphaned tails and
+   created a third, at a cost of three pages. Chromium honours it only
+   when the preceding block can be pulled forward, so as a general rule
+   it trades one widow for another. Measured, reverted, recorded. */
 
 /* ---------- Figures ---------- */
 .arch { break-before:page; }

@@ -459,3 +459,100 @@ export async function figureText(figures) {
   await browser.close();
   return out;
 }
+
+/**
+ * THE PAGE-FILL AUDIT.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * WHY THIS NEEDED A PDF RASTERISER
+ * ────────────────────────────────────────────────────────────────────
+ * Everything else in this file measures the HTML. That is the right
+ * place for type sizes, contrast and overflow, and it is the wrong
+ * place for the question a book designer actually asks: how much of
+ * this page is used? Pagination happens inside Chromium's print
+ * pipeline, after every CSS decision, and nothing in the DOM knows
+ * where a page ends.
+ *
+ * So the printed PDF is rendered back to pixels, page by page, and each
+ * page is asked one question: how far down does the ink reach?
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * WHAT IT FOUND
+ * ────────────────────────────────────────────────────────────────────
+ * 172 of 522 pages filled less than 60% of their text block, and 106
+ * filled less than 40%. The cause was a forced page break before each
+ * of the 120 assessed items and each of the 60 module openers: a
+ * ceremonial break is a fine idea, and its cost is a hole on the page
+ * before it, every single time. One fifth of the book was white space
+ * nobody had chosen.
+ *
+ * "Breathing space" and "an unfinished page" are the same declaration
+ * in a stylesheet and opposite experiences on paper. This is how they
+ * are told apart.
+ *
+ * The running head and folio are excluded: they are furniture, and a
+ * page with nothing but a folio should read as empty, because it is.
+ */
+export async function pageFill(pdfPath, { scale = 0.35 } = {}) {
+  const { createServer } = await import('node:http');
+  const pdfjsDir = path.join(ROOT, 'node_modules', 'pdfjs-dist', 'build');
+  if (!existsSync(path.join(pdfjsDir, 'pdf.mjs'))) return null;
+
+  const files = {
+    '/pdf.mjs': ['text/javascript', readFileSync(path.join(pdfjsDir, 'pdf.mjs'))],
+    '/pdf.worker.mjs': ['text/javascript', readFileSync(path.join(pdfjsDir, 'pdf.worker.mjs'))],
+    '/doc.pdf': ['application/pdf', readFileSync(pdfPath)],
+    '/': ['text/html', Buffer.from(`<!doctype html><meta charset="utf-8"><body style="margin:0">
+<script type="module">
+import * as pdfjs from '/pdf.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.mjs';
+window.ready = (async () => { window.__doc = await pdfjs.getDocument('/doc.pdf').promise;
+  return window.__doc.numPages; })();
+</script></body>`)],
+  };
+  const server = createServer((req, res) => {
+    const f = files[req.url.split('?')[0]];
+    if (!f) { res.writeHead(404); return res.end(); }
+    res.writeHead(200, { 'content-type': f[0] });
+    res.end(f[1]);
+  }).listen(0);
+  await new Promise((r) => server.on('listening', r));
+
+  const exe = process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+  const browser = await chromium.launch(existsSync(exe) ? { executablePath: exe } : {});
+  const page = await browser.newPage();
+  await page.goto(`http://127.0.0.1:${server.address().port}/`, { waitUntil: 'load' });
+  await page.evaluate(() => window.ready);
+
+  const pages = await page.evaluate(async (s) => {
+    const out = [];
+    const cv = document.createElement('canvas');
+    const ctx = cv.getContext('2d', { willReadFrequently: true });
+    const total = window.__doc.numPages;
+    for (let i = 1; i <= total; i++) {
+      const pg = await window.__doc.getPage(i);
+      const vp = pg.getViewport({ scale: s });
+      cv.width = Math.ceil(vp.width); cv.height = Math.ceil(vp.height);
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height);
+      await pg.render({ canvasContext: ctx, viewport: vp }).promise;
+      const d = ctx.getImageData(0, 0, cv.width, cv.height).data;
+      const top = Math.floor(cv.height * 0.06);
+      const bot = Math.floor(cv.height * 0.94);
+      let lastInk = top;
+      for (let y = top; y < bot; y++) {
+        let ink = 0;
+        for (let x = 0; x < cv.width; x += 2) {
+          const p = (y * cv.width + x) * 4;
+          if (d[p] < 235 || d[p + 1] < 235 || d[p + 2] < 235) ink++;
+        }
+        if (ink > 1) lastInk = y;
+      }
+      out.push({ page: i, fill: Math.round(((lastInk - top) / (bot - top)) * 100) });
+    }
+    return out;
+  }, scale);
+
+  await browser.close();
+  server.close();
+  return pages;
+}
