@@ -27,6 +27,7 @@ import {
   DIVISIONS, SLATE, DUPLICATIONS, RESOLUTION, CRITERIA, MAX_SCORE,
   canonIndex, ranking, unplaced,
 } from './canon.mjs';
+import { dashboard, completion, INTEGRITY } from './coverage.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -43,6 +44,8 @@ const ROWS = catalogue(INV);
 const INDEX = canonIndex(INV);
 const RANK = ranking(ROWS);
 const ECO = ecosystem(INV);
+const COV = dashboard(C, ROWS);
+const DONE = completion(SLATE, ROWS);
 
 const STATUS_CLASS = {
   [STATUS.PUBLISHED]: 's--pub', [STATUS.DERIVABLE]: 's--der',
@@ -198,6 +201,8 @@ th { background:${ACCENT.hex}; color:#fff; text-align:left; padding:3.5pt 6pt;
   font-family:${TYPE.sans}; font-size:6.2pt; letter-spacing:.1em; text-transform:uppercase; }
 td { padding:3.5pt 6pt; border-bottom:.4pt solid #E8EBF1; vertical-align:top; }
 tr { break-inside:avoid; }
+td.ok { color:#1E6B3A; font-weight:700; }
+td.no { color:${PAL.deepCrimson}; font-weight:700; }
 .rank { font-family:"Consolas","DejaVu Sans Mono",monospace; font-weight:700;
   color:${PAL.royalBlue}; }
 
@@ -314,6 +319,141 @@ tr { break-inside:avoid; }
       unblocks more goes ahead. The scripts unblock listening lessons that cannot currently run
       at all — there are no recordings, and the scripts have never been printed — while the
       workbook improves lessons that already can.</p>
+  </div>
+</section>
+
+<section class="div">
+  <div class="div__open">
+    <p class="eyebrow">Coverage</p>
+    <h1>Measured by what a lesson has, not by how many books exist</h1>
+    <p class="div__purpose">A publication count only goes up, and it goes up whether or not a
+      learner is better served. This asks a different question of each of the ${COV.lessons}
+      teaching lessons: is the resource needed for THIS lesson in a publication a reader can
+      hold?</p>
+    <p class="div__reader">${COV.materialPct}% of resources exist as material ·
+      ${COV.publishedPct}% are in an issued publication ·
+      ${COV.fullyServed} of ${COV.lessons} lessons are fully served today</p>
+  </div>
+
+  <div class="panel">
+    <p class="panel__h">What this figure does not measure</p>
+    <p>Coverage measures availability: is the resource in a volume a reader can open. It does not
+      measure usability. The Assessment Handbook ranked first for educational impact and moved
+      published coverage by nought points, because every rubric it prints was already available —
+      inside the 443-page Teacher's Edition, one rubric per lesson, sixty places. Availability was
+      complete; consistent marking was impossible. The two instruments are kept apart rather than
+      reconciled, because a coverage figure that rose whenever a book was published would be a
+      publication count wearing a percentage sign.</p>
+  </div>
+
+  <div class="panel">
+    <p class="panel__h">Why two numbers and not one</p>
+    <p>Material coverage is what the academic database holds. Published coverage is what a reader
+      can actually open. Collapsing them would flatter the Press badly: vocabulary support has
+      material coverage of 100 % and published coverage of nought — every lesson teaches lexis,
+      and no issued volume gathers it. The distance between the two columns is this Press's
+      backlog, stated as a number rather than as an intention.</p>
+  </div>
+
+  <table><thead><tr><th scope="col">Resource</th><th scope="col">Material</th>
+    <th scope="col">Published</th><th scope="col">Backlog</th>
+    <th scope="col">What it is</th></tr></thead><tbody>
+    ${COV.byResource.map((r) => `<tr>
+      <td class="nowrap"><b>${esc(r.name)}</b></td>
+      <td class="mono">${r.materialPct}%</td>
+      <td class="mono ${r.publishedPct === 100 ? 'ok' : r.publishedPct === 0 ? 'no' : ''}"
+        >${r.publishedPct}%</td>
+      <td class="mono">${r.backlog || '—'}</td>
+      <td>${esc(r.what)}</td></tr>`).join('')}
+  </tbody></table>
+
+  <h2>By level, so a thin level cannot hide inside an average</h2>
+  <table><thead><tr><th scope="col">Level</th><th scope="col">Lessons</th>
+    <th scope="col">Material</th><th scope="col">Published</th></tr></thead><tbody>
+    ${COV.byLevel.map((l) => `<tr><td class="nowrap"><b>Level ${esc(l.roman)}</b></td>
+      <td class="mono">${l.lessons}</td><td class="mono">${l.materialPct}%</td>
+      <td class="mono">${l.publishedPct}%</td></tr>`).join('')}
+  </tbody></table>
+  <p class="small">Coverage is even across the levels because the curriculum is: every level
+    carries nineteen teaching lessons built to the same template. An uneven row here would mean a
+    level had been authored to a different standard.</p>
+</section>
+
+<section class="div">
+  <div class="div__open">
+    <p class="eyebrow">The learning journey</p>
+    <h1>Eight questions, answered by named publications</h1>
+    <p class="div__purpose">What each reader needs at each moment, and whether an issued
+      publication answers it. A question with no issued answer is a canonical gap, computed
+      rather than judged.</p>
+    <p class="div__reader">${COV.journey.filter((j) => j.servedToday).length} of
+      ${COV.journey.length} answered today · ${COV.journey.filter((j) => j.complete).length}
+      answered completely</p>
+  </div>
+  <table><thead><tr><th scope="col">Reader</th><th scope="col">Moment</th>
+    <th scope="col">What they need</th><th scope="col">Answered by</th></tr></thead><tbody>
+    ${COV.journey.map((j) => `<tr>
+      <td class="nowrap"><b>${esc(j.who)}</b></td>
+      <td class="nowrap ${j.servedToday ? '' : 'no'}">${esc(j.when)}${
+  j.servedToday ? '' : ' · gap'}</td>
+      <td>${esc(j.need)}</td>
+      <td>${j.titles.map((t) => `<span class="lk">${esc(t.name)}${
+  t.status === STATUS.PUBLISHED ? '' : ` — ${esc(t.status.toLowerCase())}`}</span>`).join('')}</td>
+    </tr>`).join('')}
+  </tbody></table>
+</section>
+
+<section class="div">
+  <div class="div__open">
+    <p class="eyebrow">Canonical gaps</p>
+    <h1>Where the canon does not reach</h1>
+    <p class="div__purpose">Computed from the matrix and the journey, not compiled by hand. Each
+      names who has to act, because a gap without an owner is a complaint.</p>
+    <p class="div__reader">${COV.gaps.length} gaps ·
+      ${COV.gaps.filter((g) => g.owner === 'Editorial').length} within editorial authority</p>
+  </div>
+  <table><thead><tr><th scope="col">Kind</th><th scope="col">Resource</th>
+    <th scope="col">Position</th><th scope="col">Owner</th></tr></thead><tbody>
+    ${COV.gaps.map((g) => `<tr><td class="nowrap">${esc(g.kind)}</td>
+      <td class="nowrap"><b>${esc(g.resource)}</b></td><td>${esc(g.detail)}</td>
+      <td class="nowrap">${esc(g.owner)}</td></tr>`).join('')}
+  </tbody></table>
+</section>
+
+<section class="div">
+  <div class="div__open">
+    <p class="eyebrow">Completion</p>
+    <h1>A publication is not finished when its pages are</h1>
+    <p class="div__purpose">Every title tells its reader what to read before it, alongside it and
+      after it. Where those volumes do not exist, the publication is a book with working pages and
+      broken instructions — and nothing else would catch it, because the pages proof
+      perfectly.</p>
+    <p class="div__reader">${DONE.filter((d) => d.complete).length} of ${DONE.length} issued
+      titles have every dependency issued</p>
+  </div>
+  <table><thead><tr><th scope="col">Issued title</th><th scope="col">Dependencies</th>
+    <th scope="col">Not yet issued</th></tr></thead><tbody>
+    ${DONE.map((d) => `<tr><td><b>${esc(d.name)}</b></td>
+      <td class="mono">${d.deps}</td>
+      <td>${d.complete ? '<span class="s s--pub">Complete</span>'
+    : d.unmet.map((u) => `<span class="lk">${esc(u.name)} — ${esc(u.status.toLowerCase())}</span>`)
+      .join('')}</td></tr>`).join('')}
+  </tbody></table>
+
+  <h2>Educational integrity</h2>
+  <p>No publication may exist because it could. Each of these names the educational problem it
+    solves, and the one that could not name one was not published.</p>
+  <table><thead><tr><th scope="col">Publication</th><th scope="col">Problem it solves</th>
+    <th scope="col">Verdict</th></tr></thead><tbody>
+    ${INTEGRITY.map((i) => `<tr><td class="nowrap"><b>${esc(i.title)}</b></td>
+      <td>${esc(i.problem)}</td><td class="nowrap">${esc(i.verdict)}</td></tr>`).join('')}
+  </tbody></table>
+  <div class="panel">
+    <p class="panel__h">The volume this section is not</p>
+    <p>Everything above could have been a Coverage Report — a thirteenth title, with a cover and
+      a spine, reporting on the other twelve. It is a section of this index instead, beside the
+      titles it measures, because a publication created to enlarge the catalogue is precisely
+      what the constitution it would be reporting on forbids.</p>
   </div>
 </section>
 

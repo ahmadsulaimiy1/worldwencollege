@@ -61,6 +61,22 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'The Workbook was withdrawn by attempting it', built: 'It ranked first for '
+    + 'educational impact and the catalogue said it was derivable: every lesson carries guided '
+    + 'practice, homework and extension. Every one of those is a BRIEF — "Combine 8 sentence '
+    + 'pairs into one sentence using a defining relative clause" — and nought of 114 lessons '
+    + 'carries the eight pairs. The requirement had measured that practice was DESCRIBED, not '
+    + 'that a learner had anything to work on. A new measured requirement was added, the title '
+    + 'moved to Requires authoring with a deficit of 114 lessons, and the Assessment Handbook '
+    + 'was published instead. The Classroom Activities Handbook stays derivable from the same '
+    + 'briefs, because a teacher reads a brief and writes the pairs on the board; a learner '
+    + 'alone cannot.' },
+  { item: 'The IEFC Assessment Handbook', built: '154 pages at B5. 60 assignments, 60 rubrics, '
+    + '307 criteria and 660 questions with their answer keys, arranged by what an assessor does '
+    + 'rather than by curriculum order. Producing it found that five rubrics state no pass '
+    + 'threshold, and that they are systematic rather than random: the Review & Consolidation '
+    + 'module of every level except the last. The volume prints the gap where an assessor will '
+    + 'meet it rather than filling it in.' },
   { item: 'First off the impact ranking: The IEFC Listening Scripts', built: '48 pages at the '
     + 'flagship trim. 60 listening scripts, 497 speaker-attributed cues and 46 minutes of '
     + 'reading, written for the audio platform and never printed. It was published first because '

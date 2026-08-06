@@ -500,7 +500,103 @@ check('the canon index records everything the directive requires of each entry',
   IDX.filter((r) => r.status && !(r.family && r.audience && r.derivedFrom))
     .map((r) => r.slot).join(' · '));
 
-// ── 9 · The volume itself ────────────────────────────────────────────
+// ── 9 · Coverage: the metric that cannot be gamed by publishing more ─
+
+const cov = await import(loadUrl('scripts/publication/coverage.mjs'));
+const { RESOURCES, JOURNEY, INTEGRITY, matrix, byResource, byLevel, journey, gaps,
+  completion, dashboard } = cov;
+
+const MX = matrix(C, ROWS);
+const RES = byResource(MX);
+const DASH = dashboard(C, ROWS);
+
+check('every teaching lesson is in the resource matrix',
+  MX.length === INV.teachingLessons && MX.every((l) => l.cells.length === RESOURCES.length),
+  `${MX.length} lessons × ${RESOURCES.length} resources`);
+
+check('every resource names what it is and which publications carry it',
+  RESOURCES.every((r) => r.what.length > 20 && Array.isArray(r.carriedBy)));
+
+// The distinction the whole metric rests on.
+check('published coverage never exceeds material coverage',
+  RES.every((r) => r.published <= r.material),
+  RES.filter((r) => r.published > r.material).map((r) => r.name).join(' · '));
+
+check('a resource with no material is never reported as published',
+  RES.filter((r) => r.material === 0).every((r) => r.published === 0),
+  RES.filter((r) => r.material === 0 && r.published > 0).map((r) => r.name).join(' · '));
+
+// A resource whose carrier is not issued must not count as published:
+// this is the assertion that stops the dashboard flattering the Press.
+const issuedNs = new Set(ROWS.filter((r) => r.status === STATUS.PUBLISHED).map((r) => r.n));
+check('a resource counts as published only if an issued publication carries it',
+  RES.every((r) => r.published === 0 || r.carriedBy.some((n) => issuedNs.has(n))),
+  RES.filter((r) => r.published > 0 && !r.carriedBy.some((n) => issuedNs.has(n)))
+    .map((r) => r.name).join(' · '));
+
+check('the matrix keeps the resources the Press scores nought on',
+  RES.some((r) => r.materialPct === 0) && RES.some((r) => r.publishedPct === 0),
+  'a matrix that only lists strengths is a marketing document');
+
+check('coverage is reported per level, so a thin level cannot hide in an average',
+  byLevel(MX).length === INV.levels
+  && byLevel(MX).every((l) => l.lessons > 0 && l.publishedPct >= 0));
+
+// The journey.
+const J = journey(ROWS);
+check('every journey question names the publications that answer it',
+  J.length === JOURNEY.length && J.every((j) => j.titles.length > 0 && j.need.length > 25),
+  J.filter((j) => !j.titles.length).map((j) => `${j.who} ${j.when}`).join(' · '));
+
+check('a journey question is only "served" when an issued publication answers it',
+  J.every((j) => j.servedToday === (j.issued.length > 0)),
+  J.filter((j) => j.servedToday !== (j.issued.length > 0)).map((j) => j.who).join(' · '));
+
+check('the journey covers learner, teacher, assessor, graduate and employer',
+  ['Learner', 'Teacher', 'Assessor', 'Graduate', 'Employer']
+    .every((w) => J.some((j) => j.who === w)),
+  [...new Set(J.map((j) => j.who))].join(' · '));
+
+// Gaps are computed, owned, and not silently omitted.
+const G = gaps(C, ROWS);
+check('every unserved journey question and unpublished resource is a recorded gap',
+  J.filter((j) => !j.servedToday).every((j) =>
+    G.some((g) => g.kind === 'Journey' && g.resource.includes(j.who)))
+  && RES.filter((r) => r.material > 0 && r.published === 0).every((r) =>
+    G.some((g) => g.resource === r.name)),
+  `${G.length} gaps recorded`);
+
+check('every gap names who has to act',
+  G.every((g) => g.owner && g.detail.length > 20),
+  G.filter((g) => !g.owner).map((g) => g.resource).join(' · '));
+
+// Completion: pages complete is not the same as publication complete.
+const DONE = completion(canon.SLATE, ROWS);
+check('completion is measured against dependencies, not pages',
+  DONE.length > 0
+  && DONE.every((d) => d.complete === (d.unmet.length === 0))
+  && DONE.every((d) => d.deps >= d.unmet.length),
+  DONE.map((d) => `${d.n}:${d.unmet.length}/${d.deps}`).join(' '));
+
+check('a dependency is counted once even when it is both companion and sequel',
+  DONE.every((d) => new Set(d.unmet.map((u) => u.n)).size === d.unmet.length),
+  DONE.filter((d) => new Set(d.unmet.map((u) => u.n)).size !== d.unmet.length)
+    .map((d) => d.name).join(' · '));
+
+check('every publication in the integrity register names the problem it solves',
+  INTEGRITY.every((i) => i.problem.length > 40 && i.verdict.length > 3),
+  INTEGRITY.filter((i) => i.problem.length <= 40).map((i) => i.title).join(' · '));
+
+check('the integrity register records at least one thing the Press decided not to publish',
+  INTEGRITY.some((i) => /not published/i.test(i.verdict)),
+  INTEGRITY.map((i) => i.verdict).join(' · '));
+
+check('the dashboard reports both coverage figures and does not collapse them',
+  typeof DASH.materialPct === 'number' && typeof DASH.publishedPct === 'number'
+  && DASH.publishedPct <= DASH.materialPct,
+  `${DASH.materialPct}% material · ${DASH.publishedPct}% published`);
+
+// ── 10 · The volume itself ───────────────────────────────────────────
 
 const VOLUME = `${ROOT}/publication/WEC Press — The Publishing Constitution.pdf`;
 if (existsSync(VOLUME)) {

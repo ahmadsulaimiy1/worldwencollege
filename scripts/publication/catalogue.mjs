@@ -139,6 +139,16 @@ export function inventory(C = buildCurriculum()) {
     revisionStages: withStage('revision'),
     thinkingStages: withStage('thinking'),
     practiceWords: wordsIn(['guided', 'homework', 'extension']),
+    // Not the same as a lesson HAVING practice. This counts lessons
+    // whose practice stages carry enumerated items — the sentence
+    // pairs, the gapped sentences, the numbered questions a learner
+    // works on alone. It is nought, and finding that out is the reason
+    // the Workbook is not published: "Combine 8 sentence pairs" is a
+    // brief to a teacher, and a learner holding a workbook printed
+    // from it would find the instruction and not the eight pairs.
+    practiceItems: items.filter(({ item }) => item.stages
+      .filter((st) => ['guided', 'independent', 'homework', 'extension'].includes(st.icon))
+      .some((st) => st.parts.some((p) => p.type === 'item'))).length,
     vocabularyWords: wordsIn(['vocabulary']),
     presentationWords: wordsIn(['present']),
 
@@ -312,9 +322,15 @@ export const TITLES = [
     audience: 'Learners working outside class',
     needs: [need('lessons with guided practice', 'guidedStages', 114),
       need('lessons with homework', 'homeworkStages', 114),
-      need('lessons with extension work', 'extensionStages', 114)],
-    source: 'Guided practice, homework and extension tasks already written into every '
-      + 'teaching lesson, lifted out and given the space to be written in.',
+      need('lessons with extension work', 'extensionStages', 114),
+      need('lessons with printable practice items', 'practiceItems', 114)],
+    source: 'Every teaching lesson carries guided practice, homework and extension — and every '
+      + 'one of them is a BRIEF, not an exercise: "Combine 8 sentence pairs into one sentence '
+      + 'using a defining relative clause." Nought of 114 lessons carries the eight pairs. This '
+      + 'title was ranked first for publication and the requirement was rewritten when the volume '
+      + 'was attempted: the original requirement measured that practice was described, not that a '
+      + 'learner had anything to work on. A workbook of instructions with no exercises is worse '
+      + 'than no workbook, because it looks like one.',
   }),
   t({
     n: 7, family: 'IEFC Student Series', wave: 1,
@@ -329,10 +345,15 @@ export const TITLES = [
     n: 8, family: 'IEFC Assessment Series', wave: 1,
     name: 'The IEFC Assessment Handbook',
     audience: 'Teaching staff, examiners, moderators',
+    artefact: 'publication/IEFC Assessment Handbook.pdf', build: 'assessment',
+    htmlSource: 'publication/.assessment.html',
     needs: [need('module quizzes', 'quizzes', 60), need('quiz questions', 'questions', 600),
       need('assignments', 'assignments', 60), need('rubric criteria', 'rubricCriteria', 300)],
-    source: 'Every quiz, every assignment brief and every rubric in one volume, with the '
-      + 'marking standards stated once instead of sixty times.',
+    source: 'Every quiz, every assignment brief and every rubric in one volume, arranged by '
+      + 'what an assessor does rather than by curriculum order, with the marking standard stated '
+      + 'once instead of sixty times. Producing it found that five rubrics state no pass '
+      + 'threshold — the Review & Consolidation module of every level except the last — which is '
+      + 'printed in the volume rather than filled in.',
   }),
   t({
     n: 9, family: 'IEFC Assessment Series', wave: 2,
@@ -738,7 +759,9 @@ export const TITLES = [
       need('lessons with a speaking stage', 'speakingStages', 88)],
     source: 'Every warm-up, guided practice, speaking task and extension activity in the '
       + 'programme, indexed by what they practise rather than by where they appear — an '
-      + 'activity bank a teacher can reach into mid-lesson.',
+      + 'activity bank a teacher can reach into mid-lesson. Unlike the Workbook, this volume is '
+      + 'derivable from briefs: a teacher reads "combine 8 sentence pairs" and writes the pairs '
+      + 'on the board, which is what a brief is for. A learner alone cannot.',
   }),
   t({
     n: 51, family: 'WEC Professional Development Series', wave: 2,
