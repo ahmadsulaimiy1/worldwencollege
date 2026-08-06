@@ -90,7 +90,7 @@ export const PRACTICE = [
   { key: 'selfcheck', name: 'Self-check', icon: null,
     why: 'Not a lesson stage but a separate authored record, because a self-check is attempted '
       + 'alone with the answer beside it and a printed lesson stage cannot hide an answer. '
-      + 'Authored for 19 of 114 lessons; the rest is the next authoring pass, and the metric '
+      + 'Authored for 57 of 114 lessons; the rest is the next authoring pass, and the metric '
       + 'reports the position rather than the intention.' },
   { key: 'challenge', name: 'Challenge exercise', icon: 'extension',
     why: null },

@@ -61,6 +61,14 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'Self-checks: Levels I to III complete', built: '57 of 114 lessons, 174 prompts, 70 '
+    + 'of them targeting a named confusion — the present perfect that survives a question naming '
+    + 'a time, "In my opinion, I think", the dropped passive auxiliary, over-deduction with '
+    + '"must", "responsible of", and the learner who uses "after that" for every transition and '
+    + 'flattens a story into a list. Complete mastery coverage: nought to 16 to 49 per cent, each '
+    + 'step bounded by what was authored rather than by how the metric was defined. Eight '
+    + 'self-checks in the second batch carried no identified confusion; rather than relax the '
+    + 'standard the eight confusions were written.' },
   { item: 'Self-checks, and the first non-zero mastery reading', built: '19 self-checks for '
     + 'Level I — 58 prompts, every one with an answer beside it, and 25 targeting a named '
     + 'confusion: the missing third-person -s, "quarter to nine" rather than eight, "she has '
