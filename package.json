@@ -20,7 +20,8 @@
     "curriculum:editions": "npm run curriculum:student && npm run curriculum:institutional",
     "press": "node --experimental-sqlite scripts/publication/render-press.mjs && node --experimental-sqlite scripts/publication/render-press.mjs",
     "pronunciation": "node --experimental-sqlite scripts/publication/render-pronunciation.mjs",
-    "canon": "node --experimental-sqlite scripts/publication/render-canon.mjs && node --experimental-sqlite scripts/publication/render-canon.mjs"
+    "canon": "node --experimental-sqlite scripts/publication/render-canon.mjs && node --experimental-sqlite scripts/publication/render-canon.mjs",
+    "listening": "node --experimental-sqlite scripts/publication/render-listening.mjs"
   },
   "devDependencies": {
     "jsqr": "^1.4.0",

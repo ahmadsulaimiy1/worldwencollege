@@ -349,11 +349,16 @@ export const TITLES = [
     n: 10, family: 'IEFC Reference Library', wave: 1,
     name: 'The IEFC Listening Scripts', edition: 'With speaker cues and transcripts',
     audience: 'Teachers running listening work without recorded audio',
+    artefact: 'publication/IEFC Listening Scripts.pdf', build: 'listening',
+    htmlSource: 'publication/.listening.html',
     needs: [need('listening scripts', 'listeningScripts', 60),
       need('speaker cues', 'audioCues', 240),
       need('lessons with a listening stage', 'listeningStages', 114)],
-    source: 'The 120 scripted assets written for the audio platform, every one with a full '
-      + 'transcript and speaker-attributed cues, which have never been set as a book.',
+    source: 'The 60 listening scripts written for the audio platform, every one with a full '
+      + 'transcript and speaker-attributed cues, set as a performance script rather than a '
+      + 'transcript: speaker in the margin, one cue per line, no script broken across a page '
+      + 'turn, and the comprehension task on the same spread. The 60 pronunciation models are '
+      + 'printed in the Pronunciation Handbook instead of repeated here.',
   }),
   t({
     n: 11, family: 'IEFC Student Series', wave: 2,

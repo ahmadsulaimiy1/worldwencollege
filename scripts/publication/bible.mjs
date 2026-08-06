@@ -61,6 +61,17 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'First off the impact ranking: The IEFC Listening Scripts', built: '48 pages at the '
+    + 'flagship trim. 60 listening scripts, 497 speaker-attributed cues and 46 minutes of '
+    + 'reading, written for the audio platform and never printed. It was published first because '
+    + 'it scored first, not because it was easiest: a listening lesson currently cannot be run at '
+    + 'all — nought of 60 scripts has a recording — so this is the only way the material reaches '
+    + 'a class. Set as a performance script rather than a transcript: speaker in the margin, one '
+    + 'cue per line, no script broken across a page turn, target pace at the head of every '
+    + 'script, and the comprehension task on the same spread as the script it belongs to. The '
+    + 'title page states there is no audio rather than burying it in a note. No timecodes are '
+    + 'printed: every cue timing in the database is empty, and a timecode for audio that does not '
+    + 'exist would be inventing a measurement.' },
   { item: 'The Canon: five divisions, and the eleven titles that were not books',
     built: 'Every one of the 62 catalogue titles is now placed in one of five divisions, and '
       + 'every one states what to read before it, alongside it and after it — checked by a test '
