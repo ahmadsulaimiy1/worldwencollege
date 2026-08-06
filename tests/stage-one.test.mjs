@@ -196,6 +196,75 @@ check('cautions are present where English is arbitrary and absent where it is no
   NOTED > WORDS * 0.25 && NOTED < WORDS * 0.75,
   `${NOTED} of ${WORDS} carry a note`);
 
+// ── Solo reinforcement: the constraint is in the schema ─────────────
+//
+// A solo activity written to fill the gap for a learner with no partner
+// quietly becomes the lesson, the pair work is skipped, and a
+// communicative curriculum turns into a worksheet. So the rule is not a
+// style note — it is a CHECK constraint, and this asserts the database
+// actually enforces it rather than merely documenting it.
+
+const SOLO = S.soloActivities('I');
+
+check('every Level I lesson that needs another person has a solo activity',
+  SOLO.length === 17, `${SOLO.length} activities`);
+
+check('every solo activity names the collaborative task it serves',
+  SOLO.every((a) => a.serves_task && a.serves_task.length > 30 && a.serves_stage),
+  SOLO.filter((a) => !a.serves_task || a.serves_task.length <= 30).map((a) => a.ref).join(' · '));
+
+check('every solo activity is reinforcement — it prepares or consolidates, never replaces',
+  SOLO.every((a) => a.relation === 'prepares' || a.relation === 'consolidates'),
+  [...new Set(SOLO.map((a) => a.relation))].join(' · '));
+
+check('both relations are used, so the rule is a distinction rather than a label',
+  new Set(SOLO.map((a) => a.relation)).size === 2,
+  SOLO.map((a) => a.relation).join(' '));
+
+check('every solo activity tells the learner how to check themselves',
+  SOLO.every((a) => a.check_yourself && a.check_yourself.length > 60),
+  SOLO.filter((a) => !a.check_yourself || a.check_yourself.length <= 60)
+    .map((a) => a.ref).join(' · '));
+
+check('solo activities are press-drafted and claim no academic approval',
+  SOLO.every((a) => a.approval_state === 'press_drafted'),
+  SOLO.filter((a) => a.approval_state !== 'press_drafted').map((a) => a.ref).join(' · '));
+
+// The one that matters. Try to store a solo activity as a REPLACEMENT
+// for the collaborative task. The database must refuse it.
+//
+// The first version of this assertion was FALSE. It built a database
+// from schema.sql alone and inserted a row referencing a learning item
+// that did not exist, so the insert threw on the foreign key and the
+// assertion passed no matter what the CHECK constraint said — widening
+// it to allow 'replaces' still passed. The curriculum is now seeded so
+// the reference resolves, and a CONTROL insert with a legal relation
+// must SUCCEED before the illegal one is tried. Without the control,
+// any error at all reads as enforcement.
+{
+  const { DatabaseSync } = await import('node:sqlite');
+  const { readFileSync } = await import('node:fs');
+  const db = new DatabaseSync(':memory:');
+  db.exec(readFileSync(path.join(ROOT, 'sql/schema.sql'), 'utf8'));
+  db.exec(readFileSync(path.join(ROOT, 'sql/seed-curriculum-level-1.sql'), 'utf8'));
+  const insert = (id, relation) => db.exec(`INSERT INTO solo_activities
+      (id, learning_item_id, serves_stage, serves_task, relation, activity, check_yourself)
+      VALUES ('${id}', 'itm_l1_m2_lesson1', 'speaking', 'the pair work', '${relation}',
+              'do it alone', 'no way to check')`);
+
+  let controlWorked = false;
+  try { insert('control', 'prepares'); controlWorked = true; } catch { /* reported below */ }
+  check('the control insert succeeds, so a refusal below means the constraint and not the setup',
+    controlWorked, controlWorked ? '' : 'a legal solo activity could not be stored at all');
+
+  db.exec("DELETE FROM solo_activities WHERE id = 'control'");
+  let refused = false;
+  try { insert('sabotage', 'replaces'); } catch { refused = true; }
+  db.close();
+  check('the database refuses to store a solo activity as a replacement',
+    controlWorked && refused, refused ? '' : 'the insert succeeded');
+}
+
 check('vocabulary sets are press-drafted and claim no academic approval',
   VOC.every((v) => v.approval === 'press_drafted'),
   VOC.filter((v) => v.approval !== 'press_drafted').map((v) => v.ref).join(' · '));

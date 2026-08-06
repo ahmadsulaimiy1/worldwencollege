@@ -2210,3 +2210,50 @@ CREATE TABLE IF NOT EXISTS vocabulary_items (
 
 CREATE INDEX IF NOT EXISTS idx_vocabulary_set_item ON vocabulary_sets(learning_item_id);
 CREATE INDEX IF NOT EXISTS idx_vocabulary_items_set ON vocabulary_items(vocabulary_set_id);
+
+-- ─────────────────────────────────────────────────────────────────────
+-- SOLO REINFORCEMENT ACTIVITIES
+--
+-- Most lessons in this programme are collaborative because their
+-- objective is communicative: you cannot practise asking a stranger
+-- their name without a stranger. That is pedagogy, not a defect, and
+-- the Learning Architecture makes it explicit.
+--
+-- But a learner who misses a class, studies between sessions, or has no
+-- partner tonight still needs something to do — and the danger is
+-- obvious. A solo activity written to fill that gap quietly becomes the
+-- lesson, the pair work is skipped, and a communicative curriculum
+-- turns into a worksheet.
+--
+-- So the constraint is in the schema rather than in a style note.
+-- Every solo activity MUST name the collaborative task it serves
+-- (`serves_task`, NOT NULL) and MUST declare whether it PREPARES the
+-- learner for that task or CONSOLIDATES it afterwards. There is no
+-- third value. 'replaces' is not in the CHECK constraint and cannot be
+-- inserted, which means the database itself refuses to store a solo
+-- activity as a substitute for the collaborative task.
+--
+-- `check_yourself` is required for the same reason a self-check is: an
+-- activity done alone with no way of knowing whether it was done right
+-- teaches whatever the learner happened to do.
+-- ─────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS solo_activities (
+  id                TEXT PRIMARY KEY,
+  learning_item_id  TEXT NOT NULL UNIQUE REFERENCES learning_items(id),
+  -- Which stage of the lesson the collaborative task lives in.
+  serves_stage      TEXT NOT NULL CHECK (serves_stage IN
+                      ('guided','speaking','writing','listening','reading')),
+  -- The task itself, named so a learner can see what they are working
+  -- towards and a teacher can see what has NOT been done instead.
+  serves_task       TEXT NOT NULL,
+  -- Reinforcement, never replacement. Two values, and the third one
+  -- everybody would reach for is deliberately absent.
+  relation          TEXT NOT NULL CHECK (relation IN ('prepares','consolidates')),
+  activity          TEXT NOT NULL,
+  -- How the learner knows, alone, whether they did it right.
+  check_yourself    TEXT NOT NULL,
+  approval_state    TEXT NOT NULL DEFAULT 'press_drafted'
+                      CHECK (approval_state IN ('press_drafted','academically_approved'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_solo_activities_item ON solo_activities(learning_item_id);

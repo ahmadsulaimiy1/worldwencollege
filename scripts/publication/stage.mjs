@@ -192,7 +192,7 @@ export function inventoryL1(C = buildCurriculum()) {
     db.exec(readFileSync(`${ROOT}/sql/seed-audio-level-${n}.sql`, 'utf8'));
   }
   for (const f of ['seed-exercises', 'seed-selfchecks', 'seed-pedagogy',
-    'seed-vocabulary-level-1']) {
+    'seed-vocabulary-level-1', 'seed-solo-level-1']) {
     db.exec(readFileSync(`${ROOT}/sql/${f}.sql`, 'utf8'));
   }
   const ONE = `JOIN units u ON u.id = i.unit_id
@@ -328,10 +328,37 @@ export function inventoryL1(C = buildCurriculum()) {
       `SELECT COUNT(*) AS n FROM assessment_competencies ac
          JOIN learning_items i ON i.id = ac.learning_item_id ${ONE}`),
     videoAssets: 0,
-    soloReinforcementActivities: 0,
+    soloReinforcementActivities: n(`SELECT COUNT(*) AS n FROM solo_activities a
+                                      JOIN learning_items i ON i.id = a.learning_item_id ${ONE}`),
   };
   db.close();
   return inv;
+}
+
+/**
+ * The solo reinforcement activities, with the collaborative task each
+ * one serves. Returned in full because the constraint that matters —
+ * that a solo activity is reinforcement and not replacement — is a
+ * property of the text, and a count cannot check it.
+ */
+export function soloActivities(roman = 'I') {
+  const db = new DatabaseSync(':memory:');
+  db.exec(readFileSync(`${ROOT}/sql/schema.sql`, 'utf8'));
+  for (let i = 1; i <= 6; i++) {
+    db.exec(readFileSync(`${ROOT}/sql/seed-curriculum-level-${i}.sql`, 'utf8'));
+  }
+  db.exec(readFileSync(`${ROOT}/sql/seed-solo-level-1.sql`, 'utf8'));
+  const rows = db.prepare(`
+    SELECT a.*, l.roman || '.' || u.sequence || '.' || i.sequence AS ref
+      FROM solo_activities a
+      JOIN learning_items i ON i.id = a.learning_item_id
+      JOIN units u ON u.id = i.unit_id
+      JOIN courses c ON c.id = u.course_id
+      JOIN programme_levels l ON l.id = c.level_id
+     WHERE l.roman = ?
+     ORDER BY u.sequence, i.sequence`).all(roman);
+  db.close();
+  return rows;
 }
 
 /**
@@ -626,8 +653,11 @@ export const RESOURCES = [
   r({ cat: 'Classroom', name: 'Solo Reinforcement Activities',
     serves: ['learner', 'teacher'], improves: ['independent study', 'learning'],
     owner: OWNER.PRESS,
+    // Seventeen, not nineteen. Two Level I teaching lessons are already
+    // independent, and writing a solo alternative to a solo lesson would
+    // be padding — which the Permanent Academic Rule forbids.
     needs: [need('solo activities, each naming the collaborative task it serves',
-      'soloReinforcementActivities', 19)] }),
+      'soloReinforcementActivities', 17)] }),
   r({ cat: 'Classroom', name: 'Printable Worksheets',
     serves: ['teacher', 'learner'], improves: ['classroom delivery', 'learning'],
     owner: OWNER.PRESS,
