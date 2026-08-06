@@ -299,6 +299,10 @@ export const IMPACT = [
     + 'grammar is the strand learners can most easily supplement elsewhere.'),
   R(44, 4, 4, 3, 3, 'Writing is assessed in every level and taught in every lesson; the strand '
     + 'has never been gathered.'),
+  R(47, 4, 3, 3, 4, 'Revision is the one thing every learner does alone and unsupervised, and '
+    + 'the material for it is the last stage of 114 separate lessons. Became derivable when the '
+    + 'first lesson of the programme was given the revision stage it had never had. The volume '
+    + 'gathers the strand rather than creating it, which is why it ranks below the workbook.'),
   R(45, 3, 3, 4, 3, 'For learners entering English-medium study, the difference between passing '
     + 'and coping. Reaches fewer people than the coursebook strands.'),
   R(2, 5, 5, 2, 1, 'Already published. Listed for completeness: it is the spine of the '

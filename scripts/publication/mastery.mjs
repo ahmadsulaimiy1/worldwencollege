@@ -63,6 +63,21 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 // ─────────────────────────────────────────────────────────────────────
 
 /**
+ * How far self-check authoring has got, measured, in the form the
+ * practice table prints. Cached because the table is rendered once per
+ * volume and the database is rebuilt from source on every open.
+ */
+let progressCache = null;
+export function selfCheckProgress() {
+  if (progressCache) return progressCache;
+  const authored = selfChecks().length;
+  const teaching = walk(buildCurriculum())
+    .filter(({ item }) => item.stages.some((s) => s.icon === 'objectives')).length;
+  progressCache = `${authored} of ${teaching}`;
+  return progressCache;
+}
+
+/**
  * The ten practice types the Mastery Constitution asks for, each mapped
  * to what the curriculum actually has. Four of them do not exist as
  * distinct stages, and the reason is stated rather than the row being
@@ -87,11 +102,19 @@ export const PRACTICE = [
       + 'its own. Every assignment is a scenario; adding a scenario stage would duplicate it.' },
   { key: 'reflection', name: 'Reflection', icon: 'thinking',
     why: null },
-  { key: 'selfcheck', name: 'Self-check', icon: null,
-    why: 'Not a lesson stage but a separate authored record, because a self-check is attempted '
-      + 'alone with the answer beside it and a printed lesson stage cannot hide an answer. '
-      + 'Authored for 57 of 114 lessons; the rest is the next authoring pass, and the metric '
-      + 'reports the position rather than the intention.' },
+  { key: 'selfcheck',
+    name: 'Self-check',
+    icon: null,
+    // Derived, not typed. This sentence carried a hand-written count
+    // for three authoring passes and was wrong after each of them,
+    // because the seed changed and the prose did not. It now reads the
+    // same figure the metric reads.
+    get why() {
+      return 'Not a lesson stage but a separate authored record, because a self-check is '
+        + 'attempted alone with the answer beside it and a printed lesson stage cannot hide an '
+        + `answer. Authored for ${selfCheckProgress()} lessons, and the metric reports the `
+        + 'position rather than the intention.';
+    } },
   { key: 'challenge', name: 'Challenge exercise', icon: 'extension',
     why: null },
   { key: 'mastery', name: 'Mastery exercise', icon: 'assess',

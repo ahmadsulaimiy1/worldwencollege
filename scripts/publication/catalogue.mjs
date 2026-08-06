@@ -743,8 +743,10 @@ export const TITLES = [
     audience: 'Learners revising for level assessment',
     needs: [need('lessons carrying a revision stage', 'revisionStages', 114)],
     source: 'The revision stage of every teaching lesson, which names what the class returns '
-      + 'to. One hundred and thirteen of the hundred and fourteen carry one: a single lesson '
-      + 'does not, and a revision guide with a hole in it is worse than none.',
+      + 'to. All 114 now carry one. For a long time 113 did: the exception was Lesson 1.1, the '
+      + 'first lesson of the programme, which had no revision stage because nothing precedes '
+      + 'it — but revision is what comes AFTER a lesson, not before it, and Lesson 1.2 opens by '
+      + 'recapping it. Writing that stage is what made this volume derivable.',
   }),
   t({
     n: 48, family: 'IEFC Student Series', wave: 1,

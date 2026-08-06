@@ -655,11 +655,22 @@ check('every practice type either maps to a stage or states why it does not',
   PRACTICE.filter((p) => !p.icon && (!p.why || p.why.length <= 60)).map((p) => p.name).join(' · '));
 
 // Was: asserts the self-check row says DOES NOT EXIST. It now exists
-// for 19 lessons, so the assertion is that the row explains why it is
+// for every lesson, so the assertion is that the row explains why it is
 // not a lesson stage and reports the position it has reached.
+//
+// And that the position it reports is the one that is true. The count
+// in this sentence was hand-written for three authoring passes and was
+// stale after each of them: the seed grew, the prose did not. It is now
+// read from the same place the metric reads, and this assertion fails
+// if anyone types a literal back into it.
+const SCROW = PRACTICE.find((p) => p.key === 'selfcheck') || {};
 check('the self-check row explains its own shape and states how far it has got',
-  PRACTICE.some((p) => p.key === 'selfcheck' && !p.icon && /\d+ of \d+/.test(p.why)),
-  (PRACTICE.find((p) => p.key === 'selfcheck') || {}).why);
+  !SCROW.icon && /\d+ of \d+/.test(SCROW.why),
+  SCROW.why);
+
+check('the figure the self-check row prints is the figure that is measured',
+  new RegExp(`\\b${mast.selfChecks().length} of ${MET.lessons}\\b`).test(SCROW.why),
+  `${SCROW.why || ''} vs ${mast.selfChecks().length} of ${MET.lessons}`);
 
 // The seven metrics.
 // Eight since educational completeness joined them — the figure that

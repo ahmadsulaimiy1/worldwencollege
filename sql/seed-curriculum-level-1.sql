@@ -74,6 +74,8 @@ CRITICAL THINKING / DISCUSSION PROMPT (level-appropriate: a real judgement, expr
 
 HOMEWORK: Introduce yourself to one person outside class; bring one new "nice to meet you" partner name to share next lesson.
 
+REVISION: Lesson 1.2 opens by recapping this lesson''s "What''s your name?" chain drill, and its mingling activity asks for your name alongside your country, so every phrase here is used again there. Module 1''s Quiz and Speaking Assignment draw only on Lessons 1.1 and 1.2. The Level I Revision Guide returns to this material under Module 1 -- Meeting People before the mock exam.
+
 EXTENSION (for early finishers): Write and act out a 4-line dialogue introducing two invented people to each other.'),
 
 ('itm_l1_m1_lesson2', 'unt_l1_m1', 3, 'reading', 'Lesson 1.2 -- Where Are You From?',

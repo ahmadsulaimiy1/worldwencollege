@@ -61,6 +61,40 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'All 114 self-checks, the last revision stage, and eight metrics at 100 per cent',
+    built: 'The remaining 57 self-checks were written — Levels IV, V and VI — bringing the '
+      + 'record to 114 of 114 lessons, 366 prompts, every one with its answer beside it, and 135 '
+      + 'targeting a named confusion. Five in the Level V batch and none in Level VI arrived '
+      + 'without one; as in both earlier batches the five confusions were written rather than '
+      + 'the standard relaxed. Level VI needed a different kind of trap: at that level the '
+      + 'expensive errors are grammatical sentences meaning the opposite of what the writer '
+      + 'intended — "subject to" where "notwithstanding" was meant, "may" read as permission '
+      + 'when it confers a discretion, an unearned booster in a paper otherwise properly '
+      + 'hedged. The module quiz does not catch those, because a learner who makes them '
+      + 'believes they were right. Separately, Lesson 1.1 — the first lesson of the programme — '
+      + 'was given the revision stage it had never had: it was omitted because nothing precedes '
+      + 'the first lesson, but revision is what comes after a lesson, and Lesson 1.2 opens by '
+      + 'recapping it. With those two things all eight mastery metrics read 114 of 114 except '
+      + 'professional relevance, which reads 10 and should: it is required only where the '
+      + 'module is professional. Educational completeness and complete mastery coverage both '
+      + 'reach 100 per cent. What that means precisely: every lesson has all eleven components '
+      + 'present. It does not mean the components are good. Every self-check, exercise item and '
+      + 'architecture classification in the programme remains press_drafted, and not one has '
+      + 'been read by a qualified academic. A metric at 100 per cent measures completeness, and '
+      + 'completeness is the floor of quality rather than the proof of it.' },
+  { item: 'A count in the practice table that had been wrong three times',
+    built: 'The self-check row read "Authored for 57 of 114 lessons" while 95 existed. It had '
+      + 'been hand-written after each of three authoring passes and stale after each of them, '
+      + 'because the seed grew and the sentence did not. The figure is now read from the same '
+      + 'place the metric reads it, and a test asserts the printed figure equals the measured '
+      + 'one — so typing a literal back into that sentence fails the build.' },
+  { item: 'The Revision Guide became derivable by fixing one lesson',
+    built: 'Title 47, the six-volume IEFC Revision Guide, required a revision stage in all 114 '
+      + 'teaching lessons and had 113. Writing the missing stage moved it from Requires '
+      + 'authoring to Derivable without anyone deciding it should be: status is computed from '
+      + 'measured requirements, so the catalogue found the change before an editor did. It '
+      + 'enters the impact ranking scored 41 — below the Workbook, the Activities Handbook and '
+      + 'the Planning Manual, because it gathers a strand rather than creating one.' },
   { item: 'Learning Architecture, and the question that replaced the wrong one',
     built: 'The five modes are now Learning Architectures — what a lesson IS educationally, not '
       + 'how it is delivered — and each carries its educational dependency: the sentence a '
