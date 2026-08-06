@@ -61,6 +61,18 @@ const E = OWNER;
  * exists and how it is derived before proposing one.
  */
 export const EXECUTED = [
+  { item: 'Learning Architecture, and the question that replaced the wrong one',
+    built: 'The five modes are now Learning Architectures — what a lesson IS educationally, not '
+      + 'how it is delivered — and each carries its educational dependency: the sentence a '
+      + 'teacher can give for why this lesson is designed that way. Independent 33, '
+      + 'Collaborative 68, Authentic Communication 12, Instructor-Led 1, Guided nought, summing '
+      + 'to 114. "Is the lesson independently learnable?" is retired: it had a wrong answer '
+      + 'built into it, counting 68 collaborative lessons as incomplete for being collaborative. '
+      + 'The standard is now educational completeness — eleven components, all required, with '
+      + 'professional relevance required only where the module is professional so that a Level I '
+      + 'greetings lesson is not pushed to invent a workplace application. 56 of 114 lessons are '
+      + 'educationally complete, and the only thing standing in the way of the rest is the 57 '
+      + 'self-checks still to write, plus one lesson with no revision stage.' },
   { item: 'Learning modes, and a metric that was measuring pedagogy as a defect',
     built: 'Lessons independently learnable read 54 per cent, and the obvious response was to '
       + 'author solo alternatives for the other 53 until the number rose. That would have been '

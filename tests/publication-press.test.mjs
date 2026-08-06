@@ -662,8 +662,10 @@ check('the self-check row explains its own shape and states how far it has got',
   (PRACTICE.find((p) => p.key === 'selfcheck') || {}).why);
 
 // The seven metrics.
-check('seven mastery metrics, each a property of lessons and each explained',
-  MET.figures.length === 7
+// Eight since educational completeness joined them — the figure that
+// replaced "independently learnable" rather than being added beside it.
+check('every mastery metric is a property of lessons and each is explained',
+  MET.figures.length === 8
   && MET.figures.every((f) => f.n >= 0 && f.n <= MET.lessons && f.what.length > 40),
   MET.figures.map((f) => `${f.pct}%`).join(' '));
 
@@ -736,43 +738,61 @@ check('no unobservable field has been filled with prose',
   PED.observed === 0,
   'a value marked observed_in_teaching before anyone has taught would be invention');
 
-// ── 12 · Learning modes ──────────────────────────────────────────────
+// ── 12 · Learning architecture and educational completeness ──────────
 
-const { MODES, modes, modeOf } = mast;
-const MODE = modes(C);
+const { ARCHITECTURES, COMPLETENESS, architectures } = mast;
+const ARCH = architectures(C);
 
-check('five learning modes, each stating what it requires',
-  MODES.length === 5 && MODES.every((m) => m.what.length > 40),
-  MODES.map((m) => m.key).join(' · '));
+check('five learning architectures, each stating what it is and why it is used',
+  ARCHITECTURES.length === 5
+  && ARCHITECTURES.every((a) => a.what.length > 25 && a.reason.length > 40),
+  ARCHITECTURES.filter((a) => !a.reason || a.reason.length <= 40).map((a) => a.key).join(' · '));
 
-check('every teaching lesson carries exactly one mode and the modes sum to the whole',
-  MODE.rows.length === INV.teachingLessons && MODE.sums === MODE.rows.length
-  && MODE.rows.every((r) => MODES.some((m) => m.key === r.mode)),
-  `${MODE.sums} of ${MODE.rows.length}`);
+check('every teaching lesson carries one architecture and they sum to the whole',
+  ARCH.rows.length === INV.teachingLessons && ARCH.sums === ARCH.rows.length
+  && ARCH.rows.every((r) => ARCHITECTURES.some((a) => a.key === r.architecture)),
+  `${ARCH.sums} of ${ARCH.rows.length}`);
 
-check('the curriculum is not classified as one mode — the distribution is real',
-  MODE.counts.filter((c) => c.n > 0).length >= 3,
-  MODE.counts.map((c) => `${c.key} ${c.n}`).join(' · '));
+check('the curriculum is not one architecture — the distribution is real',
+  ARCH.counts.filter((c) => c.n > 0).length >= 3,
+  ARCH.counts.map((c) => `${c.key} ${c.n}`).join(' · '));
 
 // This bounds the instructor-led share; it does NOT guard the
 // assessment-stage exclusion, which changes no lesson's mode on the
 // current curriculum. Saying otherwise would credit a precaution with
 // work it does not do.
-const instructorLed = MODE.rows.filter((r) => r.mode === 'instructor').length;
-check('instructor-led is a minority mode, not the residue of a lazy rule',
-  instructorLed < MODE.rows.length * 0.2,
-  `${instructorLed} instructor-led of ${MODE.rows.length}`);
+const instructorLed = ARCH.rows.filter((r) => r.architecture === 'instructor').length;
+check('instructor-led is a minority architecture, not the residue of a lazy rule',
+  instructorLed < ARCH.rows.length * 0.2,
+  `${instructorLed} instructor-led of ${ARCH.rows.length}`);
 
 check('a collaborative lesson is not counted as failing to be independent',
-  MET.rows.filter((r) => r.mode === 'collaborative').every((r) => r.modeSatisfied),
-  MET.rows.filter((r) => r.mode === 'collaborative' && !r.modeSatisfied)
+  MET.rows.filter((r) => r.architecture === 'collaborative').every((r) => r.architectureSupported),
+  MET.rows.filter((r) => r.architecture === 'collaborative' && !r.architectureSupported)
     .map((r) => r.ref).join(' · '));
 
-check('an independent lesson is only satisfied when a learner really could work alone',
-  MET.rows.filter((r) => r.mode === 'independent' && r.modeSatisfied).length
-    <= MET.rows.filter((r) => r.mode === 'independent').length,
-  `${MET.rows.filter((r) => r.mode === 'independent' && r.modeSatisfied).length} of `
-  + `${MET.rows.filter((r) => r.mode === 'independent').length}`);
+check('eleven completeness components, each named and explained',
+  COMPLETENESS.length === 11 && COMPLETENESS.every(([, n, w]) => n && w.length > 30));
+
+check('every lesson is scored against all eleven components',
+  MET.rows.every((r) => Object.keys(r.parts).length === COMPLETENESS.length),
+  'a lesson missing a component would silently score as complete');
+
+check('educational completeness requires every component, not most of them',
+  MET.rows.every((r) => r.complete === Object.values(r.parts).every(Boolean))
+  && MET.rows.filter((r) => r.complete).every((r) => r.missing.length === 0),
+  MET.rows.filter((r) => r.complete && r.missing.length).map((r) => r.ref).join(' · '));
+
+// Professional relevance is required only where the module is
+// professional. A rule that demanded it everywhere would push a Level I
+// greetings lesson to invent a workplace application.
+check('professional relevance is required where applicable and not elsewhere',
+  MET.rows.filter((r) => !r.professional).every((r) => r.parts.professional === true),
+  MET.rows.filter((r) => !r.professional && !r.parts.professional).map((r) => r.ref).join(' · '));
+
+check('the completeness figure never exceeds the lessons with a self-check',
+  MET.figures.find((f) => /educationally complete/i.test(f.name)).n <= SC.length,
+  `${MET.figures.find((f) => /educationally complete/i.test(f.name)).n} of ${SC.length}`);
 
 // ── 13 · The volume itself ───────────────────────────────────────────
 

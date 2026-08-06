@@ -341,7 +341,7 @@ export function suppliedMaterials(C = buildCurriculum()) {
 
 
 // ─────────────────────────────────────────────────────────────────────
-// 2b · LEARNING MODES
+// 2b · LEARNING ARCHITECTURE
 // ─────────────────────────────────────────────────────────────────────
 
 /**
@@ -355,24 +355,32 @@ export function suppliedMaterials(C = buildCurriculum()) {
  * a percentage. The number was not measuring a deficiency. It was
  * measuring communicative language teaching working as intended.
  *
- * So a lesson now declares the mode its objective actually requires,
- * the three mode figures sum to the lesson count, and no mode is
- * treated as a failure to be another one.
+ * So a lesson now declares the ARCHITECTURE its objective requires —
+ * not merely how it is delivered but how it is educationally designed —
+ * the figures sum to the lesson count, and no architecture is treated
+ * as a failure to be another one. Each also carries the educational
+ * dependency: WHY that architecture, in a sentence a teacher can use.
  */
-export const MODES = [
-  { key: 'independent', name: 'Independent learning',
-    what: 'A learner can complete the lesson alone with the published resources.' },
-  { key: 'guided', name: 'Guided learning',
-    what: 'A teacher or mentor materially improves the learning, but the objective can be '
-      + 'reached without one.' },
-  { key: 'collaborative', name: 'Collaborative learning',
-    what: 'The objective requires interaction with one or more peers. Not a limitation: the '
-      + 'interaction IS the learning.' },
-  { key: 'instructor', name: 'Instructor-led learning',
-    what: 'The lesson depends on demonstration, coaching, moderation or live correction.' },
-  { key: 'authentic', name: 'Authentic communication',
-    what: 'The lesson requires genuine, unscripted communication with another human being — '
-      + 'the point at which a language stops being studied and starts being used.' },
+export const ARCHITECTURES = [
+  { key: 'independent', name: 'Independent Learning',
+    what: 'Designed for complete individual study.',
+    reason: 'The learning objective is cognitive and can be mastered through individual study.' },
+  { key: 'collaborative', name: 'Collaborative Learning',
+    what: 'Designed around structured peer interaction.',
+    reason: 'The objective requires negotiation of meaning, interaction, or peer feedback.' },
+  { key: 'authentic', name: 'Authentic Communication',
+    what: 'Requires genuine communication beyond controlled practice.',
+    reason: 'The learner must communicate with another person whose responses cannot be '
+      + 'predicted.' },
+  { key: 'instructor', name: 'Instructor-Led Learning',
+    what: 'Requires expert demonstration, coaching, moderation, or judgement.',
+    reason: 'The objective requires expert judgement, live correction, or performance '
+      + 'assessment.' },
+  { key: 'guided', name: 'Guided Learning',
+    what: 'Shared responsibility between learner and teacher, where coaching materially '
+      + 'improves outcomes but is not essential.',
+    reason: 'Coaching significantly accelerates mastery but independent completion remains '
+      + 'possible.' },
 ];
 
 /**
@@ -380,10 +388,10 @@ export const MODES = [
  *
  * Teaching lessons end with an instructor observation checkpoint, and
  * that is a dependency of the ASSESSMENT rather than of the LEARNING.
- * The stage is excluded so that the mode reports what a learner needs
+ * The stage is excluded so that the architecture reports what a learner needs
  * in order to learn, not what the College needs in order to mark.
  */
-const MODE_SIGNALS = [
+const ARCHITECTURE_SIGNALS = [
   ['authentic', /unscripted|find someone who|real conversation|genuine exchange|interview a |survey (three|four|five|\d+) (classmates|people)/i],
   ['collaborative', /pair work|in pairs|with a partner|your partner|in small groups|in groups|group work|take turns|each other|classmates?/i],
   // 'your instructor checks' is here because the assessment stage says
@@ -393,7 +401,7 @@ const MODE_SIGNALS = [
   // omitted the phrase entirely, so excluding the assessment stage
   // excluded nothing. The second said the exclusion PREVENTS all 114
   // lessons being classified instructor-led — it does not: removing the
-  // exclusion changes no lesson's mode, because instructor ranks below
+  // exclusion changes no lesson's architecture, because instructor ranks below
   // collaborative and authentic, and the 33 independent lessons do not
   // carry the phrase. The exclusion is a correct precaution against a
   // curriculum that has not been written yet, not a load-bearing rule
@@ -403,33 +411,33 @@ const MODE_SIGNALS = [
   ['guided', /teacher (support|guidance|help)|with guidance/i],
 ];
 
-/** Lessons whose derived mode is overridden, with the reason. Empty. */
-export const MODE_OVERRIDES = new Map();
+/** Lessons whose derived architecture is overridden, with the reason. Empty. */
+export const ARCHITECTURE_OVERRIDES = new Map();
 
 /**
- * The mode of one lesson: the most demanding signal present, because a
+ * The learning architecture of one lesson: the most demanding signal present, because a
  * lesson that needs unscripted exchange also contains pair work, and
  * the pair work is the rehearsal rather than the objective.
  */
-export function modeOf(item) {
+export function architectureOf(item) {
   const text = item.stages
     .filter((s) => s.icon !== 'assess')
     .map((s) => s.parts.map((p) => p.text).join(' ')).join(' ');
-  for (const [key, re] of MODE_SIGNALS) if (re.test(text)) return key;
+  for (const [key, re] of ARCHITECTURE_SIGNALS) if (re.test(text)) return key;
   return 'independent';
 }
 
-export function modes(C = buildCurriculum()) {
+export function architectures(C = buildCurriculum()) {
   const teaching = walk(C).filter(({ item }) =>
     item.stages.some((s) => s.icon === 'objectives'));
   const rows = teaching.map(({ ref, item }) => ({
     ref,
-    mode: MODE_OVERRIDES.get(ref) || modeOf(item),
-    overridden: MODE_OVERRIDES.has(ref),
+    architecture: ARCHITECTURE_OVERRIDES.get(ref) || architectureOf(item),
+    overridden: ARCHITECTURE_OVERRIDES.has(ref),
   }));
-  const counts = MODES.map((m) => ({
-    ...m,
-    n: rows.filter((r) => r.mode === m.key).length,
+  const counts = ARCHITECTURES.map((a) => ({
+    ...a,
+    n: rows.filter((r) => r.architecture === a.key).length,
   }));
   return {
     lessons: rows.length,
@@ -459,6 +467,18 @@ export function metrics(C = buildCurriculum()) {
   const has = (item, icon) => item.stages.some((s) => s.icon === icon);
   const modTitle = new Map(teaching.map(({ ref, mod }) => [ref, mod.title]));
   const checked = new Set(selfChecks().map((s) => s.ref));
+  const modKey = (ref) => ref.split('.').slice(0, 2).join('.');
+  const assessed = new Set();
+  const rubriced = new Set();
+  for (const lv of C.levels) {
+    for (const mod of lv.modules) {
+      const k = `${lv.roman}.${mod.sequence}`;
+      if (mod.lessons.some((x) => x.kind === 'quiz')
+        && mod.lessons.some((x) => x.kind === 'assignment')) assessed.add(k);
+      if (mod.lessons.some((x) => x.stages.some((st) => st.icon === 'rubric'))) rubriced.add(k);
+    }
+  }
+  void modKey;
   const PROFESSIONAL = /Work|Career|Negotiation|Professional Advocacy/i;
 
   const rows = teaching.map(({ ref, item }) => {
@@ -482,17 +502,37 @@ export function metrics(C = buildCurriculum()) {
       // needs the task and the materials for it, and a partner is the
       // learner's to find. Counting a collaborative lesson as a failure
       // to be independent was measuring pedagogy as a defect.
-      mode: modeOf(item),
-      modeSatisfied: !blocked.has(ref)
-        && (modeOf(item) !== 'independent'
+      architecture: architectureOf(item),
+      architectureSupported: !blocked.has(ref)
+        && (architectureOf(item) !== 'independent'
           || (has(item, 'homework') && has(item, 'extension'))),
       selfCheck: checked.has(ref),
+      // The eleven components of educational completeness.
+      parts: {
+        objective: has(item, 'objectives'),
+        teaching: has(item, 'present'),
+        practice: has(item, 'guided') && !blocked.has(ref),
+        feedback: has(item, 'assess'),
+        selfcheck: checked.has(ref),
+        assessment: assessed.has(ref.split('.').slice(0, 2).join('.')),
+        masteryEvidence: rubriced.has(ref.split('.').slice(0, 2).join('.')),
+        architecture: true,
+        resources: has(item, 'prereq') && has(item, 'vocabulary') && has(item, 'revision'),
+        professional: !PROFESSIONAL.test(modTitle.get(ref) || '')
+          || /work|career|professional|client|colleague|meeting/i.test(
+            item.stages.map((s) => s.parts.map((p) => p.text).join(' ')).join(' ')),
+        progression: has(item, 'prereq') && has(item, 'revision'),
+      },
     };
   });
 
+  for (const r of rows) {
+    r.complete = Object.values(r.parts).every(Boolean);
+    r.missing = Object.entries(r.parts).filter(([, v]) => !v).map(([k]) => k);
+  }
   const count = (k) => rows.filter((r) => r[k]).length;
   const mastery = rows.filter((r) => r.completePractice && r.completeResources
-    && r.teachableFromPrint && r.selfCheck && r.modeSatisfied).length;
+    && r.teachableFromPrint && r.selfCheck && r.architectureSupported).length;
 
   return {
     lessons: rows.length,
@@ -510,11 +550,16 @@ export function metrics(C = buildCurriculum()) {
         'Objectives, prerequisites, presentation, practice, assessment and revision all present.'],
       ['Lessons independently teachable from print', count('teachableFromPrint'),
         'A teacher could run the lesson from the printed page without inventing material first.'],
-      ['Lessons whose mode is fully supported', count('modeSatisfied'),
-        'The published resources supply everything the lesson’s own mode requires. A '
+      ['Lessons whose learning architecture is fully supported', count('architectureSupported'),
+        'The published resources supply everything the lesson’s own architecture requires. A '
         + 'collaborative lesson is supported when its task and materials exist; the partner is '
         + 'not a resource the Press can print, and treating one as missing was measuring '
         + 'communicative teaching as a defect.'],
+      ['Lessons educationally complete', count('complete'),
+        'All eleven components present: objective, teaching, practice, feedback, self-check, '
+        + 'assessment, mastery evidence, declared architecture, supporting resources, '
+        + 'professional relevance where applicable, and clear progression. This replaces '
+        + '"independently learnable", which counted a collaborative lesson as a failure.'],
       ['Lessons achieving complete mastery coverage', mastery,
         'All of the above AND a self-check the learner can attempt alone with the answer beside '
         + 'it. Bounded by the self-checks authored so far, which is the honest ceiling.'],
@@ -522,6 +567,41 @@ export function metrics(C = buildCurriculum()) {
     supplied: sup,
   };
 }
+
+
+// ─────────────────────────────────────────────────────────────────────
+// 3b · EDUCATIONAL COMPLETENESS
+// ─────────────────────────────────────────────────────────────────────
+
+/**
+ * The question that replaces "is this lesson independently learnable".
+ *
+ * That question had a wrong answer built into it: it treated the 68
+ * collaborative lessons as incomplete for being collaborative. This one
+ * asks whether a lesson has everything a lesson needs — including a
+ * declared architecture and the resources that architecture requires —
+ * and it is the standard the programme is now measured against.
+ *
+ * Eleven components. Ten are required of every lesson; professional
+ * relevance is required only where the module is professional, because
+ * a Level I greetings lesson has no professional application and
+ * inventing one would be the kind of padding this project refuses.
+ */
+export const COMPLETENESS = [
+  ['objective', 'Learning objective', 'The lesson states what the learner will be able to do.'],
+  ['teaching', 'Teaching', 'The lesson presents the language rather than only practising it.'],
+  ['practice', 'Practice', 'Guided practice exists and its materials exist.'],
+  ['feedback', 'Feedback', 'A point at which the learner finds out whether they are right.'],
+  ['selfcheck', 'Self-check', 'The learner can verify their own understanding before assessment.'],
+  ['assessment', 'Assessment', 'The module the lesson belongs to assesses it.'],
+  ['masteryEvidence', 'Mastery evidence', 'Criteria exist against which the assessment is marked.'],
+  ['architecture', 'Declared learning architecture', 'The lesson declares how it is designed to '
+    + 'be learned, and why.'],
+  ['resources', 'Supporting resources', 'Prerequisites, vocabulary and revision are present.'],
+  ['professional', 'Professional relevance', 'Where the module is professional, the lesson '
+    + 'applies the language to work. Not applicable elsewhere, and not required.'],
+  ['progression', 'Clear progression', 'The lesson names what it builds on and is returned to.'],
+];
 
 // ─────────────────────────────────────────────────────────────────────
 // 4 · WHAT MAKES IT RECOGNISABLY THIS COLLEGE
