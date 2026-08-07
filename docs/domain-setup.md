@@ -25,19 +25,27 @@ it.** The moment `www.worldwencollege.co.uk` resolves, the site is
 public to anyone who types it — the lockdown does not follow the
 domain across.
 
-That may be exactly what you want. It is worth deciding on purpose
-rather than discovering it, because the site currently states in
-public that the College has no accreditation, no appointed staff and a
-competency framework marked *interim*. Those statements are honest and
-they are meant to be read by someone who knows what they are looking
-at.
+**DECIDED — 7 August 2026: go public.** The custom domain serves the
+site openly. Cloudflare Access is deliberately NOT extended to it, and
+nothing below adds it to the Zero Trust application.
 
-**To stay private on the real domain:** open the same Zero Trust
-application (**WEC-LC preview**) and add two more destinations —
-`worldwencollege.co.uk` and `www.worldwencollege.co.uk` — before
-step 4 below. The existing `Owner only` policy then covers them too.
+What that means in practice, recorded so nobody has to re-derive it:
+the site states publicly that the College holds no accreditation, has
+no appointed staff, and carries a competency framework marked
+*interim*. Those statements are accurate and deliberate, and they are
+now readable by anyone, including search engines. That was the choice,
+not an oversight.
 
-**To go public:** change nothing, and the domain serves the site openly.
+`wec-lc.pages.dev` and `*.wec-lc.pages.dev` STAY behind Access. That
+combination is intentional and useful: the public reads the real
+domain, and the deployment URLs — including every permanent
+per-deployment hash URL — remain closed.
+
+**To reverse it later:** open the Zero Trust application **WEC-LC
+preview** and add two destinations, `worldwencollege.co.uk` and
+`www.worldwencollege.co.uk`. The existing `Owner only` policy then
+covers them and the site closes again. Anything already indexed by a
+search engine stays in its cache for a while regardless.
 
 ---
 
