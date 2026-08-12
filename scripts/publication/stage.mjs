@@ -156,6 +156,13 @@ export const STATUS = {
   GOVERNANCE: 'Requires governance',
   EXTERNAL: 'Requires external review',
   UNSUPPORTED: 'Not supported by the curriculum',
+  // A title deliberately NOT built, because the educational need it
+  // names is already met by a volume that exists. This is the only
+  // status that records a decision rather than a measurement, so it is
+  // the only one that carries a reason and a destination — see
+  // `consolidatedInto` on the resource. It counts as available: the
+  // need is served, and serving it twice would serve it no better.
+  CONSOLIDATED: 'Consolidated into another title',
 };
 
 // ─────────────────────────────────────────────────────────────────────
@@ -582,11 +589,39 @@ export const RESOURCES = [
     needs: [need('quiz questions with answers', 'quizQuestions', 100),
       need('self-check prompts with model answers', 'selfCheckPrompts', 50),
       need('exercise items with answers', 'exerciseItems', 5)] }),
+  // WITHDRAWN AS A SEPARATE VOLUME, 12 August 2026.
+  //
+  // Both of the next two became buildable the moment the Level I
+  // teaching-support layer was completed, and building either would
+  // have reprinted panels the Teacher's Companion already prints:
+  // nineteen interventions and nineteen remediations in one, nineteen
+  // differentiate-downs and nineteen stretches in the other. Two more
+  // volumes and not one more sentence of teaching.
+  //
+  // The Permanent Academic Rule on this project is that a resource is
+  // built when it improves education and not when it improves a count,
+  // and these two would have improved the count. What they would
+  // genuinely have offered — a way in for a teacher who knows the
+  // symptom but not the lesson — is an index problem rather than a
+  // volume problem, and the Companion now carries that index: 199
+  // target items pointing at the spread that says what goes wrong.
+  //
+  // Recorded rather than deleted. A title withdrawn silently looks
+  // like a title forgotten, and the reasoning has to survive for
+  // whoever proposes them again.
   r({ cat: 'Teacher', name: 'Intervention Guide',
+    consolidatedInto: "Teacher's Companion",
+    why: 'Every intervention and remediation entry it would carry is printed in the '
+      + "Teacher's Companion, on the spread for the lesson it belongs to. A separate volume "
+      + 'would duplicate them and could drift from them.',
     serves: ['teacher'], improves: ['teaching', 'learner success'],
     owner: OWNER.ACADEMIC,
     needs: [need('authored intervention and remediation guidance', 'pedagogyAuthored', 20)] }),
   r({ cat: 'Teacher', name: 'Differentiation Guide',
+    consolidatedInto: "Teacher's Companion",
+    why: 'Every differentiate-down and stretch entry it would carry is printed in the '
+      + "Teacher's Companion, beside the difficulty it answers. Separating them from the "
+      + 'lesson they belong to would make them harder to use, not easier.',
     serves: ['teacher'], improves: ['teaching', 'learner success'],
     owner: OWNER.ACADEMIC,
     needs: [need('authored differentiation guidance in both directions',
@@ -857,7 +892,8 @@ export function resolve(res, inv) {
   const short = met.filter((m) => m.deficit > 0);
 
   let status;
-  if (res.unsupported) status = STATUS.UNSUPPORTED;
+  if (res.consolidatedInto) status = STATUS.CONSOLIDATED;
+  else if (res.unsupported) status = STATUS.UNSUPPORTED;
   else if (res.artefact && existsSync(path.join(ROOT, 'publication', res.artefact))) {
     status = STATUS.PUBLISHED;
   } else if (!short.length && res.owner === OWNER.EXTERNAL) status = STATUS.EXTERNAL;
@@ -895,7 +931,7 @@ export function statusCounts(rows = stageOne()) {
  * absence with a good reason is still an absence, and a stage that
  * counted it as satisfied would be reporting a preference.
  */
-const AVAILABLE = new Set([STATUS.PUBLISHED, STATUS.DERIVABLE]);
+const AVAILABLE = new Set([STATUS.PUBLISHED, STATUS.DERIVABLE, STATUS.CONSOLIDATED]);
 
 export function readiness(rows = stageOne()) {
   const criteria = COMPLETION.map((c) => {
@@ -938,6 +974,12 @@ export function report(rows = stageOne()) {
     governance: by(STATUS.GOVERNANCE),
     externalReview: by(STATUS.EXTERNAL),
     unsupported: by(STATUS.UNSUPPORTED),
+    // Available, and neither published nor derivable: the need is met
+    // by another volume. Reported as its own bucket rather than folded
+    // into `completed`, because "we built it" and "we decided not to
+    // build it, and here is what serves it instead" are different
+    // answers and the second one needs its reason read.
+    consolidated: by(STATUS.CONSOLIDATED),
     readiness: readiness(rows),
   };
 }

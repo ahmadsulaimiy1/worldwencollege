@@ -109,16 +109,30 @@ function build() {
     'seed-pedagogy-level-1', 'seed-teaching-expertise-level-1']) {
     db.exec(readFileSync(`${ROOT}/sql/${f}.sql`, 'utf8'));
   }
+  const REF = `l.roman || '.' || u.sequence || '.' || i.sequence`;
+  const LVL = `JOIN units u ON u.id = i.unit_id
+               JOIN courses c ON c.id = u.course_id
+               JOIN programme_levels l ON l.id = c.level_id
+              WHERE l.roman = '${LEVEL}'`;
+
   const rows = db.prepare(
-    `SELECT l.roman || '.' || u.sequence || '.' || i.sequence AS ref,
-            e.field_key, e.value, e.evidence_state
+    `SELECT ${REF} AS ref, e.field_key, e.value, e.evidence_state
        FROM pedagogy_entries e
-       JOIN learning_items i ON i.id = e.learning_item_id
-       JOIN units u ON u.id = i.unit_id
-       JOIN courses c ON c.id = u.course_id
-       JOIN programme_levels l ON l.id = c.level_id
-      WHERE l.roman = '${LEVEL}' AND e.value IS NOT NULL AND TRIM(e.value) <> ''
+       JOIN learning_items i ON i.id = e.learning_item_id ${LVL}
+        AND e.value IS NOT NULL AND TRIM(e.value) <> ''
       ORDER BY u.sequence, i.sequence`).all();
+
+  // The index. Every target item the level teaches, with the lesson
+  // that teaches it and whether the record holds a caution about it.
+  // Read from the vocabulary sets rather than parsed out of prose:
+  // an index built by regex over teaching text drifts the first time
+  // somebody rewrites a sentence.
+  const index = db.prepare(
+    `SELECT ${REF} AS ref, vi.headword, vi.note
+       FROM vocabulary_items vi
+       JOIN vocabulary_sets vs ON vs.id = vi.vocabulary_set_id
+       JOIN learning_items i ON i.id = vs.learning_item_id ${LVL}
+      ORDER BY LOWER(vi.headword)`).all();
   db.close();
 
   const byRef = new Map();
@@ -126,10 +140,10 @@ function build() {
     if (!byRef.has(r.ref)) byRef.set(r.ref, {});
     byRef.get(r.ref)[r.field_key] = { value: r.value, state: r.evidence_state };
   }
-  return byRef;
+  return { byRef, index };
 }
 
-const PED = build();
+const { byRef: PED, index: INDEX } = build();
 const C = buildCurriculum();
 const ID = publicationIdentity(C, { edition: 1, revision: 0, impression: 1 });
 const LV = C.levels.find((l) => l.roman === LEVEL);
@@ -218,6 +232,46 @@ const lessonSection = (L) => {
 // drift from the book again, whatever fields are added or moved later.
 // ─────────────────────────────────────────────────────────────────────
 const BODY = LESSONS.map(lessonSection).join('');
+
+// ─────────────────────────────────────────────────────────────────────
+// THE INDEX, AND THE TWO VOLUMES IT REPLACES
+// ─────────────────────────────────────────────────────────────────────
+// The Stage 1 register carried an Intervention Guide and a
+// Differentiation Guide as separate titles. Both became buildable when
+// the teaching-support layer was completed, and building either would
+// have reprinted panels this book already prints — nineteen
+// interventions and nineteen remediations in one, nineteen
+// differentiate-downs and nineteen stretches in the other. Two more
+// volumes, no more teaching.
+//
+// What they would genuinely have offered is a different way in. This
+// book is ordered by lesson, and a teacher whose learner is stuck does
+// not necessarily know which lesson caused it. That is an index
+// problem, not a volume problem, and it is solved here: 199 target
+// items, alphabetical, each pointing at the lesson that teaches it and
+// therefore at the spread that says what goes wrong with it.
+//
+// One book that can be entered two ways beats three books that cannot
+// be kept in step with each other.
+const cautioned = INDEX.filter((x) => x.note && x.note.trim()).length;
+// Eighteen, not nineteen: the revision lesson consolidates the level
+// and introduces no new items, so it contributes nothing to an index of
+// target items. Counting the lessons in the book here would have said
+// nineteen and been wrong by one — the kind of number a reader checks.
+const indexedLessons = new Set(INDEX.map((x) => x.ref)).size;
+const indexSection = `
+<section class="index">
+  <p class="eyebrow">Index</p>
+  <h1>Every target item, and where it is taught.</h1>
+  <p class="lead">${INDEX.length} items from the ${indexedLessons} lessons of Level I that
+    introduce new language, in
+    alphabetical order. A dot marks an item the record holds a caution about — a point at
+    which English is arbitrary and has to be learned rather than reasoned out. The reference
+    is the lesson spread, where the difficulty and what to do about it are set out.</p>
+  <ul class="idx">
+    ${INDEX.map((x) => `<li>${x.note && x.note.trim() ? '<b class="dot">&middot;</b>' : '<span class="dot"></span>'}${esc(x.headword)}<span class="idx__r">${esc(x.ref)}</span></li>`).join('')}
+  </ul>
+</section>`;
 const printed = (mark) =>
   (BODY.match(new RegExp(`class="tag"[^>]*>${mark}<`, 'g')) || []).length;
 const designed = printed('DESIGNED');
@@ -309,6 +363,16 @@ p { margin:0 0 5pt; }
   text-transform:uppercase; color:${PAL.midnightNavy}; margin:0 0 3pt; }
 .p__b { margin:0; }
 
+.index { break-before:page; }
+.index h1 { font-size:14pt; margin-bottom:5pt; }
+.idx { column-count:2; column-gap:7mm; list-style:none; margin:8pt 0 0; padding:0;
+  font-size:8pt; line-height:1.42; }
+.idx li { break-inside:avoid; padding:0 0 1.2pt; display:flex; align-items:baseline;
+  border-bottom:.3pt solid ${PAL.softCream}; }
+.idx .dot { display:inline-block; width:5pt; flex:0 0 5pt; color:${ACCENT.hex}; }
+.idx__r { margin-left:auto; padding-left:4pt; font-family:${TYPE.sans}; font-size:6.4pt;
+  color:${PAL.slateGrey}; letter-spacing:.06em; white-space:nowrap; }
+
 .band { text-align:center; margin:10pt 0 0; }
 .fleuron { text-align:center; margin:9pt 0; }
 </style></head><body>
@@ -375,6 +439,8 @@ p { margin:0 0 5pt; }
 
 ${BODY}
 
+${indexSection}
+
 <div class="band">${guillocheBand({ width: 140, height: 9, stroke: ACCENT.hex, opacity: 0.5 })}</div>
 ${LEGACY}
 </body></html>`;
@@ -410,4 +476,5 @@ console.log(`COMPANION  ${out}`);
 console.log(`  ${pages} pages · ${FMT.w} × ${FMT.h} mm · ${LESSONS.length} lessons · `
   + `${panelCount} panels (${derived} derived, ${established} established, `
   + `${designed} designed, ${observed} observed) · ${minutesShown} stage times in headers · `
-  + `${cells.length} record cells behind them`);
+  + `${cells.length} record cells behind them\n  index: ${INDEX.length} target items `
+  + `(${cautioned} cautioned) — replaces the Intervention and Differentiation Guides`);

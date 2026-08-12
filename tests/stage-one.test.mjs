@@ -334,12 +334,32 @@ const REP = S.report(ROWS);
 
 check('the report splits the register into the buckets the directive names',
   ['completed', 'derivable', 'remaining', 'academicAuthoring', 'governance',
-    'externalReview', 'unsupported'].every((k) => Array.isArray(REP[k])),
+    'externalReview', 'unsupported', 'consolidated'].every((k) => Array.isArray(REP[k])),
   Object.keys(REP).join(' '));
 
-check('completed plus remaining plus derivable accounts for every resource',
-  REP.completed.length + REP.derivable.length + REP.remaining.length === ROWS.length,
-  `${REP.completed.length}+${REP.derivable.length}+${REP.remaining.length} of ${ROWS.length}`);
+// Every resource lands in exactly one of the four top-level buckets.
+// This caught the consolidated titles the moment they were added: the
+// sum came to 72 of 74 and the two missing were the volumes the Press
+// had decided not to build. A register that can lose a title silently
+// is a register that can be gamed by withdrawing the hard ones.
+check('completed, derivable, consolidated and remaining account for every resource',
+  REP.completed.length + REP.derivable.length + REP.consolidated.length
+    + REP.remaining.length === ROWS.length,
+  `${REP.completed.length}+${REP.derivable.length}+${REP.consolidated.length}`
+  + `+${REP.remaining.length} of ${ROWS.length}`);
+
+// A withdrawal has to name where the need went and why, or it is
+// indistinguishable from quietly dropping a title that proved awkward.
+check('every consolidated title names the volume that serves it instead',
+  REP.consolidated.every((r) => r.consolidatedInto && r.why && r.why.length > 40),
+  REP.consolidated.filter((r) => !(r.consolidatedInto && r.why))
+    .map((r) => r.name).join(' · '));
+check('...and that volume is itself in the register and available',
+  REP.consolidated.every((r) => {
+    const host = ROWS.find((x) => x.name === r.consolidatedInto);
+    return host && (host.status === S.STATUS.PUBLISHED || host.status === S.STATUS.DERIVABLE);
+  }),
+  REP.consolidated.map((r) => `${r.name} -> ${r.consolidatedInto}`).join(' · '));
 
 check('nothing appears in both the completed and the remaining bucket',
   !REP.completed.some((c) => REP.remaining.some((r) => r.name === c.name)),
