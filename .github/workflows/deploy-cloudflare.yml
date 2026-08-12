@@ -77,12 +77,26 @@ jobs:
       - run: npm ci
       - name: Static build
         run: npm run build
+      # Chromium is installed BEFORE the backend suite, not after it.
+      #
+      # It used to sit further down, immediately above the tests/browser/
+      # scripts, which was correct when only those needed a browser. It
+      # stopped being correct when the publication work added PDF tests:
+      # `npm test` auto-discovers tests/*.test.mjs, and both
+      # publication-craft and publication-editions launch Chromium to
+      # render and re-measure a real PDF. With the install below them
+      # they crashed with "Executable doesn't exist", which reads like a
+      # broken dependency and is really a step in the wrong order.
+      #
+      # It went unseen because it cannot reproduce locally: a developer
+      # machine already has the browser, so the ordering only matters on
+      # a clean runner.
+      - name: Install Chromium — needed by the PDF suites as well as the browser ones
+        run: npx playwright install --with-deps chromium
       - name: Backend suite
         run: npm test
       - name: Programme-wide curriculum consistency
         run: node --experimental-sqlite tests/curriculum-consistency.test.mjs
-      - name: Install Chromium for the browser suites
-        run: npx playwright install --with-deps chromium
       - name: Route audit — every built route
         run: node tests/browser/route-audit.mjs
       - name: Listening Lab
