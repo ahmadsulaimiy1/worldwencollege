@@ -192,7 +192,8 @@ export function inventoryL1(C = buildCurriculum()) {
     db.exec(readFileSync(`${ROOT}/sql/seed-audio-level-${n}.sql`, 'utf8'));
   }
   for (const f of ['seed-exercises', 'seed-selfchecks', 'seed-pedagogy',
-    'seed-vocabulary-level-1', 'seed-solo-level-1', 'seed-competency-level-1', 'seed-pedagogy-level-1']) {
+    'seed-vocabulary-level-1', 'seed-solo-level-1', 'seed-competency-level-1', 'seed-pedagogy-level-1',
+    'seed-teaching-expertise-level-1']) {
     db.exec(readFileSync(`${ROOT}/sql/${f}.sql`, 'utf8'));
   }
   const ONE = `JOIN units u ON u.id = i.unit_id
