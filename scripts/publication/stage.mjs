@@ -526,11 +526,20 @@ export const RESOURCES = [
   // require AUTHORED pedagogical knowledge, which is honest work, and
   // each of them prints the evidence state of every claim so a reader
   // can see which is which.
+  // The requirement is raised from 40 to 152 because 40 was the
+  // threshold at which the volume became buildable, not the threshold
+  // at which it became worth opening. Four of nineteen lessons carried
+  // teaching support at 40; the book behind that number would have had
+  // holes on fifteen spreads. 152 is eight fields on every lesson,
+  // which is what the published edition actually rests on — so the
+  // status falls back to Derivable if the layer is ever thinned.
   r({ cat: 'Teacher', name: "Teacher's Companion",
     serves: ['teacher'], improves: ['teaching', 'educational quality'],
     owner: OWNER.ACADEMIC,
+    artefact: "IEFC Level I Teacher's Companion.pdf",
+    build: 'render-companion.mjs',
     needs: [need('pedagogical fields supplied by expertise or established practice',
-      'pedagogyAuthored', 40),
+      'pedagogyAuthored', 152),
     need('fields derived from the curriculum itself', 'pedagogyEvidenced', 50)] }),
   r({ cat: 'Teacher', name: 'Teaching Guide',
     serves: ['teacher'], improves: ['teaching', 'classroom delivery'],

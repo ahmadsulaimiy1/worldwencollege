@@ -24,7 +24,8 @@
     "canon": "node --experimental-sqlite scripts/publication/render-canon.mjs && node --experimental-sqlite scripts/publication/render-canon.mjs",
     "listening": "node --experimental-sqlite scripts/publication/render-listening.mjs",
     "assessment": "node --experimental-sqlite scripts/publication/render-assessment.mjs",
-    "workbook": "node --experimental-sqlite scripts/publication/render-workbook.mjs"
+    "workbook": "node --experimental-sqlite scripts/publication/render-workbook.mjs",
+    "companion": "node --experimental-sqlite scripts/publication/render-companion.mjs"
   },
   "devDependencies": {
     "jsqr": "^1.4.0",
