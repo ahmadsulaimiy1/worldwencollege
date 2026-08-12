@@ -1,12 +1,63 @@
 # Connecting worldwencollege.co.uk
 
+**DONE — 12 August 2026.** Both hostnames are Active with SSL, and
+resolve on Cloudflare's authoritative nameservers and on public
+resolvers:
+
+    worldwencollege.co.uk       104.21.55.109  172.67.171.27
+    www.worldwencollege.co.uk   172.67.171.27  104.21.55.109
+
+Nameservers `merlin` / `zariyah.ns.cloudflare.com`, moved at Naira
+Hosting. Production deployment: run #9, commit 55cf655 — the FIRST
+production deployment this project has ever had.
+
+The rest of this file is kept as the record of how, and of the two
+things that had to be fixed on the way.
+
+---
+
+## What actually blocked it, and why neither was DNS
+
+Both were long-standing faults that only a real deploy could expose,
+because the workflow had not run since 3 August.
+
+**The lock file was out of sync.** `pdfjs-dist` was added to
+package.json and package-lock.json was never regenerated. `npm ci`
+refuses that by design, so the job died at the install step in twelve
+seconds without running a test. Fixed in 732ae36, and pinned to 4.6.82
+rather than the caret range, which now resolves to 4.10.38 and drags in
+thirteen native canvas binaries this project has never run against.
+
+**Chromium was installed after the tests that need it.** The install
+step sat immediately above the tests/browser/ scripts — correct when
+written, wrong once the publication work added PDF tests to the
+auto-discovered backend suite. publication-craft rasterises a rendered
+page and publication-editions renders the flagship; both launch a
+browser. Fixed in 55cf655.
+
+Neither could reproduce locally: this machine has Chromium already, and
+node_modules was already installed. A green local suite against a red
+CI is the signature of a fault that lives in the environment.
+
+---
+
+## The original sequence, for the next domain
+
 The domain is registered at **Naira Hosting**. The site is a
-**Cloudflare Pages** project called `wec-lc`, currently reachable at
+**Cloudflare Pages** project called `wec-lc`, also reachable at
 `wec-lc.pages.dev`.
 
 Nothing in this repository can make the connection. It is two
 dashboards: Cloudflare (add the custom domain) and Naira Hosting
-(point the DNS). This file is the sequence.
+(point the DNS). Below is the sequence.
+
+**And one thing the sequence originally missed:** attaching a custom
+domain is not enough on its own. The domain binds to the PRODUCTION
+environment, and this project's Pages production branch is `main` —
+deliberately a branch that does not exist in the repository, so that
+every ordinary deploy lands in Preview. Until the deploy workflow was
+run with `branch: main`, Production had never been built and the domain
+resolved to Cloudflare serving nothing.
 
 ---
 
