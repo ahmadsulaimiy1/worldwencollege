@@ -129,18 +129,57 @@ function servedFiles(dir, out = []) {
 const files = servedFiles(ROOT);
 check('There is a public site to scan', files.length > 20, files.length);
 
-// Match on surname as well as full name: "Al-Hassan" or "Harrington"
-// alone on a page is the same fabrication as the full row, and is how
-// it would realistically be pasted in.
+// Match on surname as well as full name: "Harrington" alone on a page
+// is the same fabrication as the full row, and is how it would
+// realistically be pasted in.
+//
+// ONE EXEMPTION, and it is narrow. Since the faculty register was
+// filled, real appointed staff share a surname with a placeholder —
+// "Dr. Ahmed Al-Hassan" against placeholder "Dr. Ahmad Kareem
+// Al-Hassan", and "Hassan" inside it against "Dr. Zainab Ismail
+// Hassan". Those staff are published on /faculty/ by design, so a bare
+// surname is no longer proof of a leak. Surnames the register actually
+// contains stop being matched; the placeholder's FULL name, email and
+// id still are, which is what a real leak would carry. The exemption is
+// derived from the register rather than hard-coded, and asserted below
+// so it cannot quietly widen into "surnames are no longer checked".
+// Read the ROSTER TABLES only, not the whole register. The register
+// also names placeholders in its warning note — "Dr. Omar Farooq
+// Malik" — and matching the file as a whole exempted "Malik", a
+// surname that belongs to no member of staff. Narrowing this to the
+// two tables is the difference between "this surname is published
+// because someone works here" and "this surname is mentioned
+// somewhere in a document".
+const registerDoc = readFileSync(path.join(ROOT, 'docs/faculty-register.md'), 'utf8');
+const registerText = registerDoc
+  .slice(registerDoc.indexOf('## Academic staff'))
+  .split('\n')
+  .filter((l) => l.trim().startsWith('|'))
+  .map((l) => l.split('|')[1] || '')
+  .join('\n');
+check('The faculty register has roster tables to read', registerText.split('\n').filter(Boolean).length >= 20,
+  registerText.split('\n').filter(Boolean).length);
+const exempted = [];
 const needles = [];
 for (const p of people) {
   const full = p.preferred_name.trim();
   needles.push({ person: full, text: full });
   const surname = full.split(/\s+/).pop();
-  if (surname && surname.length >= 5) needles.push({ person: full, text: surname });
+  if (surname && surname.length >= 5) {
+    if (registerText.includes(surname)) exempted.push(surname);
+    else needles.push({ person: full, text: surname });
+  }
   needles.push({ person: full, text: p.email });
   needles.push({ person: full, text: p.id });
 }
+check('Only surnames belonging to registered faculty are exempt from the surname scan',
+  [...new Set(exempted)].sort().join(', ') === 'Al-Hassan, Hassan',
+  [...new Set(exempted)].sort().join(', ') || 'none');
+check('...and every exempt surname really is a placeholder AND a registered name',
+  exempted.every((s) => people.some((p) => p.preferred_name.endsWith(s)) && registerText.includes(s)));
+check('...while most placeholder surnames are still scanned',
+  needles.filter((n) => n.text.split(/\s+/).length === 1 && !n.text.includes('@')
+    && !n.text.startsWith('usr_demo_')).length >= 10);
 
 const leaks = [];
 for (const file of files) {

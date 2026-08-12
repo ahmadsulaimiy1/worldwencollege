@@ -366,6 +366,17 @@ section { position: relative; }
    identical contrast problem in the identical context. */
 .section--light .card__num, .section--paper .card__num { color: var(--red); }
 
+/* -------------------- Faculty roster -------------------- */
+/* The credentials line sits between the name and the specialism, so it
+   needs to read as metadata rather than as body copy — smaller, softer,
+   and separated by a rule so a long degree list does not run into the
+   sentence below it. --ink-soft on paper is the same pairing .lede
+   already uses, so the contrast is known-good rather than guessed. */
+.faculty__creds {
+  font-size: .86rem; color: var(--ink-soft); margin: 0 0 10px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--line);
+}
+
 /* -------------------- Ledger table -------------------- */
 .ledger { width: 100%; border-collapse: collapse; margin-top: 8px; }
 .ledger th {
