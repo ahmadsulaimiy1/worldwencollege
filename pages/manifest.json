@@ -525,5 +525,50 @@
     "contentFile": "students-support.html",
     "lang": "en",
     "dir": "ltr"
+  },
+  {
+    "slug": "teaching",
+    "output": "teaching/index.html",
+    "title": "Teaching &mdash; Worldwide English College",
+    "description": "How WEC-LC teaches English: the method, what a teacher is given, and the honest position of an institution that has written a full programme and taught nobody.",
+    "contentFile": "teaching.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "teaching-lesson-design",
+    "output": "teaching/lesson-design/index.html",
+    "title": "How a Lesson Is Designed &mdash; Worldwide English College",
+    "description": "The anatomy of a WEC-LC lesson: staged, timed, planned against a named outcome, and written before the teaching happens.",
+    "contentFile": "teaching-lesson-design.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "teaching-support",
+    "output": "teaching/support/index.html",
+    "title": "The Teaching Support Record &mdash; Worldwide English College",
+    "description": "17 fields of teaching support per lesson, and the four kinds of knowledge WEC-LC distinguishes rather than blurs.",
+    "contentFile": "teaching-support.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "teaching-companion",
+    "output": "teaching/companion/index.html",
+    "title": "The Teacher&rsquo;s Companion &mdash; Worldwide English College",
+    "description": "The Level I Teacher’s Companion: a printed volume in which every panel carries the provenance of what it claims.",
+    "contentFile": "teaching-companion.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "teaching-development",
+    "output": "teaching/development/index.html",
+    "title": "Development &amp; Observation &mdash; Worldwide English College",
+    "description": "What WEC-LC has built for teacher development and observation, what it has recorded so far, and why the answer to the second is none.",
+    "contentFile": "teaching-development.html",
+    "lang": "en",
+    "dir": "ltr"
   }
 ]
