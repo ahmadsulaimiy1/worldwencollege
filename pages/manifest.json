@@ -236,7 +236,8 @@
     "description": "The International English Fluency Certificate in six CEFR-aligned levels, from no English to mastery. Modules, hours, assessment and awards for every level.",
     "contentFile": "study.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/study/"
   },
   {
     "slug": "study-level-1",
@@ -353,7 +354,8 @@
     "description": "How Worldwide English College assures academic quality: the mechanisms that run today, and the review cycles that cannot run until a cohort has been taught.",
     "contentFile": "about-qa.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/about/quality-assurance/"
   },
   {
     "slug": "about-structure",
@@ -380,7 +382,8 @@
     "description": "The five stages of a WEC-LC application, what happens at each one, who does it, and how long the College can honestly say each takes.",
     "contentFile": "admissions-apply.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/admissions/apply/"
   },
   {
     "slug": "admissions-entry",
@@ -389,7 +392,8 @@
     "description": "What WEC-LC requires of an applicant: no prior qualification, a placement conversation, and the equipment the programme genuinely needs.",
     "contentFile": "admissions-entry.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/admissions/entry-requirements/"
   },
   {
     "slug": "admissions-payment",
@@ -398,7 +402,8 @@
     "description": "How payment actually works at WEC-LC: which currencies are settled, which payment methods are live, how instalments work, and what has not been decided.",
     "contentFile": "admissions-payment.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/admissions/payment/"
   },
   {
     "slug": "admissions-scholarships",
@@ -407,7 +412,8 @@
     "description": "What financial support WEC-LC can and cannot offer today: no open scholarship scheme, a working award mechanism, and how to ask.",
     "contentFile": "admissions-scholarships.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/admissions/scholarships/"
   },
   {
     "slug": "admissions-international",
@@ -425,7 +431,8 @@
     "description": "WEC-LC is an online institution and issues no immigration documents. What that means, why the page exists, and what to be careful of.",
     "contentFile": "admissions-visas.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/admissions/visas/"
   },
   {
     "slug": "admissions-policy",
@@ -443,7 +450,8 @@
     "description": "When you can start at WEC-LC, why there are no term dates, and what the academic calendar decision actually involves.",
     "contentFile": "admissions-dates.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/admissions/dates/"
   },
   {
     "slug": "admissions-questions",
@@ -452,7 +460,8 @@
     "description": "Direct answers to the questions applicants actually ask WEC-LC, including the ones with uncomfortable answers.",
     "contentFile": "admissions-questions.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/admissions/questions/"
   },
   {
     "slug": "students",
@@ -470,7 +479,8 @@
     "description": "The four language skills, the six competencies, published rubrics, and the threshold the WEC-LC platform enforces today.",
     "contentFile": "students-assessment.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/students/assessment/"
   },
   {
     "slug": "students-record",
@@ -497,7 +507,8 @@
     "description": "The six WEC-LC awards, their post-nominals, the proposed honours scheme, and why no award has yet been conferred on anyone.",
     "contentFile": "students-awards.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/students/awards/"
   },
   {
     "slug": "students-integrity",
@@ -713,6 +724,127 @@
     "description": "What this site collects, what it does not, who else is involved, and the accountability WEC-LC has not yet appointed.",
     "contentFile": "support-privacy.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/support/privacy/"
+  },
+  {
+    "slug": "admissions-apply-ar",
+    "output": "ar/admissions/apply/index.html",
+    "title": "كيفية التقديم — الكلية العالمية للغة الإنجليزية",
+    "description": "مراحل التقديم الخمس في الكلية العالمية للغة الإنجليزية، وما يحدث في كل مرحلة، ومن ينفذها، وكم تستغرق.",
+    "contentFile": "admissions-apply.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/admissions/apply/"
+  },
+  {
+    "slug": "admissions-entry-ar",
+    "output": "ar/admissions/entry-requirements/index.html",
+    "title": "شروط الالتحاق — الكلية العالمية للغة الإنجليزية",
+    "description": "ما تشترطه الكلية على المتقدم: لا مؤهل سابق، ومحادثة لتحديد المستوى، ومتطلبات عملية يحتاجها البرنامج فعلًا.",
+    "contentFile": "admissions-entry.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/admissions/entry-requirements/"
+  },
+  {
+    "slug": "admissions-payment-ar",
+    "output": "ar/admissions/payment/index.html",
+    "title": "سداد الرسوم — الكلية العالمية للغة الإنجليزية",
+    "description": "كيف يجري السداد فعلًا: العملة المعتمدة، وسائل الدفع حسب البلد، التقسيط، وما لم يُقرَّر بعد.",
+    "contentFile": "admissions-payment.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/admissions/payment/"
+  },
+  {
+    "slug": "admissions-scholarships-ar",
+    "output": "ar/admissions/scholarships/index.html",
+    "title": "المنح والدعم المالي — الكلية العالمية للغة الإنجليزية",
+    "description": "ما تستطيع الكلية تقديمه اليوم وما لا تستطيع: لا برنامج منح مفتوح، وآلية منح تعمل، وكيف تسأل.",
+    "contentFile": "admissions-scholarships.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/admissions/scholarships/"
+  },
+  {
+    "slug": "admissions-visas-ar",
+    "output": "ar/admissions/visas/index.html",
+    "title": "التأشيرات وتصاريح الدراسة — الكلية العالمية للغة الإنجليزية",
+    "description": "الكلية مؤسسة تعليم عن بُعد ولا تصدر أي مستند هجرة. ماذا يعني ذلك، ولماذا وُجدت هذه الصفحة، وممّ تحذر.",
+    "contentFile": "admissions-visas.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/admissions/visas/"
+  },
+  {
+    "slug": "admissions-dates-ar",
+    "output": "ar/admissions/dates/index.html",
+    "title": "مواعيد البدء والتقويم الأكاديمي — الكلية العالمية للغة الإنجليزية",
+    "description": "متى يمكنك البدء، ولماذا لا توجد مواعيد فصول منشورة، وما الذي ينطوي عليه قرار التقويم الأكاديمي.",
+    "contentFile": "admissions-dates.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/admissions/dates/"
+  },
+  {
+    "slug": "admissions-questions-ar",
+    "output": "ar/admissions/questions/index.html",
+    "title": "أسئلة القبول — الكلية العالمية للغة الإنجليزية",
+    "description": "إجابات مباشرة عن الأسئلة التي يطرحها المتقدمون فعلًا، بما فيها الأسئلة ذات الإجابات غير المريحة.",
+    "contentFile": "admissions-questions.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/admissions/questions/"
+  },
+  {
+    "slug": "study-ar",
+    "output": "ar/study/index.html",
+    "title": "الدراسة | المستويات الستة — الكلية العالمية للغة الإنجليزية",
+    "description": "المستويات الستة لبرنامج IEFC: ما يحتويه كل مستوى، وساعاته وأرصدته، والشهادة المرتبطة به.",
+    "contentFile": "study.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/study/"
+  },
+  {
+    "slug": "students-assessment-ar",
+    "output": "ar/students/assessment/index.html",
+    "title": "كيف يتم تقييمك — الكلية العالمية للغة الإنجليزية",
+    "description": "المهارات اللغوية الأربع، والمعايير المنشورة قبل التقييم، والعتبة التي تطبقها المنصة اليوم.",
+    "contentFile": "students-assessment.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/assessment/"
+  },
+  {
+    "slug": "students-awards-ar",
+    "output": "ar/students/awards/index.html",
+    "title": "الشهادات والمراتب — الكلية العالمية للغة الإنجليزية",
+    "description": "شهادات المستويات الستة ورموزها، والمراتب المقترحة، ولماذا لم تُمنح شهادة لأحد بعد.",
+    "contentFile": "students-awards.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/awards/"
+  },
+  {
+    "slug": "about-qa-ar",
+    "output": "ar/about/quality-assurance/index.html",
+    "title": "ضمان الجودة — الكلية العالمية للغة الإنجليزية",
+    "description": "كيف تضبط الكلية معاييرها وتحفظها، وما الذي سيجده مراجع خارجي لو نظر اليوم.",
+    "contentFile": "about-qa.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/about/quality-assurance/"
+  },
+  {
+    "slug": "support-privacy-ar",
+    "output": "ar/support/privacy/index.html",
+    "title": "الخصوصية وبياناتك — الكلية العالمية للغة الإنجليزية",
+    "description": "ما يجمعه هذا الموقع وما لا يجمعه، ومن الأطراف الثالثة، والمسؤولية التي لم تُعيَّن بعد.",
+    "contentFile": "support-privacy.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/support/privacy/"
   }
 ]
