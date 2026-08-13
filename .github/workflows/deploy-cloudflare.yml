@@ -321,10 +321,23 @@ jobs:
             --exclude='sql/' \
             --exclude='scripts/' \
             --exclude='.github/' \
+            --exclude='publication/' \
             ./ .deploy/
           echo "Uploading $(find .deploy -type f | wc -l) files."
           if [ -d .deploy/docs ] || [ -d .deploy/sql ] || [ -d .deploy/tests ]; then
             echo "::error::Internal directories reached the deploy surface."; exit 1
+          fi
+          # Cloudflare Pages rejects any file over 25 MiB and fails the
+          # WHOLE upload, not just that file. Three Press PDFs are over
+          # it — the Complete Curriculum is 26.7 MiB — and they are not
+          # linked from any page, so publication/ is excluded above.
+          # This catches the next oversized file before wrangler does,
+          # and names it.
+          big=$(find .deploy -type f -size +25M)
+          if [ -n "$big" ]; then
+            echo "::error::Files over Cloudflare's 25 MiB limit would fail the upload:"
+            echo "$big"
+            exit 1
           fi
 
       - name: Publish
@@ -333,11 +346,26 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
+          # pipefail, and it is the most important line in this file.
+          #
+          # This was `wrangler pages deploy ... | tee deploy.log` with no
+          # pipefail, so the step's exit status was tee's — always 0.
+          # Run #11 hit "Pages only supports files up to 25 MiB", uploaded
+          # nothing, and reported SUCCESS. Two production deploys were
+          # announced as live having published nothing at all.
+          #
+          # A deploy that fails must fail the job. Without this line the
+          # green tick means "tee ran", which is worth nothing.
+          set -o pipefail
           npx wrangler pages deploy .deploy \
             --project-name=wec-lc \
             --branch="${{ inputs.branch }}" \
             --commit-dirty=true | tee deploy.log
           url=$(grep -oE 'https://[a-z0-9.-]+\.pages\.dev' deploy.log | tail -1)
+          if [ -z "$url" ]; then
+            echo "::error::wrangler printed no deployment URL — nothing was published."
+            exit 1
+          fi
           echo "url=$url" >> "$GITHUB_OUTPUT"
           echo "### Deployed: $url" >> "$GITHUB_STEP_SUMMARY"
           # Say plainly, in the place people look, what this deployment

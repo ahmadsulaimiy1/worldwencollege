@@ -43,6 +43,20 @@ check('The staging directory is assembled fresh each run',
 check('...and the job fails loudly if an internal directory reaches it',
   /Internal directories reached the deploy surface/.test(workflow));
 
+// ── THE ONE THAT COST TWO DEPLOYS ──
+//
+// `wrangler pages deploy | tee deploy.log` takes tee's exit status, not
+// wrangler's. Run #11 failed on Cloudflare's 25 MiB file limit, uploaded
+// nothing, and the job reported success — twice, across runs #10 and
+// #11, both announced as live. A green deploy that published nothing is
+// worse than a red one.
+check('The publish step sets pipefail, so a failed upload fails the job',
+  /set -o pipefail/.test(workflow));
+check('...and refuses to pass when wrangler printed no deployment URL',
+  /wrangler printed no deployment URL/.test(workflow));
+check('The assembly step rejects files over Cloudflare\'s 25 MiB limit',
+  /-size \+25M/.test(workflow) && /25 MiB limit would fail the upload/.test(workflow));
+
 // ---------------------------------------------------------------------
 // THE ONE THAT MATTERS — the two lists are the same list
 // ---------------------------------------------------------------------
@@ -85,9 +99,14 @@ check('EVERY directory the scan treats as private is refused by the deploy',
   scanPrivate.every((d) => deployPrivate.includes(d)),
   `unscanned but shipped: ${scanPrivate.filter((d) => !deployPrivate.includes(d)).join(', ') || 'none'}`);
 
+// Two directories the deploy withholds while the scan still reads them,
+// and both are deliberate: scripts/ is build tooling, and publication/
+// holds the Press PDFs, three of which exceed Cloudflare's 25 MiB
+// per-file limit and none of which is linked from any page. The scan
+// keeps reading both, which costs nothing and catches more.
 const stricter = deployPrivate.filter((d) => !scanPrivate.includes(d));
-check('...and where the deploy is stricter, the difference is only build tooling',
-  stricter.every((d) => ['scripts'].includes(d)),
+check('...and where the deploy is stricter, the difference is accounted for',
+  stricter.every((d) => ['scripts', 'publication'].includes(d)),
   `deploy withholds but scan reads: ${stricter.join(', ') || 'none'}`);
 console.log(`      deploy withholds [${deployPrivate.join(', ')}] · scan skips [${scanPrivate.join(', ')}]`);
 
