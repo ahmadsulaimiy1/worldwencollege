@@ -624,5 +624,50 @@
     "contentFile": "library.html",
     "lang": "en",
     "dir": "ltr"
+  },
+  {
+    "slug": "standards",
+    "output": "standards/index.html",
+    "title": "Academic Standards &mdash; Worldwide English College",
+    "description": "How WEC-LC sets and holds an academic standard, and what an external reviewer would find if they looked today.",
+    "contentFile": "standards.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "standards-evidence",
+    "output": "standards/evidence/index.html",
+    "title": "The Evidence Record &mdash; Worldwide English College",
+    "description": "WEC-LC's register of quality-assurance evidence: 37 items, what state each is in, and why none has been approved.",
+    "contentFile": "standards-evidence.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "standards-decisions",
+    "output": "standards/decisions/index.html",
+    "title": "The Decisions Register &mdash; Worldwide English College",
+    "description": "5 adopted institutional decisions and 25 still awaiting one, published as two separate lists.",
+    "contentFile": "standards-decisions.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "standards-verification",
+    "output": "standards/verification/index.html",
+    "title": "Verification &mdash; Worldwide English College",
+    "description": "How anyone can check a WEC-LC credential, the principle behind it, and the fact that nothing has yet been issued to check.",
+    "contentFile": "standards-verification.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "standards-research",
+    "output": "standards/research/index.html",
+    "title": "Research &mdash; Worldwide English College",
+    "description": "WEC-LC conducts no research and has published no findings. What it has instead is a set of answerable questions its own programme generated.",
+    "contentFile": "standards-research.html",
+    "lang": "en",
+    "dir": "ltr"
   }
 ]
