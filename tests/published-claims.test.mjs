@@ -170,6 +170,60 @@ check('The WEC Credit is declared internal, not ECTS or CATS',
     && /1,200\s*hrs/i.test('<td>1,200 hrs</td>'));
 }
 
+// ── THINGS THE PLATFORM DOES NOT DO ──
+//
+// Three capabilities were advertised across five pages and two
+// languages, and none of them exists:
+//
+//   Video. There is no video anywhere in the programme. The publishing
+//   register records video support as "not supported by the curriculum"
+//   — producing it would be a decision about what the College is, not a
+//   gap in what it has written. "HD video lectures" appeared in the
+//   methodology list and in the FAQ regardless.
+//
+//   Attendance. The evidence register records live-session attendance
+//   as `not_instrumented`: nothing collects it. The academic framework
+//   argues at length that attendance is the WRONG measure for an
+//   asynchronous programme. "Attendance tracking" was advertised on the
+//   platform page and "Track attendance" on the student portal.
+//
+//   Live classes as a delivered thing. None has run. The tuition page
+//   listed them under what the fee buys, which is the closest thing on
+//   this site to a contractual statement.
+//
+// Each is now stated as designed-and-not-yet-running, or removed. These
+// sweeps stop them coming back the next time someone writes marketing
+// copy from an older page.
+{
+  const pagesDir = path.join(ROOT, 'pages');
+  const all = readdirSync(pagesDir).filter((f) => f.endsWith('.html'))
+    .map((f) => [f, readFileSync(path.join(pagesDir, f), 'utf8')]);
+
+  const video = all.filter(([, b]) => /HD video|video lectures|محاضرات فيديو/i.test(b));
+  check('No page advertises video lectures — there is no video in the programme',
+    video.length === 0, video.map(([f]) => f).join(', '));
+
+  // "attendance" is allowed where the page explains that it is NOT
+  // tracked, which several now do. What is banned is offering it.
+  const attendance = all.filter(([, b]) =>
+    /attendance tracking|track attendance|تتبّع الحضور|تتبع الحضور/i.test(b));
+  check('No page offers attendance tracking — nothing collects it, and it is the wrong measure',
+    attendance.length === 0, attendance.map(([f]) => f).join(', '));
+
+  // The fee list is the closest thing here to a contract.
+  const tuitionPages = all.filter(([f]) => /^admissions-tuition/.test(f));
+  check('The tuition pages exist to be checked', tuitionPages.length >= 1);
+  const promisesLive = tuitionPages.filter(([, b]) =>
+    /<li>Live classes and recorded lessons<\/li>/.test(b));
+  check('The fee list does not promise live classes as a delivered thing',
+    promisesLive.length === 0, promisesLive.map(([f]) => f).join(', '));
+
+  check('...and these sweeps do catch the wording they exist for',
+    /HD video/i.test('HD video lectures')
+    && /track attendance/i.test('Track attendance and see your progress')
+    && /تتبّع الحضور/.test('قبول إلكتروني، تسجيل المقررات، تتبّع الحضور'));
+}
+
 // Per-lesson pricing tied to undelivered lessons was the most exposed
 // claim on the site, and per-item pricing is discount language besides.
 const tuition = readFileSync(path.join(ROOT, 'pages/admissions-tuition.html'), 'utf8');
