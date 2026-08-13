@@ -57,6 +57,37 @@ check('...and refuses to pass when wrangler printed no deployment URL',
 check('The assembly step rejects files over Cloudflare\'s 25 MiB limit',
   /-size \+25M/.test(workflow) && /25 MiB limit would fail the upload/.test(workflow));
 
+// ── WHAT A push: TRIGGER MUST NEVER DO ──
+//
+// The workflow now deploys on push, which removes the "pushing does not
+// deploy" trap that let work be described as live twice while nothing
+// had been published. It also means steps that were previously reached
+// only by a human filling in a form are now reached automatically, and
+// one of them is destructive-adjacent: the seed step runs INSERTs that
+// are not idempotent, against the REMOTE database.
+//
+// A push carries no inputs, so `inputs.seed_database` is empty and
+// falsy — which happens to be correct today and would silently stop
+// being correct if anyone gave that input a default of true. The guard
+// below requires the step to be gated on the event type as well, so
+// seeding stays something a person decides to do.
+check('Seeding the remote database can never be triggered by a push',
+  /if:\s*\$\{\{\s*github\.event_name == 'workflow_dispatch' && inputs\.seed_database\s*\}\}/.test(workflow),
+  'the seed step is not gated on the event type');
+check('The deploy still runs only after the verify job',
+  /needs:\s*verify/.test(workflow));
+check('A push publishes to the production Pages branch, not a preview',
+  /--branch="\$\{\{ inputs\.branch \|\| 'main' \}\}"/.test(workflow),
+  'a push would publish somewhere other than where the live site is served from');
+{
+  // Sabotage: an input default of true must not be enough to seed.
+  const regressed = workflow.replace(
+    /if: \$\{\{ github\.event_name == 'workflow_dispatch' && inputs\.seed_database \}\}/,
+    'if: ${{ inputs.seed_database }}');
+  check('...and this check catches the gate being loosened back',
+    !/github\.event_name == 'workflow_dispatch' && inputs\.seed_database/.test(regressed));
+}
+
 // ---------------------------------------------------------------------
 // THE ONE THAT MATTERS — the two lists are the same list
 // ---------------------------------------------------------------------

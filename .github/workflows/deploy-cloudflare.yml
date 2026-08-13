@@ -41,7 +41,41 @@
 
 name: Deploy to Cloudflare Pages
 
+# ── WHY THERE IS NOW A push: TRIGGER ─────────────────────────────────
+# This workflow was deliberately manual while the repository held no
+# real Cloudflare credentials: a red X on every commit teaches people to
+# ignore red Xs, and the header above committed to adding a push trigger
+# "once a deploy has run green by hand". It has now run green by hand a
+# dozen times in a row.
+#
+# Manual-only turned out to cost more than it avoided. Pushing did not
+# deploy, and that is not a fact anyone holds in their head reliably —
+# twice, work was described as live when nothing had been published.
+# Deploying on push closes the gap between "committed" and "published".
+#
+# The verify job still gates the deploy, so a push with a failing suite
+# publishes nothing. workflow_dispatch is kept for preview deployments
+# and for re-running a deploy without a new commit.
 on:
+  push:
+    branches:
+      - main
+      - claude/worldwide-english-college-site-ezy1zo
+    # A change that cannot affect what is served should not spend a
+    # deploy. Everything else should.
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+  # A push deploys to the Pages PRODUCTION branch — `main` — from either
+  # git branch, because that is precisely what every manual deploy has
+  # done, and it is what keeps worldwencollege.co.uk current. The
+  # development work lives on a feature branch that has not been merged,
+  # so making a push from it publish to `preview` instead would look
+  # tidier and would quietly stop updating the live site. That is the
+  # same class of failure as a green deploy that published nothing.
+  #
+  # To publish a preview instead, run the workflow by hand and set the
+  # branch input to anything other than `main`.
   workflow_dispatch:
     inputs:
       branch:
@@ -122,7 +156,7 @@ jobs:
     needs: verify
     runs-on: ubuntu-latest
     environment:
-      name: cloudflare-${{ inputs.branch }}
+      name: cloudflare-${{ inputs.branch || 'main' }}
       url: ${{ steps.publish.outputs.url }}
     steps:
       - uses: actions/checkout@v4
@@ -250,7 +284,11 @@ jobs:
           echo "R2_SKIPPED=1" >> "$GITHUB_ENV"
 
       - name: Apply schema and curriculum seeds to the remote D1 database
-        if: ${{ inputs.seed_database }}
+        # NEVER on a push. The seeds are INSERTs and are not idempotent,
+        # so running them against a populated database is not a no-op.
+        # A push carries no inputs, so this evaluates false and stays
+        # false — seeding stays a decision somebody takes on purpose.
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.seed_database }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -265,7 +303,10 @@ jobs:
           done
 
       - name: Bring the remote D1 database up to date
-        if: ${{ inputs.apply_migrations }}
+        # Safe by construction — scripts/migrate.mjs applies only what is
+        # missing and does nothing on a database already current — so a
+        # push gets it without having to be asked.
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.apply_migrations }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -359,7 +400,7 @@ jobs:
           set -o pipefail
           npx wrangler pages deploy .deploy \
             --project-name=wec-lc \
-            --branch="${{ inputs.branch }}" \
+            --branch="${{ inputs.branch || 'main' }}" \
             --commit-dirty=true | tee deploy.log
           url=$(grep -oE 'https://[a-z0-9.-]+\.pages\.dev' deploy.log | tail -1)
           if [ -z "$url" ]; then
