@@ -570,5 +570,59 @@
     "contentFile": "teaching-development.html",
     "lang": "en",
     "dir": "ltr"
+  },
+  {
+    "slug": "press",
+    "output": "press/index.html",
+    "title": "WEC Press &mdash; Worldwide English College",
+    "description": "The publishing arm of Worldwide English College: what it has produced, the rule it publishes under, and the review it has not yet had.",
+    "contentFile": "press.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "press-catalogue",
+    "output": "press/catalogue/index.html",
+    "title": "Catalogue &mdash; WEC Press",
+    "description": "The 12 volumes WEC Press has produced, who each is for, and how to obtain one.",
+    "contentFile": "press-catalogue.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "press-standards",
+    "output": "press/standards/index.html",
+    "title": "House Standards &mdash; WEC Press",
+    "description": "How a WEC Press volume is composed: generated from the record, typeset to one house system, and marked with the provenance of what it claims.",
+    "contentFile": "press-standards.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "press-review",
+    "output": "press/review/index.html",
+    "title": "On Review &mdash; WEC Press",
+    "description": "Every volume WEC Press has produced is unreviewed by anyone who did not write it. Why that is published rather than buried, and what would change it.",
+    "contentFile": "press-review.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "press-programme",
+    "output": "press/programme/index.html",
+    "title": "The Publishing Programme &mdash; WEC Press",
+    "description": "What WEC Press is building toward, measured against seven readers rather than a page count, and what is blocking each.",
+    "contentFile": "press-programme.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "library",
+    "output": "library/index.html",
+    "title": "The Library &mdash; Worldwide English College",
+    "description": "What the WEC-LC library is, what it holds, and the plain statement that it is not a subscription collection.",
+    "contentFile": "library.html",
+    "lang": "en",
+    "dir": "ltr"
   }
 ]
