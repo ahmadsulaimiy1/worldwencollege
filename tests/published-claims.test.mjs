@@ -126,6 +126,50 @@ check('...and does NOT claim C2 is reachable in that time from no English',
 check('The WEC Credit is declared internal, not ECTS or CATS',
   /not ECTS or CATS/i.test(iefc) && /no transfer entitlement/i.test(iefc));
 
+// ── THE GAP THIS CHECK WAS MISSING ──
+//
+// Every assertion above reads `iefc` — the IEFC page — and nothing
+// checked whether another page published the same figures without the
+// same qualifications. The home page did exactly that: it carried a
+// per-level content count multiplying to the retired total, and a
+// "twenty-four months from first word to professional mastery" claim
+// the rest of the site had already stopped making, on the single most
+// read page. A rule enforced on one page is not a rule.
+//
+// So: any English page that publishes the hours figure must carry the
+// design-figure statement with it, wherever that page is.
+{
+  const pagesDir = path.join(ROOT, 'pages');
+  const english = readdirSync(pagesDir)
+    .filter((f) => f.endsWith('.html') && !f.endsWith('.ar.html'))
+    .map((f) => [f, readFileSync(path.join(pagesDir, f), 'utf8')]);
+
+  const publishHours = english.filter(([, b]) => /1,200\s*(hrs|hours)/i.test(b));
+  const unqualified = publishHours.filter(([, b]) => !/design figure, not a measurement/i.test(b));
+  check(`Every page publishing the 1,200-hour figure qualifies it — ${publishHours.length} page(s) publish it`,
+    unqualified.length === 0, `unqualified: ${unqualified.map(([f]) => f).join(', ')}`);
+
+  // The month claim the College retired. It survived on the home page
+  // for exactly as long as nothing looked there.
+  const months = english.filter(([, b]) => /twenty-four months|24 months/i.test(b));
+  check('No English page claims a number of months from beginner to mastery',
+    months.length === 0, months.map(([f]) => f).join(', '));
+
+  // And the promise that mattered most: a certificate on completion,
+  // when no award can be conferred at all.
+  const promisesCert = english.filter(([, b]) =>
+    /certificate the moment|certificate on completion|certificate upon completion/i.test(b));
+  check('No English page promises a certificate on completion — none can be conferred',
+    promisesCert.length === 0, promisesCert.map(([f]) => f).join(', '));
+
+  // A sweep that only ever sees compliant pages proves nothing about
+  // its own reach. Confirm each pattern catches its own regression.
+  check('...and these sweeps do catch the wording they exist for',
+    /twenty-four months|24 months/i.test('twenty-four months from first word')
+    && /certificate the moment/i.test('a certificate the moment the final lesson is complete')
+    && /1,200\s*hrs/i.test('<td>1,200 hrs</td>'));
+}
+
 // Per-lesson pricing tied to undelivered lessons was the most exposed
 // claim on the site, and per-item pricing is discount language besides.
 const tuition = readFileSync(path.join(ROOT, 'pages/admissions-tuition.html'), 'utf8');
@@ -207,6 +251,34 @@ check('...and the design figure is one the framework actually specifies',
     /وحدة تعليمية|إجمالي الوحدات|لكل وحدة|وحدة لكل مستوى/.test(b));
   check('No Arabic page publishes a learning-unit count or a per-unit price',
     carriesUnit.length === 0, carriesUnit.map(([f]) => f).join(', '));
+
+  // The Arabic edition carried every claim the English one did, and
+  // was checked for none of them. A rule enforced in one language is
+  // not a rule either — the Arabic pages had the retired month figure,
+  // the unqualified hours figure and the certificate promise, all
+  // three, for as long as nothing looked.
+  const arMonths = AR.filter(([, b]) => /٢٤ شهر|24 شهر|أربعة وعشرون شهر|أربعة وعشرين شهر/.test(b));
+  check('No Arabic page claims a number of months from beginner to mastery',
+    arMonths.length === 0, arMonths.map(([f]) => f).join(', '));
+
+  const arHours = AR.filter(([, b]) => /1,200/.test(b));
+  const arUnqualified = arHours.filter(([, b]) => !/رقم تصميم/.test(b));
+  check(`Every Arabic page publishing the 1,200-hour figure qualifies it — ${arHours.length} publish it`,
+    arUnqualified.length === 0, arUnqualified.map(([f]) => f).join(', '));
+
+  const arCert = AR.filter(([, b]) => /شهادة رقمية عند الإتمام|شهادة عند الإتمام/.test(b));
+  check('No Arabic page promises a certificate on completion — none can be conferred',
+    arCert.length === 0, arCert.map(([f]) => f).join(', '));
+
+  // Structured data is a claim a search engine repeats verbatim, and
+  // nobody reads it. It said the course takes 24 months and that its
+  // workload is four minutes.
+  const allPages = readdirSync(path.join(ROOT, 'pages'))
+    .filter((f) => f.endsWith('.html'))
+    .map((f) => [f, readFileSync(path.join(ROOT, 'pages', f), 'utf8')]);
+  const badSchema = allPages.filter(([, b]) => /"P24M"|"PT4M"/.test(b));
+  check('No page publishes a 24-month or four-minute duration in its structured data',
+    badSchema.length === 0, badSchema.map(([f]) => f).join(', '));
 
   // And the corrected scheme has actually arrived, rather than the old
   // one merely having been deleted.
