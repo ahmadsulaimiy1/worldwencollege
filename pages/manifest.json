@@ -291,5 +291,86 @@
     "contentFile": "study-level-6.html",
     "lang": "en",
     "dir": "ltr"
+  },
+  {
+    "slug": "about-vision",
+    "output": "about/vision/index.html",
+    "title": "Vision &mdash; Worldwide English College",
+    "description": "What Worldwide English College intends to become, and the standard it holds itself to while it gets there.",
+    "contentFile": "about-vision.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "about-mission",
+    "output": "about/mission/index.html",
+    "title": "Mission &mdash; Worldwide English College",
+    "description": "The five commitments that define what Worldwide English College does, and how each one is delivered in the programme.",
+    "contentFile": "about-mission.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "about-philosophy",
+    "output": "about/philosophy/index.html",
+    "title": "Educational Philosophy &mdash; Worldwide English College",
+    "description": "What Worldwide English College believes about how English is learned, and how those beliefs shape every lesson, assessment and resource.",
+    "contentFile": "about-philosophy.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "about-governance",
+    "output": "about/governance/index.html",
+    "title": "Governance &mdash; Worldwide English College",
+    "description": "How academic decisions are made at Worldwide English College, which bodies hold which authority, and which posts are currently vacant.",
+    "contentFile": "about-governance.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "about-senate",
+    "output": "about/academic-senate/index.html",
+    "title": "The Academic Senate &mdash; Worldwide English College",
+    "description": "The remit of the Academic Senate at Worldwide English College, what it approves, and its current membership position.",
+    "contentFile": "about-senate.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "about-basce",
+    "output": "about/basce/index.html",
+    "title": "BASCE &mdash; Board of Academic Standards and Curriculum Excellence",
+    "description": "The Board of Academic Standards and Curriculum Excellence: its remit over the competency framework, and its current membership position.",
+    "contentFile": "about-basce.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "about-qa",
+    "output": "about/quality-assurance/index.html",
+    "title": "Quality Assurance &mdash; Worldwide English College",
+    "description": "How Worldwide English College assures academic quality: the mechanisms that run today, and the review cycles that cannot run until a cohort has been taught.",
+    "contentFile": "about-qa.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "about-structure",
+    "output": "about/structure/index.html",
+    "title": "Organisational Structure &mdash; Worldwide English College",
+    "description": "How Worldwide English College is organised: the academic, administrative and publishing functions, and which posts are currently vacant.",
+    "contentFile": "about-structure.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "about-careers",
+    "output": "about/careers/index.html",
+    "title": "Careers &mdash; Worldwide English College",
+    "description": "Working at Worldwide English College: the posts the College is seeking to fill, what each one unblocks, and how to express interest.",
+    "contentFile": "about-careers.html",
+    "lang": "en",
+    "dir": "ltr"
   }
 ]
