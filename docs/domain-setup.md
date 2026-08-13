@@ -16,6 +16,34 @@ things that had to be fixed on the way.
 
 ---
 
+## THE THING THAT WILL CATCH YOU NEXT: pushing does not deploy
+
+`.github/workflows/deploy-cloudflare.yml` has **no `push:` trigger**. It
+is `workflow_dispatch` only, on purpose — deploying is a decision, not a
+consequence of committing, and a site that redeploys on every push to a
+working branch would publish half-finished work.
+
+The cost is that a commit can be pushed, green, and reviewed while the
+live site still serves something months old. That happened on 13 August
+2026: the faculty roster was committed, pushed and described as live
+while `worldwencollege.co.uk` was still serving run #9's build from
+commit 55cf655, which said the College was *"currently recruiting"*.
+
+**So: `git push` changes the repository. Nothing else.** To change the
+site, run the workflow:
+
+    Actions → Deploy to Cloudflare Pages → Run workflow
+      branch:           main        ← production. Anything else is a preview.
+      seed_database:    false       ← true only for a brand-new D1
+      apply_migrations: true        ← safe; applies only what is missing
+
+Then check the run went green before saying anything is live. The
+`branch: main` input is what makes it production; the workflow's own
+`ref` (which branch's code to build) is separate and is the working
+branch.
+
+---
+
 ## What actually blocked it, and why neither was DNS
 
 Both were long-standing faults that only a real deploy could expose,
