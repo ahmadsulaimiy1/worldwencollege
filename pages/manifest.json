@@ -669,5 +669,50 @@
     "contentFile": "standards-research.html",
     "lang": "en",
     "dir": "ltr"
+  },
+  {
+    "slug": "learning",
+    "output": "learning/index.html",
+    "title": "How Learning Works &mdash; Worldwide English College",
+    "description": "What a week of study at WEC-LC actually consists of, what is self-paced, what is live, and what the College has not yet run.",
+    "contentFile": "learning.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "learning-platform",
+    "output": "learning/platform/index.html",
+    "title": "The Platform &mdash; Worldwide English College",
+    "description": "What the WEC-LC digital campus consists of, what each part does, and which parts have never been used.",
+    "contentFile": "learning-platform.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "support-accessibility",
+    "output": "support/accessibility/index.html",
+    "title": "Accessibility &mdash; Worldwide English College",
+    "description": "What WEC-LC has built for accessibility, what has not been audited, and what the College will do on request.",
+    "contentFile": "support-accessibility.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "support-technical",
+    "output": "support/technical/index.html",
+    "title": "Technical Requirements &mdash; Worldwide English College",
+    "description": "What you need to study at WEC-LC, why each item is on the list, and what to do when something does not work.",
+    "contentFile": "support-technical.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "support-privacy",
+    "output": "support/privacy/index.html",
+    "title": "Privacy &amp; Your Data &mdash; Worldwide English College",
+    "description": "What this site collects, what it does not, who else is involved, and the accountability WEC-LC has not yet appointed.",
+    "contentFile": "support-privacy.html",
+    "lang": "en",
+    "dir": "ltr"
   }
 ]
