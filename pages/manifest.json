@@ -372,5 +372,86 @@
     "contentFile": "about-careers.html",
     "lang": "en",
     "dir": "ltr"
+  },
+  {
+    "slug": "admissions-apply",
+    "output": "admissions/apply/index.html",
+    "title": "How to Apply &mdash; Worldwide English College",
+    "description": "The five stages of a WEC-LC application, what happens at each one, who does it, and how long the College can honestly say each takes.",
+    "contentFile": "admissions-apply.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "admissions-entry",
+    "output": "admissions/entry-requirements/index.html",
+    "title": "Entry Requirements &mdash; Worldwide English College",
+    "description": "What WEC-LC requires of an applicant: no prior qualification, a placement conversation, and the equipment the programme genuinely needs.",
+    "contentFile": "admissions-entry.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "admissions-payment",
+    "output": "admissions/payment/index.html",
+    "title": "Paying for the Programme &mdash; Worldwide English College",
+    "description": "How payment actually works at WEC-LC: which currencies are settled, which payment methods are live, how instalments work, and what has not been decided.",
+    "contentFile": "admissions-payment.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "admissions-scholarships",
+    "output": "admissions/scholarships/index.html",
+    "title": "Scholarships &amp; Financial Support &mdash; Worldwide English College",
+    "description": "What financial support WEC-LC can and cannot offer today: no open scholarship scheme, a working award mechanism, and how to ask.",
+    "contentFile": "admissions-scholarships.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "admissions-international",
+    "output": "admissions/international/index.html",
+    "title": "International Applicants &mdash; Worldwide English College",
+    "description": "WEC-LC teaches online worldwide. What that means for applicants outside the United Kingdom: no relocation, no visa, time zones, and how live teaching is scheduled.",
+    "contentFile": "admissions-international.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "admissions-visas",
+    "output": "admissions/visas/index.html",
+    "title": "Visas &amp; Study Permits &mdash; Worldwide English College",
+    "description": "WEC-LC is an online institution and issues no immigration documents. What that means, why the page exists, and what to be careful of.",
+    "contentFile": "admissions-visas.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "admissions-policy",
+    "output": "admissions/policy/index.html",
+    "title": "Admissions Policy &mdash; Worldwide English College",
+    "description": "The rules WEC-LC applies to admissions decisions, the data it collects from applicants, and the policies that have not yet been adopted.",
+    "contentFile": "admissions-policy.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "admissions-dates",
+    "output": "admissions/dates/index.html",
+    "title": "Dates &amp; the Academic Calendar &mdash; Worldwide English College",
+    "description": "When you can start at WEC-LC, why there are no term dates, and what the academic calendar decision actually involves.",
+    "contentFile": "admissions-dates.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "admissions-questions",
+    "output": "admissions/questions/index.html",
+    "title": "Admissions Questions &mdash; Worldwide English College",
+    "description": "Direct answers to the questions applicants actually ask WEC-LC, including the ones with uncomfortable answers.",
+    "contentFile": "admissions-questions.html",
+    "lang": "en",
+    "dir": "ltr"
   }
 ]
