@@ -228,5 +228,68 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/404.html"
+  },
+  {
+    "slug": "study",
+    "output": "study/index.html",
+    "title": "Study at Worldwide English College &mdash; The Six IEFC Levels",
+    "description": "The International English Fluency Certificate in six CEFR-aligned levels, from no English to mastery. Modules, hours, assessment and awards for every level.",
+    "contentFile": "study.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "study-level-1",
+    "output": "study/level-1/index.html",
+    "title": "Level I: Foundation Programme (A1) &mdash; Worldwide English College",
+    "description": "Level I of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR A1. Modules, learning outcomes, assessment, teaching methods and the award.",
+    "contentFile": "study-level-1.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "study-level-2",
+    "output": "study/level-2/index.html",
+    "title": "Level II: Elementary Programme (A2) &mdash; Worldwide English College",
+    "description": "Level II of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR A2. Modules, learning outcomes, assessment, teaching methods and the award.",
+    "contentFile": "study-level-2.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "study-level-3",
+    "output": "study/level-3/index.html",
+    "title": "Level III: Intermediate Programme (B1) &mdash; Worldwide English College",
+    "description": "Level III of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR B1. Modules, learning outcomes, assessment, teaching methods and the award.",
+    "contentFile": "study-level-3.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "study-level-4",
+    "output": "study/level-4/index.html",
+    "title": "Level IV: Upper Intermediate Programme (B2) &mdash; Worldwide English College",
+    "description": "Level IV of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR B2. Modules, learning outcomes, assessment, teaching methods and the award.",
+    "contentFile": "study-level-4.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "study-level-5",
+    "output": "study/level-5/index.html",
+    "title": "Level V: Advanced Programme (C1) &mdash; Worldwide English College",
+    "description": "Level V of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR C1. Modules, learning outcomes, assessment, teaching methods and the award.",
+    "contentFile": "study-level-5.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "study-level-6",
+    "output": "study/level-6/index.html",
+    "title": "Level VI: English Mastery Programme (C2) &mdash; Worldwide English College",
+    "description": "Level VI of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR C2. Modules, learning outcomes, assessment, teaching methods and the award.",
+    "contentFile": "study-level-6.html",
+    "lang": "en",
+    "dir": "ltr"
   }
 ]
