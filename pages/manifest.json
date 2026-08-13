@@ -453,5 +453,77 @@
     "contentFile": "admissions-questions.html",
     "lang": "en",
     "dir": "ltr"
+  },
+  {
+    "slug": "students",
+    "output": "students/index.html",
+    "title": "Students &mdash; Worldwide English College",
+    "description": "What a WEC-LC student meets: the platform, the assessment scheme, the academic record, and the rules that govern all three.",
+    "contentFile": "students.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "students-assessment",
+    "output": "students/assessment/index.html",
+    "title": "How You Are Assessed &mdash; Worldwide English College",
+    "description": "The four language skills, the six competencies, published rubrics, and the threshold the WEC-LC platform enforces today.",
+    "contentFile": "students-assessment.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "students-record",
+    "output": "students/academic-record/index.html",
+    "title": "Your Academic Record &mdash; Worldwide English College",
+    "description": "What WEC-LC records about a student, who can see it, what the student controls, and how a third party verifies it.",
+    "contentFile": "students-record.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "students-listening-lab",
+    "output": "students/listening-lab/index.html",
+    "title": "The Listening Lab &mdash; Worldwide English College",
+    "description": "What the WEC-LC Listening Lab is, why recording yourself is compulsory rather than optional, and what has not been produced yet.",
+    "contentFile": "students-listening-lab.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "students-awards",
+    "output": "students/awards/index.html",
+    "title": "Awards &amp; Honours &mdash; Worldwide English College",
+    "description": "The six WEC-LC awards, their post-nominals, the proposed honours scheme, and why no award has yet been conferred on anyone.",
+    "contentFile": "students-awards.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "students-integrity",
+    "output": "students/integrity/index.html",
+    "title": "Academic Integrity &mdash; Worldwide English College",
+    "description": "The WEC-LC position on work that is not the learner’s own: assessment design rather than detection software, and the procedure that is not yet adopted.",
+    "contentFile": "students-integrity.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "students-regulations",
+    "output": "students/regulations/index.html",
+    "title": "Academic Regulations &mdash; Worldwide English College",
+    "description": "Progression, resits, academic standing and appeals at WEC-LC, separated into what is in force today and what is proposed.",
+    "contentFile": "students-regulations.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "students-support",
+    "output": "students/support/index.html",
+    "title": "Support &mdash; Worldwide English College",
+    "description": "What to do when you are stuck, behind or unhappy at WEC-LC, who answers, and what the College does not provide.",
+    "contentFile": "students-support.html",
+    "lang": "en",
+    "dir": "ltr"
   }
 ]
