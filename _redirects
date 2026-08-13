@@ -1,0 +1,45 @@
+# Cloudflare Pages redirects.
+#
+# ── APEX TO WWW ──────────────────────────────────────────────────────
+# Every canonical URL this site publishes — in <link rel="canonical">,
+# in sitemap.xml, in hreflang, in every printed volume — is on the www
+# host. If the apex also serves the site, the same page exists at two
+# addresses, which splits how search engines see it and makes any
+# cookie or origin-scoped setting ambiguous.
+#
+# This rule only takes effect once worldwencollege.co.uk (the apex) is
+# attached to this Pages project as a custom domain. If the apex is
+# instead pointed elsewhere, or not configured at all, the rule is inert
+# — it costs nothing and starts working the moment the domain is added.
+# Nothing here can break the www host, which is what serves the site
+# today.
+https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
+
+# ── HTML EXTENSIONS ──────────────────────────────────────────────────
+# The build writes directory-style paths (/about/, not /about.html). A
+# visitor arriving from an old link, a printed document or a mistyped
+# address should land on the page rather than a 404.
+/index.html      /            301
+/about.html      /about/      301
+/academics.html  /academics/  301
+/admissions.html /admissions/ 301
+/faculty.html    /faculty/    301
+/contact.html    /contact/    301
+/faq.html        /faq/        301
+
+# ── SECTION SHORTHANDS ───────────────────────────────────────────────
+# Short paths a person is likely to type or to be given verbally,
+# pointed at the page that actually answers them.
+/apply     /admissions/apply/          301
+/fees      /admissions/tuition/        301
+/tuition   /admissions/tuition/        301
+/levels    /study/                     301
+/privacy   /support/privacy/           301
+
+# /verify is deliberately NOT redirected. The real verification URL is
+# /verify.html?code=<code> (js/verify.js), and a wildcard rule pointing
+# /verify/* at /verify.html would drop whatever followed the slash — so
+# a credential link that someone had mistyped or a QR code that had
+# been re-encoded would resolve to an empty verification page rather
+# than an error. An empty verification page is the one failure mode
+# this route must never produce: it looks like a check that ran.

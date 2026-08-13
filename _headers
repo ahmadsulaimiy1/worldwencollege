@@ -32,3 +32,40 @@
 
 /sitemap.xml
   Cache-Control: public, max-age=3600
+
+# ---------------------------------------------------------------------
+# SECURITY HEADERS
+#
+# Added after an audit found the site sending none at all. Each of the
+# headers below is safe to apply site-wide — none of them can break a
+# page that currently works.
+#
+# WHAT IS DELIBERATELY NOT HERE, AND WHY:
+#
+#   Content-Security-Policy. A script-src policy is the header worth
+#   having and it is the one that can silently break sign-in. Clerk
+#   loads its SDK from a Frontend API host derived at runtime from the
+#   publishable key (js/clerk-loader.js), so the correct allowlist
+#   depends on which Clerk instance is configured, and Google Fonts adds
+#   two more origins. A wrong CSP does not fail a build or a test — it
+#   fails one real student trying to sign in, silently, in production.
+#
+#   It is not omitted because it does not matter. It is omitted because
+#   shipping it honestly requires one thing this environment cannot do:
+#   loading the deployed site and completing a real sign-in with the CSP
+#   active. That is a ten-minute check against the live domain, and it
+#   should be done before a CSP is added, not after.
+#
+# Permissions-Policy grants microphone to this origin only, because the
+# Listening Lab records the learner — removing it would break the single
+# most distinctive part of the programme. Camera and geolocation are
+# denied outright: nothing here uses either, and a permission nothing
+# uses should not be available to ask for.
+# ---------------------------------------------------------------------
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: microphone=(self), camera=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin-allow-popups
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
