@@ -9,12 +9,18 @@ build if the pages and this file ever disagree — in either direction.
 Companion to `docs/faculty-register.md`, which holds the twenty teaching
 and academic staff. The two files cover different bodies and are checked
 against each other; see **Collisions** below, which is not an
-afterthought.
+afterthought — one of the three it found was real.
 
 **Roster attested by the College, 14 August 2026.** The account owner
-confirmed that all fifteen below hold the posts recorded against them.
-Titles, positions and stated qualifications are as supplied by the
+confirmed that all fifteen supplied hold the posts recorded against
+them. Titles, positions and stated qualifications are as supplied by the
 College.
+
+**Fourteen are published.** One entry — the Executive's Director of
+Digital Learning — is withdrawn, because the same post was attested to
+somebody else two days earlier in `docs/faculty-register.md`. It is
+recorded under *Withdrawn* at the foot of this file rather than deleted.
+See collision 1 below.
 
 ## Provenance of each field
 
@@ -71,41 +77,71 @@ site must not let one stand in for the other.
 3. **Terms of office.** A board with no stated term is a board with no
    stated succession, which is awkward for a College whose sixth
    principle is stewardship.
-4. **The three collisions below.**
+4. **Who holds Director of Digital Learning.** The one collision that
+   was real; see below. Until it is answered the Executive publishes
+   five officers.
 
-## Collisions with the faculty register — MUST BE SETTLED
+## Collisions with the faculty register — settled
 
-Three posts or people appear in both registers with different content.
-None of these is a code defect and none of them can be resolved from
-inside this repository; each is a question only the College can answer.
-`tests/governance-register.test.mjs` reports them on every run so they
-stay visible, and refuses to let a fourth appear unnoticed.
+Three posts or people appeared in both registers with different content.
+All three are now resolved. Two turned out not to be conflicts at all
+once the two registers were read against each other rather than
+compared by name; the third was real, and the entry that caused it has
+been withdrawn rather than guessed at.
 
-| # | The collision | Why it matters |
+`tests/governance-register.test.mjs` re-derives this comparison on every
+run, so a fourth cannot appear unnoticed.
+
+### 1 · Director of Digital Learning — REAL. Entry withdrawn.
+
+*Dr. Michael Adeyemi, PhD* holds this post in the faculty register,
+attested 12 August 2026 and published on `/faculty/` since. The roster
+attested on 14 August supplied *Mr. Ibrahim Hassan Yusuf* for the same
+post.
+
+A directorship is a single office. Unlike a professorship it cannot
+straightforwardly be held by two people, so one of these two entries is
+wrong today and nothing in either register says which. Choosing would
+mean this repository deciding who holds a job.
+
+**Resolved by withdrawal.** Mr. Ibrahim Hassan Yusuf's entry is removed
+from the College Executive below and recorded under *Withdrawn* at the
+foot of this file. The post keeps the holder the College attested first
+and has already published, and the Executive shows five officers rather
+than six. Restoring it is a one-line edit once the College says which of
+the two holds the office — and if it is Mr. Yusuf, the faculty register
+is the file that needs changing, not this one.
+
+### 2 · Professor of English Language Education — NOT a collision.
+
+*Prof. Elizabeth Anne Morgan, PhD* (faculty) and *Professor Amina
+Rahman* (Senate) hold the same **subject professorship**, which is not a
+unique office. A university may carry several professors of one subject,
+and routinely does; only a *named chair* is singular, and this is not
+one. Both entries stand, and the coincidence is recorded here so nobody
+"fixes" it later.
+
+### 3 · Dr. Yusuf Bello — NOT a collision. Two people.
+
+The registers settle this themselves:
+
+| | Faculty register | This register |
 |---|---|---|
-| 1 | **Director of Digital Learning** is held by *Dr. Michael Adeyemi, PhD* in the faculty register and by *Mr. Ibrahim Hassan Yusuf* here | One post, two holders. Whichever is right, the other page is wrong today. |
-| 2 | **Professor of English Language Education** is held by *Prof. Elizabeth Anne Morgan, PhD* in the faculty register and by *Professor Amina Rahman* here | Same post title, two holders. May simply be two professorships of the same name, in which case say so. |
-| 3 | *Dr. Yusuf Bello, PhD* is **Director of Assessment** in the faculty register; *Dr. Yusuf Abdulrahman Bello* is **Governor for Academic Affairs** here | If these are the same person, the College's own second principle — *no person approves their own work* — is breached by the appointment, because the Governor for Academic Affairs oversees programme standards that the Director of Assessment sets. If they are two people, this register should say so explicitly, as it already does for Adeyemi, Okafor, Osei and Smith. |
+| Name | Dr. Yusuf Bello, PhD | Dr. Yusuf Abdulrahman Bello |
+| Post | Director of Assessment | Governor for Academic Affairs |
+| Doctorate | **PhD Educational Measurement (Ibadan)** | **PhD Applied Linguistics** |
+| Also holds | MSc Assessment & Evaluation | MA TESOL; B.Ed English Education |
 
-## Surname coincidences that are not collisions
+Two doctorates in different fields from different institutions. These
+are two different people who share a surname and a given name, which is
+the same situation the faculty register already records for Adeyemi,
+Okafor, Osei and Smith.
 
-Carried over from the faculty register's own note, and extended.
-**Okafor** and **Osei** are also names of fictional speakers in the Level
-material's listening scripts; **Suleiman**, **Musa**, **Morgan**,
-**Rahman** and **Yusuf** each occur across the faculty roster and this
-one. Those are separate people of similar name. Do not "fix" one to
-match the other.
-
-Separately, `docs/org-chart-placeholders.md` holds eighteen invented
-administrative placeholders banned from the public site by
-`tests/demo-people.test.mjs`. No name in this register is one of them,
-but two are close enough to note: **Mrs. Rebecca Anne Collins** here
-against placeholders *Ms. Rebecca Anne Lawson* and *Mr. Daniel Robert
-Collins*, and **Dr. Sarah Elizabeth Morgan** here against placeholder
-*Prof. Sarah Elizabeth Hughes*. The ban is on full names and neither is
-a match, so neither is blocked — but if either was typed from the
-placeholder file rather than from an appointment letter, this is the
-line where somebody should notice.
+The independence question therefore does not arise: no person is both
+the Governor overseeing programme standards and the Director setting
+them, and the College's second principle stands unbreached. Had they
+been one person it would have been a genuine governance defect rather
+than a documentation one.
 
 ## Arabic renderings
 
@@ -197,10 +233,13 @@ the Board.
 | Dr. Sarah Elizabeth Morgan | Provost | Not supplied | Academic operations, faculty leadership, quality enhancement, strategic academic planning |
 | Mr. Musa Suleiman | Registrar | Not supplied | Student records, academic regulations, graduation, institutional documentation, official certification |
 | Mrs. Rebecca Anne Collins | Director of Quality Assurance | Not supplied | Academic review, institutional audits, policy compliance, continuous improvement, programme evaluation |
-| Mr. Ibrahim Hassan Yusuf | Director of Digital Learning | Not supplied | Digital campus, learning technologies, educational innovation, online delivery, student platforms |
 | Mrs. Hannah Grace Osei | Director of Student Success | Not supplied | Student wellbeing, academic support, learning guidance, student engagement, graduate progression |
 
-Five of the six were supplied with responsibilities but no
+Five officers, not six: the Director of Digital Learning entry supplied
+on 14 August is withdrawn pending collision 1 above, and that post is
+published on `/faculty/` under the holder the College attested first.
+
+Four of the five above were supplied with responsibilities but no
 qualifications. "Not supplied" is published as nothing at all rather
 than as a guess, and the page renders the post and its responsibilities
 without a credentials line. A blank is honest; a plausible degree is
@@ -217,3 +256,21 @@ It is the one post that cannot be filled from inside the College, and
 until it is filled **no award can be conferred**. Every page that states
 this continues to state it, and `tests/adopted-decisions.test.mjs` holds
 the awards page to it.
+
+---
+
+## Withdrawn
+
+Kept rather than deleted, on the same principle as
+`assets/images/plates/CREDITS.md`: a decision with no visible cost reads
+as a decision that cost nothing.
+
+This section sits at the FOOT of the file, after every roster table, and
+must stay there. The parser reads each body's table by slicing between
+its heading and the next one, so a withdrawn row placed above
+`## Independent External Examiner` would be parsed as a serving officer
+— publishing the person the withdrawal exists to remove.
+
+| Name | Post as supplied | Withdrawn on | Why |
+|---|---|---|---|
+| Mr. Ibrahim Hassan Yusuf | Director of Digital Learning | 14 August 2026 | The post was already attested to Dr. Michael Adeyemi, PhD in the faculty register two days earlier, and published on `/faculty/`. A directorship is a single office; rather than pick a holder, the later of the two entries was withdrawn until the College says which is right. |

@@ -15,9 +15,17 @@
 //
 // The rule this module enforces by construction: a credential that was
 // not supplied renders as nothing at all, never as a plausible guess.
-// Five of the six executive officers were given to the College without
-// qualifications, and a blank line under their name is the honest
-// rendering of that.
+// Four of the five published executive officers were given to the
+// College without qualifications, and a blank line under their name is
+// the honest rendering of that.
+//
+// Fourteen people are published of the fifteen attested. The Executive's
+// Director of Digital Learning was withdrawn because docs/
+// faculty-register.md had already attested that post to somebody else
+// two days earlier, and a directorship is a single office. The row is
+// recorded under "Withdrawn" at the foot of the register rather than
+// deleted, and the parser's count guard below is pinned to five so
+// restoring the person is a deliberate two-line change.
 
 const fs = require('fs');
 const path = require('path');
@@ -58,7 +66,11 @@ const arabicRows = table('## Arabic renderings', '\n---');
 
 if (governors.length !== 6) throw new Error(`Expected 6 governors, parsed ${governors.length}`);
 if (senate.length !== 3) throw new Error(`Expected 3 senators, parsed ${senate.length}`);
-if (executive.length !== 6) throw new Error(`Expected 6 executive officers, parsed ${executive.length}`);
+if (executive.length !== 5) {
+  throw new Error(`Expected 5 executive officers, parsed ${executive.length}. The sixth — Director of\n`
+    + `Digital Learning — is withdrawn pending the collision recorded in the register; restoring it\n`
+    + `means changing this number back as well as adding the row.`);
+}
 
 const AR = new Map(arabicRows.map(([en, ar]) => [en, ar]));
 function arabicFor(term) {
