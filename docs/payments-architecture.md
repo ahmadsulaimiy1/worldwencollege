@@ -76,7 +76,7 @@ Both paths are now real, working code — `functions/_lib/currency/`:
   separate, explicit `activate: true`, so a rate can be staged before
   a currency goes live at checkout.
 - **`POST /api/admin/currency/set-rate`** / **`POST
-  /api/admin/currency/refresh-rates`** — staff/admin-only endpoints
+  /api/admin/currency/refresh-rates`** — administrator-only endpoints (governance A5, adopted 14 Aug 2026)
   over the above. 18 fixture-based assertions in
   `tests/currency-fx.test.mjs` cover the DB-writing logic directly
   (including the "provider doesn't cover this currency" and "rate is
@@ -126,8 +126,8 @@ structure keeps its own table instead — `promo_codes`, `scholarships`,
 | Corporate invoicing | Schema-ready | `corporate_accounts` / `corporate_seats` tables exist; no invoicing endpoint yet — needs a real corporate client to design against (see `master-roadmap.md` Phase 4's Corporate Portal reasoning) |
 | Receipts | **Working** (record only) | `webhook-handler.js` issues a sequential receipt number on every successful payment (atomically, via the `counters` table — see below), only if one doesn't already exist for that payment; `receipts.pdf_url` stays null — no PDF generation step built |
 | Refund workflow | Partially working | `refund()` is implemented for Stripe/Paystack/Flutterwave (Opay explicitly throws — see its adapter's confidence flag); nothing calls it yet, because refund *policy* (who approves, under what circumstances) doesn't exist — `refunds.approved_by` is there waiting for it |
-| Financial reporting | **Working** | `GET /api/admin/reports/revenue` (staff/admin only) — totals, and breakdowns by status/currency/level/provider/day, all in USD via `amount_usd_cents` (see `functions/_lib/reports/revenue.js`) |
-| Payment reconciliation | **Working**, scoped to what the schema can prove | `GET /api/admin/reports/reconciliation` (staff/admin only) — webhook volume by provider/type/verification, unverified-signature attempts, orphaned webhooks (a verified event naming a payment id that doesn't exist), stale pending/processing payments, succeeded payments missing a receipt. Does **not** cross-check against a gateway's own dashboard — no such integration exists (see below) |
+| Financial reporting | **Working** | `GET /api/admin/reports/revenue` (administrator only — governance A5) — totals, and breakdowns by status/currency/level/provider/day, all in USD via `amount_usd_cents` (see `functions/_lib/reports/revenue.js`) |
+| Payment reconciliation | **Working**, scoped to what the schema can prove | `GET /api/admin/reports/reconciliation` (administrator only — governance A5) — webhook volume by provider/type/verification, unverified-signature attempts, orphaned webhooks (a verified event naming a payment id that doesn't exist), stale pending/processing payments, succeeded payments missing a receipt. Does **not** cross-check against a gateway's own dashboard — no such integration exists (see below) |
 | Secure payment status tracking | **Working** | `verify.js` (student-facing poll) + the `payments.status` state machine (`pending → processing → succeeded/failed → refunded`) |
 
 **How discount stacking avoids silently making a pricing decision:**

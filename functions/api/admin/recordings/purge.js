@@ -13,12 +13,16 @@
 // something an accidental request should be able to do, so destroying
 // data requires saying so explicitly.
 import { jsonResponse, errorResponse, readJsonBody, ValidationError } from '../../../_lib/db.js';
-import { requireStaff } from '../../../_lib/auth/session.js';
+// Administrator, not staff. This endpoint irreversibly destroys a
+// learner's coursework. Governance decision A5, adopted 14 August 2026:
+// teaching staff need learner records; they do not need the power to
+// delete them. See docs/governance-decisions.md § A5.
+import { requireAdmin } from '../../../_lib/auth/session.js';
 import { purgeExpiredRecordings, purgeRecordingsForUser } from '../../../_lib/lms/recording-storage.js';
 
 export async function onRequestPost({ request, env }) {
   try {
-    const staff = await requireStaff(request, env);
+    const staff = await requireAdmin(request, env);
     const body = await readJsonBody(request);
     const { confirm = false, limit = 200, userId = null } = body || {};
 

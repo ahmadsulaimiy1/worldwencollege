@@ -4,12 +4,15 @@
 // functions/_lib/reports/revenue.js for the report logic itself.
 
 import { jsonResponse, errorResponse } from '../../../_lib/db.js';
-import { requireStaff } from '../../../_lib/auth/session.js';
+// Administrator, not staff. Governance decision A5 (adopted 14 August
+// 2026): a language tutor should not be able to read the institution's
+// revenue. See docs/governance-decisions.md § A5.
+import { requireAdmin } from '../../../_lib/auth/session.js';
 import { buildRevenueReport } from '../../../_lib/reports/revenue.js';
 
 export async function onRequestGet({ request, env }) {
   try {
-    await requireStaff(request, env);
+    await requireAdmin(request, env);
     const url = new URL(request.url);
     const report = await buildRevenueReport(env, {
       from: url.searchParams.get('from'),

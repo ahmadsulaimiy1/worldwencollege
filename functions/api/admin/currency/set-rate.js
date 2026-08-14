@@ -9,12 +9,14 @@
 // currency at checkout.
 
 import { jsonResponse, errorResponse, ValidationError, readJsonBody } from '../../../_lib/db.js';
-import { requireStaff } from '../../../_lib/auth/session.js';
+// Administrator, not staff. This endpoint changes what learners are
+// charged. Governance decision A5, adopted 14 August 2026.
+import { requireAdmin } from '../../../_lib/auth/session.js';
 import { setPolicyFixedRate } from '../../../_lib/currency/fx-service.js';
 
 export async function onRequestPost({ request, env }) {
   try {
-    const staff = await requireStaff(request, env);
+    const staff = await requireAdmin(request, env);
     const body = await readJsonBody(request);
     if (!body?.code) throw new ValidationError('code is required.', { code: 'Required' });
     if (typeof body?.rateToUsd !== 'number') throw new ValidationError('rateToUsd is required and must be a number.', { rateToUsd: 'Required' });

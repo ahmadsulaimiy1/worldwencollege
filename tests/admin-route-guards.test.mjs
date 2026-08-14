@@ -99,19 +99,24 @@ const ROUTES = [
   { file: 'functions/api/admin/role.js', method: 'GET', minRole: 'admin',
     why: 'The register of who can read student records is not staff-readable. THIS IS THE ROW THAT WAS WRONG.' },
 
-  // Money.
-  { file: 'functions/api/admin/reports/revenue.js', method: 'GET', minRole: 'staff',
-    why: 'Documented as staff/admin. See governance A5 — arguably should be admin.' },
-  { file: 'functions/api/admin/reports/reconciliation.js', method: 'GET', minRole: 'staff',
-    why: 'Documented as staff/admin. See governance A5.' },
-  { file: 'functions/api/admin/currency/set-rate.js', method: 'POST', minRole: 'staff',
-    why: 'Documented as staff/admin. See governance A5 — this sets what learners are charged.' },
-  { file: 'functions/api/admin/currency/refresh-rates.js', method: 'POST', minRole: 'staff',
-    why: 'Documented as staff/admin. See governance A5.' },
+  // Money. These four were staff-level until governance decision A5 was
+  // adopted on 14 August 2026. Writing this table down is what made the
+  // question visible: should a language tutor be able to read the
+  // institution's revenue, or change what learners are charged? The
+  // answer was no, and the code now matches it.
+  { file: 'functions/api/admin/reports/revenue.js', method: 'GET', minRole: 'admin',
+    why: 'Governance A5: institutional revenue is not a teaching concern.' },
+  { file: 'functions/api/admin/reports/reconciliation.js', method: 'GET', minRole: 'admin',
+    why: 'Governance A5: the payment record is not a teaching concern.' },
+  { file: 'functions/api/admin/currency/set-rate.js', method: 'POST', minRole: 'admin',
+    why: 'Governance A5: this sets what learners are charged.' },
+  { file: 'functions/api/admin/currency/refresh-rates.js', method: 'POST', minRole: 'admin',
+    why: 'Governance A5: this updates tuition pricing.' },
 
-  // Destruction.
-  { file: 'functions/api/admin/recordings/purge.js', method: 'POST', minRole: 'staff',
-    why: 'Documented as staff-only, and dry-run by default. See governance A5.' },
+  // Destruction. Dry-run by default is a safety net, not an access
+  // control — the caller chooses whether it is a dry run.
+  { file: 'functions/api/admin/recordings/purge.js', method: 'POST', minRole: 'admin',
+    why: 'Governance A5: irreversible destruction of a learner\'s coursework.' },
 
   // Institutional access to the Register.
   { file: 'functions/api/admin/institutions.js', method: 'POST', minRole: 'admin',

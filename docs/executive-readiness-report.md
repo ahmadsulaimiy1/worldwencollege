@@ -62,7 +62,7 @@ loaded with the actual schema.
   ECB adapter (covers GBP; explicitly does not cover NGN/SAR/AED/QAR/
   KWD — stated in its own header, not glossed over), and a service
   layer separating pure DB-writing logic from the network call. Two
-  new staff-only endpoints for setting a policy-fixed rate or
+  new administrator-only endpoints (governance A5) for setting a policy-fixed rate or
   refreshing from the live feed.
 - **Executive Decision #3 — phased gateway rollout.** No code change
   — `router.js`'s existing `isConfigured()`-based gateway suggestion

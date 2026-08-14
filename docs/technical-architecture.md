@@ -85,7 +85,7 @@ Student Portal (js/portal-auth.js — with a real Clerk key configured,
                 with this student's real data; with no key, the
                 preview pages stay exactly the static demo they ship as)
 
-Admin Reports (separately, staff/admin only — js/finance-dashboard.js
+Admin Reports (separately, administrator only — js/finance-dashboard.js
                + requireStaff() ──► GET /api/admin/reports/{revenue,reconciliation}
                ──► D1: payments, payment_webhook_events, receipts — see
                payments-architecture.md § Financial reporting & reconciliation)
@@ -131,7 +131,7 @@ functions/
     payments/              create-checkout.js, verify.js, webhook-{stripe,paystack,flutterwave,opay}.js
     auth/                  webhook-clerk.js, me.js
     enrolment/              confirm.js
-    admin/reports/          revenue.js, reconciliation.js — staff/admin only (requireStaff())
+    admin/reports/          revenue.js, reconciliation.js — administrator only (requireAdmin())
     student/                dashboard.js — the caller's own data only, no id param accepted
 sql/schema.sql             The full data model — see its own header comments
 wrangler.toml               Cloudflare Pages + D1 config (placeholder database_id)

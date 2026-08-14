@@ -16,12 +16,14 @@
 // set-rate.js.
 
 import { jsonResponse, errorResponse, ValidationError, readJsonBody } from '../../../_lib/db.js';
-import { requireStaff } from '../../../_lib/auth/session.js';
+// Administrator, not staff. This endpoint updates tuition pricing.
+// Governance decision A5, adopted 14 August 2026.
+import { requireAdmin } from '../../../_lib/auth/session.js';
 import { refreshFromLiveFeed } from '../../../_lib/currency/fx-service.js';
 
 export async function onRequestPost({ request, env }) {
   try {
-    const staff = await requireStaff(request, env);
+    const staff = await requireAdmin(request, env);
     const body = await readJsonBody(request);
     if (!Array.isArray(body?.codes) || body.codes.length === 0) {
       throw new ValidationError('codes must be a non-empty array of currency codes.', { codes: 'Required' });
