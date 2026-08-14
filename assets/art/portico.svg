@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  THE PORTICO — the institution as a place.
+
+  A neoclassical London frontage in engraved line, drawn the way a
+  nineteenth-century prospectus plate would have been: no fills, no
+  shading, depth carried entirely by line weight and density. Nearer
+  elements are drawn heavier; the sky behind is a ruled hatch that
+  thins towards the horizon.
+
+  Occupies the 4:3 plate slot in chapter 01. See
+  docs/photography-brief.md — PLATE 01 — for the photograph intended to
+  replace it.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Engraved illustration of a neoclassical college portico">
+  <defs>
+    <linearGradient id="p-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D4AF37" stop-opacity=".30"/>
+      <stop offset="1" stop-color="#D4AF37" stop-opacity="0"/>
+    </linearGradient>
+    <!-- One fluted column, instanced six times. Drawing it once keeps
+         every column identical, which is what makes a colonnade read
+         as architecture rather than as six similar drawings. -->
+    <g id="p-column">
+      <path d="M-26 0h52l-4 14h-44Z"/>
+      <path d="M-22 14h44v246h-44Z"/>
+      <path d="M-18 22v230M-11 22v230M-4 22v230M4 22v230M11 22v230M18 22v230" stroke-opacity=".45"/>
+      <path d="M-30 260h60v12h-60Z"/>
+      <path d="M-25 -8h50l-6 8h-38Z" stroke-opacity=".7"/>
+    </g>
+  </defs>
+
+  <g fill="none" stroke="#C7A24A" stroke-width="1.15" stroke-linecap="square" stroke-linejoin="miter">
+
+    <!-- Ruled sky, thinning upward. -->
+    <g stroke-opacity=".16" stroke-width=".7">
+      <path d="M40 92h720M40 108h720M40 124h720M40 140h720M40 156h720M40 172h720"/>
+    </g>
+    <rect x="40" y="60" width="720" height="130" fill="url(#p-sky)" stroke="none"/>
+
+    <!-- Pediment. -->
+    <path d="M400 96 706 214H94Z" stroke-width="1.5"/>
+    <path d="M400 122 656 214H144Z" stroke-opacity=".55"/>
+    <!-- Tympanum device: a small crest shield, centred. -->
+    <path d="M400 150l26 9v20c0 15-11 27-26 33-15-6-26-18-26-33v-20Z" stroke-opacity=".8"/>
+    <path d="M388 176h24M400 165v22" stroke-opacity=".8"/>
+
+    <!-- Entablature. -->
+    <path d="M78 214h644v18H78Z" stroke-width="1.4"/>
+    <path d="M86 232h628v14H86Z" stroke-opacity=".7"/>
+    <!-- Triglyphs. -->
+    <g stroke-opacity=".5">
+      <path d="M120 232v14M180 232v14M240 232v14M300 232v14M360 232v14M420 232v14M480 232v14M540 232v14M600 232v14M660 232v14"/>
+    </g>
+    <path d="M92 246h616v10H92Z" stroke-opacity=".8"/>
+
+    <!-- The colonnade. -->
+    <g transform="translate(0,256)">
+      <use href="#p-column" x="150"/>
+      <use href="#p-column" x="250"/>
+      <use href="#p-column" x="350"/>
+      <use href="#p-column" x="450"/>
+      <use href="#p-column" x="550"/>
+      <use href="#p-column" x="650"/>
+    </g>
+
+    <!-- The recessed wall and doorway behind the columns, drawn lighter
+         so it sits back in space. -->
+    <g stroke-opacity=".42">
+      <path d="M108 262h584v256H108Z"/>
+      <path d="M356 380h88v138h-88Z"/>
+      <path d="M356 380a44 44 0 0 1 88 0" />
+      <path d="M400 380v138"/>
+      <path d="M196 356h56v92h-56ZM548 356h56v92h-56Z"/>
+      <path d="M196 402h56M548 402h56"/>
+    </g>
+
+    <!-- Stylobate — three steps, heaviest line, nearest the viewer. -->
+    <path d="M92 518h616v16H92Z" stroke-width="1.4"/>
+    <path d="M72 534h656v16H72Z" stroke-width="1.5"/>
+    <path d="M52 550h696v18H52Z" stroke-width="1.6"/>
+
+    <!-- Ground hatch. -->
+    <g stroke-opacity=".2" stroke-width=".7">
+      <path d="M52 578h696M96 590h608"/>
+    </g>
+  </g>
+</svg>

@@ -59,6 +59,14 @@ function build() {
   const manifest = JSON.parse(read(path.join(PAGES, 'manifest.json')));
   let count = 0;
 
+  // The icon sprite, read once rather than per page. It is the same
+  // bytes on all 88 outputs, and it is inlined rather than linked
+  // because `currentColor` does not inherit across an external <use>
+  // reference in several browsers — which is the entire mechanism the
+  // icon set relies on to work on navy, on paper and in gold from one
+  // definition. See partials/icons.html.
+  const icons = read(path.join(PARTIALS, 'icons.html')).trimEnd();
+
   manifest.forEach((entry) => {
     const lang = entry.lang || 'en';
     const dir = entry.dir || 'ltr';
@@ -67,6 +75,16 @@ function build() {
     const hreflangEn = lang === 'en' ? canonical : altUrl;
     const hreflangAr = lang === 'ar' ? canonical : altUrl;
 
+    // Per-page stylesheets, declared in the manifest, on the same
+    // opt-in principle as `scripts` below: css/home.css is 300 lines of
+    // homepage composition, and there is no reason for the tuition page
+    // to download it. Absent key produces an empty string, so the built
+    // output of every page that declares none is byte-identical to what
+    // it was before this key existed.
+    const extraCss = (entry.extraCss || [])
+      .map((href) => `\n<link rel="stylesheet" href="${href}">`)
+      .join('');
+
     const head = fill(partialFor('head', lang), {
       TITLE: entry.title,
       DESCRIPTION: entry.description,
@@ -74,6 +92,7 @@ function build() {
       HREFLANG_EN: hreflangEn,
       HREFLANG_AR: hreflangAr,
       FONTS_URL: fontsUrlFor(lang),
+      EXTRA_CSS: extraCss,
       OG_LOCALE: lang === 'ar' ? 'ar_AR' : 'en_GB',
       OG_SITE_NAME: lang === 'ar' ? 'الكلية العالمية للغة الإنجليزية' : 'WorldWide English College',
     });
@@ -101,13 +120,15 @@ ${head}
 </head>
 <body>
 <a class="skip-link" href="#main">${skipLabel}</a>
+${icons}
 ${topbar}
 ${header}
 <main id="main">
 ${content}
 </main>
 ${footer}
-<script src="/js/site.js"></script>${extraScripts}
+<script src="/js/site.js"></script>
+<script src="/js/motion.js"></script>${extraScripts}
 </body>
 </html>
 `;

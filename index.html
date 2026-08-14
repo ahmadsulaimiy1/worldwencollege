@@ -14,6 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/home.css">
 <meta property="og:site_name" content="WorldWide English College">
 <meta property="og:locale" content="en_GB">
 <meta property="og:title" content="WorldWide English College — London Campus | WEC-LC">
@@ -54,18 +55,220 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
+<!--
+  THE ICON SPRITE.
+
+  Injected once, immediately after <body>, on every page built by
+  scripts/build.js. Referenced as:
+
+      <svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg>
+
+  Drawn rather than sourced. Every symbol is on a 24x24 grid with a
+  1.25px stroke, square terminals and mitred joins, and no fills — so
+  the whole set reads as one engraving tool rather than as icons
+  collected from three different libraries, which is the single most
+  common way an institutional site gives itself away as a template.
+
+  Colour comes from `currentColor` (see .icon in css/brand.css), so one
+  sprite serves navy grounds, paper grounds, gold rules and burgundy
+  headings without a per-context duplicate.
+
+  Inline rather than an external sprite file on purpose: `currentColor`
+  does not inherit across an external <use> reference in several
+  browsers, which would defeat the whole arrangement above.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true" focusable="false"><defs>
+
+  <!-- The institution's mark, reduced to a stroke. -->
+  <symbol id="i-crest" viewBox="0 0 24 24">
+    <path d="M12 1.6 21 4.8v8.1c0 5.6-3.8 10-9 12.1C6.8 22.9 3 18.5 3 12.9V4.8Z"/>
+    <path d="M12 5.2 17.6 7.2v5.6c0 3.7-2.4 6.7-5.6 8.1-3.2-1.4-5.6-4.4-5.6-8.1V7.2Z"/>
+    <path d="M9.4 12.6h5.2M12 10v5.2"/>
+  </symbol>
+
+  <!-- Laurel — awards, honours, distinction. -->
+  <symbol id="i-laurel" viewBox="0 0 24 24">
+    <path d="M12 3v18"/>
+    <path d="M12 6.4C10 5 7.6 4.8 5.6 5.6c.2 2.2 1.6 4 3.6 4.8"/>
+    <path d="M12 11C10 9.6 7.6 9.4 5.6 10.2c.2 2.2 1.6 4 3.6 4.8"/>
+    <path d="M12 15.6c-2-1.4-4.4-1.6-6.4-.8.2 2.2 1.6 4 3.6 4.8"/>
+    <path d="M12 6.4c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
+    <path d="M12 11c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
+    <path d="M12 15.6c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
+  </symbol>
+
+  <!-- Quill — writing, authorship, the written standard. -->
+  <symbol id="i-quill" viewBox="0 0 24 24">
+    <path d="M3 21c3.4-7.6 8-13 17-18-1.2 8.4-5.2 14-11.4 16.2Z"/>
+    <path d="M8.6 19.2 20 3"/>
+    <path d="M3 21h4.2"/>
+  </symbol>
+
+  <!-- Open book — the curriculum, published. -->
+  <symbol id="i-book" viewBox="0 0 24 24">
+    <path d="M12 6.4C10 4.9 7.2 4.2 3 4.4v13.2c4.2-.2 7 .5 9 2 2-1.5 4.8-2.2 9-2V4.4c-4.2-.2-7 .5-9 2Z"/>
+    <path d="M12 6.4v13.2"/>
+    <path d="M6 8.4h3.2M6 11.6h3.2M14.8 8.4H18M14.8 11.6H18"/>
+  </symbol>
+
+  <!-- Portico — the campus, the institution as a place. -->
+  <symbol id="i-portico" viewBox="0 0 24 24">
+    <path d="M2 8.8 12 3l10 5.8"/>
+    <path d="M4 8.8V19M9.4 8.8V19M14.6 8.8V19M20 8.8V19"/>
+    <path d="M2 21.4h20M3 19h18"/>
+  </symbol>
+
+  <!-- Globe with meridians — worldwide delivery. -->
+  <symbol id="i-globe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z"/>
+    <path d="M5 6.4c2 1.2 4.4 1.8 7 1.8s5-.6 7-1.8M5 17.6c2-1.2 4.4-1.8 7-1.8s5 .6 7 1.8"/>
+  </symbol>
+
+  <!-- Wax seal — conferral, the sealed record. -->
+  <symbol id="i-seal" viewBox="0 0 24 24">
+    <circle cx="12" cy="9.6" r="6.6"/>
+    <circle cx="12" cy="9.6" r="3.4"/>
+    <path d="M8 15.4 6.6 22l5.4-2.6L17.4 22 16 15.4"/>
+  </symbol>
+
+  <!-- Ledger — the record, the register, the table of marks. -->
+  <symbol id="i-ledger" viewBox="0 0 24 24">
+    <path d="M4 2.6h16v18.8H4Z"/>
+    <path d="M8 2.6v18.8"/>
+    <path d="M11 7.4h6M11 12h6M11 16.6h6"/>
+  </symbol>
+
+  <!-- Waveform — the Listening Lab, recorded speech. -->
+  <symbol id="i-waveform" viewBox="0 0 24 24">
+    <path d="M2 12h2.4M7 7.4v9.2M11.6 4v16M16.2 8.6v6.8M20.8 10.8v2.4"/>
+  </symbol>
+
+  <!-- Mortarboard — graduation, completion of the pathway. -->
+  <symbol id="i-mortarboard" viewBox="0 0 24 24">
+    <path d="M12 3.4 22.4 8 12 12.6 1.6 8Z"/>
+    <path d="M5.6 10v5.6c0 1.8 2.9 3.2 6.4 3.2s6.4-1.4 6.4-3.2V10"/>
+    <path d="M22.4 8v5.6"/>
+  </symbol>
+
+  <!-- Scales — assessment, academic integrity, fair marking. -->
+  <symbol id="i-scales" viewBox="0 0 24 24">
+    <path d="M12 3.4v17.2M6.6 20.6h10.8"/>
+    <path d="M4 7h16"/>
+    <path d="M4 7 1.4 13.4h5.2ZM20 7l-2.6 6.4h5.2Z"/>
+  </symbol>
+
+  <!-- Compass — direction, guidance, the pathway. -->
+  <symbol id="i-compass" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="m15.6 8.4-2 5.2-5.2 2 2-5.2Z"/>
+  </symbol>
+
+  <!-- Clock tower — London, the campus HQ. -->
+  <symbol id="i-clocktower" viewBox="0 0 24 24">
+    <path d="M8.4 21.4V8.6h7.2v12.8Z"/>
+    <path d="M12 2.2 16.6 8.6H7.4Z"/>
+    <circle cx="12" cy="13" r="2.6"/>
+    <path d="M12 11.6V13h1.2"/>
+    <path d="M6.6 21.4h10.8"/>
+  </symbol>
+
+  <!-- Key — access, the student portal. -->
+  <symbol id="i-key" viewBox="0 0 24 24">
+    <circle cx="7.4" cy="7.4" r="4.4"/>
+    <path d="m10.6 10.6 10 10M17.4 17.4l-2.2 2.2M20 14.8l-2.2 2.2"/>
+  </symbol>
+
+  <!-- Sealed envelope — correspondence with the College. -->
+  <symbol id="i-envelope" viewBox="0 0 24 24">
+    <path d="M2.6 5h18.8v14H2.6Z"/>
+    <path d="m2.6 5 9.4 7.4L21.4 5"/>
+    <circle cx="12" cy="12.6" r="2.2"/>
+  </symbol>
+
+  <!-- Shield with a check — quality assurance, verification. -->
+  <symbol id="i-shield-check" viewBox="0 0 24 24">
+    <path d="M12 2.2 20.4 5v7.6c0 4.8-3.4 8.6-8.4 10.2-5-1.6-8.4-5.4-8.4-10.2V5Z"/>
+    <path d="m8.4 12 2.6 2.6 4.6-5"/>
+  </symbol>
+
+  <!-- Ascending chart — progression through the levels. -->
+  <symbol id="i-progress" viewBox="0 0 24 24">
+    <path d="M3 21h18M3 21V3"/>
+    <path d="M6.6 17.4v-3.2M11 17.4v-6.8M15.4 17.4V7.8M19.8 17.4V4.6"/>
+  </symbol>
+
+  <!-- Calendar — dates, the academic year. -->
+  <symbol id="i-calendar" viewBox="0 0 24 24">
+    <path d="M3.4 5.4h17.2v16H3.4Z"/>
+    <path d="M3.4 10.2h17.2M8.2 2.6v5M15.8 2.6v5"/>
+  </symbol>
+
+  <!-- Passport — international applicants, visas. -->
+  <symbol id="i-passport" viewBox="0 0 24 24">
+    <path d="M4.6 2.6h14.8v18.8H4.6Z"/>
+    <circle cx="12" cy="9.6" r="3.4"/>
+    <path d="M8.6 16.6h6.8"/>
+  </symbol>
+
+  <!-- Columns — governance, the academic bodies. -->
+  <symbol id="i-columns" viewBox="0 0 24 24">
+    <path d="M2.6 6.6h18.8M4 21.4h16"/>
+    <path d="M6.4 6.6v14.8M12 6.6v14.8M17.6 6.6v14.8"/>
+    <path d="M2.6 6.6 12 2.6l9.4 4"/>
+  </symbol>
+
+  <!-- Arrow, used for links and CTAs. -->
+  <symbol id="i-arrow" viewBox="0 0 24 24">
+    <path d="M3.6 12h16.8M14 5.6 20.4 12 14 18.4"/>
+  </symbol>
+
+  <!-- Social marks. Stroke-drawn to match the set rather than dropped
+       in as brand glyphs, which would be the one place the sprite
+       stopped looking like one hand drew it. -->
+  <symbol id="i-linkedin" viewBox="0 0 24 24">
+    <path d="M3.6 3.6h16.8v16.8H3.6Z"/>
+    <path d="M8 10.6v6M8 7.6v.4M12 16.6v-6M12 12.4c1.6-2.2 4-1.4 4 1v3.2"/>
+  </symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24">
+    <path d="M7.4 3.6h9.2a3.8 3.8 0 0 1 3.8 3.8v9.2a3.8 3.8 0 0 1-3.8 3.8H7.4a3.8 3.8 0 0 1-3.8-3.8V7.4a3.8 3.8 0 0 1 3.8-3.8Z"/>
+    <circle cx="12" cy="12" r="3.6"/>
+    <path d="M17 7v.2"/>
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24">
+    <path d="M4 4h3.6l12.4 16h-3.6Z"/>
+    <path d="M19.4 4 4.6 20"/>
+  </symbol>
+
+  <!-- Language switch. -->
+  <symbol id="i-language" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9S9.6 5.6 12 3Z"/>
+  </symbol>
+
+</defs></svg>
 <div class="topbar">
   <div class="topbar__inner">
     <div class="topbar__contacts">
-      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item">info@worldwencollege.co.uk</a>
-      <span class="topbar__item topbar__item--muted">London Campus · Applications open worldwide</span>
+      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item">
+        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
+        info@worldwencollege.co.uk
+      </a>
+      <span class="topbar__item topbar__item--muted">
+        <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
+        London Campus · Applications open worldwide
+      </span>
     </div>
     <div class="topbar__right">
-      <a class="topbar__lang" href="/ar/">العربية</a>
+      <a class="topbar__lang" href="/ar/">
+        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+        العربية
+      </a>
       <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn">in</a>
-        <a href="#" aria-label="Instagram">ig</a>
-        <a href="#" aria-label="X / Twitter">x</a>
+        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
       </div>
     </div>
   </div>
@@ -75,9 +278,17 @@
   <div class="site-header__inner">
     <a href="/" class="brand" aria-label="WorldWide English College — London Campus, home">
       <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
-        <path class="crest__shield" d="M24 2 L44 9 V27 C44 40 35.5 50 24 54 C12.5 50 4 40 4 27 V9 Z"/>
-        <path class="crest__inner" d="M24 8 L38 13 V27 C38 37 31.5 45.5 24 48.5 C16.5 45.5 10 37 10 27 V13 Z"/>
-        <text x="24" y="31" text-anchor="middle" class="crest__mono">WEC</text>
+        <!-- A crown of three points over the shield, and an open book
+             at the honour point. The full arms are in
+             assets/art/crest-plate.svg; this is the reduction that
+             still reads at 27px in the condensed header, where the
+             laurel and ribbon of the full mark turn to mud. -->
+        <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
+        <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
+        <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
+        <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
+        <path class="crest__book" d="M24 28.5 V37.4"/>
+        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
       </svg>
       <span class="brand__word">
         <span class="brand__name">WorldWide English College</span>
@@ -97,8 +308,6 @@
           <a href="/about/academic-senate/">The Academic Senate</a>
           <a href="/about/basce/">BASCE</a>
           <a href="/about/quality-assurance/">Quality Assurance</a>
-    <a href="/standards/">Academic Standards</a>
-    <a href="/standards/evidence/">The Evidence Record</a>
           <a href="/standards/">Academic Standards</a>
           <a href="/standards/evidence/">The Evidence Record</a>
           <a href="/standards/decisions/">The Decisions Register</a>
@@ -114,7 +323,6 @@
           <a href="/academics/">Programme Overview</a>
           <a href="/academics/iefc/">The IEFC Programme</a>
           <a href="/study/">Study &mdash; All Six Levels</a>
-    <a href="/learning/">How Learning Works</a>
           <a href="/study/level-1/">Level I &mdash; Foundation (A1)</a>
           <a href="/study/level-2/">Level II &mdash; Elementary (A2)</a>
           <a href="/study/level-3/">Level III &mdash; Intermediate (B1)</a>
@@ -227,184 +435,446 @@
 </header>
 
 <main id="main">
-<section class="hero">
-  <div class="hero__crest-watermark" aria-hidden="true"></div>
+<!--
+  THE HOMEPAGE.
+
+  Eight chapters, each on its own ground. Every section that carries a
+  data-chapter attribute contributes a dot to the chapter rail that
+  js/motion.js builds — so the rail is generated from the page rather
+  than hand-listed beside it, and cannot fall out of step with it.
+
+  Composition styles live in css/home.css, loaded only on this page and
+  its Arabic counterpart via the `extraCss` key in pages/manifest.json.
+-->
+
+<!-- ==================================================================
+     THE HERO
+     ================================================================== -->
+<section class="hero--flagship guilloche grain" data-chapter="Opening" id="opening">
+  <img class="hero__crest" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400">
   <div class="container hero__inner">
-    <span class="eyebrow">London Campus · Admissions Open Worldwide</span>
-    <h1>Empowering the World Through English Excellence.</h1>
-    <p class="lede">WorldWide English College, London Campus (WEC-LC) is an international English language institution built around one pathway — the <strong>International English Fluency Course (IEFC)</strong> — carrying learners from their first word to mastery. The whole programme is written, published and open to inspection before anyone pays for it.</p>
+    <p class="hero__eyebrow">
+      <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
+      London Campus · Admissions Open Worldwide
+    </p>
+
+    <h1 class="display-1 hero__title" data-split>Empowering the World Through English Excellence.</h1>
+
+    <p class="hero__typed" data-typeline="Fluency.|Confidence.|Distinction.|Mastery."></p>
+
+    <p class="lede">WorldWide English College is a London institution built around a single pathway &mdash; the <strong>International English Fluency Course</strong> &mdash; carrying a learner from their first word to command of the language. Six levels. Sixty modules. Every one of them written, published, and open to read before anyone enrols.</p>
+
     <div class="btn-row">
-      <a href="/admissions/apply/" class="btn btn--gold">Apply Now</a>
-      <a href="/study/" class="btn btn--ghost">See All Six Levels</a>
+      <a href="/admissions/apply/" class="btn btn--gold">
+        Begin Your Application
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+      <a href="/study/" class="btn btn--ghost">Read the Programme</a>
     </div>
-    <div class="hero__stats">
-      <div class="hero__stat"><strong>6</strong><span>CEFR-Aligned Levels</span></div>
-      <div class="hero__stat"><strong>60</strong><span>Modules, All Written</span></div>
-      <div class="hero__stat"><strong>120</strong><span>WEC Credits</span></div>
-      <div class="hero__stat"><strong>100%</strong><span>Online, Worldwide</span></div>
+
+    <div class="hero__stats--flagship">
+      <div class="hero__stat--flagship">
+        <strong data-count-to="6">6</strong>
+        <span>CEFR-aligned levels</span>
+      </div>
+      <div class="hero__stat--flagship">
+        <strong data-count-to="60">60</strong>
+        <span>Written modules</span>
+      </div>
+      <div class="hero__stat--flagship">
+        <strong data-count-to="120">120</strong>
+        <span>WEC credits</span>
+      </div>
+      <div class="hero__stat--flagship">
+        <strong data-count-to="1200">1,200</strong>
+        <span>Hours of study</span>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">01 · What Makes This Different</span>
-      <h2>You can read the entire programme before you pay for it.</h2>
-      <p class="lede">Most language providers ask you to buy a syllabus you have never seen. Every level here is published: its modules, its outcomes, its assessments and the criteria they are marked against.</p>
+<!-- ==================================================================
+     I · THE PROMISE
+     ================================================================== -->
+<section class="chapter section--light section--warm" data-chapter="The Promise" id="promise">
+  <div class="container">
+    <div class="split-feature split-feature--wide-text">
+      <div>
+        <div class="chapter__head">
+          <p class="chapter__num"><span class="roman">I</span> The Promise</p>
+          <h2 class="display-2">Read the entire programme before you pay for any of it.</h2>
+          <p class="lede">Most language providers sell a syllabus you are not permitted to see. Every level here is published in full &mdash; its modules, its outcomes, its assessments, and the criteria they are marked against.</p>
+        </div>
+
+        <ul class="feature-list">
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+            <div>
+              <h3>The standard is published first</h3>
+              <p>Outcomes, rubrics and pass criteria reach you before the assessment, never after it. A standard revealed afterwards is not a standard &mdash; it is an explanation of a verdict.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+            <div>
+              <h3>Four skills, marked apart</h3>
+              <p>Listening, reading, speaking and writing carry separate marks, and stay separate on your record. One averaged number conceals precisely what a language learner most needs to know.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+            <div>
+              <h3>The record is yours</h3>
+              <p>Every attempt, mark and piece of feedback accumulates in one place, visible to you as it is written. You decide what is shared, and with whom.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="btn-row">
+          <a href="/standards/" class="btn btn--outline">How the Standard Is Held</a>
+        </div>
+      </div>
+
+      <figure class="plate plate--drift" style="--plate-ratio: 4 / 3">
+        <div class="plate__frame">
+          <img src="/assets/art/portico.svg" alt="Engraved illustration of the College portico: a six-column neoclassical frontage beneath a pedimented roof." width="800" height="600" loading="lazy">
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg>
+          The London Campus
+        </figcaption>
+      </figure>
     </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">One</span>
-        <h3>The standard is published first</h3>
-        <p>Outcomes, rubrics and pass criteria reach you before the assessment, not afterwards. A standard revealed after the fact is not a standard &mdash; it is an explanation of a verdict.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Two</span>
-        <h3>Four skills, marked apart</h3>
-        <p>Listening, reading, speaking and writing are marked separately and stay separate on your record. One averaged number hides exactly what a language learner most needs to know.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Three</span>
-        <h3>What is missing is written down</h3>
-        <p>Where the College lacks something &mdash; an external examiner, appointed board members, classroom evidence &mdash; it says so on the page where it matters, not once in a footnote.</p>
-      </div>
-    </div>
-    <div class="btn-row"><a href="/standards/" class="btn btn--outline">How the Standard Is Held</a></div>
   </div>
 </section>
 
-<section class="section--dark section-pad" id="programme">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">02 · The Programme</span>
-      <h2>The International English Fluency Course</h2>
-      <p class="lede">Six CEFR-aligned levels, ten modules each, every one written and assessed to the same published policy.</p>
+<!-- ==================================================================
+     II · THE PROGRAMME
+     ================================================================== -->
+<section class="chapter section--dark section--midnight guilloche grain" data-chapter="The Programme" id="programme">
+  <div class="container">
+    <div class="chapter__head">
+      <p class="chapter__num"><span class="roman">II</span> The Programme</p>
+      <h2 class="display-2 foil">The International English Fluency Course</h2>
+      <p class="lede">Six CEFR-aligned levels. Ten modules in each. One published assessment policy, from the first lesson to the last.</p>
     </div>
+
     <div class="table-scroll">
-      <table class="ledger">
+      <table class="ledger ledger--flagship">
         <thead>
-          <tr><th>Level</th><th>CEFR</th><th>Modules</th><th>Credits</th><th>Total Qualification Time</th></tr>
+          <tr>
+            <th scope="col">Level</th>
+            <th scope="col">CEFR</th>
+            <th scope="col">Modules</th>
+            <th scope="col">Credits</th>
+            <th scope="col">Qualification time</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td><strong>I · Foundation Programme</strong></td><td>A1</td><td>10</td><td>20</td><td>200 hrs</td></tr>
-          <tr><td><strong>II · Elementary Programme</strong></td><td>A2</td><td>10</td><td>20</td><td>200 hrs</td></tr>
-          <tr><td><strong>III · Intermediate Programme</strong></td><td>B1</td><td>10</td><td>20</td><td>200 hrs</td></tr>
-          <tr><td><strong>IV · Upper Intermediate Programme</strong></td><td>B2</td><td>10</td><td>20</td><td>200 hrs</td></tr>
-          <tr><td><strong>V · Advanced Programme</strong></td><td>C1</td><td>10</td><td>20</td><td>200 hrs</td></tr>
-          <tr><td><strong>VI · English Mastery Programme</strong></td><td>C2</td><td>10</td><td>20</td><td>200 hrs</td></tr>
-          <tr><td colspan="2"><strong>Total</strong></td><td>60</td><td>120</td><td><strong>1,200 hrs</strong></td></tr>
+          <tr>
+            <td><span class="ledger__level"><span class="ledger__roman">I</span> <strong>Foundation</strong></span></td>
+            <td><span class="ledger__cefr">A1</span></td><td>10</td><td>20</td><td>200 hrs</td>
+          </tr>
+          <tr>
+            <td><span class="ledger__level"><span class="ledger__roman">II</span> <strong>Elementary</strong></span></td>
+            <td><span class="ledger__cefr">A2</span></td><td>10</td><td>20</td><td>200 hrs</td>
+          </tr>
+          <tr>
+            <td><span class="ledger__level"><span class="ledger__roman">III</span> <strong>Intermediate</strong></span></td>
+            <td><span class="ledger__cefr">B1</span></td><td>10</td><td>20</td><td>200 hrs</td>
+          </tr>
+          <tr>
+            <td><span class="ledger__level"><span class="ledger__roman">IV</span> <strong>Upper Intermediate</strong></span></td>
+            <td><span class="ledger__cefr">B2</span></td><td>10</td><td>20</td><td>200 hrs</td>
+          </tr>
+          <tr>
+            <td><span class="ledger__level"><span class="ledger__roman">V</span> <strong>Advanced</strong></span></td>
+            <td><span class="ledger__cefr">C1</span></td><td>10</td><td>20</td><td>200 hrs</td>
+          </tr>
+          <tr>
+            <td><span class="ledger__level"><span class="ledger__roman">VI</span> <strong>English Mastery</strong></span></td>
+            <td><span class="ledger__cefr">C2</span></td><td>10</td><td>20</td><td>200 hrs</td>
+          </tr>
+          <tr>
+            <td colspan="2"><strong>The complete pathway</strong></td>
+            <td><strong>60</strong></td><td><strong>120</strong></td><td><strong>1,200 hrs</strong></td>
+          </tr>
         </tbody>
       </table>
     </div>
-    <p class="form-note">Total qualification time is a design figure, not a measurement: it is the workload the curriculum was built to, and it has not yet been measured against real learners because there have not been any. How many months that becomes depends entirely on the hours you can give it each week, which is why the College publishes hours rather than a number of months it could not stand behind. The WEC Credit is an internal measure and is not an ECTS or CATS credit.</p>
+
+    <p class="form-note">Qualification time is a design figure, not a measurement: it is the workload the curriculum was built to, published in hours rather than in months because how long it takes is set by the hours you can give it each week. The College publishes the figure it can stand behind rather than a duration it cannot. The WEC Credit is an internal measure and is not an ECTS or CATS credit.</p>
+
     <div class="btn-row">
-      <a href="/study/" class="btn btn--gold">Explore Every Level</a>
+      <a href="/study/" class="btn btn--gold">Explore Every Level<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       <a href="/admissions/tuition/" class="btn btn--ghost">Tuition &amp; Fees</a>
     </div>
   </div>
 </section>
 
-<section class="section--paper section-pad" id="curriculum">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">03 · What Students Learn</span>
-      <h2>A curriculum built for real-world fluency.</h2>
-      <p class="lede">The language systems run through every level. The specialist strands enter where a learner can actually use them.</p>
+<!-- ==================================================================
+     III · THE CURRICULUM
+     ================================================================== -->
+<section class="chapter section--light section--pearl" data-chapter="The Curriculum" id="curriculum">
+  <div class="container">
+    <div class="split-feature split-feature--wide-plate">
+      <figure class="plate plate--drift" style="--plate-ratio: 3 / 2">
+        <div class="plate__frame">
+          <img src="/assets/art/library-plate.svg" alt="Engraved illustration of a college reading room: shelved stacks receding to an arched window, a rolling ladder, and an open volume on a long table." width="900" height="600" loading="lazy">
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
+          Sixty modules, written
+        </figcaption>
+      </figure>
+
+      <div>
+        <div class="chapter__head">
+          <p class="chapter__num"><span class="roman">III</span> The Curriculum</p>
+          <h2 class="display-2">Built for the room you will walk into.</h2>
+          <p class="lede">The language systems run through all six levels. The specialist strands enter at the point a learner can genuinely use them, not at the point they can be listed.</p>
+        </div>
+
+        <div class="strand-group">
+          <p class="strand-group__title">
+            <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
+            Language systems &mdash; every level
+          </p>
+          <div class="strand-row">
+            <span class="strand strand--core">Grammar</span>
+            <span class="strand strand--core">Vocabulary</span>
+            <span class="strand strand--core">Listening</span>
+            <span class="strand strand--core">Speaking</span>
+            <span class="strand strand--core">Reading</span>
+            <span class="strand strand--core">Writing</span>
+            <span class="strand strand--core">Pronunciation</span>
+          </div>
+        </div>
+
+        <div class="strand-group">
+          <p class="strand-group__title">
+            <svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>
+            Academic &amp; professional strands
+          </p>
+          <div class="strand-row">
+            <span class="strand">Academic English</span>
+            <span class="strand">Business English</span>
+            <span class="strand">Public Speaking</span>
+            <span class="strand">Interview Skills</span>
+            <span class="strand">Leadership Communication</span>
+          </div>
+        </div>
+
+        <div class="strand-group">
+          <p class="strand-group__title">
+            <svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg>
+            Examination preparation
+          </p>
+          <div class="strand-row">
+            <span class="strand">IELTS</span>
+            <span class="strand">TOEFL</span>
+            <span class="strand">Cambridge English</span>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <a href="/learning/" class="btn btn--outline">How Learning Works</a>
+          <a href="/students/assessment/" class="btn btn--outline">How You Are Assessed</a>
+        </div>
+      </div>
     </div>
-    <div class="tag-row">
-      <span class="tag">Grammar</span><span class="tag">Vocabulary</span><span class="tag">Listening</span>
-      <span class="tag">Speaking</span><span class="tag">Reading</span><span class="tag">Writing</span>
-      <span class="tag">Pronunciation</span><span class="tag">Academic English</span>
-      <span class="tag">Business English</span><span class="tag">IELTS Preparation</span>
-      <span class="tag">TOEFL Preparation</span><span class="tag">Cambridge English Preparation</span>
-      <span class="tag">Public Speaking</span><span class="tag">Interview Skills</span>
-      <span class="tag">Leadership Communication</span>
+  </div>
+</section>
+
+<!-- ==================================================================
+     IV · THE DIGITAL CAMPUS
+     ================================================================== -->
+<section class="chapter section--dark grain" data-chapter="The Campus" id="digital-campus"
+         style="background:radial-gradient(ellipse 70% 60% at 88% 12%, rgba(29,92,99,.34), transparent 62%), linear-gradient(168deg, var(--navy) 0%, var(--midnight) 100%)">
+  <div class="container">
+    <div class="split-feature split-feature--wide-text">
+      <div>
+        <div class="chapter__head">
+          <p class="chapter__num"><span class="roman">IV</span> The Digital Campus</p>
+          <h2 class="display-2">An instrument, built for one programme.</h2>
+          <p class="lede">The platform was written for the IEFC and for nothing else. It is not a licensed course player with a crest applied to it.</p>
+        </div>
+
+        <ul class="feature-list">
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+            <div>
+              <h3>My Programme</h3>
+              <p>Your level, module by module, showing what is complete and what comes next. Progression is per learner &mdash; nothing unlocks on a date someone else chose.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+            <div>
+              <h3>The Listening Lab</h3>
+              <p>You record yourself against named pronunciation targets, and every recording is kept &mdash; so six months of change is something you can hear rather than something you are told about. It records offline when a connection drops.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+            <div>
+              <h3>A record that can be checked</h3>
+              <p>Results carry a verification reference, so a university or an employer can confirm what you hold without taking your word or ours for it.</p>
+            </div>
+          </li>
+        </ul>
+
+        <p class="form-note">Recorded listening audio and live seminars are in development: the scripts are written and the sessions are timetabled against the first cohort. Both are listed on the platform roadmap rather than implied here.</p>
+
+        <div class="btn-row">
+          <a href="/learning/platform/" class="btn btn--outline">Inside the Platform</a>
+          <a href="/students/listening-lab/" class="btn btn--outline">The Listening Lab</a>
+        </div>
+      </div>
+
+      <figure class="plate plate--drift" style="--plate-ratio: 1 / 1">
+        <div class="plate__frame">
+          <img src="/assets/art/astrolabe.svg" alt="Engraved illustration of an astrolabe: graduated limb, pierced rete with star pointers, and an alidade across the face." width="480" height="480" loading="lazy">
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+          Precision, in the service of learning
+        </figcaption>
+      </figure>
     </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     V · WHO IT IS FOR
+     ================================================================== -->
+<section class="chapter section--light section--cream" data-chapter="Who It Is For" id="audience">
+  <div class="container">
+    <div class="split-feature split-feature--wide-plate">
+      <figure class="plate plate--drift" style="--plate-ratio: 1 / 1">
+        <div class="plate__frame">
+          <img src="/assets/art/globe-meridian.svg" alt="Engraved illustration of an armillary globe within its horizon ring and meridian band." width="500" height="500" loading="lazy">
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>
+          Taught worldwide, from London
+        </figcaption>
+      </figure>
+
+      <div>
+        <div class="chapter__head">
+          <p class="chapter__num"><span class="roman">V</span> Who It Is For</p>
+          <h2 class="display-2">Ambitious learners, at every stage.</h2>
+          <p class="lede">The College teaches across the Gulf, Europe, Africa and Asia, in a single cohort and to a single standard.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="audience-grid" style="margin-top: 20px">
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
+        <h3>Secondary students</h3>
+        <p>Preparing for study in English before it becomes the thing standing in the way.</p>
+      </div>
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg>
+        <h3>University students</h3>
+        <p>Academic English written for seminars, essays and vivas rather than for exercises.</p>
+      </div>
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>
+        <h3>Working professionals</h3>
+        <p>Business English and the register a room full of senior people actually uses.</p>
+      </div>
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>
+        <h3>Government service</h3>
+        <p>Briefing, negotiation and correspondence at the standard the post requires.</p>
+      </div>
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg>
+        <h3>Executives &amp; leadership</h3>
+        <p>Public speaking, chairing and leadership communication, taught one level at a time.</p>
+      </div>
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>
+        <h3>International applicants</h3>
+        <p>IELTS, TOEFL and Cambridge preparation inside the pathway, not sold alongside it.</p>
+      </div>
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>
+        <h3>Study-abroad candidates</h3>
+        <p>The English a university admissions office is looking for, evidenced on the record.</p>
+      </div>
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg>
+        <h3>Private study</h3>
+        <p>Anyone who wants the language properly, and wants to see the syllabus first.</p>
+      </div>
+    </div>
+
+    <p class="form-note">The College currently admits adult learners. Families enquiring on behalf of an applicant under 18 should write to Admissions directly rather than using the application form &mdash; see <a href="/admissions/entry-requirements/">entry requirements</a>.</p>
+  </div>
+</section>
+
+<!-- ==================================================================
+     VI · THE PRINCIPLES
+     ================================================================== -->
+<section class="chapter chapter--principles section--dark section--oxford grain" data-chapter="The Principles" id="principles">
+  <div class="container">
+    <div class="chapter__head chapter__head--center">
+      <p class="chapter__num"><span class="roman">VI</span> The Principles</p>
+      <h2 class="display-2">Four commitments this College will not trade.</h2>
+      <p class="lede" style="margin-inline:auto">They are the reasons to choose a young institution over an old one, and each of them costs the College something.</p>
+    </div>
+
+    <div class="principle-grid">
+      <article class="principle">
+        <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>
+        <span class="principle__num">01</span>
+        <h3>An award worth conferring</h3>
+        <p>The College will confer its award only under external examination. A certificate issued without one is worth less, not more &mdash; and it would be the easiest thing on this site to fake.</p>
+      </article>
+      <article class="principle">
+        <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
+        <span class="principle__num">02</span>
+        <h3>Evidence, not assertion</h3>
+        <p>Every institutional claim made here is published alongside the record that supports it, in a register open to anyone who wants to check it. Where something is outstanding, it is listed as outstanding.</p>
+      </article>
+      <article class="principle">
+        <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg>
+        <span class="principle__num">03</span>
+        <h3>A founding cohort</h3>
+        <p>No cohort has been taught yet. Those who enrol now are the first, and they are taught with an attention that scale makes impossible later.</p>
+      </article>
+      <article class="principle">
+        <svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg>
+        <span class="principle__num">04</span>
+        <h3>Level by level, at your pace</h3>
+        <p>Tuition is payable one level at a time. You commit to the next ten modules &mdash; never to the whole pathway at once, and never to a stretch of your life you have not yet lived.</p>
+      </article>
+    </div>
+
+    <div class="status-note" id="status">
+      <svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>
+      <p>WEC-LC is a newly established institution, delivering the IEFC online worldwide from a London administrative headquarters. Its accreditation position, governance appointments and academic calendar are published in full and kept current &mdash; see <a href="/about/#status">institutional status</a> and <a href="/standards/evidence/">the evidence record</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     CLOSING
+     ================================================================== -->
+<section class="cta--flagship guilloche grain">
+  <div class="container">
+    <img class="cta__seal wax-seal" src="/assets/art/laurel.svg" alt="" aria-hidden="true" width="200" height="200">
+    <h2 class="display-2">Admission is continuous. You begin the day you enrol.</h2>
+    <p class="lede">There is no intake to wait for and no term to miss. Read the programme first &mdash; all of it is published.</p>
     <div class="btn-row">
-      <a href="/learning/" class="btn btn--outline">How Learning Works</a>
-      <a href="/students/assessment/" class="btn btn--outline">How You Are Assessed</a>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad" id="digital-campus">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">04 · The Digital Campus</span>
-      <h2>What is built, and what has not yet run.</h2>
-      <p class="lede">The platform is finished and tested. Some of it has never been used, because no cohort has been taught &mdash; and a homepage that blurred those two things would be the least trustworthy sentence on this site.</p>
-    </div>
-    <div class="grid grid--4" style="margin-top:36px">
-      <div class="card card--dark"><span class="card__num">Built</span><h3>My Programme</h3><p>Your level, module by module, with what is complete and what is next. Progression is per learner &mdash; nothing unlocks on a date.</p></div>
-      <div class="card card--dark"><span class="card__num">Built</span><h3>The Listening Lab</h3><p>You record yourself against named pronunciation targets, and the recordings are kept so six months of change is audible rather than assumed. It records offline when a connection drops.</p></div>
-      <div class="card card--dark"><span class="card__num">Built</span><h3>Your Academic Record</h3><p>Every attempt, mark and piece of feedback, visible as it accumulates. You decide what is shared and with whom.</p></div>
-      <div class="card card--dark"><span class="card__num">Not yet</span><h3>Live classes and recorded audio</h3><p>The listening scripts are written; the audio has not been recorded. No live session has run, because no cohort has been taught. Both are stated rather than implied.</p></div>
-    </div>
-    <div class="btn-row"><a href="/learning/platform/" class="btn btn--outline">Inside the Platform</a></div>
-  </div>
-</section>
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head center">
-      <span class="module-marker">05 · Who WEC-LC Is For</span>
-      <h2>Built for ambitious learners, at every stage.</h2>
-    </div>
-    <div class="tag-row u-center">
-      <span class="tag">School Pupils</span><span class="tag">Secondary Students</span>
-      <span class="tag">University Students</span><span class="tag">Working Professionals</span>
-      <span class="tag">Government Employees</span><span class="tag">Business Executives</span>
-      <span class="tag">International Students</span><span class="tag">Study-Abroad Candidates</span>
-    </div>
-    <p class="form-note u-center">Applicants under 18: the College has not yet adopted a safeguarding policy or appointed a Safeguarding Lead, and both are prerequisites for teaching anyone under 18 responsibly. Write to Admissions rather than using the form &mdash; see <a href="/admissions/entry-requirements/">Entry requirements</a>.</p>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">06 · Before You Apply</span>
-      <h2>Four things this College will tell you that others would not.</h2>
-    </div>
-    <div class="grid grid--4">
-      <div class="card">
-        <span class="card__num">No</span>
-        <h3>Accreditation</h3>
-        <p>WEC-LC holds no accreditation and no external quality-assurance affiliation. This is stated wherever it bears on your decision, and it will read differently only when it genuinely is.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">No</span>
-        <h3>Conferred award</h3>
-        <p>No External Examiner has been appointed, so no award has been conferred on anyone. Conferring one without external examining would make it worth less, not more.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">No</span>
-        <h3>Graduates, or graduate statistics</h3>
-        <p>No cohort has been taught. The College publishes no completion rates, employment outcomes or student numbers, because it has none.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">No</span>
-        <h3>Refund policy</h3>
-        <p>None has been adopted. Requests are decided case by case in writing. If certainty matters to you, pay level by level rather than in full &mdash; see <a href="/admissions/payment/#refunds">Refunds</a>.</p>
-      </div>
-    </div>
-    <div class="callout" id="status">
-      <span class="callout__label">Institutional Status</span>
-      <p>WEC-LC is a newly established institution, delivering the IEFC online worldwide from a London administrative headquarters &mdash; an administrative address, not a teaching campus. The programme structure, curriculum, assessment scheme and tuition on this site are confirmed. Accreditation, a registered HQ address, the academic calendar and appointments to the two academic bodies are outstanding, and each is listed as outstanding rather than described as in progress. The full picture is at <a href="/about/#status">About &middot; Institutional Status</a>, and the evidence behind it at <a href="/standards/evidence/">the evidence record</a>.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark cta-band">
-  <div class="container reveal">
-    <span class="eyebrow u-center">Begin Your Fluency Journey</span>
-    <h2>Admission is continuous. You start the day you enrol.</h2>
-    <p class="lede" style="margin:0 auto 28px">There is no intake to wait for and no term to miss. Read the programme first &mdash; all of it is published.</p>
-    <div class="btn-row u-center">
-      <a href="/admissions/apply/" class="btn btn--gold">Start Your Application</a>
+      <a href="/admissions/apply/" class="btn btn--gold">Start Your Application<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       <a href="/admissions/questions/" class="btn btn--ghost">Read the Hard Questions First</a>
     </div>
+    <p class="cta__note">Empowering the World Through English Excellence</p>
   </div>
 </section>
 
@@ -413,9 +883,17 @@
   <div class="site-footer__inner">
     <div class="footer__brand">
       <svg class="brand__crest brand__crest--footer" viewBox="0 0 48 56" aria-hidden="true">
-        <path class="crest__shield" d="M24 2 L44 9 V27 C44 40 35.5 50 24 54 C12.5 50 4 40 4 27 V9 Z"/>
-        <path class="crest__inner" d="M24 8 L38 13 V27 C38 37 31.5 45.5 24 48.5 C16.5 45.5 10 37 10 27 V13 Z"/>
-        <text x="24" y="31" text-anchor="middle" class="crest__mono">WEC</text>
+        <!-- A crown of three points over the shield, and an open book
+             at the honour point. The full arms are in
+             assets/art/crest-plate.svg; this is the reduction that
+             still reads at 27px in the condensed header, where the
+             laurel and ribbon of the full mark turn to mud. -->
+        <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
+        <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
+        <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
+        <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
+        <path class="crest__book" d="M24 28.5 V37.4"/>
+        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
       </svg>
       <p class="footer__name">WorldWide English College<br><span>London Campus</span></p>
       <p class="footer__motto">&ldquo;Empowering the World Through English Excellence.&rdquo;</p>
@@ -469,5 +947,6 @@
 </footer>
 
 <script src="/js/site.js"></script>
+<script src="/js/motion.js"></script>
 </body>
 </html>

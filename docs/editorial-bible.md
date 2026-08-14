@@ -192,6 +192,135 @@ and classroom photography is available, the recommended direction is:
 available light, unstaged, warm colour grade toward the Royal Blue/Gold
 palette, no stand-and-smile stock photography.
 
+The image slots are now built and specified per-slot in
+**`docs/photography-brief.md`** — filename, ratio, subject, crop and the
+cliché to avoid, for each of the five regions on the homepage.
+
+---
+
+## Part III·b — The Flagship Layer
+
+*Added with the homepage rebuild. Everything here is live in
+`css/brand.css`, `css/home.css`, `partials/icons.html`, `js/motion.js`
+and `assets/art/`, and is the system the remaining pages are being
+rebuilt onto.*
+
+### The extended palette
+
+The three founding colours are unchanged in value and every original
+token name still resolves. What was added is *altitude*: more steps of
+the same navy, more weights of the same gold, a warm neutral ramp, and a
+small set of supporting colours each bound to one meaning.
+
+The governing rule: **a colour earns its place by carrying a meaning — a
+ground, a state, a kind of information — not by adding variety.** A
+green that sometimes means "achievement" and sometimes means "a nice
+green" has stopped meaning anything.
+
+| Group | Tokens | Role |
+|---|---|---|
+| Blues | `--oxford` `#0A1428` · `--midnight` `#0E1B33` · `--navy` `#14264A` · `--royal-blue` `#1F3D7A` · `--sapphire` `#27508F` · `--steel` `#4A6491` · `--cerulean` `#6E93C4` | Page floor → hero → header → interactive → lifted grounds → rules on dark → readable light-blue on dark |
+| Golds | `--gold-royal` `#C7A24A` · `--gold-rich` `#D4AF37` · `--gold-antique` `#A8863C` · `--gold-soft` `#E7C97A` · `--gold-champagne` `#F2E3C0` · `--bronze` `#8C6A3F` | Hairlines → seals and crest → pressed states → headings on dark → display figures on dark → small caps on **light** |
+| Neutrals | `--warm-white` `#FDFBF6` · `--cream` `#FAF6EC` · `--ivory` `#F7F4EC` · `--pearl` `#F1EDE3` · `--stone` `#E4DED0` · `--grey-soft` `#C9C6BE` · `--slate` `#4B5768` · `--charcoal` `#2A2F38` · `--ink` `#16202E` | Warm throughout. A cool grey beside this navy reads as a dashboard; a warm one reads as paper. |
+| Supporting | `--emerald` `#1E6A4F` · `--burgundy` `#6E1F2E` · `--oxblood` `#A32638` · `--purple` `#3E2A56` · `--teal` `#1D5C63` · `--amber` `#C98A16` · `--silver` `#B9BCC2` | Achievement · ceremony · rare emphasis · honours and governance · platform and technology · attention (never error) · secondary |
+
+**Gold is never small text on a light ground.** Gold on paper computes
+to roughly 2.3:1, well under AA. On `--warm/--cream/--pearl/--ivory/
+--paper`, small-caps and icon strokes switch to `--bronze` and numerals
+to the chapter's own accent. This substitution already existed for
+`.card__num` and `.ledger th`; it now covers `.chapter__num`, `.icon`
+and `.feature-list__icon` too.
+
+### Chapter colour worlds
+
+Sections no longer alternate light/dark. Each chapter has its own
+ground, so a reader can tell which chapter they are in from the colour
+alone — the way they could from the paper stock of a printed
+prospectus.
+
+| Chapter | Ground | Accent |
+|---|---|---|
+| Hero | oxford → midnight, gold guilloché | champagne |
+| I · The Promise | warm-white | burgundy |
+| II · The Programme | midnight | champagne, foil heading |
+| III · The Curriculum | pearl | teal |
+| IV · The Digital Campus | navy → midnight, teal wash | cerulean |
+| V · Who It Is For | cream | emerald |
+| VI · The Principles | oxford + purple and burgundy wash | gold-rich |
+| Closing | oxford, gold sweep | gold-rich |
+
+### The icon set
+
+Twenty-five symbols in `partials/icons.html`, injected after `<body>` on
+every page by `scripts/build.js` and used as
+`<svg class="icon"><use href="#i-quill"/></svg>`.
+
+All are drawn on a 24×24 grid at 1.25px, square terminals, mitred joins,
+no fills — so the set reads as one engraving tool rather than as icons
+collected from three libraries, which is the commonest way an
+institutional site gives itself away as a template.
+
+`i-crest` · `i-laurel` · `i-quill` · `i-book` · `i-portico` · `i-globe` ·
+`i-seal` · `i-ledger` · `i-waveform` · `i-mortarboard` · `i-scales` ·
+`i-compass` · `i-clocktower` · `i-key` · `i-envelope` ·
+`i-shield-check` · `i-progress` · `i-calendar` · `i-passport` ·
+`i-columns` · `i-arrow` · `i-linkedin` · `i-instagram` · `i-x` ·
+`i-language`
+
+Icons inherit `currentColor`, which is why the sprite is inlined rather
+than linked: `currentColor` does not inherit across an external `<use>`
+reference in several browsers.
+
+### The engraved plates
+
+`assets/art/` — authored, not sourced. No stock, no raster.
+
+- `guilloche.svg` — banknote rosette, **generated** by
+  `scripts/art/generate-guilloche.mjs` from three layered hypotrochoids.
+  Deterministic; re-runnable; diffable. Placed once per section,
+  centred and masked — never tiled, because a repeating field of
+  identical discs reads as wallpaper.
+- `crest-plate.svg` — the full arms in vector, replacing the old
+  dependency on blending `crest-seal.jpg` with `mix-blend-mode: screen`
+  to hide its own navy background (a trick that only ever worked over a
+  dark ground).
+- `portico.svg` · `library-plate.svg` · `globe-meridian.svg` ·
+  `astrolabe.svg` — the four chapter plates.
+- `laurel.svg` — the closing seal.
+
+The plate frame (`.plate`) is **deep navy on every ground, including the
+cream ones.** Gold line art at 1px disappears on pearl, and a dark plate
+inset into a cream page is what a tipped-in intaglio plate looks like in
+a printed book.
+
+### Motion
+
+Eight behaviours in `js/motion.js`, and no more. Motion here shows
+*structure* — that a chapter has begun, that a figure is being counted,
+that the header has detached from the hero — never that the site can
+animate.
+
+1. **Header condense** — shrinks past 90px scroll, with hysteresis at
+   40px so a trackpad overscroll cannot make it flicker.
+2. **Split-text rise** — words rise from a mask, 55ms apart. The
+   original string is preserved in `aria-label` and the spans are
+   hidden from the accessibility tree.
+3. **Drawn rules** — gold hairlines draw from the leading edge.
+4. **Stat count-up** — easeOutExpo, tabular figures, and the authored
+   string restored exactly at the end.
+5. **Typewriter** — exactly one line, and never the `<h1>`.
+6. **Chapter rail** — generated from `[data-chapter]` sections, so it
+   cannot fall out of step with the page; inverts over light chapters.
+7. **Plate drift** — 44s ken-burns, ambient rather than tracked.
+8. **Wax seal** — presses in once on the closing CTA.
+
+**`prefers-reduced-motion` is honoured in both places.** The CSS block
+at the end of `brand.css` is the single source of truth for CSS
+animation; `motion.js` reads the same query. Every carve-out resolves to
+the **finished** state, never a hidden one — an entrance animation that
+is merely disabled leaves the element at `opacity: 0`, which for a
+reader with vestibular sensitivity is not a calmer page but a blank one.
+
 ---
 
 ## Part IV — Open Decisions
