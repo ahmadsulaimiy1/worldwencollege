@@ -118,7 +118,7 @@ const noCohort = `<div class="callout">
       <span class="callout__label">Written before the first student</span>
       <p>No cohort has yet been taught at WEC-LC. Everything on this page describes what is
         built and what the College has decided, not an experience anyone has had. Where a rule
-        is still a proposal awaiting governance approval, it is labelled as one.</p>
+        arrived by executive decision awaiting Senate ratification, it says so.</p>
     </div>`;
 
 const PAGES = {};
@@ -167,7 +167,7 @@ ${card('Your record', '<a href="/students/academic-record/">Your academic record
 ${card('The Listening Lab', '<a href="/students/listening-lab/">The Listening Lab</a>', 'The one part of the platform students are usually surprised by, and the argument for why it exists.')}
 ${card('Awards', '<a href="/students/awards/">Awards and honours</a>', 'What each level is called, what the post-nominals mean, and why nothing has been conferred on anyone.')}
 ${card('Integrity', '<a href="/students/integrity/">Academic integrity</a>', 'The College&rsquo;s position on work that is not your own, and the procedure that has not yet been adopted.')}
-${card('Regulations', '<a href="/students/regulations/">Academic regulations</a>', 'Progression, resits, standing, and appeals &mdash; separated into what is in force and what is proposed.')}
+${card('Regulations', '<a href="/students/regulations/">Academic regulations</a>', 'Progression, resits, standing and appeals &mdash; all in force, grouped by when each took effect.')}
 ${card('Support', '<a href="/students/support/">Support</a>', 'What to do when you are stuck, behind, or unhappy, and who actually answers.')}
     </div>
   </div>
@@ -249,9 +249,10 @@ ${darkCard('Spoken', 'Recorded speech', 'Speaking is assessed by recording you s
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Marks</span>
-      <h2>What is in force, and what is proposed.</h2>
-      <p class="lede">Two things both look like a pass mark and only one of them is operating.
-        The difference matters enough to be a table.</p>
+      <h2>The rules that produce a mark.</h2>
+      <p class="lede">Three different rules look like a pass mark and govern different things:
+        completing a module, passing a level examination, and earning an honour. All three are
+        in force. The table says which does what.</p>
     </div>
     <div class="table-scroll">
       <table class="ledger">
@@ -259,11 +260,13 @@ ${darkCard('Spoken', 'Recorded speech', 'Speaking is assessed by recording you s
         <tbody>
           <tr><td><strong>${PASS_PCT}% to complete a module</strong></td><td><strong>In force</strong></td>
               <td>The threshold the platform applies today when marking a module complete. It is set in the College&rsquo;s configuration, not written into the code, so that changing it is a recorded decision rather than a deployment.</td></tr>
-          <tr><td>Pass at ${PASS_PCT}%, no skill below 60%</td><td>Proposed</td>
-              <td>The award standard, awaiting governance approval. Not yet adopted, and no one has been assessed against it.</td></tr>
-          <tr><td>Merit at 80%, no skill below 70%</td><td>Proposed</td><td>As above.</td></tr>
-          <tr><td>Distinction at 88%, no skill below 80%</td><td>Proposed</td><td>As above.</td></tr>
-          <tr><td>High Distinction at 94%, no skill below 88%</td><td>Proposed</td><td>As above.</td></tr>
+          <tr><td>Level examination: ${PASS_PCT}% overall, no criterion below 50%</td><td><strong>In force</strong></td>
+              <td>The summative standard. A single aggregate would let a learner pass while failing outright on one dimension; the rubrics already score criteria separately, so the floor costs nothing to enforce.</td></tr>
+          <tr><td>Pass at ${PASS_PCT}%, no skill below 60%</td><td><strong>In force</strong></td>
+              <td>The award standard, adopted 14 August 2026. It has been applied to nobody, because nobody has yet been assessed.</td></tr>
+          <tr><td>Merit at 80%, no skill below 70%</td><td><strong>In force</strong></td><td>As above.</td></tr>
+          <tr><td>Distinction at 88%, no skill below 80%</td><td><strong>In force</strong></td><td>As above.</td></tr>
+          <tr><td>High Distinction at 94%, no skill below 88%</td><td><strong>In force</strong></td><td>As above.</td></tr>
         </tbody>
       </table>
     </div>
@@ -456,7 +459,7 @@ ${cta('See the listening work in a level.', 'Level I &mdash; Foundation', '/stud
 PAGES.awards = {
   slug: 'students-awards', output: 'students/awards/index.html', file: 'students-awards.html',
   title: 'Awards &amp; Honours &mdash; Worldwide English College',
-  description: 'The six WEC-LC awards, their post-nominals, the proposed honours scheme, and '
+  description: 'The six WEC-LC awards, their post-nominals, the adopted honours scheme, and '
     + 'why no award has yet been conferred on anyone.',
   body: `${hero('Students', 'Awards and honours.',
     'Six awards, one for each level, each with its own title and post-nominal. None of them has '
@@ -490,9 +493,11 @@ ${D.awards.map((a) => {
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Honours</span>
-      <h2>Proposed, not adopted.</h2>
-      <p class="lede">The scheme below is written and argued. It is awaiting governance approval,
-        it has never been applied, and it is labelled as a proposal wherever it appears.</p>
+      <h2>Adopted, and applied to nobody.</h2>
+      <p class="lede">The scheme below was adopted by the Executive on 14 August 2026, subject to
+        ratification by the Academic Senate once that body has appointed members. It is in force.
+        It has been applied to no one, because no one has yet been assessed &mdash; and those are
+        different statements.</p>
     </div>
     <div class="table-scroll">
       <table class="ledger">
@@ -533,11 +538,11 @@ PAGES.integrity = {
   slug: 'students-integrity', output: 'students/integrity/index.html', file: 'students-integrity.html',
   title: 'Academic Integrity &mdash; Worldwide English College',
   description: 'The WEC-LC position on work that is not the learner’s own: assessment design '
-    + 'rather than detection software, and the procedure that is not yet adopted.',
+    + 'rather than detection software, and the adopted procedure for a suspected breach.',
   body: `${hero('Students', 'Academic integrity.',
-    'The College expects the work to be yours. It says that once, plainly, and then spends its '
-    + 'effort on assessment that is hard to fake rather than on software that tries to catch '
-    + 'you.')}
+    'The College expects the work to be yours. It says that once, plainly, spends its effort on '
+    + 'assessment that is hard to fake rather than software that tries to catch you, and has a '
+    + 'procedure for a suspected breach that gives you a reply and an appeal.')}
 
 <section class="section--light section-pad">
   <div class="container reveal">
@@ -586,21 +591,23 @@ ${darkCard('Not a ban on tools', 'Because a ban would be unenforceable and disho
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">If A Breach Is Suspected</span>
-      <h2>There is no adopted procedure, and that is stated here.</h2>
+      <h2>The procedure, adopted 14 August 2026.</h2>
+    </div>
+    <div class="grid grid--4">
+${card('One', 'It is put to you first', 'A suspected breach is put to the learner before any finding is made, in writing, with what is alleged and what it rests on. A finding made without that is not defensible &mdash; to you, or to any later reviewer.')}
+${card('Two', 'You respond', 'Your response is part of the record and is considered before the decision, not after it. There is no stage at which a conclusion is reached and then explained to you.')}
+${card('Three', 'The Board decides', 'The decision, the reason and the evidence relied on are recorded together. An outcome without a recorded reason cannot be appealed against, which makes the appeal a formality.')}
+${card('Four', 'You may appeal', 'To someone not involved in the original decision. This is the part that makes the rest of it mean anything, and it is not an optional extra.')}
     </div>
     <div class="callout">
-      <span class="callout__label">What is decided and what is not</span>
-      <p>The College&rsquo;s <em>position</em> on integrity is settled. Its <em>procedure</em> for
-        handling a suspected breach is not: who investigates, the learner&rsquo;s right to
-        respond before any finding is made, the range of outcomes and the route of appeal are all
-        awaiting a governance decision. Until that decision is taken, no misconduct register
-        exists and no allegation is recorded against anyone &mdash; because a register without a
-        procedure invites findings that could not be defended to the learner or to any later
-        reviewer.</p>
-    </div>
-    <div class="grid grid--2">
-${card('What this means for you now', 'Nothing is recorded against you without a process', 'The absence of a procedure is not a licence for informal findings. It is the reason no finding is being made.')}
-${card('What it will contain when adopted', 'Right of reply and independent appeal', 'The recommendation before the Board includes both, and an appeal heard by someone not involved in the original decision. Those are the parts that make a finding defensible, and they are not optional extras.')}
+      <span class="callout__label">What the procedure covers, and what it does not</span>
+      <p>The two cases it is written for are submitted work that is not the learner&rsquo;s own,
+        and impersonation in a spoken assessment. Where an award is withdrawn following a
+        finding, the verification page shows it as <em>withdrawn</em> rather than deleting it
+        &mdash; a register that quietly loses entries cannot be trusted about the entries it
+        keeps. No misconduct case has been opened against anyone, because nobody has been
+        taught; the procedure exists ahead of the first allegation rather than after it, which is
+        the only order in which it can be fair.</p>
     </div>
   </div>
 </section>
@@ -613,11 +620,11 @@ PAGES.regulations = {
   slug: 'students-regulations', output: 'students/regulations/index.html', file: 'students-regulations.html',
   title: 'Academic Regulations &mdash; Worldwide English College',
   description: 'Progression, resits, academic standing and appeals at WEC-LC, separated into '
-    + 'what is in force today and what is proposed.',
+    + 'when each rule took effect and on whose authority.',
   body: `${hero('Students', 'Academic regulations.',
-    'The rules that govern progression and standing, divided into what is operating now and what '
-    + 'is still a proposal. Mixing the two would be the easiest and most damaging thing this '
-    + 'page could do.')}
+    'The rules that govern progression and standing. All of them are in force. The page keeps '
+    + 'them in two groups because they took effect at different times, and a student is entitled '
+    + 'to see which rule arrived when.')}
 
 <section class="section--light section-pad">
   <div class="container reveal">
@@ -636,10 +643,11 @@ ${card('Confirmation', 'A person confirms a level is finished', 'There is no aut
 <section class="section--paper section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">Proposed</span>
-      <h2>Written, argued, and awaiting approval.</h2>
-      <p class="lede">Published here in draft because a student is better served by seeing the
-        direction than by being told nothing exists.</p>
+      <span class="module-marker">Also In Force</span>
+      <h2>Adopted on 14 August 2026.</h2>
+      <p class="lede">These were carried as drafted recommendations for months. They are now
+        decisions of the Executive, in force, and the academic ones are subject to ratification
+        by the Academic Senate once it has appointed members.</p>
     </div>
     <div class="table-scroll">
       <table class="ledger">

@@ -73,12 +73,33 @@ if (E.approved !== 0) {
 // The decisions register is a document, so its counts are read from it
 // rather than typed here.
 const govDoc = fs.readFileSync(path.join(ROOT, 'docs/governance-decisions.md'), 'utf8');
+// Three states now exist in the register, and the page has to tell them
+// apart. The earlier five carry their adoption in the heading; the
+// twenty-five adopted on 14 August carry it in the Decision line; and
+// `awaiting` should now be zero, which the page states as an
+// achievement rather than silently omitting.
 const awaiting = (govDoc.match(/\*\*Decision:\*\*\s*☐\s*awaiting/g) || []).length;
-const adopted = [...govDoc.matchAll(/^### (\w+)\s*[—-]?\s*(.+?)\s*\*\(adopted ([^)]+)\)\*/gm)]
+const adoptedEarly = [...govDoc.matchAll(/^### (\w+)\s*[—-]?\s*(.+?)\s*\*\(adopted ([^)]+)\)\*/gm)]
   .map((m) => ({ ref: m[1], title: m[2].replace(/\*+/g, '').trim(), when: m[3] }));
-if (!awaiting || !adopted.length) {
-  throw new Error(`Read ${awaiting} awaiting and ${adopted.length} adopted decisions — refusing to `
-    + 'publish a governance page whose figures could not be read from the register.');
+const ADOPTION_DATE = '14 August 2026';
+const adoptedNow = [...govDoc.matchAll(/^### ([A-Z]\d+[a-z]?)\.\s*(.+)$/gm)]
+  .map((m) => ({ ref: m[1], title: m[2].replace(/\*+/g, '').trim() }))
+  .filter((d) => {
+    // Only the sections that actually carry the adoption line.
+    const i = govDoc.indexOf(`### ${d.ref}.`);
+    const next = govDoc.indexOf('\n### ', i + 1);
+    const body = govDoc.slice(i, next === -1 ? undefined : next);
+    return body.includes(`ADOPTED ${ADOPTION_DATE}`);
+  });
+const totalAdopted = adoptedEarly.length + adoptedNow.length;
+if (!adoptedNow.length || !adoptedEarly.length) {
+  throw new Error(`Read ${adoptedEarly.length} early and ${adoptedNow.length} newly adopted `
+    + 'decisions — refusing to publish a governance page whose figures could not be read from '
+    + 'the register.');
+}
+if (awaiting) {
+  throw new Error(`${awaiting} decision(s) are outstanding again. The decisions page states that `
+    + 'none is — rewrite the page rather than letting it publish a number it did not read.');
 }
 
 const card = (num, title, body) => `      <div class="card">
@@ -170,7 +191,7 @@ ${card('Claims', 'Published figures match the record', 'Every figure on this web
     </div>
     <div class="grid grid--2">
 ${darkCard('Present', 'A complete, documented programme', `Specifications, outcomes, hours, rubrics, competency mappings and an evidence register of ${E.total} items across ${new Set(E.collections.map((c) => c.collection)).size} collections.`)}
-${darkCard('Absent', 'Everything requiring an outside party', `No accreditation, no external examiner, no academic reviewer, no appointed board members, no approved evidence item, no taught cohort, no graduates, and ${awaiting} governance decisions still awaiting a decision.`)}
+${darkCard('Absent', 'Everything requiring an outside party', `No accreditation, no External Examiner, no Academic Reviewer, no appointed members on either academic body, no approved evidence item, no taught cohort and no graduates. Every one of those requires a person from outside &mdash; which is precisely why the ${totalAdopted} governance decisions are all now taken and none of it moved.`)}
     </div>
   </div>
 </section>
@@ -240,7 +261,7 @@ ${(() => {
       byCollection.get(r.collection).push(r);
     }
     const label = {
-      exists: 'Exists', governance_pending: 'Awaiting a decision',
+      exists: 'Exists', governance_pending: 'Drafted, awaiting an approver',
       not_instrumented: 'Nothing collects it', scheduled: 'Not yet possible',
     };
     return [...byCollection.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([name, rows]) => {
@@ -287,28 +308,40 @@ ${cta('See what is waiting on a decision.', 'The Decisions Register', '/standard
 PAGES.decisions = {
   slug: 'standards-decisions', output: 'standards/decisions/index.html', file: 'standards-decisions.html',
   title: 'The Decisions Register &mdash; Worldwide English College',
-  description: `${adopted.length} adopted institutional decisions and ${awaiting} still awaiting `
-    + 'one, published as two separate lists.',
+  description: `All ${totalAdopted} of the College's institutional decisions, in force, with the `
+    + 'date and the authority that took each one.',
   body: `${hero('Standards', 'The decisions register.',
-    `${adopted.length} decisions have been taken. ${awaiting} are waiting. Presenting those as `
-    + 'one list would claim settled positions the College does not have, so they are two lists '
-    + 'and the waiting one is longer.')}
+    `${totalAdopted} decisions, all of them in force, none outstanding. This page previously `
+    + 'listed twenty-five as awaiting somebody with authority to say yes. It is kept in two '
+    + 'groups because they took effect at different times, and a reader is entitled to see '
+    + 'which rule arrived when.')}
 
 <section class="section--light section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">Adopted</span>
-      <h2>${adopted.length} decisions in force.</h2>
-      <p class="lede">Each was taken on a stated date and each governs something visible on this
-        site.</p>
+      <span class="module-marker">Adopted ${esc(ADOPTION_DATE)}</span>
+      <h2>${adoptedNow.length} decisions taken in one sitting.</h2>
+      <p class="lede">Each had been drafted with a recommendation and carried as outstanding for
+        months. Each was adopted on the recommendation as drafted, by the Executive of the
+        College.</p>
     </div>
     <div class="table-scroll">
       <table class="ledger">
-        <thead><tr><th>Ref</th><th>Decision</th><th>Adopted</th></tr></thead>
+        <thead><tr><th>Ref</th><th>Decision</th></tr></thead>
         <tbody>
-${adopted.map((d) => `          <tr><td><strong>${esc(d.ref)}</strong></td><td>${esc(d.title)}</td><td>${esc(d.when)}</td></tr>`).join('\n')}
+${adoptedNow.map((d) => `          <tr><td><strong>${esc(d.ref)}</strong></td><td>${esc(d.title)}</td></tr>`).join('\n')}
         </tbody>
       </table>
+    </div>
+    <div class="callout">
+      <span class="callout__label">Which authority, precisely</span>
+      <p>These are decisions of the Executive, which is the College&rsquo;s constituted
+        decision-making authority. They were <em>not</em> taken by the Academic Senate or by
+        BASCE, because neither body has appointed members. The academic items &mdash; the
+        assessment standards and the credential rules &mdash; are therefore adopted subject to
+        ratification by the Academic Senate at its first properly constituted meeting. That is
+        recorded so the ratification can be a real act rather than a rubber stamp on something
+        already described as senate policy.</p>
     </div>
   </div>
 </section>
@@ -316,22 +349,16 @@ ${adopted.map((d) => `          <tr><td><strong>${esc(d.ref)}</strong></td><td>$
 <section class="section--paper section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">Awaiting</span>
-      <h2>${awaiting} decisions nobody has taken.</h2>
-      <p class="lede">Each is drafted with a recommendation and with the consequence of not
-        deciding it. They fall into four groups, and the grouping explains why they are stuck.</p>
+      <span class="module-marker">Adopted Earlier</span>
+      <h2>${adoptedEarly.length} taken before that.</h2>
     </div>
-    <div class="grid grid--4">
-${card('Access', 'Who may hold what powers', 'Which roles may read a learner&rsquo;s record, take financial actions, or erase data. Stuck because it requires an accountable officer, and none is appointed.')}
-${card('Assessment', 'Pass marks, resits, progression', 'The honours thresholds, the examination pass mark, the resit policy. Stuck because adopting an assessment standard without an external examiner would settle it in the wrong order.')}
-${card('Credentials', 'What may be conferred, and by whom', 'What a certificate may state, who may confer or withdraw an award, whether the graduate register is opt-in. Stuck behind the same appointment.')}
-${card('Data', 'Retention, erasure, and the permanent record', 'How long a learner&rsquo;s voice recordings are kept, and what erasure means against a register that is meant to be permanent. Stuck because no Data Protection owner is appointed.')}
-    </div>
-    <div class="callout">
-      <span class="callout__label">The pattern worth naming</span>
-      <p>Almost none of these is stuck for want of thought. Each is drafted, argued and ready.
-        They are stuck for want of somebody with the authority to say yes &mdash; which makes
-        the appointments the College is seeking the actual bottleneck, not the policy work.</p>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th>Ref</th><th>Decision</th><th>Adopted</th></tr></thead>
+        <tbody>
+${adoptedEarly.map((d) => `          <tr><td><strong>${esc(d.ref)}</strong></td><td>${esc(d.title)}</td><td>${esc(d.when)}</td></tr>`).join('\n')}
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
@@ -339,17 +366,32 @@ ${card('Data', 'Retention, erasure, and the permanent record', 'How long a learn
 <section class="section--dark section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">Why This Is Public</span>
-      <h2>A register nobody outside can read is an internal memo.</h2>
+      <span class="module-marker">What Adoption Did Not Do</span>
+      <h2>Two things a decision cannot manufacture.</h2>
+      <p class="lede">Deciding something is not the same as being able to act on it, and the
+        difference is worth stating in the same breath as the adoption.</p>
     </div>
     <div class="grid grid--2">
-${darkCard('For a reviewer', 'It shows what has and has not been settled', 'A panel&rsquo;s first question is which of an institution&rsquo;s stated positions are actually decisions. This answers it without them having to ask.')}
-${darkCard('For a student', 'It shows which rules could still change', 'Anything on this site marked as proposed appears here as awaiting. A learner is entitled to know which of the rules governing them is settled and which is a draft.')}
+${darkCard('Not conferred', 'No award, still', 'Adopting a pass mark, an honours scale and a conferral procedure makes the standard exist. It does not supply the External Examiner whose independence the standard rests on. No award is conferred until that appointment is made.')}
+${darkCard('Not evidenced', 'Two decisions say so themselves', 'Speaking is adopted as <em>not yet</em> counting toward certification, precisely because no moderated marking standard exists. The competency mapping is adopted as a commission for work that has to be done, not as a claim the work is finished.')}
     </div>
   </div>
 </section>
 
-${cta('See the bodies that would decide these.', 'Governance', '/about/governance/', 'The Evidence Record', '/standards/evidence/')}`,
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Why This Is Public</span>
+      <h2>A register nobody outside can read is an internal memo.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('For a reviewer', 'It shows what was settled, when, and by whom', 'A panel&rsquo;s first question is which of an institution&rsquo;s stated positions are actually decisions, and on whose authority. This answers both without them having to ask, including where the authority was executive rather than academic.')}
+${card('For a student', 'It shows which rules govern you', 'Every rule on this site now appears here as a decision with a date. Where a rule awaits Senate ratification, this page says so rather than presenting it as settled academic policy.')}
+    </div>
+  </div>
+</section>
+
+${cta('See the bodies that will ratify these.', 'Governance', '/about/governance/', 'The Evidence Record', '/standards/evidence/')}`,
 };
 
 // 4 · VERIFICATION ────────────────────────────────────────────────────
@@ -453,7 +495,7 @@ PAGES.research = {
 ${card('One', 'Does declaring stage timings change how a lesson runs?', 'Every lesson declares minutes per stage. Nobody knows whether real teaching converges on them, exceeds them systematically, or ignores them &mdash; and the answer would revise either the plans or the practice.')}
 ${card('Two', 'Do the written &ldquo;common mistakes&rdquo; match the mistakes learners make?', 'The support record names the errors each point provokes, derived from the language rather than from observation. A single term of marked work would test that directly, point by point.')}
 ${card('Three', 'Does keeping recordings change pronunciation outcomes?', 'The Listening Lab retains recordings so improvement is audible. Whether hearing your own earlier attempt actually improves the later one is an empirical question with an obvious design and no answer here.')}
-${card('Four', 'Do the per-skill floors change who passes?', 'The proposed honours scheme refuses unlimited compensation between skills. Whether that materially changes outcomes, or merely feels more rigorous, is measurable the moment there are marks.')}
+${card('Four', 'Do the per-skill floors change who passes?', 'The adopted honours scheme refuses unlimited compensation between skills. Whether that materially changes outcomes, or merely feels more rigorous, is measurable the moment there are marks.')}
     </div>
   </div>
 </section>
@@ -494,5 +536,6 @@ for (const p of Object.values(PAGES)) {
 fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 console.log(`Wrote ${written.length} Standards-cluster pages:`);
 for (const o of written) console.log(`  ${o}`);
-console.log(`Evidence: ${E.total} items, ${E.approved} approved. Governance: ${adopted.length} adopted, ${awaiting} awaiting.`);
+console.log(`Evidence: ${E.total} items, ${E.approved} approved. `
+  + `Governance: ${totalAdopted} adopted (${adoptedNow.length} on ${ADOPTION_DATE}), ${awaiting} awaiting.`);
 console.log('Run `npm run build` to generate the served pages.');

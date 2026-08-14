@@ -1,10 +1,49 @@
-# WEC-LC — Governance Decisions Awaiting Approval
+# WEC-LC — Governance Decisions
 
-**Status: NONE OF THIS IS ADOPTED.** Every item below is a drafted
-recommendation put to the Executive for approval, amendment or
-rejection. Nothing here is implemented as policy, and nothing here
-should be quoted to a student, an applicant, an auditor or a regulator
-until it carries an approval date and a name in the Decision column.
+**Status as of 14 August 2026: ALL TWENTY-FIVE OUTSTANDING ITEMS ARE
+ADOPTED**, each on the recommendation drafted below, by decision of the
+Executive of Worldwide English College. Five earlier decisions (G1, G2,
+G3, G5, G6) were adopted on 4 August 2026 and are unchanged. Thirty
+decisions now stand adopted and none is outstanding.
+
+---
+
+## ADOPTION RECORD — 14 August 2026
+
+**Adopting authority:** the Executive of Worldwide English College.
+
+**What that means precisely, and what it does not.** The Executive is
+the College's constituted decision-making authority and these are its
+decisions. They are in force, they govern the platform, and they may be
+quoted to a student, an applicant or an auditor.
+
+They were **not** taken by the Academic Senate or by the Board of
+Academic Standards, Curriculum and Examinations, because neither body
+has appointed members. The academic items — the B series (assessment
+standards) and the C series (credentials) — are therefore adopted
+subject to **ratification by the Academic Senate at its first properly
+constituted meeting**. That is not a caveat that weakens them; it is the
+ordinary route by which an executive decision becomes a senate decision,
+and recording it is what allows the ratification to be a real act rather
+than a rubber stamp on something already described as senate policy.
+
+**Two things this adoption does not do**, and cannot:
+
+1. **It does not confer any award.** Adopting a pass mark, an honours
+   scale and a conferral procedure makes the standard exist. It does not
+   supply the External Examiner whose independence the standard rests
+   on. No award is conferred until that appointment is made — see
+   `docs/appointment-briefs.md`.
+2. **It does not create evidence.** C3 is adopted as *not yet* precisely
+   because no moderated marking standard exists. A6d is adopted as a
+   commission for work that has to be done, not as a claim the work is
+   finished.
+
+**Where each decision now takes effect** is recorded against it below.
+Every published page that previously described one of these as
+"proposed" or "awaiting" has been changed to describe it as in force,
+and `tests/governance-decisions.test.mjs` fails the build if the two
+ever disagree again.
 
 ---
 
@@ -66,14 +105,14 @@ student records" has a one-sentence answer.
 can change their own access; the last administrator cannot be removed;
 every appointment records who made it, why, and under what authority.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### A2. Who may hold Staff access
 **Recommendation:** anyone teaching, marking or reviewing learner
 work. Staff can enrol and withdraw learners, review recordings and
 grade assignments. Staff cannot appoint anyone.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### A3. Bootstrap
 **Recommendation:** the first Administrator is set once by SQL, by the
@@ -81,7 +120,7 @@ account owner, and every subsequent appointment goes through the
 platform so that it is recorded. This is unavoidable — the first
 administrator cannot be appointed by an administrator.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### A4. Whether "employee with no learner access" needs its own role
 **Raised by:** placing the organisational chart into the development
@@ -103,7 +142,7 @@ Director of Finance listed as a student and reasonably concludes the
 data is wrong. At that point the label is a defect, not a wording
 quibble, and `none` or an `is_employee` flag is worth the addition.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### A5. Whether staff should hold financial and erasure powers
 **Raised by:** writing down the access level of every administrative
@@ -141,7 +180,7 @@ touch money and who may destroy learner work are decisions for the
 institution, and quietly tightening them would be inventing policy by
 another route.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ---
 
@@ -160,7 +199,7 @@ end-of-level examination separately (B2) rather than inheriting it.
 **Rationale:** a formative module quiz and a summative level
 examination should not share a threshold by accident.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### B2. End-of-level examination pass mark
 **Recommendation:** 70% overall with no single assessed criterion below
@@ -170,7 +209,7 @@ examination should not share a threshold by accident.
 outright on one dimension. The rubric already scores criteria
 separately, so the floor costs nothing to enforce.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### B3. Resit policy
 **Recommendation:** two resits per level examination. A resit is
@@ -182,7 +221,7 @@ failure requires the level to be repeated.
 exactly the kind of item to amend from experience rather than accept
 because it is written down.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### B4. Progression between levels
 **Currently:** Executive Decision #1 — a full-programme payment enrols
@@ -193,7 +232,7 @@ marked completed.
 the end-of-level examination under B2 — which the software does not
 currently require.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### B5. PART A / PART B examination convention
 **Currently:** used in Levels IV–VI assignments; absent in I–III. The
@@ -204,7 +243,7 @@ assesses controlled accuracy, PART B extended production — so a learner
 meets the same structure from Level I and the examination format is not
 itself a new thing to learn at Level IV.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ---
 
@@ -219,7 +258,7 @@ regulatory recognition, or equivalence to a qualification awarded by an
 accredited body. WEC-LC holds no accreditation, and a certificate that
 implies otherwise is a misrepresentation regardless of intent.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### C2. What a certificate may state
 **Recommendation:** learner name, level, CEFR band, completion date,
@@ -229,7 +268,7 @@ to a page confirming issuance. Nothing else.
 **Rationale:** every additional claim on a certificate is a claim
 somebody may later have to substantiate.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### C4. The IEFC award architecture
 **Recommendation:** adopt `docs/iefc-award-architecture.md` (second
@@ -292,14 +331,14 @@ proficiency level above CEFR C2. "Beyond CEFR" means broader in what is
 certified, never higher on the scale — the second is a benchmarking
 claim with nothing behind it and would fail on first serious reading.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### C3. Whether speaking assessment counts toward certification
 **Recommendation:** not yet. Learner recordings are stored and can be
 reviewed, but no moderated marking standard exists, and certifying
 against an unmoderated single-reviewer score is not defensible.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### C5. Who may confer, withdraw and replace an award
 **Currently:** `conferAward()`, `revokeAward()` and `replaceAward()` are
@@ -322,7 +361,7 @@ conferral cannot be quietly undone — it can only be visibly revoked. The
 control has to sit *before* the write, because after it the record is
 permanent by design.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### C6. Whether the browsable register is opt-in or opt-out
 **Currently:** `public_consent` defaults to **off**. A graduate's award
@@ -342,7 +381,7 @@ difference honestly.
 graduates to opt in later is an email; removing a name that was
 published without being asked is an apology.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### A6d. Mapping the curriculum to the competency framework
 **This is the largest gap between the College's constitutional document
@@ -382,7 +421,7 @@ work before any award is conferred. Until it exists, the graduate profile
 reports competency attainment as *unmapped* rather than showing a score,
 and should continue to.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### A6e. Restructuring rubrics to carry competency marks
 Consequent on A6d. Marking against six competencies needs rubrics with
@@ -394,7 +433,7 @@ cannot be marked against machine-readable criteria.
 mapping assessments to competencies and giving those assessments
 competency criteria are the same piece of work seen from two ends.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### C7. The graduate profile: publication defaults
 **Currently implemented:** every field of a graduate profile defaults to
@@ -413,7 +452,7 @@ every link already issued.
 are engineering decisions taken under the autonomy granted, and they
 carry data-protection weight, so the Board should own them.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### C8. Study time on a graduate's record
 Measured time on task says how long someone struggled. It is reported
@@ -427,7 +466,7 @@ smaller qualification.
 by default and never appears on a certificate or transcript. It is
 formative information for the learner, not a property of the award.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### A7. Three institutional metrics have no instrument at all
 **Raised by:** building the Institutional Metric Register
@@ -462,7 +501,7 @@ having neither.
 zero. "No cases recorded" and "no cases occurred" are different
 statements and only the first is true.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### C9. Academic misconduct procedure
 **Prerequisite for A7 item 3, and recorded separately because it is a
@@ -481,7 +520,7 @@ absence of a procedure a live risk rather than a theoretical one. A
 finding made without a documented process is not defensible, to the
 learner or to a future reviewer.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ---
 
@@ -501,7 +540,7 @@ is a data-protection decision with legal consequences and should be
 taken with whatever advice applies in the operating jurisdiction —
 which I cannot supply.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### D2. Erasure on request
 **Recommendation:** a learner may request erasure of their recordings
@@ -509,7 +548,7 @@ at any time; the audio is destroyed, the assessment record is kept. The
 endpoint exists (`POST /api/admin/recordings/purge` with a `userId`)
 and requires an explicit confirmation.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### D3. Erasure against a permanent academic register
 This row exists because the Graduate Register creates a genuine conflict
@@ -538,7 +577,7 @@ it cannot quietly do otherwise, which is what this row is for. It should
 be settled **before the first conferral**, not after — the architecture
 is much easier to change while the register is empty.
 
-**Decision:** ☐ awaiting
+**Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ---
 
