@@ -162,12 +162,47 @@ check('The WEC Credit is declared internal, not ECTS or CATS',
   check('No English page promises a certificate on completion — none can be conferred',
     promisesCert.length === 0, promisesCert.map(([f]) => f).join(', '));
 
+  // ── A LIVE CLASS AS A STEP THE APPLICANT WILL REACH ──
+  //
+  // No live session has ever run: the homepage says the seminars are
+  // timetabled and not yet delivered, and /learning/platform/ lists
+  // them on the roadmap. The admissions page meanwhile ended its
+  // five-step journey at "Orientation & first live class", and its
+  // masthead promised "from enquiry to your first live class" — the
+  // first sentence an applicant reads on the page where they decide.
+  //
+  // Both were true of the plan and false of the College, and the
+  // existing sweeps missed them because they check for months,
+  // certificates and hour figures, not for capabilities.
+  //
+  // The pattern is deliberately narrow: it looks for a live class
+  // offered as something the reader will personally get to. Pages are
+  // free to DISCUSS live teaching — /admissions/dates/ weighs cohort
+  // teaching as a rejected option and must keep being able to.
+  const PROMISED_LIVE = /(your|the|first)\s+(first\s+)?live\s+(class|session|lesson)|live\s+(class|session)\s+(awaits|begins)/i;
+  const promisesLive = english.filter(([, b]) => PROMISED_LIVE.test(b));
+  check('No English page offers a live class as a step the applicant reaches',
+    promisesLive.length === 0, promisesLive.map(([f]) => f).join(', '));
+
+  // Same claim, same page, in the language the primary audience reads.
+  const AR = readdirSync(pagesDir)
+    .filter((f) => f.endsWith('.ar.html'))
+    .map((f) => [f, readFileSync(path.join(pagesDir, f), 'utf8')]);
+  const arPromisesLive = AR.filter(([, b]) =>
+    /حصتك\s+(المباشرة\s+)?الأولى|حصتك\s+الأولى\s+المباشرة/.test(b));
+  check('No Arabic page offers a live class as a step the applicant reaches',
+    arPromisesLive.length === 0, arPromisesLive.map(([f]) => f).join(', '));
+
   // A sweep that only ever sees compliant pages proves nothing about
   // its own reach. Confirm each pattern catches its own regression.
   check('...and these sweeps do catch the wording they exist for',
     /twenty-four months|24 months/i.test('twenty-four months from first word')
     && /certificate the moment/i.test('a certificate the moment the final lesson is complete')
-    && /1,200\s*hrs/i.test('<td>1,200 hrs</td>'));
+    && /1,200\s*hrs/i.test('<td>1,200 hrs</td>')
+    && PROMISED_LIVE.test('enquiry to your first live class')
+    && PROMISED_LIVE.test('Orientation &amp; first live class')
+    // ...and does NOT fire on a page weighing live teaching as an option
+    && !PROMISED_LIVE.test('shared pace, live classes where everyone is at the same point'));
 }
 
 // ── THINGS THE PLATFORM DOES NOT DO ──

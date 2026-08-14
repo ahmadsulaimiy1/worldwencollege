@@ -147,12 +147,27 @@ function build() {
       .map((src) => `\n<script src="${src}"></script>`)
       .join('');
 
+    // THE SECTION A PAGE BELONGS TO.
+    //
+    // Derived from the output path rather than declared per entry, so a
+    // new page cannot be added to a cluster and forget to say so. The
+    // Arabic mirror resolves to the same section as its English
+    // counterpart — /ar/admissions/ is Admissions, not "ar".
+    //
+    // css/pages.css keys each cluster's hero accent off this, which is
+    // what gives every major page its own opening while keeping one
+    // component. Everything else on the site ignores it.
+    const sectionOf = (output) => {
+      const parts = output.replace(/^ar\//, '').split('/');
+      return parts.length > 1 ? parts[0] : 'root';
+    };
+
     const html = `<!DOCTYPE html>
 <html lang="${lang}" dir="${dir}">
 <head>
 ${head}
 </head>
-<body>
+<body data-section="${sectionOf(entry.output)}">
 <a class="skip-link" href="#main">${skipLabel}</a>
 ${icons}
 ${topbar}
