@@ -128,3 +128,183 @@ body[data-section="contact"]    { --hero-accent: 199, 162, 74; }
 @media (prefers-reduced-motion: reduce) {
   .page-hero .container::after { animation: none; transform: none; }
 }
+
+/* =========================================================
+   THE SHARED BODY COMPONENTS, RAISED
+   ---------------------------------------------------------
+   Everything below upgrades a component that already exists
+   in css/brand.css and is already used across the 84
+   secondary pages. Nothing here is a new class anyone has to
+   adopt — which is the point. One edit, 84 pages.
+
+   None of these selectors touch the homepage: it uses
+   .chapter__head, .feature-list, .strand and .cta--flagship,
+   which are its own. So this layer can be as opinionated as
+   it likes without putting the reference implementation at
+   risk.
+   ========================================================= */
+
+/* --- Section heads -------------------------------------------------
+   The mastheads went to 3.5rem and left every h2 beneath them at
+   about 1.6, so each page opened loudly and then whispered. The
+   section head is the second voice on a page and has to be able to
+   answer the first. */
+.section-head { max-width: 760px; margin-bottom: clamp(38px, 3.6vw, 58px); }
+.section-head h2 {
+  font-size: clamp(1.7rem, 1.2rem + 2.1vw, 2.6rem);
+  line-height: 1.1; letter-spacing: -.016em; margin-bottom: .42em;
+}
+.section-head .lede { margin-bottom: 0; }
+
+/* The numbered index marker, given the treatment the homepage's
+   chapter numbers get: a rule that runs out of the label rather than
+   a pill floating on its own. */
+.module-marker {
+  display: inline-flex; align-items: center; gap: .8em;
+  border: 0; border-radius: 0; padding: 0; margin-bottom: 1.3em;
+  font-size: .66rem; letter-spacing: .24em;
+}
+.module-marker::after {
+  content: ''; width: clamp(28px, 5vw, 74px); height: 1px;
+  background: currentColor; opacity: .42;
+}
+.section-head.center .module-marker::after { display: none; }
+
+/* --- Tags ----------------------------------------------------------
+   The same treatment the homepage gives its curriculum strands,
+   promoted to the shared component so the two stop diverging. */
+.tag {
+  display: inline-flex; align-items: center;
+  border-color: var(--line-stone); padding: .55em 1.1em;
+  color: var(--charcoal); background: rgba(255, 255, 255, .45);
+  transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease,
+              transform var(--dur-fast) var(--ease-premium);
+}
+.tag:hover { border-color: var(--bronze); color: var(--bronze); transform: translateY(-2px); }
+.section--dark .tag, .section--deep .tag, .section--oxford .tag, .section--midnight .tag {
+  border-color: var(--line-dark); color: rgba(247, 244, 236, .88); background: rgba(255, 255, 255, .04);
+}
+.section--dark .tag:hover, .section--deep .tag:hover {
+  border-color: var(--gold-royal); color: var(--gold-soft);
+}
+
+/* --- The numbered journey ------------------------------------------
+   .dot-list is the component every "how it works" sequence on this
+   site uses, and it was rendering as small red numerals against a
+   dotted leader you could not see. It carries the most important
+   content on the admissions page — the five steps to enrolment — so
+   it gets the weight of a numbered plate: a display numeral in the
+   cluster's colour, a rule beneath each step, and the step's own
+   sentence at reading size.
+   ------------------------------------------------------------------- */
+.dot-list li {
+  display: grid; grid-template-columns: auto 1fr; align-items: baseline;
+  gap: 0 22px; padding: 22px 0; font-size: 1rem;
+  border-bottom: 1px solid var(--line-stone);
+}
+.section--dark .dot-list li, .section--deep .dot-list li,
+.section--oxford .dot-list li, .section--midnight .dot-list li {
+  border-bottom-color: rgba(231, 201, 122, .18);
+}
+.dot-list li:first-child { border-top: 1px solid var(--line-stone); }
+.section--dark .dot-list li:first-child, .section--deep .dot-list li:first-child {
+  border-top-color: rgba(231, 201, 122, .18);
+}
+.dot-list .num {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2.1rem); line-height: 1;
+  min-width: 1.9em; letter-spacing: -.02em;
+}
+/* The cluster accent cannot simply be used here.
+   brand.css already switches this numeral to oxblood on light grounds,
+   and it does so for a reason: gold on cream is about 2.3:1. That rule
+   is also more specific than a bare `.dot-list .num`, so it silently
+   won and the steps came out red on a gold page.
+   Light grounds therefore get bronze — the palette's designated
+   substitute for gold on paper, measured at 5.9:1 on cream — and dark
+   grounds get the real metal. Both selectors match brand.css's
+   specificity so the outcome is decided here rather than by file
+   order. */
+.section--light .dot-list .num, .section--paper .dot-list .num,
+.section--warm .dot-list .num, .section--cream .dot-list .num,
+.section--pearl .dot-list .num { color: var(--bronze); }
+.section--dark .dot-list .num, .section--deep .dot-list .num,
+.section--oxford .dot-list .num, .section--midnight .dot-list .num { color: var(--gold-rich); }
+/* The dotted leader belonged to a design where the numeral and the
+   text sat on one line. They no longer do, and a dotted rule floating
+   between two grid cells reads as a rendering fault. */
+.dot-list .leader { display: none; }
+.dot-list li > span:not(.num):not(.leader) { line-height: 1.6; }
+.dot-list strong { display: block; margin-bottom: .3em; font-size: 1.06rem; }
+
+/* --- Cards ---------------------------------------------------------
+   The base card is sound; it just needed the frame language the
+   plates use, so a grid of cards belongs to the same institution as
+   the engravings. */
+.card { padding: clamp(26px, 2.4vw, 34px); border-radius: 6px; }
+.card::after {
+  content: ''; position: absolute; bottom: 12px; right: 12px;
+  width: 16px; height: 16px; pointer-events: none;
+  border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  opacity: 0; transition: opacity var(--dur-med) var(--ease-premium);
+}
+[dir="rtl"] .card::after {
+  right: auto; left: 12px;
+  border-right: 0; border-left: 1px solid var(--line);
+}
+.card:hover::after { opacity: 1; }
+.card h3 { font-size: 1.12rem; letter-spacing: -.008em; }
+
+/* --- Statistics ----------------------------------------------------- */
+.stat-row { border-color: var(--line-stone); border-radius: 4px; }
+.stat-row__item { border-right-color: var(--line-stone); padding: 30px 22px; }
+.stat-row__item strong {
+  font-size: clamp(1.8rem, 1.4rem + 1.4vw, 2.4rem);
+  letter-spacing: -.02em; margin-bottom: .2em;
+}
+
+/* --- Callout -------------------------------------------------------
+   A dashed border says "unfinished". This component carries the
+   College's institutional-status disclosures, which are the most
+   deliberate writing on the site, and they should look decided. */
+.callout {
+  border: 1px solid var(--line); border-left: 2px solid rgba(var(--hero-accent), .9);
+  border-radius: 4px; padding: 26px 30px;
+}
+[dir="rtl"] .callout {
+  border-left: 1px solid var(--line); border-right: 2px solid rgba(var(--hero-accent), .9);
+}
+
+/* --- Pull quote ----------------------------------------------------- */
+.pull-quote {
+  border-left-color: rgba(var(--hero-accent), .9);
+  font-size: clamp(1.24rem, 1.05rem + .8vw, 1.6rem); line-height: 1.42;
+}
+[dir="rtl"] .pull-quote { border-right-color: rgba(var(--hero-accent), .9); }
+
+/* --- Closing bands --------------------------------------------------
+   Every page ends in one of these and they were the flattest thing
+   on the site: a centred sentence and a button on a plain ground. */
+.cta-band { position: relative; overflow: clip; padding: clamp(64px, 5.5vw, 96px) 0; }
+@supports not (overflow: clip) { .cta-band { overflow: hidden; } }
+.cta-band::before {
+  content: ''; position: absolute; inset: -40% -10%; z-index: 0; pointer-events: none;
+  background: url('/assets/art/guilloche.svg') no-repeat center / clamp(460px, 52vw, 760px) auto;
+  opacity: .1;
+  -webkit-mask-image: radial-gradient(ellipse 60% 66% at 50% 50%, #000 4%, transparent 72%);
+  mask-image: radial-gradient(ellipse 60% 66% at 50% 50%, #000 4%, transparent 72%);
+}
+.cta-band > .container { position: relative; z-index: 1; }
+.cta-band h2 { font-size: clamp(1.7rem, 1.25rem + 1.9vw, 2.5rem); letter-spacing: -.016em; }
+
+/* --- Accordion ------------------------------------------------------ */
+.accordion__q { padding: 24px 0; font-size: 1.1rem; }
+.accordion__item { border-bottom-color: var(--line-stone); }
+.section--dark .accordion__item, .section--deep .accordion__item {
+  border-bottom-color: rgba(231, 201, 122, .18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tag:hover { transform: none; }
+  .tag, .card::after { transition: none; }
+}
