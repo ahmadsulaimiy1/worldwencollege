@@ -22,6 +22,41 @@ function fill(template, tokens) {
 }
 
 // ---------------------------------------------------------------------
+// THE MASTHEAD, APPLIED AT ASSEMBLY RATHER THAN IN THE SOURCE
+//
+// Every page but the homepage opens with the same shape: an eyebrow, an
+// h1 and a lede inside `<section class="section--dark section-pad">`.
+// css/pages.css turns that shape into a masthead — but only if the
+// section carries the .page-hero class.
+//
+// That class was first added by editing the 84 files in pages/ directly,
+// and that was wrong in a way nothing would have reported. Most of those
+// files are OUTPUT: scripts/build-students.js, build-about.js,
+// build-press.js, build-arabic.js and the rest generate them. Running
+// any one of those generators silently stripped the class back out, the
+// build still succeeded, every test still passed, and the page quietly
+// lost its masthead.
+//
+// So the transform belongs here, at the moment the page is assembled. It
+// then holds no matter which generator wrote the source, and it applies
+// to pages nobody has written yet without anyone remembering to opt in.
+//
+// Pages whose opening section is not that shape — the homepage, with its
+// own bespoke hero, and the two portal pages — are returned untouched.
+// ---------------------------------------------------------------------
+const MASTHEAD_OPENING = /^(\s*)<section class="section--dark section-pad"/;
+
+function raiseMasthead(html) {
+  if (!MASTHEAD_OPENING.test(html)) return html;
+  return html
+    .replace(MASTHEAD_OPENING, '$1<section class="page-hero section--dark section-pad"')
+    // The first h1 on the page is the masthead's, and it takes the same
+    // split-text rise the homepage headline does. Guarded so a source
+    // file that already declares it is not given it twice.
+    .replace(/<h1(?![^>]*\bdata-split\b)/, '<h1 data-split');
+}
+
+// ---------------------------------------------------------------------
 // INLINE SVG INCLUDES  —  {{SVG:assets/art/whatever.svg}}
 //
 // The living diagrams (docs/digital-institution-masterplan.md, Layer 3)
@@ -132,9 +167,8 @@ function build() {
     });
     const header = partialFor('header', lang);
     const footer = partialFor('footer', lang);
-    const content = inlineSvgIncludes(
-      read(path.join(PAGES, entry.contentFile)),
-      entry.contentFile
+    const content = raiseMasthead(
+      inlineSvgIncludes(read(path.join(PAGES, entry.contentFile)), entry.contentFile)
     );
     const skipLabel = lang === 'ar' ? 'تخطَّ إلى المحتوى الرئيسي' : 'Skip to main content';
     // Per-page scripts, declared in the manifest. Opt-in rather than
