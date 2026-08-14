@@ -89,7 +89,7 @@ footer that reads as the illuminated base of the building.
 This is deliberately the second thing built: it is the highest-leverage
 surface on the site, and it proves the Atelier on every page at once.
 
-### Layer 3 — Living diagrams *(five shipped)*
+### Layer 3 — Living diagrams *(six shipped)*
 Animated SVG that draws itself: paths trace, nodes arrive, labels rise.
 All generated, never hand-drawn, from `scripts/art/` on the shared
 apparatus in `scripts/art/lib/plate.mjs` — palette, scale, text, the
@@ -103,6 +103,7 @@ apparatus in `scripts/art/lib/plate.mjs` — palette, scale, text, the
 | **Authority Chain** | `/about/governance/` | Two academic bodies stop short of approval for two different reasons — one empty, one idle |
 | **Publication Funnel** | `/press/` | A short catalogue is a decision, and the review gate is still shut |
 | **Competency Wheel** | `/about/basce/` | The framework is measured against BASCE's own remit, and the polygon collapses on the two axes carrying nothing |
+| **Quality Cycle** | `/about/quality-assurance/` | Two loops at different speeds: one closed and turning on every change, one open because nobody has been taught |
 
 **The rule these established.** A diagram on this site is not
 decoration and not a restatement — it earns its place only by showing
@@ -134,7 +135,14 @@ diagram would only repeat the text in shapes, it does not get drawn.
    page when opened outside a built page. It survived because the only
    route that exercised them was the route that forgave it.
    `tests/art-plates.test.mjs` now checks them as documents.
-4. **Measure the drawing in the page that ships it, in both
+4. **A drawing whose claim can expire refuses to render.** The quality
+   cycle asserts that the outer ring has never closed. On the day the
+   College enrols a learner that becomes false, and regenerating would
+   quietly produce a confident, specific, wrong picture. So the
+   generator throws if enrolments, sessions or awards stop being nought,
+   and `tests/quality-cycle.test.mjs` fails even when nobody re-runs it.
+   Any diagram resting on a nought gets the same treatment.
+5. **Measure the drawing in the page that ships it, in both
    languages.** `text-anchor` resolves against inline base direction, so
    `end` is the right edge under LTR and the left edge under RTL. The
    Arabic authority chain was drawn, opened, and checked as a file —
@@ -146,8 +154,7 @@ diagram would only repeat the text in shapes, it does not get drawn.
    viewBox, and every label pair against every other, in the rendered
    page.
 
-Still to draw: Learning Journey · Quality Cycle · Assessment
-Instruments.
+Still to draw: Learning Journey · Assessment Instruments.
 
 **Global Reach is struck from the list, deliberately.** It was on it
 because an internationally-minded college ought to have a map. This one
