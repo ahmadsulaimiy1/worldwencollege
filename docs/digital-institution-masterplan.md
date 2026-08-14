@@ -110,7 +110,7 @@ a table cannot show a gap narrowing. The authority chain exists because
 a paragraph cannot show a break. If a proposed diagram would only repeat
 the text in shapes, it does not get drawn.
 
-**Two rules learned building them, now binding:**
+**Four rules learned building them, now binding:**
 
 1. **Numbers in a drawing need a test.** A picture is the one artefact
    nobody proof-reads. `tests/award-diagram.test.mjs` reads the
@@ -123,11 +123,29 @@ the text in shapes, it does not get drawn.
    cannot be forgotten. And below 760px they scroll inside that frame
    rather than shrinking to four-pixel type — the same answer
    `.table-scroll` already gives the ledgers.
+3. **A plate is a document, not a fragment.** Every plate opens with an
+   XML declaration, so anything that parses XML may open one. The
+   generators were emitting `data-pop` bare — legal HTML shorthand, a
+   hard syntax error in XML — and all eight rendered as a parser-error
+   page when opened outside a built page. It survived because the only
+   route that exercised them was the route that forgave it.
+   `tests/art-plates.test.mjs` now checks them as documents.
+4. **Measure the drawing in the page that ships it, in both
+   languages.** `text-anchor` resolves against inline base direction, so
+   `end` is the right edge under LTR and the left edge under RTL. The
+   Arabic authority chain was drawn, opened, and checked as a file —
+   then inherited `dir="rtl"` from `/ar/about/governance/` and threw its
+   whole vacancy register off the canvas. The defect existed only in the
+   combination. Plates now pin `direction="ltr"` on the root and carry
+   right-to-left layout in mirrored coordinates alone;
+   `tests/browser/diagram-fit.mjs` measures every element against the
+   viewBox, and every label pair against every other, in the rendered
+   page.
 
 Still to draw: Competency Wheel · Learning Journey · Quality Cycle ·
-Global Reach · Assessment Instruments. Arabic editions exist for the
-Spiral, the Award Standard and the Funnel; the Authority Chain waits on
-`/ar/about/governance/` being written at all.
+Global Reach · Assessment Instruments. All four existing diagrams now
+ship in both languages — the Authority Chain's Arabic edition landed
+with `/ar/about/governance/`, which was written for it.
 
 ### Layer 4 — Page heroes
 Every major page gets its own hero — never a reused banner. Each opens
@@ -175,6 +193,35 @@ Arabic is not a phase. Every phase ships both languages together, or it
 has not shipped. The Gulf is the primary audience; an untranslated
 flagship page is a broken one.
 
+### The Arabic backlog, stated rather than implied
+
+Thirteen routes are published in Arabic; **41 of 64 English routes have
+no Arabic edition yet**. `tests/bilingual-links.test.mjs` prints the
+number on every run so nobody has to go and count, and enforces the one
+rule that makes the gap survivable: any link out of Arabic into English
+is marked `(EN)` or `(بالإنجليزية)` in its own anchor text, before the
+reader commits to the click.
+
+The order the remaining pages are written in is not the manifest order.
+It is: pages where a reader is deciding something that costs them money
+or time, then pages an institutional buyer checks, then the rest. Two
+groups are blocked rather than merely unwritten, and the reasons belong
+here rather than in somebody's head:
+
+- **The six level pages** wait on the College's own Arabic curriculum
+  terminology. Coining a second Arabic vocabulary for CEFR bands and
+  competency descriptors, page by page, is how two pages come to
+  disagree about what a level is called.
+- **`/standards/evidence/`** is generated from the database, so its
+  Arabic edition is a translation of a data set rather than of a page,
+  and it needs the terminology decision above first.
+
+`/about/governance/` was in neither group. It was simply not thought to
+be a decision page — until the authority chain was drawn and it became
+the page carrying the single clearest statement of what the College is
+and is not, behind a language barrier for the audience it matters most
+to.
+
 ---
 
 ## What "finished" means for a page
@@ -217,10 +264,16 @@ A page is not done when it works. It is done when every answer is yes:
 ## Verification, every phase
 
 ```
-node scripts/build.js                 # 88 pages, both languages
-npm test                              # content rules, claims, structure
+node scripts/build.js                 # every page, both languages
+npm test                              # content rules, claims, structure, plates
 node tests/browser/route-audit.mjs    # all routes in Chromium
+node tests/browser/diagram-fit.mjs    # every diagram measured where it ships
 ```
+
+If a cluster generator owns the page — `scripts/build-arabic.js`,
+`build-students.js`, `build-press.js` and the rest — edit the generator,
+never `pages/*.html`. Most of that directory is output, and a change
+made there is reverted silently by the next build.
 
 Plus, per phase: contrast measured on every new pairing; a
 reduced-motion pass confirming nothing is left invisible; a

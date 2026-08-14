@@ -333,7 +333,8 @@
     "description": "How academic decisions are made at Worldwide English College, which bodies hold which authority, and which posts are currently vacant.",
     "contentFile": "about-governance.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/about/governance/"
   },
   {
     "slug": "about-senate",
@@ -852,5 +853,15 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/support/privacy/"
+  },
+  {
+    "slug": "about-governance-ar",
+    "output": "ar/about/governance/index.html",
+    "title": "الحوكمة | من يقرر وبأي صلاحية — الكلية العالمية للغة الإنجليزية",
+    "description": "الهيئتان الأكاديميتان للكلية، وصلاحية كل منهما، وحقيقة أنه لم يُعيَّن فيهما عضو واحد بعد.",
+    "contentFile": "about-governance.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/about/governance/"
   }
 ]

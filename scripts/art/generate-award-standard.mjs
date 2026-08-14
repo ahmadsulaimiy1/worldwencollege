@@ -193,7 +193,7 @@ BANDS.forEach((b, i) => {
     stroke: INK.goldRoyal, width: 1, opacity: 0.3, dash: '1 7',
   }));
   const seal = RTL ? W - M.trail + 6 : M.lead - 6;
-  bits.push(`<g data-pop>`
+  bits.push(`<g data-pop="">`
     + `<circle cx="${n(seal)}" cy="${n(y - 2)}" r="17" fill="none" stroke="${INK.goldRich}" stroke-width="1.4"/>`
     + `<circle cx="${n(seal)}" cy="${n(y - 2)}" r="11" fill="none" stroke="${INK.goldRoyal}" stroke-width="0.8" stroke-opacity="0.6"/>`
     + `</g>`);

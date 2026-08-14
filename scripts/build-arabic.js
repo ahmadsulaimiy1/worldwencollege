@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * THE ARABIC EDITIONS — twelve pages.
+ * THE ARABIC EDITIONS — thirteen pages.
  *
  * ────────────────────────────────────────────────────────────────────
- * WHY THESE TWELVE AND NOT ALL FIFTY-FOUR
+ * WHY THESE THIRTEEN AND NOT ALL FIFTY-FOUR
  * ────────────────────────────────────────────────────────────────────
  * The site is published in English and Arabic. Fifty-four pages were
  * written in one stretch and every one of them was English-only, which
@@ -14,13 +14,15 @@
  * Translating all fifty-four at once, unreviewed, would produce fifty-
  * four pages nobody had checked in a language the College cannot yet
  * have reviewed — the same failure as publishing an unreviewed volume,
- * with a larger audience. So this file authors the twelve pages where
+ * with a larger audience. So this file authors the thirteen pages where
  * an Arabic reader is making a decision that costs them money or time:
  * how to apply, what is required, how payment actually works, what the
  * College will and will not do about visas, when they can start, the
  * uncomfortable answers, what they would study, how they would be
  * assessed, what can and cannot be conferred, how quality is held, and
- * what is done with their data.
+ * what is done with their data — plus, added after the first twelve,
+ * who decides any of it and on whose authority (see the note at page
+ * thirteen for why that one was not obvious).
  *
  * The remaining pages stay English-only and every Arabic page says so
  * where it links to one, rather than presenting a dead end or an
@@ -1033,6 +1035,122 @@ ${card('غير مقرَّر', 'مدة الحفظ والمحو', 'كم تُحفظ
 </section>
 
 ${cta('ماذا يُحفظ عن الطالب.', 'سياسة القبول', '/ar/admissions/apply/', 'أسئلة القبول', '/ar/admissions/questions/')}`,
+};
+
+// 13 · الحوكمة ────────────────────────────────────────────────────────
+//
+// WHY THIS ONE BROKE THE ORIGINAL TWELVE
+//
+// The twelve editions above were chosen on one test: where an Arabic
+// reader is making a decision that costs them money or time. Governance
+// did not obviously pass it, so it was left in English.
+//
+// What changed the answer was the drawing. /about/governance/ carries
+// the authority chain — the diagram that shows the structure complete
+// in design and broken at exactly one link — and an argument made in a
+// picture does not need a reader fluent in English. It needs a reader
+// who can read its labels. Leaving it English-only meant the College's
+// single most candid page reached the audience it was least written
+// for, and the diagram sat behind a language barrier it did not have.
+//
+// It also fails the other test on inspection. An institutional buyer in
+// the Gulf — a ministry, an employer, a family's adviser — is exactly
+// the reader who asks who signed a thing, and this is the page that
+// answers. That reader was being sent to a page in a second language to
+// find out that the boards are empty.
+PAGES.governance = {
+  slug: 'about-governance-ar', output: 'ar/about/governance/index.html', file: 'about-governance.ar.html',
+  altHref: '/about/governance/',
+  title: 'الحوكمة | من يقرر وبأي صلاحية — الكلية العالمية للغة الإنجليزية',
+  description: 'الهيئتان الأكاديميتان للكلية، وصلاحية كل منهما، وحقيقة أنه لم يُعيَّن فيهما عضو واحد بعد.',
+  body: `${hero('عن الكلية', 'من يقرر، وبأي صلاحية.',
+    'في سجلات الكلية هيئتان أكاديميتان قائمتان. ولم يُعيَّن في أي منهما عضو واحد. '
+    + 'تصف هذه الصفحة البنية الموجودة، وتقول صراحةً أين لم تُشغَل بعد، '
+    + 'لأن صفحة حوكمة تُقرأ وكأن المجالس منعقدة ستكون أخطر ما يمكن أن يُكتب على هذا الموقع.')}
+
+<section class="section--light section-pad" id="bodies">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الهيئتان الأكاديميتان</span>
+      <h2>الهيئتان، وصلاحية كل منهما.</h2>
+    </div>
+    <div class="grid grid--2">
+      <div class="card">
+        <span class="card__num">${ltr('BASCE')}</span>
+        <h3>مجلس المعايير الأكاديمية والتميّز المنهجي</h3>
+        <p>يحدّد كفايات الكلية؛ ويربط كل تقييم بكفاية أو أكثر؛ ويضمن أن كل كفاية تُقاس مرات
+          متعددة في كل مستوى؛ ويقرّ أوصاف الكفايات؛ ويراجع الربط سنويًا؛ ويحفظ تماسك إطار
+          الكفايات.</p>
+        <p class="before"><b>تاريخ التأسيس</b> ${ltr('2026-08-04')} &middot;
+          <b>الأعضاء المعيَّنون</b> ${ltr('0')}</p>
+      </div>
+      <div class="card">
+        <span class="card__num">${ltr('SENATE')}</span>
+        <h3>المجلس الأكاديمي</h3>
+        <p>يقرّ الربط بين التقييمات والمهارات اللغوية الأربع، ويقرّ عتبات الوصف التي تحوّل
+          الأدلة المُقيَّمة إلى وصف مهارة.</p>
+        <p class="before"><b>تاريخ التأسيس</b> ${ltr('2026-08-04')} &middot;
+          <b>الأعضاء المعيَّنون</b> ${ltr('0')}</p>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="callout__label">ماذا يعني ألا يكون فيهما عضو</span>
+      <p>الهيئة بلا أعضاء لا تستطيع إقرار شيء. ولذلك يُسجَّل كل قرار يخصّها في الأصل بوصفه
+        <b>مؤقتًا</b>، مُتَّخذًا بصلاحية مفوَّضة إلى المطبعة، ومُعلَّمًا في قاعدة البيانات
+        بالهيئة التي ينتظرها. وحين يُعيَّن الأعضاء تُرفع تلك القرارات إليهم للتصديق &mdash;
+        والسجل يسمّي مسبقًا أيها.</p>
+    </div>
+
+    <!-- The same drawing the English page carries, mirrored. The chain
+         runs right to left, the break sits at the same link, and the
+         vacancy register hangs off the right margin. Generated by
+         scripts/art/generate-authority-chain.mjs ar — see the note in
+         that file on why a flow diagram cannot simply be relabelled. -->
+    <figure class="diagram diagram--wide">
+      {{SVG:assets/art/authority-chain.ar.svg}}
+      <figcaption class="diagram__caption">
+        <svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>
+        البنية قائمة؛ التعيينات ليست كذلك
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section--paper section-pad" id="decisions">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">كيف تُسجَّل القرارات</span>
+      <h2>كل قرار أكاديمي يحمل صلاحيته.</h2>
+    </div>
+    <div class="grid grid--3">
+${card('من قرّر', 'صلاحية مسمّاة', 'كل ربط ومخرَج وعتبة يسجّل الهيئة التي اتُّخذ تحتها &mdash; المجلس المنهجي أو المجلس الأكاديمي &mdash; ويسجّل حالته. ولا شيء يُسجَّل بوصفه صحيحًا فحسب.')}
+${card('على أي أساس', 'مسوّغ مذكور', 'كل ربط بكفاية يحمل مسوّغًا يشرح لماذا يدلّ ذلك التقييم على تلك الكفاية. والربط بلا مسوّغ رأيٌ اكتسب سلطة سطرٍ في قاعدة بيانات.')}
+${card('متى يُراجَع', 'دورة سنوية', 'يُراجَع الإطار سنويًا في ضوء ما ينتجه التدريس من أدلة. ولا يمكن أن تبدأ الدورة الأولى قبل تدريس دفعة، والسجل يقول ذلك بدل وصف دورة لم تدر قط.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad" id="vacant">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">مناصب لم تُشغَل بعد</span>
+      <h2>ما لا تملكه الكلية.</h2>
+      <p class="lede">مذكورة لا محذوفة. كل واحد منها يعطّل أمرًا بعينه، وتسمية ما يعطّله أنفع
+        من صفحة تقف عند حدّ الصمت.</p>
+    </div>
+    <div class="grid grid--2">
+${darkCard('ممتحن خارجي', 'شرط قبل منح أي شهادة', 'المنصب المستقل الذي وظيفته كلها أن يكون خارج الكلية. وإلى أن يُشغَل تبقى الشهادات معرَّفة ومنشورة ولا يمكن منحها لأحد على وجه صحيح.')}
+${darkCard('أعضاء الهيئتين', 'شرط قبل إقرار أي شيء', 'الهيئتان الأكاديميتان قائمتان، وليس في أي منهما عضو. والإقرار &mdash; بخلاف الاعتماد المؤقت &mdash; ينتظر التعيين.')}
+${darkCard('مراجع أكاديمي', 'شرط قبل مراجعة المنشورات', 'كل مجلّد منشور من تأليف المطبعة، ولم يقرأه قارئ مؤهَّل لم يكتبه. وكل مجلّد يذكر ذلك في صفحة بياناته.')}
+${darkCard('مسؤول تنفيذي', 'شرط لأي رسالة مؤسسية موقَّعة', 'لم يُعيَّن رئيس ولا مسؤول تنفيذي، ولهذا تصدر مقدمة كل منشور عن الناشر بدل أن يوقّعها شخص.')}
+    </div>
+    <p class="form-note">هذه الصفحة تصف بنية مكتملة التصميم وغير مكتملة التشغيل. ذكر ذلك
+      اختيار: المؤسسة التي تصف مجالسها بصيغة الحاضر قبل أن تُعيَّن هي المؤسسة التي لن يصدَّق
+      شيء آخر مما تقوله حين يُكتشف الأمر.</p>
+  </div>
+</section>
+
+${cta('اقرأ الموقف المؤسسي كاملًا.', 'وضع الكلية المؤسسي', '/ar/about/#status', 'ضمان الجودة', '/ar/about/quality-assurance/')}`,
 };
 
 // ── write ────────────────────────────────────────────────────────────

@@ -118,7 +118,7 @@ STAGE_V.forEach((v, i) => {
   const tint = i === 0 ? INK.steel : i === 1 ? INK.goldRich : INK.burgundy;
   const [label, sub] = t.stages[i];
 
-  bits.push(`<g data-pop>`
+  bits.push(`<g data-pop="">`
     + `<rect x="${n(CX - w / 2)}" y="${n(y)}" width="${n(w)}" height="${BAR_H}" rx="3"`
     + ` fill="${live ? 'rgba(31,61,122,0.28)' : 'none'}" stroke="${tint}" stroke-width="${live ? 1.5 : 1.2}"`
     + `${live ? '' : ' stroke-dasharray="5 5"'} stroke-opacity="${live ? 1 : 0.7}"/>`
@@ -198,7 +198,7 @@ STAGE_V.forEach((v, i) => {
 {
   const y = BAR_TOP + 2 * (BAR_H + GAP) - GAP / 2;
   const halfW = 84;
-  bits.push(`<g data-pop>`
+  bits.push(`<g data-pop="">`
     + `<path d="M${n(CX - halfW)} ${n(y)}L${n(CX + halfW)} ${n(y)}" stroke="${INK.burgundy}" stroke-width="2.4" stroke-linecap="round" fill="none"/>`
     + `<path d="M${n(CX - halfW + 14)} ${n(y - 9)}L${n(CX - halfW + 14)} ${n(y + 9)}`
     + `M${n(CX)} ${n(y - 9)}L${n(CX)} ${n(y + 9)}`
