@@ -89,7 +89,7 @@ footer that reads as the illuminated base of the building.
 This is deliberately the second thing built: it is the highest-leverage
 surface on the site, and it proves the Atelier on every page at once.
 
-### Layer 3 — Living diagrams *(four shipped)*
+### Layer 3 — Living diagrams *(five shipped)*
 Animated SVG that draws itself: paths trace, nodes arrive, labels rise.
 All generated, never hand-drawn, from `scripts/art/` on the shared
 apparatus in `scripts/art/lib/plate.mjs` — palette, scale, text, the
@@ -102,6 +102,7 @@ apparatus in `scripts/art/lib/plate.mjs` — palette, scale, text, the
 | **Award Standard** | `/students/assessment/` | Compensation between skills is capped, and the cap tightens as bands rise |
 | **Authority Chain** | `/about/governance/` | Two academic bodies stop short of approval for two different reasons — one empty, one idle |
 | **Publication Funnel** | `/press/` | A short catalogue is a decision, and the review gate is still shut |
+| **Competency Wheel** | `/about/basce/` | The framework is measured against BASCE's own remit, and the polygon collapses on the two axes carrying nothing |
 
 **The rule these established.** A diagram on this site is not
 decoration and not a restatement — it earns its place only by showing
@@ -145,8 +146,16 @@ diagram would only repeat the text in shapes, it does not get drawn.
    viewBox, and every label pair against every other, in the rendered
    page.
 
-Still to draw: Competency Wheel · Learning Journey · Quality Cycle ·
-Global Reach · Assessment Instruments. All four existing diagrams now
+Still to draw: Learning Journey · Quality Cycle · Assessment
+Instruments.
+
+**Global Reach is struck from the list, deliberately.** It was on it
+because an internationally-minded college ought to have a map. This one
+has no learners in any country, no taught cohort and no graduates, so
+the only honest version of that map is empty — and an empty map beside
+six populated diagrams reads as an oversight rather than a fact. The
+same information belongs in a sentence until it does not. Re-add it the
+day there is somebody to plot. All four existing diagrams now
 ship in both languages — the Authority Chain's Arabic edition landed
 with `/ar/about/governance/`, which was written for it.
 
@@ -198,8 +207,9 @@ flagship page is a broken one.
 
 ### The Arabic backlog, stated rather than implied
 
-Thirteen routes are published in Arabic; **41 of 64 English routes have
-no Arabic edition yet**. `tests/bilingual-links.test.mjs` prints the
+Fifteen routes are published in Arabic; **the remainder of the English
+routes have no Arabic edition yet** — the exact figure prints on every
+test run. `tests/bilingual-links.test.mjs` prints the
 number on every run so nobody has to go and count, and enforces the one
 rule that makes the gap survivable: any link out of Arabic into English
 is marked `(EN)` or `(بالإنجليزية)` in its own anchor text, before the
@@ -219,11 +229,17 @@ here rather than in somebody's head:
   Arabic edition is a translation of a data set rather than of a page,
   and it needs the terminology decision above first.
 
-`/about/governance/` was in neither group. It was simply not thought to
-be a decision page — until the authority chain was drawn and it became
-the page carrying the single clearest statement of what the College is
-and is not, behind a language barrier for the audience it matters most
-to.
+`/about/governance/` was in neither group, and neither was
+`/about/basce/`. Both were simply not thought of as decision pages —
+until a diagram was drawn on each, and a drawing does not need a reader
+fluent in English, only one who can read its labels. That is now the
+third criterion for pulling a page forward in the Arabic queue, after
+"costs the reader money" and "an institutional buyer checks it":
+
+> **A page carrying a living diagram is published in both languages, or
+> the diagram has not shipped.** An argument made in a picture reaches
+> an audience that an English paragraph does not, and leaving it in one
+> language wastes the thing that makes it worth drawing.
 
 ---
 

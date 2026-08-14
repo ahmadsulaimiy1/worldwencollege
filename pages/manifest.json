@@ -352,7 +352,8 @@
     "description": "The Board of Academic Standards and Curriculum Excellence: its remit over the competency framework, and its current membership position.",
     "contentFile": "about-basce.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/about/basce/"
   },
   {
     "slug": "about-qa",
@@ -863,5 +864,15 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/about/governance/"
+  },
+  {
+    "slug": "about-basce-ar",
+    "output": "ar/about/basce/index.html",
+    "title": "مجلس المعايير الأكاديمية والتميّز المنهجي — الكلية العالمية للغة الإنجليزية",
+    "description": "إطار الكفايات الست، ومدى تغطيته فعلًا في المستوى الأول، وموقف المجلس الحالي.",
+    "contentFile": "about-basce.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/about/basce/"
   }
 ]

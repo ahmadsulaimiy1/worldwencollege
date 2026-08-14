@@ -1162,6 +1162,122 @@ ${GOV.principlesAR()}
 ${cta('اقرأ الموقف المؤسسي كاملًا.', 'وضع الكلية المؤسسي', '/ar/about/#status', 'ضمان الجودة', '/ar/about/quality-assurance/')}`,
 };
 
+// 14 · مجلس المعايير ──────────────────────────────────────────────────
+//
+// WHY THIS PAGE, AND WHY NOW
+//
+// The competency wheel is the sharpest thing on /about/basce/: it
+// measures the College's own framework against the College's own remit
+// and shows it three-sixths met. A drawing that argues that must not
+// reach one audience and not the other — the rule recorded in the master
+// plan when the authority chain forced /ar/about/governance/ into
+// existence, arriving a second time.
+//
+// The competency NAMES are translated; the definitions are re-authored
+// in Arabic rather than rendered word-for-word, because each definition
+// was written to be arguable and a literal translation of an epigram is
+// usually neither literal nor an epigram.
+const AR_COMPETENCY = [
+  ['الوضوح', 'يُفهم من المرة الأولى، من الحاضرين فعلًا لا من قارئ مثالي.'],
+  ['التمكّن', 'يتحكم في اللغة بدل أن تحمله هي.'],
+  ['التمييز', 'يختار المستوى والقناة واللحظة، ويعرف ما لا يُقال.'],
+  ['الاستدلال', 'يبني الحجة، ويختبرها، ويسلّم بما ينبغي التسليم به.'],
+  ['الحضور', 'يمسك قاعة، أو مكالمة، أو محادثة صعبة.'],
+  ['الامتداد', 'يخاطب عبر الثقافات، وعبر المسافة بين المتخصص وغير المتخصص.'],
+];
+
+PAGES.basce = {
+  slug: 'about-basce-ar', output: 'ar/about/basce/index.html', file: 'about-basce.ar.html',
+  altHref: '/about/basce/',
+  title: 'مجلس المعايير الأكاديمية والتميّز المنهجي — الكلية العالمية للغة الإنجليزية',
+  description: 'إطار الكفايات الست، ومدى تغطيته فعلًا في المستوى الأول، وموقف المجلس الحالي.',
+  body: `${hero('الحوكمة', 'مجلس المعايير الأكاديمية والتميّز المنهجي.',
+    'يملك المجلس إطار الكفايات &mdash; أي ما تدّعي الكلية أن الخريج قادر عليه، وما إذا كانت '
+    + 'التقييمات تُثبته فعلًا.')}
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="stat-row">
+      <div class="stat-row__item"><b>${ltr('BASCE')}</b><span>الرمز</span></div>
+      <div class="stat-row__item"><b>${ltr('2026-08-04')}</b><span>تاريخ التأسيس</span></div>
+      <div class="stat-row__item"><b>${ltr('0')}</b><span>الأعضاء المعيَّنون</span></div>
+      <div class="stat-row__item"><b>${ltr(String(AR_COMPETENCY.length))}</b><span>الكفايات المعرَّفة</span></div>
+    </div>
+    <div class="section-head">
+      <span class="module-marker">الصلاحية</span>
+      <h2>ما يقرره المجلس.</h2>
+      <p class="lede">يحدّد كفايات الكلية؛ ويربط كل تقييم بكفاية أو أكثر؛ <b>ويضمن أن كل كفاية
+        تُقاس مرات متعددة في كل مستوى</b>؛ ويقرّ أوصاف الكفايات؛ ويراجع الربط سنويًا؛ ويحفظ
+        تماسك إطار الكفايات.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الإطار</span>
+      <h2>الكفايات الست.</h2>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th scope="col">الكفاية</th><th scope="col">التعريف</th></tr></thead>
+        <tbody>
+${AR_COMPETENCY.map(([nm, def]) => `          <tr><td><b>${nm}</b></td><td>${def}</td></tr>`).join('\n')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="coverage">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">التغطية</span>
+      <h2>كم مرة تُقاس كل كفاية فعلًا.</h2>
+      <p class="lede">الجدول أعلاه يقول ما هي الكفايات الست. ولا يستطيع أن يقول كم وزنًا تحمل
+        كل واحدة منها اليوم، والجواب أنفع ما في هذه الصفحة.</p>
+    </div>
+
+    <figure class="diagram diagram--wide">
+      {{SVG:assets/art/competency-wheel.ar.svg}}
+      <figcaption class="diagram__caption">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+        مقيسة على صلاحية المجلس نفسها
+      </figcaption>
+    </figure>
+
+    <div class="callout">
+      <span class="callout__label">ماذا يقول الشكل</span>
+      <p>التمكّن والوضوح يحملان معظم المستوى الأول. أما التمييز فيُقاس أربع مرات، والاستدلال
+        مرة واحدة، والحضور والامتداد لا يُقاسان في المستوى الأول أصلًا. وبالقياس إلى الصلاحية
+        المذكورة أعلى الصفحة &mdash; <em>أن تُقاس كل كفاية مرات متعددة في كل مستوى</em> &mdash;
+        فثلاث من الست تتجاوز الحدّ اليوم.</p>
+      <p>يُنشر هذا كما هو ولا يُملَّس، للسبب نفسه الذي يجعل الارتباطات مسجَّلة مؤقتة: إطار
+        يبلّغ عن تغطية متوازنة لا يملكها أقل قيمة من إطار يبلّغ عن تغطية متفاوتة يملكها.
+        الفجوة هي العمل، وتسميتها هي طريقة إغلاقها.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الموقف الحالي</span>
+      <h2>معرَّفة، ومربوطة، وغير مُقرَّة بعد.</h2>
+    </div>
+    <div class="grid grid--3">
+${darkCard('معرَّفة', 'ست كفايات', 'لكل منها تعريف كُتب ليكون قابلًا للنقاش لا عصيًّا على التفنيد. عبارة «يُفهم من المرة الأولى من الحاضرين فعلًا» يمكن الاعتراض عليها؛ أما «مهارات تواصل ممتازة» فلا.')}
+${darkCard('مربوطة', 'المستوى الأول وحده حتى الآن', 'كل تقييم في المستوى الأول مربوط بالكفايات التي يدل عليها، مع وزن ومسوّغ مكتوب. والمستويات من الثاني إلى السادس بلا أي ارتباط بالكفايات بعد.')}
+${darkCard('غير مُقرَّة', 'لا أعضاء معيَّنون', 'كل ارتباط مسجَّل مؤقتًا. الهيئة بلا أعضاء لا تستطيع الإقرار، ويفشل البناء إن وُسم أي ارتباط بأنه مُقَر بينما عدد الأعضاء صفر.')}
+    </div>
+    ${noAccreditation}
+  </div>
+</section>
+
+${cta('كيف يصل الإطار إلى المتعلم.', 'كيف يتم تقييمك', '/ar/students/assessment/', 'الحوكمة', '/ar/about/governance/')}`,
+};
+
 // ── write ────────────────────────────────────────────────────────────
 const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
