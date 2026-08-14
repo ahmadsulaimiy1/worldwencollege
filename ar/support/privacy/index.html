@@ -14,6 +14,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/atelier.css">
+<noscript><style>
+/* Several entrance effects are authored hidden and revealed by script:
+   .reveal (js/site.js), .split-word and .rule-draw (js/motion.js),
+   .assemble__d and .gilt (js/atelier.js). With scripting off, nothing
+   ever reveals them — the page renders, passes every check, and shows
+   the reader blank space where the content is. Each is pinned to its
+   finished state here, which is the same contract the
+   prefers-reduced-motion blocks keep. */
+.reveal, .split-word, .assemble__d, .foil, .wax-seal, .constellation { opacity: 1 !important; transform: none !important; }
+.rule-draw { transform: scaleX(1) !important; }
+.gilt { --gilt: 1; }
+.plate--drift img, .plate--drift svg { animation: none !important; }
+</style></noscript>
 <meta property="og:site_name" content="الكلية العالمية للغة الإنجليزية">
 <meta property="og:locale" content="ar_AR">
 <meta property="og:title" content="الخصوصية وبياناتك — الكلية العالمية للغة الإنجليزية">
@@ -273,15 +287,54 @@
   </div>
 </div>
 
-<header class="site-header">
+<!--
+  الترويسة، بوصفها عمارة.
+
+  أربع طبقات لا شريطًا واحدًا: الخدمات (topbar.ar.html)، ثم بند
+  الهوية الاحتفالي الذي ينطوي عند التمرير، ثم لوحات التنقّل
+  الزجاجية، ثم إجراءات القبول.
+
+  الروابط تشير إلى الصفحات العربية حيث توجد. وحيث لا توجد نسخة
+  عربية بعد، لا يُدرج الرابط أصلًا بدلًا من إخراج القارئ من لغته —
+  راجع pages/manifest.json لما هو مترجَم.
+-->
+<header class="site-header lattice" data-nodes="7">
+  <div class="lattice__bed" aria-hidden="true"></div>
+
+  <!-- ============ الطبقة الثانية · الهوية ============ -->
+  <div class="header__crown">
+    <div class="header__crown-inner">
+      <span class="crown__flank" aria-hidden="true">
+        <span class="crown__meta">تأسست <span dir="ltr">MMXXVI</span></span>
+        <span class="crown__rule"></span>
+      </span>
+
+      <a href="/ar/" class="crown__brand" aria-label="الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن، الصفحة الرئيسية">
+        <svg class="brand__crest brand__crest--crown" viewBox="0 0 48 56" aria-hidden="true">
+          <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
+          <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
+          <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
+          <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
+          <path class="crest__book" d="M24 28.5 V37.4"/>
+          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
+        </svg>
+        <span class="crown__word">
+          <span class="crown__name">الكلية العالمية للغة الإنجليزية</span>
+          <span class="crown__campus">الحرم الجامعي — لندن</span>
+        </span>
+      </a>
+
+      <span class="crown__flank crown__flank--end" aria-hidden="true">
+        <span class="crown__rule"></span>
+        <span class="crown__meta">عبر الإنترنت حول العالم</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- ============ الطبقتان الثالثة والرابعة ============ -->
   <div class="site-header__inner">
-    <a href="/ar/" class="brand" aria-label="الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن، الصفحة الرئيسية">
+    <a href="/ar/" class="brand brand--compact" aria-label="الكلية العالمية للغة الإنجليزية، الصفحة الرئيسية">
       <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
-        <!-- A crown of three points over the shield, and an open book
-             at the honour point. The full arms are in
-             assets/art/crest-plate.svg; this is the reduction that
-             still reads at 27px in the condensed header, where the
-             laurel and ribbon of the full mark turn to mud. -->
         <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
         <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
         <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
@@ -295,69 +348,149 @@
       </span>
     </a>
 
-    <nav class="nav" aria-label="التنقل الرئيسي">
+    <nav class="nav" aria-label="التنقّل الرئيسي">
+
       <div class="nav__item nav__item--has-menu">
         <a href="/ar/about/" aria-haspopup="true" aria-expanded="false">عن الكلية</a>
-        <div class="nav__menu">
-          <a href="/ar/about/">عن الكلية</a>
-          <a href="/ar/about/quality-assurance/">ضمان الجودة</a>
+        <div class="nav__menu nav__menu--mega crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">المؤسسة</p>
+              <a href="/ar/about/">عن الكلية</a>
+              <a href="/ar/about/quality-assurance/">ضمان الجودة</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">هيئة التدريس</p>
+              <a href="/ar/faculty/">هيئة التدريس</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/about/quality-assurance/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-shield-check"/></svg>
+            <span class="mega__feature-label">دليل لا ادّعاء</span>
+            <span class="mega__feature-text">كل ما تقوله الكلية عن نفسها منشور ومعه السجل الذي يسنده.</span>
+            <span class="mega__feature-go">ضمان الجودة <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
         </div>
       </div>
+
       <div class="nav__item nav__item--has-menu">
         <a href="/ar/academics/" aria-haspopup="true" aria-expanded="false">البرامج الأكاديمية</a>
-        <div class="nav__menu">
-          <a href="/ar/academics/">نظرة عامة على البرنامج</a>
-          <a href="/ar/academics/iefc/">برنامج IEFC</a>
-          <a href="/ar/study/">الدراسة — المستويات الستة</a>
-          <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
-          <a href="/ar/students/awards/">الشهادات والمراتب</a>
+        <div class="nav__menu nav__menu--mega crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">البرنامج</p>
+              <a href="/ar/academics/">نظرة عامة على البرنامج</a>
+              <a href="/ar/academics/iefc/">برنامج <span dir="ltr">IEFC</span></a>
+              <a href="/ar/study/">الدراسة &mdash; المستويات الستة</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">التقييم</p>
+              <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
+              <a href="/ar/students/awards/">الشهادات والمراتب</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/study/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-progress"/></svg>
+            <span class="mega__feature-label">ستون وحدة، مكتوبة</span>
+            <span class="mega__feature-text">كل مخرج وكل معيار تصحيح، متاح للقراءة قبل التسجيل.</span>
+            <span class="mega__feature-go">استعرض المستويات <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
         </div>
       </div>
+
       <div class="nav__item nav__item--has-menu">
         <a href="/ar/admissions/" aria-haspopup="true" aria-expanded="false">القبول</a>
-        <div class="nav__menu">
-          <a href="/ar/admissions/">نظرة عامة على القبول</a>
-          <a href="/ar/admissions/apply/">كيفية التقديم</a>
-          <a href="/ar/admissions/entry-requirements/">شروط الالتحاق</a>
-          <a href="/ar/admissions/tuition/">الرسوم الدراسية</a>
-          <a href="/ar/admissions/payment/">سداد الرسوم</a>
-          <a href="/ar/admissions/scholarships/">المنح والدعم المالي</a>
-          <a href="/ar/admissions/visas/">التأشيرات وتصاريح الدراسة</a>
-          <a href="/ar/admissions/dates/">مواعيد البدء والتقويم</a>
-          <a href="/ar/admissions/questions/">أسئلة القبول</a>
-          <a href="/ar/faq/">الأسئلة الشائعة</a>
+        <div class="nav__menu nav__menu--mega crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">التقديم</p>
+              <a href="/ar/admissions/">نظرة عامة على القبول</a>
+              <a href="/ar/admissions/apply/">كيفية التقديم</a>
+              <a href="/ar/admissions/entry-requirements/">شروط الالتحاق</a>
+              <a href="/ar/admissions/dates/">مواعيد البدء والتقويم</a>
+              <a href="/ar/admissions/questions/">أسئلة القبول</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">الرسوم والدوليون</p>
+              <a href="/ar/admissions/tuition/">الرسوم الدراسية</a>
+              <a href="/ar/admissions/payment/">سداد الرسوم</a>
+              <a href="/ar/admissions/scholarships/">المنح والدعم المالي</a>
+              <a href="/ar/admissions/visas/">التأشيرات وتصاريح الدراسة</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/admissions/apply/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-seal"/></svg>
+            <span class="mega__feature-label">القبول مستمر</span>
+            <span class="mega__feature-text">لا دفعة تنتظرها. تبدأ يوم تسجّل.</span>
+            <span class="mega__feature-go">ابدأ طلبك <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
         </div>
       </div>
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/ar/students/assessment/" aria-haspopup="true" aria-expanded="false">الطلاب</a>
+        <div class="nav__menu nav__menu--mega crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">الدراسة هنا</p>
+              <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
+              <a href="/ar/students/awards/">الشهادات والمراتب</a>
+              <a href="/ar/student-portal/">بوابة الطالب</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">الدعم</p>
+              <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
+              <a href="/ar/faq/">الأسئلة الشائعة</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/student-portal/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-key"/></svg>
+            <span class="mega__feature-label">بوابة الطالب</span>
+            <span class="mega__feature-text">برنامجك وتسجيلاتك وسجلك، في مكان واحد.</span>
+            <span class="mega__feature-go">ادخل البوابة <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+
       <div class="nav__item"><a href="/ar/faculty/">هيئة التدريس</a></div>
-      <div class="nav__item"><a href="/ar/student-portal/">بوابة الطالب</a></div>
       <div class="nav__item"><a href="/ar/contact/">تواصل معنا</a></div>
     </nav>
 
     <div class="header__actions">
-      <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم الآن</a>
-      <button class="nav__toggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="nav-mobile-ar">
+      <a href="/ar/student-portal/" class="btn btn--quiet">
+        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg>
+        البوابة
+      </a>
+      <a href="/ar/admissions/apply/" class="btn btn--gold magnetic">قدّم الآن</a>
+      <button class="nav__toggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="nav-mobile">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
-  <nav class="nav-mobile" id="nav-mobile-ar" aria-label="التنقل للجوال">
+
+  <nav class="nav-mobile" id="nav-mobile" aria-label="قائمة الجوال">
     <a href="/ar/about/">عن الكلية</a>
+    <a href="/ar/about/quality-assurance/">ضمان الجودة</a>
     <a href="/ar/academics/">البرامج الأكاديمية</a>
-    <a href="/ar/academics/iefc/">برنامج IEFC</a>
-    <a href="/ar/study/">الدراسة — المستويات الستة</a>
+    <a href="/ar/academics/iefc/">برنامج <span dir="ltr">IEFC</span></a>
+    <a href="/ar/study/">الدراسة &mdash; المستويات الستة</a>
+    <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
+    <a href="/ar/students/awards/">الشهادات والمراتب</a>
     <a href="/ar/admissions/">القبول</a>
     <a href="/ar/admissions/apply/">كيفية التقديم</a>
     <a href="/ar/admissions/entry-requirements/">شروط الالتحاق</a>
     <a href="/ar/admissions/tuition/">الرسوم الدراسية</a>
     <a href="/ar/admissions/payment/">سداد الرسوم</a>
+    <a href="/ar/admissions/scholarships/">المنح والدعم المالي</a>
     <a href="/ar/admissions/visas/">التأشيرات وتصاريح الدراسة</a>
+    <a href="/ar/admissions/dates/">مواعيد البدء والتقويم</a>
     <a href="/ar/admissions/questions/">أسئلة القبول</a>
     <a href="/ar/faculty/">هيئة التدريس</a>
     <a href="/ar/student-portal/">بوابة الطالب</a>
+    <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
     <a href="/ar/faq/">الأسئلة الشائعة</a>
     <a href="/ar/contact/">تواصل معنا</a>
-    <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
-    <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم الآن</a>
+    <a href="/ar/admissions/apply/" class="btn btn--gold">قدّم الآن</a>
   </nav>
 </header>
 
@@ -480,7 +613,9 @@
 
 
 </main>
-<footer class="site-footer">
+<footer class="site-footer lattice aurora" data-nodes="9">
+  <div class="lattice__bed" aria-hidden="true"></div>
+  <hr class="footer__keyline">
   <div class="site-footer__inner">
     <div class="footer__brand">
       <svg class="brand__crest brand__crest--footer" viewBox="0 0 48 56" aria-hidden="true">
@@ -539,5 +674,6 @@
 
 <script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
+<script src="/js/atelier.js" defer></script>
 </body>
 </html>

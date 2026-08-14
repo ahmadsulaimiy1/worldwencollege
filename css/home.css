@@ -237,6 +237,36 @@
 .section--midnight .feature-list p { color: rgba(247,244,236,.72); }
 
 /* =========================================================
+   LIVING DIAGRAM
+   The house frame for an animated SVG. Capped well below the
+   drawing's native 900px: at full size the spiral dominates
+   the chapter it is meant to introduce, and a diagram that
+   out-shouts its own table has stopped explaining anything.
+   ========================================================= */
+.diagram {
+  margin: 0 auto clamp(44px, 4vw, 68px);
+  max-width: 620px; position: relative;
+}
+.diagram > svg { width: 100%; height: auto; display: block; overflow: visible; }
+.diagram__caption {
+  display: flex; align-items: center; justify-content: center; gap: .7em;
+  margin-top: 6px; text-align: center;
+  color: var(--gold-soft); opacity: .78;
+  font-family: var(--font-body); font-weight: 600;
+  font-size: .72rem; letter-spacing: .1em;
+}
+.section--light .diagram__caption, .section--warm .diagram__caption,
+.section--cream .diagram__caption, .section--pearl .diagram__caption { color: var(--bronze); }
+@media (max-width: 680px) {
+  /* Below this the level labels collide with each other. The
+     drawing keeps its shape and drops its outer ring of text,
+     which the ledger immediately underneath restates in full —
+     so nothing is lost, and the figure stays legible. */
+  .diagram { max-width: 100%; }
+  .diagram > svg text { font-size: 15px; }
+}
+
+/* =========================================================
    THE PROGRAMME LEDGER
    ========================================================= */
 .ledger--flagship { margin-top: 0; }

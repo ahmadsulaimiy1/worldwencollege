@@ -10,7 +10,21 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{{FONTS_URL}}" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css">{{EXTRA_CSS}}
+<link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/atelier.css">{{EXTRA_CSS}}
+<noscript><style>
+/* Several entrance effects are authored hidden and revealed by script:
+   .reveal (js/site.js), .split-word and .rule-draw (js/motion.js),
+   .assemble__d and .gilt (js/atelier.js). With scripting off, nothing
+   ever reveals them — the page renders, passes every check, and shows
+   the reader blank space where the content is. Each is pinned to its
+   finished state here, which is the same contract the
+   prefers-reduced-motion blocks keep. */
+.reveal, .split-word, .assemble__d, .foil, .wax-seal, .constellation { opacity: 1 !important; transform: none !important; }
+.rule-draw { transform: scaleX(1) !important; }
+.gilt { --gilt: 1; }
+.plate--drift img, .plate--drift svg { animation: none !important; }
+</style></noscript>
 <meta property="og:site_name" content="{{OG_SITE_NAME}}">
 <meta property="og:locale" content="{{OG_LOCALE}}">
 <meta property="og:title" content="{{TITLE}}">

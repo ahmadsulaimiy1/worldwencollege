@@ -14,6 +14,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/atelier.css">
+<noscript><style>
+/* Several entrance effects are authored hidden and revealed by script:
+   .reveal (js/site.js), .split-word and .rule-draw (js/motion.js),
+   .assemble__d and .gilt (js/atelier.js). With scripting off, nothing
+   ever reveals them — the page renders, passes every check, and shows
+   the reader blank space where the content is. Each is pinned to its
+   finished state here, which is the same contract the
+   prefers-reduced-motion blocks keep. */
+.reveal, .split-word, .assemble__d, .foil, .wax-seal, .constellation { opacity: 1 !important; transform: none !important; }
+.rule-draw { transform: scaleX(1) !important; }
+.gilt { --gilt: 1; }
+.plate--drift img, .plate--drift svg { animation: none !important; }
+</style></noscript>
 <meta property="og:site_name" content="WorldWide English College">
 <meta property="og:locale" content="en_GB">
 <meta property="og:title" content="Educational Philosophy &mdash; Worldwide English College">
@@ -273,15 +287,62 @@
   </div>
 </div>
 
-<header class="site-header">
+<!--
+  THE HEADER, AS ARCHITECTURE.
+
+  Four layers, not one bar:
+
+    1 · Utilities     partials/topbar.html, above this file
+    2 · Identity      the ceremonial band — crest, name, foundation.
+                      Collapses to nothing on scroll.
+    3 · Navigation    glass mega-panels behind a primary rail
+    4 · Actions       Portal, Apply
+
+  Layer 2 is what makes this a building rather than a website: at rest
+  the institution presents itself in full, and as the reader descends it
+  withdraws, leaving a compact rail. js/motion.js adds .is-condensed
+  past 90px of scroll; css/brand.css does the collapsing.
+
+  The architectural lattice (css/atelier.css) sits several layers behind
+  all of it, with illuminated junctions placed by js/atelier.js.
+-->
+<header class="site-header lattice" data-nodes="7">
+  <div class="lattice__bed" aria-hidden="true"></div>
+
+  <!-- ============ LAYER 2 · IDENTITY ============ -->
+  <div class="header__crown">
+    <div class="header__crown-inner">
+      <span class="crown__flank" aria-hidden="true">
+        <span class="crown__meta">Founded MMXXVI</span>
+        <span class="crown__rule"></span>
+      </span>
+
+      <a href="/" class="crown__brand" aria-label="WorldWide English College — London Campus, home">
+        <svg class="brand__crest brand__crest--crown" viewBox="0 0 48 56" aria-hidden="true">
+          <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
+          <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
+          <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
+          <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
+          <path class="crest__book" d="M24 28.5 V37.4"/>
+          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
+        </svg>
+        <span class="crown__word">
+          <span class="crown__name">WorldWide English College</span>
+          <span class="crown__campus">London Campus</span>
+        </span>
+      </a>
+
+      <span class="crown__flank crown__flank--end" aria-hidden="true">
+        <span class="crown__rule"></span>
+        <span class="crown__meta">Online Worldwide</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- ============ LAYER 3 + 4 · NAVIGATION AND ACTIONS ============ -->
   <div class="site-header__inner">
-    <a href="/" class="brand" aria-label="WorldWide English College — London Campus, home">
+    <a href="/" class="brand brand--compact" aria-label="WorldWide English College, home">
       <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
-        <!-- A crown of three points over the shield, and an open book
-             at the honour point. The full arms are in
-             assets/art/crest-plate.svg; this is the reduction that
-             still reads at 27px in the condensed header, where the
-             laurel and ribbon of the full mark turn to mud. -->
         <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
         <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
         <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
@@ -296,108 +357,206 @@
     </a>
 
     <nav class="nav" aria-label="Primary">
+
       <div class="nav__item nav__item--has-menu">
-        <a href="/about/" aria-haspopup="true" aria-expanded="false">About</a>
-        <div class="nav__menu">
-          <a href="/about/">About the College</a>
-          <a href="/about/vision/">Vision</a>
-          <a href="/about/mission/">Mission</a>
-          <a href="/about/philosophy/">Educational Philosophy</a>
-          <a href="/about/governance/">Governance</a>
-          <a href="/about/academic-senate/">The Academic Senate</a>
-          <a href="/about/basce/">BASCE</a>
-          <a href="/about/quality-assurance/">Quality Assurance</a>
-          <a href="/standards/">Academic Standards</a>
-          <a href="/standards/evidence/">The Evidence Record</a>
-          <a href="/standards/decisions/">The Decisions Register</a>
-          <a href="/standards/verification/">Verification</a>
-          <a href="/standards/research/">Research</a>
-          <a href="/about/structure/">Organisational Structure</a>
-          <a href="/about/careers/">Careers</a>
+        <a href="/about/" aria-haspopup="true" aria-expanded="false">The College</a>
+        <div class="nav__menu nav__menu--mega crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">The Institution</p>
+              <a href="/about/">About the College</a>
+              <a href="/about/vision/">Vision</a>
+              <a href="/about/mission/">Mission</a>
+              <a href="/about/philosophy/">Educational Philosophy</a>
+              <a href="/about/structure/">Organisational Structure</a>
+              <a href="/about/careers/">Careers</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">Governance</p>
+              <a href="/about/governance/">Governance</a>
+              <a href="/about/academic-senate/">The Academic Senate</a>
+              <a href="/about/basce/">BASCE</a>
+              <a href="/about/quality-assurance/">Quality Assurance</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">Academic Standards</p>
+              <a href="/standards/">How the Standard Is Held</a>
+              <a href="/standards/evidence/">The Evidence Record</a>
+              <a href="/standards/decisions/">The Decisions Register</a>
+              <a href="/standards/verification/">Verification</a>
+              <a href="/standards/research/">Research</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/standards/evidence/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-shield-check"/></svg>
+            <span class="mega__feature-label">Evidence, not assertion</span>
+            <span class="mega__feature-text">Every institutional claim, published beside the record behind it.</span>
+            <span class="mega__feature-go">The evidence record <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
         </div>
       </div>
+
       <div class="nav__item nav__item--has-menu">
         <a href="/academics/" aria-haspopup="true" aria-expanded="false">Academics</a>
-        <div class="nav__menu">
-          <a href="/academics/">Programme Overview</a>
-          <a href="/academics/iefc/">The IEFC Programme</a>
-          <a href="/study/">Study &mdash; All Six Levels</a>
-          <a href="/study/level-1/">Level I &mdash; Foundation (A1)</a>
-          <a href="/study/level-2/">Level II &mdash; Elementary (A2)</a>
-          <a href="/study/level-3/">Level III &mdash; Intermediate (B1)</a>
-          <a href="/study/level-4/">Level IV &mdash; Upper Intermediate (B2)</a>
-          <a href="/study/level-5/">Level V &mdash; Advanced (C1)</a>
-          <a href="/study/level-6/">Level VI &mdash; Mastery (C2)</a>
-          <a href="/learning/">How Learning Works</a>
-          <a href="/learning/platform/">The Platform</a>
+        <div class="nav__menu nav__menu--mega crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">The Programme</p>
+              <a href="/academics/">Programme Overview</a>
+              <a href="/academics/iefc/">The IEFC Programme</a>
+              <a href="/study/">Study &mdash; All Six Levels</a>
+              <a href="/learning/">How Learning Works</a>
+              <a href="/learning/platform/">The Platform</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">The Six Levels</p>
+              <a href="/study/level-1/"><span class="mega__roman">I</span> Foundation &middot; A1</a>
+              <a href="/study/level-2/"><span class="mega__roman">II</span> Elementary &middot; A2</a>
+              <a href="/study/level-3/"><span class="mega__roman">III</span> Intermediate &middot; B1</a>
+              <a href="/study/level-4/"><span class="mega__roman">IV</span> Upper Intermediate &middot; B2</a>
+              <a href="/study/level-5/"><span class="mega__roman">V</span> Advanced &middot; C1</a>
+              <a href="/study/level-6/"><span class="mega__roman">VI</span> Mastery &middot; C2</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/study/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-progress"/></svg>
+            <span class="mega__feature-label">Sixty modules, written</span>
+            <span class="mega__feature-text">Every outcome and every mark scheme, readable before you enrol.</span>
+            <span class="mega__feature-go">Explore the levels <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
         </div>
       </div>
+
       <div class="nav__item nav__item--has-menu">
         <a href="/admissions/" aria-haspopup="true" aria-expanded="false">Admissions</a>
-        <div class="nav__menu">
-          <a href="/admissions/">Admissions Overview</a>
-          <a href="/admissions/apply/">How to Apply</a>
-          <a href="/admissions/entry-requirements/">Entry Requirements</a>
-          <a href="/admissions/tuition/">Tuition &amp; Fees</a>
-          <a href="/admissions/payment/">Paying for the Programme</a>
-          <a href="/admissions/scholarships/">Scholarships</a>
-          <a href="/admissions/international/">International Applicants</a>
-          <a href="/admissions/visas/">Visas &amp; Study Permits</a>
-          <a href="/admissions/dates/">Dates &amp; Calendar</a>
-          <a href="/admissions/policy/">Admissions Policy</a>
-          <a href="/admissions/questions/">Admissions Questions</a>
+        <div class="nav__menu nav__menu--mega crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">Applying</p>
+              <a href="/admissions/">Admissions Overview</a>
+              <a href="/admissions/apply/">How to Apply</a>
+              <a href="/admissions/entry-requirements/">Entry Requirements</a>
+              <a href="/admissions/dates/">Dates &amp; Calendar</a>
+              <a href="/admissions/policy/">Admissions Policy</a>
+              <a href="/admissions/questions/">Admissions Questions</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">Fees &amp; International</p>
+              <a href="/admissions/tuition/">Tuition &amp; Fees</a>
+              <a href="/admissions/payment/">Paying for the Programme</a>
+              <a href="/admissions/scholarships/">Scholarships</a>
+              <a href="/admissions/international/">International Applicants</a>
+              <a href="/admissions/visas/">Visas &amp; Study Permits</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/admissions/apply/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-seal"/></svg>
+            <span class="mega__feature-label">Admission is continuous</span>
+            <span class="mega__feature-text">No intake to wait for. You begin the day you enrol.</span>
+            <span class="mega__feature-go">Begin your application <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
         </div>
       </div>
+
       <div class="nav__item nav__item--has-menu">
         <a href="/students/" aria-haspopup="true" aria-expanded="false">Students</a>
-        <div class="nav__menu">
-          <a href="/students/">For Students</a>
-          <a href="/students/assessment/">How You Are Assessed</a>
-          <a href="/students/academic-record/">Your Academic Record</a>
-          <a href="/students/listening-lab/">The Listening Lab</a>
-          <a href="/students/awards/">Awards &amp; Honours</a>
-          <a href="/students/integrity/">Academic Integrity</a>
-          <a href="/students/regulations/">Academic Regulations</a>
-          <a href="/students/support/">Support</a>
-          <a href="/support/technical/">Technical Requirements</a>
-          <a href="/support/accessibility/">Accessibility</a>
-          <a href="/support/privacy/">Privacy &amp; Your Data</a>
-          <a href="/student-portal/">Student Portal</a>
+        <div class="nav__menu nav__menu--mega crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">Studying Here</p>
+              <a href="/students/">For Students</a>
+              <a href="/students/assessment/">How You Are Assessed</a>
+              <a href="/students/academic-record/">Your Academic Record</a>
+              <a href="/students/listening-lab/">The Listening Lab</a>
+              <a href="/students/awards/">Awards &amp; Honours</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">Regulations &amp; Support</p>
+              <a href="/students/integrity/">Academic Integrity</a>
+              <a href="/students/regulations/">Academic Regulations</a>
+              <a href="/students/support/">Support</a>
+              <a href="/support/technical/">Technical Requirements</a>
+              <a href="/support/accessibility/">Accessibility</a>
+              <a href="/support/privacy/">Privacy &amp; Your Data</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/student-portal/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-key"/></svg>
+            <span class="mega__feature-label">The Student Portal</span>
+            <span class="mega__feature-text">Your programme, your recordings and your record, in one place.</span>
+            <span class="mega__feature-go">Enter the portal <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
         </div>
       </div>
+
       <div class="nav__item nav__item--has-menu">
         <a href="/faculty/" aria-haspopup="true" aria-expanded="false">Faculty</a>
-        <div class="nav__menu">
-          <a href="/faculty/">The Faculty</a>
-          <a href="/teaching/">Teaching at WEC-LC</a>
-          <a href="/teaching/lesson-design/">How a Lesson Is Designed</a>
-          <a href="/teaching/support/">The Teaching Support Record</a>
-          <a href="/teaching/companion/">The Teacher&rsquo;s Companion</a>
-          <a href="/teaching/development/">Development &amp; Observation</a>
-          <a href="/about/careers/">Careers</a>
+        <div class="nav__menu nav__menu--mega crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">The Faculty</p>
+              <a href="/faculty/">The Faculty</a>
+              <a href="/teaching/">Teaching at WEC-LC</a>
+              <a href="/about/careers/">Careers</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">Practice</p>
+              <a href="/teaching/lesson-design/">How a Lesson Is Designed</a>
+              <a href="/teaching/support/">The Teaching Support Record</a>
+              <a href="/teaching/companion/">The Teacher&rsquo;s Companion</a>
+              <a href="/teaching/development/">Development &amp; Observation</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/teaching/lesson-design/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-quill"/></svg>
+            <span class="mega__feature-label">How a lesson is designed</span>
+            <span class="mega__feature-text">The method written down, not left to the room it happens in.</span>
+            <span class="mega__feature-go">Read the method <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
         </div>
       </div>
+
       <div class="nav__item nav__item--has-menu">
         <a href="/press/" aria-haspopup="true" aria-expanded="false">Press &amp; Library</a>
-        <div class="nav__menu">
-          <a href="/press/">WEC Press</a>
-          <a href="/press/catalogue/">The Catalogue</a>
-          <a href="/press/standards/">House Standards</a>
-          <a href="/press/review/">On Review</a>
-          <a href="/press/programme/">The Publishing Programme</a>
-          <a href="/library/">The Library</a>
+        <div class="nav__menu nav__menu--mega crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">WEC Press</p>
+              <a href="/press/">WEC Press</a>
+              <a href="/press/catalogue/">The Catalogue</a>
+              <a href="/press/standards/">House Standards</a>
+              <a href="/press/review/">On Review</a>
+              <a href="/press/programme/">The Publishing Programme</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">The Library</p>
+              <a href="/library/">The Library</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/press/catalogue/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-book"/></svg>
+            <span class="mega__feature-label">The Catalogue</span>
+            <span class="mega__feature-text">Everything the College has published, and everything it is writing.</span>
+            <span class="mega__feature-go">Browse the catalogue <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
         </div>
       </div>
+
       <div class="nav__item"><a href="/contact/">Contact</a></div>
     </nav>
 
     <div class="header__actions">
-      <a href="/admissions/#apply" class="btn btn--gold">Apply Now</a>
+      <a href="/student-portal/" class="btn btn--quiet">
+        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg>
+        Portal
+      </a>
+      <a href="/admissions/apply/" class="btn btn--gold magnetic">Apply Now</a>
       <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
+
   <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile">
     <a href="/about/">About</a>
     <a href="/about/governance/">Governance</a>
@@ -429,7 +588,7 @@
     <a href="/support/privacy/">Privacy &amp; Your Data</a>
     <a href="/faq/">FAQ</a>
     <a href="/contact/">Contact</a>
-    <a href="/admissions/#apply" class="btn btn--gold">Apply Now</a>
+    <a href="/admissions/apply/" class="btn btn--gold">Apply Now</a>
   </nav>
 </header>
 
@@ -548,7 +707,9 @@
 
 
 </main>
-<footer class="site-footer">
+<footer class="site-footer lattice aurora" data-nodes="9">
+  <div class="lattice__bed" aria-hidden="true"></div>
+  <hr class="footer__keyline">
   <div class="site-footer__inner">
     <div class="footer__brand">
       <svg class="brand__crest brand__crest--footer" viewBox="0 0 48 56" aria-hidden="true">
@@ -617,5 +778,6 @@
 
 <script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
+<script src="/js/atelier.js" defer></script>
 </body>
 </html>

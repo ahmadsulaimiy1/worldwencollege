@@ -21,6 +21,37 @@ function fill(template, tokens) {
   );
 }
 
+// ---------------------------------------------------------------------
+// INLINE SVG INCLUDES  —  {{SVG:assets/art/whatever.svg}}
+//
+// The living diagrams (docs/digital-institution-masterplan.md, Layer 3)
+// have to be inline SVG, not <img>: js/atelier.js animates their
+// internals, and nothing can reach inside an <img>. But pasting a
+// generated 18 KB drawing into a page file makes the page the source of
+// truth for something a script generates, and the two drift the moment
+// anyone regenerates.
+//
+// So the page references the file and the build inlines it. Regenerate
+// the art, rebuild, and every page carrying it is current.
+//
+// Paths are resolved from the repository root and confined to it: a
+// content file cannot reach outside the project with `../`.
+// ---------------------------------------------------------------------
+function inlineSvgIncludes(html, contentFile) {
+  return html.replace(/\{\{SVG:([^}]+)\}\}/g, (_, rel) => {
+    const target = path.resolve(ROOT, rel.trim());
+    if (!target.startsWith(ROOT + path.sep)) {
+      throw new Error(`${contentFile}: SVG include escapes the repository — ${rel}`);
+    }
+    if (!fs.existsSync(target)) {
+      throw new Error(`${contentFile}: SVG include not found — ${rel}`);
+    }
+    // Strip the XML prolog: it is only legal at the very start of a
+    // document, and this is being spliced into the middle of one.
+    return read(target).replace(/^<\?xml[^?]*\?>\s*/, '').trimEnd();
+  });
+}
+
 function partialFor(name, lang) {
   const arPath = path.join(PARTIALS, `${name}.ar.html`);
   if (lang === 'ar' && fs.existsSync(arPath)) return read(arPath);
@@ -101,7 +132,10 @@ function build() {
     });
     const header = partialFor('header', lang);
     const footer = partialFor('footer', lang);
-    const content = read(path.join(PAGES, entry.contentFile));
+    const content = inlineSvgIncludes(
+      read(path.join(PAGES, entry.contentFile)),
+      entry.contentFile
+    );
     const skipLabel = lang === 'ar' ? 'تخطَّ إلى المحتوى الرئيسي' : 'Skip to main content';
     // Per-page scripts, declared in the manifest. Opt-in rather than
     // loaded everywhere: js/portal-entry.js reaches for the auth
@@ -128,7 +162,8 @@ ${content}
 </main>
 ${footer}
 <script src="/js/site.js"></script>
-<script src="/js/motion.js"></script>${extraScripts}
+<script src="/js/motion.js"></script>
+<script src="/js/atelier.js" defer></script>${extraScripts}
 </body>
 </html>
 `;
