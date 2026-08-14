@@ -745,6 +745,18 @@ ${card('إنتاجية', 'الكتابة', 'الكتابة لغرض ولقارئ
       <h2>القواعد التي تُنتج الدرجة.</h2>
       <p class="lede">ثلاث قواعد تبدو كلها «درجة النجاح» وتحكم أشياء مختلفة: إتمام الوحدة، واجتياز امتحان المستوى، ونيل مرتبة. الثلاث نافذة، والجدول يبيّن أيها يحكم ماذا.</p>
     </div>
+
+    <!-- سلّم المراتب مرسومًا. الجدول أدناه يذكر العتبات؛ والرسم يُظهر ما
+         لا يستطيع الجدول إظهاره: أن المسافة بين الحدّ الأدنى والدرجة
+         الإجمالية تضيق كلما ارتفعت المرتبة. -->
+    <figure class="diagram diagram--wide">
+      {{SVG:assets/art/award-standard.ar.svg}}
+      <figcaption class="diagram__caption">
+        <svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg>
+        الشريط هو حدّ التعويض المسموح &mdash; وهو يضيق كلما ارتفعت المرتبة
+      </figcaption>
+    </figure>
+
     <div class="table-scroll">
       <table class="ledger">
         <thead><tr><th>القاعدة</th><th>الحالة</th><th>ما تحكمه</th></tr></thead>

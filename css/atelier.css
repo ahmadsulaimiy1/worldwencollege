@@ -455,6 +455,113 @@
 }
 
 /* =========================================================
+   10c · LIVING DIAGRAM
+   The house frame for an animated SVG. Capped well below the
+   drawing's native 900px: at full size the spiral dominates
+   the chapter it is meant to introduce, and a diagram that
+   out-shouts its own table has stopped explaining anything.
+   ========================================================= */
+.diagram {
+  margin: 0 auto clamp(44px, 4vw, 68px);
+  max-width: 620px; position: relative;
+}
+.diagram > svg { width: 100%; height: auto; display: block; overflow: visible; }
+.diagram__caption {
+  display: flex; align-items: center; justify-content: center; gap: .7em;
+  margin-top: 6px; text-align: center;
+  color: var(--gold-soft); opacity: .78;
+  font-family: var(--font-body); font-weight: 600;
+  font-size: .72rem; letter-spacing: .1em;
+}
+.section--light .diagram__caption, .section--warm .diagram__caption,
+.section--cream .diagram__caption, .section--pearl .diagram__caption { color: var(--bronze); }
+/* SMALL SCREENS.
+
+   A 900-unit drawing scaled into a 340px column renders its 10.5px
+   labels at about four pixels. The figure was still "responsive" — it
+   fitted, it did not overflow the page, the audit passed — and it could
+   not be read by anybody.
+
+   So below this width a diagram scrolls inside its own frame rather
+   than shrinking past legibility. That is the same answer .table-scroll
+   already gives the ledgers, which is the point: the site should have
+   one way of handling content that is wider than a phone.
+
+   The container scrolls, never the page — the horizontal-overflow check
+   in tests/browser/route-audit.mjs stays green because an internal
+   scroll container is not page overflow. */
+@media (max-width: 760px) {
+  .diagram {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .diagram > svg { min-width: 560px; }
+  .diagram--wide > svg { min-width: 700px; }
+  /* The caption must not scroll away from the figure it captions. */
+  .diagram__caption { position: sticky; left: 0; }
+}
+
+/* Landscape diagrams need the full measure; the spiral is square and
+   would swamp its chapter at this width. */
+.diagram--wide { max-width: 880px; }
+
+/* THE MOUNT.
+
+   Every diagram is drawn in gold and champagne on the assumption of a
+   dark ground, because that is the house drawing style. Dropped onto a
+   light section — and /students/assessment/ puts the award ladder on
+   cream — the gold computes to about 2.3:1 and the drawing all but
+   disappears. It rendered, it passed every test, and it could not be
+   read.
+
+   So on a light ground a diagram is mounted: inset into its own deep
+   panel with a gold hairline and drawn corners, exactly as .plate__frame
+   handles a photograph for the same reason. A dark plate tipped into a
+   cream page is the printed convention this whole system is borrowing
+   from anyway.
+
+   Keyed off the section rather than a modifier class, so it cannot be
+   forgotten on the next diagram someone places. */
+.section--light .diagram, .section--paper .diagram, .section--warm .diagram,
+.section--cream .diagram, .section--pearl .diagram {
+  position: relative;
+  padding: clamp(18px, 2.6vw, 38px) clamp(14px, 2.2vw, 32px) clamp(14px, 1.8vw, 24px);
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 30%, rgba(31, 61, 122, .42), transparent 68%),
+    linear-gradient(162deg, var(--midnight), var(--oxford));
+  border: 1px solid rgba(199, 162, 74, .42);
+  border-radius: 4px;
+  box-shadow: inset 0 0 70px -24px rgba(0, 0, 0, .75), var(--shadow-md);
+}
+.section--light .diagram::before, .section--paper .diagram::before,
+.section--warm .diagram::before, .section--cream .diagram::before,
+.section--pearl .diagram::before,
+.section--light .diagram::after, .section--paper .diagram::after,
+.section--warm .diagram::after, .section--cream .diagram::after,
+.section--pearl .diagram::after {
+  content: ''; position: absolute; width: 20px; height: 20px; pointer-events: none;
+  border: 1px solid var(--gold-royal); opacity: .65;
+}
+.section--light .diagram::before, .section--paper .diagram::before,
+.section--warm .diagram::before, .section--cream .diagram::before,
+.section--pearl .diagram::before {
+  top: 9px; left: 9px; border-right: 0; border-bottom: 0;
+}
+.section--light .diagram::after, .section--paper .diagram::after,
+.section--warm .diagram::after, .section--cream .diagram::after,
+.section--pearl .diagram::after {
+  bottom: 9px; right: 9px; border-left: 0; border-top: 0;
+}
+/* The caption is inside the mount now, so it is on a dark ground and
+   must go back to gold — the bronze substitution exists for captions
+   sitting directly on paper. */
+.section--light .diagram .diagram__caption, .section--paper .diagram .diagram__caption,
+.section--warm .diagram .diagram__caption, .section--cream .diagram .diagram__caption,
+.section--pearl .diagram .diagram__caption { color: var(--gold-soft); }
+
+/* =========================================================
    11 · THE CROWN BAND  (header layer 2)
    The ceremonial identity band. Present at rest, withdrawn
    on scroll — so the institution introduces itself once and

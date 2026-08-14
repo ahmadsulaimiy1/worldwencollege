@@ -89,14 +89,45 @@ footer that reads as the illuminated base of the building.
 This is deliberately the second thing built: it is the highest-leverage
 surface on the site, and it proves the Atelier on every page at once.
 
-### Layer 3 — Living diagrams
-The house diagram language: animated SVG that draws itself, with nodes
-that arrive and connections that grow. First instance ships this phase
-(the Curriculum Spiral). The rest follow the page they belong to.
+### Layer 3 — Living diagrams *(four shipped)*
+Animated SVG that draws itself: paths trace, nodes arrive, labels rise.
+All generated, never hand-drawn, from `scripts/art/` on the shared
+apparatus in `scripts/art/lib/plate.mjs` — palette, scale, text, the
+`data-draw` / `data-pop` contract `js/atelier.js` animates, and the
+`role="img"` + title + description wrapper.
 
-Planned: Curriculum Spiral · Competency Wheel · Learning Journey ·
-Assessment Architecture · Publication Pipeline · Governance Structure ·
-Quality Cycle · Global Reach.
+| Diagram | Page | What it argues |
+|---|---|---|
+| **Curriculum Spiral** | Home ch. II | Six levels are one continuous path, not six boxes |
+| **Award Standard** | `/students/assessment/` | Compensation between skills is capped, and the cap tightens as bands rise |
+| **Authority Chain** | `/about/governance/` | The governance structure is complete in design and broken at exactly one link |
+| **Publication Funnel** | `/press/` | A short catalogue is a decision, and the review gate is still shut |
+
+**The rule these established.** A diagram on this site is not
+decoration and not a restatement — it earns its place only by showing
+something the prose beside it *cannot*. The award ladder exists because
+a table cannot show a gap narrowing. The authority chain exists because
+a paragraph cannot show a break. If a proposed diagram would only repeat
+the text in shapes, it does not get drawn.
+
+**Two rules learned building them, now binding:**
+
+1. **Numbers in a drawing need a test.** A picture is the one artefact
+   nobody proof-reads. `tests/award-diagram.test.mjs` reads the
+   thresholds back out of the shipped SVG and holds them against the
+   published table, in both languages. Every future diagram carrying
+   figures gets the same treatment.
+2. **A diagram must be legible where it lands.** These are drawn for a
+   dark ground; on a light section they are mounted in their own deep
+   panel (`.diagram` in `css/atelier.css`), keyed off the section so it
+   cannot be forgotten. And below 760px they scroll inside that frame
+   rather than shrinking to four-pixel type — the same answer
+   `.table-scroll` already gives the ledgers.
+
+Still to draw: Competency Wheel · Learning Journey · Quality Cycle ·
+Global Reach · Assessment Instruments. Arabic editions exist for the
+Spiral, the Award Standard and the Funnel; the Authority Chain waits on
+`/ar/about/governance/` being written at all.
 
 ### Layer 4 — Page heroes
 Every major page gets its own hero — never a reused banner. Each opens

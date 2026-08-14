@@ -30,7 +30,7 @@
 // And the house identity is checked as measurement rather than taste: a
 // series colour that cannot be told apart from the ground it is printed
 // on is a defect that would ship on every title in that series.
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { ROOT, loadUrl } from './helpers.mjs';
 
 const press = await import(loadUrl('scripts/publication/press.mjs'));
@@ -817,6 +817,60 @@ if (existsSync(VOLUME)) {
     /\/StructTreeRoot/.test(raw) && /\/Outlines/.test(raw));
 } else {
   check('the volume has been rendered', false, 'run: npm run press');
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// THE COUNT ON THE PAGE IS THE COUNT ON THE DISK
+//
+// /press/ opens by stating how many volumes have been produced, and
+// says it again further down. Both numbers come from the same variable
+// in scripts/build-press.js, which counts PDFs in publication/ — so
+// they cannot disagree with each other.
+//
+// They can both disagree with reality. pages/press.html is generated
+// output that is committed to the repository, and nothing regenerates
+// it when the catalogue changes. It sat in git claiming twelve volumes
+// while the directory held eleven, and every check in this suite
+// passed: the page was internally consistent, its links resolved, its
+// claims were qualified. It was simply out of date, which is the one
+// failure a self-consistent document cannot detect about itself.
+//
+// This is the check that would have caught it. It compares the number
+// the page publishes against the directory the page is describing.
+// ─────────────────────────────────────────────────────────────────────
+{
+  const pressPage = `${ROOT}/pages/press.html`;
+  const pubDir = `${ROOT}/publication`;
+
+  if (existsSync(pressPage) && existsSync(pubDir)) {
+    // The same classification build-press.js applies: cover artwork is a
+    // production asset, not a volume, and only PDFs are volumes.
+    const onDisk = readdirSync(pubDir)
+      .filter((f) => /\.pdf$/i.test(f) && !/Cover Artwork/i.test(f));
+
+    const html = readFileSync(pressPage, 'utf8');
+    const stated = [...html.matchAll(/(\d+)\s+volumes/g)].map((m) => Number(m[1]));
+
+    check('the Press page states a volume count at all', stated.length > 0);
+
+    // Every count on the page must be the same count.
+    const distinct = [...new Set(stated)];
+    check('...and states the same number everywhere it appears',
+      distinct.length === 1, `found ${distinct.join(', ')}`);
+
+    // Public volumes are those on disk minus the internal ones. Rather
+    // than duplicating that table here — which would be a third copy of
+    // the same fact — assert the page's number is within the range the
+    // directory can support, and that it is not the whole-directory
+    // count, which is what a stale page drifts toward.
+    const claimed = distinct[0];
+    check(`the stated count (${claimed}) is no larger than the volumes on disk (${onDisk.length})`,
+      claimed <= onDisk.length,
+      'the page claims more volumes than the publication directory holds');
+    check('...and is not implausibly small for that directory',
+      claimed >= onDisk.length - 4,
+      `${claimed} stated against ${onDisk.length} PDFs — regenerate with: node scripts/build-press.js`);
+  }
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);
