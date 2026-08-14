@@ -100,15 +100,18 @@ apparatus in `scripts/art/lib/plate.mjs` — palette, scale, text, the
 |---|---|---|
 | **Curriculum Spiral** | Home ch. II | Six levels are one continuous path, not six boxes |
 | **Award Standard** | `/students/assessment/` | Compensation between skills is capped, and the cap tightens as bands rise |
-| **Authority Chain** | `/about/governance/` | The governance structure is complete in design and broken at exactly one link |
+| **Authority Chain** | `/about/governance/` | Two academic bodies stop short of approval for two different reasons — one empty, one idle |
 | **Publication Funnel** | `/press/` | A short catalogue is a decision, and the review gate is still shut |
 
 **The rule these established.** A diagram on this site is not
 decoration and not a restatement — it earns its place only by showing
 something the prose beside it *cannot*. The award ladder exists because
 a table cannot show a gap narrowing. The authority chain exists because
-a paragraph cannot show a break. If a proposed diagram would only repeat
-the text in shapes, it does not get drawn.
+a paragraph cannot show a break — and it earned its place a second time
+when the Senate was constituted, because in prose "BASCE has nobody on
+it" and "the Senate has not met" read as the same sentence twice, and in
+the drawing they are a severed link beside a shut gate. If a proposed
+diagram would only repeat the text in shapes, it does not get drawn.
 
 **Four rules learned building them, now binding:**
 
@@ -243,6 +246,48 @@ A page is not done when it works. It is done when every answer is yes:
 
 ---
 
+## Named people, and the registers that hold them
+
+Two registers now carry real individuals: `docs/faculty-register.md`
+(twenty teaching and academic staff, attested 12 August 2026) and
+`docs/governance-register.md` (six governors, three senators, six
+executive officers, attested 14 August 2026). Both are the **single
+source of truth** for their bodies, both are rendered rather than
+hand-written, and both are enforced in two directions by a test.
+
+The rules that govern them, learned the expensive way and now binding:
+
+1. **A register, or the name does not ship.** No person-shaped string
+   may reach a page unless a register carries it. Enforced by
+   `tests/faculty-roster.test.mjs` and
+   `tests/governance-register.test.mjs`, each with a sabotage self-test
+   proving the scan reaches.
+2. **Attestation and verification are different words.** The pages say
+   these are the College's appointed people, which is what the College
+   attests. They do not say this repository verified anybody's degree,
+   because it has not. Each register carries a provenance table making
+   that distinction explicit — the form that protects the College if a
+   credential is ever queried.
+3. **A credential the College did not supply renders as nothing.** Five
+   of the six executive officers were attested without qualifications.
+   A blank is honest; a plausible degree is not, and a template that
+   wants a line there is not a reason to invent one.
+4. **Constituted is not convened.** Appointing a body makes approval
+   possible; only a meeting makes it happen. `academic_body_events`
+   (migration 016) records the two separately, `scripts/build-about.js`
+   throws if a `convened` row appears while pages still say otherwise,
+   and the authority chain draws a severed link for the empty body and a
+   shut gate for the idle one.
+5. **Filling internal posts moves nothing external.** Fifteen
+   appointments closed exactly one item on the missing list. No award
+   can be conferred until an External Examiner exists, and no internal
+   appointment substitutes for a post whose whole function is to sit
+   outside the College.
+6. **Collisions are reported, not resolved.** Where two registers give
+   one post two holders, the test prints it every run and the register
+   records it. Only the College can settle a question about who holds a
+   job; a build script guessing is how a wrong answer becomes permanent.
+
 ## Standing rules for this build
 
 1. **Improve the system, never the instance.** If a page needs a better
@@ -269,6 +314,13 @@ npm test                              # content rules, claims, structure, plates
 node tests/browser/route-audit.mjs    # all routes in Chromium
 node tests/browser/diagram-fit.mjs    # every diagram measured where it ships
 ```
+
+Regenerating: the cluster generators (`build-about`, `build-arabic`,
+`build-standards`, `build-levels`, …) write into `pages/`, and
+`scripts/build.js` assembles `pages/` into the served directories. The
+publication volumes are separate — `npm run curriculum` re-renders the
+editorial bible, and a governance fact changed in a generator will not
+reach a shipped PDF until it does.
 
 If a cluster generator owns the page — `scripts/build-arabic.js`,
 `build-students.js`, `build-press.js` and the rest — edit the generator,

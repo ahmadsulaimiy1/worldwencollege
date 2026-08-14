@@ -475,9 +475,10 @@ export const TITLES = [
     n: 19, family: 'WEC Governance Series', wave: 4,
     name: 'The Staff Induction Manual',
     audience: 'Newly appointed teaching and academic staff',
-    governance: 'The College has no appointed teaching staff and no appointed members of '
-      + 'either academic body. An induction manual describes an institution to the people '
-      + 'joining it; there is nobody to describe it to, and no office to describe.',
+    governance: 'There is an institution to describe now — twenty teaching and academic staff, '
+      + 'a Board, a Senate and an Executive — so the objection that stopped this volume has '
+      + 'lapsed. What has not happened is a taught cohort, and an induction manual written '
+      + 'before anybody has taught here would describe a working week nobody has worked.',
     source: 'The academic regulations, the calendar and the rubric policy would supply most '
       + 'of the content once there is somebody to induct.',
   }),

@@ -14,9 +14,12 @@
  *
  * So the governance facts are READ, not written. The two academic
  * bodies, their remits, their establishment dates and — critically —
- * their `members_appointed` counts come from the database. Both
- * currently read zero, and the pages say so in the first paragraph
- * rather than in a footnote.
+ * their `members_appointed` counts come from the database. BASCE reads
+ * zero; the Senate reads three and has not yet convened. Those are two
+ * different positions producing the same outcome today, and the pages
+ * distinguish them in the first paragraph rather than in a footnote,
+ * because collapsing them is how "constituted" quietly becomes
+ * "approved".
  *
  * ────────────────────────────────────────────────────────────────────
  * WHAT IS AUTHORED AND WHAT IS QUOTED
@@ -32,17 +35,26 @@
  * one: it states what the College believes about language teaching and
  * why, and it is arguable.
  *
- * There is no Leadership page in this cluster and that is deliberate.
- * No principal officer is appointed. A Leadership page with no leaders
- * is either empty or invented, and docs/org-chart-placeholders.md
- * exists precisely because inventing one was considered and refused.
- * Organisational Structure describes the posts and states which are
- * vacant, which is the honest version of the same page.
+ * There was no Leadership page in this cluster for as long as there
+ * were no leaders — a Leadership page with nobody on it is either empty
+ * or invented, and docs/org-chart-placeholders.md exists precisely
+ * because inventing one was considered and refused.
+ *
+ * That changed on 14 August 2026, when the College attested a Board of
+ * Governors, an Academic Senate and an Executive. The leadership now
+ * appears on /about/governance/, rendered from
+ * docs/governance-register.md by scripts/lib/governance-register.js and
+ * held to that register by tests/governance-register.test.mjs. The
+ * discipline is unchanged and is now enforced rather than merely
+ * observed: no name reaches a page unless the register carries it, and
+ * a credential the College did not supply renders as nothing at all
+ * rather than as a plausible guess.
  */
 
 const fs = require('fs');
 const path = require('path');
 const { DatabaseSync } = require('node:sqlite');
+const GOV = require('./lib/governance-register');
 
 const ROOT = path.resolve(__dirname, '..');
 const esc = (s) => String(s ?? '')
@@ -55,6 +67,9 @@ function read() {
   const all = (s) => db.prepare(s).all();
   const out = {
     bodies: all('SELECT * FROM academic_bodies ORDER BY code'),
+    // Constituted and convened are different events (migration 016). The
+    // pages need to be able to say which have happened.
+    bodyEvents: all('SELECT * FROM academic_body_events ORDER BY body_code, occurred_on'),
     competencies: all('SELECT * FROM competencies ORDER BY sequence'),
     programme: all('SELECT * FROM programme_definition')[0] || null,
     levels: all('SELECT * FROM programme_levels ORDER BY id'),
@@ -87,10 +102,10 @@ const hero = (eyebrow, h1, lede, buttons = '') => `<section class="section--dark
 
 const statusCallout = `<div class="callout">
       <span class="callout__label">Institutional Status</span>
-      <p>WEC-LC holds no accreditation, has appointed no External Examiner, and its two academic
-        bodies have no appointed members. The College states this wherever it is relevant rather
-        than once in a footnote &mdash; see <a href="/about/#status">About &middot; Institutional
-        Status</a>.</p>
+      <p>WEC-LC holds no accreditation and has appointed no External Examiner. Its Academic
+        Senate is constituted and has not yet convened; BASCE has no appointed members. The
+        College states this wherever it is relevant rather than once in a footnote &mdash; see
+        <a href="/about/#status">About &middot; Institutional Status</a>.</p>
     </div>`;
 
 const cta = (h2, primary, primaryHref, secondary, secondaryHref) =>
@@ -288,16 +303,26 @@ ${cta('See the philosophy in a real level.', 'Level I &mdash; Foundation', '/stu
 };
 
 // 4 · GOVERNANCE ──────────────────────────────────────────────────────
+// The membership figures are read, never written. BASCE's count comes
+// from the database and is expected to stay at nought until somebody is
+// actually appointed to it; the Senate's comes from the register via
+// scripts/lib/governance-register.js, which the migration mirrors into
+// the same database. Two sources for one number is how the two come to
+// disagree, so the page reads the body it is talking about.
+const basceCount = D.bodies.find((b) => b.code === 'BASCE').members_appointed;
 PAGES.governance = {
   slug: 'about-governance', output: 'about/governance/index.html', file: 'about-governance.html',
   title: 'Governance &mdash; Worldwide English College',
   description: 'How academic decisions are made at Worldwide English College, which bodies hold '
     + 'which authority, and which posts are currently vacant.',
   body: `${hero('About', 'Who decides what, and on what authority.',
-    'Two academic bodies are constituted in the College&rsquo;s records. Neither has appointed '
-    + 'members. This page describes the structure that exists and states plainly where it is '
-    + 'not yet populated, because a governance page that reads as though the boards sit would '
-    + 'be the most consequential untruth on this website.')}
+    'The College separates academic judgement from institutional governance, from quality '
+    + 'assurance, from finance, and from day-to-day administration. This page names who holds '
+    + 'each of those and states plainly which posts are still unfilled &mdash; because a '
+    + 'governance page that reads as though every board sits would be the most consequential '
+    + 'untruth on this website.')}
+
+${GOV.leadershipEN()}
 
 <section class="section--light section-pad" id="bodies">
   <div class="container reveal">
@@ -315,25 +340,31 @@ ${D.bodies.map((b) => `      <div class="card">
       </div>`).join('\n')}
     </div>
     <div class="callout">
-      <span class="callout__label">What zero members means</span>
-      <p>A body with no members cannot approve anything. Every decision that would properly
-        belong to these boards is therefore recorded as <b>interim</b>, taken under authority
-        delegated to the Press, and marked in the database with the body it awaits. When
-        members are appointed, those decisions go to them for ratification &mdash; and the
-        record already names which ones.</p>
+      <span class="callout__label">What these two counts mean</span>
+      <p><b>BASCE has no members</b>, and a body with no members cannot approve anything. Every
+        competency decision that would properly belong to it is recorded as <b>interim</b>,
+        taken under authority delegated to the Press, and marked in the database with the body
+        it awaits.</p>
+      <p><b>The Senate has ${GOV.SENATE_MEMBERS}</b>, and has not yet convened. That is a
+        different position from BASCE&rsquo;s and it produces the same outcome for now: a body
+        that can approve but has not met has not approved anything, so skill mappings and
+        descriptor thresholds also remain interim. They change status when a minuted decision
+        exists, not when an appointment letter does.</p>
     </div>
 
-    <!-- The chain, drawn. The callout above states that a body with no
-         members cannot approve anything; the diagram shows where that
-         leaves the structure — complete in design, broken at exactly one
-         link, with the route decisions actually travel today drawn as
-         the detour it is. Generated by
-         scripts/art/generate-authority-chain.mjs. -->
+    <!-- The chain, drawn. The callout above states two different
+         positions in prose — BASCE has nobody on it, the Senate has
+         members and has not met — and prose makes them sound like the
+         same sentence twice. The diagram separates them: one route
+         severed, one route intact and gated, both landing in interim.
+         Generated by scripts/art/generate-authority-chain.mjs, which
+         reads both membership figures from the database rather than
+         carrying them as text. -->
     <figure class="diagram diagram--wide">
       {{SVG:assets/art/authority-chain.svg}}
       <figcaption class="diagram__caption">
         <svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>
-        The structure exists; the appointments do not
+        Two bodies, two different reasons nothing is approved yet
       </figcaption>
     </figure>
   </div>
@@ -362,19 +393,27 @@ ${card('Reviewed when', 'An annual cycle', 'The framework is reviewed annually a
         naming what it blocks is more useful than a page that simply stops short.</p>
     </div>
     <div class="grid grid--2">
-${darkCard('External Examiner', 'Required before any award is conferred', 'The independent post whose entire function is to sit outside the College. Until it is filled, awards are defined and published but cannot properly be conferred on anyone.')}
-${darkCard('Board members', 'Required before anything is approved', 'Both academic bodies exist and neither has members. Approval, as opposed to interim adoption, waits on appointment.')}
-${darkCard('Academic Reviewer', 'Required before publications are reviewed', 'Every published volume is authored by the Press and has not been read by a qualified reader who did not write it. Each volume states this on its own imprint page.')}
-${darkCard('Principal officer', 'Required for a signed institutional message', 'No President or principal officer is appointed, which is why every publication&rsquo;s preface is issued by the publisher rather than signed by a person.')}
+${darkCard('External Examiner', 'Required before any award is conferred', 'The independent post whose entire function is to sit outside the College. Until it is filled, awards are defined and published but cannot properly be conferred on anyone. No internal appointment substitutes for it, which is why filling the Board, the Senate and the Executive has not moved this one.')}
+${darkCard('BASCE members', 'Required before competencies are approved', `The Board of Academic Standards and Curriculum Excellence stands at ${basceCount} appointed members. Approval, as opposed to interim adoption, waits on appointment. The Board of Governors has a Governor for Academic Affairs; that is a different body with a different remit, and it is not read as BASCE membership.`)}
+${darkCard('A convened Senate', 'Required before skill mappings are approved', `The Senate has ${GOV.SENATE_MEMBERS} appointed members and has not yet met. Constituting a body and convening it are two events, and the record holds them separately so that neither can quietly stand in for the other.`)}
+${darkCard('Academic Reviewer', 'Required before publications are reviewed', 'Every published volume is authored by the Press and has not been read by a qualified reader who did not write it. Each volume states this on its own imprint page. Any of the ten academic staff may now take it; the assignment simply has to be recorded.')}
     </div>
   </div>
 </section>
+
+${GOV.principlesEN()}
 
 ${cta('Read the full institutional position.', 'Institutional Status', '/about/#status', 'Quality Assurance', '/about/quality-assurance/')}`,
 };
 
 // 5 · ACADEMIC SENATE ─────────────────────────────────────────────────
 const senate = D.bodies.find((b) => b.code === 'SENATE');
+const senateConstituted = D.bodyEvents.find((e) => e.body_code === 'SENATE' && e.event === 'constituted');
+const senateConvened = D.bodyEvents.find((e) => e.body_code === 'SENATE' && e.event === 'convened');
+if (senateConvened) {
+  throw new Error('The Senate now records a "convened" event. Several pages assert that it has '
+    + 'not met — search for "not yet convened" and settle each one before this builds again.');
+}
 PAGES.senate = {
   slug: 'about-senate', output: 'about/academic-senate/index.html', file: 'about-senate.html',
   title: 'The Academic Senate &mdash; Worldwide English College',
@@ -404,11 +443,15 @@ ${card('Descriptor thresholds', 'How much evidence is enough', 'A descriptor ass
     </div>
     <div class="callout">
       <span class="callout__label">Current position</span>
-      <p>The Senate has <b>${senate.members_appointed}</b> appointed members. Skill mappings and
-        thresholds are therefore in the state the software ships them: thresholds are recorded
-        as mechanism defaults explicitly labelled as <em>not an academic standard</em>, and no
-        descriptor has been issued to anyone. Appointing the Senate is what converts a
-        deliberately inert default into a decision.</p>
+      <p>The Senate has <b>${senate.members_appointed}</b> appointed members, appointed on
+        ${esc(senateConstituted ? senateConstituted.occurred_on : 'a date not yet recorded')}, and
+        <b>has not yet convened</b>. Skill mappings and thresholds are therefore still in the
+        state the software ships them: thresholds are recorded as mechanism defaults explicitly
+        labelled as <em>not an academic standard</em>, and no descriptor has been issued to
+        anyone.</p>
+      <p>Appointment is what makes those defaults convertible into decisions. A meeting is what
+        converts them. The College distinguishes the two because an institution that treats a
+        membership list as an approval has approved nothing and said it approved something.</p>
     </div>
   </div>
 </section>
@@ -550,10 +593,10 @@ PAGES.structure = {
   description: 'How Worldwide English College is organised: the academic, administrative and '
     + 'publishing functions, and which posts are currently vacant.',
   body: `${hero('About', 'How the College is organised.',
-    'This page describes posts and functions, not people. Where a post is filled the faculty '
-    + 'register names the holder; where it is vacant this page says vacant. There is no '
-    + 'leadership page on this site, because no principal officer is appointed and a leadership '
-    + 'page with no leaders is either empty or invented.')}
+    'This page describes posts and functions, not people. Where a post is filled a register '
+    + 'names the holder &mdash; the faculty register for teaching staff, the governance '
+    + 'register for the Board, the Senate and the Executive &mdash; and where it is vacant this '
+    + 'page says vacant.')}
 
 <section class="section--light section-pad">
   <div class="container reveal">
@@ -564,7 +607,7 @@ PAGES.structure = {
     <div class="grid grid--3">
 ${card('Academic', 'Teaching and standards', `Academic staff and tutors deliver the programme; the two academic bodies &mdash; ${D.bodies.map((b) => b.code).join(' and ')} &mdash; hold standards and the competency framework. The roster is published on the Faculty page.`)}
 ${card('Administrative', 'Admissions, records, finance', 'Admissions, student records, assessment administration and finance. At the College&rsquo;s current size these are designed to be held by few people rather than many, and the platform&rsquo;s access levels reflect that.')}
-${card('Publishing', 'WEC Press', 'The College&rsquo;s imprint publishes the curriculum, assessment and teaching volumes. It has no separate legal personality and no appointed staff, and every volume says so.')}
+${card('Publishing', 'WEC Press', 'The College&rsquo;s imprint publishes the curriculum, assessment and teaching volumes. It has no separate legal personality and no staff of its own, and every volume says so.')}
     </div>
   </div>
 </section>
@@ -602,8 +645,8 @@ ${card('Third', 'Conferring &ne; examining', 'Whoever confers an award is not wh
     <div class="grid grid--2">
 ${darkCard('External Examiner', 'Blocks conferral', 'Independent of the College by definition. No award can properly be conferred until it is filled.')}
 ${darkCard('Academic Reviewer', 'Blocks review', 'Every published volume is authored and unreviewed by anyone who did not write it.')}
-${darkCard('Board members', 'Blocks approval', `Both academic bodies stand at ${basce.members_appointed} appointed members.`)}
-${darkCard('Principal officer', 'Blocks signature', 'No President or principal officer, which is why institutional messages are issued by the publisher rather than signed.')}
+${darkCard('BASCE members', 'Blocks approval', `The Board of Academic Standards and Curriculum Excellence stands at ${basce.members_appointed} appointed members. The Academic Senate is constituted; this one is not.`)}
+${darkCard('A convened Senate', 'Blocks approval', `The Senate has ${GOV.SENATE_MEMBERS} members and has not met. Appointment makes approval possible; only a meeting makes it happen.`)}
     </div>
   </div>
 </section>

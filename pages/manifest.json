@@ -602,7 +602,7 @@
     "slug": "press-catalogue",
     "output": "press/catalogue/index.html",
     "title": "Catalogue &mdash; WEC Press",
-    "description": "The 12 volumes WEC Press has produced, who each is for, and how to obtain one.",
+    "description": "The 11 volumes WEC Press has produced, who each is for, and how to obtain one.",
     "contentFile": "press-catalogue.html",
     "lang": "en",
     "dir": "ltr"

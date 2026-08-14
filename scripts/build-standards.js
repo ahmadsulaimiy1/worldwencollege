@@ -191,7 +191,7 @@ ${card('Claims', 'Published figures match the record', 'Every figure on this web
     </div>
     <div class="grid grid--2">
 ${darkCard('Present', 'A complete, documented programme', `Specifications, outcomes, hours, rubrics, competency mappings and an evidence register of ${E.total} items across ${new Set(E.collections.map((c) => c.collection)).size} collections.`)}
-${darkCard('Absent', 'Everything requiring an outside party', `No accreditation, no External Examiner, no Academic Reviewer, no appointed members on either academic body, no approved evidence item, no taught cohort and no graduates. Every one of those requires a person from outside &mdash; which is precisely why the ${totalAdopted} governance decisions are all now taken and none of it moved.`)}
+${darkCard('Absent', 'Everything requiring an outside party', `No accreditation, no External Examiner, no Academic Reviewer, no approved evidence item, no taught cohort and no graduates. The Board, the Senate and the Executive were appointed on 14 August 2026 and moved none of it, which is the point: every item on that list requires somebody the College cannot appoint to itself, or a meeting that has not yet happened. The ${totalAdopted} governance decisions are all taken, and they moved none of it either.`)}
     </div>
   </div>
 </section>

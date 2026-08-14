@@ -579,10 +579,11 @@ export const FUTURE_DEVELOPMENT = [
     owner: E.GOVERNANCE, impact: 'Medium', effort: 'High' },
 
   { item: 'A Foreword by an officer of the College',
-    state: 'No President is appointed; the Academic Senate and the Board are established but not '
-      + 'constituted. The preface is issued unsigned by the publisher.',
-    opportunity: 'When officers are appointed, a signed Foreword is the single strongest '
-      + 'institutional signal a publication of this kind can carry.',
+    state: 'A President and a Board are now appointed, and the Academic Senate is constituted. '
+      + 'The preface is still issued unsigned by the publisher, because a signed Foreword is a '
+      + 'text somebody writes rather than a field the renderer can fill.',
+    opportunity: 'A signed Foreword is the single strongest institutional signal a publication '
+      + 'of this kind can carry, and it is now available to be written rather than blocked.',
     owner: E.GOVERNANCE, impact: 'High', effort: 'Low' },
 
   { item: 'Translated and localised editions',
@@ -617,9 +618,10 @@ export const GOVERNANCE = [
       + 'mapping, the stage-name reconciliation and inter-marker reliability.',
     urgency: 'High' },
 
-  { item: 'Appoint officers',
-    detail: 'No President is appointed. This is why the publication carries no Foreword and no '
-      + 'signed message, and why its preface is issued by the publisher.',
+  { item: 'Commission a signed Foreword',
+    detail: 'The officers are appointed; the Foreword is not written. The publication carries no '
+      + 'signed message because nobody has yet composed one, and this repository will not '
+      + 'compose words on a named person\'s behalf.',
     urgency: 'Medium' },
 
   { item: 'Apply for an ISBN and a DOI',

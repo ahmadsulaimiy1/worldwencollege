@@ -115,8 +115,9 @@ export const ROLES = [
       + 'did not write it, and the review register in legacy.mjs is empty for that reason.' }),
   role({ key: 'approver', name: 'Approving body',
     remit: 'Resolves that a publication meets the standard and may carry the College imprint.',
-    discharge: 'BASCE and the Academic Senate exist as bodies with no appointed members. Work '
-      + 'is recorded as interim, never approved.' }),
+    discharge: 'BASCE has no appointed members. The Academic Senate has three and has not yet '
+      + 'convened. Neither can therefore have approved anything, so work is recorded as interim '
+      + 'in both cases — for two different reasons, which the record keeps apart.' }),
   role({ key: 'maintainer', name: 'Maintaining editor',
     remit: 'Keeps a published title consistent with the curriculum as the curriculum changes, '
       + 'and re-renders it when its source moves.',

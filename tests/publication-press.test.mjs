@@ -219,9 +219,37 @@ check('the cross-references are counted once, not once per direction',
   INV.crossRefs > 100 && INV.crossRefs < 250, String(INV.crossRefs));
 
 check('the institutional zeroes are still zero, and are still measured',
-  INV.assessmentsMapped === 0 && INV.appointedMembers === 0
-  && INV.electedOfficers === 0 && INV.awardsIssued === 0,
-  `${INV.assessmentsMapped}/${INV.appointedMembers}/${INV.electedOfficers}/${INV.awardsIssued}`);
+  INV.assessmentsMapped === 0 && INV.electedOfficers === 0 && INV.awardsIssued === 0,
+  `${INV.assessmentsMapped}/${INV.electedOfficers}/${INV.awardsIssued}`);
+
+// appointedMembers LEFT ZERO ON 14 AUGUST 2026, and this check replaced
+// the one that used to hold it there. It is not a relaxation.
+//
+// The number that actually governs whether a competency mapping may be
+// approved is BASCE's, not the total. Summing the two bodies gave a
+// figure that answered no real question and would now read three while
+// the body that matters still has nobody on it — which is precisely the
+// substitution the record exists to prevent. So the total is checked
+// against the register's own arithmetic, and BASCE is checked on its
+// own, because that is the one a mapping is measured against.
+{
+  const { DatabaseSync } = await import('node:sqlite');
+  const db = new DatabaseSync(':memory:');
+  db.exec(readFileSync(`${ROOT}/sql/schema.sql`, "utf8"));
+  const rows = db.prepare('SELECT code, members_appointed AS m FROM academic_bodies').all();
+  db.close();
+  const byCode = Object.fromEntries(rows.map((r) => [r.code, r.m]));
+
+  check('the appointed-member count is the sum the record actually holds',
+    INV.appointedMembers === rows.reduce((t, r) => t + r.m, 0),
+    `${INV.appointedMembers} counted / ${rows.map((r) => `${r.code}:${r.m}`).join(' ')}`);
+
+  check('BASCE still has nobody on it, which is what keeps every competency mapping interim',
+    byCode.BASCE === 0, `BASCE:${byCode.BASCE}`);
+
+  check('...and the Senate is constituted without having convened',
+    byCode.SENATE > 0, `SENATE:${byCode.SENATE}`);
+}
 
 // A loose keyword sweep once reported thirty business-English lessons
 // and would have marked a business series ready to publish.
