@@ -196,6 +196,24 @@ The image slots are now built and specified per-slot in
 **`docs/photography-brief.md`** — filename, ratio, subject, crop and the
 cliché to avoid, for each of the five regions on the homepage.
 
+**The College has an Islamic identity**, and Part 0 of that brief is the
+binding visual-asset policy that follows from it: what may not appear in
+an image, how representation is handled, the editorial register
+required, and the licensing register every file must be entered in
+before it ships. It governs photography, illustration and iconography
+alike. Read it before licensing anything.
+
+Two rules from it are worth repeating here because they are easy to
+breach with good intentions:
+
+- **No image may caption itself into a false claim.** No photograph is
+  the College's campus, faculty, students or graduates. Photographs
+  illustrate an activity; anything that would read as an institutional
+  claim stays an engraving, because a drawing is plainly a drawing.
+- **Every photograph is gradient-mapped into the palette** by
+  `.plate--photo`. That treatment is why licensed stock from different
+  photographers reads as one commission rather than a collection.
+
 ---
 
 ## Part III·b — The Flagship Layer

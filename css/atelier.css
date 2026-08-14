@@ -400,6 +400,61 @@
 }
 
 /* =========================================================
+   10b · THE PHOTOGRAPHIC PLATE
+   ---------------------------------------------------------
+   What makes licensed stock stop looking like licensed stock.
+
+   Every photograph on the site is gradient-mapped into the
+   palette: luminance is kept, hue and saturation are replaced
+   with a ramp from oxford blue in the shadows to antique gold
+   in the highlights. A red t-shirt, a blue backpack and a
+   green chair all resolve to the same two-colour world, so
+   four photographs from four photographers read as one
+   commission.
+
+   It is done in CSS rather than baked into the files on
+   purpose: the originals stay untouched, the treatment is one
+   line to retune, and the same photograph can be re-used on
+   another page under a different ramp.
+
+   On hover the colour returns part of the way. That is the
+   whole interaction — the photograph warms when you look at
+   it, and nothing moves.
+   ========================================================= */
+.plate--photo .plate__frame { background: var(--oxford); }
+.plate--photo .plate__frame > img {
+  filter: grayscale(1) contrast(1.08) brightness(.94);
+  transition: filter .7s var(--ease-premium);
+}
+.plate--photo .plate__frame::before,
+.plate--photo .plate__frame::after { z-index: 4; }
+/* The duotone ramp. mix-blend-mode: color keeps the image's
+   luminance and takes hue and saturation from this layer. */
+.plate--photo .plate__frame > .plate__tone {
+  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(158deg,
+    #0A1428 0%, #1F3D7A 42%, #8C6A3F 78%, #F2E3C0 100%);
+  mix-blend-mode: color;
+  transition: opacity .7s var(--ease-premium);
+}
+/* A second pass in `soft-light` puts the gold back into the
+   highlights, which `color` alone leaves flat. */
+.plate--photo .plate__frame > .plate__tone--warm {
+  z-index: 3;
+  background: radial-gradient(ellipse 80% 70% at 68% 22%,
+    rgba(212, 175, 55, .40), transparent 66%);
+  mix-blend-mode: soft-light;
+}
+@media (hover: hover) and (pointer: fine) {
+  .plate--photo:hover .plate__frame > img { filter: grayscale(.35) contrast(1.04) brightness(1); }
+  .plate--photo:hover .plate__frame > .plate__tone { opacity: .45; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plate--photo .plate__frame > img,
+  .plate--photo .plate__frame > .plate__tone { transition: none; }
+}
+
+/* =========================================================
    11 · THE CROWN BAND  (header layer 2)
    The ceremonial identity band. Present at rest, withdrawn
    on scroll — so the institution introduces itself once and

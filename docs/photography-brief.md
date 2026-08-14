@@ -1,24 +1,97 @@
-# Photography Brief — Image Slots and Shot List
+# Photography Brief — Visual Asset Policy and Shot List
 
 *Companion to `editorial-bible.md`. Written alongside the homepage
-rebuild.*
+rebuild; the policy section added when the College's Islamic identity
+was confirmed.*
+
+---
+
+## Part 0 — The policy every image must pass
+
+**This section governs. An image that fails it does not ship, however
+good it looks.** Check it before licensing, not after — a licence spent
+on an unusable photograph is money gone.
+
+### Cultural compatibility
+
+The College has an **Islamic identity** and serves a broad international
+community, with particular weight in the GCC. Every visual asset must be
+compatible with that identity. This is not a restriction bolted onto the
+design; it is part of what the College is, and the imagery should feel
+welcoming and dignified because of it, not in spite of it.
+
+People from all backgrounds, cultures and ethnicities are welcome in the
+imagery, provided the depiction is respectful. **Do not use** any image
+containing:
+
+immodest clothing · sexually suggestive posing · alcohol · gambling ·
+nightlife · inappropriate physical intimacy · offensive gestures ·
+religious disrespect · political campaigning · violence · smoking or
+vaping · tattoos as a focal point · luxury for its own sake · anything
+else in conflict with the College's values.
+
+### Representation
+
+Show learners and educators from many regions — the Gulf, Europe,
+Africa, Asia. Vary ethnicity, culture and age where appropriate. A woman
+in hijab studying is not a diversity gesture here; it is an accurate
+picture of who this College teaches, and it should appear as
+unremarkably as anyone else.
+
+### Register
+
+Every image should be **premium, editorial, cinematic, elegant,
+timeless, authentic, international and academically credible** — it
+should plausibly belong in the prospectus of a leading international
+university.
+
+Reject generic corporate stock, exaggerated smiles, staged handshakes,
+thumbs-up, and anyone grinning at the lens. People should be working,
+reading, listening or in conversation.
+
+### The line that matters most
+
+**No image may be captioned so that it asserts something untrue about
+the College.** No photograph may be presented as WEC-LC's campus, its
+faculty, its students, its classrooms or its graduates. The College has
+an administrative address in London, not a teaching campus, and has not
+yet taught a cohort. A stock photograph captioned "our students" would
+be the most damaging sentence on the site.
+
+Photographs illustrate an *activity* — reading, studying, discussion.
+Anything that would read as a claim about the institution stays an
+engraving, because a drawing is plainly a drawing.
+
+### Licensing
+
+Only assets that can be legally used. Every file recorded in
+`assets/images/plates/CREDITS.md` before it ships — source, ID, licence,
+and where it is used. A file in that directory without a row in that
+table is a licensing incident, not an oversight.
+
+### Treatment
+
+Every photograph is gradient-mapped into the palette by
+`.plate--photo` (`css/atelier.css`) — luminance kept, hue and saturation
+replaced with an oxford-blue-to-antique-gold ramp. This is what makes
+four photographs from four photographers read as one commission. It is
+applied in CSS, never baked into the file.
 
 ---
 
 ## Why this document exists
 
-The site ships today with **no photography**. Every image region on the
-homepage is a real, finished component — correct aspect ratio, gold
-hairline frame, drawn corner ornaments, small-caps caption, and a slow
-ken-burns drift — currently filled by an engraved SVG plate authored in
-`assets/art/`.
+The homepage now carries **three licensed photographs and one
+engraving**, and that mix is deliberate rather than a stage on the way
+to replacing everything with photography.
 
-That was a deliberate choice, not a placeholder. The plates are the
-shipped design and the page is complete without a single photograph.
-But the brand directive asks for authentic photography of teaching,
-libraries, classrooms, discussion, graduation, faculty and research, and
-the slots are built so that supplying it is a **file swap, not a
-redesign**.
+Photographs carry the things a photograph can honestly carry: reading,
+studying, discussion. Engravings carry the things a photograph would
+overclaim — the College's own frontage, its instruments, its reach.
+Every image region is the same component (fixed ratio, gold hairline
+frame, drawn corners, small-caps caption, slow drift), so which medium
+sits in a given slot is an editorial decision, changeable in one line,
+not an architectural one.
 
 ## How to install a photograph
 
@@ -46,17 +119,17 @@ a tipped-in plate sits in a printed book.
 
 ## The slots
 
-### PLATE 01 — The London Campus
+### PLATE 01 — The College frontispiece  ·  **STAYS AN ENGRAVING**
 - **Where** · Chapter I, *The Promise*
-- **Currently** · `assets/art/portico.svg`
-- **File** · `plates/campus.jpg` · **Ratio** 4:3 · min 1600×1200
-- **Subject** · The exterior or entrance of a serious London academic
-  building. Portland stone, columns or a pedimented frontage, wet
-  pavement, late afternoon.
-- **Crop** · Look slightly up at the building. Architecture fills the
-  frame; sky is a sliver.
-- **Avoid** · Tourist landmarks. A recognisable Big Ben or Tower Bridge
-  turns an institution into a souvenir.
+- **File** · `assets/art/portico.svg`
+- **This slot is deliberately not a photograph.** A photograph of a
+  stone quad on this page would be read as the College's campus, and
+  the College does not have one — it has an administrative address.
+  Even captioned carefully, the image would do the asserting.
+  An engraving cannot be mistaken for a building the College occupies,
+  which is exactly why it is the honest choice here.
+- Do not "upgrade" this to a photograph later without resolving that
+  problem first.
 
 ### PLATE 02 — The written curriculum *(optional, not yet placed)*
 - **Where** · Chapter II, *The Programme* — currently a table with no
@@ -64,41 +137,41 @@ a tipped-in plate sits in a printed book.
 - **Subject** · A printed syllabus open on a desk, annotated in pencil.
   Shallow depth of field on the annotation.
 
-### PLATE 03 — Sixty modules, written
+### PLATE 03 — Sixty modules, written  ·  **INSTALLED**
+
 - **Where** · Chapter III, *The Curriculum*
-- **Currently** · `assets/art/library-plate.svg`
-- **File** · `plates/library.jpg` · **Ratio** 3:2 · min 1800×1200
-- **Subject** · A reading room. Shelved stacks receding, a long table,
-  a lamp, one or two people reading at a distance.
-- **Crop** · One-point perspective down the room. The current plate is
-  drawn to that composition; matching it keeps the chapter's geometry.
-- **Avoid** · Empty pristine libraries that look like renders, and
-  anyone smiling at the camera.
+- **File** · `plates/library.jpg` (Adobe Stock 592071461) · 1600×1067, 3:2
+- **Why it passes** · No people, so no compatibility question at all.
+  A real reading hall with green-shaded lamps and warm wood — the
+  register the whole brief is aiming at.
 
-### PLATE 04 — Precision, in the service of learning
+### PLATE 04 — Built for one programme  ·  **INSTALLED**
 - **Where** · Chapter IV, *The Digital Campus*
-- **Currently** · `assets/art/astrolabe.svg`
-- **File** · `plates/study.jpg` · **Ratio** 1:1 · min 1400×1400
-- **Subject** · A learner at work — headphones, a screen showing written
-  work or a waveform, notes beside the keyboard. Hands and materials,
-  not a face filling the frame.
-- **Note** · This is the one chapter that carries the teal accent. A
-  photograph with a cool cast in the shadows will sit with it.
-- **Avoid** · Stock "online learning" imagery: a person grinning at a
-  laptop in a bright kitchen. It is the single fastest way to undo
-  everything else on this page.
+- **File** · `plates/study.jpg` (Adobe Stock 486211924) · 1200×1200, 1:1
+- **Why it passes** · A young Arab man in a collared shirt, headphones
+  on, working at a laptop with files beside him. Modest, professional,
+  entirely focused on the work, not on the camera. Right for the
+  Listening Lab and right for the audience.
+- **What it replaced, and why** · The first choice (1219037542) was a
+  man in a short-sleeved t-shirt at a home desk. Compliant, but casual
+  rather than prospectus-grade. Replaced when the register was raised.
+- **Retired art** · `assets/art/astrolabe.svg` is retained and moves to
+  `/learning/platform/` in a later phase. It is too good to delete and
+  wrong for a chapter that should show a person.
 
-### PLATE 05 — Taught worldwide, from London
+### PLATE 05 — Taught worldwide, from London  ·  **INSTALLED**
 - **Where** · Chapter V, *Who It Is For*
-- **Currently** · `assets/art/globe-meridian.svg`
-- **File** · `plates/international.jpg` · **Ratio** 1:1 · min 1400×1400
-- **Subject** · International students in discussion — a seminar table,
-  two or three people mid-conversation, one speaking.
-- **Crop** · Square, tight enough that it is about the exchange rather
-  than the room.
-- **Avoid** · A deliberately assembled row of one-of-each-ethnicity
-  faces. It reads as a diversity statement, not as a seminar.
-
+- **File** · `plates/seminar.jpg` (Adobe Stock 489036417) · 1200×1200, 1:1
+- **Why it passes** · Two students in conversation over a laptop in a
+  library, one in hijab, a third reading behind them. Modest throughout,
+  natural light, nobody addressing the lens. Diverse without being
+  arranged.
+- **What it replaced, and why** · The first choice (561693647) was an
+  overhead seminar table — a good photograph, but with a **tattooed
+  forearm in the foreground**, which the policy above rules out.
+  Licensed and discarded; the licence is recorded anyway.
+- **Retired art** · `assets/art/globe-meridian.svg` is retained for a
+  future international/partnerships page.
 ### Graduation *(no slot yet)*
 The directive asks for graduation imagery and there is deliberately no
 slot for it on the homepage: no cohort has been taught and no award has
