@@ -228,6 +228,19 @@ function urlPathFor(outputPath) {
   return '/' + trimmed;
 }
 
+// The commit this build came from. GITHUB_SHA in CI; a local `git
+// rev-parse` otherwise; and a literal "unknown" if neither is
+// available, which is honest rather than misleading — a stamp that
+// invents a value would make the deploy check pass against nothing.
+const BUILD_ID = (() => {
+  if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA.slice(0, 12);
+  try {
+    return require('child_process')
+      .execSync('git rev-parse HEAD', { cwd: ROOT, stdio: ['ignore', 'pipe', 'ignore'] })
+      .toString().trim().slice(0, 12);
+  } catch { return 'unknown'; }
+})();
+
 function build() {
   const manifest = JSON.parse(read(path.join(PAGES, 'manifest.json')));
   let count = 0;
@@ -292,6 +305,7 @@ function build() {
       CANONICAL: canonical,
       ALTERNATES: alternates,
       FONTS_URL: fontsUrlFor(lang),
+      BUILD_ID,
       EXTRA_CSS: extraCss,
       OG_LOCALE: lang === 'ar' ? 'ar_AR' : 'en_GB',
       OG_SITE_NAME: lang === 'ar' ? 'الكلية العالمية للغة الإنجليزية' : 'WorldWide English College',

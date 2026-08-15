@@ -416,3 +416,88 @@ jobs:
             echo "" >> "$GITHUB_STEP_SUMMARY"
             echo "⚠️ **Deployed without recording storage.** R2 was unavailable, so learner voice recordings will report a configuration error instead of uploading. Enable R2 in the Cloudflare dashboard and re-run to add it. Nothing else is affected." >> "$GITHUB_STEP_SUMMARY"
           fi
+
+      # ── PROVE IT, RATHER THAN ANNOUNCE IT ───────────────────────────
+      #
+      # A green Publish step means wrangler uploaded files. It does NOT
+      # mean the domain a visitor types is serving them, and the gap
+      # between those two facts cost four rounds of "it deployed" /
+      # "I still cannot see it" with nobody able to settle it.
+      #
+      # The gap is real and has three ordinary causes: the custom domain
+      # is attached to a different Pages project; the project's
+      # production branch is not the branch this deploy targets, making
+      # every run a preview that never reaches the domain; or the CDN is
+      # serving a cached copy.
+      #
+      # Every page now carries <meta name="wec-build"> with the commit it
+      # was generated from, so all three are distinguishable from the
+      # outside. This step fetches BOTH the pages.dev deployment and the
+      # live domain, compares their stamps to the commit being deployed,
+      # and says which link in the chain is broken rather than leaving it
+      # to be guessed.
+      #
+      # It does not fail the job. A publish that genuinely succeeded
+      # should not be reported as a failure because DNS is elsewhere —
+      # but it must never again be reported as a success without saying
+      # what the domain is actually serving.
+      - name: Prove the live domain is serving this build
+        if: always() && steps.publish.outcome == 'success'
+        env:
+          DEPLOY_URL: ${{ steps.publish.outputs.url }}
+          SHA: ${{ github.sha }}
+        run: |
+          want="${SHA:0:12}"
+          echo "Expecting build stamp: $want"
+
+          stamp_of () {
+            curl -fsSL --max-time 25 "$1" 2>/dev/null \
+              | grep -o 'name="wec-build" content="[0-9a-f]*"' \
+              | head -1 | sed 's/.*content="//; s/"//'
+          }
+
+          # The CDN is asked to skip its cache, so a stale answer here
+          # means a stale ORIGIN rather than a stale edge.
+          got_deploy=$(stamp_of "$DEPLOY_URL/?cb=$want")
+          got_live=$(stamp_of "https://www.worldwencollege.co.uk/?cb=$want")
+
+          echo "  deployment $DEPLOY_URL -> ${got_deploy:-<none>}"
+          echo "  live domain www.worldwencollege.co.uk -> ${got_live:-<none>}"
+
+          {
+            echo "### Deployment proof"
+            echo ""
+            echo "| Surface | Build stamp | Verdict |"
+            echo "|---|---|---|"
+            if [ "$got_deploy" = "$want" ]; then
+              echo "| This deployment | \`$got_deploy\` | matches |"
+            else
+              echo "| This deployment | \`${got_deploy:-none}\` | **does not match \`$want\`** |"
+            fi
+            if [ "$got_live" = "$want" ]; then
+              echo "| worldwencollege.co.uk | \`$got_live\` | **live and current** |"
+            else
+              echo "| worldwencollege.co.uk | \`${got_live:-none}\` | **NOT serving this build** |"
+            fi
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$got_live" = "$want" ]; then
+            echo "::notice::The live domain is serving this build ($want)."
+            exit 0
+          fi
+
+          if [ -z "$got_live" ]; then
+            echo "::warning::Could not read a build stamp from the live domain. Either it is unreachable from the runner, or it is serving a build made before the stamp existed."
+          fi
+          if [ "$got_deploy" = "$want" ] && [ "$got_live" != "$want" ]; then
+            echo "::warning::THE PUBLISH WORKED AND THE DOMAIN DID NOT FOLLOW. The files are live at $DEPLOY_URL but www.worldwencollege.co.uk is serving ${got_live:-something else}. Check, in this order: (1) Cloudflare Dashboard -> Workers & Pages -> wec-lc -> Custom domains: is worldwencollege.co.uk attached to THIS project? (2) Settings -> Builds & deployments -> Production branch: it must be 'main', which is the branch this workflow deploys to — if it is anything else every run here is a PREVIEW and the domain will never update. (3) Caching -> Purge Everything."
+            {
+              echo "**The publish worked and the domain did not follow.** Files are live at \`$DEPLOY_URL\`."
+              echo ""
+              echo "Check in this order:"
+              echo "1. **Workers & Pages -> wec-lc -> Custom domains** — is \`worldwencollege.co.uk\` attached to *this* project?"
+              echo "2. **Settings -> Builds & deployments -> Production branch** — must be \`main\`. If it is anything else, every run here is a *preview* and the domain never updates."
+              echo "3. **Caching -> Purge Everything.**"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
