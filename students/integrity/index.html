@@ -335,6 +335,15 @@
   band the navigation research names. Anything deeper (a single level,
   BASCE, the verification protocol) is one click behind these links,
   on a pillar page whose contents rail carries it by name.
+
+  THE MOBILE DRAWER carries every link above, grouped under the same
+  pillar labels (.mega__label, reused rather than reinvented) rather
+  than as one flat twenty-four-item list — the reorganisation happened
+  in Phase 5, but until now nothing in the drawer's CSS told a reader's
+  eye where one pillar ended and the next began. It also carries the
+  language switch and social links: the topbar above is not sticky, so
+  a reader who has scrolled even one screen down has already lost
+  those and cannot reach them again without scrolling back to the top.
 -->
 <header class="site-header lattice" data-nodes="7">
   <div class="lattice__bed" aria-hidden="true"></div>
@@ -508,29 +517,77 @@
   </div>
 
   <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile">
-    <a href="/about/">The College</a>
-    <a href="/academics/">Academics</a>
-    <a href="/academics/#iefc">The IEFC Programme</a>
-    <a href="/academics/#levels">The Six Levels</a>
-    <a href="/academics/teaching/">Teaching Practice</a>
-    <a href="/faculty/">The Faculty</a>
-    <a href="/admissions/">Admissions</a>
-    <a href="/admissions/#apply">How to Apply</a>
-    <a href="/admissions/#requirements">Entry Requirements</a>
-    <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
-    <a href="/faq/">Admissions Questions</a>
-    <a href="/students/">Student Life</a>
-    <a href="/students/assessment/">How You Are Assessed</a>
-    <a href="/students/regulations/">Academic Regulations</a>
-    <a href="/student-portal/">Student Portal</a>
-    <a href="/governance/">Governance</a>
-    <a href="/governance/evidence/">The Evidence Record</a>
-    <a href="/press/">WEC Press</a>
-    <a href="/press/catalogue/">The Catalogue</a>
-    <a href="/press/#library">The Library</a>
-    <a href="/support/accessibility/">Accessibility</a>
-    <a href="/support/privacy/">Privacy &amp; Your Data</a>
-    <a href="/contact/">Contact</a>
+    <div class="nav-mobile__group">
+      <p class="mega__label">The College</p>
+      <a href="/about/">About the College</a>
+      <a href="/about/#vision">Vision &amp; Mission</a>
+      <a href="/about/#philosophy">Educational Philosophy</a>
+      <a href="/about/#structure">How It Is Organised</a>
+      <a href="/about/careers/">Careers</a>
+      <a href="/about/#status">Institutional Status</a>
+    </div>
+    <div class="nav-mobile__group">
+      <p class="mega__label">Academics</p>
+      <a href="/academics/">Academics Overview</a>
+      <a href="/academics/#iefc">The IEFC Programme</a>
+      <a href="/academics/#levels">The Six Levels</a>
+      <a href="/academics/#learning">How Learning Works</a>
+      <a href="/academics/#campus">The Digital Campus</a>
+    </div>
+    <div class="nav-mobile__group">
+      <p class="mega__label">Teaching &amp; Faculty</p>
+      <a href="/academics/teaching/">Teaching Practice</a>
+      <a href="/faculty/">The Faculty</a>
+    </div>
+    <div class="nav-mobile__group">
+      <p class="mega__label">Admissions</p>
+      <a href="/admissions/">Admissions Overview</a>
+      <a href="/admissions/#apply">How to Apply</a>
+      <a href="/admissions/#requirements">Entry Requirements</a>
+      <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
+      <a href="/admissions/policy/">Admissions Policy</a>
+      <a href="/faq/">Admissions Questions</a>
+    </div>
+    <div class="nav-mobile__group">
+      <p class="mega__label">Student Life</p>
+      <a href="/students/">Student Life</a>
+      <a href="/students/assessment/">How You Are Assessed</a>
+      <a href="/students/academic-record/">Your Academic Record</a>
+      <a href="/students/awards/">Awards &amp; Honours</a>
+      <a href="/students/regulations/">Academic Regulations</a>
+      <a href="/student-portal/">Student Portal</a>
+    </div>
+    <div class="nav-mobile__group">
+      <p class="mega__label">Governance</p>
+      <a href="/governance/">Governance</a>
+      <a href="/governance/#leadership">Board, Senate &amp; Executive</a>
+      <a href="/governance/#quality">Quality Assurance</a>
+      <a href="/governance/evidence/">The Evidence Record</a>
+      <a href="/governance/decisions/">The Decisions Register</a>
+    </div>
+    <div class="nav-mobile__group">
+      <p class="mega__label">Press &amp; Library</p>
+      <a href="/press/">WEC Press</a>
+      <a href="/press/catalogue/">The Catalogue</a>
+      <a href="/press/#standards">House Standards</a>
+      <a href="/press/#library">The Library</a>
+    </div>
+    <div class="nav-mobile__group nav-mobile__group--utility">
+      <a href="/support/accessibility/">Accessibility</a>
+      <a href="/support/privacy/">Privacy &amp; Your Data</a>
+      <a href="/contact/">Contact</a>
+    </div>
+    <div class="nav-mobile__lang">
+      <a class="topbar__lang" href="/ar/students/integrity/" lang="ar" hreflang="ar">
+        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+        العربية
+      </a>
+      <div class="topbar__social" aria-label="Social links">
+        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
+      </div>
+    </div>
     <a href="/admissions/#apply" class="btn btn--gold">Apply Now</a>
   </nav>
 </header>
@@ -696,7 +753,7 @@
     </div>
 
     <div class="footer__col">
-      <h2>Study</h2>
+      <h2><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg>Study</h2>
       <a href="/academics/#iefc">The IEFC Programme</a>
       <a href="/academics/#levels">All Six Levels</a>
       <a href="/academics/#learning">How Learning Works</a>
@@ -706,7 +763,7 @@
     </div>
 
     <div class="footer__col">
-      <h2>Admissions</h2>
+      <h2><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>Admissions</h2>
       <a href="/admissions/#apply">How to Apply</a>
       <a href="/admissions/#requirements">Entry Requirements</a>
       <a href="/admissions/tuition/">Tuition &amp; Fees</a>
@@ -716,7 +773,7 @@
     </div>
 
     <div class="footer__col">
-      <h2>The College</h2>
+      <h2><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>The College</h2>
       <a href="/about/">About WEC-LC</a>
       <a href="/governance/">Governance</a>
       <a href="/governance/#standard">Academic Standards</a>
@@ -726,7 +783,7 @@
     </div>
 
     <div class="footer__col">
-      <h2>Get in Touch</h2>
+      <h2><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>Get in Touch</h2>
       <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a>
       <p class="footer__note">Online worldwide · London admin HQ<br>HQ address to be confirmed — see <a href="/contact/">Contact</a></p>
       <a href="/contact/">Contact the College</a>
@@ -739,6 +796,17 @@
   <div class="site-footer__bottom">
     <p>&copy; <span data-year>2026</span> WorldWide English College — London Campus. All rights reserved.</p>
     <p class="footer__legal">WEC-LC is an institution in active development. Accreditation, governance and enrolment status are described honestly throughout this site — see <a href="/about/#status">Institutional Status</a>.</p>
+    <div class="footer__utility">
+      <a class="topbar__lang" href="/ar/students/integrity/" lang="ar" hreflang="ar">
+        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+        العربية
+      </a>
+      <div class="topbar__social" aria-label="Social links">
+        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
+      </div>
+    </div>
   </div>
 </footer>
 
