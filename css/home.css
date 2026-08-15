@@ -650,3 +650,107 @@
   /* .glance__tile's own reduced-motion carve-out now lives in
      css/brand.css, alongside the component itself. */
 }
+
+/* =========================================================
+   THE CASE  ·  chapter I
+   ---------------------------------------------------------
+   The one chapter on the page whose job is to be FELT before
+   it is read, so it is the one place the icon is allowed to
+   be an object rather than a mark: a 74px struck medallion
+   with its own light, above the heading rather than beside
+   it. Everywhere else on this page an icon sits at 22–26px
+   inside a list, which is what keeps this size meaning
+   something.
+   ========================================================= */
+.case-grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(12px, 1.4vw, 20px);
+}
+@media (max-width: 1000px) { .case-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px)  { .case-grid { grid-template-columns: minmax(0, 1fr); } }
+
+.case {
+  position: relative; isolation: isolate;
+  padding: clamp(26px, 2.4vw, 36px) clamp(22px, 2vw, 30px) clamp(30px, 2.6vw, 38px);
+  border-radius: var(--r-lg);
+  background: linear-gradient(168deg, rgba(31,61,122,.32), rgba(8,16,34,.62));
+  box-shadow: var(--relief-glass), 0 24px 52px -32px rgba(3,8,20,.9);
+  --aurum-dur: 10s;
+  transition: transform var(--dur-med) var(--ease-premium),
+              box-shadow var(--dur-med) var(--ease-premium),
+              background var(--dur-med) var(--ease-premium);
+}
+.case:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(168deg, rgba(39,80,143,.42), rgba(8,16,34,.5));
+  box-shadow: var(--relief-glass), 0 34px 68px -32px rgba(3,8,20,.95);
+}
+.case h3 { color: #fff; font-size: clamp(1.08rem, 1rem + .38vw, 1.3rem); margin: 0 0 .5em; }
+.case p  { margin: 0; color: rgba(247,244,236,.76); font-size: .93rem; }
+
+/* THE MEDALLION.
+   A dark dome with a gilded glyph, the same worked-vessel recipe the
+   quicknav and footer badges use — bevel above, shadow below, gold
+   hairline around — so a reader who has seen one recognises the other.
+   The glyph breathes: a 6.5s scale cycle of about three percent, which
+   is under the threshold at which motion reads as animation and over
+   the threshold at which a surface reads as inert. */
+.case__medallion {
+  width: 74px; height: 74px; border-radius: 26px;
+  display: grid; place-items: center; margin-bottom: 22px;
+  background: radial-gradient(circle at 32% 24%, var(--sapphire) 0%, var(--navy) 55%, var(--oxford) 100%);
+  box-shadow:
+    inset 0 3px 4px rgba(255,255,255,.22),
+    inset 0 -4px 6px rgba(0,0,0,.55),
+    0 10px 22px -10px rgba(0,0,0,.7),
+    0 0 0 1.5px rgba(199,162,74,.45);
+}
+.case__medallion .icon {
+  width: 34px; height: 34px; stroke-width: 1;
+  stroke: url(#i-foil-gold); color: var(--gold-soft);
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,.45));
+  animation: medallion-breathe 6.5s var(--ease-premium) infinite alternate;
+}
+.case:nth-child(2) .case__medallion .icon { animation-delay: .8s; }
+.case:nth-child(3) .case__medallion .icon { animation-delay: 1.6s; }
+.case:nth-child(4) .case__medallion .icon { animation-delay: 2.4s; }
+@keyframes medallion-breathe {
+  from { transform: scale(1); }
+  to   { transform: scale(1.06); }
+}
+/* Under the pointer the dome turns toward the light rather than
+   growing: the highlight moves, which is what a tilted metal surface
+   does, and the glyph lifts a hair with it. */
+.case:hover .case__medallion {
+  background: radial-gradient(circle at 26% 18%, #35619f 0%, var(--sapphire) 45%, var(--navy) 100%);
+}
+.case:hover .case__medallion .icon { transform: scale(1.08); }
+
+.case__close {
+  max-width: 72ch; margin: clamp(34px, 3.4vw, 50px) auto 0; text-align: center;
+  color: var(--gold-champagne); font-family: var(--font-display);
+  font-size: clamp(1.05rem, .95rem + .5vw, 1.35rem); line-height: 1.5;
+  font-style: italic; font-optical-sizing: auto;
+}
+
+/* The chapter itself sits on a deeper ground than the hero above it,
+   so the two dark chapters do not read as one long band. */
+.chapter--case {
+  background:
+    radial-gradient(ellipse 70% 60% at 20% 0%, rgba(31,61,122,.5), transparent 62%),
+    radial-gradient(ellipse 60% 55% at 88% 100%, rgba(29,92,99,.30), transparent 64%),
+    var(--midnight);
+}
+
+/* =========================================================
+   THE RESIDENCY  ·  chapter IV
+   ========================================================= */
+.chapter--residency .feature-list__icon { color: var(--teal); border-color: rgba(29,92,99,.34); }
+
+/* =========================================================
+   REDUCED MOTION — the additions above
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .case__medallion .icon { animation: none; }
+  .case, .case:hover { transform: none; transition: none; }
+}

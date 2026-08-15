@@ -352,7 +352,8 @@ ${footer}
 <script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
-<script src="/js/worldclock.js" defer></script>${extraScripts}
+<script src="/js/worldclock.js" defer></script>
+<script src="/js/sonics.js" defer></script>${extraScripts}
 </body>
 </html>
 `;
