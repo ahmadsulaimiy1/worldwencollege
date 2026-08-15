@@ -586,7 +586,7 @@ section { position: relative; }
    a second unrelated hover treatment invented for the nav specifically. */
 .nav__item > a::after {
   content: ''; position: absolute; left: 0; right: 100%; bottom: 0; height: 1px;
-  background: var(--gold-bright);
+  background: var(--gold-bright); pointer-events: none;
   transition: right var(--dur-med) var(--ease-premium);
 }
 .nav__item > a:hover::after, .nav__item > a:focus-visible::after { right: 0; }
