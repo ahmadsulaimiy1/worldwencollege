@@ -20,7 +20,21 @@
   does not inherit across an external <use> reference in several
   browsers, which would defeat the whole arrangement above.
 -->
-<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true" focusable="false"><defs>
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>
+
+  <!-- A genuine foil-stamped stroke, not a flat colour standing in for
+       one: an actual gold gradient a badge icon can be drawn in, the
+       way a real foil die leaves a graduated sheen rather than a solid
+       tint. objectBoundingBox (the default) rescales it to whichever
+       icon references it, so one definition serves every symbol.
+       Referenced via CSS: `.vessel__badge .icon { stroke: url(#i-foil-gold); }` -->
+  <linearGradient id="i-foil-gold" x1="10%" y1="0%" x2="90%" y2="100%">
+    <stop offset="0%" stop-color="#8C6A3F"/>
+    <stop offset="28%" stop-color="#F2E3C0"/>
+    <stop offset="50%" stop-color="#D4AF37"/>
+    <stop offset="74%" stop-color="#F2E3C0"/>
+    <stop offset="100%" stop-color="#A8863C"/>
+  </linearGradient>
 
   <!-- The institution's mark, reduced to a stroke. -->
   <symbol id="i-crest" viewBox="0 0 24 24">

@@ -101,7 +101,21 @@
   does not inherit across an external <use> reference in several
   browsers, which would defeat the whole arrangement above.
 -->
-<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true" focusable="false"><defs>
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>
+
+  <!-- A genuine foil-stamped stroke, not a flat colour standing in for
+       one: an actual gold gradient a badge icon can be drawn in, the
+       way a real foil die leaves a graduated sheen rather than a solid
+       tint. objectBoundingBox (the default) rescales it to whichever
+       icon references it, so one definition serves every symbol.
+       Referenced via CSS: `.vessel__badge .icon { stroke: url(#i-foil-gold); }` -->
+  <linearGradient id="i-foil-gold" x1="10%" y1="0%" x2="90%" y2="100%">
+    <stop offset="0%" stop-color="#8C6A3F"/>
+    <stop offset="28%" stop-color="#F2E3C0"/>
+    <stop offset="50%" stop-color="#D4AF37"/>
+    <stop offset="74%" stop-color="#F2E3C0"/>
+    <stop offset="100%" stop-color="#A8863C"/>
+  </linearGradient>
 
   <!-- The institution's mark, reduced to a stroke. -->
   <symbol id="i-crest" viewBox="0 0 24 24">
@@ -517,7 +531,7 @@
        داخل محتوى الصفحة. مقتضبة عن قصد: سطر واحد بلا قرص تناظري، فلا
        تكلّف الترويسة شيئًا يُذكر من الارتفاع. js/worldclock.js يملأ
        القيم الثلاث؛ الأرقام هنا هي حالة ما قبل تشغيل السكربت فقط. -->
-  <div class="headerclock" data-worldclock>
+  <div class="headerclock grain" data-worldclock>
     <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
     <span class="headerclock__times" dir="ltr">
       <span data-clock-london>13:36</span><span class="headerclock__tz">LON</span>
@@ -532,7 +546,7 @@
        بلمسة الإصبع يحمل الأركان الستة ذاتها، وبطاقة سابعة "القائمة
        الكاملة" تفتح اللوحة أدناه بدل الانتقال إلى صفحة — الشريط
        اختصار للمستوى الأول، واللوحة تبقى حيث يقيم الموقع كاملًا. -->
-  <div class="quicknav" aria-label="التنقّل السريع">
+  <div class="quicknav grain" aria-label="التنقّل السريع">
     <div class="quicknav__track">
       <a href="/ar/about/" class="quicknav__tile">
         <span class="vessel" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span></span>
@@ -1079,7 +1093,7 @@
        دفعة واحدة، كما يسرد الدليل المطبوع ملاحقه. نفس شارة الوعاء
        المصوغة التي يحملها شريط التنقّل السريع، فتُقرأ الاثنتان كمادة
        واحدة. -->
-  <div class="footergrid">
+  <div class="footergrid grain">
     <h2 class="footergrid__heading">
       <span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
       استكشف أكثر
@@ -1090,32 +1104,60 @@
         <span class="footergrid__label">الوظائف</span>
       </a>
       <a href="/ar/academics/teaching/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: .5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span></span>
+        <span class="vessel" style="--halo-delay: .3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span></span>
         <span class="footergrid__label">الممارسة التدريسية</span>
       </a>
       <a href="/ar/admissions/policy/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 1s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span></span>
+        <span class="vessel" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span></span>
         <span class="footergrid__label">سياسة القبول</span>
       </a>
       <a href="/ar/students/integrity/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span></span>
+        <span class="vessel" style="--halo-delay: .9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span></span>
         <span class="footergrid__label">النزاهة الأكاديمية</span>
       </a>
       <a href="/ar/students/regulations/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span></span>
+        <span class="vessel" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span></span>
         <span class="footergrid__label">اللوائح الأكاديمية</span>
       </a>
+      <a href="/ar/students/academic-record/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
+        <span class="footergrid__label">سجلك الأكاديمي</span>
+      </a>
       <a href="/ar/governance/decisions/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 2.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
+        <span class="vessel" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
         <span class="footergrid__label">سجل القرارات</span>
       </a>
       <a href="/ar/press/catalogue/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
+        <span class="vessel" style="--halo-delay: 2.1s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
         <span class="footergrid__label">فهرس المطبوعات</span>
       </a>
       <a href="/ar/about/#status" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span></span>
+        <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span></span>
         <span class="footergrid__label">الوضع المؤسسي</span>
+      </a>
+      <a href="/ar/study/level-1/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 2.7s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">المستوى الأول &middot; A1</span>
+      </a>
+      <a href="/ar/study/level-2/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">المستوى الثاني &middot; A2</span>
+      </a>
+      <a href="/ar/study/level-3/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">المستوى الثالث &middot; B1</span>
+      </a>
+      <a href="/ar/study/level-4/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">المستوى الرابع &middot; B2</span>
+      </a>
+      <a href="/ar/study/level-5/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">المستوى الخامس &middot; C1</span>
+      </a>
+      <a href="/ar/study/level-6/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 4.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">المستوى السادس &middot; C2</span>
       </a>
     </div>
   </div>
