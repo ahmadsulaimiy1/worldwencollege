@@ -127,10 +127,10 @@ for (const r of RETIRED_AR) {
   if (r.to === '/ar/governance/evidence/' || r.to === '/ar/governance/decisions/') {
     r.to = '/ar/governance/';
   }
-  // Teaching Practice has no Arabic edition; the Academics pillar's
-  // #teaching section summarises it in Arabic and crosses to the
-  // English page with the (EN) marker.
-  if (r.to.startsWith('/ar/academics/teaching/')) r.to = '/ar/academics/#teaching';
+  // Teaching Practice's Arabic edition was published in Phase 6, so the
+  // derived twins now land on it directly. Sub-page fragments collapse
+  // to the pillar page, whose contents rail carries every section.
+  if (r.to.startsWith('/ar/academics/teaching/')) r.to = '/ar/academics/teaching/';
   // No Arabic press pages exist yet; their twins land on the front door.
   if (r.to.startsWith('/ar/press/')) r.to = '/ar/';
 }

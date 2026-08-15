@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>بوابة الطالب — الكلية العالمية للغة الإنجليزية</title>
-<meta name="description" content="نظرة عامة على بوابة طالب WEC-LC: لوحة التحكم، الحصص المباشرة، الواجبات، المكتبة الرقمية، الكشوف والشهادات.">
+<title>ممارسة التدريس — الكلية العالمية للغة الإنجليزية</title>
+<meta name="description" content="كيف تدرّس الكلية: المنهجية، وكيف يُصمَّم الدرس، وسجل الدعم الذي يعمل منه المعلم، والدليل المرافق، وكيف يُفترض أن يعمل التطوير والمشاهدة.">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -37,26 +37,26 @@
 </style></noscript>
 <meta property="og:site_name" content="الكلية العالمية للغة الإنجليزية">
 <meta property="og:locale" content="ar_AR">
-<meta property="og:title" content="بوابة الطالب — الكلية العالمية للغة الإنجليزية">
-<meta property="og:description" content="نظرة عامة على بوابة طالب WEC-LC: لوحة التحكم، الحصص المباشرة، الواجبات، المكتبة الرقمية، الكشوف والشهادات.">
+<meta property="og:title" content="ممارسة التدريس — الكلية العالمية للغة الإنجليزية">
+<meta property="og:description" content="كيف تدرّس الكلية: المنهجية، وكيف يُصمَّم الدرس، وسجل الدعم الذي يعمل منه المعلم، والدليل المرافق، وكيف يُفترض أن يعمل التطوير والمشاهدة.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://www.worldwencollege.co.uk/ar/student-portal/">
+<meta property="og:url" content="https://www.worldwencollege.co.uk/ar/academics/teaching/">
 <meta property="og:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="بوابة الطالب — الكلية العالمية للغة الإنجليزية">
-<meta name="twitter:description" content="نظرة عامة على بوابة طالب WEC-LC: لوحة التحكم، الحصص المباشرة، الواجبات، المكتبة الرقمية، الكشوف والشهادات.">
+<meta name="twitter:title" content="ممارسة التدريس — الكلية العالمية للغة الإنجليزية">
+<meta name="twitter:description" content="كيف تدرّس الكلية: المنهجية، وكيف يُصمَّم الدرس، وسجل الدعم الذي يعمل منه المعلم، والدليل المرافق، وكيف يُفترض أن يعمل التطوير والمشاهدة.">
 <meta name="twitter:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
-<link rel="canonical" href="https://www.worldwencollege.co.uk/ar/student-portal/">
+<link rel="canonical" href="https://www.worldwencollege.co.uk/ar/academics/teaching/">
 <!-- Assembled in scripts/build.js rather than written out here: a page
      with no counterpart in the other language must declare no alternate
      at all, and there is no way to omit a line from a template that
      only substitutes values. -->
-<link rel="alternate" hreflang="en" href="https://www.worldwencollege.co.uk/student-portal/">
-<link rel="alternate" hreflang="ar" href="https://www.worldwencollege.co.uk/ar/student-portal/">
-<link rel="alternate" hreflang="x-default" href="https://www.worldwencollege.co.uk/student-portal/">
+<link rel="alternate" hreflang="en" href="https://www.worldwencollege.co.uk/academics/teaching/">
+<link rel="alternate" hreflang="ar" href="https://www.worldwencollege.co.uk/ar/academics/teaching/">
+<link rel="alternate" hreflang="x-default" href="https://www.worldwencollege.co.uk/academics/teaching/">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -77,7 +77,7 @@
 </script>
 
 </head>
-<body data-section="student-portal">
+<body data-section="academics">
 <a class="skip-link" href="#main">تخطَّ إلى المحتوى الرئيسي</a>
 <!--
   THE ICON SPRITE.
@@ -289,7 +289,7 @@
         <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
         تواصل معنا
       </a>
-      <a class="topbar__lang" href="/student-portal/" lang="en" hreflang="en" dir="ltr">
+      <a class="topbar__lang" href="/academics/teaching/" lang="en" hreflang="en" dir="ltr">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         English
       </a>
@@ -497,67 +497,345 @@
 </header>
 
 <main id="main">
-<!-- المسار المباشر للطالب المسجَّل إلى برنامجه. مخفي افتراضيًا،
-     ولا يُملأ إلا عبر js/portal-entry.js عند وجود جلسة حقيقية.
-     الصفحتان المقصودتان بالإنجليزية حاليًا، وهذا مذكور صراحةً في
-     نصّ الزرّ كما هو معتاد في بقية الموقع. -->
-<section class="portal-entry" id="portalEntry" hidden aria-live="polite"
-         data-welcome="أهلًا بعودتك، {name}."
-         data-welcome-anon="أهلًا بعودتك."
-         data-lede="برنامجك مفتوح. تابع من حيث توقّفت."
-         data-go="ادخل إلى برنامجي (بالإنجليزية)"
-         data-record="سجلّي الأكاديمي (بالإنجليزية)"></section>
-
-<section class="section--dark section-pad">
+<section class="page-hero section--dark section-pad">
   <div class="container">
-    <span class="eyebrow">بوابة الطالب</span>
-    <h1>حياتك الأكاديمية بأكملها، في حرم رقمي واحد.</h1>
-    <p class="lede">بوابة طالب الكلية هي المركز الرئيسي لكل متعلّم في برنامج <span dir="ltr">IEFC</span> — الحصص والواجبات والتقدّم والشهادات، متاحة من أي مكان.</p>
+    <span class="eyebrow">البرامج الأكاديمية</span>
+    <h1 data-split>كيف تدرّس الكلية.</h1>
+    <p class="lede">كل درس في البرنامج يُخطَّط قبل أن يُدرَّس، وكل درس مخطَّط يحمل سجلًا بما
+      سيحتاجه المعلم عند كل نقطة فيه. هذه الصفحة تصف المنهجية، والسجل، والجزء الفارغ من
+      السجل.</p>
+    <div class="btn-row">
+      <a href="/ar/faculty/" class="btn btn--gold">هيئة التدريس</a>
+      <a href="/ar/academics/" class="btn btn--outline">البرامج الأكاديمية</a>
+    </div>
   </div>
 </section>
 
-<section class="section--light section-pad">
+<nav class="contents" aria-label="في هذه الصفحة">
+  <div class="contents__inner">
+    <span class="contents__label">في هذه الصفحة</span>
+    <ul class="contents__list">
+      <li><a href="#method">المنهجية</a></li>
+      <li><a href="#design">تصميم الدرس</a></li>
+      <li><a href="#support">سجل الدعم</a></li>
+      <li><a href="#companion">الدليل المرافق</a></li>
+      <li><a href="#development">التطوير</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<section class="section--light section-pad" id="method" data-contents="المنهجية">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">ماذا بداخلها</span>
-      <h2>مبنية حول الطالب، مستوى بعد مستوى.</h2>
+      <span class="module-marker">المنهجية</span>
+      <h2>أربعة التزامات تشكّل كل درس.</h2>
+      <p class="lede">ليست فلسفةً مجردة في تعليم اللغات — هذه هي القرارات الأربعة التي تحدد،
+        على نحو مرئي، شكل الدرس في الكلية.</p>
+    </div>
+    <div class="grid grid--4">
+      <div class="card">
+        <span class="card__num">الأول</span>
+        <h3>يُدرَّس بالإنجليزية من المستوى الأول</h3>
+        <p>حتى عند <span dir="ltr">A1</span>، حيث يجري ذلك بلغة مقيدة وتكرار ودعم بصري ومعلم يُبطئ بدل أن يترجم. تعليم اللغة باللغة منهجيةٌ، والمستوى الأول كُتب على هذا الافتراض لا عُدِّل إليه لاحقًا.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">الثاني</span>
+        <h3>التقييم يُكتب أولًا</h3>
+        <p>كل تقييم يوجد قبل التدريس الذي يختبره، فيُبنى الدرس نحو معيار بدل أن يُجمَّع المعيار لاحقًا مما دُرِّس.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">الثالث</span>
+        <h3>التحدث يُقيَّم بالتحدث</h3>
+        <p>تسجيلًا يصححه إنسان، بملاحظات مكتوبة مقابل هدف نطق مسمّى. لا توجد درجة نطق آلية، ولا تُدّعى.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">الرابع</span>
+        <h3>كل درس يخطط للمتعلم الذي لا يتابع</h3>
+        <p>شرح ثانٍ، والأخطاء التي تثيرها هذه النقطة، وأسبابها — كلها مكتوبة في الخطة سلفًا، لا مرتجلة حين يبدو أحدهم تائهًا.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">السجل</span>
+      <h2>ما هو مكتوب.</h2>
+      <p class="lede">البرنامج ليس منهجًا بعناوين دروس. إنه <span dir="ltr">60</span> وحدة،
+        و<span dir="ltr">414</span> عنصرًا مخططًا، وسجل دعم تعليمي من <span dir="ltr">530</span> مدخلة
+        مؤلفة عبر <span dir="ltr">17</span> حقلًا.</p>
+    </div>
+    <div class="stat-row">
+      <div class="stat-row__item"><strong><span dir="ltr">60</span></strong><span>وحدة</span></div>
+      <div class="stat-row__item"><strong><span dir="ltr">414</span></strong><span>عنصرًا مخططًا</span></div>
+      <div class="stat-row__item"><strong><span dir="ltr">17</span></strong><span>حقل دعم لكل درس</span></div>
+      <div class="stat-row__item"><strong><span dir="ltr">530</span></strong><span>مدخلة دعم مؤلفة</span></div>
+    </div>
+    <p class="form-note">طبقة الدعم المؤلفة مكتملة للمستوى الأول؛ وثلاثة حقول أخرى في السجل لا
+      تحمل مدخلات بعد ومدرجة على أنها غير مُثبَتة بعد. الأرقام أعلاه هي ما هو قائم، لا ما هو
+      مخطط له.</p>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">العمود الفارغ</span>
+      <h2>لا شيء هنا شوهد في صفٍّ حقيقي.</h2>
+      <p class="lede">هذه أهم جملة في هذا القسم، ولهذا ليست في هامش.</p>
+    </div>
+    <div class="grid grid--2">
+      <div class="card card--dark">
+        <span class="card__num">لماذا هو فارغ</span>
+        <h3>الكلية لم تدرّس أحدًا</h3>
+        <p>كل مدخلة في سجل الدعم تعلن مصدر معرفتها، وأحد المصادر الأربعة الممكنة هو صف حقيقي. هذا العمود يقف عند الصفر وسيبقى عند الصفر حتى يدرّس معلمٌ دفعةً ويكتب ما حدث.</p>
+      </div>
+      <div class="card card--dark">
+        <span class="card__num">ولماذا هو عمود أصلًا</span>
+        <h3>كي لا يُملأ خلسةً بشيء آخر</h3>
+        <p>النسخة السهلة من هذا السجل كانت ستصف كل شيء بعبارة «خبرتنا التدريسية». إبقاء المشاهدة منفصلةً يعني أن الكلية تستطيع أن تقول بدقة أي ادعاءاتها سيؤكده فصلٌ أول من التدريس أو يصححه أو يقلبه — ولا تستطيع أن تقدّم التصميم على أنه دليل.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="design" data-contents="تصميم الدرس">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">التشريح</span>
+      <h2>ما يحمله كل درس.</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card"><span class="card__num">01</span><h3>لوحة التحكم</h3><p>نظرة مباشرة على مستواك الحالي، حصصك القادمة، وواجباتك المعلّقة.</p></div>
-      <div class="card"><span class="card__num">02</span><h3>الحصص المباشرة</h3><p>حصص محادثة ودروس خصوصية مباشرة، مصمَّمة ولم تبدأ بعد — لم تُدرَّس أي دفعة. وستُسجَّل الجلسات لمن لا يستطيع الحضور.</p></div>
-      <div class="card"><span class="card__num">03</span><h3>الواجبات والامتحانات</h3><p>سلّم واجباتك وأدِّ الامتحانات الإلكترونية، مع تصحيح تلقائي حيثما أمكن.</p></div>
-      <div class="card"><span class="card__num">04</span><h3>تقدّمك</h3><p>تابع تقدّمك وهو يتحدّث مع تقدّمك في كل وحدة. أما الحضور فلا يُتتبَّع — البرنامج غير متزامن، فتتبّعه يقيس الشيء الخطأ.</p></div>
-      <div class="card"><span class="card__num">05</span><h3>المكتبة الرقمية</h3><p>موارد قراءة واستماع ومراجع لمستواك الحالي.</p></div>
-      <div class="card"><span class="card__num">06</span><h3>الكشوف والشهادات</h3><p>كشف درجات رقمي بعد كل مستوى. أما شهادة <span dir="ltr">IEFC</span> نفسها فلا يمكن منحها بعد — لم يُعيَّن ممتحن خارجي — راجع <a href="/ar/students/awards/">الشهادات والمراتب</a>.</p></div>
-      <div class="card"><span class="card__num">07</span><h3>الإشعارات</h3><p>ابقَ على اطّلاع بالمواعيد النهائية والنتائج والإعلانات دون متابعة مستمرة.</p></div>
-      <div class="card"><span class="card__num">08</span><h3>وصول ملائم للجوال</h3><p>البوابة نفسها، مصمّمة للعمل بسلاسة على الهاتف أو الجهاز اللوحي.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad" id="access">
-  <div class="container reveal">
-    <div class="portal-shell">
-      <span class="module-marker" style="display:block;text-align:center;margin:0 auto 16px">قريبًا</span>
-      <h2>بوابة الطالب تنطلق مع فوجنا التأسيسي.</h2>
-      <p class="lede">سيتلقّى الطلاب المسجّلون بيانات دخول البوابة مباشرة من فريق القبول والتسجيل أثناء التهيئة. إن كنت ترغب بوصول مبكر فور توفره، أخبرنا.</p>
-      <div class="btn-row u-center">
-        <a href="mailto:info@worldwencollege.co.uk?subject=Student%20Portal%20Early%20Access" class="btn btn--gold">اطلب وصولًا مبكرًا</a>
-        <a href="/student-portal/preview/" class="btn btn--ghost">معاينة تصميم البوابة (بالإنجليزية)</a>
+      <div class="card">
+        <span class="card__num">قبل</span>
+        <h3>متطلب سابق مسمّى</h3>
+        <p>ما يجب أن يحمله المتعلم سلفًا ليعمل هذا الدرس. تسميته تجعل التسلسل قابلًا للفحص: درسٌ متطلبه لا يُدرَّس في أي موضع أسبق عيبٌ، ويمكن العثور عليه آليًا بدل أن يكتشفه صفٌّ حائر.</p>
       </div>
-      <p class="form-note" style="text-align:center">مسجّل بالفعل؟ رسالة الترحيب الخاصة بك تتضمّن تعليمات الدخول المباشرة إلى البوابة. معاينة التصميم تعرض بيانات توضيحية فقط، وليست حسابًا فعليًا.</p>
+      <div class="card">
+        <span class="card__num">أثناء</span>
+        <h3>مراحل بدقائق معلنة</h3>
+        <p>لكل مرحلة غرض ومدة. والمدد تُجمَع إلى زمن الدرس، والمجموع يُفحَص. خطة درس لا تجتمع مراحلها خطةٌ لم يجرّبها أحد فعلًا.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">بعد</span>
+        <h3>مخرج مسمّى وتقييمه</h3>
+        <p>ما صار المتعلم قادرًا عليه، والتقييم الذي يُظهره. كلاهما يُكتب قبل تقديم الدرس، وهو الترتيب الوحيد الذي يمكن به بناء الدرس نحو المعيار.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section--paper cta-band">
+<section class="section--paper section-pad">
   <div class="container reveal">
-    <h2>لم تسجّل بعد؟</h2>
-    <div class="btn-row u-center">
-      <a href="/ar/admissions/" class="btn btn--red">اطّلع على كيفية التقديم</a>
+    <div class="section-head">
+      <span class="module-marker">مخطط له</span>
+      <h2>المتعلم الذي لا يتابع الشرح الأول.</h2>
+      <p class="lede">معظم خطط الدروس تصف المسار الناجح. هذه تصف المسار غير الناجح أيضًا،
+        سلفًا، لأن هناك يحدث التدريس فعلًا.</p>
+    </div>
+    <div class="grid grid--4">
+      <div class="card">
+        <span class="card__num">مكتوب سلفًا</span>
+        <h3>شرح ثانٍ</h3>
+        <p>طريق مختلف إلى النقطة ذاتها، للمتعلم الذي لم يصله الطريق الأول. ارتجال هذا لحظة الحيرة هو ما يفعله المعلم الخبير؛ وكتابته هي ما يتيح لمعلم أقل خبرة أن يفعله أيضًا.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">مكتوب سلفًا</span>
+        <h3>الأخطاء التي تثيرها هذه النقطة</h3>
+        <p>مسمّاة تحديدًا، لهذا الدرس، لا نصيحةً عامة. الخطأ الذي كنت تتوقعه فرصة تعليمية؛ والخطأ ذاته غير متوقَّع مقاطعة.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">مكتوب سلفًا</span>
+        <h3>ولماذا تحدث تلك الأخطاء</h3>
+        <p>السبب لا العرَض وحده — تداخل من اللغة الأم، أو قاعدة مفرطة التطبيق، أو سمة اعتباطية في الإنجليزية لا بد من حفظها. المعلم الذي يعرف السبب يعالجه؛ ومن يعرف الخطأ وحده لا يملك إلا تصحيحه.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">مكتوب سلفًا</span>
+        <h3>وماذا تفعل بمن ينتهي مبكرًا</h3>
+        <p>امتداد أصعب حقًا لا أطول فحسب. وإلا قضى أقوى متعلم في الصف درسه منتظرًا.</p>
+      </div>
     </div>
   </div>
 </section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">مفحوص لا موثوق</span>
+      <h2>الخطة تُتحقق ضد نفسها.</h2>
+      <p class="lede">برنامج بهذا الحجم لا يبقى متسقًا بالعناية وحدها. عدة خصائص تُفحَص آليًا
+        ويفشل البناء إن انكسرت.</p>
+    </div>
+    <div class="grid grid--3">
+      <div class="card card--dark">
+        <span class="card__num">التسلسل</span>
+        <h3>كل متطلب يُدرَّس أسبق</h3>
+        <p>درسٌ يعتمد على شيء لا يدرّسه البرنامج أبدًا، أو يدرّسه لاحقًا، عيبٌ لا يجده التدقيق البشري على نحو موثوق.</p>
+      </div>
+      <div class="card card--dark">
+        <span class="card__num">التوقيت</span>
+        <h3>دقائق المراحل تجتمع إلى الدرس</h3>
+        <p>يُفحَص حسابيًا. وهو أرخص إشارة ممكنة إلى أن الخطة فُكِّر فيها لا جُمِّعت.</p>
+      </div>
+      <div class="card card--dark">
+        <span class="card__num">التغطية</span>
+        <h3>كل وحدة تحمل تقييماتها</h3>
+        <p>اختبار قصير وواجب ومعيار تصحيح، وفق سياسة واحدة منشورة، عبر الوحدات الستين كلها. الاتساق بهذا الحجم يُفرَض أو لا يوجد.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="support" data-contents="سجل الدعم">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">أربعة أنواع من المعرفة</span>
+      <h2>ليست كل معرفة تدريسية شيئًا واحدًا.</h2>
+      <p class="lede">طمس الفوارق بينها هو كيف يصير الاجتهاد المصمَّم يُستشهَد به دليلًا. كل
+        مدخلة في السجل موسومة بنوع واحد بالضبط.</p>
+    </div>
+    <div class="grid grid--4">
+      <div class="card">
+        <span class="card__num">مشتق</span>
+        <h3>&lt;span dir="ltr"&gt;359&lt;/span&gt; مدخلة</h3>
+        <p>مقروء من البرنامج نفسه: المتطلب الذي يسمّيه الدرس، والدقائق التي تعلنها مراحله، والالتباس الذي كُتب فحصه الذاتي ليصطاده. ليس رأيًا — حقيقة عن المنهج، وقابلة للفحص ضده.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">مُثبَت</span>
+        <h3>&lt;span dir="ltr"&gt;19&lt;/span&gt; مدخلة</h3>
+        <p>مشهود له في التدريس الدولي للإنجليزية وليس خاصًا بهذه الكلية — أن سين الغائب من أعند الأخطاء لدى متعلمي كل لغة أم، وأن العدّ في الإنجليزية اعتباطي ولا بد من حفظه. تركيبٌ، وموسوم أنه تركيب.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">مصمَّم</span>
+        <h3>&lt;span dir="ltr"&gt;152&lt;/span&gt; مدخلة</h3>
+        <p>اجتهاد مؤلف من الذين كتبوا المنهج: كيف يُشرح هذا بطريقة أخرى، وأي تشبيه يصمد، وكيف يُمدّ من أنهى مبكرًا. قابل للدفاع عنه، وقابل للتحسين ممن يدرّسه فيجد أفضل.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">مُشاهَد</span>
+        <h3>&lt;span dir="ltr"&gt;0&lt;/span&gt; مدخلة</h3>
+        <p>ما حدث فعلًا في غرفة فيها متعلمون حقيقيون. هذا فارغ، وفارغ لأن الكلية لم تدرّس أحدًا. ولا يُملأ بالأنواع الثلاثة الأخرى.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="callout__label">الحقول</span>
+      <p><span dir="ltr">17</span> حقلًا في مجموعتين: <span dir="ltr">3</span>
+        منها يُقرأ من المنهج نفسه، و<span dir="ltr">14</span> لا يُقرأ منه، فيُؤلَّف أو
+        يُركَّب — ولهذا يحمل كلٌّ منها مصدره إلى جواره. أسماء الحقول معرّفات تقنية في السجل
+        وتُنشر بالإنجليزية في النسخة الإنجليزية من هذه الصفحة — مبدّل اللغة أعلى
+        الصفحة ينقلك إليها.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">التغطية</span>
+      <h2>مكتملة للمستوى الأول، وصادقة عن البقية.</h2>
+    </div>
+    <div class="grid grid--3">
+      <div class="card card--dark">
+        <span class="card__num">المستوى الأول</span>
+        <h3>&lt;span dir="ltr"&gt;19&lt;/span&gt; درسًا تعليميًا مدعومًا بعمق</h3>
+        <p>حقول الدعم المؤلفة الثمانية مكتوبة لكل درس تعليمي في المستوى الأول — المستوى الذي يلقاه المبتدئ أولًا والذي يملك المعلم فيه أضيق مساحة للارتجال. ثلاثة من حقول السجل السبعة عشر لا تحمل مدخلات بعد، والسجل يدرجها على أنها غير مُثبَتة بعد بدل أن يخفيها.</p>
+      </div>
+      <div class="card card--dark">
+        <span class="card__num">المستويات الثاني–السادس</span>
+        <h3>مكتوبة جزئيًا</h3>
+        <p>الحقول المقروءة من المنهج معبأة عبر البرنامج؛ والحقول المؤلفة تُكتب مستوى بمستوى. ما هو قائم هو ما هو منشور؛ ولا شيء يُستشرَف.</p>
+      </div>
+      <div class="card card--dark">
+        <span class="card__num">السجل كله</span>
+        <h3>قابل للعدّ علنًا</h3>
+        <p><span dir="ltr">530</span> مدخلة مؤلفة اليوم. الرقم يتحرك مع تقدم العمل ويُولَّد من السجل لا يُكتب في هذه الصفحة.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="companion" data-contents="الدليل المرافق">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">المجلد</span>
+      <h2>ما يحتويه دليل المعلم المرافق.</h2>
+    </div>
+    <div class="grid grid--3">
+      <div class="card">
+        <span class="card__num">كل درس</span>
+        <h3>كل الدروس التعليمية الـ&lt;span dir="ltr"&gt;19&lt;/span&gt; للمستوى الأول</h3>
+        <p>كلٌّ بمراحله ودقائقها المعلنة في رأس الصفحة الجاري، ليرى المعلم شكل الدرس دون أن يعود إلى الخطة.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">كل لوحة</span>
+        <h3>موسومة بمصدرها</h3>
+        <p>مشتق أو مُثبَت أو مصمَّم، مطبوعًا على اللوحة ذاتها لا مشروحًا مرة في مقدمة. المعلم الذي يخالف لوحةً يرى فورًا أيخالف المنهج أم الميدان أم المؤلفين.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">وسمٌ واحد غائب</span>
+        <h3>المُشاهَد</h3>
+        <p>الوسم الرابع لا يظهر في أي موضع من الكتاب، والتصدير يقول لماذا. دليلٌ يُسقط الفئة بصمت يدّعي نوعًا من السلطة لا يملكه.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="callout__label">ليس تنزيلًا على هذا الموقع</span>
+      <p>الدليل المرافق مجلد منضَّد تنتجه مطبعة الكلية ولا يُنشر للتنزيل هنا. يستطيع المعلمون
+        والمراجعون وكل من يقيّم عمل الكلية الأكاديمي طلب نسخة عبر
+        <a href="mailto:info@worldwencollege.co.uk?subject=Teacher%27s%20Companion" dir="ltr">info@worldwencollege.co.uk</a>.
+        ويُعرض خاصةً على من يرغب في مراجعته — فكل مجلد أنتجته الكلية لم يراجعه بعدُ أحدٌ لم
+        يكتبه.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="development" data-contents="التطوير">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الموقف</span>
+      <h2>يُقال في الأعلى، لا في الأسفل.</h2>
+    </div>
+    <div class="callout">
+      <span class="callout__label">ما هو صحيح اليوم</span>
+      <p>لم يُشاهَد أي درس. ولم يُسجَّل تطوير مهني مستمر لأحد — السجل الذي سيحمله يحتوي
+        <span dir="ltr">0</span> مدخلة. ولم يدرّس معلمٌ دفعةً في الكلية، لأنه لا توجد دفعة. وأي
+        صفحة تصف تطوير المعلمين هنا برنامجًا جاريًا تصف شيئًا غير موجود.</p>
+    </div>
+    <div class="grid grid--3" style="margin-top:26px">
+      <div class="card">
+        <span class="card__num">ما أنتجته الكتابة</span>
+        <h3>برنامج كامل قابل للفحص</h3>
+        <p><span dir="ltr">60</span> وحدة، و<span dir="ltr">414</span> عنصرًا مخططًا، وكل تقييم مكتوب بمعايير منشورة، و<span dir="ltr">530</span> مدخلة دعم تعليمي. وكل ذلك يستطيع أي أحد فحصه.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">ما لا تنتجه الكتابة</span>
+        <h3>أيًّا من النوع الرابع من المعرفة</h3>
+        <p>ما يفعله صف حقيقي بالدرس، وأين تنكسر الخطة، وأي شرح يعمل مع أي متعلم، وكم تستغرق المرحلة فعلًا. لا شيء من هذا يُستنتَج. إنما يُشاهَد.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">والنتيجة</span>
+        <h3>أثمن تعيين هو معلم ممارس</h3>
+        <p>معلم واحد ودفعة واحدة وفصل واحد ينتج دليلًا لا تستطيع الكلية الحصول عليه بطريقة أخرى — وسيحسّن فورًا مادةً هي اليوم مصمَّمة لا مجرَّبة. وهو مسمًّى أولويةً في <a href="/ar/about/#structure">هيكل الكلية</a>.</p>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:26px">
+      <span class="callout__label">الالتزام المرتبط بهذا</span>
+      <p>حين تبدأ المشاهدة، سيُنشر ما تقلبه بوصفه قلبًا للحكم السابق. سجلٌّ يتبين فيه دائمًا أن
+        الاجتهاد المصمَّم كان صائبًا سجلٌّ لا يفحصه أحد فعلًا.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>من يدرّس بهذا المعيار.</h2>
+    <div class="btn-row u-center">
+      <a href="/ar/faculty/" class="btn btn--gold">هيئة التدريس</a>
+      <a href="/ar/academics/" class="btn btn--outline">البرامج الأكاديمية</a>
+    </div>
+  </div>
+</section>
+
 
 </main>
 <footer class="site-footer lattice aurora" data-nodes="9">
@@ -622,8 +900,5 @@
 <script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
-<script src="/js/auth-config.js"></script>
-<script src="/js/clerk-loader.js"></script>
-<script src="/js/portal-entry.js"></script>
 </body>
 </html>

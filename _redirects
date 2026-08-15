@@ -57,13 +57,13 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 /ar/about/quality-assurance/        /ar/governance/#quality  301
 /ar/admissions/scholarships/        /ar/admissions/tuition/#funding  301
 /ar/standards/verification/         /ar/governance/#verification  301
-/ar/teaching/lesson-design/         /ar/academics/#teaching  301
+/ar/teaching/lesson-design/         /ar/academics/teaching/  301
 /ar/students/listening-lab/         /ar/students/#lab  301
 /admissions/international/          /admissions/#international  301
 /ar/about/academic-senate/          /ar/governance/#senate  301
 /about/quality-assurance/           /governance/#quality  301
 /admissions/scholarships/           /admissions/tuition/#funding  301
-/ar/teaching/development/           /ar/academics/#teaching  301
+/ar/teaching/development/           /ar/academics/teaching/  301
 /ar/admissions/questions/           /ar/faq/  301
 /standards/verification/            /governance/#verification  301
 /teaching/lesson-design/            /academics/teaching/#design  301
@@ -72,7 +72,7 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 /about/academic-senate/             /governance/#senate  301
 /ar/standards/evidence/             /ar/governance/  301
 /ar/standards/research/             /ar/governance/#research  301
-/ar/teaching/companion/             /ar/academics/#teaching  301
+/ar/teaching/companion/             /ar/academics/teaching/  301
 /ar/admissions/payment/             /ar/admissions/tuition/#paying  301
 /teaching/development/              /academics/teaching/#development  301
 /admissions/questions/              /faq/  301
@@ -81,7 +81,7 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 /standards/decisions/               /governance/decisions/  301
 /ar/about/philosophy/               /ar/about/#philosophy  301
 /ar/about/governance/               /ar/governance/  301
-/ar/teaching/support/               /ar/academics/#teaching  301
+/ar/teaching/support/               /ar/academics/teaching/  301
 /ar/admissions/apply/               /ar/admissions/#apply  301
 /ar/admissions/dates/               /ar/admissions/#dates  301
 /ar/admissions/visas/               /ar/admissions/#visas  301
@@ -117,7 +117,7 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 /ar/standards/                      /ar/governance/#standard  301
 /about/basce/                       /governance/#basce  301
 /ar/learning/                       /ar/academics/#learning  301
-/ar/teaching/                       /ar/academics/#teaching  301
+/ar/teaching/                       /ar/academics/teaching/  301
 /ar/library/                        /ar/  301
 /standards/                         /governance/#standard  301
 /learning/                          /academics/#learning  301

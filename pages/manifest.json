@@ -547,7 +547,8 @@
     "contentFile": "academics-teaching.html",
     "lang": "en",
     "dir": "ltr",
-    "contents": true
+    "contents": true,
+    "altHref": "/ar/academics/teaching/"
   },
   {
     "slug": "students-ar",
@@ -558,6 +559,17 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/students/",
+    "contents": true
+  },
+  {
+    "slug": "academics-teaching-ar",
+    "output": "ar/academics/teaching/index.html",
+    "title": "ممارسة التدريس — الكلية العالمية للغة الإنجليزية",
+    "description": "كيف تدرّس الكلية: المنهجية، وكيف يُصمَّم الدرس، وسجل الدعم الذي يعمل منه المعلم، والدليل المرافق، وكيف يُفترض أن يعمل التطوير والمشاهدة.",
+    "contentFile": "academics-teaching.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/academics/teaching/",
     "contents": true
   }
 ]

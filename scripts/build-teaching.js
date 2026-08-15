@@ -47,6 +47,7 @@ const path = require('path');
 const { DatabaseSync } = require('node:sqlite');
 
 const ROOT = path.resolve(__dirname, '..');
+const ltr = (v) => `<span dir="ltr">${v}</span>`;
 const esc = (s) => String(s ?? '')
   .replace(/\s--\s/g, ' — ')
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -157,7 +158,7 @@ const PAGES = {};
 // 1 · TEACHING AT WEC-LC ──────────────────────────────────────────────
 PAGES.hub = {
   slug: 'academics-teaching', output: 'academics/teaching/index.html', file: 'academics-teaching.html',
-  contents: true,
+  contents: true, altHref: '/ar/academics/teaching/',
   title: 'Teaching Practice &mdash; Worldwide English College',
   description: 'How WEC-LC teaches: the method, how a lesson is designed, the support record a '
     + 'teacher works from, the Companion, and how development and observation are meant to work.',
@@ -430,6 +431,220 @@ ${darkCard('The instructor workspace', 'Where marking and feedback happen', 'Bui
 ${cta('Who teaches to this standard.', 'The Faculty', '/faculty/', 'Academics', '/academics/')}`,
 };
 
+
+// 2 · TEACHING AT WEC-LC — THE ARABIC EDITION ─────────────────────────
+// Same record, same figures, same honesty. The seventeen field names
+// are English record identifiers, so the Arabic edition describes the
+// two field groups in prose with the live counts instead of rendering
+// an English-only table; everything else is the full page.
+PAGES.hubAr = {
+  slug: 'academics-teaching-ar', output: 'ar/academics/teaching/index.html', file: 'academics-teaching.ar.html',
+  contents: true, lang: 'ar', dir: 'rtl', altHref: '/academics/teaching/',
+  title: 'ممارسة التدريس — الكلية العالمية للغة الإنجليزية',
+  description: 'كيف تدرّس الكلية: المنهجية، وكيف يُصمَّم الدرس، وسجل الدعم الذي يعمل منه المعلم، '
+    + 'والدليل المرافق، وكيف يُفترض أن يعمل التطوير والمشاهدة.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">البرامج الأكاديمية</span>
+    <h1>كيف تدرّس الكلية.</h1>
+    <p class="lede">كل درس في البرنامج يُخطَّط قبل أن يُدرَّس، وكل درس مخطَّط يحمل سجلًا بما
+      سيحتاجه المعلم عند كل نقطة فيه. هذه الصفحة تصف المنهجية، والسجل، والجزء الفارغ من
+      السجل.</p>
+    <div class="btn-row">
+      <a href="/ar/faculty/" class="btn btn--gold">هيئة التدريس</a>
+      <a href="/ar/academics/" class="btn btn--outline">البرامج الأكاديمية</a>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="method" data-contents="المنهجية">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">المنهجية</span>
+      <h2>أربعة التزامات تشكّل كل درس.</h2>
+      <p class="lede">ليست فلسفةً مجردة في تعليم اللغات — هذه هي القرارات الأربعة التي تحدد،
+        على نحو مرئي، شكل الدرس في الكلية.</p>
+    </div>
+    <div class="grid grid--4">
+${card('الأول', 'يُدرَّس بالإنجليزية من المستوى الأول', `حتى عند ${ltr('A1')}، حيث يجري ذلك بلغة مقيدة وتكرار ودعم بصري ومعلم يُبطئ بدل أن يترجم. تعليم اللغة باللغة منهجيةٌ، والمستوى الأول كُتب على هذا الافتراض لا عُدِّل إليه لاحقًا.`)}
+${card('الثاني', 'التقييم يُكتب أولًا', 'كل تقييم يوجد قبل التدريس الذي يختبره، فيُبنى الدرس نحو معيار بدل أن يُجمَّع المعيار لاحقًا مما دُرِّس.')}
+${card('الثالث', 'التحدث يُقيَّم بالتحدث', 'تسجيلًا يصححه إنسان، بملاحظات مكتوبة مقابل هدف نطق مسمّى. لا توجد درجة نطق آلية، ولا تُدّعى.')}
+${card('الرابع', 'كل درس يخطط للمتعلم الذي لا يتابع', 'شرح ثانٍ، والأخطاء التي تثيرها هذه النقطة، وأسبابها — كلها مكتوبة في الخطة سلفًا، لا مرتجلة حين يبدو أحدهم تائهًا.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">السجل</span>
+      <h2>ما هو مكتوب.</h2>
+      <p class="lede">البرنامج ليس منهجًا بعناوين دروس. إنه ${ltr(String(D.modules))} وحدة،
+        و${ltr(String(D.items))} عنصرًا مخططًا، وسجل دعم تعليمي من ${ltr(String(FILLED))} مدخلة
+        مؤلفة عبر ${ltr(String(D.fields.length))} حقلًا.</p>
+    </div>
+    <div class="stat-row">
+      <div class="stat-row__item"><strong>${ltr(String(D.modules))}</strong><span>وحدة</span></div>
+      <div class="stat-row__item"><strong>${ltr(String(D.items))}</strong><span>عنصرًا مخططًا</span></div>
+      <div class="stat-row__item"><strong>${ltr(String(D.fields.length))}</strong><span>حقل دعم لكل درس</span></div>
+      <div class="stat-row__item"><strong>${ltr(String(FILLED))}</strong><span>مدخلة دعم مؤلفة</span></div>
+    </div>
+    <p class="form-note">طبقة الدعم المؤلفة مكتملة للمستوى الأول؛ وثلاثة حقول أخرى في السجل لا
+      تحمل مدخلات بعد ومدرجة على أنها غير مُثبَتة بعد. الأرقام أعلاه هي ما هو قائم، لا ما هو
+      مخطط له.</p>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">العمود الفارغ</span>
+      <h2>لا شيء هنا شوهد في صفٍّ حقيقي.</h2>
+      <p class="lede">هذه أهم جملة في هذا القسم، ولهذا ليست في هامش.</p>
+    </div>
+    <div class="grid grid--2">
+${darkCard('لماذا هو فارغ', 'الكلية لم تدرّس أحدًا', 'كل مدخلة في سجل الدعم تعلن مصدر معرفتها، وأحد المصادر الأربعة الممكنة هو صف حقيقي. هذا العمود يقف عند الصفر وسيبقى عند الصفر حتى يدرّس معلمٌ دفعةً ويكتب ما حدث.')}
+${darkCard('ولماذا هو عمود أصلًا', 'كي لا يُملأ خلسةً بشيء آخر', 'النسخة السهلة من هذا السجل كانت ستصف كل شيء بعبارة «خبرتنا التدريسية». إبقاء المشاهدة منفصلةً يعني أن الكلية تستطيع أن تقول بدقة أي ادعاءاتها سيؤكده فصلٌ أول من التدريس أو يصححه أو يقلبه — ولا تستطيع أن تقدّم التصميم على أنه دليل.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="design" data-contents="تصميم الدرس">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">التشريح</span>
+      <h2>ما يحمله كل درس.</h2>
+    </div>
+    <div class="grid grid--3">
+${card('قبل', 'متطلب سابق مسمّى', 'ما يجب أن يحمله المتعلم سلفًا ليعمل هذا الدرس. تسميته تجعل التسلسل قابلًا للفحص: درسٌ متطلبه لا يُدرَّس في أي موضع أسبق عيبٌ، ويمكن العثور عليه آليًا بدل أن يكتشفه صفٌّ حائر.')}
+${card('أثناء', 'مراحل بدقائق معلنة', 'لكل مرحلة غرض ومدة. والمدد تُجمَع إلى زمن الدرس، والمجموع يُفحَص. خطة درس لا تجتمع مراحلها خطةٌ لم يجرّبها أحد فعلًا.')}
+${card('بعد', 'مخرج مسمّى وتقييمه', 'ما صار المتعلم قادرًا عليه، والتقييم الذي يُظهره. كلاهما يُكتب قبل تقديم الدرس، وهو الترتيب الوحيد الذي يمكن به بناء الدرس نحو المعيار.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">مخطط له</span>
+      <h2>المتعلم الذي لا يتابع الشرح الأول.</h2>
+      <p class="lede">معظم خطط الدروس تصف المسار الناجح. هذه تصف المسار غير الناجح أيضًا،
+        سلفًا، لأن هناك يحدث التدريس فعلًا.</p>
+    </div>
+    <div class="grid grid--4">
+${card('مكتوب سلفًا', 'شرح ثانٍ', 'طريق مختلف إلى النقطة ذاتها، للمتعلم الذي لم يصله الطريق الأول. ارتجال هذا لحظة الحيرة هو ما يفعله المعلم الخبير؛ وكتابته هي ما يتيح لمعلم أقل خبرة أن يفعله أيضًا.')}
+${card('مكتوب سلفًا', 'الأخطاء التي تثيرها هذه النقطة', 'مسمّاة تحديدًا، لهذا الدرس، لا نصيحةً عامة. الخطأ الذي كنت تتوقعه فرصة تعليمية؛ والخطأ ذاته غير متوقَّع مقاطعة.')}
+${card('مكتوب سلفًا', 'ولماذا تحدث تلك الأخطاء', 'السبب لا العرَض وحده — تداخل من اللغة الأم، أو قاعدة مفرطة التطبيق، أو سمة اعتباطية في الإنجليزية لا بد من حفظها. المعلم الذي يعرف السبب يعالجه؛ ومن يعرف الخطأ وحده لا يملك إلا تصحيحه.')}
+${card('مكتوب سلفًا', 'وماذا تفعل بمن ينتهي مبكرًا', 'امتداد أصعب حقًا لا أطول فحسب. وإلا قضى أقوى متعلم في الصف درسه منتظرًا.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">مفحوص لا موثوق</span>
+      <h2>الخطة تُتحقق ضد نفسها.</h2>
+      <p class="lede">برنامج بهذا الحجم لا يبقى متسقًا بالعناية وحدها. عدة خصائص تُفحَص آليًا
+        ويفشل البناء إن انكسرت.</p>
+    </div>
+    <div class="grid grid--3">
+${darkCard('التسلسل', 'كل متطلب يُدرَّس أسبق', 'درسٌ يعتمد على شيء لا يدرّسه البرنامج أبدًا، أو يدرّسه لاحقًا، عيبٌ لا يجده التدقيق البشري على نحو موثوق.')}
+${darkCard('التوقيت', 'دقائق المراحل تجتمع إلى الدرس', 'يُفحَص حسابيًا. وهو أرخص إشارة ممكنة إلى أن الخطة فُكِّر فيها لا جُمِّعت.')}
+${darkCard('التغطية', 'كل وحدة تحمل تقييماتها', 'اختبار قصير وواجب ومعيار تصحيح، وفق سياسة واحدة منشورة، عبر الوحدات الستين كلها. الاتساق بهذا الحجم يُفرَض أو لا يوجد.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="support" data-contents="سجل الدعم">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">أربعة أنواع من المعرفة</span>
+      <h2>ليست كل معرفة تدريسية شيئًا واحدًا.</h2>
+      <p class="lede">طمس الفوارق بينها هو كيف يصير الاجتهاد المصمَّم يُستشهَد به دليلًا. كل
+        مدخلة في السجل موسومة بنوع واحد بالضبط.</p>
+    </div>
+    <div class="grid grid--4">
+${card('مشتق', `${ltr(String(D.states.derived_from_curriculum || 0))} مدخلة`, 'مقروء من البرنامج نفسه: المتطلب الذي يسمّيه الدرس، والدقائق التي تعلنها مراحله، والالتباس الذي كُتب فحصه الذاتي ليصطاده. ليس رأيًا — حقيقة عن المنهج، وقابلة للفحص ضده.')}
+${card('مُثبَت', `${ltr(String(D.states.established_pedagogy || 0))} مدخلة`, 'مشهود له في التدريس الدولي للإنجليزية وليس خاصًا بهذه الكلية — أن سين الغائب من أعند الأخطاء لدى متعلمي كل لغة أم، وأن العدّ في الإنجليزية اعتباطي ولا بد من حفظه. تركيبٌ، وموسوم أنه تركيب.')}
+${card('مصمَّم', `${ltr(String(D.states.educational_expertise || 0))} مدخلة`, 'اجتهاد مؤلف من الذين كتبوا المنهج: كيف يُشرح هذا بطريقة أخرى، وأي تشبيه يصمد، وكيف يُمدّ من أنهى مبكرًا. قابل للدفاع عنه، وقابل للتحسين ممن يدرّسه فيجد أفضل.')}
+${card('مُشاهَد', `${ltr(String(OBSERVED))} مدخلة`, 'ما حدث فعلًا في غرفة فيها متعلمون حقيقيون. هذا فارغ، وفارغ لأن الكلية لم تدرّس أحدًا. ولا يُملأ بالأنواع الثلاثة الأخرى.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">الحقول</span>
+      <p>${ltr(String(D.fields.length))} حقلًا في مجموعتين: ${ltr(String(derivable.length))}
+        منها يُقرأ من المنهج نفسه، و${ltr(String(authored.length))} لا يُقرأ منه، فيُؤلَّف أو
+        يُركَّب — ولهذا يحمل كلٌّ منها مصدره إلى جواره. أسماء الحقول معرّفات تقنية في السجل
+        وتُنشر بالإنجليزية في النسخة الإنجليزية من هذه الصفحة — مبدّل اللغة أعلى
+        الصفحة ينقلك إليها.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">التغطية</span>
+      <h2>مكتملة للمستوى الأول، وصادقة عن البقية.</h2>
+    </div>
+    <div class="grid grid--3">
+${darkCard('المستوى الأول', `${ltr(String(D.levelOneLessons))} درسًا تعليميًا مدعومًا بعمق`, 'حقول الدعم المؤلفة الثمانية مكتوبة لكل درس تعليمي في المستوى الأول — المستوى الذي يلقاه المبتدئ أولًا والذي يملك المعلم فيه أضيق مساحة للارتجال. ثلاثة من حقول السجل السبعة عشر لا تحمل مدخلات بعد، والسجل يدرجها على أنها غير مُثبَتة بعد بدل أن يخفيها.')}
+${darkCard('المستويات الثاني–السادس', 'مكتوبة جزئيًا', 'الحقول المقروءة من المنهج معبأة عبر البرنامج؛ والحقول المؤلفة تُكتب مستوى بمستوى. ما هو قائم هو ما هو منشور؛ ولا شيء يُستشرَف.')}
+${darkCard('السجل كله', 'قابل للعدّ علنًا', `${ltr(String(FILLED))} مدخلة مؤلفة اليوم. الرقم يتحرك مع تقدم العمل ويُولَّد من السجل لا يُكتب في هذه الصفحة.`)}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="companion" data-contents="الدليل المرافق">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">المجلد</span>
+      <h2>ما يحتويه دليل المعلم المرافق.</h2>
+    </div>
+    <div class="grid grid--3">
+${card('كل درس', `كل الدروس التعليمية الـ${ltr(String(D.levelOneLessons))} للمستوى الأول`, 'كلٌّ بمراحله ودقائقها المعلنة في رأس الصفحة الجاري، ليرى المعلم شكل الدرس دون أن يعود إلى الخطة.')}
+${card('كل لوحة', 'موسومة بمصدرها', 'مشتق أو مُثبَت أو مصمَّم، مطبوعًا على اللوحة ذاتها لا مشروحًا مرة في مقدمة. المعلم الذي يخالف لوحةً يرى فورًا أيخالف المنهج أم الميدان أم المؤلفين.')}
+${card('وسمٌ واحد غائب', 'المُشاهَد', 'الوسم الرابع لا يظهر في أي موضع من الكتاب، والتصدير يقول لماذا. دليلٌ يُسقط الفئة بصمت يدّعي نوعًا من السلطة لا يملكه.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">ليس تنزيلًا على هذا الموقع</span>
+      <p>الدليل المرافق مجلد منضَّد تنتجه مطبعة الكلية ولا يُنشر للتنزيل هنا. يستطيع المعلمون
+        والمراجعون وكل من يقيّم عمل الكلية الأكاديمي طلب نسخة عبر
+        <a href="mailto:info@worldwencollege.co.uk?subject=Teacher%27s%20Companion" dir="ltr">info@worldwencollege.co.uk</a>.
+        ويُعرض خاصةً على من يرغب في مراجعته — فكل مجلد أنتجته الكلية لم يراجعه بعدُ أحدٌ لم
+        يكتبه.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="development" data-contents="التطوير">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الموقف</span>
+      <h2>يُقال في الأعلى، لا في الأسفل.</h2>
+    </div>
+    <div class="callout">
+      <span class="callout__label">ما هو صحيح اليوم</span>
+      <p>لم يُشاهَد أي درس. ولم يُسجَّل تطوير مهني مستمر لأحد — السجل الذي سيحمله يحتوي
+        ${ltr(String(D.cpd))} مدخلة. ولم يدرّس معلمٌ دفعةً في الكلية، لأنه لا توجد دفعة. وأي
+        صفحة تصف تطوير المعلمين هنا برنامجًا جاريًا تصف شيئًا غير موجود.</p>
+    </div>
+    <div class="grid grid--3" style="margin-top:26px">
+${card('ما أنتجته الكتابة', 'برنامج كامل قابل للفحص', `${ltr(String(D.modules))} وحدة، و${ltr(String(D.items))} عنصرًا مخططًا، وكل تقييم مكتوب بمعايير منشورة، و${ltr(String(FILLED))} مدخلة دعم تعليمي. وكل ذلك يستطيع أي أحد فحصه.`)}
+${card('ما لا تنتجه الكتابة', 'أيًّا من النوع الرابع من المعرفة', 'ما يفعله صف حقيقي بالدرس، وأين تنكسر الخطة، وأي شرح يعمل مع أي متعلم، وكم تستغرق المرحلة فعلًا. لا شيء من هذا يُستنتَج. إنما يُشاهَد.')}
+${card('والنتيجة', 'أثمن تعيين هو معلم ممارس', 'معلم واحد ودفعة واحدة وفصل واحد ينتج دليلًا لا تستطيع الكلية الحصول عليه بطريقة أخرى — وسيحسّن فورًا مادةً هي اليوم مصمَّمة لا مجرَّبة. وهو مسمًّى أولويةً في <a href="/ar/about/#structure">هيكل الكلية</a>.')}
+    </div>
+    <div class="callout" style="margin-top:26px">
+      <span class="callout__label">الالتزام المرتبط بهذا</span>
+      <p>حين تبدأ المشاهدة، سيُنشر ما تقلبه بوصفه قلبًا للحكم السابق. سجلٌّ يتبين فيه دائمًا أن
+        الاجتهاد المصمَّم كان صائبًا سجلٌّ لا يفحصه أحد فعلًا.</p>
+    </div>
+  </div>
+</section>
+
+${cta('من يدرّس بهذا المعيار.', 'هيئة التدريس', '/ar/faculty/', 'البرامج الأكاديمية', '/ar/academics/')}`,
+};
+
 // ── write ────────────────────────────────────────────────────────────
 const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
@@ -446,8 +661,9 @@ for (const p of Object.values(PAGES)) {
   fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
-    contentFile: p.file, lang: 'en', dir: 'ltr',
+    contentFile: p.file, lang: p.lang || 'en', dir: p.dir || 'ltr',
   };
+  if (p.altHref) entry.altHref = p.altHref;
   if (p.contents) entry.contents = true;
   const i = entries.findIndex((e) => e.slug === p.slug);
   if (i >= 0) entries[i] = { ...entries[i], ...entry }; else entries.push(entry);
