@@ -425,5 +425,48 @@ for (const [label, file] of [['English', 'admissions-tuition.html'],
     `printed ${printed}, rows sum to ${summed}`);
 }
 
+
+// ── THE CHAPTERS THE HOMEPAGE PROMISES ITSELF ────────────────────────
+//
+// The accreditation pathway shipped to the Arabic edition and silently
+// missed the English one. The insert script asserted its anchor existed,
+// THEN renumbered the chapter headings — mutating that same anchor away
+// — and the replace quietly did nothing while reporting success. Three
+// commits later the English page was still running I, II, III, IV, V,
+// VI, VII, IX.
+//
+// Nothing caught it. The route audit checks that a page is not broken,
+// and a page with a chapter missing is not broken; it is just missing a
+// chapter. The typography audit measures what IS there. Both were green.
+//
+// Two checks, because they fail on different mistakes. The numerals
+// catch a chapter that vanished from anywhere in the sequence, whatever
+// it was; the pairing catches an edition that received a section its
+// counterpart did not, which is the specific fault that happened here.
+{
+  const home = readFileSync(path.join(ROOT, 'pages/home.html'), 'utf8');
+  const homeAr = readFileSync(path.join(ROOT, 'pages/home.ar.html'), 'utf8');
+  const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+
+  for (const [label, src] of [['English', home], ['Arabic', homeAr]]) {
+    const found = [...src.matchAll(/"roman">([IVX]+)</g)].map((m) => m[1]);
+    const expected = ROMAN.slice(0, found.length);
+    check(`${label} homepage chapters are numbered without a gap — ${found.length} chapters`,
+      found.join(',') === expected.join(','),
+      `got ${found.join(', ')} — expected ${expected.join(', ')}`);
+  }
+
+  // Every chapter-level section id must exist in both editions. The two
+  // pages are translations of one document, so a section in one and not
+  // the other is a defect in whichever is missing it.
+  const ids = (src) => new Set([...src.matchAll(/<section class="chapter[^"]*"[^>]*id="([^"]+)"/g)].map((m) => m[1]));
+  const en = ids(home), ar = ids(homeAr);
+  const missingAr = [...en].filter((i) => !ar.has(i));
+  const missingEn = [...ar].filter((i) => !en.has(i));
+  check(`Every homepage chapter exists in both editions — ${en.size} English, ${ar.size} Arabic`,
+    missingAr.length === 0 && missingEn.length === 0,
+    `missing from Arabic: ${missingAr.join(', ') || 'none'}; missing from English: ${missingEn.join(', ') || 'none'}`);
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);
