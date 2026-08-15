@@ -93,18 +93,195 @@ const PER_LEVEL = ltr('$3,166.67');
 const PAGES = {};
 
 // 1 · كيفية التقديم ───────────────────────────────────────────────────
-PAGES.apply = {
-  slug: 'admissions-apply-ar', output: 'ar/admissions/apply/index.html', file: 'admissions-apply.ar.html',
-  altHref: '/admissions/apply/',
-  title: 'كيفية التقديم — الكلية العالمية للغة الإنجليزية',
-  description: 'مراحل التقديم الخمس في الكلية العالمية للغة الإنجليزية، وما يحدث في كل مرحلة، ومن ينفذها، وكم تستغرق.',
-  body: `${hero('القبول', 'كيفية التقديم.',
-    'خمس مراحل، موصوفة كما تجري فعلًا. وحيث تتولى المرحلة شخصٌ لا برنامج، تقول هذه الصفحة ذلك '
-    + 'صراحةً — لأن هذا هو ما يحدد المدة ومع من تتعامل.',
-    `<div class="btn-row">
-      <a href="/ar/admissions/#apply" class="btn btn--gold">ابدأ طلبك</a>
-      <a href="/ar/admissions/entry-requirements/" class="btn btn--outline">شروط الالتحاق</a>
-    </div>`)}
+
+
+// 2 · شروط الالتحاق ───────────────────────────────────────────────────
+
+
+// 3 · سداد الرسوم ─────────────────────────────────────────────────────
+
+
+// 4 · المنح ───────────────────────────────────────────────────────────
+
+
+// 5 · التأشيرات ───────────────────────────────────────────────────────
+
+
+// 6 · المواعيد ────────────────────────────────────────────────────────
+
+
+// 7 · أسئلة القبول ────────────────────────────────────────────────────
+
+
+// 8 · الدراسة ─────────────────────────────────────────────────────────
+PAGES.admissions = {
+  slug: 'admissions-ar', output: 'ar/admissions/index.html', file: 'admissions.ar.html',
+  contents: true,
+  altHref: '/admissions/',
+  title: 'القبول — الكلية العالمية للغة الإنجليزية',
+  description: 'قرار الالتحاق كاملًا في صفحة واحدة: هل تنطبق الشروط عليك، وكيف تقدّم، ومتى تبدأ، وما يخص المتقدمين الدوليين والتأشيرات.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">القبول</span>
+    <h1>كيفية الالتحاق ببرنامج الطلاقة الدولي في اللغة الإنجليزية.</h1>
+    <p class="lede">رحلة واضحة من خمس خطوات، من الاستفسار الأول إلى وحدتك الدراسية الأولى — مصممة لتلاميذ المدارس وطلاب الجامعات والمهنيين العاملين والمتقدمين الدوليين على حد سواء.</p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">لمن صُممت الكلية</span>
+      <h2>مبنية لمتعلّمين طموحين، في كل مرحلة.</h2>
+    </div>
+    <div class="tag-row">
+      <span class="tag">تلاميذ المدارس</span><span class="tag">طلاب المرحلة الثانوية</span>
+      <span class="tag">طلاب الجامعات</span><span class="tag">المهنيون العاملون</span>
+      <span class="tag">موظفو القطاع الحكومي</span><span class="tag">قادة الأعمال</span>
+      <span class="tag">الطلاب الدوليون</span><span class="tag">المتقدّمون للدراسة بالخارج</span>
+      <span class="tag">الباحثون عن كفاءة لغوية متقدّمة</span>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad" id="self-assessment">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الخطوة الأولى · اعرف نقطة انطلاقك</span>
+      <h2>أي عبارة تصف مستواك اليوم؟</h2>
+      <p class="lede">تقييم ذاتي مدته 30 ثانية لمساعدتك على التقديم — وليس الاختبار الرسمي لتحديد المستوى، الذي يتم في الخطوة الثالثة.</p>
+    </div>
+    <form class="level-quiz" data-level-quiz
+      data-result-template="بناءً على إجابتك، نقترح أن تبدأ من المستوى {roman} — {name} ({cefr})."
+      data-levels='[
+        {"roman":"الأول","name":"برنامج التأسيس","cefr":"A1"},
+        {"roman":"الثاني","name":"البرنامج الابتدائي","cefr":"A2"},
+        {"roman":"الثالث","name":"البرنامج المتوسط","cefr":"B1"},
+        {"roman":"الرابع","name":"المتوسط المتقدم","cefr":"B2"},
+        {"roman":"الخامس","name":"البرنامج المتقدم","cefr":"C1"},
+        {"roman":"السادس","name":"برنامج الإتقان","cefr":"C2"}
+      ]'>
+      <fieldset>
+        <legend class="sr-only">أي عبارة تصف مستواك اليوم؟</legend>
+        <div class="level-quiz__options">
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="0"><span>أستطيع فهم واستخدام عبارات يومية بسيطة والتعريف بنفسي، لكنني أحتاج مساعدة في معظم المحادثات.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="1"><span>أستطيع التحدث عن مواضيع مألوفة مثل عائلتي ومدرستي وروتيني اليومي بجمل بسيطة.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="2"><span>أستطيع التعامل مع معظم المواقف اليومية، ووصف تجاربي، وإعطاء أسباب بسيطة لآرائي.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="3"><span>أستطيع مناقشة مجموعة واسعة من المواضيع بطلاقة، ومتابعة الأفكار الرئيسية للنصوص المعقّدة، والتفاعل بشكل طبيعي مع الناطقين الأصليين.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="4"><span>أستطيع التعبير عن نفسي بطلاقة وعفوية حول مواضيع معقّدة، واستخدام الإنجليزية بمرونة لأغراض أكاديمية أو مهنية.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="5"><span>أستطيع فهم كل ما أقرأه أو أسمعه تقريبًا، وتلخيص معلومات من مصادر مختلفة، والتعبير عن نفسي بدقة في أي موقف.</span></label>
+        </div>
+      </fieldset>
+      <button type="submit" class="btn btn--gold">اعرف مستواك المقترح للبدء</button>
+      <div class="level-quiz__result" data-level-quiz-result hidden>
+        <span class="callout__label" style="color:var(--gold-bright)">نقطة الانطلاق المقترحة</span>
+        <p data-level-quiz-text></p>
+        <div class="btn-row">
+          <a href="/ar/academics/#iefc" class="btn btn--ghost">اطّلع على هذا المستوى في برنامج IEFC</a>
+          <a href="#apply" class="btn btn--gold">ابدأ طلبك الآن</a>
+        </div>
+      </div>
+      <p class="form-note">هذا تقدير ذاتي إرشادي لمساعدتك على التقديم بثقة — يتم تأكيد مستواك الفعلي عبر تقييم تحديد المستوى في الخطوة الثالثة.</p>
+    </form>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">رحلة التقديم</span>
+      <h2>خمس خطوات نحو الالتحاق.</h2>
+    </div>
+    <ol class="dot-list">
+      <li><span class="num">01</span><span><strong>استفسر واختر نقطة انطلاقك</strong> — أخبرنا بمستواك الحالي في اللغة الإنجليزية وأهدافك.</span><span class="leader"></span></li>
+      <li><span class="num">02</span><span><strong>قدّم طلبك</strong> — النموذج أدناه، إلى جانب إثبات الهوية وأي شهادات إنجليزية سابقة تملكها.</span><span class="leader"></span></li>
+      <li><span class="num">03</span><span><strong>تقييم تحديد المستوى</strong> — تقييم قصير يحدّد المستوى الصحيح لانطلاقك، من التأسيس إلى المتقدّم.</span><span class="leader"></span></li>
+      <li><span class="num">04</span><span><strong>العرض والتسجيل</strong> — استلم عرض القبول، أكّد خطة الدفع، وثبّت مقعدك.</span><span class="leader"></span></li>
+      <li><span class="num">05</span><span><strong>التوجيه والوحدة الأولى</strong> — تهيئة على الحرم الرقمي، ثم يُفتح المستوى الأول وتبدأ وحدتك الأولى.</span><span class="leader"></span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section--dark section-pad" id="apply">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">ابدأ طلبك الآن</span>
+      <h2>الخطوة الثانية: قدّم طلبك.</h2>
+      <p class="lede">يتصل هذا النموذج مباشرة بفريق القبول والتسجيل. إذا تعذّر الوصول إلى نظام التقديم الإلكتروني للحظات، ستفتح بياناتك في تطبيق البريد الإلكتروني بدلًا من ذلك — في الحالتين، لن تفقد ما أدخلته.</p>
+    </div>
+
+    <form class="form-grid" data-admissions-form
+      data-endpoint="/api/admissions/apply"
+      data-fallback-email="info@worldwencollege.co.uk"
+      data-storage-key="wec-lc-admissions-draft-ar"
+      data-loading-text="جارٍ الإرسال…"
+      data-error-text="يرجى تصحيح الحقول المظلّلة أدناه."
+      data-success-text="تم استلام طلبك — سنتواصل معك قريبًا."
+      data-fallback-text="تعذّر الوصول إلى نظام التقديم الإلكتروني، لذا فتحنا تطبيق البريد الإلكتروني ببياناتك جاهزة للإرسال — يرجى الضغط على إرسال لإكمال طلبك."
+      data-retry-label="أعد المحاولة عبر النموذج الإلكتروني"
+      data-level-summary-template="المستوى المقترح للبدء: {text}"
+      novalidate dir="rtl">
+
+      <div class="field field--full"><div class="form-status" data-form-status role="status" aria-live="polite"></div></div>
+
+      <div class="field field--full" data-level-summary hidden style="background:rgba(199,162,74,.08);border:1px solid var(--line-dark);border-radius:6px;padding:12px 16px;">
+        <span style="font-size:.82rem;color:var(--gold-bright)" data-level-summary-text></span>
+        <a href="#self-assessment" style="font-size:.78rem;text-decoration:underline;margin-right:.8em;color:rgba(247,244,236,.7)">أعد التقييم الذاتي</a>
+      </div>
+
+      <div class="field">
+        <label for="app-name">الاسم الكامل</label>
+        <input id="app-name" name="fullName" type="text" required aria-describedby="app-name-error">
+        <span class="field__error" id="app-name-error" role="alert">الرجاء إدخال اسمك الكامل.</span>
+      </div>
+      <div class="field">
+        <label for="app-email">البريد الإلكتروني</label>
+        <input id="app-email" name="email" type="email" required dir="ltr" aria-describedby="app-email-error">
+        <span class="field__error" id="app-email-error" role="alert">الرجاء إدخال بريد إلكتروني صحيح.</span>
+      </div>
+      <div class="field field--full">
+        <label for="app-country">بلد الإقامة</label>
+        <select id="app-country" name="country" required aria-describedby="app-country-error">
+          <option value="">اختر بلدك</option>
+          <option value="AF">أفغانستان</option><option value="DZ">الجزائر</option><option value="AR">الأرجنتين</option>
+          <option value="AU">أستراليا</option><option value="AT">النمسا</option><option value="BH">البحرين</option>
+          <option value="BD">بنغلاديش</option><option value="BE">بلجيكا</option><option value="BR">البرازيل</option>
+          <option value="CM">الكاميرون</option><option value="CA">كندا</option><option value="TD">تشاد</option>
+          <option value="CL">تشيلي</option><option value="CN">الصين</option><option value="CO">كولومبيا</option>
+          <option value="CD">جمهورية الكونغو الديمقراطية</option><option value="EG">مصر</option><option value="ET">إثيوبيا</option>
+          <option value="FR">فرنسا</option><option value="GM">غامبيا</option><option value="DE">ألمانيا</option>
+          <option value="GH">غانا</option><option value="GR">اليونان</option><option value="GN">غينيا</option>
+          <option value="IN">الهند</option><option value="ID">إندونيسيا</option><option value="IQ">العراق</option>
+          <option value="IE">أيرلندا</option><option value="IT">إيطاليا</option><option value="CI">ساحل العاج</option>
+          <option value="JP">اليابان</option><option value="JO">الأردن</option><option value="KE">كينيا</option>
+          <option value="KW">الكويت</option><option value="LB">لبنان</option><option value="LR">ليبيريا</option>
+          <option value="LY">ليبيا</option><option value="MY">ماليزيا</option><option value="ML">مالي</option>
+          <option value="MX">المكسيك</option><option value="MA">المغرب</option><option value="NL">هولندا</option>
+          <option value="NZ">نيوزيلندا</option><option value="NE">النيجر</option><option value="NG">نيجيريا</option>
+          <option value="OM">عُمان</option><option value="PK">باكستان</option><option value="PH">الفلبين</option>
+          <option value="PL">بولندا</option><option value="PT">البرتغال</option><option value="QA">قطر</option>
+          <option value="RU">روسيا</option><option value="RW">رواندا</option><option value="SA">المملكة العربية السعودية</option>
+          <option value="SN">السنغال</option><option value="SL">سيراليون</option><option value="SG">سنغافورة</option>
+          <option value="SO">الصومال</option><option value="ZA">جنوب أفريقيا</option><option value="KR">كوريا الجنوبية</option>
+          <option value="ES">إسبانيا</option><option value="LK">سريلانكا</option><option value="SD">السودان</option>
+          <option value="SE">السويد</option><option value="CH">سويسرا</option><option value="SY">سوريا</option>
+          <option value="TZ">تنزانيا</option><option value="TH">تايلاند</option><option value="TG">توغو</option>
+          <option value="TN">تونس</option><option value="TR">تركيا</option><option value="UG">أوغندا</option>
+          <option value="UA">أوكرانيا</option><option value="AE">الإمارات العربية المتحدة</option>
+          <option value="GB">المملكة المتحدة</option><option value="US">الولايات المتحدة الأمريكية</option>
+          <option value="VN">فيتنام</option><option value="YE">اليمن</option><option value="ZM">زامبيا</option>
+          <option value="ZW">زيمبابوي</option><option value="OTHER">أخرى</option>
+        </select>
+        <span class="field__error" id="app-country-error" role="alert">الرجاء اختيار بلدك.</span>
+      </div>
+
+      <div class="field field--full">
+        <button type="submit" class="btn btn--gold" data-submit-btn><span data-btn-label>إرسال الطلب</span></button>
+        <p class="form-note">تفضّل البريد الإلكتروني؟ <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">راسل فريق القبول والتسجيل مباشرة</a>.</p>
+      </div>
+    </form>
+  </div>
+</section>
 
 <section class="section--light section-pad">
   <div class="container reveal">
@@ -177,21 +354,7 @@ ${darkCard('بلا حساب', 'الاستعلام دون تسجيل دخول', '
   </div>
 </section>
 
-${cta('جاهز للبدء؟', 'قدّم الآن', '/ar/admissions/#apply', 'أسئلة القبول', '/ar/admissions/questions/')}`,
-};
-
-// 2 · شروط الالتحاق ───────────────────────────────────────────────────
-PAGES.entry = {
-  slug: 'admissions-entry-ar', output: 'ar/admissions/entry-requirements/index.html', file: 'admissions-entry.ar.html',
-  altHref: '/admissions/entry-requirements/',
-  title: 'شروط الالتحاق — الكلية العالمية للغة الإنجليزية',
-  description: 'ما تشترطه الكلية على المتقدم: لا مؤهل سابق، ومحادثة لتحديد المستوى، ومتطلبات عملية يحتاجها البرنامج فعلًا.',
-  body: `${hero('القبول', 'ما هو مطلوب فعلًا.',
-    'ليس لبرنامج <span dir="ltr">IEFC</span> شرط قبول أكاديمي. المطلوب هو نقطة بداية صحيحة، '
-    + 'ومجموعة صغيرة من المتطلبات العملية، كل واحد منها مذكور لأن جزءًا محددًا من البرنامج '
-    + 'يستخدمه.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="requirements" data-contents="شروط الالتحاق">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">الشروط الأكاديمية</span>
@@ -259,21 +422,218 @@ ${darkCard('بريد إلكتروني', 'عنوان تقرأه', 'تحديد ا�
   </div>
 </section>
 
-${cta('انظر ما ستدخل إليه.', 'المستويات الستة', '/ar/study/', 'كيفية التقديم', '/ar/admissions/apply/')}`,
+<section class="section--light section-pad" id="dates" data-contents="المواعيد">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">البدء</span>
+      <h2>القبول مستمر.</h2>
+      <p class="lede">هذا ليس اختيارًا تسويقيًا، بل ما تفعله المنصة فعلًا، ووصف غيره سيكون وصفًا
+        لبرنامج غير موجود.</p>
+    </div>
+    <div class="grid grid--3">
+${card('يوم تسجيلك', 'المستوى الأول يفتح فورًا', 'السداد المؤكد يُنشئ تسجيلك، والدرس الأول متاح في اليوم نفسه. لا شيء محجوز حتى موعد بدء.')}
+${card('بإيقاعك', 'التقدّم فردي', 'سجل تقدّمك لك وحدك. لا صف يسبقك ولا صف ينتظرك، ولا درس يُفتح في تاريخ.')}
+${card('مستوى واحد في كل مرة', 'التالي يفتح حين يُغلق الحالي', 'تُضاف المستويات من الثاني إلى السادس مع إتمام كل مستوى قبله، سواء دفعت بالمستوى أو دفعت البرنامج كاملًا. ويؤكد الإتمامَ موظفٌ لا حسابٌ آلي — فليس لدى الكلية محرك تصحيح آلي.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">لماذا لا توجد مواعيد فصول</span>
+      <h2>لأن القرار الذي وراءها لم يُتخذ.</h2>
+      <p class="lede">التقويم ليس تمرين تنسيق. هو ترميز لنموذج تشغيل، ولم تختر الكلية بعد أي
+        النماذج هي.</p>
+    </div>
+    <div class="grid grid--3">
+${card('الخيار الأول', 'قبول مستمر وإيقاع فردي', 'ما يجري اليوم. لا أحد ينتظر ليبدأ. وضعفه معروف: الدراسة الفردية الخالصة تنتهي نهاية سيئة، لسبب مفهوم — لا نقاط ثابتة، ولا شيء يمكن أن تتأخر عنه.')}
+${card('الخيار الثاني', 'دفعات ثابتة وفصول محددة', 'البنية التي تجعل الناس يُنهون — إيقاع مشترك، وحصص مباشرة يكون فيها الجميع عند النقطة نفسها، وتخرّج له معنى. وثمنها أن متقدمًا في أكتوبر ينتظر إلى يناير، وأنها تستلزم إعادة بناء آلية التقدّم.')}
+${card('الخيار الثالث', 'دخول مستمر بإيقاع ثابت', 'دراسة بإيقاعك، مع جلسات مباشرة ونوافذ امتحان وتهيئة على جدول دوري منشور تنضم إلى أقرب موعد منه. هذا ما صاغته الكلية كتوصية. ولم يُعتمد.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">ما يعنيه هذا لك اليوم</span>
+      <p>كل ما تدرسه متاح عند التسجيل وبإيقاعك أنت. الجدول المباشر الدوري الموصوف في الخيار
+        الثالث لا يعمل بعد. وصفحة وضع الكلية تدرج التقويم الأكاديمي وتاريخ أول دفعة ضمن
+        المعلّق، وهذه الصفحة لا تناقضها.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">كم يستغرق المستوى</span>
+      <h2>رقم تصميم، لا قياس.</h2>
+    </div>
+    <div class="grid grid--2">
+${darkCard(ltr('200'), 'ساعة تأهيلية لكل مستوى', 'حجم العمل المصمَّم لمستوى واحد، شاملًا المادة المُدرَّسة والدراسة الذاتية والتطبيق والتقييم. هو الرقم الذي بُني عليه المنهج، ولم يُقَس بعد على متعلمين حقيقيين لأنه لم يوجد متعلمون.')}
+${darkCard(ltr('1,200'), 'عبر المستويات الستة', 'مجموع الستة. وكم يستغرق ذلك بالأشهر يعتمد كليًا على الساعات التي تستطيع منحها أسبوعيًا، ولهذا تنشر الكلية الساعات لا عددًا من الأشهر لا تستطيع الوقوف خلفه.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad" id="international" data-contents="المتقدمون الدوليون">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">المتقدمون الدوليون</span>
+      <h2>البرنامج مبني للدارس البعيد.</h2>
+      <p class="lede">القبول مفتوح عالميًا والدراسة كلها عن بُعد: لا انتقال ولا سكن ولا حرم
+        يُقصد. الدروس المرحلية تُستأنف من حيث توقفت، والتسجيلات هي البديل الدائم للجلسات
+        المباشرة لمن تفصله المناطق الزمنية، ولا تُعامل بوصفها الخيار الأدنى. ولم تُدرَّس دفعة
+        بعد، فلا جدول مباشر مُثبت على مواقع طلاب حقيقية — يُذكر هذا هنا لأنه يؤثر في قرارك.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="visas" data-contents="التأشيرات">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الموقف</span>
+      <h2>يُذكر بلا تحفّظ.</h2>
+    </div>
+    <div class="callout">
+      <span class="callout__label">ما لا تفعله الكلية</span>
+      <p>الكلية ليست جهة كفالة طلاب مرخّصة. لا تصدر تأكيد قبول للدراسة، ولا خطاب تأشيرة، ولا
+        إفادة لأغراض الهجرة، ولا أي مستند تقبله سلطة هجرة أساسًا لتأشيرة دراسة. ولا تقدّم — ولن
+        تقدّم — مساعدة في طلبات الهجرة. ولا يجوز قراءة أي صفحة أخرى في هذا الموقع على أنها
+        تخفف من ذلك.</p>
+    </div>
+    <div class="grid grid--3">
+${card('لماذا', 'لأنها تُدرّس عن بُعد', 'تأشيرات الدراسة وُجدت لإتاحة الحضور الجسدي للدراسة. برنامج <span dir="ltr">IEFC</span> لا يتضمن حضورًا جسديًا في أي مكان — لا يوجد حرم يُحضَر إليه. التأشيرة ليست محجوبة؛ هي ببساطة ليست جزءًا من طبيعة هذا البرنامج.')}
+${card('النتيجة', 'تدرس من بيتك', 'حيثما تعيش، تدرس هناك. لا سفر ولا سكن ولا تكلفة انتقال، ولا خطر هجرة ناشئ عن البرنامج نفسه.')}
+${card('الاستثناء', 'لا يوجد', 'لا لأي مستوى، ولا لأي ترتيب سداد، ولا لأي جنسية، ولا لأي جهة راعية. لا توجد حالة تستطيع الكلية فيها المساعدة، ووصف حالات هامشية لن ينتج إلا أملًا لا أساس له.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">تحذير يستحق النشر</span>
+      <h2>من يعرض عليك تأشيرة باسم الكلية فهو يحتال عليك.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('لا وكيل يملك هذه الصلاحية', 'لأن الكلية نفسها لا تملكها', 'لا تستطيع الكلية تفويض صلاحية لا تملكها. أي شخص أو وكالة تعرض تأشيرة دراسة باسم الكلية، أو خطاب قبول لأغراض الهجرة، أو دخولًا «مضمونًا» إلى المملكة المتحدة عن طريقها، يعرض ما لا تستطيع الكلية نفسها الوفاء به.')}
+${card('ما تفعله', 'اكتب إلينا وأخبرنا', 'أرسل ذلك إلى <a href="mailto:info@worldwencollege.co.uk" dir="ltr">info@worldwencollege.co.uk</a>. نشر هذا التحذير قليل القيمة إن ذهبت البلاغات سدى، والكلية التي تعلم باحتيال باسمها وتصمت شريكة فيه.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">إن كان هدفك الدراسة بالخارج</span>
+      <h2>ما يستطيع البرنامج فعله لذلك حقًا.</h2>
+    </div>
+    <div class="grid grid--3">
+${darkCard('يستطيع', 'بناء الإنجليزية التي تطلبها الوجهة', 'تعمل المستويات العليا مباشرةً على القراءة الأكاديمية والكتابة الأكاديمية والنقاش والحجاج الرسمي — وهي ما يصنع الفرق بعد الوصول، وما لا تضمنه درجة اختبار.')}
+${darkCard('يستطيع', 'إعدادك للاختبارات المعترف بها', 'الإعداد لـ <span dir="ltr">IELTS</span> و<span dir="ltr">TOEFL</span> و<span dir="ltr">Cambridge</span> مدمج في المنهج من المستوى المتوسط المتقدم فصاعدًا. هذه الاختبارات، لا شهادة هذه الكلية، هي ما تعترف به اليوم جهات القبول وأنظمة الهجرة.')}
+${darkCard('لا يستطيع', 'أن يحل محل مؤهل معترف به', 'لم يُعيَّن ممتحن خارجي ولا تحمل الكلية اعتمادًا، فلا ينبغي لأحد أن يعتمد على شهادة <span dir="ltr">IEFC</span> كمؤهل قبول أو هجرة. هذا هو الموقف الصريح، ولن يتغيّر إلا حين يتغيّر فعلًا.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light cta-band">
+  <div class="container reveal">
+    <h2>تريد معرفة تكلفة كل مستوى؟</h2>
+    <div class="btn-row u-center">
+      <a href="/ar/admissions/tuition/" class="btn btn--red">اطّلع على الرسوم الدراسية</a>
+    </div>
+  </div>
+</section>
+`,
 };
 
-// 3 · سداد الرسوم ─────────────────────────────────────────────────────
-PAGES.payment = {
-  slug: 'admissions-payment-ar', output: 'ar/admissions/payment/index.html', file: 'admissions-payment.ar.html',
-  altHref: '/admissions/payment/',
-  title: 'سداد الرسوم — الكلية العالمية للغة الإنجليزية',
-  description: 'كيف يجري السداد فعلًا: العملة المعتمدة، وسائل الدفع حسب البلد، التقسيط، وما لم يُقرَّر بعد.',
-  body: `${hero('القبول', 'سداد الرسوم.',
-    `الرسوم منشورة في <a href="/ar/admissions/tuition/">الرسوم الدراسية</a>. هذه الصفحة عن `
-    + 'الآلية — بأي عملة تُحاسَب، وأي وسيلة دفع تعمل من بلدك، وماذا يحدث إن احتجت استرداد '
-    + 'أموالك.')}
+PAGES.tuition = {
+  slug: 'admissions-tuition-ar', output: 'ar/admissions/tuition/index.html', file: 'admissions-tuition.ar.html',
+  contents: true,
+  altHref: '/admissions/tuition/',
+  title: 'الرسوم والسداد والدعم — الكلية العالمية للغة الإنجليزية',
+  description: 'رسوم برنامج IEFC وأسعار المستويات، وكيف يجري السداد فعلًا — العملة والوسائل والاسترداد — والمنح ومسارات الدعم القائمة اليوم.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">الرسوم الدراسية</span>
+    <h1>تسعير شفاف لمسار <span dir="ltr">IEFC</span> كاملًا.</h1>
+    <p class="lede">رسم برنامج واحد، مقسّم بالتساوي على ستة مستويات — ادفع دفعة واحدة، أو لكل مستوى، أو شهريًا (حيثما أُتيح ذلك).</p>
+    <div class="stat-row" style="margin-top:40px">
+      <div class="stat-row__item"><strong>19,000$</strong><span>البرنامج كاملًا</span></div>
+      <div class="stat-row__item"><strong>3,166.67$</strong><span>لكل مستوى</span></div>
+      <div class="stat-row__item"><strong>20</strong><span>رصيد <span dir="ltr">WEC</span> لكل مستوى</span></div>
+      <div class="stat-row__item"><strong>120</strong><span>إجمالي أرصدة <span dir="ltr">WEC</span></span></div>
+    </div>
+  </div>
+</section>
 
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="fees" data-contents="الرسوم">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">التفصيل حسب المستوى</span>
+      <h2>الاستثمار ذاته، في كل مستوى.</h2>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th>المستوى</th><th dir="ltr">CEFR</th><th>الأرصدة</th><th>الزمن الكلي للمؤهل</th><th>الرسوم</th></tr></thead>
+        <tbody>
+          <tr><td><strong>I · برنامج التأسيس</strong></td><td dir="ltr">A1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong>II · البرنامج الابتدائي</strong></td><td dir="ltr">A2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong>III · البرنامج المتوسط</strong></td><td dir="ltr">B1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong>IV · المتوسط المتقدم</strong></td><td dir="ltr">B2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong>V · البرنامج المتقدم</strong></td><td dir="ltr">C1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong>VI · برنامج الإتقان</strong></td><td dir="ltr">C2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td colspan="2"><strong>الإجمالي</strong></td><td>120</td><td>1,200 ساعة</td><td><strong>19,000$</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="form-note">الزمن الكلي للمؤهل رقم تصميم لا قياس: هو حجم العمل الذي بُني عليه المنهج، ولم يُقَس على متعلمين حقيقيين لأنه لم يوجد متعلمون. وكم يستغرق ذلك بالأشهر يعتمد على الساعات التي تستطيع منحها أسبوعيًا. ورصيد الكلية وحدة داخلية، وليس رصيدًا أوروبيًا ولا بريطانيًا معترفًا به.</p>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal two-col">
+    <div>
+      <span class="module-marker">تشمل الرسوم الدراسية</span>
+      <ul class="check-list">
+        <li>جميع الوحدات التعليمية للمستوى</li>
+        <li>الحصص المباشرة والدروس المسجّلة</li>
+        <li>الموارد التعليمية والوصول إلى المكتبة الرقمية</li>
+        <li>التقييمات والامتحانات</li>
+        <li>تقارير التقدّم والإرشاد الأكاديمي</li>
+        <li>كشف الدرجات الرقمي</li>
+        <li>الشهادة الرقمية عند إتمام البرنامج بنجاح</li>
+      </ul>
+    </div>
+    <div>
+      <span class="module-marker">رسوم إضافية (حسب الحالة)</span>
+      <ul class="check-list">
+        <li>رسوم التقديم</li>
+        <li>رسوم معالجة القبول</li>
+        <li>رسوم التسجيل</li>
+        <li>رسوم التخرّج والشهادة</li>
+        <li>الشهادة المطبوعة (اختياري)</li>
+        <li>الشحن الدولي (اختياري)</li>
+        <li>التحقق من الشهادة (اختياري)</li>
+      </ul>
+      <p class="form-note">تُؤكَّد الأرقام الدقيقة للرسوم الاختيارية والإجرائية عند التقديم — استفسر من فريق القبول عن الجدول الحالي.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad" id="plans" data-contents="طرق الدفع">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">طرق الدفع</span>
+      <h2>اختر الخطة التي تناسبك.</h2>
+    </div>
+    <div class="grid grid--3">
+      <div class="card card--dark"><h3>البرنامج كاملًا</h3><p>ادفع المبلغ الكامل 19,000$ مقدّمًا وأكمل التسجيل في المستويات الستة دفعة واحدة.</p></div>
+      <div class="card card--dark"><h3>لكل مستوى</h3><p>ادفع 3,166.67$ في بداية كل مستوى مدته 4 أشهر أثناء تقدّمك.</p></div>
+      <div class="card card--dark"><h3>أقساط شهرية</h3><p>وزّع رسوم كل مستوى على أشهره الأربعة، وفقًا للسياسة المؤسسية.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="paying" data-contents="السداد">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">العملة</span>
@@ -350,20 +710,7 @@ ${card('ما تلتزم به الكلية الآن', 'جواب مكتوب، وس
   </div>
 </section>
 
-${cta('انظر الرسوم نفسها.', 'الرسوم الدراسية', '/ar/admissions/tuition/', 'المنح والدعم المالي', '/ar/admissions/scholarships/')}`,
-};
-
-// 4 · المنح ───────────────────────────────────────────────────────────
-PAGES.scholarships = {
-  slug: 'admissions-scholarships-ar', output: 'ar/admissions/scholarships/index.html', file: 'admissions-scholarships.ar.html',
-  altHref: '/admissions/scholarships/',
-  title: 'المنح والدعم المالي — الكلية العالمية للغة الإنجليزية',
-  description: 'ما تستطيع الكلية تقديمه اليوم وما لا تستطيع: لا برنامج منح مفتوح، وآلية منح تعمل، وكيف تسأل.',
-  body: `${hero('القبول', 'المنح والدعم المالي.',
-    'لا يوجد برنامج منح مفتوح. هذا أول ما يجب أن تقوله هذه الصفحة، لأن البديل صفحة تُقرأ '
-    + 'كدعوة وتنتج طلبًا لا يستطيع أحد تقييمه.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="funding" data-contents="المنح والدعم">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">الوضع</span>
@@ -396,144 +743,91 @@ ${card('الثالث', 'اكتب واسأل', 'إن كانت الرسوم هي �
   </div>
 </section>
 
-${cta('اسأل عن الرسوم.', 'تواصل معنا', '/ar/contact/', 'كيف يجري السداد', '/ar/admissions/payment/')}`,
+<section class="section--light cta-band">
+  <div class="container reveal">
+    <h2>مستعد لتأمين مقعدك؟</h2>
+    <div class="btn-row u-center">
+      <a href="/ar/admissions/#apply" class="btn btn--red">ابدأ طلبك الآن</a>
+    </div>
+  </div>
+</section>
+`,
 };
 
-// 5 · التأشيرات ───────────────────────────────────────────────────────
-PAGES.visas = {
-  slug: 'admissions-visas-ar', output: 'ar/admissions/visas/index.html', file: 'admissions-visas.ar.html',
-  altHref: '/admissions/visas/',
-  title: 'التأشيرات وتصاريح الدراسة — الكلية العالمية للغة الإنجليزية',
-  description: 'الكلية مؤسسة تعليم عن بُعد ولا تصدر أي مستند هجرة. ماذا يعني ذلك، ولماذا وُجدت هذه الصفحة، وممّ تحذر.',
-  body: `${hero('القبول', 'التأشيرات وتصاريح الدراسة.',
-    'الكلية العالمية للغة الإنجليزية لا تستطيع كفالة تأشيرة، ولا إصدار قبول لأغراض الهجرة، '
-    + 'ولا دعم أي طلب هجرة. وُجدت هذه الصفحة لتقول ذلك في مكان واحد، دون لبس، قبل أن ينفق أحد '
-    + 'مالًا على افتراض غير ذلك.')}
+PAGES.faq = {
+  slug: 'faq-ar', output: 'ar/faq/index.html', file: 'faq.ar.html',
+  altHref: '/faq/',
+  title: 'الأسئلة الشائعة — الكلية العالمية للغة الإنجليزية',
+  description: 'الأسئلة الشائعة عن برنامج IEFC والقبول والرسوم والدراسة في الكلية، ومعها أسئلة القبول التي يسألها المتقدمون فعلًا.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">الأسئلة الشائعة</span>
+    <h1>الأسئلة الأكثر شيوعًا</h1>
+    <p class="lede">كل ما تحتاج معرفته عن برنامج <span dir="ltr">IEFC</span>، والقبول، والدراسة في الكلية.</p>
+  </div>
+</section>
 
 <section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الموقف</span>
-      <h2>يُذكر بلا تحفّظ.</h2>
-    </div>
-    <div class="callout">
-      <span class="callout__label">ما لا تفعله الكلية</span>
-      <p>الكلية ليست جهة كفالة طلاب مرخّصة. لا تصدر تأكيد قبول للدراسة، ولا خطاب تأشيرة، ولا
-        إفادة لأغراض الهجرة، ولا أي مستند تقبله سلطة هجرة أساسًا لتأشيرة دراسة. ولا تقدّم — ولن
-        تقدّم — مساعدة في طلبات الهجرة. ولا يجوز قراءة أي صفحة أخرى في هذا الموقع على أنها
-        تخفف من ذلك.</p>
-    </div>
-    <div class="grid grid--3">
-${card('لماذا', 'لأنها تُدرّس عن بُعد', 'تأشيرات الدراسة وُجدت لإتاحة الحضور الجسدي للدراسة. برنامج <span dir="ltr">IEFC</span> لا يتضمن حضورًا جسديًا في أي مكان — لا يوجد حرم يُحضَر إليه. التأشيرة ليست محجوبة؛ هي ببساطة ليست جزءًا من طبيعة هذا البرنامج.')}
-${card('النتيجة', 'تدرس من بيتك', 'حيثما تعيش، تدرس هناك. لا سفر ولا سكن ولا تكلفة انتقال، ولا خطر هجرة ناشئ عن البرنامج نفسه.')}
-${card('الاستثناء', 'لا يوجد', 'لا لأي مستوى، ولا لأي ترتيب سداد، ولا لأي جنسية، ولا لأي جهة راعية. لا توجد حالة تستطيع الكلية فيها المساعدة، ووصف حالات هامشية لن ينتج إلا أملًا لا أساس له.')}
+  <div class="container reveal" style="max-width:820px">
+    <div class="accordion">
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية <span dir="ltr">(IEFC)</span>؟</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">برنامج <span dir="ltr">IEFC</span> هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع <span dir="ltr">CEFR</span> (من <span dir="ltr">A1</span> إلى <span dir="ltr">C2</span>)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة <span dir="ltr">WEC</span> وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس، وكم يستغرق بالأشهر يعتمد على الساعات التي تستطيع منحها أسبوعيًا.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>هل البرنامج كامل عبر الإنترنت؟</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">نعم، بالكامل. تقدّم الكلية برنامج <span dir="ltr">IEFC</span> عبر حرم رقمي — دروس مُدرَّجة، ومختبر الاستماع، وتكاليف يصححها شخص، وسجلك الأكاديمي — بحيث يمكن لأي طالب حول العالم الالتحاق دون الحاجة للانتقال. أما الحصص المباشرة فمصمَّمة ولم تُعقد بعد لأن أي دفعة لم تُدرَّس، والتسجيلات الصوتية لعمل الاستماع لم تُنتج. يُذكر الأمران لا يُوهَمان.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>هل يجب أن أبدأ من المستوى الأول (التأسيس)؟</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">لا. يخضع كل متقدّم لتقييم قصير لتحديد المستوى أثناء عملية القبول، ويُوضع في المستوى المناسب لقدرته الحالية في اللغة الإنجليزية — من التأسيس إلى المتقدّم.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>كم تبلغ تكلفة البرنامج؟</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">البرنامج الكامل بمستوياته الستة يبلغ 19,000$، أو 3,166.67$ لكل مستوى. يمكنك الدفع دفعة واحدة، أو لكل مستوى، أو — وفقًا للسياسة المؤسسية — على أقساط شهرية. راجع <a href="/ar/admissions/tuition/">الرسوم الدراسية</a> للتفصيل الكامل.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>هل يُحضّر البرنامج للطلاب لامتحانات <span dir="ltr">IELTS</span> أو <span dir="ltr">TOEFL</span> أو <span dir="ltr">Cambridge</span>؟</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">نعم. تحضير <span dir="ltr">IELTS</span> و<span dir="ltr">TOEFL</span> و<span dir="ltr">Cambridge English</span> مدمج في المنهج، خصوصًا ابتداءً من المستوى الرابع، إلى جانب اللغة الأكاديمية ولغة الأعمال.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>لمن صُمم برنامج <span dir="ltr">IEFC</span>؟</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">تلاميذ المدارس، وطلاب المرحلة الثانوية والجامعية، والمهنيون العاملون، وموظفو القطاع الحكومي، وقادة الأعمال، والطلاب الدوليون المستعدّون للدراسة بالخارج أو الباحثون عن كفاءة لغوية متقدّمة.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>ماذا سأحصل عليه عند إتمام البرنامج؟</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">يُصدَر كشف درجات رقمي بعد كل مستوى، وتُصدَر شهادة رقمية عند إتمام برنامج <span dir="ltr">IEFC</span> كاملًا بنجاح. تتوفّر الشهادة المطبوعة والتحقق من الشهادة كخدمات إضافية اختيارية.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>هل الكلية معتمدة رسميًا؟</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">الكلية العالمية للغة الإنجليزية مؤسسة حديثة التأسيس. الاعتمادات الرسمية وشراكات ضمان الجودة الخارجية قيد الإنجاز، وستُنشر في صفحة <a href="/ar/about/#status">الوضع المؤسسي</a> فور تأكيدها — نفضّل إخبارك بالوضع الحالي بوضوح بدلًا من المبالغة فيه.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>كيف أتقدّم بطلبي؟</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">قدّم طلبك عبر النموذج الإلكتروني في صفحة <a href="/ar/admissions/#apply">القبول</a> بالاسم الكامل والبريد الإلكتروني وبلد الإقامة — ويقترح تقييم ذاتي قصير مستواك المبدئي قبل التقديم. راجع صفحة القبول للاطّلاع على رحلة التقديم كاملة بخطواتها الخمس.</div></div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<section class="section--paper section-pad">
+<section class="section--paper section-pad" id="admissions-questions">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">تحذير يستحق النشر</span>
-      <h2>من يعرض عليك تأشيرة باسم الكلية فهو يحتال عليك.</h2>
-    </div>
-    <div class="grid grid--2">
-${card('لا وكيل يملك هذه الصلاحية', 'لأن الكلية نفسها لا تملكها', 'لا تستطيع الكلية تفويض صلاحية لا تملكها. أي شخص أو وكالة تعرض تأشيرة دراسة باسم الكلية، أو خطاب قبول لأغراض الهجرة، أو دخولًا «مضمونًا» إلى المملكة المتحدة عن طريقها، يعرض ما لا تستطيع الكلية نفسها الوفاء به.')}
-${card('ما تفعله', 'اكتب إلينا وأخبرنا', 'أرسل ذلك إلى <a href="mailto:info@worldwencollege.co.uk" dir="ltr">info@worldwencollege.co.uk</a>. نشر هذا التحذير قليل القيمة إن ذهبت البلاغات سدى، والكلية التي تعلم باحتيال باسمها وتصمت شريكة فيه.')}
+      <span class="module-marker">أسئلة القبول</span>
+      <h2>الأسئلة التي يسألها المتقدمون فعلًا.</h2>
     </div>
   </div>
 </section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">إن كان هدفك الدراسة بالخارج</span>
-      <h2>ما يستطيع البرنامج فعله لذلك حقًا.</h2>
-    </div>
-    <div class="grid grid--3">
-${darkCard('يستطيع', 'بناء الإنجليزية التي تطلبها الوجهة', 'تعمل المستويات العليا مباشرةً على القراءة الأكاديمية والكتابة الأكاديمية والنقاش والحجاج الرسمي — وهي ما يصنع الفرق بعد الوصول، وما لا تضمنه درجة اختبار.')}
-${darkCard('يستطيع', 'إعدادك للاختبارات المعترف بها', 'الإعداد لـ <span dir="ltr">IELTS</span> و<span dir="ltr">TOEFL</span> و<span dir="ltr">Cambridge</span> مدمج في المنهج من المستوى المتوسط المتقدم فصاعدًا. هذه الاختبارات، لا شهادة هذه الكلية، هي ما تعترف به اليوم جهات القبول وأنظمة الهجرة.')}
-${darkCard('لا يستطيع', 'أن يحل محل مؤهل معترف به', 'لم يُعيَّن ممتحن خارجي ولا تحمل الكلية اعتمادًا، فلا ينبغي لأحد أن يعتمد على شهادة <span dir="ltr">IEFC</span> كمؤهل قبول أو هجرة. هذا هو الموقف الصريح، ولن يتغيّر إلا حين يتغيّر فعلًا.')}
-    </div>
-  </div>
-</section>
-
-${cta('ادرس من حيث أنت.', 'كيفية التقديم', '/ar/admissions/apply/', 'المستويات الستة', '/ar/study/')}`,
-};
-
-// 6 · المواعيد ────────────────────────────────────────────────────────
-PAGES.dates = {
-  slug: 'admissions-dates-ar', output: 'ar/admissions/dates/index.html', file: 'admissions-dates.ar.html',
-  altHref: '/admissions/dates/',
-  title: 'مواعيد البدء والتقويم الأكاديمي — الكلية العالمية للغة الإنجليزية',
-  description: 'متى يمكنك البدء، ولماذا لا توجد مواعيد فصول منشورة، وما الذي ينطوي عليه قرار التقويم الأكاديمي.',
-  body: `${hero('القبول', 'متى أستطيع البدء؟',
-    'حين تسجّل. لا دفعة تنتظرها ولا فصل يفوتك — ولا توجد مواعيد فصول منشورة، وهذه الصفحة '
-    + 'تشرح ذلك بدل أن تمر عليه.')}
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">البدء</span>
-      <h2>القبول مستمر.</h2>
-      <p class="lede">هذا ليس اختيارًا تسويقيًا، بل ما تفعله المنصة فعلًا، ووصف غيره سيكون وصفًا
-        لبرنامج غير موجود.</p>
-    </div>
-    <div class="grid grid--3">
-${card('يوم تسجيلك', 'المستوى الأول يفتح فورًا', 'السداد المؤكد يُنشئ تسجيلك، والدرس الأول متاح في اليوم نفسه. لا شيء محجوز حتى موعد بدء.')}
-${card('بإيقاعك', 'التقدّم فردي', 'سجل تقدّمك لك وحدك. لا صف يسبقك ولا صف ينتظرك، ولا درس يُفتح في تاريخ.')}
-${card('مستوى واحد في كل مرة', 'التالي يفتح حين يُغلق الحالي', 'تُضاف المستويات من الثاني إلى السادس مع إتمام كل مستوى قبله، سواء دفعت بالمستوى أو دفعت البرنامج كاملًا. ويؤكد الإتمامَ موظفٌ لا حسابٌ آلي — فليس لدى الكلية محرك تصحيح آلي.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">لماذا لا توجد مواعيد فصول</span>
-      <h2>لأن القرار الذي وراءها لم يُتخذ.</h2>
-      <p class="lede">التقويم ليس تمرين تنسيق. هو ترميز لنموذج تشغيل، ولم تختر الكلية بعد أي
-        النماذج هي.</p>
-    </div>
-    <div class="grid grid--3">
-${card('الخيار الأول', 'قبول مستمر وإيقاع فردي', 'ما يجري اليوم. لا أحد ينتظر ليبدأ. وضعفه معروف: الدراسة الفردية الخالصة تنتهي نهاية سيئة، لسبب مفهوم — لا نقاط ثابتة، ولا شيء يمكن أن تتأخر عنه.')}
-${card('الخيار الثاني', 'دفعات ثابتة وفصول محددة', 'البنية التي تجعل الناس يُنهون — إيقاع مشترك، وحصص مباشرة يكون فيها الجميع عند النقطة نفسها، وتخرّج له معنى. وثمنها أن متقدمًا في أكتوبر ينتظر إلى يناير، وأنها تستلزم إعادة بناء آلية التقدّم.')}
-${card('الخيار الثالث', 'دخول مستمر بإيقاع ثابت', 'دراسة بإيقاعك، مع جلسات مباشرة ونوافذ امتحان وتهيئة على جدول دوري منشور تنضم إلى أقرب موعد منه. هذا ما صاغته الكلية كتوصية. ولم يُعتمد.')}
-    </div>
-    <div class="callout">
-      <span class="callout__label">ما يعنيه هذا لك اليوم</span>
-      <p>كل ما تدرسه متاح عند التسجيل وبإيقاعك أنت. الجدول المباشر الدوري الموصوف في الخيار
-        الثالث لا يعمل بعد. وصفحة وضع الكلية تدرج التقويم الأكاديمي وتاريخ أول دفعة ضمن
-        المعلّق، وهذه الصفحة لا تناقضها.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">كم يستغرق المستوى</span>
-      <h2>رقم تصميم، لا قياس.</h2>
-    </div>
-    <div class="grid grid--2">
-${darkCard(ltr('200'), 'ساعة تأهيلية لكل مستوى', 'حجم العمل المصمَّم لمستوى واحد، شاملًا المادة المُدرَّسة والدراسة الذاتية والتطبيق والتقييم. هو الرقم الذي بُني عليه المنهج، ولم يُقَس بعد على متعلمين حقيقيين لأنه لم يوجد متعلمون.')}
-${darkCard(ltr('1,200'), 'عبر المستويات الستة', 'مجموع الستة. وكم يستغرق ذلك بالأشهر يعتمد كليًا على الساعات التي تستطيع منحها أسبوعيًا، ولهذا تنشر الكلية الساعات لا عددًا من الأشهر لا تستطيع الوقوف خلفه.')}
-    </div>
-  </div>
-</section>
-
-${cta('ابدأ متى كنت مستعدًا.', 'قدّم الآن', '/ar/admissions/#apply', 'ما يحتويه المستوى', '/ar/study/')}`,
-};
-
-// 7 · أسئلة القبول ────────────────────────────────────────────────────
-PAGES.questions = {
-  slug: 'admissions-questions-ar', output: 'ar/admissions/questions/index.html', file: 'admissions-questions.ar.html',
-  altHref: '/admissions/questions/',
-  title: 'أسئلة القبول — الكلية العالمية للغة الإنجليزية',
-  description: 'إجابات مباشرة عن الأسئلة التي يطرحها المتقدمون فعلًا، بما فيها الأسئلة ذات الإجابات غير المريحة.',
-  body: `${hero('القبول', 'أسئلة القبول.',
-    'إجابات مباشرة، بما في ذلك حين تكون الإجابة «لا» أو «ليس بعد». السؤال الجدير بأن يُطرح '
-    + 'جدير بجواب صريح.')}
 
 <section class="section--light section-pad">
   <div class="container reveal">
@@ -585,20 +879,109 @@ ${darkCard('س', 'إذن ما الذي أدفع مقابله؟', 'برنامج �
   </div>
 </section>
 
-${cta('ما زال لديك سؤال؟', 'تواصل مع القبول', '/ar/contact/', 'كيفية التقديم', '/ar/admissions/apply/')}`,
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>لا يزال لديك سؤال؟</h2>
+    <div class="btn-row u-center">
+      <a href="/ar/contact/" class="btn btn--gold">تواصل معنا</a>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية (IEFC)؟",
+      "acceptedAnswer": { "@type": "Answer", "text": "برنامج IEFC هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع CEFR (من A1 إلى C2)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة WEC وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس." }
+    },
+    {
+      "@type": "Question",
+      "name": "هل البرنامج كامل عبر الإنترنت؟",
+      "acceptedAnswer": { "@type": "Answer", "text": "نعم، بالكامل. تقدّم الكلية برنامج IEFC عبر حرم رقمي — دروس مُدرَّجة، ومختبر الاستماع، وتكاليف يصححها شخص، وسجلك الأكاديمي. أما الحصص المباشرة فمصمَّمة ولم تُعقد بعد، والتسجيلات الصوتية لم تُنتج." }
+    },
+    {
+      "@type": "Question",
+      "name": "هل يجب أن أبدأ من المستوى الأول (التأسيس)؟",
+      "acceptedAnswer": { "@type": "Answer", "text": "لا. يخضع كل متقدّم لتقييم قصير لتحديد المستوى أثناء عملية القبول، ويُوضع في المستوى المناسب لقدرته الحالية في اللغة الإنجليزية — من التأسيس إلى المتقدّم." }
+    },
+    {
+      "@type": "Question",
+      "name": "كم تبلغ تكلفة البرنامج؟",
+      "acceptedAnswer": { "@type": "Answer", "text": "البرنامج الكامل بمستوياته الستة يبلغ 19,000$، أو 3,166.67$ لكل مستوى. يمكنك الدفع دفعة واحدة، أو لكل مستوى، أو — وفقًا للسياسة المؤسسية — على أقساط شهرية." }
+    },
+    {
+      "@type": "Question",
+      "name": "هل يُحضّر البرنامج للطلاب لامتحانات IELTS أو TOEFL أو Cambridge؟",
+      "acceptedAnswer": { "@type": "Answer", "text": "نعم. تحضير IELTS وTOEFL وCambridge English مدمج في المنهج، خصوصًا ابتداءً من المستوى الرابع، إلى جانب اللغة الأكاديمية ولغة الأعمال." }
+    },
+    {
+      "@type": "Question",
+      "name": "لمن صُمم برنامج IEFC؟",
+      "acceptedAnswer": { "@type": "Answer", "text": "تلاميذ المدارس، وطلاب المرحلة الثانوية والجامعية، والمهنيون العاملون، وموظفو القطاع الحكومي، وقادة الأعمال، والطلاب الدوليون المستعدّون للدراسة بالخارج أو الباحثون عن كفاءة لغوية متقدّمة." }
+    },
+    {
+      "@type": "Question",
+      "name": "ماذا سأحصل عليه عند إتمام البرنامج؟",
+      "acceptedAnswer": { "@type": "Answer", "text": "يُصدَر كشف درجات رقمي بعد كل مستوى، وتُصدَر شهادة رقمية عند إتمام برنامج IEFC كاملًا بنجاح. تتوفّر الشهادة المطبوعة والتحقق من الشهادة كخدمات إضافية اختيارية." }
+    },
+    {
+      "@type": "Question",
+      "name": "هل الكلية معتمدة رسميًا؟",
+      "acceptedAnswer": { "@type": "Answer", "text": "الكلية العالمية للغة الإنجليزية مؤسسة حديثة التأسيس. الاعتمادات الرسمية وشراكات ضمان الجودة الخارجية قيد الإنجاز، وستُنشر في صفحة الوضع المؤسسي فور تأكيدها." }
+    },
+    {
+      "@type": "Question",
+      "name": "كيف أتقدّم بطلبي؟",
+      "acceptedAnswer": { "@type": "Answer", "text": "قدّم طلبك عبر النموذج الإلكتروني في صفحة القبول بالاسم الكامل والبريد الإلكتروني وبلد الإقامة — ويقترح تقييم ذاتي قصير مستواك المبدئي قبل التقديم." }
+    }
+  ]
+}
+</script>
+`,
 };
 
-// 8 · الدراسة ─────────────────────────────────────────────────────────
-PAGES.study = {
-  slug: 'study-ar', output: 'ar/study/index.html', file: 'study.ar.html',
-  altHref: '/study/',
-  title: 'الدراسة | المستويات الستة — الكلية العالمية للغة الإنجليزية',
-  description: 'المستويات الستة لبرنامج IEFC: ما يحتويه كل مستوى، وساعاته وأرصدته، والشهادة المرتبطة به.',
-  body: `${hero('الدراسة', 'المستويات الستة.',
-    'يمتد البرنامج من عدم وجود إنجليزية صالحة للاستعمال إلى الإتقان، في ستة مستويات، لكل منها '
-    + 'عشر وحدات وشهادته الخاصة. الجدول أدناه مولَّد من المنهج نفسه لا مكتوب بجانبه.')}
+PAGES.academics = {
+  slug: 'academics-ar', output: 'ar/academics/index.html', file: 'academics.ar.html',
+  contents: true,
+  altHref: '/academics/',
+  title: 'البرامج الأكاديمية — الكلية العالمية للغة الإنجليزية',
+  description: 'برنامج IEFC في ستة مستويات متوافقة مع الإطار الأوروبي: ما يحتويه كل مستوى، وكيف يجري التعلّم، والحرم الرقمي الذي يعمل عليه.',
+  body: `${hero('البرامج الأكاديمية', 'برنامج واحد، يُدرَّس بمعيار مكتوب.',
+    'تدرّس الكلية مسارًا واحدًا — برنامج الطلاقة الدولي في اللغة الإنجليزية — في ستة مستويات '
+    + 'متوافقة مع الإطار الأوروبي، من عدم وجود إنجليزية إلى الإتقان. كل وحدة مكتوبة، وكل تقييم '
+    + 'موجود قبل الدرس الذي يختبره، وكل ذلك متاح للقراءة قبل أن يسجّل أحد.',
+    `<div class="btn-row">
+      <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم الآن</a>
+      <a href="/ar/admissions/tuition/" class="btn btn--outline">الرسوم</a>
+    </div>`)}
 
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="iefc" data-contents="برنامج IEFC">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">برنامج <span dir="ltr">IEFC</span></span>
+      <h2>ستة مستويات، متوافقة مع الإطار الأوروبي.</h2>
+      <p class="lede">صُمّم كل مستوى ليبني نحو نطاقه في الإطار الأوروبي المرجعي المشترك للغات —
+        المعيار الأوسع اعترافًا لدى الجامعات وأصحاب العمل ومؤسسات اللغة الإنجليزية في العالم.
+        يحمل كل مستوى ${ltr('20')} رصيدًا من أرصدة الكلية، والزمن الكلي للمؤهل فيه
+        ${ltr('200')} ساعة على مدى أربعة أشهر؛ والبرنامج كاملًا ${ltr('120')} رصيدًا والزمن
+        الكلي للمؤهل ${ltr('1,200')} ساعة.</p>
+    </div>
+    <div class="callout">
+      <span class="callout__label">حالة المنهج وقياس العبء</span>
+      <p>هذه الساعات رقم تصميم لا قياس: ستُستبدل بها ساعات مقيسة من وقت الدراسة الفعلي متى أكمل
+        متعلمون كافون مستوى، ويُنشر الفرق حيث يوجد. ورصيد الكلية وحدة داخلية (الرصيد عشر ساعات
+        تعلم افتراضية)، وليس <span dir="ltr">ECTS</span> ولا <span dir="ltr">CATS</span> ولا
+        يمنح حق تحويل إلى أي مؤسسة. وجميع الوحدات الستين مؤلفة ومنشورة، أما الدروس داخلها فما
+        زالت تُكتب وتصدر تباعًا.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="levels" data-contents="المستويات الستة">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">البنية</span>
@@ -647,13 +1030,72 @@ ${card('فحوص ذاتية', 'غير محتسبة عليك', 'لا تُصحَّ
   </div>
 </section>
 
+<section class="section--light section-pad" id="learning" data-contents="كيف يجري التعلّم">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">كيف يجري التعلّم</span>
+      <h2>شكل الأسبوع الدراسي.</h2>
+      <p class="lede">معظم البرنامج يُدرس وقتما استطعت؛ وجزء أصغر مباشر يعتمد على حضور الآخرين.
+        الجزء الأكبر دروس مرحلية بأزمنة معلنة تُستأنف من حيث توقفت؛ وعشر دقائق يوميًا للاستماع
+        والتسجيل خير من ساعة أسبوعيًا؛ وتكليف واحد في كل وحدة يصححه شخص وفق معيار منشور؛
+        وفحوص ذاتية لا تُحتسب عليك؛ وتقييم مستوى ختامي بمعايير معلنة من أول المستوى.</p>
+    </div>
+    <div class="callout">
+      <span class="callout__label">للدراسة الذاتية وضع إخفاق معروف</span>
+      <p>الدراسة الذاتية الكاملة للغة تنتهي غالبًا نهاية سيئة، وسببها مفهوم: لا مواعيد ثابتة،
+        ولا زملاء في المرحلة نفسها، ولا شيء تتأخر عنه. الكلية تعمل اليوم بنظام ذاتي لأنه ما
+        بُني، وقد صيغت توصية بإضافة إيقاع ثابت من جلسات مباشرة ونوافذ امتحان ولم تُعتمد بعد.
+        إلى أن تُعتمد، البنية تأتي منك: ساعة ثابتة يوميًا تُنهي البرنامج حيث لا يُنهيه هدف
+        أسبوعي بالساعات. والانخراط مُتابَع كي يُتواصل مع من انقطع في الشهر الثاني لا أن
+        يُكتشف في الشهر الحادي عشر، ولا يترتب عليه جزاء أبدًا.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad" id="campus" data-contents="الحرم الرقمي">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الحرم الرقمي</span>
+      <h2>ستة أماكن يدخلها الشخص.</h2>
+      <p class="lede">حيث يكون الشيء مبنيًا وغير مستعمَل، تقول هذه الصفحة «غير مستعمَل» لا
+        «متاح».</p>
+    </div>
+    <div class="grid grid--2">
+${darkCard('للمتعلم', 'أربعة أماكن للعمل', 'البوابة حيث تبدأ؛ وبرنامجي وفيه طريقك عبر المستوى بما اكتمل وما يليه؛ ومعمل الاستماع للتسجيل والنطق؛ وسجلي وفيه محاولاتك ودرجاتك بحسب المهارة وتحكّمك في مشاركة أي منها.')}
+${darkCard('للطاقم وللعامة', 'مكانان آخران', 'مساحة المصحح حيث تُصحح التسليمات وفق معاييرها — مبنية ومختبرة ولم تصحح شيئًا لأنه لا شيء يُصحح بعد؛ والتحقق من الشهادات مفتوح لأي أحد دون حساب، ولم يصدر عبره شيء لأن شهادة لم تُمنح.')}
+    </div>
+    <div class="grid grid--2" style="margin-top:26px">
+${darkCard('تسجيل دون اتصال', 'المعمل لا يشترط اتصالًا حيًا', 'التسجيل المُلتقط دون اتصال يُحفظ ويُرفع أجزاءً حين يعود الاتصال، فلا يضيع الملف بانقطاع. بُني هذا لأن الكلية تتوقع متعلمين في أماكن تنقطع فيها الاتصالات.')}
+${darkCard('المسودات تبقى محلية', 'النص غير المكتمل لا يُرسل إلى أي مكان', 'ملاحظات العمل تبقى على جهازك حتى تُسلّم. التسليم وحده يحتاج الشبكة، والواجهة تقول أيهما أيّ بدل أن تترك التخمين لك.')}
+    </div>
+    <p class="form-note">ما تحتاجه لتشغيله: حاسوب أو جهاز لوحي أو هاتف بمتصفح حديث واتصال يبثّ
+      الصوت؛ ويطلب معمل الاستماع أن تسجّل نفسك، وميكروفون الهاتف أو الحاسوب يكفي.</p>
+  </div>
+</section>
+
+<section class="section--paper section-pad" id="teaching" data-contents="التدريس">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">التدريس</span>
+      <h2>كيف تدرّس الكلية.</h2>
+      <p class="lede">أربعة التزامات تشكّل كل درس: يُدرَّس بالإنجليزية من المستوى الأول، عبر لغة
+        مقيدة وتكرار ودعم بصري لا عبر الترجمة؛ ويُكتب التقييم قبل التدريس الذي يختبره؛ ويُقيَّم
+        التحدث بالتحدث، تسجيلًا يصححه شخص لا خوارزمية؛ ويخطط كل درس للمتعلم الذي لا يتابع —
+        شرح ثانٍ، والأخطاء التي يثيرها الموضع، مكتوبة سلفًا لا مرتجلة. والعمود الوحيد الفارغ في
+        سجل الدعم التعليمي هو المشاهدة الصفية: الكلية لم تدرّس أحدًا بعد، والسجل يفصل التصميم
+        عن الدليل كي لا يقوم أحدهما مقام الآخر. التفاصيل الكاملة منشورة في
+        ${EN('/academics/teaching/', 'ممارسة التدريس')}.</p>
+    </div>
+  </div>
+</section>
+
 <section class="section--dark section-pad">
   <div class="container reveal">
     ${noAccreditation}
   </div>
 </section>
 
-${cta('انظر كيف يتم التقييم.', 'كيف يتم تقييمك', '/ar/students/assessment/', 'الشهادات والمراتب', '/ar/students/awards/')}`,
+${cta('اعثر على مستواك.', 'قدّم الآن', '/ar/admissions/#apply', 'اسأل عن تحديد المستوى', '/ar/contact/')}`,
 };
 
 // 9 · كيف يتم تقييمك ──────────────────────────────────────────────────
@@ -748,7 +1190,7 @@ ${darkCard('يصححها شخص', 'لا تصحيح آلي للكتابة أو ا
   </div>
 </section>
 
-${cta('انظر ما يمكن منحه.', 'الشهادات والمراتب', '/ar/students/awards/', 'المستويات الستة', '/ar/study/')}`,
+${cta('انظر ما يمكن منحه.', 'الشهادات والمراتب', '/ar/students/awards/', 'المستويات الستة', '/ar/academics/#levels')}`,
 };
 
 // 10 · الشهادات ───────────────────────────────────────────────────────
@@ -913,7 +1355,7 @@ ${card('غير مقرَّر', 'مدة الحفظ والمحو', 'كم تُحفظ
   </div>
 </section>
 
-${cta('ماذا يُحفظ عن الطالب.', 'سياسة القبول', '/ar/admissions/apply/', 'أسئلة القبول', '/ar/admissions/questions/')}`,
+${cta('ماذا يُحفظ عن الطالب.', 'سياسة القبول', '/ar/admissions/#apply', 'أسئلة القبول', '/ar/faq/')}`,
 };
 
 // 13 · الحوكمة ────────────────────────────────────────────────────────
@@ -1266,7 +1708,9 @@ const written = [];
 // Retired by the Governance pillar: the old Arabic governance slug and
 // the two pages absorbed into it. Pruned so a manifest that once
 // carried them sheds them the first time this generator runs.
-for (const slug of ['about-governance-ar', 'about-basce-ar', 'about-qa-ar']) {
+for (const slug of ['about-governance-ar', 'about-basce-ar', 'about-qa-ar', 'academics-iefc-ar', 'study-ar',
+  'admissions-apply-ar', 'admissions-entry-ar', 'admissions-payment-ar', 'admissions-scholarships-ar',
+  'admissions-visas-ar', 'admissions-dates-ar', 'admissions-questions-ar']) {
   const i = entries.findIndex((e) => e.slug === slug);
   if (i >= 0) entries.splice(i, 1);
 }

@@ -170,7 +170,7 @@ ${card('Three', 'Let the curriculum carry the claim', 'The strongest thing WEC-L
   </div>
 </section>
 
-${cta('Read what the vision is built around.', 'The IEFC Programme', '/study/', 'Our Mission', '/about/mission/')}`,
+${cta('Read what the vision is built around.', 'The IEFC Programme', '/academics/#levels', 'Our Mission', '/about/mission/')}`,
 };
 
 // 2 · MISSION ─────────────────────────────────────────────────────────
@@ -232,7 +232,7 @@ ${card('No invented evidence', 'Books that state what they do not rest on', 'The
   </div>
 </section>
 
-${cta('See the programme these commitments produce.', 'Study at WEC-LC', '/study/', 'Our Governance', '/governance/')}`,
+${cta('See the programme these commitments produce.', 'Study at WEC-LC', '/academics/#levels', 'Our Governance', '/governance/')}`,
 };
 
 // 3 · EDUCATIONAL PHILOSOPHY ──────────────────────────────────────────
@@ -436,7 +436,7 @@ ${card('Does not exist', 'Everything that needs people', 'No accreditation, no e
   </div>
 </section>
 
-${cta('Read what you would be reviewing.', 'The IEFC Programme', '/study/', 'Our Standards', '/governance/#quality')}`,
+${cta('Read what you would be reviewing.', 'The IEFC Programme', '/academics/#levels', 'Our Standards', '/governance/#quality')}`,
 };
 
 // ── write ────────────────────────────────────────────────────────────

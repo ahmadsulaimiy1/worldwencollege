@@ -25,42 +25,35 @@
   {
     "slug": "academics",
     "output": "academics/index.html",
-    "title": "Academics | Curriculum &amp; Methodology — WEC-LC",
-    "description": "How WEC-LC teaches: curriculum areas, teaching methodology, and the digital learning environment behind the International English Fluency Course.",
+    "title": "Academics &mdash; Worldwide English College",
+    "description": "The IEFC in six CEFR-aligned levels: what each contains, how learning works, the digital campus it runs on, and the standard the whole programme is taught to.",
     "contentFile": "academics.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/academics/"
-  },
-  {
-    "slug": "academics-iefc",
-    "output": "academics/iefc/index.html",
-    "title": "The IEFC Programme | Six CEFR Levels — WEC-LC",
-    "description": "The International English Fluency Course: six levels from Foundation (CEFR A1) to English Mastery (CEFR C2), 24 months, 720 learning units.",
-    "contentFile": "academics-iefc.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/academics/iefc/"
+    "altHref": "/ar/academics/",
+    "contents": true
   },
   {
     "slug": "admissions",
     "output": "admissions/index.html",
-    "title": "Admissions | How to Apply — WorldWide English College",
-    "description": "How to apply to WEC-LC's International English Fluency Course: eligibility, the application journey, and who the programme is designed for.",
+    "title": "Admissions &mdash; Worldwide English College",
+    "description": "The whole admissions decision in one place: whether you qualify, how to apply, when you can start, and what applies to international applicants — visas included.",
     "contentFile": "admissions.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/admissions/"
+    "altHref": "/ar/admissions/",
+    "contents": true
   },
   {
     "slug": "admissions-tuition",
     "output": "admissions/tuition/index.html",
-    "title": "Tuition &amp; Fees | WorldWide English College",
-    "description": "IEFC tuition, per-level pricing, payment plans and additional fees at WorldWide English College, London Campus.",
+    "title": "Tuition, Fees &amp; Funding &mdash; Worldwide English College",
+    "description": "IEFC tuition and per-level pricing, how paying actually works — currency, methods, refunds — and the scholarships and funding routes that exist today.",
     "contentFile": "admissions-tuition.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/admissions/tuition/"
+    "altHref": "/ar/admissions/tuition/",
+    "contents": true
   },
   {
     "slug": "faculty",
@@ -90,8 +83,8 @@
   {
     "slug": "faq",
     "output": "faq/index.html",
-    "title": "Frequently Asked Questions — WorldWide English College",
-    "description": "Answers to common questions about the IEFC programme, admissions, tuition, and studying with WEC-LC.",
+    "title": "FAQ &mdash; Worldwide English College",
+    "description": "Frequently asked questions about the IEFC, admissions, fees, and studying with WEC-LC — including the questions applicants actually ask during admissions.",
     "contentFile": "faq.html",
     "lang": "en",
     "dir": "ltr",
@@ -133,42 +126,35 @@
   {
     "slug": "academics-ar",
     "output": "ar/academics/index.html",
-    "title": "البرامج الأكاديمية | المنهج والمنهجية",
-    "description": "كيف تُدرّس الكلية العالمية للغة الإنجليزية: مجالات المنهج، منهجية التدريس، وبيئة التعلّم الرقمية وراء برنامج IEFC.",
+    "title": "البرامج الأكاديمية — الكلية العالمية للغة الإنجليزية",
+    "description": "برنامج IEFC في ستة مستويات متوافقة مع الإطار الأوروبي: ما يحتويه كل مستوى، وكيف يجري التعلّم، والحرم الرقمي الذي يعمل عليه.",
     "contentFile": "academics.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/academics/"
-  },
-  {
-    "slug": "academics-iefc-ar",
-    "output": "ar/academics/iefc/index.html",
-    "title": "برنامج IEFC | ستة مستويات متوافقة مع CEFR",
-    "description": "برنامج الطلاقة الدولي في اللغة الإنجليزية: ستة مستويات من التأسيسي (A1) إلى الإتقان (C2)، على مدى 24 شهرًا و720 وحدة تعليمية.",
-    "contentFile": "academics-iefc.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/academics/iefc/"
+    "altHref": "/academics/",
+    "contents": true
   },
   {
     "slug": "admissions-ar",
     "output": "ar/admissions/index.html",
-    "title": "القبول | كيفية التقديم — الكلية العالمية للغة الإنجليزية",
-    "description": "كيفية التقديم إلى برنامج IEFC: شروط القبول، رحلة التقديم، والفئات التي صُمم البرنامج من أجلها.",
+    "title": "القبول — الكلية العالمية للغة الإنجليزية",
+    "description": "قرار الالتحاق كاملًا في صفحة واحدة: هل تنطبق الشروط عليك، وكيف تقدّم، ومتى تبدأ، وما يخص المتقدمين الدوليين والتأشيرات.",
     "contentFile": "admissions.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/admissions/"
+    "altHref": "/admissions/",
+    "contents": true
   },
   {
     "slug": "admissions-tuition-ar",
     "output": "ar/admissions/tuition/index.html",
-    "title": "الرسوم الدراسية — الكلية العالمية للغة الإنجليزية",
-    "description": "رسوم برنامج IEFC، التسعير لكل مستوى، خطط السداد والرسوم الإضافية في الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن.",
+    "title": "الرسوم والسداد والدعم — الكلية العالمية للغة الإنجليزية",
+    "description": "رسوم برنامج IEFC وأسعار المستويات، وكيف يجري السداد فعلًا — العملة والوسائل والاسترداد — والمنح ومسارات الدعم القائمة اليوم.",
     "contentFile": "admissions-tuition.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/admissions/tuition/"
+    "altHref": "/admissions/tuition/",
+    "contents": true
   },
   {
     "slug": "faculty-ar",
@@ -199,7 +185,7 @@
     "slug": "faq-ar",
     "output": "ar/faq/index.html",
     "title": "الأسئلة الشائعة — الكلية العالمية للغة الإنجليزية",
-    "description": "إجابات عن الأسئلة الشائعة حول برنامج IEFC، القبول، الرسوم، والدراسة في الكلية العالمية للغة الإنجليزية.",
+    "description": "الأسئلة الشائعة عن برنامج IEFC والقبول والرسوم والدراسة في الكلية، ومعها أسئلة القبول التي يسألها المتقدمون فعلًا.",
     "contentFile": "faq.ar.html",
     "lang": "ar",
     "dir": "rtl",
@@ -234,16 +220,6 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/404.html"
-  },
-  {
-    "slug": "study",
-    "output": "study/index.html",
-    "title": "Study at Worldwide English College &mdash; The Six IEFC Levels",
-    "description": "The International English Fluency Certificate in six CEFR-aligned levels, from no English to mastery. Modules, hours, assessment and awards for every level.",
-    "contentFile": "study.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/study/"
   },
   {
     "slug": "study-level-1",
@@ -357,65 +333,6 @@
     "dir": "ltr"
   },
   {
-    "slug": "admissions-apply",
-    "output": "admissions/apply/index.html",
-    "title": "How to Apply &mdash; Worldwide English College",
-    "description": "The five stages of a WEC-LC application, what happens at each one, who does it, and how long the College can honestly say each takes.",
-    "contentFile": "admissions-apply.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/admissions/apply/"
-  },
-  {
-    "slug": "admissions-entry",
-    "output": "admissions/entry-requirements/index.html",
-    "title": "Entry Requirements &mdash; Worldwide English College",
-    "description": "What WEC-LC requires of an applicant: no prior qualification, a placement conversation, and the equipment the programme genuinely needs.",
-    "contentFile": "admissions-entry.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/admissions/entry-requirements/"
-  },
-  {
-    "slug": "admissions-payment",
-    "output": "admissions/payment/index.html",
-    "title": "Paying for the Programme &mdash; Worldwide English College",
-    "description": "How payment actually works at WEC-LC: which currencies are settled, which payment methods are live, how instalments work, and what has not been decided.",
-    "contentFile": "admissions-payment.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/admissions/payment/"
-  },
-  {
-    "slug": "admissions-scholarships",
-    "output": "admissions/scholarships/index.html",
-    "title": "Scholarships &amp; Financial Support &mdash; Worldwide English College",
-    "description": "What financial support WEC-LC can and cannot offer today: no open scholarship scheme, a working award mechanism, and how to ask.",
-    "contentFile": "admissions-scholarships.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/admissions/scholarships/"
-  },
-  {
-    "slug": "admissions-international",
-    "output": "admissions/international/index.html",
-    "title": "International Applicants &mdash; Worldwide English College",
-    "description": "WEC-LC teaches online worldwide. What that means for applicants outside the United Kingdom: no relocation, no visa, time zones, and how live teaching is scheduled.",
-    "contentFile": "admissions-international.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "admissions-visas",
-    "output": "admissions/visas/index.html",
-    "title": "Visas &amp; Study Permits &mdash; Worldwide English College",
-    "description": "WEC-LC is an online institution and issues no immigration documents. What that means, why the page exists, and what to be careful of.",
-    "contentFile": "admissions-visas.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/admissions/visas/"
-  },
-  {
     "slug": "admissions-policy",
     "output": "admissions/policy/index.html",
     "title": "Admissions Policy &mdash; Worldwide English College",
@@ -423,26 +340,6 @@
     "contentFile": "admissions-policy.html",
     "lang": "en",
     "dir": "ltr"
-  },
-  {
-    "slug": "admissions-dates",
-    "output": "admissions/dates/index.html",
-    "title": "Dates &amp; the Academic Calendar &mdash; Worldwide English College",
-    "description": "When you can start at WEC-LC, why there are no term dates, and what the academic calendar decision actually involves.",
-    "contentFile": "admissions-dates.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/admissions/dates/"
-  },
-  {
-    "slug": "admissions-questions",
-    "output": "admissions/questions/index.html",
-    "title": "Admissions Questions &mdash; Worldwide English College",
-    "description": "Direct answers to the questions applicants actually ask WEC-LC, including the ones with uncomfortable answers.",
-    "contentFile": "admissions-questions.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/admissions/questions/"
   },
   {
     "slug": "students",
@@ -519,51 +416,6 @@
     "dir": "ltr"
   },
   {
-    "slug": "teaching",
-    "output": "teaching/index.html",
-    "title": "Teaching &mdash; Worldwide English College",
-    "description": "How WEC-LC teaches English: the method, what a teacher is given, and the honest position of an institution that has written a full programme and taught nobody.",
-    "contentFile": "teaching.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "teaching-lesson-design",
-    "output": "teaching/lesson-design/index.html",
-    "title": "How a Lesson Is Designed &mdash; Worldwide English College",
-    "description": "The anatomy of a WEC-LC lesson: staged, timed, planned against a named outcome, and written before the teaching happens.",
-    "contentFile": "teaching-lesson-design.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "teaching-support",
-    "output": "teaching/support/index.html",
-    "title": "The Teaching Support Record &mdash; Worldwide English College",
-    "description": "17 fields of teaching support per lesson, and the four kinds of knowledge WEC-LC distinguishes rather than blurs.",
-    "contentFile": "teaching-support.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "teaching-companion",
-    "output": "teaching/companion/index.html",
-    "title": "The Teacher&rsquo;s Companion &mdash; Worldwide English College",
-    "description": "The Level I Teacher’s Companion: a printed volume in which every panel carries the provenance of what it claims.",
-    "contentFile": "teaching-companion.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "teaching-development",
-    "output": "teaching/development/index.html",
-    "title": "Development &amp; Observation &mdash; Worldwide English College",
-    "description": "What WEC-LC has built for teacher development and observation, what it has recorded so far, and why the answer to the second is none.",
-    "contentFile": "teaching-development.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
     "slug": "press",
     "output": "press/index.html",
     "title": "WEC Press &mdash; Worldwide English College",
@@ -618,38 +470,11 @@
     "dir": "ltr"
   },
   {
-    "slug": "learning",
-    "output": "learning/index.html",
-    "title": "How Learning Works &mdash; Worldwide English College",
-    "description": "What a week of study at WEC-LC actually consists of, what is self-paced, what is live, and what the College has not yet run.",
-    "contentFile": "learning.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "learning-platform",
-    "output": "learning/platform/index.html",
-    "title": "The Platform &mdash; Worldwide English College",
-    "description": "What the WEC-LC digital campus consists of, what each part does, and which parts have never been used.",
-    "contentFile": "learning-platform.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
     "slug": "support-accessibility",
     "output": "support/accessibility/index.html",
     "title": "Accessibility &mdash; Worldwide English College",
     "description": "What WEC-LC has built for accessibility, what has not been audited, and what the College will do on request.",
     "contentFile": "support-accessibility.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "support-technical",
-    "output": "support/technical/index.html",
-    "title": "Technical Requirements &mdash; Worldwide English College",
-    "description": "What you need to study at WEC-LC, why each item is on the list, and what to do when something does not work.",
-    "contentFile": "support-technical.html",
     "lang": "en",
     "dir": "ltr"
   },
@@ -662,86 +487,6 @@
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/support/privacy/"
-  },
-  {
-    "slug": "admissions-apply-ar",
-    "output": "ar/admissions/apply/index.html",
-    "title": "كيفية التقديم — الكلية العالمية للغة الإنجليزية",
-    "description": "مراحل التقديم الخمس في الكلية العالمية للغة الإنجليزية، وما يحدث في كل مرحلة، ومن ينفذها، وكم تستغرق.",
-    "contentFile": "admissions-apply.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/admissions/apply/"
-  },
-  {
-    "slug": "admissions-entry-ar",
-    "output": "ar/admissions/entry-requirements/index.html",
-    "title": "شروط الالتحاق — الكلية العالمية للغة الإنجليزية",
-    "description": "ما تشترطه الكلية على المتقدم: لا مؤهل سابق، ومحادثة لتحديد المستوى، ومتطلبات عملية يحتاجها البرنامج فعلًا.",
-    "contentFile": "admissions-entry.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/admissions/entry-requirements/"
-  },
-  {
-    "slug": "admissions-payment-ar",
-    "output": "ar/admissions/payment/index.html",
-    "title": "سداد الرسوم — الكلية العالمية للغة الإنجليزية",
-    "description": "كيف يجري السداد فعلًا: العملة المعتمدة، وسائل الدفع حسب البلد، التقسيط، وما لم يُقرَّر بعد.",
-    "contentFile": "admissions-payment.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/admissions/payment/"
-  },
-  {
-    "slug": "admissions-scholarships-ar",
-    "output": "ar/admissions/scholarships/index.html",
-    "title": "المنح والدعم المالي — الكلية العالمية للغة الإنجليزية",
-    "description": "ما تستطيع الكلية تقديمه اليوم وما لا تستطيع: لا برنامج منح مفتوح، وآلية منح تعمل، وكيف تسأل.",
-    "contentFile": "admissions-scholarships.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/admissions/scholarships/"
-  },
-  {
-    "slug": "admissions-visas-ar",
-    "output": "ar/admissions/visas/index.html",
-    "title": "التأشيرات وتصاريح الدراسة — الكلية العالمية للغة الإنجليزية",
-    "description": "الكلية مؤسسة تعليم عن بُعد ولا تصدر أي مستند هجرة. ماذا يعني ذلك، ولماذا وُجدت هذه الصفحة، وممّ تحذر.",
-    "contentFile": "admissions-visas.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/admissions/visas/"
-  },
-  {
-    "slug": "admissions-dates-ar",
-    "output": "ar/admissions/dates/index.html",
-    "title": "مواعيد البدء والتقويم الأكاديمي — الكلية العالمية للغة الإنجليزية",
-    "description": "متى يمكنك البدء، ولماذا لا توجد مواعيد فصول منشورة، وما الذي ينطوي عليه قرار التقويم الأكاديمي.",
-    "contentFile": "admissions-dates.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/admissions/dates/"
-  },
-  {
-    "slug": "admissions-questions-ar",
-    "output": "ar/admissions/questions/index.html",
-    "title": "أسئلة القبول — الكلية العالمية للغة الإنجليزية",
-    "description": "إجابات مباشرة عن الأسئلة التي يطرحها المتقدمون فعلًا، بما فيها الأسئلة ذات الإجابات غير المريحة.",
-    "contentFile": "admissions-questions.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/admissions/questions/"
-  },
-  {
-    "slug": "study-ar",
-    "output": "ar/study/index.html",
-    "title": "الدراسة | المستويات الستة — الكلية العالمية للغة الإنجليزية",
-    "description": "المستويات الستة لبرنامج IEFC: ما يحتويه كل مستوى، وساعاته وأرصدته، والشهادة المرتبطة به.",
-    "contentFile": "study.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/study/"
   },
   {
     "slug": "students-assessment-ar",
@@ -877,6 +622,16 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/governance/",
+    "contents": true
+  },
+  {
+    "slug": "academics-teaching",
+    "output": "academics/teaching/index.html",
+    "title": "Teaching Practice &mdash; Worldwide English College",
+    "description": "How WEC-LC teaches: the method, how a lesson is designed, the support record a teacher works from, the Companion, and how development and observation are meant to work.",
+    "contentFile": "academics-teaching.html",
+    "lang": "en",
+    "dir": "ltr",
     "contents": true
   }
 ]

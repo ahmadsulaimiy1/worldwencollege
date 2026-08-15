@@ -71,30 +71,30 @@ const RETIRED = [
   { from: '/standards/research/', to: '/governance/#research', why: 'section of Governance, until research exists', migrated: true },
 
   // ── into /academics/ ──────────────────────────────────────────────
-  { from: '/academics/iefc/', to: '/academics/#iefc', why: 'section of Academics', migrated: false },
-  { from: '/study/', to: '/academics/#levels', why: 'section of Academics', migrated: false },
-  { from: '/learning/', to: '/academics/#learning', why: 'section of Academics', migrated: false },
-  { from: '/learning/platform/', to: '/academics/#campus', why: 'section of Academics', migrated: false },
-  { from: '/support/technical/', to: '/academics/#campus', why: 'section of Academics', migrated: false },
+  { from: '/academics/iefc/', to: '/academics/#iefc', why: 'section of Academics', migrated: true },
+  { from: '/study/', to: '/academics/#levels', why: 'section of Academics', migrated: true },
+  { from: '/learning/', to: '/academics/#learning', why: 'section of Academics', migrated: true },
+  { from: '/learning/platform/', to: '/academics/#campus', why: 'section of Academics', migrated: true },
+  { from: '/support/technical/', to: '/academics/#campus', why: 'section of Academics', migrated: true },
 
   // ── into /academics/teaching/ ─────────────────────────────────────
-  { from: '/teaching/', to: '/academics/teaching/', why: 'moved under Academics', migrated: false },
-  { from: '/teaching/lesson-design/', to: '/academics/teaching/#design', why: 'section of Teaching Practice', migrated: false },
-  { from: '/teaching/support/', to: '/academics/teaching/#support', why: 'section of Teaching Practice', migrated: false },
-  { from: '/teaching/companion/', to: '/academics/teaching/#companion', why: 'section of Teaching Practice', migrated: false },
-  { from: '/teaching/development/', to: '/academics/teaching/#development', why: 'section of Teaching Practice', migrated: false },
+  { from: '/teaching/', to: '/academics/teaching/', why: 'moved under Academics', migrated: true },
+  { from: '/teaching/lesson-design/', to: '/academics/teaching/#design', why: 'section of Teaching Practice', migrated: true },
+  { from: '/teaching/support/', to: '/academics/teaching/#support', why: 'section of Teaching Practice', migrated: true },
+  { from: '/teaching/companion/', to: '/academics/teaching/#companion', why: 'section of Teaching Practice', migrated: true },
+  { from: '/teaching/development/', to: '/academics/teaching/#development', why: 'section of Teaching Practice', migrated: true },
 
   // ── into /admissions/ ─────────────────────────────────────────────
-  { from: '/admissions/apply/', to: '/admissions/#apply', why: 'section of Admissions', migrated: false },
-  { from: '/admissions/entry-requirements/', to: '/admissions/#requirements', why: 'section of Admissions', migrated: false },
-  { from: '/admissions/dates/', to: '/admissions/#dates', why: 'section of Admissions', migrated: false },
-  { from: '/admissions/international/', to: '/admissions/#international', why: 'section of Admissions', migrated: false },
-  { from: '/admissions/visas/', to: '/admissions/#visas', why: 'section of Admissions', migrated: false },
-  { from: '/admissions/questions/', to: '/faq/', why: 'one Questions page, sitewide', migrated: false },
+  { from: '/admissions/apply/', to: '/admissions/#apply', why: 'section of Admissions', migrated: true },
+  { from: '/admissions/entry-requirements/', to: '/admissions/#requirements', why: 'section of Admissions', migrated: true },
+  { from: '/admissions/dates/', to: '/admissions/#dates', why: 'section of Admissions', migrated: true },
+  { from: '/admissions/international/', to: '/admissions/#international', why: 'section of Admissions', migrated: true },
+  { from: '/admissions/visas/', to: '/admissions/#visas', why: 'section of Admissions', migrated: true },
+  { from: '/admissions/questions/', to: '/faq/', why: 'one Questions page, sitewide', migrated: true },
 
   // ── into /admissions/tuition/ ─────────────────────────────────────
-  { from: '/admissions/payment/', to: '/admissions/tuition/#paying', why: 'section of Tuition, Fees & Funding', migrated: false },
-  { from: '/admissions/scholarships/', to: '/admissions/tuition/#funding', why: 'section of Tuition, Fees & Funding', migrated: false },
+  { from: '/admissions/payment/', to: '/admissions/tuition/#paying', why: 'section of Tuition, Fees & Funding', migrated: true },
+  { from: '/admissions/scholarships/', to: '/admissions/tuition/#funding', why: 'section of Tuition, Fees & Funding', migrated: true },
 
   // ── into /students/ ───────────────────────────────────────────────
   { from: '/students/listening-lab/', to: '/students/#lab', why: 'section of Student Life', migrated: false },
@@ -127,6 +127,10 @@ for (const r of RETIRED_AR) {
   if (r.to === '/ar/governance/evidence/' || r.to === '/ar/governance/decisions/') {
     r.to = '/ar/governance/';
   }
+  // Teaching Practice has no Arabic edition; the Academics pillar's
+  // #teaching section summarises it in Arabic and crosses to the
+  // English page with the (EN) marker.
+  if (r.to.startsWith('/ar/academics/teaching/')) r.to = '/ar/academics/#teaching';
 }
 
 const ALL = [...RETIRED, ...RETIRED_AR];

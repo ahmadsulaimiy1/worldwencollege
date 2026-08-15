@@ -396,7 +396,7 @@ ${lv.outcomes.map((o) => {
     <p class="lede">${AR_CHARACTER[lv.roman]}</p>
     <div class="btn-row">
       <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم للمستوى ${ord}</a>
-      <a href="/ar/academics/iefc/" class="btn btn--outline">برنامج ${ltr('IEFC')} كاملًا</a>
+      <a href="/ar/academics/#iefc" class="btn btn--outline">برنامج ${ltr('IEFC')} كاملًا</a>
     </div>
   </div>
 </section>
@@ -533,7 +533,7 @@ ${card('البدء', 'متى أبدأ؟', 'القبول مستمر ولا توج
   </div>
 </section>
 
-${cta(`ابدأ من المستوى ${ord}.`, 'قدّم الآن', '/ar/admissions/apply/', 'الرسوم والدفع', '/ar/admissions/tuition/')}`;
+${cta(`ابدأ من المستوى ${ord}.`, 'قدّم الآن', '/ar/admissions/#apply', 'الرسوم والدفع', '/ar/admissions/tuition/')}`;
 }
 
 // ── write ─────────────────────────────────────────────────────────────

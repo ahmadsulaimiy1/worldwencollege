@@ -144,7 +144,7 @@ PAGES.hub = {
       <span class="module-marker">On Day One</span>
       <h2>What is waiting when you enrol.</h2>
       <p class="lede">All of it is available immediately. Nothing unlocks on a date, because
-        there are no dates &mdash; see <a href="/admissions/dates/">Dates</a>.</p>
+        there are no dates &mdash; see <a href="/admissions/#dates">Dates</a>.</p>
     </div>
     <div class="grid grid--4">
 ${card('Your level', 'Ten modules', 'The level you were placed into, with its modules, lessons, exercises and assessments already written and waiting. Nothing is drip-fed.')}
@@ -179,7 +179,7 @@ ${card('Support', '<a href="/students/support/">Support</a>', 'What to do when y
   </div>
 </section>
 
-${cta('See what a level contains.', 'The Six Levels', '/study/', 'How to Apply', '/admissions/apply/')}`,
+${cta('See what a level contains.', 'The Six Levels', '/academics/#levels', 'How to Apply', '/admissions/#apply')}`,
 };
 
 // 2 · ASSESSMENT ──────────────────────────────────────────────────────
@@ -312,7 +312,7 @@ ${card('Marked by a person', 'No automated grading of written or spoken work', '
   </div>
 </section>
 
-${cta('See the assessments themselves.', 'The Six Levels', '/study/', 'Your Academic Record', '/students/academic-record/')}`,
+${cta('See the assessments themselves.', 'The Six Levels', '/academics/#levels', 'Your Academic Record', '/students/academic-record/')}`,
 };
 
 // 3 · ACADEMIC RECORD ─────────────────────────────────────────────────
@@ -774,7 +774,7 @@ ${darkCard('What is missing', 'A formal complaints procedure', 'There is no inde
     </div>
     <div class="grid grid--3">
 ${card('No', 'Counselling or wellbeing services', 'WEC-LC has no counselling provision, no wellbeing service and no qualified staff for either. If you need that kind of support, it must come from services where you live. Implying otherwise on a website is how people in difficulty get let down.')}
-${card('No', 'Careers or immigration advice', 'No careers service, and no immigration advice of any kind &mdash; see <a href="/admissions/visas/">Visas and study permits</a>.')}
+${card('No', 'Careers or immigration advice', 'No careers service, and no immigration advice of any kind &mdash; see <a href="/admissions/#visas">Visas and study permits</a>.')}
 ${card('No', 'Disability assessment or formal adjustments', 'The College has no process for assessing a need or granting a formal adjustment. What it can do is arrange practical accommodations informally &mdash; audio-only participation, extended time, alternative formats &mdash; on request. That is a smaller offer than a policy, and it is described as the smaller thing it is.')}
     </div>
   </div>

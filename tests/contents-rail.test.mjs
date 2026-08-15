@@ -90,7 +90,10 @@ check(`Pages opting into a rail — ${withRail.length}`, withRail.length > 0);
 // contains." — and a rail of those is unreadable. The marker above each
 // heading is already the section's short name, in both languages.
 {
-  const en = withRail.find((e) => e.lang !== 'ar');
+  // Pinned to the level page the expectation was written about — the
+  // Academics pillar also has a rail now, and its first entry is not
+  // "Overview".
+  const en = withRail.find((e) => e.slug === 'study-level-1');
   const html = en ? built(en) : '';
   check('The rail labels come from the module marker, not the h2',
     /<li><a href="#overview">Overview<\/a><\/li>/.test(html)

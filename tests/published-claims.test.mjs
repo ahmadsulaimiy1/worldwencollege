@@ -53,7 +53,9 @@ const perLevel = db.prepare(
 console.log(`\nMeasured: ${levels} levels · ${modules} modules · ${items} learning items · ${questions} quiz questions`);
 console.log(`Learning items per level: ${perLevel.map((r) => `${r.lvl}=${r.n}`).join(' ')}\n`);
 
-const iefc = readFileSync(path.join(ROOT, 'pages/academics-iefc.html'), 'utf8');
+// The IEFC page is a section of the Academics pillar now; the claims it
+// carried moved with it.
+const iefc = readFileSync(path.join(ROOT, 'pages/academics.html'), 'utf8');
 const about = readFileSync(path.join(ROOT, 'pages/about.html'), 'utf8');
 
 // ---------------------------------------------------------------------
@@ -371,7 +373,7 @@ check('...and the design figure is one the framework actually specifies',
 
   // And the corrected scheme has actually arrived, rather than the old
   // one merely having been deleted.
-  const arIefc = AR.find(([f]) => f === 'academics-iefc.ar.html')[1];
+  const arIefc = AR.find(([f]) => f === 'academics.ar.html')[1];
   const arFee = AR.find(([f]) => f === 'admissions-tuition.ar.html')[1];
   check('The Arabic IEFC page carries the credit and hours scheme',
     /رصيد/.test(arIefc) && /الزمن الكلي للمؤهل/.test(arIefc));

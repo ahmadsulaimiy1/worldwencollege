@@ -137,20 +137,21 @@ const PAGES = {};
 
 // 1 · TEACHING AT WEC-LC ──────────────────────────────────────────────
 PAGES.hub = {
-  slug: 'teaching', output: 'teaching/index.html', file: 'teaching.html',
-  title: 'Teaching &mdash; Worldwide English College',
-  description: 'How WEC-LC teaches English: the method, what a teacher is given, and the honest '
-    + 'position of an institution that has written a full programme and taught nobody.',
-  body: `${hero('Teaching', 'How the College teaches.',
+  slug: 'academics-teaching', output: 'academics/teaching/index.html', file: 'academics-teaching.html',
+  contents: true,
+  title: 'Teaching Practice &mdash; Worldwide English College',
+  description: 'How WEC-LC teaches: the method, how a lesson is designed, the support record a '
+    + 'teacher works from, the Companion, and how development and observation are meant to work.',
+  body: `${hero('Academics', 'How the College teaches.',
     'Every lesson in the programme is planned before it is taught, and every planned lesson '
-    + 'carries a record of what a teacher will need at each point in it. This section describes '
-    + 'that record, including the part of it that is empty.',
+    + 'carries a record of what a teacher will need at each point in it. This page describes '
+    + 'the method, the record, and the part of the record that is empty.',
     `<div class="btn-row">
-      <a href="/teaching/lesson-design/" class="btn btn--gold">How a Lesson Is Designed</a>
-      <a href="/faculty/" class="btn btn--outline">The Faculty</a>
+      <a href="/faculty/" class="btn btn--gold">The Faculty</a>
+      <a href="/academics/" class="btn btn--outline">Academics</a>
     </div>`)}
 
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="method" data-contents="The Method">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The Method</span>
@@ -202,20 +203,7 @@ ${darkCard('Why it is a column at all', 'So that it cannot be quietly filled by 
   </div>
 </section>
 
-${cta('See what a teacher is given.', 'The Teaching Support Record', '/teaching/support/', 'Development and Observation', '/teaching/development/')}`,
-};
-
-// 2 · LESSON DESIGN ───────────────────────────────────────────────────
-PAGES.design = {
-  slug: 'teaching-lesson-design', output: 'teaching/lesson-design/index.html', file: 'teaching-lesson-design.html',
-  title: 'How a Lesson Is Designed &mdash; Worldwide English College',
-  description: 'The anatomy of a WEC-LC lesson: staged, timed, planned against a named outcome, '
-    + 'and written before the teaching happens.',
-  body: `${hero('Teaching', 'How a lesson is designed.',
-    'A WEC-LC lesson is not a topic with materials attached. It is a sequence of stages with '
-    + 'declared timings, built toward one named outcome, with its assessment already written.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="design" data-contents="Lesson Design">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The Anatomy</span>
@@ -262,21 +250,7 @@ ${darkCard('Coverage', 'Every module carries its assessments', `Quiz, assignment
   </div>
 </section>
 
-${cta('See a level in full.', 'Level I &mdash; Foundation', '/study/level-1/', 'What a Teacher Is Given', '/teaching/support/')}`,
-};
-
-// 3 · TEACHING SUPPORT RECORD ─────────────────────────────────────────
-PAGES.support = {
-  slug: 'teaching-support', output: 'teaching/support/index.html', file: 'teaching-support.html',
-  title: 'The Teaching Support Record &mdash; Worldwide English College',
-  description: `${D.fields.length} fields of teaching support per lesson, and the four kinds of `
-    + 'knowledge WEC-LC distinguishes rather than blurs.',
-  body: `${hero('Teaching', 'What a teacher is given.',
-    `${D.fields.length} fields against every lesson, and &mdash; the part that matters &mdash; `
-    + 'every entry declaring where its knowledge came from. Most institutions do not separate '
-    + 'these. Separating them is the reason this record can be trusted.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="support" data-contents="The Support Record">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Four Kinds of Knowledge</span>
@@ -335,21 +309,7 @@ ${darkCard('The whole record', 'Openly countable', `${FILLED} authored entries t
   </div>
 </section>
 
-${cta('See the record in published form.', 'The Teacher&rsquo;s Companion', '/teaching/companion/', 'How a Lesson Is Designed', '/teaching/lesson-design/')}`,
-};
-
-// 4 · THE TEACHER'S COMPANION ─────────────────────────────────────────
-PAGES.companion = {
-  slug: 'teaching-companion', output: 'teaching/companion/index.html', file: 'teaching-companion.html',
-  title: 'The Teacher&rsquo;s Companion &mdash; Worldwide English College',
-  description: 'The Level I Teacher’s Companion: a printed volume in which every panel carries '
-    + 'the provenance of what it claims.',
-  body: `${hero('Teaching', 'The Teacher&rsquo;s Companion.',
-    'A printed volume covering every lesson of Level I, in which each panel is marked with where '
-    + 'its knowledge came from. It is the teaching support record in a form a teacher can hold '
-    + 'while teaching.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="companion" data-contents="The Companion">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The Volume</span>
@@ -394,21 +354,7 @@ ${card('Counted, not asserted', 'The figures in the front matter are measured', 
   </div>
 </section>
 
-${cta('See what it is made from.', 'The Teaching Support Record', '/teaching/support/', 'Quality Assurance', '/governance/#quality')}`,
-};
-
-// 5 · DEVELOPMENT AND OBSERVATION ─────────────────────────────────────
-PAGES.development = {
-  slug: 'teaching-development', output: 'teaching/development/index.html', file: 'teaching-development.html',
-  title: 'Development &amp; Observation &mdash; Worldwide English College',
-  description: 'What WEC-LC has built for teacher development and observation, what it has '
-    + 'recorded so far, and why the answer to the second is none.',
-  body: `${hero('Teaching', 'Development and observation.',
-    'The College has built the record that teacher development and classroom observation would '
-    + 'be written into. Nothing has been written into it, because no lesson has been observed and '
-    + 'no teacher has yet taught here.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="development" data-contents="Development">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The Position</span>
@@ -461,7 +407,7 @@ ${darkCard('The instructor workspace', 'Where marking and feedback happen', 'Bui
   </div>
 </section>
 
-${cta('Read what the College is looking for.', 'Careers', '/about/careers/', 'The Teaching Support Record', '/teaching/support/')}`,
+${cta('Who teaches to this standard.', 'The Faculty', '/faculty/', 'Academics', '/academics/')}`,
 };
 
 // ── write ────────────────────────────────────────────────────────────
@@ -470,12 +416,19 @@ const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
 
+// The four sub-pages this hub absorbs, plus its own old address.
+for (const slug of ['teaching', 'teaching-lesson-design', 'teaching-support', 'teaching-companion', 'teaching-development']) {
+  const i = entries.findIndex((e) => e.slug === slug);
+  if (i >= 0) entries.splice(i, 1);
+}
+
 for (const p of Object.values(PAGES)) {
   fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: 'en', dir: 'ltr',
   };
+  if (p.contents) entry.contents = true;
   const i = entries.findIndex((e) => e.slug === p.slug);
   if (i >= 0) entries[i] = { ...entries[i], ...entry }; else entries.push(entry);
   written.push(p.output);

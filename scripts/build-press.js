@@ -435,7 +435,7 @@ CRITERIA_ROWS
     </div>
     <div class="grid grid--3">
 ${card('Requires a studio', 'The recorded audio', 'The listening scripts are written, marked and published as a volume. The recordings do not exist. Producing them needs voices and a room, and it is the largest single item standing between the programme and first delivery.')}
-${card('Requires a classroom', 'Observation evidence', 'Nothing in the record has been observed in teaching. One teacher, one cohort, one term produces evidence that cannot be reasoned out &mdash; see <a href="/teaching/development/">Development and observation</a>.')}
+${card('Requires a classroom', 'Observation evidence', 'Nothing in the record has been observed in teaching. One teacher, one cohort, one term produces evidence that cannot be reasoned out &mdash; see <a href="/academics/teaching/#development">Development and observation</a>.')}
 ${card('Requires an outside body', 'External examining and review', 'The award cannot be conferred and the volumes cannot be reviewed by anyone inside the College. Both are appointments, not tasks.')}
     </div>
   </div>
@@ -515,7 +515,7 @@ ${darkCard('The one thing to avoid', 'Material far above your level', 'Input jus
   </div>
 </section>
 
-${cta('See the published work.', 'WEC Press', '/press/', 'What a Level Contains', '/study/')}`,
+${cta('See the published work.', 'WEC Press', '/press/', 'What a Level Contains', '/academics/#levels')}`,
 };
 
 // The programme page's figures are substituted after composition so
