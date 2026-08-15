@@ -296,7 +296,8 @@
     "description": "Working at Worldwide English College: the posts the College is seeking to fill, what each one unblocks, and how to express interest.",
     "contentFile": "about-careers.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/about/careers/"
   },
   {
     "slug": "admissions-policy",
@@ -395,7 +396,8 @@
     "description": "What WEC-LC has built for accessibility, what has not been audited, and what the College will do on request.",
     "contentFile": "support-accessibility.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/support/accessibility/"
   },
   {
     "slug": "support-privacy",
@@ -615,5 +617,46 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/admissions/policy/"
+  },
+  {
+    "slug": "about-careers-ar",
+    "output": "ar/about/careers/index.html",
+    "title": "العمل في الكلية — الكلية العالمية للغة الإنجليزية",
+    "description": "المناصب الثلاثة التي تحتاجها الكلية فعلًا، وما الذي يفتحه كل منها، وما الذي ينضم إليه المرشح بالضبط.",
+    "contentFile": "about-careers.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/about/careers/"
+  },
+  {
+    "slug": "support-accessibility-ar",
+    "output": "ar/support/accessibility/index.html",
+    "title": "الإتاحة — الكلية العالمية للغة الإنجليزية",
+    "description": "ما بنته الكلية للإتاحة عمدًا، وما لم يُختبر، وما الذي تفعله الكلية عند الطلب — دون ادعاء مطابقة لم يدقق فيها أحد.",
+    "contentFile": "support-accessibility.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/support/accessibility/"
+  },
+  {
+    "slug": "press-ar",
+    "output": "ar/press/index.html",
+    "title": "مطبعة الكلية — الكلية العالمية للغة الإنجليزية",
+    "description": "11 مجلدًا منتَجًا، ومعايير الدار، وحقيقة المراجعة، وبرنامج النشر، والمكتبة — بصدقٍ كامل.",
+    "contentFile": "press.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/",
+    "contents": true
+  },
+  {
+    "slug": "press-catalogue-ar",
+    "output": "ar/press/catalogue/index.html",
+    "title": "الكتالوج — مطبعة الكلية",
+    "description": "المجلدات الـ11 التي أنتجتها مطبعة الكلية، ولمن كلٌّ منها، وكيف تحصل على نسخة.",
+    "contentFile": "press-catalogue.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/catalogue/"
   }
 ]

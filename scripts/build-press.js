@@ -41,6 +41,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
+const ltr = (v) => `<span dir="ltr">${v}</span>`;
 const esc = (s) => String(s ?? '')
   .replace(/\s--\s/g, ' — ')
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -477,6 +478,304 @@ ${cta('How these are made.', 'House Standards', '/press/#standards', 'On Review'
 // 6 · THE LIBRARY ─────────────────────────────────────────────────────
 
 
+
+// ── THE ARABIC EDITIONS — the Press pillar and the catalogue ─────────
+// Volume titles are the publications' proper names and stay in English,
+// wrapped for bidi; audiences and criteria carry translation maps that
+// throw on an entry they do not know, so a new volume or criterion
+// cannot slip through in the wrong language.
+const AR_AUDIENCE = {
+  Learners: 'المتعلمون', Teachers: 'المعلمون', Examiners: 'الممتحنون',
+  Institutional: 'مؤسسي', Parents: 'أولياء الأمور',
+};
+const arAudience = (en) => {
+  if (!AR_AUDIENCE[en]) throw new Error(`No Arabic audience label for "${en}"`);
+  return AR_AUDIENCE[en];
+};
+const arRequestBlock = `<div class="callout">
+      <span class="callout__label">كيف تحصل على مجلد</span>
+      <p>لا شيء يُنشر للتنزيل على هذا الموقع. المجلدات منضَّدة للطباعة وثلاثة منها أكبر من أن
+        تُقدَّم هنا أصلًا. اطلب أيًا منها من
+        <a href="mailto:info@worldwencollege.co.uk?subject=WEC%20Press%20%E2%80%94%20volume%20request" dir="ltr">info@worldwencollege.co.uk</a>
+        مسمّيًا العنوان. وتُقدَّم بلا مقابل للمعلمين والمراجعين وكل من يقيّم عمل الكلية
+        الأكاديمي.</p>
+    </div>`;
+
+PAGES.pressAr = {
+  slug: 'press-ar', output: 'ar/press/index.html', file: 'press.ar.html',
+  contents: true, lang: 'ar', dir: 'rtl', altHref: '/press/',
+  title: 'مطبعة الكلية — الكلية العالمية للغة الإنجليزية',
+  description: `${publicVolumes.length} مجلدًا منتَجًا، ومعايير الدار، وحقيقة المراجعة، وبرنامج النشر، والمكتبة — بصدقٍ كامل.`,
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">مطبعة الكلية</span>
+    <h1>ذراع النشر في الكلية.</h1>
+    <p class="lede">${ltr(String(publicVolumes.length))} مجلدًا أُنتج ونُضِّد للطباعة، مركَّبًا من
+      السجل ذاته الذي يُدرَّس منه البرنامج. هذا هو الجزء من الكلية الذي اكتمل فيه العمل ويمكن
+      عدُّه لا وصفه.</p>
+    <div class="btn-row">
+      <a href="/ar/press/catalogue/" class="btn btn--gold">الكتالوج</a>
+      <a href="/ar/press/#review" class="btn btn--outline">عن المراجعة</a>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">لماذا وُجدت</span>
+      <h2>الدار توجد لتجعل الادعاءات قابلة للفحص.</h2>
+      <p class="lede">منهجٌ يعيش في قاعدة بيانات وحدها يمكن تغييره دون أن يلاحظ أحد. المجلد
+        المطبوع لا يمكن.</p>
+    </div>
+    <div class="grid grid--3">
+${card('الأول', 'لتثبيت نسخة', 'المجلد نسخةٌ من البرنامج يمكن إمساكها وتأريخها ومخالفتها. وما إن يُطبع لا يمكن تنقيح ادعاء منه بصمت — وهذا بالضبط ما يجعله جديرًا بالمراجعة.')}
+${card('الثاني', 'ليفحصه الخارجيون', 'لجنة اعتماد أو ممتحن خارجي أو معلم متشكك يمكن أن يُناوَل كتابًا. ولا يمكن أن يُناوَل حسابَ دخول ووعدًا. النشر هو كيف تجعل مؤسسةٌ جديدة نفسها قابلة للتفتيش.')}
+${card('الثالث', 'ليحمل مصدره بنفسه', 'كل مجلد يذكر ما يستند إليه وما لا يستند. هذه قاعدة دار لا تفضيل — راجع <a href="/ar/press/#standards">معايير الدار</a>.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">قاعدة النشر</span>
+      <h2>لا تنشر أبدًا لرفع العدد.</h2>
+    </div>
+    <div class="callout">
+      <span class="callout__label">التعليمة القائمة</span>
+      <p>لا يُنتج مجلد لزيادة عدد المجلدات. إن كان عنوان مقترح لا يحسّن التعليم — دراسة متعلم،
+        أو درس معلم، أو تصحيح ممتحن — فلا يُبنى. عنوانان مخططان سُحبا رسميًا بموجب هذه القاعدة
+        وسحبُهما مسجَّل لا منسي.</p>
+    </div>
+    <div class="grid grid--2">
+${card('لماذا تلزم القاعدة', 'برنامج النشر يكافئ الكثرة', 'ما إن يوجد كتالوج، يصير أسهل طرق تقويته الإضافةَ إليه. القاعدة موجودة لأن هذا الضغط حقيقي ولا يعلن عن نفسه.')}
+${card('وما كلفتها', 'قائمة أقصر مما تستطيع الكلية إنتاجه', 'السجل خلف الدار يحمل 74 موردًا مرشحًا. إنتاجها كلها ممكن؛ ومعظمها لن يحسّن شيئًا، والكتالوج أقصر لهذا.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الموقف</span>
+      <h2>منتَجة، وغير مراجَعة.</h2>
+    </div>
+    <div class="grid grid--2">
+${darkCard('أُنجز', `${ltr(String(publicVolumes.length))} مجلدًا`, 'مركَّبة ومنضَّدة ومدققة ومنتَجة. كل واحد منها شيء حقيقي يمكن طلبه وقراءته اليوم.')}
+${darkCard('لم يُنجز', 'مراجعةٌ من أحد مستقل', 'لم يُعيَّن مراجع أكاديمي. كل مجلد أنتجته الكلية راجعه، إن رُوجع أصلًا, الذين كتبوه — أي أنه لم يُراجَع. ولهذا قسمه الخاص لا هامش.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="standards" data-contents="معايير الدار">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">القاعدة الأولى</span>
+      <h2>مولَّد من السجل، لا مصانًا إلى جواره.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('ما تمنعه', 'كتابٌ يخالف البرنامج', 'المجلد المصان يدويًا ينجرف عن المنهج خلال مراجعة واحدة، فيدرّس كلُّ معلم يثق به شيئًا لم تعد الكلية تقوله. التركيب من المصدر يجعل الانجراف مستحيلًا لا مستبعدًا.')}
+${card('وما كلفتها', 'الكتاب لا يُحسَّن في الكتاب', 'تحسين جملة يعني تحسين السجل الذي جاءت منه، وهو أبطأ ومزعج أحيانًا. وهو أيضًا الترتيب الوحيد الذي يصل فيه التحسين إلى المتعلمين كما يصل إلى القراء.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">القاعدة الثانية</span>
+      <h2>نظام طباعي واحد، أربع صيغ.</h2>
+      <p class="lede">الدار تُعرف باتساقها، والاتساق بهذا الحجم يُفرض بنظام مشترك لا
+        بالتذكّر.</p>
+    </div>
+    <div class="grid grid--4">
+${card('مرجعي', 'للاستشارة', 'الأدلة المرافقة والكتيبات — تُفتح عند نقطة لا تُقرأ من أولها، فالصفحة مبنية للمسح والعودة.')}
+${card('تدريبي', 'للعمل فيه', 'كراسات التمارين، حيث على الصفحة أن تترك مكانًا يكتب فيه المتعلم وتحفظ بنيتها.')}
+${card('رئيسي', 'للبرنامج كاملًا', 'المنهج بتمامه، حيث مشكلة القارئ التنقل عبر مئات الصفحات لا الكثافة في واحدة.')}
+${card('بحثي', 'للفحص', 'المجلدات المؤسسية والمعمارية، منضَّدة لقارئ يدقق لا يتعلم.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">القاعدة الثالثة</span>
+      <h2>كل ادعاء يحمل مصدره.</h2>
+    </div>
+    <div class="grid grid--3">
+${darkCard('على الصفحة', 'لا في المقدمة', 'حيث يقول مجلدٌ شيئًا سيعمل به معلم، يوسم مصدر القول على اللوحة ذاتها. ملاحظة المصدر المشروحة مرة في التصدير ملاحظةٌ لا يقرؤها أحد.')}
+${darkCard('بما في ذلك الغياب', 'فئة لا تظهر في أي موضع', 'دليل المعلم المرافق يسم كل لوحة مشتقةً أو مُثبَتة أو مصمَّمة. الوسم الرابع — مُشاهَد في صف — لا يظهر في الكتاب إطلاقًا، والتصدير يقول لماذا بدل إسقاط الفئة بصمت.')}
+${darkCard('معدود لا مُدّعى', 'الأرقام تُقاس من الصفحات', 'أعداد التصدير تُؤخذ من الصفحات المركَّبة لا من قاعدة البيانات التي غذّتها، لأن بعض المدخلات يظهر في رأس جارٍ لا لوحةً. العدد المأخوذ من المكان الخطأ خطأٌ لن يفحصه أحد أبدًا.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="review" data-contents="عن المراجعة">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الحقيقة</span>
+      <h2>ما ألّفه وراجعه الأشخاص أنفسهم غير مراجَع.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('ما فُعل', 'تدقيق داخلي، وكثير منه', 'المجلدات تُدقق وتُقابَل بالسجل وتُفحص آليًا للاتساق الداخلي — التسلسل والحساب والمصطلح والتغطية. وهذا يصطاد التناقضات وأخطاء الوقائع.')}
+${card('وما لا يستطيع اصطياده', 'الخطأ الذي يشترك فيه المؤلفون', 'الافتراض المشترك غير مرئي من الداخل. هل يعلّم الدرس ما يدّعي تعليمه، وهل يقيس التقييم ما يقول إنه يقيسه، وهل المستوى حيث يقول إنه هو — لا شيء من ذلك يستطيع إثباته الذين قرروه.')}
+    </div>
+    <div class="grid grid--3" style="margin-top:26px">
+${card('المنصب', 'مراجع أكاديمي', 'ماجستير في تدريس الإنجليزية أو اللسانيات التطبيقية أو ما يعادلهما، مع خبرة تقييم. أيام محددة لقراءة قائمة محددة. يمكن أن يكون ارتباطًا استشاريًا، وهو التعيين الذي سيغيّر أكثر من أي تعيين آخر.')}
+${card('الفصل', 'المؤلف ليس المراجع، أبدًا', 'تعدّه الكلية غير قابل للتفاوض. تعيين مؤلف لمراجعة عمله ينتج صفحةً تقول «رُوجع» ولا يغيّر شيئًا في المجلدات، وهو أسوأ من الوضع الحالي لأنه كاذب.')}
+${card('الدعوة', 'المجلدات معروضة للمراجعة', 'كل قارئ مؤهل مستعد لمراجعة مجلد يُعرض عليه نسخة. اكتب إلى <a href="mailto:info@worldwencollege.co.uk?subject=Review%20of%20a%20WEC%20Press%20volume" dir="ltr">info@worldwencollege.co.uk</a>. النقد غاية التمرين لا خطره.')}
+    </div>
+    <div class="grid grid--2" style="margin-top:26px">
+${darkCard('سيُنشر', 'ما تقلبه المراجعة، بوصفه قلبًا', 'ستُسجَّل النتائج على المجلدات التي تخصها، على مرأى. مراجعةٌ تؤكد نتائجها المؤلفَ دائمًا مراجعةٌ لا يقرؤها أحد فعلًا.')}
+${darkCard('ولن يُسترجَع', 'لن يوسم مجلد مراجَعًا بأثر رجعي', 'المجلدات المنتَجة قبل المراجعة تبقى منتَجة قبل المراجعة. حالتها ستُذكر على سجلها لا تُرقّى بصمت بتعيين لاحق.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="programme" data-contents="برنامج النشر">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">المقياس</span>
+      <h2>سبعة قراء، سبعة أسئلة.</h2>
+      <p class="lede">كلٌّ يسأل هل يستطيع شخص مسمًّى أن يؤدي عمله فعلًا بما هو موجود. عدُّ
+        الموارد لا يجيب عن أي منها.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th>القارئ</th><th>هل يستطيع؟</th><th>الموارد المتوفرة</th></tr></thead>
+        <tbody>
+AR_CRITERIA_ROWS
+        </tbody>
+      </table>
+    </div>
+    <div class="stat-row" style="margin-top:36px">
+      <div class="stat-row__item"><strong dir="ltr">CRIT_MET/CRIT_TOTAL</strong><span>اختبارات مجتازة</span></div>
+      <div class="stat-row__item"><strong dir="ltr">AVAIL/TOTAL</strong><span>موردًا في اليد</span></div>
+      <div class="stat-row__item"><strong dir="ltr">RES_PCT%</strong><span>من قائمة الموارد</span></div>
+      <div class="stat-row__item"><strong dir="ltr">STAGE_PCT%</strong><span>المرحلة الأولى إجمالًا</span></div>
+    </div>
+    <p class="form-note">الرقمان يختلفان عمدًا. ثلاثة وتسعون في المئة من الموارد في اليد
+      والمرحلة بعيدة عن الاكتمال، لأن الموارد الأخيرة هي التي لا تنتجها أي كتابة.</p>
+    <div class="grid grid--3" style="margin-top:26px">
+${card('يتطلب استوديو', 'الصوتيات المسجلة', 'نصوص الاستماع مكتوبة وموسومة ومنشورة مجلدًا. التسجيلات غير موجودة. إنتاجها يحتاج أصواتًا وغرفة، وهو أكبر بند واحد بين البرنامج وأول تدريس.')}
+${card('يتطلب صفًا', 'دليل المشاهدة', 'لا شيء في السجل شوهد في تدريس. معلم واحد ودفعة واحدة وفصل واحد ينتج دليلًا لا يُستنتج — راجع <a href="/ar/academics/teaching/#development">التطوير والمشاهدة</a>.')}
+${card('يتطلب جهة خارجية', 'الفحص الخارجي والمراجعة', 'الشهادة لا يمكن منحها والمجلدات لا يستطيع مراجعتها أحد داخل الكلية. كلاهما تعيين لا مهمة.')}
+    </div>
+    <div class="grid grid--2" style="margin-top:26px">
+${darkCard('مدموج', 'عنوانان استوعبتهما مجلدات أخرى', 'حيث تبيّن أن مجلدًا مقترحًا فصلٌ من مجلد قائم، سُحب وسُمّي مضيفه. مجلد منفصل كان سيضيف عنوانًا إلى الكتالوج ولا شيء إلى التعليم.')}
+${darkCard('غير مسنود', 'ثلاثة لا يسوّغها المنهج', 'حيث لم يكن لمورد مقترح أساس فيما يدرّسه البرنامج فعلًا، سُجّل غير مسنود بدل أن يُبنى. الدعم المرئي أوضح حالة: إنتاجه قرار عمّا هي الكلية، لا ثغرة فيما كتبته.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="library" data-contents="المكتبة">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">بوضوح</span>
+      <h2>ما ليست هي.</h2>
+    </div>
+    <div class="callout">
+      <span class="callout__label">لا مجموعة مرخَّصة</span>
+      <p>لا تحمل الكلية اشتراكات في قواعد بيانات أكاديمية، ولا وصولًا مرخَّصًا إلى دوريات، ولا
+        مجموعة كتب إلكترونية، ولا ترتيب إعارة بين مكتبات. الطالب المسجّل هنا لا يكسب وصولًا إلى
+        مكتبة بحثية. «الوصول إلى المكتبة الرقمية» في هذا الموقع يعني مواد الكلية نفسها، ويجدر
+        أن نكون دقيقين في ذلك بدل أن نترك العبارة تؤدي عملًا لم تكسبه.</p>
+    </div>
+    <div class="grid grid--3" style="margin-top:26px">
+${card('البرنامج', 'كل ما يحويه مستواك', 'الدروس والتمارين ومجموعات الاستماع وعمل المفردات والفحوص الذاتية والتقييمات لمستواك المسجَّل فيه، متاحة من يوم تسجيلك.')}
+${card('المجلدات', `${ltr(String(publicVolumes.length))} عنوانًا منشورًا`, 'المنهج وكتيب التقييم والكراسات والأدلة المرافقة والكتيبات — راجع <a href="/ar/press/catalogue/">الكتالوج</a>. تُقدَّم بالطلب لا تُنزَّل هنا.')}
+${card('السجل', 'ما قررته الكلية، ولماذا', 'الأطر والمعايير ومواقف الحوكمة منشورة صفحاتٍ على هذا الموقع لا محجوزة وثائق داخلية. المؤسسة التي تنشر منطقها يمكن مجادلتها، وذلك هو المقصود.')}
+    </div>
+    <div class="grid grid--3" style="margin-top:26px">
+${darkCard('مجاني وواسع', 'البث العام والمدونات الصوتية', 'ساعات من الكلام الطبيعي في كل مستوى، بلا كلفة، في أي موضوع تهتم به أصلًا. الاهتمام بالموضوع هو ما يجعل تمرين الاستماع يتجاوز الأسبوع الثالث.')}
+${darkCard('مجاني وواسع', 'المكتبات العامة والمجموعات المفتوحة', 'قراءات متدرجة وصحف ونصوص مفتوحة. المتعلم الذي يقرأ أسبوعيًا شيئًا اختاره بنفسه سيقرأ أضعاف نصوص البرنامج المقررة.')}
+${darkCard('والشيء الوحيد الذي يُتجنب', 'مادة أعلى بكثير من مستواك', 'المدخل الذي يتجاوز متناولك قليلًا يبني لغة؛ والذي يتجاوزه بكثير لا يبني إلا الإحباط. صفحة مستواك تسمّي أين أنت؛ فاختر وفق ذلك.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>انظر ما الذي أُنتج.</h2>
+    <div class="btn-row u-center">
+      <a href="/ar/press/catalogue/" class="btn btn--gold">الكتالوج</a>
+      <a href="/ar/press/#programme" class="btn btn--outline">برنامج النشر</a>
+    </div>
+  </div>
+</section>`,
+};
+
+PAGES.catalogueAr = {
+  slug: 'press-catalogue-ar', output: 'ar/press/catalogue/index.html', file: 'press-catalogue.ar.html',
+  lang: 'ar', dir: 'rtl', altHref: '/press/catalogue/',
+  title: 'الكتالوج — مطبعة الكلية',
+  description: `المجلدات الـ${publicVolumes.length} التي أنتجتها مطبعة الكلية، ولمن كلٌّ منها، وكيف تحصل على نسخة.`,
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">مطبعة الكلية</span>
+    <h1>الكتالوج.</h1>
+    <p class="lede">كل عنوان أدناه مجلدٌ أُنتج فعلًا. لا شيء مخططًا أو قيد الإعداد أو وشيكًا
+      يظهر هنا — الكتالوج الذي يسرد النوايا نشرةٌ ترويجية بثياب كتالوج. عناوين المجلدات أسماء
+      أعلام لمنشورات إنجليزية وتبقى بالإنجليزية.</p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">في الطباعة</span>
+      <h2>${ltr(String(publicVolumes.length))} مجلدًا.</h2>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th>العنوان</th><th>لمن</th></tr></thead>
+        <tbody>
+${publicVolumes.map((f) => `          <tr><td><strong dir="ltr">${esc(titleOf(f))}</strong></td><td>${arAudience(AUDIENCE[titleOf(f)])}</td></tr>`).join('\n')}
+        </tbody>
+      </table>
+    </div>
+    ${arRequestBlock}
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الطبعات</span>
+      <h2>لماذا توجد بعض المجلدات أكثر من مرة.</h2>
+    </div>
+    <div class="grid grid--3">
+${card('طبعة الطالب', 'المنهج، لمن يدرسه', 'المحتوى ذاته منضَّدًا لقارئ يعمل فيه لا لإداري يدققه. الطبعة الواحدة التي تخدم الاثنين لا تخدم أيًا منهما جيدًا.')}
+${card('الحروف الكبيرة', 'ليست فكرة لاحقة', 'تنضيد مركَّب على حدة لا الملف ذاته مكبَّرًا. تكبير صفحة صُممت لمقاس واحد يكسر أطوال أسطرها وجداولها، وهكذا تصير طبعات الحروف الكبيرة غير مقروءة.')}
+${card('الطبعة المؤسسية', 'لمسجِّل أو لجنة', 'المواصفات والمخرجات والساعات وجهاز ضمان الجودة، بالشكل الذي يحتاجه أولئك القراء فعلًا.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">مجلدات داخلية</span>
+      <h2>${ltr(String(internalVolumes.length))} منتَجة وليست للقراء.</h2>
+      <p class="lede">مذكورة لأن إخفاء وجودها كان سيكون ضربًا من عدم الصدق أصغر من عدم ذكرها
+        أصلًا.</p>
+    </div>
+    <div class="grid grid--2">
+${internalVolumes.map((f) => darkCard('داخلي', ltr(titleOf(f)), titleOf(f).includes('Editorial Bible')
+    ? 'قواعد الدار التي يُركَّب كل مجلد وفقها — الطباعة والبنية والنبرة وما يجوز وما لا يجوز ادعاؤه. داخلي لأنه يحكم الإنتاج لا التدريس.'
+    : 'مجلدات المواصفات المادية التي تُنتج المجلدات وفقها: مقاسات القطع والهوامش والورق والتجليد والألوان. داخلي لأنه وثيقة تصنيع.')).join('\n')}
+    </div>
+    <p class="form-note">تُنتج أيضًا ${ltr(String(artwork.length))} ملفات لأغلفة المجلدات. وهي
+      أصول إنتاج لا مجلدات، ولا تُعدّ في الكتالوج.</p>
+  </div>
+</section>
+
+${cta('كيف تُصنع هذه.', 'معايير الدار', '/ar/press/#standards', 'عن المراجعة', '/ar/press/#review')}`,
+};
+
+
 // The programme page's figures are substituted after composition so
 // that they come from the register rather than being typed in prose.
 async function fillProgramme() {
@@ -493,8 +792,38 @@ async function fillProgramme() {
     .replace('CRIT_MET', s.criteriaSatisfied).replace('CRIT_TOTAL', s.criteriaTotal)
     .replace('AVAIL', s.available).replace('TOTAL', s.resources)
     .replace('RES_PCT', s.resourcePct).replace('STAGE_PCT', s.stagePct);
-  if (/CRITERIA_ROWS|CRIT_MET|RES_PCT|STAGE_PCT/.test(PAGES.press.body)) {
-    throw new Error('A figure placeholder survived substitution — the page would publish a token.');
+
+  // The Arabic pillar renders the same register through a translation
+  // map that refuses an entry it does not know.
+  const AR_WHO = {
+    'A learner': 'متعلم', 'A teacher': 'معلم', 'An examiner': 'ممتحن',
+    'An institution': 'مؤسسة', 'A parent': 'ولي أمر', 'An employer': 'صاحب عمل',
+    'The publications, platform and classroom resources': 'المنشورات والمنصة والموارد الصفية',
+  };
+  const AR_CAN = {
+    'can successfully study Level I': 'أن يدرس المستوى الأول بنجاح',
+    'can confidently teach Level I': 'أن يدرّس المستوى الأول بثقة',
+    'can accurately assess Level I': 'أن يقيّم المستوى الأول بدقة',
+    'can administer Level I': 'أن تدير المستوى الأول',
+    'can understand Level I': 'أن يفهم المستوى الأول',
+    'can understand the Level I achievement': 'أن يفهم إنجاز المستوى الأول',
+    'work together as one coherent ecosystem': 'أن تعمل معًا منظومةً واحدة متسقة',
+  };
+  const arRows = s.criteria.map((c) => {
+    const who = AR_WHO[c.who]; const can = AR_CAN[c.can];
+    if (!who || !can) throw new Error(`No Arabic rendering for criterion "${c.who}" / "${c.can}"`);
+    return `          <tr><td><strong>${who}</strong></td><td>${can}</td>`
+      + `<td><span dir="ltr">${c.available} / ${c.total}</span>${c.satisfied ? ' — <strong>نعم</strong>' : ''}</td></tr>`;
+  }).join('\n');
+  PAGES.pressAr.body = PAGES.pressAr.body
+    .replace('AR_CRITERIA_ROWS', arRows)
+    .replace('CRIT_MET', s.criteriaSatisfied).replace('CRIT_TOTAL', s.criteriaTotal)
+    .replace('AVAIL', s.available).replace('TOTAL', s.resources)
+    .replace('RES_PCT', s.resourcePct).replace('STAGE_PCT', s.stagePct);
+  for (const [name, body] of [['press', PAGES.press.body], ['pressAr', PAGES.pressAr.body]]) {
+    if (/CRITERIA_ROWS|CRIT_MET|RES_PCT|STAGE_PCT/.test(body)) {
+      throw new Error(`A figure placeholder survived substitution in ${name} — the page would publish a token.`);
+    }
   }
 }
 
@@ -517,8 +846,9 @@ for (const slug of ['press-standards', 'press-review', 'press-programme', 'libra
     fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
     const entry = {
       slug: p.slug, output: p.output, title: p.title, description: p.description,
-      contentFile: p.file, lang: 'en', dir: 'ltr',
+      contentFile: p.file, lang: p.lang || 'en', dir: p.dir || (p.lang === 'ar' ? 'rtl' : 'ltr'),
     };
+    if (p.altHref) entry.altHref = p.altHref;
     if (p.contents) entry.contents = true;
     const i = entries.findIndex((e) => e.slug === p.slug);
     if (i >= 0) entries[i] = { ...entries[i], ...entry }; else entries.push(entry);

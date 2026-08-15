@@ -91,8 +91,8 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 /teaching/companion/                /academics/teaching/#companion  301
 /admissions/payment/                /admissions/tuition/#paying  301
 /ar/about/structure/                /ar/about/#structure  301
-/ar/press/standards/                /ar/  301
-/ar/press/programme/                /ar/  301
+/ar/press/standards/                /ar/press/#standards  301
+/ar/press/programme/                /ar/press/#programme  301
 /learning/platform/                 /academics/#campus  301
 /support/technical/                 /academics/#campus  301
 /ar/academics/iefc/                 /ar/academics/#iefc  301
@@ -108,7 +108,7 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 /press/standards/                   /press/#standards  301
 /press/programme/                   /press/#programme  301
 /ar/about/vision/                   /ar/about/#vision  301
-/ar/press/review/                   /ar/  301
+/ar/press/review/                   /ar/press/#review  301
 /academics/iefc/                    /academics/#iefc  301
 /ar/about/basce/                    /ar/governance/#basce  301
 /about/mission/                     /about/#mission  301
@@ -118,7 +118,7 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 /about/basce/                       /governance/#basce  301
 /ar/learning/                       /ar/academics/#learning  301
 /ar/teaching/                       /ar/academics/teaching/  301
-/ar/library/                        /ar/  301
+/ar/library/                        /ar/press/#library  301
 /standards/                         /governance/#standard  301
 /learning/                          /academics/#learning  301
 /teaching/                          /academics/teaching/  301

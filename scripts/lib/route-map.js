@@ -131,8 +131,9 @@ for (const r of RETIRED_AR) {
   // derived twins now land on it directly. Sub-page fragments collapse
   // to the pillar page, whose contents rail carries every section.
   if (r.to.startsWith('/ar/academics/teaching/')) r.to = '/ar/academics/teaching/';
-  // No Arabic press pages exist yet; their twins land on the front door.
-  if (r.to.startsWith('/ar/press/')) r.to = '/ar/';
+  // The Arabic Press pillar was published in Phase 6; the twins land on
+  // its sections, and the library on the section that owns it.
+  if (r.to === '/ar/library/') r.to = '/ar/press/#library';
 }
 
 const ALL = [...RETIRED, ...RETIRED_AR];

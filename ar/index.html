@@ -318,12 +318,12 @@
   وبقي السلوك الذي كان جيدًا فعلًا: عند التمرير ينكمش الشريط، ويصغر
   الشعار، وينسحب سطر الحرم، فيبقى اسم الكلية بحجمه الكامل.
 
-  القوائم هي أركان docs/information-architecture.html نفسها التي
-  تحملها الترويسة الإنجليزية: عن الكلية، البرامج الأكاديمية، القبول،
-  الطلاب، الحوكمة. ركن «المطبعة والمكتبة» غائب هنا لأنه لا نسخة
-  عربية له بعد — القاعدة الثابتة: حيث لا توجد صفحة عربية، لا يُدرج
-  الرابط أصلًا بدلًا من إخراج القارئ من لغته. راجع pages/manifest.json
-  لما هو مترجَم. رابط التواصل انتقل إلى شريط الخدمات أعلاه.
+  القوائم هي أركان docs/information-architecture.html الستة نفسها
+  التي تحملها الترويسة الإنجليزية: عن الكلية، البرامج الأكاديمية،
+  القبول، الطلاب، الحوكمة، المطبعة والمكتبة. القاعدة الثابتة باقية:
+  حيث لا توجد صفحة عربية، لا يُدرج الرابط أصلًا بدلًا من إخراج
+  القارئ من لغته — راجع pages/manifest.json لما هو مترجَم. رابط
+  التواصل في شريط الخدمات أعلاه.
 -->
 <header class="site-header lattice" data-nodes="7">
   <div class="lattice__bed" aria-hidden="true"></div>
@@ -460,6 +460,27 @@
         </div>
       </div>
 
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/ar/press/" aria-haspopup="true" aria-expanded="false">المطبعة والمكتبة</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">الدار</p>
+              <a href="/ar/press/">مطبعة الكلية</a>
+              <a href="/ar/press/catalogue/">الكتالوج</a>
+              <a href="/ar/press/#standards">معايير الدار</a>
+              <a href="/ar/press/#library">المكتبة</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/press/catalogue/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-book"/></svg>
+            <span class="mega__feature-label">الكتالوج</span>
+            <span class="mega__feature-text">كل ما نشرته الكلية، وكل ما تكتبه.</span>
+            <span class="mega__feature-go">تصفّح الكتالوج <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
     </nav>
 
     <div class="header__actions">
@@ -492,6 +513,8 @@
     <a href="/ar/student-portal/">بوابة الطالب</a>
     <a href="/ar/governance/">الحوكمة</a>
     <a href="/ar/governance/#quality">ضمان الجودة</a>
+    <a href="/ar/press/">مطبعة الكلية</a>
+    <a href="/ar/press/catalogue/">الكتالوج</a>
     <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
     <a href="/ar/contact/">تواصل معنا</a>
     <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم الآن</a>
@@ -976,6 +999,40 @@
     <div class="btn-row u-center" style="margin-top:34px">
       <a href="/ar/governance/" class="btn btn--outline">كيف تُدار الكلية</a>
       <a href="/ar/governance/#quality" class="btn btn--outline">ضمان الجودة</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     VI · المطبعة والمكتبة
+     ================================================================== -->
+<section class="chapter section--light section--pearl" data-chapter="المطبعة والمكتبة" id="press">
+  <div class="container">
+    <div class="split-feature split-feature--wide-text">
+      <div>
+        <div class="chapter__head">
+          <p class="chapter__num"><span class="roman">VI</span> المطبعة والمكتبة</p>
+          <h2 class="display-2">الكلية تنشر ما تدرّسه.</h2>
+          <p class="lede">الوحدات الستون ونظام التقييم ومنهجية التدريس ليست وثائق داخلية. مطبعة الكلية تصدرها مجلداتٍ يقرؤها أي أحد — وتقول بوضوح أيها روجع باستقلالية. لم يُراجَع أيٌّ منها بعد، والدار تقول ذلك بدل أن توحي بغيره.</p>
+        </div>
+
+        <div class="btn-row">
+          <a href="/ar/press/" class="btn btn--outline">مطبعة الكلية</a>
+          <a href="/ar/press/catalogue/" class="btn btn--outline">تصفّح الكتالوج</a>
+        </div>
+      </div>
+
+      <figure class="plate plate--drift plate--photo" style="--plate-ratio: 3 / 2">
+        <div class="plate__frame">
+          <img src="/assets/images/plates/library.jpg" alt="قاعة قراءة جامعية: طاولات طويلة ومصابيح خضراء الظلال وأرفف كتب تمتد نحو الجدار البعيد." width="1600" height="1067" loading="lazy">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
+          ستون وحدة، مكتوبة
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>

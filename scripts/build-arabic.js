@@ -543,6 +543,144 @@ ${darkCard('لا يستطيع', 'أن يحل محل مؤهل معترف به', '
 `,
 };
 
+PAGES.careers = {
+  slug: 'about-careers-ar', output: 'ar/about/careers/index.html', file: 'about-careers.ar.html',
+  altHref: '/about/careers/',
+  title: 'العمل في الكلية — الكلية العالمية للغة الإنجليزية',
+  description: 'المناصب الثلاثة التي تحتاجها الكلية فعلًا، وما الذي يفتحه كل منها، وما الذي ينضم إليه المرشح بالضبط.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">عن الكلية</span>
+    <h1>العمل في الكلية العالمية للغة الإنجليزية.</h1>
+    <p class="lede">الكلية في بدايتها. هذا هو التأطير الصادق لكل من يفكر في الانضمام إليها، وهو
+      أنفع من دعوة توحي بقسم راسخ. ما يلي هو ما هو مطلوب فعلًا وما الذي يفتحه كل منصب.</p>
+    <div class="btn-row">
+      <a href="mailto:info@worldwencollege.co.uk?subject=Interest%20in%20a%20post%20at%20WEC-LC" class="btn btn--gold">أبدِ اهتمامك</a>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">ما نبحث عنه</span>
+      <h2>ثلاثة مناصب، بترتيب ما تفتحه.</h2>
+      <p class="lede">اثنان منها يمكن أن يكونا ارتباطًا جزئيًا أو استشاريًا لا وظيفة براتب.
+        يُقال هذا لأنه صحيح، لا للتقليل منهما.</p>
+    </div>
+    <div class="grid grid--3">
+${card('الأول', 'مراجع أكاديمي', 'ماجستير في تدريس الإنجليزية أو اللسانيات التطبيقية أو ما يعادلهما، مع خبرة في التقييم. عدد محدد من الأيام لقراءة قائمة محددة. كل ما أنتجته الكلية من منشورات لم يراجعه بعدُ أحدٌ لم يكتبه، وهذا المنصب يغيّر ذلك أكثر من أي منصب آخر.')}
+${card('الثاني', 'معلم ممارس', 'أي مستوى، وأي عدد من الساعات. معلم واحد ودفعة واحدة وفصل واحد ينتج الدليل الصفي الذي تفتقر إليه الكلية كليًا — والذي لا يُستنتَج، إنما يُشاهَد.')}
+${card('الثالث', 'ممتحن خارجي', 'ممارسة قطاعية معيارية، يُرتبط به لكل دورة. المنصب الوحيد الذي وظيفته كلها أن يكون خارج الكلية، والذي يجب شغله قبل أن تُمنح أي شهادة.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">ما الذي تنضم إليه</span>
+      <h2>ما هو قائم، بوضوح.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('قائم', 'برنامج كامل', 'ستة مستويات، وستون وحدة، وكل درس مخطط مرحلةً مرحلة، وكل تقييم مكتوب بمعايير منشورة، ومجموعة مجلدات منشورة تغطي المنهج والتقييم والتدريس.')}
+${card('غير قائم', 'كل ما يحتاج أشخاصًا', 'لا اعتماد، ولا ممتحن خارجي، ولا أعضاء مجالس معيَّنين، ولا دفعة دُرّست، ولا خريجين. ينبغي أن يعرف المرشح هذا قبل المحادثة الأولى، لا بعدها.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">كيف تُبدي اهتمامك</span>
+      <p>اكتب إلى <a href="mailto:info@worldwencollege.co.uk" dir="ltr">info@worldwencollege.co.uk</a>
+        مسمّيًا المنصب. لا بوابة تقديم ولا موعد إغلاق؛ هذه المناصب تُشغل حين يوجد الشخص المناسب
+        لا وفق جدول.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>اقرأ ما الذي ستراجعه.</h2>
+    <div class="btn-row u-center">
+      <a href="/ar/academics/#levels" class="btn btn--gold">برنامج IEFC</a>
+      <a href="/ar/governance/#quality" class="btn btn--outline">معاييرنا</a>
+    </div>
+  </div>
+</section>`,
+};
+
+PAGES.accessibility = {
+  slug: 'support-accessibility-ar', output: 'ar/support/accessibility/index.html', file: 'support-accessibility.ar.html',
+  altHref: '/support/accessibility/',
+  title: 'الإتاحة — الكلية العالمية للغة الإنجليزية',
+  description: 'ما بنته الكلية للإتاحة عمدًا، وما لم يُختبر، وما الذي تفعله الكلية عند الطلب — دون ادعاء مطابقة لم يدقق فيها أحد.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">الدعم</span>
+    <h1>الإتاحة.</h1>
+    <p class="lede">هذه الصفحة لا تدّعي مستوى مطابقة، لأنه لم يُجرَ أي تدقيق. ما يلي هو ما بُني
+      عمدًا، وما هو غير مختبَر، وما الذي يحدث إن طلبت.</p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">لا ادعاء</span>
+      <h2>لماذا لا يوجد هنا بيان مطابقة.</h2>
+    </div>
+    <div class="callout">
+      <span class="callout__label">الادعاء غير المدقَّق ادعاءٌ عن لا شيء</span>
+      <p>بيان إتاحة يجزم بمستوى مطابقة لم يختبره أحد باستقلالية لا يقول لمستخدم من ذوي الإعاقة
+        شيئًا، ويقوله بثقة. لم يُكلَّف أي تدقيق لهذا الموقع. وإلى أن يُكلَّف، تصف الكلية ما
+        فعلته لا المعيار الذي تبلغه.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">مبني عمدًا</span>
+      <h2>ما فُعل عن قصد.</h2>
+    </div>
+    <div class="grid grid--4">
+${card('البنية', 'عناوين ومعالم حقيقية', 'الصفحات مبنية من بنية مستند فعلية لا نص منسَّق، فيستطيع قارئ الشاشة التنقل فيها بالعنوان والمنطقة.')}
+${card('النماذج', 'حقول موسومة وأخطاء معلنة', 'كل حقل له وسم حقيقي، وأخطاء التحقق تُعلن لا تُلوَّن فقط. الإطار الأحمر لا يبلّغ شيئًا لمن لا يراه.')}
+${card('الحركة', 'مؤثرات الظهور زينة فقط', 'لا شيء مخفي خلف حركة. المحتوى حاضر سواء اشتغل المؤثر أم لا.')}
+${card('الطباعة', 'نسخة كبيرة الحروف منضَّدة على حدة', 'منهج الحروف الكبيرة منضَّد على مقاسه لا مكبَّرًا، لأن تكبير صفحة صُممت لمقاس آخر يكسر أطوال أسطرها وجداولها.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الثغرات المعروفة</span>
+      <h2>غير مختبَر، ومذكور أنه غير مختبَر.</h2>
+    </div>
+    <div class="grid grid--3">
+${darkCard('غير مختبَر', 'بتقنيات مساعدة فعلية', 'لم يختبر الموقعَ مستخدمو قارئات شاشة. البناء على البنية الصحيحة وقابلية الاستخدام شيئان مختلفان، والثاني وحده هو المهم.')}
+${darkCard('غير متوفر', 'تسميات أو نصوص للجلسات الحية', 'لم تُعقد جلسة حية، ولا يوجد ترتيب للتسميات التوضيحية. هذا حاجز حقيقي أمام المتعلمين الصم وضعاف السمع ويُسمّى بدل أن يُغفل.')}
+${darkCard('غير متوفر', 'إجراء رسمي للتكييفات', 'لا تملك الكلية إجراءً لتقدير حاجة أو منح تكييف رسمي. ما تستطيعه هو الترتيب غير الرسمي — وقت ممدود، وصيغ بديلة، ومشاركة صوتية فقط. وهذا عرض أصغر من سياسة، ويوصف بأنه الشيء الأصغر الذي هو.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">إن كان شيء في هذا الموقع غير قابل للاستخدام لك</span>
+      <p>اكتب إلى <a href="mailto:info@worldwencollege.co.uk?subject=Accessibility" dir="ltr">info@worldwencollege.co.uk</a>
+        وصِف ما حدث. سيجيبك إنسان، وسيُصلَح إن أمكن إصلاحه. بلاغٌ عن حاجز حقيقي أثمن لهذه
+        الكلية من أي تدقيق تستطيع كلفته اليوم.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>ما تستطيع الكلية دعمه وما لا تستطيع.</h2>
+    <div class="btn-row u-center">
+      <a href="/ar/students/#support" class="btn btn--gold">الدعم</a>
+      <a href="/ar/academics/#campus" class="btn btn--outline">المتطلبات التقنية</a>
+    </div>
+  </div>
+</section>`,
+};
+
 PAGES.policy = {
   slug: 'admissions-policy-ar', output: 'ar/admissions/policy/index.html', file: 'admissions-policy.ar.html',
   altHref: '/admissions/policy/',

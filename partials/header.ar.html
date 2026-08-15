@@ -13,12 +13,12 @@
   وبقي السلوك الذي كان جيدًا فعلًا: عند التمرير ينكمش الشريط، ويصغر
   الشعار، وينسحب سطر الحرم، فيبقى اسم الكلية بحجمه الكامل.
 
-  القوائم هي أركان docs/information-architecture.html نفسها التي
-  تحملها الترويسة الإنجليزية: عن الكلية، البرامج الأكاديمية، القبول،
-  الطلاب، الحوكمة. ركن «المطبعة والمكتبة» غائب هنا لأنه لا نسخة
-  عربية له بعد — القاعدة الثابتة: حيث لا توجد صفحة عربية، لا يُدرج
-  الرابط أصلًا بدلًا من إخراج القارئ من لغته. راجع pages/manifest.json
-  لما هو مترجَم. رابط التواصل انتقل إلى شريط الخدمات أعلاه.
+  القوائم هي أركان docs/information-architecture.html الستة نفسها
+  التي تحملها الترويسة الإنجليزية: عن الكلية، البرامج الأكاديمية،
+  القبول، الطلاب، الحوكمة، المطبعة والمكتبة. القاعدة الثابتة باقية:
+  حيث لا توجد صفحة عربية، لا يُدرج الرابط أصلًا بدلًا من إخراج
+  القارئ من لغته — راجع pages/manifest.json لما هو مترجَم. رابط
+  التواصل في شريط الخدمات أعلاه.
 -->
 <header class="site-header lattice" data-nodes="7">
   <div class="lattice__bed" aria-hidden="true"></div>
@@ -155,6 +155,27 @@
         </div>
       </div>
 
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/ar/press/" aria-haspopup="true" aria-expanded="false">المطبعة والمكتبة</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">الدار</p>
+              <a href="/ar/press/">مطبعة الكلية</a>
+              <a href="/ar/press/catalogue/">الكتالوج</a>
+              <a href="/ar/press/#standards">معايير الدار</a>
+              <a href="/ar/press/#library">المكتبة</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/press/catalogue/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-book"/></svg>
+            <span class="mega__feature-label">الكتالوج</span>
+            <span class="mega__feature-text">كل ما نشرته الكلية، وكل ما تكتبه.</span>
+            <span class="mega__feature-go">تصفّح الكتالوج <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
     </nav>
 
     <div class="header__actions">
@@ -187,6 +208,8 @@
     <a href="/ar/student-portal/">بوابة الطالب</a>
     <a href="/ar/governance/">الحوكمة</a>
     <a href="/ar/governance/#quality">ضمان الجودة</a>
+    <a href="/ar/press/">مطبعة الكلية</a>
+    <a href="/ar/press/catalogue/">الكتالوج</a>
     <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
     <a href="/ar/contact/">تواصل معنا</a>
     <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم الآن</a>
