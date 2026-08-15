@@ -220,6 +220,23 @@
     </div>
   </div>
 
+  <!-- THE HEADER CLOCK.
+       Mobile only, sitting directly above the quicknav strip — where
+       the reference screenshot carries its own date/time line, at the
+       very top of the app rather than buried in page content. Compact
+       by design: one line, no analogue face, so it costs the header
+       almost nothing in height. js/worldclock.js fills all three
+       values; the numerals shown here are only the pre-script state. -->
+  <div class="headerclock" data-worldclock>
+    <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
+    <span class="headerclock__times">
+      <span data-clock-london>13:36</span><span class="headerclock__tz">LON</span>
+      <span class="headerclock__sep">&middot;</span>
+      <span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span>
+    </span>
+    <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
+  </div>
+
   <!-- THE QUICKNAV STRIP.
        Mobile only (css/brand.css hides it from 861px up, where the six
        pillars already sit in the visible nav row — a second copy of
@@ -233,31 +250,31 @@
   <div class="quicknav" aria-label="Quick navigation">
     <div class="quicknav__track">
       <a href="/about/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+        <span class="vessel" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span></span>
         <span class="quicknav__label">The College</span>
       </a>
       <a href="/academics/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
+        <span class="vessel" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span></span>
         <span class="quicknav__label">Academics</span>
       </a>
       <a href="/admissions/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <span class="vessel" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span></span>
         <span class="quicknav__label">Admissions</span>
       </a>
       <a href="/students/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="vessel" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
         <span class="quicknav__label">Students</span>
       </a>
       <a href="/governance/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+        <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
         <span class="quicknav__label">Governance</span>
       </a>
       <a href="/press/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span></span>
         <span class="quicknav__label">Press</span>
       </a>
       <button type="button" class="quicknav__tile quicknav__tile--full" data-quicknav-full aria-controls="nav-mobile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+        <span class="vessel" style="--halo-delay: 3.6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
         <span class="quicknav__label">Full Menu</span>
       </button>
     </div>

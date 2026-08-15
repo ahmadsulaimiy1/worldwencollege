@@ -524,6 +524,23 @@
     </div>
   </div>
 
+  <!-- THE HEADER CLOCK.
+       Mobile only, sitting directly above the quicknav strip — where
+       the reference screenshot carries its own date/time line, at the
+       very top of the app rather than buried in page content. Compact
+       by design: one line, no analogue face, so it costs the header
+       almost nothing in height. js/worldclock.js fills all three
+       values; the numerals shown here are only the pre-script state. -->
+  <div class="headerclock" data-worldclock>
+    <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
+    <span class="headerclock__times">
+      <span data-clock-london>13:36</span><span class="headerclock__tz">LON</span>
+      <span class="headerclock__sep">&middot;</span>
+      <span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span>
+    </span>
+    <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
+  </div>
+
   <!-- THE QUICKNAV STRIP.
        Mobile only (css/brand.css hides it from 861px up, where the six
        pillars already sit in the visible nav row — a second copy of
@@ -537,31 +554,31 @@
   <div class="quicknav" aria-label="Quick navigation">
     <div class="quicknav__track">
       <a href="/about/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+        <span class="vessel" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span></span>
         <span class="quicknav__label">The College</span>
       </a>
       <a href="/academics/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
+        <span class="vessel" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span></span>
         <span class="quicknav__label">Academics</span>
       </a>
       <a href="/admissions/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <span class="vessel" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span></span>
         <span class="quicknav__label">Admissions</span>
       </a>
       <a href="/students/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="vessel" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
         <span class="quicknav__label">Students</span>
       </a>
       <a href="/governance/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+        <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
         <span class="quicknav__label">Governance</span>
       </a>
       <a href="/press/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span></span>
         <span class="quicknav__label">Press</span>
       </a>
       <button type="button" class="quicknav__tile quicknav__tile--full" data-quicknav-full aria-controls="nav-mobile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+        <span class="vessel" style="--halo-delay: 3.6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
         <span class="quicknav__label">Full Menu</span>
       </button>
     </div>
@@ -1040,6 +1057,54 @@
     </div>
   </div>
 
+  <!-- A second, wider register: pages that don't belong to any one of the
+       four columns above (careers, a policy document, a teaching note, a
+       decisions log, a catalogue) but are real, published pages a serious
+       visitor goes looking for. Laid out as a true grid, not the quicknav's
+       swipeable strip — this one sits still and shows everything at once,
+       the way a prospectus lists its appendices. Same worked-vessel badge
+       as the quicknav strip above it, so the two read as one material. -->
+  <div class="footergrid">
+    <h2 class="footergrid__heading">
+      <span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+      Explore Further
+    </h2>
+    <div class="footergrid__row">
+      <a href="/about/careers/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span></span>
+        <span class="footergrid__label">Careers</span>
+      </a>
+      <a href="/academics/teaching/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: .5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span></span>
+        <span class="footergrid__label">Teaching Practice</span>
+      </a>
+      <a href="/admissions/policy/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 1s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span></span>
+        <span class="footergrid__label">Admissions Policy</span>
+      </a>
+      <a href="/students/integrity/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span></span>
+        <span class="footergrid__label">Academic Integrity</span>
+      </a>
+      <a href="/students/regulations/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span></span>
+        <span class="footergrid__label">Academic Regulations</span>
+      </a>
+      <a href="/governance/decisions/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 2.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
+        <span class="footergrid__label">Decisions Register</span>
+      </a>
+      <a href="/press/catalogue/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
+        <span class="footergrid__label">Press Catalogue</span>
+      </a>
+      <a href="/about/#status" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span></span>
+        <span class="footergrid__label">Institutional Status</span>
+      </a>
+    </div>
+  </div>
+
   <div class="site-footer__bottom">
     <p>&copy; <span data-year>2026</span> WorldWide English College — London Campus. All rights reserved.</p>
     <!-- A trust mark, not a badge: the icon signals "this is checkable",
@@ -1069,5 +1134,6 @@
 <script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
+<script src="/js/worldclock.js" defer></script>
 </body>
 </html>
