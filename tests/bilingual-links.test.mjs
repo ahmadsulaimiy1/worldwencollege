@@ -101,6 +101,59 @@ check('...and the marker test does catch an unmarked crossing',
   && MARKED.test('سجل الأدلة (بالإنجليزية)')
   && MARKED.test('المستوى الأول  (EN) '));
 
+// ── THE LANGUAGE SWITCH ITSELF ────────────────────────────────────────
+//
+// Every rule above is about links a page's author wrote. The topbar's
+// switch is written once, by the build, for all ninety pages — and it
+// was wrong on forty of them.
+//
+// `altHref` names a page's counterpart in the other language. Where the
+// manifest has none, the fallback was `/`: so on every English page
+// without an Arabic edition, العربية sent the reader to the ENGLISH
+// homepage. A language switch that returns you to the language you are
+// already reading does not read as a missing translation. It reads as a
+// broken site.
+//
+// Two things are checked, because they are two different claims. The
+// SWITCH is navigation and must always cross — to the counterpart where
+// one exists, to the other language's front door otherwise. The
+// hreflang ALTERNATE is an assertion to a search engine that a given
+// URL is this page in that language, and a front door is not a
+// translation of the Level I syllabus, so a page without a counterpart
+// declares no alternate at all.
+{
+  const built = (out) => path.join(ROOT, out);
+  const switchOf = (html) => (html.match(/class="topbar__lang"[^>]*href="([^"]*)"/) || [])[1];
+  const altsOf = (html) => [...html.matchAll(/rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)]
+    .map((m) => [m[1], m[2]]);
+
+  const wrongWay = [], falseAlternate = [], missingAlternate = [];
+  for (const e of entries) {
+    let html;
+    try { html = readFileSync(built(e.output), 'utf8'); } catch { continue; }
+    const isAr = e.output.startsWith('ar/');
+    const href = switchOf(html);
+    if (!href) continue;                       // no topbar on this page
+
+    // The switch must land in the OTHER language, always.
+    const landsInArabic = href === '/ar/' || href.startsWith('/ar/');
+    if (isAr === landsInArabic) wrongWay.push(`${e.output} → ${href}`);
+
+    const alts = altsOf(html);
+    const hasCounterpart = Boolean(e.altHref);
+    const other = alts.find(([hl]) => hl === (isAr ? 'en' : 'ar'));
+    if (!hasCounterpart && other) falseAlternate.push(`${e.output} claims ${other[0]}: ${other[1]}`);
+    if (hasCounterpart && !other) missingAlternate.push(e.output);
+  }
+
+  check(`The language switch always crosses languages — ${entries.length} pages`,
+    wrongWay.length === 0, wrongWay.slice(0, 6).join(' · '));
+  check('No page claims an hreflang alternate it does not have',
+    falseAlternate.length === 0, falseAlternate.slice(0, 6).join(' · '));
+  check('Every page that HAS a counterpart declares it',
+    missingAlternate.length === 0, missingAlternate.slice(0, 6).join(' · '));
+}
+
 // ── The gap itself, reported rather than asserted ─────────────────────
 // This is not a failure — it is the number the master plan is working
 // down. Printing it keeps it visible in every test run instead of

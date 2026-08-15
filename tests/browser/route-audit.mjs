@@ -9,6 +9,7 @@
 //
 // Kept separate from run.mjs because it needs Chromium and a server.
 import { chromium } from 'playwright';
+import { serveRealFonts, fontsSettled } from './lib/real-fonts.mjs';
 import { spawn } from 'node:child_process';
 import { readdirSync, statSync, existsSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
@@ -257,6 +258,106 @@ for (const route of routes) {
   }
 }
 
+// ── THE CHROME SWEEP ─────────────────────────────────────────────────
+//
+// Adding a viewport every time something breaks at a width nobody
+// measured is not a strategy — it is a list of past failures, and it
+// will always be one width short. This walks the whole range instead,
+// on four representative routes rather than all 101, and asks the two
+// questions that have caught every chrome fault so far: does anything
+// grow an extra row, and does anything overflow?
+//
+// It exists because the utility bar was 60px tall at 900px, 120px tall
+// at 820 and 768, and 60px again at 700 — a band bounded on both sides
+// by correct behaviour, which is the hardest fault to see by eye and
+// the easiest to measure. The header rail below it was fine throughout,
+// so nothing else in this file noticed.
+//
+// A REPRESENTATIVE ROUTE PER CLUSTER, not all 101 and not just the
+// homepage. The chrome is identical on every page of a language, so for
+// the header and topbar one route would do — but the same sweep also
+// measures document overflow, and THAT is per-page. It found the
+// homepage's audience grid refusing to shrink below two 156px columns
+// and pushing a 320px phone 15px wide. One route per cluster is the
+// cheapest sample that can find the same fault in a layout the homepage
+// does not use.
+//
+// English and Arabic both, because the two languages set the same
+// content at different widths and therefore break at different ones.
+//
+// AND IN THE REAL FACES, unlike the rest of this file. Everything above
+// renders on the fallback stack deliberately, to check the page a
+// visitor with a blocked CDN gets. Wrap points are a different
+// question: they depend on the exact width of the glyphs, and the
+// fallback stack is not the same width as Playfair, Inter and Cairo.
+// Measured on fallbacks this sweep put the topbar's wrap at 768; in the
+// real faces it starts at 820. Both are faults and either fails the
+// build, but a check that reports the wrong width sends whoever fixes
+// it to the wrong breakpoint. 72 page loads is a cheap price for an
+// answer that matches the browser.
+const SWEEP = [1440, 1280, 1180, 1100, 1024, 960, 900, 860, 820, 768, 700, 640, 560, 480, 430, 390, 360, 320];
+const SWEEP_ROUTES = [
+  '/', '/ar/',
+  '/about/governance/', '/ar/about/governance/',
+  '/study/', '/ar/study/',
+  '/admissions/tuition/', '/ar/admissions/tuition/',
+  '/faculty/', '/ar/faculty/',
+  '/press/catalogue/', '/students/assessment/', '/library/', '/contact/',
+].filter((r) => routes.includes(r));
+const sweepBad = [];
+const sweepCtx = await browser.newContext({ viewport: { width: 1440, height: 800 } });
+await serveRealFonts(sweepCtx);
+const sweepPage = await sweepCtx.newPage();
+for (const route of SWEEP_ROUTES) {
+  for (const width of SWEEP) {
+    await sweepPage.setViewportSize({ width, height: 800 });
+    const r = await sweepPage.goto(BASE + route, { waitUntil: 'domcontentloaded', timeout: 15000 }).catch(() => null);
+    if (!r || r.status() >= 400) continue;
+    await fontsSettled(sweepPage).catch(() => {});
+    await sweepPage.waitForTimeout(90);
+    const s = await sweepPage.evaluate(() => {
+      // A band's row count, from how many non-overlapping vertical
+      // bands its children occupy.
+      //
+      // The first version counted DISTINCT TOPS, and reported the
+      // header as three rows at every width including 1440, where it
+      // is plainly one. Both bands are `align-items: center`, so a
+      // 44px button, a 34px nav link and a 40px wordmark on the same
+      // line have three different tops by construction. The check was
+      // measuring the alignment mode, not the layout.
+      //
+      // Overlap is the question actually being asked: two things are on
+      // the same row when their vertical extents intersect. Wrapping
+      // separates them; centring does not.
+      const rows = (sel) => {
+        const el = document.querySelector(sel);
+        if (!el) return null;
+        const spans = [...el.children]
+          .map((k) => k.getBoundingClientRect())
+          .filter((b) => b.height > 0 && b.width > 0)
+          .map((b) => [b.top, b.bottom])
+          .sort((a, b) => a[0] - b[0]);
+        if (!spans.length) return null;
+        let n = 1, end = spans[0][1];
+        for (const [top, bottom] of spans.slice(1)) {
+          if (top >= end - 1) n++;            // clear of everything so far — a new row
+          end = Math.max(end, bottom);
+        }
+        return n;
+      };
+      return {
+        topbar: rows('.topbar__inner'),
+        header: rows('.site-header__inner'),
+        overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      };
+    }).catch(() => null);
+    if (!s) continue;
+    if (s.topbar > 1) sweepBad.push(`${route} @${width} topbar ${s.topbar} rows`);
+    if (s.header > 1) sweepBad.push(`${route} @${width} header ${s.header} rows`);
+    if (s.overflow > 1) sweepBad.push(`${route} @${width} overflow +${s.overflow}px`);
+  }
+}
+
 let pass = 0, fail = 0;
 const check = (l, c) => { console.log((c ? 'PASS ' : 'FAIL ') + l); c ? pass++ : fail++; };
 const list = (a, n = 5) => a.slice(0, n).join(', ') + (a.length > n ? ` … +${a.length - n}` : '');
@@ -276,6 +377,7 @@ check(`No route skips a heading level${bad.headingSkip.length ? ' — ' + list(b
 check(`Every route offers a way back to the College${bad.chrome.length ? ' — ' + list(bad.chrome, 8) : ''}`, !bad.chrome.length);
 check(`The header rail fills its line at 1024px and 390px${bad.rail.length ? ' — ' + list(bad.rail, 4) : ''}`, !bad.rail.length);
 check(`No route exceeds ${TAP_BUDGET} sub-44px tap targets at 390px${bad.taps.length ? ' — ' + list(bad.taps, 8) : ''}`, !bad.taps.length);
+check(`Chrome stays one row and inside the viewport across ${SWEEP.length} widths, 320–1440${sweepBad.length ? ' — ' + list(sweepBad, 5) : ''}`, !sweepBad.length);
 
 if (retried.length) {
   console.log(`\nNOTE ${retried.length} route(s) needed a second attempt: ${list(retried)}`);

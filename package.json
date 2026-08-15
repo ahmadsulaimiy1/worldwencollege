@@ -7,6 +7,7 @@
   "scripts": {
     "build": "node scripts/build.js",
     "faculty": "node scripts/build-faculty.js && node scripts/build.js",
+    "arabic": "node scripts/build-arabic.js && node scripts/build-arabic-levels.js && node scripts/build.js",
     "test": "node --experimental-sqlite tests/run.mjs",
     "dev": "wrangler pages dev . --d1=DB",
     "db:create": "wrangler d1 create wec-lc",

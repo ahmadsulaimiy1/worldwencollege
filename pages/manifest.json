@@ -252,7 +252,8 @@
     "description": "Level I of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR A1. Modules, learning outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-1.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/study/level-1/"
   },
   {
     "slug": "study-level-2",
@@ -261,7 +262,8 @@
     "description": "Level II of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR A2. Modules, learning outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-2.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/study/level-2/"
   },
   {
     "slug": "study-level-3",
@@ -270,7 +272,8 @@
     "description": "Level III of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR B1. Modules, learning outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-3.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/study/level-3/"
   },
   {
     "slug": "study-level-4",
@@ -279,7 +282,8 @@
     "description": "Level IV of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR B2. Modules, learning outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-4.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/study/level-4/"
   },
   {
     "slug": "study-level-5",
@@ -288,7 +292,8 @@
     "description": "Level V of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR C1. Modules, learning outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-5.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/study/level-5/"
   },
   {
     "slug": "study-level-6",
@@ -297,7 +302,8 @@
     "description": "Level VI of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR C2. Modules, learning outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-6.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/study/level-6/"
   },
   {
     "slug": "about-vision",
@@ -874,5 +880,65 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/about/basce/"
+  },
+  {
+    "slug": "study-level-1-ar",
+    "output": "ar/study/level-1/index.html",
+    "title": "المستوى الأول: برنامج التأسيس (A1) — الكلية العالمية للغة الإنجليزية",
+    "description": "المستوى الأول من برنامج IEFC: 10 وحدات، و120 ساعة تدريس على مدى 4 أشهر، وفق مستوى A1 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
+    "contentFile": "study-level-1.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/study/level-1/"
+  },
+  {
+    "slug": "study-level-2-ar",
+    "output": "ar/study/level-2/index.html",
+    "title": "المستوى الثاني: البرنامج الابتدائي (A2) — الكلية العالمية للغة الإنجليزية",
+    "description": "المستوى الثاني من برنامج IEFC: 10 وحدات، و120 ساعة تدريس على مدى 4 أشهر، وفق مستوى A2 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
+    "contentFile": "study-level-2.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/study/level-2/"
+  },
+  {
+    "slug": "study-level-3-ar",
+    "output": "ar/study/level-3/index.html",
+    "title": "المستوى الثالث: البرنامج المتوسط (B1) — الكلية العالمية للغة الإنجليزية",
+    "description": "المستوى الثالث من برنامج IEFC: 10 وحدات، و120 ساعة تدريس على مدى 4 أشهر، وفق مستوى B1 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
+    "contentFile": "study-level-3.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/study/level-3/"
+  },
+  {
+    "slug": "study-level-4-ar",
+    "output": "ar/study/level-4/index.html",
+    "title": "المستوى الرابع: المتوسط المتقدم (B2) — الكلية العالمية للغة الإنجليزية",
+    "description": "المستوى الرابع من برنامج IEFC: 10 وحدات، و120 ساعة تدريس على مدى 4 أشهر، وفق مستوى B2 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
+    "contentFile": "study-level-4.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/study/level-4/"
+  },
+  {
+    "slug": "study-level-5-ar",
+    "output": "ar/study/level-5/index.html",
+    "title": "المستوى الخامس: البرنامج المتقدم (C1) — الكلية العالمية للغة الإنجليزية",
+    "description": "المستوى الخامس من برنامج IEFC: 10 وحدات، و120 ساعة تدريس على مدى 4 أشهر، وفق مستوى C1 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
+    "contentFile": "study-level-5.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/study/level-5/"
+  },
+  {
+    "slug": "study-level-6-ar",
+    "output": "ar/study/level-6/index.html",
+    "title": "المستوى السادس: برنامج الإتقان (C2) — الكلية العالمية للغة الإنجليزية",
+    "description": "المستوى السادس من برنامج IEFC: 10 وحدات، و120 ساعة تدريس على مدى 4 أشهر، وفق مستوى C2 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
+    "contentFile": "study-level-6.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/study/level-6/"
   }
 ]

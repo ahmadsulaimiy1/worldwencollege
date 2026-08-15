@@ -332,11 +332,23 @@ section { position: relative; }
 
 /* -------------------- Topbar -------------------- */
 .topbar { background: var(--royal-deep); color: rgba(247,244,236,.82); font-size: .8rem; }
+/* NOWRAP UNCONDITIONALLY, and the previous version is instructive: the
+   rule below used to say `flex-wrap: wrap`, with nowrap applied only
+   under 720px. The comment further down already asserted that a utility
+   bar "should cost one row at every width" — but the rule only enforced
+   it on phones, so between 721 and 833 the bar quietly grew a second
+   row and doubled from 60px to 120px. A band bounded on both sides by
+   correct behaviour is the hardest kind of fault to notice by eye and
+   the easiest to measure, which is roughly the story of this whole
+   header.
+
+   Wrapping is not a graceful degradation here. It is the failure. The
+   bar sheds items instead — see the drop rules below. */
 .topbar__inner {
   max-width: var(--wrap); margin: 0 auto; padding: 8px 24px;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: nowrap;
 }
-.topbar__contacts { display: flex; gap: 22px; flex-wrap: wrap; }
+.topbar__contacts { display: flex; gap: 22px; flex-wrap: nowrap; }
 .topbar__item:hover { color: var(--gold-bright); }
 .topbar__item--muted { color: rgba(247,244,236,.55); }
 .topbar__right { display: flex; align-items: center; gap: 18px; }
@@ -380,27 +392,29 @@ section { position: relative; }
 .topbar__social .icon { width: 14px; height: 14px; position: relative; }
 .topbar__social a:hover { color: var(--gold-bright); }
 .topbar__social a:hover::before { border-color: var(--gold); background: rgba(199,162,74,.12); }
-/* On a phone the topbar was wrapping to three rows and taking 240px
-   before the reader reached the College's name. It is a utility bar:
-   it should cost one row at every width. The campus strapline goes
-   first (it is repeated in the hero), then the social ring — the
-   language switch is the one control here a Gulf reader may genuinely
-   need, so it is the last thing to go, and it never does. */
-/* On a phone the topbar was wrapping to three rows and taking 240px
-   before the reader reached the College's name. It is a utility bar:
-   it should cost one row at every width.
+/* THE BAR SHEDS ITEMS; IT DOES NOT SHRINK THEM AND IT DOES NOT WRAP.
+   On a phone this was wrapping to three rows and taking 240px before
+   the reader reached the College's name.
 
-   Elements are dropped rather than shrunk. Every control here is 44px
-   because that is the smallest reliable thumb target, and buying a
-   shorter bar by making the targets 38px would trade a cosmetic
-   problem for an accessibility one. The campus strapline goes first
-   (the hero repeats it), then the social ring; the language switch is
-   the one control a Gulf reader may genuinely need on a phone, so it
-   never goes. */
+   Every control here is 44px because that is the smallest reliable
+   thumb target, so buying a shorter bar by shrinking them would trade a
+   cosmetic problem for an accessibility one. Things go instead, in
+   order of how little they are needed: the campus strapline first (the
+   hero repeats it verbatim), then the social ring. The language switch
+   is the one control a Gulf reader may genuinely need on a phone, so it
+   never goes.
+
+   860, not 720, for the strapline. Measured with the bar forced to one
+   row: its natural content needs 785px in English and 726px in Arabic
+   against the viewport less 48px of padding, so English runs out at
+   833. 720 was the width at which the bar had ALREADY been wrapping for
+   a hundred pixels. */
+@media (max-width: 860px) {
+  .topbar__contacts .topbar__item--muted { display: none; }
+}
 @media (max-width: 720px) {
   .topbar { font-size: .76rem; }
-  .topbar__contacts .topbar__item--muted { display: none; }
-  .topbar__inner { flex-wrap: nowrap; gap: 12px; padding-inline: 16px; }
+  .topbar__inner { gap: 12px; padding-inline: 16px; }
 }
 @media (max-width: 620px) {
   .topbar__social { display: none; }
@@ -704,10 +718,35 @@ section { position: relative; }
 .stat-row__item { flex: 1 1 160px; padding: 26px 20px; text-align: center; border-right: 1px solid var(--line); }
 [dir="rtl"] .stat-row__item { border-right: none; border-left: 1px solid var(--line); }
 .stat-row__item:last-child { border: none; }
-.stat-row__item strong { display: block; font-family: var(--font-display); font-size: 1.7rem; color: var(--red); }
-.section--dark .stat-row__item strong, .section--deep .stat-row__item strong { color: var(--gold-bright); }
-.stat-row__item span { font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
-.section--dark .stat-row__item span, .section--deep .stat-row__item span { color: rgba(247,244,236,.65); }
+/* strong AND b, and the omission was expensive.
+   This component was only ever styled for <strong>. Of the 138 stat
+   figures the site publishes, 105 are marked up with <b> — every one of
+   them on a generated page, because the generators were written after
+   this rule and nobody compared. Those 105 got no block display, no
+   display face, no size and no colour: "B1CEFR LEVEL", "10MODULES",
+   "$3,167TUITION", value and label jammed into one line of body text on
+   all six level pages in both languages, the BASCE and Senate figures,
+   and the competency count.
+   Fixed here rather than in 105 places. The two elements mean different
+   things in HTML — <strong> is importance, <b> is typographic
+   prominence without it — and a headline figure in a statistics band is
+   arguably the second. Both are legitimate here, so both are styled. */
+.stat-row__item strong, .stat-row__item b {
+  display: block; font-family: var(--font-display); font-size: 1.7rem; color: var(--red);
+}
+.section--dark .stat-row__item strong, .section--deep .stat-row__item strong,
+.section--dark .stat-row__item b, .section--deep .stat-row__item b { color: var(--gold-bright); }
+/* THE DIRECT CHILD, not any descendant.
+   This targets the LABEL — the small-caps caption under the figure —
+   but written as a descendant selector it also caught any <span> nested
+   INSIDE the figure. The Arabic level pages wrap their numerals in
+   <span dir="ltr"> so a browser does not reorder "$3,167" inside a
+   right-to-left line, and that wrapper inherited the label's .74rem:
+   the <b> computed to 38.4px and rendered at 11.84px, on every stat
+   figure on all six Arabic pages, while the English ones were correct.
+   A rule that means "the label" should say so. */
+.stat-row__item > span { font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+.section--dark .stat-row__item > span, .section--deep .stat-row__item > span { color: rgba(247,244,236,.65); }
 
 /* -------------------- Dot-leader list -------------------- */
 .dot-list { list-style: none; margin: 0; padding: 0; }

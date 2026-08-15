@@ -297,7 +297,22 @@
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
   background: var(--stone); border: 1px solid var(--stone);
 }
-@media (max-width: 860px) { .audience-grid { grid-template-columns: repeat(2, 1fr); } }
+/* minmax(0, 1fr), not 1fr, and one column on a small phone.
+   `1fr` is shorthand for `minmax(auto, 1fr)`, and `auto` floors the
+   track at its MIN-CONTENT width — so a cell holding "International
+   applicants" and 48px of padding refuses to go below about 156px no
+   matter how narrow the viewport gets. Two of those on a 320px phone
+   overflowed the document by 15px.
+
+   Only in the real faces, which is why nothing had seen it: the
+   fallback stack sets that heading narrower than Inter does, so the
+   audit — which renders on fallbacks — measured no overflow at all.
+
+   minmax(0, …) lets the track shrink; the single column below 520 is
+   the design answer, since two 136px cells carrying a heading and a
+   sentence are not readable at any font. */
+@media (max-width: 860px) { .audience-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .audience-grid { grid-template-columns: minmax(0, 1fr); } }
 .audience {
   background: var(--cream); padding: 30px 24px;
   display: flex; flex-direction: column; gap: 12px;

@@ -214,9 +214,9 @@ flagship page is a broken one.
 
 ### The Arabic backlog, stated rather than implied
 
-Fifteen routes are published in Arabic; **the remainder of the English
-routes have no Arabic edition yet** — the exact figure prints on every
-test run. `tests/bilingual-links.test.mjs` prints the
+Thirty-one routes are published in Arabic; **the remainder of the
+English routes have no Arabic edition yet** — the exact figure prints on
+every test run. `tests/bilingual-links.test.mjs` prints the
 number on every run so nobody has to go and count, and enforces the one
 rule that makes the gap survivable: any link out of Arabic into English
 is marked `(EN)` or `(بالإنجليزية)` in its own anchor text, before the
@@ -228,13 +228,29 @@ or time, then pages an institutional buyer checks, then the rest. Two
 groups are blocked rather than merely unwritten, and the reasons belong
 here rather than in somebody's head:
 
-- **The six level pages** wait on the College's own Arabic curriculum
-  terminology. Coining a second Arabic vocabulary for CEFR bands and
-  competency descriptors, page by page, is how two pages come to
-  disagree about what a level is called.
+- ~~**The six level pages**~~ — **published.** They were blocked on the
+  College's own Arabic curriculum terminology, because coining a second
+  Arabic vocabulary page by page is how two pages come to disagree about
+  what a level is called. The block is now resolved the way it should
+  have been framed from the start: the vocabulary is a shared object,
+  not a per-page decision. `scripts/lib/arabic-kit.js` holds the level
+  names, the layout primitives and the standing notices; the sixty
+  module titles, the four skills, the Level I outcomes and the award
+  glosses live in one keyed table each in
+  `scripts/build-arabic-levels.js`, every one of them guarded so a
+  missing rendering stops the build rather than shipping an English
+  string inside an Arabic table.
+
+  Two decisions worth recording, because they will come up again:
+  the English module title is printed BESIDE the Arabic one, since it is
+  the title the curriculum, the assessment handbook and the learner's
+  transcript all carry; and award titles and post-nominals are not
+  translated at all, since an award is a defined object and a translated
+  title is a second award nobody has defined.
 - **`/standards/evidence/`** is generated from the database, so its
-  Arabic edition is a translation of a data set rather than of a page,
-  and it needs the terminology decision above first.
+  Arabic edition is a translation of a data set rather than of a page.
+  The terminology block above is lifted; what remains is the data-set
+  question itself.
 
 `/about/governance/` was in neither group, and neither was
 `/about/basce/`. Both were simply not thought of as decision pages —
@@ -339,7 +355,7 @@ node tests/browser/diagram-fit.mjs    # every diagram measured where it ships
 ```
 
 Regenerating: the cluster generators (`build-about`, `build-arabic`,
-`build-standards`, `build-levels`, …) write into `pages/`, and
+`build-arabic-levels`, `build-standards`, `build-levels`, …) write into `pages/`, and
 `scripts/build.js` assembles `pages/` into the served directories. The
 publication volumes are separate — `npm run curriculum` re-renders the
 editorial bible, and a governance fact changed in a generator will not

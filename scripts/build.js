@@ -137,9 +137,37 @@ function build() {
     const lang = entry.lang || 'en';
     const dir = entry.dir || 'ltr';
     const canonical = SITE_URL + urlPathFor(entry.output);
-    const altUrl = SITE_URL + (entry.altHref || '/');
+
+    // THE OTHER LANGUAGE, and where to send someone who asks for it.
+    //
+    // `altHref` names a page's genuine counterpart. Forty of the ninety
+    // entries do not have one yet, and the fallback for those was `/` —
+    // so on every one of them the topbar's العربية sent an Arabic
+    // reader to the ENGLISH homepage. A language switch that returns
+    // you to the language you are already reading is worse than no
+    // switch: it looks like the Arabic edition is broken rather than
+    // absent. The fallback now depends on which language is asking, and
+    // lands on that language's front door.
+    const altHref = entry.altHref || (lang === 'ar' ? '/' : '/ar/');
+    const altUrl = SITE_URL + altHref;
+
+    // hreflang is a different question from the switch, and it was
+    // being answered with the same value. `alternate hreflang="ar"`
+    // asserts to a search engine that a given URL IS this page in
+    // Arabic. Pointing /study/level-1/ at the Arabic homepage does not
+    // degrade gracefully — it states something untrue, and the front
+    // door is not a translation of the Level I syllabus. A page with no
+    // counterpart therefore declares no alternate at all.
+    const hasCounterpart = Boolean(entry.altHref);
     const hreflangEn = lang === 'en' ? canonical : altUrl;
     const hreflangAr = lang === 'ar' ? canonical : altUrl;
+    // x-default names the page to send a reader whose language we do
+    // not serve. That is the English edition where one exists, and this
+    // page otherwise.
+    const alternates = (hasCounterpart
+      ? [['en', hreflangEn], ['ar', hreflangAr], ['x-default', hreflangEn]]
+      : [[lang, canonical], ['x-default', lang === 'en' ? canonical : SITE_URL + '/']]
+    ).map(([hl, href]) => `<link rel="alternate" hreflang="${hl}" href="${href}">`).join('\n');
 
     // Per-page stylesheets, declared in the manifest, on the same
     // opt-in principle as `scripts` below: css/home.css is 300 lines of
@@ -155,16 +183,13 @@ function build() {
       TITLE: entry.title,
       DESCRIPTION: entry.description,
       CANONICAL: canonical,
-      HREFLANG_EN: hreflangEn,
-      HREFLANG_AR: hreflangAr,
+      ALTERNATES: alternates,
       FONTS_URL: fontsUrlFor(lang),
       EXTRA_CSS: extraCss,
       OG_LOCALE: lang === 'ar' ? 'ar_AR' : 'en_GB',
       OG_SITE_NAME: lang === 'ar' ? 'الكلية العالمية للغة الإنجليزية' : 'WorldWide English College',
     });
-    const topbar = fill(partialFor('topbar', lang), {
-      ALT_HREF: entry.altHref || '/',
-    });
+    const topbar = fill(partialFor('topbar', lang), { ALT_HREF: altHref });
     const header = partialFor('header', lang);
     const footer = partialFor('footer', lang);
     const content = raiseMasthead(

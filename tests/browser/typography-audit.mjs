@@ -107,6 +107,7 @@ const spacedArabic = [];
 const tightLeading = [];
 const collisions = [];
 const mixedFace = [];
+const flatStats = [];
 let elementsMeasured = 0;
 let facesSeen = [];
 
@@ -123,7 +124,41 @@ for (const route of routes) {
 
   const found = await page.evaluate(({ LATIN_ONLY, ARABIC_CAPABLE, LATIN_MIN, ARABIC_MIN }) => {
     const AR = /[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/;
-    const out = { wrongFamily: [], spaced: [], tight: [], overlap: [], mixedFace: [], n: 0 };
+    const out = { wrongFamily: [], spaced: [], tight: [], overlap: [], mixedFace: [], flatStats: [], n: 0 };
+
+    // A HEADLINE FIGURE HAS TO READ AS ONE.
+    //
+    // .stat-row is the component the site uses to publish its numbers —
+    // fees, module counts, taught hours, appointed members — and its
+    // whole job is that the figure dominates its caption. Two separate
+    // faults broke that in one afternoon, and neither was visible to any
+    // check that existed:
+    //
+    //   · the CSS styled only <strong>, while 105 of the site's 138
+    //     figures are marked up with <b>, so they rendered as body text
+    //     jammed against the label: "B1CEFR LEVEL", "$3,167TUITION";
+    //   · the label rule was written as a descendant selector, so it
+    //     also caught the <span dir="ltr"> that wraps numerals inside
+    //     the figure on Arabic pages — the <b> computed to 38.4px and
+    //     painted at 11.84px.
+    //
+    // Both are the same question: is the figure actually bigger than
+    // its caption? Ratio rather than absolute size, so the check
+    // survives a redesign of the scale.
+    for (const item of document.querySelectorAll('.stat-row__item')) {
+      const fig = item.querySelector('b, strong');
+      const cap = item.querySelector(':scope > span');
+      if (!fig || !cap) continue;
+      // Measure the deepest element that actually holds the text: the
+      // figure may be wrapped for bidi, and the wrapper is what paints.
+      const painted = fig.querySelector('span') || fig;
+      const f = parseFloat(getComputedStyle(painted).fontSize);
+      const c = parseFloat(getComputedStyle(cap).fontSize);
+      if (!(f > 0) || !(c > 0)) continue;
+      if (f < c * 1.6) {
+        out.flatStats.push(`${(fig.textContent || '').trim().slice(0, 12)} ${f}px vs label ${c}px`);
+      }
+    }
     const ctx = document.createElement('canvas').getContext('2d');
     const inkCache = new Map();
     const first = (stack) => (stack.split(',')[0] || '').trim().replace(/^["']|["']$/g, '');
@@ -250,6 +285,7 @@ for (const route of routes) {
   tag(found.tight, tightLeading);
   tag(found.overlap, collisions);
   tag(found.mixedFace, mixedFace);
+  tag(found.flatStats, flatStats);
 
   await page.close();
 }
@@ -268,6 +304,9 @@ check(`No letter-spacing is applied to Arabic — ${spacedArabic.length} violati
 
 check(`Leading clears the ink of the face it is set in — ${tightLeading.length} violations`,
   tightLeading.length === 0, show(tightLeading));
+
+check(`Every published figure is set larger than its caption — ${flatStats.length} violations`,
+  flatStats.length === 0, show(flatStats));
 
 // A check that has only ever seen its own passing state proves nothing
 // about its reach. Confirm each rule fires on the shape it exists for.

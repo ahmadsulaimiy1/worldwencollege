@@ -49,7 +49,16 @@ const { DatabaseSync } = require('node:sqlite');
 const GOV = require('./lib/governance-register');
 
 const ROOT = path.resolve(__dirname, '..');
-const esc = (s) => String(s ?? '').replace(/&(?![a-z]+;|#)/g, '&amp;');
+
+// The Arabic house style — the level names, the (EN) crossing marker,
+// the card/hero/cta primitives and the two standing notices — lives in
+// scripts/lib/arabic-kit.js rather than here. scripts/build-arabic-levels.js
+// publishes in the same voice and needs the same vocabulary, and a
+// second copy of it is how a College ends up with two Arabic names for
+// Level III and no way to say which is right.
+const {
+  AR_LEVEL, ltr, EN, esc, card, darkCard, hero, cta, enOnly, noAccreditation,
+} = require('./lib/arabic-kit');
 
 function read() {
   const db = new DatabaseSync(':memory:');
@@ -75,73 +84,11 @@ if (D.active.join(',') !== 'USD') {
 const PASS_PCT = Math.round(Number(JSON.parse(D.cfg.lms_pass_threshold ?? '0.7')) * 100);
 const INSTALMENTS = Number(JSON.parse(D.cfg.instalment_default_count ?? '4'));
 
-// Arabic ordinals for the six levels, and the level names as the
-// existing Arabic pages already render them. Reusing the established
-// wording rather than coining a second set — two Arabic names for one
-// level is how the two come to disagree.
-const AR_LEVEL = {
-  1: { ord: 'الأول', name: 'برنامج التأسيس' },
-  2: { ord: 'الثاني', name: 'البرنامج الابتدائي' },
-  3: { ord: 'الثالث', name: 'البرنامج المتوسط' },
-  4: { ord: 'الرابع', name: 'المتوسط المتقدم' },
-  5: { ord: 'الخامس', name: 'البرنامج المتقدم' },
-  6: { ord: 'السادس', name: 'برنامج الإتقان' },
-};
+// The kit's AR_LEVEL must cover whatever the record actually holds.
 for (const l of D.levels) if (!AR_LEVEL[l.id]) throw new Error(`No Arabic name for level ${l.id}`);
 
-const ltr = (s) => `<span dir="ltr">${s}</span>`;
 const FULL = ltr('$19,000');
 const PER_LEVEL = ltr('$3,166.67');
-const EN = (href, label) => `<a href="${href}">${label} <span dir="ltr">(EN)</span></a>`;
-
-const card = (num, title, body) => `      <div class="card">
-        <span class="card__num">${num}</span>
-        <h3>${title}</h3>
-        <p>${body}</p>
-      </div>`;
-const darkCard = (num, title, body) => `      <div class="card card--dark">
-        <span class="card__num">${num}</span>
-        <h3>${title}</h3>
-        <p>${body}</p>
-      </div>`;
-
-const hero = (eyebrow, h1, lede, extra = '') => `<section class="section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">${eyebrow}</span>
-    <h1>${h1}</h1>
-    <p class="lede">${lede}</p>
-    ${extra}
-  </div>
-</section>`;
-
-const cta = (h2, primary, primaryHref, secondary, secondaryHref) =>
-  `<section class="section--dark cta-band">
-  <div class="container reveal">
-    <h2>${h2}</h2>
-    <div class="btn-row u-center">
-      <a href="${primaryHref}" class="btn btn--gold">${primary}</a>
-      <a href="${secondaryHref}" class="btn btn--outline">${secondary}</a>
-    </div>
-  </div>
-</section>
-`;
-
-// The notice every Arabic page carries when it links onward to a page
-// that exists only in English. Stated once, plainly, rather than
-// leaving a reader to discover the switch by clicking.
-const enOnly = `<div class="callout">
-      <span class="callout__label">عن الصفحات الإنجليزية</span>
-      <p>تحمل بعض الروابط في هذه الصفحة علامة <span dir="ltr">(EN)</span>. هذه صفحات لم تُنشر بعد
-        بالعربية، وتفتح بالإنجليزية. الكلية تذكر ذلك مسبقًا بدل أن يكتشفه القارئ بعد الضغط،
-        وتُنشر النسخ العربية تباعًا.</p>
-    </div>`;
-
-const noAccreditation = `<div class="callout">
-      <span class="callout__label">وضع الكلية</span>
-      <p>الكلية العالمية للغة الإنجليزية لا تحمل أي اعتماد أكاديمي، ولم تُعيّن ممتحنًا خارجيًا،
-        ولم تمنح أي شهادة لأي شخص حتى اليوم، ولم تُدرّس أي دفعة بعد. تُذكر هذه الحقائق في كل
-        صفحة تؤثر فيها على قرارك، لا مرة واحدة في هامش.</p>
-    </div>`;
 
 const PAGES = {};
 
@@ -691,11 +638,11 @@ ${card('فحوص ذاتية', 'غير محتسبة عليك', 'لا تُصحَّ
     </div>
     <div class="callout">
       <span class="callout__label">صفحات المستويات التفصيلية</span>
-      <p>لكل مستوى صفحة تفصيلية تعرض وحداته ومخرجاته وشهادته. هذه الصفحات منشورة بالإنجليزية
-        حتى الآن: ${EN('/study/level-1/', 'المستوى الأول')} ·
-        ${EN('/study/level-2/', 'الثاني')} · ${EN('/study/level-3/', 'الثالث')} ·
-        ${EN('/study/level-4/', 'الرابع')} · ${EN('/study/level-5/', 'الخامس')} ·
-        ${EN('/study/level-6/', 'السادس')}.</p>
+      <p>لكل مستوى صفحة تفصيلية بالعربية تعرض وحداته وتقييمه وطرائق تدريسه وشهادته:
+        <a href="/ar/study/level-1/">المستوى الأول</a> ·
+        <a href="/ar/study/level-2/">الثاني</a> · <a href="/ar/study/level-3/">الثالث</a> ·
+        <a href="/ar/study/level-4/">الرابع</a> · <a href="/ar/study/level-5/">الخامس</a> ·
+        <a href="/ar/study/level-6/">السادس</a>.</p>
     </div>
   </div>
 </section>

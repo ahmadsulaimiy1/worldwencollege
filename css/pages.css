@@ -258,7 +258,10 @@ body[data-section="contact"]    { --hero-accent: 199, 162, 74; }
 /* --- Statistics ----------------------------------------------------- */
 .stat-row { border-color: var(--line-stone); border-radius: 4px; }
 .stat-row__item { border-right-color: var(--line-stone); padding: 30px 22px; }
-.stat-row__item strong {
+/* See the note in brand.css: <b> is the markup 105 of the site's 138
+   stat figures actually use, and styling only <strong> left them set as
+   body text. */
+.stat-row__item strong, .stat-row__item b {
   font-size: clamp(1.8rem, 1.4rem + 1.4vw, 2.4rem);
   letter-spacing: -.02em; margin-bottom: .2em;
 }
