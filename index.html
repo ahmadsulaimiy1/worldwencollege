@@ -688,41 +688,86 @@
      it, only points at it. No data-chapter attribute, so it claims no
      dot on the chapter rail js/motion.js builds — this is navigation,
      not a chapter.
+
+     The clock panel and the tile grid share this one section rather
+     than each getting its own: two full-bleed bands back to back is
+     more scrolling for the same information, and both are the same
+     kind of thing — instruments you glance at, not passages you read.
      ================================================================== -->
 <section class="glance section--light section--pearl">
   <div class="container">
     <p class="eyebrow">The Institution, At a Glance</p>
+
+    <div class="worldclock__panel" data-worldclock>
+      <div class="worldclock__face-wrap">
+        <svg class="worldclock__face" viewBox="0 0 100 100" aria-hidden="true">
+          <circle class="worldclock__dial" cx="50" cy="50" r="47"/>
+          <g class="worldclock__ticks">
+            <line class="worldclock__tick worldclock__tick--major" transform="rotate(0 50 50)" x1="50" y1="6" x2="50" y2="12"/>
+            <line class="worldclock__tick" transform="rotate(30 50 50)" x1="50" y1="7" x2="50" y2="12"/>
+            <line class="worldclock__tick" transform="rotate(60 50 50)" x1="50" y1="7" x2="50" y2="12"/>
+            <line class="worldclock__tick worldclock__tick--major" transform="rotate(90 50 50)" x1="50" y1="6" x2="50" y2="12"/>
+            <line class="worldclock__tick" transform="rotate(120 50 50)" x1="50" y1="7" x2="50" y2="12"/>
+            <line class="worldclock__tick" transform="rotate(150 50 50)" x1="50" y1="7" x2="50" y2="12"/>
+            <line class="worldclock__tick worldclock__tick--major" transform="rotate(180 50 50)" x1="50" y1="6" x2="50" y2="12"/>
+            <line class="worldclock__tick" transform="rotate(210 50 50)" x1="50" y1="7" x2="50" y2="12"/>
+            <line class="worldclock__tick" transform="rotate(240 50 50)" x1="50" y1="7" x2="50" y2="12"/>
+            <line class="worldclock__tick worldclock__tick--major" transform="rotate(270 50 50)" x1="50" y1="6" x2="50" y2="12"/>
+            <line class="worldclock__tick" transform="rotate(300 50 50)" x1="50" y1="7" x2="50" y2="12"/>
+            <line class="worldclock__tick" transform="rotate(330 50 50)" x1="50" y1="7" x2="50" y2="12"/>
+          </g>
+          <line class="worldclock__hand worldclock__hand--hour" data-hand="hour" x1="50" y1="50" x2="50" y2="30"/>
+          <line class="worldclock__hand worldclock__hand--minute" data-hand="minute" x1="50" y1="50" x2="50" y2="21"/>
+          <line class="worldclock__hand worldclock__hand--second" data-hand="second" x1="50" y1="50" x2="50" y2="17"/>
+          <circle class="worldclock__pin" cx="50" cy="50" r="2.2"/>
+        </svg>
+      </div>
+      <div class="worldclock__readout">
+        <p class="worldclock__date" data-clock-date>Saturday, 15 August 2026</p>
+        <div class="worldclock__times">
+          <div class="worldclock__time">
+            <span class="worldclock__value" dir="ltr" data-clock-london>13:36</span>
+            <span class="worldclock__label">London &mdash; College Time</span>
+          </div>
+          <div class="worldclock__time">
+            <span class="worldclock__value" dir="ltr" data-clock-local>13:36</span>
+            <span class="worldclock__label">Your Local Time</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="glance__grid">
       <a href="/about/" class="glance__tile">
-        <span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+        <span class="glance__icon-halo" style="--halo-delay: 0s"><span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span></span>
         <span class="glance__label">The College</span>
       </a>
       <a href="/academics/" class="glance__tile">
-        <span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
+        <span class="glance__icon-halo" style="--halo-delay: .6s"><span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span></span>
         <span class="glance__label">Academics</span>
       </a>
       <a href="/admissions/" class="glance__tile">
-        <span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <span class="glance__icon-halo" style="--halo-delay: 1.2s"><span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span></span>
         <span class="glance__label">Admissions</span>
       </a>
       <a href="/students/" class="glance__tile">
-        <span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="glance__icon-halo" style="--halo-delay: 1.8s"><span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
         <span class="glance__label">Student Life</span>
       </a>
       <a href="/governance/" class="glance__tile">
-        <span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+        <span class="glance__icon-halo" style="--halo-delay: 2.4s"><span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
         <span class="glance__label">Governance</span>
       </a>
       <a href="/press/" class="glance__tile">
-        <span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+        <span class="glance__icon-halo" style="--halo-delay: 3s"><span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span></span>
         <span class="glance__label">Press &amp; Library</span>
       </a>
       <a href="/student-portal/" class="glance__tile">
-        <span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+        <span class="glance__icon-halo" style="--halo-delay: 3.6s"><span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span></span>
         <span class="glance__label">Student Portal</span>
       </a>
       <a href="/contact/" class="glance__tile">
-        <span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
+        <span class="glance__icon-halo" style="--halo-delay: 4.2s"><span class="glance__icon"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span></span>
         <span class="glance__label">Contact</span>
       </a>
     </div>
@@ -1304,5 +1349,6 @@
 <script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
+<script src="/js/worldclock.js"></script>
 </body>
 </html>
