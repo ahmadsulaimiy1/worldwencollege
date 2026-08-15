@@ -754,3 +754,38 @@
   .case__medallion .icon { animation: none; }
   .case, .case:hover { transform: none; transition: none; }
 }
+
+/* =========================================================
+   THE PATHWAY  ·  stage marks
+   ---------------------------------------------------------
+   DELIBERATELY NOT BADGES. These name real schemes with public
+   registers — ASIC, BAC, Accreditation UK — and a pill that reads as a
+   granted mark is the one thing this table must never become. So the
+   mark carries STATUS, never an authority's identity: it is a small
+   ruled label, square-cornered like the ledger it sits in, and it is
+   never gold. Gold on this site means conferred.
+   ========================================================= */
+.stage-mark {
+  display: inline-block; white-space: nowrap;
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+  padding: .42em .8em; border-radius: var(--r-xs);
+  color: rgba(247,244,236,.66);
+  border: 1px solid rgba(247,244,236,.2);
+  background: rgba(255,255,255,.03);
+}
+/* The one stage actually underway reads as live — teal, the platform
+   colour, which on this palette means "working" and never "awarded". */
+.stage-mark--live {
+  color: #7FC3C9; border-color: rgba(127,195,201,.42);
+  background: rgba(29,92,99,.18);
+}
+/* And the one that is explicitly distant recedes rather than shouts. */
+.stage-mark--future {
+  color: rgba(247,244,236,.44); border-style: dashed;
+  border-color: rgba(247,244,236,.18);
+}
+.chapter--pathway .ledger--flagship td { vertical-align: top; }
+.chapter--pathway .ledger--flagship td:nth-child(2) {
+  color: rgba(247,244,236,.72); font-size: .9rem; max-width: 46ch;
+}
