@@ -543,6 +543,108 @@ ${darkCard('لا يستطيع', 'أن يحل محل مؤهل معترف به', '
 `,
 };
 
+PAGES.policy = {
+  slug: 'admissions-policy-ar', output: 'ar/admissions/policy/index.html', file: 'admissions-policy.ar.html',
+  altHref: '/admissions/policy/',
+  title: 'سياسة القبول — الكلية العالمية للغة الإنجليزية',
+  description: 'القواعد التي تطبقها الكلية عند البتّ في طلب: مبادئ القرار، وأسباب الرفض المسمّاة، وبياناتك، والسياسات التي لم تُعتمد بعد.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">القبول</span>
+    <h1>سياسة القبول.</h1>
+    <p class="lede">القواعد التي تطبقها الكلية عند البتّ في طلب، مكتوبةً بحيث يمكن فحص القرار
+      ضدها لاحقًا. وحيث لا توجد قاعدة بعد، تسمّي هذه الصفحة الثغرة بدل أن توحي بقاعدة.</p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">المبادئ</span>
+      <h2>أربع قواعد تحكم كل قرار.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('الأولى', 'القبول بتحديد المستوى لا بالمفاضلة', 'برنامج IEFC ليس انتقائيًا. سؤال القبول هو أي المستويات الستة تنتمي إليه، لا هل أنت جيد بما يكفي لتُقبل. لا ترتيب ولا حصص ولا جولة تنافسية.')}
+${card('الثانية', 'الرسم ذاته للجميع', `${PER_LEVEL} للمستوى و${FULL} للبرنامج، أيًّا كانت الجنسية أو الإقامة أو طريقة وصول الطلب. لا سعر دوليًا ولا سعر متفاوضًا عليه.`)}
+${card('الثالثة', 'القرار يُسجَّل بسببه', 'الطلبات المرفوضة أو المسحوبة تبقى في السجل بحالتها، ليمكن الرجوع إلى القرار ومن اتخذه. لا شيء يُحذف لتجميل الأرقام.')}
+${card('الرابعة', 'لا يُطلب ما لا يُستخدم', 'الطلب يسأل عن اسم وبريد إلكتروني وبلد. لا مستندات ولا صور ولا أوراق هوية ولا رسوم، لأن لا شيء من ذلك يلزم لوضع متعلم في مستوى لغوي.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">أسباب الرفض</span>
+      <h2>تحتفظ الكلية بحق الرفض، لأسباب مسمّاة فقط.</h2>
+    </div>
+    <ol class="dot-list">
+      <li><span class="num">01</span><span><strong>الكلية لا تستطيع خدمة المتقدم.</strong> أوضح حالة اليوم متقدمٌ دون الثامنة عشرة، ولا توجد له سياسة حماية. الرفض على هذا الأساس قولٌ عن جاهزية الكلية، لا عن المتقدم.</span><span class="leader"></span></li>
+      <li><span class="num">02</span><span><strong>الطلب غير حقيقي.</strong> مقدَّم نيابة عن شخص دون علمه، أو باسم ليس اسم إنسان.</span><span class="leader"></span></li>
+      <li><span class="num">03</span><span><strong>الدفع لا يمكن قبوله قانونًا.</strong> حيث تمنع العقوباتُ أو أنظمةُ الدفع الكليةَ من قبض مال من ولاية قضائية ما.</span><span class="leader"></span></li>
+    </ol>
+    <p class="form-note">لا شيء غير ذلك سببٌ. وعلى وجه الخصوص، نتيجة تحديد مستوى منخفضة ليست
+      أبدًا سببًا للرفض — فالمبتدئ هو بالضبط من كُتب له المستوى الأول.</p>
+  </div>
+</section>
+
+<section class="section--dark section-pad" id="data">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">بياناتك</span>
+      <h2>ما يُجمع، وأين يذهب، ومن المسؤول.</h2>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th>ماذا</th><th>لماذا</th><th>أين يُحفظ</th></tr></thead>
+        <tbody>
+          <tr><td>الاسم الكامل</td><td>لمخاطبتك، ولوضع الطلب في السجل</td><td>قاعدة بيانات الكلية، مستضافة لدى <span dir="ltr">Cloudflare</span></td></tr>
+          <tr><td>البريد الإلكتروني</td><td>القناة الوحيدة التي يتحرك بها تحديد المستوى والعرض والتسجيل</td><td>القاعدة ذاتها، إضافة إلى خدمة البريد التي توصل الرسائل</td></tr>
+          <tr><td>بلد الإقامة</td><td>لعرض وسائل دفع تعمل حيث أنت</td><td>القاعدة ذاتها</td></tr>
+          <tr><td>التقييم الذاتي للمستوى</td><td>سياقٌ لمحادثة تحديد المستوى. غير مُلزم.</td><td>القاعدة ذاتها</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="callout__label">المساءلة — تعيينٌ لم يتم</span>
+      <p>لم يُعيَّن مسؤول حماية بيانات. البيانات المذكورة أعلاه تُجمع وتُنقل عبر اتصال مشفَّر
+        وتُخزَّن، لكن الكلية لا تستطيع بعد تسمية شخص مسؤول عن كيفية معالجتها أو حفظها أو
+        محوها. المنصب على جدول تعيينات الكلية. وإلى أن يُشغل، تُوجَّه طلبات بياناتك إلى
+        <a href="mailto:info@worldwencollege.co.uk" dir="ltr">info@worldwencollege.co.uk</a>
+        ويجيب عنها الفريق المؤسس.</p>
+    </div>
+    <div class="grid grid--2">
+${darkCard('لا يُجمع', 'أيُّ ما قد يوحي به نموذج التواصل العام', 'نموذج الاستفسار في صفحة التواصل لا يرسل شيئًا إلى أنظمة الكلية إطلاقًا — إنما يفتح تطبيق بريدك أنت. نموذج التقديم وحده يخزّن بيانات.')}
+${darkCard('لا يُباع ولا يُشارَك', 'لأي غرض', 'بيانات المتقدمين لا تُمرَّر لوكلاء أو معلنين أو شركاء. لا يوجد شركاء.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">سياسات لم تُعتمد بعد</span>
+      <h2>مسمّاة، لأن غيابها يمسّك.</h2>
+    </div>
+    <div class="grid grid--3">
+${card('الاسترداد', 'لا سياسة معتمدة', 'يُعالج حالةً بحالة، كتابةً. راجع <a href="/ar/admissions/tuition/#refunds">الاسترداد</a>.')}
+${card('حماية القاصرين', 'لا سياسة ولا مسؤول مسمّى', 'يمسّ مباشرةً المتقدمين دون الثامنة عشرة. راجع <a href="/ar/admissions/#requirements">شروط الالتحاق</a>.')}
+${card('الشكاوى والاستئناف', 'لا إجراء رسميًا', 'الشكوى اليوم يجيب عنها الفريق المؤسس. لا مرحلة مستقلة، لأنه لا هيئة معيَّنة للتصعيد إليها — كلا الهيئتين الأكاديميتين عند صفر عضو معيَّن.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>أسئلة لا تجيب عنها هذه الصفحة؟</h2>
+    <div class="btn-row u-center">
+      <a href="/ar/faq/" class="btn btn--gold">أسئلة القبول</a>
+      <a href="/ar/contact/" class="btn btn--outline">تواصل مع القبول</a>
+    </div>
+  </div>
+</section>`,
+};
+
 PAGES.tuition = {
   slug: 'admissions-tuition-ar', output: 'ar/admissions/tuition/index.html', file: 'admissions-tuition.ar.html',
   contents: true,

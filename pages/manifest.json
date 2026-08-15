@@ -305,7 +305,8 @@
     "description": "The rules WEC-LC applies to admissions decisions, the data it collects from applicants, and the policies that have not yet been adopted.",
     "contentFile": "admissions-policy.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/admissions/policy/"
   },
   {
     "slug": "students",
@@ -335,7 +336,8 @@
     "description": "What WEC-LC records about a student, who can see it, what the student controls, and how a third party verifies it.",
     "contentFile": "students-record.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/students/academic-record/"
   },
   {
     "slug": "students-awards",
@@ -354,7 +356,8 @@
     "description": "The WEC-LC position on work that is not the learner’s own: assessment design rather than detection software, and the adopted procedure for a suspected breach.",
     "contentFile": "students-integrity.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/students/integrity/"
   },
   {
     "slug": "students-regulations",
@@ -363,7 +366,8 @@
     "description": "Progression, resits, academic standing and appeals at WEC-LC, separated into when each rule took effect and on whose authority.",
     "contentFile": "students-regulations.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/students/regulations/"
   },
   {
     "slug": "press",
@@ -571,5 +575,45 @@
     "dir": "rtl",
     "altHref": "/academics/teaching/",
     "contents": true
+  },
+  {
+    "slug": "students-record-ar",
+    "output": "ar/students/academic-record/index.html",
+    "title": "سجلك الأكاديمي — الكلية العالمية للغة الإنجليزية",
+    "description": "ما تسجّله الكلية عن الطالب، ومن يستطيع رؤيته، وما الذي يتحكم فيه الطالب، وكيف تتحقق جهة ثالثة منه.",
+    "contentFile": "students-record.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/academic-record/"
+  },
+  {
+    "slug": "students-integrity-ar",
+    "output": "ar/students/integrity/index.html",
+    "title": "النزاهة الأكاديمية — الكلية العالمية للغة الإنجليزية",
+    "description": "موقف الكلية من العمل الذي ليس من إنتاج المتعلم: تصميم التقييم بدل برمجيات الكشف، والإجراء المعتمد عند الاشتباه في مخالفة.",
+    "contentFile": "students-integrity.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/integrity/"
+  },
+  {
+    "slug": "students-regulations-ar",
+    "output": "ar/students/regulations/index.html",
+    "title": "اللوائح الأكاديمية — الكلية العالمية للغة الإنجليزية",
+    "description": "الترقّي وإعادة التقييم والوضع الأكاديمي والاستئناف في الكلية، مفصولة بحسب متى دخلت كل قاعدة حيز النفاذ وبأي سلطة.",
+    "contentFile": "students-regulations.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/regulations/"
+  },
+  {
+    "slug": "admissions-policy-ar",
+    "output": "ar/admissions/policy/index.html",
+    "title": "سياسة القبول — الكلية العالمية للغة الإنجليزية",
+    "description": "القواعد التي تطبقها الكلية عند البتّ في طلب: مبادئ القرار، وأسباب الرفض المسمّاة، وبياناتك، والسياسات التي لم تُعتمد بعد.",
+    "contentFile": "admissions-policy.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/admissions/policy/"
   }
 ]
