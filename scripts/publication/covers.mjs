@@ -324,9 +324,9 @@ export function frontMatter(id, I, contentsHtml, howtoHtml) {
     follows the contents. A reader new to the programme should begin there; it takes two minutes
     and makes every subsequent page faster to use.</p>
   <p class="pre__sign">Worldwide English College Press</p>
-  <p class="pre__note">This preface is issued by the publisher. It is unsigned because the
-    College has not appointed the officers who would conventionally sign it, and this edition
-    does not compose words for people who do not hold office.</p>
+  <p class="pre__note">This preface is issued by the publisher and is unsigned. A signed
+    foreword is a text an officer of the College writes; none has been written for this edition,
+    and the Press does not compose words on a named person&rsquo;s behalf.</p>
 </section>
 
 <!-- ABOUT THIS EDITION -->

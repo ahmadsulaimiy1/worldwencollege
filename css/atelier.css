@@ -1,0 +1,779 @@
+/* =========================================================
+   THE ATELIER
+   ---------------------------------------------------------
+   The shared luxury layer: gold that behaves like metal,
+   glass with a real edge, architectural depth, and ambient
+   light. Loaded on every page, immediately after brand.css.
+
+   Governing rule, from docs/digital-institution-masterplan.md:
+   every effect here is RATIONED. A technique used everywhere
+   stops being noticed and becomes noise. Each block below
+   names where it is allowed and, where it matters, where it
+   is deliberately not.
+
+   Performance contract: everything animates `transform`,
+   `opacity` or `background-position` only — never a property
+   that triggers layout. js/atelier.js pauses all of it
+   off-screen, on tab-hide, under Save-Data and on low-core
+   machines.
+   ========================================================= */
+
+:root {
+  /* --- Light temperature, set by the ambient-hour system ----------
+     js/atelier.js writes --hour-warm / --hour-cool from the
+     visitor's local time. Defaults here are the midday values, so
+     the page is correct before the script runs and stays correct
+     if it never does. */
+  --hour-warm: 199, 162, 74;    /* the gold in the light */
+  --hour-cool: 39, 80, 143;     /* the blue in the shadow */
+  --hour-lift: .10;             /* how much light is in the room */
+
+  /* --- Glass ------------------------------------------------------ */
+  --glass-tint: rgba(14, 27, 51, .58);
+  --glass-tint-light: rgba(253, 251, 246, .72);
+  --glass-edge: rgba(231, 201, 122, .38);
+  --glass-inner: rgba(242, 227, 192, .16);
+  --glass-blur: 18px;
+
+  /* --- The lattice ------------------------------------------------ */
+  --lattice-line: rgba(199, 162, 74, .13);
+  --lattice-node: rgba(212, 175, 55, .55);
+  --lattice-size: 62px;
+}
+
+/* =========================================================
+   1 · GOLD ENERGY
+   Gold is a metal, not a colour. It has a direction of
+   light, it catches, and the highlight travels.
+
+   ALLOWED: the crest, primary CTAs, chapter rules, the
+   footer keyline, award and seal elements.
+   NOT: body text, borders on ordinary cards, icons in lists.
+   ========================================================= */
+
+/* A travelling highlight. `--lumen-delay` staggers a group so a
+   row of elements catches the light in sequence rather than
+   flashing together. */
+.lumen { position: relative; overflow: hidden; isolation: isolate; }
+.lumen::after {
+  content: ''; position: absolute; inset: -40% -10%; z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(104deg,
+    transparent 38%,
+    rgba(255, 252, 240, .38) 48%,
+    rgba(242, 227, 192, .62) 50%,
+    rgba(255, 252, 240, .38) 52%,
+    transparent 62%);
+  transform: translateX(-130%);
+  animation: lumen-travel 7s var(--ease-premium) infinite;
+  animation-delay: var(--lumen-delay, 0s);
+}
+@keyframes lumen-travel {
+  0%   { transform: translateX(-130%); }
+  /* The sweep occupies a fifth of the cycle and the rest is rest.
+     A highlight that travels continuously is a shimmer; one that
+     crosses and then waits is a reflection. */
+  22%  { transform: translateX(130%); }
+  100% { transform: translateX(130%); }
+}
+
+/* Gold that responds to the pointer: the highlight tracks where
+   the cursor is, so the surface reads as tilted metal. --mx/--my
+   are written by js/atelier.js on pointermove, in percent. */
+.gold-live {
+  background-image:
+    radial-gradient(circle at var(--mx, 50%) var(--my, 50%),
+      rgba(255, 250, 235, .55), transparent 42%),
+    var(--gold-gradient);
+  background-blend-mode: screen, normal;
+}
+
+/* A glint — a single four-point star that flares once. Reserved
+   for awards, seals and conferral marks. */
+.glint { position: relative; }
+.glint::before {
+  content: ''; position: absolute; z-index: 2; pointer-events: none;
+  top: var(--glint-y, 14%); left: var(--glint-x, 82%);
+  width: 26px; height: 26px; margin: -13px 0 0 -13px;
+  background:
+    linear-gradient(currentColor, currentColor) center/2px 100% no-repeat,
+    linear-gradient(currentColor, currentColor) center/100% 2px no-repeat;
+  color: rgba(255, 252, 240, .92);
+  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 62%);
+  mask-image: radial-gradient(circle, #000 0%, transparent 62%);
+  opacity: 0; transform: scale(.3) rotate(0deg);
+  animation: glint-flare 6.5s var(--ease-premium) infinite;
+  animation-delay: var(--glint-delay, 1.4s);
+}
+@keyframes glint-flare {
+  0%, 88%  { opacity: 0; transform: scale(.3) rotate(0deg); }
+  93%      { opacity: 1; transform: scale(1) rotate(45deg); }
+  100%     { opacity: 0; transform: scale(.4) rotate(90deg); }
+}
+
+/* =========================================================
+   2 · CRYSTAL GLASS
+   Not a blur filter. A pane has an edge that catches light,
+   an internal highlight along its top, and a darker seam
+   where it meets what is behind it.
+   ========================================================= */
+.crystal {
+  position: relative;
+  background: var(--glass-tint);
+  border: 1px solid var(--glass-edge);
+  border-radius: 10px;
+  box-shadow:
+    0 24px 60px -28px rgba(3, 8, 20, .85),
+    inset 0 1px 0 var(--glass-inner);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .crystal {
+    background: rgba(14, 27, 51, .42);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  }
+}
+/* The refraction seam: a hairline of light down the leading edge,
+   as on the bevel of cut glass. */
+.crystal::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(160deg,
+    rgba(255, 252, 240, .10) 0%,
+    transparent 34%,
+    transparent 66%,
+    rgba(199, 162, 74, .09) 100%);
+}
+.crystal--light {
+  background: var(--glass-tint-light);
+  border-color: rgba(121, 90, 50, .28);
+  box-shadow: 0 24px 60px -30px rgba(20, 38, 74, .38), inset 0 1px 0 rgba(255,255,255,.7);
+}
+@supports (backdrop-filter: blur(1px)) {
+  .crystal--light { background: rgba(253, 251, 246, .78); }
+}
+
+/* =========================================================
+   3 · ARCHITECTURAL LATTICE
+   A perspective wireframe several layers behind the
+   interface — luxury architectural drafting, not graph
+   paper. Two planes at different depths, illuminated nodes
+   at the intersections, and a slow drift.
+
+   ALLOWED: header, footer, hero grounds.
+   NOT: content sections. It is the building, not the page.
+   ========================================================= */
+/* The lattice lives in its own bed rather than on the host element.
+
+   The host cannot carry `overflow: hidden` itself: the header is a
+   .lattice AND the parent of the navigation mega-panels, and clipping
+   its overflow deletes them — they render, they are in the DOM, they
+   are simply invisible, which is the worst kind of bug because
+   everything reports success. The bed is an absolutely positioned
+   child that clips only itself. */
+.lattice { position: relative; isolation: isolate; }
+.lattice > *:not(.lattice__bed) { position: relative; z-index: 2; }
+.lattice__bed {
+  position: absolute; inset: 0; z-index: 0;
+  overflow: hidden; pointer-events: none;
+}
+
+.lattice__bed::before,
+.lattice__bed::after {
+  content: ''; position: absolute; inset: -60% -20%; z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--lattice-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--lattice-line) 1px, transparent 1px);
+  background-size: var(--lattice-size) var(--lattice-size);
+  transform: perspective(760px) rotateX(64deg) translateZ(0);
+  transform-origin: 50% 0%;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+  mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+  animation: lattice-drift 46s linear infinite;
+}
+/* The second plane is finer, deeper, and drifts the other way —
+   the parallax between them is what reads as depth. Without it
+   this is a single tilted grid, which reads as a 2012 hero. */
+.lattice__bed::after {
+  --lattice-size: 20px;
+  opacity: .5;
+  transform: perspective(560px) rotateX(70deg) translateZ(0) scale(1.4);
+  animation-duration: 78s;
+  animation-direction: reverse;
+}
+@keyframes lattice-drift {
+  from { background-position: 0 0, 0 0; }
+  to   { background-position: 0 var(--lattice-size), var(--lattice-size) 0; }
+}
+
+/* Illuminated nodes, placed by markup (a handful, not one per
+   intersection — the point is that a few junctions are lit, the
+   way a model of a building is lit). */
+.lattice__node {
+  position: absolute; z-index: 1; width: 3px; height: 3px;
+  border-radius: 50%; background: var(--lattice-node);
+  box-shadow: 0 0 0 1px rgba(212, 175, 55, .18), 0 0 12px 2px rgba(212, 175, 55, .32);
+  animation: node-pulse 5.5s var(--ease-premium) infinite;
+  animation-delay: var(--node-delay, 0s);
+}
+@keyframes node-pulse {
+  0%, 100% { opacity: .25; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.55); }
+}
+
+/* =========================================================
+   4 · AURORA
+   Very slow colour drift behind the deepest sections. Sits
+   under the lattice, over the flat ground.
+   ========================================================= */
+/* `overflow: clip`, not `hidden`.
+
+   The aurora bleeds 30% beyond its host on every side, and the host —
+   the footer, and the deepest chapter — clipped nothing, so every one
+   of the 88 pages gained about 430px of horizontal scroll at 1440px.
+   Nothing looked wrong; the page just scrolled sideways.
+
+   `clip` rather than `hidden` because `hidden` establishes a scroll
+   container, which silently kills `position: sticky` on any descendant
+   — and the split-feature plates on this very site are sticky. This is
+   the containment without that side effect. */
+.aurora { position: relative; overflow: clip; }
+@supports not (overflow: clip) { .aurora { overflow: hidden; } }
+.aurora::before {
+  content: ''; position: absolute; inset: -30%; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 46% 38% at 22% 28%, rgba(var(--hour-cool), .40), transparent 62%),
+    radial-gradient(ellipse 40% 34% at 78% 68%, rgba(var(--hour-warm), .20), transparent 62%),
+    radial-gradient(ellipse 34% 44% at 58% 8%,  rgba(62, 42, 86, .34), transparent 64%);
+  filter: blur(28px);
+  animation: aurora-drift 64s var(--ease-premium) infinite alternate;
+}
+.aurora > * { position: relative; z-index: 1; }
+@keyframes aurora-drift {
+  from { transform: translate3d(-2%, -1%, 0) scale(1); }
+  to   { transform: translate3d(3%, 2%, 0) scale(1.08); }
+}
+
+/* =========================================================
+   5 · CONSTELLATION CANVAS
+   js/atelier.js draws into this. It is decorative and
+   entirely additive: the section behind it is complete
+   without it, which is what lets the engine refuse to run on
+   weak hardware with no visual consequence beyond stillness.
+   ========================================================= */
+.constellation {
+  position: absolute; inset: 0; z-index: 1;
+  width: 100%; height: 100%;
+  pointer-events: none; opacity: 0;
+  transition: opacity 1.6s var(--ease-premium);
+}
+.constellation.is-live { opacity: .85; }
+
+/* =========================================================
+   6 · MAGNETICS AND TILT
+   The pointer has weight. Buttons lean toward it, cards lean
+   away from it. Both are pointer:fine only — on a
+   touchscreen there is no hover, and a transform that sticks
+   after a tap is a bug the user cannot clear.
+   ========================================================= */
+@media (hover: hover) and (pointer: fine) {
+  .magnetic {
+    transform: translate3d(var(--mag-x, 0), var(--mag-y, 0), 0);
+    transition: transform .45s var(--ease-premium);
+  }
+  .magnetic.is-pulled { transition: transform .12s linear; }
+
+  .tilt {
+    transform:
+      perspective(900px)
+      rotateX(var(--tilt-x, 0deg))
+      rotateY(var(--tilt-y, 0deg))
+      translate3d(0, 0, 0);
+    transition: transform .5s var(--ease-premium), box-shadow .5s var(--ease-premium);
+    transform-style: preserve-3d;
+  }
+  .tilt.is-tilting { transition: transform .08s linear; }
+  /* The specular highlight that makes a tilt read as a surface
+     catching light rather than a box rotating. */
+  .tilt__sheen {
+    position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    opacity: 0; transition: opacity .4s var(--ease-premium);
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%),
+      rgba(255, 252, 240, .16), transparent 46%);
+  }
+  .tilt:hover .tilt__sheen { opacity: 1; }
+}
+
+/* =========================================================
+   7 · THE POINTER
+   A gold aura that trails the cursor, and a ring that grows
+   over interactive things. The real cursor is never hidden —
+   hiding it is a usability trade nothing here is worth.
+   ========================================================= */
+.aura {
+  position: fixed; top: 0; left: 0; z-index: 9999;
+  width: 26px; height: 26px; margin: -13px 0 0 -13px;
+  border: 1px solid rgba(212, 175, 55, .5); border-radius: 50%;
+  pointer-events: none; opacity: 0;
+  transform: translate3d(-100px, -100px, 0);
+  transition: opacity .3s ease, width .3s var(--ease-premium),
+              height .3s var(--ease-premium), margin .3s var(--ease-premium),
+              border-color .3s ease, background .3s ease;
+}
+.aura.is-live { opacity: 1; }
+.aura.is-over {
+  width: 52px; height: 52px; margin: -26px 0 0 -26px;
+  border-color: rgba(212, 175, 55, .85);
+  background: rgba(212, 175, 55, .07);
+}
+@media (hover: none), (pointer: coarse) { .aura { display: none; } }
+
+/* =========================================================
+   8 · KINETIC GILT
+   A heading fills with gold as it crosses the reading line.
+   js/atelier.js writes --gilt from 0 to 1 on scroll.
+
+   ALLOWED: one heading per page — the one the page is about.
+   ========================================================= */
+/* The gild travels as a HARD STOP across a full-width gradient, not as
+   a growing background.
+
+   Sizing the background to `calc(var(--gilt) * 100%)` was the obvious
+   implementation and it is broken: with `-webkit-text-fill-color:
+   transparent`, a background of zero width paints nothing, so at
+   --gilt: 0 the heading is not un-gilded — it is INVISIBLE. Every
+   reader saw a blank line until they scrolled it into the gild band,
+   and a reader whose JavaScript never ran saw a blank line forever.
+
+   Here the gradient is always full width and always opaque: gold up to
+   the stop, the ordinary text colour after it. At --gilt: 0 the whole
+   heading is simply its normal colour, which is the correct resting
+   state and also the correct no-JS state. */
+.gilt {
+  --gilt-base: var(--gold-soft);
+  background-image: linear-gradient(90deg,
+    var(--gold-champagne) 0%,
+    var(--gold-rich) calc(var(--gilt, 0) * 100%),
+    var(--gilt-base) calc(var(--gilt, 0) * 100%),
+    var(--gilt-base) 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  color: var(--gilt-base);
+}
+.section--light .gilt, .section--warm .gilt,
+.section--cream .gilt, .section--pearl .gilt, .section--paper .gilt { --gilt-base: var(--ink); }
+[dir="rtl"] .gilt { background-image: linear-gradient(-90deg,
+    var(--gold-champagne) 0%,
+    var(--gold-rich) calc(var(--gilt, 0) * 100%),
+    var(--gilt-base) calc(var(--gilt, 0) * 100%),
+    var(--gilt-base) 100%); }
+@supports (-webkit-background-clip: text) {
+  .gilt { -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+}
+
+/* =========================================================
+   9 · ASSEMBLING FIGURES
+   Statistics form rather than tick. Each digit drops into
+   place with the one before it already settled.
+   ========================================================= */
+.assemble__d {
+  display: inline-block;
+  opacity: 0; transform: translateY(.42em) rotateX(-72deg);
+  transition: opacity .5s var(--ease-premium), transform .62s var(--ease-premium);
+  transition-delay: calc(var(--d, 0) * 78ms);
+}
+.is-assembled .assemble__d { opacity: 1; transform: none; }
+
+/* =========================================================
+   10 · PAGE TRANSITIONS
+   One declaration. Chrome and Edge cross-fade between
+   documents; every other browser navigates exactly as it
+   does today. Nothing is polyfilled and nothing is delayed —
+   which is the only acceptable way to add a page transition
+   to a site whose job is to be read.
+   ========================================================= */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) {
+  animation-duration: .42s;
+  animation-timing-function: cubic-bezier(.16, .84, .44, 1);
+}
+
+/* =========================================================
+   10b · THE PHOTOGRAPHIC PLATE
+   ---------------------------------------------------------
+   What makes licensed stock stop looking like licensed stock.
+
+   Every photograph on the site is gradient-mapped into the
+   palette: luminance is kept, hue and saturation are replaced
+   with a ramp from oxford blue in the shadows to antique gold
+   in the highlights. A red t-shirt, a blue backpack and a
+   green chair all resolve to the same two-colour world, so
+   four photographs from four photographers read as one
+   commission.
+
+   It is done in CSS rather than baked into the files on
+   purpose: the originals stay untouched, the treatment is one
+   line to retune, and the same photograph can be re-used on
+   another page under a different ramp.
+
+   On hover the colour returns part of the way. That is the
+   whole interaction — the photograph warms when you look at
+   it, and nothing moves.
+   ========================================================= */
+.plate--photo .plate__frame { background: var(--oxford); }
+.plate--photo .plate__frame > img {
+  filter: grayscale(1) contrast(1.08) brightness(.94);
+  transition: filter .7s var(--ease-premium);
+}
+.plate--photo .plate__frame::before,
+.plate--photo .plate__frame::after { z-index: 4; }
+/* The duotone ramp. mix-blend-mode: color keeps the image's
+   luminance and takes hue and saturation from this layer. */
+.plate--photo .plate__frame > .plate__tone {
+  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(158deg,
+    #0A1428 0%, #1F3D7A 42%, #8C6A3F 78%, #F2E3C0 100%);
+  mix-blend-mode: color;
+  transition: opacity .7s var(--ease-premium);
+}
+/* A second pass in `soft-light` puts the gold back into the
+   highlights, which `color` alone leaves flat. */
+.plate--photo .plate__frame > .plate__tone--warm {
+  z-index: 3;
+  background: radial-gradient(ellipse 80% 70% at 68% 22%,
+    rgba(212, 175, 55, .40), transparent 66%);
+  mix-blend-mode: soft-light;
+}
+@media (hover: hover) and (pointer: fine) {
+  .plate--photo:hover .plate__frame > img { filter: grayscale(.35) contrast(1.04) brightness(1); }
+  .plate--photo:hover .plate__frame > .plate__tone { opacity: .45; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plate--photo .plate__frame > img,
+  .plate--photo .plate__frame > .plate__tone { transition: none; }
+}
+
+/* =========================================================
+   10c · LIVING DIAGRAM
+   The house frame for an animated SVG. Capped well below the
+   drawing's native 900px: at full size the spiral dominates
+   the chapter it is meant to introduce, and a diagram that
+   out-shouts its own table has stopped explaining anything.
+   ========================================================= */
+.diagram {
+  margin: 0 auto clamp(44px, 4vw, 68px);
+  max-width: 620px; position: relative;
+}
+.diagram > svg { width: 100%; height: auto; display: block; overflow: visible; }
+.diagram__caption {
+  display: flex; align-items: center; justify-content: center; gap: .7em;
+  margin-top: 6px; text-align: center;
+  color: var(--gold-soft); opacity: .78;
+  font-family: var(--font-body); font-weight: 600;
+  font-size: .72rem; letter-spacing: .1em;
+}
+.section--light .diagram__caption, .section--warm .diagram__caption,
+.section--cream .diagram__caption, .section--pearl .diagram__caption { color: var(--bronze); }
+/* SMALL SCREENS.
+
+   A 900-unit drawing scaled into a 340px column renders its 10.5px
+   labels at about four pixels. The figure was still "responsive" — it
+   fitted, it did not overflow the page, the audit passed — and it could
+   not be read by anybody.
+
+   So below this width a diagram scrolls inside its own frame rather
+   than shrinking past legibility. That is the same answer .table-scroll
+   already gives the ledgers, which is the point: the site should have
+   one way of handling content that is wider than a phone.
+
+   The container scrolls, never the page — the horizontal-overflow check
+   in tests/browser/route-audit.mjs stays green because an internal
+   scroll container is not page overflow. */
+@media (max-width: 760px) {
+  .diagram {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .diagram > svg { min-width: 560px; }
+  .diagram--wide > svg { min-width: 700px; }
+  /* The caption must not scroll away from the figure it captions. */
+  .diagram__caption { position: sticky; left: 0; }
+}
+
+/* Landscape diagrams need the full measure; the spiral is square and
+   would swamp its chapter at this width. */
+.diagram--wide { max-width: 880px; }
+
+/* THE MOUNT.
+
+   Every diagram is drawn in gold and champagne on the assumption of a
+   dark ground, because that is the house drawing style. Dropped onto a
+   light section — and /students/assessment/ puts the award ladder on
+   cream — the gold computes to about 2.3:1 and the drawing all but
+   disappears. It rendered, it passed every test, and it could not be
+   read.
+
+   So on a light ground a diagram is mounted: inset into its own deep
+   panel with a gold hairline and drawn corners, exactly as .plate__frame
+   handles a photograph for the same reason. A dark plate tipped into a
+   cream page is the printed convention this whole system is borrowing
+   from anyway.
+
+   Keyed off the section rather than a modifier class, so it cannot be
+   forgotten on the next diagram someone places. */
+.section--light .diagram, .section--paper .diagram, .section--warm .diagram,
+.section--cream .diagram, .section--pearl .diagram {
+  position: relative;
+  padding: clamp(18px, 2.6vw, 38px) clamp(14px, 2.2vw, 32px) clamp(14px, 1.8vw, 24px);
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 30%, rgba(31, 61, 122, .42), transparent 68%),
+    linear-gradient(162deg, var(--midnight), var(--oxford));
+  border: 1px solid rgba(199, 162, 74, .42);
+  border-radius: 4px;
+  box-shadow: inset 0 0 70px -24px rgba(0, 0, 0, .75), var(--shadow-md);
+}
+.section--light .diagram::before, .section--paper .diagram::before,
+.section--warm .diagram::before, .section--cream .diagram::before,
+.section--pearl .diagram::before,
+.section--light .diagram::after, .section--paper .diagram::after,
+.section--warm .diagram::after, .section--cream .diagram::after,
+.section--pearl .diagram::after {
+  content: ''; position: absolute; width: 20px; height: 20px; pointer-events: none;
+  border: 1px solid var(--gold-royal); opacity: .65;
+}
+.section--light .diagram::before, .section--paper .diagram::before,
+.section--warm .diagram::before, .section--cream .diagram::before,
+.section--pearl .diagram::before {
+  top: 9px; left: 9px; border-right: 0; border-bottom: 0;
+}
+.section--light .diagram::after, .section--paper .diagram::after,
+.section--warm .diagram::after, .section--cream .diagram::after,
+.section--pearl .diagram::after {
+  bottom: 9px; right: 9px; border-left: 0; border-top: 0;
+}
+/* The caption is inside the mount now, so it is on a dark ground and
+   must go back to gold — the bronze substitution exists for captions
+   sitting directly on paper. */
+.section--light .diagram .diagram__caption, .section--paper .diagram .diagram__caption,
+.section--warm .diagram .diagram__caption, .section--cream .diagram .diagram__caption,
+.section--pearl .diagram .diagram__caption { color: var(--gold-soft); }
+
+/* =========================================================
+   11 · THE HEADER RAIL  (one band, not three)
+
+   The ceremonial crown band that used to sit here is gone.
+   It was a good idea badly sized: a full identity plate
+   above the navigation, withdrawing on scroll. Stacked on
+   the utility strip and the nav rail it made ~350px of
+   chrome and three horizontal seams, and the wordmark it
+   centred sat on a different axis from everything below it.
+
+   The identity now lives in the rail itself, so there is
+   one band, one ground, one seam and one axis. What is kept
+   from the old behaviour is the condensing — see brand.css,
+   which shrinks the padding and the crest and withdraws the
+   campus line so the name stays full size.
+   ========================================================= */
+
+/* The brand is present at rest now rather than revealed on
+   scroll, so the reveal machinery is retired. Kept as an
+   explicit reset because .brand--compact appeared in three
+   stylesheets and a stale `max-width: 0` anywhere would
+   hide the College's name on every page. */
+.brand--compact {
+  opacity: 1; max-width: none; overflow: visible;
+  pointer-events: auto; transform: none;
+}
+
+/* =========================================================
+   12 · MEGA-PANELS  (header layer 3)
+   A glass plate rather than a dropdown list.
+   ========================================================= */
+/* The panel is anchored to the RAIL, not to its trigger: an 880px
+   plate hanging off "Press & Library" would leave the viewport.
+
+   That means the trigger must stop being the positioning context —
+   hence `position: static` on the item — and the panel positions
+   against .site-header__inner, which .lattice has already made
+   relative.
+
+   It must also stay `absolute`, not `fixed`. The base .nav__menu rule
+   sets `top: 100%`, and against a fixed element that percentage
+   resolves to 100% of the VIEWPORT: the panel rendered correctly,
+   900px below the fold, on every menu. */
+.nav__item--has-menu { position: static; }
+.nav__menu--mega {
+  display: grid; grid-template-columns: 1fr auto; gap: 0;
+  width: min(880px, calc(100vw - 48px));
+  padding: 0; border-radius: 12px; overflow: hidden;
+  position: absolute; top: calc(100% - 1px); left: 50%; right: auto;
+  transform: translate(-50%, 8px) scale(.985);
+  transform-origin: top center;
+}
+[dir="rtl"] .nav__menu--mega { left: 50%; right: auto; transform-origin: top center; }
+.nav__item--has-menu:hover .nav__menu--mega,
+.nav__item--has-menu:focus-within .nav__menu--mega {
+  transform: translate(-50%, 0) scale(1);
+}
+/* Escape dismisses the panel while the pointer is still over it —
+   js/atelier.js adds the class, and this is what makes it win over
+   the :hover rule above. */
+.nav__item--has-menu.is-dismissed .nav__menu {
+  opacity: 0; visibility: hidden; pointer-events: none;
+}
+.mega__cols {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 8px 26px; padding: 26px 28px 24px;
+}
+.mega__label {
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .62rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold-royal); margin: 0 0 12px; padding-bottom: 9px;
+  border-bottom: 1px solid rgba(199, 162, 74, .22);
+}
+.nav__menu--mega a {
+  display: flex; align-items: center; gap: .55em;
+  padding: 8px 10px; border-radius: 5px;
+  color: rgba(247, 244, 236, .84); font-size: .855rem; font-weight: 500;
+  transition: background var(--dur-fast) ease, color var(--dur-fast) ease,
+              padding-left var(--dur-fast) var(--ease-premium);
+}
+.nav__menu--mega a:hover {
+  background: rgba(199, 162, 74, .1); color: var(--gold-champagne); padding-left: 15px;
+}
+[dir="rtl"] .nav__menu--mega a:hover { padding-left: 10px; padding-right: 15px; }
+.mega__roman {
+  font-family: var(--font-display); font-size: .82rem; font-weight: 700;
+  color: var(--gold-rich); min-width: 2.3ch; text-align: right;
+}
+[dir="rtl"] .mega__roman { text-align: left; direction: ltr; }
+
+/* The feature panel: one destination per menu, given the weight of
+   a plate. This is the difference between a list of links and a
+   piece of editorial. */
+/* Selector deliberately as specific as `.nav__menu--mega a` (0,2,1):
+   at `.mega__feature` alone the base link rule out-specified it and
+   silently centred the whole panel. */
+.nav__menu--mega a.mega__feature {
+  display: flex; flex-direction: column; align-items: flex-start; text-align: start;
+  gap: 0; width: 268px; padding: 26px 26px 24px;
+  border-radius: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 80% 10%, rgba(199, 162, 74, .14), transparent 62%),
+    rgba(10, 20, 40, .55);
+  border-inline-start: 1px solid rgba(199, 162, 74, .2);
+}
+.nav__menu--mega a.mega__feature:hover {
+  background:
+    radial-gradient(ellipse 90% 70% at 80% 10%, rgba(199, 162, 74, .22), transparent 62%),
+    rgba(10, 20, 40, .42);
+  padding-left: 26px; padding-right: 26px;
+}
+.mega__feature .icon--lg { color: var(--gold-rich); margin-bottom: 16px; }
+.mega__feature-label {
+  font-family: var(--font-display); font-size: 1.05rem; font-weight: 600;
+  color: #fff; line-height: 1.25; margin-bottom: 8px;
+}
+.mega__feature-text {
+  font-size: .82rem; line-height: 1.55; color: rgba(247, 244, 236, .64);
+  font-weight: 400; margin-bottom: 16px;
+}
+.mega__feature-go {
+  display: inline-flex; align-items: center; gap: .5em; margin-top: auto;
+  font-size: .68rem; letter-spacing: .16em; text-transform: uppercase;
+  font-weight: 700; color: var(--gold-soft);
+}
+.mega__feature-go .icon { width: 15px; height: 15px; transition: transform var(--dur-med) var(--ease-premium); }
+.mega__feature:hover .mega__feature-go .icon { transform: translateX(5px); }
+[dir="rtl"] .mega__feature-go .icon { transform: scaleX(-1); }
+[dir="rtl"] .mega__feature:hover .mega__feature-go .icon { transform: scaleX(-1) translateX(5px); }
+
+/* Five of the six menus now carry a single column of five links or
+   fewer — the architecture caps each menu at what its pillar actually
+   holds. At the full 880px that one column stretches into a prairie
+   with the links marooned at its left edge; the slim panel sizes the
+   plate to the list. Width only: direction, grid and feature behaviour
+   are inherited, so the RTL rules above need no twin. */
+.nav__menu--mega.nav__menu--slim { width: min(620px, calc(100vw - 48px)); }
+
+@media (max-width: 1120px) {
+  .nav__menu--mega a.mega__feature { display: none; }
+  .nav__menu--mega { grid-template-columns: 1fr; min-width: min(680px, calc(100vw - 40px)); }
+}
+
+/* =========================================================
+   13 · THE QUIET BUTTON  (header layer 4)
+   A secondary action that reads as chrome rather than as a
+   call to action — the Portal is for people who already
+   belong here, and it must not compete with Apply.
+   ========================================================= */
+.btn--quiet {
+  color: rgba(247, 244, 236, .8);
+  border-color: rgba(247, 244, 236, .2);
+  padding: .78em 1.2em; font-size: .8rem;
+}
+.btn--quiet .icon { width: 15px; height: 15px; color: var(--gold-royal); }
+.btn--quiet:hover { border-color: var(--gold-royal); color: #fff; background: rgba(199, 162, 74, .08); }
+@media (max-width: 1180px) { .btn--quiet { display: none; } }
+
+/* =========================================================
+   14 · THE FOOTER PLINTH
+   The illuminated base of the building. The lattice runs
+   behind it, inverted, so the geometry rises out of the
+   floor rather than hanging from the ceiling.
+   ========================================================= */
+.site-footer .lattice__bed::before, .site-footer .lattice__bed::after {
+  transform: perspective(760px) rotateX(-64deg) translateZ(0);
+  transform-origin: 50% 100%;
+  -webkit-mask-image: linear-gradient(0deg, #000 0%, transparent 74%);
+  mask-image: linear-gradient(0deg, #000 0%, transparent 74%);
+}
+.site-footer .lattice__bed::after {
+  transform: perspective(560px) rotateX(-70deg) translateZ(0) scale(1.4);
+}
+/* A keyline of light along the very top edge — the join between
+   the building and its plinth. */
+.footer__keyline {
+  height: 1px; border: 0; margin: 0;
+  background: linear-gradient(90deg,
+    transparent, rgba(199, 162, 74, .16) 12%,
+    var(--gold-rich) 50%,
+    rgba(199, 162, 74, .16) 88%, transparent);
+}
+
+/* =========================================================
+   REDUCED MOTION
+   Same contract as brand.css: every rule resolves to the
+   FINISHED state. Nothing here may leave content invisible.
+   js/atelier.js reads the same query and does not start.
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .lumen::after, .glint::before,
+  .lattice__bed::before, .lattice__bed::after,
+  .lattice__node, .aurora::before { animation: none; }
+  .lumen::after, .glint::before { opacity: 0; }
+  .lattice__node { opacity: .6; transform: none; }
+  .assemble__d { opacity: 1; transform: none; transition: none; }
+  .gilt { --gilt: 1; }
+  .magnetic, .tilt { transform: none; transition: none; }
+  .aura { display: none; }
+  .constellation { display: none; }
+  @view-transition { navigation: none; }
+
+  /* The rail still condenses on scroll — that is layout responding to
+     position, not decoration — but it does so instantly rather than
+     sliding. */
+  .site-header, .site-header__inner, .brand__crest, .brand__campus,
+  .nav__menu--mega, .mega__feature-go .icon { transition: none; }
+}
+
+/* Save-Data is a request, not a hint: the visitor has told the
+   browser to stop spending their money. Ambient decoration is
+   exactly what that means. */
+@media (prefers-reduced-data: reduce) {
+  .lattice__bed::before, .lattice__bed::after, .aurora::before { animation: none; }
+  .constellation { display: none; }
+}

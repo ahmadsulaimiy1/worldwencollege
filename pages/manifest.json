@@ -3,8 +3,11 @@
     "slug": "home",
     "output": "index.html",
     "title": "WorldWide English College — London Campus | WEC-LC",
-    "description": "WEC-LC delivers the International English Fluency Course (IEFC) — six CEFR-aligned levels from A1 to C2, taught entirely online over 24 months.",
+    "description": "WEC-LC delivers the International English Fluency Course (IEFC) — six CEFR-aligned levels from A1 to C2, 1,200 designed hours, taught entirely online.",
     "contentFile": "home.html",
+    "extraCss": [
+      "/css/home.css"
+    ],
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/"
@@ -12,52 +15,46 @@
   {
     "slug": "about",
     "output": "about/index.html",
-    "title": "About WEC-LC | Vision, Mission &amp; Status",
-    "description": "The vision, mission, core values and honest institutional status of WorldWide English College, London Campus.",
+    "title": "About the College &mdash; Worldwide English College",
+    "description": "Who Worldwide English College is: its vision, mission and educational philosophy, how it is organised, and its institutional status stated plainly.",
     "contentFile": "about.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/about/"
+    "altHref": "/ar/about/",
+    "contents": true
   },
   {
     "slug": "academics",
     "output": "academics/index.html",
-    "title": "Academics | Curriculum &amp; Methodology — WEC-LC",
-    "description": "How WEC-LC teaches: curriculum areas, teaching methodology, and the digital learning environment behind the International English Fluency Course.",
+    "title": "Academics &mdash; Worldwide English College",
+    "description": "The IEFC in six CEFR-aligned levels: what each contains, how learning works, the digital campus it runs on, and the standard the whole programme is taught to.",
     "contentFile": "academics.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/academics/"
-  },
-  {
-    "slug": "academics-iefc",
-    "output": "academics/iefc/index.html",
-    "title": "The IEFC Programme | Six CEFR Levels — WEC-LC",
-    "description": "The International English Fluency Course: six levels from Foundation (CEFR A1) to English Mastery (CEFR C2), 24 months, 720 learning units.",
-    "contentFile": "academics-iefc.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/academics/iefc/"
+    "altHref": "/ar/academics/",
+    "contents": true
   },
   {
     "slug": "admissions",
     "output": "admissions/index.html",
-    "title": "Admissions | How to Apply — WorldWide English College",
-    "description": "How to apply to WEC-LC's International English Fluency Course: eligibility, the application journey, and who the programme is designed for.",
+    "title": "Admissions &mdash; Worldwide English College",
+    "description": "The whole admissions decision in one place: whether you qualify, how to apply, when you can start, and what applies to international applicants — visas included.",
     "contentFile": "admissions.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/admissions/"
+    "altHref": "/ar/admissions/",
+    "contents": true
   },
   {
     "slug": "admissions-tuition",
     "output": "admissions/tuition/index.html",
-    "title": "Tuition &amp; Fees | WorldWide English College",
-    "description": "IEFC tuition, per-level pricing, payment plans and additional fees at WorldWide English College, London Campus.",
+    "title": "Tuition, Fees &amp; Funding &mdash; Worldwide English College",
+    "description": "IEFC tuition and per-level pricing, how paying actually works — currency, methods, refunds — and the scholarships and funding routes that exist today.",
     "contentFile": "admissions-tuition.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/admissions/tuition/"
+    "altHref": "/ar/admissions/tuition/",
+    "contents": true
   },
   {
     "slug": "faculty",
@@ -87,8 +84,8 @@
   {
     "slug": "faq",
     "output": "faq/index.html",
-    "title": "Frequently Asked Questions — WorldWide English College",
-    "description": "Answers to common questions about the IEFC programme, admissions, tuition, and studying with WEC-LC.",
+    "title": "FAQ &mdash; Worldwide English College",
+    "description": "Frequently asked questions about the IEFC, admissions, fees, and studying with WEC-LC — including the questions applicants actually ask during admissions.",
     "contentFile": "faq.html",
     "lang": "en",
     "dir": "ltr",
@@ -108,8 +105,11 @@
     "slug": "home-ar",
     "output": "ar/index.html",
     "title": "الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن",
-    "description": "الكلية العالمية للغة الإنجليزية تقدّم برنامج الطلاقة الدولي (IEFC) بستة مستويات متوافقة مع CEFR، من A1 إلى C2، عبر الإنترنت بالكامل على مدى 24 شهرًا.",
+    "description": "الكلية العالمية للغة الإنجليزية تقدّم برنامج الطلاقة الدولي (IEFC) — ستة مستويات متوافقة مع CEFR من A1 إلى C2، و1,200 ساعة مصمَّمة، عبر الإنترنت بالكامل.",
     "contentFile": "home.ar.html",
+    "extraCss": [
+      "/css/home.css"
+    ],
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/"
@@ -122,47 +122,41 @@
     "contentFile": "about.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/about/"
+    "altHref": "/about/",
+    "contents": true
   },
   {
     "slug": "academics-ar",
     "output": "ar/academics/index.html",
-    "title": "البرامج الأكاديمية | المنهج والمنهجية",
-    "description": "كيف تُدرّس الكلية العالمية للغة الإنجليزية: مجالات المنهج، منهجية التدريس، وبيئة التعلّم الرقمية وراء برنامج IEFC.",
+    "title": "البرامج الأكاديمية — الكلية العالمية للغة الإنجليزية",
+    "description": "برنامج IEFC في ستة مستويات متوافقة مع الإطار الأوروبي: ما يحتويه كل مستوى، وكيف يجري التعلّم، والحرم الرقمي الذي يعمل عليه.",
     "contentFile": "academics.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/academics/"
-  },
-  {
-    "slug": "academics-iefc-ar",
-    "output": "ar/academics/iefc/index.html",
-    "title": "برنامج IEFC | ستة مستويات متوافقة مع CEFR",
-    "description": "برنامج الطلاقة الدولي في اللغة الإنجليزية: ستة مستويات من التأسيسي (A1) إلى الإتقان (C2)، على مدى 24 شهرًا و720 وحدة تعليمية.",
-    "contentFile": "academics-iefc.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/academics/iefc/"
+    "altHref": "/academics/",
+    "contents": true
   },
   {
     "slug": "admissions-ar",
     "output": "ar/admissions/index.html",
-    "title": "القبول | كيفية التقديم — الكلية العالمية للغة الإنجليزية",
-    "description": "كيفية التقديم إلى برنامج IEFC: شروط القبول، رحلة التقديم، والفئات التي صُمم البرنامج من أجلها.",
+    "title": "القبول — الكلية العالمية للغة الإنجليزية",
+    "description": "قرار الالتحاق كاملًا في صفحة واحدة: هل تنطبق الشروط عليك، وكيف تقدّم، ومتى تبدأ، وما يخص المتقدمين الدوليين والتأشيرات.",
     "contentFile": "admissions.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/admissions/"
+    "altHref": "/admissions/",
+    "contents": true
   },
   {
     "slug": "admissions-tuition-ar",
     "output": "ar/admissions/tuition/index.html",
-    "title": "الرسوم الدراسية — الكلية العالمية للغة الإنجليزية",
-    "description": "رسوم برنامج IEFC، التسعير لكل مستوى، خطط السداد والرسوم الإضافية في الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن.",
+    "title": "الرسوم والسداد والدعم — الكلية العالمية للغة الإنجليزية",
+    "description": "رسوم برنامج IEFC وأسعار المستويات، وكيف يجري السداد فعلًا — العملة والوسائل والاسترداد — والمنح ومسارات الدعم القائمة اليوم.",
     "contentFile": "admissions-tuition.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/admissions/tuition/"
+    "altHref": "/admissions/tuition/",
+    "contents": true
   },
   {
     "slug": "faculty-ar",
@@ -193,7 +187,7 @@
     "slug": "faq-ar",
     "output": "ar/faq/index.html",
     "title": "الأسئلة الشائعة — الكلية العالمية للغة الإنجليزية",
-    "description": "إجابات عن الأسئلة الشائعة حول برنامج IEFC، القبول، الرسوم، والدراسة في الكلية العالمية للغة الإنجليزية.",
+    "description": "الأسئلة الشائعة عن برنامج IEFC والقبول والرسوم والدراسة في الكلية، ومعها أسئلة القبول التي يسألها المتقدمون فعلًا.",
     "contentFile": "faq.ar.html",
     "lang": "ar",
     "dir": "rtl",
@@ -230,141 +224,70 @@
     "altHref": "/404.html"
   },
   {
-    "slug": "study",
-    "output": "study/index.html",
-    "title": "Study at Worldwide English College &mdash; The Six IEFC Levels",
-    "description": "The International English Fluency Certificate in six CEFR-aligned levels, from no English to mastery. Modules, hours, assessment and awards for every level.",
-    "contentFile": "study.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/study/"
-  },
-  {
     "slug": "study-level-1",
     "output": "study/level-1/index.html",
     "title": "Level I: Foundation Programme (A1) &mdash; Worldwide English College",
-    "description": "Level I of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR A1. Modules, learning outcomes, assessment, teaching methods and the award.",
+    "description": "Level I of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR A1. Modules, learning outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-1.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/study/level-1/",
+    "contents": true
   },
   {
     "slug": "study-level-2",
     "output": "study/level-2/index.html",
     "title": "Level II: Elementary Programme (A2) &mdash; Worldwide English College",
-    "description": "Level II of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR A2. Modules, learning outcomes, assessment, teaching methods and the award.",
+    "description": "Level II of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR A2. Modules, learning outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-2.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/study/level-2/",
+    "contents": true
   },
   {
     "slug": "study-level-3",
     "output": "study/level-3/index.html",
     "title": "Level III: Intermediate Programme (B1) &mdash; Worldwide English College",
-    "description": "Level III of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR B1. Modules, learning outcomes, assessment, teaching methods and the award.",
+    "description": "Level III of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR B1. Modules, learning outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-3.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/study/level-3/",
+    "contents": true
   },
   {
     "slug": "study-level-4",
     "output": "study/level-4/index.html",
     "title": "Level IV: Upper Intermediate Programme (B2) &mdash; Worldwide English College",
-    "description": "Level IV of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR B2. Modules, learning outcomes, assessment, teaching methods and the award.",
+    "description": "Level IV of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR B2. Modules, learning outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-4.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/study/level-4/",
+    "contents": true
   },
   {
     "slug": "study-level-5",
     "output": "study/level-5/index.html",
     "title": "Level V: Advanced Programme (C1) &mdash; Worldwide English College",
-    "description": "Level V of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR C1. Modules, learning outcomes, assessment, teaching methods and the award.",
+    "description": "Level V of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR C1. Modules, learning outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-5.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/study/level-5/",
+    "contents": true
   },
   {
     "slug": "study-level-6",
     "output": "study/level-6/index.html",
     "title": "Level VI: English Mastery Programme (C2) &mdash; Worldwide English College",
-    "description": "Level VI of the IEFC: 10 modules, 120 taught hours over 4 months, aligned to CEFR C2. Modules, learning outcomes, assessment, teaching methods and the award.",
+    "description": "Level VI of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR C2. Modules, learning outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-6.html",
     "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "about-vision",
-    "output": "about/vision/index.html",
-    "title": "Vision &mdash; Worldwide English College",
-    "description": "What Worldwide English College intends to become, and the standard it holds itself to while it gets there.",
-    "contentFile": "about-vision.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "about-mission",
-    "output": "about/mission/index.html",
-    "title": "Mission &mdash; Worldwide English College",
-    "description": "The five commitments that define what Worldwide English College does, and how each one is delivered in the programme.",
-    "contentFile": "about-mission.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "about-philosophy",
-    "output": "about/philosophy/index.html",
-    "title": "Educational Philosophy &mdash; Worldwide English College",
-    "description": "What Worldwide English College believes about how English is learned, and how those beliefs shape every lesson, assessment and resource.",
-    "contentFile": "about-philosophy.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "about-governance",
-    "output": "about/governance/index.html",
-    "title": "Governance &mdash; Worldwide English College",
-    "description": "How academic decisions are made at Worldwide English College, which bodies hold which authority, and which posts are currently vacant.",
-    "contentFile": "about-governance.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "about-senate",
-    "output": "about/academic-senate/index.html",
-    "title": "The Academic Senate &mdash; Worldwide English College",
-    "description": "The remit of the Academic Senate at Worldwide English College, what it approves, and its current membership position.",
-    "contentFile": "about-senate.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "about-basce",
-    "output": "about/basce/index.html",
-    "title": "BASCE &mdash; Board of Academic Standards and Curriculum Excellence",
-    "description": "The Board of Academic Standards and Curriculum Excellence: its remit over the competency framework, and its current membership position.",
-    "contentFile": "about-basce.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "about-qa",
-    "output": "about/quality-assurance/index.html",
-    "title": "Quality Assurance &mdash; Worldwide English College",
-    "description": "How Worldwide English College assures academic quality: the mechanisms that run today, and the review cycles that cannot run until a cohort has been taught.",
-    "contentFile": "about-qa.html",
-    "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/about/quality-assurance/"
-  },
-  {
-    "slug": "about-structure",
-    "output": "about/structure/index.html",
-    "title": "Organisational Structure &mdash; Worldwide English College",
-    "description": "How Worldwide English College is organised: the academic, administrative and publishing functions, and which posts are currently vacant.",
-    "contentFile": "about-structure.html",
-    "lang": "en",
-    "dir": "ltr"
+    "altHref": "/ar/study/level-6/",
+    "contents": true
   },
   {
     "slug": "about-careers",
@@ -373,66 +296,8 @@
     "description": "Working at Worldwide English College: the posts the College is seeking to fill, what each one unblocks, and how to express interest.",
     "contentFile": "about-careers.html",
     "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "admissions-apply",
-    "output": "admissions/apply/index.html",
-    "title": "How to Apply &mdash; Worldwide English College",
-    "description": "The five stages of a WEC-LC application, what happens at each one, who does it, and how long the College can honestly say each takes.",
-    "contentFile": "admissions-apply.html",
-    "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/admissions/apply/"
-  },
-  {
-    "slug": "admissions-entry",
-    "output": "admissions/entry-requirements/index.html",
-    "title": "Entry Requirements &mdash; Worldwide English College",
-    "description": "What WEC-LC requires of an applicant: no prior qualification, a placement conversation, and the equipment the programme genuinely needs.",
-    "contentFile": "admissions-entry.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/admissions/entry-requirements/"
-  },
-  {
-    "slug": "admissions-payment",
-    "output": "admissions/payment/index.html",
-    "title": "Paying for the Programme &mdash; Worldwide English College",
-    "description": "How payment actually works at WEC-LC: which currencies are settled, which payment methods are live, how instalments work, and what has not been decided.",
-    "contentFile": "admissions-payment.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/admissions/payment/"
-  },
-  {
-    "slug": "admissions-scholarships",
-    "output": "admissions/scholarships/index.html",
-    "title": "Scholarships &amp; Financial Support &mdash; Worldwide English College",
-    "description": "What financial support WEC-LC can and cannot offer today: no open scholarship scheme, a working award mechanism, and how to ask.",
-    "contentFile": "admissions-scholarships.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/admissions/scholarships/"
-  },
-  {
-    "slug": "admissions-international",
-    "output": "admissions/international/index.html",
-    "title": "International Applicants &mdash; Worldwide English College",
-    "description": "WEC-LC teaches online worldwide. What that means for applicants outside the United Kingdom: no relocation, no visa, time zones, and how live teaching is scheduled.",
-    "contentFile": "admissions-international.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "admissions-visas",
-    "output": "admissions/visas/index.html",
-    "title": "Visas &amp; Study Permits &mdash; Worldwide English College",
-    "description": "WEC-LC is an online institution and issues no immigration documents. What that means, why the page exists, and what to be careful of.",
-    "contentFile": "admissions-visas.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/admissions/visas/"
+    "altHref": "/ar/about/careers/"
   },
   {
     "slug": "admissions-policy",
@@ -441,27 +306,8 @@
     "description": "The rules WEC-LC applies to admissions decisions, the data it collects from applicants, and the policies that have not yet been adopted.",
     "contentFile": "admissions-policy.html",
     "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "admissions-dates",
-    "output": "admissions/dates/index.html",
-    "title": "Dates &amp; the Academic Calendar &mdash; Worldwide English College",
-    "description": "When you can start at WEC-LC, why there are no term dates, and what the academic calendar decision actually involves.",
-    "contentFile": "admissions-dates.html",
-    "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/admissions/dates/"
-  },
-  {
-    "slug": "admissions-questions",
-    "output": "admissions/questions/index.html",
-    "title": "Admissions Questions &mdash; Worldwide English College",
-    "description": "Direct answers to the questions applicants actually ask WEC-LC, including the ones with uncomfortable answers.",
-    "contentFile": "admissions-questions.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/admissions/questions/"
+    "altHref": "/ar/admissions/policy/"
   },
   {
     "slug": "students",
@@ -470,7 +316,9 @@
     "description": "What a WEC-LC student meets: the platform, the assessment scheme, the academic record, and the rules that govern all three.",
     "contentFile": "students.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "contents": true,
+    "altHref": "/ar/students/"
   },
   {
     "slug": "students-assessment",
@@ -489,16 +337,8 @@
     "description": "What WEC-LC records about a student, who can see it, what the student controls, and how a third party verifies it.",
     "contentFile": "students-record.html",
     "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "students-listening-lab",
-    "output": "students/listening-lab/index.html",
-    "title": "The Listening Lab &mdash; Worldwide English College",
-    "description": "What the WEC-LC Listening Lab is, why recording yourself is compulsory rather than optional, and what has not been produced yet.",
-    "contentFile": "students-listening-lab.html",
-    "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/students/academic-record/"
   },
   {
     "slug": "students-awards",
@@ -517,7 +357,8 @@
     "description": "The WEC-LC position on work that is not the learner’s own: assessment design rather than detection software, and the adopted procedure for a suspected breach.",
     "contentFile": "students-integrity.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/students/integrity/"
   },
   {
     "slug": "students-regulations",
@@ -526,61 +367,8 @@
     "description": "Progression, resits, academic standing and appeals at WEC-LC, separated into when each rule took effect and on whose authority.",
     "contentFile": "students-regulations.html",
     "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "students-support",
-    "output": "students/support/index.html",
-    "title": "Support &mdash; Worldwide English College",
-    "description": "What to do when you are stuck, behind or unhappy at WEC-LC, who answers, and what the College does not provide.",
-    "contentFile": "students-support.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "teaching",
-    "output": "teaching/index.html",
-    "title": "Teaching &mdash; Worldwide English College",
-    "description": "How WEC-LC teaches English: the method, what a teacher is given, and the honest position of an institution that has written a full programme and taught nobody.",
-    "contentFile": "teaching.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "teaching-lesson-design",
-    "output": "teaching/lesson-design/index.html",
-    "title": "How a Lesson Is Designed &mdash; Worldwide English College",
-    "description": "The anatomy of a WEC-LC lesson: staged, timed, planned against a named outcome, and written before the teaching happens.",
-    "contentFile": "teaching-lesson-design.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "teaching-support",
-    "output": "teaching/support/index.html",
-    "title": "The Teaching Support Record &mdash; Worldwide English College",
-    "description": "17 fields of teaching support per lesson, and the four kinds of knowledge WEC-LC distinguishes rather than blurs.",
-    "contentFile": "teaching-support.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "teaching-companion",
-    "output": "teaching/companion/index.html",
-    "title": "The Teacher&rsquo;s Companion &mdash; Worldwide English College",
-    "description": "The Level I Teacher’s Companion: a printed volume in which every panel carries the provenance of what it claims.",
-    "contentFile": "teaching-companion.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "teaching-development",
-    "output": "teaching/development/index.html",
-    "title": "Development &amp; Observation &mdash; Worldwide English College",
-    "description": "What WEC-LC has built for teacher development and observation, what it has recorded so far, and why the answer to the second is none.",
-    "contentFile": "teaching-development.html",
-    "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/students/regulations/"
   },
   {
     "slug": "press",
@@ -589,113 +377,15 @@
     "description": "The publishing arm of Worldwide English College: what it has produced, the rule it publishes under, and the review it has not yet had.",
     "contentFile": "press.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "contents": true
   },
   {
     "slug": "press-catalogue",
     "output": "press/catalogue/index.html",
     "title": "Catalogue &mdash; WEC Press",
-    "description": "The 12 volumes WEC Press has produced, who each is for, and how to obtain one.",
+    "description": "The 11 volumes WEC Press has produced, who each is for, and how to obtain one.",
     "contentFile": "press-catalogue.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "press-standards",
-    "output": "press/standards/index.html",
-    "title": "House Standards &mdash; WEC Press",
-    "description": "How a WEC Press volume is composed: generated from the record, typeset to one house system, and marked with the provenance of what it claims.",
-    "contentFile": "press-standards.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "press-review",
-    "output": "press/review/index.html",
-    "title": "On Review &mdash; WEC Press",
-    "description": "Every volume WEC Press has produced is unreviewed by anyone who did not write it. Why that is published rather than buried, and what would change it.",
-    "contentFile": "press-review.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "press-programme",
-    "output": "press/programme/index.html",
-    "title": "The Publishing Programme &mdash; WEC Press",
-    "description": "What WEC Press is building toward, measured against seven readers rather than a page count, and what is blocking each.",
-    "contentFile": "press-programme.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "library",
-    "output": "library/index.html",
-    "title": "The Library &mdash; Worldwide English College",
-    "description": "What the WEC-LC library is, what it holds, and the plain statement that it is not a subscription collection.",
-    "contentFile": "library.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "standards",
-    "output": "standards/index.html",
-    "title": "Academic Standards &mdash; Worldwide English College",
-    "description": "How WEC-LC sets and holds an academic standard, and what an external reviewer would find if they looked today.",
-    "contentFile": "standards.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "standards-evidence",
-    "output": "standards/evidence/index.html",
-    "title": "The Evidence Record &mdash; Worldwide English College",
-    "description": "WEC-LC's register of quality-assurance evidence: 37 items, what state each is in, and why none has been approved.",
-    "contentFile": "standards-evidence.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "standards-decisions",
-    "output": "standards/decisions/index.html",
-    "title": "The Decisions Register &mdash; Worldwide English College",
-    "description": "All 30 of the College's institutional decisions, in force, with the date and the authority that took each one.",
-    "contentFile": "standards-decisions.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "standards-verification",
-    "output": "standards/verification/index.html",
-    "title": "Verification &mdash; Worldwide English College",
-    "description": "How anyone can check a WEC-LC credential, the principle behind it, and the fact that nothing has yet been issued to check.",
-    "contentFile": "standards-verification.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "standards-research",
-    "output": "standards/research/index.html",
-    "title": "Research &mdash; Worldwide English College",
-    "description": "WEC-LC conducts no research and has published no findings. What it has instead is a set of answerable questions its own programme generated.",
-    "contentFile": "standards-research.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "learning",
-    "output": "learning/index.html",
-    "title": "How Learning Works &mdash; Worldwide English College",
-    "description": "What a week of study at WEC-LC actually consists of, what is self-paced, what is live, and what the College has not yet run.",
-    "contentFile": "learning.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "learning-platform",
-    "output": "learning/platform/index.html",
-    "title": "The Platform &mdash; Worldwide English College",
-    "description": "What the WEC-LC digital campus consists of, what each part does, and which parts have never been used.",
-    "contentFile": "learning-platform.html",
     "lang": "en",
     "dir": "ltr"
   },
@@ -706,16 +396,8 @@
     "description": "What WEC-LC has built for accessibility, what has not been audited, and what the College will do on request.",
     "contentFile": "support-accessibility.html",
     "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "support-technical",
-    "output": "support/technical/index.html",
-    "title": "Technical Requirements &mdash; Worldwide English College",
-    "description": "What you need to study at WEC-LC, why each item is on the list, and what to do when something does not work.",
-    "contentFile": "support-technical.html",
-    "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/support/accessibility/"
   },
   {
     "slug": "support-privacy",
@@ -726,86 +408,6 @@
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/support/privacy/"
-  },
-  {
-    "slug": "admissions-apply-ar",
-    "output": "ar/admissions/apply/index.html",
-    "title": "كيفية التقديم — الكلية العالمية للغة الإنجليزية",
-    "description": "مراحل التقديم الخمس في الكلية العالمية للغة الإنجليزية، وما يحدث في كل مرحلة، ومن ينفذها، وكم تستغرق.",
-    "contentFile": "admissions-apply.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/admissions/apply/"
-  },
-  {
-    "slug": "admissions-entry-ar",
-    "output": "ar/admissions/entry-requirements/index.html",
-    "title": "شروط الالتحاق — الكلية العالمية للغة الإنجليزية",
-    "description": "ما تشترطه الكلية على المتقدم: لا مؤهل سابق، ومحادثة لتحديد المستوى، ومتطلبات عملية يحتاجها البرنامج فعلًا.",
-    "contentFile": "admissions-entry.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/admissions/entry-requirements/"
-  },
-  {
-    "slug": "admissions-payment-ar",
-    "output": "ar/admissions/payment/index.html",
-    "title": "سداد الرسوم — الكلية العالمية للغة الإنجليزية",
-    "description": "كيف يجري السداد فعلًا: العملة المعتمدة، وسائل الدفع حسب البلد، التقسيط، وما لم يُقرَّر بعد.",
-    "contentFile": "admissions-payment.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/admissions/payment/"
-  },
-  {
-    "slug": "admissions-scholarships-ar",
-    "output": "ar/admissions/scholarships/index.html",
-    "title": "المنح والدعم المالي — الكلية العالمية للغة الإنجليزية",
-    "description": "ما تستطيع الكلية تقديمه اليوم وما لا تستطيع: لا برنامج منح مفتوح، وآلية منح تعمل، وكيف تسأل.",
-    "contentFile": "admissions-scholarships.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/admissions/scholarships/"
-  },
-  {
-    "slug": "admissions-visas-ar",
-    "output": "ar/admissions/visas/index.html",
-    "title": "التأشيرات وتصاريح الدراسة — الكلية العالمية للغة الإنجليزية",
-    "description": "الكلية مؤسسة تعليم عن بُعد ولا تصدر أي مستند هجرة. ماذا يعني ذلك، ولماذا وُجدت هذه الصفحة، وممّ تحذر.",
-    "contentFile": "admissions-visas.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/admissions/visas/"
-  },
-  {
-    "slug": "admissions-dates-ar",
-    "output": "ar/admissions/dates/index.html",
-    "title": "مواعيد البدء والتقويم الأكاديمي — الكلية العالمية للغة الإنجليزية",
-    "description": "متى يمكنك البدء، ولماذا لا توجد مواعيد فصول منشورة، وما الذي ينطوي عليه قرار التقويم الأكاديمي.",
-    "contentFile": "admissions-dates.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/admissions/dates/"
-  },
-  {
-    "slug": "admissions-questions-ar",
-    "output": "ar/admissions/questions/index.html",
-    "title": "أسئلة القبول — الكلية العالمية للغة الإنجليزية",
-    "description": "إجابات مباشرة عن الأسئلة التي يطرحها المتقدمون فعلًا، بما فيها الأسئلة ذات الإجابات غير المريحة.",
-    "contentFile": "admissions-questions.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/admissions/questions/"
-  },
-  {
-    "slug": "study-ar",
-    "output": "ar/study/index.html",
-    "title": "الدراسة | المستويات الستة — الكلية العالمية للغة الإنجليزية",
-    "description": "المستويات الستة لبرنامج IEFC: ما يحتويه كل مستوى، وساعاته وأرصدته، والشهادة المرتبطة به.",
-    "contentFile": "study.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/study/"
   },
   {
     "slug": "students-assessment-ar",
@@ -828,16 +430,6 @@
     "altHref": "/students/awards/"
   },
   {
-    "slug": "about-qa-ar",
-    "output": "ar/about/quality-assurance/index.html",
-    "title": "ضمان الجودة — الكلية العالمية للغة الإنجليزية",
-    "description": "كيف تضبط الكلية معاييرها وتحفظها، وما الذي سيجده مراجع خارجي لو نظر اليوم.",
-    "contentFile": "about-qa.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/about/quality-assurance/"
-  },
-  {
     "slug": "support-privacy-ar",
     "output": "ar/support/privacy/index.html",
     "title": "الخصوصية وبياناتك — الكلية العالمية للغة الإنجليزية",
@@ -846,5 +438,247 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/support/privacy/"
+  },
+  {
+    "slug": "study-level-1-ar",
+    "output": "ar/study/level-1/index.html",
+    "title": "المستوى الأول: برنامج التأسيس (A1) — الكلية العالمية للغة الإنجليزية",
+    "description": "المستوى الأول من برنامج IEFC: 10 وحدات، و120 درسًا مصمَّمًا على مدى 4 أشهر، وفق مستوى A1 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
+    "contentFile": "study-level-1.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/study/level-1/",
+    "contents": true
+  },
+  {
+    "slug": "study-level-2-ar",
+    "output": "ar/study/level-2/index.html",
+    "title": "المستوى الثاني: البرنامج الابتدائي (A2) — الكلية العالمية للغة الإنجليزية",
+    "description": "المستوى الثاني من برنامج IEFC: 10 وحدات، و120 درسًا مصمَّمًا على مدى 4 أشهر، وفق مستوى A2 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
+    "contentFile": "study-level-2.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/study/level-2/",
+    "contents": true
+  },
+  {
+    "slug": "study-level-3-ar",
+    "output": "ar/study/level-3/index.html",
+    "title": "المستوى الثالث: البرنامج المتوسط (B1) — الكلية العالمية للغة الإنجليزية",
+    "description": "المستوى الثالث من برنامج IEFC: 10 وحدات، و120 درسًا مصمَّمًا على مدى 4 أشهر، وفق مستوى B1 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
+    "contentFile": "study-level-3.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/study/level-3/",
+    "contents": true
+  },
+  {
+    "slug": "study-level-4-ar",
+    "output": "ar/study/level-4/index.html",
+    "title": "المستوى الرابع: المتوسط المتقدم (B2) — الكلية العالمية للغة الإنجليزية",
+    "description": "المستوى الرابع من برنامج IEFC: 10 وحدات، و120 درسًا مصمَّمًا على مدى 4 أشهر، وفق مستوى B2 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
+    "contentFile": "study-level-4.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/study/level-4/",
+    "contents": true
+  },
+  {
+    "slug": "study-level-5-ar",
+    "output": "ar/study/level-5/index.html",
+    "title": "المستوى الخامس: البرنامج المتقدم (C1) — الكلية العالمية للغة الإنجليزية",
+    "description": "المستوى الخامس من برنامج IEFC: 10 وحدات، و120 درسًا مصمَّمًا على مدى 4 أشهر، وفق مستوى C1 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
+    "contentFile": "study-level-5.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/study/level-5/",
+    "contents": true
+  },
+  {
+    "slug": "study-level-6-ar",
+    "output": "ar/study/level-6/index.html",
+    "title": "المستوى السادس: برنامج الإتقان (C2) — الكلية العالمية للغة الإنجليزية",
+    "description": "المستوى السادس من برنامج IEFC: 10 وحدات، و120 درسًا مصمَّمًا على مدى 4 أشهر، وفق مستوى C2 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
+    "contentFile": "study-level-6.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/study/level-6/",
+    "contents": true
+  },
+  {
+    "slug": "governance",
+    "output": "governance/index.html",
+    "title": "Governance &mdash; Worldwide English College",
+    "description": "How Worldwide English College is governed: its Board, Senate and Executive, the academic bodies and their remits, how quality is assured, how the standard is held, and which posts remain unfilled.",
+    "contentFile": "governance.html",
+    "lang": "en",
+    "dir": "ltr",
+    "contents": true,
+    "altHref": "/ar/governance/"
+  },
+  {
+    "slug": "governance-evidence",
+    "output": "governance/evidence/index.html",
+    "title": "The Evidence Record &mdash; Worldwide English College",
+    "description": "WEC-LC's register of quality-assurance evidence: 37 items, what state each is in, and why none has been approved.",
+    "contentFile": "governance-evidence.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/governance/evidence/"
+  },
+  {
+    "slug": "governance-decisions",
+    "output": "governance/decisions/index.html",
+    "title": "The Decisions Register &mdash; Worldwide English College",
+    "description": "All 30 of the College's institutional decisions, in force, with the date and the authority that took each one.",
+    "contentFile": "governance-decisions.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/governance/decisions/"
+  },
+  {
+    "slug": "governance-ar",
+    "output": "ar/governance/index.html",
+    "title": "الحوكمة | من يقرر وبأي صلاحية — الكلية العالمية للغة الإنجليزية",
+    "description": "الهيئتان الأكاديميتان للكلية، وصلاحية كل منهما، وحقيقة أنه لم يُعيَّن فيهما عضو واحد بعد.",
+    "contentFile": "governance.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/governance/",
+    "contents": true
+  },
+  {
+    "slug": "academics-teaching",
+    "output": "academics/teaching/index.html",
+    "title": "Teaching Practice &mdash; Worldwide English College",
+    "description": "How WEC-LC teaches: the method, how a lesson is designed, the support record a teacher works from, the Companion, and how development and observation are meant to work.",
+    "contentFile": "academics-teaching.html",
+    "lang": "en",
+    "dir": "ltr",
+    "contents": true,
+    "altHref": "/ar/academics/teaching/"
+  },
+  {
+    "slug": "students-ar",
+    "output": "ar/students/index.html",
+    "title": "الحياة الطلابية — الكلية العالمية للغة الإنجليزية",
+    "description": "ما تعنيه الدراسة في الكلية: كيف تُقيَّم، وسجلك الأكاديمي، ومعمل الاستماع، والدعم المتاح وما لا تقدمه الكلية.",
+    "contentFile": "students.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/",
+    "contents": true
+  },
+  {
+    "slug": "academics-teaching-ar",
+    "output": "ar/academics/teaching/index.html",
+    "title": "ممارسة التدريس — الكلية العالمية للغة الإنجليزية",
+    "description": "كيف تدرّس الكلية: المنهجية، وكيف يُصمَّم الدرس، وسجل الدعم الذي يعمل منه المعلم، والدليل المرافق، وكيف يُفترض أن يعمل التطوير والمشاهدة.",
+    "contentFile": "academics-teaching.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/academics/teaching/",
+    "contents": true
+  },
+  {
+    "slug": "students-record-ar",
+    "output": "ar/students/academic-record/index.html",
+    "title": "سجلك الأكاديمي — الكلية العالمية للغة الإنجليزية",
+    "description": "ما تسجّله الكلية عن الطالب، ومن يستطيع رؤيته، وما الذي يتحكم فيه الطالب، وكيف تتحقق جهة ثالثة منه.",
+    "contentFile": "students-record.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/academic-record/"
+  },
+  {
+    "slug": "students-integrity-ar",
+    "output": "ar/students/integrity/index.html",
+    "title": "النزاهة الأكاديمية — الكلية العالمية للغة الإنجليزية",
+    "description": "موقف الكلية من العمل الذي ليس من إنتاج المتعلم: تصميم التقييم بدل برمجيات الكشف، والإجراء المعتمد عند الاشتباه في مخالفة.",
+    "contentFile": "students-integrity.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/integrity/"
+  },
+  {
+    "slug": "students-regulations-ar",
+    "output": "ar/students/regulations/index.html",
+    "title": "اللوائح الأكاديمية — الكلية العالمية للغة الإنجليزية",
+    "description": "الترقّي وإعادة التقييم والوضع الأكاديمي والاستئناف في الكلية، مفصولة بحسب متى دخلت كل قاعدة حيز النفاذ وبأي سلطة.",
+    "contentFile": "students-regulations.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/regulations/"
+  },
+  {
+    "slug": "admissions-policy-ar",
+    "output": "ar/admissions/policy/index.html",
+    "title": "سياسة القبول — الكلية العالمية للغة الإنجليزية",
+    "description": "القواعد التي تطبقها الكلية عند البتّ في طلب: مبادئ القرار، وأسباب الرفض المسمّاة، وبياناتك، والسياسات التي لم تُعتمد بعد.",
+    "contentFile": "admissions-policy.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/admissions/policy/"
+  },
+  {
+    "slug": "about-careers-ar",
+    "output": "ar/about/careers/index.html",
+    "title": "العمل في الكلية — الكلية العالمية للغة الإنجليزية",
+    "description": "المناصب الثلاثة التي تحتاجها الكلية فعلًا، وما الذي يفتحه كل منها، وما الذي ينضم إليه المرشح بالضبط.",
+    "contentFile": "about-careers.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/about/careers/"
+  },
+  {
+    "slug": "support-accessibility-ar",
+    "output": "ar/support/accessibility/index.html",
+    "title": "الإتاحة — الكلية العالمية للغة الإنجليزية",
+    "description": "ما بنته الكلية للإتاحة عمدًا، وما لم يُختبر، وما الذي تفعله الكلية عند الطلب — دون ادعاء مطابقة لم يدقق فيها أحد.",
+    "contentFile": "support-accessibility.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/support/accessibility/"
+  },
+  {
+    "slug": "press-ar",
+    "output": "ar/press/index.html",
+    "title": "مطبعة الكلية — الكلية العالمية للغة الإنجليزية",
+    "description": "11 مجلدًا منتَجًا، ومعايير الدار، وحقيقة المراجعة، وبرنامج النشر، والمكتبة — بصدقٍ كامل.",
+    "contentFile": "press.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/",
+    "contents": true
+  },
+  {
+    "slug": "press-catalogue-ar",
+    "output": "ar/press/catalogue/index.html",
+    "title": "الكتالوج — مطبعة الكلية",
+    "description": "المجلدات الـ11 التي أنتجتها مطبعة الكلية، ولمن كلٌّ منها، وكيف تحصل على نسخة.",
+    "contentFile": "press-catalogue.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/catalogue/"
+  },
+  {
+    "slug": "governance-evidence-ar",
+    "output": "ar/governance/evidence/index.html",
+    "title": "سجل الأدلة — الكلية العالمية للغة الإنجليزية",
+    "description": "سجل أدلة ضمان الجودة في الكلية: 37 قيدًا، وحالة كل منها، ولماذا لم يُعتمد أي منها.",
+    "contentFile": "governance-evidence.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/governance/evidence/"
+  },
+  {
+    "slug": "governance-decisions-ar",
+    "output": "ar/governance/decisions/index.html",
+    "title": "سجل القرارات — الكلية العالمية للغة الإنجليزية",
+    "description": "قرارات الكلية المؤسسية كلها — 30 قرارًا نافذًا — بتاريخ كل منها والسلطة التي اتخذته.",
+    "contentFile": "governance-decisions.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/governance/decisions/"
   }
 ]

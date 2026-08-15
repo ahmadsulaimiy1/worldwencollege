@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * THE STUDENTS CLUSTER — eight pages.
+ * THE STUDENTS CLUSTER — six pages.
  *
  * ────────────────────────────────────────────────────────────────────
  * THE LINE THIS CLUSTER HAS TO HOLD
@@ -47,6 +47,7 @@ const path = require('path');
 const { DatabaseSync } = require('node:sqlite');
 
 const ROOT = path.resolve(__dirname, '..');
+const ltr = (v) => `<span dir="ltr">${v}</span>`;
 const esc = (s) => String(s ?? '')
   .replace(/\s--\s/g, ' — ')
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -118,7 +119,10 @@ const noCohort = `<div class="callout">
       <span class="callout__label">Written before the first student</span>
       <p>No cohort has yet been taught at WEC-LC. Everything on this page describes what is
         built and what the College has decided, not an experience anyone has had. Where a rule
-        arrived by executive decision awaiting Senate ratification, it says so.</p>
+        arrived by executive decision awaiting Senate ratification, it says so. The College
+        holds no accreditation, has appointed no External Examiner, has conferred no award on
+        anyone, and has adopted no <a href="/admissions/tuition/#refunds">refund policy</a>
+        &mdash; see <a href="/about/#status">institutional status</a>.</p>
     </div>`;
 
 const PAGES = {};
@@ -126,6 +130,7 @@ const PAGES = {};
 // 1 · STUDENTS HUB ────────────────────────────────────────────────────
 PAGES.hub = {
   slug: 'students', output: 'students/index.html', file: 'students.html',
+  contents: true,
   title: 'Students &mdash; Worldwide English College',
   description: 'What a WEC-LC student meets: the platform, the assessment scheme, the academic '
     + 'record, and the rules that govern all three.',
@@ -138,13 +143,13 @@ PAGES.hub = {
       <a href="/students/regulations/" class="btn btn--outline">Academic Regulations</a>
     </div>`)}
 
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="day-one" data-contents="On Day One">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">On Day One</span>
       <h2>What is waiting when you enrol.</h2>
       <p class="lede">All of it is available immediately. Nothing unlocks on a date, because
-        there are no dates &mdash; see <a href="/admissions/dates/">Dates</a>.</p>
+        there are no dates &mdash; see <a href="/admissions/#dates">Dates</a>.</p>
     </div>
     <div class="grid grid--4">
 ${card('Your level', 'Ten modules', 'The level you were placed into, with its modules, lessons, exercises and assessments already written and waiting. Nothing is drip-fed.')}
@@ -155,7 +160,7 @@ ${card('The rules', 'Published before assessment', 'Criteria, thresholds and out
   </div>
 </section>
 
-<section class="section--paper section-pad">
+<section class="section--paper section-pad" id="guide" data-contents="Finding Your Way">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">This Section</span>
@@ -164,11 +169,11 @@ ${card('The rules', 'Published before assessment', 'Criteria, thresholds and out
     <div class="grid grid--3">
 ${card('Assessment', '<a href="/students/assessment/">How you are assessed</a>', `The four skills, the six competencies, what a mark means, and the ${PASS_PCT}% the platform actually enforces.`)}
 ${card('Your record', '<a href="/students/academic-record/">Your academic record</a>', 'What is stored, who can see it, and the parts of it you control rather than the College.')}
-${card('The Listening Lab', '<a href="/students/listening-lab/">The Listening Lab</a>', 'The one part of the platform students are usually surprised by, and the argument for why it exists.')}
+${card('The Listening Lab', '<a href="/students/#lab">The Listening Lab</a>', 'The one part of the platform students are usually surprised by, and the argument for why it exists.')}
 ${card('Awards', '<a href="/students/awards/">Awards and honours</a>', 'What each level is called, what the post-nominals mean, and why nothing has been conferred on anyone.')}
 ${card('Integrity', '<a href="/students/integrity/">Academic integrity</a>', 'The College&rsquo;s position on work that is not your own, and the procedure that has not yet been adopted.')}
 ${card('Regulations', '<a href="/students/regulations/">Academic regulations</a>', 'Progression, resits, standing and appeals &mdash; all in force, grouped by when each took effect.')}
-${card('Support', '<a href="/students/support/">Support</a>', 'What to do when you are stuck, behind, or unhappy, and who actually answers.')}
+${card('Support', '<a href="/students/#support">Support</a>', 'What to do when you are stuck, behind, or unhappy, and who actually answers.')}
     </div>
   </div>
 </section>
@@ -179,7 +184,123 @@ ${card('Support', '<a href="/students/support/">Support</a>', 'What to do when y
   </div>
 </section>
 
-${cta('See what a level contains.', 'The Six Levels', '/study/', 'How to Apply', '/admissions/apply/')}`,
+<section class="section--light section-pad" id="lab" data-contents="The Listening Lab">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">The Argument</span>
+      <h2>Why recording is not optional.</h2>
+      <p class="lede">Three reasons, in the order they matter.</p>
+    </div>
+    <div class="grid grid--3">
+${card('One', 'You cannot hear yourself while speaking', 'Every learner is a poor judge of their own pronunciation in the moment, because producing a sound and evaluating it compete for the same attention. Recorded, the same sentence is suddenly assessable &mdash; by you, before anyone else hears it.')}
+${card('Two', 'Improvement is invisible without a baseline', 'Progress in pronunciation is slow and continuous, which makes it exactly the kind of change nobody notices in themselves. A recording from month one played against month six settles the question in thirty seconds.')}
+${card('Three', 'Speaking cannot be assessed any other way', 'A programme that marks speaking from written work is not marking speaking. Recording is not an enhancement to the assessment; it is the assessment.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">How It Works</span>
+      <h2>What you actually do.</h2>
+    </div>
+    <ol class="dot-list">
+      <li><span class="num">01</span><span><strong>Listen to the set.</strong> Each listening set carries its own audio, with the specific features the lesson is targeting marked in it &mdash; a linking sound, a stressed syllable, a contraction &mdash; rather than a general instruction to listen carefully.</span><span class="leader"></span></li>
+      <li><span class="num">02</span><span><strong>Record yourself against a target.</strong> Pronunciation targets are specific and named. &ldquo;Sound more natural&rdquo; is not a target; the vowel in a particular word is.</span><span class="leader"></span></li>
+      <li><span class="num">03</span><span><strong>Listen back before submitting.</strong> This step is where most of the learning happens, and it is the step learners skip. It is built into the flow deliberately.</span><span class="leader"></span></li>
+      <li><span class="num">04</span><span><strong>Receive feedback from a person.</strong> Pronunciation feedback is written by a teacher against the target, not generated by a score. No automated pronunciation scoring is used, and none is claimed.</span><span class="leader"></span></li>
+      <li><span class="num">05</span><span><strong>Keep the recording.</strong> It stays in your record. In six months it is evidence; deleted, it is nothing.</span><span class="leader"></span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Practicalities</span>
+      <h2>What it needs and what it survives.</h2>
+    </div>
+    <div class="grid grid--3">
+${darkCard('Any microphone', 'A phone is enough', 'Studio quality is not required and would not improve the assessment. The features being marked survive an ordinary microphone.')}
+${darkCard('An unreliable connection', 'Recording continues offline', 'Recording does not require a live connection. A recording made while offline is held and uploaded when the connection returns, in parts, so that a drop does not lose the whole file. This was built because the College expects students in places where connections drop.')}
+${darkCard('Your own ears first', 'Nothing is submitted automatically', 'A recording is submitted when you decide it is. Nothing is captured or sent in the background.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Not Yet Produced</span>
+      <h2>The honest gap in the Lab.</h2>
+    </div>
+    <div class="callout">
+      <span class="callout__label">The audio itself</span>
+      <p>The listening sets are written &mdash; scripts, targets, marked features and teaching
+        notes are all authored. The recorded audio for them has not been produced. Producing it
+        requires voices and a studio, and it is one of the small number of things standing
+        between the programme and first delivery. It is listed as outstanding rather than
+        implied to exist.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="support" data-contents="Support">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Stuck On The Material</span>
+      <h2>Built into the teaching before you have to ask.</h2>
+    </div>
+    <div class="grid grid--3">
+${card('In the lesson', 'A second explanation, already written', 'Every lesson carries an alternative explanation of its hardest point, written in advance for the learner who did not follow the first one. Teaching that has only one route through it fails everyone who needs a different one.')}
+${card('In the lesson', 'The mistakes people actually make', 'Each lesson names the common errors for that point and what causes them, so that a mistake is recognisable rather than mysterious. These are written from the language itself, not gathered from students &mdash; the College has taught no one yet, and says so.')}
+${card('On demand', 'A tutorial with a teacher', 'Where the written support does not resolve it, a tutorial does. Ask; it is not rationed.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Falling Behind</span>
+      <h2>Noticed early, and answered with help.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('Why it is measured', 'To reach you, never to penalise you', 'Engagement is tracked so that a learner who has gone quiet is contacted in month two rather than discovered in month eleven. It never produces a penalty, and there is no attendance requirement to fail &mdash; the programme is asynchronous, so attendance would be the wrong measure of anything.')}
+${card('What happens', 'A message, an offer, a conversation', 'Falling behind produces contact, not consequence. Someone who is behind can still finish; the entire value of noticing is reaching them while that is true.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Unhappy With Something</span>
+      <h2>Who answers, and how honestly.</h2>
+    </div>
+    <div class="grid grid--2">
+${darkCard('Who', 'The founding team, by name', 'Every message to the College is answered by a member of the founding team. There is no ticket queue and no first-line script, which is a genuine advantage of the College&rsquo;s size and will not survive growth &mdash; so it is described as it is now.')}
+${darkCard('What is missing', 'A formal complaints procedure', 'There is no independent stage to escalate to, because there is no appointed body to escalate to. That is stated on <a href="/students/regulations/">Academic regulations</a> as well, because it is the kind of gap that should not be findable in only one place.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">What The College Does Not Provide</span>
+      <h2>Named, so that nobody relies on it.</h2>
+    </div>
+    <div class="grid grid--3">
+${card('No', 'Counselling or wellbeing services', 'WEC-LC has no counselling provision, no wellbeing service and no qualified staff for either. If you need that kind of support, it must come from services where you live. Implying otherwise on a website is how people in difficulty get let down.')}
+${card('No', 'Careers or immigration advice', 'No careers service, and no immigration advice of any kind &mdash; see <a href="/admissions/#visas">Visas and study permits</a>.')}
+${card('No', 'Disability assessment or formal adjustments', 'The College has no process for assessing a need or granting a formal adjustment. What it can do is arrange practical accommodations informally &mdash; audio-only participation, extended time, alternative formats &mdash; on request. That is a smaller offer than a policy, and it is described as the smaller thing it is.')}
+    </div>
+  </div>
+</section>
+
+${cta('See what a level contains.', 'The Six Levels', '/academics/#levels', 'How to Apply', '/admissions/#apply')}`,
 };
 
 // 2 · ASSESSMENT ──────────────────────────────────────────────────────
@@ -254,6 +375,22 @@ ${darkCard('Spoken', 'Recorded speech', 'Speaking is assessed by recording you s
         completing a module, passing a level examination, and earning an honour. All three are
         in force. The table says which does what.</p>
     </div>
+
+    <!-- The award ladder, drawn. The table below states the thresholds;
+         the diagram shows the one thing a table cannot — that the gap
+         between a band's floor and its overall mark narrows as the
+         bands rise, which is this framework's distinguishing rule.
+         Generated by scripts/art/generate-award-standard.mjs and inlined
+         by scripts/build.js; tests/award-diagram.test.mjs holds the two
+         in agreement. -->
+    <figure class="diagram diagram--wide">
+      {{SVG:assets/art/award-standard.svg}}
+      <figcaption class="diagram__caption">
+        <svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg>
+        The bar is the compensation allowed &mdash; and it narrows as the band rises
+      </figcaption>
+    </figure>
+
     <div class="table-scroll">
       <table class="ledger">
         <thead><tr><th>Rule</th><th>Status</th><th>What it governs</th></tr></thead>
@@ -296,12 +433,12 @@ ${card('Marked by a person', 'No automated grading of written or spoken work', '
   </div>
 </section>
 
-${cta('See the assessments themselves.', 'The Six Levels', '/study/', 'Your Academic Record', '/students/academic-record/')}`,
+${cta('See the assessments themselves.', 'The Six Levels', '/academics/#levels', 'Your Academic Record', '/students/academic-record/')}`,
 };
 
 // 3 · ACADEMIC RECORD ─────────────────────────────────────────────────
 PAGES.record = {
-  slug: 'students-record', output: 'students/academic-record/index.html', file: 'students-record.html',
+  slug: 'students-record', output: 'students/academic-record/index.html', file: 'students-record.html', altHref: '/ar/students/academic-record/',
   title: 'Your Academic Record &mdash; Worldwide English College',
   description: 'What WEC-LC records about a student, who can see it, what the student controls, '
     + 'and how a third party verifies it.',
@@ -380,80 +517,7 @@ ${cta('See how marks are arrived at.', 'How You Are Assessed', '/students/assess
 };
 
 // 4 · LISTENING LAB ───────────────────────────────────────────────────
-PAGES.lab = {
-  slug: 'students-listening-lab', output: 'students/listening-lab/index.html', file: 'students-listening-lab.html',
-  title: 'The Listening Lab &mdash; Worldwide English College',
-  description: 'What the WEC-LC Listening Lab is, why recording yourself is compulsory rather '
-    + 'than optional, and what has not been produced yet.',
-  body: `${hero('Students', 'The Listening Lab.',
-    'The part of the programme students are most surprised by: you record yourself, regularly, '
-    + 'and the College keeps the recordings. This page makes the argument for that rather than '
-    + 'presenting it as a feature.')}
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Argument</span>
-      <h2>Why recording is not optional.</h2>
-      <p class="lede">Three reasons, in the order they matter.</p>
-    </div>
-    <div class="grid grid--3">
-${card('One', 'You cannot hear yourself while speaking', 'Every learner is a poor judge of their own pronunciation in the moment, because producing a sound and evaluating it compete for the same attention. Recorded, the same sentence is suddenly assessable &mdash; by you, before anyone else hears it.')}
-${card('Two', 'Improvement is invisible without a baseline', 'Progress in pronunciation is slow and continuous, which makes it exactly the kind of change nobody notices in themselves. A recording from month one played against month six settles the question in thirty seconds.')}
-${card('Three', 'Speaking cannot be assessed any other way', 'A programme that marks speaking from written work is not marking speaking. Recording is not an enhancement to the assessment; it is the assessment.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">How It Works</span>
-      <h2>What you actually do.</h2>
-    </div>
-    <ol class="dot-list">
-      <li><span class="num">01</span><span><strong>Listen to the set.</strong> Each listening set carries its own audio, with the specific features the lesson is targeting marked in it &mdash; a linking sound, a stressed syllable, a contraction &mdash; rather than a general instruction to listen carefully.</span><span class="leader"></span></li>
-      <li><span class="num">02</span><span><strong>Record yourself against a target.</strong> Pronunciation targets are specific and named. &ldquo;Sound more natural&rdquo; is not a target; the vowel in a particular word is.</span><span class="leader"></span></li>
-      <li><span class="num">03</span><span><strong>Listen back before submitting.</strong> This step is where most of the learning happens, and it is the step learners skip. It is built into the flow deliberately.</span><span class="leader"></span></li>
-      <li><span class="num">04</span><span><strong>Receive feedback from a person.</strong> Pronunciation feedback is written by a teacher against the target, not generated by a score. No automated pronunciation scoring is used, and none is claimed.</span><span class="leader"></span></li>
-      <li><span class="num">05</span><span><strong>Keep the recording.</strong> It stays in your record. In six months it is evidence; deleted, it is nothing.</span><span class="leader"></span></li>
-    </ol>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Practicalities</span>
-      <h2>What it needs and what it survives.</h2>
-    </div>
-    <div class="grid grid--3">
-${darkCard('Any microphone', 'A phone is enough', 'Studio quality is not required and would not improve the assessment. The features being marked survive an ordinary microphone.')}
-${darkCard('An unreliable connection', 'Recording continues offline', 'Recording does not require a live connection. A recording made while offline is held and uploaded when the connection returns, in parts, so that a drop does not lose the whole file. This was built because the College expects students in places where connections drop.')}
-${darkCard('Your own ears first', 'Nothing is submitted automatically', 'A recording is submitted when you decide it is. Nothing is captured or sent in the background.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Not Yet Produced</span>
-      <h2>The honest gap in the Lab.</h2>
-    </div>
-    <div class="callout">
-      <span class="callout__label">The audio itself</span>
-      <p>The listening sets are written &mdash; scripts, targets, marked features and teaching
-        notes are all authored. The recorded audio for them has not been produced. Producing it
-        requires voices and a studio, and it is one of the small number of things standing
-        between the programme and first delivery. It is listed as outstanding rather than
-        implied to exist.</p>
-    </div>
-  </div>
-</section>
-
-${cta('See the listening work in a level.', 'Level I &mdash; Foundation', '/study/level-1/', 'How You Are Assessed', '/students/assessment/')}`,
-};
 
 // 5 · AWARDS ──────────────────────────────────────────────────────────
 PAGES.awards = {
@@ -530,12 +594,12 @@ ${darkCard('The commitment', 'The order will not be reversed', 'The examiner is 
   </div>
 </section>
 
-${cta('See how the standard is set.', 'Quality Assurance', '/about/quality-assurance/', 'Your Academic Record', '/students/academic-record/')}`,
+${cta('See how the standard is set.', 'Quality Assurance', '/governance/#quality', 'Your Academic Record', '/students/academic-record/')}`,
 };
 
 // 6 · INTEGRITY ───────────────────────────────────────────────────────
 PAGES.integrity = {
-  slug: 'students-integrity', output: 'students/integrity/index.html', file: 'students-integrity.html',
+  slug: 'students-integrity', output: 'students/integrity/index.html', file: 'students-integrity.html', altHref: '/ar/students/integrity/',
   title: 'Academic Integrity &mdash; Worldwide English College',
   description: 'The WEC-LC position on work that is not the learner’s own: assessment design '
     + 'rather than detection software, and the adopted procedure for a suspected breach.',
@@ -617,7 +681,7 @@ ${cta('See how assessments are designed.', 'How You Are Assessed', '/students/as
 
 // 7 · REGULATIONS ─────────────────────────────────────────────────────
 PAGES.regulations = {
-  slug: 'students-regulations', output: 'students/regulations/index.html', file: 'students-regulations.html',
+  slug: 'students-regulations', output: 'students/regulations/index.html', file: 'students-regulations.html', altHref: '/ar/students/regulations/',
   title: 'Academic Regulations &mdash; Worldwide English College',
   description: 'Progression, resits, academic standing and appeals at WEC-LC, separated into '
     + 'when each rule took effect and on whose authority.',
@@ -696,30 +760,42 @@ ${card('Does not exist', 'An independent stage', 'There is no body to escalate t
   </div>
 </section>
 
-${cta('See who is meant to hear an appeal.', 'Governance', '/about/governance/', 'Support', '/students/support/')}`,
+${cta('See who is meant to hear an appeal.', 'Governance', '/governance/', 'Support', '/students/#support')}`,
 };
 
 // 8 · SUPPORT ─────────────────────────────────────────────────────────
-PAGES.support = {
-  slug: 'students-support', output: 'students/support/index.html', file: 'students-support.html',
-  title: 'Support &mdash; Worldwide English College',
-  description: 'What to do when you are stuck, behind or unhappy at WEC-LC, who answers, and '
-    + 'what the College does not provide.',
-  body: `${hero('Students', 'When you are stuck.',
-    'Being stuck, falling behind and being unhappy with something are three different problems '
-    + 'with three different answers. This page gives all three, and says plainly what the '
-    + 'College does not provide.')}
+
+
+
+// ── THE ARABIC EDITIONS — record, integrity, regulations ─────────────
+// Same figures, same honesty, from the same reads. The pass threshold
+// interpolates from the platform configuration exactly as the English
+// does, so the two editions cannot disagree about a number.
+PAGES.recordAr = {
+  slug: 'students-record-ar', output: 'ar/students/academic-record/index.html', file: 'students-record.ar.html',
+  lang: 'ar', dir: 'rtl', altHref: '/students/academic-record/',
+  title: 'سجلك الأكاديمي — الكلية العالمية للغة الإنجليزية',
+  description: 'ما تسجّله الكلية عن الطالب، ومن يستطيع رؤيته، وما الذي يتحكم فيه الطالب، وكيف تتحقق جهة ثالثة منه.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">الطلاب</span>
+    <h1>سجلك الأكاديمي.</h1>
+    <p class="lede">ما تعرفه الكلية عن دراستك، ومن غيرك يستطيع رؤيته، وأي أجزائه قرارها لك أنت.
+      السؤال الأخير هو الذي تجيب عنه معظم المؤسسات إجابة سيئة.</p>
+  </div>
+</section>
 
 <section class="section--light section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">Stuck On The Material</span>
-      <h2>Built into the teaching before you have to ask.</h2>
+      <span class="module-marker">ما يُسجَّل</span>
+      <h2>المحاولات والدرجات والملاحظات والوقت.</h2>
     </div>
-    <div class="grid grid--3">
-${card('In the lesson', 'A second explanation, already written', 'Every lesson carries an alternative explanation of its hardest point, written in advance for the learner who did not follow the first one. Teaching that has only one route through it fails everyone who needs a different one.')}
-${card('In the lesson', 'The mistakes people actually make', 'Each lesson names the common errors for that point and what causes them, so that a mistake is recognisable rather than mysterious. These are written from the language itself, not gathered from students &mdash; the College has taught no one yet, and says so.')}
-${card('On demand', 'A tutorial with a teacher', 'Where the written support does not resolve it, a tutorial does. Ask; it is not rationed.')}
+    <div class="grid grid--4">
+${card('المحاولات', 'كلها، لا أفضلها فقط', 'محاولات الاختبارات وتسليمات الواجبات تُحفظ بتواريخها. سجلٌّ لا يعرض إلا أفضل محاولاتك سجلٌّ لأفضل أيامك، لا لتعلّمك.')}
+${card('الدرجات', 'بحسب المهارة وبحسب الكفاية', 'لا رقمًا واحدًا مجمعًا. السبب الكامل لتقييم المهارات الأربع منفصلةً يضيع إن جُمعت قبل أن تصلك.')}
+${card('الملاحظات', 'ملحقة بالعمل الذي تخصه', 'الملاحظات تعيش مع التسليم الذي تجيب عنه، فتظل قراءتها بعد شهر مفهومة.')}
+${card('التسجيلات', 'صوتك، محفوظ عمدًا', 'تسجيلات التحدث تُستبقى ليُسمَع التحسن عبر الأشهر. هذا هو الغرض منها، ولهذا لا تُحذف بعد التصحيح.')}
     </div>
   </div>
 </section>
@@ -727,12 +803,15 @@ ${card('On demand', 'A tutorial with a teacher', 'Where the written support does
 <section class="section--paper section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">Falling Behind</span>
-      <h2>Noticed early, and answered with help.</h2>
+      <span class="module-marker">ما تتحكم فيه</span>
+      <h2>ثلاثة قرارات لك أنت، لا للكلية.</h2>
+      <p class="lede">السجل الأكاديمي تكتبه مؤسسة عنك. هذه هي النقاط التي عُكس فيها هذا الترتيب
+        عمدًا.</p>
     </div>
-    <div class="grid grid--2">
-${card('Why it is measured', 'To reach you, never to penalise you', 'Engagement is tracked so that a learner who has gone quiet is contacted in month two rather than discovered in month eleven. It never produces a penalty, and there is no attendance requirement to fail &mdash; the programme is asynchronous, so attendance would be the wrong measure of anything.')}
-${card('What happens', 'A message, an offer, a conversation', 'Falling behind produces contact, not consequence. Someone who is behind can still finish; the entire value of noticing is reaching them while that is true.')}
+    <div class="grid grid--3">
+${card('الأول', 'هل يُشارَك سجلك أصلًا', 'لا شيء عن دراستك يُكشف لأحد دون قرار منك. الكلية لا تنشر أسماء الطلاب ولا درجاتهم ولا تقدّمهم.')}
+${card('الثاني', 'ما الذي يكشفه رابط المشاركة', 'تستطيع إنشاء رابط يعرض صورة محددة من سجلك لشخص محدد — جهة عمل، أو جامعة، أو راعٍ — وأنت من يقرر ما يحويه ومتى يتوقف عن العمل.')}
+${card('الثالث', 'هل تظهر في سجل الخريجين', 'سجل الخريجين قائمة علنية بمن يحملون شهادة الكلية. الظهور فيه اختيار تتخذه، لا نتيجة للتخرج. الخريج الذي لا يريد قيدًا علنيًا لا قيد له.')}
     </div>
   </div>
 </section>
@@ -740,12 +819,21 @@ ${card('What happens', 'A message, an offer, a conversation', 'Falling behind pr
 <section class="section--dark section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">Unhappy With Something</span>
-      <h2>Who answers, and how honestly.</h2>
+      <span class="module-marker">التحقق</span>
+      <h2>كيف يتحقق غريبٌ من شهادة صادرة عن الكلية.</h2>
+      <p class="lede">شهادةٌ لا يستطيع أحد فحصها ملفٌ مزخرف. مسار التحقق مبني ومفتوح لكل من
+        يحمل رمزًا.</p>
     </div>
-    <div class="grid grid--2">
-${darkCard('Who', 'The founding team, by name', 'Every message to the College is answered by a member of the founding team. There is no ticket queue and no first-line script, which is a genuine advantage of the College&rsquo;s size and will not survive growth &mdash; so it is described as it is now.')}
-${darkCard('What is missing', 'A formal complaints procedure', 'There is no independent stage to escalate to, because there is no appointed body to escalate to. That is stated on <a href="/students/regulations/">Academic regulations</a> as well, because it is the kind of gap that should not be findable in only one place.')}
+    <div class="grid grid--3">
+${darkCard('رمز', 'على كل وثيقة', 'كل وثيقة صادرة تحمل رمز تحقق ورمزًا قابلًا للمسح يقودان إلى المكان ذاته. لا يلزم حساب ولا علاقة بالكلية لاستخدام أيٍّ منهما.')}
+${darkCard('توقيع', 'تشفيري لا زخرفي', 'الوثائق موقَّعة، وصفحة التحقق تفحص التوقيع لا تكتفي بالبحث عن القيد. السجل الذي يمكن البحث فيه دون التحقق منه يستطيع تزويره كل من يصنع صفحة مقنعة.')}
+${darkCard('السحب مرئي', 'لا حذف', 'إن سُحبت شهادة يومًا، تعرضها صفحة التحقق مسحوبة. السجل الذي تختفي قيوده بصمت ليس سجلًا، والفرق يهم أكثر ما يهم أصحابَ الشهادات التي تبقى صحيحة.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">الحال الصادقة له</span>
+      <p>كل هذا مبني ومختبَر، ولم يُستخدم شيء منه، لأنه لم تُمنح شهادة لأحد — راجع
+        <a href="/ar/students/awards/">الشهادات والمراتب</a>. نظام التحقق وُجد قبل أول شهادة
+        عمدًا: بناؤه بعدها كان يعني أن أول الخريجين يحملون وثائق لا يستطيع أحد فحصها.</p>
     </div>
   </div>
 </section>
@@ -753,18 +841,186 @@ ${darkCard('What is missing', 'A formal complaints procedure', 'There is no inde
 <section class="section--light section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">What The College Does Not Provide</span>
-      <h2>Named, so that nobody relies on it.</h2>
+      <span class="module-marker">البيانات</span>
+      <h2>أين تُحفظ، وأين ثغرة المساءلة.</h2>
     </div>
-    <div class="grid grid--3">
-${card('No', 'Counselling or wellbeing services', 'WEC-LC has no counselling provision, no wellbeing service and no qualified staff for either. If you need that kind of support, it must come from services where you live. Implying otherwise on a website is how people in difficulty get let down.')}
-${card('No', 'Careers or immigration advice', 'No careers service, and no immigration advice of any kind &mdash; see <a href="/admissions/visas/">Visas and study permits</a>.')}
-${card('No', 'Disability assessment or formal adjustments', 'The College has no process for assessing a need or granting a formal adjustment. What it can do is arrange practical accommodations informally &mdash; audio-only participation, extended time, alternative formats &mdash; on request. That is a smaller offer than a policy, and it is described as the smaller thing it is.')}
+    <div class="grid grid--2">
+${card('محفوظة', 'في قاعدة بيانات الكلية وتخزينها', 'القيود تعيش في قاعدة بيانات الكلية؛ والتسجيلات الصوتية في تخزينها الخاص. لا يُمرَّر أيٌّ منهما لجهة ثالثة لتحليل أو إعلان أو أي غرض آخر.')}
+${card('مفقود', 'مسؤول حماية بيانات مسمّى', 'لم يُعيَّن أحد بعد. وإلى أن يُعيَّن، تجيب عن أسئلة بياناتك الإدارةُ المؤسسة. الثغرة تُذكر هنا وفي <a href="/ar/admissions/policy/#data">سياسة القبول</a> بدل أن تُترك للاكتشاف.')}
     </div>
   </div>
 </section>
 
-${cta('Ask for help.', 'Contact the College', '/contact/', 'Academic Regulations', '/students/regulations/')}`,
+${cta('انظر كيف تُبنى الدرجات.', 'كيف يتم تقييمك', '/ar/students/assessment/', 'الشهادات والمراتب', '/ar/students/awards/')}`,
+};
+
+PAGES.integrityAr = {
+  slug: 'students-integrity-ar', output: 'ar/students/integrity/index.html', file: 'students-integrity.ar.html',
+  lang: 'ar', dir: 'rtl', altHref: '/students/integrity/',
+  title: 'النزاهة الأكاديمية — الكلية العالمية للغة الإنجليزية',
+  description: 'موقف الكلية من العمل الذي ليس من إنتاج المتعلم: تصميم التقييم بدل برمجيات الكشف، والإجراء المعتمد عند الاشتباه في مخالفة.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">الطلاب</span>
+    <h1>النزاهة الأكاديمية.</h1>
+    <p class="lede">تتوقع الكلية أن يكون العمل عملك. تقولها مرة واحدة بوضوح، وتُنفق جهدها على
+      تقييم يصعب تزييفه بدل برمجيات تحاول الإيقاع بك، ولديها إجراء عند الاشتباه في مخالفة يمنحك
+      ردًا واستئنافًا.</p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الموقف</span>
+      <h2>تصميمٌ لا كشف.</h2>
+      <p class="lede">هذا موقف مؤسسي مدروس له كلفة، لا سياسة مخففة اللهجة.</p>
+    </div>
+    <div class="grid grid--2">
+${card('المنطق', 'الكشف سباق تسلح تخسره المؤسسة', 'كل نظام مبني على الإيقاع بالناس يعتمد على التقدم على أدوات تتحسن شهريًا ولا تكلف شيئًا. المؤسسة التي تقوم نزاهتها على الكشف راهنت على سباق لن تربحه. أما التي تتطلب تقييماتها حضور شخصٍ مسؤول فليست في السباق أصلًا.')}
+${card('الكلفة', 'أغلى في التشغيل', 'المناقشة الحية والكلام المسجل يأخذان وقت الموظفين؛ وماسح الانتحال يأخذ اشتراكًا. تقبل الكلية الترتيب الأغلى لأن الأرخص لا يعمل.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">ما يجعله صعب التزييف</span>
+      <h2>أربع سمات في نظام التقييم.</h2>
+    </div>
+    <div class="grid grid--4">
+${card('مُدافَع عنه', 'المشروع الختامي يُناقَش حيًا', 'المتعلم الذي لم ينتج العمل لا يستطيع الدفاع عنه، وإثبات ذلك لا يحتاج أداة كشف — بل محادثة.')}
+${card('منطوق', 'كلام مسجل في كل مستوى', 'تقييمات التحدث هي صوتك. واستبدالها يتطلب استبدال إنسان.')}
+${card('تراكمي', 'ملف يتطور', 'التطور عبر الأشهر مرئي في الملف، والانقطاع المفاجئ في الصوت واضح لأي قارئ دون أي أداة.')}
+${card('تطبيقي', 'مهام لا موضوعات إنشاء', 'التقييمات تطلب منك فعل شيء في موقف، لا إنتاج نثر في موضوع — وهو بالضبط ما تجيب عنه الأدوات التوليدية بأسهل ما يكون.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">عن أدوات الذكاء الاصطناعي</span>
+      <h2>تُقال بوضوح، لأنك ستستخدمها.</h2>
+    </div>
+    <div class="grid grid--2">
+${darkCard('الحد', 'العمل المسلَّم يجب أن يكون عملك', 'العمل الذي تسلّمه للتقييم يجب أن يكون من إنتاجك أنت. هذه هي القاعدة كلها، وتنطبق على الأداة التوليدية تمامًا كما تنطبق على صديق يكتبه عنك.')}
+${darkCard('ليس حظرًا للأدوات', 'لأن الحظر غير قابل للإنفاذ وغير صادق', 'البحث عن كلمة، والتحقق من عبارة، وطلب شرح — هذه دراسة. لا تدّعي الكلية مراقبتها ولا تتوعّظ فيها. ما تفعله هو التقييم بطرائق يكفّ فيها الفارق عن أن يهم.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">عند الاشتباه في مخالفة</span>
+      <h2>الإجراء، المعتمد في 14 أغسطس 2026.</h2>
+    </div>
+    <div class="grid grid--4">
+${card('أولًا', 'يُعرض عليك أولًا', 'المخالفة المشتبه بها تُعرض على المتعلم قبل أي قرار، كتابةً، بما هو مدّعى وما يستند إليه. القرار المتخذ دون ذلك غير قابل للدفاع عنه — أمامك، أو أمام أي مراجع لاحق.')}
+${card('ثانيًا', 'تردّ أنت', 'ردك جزء من السجل ويُنظر فيه قبل القرار لا بعده. لا توجد مرحلة يُتوصل فيها إلى نتيجة ثم تُشرح لك.')}
+${card('ثالثًا', 'المجلس يقرر', 'القرار وسببه والدليل المعتمد تُسجَّل معًا. النتيجة بلا سبب مسجل لا يمكن استئنافها، مما يجعل الاستئناف شكليًا.')}
+${card('رابعًا', 'لك أن تستأنف', 'أمام شخص لم يشارك في القرار الأصلي. هذا هو الجزء الذي يجعل للبقية معنى، وليس إضافة اختيارية.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">ما يغطيه الإجراء، وما لا يغطيه</span>
+      <p>الحالتان اللتان كُتب لهما: عمل مسلَّم ليس من إنتاج المتعلم، وانتحال شخصية في تقييم
+        منطوق. وحيث تُسحب شهادة إثر قرار، تعرضها صفحة التحقق <em>مسحوبة</em> بدل حذفها — السجل
+        الذي تختفي قيوده بصمت لا يُوثق به فيما يبقيه. لم تُفتح قضية سوء سلوك ضد أحد، لأنه لم
+        يُدرَّس أحد؛ الإجراء موجود قبل أول ادعاء لا بعده، وهو الترتيب الوحيد الذي يكون به
+        عادلًا.</p>
+    </div>
+  </div>
+</section>
+
+${cta('انظر كيف تُصمَّم التقييمات.', 'كيف يتم تقييمك', '/ar/students/assessment/', 'اللوائح الأكاديمية', '/ar/students/regulations/')}`,
+};
+
+PAGES.regulationsAr = {
+  slug: 'students-regulations-ar', output: 'ar/students/regulations/index.html', file: 'students-regulations.ar.html',
+  lang: 'ar', dir: 'rtl', altHref: '/students/regulations/',
+  title: 'اللوائح الأكاديمية — الكلية العالمية للغة الإنجليزية',
+  description: 'الترقّي وإعادة التقييم والوضع الأكاديمي والاستئناف في الكلية، مفصولة بحسب متى دخلت كل قاعدة حيز النفاذ وبأي سلطة.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">الطلاب</span>
+    <h1>اللوائح الأكاديمية.</h1>
+    <p class="lede">القواعد التي تحكم الترقّي والوضع الأكاديمي. كلها نافذة. والصفحة تبقيها في
+      مجموعتين لأنها دخلت النفاذ في أوقات مختلفة، ومن حق الطالب أن يرى أي قاعدة وصلت متى.</p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">نافذة</span>
+      <h2>قواعد تعمل اليوم.</h2>
+    </div>
+    <div class="grid grid--3">
+${card('الترقّي', 'مستوى بمستوى', 'المستوى يُفتح حين يكتمل المستوى الذي قبله. ينطبق هذا سواء دفعت لكل مستوى أو للبرنامج كاملًا — لا شيء يُحجب عنك؛ المستوى يُفتح ببساطة حين تكون مستعدًا له.')}
+${card('الإكمال', `${ltr(String(PASS_PCT))}٪ لإكمال الوحدة`, 'العتبة التي تطبقها المنصة. محفوظة في الإعدادات لا في الشيفرة، فتغييرها قرار مسجَّل.')}
+${card('التأكيد', 'إنسانٌ يؤكد إتمام المستوى', 'لا يوجد محرك تصحيح آلي. موظفٌ يؤكد الإكمال، فيُفتح المستوى التالي. تقولها الكلية بدل أن توحي بأتمتة لا تملكها.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">نافذة أيضًا</span>
+      <h2>اعتُمدت في 14 أغسطس 2026.</h2>
+      <p class="lede">حُملت شهورًا توصياتٍ مصاغة. وهي الآن قرارات للإدارة التنفيذية، نافذة،
+        والأكاديمية منها خاضعة لتصديق المجلس الأكاديمي متى عُيّن أعضاؤه.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th>القاعدة</th><th>النص</th></tr></thead>
+        <tbody>
+          <tr><td><strong>إعادة التقييم</strong></td><td>إعادتان لكل تقييم ختامي؛ لا إعادة قبل 14 يومًا من المحاولة السابقة؛ إعادة المشروع الختامي تتطلب مهمة جديدة لا إعادة تسليم؛ والرسوب الثالث يعني إعادة المستوى.</td></tr>
+          <tr><td><strong>درجات الإعادة</strong></td><td>محدودة عند النجاح. المرتبة ينبغي أن تعكس الأداء عند المعيار أول مرة بُلغ فيها.</td></tr>
+          <tr><td><strong>عتبات المراتب</strong></td><td>نجاح وجدارة وامتياز وامتياز عالٍ بحدود دنيا لكل مهارة — راجع <a href="/ar/students/awards/">الشهادات والمراتب</a>.</td></tr>
+          <tr><td><strong>إجراء سوء السلوك</strong></td><td>تحقيق، وحق الرد قبل أي قرار، ونطاق محدد للنتائج، واستئناف أمام من لم يشارك في القرار الأصلي — راجع <a href="/ar/students/integrity/">النزاهة الأكاديمية</a>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الوضع الأكاديمي</span>
+      <h2>ثلاث حالات، وقاعدة واحدة تعلوها.</h2>
+    </div>
+    <div class="grid grid--3">
+${darkCard('وضع سليم', 'مستوفٍ للمتطلبات', 'الحالة العادية، والتي لا يحتاج أحد أن يفكر فيها.')}
+${darkCard('قيد المراجعة', 'رسوبان ختاميان، أو مراجعة مؤشَّرة', 'تستدعي جلسة إرشادية لا عقوبة. الغرض من ملاحظة أن أحدهم يتعثر هو الوصول إليه، والعقوبة لا تصل إلى أحد.')}
+${darkCard('ترقٍّ معلَّق', 'ريثما تُحسم مسألة نزاهة', 'الترقّي يتوقف؛ والوصول لا ينقطع. وهو أضيق تدبير يحل الموقف.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">القاعدة العليا</span>
+      <p>لا حالة تُسقط وصولك إلى التعلّم. لا شيء ينتهي أو يُقفل أو يُسحب. هذا مبدأ من جهة،
+        وحسّ سليم من جهة: كلٌّ من تلك التدابير يحمل وزنًا تعاقديًا واستهلاكيًا لم تتحمله الكلية
+        ولا تنوي.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الاستئناف</span>
+      <h2>ما تستطيع فعله، وما لا يوجد بعد.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('موجود', 'جواب مكتوب من إنسان', 'اعترض على درجة أو قرار أو ملاحظة بالكتابة إلى الكلية، وستتلقى ردًا مكتوبًا مسبَّبًا. وكل تبادل من هذا يُحفظ في السجل.')}
+${card('غير موجود', 'مرحلة مستقلة', 'لا توجد هيئة للتصعيد إليها. كلا الهيئتين الأكاديميتين عند صفر عضو معيَّن، فالاستئناف «المستقل» اليوم هو الأشخاص أنفسهم يعيدون النظر. ونشر إجراء استئناف بلا مرحلة مستقلة نشرٌ لشكلية.')}
+    </div>
+  </div>
+</section>
+
+${cta('انظر من يُفترض أن يسمع الاستئناف.', 'الحوكمة', '/ar/governance/', 'الدعم', '/ar/students/#support')}`,
 };
 
 // ── write ────────────────────────────────────────────────────────────
@@ -773,12 +1029,20 @@ const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
 
+// Absorbed into the Student Life pillar as #lab and #support.
+for (const slug of ['students-listening-lab', 'students-support']) {
+  const i = entries.findIndex((e) => e.slug === slug);
+  if (i >= 0) entries.splice(i, 1);
+}
+
 for (const p of Object.values(PAGES)) {
   fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
-    contentFile: p.file, lang: 'en', dir: 'ltr',
+    contentFile: p.file, lang: p.lang || 'en', dir: p.dir || 'ltr',
   };
+  if (p.altHref) entry.altHref = p.altHref;
+  if (p.contents) entry.contents = true;
   const i = entries.findIndex((e) => e.slug === p.slug);
   if (i >= 0) entries[i] = { ...entries[i], ...entry }; else entries.push(entry);
   written.push(p.output);

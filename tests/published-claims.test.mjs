@@ -53,7 +53,9 @@ const perLevel = db.prepare(
 console.log(`\nMeasured: ${levels} levels · ${modules} modules · ${items} learning items · ${questions} quiz questions`);
 console.log(`Learning items per level: ${perLevel.map((r) => `${r.lvl}=${r.n}`).join(' ')}\n`);
 
-const iefc = readFileSync(path.join(ROOT, 'pages/academics-iefc.html'), 'utf8');
+// The IEFC page is a section of the Academics pillar now; the claims it
+// carried moved with it.
+const iefc = readFileSync(path.join(ROOT, 'pages/academics.html'), 'utf8');
 const about = readFileSync(path.join(ROOT, 'pages/about.html'), 'utf8');
 
 // ---------------------------------------------------------------------
@@ -162,12 +164,47 @@ check('The WEC Credit is declared internal, not ECTS or CATS',
   check('No English page promises a certificate on completion — none can be conferred',
     promisesCert.length === 0, promisesCert.map(([f]) => f).join(', '));
 
+  // ── A LIVE CLASS AS A STEP THE APPLICANT WILL REACH ──
+  //
+  // No live session has ever run: the homepage says the seminars are
+  // timetabled and not yet delivered, and /learning/platform/ lists
+  // them on the roadmap. The admissions page meanwhile ended its
+  // five-step journey at "Orientation & first live class", and its
+  // masthead promised "from enquiry to your first live class" — the
+  // first sentence an applicant reads on the page where they decide.
+  //
+  // Both were true of the plan and false of the College, and the
+  // existing sweeps missed them because they check for months,
+  // certificates and hour figures, not for capabilities.
+  //
+  // The pattern is deliberately narrow: it looks for a live class
+  // offered as something the reader will personally get to. Pages are
+  // free to DISCUSS live teaching — /admissions/dates/ weighs cohort
+  // teaching as a rejected option and must keep being able to.
+  const PROMISED_LIVE = /(your|the|first)\s+(first\s+)?live\s+(class|session|lesson)|live\s+(class|session)\s+(awaits|begins)/i;
+  const promisesLive = english.filter(([, b]) => PROMISED_LIVE.test(b));
+  check('No English page offers a live class as a step the applicant reaches',
+    promisesLive.length === 0, promisesLive.map(([f]) => f).join(', '));
+
+  // Same claim, same page, in the language the primary audience reads.
+  const AR = readdirSync(pagesDir)
+    .filter((f) => f.endsWith('.ar.html'))
+    .map((f) => [f, readFileSync(path.join(pagesDir, f), 'utf8')]);
+  const arPromisesLive = AR.filter(([, b]) =>
+    /حصتك\s+(المباشرة\s+)?الأولى|حصتك\s+الأولى\s+المباشرة/.test(b));
+  check('No Arabic page offers a live class as a step the applicant reaches',
+    arPromisesLive.length === 0, arPromisesLive.map(([f]) => f).join(', '));
+
   // A sweep that only ever sees compliant pages proves nothing about
   // its own reach. Confirm each pattern catches its own regression.
   check('...and these sweeps do catch the wording they exist for',
     /twenty-four months|24 months/i.test('twenty-four months from first word')
     && /certificate the moment/i.test('a certificate the moment the final lesson is complete')
-    && /1,200\s*hrs/i.test('<td>1,200 hrs</td>'));
+    && /1,200\s*hrs/i.test('<td>1,200 hrs</td>')
+    && PROMISED_LIVE.test('enquiry to your first live class')
+    && PROMISED_LIVE.test('Orientation &amp; first live class')
+    // ...and does NOT fire on a page weighing live teaching as an option
+    && !PROMISED_LIVE.test('shared pace, live classes where everyone is at the same point'));
 }
 
 // ── THINGS THE PLATFORM DOES NOT DO ──
@@ -241,6 +278,16 @@ if (backed) {
     /id="curriculum-status"/.test(iefc), 'no #curriculum-status disclosure on the IEFC page');
   check('...that says plainly it is the designed size, not what is published today',
     /designed size of each level, not the amount of content published/i.test(iefc));
+  // The caveat's subject must be VISIBLE: a column that actually says
+  // Lessons. A consolidation once relabelled this same 120 "Taught
+  // Hours" — an inflated delivery claim under the College's own
+  // framework (80 GLH per level) — while this file kept passing,
+  // because it pinned the sentence and not the label the sentence is
+  // about. The figure is a lesson count, and hours it must never be.
+  check('...and the 120 is labelled as Lessons in the table itself',
+    /<th scope="col">Lessons<\/th>/.test(iefc), 'no Lessons column header');
+  check('...never as hours — 120 is the designed lesson count, not delivery',
+    !/taught hours/i.test(iefc), '"taught hours" found on the page');
   check('...and does not hide behind vagueness — it names what IS complete',
     /sixty modules/i.test(iefc) && /still being written/i.test(iefc));
   check('The disclosure sits with the table, not on some other page',
@@ -336,7 +383,7 @@ check('...and the design figure is one the framework actually specifies',
 
   // And the corrected scheme has actually arrived, rather than the old
   // one merely having been deleted.
-  const arIefc = AR.find(([f]) => f === 'academics-iefc.ar.html')[1];
+  const arIefc = AR.find(([f]) => f === 'academics.ar.html')[1];
   const arFee = AR.find(([f]) => f === 'admissions-tuition.ar.html')[1];
   check('The Arabic IEFC page carries the credit and hours scheme',
     /رصيد/.test(arIefc) && /الزمن الكلي للمؤهل/.test(arIefc));

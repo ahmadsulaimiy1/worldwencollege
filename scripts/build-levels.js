@@ -95,6 +95,11 @@ const CHARACTER = {
 };
 
 // ── page assembly ────────────────────────────────────────────────────
+const darkCard = (num, title, body) => `      <div class="card card--dark">
+        <span class="card__num">${esc(num)}</span>
+        <h3>${esc(title)}</h3>
+        <p>${body}</p>
+      </div>`;
 const card = (num, title, body) => `      <div class="card">
         <span class="card__num">${esc(num)}</span>
         <h3>${esc(title)}</h3>
@@ -104,7 +109,7 @@ const card = (num, title, body) => `      <div class="card">
 function levelPage(lv, i) {
   const prev = levels[i - 1] || null;
   const next = levels[i + 1] || null;
-  const hours = lv.units;
+  const lessons = lv.units;   // the designed lesson count — not hours
   const teaching = lv.kinds.reading || 0;
   const quizzes = lv.kinds.quiz || 0;
   const assignments = lv.kinds.assignment || 0;
@@ -178,7 +183,7 @@ ${lv.outcomes.map((o) => `          <tr><td>${esc(o.code)}</td><td>${esc(o.state
     <p class="lede">${esc(CHARACTER[lv.roman])}</p>
     <div class="btn-row">
       <a href="/admissions/#apply" class="btn btn--gold">Apply for Level ${esc(lv.roman)}</a>
-      <a href="/academics/iefc/" class="btn btn--outline">The Full IEFC Programme</a>
+      <a href="/academics/#iefc" class="btn btn--outline">The Full IEFC Programme</a>
     </div>
   </div>
 </section>
@@ -188,7 +193,7 @@ ${lv.outcomes.map((o) => `          <tr><td>${esc(o.code)}</td><td>${esc(o.state
     <div class="stat-row">
       <div class="stat-row__item"><b>${esc(lv.cefr)}</b><span>CEFR Level</span></div>
       <div class="stat-row__item"><b>${lv.modules.length}</b><span>Modules</span></div>
-      <div class="stat-row__item"><b>${hours}</b><span>Taught Hours</span></div>
+      <div class="stat-row__item"><b>${lessons}</b><span>Designed Lessons</span></div>
       <div class="stat-row__item"><b>${lv.duration_months}</b><span>Months</span></div>
       <div class="stat-row__item"><b>${money(lv.price_usd_cents)}</b><span>Tuition</span></div>
     </div>
@@ -255,7 +260,7 @@ ${card('Productive', `${assignments} assignments`, 'Speaking and writing tasks m
 ${card('Self-check', 'Before every assessment', 'Each lesson carries a self-check with traps aimed at the mistakes learners at this level really make, so a learner discovers a gap before an examiner does.')}
     </div>
     <div class="btn-row">
-      <a href="/academics/iefc/" class="btn btn--red">Assessment &amp; Progression in Full</a>
+      <a href="/academics/#iefc" class="btn btn--red">Assessment &amp; Progression in Full</a>
     </div>
   </div>
 </section>
@@ -327,7 +332,7 @@ ${award}
       <h2>What people ask about this level.</h2>
     </div>
     <div class="grid grid--2">
-${card('Duration', `How long does Level ${lv.roman} take?`, `${lv.duration_months} months of study, covering ${hours} taught hours across ${lv.modules.length} modules. Learners who need longer are not penalised; the level is a body of work, not a race.`)}
+${card('Duration', `How long does Level ${lv.roman} take?`, `${lv.duration_months} months of study by design, covering ${lessons} designed lessons across ${lv.modules.length} modules. Learners who need longer are not penalised; the level is a body of work, not a race.`)}
 ${card('Entry', prev ? `Do I need Level ${prev.roman} first?` : 'Do I need any English to start?', prev
     ? `Not necessarily. You need the language ${esc(prev.name)} teaches, however you acquired it. A placement assessment establishes that.`
     : 'No. Foundation assumes none, and the first lesson teaches the alphabet and how to say your own name.')}
@@ -350,39 +355,129 @@ ${card('Recognition', 'Is the award recognised?', 'The award is defined and its 
 }
 
 // ── the study hub ────────────────────────────────────────────────────
-function studyPage() {
+function academicsPage() {
   return `<section class="section--dark section-pad">
   <div class="container">
-    <span class="eyebrow">Study</span>
-    <h1>Six levels, from no English to mastery.</h1>
-    <p class="lede">The International English Fluency Certificate is one programme taught in
-      six levels, each aligned to a CEFR band and each ending in a defined award. A learner may
-      enter at the level their English actually sits at and leave at the level they need.</p>
-    <div class="btn-row">
+    <span class="eyebrow">Academics</span>
+    <h1>One programme, taught to a written standard.</h1>
+    <p class="lede">The College teaches one pathway &mdash; the International English
+      Fluency Course &mdash; in six CEFR-aligned levels, from no English to mastery. Every
+      module is written, every assessment exists before the lesson it tests, and all of it is
+      open to read before anyone enrols.</p>
+    <div class="stat-row" style="margin-top:40px">
+      <div class="stat-row__item"><strong>${levels.length}</strong><span>Academic Levels</span></div>
+      <div class="stat-row__item"><strong>120</strong><span>WEC Credits</span></div>
+      <div class="stat-row__item"><strong>1,200</strong><span>Total Qualification Time (hrs)</span></div>
+      <div class="stat-row__item"><strong>${levels.reduce((a, lv) => a + lv.modules.length, 0)}</strong><span>Modules, all written</span></div>
+      <div class="stat-row__item"><strong>720</strong><span>Designed Lessons</span></div>
+    </div>
+    <div class="btn-row" style="margin-top:34px">
       <a href="/admissions/#apply" class="btn btn--gold">Apply Now</a>
-      <a href="/academics/iefc/" class="btn btn--outline">The IEFC in Full</a>
+      <a href="/academics/teaching/" class="btn btn--outline">Teaching Practice</a>
     </div>
   </div>
 </section>
 
-<section class="section--light section-pad" id="levels">
+<section class="section--light section-pad" id="iefc" data-contents="The IEFC">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">The Programme</span>
+      <span class="module-marker">The IEFC</span>
+      <h2>Six levels, mapped to the CEFR.</h2>
+      <p class="lede">Each level is designed to build toward its corresponding Common European
+        Framework of Reference band &mdash; the benchmark most widely recognised by
+        universities, employers and English-language institutions worldwide.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th scope="col">Level</th><th scope="col">CEFR</th><th scope="col">Focus</th>
+          <th scope="col">Months</th><th scope="col">Lessons</th></tr></thead>
+        <tbody>
+${levels.map((lv) => `          <tr>
+            <td><a href="/study/${SLUG[lv.roman]}/"><strong>${esc(lv.roman)} &middot; ${esc(lv.name)}</strong></a></td>
+            <td>${esc(lv.cefr)}</td>
+            <td>${esc(FOCUS[lv.roman])}</td>
+            <td>${lv.duration_months}</td><td>${lv.units}</td>
+          </tr>`).join('\n')}
+        </tbody>
+      </table>
+    </div>
+    <div class="callout" id="curriculum-status">
+      <span class="callout__label">Academic workload and curriculum status</span>
+      <p><strong>How the programme is measured.</strong> Each level carries <strong>20 WEC
+        Credits</strong> and a <strong>Total Qualification Time of 200 hours</strong> &mdash; 80
+        Guided Learning Hours and 120 Independent Learning Hours &mdash; across four months, or
+        about twelve hours a week. The full programme is 120 WEC Credits and 1,200 hours. A WEC
+        Credit is the College&rsquo;s own internal measure (one credit represents ten notional
+        learning hours); it is not ECTS or CATS and carries no transfer entitlement to any
+        institution.</p>
+      <p><strong>These hours are a design figure, not a measurement.</strong> They will be
+        replaced with hours measured from real time-on-task once enough learners have completed
+        a level, and where the measurement differs from the design, the difference will be
+        published. Total Qualification Time counts guided study plus the independent study
+        expected within the programme; it does not count a learner&rsquo;s own wider exposure to
+        English. It is not a claim that CEFR C2 can be reached in 1,200 hours from no
+        English.</p>
+      <p><strong>The level sizes above are the designed size of each level, not the amount of content published in the learning platform today.</strong> All sixty modules across all
+        six levels are authored and live, with every module examination and assignment; the full
+        complement of lessons within them is still being written and is released continuously.
+        The design figure is published because it is what the programme is being built to, and
+        it is labelled as a design figure: presenting it as delivered content would not be
+        true.</p>
+    </div>
+    <div class="two-col" style="margin-top:34px">
+      <div>
+        <span class="module-marker">Assessment &amp; Certification</span>
+        <h3 style="font-size:1.3rem">Progress that is measured, not assumed.</h3>
+        <p>Module quizzes and assignments track progress within each level; a level assessment
+          confirms readiness to advance. Rubrics and pass criteria are published to the learner
+          before assessment, and the four language skills are marked and recorded apart.</p>
+      </div>
+      <div>
+        <ul class="check-list">
+          <li>Digital transcript updated after every level</li>
+          <li>An award defined for every level &mdash; conferred on nobody, and the College says so</li>
+          <li>IELTS, TOEFL and Cambridge English preparation embedded from Upper Intermediate onward</li>
+          <li>Progress visible to the learner at every stage</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-head" style="margin-top:38px">
+      <span class="module-marker">Curriculum Areas</span>
+      <h3 style="font-size:1.3rem">What every level builds on.</h3>
+    </div>
+    <div class="tag-row">
+      <span class="tag">Grammar</span><span class="tag">Vocabulary</span><span class="tag">Listening</span>
+      <span class="tag">Speaking</span><span class="tag">Reading</span><span class="tag">Writing</span>
+      <span class="tag">Pronunciation</span><span class="tag">Conversation</span>
+      <span class="tag">Academic English</span><span class="tag">Professional Communication</span>
+      <span class="tag">Public Speaking</span><span class="tag">Business English</span>
+      <span class="tag">Research Skills</span><span class="tag">Critical Thinking</span>
+      <span class="tag">Presentation Skills</span><span class="tag">IELTS Preparation</span>
+      <span class="tag">TOEFL Preparation</span><span class="tag">Cambridge English Preparation</span>
+      <span class="tag">Interview Skills</span><span class="tag">Leadership Communication</span>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad" id="levels" data-contents="The Six Levels">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">The Six Levels</span>
       <h2>Choose your level.</h2>
-      <p class="lede">Each level is ${levels[0].duration_months} months and
-        ${levels[0].units} taught hours, with ${levels[0].modules.length} modules. You do not
-        need to start at Level I &mdash; a placement assessment establishes where you belong.</p>
+      <p class="lede">Each level is designed as ${levels[0].duration_months} months of study
+        &mdash; ${levels[0].modules.length} modules, ${levels[0].units} designed lessons, a Total
+        Qualification Time of 200 hours &mdash; and each has a full page of its own. You do not need to start at Level I &mdash; a placement
+        assessment establishes where you belong.</p>
     </div>
     <div class="table-scroll">
       <table class="ledger">
         <thead><tr>
           <th scope="col">Level</th><th scope="col">Programme</th><th scope="col">CEFR</th>
-          <th scope="col">Modules</th><th scope="col">Hours</th><th scope="col">Award</th>
+          <th scope="col">Modules</th><th scope="col">Lessons</th><th scope="col">Award</th>
         </tr></thead>
         <tbody>
 ${levels.map((lv) => `          <tr>
-            <td><a href="/study/${SLUG[lv.roman]}/"><b>${esc(lv.roman)}</b></a></td>
+            <td><b>${esc(lv.roman)}</b></td>
             <td><a href="/study/${SLUG[lv.roman]}/">${esc(lv.name)}</a></td>
             <td>${esc(lv.cefr)}</td>
             <td>${lv.modules.length}</td>
@@ -392,20 +487,88 @@ ${levels.map((lv) => `          <tr>
         </tbody>
       </table>
     </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad" id="what">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">What Every Level Shares</span>
-      <h2>The same standard at every level.</h2>
-    </div>
-    <div class="grid grid--3">
+    <div class="grid grid--3" style="margin-top:26px">
 ${card('Structure', 'A mapped curriculum', 'Every lesson states its objectives, its prerequisites and the timing of each stage. Instructors teach to a shared standard rather than a personal syllabus.')}
 ${card('Assessment', 'Criteria published first', 'Rubrics and pass criteria are published to the learner before the assessment, not explained afterwards.')}
 ${card('Skills', 'Four skills tracked separately', 'Listening, reading, speaking and writing are assessed and recorded independently, because a single grade hides where the real gap is.')}
     </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="learning" data-contents="How Learning Works">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">How Learning Works</span>
+      <h2>What a week actually looks like.</h2>
+      <p class="lede">Most of the programme is studied when you can study it. A smaller part is
+        live and depends on other people. The separation is what makes an online programme
+        workable or not.</p>
+    </div>
+    <div class="grid grid--3">
+${card('The bulk', 'Working through lessons', 'Each lesson is staged, with the stages timed, and can be paused and resumed. This is where most of the hours go and none of it is scheduled.')}
+${card('Daily, briefly', 'Listening and recording', 'Short and frequent beats long and occasional for both listening and pronunciation. The Lab is built for ten minutes a day rather than an hour a week.')}
+${card('Weekly', 'An assignment', 'One produced thing per module &mdash; written, spoken or done &mdash; marked by a person against a rubric you saw before you started.')}
+${card('Before assessment', 'Self-checking', 'Not marked and not recorded against you. Self-checks exist so you can find out what you do not know at no cost.')}
+${card('Live', 'Conversation and tutorials', 'The part that depends on other people being present. Recorded for anyone who cannot attend, and recordings are not treated as the lesser option.')}
+${card('At the end', 'The level assessment', 'The summative point, against criteria published from the start of the level.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">Self-paced study has a known failure mode</span>
+      <p>Wholly self-paced language study finishes badly, and the reason is well understood: no
+        fixed points, no peers at the same stage, nothing to be late for. WEC-LC currently runs
+        self-paced, because that is what is built. A recommendation to add a fixed rhythm of
+        live sessions, examination windows and orientation has been drafted and not adopted
+        &mdash; see <a href="/admissions/#dates">Dates</a>. Until it is, the structure has to
+        come from you: a fixed hour daily finishes where a target number of weekly hours does
+        not. Engagement is tracked so that someone who has gone quiet is reached in month two
+        rather than discovered in month eleven, and it never produces a penalty &mdash; see
+        <a href="/students/#support">Support</a>.</p>
+    </div>
+    <div class="grid grid--3">
+${card('The live timetable', 'No sessions have run', 'Live conversation classes and tutorials are designed and no cohort has been taught, so no timetable has been proven against where students actually are.')}
+${card('The recorded audio', 'Scripts written, recordings not produced', 'Listening sets are authored in full &mdash; scripts, marked features, teaching notes. The audio needs voices and a studio.')}
+${card('Marking at volume', 'The workspace has marked nothing', 'The instructor workspace is built and tested. It has assessed no real submission, because there have been none.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad" id="campus" data-contents="The Digital Campus">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">The Digital Campus</span>
+      <h2>Six things a person signs into.</h2>
+      <p class="lede">Where something is built but unused, this page says unused rather than
+        available.</p>
+    </div>
+    <div class="grid grid--4">
+${darkCard('Portal', 'Where you start', 'Your enrolment, your level, and what you were doing last. Designed to answer &ldquo;what now?&rdquo; in one screen rather than to present a dashboard.')}
+${darkCard('My Programme', 'The route through the level', 'Modules, lessons, exercises and assessments in order, with what is complete and what is next. Progression is per learner, so this is genuinely your own path.')}
+${darkCard('The Listening Lab', 'Recording and pronunciation', 'Listening sets, pronunciation targets, your own recordings and the feedback on them &mdash; see <a href="/students/#lab">the Listening Lab</a>.')}
+${darkCard('My Record', 'What is held about you', 'Attempts, marks by skill, feedback and recordings, plus the controls for sharing any of it. The sharing decisions are yours, not the College&rsquo;s.')}
+    </div>
+    <div class="grid grid--2" style="margin-top:26px">
+${darkCard('Instructor workspace', 'Marking and feedback', 'Where submissions are marked against their rubrics and pronunciation feedback is written against its target. Built, tested, and it has marked nothing, because there is nothing to mark yet.')}
+${darkCard('Verification', 'Open to anyone', 'A credential check requiring no account and no relationship with the College &mdash; see <a href="/governance/#verification">Verification</a>. Nothing has been issued through it, because no award has been conferred.')}
+    </div>
+    <div class="grid grid--2" style="margin-top:26px">
+${darkCard('Offline recording', 'The Lab does not require a live connection', 'A recording made offline is held and uploaded in parts when the connection returns, so a drop does not lose the file. Built because the College expects learners in places where connections drop.')}
+${darkCard('Drafts stay local', 'A half-written note is not sent anywhere', 'Working notes are kept on your own device until you submit. Only submission needs the network, and the interface says which is which rather than leaving you guessing.')}
+    </div>
+    <p class="form-note">What you need to run it: a computer, tablet or phone with a current
+      browser and a connection that can stream audio; the Listening Lab asks you to record
+      yourself, and a phone or laptop microphone is enough. A version matrix would imply testing
+      across it that has not been done &mdash; keeping your browser current is the real
+      requirement.</p>
+    <div class="section-head" style="margin-top:38px">
+      <span class="module-marker">When It Does Not Work</span>
+      <h2>Three common cases, answered.</h2>
+    </div>
+    <ol class="dot-list">
+      <li><span class="num">01</span><span><strong>The recorder will not start.</strong> The browser has to be given permission to use the microphone, and that permission is per site and easily denied by accident. Check the browser&rsquo;s site permissions before assuming anything is broken.</span><span class="leader"></span></li>
+      <li><span class="num">02</span><span><strong>The connection dropped mid-recording.</strong> Nothing is lost. Recording does not need the network; the file is held and uploaded in parts when the connection returns.</span><span class="leader"></span></li>
+      <li><span class="num">03</span><span><strong>An application or payment form did not go through.</strong> The application form falls back to your own email application with your details filled in, so the application still reaches Admissions. For a payment, do not retry repeatedly &mdash; write to the College with the time and the amount, and it will be checked against the record.</span><span class="leader"></span></li>
+    </ol>
+    <p class="form-note">Anything else: write to <a href="mailto:info@worldwencollege.co.uk?subject=Technical">info@worldwencollege.co.uk</a> saying what you were trying to do, what happened, and on what device &mdash; those three facts resolve most of it in one message rather than four. For being stuck on the material rather than the machinery, <a href="/students/#support">Support</a> says who answers.</p>
   </div>
 </section>
 
@@ -431,7 +594,50 @@ ${card('Skills', 'Four skills tracked separately', 'Listening, reading, speaking
     </div>
   </div>
 </section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "International English Fluency Course (IEFC)",
+  "description": "A six-level, 1,200-hour English language programme aligned to CEFR A1-C2, delivered entirely online by WorldWide English College, London Campus.",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "WorldWide English College - London Campus",
+    "sameAs": "https://www.worldwencollege.co.uk/"
+  },
+  "educationalLevel": "A1 to C2 (CEFR)",
+  "timeRequired": "PT1200H",
+  "inLanguage": "en",
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "online",
+    "courseWorkload": "PT1200H"
+  },
+  "offers": {
+    "@type": "Offer",
+    "category": "Paid",
+    "price": "19000",
+    "priceCurrency": "USD",
+    "url": "https://www.worldwencollege.co.uk/admissions/tuition/"
+  }
+}
+</script>
 `;
+}
+
+// The one-line focus statements in the CEFR table. Authored, per level,
+// keyed by roman so a level added to the record fails loudly here.
+const FOCUS = {
+  I: 'First words to simple, everyday exchanges — sound system, core grammar, survival vocabulary.',
+  II: 'Everyday topics with growing confidence — routine conversation, simple written communication.',
+  III: 'Independent use of English — connected speech, opinions, and structured writing.',
+  IV: 'Fluent, spontaneous interaction — academic and professional register, argument and analysis.',
+  V: 'Precise, flexible use of English for complex academic and professional purposes.',
+  VI: 'Near-native command — nuance, idiom, leadership communication and executive presence.',
+}
+for (const lv of levels) {
+  if (!FOCUS[lv.roman]) throw new Error(`No focus line for level ${lv.roman}`);
 }
 
 // ── write sources + manifest ─────────────────────────────────────────
@@ -449,14 +655,23 @@ function upsert(entry, contentFile, body) {
 }
 
 upsert({
-  slug: 'study',
-  output: 'study/index.html',
-  title: 'Study at Worldwide English College &mdash; The Six IEFC Levels',
-  description: 'The International English Fluency Certificate in six CEFR-aligned levels, from '
-    + 'no English to mastery. Modules, hours, assessment and awards for every level.',
-  contentFile: 'study.html',
+  slug: 'academics',
+  output: 'academics/index.html',
+  title: 'Academics &mdash; Worldwide English College',
+  description: 'The IEFC in six CEFR-aligned levels: what each contains, how learning works, '
+    + 'the digital campus it runs on, and the standard the whole programme is taught to.',
+  contentFile: 'academics.html',
   lang: 'en', dir: 'ltr',
-}, 'study.html', studyPage());
+  contents: true,
+}, 'academics.html', academicsPage());
+
+// The routes this pillar absorbs, pruned from the manifest so they stop
+// building the moment this generator runs — the redirect harness fails
+// the build if a retired page is still served.
+for (const slug of ['academics-iefc', 'study', 'learning', 'learning-platform', 'support-technical']) {
+  const i = entries.findIndex((e) => e.slug === slug);
+  if (i >= 0) entries.splice(i, 1);
+}
 
 levels.forEach((lv, i) => {
   upsert({
@@ -464,10 +679,13 @@ levels.forEach((lv, i) => {
     output: `study/${SLUG[lv.roman]}/index.html`,
     title: `Level ${lv.roman}: ${lv.name} (${lv.cefr}) &mdash; Worldwide English College`,
     description: `Level ${lv.roman} of the IEFC: ${lv.modules.length} modules, ${lv.units} `
-      + `taught hours over ${lv.duration_months} months, aligned to CEFR ${lv.cefr}. Modules, `
+      + `designed lessons over ${lv.duration_months} months, aligned to CEFR ${lv.cefr}. Modules, `
       + 'learning outcomes, assessment, teaching methods and the award.',
     contentFile: `study-${SLUG[lv.roman]}.html`,
     lang: 'en', dir: 'ltr',
+    // Ten sections and 1,300 words. scripts/build.js turns this into a
+    // contents rail built from each section's own module marker.
+    contents: true,
   }, `study-${SLUG[lv.roman]}.html`, levelPage(lv, i));
 });
 

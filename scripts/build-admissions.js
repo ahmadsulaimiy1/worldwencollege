@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * THE ADMISSIONS CLUSTER — nine pages.
+ * THE ADMISSIONS CLUSTER — four pages: the pillar, the FAQ,
+ * Tuition, Fees & Funding, and the Admissions Policy.
  *
  * ────────────────────────────────────────────────────────────────────
  * WHY THESE PAGES ARE THE MOST DANGEROUS ON THE SITE
@@ -130,7 +131,7 @@ const beforeYouPay = `<div class="callout">
       <span class="callout__label">Before you pay, four things you are entitled to know</span>
       <p>WEC-LC holds no accreditation. No External Examiner has been appointed, so no award has
         been conferred on anyone. No cohort has yet been taught. And no refund policy has been
-        adopted &mdash; see <a href="/admissions/payment/#refunds">Refunds</a>, which says so
+        adopted &mdash; see <a href="/admissions/tuition/#refunds">Refunds</a>, which says so
         plainly rather than leaving you to discover it. The full institutional position is at
         <a href="/about/#status">About &middot; Institutional Status</a>.</p>
     </div>`;
@@ -138,20 +139,175 @@ const beforeYouPay = `<div class="callout">
 // ─────────────────────────────────────────────────────────────────────
 const PAGES = {};
 
-// 1 · HOW TO APPLY ────────────────────────────────────────────────────
-PAGES.apply = {
-  slug: 'admissions-apply', output: 'admissions/apply/index.html', file: 'admissions-apply.html',
-  title: 'How to Apply &mdash; Worldwide English College',
-  description: 'The five stages of a WEC-LC application, what happens at each one, who does it, '
-    + 'and how long the College can honestly say each takes.',
-  body: `${hero('Admissions', 'How to apply.',
-    'Five stages, described as they actually run. Where a stage is handled by a person rather '
-    + 'than by software, this page says so &mdash; because that is what determines how long it '
-    + 'takes and who you are dealing with.',
-    `<div class="btn-row">
-      <a href="/admissions/#apply" class="btn btn--gold">Start Your Application</a>
-      <a href="/admissions/entry-requirements/" class="btn btn--outline">Entry Requirements</a>
-    </div>`)}
+// 7 · ADMISSIONS POLICY ───────────────────────────────────────────────
+PAGES.pillar = {
+  slug: 'admissions', output: 'admissions/index.html', file: 'admissions.html',
+  contents: true,
+  title: 'Admissions &mdash; Worldwide English College',
+  description: 'The whole admissions decision in one place: whether you qualify, how to apply, '
+    + 'when you can start, and what applies to international applicants — visas included.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">Admissions</span>
+    <h1>How to join the International English Fluency Course.</h1>
+    <p class="lede">A clear, five-step journey from enquiry to your first module — designed for school pupils, university students, working professionals and international applicants alike.</p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Who WEC-LC Is For</span>
+      <h2>Designed for ambitious learners, at every stage.</h2>
+    </div>
+    <div class="tag-row">
+      <span class="tag">School Pupils</span><span class="tag">Secondary School Students</span>
+      <span class="tag">University Students</span><span class="tag">Working Professionals</span>
+      <span class="tag">Government Employees</span><span class="tag">Business Executives</span>
+      <span class="tag">International Students</span><span class="tag">Study-Abroad Candidates</span>
+      <span class="tag">Advanced Proficiency Seekers</span>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad" id="self-assessment">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Step One · Know Your Starting Point</span>
+      <h2>Which statement sounds most like you today?</h2>
+      <p class="lede">A 30-second self-assessment to guide your application — not the official placement test, which happens during Step 3.</p>
+    </div>
+    <form class="level-quiz" data-level-quiz
+      data-result-template="Based on your answer, we'd suggest starting at Level {roman} — {name} ({cefr})."
+      data-levels='[
+        {"roman":"I","name":"Foundation Programme","cefr":"A1"},
+        {"roman":"II","name":"Elementary Programme","cefr":"A2"},
+        {"roman":"III","name":"Intermediate Programme","cefr":"B1"},
+        {"roman":"IV","name":"Upper Intermediate Programme","cefr":"B2"},
+        {"roman":"V","name":"Advanced Programme","cefr":"C1"},
+        {"roman":"VI","name":"English Mastery Programme","cefr":"C2"}
+      ]'>
+      <fieldset>
+        <legend class="sr-only">Which statement sounds most like you today?</legend>
+        <div class="level-quiz__options">
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="0"><span>I can understand and use simple everyday phrases and introduce myself, but I need help with most conversations.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="1"><span>I can talk about familiar topics like my family, school, and daily routine in simple sentences.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="2"><span>I can handle most everyday situations, describe experiences, and give simple reasons for my opinions.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="3"><span>I can discuss a range of topics fluently, follow the main ideas of complex texts, and interact naturally with native speakers.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="4"><span>I can express myself fluently and spontaneously on complex subjects, using English flexibly for academic or professional purposes.</span></label>
+          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="5"><span>I can understand virtually everything I read or hear, summarise information from different sources, and express myself precisely in any situation.</span></label>
+        </div>
+      </fieldset>
+      <button type="submit" class="btn btn--gold">See My Recommended Starting Level</button>
+      <div class="level-quiz__result" data-level-quiz-result hidden>
+        <span class="callout__label" style="color:var(--gold-bright)">Suggested Starting Point</span>
+        <p data-level-quiz-text></p>
+        <div class="btn-row">
+          <a href="/academics/#iefc" class="btn btn--ghost">See This Level on the IEFC Programme</a>
+          <a href="#apply" class="btn btn--gold">Start Your Application</a>
+        </div>
+      </div>
+      <p class="form-note">This is a self-guided estimate to help you apply with confidence — your actual starting level is confirmed by the placement assessment in Step 3.</p>
+    </form>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">The Application Journey</span>
+      <h2>Five steps to enrolment.</h2>
+    </div>
+    <ol class="dot-list">
+      <li><span class="num">01</span><span><strong>Enquire &amp; choose your entry point</strong> — tell us your current English level and goals.</span><span class="leader"></span></li>
+      <li><span class="num">02</span><span><strong>Submit your application</strong> — the form below. Nothing else is asked for at this stage: no documents, no fee.</span><span class="leader"></span></li>
+      <li><span class="num">03</span><span><strong>Placement assessment</strong> — a short assessment confirms your correct starting level, Foundation through Advanced.</span><span class="leader"></span></li>
+      <li><span class="num">04</span><span><strong>Offer &amp; enrolment</strong> — receive your offer, confirm your payment plan, and secure your place.</span><span class="leader"></span></li>
+      <li><span class="num">05</span><span><strong>Orientation &amp; your first module</strong> — onboarding to the digital campus, then Level I opens and the first module is yours to begin.</span><span class="leader"></span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section--dark section-pad" id="apply">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Start Your Application</span>
+      <h2>Step 2: submit your application.</h2>
+      <p class="lede">This connects directly to Admissions. If our online application system is briefly unreachable, your details open in your email app instead — either way, nothing you've entered is lost.</p>
+    </div>
+
+    <form class="form-grid" data-admissions-form
+      data-endpoint="/api/admissions/apply"
+      data-fallback-email="info@worldwencollege.co.uk"
+      data-storage-key="wec-lc-admissions-draft"
+      data-loading-text="Submitting…"
+      data-error-text="Please fix the highlighted fields below."
+      data-success-text="Application received — we'll be in touch soon."
+      data-fallback-text="We couldn't reach our online application system, so we've opened your email app with your details ready to send — please hit send to complete your application."
+      data-retry-label="Try the Online Form Again"
+      data-level-summary-template="Suggested starting level: {text}"
+      novalidate>
+
+      <div class="field field--full"><div class="form-status" data-form-status role="status" aria-live="polite"></div></div>
+
+      <div class="field field--full" data-level-summary hidden style="background:rgba(199,162,74,.08);border:1px solid var(--line-dark);border-radius:6px;padding:12px 16px;">
+        <span style="font-size:.82rem;color:var(--gold-bright)" data-level-summary-text></span>
+        <a href="#self-assessment" style="font-size:.78rem;text-decoration:underline;margin-left:.8em;color:rgba(247,244,236,.7)">Retake the assessment</a>
+      </div>
+
+      <div class="field">
+        <label for="app-name">Full Name</label>
+        <input id="app-name" name="fullName" type="text" required aria-describedby="app-name-error">
+        <span class="field__error" id="app-name-error" role="alert">Please enter your full name.</span>
+      </div>
+      <div class="field">
+        <label for="app-email">Email Address</label>
+        <input id="app-email" name="email" type="email" required aria-describedby="app-email-error">
+        <span class="field__error" id="app-email-error" role="alert">Please enter a valid email address.</span>
+      </div>
+      <div class="field field--full">
+        <label for="app-country">Country of Residence</label>
+        <select id="app-country" name="country" required aria-describedby="app-country-error">
+          <option value="">Select your country</option>
+          <option value="AF">Afghanistan</option><option value="DZ">Algeria</option><option value="AR">Argentina</option>
+          <option value="AU">Australia</option><option value="AT">Austria</option><option value="BH">Bahrain</option>
+          <option value="BD">Bangladesh</option><option value="BE">Belgium</option><option value="BR">Brazil</option>
+          <option value="CM">Cameroon</option><option value="CA">Canada</option><option value="TD">Chad</option>
+          <option value="CL">Chile</option><option value="CN">China</option><option value="CO">Colombia</option>
+          <option value="CD">Congo (DRC)</option><option value="EG">Egypt</option><option value="ET">Ethiopia</option>
+          <option value="FR">France</option><option value="GM">Gambia</option><option value="DE">Germany</option>
+          <option value="GH">Ghana</option><option value="GR">Greece</option><option value="GN">Guinea</option>
+          <option value="IN">India</option><option value="ID">Indonesia</option><option value="IQ">Iraq</option>
+          <option value="IE">Ireland</option><option value="IT">Italy</option><option value="CI">Ivory Coast</option>
+          <option value="JP">Japan</option><option value="JO">Jordan</option><option value="KE">Kenya</option>
+          <option value="KW">Kuwait</option><option value="LB">Lebanon</option><option value="LR">Liberia</option>
+          <option value="LY">Libya</option><option value="MY">Malaysia</option><option value="ML">Mali</option>
+          <option value="MX">Mexico</option><option value="MA">Morocco</option><option value="NL">Netherlands</option>
+          <option value="NZ">New Zealand</option><option value="NE">Niger</option><option value="NG">Nigeria</option>
+          <option value="OM">Oman</option><option value="PK">Pakistan</option><option value="PH">Philippines</option>
+          <option value="PL">Poland</option><option value="PT">Portugal</option><option value="QA">Qatar</option>
+          <option value="RU">Russia</option><option value="RW">Rwanda</option><option value="SA">Saudi Arabia</option>
+          <option value="SN">Senegal</option><option value="SL">Sierra Leone</option><option value="SG">Singapore</option>
+          <option value="SO">Somalia</option><option value="ZA">South Africa</option><option value="KR">South Korea</option>
+          <option value="ES">Spain</option><option value="LK">Sri Lanka</option><option value="SD">Sudan</option>
+          <option value="SE">Sweden</option><option value="CH">Switzerland</option><option value="SY">Syria</option>
+          <option value="TZ">Tanzania</option><option value="TH">Thailand</option><option value="TG">Togo</option>
+          <option value="TN">Tunisia</option><option value="TR">Turkey</option><option value="UG">Uganda</option>
+          <option value="UA">Ukraine</option><option value="AE">United Arab Emirates</option>
+          <option value="GB">United Kingdom</option><option value="US">United States</option>
+          <option value="VN">Vietnam</option><option value="YE">Yemen</option><option value="ZM">Zambia</option>
+          <option value="ZW">Zimbabwe</option><option value="OTHER">Other</option>
+        </select>
+        <span class="field__error" id="app-country-error" role="alert">Please select your country.</span>
+      </div>
+
+      <div class="field field--full">
+        <button type="submit" class="btn btn--gold" data-submit-btn><span data-btn-label>Submit Application</span></button>
+        <p class="form-note">Prefer email? <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">Write to Admissions directly</a>.</p>
+      </div>
+    </form>
+  </div>
+</section>
 
 <section class="section--light section-pad">
   <div class="container reveal">
@@ -225,21 +381,7 @@ ${darkCard('No account needed', 'Status without signing in', 'You do not have an
   </div>
 </section>
 
-${cta('Ready to start?', 'Apply Now', '/admissions/#apply', 'Read the Admissions Policy', '/admissions/policy/')}`,
-};
-
-// 2 · ENTRY REQUIREMENTS ──────────────────────────────────────────────
-PAGES.entry = {
-  slug: 'admissions-entry', output: 'admissions/entry-requirements/index.html', file: 'admissions-entry.html',
-  title: 'Entry Requirements &mdash; Worldwide English College',
-  description: 'What WEC-LC requires of an applicant: no prior qualification, a placement '
-    + 'conversation, and the equipment the programme genuinely needs.',
-  body: `${hero('Admissions', 'What is actually required.',
-    'The IEFC has no academic entry qualification. What it has is a starting point that has to '
-    + 'be right, and a small set of practical requirements that are real because the programme '
-    + 'genuinely uses them.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="requirements" data-contents="Entry Requirements">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Academic Requirements</span>
@@ -314,21 +456,448 @@ ${card('What is true today', 'No policy, no appointed lead', 'Both are listed in
   </div>
 </section>
 
-${cta('See what you would be entering.', 'The Six Levels', '/study/', 'How to Apply', '/admissions/apply/')}`,
+<section class="section--light section-pad" id="dates" data-contents="Dates &amp; Calendar">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Starting</span>
+      <h2>Admission is continuous.</h2>
+      <p class="lede">This is not a marketing choice. It is what the platform actually does,
+        and describing anything else would describe software that does not exist.</p>
+    </div>
+    <div class="grid grid--3">
+${card('The day you enrol', 'Level I opens immediately', 'A confirmed payment creates your enrolment and the first lesson is available the same day. Nothing is held back until a start date.')}
+${card('At your own pace', 'Progression is per learner', 'Your progress record is yours alone. There is no class moving ahead of you and none waiting for you, and no lesson unlocks on a date.')}
+${card('One level at a time', 'The next level opens when this one closes', 'Levels II to VI are added as each preceding level is completed, whether you paid per level or for the whole programme. Completion is confirmed by a member of staff, not calculated automatically &mdash; the College has no automated grading engine.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Why There Are No Term Dates</span>
+      <h2>Because the decision behind them has not been taken.</h2>
+      <p class="lede">A calendar is not a formatting exercise. It encodes an operating model,
+        and the College has not yet chosen which model it is.</p>
+    </div>
+    <div class="grid grid--3">
+${card('Option A', 'Rolling and self-paced', 'What runs today. Nobody waits to start. The known weakness is completion: wholly self-paced language study finishes badly, for the well-understood reason that there is never anything to be late for.')}
+${card('Option B', 'Fixed cohorts and termly intakes', 'The structure that makes people finish &mdash; shared pace, live classes where everyone is at the same point, a graduation that means something. The cost is an applicant in October waiting until January, and it would require rebuilding how progression works.')}
+${card('Option C', 'Rolling entry, fixed rhythm', 'Study self-paced, but with live sessions, examination windows and orientation on a published recurring schedule you join at the next occurrence. This is what the College has drafted as a recommendation. It has not been adopted.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">What this means for you today</span>
+      <p>Everything you study is available on enrolment and paced by you. The recurring live
+        timetable described in Option C does not yet run. The College&rsquo;s own status page
+        lists the academic calendar and first-cohort start date as outstanding, and this page
+        does not contradict it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">How Long A Level Takes</span>
+      <h2>A design figure, not a measurement.</h2>
+    </div>
+    <div class="grid grid--2">
+${darkCard('200', 'Total qualification hours per level', 'The designed workload for one level, covering taught material, independent study, practice and assessment. It is the figure the curriculum was built to, and it has not yet been measured against real learners because there have not been any.')}
+${darkCard('1,200', 'Across all six levels', 'The sum of the six. How long that takes in calendar months depends entirely on the hours a week you can give it, which is why the College publishes the hours rather than a number of months it cannot stand behind.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="international" data-contents="International Applicants">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">What &ldquo;London Campus&rdquo; Means</span>
+      <h2>An administrative headquarters, not a place you attend.</h2>
+      <p class="lede">This is stated first because the name invites exactly one wrong
+        assumption, and it is an expensive one to make.</p>
+    </div>
+    <div class="grid grid--3">
+${card('Is', 'An administrative address', 'London identifies where the College is administered and managed from. The registered address is being finalised and will be published here when it is settled &mdash; not before.')}
+${card('Is not', 'A teaching campus', 'There are no classrooms, no lecture theatres and no student accommodation. Nobody attends WEC-LC in London or anywhere else, and no student has ever been asked to.')}
+${card('Therefore', 'No relocation, no visa', 'You study from where you live. See <a href="/admissions/#visas">Visas and study permits</a>, which exists to say clearly that the College issues no immigration documents.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Time Zones</span>
+      <h2>How a programme with no campus handles being everywhere at once.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('Independent of the clock', 'The taught material', 'Lessons, exercises, listening work and assignments are studied when you can study them. This is the majority of the programme by time, and it has no schedule attached to it at all.')}
+${card('Dependent on the clock', 'Live sessions', 'Conversation practice and tutorials are live, which means somebody&rsquo;s evening is somebody else&rsquo;s morning. Live sessions are scheduled against where students actually are once there are students; publishing a fixed timetable now would be publishing a guess. Recordings are the standing fallback and are not treated as a lesser option.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">The honest caveat</span>
+      <p>No cohort has yet been taught, so no live timetable has been proven against real student
+        locations. What is described here is the design. The first cohort&rsquo;s experience will
+        change it, and the change will be published.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Language of Instruction</span>
+      <h2>English throughout, with one exception.</h2>
+    </div>
+    <div class="grid grid--2">
+${darkCard('Teaching', 'Conducted in English from Level I', 'Including at A1, where it is done with heavy support &mdash; visual, repetition, restricted language, and a teacher who slows down rather than translates. Teaching a language through the language is a method, not an obstacle, and Level I was written on that assumption.')}
+${darkCard('The website', 'Available in Arabic', 'The public site is published in English and Arabic. The teaching itself is not translated: a translated lesson would be a different lesson, and the pronunciation and listening work in particular cannot survive translation.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="visas" data-contents="Visas &amp; Permits">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">The Position</span>
+      <h2>Stated without qualification.</h2>
+    </div>
+    <div class="callout">
+      <span class="callout__label">What WEC-LC does not do</span>
+      <p>The College is not a licensed student sponsor. It issues no Confirmation of Acceptance
+        for Studies, no visa letter, no immigration attestation and no document that any
+        immigration authority accepts as the basis of a study visa. It does not offer, and will
+        not offer, assistance with immigration applications. Nothing on any other page of this
+        site should be read as qualifying that.</p>
+    </div>
+    <div class="grid grid--3">
+${card('Why', 'Because it teaches online', 'Study visas exist to permit physical presence for study. The IEFC involves no physical presence anywhere &mdash; there is no campus to attend. A visa is not withheld; it is simply not part of what this programme is.')}
+${card('Consequence', 'You study from home', 'Wherever you live, you study there. No travel, no accommodation, no relocation cost, and no immigration risk arising from the programme itself.')}
+${card('Exception', 'There is none', 'Not for any level, any fee arrangement, any nationality, or any sponsor. There is no case in which the College can help, and describing edge cases would only create hope where there is none.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">A Warning Worth Printing</span>
+      <h2>If someone offers you a WEC-LC visa, they are defrauding you.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('No agent has this authority', 'Because the College does not have it', 'WEC-LC cannot delegate a power it does not hold. Any person or agency offering a WEC-LC study visa, admission letter for immigration purposes, or &ldquo;guaranteed&rdquo; entry to the United Kingdom through this College is making an offer the College could not fulfil itself.')}
+${card('What to do', 'Write to us and tell us', `Send it to <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a>. Publishing this warning is worth little if reports of it go nowhere, and a College that hears about a fraud in its name and stays quiet is participating in it.`)}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">If Your Goal Is To Study Abroad</span>
+      <h2>What the programme can genuinely do for that.</h2>
+      <p class="lede">Many applicants come to English study on the way to something else. That
+        is a legitimate reason to be here, and it is worth being precise about what helps.</p>
+    </div>
+    <div class="grid grid--3">
+${darkCard('Can', 'Build the English a destination requires', 'The upper levels work directly on academic reading, academic writing, seminar discussion and the discourse of formal argument &mdash; the things that make the difference once you have arrived, and which a test score does not guarantee.')}
+${darkCard('Can', 'Prepare you for the tests that are accepted', 'IELTS, TOEFL and Cambridge preparation are built into the curriculum from Upper Intermediate onwards. Those tests, not this College&rsquo;s certificate, are what admitting institutions and immigration systems currently recognise.')}
+${darkCard('Cannot', 'Substitute for a recognised qualification', 'No External Examiner has been appointed and the College holds no accreditation, so the IEFC award should not be relied upon by anyone as an admission or immigration credential. That is the plain position and it will change only when it genuinely changes.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light cta-band">
+  <div class="container reveal">
+    <h2>Curious what each level costs?</h2>
+    <div class="btn-row u-center">
+      <a href="/admissions/tuition/" class="btn btn--red">View Tuition &amp; Fees</a>
+    </div>
+  </div>
+</section>
+`,
 };
 
-// 3 · PAYING FOR THE PROGRAMME ────────────────────────────────────────
-PAGES.payment = {
-  slug: 'admissions-payment', output: 'admissions/payment/index.html', file: 'admissions-payment.html',
-  title: 'Paying for the Programme &mdash; Worldwide English College',
-  description: 'How payment actually works at WEC-LC: which currencies are settled, which '
-    + 'payment methods are live, how instalments work, and what has not been decided.',
-  body: `${hero('Admissions', 'Paying for the programme.',
-    `Tuition is published at <a href="/admissions/tuition/">Tuition &amp; Fees</a>. This page `
-    + 'is about the mechanics &mdash; which currency you are charged in, which methods work '
-    + 'from your country, and what happens if you need your money back.')}
+PAGES.faq = {
+  slug: 'faq', output: 'faq/index.html', file: 'faq.html',
+  title: 'FAQ &mdash; Worldwide English College',
+  description: 'Frequently asked questions about the IEFC, admissions, fees, and studying with '
+    + 'WEC-LC — including the questions applicants actually ask during admissions.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">FAQ</span>
+    <h1>Frequently Asked Questions</h1>
+    <p class="lede">Everything you need to know about the IEFC programme, admissions, and studying with WEC-LC.</p>
+  </div>
+</section>
 
 <section class="section--light section-pad">
+  <div class="container reveal" style="max-width:820px">
+    <div class="accordion">
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>What is the International English Fluency Course (IEFC)?</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">The IEFC is WEC-LC's English programme &mdash; its only one &mdash; structured as six CEFR-aligned levels (A1 through C2), each carrying 10 modules, 20 WEC Credits and a Total Qualification Time of 200 hours. The full programme is 120 WEC Credits and 1,200 hours. Total qualification time is a design figure, not a measurement — it is the workload the curriculum was built to, and how many months it takes depends on the hours you can give it each week.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>Is the entire programme delivered online?</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">Yes, entirely. WEC-LC delivers the IEFC through a digital campus — staged lessons, the Listening Lab, assignments marked by a person, and your own academic record — so students anywhere in the world can enrol without relocating. Live classes are designed and have not yet run, because no cohort has been taught, and the recorded audio for the listening work has not been produced. Both are stated rather than implied.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>Do I have to start at Level I (Foundation)?</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">No. Every applicant completes a short placement assessment during admissions, and is placed at the level that matches their current English ability — from Foundation through Advanced.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>How much does the programme cost?</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">The full six-level programme is $19,000, or $3,166.67 per level. You can pay in full, per level, or split a level&rsquo;s fee into four equal instalments &mdash; equal because no evidence-based cadence policy has been set, and available on request. See <a href="/admissions/tuition/">Tuition &amp; Fees</a> for the three arrangements.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>Does the IEFC prepare students for IELTS, TOEFL or Cambridge exams?</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">Yes. IELTS, TOEFL and Cambridge English preparation are built into the curriculum, particularly from the Upper Intermediate level onward, alongside academic and business English.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>Who is the IEFC designed for?</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">School pupils, secondary and university students, working professionals, government employees, business executives, and international students preparing for study abroad or advanced English proficiency.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>What will I receive when I complete the programme?</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">A digital transcript is issued after every level. The IEFC certificate itself cannot yet be conferred: the award requires an External Examiner, and none has been appointed. When conferral begins, a digital certificate follows successful completion of the full IEFC, with printed copies and verification as optional services.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>Is WEC-LC formally accredited?</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">No. The College holds no accreditation and no external quality-assurance affiliation today. The <a href="/about/#status">Institutional Status</a> page states what exists and what does not, and it will say something different only when something is genuinely different.</div></div>
+      </div>
+
+      <div class="accordion__item">
+        <button class="accordion__q"><span>How do I apply?</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">Complete the online application on the <a href="/admissions/#apply">Admissions</a> page with your name, email and country of residence — a short self-assessment first suggests your likely starting level. See Admissions for the full five-step journey.</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad" id="admissions-questions">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Admissions Questions</span>
+      <h2>The questions applicants actually ask.</h2>
+      <p class="lede">Collected from the admissions pages rather than invented for symmetry, and
+        answered with the same directness they are asked with.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Applying</span>
+      <h2>Getting in.</h2>
+    </div>
+    <div class="accordion">
+${qa('Do I need a qualification to apply?', 'No. There is no academic entry requirement of any kind. Level I begins at A1 and assumes no usable English. See <a href="/admissions/#requirements">Entry requirements</a>.')}
+${qa('Do I have to start at Level I?', 'No. A placement assessment after you apply confirms which of the six levels you enter. The self-assessment on the Admissions page is your own estimate and binds nobody.')}
+${qa('Is there an application fee?', 'No. Applying costs nothing and requires no documents.')}
+${qa('How long until I hear back?', 'The College commits to making contact about placement within three working days. That is a commitment rather than a measured average &mdash; WEC-LC has not processed applications at volume, and saying otherwise would be inventing a statistic.')}
+${qa('Can I apply if I am under 18?', 'Write to Admissions rather than using the form. The College has not adopted a safeguarding policy or appointed a Safeguarding Lead, and until it has, applications from under-18s are handled individually with a parent or guardian rather than processed as routine.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Money</span>
+      <h2>Fees, payment and refunds.</h2>
+    </div>
+    <div class="accordion">
+${qa('What does it cost?', `${FULL_PRICE} for the full six-level programme, or ${PER_LEVEL} per level. Full breakdown at <a href="/admissions/tuition/">Tuition &amp; Fees</a>.`)}
+${qa('Can I pay in my own currency?', 'Fees are set and charged in US dollars. Your bank or card issuer converts at its own rate. The College does not publish local-currency prices because it has not fixed rates behind them, and a published price that changes without notice is not a price.')}
+${qa('Can I pay from Nigeria?', 'Yes. Nigerian applicants are routed to Nigerian payment providers ahead of international card gateways, precisely because several international gateways do not work for Nigerian cards or merchants. If a method is not yet showing at checkout, write to Admissions and pay by transfer.')}
+${qa('Can I get a refund?', 'There is no adopted refund policy. Requests are decided case by case by the founding team, in writing, and the decision is recorded. That is a weaker guarantee than a published policy, which is why it is stated here rather than discovered later. If certainty matters to you, pay level by level rather than in full.')}
+${qa('Are there scholarships?', 'No scheme is open, no fund is allocated and no scholarship has been awarded. The mechanism to record one exists; the policy does not. See <a href="/admissions/tuition/#funding">Scholarships</a>.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Studying</span>
+      <h2>What it is actually like.</h2>
+    </div>
+    <div class="accordion">
+${qa('Is it fully online?', 'Yes, everywhere. There is no teaching campus. &ldquo;London Campus&rdquo; identifies the administrative headquarters, and nobody attends it.')}
+${qa('When do classes start?', 'Your material is available the day you enrol. There is no intake date and no term to wait for. The recurring live timetable is not yet running &mdash; see <a href="/admissions/#dates">Dates</a>.')}
+${qa('How long will the programme take?', 'Each level is designed at 200 total qualification hours, 1,200 across all six. How many months that is depends on the hours you can give it each week. The College publishes the hours rather than a number of months it cannot stand behind.')}
+${qa('Do I need any equipment?', 'A device that plays video, a connection that carries audio, and a microphone &mdash; the last because the Listening Lab asks you to record yourself so that change over months can be heard. A phone microphone is sufficient.')}
+${qa('Will I get a certificate?', 'A transcript is issued after each level. The IEFC award itself cannot yet be conferred: no External Examiner has been appointed, and conferring an award without external examining would make the award worth less, not more. See <a href="/governance/#quality">Quality assurance</a>.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">The College</span>
+      <h2>The questions with uncomfortable answers.</h2>
+    </div>
+    <div class="accordion">
+${qa('Is WEC-LC accredited?', 'No. The College holds no accreditation and no external quality-assurance affiliation. It is stated on every page where it is relevant rather than once in a footnote, and it will be stated differently only when it is genuinely different.')}
+${qa('How many students have graduated?', 'None. No cohort has been taught and no award has been conferred. The College publishes no student numbers, completion rates or graduate outcomes because it has none to publish.')}
+${qa('Can the IEFC certificate get me into a university or through immigration?', 'No, and you should not plan on it. What is currently recognised for those purposes is IELTS, TOEFL or Cambridge &mdash; all of which the upper levels prepare for directly. The College would rather tell you that than take your money on a misunderstanding.')}
+${qa('Then what am I paying for?', 'A complete, inspectable programme: six levels, sixty modules, every lesson planned stage by stage, every assessment written with published criteria, and a published set of volumes covering the curriculum, the assessment scheme and the teaching. All of it can be examined before you pay a penny, which is more than most language providers offer.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>Still have a question?</h2>
+    <div class="btn-row u-center">
+      <a href="/contact/" class="btn btn--gold">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the International English Fluency Course (IEFC)?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The IEFC is WEC-LC's English programme — its only one — structured as six CEFR-aligned levels (A1 through C2), each carrying 10 modules, 20 WEC Credits and a Total Qualification Time of 200 hours. The full programme is 120 WEC Credits and 1,200 hours. Total qualification time is a design figure, not a measurement — it is the workload the curriculum was built to, and how many months it takes depends on the hours you can give it each week." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the entire programme delivered online?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, entirely. WEC-LC delivers the IEFC through a digital campus — staged lessons, the Listening Lab, assignments marked by a person, and your own academic record — so students anywhere in the world can enrol without relocating. Live classes are designed and have not yet run, because no cohort has been taught, and the recorded audio for the listening work has not been produced. Both are stated rather than implied." }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I have to start at Level I (Foundation)?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Every applicant completes a short placement assessment during admissions, and is placed at the level that matches their current English ability — from Foundation through Advanced." }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does the programme cost?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The full six-level programme is $19,000, or $3,166.67 per level. You can pay in full, per level, or split a level's fee into four equal instalments — equal because no evidence-based cadence policy has been set, and available on request." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the IEFC prepare students for IELTS, TOEFL or Cambridge exams?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. IELTS, TOEFL and Cambridge English preparation are built into the curriculum, particularly from the Upper Intermediate level onward, alongside academic and business English." }
+    },
+    {
+      "@type": "Question",
+      "name": "Who is the IEFC designed for?",
+      "acceptedAnswer": { "@type": "Answer", "text": "School pupils, secondary and university students, working professionals, government employees, business executives, and international students preparing for study abroad or advanced English proficiency." }
+    },
+    {
+      "@type": "Question",
+      "name": "What will I receive when I complete the programme?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A digital transcript is issued after every level. The IEFC certificate itself cannot yet be conferred: the award requires an External Examiner, and none has been appointed. When conferral begins, a digital certificate follows successful completion of the full IEFC, with printed copies and verification as optional services." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is WEC-LC formally accredited?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. The College holds no accreditation and no external quality-assurance affiliation today. The Institutional Status page states what exists and what does not, and it will say something different only when something is genuinely different." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I apply?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Complete the online application on the Admissions page with your name, email, and country of residence — a short self-assessment helps suggest your likely starting level before you apply." }
+    }
+  ]
+}
+</script>
+`,
+};
+
+PAGES.tuition = {
+  slug: 'admissions-tuition', output: 'admissions/tuition/index.html', file: 'admissions-tuition.html',
+  contents: true,
+  altHref: '/ar/admissions/tuition/',
+  title: 'Tuition, Fees &amp; Funding &mdash; Worldwide English College',
+  description: 'IEFC tuition and per-level pricing, how paying actually works — currency, '
+    + 'methods, refunds — and the scholarships and funding routes that exist today.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">Tuition &amp; Fees</span>
+    <h1>Transparent pricing for the full IEFC pathway.</h1>
+    <p class="lede">One programme fee, spread evenly across six levels — pay in full, by level, or in instalments within a level, on request.</p>
+    <div class="stat-row" style="margin-top:40px">
+      <div class="stat-row__item"><strong>$19,000</strong><span>Full Programme</span></div>
+      <div class="stat-row__item"><strong>$3,166.67</strong><span>Per Level</span></div>
+      <div class="stat-row__item"><strong>20</strong><span>WEC Credits Per Level</span></div>
+      <div class="stat-row__item"><strong>120</strong><span>WEC Credits Total</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="fees" data-contents="The Fees">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Per-Level Breakdown</span>
+      <h2>The same investment, every level.</h2>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th>Level</th><th>CEFR</th><th>Credits</th><th>Total Qualification Time</th><th>Tuition</th></tr></thead>
+        <tbody>
+          <tr><td><strong>I · Foundation Programme</strong></td><td>A1</td><td>20</td><td>200 hrs</td><td>$3,166.67</td></tr>
+          <tr><td><strong>II · Elementary Programme</strong></td><td>A2</td><td>20</td><td>200 hrs</td><td>$3,166.67</td></tr>
+          <tr><td><strong>III · Intermediate Programme</strong></td><td>B1</td><td>20</td><td>200 hrs</td><td>$3,166.67</td></tr>
+          <tr><td><strong>IV · Upper Intermediate Programme</strong></td><td>B2</td><td>20</td><td>200 hrs</td><td>$3,166.67</td></tr>
+          <tr><td><strong>V · Advanced Programme</strong></td><td>C1</td><td>20</td><td>200 hrs</td><td>$3,166.67</td></tr>
+          <tr><td><strong>VI · English Mastery Programme</strong></td><td>C2</td><td>20</td><td>200 hrs</td><td>$3,166.67</td></tr>
+          <tr><td colspan="2"><strong>Total</strong></td><td>120</td><td>1,200 hrs</td><td><strong>$19,000</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="form-note">Total qualification time is a design figure, not a measurement: it is the
+      workload the curriculum was built to, and it has not been measured against real learners
+      because there have not been any. How many months a level takes depends on the hours you can
+      give it each week. The WEC Credit is an internal measure and is not an ECTS or CATS credit.</p>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal two-col">
+    <div>
+      <span class="module-marker">Tuition Includes</span>
+      <ul class="check-list">
+        <li>All modules and lessons for the level</li>
+        <li>Live classes and tutorials once they begin running &mdash; none has run yet, because no cohort has been taught</li>
+        <li>Learning resources and digital library access</li>
+        <li>Assessments and examinations</li>
+        <li>Progress reports and academic advising</li>
+        <li>Digital transcript</li>
+        <li>Digital certificate on successful completion &mdash; once the award can be conferred; no External Examiner is yet appointed</li>
+      </ul>
+    </div>
+    <div>
+      <span class="module-marker">Optional Services</span>
+      <ul class="check-list">
+        <li>Printed certificate (optional)</li>
+        <li>International courier (optional)</li>
+        <li>Certificate verification (optional)</li>
+      </ul>
+      <p class="form-note">Applying costs nothing — there is no application, processing or registration fee. The three optional services above are the only extras, and their prices are confirmed before you order.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="paying" data-contents="Paying">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Currency</span>
@@ -382,7 +951,7 @@ ${D.routing.map((r) => `          <tr><td><strong>${esc(countryName(r.country_co
   </div>
 </section>
 
-<section class="section--dark section-pad">
+<section class="section--dark section-pad" id="plans" data-contents="Ways to Pay">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Ways to Pay</span>
@@ -431,21 +1000,7 @@ ${card('Not issued yet', 'A downloadable PDF receipt', 'The receipt exists as a 
   </div>
 </section>
 
-${cta('See the fees themselves.', 'Tuition &amp; Fees', '/admissions/tuition/', 'Scholarships', '/admissions/scholarships/')}`,
-};
-
-// 4 · SCHOLARSHIPS ────────────────────────────────────────────────────
-PAGES.scholarships = {
-  slug: 'admissions-scholarships', output: 'admissions/scholarships/index.html', file: 'admissions-scholarships.html',
-  title: 'Scholarships &amp; Financial Support &mdash; Worldwide English College',
-  description: 'What financial support WEC-LC can and cannot offer today: no open scholarship '
-    + 'scheme, a working award mechanism, and how to ask.',
-  body: `${hero('Admissions', 'Scholarships and financial support.',
-    'There is no open scholarship scheme. That is the first thing this page has to say, because '
-    + 'the alternative is a page that reads like an invitation and produces an application '
-    + 'nobody can assess.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="funding" data-contents="Scholarships &amp; Funding">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The Position</span>
@@ -494,137 +1049,17 @@ ${darkCard('Not built', 'Organisational invoicing and seats', 'A corporate accou
   </div>
 </section>
 
-${cta('Ask about a fee.', 'Contact Admissions', '/contact/', 'How Payment Works', '/admissions/payment/')}`,
+<section class="section--light cta-band">
+  <div class="container reveal">
+    <h2>Ready to secure your place?</h2>
+    <div class="btn-row u-center">
+      <a href="/admissions/#apply" class="btn btn--red">Start Your Application</a>
+    </div>
+  </div>
+</section>
+`,
 };
 
-// 5 · INTERNATIONAL APPLICANTS ────────────────────────────────────────
-PAGES.international = {
-  slug: 'admissions-international', output: 'admissions/international/index.html', file: 'admissions-international.html',
-  title: 'International Applicants &mdash; Worldwide English College',
-  description: 'WEC-LC teaches online worldwide. What that means for applicants outside the '
-    + 'United Kingdom: no relocation, no visa, time zones, and how live teaching is scheduled.',
-  body: `${hero('Admissions', 'Applying from outside the United Kingdom.',
-    'Every WEC-LC student is an international student, because the College teaches online and '
-    + 'has no teaching campus anywhere. There is no separate international admissions route, no '
-    + 'international fee, and nothing to relocate for.')}
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">What &ldquo;London Campus&rdquo; Means</span>
-      <h2>An administrative headquarters, not a place you attend.</h2>
-      <p class="lede">This is stated first because the name invites exactly one wrong
-        assumption, and it is an expensive one to make.</p>
-    </div>
-    <div class="grid grid--3">
-${card('Is', 'An administrative address', 'London identifies where the College is administered and managed from. The registered address is being finalised and will be published here when it is settled &mdash; not before.')}
-${card('Is not', 'A teaching campus', 'There are no classrooms, no lecture theatres and no student accommodation. Nobody attends WEC-LC in London or anywhere else, and no student has ever been asked to.')}
-${card('Therefore', 'No relocation, no visa', 'You study from where you live. See <a href="/admissions/visas/">Visas and study permits</a>, which exists to say clearly that the College issues no immigration documents.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Time Zones</span>
-      <h2>How a programme with no campus handles being everywhere at once.</h2>
-    </div>
-    <div class="grid grid--2">
-${card('Independent of the clock', 'The taught material', 'Lessons, exercises, listening work and assignments are studied when you can study them. This is the majority of the programme by time, and it has no schedule attached to it at all.')}
-${card('Dependent on the clock', 'Live sessions', 'Conversation practice and tutorials are live, which means somebody&rsquo;s evening is somebody else&rsquo;s morning. Live sessions are scheduled against where students actually are once there are students; publishing a fixed timetable now would be publishing a guess. Recordings are the standing fallback and are not treated as a lesser option.')}
-    </div>
-    <div class="callout">
-      <span class="callout__label">The honest caveat</span>
-      <p>No cohort has yet been taught, so no live timetable has been proven against real student
-        locations. What is described here is the design. The first cohort&rsquo;s experience will
-        change it, and the change will be published.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Language of Instruction</span>
-      <h2>English throughout, with one exception.</h2>
-    </div>
-    <div class="grid grid--2">
-${darkCard('Teaching', 'Conducted in English from Level I', 'Including at A1, where it is done with heavy support &mdash; visual, repetition, restricted language, and a teacher who slows down rather than translates. Teaching a language through the language is a method, not an obstacle, and Level I was written on that assumption.')}
-${darkCard('The website', 'Available in Arabic', 'The public site is published in English and Arabic. The teaching itself is not translated: a translated lesson would be a different lesson, and the pronunciation and listening work in particular cannot survive translation.')}
-    </div>
-  </div>
-</section>
-
-${cta('Apply from anywhere.', 'Start Your Application', '/admissions/#apply', 'Visas and Study Permits', '/admissions/visas/')}`,
-};
-
-// 6 · VISAS ───────────────────────────────────────────────────────────
-PAGES.visas = {
-  slug: 'admissions-visas', output: 'admissions/visas/index.html', file: 'admissions-visas.html',
-  title: 'Visas &amp; Study Permits &mdash; Worldwide English College',
-  description: 'WEC-LC is an online institution and issues no immigration documents. What that '
-    + 'means, why the page exists, and what to be careful of.',
-  body: `${hero('Admissions', 'Visas and study permits.',
-    'Worldwide English College cannot sponsor a visa, issue a Confirmation of Acceptance for '
-    + 'Studies, or support any immigration application. This page exists to say that in one '
-    + 'place, unambiguously, before anyone spends money on the assumption otherwise.')}
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Position</span>
-      <h2>Stated without qualification.</h2>
-    </div>
-    <div class="callout">
-      <span class="callout__label">What WEC-LC does not do</span>
-      <p>The College is not a licensed student sponsor. It issues no Confirmation of Acceptance
-        for Studies, no visa letter, no immigration attestation and no document that any
-        immigration authority accepts as the basis of a study visa. It does not offer, and will
-        not offer, assistance with immigration applications. Nothing on any other page of this
-        site should be read as qualifying that.</p>
-    </div>
-    <div class="grid grid--3">
-${card('Why', 'Because it teaches online', 'Study visas exist to permit physical presence for study. The IEFC involves no physical presence anywhere &mdash; there is no campus to attend. A visa is not withheld; it is simply not part of what this programme is.')}
-${card('Consequence', 'You study from home', 'Wherever you live, you study there. No travel, no accommodation, no relocation cost, and no immigration risk arising from the programme itself.')}
-${card('Exception', 'There is none', 'Not for any level, any fee arrangement, any nationality, or any sponsor. There is no case in which the College can help, and describing edge cases would only create hope where there is none.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">A Warning Worth Printing</span>
-      <h2>If someone offers you a WEC-LC visa, they are defrauding you.</h2>
-    </div>
-    <div class="grid grid--2">
-${card('No agent has this authority', 'Because the College does not have it', 'WEC-LC cannot delegate a power it does not hold. Any person or agency offering a WEC-LC study visa, admission letter for immigration purposes, or &ldquo;guaranteed&rdquo; entry to the United Kingdom through this College is making an offer the College could not fulfil itself.')}
-${card('What to do', 'Write to us and tell us', `Send it to <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a>. Publishing this warning is worth little if reports of it go nowhere, and a College that hears about a fraud in its name and stays quiet is participating in it.`)}
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">If Your Goal Is To Study Abroad</span>
-      <h2>What the programme can genuinely do for that.</h2>
-      <p class="lede">Many applicants come to English study on the way to something else. That
-        is a legitimate reason to be here, and it is worth being precise about what helps.</p>
-    </div>
-    <div class="grid grid--3">
-${darkCard('Can', 'Build the English a destination requires', 'The upper levels work directly on academic reading, academic writing, seminar discussion and the discourse of formal argument &mdash; the things that make the difference once you have arrived, and which a test score does not guarantee.')}
-${darkCard('Can', 'Prepare you for the tests that are accepted', 'IELTS, TOEFL and Cambridge preparation are built into the curriculum from Upper Intermediate onwards. Those tests, not this College&rsquo;s certificate, are what admitting institutions and immigration systems currently recognise.')}
-${darkCard('Cannot', 'Substitute for a recognised qualification', 'No External Examiner has been appointed and the College holds no accreditation, so the IEFC award should not be relied upon by anyone as an admission or immigration credential. That is the plain position and it will change only when it genuinely changes.')}
-    </div>
-  </div>
-</section>
-
-${cta('Study from where you are.', 'Applying From Abroad', '/admissions/international/', 'The Six Levels', '/study/')}`,
-};
-
-// 7 · ADMISSIONS POLICY ───────────────────────────────────────────────
 PAGES.policy = {
   slug: 'admissions-policy', output: 'admissions/policy/index.html', file: 'admissions-policy.html',
   title: 'Admissions Policy &mdash; Worldwide English College',
@@ -706,155 +1141,14 @@ ${darkCard('Not sold, not shared', 'For any purpose', 'Applicant data is not pas
       <h2>Named, because their absence affects you.</h2>
     </div>
     <div class="grid grid--3">
-${card('Refunds', 'No policy adopted', 'Handled case by case, in writing. See <a href="/admissions/payment/#refunds">Refunds</a>.')}
-${card('Safeguarding', 'No policy, no named lead', 'Bears directly on applicants under 18. See <a href="/admissions/entry-requirements/">Entry requirements</a>.')}
+${card('Refunds', 'No policy adopted', 'Handled case by case, in writing. See <a href="/admissions/tuition/#refunds">Refunds</a>.')}
+${card('Safeguarding', 'No policy, no named lead', 'Bears directly on applicants under 18. See <a href="/admissions/#requirements">Entry requirements</a>.')}
 ${card('Complaints and appeals', 'No formal procedure', 'A complaint today is answered by the founding team. There is no independent stage, because there is no appointed body to escalate to &mdash; both academic bodies stand at zero appointed members.')}
     </div>
   </div>
 </section>
 
-${cta('Questions this does not answer?', 'Admissions Questions', '/admissions/questions/', 'Contact Admissions', '/contact/')}`,
-};
-
-// 8 · DATES ───────────────────────────────────────────────────────────
-PAGES.dates = {
-  slug: 'admissions-dates', output: 'admissions/dates/index.html', file: 'admissions-dates.html',
-  title: 'Dates &amp; the Academic Calendar &mdash; Worldwide English College',
-  description: 'When you can start at WEC-LC, why there are no term dates, and what the '
-    + 'academic calendar decision actually involves.',
-  body: `${hero('Admissions', 'When can I start?',
-    'When you enrol. There is no intake to wait for and no term to miss &mdash; and there are '
-    + 'no published term dates, which this page explains rather than glosses over.')}
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Starting</span>
-      <h2>Admission is continuous.</h2>
-      <p class="lede">This is not a marketing choice. It is what the platform actually does,
-        and describing anything else would describe software that does not exist.</p>
-    </div>
-    <div class="grid grid--3">
-${card('The day you enrol', 'Level I opens immediately', 'A confirmed payment creates your enrolment and the first lesson is available the same day. Nothing is held back until a start date.')}
-${card('At your own pace', 'Progression is per learner', 'Your progress record is yours alone. There is no class moving ahead of you and none waiting for you, and no lesson unlocks on a date.')}
-${card('One level at a time', 'The next level opens when this one closes', 'Levels II to VI are added as each preceding level is completed, whether you paid per level or for the whole programme. Completion is confirmed by a member of staff, not calculated automatically &mdash; the College has no automated grading engine.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Why There Are No Term Dates</span>
-      <h2>Because the decision behind them has not been taken.</h2>
-      <p class="lede">A calendar is not a formatting exercise. It encodes an operating model,
-        and the College has not yet chosen which model it is.</p>
-    </div>
-    <div class="grid grid--3">
-${card('Option A', 'Rolling and self-paced', 'What runs today. Nobody waits to start. The known weakness is completion: wholly self-paced language study finishes badly, for the well-understood reason that there is never anything to be late for.')}
-${card('Option B', 'Fixed cohorts and termly intakes', 'The structure that makes people finish &mdash; shared pace, live classes where everyone is at the same point, a graduation that means something. The cost is an applicant in October waiting until January, and it would require rebuilding how progression works.')}
-${card('Option C', 'Rolling entry, fixed rhythm', 'Study self-paced, but with live sessions, examination windows and orientation on a published recurring schedule you join at the next occurrence. This is what the College has drafted as a recommendation. It has not been adopted.')}
-    </div>
-    <div class="callout">
-      <span class="callout__label">What this means for you today</span>
-      <p>Everything you study is available on enrolment and paced by you. The recurring live
-        timetable described in Option C does not yet run. The College&rsquo;s own status page
-        lists the academic calendar and first-cohort start date as outstanding, and this page
-        does not contradict it.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">How Long A Level Takes</span>
-      <h2>A design figure, not a measurement.</h2>
-    </div>
-    <div class="grid grid--2">
-${darkCard('200', 'Total qualification hours per level', 'The designed workload for one level, covering taught material, independent study, practice and assessment. It is the figure the curriculum was built to, and it has not yet been measured against real learners because there have not been any.')}
-${darkCard('1,200', 'Across all six levels', 'The sum of the six. How long that takes in calendar months depends entirely on the hours a week you can give it, which is why the College publishes the hours rather than a number of months it cannot stand behind.')}
-    </div>
-  </div>
-</section>
-
-${cta('Start whenever you are ready.', 'Apply Now', '/admissions/#apply', 'What a Level Contains', '/study/')}`,
-};
-
-// 9 · QUESTIONS ───────────────────────────────────────────────────────
-PAGES.questions = {
-  slug: 'admissions-questions', output: 'admissions/questions/index.html', file: 'admissions-questions.html',
-  title: 'Admissions Questions &mdash; Worldwide English College',
-  description: 'Direct answers to the questions applicants actually ask WEC-LC, including the '
-    + 'ones with uncomfortable answers.',
-  body: `${hero('Admissions', 'Admissions questions.',
-    'Answered directly, including where the answer is &ldquo;no&rdquo; or &ldquo;not yet&rdquo;. '
-    + 'A question worth asking is worth a straight answer.')}
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Applying</span>
-      <h2>Getting in.</h2>
-    </div>
-    <div class="accordion">
-${qa('Do I need a qualification to apply?', 'No. There is no academic entry requirement of any kind. Level I begins at A1 and assumes no usable English. See <a href="/admissions/entry-requirements/">Entry requirements</a>.')}
-${qa('Do I have to start at Level I?', 'No. A placement assessment after you apply confirms which of the six levels you enter. The self-assessment on the Admissions page is your own estimate and binds nobody.')}
-${qa('Is there an application fee?', 'No. Applying costs nothing and requires no documents.')}
-${qa('How long until I hear back?', 'The College commits to making contact about placement within three working days. That is a commitment rather than a measured average &mdash; WEC-LC has not processed applications at volume, and saying otherwise would be inventing a statistic.')}
-${qa('Can I apply if I am under 18?', 'Write to Admissions rather than using the form. The College has not adopted a safeguarding policy or appointed a Safeguarding Lead, and until it has, applications from under-18s are handled individually with a parent or guardian rather than processed as routine.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Money</span>
-      <h2>Fees, payment and refunds.</h2>
-    </div>
-    <div class="accordion">
-${qa('What does it cost?', `${FULL_PRICE} for the full six-level programme, or ${PER_LEVEL} per level. Full breakdown at <a href="/admissions/tuition/">Tuition &amp; Fees</a>.`)}
-${qa('Can I pay in my own currency?', 'Fees are set and charged in US dollars. Your bank or card issuer converts at its own rate. The College does not publish local-currency prices because it has not fixed rates behind them, and a published price that changes without notice is not a price.')}
-${qa('Can I pay from Nigeria?', 'Yes. Nigerian applicants are routed to Nigerian payment providers ahead of international card gateways, precisely because several international gateways do not work for Nigerian cards or merchants. If a method is not yet showing at checkout, write to Admissions and pay by transfer.')}
-${qa('Can I get a refund?', 'There is no adopted refund policy. Requests are decided case by case by the founding team, in writing, and the decision is recorded. That is a weaker guarantee than a published policy, which is why it is stated here rather than discovered later. If certainty matters to you, pay level by level rather than in full.')}
-${qa('Are there scholarships?', 'No scheme is open, no fund is allocated and no scholarship has been awarded. The mechanism to record one exists; the policy does not. See <a href="/admissions/scholarships/">Scholarships</a>.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Studying</span>
-      <h2>What it is actually like.</h2>
-    </div>
-    <div class="accordion">
-${qa('Is it fully online?', 'Yes, everywhere. There is no teaching campus. &ldquo;London Campus&rdquo; identifies the administrative headquarters, and nobody attends it.')}
-${qa('When do classes start?', 'Your material is available the day you enrol. There is no intake date and no term to wait for. The recurring live timetable is not yet running &mdash; see <a href="/admissions/dates/">Dates</a>.')}
-${qa('How long will the programme take?', 'Each level is designed at 200 total qualification hours, 1,200 across all six. How many months that is depends on the hours you can give it each week. The College publishes the hours rather than a number of months it cannot stand behind.')}
-${qa('Do I need any equipment?', 'A device that plays video, a connection that carries audio, and a microphone &mdash; the last because the Listening Lab asks you to record yourself so that change over months can be heard. A phone microphone is sufficient.')}
-${qa('Will I get a certificate?', 'A transcript is issued after each level. The IEFC award itself cannot yet be conferred: no External Examiner has been appointed, and conferring an award without external examining would make the award worth less, not more. See <a href="/about/quality-assurance/">Quality assurance</a>.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The College</span>
-      <h2>The questions with uncomfortable answers.</h2>
-    </div>
-    <div class="accordion">
-${qa('Is WEC-LC accredited?', 'No. The College holds no accreditation and no external quality-assurance affiliation. It is stated on every page where it is relevant rather than once in a footnote, and it will be stated differently only when it is genuinely different.')}
-${qa('How many students have graduated?', 'None. No cohort has been taught and no award has been conferred. The College publishes no student numbers, completion rates or graduate outcomes because it has none to publish.')}
-${qa('Can the IEFC certificate get me into a university or through immigration?', 'No, and you should not plan on it. What is currently recognised for those purposes is IELTS, TOEFL or Cambridge &mdash; all of which the upper levels prepare for directly. The College would rather tell you that than take your money on a misunderstanding.')}
-${qa('Then what am I paying for?', 'A complete, inspectable programme: six levels, sixty modules, every lesson planned stage by stage, every assessment written with published criteria, and a published set of volumes covering the curriculum, the assessment scheme and the teaching. All of it can be examined before you pay a penny, which is more than most language providers offer.')}
-    </div>
-  </div>
-</section>
-
-${cta('Still have a question?', 'Contact Admissions', '/contact/', 'How to Apply', '/admissions/apply/')}`,
+${cta('Questions this does not answer?', 'Admissions Questions', '/faq/', 'Contact Admissions', '/contact/')}`,
 };
 
 // ── small lookups, kept honest ───────────────────────────────────────
@@ -883,12 +1177,21 @@ const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
 
+// Absorbed by the Admissions pillar, Tuition Fees & Funding, and the FAQ.
+for (const slug of ['admissions-apply', 'admissions-entry', 'admissions-dates',
+  'admissions-international', 'admissions-visas', 'admissions-payment',
+  'admissions-scholarships', 'admissions-questions']) {
+  const i = entries.findIndex((e) => e.slug === slug);
+  if (i >= 0) entries.splice(i, 1);
+}
+
 for (const p of Object.values(PAGES)) {
   fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: 'en', dir: 'ltr',
   };
+  if (p.contents) entry.contents = true;
   const i = entries.findIndex((e) => e.slug === p.slug);
   if (i >= 0) entries[i] = { ...entries[i], ...entry }; else entries.push(entry);
   written.push(p.output);

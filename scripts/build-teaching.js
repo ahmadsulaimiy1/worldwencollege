@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * THE TEACHING CLUSTER — five pages.
+ * THE TEACHING CLUSTER — one page: Teaching Practice, the pillar at
+ * /academics/teaching/.
  *
  * ────────────────────────────────────────────────────────────────────
  * THE THING THAT CANNOT BE WRITTEN
@@ -46,6 +47,7 @@ const path = require('path');
 const { DatabaseSync } = require('node:sqlite');
 
 const ROOT = path.resolve(__dirname, '..');
+const ltr = (v) => `<span dir="ltr">${v}</span>`;
 const esc = (s) => String(s ?? '')
   .replace(/\s--\s/g, ' — ')
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -74,8 +76,18 @@ function read() {
     modules: one('SELECT COUNT(*) n FROM units').n,
     items: one('SELECT COUNT(*) n FROM learning_items').n,
     cpd: one('SELECT COUNT(*) n FROM cpd_records').n,
+    // The population the support layer actually covers: distinct Level I
+    // lessons with pedagogy entries — the same join tests/teaching-expertise
+    // audits. NOT learning_items with kind='lesson': that kind fails the
+    // schema's CHECK and cannot exist, so the old query returned 0 and the
+    // page published "0 lessons, fully supported" without anything failing.
     levelOneLessons: one(
-      "SELECT COUNT(*) n FROM learning_items WHERE id LIKE 'itm_l1_%' AND kind = 'lesson'",
+      `SELECT COUNT(DISTINCT e.learning_item_id) n FROM pedagogy_entries e
+       JOIN learning_items i ON i.id = e.learning_item_id
+       JOIN units u ON u.id = i.unit_id
+       JOIN courses c ON c.id = u.course_id
+       JOIN programme_levels l ON l.id = c.level_id
+       WHERE l.roman = 'I'`,
     ).n,
   };
   db.close();
@@ -92,6 +104,14 @@ const OBSERVED = D.states.observed_in_teaching || 0;
 if (OBSERVED !== 0) {
   throw new Error(`${OBSERVED} entries are now marked observed_in_teaching — the Teaching pages `
     + 'argue from an empty observation record and must be rewritten.');
+}
+
+// A zero here once reached the page as "Level I — 0 lessons, fully
+// supported". A count that feeds a "fully supported" claim must refuse
+// to be nothing.
+if (!D.levelOneLessons) {
+  throw new Error('levelOneLessons is 0 — the support-coverage claims on the Teaching pages '
+    + 'would publish a zero. The query or the seed data has broken.');
 }
 if (D.cpd !== 0) {
   throw new Error(`${D.cpd} CPD record(s) now exist — /teaching/development/ states there are none.`);
@@ -137,20 +157,21 @@ const PAGES = {};
 
 // 1 · TEACHING AT WEC-LC ──────────────────────────────────────────────
 PAGES.hub = {
-  slug: 'teaching', output: 'teaching/index.html', file: 'teaching.html',
-  title: 'Teaching &mdash; Worldwide English College',
-  description: 'How WEC-LC teaches English: the method, what a teacher is given, and the honest '
-    + 'position of an institution that has written a full programme and taught nobody.',
-  body: `${hero('Teaching', 'How the College teaches.',
+  slug: 'academics-teaching', output: 'academics/teaching/index.html', file: 'academics-teaching.html',
+  contents: true, altHref: '/ar/academics/teaching/',
+  title: 'Teaching Practice &mdash; Worldwide English College',
+  description: 'How WEC-LC teaches: the method, how a lesson is designed, the support record a '
+    + 'teacher works from, the Companion, and how development and observation are meant to work.',
+  body: `${hero('Academics', 'How the College teaches.',
     'Every lesson in the programme is planned before it is taught, and every planned lesson '
-    + 'carries a record of what a teacher will need at each point in it. This section describes '
-    + 'that record, including the part of it that is empty.',
+    + 'carries a record of what a teacher will need at each point in it. This page describes '
+    + 'the method, the record, and the part of the record that is empty.',
     `<div class="btn-row">
-      <a href="/teaching/lesson-design/" class="btn btn--gold">How a Lesson Is Designed</a>
-      <a href="/faculty/" class="btn btn--outline">The Faculty</a>
+      <a href="/faculty/" class="btn btn--gold">The Faculty</a>
+      <a href="/academics/" class="btn btn--outline">Academics</a>
     </div>`)}
 
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="method" data-contents="The Method">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The Method</span>
@@ -182,8 +203,9 @@ ${card('Four', 'Every lesson plans for the learner who does not follow', 'A seco
       <div class="stat-row__item"><strong>${D.fields.length}</strong><span>Support fields per lesson</span></div>
       <div class="stat-row__item"><strong>${FILLED}</strong><span>Authored support entries</span></div>
     </div>
-    <p class="form-note">The support record is complete for Level I and is being written outward
-      from there. The figure above is what exists, not what is planned.</p>
+    <p class="form-note">The authored support layer is complete for Level I; three further
+      record fields hold no entries yet and are listed as not yet evidenced. The figures above
+      are what exists, not what is planned.</p>
   </div>
 </section>
 
@@ -202,20 +224,7 @@ ${darkCard('Why it is a column at all', 'So that it cannot be quietly filled by 
   </div>
 </section>
 
-${cta('See what a teacher is given.', 'The Teaching Support Record', '/teaching/support/', 'Development and Observation', '/teaching/development/')}`,
-};
-
-// 2 · LESSON DESIGN ───────────────────────────────────────────────────
-PAGES.design = {
-  slug: 'teaching-lesson-design', output: 'teaching/lesson-design/index.html', file: 'teaching-lesson-design.html',
-  title: 'How a Lesson Is Designed &mdash; Worldwide English College',
-  description: 'The anatomy of a WEC-LC lesson: staged, timed, planned against a named outcome, '
-    + 'and written before the teaching happens.',
-  body: `${hero('Teaching', 'How a lesson is designed.',
-    'A WEC-LC lesson is not a topic with materials attached. It is a sequence of stages with '
-    + 'declared timings, built toward one named outcome, with its assessment already written.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="design" data-contents="Lesson Design">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The Anatomy</span>
@@ -262,21 +271,7 @@ ${darkCard('Coverage', 'Every module carries its assessments', `Quiz, assignment
   </div>
 </section>
 
-${cta('See a level in full.', 'Level I &mdash; Foundation', '/study/level-1/', 'What a Teacher Is Given', '/teaching/support/')}`,
-};
-
-// 3 · TEACHING SUPPORT RECORD ─────────────────────────────────────────
-PAGES.support = {
-  slug: 'teaching-support', output: 'teaching/support/index.html', file: 'teaching-support.html',
-  title: 'The Teaching Support Record &mdash; Worldwide English College',
-  description: `${D.fields.length} fields of teaching support per lesson, and the four kinds of `
-    + 'knowledge WEC-LC distinguishes rather than blurs.',
-  body: `${hero('Teaching', 'What a teacher is given.',
-    `${D.fields.length} fields against every lesson, and &mdash; the part that matters &mdash; `
-    + 'every entry declaring where its knowledge came from. Most institutions do not separate '
-    + 'these. Separating them is the reason this record can be trusted.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="support" data-contents="The Support Record">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Four Kinds of Knowledge</span>
@@ -328,35 +323,21 @@ ${D.fields.map((f) => `          <tr><td><strong>${esc(f.name)}</strong></td><td
       <h2>Complete for Level I, and honest about the rest.</h2>
     </div>
     <div class="grid grid--3">
-${darkCard('Level I', `${D.levelOneLessons} lessons, fully supported`, `Every support field is written for every Level I lesson. It is the level a beginner meets first and the level where a teacher has least room to improvise, so it was completed first.`)}
+${darkCard('Level I', `${D.levelOneLessons} teaching lessons, supported in depth`, `The eight authored support fields are written for every Level I teaching lesson &mdash; the level a beginner meets first and the level where a teacher has least room to improvise. Three of the seventeen record fields hold no entries yet, and the record lists them as not yet evidenced rather than hiding them.`)}
 ${darkCard('Levels II&ndash;VI', 'Partially written', 'The fields readable from the curriculum are populated across the programme; the authored fields are being written level by level. What exists is what is published; nothing is projected.')}
 ${darkCard('The whole record', 'Openly countable', `${FILLED} authored entries today. The figure moves as the work proceeds and is generated from the record rather than typed into this page.`)}
     </div>
   </div>
 </section>
 
-${cta('See the record in published form.', 'The Teacher&rsquo;s Companion', '/teaching/companion/', 'How a Lesson Is Designed', '/teaching/lesson-design/')}`,
-};
-
-// 4 · THE TEACHER'S COMPANION ─────────────────────────────────────────
-PAGES.companion = {
-  slug: 'teaching-companion', output: 'teaching/companion/index.html', file: 'teaching-companion.html',
-  title: 'The Teacher&rsquo;s Companion &mdash; Worldwide English College',
-  description: 'The Level I Teacher’s Companion: a printed volume in which every panel carries '
-    + 'the provenance of what it claims.',
-  body: `${hero('Teaching', 'The Teacher&rsquo;s Companion.',
-    'A printed volume covering every lesson of Level I, in which each panel is marked with where '
-    + 'its knowledge came from. It is the teaching support record in a form a teacher can hold '
-    + 'while teaching.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="companion" data-contents="The Companion">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The Volume</span>
       <h2>What it contains.</h2>
     </div>
     <div class="grid grid--3">
-${card('Every lesson', `All ${D.levelOneLessons} of Level I`, 'Each with its stages and their declared minutes in the running head, so a teacher can see the shape of the lesson without turning back to the plan.')}
+${card('Every lesson', `All ${D.levelOneLessons} teaching lessons of Level I`, 'Each with its stages and their declared minutes in the running head, so a teacher can see the shape of the lesson without turning back to the plan.')}
 ${card('Every panel', 'Marked with its provenance', 'DERIVED, ESTABLISHED or DESIGNED, printed on the panel itself rather than explained once in a preface. A teacher disagreeing with a panel can see immediately whether they are disagreeing with the curriculum, with the field, or with the authors.')}
 ${card('One mark absent', 'OBSERVED', 'The fourth mark does not appear anywhere in the book, and the front matter says why. A companion that quietly dropped the category would be claiming a kind of authority it does not have.')}
     </div>
@@ -394,21 +375,7 @@ ${card('Counted, not asserted', 'The figures in the front matter are measured', 
   </div>
 </section>
 
-${cta('See what it is made from.', 'The Teaching Support Record', '/teaching/support/', 'Quality Assurance', '/about/quality-assurance/')}`,
-};
-
-// 5 · DEVELOPMENT AND OBSERVATION ─────────────────────────────────────
-PAGES.development = {
-  slug: 'teaching-development', output: 'teaching/development/index.html', file: 'teaching-development.html',
-  title: 'Development &amp; Observation &mdash; Worldwide English College',
-  description: 'What WEC-LC has built for teacher development and observation, what it has '
-    + 'recorded so far, and why the answer to the second is none.',
-  body: `${hero('Teaching', 'Development and observation.',
-    'The College has built the record that teacher development and classroom observation would '
-    + 'be written into. Nothing has been written into it, because no lesson has been observed and '
-    + 'no teacher has yet taught here.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="development" data-contents="Development">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The Position</span>
@@ -461,7 +428,221 @@ ${darkCard('The instructor workspace', 'Where marking and feedback happen', 'Bui
   </div>
 </section>
 
-${cta('Read what the College is looking for.', 'Careers', '/about/careers/', 'The Teaching Support Record', '/teaching/support/')}`,
+${cta('Who teaches to this standard.', 'The Faculty', '/faculty/', 'Academics', '/academics/')}`,
+};
+
+
+// 2 · TEACHING AT WEC-LC — THE ARABIC EDITION ─────────────────────────
+// Same record, same figures, same honesty. The seventeen field names
+// are English record identifiers, so the Arabic edition describes the
+// two field groups in prose with the live counts instead of rendering
+// an English-only table; everything else is the full page.
+PAGES.hubAr = {
+  slug: 'academics-teaching-ar', output: 'ar/academics/teaching/index.html', file: 'academics-teaching.ar.html',
+  contents: true, lang: 'ar', dir: 'rtl', altHref: '/academics/teaching/',
+  title: 'ممارسة التدريس — الكلية العالمية للغة الإنجليزية',
+  description: 'كيف تدرّس الكلية: المنهجية، وكيف يُصمَّم الدرس، وسجل الدعم الذي يعمل منه المعلم، '
+    + 'والدليل المرافق، وكيف يُفترض أن يعمل التطوير والمشاهدة.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">البرامج الأكاديمية</span>
+    <h1>كيف تدرّس الكلية.</h1>
+    <p class="lede">كل درس في البرنامج يُخطَّط قبل أن يُدرَّس، وكل درس مخطَّط يحمل سجلًا بما
+      سيحتاجه المعلم عند كل نقطة فيه. هذه الصفحة تصف المنهجية، والسجل، والجزء الفارغ من
+      السجل.</p>
+    <div class="btn-row">
+      <a href="/ar/faculty/" class="btn btn--gold">هيئة التدريس</a>
+      <a href="/ar/academics/" class="btn btn--outline">البرامج الأكاديمية</a>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="method" data-contents="المنهجية">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">المنهجية</span>
+      <h2>أربعة التزامات تشكّل كل درس.</h2>
+      <p class="lede">ليست فلسفةً مجردة في تعليم اللغات — هذه هي القرارات الأربعة التي تحدد،
+        على نحو مرئي، شكل الدرس في الكلية.</p>
+    </div>
+    <div class="grid grid--4">
+${card('الأول', 'يُدرَّس بالإنجليزية من المستوى الأول', `حتى عند ${ltr('A1')}، حيث يجري ذلك بلغة مقيدة وتكرار ودعم بصري ومعلم يُبطئ بدل أن يترجم. تعليم اللغة باللغة منهجيةٌ، والمستوى الأول كُتب على هذا الافتراض لا عُدِّل إليه لاحقًا.`)}
+${card('الثاني', 'التقييم يُكتب أولًا', 'كل تقييم يوجد قبل التدريس الذي يختبره، فيُبنى الدرس نحو معيار بدل أن يُجمَّع المعيار لاحقًا مما دُرِّس.')}
+${card('الثالث', 'التحدث يُقيَّم بالتحدث', 'تسجيلًا يصححه إنسان، بملاحظات مكتوبة مقابل هدف نطق مسمّى. لا توجد درجة نطق آلية، ولا تُدّعى.')}
+${card('الرابع', 'كل درس يخطط للمتعلم الذي لا يتابع', 'شرح ثانٍ، والأخطاء التي تثيرها هذه النقطة، وأسبابها — كلها مكتوبة في الخطة سلفًا، لا مرتجلة حين يبدو أحدهم تائهًا.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">السجل</span>
+      <h2>ما هو مكتوب.</h2>
+      <p class="lede">البرنامج ليس منهجًا بعناوين دروس. إنه ${ltr(String(D.modules))} وحدة،
+        و${ltr(String(D.items))} عنصرًا مخططًا، وسجل دعم تعليمي من ${ltr(String(FILLED))} مدخلة
+        مؤلفة عبر ${ltr(String(D.fields.length))} حقلًا.</p>
+    </div>
+    <div class="stat-row">
+      <div class="stat-row__item"><strong>${ltr(String(D.modules))}</strong><span>وحدة</span></div>
+      <div class="stat-row__item"><strong>${ltr(String(D.items))}</strong><span>عنصرًا مخططًا</span></div>
+      <div class="stat-row__item"><strong>${ltr(String(D.fields.length))}</strong><span>حقل دعم لكل درس</span></div>
+      <div class="stat-row__item"><strong>${ltr(String(FILLED))}</strong><span>مدخلة دعم مؤلفة</span></div>
+    </div>
+    <p class="form-note">طبقة الدعم المؤلفة مكتملة للمستوى الأول؛ وثلاثة حقول أخرى في السجل لا
+      تحمل مدخلات بعد ومدرجة على أنها غير مُثبَتة بعد. الأرقام أعلاه هي ما هو قائم، لا ما هو
+      مخطط له.</p>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">العمود الفارغ</span>
+      <h2>لا شيء هنا شوهد في صفٍّ حقيقي.</h2>
+      <p class="lede">هذه أهم جملة في هذا القسم، ولهذا ليست في هامش.</p>
+    </div>
+    <div class="grid grid--2">
+${darkCard('لماذا هو فارغ', 'الكلية لم تدرّس أحدًا', 'كل مدخلة في سجل الدعم تعلن مصدر معرفتها، وأحد المصادر الأربعة الممكنة هو صف حقيقي. هذا العمود يقف عند الصفر وسيبقى عند الصفر حتى يدرّس معلمٌ دفعةً ويكتب ما حدث.')}
+${darkCard('ولماذا هو عمود أصلًا', 'كي لا يُملأ خلسةً بشيء آخر', 'النسخة السهلة من هذا السجل كانت ستصف كل شيء بعبارة «خبرتنا التدريسية». إبقاء المشاهدة منفصلةً يعني أن الكلية تستطيع أن تقول بدقة أي ادعاءاتها سيؤكده فصلٌ أول من التدريس أو يصححه أو يقلبه — ولا تستطيع أن تقدّم التصميم على أنه دليل.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="design" data-contents="تصميم الدرس">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">التشريح</span>
+      <h2>ما يحمله كل درس.</h2>
+    </div>
+    <div class="grid grid--3">
+${card('قبل', 'متطلب سابق مسمّى', 'ما يجب أن يحمله المتعلم سلفًا ليعمل هذا الدرس. تسميته تجعل التسلسل قابلًا للفحص: درسٌ متطلبه لا يُدرَّس في أي موضع أسبق عيبٌ، ويمكن العثور عليه آليًا بدل أن يكتشفه صفٌّ حائر.')}
+${card('أثناء', 'مراحل بدقائق معلنة', 'لكل مرحلة غرض ومدة. والمدد تُجمَع إلى زمن الدرس، والمجموع يُفحَص. خطة درس لا تجتمع مراحلها خطةٌ لم يجرّبها أحد فعلًا.')}
+${card('بعد', 'مخرج مسمّى وتقييمه', 'ما صار المتعلم قادرًا عليه، والتقييم الذي يُظهره. كلاهما يُكتب قبل تقديم الدرس، وهو الترتيب الوحيد الذي يمكن به بناء الدرس نحو المعيار.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">مخطط له</span>
+      <h2>المتعلم الذي لا يتابع الشرح الأول.</h2>
+      <p class="lede">معظم خطط الدروس تصف المسار الناجح. هذه تصف المسار غير الناجح أيضًا،
+        سلفًا، لأن هناك يحدث التدريس فعلًا.</p>
+    </div>
+    <div class="grid grid--4">
+${card('مكتوب سلفًا', 'شرح ثانٍ', 'طريق مختلف إلى النقطة ذاتها، للمتعلم الذي لم يصله الطريق الأول. ارتجال هذا لحظة الحيرة هو ما يفعله المعلم الخبير؛ وكتابته هي ما يتيح لمعلم أقل خبرة أن يفعله أيضًا.')}
+${card('مكتوب سلفًا', 'الأخطاء التي تثيرها هذه النقطة', 'مسمّاة تحديدًا، لهذا الدرس، لا نصيحةً عامة. الخطأ الذي كنت تتوقعه فرصة تعليمية؛ والخطأ ذاته غير متوقَّع مقاطعة.')}
+${card('مكتوب سلفًا', 'ولماذا تحدث تلك الأخطاء', 'السبب لا العرَض وحده — تداخل من اللغة الأم، أو قاعدة مفرطة التطبيق، أو سمة اعتباطية في الإنجليزية لا بد من حفظها. المعلم الذي يعرف السبب يعالجه؛ ومن يعرف الخطأ وحده لا يملك إلا تصحيحه.')}
+${card('مكتوب سلفًا', 'وماذا تفعل بمن ينتهي مبكرًا', 'امتداد أصعب حقًا لا أطول فحسب. وإلا قضى أقوى متعلم في الصف درسه منتظرًا.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">مفحوص لا موثوق</span>
+      <h2>الخطة تُتحقق ضد نفسها.</h2>
+      <p class="lede">برنامج بهذا الحجم لا يبقى متسقًا بالعناية وحدها. عدة خصائص تُفحَص آليًا
+        ويفشل البناء إن انكسرت.</p>
+    </div>
+    <div class="grid grid--3">
+${darkCard('التسلسل', 'كل متطلب يُدرَّس أسبق', 'درسٌ يعتمد على شيء لا يدرّسه البرنامج أبدًا، أو يدرّسه لاحقًا، عيبٌ لا يجده التدقيق البشري على نحو موثوق.')}
+${darkCard('التوقيت', 'دقائق المراحل تجتمع إلى الدرس', 'يُفحَص حسابيًا. وهو أرخص إشارة ممكنة إلى أن الخطة فُكِّر فيها لا جُمِّعت.')}
+${darkCard('التغطية', 'كل وحدة تحمل تقييماتها', 'اختبار قصير وواجب ومعيار تصحيح، وفق سياسة واحدة منشورة، عبر الوحدات الستين كلها. الاتساق بهذا الحجم يُفرَض أو لا يوجد.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="support" data-contents="سجل الدعم">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">أربعة أنواع من المعرفة</span>
+      <h2>ليست كل معرفة تدريسية شيئًا واحدًا.</h2>
+      <p class="lede">طمس الفوارق بينها هو كيف يصير الاجتهاد المصمَّم يُستشهَد به دليلًا. كل
+        مدخلة في السجل موسومة بنوع واحد بالضبط.</p>
+    </div>
+    <div class="grid grid--4">
+${card('مشتق', `${ltr(String(D.states.derived_from_curriculum || 0))} مدخلة`, 'مقروء من البرنامج نفسه: المتطلب الذي يسمّيه الدرس، والدقائق التي تعلنها مراحله، والالتباس الذي كُتب فحصه الذاتي ليصطاده. ليس رأيًا — حقيقة عن المنهج، وقابلة للفحص ضده.')}
+${card('مُثبَت', `${ltr(String(D.states.established_pedagogy || 0))} مدخلة`, 'مشهود له في التدريس الدولي للإنجليزية وليس خاصًا بهذه الكلية — أن سين الغائب من أعند الأخطاء لدى متعلمي كل لغة أم، وأن العدّ في الإنجليزية اعتباطي ولا بد من حفظه. تركيبٌ، وموسوم أنه تركيب.')}
+${card('مصمَّم', `${ltr(String(D.states.educational_expertise || 0))} مدخلة`, 'اجتهاد مؤلف من الذين كتبوا المنهج: كيف يُشرح هذا بطريقة أخرى، وأي تشبيه يصمد، وكيف يُمدّ من أنهى مبكرًا. قابل للدفاع عنه، وقابل للتحسين ممن يدرّسه فيجد أفضل.')}
+${card('مُشاهَد', `${ltr(String(OBSERVED))} مدخلة`, 'ما حدث فعلًا في غرفة فيها متعلمون حقيقيون. هذا فارغ، وفارغ لأن الكلية لم تدرّس أحدًا. ولا يُملأ بالأنواع الثلاثة الأخرى.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">الحقول</span>
+      <p>${ltr(String(D.fields.length))} حقلًا في مجموعتين: ${ltr(String(derivable.length))}
+        منها يُقرأ من المنهج نفسه، و${ltr(String(authored.length))} لا يُقرأ منه، فيُؤلَّف أو
+        يُركَّب — ولهذا يحمل كلٌّ منها مصدره إلى جواره. أسماء الحقول معرّفات تقنية في السجل
+        وتُنشر بالإنجليزية في النسخة الإنجليزية من هذه الصفحة — مبدّل اللغة أعلى
+        الصفحة ينقلك إليها.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">التغطية</span>
+      <h2>مكتملة للمستوى الأول، وصادقة عن البقية.</h2>
+    </div>
+    <div class="grid grid--3">
+${darkCard('المستوى الأول', `${ltr(String(D.levelOneLessons))} درسًا تعليميًا مدعومًا بعمق`, 'حقول الدعم المؤلفة الثمانية مكتوبة لكل درس تعليمي في المستوى الأول — المستوى الذي يلقاه المبتدئ أولًا والذي يملك المعلم فيه أضيق مساحة للارتجال. ثلاثة من حقول السجل السبعة عشر لا تحمل مدخلات بعد، والسجل يدرجها على أنها غير مُثبَتة بعد بدل أن يخفيها.')}
+${darkCard('المستويات الثاني–السادس', 'مكتوبة جزئيًا', 'الحقول المقروءة من المنهج معبأة عبر البرنامج؛ والحقول المؤلفة تُكتب مستوى بمستوى. ما هو قائم هو ما هو منشور؛ ولا شيء يُستشرَف.')}
+${darkCard('السجل كله', 'قابل للعدّ علنًا', `${ltr(String(FILLED))} مدخلة مؤلفة اليوم. الرقم يتحرك مع تقدم العمل ويُولَّد من السجل لا يُكتب في هذه الصفحة.`)}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="companion" data-contents="الدليل المرافق">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">المجلد</span>
+      <h2>ما يحتويه دليل المعلم المرافق.</h2>
+    </div>
+    <div class="grid grid--3">
+${card('كل درس', `كل الدروس التعليمية الـ${ltr(String(D.levelOneLessons))} للمستوى الأول`, 'كلٌّ بمراحله ودقائقها المعلنة في رأس الصفحة الجاري، ليرى المعلم شكل الدرس دون أن يعود إلى الخطة.')}
+${card('كل لوحة', 'موسومة بمصدرها', 'مشتق أو مُثبَت أو مصمَّم، مطبوعًا على اللوحة ذاتها لا مشروحًا مرة في مقدمة. المعلم الذي يخالف لوحةً يرى فورًا أيخالف المنهج أم الميدان أم المؤلفين.')}
+${card('وسمٌ واحد غائب', 'المُشاهَد', 'الوسم الرابع لا يظهر في أي موضع من الكتاب، والتصدير يقول لماذا. دليلٌ يُسقط الفئة بصمت يدّعي نوعًا من السلطة لا يملكه.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">ليس تنزيلًا على هذا الموقع</span>
+      <p>الدليل المرافق مجلد منضَّد تنتجه مطبعة الكلية ولا يُنشر للتنزيل هنا. يستطيع المعلمون
+        والمراجعون وكل من يقيّم عمل الكلية الأكاديمي طلب نسخة عبر
+        <a href="mailto:info@worldwencollege.co.uk?subject=Teacher%27s%20Companion" dir="ltr">info@worldwencollege.co.uk</a>.
+        ويُعرض خاصةً على من يرغب في مراجعته — فكل مجلد أنتجته الكلية لم يراجعه بعدُ أحدٌ لم
+        يكتبه.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="development" data-contents="التطوير">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الموقف</span>
+      <h2>يُقال في الأعلى، لا في الأسفل.</h2>
+    </div>
+    <div class="callout">
+      <span class="callout__label">ما هو صحيح اليوم</span>
+      <p>لم يُشاهَد أي درس. ولم يُسجَّل تطوير مهني مستمر لأحد — السجل الذي سيحمله يحتوي
+        ${ltr(String(D.cpd))} مدخلة. ولم يدرّس معلمٌ دفعةً في الكلية، لأنه لا توجد دفعة. وأي
+        صفحة تصف تطوير المعلمين هنا برنامجًا جاريًا تصف شيئًا غير موجود.</p>
+    </div>
+    <div class="grid grid--3" style="margin-top:26px">
+${card('ما أنتجته الكتابة', 'برنامج كامل قابل للفحص', `${ltr(String(D.modules))} وحدة، و${ltr(String(D.items))} عنصرًا مخططًا، وكل تقييم مكتوب بمعايير منشورة، و${ltr(String(FILLED))} مدخلة دعم تعليمي. وكل ذلك يستطيع أي أحد فحصه.`)}
+${card('ما لا تنتجه الكتابة', 'أيًّا من النوع الرابع من المعرفة', 'ما يفعله صف حقيقي بالدرس، وأين تنكسر الخطة، وأي شرح يعمل مع أي متعلم، وكم تستغرق المرحلة فعلًا. لا شيء من هذا يُستنتَج. إنما يُشاهَد.')}
+${card('والنتيجة', 'أثمن تعيين هو معلم ممارس', 'معلم واحد ودفعة واحدة وفصل واحد ينتج دليلًا لا تستطيع الكلية الحصول عليه بطريقة أخرى — وسيحسّن فورًا مادةً هي اليوم مصمَّمة لا مجرَّبة. وهو مسمًّى أولويةً في <a href="/ar/about/#structure">هيكل الكلية</a>.')}
+    </div>
+    <div class="callout" style="margin-top:26px">
+      <span class="callout__label">الالتزام المرتبط بهذا</span>
+      <p>حين تبدأ المشاهدة، سيُنشر ما تقلبه بوصفه قلبًا للحكم السابق. سجلٌّ يتبين فيه دائمًا أن
+        الاجتهاد المصمَّم كان صائبًا سجلٌّ لا يفحصه أحد فعلًا.</p>
+    </div>
+  </div>
+</section>
+
+${cta('من يدرّس بهذا المعيار.', 'هيئة التدريس', '/ar/faculty/', 'البرامج الأكاديمية', '/ar/academics/')}`,
 };
 
 // ── write ────────────────────────────────────────────────────────────
@@ -470,12 +651,20 @@ const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
 
+// The four sub-pages this hub absorbs, plus its own old address.
+for (const slug of ['teaching', 'teaching-lesson-design', 'teaching-support', 'teaching-companion', 'teaching-development']) {
+  const i = entries.findIndex((e) => e.slug === slug);
+  if (i >= 0) entries.splice(i, 1);
+}
+
 for (const p of Object.values(PAGES)) {
   fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
-    contentFile: p.file, lang: 'en', dir: 'ltr',
+    contentFile: p.file, lang: p.lang || 'en', dir: p.dir || 'ltr',
   };
+  if (p.altHref) entry.altHref = p.altHref;
+  if (p.contents) entry.contents = true;
   const i = entries.findIndex((e) => e.slug === p.slug);
   if (i >= 0) entries[i] = { ...entries[i], ...entry }; else entries.push(entry);
   written.push(p.output);

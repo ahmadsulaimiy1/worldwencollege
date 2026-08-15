@@ -150,14 +150,40 @@ check('There is a public site to scan', files.length > 20, files.length);
 // two tables is the difference between "this surname is published
 // because someone works here" and "this surname is mentioned
 // somewhere in a document".
-const registerDoc = readFileSync(path.join(ROOT, 'docs/faculty-register.md'), 'utf8');
-const registerText = registerDoc
-  .slice(registerDoc.indexOf('## Academic staff'))
-  .split('\n')
-  .filter((l) => l.trim().startsWith('|'))
-  .map((l) => l.split('|')[1] || '')
-  .join('\n');
-check('The faculty register has roster tables to read', registerText.split('\n').filter(Boolean).length >= 20,
+//
+// SECOND REGISTER, SAME RULE. The governance register arrived on
+// 14 August 2026 with fifteen more real people, and two of them share a
+// surname with a placeholder: "Professor Amina Rahman" against
+// "Dr. Yusuf Ibrahim Rahman" and "Ms. Khadijah Noor Rahman", and
+// "Mrs. Rebecca Anne Collins" against "Mr. Daniel Robert Collins".
+//
+// That register names placeholders in its own prose too — it carries a
+// note warning that "Rebecca Anne Collins" is a recombination of two
+// placeholder names, which is worth somebody noticing. Reading the file
+// as a whole would therefore exempt "Lawson" and "Hughes", surnames
+// belonging to no member of staff. So the same narrowing applies: the
+// three roster tables only, never the prose around them. This is the
+// "Malik" lesson from the faculty register, arriving a second time in a
+// different file, which is the usual way of finding out that a lesson
+// was really a rule.
+const rosterNames = (file, from, to) => {
+  const doc = readFileSync(path.join(ROOT, file), 'utf8');
+  const start = doc.indexOf(from);
+  if (start < 0) throw new Error(`${file} is missing "${from}"`);
+  const end = to ? doc.indexOf(to, start) : -1;
+  return doc.slice(start, end < 0 ? doc.length : end)
+    .split('\n')
+    .filter((l) => l.trim().startsWith('|'))
+    .map((l) => l.split('|')[1] || '')
+    .join('\n');
+};
+const registerText = [
+  rosterNames('docs/faculty-register.md', '## Academic staff'),
+  rosterNames('docs/governance-register.md', '## Board of Governors',
+    '## Independent External Examiner'),
+].join('\n');
+check('Both registers have roster tables to read',
+  registerText.split('\n').filter(Boolean).length >= 35,
   registerText.split('\n').filter(Boolean).length);
 const exempted = [];
 const needles = [];
@@ -172,8 +198,11 @@ for (const p of people) {
   needles.push({ person: full, text: p.email });
   needles.push({ person: full, text: p.id });
 }
-check('Only surnames belonging to registered faculty are exempt from the surname scan',
-  [...new Set(exempted)].sort().join(', ') === 'Al-Hassan, Hassan',
+// Pinned as a literal list, not a count. The exemption is the one place
+// this test can be weakened without failing, so widening it has to be a
+// deliberate edit to this line with a name attached to each addition.
+check('Only surnames belonging to registered staff or governors are exempt from the surname scan',
+  [...new Set(exempted)].sort().join(', ') === 'Al-Hassan, Collins, Hassan, Rahman',
   [...new Set(exempted)].sort().join(', ') || 'none');
 check('...and every exempt surname really is a placeholder AND a registered name',
   exempted.every((s) => people.some((p) => p.preferred_name.endsWith(s)) && registerText.includes(s)));

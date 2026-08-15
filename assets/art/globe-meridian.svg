@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  THE GLOBE — delivery worldwide.
+
+  An armillary globe in engraved line: horizon ring, meridian band,
+  and a graticule. The geometry is the standard engraved-globe
+  convention rather than a true projection — meridians as ellipses of
+  decreasing width about a common centre, parallels as shallow ellipses
+  offset for a ~20 degrees tilt. A true orthographic projection renders
+  parallels as straight lines, which is geometrically honest and reads,
+  on a plate this size, as a striped disc rather than as a sphere.
+
+  Occupies the square plate slot in chapter 05. See
+  docs/photography-brief.md — PLATE 05.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500" role="img" aria-label="Engraved illustration of an armillary globe">
+  <defs>
+    <radialGradient id="g-sheen" cx="38%" cy="32%" r="62%">
+      <stop offset="0" stop-color="#F2E3C0" stop-opacity=".20"/>
+      <stop offset="1" stop-color="#F2E3C0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <g fill="none" stroke="#C7A24A" stroke-width="1.1" stroke-linecap="square">
+
+    <circle cx="250" cy="250" r="200" fill="url(#g-sheen)" stroke="none"/>
+
+    <!-- The sphere. -->
+    <circle cx="250" cy="250" r="200" stroke-width="1.5"/>
+
+    <!-- Meridians. -->
+    <g stroke-opacity=".62">
+      <ellipse cx="250" cy="250" rx="173.2" ry="200"/>
+      <ellipse cx="250" cy="250" rx="128.6" ry="200"/>
+      <ellipse cx="250" cy="250" rx="68.4"  ry="200"/>
+      <path d="M250 50v400"/>
+    </g>
+
+    <!-- Parallels, tilted. -->
+    <g stroke-opacity=".62">
+      <ellipse cx="250" cy="250" rx="200"   ry="68.4"/>
+      <ellipse cx="250" cy="156" rx="173.2" ry="59.2"/>
+      <ellipse cx="250" cy="344" rx="173.2" ry="59.2"/>
+      <ellipse cx="250" cy="87"  rx="100"   ry="34.2"/>
+      <ellipse cx="250" cy="413" rx="100"   ry="34.2"/>
+    </g>
+
+    <!-- The equator, drawn heavier: the one line that states the
+         object is a sphere rather than a wire basket. -->
+    <ellipse cx="250" cy="250" rx="200" ry="68.4" stroke-width="1.7"/>
+
+    <!-- Landmass suggestion — deliberately loose and unlabelled. A
+         plate that draws recognisable coastlines invites the reader to
+         check them; a plate that suggests land does not. -->
+    <g stroke-opacity=".5" stroke-width="1.25">
+      <path d="M150 190c18-16 40-14 52 2s34 12 44-4 30-14 40 4-6 34-26 36-30-8-48-2-34 10-48-4-30-16-14-32Z"/>
+      <path d="M268 300c22-10 44-4 54 12s0 34-20 40-42-2-48-18 0-28 14-34Z"/>
+      <path d="M118 296c14-8 30-2 34 12s-8 26-22 26-24-10-24-22 4-12 12-16Z"/>
+    </g>
+
+    <!-- Horizon ring — the mount the globe sits in. -->
+    <g stroke-width="1.5">
+      <ellipse cx="250" cy="322" rx="238" ry="82"/>
+      <ellipse cx="250" cy="330" rx="238" ry="82"/>
+      <path d="M12 322v8M488 322v8"/>
+    </g>
+
+    <!-- Meridian band. -->
+    <g stroke-width="1.5">
+      <ellipse cx="250" cy="250" rx="222" ry="222" stroke-opacity=".85"/>
+      <ellipse cx="250" cy="250" rx="214" ry="214" stroke-opacity=".85"/>
+    </g>
+    <g stroke-opacity=".4" stroke-width=".7">
+      <path d="M28 250h8M464 250h8M250 28v8M250 464v8M96 96l6 6M398 96l-6 6M96 404l6-6M398 404l-6-6"/>
+    </g>
+
+    <!-- Polar pins. -->
+    <path d="M250 28v-16M250 472v16" stroke-width="1.6"/>
+  </g>
+</svg>

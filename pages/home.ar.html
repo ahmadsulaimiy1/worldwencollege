@@ -1,134 +1,427 @@
-<section class="hero">
-  <div class="hero__crest-watermark" aria-hidden="true"></div>
+<!--
+  الصفحة الرئيسية — النسخة العربية.
+
+  مطابقة في البنية للنسخة الإنجليزية (pages/home.html): ثمانية فصول،
+  لكل فصل أرضيته اللونية، وسمة data-chapter التي يبني منها
+  js/motion.js شريط الفصول.
+
+  الروابط تشير إلى الصفحات العربية حيث توجد. وحيث لا توجد نسخة عربية
+  بعد، يشير الرابط إلى أقرب صفحة عربية قائمة بدلًا من صفحة إنجليزية
+  تُخرج القارئ من لغته — راجع pages/manifest.json لقائمة ما هو مترجَم.
+-->
+
+<!-- ==================================================================
+     الافتتاحية
+     ================================================================== -->
+<section class="hero--flagship guilloche grain" data-chapter="الافتتاحية" id="opening">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="hero__crest" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400">
   <div class="container hero__inner">
-    <span class="eyebrow">الحرم الجامعي في لندن · القبول الدولي متاح الآن</span>
-    <h1>نُمكّن العالم من خلال التميّز في اللغة الإنجليزية.</h1>
-    <p class="lede">الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن <span dir="ltr">(WEC-LC)</span> مؤسسة دولية رائدة لتعليم اللغة الإنجليزية، مبنية حول برنامج أكاديمي واحد رئيسي — <strong>برنامج الطلاقة الدولي في اللغة الإنجليزية <span dir="ltr">(IEFC)</span></strong> — يرافق المتعلم من مرحلة التأسيس إلى مرحلة الإتقان عبر تدريس احترافي وحرم رقمي حديث.</p>
+    <p class="hero__eyebrow">
+      <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
+      الحرم الجامعي في لندن · القبول متاح عالميًا
+    </p>
+
+    <h1 class="display-1 hero__title" data-split>نُمكّن العالم من خلال التميّز في اللغة الإنجليزية.</h1>
+
+    <p class="hero__typed" data-typeline="الطلاقة.|الثقة.|التميّز.|الإتقان."></p>
+
+    <p class="lede">الكلية العالمية للغة الإنجليزية مؤسسة لندنية مبنية حول مسار واحد &mdash; <strong>برنامج الطلاقة الدولي في اللغة الإنجليزية <span dir="ltr">(IEFC)</span></strong> &mdash; يرافق المتعلم من كلمته الأولى إلى إتقان اللغة. ستة مستويات. ستون وحدة. كلها مكتوبة ومنشورة ومتاحة للقراءة قبل أن يسجّل أحد.</p>
+
     <div class="btn-row">
-      <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم الآن</a>
-      <a href="/ar/academics/iefc/" class="btn btn--ghost">اكتشف برنامج <span dir="ltr">IEFC</span></a>
+      <a href="/ar/admissions/#apply" class="btn btn--gold">
+        ابدأ طلبك
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+      <a href="/ar/academics/#levels" class="btn btn--ghost">اقرأ البرنامج</a>
     </div>
-    <div class="hero__stats">
-      <div class="hero__stat"><strong>6</strong><span>مستويات متوافقة مع <span dir="ltr">CEFR</span></span></div>
-      <div class="hero__stat"><strong>120</strong><span>رصيد <span dir="ltr">WEC</span></span></div>
-      <div class="hero__stat"><strong>24</strong><span>شهرًا، من <span dir="ltr">A1</span> إلى <span dir="ltr">C2</span></span></div>
-      <div class="hero__stat"><strong>100%</strong><span>حرم رقمي بالكامل</span></div>
+
+    <div class="hero__stats--flagship">
+      <div class="hero__stat--flagship">
+        <strong data-assemble>6</strong>
+        <span>مستويات وفق <span dir="ltr">CEFR</span></span>
+      </div>
+      <div class="hero__stat--flagship">
+        <strong data-assemble>60</strong>
+        <span>وحدة مكتوبة</span>
+      </div>
+      <div class="hero__stat--flagship">
+        <strong data-assemble>120</strong>
+        <span>رصيد <span dir="ltr">WEC</span></span>
+      </div>
+      <div class="hero__stat--flagship">
+        <strong data-assemble>1,200</strong>
+        <span>ساعة دراسية</span>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container two-col reveal">
-    <div>
-      <span class="module-marker">01 · الهوية المؤسسية</span>
-      <h2>مؤسسة عالمية، بُنيت من أجل فصل دراسي عالمي.</h2>
-      <p class="lede">تأسست الكلية لإعداد المتعلمين للنجاح الأكاديمي والمهني والعالمي من خلال تدريس صارم للغة الإنجليزية، يقدّمه أساتذة خبراء، وتدعمه تقنيات تعليمية حديثة — متاحة لكل طالب أينما كان.</p>
-      <a href="/ar/about/" class="btn btn--outline">اقرأ رؤيتنا ورسالتنا</a>
-    </div>
-    <div>
-      <blockquote class="pull-quote">
-        أن نصبح واحدة من أبرز المؤسسات العالمية لتعليم اللغة الإنجليزية، معترفًا بتميّزها في التعليم اللغوي والابتكار والنزاهة الأكاديمية ونجاح الخريجين.
-        <cite>رؤية الكلية العالمية للغة الإنجليزية</cite>
-      </blockquote>
+<!-- ==================================================================
+     الأول · الوعد
+     ================================================================== -->
+<section class="chapter section--light section--warm" data-chapter="الكلية" id="promise">
+  <div class="container">
+    <div class="split-feature split-feature--wide-text">
+      <div>
+        <div class="chapter__head">
+          <p class="chapter__num"><span class="roman">I</span> الكلية</p>
+          <h2 class="display-2">اقرأ البرنامج كاملًا قبل أن تدفع فيه شيئًا.</h2>
+          <p class="lede">معظم مقدّمي تعليم اللغة يبيعون منهجًا لا يُسمح لك بالاطّلاع عليه. كل مستوى هنا منشور بالكامل &mdash; وحداته، ومخرجاته، وتقييماته، والمعايير التي يُقاس بها.</p>
+        </div>
+
+        <ul class="feature-list">
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+            <div>
+              <h3>المعيار يُنشر أولًا</h3>
+              <p>المخرجات ومعايير التصحيح وشروط النجاح تصلك قبل التقييم لا بعده. فالمعيار الذي يُكشف بعد الحكم ليس معيارًا &mdash; بل تبرير لحكم.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+            <div>
+              <h3>أربع مهارات، تُقاس منفصلة</h3>
+              <p>الاستماع والقراءة والتحدث والكتابة تحمل درجات منفصلة وتبقى منفصلة في سجلك. فالرقم الواحد المتوسّط يُخفي بالضبط ما يحتاج متعلّم اللغة إلى معرفته.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+            <div>
+              <h3>السجل سجلك أنت</h3>
+              <p>كل محاولة ودرجة وملاحظة تتراكم في مكان واحد، مرئية لك وهي تُكتب. وأنت من يقرر ما يُشارَك ومع من.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="btn-row">
+          <a href="/ar/about/" class="btn btn--outline">عن الكلية</a>
+          <a href="/ar/governance/#quality" class="btn btn--outline">كيف يُحفظ المعيار</a>
+        </div>
+      </div>
+
+      <figure class="plate plate--drift" style="--plate-ratio: 4 / 3">
+        <div class="plate__frame">
+          <img src="/assets/art/portico.svg" alt="رسم محفور لواجهة الكلية: ستة أعمدة كلاسيكية تحمل جملونًا مثلثًا." width="800" height="600" loading="lazy">
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg>
+          لوحة صدر الكلية
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
 
-<section class="section--dark section-pad" id="programme">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">02 · البرنامج الأكاديمي</span>
-      <h2>برنامج الطلاقة الدولي في اللغة الإنجليزية</h2>
-      <p class="lede">مسار أكاديمي واحد، بستة مستويات متوافقة مع الإطار الأوروبي المرجعي، عشر وحدات في كل مستوى، وكلها مكتوبة ومنشورة.</p>
+<!-- ==================================================================
+     الثاني · البرنامج
+     ================================================================== -->
+<section class="chapter section--dark section--midnight grain" data-chapter="البرامج الأكاديمية" id="programme">
+  <div class="container">
+    <div class="chapter__head">
+      <p class="chapter__num"><span class="roman">II</span> البرامج الأكاديمية</p>
+      <h2 class="display-2 gilt">برنامج الطلاقة الدولي في اللغة الإنجليزية</h2>
+      <p class="lede">ستة مستويات متوافقة مع الإطار الأوروبي المرجعي. عشر وحدات في كل مستوى. سياسة تقييم واحدة منشورة، من الدرس الأول إلى الأخير.</p>
     </div>
+
+    <figure class="diagram">
+      {{SVG:assets/art/curriculum-spiral.ar.svg}}
+      <figcaption class="diagram__caption">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+        مسار واحد بست لفّات &mdash; والمهارات الأربع تمتد عبرها جميعًا
+      </figcaption>
+    </figure>
+
     <div class="table-scroll">
-      <table class="ledger">
+      <table class="ledger ledger--flagship">
         <thead>
-          <tr><th>المستوى</th><th dir="ltr">CEFR</th><th>المدة</th><th>الوحدات</th></tr>
+          <tr>
+            <th scope="col">المستوى</th>
+            <th scope="col" dir="ltr">CEFR</th>
+            <th scope="col">الوحدات</th>
+            <th scope="col">الأرصدة</th>
+            <th scope="col">زمن التأهيل</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td><strong>I · برنامج التأسيس</strong></td><td dir="ltr">A1</td><td>4 أشهر</td><td>120</td></tr>
-          <tr><td><strong>II · البرنامج الابتدائي</strong></td><td dir="ltr">A2</td><td>4 أشهر</td><td>120</td></tr>
-          <tr><td><strong>III · البرنامج المتوسط</strong></td><td dir="ltr">B1</td><td>4 أشهر</td><td>120</td></tr>
-          <tr><td><strong>IV · المتوسط المتقدم</strong></td><td dir="ltr">B2</td><td>4 أشهر</td><td>120</td></tr>
-          <tr><td><strong>V · البرنامج المتقدم</strong></td><td dir="ltr">C1</td><td>4 أشهر</td><td>120</td></tr>
-          <tr><td><strong>VI · برنامج الإتقان</strong></td><td dir="ltr">C2</td><td>4 أشهر</td><td>120</td></tr>
+          <tr>
+            <td><span class="ledger__level"><span class="ledger__roman" dir="ltr">I</span> <strong>التأسيس</strong></span></td>
+            <td><span class="ledger__cefr" dir="ltr">A1</span></td><td>10</td><td>20</td><td>200 ساعة</td>
+          </tr>
+          <tr>
+            <td><span class="ledger__level"><span class="ledger__roman" dir="ltr">II</span> <strong>الابتدائي</strong></span></td>
+            <td><span class="ledger__cefr" dir="ltr">A2</span></td><td>10</td><td>20</td><td>200 ساعة</td>
+          </tr>
+          <tr>
+            <td><span class="ledger__level"><span class="ledger__roman" dir="ltr">III</span> <strong>المتوسط</strong></span></td>
+            <td><span class="ledger__cefr" dir="ltr">B1</span></td><td>10</td><td>20</td><td>200 ساعة</td>
+          </tr>
+          <tr>
+            <td><span class="ledger__level"><span class="ledger__roman" dir="ltr">IV</span> <strong>المتوسط المتقدم</strong></span></td>
+            <td><span class="ledger__cefr" dir="ltr">B2</span></td><td>10</td><td>20</td><td>200 ساعة</td>
+          </tr>
+          <tr>
+            <td><span class="ledger__level"><span class="ledger__roman" dir="ltr">V</span> <strong>المتقدم</strong></span></td>
+            <td><span class="ledger__cefr" dir="ltr">C1</span></td><td>10</td><td>20</td><td>200 ساعة</td>
+          </tr>
+          <tr>
+            <td><span class="ledger__level"><span class="ledger__roman" dir="ltr">VI</span> <strong>الإتقان</strong></span></td>
+            <td><span class="ledger__cefr" dir="ltr">C2</span></td><td>10</td><td>20</td><td>200 ساعة</td>
+          </tr>
+          <tr>
+            <td colspan="2"><strong>المسار كاملًا</strong></td>
+            <td><strong>60</strong></td><td><strong>120</strong></td><td><strong>1,200 ساعة</strong></td>
+          </tr>
         </tbody>
       </table>
     </div>
+
+    <p class="form-note">زمن التأهيل رقم تصميم لا قياس: هو حجم العمل الذي بُني المنهج عليه، منشورًا بالساعات لا بالأشهر، لأن المدة التي يستغرقها تحدّدها الساعات التي تخصّصها أسبوعيًا. والكلية تنشر الرقم الذي تستطيع الوقوف خلفه لا مدةً لا تستطيع. ورصيد <span dir="ltr">WEC</span> مقياس داخلي وليس رصيد <span dir="ltr">ECTS</span> أو <span dir="ltr">CATS</span>.</p>
+
     <div class="btn-row">
-      <a href="/ar/academics/iefc/" class="btn btn--gold">استعرض البرنامج كاملًا</a>
-      <a href="/ar/admissions/tuition/" class="btn btn--ghost">الرسوم الدراسية</a>
+      <a href="/ar/academics/#levels" class="btn btn--gold">استعرض كل مستوى<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a href="/ar/academics/#teaching" class="btn btn--ghost">التدريس</a>
     </div>
   </div>
 </section>
 
-<section class="section--paper section-pad" id="curriculum">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">03 · ماذا سيتعلّم الطالب</span>
-      <h2>منهج مبني على الطلاقة في الواقع.</h2>
+<!-- ==================================================================
+     الخامس · لمن صُممت
+     ================================================================== -->
+<section class="chapter section--light section--cream" data-chapter="القبول" id="audience">
+  <div class="container">
+    <div class="split-feature split-feature--wide-plate">
+      <figure class="plate plate--drift plate--photo" style="--plate-ratio: 1 / 1">
+        <div class="plate__frame">
+          <img src="/assets/images/plates/seminar.jpg" alt="طالبتان في حوار حول حاسوب محمول داخل مكتبة، وخلفهما طالب يقرأ على طاولة." width="1200" height="1200" loading="lazy">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>
+          تُدرَّس عالميًا، من لندن
+        </figcaption>
+      </figure>
+
+      <div>
+        <div class="chapter__head">
+          <p class="chapter__num"><span class="roman">III</span> القبول</p>
+          <h2 class="display-2">متعلّمون طموحون، في كل مرحلة.</h2>
+          <p class="lede">تُدرّس الكلية في الخليج وأوروبا وأفريقيا وآسيا، في دفعة واحدة وعلى معيار واحد.</p>
+          <p>مسار واحد يخدمهم جميعًا، لأن اللغة لا تتغيّر بتغيّر من يتعلّمها. الذي يتغيّر هو الغاية: مقعد في جامعة، أو تقرير يجب أن يُقدَّم بالإنجليزية، أو اجتماع يجب أن يُدار بها. البرنامج واحد؛ أما المسار الذي يتّكئ عليه المتعلّم فلا.</p>
+        </div>
+      </div>
     </div>
-    <div class="tag-row">
-      <span class="tag">القواعد</span><span class="tag">المفردات</span><span class="tag">الاستماع</span>
-      <span class="tag">التحدث</span><span class="tag">القراءة</span><span class="tag">الكتابة</span>
-      <span class="tag">النطق</span><span class="tag">اللغة الأكاديمية</span>
-      <span class="tag">لغة الأعمال</span><span class="tag" dir="ltr">IELTS</span>
-      <span class="tag" dir="ltr">TOEFL</span><span class="tag">Cambridge English</span>
-      <span class="tag">الخطابة العامة</span><span class="tag">مهارات المقابلات</span>
-      <span class="tag">التواصل القيادي</span>
+
+    <div class="audience-grid" style="margin-top: 20px">
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
+        <h3>طلاب المرحلة الثانوية</h3>
+        <p>استعداد للدراسة بالإنجليزية قبل أن تصبح هي العائق.</p>
+      </div>
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg>
+        <h3>طلاب الجامعات</h3>
+        <p>لغة أكاديمية كُتبت للحلقات النقاشية والمقالات والمناقشات، لا للتمارين.</p>
+      </div>
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>
+        <h3>المهنيون العاملون</h3>
+        <p>لغة الأعمال والمستوى اللغوي الذي تستخدمه قاعة مليئة بكبار المسؤولين.</p>
+      </div>
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>
+        <h3>العاملون في القطاع الحكومي</h3>
+        <p>الإحاطة والتفاوض والمراسلة بالمستوى الذي يقتضيه المنصب.</p>
+      </div>
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg>
+        <h3>القيادات التنفيذية</h3>
+        <p>الخطابة وإدارة الاجتماعات والتواصل القيادي، مستوى بعد مستوى.</p>
+      </div>
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>
+        <h3>المتقدّمون دوليًا</h3>
+        <p>التحضير لـ<span dir="ltr">IELTS</span> و<span dir="ltr">TOEFL</span> و<span dir="ltr">Cambridge</span> داخل المسار، لا مبيعًا بجانبه.</p>
+      </div>
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>
+        <h3>المرشّحون للدراسة بالخارج</h3>
+        <p>اللغة التي يبحث عنها مكتب القبول الجامعي، موثّقة في السجل.</p>
+      </div>
+      <div class="audience">
+        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg>
+        <h3>الدراسة الخاصة</h3>
+        <p>لكل من يريد اللغة على أصولها، ويريد أن يرى المنهج أولًا.</p>
+      </div>
     </div>
-    <div class="btn-row"><a href="/ar/academics/" class="btn btn--outline">اطّلع على المنهج والمنهجية كاملة</a></div>
+
+    <p class="form-note">تقبل الكلية حاليًا المتعلمين البالغين. وعلى الأسر التي تستفسر نيابةً عن متقدّم دون الثامنة عشرة أن تراسل القبول مباشرة بدلًا من استخدام نموذج التقديم &mdash; راجع <a href="/ar/admissions/#requirements">شروط القبول</a>.</p>
+
+    <div class="btn-row">
+      <a href="/ar/admissions/#apply" class="btn btn--gold">كيفية التقديم<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a href="/ar/admissions/tuition/" class="btn btn--outline">الرسوم والتمويل</a>
+    </div>
   </div>
 </section>
 
-<section class="section--dark section-pad" id="digital-campus">
-  <div class="container reveal">
-    <span class="module-marker">04 · الحرم الرقمي</span>
-    <h2>ما هو مبنيّ، وما لم يعمل بعد.</h2>
-    <p class="lede">المنصة مبنية ومختبرة. وبعض أجزائها لم يُستخدم قط، لأن أي دفعة لم تُدرَّس بعد — وصفحة رئيسية تخلط بين الأمرين ستكون أقل جملة جديرة بالثقة في هذا الموقع.</p>
-    <div class="grid grid--4" style="margin-top:36px">
-      <div class="card card--dark"><span class="card__num">مبنيّ</span><h3>برنامجي</h3><p>مستواك وحدةً وحدة، مع ما اكتمل وما هو تالٍ. التقدّم فردي — لا شيء يُفتح في تاريخ.</p></div>
-      <div class="card card--dark"><span class="card__num">مبنيّ</span><h3>مختبر الاستماع</h3><p>تسجّل صوتك أمام أهداف نطق مسمّاة، وتُحفظ التسجيلات ليكون التغيّر عبر ستة أشهر مسموعًا لا مفترضًا. ويسجّل دون اتصال حين ينقطع.</p></div>
-      <div class="card card--dark"><span class="card__num">مبنيّ</span><h3>سجلك الأكاديمي</h3><p>كل محاولة ودرجة وتغذية راجعة، مرئية وهي تتراكم. وأنت من يقرر ما يُشارَك ومع من.</p></div>
-      <div class="card card--dark"><span class="card__num">ليس بعد</span><h3>الحصص المباشرة والتسجيلات الصوتية</h3><p>نصوص الاستماع مكتوبة؛ والتسجيلات لم تُنتج. ولم تُعقد أي حصة مباشرة لأن أي دفعة لم تُدرَّس. يُذكر الأمران لا يُوهَمان.</p></div>
+<!-- ==================================================================
+     الرابع · الحرم الرقمي
+     ================================================================== -->
+<section class="chapter section--dark grain" data-chapter="الحياة الطلابية" id="digital-campus"
+         style="background:radial-gradient(ellipse 70% 60% at 12% 12%, rgba(29,92,99,.34), transparent 62%), linear-gradient(168deg, var(--navy) 0%, var(--midnight) 100%)">
+  <div class="container">
+    <div class="split-feature split-feature--wide-text">
+      <div>
+        <div class="chapter__head">
+          <p class="chapter__num"><span class="roman">IV</span> الحياة الطلابية</p>
+          <h2 class="display-2">آلة دقيقة، صُنعت لبرنامج واحد.</h2>
+          <p class="lede">المنصة كُتبت لبرنامج <span dir="ltr">IEFC</span> ولا شيء سواه. وليست منصة دورات مرخّصة وُضع عليها شعار.</p>
+        </div>
+
+        <ul class="feature-list">
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+            <div>
+              <h3>برنامجي</h3>
+              <p>مستواك، وحدةً وحدة، مع ما اكتمل وما هو تالٍ. التقدّم فردي لكل متعلم &mdash; ولا شيء يُفتح في تاريخ اختاره غيرك.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+            <div>
+              <h3>مختبر الاستماع</h3>
+              <p>تسجّل صوتك أمام أهداف نطق مسمّاة، وتُحفظ كل التسجيلات &mdash; فيصبح تغيّر ستة أشهر شيئًا تسمعه لا شيئًا يُقال لك عنه. ويسجّل دون اتصال حين تنقطع الشبكة.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+            <div>
+              <h3>سجل قابل للتحقق</h3>
+              <p>تحمل النتائج مرجع تحقّق، فتستطيع جامعة أو جهة عمل أن تؤكد ما تحمله دون أن تأخذ بكلمتك ولا بكلمتنا.</p>
+            </div>
+          </li>
+        </ul>
+
+        <p class="form-note">التسجيلات الصوتية للاستماع والحصص المباشرة قيد الإعداد: النصوص مكتوبة والجلسات مجدولة أمام الدفعة الأولى. وكلاهما مُدرَج على خارطة طريق المنصة لا مُلمَّح إليه هنا.</p>
+
+        <div class="btn-row">
+          <a href="/ar/students/" class="btn btn--outline">الحياة الطلابية</a>
+          <a href="/ar/students/#lab" class="btn btn--outline">معمل الاستماع</a>
+        </div>
+      </div>
+
+      <figure class="plate plate--drift plate--photo" style="--plate-ratio: 1 / 1">
+        <div class="plate__frame">
+          <img src="/assets/images/plates/study.jpg" alt="متعلّم بقميص رسمي يعمل على حاسوب محمول بسمّاعات، وأمامه ملفات وأوراق على المكتب." width="1200" height="1200" loading="lazy">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+          مبنيّة لبرنامج واحد، ولا شيء سواه
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head center">
-      <span class="module-marker">05 · لمن صُممت الكلية</span>
-      <h2>مبنية لمتعلّمين طموحين، في كل مرحلة.</h2>
+<!-- ==================================================================
+     السادس · المبادئ
+     ================================================================== -->
+<section class="chapter chapter--principles section--dark section--oxford grain aurora" data-chapter="الحوكمة" id="principles">
+  <div class="container">
+    <div class="chapter__head chapter__head--center">
+      <p class="chapter__num"><span class="roman">V</span> الحوكمة</p>
+      <h2 class="display-2">أربعة التزامات لن تساوم عليها هذه الكلية.</h2>
+      <p class="lede" style="margin-inline:auto">هي أسباب اختيار مؤسسة حديثة على أخرى عريقة، وكل واحد منها يكلّف الكلية شيئًا.</p>
     </div>
-    <div class="tag-row u-center">
-      <span class="tag">تلاميذ المدارس</span><span class="tag">طلاب المرحلة الثانوية</span>
-      <span class="tag">طلاب الجامعات</span><span class="tag">المهنيون العاملون</span>
-      <span class="tag">موظفو القطاع الحكومي</span><span class="tag">قادة الأعمال</span>
-      <span class="tag">الطلاب الدوليون</span><span class="tag">المتقدّمون للدراسة بالخارج</span>
+
+    <div class="principle-grid">
+      <article class="principle">
+        <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>
+        <span class="principle__num" dir="ltr">01</span>
+        <h3>شهادة تستحق أن تُمنح</h3>
+        <p>لن تمنح الكلية شهادتها إلا تحت إشراف ممتحن خارجي. فالشهادة الصادرة بدونه تساوي أقل لا أكثر &mdash; وهي أسهل ما يمكن تزييفه في هذا الموقع.</p>
+      </article>
+      <article class="principle">
+        <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
+        <span class="principle__num" dir="ltr">02</span>
+        <h3>دليل، لا ادّعاء</h3>
+        <p>كل ما تقوله الكلية عن نفسها هنا منشور ومعه السجل الذي يسنده، في سجلّ مفتوح لمن أراد التحقق. وحيث يوجد أمر معلّق، يُدرج بوصفه معلّقًا.</p>
+      </article>
+      <article class="principle">
+        <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg>
+        <span class="principle__num" dir="ltr">03</span>
+        <h3>دفعة مؤسِّسة</h3>
+        <p>لم تُدرَّس أي دفعة بعد. ومن يسجّل الآن هم الأوائل، ويُدرَّسون بعناية يستحيل تقديمها بعد أن يتّسع العدد.</p>
+      </article>
+      <article class="principle">
+        <svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg>
+        <span class="principle__num" dir="ltr">04</span>
+        <h3>مستوى بمستوى، على وتيرتك</h3>
+        <p>الرسوم تُدفع مستوى واحدًا في كل مرة. أنت تلتزم بالوحدات العشر التالية &mdash; لا بالمسار كله دفعة واحدة، ولا بمرحلة من عمرك لم تعشها بعد.</p>
+      </article>
+    </div>
+
+    <div class="status-note" id="status">
+      <svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>
+      <p>الكلية العالمية للغة الإنجليزية مؤسسة حديثة التأسيس، تقدّم برنامج <span dir="ltr">IEFC</span> عبر الإنترنت حول العالم من مقر إداري في لندن. وموقفها من الاعتماد وتعييناتها الحوكمية وتقويمها الأكاديمي منشورة بالكامل ومحدَّثة &mdash; راجع <a href="/ar/about/#status">الوضع المؤسسي</a> و<a href="/ar/governance/#quality">ضمان الجودة</a>.</p>
+    </div>
+
+    <div class="btn-row u-center" style="margin-top:34px">
+      <a href="/ar/governance/" class="btn btn--outline">كيف تُدار الكلية</a>
+      <a href="/ar/governance/#quality" class="btn btn--outline">ضمان الجودة</a>
     </div>
   </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="callout" id="status">
-      <span class="callout__label">الوضع المؤسسي — اقرأ قبل التقديم</span>
-      <p>الكلية العالمية للغة الإنجليزية مؤسسة حديثة التأسيس، تقدّم برنامج <span dir="ltr">IEFC</span> عبر الإنترنت حول العالم من مقر إداري في لندن — عنوان إداري لا حرم للتدريس. هيكل البرنامج والمنهج ونظام التقييم والرسوم مؤكدة. أما الاعتماد وعنوان المقر المسجَّل والتقويم الأكاديمي وتعيينات الهيئتين الأكاديميتين فمعلّقة، وتُدرج بوصفها معلّقة لا بوصفها «قيد الإنجاز».</p>
-      <p><strong>وأربعة أمور تقولها هذه الكلية ولا يقولها غيرها:</strong> لا تحمل الكلية أي اعتماد. ولم تُمنح أي شهادة لأحد، لأنه لم يُعيَّن ممتحن خارجي. ولا يوجد خريجون ولا إحصاءات خريجين، لأن أي دفعة لم تُدرَّس. ولا توجد سياسة استرداد معتمدة — وإن كان اليقين يهمك فادفع مستوى بمستوى، راجع <a href="/ar/admissions/payment/#refunds">الاسترداد</a>. الصورة الكاملة في <a href="/ar/about/#status">الوضع المؤسسي</a>.</p>
+<!-- ==================================================================
+     VI · المطبعة والمكتبة
+     ================================================================== -->
+<section class="chapter section--light section--pearl" data-chapter="المطبعة والمكتبة" id="press">
+  <div class="container">
+    <div class="split-feature split-feature--wide-text">
+      <div>
+        <div class="chapter__head">
+          <p class="chapter__num"><span class="roman">VI</span> المطبعة والمكتبة</p>
+          <h2 class="display-2">الكلية تنشر ما تدرّسه.</h2>
+          <p class="lede">الوحدات الستون ونظام التقييم ومنهجية التدريس ليست وثائق داخلية. مطبعة الكلية تصدرها مجلداتٍ يقرؤها أي أحد — وتقول بوضوح أيها روجع باستقلالية. لم يُراجَع أيٌّ منها بعد، والدار تقول ذلك بدل أن توحي بغيره.</p>
+        </div>
+
+        <div class="btn-row">
+          <a href="/ar/press/" class="btn btn--outline">مطبعة الكلية</a>
+          <a href="/ar/press/catalogue/" class="btn btn--outline">تصفّح الكتالوج</a>
+        </div>
+      </div>
+
+      <figure class="plate plate--drift plate--photo" style="--plate-ratio: 3 / 2">
+        <div class="plate__frame">
+          <img src="/assets/images/plates/library.jpg" alt="قاعة قراءة جامعية: طاولات طويلة ومصابيح خضراء الظلال وأرفف كتب تمتد نحو الجدار البعيد." width="1600" height="1067" loading="lazy">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
+          ستون وحدة، مكتوبة
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
 
-<section class="section--dark cta-band">
-  <div class="container reveal">
-    <span class="eyebrow u-center">ابدأ رحلتك نحو الطلاقة</span>
-    <h2>القبول مستمر. تبدأ يوم تسجّل.</h2>
-    <p class="lede" style="margin:0 auto 28px">لا دفعة تنتظرها ولا فصل يفوتك. اقرأ البرنامج أولًا — كله منشور.</p>
-    <div class="btn-row u-center">
-      <a href="/ar/admissions/#apply" class="btn btn--gold">ابدأ طلبك الآن</a>
-      <a href="/ar/contact/" class="btn btn--ghost">تحدّث مع القبول والتسجيل</a>
+<!-- ==================================================================
+     الختام
+     ================================================================== -->
+<section class="cta--flagship guilloche grain">
+  <div class="container">
+    <img class="cta__seal wax-seal glint" src="/assets/art/laurel.svg" alt="" aria-hidden="true" width="200" height="200">
+    <h2 class="display-2">القبول مستمر. تبدأ يوم تسجّل.</h2>
+    <p class="lede">لا دفعة تنتظرها ولا فصل يفوتك. اقرأ البرنامج أولًا &mdash; كله منشور.</p>
+    <div class="btn-row">
+      <a href="/ar/admissions/#apply" class="btn btn--gold">ابدأ طلبك الآن<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a href="/ar/faq/" class="btn btn--ghost">اقرأ الأسئلة الصعبة أولًا</a>
     </div>
+    <p class="cta__note">نُمكّن العالم من خلال التميّز في اللغة الإنجليزية</p>
   </div>
 </section>

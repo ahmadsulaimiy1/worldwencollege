@@ -216,9 +216,9 @@ for (const para of [
 ]) children.push(P(para, { size: 20 }));
 children.push(P('Worldwide English College Press', { font: SANS, size: 15, bold: true, caps: true,
   tracking: 70, color: hex(BRAND.ink), before: 200, after: 40 }));
-children.push(P('This preface is issued by the publisher. It is unsigned because the College has '
-  + 'not appointed the officers who would conventionally sign it, and this edition does not compose '
-  + 'words for people who do not hold office.', { size: 16, italic: true, color: '6B7280' }));
+children.push(P('This preface is issued by the publisher and is unsigned. A signed foreword is a '
+  + 'text an officer of the College writes; none has been written for this edition, and the Press '
+  + 'does not compose words on a named person\'s behalf.', { size: 16, italic: true, color: '6B7280' }));
 
 // ---- A note on this edition -----------------------------------------
 children.push(H1('A Note on This Edition'));

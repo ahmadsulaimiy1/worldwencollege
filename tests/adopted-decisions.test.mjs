@@ -73,7 +73,9 @@ for (const s of STALE) {
 // ---------------------------------------------------------------------
 // 3 · THE DECISIONS PAGE PUBLISHES THE REGISTER'S OWN NUMBERS
 // ---------------------------------------------------------------------
-const decisionsPage = readFileSync(path.join(ROOT, 'pages/standards-decisions.html'), 'utf8');
+// The register moved with the Governance pillar — same content
+// contract, new address under /governance/.
+const decisionsPage = readFileSync(path.join(ROOT, 'pages/governance-decisions.html'), 'utf8');
 const total = adoptedNow + adoptedEarly;
 check(`The decisions page publishes the true total — ${total}`,
   decisionsPage.includes(String(total)), 'the page and the register disagree on the count');

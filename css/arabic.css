@@ -1,0 +1,196 @@
+/* ═══════════════════════════════════════════════════════════════════
+   ARABIC TYPOGRAPHY
+   ═══════════════════════════════════════════════════════════════════
+
+   Arabic is not Latin with different letters, and for a long time this
+   site treated it as though it were. The RTL rules in brand.css mirror
+   the LAYOUT — margins, orders, positions — and nothing anywhere
+   touched the TYPE. Arabic pages inherited a type system tuned entirely
+   to Playfair Display and Inter, and the result was not a stylistic
+   mismatch. It was damage:
+
+     · the homepage headline set at line-height 1.04, where Amiri's
+       tashkeel from one line sat inside the line above it;
+     · −0.021em of tracking on that same headline, on a CURSIVE script
+       where the space between letters is the join, not a gap;
+     · 1,049 elements site-wide carrying letter-spacing onto Arabic;
+     · 555 carrying leading too tight for the script.
+
+   tests/browser/typography-audit.mjs measures every one of those in the
+   real faces and fails on each. This file is the answer to that audit.
+
+   ───────────────────────────────────────────────────────────────────
+   WHY THIS IS A SEPARATE STYLESHEET, LOADED LAST
+   ───────────────────────────────────────────────────────────────────
+
+   The first attempt put these rules at the foot of brand.css and barely
+   moved the numbers — 1,049 violations became 951. brand.css loads
+   first; atelier.css, pages.css and home.css load after it and set
+   tracking of their own at equal specificity, so every one of them won.
+
+   Fighting that with !important or ever-longer selectors would work
+   once and rot. A stylesheet that loads last cannot be overridden by
+   the general ones by accident, and it puts every script-specific
+   decision in the one place somebody would think to look.
+
+   ───────────────────────────────────────────────────────────────────
+   WHY :lang(ar) AND NOT ONLY [dir="rtl"]
+   ───────────────────────────────────────────────────────────────────
+
+   Arabic is not confined to Arabic pages. The language switch in the
+   topbar reads العربية on all 101 English routes, inside a document
+   that is `dir="ltr"` from top to bottom — so a rule keyed on direction
+   never reached it, and that single element accounted for most of the
+   remaining violations.
+
+   `:lang(ar)` follows the CONTENT rather than the layout, which is what
+   a typographic rule should do. It requires the element to declare its
+   language, which the switch now does — and which it owed a screen
+   reader anyway, since a reader announcing العربية in an English voice
+   is its own small failure. */
+
+/* ── 1 · Cairo leads, and Amiri steps back ────────────────────────────
+
+   MEASURED, not chosen by eye. The ink height of real Arabic sentences
+   carrying tashkeel, as a multiple of the font size:
+
+       Amiri              1.69          Playfair Display   0.98
+       Cairo              1.41          Inter              0.98
+
+   Amiri is a beautiful classical Naskh and it wants nearly 1.7 of
+   leading before two lines stop touching. On an editorial page with
+   room that is fine. In a fixed-height header band, a nav rail or a
+   card label it is impossible — and the header band is exactly where
+   this site broke. A face that needs 70% leading cannot be the default
+   of a UI-dense institutional site.
+
+   Cairo needs 1.41 and is drawn for screen. In Arabic typography there
+   is no serif/sans dichotomy to preserve, and Cairo set at 700 for
+   headings against 400 for text is entirely idiomatic — it is what
+   premium Arabic editorial design generally does. So Cairo leads
+   everywhere and weight carries the hierarchy, exactly as Playfair
+   against Inter does on the English side.
+
+   Amiri stays in the stack behind it: still available deliberately,
+   for a pull quote or a ceremonial line where the leading is generous
+   enough to earn it. */
+[dir="rtl"], :lang(ar) {
+  --font-display: 'Cairo', 'Amiri', 'Playfair Display', serif;
+  --font-body: 'Cairo', 'Inter', -apple-system, sans-serif;
+}
+
+/* Redefining the token is not enough on its own, and the reason is
+   worth writing down. `font-family: var(--font-body)` is declared on
+   `body`, so the variable resolves THERE, once, against the document's
+   direction. Every descendant then inherits the resolved value — not
+   the reference. Re-pointing the token on an element deep inside an
+   English page therefore changes nothing at all, which is why the
+   Arabic language switch kept rendering in Amiri-by-fallback rather
+   than Cairo. The family has to be declared again, not just the token. */
+:lang(ar) { font-family: 'Cairo', 'Amiri', -apple-system, sans-serif; }
+:lang(ar) h1, :lang(ar) h2, :lang(ar) h3, :lang(ar) h4,
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4,
+[dir="rtl"] .display-1, [dir="rtl"] .display-2, [dir="rtl"] .display-3 {
+  font-family: 'Cairo', 'Amiri', 'Playfair Display', serif;
+}
+
+/* ── 2 · Leading suited to Naskh ──────────────────────────────────────
+   Amiri's ascenders carry vocalisation marks and its descenders swing
+   well below the baseline, so its glyph box is far taller than the em.
+   Latin display leading of 1.04–1.18 is elegant restraint; the same
+   numbers on Naskh collide. These start at 1.5 for display sizes and
+   open to 1.9 for body copy, which is ordinary practice for Arabic and
+   reads as generous rather than loose. */
+/* The floor. Cairo's ink is 1.41, so nothing anywhere may be set
+   tighter than this — including whatever gets added next year by
+   somebody who never reads this file. */
+[dir="rtl"] *, :lang(ar), :lang(ar) * { line-height: 1.55; }
+
+[dir="rtl"] body { line-height: 1.9; }
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4,
+:lang(ar) h1, :lang(ar) h2, :lang(ar) h3, :lang(ar) h4 { line-height: 1.6; }
+[dir="rtl"] .display-1, [dir="rtl"] .display-2, [dir="rtl"] .display-3,
+[dir="rtl"] .page-hero h1, [dir="rtl"] .hero h1 { line-height: 1.6; }
+[dir="rtl"] p, [dir="rtl"] li, [dir="rtl"] .lede,
+[dir="rtl"] dd, [dir="rtl"] td, [dir="rtl"] th { line-height: 1.9; }
+[dir="rtl"] .eyebrow, [dir="rtl"] .module-marker, [dir="rtl"] .card__num,
+[dir="rtl"] .callout__label, [dir="rtl"] .form-note { line-height: 1.7; }
+
+/* The wordmark is two stacked lines inside a fixed-height band, so 1.55
+   makes it taller than the band that holds it. It gets its own value —
+   still well clear of the 1.10 that had its two lines touching. */
+[dir="rtl"] .brand__word, [dir="rtl"] .brand__name, [dir="rtl"] .brand__campus,
+[dir="rtl"] .crown__name, [dir="rtl"] .crown__campus,
+:lang(ar).topbar__lang, :lang(ar) .topbar__lang { line-height: 1.55; }
+
+/* Split-word animation wraps each word in its own inline-block, which
+   takes the heading's line-height with it. Without this the words are
+   spaced correctly and the LINES still overlap. */
+[dir="rtl"] .split-word { line-height: 1.6; }
+
+/* ── 3 · No tracking on a cursive script ──────────────────────────────
+   Letter-spacing in Arabic does not space letters; it breaks the
+   connections between them. The universal selector is deliberate —
+   tracking inherits, so any rule anywhere that sets it would otherwise
+   reach Arabic — and it is scoped to elements whose language is Arabic
+   rather than to the whole document. */
+/* !important, and it is the correct tool rather than a shortcut.
+   Tracking on Arabic is not a preference that a component may override
+   for good reasons — it is always wrong, because it severs the joins
+   that make the word. Without it these rules lost to `.nav__list a`
+   and friends on specificity, and 795 of 1,049 violations survived. */
+[dir="rtl"] *, :lang(ar), :lang(ar) * {
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+}
+
+/* …except genuinely Latin runs. The Latin fragments deliberately
+   embedded in Arabic pages — CEFR codes, prices, BASCE, personal names
+   left in Latin script on purpose — are still Latin, and the small-caps
+   labels among them still want their tracking. */
+[dir="rtl"] [dir="ltr"], [dir="rtl"] [lang="en"],
+[dir="rtl"] [dir="ltr"] * { letter-spacing: revert !important; }
+
+/* NO EXCEPTION FOR .module-marker OR .card__num, and that is a
+   correction. Both were exempted here on the assumption that they hold
+   Latin reference codes — BASCE, A1, Level II — which brand.css already
+   forces to `direction: ltr` for exactly that reason. On the Arabic
+   pages they hold translated Arabic labels: الرؤية, الرسالة, القيم
+   الجوهرية. Tracking them severed the joins in the very words the
+   exception was meant to protect. Genuinely Latin runs are covered by
+   the [dir="ltr"] rule above, which is the honest test of whether
+   something is Latin — the class name never was. */
+
+/* ── 4 · Numerals ─────────────────────────────────────────────────────
+   The site publishes Western Arabic numerals throughout — fees, level
+   numbers, member counts — and they must not reorder inside an RTL
+   line. The dir="ltr" spans in the markup handle the sequence; this
+   keeps the figures themselves lining up in tables. */
+[dir="rtl"] .ledger td, [dir="rtl"] .stat-row__item b {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── 5 · Optical size ─────────────────────────────────────────────────
+
+   Arabic set at the same pixel size as Latin reads considerably larger,
+   and the reason is structural rather than a matter of taste. A Latin
+   line is mostly lowercase, so its visual mass is the x-height —
+   roughly 52% of the em in Inter, 47% in Playfair Display. Arabic has
+   no case distinction: every letter occupies the full body, and the
+   ascenders and vocalisation sit on top of that. The same 4.6rem
+   headline therefore lands with perhaps a fifth more presence in Cairo
+   than in Playfair.
+
+   Left uncorrected the Arabic homepage headline ran to three lines
+   where the English ran to two, and the page shouted in one language
+   and spoke in the other. The correction is a shade under 0.9, applied
+   only to display sizes — body text is already comfortable and shrinking
+   it would cost legibility, which is the opposite of the point.
+
+   Restated as full clamps rather than a multiplier: `font-size: .88em`
+   on a heading resolves against its PARENT, not against its own size,
+   so it would scale from the body text and collapse the hierarchy. */
+[dir="rtl"] .display-1 { font-size: clamp(2.1rem, 1.24rem + 3.85vw, 4rem); }
+[dir="rtl"] .display-2 { font-size: clamp(1.62rem, 1.05rem + 2.28vw, 2.62rem); }
+[dir="rtl"] .display-3 { font-size: clamp(1.16rem, .94rem + .96vw, 1.55rem); }
+[dir="rtl"] h1 { font-size: clamp(1.9rem, 1.2rem + 2.6vw, 2.9rem); }

@@ -11,6 +11,27 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{{FONTS_URL}}" rel="stylesheet">
 <link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/atelier.css">
+<link rel="stylesheet" href="/css/pages.css">{{EXTRA_CSS}}
+<!-- LAST, and that ordering is load-bearing. Script-specific typography
+     has to be able to override the general stylesheets, because those
+     set tracking and leading tuned to Latin faces and Arabic inherits
+     it. Putting this first — which is where it started — left 951 of
+     1,049 violations standing. See the header of css/arabic.css. -->
+<link rel="stylesheet" href="/css/arabic.css">
+<noscript><style>
+/* Several entrance effects are authored hidden and revealed by script:
+   .reveal (js/site.js), .split-word and .rule-draw (js/motion.js),
+   .assemble__d and .gilt (js/atelier.js). With scripting off, nothing
+   ever reveals them — the page renders, passes every check, and shows
+   the reader blank space where the content is. Each is pinned to its
+   finished state here, which is the same contract the
+   prefers-reduced-motion blocks keep. */
+.reveal, .split-word, .assemble__d, .foil, .wax-seal, .constellation { opacity: 1 !important; transform: none !important; }
+.rule-draw { transform: scaleX(1) !important; }
+.gilt { --gilt: 1; }
+.plate--drift img, .plate--drift svg { animation: none !important; }
+</style></noscript>
 <meta property="og:site_name" content="{{OG_SITE_NAME}}">
 <meta property="og:locale" content="{{OG_LOCALE}}">
 <meta property="og:title" content="{{TITLE}}">
@@ -26,9 +47,11 @@
 <meta name="twitter:description" content="{{DESCRIPTION}}">
 <meta name="twitter:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
 <link rel="canonical" href="{{CANONICAL}}">
-<link rel="alternate" hreflang="en" href="{{HREFLANG_EN}}">
-<link rel="alternate" hreflang="ar" href="{{HREFLANG_AR}}">
-<link rel="alternate" hreflang="x-default" href="{{HREFLANG_EN}}">
+<!-- Assembled in scripts/build.js rather than written out here: a page
+     with no counterpart in the other language must declare no alternate
+     at all, and there is no way to omit a line from a template that
+     only substitutes values. -->
+{{ALTERNATES}}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -38,7 +61,7 @@
   "url": "https://www.worldwencollege.co.uk/",
   "email": "info@worldwencollege.co.uk",
   "slogan": "Empowering the World Through English Excellence.",
-  "description": "A premium international English language institution delivering the International English Fluency Course (IEFC) — six CEFR-aligned levels, taught entirely online from a London administrative headquarters.",
+  "description": "An international English language institution delivering the International English Fluency Course (IEFC) — six CEFR-aligned levels, taught entirely online from a London administrative headquarters.",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "London",

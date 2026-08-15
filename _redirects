@@ -30,10 +30,10 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 # ── SECTION SHORTHANDS ───────────────────────────────────────────────
 # Short paths a person is likely to type or to be given verbally,
 # pointed at the page that actually answers them.
-/apply     /admissions/apply/          301
+/apply     /admissions/#apply          301
 /fees      /admissions/tuition/        301
 /tuition   /admissions/tuition/        301
-/levels    /study/                     301
+/levels    /academics/#levels                     301
 /privacy   /support/privacy/           301
 
 # /verify is deliberately NOT redirected. The real verification URL is
@@ -43,3 +43,86 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 # been re-encoded would resolve to an empty verification page rather
 # than an error. An empty verification page is the one failure mode
 # this route must never produce: it looks like a check that ran.
+
+# >>> GENERATED FROM scripts/lib/route-map.js — DO NOT EDIT BY HAND
+#
+# The architecture in docs/information-architecture.html retires these
+# URLs. Each one is indexed, may be printed in a published volume, and
+# must never return 404. 74 of 74 planned routes have moved
+# so far; the rest keep serving their own page until their phase lands.
+#
+/ar/admissions/entry-requirements/  /ar/admissions/#requirements  301
+/admissions/entry-requirements/     /admissions/#requirements  301
+/ar/admissions/international/       /ar/admissions/#international  301
+/ar/about/quality-assurance/        /ar/governance/#quality  301
+/ar/admissions/scholarships/        /ar/admissions/tuition/#funding  301
+/ar/standards/verification/         /ar/governance/#verification  301
+/ar/teaching/lesson-design/         /ar/academics/teaching/  301
+/ar/students/listening-lab/         /ar/students/#lab  301
+/admissions/international/          /admissions/#international  301
+/ar/about/academic-senate/          /ar/governance/#senate  301
+/about/quality-assurance/           /governance/#quality  301
+/admissions/scholarships/           /admissions/tuition/#funding  301
+/ar/teaching/development/           /ar/academics/teaching/  301
+/ar/admissions/questions/           /ar/faq/  301
+/standards/verification/            /governance/#verification  301
+/teaching/lesson-design/            /academics/teaching/#design  301
+/students/listening-lab/            /students/#lab  301
+/ar/standards/decisions/            /ar/governance/  301
+/about/academic-senate/             /governance/#senate  301
+/ar/standards/evidence/             /ar/governance/  301
+/ar/standards/research/             /ar/governance/#research  301
+/ar/teaching/companion/             /ar/academics/teaching/  301
+/ar/admissions/payment/             /ar/admissions/tuition/#paying  301
+/teaching/development/              /academics/teaching/#development  301
+/admissions/questions/              /faq/  301
+/ar/learning/platform/              /ar/academics/#campus  301
+/ar/support/technical/              /ar/academics/#campus  301
+/standards/decisions/               /governance/decisions/  301
+/ar/about/philosophy/               /ar/about/#philosophy  301
+/ar/about/governance/               /ar/governance/  301
+/ar/teaching/support/               /ar/academics/teaching/  301
+/ar/admissions/apply/               /ar/admissions/#apply  301
+/ar/admissions/dates/               /ar/admissions/#dates  301
+/ar/admissions/visas/               /ar/admissions/#visas  301
+/ar/students/support/               /ar/students/#support  301
+/standards/evidence/                /governance/evidence/  301
+/standards/research/                /governance/#research  301
+/teaching/companion/                /academics/teaching/#companion  301
+/admissions/payment/                /admissions/tuition/#paying  301
+/ar/about/structure/                /ar/about/#structure  301
+/ar/press/standards/                /ar/press/#standards  301
+/ar/press/programme/                /ar/press/#programme  301
+/learning/platform/                 /academics/#campus  301
+/support/technical/                 /academics/#campus  301
+/ar/academics/iefc/                 /ar/academics/#iefc  301
+/about/philosophy/                  /about/#philosophy  301
+/about/governance/                  /governance/  301
+/teaching/support/                  /academics/teaching/#support  301
+/admissions/apply/                  /admissions/#apply  301
+/admissions/dates/                  /admissions/#dates  301
+/admissions/visas/                  /admissions/#visas  301
+/students/support/                  /students/#support  301
+/ar/about/mission/                  /ar/about/#mission  301
+/about/structure/                   /about/#structure  301
+/press/standards/                   /press/#standards  301
+/press/programme/                   /press/#programme  301
+/ar/about/vision/                   /ar/about/#vision  301
+/ar/press/review/                   /ar/press/#review  301
+/academics/iefc/                    /academics/#iefc  301
+/ar/about/basce/                    /ar/governance/#basce  301
+/about/mission/                     /about/#mission  301
+/about/vision/                      /about/#vision  301
+/press/review/                      /press/#review  301
+/ar/standards/                      /ar/governance/#standard  301
+/about/basce/                       /governance/#basce  301
+/ar/learning/                       /ar/academics/#learning  301
+/ar/teaching/                       /ar/academics/teaching/  301
+/ar/library/                        /ar/press/#library  301
+/standards/                         /governance/#standard  301
+/learning/                          /academics/#learning  301
+/teaching/                          /academics/teaching/  301
+/ar/study/                          /ar/academics/#levels  301
+/library/                           /press/#library  301
+/study/                             /academics/#levels  301
+# <<< END GENERATED

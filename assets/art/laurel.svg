@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  THE LAUREL SEAL.
+
+  Sits at the head of the closing CTA band and presses in once on
+  arrival (.wax-seal in css/brand.css). A wreath of two boughs, a
+  hairline ring, and the college monogram at the centre.
+
+  Leaves are placed on an arc by angle rather than drawn individually,
+  so both boughs mirror exactly — an asymmetric wreath reads as a
+  mistake at any size above about 40px.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Laurel seal of WorldWide English College">
+  <defs>
+    <linearGradient id="w-metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0"   stop-color="#A8863C"/>
+      <stop offset=".3"  stop-color="#F2E3C0"/>
+      <stop offset=".55" stop-color="#D4AF37"/>
+      <stop offset=".8"  stop-color="#F2E3C0"/>
+      <stop offset="1"   stop-color="#A8863C"/>
+    </linearGradient>
+  </defs>
+
+  <g fill="none" stroke="url(#w-metal)" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- Hairline rings. -->
+    <circle cx="100" cy="100" r="92" stroke-width="1" stroke-opacity=".45"/>
+    <circle cx="100" cy="100" r="86" stroke-width="1.6"/>
+    <circle cx="100" cy="100" r="52" stroke-width=".9" stroke-opacity=".55"/>
+
+    <!-- Left bough. -->
+    <g stroke-width="1.7">
+      <path d="M100 176c-26-8-44-26-52-50s-4-48 10-66"/>
+      <path d="M56 68c-8-6-18-7-27-3 3 9 10 16 19 18M48 88c-9-4-19-3-27 3 5 8 14 12 23 11M46 110c-9-2-18 2-24 9 7 6 16 8 25 5M52 132c-9 0-17 5-21 13 8 5 18 5 25 0M64 152c-8 2-15 9-17 18 9 3 18 0 24-6"/>
+      <path d="M62 60c2-9 9-17 18-20 2 9-1 18-8 24M56 82c1-9 7-17 16-21 3 9 0 18-7 24M54 104c0-9 6-18 14-22 4 8 2 18-5 25M60 126c-1-9 4-18 12-23 5 8 4 18-3 25M72 146c-3-9 1-19 8-25 6 7 6 17 0 25"/>
+    </g>
+
+    <!-- Right bough, mirrored exactly. -->
+    <g stroke-width="1.7" transform="translate(200,0) scale(-1,1)">
+      <path d="M100 176c-26-8-44-26-52-50s-4-48 10-66"/>
+      <path d="M56 68c-8-6-18-7-27-3 3 9 10 16 19 18M48 88c-9-4-19-3-27 3 5 8 14 12 23 11M46 110c-9-2-18 2-24 9 7 6 16 8 25 5M52 132c-9 0-17 5-21 13 8 5 18 5 25 0M64 152c-8 2-15 9-17 18 9 3 18 0 24-6"/>
+      <path d="M62 60c2-9 9-17 18-20 2 9-1 18-8 24M56 82c1-9 7-17 16-21 3 9 0 18-7 24M54 104c0-9 6-18 14-22 4 8 2 18-5 25M60 126c-1-9 4-18 12-23 5 8 4 18-3 25M72 146c-3-9 1-19 8-25 6 7 6 17 0 25"/>
+    </g>
+
+    <!-- Tie at the foot. -->
+    <path d="M92 178c5 4 11 4 16 0" stroke-width="1.7"/>
+    <path d="M96 182c-4 6-10 9-17 8M104 182c4 6 10 9 17 8" stroke-width="1.4" stroke-opacity=".8"/>
+
+    <!-- Monogram. -->
+    <text x="100" y="112" text-anchor="middle" stroke="none" fill="url(#w-metal)"
+          font-family="Georgia, 'Playfair Display', serif" font-size="30" font-weight="700"
+          letter-spacing="1.5">WEC</text>
+    <path d="M78 122h44" stroke-width="1" stroke-opacity=".6"/>
+  </g>
+</svg>

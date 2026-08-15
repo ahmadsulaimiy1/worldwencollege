@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>الرسوم الدراسية — الكلية العالمية للغة الإنجليزية</title>
-<meta name="description" content="رسوم برنامج IEFC، التسعير لكل مستوى، خطط السداد والرسوم الإضافية في الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن.">
+<title>الرسوم والسداد والدعم — الكلية العالمية للغة الإنجليزية</title>
+<meta name="description" content="رسوم برنامج IEFC وأسعار المستويات، وكيف يجري السداد فعلًا — العملة والوسائل والاسترداد — والمنح ومسارات الدعم القائمة اليوم.">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -14,10 +14,31 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/atelier.css">
+<link rel="stylesheet" href="/css/pages.css">
+<!-- LAST, and that ordering is load-bearing. Script-specific typography
+     has to be able to override the general stylesheets, because those
+     set tracking and leading tuned to Latin faces and Arabic inherits
+     it. Putting this first — which is where it started — left 951 of
+     1,049 violations standing. See the header of css/arabic.css. -->
+<link rel="stylesheet" href="/css/arabic.css">
+<noscript><style>
+/* Several entrance effects are authored hidden and revealed by script:
+   .reveal (js/site.js), .split-word and .rule-draw (js/motion.js),
+   .assemble__d and .gilt (js/atelier.js). With scripting off, nothing
+   ever reveals them — the page renders, passes every check, and shows
+   the reader blank space where the content is. Each is pinned to its
+   finished state here, which is the same contract the
+   prefers-reduced-motion blocks keep. */
+.reveal, .split-word, .assemble__d, .foil, .wax-seal, .constellation { opacity: 1 !important; transform: none !important; }
+.rule-draw { transform: scaleX(1) !important; }
+.gilt { --gilt: 1; }
+.plate--drift img, .plate--drift svg { animation: none !important; }
+</style></noscript>
 <meta property="og:site_name" content="الكلية العالمية للغة الإنجليزية">
 <meta property="og:locale" content="ar_AR">
-<meta property="og:title" content="الرسوم الدراسية — الكلية العالمية للغة الإنجليزية">
-<meta property="og:description" content="رسوم برنامج IEFC، التسعير لكل مستوى، خطط السداد والرسوم الإضافية في الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن.">
+<meta property="og:title" content="الرسوم والسداد والدعم — الكلية العالمية للغة الإنجليزية">
+<meta property="og:description" content="رسوم برنامج IEFC وأسعار المستويات، وكيف يجري السداد فعلًا — العملة والوسائل والاسترداد — والمنح ومسارات الدعم القائمة اليوم.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.worldwencollege.co.uk/ar/admissions/tuition/">
 <meta property="og:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
@@ -25,10 +46,14 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="الرسوم الدراسية — الكلية العالمية للغة الإنجليزية">
-<meta name="twitter:description" content="رسوم برنامج IEFC، التسعير لكل مستوى، خطط السداد والرسوم الإضافية في الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن.">
+<meta name="twitter:title" content="الرسوم والسداد والدعم — الكلية العالمية للغة الإنجليزية">
+<meta name="twitter:description" content="رسوم برنامج IEFC وأسعار المستويات، وكيف يجري السداد فعلًا — العملة والوسائل والاسترداد — والمنح ومسارات الدعم القائمة اليوم.">
 <meta name="twitter:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
 <link rel="canonical" href="https://www.worldwencollege.co.uk/ar/admissions/tuition/">
+<!-- Assembled in scripts/build.js rather than written out here: a page
+     with no counterpart in the other language must declare no alternate
+     at all, and there is no way to omit a line from a template that
+     only substitutes values. -->
 <link rel="alternate" hreflang="en" href="https://www.worldwencollege.co.uk/admissions/tuition/">
 <link rel="alternate" hreflang="ar" href="https://www.worldwencollege.co.uk/ar/admissions/tuition/">
 <link rel="alternate" hreflang="x-default" href="https://www.worldwencollege.co.uk/admissions/tuition/">
@@ -41,7 +66,7 @@
   "url": "https://www.worldwencollege.co.uk/",
   "email": "info@worldwencollege.co.uk",
   "slogan": "Empowering the World Through English Excellence.",
-  "description": "A premium international English language institution delivering the International English Fluency Course (IEFC) — six CEFR-aligned levels, taught entirely online from a London administrative headquarters.",
+  "description": "An international English language institution delivering the International English Fluency Course (IEFC) — six CEFR-aligned levels, taught entirely online from a London administrative headquarters.",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "London",
@@ -52,32 +77,265 @@
 </script>
 
 </head>
-<body>
+<body data-section="admissions">
 <a class="skip-link" href="#main">تخطَّ إلى المحتوى الرئيسي</a>
+<!--
+  THE ICON SPRITE.
+
+  Injected once, immediately after <body>, on every page built by
+  scripts/build.js. Referenced as:
+
+      <svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg>
+
+  Drawn rather than sourced. Every symbol is on a 24x24 grid with a
+  1.25px stroke, square terminals and mitred joins, and no fills — so
+  the whole set reads as one engraving tool rather than as icons
+  collected from three different libraries, which is the single most
+  common way an institutional site gives itself away as a template.
+
+  Colour comes from `currentColor` (see .icon in css/brand.css), so one
+  sprite serves navy grounds, paper grounds, gold rules and burgundy
+  headings without a per-context duplicate.
+
+  Inline rather than an external sprite file on purpose: `currentColor`
+  does not inherit across an external <use> reference in several
+  browsers, which would defeat the whole arrangement above.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true" focusable="false"><defs>
+
+  <!-- The institution's mark, reduced to a stroke. -->
+  <symbol id="i-crest" viewBox="0 0 24 24">
+    <path d="M12 1.6 21 4.8v8.1c0 5.6-3.8 10-9 12.1C6.8 22.9 3 18.5 3 12.9V4.8Z"/>
+    <path d="M12 5.2 17.6 7.2v5.6c0 3.7-2.4 6.7-5.6 8.1-3.2-1.4-5.6-4.4-5.6-8.1V7.2Z"/>
+    <path d="M9.4 12.6h5.2M12 10v5.2"/>
+  </symbol>
+
+  <!-- Laurel — awards, honours, distinction. -->
+  <symbol id="i-laurel" viewBox="0 0 24 24">
+    <path d="M12 3v18"/>
+    <path d="M12 6.4C10 5 7.6 4.8 5.6 5.6c.2 2.2 1.6 4 3.6 4.8"/>
+    <path d="M12 11C10 9.6 7.6 9.4 5.6 10.2c.2 2.2 1.6 4 3.6 4.8"/>
+    <path d="M12 15.6c-2-1.4-4.4-1.6-6.4-.8.2 2.2 1.6 4 3.6 4.8"/>
+    <path d="M12 6.4c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
+    <path d="M12 11c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
+    <path d="M12 15.6c2-1.4 4.4-1.6 6.4-.8-.2 2.2-1.6 4-3.6 4.8"/>
+  </symbol>
+
+  <!-- Quill — writing, authorship, the written standard. -->
+  <symbol id="i-quill" viewBox="0 0 24 24">
+    <path d="M3 21c3.4-7.6 8-13 17-18-1.2 8.4-5.2 14-11.4 16.2Z"/>
+    <path d="M8.6 19.2 20 3"/>
+    <path d="M3 21h4.2"/>
+  </symbol>
+
+  <!-- Open book — the curriculum, published. -->
+  <symbol id="i-book" viewBox="0 0 24 24">
+    <path d="M12 6.4C10 4.9 7.2 4.2 3 4.4v13.2c4.2-.2 7 .5 9 2 2-1.5 4.8-2.2 9-2V4.4c-4.2-.2-7 .5-9 2Z"/>
+    <path d="M12 6.4v13.2"/>
+    <path d="M6 8.4h3.2M6 11.6h3.2M14.8 8.4H18M14.8 11.6H18"/>
+  </symbol>
+
+  <!-- Portico — the campus, the institution as a place. -->
+  <symbol id="i-portico" viewBox="0 0 24 24">
+    <path d="M2 8.8 12 3l10 5.8"/>
+    <path d="M4 8.8V19M9.4 8.8V19M14.6 8.8V19M20 8.8V19"/>
+    <path d="M2 21.4h20M3 19h18"/>
+  </symbol>
+
+  <!-- Globe with meridians — worldwide delivery. -->
+  <symbol id="i-globe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18"/>
+    <path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9Z"/>
+    <path d="M5 6.4c2 1.2 4.4 1.8 7 1.8s5-.6 7-1.8M5 17.6c2-1.2 4.4-1.8 7-1.8s5 .6 7 1.8"/>
+  </symbol>
+
+  <!-- Wax seal — conferral, the sealed record. -->
+  <symbol id="i-seal" viewBox="0 0 24 24">
+    <circle cx="12" cy="9.6" r="6.6"/>
+    <circle cx="12" cy="9.6" r="3.4"/>
+    <path d="M8 15.4 6.6 22l5.4-2.6L17.4 22 16 15.4"/>
+  </symbol>
+
+  <!-- Ledger — the record, the register, the table of marks. -->
+  <symbol id="i-ledger" viewBox="0 0 24 24">
+    <path d="M4 2.6h16v18.8H4Z"/>
+    <path d="M8 2.6v18.8"/>
+    <path d="M11 7.4h6M11 12h6M11 16.6h6"/>
+  </symbol>
+
+  <!-- Waveform — the Listening Lab, recorded speech. -->
+  <symbol id="i-waveform" viewBox="0 0 24 24">
+    <path d="M2 12h2.4M7 7.4v9.2M11.6 4v16M16.2 8.6v6.8M20.8 10.8v2.4"/>
+  </symbol>
+
+  <!-- Mortarboard — graduation, completion of the pathway. -->
+  <symbol id="i-mortarboard" viewBox="0 0 24 24">
+    <path d="M12 3.4 22.4 8 12 12.6 1.6 8Z"/>
+    <path d="M5.6 10v5.6c0 1.8 2.9 3.2 6.4 3.2s6.4-1.4 6.4-3.2V10"/>
+    <path d="M22.4 8v5.6"/>
+  </symbol>
+
+  <!-- Scales — assessment, academic integrity, fair marking. -->
+  <symbol id="i-scales" viewBox="0 0 24 24">
+    <path d="M12 3.4v17.2M6.6 20.6h10.8"/>
+    <path d="M4 7h16"/>
+    <path d="M4 7 1.4 13.4h5.2ZM20 7l-2.6 6.4h5.2Z"/>
+  </symbol>
+
+  <!-- Compass — direction, guidance, the pathway. -->
+  <symbol id="i-compass" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="m15.6 8.4-2 5.2-5.2 2 2-5.2Z"/>
+  </symbol>
+
+  <!-- Clock tower — London, the campus HQ. -->
+  <symbol id="i-clocktower" viewBox="0 0 24 24">
+    <path d="M8.4 21.4V8.6h7.2v12.8Z"/>
+    <path d="M12 2.2 16.6 8.6H7.4Z"/>
+    <circle cx="12" cy="13" r="2.6"/>
+    <path d="M12 11.6V13h1.2"/>
+    <path d="M6.6 21.4h10.8"/>
+  </symbol>
+
+  <!-- Key — access, the student portal. -->
+  <symbol id="i-key" viewBox="0 0 24 24">
+    <circle cx="7.4" cy="7.4" r="4.4"/>
+    <path d="m10.6 10.6 10 10M17.4 17.4l-2.2 2.2M20 14.8l-2.2 2.2"/>
+  </symbol>
+
+  <!-- Sealed envelope — correspondence with the College. -->
+  <symbol id="i-envelope" viewBox="0 0 24 24">
+    <path d="M2.6 5h18.8v14H2.6Z"/>
+    <path d="m2.6 5 9.4 7.4L21.4 5"/>
+    <circle cx="12" cy="12.6" r="2.2"/>
+  </symbol>
+
+  <!-- Shield with a check — quality assurance, verification. -->
+  <symbol id="i-shield-check" viewBox="0 0 24 24">
+    <path d="M12 2.2 20.4 5v7.6c0 4.8-3.4 8.6-8.4 10.2-5-1.6-8.4-5.4-8.4-10.2V5Z"/>
+    <path d="m8.4 12 2.6 2.6 4.6-5"/>
+  </symbol>
+
+  <!-- Ascending chart — progression through the levels. -->
+  <symbol id="i-progress" viewBox="0 0 24 24">
+    <path d="M3 21h18M3 21V3"/>
+    <path d="M6.6 17.4v-3.2M11 17.4v-6.8M15.4 17.4V7.8M19.8 17.4V4.6"/>
+  </symbol>
+
+  <!-- Calendar — dates, the academic year. -->
+  <symbol id="i-calendar" viewBox="0 0 24 24">
+    <path d="M3.4 5.4h17.2v16H3.4Z"/>
+    <path d="M3.4 10.2h17.2M8.2 2.6v5M15.8 2.6v5"/>
+  </symbol>
+
+  <!-- Passport — international applicants, visas. -->
+  <symbol id="i-passport" viewBox="0 0 24 24">
+    <path d="M4.6 2.6h14.8v18.8H4.6Z"/>
+    <circle cx="12" cy="9.6" r="3.4"/>
+    <path d="M8.6 16.6h6.8"/>
+  </symbol>
+
+  <!-- Columns — governance, the academic bodies. -->
+  <symbol id="i-columns" viewBox="0 0 24 24">
+    <path d="M2.6 6.6h18.8M4 21.4h16"/>
+    <path d="M6.4 6.6v14.8M12 6.6v14.8M17.6 6.6v14.8"/>
+    <path d="M2.6 6.6 12 2.6l9.4 4"/>
+  </symbol>
+
+  <!-- Arrow, used for links and CTAs. -->
+  <symbol id="i-arrow" viewBox="0 0 24 24">
+    <path d="M3.6 12h16.8M14 5.6 20.4 12 14 18.4"/>
+  </symbol>
+
+  <!-- Social marks. Stroke-drawn to match the set rather than dropped
+       in as brand glyphs, which would be the one place the sprite
+       stopped looking like one hand drew it. -->
+  <symbol id="i-linkedin" viewBox="0 0 24 24">
+    <path d="M3.6 3.6h16.8v16.8H3.6Z"/>
+    <path d="M8 10.6v6M8 7.6v.4M12 16.6v-6M12 12.4c1.6-2.2 4-1.4 4 1v3.2"/>
+  </symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24">
+    <path d="M7.4 3.6h9.2a3.8 3.8 0 0 1 3.8 3.8v9.2a3.8 3.8 0 0 1-3.8 3.8H7.4a3.8 3.8 0 0 1-3.8-3.8V7.4a3.8 3.8 0 0 1 3.8-3.8Z"/>
+    <circle cx="12" cy="12" r="3.6"/>
+    <path d="M17 7v.2"/>
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24">
+    <path d="M4 4h3.6l12.4 16h-3.6Z"/>
+    <path d="M19.4 4 4.6 20"/>
+  </symbol>
+
+  <!-- Language switch. -->
+  <symbol id="i-language" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M3 12h18M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9S9.6 5.6 12 3Z"/>
+  </symbol>
+
+</defs></svg>
 <div class="topbar">
   <div class="topbar__inner">
     <div class="topbar__contacts">
-      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item" dir="ltr">info@worldwencollege.co.uk</a>
-      <span class="topbar__item topbar__item--muted">الحرم الجامعي في لندن · التقديم متاح عالميًا</span>
+      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item" dir="ltr">
+        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
+        info@worldwencollege.co.uk
+      </a>
+      <span class="topbar__item topbar__item--muted">
+        <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
+        الحرم الجامعي في لندن · التقديم متاح عالميًا
+      </span>
     </div>
     <div class="topbar__right">
-      <a class="topbar__lang" href="/admissions/tuition/">English</a>
+      <a href="/ar/contact/" class="topbar__item">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+        تواصل معنا
+      </a>
+      <a class="topbar__lang" href="/admissions/tuition/" lang="en" hreflang="en" dir="ltr">
+        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+        English
+      </a>
       <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn">in</a>
-        <a href="#" aria-label="Instagram">ig</a>
-        <a href="#" aria-label="X / Twitter">x</a>
+        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
       </div>
     </div>
   </div>
 </div>
 
-<header class="site-header">
+<!--
+  الترويسة: عنصر واحد، لا ثلاثة أشرطة.
+
+  كانت أربع طبقات: شريط الخدمات، ثم بند الهوية الاحتفالي الذي ينطوي
+  عند التمرير، ثم لوحات التنقّل، ثم الإجراءات. وكل طبقة منها مبرَّرة
+  وحدها. لكنها مكدَّسة أنتجت نحو ٣٥٠ بكسل من الزخرفة قبل أي محتوى،
+  وثلاث فواصل أفقية، ومحور محاذاة يتغيّر في كل شريط.
+
+  فأُلغي بند الهوية وانتقلت وظيفته إلى الشريط نفسه: الشعار والاسم
+  والحرم على السطر ذاته والمحور ذاته، وهو ما يجعل الترويسة تُقرأ
+  كشيء واحد.
+
+  وبقي السلوك الذي كان جيدًا فعلًا: عند التمرير ينكمش الشريط، ويصغر
+  الشعار، وينسحب سطر الحرم، فيبقى اسم الكلية بحجمه الكامل.
+
+  القوائم هي أركان docs/information-architecture.html الستة نفسها
+  التي تحملها الترويسة الإنجليزية: عن الكلية، البرامج الأكاديمية،
+  القبول، الطلاب، الحوكمة، المطبعة والمكتبة. القاعدة الثابتة باقية:
+  حيث لا توجد صفحة عربية، لا يُدرج الرابط أصلًا بدلًا من إخراج
+  القارئ من لغته — راجع pages/manifest.json لما هو مترجَم. رابط
+  التواصل في شريط الخدمات أعلاه.
+-->
+<header class="site-header lattice" data-nodes="7">
+  <div class="lattice__bed" aria-hidden="true"></div>
+
   <div class="site-header__inner">
-    <a href="/ar/" class="brand" aria-label="الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن، الصفحة الرئيسية">
+    <a href="/ar/" class="brand" aria-label="الكلية العالمية للغة الإنجليزية، الصفحة الرئيسية">
       <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
-        <path class="crest__shield" d="M24 2 L44 9 V27 C44 40 35.5 50 24 54 C12.5 50 4 40 4 27 V9 Z"/>
-        <path class="crest__inner" d="M24 8 L38 13 V27 C38 37 31.5 45.5 24 48.5 C16.5 45.5 10 37 10 27 V13 Z"/>
-        <text x="24" y="31" text-anchor="middle" class="crest__mono">WEC</text>
+        <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
+        <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
+        <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
+        <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
+        <path class="crest__book" d="M24 28.5 V37.4"/>
+        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
       </svg>
       <span class="brand__word">
         <span class="brand__name">الكلية العالمية للغة الإنجليزية</span>
@@ -85,78 +343,189 @@
       </span>
     </a>
 
-    <nav class="nav" aria-label="التنقل الرئيسي">
+    <nav class="nav" aria-label="التنقّل الرئيسي">
+
       <div class="nav__item nav__item--has-menu">
         <a href="/ar/about/" aria-haspopup="true" aria-expanded="false">عن الكلية</a>
-        <div class="nav__menu">
-          <a href="/ar/about/">عن الكلية</a>
-          <a href="/ar/about/quality-assurance/">ضمان الجودة</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">المؤسسة</p>
+              <a href="/ar/about/">عن الكلية</a>
+              <a href="/ar/about/#vision">الرؤية والرسالة</a>
+              <a href="/ar/about/#philosophy">الفلسفة التربوية</a>
+              <a href="/ar/about/#structure">التنظيم</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/about/#status">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-columns"/></svg>
+            <span class="mega__feature-label">الوضع المؤسسي</span>
+            <span class="mega__feature-text">ما هي الكلية اليوم — وما ليست بعد. مكتوب بوضوح ومحدَّث باستمرار.</span>
+            <span class="mega__feature-go">اقرأ الوضع المؤسسي <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
         </div>
       </div>
+
       <div class="nav__item nav__item--has-menu">
         <a href="/ar/academics/" aria-haspopup="true" aria-expanded="false">البرامج الأكاديمية</a>
-        <div class="nav__menu">
-          <a href="/ar/academics/">نظرة عامة على البرنامج</a>
-          <a href="/ar/academics/iefc/">برنامج IEFC</a>
-          <a href="/ar/study/">الدراسة — المستويات الستة</a>
-          <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
-          <a href="/ar/students/awards/">الشهادات والمراتب</a>
+        <div class="nav__menu nav__menu--mega crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">البرنامج</p>
+              <a href="/ar/academics/">نظرة عامة على البرنامج</a>
+              <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span></a>
+              <a href="/ar/academics/#levels">المستويات الستة</a>
+              <a href="/ar/academics/#learning">كيف يجري التعلّم</a>
+              <a href="/ar/academics/#campus">الحرم الرقمي</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">التدريس وهيئته</p>
+              <a href="/ar/academics/teaching/">ممارسة التدريس</a>
+              <a href="/ar/faculty/">هيئة التدريس</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/academics/#levels">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-progress"/></svg>
+            <span class="mega__feature-label">ستون وحدة، مكتوبة</span>
+            <span class="mega__feature-text">كل مخرج وكل معيار تصحيح، متاح للقراءة قبل التسجيل.</span>
+            <span class="mega__feature-go">استعرض المستويات <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
         </div>
       </div>
+
       <div class="nav__item nav__item--has-menu">
         <a href="/ar/admissions/" aria-haspopup="true" aria-expanded="false">القبول</a>
-        <div class="nav__menu">
-          <a href="/ar/admissions/">نظرة عامة على القبول</a>
-          <a href="/ar/admissions/apply/">كيفية التقديم</a>
-          <a href="/ar/admissions/entry-requirements/">شروط الالتحاق</a>
-          <a href="/ar/admissions/tuition/">الرسوم الدراسية</a>
-          <a href="/ar/admissions/payment/">سداد الرسوم</a>
-          <a href="/ar/admissions/scholarships/">المنح والدعم المالي</a>
-          <a href="/ar/admissions/visas/">التأشيرات وتصاريح الدراسة</a>
-          <a href="/ar/admissions/dates/">مواعيد البدء والتقويم</a>
-          <a href="/ar/admissions/questions/">أسئلة القبول</a>
-          <a href="/ar/faq/">الأسئلة الشائعة</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">التقديم</p>
+              <a href="/ar/admissions/">نظرة عامة على القبول</a>
+              <a href="/ar/admissions/#apply">كيفية التقديم</a>
+              <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
+              <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
+              <a href="/ar/admissions/policy/">سياسة القبول</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/admissions/#apply">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-seal"/></svg>
+            <span class="mega__feature-label">القبول مستمر</span>
+            <span class="mega__feature-text">لا دفعة تنتظرها. تبدأ يوم تسجّل.</span>
+            <span class="mega__feature-go">ابدأ طلبك <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
         </div>
       </div>
-      <div class="nav__item"><a href="/ar/faculty/">هيئة التدريس</a></div>
-      <div class="nav__item"><a href="/ar/student-portal/">بوابة الطالب</a></div>
-      <div class="nav__item"><a href="/ar/contact/">تواصل معنا</a></div>
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/ar/students/" aria-haspopup="true" aria-expanded="false">الطلاب</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">الحياة الطلابية</p>
+              <a href="/ar/students/">الحياة الطلابية</a>
+              <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
+              <a href="/ar/students/academic-record/">سجلك الأكاديمي</a>
+              <a href="/ar/students/awards/">الشهادات والمراتب</a>
+              <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/student-portal/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-key"/></svg>
+            <span class="mega__feature-label">بوابة الطالب</span>
+            <span class="mega__feature-text">برنامجك وتسجيلاتك وسجلك، في مكان واحد.</span>
+            <span class="mega__feature-go">ادخل البوابة <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/ar/governance/" aria-haspopup="true" aria-expanded="false">الحوكمة</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">كيف تُدار الكلية</p>
+              <a href="/ar/governance/">الحوكمة</a>
+              <a href="/ar/governance/#leadership">القيادة والهيئات</a>
+              <a href="/ar/governance/#quality">ضمان الجودة</a>
+              <a href="/ar/governance/evidence/">سجل الأدلة</a>
+              <a href="/ar/governance/decisions/">سجل القرارات</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/governance/evidence/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-shield-check"/></svg>
+            <span class="mega__feature-label">دليل لا ادّعاء</span>
+            <span class="mega__feature-text">كل ما تقوله الكلية عن نفسها منشور ومعه السجل الذي يسنده.</span>
+            <span class="mega__feature-go">سجل الأدلة <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/ar/press/" aria-haspopup="true" aria-expanded="false">المطبعة والمكتبة</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">الدار</p>
+              <a href="/ar/press/">مطبعة الكلية</a>
+              <a href="/ar/press/catalogue/">الكتالوج</a>
+              <a href="/ar/press/#standards">معايير الدار</a>
+              <a href="/ar/press/#library">المكتبة</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/press/catalogue/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-book"/></svg>
+            <span class="mega__feature-label">الكتالوج</span>
+            <span class="mega__feature-text">كل ما نشرته الكلية، وكل ما تكتبه.</span>
+            <span class="mega__feature-go">تصفّح الكتالوج <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
     </nav>
 
     <div class="header__actions">
-      <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم الآن</a>
-      <button class="nav__toggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="nav-mobile-ar">
+      <a href="/ar/student-portal/" class="btn btn--quiet">
+        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg>
+        البوابة
+      </a>
+      <a href="/ar/admissions/#apply" class="btn btn--gold magnetic">قدّم الآن</a>
+      <button class="nav__toggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="nav-mobile">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
-  <nav class="nav-mobile" id="nav-mobile-ar" aria-label="التنقل للجوال">
+
+  <nav class="nav-mobile" id="nav-mobile" aria-label="قائمة الجوال">
     <a href="/ar/about/">عن الكلية</a>
     <a href="/ar/academics/">البرامج الأكاديمية</a>
-    <a href="/ar/academics/iefc/">برنامج IEFC</a>
-    <a href="/ar/study/">الدراسة — المستويات الستة</a>
-    <a href="/ar/admissions/">القبول</a>
-    <a href="/ar/admissions/apply/">كيفية التقديم</a>
-    <a href="/ar/admissions/entry-requirements/">شروط الالتحاق</a>
-    <a href="/ar/admissions/tuition/">الرسوم الدراسية</a>
-    <a href="/ar/admissions/payment/">سداد الرسوم</a>
-    <a href="/ar/admissions/visas/">التأشيرات وتصاريح الدراسة</a>
-    <a href="/ar/admissions/questions/">أسئلة القبول</a>
+    <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span></a>
+    <a href="/ar/academics/#levels">المستويات الستة</a>
     <a href="/ar/faculty/">هيئة التدريس</a>
+    <a href="/ar/admissions/">القبول</a>
+    <a href="/ar/admissions/#apply">كيفية التقديم</a>
+    <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
+    <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
+    <a href="/ar/faq/">أسئلة القبول</a>
+    <a href="/ar/students/">الحياة الطلابية</a>
+    <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
+    <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
+    <a href="/ar/students/awards/">الشهادات والمراتب</a>
     <a href="/ar/student-portal/">بوابة الطالب</a>
-    <a href="/ar/faq/">الأسئلة الشائعة</a>
-    <a href="/ar/contact/">تواصل معنا</a>
+    <a href="/ar/governance/">الحوكمة</a>
+    <a href="/ar/governance/evidence/">سجل الأدلة</a>
+    <a href="/ar/press/">مطبعة الكلية</a>
+    <a href="/ar/press/catalogue/">الكتالوج</a>
     <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
+    <a href="/ar/contact/">تواصل معنا</a>
     <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم الآن</a>
   </nav>
 </header>
 
 <main id="main">
-<section class="section--dark section-pad">
+<section class="page-hero section--dark section-pad">
   <div class="container">
     <span class="eyebrow">الرسوم الدراسية</span>
-    <h1>تسعير شفاف لمسار <span dir="ltr">IEFC</span> كاملًا.</h1>
-    <p class="lede">رسم برنامج واحد، مقسّم بالتساوي على ستة مستويات — ادفع دفعة واحدة، أو لكل مستوى، أو شهريًا (حيثما أُتيح ذلك).</p>
+    <h1 data-split>تسعير شفاف لمسار <span dir="ltr">IEFC</span> كاملًا.</h1>
+    <p class="lede">رسم برنامج واحد، مقسّم بالتساوي على ستة مستويات — ادفع دفعة واحدة، أو لكل مستوى، أو أقساطًا داخل المستوى بالطلب.</p>
     <div class="stat-row" style="margin-top:40px">
       <div class="stat-row__item"><strong>19,000$</strong><span>البرنامج كاملًا</span></div>
       <div class="stat-row__item"><strong>3,166.67$</strong><span>لكل مستوى</span></div>
@@ -166,7 +535,21 @@
   </div>
 </section>
 
-<section class="section--light section-pad">
+<nav class="contents" aria-label="في هذه الصفحة">
+  <div class="contents__inner">
+    <span class="contents__label">في هذه الصفحة</span>
+    <ul class="contents__list">
+      <li><a href="#fees">الرسوم</a></li>
+      <li><a href="#paying">السداد</a></li>
+      <li><a href="#plans">طرق الدفع</a></li>
+      <li><a href="#refunds">الاسترداد</a></li>
+      <li><a href="#funding">المنح والدعم</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<section class="section--light section-pad" id="fees" data-contents="الرسوم">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">التفصيل حسب المستوى</span>
@@ -176,12 +559,12 @@
       <table class="ledger">
         <thead><tr><th>المستوى</th><th dir="ltr">CEFR</th><th>الأرصدة</th><th>الزمن الكلي للمؤهل</th><th>الرسوم</th></tr></thead>
         <tbody>
-          <tr><td><strong>I · برنامج التأسيس</strong></td><td dir="ltr">A1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
-          <tr><td><strong>II · البرنامج الابتدائي</strong></td><td dir="ltr">A2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
-          <tr><td><strong>III · البرنامج المتوسط</strong></td><td dir="ltr">B1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
-          <tr><td><strong>IV · المتوسط المتقدم</strong></td><td dir="ltr">B2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
-          <tr><td><strong>V · البرنامج المتقدم</strong></td><td dir="ltr">C1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
-          <tr><td><strong>VI · برنامج الإتقان</strong></td><td dir="ltr">C2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong><span dir="ltr">I</span> · برنامج التأسيس</strong></td><td dir="ltr">A1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong><span dir="ltr">II</span> · البرنامج الابتدائي</strong></td><td dir="ltr">A2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong><span dir="ltr">III</span> · البرنامج المتوسط</strong></td><td dir="ltr">B1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong><span dir="ltr">IV</span> · المتوسط المتقدم</strong></td><td dir="ltr">B2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong><span dir="ltr">V</span> · البرنامج المتقدم</strong></td><td dir="ltr">C1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong><span dir="ltr">VI</span> · برنامج الإتقان</strong></td><td dir="ltr">C2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
           <tr><td colspan="2"><strong>الإجمالي</strong></td><td>120</td><td>1,200 ساعة</td><td><strong>19,000$</strong></td></tr>
         </tbody>
       </table>
@@ -196,26 +579,212 @@
       <span class="module-marker">تشمل الرسوم الدراسية</span>
       <ul class="check-list">
         <li>جميع الوحدات التعليمية للمستوى</li>
-        <li>الحصص المباشرة والدروس المسجّلة</li>
+        <li>الحصص المباشرة والدروس متى بدأ تشغيلها — لم تُعقد أي حصة بعد، لأنه لم يُدرَّس أي فوج</li>
         <li>الموارد التعليمية والوصول إلى المكتبة الرقمية</li>
         <li>التقييمات والامتحانات</li>
         <li>تقارير التقدّم والإرشاد الأكاديمي</li>
         <li>كشف الدرجات الرقمي</li>
-        <li>الشهادة الرقمية عند إتمام البرنامج بنجاح</li>
+        <li>الشهادة الرقمية عند الإتمام بنجاح — متى أمكن منح الشهادة؛ لم يُعيَّن ممتحن خارجي بعد</li>
       </ul>
     </div>
     <div>
-      <span class="module-marker">رسوم إضافية (حسب الحالة)</span>
+      <span class="module-marker">خدمات اختيارية</span>
       <ul class="check-list">
-        <li>رسوم التقديم</li>
-        <li>رسوم معالجة القبول</li>
-        <li>رسوم التسجيل</li>
-        <li>رسوم التخرّج والشهادة</li>
         <li>الشهادة المطبوعة (اختياري)</li>
         <li>الشحن الدولي (اختياري)</li>
         <li>التحقق من الشهادة (اختياري)</li>
       </ul>
-      <p class="form-note">تُؤكَّد الأرقام الدقيقة للرسوم الاختيارية والإجرائية عند التقديم — استفسر من فريق القبول عن الجدول الحالي.</p>
+      <p class="form-note">التقديم بلا تكلفة — لا رسوم تقديم ولا معالجة ولا تسجيل. الخدمات الاختيارية الثلاث أعلاه هي الإضافات الوحيدة، وتُؤكَّد أسعارها قبل الطلب.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="paying" data-contents="السداد">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">العملة</span>
+      <h2>عملة واحدة معتمدة، وست غير معتمدة.</h2>
+      <p class="lede">تحاسب الكلية بالدولار الأمريكي. العملات الأخرى موجودة في النظام كرموز
+        معترف بها، لكن العملة لا تكون معتمدة إلا بوجود سياسة سعر خلفها، ولا واحدة منها لها ذلك
+        بعد.</p>
+    </div>
+    <div class="grid grid--2">
+      <div class="card">
+        <span class="card__num">معتمدة</span>
+        <h3>الدولار الأمريكي</h3>
+        <p>كل رسم يُحدَّد ويُحصَّل بالدولار. <span dir="ltr">$19,000</span> تعني <span dir="ltr">$19,000</span>.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">غير معتمدة</span>
+        <h3>الجنيه الإسترليني والنيرة والريال والدرهم والدينار</h3>
+        <p>يحوّل مصرفك أو مُصدِر بطاقتك بسعره في يومه. لا تنشر الكلية سعرًا بعملة محلية، لأن نشر سعر بلا سعر صرف ثابت خلفه هو نشر رقم يتغيّر دون إشعار.</p>
+      </div>
+    </div>
+    <p class="form-note">حيث يحوّل المصرف، فالتحويل بينك وبين مصرفك. لا ترى الكلية إلا المبلغ
+      بالدولار، ولا تستطيع تسعير المبلغ المحلي ولا ضمانه.</p>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">وسائل الدفع</span>
+      <h2>ما يصلك منها يعتمد على مكانك.</h2>
+    </div>
+    <div class="callout">
+      <span class="callout__label">نيجيريا تحديدًا</span>
+      <p>يُوجَّه المتقدمون من نيجيريا إلى <span dir="ltr">Paystack</span> أولًا، ثم
+        <span dir="ltr">Flutterwave</span>، ثم <span dir="ltr">OPay</span>، وبوابة البطاقات
+        الدولية أخيرًا. هذا الترتيب ليس زينة: عدة بوابات دولية لا تدعم البطاقات النيجيرية ولا
+        التجار النيجيريين، وصفحة دفع لا تعرض غيرها ستفشل بصمت مع نسبة كبيرة من متقدمي الكلية.
+        وإن لم تظهر وسيلة عند السداد فذلك لأن بيانات التاجر الخاصة بها لم تُفعَّل بعد — اكتب
+        إلى إدارة القبول وادفع بالتحويل في هذه الأثناء.</p>
+    </div>
+    <div class="grid grid--3">
+      <div class="card">
+        <span class="card__num">الخليج والمملكة المتحدة</span>
+        <h3>بطاقة دولية</h3>
+        <p>السعودية والإمارات وقطر والكويت والمملكة المتحدة تُوجَّه إلى بوابة البطاقات الدولية، مع خيارات محلية حيث تتوفر.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">اقتراح لا إلزام</span>
+        <h3>تختار أنت</h3>
+        <p>يقترح النظام الوسيلة الأنسب لبلدك ولا يفرضها. إن كانت وسيلة أخرى أيسر عليك فاستخدمها.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">البطاقة لا تصل الكلية</span>
+        <h3>بيانات بطاقتك عند البوابة</h3>
+        <p>تُدخَل بيانات البطاقة لدى مزوّد الدفع لا لدى الكلية. تسجّل الكلية أن السداد تم ومبلغه ومرجعه، ولا ترى رقم بطاقة ولا تخزنه.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad" id="plans" data-contents="طرق الدفع">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">طرق الدفع</span>
+      <h2>ثلاثة ترتيبات.</h2>
+    </div>
+    <div class="grid grid--3">
+      <div class="card card--dark">
+        <span class="card__num">البرنامج كاملًا</span>
+        <h3><span dir="ltr">$19,000</span> مرة واحدة</h3>
+        <p>دفعة واحدة تغطي المستويات الستة. تسجّلك في المستوى الأول فورًا، وتُضاف المستويات من الثاني إلى السادس إلى حسابك واحدًا تلو الآخر مع إتمام كل مستوى قبله. لا شيء يُحجب عنك — الترتيب موجود ليكون المستوى المدفوع مستوىً أنت مستعد له فعلًا.</p>
+      </div>
+      <div class="card card--dark">
+        <span class="card__num">مستوى بمستوى</span>
+        <h3><span dir="ltr">$3,166.67</span> في كل مرة</h3>
+        <p>تدفع عند بداية كل مستوى. وهو الترتيب الأشيع، والأقل التزامًا قبل أن ترى كيف تُدرّس الكلية.</p>
+      </div>
+      <div class="card card--dark">
+        <span class="card__num">تقسيط</span>
+        <h3><span dir="ltr">4</span> دفعات لكل مستوى</h3>
+        <p>رسوم المستوى مقسّمة إلى <span dir="ltr">4</span> أجزاء متساوية. التقسيم متساوٍ لأنه لم تُعتمد سياسة إيقاع مبنية على أدلة؛ وحين تُعتمد ستُنشر هنا لا تُغيَّر بصمت.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="refunds">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الاسترداد</span>
+      <h2>لا توجد سياسة استرداد بعد، ومن حقك أن تعرف ذلك قبل أن تدفع.</h2>
+    </div>
+    <div class="callout">
+      <span class="callout__label">ما هو صحيح</span>
+      <p>تستطيع الكلية تنفيذ الاسترداد تقنيًا — الآلية مبنية ومختبرة مع بوابات الدفع. ما لا يوجد
+        هو <em>سياسة</em>: من يأذن بالاسترداد، وعلى أي أساس، وخلال أي مدة، وبأي نسبة. هذه قرارات
+        تنفيذية لم يُتخذ أي منها. وإلى أن تُتخذ، يُبتّ في طلب الاسترداد حالةً بحالة من الفريق
+        المؤسس، كتابةً، ويُسجَّل القرار على السداد. هذا ضمان أضعف من سياسة منشورة، ويُذكر
+        بوصفه كذلك.</p>
+    </div>
+    <div class="grid grid--2">
+      <div class="card">
+        <span class="card__num">إن أردت اليقين أولًا</span>
+        <h3>ادفع مستوى بمستوى</h3>
+        <p>التزامك في السداد بالمستوى هو <span dir="ltr">$3,166.67</span>، وفي السداد الكامل <span dir="ltr">$19,000</span>. إلى أن توجد سياسة استرداد، هذا الفرق هو الحماية العملية المتاحة لك، وتفضّل الكلية أن تقول لك ذلك على أن تبيعك الحزمة الأكبر.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">ما تلتزم به الكلية الآن</span>
+        <h3>جواب مكتوب، وسجل له</h3>
+        <p>كل طلب استرداد يُجاب كتابةً وبسبب. وأيًا كانت السياسة التي تُعتمد لاحقًا، تبقى القرارات السابقة عليها في السجل ولا يُعاد تفسيرها بصمت.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الإيصالات</span>
+      <h2>ما تحصل عليه، وما لا تحصل عليه بعد.</h2>
+    </div>
+    <div class="grid grid--2">
+      <div class="card">
+        <span class="card__num">يُصدَر</span>
+        <h3>إيصال مرقّم</h3>
+        <p>كل دفعة ناجحة تُمنح رقم إيصال تسلسليًا لحظة تأكيد بوابة الدفع لها، وهذا الرقم فريد ودائم. وهو المرجع الذي تذكره في أي مراسلة تتعلق بالمال.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">لا يُصدَر بعد</span>
+        <h3>إيصال PDF قابل للتنزيل</h3>
+        <p>الإيصال موجود سجلًا؛ أما مستند منسّق تنزّله فغير مبني بعد. إن احتجت واحدًا لجهة عمل أو راعٍ، فاطلبه من فريق القبول ويُعَدّ يدويًا.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="funding" data-contents="المنح والدعم">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الوضع</span>
+      <h2>توجد آلية. ولا يوجد برنامج.</h2>
+    </div>
+    <div class="grid grid--2">
+      <div class="card">
+        <span class="card__num">موجود</span>
+        <h3>آلية المنح</h3>
+        <p>تستطيع الكلية تسجيل منحة باسم شخص محدد، نسبةً أو مبلغًا ثابتًا أو إعفاءً كاملًا، مع تسجيل الموظف المُقِر إلى جانبها. وتُطبَّق تلقائيًا عند السداد لصاحبها وحده. هذا مبنيّ ومختبر.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">غير موجود</span>
+        <h3>معايير وصندوق وموعد</h3>
+        <p>لم تُعتمد معايير، ولم يُخصَّص تمويل، ولم تُفتح دورة، ولم تُمنح منحة لأحد. نشر معايير لا تستطيع الكلية تمويلها أسوأ من عدم نشر شيء.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="callout__label">لماذا لا يُكتب ويُنشر ببساطة</span>
+      <p>برنامج المنح التزام مالي والتزام بالإنصاف في آن. تقريره يحتاج صندوقًا، ومعايير يمكن
+        تطبيقها على غرباء تطبيقًا متسقًا، وشخصًا مسؤولًا عن تطبيقها — وهي الأمور الثلاثة نفسها
+        الناقصة في كل منصب شاغر آخر في الكلية. القرار تنفيذي، ولم يُتخذ.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">ما يمكنك فعله اليوم</span>
+      <h2>ثلاثة مسارات حقيقية.</h2>
+    </div>
+    <div class="grid grid--3">
+      <div class="card">
+        <span class="card__num">الأول</span>
+        <h3>ادفع مستوى بمستوى</h3>
+        <p>البرنامج قابل للتجزئة عن قصد. <span dir="ltr">$3,166.67</span> لمستوى واحد، يُقرَّر مستوىً بمستوى، التزام مختلف جوهريًا عن <span dir="ltr">$19,000</span>، ولا يلزمك شرح لاختياره.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">الثاني</span>
+        <h3>وزّع المستوى على <span dir="ltr">4</span> دفعات</h3>
+        <p>خطة التقسيط تقسم رسوم مستوى واحد إلى أجزاء متساوية. متاحة بالطلب لا بالتقديم، ولا رسوم على استخدامها.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">الثالث</span>
+        <h3>اكتب واسأل</h3>
+        <p>إن كانت الرسوم هي الحائل الوحيد بينك وبين البرنامج، فقل ذلك لإدارة القبول بكلماتك. لا صندوق يُسحب منه ولا وعد مرتبط بهذا، لكن طلبًا لم يُقدَّم لا يمكن النظر فيه حين يوجد صندوق.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -223,13 +792,20 @@
 <section class="section--dark section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">طرق الدفع</span>
-      <h2>اختر الخطة التي تناسبك.</h2>
+      <span class="module-marker">الجهات الراعية وأصحاب العمل</span>
+      <h2>إن كان غيرك يدفع.</h2>
     </div>
-    <div class="grid grid--3">
-      <div class="card card--dark"><h3>البرنامج كاملًا</h3><p>ادفع المبلغ الكامل 19,000$ مقدّمًا وأكمل التسجيل في المستويات الستة دفعة واحدة.</p></div>
-      <div class="card card--dark"><h3>لكل مستوى</h3><p>ادفع 3,166.67$ في بداية كل مستوى مدته 4 أشهر أثناء تقدّمك.</p></div>
-      <div class="card card--dark"><h3>أقساط شهرية</h3><p>وزّع رسوم كل مستوى على أشهره الأربعة، وفقًا للسياسة المؤسسية.</p></div>
+    <div class="grid grid--2">
+      <div class="card card--dark">
+        <span class="card__num">ممكن</span>
+        <h3>أن تدفع جهة ثالثة عن متعلم مسمّى</h3>
+        <p>يمكن لصاحب عمل أو وزارة أو فرد من الأسرة أن يدفع اليوم عن متعلم مسمّى. تُسجَّل الدفعة على تسجيل المتعلم، والمتعلم — لا الدافع — هو من يملك سجله الأكاديمي.</p>
+      </div>
+      <div class="card card--dark">
+        <span class="card__num">غير مبني</span>
+        <h3>فوترة المؤسسات والمقاعد المؤسسية</h3>
+        <p>حساب مؤسسي بفوترة أوامر شراء ومقاعد قابلة للإسناد موجود في نموذج البيانات ولا عملية تشغيلية خلفه. سيُبنى وفق متطلبات مؤسسة حقيقية لا تخمينًا مسبقًا. إن كانت هذه حالتك فاكتب لفريق القبول.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -243,14 +819,25 @@
   </div>
 </section>
 
+
 </main>
-<footer class="site-footer">
+<footer class="site-footer lattice aurora" data-nodes="9">
+  <div class="lattice__bed" aria-hidden="true"></div>
+  <hr class="footer__keyline">
   <div class="site-footer__inner">
     <div class="footer__brand">
       <svg class="brand__crest brand__crest--footer" viewBox="0 0 48 56" aria-hidden="true">
-        <path class="crest__shield" d="M24 2 L44 9 V27 C44 40 35.5 50 24 54 C12.5 50 4 40 4 27 V9 Z"/>
-        <path class="crest__inner" d="M24 8 L38 13 V27 C38 37 31.5 45.5 24 48.5 C16.5 45.5 10 37 10 27 V13 Z"/>
-        <text x="24" y="31" text-anchor="middle" class="crest__mono">WEC</text>
+        <!-- A crown of three points over the shield, and an open book
+             at the honour point. The full arms are in
+             assets/art/crest-plate.svg; this is the reduction that
+             still reads at 27px in the condensed header, where the
+             laurel and ribbon of the full mark turn to mud. -->
+        <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
+        <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
+        <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
+        <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
+        <path class="crest__book" d="M24 28.5 V37.4"/>
+        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
       </svg>
       <p class="footer__name">الكلية العالمية للغة الإنجليزية<br><span>الحرم الجامعي — لندن</span></p>
       <p class="footer__motto">"نُمكّن العالم من خلال التميّز في اللغة الإنجليزية"</p>
@@ -268,11 +855,11 @@
 
     <div class="footer__col">
       <h2>البرامج الأكاديمية</h2>
-      <a href="/ar/academics/iefc/">برنامج الطلاقة الدولي في اللغة الإنجليزية</a>
-      <a href="/ar/study/">المستويات الستة</a>
+      <a href="/ar/academics/#iefc">برنامج الطلاقة الدولي في اللغة الإنجليزية</a>
+      <a href="/ar/academics/#levels">المستويات الستة</a>
       <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
       <a href="/ar/students/awards/">الشهادات والمراتب</a>
-      <a href="/ar/about/quality-assurance/">ضمان الجودة</a>
+      <a href="/ar/governance/#quality">ضمان الجودة</a>
       <a href="/ar/admissions/tuition/">الرسوم الدراسية</a>
     </div>
 
@@ -280,8 +867,8 @@
       <h2>تواصل معنا</h2>
       <a href="mailto:info@worldwencollege.co.uk" dir="ltr">info@worldwencollege.co.uk</a>
       <p class="footer__note">تعليم رقمي حول العالم · المقر الإداري في لندن<br>عنوان المقر قيد التأكيد — راجع <a href="/ar/contact/">صفحة التواصل</a></p>
-      <a href="/ar/admissions/apply/">كيفية التقديم</a>
-      <a href="/ar/admissions/questions/">أسئلة القبول</a>
+      <a href="/ar/admissions/#apply">كيفية التقديم</a>
+      <a href="/ar/faq/">أسئلة القبول</a>
       <a href="/ar/faq/">الأسئلة الشائعة</a>
       <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
     </div>
@@ -294,5 +881,7 @@
 </footer>
 
 <script src="/js/site.js"></script>
+<script src="/js/motion.js"></script>
+<script src="/js/atelier.js" defer></script>
 </body>
 </html>

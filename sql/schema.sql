@@ -2373,3 +2373,57 @@ CREATE TABLE IF NOT EXISTS learning_outcome_evidence (
 CREATE INDEX IF NOT EXISTS idx_learning_outcomes_level ON learning_outcomes(level_roman, scope);
 CREATE INDEX IF NOT EXISTS idx_outcome_evidence_item
   ON learning_outcome_evidence(learning_item_id);
+
+-- ============================================================
+-- 016 — THE SENATE IS CONSTITUTED
+-- Mirrored from sql/migrations/016-senate-constituted.sql.
+-- ============================================================
+-- Constituted is not convened. A body with members CAN approve; it has
+-- not necessarily approved anything. `members_appointed` alone cannot
+-- express that distinction, and at nought members nobody noticed,
+-- because at nought the two questions collapse into one. They separate
+-- the moment anybody is appointed — so the event is recorded, not just
+-- the number.
+--
+-- BASCE is deliberately absent. The roster attested on 14 August 2026
+-- names no member of it, and reading the Board's Governor for Academic
+-- Affairs as BASCE membership would convert thirty interim competency
+-- mappings into approved ones on the strength of a job title.
+--
+-- The people are in docs/governance-register.md, not here. This table
+-- records what a BODY did and when.
+CREATE TABLE IF NOT EXISTS academic_body_events (
+  id            TEXT PRIMARY KEY,
+  body_code     TEXT NOT NULL REFERENCES academic_bodies(code),
+  event         TEXT NOT NULL
+                CHECK (event IN ('established','constituted','convened','dissolved')),
+  occurred_on   TEXT NOT NULL,
+  members_after INTEGER NOT NULL,
+  authority     TEXT NOT NULL,
+  note          TEXT NOT NULL,
+  UNIQUE (body_code, event)
+);
+
+INSERT OR IGNORE INTO academic_body_events
+  (id, body_code, event, occurred_on, members_after, authority, note)
+SELECT 'abe_' || lower(code) || '_established', code, 'established', established_on, 0,
+       'Founder, under delegated authority to the Press',
+       'Body constituted on paper with no members appointed.'
+FROM academic_bodies;
+
+INSERT OR IGNORE INTO academic_body_events
+  (id, body_code, event, occurred_on, members_after, authority, note)
+VALUES
+  ('abe_senate_constituted', 'SENATE', 'constituted', '2026-08-14', 3,
+   'Board of Governors',
+   'Three members appointed and attested by the College: Dean of Academic Affairs, '
+   || 'Professor of English Language Education, Professor of Applied Linguistics. '
+   || 'Named in docs/governance-register.md. The Senate has not yet convened, so the '
+   || 'mappings and thresholds within its remit remain interim.');
+
+UPDATE academic_bodies
+   SET members_appointed = 3
+ WHERE code = 'SENATE';
+
+CREATE INDEX IF NOT EXISTS idx_academic_body_events
+  ON academic_body_events(body_code, event);

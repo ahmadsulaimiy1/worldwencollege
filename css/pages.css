@@ -1,0 +1,442 @@
+/* =========================================================
+   THE PAGE HERO
+   ---------------------------------------------------------
+   Every page other than the homepage opens with the same
+   three things — an eyebrow, an h1 and a lede — inside a
+   dark section. That uniformity was the site's biggest
+   missed opportunity: 84 pages sharing one shape and none of
+   them making anything of it.
+
+   This is that shape, treated as a masthead. One component,
+   applied everywhere, with the accent keyed to the cluster
+   the page belongs to (body[data-section], written by
+   scripts/build.js from the output path). So every major
+   page opens differently without anybody hand-designing 84
+   openings — which is the only way "a unique hero per page"
+   survives contact with a site this size.
+
+   Loaded on every page. The homepage does not use it; it has
+   its own hero in css/home.css.
+   ========================================================= */
+
+/* --- Cluster accents ------------------------------------------------
+   Each is a real assignment from the palette, not a rotation for
+   variety's sake: gold for the commercial path, purple for
+   governance, teal for the platform, emerald for the student body,
+   burgundy for the press, sapphire for the faculty. The meanings are
+   the same ones docs/editorial-bible.md binds them to elsewhere. */
+body { --hero-accent: 199, 162, 74; }                        /* gold, default */
+body[data-section="admissions"] { --hero-accent: 199, 162, 74; }
+body[data-section="about"]      { --hero-accent: 78, 52, 108; }   /* purple */
+body[data-section="standards"]  { --hero-accent: 78, 52, 108; }
+body[data-section="governance"] { --hero-accent: 78, 52, 108; }   /* the senate purple */
+body[data-section="academics"]  { --hero-accent: 31, 61, 122; }   /* royal blue */
+body[data-section="study"]      { --hero-accent: 31, 61, 122; }
+body[data-section="learning"]   { --hero-accent: 29, 92, 99; }    /* teal */
+body[data-section="students"]   { --hero-accent: 30, 106, 79; }   /* emerald */
+body[data-section="support"]    { --hero-accent: 30, 106, 79; }
+body[data-section="faculty"]    { --hero-accent: 39, 80, 143; }   /* sapphire */
+body[data-section="teaching"]   { --hero-accent: 39, 80, 143; }
+body[data-section="press"]      { --hero-accent: 122, 34, 52; }   /* burgundy */
+body[data-section="publication"]{ --hero-accent: 122, 34, 52; }
+body[data-section="library"]    { --hero-accent: 122, 34, 52; }
+body[data-section="contact"]    { --hero-accent: 199, 162, 74; }
+
+.page-hero {
+  position: relative;
+  /* `clip`, not `hidden` — the same reason as .aurora: hidden creates
+     a scroll container and kills position:sticky in descendants. */
+  overflow: clip;
+  padding: clamp(64px, 6vw, 108px) 0 clamp(56px, 5vw, 88px);
+  background:
+    radial-gradient(ellipse 62% 78% at 84% 4%, rgba(var(--hero-accent), .40), transparent 64%),
+    radial-gradient(ellipse 72% 60% at 6% 96%, rgba(31, 61, 122, .32), transparent 62%),
+    linear-gradient(168deg, var(--midnight) 0%, var(--oxford) 100%);
+  border-bottom: 1px solid rgba(199, 162, 74, .26);
+}
+@supports not (overflow: clip) { .page-hero { overflow: hidden; } }
+
+/* The engraved medallion, at a quarter of the weight it has on the
+   homepage. A masthead is the second thing a reader meets, not the
+   first, and it should not compete with the one they came from. */
+.page-hero::before {
+  content: ''; position: absolute; inset: -30% -10%; z-index: 0; pointer-events: none;
+  background: url('/assets/art/guilloche.svg') no-repeat center 30% / clamp(520px, 60vw, 880px) auto;
+  opacity: .12;
+  -webkit-mask-image: radial-gradient(ellipse 66% 70% at 50% 40%, #000 6%, transparent 72%);
+  mask-image: radial-gradient(ellipse 66% 70% at 50% 40%, #000 6%, transparent 72%);
+}
+/* The crest, set into the trailing edge and cropped by the section —
+   a watermark on headed paper, not a logo placement. */
+.page-hero::after {
+  content: ''; position: absolute; z-index: 0; pointer-events: none;
+  right: -4%; top: 50%; transform: translateY(-50%);
+  width: clamp(240px, 26vw, 420px); aspect-ratio: 320 / 400;
+  background: url('/assets/art/crest-plate.svg') no-repeat center / contain;
+  opacity: .11;
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 26%, transparent 76%);
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 26%, transparent 76%);
+}
+[dir="rtl"] .page-hero::after { right: auto; left: -4%; }
+@media (max-width: 760px) { .page-hero::after { opacity: .07; right: -18%; } }
+
+.page-hero > .container { position: relative; z-index: 1; max-width: 900px; }
+
+/* --- The eyebrow becomes a struck plate ---------------------------- */
+.page-hero .eyebrow {
+  display: inline-flex; align-items: center; gap: .7em;
+  border: 1px solid rgba(199, 162, 74, .38);
+  background: rgba(199, 162, 74, .07);
+  border-radius: 999px; padding: .58em 1.25em;
+  color: var(--gold-soft); margin-bottom: 1.5em;
+  font-size: .68rem; letter-spacing: .24em;
+}
+/* The default .eyebrow draws a rule before itself; inside a pill that
+   reads as a stray dash. */
+.page-hero .eyebrow::before { display: none; }
+
+/* --- Masthead type -------------------------------------------------- */
+.page-hero h1 {
+  font-size: clamp(2.05rem, 1.35rem + 3.1vw, 3.5rem);
+  line-height: 1.06; letter-spacing: -.019em;
+  color: #fff; margin: 0 0 .46em; max-width: 20ch;
+}
+[dir="rtl"] .page-hero h1 { letter-spacing: 0; }
+.page-hero .lede {
+  font-size: clamp(1.02rem, .96rem + .3vw, 1.2rem);
+  color: rgba(247, 244, 236, .8); max-width: 62ch; margin-bottom: 0;
+}
+.page-hero .lede strong { color: var(--gold-champagne); font-weight: 600; }
+
+/* A hairline under the masthead, in the cluster's own colour, drawn
+   from the leading edge. It is the one place the accent is stated
+   outright rather than washed into the background. */
+.page-hero .container::after {
+  content: ''; display: block; height: 2px; width: 84px; margin-top: 34px;
+  background: linear-gradient(90deg, rgba(var(--hero-accent), 1), rgba(199, 162, 74, .25));
+  transform-origin: left;
+  animation: hero-rule-draw 1.1s var(--ease-premium) .25s both;
+}
+[dir="rtl"] .page-hero .container::after {
+  transform-origin: right;
+  background: linear-gradient(-90deg, rgba(var(--hero-accent), 1), rgba(199, 162, 74, .25));
+}
+@keyframes hero-rule-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* Buttons sometimes sit in a masthead (the apply pages). */
+.page-hero .btn-row { margin-top: 32px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .page-hero .container::after { animation: none; transform: none; }
+}
+
+/* =========================================================
+   THE SHARED BODY COMPONENTS, RAISED
+   ---------------------------------------------------------
+   Everything below upgrades a component that already exists
+   in css/brand.css and is already used across the 84
+   secondary pages. Nothing here is a new class anyone has to
+   adopt — which is the point. One edit, 84 pages.
+
+   None of these selectors touch the homepage: it uses
+   .chapter__head, .feature-list, .strand and .cta--flagship,
+   which are its own. So this layer can be as opinionated as
+   it likes without putting the reference implementation at
+   risk.
+   ========================================================= */
+
+/* --- Section heads -------------------------------------------------
+   The mastheads went to 3.5rem and left every h2 beneath them at
+   about 1.6, so each page opened loudly and then whispered. The
+   section head is the second voice on a page and has to be able to
+   answer the first. */
+.section-head { max-width: 760px; margin-bottom: clamp(38px, 3.6vw, 58px); }
+.section-head h2 {
+  font-size: clamp(1.7rem, 1.2rem + 2.1vw, 2.6rem);
+  line-height: 1.1; letter-spacing: -.016em; margin-bottom: .42em;
+}
+.section-head .lede { margin-bottom: 0; }
+
+/* The numbered index marker, given the treatment the homepage's
+   chapter numbers get: a rule that runs out of the label rather than
+   a pill floating on its own. */
+.module-marker {
+  display: inline-flex; align-items: center; gap: .8em;
+  border: 0; border-radius: 0; padding: 0; margin-bottom: 1.3em;
+  font-size: .66rem; letter-spacing: .24em;
+}
+.module-marker::after {
+  content: ''; width: clamp(28px, 5vw, 74px); height: 1px;
+  background: currentColor; opacity: .42;
+}
+.section-head.center .module-marker::after { display: none; }
+
+/* --- Tags ----------------------------------------------------------
+   The same treatment the homepage gives its curriculum strands,
+   promoted to the shared component so the two stop diverging. */
+.tag {
+  display: inline-flex; align-items: center;
+  border-color: var(--line-stone); padding: .55em 1.1em;
+  color: var(--charcoal); background: rgba(255, 255, 255, .45);
+  transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease,
+              transform var(--dur-fast) var(--ease-premium);
+}
+.tag:hover { border-color: var(--bronze); color: var(--bronze); transform: translateY(-2px); }
+.section--dark .tag, .section--deep .tag, .section--oxford .tag, .section--midnight .tag {
+  border-color: var(--line-dark); color: rgba(247, 244, 236, .88); background: rgba(255, 255, 255, .04);
+}
+.section--dark .tag:hover, .section--deep .tag:hover {
+  border-color: var(--gold-royal); color: var(--gold-soft);
+}
+
+/* --- The numbered journey ------------------------------------------
+   .dot-list is the component every "how it works" sequence on this
+   site uses, and it was rendering as small red numerals against a
+   dotted leader you could not see. It carries the most important
+   content on the admissions page — the five steps to enrolment — so
+   it gets the weight of a numbered plate: a display numeral in the
+   cluster's colour, a rule beneath each step, and the step's own
+   sentence at reading size.
+   ------------------------------------------------------------------- */
+.dot-list li {
+  display: grid; grid-template-columns: auto 1fr; align-items: baseline;
+  gap: 0 22px; padding: 22px 0; font-size: 1rem;
+  border-bottom: 1px solid var(--line-stone);
+}
+.section--dark .dot-list li, .section--deep .dot-list li,
+.section--oxford .dot-list li, .section--midnight .dot-list li {
+  border-bottom-color: rgba(231, 201, 122, .18);
+}
+.dot-list li:first-child { border-top: 1px solid var(--line-stone); }
+.section--dark .dot-list li:first-child, .section--deep .dot-list li:first-child {
+  border-top-color: rgba(231, 201, 122, .18);
+}
+.dot-list .num {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2.1rem); line-height: 1;
+  min-width: 1.9em; letter-spacing: -.02em;
+}
+/* The cluster accent cannot simply be used here.
+   brand.css already switches this numeral to oxblood on light grounds,
+   and it does so for a reason: gold on cream is about 2.3:1. That rule
+   is also more specific than a bare `.dot-list .num`, so it silently
+   won and the steps came out red on a gold page.
+   Light grounds therefore get bronze — the palette's designated
+   substitute for gold on paper, measured at 5.9:1 on cream — and dark
+   grounds get the real metal. Both selectors match brand.css's
+   specificity so the outcome is decided here rather than by file
+   order. */
+.section--light .dot-list .num, .section--paper .dot-list .num,
+.section--warm .dot-list .num, .section--cream .dot-list .num,
+.section--pearl .dot-list .num { color: var(--bronze); }
+.section--dark .dot-list .num, .section--deep .dot-list .num,
+.section--oxford .dot-list .num, .section--midnight .dot-list .num { color: var(--gold-rich); }
+/* The dotted leader belonged to a design where the numeral and the
+   text sat on one line. They no longer do, and a dotted rule floating
+   between two grid cells reads as a rendering fault. */
+.dot-list .leader { display: none; }
+.dot-list li > span:not(.num):not(.leader) { line-height: 1.6; }
+.dot-list strong { display: block; margin-bottom: .3em; font-size: 1.06rem; }
+
+/* --- Cards ---------------------------------------------------------
+   The base card is sound; it just needed the frame language the
+   plates use, so a grid of cards belongs to the same institution as
+   the engravings. */
+.card { padding: clamp(26px, 2.4vw, 34px); border-radius: 6px; }
+.card::after {
+  content: ''; position: absolute; bottom: 12px; right: 12px;
+  width: 16px; height: 16px; pointer-events: none;
+  border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  opacity: 0; transition: opacity var(--dur-med) var(--ease-premium);
+}
+[dir="rtl"] .card::after {
+  right: auto; left: 12px;
+  border-right: 0; border-left: 1px solid var(--line);
+}
+.card:hover::after { opacity: 1; }
+.card h3 { font-size: 1.12rem; letter-spacing: -.008em; }
+
+/* --- Statistics ----------------------------------------------------- */
+.stat-row { border-color: var(--line-stone); border-radius: 4px; }
+.stat-row__item { border-right-color: var(--line-stone); padding: 30px 22px; }
+/* See the note in brand.css: <b> is the markup 105 of the site's 138
+   stat figures actually use, and styling only <strong> left them set as
+   body text. */
+.stat-row__item strong, .stat-row__item b {
+  font-size: clamp(1.8rem, 1.4rem + 1.4vw, 2.4rem);
+  letter-spacing: -.02em; margin-bottom: .2em;
+}
+
+/* --- Callout -------------------------------------------------------
+   A dashed border says "unfinished". This component carries the
+   College's institutional-status disclosures, which are the most
+   deliberate writing on the site, and they should look decided. */
+.callout {
+  border: 1px solid var(--line); border-left: 2px solid rgba(var(--hero-accent), .9);
+  border-radius: 4px; padding: 26px 30px;
+}
+[dir="rtl"] .callout {
+  border-left: 1px solid var(--line); border-right: 2px solid rgba(var(--hero-accent), .9);
+}
+
+/* --- Pull quote ----------------------------------------------------- */
+.pull-quote {
+  border-left-color: rgba(var(--hero-accent), .9);
+  font-size: clamp(1.24rem, 1.05rem + .8vw, 1.6rem); line-height: 1.42;
+}
+[dir="rtl"] .pull-quote { border-right-color: rgba(var(--hero-accent), .9); }
+
+/* --- Closing bands --------------------------------------------------
+   Every page ends in one of these and they were the flattest thing
+   on the site: a centred sentence and a button on a plain ground. */
+.cta-band { position: relative; overflow: clip; padding: clamp(64px, 5.5vw, 96px) 0; }
+@supports not (overflow: clip) { .cta-band { overflow: hidden; } }
+.cta-band::before {
+  content: ''; position: absolute; inset: -40% -10%; z-index: 0; pointer-events: none;
+  background: url('/assets/art/guilloche.svg') no-repeat center / clamp(460px, 52vw, 760px) auto;
+  opacity: .1;
+  -webkit-mask-image: radial-gradient(ellipse 60% 66% at 50% 50%, #000 4%, transparent 72%);
+  mask-image: radial-gradient(ellipse 60% 66% at 50% 50%, #000 4%, transparent 72%);
+}
+.cta-band > .container { position: relative; z-index: 1; }
+.cta-band h2 { font-size: clamp(1.7rem, 1.25rem + 1.9vw, 2.5rem); letter-spacing: -.016em; }
+
+/* --- Accordion ------------------------------------------------------ */
+.accordion__q { padding: 24px 0; font-size: 1.1rem; }
+.accordion__item { border-bottom-color: var(--line-stone); }
+.section--dark .accordion__item, .section--deep .accordion__item {
+  border-bottom-color: rgba(231, 201, 122, .18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tag:hover { transform: none; }
+  .tag, .card::after { transition: none; }
+}
+
+/* =========================================================
+   THE CONTENTS RAIL
+   ---------------------------------------------------------
+   The component the new information architecture depends on.
+   docs/information-architecture.html collapses thirty-three routes
+   into deep-linked sections of six pillar pages; that trade is only
+   an improvement if landing on an anchor feels like arriving
+   somewhere. The rail is what makes a 3,000-word page navigable
+   instead of long.
+
+   A BAND, NOT A MARGIN RAIL, and the reason is measured. The content
+   column is 1180px. At 1440 — the widest viewport this site is
+   designed against — that leaves 130px either side, and a rail of
+   section names needs about 180. A margin rail would therefore work
+   on the designer's monitor and collapse on the visitor's, which is
+   the exact failure this project has already made once with the
+   header. A sticky band works at every width.
+   ========================================================= */
+.contents {
+  position: sticky;
+  /* Sits directly beneath the site header, which is itself sticky and
+     changes height when it condenses. js/motion.js publishes the
+     measured height; the fallback is the header's resting height, so
+     the rail is in the right place before script runs and with script
+     disabled entirely. */
+  top: var(--header-h, 88px);
+  z-index: 40;
+  background: var(--warm-white);
+  border-top: 1px solid var(--line-stone);
+  border-bottom: 1px solid var(--line-stone);
+  box-shadow: 0 1px 0 rgba(199, 162, 74, .22);
+}
+.contents__inner {
+  max-width: var(--wrap); margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; gap: 22px;
+}
+.contents__label {
+  flex: 0 0 auto;
+  font-size: .6rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--bronze); white-space: nowrap;
+}
+/* The label is the first thing to go: on a phone it costs a third of
+   the band to say something the band already demonstrates. */
+@media (max-width: 700px) { .contents__label { display: none; } }
+
+.contents__list {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; align-items: center; gap: 4px;
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scrollbar-width: none; -ms-overflow-style: none;
+}
+.contents__list::-webkit-scrollbar { display: none; }
+.contents__list a {
+  display: block; padding: 14px 12px; white-space: nowrap;
+  font-size: .82rem; font-weight: 600; color: var(--slate);
+  border-bottom: 2px solid transparent;
+  transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+.contents__list a:hover { color: var(--ink); }
+/* aria-current, not a class, because the state IS "this is the section
+   you are in" and a screen reader should be told so rather than
+   inferring it from a colour. */
+.contents__list a[aria-current="true"] {
+  color: var(--red); border-bottom-color: var(--gold);
+}
+
+/* THE ANCHOR OFFSET, and it is the point of the whole component.
+   Without it every deep link from the mega menu scrolls the target
+   heading underneath the sticky header and the rail, so the reader
+   arrives at the middle of the previous section and concludes the
+   link is broken. */
+:target, [id] { scroll-margin-top: calc(var(--header-h, 88px) + var(--contents-h, 50px) + 20px); }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* The rail is chrome, and this site's chrome is navy. On a page whose
+   first band after the masthead is dark, a paper-coloured rail reads
+   as a stray card; matched to the dark ground it reads as part of the
+   header it hangs from. */
+.contents--dark {
+  background: var(--royal-deep);
+  border-top-color: var(--line-dark); border-bottom-color: var(--line-dark);
+}
+.contents--dark .contents__label { color: var(--gold-royal); }
+.contents--dark .contents__list a { color: rgba(247, 244, 236, .72); }
+.contents--dark .contents__list a:hover { color: #fff; }
+.contents--dark .contents__list a[aria-current="true"] {
+  color: var(--gold-bright); border-bottom-color: var(--gold);
+}
+
+/* Printing a navigation band is printing furniture. */
+@media print { .contents { display: none; } }
+
+/* The scroll affordance. Added by js/motion.js only when the list
+   genuinely overflows, so a rail that fits is not handed a gradient
+   over a perfectly legible label. Direction-aware: the fade belongs on
+   whichever edge the content runs off, which is the left one in
+   Arabic. */
+.contents--scrollable .contents__list {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 34px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 34px), transparent);
+}
+[dir="rtl"] .contents--scrollable .contents__list {
+  -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 34px), transparent);
+  mask-image: linear-gradient(to left, #000 calc(100% - 34px), transparent);
+}
+
+/* KEYBOARD, and two details that only show up when you actually tab
+   through it.
+
+   The outline is INSET. The list is an overflow-x container, so an
+   outline drawn outside a link's box is clipped by it — a focused item
+   would show three sides of a ring, which reads as a rendering error
+   rather than as focus.
+
+   And the fade is dropped while anything inside has focus. Tabbing to
+   the last item scrolls it into view under a gradient that was put
+   there to say "there is more"; fading the very thing the keyboard user
+   has just landed on is the opposite of what the affordance is for. */
+.contents__list a:focus-visible {
+  outline: 2px solid var(--gold); outline-offset: -2px; border-radius: 2px;
+  color: var(--ink);
+}
+.contents--dark .contents__list a:focus-visible { color: #fff; }
+.contents--scrollable .contents__list:focus-within {
+  -webkit-mask-image: none; mask-image: none;
+}

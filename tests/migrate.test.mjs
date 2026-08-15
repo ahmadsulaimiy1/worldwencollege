@@ -228,6 +228,11 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 016 — the Senate's constitution. Dropped before 013's
+  // academic_bodies because it holds a foreign key into it, and
+  // reconstructing a pre-migration database in the wrong order fails on
+  // the constraint rather than on anything interesting.
+  db.exec('DROP INDEX idx_academic_body_events; DROP TABLE academic_body_events;');
   // 015 — the programme definition and its claims.
   db.exec('DROP INDEX idx_programme_claims_state; DROP TABLE programme_claims; DROP TABLE programme_definition;');
   // 014 — award definitions.

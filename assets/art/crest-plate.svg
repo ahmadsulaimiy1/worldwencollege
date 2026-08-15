@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  THE CREST.
+
+  A proper vector crest, replacing the site's dependency on
+  assets/images/crest-seal.jpg being composited with
+  `mix-blend-mode: screen` to knock out its own navy background (see
+  the note at css/brand.css, .hero__crest-watermark). That trick works
+  only over a dark ground, which is why the seal could never appear on
+  a light section. This can, at any size, over any colour, at a
+  fraction of the bytes.
+
+  Construction: a shield within a shield, a crown of five points, an
+  open book at the honour point, a laurel to either side, and a ribbon
+  bearing the motto. `currentColor` is not used here — the crest is the
+  one mark on the site that keeps its own metal regardless of context.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 400" width="320" height="400" role="img" aria-label="Crest of WorldWide English College, London Campus">
+  <defs>
+    <linearGradient id="c-metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0"   stop-color="#A8863C"/>
+      <stop offset=".28" stop-color="#F2E3C0"/>
+      <stop offset=".52" stop-color="#D4AF37"/>
+      <stop offset=".78" stop-color="#F2E3C0"/>
+      <stop offset="1"   stop-color="#A8863C"/>
+    </linearGradient>
+    <linearGradient id="c-field" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1F3D7A" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#0A1428" stop-opacity=".85"/>
+    </linearGradient>
+  </defs>
+
+  <g fill="none" stroke="url(#c-metal)" stroke-width="2.2" stroke-linejoin="miter" stroke-linecap="square">
+
+    <!-- Crown of five points. -->
+    <path d="M108 62h104l-8 26H116Z" stroke-width="2.4"/>
+    <path d="m108 62 8-30 16 20 12-26 16 24 16-24 12 26 16-20 8 30" stroke-width="2.4"/>
+    <g fill="url(#c-metal)" stroke="none">
+      <circle cx="116" cy="32" r="4.2"/><circle cx="144" cy="26" r="4.2"/>
+      <circle cx="160" cy="18" r="5"/>
+      <circle cx="176" cy="26" r="4.2"/><circle cx="204" cy="32" r="4.2"/>
+    </g>
+    <path d="M112 76h96" stroke-opacity=".5" stroke-width="1.4"/>
+
+    <!-- The shield. -->
+    <path d="M160 96 254 128v92c0 62-38 110-94 132-56-22-94-70-94-132v-92Z"
+          fill="url(#c-field)" stroke-width="3"/>
+    <path d="M160 114 238 140v80c0 53-32 94-78 113-46-19-78-60-78-113v-80Z"
+          stroke-width="1.5" stroke-opacity=".7"/>
+
+    <!-- Chief: a band across the head of the shield. -->
+    <path d="M74 158h172" stroke-width="1.6" stroke-opacity=".75"/>
+    <g stroke-width="1.1" stroke-opacity=".45">
+      <path d="M92 132v26M114 126v32M138 122v36M160 120v38M182 122v36M206 126v32M228 132v26"/>
+    </g>
+
+    <!-- An open book at the honour point — the published curriculum. -->
+    <g stroke-width="2">
+      <path d="M160 196c-16-11-34-14-52-9v58c18-5 36-2 52 9 16-11 34-14 52-9v-58c-18-5-36-2-52 9Z"/>
+      <path d="M160 196v58"/>
+      <path d="M122 208h24M122 222h24M174 208h24M174 222h24" stroke-width="1.1" stroke-opacity=".55"/>
+    </g>
+
+    <!-- Base: three mullets for the three founding commitments. -->
+    <g fill="url(#c-metal)" stroke="none">
+      <path d="m134 284 3.4 7 7.6 1-5.5 5.4 1.3 7.6-6.8-3.6-6.8 3.6 1.3-7.6-5.5-5.4 7.6-1Z"/>
+      <path d="m160 292 3.4 7 7.6 1-5.5 5.4 1.3 7.6-6.8-3.6-6.8 3.6 1.3-7.6-5.5-5.4 7.6-1Z"/>
+      <path d="m186 284 3.4 7 7.6 1-5.5 5.4 1.3 7.6-6.8-3.6-6.8 3.6 1.3-7.6-5.5-5.4 7.6-1Z"/>
+    </g>
+
+    <!-- Laurel, either side of the shield. -->
+    <g stroke-width="1.6" stroke-opacity=".8">
+      <path d="M62 168c-16 22-22 50-16 78s24 50 48 62"/>
+      <path d="M54 186c-9-4-19-3-27 3 4 8 12 13 21 13M48 214c-9-3-19-1-26 6 5 8 14 12 23 11M50 244c-9-1-18 3-23 11 7 6 16 8 25 5M60 272c-8 1-16 7-19 16 8 4 18 3 25-2"/>
+      <path d="M258 168c16 22 22 50 16 78s-24 50-48 62"/>
+      <path d="M266 186c9-4 19-3 27 3-4 8-12 13-21 13M272 214c9-3 19-1 26 6-5 8-14 12-23 11M270 244c9-1 18 3 23 11-7 6-16 8-25 5M260 272c8 1 16 7 19 16-8 4-18 3-25-2"/>
+    </g>
+
+    <!-- Ribbon. -->
+    <g stroke-width="2">
+      <path d="M40 336h240l-22 24 22 24H40l22-24Z"/>
+      <path d="M62 360h196" stroke-width="1" stroke-opacity=".4"/>
+    </g>
+    <text x="160" y="367" text-anchor="middle" stroke="none" fill="url(#c-metal)"
+          font-family="Georgia, 'Playfair Display', serif" font-size="19" font-weight="700"
+          letter-spacing="3.2">MMXXVI</text>
+  </g>
+</svg>

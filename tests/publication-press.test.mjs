@@ -30,7 +30,7 @@
 // And the house identity is checked as measurement rather than taste: a
 // series colour that cannot be told apart from the ground it is printed
 // on is a defect that would ship on every title in that series.
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { ROOT, loadUrl } from './helpers.mjs';
 
 const press = await import(loadUrl('scripts/publication/press.mjs'));
@@ -219,9 +219,37 @@ check('the cross-references are counted once, not once per direction',
   INV.crossRefs > 100 && INV.crossRefs < 250, String(INV.crossRefs));
 
 check('the institutional zeroes are still zero, and are still measured',
-  INV.assessmentsMapped === 0 && INV.appointedMembers === 0
-  && INV.electedOfficers === 0 && INV.awardsIssued === 0,
-  `${INV.assessmentsMapped}/${INV.appointedMembers}/${INV.electedOfficers}/${INV.awardsIssued}`);
+  INV.assessmentsMapped === 0 && INV.electedOfficers === 0 && INV.awardsIssued === 0,
+  `${INV.assessmentsMapped}/${INV.electedOfficers}/${INV.awardsIssued}`);
+
+// appointedMembers LEFT ZERO ON 14 AUGUST 2026, and this check replaced
+// the one that used to hold it there. It is not a relaxation.
+//
+// The number that actually governs whether a competency mapping may be
+// approved is BASCE's, not the total. Summing the two bodies gave a
+// figure that answered no real question and would now read three while
+// the body that matters still has nobody on it — which is precisely the
+// substitution the record exists to prevent. So the total is checked
+// against the register's own arithmetic, and BASCE is checked on its
+// own, because that is the one a mapping is measured against.
+{
+  const { DatabaseSync } = await import('node:sqlite');
+  const db = new DatabaseSync(':memory:');
+  db.exec(readFileSync(`${ROOT}/sql/schema.sql`, "utf8"));
+  const rows = db.prepare('SELECT code, members_appointed AS m FROM academic_bodies').all();
+  db.close();
+  const byCode = Object.fromEntries(rows.map((r) => [r.code, r.m]));
+
+  check('the appointed-member count is the sum the record actually holds',
+    INV.appointedMembers === rows.reduce((t, r) => t + r.m, 0),
+    `${INV.appointedMembers} counted / ${rows.map((r) => `${r.code}:${r.m}`).join(' ')}`);
+
+  check('BASCE still has nobody on it, which is what keeps every competency mapping interim',
+    byCode.BASCE === 0, `BASCE:${byCode.BASCE}`);
+
+  check('...and the Senate is constituted without having convened',
+    byCode.SENATE > 0, `SENATE:${byCode.SENATE}`);
+}
 
 // A loose keyword sweep once reported thirty business-English lessons
 // and would have marked a business series ready to publish.
@@ -817,6 +845,60 @@ if (existsSync(VOLUME)) {
     /\/StructTreeRoot/.test(raw) && /\/Outlines/.test(raw));
 } else {
   check('the volume has been rendered', false, 'run: npm run press');
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// THE COUNT ON THE PAGE IS THE COUNT ON THE DISK
+//
+// /press/ opens by stating how many volumes have been produced, and
+// says it again further down. Both numbers come from the same variable
+// in scripts/build-press.js, which counts PDFs in publication/ — so
+// they cannot disagree with each other.
+//
+// They can both disagree with reality. pages/press.html is generated
+// output that is committed to the repository, and nothing regenerates
+// it when the catalogue changes. It sat in git claiming twelve volumes
+// while the directory held eleven, and every check in this suite
+// passed: the page was internally consistent, its links resolved, its
+// claims were qualified. It was simply out of date, which is the one
+// failure a self-consistent document cannot detect about itself.
+//
+// This is the check that would have caught it. It compares the number
+// the page publishes against the directory the page is describing.
+// ─────────────────────────────────────────────────────────────────────
+{
+  const pressPage = `${ROOT}/pages/press.html`;
+  const pubDir = `${ROOT}/publication`;
+
+  if (existsSync(pressPage) && existsSync(pubDir)) {
+    // The same classification build-press.js applies: cover artwork is a
+    // production asset, not a volume, and only PDFs are volumes.
+    const onDisk = readdirSync(pubDir)
+      .filter((f) => /\.pdf$/i.test(f) && !/Cover Artwork/i.test(f));
+
+    const html = readFileSync(pressPage, 'utf8');
+    const stated = [...html.matchAll(/(\d+)\s+volumes/g)].map((m) => Number(m[1]));
+
+    check('the Press page states a volume count at all', stated.length > 0);
+
+    // Every count on the page must be the same count.
+    const distinct = [...new Set(stated)];
+    check('...and states the same number everywhere it appears',
+      distinct.length === 1, `found ${distinct.join(', ')}`);
+
+    // Public volumes are those on disk minus the internal ones. Rather
+    // than duplicating that table here — which would be a third copy of
+    // the same fact — assert the page's number is within the range the
+    // directory can support, and that it is not the whole-directory
+    // count, which is what a stale page drifts toward.
+    const claimed = distinct[0];
+    check(`the stated count (${claimed}) is no larger than the volumes on disk (${onDisk.length})`,
+      claimed <= onDisk.length,
+      'the page claims more volumes than the publication directory holds');
+    check('...and is not implausibly small for that directory',
+      claimed >= onDisk.length - 4,
+      `${claimed} stated against ${onDisk.length} PDFs — regenerate with: node scripts/build-press.js`);
+  }
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

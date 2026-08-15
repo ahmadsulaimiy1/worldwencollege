@@ -2,7 +2,7 @@
   <div class="container">
     <span class="eyebrow">Tuition &amp; Fees</span>
     <h1>Transparent pricing for the full IEFC pathway.</h1>
-    <p class="lede">One programme fee, spread evenly across six levels — pay in full, by level, or (where approved) monthly.</p>
+    <p class="lede">One programme fee, spread evenly across six levels — pay in full, by level, or in instalments within a level, on request.</p>
     <div class="stat-row" style="margin-top:40px">
       <div class="stat-row__item"><strong>$19,000</strong><span>Full Programme</span></div>
       <div class="stat-row__item"><strong>$3,166.67</strong><span>Per Level</span></div>
@@ -12,7 +12,7 @@
   </div>
 </section>
 
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="fees" data-contents="The Fees">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Per-Level Breakdown</span>
@@ -50,21 +50,219 @@
         <li>Assessments and examinations</li>
         <li>Progress reports and academic advising</li>
         <li>Digital transcript</li>
-        <li>Digital certificate on successful programme completion</li>
+        <li>Digital certificate on successful completion &mdash; once the award can be conferred; no External Examiner is yet appointed</li>
       </ul>
     </div>
     <div>
-      <span class="module-marker">Additional Fees (Where Applicable)</span>
+      <span class="module-marker">Optional Services</span>
       <ul class="check-list">
-        <li>Application fee</li>
-        <li>Admission processing fee</li>
-        <li>Registration fee</li>
-        <li>Graduation &amp; certificate fee</li>
         <li>Printed certificate (optional)</li>
         <li>International courier (optional)</li>
         <li>Certificate verification (optional)</li>
       </ul>
-      <p class="form-note">Exact figures for optional and processing fees are confirmed at the point of application — ask Admissions for the current schedule.</p>
+      <p class="form-note">Applying costs nothing — there is no application, processing or registration fee. The three optional services above are the only extras, and their prices are confirmed before you order.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="paying" data-contents="Paying">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Currency</span>
+      <h2>One settled currency, and six that are not.</h2>
+      <p class="lede">The College charges in US dollars. Other currencies exist in the system
+        as recognised codes, but a currency is only settled once a rate policy stands behind it,
+        and none of them has one yet.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th>Currency</th><th>Status</th><th>What it means for you</th></tr></thead>
+        <tbody>
+          <tr><td><strong>USD &mdash; US dollar</strong></td><td>Settled</td>
+              <td>Every fee is set and charged in dollars. $19,000 means $19,000.</td></tr>
+          <tr><td><strong>AED &mdash; UAE dirham</strong></td><td>Recognised, not settled</td>
+              <td>Your bank or card issuer converts at its own rate on the day. WEC-LC does not publish a AED price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
+          <tr><td><strong>GBP &mdash; pound sterling</strong></td><td>Recognised, not settled</td>
+              <td>Your bank or card issuer converts at its own rate on the day. WEC-LC does not publish a GBP price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
+          <tr><td><strong>KWD &mdash; Kuwaiti dinar</strong></td><td>Recognised, not settled</td>
+              <td>Your bank or card issuer converts at its own rate on the day. WEC-LC does not publish a KWD price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
+          <tr><td><strong>NGN &mdash; Nigerian naira</strong></td><td>Recognised, not settled</td>
+              <td>Your bank or card issuer converts at its own rate on the day. WEC-LC does not publish a NGN price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
+          <tr><td><strong>QAR &mdash; Qatari riyal</strong></td><td>Recognised, not settled</td>
+              <td>Your bank or card issuer converts at its own rate on the day. WEC-LC does not publish a QAR price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
+          <tr><td><strong>SAR &mdash; Saudi riyal</strong></td><td>Recognised, not settled</td>
+              <td>Your bank or card issuer converts at its own rate on the day. WEC-LC does not publish a SAR price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="form-note">Where a bank converts, the conversion is between you and your bank. The
+      College sees only the dollar amount and cannot quote or guarantee the local figure.</p>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Payment Methods</span>
+      <h2>Which method reaches you depends on where you are.</h2>
+      <p class="lede">The platform holds routing preferences for several countries and offers
+        whichever of them the College currently has live merchant credentials for. It suggests;
+        it never forces.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th>Country</th><th>Preferred order</th></tr></thead>
+        <tbody>
+          <tr><td><strong>United Arab Emirates</strong></td><td>Card (Stripe) &rarr; Flutterwave</td></tr>
+          <tr><td><strong>United Kingdom</strong></td><td>Card (Stripe)</td></tr>
+          <tr><td><strong>Kuwait</strong></td><td>Card (Stripe)</td></tr>
+          <tr><td><strong>Nigeria</strong></td><td>Paystack &rarr; Flutterwave &rarr; OPay &rarr; Card (Stripe)</td></tr>
+          <tr><td><strong>Qatar</strong></td><td>Card (Stripe)</td></tr>
+          <tr><td><strong>Saudi Arabia</strong></td><td>Card (Stripe) &rarr; Flutterwave</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="callout__label">Nigeria, specifically</span>
+      <p>Nigerian applicants are routed to Paystack first, then Flutterwave, then OPay, with a
+        card gateway last. That order is not decorative: several international gateways do not
+        support Nigerian cards or Nigerian merchants, and a payment page that offered only those
+        would fail silently for a large share of the College&rsquo;s applicants. If a method is
+        not yet showing at checkout, it is because those merchant credentials are not live yet
+        &mdash; write to Admissions and pay by transfer in the meantime.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad" id="plans" data-contents="Ways to Pay">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Ways to Pay</span>
+      <h2>Three arrangements.</h2>
+    </div>
+    <div class="grid grid--3">
+      <div class="card card--dark">
+        <span class="card__num">Full programme</span>
+        <h3>$19,000 once</h3>
+        <p>One payment covers all six levels. It enrols you in Level I immediately; Levels II to VI are added to your account one at a time as each preceding level is completed. Nothing is withheld from you &mdash; the arrangement exists so that a paid-for level is a level you are actually ready to study.</p>
+      </div>
+      <div class="card card--dark">
+        <span class="card__num">Per level</span>
+        <h3>$3,166.67 at a time</h3>
+        <p>Pay at the start of each level. The most common arrangement, and the one that requires the least commitment before you have seen how the College teaches.</p>
+      </div>
+      <div class="card card--dark">
+        <span class="card__num">Instalments</span>
+        <h3>4 payments per level</h3>
+        <p>A level&rsquo;s fee split into 4 equal parts. The split is equal because no evidence-based cadence policy has been set; when one is, it will be published here rather than changed quietly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="refunds">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Refunds</span>
+      <h2>There is no refund policy yet, and you should know that before you pay.</h2>
+    </div>
+    <div class="callout">
+      <span class="callout__label">What is true</span>
+      <p>The College can process a refund technically &mdash; the mechanism is built and tested
+        against the payment gateways. What does not exist is a <em>policy</em>: who authorises a
+        refund, on what grounds, within what window, and at what proportion. Those are executive
+        decisions and none of them has been taken. Until they are, a refund request is decided
+        case by case by the founding team, in writing, and the decision is recorded against the
+        payment. That is a weaker guarantee than a published policy and it is stated as one.</p>
+    </div>
+    <div class="grid grid--2">
+      <div class="card">
+        <span class="card__num">If you want certainty first</span>
+        <h3>Pay by level, not in full</h3>
+        <p>The exposure of a per-level payment is $3,166.67; the exposure of a full-programme payment is $19,000. Until a refund policy exists, that difference is the practical protection available to you, and the College would rather tell you that than sell the larger package.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">What the College commits to now</span>
+        <h3>A written answer, and a record of it</h3>
+        <p>Every refund request is answered in writing with a reason. Whatever policy is eventually adopted, decisions taken before it will remain on the record and will not be quietly reinterpreted afterwards.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Receipts</span>
+      <h2>What you get, and what you do not yet.</h2>
+    </div>
+    <div class="grid grid--2">
+      <div class="card">
+        <span class="card__num">Issued</span>
+        <h3>A numbered receipt</h3>
+        <p>Every successful payment is given a sequential receipt number at the moment the gateway confirms it, and that number is unique and permanent. It is the reference to quote in any correspondence about money.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">Not issued yet</span>
+        <h3>A downloadable PDF receipt</h3>
+        <p>The receipt exists as a record; a formatted document you can download is not built. If you need one for an employer or a sponsor, ask Admissions and one will be produced by hand.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="funding" data-contents="Scholarships &amp; Funding">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">The Position</span>
+      <h2>A mechanism exists. A scheme does not.</h2>
+      <p class="lede">The distinction matters, so it is drawn plainly rather than blurred.</p>
+    </div>
+    <div class="grid grid--2">
+      <div class="card">
+        <span class="card__num">Exists</span>
+        <h3>The award mechanism</h3>
+        <p>The College can record a scholarship against a named person, as a percentage, a fixed sum or a full remission, with the approving officer recorded alongside it. It applies automatically at checkout for the person it was awarded to, and for nobody else. This is built and tested.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">Does not exist</span>
+        <h3>Eligibility, criteria, a fund, a deadline</h3>
+        <p>No criteria have been adopted, no budget has been allocated, no round has opened and no scholarship has been awarded to anyone. Publishing criteria the College could not fund would be worse than publishing nothing.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="callout__label">Why this is not simply written and published</span>
+      <p>A scholarship scheme is a spending commitment and an equity commitment at once. Deciding
+        it requires a fund, a set of criteria that can be applied consistently to strangers, and
+        someone accountable for applying them &mdash; the same three things that are missing from
+        every other unfilled post at the College. It is an executive decision, and it has not
+        been taken.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">What You Can Do Today</span>
+      <h2>Three routes that are real.</h2>
+    </div>
+    <div class="grid grid--3">
+      <div class="card">
+        <span class="card__num">One</span>
+        <h3>Pay level by level</h3>
+        <p>The programme is deliberately divisible. $3,166.67 for one level, decided one level at a time, is a materially different commitment from $19,000, and no explanation is required to choose it.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">Two</span>
+        <h3>Spread a level across 4 payments</h3>
+        <p>An instalment plan divides a single level&rsquo;s fee into equal parts. It is available on request rather than by application, and carries no charge for using it.</p>
+      </div>
+      <div class="card">
+        <span class="card__num">Three</span>
+        <h3>Write and ask</h3>
+        <p>If the fee is the only thing standing between you and the programme, say so to Admissions in your own words. There is no fund to draw on and no promise attached to this, but a request that is never made cannot be considered when there is one.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -72,13 +270,20 @@
 <section class="section--dark section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">Ways to Pay</span>
-      <h2>Choose the plan that fits.</h2>
+      <span class="module-marker">Sponsors and Employers</span>
+      <h2>If someone else is paying.</h2>
     </div>
-    <div class="grid grid--3">
-      <div class="card card--dark"><h3>Full Programme</h3><p>Pay the full $19,000 up front and complete enrolment for all six levels at once.</p></div>
-      <div class="card card--dark"><h3>Per Level</h3><p>Pay $3,166.67 at the start of each 4-month level as you progress.</p></div>
-      <div class="card card--dark"><h3>Monthly Instalments</h3><p>Spread each level's tuition across its four months, subject to institutional policy.</p></div>
+    <div class="grid grid--2">
+      <div class="card card--dark">
+        <span class="card__num">Possible</span>
+        <h3>A third party paying for a named learner</h3>
+        <p>An employer, a ministry or a family member can pay for a named learner today. The payment is recorded against the learner&rsquo;s enrolment, and the learner &mdash; not the payer &mdash; controls their own academic record.</p>
+      </div>
+      <div class="card card--dark">
+        <span class="card__num">Not built</span>
+        <h3>Organisational invoicing and seats</h3>
+        <p>A corporate account with purchase-order invoicing and assignable seats exists in the data model and has no working process behind it. It will be built against a real organisation&rsquo;s requirements rather than guessed at in advance. If that is you, write to Admissions.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -91,3 +296,4 @@
     </div>
   </div>
 </section>
+

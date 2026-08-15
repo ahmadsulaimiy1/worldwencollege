@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * THE ABOUT CLUSTER — nine pages.
+ * THE ABOUT CLUSTER — two pages: the College pillar and Careers.
+ * (Governance and standards moved to scripts/build-governance.js.)
  *
  * ────────────────────────────────────────────────────────────────────
  * THE PAGES AN INSTITUTION LIES ON
@@ -14,9 +15,12 @@
  *
  * So the governance facts are READ, not written. The two academic
  * bodies, their remits, their establishment dates and — critically —
- * their `members_appointed` counts come from the database. Both
- * currently read zero, and the pages say so in the first paragraph
- * rather than in a footnote.
+ * their `members_appointed` counts come from the database. BASCE reads
+ * zero; the Senate reads three and has not yet convened. Those are two
+ * different positions producing the same outcome today, and the pages
+ * distinguish them in the first paragraph rather than in a footnote,
+ * because collapsing them is how "constituted" quietly becomes
+ * "approved".
  *
  * ────────────────────────────────────────────────────────────────────
  * WHAT IS AUTHORED AND WHAT IS QUOTED
@@ -32,17 +36,26 @@
  * one: it states what the College believes about language teaching and
  * why, and it is arguable.
  *
- * There is no Leadership page in this cluster and that is deliberate.
- * No principal officer is appointed. A Leadership page with no leaders
- * is either empty or invented, and docs/org-chart-placeholders.md
- * exists precisely because inventing one was considered and refused.
- * Organisational Structure describes the posts and states which are
- * vacant, which is the honest version of the same page.
+ * There was no Leadership page in this cluster for as long as there
+ * were no leaders — a Leadership page with nobody on it is either empty
+ * or invented, and docs/org-chart-placeholders.md exists precisely
+ * because inventing one was considered and refused.
+ *
+ * That changed on 14 August 2026, when the College attested a Board of
+ * Governors, an Academic Senate and an Executive. The leadership now
+ * appears on /about/governance/, rendered from
+ * docs/governance-register.md by scripts/lib/governance-register.js and
+ * held to that register by tests/governance-register.test.mjs. The
+ * discipline is unchanged and is now enforced rather than merely
+ * observed: no name reaches a page unless the register carries it, and
+ * a credential the College did not supply renders as nothing at all
+ * rather than as a plausible guess.
  */
 
 const fs = require('fs');
 const path = require('path');
 const { DatabaseSync } = require('node:sqlite');
+const GOV = require('./lib/governance-register');
 
 const ROOT = path.resolve(__dirname, '..');
 const esc = (s) => String(s ?? '')
@@ -55,6 +68,9 @@ function read() {
   const all = (s) => db.prepare(s).all();
   const out = {
     bodies: all('SELECT * FROM academic_bodies ORDER BY code'),
+    // Constituted and convened are different events (migration 016). The
+    // pages need to be able to say which have happened.
+    bodyEvents: all('SELECT * FROM academic_body_events ORDER BY body_code, occurred_on'),
     competencies: all('SELECT * FROM competencies ORDER BY sequence'),
     programme: all('SELECT * FROM programme_definition')[0] || null,
     levels: all('SELECT * FROM programme_levels ORDER BY id'),
@@ -64,6 +80,9 @@ function read() {
 }
 const D = read();
 if (D.bodies.length < 2) throw new Error(`Expected the academic bodies, read ${D.bodies.length}`);
+// The structure page still cites BASCE's membership count. The rest of
+// the governance cluster lives in scripts/build-governance.js now.
+const basce = D.bodies.find((b) => b.code === 'BASCE');
 
 const card = (num, title, body) => `      <div class="card">
         <span class="card__num">${esc(num)}</span>
@@ -87,10 +106,10 @@ const hero = (eyebrow, h1, lede, buttons = '') => `<section class="section--dark
 
 const statusCallout = `<div class="callout">
       <span class="callout__label">Institutional Status</span>
-      <p>WEC-LC holds no accreditation, has appointed no External Examiner, and its two academic
-        bodies have no appointed members. The College states this wherever it is relevant rather
-        than once in a footnote &mdash; see <a href="/about/#status">About &middot; Institutional
-        Status</a>.</p>
+      <p>WEC-LC holds no accreditation and has appointed no External Examiner. Its Academic
+        Senate is constituted and has not yet convened; BASCE has no appointed members. The
+        College states this wherever it is relevant rather than once in a footnote &mdash; see
+        <a href="/about/#status">About &middot; Institutional Status</a>.</p>
     </div>`;
 
 const cta = (h2, primary, primaryHref, secondary, secondaryHref) =>
@@ -108,18 +127,117 @@ const cta = (h2, primary, primaryHref, secondary, secondaryHref) =>
 // ─────────────────────────────────────────────────────────────────────
 const PAGES = {};
 
-// 1 · VISION ──────────────────────────────────────────────────────────
-PAGES.vision = {
-  slug: 'about-vision', output: 'about/vision/index.html', file: 'about-vision.html',
-  title: 'Vision &mdash; Worldwide English College',
-  description: 'What Worldwide English College intends to become, and the standard it holds '
-    + 'itself to while it gets there.',
-  body: `${hero('About', 'Where we are going.',
-    'To become one of the world&rsquo;s leading English language institutions, recognised for '
-    + 'excellence in English language education, innovation, academic integrity, and graduate '
-    + 'success.')}
+// The membership figures are read, never written. BASCE's count comes
+// from the database and is expected to stay at nought until somebody is
+// actually appointed to it; the Senate's comes from the register via
+// scripts/lib/governance-register.js, which the migration mirrors into
+// the same database. Two sources for one number is how the two come to
+// disagree, so the page reads the body it is talking about.
+const basceCount = D.bodies.find((b) => b.code === 'BASCE').members_appointed;
+// ── governance, the Senate, BASCE and quality assurance ──────────────
+// Moved to scripts/build-governance.js on the day Governance became a
+// top-level pillar (docs/information-architecture.html). This file
+// keeps the pillar, which absorbed vision, mission, philosophy and
+// structure as anchored sections, and Careers.
+
+// THE COLLEGE PILLAR ──────────────────────────────────────────────────
+PAGES.pillar = {
+  slug: 'about', output: 'about/index.html', file: 'about.html',
+  contents: true,
+  altHref: '/ar/about/',
+  title: 'About the College &mdash; Worldwide English College',
+  description: 'Who Worldwide English College is: its vision, mission and educational '
+    + 'philosophy, how it is organised, and its institutional status stated plainly.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">About WEC-LC</span>
+    <h1>An institution built on one conviction: English fluency changes what's possible.</h1>
+    <p class="lede">WorldWide English College, London Campus is being built as an international English-language institution: one programme, six CEFR-aligned levels, taught and assessed online, for students wherever they are in the world.</p>
+  </div>
+</section>
 
 <section class="section--light section-pad">
+  <div class="container two-col reveal">
+    <div>
+      <span class="module-marker">Vision</span>
+      <h2>Where we're going.</h2>
+      <blockquote class="pull-quote">To become one of the world's leading English language institutions, recognised for excellence in English language education, innovation, academic integrity, and graduate success.</blockquote>
+    </div>
+    <div>
+      <span class="module-marker">Mission</span>
+      <h2>How we get there.</h2>
+      <ul class="check-list">
+        <li>Deliver world-class English language education.</li>
+        <li>Develop confident, fluent and academically competent English speakers.</li>
+        <li>Prepare learners for international study, employment and professional communication.</li>
+        <li>Integrate modern educational technology with expert instruction.</li>
+        <li>Provide accessible, high-quality English education to learners worldwide.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Who It Serves</span>
+      <h2>Built for readers who check claims.</h2>
+      <p class="lede">Families, professionals and institutions across the Gulf, Europe, Africa and Asia — students who read what they are buying before they buy it. The College writes for that reader: the full syllabus, the pricing, the policies and the current institutional status are published before enrolment, in English and in Arabic.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad" id="operating-model">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Our Operating Model</span>
+      <h2>Online-first by design. London-based by administration.</h2>
+      <p class="lede">"London Campus" identifies WEC-LC's administrative and management headquarters — it is not a claim of a physical teaching campus, and it never referred to more than one. Our educational delivery is intentionally online-first: every level of the IEFC is taught through live and recorded instruction inside our digital campus, so a student in Lagos, Riyadh, or Manila studies on equal footing with one in London. This is a deliberate strategic choice for global accessibility and flexibility, not a stand-in for premises we don't yet have.</p>
+    </div>
+    <div class="grid grid--2">
+      <div class="card"><h3>What "London Campus" means</h3><p>The institution's administrative and management headquarters, and the seat of its governance — the brand and legal home of WEC-LC.</p></div>
+      <div class="card"><h3>What "London Campus" doesn't mean</h3><p>A physical building where classes are taught, or a network of regional campuses. Every student, everywhere, studies through the same online digital campus.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="status">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Institutional Status</span>
+      <h2>What's confirmed, and what's still being built.</h2>
+      <p class="lede">Trust is earned through precision, not promises. Here is the current state of WEC-LC.</p>
+    </div>
+    <div class="grid grid--2">
+      <div class="card">
+        <h3>Confirmed today</h3>
+        <ul class="check-list">
+          <li>Institutional name, motto, vision, mission and core values</li>
+          <li>The full International English Fluency Course structure — six levels, CEFR alignment, curriculum and methodology</li>
+          <li>Tuition structure and per-level pricing</li>
+          <li>Admissions process and target learner profile</li>
+          <li>Named academic leadership and the faculty roster (see <a href="/faculty/#roster">Faculty</a>)</li>
+          <li>Operating model — online-first delivery worldwide, with a London administrative headquarters</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>In progress — to be published here as confirmed</h3>
+        <ul class="check-list">
+          <li>Registered administrative headquarters address in London</li>
+          <li>Formal accreditation and external quality-assurance affiliations</li>
+          <li>Academic calendar and first-cohort start date</li>
+          <li>Completion of the full lesson content within each module — all sixty modules are live; the lessons inside them are still being written (see <a href="/academics/#curriculum-status">Curriculum status</a>)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="callout__label">Our Commitment</span>
+      <p>We would rather tell you plainly what isn't finished yet than dress up an incomplete claim as a settled fact. Every section on this site follows that rule — including this one.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="vision" data-contents="Vision">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The Vision</span>
@@ -152,27 +270,14 @@ ${card('Three', 'Let the curriculum carry the claim', 'The strongest thing WEC-L
   </div>
 </section>
 
-${cta('Read what the vision is built around.', 'The IEFC Programme', '/study/', 'Our Mission', '/about/mission/')}`,
-};
-
-// 2 · MISSION ─────────────────────────────────────────────────────────
-PAGES.mission = {
-  slug: 'about-mission', output: 'about/mission/index.html', file: 'about-mission.html',
-  title: 'Mission &mdash; Worldwide English College',
-  description: 'The five commitments that define what Worldwide English College does, and how '
-    + 'each one is delivered in the programme.',
-  body: `${hero('About', 'How we get there.',
-    'Five commitments. Each one is answerable &mdash; a reader can ask what it means in the '
-    + 'programme and be shown, rather than being asked to take it on trust.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="mission" data-contents="Mission">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The Mission</span>
       <h2>What the College undertakes to do.</h2>
     </div>
     <div class="grid grid--2">
-${card('One', 'Deliver world-class English language education', `Delivered as ${D.levels.length} CEFR-aligned levels, ${D.levels.length * 10} modules, and ${D.levels.reduce((n, l) => n + l.units, 0)} taught hours &mdash; every lesson planned stage by stage rather than left to the room.`)}
+${card('One', 'Deliver world-class English language education', `Delivered as ${D.levels.length} CEFR-aligned levels, ${D.levels.length * 10} modules, and ${D.levels.reduce((n, l) => n + l.units, 0)} designed lessons &mdash; every one planned stage by stage rather than left to the room.`)}
 ${card('Two', 'Develop confident, fluent and academically competent speakers', 'Guided speaking is built into every lesson from the first, and the four skills are assessed separately so a learner strong in reading and weak in speaking is not described as simply "intermediate".')}
 ${card('Three', 'Prepare learners for study, employment and professional communication', 'The upper levels teach academic writing, meetings, negotiation, advocacy and research presentation &mdash; the registers that decide outcomes rather than the ones that pass a test.')}
 ${card('Four', 'Integrate modern educational technology with expert instruction', 'A learning platform carrying lessons, quizzes, self-checks and progress, plus a Listening Lab that records the learner&rsquo;s own speech for pronunciation feedback. Technology serving instruction, not replacing it.')}
@@ -214,21 +319,7 @@ ${card('No invented evidence', 'Books that state what they do not rest on', 'The
   </div>
 </section>
 
-${cta('See the programme these commitments produce.', 'Study at WEC-LC', '/study/', 'Our Governance', '/about/governance/')}`,
-};
-
-// 3 · EDUCATIONAL PHILOSOPHY ──────────────────────────────────────────
-PAGES.philosophy = {
-  slug: 'about-philosophy', output: 'about/philosophy/index.html', file: 'about-philosophy.html',
-  title: 'Educational Philosophy &mdash; Worldwide English College',
-  description: 'What Worldwide English College believes about how English is learned, and how '
-    + 'those beliefs shape every lesson, assessment and resource.',
-  body: `${hero('About', 'What we believe about learning English.',
-    'This page is an argument rather than a record. It sets out what the College holds to be '
-    + 'true about language learning, and it is open to being argued with &mdash; which is the '
-    + 'point of stating it rather than implying it.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="philosophy" data-contents="Educational Philosophy">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Five Positions</span>
@@ -284,264 +375,7 @@ ${darkCard('After the lesson', 'Evidence that accumulates', 'Quiz and assignment
   </div>
 </section>
 
-${cta('See the philosophy in a real level.', 'Level I &mdash; Foundation', '/study/level-1/', 'Teaching at WEC-LC', '/faculty/')}`,
-};
-
-// 4 · GOVERNANCE ──────────────────────────────────────────────────────
-PAGES.governance = {
-  slug: 'about-governance', output: 'about/governance/index.html', file: 'about-governance.html',
-  title: 'Governance &mdash; Worldwide English College',
-  description: 'How academic decisions are made at Worldwide English College, which bodies hold '
-    + 'which authority, and which posts are currently vacant.',
-  body: `${hero('About', 'Who decides what, and on what authority.',
-    'Two academic bodies are constituted in the College&rsquo;s records. Neither has appointed '
-    + 'members. This page describes the structure that exists and states plainly where it is '
-    + 'not yet populated, because a governance page that reads as though the boards sit would '
-    + 'be the most consequential untruth on this website.')}
-
-<section class="section--light section-pad" id="bodies">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Academic Bodies</span>
-      <h2>The two bodies and their remits.</h2>
-    </div>
-    <div class="grid grid--2">
-${D.bodies.map((b) => `      <div class="card">
-        <span class="card__num">${esc(b.code)}</span>
-        <h3>${esc(b.name)}</h3>
-        <p>${esc(b.remit)}</p>
-        <p class="before"><b>Established</b> ${esc(b.established_on)} &middot;
-          <b>Members appointed</b> ${b.members_appointed}</p>
-      </div>`).join('\n')}
-    </div>
-    <div class="callout">
-      <span class="callout__label">What zero members means</span>
-      <p>A body with no members cannot approve anything. Every decision that would properly
-        belong to these boards is therefore recorded as <b>interim</b>, taken under authority
-        delegated to the Press, and marked in the database with the body it awaits. When
-        members are appointed, those decisions go to them for ratification &mdash; and the
-        record already names which ones.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad" id="decisions">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">How Decisions Are Recorded</span>
-      <h2>Every academic decision carries its authority.</h2>
-    </div>
-    <div class="grid grid--3">
-${card('Who decided', 'A named authority', 'Each mapping, outcome and threshold records the body it was decided under &mdash; BASCE or Senate &mdash; and its status. Nothing is recorded as simply true.')}
-${card('On what basis', 'A stated rationale', 'Every competency mapping carries a rationale explaining why that assessment bears on that competency. A mapping without one is an opinion that has acquired the authority of a database row.')}
-${card('Reviewed when', 'An annual cycle', 'The framework is reviewed annually against the evidence teaching produces. The first cycle cannot run until a cohort has been taught, and the record says so rather than describing a cycle that has never turned.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad" id="vacant">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Posts Not Yet Filled</span>
-      <h2>What the College does not have.</h2>
-      <p class="lede">Listed rather than omitted. Each of these blocks something specific, and
-        naming what it blocks is more useful than a page that simply stops short.</p>
-    </div>
-    <div class="grid grid--2">
-${darkCard('External Examiner', 'Required before any award is conferred', 'The independent post whose entire function is to sit outside the College. Until it is filled, awards are defined and published but cannot properly be conferred on anyone.')}
-${darkCard('Board members', 'Required before anything is approved', 'Both academic bodies exist and neither has members. Approval, as opposed to interim adoption, waits on appointment.')}
-${darkCard('Academic Reviewer', 'Required before publications are reviewed', 'Every published volume is authored by the Press and has not been read by a qualified reader who did not write it. Each volume states this on its own imprint page.')}
-${darkCard('Principal officer', 'Required for a signed institutional message', 'No President or principal officer is appointed, which is why every publication&rsquo;s preface is issued by the publisher rather than signed by a person.')}
-    </div>
-  </div>
-</section>
-
-${cta('Read the full institutional position.', 'Institutional Status', '/about/#status', 'Quality Assurance', '/about/quality-assurance/')}`,
-};
-
-// 5 · ACADEMIC SENATE ─────────────────────────────────────────────────
-const senate = D.bodies.find((b) => b.code === 'SENATE');
-PAGES.senate = {
-  slug: 'about-senate', output: 'about/academic-senate/index.html', file: 'about-senate.html',
-  title: 'The Academic Senate &mdash; Worldwide English College',
-  description: 'The remit of the Academic Senate at Worldwide English College, what it approves, '
-    + 'and its current membership position.',
-  body: `${hero('Governance', 'The Academic Senate.',
-    esc(senate.remit))}
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="stat-row">
-      <div class="stat-row__item"><b>${esc(senate.code)}</b><span>Reference</span></div>
-      <div class="stat-row__item"><b>${esc(senate.established_on)}</b><span>Established</span></div>
-      <div class="stat-row__item"><b>${senate.members_appointed}</b><span>Members Appointed</span></div>
-    </div>
-    <div class="section-head">
-      <span class="module-marker">Remit</span>
-      <h2>What the Senate decides.</h2>
-      <p class="lede">The Senate owns the relationship between what a learner is assessed on and
-        what the College then says they can do. Two things specifically: which assessments count
-        as evidence for which of the four language skills, and where the thresholds sit that
-        turn that evidence into a descriptor on a learner&rsquo;s record.</p>
-    </div>
-    <div class="grid grid--2">
-${card('Skill mapping', 'Which assessment evidences which skill', 'A speaking assignment is evidence of speaking; a quiz is not, however many questions it asks about spoken language. The Senate holds that boundary, because it is the one an institution is most tempted to blur when it wants a fuller record.')}
-${card('Descriptor thresholds', 'How much evidence is enough', 'A descriptor asserts something about a person. The threshold that triggers it is an academic judgement about sufficiency, not a technical default, and it is the Senate&rsquo;s to set.')}
-    </div>
-    <div class="callout">
-      <span class="callout__label">Current position</span>
-      <p>The Senate has <b>${senate.members_appointed}</b> appointed members. Skill mappings and
-        thresholds are therefore in the state the software ships them: thresholds are recorded
-        as mechanism defaults explicitly labelled as <em>not an academic standard</em>, and no
-        descriptor has been issued to anyone. Appointing the Senate is what converts a
-        deliberately inert default into a decision.</p>
-    </div>
-  </div>
-</section>
-
-${cta('The other academic body.', 'BASCE', '/about/basce/', 'Governance Overview', '/about/governance/')}`,
-};
-
-// 6 · BASCE ───────────────────────────────────────────────────────────
-const basce = D.bodies.find((b) => b.code === 'BASCE');
-PAGES.basce = {
-  slug: 'about-basce', output: 'about/basce/index.html', file: 'about-basce.html',
-  title: 'BASCE &mdash; Board of Academic Standards and Curriculum Excellence',
-  description: 'The Board of Academic Standards and Curriculum Excellence: its remit over the '
-    + 'competency framework, and its current membership position.',
-  body: `${hero('Governance', esc(basce.name),
-    'BASCE owns the competency framework &mdash; what the College claims a graduate can do, and '
-    + 'whether the assessments actually establish it.')}
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="stat-row">
-      <div class="stat-row__item"><b>${esc(basce.code)}</b><span>Reference</span></div>
-      <div class="stat-row__item"><b>${esc(basce.established_on)}</b><span>Established</span></div>
-      <div class="stat-row__item"><b>${basce.members_appointed}</b><span>Members Appointed</span></div>
-      <div class="stat-row__item"><b>${D.competencies.length}</b><span>Competencies Defined</span></div>
-    </div>
-    <div class="section-head">
-      <span class="module-marker">Remit</span>
-      <h2>What BASCE decides.</h2>
-      <p class="lede">${esc(basce.remit)}</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Framework</span>
-      <h2>The ${D.competencies.length} competencies.</h2>
-    </div>
-    <div class="table-scroll">
-      <table class="ledger">
-        <thead><tr><th scope="col">Competency</th><th scope="col">Definition</th></tr></thead>
-        <tbody>
-${D.competencies.map((c) => `          <tr><td><b>${esc(c.name)}</b></td><td>${esc(c.description)}</td></tr>`).join('\n')}
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Current Position</span>
-      <h2>Defined, mapped, and not yet approved.</h2>
-    </div>
-    <div class="grid grid--3">
-${darkCard('Defined', `${D.competencies.length} competencies`, 'Each with a definition written to be arguable rather than unfalsifiable. "Understood the first time, by the audience actually present" can be disagreed with; "excellent communication skills" cannot.')}
-${darkCard('Mapped', 'Level I assessments mapped', 'Every Level I assessment is mapped to the competencies it bears on, with a weight and a written rationale. Competencies are evidenced where they are genuinely assessed rather than distributed evenly to look complete.')}
-${darkCard('Not approved', `${basce.members_appointed} members appointed`, 'Every mapping is recorded as interim. A board with no members cannot approve, and a test fails the build if any mapping is marked approved while the membership count is zero.')}
-    </div>
-    ${statusCallout}
-  </div>
-</section>
-
-${cta('How the framework reaches a learner.', 'Assessment &amp; Awards', '/academics/iefc/', 'The Academic Senate', '/about/academic-senate/')}`,
-};
-
-// 7 · QUALITY ASSURANCE ───────────────────────────────────────────────
-PAGES.qa = {
-  slug: 'about-qa', output: 'about/quality-assurance/index.html', file: 'about-qa.html',
-  title: 'Quality Assurance &mdash; Worldwide English College',
-  description: 'How Worldwide English College assures academic quality: the mechanisms that run '
-    + 'today, and the review cycles that cannot run until a cohort has been taught.',
-  body: `${hero('About', 'How quality is assured, and what cannot be assured yet.',
-    'Quality assurance in a new institution is mostly design. The mechanisms that check '
-    + 'internal consistency run on every change; the cycles that depend on a year of teaching '
-    + 'have not turned, and this page separates the two rather than describing them together.')}
-
-<section class="section--light section-pad" id="now">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Running Today</span>
-      <h2>What is actually checked, and how often.</h2>
-      <p class="lede">These are automated and run on every change to the curriculum, the
-        assessments or the site. They are not aspirations.</p>
-    </div>
-    <div class="grid grid--2">
-${card('Curriculum', 'Programme-wide consistency', 'Every level, module and lesson is checked for structural completeness &mdash; objectives, prerequisites, stage timings, assessment coverage &mdash; across all six levels on every change.')}
-${card('Rubrics', 'Against a published policy', 'Assignment rubrics are checked against the College&rsquo;s own rubric policy: criteria count, weightings, and the presence of level-appropriate descriptors.')}
-${card('Claims', 'Published figures against the record', 'Figures published on the website are checked against the academic database. A page cannot claim a module count the curriculum does not have.')}
-${card('Terminology', 'One word per concept', 'Ambiguous terms are retired and the retirement is enforced automatically. One word was carrying three different meanings across the curriculum, the timetable and the platform, and a published figure drifted from the delivered programme for months because of it. Ambiguity is not a style problem; it is how an institution comes to misdescribe itself.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad" id="cycles">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Designed, Not Yet Run</span>
-      <h2>The cycles that need a cohort.</h2>
-      <p class="lede">Each of these is specified &mdash; who does it, on what evidence, how
-        often. None has run, because each requires teaching that has not happened.</p>
-    </div>
-    <div class="grid grid--3">
-${card('Annual programme review', 'Needs a year', 'The framework is reviewed annually against what teaching produced. There is no year of teaching to review.')}
-${card('Lesson observation', 'Needs a classroom', 'Observed teaching is one of five evidence classes in the pedagogical record, and it is the only one that cannot be reasoned out. It is empty, and marked empty.')}
-${card('External review', 'Needs an external reviewer', 'No External Examiner is appointed. Until one is, no award can properly be conferred and no external validation exists to report.')}
-    </div>
-    ${statusCallout}
-  </div>
-</section>
-
-<section class="section--dark section-pad" id="principle">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Standard Behind It</span>
-      <h2>Never trust a check because it passed.</h2>
-      <p class="lede">A published engineering principle governs this work: continuously verify
-        that the checks themselves measure the complete behaviour they claim to guarantee. It is
-        applied by deliberately breaking each assertion and confirming it fails before restoring
-        it &mdash; because a test that has never failed has never been shown to work.</p>
-    </div>
-    <div class="grid grid--2">
-${darkCard('A worked example', 'A green deploy that published nothing', 'A deployment reported success while uploading no files: the upload command was piped, and a pipeline takes the last command&rsquo;s exit status. The badge was green and the site was months stale. The check now fails properly, and the incident is recorded rather than quietly fixed.')}
-${darkCard('Another', 'A ban that protected nothing', 'A rule banning eighteen fictional names from public pages passed for months while the document containing them was itself published, because the checker assumed a directory was not served and nobody verified the assumption against the deploy.')}
-    </div>
-  </div>
-</section>
-
-${cta('Read the governance behind this.', 'Governance', '/about/governance/', 'Institutional Status', '/about/#status')}`,
-};
-
-// 8 · ORGANISATIONAL STRUCTURE ────────────────────────────────────────
-PAGES.structure = {
-  slug: 'about-structure', output: 'about/structure/index.html', file: 'about-structure.html',
-  title: 'Organisational Structure &mdash; Worldwide English College',
-  description: 'How Worldwide English College is organised: the academic, administrative and '
-    + 'publishing functions, and which posts are currently vacant.',
-  body: `${hero('About', 'How the College is organised.',
-    'This page describes posts and functions, not people. Where a post is filled the faculty '
-    + 'register names the holder; where it is vacant this page says vacant. There is no '
-    + 'leadership page on this site, because no principal officer is appointed and a leadership '
-    + 'page with no leaders is either empty or invented.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="structure" data-contents="How It Is Organised">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Three Functions</span>
@@ -550,7 +384,7 @@ PAGES.structure = {
     <div class="grid grid--3">
 ${card('Academic', 'Teaching and standards', `Academic staff and tutors deliver the programme; the two academic bodies &mdash; ${D.bodies.map((b) => b.code).join(' and ')} &mdash; hold standards and the competency framework. The roster is published on the Faculty page.`)}
 ${card('Administrative', 'Admissions, records, finance', 'Admissions, student records, assessment administration and finance. At the College&rsquo;s current size these are designed to be held by few people rather than many, and the platform&rsquo;s access levels reflect that.')}
-${card('Publishing', 'WEC Press', 'The College&rsquo;s imprint publishes the curriculum, assessment and teaching volumes. It has no separate legal personality and no appointed staff, and every volume says so.')}
+${card('Publishing', 'WEC Press', 'The College&rsquo;s imprint publishes the curriculum, assessment and teaching volumes. It has no separate legal personality and no staff of its own, and every volume says so.')}
     </div>
   </div>
 </section>
@@ -588,16 +422,23 @@ ${card('Third', 'Conferring &ne; examining', 'Whoever confers an award is not wh
     <div class="grid grid--2">
 ${darkCard('External Examiner', 'Blocks conferral', 'Independent of the College by definition. No award can properly be conferred until it is filled.')}
 ${darkCard('Academic Reviewer', 'Blocks review', 'Every published volume is authored and unreviewed by anyone who did not write it.')}
-${darkCard('Board members', 'Blocks approval', `Both academic bodies stand at ${basce.members_appointed} appointed members.`)}
-${darkCard('Principal officer', 'Blocks signature', 'No President or principal officer, which is why institutional messages are issued by the publisher rather than signed.')}
+${darkCard('BASCE members', 'Blocks approval', `The Board of Academic Standards and Curriculum Excellence stands at ${basce.members_appointed} appointed members. The Academic Senate is constituted; this one is not.`)}
+${darkCard('A convened Senate', 'Blocks approval', `The Senate has ${GOV.SENATE_MEMBERS} members and has not met. Appointment makes approval possible; only a meeting makes it happen.`)}
     </div>
   </div>
 </section>
 
-${cta('See who is appointed.', 'Faculty', '/faculty/', 'Governance', '/about/governance/')}`,
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>See the programme this vision is built around.</h2>
+    <div class="btn-row u-center">
+      <a href="/academics/#iefc" class="btn btn--gold">Explore the IEFC Programme</a>
+    </div>
+  </div>
+</section>
+`,
 };
 
-// 9 · CAREERS ─────────────────────────────────────────────────────────
 PAGES.careers = {
   slug: 'about-careers', output: 'about/careers/index.html', file: 'about-careers.html',
   title: 'Careers &mdash; Worldwide English College',
@@ -646,7 +487,7 @@ ${card('Does not exist', 'Everything that needs people', 'No accreditation, no e
   </div>
 </section>
 
-${cta('Read what you would be reviewing.', 'The IEFC Programme', '/study/', 'Our Standards', '/about/quality-assurance/')}`,
+${cta('Read what you would be reviewing.', 'The IEFC Programme', '/academics/#levels', 'Our Standards', '/governance/#quality')}`,
 };
 
 // ── write ────────────────────────────────────────────────────────────
@@ -655,12 +496,20 @@ const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
 
+// Absorbed into the College pillar as #vision, #mission, #philosophy
+// and #structure.
+for (const slug of ['about-vision', 'about-mission', 'about-philosophy', 'about-structure']) {
+  const i = entries.findIndex((e) => e.slug === slug);
+  if (i >= 0) entries.splice(i, 1);
+}
+
 for (const p of Object.values(PAGES)) {
   fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: 'en', dir: 'ltr',
   };
+  if (p.contents) entry.contents = true;
   const i = entries.findIndex((e) => e.slug === p.slug);
   if (i >= 0) entries[i] = { ...entries[i], ...entry }; else entries.push(entry);
   written.push(p.output);
