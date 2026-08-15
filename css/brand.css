@@ -461,7 +461,16 @@ section { position: relative; }
 }
 /* The navigation takes the slack, so the actions sit hard against the
    end margin and the brand hard against the start one — rather than
-   three groups drifting apart with space-between. */
+   three groups drifting apart with space-between.
+
+   The auto margin is restated on .header__actions inside the collapse
+   query below, and that is not redundancy. An `auto` margin on a
+   `display: none` element pushes nothing: the moment the nav was hidden
+   the whole trailing group sprang back to sit against the wordmark,
+   leaving the menu button marooned beside the brand with the entire
+   right half of the rail empty. Whichever element leads the trailing
+   group has to own the slack, and which element that is changes with
+   the viewport. */
 .site-header__inner > .nav { margin-inline-start: auto; }
 .site-header__inner > .header__actions { margin-inline-start: 0; }
 .site-header.is-condensed .site-header__inner { padding-top: 9px; padding-bottom: 9px; }
@@ -552,9 +561,29 @@ section { position: relative; }
    measures 1280, 1180 and 1024 as well. */
 @media (max-width: 1180px) {
   .nav { display: none; }
-  .header__actions .btn { display: none; }
+  /* See the note at .site-header__inner: the slack has to move to
+     whatever now leads the trailing group. */
+  .site-header__inner > .header__actions { margin-inline-start: auto; }
+  .btn--quiet { display: none; }
   .nav__toggle { display: flex; }
   .site-header.is-open .nav-mobile { display: flex; }
+}
+
+/* APPLY NOW SURVIVES THE COLLAPSE, AND THIS IS THE POINT OF THE RAIL.
+   The first version dropped the whole actions group at 1180, so every
+   laptop between 1024 and 1180 — a very large share of the visitors this
+   College is written for — lost the primary call to action to a
+   hamburger. Portal is a returning student's door and can live in the
+   menu; an application cannot.
+
+   560 is measured, not chosen. Brand plus button plus menu button needs
+   446px in English and 411px in Arabic, against a viewport less 48px of
+   padding, so the true floor is 494px. 560 keeps roughly 66px in hand
+   for a longer wordmark or a visitor whose browser text size is larger
+   than the default, rather than sitting on the number. Below it the
+   drawer carries Apply Now as its last item. */
+@media (max-width: 560px) {
+  .header__actions .btn { display: none; }
 }
 
 /* -------------------- Hero -------------------- */

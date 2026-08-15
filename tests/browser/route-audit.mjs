@@ -76,10 +76,15 @@ const FONTS = /fonts\.(googleapis|gstatic)\.com/;
 // 3-9; the older marketing pages score 22-31, which is what this is here
 // to hold the line on.
 const TAP_BUDGET = 12;
+// How far the actions group may sit from the trailing edge before the
+// rail has stopped being a rail. Sub-pixel layout and a scrollbar's
+// rounding account for a couple of pixels; the fault this catches was
+// 500-odd, so the threshold does not need to be delicate.
+const RAIL_SLACK = 4;
 
 const bad = { status: [], assets: [], errors: [], title: [], lang: [], h1: [], alt: [],
   overflow: [], mobileOverflow: [], laptopOverflow: [], laptopClipped: [],
-  taps: [], chrome: [], headingSkip: [] };
+  taps: [], chrome: [], headingSkip: [], rail: [] };
 
 // A SECOND VIEWPORT, because the first one was hiding things.
 //
@@ -115,6 +120,37 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 // actually sees. First-party asset failures are still recorded.
 await page.route('**://fonts.googleapis.com/**', (r) => r.abort());
 await page.route('**://fonts.gstatic.com/**', (r) => r.abort());
+
+// IS THE RAIL STILL A RAIL?
+//
+// Overflow and clipping catch a header that is too WIDE. Neither catches
+// one that has quietly stopped filling its line — and that is exactly
+// what happened next. The slack in the header was an `auto` margin on
+// the navigation, so the instant the navigation was hidden below the
+// collapse breakpoint the margin went with it and the whole trailing
+// group snapped back against the wordmark: menu button glued to the
+// brand, the entire right half of the rail empty. Nothing overflowed.
+// Nothing was clipped. Every check passed, on a header that looked
+// broken in the only picture anyone had taken of it.
+//
+// So this measures the distance from the trailing edge of the actions
+// group to the container's trailing content edge, in whichever direction
+// the document runs. Zero-ish is a rail. Hundreds of pixels is a fault,
+// whatever the other checks say.
+await page.addInitScript(() => {
+  window.railGap = () => {
+    const inner = document.querySelector('.site-header__inner');
+    const act = inner && inner.querySelector(':scope > .header__actions');
+    if (!inner || !act) return null;
+    const r = act.getBoundingClientRect();
+    if (r.width === 0) return null;
+    const cs = getComputedStyle(inner);
+    const box = inner.getBoundingClientRect();
+    return Math.round(cs.direction === 'rtl'
+      ? r.left - (box.left + parseFloat(cs.paddingLeft))
+      : (box.right - parseFloat(cs.paddingRight)) - r.right);
+  };
+});
 
 for (const route of routes) {
   const errs = [], reqs = [];
@@ -181,6 +217,7 @@ for (const route of routes) {
   await page.waitForTimeout(80);
   const m = await page.evaluate(() => ({
     overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    railGap: railGap(),
     // Interactive targets under 44px. Measured on rendered geometry
     // rather than declared CSS, so padding and line-height count — which
     // is what a thumb encounters.
@@ -197,6 +234,7 @@ for (const route of routes) {
   await page.waitForTimeout(80);
   const l = await page.evaluate(() => ({
     overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    railGap: railGap(),
     clipped: [...document.querySelectorAll('.site-header__inner *, .topbar__inner *')]
       .filter((e) => {
         const r = e.getBoundingClientRect();
@@ -210,10 +248,12 @@ for (const route of routes) {
   if (l) {
     if (l.overflow > 1) bad.laptopOverflow.push(`${route} (+${l.overflow}px)`);
     if (l.clipped.length) bad.laptopClipped.push(`${route} (${l.clipped.join(', ')})`);
+    if (l.railGap !== null && l.railGap > RAIL_SLACK) bad.rail.push(`${route} @1024 (${l.railGap}px adrift)`);
   }
   if (m) {
     if (m.overflow > 1) bad.mobileOverflow.push(`${route} (+${m.overflow}px)`);
     if (m.smallTaps > TAP_BUDGET) bad.taps.push(`${route} (${m.smallTaps})`);
+    if (m.railGap !== null && m.railGap > RAIL_SLACK) bad.rail.push(`${route} @390 (${m.railGap}px adrift)`);
   }
 }
 
@@ -234,6 +274,7 @@ check(`Nothing in the header is clipped at 1024px${bad.laptopClipped.length ? ' 
 check(`No horizontal overflow at 390px${bad.mobileOverflow.length ? ' — ' + list(bad.mobileOverflow) : ''}`, !bad.mobileOverflow.length);
 check(`No route skips a heading level${bad.headingSkip.length ? ' — ' + list(bad.headingSkip, 6) : ''}`, !bad.headingSkip.length);
 check(`Every route offers a way back to the College${bad.chrome.length ? ' — ' + list(bad.chrome, 8) : ''}`, !bad.chrome.length);
+check(`The header rail fills its line at 1024px and 390px${bad.rail.length ? ' — ' + list(bad.rail, 4) : ''}`, !bad.rail.length);
 check(`No route exceeds ${TAP_BUDGET} sub-44px tap targets at 390px${bad.taps.length ? ' — ' + list(bad.taps, 8) : ''}`, !bad.taps.length);
 
 if (retried.length) {
