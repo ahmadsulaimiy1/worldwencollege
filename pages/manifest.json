@@ -15,12 +15,13 @@
   {
     "slug": "about",
     "output": "about/index.html",
-    "title": "About WEC-LC | Vision, Mission &amp; Status",
-    "description": "The vision, mission, core values and honest institutional status of WorldWide English College, London Campus.",
+    "title": "About the College &mdash; Worldwide English College",
+    "description": "Who Worldwide English College is: its vision, mission and educational philosophy, how it is organised, and its institutional status stated plainly.",
     "contentFile": "about.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/about/"
+    "altHref": "/ar/about/",
+    "contents": true
   },
   {
     "slug": "academics",
@@ -288,42 +289,6 @@
     "contents": true
   },
   {
-    "slug": "about-vision",
-    "output": "about/vision/index.html",
-    "title": "Vision &mdash; Worldwide English College",
-    "description": "What Worldwide English College intends to become, and the standard it holds itself to while it gets there.",
-    "contentFile": "about-vision.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "about-mission",
-    "output": "about/mission/index.html",
-    "title": "Mission &mdash; Worldwide English College",
-    "description": "The five commitments that define what Worldwide English College does, and how each one is delivered in the programme.",
-    "contentFile": "about-mission.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "about-philosophy",
-    "output": "about/philosophy/index.html",
-    "title": "Educational Philosophy &mdash; Worldwide English College",
-    "description": "What Worldwide English College believes about how English is learned, and how those beliefs shape every lesson, assessment and resource.",
-    "contentFile": "about-philosophy.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "about-structure",
-    "output": "about/structure/index.html",
-    "title": "Organisational Structure &mdash; Worldwide English College",
-    "description": "How Worldwide English College is organised: the academic, administrative and publishing functions, and which posts are currently vacant.",
-    "contentFile": "about-structure.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
     "slug": "about-careers",
     "output": "about/careers/index.html",
     "title": "Careers &mdash; Worldwide English College",
@@ -348,7 +313,9 @@
     "description": "What a WEC-LC student meets: the platform, the assessment scheme, the academic record, and the rules that govern all three.",
     "contentFile": "students.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "contents": true,
+    "altHref": "/ar/students/"
   },
   {
     "slug": "students-assessment",
@@ -366,15 +333,6 @@
     "title": "Your Academic Record &mdash; Worldwide English College",
     "description": "What WEC-LC records about a student, who can see it, what the student controls, and how a third party verifies it.",
     "contentFile": "students-record.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "students-listening-lab",
-    "output": "students/listening-lab/index.html",
-    "title": "The Listening Lab &mdash; Worldwide English College",
-    "description": "What the WEC-LC Listening Lab is, why recording yourself is compulsory rather than optional, and what has not been produced yet.",
-    "contentFile": "students-listening-lab.html",
     "lang": "en",
     "dir": "ltr"
   },
@@ -407,22 +365,14 @@
     "dir": "ltr"
   },
   {
-    "slug": "students-support",
-    "output": "students/support/index.html",
-    "title": "Support &mdash; Worldwide English College",
-    "description": "What to do when you are stuck, behind or unhappy at WEC-LC, who answers, and what the College does not provide.",
-    "contentFile": "students-support.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
     "slug": "press",
     "output": "press/index.html",
     "title": "WEC Press &mdash; Worldwide English College",
     "description": "The publishing arm of Worldwide English College: what it has produced, the rule it publishes under, and the review it has not yet had.",
     "contentFile": "press.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "contents": true
   },
   {
     "slug": "press-catalogue",
@@ -430,42 +380,6 @@
     "title": "Catalogue &mdash; WEC Press",
     "description": "The 11 volumes WEC Press has produced, who each is for, and how to obtain one.",
     "contentFile": "press-catalogue.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "press-standards",
-    "output": "press/standards/index.html",
-    "title": "House Standards &mdash; WEC Press",
-    "description": "How a WEC Press volume is composed: generated from the record, typeset to one house system, and marked with the provenance of what it claims.",
-    "contentFile": "press-standards.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "press-review",
-    "output": "press/review/index.html",
-    "title": "On Review &mdash; WEC Press",
-    "description": "Every volume WEC Press has produced is unreviewed by anyone who did not write it. Why that is published rather than buried, and what would change it.",
-    "contentFile": "press-review.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "press-programme",
-    "output": "press/programme/index.html",
-    "title": "The Publishing Programme &mdash; WEC Press",
-    "description": "What WEC Press is building toward, measured against seven readers rather than a page count, and what is blocking each.",
-    "contentFile": "press-programme.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "library",
-    "output": "library/index.html",
-    "title": "The Library &mdash; Worldwide English College",
-    "description": "What the WEC-LC library is, what it holds, and the plain statement that it is not a subscription collection.",
-    "contentFile": "library.html",
     "lang": "en",
     "dir": "ltr"
   },
@@ -632,6 +546,17 @@
     "contentFile": "academics-teaching.html",
     "lang": "en",
     "dir": "ltr",
+    "contents": true
+  },
+  {
+    "slug": "students-ar",
+    "output": "ar/students/index.html",
+    "title": "الحياة الطلابية — الكلية العالمية للغة الإنجليزية",
+    "description": "ما تعنيه الدراسة في الكلية: كيف تُقيَّم، وسجلك الأكاديمي، ومعمل الاستماع، والدعم المتاح وما لا تقدمه الكلية.",
+    "contentFile": "students.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/",
     "contents": true
   }
 ]

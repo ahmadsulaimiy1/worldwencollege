@@ -164,7 +164,7 @@ ${darkCard('Not provided', 'A formal adjustments process', 'The College has no p
   </div>
 </section>
 
-${cta('What the College can and cannot support.', 'Support', '/students/support/', 'Technical Requirements', '/academics/#campus')}`,
+${cta('What the College can and cannot support.', 'Support', '/students/#support', 'Technical Requirements', '/academics/#campus')}`,
 };
 
 // 4 · TECHNICAL ───────────────────────────────────────────────────────

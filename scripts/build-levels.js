@@ -507,7 +507,7 @@ ${card('At the end', 'The level assessment', 'The summative point, against crite
         come from you: a fixed hour daily finishes where a target number of weekly hours does
         not. Engagement is tracked so that someone who has gone quiet is reached in month two
         rather than discovered in month eleven, and it never produces a penalty &mdash; see
-        <a href="/students/support/">Support</a>.</p>
+        <a href="/students/#support">Support</a>.</p>
     </div>
     <div class="grid grid--3">
 ${darkToLight('The live timetable', 'No sessions have run', 'Live conversation classes and tutorials are designed and no cohort has been taught, so no timetable has been proven against where students actually are.')}
@@ -528,7 +528,7 @@ ${darkToLight('Marking at volume', 'The workspace has marked nothing', 'The inst
     <div class="grid grid--4">
 ${darkCard('Portal', 'Where you start', 'Your enrolment, your level, and what you were doing last. Designed to answer &ldquo;what now?&rdquo; in one screen rather than to present a dashboard.')}
 ${darkCard('My Programme', 'The route through the level', 'Modules, lessons, exercises and assessments in order, with what is complete and what is next. Progression is per learner, so this is genuinely your own path.')}
-${darkCard('The Listening Lab', 'Recording and pronunciation', 'Listening sets, pronunciation targets, your own recordings and the feedback on them &mdash; see <a href="/students/listening-lab/">the Listening Lab</a>.')}
+${darkCard('The Listening Lab', 'Recording and pronunciation', 'Listening sets, pronunciation targets, your own recordings and the feedback on them &mdash; see <a href="/students/#lab">the Listening Lab</a>.')}
 ${darkCard('My Record', 'What is held about you', 'Attempts, marks by skill, feedback and recordings, plus the controls for sharing any of it. The sharing decisions are yours, not the College&rsquo;s.')}
     </div>
     <div class="grid grid--2" style="margin-top:26px">
@@ -543,7 +543,7 @@ ${darkCard('Drafts stay local', 'A half-written note is not sent anywhere', 'Wor
       browser and a connection that can stream audio; the Listening Lab asks you to record
       yourself, and a phone or laptop microphone is enough. A version matrix would imply testing
       across it that has not been done &mdash; keeping your browser current is the real
-      requirement. When something does not work, <a href="/students/support/">Support</a> says
+      requirement. When something does not work, <a href="/students/#support">Support</a> says
       who answers.</p>
   </div>
 </section>

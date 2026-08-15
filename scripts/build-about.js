@@ -127,17 +127,148 @@ const cta = (h2, primary, primaryHref, secondary, secondaryHref) =>
 const PAGES = {};
 
 // 1 · VISION ──────────────────────────────────────────────────────────
-PAGES.vision = {
-  slug: 'about-vision', output: 'about/vision/index.html', file: 'about-vision.html',
-  title: 'Vision &mdash; Worldwide English College',
-  description: 'What Worldwide English College intends to become, and the standard it holds '
-    + 'itself to while it gets there.',
-  body: `${hero('About', 'Where we are going.',
-    'To become one of the world&rsquo;s leading English language institutions, recognised for '
-    + 'excellence in English language education, innovation, academic integrity, and graduate '
-    + 'success.')}
+
+
+// 2 · MISSION ─────────────────────────────────────────────────────────
+
+
+// 3 · EDUCATIONAL PHILOSOPHY ──────────────────────────────────────────
+
+
+// 4 · GOVERNANCE ──────────────────────────────────────────────────────
+// The membership figures are read, never written. BASCE's count comes
+// from the database and is expected to stay at nought until somebody is
+// actually appointed to it; the Senate's comes from the register via
+// scripts/lib/governance-register.js, which the migration mirrors into
+// the same database. Two sources for one number is how the two come to
+// disagree, so the page reads the body it is talking about.
+const basceCount = D.bodies.find((b) => b.code === 'BASCE').members_appointed;
+// ── governance, the Senate, BASCE and quality assurance ──────────────
+// Moved to scripts/build-governance.js on the day Governance became a
+// top-level pillar (docs/information-architecture.html). This file
+// keeps the identity pages — vision, mission, philosophy, structure,
+// careers — which retire into the College pillar in a later phase.
+
+// 8 · ORGANISATIONAL STRUCTURE ────────────────────────────────────────
+
+
+// 9 · CAREERS ─────────────────────────────────────────────────────────
+PAGES.pillar = {
+  slug: 'about', output: 'about/index.html', file: 'about.html',
+  contents: true,
+  altHref: '/ar/about/',
+  title: 'About the College &mdash; Worldwide English College',
+  description: 'Who Worldwide English College is: its vision, mission and educational '
+    + 'philosophy, how it is organised, and its institutional status stated plainly.',
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">About WEC-LC</span>
+    <h1>An institution built on one conviction: English fluency changes what's possible.</h1>
+    <p class="lede">WorldWide English College, London Campus is envisioned as a premium international English language institution — delivering world-class English education through a modern, technology-driven learning environment, to students wherever they are in the world.</p>
+  </div>
+</section>
 
 <section class="section--light section-pad">
+  <div class="container two-col reveal">
+    <div>
+      <span class="module-marker">Vision</span>
+      <h2>Where we're going.</h2>
+      <blockquote class="pull-quote">To become one of the world's leading English language institutions, recognised for excellence in English language education, innovation, academic integrity, and graduate success.</blockquote>
+    </div>
+    <div>
+      <span class="module-marker">Mission</span>
+      <h2>How we get there.</h2>
+      <ul class="check-list">
+        <li>Deliver world-class English language education.</li>
+        <li>Develop confident, fluent and academically competent English speakers.</li>
+        <li>Prepare learners for international study, employment and professional communication.</li>
+        <li>Integrate modern educational technology with expert instruction.</li>
+        <li>Provide accessible, high-quality English education to learners worldwide.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head center">
+      <span class="module-marker">Core Values</span>
+      <h2>What we hold ourselves to.</h2>
+    </div>
+    <div class="grid grid--4">
+      <div class="card"><h3>Academic Excellence</h3></div>
+      <div class="card"><h3>Integrity</h3></div>
+      <div class="card"><h3>Innovation</h3></div>
+      <div class="card"><h3>Professionalism</h3></div>
+      <div class="card"><h3>Inclusiveness</h3></div>
+      <div class="card"><h3>Lifelong Learning</h3></div>
+      <div class="card"><h3>Global Citizenship</h3></div>
+      <div class="card"><h3>Student-Centred Education</h3></div>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Brand Character</span>
+      <h2>Prestigious. Refined. Genuinely international.</h2>
+      <p class="lede">WEC-LC is built for families, professionals and institutions across the Gulf, Europe, Africa and Asia who expect a premium standard — communicated through substance, not superlatives. Our colour system (Royal Blue for trust and excellence, Gold for prestige and achievement, and a Red accent reserved for emphasis) and our editorial tone carry that standard through every page, every policy, and every piece of correspondence.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad" id="operating-model">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Our Operating Model</span>
+      <h2>Online-first by design. London-based by administration.</h2>
+      <p class="lede">"London Campus" identifies WEC-LC's administrative and management headquarters — it is not a claim of a physical teaching campus, and it never referred to more than one. Our educational delivery is intentionally online-first: every level of the IEFC is taught through live and recorded instruction inside our digital campus, so a student in Lagos, Riyadh, or Manila studies on equal footing with one in London. This is a deliberate strategic choice for global accessibility and flexibility, not a stand-in for premises we don't yet have.</p>
+    </div>
+    <div class="grid grid--2">
+      <div class="card"><h3>What "London Campus" means</h3><p>The institution's administrative and management headquarters, and the seat of its governance — the brand and legal home of WEC-LC.</p></div>
+      <div class="card"><h3>What "London Campus" doesn't mean</h3><p>A physical building where classes are taught, or a network of regional campuses. Every student, everywhere, studies through the same online digital campus.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="status">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Institutional Status</span>
+      <h2>What's confirmed, and what's still being built.</h2>
+      <p class="lede">A premium institution earns trust through precision, not promises. Here is the current, honest state of WEC-LC.</p>
+    </div>
+    <div class="grid grid--2">
+      <div class="card">
+        <h3>Confirmed today</h3>
+        <ul class="check-list">
+          <li>Institutional name, motto, vision, mission and core values</li>
+          <li>The full International English Fluency Course structure — six levels, CEFR alignment, curriculum and methodology</li>
+          <li>Tuition structure and per-level pricing</li>
+          <li>Admissions process and target learner profile</li>
+          <li>Named academic leadership and the faculty roster (see <a href="/faculty/#roster">Faculty</a>)</li>
+          <li>Operating model — online-first delivery worldwide, with a London administrative headquarters</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>In progress — to be published here as confirmed</h3>
+        <ul class="check-list">
+          <li>Registered administrative headquarters address in London</li>
+          <li>Formal accreditation and external quality-assurance affiliations</li>
+          <li>Academic calendar and first-cohort start date</li>
+          <li>Completion of the full lesson content within each module — all sixty modules are live; the lessons inside them are still being written (see <a href="/academics/#curriculum-status">Curriculum status</a>)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="callout__label">Our Commitment</span>
+      <p>We would rather tell you plainly what isn't finished yet than dress up an incomplete claim as a settled fact. Every section on this site follows that rule — including this one.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="vision" data-contents="Vision">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The Vision</span>
@@ -170,20 +301,7 @@ ${card('Three', 'Let the curriculum carry the claim', 'The strongest thing WEC-L
   </div>
 </section>
 
-${cta('Read what the vision is built around.', 'The IEFC Programme', '/academics/#levels', 'Our Mission', '/about/mission/')}`,
-};
-
-// 2 · MISSION ─────────────────────────────────────────────────────────
-PAGES.mission = {
-  slug: 'about-mission', output: 'about/mission/index.html', file: 'about-mission.html',
-  title: 'Mission &mdash; Worldwide English College',
-  description: 'The five commitments that define what Worldwide English College does, and how '
-    + 'each one is delivered in the programme.',
-  body: `${hero('About', 'How we get there.',
-    'Five commitments. Each one is answerable &mdash; a reader can ask what it means in the '
-    + 'programme and be shown, rather than being asked to take it on trust.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="mission" data-contents="Mission">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The Mission</span>
@@ -232,21 +350,7 @@ ${card('No invented evidence', 'Books that state what they do not rest on', 'The
   </div>
 </section>
 
-${cta('See the programme these commitments produce.', 'Study at WEC-LC', '/academics/#levels', 'Our Governance', '/governance/')}`,
-};
-
-// 3 · EDUCATIONAL PHILOSOPHY ──────────────────────────────────────────
-PAGES.philosophy = {
-  slug: 'about-philosophy', output: 'about/philosophy/index.html', file: 'about-philosophy.html',
-  title: 'Educational Philosophy &mdash; Worldwide English College',
-  description: 'What Worldwide English College believes about how English is learned, and how '
-    + 'those beliefs shape every lesson, assessment and resource.',
-  body: `${hero('About', 'What we believe about learning English.',
-    'This page is an argument rather than a record. It sets out what the College holds to be '
-    + 'true about language learning, and it is open to being argued with &mdash; which is the '
-    + 'point of stating it rather than implying it.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="philosophy" data-contents="Educational Philosophy">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Five Positions</span>
@@ -302,36 +406,7 @@ ${darkCard('After the lesson', 'Evidence that accumulates', 'Quiz and assignment
   </div>
 </section>
 
-${cta('See the philosophy in a real level.', 'Level I &mdash; Foundation', '/study/level-1/', 'Teaching at WEC-LC', '/faculty/')}`,
-};
-
-// 4 · GOVERNANCE ──────────────────────────────────────────────────────
-// The membership figures are read, never written. BASCE's count comes
-// from the database and is expected to stay at nought until somebody is
-// actually appointed to it; the Senate's comes from the register via
-// scripts/lib/governance-register.js, which the migration mirrors into
-// the same database. Two sources for one number is how the two come to
-// disagree, so the page reads the body it is talking about.
-const basceCount = D.bodies.find((b) => b.code === 'BASCE').members_appointed;
-// ── governance, the Senate, BASCE and quality assurance ──────────────
-// Moved to scripts/build-governance.js on the day Governance became a
-// top-level pillar (docs/information-architecture.html). This file
-// keeps the identity pages — vision, mission, philosophy, structure,
-// careers — which retire into the College pillar in a later phase.
-
-// 8 · ORGANISATIONAL STRUCTURE ────────────────────────────────────────
-PAGES.structure = {
-  slug: 'about-structure', output: 'about/structure/index.html', file: 'about-structure.html',
-  title: 'Organisational Structure &mdash; Worldwide English College',
-  description: 'How Worldwide English College is organised: the academic, administrative and '
-    + 'publishing functions, and which posts are currently vacant.',
-  body: `${hero('About', 'How the College is organised.',
-    'This page describes posts and functions, not people. Where a post is filled a register '
-    + 'names the holder &mdash; the faculty register for teaching staff, the governance '
-    + 'register for the Board, the Senate and the Executive &mdash; and where it is vacant this '
-    + 'page says vacant.')}
-
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="structure" data-contents="How It Is Organised">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Three Functions</span>
@@ -384,10 +459,17 @@ ${darkCard('A convened Senate', 'Blocks approval', `The Senate has ${GOV.SENATE_
   </div>
 </section>
 
-${cta('See who is appointed.', 'Faculty', '/faculty/', 'Governance', '/governance/')}`,
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>See the programme this vision is built around.</h2>
+    <div class="btn-row u-center">
+      <a href="/academics/#iefc" class="btn btn--gold">Explore the IEFC Programme</a>
+    </div>
+  </div>
+</section>
+`,
 };
 
-// 9 · CAREERS ─────────────────────────────────────────────────────────
 PAGES.careers = {
   slug: 'about-careers', output: 'about/careers/index.html', file: 'about-careers.html',
   title: 'Careers &mdash; Worldwide English College',
@@ -445,12 +527,20 @@ const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
 
+// Absorbed into the College pillar as #vision, #mission, #philosophy
+// and #structure.
+for (const slug of ['about-vision', 'about-mission', 'about-philosophy', 'about-structure']) {
+  const i = entries.findIndex((e) => e.slug === slug);
+  if (i >= 0) entries.splice(i, 1);
+}
+
 for (const p of Object.values(PAGES)) {
   fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: 'en', dir: 'ltr',
   };
+  if (p.contents) entry.contents = true;
   const i = entries.findIndex((e) => e.slug === p.slug);
   if (i >= 0) entries[i] = { ...entries[i], ...entry }; else entries.push(entry);
   written.push(p.output);

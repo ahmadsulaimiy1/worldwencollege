@@ -126,6 +126,7 @@ const PAGES = {};
 // 1 · STUDENTS HUB ────────────────────────────────────────────────────
 PAGES.hub = {
   slug: 'students', output: 'students/index.html', file: 'students.html',
+  contents: true,
   title: 'Students &mdash; Worldwide English College',
   description: 'What a WEC-LC student meets: the platform, the assessment scheme, the academic '
     + 'record, and the rules that govern all three.',
@@ -138,7 +139,7 @@ PAGES.hub = {
       <a href="/students/regulations/" class="btn btn--outline">Academic Regulations</a>
     </div>`)}
 
-<section class="section--light section-pad">
+<section class="section--light section-pad" id="day-one" data-contents="On Day One">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">On Day One</span>
@@ -155,7 +156,7 @@ ${card('The rules', 'Published before assessment', 'Criteria, thresholds and out
   </div>
 </section>
 
-<section class="section--paper section-pad">
+<section class="section--paper section-pad" id="guide" data-contents="Finding Your Way">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">This Section</span>
@@ -164,11 +165,11 @@ ${card('The rules', 'Published before assessment', 'Criteria, thresholds and out
     <div class="grid grid--3">
 ${card('Assessment', '<a href="/students/assessment/">How you are assessed</a>', `The four skills, the six competencies, what a mark means, and the ${PASS_PCT}% the platform actually enforces.`)}
 ${card('Your record', '<a href="/students/academic-record/">Your academic record</a>', 'What is stored, who can see it, and the parts of it you control rather than the College.')}
-${card('The Listening Lab', '<a href="/students/listening-lab/">The Listening Lab</a>', 'The one part of the platform students are usually surprised by, and the argument for why it exists.')}
+${card('The Listening Lab', '<a href="/students/#lab">The Listening Lab</a>', 'The one part of the platform students are usually surprised by, and the argument for why it exists.')}
 ${card('Awards', '<a href="/students/awards/">Awards and honours</a>', 'What each level is called, what the post-nominals mean, and why nothing has been conferred on anyone.')}
 ${card('Integrity', '<a href="/students/integrity/">Academic integrity</a>', 'The College&rsquo;s position on work that is not your own, and the procedure that has not yet been adopted.')}
 ${card('Regulations', '<a href="/students/regulations/">Academic regulations</a>', 'Progression, resits, standing and appeals &mdash; all in force, grouped by when each took effect.')}
-${card('Support', '<a href="/students/support/">Support</a>', 'What to do when you are stuck, behind, or unhappy, and who actually answers.')}
+${card('Support', '<a href="/students/#support">Support</a>', 'What to do when you are stuck, behind, or unhappy, and who actually answers.')}
     </div>
   </div>
 </section>
@@ -176,6 +177,122 @@ ${card('Support', '<a href="/students/support/">Support</a>', 'What to do when y
 <section class="section--dark section-pad">
   <div class="container reveal">
     ${noCohort}
+  </div>
+</section>
+
+<section class="section--light section-pad" id="lab" data-contents="The Listening Lab">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">The Argument</span>
+      <h2>Why recording is not optional.</h2>
+      <p class="lede">Three reasons, in the order they matter.</p>
+    </div>
+    <div class="grid grid--3">
+${card('One', 'You cannot hear yourself while speaking', 'Every learner is a poor judge of their own pronunciation in the moment, because producing a sound and evaluating it compete for the same attention. Recorded, the same sentence is suddenly assessable &mdash; by you, before anyone else hears it.')}
+${card('Two', 'Improvement is invisible without a baseline', 'Progress in pronunciation is slow and continuous, which makes it exactly the kind of change nobody notices in themselves. A recording from month one played against month six settles the question in thirty seconds.')}
+${card('Three', 'Speaking cannot be assessed any other way', 'A programme that marks speaking from written work is not marking speaking. Recording is not an enhancement to the assessment; it is the assessment.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">How It Works</span>
+      <h2>What you actually do.</h2>
+    </div>
+    <ol class="dot-list">
+      <li><span class="num">01</span><span><strong>Listen to the set.</strong> Each listening set carries its own audio, with the specific features the lesson is targeting marked in it &mdash; a linking sound, a stressed syllable, a contraction &mdash; rather than a general instruction to listen carefully.</span><span class="leader"></span></li>
+      <li><span class="num">02</span><span><strong>Record yourself against a target.</strong> Pronunciation targets are specific and named. &ldquo;Sound more natural&rdquo; is not a target; the vowel in a particular word is.</span><span class="leader"></span></li>
+      <li><span class="num">03</span><span><strong>Listen back before submitting.</strong> This step is where most of the learning happens, and it is the step learners skip. It is built into the flow deliberately.</span><span class="leader"></span></li>
+      <li><span class="num">04</span><span><strong>Receive feedback from a person.</strong> Pronunciation feedback is written by a teacher against the target, not generated by a score. No automated pronunciation scoring is used, and none is claimed.</span><span class="leader"></span></li>
+      <li><span class="num">05</span><span><strong>Keep the recording.</strong> It stays in your record. In six months it is evidence; deleted, it is nothing.</span><span class="leader"></span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Practicalities</span>
+      <h2>What it needs and what it survives.</h2>
+    </div>
+    <div class="grid grid--3">
+${darkCard('Any microphone', 'A phone is enough', 'Studio quality is not required and would not improve the assessment. The features being marked survive an ordinary microphone.')}
+${darkCard('An unreliable connection', 'Recording continues offline', 'Recording does not require a live connection. A recording made while offline is held and uploaded when the connection returns, in parts, so that a drop does not lose the whole file. This was built because the College expects students in places where connections drop.')}
+${darkCard('Your own ears first', 'Nothing is submitted automatically', 'A recording is submitted when you decide it is. Nothing is captured or sent in the background.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Not Yet Produced</span>
+      <h2>The honest gap in the Lab.</h2>
+    </div>
+    <div class="callout">
+      <span class="callout__label">The audio itself</span>
+      <p>The listening sets are written &mdash; scripts, targets, marked features and teaching
+        notes are all authored. The recorded audio for them has not been produced. Producing it
+        requires voices and a studio, and it is one of the small number of things standing
+        between the programme and first delivery. It is listed as outstanding rather than
+        implied to exist.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="support" data-contents="Support">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Stuck On The Material</span>
+      <h2>Built into the teaching before you have to ask.</h2>
+    </div>
+    <div class="grid grid--3">
+${card('In the lesson', 'A second explanation, already written', 'Every lesson carries an alternative explanation of its hardest point, written in advance for the learner who did not follow the first one. Teaching that has only one route through it fails everyone who needs a different one.')}
+${card('In the lesson', 'The mistakes people actually make', 'Each lesson names the common errors for that point and what causes them, so that a mistake is recognisable rather than mysterious. These are written from the language itself, not gathered from students &mdash; the College has taught no one yet, and says so.')}
+${card('On demand', 'A tutorial with a teacher', 'Where the written support does not resolve it, a tutorial does. Ask; it is not rationed.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Falling Behind</span>
+      <h2>Noticed early, and answered with help.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('Why it is measured', 'To reach you, never to penalise you', 'Engagement is tracked so that a learner who has gone quiet is contacted in month two rather than discovered in month eleven. It never produces a penalty, and there is no attendance requirement to fail &mdash; the programme is asynchronous, so attendance would be the wrong measure of anything.')}
+${card('What happens', 'A message, an offer, a conversation', 'Falling behind produces contact, not consequence. Someone who is behind can still finish; the entire value of noticing is reaching them while that is true.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Unhappy With Something</span>
+      <h2>Who answers, and how honestly.</h2>
+    </div>
+    <div class="grid grid--2">
+${darkCard('Who', 'The founding team, by name', 'Every message to the College is answered by a member of the founding team. There is no ticket queue and no first-line script, which is a genuine advantage of the College&rsquo;s size and will not survive growth &mdash; so it is described as it is now.')}
+${darkCard('What is missing', 'A formal complaints procedure', 'There is no independent stage to escalate to, because there is no appointed body to escalate to. That is stated on <a href="/students/regulations/">Academic regulations</a> as well, because it is the kind of gap that should not be findable in only one place.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">What The College Does Not Provide</span>
+      <h2>Named, so that nobody relies on it.</h2>
+    </div>
+    <div class="grid grid--3">
+${card('No', 'Counselling or wellbeing services', 'WEC-LC has no counselling provision, no wellbeing service and no qualified staff for either. If you need that kind of support, it must come from services where you live. Implying otherwise on a website is how people in difficulty get let down.')}
+${card('No', 'Careers or immigration advice', 'No careers service, and no immigration advice of any kind &mdash; see <a href="/admissions/#visas">Visas and study permits</a>.')}
+${card('No', 'Disability assessment or formal adjustments', 'The College has no process for assessing a need or granting a formal adjustment. What it can do is arrange practical accommodations informally &mdash; audio-only participation, extended time, alternative formats &mdash; on request. That is a smaller offer than a policy, and it is described as the smaller thing it is.')}
+    </div>
   </div>
 </section>
 
@@ -396,80 +513,7 @@ ${cta('See how marks are arrived at.', 'How You Are Assessed', '/students/assess
 };
 
 // 4 · LISTENING LAB ───────────────────────────────────────────────────
-PAGES.lab = {
-  slug: 'students-listening-lab', output: 'students/listening-lab/index.html', file: 'students-listening-lab.html',
-  title: 'The Listening Lab &mdash; Worldwide English College',
-  description: 'What the WEC-LC Listening Lab is, why recording yourself is compulsory rather '
-    + 'than optional, and what has not been produced yet.',
-  body: `${hero('Students', 'The Listening Lab.',
-    'The part of the programme students are most surprised by: you record yourself, regularly, '
-    + 'and the College keeps the recordings. This page makes the argument for that rather than '
-    + 'presenting it as a feature.')}
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Argument</span>
-      <h2>Why recording is not optional.</h2>
-      <p class="lede">Three reasons, in the order they matter.</p>
-    </div>
-    <div class="grid grid--3">
-${card('One', 'You cannot hear yourself while speaking', 'Every learner is a poor judge of their own pronunciation in the moment, because producing a sound and evaluating it compete for the same attention. Recorded, the same sentence is suddenly assessable &mdash; by you, before anyone else hears it.')}
-${card('Two', 'Improvement is invisible without a baseline', 'Progress in pronunciation is slow and continuous, which makes it exactly the kind of change nobody notices in themselves. A recording from month one played against month six settles the question in thirty seconds.')}
-${card('Three', 'Speaking cannot be assessed any other way', 'A programme that marks speaking from written work is not marking speaking. Recording is not an enhancement to the assessment; it is the assessment.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">How It Works</span>
-      <h2>What you actually do.</h2>
-    </div>
-    <ol class="dot-list">
-      <li><span class="num">01</span><span><strong>Listen to the set.</strong> Each listening set carries its own audio, with the specific features the lesson is targeting marked in it &mdash; a linking sound, a stressed syllable, a contraction &mdash; rather than a general instruction to listen carefully.</span><span class="leader"></span></li>
-      <li><span class="num">02</span><span><strong>Record yourself against a target.</strong> Pronunciation targets are specific and named. &ldquo;Sound more natural&rdquo; is not a target; the vowel in a particular word is.</span><span class="leader"></span></li>
-      <li><span class="num">03</span><span><strong>Listen back before submitting.</strong> This step is where most of the learning happens, and it is the step learners skip. It is built into the flow deliberately.</span><span class="leader"></span></li>
-      <li><span class="num">04</span><span><strong>Receive feedback from a person.</strong> Pronunciation feedback is written by a teacher against the target, not generated by a score. No automated pronunciation scoring is used, and none is claimed.</span><span class="leader"></span></li>
-      <li><span class="num">05</span><span><strong>Keep the recording.</strong> It stays in your record. In six months it is evidence; deleted, it is nothing.</span><span class="leader"></span></li>
-    </ol>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Practicalities</span>
-      <h2>What it needs and what it survives.</h2>
-    </div>
-    <div class="grid grid--3">
-${darkCard('Any microphone', 'A phone is enough', 'Studio quality is not required and would not improve the assessment. The features being marked survive an ordinary microphone.')}
-${darkCard('An unreliable connection', 'Recording continues offline', 'Recording does not require a live connection. A recording made while offline is held and uploaded when the connection returns, in parts, so that a drop does not lose the whole file. This was built because the College expects students in places where connections drop.')}
-${darkCard('Your own ears first', 'Nothing is submitted automatically', 'A recording is submitted when you decide it is. Nothing is captured or sent in the background.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Not Yet Produced</span>
-      <h2>The honest gap in the Lab.</h2>
-    </div>
-    <div class="callout">
-      <span class="callout__label">The audio itself</span>
-      <p>The listening sets are written &mdash; scripts, targets, marked features and teaching
-        notes are all authored. The recorded audio for them has not been produced. Producing it
-        requires voices and a studio, and it is one of the small number of things standing
-        between the programme and first delivery. It is listed as outstanding rather than
-        implied to exist.</p>
-    </div>
-  </div>
-</section>
-
-${cta('See the listening work in a level.', 'Level I &mdash; Foundation', '/study/level-1/', 'How You Are Assessed', '/students/assessment/')}`,
-};
 
 // 5 · AWARDS ──────────────────────────────────────────────────────────
 PAGES.awards = {
@@ -712,76 +756,11 @@ ${card('Does not exist', 'An independent stage', 'There is no body to escalate t
   </div>
 </section>
 
-${cta('See who is meant to hear an appeal.', 'Governance', '/governance/', 'Support', '/students/support/')}`,
+${cta('See who is meant to hear an appeal.', 'Governance', '/governance/', 'Support', '/students/#support')}`,
 };
 
 // 8 · SUPPORT ─────────────────────────────────────────────────────────
-PAGES.support = {
-  slug: 'students-support', output: 'students/support/index.html', file: 'students-support.html',
-  title: 'Support &mdash; Worldwide English College',
-  description: 'What to do when you are stuck, behind or unhappy at WEC-LC, who answers, and '
-    + 'what the College does not provide.',
-  body: `${hero('Students', 'When you are stuck.',
-    'Being stuck, falling behind and being unhappy with something are three different problems '
-    + 'with three different answers. This page gives all three, and says plainly what the '
-    + 'College does not provide.')}
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Stuck On The Material</span>
-      <h2>Built into the teaching before you have to ask.</h2>
-    </div>
-    <div class="grid grid--3">
-${card('In the lesson', 'A second explanation, already written', 'Every lesson carries an alternative explanation of its hardest point, written in advance for the learner who did not follow the first one. Teaching that has only one route through it fails everyone who needs a different one.')}
-${card('In the lesson', 'The mistakes people actually make', 'Each lesson names the common errors for that point and what causes them, so that a mistake is recognisable rather than mysterious. These are written from the language itself, not gathered from students &mdash; the College has taught no one yet, and says so.')}
-${card('On demand', 'A tutorial with a teacher', 'Where the written support does not resolve it, a tutorial does. Ask; it is not rationed.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Falling Behind</span>
-      <h2>Noticed early, and answered with help.</h2>
-    </div>
-    <div class="grid grid--2">
-${card('Why it is measured', 'To reach you, never to penalise you', 'Engagement is tracked so that a learner who has gone quiet is contacted in month two rather than discovered in month eleven. It never produces a penalty, and there is no attendance requirement to fail &mdash; the programme is asynchronous, so attendance would be the wrong measure of anything.')}
-${card('What happens', 'A message, an offer, a conversation', 'Falling behind produces contact, not consequence. Someone who is behind can still finish; the entire value of noticing is reaching them while that is true.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Unhappy With Something</span>
-      <h2>Who answers, and how honestly.</h2>
-    </div>
-    <div class="grid grid--2">
-${darkCard('Who', 'The founding team, by name', 'Every message to the College is answered by a member of the founding team. There is no ticket queue and no first-line script, which is a genuine advantage of the College&rsquo;s size and will not survive growth &mdash; so it is described as it is now.')}
-${darkCard('What is missing', 'A formal complaints procedure', 'There is no independent stage to escalate to, because there is no appointed body to escalate to. That is stated on <a href="/students/regulations/">Academic regulations</a> as well, because it is the kind of gap that should not be findable in only one place.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">What The College Does Not Provide</span>
-      <h2>Named, so that nobody relies on it.</h2>
-    </div>
-    <div class="grid grid--3">
-${card('No', 'Counselling or wellbeing services', 'WEC-LC has no counselling provision, no wellbeing service and no qualified staff for either. If you need that kind of support, it must come from services where you live. Implying otherwise on a website is how people in difficulty get let down.')}
-${card('No', 'Careers or immigration advice', 'No careers service, and no immigration advice of any kind &mdash; see <a href="/admissions/#visas">Visas and study permits</a>.')}
-${card('No', 'Disability assessment or formal adjustments', 'The College has no process for assessing a need or granting a formal adjustment. What it can do is arrange practical accommodations informally &mdash; audio-only participation, extended time, alternative formats &mdash; on request. That is a smaller offer than a policy, and it is described as the smaller thing it is.')}
-    </div>
-  </div>
-</section>
-
-${cta('Ask for help.', 'Contact the College', '/contact/', 'Academic Regulations', '/students/regulations/')}`,
-};
 
 // ── write ────────────────────────────────────────────────────────────
 const MANIFEST = path.join(ROOT, 'pages/manifest.json');
@@ -789,12 +768,19 @@ const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
 
+// Absorbed into the Student Life pillar as #lab and #support.
+for (const slug of ['students-listening-lab', 'students-support']) {
+  const i = entries.findIndex((e) => e.slug === slug);
+  if (i >= 0) entries.splice(i, 1);
+}
+
 for (const p of Object.values(PAGES)) {
   fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: 'en', dir: 'ltr',
   };
+  if (p.contents) entry.contents = true;
   const i = entries.findIndex((e) => e.slug === p.slug);
   if (i >= 0) entries[i] = { ...entries[i], ...entry }; else entries.push(entry);
   written.push(p.output);

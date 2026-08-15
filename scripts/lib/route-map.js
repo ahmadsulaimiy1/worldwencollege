@@ -52,10 +52,10 @@
  *  at the point somebody is reading the code rather than the document. */
 const RETIRED = [
   // ── into /about/ ──────────────────────────────────────────────────
-  { from: '/about/vision/', to: '/about/#vision', why: 'section of the College pillar', migrated: false },
-  { from: '/about/mission/', to: '/about/#mission', why: 'section of the College pillar', migrated: false },
-  { from: '/about/philosophy/', to: '/about/#philosophy', why: 'section of the College pillar', migrated: false },
-  { from: '/about/structure/', to: '/about/#structure', why: 'section of the College pillar', migrated: false },
+  { from: '/about/vision/', to: '/about/#vision', why: 'section of the College pillar', migrated: true },
+  { from: '/about/mission/', to: '/about/#mission', why: 'section of the College pillar', migrated: true },
+  { from: '/about/philosophy/', to: '/about/#philosophy', why: 'section of the College pillar', migrated: true },
+  { from: '/about/structure/', to: '/about/#structure', why: 'section of the College pillar', migrated: true },
 
   // ── into /governance/ ─────────────────────────────────────────────
   // The first three are MOVES: the page continues to exist, at an
@@ -97,14 +97,14 @@ const RETIRED = [
   { from: '/admissions/scholarships/', to: '/admissions/tuition/#funding', why: 'section of Tuition, Fees & Funding', migrated: true },
 
   // ── into /students/ ───────────────────────────────────────────────
-  { from: '/students/listening-lab/', to: '/students/#lab', why: 'section of Student Life', migrated: false },
-  { from: '/students/support/', to: '/students/#support', why: 'section of Student Life', migrated: false },
+  { from: '/students/listening-lab/', to: '/students/#lab', why: 'section of Student Life', migrated: true },
+  { from: '/students/support/', to: '/students/#support', why: 'section of Student Life', migrated: true },
 
   // ── into /press/ ──────────────────────────────────────────────────
-  { from: '/press/standards/', to: '/press/#standards', why: 'section of Press & Library', migrated: false },
-  { from: '/press/review/', to: '/press/#review', why: 'section of Press & Library', migrated: false },
-  { from: '/press/programme/', to: '/press/#programme', why: 'section of Press & Library', migrated: false },
-  { from: '/library/', to: '/press/#library', why: 'section of Press & Library', migrated: false },
+  { from: '/press/standards/', to: '/press/#standards', why: 'section of Press & Library', migrated: true },
+  { from: '/press/review/', to: '/press/#review', why: 'section of Press & Library', migrated: true },
+  { from: '/press/programme/', to: '/press/#programme', why: 'section of Press & Library', migrated: true },
+  { from: '/library/', to: '/press/#library', why: 'section of Press & Library', migrated: true },
 ];
 
 /** Arabic editions retire alongside their English counterparts. Derived
@@ -131,6 +131,8 @@ for (const r of RETIRED_AR) {
   // #teaching section summarises it in Arabic and crosses to the
   // English page with the (EN) marker.
   if (r.to.startsWith('/ar/academics/teaching/')) r.to = '/ar/academics/#teaching';
+  // No Arabic press pages exist yet; their twins land on the front door.
+  if (r.to.startsWith('/ar/press/')) r.to = '/ar/';
 }
 
 const ALL = [...RETIRED, ...RETIRED_AR];

@@ -1099,6 +1099,76 @@ ${cta('اعثر على مستواك.', 'قدّم الآن', '/ar/admissions/#app
 };
 
 // 9 · كيف يتم تقييمك ──────────────────────────────────────────────────
+PAGES.students = {
+  slug: 'students-ar', output: 'ar/students/index.html', file: 'students.ar.html',
+  contents: true,
+  altHref: '/students/',
+  title: 'الحياة الطلابية — الكلية العالمية للغة الإنجليزية',
+  description: 'ما تعنيه الدراسة في الكلية: كيف تُقيَّم، وسجلك الأكاديمي، ومعمل الاستماع، والدعم المتاح وما لا تقدمه الكلية.',
+  body: `${hero('الطلاب', 'الحياة الطلابية.',
+    'ما تعنيه الدراسة هنا: كيف تُقيَّم، وما يُحفظ في سجلك، وأين تتدرب على الاستماع والنطق، '
+    + 'ومن يجيبك حين تحتاج عونًا — وما لا تقدمه الكلية، مذكورًا بالوضوح نفسه.')}
+
+<section class="section--light section-pad" id="study" data-contents="الدراسة هنا">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الدراسة هنا</span>
+      <h2>أربعة أبواب لطالب الكلية.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('التقييم', 'كيف يتم تقييمك', 'أدوات التقييم ومعاييرها والحدود الدنيا للمهارات — <a href="/ar/students/assessment/">الصفحة الكاملة</a>.')}
+${card('السجل', 'الشهادات والمراتب', 'ما تمنحه الكلية وما لا تستطيع منحه بعد، وسجل من مُنح ماذا — <a href="/ar/students/awards/">الصفحة الكاملة</a>.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad" id="lab" data-contents="معمل الاستماع">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">معمل الاستماع</span>
+      <h2>حيث يُبنى النطق والاستماع.</h2>
+      <p class="lede">مجموعات استماع بنصوص مكتوبة بالكامل، وأهداف نطق مسمّاة، وتسجيلاتك أنت
+        محفوظة كي يكون التحسن مسموعًا لا مُدّعى. التسجيل يعمل دون اتصال ويُرفع حين يعود
+        الاتصال، لأن الكلية تتوقع متعلمين في أماكن تنقطع فيها الشبكة. والتسجيلات الصوتية
+        للمجموعات لم تُنتج بعد — النصوص مؤلفة والأصوات تحتاج استوديو — ويُذكر هذا لا يُوهَم
+        خلافه.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="support" data-contents="الدعم">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الدعم</span>
+      <h2>من يجيب.</h2>
+      <p class="lede">سؤال أكاديمي يجيب عنه مدرّسك؛ وسؤال تقني أو إداري يجيب عنه الفريق المؤسس
+        كتابةً. والانخراط مُتابَع كي يُتواصل مع من انقطع مبكرًا، ولا يترتب عليه جزاء أبدًا.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad" id="boundaries" data-contents="ما لا تقدمه الكلية">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">ما لا تقدمه الكلية</span>
+      <h2>مذكور بالوضوح نفسه.</h2>
+      <p class="lede">لا تقدم الكلية إرشادًا نفسيًا ولا خدمات رفاه ولا نصح هجرة ولا تقييم إعاقة
+        رسميًا — فذلك يحتاج مؤهلات لا تملكها، والإيحاء بغيره يخذل الناس في وقت حاجتهم. ما
+        تستطيعه هو ترتيبات عملية غير رسمية عند الطلب: مشاركة صوتية فقط، ووقت إضافي، وصيغ
+        بديلة — وهي عرض أصغر من سياسة، وتوصف بأنها الشيء الأصغر الذي هي عليه.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    ${noAccreditation}
+  </div>
+</section>
+
+${cta('كيف يتم تقييمك.', 'التقييم', '/ar/students/assessment/', 'الشهادات والمراتب', '/ar/students/awards/')}`,
+};
+
 PAGES.assessment = {
   slug: 'students-assessment-ar', output: 'ar/students/assessment/index.html', file: 'students-assessment.ar.html',
   altHref: '/students/assessment/',
