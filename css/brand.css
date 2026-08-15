@@ -2265,3 +2265,84 @@ ul.check-list li::before {
 @media (prefers-reduced-motion: reduce) {
   .sonics-toggle.is-on .sonics-toggle__wave i { animation: none; }
 }
+
+/* -------------------- THE MATERIAL, EXTENDED -------------------- */
+/* The rim and the travelling light were introduced on the homepage and
+   proved there. These rules take them into the shared components, so
+   the other 87 pages gain the same material without a single one of
+   them being edited — which is the difference between a design system
+   and a page that looks better than its neighbours.
+
+   Applied in component CSS rather than as utility classes in markup for
+   one reason: most of pages/ is GENERATED (scripts/build-*.js), and a
+   class typed into a generated file is stripped out the next time its
+   generator runs. A rule here cannot be lost that way. */
+
+/* THE CARD gains the lit rim. ::before is already the gold rule that
+   draws across the top on hover, so the rim takes ::after — the same
+   division of labour .edge-lit and .aurum keep in css/atelier.css. */
+.card::after {
+  content: ''; position: absolute; inset: 0; z-index: 2;
+  border-radius: inherit; pointer-events: none; padding: 1px;
+  background: linear-gradient(148deg,
+    rgba(255,255,255,.9) 0%, rgba(199,162,74,.3) 24%,
+    rgba(121,90,50,.1) 52%, rgba(52,42,30,.28) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
+/* On dark ground the light is champagne and the turned edge is
+   blue-black, because a navy surface in this room does not have warm
+   grey shadows. Same geometry, different material. */
+.card--dark::after, .section--dark .card::after,
+.section--oxford .card::after, .section--midnight .card::after {
+  background: linear-gradient(148deg,
+    rgba(242,227,192,.6) 0%, rgba(199,162,74,.24) 22%,
+    rgba(199,162,74,.06) 46%, rgba(6,13,28,.55) 100%);
+}
+[dir="rtl"] .card::after { transform: scaleX(-1); }
+
+/* THE LEDGER ROW lights as the eye crosses it — on every ledger on the
+   site, not only the homepage's. Six rows of near-identical figures is
+   exactly where a reader loses their line, and the fix is the oldest
+   one in typesetting: mark the line being read. */
+.ledger tbody tr { transition: background var(--dur-fast) ease; }
+.ledger tbody tr:hover { background: rgba(199,162,74,.055); }
+.section--light .ledger tbody tr:hover, .section--paper .ledger tbody tr:hover,
+.section--warm .ledger tbody tr:hover, .section--cream .ledger tbody tr:hover,
+.section--pearl .ledger tbody tr:hover { background: rgba(121,90,50,.05); }
+
+/* THE TAG AND THE STRAND get the struck edge rather than a flat rule,
+   so a row of them reads as a set of small objects rather than as
+   outlined text. */
+.tag {
+  box-shadow: var(--relief-raised);
+  background: linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,0));
+  transition: transform var(--dur-fast) var(--ease-premium),
+              box-shadow var(--dur-fast) var(--ease-premium),
+              border-color var(--dur-fast) ease;
+}
+.tag:hover { transform: translateY(-2px); border-color: var(--gold); }
+.section--dark .tag, .section--oxford .tag, .section--midnight .tag {
+  background: linear-gradient(180deg, rgba(242,227,192,.1), rgba(3,8,20,.2));
+}
+
+/* THE PLATE, under the pointer, is lit from its own edge. The figure's
+   pseudo-elements are free — the corner ornaments live on .plate__frame
+   inside it — so the ring traces the mounted artwork without disturbing
+   the concentric corners that are the frame's signature. */
+@media (hover: hover) and (pointer: fine) {
+  .plate { position: relative; }
+  .plate > .plate__frame::after { transition: box-shadow var(--dur-med) var(--ease-premium); }
+  .plate:hover > .plate__frame {
+    box-shadow: inset 0 0 60px -20px rgba(0,0,0,.7),
+                inset 0 1px 0 rgba(242,227,192,.5),
+                inset 0 -1px 0 rgba(6,13,28,.5),
+                0 0 0 1px rgba(231,201,122,.42),
+                var(--shadow-lg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tag, .tag:hover, .ledger tbody tr { transition: none; transform: none; }
+}
