@@ -235,6 +235,9 @@
 .feature-list p { margin: 0; color: var(--slate); font-size: .95rem; max-width: 56ch; }
 .section--dark .feature-list p, .section--oxford .feature-list p,
 .section--midnight .feature-list p { color: rgba(247,244,236,.72); }
+/* Reading copy, not a label — raised to the site's new 16px floor.
+   Scoped to English only; see the note in brand.css's type system. */
+[dir="ltr"] .feature-list p { font-size: 1rem; }
 
 /* The living-diagram frame (.diagram) moved to css/atelier.css when
    the second diagram landed on /students/assessment/ — it was defined
@@ -322,6 +325,7 @@
 .audience .icon { color: var(--emerald); width: 26px; height: 26px; }
 .audience h3 { font-size: 1rem; margin: 0; letter-spacing: -.005em; }
 .audience p { margin: 0; font-size: .87rem; color: var(--slate); }
+[dir="ltr"] .audience p { font-size: 1rem; }
 
 /* =========================================================
    THE PRINCIPLES
@@ -363,6 +367,7 @@
 }
 .principle h3 { font-size: clamp(1.1rem, 1rem + .4vw, 1.34rem); color: #fff; margin: 0 0 .55em; }
 .principle p { margin: 0; color: rgba(247,244,236,.74); font-size: .94rem; max-width: 46ch; }
+[dir="ltr"] .principle p { font-size: 1rem; }
 .principle .icon { position: absolute; top: 34px; right: 34px; width: 26px; height: 26px; color: rgba(212,175,55,.42); }
 [dir="rtl"] .principle .icon { right: auto; left: 34px; }
 
