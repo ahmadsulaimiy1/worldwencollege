@@ -311,3 +311,131 @@ body[data-section="contact"]    { --hero-accent: 199, 162, 74; }
   .tag:hover { transform: none; }
   .tag, .card::after { transition: none; }
 }
+
+/* =========================================================
+   THE CONTENTS RAIL
+   ---------------------------------------------------------
+   The component the new information architecture depends on.
+   docs/information-architecture.html collapses thirty-three routes
+   into deep-linked sections of six pillar pages; that trade is only
+   an improvement if landing on an anchor feels like arriving
+   somewhere. The rail is what makes a 3,000-word page navigable
+   instead of long.
+
+   A BAND, NOT A MARGIN RAIL, and the reason is measured. The content
+   column is 1180px. At 1440 — the widest viewport this site is
+   designed against — that leaves 130px either side, and a rail of
+   section names needs about 180. A margin rail would therefore work
+   on the designer's monitor and collapse on the visitor's, which is
+   the exact failure this project has already made once with the
+   header. A sticky band works at every width.
+   ========================================================= */
+.contents {
+  position: sticky;
+  /* Sits directly beneath the site header, which is itself sticky and
+     changes height when it condenses. js/motion.js publishes the
+     measured height; the fallback is the header's resting height, so
+     the rail is in the right place before script runs and with script
+     disabled entirely. */
+  top: var(--header-h, 88px);
+  z-index: 40;
+  background: var(--warm-white);
+  border-top: 1px solid var(--line-stone);
+  border-bottom: 1px solid var(--line-stone);
+  box-shadow: 0 1px 0 rgba(199, 162, 74, .22);
+}
+.contents__inner {
+  max-width: var(--wrap); margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; gap: 22px;
+}
+.contents__label {
+  flex: 0 0 auto;
+  font-size: .6rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--bronze); white-space: nowrap;
+}
+/* The label is the first thing to go: on a phone it costs a third of
+   the band to say something the band already demonstrates. */
+@media (max-width: 700px) { .contents__label { display: none; } }
+
+.contents__list {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; align-items: center; gap: 4px;
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scrollbar-width: none; -ms-overflow-style: none;
+}
+.contents__list::-webkit-scrollbar { display: none; }
+.contents__list a {
+  display: block; padding: 14px 12px; white-space: nowrap;
+  font-size: .82rem; font-weight: 600; color: var(--slate);
+  border-bottom: 2px solid transparent;
+  transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+.contents__list a:hover { color: var(--ink); }
+/* aria-current, not a class, because the state IS "this is the section
+   you are in" and a screen reader should be told so rather than
+   inferring it from a colour. */
+.contents__list a[aria-current="true"] {
+  color: var(--red); border-bottom-color: var(--gold);
+}
+
+/* THE ANCHOR OFFSET, and it is the point of the whole component.
+   Without it every deep link from the mega menu scrolls the target
+   heading underneath the sticky header and the rail, so the reader
+   arrives at the middle of the previous section and concludes the
+   link is broken. */
+:target, [id] { scroll-margin-top: calc(var(--header-h, 88px) + var(--contents-h, 50px) + 20px); }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* The rail is chrome, and this site's chrome is navy. On a page whose
+   first band after the masthead is dark, a paper-coloured rail reads
+   as a stray card; matched to the dark ground it reads as part of the
+   header it hangs from. */
+.contents--dark {
+  background: var(--royal-deep);
+  border-top-color: var(--line-dark); border-bottom-color: var(--line-dark);
+}
+.contents--dark .contents__label { color: var(--gold-royal); }
+.contents--dark .contents__list a { color: rgba(247, 244, 236, .72); }
+.contents--dark .contents__list a:hover { color: #fff; }
+.contents--dark .contents__list a[aria-current="true"] {
+  color: var(--gold-bright); border-bottom-color: var(--gold);
+}
+
+/* Printing a navigation band is printing furniture. */
+@media print { .contents { display: none; } }
+
+/* The scroll affordance. Added by js/motion.js only when the list
+   genuinely overflows, so a rail that fits is not handed a gradient
+   over a perfectly legible label. Direction-aware: the fade belongs on
+   whichever edge the content runs off, which is the left one in
+   Arabic. */
+.contents--scrollable .contents__list {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 34px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 34px), transparent);
+}
+[dir="rtl"] .contents--scrollable .contents__list {
+  -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 34px), transparent);
+  mask-image: linear-gradient(to left, #000 calc(100% - 34px), transparent);
+}
+
+/* KEYBOARD, and two details that only show up when you actually tab
+   through it.
+
+   The outline is INSET. The list is an overflow-x container, so an
+   outline drawn outside a link's box is clipped by it — a focused item
+   would show three sides of a ring, which reads as a rendering error
+   rather than as focus.
+
+   And the fade is dropped while anything inside has focus. Tabbing to
+   the last item scrolls it into view under a gradient that was put
+   there to say "there is more"; fading the very thing the keyboard user
+   has just landed on is the opposite of what the affordance is for. */
+.contents__list a:focus-visible {
+  outline: 2px solid var(--gold); outline-offset: -2px; border-radius: 2px;
+  color: var(--ink);
+}
+.contents--dark .contents__list a:focus-visible { color: #fff; }
+.contents--scrollable .contents__list:focus-within {
+  -webkit-mask-image: none; mask-image: none;
+}

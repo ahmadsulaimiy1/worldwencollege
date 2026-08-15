@@ -253,7 +253,8 @@
     "contentFile": "study-level-1.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/study/level-1/"
+    "altHref": "/ar/study/level-1/",
+    "contents": true
   },
   {
     "slug": "study-level-2",
@@ -263,7 +264,8 @@
     "contentFile": "study-level-2.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/study/level-2/"
+    "altHref": "/ar/study/level-2/",
+    "contents": true
   },
   {
     "slug": "study-level-3",
@@ -273,7 +275,8 @@
     "contentFile": "study-level-3.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/study/level-3/"
+    "altHref": "/ar/study/level-3/",
+    "contents": true
   },
   {
     "slug": "study-level-4",
@@ -283,7 +286,8 @@
     "contentFile": "study-level-4.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/study/level-4/"
+    "altHref": "/ar/study/level-4/",
+    "contents": true
   },
   {
     "slug": "study-level-5",
@@ -293,7 +297,8 @@
     "contentFile": "study-level-5.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/study/level-5/"
+    "altHref": "/ar/study/level-5/",
+    "contents": true
   },
   {
     "slug": "study-level-6",
@@ -303,7 +308,8 @@
     "contentFile": "study-level-6.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/study/level-6/"
+    "altHref": "/ar/study/level-6/",
+    "contents": true
   },
   {
     "slug": "about-vision",
@@ -889,7 +895,8 @@
     "contentFile": "study-level-1.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/study/level-1/"
+    "altHref": "/study/level-1/",
+    "contents": true
   },
   {
     "slug": "study-level-2-ar",
@@ -899,7 +906,8 @@
     "contentFile": "study-level-2.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/study/level-2/"
+    "altHref": "/study/level-2/",
+    "contents": true
   },
   {
     "slug": "study-level-3-ar",
@@ -909,7 +917,8 @@
     "contentFile": "study-level-3.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/study/level-3/"
+    "altHref": "/study/level-3/",
+    "contents": true
   },
   {
     "slug": "study-level-4-ar",
@@ -919,7 +928,8 @@
     "contentFile": "study-level-4.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/study/level-4/"
+    "altHref": "/study/level-4/",
+    "contents": true
   },
   {
     "slug": "study-level-5-ar",
@@ -929,7 +939,8 @@
     "contentFile": "study-level-5.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/study/level-5/"
+    "altHref": "/study/level-5/",
+    "contents": true
   },
   {
     "slug": "study-level-6-ar",
@@ -939,6 +950,7 @@
     "contentFile": "study-level-6.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/study/level-6/"
+    "altHref": "/study/level-6/",
+    "contents": true
   }
 ]

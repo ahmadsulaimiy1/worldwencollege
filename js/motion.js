@@ -94,6 +94,113 @@
   })();
 
   /* -------------------------------------------------------------------
+     1b · THE CONTENTS RAIL
+     -------------------------------------------------------------------
+     Two jobs, and the first one matters even to a reader who never
+     scrolls.
+
+     THE OFFSET. The site header is sticky and the rail hangs beneath
+     it, so every anchor on the page has to be scrolled clear of both or
+     a deep link from the mega menu drops the reader into the middle of
+     the section BEFORE the one they asked for. css/pages.css does the
+     work through --header-h and --contents-h; this measures them. It
+     has to be measured rather than hard-coded because the header
+     condenses on scroll — 88px at rest, ~70 once moving — and a fixed
+     offset would be wrong in one state or the other.
+
+     THE CURRENT SECTION. Marked with aria-current so it is announced
+     rather than merely coloured. An IntersectionObserver with a top
+     margin equal to the chrome, so "current" means the section behind
+     the rail, not one hidden underneath it.
+
+     Both degrade cleanly: the CSS fallbacks put the rail in the right
+     place with no script at all, and the rail is a plain list of
+     in-page links, which is a working table of contents on its own.
+     ------------------------------------------------------------------- */
+  (function contentsRail() {
+    var rail = document.querySelector('.contents');
+    if (!rail) return;
+    var header = document.querySelector('.site-header');
+    var root = document.documentElement;
+
+    var list = rail.querySelector('.contents__list');
+
+    function measure() {
+      if (header) root.style.setProperty('--header-h', header.offsetHeight + 'px');
+      root.style.setProperty('--contents-h', rail.offsetHeight + 'px');
+      // A rail whose last item is sliced off at the viewport edge reads
+      // as a rendering fault, not as something you can scroll. The fade
+      // is applied only when there is genuinely more to see, so a rail
+      // that fits is not given a gradient over a perfectly good label.
+      if (list) rail.classList.toggle('contents--scrollable', list.scrollWidth > list.clientWidth + 1);
+    }
+    measure();
+    window.addEventListener('resize', measure, { passive: true });
+    // The header changes height when it condenses, and a transition
+    // means the new height is not readable on the same frame.
+    if (header && window.ResizeObserver) new ResizeObserver(measure).observe(header);
+
+    var links = [].slice.call(rail.querySelectorAll('a[href^="#"]'));
+    if (!links.length || !window.IntersectionObserver) return;
+
+    var byId = {};
+    var targets = [];
+    links.forEach(function (a) {
+      var el = document.getElementById(a.getAttribute('href').slice(1));
+      if (!el) return;                       // a rail entry with no section
+      byId[el.id] = a;
+      targets.push(el);
+    });
+
+    var visible = {};
+    function mark() {
+      // The topmost section still on screen. Reading order, not
+      // intersection ratio: a short section fully visible under a long
+      // one should not steal the mark from the one being read.
+      var current = null;
+      for (var i = 0; i < targets.length; i++) {
+        if (visible[targets[i].id]) { current = targets[i].id; break; }
+      }
+      links.forEach(function (a) { a.removeAttribute('aria-current'); });
+      if (!current || !byId[current]) return;
+      var active = byId[current];
+      active.setAttribute('aria-current', 'true');
+      keepInView(active);
+    }
+
+    // ON A PHONE THE MARK IS USELESS IF IT IS OFF SCREEN.
+    // The rail scrolls horizontally, so by the fourth section the
+    // highlighted item has left the visible strip and the reader is
+    // shown a rail that appears to have nothing selected. Centring the
+    // active item is what makes the rail tell them where they are.
+    //
+    // scrollLeft is set directly rather than calling scrollIntoView,
+    // which is entitled to scroll ANCESTORS as well — and an in-page
+    // navigation that scrolls the page while you read is worse than one
+    // that does nothing.
+    function keepInView(a) {
+      if (!list || list.scrollWidth <= list.clientWidth + 1) return;
+      var want = a.offsetLeft - (list.clientWidth - a.offsetWidth) / 2;
+      var max = list.scrollWidth - list.clientWidth;
+      want = Math.max(0, Math.min(want, max));
+      if (Math.abs(want - list.scrollLeft) < 4) return;
+      if (list.scrollTo) list.scrollTo({ left: want, behavior: prefersReduced() ? 'auto' : 'smooth' });
+      else list.scrollLeft = want;
+    }
+
+    // The band the observer treats as "on screen": everything below the
+    // chrome, and above the lower 55% of the viewport. Without the
+    // bottom margin the section entering from the bottom of a tall
+    // screen would take the mark from the one being read.
+    var chrome = (header ? header.offsetHeight : 88) + rail.offsetHeight;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+      mark();
+    }, { rootMargin: '-' + (chrome + 8) + 'px 0px -55% 0px' });
+    targets.forEach(function (t) { io.observe(t); });
+  })();
+
+  /* -------------------------------------------------------------------
      2 · SPLIT-TEXT RISE
      -------------------------------------------------------------------
      Wraps each word of a [data-split] element in a mask so the words

@@ -568,6 +568,18 @@ footer a{color:var(--gold-soft)}
         "Educational Philosophy" and arrives mid-scroll in an undifferentiated wall has been given
         a worse experience than the thin page they had before.</p>
     </div>
+    <div class="note">
+      <span class="lbl">And the menus had to become opaque</span>
+      <p>A second fault the sticky header exposed rather than caused. The mega panels carry
+        <code>.crystal</code> — a 42%-opacity navy ground with a backdrop blur — and set their
+        links in ivory to suit it. That is a beautiful piece of glass over the dark hero it was
+        always seen against. Once the header stayed on screen, a menu opened half way down a page
+        sat over cream body copy: the ground averaged out light while the text stayed ivory, and
+        the panel became a smear with the page heading legible straight through it.
+        <strong>Measured at 2.27:1 against cream — below any usable threshold.</strong> The panel
+        is now solid; the blur, edge, inner highlight and shadow all stay, because the glass was
+        never the part doing the work. 9.63:1 after.</p>
+    </div>
   </section>
 
   <section id="flagship">
@@ -598,6 +610,19 @@ footer a{color:var(--gold-soft)}
       <li><strong>Contextual onward links.</strong> Ending a section with the next thing this
         reader wants, chosen from the journeys above.</li>
     </ul>
+    <div class="note">
+      <span class="lbl">Found while building the rail</span>
+      <p><strong>The site header has never been sticky.</strong>
+        <code>partials/header.html</code> carries <code>class="site-header lattice"</code>, and
+        <code>css/atelier.css</code> declares <code>.lattice { position: relative }</code>. Both
+        selectors score the same and atelier.css loads second, so the header scrolled away on
+        every page of the site — and the whole condense behaviour beneath it, the crest scaling
+        down and the campus line withdrawing at 90px of scroll, was unreachable code firing on an
+        element that had already left the screen. Nothing reported it, because the header is
+        correct at rest and at rest is the only state any screenshot or audit had ever measured.
+        It is fixed, and it matters here: an architecture that sends readers to anchors needs
+        navigation that is still on screen when they arrive.</p>
+    </div>
     <div class="note">
       <span class="lbl">On motion</span>
       <p>The directive asks for premium transitions and animated infographics. The site has a
@@ -664,9 +689,15 @@ footer a{color:var(--gold-soft)}
         until this architecture is approved.</p>
     </div>
     <ol class="phases">
-      <li><h3>The contents rail and the redirect harness</h3>
+      <li><h3>The contents rail and the redirect harness <em style="font-style:normal;color:var(--keep)">— done</em></h3>
         <p>The one new component and the safety net, built and tested first, so no page move can
-          silently break a link.</p></li>
+          silently break a link. The harness holds one list of retired routes, generates the
+          redirect file from it, and asserts a different thing depending on whether a route has
+          moved yet — so flipping one flag turns the checks on, and neither moving a page without
+          the flag nor flipping the flag without moving the page can pass. Verified to fail in
+          both directions. The rail is live on the twelve level pages in both languages, built
+          from each section's own module marker, and it is what surfaced the sticky-header
+          fault above.</p></li>
       <li><h3>Governance</h3>
         <p>The pillar with the most to absorb, the strongest existing content and the most
           demanding audience. If the pattern works here it works anywhere, and it is also the page

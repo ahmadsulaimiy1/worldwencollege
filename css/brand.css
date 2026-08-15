@@ -426,7 +426,21 @@ section { position: relative; }
 }
 
 /* -------------------- Header / Nav -------------------- */
-.site-header {
+/* `.site-header.lattice`, and the doubled class is load-bearing.
+   partials/header.html carries `class="site-header lattice"`, and
+   css/atelier.css declares `.lattice { position: relative }`. Both
+   selectors score 0,1,0 and atelier.css loads second, so the header has
+   been `position: relative` on every page of this site since the
+   lattice was introduced — it scrolled away, and the entire condense
+   behaviour below it (the crest scaling down, the campus line
+   withdrawing, the translucent ground) was unreachable code, firing at
+   90px of scroll on an element that was no longer on screen.
+   Nothing reported it: the header was correct at rest, which is the
+   state every screenshot and every audit had ever measured it in.
+   Naming both classes wins on specificity and states the conflict where
+   somebody will find it. Sticky still establishes the containing block
+   .lattice__bed needs, so the lattice is unaffected. */
+.site-header, .site-header.lattice {
   background: var(--royal);
   position: sticky; top: 0; z-index: 50;
   border-bottom: 1px solid var(--line-dark);
@@ -541,6 +555,31 @@ section { position: relative; }
   transition: opacity var(--dur-fast) var(--ease-premium), transform var(--dur-fast) var(--ease-premium), visibility var(--dur-fast);
   z-index: 10;
 }
+/* A NAVIGATION PANEL IS A READING SURFACE, NOT AN AMBIENT ONE.
+   css/atelier.css gives .crystal a 42%-opacity navy ground with a
+   backdrop blur, and on the dark hero it was always seen against, that
+   is a beautiful piece of glass. The mega menus carry that class and
+   set their links in ivory to suit it.
+
+   Making the header sticky changed what is behind them. A menu opened
+   half way down a page now sits over cream body copy, and at 42% the
+   ground averages out light while the text stays ivory — the panel
+   became a smear with a page heading legible straight through it. The
+   fault was always in the value; only the fix to the header made it
+   possible to see.
+
+   So the mega panel gets a ground opaque enough to be read against
+   anything. The blur, the edge and the shadow stay, because the glass
+   was never the problem. Both classes are named so this beats
+   `.crystal` on specificity regardless of stylesheet order.
+
+   Solid, not merely raised. At 93% a page heading was still legible as
+   a ghost through the panel, and a navigation surface with the previous
+   page showing through it does not read as glass — it reads as a
+   rendering fault. The blur, the edge, the inner highlight and the
+   shadow all survive, and they are what made the treatment; the
+   transparency was never the part doing the work. */
+.nav__menu.crystal { background: #0E1B33; }
 [dir="rtl"] .nav__menu { left: auto; right: 0; transform-origin: top right; }
 .nav__item--has-menu:hover .nav__menu,
 .nav__item--has-menu:focus-within .nav__menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }

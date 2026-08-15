@@ -30,10 +30,10 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 # ── SECTION SHORTHANDS ───────────────────────────────────────────────
 # Short paths a person is likely to type or to be given verbally,
 # pointed at the page that actually answers them.
-/apply     /admissions/apply/          301
+/apply     /admissions/#apply          301
 /fees      /admissions/tuition/        301
 /tuition   /admissions/tuition/        301
-/levels    /study/                     301
+/levels    /academics/#levels                     301
 /privacy   /support/privacy/           301
 
 # /verify is deliberately NOT redirected. The real verification URL is
@@ -43,3 +43,13 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 # been re-encoded would resolve to an empty verification page rather
 # than an error. An empty verification page is the one failure mode
 # this route must never produce: it looks like a check that ran.
+
+# >>> GENERATED FROM scripts/lib/route-map.js — DO NOT EDIT BY HAND
+#
+# The architecture in docs/information-architecture.html retires these
+# URLs. Each one is indexed, may be printed in a published volume, and
+# must never return 404. 0 of 74 planned routes have moved
+# so far; the rest keep serving their own page until their phase lands.
+#
+# (no routes migrated yet — this block fills in as each phase lands)
+# <<< END GENERATED

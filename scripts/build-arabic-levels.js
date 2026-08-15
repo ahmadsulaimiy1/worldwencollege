@@ -555,6 +555,7 @@ levels.forEach((lv, i) => {
     description: `المستوى ${AR_ROMAN[lv.roman]} من برنامج IEFC: ${lv.modules.length} وحدات، و${lv.units} ساعة تدريس `
       + `على مدى ${lv.duration_months} أشهر، وفق مستوى ${lv.cefr} في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.`,
     contentFile: file, lang: 'ar', dir: 'rtl',
+    contents: true,
     altHref: `/study/${SLUG[lv.roman]}/`,
   };
   const at = entries.findIndex((e) => e.slug === slug);

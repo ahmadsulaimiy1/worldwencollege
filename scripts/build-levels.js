@@ -468,6 +468,9 @@ levels.forEach((lv, i) => {
       + 'learning outcomes, assessment, teaching methods and the award.',
     contentFile: `study-${SLUG[lv.roman]}.html`,
     lang: 'en', dir: 'ltr',
+    // Ten sections and 1,300 words. scripts/build.js turns this into a
+    // contents rail built from each section's own module marker.
+    contents: true,
   }, `study-${SLUG[lv.roman]}.html`, levelPage(lv, i));
 });
 

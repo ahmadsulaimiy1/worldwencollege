@@ -57,6 +57,94 @@ function raiseMasthead(html) {
 }
 
 // ---------------------------------------------------------------------
+// THE CONTENTS RAIL
+//
+// The architecture in docs/information-architecture.html collapses
+// thirty-three routes into deep-linked sections of six pillar pages.
+// That trade only works if arriving at an anchor lands somewhere that
+// looks like a destination — a reader who clicks "Educational
+// Philosophy" in the menu and finds themselves mid-scroll in an
+// undifferentiated wall has been given something worse than the thin
+// page they had before.
+//
+// So a flagship page carries a rail: where you are, what else is here,
+// one click away. It is generated HERE rather than written into each
+// page for the same reason raiseMasthead is — most of pages/ is output,
+// and a rail typed into a generated file is stripped out the next time
+// its generator runs.
+//
+// Built from the page's own sections, so it cannot describe a page that
+// no longer exists. `data-contents` on a section supplies the rail's
+// label; the h2 supplies a fallback with its full stop trimmed, because
+// this site writes headings as sentences ("What this level contains.")
+// and a rail of sentences is not a rail. tests/contents-rail.test.mjs
+// fails on a section that has an id and a heading but no rail entry, so
+// a new section cannot quietly drop out of it.
+// ---------------------------------------------------------------------
+const RAIL_LABEL = { en: 'On this page', ar: 'في هذه الصفحة' };
+
+function contentsEntries(html) {
+  const out = [];
+  const open = /<section\b([^>]*)>/g;
+  let m;
+  while ((m = open.exec(html))) {
+    const attrs = m[1];
+    const id = (attrs.match(/\bid="([^"]+)"/) || [])[1];
+    if (!id) continue;
+    // The masthead is where the reader already is; listing it is noise.
+    if (/\bpage-hero\b/.test(attrs)) continue;
+    const explicit = (attrs.match(/\bdata-contents="([^"]+)"/) || [])[1];
+    const rest = html.slice(m.index, html.indexOf('</section>', m.index));
+    // THE MODULE MARKER IS ALREADY THE SECTION'S SHORT NAME.
+    // Every section on this site opens with one — "Overview", "Modules",
+    // "Learning Outcomes", "The Award" — sitting above a heading written
+    // as a full sentence. The marker is what a rail wants and it is
+    // already authored, already translated, and already the thing the
+    // reader sees at the top of the section they land in. Preferring it
+    // means the rail needs no second set of labels to fall out of step
+    // with the first.
+    const marker = (rest.match(/<span class="module-marker"[^>]*>([\s\S]*?)<\/span>/) || [])[1];
+    const h2 = (rest.match(/<h2[^>]*>([\s\S]*?)<\/h2>/) || [])[1];
+    const src = explicit || marker || h2;
+    if (!src) continue;
+    const label = src
+      .replace(/<[^>]+>/g, '')
+      .replace(/&amp;/g, '&').replace(/&middot;/g, '·').replace(/&mdash;/g, '—')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/[.。]$/, '');
+    if (label) out.push({ id, label });
+  }
+  return out;
+}
+
+function withContentsRail(html, entry, lang) {
+  if (!entry.contents) return html;
+  const items = contentsEntries(html);
+  // Under four sections a rail is furniture: it costs a band of chrome
+  // to save a reader a scroll they were going to do anyway.
+  if (items.length < 4) return html;
+
+  const rail = `<nav class="contents" aria-label="${RAIL_LABEL[lang] || RAIL_LABEL.en}">
+  <div class="contents__inner">
+    <span class="contents__label">${RAIL_LABEL[lang] || RAIL_LABEL.en}</span>
+    <ul class="contents__list">
+${items.map((i) => `      <li><a href="#${i.id}">${i.label}</a></li>`).join('\n')}
+    </ul>
+  </div>
+</nav>
+`;
+
+  // Directly after the masthead. Placed by structure rather than by a
+  // marker in the source: every flagship opens with its hero, and a
+  // marker is one more thing a generator can forget.
+  const close = html.indexOf('</section>');
+  if (close === -1) return rail + html;
+  const at = close + '</section>'.length;
+  return html.slice(0, at) + '\n\n' + rail + html.slice(at);
+}
+
+// ---------------------------------------------------------------------
 // INLINE SVG INCLUDES  —  {{SVG:assets/art/whatever.svg}}
 //
 // The living diagrams (docs/digital-institution-masterplan.md, Layer 3)
@@ -192,8 +280,11 @@ function build() {
     const topbar = fill(partialFor('topbar', lang), { ALT_HREF: altHref });
     const header = partialFor('header', lang);
     const footer = partialFor('footer', lang);
-    const content = raiseMasthead(
-      inlineSvgIncludes(read(path.join(PAGES, entry.contentFile)), entry.contentFile)
+    const content = withContentsRail(
+      raiseMasthead(
+        inlineSvgIncludes(read(path.join(PAGES, entry.contentFile)), entry.contentFile)
+      ),
+      entry, lang
     );
     const skipLabel = lang === 'ar' ? 'تخطَّ إلى المحتوى الرئيسي' : 'Skip to main content';
     // Per-page scripts, declared in the manifest. Opt-in rather than
