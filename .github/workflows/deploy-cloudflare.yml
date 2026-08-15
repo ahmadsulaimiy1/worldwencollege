@@ -417,6 +417,21 @@ jobs:
             echo "⚠️ **Deployed without recording storage.** R2 was unavailable, so learner voice recordings will report a configuration error instead of uploading. Enable R2 in the Cloudflare dashboard and re-run to add it. Nothing else is affected." >> "$GITHUB_STEP_SUMMARY"
           fi
 
+      # ── RESOLVED FROM TWO INDEPENDENT ATTEMPTS ─────────────────────
+      #
+      # Two sessions reached this same conclusion separately and each
+      # wrote a check. The other looked for `class="footergrid` in the
+      # response, which proves only "some build after the footer grid
+      # landed" — it cannot tell a deploy from ten minutes ago from one
+      # from last week, which is exactly the ambiguity the check exists
+      # to remove. This one compares a per-commit stamp, so it answers
+      # the precise question: is the domain serving THIS build?
+      #
+      # Two things the other version had and this one now keeps: a short
+      # settle before fetching, because a Pages deploy is not instantly
+      # global; and a look at the APEX domain as well as www, since the
+      # two are separate records and either can be the one pointed
+      # somewhere unexpected.
       # ── PROVE IT, RATHER THAN ANNOUNCE IT ───────────────────────────
       #
       # A green Publish step means wrangler uploaded files. It does NOT
@@ -449,6 +464,9 @@ jobs:
         run: |
           want="${SHA:0:12}"
           echo "Expecting build stamp: $want"
+          # A Pages deploy is not instantly global; give it a moment
+          # before concluding anything about what the edge is serving.
+          sleep 8
 
           stamp_of () {
             curl -fsSL --max-time 25 "$1" 2>/dev/null \
@@ -460,6 +478,12 @@ jobs:
           # means a stale ORIGIN rather than a stale edge.
           got_deploy=$(stamp_of "$DEPLOY_URL/?cb=$want")
           got_live=$(stamp_of "https://www.worldwencollege.co.uk/?cb=$want")
+          # The apex and www are separate DNS records, and either can be
+          # the one pointed somewhere unexpected. If www says nothing,
+          # the apex is the second opinion worth having.
+          got_apex=$(stamp_of "https://worldwencollege.co.uk/?cb=$want")
+          [ -z "$got_live" ] && got_live="$got_apex"
+          echo "  apex worldwencollege.co.uk -> ${got_apex:-<none>}"
 
           echo "  deployment $DEPLOY_URL -> ${got_deploy:-<none>}"
           echo "  live domain www.worldwencollege.co.uk -> ${got_live:-<none>}"
@@ -500,4 +524,3 @@ jobs:
               echo "2. **Settings -> Builds & deployments -> Production branch** — must be \`main\`. If it is anything else, every run here is a *preview* and the domain never updates."
               echo "3. **Caching -> Purge Everything.**"
             } >> "$GITHUB_STEP_SUMMARY"
-          fi

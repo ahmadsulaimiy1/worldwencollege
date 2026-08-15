@@ -96,9 +96,10 @@ body[data-section="contact"]    { --hero-accent: 199, 162, 74; }
 .page-hero .eyebrow::before { display: none; }
 
 /* --- Masthead type -------------------------------------------------- */
+/* font-size/line-height/letter-spacing now come from brand.css's
+   [dir="ltr"] h1 — the site's one type scale — leaving only the
+   layout properties this masthead context actually needs. */
 .page-hero h1 {
-  font-size: clamp(2.05rem, 1.35rem + 3.1vw, 3.5rem);
-  line-height: 1.06; letter-spacing: -.019em;
   color: #fff; margin: 0 0 .46em; max-width: 20ch;
 }
 [dir="rtl"] .page-hero h1 { letter-spacing: 0; }
@@ -151,10 +152,9 @@ body[data-section="contact"]    { --hero-accent: 199, 162, 74; }
    section head is the second voice on a page and has to be able to
    answer the first. */
 .section-head { max-width: 760px; margin-bottom: clamp(38px, 3.6vw, 58px); }
-.section-head h2 {
-  font-size: clamp(1.7rem, 1.2rem + 2.1vw, 2.6rem);
-  line-height: 1.1; letter-spacing: -.016em; margin-bottom: .42em;
-}
+/* font-size/line-height/letter-spacing now come from brand.css's
+   [dir="ltr"] h2 — see the note above .page-hero h1. */
+.section-head h2 { margin-bottom: .42em; }
 .section-head .lede { margin-bottom: 0; }
 
 /* The numbered index marker, given the treatment the homepage's
