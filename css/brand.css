@@ -642,6 +642,18 @@ section { position: relative; }
   .header__actions .btn { display: none; }
 }
 
+/* 380 IS MEASURED, NOT CHOSEN. At 320 the wordmark row had no slack at
+   all: brand 226px + burger 44px + padding filled the viewport to
+   within two pixels in one Chromium build and overflowed it by four in
+   another — the deploy pipeline's browser, where it failed the chrome
+   sweep this rule now satisfies. A row that fits only in the renderer
+   it was measured in does not fit. .86rem returns roughly 14px of
+   hand, which covers every font-metric spread observed and then some. */
+@media (max-width: 380px) {
+  .brand { gap: 10px; }
+  .brand__name { font-size: .86rem; }
+}
+
 /* -------------------- Hero -------------------- */
 .hero {
   background:
