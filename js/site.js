@@ -28,6 +28,14 @@
     });
   }
 
+  // The quicknav strip's last tile opens the same drawer the hamburger
+  // does, rather than linking anywhere — it is the strip's "see
+  // everything" escape hatch, not a page.
+  var quicknavFull = document.querySelector('[data-quicknav-full]');
+  if (quicknavFull && header) {
+    quicknavFull.addEventListener('click', function () { setNavOpen(true); });
+  }
+
   // Desktop nav dropdown: the submenu itself is shown/hidden by CSS
   // (:hover/:focus-within on .nav__item--has-menu — see css/brand.css),
   // not JS, so aria-expanded on the trigger link needs a matching pair
