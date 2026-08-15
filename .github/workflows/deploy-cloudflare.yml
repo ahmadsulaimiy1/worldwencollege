@@ -416,3 +416,35 @@ jobs:
             echo "" >> "$GITHUB_STEP_SUMMARY"
             echo "⚠️ **Deployed without recording storage.** R2 was unavailable, so learner voice recordings will report a configuration error instead of uploading. Enable R2 in the Cloudflare dashboard and re-run to add it. Nothing else is affected." >> "$GITHUB_STEP_SUMMARY"
           fi
+
+      # ── DOES THE CUSTOM DOMAIN ACTUALLY SHOW WHAT WE JUST SHIPPED? ──
+      #
+      # `wrangler pages deploy` succeeding proves the build reached
+      # Cloudflare's Pages project. It proves nothing about
+      # worldwencollege.co.uk specifically — that is a separate custom
+      # domain binding, made once by hand in the dashboard, that this
+      # workflow has no visibility into. A green run here was being read
+      # as "the live site is updated," and the two are not the same
+      # claim.
+      #
+      # This step is the honest version: fetch the real public domain,
+      # from a runner with real internet access (unlike the assistant's
+      # own sandboxed dev environment, which cannot reach either
+      # worldwencollege.co.uk or *.pages.dev at all), and check it for a
+      # marker that only exists in builds from this point forward. A
+      # miss here does not fail the deploy — the Pages publish already
+      # succeeded — but it does surface, in the one place anyone
+      # actually looks after a deploy, whether the domain is stale,
+      # miscached, or not pointed at this project at all.
+      - name: Verify worldwencollege.co.uk is serving this build
+        run: |
+          sleep 5
+          if ! html=$(curl -fsS --max-time 20 https://worldwencollege.co.uk/); then
+            echo "::warning::Could not reach https://worldwencollege.co.uk/ from this runner at all — the domain may not be publicly resolvable yet, or is not attached to any Cloudflare Pages project. Check the Cloudflare dashboard: Workers & Pages -> wec-lc -> Custom domains."
+            exit 0
+          fi
+          if echo "$html" | grep -q 'class="footergrid'; then
+            echo "worldwencollege.co.uk is serving a build that includes the current footer grid — the custom domain is live and current."
+          else
+            echo "::warning::worldwencollege.co.uk responded but does NOT contain the current footer grid markup. Either the response is cached (Cache-Control on /*.html is max-age=0, so this should be rare) or the custom domain is bound to a different Pages deployment/branch than this workflow publishes to. Check the Cloudflare dashboard: Workers & Pages -> wec-lc -> Custom domains, and confirm it points at the 'main' production branch this workflow deploys to."
+          fi
