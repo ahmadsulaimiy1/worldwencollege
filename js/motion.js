@@ -66,6 +66,7 @@
   (function headerCondense() {
     var header = document.querySelector('.site-header');
     if (!header) return;
+    var root = document.documentElement;
 
     var ON = 90;   // condense past this
     var OFF = 40;  // expand again only below this
@@ -82,6 +83,15 @@
         condensed = false;
         header.classList.remove('is-condensed');
       }
+      // --header-h used to be set only inside THE CONTENTS RAIL below,
+      // which bails out on any page without one — roughly forty pages
+      // short of every page. css/brand.css's full-screen .nav-mobile
+      // needs this on every page it opens on, so it is measured here
+      // instead: unconditionally, and on the same schedule that
+      // already tracks the condense transition, so a drawer opened
+      // after scrolling sits against the header's CURRENT height, not
+      // its height at rest.
+      root.style.setProperty('--header-h', header.offsetHeight + 'px');
     }
     function onScroll() {
       if (ticking) return;
@@ -90,6 +100,7 @@
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
     apply(); // a reload part-way down the page must start in the right state
   })();
 

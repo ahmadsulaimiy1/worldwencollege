@@ -324,11 +324,20 @@
   القارئ من لغته — راجع pages/manifest.json لما هو مترجَم. رابط
   التواصل في شريط الخدمات أعلاه.
 
-  قائمة الجوال تحمل كل الروابط أعلاه، مجمَّعة تحت تسمية الركن ذاتها
-  (mega__label. المستعارة لا المخترعة من جديد) بدل قائمة مسطحة واحدة
-  من عشرين رابطًا فأكثر. وتحمل أيضًا مبدّل اللغة وروابط التواصل: شريط
-  الخدمات أعلاه ليس ثابتًا، فالقارئ الذي مرّر شاشة واحدة نحو الأسفل
-  فقدهما بالفعل ولا يستطيع الوصول إليهما دون العودة إلى أعلى الصفحة.
+  قائمة الجوال أصبحت لوحة فتح وانطواء بملء الشاشة، لا قائمة تمرير من
+  واحد وثلاثين رابطًا. تجميع الأركان تحت تسميات ثابتة (المرحلة ٥ب) أصلح
+  وضوح القراءة لا الكثافة: كانت كل الروابط ظاهرة على الشاشة معًا دفعة
+  واحدة، وهذا ما يعنيه الوصف «مكدَّس» على هاتف عرضه ٣٧٥ بكسل. كل ركن
+  الآن زوج accordion__q / accordion__a مغلق — المكوّن ذاته الذي
+  استخدمته صفحة الأسئلة الشائعة من قبل، موصول مرة واحدة في js/site.js
+  ومُعاد استخدامه هنا بدل كتابته مرتين — فيرى القارئ سبعة أسماء، يفتح
+  واحدًا، ويبقى الباقي بعيدًا عن الطريق. واللوحة نفسها طبقة ثابتة
+  مثبَّتة عند var(--header-h) بدل أن تكون كتلة داخل السياق، ولها
+  زخرفتها الغيوشيه الخاصة بها للاحتفالية، وتتحوّل أيقونة الهمبرغر إلى
+  إشارة إغلاق (X) بحيث يُغلقها العنصر ذاته الذي فتحها. وما زالت تحمل
+  مبدّل اللغة وروابط التواصل: شريط الخدمات أعلاه ليس ثابتًا، فالقارئ
+  الذي مرّر شاشة واحدة نحو الأسفل فقدهما بالفعل ولا يستطيع الوصول
+  إليهما دون العودة إلى أعلى الصفحة.
 -->
 <header class="site-header lattice" data-nodes="7">
   <div class="lattice__bed" aria-hidden="true"></div>
@@ -502,62 +511,78 @@
   </div>
 
   <nav class="nav-mobile" id="nav-mobile" aria-label="قائمة الجوال">
-    <div class="nav-mobile__group">
-      <p class="mega__label">عن الكلية</p>
-      <a href="/ar/about/">عن الكلية</a>
-      <a href="/ar/about/#vision">الرؤية والرسالة</a>
-      <a href="/ar/about/#philosophy">الفلسفة التربوية</a>
-      <a href="/ar/about/#structure">التنظيم</a>
-      <a href="/ar/about/careers/">العمل في الكلية</a>
-      <a href="/ar/about/#status">الوضع المؤسسي</a>
+    <div class="accordion">
+      <div class="accordion__item">
+        <button class="accordion__q"><span>عن الكلية</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/ar/about/">عن الكلية</a>
+          <a href="/ar/about/#vision">الرؤية والرسالة</a>
+          <a href="/ar/about/#philosophy">الفلسفة التربوية</a>
+          <a href="/ar/about/#structure">التنظيم</a>
+          <a href="/ar/about/careers/">العمل في الكلية</a>
+          <a href="/ar/about/#status">الوضع المؤسسي</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span>البرامج الأكاديمية</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/ar/academics/">نظرة عامة على البرنامج</a>
+          <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span></a>
+          <a href="/ar/academics/#levels">المستويات الستة</a>
+          <a href="/ar/academics/#learning">كيف يجري التعلّم</a>
+          <a href="/ar/academics/#campus">الحرم الرقمي</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span>التدريس وهيئته</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/ar/academics/teaching/">ممارسة التدريس</a>
+          <a href="/ar/faculty/">هيئة التدريس</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span>القبول</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/ar/admissions/">نظرة عامة على القبول</a>
+          <a href="/ar/admissions/#apply">كيفية التقديم</a>
+          <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
+          <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
+          <a href="/ar/admissions/policy/">سياسة القبول</a>
+          <a href="/ar/faq/">أسئلة القبول</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span>الحياة الطلابية</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/ar/students/">الحياة الطلابية</a>
+          <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
+          <a href="/ar/students/academic-record/">سجلك الأكاديمي</a>
+          <a href="/ar/students/awards/">الشهادات والمراتب</a>
+          <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
+          <a href="/ar/student-portal/">بوابة الطالب</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span>الحوكمة</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/ar/governance/">الحوكمة</a>
+          <a href="/ar/governance/#leadership">القيادة والهيئات</a>
+          <a href="/ar/governance/#quality">ضمان الجودة</a>
+          <a href="/ar/governance/evidence/">سجل الأدلة</a>
+          <a href="/ar/governance/decisions/">سجل القرارات</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span>المطبعة والمكتبة</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/ar/press/">مطبعة الكلية</a>
+          <a href="/ar/press/catalogue/">الكتالوج</a>
+          <a href="/ar/press/#standards">معايير الدار</a>
+          <a href="/ar/press/#library">المكتبة</a>
+        </div></div>
+      </div>
     </div>
-    <div class="nav-mobile__group">
-      <p class="mega__label">البرامج الأكاديمية</p>
-      <a href="/ar/academics/">نظرة عامة على البرنامج</a>
-      <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span></a>
-      <a href="/ar/academics/#levels">المستويات الستة</a>
-      <a href="/ar/academics/#learning">كيف يجري التعلّم</a>
-      <a href="/ar/academics/#campus">الحرم الرقمي</a>
-    </div>
-    <div class="nav-mobile__group">
-      <p class="mega__label">التدريس وهيئته</p>
-      <a href="/ar/academics/teaching/">ممارسة التدريس</a>
-      <a href="/ar/faculty/">هيئة التدريس</a>
-    </div>
-    <div class="nav-mobile__group">
-      <p class="mega__label">القبول</p>
-      <a href="/ar/admissions/">نظرة عامة على القبول</a>
-      <a href="/ar/admissions/#apply">كيفية التقديم</a>
-      <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
-      <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
-      <a href="/ar/admissions/policy/">سياسة القبول</a>
-      <a href="/ar/faq/">أسئلة القبول</a>
-    </div>
-    <div class="nav-mobile__group">
-      <p class="mega__label">الحياة الطلابية</p>
-      <a href="/ar/students/">الحياة الطلابية</a>
-      <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
-      <a href="/ar/students/academic-record/">سجلك الأكاديمي</a>
-      <a href="/ar/students/awards/">الشهادات والمراتب</a>
-      <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
-      <a href="/ar/student-portal/">بوابة الطالب</a>
-    </div>
-    <div class="nav-mobile__group">
-      <p class="mega__label">الحوكمة</p>
-      <a href="/ar/governance/">الحوكمة</a>
-      <a href="/ar/governance/#leadership">القيادة والهيئات</a>
-      <a href="/ar/governance/#quality">ضمان الجودة</a>
-      <a href="/ar/governance/evidence/">سجل الأدلة</a>
-      <a href="/ar/governance/decisions/">سجل القرارات</a>
-    </div>
-    <div class="nav-mobile__group">
-      <p class="mega__label">المطبعة والمكتبة</p>
-      <a href="/ar/press/">مطبعة الكلية</a>
-      <a href="/ar/press/catalogue/">الكتالوج</a>
-      <a href="/ar/press/#standards">معايير الدار</a>
-      <a href="/ar/press/#library">المكتبة</a>
-    </div>
-    <div class="nav-mobile__group nav-mobile__group--utility">
+    <div class="nav-mobile__group--utility">
       <a href="/ar/support/accessibility/">الإتاحة</a>
       <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
       <a href="/ar/contact/">تواصل معنا</a>

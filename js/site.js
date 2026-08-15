@@ -4,13 +4,27 @@
     el.textContent = new Date().getFullYear();
   });
 
-  // Mobile nav toggle
+  // Mobile nav toggle. The drawer is now a full-screen room (see
+  // css/brand.css .nav-mobile) rather than a small panel in normal
+  // flow, so the page behind it must stop scrolling too — otherwise
+  // the drawer's own scroll and the page's fight each other, and a
+  // reader who closes it finds themselves somewhere they never
+  // scrolled to. Escape closes it as well: a full-screen surface is a
+  // modal in every way that matters, and a modal that only Backspace
+  // or a re-tap of a small corner button can dismiss is not one.
   var toggle = document.querySelector('.nav__toggle');
   var header = document.querySelector('.site-header');
+  function setNavOpen(open) {
+    header.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.classList.toggle('nav-open', open);
+  }
   if (toggle && header) {
     toggle.addEventListener('click', function () {
-      var open = header.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      setNavOpen(!header.classList.contains('is-open'));
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && header.classList.contains('is-open')) setNavOpen(false);
     });
   }
 

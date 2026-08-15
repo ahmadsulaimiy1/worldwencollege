@@ -165,6 +165,10 @@ body {
 }
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
+/* js/site.js toggles this the instant the full-screen mobile drawer
+   opens, so the page beneath it stops scrolling — see the note at
+   .nav-mobile in this file. */
+body.nav-open { overflow: hidden; }
 h1, h2, h3, h4 { font-family: var(--font-display); margin: 0 0 .5em; line-height: 1.15; font-weight: 600; }
 p { margin: 0 0 1em; }
 .container { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
@@ -447,6 +451,12 @@ section { position: relative; }
   background: var(--royal);
   position: sticky; top: 0; z-index: 50;
   border-bottom: 1px solid var(--line-dark);
+  /* The doubled rule the footer closes a page with (.site-footer::before),
+     echoed here to open one — a second, fainter line a few pixels below
+     the first, the way a printed cover carries two rules rather than
+     one. A box-shadow rather than a second element: nothing to position
+     against a header that is already sticky and already condenses. */
+  box-shadow: 0 5px 0 -4px var(--line-dark);
   transition: background var(--dur-med) var(--ease-premium),
               box-shadow var(--dur-med) var(--ease-premium),
               border-color var(--dur-med) ease;
@@ -598,34 +608,87 @@ section { position: relative; }
      site is navigated, and it was 22px tall. */
   min-height: 44px; min-width: 44px; align-items: center; justify-content: center;
 }
-.nav__toggle span { width: 22px; height: 2px; background: var(--gold); display: block; }
-/* THE DRAWER READS AS ONE FLAT LIST, AND THAT WAS THE COMPLAINT.
-   Twenty-four links at identical weight, divided one from the next by
-   an identical hairline, is the visual grammar of a document, not an
-   institution — the six-pillar reorganisation happened in the HTML
-   back in Phase 5, but nothing in the CSS ever told a reader's eye
-   that a pillar had ended and the next one had begun.
+.nav__toggle span { width: 22px; height: 2px; background: var(--gold); display: block; transition: transform var(--dur-fast) ease, opacity var(--dur-fast) ease; }
+/* The burger becomes the close control rather than gaining a second
+   one: the drawer sits BELOW the header (see .nav-mobile, next), so
+   this button is never covered by it and stays exactly where a reader
+   last touched it. 7px = the 2px bar plus the 5px gap between them —
+   the middle bar's own position — so the two outer bars rotate onto
+   the line the middle one already occupied rather than to an
+   eyeballed offset. */
+.site-header.is-open .nav__toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.site-header.is-open .nav__toggle span:nth-child(2) { opacity: 0; }
+.site-header.is-open .nav__toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-   So the drawer now groups by pillar under the mega menu's own label
-   treatment (.mega__label, reused rather than reinvented — the same
-   small-caps gold the desktop panels already use), separated by a
-   gold-tinted rule between GROUPS rather than between every link. The
-   language switch and social row are the topbar's own components,
-   moved rather than rebuilt: a reader who has scrolled past the
-   topbar — which is not sticky, and disappears the moment they do —
-   had no way back to Arabic without returning to the top of the page. */
-.nav-mobile { display: none; flex-direction: column; padding: 6px 24px 22px; background: var(--royal); border-top: 1px solid var(--line-dark); }
-.nav-mobile__group { padding: 16px 0; border-bottom: 1px solid rgba(199,162,74,.16); }
-.nav-mobile__group:first-child { padding-top: 14px; }
-.nav-mobile__group .mega__label { margin-bottom: 6px; }
-.nav-mobile__group a { display: flex; align-items: center; min-height: 44px; padding: 7px 2px; color: rgba(247,244,236,.88); font-weight: 600; font-size: .9rem; }
-.nav-mobile__group a:hover { color: var(--gold-bright); }
-/* Accessibility and Privacy are obligations, not destinations — kept
-   present but visibly quieter than the six pillars above them. */
-.nav-mobile__group--utility { display: flex; flex-wrap: wrap; column-gap: 20px; row-gap: 2px; padding: 14px 0; border-bottom: none; }
-.nav-mobile__group--utility a { min-height: 36px; padding: 6px 2px; color: rgba(247,244,236,.6); font-weight: 500; font-size: .82rem; }
-.nav-mobile__lang { display: flex; align-items: center; justify-content: space-between; padding: 16px 0 6px; margin-top: 2px; border-top: 1px solid rgba(199,162,74,.16); }
-.nav-mobile .btn { margin-top: 4px; justify-content: center; }
+/* THE DRAWER WAS A FLAT LIST, THEN A GROUPED ONE, AND BOTH STILL READ
+   AS A DROPDOWN WEDGED UNDER A HEADER — a utility, not an experience.
+   A flagship institution's mobile navigation should feel like turning
+   to a bound prospectus's contents page: one full-height room with its
+   own ground, the six pillars named once in the same display type the
+   hero uses, and nothing else visible until a reader chooses one to
+   open. Six short names is spacious. Six names each already unrolled
+   into five or six links at once — which is what "grouped" still
+   meant — is the jam-packed wall this replaces.
+
+   So each pillar is now an ACCORDION: closed by default, one open at
+   a time. Not a new component — .accordion__item/__q/__a is the exact
+   markup and JS the FAQ pages already use (js/site.js wires
+   aria-expanded/aria-controls and single-open-sibling-closing once,
+   generically, for every instance of these classes on the page), only
+   restyled here for a dark ceremonial ground instead of reimplemented.
+
+   POSITIONING. The drawer sits from the header's true bottom edge to
+   the viewport's, via var(--header-h) — js/motion.js measures the
+   header's real height on load, scroll and resize (it used to measure
+   this only when a page also had a contents rail, which is roughly
+   forty pages short of "every page"; now unconditional). Starting
+   below the header rather than covering it means the toggle button
+   above is never hidden behind the very panel it opened, with no
+   z-index contest and no separate close control to keep in sync. */
+.nav-mobile {
+  display: none; flex-direction: column;
+  position: fixed; inset-inline: 0; top: var(--header-h, 90px); bottom: 0; z-index: 60;
+  padding: 8px 28px 40px; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  background: linear-gradient(175deg, var(--midnight) 0%, var(--oxford) 100%);
+}
+/* The engraved medallion this site uses for every ceremonial ground —
+   the hero, a page masthead — reused at drawer scale: a bespoke
+   pseudo-element rather than the shared .guilloche class, because that
+   class sets overflow:hidden, which is exactly what a scrolling drawer
+   cannot have. */
+.nav-mobile::before {
+  content: ''; position: absolute; inset: -8% -14% auto -14%; height: 62%; z-index: 0; pointer-events: none;
+  background: url('/assets/art/guilloche.svg') no-repeat center 22% / clamp(460px, 96vw, 640px) auto;
+  opacity: .15;
+  -webkit-mask-image: radial-gradient(ellipse 72% 72% at 50% 30%, #000 6%, transparent 74%);
+  mask-image: radial-gradient(ellipse 72% 72% at 50% 30%, #000 6%, transparent 74%);
+}
+.nav-mobile > * { position: relative; z-index: 1; }
+
+.nav-mobile .accordion { border-top: 1px solid rgba(199,162,74,.2); margin-top: 10px; }
+.nav-mobile .accordion__item { border-bottom: 1px solid rgba(199,162,74,.2); }
+.nav-mobile .accordion__q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 19px 2px; background: none; border: none; text-align: start; cursor: pointer;
+  font-family: var(--font-display); font-weight: 600; font-size: 1.32rem; line-height: 1.2;
+  color: var(--gold-champagne); min-height: 44px;
+}
+.nav-mobile .accordion__q .plus { color: var(--gold-royal); font-weight: 400; font-size: 1.5rem; }
+.nav-mobile .accordion__a-inner { padding: 2px 2px 20px; max-width: none; }
+.nav-mobile .accordion__a-inner a {
+  display: flex; align-items: center; min-height: 44px; padding: 5px 2px 5px 4px;
+  color: rgba(247,244,236,.78); font-weight: 500; font-size: .95rem;
+}
+[dir="rtl"] .nav-mobile .accordion__a-inner a { padding: 5px 4px 5px 2px; }
+.nav-mobile .accordion__a-inner a:hover { color: var(--gold-bright); }
+
+/* Accessibility and Privacy are obligations, not destinations —
+   present, but visibly quieter, and not worth an accordion of their
+   own for two lines. */
+.nav-mobile__group--utility { display: flex; flex-wrap: wrap; column-gap: 22px; row-gap: 4px; padding: 20px 2px; border-bottom: 1px solid rgba(199,162,74,.2); }
+.nav-mobile__group--utility a { min-height: 36px; display: flex; align-items: center; color: rgba(247,244,236,.55); font-weight: 500; font-size: .82rem; }
+.nav-mobile__lang { display: flex; align-items: center; justify-content: space-between; padding: 20px 2px; }
+.nav-mobile .btn { margin-top: 8px; padding-block: 16px; justify-content: center; }
 
 /* 1180, not 980, and the number is measured rather than chosen.
    With the identity in the rail there are four groups on one line —
@@ -1007,14 +1070,27 @@ section { position: relative; }
    colophon plus four link columns — and the grid declared four, so
    "Get in Touch" silently wrapped onto a second row underneath the
    crest and sat there in a metre of empty space. It rendered without
-   error and looked, at a glance, like a design decision. */
+   error and looked, at a glance, like a design decision.
+
+   THE GRID IS NOW VISIBLE, not merely structural: every cell carries
+   its own full hairline border rather than relying on `gap` for
+   separation. A collapsed-border table trick (each cell borderless
+   except a shared 1px between neighbours) was tried and dropped — it
+   requires knowing which cell starts a row to avoid a stray line at a
+   wrap point, and this grid re-wraps three times between 1440 and
+   320px. A complete border on every cell needs no such knowledge: at
+   five columns, three, two or one, each cell always draws its whole
+   frame and the result is correct at every width by construction,
+   which a grid built for a printed programme's specification table
+   should be. */
 .site-footer__inner {
-  max-width: var(--wrap); margin: 0 auto; padding: 76px 24px 44px;
-  display: grid; grid-template-columns: 1.6fr repeat(4, 1fr); gap: 40px 32px;
+  max-width: var(--wrap); margin: 44px auto 0; padding: 0 24px 44px;
+  display: grid; grid-template-columns: 1.6fr repeat(4, 1fr); gap: 0;
 }
 @media (max-width: 1080px) { .site-footer__inner { grid-template-columns: 1fr 1fr 1fr; } }
 @media (max-width: 780px) { .site-footer__inner { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 480px) { .site-footer__inner { grid-template-columns: 1fr; } }
+.footer__brand, .footer__col { border: 1px solid rgba(199,162,74,.22); padding: 44px 30px; }
 .footer__brand .brand__crest--footer { width: 40px; height: 46px; margin-bottom: 14px; }
 .footer__name { font-family: var(--font-display); color: #fff; font-size: 1.05rem; font-weight: 600; }
 .footer__name span { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-bright); }
@@ -1355,7 +1431,8 @@ ul.check-list li::before {
   html { scroll-behavior: auto; }
   .hero__crest-watermark { animation: none; }
   .hero h1, .hero .lede, .hero .btn-row, .hero__stats { animation: none; opacity: 1; transform: none; }
-  .btn, .btn::before, .card, .card::before, .nav__menu, .nav__menu a {
+  .btn, .btn::before, .card, .card::before, .nav__menu, .nav__menu a,
+  .nav__toggle span, .nav-mobile .accordion__a, .nav-mobile .accordion__q .plus {
     transition-duration: .01ms !important;
   }
   .btn--gold:hover, .btn--outline:hover, .btn--red:hover, .card:hover {

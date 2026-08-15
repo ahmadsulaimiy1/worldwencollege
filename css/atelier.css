@@ -628,6 +628,11 @@
   display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 8px 26px; padding: 26px 28px 24px;
 }
+/* The one desktop menu with two columns (Academics) gets the same
+   hairline the footer's grid now uses throughout — one visual grammar
+   for "these are separate groups," on the panel that opens the site
+   and the colophon that closes it. */
+.mega__col + .mega__col { border-inline-start: 1px solid rgba(199,162,74,.18); padding-inline-start: 24px; }
 .mega__label {
   font-family: var(--font-body); font-weight: 700;
   font-size: .62rem; letter-spacing: .22em; text-transform: uppercase;
