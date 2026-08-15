@@ -109,7 +109,7 @@ const card = (num, title, body) => `      <div class="card">
 function levelPage(lv, i) {
   const prev = levels[i - 1] || null;
   const next = levels[i + 1] || null;
-  const hours = lv.units;
+  const lessons = lv.units;   // the designed lesson count — not hours
   const teaching = lv.kinds.reading || 0;
   const quizzes = lv.kinds.quiz || 0;
   const assignments = lv.kinds.assignment || 0;
@@ -193,7 +193,7 @@ ${lv.outcomes.map((o) => `          <tr><td>${esc(o.code)}</td><td>${esc(o.state
     <div class="stat-row">
       <div class="stat-row__item"><b>${esc(lv.cefr)}</b><span>CEFR Level</span></div>
       <div class="stat-row__item"><b>${lv.modules.length}</b><span>Modules</span></div>
-      <div class="stat-row__item"><b>${hours}</b><span>Taught Hours</span></div>
+      <div class="stat-row__item"><b>${lessons}</b><span>Designed Lessons</span></div>
       <div class="stat-row__item"><b>${lv.duration_months}</b><span>Months</span></div>
       <div class="stat-row__item"><b>${money(lv.price_usd_cents)}</b><span>Tuition</span></div>
     </div>
@@ -332,7 +332,7 @@ ${award}
       <h2>What people ask about this level.</h2>
     </div>
     <div class="grid grid--2">
-${card('Duration', `How long does Level ${lv.roman} take?`, `${lv.duration_months} months of study, covering ${hours} taught hours across ${lv.modules.length} modules. Learners who need longer are not penalised; the level is a body of work, not a race.`)}
+${card('Duration', `How long does Level ${lv.roman} take?`, `${lv.duration_months} months of study by design, covering ${lessons} designed lessons across ${lv.modules.length} modules. Learners who need longer are not penalised; the level is a body of work, not a race.`)}
 ${card('Entry', prev ? `Do I need Level ${prev.roman} first?` : 'Do I need any English to start?', prev
     ? `Not necessarily. You need the language ${esc(prev.name)} teaches, however you acquired it. A placement assessment establishes that.`
     : 'No. Foundation assumes none, and the first lesson teaches the alphabet and how to say your own name.')}
@@ -369,7 +369,7 @@ function academicsPage() {
       <div class="stat-row__item"><strong>120</strong><span>WEC Credits</span></div>
       <div class="stat-row__item"><strong>1,200</strong><span>Total Qualification Time (hrs)</span></div>
       <div class="stat-row__item"><strong>${levels.reduce((a, lv) => a + lv.modules.length, 0)}</strong><span>Modules, all written</span></div>
-      <div class="stat-row__item"><strong>24 mo.</strong><span>Full Programme</span></div>
+      <div class="stat-row__item"><strong>1,200</strong><span>Hours, Full Programme</span></div>
     </div>
     <div class="btn-row" style="margin-top:34px">
       <a href="/admissions/#apply" class="btn btn--gold">Apply Now</a>
@@ -390,7 +390,7 @@ function academicsPage() {
     <div class="table-scroll">
       <table class="ledger">
         <thead><tr><th scope="col">Level</th><th scope="col">CEFR</th><th scope="col">Focus</th>
-          <th scope="col">Months</th><th scope="col">Taught Hours</th></tr></thead>
+          <th scope="col">Months</th><th scope="col">Lessons</th></tr></thead>
         <tbody>
 ${levels.map((lv) => `          <tr>
             <td><a href="/study/${SLUG[lv.roman]}/"><strong>${esc(lv.roman)} &middot; ${esc(lv.name)}</strong></a></td>
@@ -441,6 +441,21 @@ ${levels.map((lv) => `          <tr>
         </ul>
       </div>
     </div>
+    <div class="section-head" style="margin-top:38px">
+      <span class="module-marker">Curriculum Areas</span>
+      <h3 style="font-size:1.3rem">What every level builds on.</h3>
+    </div>
+    <div class="tag-row">
+      <span class="tag">Grammar</span><span class="tag">Vocabulary</span><span class="tag">Listening</span>
+      <span class="tag">Speaking</span><span class="tag">Reading</span><span class="tag">Writing</span>
+      <span class="tag">Pronunciation</span><span class="tag">Conversation</span>
+      <span class="tag">Academic English</span><span class="tag">Professional Communication</span>
+      <span class="tag">Public Speaking</span><span class="tag">Business English</span>
+      <span class="tag">Research Skills</span><span class="tag">Critical Thinking</span>
+      <span class="tag">Presentation Skills</span><span class="tag">IELTS Preparation</span>
+      <span class="tag">TOEFL Preparation</span><span class="tag">Cambridge English Preparation</span>
+      <span class="tag">Interview Skills</span><span class="tag">Leadership Communication</span>
+    </div>
   </div>
 </section>
 
@@ -449,9 +464,9 @@ ${levels.map((lv) => `          <tr>
     <div class="section-head">
       <span class="module-marker">The Six Levels</span>
       <h2>Choose your level.</h2>
-      <p class="lede">Each level is ${levels[0].duration_months} months and
-        ${levels[0].units} taught hours, with ${levels[0].modules.length} modules, and each has
-        a full page of its own. You do not need to start at Level I &mdash; a placement
+      <p class="lede">Each level is designed as ${levels[0].duration_months} months of study
+        &mdash; ${levels[0].modules.length} modules, ${levels[0].units} designed lessons, a Total
+        Qualification Time of 200 hours &mdash; and each has a full page of its own. You do not need to start at Level I &mdash; a placement
         assessment establishes where you belong.</p>
     </div>
     <div class="table-scroll">
@@ -510,9 +525,9 @@ ${card('At the end', 'The level assessment', 'The summative point, against crite
         <a href="/students/#support">Support</a>.</p>
     </div>
     <div class="grid grid--3">
-${darkToLight('The live timetable', 'No sessions have run', 'Live conversation classes and tutorials are designed and no cohort has been taught, so no timetable has been proven against where students actually are.')}
-${darkToLight('The recorded audio', 'Scripts written, recordings not produced', 'Listening sets are authored in full &mdash; scripts, marked features, teaching notes. The audio needs voices and a studio.')}
-${darkToLight('Marking at volume', 'The workspace has marked nothing', 'The instructor workspace is built and tested. It has assessed no real submission, because there have been none.')}
+${card('The live timetable', 'No sessions have run', 'Live conversation classes and tutorials are designed and no cohort has been taught, so no timetable has been proven against where students actually are.')}
+${card('The recorded audio', 'Scripts written, recordings not produced', 'Listening sets are authored in full &mdash; scripts, marked features, teaching notes. The audio needs voices and a studio.')}
+${card('Marking at volume', 'The workspace has marked nothing', 'The instructor workspace is built and tested. It has assessed no real submission, because there have been none.')}
     </div>
   </div>
 </section>
@@ -543,8 +558,17 @@ ${darkCard('Drafts stay local', 'A half-written note is not sent anywhere', 'Wor
       browser and a connection that can stream audio; the Listening Lab asks you to record
       yourself, and a phone or laptop microphone is enough. A version matrix would imply testing
       across it that has not been done &mdash; keeping your browser current is the real
-      requirement. When something does not work, <a href="/students/#support">Support</a> says
-      who answers.</p>
+      requirement.</p>
+    <div class="section-head" style="margin-top:38px">
+      <span class="module-marker">When It Does Not Work</span>
+      <h2>Three common cases, answered.</h2>
+    </div>
+    <ol class="dot-list">
+      <li><span class="num">01</span><span><strong>The recorder will not start.</strong> The browser has to be given permission to use the microphone, and that permission is per site and easily denied by accident. Check the browser&rsquo;s site permissions before assuming anything is broken.</span><span class="leader"></span></li>
+      <li><span class="num">02</span><span><strong>The connection dropped mid-recording.</strong> Nothing is lost. Recording does not need the network; the file is held and uploaded in parts when the connection returns.</span><span class="leader"></span></li>
+      <li><span class="num">03</span><span><strong>An application or payment form did not go through.</strong> The application form falls back to your own email application with your details filled in, so the application still reaches Admissions. For a payment, do not retry repeatedly &mdash; write to the College with the time and the amount, and it will be checked against the record.</span><span class="leader"></span></li>
+    </ol>
+    <p class="form-note">Anything else: write to <a href="mailto:info@worldwencollege.co.uk?subject=Technical">info@worldwencollege.co.uk</a> saying what you were trying to do, what happened, and on what device &mdash; those three facts resolve most of it in one message rather than four. For being stuck on the material rather than the machinery, <a href="/students/#support">Support</a> says who answers.</p>
   </div>
 </section>
 
@@ -576,7 +600,7 @@ ${darkCard('Drafts stay local', 'A half-written note is not sent anywhere', 'Wor
   "@context": "https://schema.org",
   "@type": "Course",
   "name": "International English Fluency Course (IEFC)",
-  "description": "A 24-month, six-level English language programme aligned to CEFR A1-C2, delivered entirely online by WorldWide English College, London Campus.",
+  "description": "A six-level, 1,200-hour English language programme aligned to CEFR A1-C2, delivered entirely online by WorldWide English College, London Campus.",
   "provider": {
     "@type": "EducationalOrganization",
     "name": "WorldWide English College - London Campus",
@@ -615,8 +639,6 @@ const FOCUS = {
 for (const lv of levels) {
   if (!FOCUS[lv.roman]) throw new Error(`No focus line for level ${lv.roman}`);
 }
-// A light-ground variant of the not-yet-run cards.
-const darkToLight = (num, title, body) => card(num, title, body);
 
 // ── write sources + manifest ─────────────────────────────────────────
 const MANIFEST = path.join(ROOT, 'pages/manifest.json');
@@ -657,7 +679,7 @@ levels.forEach((lv, i) => {
     output: `study/${SLUG[lv.roman]}/index.html`,
     title: `Level ${lv.roman}: ${lv.name} (${lv.cefr}) &mdash; Worldwide English College`,
     description: `Level ${lv.roman} of the IEFC: ${lv.modules.length} modules, ${lv.units} `
-      + `taught hours over ${lv.duration_months} months, aligned to CEFR ${lv.cefr}. Modules, `
+      + `designed lessons over ${lv.duration_months} months, aligned to CEFR ${lv.cefr}. Modules, `
       + 'learning outcomes, assessment, teaching methods and the award.',
     contentFile: `study-${SLUG[lv.roman]}.html`,
     lang: 'en', dir: 'ltr',

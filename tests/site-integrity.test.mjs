@@ -118,6 +118,71 @@ for (const partial of ['header.html', 'footer.html', 'topbar.html']) {
 }
 
 // ---------------------------------------------------------------------
+// 2b · EVERY FRAGMENT LANDS ON AN id THAT EXISTS
+// ---------------------------------------------------------------------
+// The check above proves the PAGE exists; nothing proved the SECTION
+// did. The consolidation turned thirty-three pages into fragments, so
+// a link's promise now extends past the slash: /academics/#methodology
+// resolved, loaded, and silently dropped the reader at the top of the
+// pillar, because the id it named had not survived the rebuild. An
+// adversarial review found it; no test had. This is that test.
+//
+// Built output, not pages/ sources — the ids are minted by generators
+// and the rail, and only the built file knows what it actually has.
+const builtFileFor = (target) => {
+  const e = entries.find((x) => urlFor(x.output) === target);
+  if (e) return path.join(ROOT, e.output);
+  const rel = target.replace(/^\//, '');
+  if (rel && !target.endsWith('/') && existsSync(path.join(ROOT, rel))) return path.join(ROOT, rel);
+  const idx = path.join(ROOT, rel, 'index.html');
+  return existsSync(idx) ? idx : null;
+};
+const idsIn = new Map();   // built file path → Set of ids
+const idsOf = (file) => {
+  if (!idsIn.has(file)) {
+    idsIn.set(file, new Set([...readFileSync(file, 'utf8').matchAll(/\bid="([^"]+)"/g)].map((m) => m[1])));
+  }
+  return idsIn.get(file);
+};
+const deadFragments = (html, ownFile, page) => {
+  const dead = [];
+  for (const m of html.matchAll(/href="([^"]*#[^"]+)"/g)) {
+    const [link, frag] = m[1].split('#');
+    if (!frag || /[{}$]/.test(frag)) continue;         // template placeholder, not a link
+    let file;
+    if (!link) file = ownFile;                          // same-page anchor
+    else if (link.startsWith('/')) {
+      const target = link.split('?')[0];
+      if (/^\/(css|js|assets|api)\//.test(target) || WITHHELD.test(target)) continue;
+      file = builtFileFor(target);
+      if (!file) continue;                              // dead page: check 2's finding, not ours
+    } else continue;                                    // external
+    if (!idsOf(file).has(frag)) dead.push(`${page} → ${link || '(self)'}#${frag}`);
+  }
+  return dead;
+};
+
+{
+  const dead = [];
+  let fragsChecked = 0;
+  for (const e of entries) {
+    const file = path.join(ROOT, e.output);
+    if (!existsSync(file)) continue;
+    const html = readFileSync(file, 'utf8');
+    fragsChecked += [...html.matchAll(/href="[^"]*#[^"]+"/g)].length;
+    dead.push(...deadFragments(html, file, urlFor(e.output)));
+  }
+  check(`Every fragment link lands on an id that exists — ${fragsChecked} checked`,
+    dead.length === 0, dead.slice(0, 6).join(' · '));
+
+  // A checker that has only ever seen healthy links proves nothing.
+  // Feed it the exact fault it exists for and make sure it objects.
+  const anyBuilt = path.join(ROOT, entries[0].output);
+  const caught = deadFragments('<a href="/academics/#section-that-never-existed">x</a>', anyBuilt, '(self-test)');
+  check('...and this check does catch a fragment pointing at nothing', caught.length === 1);
+}
+
+// ---------------------------------------------------------------------
 // 3 · THE HEADERS AND REDIRECTS SAY WHAT THEY CLAIM TO
 // ---------------------------------------------------------------------
 const headers = readFileSync(path.join(ROOT, '_headers'), 'utf8');

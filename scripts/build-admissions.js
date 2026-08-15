@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * THE ADMISSIONS CLUSTER — nine pages.
+ * THE ADMISSIONS CLUSTER — four pages: the pillar, the FAQ,
+ * Tuition, Fees & Funding, and the Admissions Policy.
  *
  * ────────────────────────────────────────────────────────────────────
  * WHY THESE PAGES ARE THE MOST DANGEROUS ON THE SITE
@@ -138,24 +139,6 @@ const beforeYouPay = `<div class="callout">
 // ─────────────────────────────────────────────────────────────────────
 const PAGES = {};
 
-// 1 · HOW TO APPLY ────────────────────────────────────────────────────
-
-
-// 2 · ENTRY REQUIREMENTS ──────────────────────────────────────────────
-
-
-// 3 · PAYING FOR THE PROGRAMME ────────────────────────────────────────
-
-
-// 4 · SCHOLARSHIPS ────────────────────────────────────────────────────
-
-
-// 5 · INTERNATIONAL APPLICANTS ────────────────────────────────────────
-
-
-// 6 · VISAS ───────────────────────────────────────────────────────────
-
-
 // 7 · ADMISSIONS POLICY ───────────────────────────────────────────────
 PAGES.pillar = {
   slug: 'admissions', output: 'admissions/index.html', file: 'admissions.html',
@@ -237,7 +220,7 @@ PAGES.pillar = {
     </div>
     <ol class="dot-list">
       <li><span class="num">01</span><span><strong>Enquire &amp; choose your entry point</strong> — tell us your current English level and goals.</span><span class="leader"></span></li>
-      <li><span class="num">02</span><span><strong>Submit your application</strong> — the form below, plus identification and any prior English certificates you hold.</span><span class="leader"></span></li>
+      <li><span class="num">02</span><span><strong>Submit your application</strong> — the form below. Nothing else is asked for at this stage: no documents, no fee.</span><span class="leader"></span></li>
       <li><span class="num">03</span><span><strong>Placement assessment</strong> — a short assessment confirms your correct starting level, Foundation through Advanced.</span><span class="leader"></span></li>
       <li><span class="num">04</span><span><strong>Offer &amp; enrolment</strong> — receive your offer, confirm your payment plan, and secure your place.</span><span class="leader"></span></li>
       <li><span class="num">05</span><span><strong>Orientation &amp; your first module</strong> — onboarding to the digital campus, then Level I opens and the first module is yours to begin.</span><span class="leader"></span></li>
@@ -684,12 +667,12 @@ PAGES.faq = {
 
       <div class="accordion__item">
         <button class="accordion__q"><span>What will I receive when I complete the programme?</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">A digital transcript is issued after every level, and a digital certificate is issued on successful completion of the full IEFC. Printed certificates and certificate verification are available as optional add-on services.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">A digital transcript is issued after every level. The IEFC certificate itself cannot yet be conferred: the award requires an External Examiner, and none has been appointed. When conferral begins, a digital certificate follows successful completion of the full IEFC, with printed copies and verification as optional services.</div></div>
       </div>
 
       <div class="accordion__item">
         <button class="accordion__q"><span>Is WEC-LC formally accredited?</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">WEC-LC is a newly established institution. Formal accreditation and external quality-assurance affiliations are in progress and will be published on our <a href="/about/#status">Institutional Status</a> page as they're confirmed — we would rather tell you the current state plainly than overstate it.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">No. The College holds no accreditation and no external quality-assurance affiliation today. The <a href="/about/#status">Institutional Status</a> page states what exists and what does not, and it will say something different only when something is genuinely different.</div></div>
       </div>
 
       <div class="accordion__item">
@@ -822,12 +805,12 @@ ${qa('Then what am I paying for?', 'A complete, inspectable programme: six level
     {
       "@type": "Question",
       "name": "What will I receive when I complete the programme?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A digital transcript is issued after every level, and a digital certificate is issued on successful completion of the full IEFC. Printed certificates and certificate verification are available as optional add-on services." }
+      "acceptedAnswer": { "@type": "Answer", "text": "A digital transcript is issued after every level. The IEFC certificate itself cannot yet be conferred: the award requires an External Examiner, and none has been appointed. When conferral begins, a digital certificate follows successful completion of the full IEFC, with printed copies and verification as optional services." }
     },
     {
       "@type": "Question",
       "name": "Is WEC-LC formally accredited?",
-      "acceptedAnswer": { "@type": "Answer", "text": "WEC-LC is a newly established institution. Formal accreditation and external quality-assurance affiliations are in progress and will be published on our Institutional Status page as they're confirmed." }
+      "acceptedAnswer": { "@type": "Answer", "text": "No. The College holds no accreditation and no external quality-assurance affiliation today. The Institutional Status page states what exists and what does not, and it will say something different only when something is genuinely different." }
     },
     {
       "@type": "Question",
@@ -903,31 +886,13 @@ PAGES.tuition = {
       </ul>
     </div>
     <div>
-      <span class="module-marker">Additional Fees (Where Applicable)</span>
+      <span class="module-marker">Optional Services</span>
       <ul class="check-list">
-        <li>Application fee</li>
-        <li>Admission processing fee</li>
-        <li>Registration fee</li>
-        <li>Graduation &amp; certificate fee</li>
         <li>Printed certificate (optional)</li>
         <li>International courier (optional)</li>
         <li>Certificate verification (optional)</li>
       </ul>
-      <p class="form-note">Exact figures for optional and processing fees are confirmed at the point of application — ask Admissions for the current schedule.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad" id="plans" data-contents="Ways to Pay">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Ways to Pay</span>
-      <h2>Choose the plan that fits.</h2>
-    </div>
-    <div class="grid grid--3">
-      <div class="card card--dark"><h3>Full Programme</h3><p>Pay the full $19,000 up front and complete enrolment for all six levels at once.</p></div>
-      <div class="card card--dark"><h3>Per Level</h3><p>Pay $3,166.67 at the start of each 4-month level as you progress.</p></div>
-      <div class="card card--dark"><h3>Monthly Instalments</h3><p>Spread each level's tuition across its four months, subject to institutional policy.</p></div>
+      <p class="form-note">Applying costs nothing — there is no application, processing or registration fee. The three optional services above are the only extras, and their prices are confirmed before you order.</p>
     </div>
   </div>
 </section>
@@ -986,7 +951,7 @@ ${D.routing.map((r) => `          <tr><td><strong>${esc(countryName(r.country_co
   </div>
 </section>
 
-<section class="section--dark section-pad">
+<section class="section--dark section-pad" id="plans" data-contents="Ways to Pay">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Ways to Pay</span>
@@ -1185,12 +1150,6 @@ ${card('Complaints and appeals', 'No formal procedure', 'A complaint today is an
 
 ${cta('Questions this does not answer?', 'Admissions Questions', '/faq/', 'Contact Admissions', '/contact/')}`,
 };
-
-// 8 · DATES ───────────────────────────────────────────────────────────
-
-
-// 9 · QUESTIONS ───────────────────────────────────────────────────────
-
 
 // ── small lookups, kept honest ───────────────────────────────────────
 function currencyName(code) {

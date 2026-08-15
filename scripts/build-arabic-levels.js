@@ -406,7 +406,7 @@ ${lv.outcomes.map((o) => {
     <div class="stat-row">
       <div class="stat-row__item"><b>${ltr(esc(lv.cefr))}</b><span>مستوى الإطار الأوروبي</span></div>
       <div class="stat-row__item"><b>${ltr(String(lv.modules.length))}</b><span>وحدة</span></div>
-      <div class="stat-row__item"><b>${ltr(String(lv.units))}</b><span>ساعة تدريس</span></div>
+      <div class="stat-row__item"><b>${ltr(String(lv.units))}</b><span>درسًا مصمَّمًا</span></div>
       <div class="stat-row__item"><b>${ltr(String(lv.duration_months))}</b><span>شهرًا</span></div>
       <div class="stat-row__item"><b>${money(lv.price_usd_cents)}</b><span>الرسوم</span></div>
     </div>
@@ -525,7 +525,7 @@ ${award}
       <h2>ما يُسأل عن هذا المستوى.</h2>
     </div>
     <div class="grid grid--2">
-${card('المدة', `كم يستغرق المستوى ${ord}؟`, `${ltr(String(lv.duration_months))} أشهر من الدراسة، تغطي ${ltr(String(lv.units))} ساعة تدريس عبر ${ltr(String(lv.modules.length))} وحدات. ومن يحتاج وقتًا أطول لا يُعاقَب؛ المستوى عمل يُنجز لا سباق يُركض.`)}
+${card('المدة', `كم يستغرق المستوى ${ord}؟`, `${ltr(String(lv.duration_months))} أشهر من الدراسة بحسب التصميم، تغطي ${ltr(String(lv.units))} درسًا مصمَّمًا عبر ${ltr(String(lv.modules.length))} وحدات. ومن يحتاج وقتًا أطول لا يُعاقَب؛ المستوى عمل يُنجز لا سباق يُركض.`)}
 ${card('الرسوم', 'كم تكلفة هذا المستوى؟', `${money(lv.price_usd_cents)} لهذا المستوى وحده. البرنامج كامل ${ltr('$19,000')} موزّعة بالتساوي على المستويات الستة، ويمكن الدفع مستوى بمستوى.`)}
 ${card('اللغة', 'هل الدراسة بالعربية؟', 'التدريس بالإنجليزية. هذه الصفحة وصفحات القبول والرسوم والتقييم منشورة بالعربية حتى تتخذ قرارك بلغتك، ثم تدرس باللغة التي جئت لتتعلمها.')}
 ${card('البدء', 'متى أبدأ؟', 'القبول مستمر ولا توجد دفعات محددة. تبدأ في اليوم الذي تُسجَّل فيه.')}
@@ -552,7 +552,7 @@ levels.forEach((lv, i) => {
     slug,
     output,
     title: `المستوى ${AR_ROMAN[lv.roman]}: ${AR_NAME[lv.id]} (${lv.cefr}) — الكلية العالمية للغة الإنجليزية`,
-    description: `المستوى ${AR_ROMAN[lv.roman]} من برنامج IEFC: ${lv.modules.length} وحدات، و${lv.units} ساعة تدريس `
+    description: `المستوى ${AR_ROMAN[lv.roman]} من برنامج IEFC: ${lv.modules.length} وحدات، و${lv.units} درسًا مصمَّمًا `
       + `على مدى ${lv.duration_months} أشهر، وفق مستوى ${lv.cefr} في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.`,
     contentFile: file, lang: 'ar', dir: 'rtl',
     contents: true,

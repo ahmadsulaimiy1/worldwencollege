@@ -278,6 +278,16 @@ if (backed) {
     /id="curriculum-status"/.test(iefc), 'no #curriculum-status disclosure on the IEFC page');
   check('...that says plainly it is the designed size, not what is published today',
     /designed size of each level, not the amount of content published/i.test(iefc));
+  // The caveat's subject must be VISIBLE: a column that actually says
+  // Lessons. A consolidation once relabelled this same 120 "Taught
+  // Hours" — an inflated delivery claim under the College's own
+  // framework (80 GLH per level) — while this file kept passing,
+  // because it pinned the sentence and not the label the sentence is
+  // about. The figure is a lesson count, and hours it must never be.
+  check('...and the 120 is labelled as Lessons in the table itself',
+    /<th scope="col">Lessons<\/th>/.test(iefc), 'no Lessons column header');
+  check('...never as hours — 120 is the designed lesson count, not delivery',
+    !/taught hours/i.test(iefc), '"taught hours" found on the page');
   check('...and does not hide behind vagueness — it names what IS complete',
     /sixty modules/i.test(iefc) && /still being written/i.test(iefc));
   check('The disclosure sits with the table, not on some other page',

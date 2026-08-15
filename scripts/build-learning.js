@@ -1,30 +1,31 @@
 #!/usr/bin/env node
 /**
- * LEARNING AND SUPPORT — five pages.
+ * LEARNING AND SUPPORT — two pages: accessibility and privacy.
+ * (Learning, the platform and technical support were absorbed into the
+ * Academics pillar — scripts/build-levels.js.)
  *
  * ────────────────────────────────────────────────────────────────────
- * THE THREE PAGES INSTITUTIONS GET WRONG BY COPYING
+ * THE PAGES INSTITUTIONS GET WRONG BY COPYING
  * ────────────────────────────────────────────────────────────────────
- * Accessibility, technical requirements and privacy are the three pages
- * most often filled by pasting somebody else's. The result reads well
- * and describes a different organisation: a WCAG conformance claim
- * nobody audited, a browser matrix nobody tested, a cookie policy for
- * cookies the site does not set.
+ * Accessibility and privacy are the pages most often filled by pasting
+ * somebody else's. The result reads well and describes a different
+ * organisation: a WCAG conformance claim nobody audited, a cookie
+ * policy for cookies the site does not set.
  *
- * So each of these is written from this site as it actually is:
+ * So each is written from this site as it actually is:
  *
  *   · The accessibility page claims no conformance level, because no
  *     audit has been commissioned. It states what was built
  *     deliberately, what is known to be untested, and what the College
  *     will do on request — which is a smaller and truer offer than a
  *     conformance badge.
- *   · The technical page lists what the programme genuinely uses. The
- *     microphone is there because the Listening Lab needs one; there is
- *     no invented minimum specification.
  *   · The privacy page states the one fact most sites bury: this site
  *     runs no analytics, no advertising trackers and no third-party
  *     measurement of any kind. That is unusual enough to be worth
  *     stating plainly, and it is checked before this file will build.
+ *
+ * (Technical requirements moved to /academics/#campus with the same
+ * discipline: what the programme genuinely uses, no invented minimums.)
  *
  * The build fails if a third-party analytics script ever appears in the
  * site's own scripts or partials, because the privacy page asserts
@@ -96,13 +97,12 @@ const cta = (h2, primary, primaryHref, secondary, secondaryHref) =>
 
 const PAGES = {};
 
-// 1 · HOW LEARNING WORKS ──────────────────────────────────────────────
 // ── learning, the platform and technical requirements ────────────────
 // Absorbed into the Academics pillar (scripts/build-levels.js) when it
 // became /academics/#learning and /academics/#campus. This file keeps
 // the two obligation pages: accessibility and privacy.
 
-// 3 · ACCESSIBILITY ───────────────────────────────────────────────────
+// ACCESSIBILITY ───────────────────────────────────────────────────
 PAGES.accessibility = {
   slug: 'support-accessibility', output: 'support/accessibility/index.html', file: 'support-accessibility.html',
   title: 'Accessibility &mdash; Worldwide English College',
@@ -167,7 +167,7 @@ ${darkCard('Not provided', 'A formal adjustments process', 'The College has no p
 ${cta('What the College can and cannot support.', 'Support', '/students/#support', 'Technical Requirements', '/academics/#campus')}`,
 };
 
-// 4 · TECHNICAL ───────────────────────────────────────────────────────
+// PRIVACY ───────────────────────────────────────────────────────
 PAGES.privacy = {
   slug: 'support-privacy', output: 'support/privacy/index.html', file: 'support-privacy.html',
   title: 'Privacy &amp; Your Data &mdash; Worldwide English College',

@@ -74,8 +74,18 @@ function read() {
     modules: one('SELECT COUNT(*) n FROM units').n,
     items: one('SELECT COUNT(*) n FROM learning_items').n,
     cpd: one('SELECT COUNT(*) n FROM cpd_records').n,
+    // The population the support layer actually covers: distinct Level I
+    // lessons with pedagogy entries — the same join tests/teaching-expertise
+    // audits. NOT learning_items with kind='lesson': that kind fails the
+    // schema's CHECK and cannot exist, so the old query returned 0 and the
+    // page published "0 lessons, fully supported" without anything failing.
     levelOneLessons: one(
-      "SELECT COUNT(*) n FROM learning_items WHERE id LIKE 'itm_l1_%' AND kind = 'lesson'",
+      `SELECT COUNT(DISTINCT e.learning_item_id) n FROM pedagogy_entries e
+       JOIN learning_items i ON i.id = e.learning_item_id
+       JOIN units u ON u.id = i.unit_id
+       JOIN courses c ON c.id = u.course_id
+       JOIN programme_levels l ON l.id = c.level_id
+       WHERE l.roman = 'I'`,
     ).n,
   };
   db.close();
@@ -92,6 +102,14 @@ const OBSERVED = D.states.observed_in_teaching || 0;
 if (OBSERVED !== 0) {
   throw new Error(`${OBSERVED} entries are now marked observed_in_teaching — the Teaching pages `
     + 'argue from an empty observation record and must be rewritten.');
+}
+
+// A zero here once reached the page as "Level I — 0 lessons, fully
+// supported". A count that feeds a "fully supported" claim must refuse
+// to be nothing.
+if (!D.levelOneLessons) {
+  throw new Error('levelOneLessons is 0 — the support-coverage claims on the Teaching pages '
+    + 'would publish a zero. The query or the seed data has broken.');
 }
 if (D.cpd !== 0) {
   throw new Error(`${D.cpd} CPD record(s) now exist — /teaching/development/ states there are none.`);
@@ -302,7 +320,7 @@ ${D.fields.map((f) => `          <tr><td><strong>${esc(f.name)}</strong></td><td
       <h2>Complete for Level I, and honest about the rest.</h2>
     </div>
     <div class="grid grid--3">
-${darkCard('Level I', `${D.levelOneLessons} lessons, fully supported`, `Every support field is written for every Level I lesson. It is the level a beginner meets first and the level where a teacher has least room to improvise, so it was completed first.`)}
+${darkCard('Level I', `${D.levelOneLessons} teaching lessons, fully supported`, `Every support field is written for every Level I lesson. It is the level a beginner meets first and the level where a teacher has least room to improvise, so it was completed first.`)}
 ${darkCard('Levels II&ndash;VI', 'Partially written', 'The fields readable from the curriculum are populated across the programme; the authored fields are being written level by level. What exists is what is published; nothing is projected.')}
 ${darkCard('The whole record', 'Openly countable', `${FILLED} authored entries today. The figure moves as the work proceeds and is generated from the record rather than typed into this page.`)}
     </div>
@@ -316,7 +334,7 @@ ${darkCard('The whole record', 'Openly countable', `${FILLED} authored entries t
       <h2>What it contains.</h2>
     </div>
     <div class="grid grid--3">
-${card('Every lesson', `All ${D.levelOneLessons} of Level I`, 'Each with its stages and their declared minutes in the running head, so a teacher can see the shape of the lesson without turning back to the plan.')}
+${card('Every lesson', `All ${D.levelOneLessons} teaching lessons of Level I`, 'Each with its stages and their declared minutes in the running head, so a teacher can see the shape of the lesson without turning back to the plan.')}
 ${card('Every panel', 'Marked with its provenance', 'DERIVED, ESTABLISHED or DESIGNED, printed on the panel itself rather than explained once in a preface. A teacher disagreeing with a panel can see immediately whether they are disagreeing with the curriculum, with the field, or with the authors.')}
 ${card('One mark absent', 'OBSERVED', 'The fourth mark does not appear anywhere in the book, and the front matter says why. A companion that quietly dropped the category would be claiming a kind of authority it does not have.')}
     </div>

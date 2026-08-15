@@ -87,31 +87,24 @@ const INSTALMENTS = Number(JSON.parse(D.cfg.instalment_default_count ?? '4'));
 // The kit's AR_LEVEL must cover whatever the record actually holds.
 for (const l of D.levels) if (!AR_LEVEL[l.id]) throw new Error(`No Arabic name for level ${l.id}`);
 
+// The Focus column of the retired /ar/academics/iefc/ table — the six
+// one-line level descriptions. They survived nowhere else in Arabic
+// once that page retired, so the pillar table carries them now, as the
+// English pillar's Focus column does.
+const AR_FOCUS = {
+  I: 'من الكلمات الأولى إلى تبادلات يومية بسيطة — النظام الصوتي، القواعد الأساسية، مفردات البقاء.',
+  II: 'مواضيع يومية بثقة متزايدة — محادثة روتينية، وتواصل كتابي بسيط.',
+  III: 'استخدام مستقل للغة الإنجليزية — كلام مترابط، وآراء، وكتابة منظّمة.',
+  IV: 'تفاعل طليق وتلقائي — سجل أكاديمي ومهني، حجاج وتحليل.',
+  V: 'استخدام دقيق ومرن للغة لأغراض أكاديمية ومهنية معقّدة.',
+  VI: 'إتقان يقارب مستوى الناطقين الأصليين — الدقة، التعابير، التواصل القيادي والحضور التنفيذي.',
+};
+
+
 const FULL = ltr('$19,000');
 const PER_LEVEL = ltr('$3,166.67');
 
 const PAGES = {};
-
-// 1 · كيفية التقديم ───────────────────────────────────────────────────
-
-
-// 2 · شروط الالتحاق ───────────────────────────────────────────────────
-
-
-// 3 · سداد الرسوم ─────────────────────────────────────────────────────
-
-
-// 4 · المنح ───────────────────────────────────────────────────────────
-
-
-// 5 · التأشيرات ───────────────────────────────────────────────────────
-
-
-// 6 · المواعيد ────────────────────────────────────────────────────────
-
-
-// 7 · أسئلة القبول ────────────────────────────────────────────────────
-
 
 // 8 · الدراسة ─────────────────────────────────────────────────────────
 PAGES.admissions = {
@@ -194,7 +187,7 @@ PAGES.admissions = {
     </div>
     <ol class="dot-list">
       <li><span class="num">01</span><span><strong>استفسر واختر نقطة انطلاقك</strong> — أخبرنا بمستواك الحالي في اللغة الإنجليزية وأهدافك.</span><span class="leader"></span></li>
-      <li><span class="num">02</span><span><strong>قدّم طلبك</strong> — النموذج أدناه، إلى جانب إثبات الهوية وأي شهادات إنجليزية سابقة تملكها.</span><span class="leader"></span></li>
+      <li><span class="num">02</span><span><strong>قدّم طلبك</strong> — النموذج أدناه. لا يُطلب منك شيء آخر في هذه المرحلة: لا مستندات ولا رسوم.</span><span class="leader"></span></li>
       <li><span class="num">03</span><span><strong>تقييم تحديد المستوى</strong> — تقييم قصير يحدّد المستوى الصحيح لانطلاقك، من التأسيس إلى المتقدّم.</span><span class="leader"></span></li>
       <li><span class="num">04</span><span><strong>العرض والتسجيل</strong> — استلم عرض القبول، أكّد خطة الدفع، وثبّت مقعدك.</span><span class="leader"></span></li>
       <li><span class="num">05</span><span><strong>التوجيه والوحدة الأولى</strong> — تهيئة على الحرم الرقمي، ثم يُفتح المستوى الأول وتبدأ وحدتك الأولى.</span><span class="leader"></span></li>
@@ -575,12 +568,12 @@ PAGES.tuition = {
       <table class="ledger">
         <thead><tr><th>المستوى</th><th dir="ltr">CEFR</th><th>الأرصدة</th><th>الزمن الكلي للمؤهل</th><th>الرسوم</th></tr></thead>
         <tbody>
-          <tr><td><strong>I · برنامج التأسيس</strong></td><td dir="ltr">A1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
-          <tr><td><strong>II · البرنامج الابتدائي</strong></td><td dir="ltr">A2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
-          <tr><td><strong>III · البرنامج المتوسط</strong></td><td dir="ltr">B1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
-          <tr><td><strong>IV · المتوسط المتقدم</strong></td><td dir="ltr">B2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
-          <tr><td><strong>V · البرنامج المتقدم</strong></td><td dir="ltr">C1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
-          <tr><td><strong>VI · برنامج الإتقان</strong></td><td dir="ltr">C2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong><span dir="ltr">I</span> · برنامج التأسيس</strong></td><td dir="ltr">A1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong><span dir="ltr">II</span> · البرنامج الابتدائي</strong></td><td dir="ltr">A2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong><span dir="ltr">III</span> · البرنامج المتوسط</strong></td><td dir="ltr">B1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong><span dir="ltr">IV</span> · المتوسط المتقدم</strong></td><td dir="ltr">B2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong><span dir="ltr">V</span> · البرنامج المتقدم</strong></td><td dir="ltr">C1</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
+          <tr><td><strong><span dir="ltr">VI</span> · برنامج الإتقان</strong></td><td dir="ltr">C2</td><td>20</td><td>200 ساعة</td><td>3,166.67$</td></tr>
           <tr><td colspan="2"><strong>الإجمالي</strong></td><td>120</td><td>1,200 ساعة</td><td><strong>19,000$</strong></td></tr>
         </tbody>
       </table>
@@ -595,7 +588,7 @@ PAGES.tuition = {
       <span class="module-marker">تشمل الرسوم الدراسية</span>
       <ul class="check-list">
         <li>جميع الوحدات التعليمية للمستوى</li>
-        <li>الحصص المباشرة والدروس المسجّلة</li>
+        <li>الحصص المباشرة والدروس متى بدأ تشغيلها — لم تُعقد أي حصة بعد، لأنه لم يُدرَّس أي فوج</li>
         <li>الموارد التعليمية والوصول إلى المكتبة الرقمية</li>
         <li>التقييمات والامتحانات</li>
         <li>تقارير التقدّم والإرشاد الأكاديمي</li>
@@ -604,31 +597,13 @@ PAGES.tuition = {
       </ul>
     </div>
     <div>
-      <span class="module-marker">رسوم إضافية (حسب الحالة)</span>
+      <span class="module-marker">خدمات اختيارية</span>
       <ul class="check-list">
-        <li>رسوم التقديم</li>
-        <li>رسوم معالجة القبول</li>
-        <li>رسوم التسجيل</li>
-        <li>رسوم التخرّج والشهادة</li>
         <li>الشهادة المطبوعة (اختياري)</li>
         <li>الشحن الدولي (اختياري)</li>
         <li>التحقق من الشهادة (اختياري)</li>
       </ul>
-      <p class="form-note">تُؤكَّد الأرقام الدقيقة للرسوم الاختيارية والإجرائية عند التقديم — استفسر من فريق القبول عن الجدول الحالي.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad" id="plans" data-contents="طرق الدفع">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">طرق الدفع</span>
-      <h2>اختر الخطة التي تناسبك.</h2>
-    </div>
-    <div class="grid grid--3">
-      <div class="card card--dark"><h3>البرنامج كاملًا</h3><p>ادفع المبلغ الكامل 19,000$ مقدّمًا وأكمل التسجيل في المستويات الستة دفعة واحدة.</p></div>
-      <div class="card card--dark"><h3>لكل مستوى</h3><p>ادفع 3,166.67$ في بداية كل مستوى مدته 4 أشهر أثناء تقدّمك.</p></div>
-      <div class="card card--dark"><h3>أقساط شهرية</h3><p>وزّع رسوم كل مستوى على أشهره الأربعة، وفقًا للسياسة المؤسسية.</p></div>
+      <p class="form-note">التقديم بلا تكلفة — لا رسوم تقديم ولا معالجة ولا تسجيل. الخدمات الاختيارية الثلاث أعلاه هي الإضافات الوحيدة، وتُؤكَّد أسعارها قبل الطلب.</p>
     </div>
   </div>
 </section>
@@ -674,10 +649,10 @@ ${card('البطاقة لا تصل الكلية', 'بيانات بطاقتك ع�
   </div>
 </section>
 
-<section class="section--dark section-pad">
+<section class="section--dark section-pad" id="plans" data-contents="طرق الدفع">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">طرق السداد</span>
+      <span class="module-marker">طرق الدفع</span>
       <h2>ثلاثة ترتيبات.</h2>
     </div>
     <div class="grid grid--3">
@@ -710,6 +685,19 @@ ${card('ما تلتزم به الكلية الآن', 'جواب مكتوب، وس
   </div>
 </section>
 
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الإيصالات</span>
+      <h2>ما تحصل عليه، وما لا تحصل عليه بعد.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('يُصدَر', 'إيصال مرقّم', 'كل دفعة ناجحة تُمنح رقم إيصال تسلسليًا لحظة تأكيد بوابة الدفع لها، وهذا الرقم فريد ودائم. وهو المرجع الذي تذكره في أي مراسلة تتعلق بالمال.')}
+${card('لا يُصدَر بعد', 'إيصال PDF قابل للتنزيل', 'الإيصال موجود سجلًا؛ أما مستند منسّق تنزّله فغير مبني بعد. إن احتجت واحدًا لجهة عمل أو راعٍ، فاطلبه من فريق القبول ويُعَدّ يدويًا.')}
+    </div>
+  </div>
+</section>
+
 <section class="section--light section-pad" id="funding" data-contents="المنح والدعم">
   <div class="container reveal">
     <div class="section-head">
@@ -739,6 +727,19 @@ ${card('غير موجود', 'معايير وصندوق وموعد', 'لم تُع
 ${card('الأول', 'ادفع مستوى بمستوى', `البرنامج قابل للتجزئة عن قصد. ${PER_LEVEL} لمستوى واحد، يُقرَّر مستوىً بمستوى، التزام مختلف جوهريًا عن ${FULL}، ولا يلزمك شرح لاختياره.`)}
 ${card('الثاني', `وزّع المستوى على ${ltr(String(INSTALMENTS))} دفعات`, 'خطة التقسيط تقسم رسوم مستوى واحد إلى أجزاء متساوية. متاحة بالطلب لا بالتقديم، ولا رسوم على استخدامها.')}
 ${card('الثالث', 'اكتب واسأل', 'إن كانت الرسوم هي الحائل الوحيد بينك وبين البرنامج، فقل ذلك لإدارة القبول بكلماتك. لا صندوق يُسحب منه ولا وعد مرتبط بهذا، لكن طلبًا لم يُقدَّم لا يمكن النظر فيه حين يوجد صندوق.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الجهات الراعية وأصحاب العمل</span>
+      <h2>إن كان غيرك يدفع.</h2>
+    </div>
+    <div class="grid grid--2">
+${darkCard('ممكن', 'أن تدفع جهة ثالثة عن متعلم مسمّى', 'يمكن لصاحب عمل أو وزارة أو فرد من الأسرة أن يدفع اليوم عن متعلم مسمّى. تُسجَّل الدفعة على تسجيل المتعلم، والمتعلم — لا الدافع — هو من يملك سجله الأكاديمي.')}
+${darkCard('غير مبني', 'فوترة المؤسسات والمقاعد المؤسسية', 'حساب مؤسسي بفوترة أوامر شراء ومقاعد قابلة للإسناد موجود في نموذج البيانات ولا عملية تشغيلية خلفه. سيُبنى وفق متطلبات مؤسسة حقيقية لا تخمينًا مسبقًا. إن كانت هذه حالتك فاكتب لفريق القبول.')}
     </div>
   </div>
 </section>
@@ -803,12 +804,12 @@ PAGES.faq = {
 
       <div class="accordion__item">
         <button class="accordion__q"><span>ماذا سأحصل عليه عند إتمام البرنامج؟</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">يُصدَر كشف درجات رقمي بعد كل مستوى، وتُصدَر شهادة رقمية عند إتمام برنامج <span dir="ltr">IEFC</span> كاملًا بنجاح. تتوفّر الشهادة المطبوعة والتحقق من الشهادة كخدمات إضافية اختيارية.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">يُصدَر كشف درجات رقمي بعد كل مستوى. أما شهادة <span dir="ltr">IEFC</span> نفسها فلا يمكن منحها بعد: منح الشهادة يتطلب ممتحنًا خارجيًا، ولم يُعيَّن أحد. حين يبدأ المنح، تُصدَر شهادة رقمية عند إتمام البرنامج كاملًا بنجاح، مع النسخة المطبوعة والتحقق كخدمتين اختياريتين.</div></div>
       </div>
 
       <div class="accordion__item">
         <button class="accordion__q"><span>هل الكلية معتمدة رسميًا؟</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">الكلية العالمية للغة الإنجليزية مؤسسة حديثة التأسيس. الاعتمادات الرسمية وشراكات ضمان الجودة الخارجية قيد الإنجاز، وستُنشر في صفحة <a href="/ar/about/#status">الوضع المؤسسي</a> فور تأكيدها — نفضّل إخبارك بالوضع الحالي بوضوح بدلًا من المبالغة فيه.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">لا. لا تحمل الكلية أي اعتماد ولا أي انتساب خارجي لضمان الجودة اليوم. تنص صفحة <a href="/ar/about/#status">الوضع المؤسسي</a> على ما هو قائم وما ليس قائمًا، ولن تقول شيئًا مختلفًا إلا حين يصير مختلفًا فعلًا.</div></div>
       </div>
 
       <div class="accordion__item">
@@ -859,6 +860,22 @@ ${card('س', 'هل أستطيع الدفع من نيجيريا؟', 'نعم. يُ
 ${card('س', 'هل يمكنني استرداد أموالي؟', 'لا توجد سياسة استرداد معتمدة. تُبتّ الطلبات حالةً بحالة من الفريق المؤسس كتابةً، ويُسجَّل القرار. هذا ضمان أضعف من سياسة منشورة، ولهذا يُذكر هنا لا يُكتشف لاحقًا. وإن كان اليقين يهمك فادفع مستوى بمستوى.')}
 ${card('س', 'هل توجد منح؟', 'لا برنامج مفتوح ولا تمويل مخصص ولا منحة مُنحت لأحد. آلية تسجيل المنحة موجودة؛ السياسة غير موجودة.')}
 ${card('س', 'هل الرسوم مختلفة حسب البلد؟', 'لا. الرسم نفسه للجميع بغض النظر عن الجنسية أو الإقامة. لا يوجد سعر دولي ولا سعر تفاوضي.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الدراسة</span>
+      <h2>ما هي عليه فعلًا.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('س', 'هل الدراسة كلها عبر الإنترنت؟', 'نعم، في كل مكان. لا يوجد حرم تدريسي. «الحرم الجامعي — لندن» يسمّي المقر الإداري، ولا يداوم فيه أي طالب.')}
+${card('س', 'متى تبدأ الحصص؟', 'موادك متاحة يوم تسجّل. لا موعد دفعة ولا فصل تنتظره. والجدول المباشر الدوري لم يبدأ بعد — راجع <a href="/ar/admissions/#dates">المواعيد</a>.')}
+${card('س', 'كم يستغرق البرنامج؟', 'كل مستوى مصمَّم على 200 ساعة تأهيلية، و1,200 عبر المستويات الستة. وكم يستغرق ذلك بالأشهر يعتمد على الساعات التي تمنحها أسبوعيًا — تنشر الكلية الساعات لا عددًا من الأشهر لا تستطيع الوقوف خلفه.')}
+${card('س', 'هل أحتاج تجهيزات؟', 'جهاز يشغّل الفيديو، واتصال يحمل الصوت، وميكروفون — الأخير لأن معمل الاستماع يطلب منك تسجيل صوتك ليُسمَع تغيّره عبر الأشهر. وميكروفون الهاتف كافٍ.')}
+${card('س', 'هل سأحصل على شهادة؟', 'يُصدَر كشف درجات بعد كل مستوى. أما شهادة <span dir="ltr">IEFC</span> نفسها فلا يمكن منحها بعد: لم يُعيَّن ممتحن خارجي، ومنح شهادة دون فحص خارجي يجعلها أقل قيمة لا أكثر. راجع <a href="/ar/governance/#quality">ضمان الجودة</a>.')}
     </div>
   </div>
 </section>
@@ -926,12 +943,12 @@ ${darkCard('س', 'إذن ما الذي أدفع مقابله؟', 'برنامج �
     {
       "@type": "Question",
       "name": "ماذا سأحصل عليه عند إتمام البرنامج؟",
-      "acceptedAnswer": { "@type": "Answer", "text": "يُصدَر كشف درجات رقمي بعد كل مستوى، وتُصدَر شهادة رقمية عند إتمام برنامج IEFC كاملًا بنجاح. تتوفّر الشهادة المطبوعة والتحقق من الشهادة كخدمات إضافية اختيارية." }
+      "acceptedAnswer": { "@type": "Answer", "text": "يُصدَر كشف درجات رقمي بعد كل مستوى. أما شهادة IEFC نفسها فلا يمكن منحها بعد: منح الشهادة يتطلب ممتحنًا خارجيًا، ولم يُعيَّن أحد. حين يبدأ المنح، تُصدَر شهادة رقمية عند إتمام البرنامج كاملًا بنجاح، مع النسخة المطبوعة والتحقق كخدمتين اختياريتين." }
     },
     {
       "@type": "Question",
       "name": "هل الكلية معتمدة رسميًا؟",
-      "acceptedAnswer": { "@type": "Answer", "text": "الكلية العالمية للغة الإنجليزية مؤسسة حديثة التأسيس. الاعتمادات الرسمية وشراكات ضمان الجودة الخارجية قيد الإنجاز، وستُنشر في صفحة الوضع المؤسسي فور تأكيدها." }
+      "acceptedAnswer": { "@type": "Answer", "text": "لا. لا تحمل الكلية أي اعتماد ولا أي انتساب خارجي لضمان الجودة اليوم. تنص صفحة الوضع المؤسسي على ما هو قائم وما ليس قائمًا، ولن تقول شيئًا مختلفًا إلا حين يصير مختلفًا فعلًا." }
     },
     {
       "@type": "Question",
@@ -978,6 +995,21 @@ PAGES.academics = {
         يمنح حق تحويل إلى أي مؤسسة. وجميع الوحدات الستين مؤلفة ومنشورة، أما الدروس داخلها فما
         زالت تُكتب وتصدر تباعًا.</p>
     </div>
+    <div class="section-head" style="margin-top:38px">
+      <span class="module-marker">مجالات المنهج</span>
+      <h3 style="font-size:1.3rem">ما يُبنى عليه كل مستوى.</h3>
+    </div>
+    <div class="tag-row">
+      <span class="tag">القواعد</span><span class="tag">المفردات</span><span class="tag">الاستماع</span>
+      <span class="tag">التحدث</span><span class="tag">القراءة</span><span class="tag">الكتابة</span>
+      <span class="tag">النطق</span><span class="tag">المحادثة</span>
+      <span class="tag">اللغة الأكاديمية</span><span class="tag">التواصل المهني</span>
+      <span class="tag">الخطابة العامة</span><span class="tag">لغة الأعمال</span>
+      <span class="tag">مهارات البحث</span><span class="tag">التفكير النقدي</span>
+      <span class="tag">مهارات العرض</span><span class="tag" dir="ltr">IELTS</span>
+      <span class="tag" dir="ltr">TOEFL</span><span class="tag" dir="ltr">Cambridge English</span>
+      <span class="tag">مهارات المقابلات</span><span class="tag">التواصل القيادي</span>
+    </div>
   </div>
 </section>
 
@@ -989,15 +1021,16 @@ PAGES.academics = {
     </div>
     <div class="table-scroll">
       <table class="ledger">
-        <thead><tr><th>المستوى</th><th><span dir="ltr">CEFR</span></th><th>الوحدات</th><th>الأرصدة</th><th>الساعات</th><th>الشهادة</th></tr></thead>
+        <thead><tr><th>المستوى</th><th><span dir="ltr">CEFR</span></th><th>التركيز</th><th>الوحدات</th><th>الأرصدة</th><th>الساعات</th><th>الشهادة</th></tr></thead>
         <tbody>
 ${D.levels.map((l) => {
     const a = D.awards.find((x) => x.level_id === l.id);
+    if (!AR_FOCUS[l.roman]) throw new Error(`No Arabic focus line for level ${l.roman}`);
     return `          <tr><td><strong>المستوى ${AR_LEVEL[l.id].ord} · ${AR_LEVEL[l.id].name}</strong></td>`
-      + `<td>${ltr(l.cefr)}</td><td>${ltr('10')}</td><td>${ltr('20')}</td><td>${ltr('200')}</td>`
+      + `<td>${ltr(l.cefr)}</td><td>${AR_FOCUS[l.roman]}</td><td>${ltr('10')}</td><td>${ltr('20')}</td><td>${ltr('200')}</td>`
       + `<td>${a ? ltr(a.post_nominal) : '—'}</td></tr>`;
   }).join('\n')}
-          <tr><td colspan="2"><strong>المجموع</strong></td><td>${ltr('60')}</td><td>${ltr('120')}</td><td>${ltr('1,200')}</td><td>—</td></tr>
+          <tr><td colspan="3"><strong>المجموع</strong></td><td>${ltr('60')}</td><td>${ltr('120')}</td><td>${ltr('1,200')}</td><td>—</td></tr>
         </tbody>
       </table>
     </div>
@@ -1070,6 +1103,16 @@ ${darkCard('المسودات تبقى محلية', 'النص غير المكتم
     </div>
     <p class="form-note">ما تحتاجه لتشغيله: حاسوب أو جهاز لوحي أو هاتف بمتصفح حديث واتصال يبثّ
       الصوت؛ ويطلب معمل الاستماع أن تسجّل نفسك، وميكروفون الهاتف أو الحاسوب يكفي.</p>
+    <div class="section-head" style="margin-top:38px">
+      <span class="module-marker">حين لا يعمل شيء</span>
+      <h2>ثلاث حالات شائعة، وجوابها.</h2>
+    </div>
+    <ol class="dot-list">
+      <li><span class="num">01</span><span><strong>المسجّل لا يبدأ.</strong> على المتصفح أن يُمنح إذن استخدام الميكروفون، وهذا الإذن خاص بكل موقع ويسهل رفضه دون قصد. راجع أذونات الموقع في متصفحك قبل افتراض أن شيئًا معطوب.</span><span class="leader"></span></li>
+      <li><span class="num">02</span><span><strong>انقطع الاتصال أثناء التسجيل.</strong> لا شيء يضيع. التسجيل لا يحتاج الشبكة؛ يُحفظ الملف ويُرفع أجزاءً حين يعود الاتصال.</span><span class="leader"></span></li>
+      <li><span class="num">03</span><span><strong>نموذج تقديم أو دفع لم يكتمل.</strong> نموذج التقديم يتحوّل إلى رسالة بريد من جهازك ببياناتك معبأة، فيصل طلبك إلى القبول على أي حال. أما الدفع فلا تكرر المحاولة مرارًا — اكتب إلى الكلية بوقت العملية ومبلغها، وستُراجع مقابل السجل.</span><span class="leader"></span></li>
+    </ol>
+    <p class="form-note">ولأي شيء آخر: اكتب إلى <a href="mailto:info@worldwencollege.co.uk?subject=Technical" dir="ltr">info@worldwencollege.co.uk</a> ذاكرًا ما كنت تحاول فعله، وما الذي حدث، وعلى أي جهاز — هذه الحقائق الثلاث تحل أغلب المشكلات برسالة واحدة بدل أربع. أما التعثر في المادة نفسها لا في الأجهزة، فقسم <a href="/ar/students/#support">الدعم</a> يقول من يجيب.</p>
   </div>
 </section>
 
@@ -1086,6 +1129,7 @@ ${darkCard('المسودات تبقى محلية', 'النص غير المكتم
         عن الدليل كي لا يقوم أحدهما مقام الآخر. التفاصيل الكاملة منشورة في
         ${EN('/academics/teaching/', 'ممارسة التدريس')}.</p>
     </div>
+    ${enOnly}
   </div>
 </section>
 
@@ -1783,6 +1827,21 @@ for (const slug of ['about-governance-ar', 'about-basce-ar', 'about-qa-ar', 'aca
   'admissions-visas-ar', 'admissions-dates-ar', 'admissions-questions-ar']) {
   const i = entries.findIndex((e) => e.slug === slug);
   if (i >= 0) entries.splice(i, 1);
+}
+
+// The (EN) callout explains the marker; six pages were carrying the
+// explanation with nothing to explain, and the one page with a marked
+// link had no explanation. Corrected here structurally, so the callout
+// tracks the links rather than the author's memory.
+const EN_MARK = '<span dir="ltr">(EN)</span>';
+for (const p of Object.values(PAGES)) {
+  const markedLinks = p.body.split(EN_MARK).length - 1 - (p.body.includes(enOnly) ? 1 : 0);
+  if (markedLinks === 0 && p.body.includes(enOnly)) {
+    p.body = p.body.replace(enOnly, '').replace(/\n +\n/g, '\n');
+  }
+  if (markedLinks > 0 && !p.body.includes(enOnly)) {
+    throw new Error(`${p.slug} carries ${markedLinks} (EN)-marked link(s) but no callout explaining the marker.`);
+  }
 }
 
 for (const p of Object.values(PAGES)) {
