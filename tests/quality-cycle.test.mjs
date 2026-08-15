@@ -98,8 +98,8 @@ const ar = readFileSync(AR, 'utf8');
 
 // ── The pages ─────────────────────────────────────────────────────────
 for (const [label, rel, phrase] of [
-  ['English', 'about/quality-assurance/index.html', 'have not turned'],
-  ['Arabic', 'ar/about/quality-assurance/index.html', 'لم تدر'],
+  ['English', 'governance/index.html', 'have not turned'],
+  ['Arabic', 'ar/governance/index.html', 'لم تدر'],
 ]) {
   const p = path.join(ROOT, rel);
   check(`The ${label} quality page is built`, existsSync(p));

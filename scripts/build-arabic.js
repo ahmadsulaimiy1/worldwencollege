@@ -828,98 +828,10 @@ ${darkCard('الالتزام', 'لن يُعكس الترتيب', 'يُعيَّن
   </div>
 </section>
 
-${cta('كيف يُضبط المعيار.', 'ضمان الجودة', '/ar/about/quality-assurance/', 'كيف يتم تقييمك', '/ar/students/assessment/')}`,
+${cta('كيف يُضبط المعيار.', 'ضمان الجودة', '/ar/governance/#quality', 'كيف يتم تقييمك', '/ar/students/assessment/')}`,
 };
 
 // 11 · ضمان الجودة ────────────────────────────────────────────────────
-PAGES.qa = {
-  slug: 'about-qa-ar', output: 'ar/about/quality-assurance/index.html', file: 'about-qa.ar.html',
-  altHref: '/about/quality-assurance/',
-  title: 'ضمان الجودة — الكلية العالمية للغة الإنجليزية',
-  description: 'كيف تضبط الكلية معاييرها وتحفظها، وما الذي سيجده مراجع خارجي لو نظر اليوم.',
-  body: `${hero('عن الكلية', 'كيف يُحفظ المعيار.',
-    'هذه الصفحة مكتوبة للقارئ الذي ليس طالبًا محتملًا — مراجع أو لجنة أو وزارة أو صاحب عمل '
-    + 'يتحقق من شهادة. هذا القارئ لا يقنعه ادعاء الجودة؛ هو يسأل: أي دليل موجود، ومن أقرّه، '
-    + 'ومتى نُظر فيه آخر مرة.')}
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">أربعة مبادئ</span>
-      <h2>ما يتطلبه حفظ المعيار فعلًا.</h2>
-    </div>
-    <div class="grid grid--4">
-${card('الأول', 'يُنشر قبل أن يُطبَّق', 'المخرجات ومعايير التصحيح وعتبات النجاح تُنشر للمتعلم قبل التقييم لا تُشرح بعده. المعيار الذي يُكشف بعد الحدث ليس معيارًا، بل تبرير.')}
-${card('الثاني', 'تُصحَّح منفصلة، ولها حدود دنيا', 'المهارات اللغوية الأربع تُصحَّح منفصلة، والدرجة الكلية لا تحمل مهارة دون حدها. التعويض غير المحدود هو كيف تصف شهادةٌ شخصًا لا يُفهم حين يتكلم.')}
-${card('الثالث', 'يُكتب قبل التدريس', 'كل تقييم موجود قبل الدرس الذي يختبره، فيُبنى التدريس نحو المعيار بدل أن يُجمَّع المعيار بعده مما تصادف تدريسه.')}
-${card('الرابع', 'يؤكده الخارج، أو لا يُؤكَّد', 'لا شيء داخلي يستطيع إثبات أن المستوى في الموضع الذي يقول إنه فيه. ذلك يتطلب ممتحنًا خارجيًا، ولا ممتحن معيَّنًا — ولهذا لم تُمنح شهادة.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">مُنفَّذ لا منويّ</span>
-      <h2>الأجزاء التي تفحصها آلة.</h2>
-      <p class="lede">برنامج بهذا الحجم لا يُحفظ متسقًا بالعناية. عدة خصائص تُفشل البناء حين
-        تُكسر، وهذا هو الشكل الوحيد من الاتساق الذي ينجو من سنة من التعديلات.</p>
-    </div>
-    <div class="grid grid--3">
-${card('التسلسل', 'كل متطلب سابق يُدرَّس قبله', 'الدرس الذي يعتمد على شيء يدرّسه البرنامج لاحقًا — أو لا يدرّسه أصلًا — خلل لا تجده المراجعة اليدوية بموثوقية.')}
-${card('المعايير', 'سياسة منشورة واحدة عبرها جميعًا', 'المحاور والأوزان والوصف تتبع سياسة واحدة، تُفحص آليًا. ستون معيارًا تتباعد من تلقاء نفسها بغير ذلك.')}
-${card('الادعاءات', 'الأرقام المنشورة تطابق السجل', 'كل رقم على هذا الموقع يُفحص مقابل المنهج الذي يصفه. الرقم المنشور الذي كفّ بهدوء عن كونه صحيحًا هو كيف تصل مؤسسة إلى وصف نفسها وصفًا خاطئًا.')}
-    </div>
-    <div class="callout">
-      <span class="callout__label">المصطلحات الغامضة تُسحب، ويُفرض سحبها</span>
-      <p>كانت كلمة واحدة تحمل ثلاثة معانٍ مختلفة عبر المنهج والجدول والمنصة، وبسببها انحرف رقم
-        منشور عن البرنامج المقدَّم لأشهر. الغموض ليس مشكلة أسلوب؛ هو الطريق الذي تصل به مؤسسة
-        إلى وصف نفسها وصفًا خاطئًا.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--light section-pad" id="two-loops">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">حلقتان</span>
-      <h2>واحدة تدور مع كل تعديل، والأخرى لم تدر قط.</h2>
-      <p class="lede">القسمان أعلاه ليسا قائمتين من النوع نفسه، بل حلقتان تدوران بسرعتين
-        مختلفتين تمامًا، وهو ما تقوله الصفحة في جملة دون أن يراه أحد تمامًا.</p>
-    </div>
-
-    <figure class="diagram diagram--wide">
-      {{SVG:assets/art/quality-cycle.ar.svg}}
-      <figcaption class="diagram__caption">
-        <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-        الحلقة لا تكون حلقة حتى تدور مرة
-      </figcaption>
-    </figure>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">ما سيجده المراجع</span>
-      <h2>يُذكر قبل أن يسأل.</h2>
-    </div>
-    <div class="grid grid--2">
-${darkCard('موجود', 'برنامج كامل وموثَّق', 'مواصفات ومخرجات وساعات ومعايير تصحيح وربط بالكفايات، وسجل أدلة من سبعة وثلاثين بندًا عبر ثلاث وعشرين مجموعة.')}
-${darkCard('غير موجود', 'كل ما يتطلب طرفًا خارجيًا أو اجتماعًا لم يُعقد', 'لا اعتماد، ولا ممتحن خارجي، ولا مراجع أكاديمي، ولا أعضاء في مجلس المعايير، ولا بند دليل واحد مُقَر، ولا دفعة دُرِّست، ولا خريجون. وقد عُيِّن مجلس الأمناء والمجلس الأكاديمي والإدارة التنفيذية في الرابع عشر من أغسطس ٢٠٢٦، واتُّخذت القرارات الحاكمة الثلاثون جميعها، ولم يُحرِّك ذلك أيًّا مما سبق — لأن كل بند منه يتطلب شخصًا من خارج الكلية، أو اجتماعًا لم يُعقد بعد.')}
-    </div>
-    <p class="form-note">لم يُقَر أي من بنود سجل الأدلة السبعة والثلاثين. الإقرار ليس إجراءً
-      شكليًا، بل شخص مسمّى يتحمل مسؤولية مستند؛ وهيئتا الكلية الأكاديميتان بلا أعضاء معيَّنين،
-      فلا أحد يستطيع إقرار شيء. المؤسسة التي تُقِرّ أدلتها بنفسها بهدوء يكون لديها سجل كامل وضمان
-      معدوم.</p>
-    ${enOnly}
-  </div>
-</section>
-
-${cta('انظر السجل نفسه.', 'سجل الأدلة (بالإنجليزية)', '/standards/evidence/', 'الشهادات والمراتب', '/ar/students/awards/')}`,
-};
-
-// 12 · الخصوصية ───────────────────────────────────────────────────────
 PAGES.privacy = {
   slug: 'support-privacy-ar', output: 'ar/support/privacy/index.html', file: 'support-privacy.ar.html',
   altHref: '/support/privacy/',
@@ -1025,9 +937,24 @@ ${cta('ماذا يُحفظ عن الطالب.', 'سياسة القبول', '/ar/
 // the reader who asks who signed a thing, and this is the page that
 // answers. That reader was being sent to a page in a second language to
 // find out that the boards are empty.
+// The competency NAMES are translated; the definitions are re-authored
+// in Arabic rather than rendered word-for-word, because each definition
+// was written to be arguable and a literal translation of an epigram is
+// usually neither literal nor an epigram. Used by the BASCE section of
+// the governance pillar below.
+const AR_COMPETENCY = [
+  ['الوضوح', 'يُفهم من المرة الأولى، من الحاضرين فعلًا لا من قارئ مثالي.'],
+  ['التمكّن', 'يتحكم في اللغة بدل أن تحمله هي.'],
+  ['التمييز', 'يختار المستوى والقناة واللحظة، ويعرف ما لا يُقال.'],
+  ['الاستدلال', 'يبني الحجة، ويختبرها، ويسلّم بما ينبغي التسليم به.'],
+  ['الحضور', 'يمسك قاعة، أو مكالمة، أو محادثة صعبة.'],
+  ['الامتداد', 'يخاطب عبر الثقافات، وعبر المسافة بين المتخصص وغير المتخصص.'],
+];
+
 PAGES.governance = {
-  slug: 'about-governance-ar', output: 'ar/about/governance/index.html', file: 'about-governance.ar.html',
-  altHref: '/about/governance/',
+  slug: 'governance-ar', output: 'ar/governance/index.html', file: 'governance.ar.html',
+  contents: true,
+  altHref: '/governance/',
   title: 'الحوكمة | من يقرر وبأي صلاحية — الكلية العالمية للغة الإنجليزية',
   description: 'الهيئتان الأكاديميتان للكلية، وصلاحية كل منهما، وحقيقة أنه لم يُعيَّن فيهما عضو واحد بعد.',
   body: `${hero('عن الكلية', 'من يقرر، وبأي صلاحية.',
@@ -1038,7 +965,7 @@ PAGES.governance = {
 
 ${GOV.leadershipAR()}
 
-<section class="section--light section-pad" id="bodies">
+<section class="section--light section-pad" id="authority">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">الهيئتان الأكاديميتان</span>
@@ -1089,79 +1016,7 @@ ${GOV.leadershipAR()}
   </div>
 </section>
 
-<section class="section--paper section-pad" id="decisions">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">كيف تُسجَّل القرارات</span>
-      <h2>كل قرار أكاديمي يحمل صلاحيته.</h2>
-    </div>
-    <div class="grid grid--3">
-${card('من قرّر', 'صلاحية مسمّاة', 'كل ربط ومخرَج وعتبة يسجّل الهيئة التي اتُّخذ تحتها &mdash; المجلس المنهجي أو المجلس الأكاديمي &mdash; ويسجّل حالته. ولا شيء يُسجَّل بوصفه صحيحًا فحسب.')}
-${card('على أي أساس', 'مسوّغ مذكور', 'كل ربط بكفاية يحمل مسوّغًا يشرح لماذا يدلّ ذلك التقييم على تلك الكفاية. والربط بلا مسوّغ رأيٌ اكتسب سلطة سطرٍ في قاعدة بيانات.')}
-${card('متى يُراجَع', 'دورة سنوية', 'يُراجَع الإطار سنويًا في ضوء ما ينتجه التدريس من أدلة. ولا يمكن أن تبدأ الدورة الأولى قبل تدريس دفعة، والسجل يقول ذلك بدل وصف دورة لم تدر قط.')}
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad" id="vacant">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">مناصب لم تُشغَل بعد</span>
-      <h2>ما لا تملكه الكلية.</h2>
-      <p class="lede">مذكورة لا محذوفة. كل واحد منها يعطّل أمرًا بعينه، وتسمية ما يعطّله أنفع
-        من صفحة تقف عند حدّ الصمت.</p>
-    </div>
-    <div class="grid grid--2">
-${darkCard('ممتحن خارجي', 'شرط قبل منح أي شهادة', 'المنصب المستقل الذي وظيفته كلها أن يكون خارج الكلية. وإلى أن يُشغَل تبقى الشهادات معرَّفة ومنشورة ولا يمكن منحها لأحد على وجه صحيح. ولا يغني عنه أي تعيين داخلي، ولذلك لم يُغيّره تشكيل مجلس الأمناء والمجلس الأكاديمي والإدارة التنفيذية.')}
-${darkCard('أعضاء مجلس المعايير', 'شرط قبل إقرار الكفايات', 'مجلس المعايير الأكاديمية والتميّز المنهجي بلا أعضاء معيَّنين. والإقرار &mdash; بخلاف الاعتماد المؤقت &mdash; ينتظر التعيين. ولمجلس الأمناء عضو للشؤون الأكاديمية، وهي هيئة أخرى بصلاحية أخرى، ولا تُقرأ على أنها عضوية في مجلس المعايير.')}
-${darkCard('انعقاد المجلس الأكاديمي', 'شرط قبل إقرار روابط المهارات', 'للمجلس أعضاء معيَّنون ولم يجتمع بعد. التشكيل والانعقاد حدثان، والسجل يحفظهما منفصلين كي لا ينوب أحدهما عن الآخر بهدوء.')}
-${darkCard('مراجع أكاديمي', 'شرط قبل مراجعة المنشورات', 'كل مجلّد منشور من تأليف المطبعة، ولم يقرأه قارئ مؤهَّل لم يكتبه. وكل مجلّد يذكر ذلك في صفحة بياناته. ويستطيع أي من أعضاء هيئة التدريس العشرة توليها الآن؛ يكفي أن يُسجَّل التكليف.')}
-    </div>
-    <p class="form-note">هذه الصفحة تصف بنية مكتملة التصميم وغير مكتملة التشغيل. ذكر ذلك
-      اختيار: المؤسسة التي تصف مجالسها بصيغة الحاضر قبل أن تُعيَّن هي المؤسسة التي لن يصدَّق
-      شيء آخر مما تقوله حين يُكتشف الأمر.</p>
-  </div>
-</section>
-
-${GOV.principlesAR()}
-
-${cta('اقرأ الموقف المؤسسي كاملًا.', 'وضع الكلية المؤسسي', '/ar/about/#status', 'ضمان الجودة', '/ar/about/quality-assurance/')}`,
-};
-
-// 14 · مجلس المعايير ──────────────────────────────────────────────────
-//
-// WHY THIS PAGE, AND WHY NOW
-//
-// The competency wheel is the sharpest thing on /about/basce/: it
-// measures the College's own framework against the College's own remit
-// and shows it three-sixths met. A drawing that argues that must not
-// reach one audience and not the other — the rule recorded in the master
-// plan when the authority chain forced /ar/about/governance/ into
-// existence, arriving a second time.
-//
-// The competency NAMES are translated; the definitions are re-authored
-// in Arabic rather than rendered word-for-word, because each definition
-// was written to be arguable and a literal translation of an epigram is
-// usually neither literal nor an epigram.
-const AR_COMPETENCY = [
-  ['الوضوح', 'يُفهم من المرة الأولى، من الحاضرين فعلًا لا من قارئ مثالي.'],
-  ['التمكّن', 'يتحكم في اللغة بدل أن تحمله هي.'],
-  ['التمييز', 'يختار المستوى والقناة واللحظة، ويعرف ما لا يُقال.'],
-  ['الاستدلال', 'يبني الحجة، ويختبرها، ويسلّم بما ينبغي التسليم به.'],
-  ['الحضور', 'يمسك قاعة، أو مكالمة، أو محادثة صعبة.'],
-  ['الامتداد', 'يخاطب عبر الثقافات، وعبر المسافة بين المتخصص وغير المتخصص.'],
-];
-
-PAGES.basce = {
-  slug: 'about-basce-ar', output: 'ar/about/basce/index.html', file: 'about-basce.ar.html',
-  altHref: '/about/basce/',
-  title: 'مجلس المعايير الأكاديمية والتميّز المنهجي — الكلية العالمية للغة الإنجليزية',
-  description: 'إطار الكفايات الست، ومدى تغطيته فعلًا في المستوى الأول، وموقف المجلس الحالي.',
-  body: `${hero('الحوكمة', 'مجلس المعايير الأكاديمية والتميّز المنهجي.',
-    'يملك المجلس إطار الكفايات &mdash; أي ما تدّعي الكلية أن الخريج قادر عليه، وما إذا كانت '
-    + 'التقييمات تُثبته فعلًا.')}
-
-<section class="section--light section-pad">
+<section id="basce" data-contents="مجلس المعايير" class="section--light section-pad">
   <div class="container reveal">
     <div class="stat-row">
       <div class="stat-row__item"><b>${ltr('BASCE')}</b><span>الرمز</span></div>
@@ -1196,7 +1051,7 @@ ${AR_COMPETENCY.map(([nm, def]) => `          <tr><td><b>${nm}</b></td><td>${def
   </div>
 </section>
 
-<section class="section--light section-pad" id="coverage">
+<section class="section--light section-pad">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">التغطية</span>
@@ -1241,8 +1096,166 @@ ${darkCard('غير مُقرَّة', 'لا أعضاء معيَّنون', 'كل ا
   </div>
 </section>
 
-${cta('كيف يصل الإطار إلى المتعلم.', 'كيف يتم تقييمك', '/ar/students/assessment/', 'الحوكمة', '/ar/about/governance/')}`,
+<section class="section--light section-pad" id="standard">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">المعيار</span>
+      <h2>ما يتطلبه حفظ المعيار فعلًا.</h2>
+    </div>
+    <div class="grid grid--4">
+${card('الأول', 'يُنشر قبل أن يُطبَّق', 'المخرجات ومعايير التصحيح وعتبات النجاح تُنشر للمتعلم قبل التقييم لا تُشرح بعده. المعيار الذي يُكشف بعد الحدث ليس معيارًا، بل تبرير.')}
+${card('الثاني', 'تُصحَّح منفصلة، ولها حدود دنيا', 'المهارات اللغوية الأربع تُصحَّح منفصلة، والدرجة الكلية لا تحمل مهارة دون حدها. التعويض غير المحدود هو كيف تصف شهادةٌ شخصًا لا يُفهم حين يتكلم.')}
+${card('الثالث', 'يُكتب قبل التدريس', 'كل تقييم موجود قبل الدرس الذي يختبره، فيُبنى التدريس نحو المعيار بدل أن يُجمَّع المعيار بعده مما تصادف تدريسه.')}
+${card('الرابع', 'يؤكده الخارج، أو لا يُؤكَّد', 'لا شيء داخلي يستطيع إثبات أن المستوى في الموضع الذي يقول إنه فيه. ذلك يتطلب ممتحنًا خارجيًا، ولا ممتحن معيَّنًا — ولهذا لم تُمنح شهادة.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">مُنفَّذ لا منويّ</span>
+      <h2>الأجزاء التي تفحصها آلة.</h2>
+      <p class="lede">برنامج بهذا الحجم لا يُحفظ متسقًا بالعناية. عدة خصائص تُفشل البناء حين
+        تُكسر، وهذا هو الشكل الوحيد من الاتساق الذي ينجو من سنة من التعديلات.</p>
+    </div>
+    <div class="grid grid--3">
+${card('التسلسل', 'كل متطلب سابق يُدرَّس قبله', 'الدرس الذي يعتمد على شيء يدرّسه البرنامج لاحقًا — أو لا يدرّسه أصلًا — خلل لا تجده المراجعة اليدوية بموثوقية.')}
+${card('المعايير', 'سياسة منشورة واحدة عبرها جميعًا', 'المحاور والأوزان والوصف تتبع سياسة واحدة، تُفحص آليًا. ستون معيارًا تتباعد من تلقاء نفسها بغير ذلك.')}
+${card('الادعاءات', 'الأرقام المنشورة تطابق السجل', 'كل رقم على هذا الموقع يُفحص مقابل المنهج الذي يصفه. الرقم المنشور الذي كفّ بهدوء عن كونه صحيحًا هو كيف تصل مؤسسة إلى وصف نفسها وصفًا خاطئًا.')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">المصطلحات الغامضة تُسحب، ويُفرض سحبها</span>
+      <p>كانت كلمة واحدة تحمل ثلاثة معانٍ مختلفة عبر المنهج والجدول والمنصة، وبسببها انحرف رقم
+        منشور عن البرنامج المقدَّم لأشهر. الغموض ليس مشكلة أسلوب؛ هو الطريق الذي تصل به مؤسسة
+        إلى وصف نفسها وصفًا خاطئًا.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad" id="quality">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">ضمان الجودة</span>
+      <h2>واحدة تدور مع كل تعديل، والأخرى لم تدر قط.</h2>
+      <p class="lede">القسمان أعلاه ليسا قائمتين من النوع نفسه، بل حلقتان تدوران بسرعتين
+        مختلفتين تمامًا، وهو ما تقوله الصفحة في جملة دون أن يراه أحد تمامًا.</p>
+    </div>
+
+    <figure class="diagram diagram--wide">
+      {{SVG:assets/art/quality-cycle.ar.svg}}
+      <figcaption class="diagram__caption">
+        <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
+        الحلقة لا تكون حلقة حتى تدور مرة
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">ما سيجده المراجع</span>
+      <h2>يُذكر قبل أن يسأل.</h2>
+    </div>
+    <div class="grid grid--2">
+${darkCard('موجود', 'برنامج كامل وموثَّق', 'مواصفات ومخرجات وساعات ومعايير تصحيح وربط بالكفايات، وسجل أدلة من سبعة وثلاثين بندًا عبر ثلاث وعشرين مجموعة.')}
+${darkCard('غير موجود', 'كل ما يتطلب طرفًا خارجيًا أو اجتماعًا لم يُعقد', 'لا اعتماد، ولا ممتحن خارجي، ولا مراجع أكاديمي، ولا أعضاء في مجلس المعايير، ولا بند دليل واحد مُقَر، ولا دفعة دُرِّست، ولا خريجون. وقد عُيِّن مجلس الأمناء والمجلس الأكاديمي والإدارة التنفيذية في الرابع عشر من أغسطس ٢٠٢٦، واتُّخذت القرارات الحاكمة الثلاثون جميعها، ولم يُحرِّك ذلك أيًّا مما سبق — لأن كل بند منه يتطلب شخصًا من خارج الكلية، أو اجتماعًا لم يُعقد بعد.')}
+    </div>
+    <p class="form-note">لم يُقَر أي من بنود سجل الأدلة السبعة والثلاثين. الإقرار ليس إجراءً
+      شكليًا، بل شخص مسمّى يتحمل مسؤولية مستند؛ وهيئتا الكلية الأكاديميتان بلا أعضاء معيَّنين،
+      فلا أحد يستطيع إقرار شيء. المؤسسة التي تُقِرّ أدلتها بنفسها بهدوء يكون لديها سجل كامل وضمان
+      معدوم.</p>
+    ${enOnly}
+  </div>
+</section>
+
+<section class="section--light section-pad" id="verification">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">التحقق</span>
+      <h2>يستطيع أي أحد التحقق من الشهادة. ولم تصدر شهادة بعد.</h2>
+      <p class="lede">يستطيع حامل رمز التحقق أن يتحقق من شهادته دون حساب أو إذن من الكلية،
+        والمسار مبني ومفتوح قبل أول شهادة عمدًا: إلحاق التوقيع بشهادة صدرت من قبل لا يثبت شيئًا
+        عن وقت صدورها. الشهادات موقَّعة تشفيريًا، والتحقق يفحص التوقيع لا يعرضه، والظهور في
+        السجل العام قرار الخريج لا نتيجة تخرجه. ولم تُمنح شهادة، فلم يجرِ تحقق من شيء بعد.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad" id="research">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">البحث العلمي</span>
+      <h2>لا نتائج بحثية. أربعة أسئلة قابلة للإجابة.</h2>
+      <p class="lede">لا تجري الكلية أي بحث: لا أوراق ولا مؤتمرات ولا مشاريع ممولة ولا باحثين
+        ولا نتائج. موقف المؤسسة الجديدة من البحث جدول أعمال لا نتاج: أسئلة ولّدها بناء البرنامج
+        نفسه — هل يغيّر إعلان أزمنة المراحل سيرَ الدرس فعلًا؟ هل تطابق الأخطاء المكتوبة أخطاء
+        المتعلمين الحقيقية؟ هل يحسّن الاحتفاظ بالتسجيلات النطق؟ هل تغيّر الحدود الدنيا للمهارات
+        من ينجح؟ — وكل سؤال منها يمكن أن يجيب عنه فصل دراسي أول. وإن أُجيب عن أي منها نُشرت
+        الإجابة، وبخاصة إن جاءت ضد قرار تصميمي منشور.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad" id="decisions">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">كيف تُسجَّل القرارات</span>
+      <h2>كل قرار أكاديمي يحمل صلاحيته.</h2>
+    </div>
+    <div class="grid grid--3">
+${card('من قرّر', 'صلاحية مسمّاة', 'كل ربط ومخرَج وعتبة يسجّل الهيئة التي اتُّخذ تحتها &mdash; المجلس المنهجي أو المجلس الأكاديمي &mdash; ويسجّل حالته. ولا شيء يُسجَّل بوصفه صحيحًا فحسب.')}
+${card('على أي أساس', 'مسوّغ مذكور', 'كل ربط بكفاية يحمل مسوّغًا يشرح لماذا يدلّ ذلك التقييم على تلك الكفاية. والربط بلا مسوّغ رأيٌ اكتسب سلطة سطرٍ في قاعدة بيانات.')}
+${card('متى يُراجَع', 'دورة سنوية', 'يُراجَع الإطار سنويًا في ضوء ما ينتجه التدريس من أدلة. ولا يمكن أن تبدأ الدورة الأولى قبل تدريس دفعة، والسجل يقول ذلك بدل وصف دورة لم تدر قط.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad" id="vacant">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">مناصب لم تُشغَل بعد</span>
+      <h2>ما لا تملكه الكلية.</h2>
+      <p class="lede">مذكورة لا محذوفة. كل واحد منها يعطّل أمرًا بعينه، وتسمية ما يعطّله أنفع
+        من صفحة تقف عند حدّ الصمت.</p>
+    </div>
+    <div class="grid grid--2">
+${darkCard('ممتحن خارجي', 'شرط قبل منح أي شهادة', 'المنصب المستقل الذي وظيفته كلها أن يكون خارج الكلية. وإلى أن يُشغَل تبقى الشهادات معرَّفة ومنشورة ولا يمكن منحها لأحد على وجه صحيح. ولا يغني عنه أي تعيين داخلي، ولذلك لم يُغيّره تشكيل مجلس الأمناء والمجلس الأكاديمي والإدارة التنفيذية.')}
+${darkCard('أعضاء مجلس المعايير', 'شرط قبل إقرار الكفايات', 'مجلس المعايير الأكاديمية والتميّز المنهجي بلا أعضاء معيَّنين. والإقرار &mdash; بخلاف الاعتماد المؤقت &mdash; ينتظر التعيين. ولمجلس الأمناء عضو للشؤون الأكاديمية، وهي هيئة أخرى بصلاحية أخرى، ولا تُقرأ على أنها عضوية في مجلس المعايير.')}
+${darkCard('انعقاد المجلس الأكاديمي', 'شرط قبل إقرار روابط المهارات', 'للمجلس أعضاء معيَّنون ولم يجتمع بعد. التشكيل والانعقاد حدثان، والسجل يحفظهما منفصلين كي لا ينوب أحدهما عن الآخر بهدوء.')}
+${darkCard('مراجع أكاديمي', 'شرط قبل مراجعة المنشورات', 'كل مجلّد منشور من تأليف المطبعة، ولم يقرأه قارئ مؤهَّل لم يكتبه. وكل مجلّد يذكر ذلك في صفحة بياناته. ويستطيع أي من أعضاء هيئة التدريس العشرة توليها الآن؛ يكفي أن يُسجَّل التكليف.')}
+    </div>
+    <p class="form-note">هذه الصفحة تصف بنية مكتملة التصميم وغير مكتملة التشغيل. ذكر ذلك
+      اختيار: المؤسسة التي تصف مجالسها بصيغة الحاضر قبل أن تُعيَّن هي المؤسسة التي لن يصدَّق
+      شيء آخر مما تقوله حين يُكتشف الأمر.</p>
+  </div>
+</section>
+
+${GOV.principlesAR()}
+
+${cta('اقرأ الموقف المؤسسي كاملًا.', 'وضع الكلية المؤسسي', '/ar/about/#status', 'ضمان الجودة', '/ar/governance/#quality')}`,
 };
+
+// 14 · مجلس المعايير ──────────────────────────────────────────────────
+//
+// WHY THIS PAGE, AND WHY NOW
+//
+// The competency wheel is the sharpest thing on /about/basce/: it
+// measures the College's own framework against the College's own remit
+// and shows it three-sixths met. A drawing that argues that must not
+// reach one audience and not the other — the rule recorded in the master
+// plan when the authority chain forced /ar/about/governance/ into
+// existence, arriving a second time.
+//
+// The competency NAMES are translated; the definitions are re-authored
+// in Arabic rather than rendered word-for-word, because each definition
+// was written to be arguable and a literal translation of an epigram is
+// usually neither literal nor an epigram.
+
+
+// The Arabic BASCE and quality-assurance pages are sections of the
+// governance pillar above now, mirroring the English architecture.
 
 // ── write ────────────────────────────────────────────────────────────
 const MANIFEST = path.join(ROOT, 'pages/manifest.json');
@@ -1250,12 +1263,21 @@ const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
 
+// Retired by the Governance pillar: the old Arabic governance slug and
+// the two pages absorbed into it. Pruned so a manifest that once
+// carried them sheds them the first time this generator runs.
+for (const slug of ['about-governance-ar', 'about-basce-ar', 'about-qa-ar']) {
+  const i = entries.findIndex((e) => e.slug === slug);
+  if (i >= 0) entries.splice(i, 1);
+}
+
 for (const p of Object.values(PAGES)) {
   fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: 'ar', dir: 'rtl', altHref: p.altHref,
   };
+  if (p.contents) entry.contents = true;
   const i = entries.findIndex((e) => e.slug === p.slug);
   if (i >= 0) entries[i] = { ...entries[i], ...entry }; else entries.push(entry);
 

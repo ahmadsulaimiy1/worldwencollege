@@ -29,6 +29,7 @@ body { --hero-accent: 199, 162, 74; }                        /* gold, default */
 body[data-section="admissions"] { --hero-accent: 199, 162, 74; }
 body[data-section="about"]      { --hero-accent: 78, 52, 108; }   /* purple */
 body[data-section="standards"]  { --hero-accent: 78, 52, 108; }
+body[data-section="governance"] { --hero-accent: 78, 52, 108; }   /* the senate purple */
 body[data-section="academics"]  { --hero-accent: 31, 61, 122; }   /* royal blue */
 body[data-section="study"]      { --hero-accent: 31, 61, 122; }
 body[data-section="learning"]   { --hero-accent: 29, 92, 99; }    /* teal */

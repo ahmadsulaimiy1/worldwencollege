@@ -30,10 +30,10 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 # ── SECTION SHORTHANDS ───────────────────────────────────────────────
 # Short paths a person is likely to type or to be given verbally,
 # pointed at the page that actually answers them.
-/apply     /admissions/#apply          301
+/apply     /admissions/apply/          301
 /fees      /admissions/tuition/        301
 /tuition   /admissions/tuition/        301
-/levels    /academics/#levels                     301
+/levels    /study/                     301
 /privacy   /support/privacy/           301
 
 # /verify is deliberately NOT redirected. The real verification URL is
@@ -48,8 +48,25 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 #
 # The architecture in docs/information-architecture.html retires these
 # URLs. Each one is indexed, may be printed in a published volume, and
-# must never return 404. 0 of 74 planned routes have moved
+# must never return 404. 18 of 74 planned routes have moved
 # so far; the rest keep serving their own page until their phase lands.
 #
-# (no routes migrated yet — this block fills in as each phase lands)
+/ar/about/quality-assurance/  /ar/governance/#quality  301
+/ar/standards/verification/   /ar/governance/#verification  301
+/ar/about/academic-senate/    /ar/governance/#senate  301
+/about/quality-assurance/     /governance/#quality  301
+/standards/verification/      /governance/#verification  301
+/ar/standards/decisions/      /ar/governance/  301
+/about/academic-senate/       /governance/#senate  301
+/ar/standards/evidence/       /ar/governance/  301
+/ar/standards/research/       /ar/governance/#research  301
+/standards/decisions/         /governance/decisions/  301
+/ar/about/governance/         /ar/governance/  301
+/standards/evidence/          /governance/evidence/  301
+/standards/research/          /governance/#research  301
+/about/governance/            /governance/  301
+/ar/about/basce/              /ar/governance/#basce  301
+/ar/standards/                /ar/governance/#standard  301
+/about/basce/                 /governance/#basce  301
+/standards/                   /governance/#standard  301
 # <<< END GENERATED

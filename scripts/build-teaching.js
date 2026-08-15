@@ -394,7 +394,7 @@ ${card('Counted, not asserted', 'The figures in the front matter are measured', 
   </div>
 </section>
 
-${cta('See what it is made from.', 'The Teaching Support Record', '/teaching/support/', 'Quality Assurance', '/about/quality-assurance/')}`,
+${cta('See what it is made from.', 'The Teaching Support Record', '/teaching/support/', 'Quality Assurance', '/governance/#quality')}`,
 };
 
 // 5 · DEVELOPMENT AND OBSERVATION ─────────────────────────────────────

@@ -124,7 +124,8 @@ check(`...and the aria description states the shortfall in words — ${clears.le
 
 // ── The page must not contradict the drawing ──────────────────────────
 {
-  const page = path.join(ROOT, 'about/basce/index.html');
+  // BASCE is a section of the governance pillar now; the wheel ships there.
+  const page = path.join(ROOT, 'governance/index.html');
   check('The BASCE page is built', existsSync(page));
   const html = readFileSync(page, 'utf8');
 

@@ -53,8 +53,10 @@ const check = (label, cond, detail) => {
 // reimplementation.
 const GOV = createRequire(import.meta.url)('../scripts/lib/governance-register.js');
 
-const EN = path.join(ROOT, 'about/governance/index.html');
-const AR = path.join(ROOT, 'ar/about/governance/index.html');
+// The governance page moved to the top level with the pillar
+// architecture — same content contract, new address.
+const EN = path.join(ROOT, 'governance/index.html');
+const AR = path.join(ROOT, 'ar/governance/index.html');
 check('Both governance pages are built', existsSync(EN) && existsSync(AR));
 
 const htmlText = (p) => readFileSync(p, 'utf8')

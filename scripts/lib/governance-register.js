@@ -98,7 +98,16 @@ const enCard = ([name, post, background, duties]) => `      <div class="card">
 ${supplied(background) ? `        <p class="faculty__creds">${esc(background)}</p>\n` : ''}        <p>${esc(duties)}</p>
       </div>`;
 
-function leadershipEN() {
+/**
+ * `extras` lets the page that hosts the roster extend a body's section
+ * with its remit — added for the Governance pillar, where the absorbed
+ * Academic Senate page becomes part of the roster's own #senate section
+ * rather than a second section with a near-identical name. Keys:
+ * `senate`, `board`, `executive`; each is HTML appended inside that
+ * section's container, after the roster. Absent keys change nothing, so
+ * every existing caller renders byte-identically.
+ */
+function leadershipEN(extras = {}) {
   return `<section class="section--paper section-pad" id="leadership">
   <div class="container reveal">
     <div class="section-head">
@@ -131,6 +140,7 @@ function leadershipEN() {
     <div class="grid grid--2">
 ${governors.map(enCard).join('\n')}
     </div>
+${extras.board || ''}
   </div>
 </section>
 
@@ -155,6 +165,7 @@ ${supplied(background) ? `        <p class="faculty__creds">${esc(background)}</
       the skill mappings and descriptor thresholds it will approve remain recorded as
       <b>interim</b>. A membership list is not an approval, and this site will not let one stand
       in for the other.</p>
+${extras.senate || ''}
   </div>
 </section>
 
@@ -170,6 +181,7 @@ ${supplied(background) ? `        <p class="faculty__creds">${esc(background)}</
     <div class="grid grid--2">
 ${executive.map(enCard).join('\n')}
     </div>
+${extras.executive || ''}
   </div>
 </section>
 

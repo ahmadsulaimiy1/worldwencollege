@@ -834,7 +834,7 @@ ${qa('Is it fully online?', 'Yes, everywhere. There is no teaching campus. &ldqu
 ${qa('When do classes start?', 'Your material is available the day you enrol. There is no intake date and no term to wait for. The recurring live timetable is not yet running &mdash; see <a href="/admissions/dates/">Dates</a>.')}
 ${qa('How long will the programme take?', 'Each level is designed at 200 total qualification hours, 1,200 across all six. How many months that is depends on the hours you can give it each week. The College publishes the hours rather than a number of months it cannot stand behind.')}
 ${qa('Do I need any equipment?', 'A device that plays video, a connection that carries audio, and a microphone &mdash; the last because the Listening Lab asks you to record yourself so that change over months can be heard. A phone microphone is sufficient.')}
-${qa('Will I get a certificate?', 'A transcript is issued after each level. The IEFC award itself cannot yet be conferred: no External Examiner has been appointed, and conferring an award without external examining would make the award worth less, not more. See <a href="/about/quality-assurance/">Quality assurance</a>.')}
+${qa('Will I get a certificate?', 'A transcript is issued after each level. The IEFC award itself cannot yet be conferred: no External Examiner has been appointed, and conferring an award without external examining would make the award worth less, not more. See <a href="/governance/#quality">Quality assurance</a>.')}
     </div>
   </div>
 </section>

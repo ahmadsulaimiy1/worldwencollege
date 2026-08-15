@@ -355,7 +355,7 @@ node tests/browser/diagram-fit.mjs    # every diagram measured where it ships
 ```
 
 Regenerating: the cluster generators (`build-about`, `build-arabic`,
-`build-arabic-levels`, `build-standards`, `build-levels`, …) write into `pages/`, and
+`build-arabic-levels`, `build-governance`, `build-levels`, …) write into `pages/`, and
 `scripts/build.js` assembles `pages/` into the served directories. The
 publication volumes are separate — `npm run curriculum` re-renders the
 editorial bible, and a governance fact changed in a generator will not

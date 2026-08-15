@@ -152,12 +152,18 @@ check(`There are built pages to check against — ${built.length}`, built.length
       // in it would silently turn into a wildcard and this check would
       // start reporting matches it had not really found.
       const lit = url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      if (new RegExp(`(?:href|content)="(?:https://[^"]*)?${lit}"`).test(html)) {
+      // The absolute-URL arm is anchored to the site's own host. As
+      // `https://[^"]*` it swallowed any prefix, so a canonical URL of
+      // /press/standards/ matched the retired /standards/ and a live
+      // page was reported stale.
+      if (new RegExp(`(?:href|content)="(?:https://www\\.worldwencollege\\.co\\.uk)?${lit}"`).test(html)) {
         stale.push(`${path.relative(ROOT, file)} → ${url}`);
       }
     }
   }
-  for (const url of gone) if (sitemap.includes(`${url}<`)) staleMap.push(url);
+  // Anchored to the host: a bare includes() of '/standards/<' also
+  // matches '/press/standards/</loc>' and reported a live page as stale.
+  for (const url of gone) if (sitemap.includes(`worldwencollege.co.uk${url}<`)) staleMap.push(url);
   check('No page links to a URL that has been retired', stale.length === 0, list(stale, 6));
   check('The sitemap lists no retired URL', staleMap.length === 0, list(staleMap));
 }

@@ -60,15 +60,15 @@ const RETIRED = [
   // ── into /governance/ ─────────────────────────────────────────────
   // The first three are MOVES: the page continues to exist, at an
   // address that says what it is. The rest are absorptions.
-  { from: '/about/governance/', to: '/governance/', why: 'moved to the top level', migrated: false },
-  { from: '/standards/evidence/', to: '/governance/evidence/', why: 'moved with its pillar', migrated: false },
-  { from: '/standards/decisions/', to: '/governance/decisions/', why: 'moved with its pillar', migrated: false },
-  { from: '/about/academic-senate/', to: '/governance/#senate', why: 'section of Governance', migrated: false },
-  { from: '/about/basce/', to: '/governance/#basce', why: 'section of Governance', migrated: false },
-  { from: '/about/quality-assurance/', to: '/governance/#quality', why: 'section of Governance', migrated: false },
-  { from: '/standards/', to: '/governance/#standard', why: 'section of Governance', migrated: false },
-  { from: '/standards/verification/', to: '/governance/#verification', why: 'section of Governance', migrated: false },
-  { from: '/standards/research/', to: '/governance/#research', why: 'section of Governance, until research exists', migrated: false },
+  { from: '/about/governance/', to: '/governance/', why: 'moved to the top level', migrated: true },
+  { from: '/standards/evidence/', to: '/governance/evidence/', why: 'moved with its pillar', migrated: true },
+  { from: '/standards/decisions/', to: '/governance/decisions/', why: 'moved with its pillar', migrated: true },
+  { from: '/about/academic-senate/', to: '/governance/#senate', why: 'section of Governance', migrated: true },
+  { from: '/about/basce/', to: '/governance/#basce', why: 'section of Governance', migrated: true },
+  { from: '/about/quality-assurance/', to: '/governance/#quality', why: 'section of Governance', migrated: true },
+  { from: '/standards/', to: '/governance/#standard', why: 'section of Governance', migrated: true },
+  { from: '/standards/verification/', to: '/governance/#verification', why: 'section of Governance', migrated: true },
+  { from: '/standards/research/', to: '/governance/#research', why: 'section of Governance, until research exists', migrated: true },
 
   // ── into /academics/ ──────────────────────────────────────────────
   { from: '/academics/iefc/', to: '/academics/#iefc', why: 'section of Academics', migrated: false },
@@ -117,17 +117,33 @@ const RETIRED_AR = RETIRED.map((r) => ({
   to: r.to.startsWith('/') ? arabic(r.to) : r.to,
 }));
 
+// Two derived targets do not exist: the registers have no Arabic
+// edition yet, so /ar/governance/evidence/ and /ar/governance/decisions/
+// are pages nobody has written. Anyone reaching the retired Arabic URLs
+// is following a guessed address — the honest destination is the Arabic
+// pillar, whose registers section links onward to the English editions
+// with the (EN) marker the bilingual-links test enforces.
+for (const r of RETIRED_AR) {
+  if (r.to === '/ar/governance/evidence/' || r.to === '/ar/governance/decisions/') {
+    r.to = '/ar/governance/';
+  }
+}
+
 const ALL = [...RETIRED, ...RETIRED_AR];
 const retiredSet = new Set(ALL.map((r) => r.from));
 
 /** Strip the fragment: `/about/#vision` → `/about/`. */
 const pageOf = (url) => url.split('#')[0];
 
-/** Follow the map once. Used by the redirect generator so an existing
- *  shorthand like `/apply` lands on the successor rather than on a URL
- *  that is itself about to 301 somewhere else. */
+/** Follow the map once — but only through routes that have actually
+ *  migrated. Used by the redirect generator so an existing shorthand
+ *  like `/apply` lands on the successor rather than on a URL that is
+ *  itself about to 301 somewhere else. Resolving through a PENDING
+ *  entry would point the shorthand at a page that does not exist yet,
+ *  which the first run of the generator did: /apply briefly targeted
+ *  /admissions/#apply while /admissions/apply/ was still the live page. */
 function resolve(url) {
-  const hit = ALL.find((r) => r.from === url);
+  const hit = ALL.find((r) => r.from === url && r.migrated);
   return hit ? hit.to : url;
 }
 

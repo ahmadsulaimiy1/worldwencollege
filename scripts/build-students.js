@@ -546,7 +546,7 @@ ${darkCard('The commitment', 'The order will not be reversed', 'The examiner is 
   </div>
 </section>
 
-${cta('See how the standard is set.', 'Quality Assurance', '/about/quality-assurance/', 'Your Academic Record', '/students/academic-record/')}`,
+${cta('See how the standard is set.', 'Quality Assurance', '/governance/#quality', 'Your Academic Record', '/students/academic-record/')}`,
 };
 
 // 6 · INTEGRITY ───────────────────────────────────────────────────────
@@ -712,7 +712,7 @@ ${card('Does not exist', 'An independent stage', 'There is no body to escalate t
   </div>
 </section>
 
-${cta('See who is meant to hear an appeal.', 'Governance', '/about/governance/', 'Support', '/students/support/')}`,
+${cta('See who is meant to hear an appeal.', 'Governance', '/governance/', 'Support', '/students/support/')}`,
 };
 
 // 8 · SUPPORT ─────────────────────────────────────────────────────────

@@ -339,45 +339,6 @@
     "dir": "ltr"
   },
   {
-    "slug": "about-governance",
-    "output": "about/governance/index.html",
-    "title": "Governance &mdash; Worldwide English College",
-    "description": "How academic decisions are made at Worldwide English College, which bodies hold which authority, and which posts are currently vacant.",
-    "contentFile": "about-governance.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/about/governance/"
-  },
-  {
-    "slug": "about-senate",
-    "output": "about/academic-senate/index.html",
-    "title": "The Academic Senate &mdash; Worldwide English College",
-    "description": "The remit of the Academic Senate at Worldwide English College, what it approves, and its current membership position.",
-    "contentFile": "about-senate.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "about-basce",
-    "output": "about/basce/index.html",
-    "title": "BASCE &mdash; Board of Academic Standards and Curriculum Excellence",
-    "description": "The Board of Academic Standards and Curriculum Excellence: its remit over the competency framework, and its current membership position.",
-    "contentFile": "about-basce.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/about/basce/"
-  },
-  {
-    "slug": "about-qa",
-    "output": "about/quality-assurance/index.html",
-    "title": "Quality Assurance &mdash; Worldwide English College",
-    "description": "How Worldwide English College assures academic quality: the mechanisms that run today, and the review cycles that cannot run until a cohort has been taught.",
-    "contentFile": "about-qa.html",
-    "lang": "en",
-    "dir": "ltr",
-    "altHref": "/ar/about/quality-assurance/"
-  },
-  {
     "slug": "about-structure",
     "output": "about/structure/index.html",
     "title": "Organisational Structure &mdash; Worldwide English College",
@@ -657,51 +618,6 @@
     "dir": "ltr"
   },
   {
-    "slug": "standards",
-    "output": "standards/index.html",
-    "title": "Academic Standards &mdash; Worldwide English College",
-    "description": "How WEC-LC sets and holds an academic standard, and what an external reviewer would find if they looked today.",
-    "contentFile": "standards.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "standards-evidence",
-    "output": "standards/evidence/index.html",
-    "title": "The Evidence Record &mdash; Worldwide English College",
-    "description": "WEC-LC's register of quality-assurance evidence: 37 items, what state each is in, and why none has been approved.",
-    "contentFile": "standards-evidence.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "standards-decisions",
-    "output": "standards/decisions/index.html",
-    "title": "The Decisions Register &mdash; Worldwide English College",
-    "description": "All 30 of the College's institutional decisions, in force, with the date and the authority that took each one.",
-    "contentFile": "standards-decisions.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "standards-verification",
-    "output": "standards/verification/index.html",
-    "title": "Verification &mdash; Worldwide English College",
-    "description": "How anyone can check a WEC-LC credential, the principle behind it, and the fact that nothing has yet been issued to check.",
-    "contentFile": "standards-verification.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
-    "slug": "standards-research",
-    "output": "standards/research/index.html",
-    "title": "Research &mdash; Worldwide English College",
-    "description": "WEC-LC conducts no research and has published no findings. What it has instead is a set of answerable questions its own programme generated.",
-    "contentFile": "standards-research.html",
-    "lang": "en",
-    "dir": "ltr"
-  },
-  {
     "slug": "learning",
     "output": "learning/index.html",
     "title": "How Learning Works &mdash; Worldwide English College",
@@ -848,16 +764,6 @@
     "altHref": "/students/awards/"
   },
   {
-    "slug": "about-qa-ar",
-    "output": "ar/about/quality-assurance/index.html",
-    "title": "ضمان الجودة — الكلية العالمية للغة الإنجليزية",
-    "description": "كيف تضبط الكلية معاييرها وتحفظها، وما الذي سيجده مراجع خارجي لو نظر اليوم.",
-    "contentFile": "about-qa.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/about/quality-assurance/"
-  },
-  {
     "slug": "support-privacy-ar",
     "output": "ar/support/privacy/index.html",
     "title": "الخصوصية وبياناتك — الكلية العالمية للغة الإنجليزية",
@@ -866,26 +772,6 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/support/privacy/"
-  },
-  {
-    "slug": "about-governance-ar",
-    "output": "ar/about/governance/index.html",
-    "title": "الحوكمة | من يقرر وبأي صلاحية — الكلية العالمية للغة الإنجليزية",
-    "description": "الهيئتان الأكاديميتان للكلية، وصلاحية كل منهما، وحقيقة أنه لم يُعيَّن فيهما عضو واحد بعد.",
-    "contentFile": "about-governance.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/about/governance/"
-  },
-  {
-    "slug": "about-basce-ar",
-    "output": "ar/about/basce/index.html",
-    "title": "مجلس المعايير الأكاديمية والتميّز المنهجي — الكلية العالمية للغة الإنجليزية",
-    "description": "إطار الكفايات الست، ومدى تغطيته فعلًا في المستوى الأول، وموقف المجلس الحالي.",
-    "contentFile": "about-basce.ar.html",
-    "lang": "ar",
-    "dir": "rtl",
-    "altHref": "/about/basce/"
   },
   {
     "slug": "study-level-1-ar",
@@ -951,6 +837,46 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/study/level-6/",
+    "contents": true
+  },
+  {
+    "slug": "governance",
+    "output": "governance/index.html",
+    "title": "Governance &mdash; Worldwide English College",
+    "description": "How Worldwide English College is governed: its Board, Senate and Executive, the academic bodies and their remits, how quality is assured, how the standard is held, and which posts remain unfilled.",
+    "contentFile": "governance.html",
+    "lang": "en",
+    "dir": "ltr",
+    "contents": true,
+    "altHref": "/ar/governance/"
+  },
+  {
+    "slug": "governance-evidence",
+    "output": "governance/evidence/index.html",
+    "title": "The Evidence Record &mdash; Worldwide English College",
+    "description": "WEC-LC's register of quality-assurance evidence: 37 items, what state each is in, and why none has been approved.",
+    "contentFile": "governance-evidence.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "governance-decisions",
+    "output": "governance/decisions/index.html",
+    "title": "The Decisions Register &mdash; Worldwide English College",
+    "description": "All 30 of the College's institutional decisions, in force, with the date and the authority that took each one.",
+    "contentFile": "governance-decisions.html",
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "slug": "governance-ar",
+    "output": "ar/governance/index.html",
+    "title": "الحوكمة | من يقرر وبأي صلاحية — الكلية العالمية للغة الإنجليزية",
+    "description": "الهيئتان الأكاديميتان للكلية، وصلاحية كل منهما، وحقيقة أنه لم يُعيَّن فيهما عضو واحد بعد.",
+    "contentFile": "governance.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/governance/",
     "contents": true
   }
 ]

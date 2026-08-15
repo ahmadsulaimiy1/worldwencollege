@@ -6,13 +6,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://www.worldwencollege.co.uk/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/about/</loc></url>
-  <url><loc>https://www.worldwencollege.co.uk/about/academic-senate/</loc></url>
-  <url><loc>https://www.worldwencollege.co.uk/about/basce/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/about/careers/</loc></url>
-  <url><loc>https://www.worldwencollege.co.uk/about/governance/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/about/mission/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/about/philosophy/</loc></url>
-  <url><loc>https://www.worldwencollege.co.uk/about/quality-assurance/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/about/structure/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/about/vision/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/academics/</loc></url>
@@ -30,9 +26,6 @@
   <url><loc>https://www.worldwencollege.co.uk/admissions/visas/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/ar/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/ar/about/</loc></url>
-  <url><loc>https://www.worldwencollege.co.uk/ar/about/basce/</loc></url>
-  <url><loc>https://www.worldwencollege.co.uk/ar/about/governance/</loc></url>
-  <url><loc>https://www.worldwencollege.co.uk/ar/about/quality-assurance/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/ar/academics/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/ar/academics/iefc/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/ar/admissions/</loc></url>
@@ -47,6 +40,7 @@
   <url><loc>https://www.worldwencollege.co.uk/ar/contact/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/ar/faculty/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/ar/faq/</loc></url>
+  <url><loc>https://www.worldwencollege.co.uk/ar/governance/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/ar/student-portal/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/ar/students/assessment/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/ar/students/awards/</loc></url>
@@ -61,6 +55,9 @@
   <url><loc>https://www.worldwencollege.co.uk/contact/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/faculty/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/faq/</loc></url>
+  <url><loc>https://www.worldwencollege.co.uk/governance/</loc></url>
+  <url><loc>https://www.worldwencollege.co.uk/governance/decisions/</loc></url>
+  <url><loc>https://www.worldwencollege.co.uk/governance/evidence/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/learning/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/learning/platform/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/library/</loc></url>
@@ -69,11 +66,6 @@
   <url><loc>https://www.worldwencollege.co.uk/press/programme/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/press/review/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/press/standards/</loc></url>
-  <url><loc>https://www.worldwencollege.co.uk/standards/</loc></url>
-  <url><loc>https://www.worldwencollege.co.uk/standards/decisions/</loc></url>
-  <url><loc>https://www.worldwencollege.co.uk/standards/evidence/</loc></url>
-  <url><loc>https://www.worldwencollege.co.uk/standards/research/</loc></url>
-  <url><loc>https://www.worldwencollege.co.uk/standards/verification/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/student-portal/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/students/</loc></url>
   <url><loc>https://www.worldwencollege.co.uk/students/academic-record/</loc></url>

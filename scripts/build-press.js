@@ -384,7 +384,7 @@ ${darkCard('Not retrofitted', 'No volume will be marked reviewed retrospectively
   </div>
 </section>
 
-${cta('Read what the College is looking for.', 'Careers', '/about/careers/', 'Quality Assurance', '/about/quality-assurance/')}`,
+${cta('Read what the College is looking for.', 'Careers', '/about/careers/', 'Quality Assurance', '/governance/#quality')}`,
 };
 
 // 5 · THE PUBLISHING PROGRAMME ────────────────────────────────────────

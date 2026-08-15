@@ -202,7 +202,7 @@ ${card('My Record', 'What is held about you', 'Attempts, marks by skill, feedbac
     </div>
     <div class="grid grid--2">
 ${card('Instructor workspace', 'Marking and feedback', 'Where submissions are marked against their rubrics and pronunciation feedback is written against its target. Built, tested, and it has marked nothing, because there is nothing to mark yet.')}
-${card('Verification', 'Open to anyone', 'A credential check requiring no account and no relationship with the College &mdash; see <a href="/standards/verification/">Verification</a>. Nothing has been issued through it, because no award has been conferred.')}
+${card('Verification', 'Open to anyone', 'A credential check requiring no account and no relationship with the College &mdash; see <a href="/governance/#verification">Verification</a>. Nothing has been issued through it, because no award has been conferred.')}
     </div>
   </div>
 </section>
@@ -415,7 +415,7 @@ ${darkCard('Payment', 'The gateway you choose', 'Card and local payment details 
     </div>
     <div class="grid grid--2">
 ${card('Not appointed', 'A Data Protection owner', 'The College cannot yet name a person accountable for how personal data is handled, retained or erased. The post is on its appointments schedule, and until it is filled these questions are answered by the founding team.')}
-${card('Not decided', 'Retention and erasure', 'How long a learner&rsquo;s voice recordings are kept, and what erasure means against an academic register intended to be permanent, are both open governance decisions &mdash; see <a href="/standards/decisions/">the decisions register</a>. Publishing a retention period the College had not decided would be inventing a policy on a website.')}
+${card('Not decided', 'Retention and erasure', 'How long a learner&rsquo;s voice recordings are kept, and what erasure means against an academic register intended to be permanent, are both open governance decisions &mdash; see <a href="/governance/decisions/">the decisions register</a>. Publishing a retention period the College had not decided would be inventing a policy on a website.')}
     </div>
     <div class="callout">
       <span class="callout__label">To ask about your data</span>
