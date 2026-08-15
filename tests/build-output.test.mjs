@@ -47,11 +47,28 @@ check('Every manifest entry has a generated file committed', missing.length === 
 
 execFileSync(process.execPath, [path.join(ROOT, 'scripts/build.js')], { cwd: ROOT, stdio: 'pipe' });
 
+// THE BUILD STAMP IS EXCLUDED FROM THIS COMPARISON, DELIBERATELY.
+//
+// Every page carries <meta name="wec-build"> holding the commit it was
+// generated from, so a deploy can be proven against the live domain
+// rather than assumed (see the workflow's proof step). That value is by
+// definition a function of the COMMIT, not of the source — so the
+// committed output can never equal a fresh rebuild, and this test would
+// fail on all 64 pages forever while nothing was actually wrong.
+//
+// The invariant this file exists to protect is "the served pages are
+// what pages/ produces". Normalising one self-referential meta tag
+// keeps that invariant exact for every other byte, which is the whole
+// of what it is for. Stripping more than this line would start hiding
+// real drift, so it strips exactly this line.
+const unstamp = (html) =>
+  html.replace(/<meta name="wec-build" content="[^"]*">/g, '<meta name="wec-build">');
+
 const drifted = [];
 for (const page of manifest) {
   const full = path.join(ROOT, page.output);
   const after = existsSync(full) ? readFileSync(full, 'utf8') : null;
-  if (before.has(page.output) && after !== before.get(page.output)) {
+  if (before.has(page.output) && unstamp(after) !== unstamp(before.get(page.output))) {
     drifted.push(page.output);
     writeFileSync(full, before.get(page.output));   // leave the tree as found
   }
