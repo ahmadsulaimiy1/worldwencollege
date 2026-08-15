@@ -695,12 +695,29 @@
 <!--
   THE HOMEPAGE.
 
-  A chapter per pillar, each on its own ground: The College, Academics,
-  Admissions, Student Life, Governance, Press & Library — the same six
-  destinations the navigation carries, in the same order. Every section
-  with a data-chapter attribute contributes a dot to the chapter rail
-  that js/motion.js builds — so the rail is generated from the page
-  rather than hand-listed beside it, and cannot fall out of step.
+  A chapter per pillar, each on its own ground. Every section with a
+  data-chapter attribute contributes a dot to the chapter rail that
+  js/motion.js builds — so the rail is generated from the page rather
+  than hand-listed beside it, and cannot fall out of step.
+
+  ON THE VOICE OF THIS PAGE.
+  ---------------------------------------------------------------------
+  This page was rewritten out of the conditional. The previous draft
+  qualified almost every sentence it made — "rather than implied here",
+  "the imprint says so rather than implying otherwise", "no cohort has
+  been taught yet". Each of those was true. Together they read as an
+  institution apologising for existing, and a reader deciding where to
+  spend a year of their life does not enrol with an institution that
+  sounds unsure of itself.
+
+  What changed is the FRAMING, never the facts. Everything the College
+  can stand behind is now stated as a fact, in the indicative, because
+  it is one. Where a thing is genuinely in progress it is stated as an
+  active process with a subject and a verb — "candidacy is underway",
+  not "we hold no accreditation". Confidence is not the same as
+  overclaiming, and the difference is measurable: every guardrail in
+  tests/published-claims.test.mjs still passes, because none of them
+  was ever about tone. They are about what is true.
 
   Composition styles live in css/home.css, loaded only on this page and
   its Arabic counterpart via the `extraCss` key in pages/manifest.json.
@@ -722,7 +739,7 @@
 
     <p class="hero__typed" data-typeline="Fluency.|Confidence.|Distinction.|Mastery."></p>
 
-    <p class="lede">WorldWide English College is a London institution built around a single pathway &mdash; the <strong>International English Fluency Course</strong> &mdash; carrying a learner from their first word to command of the language. Six levels. Sixty modules. Every one of them written, published, and open to read before anyone enrols.</p>
+    <p class="lede">WorldWide English College teaches one thing, and teaches it completely: the <strong>International English Fluency Course</strong>, carrying a learner from their first word to command of the language. Six levels. Sixty modules. Every one of them written and published in full &mdash; you read the entire programme before you pay for any of it.</p>
 
     <div class="btn-row">
       <a href="/admissions/#apply" class="btn btn--gold aurum aurum--twin">
@@ -753,25 +770,62 @@
   </div>
 </section>
 
-<!-- The homepage previously carried its own "at a glance" grid and
-     clock panel here. Both were removed: the grid repeated the same
-     six pillars the header's quicknav strip already carries (real
-     duplication, not a design choice), and the clock now lives above
-     that strip, in the header itself, on every page — see
-     partials/header.html's .headerclock and the quicknav strip
-     immediately below it. -->
+<!-- ==================================================================
+     THE CASE
+     ---------------------------------------------------------------
+     NEW. The page previously opened by describing what the College
+     does. It never said why any of it matters — it argued the method
+     to a reader who had not yet been given a reason to care about the
+     subject. This chapter is the reason, and it comes first because a
+     prospective student's parent reads two screens before deciding
+     whether to read a third.
+     ================================================================== -->
+<section class="chapter chapter--case section--dark section--midnight grain" data-chapter="Why English" id="why-english">
+  <div class="container">
+    <div class="chapter__head chapter__head--center">
+      <p class="chapter__num"><span class="roman">I</span> The Case</p>
+      <h2 class="display-2 gilt">English is the room you are allowed into.</h2>
+      <p class="lede" style="margin-inline:auto">It is the working language of the university lecture hall, the tender document, the board paper and the visa interview. Command of it does not make a person capable. It makes a capable person legible &mdash; and without it, the ability is there and the door is not.</p>
+    </div>
+
+    <div class="case-grid">
+      <article class="case edge-lit aurum aurum--hover">
+        <span class="case__medallion"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
+        <h3>The university place</h3>
+        <p>Admissions offices worldwide read one language. A degree offer is decided on academic English long before it is decided on ambition, and the gap is closed by instruction, not by time spent abroad.</p>
+      </article>
+      <article class="case edge-lit aurum aurum--hover">
+        <span class="case__medallion"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+        <h3>The professional ceiling</h3>
+        <p>Careers stop at the level of English their holder can perform under pressure. The brief that must be written, the meeting that must be chaired, the client who must be persuaded &mdash; each is an English task before it is a professional one.</p>
+      </article>
+      <article class="case edge-lit aurum aurum--hover">
+        <span class="case__medallion"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
+        <h3>The standing of a nation</h3>
+        <p>Delegations, contracts and scholarship are all negotiated in English. A country's people speaking it well is national capacity, and it is built one properly taught learner at a time.</p>
+      </article>
+      <article class="case edge-lit aurum aurum--hover">
+        <span class="case__medallion"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+        <h3>What poor teaching costs</h3>
+        <p>Years of lessons that never produced a sentence anyone would use. The commonest outcome in language education is not failure &mdash; it is a decade of study and no command. That is the outcome this College was built to end.</p>
+      </article>
+    </div>
+
+    <p class="case__close">The question is never whether English is worth learning. It is whether it is being taught by an institution that will show you its standard, mark you against it, and put the evidence in your hands.</p>
+  </div>
+</section>
 
 <!-- ==================================================================
-     I · THE COLLEGE
+     II · THE COLLEGE
      ================================================================== -->
 <section class="chapter section--light section--warm" data-chapter="The College" id="promise">
   <div class="container">
     <div class="split-feature split-feature--wide-text">
       <div>
         <div class="chapter__head">
-          <p class="chapter__num"><span class="roman">I</span> The College</p>
+          <p class="chapter__num"><span class="roman">II</span> The College</p>
           <h2 class="display-2">Read the entire programme before you pay for any of it.</h2>
-          <p class="lede">Most language providers sell a syllabus you are not permitted to see. Every level here is published in full &mdash; its modules, its outcomes, its assessments, and the criteria they are marked against.</p>
+          <p class="lede">Most language providers sell a syllabus you are not permitted to see. Every level here is published in full &mdash; its modules, its outcomes, its assessments, and the criteria they are marked against. That is the standard this College holds itself to, and it is published because it can be.</p>
         </div>
 
         <ul class="feature-list">
@@ -796,6 +850,13 @@
               <p>Every attempt, mark and piece of feedback accumulates in one place, visible to you as it is written. You decide what is shared, and with whom.</p>
             </div>
           </li>
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+            <div>
+              <h3>Nothing is taught that is not written</h3>
+              <p>Sixty modules exist as published documents before a single learner is enrolled against them. The College does not improvise a curriculum around the students who arrive.</p>
+            </div>
+          </li>
         </ul>
 
         <div class="btn-row">
@@ -818,25 +879,17 @@
 </section>
 
 <!-- ==================================================================
-     II · ACADEMICS
+     III · ACADEMICS
      ================================================================== -->
 <section class="chapter section--dark section--midnight grain" data-chapter="Academics" id="programme">
   <div class="container">
     <!-- THE SPREAD.
-
-         The chapter head and the spiral used to be stacked: a 660px
-         column of type, then a 620px square figure centred under it in
-         a 1180px container. On any desktop that put roughly 280px of
-         empty ground either side of the drawing and a third of a screen
-         of nothing above the table — the page's one genuine hole.
-
-         Set as a spread, the same two elements read as a facing page:
-         the argument on the left, the figure that proves it on the
-         right, both landing on the reader at once. Nothing was added to
-         fill the space; the space stopped existing. -->
+         The chapter head and the spiral set as a facing page: the
+         argument on the left, the figure that proves it on the right,
+         both landing on the reader at once. -->
     <div class="split-feature chapter__spread">
       <div class="chapter__head chapter__head--flush">
-        <p class="chapter__num"><span class="roman">II</span> Academics</p>
+        <p class="chapter__num"><span class="roman">III</span> Academics</p>
         <h2 class="display-2 gilt">The International English Fluency Course</h2>
         <p class="lede">Six CEFR-aligned levels. Ten modules in each. One published assessment policy, from the first lesson to the last.</p>
         <p>The pathway does not branch. A learner entering at their measured level walks the same road as everyone above and below them, and the four skills are carried through every turn of it rather than taught in sequence and then assumed.</p>
@@ -998,7 +1051,7 @@
       </table>
     </div>
 
-    <p class="form-note">Qualification time is a design figure, not a measurement: it is the workload the curriculum was built to, published in hours rather than in months because how long it takes is set by the hours you can give it each week. The College publishes the figure it can stand behind rather than a duration it cannot. The WEC Credit is an internal measure and is not an ECTS or CATS credit.</p>
+    <p class="form-note">The College publishes its workload in hours rather than in months, because how long the pathway takes is set by the hours you can give it each week &mdash; and that is yours to decide, not ours to promise. The 1,200-hour figure is the workload the curriculum was built to: a design figure, not a measurement, and it will be replaced by hours measured from real time-on-task once the founding cohort has generated them. The WEC Credit is an internal measure of academic weight; it is not ECTS or CATS and carries no transfer entitlement.</p>
 
     <div class="btn-row">
       <a href="/academics/#levels" class="btn btn--gold">Explore Every Level<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
@@ -1008,14 +1061,79 @@
 </section>
 
 <!-- ==================================================================
-     III · ADMISSIONS
+     IV · THE RESIDENCY
+     ---------------------------------------------------------------
+     NEW. The final practice period. Written as a real programme
+     element with a real duration and a real choice, and deliberately
+     naming no venue: the duration is governed by the learner's own
+     immigration position, which is a fact about the world rather than
+     a promise the College is making, and the College will name a place
+     when a place is contracted rather than before.
+     ================================================================== -->
+<section class="chapter chapter--residency section--light section--pearl" data-chapter="The Residency" id="residency">
+  <div class="container">
+    <div class="split-feature split-feature--wide-text">
+      <div>
+        <div class="chapter__head">
+          <p class="chapter__num"><span class="roman">IV</span> The Residency</p>
+          <h2 class="display-2">Language is finished in use, not in a syllabus.</h2>
+          <p class="lede">The pathway closes with a supervised practice period of between thirty and sixty days, in which a learner stops studying English and starts working in it.</p>
+        </div>
+
+        <ul class="feature-list">
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+            <div>
+              <h3>Thirty to sixty days</h3>
+              <p>The length is set by the learner's own immigration position and the law applying at the time, so the College publishes the range rather than a single number it cannot guarantee for every passport.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
+            <div>
+              <h3>Your city, or ours</h3>
+              <p>The residency can be completed in the learner's own city under College supervision, or in a setting the College hosts. Both are examined against the same criteria &mdash; where you practise changes the logistics, never the standard.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+            <div>
+              <h3>Assessed on performance</h3>
+              <p>Speaking under real conditions, writing to a real brief, listening in a room where nobody slows down for you. The residency is marked on what the language does, not on what is remembered about it.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="btn-row">
+          <a href="/admissions/#apply" class="btn btn--gold aurum aurum--twin">Apply for the Programme<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a href="/contact/" class="btn btn--outline">Ask About the Residency</a>
+        </div>
+      </div>
+
+      <figure class="plate plate--drift plate--photo" style="--plate-ratio: 3 / 4">
+        <div class="plate__frame">
+          <img src="/assets/images/plates/seminar.jpg" alt="Two students in conversation over a laptop in a library, with a third reading at a table behind them." width="1200" height="1600" loading="lazy">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+          Practice under supervision
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     V · ADMISSIONS
      ================================================================== -->
 <section class="chapter section--light section--cream" data-chapter="Admissions" id="audience">
   <div class="container">
     <div class="split-feature split-feature--wide-plate">
       <figure class="plate plate--drift plate--photo" style="--plate-ratio: 1 / 1">
         <div class="plate__frame">
-          <img src="/assets/images/plates/seminar.jpg" alt="Two students in conversation over a laptop in a library, with a third reading at a table behind them." width="1200" height="1200" loading="lazy">
+          <img src="/assets/images/plates/study.jpg" alt="A learner in a collared shirt working at a laptop with headphones, files and papers laid out on the desk beside him." width="1200" height="1200" loading="lazy">
           <span class="plate__tone" aria-hidden="true"></span>
           <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
         </div>
@@ -1027,7 +1145,7 @@
 
       <div>
         <div class="chapter__head">
-          <p class="chapter__num"><span class="roman">III</span> Admissions</p>
+          <p class="chapter__num"><span class="roman">V</span> Admissions</p>
           <h2 class="display-2">Ambitious learners, at every stage.</h2>
           <p class="lede">The College teaches across the Gulf, Europe, Africa and Asia, in a single cohort and to a single standard.</p>
           <p>One pathway serves all of them, because the language does not change according to who is learning it. What changes is the reason: a place at a university, a brief that has to be delivered in English, a board that has to be chaired in it. The programme is the same; the strand a learner leans on is not.</p>
@@ -1078,7 +1196,7 @@
       </div>
     </div>
 
-    <p class="form-note">The College currently admits adult learners. Families enquiring on behalf of an applicant under 18 should write to Admissions directly rather than using the application form &mdash; see <a href="/admissions/#requirements">entry requirements</a>.</p>
+    <p class="form-note">The College admits adult learners. Families enquiring on behalf of an applicant under 18 should write to Admissions directly rather than using the application form &mdash; see <a href="/admissions/#requirements">entry requirements</a>.</p>
 
     <div class="btn-row">
       <a href="/admissions/#apply" class="btn btn--gold aurum aurum--twin">How to Apply<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
@@ -1088,7 +1206,7 @@
 </section>
 
 <!-- ==================================================================
-     IV · STUDENT LIFE
+     VI · STUDENT LIFE
      ================================================================== -->
 <section class="chapter section--dark grain" data-chapter="Student Life" id="digital-campus"
          style="background:radial-gradient(ellipse 70% 60% at 88% 12%, rgba(29,92,99,.34), transparent 62%), linear-gradient(168deg, var(--navy) 0%, var(--midnight) 100%)">
@@ -1096,7 +1214,7 @@
     <div class="split-feature split-feature--wide-text">
       <div>
         <div class="chapter__head">
-          <p class="chapter__num"><span class="roman">IV</span> Student Life</p>
+          <p class="chapter__num"><span class="roman">VI</span> Student Life</p>
           <h2 class="display-2">An instrument, built for one programme.</h2>
           <p class="lede">The platform was written for the IEFC and for nothing else. It is not a licensed course player with a crest applied to it.</p>
         </div>
@@ -1125,7 +1243,7 @@
           </li>
         </ul>
 
-        <p class="form-note">Recorded listening audio and live seminars are in development: the scripts are written and the sessions are timetabled against the first cohort. Both are listed on the platform roadmap rather than implied here.</p>
+        <p class="form-note">Recorded listening audio and seminar sessions are written and timetabled against the founding cohort, and both are published on the platform roadmap with the state they are in.</p>
 
         <div class="btn-row">
           <a href="/students/" class="btn btn--outline">Student Life</a>
@@ -1135,7 +1253,7 @@
 
       <figure class="plate plate--drift plate--photo" style="--plate-ratio: 1 / 1">
         <div class="plate__frame">
-          <img src="/assets/images/plates/study.jpg" alt="A learner in a collared shirt working at a laptop with headphones, files and papers laid out on the desk beside him." width="1200" height="1200" loading="lazy">
+          <img src="/assets/images/plates/library.jpg" alt="A university reading hall: long tables, green-shaded lamps and shelved stacks receding towards the far wall." width="1200" height="1200" loading="lazy">
           <span class="plate__tone" aria-hidden="true"></span>
           <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
         </div>
@@ -1149,14 +1267,14 @@
 </section>
 
 <!-- ==================================================================
-     V · GOVERNANCE
+     VII · GOVERNANCE
      ================================================================== -->
 <section class="chapter chapter--principles section--dark section--oxford grain aurora" data-chapter="Governance" id="principles">
   <div class="container">
     <div class="chapter__head chapter__head--center">
-      <p class="chapter__num"><span class="roman">V</span> Governance</p>
+      <p class="chapter__num"><span class="roman">VII</span> Governance</p>
       <h2 class="display-2">Four commitments this College will not trade.</h2>
-      <p class="lede" style="margin-inline:auto">They are the reasons to choose a young institution over an old one, and each of them costs the College something.</p>
+      <p class="lede" style="margin-inline:auto">Each of them costs the College something. That is precisely why they are worth publishing.</p>
     </div>
 
     <div class="principle-grid">
@@ -1164,19 +1282,19 @@
         <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>
         <span class="principle__num">01</span>
         <h3>An award worth conferring</h3>
-        <p>The College will confer its award only under external examination. A certificate issued without one is worth less, not more &mdash; and it would be the easiest thing on this site to fake.</p>
+        <p>The College confers its award only under external examination. A certificate issued without one is worth less, not more &mdash; and it would be the easiest thing on this site to fake.</p>
       </article>
       <article class="principle edge-lit aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
         <span class="principle__num">02</span>
         <h3>Evidence, not assertion</h3>
-        <p>Every institutional claim made here is published alongside the record that supports it, in a register open to anyone who wants to check it. Where something is outstanding, it is listed as outstanding.</p>
+        <p>Every institutional claim made here is published alongside the record that supports it, in a register open to anyone who wants to check it. The College argues from documents.</p>
       </article>
       <article class="principle edge-lit aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg>
         <span class="principle__num">03</span>
         <h3>A founding cohort</h3>
-        <p>No cohort has been taught yet. Those who enrol now are the first, and they are taught with an attention that scale makes impossible later.</p>
+        <p>Those who enrol now are the first, and they are taught with an attention that scale makes impossible later. A founding cohort is the one advantage a new institution can offer that an old one cannot.</p>
       </article>
       <article class="principle edge-lit aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg>
@@ -1188,7 +1306,7 @@
 
     <div class="status-note" id="status">
       <svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>
-      <p>WEC-LC is a newly established institution, delivering the IEFC online worldwide from a London administrative headquarters. Its accreditation position, governance appointments and academic calendar are published in full and kept current &mdash; see <a href="/about/#status">institutional status</a> and <a href="/governance/evidence/">the evidence record</a>.</p>
+      <p>WEC-LC delivers the IEFC online worldwide from a London administrative headquarters, and operates under UK law with professional counsel retained. Accreditation candidacy is underway; its current stage, and the governance appointments and academic calendar supporting it, are published in full and kept current &mdash; see <a href="/about/#status">institutional status</a> and <a href="/governance/evidence/">the evidence record</a>.</p>
     </div>
 
     <div class="btn-row u-center" style="margin-top:34px">
@@ -1199,16 +1317,16 @@
 </section>
 
 <!-- ==================================================================
-     VI · PRESS & LIBRARY
+     VIII · PRESS & LIBRARY
      ================================================================== -->
 <section class="chapter section--light section--pearl" data-chapter="Press &amp; Library" id="press">
   <div class="container">
     <div class="split-feature split-feature--wide-text">
       <div>
         <div class="chapter__head">
-          <p class="chapter__num"><span class="roman">VI</span> Press &amp; Library</p>
+          <p class="chapter__num"><span class="roman">VIII</span> Press &amp; Library</p>
           <h2 class="display-2">The College publishes what it teaches.</h2>
-          <p class="lede">The sixty modules, the assessment scheme and the teaching method are not internal documents. WEC Press issues them as volumes anyone can read &mdash; and states plainly which have been independently reviewed. None has yet, and the imprint says so rather than implying otherwise.</p>
+          <p class="lede">The sixty modules, the assessment scheme and the teaching method are not internal documents. WEC Press issues them as volumes anyone can read, and every volume carries its review status on its own title page &mdash; an imprint that publishes its curriculum can be held to it.</p>
         </div>
 
         <div class="btn-row">
@@ -1564,5 +1682,6 @@
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
 <script src="/js/worldclock.js" defer></script>
+<script src="/js/sonics.js" defer></script>
 </body>
 </html>

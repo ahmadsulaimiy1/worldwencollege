@@ -2185,3 +2185,41 @@ ul.check-list li::before {
 }
 .portal-entry__lede { margin: 0 0 1.3rem; opacity: .85; }
 .portal-entry .btn-row { display: flex; gap: .8rem; flex-wrap: wrap; }
+
+/* -------------------- The sound control -------------------- */
+/* Injected by js/sonics.js into .topbar__right, and only when the
+   browser can actually produce sound. Sized to the 44px the rest of
+   the top bar keeps, with the visible chrome smaller than the target —
+   the same anchor-is-the-target rule the social links follow. */
+.sonics-toggle {
+  display: inline-flex; align-items: center; gap: .5em;
+  min-height: 44px; padding: 0 .7em;
+  background: none; border: 0; cursor: pointer;
+  font-family: var(--font-body); font-weight: 600; font-size: .74rem;
+  letter-spacing: .06em; color: rgba(247,244,236,.62);
+  transition: color var(--dur-fast) ease;
+}
+.sonics-toggle:hover { color: var(--gold-bright); }
+.sonics-toggle:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 2px; border-radius: var(--r-xs); }
+/* Three bars that stand up when sound is on and lie flat when it is
+   off — the state is legible without reading the label, which matters
+   because the label is the first thing a narrow viewport drops. */
+.sonics-toggle__wave { display: inline-flex; align-items: center; gap: 2px; height: 14px; }
+.sonics-toggle__wave i {
+  display: block; width: 2px; height: 3px; border-radius: 1px;
+  background: currentColor; opacity: .55;
+  transition: height var(--dur-med) var(--ease-premium), opacity var(--dur-med) ease;
+}
+.sonics-toggle.is-on { color: var(--gold-soft); }
+.sonics-toggle.is-on .sonics-toggle__wave i { opacity: 1; animation: sonics-bar 1.4s ease-in-out infinite; }
+.sonics-toggle.is-on .sonics-toggle__wave i:nth-child(1) { height: 7px;  animation-delay: 0s; }
+.sonics-toggle.is-on .sonics-toggle__wave i:nth-child(2) { height: 13px; animation-delay: .18s; }
+.sonics-toggle.is-on .sonics-toggle__wave i:nth-child(3) { height: 9px;  animation-delay: .36s; }
+@keyframes sonics-bar { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.55); } }
+/* The bar shed rules drop the label first, then the whole control, in
+   the same order and for the same reason as everything else in the bar. */
+@media (max-width: 900px) { .sonics-toggle__label { display: none; } }
+@media (max-width: 620px) { .sonics-toggle { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .sonics-toggle.is-on .sonics-toggle__wave i { animation: none; }
+}
