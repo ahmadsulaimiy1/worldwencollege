@@ -228,18 +228,22 @@ function urlPathFor(outputPath) {
   return '/' + trimmed;
 }
 
-// The commit this build came from. GITHUB_SHA in CI; a local `git
-// rev-parse` otherwise; and a literal "unknown" if neither is
-// available, which is honest rather than misleading — a stamp that
-// invents a value would make the deploy check pass against nothing.
-const BUILD_ID = (() => {
-  if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA.slice(0, 12);
-  try {
-    return require('child_process')
-      .execSync('git rev-parse HEAD', { cwd: ROOT, stdio: ['ignore', 'pipe', 'ignore'] })
-      .toString().trim().slice(0, 12);
-  } catch { return 'unknown'; }
-})();
+// The commit this build came from — but ONLY when a release build is
+// producing it. In CI, GITHUB_SHA; everywhere else, empty.
+//
+// The first version read `git rev-parse HEAD` as a local fallback, and
+// that was wrong in a way worth recording. The stamp is a function of
+// the commit, so every local rebuild after every commit rewrote the
+// stamp on all 64 pages — sixty-six modified files of pure churn,
+// forever, on a repository whose built output is committed. The signal
+// the stamp exists to carry was drowning in the noise of carrying it.
+//
+// Empty locally is not a loss: the stamp exists to let the DEPLOY prove
+// itself against the live domain, and the deploy job builds immediately
+// before publishing with GITHUB_SHA set. Committed output therefore
+// holds a stable empty stamp, and the only build that ever writes a
+// real one is the build that is about to be served.
+const BUILD_ID = (process.env.GITHUB_SHA || '').slice(0, 12);
 
 function build() {
   const manifest = JSON.parse(read(path.join(PAGES, 'manifest.json')));
