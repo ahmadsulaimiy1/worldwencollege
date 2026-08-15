@@ -1376,6 +1376,48 @@ section { position: relative; }
   width: 13px; height: 13px; color: var(--gold-soft);
   filter: drop-shadow(0 1px 1px rgba(0,0,0,.4));
 }
+/* -------------------- QUICK LINKS (the swipeable strip) -------------------- */
+/* Not every footer link is a destination worth browsing — a few are
+   things a returning visitor wants fast, with a line of context a
+   plain tile can't carry ("start here," not just "here"). Rather than
+   force that context into a grid cell, it gets its own still-swipeable
+   strip, on the footer's own navy rather than another ivory panel, so
+   it reads as a distinct register: browse the grids above it, or grab
+   one of these six directly. Same scroll-snap mechanism as the
+   header's quicknav — no carousel library here either. */
+.footerlinks { max-width: var(--wrap); margin: 0 auto 44px; padding: 0 24px; }
+.footerlinks__heading {
+  display: flex; align-items: center; gap: .7em;
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold-royal); padding-bottom: 18px;
+}
+.footerlinks__track {
+  display: flex; gap: 16px;
+  overflow-x: auto; scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  padding-bottom: 8px;
+}
+.footerlinks__track::-webkit-scrollbar { display: none; }
+.footerlinks__card {
+  scroll-snap-align: start; flex: 0 0 auto; width: 240px; min-height: 44px;
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 22px 20px; border-radius: 10px;
+  background: linear-gradient(160deg, rgba(31,61,122,.4) 0%, rgba(10,20,40,.3) 100%);
+  border: 1px solid rgba(199,162,74,.32);
+  transition: border-color var(--dur-fast) ease, transform var(--dur-fast) var(--ease-premium);
+}
+.footerlinks__card:hover { border-color: rgba(199,162,74,.6); transform: translateY(-3px); }
+.footerlinks__card-title {
+  font-family: var(--font-display); font-weight: 600; font-size: 1.05rem;
+  color: var(--gold-champagne);
+}
+.footerlinks__card-desc { font-size: .82rem; line-height: 1.5; color: rgba(247,244,236,.62); }
+@media (prefers-reduced-motion: reduce) {
+  .footerlinks__card:hover { transform: none; }
+  .footerlinks__card { transition: none; }
+}
+
 .site-footer__bottom {
   border-top: 1px solid var(--line-dark); padding: 22px 24px; max-width: var(--wrap); margin: 0 auto;
   display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; font-size: .78rem; color: rgba(247,244,236,.5);
@@ -1422,14 +1464,33 @@ section { position: relative; }
    same tap-target discipline the rest of the footer's links carry. */
 .footergrid__intro a { display: inline-flex; align-items: center; min-height: 44px; color: var(--bronze); }
 .footergrid__intro + .footergrid__row { padding-top: 4px; }
-/* Four across at rest, three from tablet down — never five (too thin
-   a column to read as a considered object) and never two (too few to
-   read as a grid rather than a stacked pair). */
+/* Desktop scales to the content — as many columns as fit a tile that
+   still reads as a considered object, five or six on the full wrap
+   width, fewer as the viewport narrows — rather than a number picked
+   in advance. Phone is deliberately NOT left to that same math: it
+   locks to a fixed four (the vessel shrinks to make room, see below),
+   falling back to three only on the narrowest handsets where even a
+   shrunk vessel can't fit four without crowding. */
 .footergrid__row {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 4px;
   padding: 0 26px 34px;
 }
-@media (max-width: 640px) { .footergrid__row { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 780px) { .footergrid__row { grid-template-columns: repeat(4, 1fr); padding-inline: 18px; } }
+@media (max-width: 340px) { .footergrid__row { grid-template-columns: repeat(3, 1fr); } }
+/* The full-size vessel (Explore Further) is comfortably wide enough at
+   its usual 80px that four of them plus gaps overflow a phone-width
+   row; it shrinks here so the row keeps its preferred four columns
+   instead of dropping to three. .vessel--sm is already small enough
+   that it needs no equivalent adjustment. */
+@media (max-width: 780px) {
+  .footergrid .vessel:not(.vessel--sm) {
+    width: 62px; height: 62px; border-radius: 18px;
+  }
+  .footergrid .vessel:not(.vessel--sm)::before,
+  .footergrid .vessel:not(.vessel--sm)::after { inset: -4px; border-radius: 21px; }
+  .footergrid .vessel:not(.vessel--sm) .vessel__badge { width: 44px; height: 44px; }
+  .footergrid .vessel:not(.vessel--sm) .vessel__badge .icon { width: 19px; height: 19px; }
+}
 .footergrid__tile {
   display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px;
   min-height: 44px; padding: 16px 6px;
