@@ -295,52 +295,29 @@
 </div>
 
 <!--
-  الترويسة، بوصفها عمارة.
+  الترويسة: عنصر واحد، لا ثلاثة أشرطة.
 
-  أربع طبقات لا شريطًا واحدًا: الخدمات (topbar.ar.html)، ثم بند
-  الهوية الاحتفالي الذي ينطوي عند التمرير، ثم لوحات التنقّل
-  الزجاجية، ثم إجراءات القبول.
+  كانت أربع طبقات: شريط الخدمات، ثم بند الهوية الاحتفالي الذي ينطوي
+  عند التمرير، ثم لوحات التنقّل، ثم الإجراءات. وكل طبقة منها مبرَّرة
+  وحدها. لكنها مكدَّسة أنتجت نحو ٣٥٠ بكسل من الزخرفة قبل أي محتوى،
+  وثلاث فواصل أفقية، ومحور محاذاة يتغيّر في كل شريط.
 
-  الروابط تشير إلى الصفحات العربية حيث توجد. وحيث لا توجد نسخة
-  عربية بعد، لا يُدرج الرابط أصلًا بدلًا من إخراج القارئ من لغته —
-  راجع pages/manifest.json لما هو مترجَم.
+  فأُلغي بند الهوية وانتقلت وظيفته إلى الشريط نفسه: الشعار والاسم
+  والحرم على السطر ذاته والمحور ذاته، وهو ما يجعل الترويسة تُقرأ
+  كشيء واحد.
+
+  وبقي السلوك الذي كان جيدًا فعلًا: عند التمرير ينكمش الشريط، ويصغر
+  الشعار، وينسحب سطر الحرم، فيبقى اسم الكلية بحجمه الكامل.
+
+  الروابط تشير إلى الصفحات العربية حيث توجد. وحيث لا توجد نسخة عربية
+  بعد، لا يُدرج الرابط أصلًا بدلًا من إخراج القارئ من لغته — راجع
+  pages/manifest.json لما هو مترجَم.
 -->
 <header class="site-header lattice" data-nodes="7">
   <div class="lattice__bed" aria-hidden="true"></div>
 
-  <!-- ============ الطبقة الثانية · الهوية ============ -->
-  <div class="header__crown">
-    <div class="header__crown-inner">
-      <span class="crown__flank" aria-hidden="true">
-        <span class="crown__meta">تأسست <span dir="ltr">MMXXVI</span></span>
-        <span class="crown__rule"></span>
-      </span>
-
-      <a href="/ar/" class="crown__brand" aria-label="الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن، الصفحة الرئيسية">
-        <svg class="brand__crest brand__crest--crown" viewBox="0 0 48 56" aria-hidden="true">
-          <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
-          <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
-          <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
-          <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
-          <path class="crest__book" d="M24 28.5 V37.4"/>
-          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
-        </svg>
-        <span class="crown__word">
-          <span class="crown__name">الكلية العالمية للغة الإنجليزية</span>
-          <span class="crown__campus">الحرم الجامعي — لندن</span>
-        </span>
-      </a>
-
-      <span class="crown__flank crown__flank--end" aria-hidden="true">
-        <span class="crown__rule"></span>
-        <span class="crown__meta">عبر الإنترنت حول العالم</span>
-      </span>
-    </div>
-  </div>
-
-  <!-- ============ الطبقتان الثالثة والرابعة ============ -->
   <div class="site-header__inner">
-    <a href="/ar/" class="brand brand--compact" aria-label="الكلية العالمية للغة الإنجليزية، الصفحة الرئيسية">
+    <a href="/ar/" class="brand" aria-label="الكلية العالمية للغة الإنجليزية، الصفحة الرئيسية">
       <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
         <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
         <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>

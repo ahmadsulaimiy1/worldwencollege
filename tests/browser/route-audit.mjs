@@ -78,7 +78,8 @@ const FONTS = /fonts\.(googleapis|gstatic)\.com/;
 const TAP_BUDGET = 12;
 
 const bad = { status: [], assets: [], errors: [], title: [], lang: [], h1: [], alt: [],
-  overflow: [], mobileOverflow: [], taps: [], chrome: [], headingSkip: [] };
+  overflow: [], mobileOverflow: [], laptopOverflow: [], laptopClipped: [],
+  taps: [], chrome: [], headingSkip: [] };
 
 // A SECOND VIEWPORT, because the first one was hiding things.
 //
@@ -88,6 +89,19 @@ const bad = { status: [], assets: [], errors: [], title: [], lang: [], h1: [], a
 // desktop-only check was auditing the least common case and reporting it
 // as the whole answer.
 const MOBILE = { width: 390, height: 780 };
+
+// A THIRD VIEWPORT, for the same reason there was a second one.
+//
+// 1440 and 390 are the two widths nothing ever breaks at, because they
+// are the two widths everything gets designed at. The interesting
+// failures live in between, where a rail has almost enough room.
+//
+// That is not hypothetical either. The header rebuild fitted at 1440
+// and collapsed to a menu at 390, and at 1024 — an ordinary laptop —
+// the Portal button had vanished and "Apply Now" was clipped by the
+// viewport edge. Both existing checks passed. A width nobody measures
+// is a width nobody fixes.
+const LAPTOP = { width: 1024, height: 800 };
 // Routes that only answered on the second attempt. Reported, never
 // silently swallowed — a retry that hides a consistently slow page is
 // the same lie as a flaky failure, just in the other direction.
@@ -176,7 +190,27 @@ for (const route of routes) {
         return r.height > 0 && r.width > 0 && r.height < 44;
       }).length,
   })).catch(() => null);
+  // The in-between width, measured for overflow and for anything the
+  // chrome has pushed off the edge — which is how a clipped button
+  // shows up, since it does not necessarily extend the scroll width.
+  await page.setViewportSize(LAPTOP);
+  await page.waitForTimeout(80);
+  const l = await page.evaluate(() => ({
+    overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    clipped: [...document.querySelectorAll('.site-header__inner *, .topbar__inner *')]
+      .filter((e) => {
+        const r = e.getBoundingClientRect();
+        return r.width > 0 && (r.right > window.innerWidth + 1 || r.left < -1);
+      })
+      .map((e) => (e.textContent || '').trim().slice(0, 18) || e.className)
+      .slice(0, 3),
+  })).catch(() => null);
+
   await page.setViewportSize({ width: 1440, height: 1000 });
+  if (l) {
+    if (l.overflow > 1) bad.laptopOverflow.push(`${route} (+${l.overflow}px)`);
+    if (l.clipped.length) bad.laptopClipped.push(`${route} (${l.clipped.join(', ')})`);
+  }
   if (m) {
     if (m.overflow > 1) bad.mobileOverflow.push(`${route} (+${m.overflow}px)`);
     if (m.smallTaps > TAP_BUDGET) bad.taps.push(`${route} (${m.smallTaps})`);
@@ -195,6 +229,8 @@ check(`Every route declares a lang attribute${bad.lang.length ? ' — ' + list(b
 check(`Every route has exactly one h1${bad.h1.length ? ' — ' + list(bad.h1, 6) : ''}`, !bad.h1.length);
 check(`Every image carries an alt attribute${bad.alt.length ? ' — ' + list(bad.alt, 6) : ''}`, !bad.alt.length);
 check(`No horizontal overflow at 1440px${bad.overflow.length ? ' — ' + list(bad.overflow) : ''}`, !bad.overflow.length);
+check(`No horizontal overflow at 1024px${bad.laptopOverflow.length ? ' — ' + list(bad.laptopOverflow) : ''}`, !bad.laptopOverflow.length);
+check(`Nothing in the header is clipped at 1024px${bad.laptopClipped.length ? ' — ' + list(bad.laptopClipped, 4) : ''}`, !bad.laptopClipped.length);
 check(`No horizontal overflow at 390px${bad.mobileOverflow.length ? ' — ' + list(bad.mobileOverflow) : ''}`, !bad.mobileOverflow.length);
 check(`No route skips a heading level${bad.headingSkip.length ? ' — ' + list(bad.headingSkip, 6) : ''}`, !bad.headingSkip.length);
 check(`Every route offers a way back to the College${bad.chrome.length ? ' — ' + list(bad.chrome, 8) : ''}`, !bad.chrome.length);

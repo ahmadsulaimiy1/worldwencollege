@@ -562,102 +562,30 @@
 .section--pearl .diagram .diagram__caption { color: var(--gold-soft); }
 
 /* =========================================================
-   11 · THE CROWN BAND  (header layer 2)
-   The ceremonial identity band. Present at rest, withdrawn
-   on scroll — so the institution introduces itself once and
-   then gets out of the reader's way.
+   11 · THE HEADER RAIL  (one band, not three)
+
+   The ceremonial crown band that used to sit here is gone.
+   It was a good idea badly sized: a full identity plate
+   above the navigation, withdrawing on scroll. Stacked on
+   the utility strip and the nav rail it made ~350px of
+   chrome and three horizontal seams, and the wordmark it
+   centred sat on a different axis from everything below it.
+
+   The identity now lives in the rail itself, so there is
+   one band, one ground, one seam and one axis. What is kept
+   from the old behaviour is the condensing — see brand.css,
+   which shrinks the padding and the crest and withdraws the
+   campus line so the name stays full size.
    ========================================================= */
-.header__crown {
-  border-bottom: 1px solid rgba(199, 162, 74, .16);
-  overflow: hidden;
-  /* Animating max-height rather than height so the band can be
-     authored at its natural size. The value is a ceiling, not a
-     measurement — it only has to exceed the real height. */
-  max-height: 132px;
-  transition: max-height .5s var(--ease-premium), opacity .34s var(--ease-premium);
-}
-.header__crown-inner {
-  max-width: var(--wrap); margin: 0 auto; padding: 18px 24px 16px;
-  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 26px;
-}
-.site-header.is-condensed .header__crown {
-  max-height: 0; opacity: 0; border-bottom-color: transparent;
-}
 
-.crown__brand { display: flex; align-items: center; gap: 15px; color: #fff; }
-.brand__crest--crown { width: 44px; height: 51px; flex-shrink: 0; }
-.crown__word { display: flex; flex-direction: column; line-height: 1.1; }
-.crown__name {
-  font-family: var(--font-display); font-weight: 600;
-  font-size: clamp(1.02rem, .92rem + .42vw, 1.34rem);
-  letter-spacing: .002em; color: #fff;
-}
-.crown__campus {
-  font-size: .64rem; letter-spacing: .32em; text-transform: uppercase;
-  color: var(--gold-soft); margin-top: 6px;
-}
-[dir="rtl"] .crown__campus { letter-spacing: .1em; }
-
-/* The flanking rules. They are what turns a centred logo into a
-   frontispiece: the eye reads the rule, then the mark, then the
-   rule, and registers the whole thing as a plate rather than a
-   header image. */
-.crown__flank { display: flex; align-items: center; gap: 16px; min-width: 0; }
-.crown__flank--end { justify-content: flex-end; }
-.crown__rule {
-  flex: 1; height: 1px; min-width: 20px;
-  background: linear-gradient(90deg, transparent, rgba(199, 162, 74, .5));
-}
-.crown__flank--end .crown__rule {
-  background: linear-gradient(90deg, rgba(199, 162, 74, .5), transparent);
-}
-.crown__meta {
-  font-size: .6rem; letter-spacing: .26em; text-transform: uppercase;
-  color: rgba(231, 201, 122, .62); white-space: nowrap; font-weight: 600;
-}
-@media (max-width: 900px) {
-  /* Below this the flanks have no room to be rules, and a 20px rule
-     beside a caption reads as a rendering bug. The band keeps only
-     the mark. */
-  .crown__flank { display: none; }
-  .header__crown-inner { grid-template-columns: 1fr; justify-items: center; padding: 14px 20px 12px; }
-}
-
-/* The compact rail brand appears only once the crown has gone, so the
-   College's name is never absent and never doubled.
-
-   It collapses by max-width rather than opacity alone: left merely
-   transparent it still reserved ~300px, which pushed the navigation
-   off-centre at rest and left an obvious hole where a logo should be.
-   max-width is animatable where `width: auto` is not. */
+/* The brand is present at rest now rather than revealed on
+   scroll, so the reveal machinery is retired. Kept as an
+   explicit reset because .brand--compact appeared in three
+   stylesheets and a stale `max-width: 0` anywhere would
+   hide the College's name on every page. */
 .brand--compact {
-  opacity: 0; max-width: 0; overflow: hidden; pointer-events: none;
-  transform: translateY(-5px);
-  transition: max-width .46s var(--ease-premium), opacity .28s ease,
-              transform .38s var(--ease-premium);
-}
-.site-header.is-condensed .brand--compact {
-  opacity: 1; max-width: 340px; transform: none; pointer-events: auto;
-}
-/* With the brand collapsed, the rail is nav + actions. Auto margins
-   centre the navigation in whatever the actions leave — so the nav
-   sits under the crest at rest and slides left as the brand arrives. */
-.nav { margin-inline: auto; }
-
-@media (max-width: 900px) {
-  /* No crown to replace on a phone: the rail carries the identity at
-     all times. */
-  .header__crown { display: none; }
-  .brand--compact { opacity: 1; max-width: none; transform: none; pointer-events: auto; overflow: visible; }
-}
-
-/* Primary rail items must never wrap. "The College" breaking across
-   two lines makes the whole header a different height, which then
-   makes the crown collapse look like a jump rather than a withdrawal. */
-.nav__item > a, .header__actions .btn { white-space: nowrap; }
-@media (min-width: 981px) and (max-width: 1300px) {
-  .nav { gap: 20px; }
-  .nav__item > a { font-size: .83rem; }
+  opacity: 1; max-width: none; overflow: visible;
+  pointer-events: auto; transform: none;
 }
 
 /* =========================================================
@@ -827,11 +755,11 @@
   .constellation { display: none; }
   @view-transition { navigation: none; }
 
-  /* The crown still collapses — that is layout responding to scroll
+  /* The rail still condenses on scroll — that is layout responding to
      position, not decoration — but it does so instantly rather than
-     sliding, and the compact rail brand is simply present. */
-  .header__crown, .brand--compact, .nav__menu--mega,
-  .mega__feature-go .icon { transition: none; }
+     sliding. */
+  .site-header, .site-header__inner, .brand__crest, .brand__campus,
+  .nav__menu--mega, .mega__feature-go .icon { transition: none; }
 }
 
 /* Save-Data is a request, not a hint: the visitor has told the

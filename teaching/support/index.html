@@ -295,60 +295,38 @@
 </div>
 
 <!--
-  THE HEADER, AS ARCHITECTURE.
+  THE HEADER: ONE ELEMENT, NOT THREE BANDS.
 
-  Four layers, not one bar:
+  It used to be four layers — a utility strip, a ceremonial identity
+  band that withdrew on scroll, a navigation rail and an actions group.
+  Each was defensible on its own. Stacked, they produced roughly 350px
+  of chrome before any content, three horizontal seams, and an alignment
+  axis that changed on every band: a rule pinned far left, the wordmark
+  centred, the navigation left-aligned, the buttons right. Read quickly
+  it did not look like architecture. It looked like something had failed
+  to load.
 
-    1 · Utilities     partials/topbar.html, above this file
-    2 · Identity      the ceremonial band — crest, name, foundation.
-                      Collapses to nothing on scroll.
-    3 · Navigation    glass mega-panels behind a primary rail
-    4 · Actions       Portal, Apply
+  So the ceremonial band is gone and its job moved into the rail. The
+  institution still presents itself — crest, name, campus — but on the
+  same line and the same axis as everything else, which is what makes a
+  header read as one object.
 
-  Layer 2 is what makes this a building rather than a website: at rest
-  the institution presents itself in full, and as the reader descends it
-  withdraws, leaving a compact rail. js/motion.js adds .is-condensed
-  past 90px of scroll; css/brand.css does the collapsing.
+  What survives from the old design is the behaviour that was actually
+  good: on scroll the rail condenses, the crest scales down and the
+  campus line withdraws, so the name stays full size rather than
+  everything shrinking together. js/motion.js adds .is-condensed past
+  90px; css/brand.css does the rest.
 
-  The architectural lattice (css/atelier.css) sits several layers behind
-  all of it, with illuminated junctions placed by js/atelier.js.
+  "Founded MMXXVI" and "Online Worldwide" are not here any more. They
+  are institutional texture, and texture belongs in the footer where a
+  reader has arrived rather than in the header they are trying to get
+  past.
 -->
 <header class="site-header lattice" data-nodes="7">
   <div class="lattice__bed" aria-hidden="true"></div>
 
-  <!-- ============ LAYER 2 · IDENTITY ============ -->
-  <div class="header__crown">
-    <div class="header__crown-inner">
-      <span class="crown__flank" aria-hidden="true">
-        <span class="crown__meta">Founded MMXXVI</span>
-        <span class="crown__rule"></span>
-      </span>
-
-      <a href="/" class="crown__brand" aria-label="WorldWide English College — London Campus, home">
-        <svg class="brand__crest brand__crest--crown" viewBox="0 0 48 56" aria-hidden="true">
-          <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
-          <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
-          <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
-          <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
-          <path class="crest__book" d="M24 28.5 V37.4"/>
-          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
-        </svg>
-        <span class="crown__word">
-          <span class="crown__name">WorldWide English College</span>
-          <span class="crown__campus">London Campus</span>
-        </span>
-      </a>
-
-      <span class="crown__flank crown__flank--end" aria-hidden="true">
-        <span class="crown__rule"></span>
-        <span class="crown__meta">Online Worldwide</span>
-      </span>
-    </div>
-  </div>
-
-  <!-- ============ LAYER 3 + 4 · NAVIGATION AND ACTIONS ============ -->
   <div class="site-header__inner">
-    <a href="/" class="brand brand--compact" aria-label="WorldWide English College, home">
+    <a href="/" class="brand" aria-label="WorldWide English College, home">
       <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
         <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
         <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
