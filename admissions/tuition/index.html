@@ -66,7 +66,7 @@
   "url": "https://www.worldwencollege.co.uk/",
   "email": "info@worldwencollege.co.uk",
   "slogan": "Empowering the World Through English Excellence.",
-  "description": "A premium international English language institution delivering the International English Fluency Course (IEFC) — six CEFR-aligned levels, taught entirely online from a London administrative headquarters.",
+  "description": "An international English language institution delivering the International English Fluency Course (IEFC) — six CEFR-aligned levels, taught entirely online from a London administrative headquarters.",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "London",
@@ -285,6 +285,10 @@
       </span>
     </div>
     <div class="topbar__right">
+      <a href="/contact/" class="topbar__item">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+        Contact
+      </a>
       <a class="topbar__lang" href="/ar/admissions/tuition/" lang="ar" hreflang="ar">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         العربية
@@ -321,10 +325,16 @@
   everything shrinking together. js/motion.js adds .is-condensed past
   90px; css/brand.css does the rest.
 
-  "Founded MMXXVI" and "Online Worldwide" are not here any more. They
-  are institutional texture, and texture belongs in the footer where a
-  reader has arrived rather than in the header they are trying to get
-  past.
+  THE MENUS ARE THE SIX PILLARS of docs/information-architecture.html:
+  The College, Academics, Admissions, Students, Governance, Press &
+  Library. Governance holds a top-level slot because the architecture
+  says it is the page the College should be judged by; Faculty is a
+  roster, not a pillar, and lives inside Academics; Contact sits in the
+  utility bar above. Each menu carries the sections of one pillar and
+  nothing else — thirty-one links across all six, inside the 28–36
+  band the navigation research names. Anything deeper (a single level,
+  BASCE, the verification protocol) is one click behind these links,
+  on a pillar page whose contents rail carries it by name.
 -->
 <header class="site-header lattice" data-nodes="7">
   <div class="lattice__bed" aria-hidden="true"></div>
@@ -349,38 +359,22 @@
 
       <div class="nav__item nav__item--has-menu">
         <a href="/about/" aria-haspopup="true" aria-expanded="false">The College</a>
-        <div class="nav__menu nav__menu--mega crystal">
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
           <div class="mega__cols">
             <div class="mega__col">
               <p class="mega__label">The Institution</p>
               <a href="/about/">About the College</a>
-              <a href="/about/#vision">Vision</a>
-              <a href="/about/#mission">Mission</a>
+              <a href="/about/#vision">Vision &amp; Mission</a>
               <a href="/about/#philosophy">Educational Philosophy</a>
-              <a href="/about/#structure">Organisational Structure</a>
+              <a href="/about/#structure">How It Is Organised</a>
               <a href="/about/careers/">Careers</a>
             </div>
-            <div class="mega__col">
-              <p class="mega__label">Governance</p>
-              <a href="/governance/">Governance</a>
-              <a href="/governance/#senate">The Academic Senate</a>
-              <a href="/governance/#basce">BASCE</a>
-              <a href="/governance/#quality">Quality Assurance</a>
-            </div>
-            <div class="mega__col">
-              <p class="mega__label">Academic Standards</p>
-              <a href="/governance/#standard">How the Standard Is Held</a>
-              <a href="/governance/evidence/">The Evidence Record</a>
-              <a href="/governance/decisions/">The Decisions Register</a>
-              <a href="/governance/#verification">Verification</a>
-              <a href="/governance/#research">Research</a>
-            </div>
           </div>
-          <a class="mega__feature" href="/governance/evidence/">
-            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-shield-check"/></svg>
-            <span class="mega__feature-label">Evidence, not assertion</span>
-            <span class="mega__feature-text">Every institutional claim, published beside the record behind it.</span>
-            <span class="mega__feature-go">The evidence record <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          <a class="mega__feature" href="/about/#status">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-columns"/></svg>
+            <span class="mega__feature-label">Institutional status</span>
+            <span class="mega__feature-text">What the College is today — and what it is not yet. Stated plainly, kept current.</span>
+            <span class="mega__feature-go">Read the status <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
       </div>
@@ -391,20 +385,16 @@
           <div class="mega__cols">
             <div class="mega__col">
               <p class="mega__label">The Programme</p>
-              <a href="/academics/">Programme Overview</a>
+              <a href="/academics/">Academics Overview</a>
               <a href="/academics/#iefc">The IEFC Programme</a>
-              <a href="/academics/#levels">Study &mdash; All Six Levels</a>
+              <a href="/academics/#levels">The Six Levels</a>
               <a href="/academics/#learning">How Learning Works</a>
-              <a href="/academics/#campus">The Platform</a>
+              <a href="/academics/#campus">The Digital Campus</a>
             </div>
             <div class="mega__col">
-              <p class="mega__label">The Six Levels</p>
-              <a href="/study/level-1/"><span class="mega__roman">I</span> Foundation &middot; A1</a>
-              <a href="/study/level-2/"><span class="mega__roman">II</span> Elementary &middot; A2</a>
-              <a href="/study/level-3/"><span class="mega__roman">III</span> Intermediate &middot; B1</a>
-              <a href="/study/level-4/"><span class="mega__roman">IV</span> Upper Intermediate &middot; B2</a>
-              <a href="/study/level-5/"><span class="mega__roman">V</span> Advanced &middot; C1</a>
-              <a href="/study/level-6/"><span class="mega__roman">VI</span> Mastery &middot; C2</a>
+              <p class="mega__label">Teaching &amp; Faculty</p>
+              <a href="/academics/teaching/">Teaching Practice</a>
+              <a href="/faculty/">The Faculty</a>
             </div>
           </div>
           <a class="mega__feature" href="/academics/#levels">
@@ -418,24 +408,15 @@
 
       <div class="nav__item nav__item--has-menu">
         <a href="/admissions/" aria-haspopup="true" aria-expanded="false">Admissions</a>
-        <div class="nav__menu nav__menu--mega crystal">
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
           <div class="mega__cols">
             <div class="mega__col">
               <p class="mega__label">Applying</p>
               <a href="/admissions/">Admissions Overview</a>
               <a href="/admissions/#apply">How to Apply</a>
               <a href="/admissions/#requirements">Entry Requirements</a>
-              <a href="/admissions/#dates">Dates &amp; Calendar</a>
+              <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
               <a href="/admissions/policy/">Admissions Policy</a>
-              <a href="/faq/">Admissions Questions</a>
-            </div>
-            <div class="mega__col">
-              <p class="mega__label">Fees &amp; International</p>
-              <a href="/admissions/tuition/">Tuition &amp; Fees</a>
-              <a href="/admissions/tuition/#paying">Paying for the Programme</a>
-              <a href="/admissions/tuition/#funding">Scholarships</a>
-              <a href="/admissions/#international">International Applicants</a>
-              <a href="/admissions/#visas">Visas &amp; Study Permits</a>
             </div>
           </div>
           <a class="mega__feature" href="/admissions/#apply">
@@ -449,24 +430,15 @@
 
       <div class="nav__item nav__item--has-menu">
         <a href="/students/" aria-haspopup="true" aria-expanded="false">Students</a>
-        <div class="nav__menu nav__menu--mega crystal">
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
           <div class="mega__cols">
             <div class="mega__col">
-              <p class="mega__label">Studying Here</p>
-              <a href="/students/">For Students</a>
+              <p class="mega__label">Student Life</p>
+              <a href="/students/">Student Life</a>
               <a href="/students/assessment/">How You Are Assessed</a>
               <a href="/students/academic-record/">Your Academic Record</a>
-              <a href="/students/#lab">The Listening Lab</a>
               <a href="/students/awards/">Awards &amp; Honours</a>
-            </div>
-            <div class="mega__col">
-              <p class="mega__label">Regulations &amp; Support</p>
-              <a href="/students/integrity/">Academic Integrity</a>
               <a href="/students/regulations/">Academic Regulations</a>
-              <a href="/students/#support">Support</a>
-              <a href="/academics/#campus">Technical Requirements</a>
-              <a href="/support/accessibility/">Accessibility</a>
-              <a href="/support/privacy/">Privacy &amp; Your Data</a>
             </div>
           </div>
           <a class="mega__feature" href="/student-portal/">
@@ -479,46 +451,36 @@
       </div>
 
       <div class="nav__item nav__item--has-menu">
-        <a href="/faculty/" aria-haspopup="true" aria-expanded="false">Faculty</a>
-        <div class="nav__menu nav__menu--mega crystal">
+        <a href="/governance/" aria-haspopup="true" aria-expanded="false">Governance</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
           <div class="mega__cols">
             <div class="mega__col">
-              <p class="mega__label">The Faculty</p>
-              <a href="/faculty/">The Faculty</a>
-              <a href="/academics/teaching/">Teaching at WEC-LC</a>
-              <a href="/about/careers/">Careers</a>
-            </div>
-            <div class="mega__col">
-              <p class="mega__label">Practice</p>
-              <a href="/academics/teaching/#design">How a Lesson Is Designed</a>
-              <a href="/academics/teaching/#support">The Teaching Support Record</a>
-              <a href="/academics/teaching/#companion">The Teacher&rsquo;s Companion</a>
-              <a href="/academics/teaching/#development">Development &amp; Observation</a>
+              <p class="mega__label">How the College Is Run</p>
+              <a href="/governance/">Governance</a>
+              <a href="/governance/#leadership">Board, Senate &amp; Executive</a>
+              <a href="/governance/#quality">Quality Assurance</a>
+              <a href="/governance/evidence/">The Evidence Record</a>
+              <a href="/governance/decisions/">The Decisions Register</a>
             </div>
           </div>
-          <a class="mega__feature" href="/academics/teaching/#design">
-            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-quill"/></svg>
-            <span class="mega__feature-label">How a lesson is designed</span>
-            <span class="mega__feature-text">The method written down, not left to the room it happens in.</span>
-            <span class="mega__feature-go">Read the method <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          <a class="mega__feature" href="/governance/evidence/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-shield-check"/></svg>
+            <span class="mega__feature-label">Evidence, not assertion</span>
+            <span class="mega__feature-text">Every institutional claim, published beside the record behind it.</span>
+            <span class="mega__feature-go">The evidence record <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
       </div>
 
       <div class="nav__item nav__item--has-menu">
         <a href="/press/" aria-haspopup="true" aria-expanded="false">Press &amp; Library</a>
-        <div class="nav__menu nav__menu--mega crystal">
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
           <div class="mega__cols">
             <div class="mega__col">
-              <p class="mega__label">WEC Press</p>
+              <p class="mega__label">The Imprint</p>
               <a href="/press/">WEC Press</a>
               <a href="/press/catalogue/">The Catalogue</a>
               <a href="/press/#standards">House Standards</a>
-              <a href="/press/#review">On Review</a>
-              <a href="/press/#programme">The Publishing Programme</a>
-            </div>
-            <div class="mega__col">
-              <p class="mega__label">The Library</p>
               <a href="/press/#library">The Library</a>
             </div>
           </div>
@@ -531,7 +493,6 @@
         </div>
       </div>
 
-      <div class="nav__item"><a href="/contact/">Contact</a></div>
     </nav>
 
     <div class="header__actions">
@@ -547,35 +508,28 @@
   </div>
 
   <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile">
-    <a href="/about/">About</a>
-    <a href="/governance/">Governance</a>
-    <a href="/governance/#quality">Quality Assurance</a>
-    <a href="/governance/#standard">Academic Standards</a>
-    <a href="/governance/evidence/">The Evidence Record</a>
+    <a href="/about/">The College</a>
     <a href="/academics/">Academics</a>
     <a href="/academics/#iefc">The IEFC Programme</a>
-    <a href="/academics/#levels">Study &mdash; All Six Levels</a>
-    <a href="/academics/#learning">How Learning Works</a>
+    <a href="/academics/#levels">The Six Levels</a>
+    <a href="/academics/teaching/">Teaching Practice</a>
+    <a href="/faculty/">The Faculty</a>
     <a href="/admissions/">Admissions</a>
     <a href="/admissions/#apply">How to Apply</a>
     <a href="/admissions/#requirements">Entry Requirements</a>
-    <a href="/admissions/tuition/">Tuition &amp; Fees</a>
-    <a href="/admissions/tuition/#funding">Scholarships</a>
+    <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
     <a href="/faq/">Admissions Questions</a>
-    <a href="/faculty/">Faculty</a>
-    <a href="/academics/teaching/">Teaching at WEC-LC</a>
-    <a href="/students/">For Students</a>
+    <a href="/students/">Student Life</a>
     <a href="/students/assessment/">How You Are Assessed</a>
-    <a href="/students/awards/">Awards &amp; Honours</a>
     <a href="/students/regulations/">Academic Regulations</a>
     <a href="/student-portal/">Student Portal</a>
+    <a href="/governance/">Governance</a>
+    <a href="/governance/evidence/">The Evidence Record</a>
     <a href="/press/">WEC Press</a>
     <a href="/press/catalogue/">The Catalogue</a>
     <a href="/press/#library">The Library</a>
-    <a href="/academics/#campus">Technical Requirements</a>
     <a href="/support/accessibility/">Accessibility</a>
     <a href="/support/privacy/">Privacy &amp; Your Data</a>
-    <a href="/faq/">FAQ</a>
     <a href="/contact/">Contact</a>
     <a href="/admissions/#apply" class="btn btn--gold">Apply Now</a>
   </nav>

@@ -66,7 +66,7 @@
   "url": "https://www.worldwencollege.co.uk/",
   "email": "info@worldwencollege.co.uk",
   "slogan": "Empowering the World Through English Excellence.",
-  "description": "A premium international English language institution delivering the International English Fluency Course (IEFC) — six CEFR-aligned levels, taught entirely online from a London administrative headquarters.",
+  "description": "An international English language institution delivering the International English Fluency Course (IEFC) — six CEFR-aligned levels, taught entirely online from a London administrative headquarters.",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "London",
@@ -285,6 +285,10 @@
       </span>
     </div>
     <div class="topbar__right">
+      <a href="/ar/contact/" class="topbar__item">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+        تواصل معنا
+      </a>
       <a class="topbar__lang" href="/about/" lang="en" hreflang="en" dir="ltr">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         English
@@ -313,9 +317,12 @@
   وبقي السلوك الذي كان جيدًا فعلًا: عند التمرير ينكمش الشريط، ويصغر
   الشعار، وينسحب سطر الحرم، فيبقى اسم الكلية بحجمه الكامل.
 
-  الروابط تشير إلى الصفحات العربية حيث توجد. وحيث لا توجد نسخة عربية
-  بعد، لا يُدرج الرابط أصلًا بدلًا من إخراج القارئ من لغته — راجع
-  pages/manifest.json لما هو مترجَم.
+  القوائم هي أركان docs/information-architecture.html نفسها التي
+  تحملها الترويسة الإنجليزية: عن الكلية، البرامج الأكاديمية، القبول،
+  الطلاب، الحوكمة. ركن «المطبعة والمكتبة» غائب هنا لأنه لا نسخة
+  عربية له بعد — القاعدة الثابتة: حيث لا توجد صفحة عربية، لا يُدرج
+  الرابط أصلًا بدلًا من إخراج القارئ من لغته. راجع pages/manifest.json
+  لما هو مترجَم. رابط التواصل انتقل إلى شريط الخدمات أعلاه.
 -->
 <header class="site-header lattice" data-nodes="7">
   <div class="lattice__bed" aria-hidden="true"></div>
@@ -340,23 +347,21 @@
 
       <div class="nav__item nav__item--has-menu">
         <a href="/ar/about/" aria-haspopup="true" aria-expanded="false">عن الكلية</a>
-        <div class="nav__menu nav__menu--mega crystal">
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
           <div class="mega__cols">
             <div class="mega__col">
               <p class="mega__label">المؤسسة</p>
               <a href="/ar/about/">عن الكلية</a>
-              <a href="/ar/governance/#quality">ضمان الجودة</a>
-            </div>
-            <div class="mega__col">
-              <p class="mega__label">هيئة التدريس</p>
-              <a href="/ar/faculty/">هيئة التدريس</a>
+              <a href="/ar/about/#vision">الرؤية والرسالة</a>
+              <a href="/ar/about/#philosophy">الفلسفة التربوية</a>
+              <a href="/ar/about/#structure">التنظيم</a>
             </div>
           </div>
-          <a class="mega__feature" href="/ar/governance/#quality">
-            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-shield-check"/></svg>
-            <span class="mega__feature-label">دليل لا ادّعاء</span>
-            <span class="mega__feature-text">كل ما تقوله الكلية عن نفسها منشور ومعه السجل الذي يسنده.</span>
-            <span class="mega__feature-go">ضمان الجودة <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          <a class="mega__feature" href="/ar/about/#status">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-columns"/></svg>
+            <span class="mega__feature-label">الوضع المؤسسي</span>
+            <span class="mega__feature-text">ما هي الكلية اليوم — وما ليست بعد. مكتوب بوضوح ومحدَّث باستمرار.</span>
+            <span class="mega__feature-go">اقرأ الوضع المؤسسي <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
       </div>
@@ -369,26 +374,14 @@
               <p class="mega__label">البرنامج</p>
               <a href="/ar/academics/">نظرة عامة على البرنامج</a>
               <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span></a>
-              <a href="/ar/academics/#levels">الدراسة &mdash; المستويات الستة</a>
-            </div>
-            <!-- The six levels, mirroring the English menu. They were
-                 absent here for as long as they were absent in Arabic:
-                 an Arabic reader could reach the study hub and no
-                 further, while an English reader navigated straight to
-                 Level IV from the top of any page. -->
-            <div class="mega__col">
-              <p class="mega__label">المستويات الستة</p>
-              <a href="/ar/study/level-1/"><span class="mega__roman" dir="ltr">I</span> التأسيس &middot; <span dir="ltr">A1</span></a>
-              <a href="/ar/study/level-2/"><span class="mega__roman" dir="ltr">II</span> الابتدائي &middot; <span dir="ltr">A2</span></a>
-              <a href="/ar/study/level-3/"><span class="mega__roman" dir="ltr">III</span> المتوسط &middot; <span dir="ltr">B1</span></a>
-              <a href="/ar/study/level-4/"><span class="mega__roman" dir="ltr">IV</span> المتوسط المتقدم &middot; <span dir="ltr">B2</span></a>
-              <a href="/ar/study/level-5/"><span class="mega__roman" dir="ltr">V</span> المتقدم &middot; <span dir="ltr">C1</span></a>
-              <a href="/ar/study/level-6/"><span class="mega__roman" dir="ltr">VI</span> الإتقان &middot; <span dir="ltr">C2</span></a>
+              <a href="/ar/academics/#levels">المستويات الستة</a>
+              <a href="/ar/academics/#learning">كيف يجري التعلّم</a>
+              <a href="/ar/academics/#campus">الحرم الرقمي</a>
             </div>
             <div class="mega__col">
-              <p class="mega__label">التقييم</p>
-              <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
-              <a href="/ar/students/awards/">الشهادات والمراتب</a>
+              <p class="mega__label">التدريس وهيئته</p>
+              <a href="/ar/academics/#teaching">التدريس</a>
+              <a href="/ar/faculty/">هيئة التدريس</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/academics/#levels">
@@ -402,22 +395,15 @@
 
       <div class="nav__item nav__item--has-menu">
         <a href="/ar/admissions/" aria-haspopup="true" aria-expanded="false">القبول</a>
-        <div class="nav__menu nav__menu--mega crystal">
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
           <div class="mega__cols">
             <div class="mega__col">
               <p class="mega__label">التقديم</p>
               <a href="/ar/admissions/">نظرة عامة على القبول</a>
               <a href="/ar/admissions/#apply">كيفية التقديم</a>
               <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
-              <a href="/ar/admissions/#dates">مواعيد البدء والتقويم</a>
+              <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
               <a href="/ar/faq/">أسئلة القبول</a>
-            </div>
-            <div class="mega__col">
-              <p class="mega__label">الرسوم والدوليون</p>
-              <a href="/ar/admissions/tuition/">الرسوم الدراسية</a>
-              <a href="/ar/admissions/tuition/#paying">سداد الرسوم</a>
-              <a href="/ar/admissions/tuition/#funding">المنح والدعم المالي</a>
-              <a href="/ar/admissions/#visas">التأشيرات وتصاريح الدراسة</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/admissions/#apply">
@@ -430,19 +416,16 @@
       </div>
 
       <div class="nav__item nav__item--has-menu">
-        <a href="/ar/students/assessment/" aria-haspopup="true" aria-expanded="false">الطلاب</a>
-        <div class="nav__menu nav__menu--mega crystal">
+        <a href="/ar/students/" aria-haspopup="true" aria-expanded="false">الطلاب</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
           <div class="mega__cols">
             <div class="mega__col">
-              <p class="mega__label">الدراسة هنا</p>
+              <p class="mega__label">الحياة الطلابية</p>
+              <a href="/ar/students/">الحياة الطلابية</a>
               <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
               <a href="/ar/students/awards/">الشهادات والمراتب</a>
-              <a href="/ar/student-portal/">بوابة الطالب</a>
-            </div>
-            <div class="mega__col">
-              <p class="mega__label">الدعم</p>
-              <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
-              <a href="/ar/faq/">الأسئلة الشائعة</a>
+              <a href="/ar/students/#lab">معمل الاستماع</a>
+              <a href="/ar/students/#support">الدعم</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/student-portal/">
@@ -454,8 +437,28 @@
         </div>
       </div>
 
-      <div class="nav__item"><a href="/ar/faculty/">هيئة التدريس</a></div>
-      <div class="nav__item"><a href="/ar/contact/">تواصل معنا</a></div>
+      <div class="nav__item nav__item--has-menu">
+        <a href="/ar/governance/" aria-haspopup="true" aria-expanded="false">الحوكمة</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">كيف تُدار الكلية</p>
+              <a href="/ar/governance/">الحوكمة</a>
+              <a href="/ar/governance/#leadership">القيادة والهيئات</a>
+              <a href="/ar/governance/#quality">ضمان الجودة</a>
+              <a href="/ar/governance/#basce">مجلس المعايير</a>
+              <a href="/ar/governance/#verification">التحقق</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/ar/governance/#quality">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-shield-check"/></svg>
+            <span class="mega__feature-label">دليل لا ادّعاء</span>
+            <span class="mega__feature-text">كل ما تقوله الكلية عن نفسها منشور ومعه السجل الذي يسنده.</span>
+            <span class="mega__feature-go">ضمان الجودة <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+
     </nav>
 
     <div class="header__actions">
@@ -472,25 +475,22 @@
 
   <nav class="nav-mobile" id="nav-mobile" aria-label="قائمة الجوال">
     <a href="/ar/about/">عن الكلية</a>
-    <a href="/ar/governance/#quality">ضمان الجودة</a>
     <a href="/ar/academics/">البرامج الأكاديمية</a>
     <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span></a>
-    <a href="/ar/academics/#levels">الدراسة &mdash; المستويات الستة</a>
-    <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
-    <a href="/ar/students/awards/">الشهادات والمراتب</a>
+    <a href="/ar/academics/#levels">المستويات الستة</a>
+    <a href="/ar/faculty/">هيئة التدريس</a>
     <a href="/ar/admissions/">القبول</a>
     <a href="/ar/admissions/#apply">كيفية التقديم</a>
     <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
-    <a href="/ar/admissions/tuition/">الرسوم الدراسية</a>
-    <a href="/ar/admissions/tuition/#paying">سداد الرسوم</a>
-    <a href="/ar/admissions/tuition/#funding">المنح والدعم المالي</a>
-    <a href="/ar/admissions/#visas">التأشيرات وتصاريح الدراسة</a>
-    <a href="/ar/admissions/#dates">مواعيد البدء والتقويم</a>
+    <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
     <a href="/ar/faq/">أسئلة القبول</a>
-    <a href="/ar/faculty/">هيئة التدريس</a>
+    <a href="/ar/students/">الحياة الطلابية</a>
+    <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
+    <a href="/ar/students/awards/">الشهادات والمراتب</a>
     <a href="/ar/student-portal/">بوابة الطالب</a>
+    <a href="/ar/governance/">الحوكمة</a>
+    <a href="/ar/governance/#quality">ضمان الجودة</a>
     <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
-    <a href="/ar/faq/">الأسئلة الشائعة</a>
     <a href="/ar/contact/">تواصل معنا</a>
     <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم الآن</a>
   </nav>
@@ -501,9 +501,23 @@
   <div class="container">
     <span class="eyebrow">عن الكلية</span>
     <h1 data-split>مؤسسة قائمة على قناعة واحدة: الطلاقة في اللغة الإنجليزية تُغيّر ما هو ممكن.</h1>
-    <p class="lede">الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن، مؤسسة دولية رائدة لتعليم اللغة الإنجليزية — تقدّم تعليمًا عالمي المستوى عبر بيئة تعلّم حديثة وتقنية، لطلاب في كل مكان حول العالم.</p>
+    <p class="lede">الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن، مؤسسة قيد البناء لتعليم اللغة الإنجليزية دوليًا: برنامج واحد، ستة مستويات موائمة للإطار الأوروبي المرجعي، يُدرَّس ويُقيَّم عبر الإنترنت، لطلاب في كل مكان حول العالم.</p>
   </div>
 </section>
+
+<nav class="contents" aria-label="في هذه الصفحة">
+  <div class="contents__inner">
+    <span class="contents__label">في هذه الصفحة</span>
+    <ul class="contents__list">
+      <li><a href="#vision">الرؤية والرسالة</a></li>
+      <li><a href="#operating-model">نموذج التشغيل</a></li>
+      <li><a href="#philosophy">الفلسفة التربوية</a></li>
+      <li><a href="#structure">التنظيم</a></li>
+      <li><a href="#status">الوضع المؤسسي</a></li>
+    </ul>
+  </div>
+</nav>
+
 
 <section class="section--light section-pad" id="vision" data-contents="الرؤية والرسالة">
   <div class="container two-col reveal">
@@ -548,14 +562,14 @@
 <section class="section--dark section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">شخصية العلامة</span>
-      <h2>مرموقة. راقية. عالمية بحق.</h2>
-      <p class="lede">صُممت الكلية للعائلات والمهنيين والمؤسسات في دول الخليج وأوروبا وأفريقيا وآسيا ممن يتوقعون معيارًا متميزًا — يُترجم بالمضمون لا بالمبالغة. نظام ألواننا (الأزرق الملكي للثقة والتميّز، الذهبي للمكانة والإنجاز، ولمسة حمراء محفوظة للتأكيد) ونبرتنا التحريرية يحملان هذا المعيار عبر كل صفحة وسياسة ومراسلة.</p>
+      <span class="module-marker">لمن بُنيت</span>
+      <h2>بُنيت لقارئ يتحقق من الادّعاءات.</h2>
+      <p class="lede">للعائلات والمهنيين والمؤسسات في دول الخليج وأوروبا وأفريقيا وآسيا — لطلاب يقرؤون ما يشترونه قبل أن يشتروه. لهذا القارئ تكتب الكلية: المنهج الكامل والأسعار والسياسات والوضع المؤسسي الحالي، كلها منشورة قبل التسجيل، بالإنجليزية والعربية.</p>
     </div>
   </div>
 </section>
 
-<section class="section--paper section-pad" id="operating-model">
+<section class="section--paper section-pad" id="operating-model" data-contents="نموذج التشغيل">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">نموذج عملنا</span>
@@ -599,12 +613,12 @@
   </div>
 </section>
 
-<section class="section--light section-pad" id="status">
+<section class="section--light section-pad" id="status" data-contents="الوضع المؤسسي">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">الوضع المؤسسي</span>
       <h2>ما هو مؤكد، وما لا يزال قيد البناء.</h2>
-      <p class="lede">الثقة في مؤسسة متميزة تُبنى بالدقة، لا بالوعود. هذا هو الوضع الحالي والصادق للكلية.</p>
+      <p class="lede">الثقة تُبنى بالدقة، لا بالوعود. هذا هو الوضع الحالي للكلية.</p>
     </div>
     <div class="grid grid--2">
       <div class="card">

@@ -404,12 +404,15 @@ section { position: relative; }
    is the one control a Gulf reader may genuinely need on a phone, so it
    never goes.
 
-   860, not 720, for the strapline. Measured with the bar forced to one
-   row: its natural content needs 785px in English and 726px in Arabic
-   against the viewport less 48px of padding, so English runs out at
-   833. 720 was the width at which the bar had ALREADY been wrapping for
+   940, not 720, for the strapline. Measured with the bar forced to one
+   row: its natural content needed 785px in English and 726px in Arabic
+   against the viewport less 48px of padding, so English ran out at
+   833 and the threshold sat at 860. The Contact link the architecture
+   moved into this bar adds ~90px to the right cluster, which pushes
+   the English break past 920 — so the strapline now goes at 940.
+   720 was the width at which the bar had ALREADY been wrapping for
    a hundred pixels. */
-@media (max-width: 860px) {
+@media (max-width: 940px) {
   .topbar__contacts .topbar__item--muted { display: none; }
 }
 @media (max-width: 720px) {

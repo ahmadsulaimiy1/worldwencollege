@@ -360,7 +360,7 @@ function academicsPage() {
   <div class="container">
     <span class="eyebrow">Academics</span>
     <h1>One programme, taught to a written standard.</h1>
-    <p class="lede">The College teaches one flagship pathway &mdash; the International English
+    <p class="lede">The College teaches one pathway &mdash; the International English
       Fluency Course &mdash; in six CEFR-aligned levels, from no English to mastery. Every
       module is written, every assessment exists before the lesson it tests, and all of it is
       open to read before anyone enrols.</p>

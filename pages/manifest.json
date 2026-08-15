@@ -122,7 +122,8 @@
     "contentFile": "about.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/about/"
+    "altHref": "/about/",
+    "contents": true
   },
   {
     "slug": "academics-ar",

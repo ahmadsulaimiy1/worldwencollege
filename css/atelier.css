@@ -691,6 +691,14 @@
 [dir="rtl"] .mega__feature-go .icon { transform: scaleX(-1); }
 [dir="rtl"] .mega__feature:hover .mega__feature-go .icon { transform: scaleX(-1) translateX(5px); }
 
+/* Five of the six menus now carry a single column of five links or
+   fewer — the architecture caps each menu at what its pillar actually
+   holds. At the full 880px that one column stretches into a prairie
+   with the links marooned at its left edge; the slim panel sizes the
+   plate to the list. Width only: direction, grid and feature behaviour
+   are inherited, so the RTL rules above need no twin. */
+.nav__menu--mega.nav__menu--slim { width: min(620px, calc(100vw - 48px)); }
+
 @media (max-width: 1120px) {
   .nav__menu--mega a.mega__feature { display: none; }
   .nav__menu--mega { grid-template-columns: 1fr; min-width: min(680px, calc(100vw - 40px)); }

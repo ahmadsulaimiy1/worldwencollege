@@ -654,7 +654,7 @@ PAGES.faq = {
 
       <div class="accordion__item">
         <button class="accordion__q"><span>What is the International English Fluency Course (IEFC)?</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">The IEFC is WEC-LC's flagship English programme, structured as six CEFR-aligned levels (A1 through C2), each carrying 10 modules, 20 WEC Credits and a Total Qualification Time of 200 hours. The full programme is 120 WEC Credits and 1,200 hours. Total qualification time is a design figure, not a measurement — it is the workload the curriculum was built to, and how many months it takes depends on the hours you can give it each week.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">The IEFC is WEC-LC's English programme &mdash; its only one &mdash; structured as six CEFR-aligned levels (A1 through C2), each carrying 10 modules, 20 WEC Credits and a Total Qualification Time of 200 hours. The full programme is 120 WEC Credits and 1,200 hours. Total qualification time is a design figure, not a measurement — it is the workload the curriculum was built to, and how many months it takes depends on the hours you can give it each week.</div></div>
       </div>
 
       <div class="accordion__item">
@@ -792,7 +792,7 @@ ${qa('Then what am I paying for?', 'A complete, inspectable programme: six level
     {
       "@type": "Question",
       "name": "What is the International English Fluency Course (IEFC)?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The IEFC is WEC-LC's flagship English programme, structured as six CEFR-aligned levels (A1 through C2), each carrying 10 modules, 20 WEC Credits and a Total Qualification Time of 200 hours. The full programme is 120 WEC Credits and 1,200 hours. Total qualification time is a design figure, not a measurement — it is the workload the curriculum was built to, and how many months it takes depends on the hours you can give it each week." }
+      "acceptedAnswer": { "@type": "Answer", "text": "The IEFC is WEC-LC's English programme — its only one — structured as six CEFR-aligned levels (A1 through C2), each carrying 10 modules, 20 WEC Credits and a Total Qualification Time of 200 hours. The full programme is 120 WEC Credits and 1,200 hours. Total qualification time is a design figure, not a measurement — it is the workload the curriculum was built to, and how many months it takes depends on the hours you can give it each week." }
     },
     {
       "@type": "Question",

@@ -164,7 +164,7 @@ PAGES.pillar = {
   <div class="container">
     <span class="eyebrow">About WEC-LC</span>
     <h1>An institution built on one conviction: English fluency changes what's possible.</h1>
-    <p class="lede">WorldWide English College, London Campus is envisioned as a premium international English language institution — delivering world-class English education through a modern, technology-driven learning environment, to students wherever they are in the world.</p>
+    <p class="lede">WorldWide English College, London Campus is being built as an international English-language institution: one programme, six CEFR-aligned levels, taught and assessed online, for students wherever they are in the world.</p>
   </div>
 </section>
 
@@ -211,9 +211,9 @@ PAGES.pillar = {
 <section class="section--dark section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">Brand Character</span>
-      <h2>Prestigious. Refined. Genuinely international.</h2>
-      <p class="lede">WEC-LC is built for families, professionals and institutions across the Gulf, Europe, Africa and Asia who expect a premium standard — communicated through substance, not superlatives. Our colour system (Royal Blue for trust and excellence, Gold for prestige and achievement, and a Red accent reserved for emphasis) and our editorial tone carry that standard through every page, every policy, and every piece of correspondence.</p>
+      <span class="module-marker">Who It Serves</span>
+      <h2>Built for readers who check claims.</h2>
+      <p class="lede">Families, professionals and institutions across the Gulf, Europe, Africa and Asia — students who read what they are buying before they buy it. The College writes for that reader: the full syllabus, the pricing, the policies and the current institutional status are published before enrolment, in English and in Arabic.</p>
     </div>
   </div>
 </section>
@@ -237,7 +237,7 @@ PAGES.pillar = {
     <div class="section-head">
       <span class="module-marker">Institutional Status</span>
       <h2>What's confirmed, and what's still being built.</h2>
-      <p class="lede">A premium institution earns trust through precision, not promises. Here is the current, honest state of WEC-LC.</p>
+      <p class="lede">Trust is earned through precision, not promises. Here is the current state of WEC-LC.</p>
     </div>
     <div class="grid grid--2">
       <div class="card">
