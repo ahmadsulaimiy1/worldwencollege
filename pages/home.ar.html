@@ -17,7 +17,7 @@
   <canvas class="constellation" aria-hidden="true"></canvas>
   <img class="hero__crest" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400">
   <div class="container hero__inner">
-    <p class="hero__eyebrow">
+    <p class="hero__eyebrow aurum">
       <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
       الحرم الجامعي في لندن · القبول متاح عالميًا
     </p>
@@ -29,28 +29,28 @@
     <p class="lede">الكلية العالمية للغة الإنجليزية مؤسسة لندنية مبنية حول مسار واحد &mdash; <strong>برنامج الطلاقة الدولي في اللغة الإنجليزية <span dir="ltr">(IEFC)</span></strong> &mdash; يرافق المتعلم من كلمته الأولى إلى إتقان اللغة. ستة مستويات. ستون وحدة. كلها مكتوبة ومنشورة ومتاحة للقراءة قبل أن يسجّل أحد.</p>
 
     <div class="btn-row">
-      <a href="/ar/admissions/#apply" class="btn btn--gold">
+      <a href="/ar/admissions/#apply" class="btn btn--gold aurum aurum--twin">
         ابدأ طلبك
         <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
       </a>
       <a href="/ar/academics/#levels" class="btn btn--ghost">اقرأ البرنامج</a>
     </div>
 
-    <div class="hero__stats--flagship">
+    <div class="hero__stats--flagship edge-lit">
       <div class="hero__stat--flagship">
-        <strong data-assemble>6</strong>
+        <strong class="stat-figure" data-assemble>6</strong>
         <span>مستويات وفق <span dir="ltr">CEFR</span></span>
       </div>
       <div class="hero__stat--flagship">
-        <strong data-assemble>60</strong>
+        <strong class="stat-figure" data-assemble>60</strong>
         <span>وحدة مكتوبة</span>
       </div>
       <div class="hero__stat--flagship">
-        <strong data-assemble>120</strong>
+        <strong class="stat-figure" data-assemble>120</strong>
         <span>رصيد <span dir="ltr">WEC</span></span>
       </div>
       <div class="hero__stat--flagship">
-        <strong data-assemble>1,200</strong>
+        <strong class="stat-figure" data-assemble>1,200</strong>
         <span>ساعة دراسية</span>
       </div>
     </div>
@@ -125,21 +125,26 @@
      ================================================================== -->
 <section class="chapter section--dark section--midnight grain" data-chapter="البرامج الأكاديمية" id="programme">
   <div class="container">
-    <div class="chapter__head">
-      <p class="chapter__num"><span class="roman">II</span> البرامج الأكاديمية</p>
-      <h2 class="display-2 gilt">برنامج الطلاقة الدولي في اللغة الإنجليزية</h2>
-      <p class="lede">ستة مستويات متوافقة مع الإطار الأوروبي المرجعي. عشر وحدات في كل مستوى. سياسة تقييم واحدة منشورة، من الدرس الأول إلى الأخير.</p>
+    <!-- الصفحة المزدوجة: الحجّة على صفحة، والرسم الذي يثبتها على الصفحة
+         المقابلة. انظر التعليق نفسه في pages/home.html. -->
+    <div class="split-feature chapter__spread">
+      <div class="chapter__head chapter__head--flush">
+        <p class="chapter__num"><span class="roman">II</span> البرامج الأكاديمية</p>
+        <h2 class="display-2 gilt">برنامج الطلاقة الدولي في اللغة الإنجليزية</h2>
+        <p class="lede">ستة مستويات متوافقة مع الإطار الأوروبي المرجعي. عشر وحدات في كل مستوى. سياسة تقييم واحدة منشورة، من الدرس الأول إلى الأخير.</p>
+        <p>المسار لا يتفرّع. فالدارس الذي يلتحق عند مستواه المُقاس يسلك الطريق نفسه الذي يسلكه من فوقه ومن دونه، والمهارات الأربع محمولة في كل لفّة منه، لا تُدرَّس بالتتابع ثم يُفترض إتقانها.</p>
+      </div>
+
+      <figure class="diagram diagram--spread">
+        {{SVG:assets/art/curriculum-spiral.ar.svg}}
+        <figcaption class="diagram__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+          مسار واحد بست لفّات &mdash; والمهارات الأربع تمتد عبرها جميعًا
+        </figcaption>
+      </figure>
     </div>
 
-    <figure class="diagram">
-      {{SVG:assets/art/curriculum-spiral.ar.svg}}
-      <figcaption class="diagram__caption">
-        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
-        مسار واحد بست لفّات &mdash; والمهارات الأربع تمتد عبرها جميعًا
-      </figcaption>
-    </figure>
-
-    <div class="table-scroll">
+    <div class="table-scroll ledger-mount edge-lit">
       <table class="ledger ledger--flagship">
         <thead>
           <tr>
@@ -153,27 +158,27 @@
         <tbody>
           <tr>
             <td><span class="ledger__level"><span class="ledger__roman" dir="ltr">I</span> <strong>التأسيس</strong></span></td>
-            <td><span class="ledger__cefr" dir="ltr">A1</span></td><td>10</td><td>20</td><td>200 ساعة</td>
+            <td><span class="ledger__cefr roman-caps" dir="ltr">A1</span></td><td>10</td><td>20</td><td>200 ساعة</td>
           </tr>
           <tr>
             <td><span class="ledger__level"><span class="ledger__roman" dir="ltr">II</span> <strong>الابتدائي</strong></span></td>
-            <td><span class="ledger__cefr" dir="ltr">A2</span></td><td>10</td><td>20</td><td>200 ساعة</td>
+            <td><span class="ledger__cefr roman-caps" dir="ltr">A2</span></td><td>10</td><td>20</td><td>200 ساعة</td>
           </tr>
           <tr>
             <td><span class="ledger__level"><span class="ledger__roman" dir="ltr">III</span> <strong>المتوسط</strong></span></td>
-            <td><span class="ledger__cefr" dir="ltr">B1</span></td><td>10</td><td>20</td><td>200 ساعة</td>
+            <td><span class="ledger__cefr roman-caps" dir="ltr">B1</span></td><td>10</td><td>20</td><td>200 ساعة</td>
           </tr>
           <tr>
             <td><span class="ledger__level"><span class="ledger__roman" dir="ltr">IV</span> <strong>المتوسط المتقدم</strong></span></td>
-            <td><span class="ledger__cefr" dir="ltr">B2</span></td><td>10</td><td>20</td><td>200 ساعة</td>
+            <td><span class="ledger__cefr roman-caps" dir="ltr">B2</span></td><td>10</td><td>20</td><td>200 ساعة</td>
           </tr>
           <tr>
             <td><span class="ledger__level"><span class="ledger__roman" dir="ltr">V</span> <strong>المتقدم</strong></span></td>
-            <td><span class="ledger__cefr" dir="ltr">C1</span></td><td>10</td><td>20</td><td>200 ساعة</td>
+            <td><span class="ledger__cefr roman-caps" dir="ltr">C1</span></td><td>10</td><td>20</td><td>200 ساعة</td>
           </tr>
           <tr>
             <td><span class="ledger__level"><span class="ledger__roman" dir="ltr">VI</span> <strong>الإتقان</strong></span></td>
-            <td><span class="ledger__cefr" dir="ltr">C2</span></td><td>10</td><td>20</td><td>200 ساعة</td>
+            <td><span class="ledger__cefr roman-caps" dir="ltr">C2</span></td><td>10</td><td>20</td><td>200 ساعة</td>
           </tr>
           <tr>
             <td colspan="2"><strong>المسار كاملًا</strong></td>
@@ -221,42 +226,42 @@
     </div>
 
     <div class="audience-grid" style="margin-top: 20px">
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
         <h3>طلاب المرحلة الثانوية</h3>
         <p>استعداد للدراسة بالإنجليزية قبل أن تصبح هي العائق.</p>
       </div>
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg>
         <h3>طلاب الجامعات</h3>
         <p>لغة أكاديمية كُتبت للحلقات النقاشية والمقالات والمناقشات، لا للتمارين.</p>
       </div>
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>
         <h3>المهنيون العاملون</h3>
         <p>لغة الأعمال والمستوى اللغوي الذي تستخدمه قاعة مليئة بكبار المسؤولين.</p>
       </div>
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>
         <h3>العاملون في القطاع الحكومي</h3>
         <p>الإحاطة والتفاوض والمراسلة بالمستوى الذي يقتضيه المنصب.</p>
       </div>
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg>
         <h3>القيادات التنفيذية</h3>
         <p>الخطابة وإدارة الاجتماعات والتواصل القيادي، مستوى بعد مستوى.</p>
       </div>
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>
         <h3>المتقدّمون دوليًا</h3>
         <p>التحضير لـ<span dir="ltr">IELTS</span> و<span dir="ltr">TOEFL</span> و<span dir="ltr">Cambridge</span> داخل المسار، لا مبيعًا بجانبه.</p>
       </div>
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>
         <h3>المرشّحون للدراسة بالخارج</h3>
         <p>اللغة التي يبحث عنها مكتب القبول الجامعي، موثّقة في السجل.</p>
       </div>
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg>
         <h3>الدراسة الخاصة</h3>
         <p>لكل من يريد اللغة على أصولها، ويريد أن يرى المنهج أولًا.</p>
@@ -266,7 +271,7 @@
     <p class="form-note">تقبل الكلية حاليًا المتعلمين البالغين. وعلى الأسر التي تستفسر نيابةً عن متقدّم دون الثامنة عشرة أن تراسل القبول مباشرة بدلًا من استخدام نموذج التقديم &mdash; راجع <a href="/ar/admissions/#requirements">شروط القبول</a>.</p>
 
     <div class="btn-row">
-      <a href="/ar/admissions/#apply" class="btn btn--gold">كيفية التقديم<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a href="/ar/admissions/#apply" class="btn btn--gold aurum aurum--twin">كيفية التقديم<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       <a href="/ar/admissions/tuition/" class="btn btn--outline">الرسوم والتمويل</a>
     </div>
   </div>
@@ -345,25 +350,25 @@
     </div>
 
     <div class="principle-grid">
-      <article class="principle">
+      <article class="principle edge-lit aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>
         <span class="principle__num" dir="ltr">01</span>
         <h3>شهادة تستحق أن تُمنح</h3>
         <p>لن تمنح الكلية شهادتها إلا تحت إشراف ممتحن خارجي. فالشهادة الصادرة بدونه تساوي أقل لا أكثر &mdash; وهي أسهل ما يمكن تزييفه في هذا الموقع.</p>
       </article>
-      <article class="principle">
+      <article class="principle edge-lit aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
         <span class="principle__num" dir="ltr">02</span>
         <h3>دليل، لا ادّعاء</h3>
         <p>كل ما تقوله الكلية عن نفسها هنا منشور ومعه السجل الذي يسنده، في سجلّ مفتوح لمن أراد التحقق. وحيث يوجد أمر معلّق، يُدرج بوصفه معلّقًا.</p>
       </article>
-      <article class="principle">
+      <article class="principle edge-lit aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg>
         <span class="principle__num" dir="ltr">03</span>
         <h3>دفعة مؤسِّسة</h3>
         <p>لم تُدرَّس أي دفعة بعد. ومن يسجّل الآن هم الأوائل، ويُدرَّسون بعناية يستحيل تقديمها بعد أن يتّسع العدد.</p>
       </article>
-      <article class="principle">
+      <article class="principle edge-lit aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg>
         <span class="principle__num" dir="ltr">04</span>
         <h3>مستوى بمستوى، على وتيرتك</h3>
@@ -426,7 +431,7 @@
     <h2 class="display-2">القبول مستمر. تبدأ يوم تسجّل.</h2>
     <p class="lede">لا دفعة تنتظرها ولا فصل يفوتك. اقرأ البرنامج أولًا &mdash; كله منشور.</p>
     <div class="btn-row">
-      <a href="/ar/admissions/#apply" class="btn btn--gold">ابدأ طلبك الآن<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a href="/ar/admissions/#apply" class="btn btn--gold aurum aurum--twin">ابدأ طلبك الآن<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       <a href="/ar/faq/" class="btn btn--ghost">اقرأ الأسئلة الصعبة أولًا</a>
     </div>
     <p class="cta__note">نُمكّن العالم من خلال التميّز في اللغة الإنجليزية</p>

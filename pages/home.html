@@ -19,7 +19,7 @@
   <canvas class="constellation" aria-hidden="true"></canvas>
   <img class="hero__crest" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400">
   <div class="container hero__inner">
-    <p class="hero__eyebrow">
+    <p class="hero__eyebrow aurum">
       <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
       London Campus · Admissions Open Worldwide
     </p>
@@ -31,28 +31,28 @@
     <p class="lede">WorldWide English College is a London institution built around a single pathway &mdash; the <strong>International English Fluency Course</strong> &mdash; carrying a learner from their first word to command of the language. Six levels. Sixty modules. Every one of them written, published, and open to read before anyone enrols.</p>
 
     <div class="btn-row">
-      <a href="/admissions/#apply" class="btn btn--gold">
+      <a href="/admissions/#apply" class="btn btn--gold aurum aurum--twin">
         Begin Your Application
         <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
       </a>
       <a href="/academics/#levels" class="btn btn--ghost">Read the Programme</a>
     </div>
 
-    <div class="hero__stats--flagship">
+    <div class="hero__stats--flagship edge-lit">
       <div class="hero__stat--flagship">
-        <strong data-assemble>6</strong>
+        <strong class="stat-figure" data-assemble>6</strong>
         <span>CEFR-aligned levels</span>
       </div>
       <div class="hero__stat--flagship">
-        <strong data-assemble>60</strong>
+        <strong class="stat-figure" data-assemble>60</strong>
         <span>Written modules</span>
       </div>
       <div class="hero__stat--flagship">
-        <strong data-assemble>120</strong>
+        <strong class="stat-figure" data-assemble>120</strong>
         <span>WEC credits</span>
       </div>
       <div class="hero__stat--flagship">
-        <strong data-assemble>1,200</strong>
+        <strong class="stat-figure" data-assemble>1,200</strong>
         <span>Hours of study</span>
       </div>
     </div>
@@ -128,21 +128,36 @@
      ================================================================== -->
 <section class="chapter section--dark section--midnight grain" data-chapter="Academics" id="programme">
   <div class="container">
-    <div class="chapter__head">
-      <p class="chapter__num"><span class="roman">II</span> Academics</p>
-      <h2 class="display-2 gilt">The International English Fluency Course</h2>
-      <p class="lede">Six CEFR-aligned levels. Ten modules in each. One published assessment policy, from the first lesson to the last.</p>
+    <!-- THE SPREAD.
+
+         The chapter head and the spiral used to be stacked: a 660px
+         column of type, then a 620px square figure centred under it in
+         a 1180px container. On any desktop that put roughly 280px of
+         empty ground either side of the drawing and a third of a screen
+         of nothing above the table — the page's one genuine hole.
+
+         Set as a spread, the same two elements read as a facing page:
+         the argument on the left, the figure that proves it on the
+         right, both landing on the reader at once. Nothing was added to
+         fill the space; the space stopped existing. -->
+    <div class="split-feature chapter__spread">
+      <div class="chapter__head chapter__head--flush">
+        <p class="chapter__num"><span class="roman">II</span> Academics</p>
+        <h2 class="display-2 gilt">The International English Fluency Course</h2>
+        <p class="lede">Six CEFR-aligned levels. Ten modules in each. One published assessment policy, from the first lesson to the last.</p>
+        <p>The pathway does not branch. A learner entering at their measured level walks the same road as everyone above and below them, and the four skills are carried through every turn of it rather than taught in sequence and then assumed.</p>
+      </div>
+
+      <figure class="diagram diagram--spread">
+        {{SVG:assets/art/curriculum-spiral.svg}}
+        <figcaption class="diagram__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+          One pathway, six turns &mdash; the four skills run through every one of them
+        </figcaption>
+      </figure>
     </div>
 
-    <figure class="diagram">
-      {{SVG:assets/art/curriculum-spiral.svg}}
-      <figcaption class="diagram__caption">
-        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
-        One pathway, six turns &mdash; the four skills run through every one of them
-      </figcaption>
-    </figure>
-
-    <div class="table-scroll">
+    <div class="table-scroll ledger-mount edge-lit">
       <table class="ledger ledger--flagship">
         <thead>
           <tr>
@@ -155,28 +170,28 @@
         </thead>
         <tbody>
           <tr>
-            <td><span class="ledger__level"><span class="ledger__roman">I</span> <strong>Foundation</strong></span></td>
-            <td><span class="ledger__cefr">A1</span></td><td>10</td><td>20</td><td>200 hrs</td>
+            <td><span class="ledger__level"><span class="ledger__roman roman-caps">I</span> <strong>Foundation</strong></span></td>
+            <td><span class="ledger__cefr roman-caps">A1</span></td><td>10</td><td>20</td><td>200 hrs</td>
           </tr>
           <tr>
-            <td><span class="ledger__level"><span class="ledger__roman">II</span> <strong>Elementary</strong></span></td>
-            <td><span class="ledger__cefr">A2</span></td><td>10</td><td>20</td><td>200 hrs</td>
+            <td><span class="ledger__level"><span class="ledger__roman roman-caps">II</span> <strong>Elementary</strong></span></td>
+            <td><span class="ledger__cefr roman-caps">A2</span></td><td>10</td><td>20</td><td>200 hrs</td>
           </tr>
           <tr>
-            <td><span class="ledger__level"><span class="ledger__roman">III</span> <strong>Intermediate</strong></span></td>
-            <td><span class="ledger__cefr">B1</span></td><td>10</td><td>20</td><td>200 hrs</td>
+            <td><span class="ledger__level"><span class="ledger__roman roman-caps">III</span> <strong>Intermediate</strong></span></td>
+            <td><span class="ledger__cefr roman-caps">B1</span></td><td>10</td><td>20</td><td>200 hrs</td>
           </tr>
           <tr>
-            <td><span class="ledger__level"><span class="ledger__roman">IV</span> <strong>Upper Intermediate</strong></span></td>
-            <td><span class="ledger__cefr">B2</span></td><td>10</td><td>20</td><td>200 hrs</td>
+            <td><span class="ledger__level"><span class="ledger__roman roman-caps">IV</span> <strong>Upper Intermediate</strong></span></td>
+            <td><span class="ledger__cefr roman-caps">B2</span></td><td>10</td><td>20</td><td>200 hrs</td>
           </tr>
           <tr>
-            <td><span class="ledger__level"><span class="ledger__roman">V</span> <strong>Advanced</strong></span></td>
-            <td><span class="ledger__cefr">C1</span></td><td>10</td><td>20</td><td>200 hrs</td>
+            <td><span class="ledger__level"><span class="ledger__roman roman-caps">V</span> <strong>Advanced</strong></span></td>
+            <td><span class="ledger__cefr roman-caps">C1</span></td><td>10</td><td>20</td><td>200 hrs</td>
           </tr>
           <tr>
-            <td><span class="ledger__level"><span class="ledger__roman">VI</span> <strong>English Mastery</strong></span></td>
-            <td><span class="ledger__cefr">C2</span></td><td>10</td><td>20</td><td>200 hrs</td>
+            <td><span class="ledger__level"><span class="ledger__roman roman-caps">VI</span> <strong>English Mastery</strong></span></td>
+            <td><span class="ledger__cefr roman-caps">C2</span></td><td>10</td><td>20</td><td>200 hrs</td>
           </tr>
           <tr>
             <td colspan="2"><strong>The complete pathway</strong></td>
@@ -224,42 +239,42 @@
     </div>
 
     <div class="audience-grid" style="margin-top: 20px">
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
         <h3>Secondary students</h3>
         <p>Preparing for study in English before it becomes the thing standing in the way.</p>
       </div>
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg>
         <h3>University students</h3>
         <p>Academic English written for seminars, essays and vivas rather than for exercises.</p>
       </div>
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>
         <h3>Working professionals</h3>
         <p>Business English and the register a room full of senior people actually uses.</p>
       </div>
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>
         <h3>Government service</h3>
         <p>Briefing, negotiation and correspondence at the standard the post requires.</p>
       </div>
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg>
         <h3>Executives &amp; leadership</h3>
         <p>Public speaking, chairing and leadership communication, taught one level at a time.</p>
       </div>
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>
         <h3>International applicants</h3>
         <p>IELTS, TOEFL and Cambridge preparation inside the pathway, not sold alongside it.</p>
       </div>
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>
         <h3>Study-abroad candidates</h3>
         <p>The English a university admissions office is looking for, evidenced on the record.</p>
       </div>
-      <div class="audience">
+      <div class="audience edge-lit edge-lit--light aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg>
         <h3>Private study</h3>
         <p>Anyone who wants the language properly, and wants to see the syllabus first.</p>
@@ -269,7 +284,7 @@
     <p class="form-note">The College currently admits adult learners. Families enquiring on behalf of an applicant under 18 should write to Admissions directly rather than using the application form &mdash; see <a href="/admissions/#requirements">entry requirements</a>.</p>
 
     <div class="btn-row">
-      <a href="/admissions/#apply" class="btn btn--gold">How to Apply<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a href="/admissions/#apply" class="btn btn--gold aurum aurum--twin">How to Apply<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       <a href="/admissions/tuition/" class="btn btn--outline">Tuition, Fees &amp; Funding</a>
     </div>
   </div>
@@ -348,25 +363,25 @@
     </div>
 
     <div class="principle-grid">
-      <article class="principle">
+      <article class="principle edge-lit aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>
         <span class="principle__num">01</span>
         <h3>An award worth conferring</h3>
         <p>The College will confer its award only under external examination. A certificate issued without one is worth less, not more &mdash; and it would be the easiest thing on this site to fake.</p>
       </article>
-      <article class="principle">
+      <article class="principle edge-lit aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
         <span class="principle__num">02</span>
         <h3>Evidence, not assertion</h3>
         <p>Every institutional claim made here is published alongside the record that supports it, in a register open to anyone who wants to check it. Where something is outstanding, it is listed as outstanding.</p>
       </article>
-      <article class="principle">
+      <article class="principle edge-lit aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg>
         <span class="principle__num">03</span>
         <h3>A founding cohort</h3>
         <p>No cohort has been taught yet. Those who enrol now are the first, and they are taught with an attention that scale makes impossible later.</p>
       </article>
-      <article class="principle">
+      <article class="principle edge-lit aurum aurum--hover">
         <svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg>
         <span class="principle__num">04</span>
         <h3>Level by level, at your pace</h3>
@@ -429,7 +444,7 @@
     <h2 class="display-2">Admission is continuous. You begin the day you enrol.</h2>
     <p class="lede">There is no intake to wait for and no term to miss. Read the programme first &mdash; all of it is published.</p>
     <div class="btn-row">
-      <a href="/admissions/#apply" class="btn btn--gold">Start Your Application<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a href="/admissions/#apply" class="btn btn--gold aurum aurum--twin">Start Your Application<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       <a href="/faq/" class="btn btn--ghost">Read the Hard Questions First</a>
     </div>
     <p class="cta__note">Empowering the World Through English Excellence</p>

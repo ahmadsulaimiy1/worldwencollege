@@ -95,17 +95,77 @@
   --line-dark:    rgba(231,201,122,.22);
   --line-stone:   #E4DED0;   /* the neutral rule, for where gold would shout */
 
+  /* =====================================================================
+     THE RADIUS SCALE
+     ---------------------------------------------------------------------
+     Radius is not a taste setting; it is a function of the element's
+     size. A 4px corner on a 600px plate reads as a mistake — the eye
+     sees a square that failed to be square. A 24px corner on a 40px
+     badge reads as a bubble. The perceived softness of a corner is the
+     radius as a PROPORTION of the shortest edge, so a system that wants
+     one material across every scale needs the radius to climb with the
+     component, holding that proportion roughly constant at ~6–10%.
+
+     That is the whole scale. Each step names a size of thing, not a
+     number of pixels, and choosing the step is choosing what kind of
+     object you are drawing.
+
+     WHAT STAYS SQUARE, DELIBERATELY. Not everything should soften —
+     an institution needs orthogonal structure to lean on, and a page
+     where every edge is rounded reads as a consumer app. Square, by
+     decision: table cells and their rules, hairline dividers, chapter
+     rules, the ledger, column keylines, the grain and guilloché
+     grounds. Those are the page's ARCHITECTURE. Radius belongs to the
+     OBJECTS placed on it. */
+  --r-xs:   6px;    /* inline marks: CEFR badges, tags, code, strands */
+  --r-sm:   10px;   /* controls: buttons, inputs, chips, small icon wells */
+  --r-md:   16px;   /* cards, tiles, list wells, callouts */
+  --r-lg:   24px;   /* plates, panels, feature blocks, mega-panels */
+  --r-xl:   34px;   /* section-scale containers, hero furniture */
+  --r-2xl:  48px;   /* full-bleed inset bands */
+  --r-pill: 999px;  /* anything whose height is its own radius */
+
   /* Elevation scale — a resting, a hover, and a floating (dropdown/
      modal/dialog) tier, all sharing the same warm, low-chroma shadow
      colour so depth reads as "considered," not as a generic drop
      shadow lifted from a UI kit. --shadow kept as the existing name
      (now aliased to the floating tier) so every pre-existing caller
-     is untouched. */
-  --shadow-sm:    0 2px 10px -4px rgba(10,23,48,.18);
-  --shadow-md:    0 14px 32px -14px rgba(10,23,48,.28);
-  --shadow-lg:    0 20px 60px -20px rgba(10,23,48,.35);
+     is untouched.
+
+     EACH TIER IS TWO SHADOWS, and that is the upgrade. A single blurred
+     offset is what a UI kit ships and it always reads as a sticker on a
+     page. Real objects cast two: a tight, dark CONTACT shadow where the
+     object meets the surface, which is what tells the eye the two are
+     touching, and a wide, soft AMBIENT shadow from the room's fill
+     light, which is what gives the object mass. Removing either one is
+     immediately visible — without contact the object floats; without
+     ambient it is a decal. The pairing is why these read as objects
+     rather than as blur. */
+  --shadow-sm:    0 1px 2px -1px rgba(10,23,48,.22), 0 3px 12px -6px rgba(10,23,48,.18);
+  --shadow-md:    0 2px 4px -2px rgba(10,23,48,.24), 0 16px 36px -16px rgba(10,23,48,.30);
+  --shadow-lg:    0 4px 8px -3px rgba(10,23,48,.26), 0 28px 68px -22px rgba(10,23,48,.38);
   --shadow:       var(--shadow-lg);
-  --shadow-gold:  0 10px 28px -12px rgba(199,162,74,.45);
+  --shadow-gold:  0 2px 6px -2px rgba(122,92,28,.34), 0 14px 34px -12px rgba(199,162,74,.48);
+
+  /* =====================================================================
+     THE RELIEF MODEL
+     ---------------------------------------------------------------------
+     Gold, on this site, is a metal — and a metal surface is defined by
+     its EDGES, not by its fill. Light comes from above and slightly
+     forward (the same direction js/atelier.js's ambient-hour system
+     assumes), so every raised surface carries a bright inset hairline
+     along its top edge and a dark inset hairline along its bottom, and
+     every recessed one carries exactly the reverse. Two inset shadows,
+     one declaration, and a flat rectangle becomes a struck plate.
+
+     These are the tokens; the components below simply compose them
+     with a --shadow-* tier. Anything that wants to look worked rather
+     than filled uses one. */
+  --relief-raised: inset 0 1px 0 rgba(255,252,240,.30), inset 0 -1px 0 rgba(8,16,34,.42);
+  --relief-inset:  inset 0 1px 2px rgba(8,16,34,.45), inset 0 -1px 0 rgba(255,252,240,.14);
+  --relief-metal:  inset 0 1px 2px rgba(255,255,255,.58), inset 0 -2px 3px rgba(90,62,20,.42);
+  --relief-glass:  inset 0 1px 0 rgba(255,252,240,.22), inset 0 0 0 1px rgba(231,201,122,.10),
+                   inset 0 -20px 40px -28px rgba(8,16,34,.7);
 
   /* Motion tokens — one considered easing curve (a gentle ease-out,
      decisive but never bouncy) and a small duration scale, used
@@ -118,8 +178,47 @@
 
   --gold-gradient: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
 
-  --font-display: 'Playfair Display', Georgia, 'Amiri', serif;
-  --font-body:    'Inter', -apple-system, 'Cairo', sans-serif;
+  /* =====================================================================
+     THE FACES
+     ---------------------------------------------------------------------
+     --font-display  Bodoni Moda. A Didone: vertical stress, unbracketed
+                     serifs, and a stroke contrast steep enough that at
+                     display size the letterforms read as engraved rather
+                     than written. It replaced Playfair Display, which is
+                     a fine face and the single most-used "elegant" font
+                     on the web — a masthead that a reader has already
+                     seen on ten thousand other sites cannot carry an
+                     institution's authority no matter how well it is set.
+                     Requested VARIABLE on `opsz`; see the note in
+                     scripts/build.js for why that axis is the reason
+                     this face can serve both a 4.6rem headline and a
+                     1.05rem sub-heading.
+
+     --font-ceremonial  Cinzel. Inscriptional Roman capitals, the letters
+                     cut into Trajan's column and inherited by every
+                     British institution that ever carved its name over a
+                     door. RATIONED, absolutely: the crest lockup,
+                     chapter numerals, CEFR marks, seals and awards. It
+                     has no lowercase worth the name and it is not a
+                     reading face. Used for roughly forty characters per
+                     page, it says "this place is old". Used for a
+                     paragraph, it says "this place is a theme".
+
+     --font-body     Inter. Unchanged, and deliberately so: it sets the
+                     body of eighty-eight pages, every form, every table
+                     and the whole student platform. The prestige comes
+                     from the display face, the rhythm and the space
+                     around it — not from replacing a workhorse that is
+                     doing its job.
+
+     Fallbacks name real Didones (Didot, Bodoni MT) before Georgia, so a
+     machine without webfonts still gets the closest thing it owns
+     rather than jumping to a slab. 'Amiri' stays in every stack as the
+     Arabic backstop — see css/arabic.css, which is what actually holds
+     the line for Arabic. */
+  --font-display:    'Bodoni Moda', 'Didot', 'Bodoni MT', Georgia, 'Amiri', serif;
+  --font-ceremonial: 'Cinzel', 'Trajan Pro', 'Bodoni Moda', Georgia, 'Amiri', serif;
+  --font-body:       'Inter', -apple-system, 'Cairo', sans-serif;
 
   --wrap: 1180px;
 }
@@ -162,6 +261,18 @@ body {
   background: var(--ivory);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  /* Let the browser interpolate the optical-size axis. Without this the
+     variable display face is pinned to its default cut and the entire
+     reason it was chosen is switched off — silently, since the page
+     still renders in the right family. */
+  font-optical-sizing: auto;
+  /* Never let the browser fake a WEIGHT. A synthesised bold on a Didone
+     smears the hairlines along with the stems and destroys the stroke
+     contrast that IS the face — and with a variable weight axis loaded
+     there is never a reason to synthesise one.
+     Style synthesis is deliberately left ON: Inter is served without an
+     italic file, so every <em> on the site depends on it. */
+  font-synthesis-weight: none;
 }
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -169,7 +280,27 @@ a { color: inherit; text-decoration: none; }
    opens, so the page beneath it stops scrolling — see the note at
    .nav-mobile in this file. */
 body.nav-open { overflow: hidden; }
-h1, h2, h3, h4 { font-family: var(--font-display); margin: 0 0 .5em; line-height: 1.15; font-weight: 600; }
+h1, h2, h3, h4 {
+  font-family: var(--font-display); margin: 0 0 .5em;
+  line-height: 1.15; font-weight: 600;
+  /* Break the line where the RAGGED EDGE is best, not where the line
+     happens to fill. This is the single largest perceived-quality
+     difference between a headline a designer set and one a browser set:
+     no two-word last line, no orphan hanging under a full measure. It
+     costs nothing and is ignored by browsers that do not have it. */
+  text-wrap: balance;
+}
+/* Small headings are where a Didone earns or loses its keep. `opsz`
+   already thickens the hairlines as the size drops; these two go the
+   rest of the way — a touch more weight so the stems hold at 16px, and
+   POSITIVE tracking, because tight tracking is a large-size correction
+   and applying it at reading size closes the counters. Display sizes
+   set their own tracking in css/atelier.css and are unaffected. */
+h3, h4 { font-weight: 650; letter-spacing: .004em; }
+/* Widow control on running text — the paragraph equivalent of the
+   balanced headline above. `pretty` only adjusts the last few lines,
+   so long copy keeps its even colour. */
+p, .lede, li { text-wrap: pretty; }
 p { margin: 0 0 1em; }
 .container { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
 section { position: relative; }
@@ -285,7 +416,11 @@ section { position: relative; }
   font-size: .88rem;
   letter-spacing: .04em;
   padding: .95em 1.9em;
-  border-radius: 3px;
+  /* 3px, previously — the radius of a shape that was meant to be square
+     and was not committed to it. A control this size reads as either a
+     cut rectangle (0) or a formed one (~10px at a 44px height); the
+     values between the two are the ones that look accidental. */
+  border-radius: var(--r-sm);
   border: 1px solid transparent;
   cursor: pointer;
   position: relative;
@@ -310,17 +445,34 @@ section { position: relative; }
    .glance__icon and the world clock's face — a struck medallion, not
    a painted rectangle. The outer shadow still carries --shadow-sm/
    --shadow-gold so hover/active keep their existing lift. */
+/* THE STRUCK MEDALLION.
+   Three layers of light, and each is doing separate work:
+   · the fill is a three-stop gradient with the lightest band ABOVE
+     centre, which is where a convex surface catches an overhead source
+     — a two-stop gradient reads as a ramp, not as a curve;
+   · --relief-metal is the bevel: a bright hairline cut into the top
+     edge and a shaded one along the bottom;
+   · the shadow pair beneath sets it on the page rather than in it. */
 .btn--gold {
-  background: var(--gold-gradient); color: var(--royal-deep);
-  box-shadow: inset 0 1px 2px rgba(255,255,255,.55), inset 0 -2px 3px rgba(90,62,20,.4), var(--shadow-sm);
+  background:
+    linear-gradient(178deg, rgba(255,252,240,.5) 0%, rgba(255,252,240,0) 46%),
+    linear-gradient(135deg, var(--gold-antique) 0%, var(--gold-rich) 34%,
+                    var(--gold-soft) 62%, var(--gold-royal) 100%);
+  color: var(--royal-deep);
+  box-shadow: var(--relief-metal), var(--shadow-sm);
 }
 .btn--gold:hover {
-  box-shadow: inset 0 1px 2px rgba(255,255,255,.6), inset 0 -2px 3px rgba(90,62,20,.4), var(--shadow-gold);
+  box-shadow: var(--relief-metal), var(--shadow-gold);
   transform: translateY(-2px);
 }
+/* Pressed metal loses its cast shadow and gains an inner one: the
+   object has gone INTO the surface, which is the only honest reading of
+   a press. Lifting the highlight to the bottom edge at the same time is
+   what sells it — the light now enters from below because the face has
+   tilted away from the source. */
 .btn--gold:active {
-  transform: translateY(0);
-  box-shadow: inset 0 1px 2px rgba(255,255,255,.55), inset 0 -2px 3px rgba(90,62,20,.4), var(--shadow-sm);
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px rgba(90,62,20,.55), inset 0 -1px 0 rgba(255,252,240,.4);
 }
 .btn--outline { border-color: var(--gold); color: inherit; }
 .btn--outline:hover { background: rgba(199,162,74,.1); transform: translateY(-2px); }
@@ -336,6 +488,18 @@ section { position: relative; }
    .btn--ghost's dark/translucent grounds especially, can be genuinely
    hard to see for a keyboard user tabbing through CTAs. */
 .btn:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 2px; }
+/* THE RATION, WRITTEN DOWN. Where a gold button also carries `.aurum`
+   (see css/atelier.css) the orbit is deliberately slowed to thirteen
+   seconds, which is roughly four times the interval at which motion
+   reads as animation rather than as an occurrence. At that pace a
+   reader looking at the button sees a point of light cross its edge
+   once and then leaves; a reader reading the page beside it never
+   notices anything moving at all. That is the difference between a
+   signature and a distraction, and it is a number, not a judgement.
+
+   ALLOWED on the single primary call to action in a view. NOT on
+   secondary buttons, not on a row of two golds, not in the header. */
+.btn.aurum { --aurum-dur: 13s; --aurum-width: 1.5px; }
 .btn-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 28px; }
 
 /* -------------------- Skip link -------------------- */
@@ -770,23 +934,46 @@ section { position: relative; }
     0 14px 26px -12px rgba(20,30,50,.4),
     0 0 0 1.5px rgba(199,162,74,.55);
 }
+/* THE HALOES WERE PAINTING WEDGES, NOT RINGS.
+   A conic gradient fills its whole box from the centre outward, so a
+   conic with one bright arc is a PIE SLICE — and that is precisely what
+   these were: a hard triangular beam of white sweeping across the face
+   of every badge in the footer grid and the quicknav strip, on every
+   page. It reads as a rendering fault, which is the worst thing a
+   decorative effect can read as, and it survived because the intent in
+   the comment above ("two travelling lights circle its edge") describes
+   what everyone assumed the code did.
+
+   The fix is the mask-composite ring from css/atelier.css: paint the
+   conic across the box, then subtract the content box from the border
+   box so only the frame survives. The light now travels the PERIMETER,
+   which is what a comet round an edge means. Radii are concentric with
+   the vessel — 24px inset by 3px is 27px, and any other number puts the
+   ring at a varying distance from the corner it is orbiting. */
+.vessel::before, .vessel::after {
+  content: ''; position: absolute; inset: -3px; border-radius: 27px;
+  padding: 2.5px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
 .vessel::before {
-  content: ''; position: absolute; inset: -6px; border-radius: 28px;
   background: conic-gradient(from 0deg,
     transparent 0deg, transparent 290deg,
     rgba(212,175,55,.55) 316deg, var(--gold-rich) 340deg, #fff6da 350deg, var(--gold-rich) 358deg,
     transparent 360deg);
-  filter: blur(1.6px) drop-shadow(0 0 3px rgba(140,106,63,.4));
+  filter: blur(1.2px);
   animation: glance-halo-spin 4.5s linear infinite;
   animation-delay: var(--halo-delay, 0s);
 }
 .vessel::after {
-  content: ''; position: absolute; inset: -6px; border-radius: 28px;
   background: conic-gradient(from 180deg,
     transparent 0deg, transparent 336deg,
     rgba(255,255,255,.7) 349deg, #ffffff 355deg, rgba(255,255,255,.75) 359deg,
     transparent 360deg);
-  filter: blur(1px) drop-shadow(0 0 2px rgba(140,170,210,.55));
+  filter: blur(.8px);
   animation: glance-halo-spin 6.5s linear infinite reverse;
   animation-delay: calc(var(--halo-delay, 0s) + 1.1s);
 }
@@ -1029,7 +1216,7 @@ section { position: relative; }
 @media (max-width: 620px) { .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; } }
 
 .card {
-  background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+  background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-md);
   padding: 32px; position: relative; overflow: hidden;
   box-shadow: var(--shadow-sm);
   transition: transform var(--dur-med) var(--ease-premium), box-shadow var(--dur-med) var(--ease-premium), border-color var(--dur-med) ease;
@@ -1312,12 +1499,25 @@ section { position: relative; }
    should be. */
 .site-footer__inner {
   max-width: var(--wrap); margin: 44px auto 0; padding: 0 24px 44px;
-  display: grid; grid-template-columns: 1.6fr repeat(4, 1fr); gap: 0;
+  display: grid; grid-template-columns: 1.6fr repeat(4, 1fr);
+  gap: clamp(8px, .9vw, 14px);
 }
 @media (max-width: 1080px) { .site-footer__inner { grid-template-columns: 1fr 1fr 1fr; } }
 @media (max-width: 780px) { .site-footer__inner { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 480px) { .site-footer__inner { grid-template-columns: 1fr; } }
-.footer__brand, .footer__col { border: 1px solid rgba(199,162,74,.22); padding: 44px 30px; }
+/* Cells were butted edge to edge with a shared 1px frame — five hard
+   rectangles reading as one table. They are the base of the building,
+   so they take the same material as everything above: separated, with a
+   corner, a floor lit from within, and a rim. The rounding is --r-md
+   rather than --r-lg: these are panels inside the footer, not the
+   footer itself, and the radius has to sit one step below the object
+   that contains it or the nesting inverts. */
+.footer__brand, .footer__col {
+  border: 1px solid rgba(199,162,74,.22); padding: 40px 28px;
+  border-radius: var(--r-md);
+  background: linear-gradient(168deg, rgba(255,252,240,.045), rgba(3,8,20,.14));
+  box-shadow: inset 0 1px 0 rgba(242,227,192,.14);
+}
 .brand__crest-wrap { display: inline-block; }
 .footer__brand .brand__crest--footer { width: 40px; height: 46px; margin-bottom: 14px; }
 .footer__name { font-family: var(--font-display); color: #fff; font-size: 1.05rem; font-weight: 600; }
@@ -1383,9 +1583,10 @@ section { position: relative; }
    stacked on the ones above it. */
 .footergrid {
   max-width: var(--wrap); margin: 0 auto 44px; padding: 0;
-  position: relative; overflow: hidden; border-radius: 8px;
+  position: relative; overflow: hidden; border-radius: var(--r-xl);
   background: linear-gradient(165deg, var(--warm-white) 0%, var(--pearl) 60%, var(--stone) 100%);
   border: 1px solid rgba(199,162,74,.45);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 30px 70px -34px rgba(3,8,20,.9);
 }
 .footergrid__heading {
   display: flex; align-items: center; gap: .7em;
@@ -1449,33 +1650,119 @@ ul.check-list li::before {
    ===================================================================== */
 
 /* -------------------- Display typography -------------------- */
-/* The type families are unchanged (Playfair Display + Inter). What
-   changes is the optical treatment: display sizes get tighter tracking
-   and a shorter leading, because Playfair at 3.5rem with default
-   tracking reads as a word processor, and the same face at -0.02em
-   reads as a masthead. Everything is clamp()ed so there is no
-   breakpoint at which the headline is the wrong size. */
+/* SETTING A DIDONE.
+   ---------------------------------------------------------------------
+   Bodoni Moda is not Playfair Display with better manners, and the
+   settings below are not the old ones nudged. A Didone has vertical
+   stress, unbracketed serifs and extreme stroke contrast, and each of
+   those changes how it must be set:
+
+   1. WEIGHT. The hairlines are genuinely hair-thin, so at 600 on a dark
+      ground the face begins to shimmer and the stems bloom into them.
+      Display sizes take 500 — lighter than Playfair wanted, and the
+      right answer, because the drama in a Didone is the CONTRAST
+      between stem and hairline, not mass. Weight climbs back as the
+      size falls, which the `opsz` axis is doing in parallel.
+
+   2. TRACKING. Playfair took -.021em at the top of the scale. That is
+      much too tight here: a Didone's serifs are flat, thin and
+      horizontal, so closing the letters up makes adjacent serifs touch
+      and the line reads as though it were underscored. Display-1 sits
+      at -.008em — closed only enough to stop a 5rem line drifting
+      apart, never enough to weld it.
+
+   3. LEADING. Higher contrast makes each line read as a heavier band,
+      so the lines need more air or the block looks striped. 1.04
+      becomes 1.08 at the top of the scale.
+
+   Everything stays clamp()ed, so there is no breakpoint at which a
+   headline is the wrong size, and every value moves on one continuous
+   ramp between a phone and a 1440px desktop. The top of the ramp is
+   also raised (4.6rem → 5rem): the previous ceiling was set for a face
+   with a larger x-height, and the same measured cap-height needs more
+   point size in this one. */
 .display-1 {
-  font-family: var(--font-display); font-weight: 600;
-  font-size: clamp(2.4rem, 1.4rem + 4.4vw, 4.6rem);
-  line-height: 1.04; letter-spacing: -.021em; margin: 0 0 .34em;
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(2.5rem, 1.35rem + 4.9vw, 5rem);
+  line-height: 1.08; letter-spacing: -.008em; margin: 0 0 .34em;
+  font-optical-sizing: auto;
 }
 .display-2 {
-  font-family: var(--font-display); font-weight: 600;
-  font-size: clamp(1.85rem, 1.2rem + 2.6vw, 3rem);
-  line-height: 1.1; letter-spacing: -.016em; margin: 0 0 .4em;
+  font-family: var(--font-display); font-weight: 550;
+  font-size: clamp(1.9rem, 1.2rem + 2.8vw, 3.2rem);
+  line-height: 1.12; letter-spacing: -.006em; margin: 0 0 .4em;
+  font-optical-sizing: auto;
 }
 .display-3 {
   font-family: var(--font-display); font-weight: 600;
-  font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.75rem);
-  line-height: 1.18; letter-spacing: -.01em;
+  font-size: clamp(1.32rem, 1.05rem + 1.2vw, 1.8rem);
+  line-height: 1.22; letter-spacing: 0;
+  font-optical-sizing: auto;
 }
+/* REVERSE TYPE IS OPTICALLY LIGHTER, and a high-contrast face is where
+   that stops being a nicety. Light glyphs on a dark ground irradiate:
+   the light spreads into the surrounding dark and eats the thin
+   strokes, so the same weight that is elegant on cream looks
+   under-inked on navy — while the STEMS, being wide, hold. A Didone
+   set identically on both grounds therefore reads as two different
+   faces. Every reversed display size takes about half a weight step
+   back, and the tracking opens a hair for the same reason: irradiation
+   closes the space between letters as well as inside them.
+
+   This is the correction letterpress printers made by hand for reverse
+   panels, and it is why the two grounds on this page look like one
+   publication rather than like two. */
+.section--dark .display-1, .section--deep .display-1,
+.section--oxford .display-1, .section--midnight .display-1,
+.hero--flagship .display-1, .cta--flagship .display-1 { font-weight: 560; letter-spacing: -.004em; }
+.section--dark .display-2, .section--deep .display-2,
+.section--oxford .display-2, .section--midnight .display-2,
+.hero--flagship .display-2, .cta--flagship .display-2 { font-weight: 600; letter-spacing: -.002em; }
+.section--dark .display-3, .section--deep .display-3,
+.section--oxford .display-3, .section--midnight .display-3 { font-weight: 640; }
+.section--dark h3, .section--dark h4, .section--deep h3, .section--deep h4,
+.section--oxford h3, .section--oxford h4,
+.section--midnight h3, .section--midnight h4 { font-weight: 690; }
 /* Small caps used as institutional labelling — chapter numbers, plate
-   captions, table headers. Tracking is wide enough to read as
-   engraving rather than as shouting. */
+   captions, table headers.
+   TRACKING IS A FUNCTION OF SIZE, and treating it as a constant is the
+   commonest small-caps error on the web: .2em is right at 11px and
+   visibly loose at 15px, because the gap the eye actually reads is the
+   tracking multiplied by the size. The three steps below are the same
+   optical amount of space at three sizes, which is why they read as one
+   treatment rather than as three separate decisions. */
 .smallcaps {
   font-family: var(--font-body); font-weight: 700;
   font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+}
+.smallcaps--sm { font-size: .62rem; letter-spacing: .24em; }
+.smallcaps--lg { font-size: .82rem; letter-spacing: .15em; }
+
+/* -------------------- Ceremonial capitals -------------------- */
+/* Cinzel, and the whole of its permitted territory is this one block:
+   numerals that number a chapter, marks that mark a level, and the
+   lockups carrying the College's own name. Tracking is wide because
+   inscriptional capitals were cut wide — a Roman letter-cutter spaced
+   by eye against the stone, and a Trajan face set solid stops looking
+   like an inscription and starts looking like a font.
+
+   NOT ALLOWED, named so the ration is enforceable: body copy,
+   sub-headings, button labels, navigation, or any run longer than about
+   four words. */
+.roman-caps {
+  font-family: var(--font-ceremonial); font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+}
+
+/* -------------------- Figures -------------------- */
+/* Numbers that sit in a COLUMN are lined up by the font, not by the
+   author. Proportional figures make a table of hours and credits look
+   like it was typed; tabular figures make it look like it was set.
+   Applied to every table cell and to any statistic that has a
+   neighbour it should align with. */
+.ledger td, .ledger th, .stat-figure, .tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
 }
 
 /* -------------------- Gold foil & paper grain -------------------- */
@@ -1610,30 +1897,58 @@ ul.check-list li::before {
   position: relative; overflow: hidden;
   aspect-ratio: var(--plate-ratio, 4 / 3);
   border: 1px solid var(--line);
+  /* THE PLATE IS THE LARGEST OBJECT ON THE PAGE, so it takes the
+     largest radius on the scale. This is the corner the eye judges the
+     whole composition by: a 600px plate with a 4px corner reads as a
+     screenshot, and the same plate at --r-lg reads as something that
+     was cut to a size and mounted. */
+  border-radius: var(--r-lg);
   background:
     radial-gradient(ellipse 80% 70% at 50% 40%, rgba(31,61,122,.5), transparent 70%),
     linear-gradient(160deg, var(--midnight), var(--oxford));
-  box-shadow: inset 0 0 60px -20px rgba(0,0,0,.7);
+  /* The inner vignette that was here already, plus a lit top rim and a
+     turned bottom one — the frame now has a thickness, and light
+     falling on it from above. */
+  box-shadow: inset 0 0 60px -20px rgba(0,0,0,.7),
+              inset 0 1px 0 rgba(242,227,192,.34),
+              inset 0 -1px 0 rgba(6,13,28,.5);
 }
 .section--light .plate__frame, .section--paper .plate__frame,
 .section--warm .plate__frame, .section--cream .plate__frame, .section--pearl .plate__frame {
   /* A plate sitting on paper casts a shadow onto it; one sitting on a
      dark ground does not. This is the only thing that differs. */
   border-color: rgba(199,162,74,.5);
-  box-shadow: inset 0 0 60px -20px rgba(0,0,0,.7), var(--shadow-md);
+  box-shadow: inset 0 0 60px -20px rgba(0,0,0,.7),
+              inset 0 1px 0 rgba(242,227,192,.34),
+              inset 0 -1px 0 rgba(6,13,28,.5),
+              var(--shadow-lg);
 }
 .plate__frame > img, .plate__frame > svg {
   width: 100%; height: 100%; object-fit: cover; display: block;
 }
 /* Drawn corner ornaments — two L-shaped gold rules, inset. A frame
    with corners reads as engraved; a frame without them reads as a
-   border-radius someone forgot to set. */
+   border-radius someone forgot to set.
+
+   CONCENTRIC, now that the frame itself is curved. The rule is simple
+   and it is the one nearly every rounded interface gets wrong: an inner
+   radius equals the outer radius MINUS the gap between them. The frame
+   is --r-lg (24px) and the ornament is inset 12px, so its own corner is
+   12px — any other value and the two arcs run at different distances
+   from each other around the turn, which the eye reads as a wobble long
+   before it can name what is wrong. */
 .plate__frame::before, .plate__frame::after {
-  content: ''; position: absolute; width: 22px; height: 22px; pointer-events: none;
+  content: ''; position: absolute; width: 26px; height: 26px; pointer-events: none;
   border: 1px solid var(--gold-royal); z-index: 2;
 }
-.plate__frame::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
-.plate__frame::after  { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+.plate__frame::before {
+  top: 12px; left: 12px; border-right: 0; border-bottom: 0;
+  border-top-left-radius: calc(var(--r-lg) - 12px);
+}
+.plate__frame::after  {
+  bottom: 12px; right: 12px; border-left: 0; border-top: 0;
+  border-bottom-right-radius: calc(var(--r-lg) - 12px);
+}
 .plate__caption {
   display: flex; align-items: center; gap: .7em;
   margin-top: 14px; color: var(--bronze);
