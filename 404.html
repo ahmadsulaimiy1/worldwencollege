@@ -352,10 +352,12 @@
   them again without scrolling back to the top.
 -->
 <header class="site-header lattice" data-nodes="7">
+  <div class="trim-metal" aria-hidden="true"></div>
   <div class="lattice__bed" aria-hidden="true"></div>
 
   <div class="site-header__inner">
-    <a href="/" class="brand" aria-label="WorldWide English College, home">
+    <a href="/" class="brand tilt" aria-label="WorldWide English College, home">
+      <span class="tilt__sheen" aria-hidden="true"></span>
       <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
         <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
         <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
@@ -515,7 +517,7 @@
         <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg>
         Portal
       </a>
-      <a href="/admissions/#apply" class="btn btn--gold magnetic">Apply Now</a>
+      <a href="/admissions/#apply" class="btn btn--gold magnetic gold-live">Apply Now</a>
       <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
         <span></span><span></span><span></span>
       </button>
@@ -640,20 +642,30 @@
   <hr class="footer__keyline">
   <div class="site-footer__inner">
     <div class="footer__brand">
-      <svg class="brand__crest brand__crest--footer" viewBox="0 0 48 56" aria-hidden="true">
-        <!-- A crown of three points over the shield, and an open book
-             at the honour point. The full arms are in
-             assets/art/crest-plate.svg; this is the reduction that
-             still reads at 27px in the condensed header, where the
-             laurel and ribbon of the full mark turn to mud. -->
-        <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
-        <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
-        <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
-        <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
-        <path class="crest__book" d="M24 28.5 V37.4"/>
-        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
-      </svg>
-      <p class="footer__name">WorldWide English College<br><span>London Campus</span></p>
+      <!-- tilt + glint, not gold-live: the crest is line art (stroke/fill
+           on paths), and gold-live paints a CSS background — invisible
+           behind an SVG's own drawn shapes. tilt/glint work on any box
+           via transform and a ::before overlay, so they're the correct
+           fit for a mark rather than a gradient-filled surface. glint is
+           reserved sitewide for awards, seals and conferral marks — the
+           footer crest is the one place on every page that IS a seal. -->
+      <div class="brand__crest-wrap tilt glint">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <svg class="brand__crest brand__crest--footer" viewBox="0 0 48 56" aria-hidden="true">
+          <!-- A crown of three points over the shield, and an open book
+               at the honour point. The full arms are in
+               assets/art/crest-plate.svg; this is the reduction that
+               still reads at 27px in the condensed header, where the
+               laurel and ribbon of the full mark turn to mud. -->
+          <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
+          <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
+          <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
+          <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
+          <path class="crest__book" d="M24 28.5 V37.4"/>
+          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
+        </svg>
+      </div>
+      <p class="footer__name foil reveal">WorldWide English College<br><span>London Campus</span></p>
       <p class="footer__motto">&ldquo;Empowering the World Through English Excellence.&rdquo;</p>
     </div>
 
@@ -700,7 +712,15 @@
 
   <div class="site-footer__bottom">
     <p>&copy; <span data-year>2026</span> WorldWide English College — London Campus. All rights reserved.</p>
-    <p class="footer__legal">WEC-LC is an institution in active development. Accreditation, governance and enrolment status are described honestly throughout this site — see <a href="/about/#status">Institutional Status</a>.</p>
+    <!-- A trust mark, not a badge: the icon signals "this is checkable",
+         not "this is certified" — WEC-LC holds no accreditation, and a
+         seal implying one would be exactly the false confidence the
+         Evidence Record exists to rule out. Same shield-check icon the
+         Governance mega-menu already uses for the same idea. -->
+    <div class="footer__trust">
+      <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
+      <p class="footer__legal">WEC-LC is an institution in active development. Accreditation, governance and enrolment status are described honestly throughout this site — see <a href="/about/#status">Institutional Status</a>.</p>
+    </div>
     <div class="footer__utility">
       <a class="topbar__lang" href="/ar/404.html" lang="ar" hreflang="ar">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
@@ -713,6 +733,7 @@
       </div>
     </div>
   </div>
+  <div class="trim-metal" aria-hidden="true"></div>
 </footer>
 
 <script src="/js/site.js"></script>

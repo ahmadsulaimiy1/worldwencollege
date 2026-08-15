@@ -447,6 +447,25 @@ section { position: relative; }
    Naming both classes wins on specificity and states the conflict where
    somebody will find it. Sticky still establishes the containing block
    .lattice__bed needs, so the lattice is unaffected. */
+/* THE METAL EDGE.
+   A gold-leaf book has its pages edged, not just its cover — a thin
+   band of real metal at the outermost boundary of the object. This is
+   that band: one at the very top of the header, one at the very
+   bottom of the footer, so every page on the site is bound between
+   the same two strips of gold regardless of how long the content
+   between them runs. The gradient is the same five-stop banding
+   .foil already uses for foil-stamped text, applied here to a solid
+   strip instead of a glyph — one "this is metal, not a flat colour"
+   recipe for both text and trim rather than two. Static, not
+   animated: a shimmering edge on every scroll would be exactly the
+   noise the rest of this file is written to avoid. */
+.trim-metal {
+  height: 3px;
+  background: linear-gradient(90deg,
+    var(--gold-antique) 0%, var(--gold-champagne) 20%, var(--gold-rich) 40%,
+    var(--gold-soft) 60%, var(--gold-champagne) 80%, var(--gold-antique) 100%);
+}
+
 .site-header, .site-header.lattice {
   background: var(--royal);
   position: sticky; top: 0; z-index: 50;
@@ -556,10 +575,23 @@ section { position: relative; }
 .nav__item > a, .header__actions .btn { white-space: nowrap; }
 .nav__item { position: relative; }
 .nav__item > a {
+  position: relative;
   color: rgba(247,244,236,.86); font-size: .855rem; font-weight: 600; letter-spacing: .015em;
   padding: 8px 0; display: inline-block;
 }
 .nav__item > a:hover { color: var(--gold-bright); }
+/* The underline draws in from the leading edge rather than fading, the
+   same grammar .rule-draw already uses for chapter dividers — one
+   "gold arrives from the start" gesture across the platform instead of
+   a second unrelated hover treatment invented for the nav specifically. */
+.nav__item > a::after {
+  content: ''; position: absolute; left: 0; right: 100%; bottom: 0; height: 1px;
+  background: var(--gold-bright); pointer-events: none;
+  transition: right var(--dur-med) var(--ease-premium);
+}
+.nav__item > a:hover::after, .nav__item > a:focus-visible::after { right: 0; }
+[dir="rtl"] .nav__item > a::after { left: 100%; right: 0; }
+[dir="rtl"] .nav__item > a:hover::after, [dir="rtl"] .nav__item > a:focus-visible::after { left: 0; }
 .nav__menu {
   position: absolute; top: 100%; left: 0; min-width: 240px;
   background: var(--paper); border: 1px solid var(--line); border-radius: 6px;
@@ -1091,6 +1123,7 @@ section { position: relative; }
 @media (max-width: 780px) { .site-footer__inner { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 480px) { .site-footer__inner { grid-template-columns: 1fr; } }
 .footer__brand, .footer__col { border: 1px solid rgba(199,162,74,.22); padding: 44px 30px; }
+.brand__crest-wrap { display: inline-block; }
 .footer__brand .brand__crest--footer { width: 40px; height: 46px; margin-bottom: 14px; }
 .footer__name { font-family: var(--font-display); color: #fff; font-size: 1.05rem; font-weight: 600; }
 .footer__name span { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-bright); }
@@ -1117,7 +1150,9 @@ section { position: relative; }
   border-top: 1px solid var(--line-dark); padding: 22px 24px; max-width: var(--wrap); margin: 0 auto;
   display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; font-size: .78rem; color: rgba(247,244,236,.5);
 }
-.footer__legal { max-width: 60ch; }
+.footer__trust { display: flex; align-items: flex-start; gap: 10px; max-width: 60ch; }
+.footer__trust .icon { flex-shrink: 0; margin-top: .15em; color: var(--gold-royal); }
+.footer__legal { max-width: 60ch; margin: 0; }
 .footer__legal a { color: rgba(247,244,236,.7); text-decoration: underline; }
 /* The language switch and social row, reused a third time (topbar,
    mobile drawer, and here) rather than restyled — a colophon is where
@@ -1432,7 +1467,8 @@ ul.check-list li::before {
   .hero__crest-watermark { animation: none; }
   .hero h1, .hero .lede, .hero .btn-row, .hero__stats { animation: none; opacity: 1; transform: none; }
   .btn, .btn::before, .card, .card::before, .nav__menu, .nav__menu a,
-  .nav__toggle span, .nav-mobile .accordion__a, .nav-mobile .accordion__q .plus {
+  .nav__toggle span, .nav-mobile .accordion__a, .nav-mobile .accordion__q .plus,
+  .nav__item > a::after {
     transition-duration: .01ms !important;
   }
   .btn--gold:hover, .btn--outline:hover, .btn--red:hover, .card:hover {

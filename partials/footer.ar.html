@@ -3,20 +3,30 @@
   <hr class="footer__keyline">
   <div class="site-footer__inner">
     <div class="footer__brand">
-      <svg class="brand__crest brand__crest--footer" viewBox="0 0 48 56" aria-hidden="true">
-        <!-- A crown of three points over the shield, and an open book
-             at the honour point. The full arms are in
-             assets/art/crest-plate.svg; this is the reduction that
-             still reads at 27px in the condensed header, where the
-             laurel and ribbon of the full mark turn to mud. -->
-        <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
-        <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
-        <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
-        <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
-        <path class="crest__book" d="M24 28.5 V37.4"/>
-        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
-      </svg>
-      <p class="footer__name">الكلية العالمية للغة الإنجليزية<br><span>الحرم الجامعي — لندن</span></p>
+      <!-- إمالة ولمعة، لا ذهب-حي: الشعار رسم خطي (حدّ وتعبئة على
+           المسارات)، وذهب-حي يرسم خلفية CSS — تختفي خلف أشكال SVG
+           المرسومة. الإمالة واللمعة تعملان على أي عنصر عبر transform
+           وطبقة ::before، فهما الأنسب لعلامة رسمية لا لسطح مملوء
+           بتدرّج. اللمعة محجوزة في كل الموقع للجوائز والأختام وعلامات
+           المنح — وشعار التذييل هو المكان الوحيد في كل صفحة الذي هو
+           فعلاً ختم. -->
+      <div class="brand__crest-wrap tilt glint">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <svg class="brand__crest brand__crest--footer" viewBox="0 0 48 56" aria-hidden="true">
+          <!-- A crown of three points over the shield, and an open book
+               at the honour point. The full arms are in
+               assets/art/crest-plate.svg; this is the reduction that
+               still reads at 27px in the condensed header, where the
+               laurel and ribbon of the full mark turn to mud. -->
+          <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
+          <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
+          <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
+          <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
+          <path class="crest__book" d="M24 28.5 V37.4"/>
+          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
+        </svg>
+      </div>
+      <p class="footer__name foil reveal">الكلية العالمية للغة الإنجليزية<br><span>الحرم الجامعي — لندن</span></p>
       <p class="footer__motto">"نُمكّن العالم من خلال التميّز في اللغة الإنجليزية"</p>
     </div>
 
@@ -63,7 +73,15 @@
 
   <div class="site-footer__bottom">
     <p>&copy; <span data-year>2026</span> الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن. جميع الحقوق محفوظة.</p>
-    <p class="footer__legal">الكلية مؤسسة قيد التأسيس والتطوير الفعلي. حالة الاعتماد والحوكمة والقبول موضّحة بصدق في جميع أنحاء هذا الموقع — راجع <a href="/ar/about/#status">الوضع المؤسسي</a>.</p>
+    <!-- علامة ثقة، لا شارة: الأيقونة تدل على «هذا قابل للتحقق»، لا
+         «هذا معتمد» — الكلية لا تحمل اعتمادًا، والختم الذي يوحي بخلاف
+         ذلك هو بالضبط الثقة الزائفة التي وُجد سجل الأدلة لمنعها.
+         الأيقونة نفسها (shield-check) التي تستخدمها قائمة الحوكمة
+         المنسدلة للفكرة ذاتها. -->
+    <div class="footer__trust">
+      <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
+      <p class="footer__legal">الكلية مؤسسة قيد التأسيس والتطوير الفعلي. حالة الاعتماد والحوكمة والقبول موضّحة بصدق في جميع أنحاء هذا الموقع — راجع <a href="/ar/about/#status">الوضع المؤسسي</a>.</p>
+    </div>
     <div class="footer__utility">
       <a class="topbar__lang" href="{{ALT_HREF}}" lang="en" hreflang="en" dir="ltr">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
@@ -76,4 +94,5 @@
       </div>
     </div>
   </div>
+  <div class="trim-metal" aria-hidden="true"></div>
 </footer>
