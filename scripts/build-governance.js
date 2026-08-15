@@ -43,6 +43,7 @@ const { DatabaseSync } = require('node:sqlite');
 const GOV = require('./lib/governance-register');
 
 const ROOT = path.resolve(__dirname, '..');
+const ltr = (v) => `<span dir="ltr">${v}</span>`;
 const esc = (s) => String(s ?? '')
   .replace(/\s--\s/g, ' — ')
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -517,6 +518,7 @@ ${cta('Read the full institutional position.', 'Institutional Status', '/about/#
 // 2 · THE EVIDENCE RECORD — moved from /standards/evidence/ ─────────
 PAGES.evidence = {
   slug: 'governance-evidence', output: 'governance/evidence/index.html', file: 'governance-evidence.html',
+  altHref: '/ar/governance/evidence/',
   title: 'The Evidence Record &mdash; Worldwide English College',
   description: `WEC-LC's register of quality-assurance evidence: ${E.total} items, what state `
     + 'each is in, and why none has been approved.',
@@ -622,6 +624,7 @@ ${cta('See what is waiting on a decision.', 'The Decisions Register', '/governan
 // 3 · THE DECISIONS REGISTER — moved from /standards/decisions/ ─────
 PAGES.decisions = {
   slug: 'governance-decisions', output: 'governance/decisions/index.html', file: 'governance-decisions.html',
+  altHref: '/ar/governance/decisions/',
   title: 'The Decisions Register &mdash; Worldwide English College',
   description: `All ${totalAdopted} of the College's institutional decisions, in force, with the `
     + 'date and the authority that took each one.',
@@ -709,6 +712,240 @@ ${card('For a student', 'It shows which rules govern you', 'Every rule on this s
 ${cta('See the bodies that will ratify these.', 'Governance', '/governance/', 'The Evidence Record', '/governance/evidence/')}`,
 };
 
+
+// ── THE ARABIC EDITIONS OF THE REGISTERS ─────────────────────────────
+// A register is one document, not two: translating its entries would
+// create a second version of the evidence record that could disagree
+// with the first. So the Arabic editions carry Arabic chrome and the
+// same counts from the same reads, render the fixed collection and
+// state vocabularies through guarded maps, and keep entry titles and
+// references in the record's original English, wrapped for bidi and
+// declared as such on the page.
+const AR_COLLECTION = {
+  'Academic Integrity': 'النزاهة الأكاديمية', 'Academic Regulations': 'اللوائح الأكاديمية',
+  'Annual Monitoring': 'الرصد السنوي', 'Appeals': 'الاستئنافات',
+  'Assessment Moderation': 'معايرة التقييم', 'Assessment Regulations': 'لوائح التقييم',
+  'Competency Framework': 'إطار الكفايات', 'Continuous Improvement Register': 'سجل التحسين المستمر',
+  'Curriculum Maps': 'خرائط المنهج', 'Executive Decisions': 'القرارات التنفيذية',
+  'External Review Reports': 'تقارير المراجعة الخارجية', 'Faculty Qualifications': 'مؤهلات هيئة التدريس',
+  'Governance': 'الحوكمة', 'Graduate Outcomes': 'مخرجات الخريجين',
+  'Institutional Self-Evaluation': 'التقييم الذاتي المؤسسي', 'Internal Review Reports': 'تقارير المراجعة الداخلية',
+  'Learning Outcomes': 'مخرجات التعلم', 'Policy Register': 'سجل السياسات',
+  'Programme Specifications': 'مواصفات البرنامج', 'Quality Assurance': 'ضمان الجودة',
+  'Risk Registers': 'سجلات المخاطر', 'Staff Development': 'تطوير الموظفين',
+  'Student Feedback': 'ملاحظات الطلاب',
+};
+const arCollection = (en) => {
+  if (!AR_COLLECTION[en]) throw new Error(`No Arabic name for evidence collection "${en}"`);
+  return AR_COLLECTION[en];
+};
+const AR_STATE = {
+  exists: 'موجود', governance_pending: 'مصاغ، بانتظار من يعتمده',
+  not_instrumented: 'لا شيء يجمعه', scheduled: 'غير ممكن بعد',
+};
+const arRegisterNote = `<div class="callout">
+      <span class="callout__label">لغة السجل</span>
+      <p>السجل وثيقة واحدة لا نسختان. عناوين القيود ومراجعها تُنشر بلغتها الأصلية الإنجليزية —
+        ترجمة قيود سجل أدلة تنشئ نسخة ثانية يمكن أن تخالف الأولى، وهو بالضبط ما يوجد السجل
+        لمنعه. الشرح والأعداد على هذه الصفحة عربية، ومصدرها القراءات ذاتها التي تغذي النسخة
+        الإنجليزية.</p>
+    </div>`;
+
+PAGES.evidenceAr = {
+  slug: 'governance-evidence-ar', output: 'ar/governance/evidence/index.html', file: 'governance-evidence.ar.html',
+  lang: 'ar', dir: 'rtl', altHref: '/governance/evidence/',
+  title: 'سجل الأدلة — الكلية العالمية للغة الإنجليزية',
+  description: `سجل أدلة ضمان الجودة في الكلية: ${E.total} قيدًا، وحالة كل منها، ولماذا لم يُعتمد أي منها.`,
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">الحوكمة</span>
+    <h1>سجل الأدلة.</h1>
+    <p class="lede">${ltr(String(E.total))} قيدًا سيطلبها مراجع خارجي، كلٌّ مسجَّل في واحدة من
+      أربع حالات. هذه الصفحة تنشر السجل كما هو، بما في ذلك أجزاؤه الفارغة.</p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">أربع حالات</span>
+      <h2>ما هو كل قيد.</h2>
+      <p class="lede">سجل أدلة لا يسجل إلا ما هو موجود قائمةُ مزايا. هذا يسجل الغيابات في
+        الجدول ذاته وبالمصطلحات ذاتها.</p>
+    </div>
+    <div class="grid grid--4">
+${card('موجود', `${ltr(String(E.states.exists || 0))} قيدًا`, 'مكتوب، في حوزة الكلية، وقابل للإبراز عند الطلب. مواصفات البرنامج، وخرائط المنهج، ولوائح التقييم، وسجل الحوكمة نفسه.')}
+${card('بانتظار الحوكمة', `${ltr(String(E.states.governance_pending || 0))} قيدًا`, 'مصاغ، وينتظر قرارًا لم يُتخذ. ليست وثائق مفقودة؛ إنها وثائق لم يُعيَّن بعدُ من يعتمدها.')}
+${card('لا أداة تجمعه', `${ltr(String(E.states.not_instrumented || 0))} قيدًا`, 'لا شيء يجمع البيانات أصلًا. حضور الجلسات الحية وملاحظات الطلاب وسوء السلوك الأكاديمي أوضح الحالات. تُسجَّل «لا أداة تجمعه» لا صفرًا، لأن «لا حالات مسجلة» و«لا حالات وقعت» قولان مختلفان والأول وحده صحيح.')}
+${card('مجدوَل', `${ltr(String(E.states.scheduled || 0))} قيدًا`, 'لا يمكن أن يوجد بعدُ بطبيعته — تقرير رصد سنوي قبل سنة أولى، وسجل مخرجات خريجين قبل خريج أول. مؤرَّخ لا مُتظاهَر به.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">الرقم المهم</span>
+      <h2>${ltr(String(E.approved))} من ${ltr(String(E.total))} قيدًا اعتُمد.</h2>
+    </div>
+    <div class="callout">
+      <span class="callout__label">لماذا هو صفر</span>
+      <p>الاعتماد ليس شكلية — إنه شخص مسمًّى يقبل المسؤولية عن وثيقة. كلا الهيئتين الأكاديميتين
+        في الكلية عند صفر عضو معيَّن، فلا أحد يستطيع اعتماد شيء. لذا يحمل كل قيد في السجل
+        مالكًا وفاصل مراجعة وخانة اعتماد فارغة، وسيبقى كذلك حتى تُجرى التعيينات. المؤسسة التي
+        تعتمد أدلتها لنفسها بصمت سجلُّها ممتلئ وضمانها معدوم.</p>
+    </div>
+    ${arRegisterNote}
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">المجموعات</span>
+      <h2>ما يغطيه السجل.</h2>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th>المجموعة</th><th>القيود</th><th>الحالة</th></tr></thead>
+        <tbody>
+${(() => {
+    const byCollection = new Map();
+    for (const r of E.collections) {
+      if (!byCollection.has(r.collection)) byCollection.set(r.collection, []);
+      byCollection.get(r.collection).push(r);
+    }
+    return [...byCollection.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([name, rows]) => {
+      const n = rows.reduce((a, r) => a + r.n, 0);
+      const states = rows.map((r) => {
+        if (!AR_STATE[r.state]) throw new Error(`Unlabelled evidence state "${r.state}" (Arabic)`);
+        return rows.length > 1 ? `${AR_STATE[r.state]} (${ltr(String(r.n))})` : AR_STATE[r.state];
+      }).join('، ');
+      return `          <tr><td><strong>${arCollection(name)}</strong></td><td>${ltr(String(n))}</td><td>${states}</td></tr>`;
+    }).join('\n');
+  })()}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">منشور علنًا</span>
+      <h2>${ltr(String(E.publicItems.length))} قيدًا علني لا داخلي.</h2>
+      <p class="lede">معظم سجل الجودة داخلي بحق. هذه ليست كذلك، لأن من حق القارئ فحصها دون
+        استئذان أحد. العناوين بلغة السجل الأصلية.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th>المرجع</th><th>القيد</th></tr></thead>
+        <tbody>
+${E.publicItems.map((i) => `          <tr><td><strong dir="ltr">${esc(i.reference)}</strong></td><td><span dir="ltr">${esc(i.title)}</span></td></tr>`).join('\n')}
+        </tbody>
+      </table>
+    </div>
+    <p class="form-note">يستطيع أي مراجع أو لجنة أو شريك مؤسسي محتمل طلب أي قيد داخلي من
+      <a href="mailto:info@worldwencollege.co.uk?subject=Evidence%20record%20request" dir="ltr">info@worldwencollege.co.uk</a>.</p>
+  </div>
+</section>
+
+${cta('انظر ما الذي كان ينتظر قرارًا.', 'سجل القرارات', '/ar/governance/decisions/', 'الحوكمة', '/ar/governance/')}`,
+};
+
+PAGES.decisionsAr = {
+  slug: 'governance-decisions-ar', output: 'ar/governance/decisions/index.html', file: 'governance-decisions.ar.html',
+  lang: 'ar', dir: 'rtl', altHref: '/governance/decisions/',
+  title: 'سجل القرارات — الكلية العالمية للغة الإنجليزية',
+  description: `قرارات الكلية المؤسسية كلها — ${totalAdopted} قرارًا نافذًا — بتاريخ كل منها والسلطة التي اتخذته.`,
+  body: `<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">الحوكمة</span>
+    <h1>سجل القرارات.</h1>
+    <p class="lede">${ltr(String(totalAdopted))} قرارًا، كلها نافذة، ولا شيء منها معلَّق. كانت
+      هذه الصفحة تسرد خمسة وعشرين قرارًا بانتظار من يملك سلطة الموافقة. وهي في مجموعتين لأنها
+      دخلت النفاذ في وقتين مختلفين، ومن حق القارئ أن يرى أي قاعدة وصلت متى.</p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">اعتُمدت في 14 أغسطس 2026</span>
+      <h2>${ltr(String(adoptedNow.length))} قرارًا اتُّخذ في جلسة واحدة.</h2>
+      <p class="lede">كلٌّ منها كان مصاغًا بتوصية ومحمولًا معلَّقًا شهورًا. واعتُمد كلٌّ على
+        التوصية كما صيغت، من الإدارة التنفيذية للكلية. نصوص القرارات بلغة السجل الأصلية.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th>المرجع</th><th>القرار</th></tr></thead>
+        <tbody>
+${adoptedNow.map((d) => `          <tr><td><strong dir="ltr">${esc(d.ref)}</strong></td><td><span dir="ltr">${esc(d.title)}</span></td></tr>`).join('\n')}
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="callout__label">أي سلطة، بدقة</span>
+      <p>هذه قرارات الإدارة التنفيذية، وهي سلطة اتخاذ القرار المشكَّلة في الكلية. ولم تتخذها
+        الهيئةُ الأكاديمية ولا مجلس المعايير، لأن كليهما بلا أعضاء معيَّنين. البنود الأكاديمية
+        — معايير التقييم وقواعد الشهادات — معتمدة إذن رهنَ تصديق المجلس الأكاديمي في أول
+        اجتماع مكتمل التشكيل له. ويُسجَّل ذلك ليكون التصديق فعلًا حقيقيًا لا ختمًا على شيء وُصف
+        سلفًا بأنه سياسة المجلس.</p>
+    </div>
+    ${arRegisterNote}
+  </div>
+</section>
+
+<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">اعتُمدت قبل ذلك</span>
+      <h2>${ltr(String(adoptedEarly.length))} اتُّخذت قبلها.</h2>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th>المرجع</th><th>القرار</th><th>تاريخ الاعتماد</th></tr></thead>
+        <tbody>
+${adoptedEarly.map((d) => `          <tr><td><strong dir="ltr">${esc(d.ref)}</strong></td><td><span dir="ltr">${esc(d.title)}</span></td><td><span dir="ltr">${esc(d.when)}</span></td></tr>`).join('\n')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">ما لم يفعله الاعتماد</span>
+      <h2>شيئان لا يستطيع قرارٌ تصنيعهما.</h2>
+      <p class="lede">أن تقرر شيئًا ليس كأن تستطيع العمل به، والفرق يستحق أن يُقال في النفَس
+        ذاته مع الاعتماد.</p>
+    </div>
+    <div class="grid grid--2">
+${darkCard('لم يُمنح', 'لا شهادة، بعدُ', 'اعتماد درجة نجاح وسلّم مراتب وإجراء منح يجعل المعيار موجودًا. ولا يوفر الممتحن الخارجي الذي تقوم استقلاليتُه عليها قيمةُ المعيار. لا شهادة تُمنح حتى يُجرى ذلك التعيين.')}
+${darkCard('لم يُدلَّل عليه', 'قراران يقولان ذلك بنفسيهما', 'التحدث معتمد بوصفه لا يُحتسب بعد في الشهادة، بالضبط لأنه لا يوجد معيار تصحيح مُعايَر. وخريطة الكفايات معتمدة بوصفها تكليفًا بعمل يجب أن يُنجز، لا ادعاءً بأن العمل منجز.')}
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">لماذا هذا علني</span>
+      <h2>سجلٌّ لا يقرؤه من في الخارج مذكرةٌ داخلية.</h2>
+    </div>
+    <div class="grid grid--2">
+${card('للمراجع', 'يُظهر ما حُسم، ومتى، وبيد من', 'أول سؤال للجنة: أي المواقف المعلنة للمؤسسة قراراتٌ فعلًا، وبسلطة من. هذا يجيب عن الاثنين دون أن يسألوا، بما في ذلك حيث كانت السلطة تنفيذية لا أكاديمية.')}
+${card('للطالب', 'يُظهر أي القواعد تحكمك', 'كل قاعدة على هذا الموقع تظهر هنا الآن قرارًا بتاريخ. وحيث تنتظر قاعدةٌ تصديق المجلس، تقول هذه الصفحة ذلك بدل عرضها سياسةً أكاديمية محسومة.')}
+    </div>
+  </div>
+</section>
+
+${cta('انظر الهيئتين اللتين ستصدّقان عليها.', 'الحوكمة', '/ar/governance/', 'سجل الأدلة', '/ar/governance/evidence/')}`,
+};
+
+
 // ── write ────────────────────────────────────────────────────────────
 const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
@@ -733,7 +970,7 @@ for (const p of Object.values(PAGES)) {
   fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
-    contentFile: p.file, lang: 'en', dir: 'ltr',
+    contentFile: p.file, lang: p.lang || 'en', dir: p.dir || (p.lang === 'ar' ? 'rtl' : 'ltr'),
   };
   if (p.contents) entry.contents = true;
   if (p.altHref) entry.altHref = p.altHref;

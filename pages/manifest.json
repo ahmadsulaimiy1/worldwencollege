@@ -523,7 +523,8 @@
     "description": "WEC-LC's register of quality-assurance evidence: 37 items, what state each is in, and why none has been approved.",
     "contentFile": "governance-evidence.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/governance/evidence/"
   },
   {
     "slug": "governance-decisions",
@@ -532,7 +533,8 @@
     "description": "All 30 of the College's institutional decisions, in force, with the date and the authority that took each one.",
     "contentFile": "governance-decisions.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "altHref": "/ar/governance/decisions/"
   },
   {
     "slug": "governance-ar",
@@ -658,5 +660,25 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/press/catalogue/"
+  },
+  {
+    "slug": "governance-evidence-ar",
+    "output": "ar/governance/evidence/index.html",
+    "title": "سجل الأدلة — الكلية العالمية للغة الإنجليزية",
+    "description": "سجل أدلة ضمان الجودة في الكلية: 37 قيدًا، وحالة كل منها، ولماذا لم يُعتمد أي منها.",
+    "contentFile": "governance-evidence.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/governance/evidence/"
+  },
+  {
+    "slug": "governance-decisions-ar",
+    "output": "ar/governance/decisions/index.html",
+    "title": "سجل القرارات — الكلية العالمية للغة الإنجليزية",
+    "description": "قرارات الكلية المؤسسية كلها — 30 قرارًا نافذًا — بتاريخ كل منها والسلطة التي اتخذته.",
+    "contentFile": "governance-decisions.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/governance/decisions/"
   }
 ]
