@@ -29,7 +29,12 @@
 .chapter { padding: var(--chapter-pad) 0; position: relative; }
 .chapter__head { max-width: 660px; margin-bottom: clamp(40px, 4vw, 64px); }
 .chapter__head--center { margin-left: auto; margin-right: auto; text-align: center; }
-.chapter__head .lede { margin-bottom: 0; }
+/* The lede closes the head, so it drops its trailing space — UNLESS
+   something follows it, which it now can. Written as :last-child rather
+   than as a modifier class because the condition is structural: the
+   rule should hold for any head anyone writes later, without their
+   having to know it exists. */
+.chapter__head .lede:last-child { margin-bottom: 0; }
 
 /* The chapter number: a roman numeral against a hairline, in
    small caps. It is set in the display face because it is
@@ -47,9 +52,12 @@
 }
 .chapter__head--center .chapter__num { justify-content: center; }
 .chapter__head--center .chapter__num::after { display: none; }
+/* The numeral is the one place on the page the ceremonial face is
+   allowed at chapter scale. Roman numerals ARE inscriptional capitals —
+   setting them in anything else is setting them in a translation. */
 .chapter__num .roman {
-  font-family: var(--font-display); font-size: 1.15rem;
-  letter-spacing: .06em; color: var(--gold-rich);
+  font-family: var(--font-ceremonial); font-weight: 600; font-size: 1.02rem;
+  letter-spacing: .1em; color: var(--gold-rich);
 }
 /* Gold at this size on paper is under AA — bronze on the light
    chapters, matching the rule brand.css already applies to
@@ -98,13 +106,23 @@
 @media (max-width: 820px) { .hero__crest { opacity: .1; right: -22%; } }
 
 .hero__inner { max-width: 780px; }
+/* The first object on the page, so it is the one that establishes the
+   material everything below is made of: a struck capsule with a lit top
+   rim, a shaded floor, and a point of light that travels its perimeter
+   once every nine seconds. Everything else on the homepage is a
+   variation on this. */
 .hero__eyebrow {
   display: inline-flex; align-items: center; gap: .75em;
   color: var(--gold-soft); margin-bottom: 1.6em;
   font-family: var(--font-body); font-weight: 700;
   font-size: .7rem; letter-spacing: .24em; text-transform: uppercase;
-  border: 1px solid rgba(199,162,74,.4); border-radius: 999px;
-  padding: .62em 1.3em; background: rgba(199,162,74,.07);
+  border: 1px solid rgba(199,162,74,.4); border-radius: var(--r-pill);
+  padding: .68em 1.4em;
+  background:
+    linear-gradient(180deg, rgba(242,227,192,.13), rgba(199,162,74,.04) 60%),
+    rgba(10,20,40,.35);
+  box-shadow: var(--relief-raised), 0 8px 22px -14px rgba(3,8,20,.9);
+  --aurum-dur: 11s;
 }
 /* Sized in rem rather than em: the eyebrow's own font-size is .7rem,
    so an em-sized icon came out at 12px, and a drawn clock tower at
@@ -132,36 +150,104 @@
 }
 .hero--flagship .lede strong { color: var(--gold-champagne); font-weight: 600; }
 
-/* Hero statistics — a ruled band, not four floating numbers. */
+/* HERO STATISTICS — THE PLINTH.
+   ---------------------------------------------------------
+   Four figures ruled off between two hairlines, previously. It was
+   correct and it was flat: the numbers sat ON the hero rather than IN
+   anything, so the most quantitative statement the College makes had
+   the least presence of any element on the page.
+
+   It is now one object — a low plinth cut into the ground with the
+   figures struck into its face. The construction is worth naming
+   because it is the same three moves used everywhere below:
+
+     · a translucent dark fill, so the hero's gradient still shows
+       through and the plinth belongs to the ground rather than
+       covering it;
+     · --relief-inset, which is the RECESSED bevel — dark hairline on
+       the top edge, light on the bottom — because this object is set
+       INTO the page, unlike the eyebrow above it, which sits on top;
+     · `.edge-lit` on the container (see css/atelier.css) for the rim
+       that turns from champagne at the top-left to shadow at the
+       bottom-right.
+
+   The dividers stay hairlines and stay square. They are structure. */
 .hero__stats--flagship {
   display: grid; grid-template-columns: repeat(4, 1fr);
   margin-top: clamp(44px, 4vw, 68px);
-  border-top: 1px solid rgba(199,162,74,.32);
-  border-bottom: 1px solid rgba(199,162,74,.16);
+  border-radius: var(--r-lg);
+  padding: 6px;
+  background:
+    linear-gradient(180deg, rgba(8,16,34,.50), rgba(8,16,34,.24));
+  box-shadow: var(--relief-inset), 0 22px 50px -34px rgba(3,8,20,.95);
+  position: relative; isolation: isolate;
 }
 @media (max-width: 700px) { .hero__stats--flagship { grid-template-columns: repeat(2, 1fr); } }
 .hero__stat--flagship {
-  padding: 26px 22px 24px 0; position: relative;
+  padding: 26px 22px 24px; position: relative;
 }
-[dir="rtl"] .hero__stat--flagship { padding: 26px 0 24px 22px; }
-.hero__stat--flagship + .hero__stat--flagship { padding-left: 26px; }
-[dir="rtl"] .hero__stat--flagship + .hero__stat--flagship { padding-left: 0; padding-right: 26px; }
+@media (max-width: 700px) { .hero__stat--flagship { padding: 22px 14px 20px; } }
 .hero__stat--flagship + .hero__stat--flagship::before {
   content: ''; position: absolute; left: 0; top: 22px; bottom: 20px;
-  width: 1px; background: rgba(199,162,74,.2);
+  width: 1px; background: linear-gradient(180deg,
+    transparent, rgba(199,162,74,.30) 30%, rgba(199,162,74,.30) 70%, transparent);
 }
 [dir="rtl"] .hero__stat--flagship + .hero__stat--flagship::before { left: auto; right: 0; }
 @media (max-width: 700px) {
-  .hero__stat--flagship:nth-child(3)::before, .hero__stat--flagship:nth-child(3) { }
-  .hero__stat--flagship:nth-child(odd) { padding-left: 0; }
   .hero__stat--flagship:nth-child(odd)::before { display: none; }
 }
+/* The figures are the reason the tabular-numeral rule exists. `1,200`
+   and `6` have to sit on the same optical baseline grid across four
+   cells, and proportional figures put the comma and the 1 on their own
+   private widths — which is invisible in a sentence and glaring in a
+   row. */
 .hero__stat--flagship strong {
-  display: block; font-family: var(--font-display); font-weight: 600;
-  font-size: clamp(1.9rem, 1.3rem + 1.6vw, 2.7rem); line-height: 1;
-  color: var(--gold-champagne); letter-spacing: -.02em; margin-bottom: .38em;
+  display: block; font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(2rem, 1.3rem + 1.9vw, 3rem); line-height: 1;
+  color: var(--gold-champagne); letter-spacing: -.012em; margin-bottom: .42em;
+  font-optical-sizing: auto;
+  /* A FIGURE MUST NEVER BREAK, and here it could.
+     js/atelier.js wraps every digit in its own inline-block for the
+     assemble animation, and CSS treats consecutive atomic inlines as
+     having a wrap opportunity between them — so `1,200` is, to the line
+     breaker, five separate things it may stack. Widening the cell's
+     padding by 22px was enough to trigger it, and at 390px the hero's
+     headline figure rendered as a vertical column of digits.
+     `nowrap` closes the whole class of fault rather than the instance:
+     no future padding, font-size or column change can reintroduce it. */
+  white-space: nowrap;
+  /* NOT gradient-clipped text, and the reason is worth recording so it
+     is not "improved" back. `background-clip: text` was tried here and
+     rendered four invisible figures: js/atelier.js wraps each digit in
+     a transformed inline-block for the assemble animation, and a
+     transformed descendant is painted in its own pass — outside the
+     ancestor's text-clipped background. Nothing errored; the numbers
+     were simply not there.
+     A struck highlight does the same job with no such dependency: a
+     hairline of light along the top of each glyph and a shadow beneath
+     it, which is what an engraved figure catching an overhead source
+     actually looks like. */
+  text-shadow: 0 1px 0 rgba(255,252,240,.22), 0 -1px 1px rgba(3,8,20,.5);
 }
-.hero__stat--flagship span {
+/* THE CHILD COMBINATOR IS THE ENTIRE FIX, and it is worth the paragraph.
+
+   This rule read `.hero__stat--flagship span` — every span inside the
+   cell. The label is a span, so it worked. But js/atelier.js wraps each
+   digit of an assembling figure in its OWN span, inside the <strong>,
+   and those are spans inside the cell as well. Every digit was
+   therefore `display: block`, and `1,200` rendered as a vertical column
+   of five characters, one per line, on the College's headline statistic.
+
+   It shipped, and nothing could have caught it: the route audit measures
+   overflow and tap targets, the typography audit measures leading and
+   script, and a five-line number overflows nothing and is set in the
+   right face. It was visible only by looking, which is the argument for
+   looking.
+
+   `>` restricts the rule to the cell's own children. The digits are
+   grandchildren, inside <strong>, and are left as the inline-blocks the
+   animation needs them to be. */
+.hero__stat--flagship > span {
   font-size: .67rem; letter-spacing: .16em; text-transform: uppercase;
   color: rgba(247,244,236,.62); font-weight: 600; line-height: 1.5; display: block;
 }
@@ -214,19 +300,39 @@
 .feature-list > li:last-child { border-bottom: 1px solid var(--line-stone); }
 .section--dark .feature-list > li:last-child, .section--oxford .feature-list > li:last-child,
 .section--midnight .feature-list > li:last-child { border-bottom-color: rgba(231,201,122,.18); }
+/* THE ICON WELL.
+   A 1px circle, previously — a drawn outline, which is a diagram of a
+   button rather than an object. It is now a disc turned into the page:
+   the fill is a radial gradient lit from the upper left, and the bevel
+   is the recessed pair, so the icon reads as engraved into a counter-
+   sunk medallion. Under the pointer the well fills with light and the
+   disc rises to meet the reader — the only movement in the list. */
 .feature-list__icon {
-  width: 46px; height: 46px; display: grid; place-items: center;
+  width: 50px; height: 50px; display: grid; place-items: center;
   border: 1px solid var(--line); border-radius: 50%;
   color: var(--gold-royal); flex-shrink: 0;
+  background: radial-gradient(circle at 32% 26%,
+    rgba(255,252,240,.30), rgba(199,162,74,.05) 58%, rgba(10,20,40,.06) 100%);
+  box-shadow: var(--relief-inset);
   transition: border-color var(--dur-med) ease, color var(--dur-med) ease,
-              background var(--dur-med) var(--ease-premium);
+              background var(--dur-med) var(--ease-premium),
+              box-shadow var(--dur-med) var(--ease-premium),
+              transform var(--dur-med) var(--ease-premium);
 }
 .feature-list__icon .icon { width: 22px; height: 22px; }
+.section--dark .feature-list__icon, .section--midnight .feature-list__icon,
+.section--oxford .feature-list__icon {
+  background: radial-gradient(circle at 32% 26%,
+    rgba(242,227,192,.20), rgba(199,162,74,.06) 56%, rgba(3,8,20,.42) 100%);
+}
 .section--warm .feature-list__icon { color: var(--burgundy); border-color: rgba(110,31,46,.3); }
 .section--pearl .feature-list__icon { color: var(--teal); border-color: rgba(29,92,99,.3); }
 .section--cream .feature-list__icon { color: var(--emerald); border-color: rgba(30,106,79,.3); }
 .feature-list > li:hover .feature-list__icon {
-  background: rgba(199,162,74,.09); border-color: currentColor;
+  border-color: currentColor; transform: translateY(-2px);
+  background: radial-gradient(circle at 32% 26%,
+    rgba(255,252,240,.42), rgba(199,162,74,.14) 60%, rgba(10,20,40,.06) 100%);
+  box-shadow: var(--relief-raised), 0 10px 20px -12px rgba(10,23,48,.55);
 }
 .feature-list h3 {
   font-size: clamp(1.05rem, .98rem + .32vw, 1.24rem);
@@ -243,28 +349,77 @@
    and nobody would have seen it until they looked. */
 
 /* =========================================================
+   THE CHAPTER SPREAD
+   The argument on one page, the figure that proves it on the
+   facing one — see the note in pages/home.html for what this
+   replaced and why. Two rules only: the head loses its bottom
+   margin (the grid gap is the space now), and the figure is
+   pinned so it stays with the reader through the column of
+   text beside it, exactly as .split-feature pins a plate.
+   ========================================================= */
+.chapter__spread { margin-bottom: clamp(44px, 4.5vw, 72px); align-items: center; }
+.chapter__head--flush { margin-bottom: 0; max-width: none; }
+/* The figure's own bottom margin exists to separate it from whatever
+   follows it in a stack. In a spread nothing follows it — the grid gap
+   and the spread's own margin do that job — and leaving it in opened a
+   second, unequal gap under the right-hand column only. */
+.diagram--spread { margin: 0 auto; max-width: 100%; }
+@media (max-width: 900px) {
+  /* Same rule the split-feature keeps: on one column the figure follows
+     the words it illustrates, whichever side it was authored on. */
+  .chapter__spread > .diagram { order: 2; }
+}
+
+/* =========================================================
    THE PROGRAMME LEDGER
    ========================================================= */
+/* THE MOUNT.
+   The table itself stays square — a ledger is ruled, and rounding the
+   rules that make it a ledger would be rounding the wrong thing. What
+   gains a corner is the PLATE it is mounted on: the table is now
+   tipped into a recessed panel, the way the plates elsewhere on the
+   page hold their artwork. Structure square, object curved, which is
+   the rule the whole radius scale is built on. */
+.ledger-mount {
+  border-radius: var(--r-lg);
+  padding: clamp(18px, 2vw, 30px) clamp(14px, 1.6vw, 26px);
+  background: linear-gradient(168deg, rgba(8,16,34,.42), rgba(31,61,122,.12));
+  box-shadow: var(--relief-inset), 0 24px 54px -38px rgba(3,8,20,.9);
+  position: relative;
+}
 .ledger--flagship { margin-top: 0; }
 .ledger--flagship th {
   font-size: .64rem; letter-spacing: .18em; padding: 0 16px 14px;
   color: var(--gold-soft); border-bottom-color: rgba(199,162,74,.4);
 }
 .ledger--flagship td { padding: 20px 16px; font-size: .95rem; }
+/* A row lights as the eye crosses it. Six rows of near-identical
+   figures is exactly the place a reader loses their line. */
+.ledger--flagship tbody tr {
+  transition: background var(--dur-fast) ease;
+}
+.ledger--flagship tbody tr:hover { background: rgba(199,162,74,.055); }
 .ledger--flagship tbody tr:last-child td {
   border-top: 1px solid rgba(199,162,74,.4);
   border-bottom: none; padding-top: 22px;
 }
 .ledger__level { display: flex; align-items: baseline; gap: .7em; }
 .ledger__roman {
-  font-family: var(--font-display); font-size: 1.05rem;
-  color: var(--gold-rich); min-width: 2.4ch; font-weight: 600;
+  font-size: 1rem; color: var(--gold-rich); min-width: 2.6ch; font-weight: 600;
 }
+/* THE LEVEL MARK.
+   A1 through C2 are the only shorthand on this page a reader is meant
+   to memorise, so each is set as a small struck medallion: ceremonial
+   capitals, a gilded pill with a lit top rim and a shaded floor. At
+   this size --r-xs holds the pill's proportion; --r-pill would turn a
+   two-character mark into a lozenge. */
 .ledger__cefr {
-  display: inline-block; font-family: var(--font-body); font-weight: 700;
-  font-size: .68rem; letter-spacing: .12em;
-  border: 1px solid rgba(199,162,74,.42); border-radius: 3px;
-  padding: .32em .72em; color: var(--gold-soft);
+  display: inline-block; font-weight: 600;
+  font-size: .7rem; letter-spacing: .1em;
+  border: 1px solid rgba(199,162,74,.42); border-radius: var(--r-xs);
+  padding: .34em .78em; color: var(--gold-champagne);
+  background: linear-gradient(180deg, rgba(242,227,192,.16), rgba(199,162,74,.05));
+  box-shadow: var(--relief-raised);
 }
 
 /* =========================================================
@@ -293,9 +448,21 @@
 /* =========================================================
    AUDIENCE GRID
    ========================================================= */
+/* THE AUDIENCE GRID.
+   ---------------------------------------------------------
+   Eight cells divided by 1px of stone, previously: a hairline mesh,
+   which is the honest way to draw a TABLE and the wrong way to draw
+   eight separate objects. Nothing in it could be lit, lifted or
+   individually addressed, because none of it had an edge of its own —
+   they shared one.
+
+   Separating them costs a little density and buys everything else: each
+   tile now has its own rim, its own shadow, its own corner, and its own
+   perimeter light under the pointer. */
 .audience-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
-  background: var(--stone); border: 1px solid var(--stone);
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: clamp(10px, 1vw, 16px);
+  background: none; border: 0;
 }
 /* minmax(0, 1fr), not 1fr, and one column on a small phone.
    `1fr` is shorthand for `minmax(auto, 1fr)`, and `auto` floors the
@@ -314,11 +481,27 @@
 @media (max-width: 860px) { .audience-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 520px) { .audience-grid { grid-template-columns: minmax(0, 1fr); } }
 .audience {
-  background: var(--cream); padding: 30px 24px;
+  /* Lighter than its ground, always. A tile the same value as the page
+     is legible only by its rim, which on cream is a whisper — the
+     objects have to be a step up in the light before the rim has
+     anything to describe. */
+  background: linear-gradient(168deg, #FFFFFF 0%, var(--paper) 58%, #FBF8F0 100%);
+  padding: 28px 24px; border-radius: var(--r-md);
   display: flex; flex-direction: column; gap: 12px;
-  transition: background var(--dur-med) var(--ease-premium);
+  box-shadow: var(--shadow-sm);
+  position: relative; isolation: isolate;
+  --aurum-dur: 7s;
+  transition: background var(--dur-med) var(--ease-premium),
+              box-shadow var(--dur-med) var(--ease-premium),
+              transform var(--dur-med) var(--ease-premium);
 }
-.audience:hover { background: var(--warm-white); }
+/* Two millimetres, not eight. A tile that leaps at the pointer reads as
+   a web page being helpful; one that rises just enough to throw a
+   longer shadow reads as an object being picked up. */
+.audience:hover {
+  background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 58%, var(--paper) 100%);
+  transform: translateY(-2px); box-shadow: var(--shadow-md);
+}
 .audience .icon { color: var(--emerald); width: 26px; height: 26px; }
 .audience h3 { font-size: 1rem; margin: 0; letter-spacing: -.005em; }
 .audience p { margin: 0; font-size: .87rem; color: var(--slate); }
@@ -336,30 +519,60 @@
     radial-gradient(ellipse 66% 58% at 94% 98%, rgba(122,34,52,.52), transparent 62%),
     var(--oxford);
 }
-.principle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(231,201,122,.18); }
+.principle-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: clamp(12px, 1.4vw, 20px); background: none;
+}
 @media (max-width: 780px) { .principle-grid { grid-template-columns: 1fr; } }
 /* Translucent, not opaque. An opaque card here covered the entire
    grid area and with it the purple and burgundy wash that is the
    whole reason this chapter has its own ground — the gradient was
-   being painted and then hidden by the four rectangles on top of it. */
+   being painted and then hidden by the four rectangles on top of it.
+
+   Now they are four panes of smoked glass laid on that wash: the same
+   translucency, plus a real edge (`.edge-lit`), a real corner, and a
+   light that runs the perimeter of whichever one the reader is
+   considering. This is the most heavily worked component on the page,
+   and it should be — it is where the College states what it will not
+   trade. */
 .principle {
-  background: rgba(10,20,40,.62); padding: clamp(30px, 3vw, 44px);
-  position: relative; overflow: hidden;
-  -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
-  transition: background var(--dur-med) var(--ease-premium);
+  background: linear-gradient(162deg, rgba(20,38,74,.58), rgba(10,20,40,.72));
+  padding: clamp(30px, 3vw, 44px);
+  border-radius: var(--r-lg);
+  position: relative; overflow: hidden; isolation: isolate;
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+  box-shadow: var(--relief-glass), 0 26px 56px -34px rgba(3,8,20,.9);
+  --aurum-dur: 8s;
+  transition: background var(--dur-med) var(--ease-premium),
+              box-shadow var(--dur-med) var(--ease-premium),
+              transform var(--dur-med) var(--ease-premium);
 }
-.principle:hover { background: rgba(10,20,40,.34); }
-.principle::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: var(--gold-gradient); transform: scaleX(0); transform-origin: left;
+.principle:hover {
+  background: linear-gradient(162deg, rgba(31,61,122,.46), rgba(10,20,40,.52));
+  transform: translateY(-3px);
+  box-shadow: var(--relief-glass), 0 34px 70px -34px rgba(3,8,20,.95);
+}
+/* The gold rule that drew across the top on hover moved to ::after: the
+   travelling perimeter light claims ::after on `.aurum` and the lit rim
+   claims ::before on `.edge-lit`, so this needed a third home. It is
+   drawn INSIDE the radius rather than across a square top edge, which
+   is why it is inset and rounded rather than full-bleed. */
+.principle::after {
+  content: ''; position: absolute; top: 0; left: 12%; right: 12%; height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-rich), transparent);
+  transform: scaleX(0); transform-origin: center;
   transition: transform var(--dur-med) var(--ease-premium);
+  z-index: 4; pointer-events: none;
 }
-[dir="rtl"] .principle::before { transform-origin: right; }
-.principle:hover::before { transform: scaleX(1); }
+.principle:hover::after { transform: scaleX(1); }
+/* The numeral is a struck mark, not a number in a sentence: ceremonial
+   capitals, at the weight of an engraved edition number. */
 .principle__num {
-  font-family: var(--font-display); font-size: 2.6rem; line-height: 1;
-  color: rgba(212,175,55,.28); display: block; margin-bottom: .3em;
-  letter-spacing: -.03em;
+  font-family: var(--font-ceremonial); font-weight: 600;
+  font-size: 2.2rem; line-height: 1;
+  color: rgba(212,175,55,.34); display: block; margin-bottom: .34em;
+  letter-spacing: .04em;
 }
 .principle h3 { font-size: clamp(1.1rem, 1rem + .4vw, 1.34rem); color: #fff; margin: 0 0 .55em; }
 .principle p { margin: 0; color: rgba(247,244,236,.74); font-size: .94rem; max-width: 46ch; }
@@ -368,11 +581,18 @@
 
 /* The status line that closes chapter 06 — one sentence, set
    as a ruled note rather than as a warning box. */
+/* Set as a well rather than a ruled note. It is the one paragraph on
+   the page that qualifies everything above it, and a reader who skims
+   past it has been let down by the design, not by their attention. */
 .status-note {
   display: flex; align-items: flex-start; gap: 16px;
-  margin-top: clamp(36px, 3.5vw, 52px); padding-top: 26px;
-  border-top: 1px solid rgba(231,201,122,.22);
-  color: rgba(247,244,236,.66); font-size: .89rem; max-width: 82ch;
+  margin-top: clamp(36px, 3.5vw, 52px);
+  padding: 24px clamp(20px, 2vw, 30px);
+  border-radius: var(--r-md);
+  border: 0; border-inline-start: 2px solid rgba(199,162,74,.5);
+  background: linear-gradient(110deg, rgba(8,16,34,.5), rgba(8,16,34,.16));
+  box-shadow: var(--relief-inset);
+  color: rgba(247,244,236,.72); font-size: .89rem; max-width: 82ch;
 }
 .status-note .icon { color: var(--gold-royal); margin-top: .15em; width: 20px; height: 20px; }
 .status-note p { margin: 0; }

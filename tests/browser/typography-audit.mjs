@@ -108,6 +108,7 @@ const tightLeading = [];
 const collisions = [];
 const mixedFace = [];
 const flatStats = [];
+const brokenFigures = [];
 let elementsMeasured = 0;
 let facesSeen = [];
 
@@ -124,7 +125,7 @@ for (const route of routes) {
 
   const found = await page.evaluate(({ LATIN_ONLY, ARABIC_CAPABLE, LATIN_MIN, ARABIC_MIN }) => {
     const AR = /[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/;
-    const out = { wrongFamily: [], spaced: [], tight: [], overlap: [], mixedFace: [], flatStats: [], n: 0 };
+    const out = { wrongFamily: [], spaced: [], tight: [], overlap: [], mixedFace: [], flatStats: [], brokenFigures: [], n: 0 };
 
     // A HEADLINE FIGURE HAS TO READ AS ONE.
     //
@@ -159,6 +160,36 @@ for (const route of routes) {
         out.flatStats.push(`${(fig.textContent || '').trim().slice(0, 12)} ${f}px vs label ${c}px`);
       }
     }
+    // A FIGURE MUST OCCUPY ONE LINE.
+    //
+    // The homepage's four headline statistics shipped rendering as
+    // vertical columns of digits — `1,200` set as five stacked
+    // characters — and every check on this site was green while it did.
+    //
+    // The mechanism is worth encoding rather than just fixing, because
+    // it will recur: js/atelier.js wraps each digit of an assembling
+    // figure in its own <span> so the digits can be animated
+    // separately, and any rule anywhere that matches "a span inside
+    // this component" — a descendant selector written for the LABEL —
+    // also matches every one of those digits. Give them `display:
+    // block` and the number stacks; give them a width and it wraps.
+    //
+    // Measured as a height ratio rather than by inspecting the CSS,
+    // so it catches whatever causes it: a stacked figure is more than
+    // 1.6 line-heights tall, a correct one is exactly one.
+    for (const fig of document.querySelectorAll('[data-assemble]')) {
+      const cs = getComputedStyle(fig);
+      const size = parseFloat(cs.fontSize);
+      const lead = parseFloat(cs.lineHeight) || size * 1.2;
+      const h = fig.getBoundingClientRect().height;
+      if (!(size > 0) || !(h > 0)) continue;
+      if (h > lead * 1.6) {
+        out.brokenFigures.push(
+          `"${(fig.textContent || '').trim().slice(0, 12)}" is ${Math.round(h)}px tall `
+          + `on a ${Math.round(lead)}px line — the figure is broken across lines`);
+      }
+    }
+
     const ctx = document.createElement('canvas').getContext('2d');
     const inkCache = new Map();
     const first = (stack) => (stack.split(',')[0] || '').trim().replace(/^["']|["']$/g, '');
@@ -286,6 +317,7 @@ for (const route of routes) {
   tag(found.overlap, collisions);
   tag(found.mixedFace, mixedFace);
   tag(found.flatStats, flatStats);
+  tag(found.brokenFigures, brokenFigures);
 
   await page.close();
 }
@@ -307,6 +339,9 @@ check(`Leading clears the ink of the face it is set in — ${tightLeading.length
 
 check(`Every published figure is set larger than its caption — ${flatStats.length} violations`,
   flatStats.length === 0, show(flatStats));
+
+check(`No figure is broken across lines — ${brokenFigures.length} violations`,
+  brokenFigures.length === 0, show(brokenFigures));
 
 // A check that has only ever seen its own passing state proves nothing
 // about its reach. Confirm each rule fires on the shape it exists for.

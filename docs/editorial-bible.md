@@ -131,15 +131,105 @@ module markers) and never fills a background. Gold is a line-and-accent
 colour on dark grounds, never a large fill.
 
 ### Typography
-| Typeface | Role |
-|---|---|
-| **Playfair Display** (500–700, italic) | Editorial serif: headlines, pull-quotes, vision/mission lead text |
-| **Inter** (400–800) | Body copy, UI chrome, form labels, navigation |
-| Amiri / Cairo | Arabic fallbacks, appended automatically for `[lang="ar"]` content |
+| Typeface | Token | Role |
+|---|---|---|
+| **Bodoni Moda** (variable `opsz` 6–96, `wght` 500–800, italic) | `--font-display` | The display face: headlines, chapter titles, pull-quotes, published figures |
+| **Cinzel** (500–600) | `--font-ceremonial` | Ceremonial capitals **only**: chapter numerals, CEFR marks, crest lockups, seals |
+| **Inter** (400–800) | `--font-body` | Body copy, UI chrome, form labels, navigation, tables |
+| Amiri / Cairo | — | Arabic, appended automatically for `[lang="ar"]` content — see `css/arabic.css` |
 
-A deliberate two-role system (editorial serif / functional sans) — no
-third display face, no rounded "friendly EdTech" sans anywhere in the
-system.
+**Why a Didone.** The display face was Playfair Display, which is a good
+typeface and the most-used "elegant" font on the web. A masthead a reader
+has already met on ten thousand other sites cannot carry an institution's
+authority however well it is set. Bodoni Moda is a Didone — vertical
+stress, unbracketed serifs, extreme stroke contrast — which is
+simultaneously the language of luxury publishing and of the late-18th
+century British printing this brand's engraved register comes from.
+
+**Why the optical-size axis matters more than the face.** A Didone's
+hairlines are what make it magnificent at 64px and illegible at 15px.
+Bodoni Moda is requested as a *variable* font on `opsz`, and
+`font-optical-sizing: auto` is set on `body`, so the browser interpolates
+a sturdier cut as the type gets smaller. One family therefore covers a
+5rem masthead and a 1.05rem sub-heading with neither being a compromise.
+Requesting a static instance silently switches this off — the page still
+renders in the right family and is wrong everywhere.
+
+**Reverse type is set lighter.** Light glyphs on a dark ground irradiate:
+the light spreads into the dark and eats the thin strokes while the stems
+hold, so the identical weight looks under-inked on navy and correct on
+cream. Every reversed display size therefore takes about half a weight
+step back (`css/brand.css`, under the display scale). This is the
+correction letterpress printers made by hand for reverse panels, and it
+is why the light and dark chapters read as one publication.
+
+**The ration on Cinzel.** Inscriptional Roman capitals — the letters cut
+into Trajan's column and inherited by every British institution that
+carved its name over a door. It is allowed on numerals, level marks and
+lockups, and it is *not* a reading face: no body copy, no sub-headings,
+no button labels, no navigation, no run longer than about four words. It
+should amount to perhaps forty characters on a page. Used that sparingly
+it says the place is old; used for a paragraph it says the place is a
+theme.
+
+A three-role system — display serif / ceremonial capitals / functional
+sans. No fourth face, and no rounded "friendly EdTech" sans anywhere.
+
+### Geometry and material
+Two scales govern every shape on the site, and both live in
+`css/brand.css`:
+
+**Radius (`--r-xs` … `--r-2xl`, `--r-pill`).** Radius is a function of an
+element's size, not a taste setting: perceived softness is the radius as
+a proportion of the shortest edge, so holding one material across every
+scale means the radius climbs with the component (~6–10%). A 4px corner
+on a 600px plate reads as a square that failed; a 24px corner on a 40px
+badge reads as a bubble.
+
+*What stays square, by decision:* table cells and their rules, hairline
+dividers, chapter rules, the ledger, column keylines, the grain and
+guilloché grounds. Those are the page's **architecture**. Radius belongs
+to the **objects** placed on it — and where a curved object holds a
+square one (the ledger in its mount), the mount curves and the table does
+not.
+
+*Concentricity:* an inner radius equals the outer radius minus the gap
+between them. Get it wrong and the two arcs run at varying distances
+around the turn, which the eye reads as a wobble before it can name it.
+
+**Relief (`--relief-raised` / `--relief-inset` / `--relief-metal` /
+`--relief-glass`, plus the `--shadow-*` tiers).** Light comes from above
+and slightly forward. A raised surface carries a bright inset hairline on
+its top edge and a dark one along its bottom; a recessed surface carries
+the reverse — which is how the eye tells the hero's eyebrow (sitting *on*
+the page) from the statistics plinth beneath it (cut *into* it). Every
+shadow tier is two shadows: a tight **contact** shadow that says the
+object is touching the surface, and a wide **ambient** one that gives it
+mass. A single blurred offset is what a UI kit ships, and it always reads
+as a sticker.
+
+### Light
+Two primitives in `css/atelier.css`, and the difference between them is
+the whole point:
+
+- **`.edge-lit`** — material, applied broadly. A gradient rim: near-white
+  at the top-left where the source is, falling to shadow at the
+  bottom-right. A one-colour 1px border asserts that every edge of an
+  object receives identical light, which is true of nothing.
+- **`.aurum`** — effect, rationed hard. A point of light travelling the
+  *perimeter*, so the eye follows the silhouette and reads the edge as a
+  machined bevel. Allowed on the primary call to action (slowed to 13s —
+  a light that crosses once and leaves, not a shimmer), the hero's own
+  furniture, a card under the pointer, seals and awards. **Not** on cards
+  at rest, list items, navigation, or anything a reader is trying to read
+  past. A perimeter that is always moving is a casino; one that lights
+  when you arrive at it is a threshold.
+
+Both are built by masking a gradient to a 1px ring (`mask-composite:
+exclude`). A conic gradient painted *without* that mask fills its box
+from the centre and renders a hard pie-slice across the object's face —
+which is what the vessel badges in the footer and quicknav did on every
+page until it was found and fixed.
 
 ### Motifs (the "anti-cheap" toolkit)
 These exist specifically instead of generic card-grid / icon-set /

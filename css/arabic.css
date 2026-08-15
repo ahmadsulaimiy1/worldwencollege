@@ -75,7 +75,7 @@
    for a pull quote or a ceremonial line where the leading is generous
    enough to earn it. */
 [dir="rtl"], :lang(ar) {
-  --font-display: 'Cairo', 'Amiri', 'Playfair Display', serif;
+  --font-display: 'Cairo', 'Amiri', 'Bodoni Moda', serif;
   --font-body: 'Cairo', 'Inter', -apple-system, sans-serif;
 }
 
@@ -91,8 +91,22 @@
 :lang(ar) h1, :lang(ar) h2, :lang(ar) h3, :lang(ar) h4,
 [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4,
 [dir="rtl"] .display-1, [dir="rtl"] .display-2, [dir="rtl"] .display-3 {
-  font-family: 'Cairo', 'Amiri', 'Playfair Display', serif;
+  font-family: 'Cairo', 'Amiri', 'Bodoni Moda', serif;
 }
+/* THE CEREMONIAL FACE NEEDS NO OVERRIDE HERE, and one was written and
+   then removed, which is worth recording so it is not written again.
+
+   Cinzel carries no Arabic, so the instinct is to re-point
+   `.roman-caps` at Amiri on every RTL page. That is wrong twice over.
+   First, the marks the class exists for — roman numerals, CEFR codes,
+   the College's own initials — are LATIN runs that stay Latin in the
+   Arabic edition, and forcing them into a Naskh face changes the one
+   thing both editions were meant to share. Second, it is unnecessary:
+   'Amiri' already sits in the --font-ceremonial stack, so any Arabic
+   character landing in a ceremonial mark falls through to it per
+   glyph, which is exactly what a fallback stack is for. Tracking on
+   such a run is already handled by rule 3 below, including its
+   dir="ltr" exception. */
 
 /* ── 2 · Leading suited to Naskh ──────────────────────────────────────
    Amiri's ascenders carry vocalisation marks and its descenders swing
