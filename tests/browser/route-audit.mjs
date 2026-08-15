@@ -345,16 +345,35 @@ for (const route of SWEEP_ROUTES) {
         }
         return n;
       };
+      // When the document overflows, name the widest offender — this
+      // check failed in CI at +4px on renderer metrics no local run
+      // reproduced, and a failure message that says only "+4px" leaves
+      // the culprit to be guessed at across a deploy round-trip.
+      const cw = document.documentElement.clientWidth;
+      let worst = null;
+      if (document.documentElement.scrollWidth > cw + 1) {
+        for (const el of document.querySelectorAll('body, body *')) {
+          const r = el.getBoundingClientRect();
+          if (r.width > 0 && (!worst || r.right > worst.right)) {
+            const cls = (typeof el.className === 'string' ? el.className : '').split(/\s+/)[0];
+            worst = { right: Math.round(r.right), what: el.tagName.toLowerCase() + (cls ? '.' + cls : '') };
+          }
+        }
+      }
       return {
         topbar: rows('.topbar__inner'),
         header: rows('.site-header__inner'),
         overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        worst,
       };
     }).catch(() => null);
     if (!s) continue;
     if (s.topbar > 1) sweepBad.push(`${route} @${width} topbar ${s.topbar} rows`);
     if (s.header > 1) sweepBad.push(`${route} @${width} header ${s.header} rows`);
-    if (s.overflow > 1) sweepBad.push(`${route} @${width} overflow +${s.overflow}px`);
+    if (s.overflow > 1) {
+      sweepBad.push(`${route} @${width} overflow +${s.overflow}px`
+        + (s.worst ? ` (widest: ${s.worst.what} right=${s.worst.right})` : ''));
+    }
   }
 }
 
