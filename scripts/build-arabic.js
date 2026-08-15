@@ -1,9 +1,14 @@
 #!/usr/bin/env node
 /**
- * THE ARABIC EDITIONS — thirteen pages.
+ * THE ARABIC EDITIONS — the generated Arabic pillars and their
+ * satellite pages (admissions, tuition, the FAQ, academics, governance,
+ * students and its assessment/awards pages, privacy). The hand-authored
+ * Arabic pages (home, about, faculty, contact, the portal) live in
+ * pages/*.ar.html directly, and the level pages in
+ * scripts/build-arabic-levels.js.
  *
  * ────────────────────────────────────────────────────────────────────
- * WHY THESE THIRTEEN AND NOT ALL FIFTY-FOUR
+ * WHY THESE AND NOT ALL OF THEM
  * ────────────────────────────────────────────────────────────────────
  * The site is published in English and Arabic. Fifty-four pages were
  * written in one stretch and every one of them was English-only, which
@@ -548,7 +553,7 @@ PAGES.tuition = {
   <div class="container">
     <span class="eyebrow">الرسوم الدراسية</span>
     <h1>تسعير شفاف لمسار <span dir="ltr">IEFC</span> كاملًا.</h1>
-    <p class="lede">رسم برنامج واحد، مقسّم بالتساوي على ستة مستويات — ادفع دفعة واحدة، أو لكل مستوى، أو شهريًا (حيثما أُتيح ذلك).</p>
+    <p class="lede">رسم برنامج واحد، مقسّم بالتساوي على ستة مستويات — ادفع دفعة واحدة، أو لكل مستوى، أو أقساطًا داخل المستوى بالطلب.</p>
     <div class="stat-row" style="margin-top:40px">
       <div class="stat-row__item"><strong>19,000$</strong><span>البرنامج كاملًا</span></div>
       <div class="stat-row__item"><strong>3,166.67$</strong><span>لكل مستوى</span></div>
@@ -593,7 +598,7 @@ PAGES.tuition = {
         <li>التقييمات والامتحانات</li>
         <li>تقارير التقدّم والإرشاد الأكاديمي</li>
         <li>كشف الدرجات الرقمي</li>
-        <li>الشهادة الرقمية عند إتمام البرنامج بنجاح</li>
+        <li>الشهادة الرقمية عند الإتمام بنجاح — متى أمكن منح الشهادة؛ لم يُعيَّن ممتحن خارجي بعد</li>
       </ul>
     </div>
     <div>
@@ -789,7 +794,7 @@ PAGES.faq = {
 
       <div class="accordion__item">
         <button class="accordion__q"><span>كم تبلغ تكلفة البرنامج؟</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">البرنامج الكامل بمستوياته الستة يبلغ 19,000$، أو 3,166.67$ لكل مستوى. يمكنك الدفع دفعة واحدة، أو لكل مستوى، أو — وفقًا للسياسة المؤسسية — على أقساط شهرية. راجع <a href="/ar/admissions/tuition/">الرسوم الدراسية</a> للتفصيل الكامل.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">البرنامج الكامل بمستوياته الستة يبلغ 19,000$، أو 3,166.67$ لكل مستوى. يمكنك الدفع دفعة واحدة، أو لكل مستوى، أو بتقسيم رسوم المستوى إلى أربعة أقساط متساوية — متساوية لأنه لم تُعتمد سياسة إيقاع مبنية على أدلة، ومتاحة بالطلب. راجع <a href="/ar/admissions/tuition/">الرسوم الدراسية</a> للتفصيل الكامل.</div></div>
       </div>
 
       <div class="accordion__item">
@@ -928,7 +933,7 @@ ${darkCard('س', 'إذن ما الذي أدفع مقابله؟', 'برنامج �
     {
       "@type": "Question",
       "name": "كم تبلغ تكلفة البرنامج؟",
-      "acceptedAnswer": { "@type": "Answer", "text": "البرنامج الكامل بمستوياته الستة يبلغ 19,000$، أو 3,166.67$ لكل مستوى. يمكنك الدفع دفعة واحدة، أو لكل مستوى، أو — وفقًا للسياسة المؤسسية — على أقساط شهرية." }
+      "acceptedAnswer": { "@type": "Answer", "text": "البرنامج الكامل بمستوياته الستة يبلغ 19,000$، أو 3,166.67$ لكل مستوى. يمكنك الدفع دفعة واحدة، أو لكل مستوى، أو بتقسيم رسوم المستوى إلى أربعة أقساط متساوية — متساوية لأنه لم تُعتمد سياسة إيقاع مبنية على أدلة، ومتاحة بالطلب." }
     },
     {
       "@type": "Question",

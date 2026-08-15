@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * THE STUDENTS CLUSTER — eight pages.
+ * THE STUDENTS CLUSTER — six pages.
  *
  * ────────────────────────────────────────────────────────────────────
  * THE LINE THIS CLUSTER HAS TO HOLD
@@ -118,7 +118,10 @@ const noCohort = `<div class="callout">
       <span class="callout__label">Written before the first student</span>
       <p>No cohort has yet been taught at WEC-LC. Everything on this page describes what is
         built and what the College has decided, not an experience anyone has had. Where a rule
-        arrived by executive decision awaiting Senate ratification, it says so.</p>
+        arrived by executive decision awaiting Senate ratification, it says so. The College
+        holds no accreditation, has appointed no External Examiner, has conferred no award on
+        anyone, and has adopted no <a href="/admissions/tuition/#refunds">refund policy</a>
+        &mdash; see <a href="/about/#status">institutional status</a>.</p>
     </div>`;
 
 const PAGES = {};

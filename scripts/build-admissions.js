@@ -652,7 +652,7 @@ PAGES.faq = {
 
       <div class="accordion__item">
         <button class="accordion__q"><span>How much does the programme cost?</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">The full six-level programme is $19,000, or $3,166.67 per level. You can pay in full, per level, or — subject to institutional policy — in monthly instalments. See <a href="/admissions/tuition/">Tuition &amp; Fees</a> for the full breakdown.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">The full six-level programme is $19,000, or $3,166.67 per level. You can pay in full, per level, or split a level&rsquo;s fee into four equal instalments &mdash; equal because no evidence-based cadence policy has been set, and available on request. See <a href="/admissions/tuition/">Tuition &amp; Fees</a> for the three arrangements.</div></div>
       </div>
 
       <div class="accordion__item">
@@ -790,7 +790,7 @@ ${qa('Then what am I paying for?', 'A complete, inspectable programme: six level
     {
       "@type": "Question",
       "name": "How much does the programme cost?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The full six-level programme is $19,000, or $3,166.67 per level. You can pay in full, per level, or — subject to institutional policy — in monthly instalments." }
+      "acceptedAnswer": { "@type": "Answer", "text": "The full six-level programme is $19,000, or $3,166.67 per level. You can pay in full, per level, or split a level's fee into four equal instalments — equal because no evidence-based cadence policy has been set, and available on request." }
     },
     {
       "@type": "Question",
@@ -834,7 +834,7 @@ PAGES.tuition = {
   <div class="container">
     <span class="eyebrow">Tuition &amp; Fees</span>
     <h1>Transparent pricing for the full IEFC pathway.</h1>
-    <p class="lede">One programme fee, spread evenly across six levels — pay in full, by level, or (where approved) monthly.</p>
+    <p class="lede">One programme fee, spread evenly across six levels — pay in full, by level, or in instalments within a level, on request.</p>
     <div class="stat-row" style="margin-top:40px">
       <div class="stat-row__item"><strong>$19,000</strong><span>Full Programme</span></div>
       <div class="stat-row__item"><strong>$3,166.67</strong><span>Per Level</span></div>
@@ -882,7 +882,7 @@ PAGES.tuition = {
         <li>Assessments and examinations</li>
         <li>Progress reports and academic advising</li>
         <li>Digital transcript</li>
-        <li>Digital certificate on successful programme completion</li>
+        <li>Digital certificate on successful completion &mdash; once the award can be conferred; no External Examiner is yet appointed</li>
       </ul>
     </div>
     <div>

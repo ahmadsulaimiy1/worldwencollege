@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * THE TEACHING CLUSTER — five pages.
+ * THE TEACHING CLUSTER — one page: Teaching Practice, the pillar at
+ * /academics/teaching/.
  *
  * ────────────────────────────────────────────────────────────────────
  * THE THING THAT CANNOT BE WRITTEN
@@ -201,8 +202,9 @@ ${card('Four', 'Every lesson plans for the learner who does not follow', 'A seco
       <div class="stat-row__item"><strong>${D.fields.length}</strong><span>Support fields per lesson</span></div>
       <div class="stat-row__item"><strong>${FILLED}</strong><span>Authored support entries</span></div>
     </div>
-    <p class="form-note">The support record is complete for Level I and is being written outward
-      from there. The figure above is what exists, not what is planned.</p>
+    <p class="form-note">The authored support layer is complete for Level I; three further
+      record fields hold no entries yet and are listed as not yet evidenced. The figures above
+      are what exists, not what is planned.</p>
   </div>
 </section>
 
@@ -320,7 +322,7 @@ ${D.fields.map((f) => `          <tr><td><strong>${esc(f.name)}</strong></td><td
       <h2>Complete for Level I, and honest about the rest.</h2>
     </div>
     <div class="grid grid--3">
-${darkCard('Level I', `${D.levelOneLessons} teaching lessons, fully supported`, `Every support field is written for every Level I lesson. It is the level a beginner meets first and the level where a teacher has least room to improvise, so it was completed first.`)}
+${darkCard('Level I', `${D.levelOneLessons} teaching lessons, supported in depth`, `The eight authored support fields are written for every Level I teaching lesson &mdash; the level a beginner meets first and the level where a teacher has least room to improvise. Three of the seventeen record fields hold no entries yet, and the record lists them as not yet evidenced rather than hiding them.`)}
 ${darkCard('Levels II&ndash;VI', 'Partially written', 'The fields readable from the curriculum are populated across the programme; the authored fields are being written level by level. What exists is what is published; nothing is projected.')}
 ${darkCard('The whole record', 'Openly countable', `${FILLED} authored entries today. The figure moves as the work proceeds and is generated from the record rather than typed into this page.`)}
     </div>

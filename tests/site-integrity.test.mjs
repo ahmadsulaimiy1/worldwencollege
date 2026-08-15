@@ -165,12 +165,22 @@ const deadFragments = (html, ownFile, page) => {
 {
   const dead = [];
   let fragsChecked = 0;
-  for (const e of entries) {
-    const file = path.join(ROOT, e.output);
+  // Manifest pages, plus the standalone application pages at the
+  // repository root (the Listening Lab, verify, my-programme…) which
+  // are served but are not manifest entries — the first version of
+  // this check missed them, and only an independent re-scan noticed.
+  const { readdirSync } = await import('node:fs');
+  const outputs = new Set(entries.map((e) => e.output));
+  const scanned = [
+    ...entries.map((e) => ({ file: path.join(ROOT, e.output), page: urlFor(e.output) })),
+    ...readdirSync(ROOT).filter((f) => f.endsWith('.html') && !outputs.has(f))
+      .map((f) => ({ file: path.join(ROOT, f), page: '/' + f })),
+  ];
+  for (const { file, page } of scanned) {
     if (!existsSync(file)) continue;
     const html = readFileSync(file, 'utf8');
     fragsChecked += [...html.matchAll(/href="[^"]*#[^"]+"/g)].length;
-    dead.push(...deadFragments(html, file, urlFor(e.output)));
+    dead.push(...deadFragments(html, file, page));
   }
   check(`Every fragment link lands on an id that exists — ${fragsChecked} checked`,
     dead.length === 0, dead.slice(0, 6).join(' · '));

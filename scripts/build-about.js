@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * THE ABOUT CLUSTER — nine pages.
+ * THE ABOUT CLUSTER — two pages: the College pillar and Careers.
+ * (Governance and standards moved to scripts/build-governance.js.)
  *
  * ────────────────────────────────────────────────────────────────────
  * THE PAGES AN INSTITUTION LIES ON
@@ -126,16 +127,6 @@ const cta = (h2, primary, primaryHref, secondary, secondaryHref) =>
 // ─────────────────────────────────────────────────────────────────────
 const PAGES = {};
 
-// 1 · VISION ──────────────────────────────────────────────────────────
-
-
-// 2 · MISSION ─────────────────────────────────────────────────────────
-
-
-// 3 · EDUCATIONAL PHILOSOPHY ──────────────────────────────────────────
-
-
-// 4 · GOVERNANCE ──────────────────────────────────────────────────────
 // The membership figures are read, never written. BASCE's count comes
 // from the database and is expected to stay at nought until somebody is
 // actually appointed to it; the Senate's comes from the register via
@@ -146,13 +137,10 @@ const basceCount = D.bodies.find((b) => b.code === 'BASCE').members_appointed;
 // ── governance, the Senate, BASCE and quality assurance ──────────────
 // Moved to scripts/build-governance.js on the day Governance became a
 // top-level pillar (docs/information-architecture.html). This file
-// keeps the identity pages — vision, mission, philosophy, structure,
-// careers — which retire into the College pillar in a later phase.
+// keeps the pillar, which absorbed vision, mission, philosophy and
+// structure as anchored sections, and Careers.
 
-// 8 · ORGANISATIONAL STRUCTURE ────────────────────────────────────────
-
-
-// 9 · CAREERS ─────────────────────────────────────────────────────────
+// THE COLLEGE PILLAR ──────────────────────────────────────────────────
 PAGES.pillar = {
   slug: 'about', output: 'about/index.html', file: 'about.html',
   contents: true,
@@ -185,25 +173,6 @@ PAGES.pillar = {
         <li>Integrate modern educational technology with expert instruction.</li>
         <li>Provide accessible, high-quality English education to learners worldwide.</li>
       </ul>
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head center">
-      <span class="module-marker">Core Values</span>
-      <h2>What we hold ourselves to.</h2>
-    </div>
-    <div class="grid grid--4">
-      <div class="card"><h3>Academic Excellence</h3></div>
-      <div class="card"><h3>Integrity</h3></div>
-      <div class="card"><h3>Innovation</h3></div>
-      <div class="card"><h3>Professionalism</h3></div>
-      <div class="card"><h3>Inclusiveness</h3></div>
-      <div class="card"><h3>Lifelong Learning</h3></div>
-      <div class="card"><h3>Global Citizenship</h3></div>
-      <div class="card"><h3>Student-Centred Education</h3></div>
     </div>
   </div>
 </section>
@@ -308,7 +277,7 @@ ${card('Three', 'Let the curriculum carry the claim', 'The strongest thing WEC-L
       <h2>What the College undertakes to do.</h2>
     </div>
     <div class="grid grid--2">
-${card('One', 'Deliver world-class English language education', `Delivered as ${D.levels.length} CEFR-aligned levels, ${D.levels.length * 10} modules, and ${D.levels.reduce((n, l) => n + l.units, 0)} taught hours &mdash; every lesson planned stage by stage rather than left to the room.`)}
+${card('One', 'Deliver world-class English language education', `Delivered as ${D.levels.length} CEFR-aligned levels, ${D.levels.length * 10} modules, and ${D.levels.reduce((n, l) => n + l.units, 0)} designed lessons &mdash; every one planned stage by stage rather than left to the room.`)}
 ${card('Two', 'Develop confident, fluent and academically competent speakers', 'Guided speaking is built into every lesson from the first, and the four skills are assessed separately so a learner strong in reading and weak in speaking is not described as simply "intermediate".')}
 ${card('Three', 'Prepare learners for study, employment and professional communication', 'The upper levels teach academic writing, meetings, negotiation, advocacy and research presentation &mdash; the registers that decide outcomes rather than the ones that pass a test.')}
 ${card('Four', 'Integrate modern educational technology with expert instruction', 'A learning platform carrying lessons, quizzes, self-checks and progress, plus a Listening Lab that records the learner&rsquo;s own speech for pronunciation feedback. Technology serving instruction, not replacing it.')}

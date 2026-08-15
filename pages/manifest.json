@@ -3,7 +3,7 @@
     "slug": "home",
     "output": "index.html",
     "title": "WorldWide English College — London Campus | WEC-LC",
-    "description": "WEC-LC delivers the International English Fluency Course (IEFC) — six CEFR-aligned levels from A1 to C2, taught entirely online over 24 months.",
+    "description": "WEC-LC delivers the International English Fluency Course (IEFC) — six CEFR-aligned levels from A1 to C2, 1,200 designed hours, taught entirely online.",
     "contentFile": "home.html",
     "extraCss": [
       "/css/home.css"
@@ -105,7 +105,7 @@
     "slug": "home-ar",
     "output": "ar/index.html",
     "title": "الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن",
-    "description": "الكلية العالمية للغة الإنجليزية تقدّم برنامج الطلاقة الدولي (IEFC) بستة مستويات متوافقة مع CEFR، من A1 إلى C2، عبر الإنترنت بالكامل على مدى 24 شهرًا.",
+    "description": "الكلية العالمية للغة الإنجليزية تقدّم برنامج الطلاقة الدولي (IEFC) — ستة مستويات متوافقة مع CEFR من A1 إلى C2، و1,200 ساعة مصمَّمة، عبر الإنترنت بالكامل.",
     "contentFile": "home.ar.html",
     "extraCss": [
       "/css/home.css"

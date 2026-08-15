@@ -369,7 +369,7 @@ function academicsPage() {
       <div class="stat-row__item"><strong>120</strong><span>WEC Credits</span></div>
       <div class="stat-row__item"><strong>1,200</strong><span>Total Qualification Time (hrs)</span></div>
       <div class="stat-row__item"><strong>${levels.reduce((a, lv) => a + lv.modules.length, 0)}</strong><span>Modules, all written</span></div>
-      <div class="stat-row__item"><strong>1,200</strong><span>Hours, Full Programme</span></div>
+      <div class="stat-row__item"><strong>720</strong><span>Designed Lessons</span></div>
     </div>
     <div class="btn-row" style="margin-top:34px">
       <a href="/admissions/#apply" class="btn btn--gold">Apply Now</a>
@@ -473,7 +473,7 @@ ${levels.map((lv) => `          <tr>
       <table class="ledger">
         <thead><tr>
           <th scope="col">Level</th><th scope="col">Programme</th><th scope="col">CEFR</th>
-          <th scope="col">Modules</th><th scope="col">Hours</th><th scope="col">Award</th>
+          <th scope="col">Modules</th><th scope="col">Lessons</th><th scope="col">Award</th>
         </tr></thead>
         <tbody>
 ${levels.map((lv) => `          <tr>
