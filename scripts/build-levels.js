@@ -462,7 +462,7 @@ ${levels.map((lv) => `          <tr>
         </tr></thead>
         <tbody>
 ${levels.map((lv) => `          <tr>
-            <td><a href="/study/${SLUG[lv.roman]}/"><b>${esc(lv.roman)}</b></a></td>
+            <td><b>${esc(lv.roman)}</b></td>
             <td><a href="/study/${SLUG[lv.roman]}/">${esc(lv.name)}</a></td>
             <td>${esc(lv.cefr)}</td>
             <td>${lv.modules.length}</td>
