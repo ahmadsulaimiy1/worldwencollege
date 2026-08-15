@@ -515,4 +515,38 @@
     window.addEventListener('resize', onScroll, { passive: true });
     update();
   })();
+
+  /* -------------------------------------------------------------------
+     7 · SCROLL REVEAL
+     -------------------------------------------------------------------
+     A fade-and-rise for list items and cards as their chapter arrives —
+     structure appearing as you scroll, not decoration for its own sake.
+
+     Every other one-shot entrance above hides its element with a static
+     CSS rule keyed on the class alone, which is safe for the specific
+     decorative marks it is used for (a rule, a foil sweep) but not for
+     real content: if JS never runs at all, that content would stay
+     invisible forever. So this one works the other way round — the
+     hidden state is written here, in script, and ONLY once this
+     function has actually executed. No JS, or JS that throws before
+     reaching this line, leaves every .reveal element exactly as
+     authored: fully visible. That is also why this runs after, not
+     before, the reduced-motion check: nothing is hidden that a user
+     who asked for less motion has to wait to see.
+     ------------------------------------------------------------------- */
+  (function reveal() {
+    var els = toArray('.reveal');
+    if (!els.length || prefersReduced()) return;
+
+    els.forEach(function (el) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(18px)';
+      el.style.transition = 'opacity .7s var(--ease-premium), transform .7s var(--ease-premium)';
+    });
+
+    observeOnce(els, function (el) {
+      el.style.opacity = '';
+      el.style.transform = '';
+    }, 0.2);
+  })();
 })();
