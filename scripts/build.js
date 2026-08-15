@@ -278,8 +278,12 @@ function build() {
       OG_SITE_NAME: lang === 'ar' ? 'الكلية العالمية للغة الإنجليزية' : 'WorldWide English College',
     });
     const topbar = fill(partialFor('topbar', lang), { ALT_HREF: altHref });
-    const header = partialFor('header', lang);
-    const footer = partialFor('footer', lang);
+    // The mobile drawer and the footer each carry their own language
+    // switch now, so they need the same per-page ALT_HREF the topbar's
+    // gets — the page-specific Arabic/English twin, not a blanket link
+    // to the other language's front door.
+    const header = fill(partialFor('header', lang), { ALT_HREF: altHref });
+    const footer = fill(partialFor('footer', lang), { ALT_HREF: altHref });
     const content = withContentsRail(
       raiseMasthead(
         inlineSvgIncludes(read(path.join(PAGES, entry.contentFile)), entry.contentFile)

@@ -599,9 +599,33 @@ section { position: relative; }
   min-height: 44px; min-width: 44px; align-items: center; justify-content: center;
 }
 .nav__toggle span { width: 22px; height: 2px; background: var(--gold); display: block; }
-.nav-mobile { display: none; flex-direction: column; padding: 12px 24px 20px; gap: 4px; background: var(--royal); border-top: 1px solid var(--line-dark); }
-.nav-mobile a { color: rgba(247,244,236,.9); padding: 10px 0; font-weight: 600; font-size: .92rem; border-bottom: 1px solid var(--line-dark); }
-.nav-mobile .btn { margin-top: 12px; justify-content: center; border-bottom: none; }
+/* THE DRAWER READS AS ONE FLAT LIST, AND THAT WAS THE COMPLAINT.
+   Twenty-four links at identical weight, divided one from the next by
+   an identical hairline, is the visual grammar of a document, not an
+   institution — the six-pillar reorganisation happened in the HTML
+   back in Phase 5, but nothing in the CSS ever told a reader's eye
+   that a pillar had ended and the next one had begun.
+
+   So the drawer now groups by pillar under the mega menu's own label
+   treatment (.mega__label, reused rather than reinvented — the same
+   small-caps gold the desktop panels already use), separated by a
+   gold-tinted rule between GROUPS rather than between every link. The
+   language switch and social row are the topbar's own components,
+   moved rather than rebuilt: a reader who has scrolled past the
+   topbar — which is not sticky, and disappears the moment they do —
+   had no way back to Arabic without returning to the top of the page. */
+.nav-mobile { display: none; flex-direction: column; padding: 6px 24px 22px; background: var(--royal); border-top: 1px solid var(--line-dark); }
+.nav-mobile__group { padding: 16px 0; border-bottom: 1px solid rgba(199,162,74,.16); }
+.nav-mobile__group:first-child { padding-top: 14px; }
+.nav-mobile__group .mega__label { margin-bottom: 6px; }
+.nav-mobile__group a { display: flex; align-items: center; min-height: 44px; padding: 7px 2px; color: rgba(247,244,236,.88); font-weight: 600; font-size: .9rem; }
+.nav-mobile__group a:hover { color: var(--gold-bright); }
+/* Accessibility and Privacy are obligations, not destinations — kept
+   present but visibly quieter than the six pillars above them. */
+.nav-mobile__group--utility { display: flex; flex-wrap: wrap; column-gap: 20px; row-gap: 2px; padding: 14px 0; border-bottom: none; }
+.nav-mobile__group--utility a { min-height: 36px; padding: 6px 2px; color: rgba(247,244,236,.6); font-weight: 500; font-size: .82rem; }
+.nav-mobile__lang { display: flex; align-items: center; justify-content: space-between; padding: 16px 0 6px; margin-top: 2px; border-top: 1px solid rgba(199,162,74,.16); }
+.nav-mobile .btn { margin-top: 4px; justify-content: center; }
 
 /* 1180, not 980, and the number is measured rather than chosen.
    With the identity in the rail there are four groups on one line —
@@ -1000,7 +1024,9 @@ section { position: relative; }
   font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
   color: var(--gold-royal); margin-bottom: 18px; padding-bottom: 12px;
   border-bottom: 1px solid rgba(199,162,74,.24);
+  display: flex; align-items: center; gap: .6em;
 }
+.footer__col h2 .icon { width: 14px; height: 14px; color: var(--gold-rich); flex: 0 0 auto; }
 /* The 44px min-height on .footer__col a (set further up, for tap
    targets) already provides the vertical separation these links need.
    The additional 12px margin stacked on top of it, giving the footer
@@ -1013,10 +1039,16 @@ section { position: relative; }
 .footer__note { color: rgba(247,244,236,.5); }
 .site-footer__bottom {
   border-top: 1px solid var(--line-dark); padding: 22px 24px; max-width: var(--wrap); margin: 0 auto;
-  display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: .78rem; color: rgba(247,244,236,.5);
+  display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; font-size: .78rem; color: rgba(247,244,236,.5);
 }
 .footer__legal { max-width: 60ch; }
 .footer__legal a { color: rgba(247,244,236,.7); text-decoration: underline; }
+/* The language switch and social row, reused a third time (topbar,
+   mobile drawer, and here) rather than restyled — a colophon is where
+   a printed piece names the languages it comes in, and it is the
+   other place on the page, besides the topbar, that a reader expects
+   to find it. */
+.footer__utility { display: flex; align-items: center; gap: 18px; margin-inline-start: auto; }
 
 /* -------------------- Misc -------------------- */
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }

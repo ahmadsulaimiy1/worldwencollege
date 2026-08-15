@@ -323,6 +323,12 @@
   حيث لا توجد صفحة عربية، لا يُدرج الرابط أصلًا بدلًا من إخراج
   القارئ من لغته — راجع pages/manifest.json لما هو مترجَم. رابط
   التواصل في شريط الخدمات أعلاه.
+
+  قائمة الجوال تحمل كل الروابط أعلاه، مجمَّعة تحت تسمية الركن ذاتها
+  (mega__label. المستعارة لا المخترعة من جديد) بدل قائمة مسطحة واحدة
+  من عشرين رابطًا فأكثر. وتحمل أيضًا مبدّل اللغة وروابط التواصل: شريط
+  الخدمات أعلاه ليس ثابتًا، فالقارئ الذي مرّر شاشة واحدة نحو الأسفل
+  فقدهما بالفعل ولا يستطيع الوصول إليهما دون العودة إلى أعلى الصفحة.
 -->
 <header class="site-header lattice" data-nodes="7">
   <div class="lattice__bed" aria-hidden="true"></div>
@@ -355,6 +361,7 @@
               <a href="/ar/about/#vision">الرؤية والرسالة</a>
               <a href="/ar/about/#philosophy">الفلسفة التربوية</a>
               <a href="/ar/about/#structure">التنظيم</a>
+              <a href="/ar/about/careers/">العمل في الكلية</a>
             </div>
           </div>
           <a class="mega__feature" href="/ar/about/#status">
@@ -495,27 +502,77 @@
   </div>
 
   <nav class="nav-mobile" id="nav-mobile" aria-label="قائمة الجوال">
-    <a href="/ar/about/">عن الكلية</a>
-    <a href="/ar/academics/">البرامج الأكاديمية</a>
-    <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span></a>
-    <a href="/ar/academics/#levels">المستويات الستة</a>
-    <a href="/ar/faculty/">هيئة التدريس</a>
-    <a href="/ar/admissions/">القبول</a>
-    <a href="/ar/admissions/#apply">كيفية التقديم</a>
-    <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
-    <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
-    <a href="/ar/faq/">أسئلة القبول</a>
-    <a href="/ar/students/">الحياة الطلابية</a>
-    <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
-    <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
-    <a href="/ar/students/awards/">الشهادات والمراتب</a>
-    <a href="/ar/student-portal/">بوابة الطالب</a>
-    <a href="/ar/governance/">الحوكمة</a>
-    <a href="/ar/governance/evidence/">سجل الأدلة</a>
-    <a href="/ar/press/">مطبعة الكلية</a>
-    <a href="/ar/press/catalogue/">الكتالوج</a>
-    <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
-    <a href="/ar/contact/">تواصل معنا</a>
+    <div class="nav-mobile__group">
+      <p class="mega__label">عن الكلية</p>
+      <a href="/ar/about/">عن الكلية</a>
+      <a href="/ar/about/#vision">الرؤية والرسالة</a>
+      <a href="/ar/about/#philosophy">الفلسفة التربوية</a>
+      <a href="/ar/about/#structure">التنظيم</a>
+      <a href="/ar/about/careers/">العمل في الكلية</a>
+      <a href="/ar/about/#status">الوضع المؤسسي</a>
+    </div>
+    <div class="nav-mobile__group">
+      <p class="mega__label">البرامج الأكاديمية</p>
+      <a href="/ar/academics/">نظرة عامة على البرنامج</a>
+      <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span></a>
+      <a href="/ar/academics/#levels">المستويات الستة</a>
+      <a href="/ar/academics/#learning">كيف يجري التعلّم</a>
+      <a href="/ar/academics/#campus">الحرم الرقمي</a>
+    </div>
+    <div class="nav-mobile__group">
+      <p class="mega__label">التدريس وهيئته</p>
+      <a href="/ar/academics/teaching/">ممارسة التدريس</a>
+      <a href="/ar/faculty/">هيئة التدريس</a>
+    </div>
+    <div class="nav-mobile__group">
+      <p class="mega__label">القبول</p>
+      <a href="/ar/admissions/">نظرة عامة على القبول</a>
+      <a href="/ar/admissions/#apply">كيفية التقديم</a>
+      <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
+      <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>
+      <a href="/ar/admissions/policy/">سياسة القبول</a>
+      <a href="/ar/faq/">أسئلة القبول</a>
+    </div>
+    <div class="nav-mobile__group">
+      <p class="mega__label">الحياة الطلابية</p>
+      <a href="/ar/students/">الحياة الطلابية</a>
+      <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
+      <a href="/ar/students/academic-record/">سجلك الأكاديمي</a>
+      <a href="/ar/students/awards/">الشهادات والمراتب</a>
+      <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>
+      <a href="/ar/student-portal/">بوابة الطالب</a>
+    </div>
+    <div class="nav-mobile__group">
+      <p class="mega__label">الحوكمة</p>
+      <a href="/ar/governance/">الحوكمة</a>
+      <a href="/ar/governance/#leadership">القيادة والهيئات</a>
+      <a href="/ar/governance/#quality">ضمان الجودة</a>
+      <a href="/ar/governance/evidence/">سجل الأدلة</a>
+      <a href="/ar/governance/decisions/">سجل القرارات</a>
+    </div>
+    <div class="nav-mobile__group">
+      <p class="mega__label">المطبعة والمكتبة</p>
+      <a href="/ar/press/">مطبعة الكلية</a>
+      <a href="/ar/press/catalogue/">الكتالوج</a>
+      <a href="/ar/press/#standards">معايير الدار</a>
+      <a href="/ar/press/#library">المكتبة</a>
+    </div>
+    <div class="nav-mobile__group nav-mobile__group--utility">
+      <a href="/ar/support/accessibility/">الإتاحة</a>
+      <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
+      <a href="/ar/contact/">تواصل معنا</a>
+    </div>
+    <div class="nav-mobile__lang">
+      <a class="topbar__lang" href="/study/level-1/" lang="en" hreflang="en" dir="ltr">
+        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+        English
+      </a>
+      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
+        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
+      </div>
+    </div>
     <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم الآن</a>
   </nav>
 </header>
@@ -850,32 +907,42 @@
     </div>
 
     <div class="footer__col">
-      <h2>روابط سريعة</h2>
-      <a href="/ar/about/">عن الكلية</a>
-      <a href="/ar/academics/">البرامج الأكاديمية</a>
-      <a href="/ar/admissions/">القبول</a>
-      <a href="/ar/faculty/">هيئة التدريس</a>
-      <a href="/ar/student-portal/">بوابة الطالب</a>
-      <a href="/ar/contact/">تواصل معنا</a>
-    </div>
-
-    <div class="footer__col">
-      <h2>البرامج الأكاديمية</h2>
-      <a href="/ar/academics/#iefc">برنامج الطلاقة الدولي في اللغة الإنجليزية</a>
+      <h2><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg>الدراسة</h2>
+      <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span></a>
       <a href="/ar/academics/#levels">المستويات الستة</a>
+      <a href="/ar/academics/#learning">كيف يجري التعلّم</a>
       <a href="/ar/students/assessment/">كيف يتم تقييمك</a>
       <a href="/ar/students/awards/">الشهادات والمراتب</a>
-      <a href="/ar/governance/#quality">ضمان الجودة</a>
-      <a href="/ar/admissions/tuition/">الرسوم الدراسية</a>
+      <a href="/ar/student-portal/">بوابة الطالب</a>
     </div>
 
     <div class="footer__col">
-      <h2>تواصل معنا</h2>
+      <h2><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>القبول</h2>
+      <a href="/ar/admissions/#apply">كيفية التقديم</a>
+      <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
+      <a href="/ar/admissions/tuition/">الرسوم الدراسية</a>
+      <a href="/ar/admissions/tuition/#paying">سداد الرسوم</a>
+      <a href="/ar/admissions/#dates">مواعيد البدء والتقويم</a>
+      <a href="/ar/faq/">أسئلة القبول</a>
+    </div>
+
+    <div class="footer__col">
+      <h2><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>الكلية</h2>
+      <a href="/ar/about/">عن الكلية</a>
+      <a href="/ar/governance/">الحوكمة</a>
+      <a href="/ar/governance/#standard">المعيار الأكاديمي</a>
+      <a href="/ar/governance/evidence/">سجل الأدلة</a>
+      <a href="/ar/press/">مطبعة الكلية</a>
+      <a href="/ar/faculty/">هيئة التدريس</a>
+    </div>
+
+    <div class="footer__col">
+      <h2><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>تواصل معنا</h2>
       <a href="mailto:info@worldwencollege.co.uk" dir="ltr">info@worldwencollege.co.uk</a>
       <p class="footer__note">تعليم رقمي حول العالم · المقر الإداري في لندن<br>عنوان المقر قيد التأكيد — راجع <a href="/ar/contact/">صفحة التواصل</a></p>
-      <a href="/ar/admissions/#apply">كيفية التقديم</a>
-      <a href="/ar/faq/">أسئلة القبول</a>
+      <a href="/ar/contact/">تواصل مع الكلية</a>
       <a href="/ar/faq/">الأسئلة الشائعة</a>
+      <a href="/ar/support/accessibility/">الإتاحة</a>
       <a href="/ar/support/privacy/">الخصوصية وبياناتك</a>
     </div>
   </div>
@@ -883,6 +950,17 @@
   <div class="site-footer__bottom">
     <p>&copy; <span data-year>2026</span> الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن. جميع الحقوق محفوظة.</p>
     <p class="footer__legal">الكلية مؤسسة قيد التأسيس والتطوير الفعلي. حالة الاعتماد والحوكمة والقبول موضّحة بصدق في جميع أنحاء هذا الموقع — راجع <a href="/ar/about/#status">الوضع المؤسسي</a>.</p>
+    <div class="footer__utility">
+      <a class="topbar__lang" href="/study/level-1/" lang="en" hreflang="en" dir="ltr">
+        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+        English
+      </a>
+      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
+        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
+      </div>
+    </div>
   </div>
 </footer>
 
