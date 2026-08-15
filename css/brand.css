@@ -792,7 +792,7 @@ section { position: relative; }
 }
 @keyframes glance-halo-spin { to { transform: rotate(360deg); } }
 .vessel__badge {
-  position: relative; width: 58px; height: 58px; border-radius: 50%;
+  position: relative; overflow: hidden; width: 58px; height: 58px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   background: radial-gradient(circle at 32% 24%, var(--sapphire) 0%, var(--navy) 55%, var(--oxford) 100%);
   box-shadow:
@@ -801,8 +801,20 @@ section { position: relative; }
     0 6px 12px -7px rgba(0,0,0,.6),
     0 0 0 1.5px rgba(199,162,74,.4);
 }
+/* The badge's own surface is foiled, not just the glyph on it: a fixed
+   specular sweep — bright along the upper-left curve, dark along the
+   lower-right — the way struck metal catches light on one face and
+   holds shadow on the other. mix-blend-mode:overlay so it reads as a
+   property of the surface rather than a sticker sitting on top of it. */
+.vessel__badge::after {
+  content: ''; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+  background: linear-gradient(128deg,
+    rgba(255,255,255,.55) 0%, rgba(255,255,255,.14) 22%,
+    transparent 46%, transparent 60%, rgba(0,0,0,.22) 100%);
+  mix-blend-mode: overlay;
+}
 .vessel__badge .icon {
-  width: 25px; height: 25px;
+  position: relative; width: 25px; height: 25px;
   stroke: url(#i-foil-gold); color: var(--gold-soft);
   filter: drop-shadow(0 1px 1px rgba(0,0,0,.45));
 }
@@ -820,6 +832,20 @@ section { position: relative; }
     0 6px 12px -7px rgba(0,0,0,.5);
 }
 .vessel__badge--gold .icon { stroke: var(--royal-deep); color: var(--royal-deep); filter: none; }
+/* A smaller cut of the same two materials — the footer's categorised
+   link grids sit at this scale rather than the full 80px showcase
+   size, so six-to-a-section reads as a dense index, not another hero
+   grid competing with Explore Further above it. */
+.vessel--sm { width: 50px; height: 50px; border-radius: 15px; }
+.vessel--sm::before, .vessel--sm::after { inset: -4px; border-radius: 18px; }
+.vessel--sm .vessel__badge { width: 37px; height: 37px; }
+.vessel--sm .vessel__badge .icon { width: 16px; height: 16px; }
+/* The badge alone, no squircle frame and no travelling light — for a
+   menu row rather than a showcase grid. A list of seven does not need
+   seven lights in motion; the foiled dome and its bevel already say
+   "worked metal" on their own, restraint the rest of the way. */
+.vessel__badge--sm { width: 34px; height: 34px; }
+.vessel__badge--sm .icon { width: 15px; height: 15px; }
 @media (prefers-reduced-motion: reduce) {
   .vessel::before, .vessel::after { animation: none; opacity: .8; }
 }
@@ -872,6 +898,17 @@ section { position: relative; }
   .quicknav__tile--full .quicknav__label { color: var(--bronze); }
 }
 
+/* .nav-mobile is a direct child of .site-header, which is a .lattice —
+   and `.lattice > *:not(.lattice__bed) { position: relative }`
+   (css/atelier.css) outranks the plain `.nav-mobile` selector below on
+   specificity (two classes beats one), silently flipping this drawer
+   from fixed to relative. Relative position then reads its own `top`
+   as an offset from its normal in-flow slot — already below the
+   header's own content — instead of from the viewport, stacking a
+   second header's worth of empty space above the drawer before any
+   menu content appears. The three-class selector here outranks the
+   lattice rule back. */
+.site-header.lattice > .nav-mobile,
 .nav-mobile {
   display: none; flex-direction: column;
   position: fixed; inset-inline: 0; top: var(--header-h, 90px); bottom: 0; z-index: 60;
@@ -896,10 +933,11 @@ section { position: relative; }
 .nav-mobile .accordion__item { border-bottom: 1px solid rgba(199,162,74,.2); }
 .nav-mobile .accordion__q {
   width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: 19px 2px; background: none; border: none; text-align: start; cursor: pointer;
+  padding: 14px 2px; background: none; border: none; text-align: start; cursor: pointer;
   font-family: var(--font-display); font-weight: 600; font-size: 1.32rem; line-height: 1.2;
   color: var(--gold-champagne); min-height: 44px;
 }
+.nav-mobile .accordion__q-label { display: flex; align-items: center; gap: 16px; }
 .nav-mobile .accordion__q .plus { color: var(--gold-royal); font-weight: 400; font-size: 1.5rem; }
 .nav-mobile .accordion__a-inner { padding: 2px 2px 20px; max-width: none; }
 .nav-mobile .accordion__a-inner a {
@@ -1310,26 +1348,18 @@ section { position: relative; }
    frame and the result is correct at every width by construction,
    which a grid built for a printed programme's specification table
    should be. */
-.site-footer__inner {
-  max-width: var(--wrap); margin: 44px auto 0; padding: 0 24px 44px;
-  display: grid; grid-template-columns: 1.6fr repeat(4, 1fr); gap: 0;
-}
-@media (max-width: 1080px) { .site-footer__inner { grid-template-columns: 1fr 1fr 1fr; } }
-@media (max-width: 780px) { .site-footer__inner { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 480px) { .site-footer__inner { grid-template-columns: 1fr; } }
-.footer__brand, .footer__col { border: 1px solid rgba(199,162,74,.22); padding: 44px 30px; }
+/* Once five cells (brand + four link columns) sharing one specification
+   table; now one — the brand block alone. Every other column moved into
+   its own stacked .footergrid section below (see THE FOOTER GRID), so
+   this is a single bordered strip rather than a grid needing three
+   re-wrap breakpoints. */
+.site-footer__inner { max-width: var(--wrap); margin: 44px auto 0; padding: 0 24px; }
+.footer__brand { border: 1px solid rgba(199,162,74,.22); padding: 36px 30px; }
 .brand__crest-wrap { display: inline-block; }
 .footer__brand .brand__crest--footer { width: 40px; height: 46px; margin-bottom: 14px; }
 .footer__name { font-family: var(--font-display); color: #fff; font-size: 1.05rem; font-weight: 600; }
 .footer__name span { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-bright); }
 .footer__motto { font-style: italic; font-size: .86rem; margin-top: 12px; color: rgba(247,244,236,.6); max-width: 26ch; }
-.footer__col h2 {
-  font-family: var(--font-body); font-weight: 700;
-  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--gold-royal); margin-bottom: 18px; padding-bottom: 12px;
-  border-bottom: 1px solid rgba(199,162,74,.24);
-  display: flex; align-items: center; gap: .7em;
-}
 /* Same worked-vessel recipe as .glance__icon and .quicknav__badge,
    scaled to a column heading: a small dark dome with a gilded glyph,
    rather than a bare icon floating in the heading text. */
@@ -1346,16 +1376,6 @@ section { position: relative; }
   width: 13px; height: 13px; color: var(--gold-soft);
   filter: drop-shadow(0 1px 1px rgba(0,0,0,.4));
 }
-/* The 44px min-height on .footer__col a (set further up, for tap
-   targets) already provides the vertical separation these links need.
-   The additional 12px margin stacked on top of it, giving the footer
-   a 56px rhythm and roughly a screen and a half of height. Paragraphs
-   keep their margin; links do not need it. */
-.footer__col a, .footer__col p { display: block; font-size: .87rem; color: rgba(247,244,236,.72); }
-.footer__col a { margin-bottom: 0; }
-.footer__col p { margin-bottom: 12px; }
-.footer__col a:hover { color: var(--gold-bright); }
-.footer__note { color: rgba(247,244,236,.5); }
 .site-footer__bottom {
   border-top: 1px solid var(--line-dark); padding: 22px 24px; max-width: var(--wrap); margin: 0 auto;
   display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; font-size: .78rem; color: rgba(247,244,236,.5);
@@ -1393,13 +1413,23 @@ section { position: relative; }
   font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
   color: var(--bronze); padding: 30px 30px 22px;
 }
+/* Get in Touch carries a real address line and an email above its tile
+   row — neither belongs in a tile, an email is read, not clicked as an
+   icon, so it stays plain text, in the same ink as the tile labels. */
+.footergrid__intro { margin: -10px 30px 20px; color: var(--slate); font-size: .87rem; }
+/* inline-flex rather than block: the email keeps reading as prose next
+   to its note, but still claims a full 44px of tappable height, the
+   same tap-target discipline the rest of the footer's links carry. */
+.footergrid__intro a { display: inline-flex; align-items: center; min-height: 44px; color: var(--bronze); }
+.footergrid__intro + .footergrid__row { padding-top: 4px; }
+/* Four across at rest, three from tablet down — never five (too thin
+   a column to read as a considered object) and never two (too few to
+   read as a grid rather than a stacked pair). */
 .footergrid__row {
-  display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
   padding: 0 26px 34px;
 }
-@media (max-width: 1080px) { .footergrid__row { grid-template-columns: repeat(4, 1fr); } }
-@media (max-width: 780px) { .footergrid__row { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 480px) { .footergrid__row { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .footergrid__row { grid-template-columns: repeat(3, 1fr); } }
 .footergrid__tile {
   display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px;
   min-height: 44px; padding: 16px 6px;
