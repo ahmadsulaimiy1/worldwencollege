@@ -150,6 +150,21 @@
 }
 .hero--flagship .lede strong { color: var(--gold-champagne); font-weight: 600; }
 
+/* The founding-cohort line. A quoted callout rather than another
+   paragraph, so the one honest exclusivity claim on the page — real
+   urgency, not a fabricated one — reads as set apart and deliberate. */
+.hero__founding {
+  display: flex; align-items: flex-start; gap: .8em;
+  max-width: 54ch; margin: 0 0 2em;
+  padding: .85em 1.2em; border-inline-start: 2px solid var(--gold-royal);
+  background: rgba(199,162,74,.07);
+  font-size: .92rem; line-height: 1.55; color: rgba(247,244,236,.86);
+}
+.hero__founding .icon {
+  width: 1.2em; height: 1.2em; color: var(--gold-rich);
+  flex-shrink: 0; margin-top: .2em;
+}
+
 /* HERO STATISTICS — THE PLINTH.
    ---------------------------------------------------------
    Four figures ruled off between two hairlines, previously. It was
@@ -311,6 +326,7 @@
   width: 50px; height: 50px; display: grid; place-items: center;
   border: 1px solid var(--line); border-radius: 50%;
   color: var(--gold-royal); flex-shrink: 0;
+  position: relative; overflow: hidden;
   background: radial-gradient(circle at 32% 26%,
     rgba(255,252,240,.30), rgba(199,162,74,.05) 58%, rgba(10,20,40,.06) 100%);
   box-shadow: var(--relief-inset);
@@ -319,6 +335,11 @@
               box-shadow var(--dur-med) var(--ease-premium),
               transform var(--dur-med) var(--ease-premium);
 }
+/* .tilt__sheen and the pointer-tracking radial light (.gold-live) are
+   the shared atelier system — see css/atelier.css — applied here so
+   the icon reads as a small piece of the same engraved-metal surface
+   as the plates, not a separate, flatter decoration. */
+.feature-list__icon .icon { position: relative; z-index: 1; }
 .feature-list__icon .icon { width: 22px; height: 22px; }
 .section--dark .feature-list__icon, .section--midnight .feature-list__icon,
 .section--oxford .feature-list__icon {
@@ -511,6 +532,40 @@
 [dir="ltr"] .audience p { font-size: 1rem; }
 
 /* =========================================================
+   REGION STRIP
+   Gives physical presence, above the audience grid, to a claim
+   that was previously one sentence of prose ("The College
+   teaches across the Gulf, Europe, Africa and Asia"). Built on
+   .tilt/.gold-live — the same pointer-tracking system as the
+   plates — so it reads as part of the existing material
+   language rather than a bolted-on new effect. No counts are
+   claimed anywhere here; only who each region is for.
+   ========================================================= */
+.region-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  margin: clamp(28px, 3vw, 40px) 0 0;
+}
+@media (max-width: 860px) { .region-strip { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .region-strip { grid-template-columns: 1fr; } }
+.region {
+  position: relative; overflow: hidden; border-radius: 3px;
+  border: 1px solid var(--line-stone); border-top-width: 2px;
+  background: var(--warm-white); padding: 22px 20px;
+}
+.region .icon { width: 24px; height: 24px; margin-bottom: 12px; position: relative; z-index: 1; }
+.region h3 { font-size: .96rem; margin: 0 0 .4em; letter-spacing: -.005em; position: relative; z-index: 1; }
+.region p { margin: 0; font-size: .85rem; color: var(--slate); position: relative; z-index: 1; }
+[dir="ltr"] .region p { font-size: .92rem; }
+.region--gulf { border-top-color: var(--burgundy); }
+.region--gulf .icon { color: var(--burgundy); }
+.region--europe { border-top-color: var(--teal); }
+.region--europe .icon { color: var(--teal); }
+.region--africa { border-top-color: var(--emerald); }
+.region--africa .icon { color: var(--emerald); }
+.region--asia { border-top-color: var(--gold-royal); }
+.region--asia .icon { color: var(--gold-royal); }
+
+/* =========================================================
    THE PRINCIPLES
    Chapter 06. Numbered plates on the deepest ground of the
    page, with a purple wash — the one place the honours colour
@@ -651,7 +706,7 @@
 @media (prefers-reduced-motion: reduce) {
   .hero__crest { animation: none; }
   .strand:hover, .feature-list > li:hover .feature-list__icon { transform: none; }
-  .principle, .principle::before, .audience, .strand { transition: none; }
+  .principle, .principle::before, .audience, .strand, .region { transition: none; }
   /* .glance__tile's own reduced-motion carve-out now lives in
      css/brand.css, alongside the component itself. */
 }
