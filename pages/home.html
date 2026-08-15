@@ -1,10 +1,12 @@
 <!--
   THE HOMEPAGE.
 
-  Eight chapters, each on its own ground. Every section that carries a
-  data-chapter attribute contributes a dot to the chapter rail that
-  js/motion.js builds — so the rail is generated from the page rather
-  than hand-listed beside it, and cannot fall out of step with it.
+  A chapter per pillar, each on its own ground: The College, Academics,
+  Admissions, Student Life, Governance, Press & Library — the same six
+  destinations the navigation carries, in the same order. Every section
+  with a data-chapter attribute contributes a dot to the chapter rail
+  that js/motion.js builds — so the rail is generated from the page
+  rather than hand-listed beside it, and cannot fall out of step.
 
   Composition styles live in css/home.css, loaded only on this page and
   its Arabic counterpart via the `extraCss` key in pages/manifest.json.
@@ -58,14 +60,14 @@
 </section>
 
 <!-- ==================================================================
-     I · THE PROMISE
+     I · THE COLLEGE
      ================================================================== -->
-<section class="chapter section--light section--warm" data-chapter="The Promise" id="promise">
+<section class="chapter section--light section--warm" data-chapter="The College" id="promise">
   <div class="container">
     <div class="split-feature split-feature--wide-text">
       <div>
         <div class="chapter__head">
-          <p class="chapter__num"><span class="roman">I</span> The Promise</p>
+          <p class="chapter__num"><span class="roman">I</span> The College</p>
           <h2 class="display-2">Read the entire programme before you pay for any of it.</h2>
           <p class="lede">Most language providers sell a syllabus you are not permitted to see. Every level here is published in full &mdash; its modules, its outcomes, its assessments, and the criteria they are marked against.</p>
         </div>
@@ -95,6 +97,7 @@
         </ul>
 
         <div class="btn-row">
+          <a href="/about/" class="btn btn--outline">About the College</a>
           <a href="/governance/#standard" class="btn btn--outline">How the Standard Is Held</a>
         </div>
       </div>
@@ -113,12 +116,12 @@
 </section>
 
 <!-- ==================================================================
-     II · THE PROGRAMME
+     II · ACADEMICS
      ================================================================== -->
-<section class="chapter section--dark section--midnight grain" data-chapter="The Programme" id="programme">
+<section class="chapter section--dark section--midnight grain" data-chapter="Academics" id="programme">
   <div class="container">
     <div class="chapter__head">
-      <p class="chapter__num"><span class="roman">II</span> The Programme</p>
+      <p class="chapter__num"><span class="roman">II</span> Academics</p>
       <h2 class="display-2 gilt">The International English Fluency Course</h2>
       <p class="lede">Six CEFR-aligned levels. Ten modules in each. One published assessment policy, from the first lesson to the last.</p>
     </div>
@@ -179,152 +182,15 @@
 
     <div class="btn-row">
       <a href="/academics/#levels" class="btn btn--gold">Explore Every Level<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-      <a href="/admissions/tuition/" class="btn btn--ghost">Tuition &amp; Fees</a>
+      <a href="/academics/teaching/" class="btn btn--ghost">Teaching Practice</a>
     </div>
   </div>
 </section>
 
 <!-- ==================================================================
-     III · THE CURRICULUM
+     III · ADMISSIONS
      ================================================================== -->
-<section class="chapter section--light section--pearl" data-chapter="The Curriculum" id="curriculum">
-  <div class="container">
-    <div class="split-feature split-feature--wide-plate">
-      <figure class="plate plate--drift plate--photo" style="--plate-ratio: 3 / 2">
-        <div class="plate__frame">
-          <img src="/assets/images/plates/library.jpg" alt="A university reading hall: long tables, green-shaded lamps and shelved stacks receding towards the far wall." width="1600" height="1067" loading="lazy">
-          <span class="plate__tone" aria-hidden="true"></span>
-          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
-        </div>
-        <figcaption class="plate__caption">
-          <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
-          Sixty modules, written
-        </figcaption>
-      </figure>
-
-      <div>
-        <div class="chapter__head">
-          <p class="chapter__num"><span class="roman">III</span> The Curriculum</p>
-          <h2 class="display-2">Built for the room you will walk into.</h2>
-          <p class="lede">The language systems run through all six levels. The specialist strands enter at the point a learner can genuinely use them, not at the point they can be listed.</p>
-        </div>
-
-        <div class="strand-group">
-          <p class="strand-group__title">
-            <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
-            Language systems &mdash; every level
-          </p>
-          <div class="strand-row">
-            <span class="strand strand--core">Grammar</span>
-            <span class="strand strand--core">Vocabulary</span>
-            <span class="strand strand--core">Listening</span>
-            <span class="strand strand--core">Speaking</span>
-            <span class="strand strand--core">Reading</span>
-            <span class="strand strand--core">Writing</span>
-            <span class="strand strand--core">Pronunciation</span>
-          </div>
-        </div>
-
-        <div class="strand-group">
-          <p class="strand-group__title">
-            <svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>
-            Academic &amp; professional strands
-          </p>
-          <div class="strand-row">
-            <span class="strand">Academic English</span>
-            <span class="strand">Business English</span>
-            <span class="strand">Public Speaking</span>
-            <span class="strand">Interview Skills</span>
-            <span class="strand">Leadership Communication</span>
-          </div>
-        </div>
-
-        <div class="strand-group">
-          <p class="strand-group__title">
-            <svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg>
-            Examination preparation
-          </p>
-          <div class="strand-row">
-            <span class="strand">IELTS</span>
-            <span class="strand">TOEFL</span>
-            <span class="strand">Cambridge English</span>
-          </div>
-        </div>
-
-        <div class="btn-row">
-          <a href="/academics/#learning" class="btn btn--outline">How Learning Works</a>
-          <a href="/students/assessment/" class="btn btn--outline">How You Are Assessed</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================================================================
-     IV · THE DIGITAL CAMPUS
-     ================================================================== -->
-<section class="chapter section--dark grain" data-chapter="The Campus" id="digital-campus"
-         style="background:radial-gradient(ellipse 70% 60% at 88% 12%, rgba(29,92,99,.34), transparent 62%), linear-gradient(168deg, var(--navy) 0%, var(--midnight) 100%)">
-  <div class="container">
-    <div class="split-feature split-feature--wide-text">
-      <div>
-        <div class="chapter__head">
-          <p class="chapter__num"><span class="roman">IV</span> The Digital Campus</p>
-          <h2 class="display-2">An instrument, built for one programme.</h2>
-          <p class="lede">The platform was written for the IEFC and for nothing else. It is not a licensed course player with a crest applied to it.</p>
-        </div>
-
-        <ul class="feature-list">
-          <li>
-            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
-            <div>
-              <h3>My Programme</h3>
-              <p>Your level, module by module, showing what is complete and what comes next. Progression is per learner &mdash; nothing unlocks on a date someone else chose.</p>
-            </div>
-          </li>
-          <li>
-            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
-            <div>
-              <h3>The Listening Lab</h3>
-              <p>You record yourself against named pronunciation targets, and every recording is kept &mdash; so six months of change is something you can hear rather than something you are told about. It records offline when a connection drops.</p>
-            </div>
-          </li>
-          <li>
-            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
-            <div>
-              <h3>A record that can be checked</h3>
-              <p>Results carry a verification reference, so a university or an employer can confirm what you hold without taking your word or ours for it.</p>
-            </div>
-          </li>
-        </ul>
-
-        <p class="form-note">Recorded listening audio and live seminars are in development: the scripts are written and the sessions are timetabled against the first cohort. Both are listed on the platform roadmap rather than implied here.</p>
-
-        <div class="btn-row">
-          <a href="/academics/#campus" class="btn btn--outline">Inside the Platform</a>
-          <a href="/students/#lab" class="btn btn--outline">The Listening Lab</a>
-        </div>
-      </div>
-
-      <figure class="plate plate--drift plate--photo" style="--plate-ratio: 1 / 1">
-        <div class="plate__frame">
-          <img src="/assets/images/plates/study.jpg" alt="A learner in a collared shirt working at a laptop with headphones, files and papers laid out on the desk beside him." width="1200" height="1200" loading="lazy">
-          <span class="plate__tone" aria-hidden="true"></span>
-          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
-        </div>
-        <figcaption class="plate__caption">
-          <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
-          Built for one programme, and nothing else
-        </figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
-<!-- ==================================================================
-     V · WHO IT IS FOR
-     ================================================================== -->
-<section class="chapter section--light section--cream" data-chapter="Who It Is For" id="audience">
+<section class="chapter section--light section--cream" data-chapter="Admissions" id="audience">
   <div class="container">
     <div class="split-feature split-feature--wide-plate">
       <figure class="plate plate--drift plate--photo" style="--plate-ratio: 1 / 1">
@@ -341,7 +207,7 @@
 
       <div>
         <div class="chapter__head">
-          <p class="chapter__num"><span class="roman">V</span> Who It Is For</p>
+          <p class="chapter__num"><span class="roman">III</span> Admissions</p>
           <h2 class="display-2">Ambitious learners, at every stage.</h2>
           <p class="lede">The College teaches across the Gulf, Europe, Africa and Asia, in a single cohort and to a single standard.</p>
           <p>One pathway serves all of them, because the language does not change according to who is learning it. What changes is the reason: a place at a university, a brief that has to be delivered in English, a board that has to be chaired in it. The programme is the same; the strand a learner leans on is not.</p>
@@ -393,16 +259,82 @@
     </div>
 
     <p class="form-note">The College currently admits adult learners. Families enquiring on behalf of an applicant under 18 should write to Admissions directly rather than using the application form &mdash; see <a href="/admissions/#requirements">entry requirements</a>.</p>
+
+    <div class="btn-row">
+      <a href="/admissions/#apply" class="btn btn--gold">How to Apply<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a href="/admissions/tuition/" class="btn btn--outline">Tuition, Fees &amp; Funding</a>
+    </div>
   </div>
 </section>
 
 <!-- ==================================================================
-     VI · THE PRINCIPLES
+     IV · STUDENT LIFE
      ================================================================== -->
-<section class="chapter chapter--principles section--dark section--oxford grain aurora" data-chapter="The Principles" id="principles">
+<section class="chapter section--dark grain" data-chapter="Student Life" id="digital-campus"
+         style="background:radial-gradient(ellipse 70% 60% at 88% 12%, rgba(29,92,99,.34), transparent 62%), linear-gradient(168deg, var(--navy) 0%, var(--midnight) 100%)">
+  <div class="container">
+    <div class="split-feature split-feature--wide-text">
+      <div>
+        <div class="chapter__head">
+          <p class="chapter__num"><span class="roman">IV</span> Student Life</p>
+          <h2 class="display-2">An instrument, built for one programme.</h2>
+          <p class="lede">The platform was written for the IEFC and for nothing else. It is not a licensed course player with a crest applied to it.</p>
+        </div>
+
+        <ul class="feature-list">
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+            <div>
+              <h3>My Programme</h3>
+              <p>Your level, module by module, showing what is complete and what comes next. Progression is per learner &mdash; nothing unlocks on a date someone else chose.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+            <div>
+              <h3>The Listening Lab</h3>
+              <p>You record yourself against named pronunciation targets, and every recording is kept &mdash; so six months of change is something you can hear rather than something you are told about. It records offline when a connection drops.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+            <div>
+              <h3>A record that can be checked</h3>
+              <p>Results carry a verification reference, so a university or an employer can confirm what you hold without taking your word or ours for it.</p>
+            </div>
+          </li>
+        </ul>
+
+        <p class="form-note">Recorded listening audio and live seminars are in development: the scripts are written and the sessions are timetabled against the first cohort. Both are listed on the platform roadmap rather than implied here.</p>
+
+        <div class="btn-row">
+          <a href="/students/" class="btn btn--outline">Student Life</a>
+          <a href="/students/#lab" class="btn btn--outline">The Listening Lab</a>
+        </div>
+      </div>
+
+      <figure class="plate plate--drift plate--photo" style="--plate-ratio: 1 / 1">
+        <div class="plate__frame">
+          <img src="/assets/images/plates/study.jpg" alt="A learner in a collared shirt working at a laptop with headphones, files and papers laid out on the desk beside him." width="1200" height="1200" loading="lazy">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+          Built for one programme, and nothing else
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     V · GOVERNANCE
+     ================================================================== -->
+<section class="chapter chapter--principles section--dark section--oxford grain aurora" data-chapter="Governance" id="principles">
   <div class="container">
     <div class="chapter__head chapter__head--center">
-      <p class="chapter__num"><span class="roman">VI</span> The Principles</p>
+      <p class="chapter__num"><span class="roman">V</span> Governance</p>
       <h2 class="display-2">Four commitments this College will not trade.</h2>
       <p class="lede" style="margin-inline:auto">They are the reasons to choose a young institution over an old one, and each of them costs the College something.</p>
     </div>
@@ -437,6 +369,45 @@
     <div class="status-note" id="status">
       <svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>
       <p>WEC-LC is a newly established institution, delivering the IEFC online worldwide from a London administrative headquarters. Its accreditation position, governance appointments and academic calendar are published in full and kept current &mdash; see <a href="/about/#status">institutional status</a> and <a href="/governance/evidence/">the evidence record</a>.</p>
+    </div>
+
+    <div class="btn-row u-center" style="margin-top:34px">
+      <a href="/governance/" class="btn btn--outline">How the College Is Run</a>
+      <a href="/governance/evidence/" class="btn btn--outline">The Evidence Record</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     VI · PRESS & LIBRARY
+     ================================================================== -->
+<section class="chapter section--light section--pearl" data-chapter="Press &amp; Library" id="press">
+  <div class="container">
+    <div class="split-feature split-feature--wide-text">
+      <div>
+        <div class="chapter__head">
+          <p class="chapter__num"><span class="roman">VI</span> Press &amp; Library</p>
+          <h2 class="display-2">The College publishes what it teaches.</h2>
+          <p class="lede">The sixty modules, the assessment scheme and the teaching method are not internal documents. WEC Press issues them as volumes anyone can read &mdash; and states plainly which have been independently reviewed. None has yet, and the imprint says so rather than implying otherwise.</p>
+        </div>
+
+        <div class="btn-row">
+          <a href="/press/" class="btn btn--outline">WEC Press</a>
+          <a href="/press/catalogue/" class="btn btn--outline">Browse the Catalogue</a>
+        </div>
+      </div>
+
+      <figure class="plate plate--drift plate--photo" style="--plate-ratio: 3 / 2">
+        <div class="plate__frame">
+          <img src="/assets/images/plates/library.jpg" alt="A university reading hall: long tables, green-shaded lamps and shelved stacks receding towards the far wall." width="1600" height="1067" loading="lazy">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
+          Sixty modules, written
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
