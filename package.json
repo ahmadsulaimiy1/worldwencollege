@@ -29,6 +29,8 @@
     "companion": "node --experimental-sqlite scripts/publication/render-companion.mjs"
   },
   "devDependencies": {
+    "@fontsource-variable/bodoni-moda": "^5.3.0",
+    "@fontsource-variable/cinzel": "^5.3.0",
     "@fontsource/amiri": "^5.3.0",
     "@fontsource/cairo": "^5.3.0",
     "@fontsource/inter": "^5.3.0",

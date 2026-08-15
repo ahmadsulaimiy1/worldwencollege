@@ -26,12 +26,26 @@ import { fileURLToPath } from 'node:url';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = dirname(dirname(dirname(HERE)));
 const FS_DIR = join(ROOT, 'node_modules', '@fontsource');
+const FS_VAR_DIR = join(ROOT, 'node_modules', '@fontsource-variable');
 
-// Which weights the site actually asks Google for, per partials/head.html.
+// Which faces the site actually asks Google for, per scripts/build.js.
 // Loading only these keeps the payload to what a visitor downloads.
+//
+// The two `variable: true` entries are served from @fontsource-variable
+// rather than @fontsource, and that distinction is load-bearing rather
+// than a packaging detail. Bodoni Moda is requested from Google on its
+// OPTICAL-SIZE axis, and a static instance has no such axis: served the
+// static files, this harness would measure a page whose 1rem headings
+// are set in the 96pt hairline cut while the visitor's page sets them
+// in the 6pt cut. The two are visibly different faces. Serving the
+// variable file is the only way a measurement here describes the site.
 export const FACES = [
-  { family: 'Playfair Display', pkg: 'playfair-display', subset: 'latin', weights: ['600', '700'] },
-  { family: 'Playfair Display', pkg: 'playfair-display', subset: 'latin', weights: ['400'], style: 'italic' },
+  { family: 'Bodoni Moda', pkg: 'bodoni-moda', subset: 'latin', variable: true,
+    axes: 'standard', style: 'normal', range: '400 900', opsz: '6 96' },
+  { family: 'Bodoni Moda', pkg: 'bodoni-moda', subset: 'latin', variable: true,
+    axes: 'standard', style: 'italic', range: '400 900', opsz: '6 96' },
+  { family: 'Cinzel', pkg: 'cinzel', subset: 'latin', variable: true,
+    axes: 'wght', style: 'normal', range: '400 900' },
   { family: 'Inter', pkg: 'inter', subset: 'latin', weights: ['400', '600', '700', '800'] },
   { family: 'Amiri', pkg: 'amiri', subset: 'arabic', weights: ['400', '700'] },
   { family: 'Cairo', pkg: 'cairo', subset: 'arabic', weights: ['400', '600', '700'] },
@@ -39,7 +53,7 @@ export const FACES = [
 
 /** Families that carry NO Arabic glyphs. Arabic text landing on one of
  *  these has silently fallen through to whatever the OS offers. */
-export const LATIN_ONLY = ['Playfair Display', 'Inter', 'Georgia', 'Times New Roman'];
+export const LATIN_ONLY = ['Bodoni Moda', 'Cinzel', 'Playfair Display', 'Inter', 'Georgia', 'Times New Roman'];
 
 /** Families that do carry Arabic. */
 export const ARABIC_CAPABLE = ['Amiri', 'Cairo', 'Noto Naskh Arabic', 'Noto Sans Arabic'];
@@ -54,6 +68,19 @@ export function fontCss() {
   const missing = [];
   let css = '';
   for (const f of FACES) {
+    if (f.variable) {
+      const style = f.style || 'normal';
+      const file = join(FS_VAR_DIR, f.pkg, 'files', `${f.pkg}-${f.subset}-${f.axes}-${style}.woff2`);
+      if (!existsSync(file)) { missing.push(`${f.family} variable ${style}`); continue; }
+      const b64 = readFileSync(file).toString('base64');
+      // `font-weight` as a RANGE and an explicit `font-variation-settings`
+      // default: without the range the browser clamps every weight to the
+      // face's default and the whole variable axis is inert.
+      css += `@font-face{font-family:'${f.family}';font-style:${style};font-weight:${f.range};`
+        + (f.opsz ? `font-optical-sizing:auto;size-adjust:100%;` : '')
+        + `font-display:block;src:url(data:font/woff2;base64,${b64}) format('woff2-variations');}\n`;
+      continue;
+    }
     for (const w of f.weights) {
       const style = f.style || 'normal';
       const suffix = style === 'italic' ? 'italic' : 'normal';

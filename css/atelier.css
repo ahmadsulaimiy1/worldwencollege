@@ -112,6 +112,147 @@
 }
 
 /* =========================================================
+   1b · THE AURUM EDGE
+   ---------------------------------------------------------
+   Light that travels AROUND a shape rather than across it.
+
+   `.lumen` above sweeps a highlight over a surface — a
+   reflection crossing a face. This is the other half of the
+   same physics and the one that makes a rounded object read
+   as an object: a bright point orbiting the PERIMETER, so the
+   eye follows the silhouette and understands the edge as a
+   machined bevel catching a moving light source.
+
+   HOW IT IS BUILT, since it is not obvious. A conic gradient
+   is painted across the whole box, then masked so only the
+   1px frame survives — two masks, one clipped to the content
+   box and one to the border box, composited with `exclude`,
+   which subtracts the inside and leaves the ring. The angle
+   is a REGISTERED custom property (`@property`), because an
+   unregistered one is a string to the animation engine and
+   cannot be interpolated: without the registration the ring
+   would jump from 0turn to 1turn and never move in between.
+
+   WHERE IT IS ALLOWED: the primary call to action, the hero's
+   own furniture, a card under the pointer, the closing seal.
+   NOT: every card at rest, list items, navigation, or
+   anything a reader is trying to read past. A perimeter that
+   is always moving is a casino; one that lights when you
+   arrive at it is a threshold.
+   ========================================================= */
+@property --aurum-angle {
+  syntax: '<angle>'; initial-value: 0deg; inherits: false;
+}
+
+/* ::after, not ::before, and that is not arbitrary. `.edge-lit` below
+   claims ::before, and the two are designed to be worn together — a
+   surface with a lit rim AND a light travelling round it is the whole
+   effect. An element has one of each pseudo-element, so the two
+   primitives must not both want the same one. */
+.aurum { position: relative; }
+.aurum::after {
+  content: ''; position: absolute; inset: 0; z-index: 3;
+  border-radius: inherit; pointer-events: none;
+  padding: var(--aurum-width, 1px);
+  /* The travelling point is narrow and the rest of the turn is
+     empty. A conic gradient with a wide bright arc reads as a
+     glowing outline; one with a 12° arc reads as a light
+     source moving past an edge. */
+  background: conic-gradient(from var(--aurum-angle),
+    transparent 0deg,
+    transparent 40deg,
+    rgba(231, 201, 122, .35) 52deg,
+    rgba(255, 252, 240, .95) 60deg,
+    rgba(212, 175, 55, .55) 68deg,
+    transparent 82deg,
+    transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: aurum-orbit var(--aurum-dur, 9s) linear infinite;
+  animation-delay: var(--aurum-delay, 0s);
+}
+@keyframes aurum-orbit { to { --aurum-angle: 360deg; } }
+
+/* The hover-only variant, which is the one used most — a grid of
+   tiles where the one under the pointer lights its own perimeter.
+   At rest the ring is not merely transparent: the animation is
+   PAUSED, so twenty of these off-screen cost the compositor nothing. */
+.aurum--hover::after { opacity: 0; animation-play-state: paused;
+  transition: opacity .5s var(--ease-premium); }
+@media (hover: hover) and (pointer: fine) {
+  .aurum--hover:hover::after, .aurum--hover:focus-within::after {
+    opacity: 1; animation-play-state: running;
+  }
+}
+/* Two points, half a turn apart, for the few elements important enough
+   to be lit from two directions at once — the primary call to action,
+   the closing seal. One conic gradient with two bright arcs rather than
+   a second pseudo-element, which keeps ::before free for `.edge-lit`. */
+.aurum--twin::after {
+  background: conic-gradient(from var(--aurum-angle),
+    transparent 0deg, transparent 40deg,
+    rgba(231, 201, 122, .35) 52deg,
+    rgba(255, 252, 240, .95) 60deg,
+    rgba(212, 175, 55, .55) 68deg,
+    transparent 82deg,
+    transparent 220deg,
+    rgba(199, 162, 74, .40) 232deg,
+    rgba(242, 227, 192, .80) 240deg,
+    rgba(199, 162, 74, .40) 248deg,
+    transparent 260deg,
+    transparent 360deg);
+}
+
+/* =========================================================
+   1c · THE EDGE-LIT SURFACE
+   ---------------------------------------------------------
+   The workhorse, and the single change that makes a rounded
+   rectangle stop looking like a rounded rectangle.
+
+   A 1px border of ONE colour is flat by definition: it states
+   that every edge of the object receives identical light,
+   which is true of nothing. Real edges are a gradient — the
+   top-left rim catches the source and goes near-white, the
+   sides fall to the material's own colour, the bottom-right
+   turns away and goes to shadow. Same masking trick as the
+   aurum ring above, but static, so it costs one paint and no
+   animation frames at all.
+
+   This is applied broadly — it is material, not effect.
+   ========================================================= */
+.edge-lit { position: relative; }
+.edge-lit::before {
+  content: ''; position: absolute; inset: 0; z-index: 2;
+  border-radius: inherit; pointer-events: none;
+  padding: 1px;
+  background: linear-gradient(148deg,
+    rgba(242, 227, 192, .62) 0%,
+    rgba(199, 162, 74, .26) 22%,
+    rgba(199, 162, 74, .07) 46%,
+    rgba(6, 13, 28, .30) 72%,
+    rgba(6, 13, 28, .62) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
+/* On paper the light comes from the same place, but the material is
+   different: the rim highlight is white rather than champagne, and the
+   turned edge is a warm grey rather than a blue-black, because a cream
+   surface in a warm room does not have navy shadows. */
+.edge-lit--light::before {
+  background: linear-gradient(148deg,
+    rgba(255, 255, 255, .95) 0%,
+    rgba(199, 162, 74, .34) 24%,
+    rgba(121, 90, 50, .12) 52%,
+    rgba(74, 60, 40, .20) 76%,
+    rgba(52, 42, 30, .32) 100%);
+}
+[dir="rtl"] .edge-lit::before { transform: scaleX(-1); }
+
+/* =========================================================
    2 · CRYSTAL GLASS
    Not a blur filter. A pane has an edge that catches light,
    an internal highlight along its top, and a darker seam
@@ -121,7 +262,7 @@
   position: relative;
   background: var(--glass-tint);
   border: 1px solid var(--glass-edge);
-  border-radius: 10px;
+  border-radius: var(--r-md);
   box-shadow:
     0 24px 60px -28px rgba(3, 8, 20, .85),
     inset 0 1px 0 var(--glass-inner);
@@ -765,6 +906,13 @@
   .lattice__bed::before, .lattice__bed::after,
   .lattice__node, .aurora::before { animation: none; }
   .lumen::after, .glint::before { opacity: 0; }
+  /* The travelling ring stops travelling and REMAINS, resting at the
+     top-left rim where the light in this room comes from. That is the
+     finished state, not a hidden one: the object keeps its lit edge and
+     simply stops being animated, which is the whole contract of this
+     block. `.edge-lit` is untouched — it never moved. */
+  .aurum::after { animation: none; --aurum-angle: 296deg; }
+  .aurum--hover::after { opacity: 1; transition: none; }
   .lattice__node { opacity: .6; transform: none; }
   .assemble__d { opacity: 1; transform: none; transition: none; }
   .gilt { --gilt: 1; }

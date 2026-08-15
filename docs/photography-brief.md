@@ -62,6 +62,37 @@ Photographs illustrate an *activity* — reading, studying, discussion.
 Anything that would read as a claim about the institution stays an
 engraving, because a drawing is plainly a drawing.
 
+### What the free tier can and cannot supply
+
+Recorded after searching Adobe Stock's free tier against this policy, so
+the next person does not spend an afternoon rediscovering it.
+
+**People-free subjects pass easily.** Architecture, interiors, cities,
+still life. No compatibility question can arise, and the strongest
+results by far are here — the reading hall and the Westminster plate
+both came from this category. When a slot can be filled without a
+person in frame, fill it that way first.
+
+**People in professional settings mostly fail on REGISTER, not on
+compatibility.** The free tier's supply of workplace and study imagery
+is overwhelmingly consumer-lifestyle: "smiling businesspeople", "creative
+coworking", "friendly discussion", plaid shirts, iced coffee, people
+grinning at the lens. Several candidates were fully compliant with the
+cultural policy above and still unusable, because compatible is the
+floor and prospectus-grade is the bar.
+
+**The implication.** For the remaining people-carrying plates, expect to
+spend either credits on the paid tier — where the editorial and
+documentary collections live — or a commission. A commissioned shoot is
+worth costing: it is the only route to images that are unambiguously the
+College's own, and it removes the risk that a competitor licenses the
+same face.
+
+**Never solve this by lowering the bar.** A mediocre photograph on the
+homepage subtracts more than an empty slot does, because the empty slot
+is invisible and the mediocre photograph is a statement about the
+institution's judgement.
+
 ### Licensing
 
 Only assets that can be legally used. Every file recorded in

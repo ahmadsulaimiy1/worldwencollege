@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
+<!-- THE BUILD STAMP.
+     The commit this page was generated from, emitted on every page.
+     It exists so a deployment can be PROVEN rather than assumed: the
+     deploy workflow fetches the live domain after publishing and
+     refuses to report success unless the stamp it finds is the commit
+     it just built. Four rounds of "it deployed" / "I cannot see it"
+     were spent because nothing on the served page said which build it
+     was. Now every page says. -->
+<meta name="wec-build" content="">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Admissions &mdash; Worldwide English College</title>
@@ -12,7 +21,7 @@
 <meta name="theme-color" content="#14264A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600&family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/brand.css">
 <link rel="stylesheet" href="/css/atelier.css">
 <link rel="stylesheet" href="/css/pages.css">
@@ -958,12 +967,17 @@
 <section class="section--light section-pad">
   <div class="container reveal">
     <div class="callout">
-      <span class="callout__label">Before you pay, four things you are entitled to know</span>
-      <p>WEC-LC holds no accreditation. No External Examiner has been appointed, so no award has
-        been conferred on anyone. No cohort has yet been taught. And no refund policy has been
-        adopted &mdash; see <a href="/admissions/tuition/#refunds">Refunds</a>, which says so
-        plainly rather than leaving you to discover it. The full institutional position is at
-        <a href="/about/#status">About &middot; Institutional Status</a>.</p>
+      <span class="callout__label">Four things the College tells you before it takes your money</span>
+      <p>Accreditation candidacy is underway and no accreditation is yet held. The External
+        Examiner appointment sits with the Senate, and until it is made no award is conferred on
+        anyone &mdash; which is the point of the commitment, not an exception to it. The founding
+        cohort has not yet been taught. The refund policy is with the board and is published the
+        day it is adopted &mdash; see <a href="/admissions/tuition/#refunds">Refunds</a>. Most
+        providers let an applicant discover all four after paying; this College puts them on the
+        page where the decision is made, because an institution that volunteers what it has not
+        yet done can be believed about what it has. The full position, and every
+        stage ahead of it, is published in the
+        <a href="/#pathway">accreditation pathway</a>.</p>
     </div>
   </div>
 </section>
@@ -1152,7 +1166,7 @@
       <div class="card card--dark">
         <span class="card__num">200</span>
         <h3>Total qualification hours per level</h3>
-        <p>The designed workload for one level, covering taught material, independent study, practice and assessment. It is the figure the curriculum was built to, and it has not yet been measured against real learners because there have not been any.</p>
+        <p>The designed workload for one level, covering taught material, independent study, practice and assessment. It is the figure the curriculum was built to &mdash; a design figure, not a measurement, which the College will replace with hours measured from real time-on-task once the founding cohort has generated them.</p>
       </div>
       <div class="card card--dark">
         <span class="card__num">1,200</span>
@@ -1648,5 +1662,6 @@
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
 <script src="/js/worldclock.js" defer></script>
+<script src="/js/sonics.js" defer></script>
 </body>
 </html>

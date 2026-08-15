@@ -183,21 +183,40 @@ function partialFor(name, lang) {
 
 const SITE_URL = 'https://www.worldwencollege.co.uk';
 
-// Weight 500 deliberately omitted from both families below — verified
-// (grep across css/ and every page) that no font-weight:500 is used
-// anywhere in the codebase, so requesting it would just be unused
-// bytes on every single page load. Italic Playfair requests weight
-// 400, not 600/700: the only italic usage (.pull-quote, a bare
-// <blockquote>) sets no explicit font-weight, so it renders at the
-// browser default (400) — the previously-requested italic 500/600
-// were never actually the weight being displayed.
-const LATIN_FONTS = 'family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;600;700;800';
+// THE TYPE SYSTEM, AS REQUESTED FROM THE FOUNDRY.
+//
+// Three Latin families, each with one job, plus two Arabic families.
+//
+//   Bodoni Moda  — the display face. A Didone, requested VARIABLE on the
+//                  optical-size axis (`opsz 6..96`). That axis is the
+//                  whole reason this face replaced Playfair Display: a
+//                  Didone's hairlines are what make it magnificent at
+//                  64px and illegible at 15px, and `opsz` is the
+//                  typeface's own answer to that — the browser
+//                  interpolates a sturdier cut as the type gets smaller,
+//                  automatically, via `font-optical-sizing: auto`. One
+//                  family therefore covers a 4.6rem masthead and a
+//                  1.05rem sub-heading without either being a
+//                  compromise, which no static face can do.
+//   Cinzel       — ceremonial capitals only. Inscriptional Roman letter-
+//                  forms (the Trajan lineage): the crest lockup, chapter
+//                  numerals, CEFR marks, seals. Rationed hard — it is
+//                  used for perhaps forty characters on a page.
+//   Inter        — everything that is read rather than admired: body,
+//                  UI, labels, tables, forms.
+//
+// Weights are the ones actually set in css/. Bodoni's italic stops at
+// 600 because nothing sets an italic heavier than that; Cinzel asks for
+// two weights because it appears at two sizes and nowhere else.
+const LATIN_FONTS = 'family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600'
+  + '&family=Cinzel:wght@500;600'
+  + '&family=Inter:wght@400;600;700;800';
 const ARABIC_FONTS = '&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700';
 
 // English pages never render Arabic script — skip Amiri/Cairo entirely
 // rather than paying for two unused font families on every EN page load.
-// Arabic pages still need Playfair/Inter too, for embedded Latin runs
-// (IEFC, CEFR codes, emails) wrapped in dir="ltr" spans.
+// Arabic pages still need the Latin families too, for embedded Latin
+// runs (IEFC, CEFR codes, emails) wrapped in dir="ltr" spans.
 function fontsUrlFor(lang) {
   const families = lang === 'ar' ? LATIN_FONTS + ARABIC_FONTS : LATIN_FONTS;
   return `https://fonts.googleapis.com/css2?${families}&display=swap`;
@@ -208,6 +227,23 @@ function urlPathFor(outputPath) {
   const trimmed = outputPath.replace(/index\.html$/, '');
   return '/' + trimmed;
 }
+
+// The commit this build came from — but ONLY when a release build is
+// producing it. In CI, GITHUB_SHA; everywhere else, empty.
+//
+// The first version read `git rev-parse HEAD` as a local fallback, and
+// that was wrong in a way worth recording. The stamp is a function of
+// the commit, so every local rebuild after every commit rewrote the
+// stamp on all 64 pages — sixty-six modified files of pure churn,
+// forever, on a repository whose built output is committed. The signal
+// the stamp exists to carry was drowning in the noise of carrying it.
+//
+// Empty locally is not a loss: the stamp exists to let the DEPLOY prove
+// itself against the live domain, and the deploy job builds immediately
+// before publishing with GITHUB_SHA set. Committed output therefore
+// holds a stable empty stamp, and the only build that ever writes a
+// real one is the build that is about to be served.
+const BUILD_ID = (process.env.GITHUB_SHA || '').slice(0, 12);
 
 function build() {
   const manifest = JSON.parse(read(path.join(PAGES, 'manifest.json')));
@@ -273,6 +309,7 @@ function build() {
       CANONICAL: canonical,
       ALTERNATES: alternates,
       FONTS_URL: fontsUrlFor(lang),
+      BUILD_ID,
       EXTRA_CSS: extraCss,
       OG_LOCALE: lang === 'ar' ? 'ar_AR' : 'en_GB',
       OG_SITE_NAME: lang === 'ar' ? 'الكلية العالمية للغة الإنجليزية' : 'WorldWide English College',
@@ -333,7 +370,8 @@ ${footer}
 <script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
-<script src="/js/worldclock.js" defer></script>${extraScripts}
+<script src="/js/worldclock.js" defer></script>
+<script src="/js/sonics.js" defer></script>${extraScripts}
 </body>
 </html>
 `;
