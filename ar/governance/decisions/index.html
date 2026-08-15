@@ -512,6 +512,44 @@
     </div>
   </div>
 
+  <!-- شريط التنقّل السريع: للجوال فقط (يُخفى من 861px فصاعدًا، حيث
+       الأركان الستة ظاهرة أصلًا في شريط التنقّل). صف يُمرَّر أفقيًا
+       بلمسة الإصبع يحمل الأركان الستة ذاتها، وبطاقة سابعة "القائمة
+       الكاملة" تفتح اللوحة أدناه بدل الانتقال إلى صفحة — الشريط
+       اختصار للمستوى الأول، واللوحة تبقى حيث يقيم الموقع كاملًا. -->
+  <div class="quicknav" aria-label="التنقّل السريع">
+    <div class="quicknav__track">
+      <a href="/ar/about/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+        <span class="quicknav__label">الكلية</span>
+      </a>
+      <a href="/ar/academics/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
+        <span class="quicknav__label">الأكاديميا</span>
+      </a>
+      <a href="/ar/admissions/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <span class="quicknav__label">القبول</span>
+      </a>
+      <a href="/ar/students/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="quicknav__label">الطلاب</span>
+      </a>
+      <a href="/ar/governance/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+        <span class="quicknav__label">الحوكمة</span>
+      </a>
+      <a href="/ar/press/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+        <span class="quicknav__label">المطبعة</span>
+      </a>
+      <button type="button" class="quicknav__tile quicknav__tile--full" data-quicknav-full aria-controls="nav-mobile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+        <span class="quicknav__label">القائمة الكاملة</span>
+      </button>
+    </div>
+  </div>
+
   <nav class="nav-mobile" id="nav-mobile" aria-label="قائمة الجوال">
     <div class="accordion">
       <div class="accordion__item">
@@ -783,7 +821,7 @@
     </div>
 
     <div class="footer__col">
-      <h2><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg>الدراسة</h2>
+      <h2><span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>الدراسة</h2>
       <a href="/ar/academics/#iefc">برنامج <span dir="ltr">IEFC</span></a>
       <a href="/ar/academics/#levels">المستويات الستة</a>
       <a href="/ar/academics/#learning">كيف يجري التعلّم</a>
@@ -793,7 +831,7 @@
     </div>
 
     <div class="footer__col">
-      <h2><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>القبول</h2>
+      <h2><span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>القبول</h2>
       <a href="/ar/admissions/#apply">كيفية التقديم</a>
       <a href="/ar/admissions/#requirements">شروط الالتحاق</a>
       <a href="/ar/admissions/tuition/">الرسوم الدراسية</a>
@@ -803,7 +841,7 @@
     </div>
 
     <div class="footer__col">
-      <h2><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>الكلية</h2>
+      <h2><span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>الكلية</h2>
       <a href="/ar/about/">عن الكلية</a>
       <a href="/ar/governance/">الحوكمة</a>
       <a href="/ar/governance/#standard">المعيار الأكاديمي</a>
@@ -813,7 +851,7 @@
     </div>
 
     <div class="footer__col">
-      <h2><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>تواصل معنا</h2>
+      <h2><span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>تواصل معنا</h2>
       <a href="mailto:info@worldwencollege.co.uk" dir="ltr">info@worldwencollege.co.uk</a>
       <p class="footer__note">تعليم رقمي حول العالم · المقر الإداري في لندن<br>عنوان المقر قيد التأكيد — راجع <a href="/ar/contact/">صفحة التواصل</a></p>
       <a href="/ar/contact/">تواصل مع الكلية</a>

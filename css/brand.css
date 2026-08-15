@@ -691,6 +691,84 @@ section { position: relative; }
    below the header rather than covering it means the toggle button
    above is never hidden behind the very panel it opened, with no
    z-index contest and no separate close control to keep in sync. */
+/* =========================================================
+   THE QUICKNAV STRIP
+   A horizontally-swiping row of the six pillars, sitting
+   inside the header itself rather than in page content —
+   mobile only, since the six pillars already occupy the
+   visible nav row from 861px up, and repeating them there
+   would be chrome doing nothing.
+
+   Native scroll-snap carries the entire "swipe" interaction:
+   seven flex children in an overflow-x row with
+   scroll-snap-align on each. No carousel library, no JS
+   beyond the one click handler that makes the last tile open
+   the drawer (js/site.js).
+
+   --header-h is measured from the header's real rendered
+   height (js/motion.js), so adding this permanent row to the
+   header does not require touching the drawer's top offset —
+   it already starts wherever the header actually ends.
+   ========================================================= */
+.quicknav { display: none; }
+@media (max-width: 860px) {
+  .quicknav {
+    display: block;
+    background: var(--navy);
+    border-top: 1px solid rgba(199,162,74,.16);
+    padding: 12px 0;
+  }
+  .quicknav__track {
+    display: flex; gap: 16px;
+    overflow-x: auto; scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    padding: 0 20px;
+  }
+  .quicknav__track::-webkit-scrollbar { display: none; }
+  .quicknav__tile {
+    scroll-snap-align: start; flex: 0 0 auto; width: 66px;
+    display: flex; flex-direction: column; align-items: center; gap: 7px;
+    text-align: center; background: none; border: 0; padding: 0; font: inherit; cursor: pointer;
+    min-height: 44px;
+  }
+  /* THE BADGE: dark and polished, not gold — the icon carries the
+     gilding, the badge carries the depth. A deep radial dome (sapphire
+     catching light, sinking to oxford) plus a real bevel: inset light
+     along the upper rim, inset shadow along the lower, and a fine gold
+     keyline at the very edge — the "barrel" a strip of these should
+     read as, each one a small pressed vessel rather than a flat disc. */
+  .quicknav__badge {
+    position: relative; width: 50px; height: 50px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(circle at 32% 24%, var(--sapphire) 0%, var(--navy) 55%, var(--oxford) 100%);
+    box-shadow:
+      inset 0 3px 4px rgba(255,255,255,.22),
+      inset 0 -4px 6px rgba(0,0,0,.55),
+      0 8px 16px -9px rgba(0,0,0,.6),
+      0 0 0 1.5px rgba(199,162,74,.4);
+  }
+  .quicknav__badge .icon {
+    width: 22px; height: 22px; color: var(--gold-soft);
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,.4));
+  }
+  .quicknav__label {
+    font-family: var(--font-body); font-weight: 700; font-size: .64rem;
+    letter-spacing: .01em; color: rgba(247,244,236,.82);
+  }
+  /* Full Menu stands apart as the strip's one gold tile — the
+     escape hatch, not another destination, so it reads differently
+     from the six pillars either side of it. */
+  .quicknav__tile--full .quicknav__badge {
+    background: radial-gradient(circle at 32% 24%, var(--gold-champagne) 0%, var(--gold-royal) 55%, var(--gold-antique) 100%);
+    box-shadow:
+      inset 0 3px 4px rgba(255,255,255,.6),
+      inset 0 -4px 6px rgba(90,62,20,.5),
+      0 8px 16px -9px rgba(0,0,0,.5);
+  }
+  .quicknav__tile--full .quicknav__badge .icon { color: var(--royal-deep); filter: none; }
+  .quicknav__tile--full .quicknav__label { color: var(--gold-soft); }
+}
+
 .nav-mobile {
   display: none; flex-direction: column;
   position: fixed; inset-inline: 0; top: var(--header-h, 90px); bottom: 0; z-index: 60;
@@ -1147,9 +1225,24 @@ section { position: relative; }
   font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
   color: var(--gold-royal); margin-bottom: 18px; padding-bottom: 12px;
   border-bottom: 1px solid rgba(199,162,74,.24);
-  display: flex; align-items: center; gap: .6em;
+  display: flex; align-items: center; gap: .7em;
 }
-.footer__col h2 .icon { width: 14px; height: 14px; color: var(--gold-rich); flex: 0 0 auto; }
+/* Same worked-vessel recipe as .glance__icon and .quicknav__badge,
+   scaled to a column heading: a small dark dome with a gilded glyph,
+   rather than a bare icon floating in the heading text. */
+.footer__col-badge {
+  width: 26px; height: 26px; border-radius: 50%; flex: 0 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 30% 24%, var(--sapphire) 0%, var(--navy) 55%, var(--oxford) 100%);
+  box-shadow:
+    inset 0 2px 2px rgba(255,255,255,.22),
+    inset 0 -2px 3px rgba(0,0,0,.55),
+    0 0 0 1px rgba(199,162,74,.4);
+}
+.footer__col-badge .icon {
+  width: 13px; height: 13px; color: var(--gold-soft);
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,.4));
+}
 /* The 44px min-height on .footer__col a (set further up, for tap
    targets) already provides the vertical separation these links need.
    The additional 12px margin stacked on top of it, giving the footer

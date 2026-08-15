@@ -525,6 +525,49 @@
     </div>
   </div>
 
+  <!-- THE QUICKNAV STRIP.
+       Mobile only (css/brand.css hides it from 861px up, where the six
+       pillars already sit in the visible nav row — a second copy of
+       the same links there would be redundant chrome, not navigation).
+       A horizontally swiping row of the same six pillars plus a
+       seventh tile, Full Menu, which opens the drawer below rather
+       than linking anywhere — the strip is a shortcut to the top
+       level, the drawer is still where the complete site lives. Native
+       scroll-snap, no carousel library: this is seven flex children in
+       an overflow-x row, which is the entire mechanism. -->
+  <div class="quicknav" aria-label="Quick navigation">
+    <div class="quicknav__track">
+      <a href="/about/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+        <span class="quicknav__label">The College</span>
+      </a>
+      <a href="/academics/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
+        <span class="quicknav__label">Academics</span>
+      </a>
+      <a href="/admissions/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <span class="quicknav__label">Admissions</span>
+      </a>
+      <a href="/students/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="quicknav__label">Students</span>
+      </a>
+      <a href="/governance/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+        <span class="quicknav__label">Governance</span>
+      </a>
+      <a href="/press/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+        <span class="quicknav__label">Press</span>
+      </a>
+      <button type="button" class="quicknav__tile quicknav__tile--full" data-quicknav-full aria-controls="nav-mobile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+        <span class="quicknav__label">Full Menu</span>
+      </button>
+    </div>
+  </div>
+
   <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile">
     <div class="accordion">
       <div class="accordion__item">
@@ -1280,7 +1323,7 @@
     </div>
 
     <div class="footer__col">
-      <h2><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg>Study</h2>
+      <h2><span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>Study</h2>
       <a href="/academics/#iefc">The IEFC Programme</a>
       <a href="/academics/#levels">All Six Levels</a>
       <a href="/academics/#learning">How Learning Works</a>
@@ -1290,7 +1333,7 @@
     </div>
 
     <div class="footer__col">
-      <h2><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>Admissions</h2>
+      <h2><span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>Admissions</h2>
       <a href="/admissions/#apply">How to Apply</a>
       <a href="/admissions/#requirements">Entry Requirements</a>
       <a href="/admissions/tuition/">Tuition &amp; Fees</a>
@@ -1300,7 +1343,7 @@
     </div>
 
     <div class="footer__col">
-      <h2><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg>The College</h2>
+      <h2><span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>The College</h2>
       <a href="/about/">About WEC-LC</a>
       <a href="/governance/">Governance</a>
       <a href="/governance/#standard">Academic Standards</a>
@@ -1310,7 +1353,7 @@
     </div>
 
     <div class="footer__col">
-      <h2><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>Get in Touch</h2>
+      <h2><span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>Get in Touch</h2>
       <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a>
       <p class="footer__note">Online worldwide · London admin HQ<br>HQ address to be confirmed — see <a href="/contact/">Contact</a></p>
       <a href="/contact/">Contact the College</a>

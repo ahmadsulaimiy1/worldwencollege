@@ -220,6 +220,49 @@
     </div>
   </div>
 
+  <!-- THE QUICKNAV STRIP.
+       Mobile only (css/brand.css hides it from 861px up, where the six
+       pillars already sit in the visible nav row — a second copy of
+       the same links there would be redundant chrome, not navigation).
+       A horizontally swiping row of the same six pillars plus a
+       seventh tile, Full Menu, which opens the drawer below rather
+       than linking anywhere — the strip is a shortcut to the top
+       level, the drawer is still where the complete site lives. Native
+       scroll-snap, no carousel library: this is seven flex children in
+       an overflow-x row, which is the entire mechanism. -->
+  <div class="quicknav" aria-label="Quick navigation">
+    <div class="quicknav__track">
+      <a href="/about/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+        <span class="quicknav__label">The College</span>
+      </a>
+      <a href="/academics/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
+        <span class="quicknav__label">Academics</span>
+      </a>
+      <a href="/admissions/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <span class="quicknav__label">Admissions</span>
+      </a>
+      <a href="/students/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="quicknav__label">Students</span>
+      </a>
+      <a href="/governance/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+        <span class="quicknav__label">Governance</span>
+      </a>
+      <a href="/press/" class="quicknav__tile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+        <span class="quicknav__label">Press</span>
+      </a>
+      <button type="button" class="quicknav__tile quicknav__tile--full" data-quicknav-full aria-controls="nav-mobile">
+        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+        <span class="quicknav__label">Full Menu</span>
+      </button>
+    </div>
+  </div>
+
   <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile">
     <div class="accordion">
       <div class="accordion__item">
