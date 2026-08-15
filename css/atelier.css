@@ -160,7 +160,12 @@
    paper. Two planes at different depths, illuminated nodes
    at the intersections, and a slow drift.
 
-   ALLOWED: header, footer, hero grounds.
+   ALLOWED: header, footer, hero grounds, and closing CTA
+   bands — the full-bleed ceremonial bookends of a page, not
+   its content. Extended to CTA bands because a closing band
+   is structurally the same kind of thing as a hero: a full-
+   width threshold the reader passes through, not a passage
+   they read.
    NOT: content sections. It is the building, not the page.
    ========================================================= */
 /* The lattice lives in its own bed rather than on the host element.
