@@ -336,14 +336,20 @@
   BASCE, the verification protocol) is one click behind these links,
   on a pillar page whose contents rail carries it by name.
 
-  THE MOBILE DRAWER carries every link above, grouped under the same
-  pillar labels (.mega__label, reused rather than reinvented) rather
-  than as one flat twenty-four-item list — the reorganisation happened
-  in Phase 5, but until now nothing in the drawer's CSS told a reader's
-  eye where one pillar ended and the next began. It also carries the
-  language switch and social links: the topbar above is not sticky, so
-  a reader who has scrolled even one screen down has already lost
-  those and cannot reach them again without scrolling back to the top.
+  THE MOBILE DRAWER is a full-screen accordion, not a scroll of thirty-
+  one links. Grouping the pillars under static labels (Phase 5b) fixed
+  legibility but not density: every link was still on screen at once,
+  which is what "jam-packed" means on a 375px phone. Each pillar is now
+  a closed accordion__q/accordion__a pair — the same component the FAQ
+  page already used, wired once in js/site.js, reused here rather than
+  written twice — so a reader sees seven names, opens one, and the rest
+  stay out of the way. The drawer itself is a fixed overlay pinned to
+  var(--header-h) rather than an inline block, with its own guilloché
+  watermark for ceremony and a hamburger-to-X morph so the same control
+  that opened it closes it. It still carries the language switch and
+  social links: the topbar above is not sticky, so a reader who has
+  scrolled even one screen down has already lost those and cannot reach
+  them again without scrolling back to the top.
 -->
 <header class="site-header lattice" data-nodes="7">
   <div class="lattice__bed" aria-hidden="true"></div>
@@ -517,62 +523,78 @@
   </div>
 
   <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile">
-    <div class="nav-mobile__group">
-      <p class="mega__label">The College</p>
-      <a href="/about/">About the College</a>
-      <a href="/about/#vision">Vision &amp; Mission</a>
-      <a href="/about/#philosophy">Educational Philosophy</a>
-      <a href="/about/#structure">How It Is Organised</a>
-      <a href="/about/careers/">Careers</a>
-      <a href="/about/#status">Institutional Status</a>
+    <div class="accordion">
+      <div class="accordion__item">
+        <button class="accordion__q"><span>The College</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/about/">About the College</a>
+          <a href="/about/#vision">Vision &amp; Mission</a>
+          <a href="/about/#philosophy">Educational Philosophy</a>
+          <a href="/about/#structure">How It Is Organised</a>
+          <a href="/about/careers/">Careers</a>
+          <a href="/about/#status">Institutional Status</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span>Academics</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/academics/">Academics Overview</a>
+          <a href="/academics/#iefc">The IEFC Programme</a>
+          <a href="/academics/#levels">The Six Levels</a>
+          <a href="/academics/#learning">How Learning Works</a>
+          <a href="/academics/#campus">The Digital Campus</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span>Teaching &amp; Faculty</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/academics/teaching/">Teaching Practice</a>
+          <a href="/faculty/">The Faculty</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span>Admissions</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/admissions/">Admissions Overview</a>
+          <a href="/admissions/#apply">How to Apply</a>
+          <a href="/admissions/#requirements">Entry Requirements</a>
+          <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
+          <a href="/admissions/policy/">Admissions Policy</a>
+          <a href="/faq/">Admissions Questions</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span>Student Life</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/students/">Student Life</a>
+          <a href="/students/assessment/">How You Are Assessed</a>
+          <a href="/students/academic-record/">Your Academic Record</a>
+          <a href="/students/awards/">Awards &amp; Honours</a>
+          <a href="/students/regulations/">Academic Regulations</a>
+          <a href="/student-portal/">Student Portal</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span>Governance</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/governance/">Governance</a>
+          <a href="/governance/#leadership">Board, Senate &amp; Executive</a>
+          <a href="/governance/#quality">Quality Assurance</a>
+          <a href="/governance/evidence/">The Evidence Record</a>
+          <a href="/governance/decisions/">The Decisions Register</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span>Press &amp; Library</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/press/">WEC Press</a>
+          <a href="/press/catalogue/">The Catalogue</a>
+          <a href="/press/#standards">House Standards</a>
+          <a href="/press/#library">The Library</a>
+        </div></div>
+      </div>
     </div>
-    <div class="nav-mobile__group">
-      <p class="mega__label">Academics</p>
-      <a href="/academics/">Academics Overview</a>
-      <a href="/academics/#iefc">The IEFC Programme</a>
-      <a href="/academics/#levels">The Six Levels</a>
-      <a href="/academics/#learning">How Learning Works</a>
-      <a href="/academics/#campus">The Digital Campus</a>
-    </div>
-    <div class="nav-mobile__group">
-      <p class="mega__label">Teaching &amp; Faculty</p>
-      <a href="/academics/teaching/">Teaching Practice</a>
-      <a href="/faculty/">The Faculty</a>
-    </div>
-    <div class="nav-mobile__group">
-      <p class="mega__label">Admissions</p>
-      <a href="/admissions/">Admissions Overview</a>
-      <a href="/admissions/#apply">How to Apply</a>
-      <a href="/admissions/#requirements">Entry Requirements</a>
-      <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
-      <a href="/admissions/policy/">Admissions Policy</a>
-      <a href="/faq/">Admissions Questions</a>
-    </div>
-    <div class="nav-mobile__group">
-      <p class="mega__label">Student Life</p>
-      <a href="/students/">Student Life</a>
-      <a href="/students/assessment/">How You Are Assessed</a>
-      <a href="/students/academic-record/">Your Academic Record</a>
-      <a href="/students/awards/">Awards &amp; Honours</a>
-      <a href="/students/regulations/">Academic Regulations</a>
-      <a href="/student-portal/">Student Portal</a>
-    </div>
-    <div class="nav-mobile__group">
-      <p class="mega__label">Governance</p>
-      <a href="/governance/">Governance</a>
-      <a href="/governance/#leadership">Board, Senate &amp; Executive</a>
-      <a href="/governance/#quality">Quality Assurance</a>
-      <a href="/governance/evidence/">The Evidence Record</a>
-      <a href="/governance/decisions/">The Decisions Register</a>
-    </div>
-    <div class="nav-mobile__group">
-      <p class="mega__label">Press &amp; Library</p>
-      <a href="/press/">WEC Press</a>
-      <a href="/press/catalogue/">The Catalogue</a>
-      <a href="/press/#standards">House Standards</a>
-      <a href="/press/#library">The Library</a>
-    </div>
-    <div class="nav-mobile__group nav-mobile__group--utility">
+    <div class="nav-mobile__group--utility">
       <a href="/support/accessibility/">Accessibility</a>
       <a href="/support/privacy/">Privacy &amp; Your Data</a>
       <a href="/contact/">Contact</a>
