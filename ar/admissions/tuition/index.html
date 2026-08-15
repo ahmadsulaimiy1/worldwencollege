@@ -512,6 +512,21 @@
     </div>
   </div>
 
+  <!-- ساعة الترويسة: للجوال فقط، فوق شريط التنقّل السريع مباشرة —
+       حيث يحمل التصوير المرجعي سطر التاريخ والوقت، في أعلى التطبيق لا
+       داخل محتوى الصفحة. مقتضبة عن قصد: سطر واحد بلا قرص تناظري، فلا
+       تكلّف الترويسة شيئًا يُذكر من الارتفاع. js/worldclock.js يملأ
+       القيم الثلاث؛ الأرقام هنا هي حالة ما قبل تشغيل السكربت فقط. -->
+  <div class="headerclock" data-worldclock>
+    <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
+    <span class="headerclock__times" dir="ltr">
+      <span data-clock-london>13:36</span><span class="headerclock__tz">LON</span>
+      <span class="headerclock__sep">&middot;</span>
+      <span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span>
+    </span>
+    <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
+  </div>
+
   <!-- شريط التنقّل السريع: للجوال فقط (يُخفى من 861px فصاعدًا، حيث
        الأركان الستة ظاهرة أصلًا في شريط التنقّل). صف يُمرَّر أفقيًا
        بلمسة الإصبع يحمل الأركان الستة ذاتها، وبطاقة سابعة "القائمة
@@ -520,31 +535,31 @@
   <div class="quicknav" aria-label="التنقّل السريع">
     <div class="quicknav__track">
       <a href="/ar/about/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+        <span class="vessel" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span></span>
         <span class="quicknav__label">الكلية</span>
       </a>
       <a href="/ar/academics/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
+        <span class="vessel" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span></span>
         <span class="quicknav__label">الأكاديميا</span>
       </a>
       <a href="/ar/admissions/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <span class="vessel" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span></span>
         <span class="quicknav__label">القبول</span>
       </a>
       <a href="/ar/students/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="vessel" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
         <span class="quicknav__label">الطلاب</span>
       </a>
       <a href="/ar/governance/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+        <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
         <span class="quicknav__label">الحوكمة</span>
       </a>
       <a href="/ar/press/" class="quicknav__tile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span></span>
         <span class="quicknav__label">المطبعة</span>
       </a>
       <button type="button" class="quicknav__tile quicknav__tile--full" data-quicknav-full aria-controls="nav-mobile">
-        <span class="quicknav__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+        <span class="vessel" style="--halo-delay: 3.6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
         <span class="quicknav__label">القائمة الكاملة</span>
       </button>
     </div>
@@ -1016,6 +1031,54 @@
     </div>
   </div>
 
+  <!-- سجل ثانٍ أوسع: صفحات لا تنتمي لأيٍّ من الأعمدة الأربعة أعلاه
+       (الوظائف، وثيقة سياسة، ملاحظة تدريسية، سجل قرارات، فهرس) لكنها
+       صفحات حقيقية ومنشورة يبحث عنها الزائر الجاد. مصفوفة ثابتة لا
+       شريط قابل للتمرير كشريط التنقّل السريع أعلاها — هذه تعرض كل شيء
+       دفعة واحدة، كما يسرد الدليل المطبوع ملاحقه. نفس شارة الوعاء
+       المصوغة التي يحملها شريط التنقّل السريع، فتُقرأ الاثنتان كمادة
+       واحدة. -->
+  <div class="footergrid">
+    <h2 class="footergrid__heading">
+      <span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+      استكشف أكثر
+    </h2>
+    <div class="footergrid__row">
+      <a href="/ar/about/careers/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span></span>
+        <span class="footergrid__label">الوظائف</span>
+      </a>
+      <a href="/ar/academics/teaching/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: .5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span></span>
+        <span class="footergrid__label">الممارسة التدريسية</span>
+      </a>
+      <a href="/ar/admissions/policy/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 1s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span></span>
+        <span class="footergrid__label">سياسة القبول</span>
+      </a>
+      <a href="/ar/students/integrity/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span></span>
+        <span class="footergrid__label">النزاهة الأكاديمية</span>
+      </a>
+      <a href="/ar/students/regulations/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span></span>
+        <span class="footergrid__label">اللوائح الأكاديمية</span>
+      </a>
+      <a href="/ar/governance/decisions/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 2.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
+        <span class="footergrid__label">سجل القرارات</span>
+      </a>
+      <a href="/ar/press/catalogue/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
+        <span class="footergrid__label">فهرس المطبوعات</span>
+      </a>
+      <a href="/ar/about/#status" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span></span>
+        <span class="footergrid__label">الوضع المؤسسي</span>
+      </a>
+    </div>
+  </div>
+
   <div class="site-footer__bottom">
     <p>&copy; <span data-year>2026</span> الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن. جميع الحقوق محفوظة.</p>
     <!-- علامة ثقة، لا شارة: الأيقونة تدل على «هذا قابل للتحقق»، لا
@@ -1045,5 +1108,6 @@
 <script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
+<script src="/js/worldclock.js" defer></script>
 </body>
 </html>

@@ -8,9 +8,6 @@
     "extraCss": [
       "/css/home.css"
     ],
-    "scripts": [
-      "/js/worldclock.js"
-    ],
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/"
@@ -112,9 +109,6 @@
     "contentFile": "home.ar.html",
     "extraCss": [
       "/css/home.css"
-    ],
-    "scripts": [
-      "/js/worldclock.js"
     ],
     "lang": "ar",
     "dir": "rtl",
