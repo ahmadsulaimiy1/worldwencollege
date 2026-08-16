@@ -966,6 +966,30 @@
   color: rgba(16, 32, 62, .82);
   padding: 0 18%;
 }
+/* THE LEGEND IN ARABIC.
+   css/arabic.css already strips the tracking site-wide — on a cursive
+   script the space between letters is the join, not a gap — so the
+   only thing left wrong here is SIZE. .58rem is roughly 9px, which is
+   legible for three tracked Latin words stamped on a coin and is not
+   legible for Arabic at all: the script carries its meaning in strokes
+   that simply vanish at that size. It is set larger, unspaced, and in
+   the Arabic display face, and `uppercase` is dropped because it never
+   meant anything here in the first place. */
+[dir="rtl"] .medallion__legend {
+  /* The family is declared rather than re-pointed at a token, which is
+     the rule css/arabic.css sets out and the reason its own heading
+     override is written this way: --font-display resolves once against
+     :root, so changing the token on a descendant changes nothing. This
+     is the same stack that file gives Arabic headings. */
+  font-family: 'Cairo', 'Amiri', 'Bodoni Moda', serif;
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: normal;
+  text-transform: none;
+  line-height: 1.85;
+  padding: 0 14%;
+}
+
 .medallion__figure {
   display: block;
   font-family: var(--font-display);
