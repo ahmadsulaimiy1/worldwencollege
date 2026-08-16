@@ -786,6 +786,16 @@
       <p class="lede">يتصل هذا النموذج مباشرة بفريق القبول والتسجيل. إذا تعذّر الوصول إلى نظام التقديم الإلكتروني للحظات، ستفتح بياناتك في تطبيق البريد الإلكتروني بدلًا من ذلك — في الحالتين، لن تفقد ما أدخلته.</p>
     </div>
 
+    <div class="application-plate edge-lit">
+      <div class="application-plate__colophon">
+        <svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg>
+        <div>
+          <p class="application-plate__title">طلب الالتحاق</p>
+          <p class="application-plate__sub">برنامج الطلاقة الدولي في اللغة الإنجليزية &middot; الكلية العالمية للغة الإنجليزية، حرم لندن</p>
+        </div>
+        <span class="application-plate__ref">نموذج <span class="roman-caps" dir="ltr">IEFC&nbsp;/&nbsp;A1</span></span>
+      </div>
+
     <form class="form-grid" data-admissions-form
       data-endpoint="/api/admissions/apply"
       data-fallback-email="info@worldwencollege.co.uk"
@@ -804,6 +814,8 @@
         <span style="font-size:.82rem;color:var(--gold-bright)" data-level-summary-text></span>
         <a href="#self-assessment" style="font-size:.78rem;text-decoration:underline;margin-right:.8em;color:rgba(247,244,236,.7)">أعد التقييم الذاتي</a>
       </div>
+
+      <p class="form-section"><span class="form-section__num roman-caps">I</span> من أنت</p>
 
       <div class="field">
         <label for="app-name">الاسم الكامل</label>
@@ -851,11 +863,133 @@
         <span class="field__error" id="app-country-error" role="alert">الرجاء اختيار بلدك.</span>
       </div>
 
+      <p class="form-section"><span class="form-section__num roman-caps">II</span> الاتصال والجنسية</p>
+
+      <div class="field">
+        <label for="app-phone">الهاتف (مع رمز الدولة)</label>
+        <input id="app-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+971 50 000 0000" dir="ltr">
+      </div>
+      <div class="field">
+        <label for="app-city">المدينة</label>
+        <input id="app-city" name="city" type="text" autocomplete="address-level2">
+      </div>
       <div class="field field--full">
-        <button type="submit" class="btn btn--gold" data-submit-btn><span data-btn-label>إرسال الطلب</span></button>
+        <label for="app-nationality">الجنسية &mdash; جواز السفر الذي تحمله</label>
+        <select id="app-nationality" name="nationality">
+          <option value="">اختر جنسيتك</option>
+          <option value="AE">الإمارات العربية المتحدة</option><option value="SA">المملكة العربية السعودية</option>
+          <option value="QA">قطر</option><option value="KW">الكويت</option><option value="BH">البحرين</option>
+          <option value="OM">عُمان</option><option value="JO">الأردن</option><option value="EG">مصر</option>
+          <option value="IQ">العراق</option><option value="LB">لبنان</option><option value="LY">ليبيا</option>
+          <option value="MA">المغرب</option><option value="DZ">الجزائر</option><option value="TN">تونس</option>
+          <option value="SD">السودان</option><option value="SY">سوريا</option><option value="YE">اليمن</option>
+          <option value="NG">نيجيريا</option><option value="GH">غانا</option><option value="KE">كينيا</option>
+          <option value="ZA">جنوب أفريقيا</option><option value="ET">إثيوبيا</option><option value="TZ">تنزانيا</option>
+          <option value="UG">أوغندا</option><option value="SN">السنغال</option><option value="CM">الكاميرون</option>
+          <option value="PK">باكستان</option><option value="IN">الهند</option><option value="BD">بنغلاديش</option>
+          <option value="LK">سريلانكا</option><option value="ID">إندونيسيا</option><option value="MY">ماليزيا</option>
+          <option value="PH">الفلبين</option><option value="CN">الصين</option><option value="TR">تركيا</option>
+          <option value="GB">المملكة المتحدة</option><option value="US">الولايات المتحدة</option>
+          <option value="FR">فرنسا</option><option value="DE">ألمانيا</option><option value="ES">إسبانيا</option>
+          <option value="IT">إيطاليا</option><option value="OTHER">أخرى</option>
+        </select>
+        <span class="form-note" style="margin-top:6px">جنسيتك لا بلد إقامتك. وهي ما يحدّد إذن الدخول المتاح لإقامة في المملكة المتحدة.</span>
+      </div>
+
+      <p class="form-section"><span class="form-section__num roman-caps">III</span> برنامجك</p>
+
+      <div class="field">
+        <label for="app-purpose">ما الغرض من الإنجليزية؟</label>
+        <select id="app-purpose" name="purpose">
+          <option value="">اختر السبب</option>
+          <option value="university">مقعد جامعي</option>
+          <option value="career">العمل والمسار المهني</option>
+          <option value="government">الخدمة الحكومية أو الدبلوماسية</option>
+          <option value="examination">آيلتس أو توفل أو كامبريدج</option>
+          <option value="business">الأعمال والتجارة</option>
+          <option value="personal">الإتقان الشخصي</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="app-start">متى تودّ البدء؟</label>
+        <select id="app-start" name="startPreference">
+          <option value="">اختر التوقيت</option>
+          <option value="immediately">فورًا</option>
+          <option value="within_3_months">خلال ثلاثة أشهر</option>
+          <option value="within_6_months">خلال ستة أشهر</option>
+          <option value="undecided">لم أقرّر بعد</option>
+        </select>
+      </div>
+      <div class="field field--full">
+        <label for="app-residency">الإقامة التطبيقية &mdash; أين تودّ إتمامها؟</label>
+        <select id="app-residency" name="residencyInterest">
+          <option value="">اختر تفضيلك</option>
+          <option value="own_city">في مدينتي، تحت إشراف الكلية</option>
+          <option value="uk_london">المملكة المتحدة &mdash; لندن ووستمنستر</option>
+          <option value="uk_manchester">المملكة المتحدة &mdash; مانشستر</option>
+          <option value="uk_other">المملكة المتحدة &mdash; موقع آخر</option>
+          <option value="undecided">لم أقرّر بعد</option>
+        </select>
+        <span class="form-note" style="margin-top:6px">فترة التطبيق تحت الإشراف التي تختم المسار، من ثلاثين إلى ستين يومًا. وتتطلّب الإقامة في المملكة المتحدة إذنَ الدخول المناسب، وهو يُمنَح من وزارة الداخلية البريطانية لا من الكلية &mdash; ويقدّم القبولُ المشورةَ في المسار ويصدر الوثائق التي يحتاجها الطلب.</span>
+      </div>
+
+      <p class="form-section"><span class="form-section__num roman-caps">IV</span> الرسوم</p>
+
+      <div class="field">
+        <label for="app-funding">من سيتكفّل بالرسوم؟</label>
+        <select id="app-funding" name="funding">
+          <option value="">اختر الجهة الدافعة</option>
+          <option value="self">أنا شخصيًا</option>
+          <option value="employer">جهة عملي</option>
+          <option value="family">أحد أفراد الأسرة</option>
+          <option value="government">جهة حكومية راعية</option>
+          <option value="scholarship">منحة أو وقف</option>
+          <option value="undecided">لم أقرّر بعد</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="app-plan">كيف تفضّل السداد؟</label>
+        <select id="app-plan" name="paymentPlan">
+          <option value="">اختر تفضيلك</option>
+          <option value="level_by_level">مستوى واحد في كل مرة</option>
+          <option value="instalments">على أقساط</option>
+          <option value="full_pathway">المسار كاملًا مقدّمًا</option>
+          <option value="undecided">لم أقرّر بعد</option>
+        </select>
+      </div>
+      <div class="field field--full">
+        <p class="form-note">تُدفع الرسوم مستوى واحدًا في كل مرة &mdash; أنت تلتزم بالوحدات العشر التالية، لا بالمسار كله دفعة واحدة. والرسوم والعملات وشروط التقسيط منشورة بالكامل في <a href="/ar/admissions/tuition/">الرسوم والتمويل</a>. <strong>لا يُستوفى أي مبلغ مع هذا الطلب</strong>، ولن تطلب الكلية أبدًا بيانات بطاقة أو حساب بنكي عبر البريد الإلكتروني. تُصدَر الفاتورة بعد العرض، ويتم السداد عبر مزوّدي الدفع الآمنين للكلية.</p>
+      </div>
+
+      <p class="form-section"><span class="form-section__num roman-caps">V</span> الإقرار</p>
+
+      <div class="field field--full">
+        <label for="app-heard">كيف سمعت عن الكلية؟ <span class="field__optional">اختياري</span></label>
+        <input id="app-heard" name="heardVia" type="text">
+      </div>
+      <div class="field field--full">
+        <label for="app-notes">ما تودّ أن يعلمه القبول <span class="field__optional">اختياري</span></label>
+        <textarea id="app-notes" name="notes" rows="4" maxlength="2000" placeholder="ظروفك، أو مستواك الحالي في الإنجليزية، أو أي متطلبات للفوترة &mdash; الجهة المطلوب فوترتها، أو رقم أمر الشراء، أو عنوان الفوترة."></textarea>
+      </div>
+
+      <div class="field field--full declaration">
+        <label class="declaration__line">
+          <input type="checkbox" name="isAdult" value="1" required>
+          <span>أقرّ بأنني أبلغ من العمر ثمانية عشر عامًا أو أكثر. <span class="declaration__note">تقبل الكلية المتعلمين البالغين؛ وعلى الأسرة التي تستفسر نيابةً عن متقدّم دون الثامنة عشرة أن تراسل القبول مباشرة.</span></span>
+        </label>
+        <label class="declaration__line">
+          <input type="checkbox" name="privacyAgreed" value="1" required>
+          <span>قرأتُ <a href="/ar/support/privacy/">إشعار الخصوصية</a> وأوافق على احتفاظ الكلية بهذه البيانات لغرض معالجة طلبي. <span class="declaration__note">ويمكنك طلب الاطلاع على سجلك في أي وقت، وطلب حذفه.</span></span>
+        </label>
+        <p class="declaration__oath">المعلومات المذكورة أعلاه صحيحة وكاملة على حدّ علمي.</p>
+      </div>
+
+      <div class="field field--full application-plate__foot">
+        <button type="submit" class="btn btn--gold aurum aurum--twin" data-submit-btn><span data-btn-label>إرسال الطلب</span></button>
         <p class="form-note">تفضّل البريد الإلكتروني؟ <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">راسل فريق القبول والتسجيل مباشرة</a>.</p>
       </div>
     </form>
+    </div>
   </div>
 </section>
 
