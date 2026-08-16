@@ -115,6 +115,7 @@
       "/css/riwaq.css"
     ],
     "scripts": [
+      "/js/riwaq-store.js",
       "/js/riwaq.js"
     ]
   }

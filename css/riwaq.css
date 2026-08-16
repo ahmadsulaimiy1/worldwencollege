@@ -334,3 +334,113 @@
   background: var(--gold-soft);
   border-color: var(--gold-soft);
 }
+
+/* =========================================================================
+   THE PORTAL, SECOND VERSION
+   Components for the parts that actually mutate: the page drawer, the
+   submission and marking round-trip, the progress chart, the ledger jump,
+   and the printable transcript.
+   ========================================================================= */
+
+.btn--sm { padding: 6px 12px; font-size: .78rem; }
+
+.app-nav__badge {
+  margin-left: auto; min-width: 18px; height: 18px; padding: 0 5px;
+  border-radius: 9px; background: var(--gold-rich); color: var(--oxford);
+  font-size: .68rem; font-weight: 700; display: inline-flex;
+  align-items: center; justify-content: center;
+}
+
+/* ------------------------------------------------------- ledger jump */
+
+.riwaq-jump { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.riwaq-jump label {
+  display: block; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--slate); margin-bottom: 6px;
+}
+.riwaq-jump input {
+  font-family: inherit; font-size: .9rem; padding: 9px 12px;
+  border: 1px solid var(--stone); border-radius: 4px;
+  background: var(--warm-white); color: var(--ink); min-width: 240px;
+}
+.riwaq-jump input:focus { outline: none; border-color: var(--gold-royal); box-shadow: 0 0 0 3px rgba(199,162,74,.16); }
+
+/* A page cell is now a button, so it needs to look like one only on
+   hover and focus — 604 visible affordances would be a wall of noise. */
+.mushaf__pg { padding: 0; border: 1px solid rgba(0,0,0,.05); cursor: pointer; }
+.mushaf__pg:focus-visible { outline: 2px solid var(--gold-rich); outline-offset: 2px; z-index: 2; }
+.mushaf.is-filtered .mushaf__pg.is-dim { opacity: .18; }
+
+/* ------------------------------------------------------- the drawer */
+
+.drawer {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(6, 12, 24, .62);
+  display: grid; place-items: center; padding: 18px;
+  animation: drawer-in .18s ease;
+}
+@keyframes drawer-in { from { opacity: 0 } to { opacity: 1 } }
+@media (prefers-reduced-motion: reduce) { .drawer { animation: none } }
+
+.drawer__panel { position: relative; width: min(440px, 100%); padding: 30px 30px 26px; }
+.drawer__close {
+  position: absolute; top: 12px; right: 14px; background: none; border: 0;
+  color: var(--cerulean); font-size: 1.6rem; line-height: 1; cursor: pointer;
+}
+.drawer__close:hover { color: var(--gold-soft); }
+.drawer__kicker { font-size: .64rem; letter-spacing: .2em; text-transform: uppercase; color: var(--bronze); filter: brightness(1.8); }
+.drawer__title { font-family: 'Bodoni Moda', serif; font-size: 1.8rem; color: var(--gold-champagne); margin: 4px 0 20px; }
+
+.drawer__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; margin-bottom: 22px; }
+.drawer__stats > div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(110,147,196,.2); }
+.drawer__stats dt { margin: 0; font-size: .76rem; color: var(--steel); }
+.drawer__stats dd { margin: 0; font-size: .84rem; color: var(--ivory); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.drawer__ask { font-size: .84rem; color: var(--cerulean); margin: 0 0 10px; }
+.drawer__acts { display: flex; gap: 8px; flex-wrap: wrap; }
+.drawer__acts .btn { flex: 1; min-width: 96px; font-size: .8rem; padding: 9px 10px; }
+.drawer__acts .btn--outline { color: var(--gold-soft); border-color: rgba(199,162,74,.45); }
+.drawer__note { font-size: .74rem; color: var(--steel); line-height: 1.55; margin: 16px 0 0; }
+
+/* ----------------------------------------------- submissions + marking */
+
+.riwaq-sub { border: 1px solid var(--stone); border-radius: 8px; margin-bottom: 12px; overflow: hidden; }
+.riwaq-sub__head {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  padding: 14px 16px; background: var(--pearl); flex-wrap: wrap;
+}
+.riwaq-sub__head strong { display: block; color: var(--ink); font-size: .92rem; }
+.riwaq-sub__head span { font-size: .8rem; color: var(--slate); }
+.riwaq-sub__body { padding: 14px 16px; border-top: 1px solid var(--stone); }
+.riwaq-sub__note { margin: 0 0 12px; font-size: .88rem; color: var(--ink); font-style: italic; }
+.riwaq-mark { padding: 14px 16px; border-top: 1px solid var(--stone); background: var(--warm-white); }
+
+/* ----------------------------------------------------------- chart */
+
+.riwaq-chart svg { width: 100%; height: 150px; display: block; }
+.riwaq-chart polyline { fill: none; stroke-width: 2; vector-effect: non-scaling-stroke; }
+.riwaq-chart__pages { stroke: var(--royal-blue); }
+.riwaq-chart__itqan { stroke: var(--gold-antique); stroke-dasharray: 4 3; }
+.riwaq-chart__key { display: flex; gap: 20px; margin-top: 10px; font-size: .78rem; color: var(--slate); }
+.riwaq-chart__key span::before {
+  content: ''; display: inline-block; width: 14px; height: 2px; margin-right: 7px; vertical-align: middle;
+}
+.riwaq-chart__key .is-pages::before { background: var(--royal-blue); }
+.riwaq-chart__key .is-itqan::before { background: var(--gold-antique); }
+
+/* --------------------------------------------------- sign-in demo list */
+
+.signin__as em { display: block; font-style: normal; font-size: .7rem; color: var(--steel); margin-top: 2px; }
+.signin__demo-h code { font-family: inherit; color: var(--gold-soft); letter-spacing: 0; text-transform: none; }
+
+/* ------------------------------------------------------------- print */
+
+@media print {
+  .topbar, .prayerband, .personalise, .site-header, .site-footer, .preview-banner,
+  .app-sidebar, .contents, .riwaq-jump, .drawer { display: none !important; }
+  .app-shell { display: block; }
+  .app-main { padding: 0; }
+  .panel { border: 0; box-shadow: none; padding: 0 0 18px; break-inside: avoid; }
+  .riwaq-table { font-size: 10pt; }
+  body { background: #fff; }
+}
