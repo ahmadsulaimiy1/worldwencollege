@@ -524,3 +524,4 @@ jobs:
               echo "2. **Settings -> Builds & deployments -> Production branch** — must be \`main\`. If it is anything else, every run here is a *preview* and the domain never updates."
               echo "3. **Caching -> Purge Everything.**"
             } >> "$GITHUB_STEP_SUMMARY"
+          fi
