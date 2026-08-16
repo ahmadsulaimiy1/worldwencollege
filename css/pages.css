@@ -440,3 +440,89 @@ html { scroll-behavior: smooth; }
 .contents--scrollable .contents__list:focus-within {
   -webkit-mask-image: none; mask-image: none;
 }
+
+/* -------------------- THE APPLICATION FORM -------------------- */
+/* A form a person gives their year to should read as a document, not as
+   a contact box. The sections are numbered in the ceremonial face — the
+   same inscriptional capitals the chapter numerals use — because a
+   numbered section tells an applicant how much is left, which is the
+   single largest determinant of whether a long form is finished. */
+.form-section {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; gap: .8em;
+  margin: clamp(26px, 2.6vw, 40px) 0 2px;
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold-soft);
+}
+.form-section::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, rgba(199,162,74,.4), transparent);
+}
+.form-section:first-of-type { margin-top: 4px; }
+.form-section__num {
+  font-size: .95rem; letter-spacing: .1em; color: var(--gold-rich);
+  min-width: 2.2ch;
+}
+.field__optional {
+  font-weight: 400; letter-spacing: .04em; text-transform: none;
+  font-size: .74rem; color: rgba(247,244,236,.45);
+}
+
+/* THE DECLARATION.
+   Set as a bordered well rather than two loose checkboxes, because it is
+   the part of the form with legal weight and it should look like it.
+   The consent is recorded with a server-side timestamp — see
+   functions/api/admissions/apply.js. */
+.declaration {
+  border-radius: var(--r-md);
+  border: 1px solid rgba(199,162,74,.3);
+  background: linear-gradient(168deg, rgba(8,16,34,.5), rgba(31,61,122,.12));
+  box-shadow: var(--relief-inset);
+  padding: clamp(20px, 2vw, 28px);
+  margin-top: 8px;
+}
+.declaration__line {
+  display: flex; align-items: flex-start; gap: 4px;
+  padding: 10px 0; font-size: .9rem; line-height: 1.6;
+  color: rgba(247,244,236,.86); cursor: pointer;
+}
+.declaration__line + .declaration__line { border-top: 1px solid rgba(199,162,74,.16); }
+/* A 44px CONTROL THAT LOOKS LIKE A 22px ONE.
+   This is the control carrying the form's legal weight, and the browser
+   default is 13px — a target a thumb misses. Sizing the box to 44px and
+   drawing the visible mark inside it as a background image gives the
+   real hit area an accessibility tool and a thumb both measure, without
+   a checkbox the size of a postage stamp.
+   Not `transform: scale()`, which was the obvious alternative and is
+   wrong: transforms change the measured rect too, so a 44px box scaled
+   to look like 22px reports 22px and fails for the same reason the
+   default did. Negative margin keeps the text where the eye expects it. */
+.declaration__line input[type="checkbox"] {
+  -webkit-appearance: none; appearance: none;
+  width: 44px; height: 44px; flex: 0 0 auto;
+  margin: -11px -11px -11px -11px; cursor: pointer;
+  border: 0; background: transparent center / 22px 22px no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Crect x='.75' y='.75' width='20.5' height='20.5' rx='5' fill='rgba(8,16,34,.5)' stroke='%23C7A24A' stroke-width='1.5'/%3E%3C/svg%3E");
+  transition: background-image var(--dur-fast) ease;
+}
+.declaration__line input[type="checkbox"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Crect x='.75' y='.75' width='20.5' height='20.5' rx='5' fill='%23D4AF37' stroke='%23E7C97A' stroke-width='1.5'/%3E%3Cpath d='M6 11.4l3.6 3.6L16.4 8' fill='none' stroke='%230A1428' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.declaration__line input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--gold-bright); outline-offset: -9px; border-radius: var(--r-sm);
+}
+.declaration__line a { color: var(--gold-bright); text-decoration: underline; text-underline-offset: 3px; }
+.declaration__note {
+  display: block; margin-top: 4px;
+  font-size: .82rem; color: rgba(247,244,236,.58);
+}
+.declaration__oath {
+  margin: 16px 0 0; padding-top: 14px;
+  border-top: 1px solid rgba(199,162,74,.24);
+  font-family: var(--font-display); font-style: italic;
+  font-size: .95rem; color: var(--gold-champagne);
+}
+[dir="rtl"] .form-section::after {
+  background: linear-gradient(270deg, rgba(199,162,74,.4), transparent);
+}

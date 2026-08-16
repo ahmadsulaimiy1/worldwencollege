@@ -292,6 +292,37 @@ for (const f of files) {
   // pre-migration reconstruction that only handles tables and columns
   // would miss it.
   db.exec("DELETE FROM platform_config WHERE key = 'recording_retention_days'");
+  // 017 adds eleven columns to `applications` plus the country index.
+  // Reversed by REBUILDING the table rather than by DROP COLUMN: five of
+  // those columns carry CHECK constraints, and SQLite refuses to drop a
+  // column a CHECK refers to. Rebuilding is what the reversal actually
+  // is anyway — the pre-017 table, exactly as schema.sql declared it
+  // before that migration was written.
+  db.exec(`DROP INDEX IF EXISTS idx_applications_country;
+    CREATE TABLE applications_pre017 (
+      id TEXT PRIMARY KEY,
+      user_id TEXT REFERENCES users(id),
+      full_name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      country TEXT,
+      self_assessed_level_id INTEGER REFERENCES programme_levels(id),
+      placement_level_id INTEGER REFERENCES programme_levels(id),
+      status TEXT NOT NULL DEFAULT 'submitted'
+        CHECK (status IN ('submitted','placement_pending','offer_sent','accepted','enrolled','withdrawn','rejected')),
+      source TEXT NOT NULL DEFAULT 'website' CHECK (source IN ('website','manual_bridge','referral')),
+      notes TEXT,
+      created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+      updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+    );
+    INSERT INTO applications_pre017
+      SELECT id, user_id, full_name, email, country, self_assessed_level_id,
+             placement_level_id, status, source, notes, created_at, updated_at
+        FROM applications;
+    DROP TABLE applications;
+    ALTER TABLE applications_pre017 RENAME TO applications;
+    CREATE INDEX IF NOT EXISTS idx_applications_email ON applications(email);
+    CREATE INDEX IF NOT EXISTS idx_applications_status ON applications(status);`);
+
   db.exec('DROP TABLE schema_migrations');
 
   const out = await runMigrations(io(db));
