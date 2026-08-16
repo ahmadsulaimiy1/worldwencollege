@@ -1347,24 +1347,63 @@ section { position: relative; }
     0 9px 18px -9px rgba(20,20,10,.46),
     0 0 0 1px rgba(199,162,74,.55);
 }
-.badge-dome--dark {
-  background: radial-gradient(circle at 32% 24%, rgba(255,255,255,.16) 0%, rgba(18,28,50,.65) 55%, rgba(6,12,26,.85) 100%);
+
+/* --lg: the dome as the card's primary visual anchor rather than a
+   marginal mark — Academics and the six study levels, where a page
+   of otherwise-plain prose cards needs the icon to carry real
+   weight. Gold-toned rather than ink, and the glyph breathes on the
+   same 6.5s cycle .case__medallion uses, so a reader who has met one
+   recognises the other as the same material, just lit differently. */
+.badge-dome--lg {
+  width: 84px; height: 84px; border-radius: 28px; margin-bottom: 20px;
   box-shadow:
-    inset 0 2px 3px rgba(255,255,255,.16),
-    inset 0 -3px 5px rgba(0,0,0,.5),
-    0 6px 14px -9px rgba(0,0,0,.55),
-    0 0 0 1px rgba(199,162,74,.42);
+    inset 0 3px 4px rgba(255,255,255,.92),
+    inset 0 -4px 6px rgba(20,20,10,.14),
+    0 12px 26px -12px rgba(20,20,10,.42),
+    0 0 0 1.5px rgba(199,162,74,.42);
 }
-.badge-dome--dark .icon { color: var(--gold); filter: drop-shadow(0 1px 1px rgba(0,0,0,.4)); }
-.card--dark:hover .badge-dome--dark {
+.badge-dome--lg .icon {
+  width: 36px; height: 36px; stroke-width: 1.1;
+  color: var(--gold-royal); filter: drop-shadow(0 1px 1px rgba(20,20,10,.18));
+  animation: badge-dome-breathe 6.5s var(--ease-premium) infinite alternate;
+}
+.card:nth-child(2) .badge-dome--lg .icon { animation-delay: .8s; }
+.card:nth-child(3) .badge-dome--lg .icon { animation-delay: 1.6s; }
+.card:nth-child(4) .badge-dome--lg .icon { animation-delay: 2.4s; }
+@keyframes badge-dome-breathe { from { transform: scale(1); } to { transform: scale(1.06); } }
+.card:hover .badge-dome--lg {
+  transform: translateY(-1px);
   box-shadow:
-    inset 0 2px 3px rgba(255,255,255,.22),
-    inset 0 -3px 5px rgba(0,0,0,.55),
-    0 9px 18px -9px rgba(0,0,0,.6),
-    0 0 0 1px rgba(199,162,74,.6);
+    inset 0 3px 4px rgba(255,255,255,.98),
+    inset 0 -4px 6px rgba(20,20,10,.18),
+    0 16px 30px -12px rgba(20,20,10,.5),
+    0 0 0 1.5px rgba(199,162,74,.62);
+}
+
+.badge-dome--dark {
+  background: radial-gradient(circle at 32% 24%, var(--sapphire) 0%, var(--navy) 55%, var(--oxford) 100%);
+  box-shadow:
+    inset 0 3px 4px rgba(255,255,255,.22),
+    inset 0 -4px 6px rgba(0,0,0,.55),
+    0 10px 22px -10px rgba(0,0,0,.7),
+    0 0 0 1.5px rgba(199,162,74,.45);
+}
+.badge-dome--dark .icon {
+  color: var(--gold-soft); stroke: url(#i-foil-gold);
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,.45));
+}
+.card--dark:hover .badge-dome--dark {
+  background: radial-gradient(circle at 26% 18%, #35619f 0%, var(--sapphire) 45%, var(--navy) 100%);
+  box-shadow:
+    inset 0 3px 4px rgba(255,255,255,.28),
+    inset 0 -4px 6px rgba(0,0,0,.6),
+    0 14px 26px -10px rgba(0,0,0,.75),
+    0 0 0 1.5px rgba(199,162,74,.62);
 }
 @media (prefers-reduced-motion: reduce) {
-  .badge-dome, .card:hover .badge-dome, .audience:hover .badge-dome, .region:hover .badge-dome { transform: none; transition: none; }
+  .badge-dome, .card:hover .badge-dome, .audience:hover .badge-dome, .region:hover .badge-dome,
+  .badge-dome--lg, .card:hover .badge-dome--lg { transform: none; transition: none; }
+  .badge-dome--lg .icon { animation: none; }
 }
 
 /* -------------------- The click light --------------------
