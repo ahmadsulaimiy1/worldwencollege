@@ -559,7 +559,7 @@
   padding: 28px 24px; border-radius: var(--r-md);
   display: flex; flex-direction: column; gap: 12px;
   box-shadow: var(--shadow-sm);
-  position: relative; isolation: isolate;
+  position: relative; overflow: hidden; isolation: isolate;
   --aurum-dur: 7s;
   transition: background var(--dur-med) var(--ease-premium),
               box-shadow var(--dur-med) var(--ease-premium),
@@ -572,10 +572,42 @@
   background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 58%, var(--paper) 100%);
   transform: translateY(-2px); box-shadow: var(--shadow-md);
 }
-.audience .icon { color: var(--emerald); width: 26px; height: 26px; }
+.audience .icon { color: var(--emerald); width: 24px; height: 24px; }
 .audience h3 { font-size: 1rem; margin: 0; letter-spacing: -.005em; }
 .audience p { margin: 0; font-size: .87rem; color: var(--slate); }
 [dir="ltr"] .audience p { font-size: 1rem; }
+
+/* =========================================================
+   THE BADGE DOME
+   A struck disc, not a floating glyph — the same recipe
+   .case__medallion uses on the dark chapters (bevel above, shadow
+   below, a gold hairline rim), lightened for the paper grounds this
+   is used on. Every icon on the page that isn't already inside the
+   .feature-list well or a .case__medallion gets one of these: an
+   icon deserves a surface to sit on, not empty air above a heading.
+   ========================================================= */
+.badge-dome {
+  width: 52px; height: 52px; border-radius: var(--r-md);
+  display: grid; place-items: center; margin-bottom: 14px;
+  background: radial-gradient(circle at 32% 24%, #fff 0%, var(--paper) 55%, var(--stone) 100%);
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.9),
+    inset 0 -3px 5px rgba(20,20,10,.12),
+    0 6px 14px -9px rgba(20,20,10,.4),
+    0 0 0 1px rgba(199,162,74,.38);
+  transition: transform var(--dur-med) var(--ease-premium), box-shadow var(--dur-med) var(--ease-premium);
+}
+.badge-dome .icon { width: 24px; height: 24px; filter: drop-shadow(0 1px 1px rgba(20,20,10,.14)); }
+.badge-dome--sm { width: 44px; height: 44px; border-radius: var(--r-sm); margin-bottom: 12px; }
+.badge-dome--sm .icon { width: 20px; height: 20px; }
+.audience:hover .badge-dome, .region:hover .badge-dome {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.95),
+    inset 0 -3px 5px rgba(20,20,10,.14),
+    0 9px 18px -9px rgba(20,20,10,.46),
+    0 0 0 1px rgba(199,162,74,.55);
+}
 
 /* =========================================================
    REGION STRIP
@@ -594,11 +626,11 @@
 @media (max-width: 860px) { .region-strip { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 480px) { .region-strip { grid-template-columns: 1fr; } }
 .region {
-  position: relative; overflow: hidden; border-radius: 3px;
+  position: relative; overflow: hidden; border-radius: var(--r-md);
   border: 1px solid var(--line-stone); border-top-width: 2px;
   background: var(--warm-white); padding: 22px 20px;
 }
-.region .icon { width: 24px; height: 24px; margin-bottom: 12px; position: relative; z-index: 1; }
+.region .badge-dome .icon { position: relative; z-index: 1; }
 .region h3 { font-size: .96rem; margin: 0 0 .4em; letter-spacing: -.005em; position: relative; z-index: 1; }
 .region p { margin: 0; font-size: .85rem; color: var(--slate); position: relative; z-index: 1; }
 [dir="ltr"] .region p { font-size: .92rem; }
@@ -610,6 +642,25 @@
 .region--africa .icon { color: var(--emerald); }
 .region--asia { border-top-color: var(--gold-royal); }
 .region--asia .icon { color: var(--gold-royal); }
+
+/* =========================================================
+   THE CLICK LIGHT
+   A one-shot ring of light struck from the point a reader
+   presses, on the cards this page invites a click on (audience,
+   region, case, principle). js/motion.js positions and removes
+   it; there is no CSS-only fallback because a decorative ring
+   with nothing to trigger it is a decoration for nobody.
+   ========================================================= */
+.click-ring {
+  position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  border-radius: 50%; pointer-events: none; z-index: 6;
+  background: radial-gradient(circle, rgba(255,246,218,.95) 0%, rgba(212,175,55,.6) 42%, transparent 74%);
+  animation: click-ring-expand .65s var(--ease-premium) forwards;
+}
+@keyframes click-ring-expand {
+  from { transform: scale(0); opacity: .95; }
+  to   { transform: scale(16); opacity: 0; }
+}
 
 /* =========================================================
    THE PRINCIPLES
@@ -777,7 +828,7 @@
 @media (max-width: 560px)  { .case-grid { grid-template-columns: minmax(0, 1fr); } }
 
 .case {
-  position: relative; isolation: isolate;
+  position: relative; overflow: hidden; isolation: isolate;
   padding: clamp(26px, 2.4vw, 36px) clamp(22px, 2vw, 30px) clamp(30px, 2.6vw, 38px);
   border-radius: var(--r-lg);
   background: linear-gradient(168deg, rgba(31,61,122,.32), rgba(8,16,34,.62));
@@ -860,6 +911,7 @@
 @media (prefers-reduced-motion: reduce) {
   .case__medallion .icon { animation: none; }
   .case, .case:hover { transform: none; transition: none; }
+  .badge-dome, .audience:hover .badge-dome, .region:hover .badge-dome { transform: none; transition: none; }
 }
 
 /* =========================================================
