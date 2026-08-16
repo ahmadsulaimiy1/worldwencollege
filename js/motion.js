@@ -549,4 +549,46 @@
       el.style.transform = '';
     }, 0.2);
   })();
+
+  /* -------------------------------------------------------------------
+     8 · PARALLAX VISTA
+     -------------------------------------------------------------------
+     The one full-bleed photograph on the page drifts against the
+     scroll rather than sitting fixed to it — the depth cue a widescreen
+     shot needs to read as a place rather than as a poster. Tied
+     directly to scroll position (not time), so it is motion that shows
+     where the reader is on the page, which is exactly the standard the
+     rest of this file holds itself to.
+
+     The image is oversized and inset by -10% in CSS specifically so
+     this range of movement never uncovers an edge. No JS, and the
+     image sits still at its authored position — full frame, nothing
+     missing — which is why the transform is written here rather than
+     as a CSS animation with a JS-only pause.
+     ------------------------------------------------------------------- */
+  (function parallaxVista() {
+    var els = toArray('.parallax');
+    if (!els.length || prefersReduced()) return;
+
+    var ticking = false;
+    function apply() {
+      ticking = false;
+      els.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var centre = r.top + r.height / 2;
+        var progress = (centre - vh / 2) / (vh / 2 + r.height / 2);
+        progress = Math.max(-1, Math.min(1, progress));
+        el.style.transform = 'translate3d(0,' + (progress * -26).toFixed(1) + 'px,0)';
+      });
+    }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(apply);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    apply();
+  })();
 })();
