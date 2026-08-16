@@ -1119,3 +1119,23 @@
   .lattice__bed::before, .lattice__bed::after, .aurora::before { animation: none; }
   .constellation { display: none; }
 }
+
+/* THE PLATE CREDIT.
+   A BY or BY-SA photograph that is cropped to --plate-ratio and toned
+   is an ADAPTATION, and both licences require the creator to be named
+   wherever the work appears — not in a file in the repository. Set
+   small and quiet, but present on the page itself, because an
+   attribution the visitor cannot see is not an attribution. */
+.plate__credit {
+  display: block;
+  margin-top: .5em;
+  font-family: var(--font-body);
+  font-size: .58rem;
+  letter-spacing: .06em;
+  color: var(--bronze);
+  opacity: .8;
+}
+.section--dark .plate__credit,
+.section--oxford .plate__credit,
+.section--midnight .plate__credit { color: var(--gold-soft); opacity: .62; }
+.plate__credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
