@@ -748,4 +748,49 @@
       }, { passive: true });
     });
   })();
+  /* =========================================================
+     THE TRAVELLING LIGHT, GATED BY VIEWPORT RATHER THAN BY HOVER.
+
+     css/atelier.css used to hide the ring at rest: `.aurum--hover`
+     sets opacity 0 and only reveals it inside
+     `@media (hover: hover) and (pointer: fine)`. Applied to nearly
+     every struck shape — as it was — that gives a site with NO visible
+     travelling light on any touch device at all, and on a desktop one
+     shape at a time under the pointer. The effect was in the markup
+     and absent from the page, and adding more of it could not have
+     helped, because the class doing the hiding was the one being
+     added.
+
+     The ring is lit and moving by default now, and the cost is paid
+     here instead: everything outside the viewport takes
+     `.aurum--rest`, which pauses the orbit without hiding it. Roughly
+     a dozen rings animate at once on a normal screen rather than
+     sixty.
+
+     THIS IS ITS OWN BLOCK, and that is load-bearing. It was first
+     written inside the parallax IIFE, which begins
+     `if (!layers.length || !allowAmbient()) return;` — so on any page
+     without a depth layer, and for every visitor with ambient motion
+     off, the gate never ran. Measured, not assumed: 0 of 52 shapes
+     paused when 40 were off-screen.
+
+     PAUSING IS ADDITIVE, NEVER SUBTRACTIVE. If this script fails to
+     load, or IntersectionObserver is missing, nothing is added and
+     every ring simply runs. A gate that failed closed would put the
+     site back in the state it exists to correct.
+     ========================================================= */
+  (function () {
+    if (!supportsIO) return;
+    const REST = 'aurum--rest';
+    const gate = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        e.target.classList.toggle(REST, !e.isIntersecting);
+      });
+    }, { rootMargin: '20% 0px' });
+    // Not pre-rested: the observer reports the true state on its first
+    // callback, and pre-resting would flash a paused ring on whatever
+    // is already in view at load.
+    $$('.aurum').forEach(function (el) { gate.observe(el); });
+  })();
+
 })();
