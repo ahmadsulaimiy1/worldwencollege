@@ -288,11 +288,87 @@
         <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
         Verify
       </a>
+      <button type="button" class="topbar__item topbar__pref" data-personalise-toggle
+              aria-expanded="false" aria-controls="personalise">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+        Personalise
+      </button>
       <span class="topbar__lang r-ar" lang="ar" dir="rtl">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         دار الرسوخ
       </span>
     </div>
+  </div>
+</div>
+
+<!-- THE PRAYER BAND.
+     The one thing a college of Qur'ānic sciences should carry above its
+     own name. Times are computed on the reader's device from the solar
+     position at Lagos — Muslim World League angles, shadow factor one —
+     and the band says so, because reasonable tables differ and a school
+     that prints a prayer time without naming its convention is asserting
+     more than it knows. -->
+<div class="prayerband" data-prayer-band>
+  <div class="prayerband__inner">
+    <span class="prayerband__place">
+      <svg class="icon" aria-hidden="true"><use href="#i-minaret"/></svg>
+      Lagos &middot; West Africa Time
+    </span>
+    <span class="prayerband__next">
+      <span class="prayerband__label">Next</span>
+      <strong data-prayer-name>—</strong>
+      <span class="prayerband__time" data-prayer-time>—:—</span>
+      <span class="prayerband__cd" data-prayer-countdown></span>
+    </span>
+    <span class="prayerband__date">
+      <span data-hijri-long>—</span>
+      <span class="prayerband__sep" aria-hidden="true">&middot;</span>
+      <span data-gregorian>—</span>
+    </span>
+  </div>
+</div>
+
+<!-- THE PERSONALISATION CENTRE.
+     Three settings, remembered on this device and nowhere else. Livery
+     recolours the institutional blues without touching the golds; ornament
+     governs the raking light, the drifting motes and the paper grain;
+     text size scales the whole document from the root. -->
+<div class="personalise crystal" id="personalise" data-personalise-panel hidden>
+  <div class="personalise__inner">
+    <div class="personalise__head">
+      <h2 class="personalise__title">Personalise this site</h2>
+      <button type="button" class="personalise__close" data-personalise-close aria-label="Close">&times;</button>
+    </div>
+
+    <div class="personalise__group">
+      <p class="personalise__label">Livery</p>
+      <div class="personalise__opts">
+        <button type="button" data-pref="livery" data-value="sapphire" aria-pressed="true">Sapphire</button>
+        <button type="button" data-pref="livery" data-value="obsidian" aria-pressed="false">Obsidian</button>
+        <button type="button" data-pref="livery" data-value="emerald" aria-pressed="false">Emerald</button>
+      </div>
+    </div>
+
+    <div class="personalise__group">
+      <p class="personalise__label">Ornament</p>
+      <div class="personalise__opts">
+        <button type="button" data-pref="ornament" data-value="full" aria-pressed="true">Full</button>
+        <button type="button" data-pref="ornament" data-value="restrained" aria-pressed="false">Restrained</button>
+        <button type="button" data-pref="ornament" data-value="none" aria-pressed="false">None</button>
+      </div>
+    </div>
+
+    <div class="personalise__group">
+      <p class="personalise__label">Text size</p>
+      <div class="personalise__opts">
+        <button type="button" data-pref="textsize" data-value="small" aria-pressed="false">Small</button>
+        <button type="button" data-pref="textsize" data-value="medium" aria-pressed="true">Medium</button>
+        <button type="button" data-pref="textsize" data-value="large" aria-pressed="false">Large</button>
+      </div>
+    </div>
+
+    <p class="personalise__note">Remembered on this device. Nothing is sent anywhere,
+      and no account is required.</p>
   </div>
 </div>
 <!--
@@ -341,6 +417,7 @@
       <span class="brand__word">
         <span class="brand__name">Dār al-Rusūkh</span>
         <span class="brand__campus">College of Qur&rsquo;ānic &amp; Islamic Sciences</span>
+        <span class="brand__est">Established 1441&nbsp;/&nbsp;2020 &middot; Lagos, Nigeria</span>
       </span>
     </a>
 
@@ -603,10 +680,10 @@
   </nav>
 </header>
 <main id="main">
-<section class="page-hero section--dark section-pad">
+<section class="page-hero section--dark section-pad motes">
   <div class="container">
     <span class="eyebrow">Academic Awards</span>
-    <h1>Awards, Examination and Certification</h1>
+    <h1 class="letterpress rake">Awards, Examination and Certification</h1>
     <p class="lede">The regulations governing the awards conferred by the College, the
       standard of examination required for each, and the conditions under which
       <em>ijāzah</em> is granted.</p>
@@ -628,11 +705,11 @@
 
 
 
-<section class="section--light section-pad" id="awards" data-contents="The awards">
+<section class="section--light section-pad grain" id="awards" data-contents="The awards">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The awards</span>
-      <h2>Awards of the College.</h2>
+      <h2 class="rake">Awards of the College.</h2>
     </div>
 
     <div class="table-scroll">
@@ -664,11 +741,11 @@
 </section>
 
 
-<section class="section--dark section-pad" id="general" data-contents="General certificates">
+<section class="section--dark section-pad motes" id="general" data-contents="General certificates">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">General certificates</span>
-      <h2>The graded certificates of Islamic education.</h2>
+      <h2 class="rake">The graded certificates of Islamic education.</h2>
       <p class="lede">Examined by the College independently of its taught programmes, and
         open to external candidates.</p>
     </div>
@@ -703,11 +780,11 @@
 </section>
 
 
-<section class="section--light section-pad" id="examination" data-contents="Examination">
+<section class="section--light section-pad grain" id="examination" data-contents="Examination">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Examination</span>
-      <h2>Regulations of examination.</h2>
+      <h2 class="rake">Regulations of examination.</h2>
     </div>
 
     <div class="grid grid--2">
@@ -756,11 +833,11 @@
 </section>
 
 
-<section class="section--dark section-pad" id="ijazah" data-contents="Ijāzah">
+<section class="section--dark section-pad motes" id="ijazah" data-contents="Ijāzah">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Ijāzah</span>
-      <h2>Conditions governing the grant of <em>ijāzah</em>.</h2>
+      <h2 class="rake">Conditions governing the grant of <em>ijāzah</em>.</h2>
       <p class="lede"><em>Ijāzah bi-sanad muttaṣil</em> is a licence to transmit, carrying a
         chain of transmission from the conferring teacher to the Prophet ﷺ. The following
         conditions govern its grant by this College.</p>
@@ -814,11 +891,11 @@
 </section>
 
 
-<section class="section--light section-pad" id="conduct" data-contents="Academic conduct">
+<section class="section--light section-pad grain" id="conduct" data-contents="Academic conduct">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Academic conduct</span>
-      <h2>The academic undertaking.</h2>
+      <h2 class="rake">The academic undertaking.</h2>
     </div>
     <p style="max-width:72ch">Every student signs an undertaking at matriculation covering
       honesty in examination, the accuracy of documents submitted to the Registry, and proper
@@ -871,6 +948,57 @@
       </div>
       <p class="footer__name foil reveal">Dār al-Rusūkh<br><span>College of Qur&rsquo;ānic &amp; Islamic Sciences</span></p>
       <p class="footer__motto r-ar" lang="ar" dir="rtl">وَالرَّاسِخُونَ فِي الْعِلْمِ</p>
+    </div>
+  </div>
+
+
+  <!-- TODAY'S WIRD.
+       One verse and one hadith, cycling by the day so that the same day
+       gives the same reading to every reader, each printed with the
+       reference that lets it be checked. A small fixed set — the College
+       publishes what it can source, not a feed. -->
+  <div class="wird lumen">
+    <div class="wird__inner">
+      <div class="wird__head">
+        <span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-mushaf"/></svg></span>
+        <div>
+          <h2 class="wird__title rake">Today&rsquo;s Wird</h2>
+          <p class="wird__date"><span data-hijri-long>&mdash;</span></p>
+        </div>
+      </div>
+
+      <div class="wird__cols" data-wird>
+        <div class="wird__panel">
+          <span class="wird__kind">Verse of the day</span>
+          <p class="wird__ar r-ar" lang="ar" dir="rtl" data-wird-verse-ar>&mdash;</p>
+          <p class="wird__en" data-wird-verse-en>&mdash;</p>
+          <p class="wird__ref" data-wird-verse-ref>&mdash;</p>
+        </div>
+        <div class="wird__panel">
+          <span class="wird__kind">Hadith of the day</span>
+          <p class="wird__en wird__en--lead" data-wird-hadith-en>&mdash;</p>
+          <p class="wird__ref" data-wird-hadith-ref>&mdash;</p>
+        </div>
+        <div class="wird__panel wird__panel--times">
+          <span class="wird__kind">Prayer times &middot; Lagos</span>
+          <table class="wird__times">
+            <tbody>
+              <tr data-prayer-row><th scope="row">Fajr <span class="r-ar" lang="ar" dir="rtl">الفجر</span></th><td data-prayer="fajr">&mdash;</td></tr>
+              <tr data-prayer-row><th scope="row">Sunrise <span class="r-ar" lang="ar" dir="rtl">الشروق</span></th><td data-prayer="sunrise">&mdash;</td></tr>
+              <tr data-prayer-row><th scope="row">Dhuhr <span class="r-ar" lang="ar" dir="rtl">الظهر</span></th><td data-prayer="dhuhr">&mdash;</td></tr>
+              <tr data-prayer-row><th scope="row">Asr <span class="r-ar" lang="ar" dir="rtl">العصر</span></th><td data-prayer="asr">&mdash;</td></tr>
+              <tr data-prayer-row><th scope="row">Maghrib <span class="r-ar" lang="ar" dir="rtl">المغرب</span></th><td data-prayer="maghrib">&mdash;</td></tr>
+              <tr data-prayer-row><th scope="row">Isha <span class="r-ar" lang="ar" dir="rtl">العشاء</span></th><td data-prayer="isha">&mdash;</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="wird__note">Times are computed on your own device from the solar position
+        at Lagos, using Muslim World League angles (Fajr 18&deg;, Isha 17&deg;) and shadow
+        factor one for Asr. They are arithmetic, not an authority: confirm against your own
+        mosque. Verses and reports are a small, fixed set, each printed with its reference
+        so that it can be checked independently.</p>
     </div>
   </div>
 
@@ -1033,6 +1161,38 @@
     </div>
   </div>
 
+
+  <!-- THE COLLEGE, RIGHT NOW.
+       The registry's own clock against the hours its offices actually
+       keep. Read from the reader's device; nothing is fetched and nothing
+       is sent anywhere. -->
+  <div class="rightnow" data-rightnow>
+    <div class="rightnow__inner">
+      <div class="rightnow__block">
+        <span class="rightnow__kind">The College, right now</span>
+        <p class="rightnow__clock"><span data-now-clock>--:--:--</span>
+          <span class="rightnow__tz">WAT &middot; UTC+1</span></p>
+        <p class="rightnow__where">Administrative registry, Lagos, Nigeria</p>
+      </div>
+      <div class="rightnow__block">
+        <span class="rightnow__kind">The offices</span>
+        <p><span class="rightnow__state" data-now-state>&mdash;</span></p>
+        <p class="rightnow__where">Today <span data-now-hours>&mdash;</span> &middot;
+          Mon&ndash;Thu 09:00&ndash;17:00, Fri 09:00&ndash;12:00</p>
+      </div>
+      <div class="rightnow__block">
+        <span class="rightnow__kind">Correspondence</span>
+        <p class="rightnow__where">
+          <a href="mailto:registry@daralrusukh.com">registry@daralrusukh.com</a> &mdash; Registry<br>
+          <a href="mailto:bursary@daralrusukh.com">bursary@daralrusukh.com</a> &mdash; Bursary<br>
+          <a href="mailto:majlis@daralrusukh.com">majlis@daralrusukh.com</a> &mdash; Academic Council
+        </p>
+      </div>
+    </div>
+    <p class="rightnow__note">Read live from your own device clock against the hours the
+      offices keep. Nothing here is fetched and nothing is sent anywhere.</p>
+  </div>
+
   <!-- Six things a returning reader wants fast, each with a line of
        context a grid tile has no room for. Its own swipeable strip on the
        footer's navy rather than a fifth ivory panel, so it reads as a
@@ -1078,7 +1238,8 @@
 
   <div class="site-footer__bottom">
     <p>&copy; <span data-year>2026</span> Dār al-Rusūkh College of Qur&rsquo;ānic and Islamic Sciences.
-      Established 1441&nbsp;/&nbsp;2020.</p>
+      Established 1441&nbsp;/&nbsp;2020 &middot; Lagos, Nigeria. Governed by a Board of
+      Trustees, with academic authority vested in the Academic Council.</p>
     <!-- A statement of standing rather than a badge. The College confers
          its awards on its own authority and holds no external
          accreditation; a seal implying otherwise would be the one claim
@@ -1107,5 +1268,6 @@
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
 <script src="/js/rusukh-clock.js" defer></script>
+<script src="/js/rusukh-atelier.js" defer></script>
 </body>
 </html>

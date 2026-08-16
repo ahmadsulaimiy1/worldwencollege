@@ -155,6 +155,37 @@ function markCurrentNav(header, navKey) {
   );
 }
 
+
+// ---------------------------------------------------------------------
+// THE ORNAMENT PASS
+//
+// Four of the reference house's techniques — drifting motes on dark
+// bands, laid grain on pale ones, letterpress on display type and a
+// raking light across headings — are applied HERE rather than typed into
+// twelve page files, for the same reason raiseMasthead is: the ornament
+// is a property of the SHAPE of a section, not of its content, and a
+// class typed into a page is a class the next author forgets.
+//
+// All four answer to [data-ornament] in css/rusukh.css, so a reader who
+// turns ornament down or off is not fighting markup.
+// ---------------------------------------------------------------------
+function ornament(html) {
+  return html
+    // Dark bands carry the motes; pale bands carry the grain.
+    .replace(/<section class="((?:page-hero )?section--dark section-pad)"/g,
+             '<section class="$1 motes"')
+    .replace(/<section class="(section--light section-pad)"/g,
+             '<section class="$1 grain"')
+    // The masthead headline is struck into the ground, and takes the rake.
+    // Two shapes qualify: the inner-page .page-hero, and the home page's
+    // own .r-hero — which is why this is not one selector.
+    .replace(/(<section class="(?:page-hero|r-hero)[^"]*"[^>]*>[\s\S]{0,600}?)<h1>/,
+             '$1<h1 class="letterpress rake">')
+    // Section headings take the rake only; letterpress on a light ground
+    // would be a shadow with nothing to sit against.
+    .replace(/<h2>/g, '<h2 class="rake">');
+}
+
 const BUILD_ID = (process.env.GITHUB_SHA || '').slice(0, 12);
 
 function build() {
@@ -192,7 +223,7 @@ function build() {
     });
 
     const content = withContentsRail(
-      raiseMasthead(read(contentPath)),
+      ornament(raiseMasthead(read(contentPath))),
       entry
     );
 
@@ -214,6 +245,7 @@ ${read(path.join(PARTIALS, 'footer.html')).trimEnd()}
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
 <script src="/js/rusukh-clock.js" defer></script>
+<script src="/js/rusukh-atelier.js" defer></script>
 </body>
 </html>
 `;

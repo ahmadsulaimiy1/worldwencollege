@@ -551,3 +551,359 @@ body[data-section] {
 @media (max-width: 620px) {
   .brand__campus { display: none; }
 }
+
+/* =========================================================================
+   THE ATELIER LAYER
+   -------------------------------------------------------------------------
+   The ornamental and live-data components that sit above the shared
+   institutional chrome: the prayer band, the personalisation centre, the
+   daily Wird, the live registry panel — and the four techniques the
+   reference house uses that this one had not yet taken up: letterpress on
+   display type, raking light across headings, drifting motes on dark
+   bands, and laid grain on pale ones.
+
+   Every one of them answers to [data-ornament] so a reader can turn the
+   whole register down to restrained, or off.
+   ========================================================================= */
+
+/* ------------------------------------------------------------- liveries
+   A livery recolours the institutional BLUES and nothing else. The golds
+   are the house metal and do not change — a school that swaps its metal
+   with its cloth has a colour scheme, not a livery. Contrast on each
+   ground was checked against the same body and link tokens. */
+
+:root[data-livery="obsidian"] {
+  --oxford:     #08090C;
+  --midnight:   #101319;
+  --navy:       #191D26;
+  --royal-blue: #2C3340;
+  --sapphire:   #3A4354;
+  --steel:      #59627A;
+  --cerulean:   #A7B2C6;
+}
+
+:root[data-livery="emerald"] {
+  --oxford:     #05150E;
+  --midnight:   #082017;
+  --navy:       #0E3122;
+  --royal-blue: #17583D;
+  --sapphire:   #1E7350;
+  --steel:      #47826A;
+  --cerulean:   #8FCDAF;
+}
+
+/* ------------------------------------------------------------ text size */
+
+:root[data-textsize="small"]  { font-size: 93.75%; }
+:root[data-textsize="large"]  { font-size: 110%; }
+
+/* ------------------------------------------------------------- ornament */
+
+/* The ornament level governs the DECORATION, never the element carrying
+   it. .motes and .grain are applied to the <section> itself by the build's
+   ornament pass, so `display: none` on .motes would blank the section and
+   everything in it. The controls therefore address the pseudo-element that
+   draws the ornament, and nothing else. */
+
+:root[data-ornament="restrained"] .lattice__bed { opacity: .3; }
+:root[data-ornament="restrained"] .motes::before { opacity: .18; animation: none; }
+:root[data-ornament="restrained"] .rake::after { opacity: 0 !important; }
+
+:root[data-ornament="none"] .lattice__bed { display: none; }
+:root[data-ornament="none"] .motes::before { display: none; }
+:root[data-ornament="none"] .grain::before { display: none; }
+:root[data-ornament="none"] .rake::after { display: none; }
+:root[data-ornament="none"] .letterpress { text-shadow: none; }
+
+/* ---------------------------------------------------------- letterpress
+   A hairline of light along the top edge of display type and a shadow
+   beneath it. On a dark ground this is what separates type that sits ON
+   the page from type struck INTO it, and it costs one declaration. */
+
+.letterpress {
+  text-shadow:
+    0 -1px 0 rgba(255, 250, 235, .16),
+    0  1px 0 rgba(6, 12, 24, .55),
+    0  2px 6px rgba(6, 12, 24, .35);
+}
+
+/* --------------------------------------------------------- raking light
+   A gilt highlight that follows the pointer across a heading, as a raking
+   light does across an engraved plate. js/rusukh-atelier.js publishes
+   --rake-x and --rake-o; with no pointer, no script, or reduced motion,
+   the heading is simply itself. */
+
+.rake { position: relative; }
+
+.rake::after {
+  content: '';
+  position: absolute; inset: -0.15em -0.4em; z-index: 1;
+  pointer-events: none;
+  opacity: var(--rake-o, 0);
+  transition: opacity .35s ease;
+  background: radial-gradient(
+    22em 6em at var(--rake-x, 50%) 50%,
+    rgba(242, 227, 192, .22), transparent 62%);
+  mix-blend-mode: screen;
+}
+
+@media (prefers-reduced-motion: reduce) { .rake::after { display: none; } }
+
+/* --------------------------------------------------------------- motes
+   Points of gold drifting across a dark band. Two layers at different
+   sizes and speeds so the field never reads as a repeating tile. */
+
+.motes { position: relative; isolation: isolate; }
+
+.motes::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 0;
+  pointer-events: none; opacity: .5;
+  background-image:
+    radial-gradient(1.5px 1.5px at 18% 22%, rgba(231, 201, 122, .55), transparent 60%),
+    radial-gradient(1px 1px   at 62% 38%, rgba(231, 201, 122, .45), transparent 60%),
+    radial-gradient(1.5px 1.5px at 84% 68%, rgba(231, 201, 122, .40), transparent 60%),
+    radial-gradient(1px 1px   at 34% 78%, rgba(231, 201, 122, .50), transparent 60%),
+    radial-gradient(1px 1px   at 74% 12%, rgba(231, 201, 122, .35), transparent 60%);
+  background-size: 620px 420px;
+  animation: mote-drift 68s linear infinite;
+}
+
+@keyframes mote-drift {
+  from { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+  to   { background-position: 620px -420px, -620px 420px, 620px 420px, -620px -420px, 310px -210px; }
+}
+
+@media (prefers-reduced-motion: reduce) { .motes::before { animation: none; } }
+
+/* ==================================================== THE PRAYER BAND */
+
+.prayerband {
+  background: linear-gradient(90deg, var(--oxford), var(--midnight) 55%, var(--oxford));
+  border-bottom: 1px solid rgba(199, 162, 74, .26);
+  font-size: .8rem;
+  color: var(--cerulean);
+}
+
+.prayerband__inner {
+  max-width: 1280px; margin: 0 auto;
+  padding: 8px clamp(16px, 3vw, 34px);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px; flex-wrap: wrap;
+}
+
+.prayerband__place { display: inline-flex; align-items: center; gap: 8px; color: var(--steel); }
+.prayerband__place .icon { width: 15px; height: 15px; color: var(--gold-royal); }
+
+.prayerband__next { display: inline-flex; align-items: baseline; gap: 9px; }
+
+.prayerband__label {
+  font-family: 'Cinzel', serif; font-size: .6rem;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--bronze);
+  filter: brightness(1.75);
+}
+
+.prayerband__next strong { color: var(--gold-champagne); font-weight: 600; letter-spacing: .04em; }
+.prayerband__time { color: var(--ivory); font-variant-numeric: tabular-nums; }
+.prayerband__cd { color: var(--gold-soft); font-variant-numeric: tabular-nums; }
+
+.prayerband__date { color: var(--steel); font-variant-numeric: tabular-nums; }
+.prayerband__sep { margin: 0 6px; opacity: .6; }
+
+@media (max-width: 860px) {
+  .prayerband__place { display: none; }
+  .prayerband__inner { justify-content: space-between; padding-block: 7px; }
+}
+@media (max-width: 560px) { .prayerband__date { display: none; } }
+
+/* ============================================ THE PERSONALISATION CENTRE */
+
+.personalise {
+  position: fixed; z-index: 120;
+  top: 12px; right: 12px; width: min(340px, calc(100vw - 24px));
+  border-radius: var(--r-md, 6px);
+  box-shadow: 0 24px 70px rgba(6, 12, 24, .55);
+}
+
+.personalise[hidden] { display: none; }
+.personalise__inner { padding: 22px 22px 18px; }
+
+.personalise__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 14px; margin-bottom: 18px;
+  border-bottom: 1px solid rgba(199, 162, 74, .3); padding-bottom: 12px;
+}
+
+.personalise__title {
+  font-family: 'Cinzel', serif; font-size: .76rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--gold-champagne); margin: 0;
+}
+
+.personalise__close {
+  appearance: none; background: none; border: 0; cursor: pointer;
+  color: var(--cerulean); font-size: 1.4rem; line-height: 1; padding: 0 4px;
+}
+.personalise__close:hover { color: var(--gold-soft); }
+
+.personalise__group { margin-bottom: 16px; }
+
+.personalise__label {
+  font-size: .64rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--steel); margin: 0 0 8px;
+}
+
+.personalise__opts { display: flex; gap: 6px; }
+
+.personalise__opts button {
+  flex: 1; appearance: none; cursor: pointer;
+  background: rgba(39, 80, 143, .18);
+  border: 1px solid rgba(110, 147, 196, .28);
+  color: var(--cerulean);
+  font-family: inherit; font-size: .76rem; padding: 8px 4px;
+  border-radius: 3px; transition: all .18s;
+}
+
+.personalise__opts button:hover { border-color: var(--gold-royal); color: var(--gold-soft); }
+
+.personalise__opts button[aria-pressed="true"] {
+  background: rgba(199, 162, 74, .16);
+  border-color: var(--gold-rich);
+  color: var(--gold-champagne);
+}
+
+.personalise__note {
+  font-size: .72rem; color: var(--steel); margin: 0;
+  border-top: 1px solid rgba(110, 147, 196, .2); padding-top: 12px; line-height: 1.5;
+}
+
+/* ================================================== THE DAILY WIRD */
+
+.wird {
+  background:
+    radial-gradient(90% 130% at 82% 0%, var(--sapphire) 0%, rgba(39, 80, 143, 0) 58%),
+    linear-gradient(180deg, var(--midnight), var(--oxford));
+  border-top: 1px solid rgba(199, 162, 74, .24);
+  border-bottom: 1px solid rgba(199, 162, 74, .24);
+}
+
+.wird__inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: clamp(38px, 5vw, 62px) clamp(18px, 4vw, 40px);
+}
+
+.wird__head { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 30px; }
+
+.wird__title {
+  font-family: 'Bodoni Moda', serif; font-size: clamp(1.5rem, 3vw, 2.1rem);
+  color: var(--gold-champagne); margin: 0 0 4px; line-height: 1.1;
+}
+
+.wird__date { margin: 0; font-size: .82rem; color: var(--steel); }
+
+.wird__cols {
+  display: grid; gap: 1px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  background: rgba(199, 162, 74, .18);
+  border: 1px solid rgba(199, 162, 74, .18);
+}
+
+.wird__panel {
+  background: linear-gradient(180deg, rgba(20, 38, 74, .55), rgba(10, 20, 40, .55));
+  padding: 24px 22px;
+}
+
+.wird__kind {
+  display: block; font-family: 'Cinzel', serif; font-size: .62rem;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold-soft); margin-bottom: 14px;
+}
+
+.wird__ar {
+  font-size: clamp(1.24rem, 2.4vw, 1.7rem); line-height: 1.9;
+  color: var(--gold-champagne); margin: 0 0 12px; text-align: right;
+}
+
+.wird__en { color: var(--cerulean); font-size: .94rem; line-height: 1.62; margin: 0 0 10px; }
+.wird__en--lead { font-size: 1rem; color: var(--ivory); }
+
+.wird__ref {
+  margin: 0; font-size: .76rem; letter-spacing: .06em;
+  color: var(--bronze); filter: brightness(1.7);
+}
+
+.wird__times { width: 100%; border-collapse: collapse; font-size: .86rem; }
+.wird__times th {
+  text-align: left; font-weight: 400; color: var(--cerulean);
+  padding: 6px 0; border-bottom: 1px solid rgba(110, 147, 196, .16);
+}
+.wird__times th .r-ar { color: var(--steel); margin-left: 6px; font-size: .95rem; }
+.wird__times td {
+  text-align: right; color: var(--ivory); font-variant-numeric: tabular-nums;
+  padding: 6px 0; border-bottom: 1px solid rgba(110, 147, 196, .16);
+}
+.wird__times tr.is-next th,
+.wird__times tr.is-next td { color: var(--gold-champagne); font-weight: 600; }
+
+.wird__note {
+  margin: 22px 0 0; font-size: .78rem; line-height: 1.62;
+  color: var(--steel); max-width: 88ch;
+}
+
+/* ============================================ THE COLLEGE, RIGHT NOW */
+
+.rightnow {
+  background: var(--oxford);
+  border-top: 1px solid rgba(199, 162, 74, .2);
+  padding: clamp(30px, 4vw, 46px) clamp(18px, 4vw, 40px) 26px;
+}
+
+.rightnow__inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+.rightnow__kind {
+  display: block; font-family: 'Cinzel', serif; font-size: .62rem;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold-soft); margin-bottom: 12px;
+}
+
+.rightnow__clock {
+  font-family: 'Bodoni Moda', serif; font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  color: var(--gold-champagne); margin: 0 0 6px;
+  font-variant-numeric: tabular-nums; line-height: 1;
+}
+
+.rightnow__tz {
+  display: block; font-family: 'Inter', sans-serif; font-size: .66rem;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--steel); margin-top: 8px;
+}
+
+.rightnow__where { margin: 0; font-size: .84rem; color: var(--cerulean); line-height: 1.7; }
+.rightnow__where a { color: var(--cerulean); }
+.rightnow__where a:hover { color: var(--gold-soft); }
+
+.rightnow__state {
+  display: inline-block; font-family: 'Cinzel', serif; font-size: .78rem;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 2px; margin-bottom: 8px;
+}
+.rightnow__state.is-open { background: rgba(30, 106, 79, .26); color: #7FCBA9; border: 1px solid rgba(127, 203, 169, .4); }
+.rightnow__state.is-closed { background: rgba(110, 147, 196, .14); color: var(--cerulean); border: 1px solid rgba(110, 147, 196, .3); }
+
+.rightnow__note {
+  max-width: 1200px; margin: 26px auto 0; font-size: .76rem;
+  color: var(--steel); border-top: 1px solid rgba(110, 147, 196, .16); padding-top: 14px;
+}
+
+/* ------------------------------------------------ the establishment line */
+
+.brand__est {
+  font-size: .58rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--steel); white-space: nowrap; margin-top: 2px;
+}
+
+.site-header.is-condensed .brand__est { opacity: 0; max-height: 0; overflow: hidden; }
+
+@media (max-width: 1180px) { .brand__est { display: none; } }

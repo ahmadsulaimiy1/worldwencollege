@@ -19,10 +19,86 @@
         <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
         Verify
       </a>
+      <button type="button" class="topbar__item topbar__pref" data-personalise-toggle
+              aria-expanded="false" aria-controls="personalise">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+        Personalise
+      </button>
       <span class="topbar__lang r-ar" lang="ar" dir="rtl">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         دار الرسوخ
       </span>
     </div>
+  </div>
+</div>
+
+<!-- THE PRAYER BAND.
+     The one thing a college of Qur'ānic sciences should carry above its
+     own name. Times are computed on the reader's device from the solar
+     position at Lagos — Muslim World League angles, shadow factor one —
+     and the band says so, because reasonable tables differ and a school
+     that prints a prayer time without naming its convention is asserting
+     more than it knows. -->
+<div class="prayerband" data-prayer-band>
+  <div class="prayerband__inner">
+    <span class="prayerband__place">
+      <svg class="icon" aria-hidden="true"><use href="#i-minaret"/></svg>
+      Lagos &middot; West Africa Time
+    </span>
+    <span class="prayerband__next">
+      <span class="prayerband__label">Next</span>
+      <strong data-prayer-name>—</strong>
+      <span class="prayerband__time" data-prayer-time>—:—</span>
+      <span class="prayerband__cd" data-prayer-countdown></span>
+    </span>
+    <span class="prayerband__date">
+      <span data-hijri-long>—</span>
+      <span class="prayerband__sep" aria-hidden="true">&middot;</span>
+      <span data-gregorian>—</span>
+    </span>
+  </div>
+</div>
+
+<!-- THE PERSONALISATION CENTRE.
+     Three settings, remembered on this device and nowhere else. Livery
+     recolours the institutional blues without touching the golds; ornament
+     governs the raking light, the drifting motes and the paper grain;
+     text size scales the whole document from the root. -->
+<div class="personalise crystal" id="personalise" data-personalise-panel hidden>
+  <div class="personalise__inner">
+    <div class="personalise__head">
+      <h2 class="personalise__title">Personalise this site</h2>
+      <button type="button" class="personalise__close" data-personalise-close aria-label="Close">&times;</button>
+    </div>
+
+    <div class="personalise__group">
+      <p class="personalise__label">Livery</p>
+      <div class="personalise__opts">
+        <button type="button" data-pref="livery" data-value="sapphire" aria-pressed="true">Sapphire</button>
+        <button type="button" data-pref="livery" data-value="obsidian" aria-pressed="false">Obsidian</button>
+        <button type="button" data-pref="livery" data-value="emerald" aria-pressed="false">Emerald</button>
+      </div>
+    </div>
+
+    <div class="personalise__group">
+      <p class="personalise__label">Ornament</p>
+      <div class="personalise__opts">
+        <button type="button" data-pref="ornament" data-value="full" aria-pressed="true">Full</button>
+        <button type="button" data-pref="ornament" data-value="restrained" aria-pressed="false">Restrained</button>
+        <button type="button" data-pref="ornament" data-value="none" aria-pressed="false">None</button>
+      </div>
+    </div>
+
+    <div class="personalise__group">
+      <p class="personalise__label">Text size</p>
+      <div class="personalise__opts">
+        <button type="button" data-pref="textsize" data-value="small" aria-pressed="false">Small</button>
+        <button type="button" data-pref="textsize" data-value="medium" aria-pressed="true">Medium</button>
+        <button type="button" data-pref="textsize" data-value="large" aria-pressed="false">Large</button>
+      </div>
+    </div>
+
+    <p class="personalise__note">Remembered on this device. Nothing is sent anywhere,
+      and no account is required.</p>
   </div>
 </div>
