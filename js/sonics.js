@@ -127,14 +127,22 @@
    *  everything makes a noise is not luxurious, it is a toy. */
   var CHIME = '.btn--gold, .quiet-btn--apply';
   var SEAL  = '.wax-seal, .cta__seal, .vessel, .medallion, .honour, .honour__wreath, '
-            + '.matricula, .case__medallion, .brand__crest, .masthead__rule, .colophon__rule';
+            + '.matricula, .case__medallion, .brand__crest, .masthead__rule, .colophon__rule, '
+            /* The warrant is a ruling with a seal on it, so it takes
+               the conferral voice rather than the tap every other
+               struck surface gets. Ceremony is ranked, not uniform. */
+            + '.warrant';
   var OPEN  = 'details > summary, .accordion__trigger, .accordion__q, .nav__toggle, [aria-expanded]';
   var TAP   = 'a, button, .card, .audience, .region, .case, .principle, .badge-dome, '
             + '.quad__skill, .quad__gauge, .sep__role, .sep__disc, .creed__item, .creed__mark, '
             + '.clause, .tenet, .register__col, .vacancy, .footergrid__tile, .quicknav__tile, '
             + '.plate__frame, .stage-mark, .ledger--flagship tbody tr, '
             /* The Academics pillar — css/academics.css. */
-            + '.ascent__step, .ascent__band, .horarium__band, .discipline';
+            + '.ascent__step, .ascent__band, .horarium__band, .discipline, '
+            /* The Admissions pillar — css/admissions.css. The warrant
+               is a sealed instrument and takes SEAL, not TAP; it is in
+               the list above. */
+            + '.passage__stage, .passage__mark, .tariff__line';
 
   function voiceFor(el) {
     if (el.closest(CHIME)) return 'chime';

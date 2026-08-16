@@ -26,6 +26,8 @@
 <link rel="stylesheet" href="/css/brand.css">
 <link rel="stylesheet" href="/css/atelier.css">
 <link rel="stylesheet" href="/css/pages.css">
+<link rel="stylesheet" href="/css/pillar.css">
+<link rel="stylesheet" href="/css/admissions.css">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
@@ -974,11 +976,54 @@
 </header>
 
 <main id="main">
-<section class="page-hero section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">Admissions</span>
-    <h1 data-split>How to join the International English Fluency Course.</h1>
-    <p class="lede">A clear, five-step journey from enquiry to your first module — designed for school pupils, university students, working professionals and international applicants alike.</p>
+<!--
+  ADMISSIONS — the pillar page.
+
+  SET AS A THRESHOLD.
+  ---------------------------------------------------------------------
+  This is the only page on the site read by someone who is not yet a
+  member of the College and is deciding whether to become one. /about/
+  is the institution describing itself and is set as a constitutional
+  document; /students/ is one learner's standing and is a matricula;
+  /academics/ is a curriculum and is an ascent. A threshold is none of
+  those. Its register is a PASSAGE — a route of numbered stones, each
+  visible before it is stepped on, including the stones where the
+  honest answer is that nobody has stepped on them yet. Composition
+  lives in css/admissions.css, after css/pillar.css.
+
+  THE IDS #apply, #dates, #requirements AND #visas ARE LINKED FROM
+  SEVENTY PLACES ACROSS THE SITE and must survive any rearrangement.
+  Every section with an id gets a rail entry automatically — see
+  contentsEntries() in scripts/build.js.
+-->
+
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/portico.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-portcullis"/></svg></p>
+
+    <p class="masthead__eyebrow">Admissions &middot; WorldWide English College</p>
+    <h1>How to join the International English Fluency Course.</h1>
+    <p class="lede">A five-stage route from enquiry to your first module, published in full before
+      you begin it &mdash; for school pupils, university students, working professionals and
+      international applicants alike. No qualification is required to apply, and no document is
+      asked for that the College does not need.</p>
+
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>Admission</dt><dd>Continuous</dd></div>
+      <div class="masthead__fact"><dt>Entry qualification</dt><dd>None required</dd></div>
+      <div class="masthead__fact"><dt>Application fee</dt><dd>None</dd></div>
+      <div class="masthead__fact"><dt>Placement</dt><dd>By assessment</dd></div>
+    </dl>
+
+    <p class="masthead__motto">&ldquo;Nothing is asked for that the College does not need.&rdquo;</p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+
+    <div class="btn-row u-center" style="margin-top:30px">
+      <a href="#apply" class="btn btn--gold">Start Your Application</a>
+      <a href="/admissions/tuition/" class="btn btn--outline">What It Costs</a>
+    </div>
   </div>
 </section>
 
@@ -986,21 +1031,28 @@
   <div class="contents__inner">
     <span class="contents__label">On this page</span>
     <ul class="contents__list">
-      <li><a href="#self-assessment">Step One · Know Your Starting Point</a></li>
-      <li><a href="#apply">Start Your Application</a></li>
+      <li><a href="#self-assessment">Which statement sounds most like you today?</a></li>
+      <li><a href="#apply">Step 2: your application, in nine short steps</a></li>
       <li><a href="#requirements">Entry Requirements</a></li>
       <li><a href="#dates">Dates & Calendar</a></li>
       <li><a href="#international">International Applicants</a></li>
       <li><a href="#visas">Visas & Permits</a></li>
+      <li><a href="#tuition">What It Costs</a></li>
     </ul>
   </div>
 </nav>
 
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Who WEC-LC Is For</span>
+<section class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/globe-meridian.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">I</span>
+      <span class="leaf__label">Who WEC-LC Is For</span>
+      <p class="leaf__rubric">Who the programme is built for, stated as five kinds of person rather than as one ideal one.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Designed for ambitious learners, at every stage.</h2>
     </div>
     <div class="tag-row">
@@ -1011,12 +1063,19 @@
       <span class="tag">Advanced Proficiency Seekers</span>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad" id="self-assessment">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Step One · Know Your Starting Point</span>
+<section class="leaf section--dark grain aurora" id="self-assessment">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">II</span>
+      <span class="leaf__label">Step One · Know Your Starting Point</span>
+      <p class="leaf__rubric">Before anything else, the honest question: where does your English actually stand today?</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Which statement sounds most like you today?</h2>
       <p class="lede">A 30-second self-assessment to guide your application — not the official placement test, which happens during Step 3.</p>
     </div>
@@ -1053,37 +1112,83 @@
       <p class="form-note">This is a self-guided estimate to help you apply with confidence — your actual starting level is confirmed by the placement assessment in Step 3.</p>
     </form>
   </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Application Journey</span>
-      <h2>Five steps to enrolment.</h2>
-    </div>
-    <ol class="dot-list">
-      <li><span class="num">01</span><span><strong>Enquire &amp; choose your entry point</strong> — tell us your current English level and goals.</span><span class="leader"></span></li>
-      <li><span class="num">02</span><span><strong>Submit your application</strong> — the form below. Nothing else is asked for at this stage: no documents, no fee.</span><span class="leader"></span></li>
-      <li><span class="num">03</span><span><strong>Placement assessment</strong> — a short assessment confirms your correct starting level, Foundation through Advanced.</span><span class="leader"></span></li>
-      <li><span class="num">04</span><span><strong>Offer &amp; enrolment</strong> — receive your offer, confirm your payment plan, and secure your place.</span><span class="leader"></span></li>
-      <li><span class="num">05</span><span><strong>Orientation &amp; your first module</strong> — onboarding to the digital campus, then Level I opens and the first module is yours to begin.</span><span class="leader"></span></li>
-    </ol>
   </div>
 </section>
 
-<section class="section--dark section-pad" id="apply">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Start Your Application</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">III</span>
+      <span class="leaf__label">The Application Journey</span>
+      <p class="leaf__rubric">Five stages from first contact to first lesson, each one a stone you can see before you step on it.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+      <h2>Five steps to enrolment.</h2>
+    </div>
+    <!-- THE PASSAGE. This was a .dot-list — five lines of prose with a
+         leader rule, which is the register of a table of contents and
+         not of a route someone is about to walk. Nothing it said has
+         been cut: every stage carries the same sentence it carried
+         before, on a stone, on the route, in order. The fifth stone
+         carries an open mark rather than a tick, because orientation is
+         designed and no cohort has been through it — CLAUDE.md §5. -->
+    <ol class="passage">
+      <li class="passage__stage reveal edge-lit edge-lit--light aurum aurum--hover">
+        <span class="passage__mark gold-live"><span>I</span></span>
+        <h3>Enquire</h3>
+        <p>Tell the College your current English level and what you want to be able to do. Choosing your entry point is the whole of this stage.</p>
+      </li>
+      <li class="passage__stage reveal edge-lit edge-lit--light aurum aurum--hover">
+        <span class="passage__mark gold-live"><span>II</span></span>
+        <h3>Apply</h3>
+        <p>The form below. Nothing else is asked for at this stage: no documents, no fee.</p>
+      </li>
+      <li class="passage__stage reveal edge-lit edge-lit--light aurum aurum--hover">
+        <span class="passage__mark gold-live"><span>III</span></span>
+        <h3>Placement</h3>
+        <p>A short assessment confirms your correct starting level, Foundation through Advanced. It is not an entrance exam and cannot be failed.</p>
+      </li>
+      <li class="passage__stage reveal edge-lit edge-lit--light aurum aurum--hover">
+        <span class="passage__mark gold-live"><span>IV</span></span>
+        <h3>Offer &amp; enrolment</h3>
+        <p>Receive your offer, confirm your payment plan, and secure your place.</p>
+      </li>
+      <li class="passage__stage reveal edge-lit edge-lit--light aurum aurum--hover">
+        <span class="passage__mark gold-live"><span>V</span></span>
+        <h3>Orientation</h3>
+        <p>Onboarding to the digital campus, then Level I opens and the first module is yours to begin.</p>
+        <span class="passage__note"><svg class="icon" aria-hidden="true" style="width:.8rem;height:.8rem;vertical-align:-.1em"><use href="#i-ring"/></svg> Designed &middot; no cohort yet</span>
+      </li>
+    </ol>
+  </div>
+  </div>
+</section>
+
+<section class="leaf section--dark grain aurora" id="apply">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">IV</span>
+      <span class="leaf__label">Start Your Application</span>
+      <p class="leaf__rubric">The application itself. Nine short steps, and nothing asked for that the College does not need.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Step 2: your application, in nine short steps.</h2>
       <p class="lede">Sign in, and the application saves as you go — leave at any point and pick up exactly where you stopped. Nothing is required beyond what Admissions genuinely needs to reply to you, and no card or bank detail is ever requested here. One step — an identity document — is entirely optional: skip it and add it later, or upload it now if you would rather submit a complete application from day one.</p>
     </div>
 
     <div class="grid grid--4" style="margin-bottom:32px">
-      <div class="card card--dark reveal tilt edge-lit aurum aurum--hover"><span class="card__num">1&ndash;4</span><h3>Who you are</h3><p>Identity, an optional identity document, contact and an emergency contact &mdash; the basics Admissions needs to reach you.</p></div>
-      <div class="card card--dark reveal tilt edge-lit aurum aurum--hover"><span class="card__num">5&ndash;6</span><h3>Your programme</h3><p>What the English is for, where you'd begin, and your education background.</p></div>
-      <div class="card card--dark reveal tilt edge-lit aurum aurum--hover"><span class="card__num">7&ndash;8</span><h3>Tuition &amp; declaration</h3><p>Who pays and how, then the two confirmations the College needs from you.</p></div>
-      <div class="card card--dark reveal tilt edge-lit aurum aurum--hover"><span class="card__num">9</span><h3>Review &amp; submit</h3><p>Everything you entered, in one place, before it goes anywhere.</p></div>
+      <div class="card card--dark reveal tilt edge-lit aurum aurum--hover"><span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+        <span class="card__num">1&ndash;4</span><h3>Who you are</h3><p>Identity, an optional identity document, contact and an emergency contact &mdash; the basics Admissions needs to reach you.</p></div>
+      <div class="card card--dark reveal tilt edge-lit aurum aurum--hover"><span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
+        <span class="card__num">5&ndash;6</span><h3>Your programme</h3><p>What the English is for, where you'd begin, and your education background.</p></div>
+      <div class="card card--dark reveal tilt edge-lit aurum aurum--hover"><span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
+        <span class="card__num">7&ndash;8</span><h3>Tuition &amp; declaration</h3><p>Who pays and how, then the two confirmations the College needs from you.</p></div>
+      <div class="card card--dark reveal tilt edge-lit aurum aurum--hover"><span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <span class="card__num">9</span><h3>Review &amp; submit</h3><p>Everything you entered, in one place, before it goes anywhere.</p></div>
     </div>
 
     <div class="application-plate edge-lit" style="text-align:center;padding:clamp(32px,4vw,48px)">
@@ -1094,13 +1199,20 @@
       <p class="form-note" style="margin-top:20px">Requires signing in, so your progress can be saved between visits. Prefer email? <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">Write to Admissions directly</a>.</p>
     </div>
   </div>
+  </div>
 </section>
 
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Journey</span>
+<section class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">V</span>
+      <span class="leaf__label">The Journey</span>
+      <p class="leaf__rubric">What each of the five stages really is, as opposed to what a prospectus would call it.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Five stages, and what each one really is.</h2>
       <p class="lede">The application record moves through a fixed set of states, and the state
         it is in is the honest answer to &ldquo;where is my application?&rdquo;. Those states
@@ -1132,12 +1244,19 @@
       <code>rejected</code>. Both are states the College records rather than deletes, so that a
       decision can be looked up later by whoever made it.</p>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Timing</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VI</span>
+      <span class="leaf__label">Timing</span>
+      <p class="leaf__rubric">How long each stage takes. Where a figure has never been measured, this says so.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>How long each stage takes, honestly stated.</h2>
       <p class="lede">WEC-LC has processed no applications at volume, so these are commitments
         rather than measured averages, and they are described that way.</p>
@@ -1145,51 +1264,71 @@
     <div class="grid grid--3">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
         <span class="card__num">Immediate</span>
         <h3>Submission</h3>
         <p>The record is created and the confirmation email is sent while you are still on the page. If the online form cannot be reached, it hands your details to your email application instead, so nothing is lost.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
         <span class="card__num">Committed</span>
         <h3>Placement contact within three working days</h3>
         <p>A commitment the College is making, not an average it has measured. If it is missed, write to Admissions and say so &mdash; a stated commitment that goes unenforced is worse than none.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
         <span class="card__num">Your pace</span>
         <h3>Offer to enrolment</h3>
         <p>An offer does not expire on a timetable, because there is no intake to fill. Take the time you need; nothing is lost by waiting and nothing is gained by hurrying.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Checking Your Application</span>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/astrolabe.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VII</span>
+      <span class="leaf__label">Checking Your Application</span>
+      <p class="leaf__rubric">Your application is yours to check, without asking anyone.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>You can look it up yourself.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
         <span class="card__num">Your reference</span>
         <h3>Keep the application id</h3>
         <p>The confirmation email carries an identifier beginning <code>app_</code>. It is the only key to your record, and it is deliberately the only key &mdash; the College will not disclose an application state to anyone who does not hold it, including someone who knows your email address.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
         <span class="card__num">No account needed</span>
         <h3>Status without signing in</h3>
         <p>You do not have an account at application stage &mdash; one is created at enrolment. So status is looked up by reference, not by login, and returns the state and the date it was created. Nothing else.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container reveal">
+<section class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VIII</span>
+      <span class="leaf__label"></span>
+      <p class="leaf__rubric">What happens to the record the College holds about you, and what it will not do with it.</p>
+    </div>
+    <div class="leaf__body reveal">
     <div class="callout">
       <span class="callout__label">Four things the College tells you before it takes your money</span>
       <p>Accreditation candidacy is underway and no accreditation is yet held. The External
@@ -1204,43 +1343,109 @@
         <a href="/#pathway">accreditation pathway</a>.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="requirements" data-contents="Entry Requirements">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Academic Requirements</span>
+<section class="leaf section--light grain" id="requirements" data-contents="Entry Requirements">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">IX</span>
+      <span class="leaf__label">Academic Requirements</span>
+      <p class="leaf__rubric">There is no qualification to hold. What is required instead is set out in full.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>There is no qualification to hold.</h2>
       <p class="lede">Level I begins at A1 &mdash; the assumption is no usable English, not
         some English. A prior certificate is welcome as evidence and is never a condition.</p>
     </div>
+
+    <!-- THE WARRANT. The College's answer to "what qualification do I
+         need?" is "none", and an answer that unusual is not a bullet
+         under a heading — it is a ruling, and it is struck as one. The
+         three cards below say the same thing at length; this is the
+         instrument they expand. -->
+    <div class="warrant reveal edge-lit aurum aurum--hover">
+      <div class="warrant__head">
+        <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>
+        <h3>Conditions of Entry</h3>
+      </div>
+      <div class="warrant__terms">
+        <div class="warrant__term warrant__term--held">
+          <svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg>
+          <div>
+            <b>An honest placement</b>
+            <span>The single genuine requirement, and the only one. Entering at the wrong level is the most common way a language programme fails a learner, and it fails them in both directions.</span>
+          </div>
+        </div>
+        <div class="warrant__term warrant__term--held">
+          <svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg>
+          <div>
+            <b>A device and a connection that can stream audio</b>
+            <span>A computer, tablet or phone with a current browser, and a microphone &mdash; the one on a phone or laptop is enough.</span>
+          </div>
+        </div>
+        <div class="warrant__term warrant__term--open">
+          <svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg>
+          <div>
+            <b>No school-leaving certificate</b>
+            <span>Not asked for, not checked, and not priced differently for. A language programme that gated entry on schooling would exclude exactly the learners Level I was written for.</span>
+          </div>
+        </div>
+        <div class="warrant__term warrant__term--open">
+          <svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg>
+          <div>
+            <b>No IELTS or TOEFL score</b>
+            <span>Bring one if you hold it &mdash; it shortens the placement conversation considerably. It is evidence, never a condition.</span>
+          </div>
+        </div>
+        <div class="warrant__term warrant__term--open">
+          <svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg>
+          <div>
+            <b>No application fee</b>
+            <span>Applying costs nothing and commits you to nothing. Payment arises only at enrolment, after an offer you have read.</span>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="grid grid--3">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
         <span class="card__num">Not required</span>
         <h3>A school-leaving certificate</h3>
         <p>The College does not ask for one, does not check one, and does not price differently for one. A language programme that gated entry on schooling would be excluding exactly the learners Level I was written for.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
         <span class="card__num">Not required</span>
         <h3>An IELTS or TOEFL score</h3>
         <p>If you hold one, bring it &mdash; it shortens the placement conversation considerably. It is evidence, not a requirement, and a score that is more than two years old is treated as a starting hypothesis rather than a fact.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
         <span class="card__num">Required</span>
         <h3>An honest placement</h3>
         <p>The single genuine requirement. Entering at the wrong level is the most common way a language programme fails a learner, and it fails them in both directions: too low is insulting and too high is silent drowning.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Placement</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">X</span>
+      <span class="leaf__label">Placement</span>
+      <p class="leaf__rubric">How the entry level is decided, and why it is not decided by what you say about yourself.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>How the entry level is decided.</h2>
       <p class="lede">Two things happen, in this order, and only the second one counts.</p>
     </div>
@@ -1255,12 +1460,19 @@
         College nothing and saves them a term of the wrong material.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Practical Requirements</span>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XI</span>
+      <span class="leaf__label">Practical Requirements</span>
+      <p class="leaf__rubric">The machinery you need. A version matrix would imply testing that has not been done.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>What you need to actually study.</h2>
       <p class="lede">Each of these is listed because a specific part of the programme uses it,
         not because a requirements list looks thorough.</p>
@@ -1268,36 +1480,47 @@
     <div class="grid grid--4">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
         <span class="card__num">Device</span>
         <h3>A computer, tablet or phone</h3>
         <p>The learning platform runs in a browser. There is nothing to install and no minimum specification worth publishing &mdash; if it can play video, it can run the programme.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
         <span class="card__num">Connection</span>
         <h3>Enough to stream audio</h3>
         <p>Listening work is the spine of every level, so audio has to arrive. Video calls for live sessions want more; audio-only participation is accepted when a connection will not carry video, and that is a stated accommodation rather than a workaround.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
         <span class="card__num">Microphone</span>
         <h3>Any microphone</h3>
         <p>The Listening Lab asks you to record yourself and keeps the recordings so you and your teacher can hear the change over months. A phone or a laptop microphone is sufficient. This is the one requirement people are surprised by, which is why it is here rather than in a footnote.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
         <span class="card__num">Email</span>
         <h3>An address you read</h3>
         <p>Placement, offer and enrolment all move by email. It is the only channel the College currently relies on.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Age</span>
+<section class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XII</span>
+      <span class="leaf__label">Age</span>
+      <p class="leaf__rubric">Applicants under eighteen. An unresolved question, published as unresolved.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Applicants under 18 &mdash; an unresolved question.</h2>
     </div>
     <div class="callout">
@@ -1312,24 +1535,33 @@
     <div class="grid grid--2">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
         <span class="card__num">Why it is not simply answered here</span>
         <h3>Safeguarding is not a website decision</h3>
         <p>A safeguarding policy that appeared on a marketing page without a named person accountable for it would be worse than none, because it would look like an answer. The decision belongs to the Academic Senate and the Executive.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">What is true today</span>
         <h3>No policy, no appointed lead</h3>
         <p>Both are listed in the College&rsquo;s own appointments schedule as posts that must be filled. The honest consequence is stated above rather than left for an applicant to discover.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="dates" data-contents="Dates &amp; Calendar">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Starting</span>
+<section class="leaf section--light grain" id="dates" data-contents="Dates &amp; Calendar">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XIII</span>
+      <span class="leaf__label">Starting</span>
+      <p class="leaf__rubric">Admission is continuous. There is no term to wait for and no cohort to miss.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Admission is continuous.</h2>
       <p class="lede">This is not a marketing choice. It is what the platform actually does,
         and describing anything else would describe software that does not exist.</p>
@@ -1337,30 +1569,40 @@
     <div class="grid grid--3">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
         <span class="card__num">The day you enrol</span>
         <h3>Level I opens immediately</h3>
         <p>A confirmed payment creates your enrolment and the first lesson is available the same day. Nothing is held back until a start date.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
         <span class="card__num">At your own pace</span>
         <h3>Progression is per learner</h3>
         <p>Your progress record is yours alone. There is no class moving ahead of you and none waiting for you, and no lesson unlocks on a date.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
         <span class="card__num">One level at a time</span>
         <h3>The next level opens when this one closes</h3>
         <p>Levels II to VI are added as each preceding level is completed, whether you paid per level or for the whole programme. Completion is confirmed by a member of staff, not calculated automatically &mdash; the College has no automated grading engine.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Why There Are No Term Dates</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/astrolabe.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XIV</span>
+      <span class="leaf__label">Why There Are No Term Dates</span>
+      <p class="leaf__rubric">Why there are no term dates: the decision behind them has not been taken.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Because the decision behind them has not been taken.</h2>
       <p class="lede">A calendar is not a formatting exercise. It encodes an operating model,
         and the College has not yet chosen which model it is.</p>
@@ -1368,18 +1610,21 @@
     <div class="grid grid--3">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
         <span class="card__num">Option A</span>
         <h3>Rolling and self-paced</h3>
         <p>What runs today. Nobody waits to start. The known weakness is completion: wholly self-paced language study finishes badly, for the well-understood reason that there is never anything to be late for.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
         <span class="card__num">Option B</span>
         <h3>Fixed cohorts and termly intakes</h3>
         <p>The structure that makes people finish &mdash; shared pace, live classes where everyone is at the same point, a graduation that means something. The cost is an applicant in October waiting until January, and it would require rebuilding how progression works.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
         <span class="card__num">Option C</span>
         <h3>Rolling entry, fixed rhythm</h3>
         <p>Study self-paced, but with live sessions, examination windows and orientation on a published recurring schedule you join at the next occurrence. This is what the College has drafted as a recommendation. It has not been adopted.</p>
@@ -1393,35 +1638,51 @@
         does not contradict it.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">How Long A Level Takes</span>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/curriculum-spiral.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XV</span>
+      <span class="leaf__label">How Long A Level Takes</span>
+      <p class="leaf__rubric">How long a level takes, as a design figure and labelled as one.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>A design figure, not a measurement.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
         <span class="card__num">200</span>
         <h3>Total qualification hours per level</h3>
         <p>The designed workload for one level, covering taught material, independent study, practice and assessment. It is the figure the curriculum was built to &mdash; a design figure, not a measurement, which the College will replace with hours measured from real time-on-task once the founding cohort has generated them.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></span>
         <span class="card__num">1,200</span>
         <h3>Across all six levels</h3>
         <p>The sum of the six. How long that takes in calendar months depends entirely on the hours a week you can give it, which is why the College publishes the hours rather than a number of months it cannot stand behind.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="international" data-contents="International Applicants">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">What &ldquo;London Campus&rdquo; Means</span>
+<section class="leaf section--light grain" id="international" data-contents="International Applicants">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/globe-meridian.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XVI</span>
+      <span class="leaf__label">What &ldquo;London Campus&rdquo; Means</span>
+      <p class="leaf__rubric">What “London Campus” names, and what it does not.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>An administrative headquarters, not a place you attend.</h2>
       <p class="lede">This is stated first because the name invites exactly one wrong
         assumption, and it is an expensive one to make.</p>
@@ -1429,41 +1690,53 @@
     <div class="grid grid--3">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg></span>
         <span class="card__num">Is</span>
         <h3>An administrative address</h3>
         <p>London identifies where the College is administered and managed from. The registered address is being finalised and will be published here when it is settled &mdash; not before.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">Is not</span>
         <h3>A teaching campus</h3>
         <p>There are no classrooms, no lecture theatres and no student accommodation. Nobody attends WEC-LC in London or anywhere else, and no student has ever been asked to.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
         <span class="card__num">Therefore</span>
         <h3>No relocation, no visa</h3>
         <p>You study from where you live. See <a href="/admissions/#visas">Visas and study permits</a>, which exists to say clearly that the College issues no immigration documents.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Time Zones</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/globe-meridian.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XVII</span>
+      <span class="leaf__label">Time Zones</span>
+      <p class="leaf__rubric">A programme with no campus, handling being everywhere at once.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>How a programme with no campus handles being everywhere at once.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
         <span class="card__num">Independent of the clock</span>
         <h3>The taught material</h3>
         <p>Lessons, exercises, listening work and assignments are studied when you can study them. This is the majority of the programme by time, and it has no schedule attached to it at all.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
         <span class="card__num">Dependent on the clock</span>
         <h3>Live sessions</h3>
         <p>Conversation practice and tutorials are live, which means somebody&rsquo;s evening is somebody else&rsquo;s morning. Live sessions are scheduled against where students actually are once there are students; publishing a fixed timetable now would be publishing a guess. Recordings are the standing fallback and are not treated as a lesser option.</p>
@@ -1476,35 +1749,51 @@
         change it, and the change will be published.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Language of Instruction</span>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/laurel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XVIII</span>
+      <span class="leaf__label">Language of Instruction</span>
+      <p class="leaf__rubric">English throughout, with one exception the College names.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>English throughout, with one exception.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
         <span class="card__num">Teaching</span>
         <h3>Conducted in English from Level I</h3>
         <p>Including at A1, where it is done with heavy support &mdash; visual, repetition, restricted language, and a teacher who slows down rather than translates. Teaching a language through the language is a method, not an obstacle, and Level I was written on that assumption.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
         <span class="card__num">The website</span>
         <h3>Available in Arabic</h3>
         <p>The public site is published in English and Arabic. The teaching itself is not translated: a translated lesson would be a different lesson, and the pronunciation and listening work in particular cannot survive translation.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="visas" data-contents="Visas &amp; Permits">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Position</span>
+<section class="leaf section--light grain" id="visas" data-contents="Visas &amp; Permits">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XIX</span>
+      <span class="leaf__label">The Position</span>
+      <p class="leaf__rubric">The visa position, stated without qualification of any kind.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Stated without qualification.</h2>
     </div>
     <div class="callout">
@@ -1518,53 +1807,72 @@
     <div class="grid grid--3">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
         <span class="card__num">Why</span>
         <h3>Because it teaches online</h3>
         <p>Study visas exist to permit physical presence for study. The IEFC involves no physical presence anywhere &mdash; there is no campus to attend. A visa is not withheld; it is simply not part of what this programme is.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">Consequence</span>
         <h3>You study from home</h3>
         <p>Wherever you live, you study there. No travel, no accommodation, no relocation cost, and no immigration risk arising from the programme itself.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
         <span class="card__num">Exception</span>
         <h3>There is none</h3>
         <p>Not for any level, any fee arrangement, any nationality, or any sponsor. There is no case in which the College can help, and describing edge cases would only create hope where there is none.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">A Warning Worth Printing</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XX</span>
+      <span class="leaf__label">A Warning Worth Printing</span>
+      <p class="leaf__rubric">A warning worth printing: anyone offering a College visa is defrauding you.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>If someone offers you a WEC-LC visa, they are defrauding you.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
         <span class="card__num">No agent has this authority</span>
         <h3>Because the College does not have it</h3>
         <p>WEC-LC cannot delegate a power it does not hold. Any person or agency offering a WEC-LC study visa, admission letter for immigration purposes, or &ldquo;guaranteed&rdquo; entry to the United Kingdom through this College is making an offer the College could not fulfil itself.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
         <span class="card__num">What to do</span>
         <h3>Write to us and tell us</h3>
         <p>Send it to <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a>. Publishing this warning is worth little if reports of it go nowhere, and a College that hears about a fraud in its name and stays quiet is participating in it.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">If Your Goal Is To Study Abroad</span>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/laurel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XXI</span>
+      <span class="leaf__label">If Your Goal Is To Study Abroad</span>
+      <p class="leaf__rubric">If your goal is to study abroad, what the programme can genuinely do for that.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>What the programme can genuinely do for that.</h2>
       <p class="lede">Many applicants come to English study on the way to something else. That
         is a legitimate reason to be here, and it is worth being precise about what helps.</p>
@@ -1572,31 +1880,108 @@
     <div class="grid grid--3">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
         <span class="card__num">Can</span>
         <h3>Build the English a destination requires</h3>
         <p>The upper levels work directly on academic reading, academic writing, seminar discussion and the discourse of formal argument &mdash; the things that make the difference once you have arrived, and which a test score does not guarantee.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
         <span class="card__num">Can</span>
         <h3>Prepare you for the tests that are accepted</h3>
         <p>IELTS, TOEFL and Cambridge preparation are built into the curriculum from Upper Intermediate onwards. Those tests, not this College&rsquo;s certificate, are what admitting institutions and immigration systems currently recognise.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">Cannot</span>
         <h3>Substitute for a recognised qualification</h3>
         <p>No External Examiner has been appointed and the College holds no accreditation, so the IEFC award should not be relied upon by anyone as an admission or immigration credential. That is the plain position and it will change only when it genuinely changes.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light cta-band">
+<!-- ==================================================================
+     LEAF XXII — WHAT IT COSTS
+     The tariff is the summary plate, not a second fee table. The full
+     schedule lives on /admissions/tuition/ and there is exactly one of
+     it; a figure published twice is a figure that will disagree with
+     itself eventually.
+     ================================================================== -->
+<section class="leaf section--oxford grain aurora" id="tuition" data-contents="What It Costs">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XXII</span>
+      <span class="leaf__label">What It Costs</span>
+      <p class="leaf__rubric">Priced by level and by credit. Never per lesson, because per-lesson pricing ties a fee to content that is still being written.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>Priced by level, and by nothing smaller.</h2>
+      <p class="lede">You pay for a level, and a level is a fixed, published quantity: ten
+        modules, twenty WEC Credits, a Total Qualification Time of two hundred hours. Applying
+        costs nothing and commits you to nothing &mdash; the first payment arises at enrolment,
+        after an offer you have read.</p>
+
+      <div class="tariff">
+        <div class="tariff__line reveal edge-lit aurum aurum--hover">
+          <span class="tariff__figure">Nil</span>
+          <span class="tariff__label">To apply</span>
+          <span class="tariff__note">No application fee, at any stage, for any applicant.</span>
+        </div>
+        <div class="tariff__line reveal edge-lit aurum aurum--hover">
+          <span class="tariff__figure">Per level</span>
+          <span class="tariff__label">What you buy</span>
+          <span class="tariff__note">Six levels, each priced on its own. You are never asked to buy the programme entire.</span>
+        </div>
+        <div class="tariff__line reveal edge-lit aurum aurum--hover">
+          <span class="tariff__figure">20</span>
+          <span class="tariff__label">WEC Credits bought</span>
+          <span class="tariff__note">The College&rsquo;s own internal measure &mdash; not ECTS, not CATS, and carrying no transfer entitlement.</span>
+        </div>
+        <div class="tariff__line reveal edge-lit aurum aurum--hover">
+          <span class="tariff__figure">None</span>
+          <span class="tariff__label">Refund policy adopted</span>
+          <span class="tariff__note">Published as outstanding rather than left to be discovered. See the Tuition page.</span>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:30px">
+        <a href="/admissions/tuition/" class="btn btn--gold">View Tuition &amp; Fees</a>
+        <a href="/admissions/policy/" class="btn btn--outline">Admissions Policy</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     THE COLOPHON
+     ================================================================== -->
+<section class="colophon section--paper grain">
+  <div class="container">
+    <p class="colophon__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+    <p>Admission to the College is continuous, requires no prior qualification, and costs nothing
+      to apply for. Everything that stands between an enquiry and a first module is published on
+      this page before anyone begins it, including the stages that have never yet been walked by
+      a real cohort &mdash; which are marked as such and not as done.</p>
+    <dl>
+      <div><dt>Admission</dt><dd>Continuous</dd></div>
+      <div><dt>Stages</dt><dd>Five</dd></div>
+      <div><dt>Entry qualification</dt><dd>None</dd></div>
+      <div><dt>Application fee</dt><dd>None</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
   <div class="container reveal">
-    <h2>Curious what each level costs?</h2>
+    <h2>Begin at the first stone.</h2>
     <div class="btn-row u-center">
-      <a href="/admissions/tuition/" class="btn btn--red">View Tuition &amp; Fees</a>
+      <a href="#apply" class="btn btn--gold">Start Your Application</a>
+      <a href="/contact/" class="btn btn--outline">Ask a Question First</a>
     </div>
   </div>
 </section>

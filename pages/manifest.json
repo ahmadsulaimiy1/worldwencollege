@@ -50,7 +50,11 @@
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/admissions/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/admissions.css"
+    ]
   },
   {
     "slug": "admissions-tuition",
@@ -61,7 +65,11 @@
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/admissions/tuition/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/admissions.css"
+    ]
   },
   {
     "slug": "faculty",
@@ -159,7 +167,11 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/admissions/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/admissions.css"
+    ]
   },
   {
     "slug": "admissions-tuition-ar",
@@ -170,7 +182,11 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/admissions/tuition/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/admissions.css"
+    ]
   },
   {
     "slug": "faculty-ar",
@@ -348,7 +364,11 @@
     "contentFile": "admissions-policy.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/admissions/policy/"
+    "altHref": "/ar/admissions/policy/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/admissions.css"
+    ]
   },
   {
     "slug": "students",
@@ -739,7 +759,11 @@
     "contentFile": "admissions-policy.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/admissions/policy/"
+    "altHref": "/admissions/policy/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/admissions.css"
+    ]
   },
   {
     "slug": "about-careers-ar",
