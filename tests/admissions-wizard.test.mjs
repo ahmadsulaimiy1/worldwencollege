@@ -107,7 +107,7 @@ const { onRequestPost: apply } = await import(loadUrl('functions/api/admissions/
   const getResp = await draftGet({ request: new Request('https://x/api/admissions/draft', { headers: { authorization: `Bearer ${goodToken}` } }), env });
   const getBody = await getResp.json();
   check('GET draft: 200 with a real session', getResp.status === 200);
-  check('GET draft: lists all 8 wizard steps', Array.isArray(getBody.steps) && getBody.steps.length === 8 && getBody.steps[getBody.steps.length - 1] === 'review');
+  check('GET draft: lists all 9 wizard steps', Array.isArray(getBody.steps) && getBody.steps.length === 9 && getBody.steps[getBody.steps.length - 1] === 'review');
   check('GET draft: no application yet', getBody.application === null);
 
   const putResp = await draftPut({

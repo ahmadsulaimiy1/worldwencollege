@@ -283,6 +283,54 @@ jobs:
           PY
           echo "R2_SKIPPED=1" >> "$GITHUB_ENV"
 
+      - name: Ensure the KYC documents bucket exists
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # Same reasoning and idempotency as the recordings bucket step
+          # above, for the separate wec-lc-kyc-documents bucket. Kept as
+          # its own step rather than folded into that one so a failure
+          # here reports against KYC document upload specifically, not
+          # against recordings.
+          if npx wrangler r2 bucket list 2>/dev/null | grep -qw 'wec-lc-kyc-documents'; then
+            echo "R2 bucket wec-lc-kyc-documents already exists."
+            exit 0
+          fi
+          if npx wrangler r2 bucket create wec-lc-kyc-documents 2>r2-kyc-error.log; then
+            cat r2-kyc-error.log || true
+            echo "Created R2 bucket wec-lc-kyc-documents (private by default — never expose it publicly)."
+            exit 0
+          fi
+
+          # Document upload is one optional step of the admissions
+          # wizard, not the deployment. Warn loudly, drop only THIS
+          # binding, and carry on — the same trade the recordings step
+          # makes, and for the same reason.
+          cat r2-kyc-error.log || true
+          if grep -q '10042' r2-kyc-error.log; then
+            echo "::warning::R2 is not enabled on this Cloudflare account. Enable it once at Dashboard -> R2, then re-run this workflow. Deploying WITHOUT KYC document upload: the optional identity-document step will report a configuration error instead of uploading. Everything else is unaffected."
+          else
+            echo "::warning::Could not create the R2 bucket -- most likely the API token is missing \"Workers R2 Storage: Edit\". Deploying WITHOUT KYC document upload; everything else is unaffected."
+          fi
+
+          # Remove ONLY the KYC_DOCUMENTS binding, matched by its exact
+          # declared content rather than a generic "[[r2_buckets]]"
+          # pattern — wrangler.toml carries two r2_buckets blocks now,
+          # and a removal broad enough to match either would risk
+          # dropping RECORDINGS on a KYC-only failure, or vice versa.
+          python3 - <<'PY'
+          import re
+          src = open('wrangler.toml').read()
+          block = '\n[[r2_buckets]]\nbinding = "KYC_DOCUMENTS"\nbucket_name = "wec-lc-kyc-documents"\n'
+          assert block in src, 'wrangler.toml does not contain the expected KYC_DOCUMENTS block verbatim'
+          out = src.replace(block, '\n')
+          assert 'KYC_DOCUMENTS' not in out and '[[d1_databases]]' in out, 'wrangler.toml edit went wrong'
+          open('wrangler.toml', 'w').write(out)
+          print('Removed the KYC_DOCUMENTS r2_buckets binding for this deploy.')
+          PY
+          echo "KYC_R2_SKIPPED=1" >> "$GITHUB_ENV"
+
       - name: Apply schema and curriculum seeds to the remote D1 database
         # NEVER on a push. The seeds are INSERTs and are not idempotent,
         # so running them against a populated database is not a no-op.

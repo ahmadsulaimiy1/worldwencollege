@@ -44,26 +44,28 @@
   <div data-wizard-shell hidden>
     <span class="eyebrow" style="margin-bottom:8px">Admissions</span>
     <h1>Your application.</h1>
-    <p class="lede" style="margin-bottom:28px">Seven short steps, saved as you go. Close this at any point and pick up exactly where you left off &mdash; nothing is lost between visits.</p>
+    <p class="lede" style="margin-bottom:28px">Nine short steps, saved as you go. Close this at any point and pick up exactly where you left off &mdash; nothing is lost between visits. One step, the identity document, is entirely optional: skip it now and add it later, or upload it today if you would rather submit a complete application from the start.</p>
 
-    <p class="wizard-progress-label" data-wizard-progress-label>Step 1 of 8</p>
+    <p class="wizard-progress-label" data-wizard-progress-label>Step 1 of 9</p>
 
     <div class="stepper" data-stepper style="margin-bottom:32px">
       <div class="stepper__node" data-stepper-node><div class="stepper__dot">1</div><div class="stepper__label">Who you are</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">2</div><div class="stepper__label">Contact</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">2</div><div class="stepper__label">ID document<br>(optional)</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">3</div><div class="stepper__label">Emergency<br>contact</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">3</div><div class="stepper__label">Contact</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">4</div><div class="stepper__label">Programme</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">4</div><div class="stepper__label">Emergency<br>contact</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">5</div><div class="stepper__label">Education</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">5</div><div class="stepper__label">Programme</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">6</div><div class="stepper__label">Tuition</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">6</div><div class="stepper__label">Education</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">7</div><div class="stepper__label">Declaration</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">7</div><div class="stepper__label">Tuition</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">8</div><div class="stepper__label">Review</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">8</div><div class="stepper__label">Declaration</div></div>
+      <div class="stepper__line"></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">9</div><div class="stepper__label">Review</div></div>
     </div>
 
     <div class="wizard-card">
@@ -111,6 +113,37 @@
               </select>
               <span data-review-label="Nationality"></span>
               <span class="field__error" data-error-for="nationality"></span>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset data-step="identity-document" hidden>
+          <legend><h2>Identity document <span class="field__optional">Optional</span></h2></legend>
+          <p class="step-intro">Skip this and add it later, or upload now if you would rather submit a complete application from the start. A document is stored, not verified — nothing here checks it against an official record; that happens later in the residency process.</p>
+          <div class="form-grid">
+            <div class="field field--full">
+              <label for="w-passportNumber">Passport or ID number <span class="field__optional">Optional</span></label>
+              <input id="w-passportNumber" name="passportNumber" type="text" autocomplete="off">
+              <span data-review-label="Document number"></span>
+              <span class="field__error" data-error-for="passportNumber"></span>
+            </div>
+            <div class="field">
+              <label for="w-docType">Document type</label>
+              <select id="w-docType" data-kyc-doc-type>
+                <option value="passport">Passport</option>
+                <option value="national_id">National ID</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="w-docFile">Upload a scan or photo</label>
+              <input id="w-docFile" type="file" accept="application/pdf,image/jpeg,image/png" data-kyc-file-input>
+              <span class="field__optional">PDF, JPEG or PNG, up to 10MB</span>
+            </div>
+            <div class="field field--full">
+              <button type="button" class="btn btn--outline" data-kyc-upload-btn>Upload Document</button>
+              <p class="field__error" data-kyc-upload-error role="alert"></p>
+              <ul class="kyc-doc-list" data-kyc-doc-list></ul>
             </div>
           </div>
         </fieldset>
