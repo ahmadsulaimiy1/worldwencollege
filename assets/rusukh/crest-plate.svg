@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Dār al-Rusūkh — the watermark plate.
+     Drawn tall (320×400) to sit in the trailing edge of a masthead and
+     be cropped by it, the way a blind-stamp sits on headed paper. All
+     strokes, no fills: at 11% opacity a filled figure turns to mud
+     while a hairline stays a line. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 400">
+  <g fill="none" stroke="#C7A24A" stroke-width="2" stroke-linejoin="round">
+    <circle cx="160" cy="176" r="150"/>
+    <circle cx="160" cy="176" r="134" stroke-width="1"/>
+    <rect x="70" y="86" width="180" height="180"/>
+    <rect x="70" y="86" width="180" height="180" transform="rotate(45 160 176)"/>
+    <circle cx="160" cy="176" r="62"/>
+    <circle cx="160" cy="176" r="46" stroke-width="1"/>
+    <!-- eight radial spokes, the girih armature -->
+    <g stroke-width="1" opacity="0.7">
+      <path d="M160 26V86M160 266v60M10 176h60M250 176h60"/>
+      <path d="M54 70l42 42M224 240l42 42M266 70l-42 42M96 240l-42 42"/>
+    </g>
+    <!-- the base rule and date band -->
+    <path d="M40 356h240" stroke-width="1.5"/>
+    <path d="M92 380h136" stroke-width="1"/>
+  </g>
+</svg>

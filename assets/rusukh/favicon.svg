@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Dār al-Rusūkh — the crest, cut down for a 16px tab.
+     The two-square khātim survives the reduction; the outer hairline
+     ring and the inner glyph do not, so at this size the octagram is
+     drawn heavier and the ring is dropped entirely. A favicon is a
+     silhouette, not a miniature. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="8" fill="#0A1428"/>
+  <g fill="none" stroke="#D4AF37" stroke-width="3" stroke-linejoin="round">
+    <rect x="14" y="14" width="36" height="36"/>
+    <rect x="14" y="14" width="36" height="36" transform="rotate(45 32 32)"/>
+  </g>
+  <circle cx="32" cy="32" r="8" fill="#D4AF37"/>
+</svg>

@@ -6,6 +6,7 @@
   "comment_on_engines": "scripts/build.js alone would run on much older Node, but `npm test` needs 22+ for node:sqlite (see tests/README.md) — the honest minimum for full local development, not just the static build.",
   "scripts": {
     "build": "node scripts/build.js",
+    "build:rusukh": "node scripts/build-rusukh.js",
     "faculty": "node scripts/build-faculty.js && node scripts/build.js",
     "arabic": "node scripts/build-arabic.js && node scripts/build-arabic-levels.js && node scripts/build.js",
     "test": "node --experimental-sqlite tests/run.mjs",

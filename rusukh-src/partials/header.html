@@ -1,0 +1,50 @@
+<header class="r-header">
+  <div class="container r-header__inner">
+
+    <a class="r-lockup" href="/rusukh/" aria-label="Dār al-Rusūkh — home">
+      <!-- THE CREST
+           Two squares at 45° make the eight-point khātim, the oldest
+           ornament in the Islamic geometric repertoire and the one that
+           survives being shrunk to 28px in a nav bar. The ring is a
+           hairline because gold at this size reads as a line, not a
+           fill; the inner octagram is the only filled figure. No
+           photograph, no gradient, no drop shadow — a seal is struck,
+           not lit. -->
+      <svg class="r-crest" viewBox="0 0 64 64" role="img" aria-label="The College crest">
+        <circle cx="32" cy="32" r="30.5" fill="none" stroke="currentColor" stroke-width="1"/>
+        <circle cx="32" cy="32" r="27" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.55"/>
+        <g fill="none" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round">
+          <rect x="14" y="14" width="36" height="36"/>
+          <rect x="14" y="14" width="36" height="36" transform="rotate(45 32 32)"/>
+        </g>
+        <circle cx="32" cy="32" r="9.5" fill="currentColor" opacity="0.14"/>
+        <circle cx="32" cy="32" r="9.5" fill="none" stroke="currentColor" stroke-width="0.75"/>
+        <text x="32" y="36.5" class="r-crest__glyph" text-anchor="middle" lang="ar">ر</text>
+      </svg>
+
+      <span class="r-lockup__text">
+        <span class="r-lockup__name">Dār al-Rusūkh</span>
+        <span class="r-lockup__rule" aria-hidden="true"></span>
+        <span class="r-lockup__sub">College of Qur&rsquo;ānic &amp; Islamic Sciences</span>
+      </span>
+    </a>
+
+    <button class="r-burger" type="button" aria-expanded="false" aria-controls="r-nav"
+            aria-label="Open menu" data-nav-toggle>
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="r-nav" id="r-nav" aria-label="Primary">
+      <ul class="r-nav__list">
+        <li><a href="/rusukh/about/"         data-nav="about">The College</a></li>
+        <li><a href="/rusukh/faculties/"     data-nav="faculties">Faculties</a></li>
+        <li><a href="/rusukh/awards/"        data-nav="awards">Awards</a></li>
+        <li><a href="/rusukh/short-courses/" data-nav="short-courses">Short Courses</a></li>
+        <li><a href="/rusukh/fees/"          data-nav="fees">Fees</a></li>
+        <li><a href="/rusukh/admissions/"    data-nav="admissions">Admissions</a></li>
+      </ul>
+      <a class="btn btn--gold r-nav__cta" href="/rusukh/admissions/#apply">Request Placement</a>
+    </nav>
+
+  </div>
+</header>
