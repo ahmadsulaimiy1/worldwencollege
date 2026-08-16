@@ -345,81 +345,116 @@
   /* -------------------------------------------------------------------
      5 · TYPEWRITER
      -------------------------------------------------------------------
-     Exactly one line on the page does this, and it is not the h1 — the
-     headline is static, because a headline that types itself delays the
-     one sentence every visitor is there to read, and shifts layout
-     while they read it.
+     Never the h1 — a headline that types itself delays the one sentence
+     every visitor is there to read, and shifts layout while they read
+     it. Everything below a headline is fair game, and the page now
+     carries several: the hero's promise, the standard the College marks
+     against, the closing line before the application.
 
-     The phrases come from data-typeline (pipe-separated). The element
-     is given a fixed minimum height from its tallest phrase before
-     anything types, so the line below it never moves.
+     The phrases come from data-typeline (pipe-separated). Each host
+     reserves the width of its own longest phrase before anything types,
+     so the line below it never moves. A host may set its own pace with
+     data-typespeed="slow" where the phrase is long enough that the
+     default rate reads as hurried.
+
+     ONE TIMER PER HOST, and it only runs while the host is on screen.
+     A typewriter on the closing section that types continuously from
+     first paint has burned an hour of someone's battery arguing with
+     itself off-screen. IntersectionObserver gates every one of them.
      ------------------------------------------------------------------- */
   (function typewriter() {
-    var host = document.querySelector('[data-typeline]');
-    if (!host) return;
+    var hosts = toArray('[data-typeline]');
+    if (!hosts.length) return;
 
-    var phrases = (host.getAttribute('data-typeline') || '')
-      .split('|')
-      .map(function (s) { return s.trim(); })
-      .filter(Boolean);
-    if (!phrases.length) return;
+    hosts.forEach(function (host) {
+      var phrases = (host.getAttribute('data-typeline') || '')
+        .split('|')
+        .map(function (s) { return s.trim(); })
+        .filter(Boolean);
+      if (!phrases.length) return;
 
-    var out = document.createElement('span');
-    out.className = 'typeline__out';
-    var caret = document.createElement('span');
-    caret.className = 'typeline__caret';
-    caret.setAttribute('aria-hidden', 'true');
+      var out = document.createElement('span');
+      out.className = 'typeline__out';
+      var caret = document.createElement('span');
+      caret.className = 'typeline__caret';
+      caret.setAttribute('aria-hidden', 'true');
 
-    host.classList.add('typeline');
-    host.textContent = '';
-    host.appendChild(out);
-    host.appendChild(caret);
+      host.classList.add('typeline');
+      host.textContent = '';
+      host.appendChild(out);
+      host.appendChild(caret);
 
-    // A screen reader should get the whole set once, as a static
-    // phrase, rather than a character-by-character live region.
-    host.setAttribute('aria-label', phrases.join(', '));
-    out.setAttribute('aria-hidden', 'true');
+      // A screen reader should get the whole set once, as a static
+      // phrase, rather than a character-by-character live region.
+      host.setAttribute('aria-label', phrases.join(', '));
+      out.setAttribute('aria-hidden', 'true');
 
-    // Reserve the width of the longest phrase so the caret does not
-    // drag the layout back and forth as phrases change length.
-    var longest = phrases.reduce(function (a, b) { return b.length > a.length ? b : a; }, '');
-    out.textContent = longest;
-    host.style.minWidth = out.getBoundingClientRect().width + 'px';
-    out.textContent = '';
+      // Reserve the width of the longest phrase so the caret does not
+      // drag the layout back and forth as phrases change length.
+      var longest = phrases.reduce(function (a, b) { return b.length > a.length ? b : a; }, '');
+      out.textContent = longest;
+      host.style.minWidth = out.getBoundingClientRect().width + 'px';
+      out.textContent = '';
 
-    if (prefersReduced()) {
-      out.textContent = phrases[0];
-      caret.style.animation = 'none';
-      return;
-    }
-
-    var TYPE = 78, ERASE = 34, HOLD = 2100, BETWEEN = 420;
-    var pi = 0, ci = 0, erasing = false;
-
-    function tick() {
-      var phrase = phrases[pi];
-      if (!erasing) {
-        ci++;
-        out.textContent = phrase.slice(0, ci);
-        if (ci === phrase.length) {
-          erasing = true;
-          window.setTimeout(tick, HOLD);
-          return;
-        }
-        window.setTimeout(tick, TYPE);
-      } else {
-        ci--;
-        out.textContent = phrase.slice(0, ci);
-        if (ci === 0) {
-          erasing = false;
-          pi = (pi + 1) % phrases.length;
-          window.setTimeout(tick, BETWEEN);
-          return;
-        }
-        window.setTimeout(tick, ERASE);
+      if (prefersReduced()) {
+        out.textContent = phrases[0];
+        caret.style.animation = 'none';
+        return;
       }
-    }
-    window.setTimeout(tick, 700);
+
+      var slow = host.getAttribute('data-typespeed') === 'slow';
+      var TYPE = slow ? 116 : 78, ERASE = slow ? 46 : 34;
+      var HOLD = slow ? 3000 : 2100, BETWEEN = 420;
+      var pi = 0, ci = 0, erasing = false;
+      var timer = null, live = false, started = false;
+
+      function schedule(ms) {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(tick, ms);
+      }
+
+      function tick() {
+        if (!live) return;
+        var phrase = phrases[pi];
+        if (!erasing) {
+          ci++;
+          out.textContent = phrase.slice(0, ci);
+          if (ci === phrase.length) { erasing = true; schedule(HOLD); return; }
+          schedule(TYPE);
+        } else {
+          ci--;
+          out.textContent = phrase.slice(0, ci);
+          if (ci === 0) {
+            erasing = false;
+            pi = (pi + 1) % phrases.length;
+            schedule(BETWEEN);
+            return;
+          }
+          schedule(ERASE);
+        }
+      }
+
+      function setLive(on) {
+        if (on === live) return;
+        live = on;
+        if (on) { schedule(started ? 240 : 700); started = true; }
+        else window.clearTimeout(timer);
+      }
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { setLive(e.isIntersecting); });
+        }, { rootMargin: '0px 0px -10% 0px' }).observe(host);
+      } else {
+        setLive(true);
+      }
+
+      // A tab in the background should not be typing either.
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) window.clearTimeout(timer);
+        else if (live) schedule(BETWEEN);
+      });
+    });
   })();
 
   /* -------------------------------------------------------------------

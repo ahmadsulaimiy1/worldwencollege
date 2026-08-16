@@ -849,3 +849,132 @@
 .chapter--pathway .ledger--flagship td:nth-child(2) {
   color: rgba(247,244,236,.72); font-size: .9rem; max-width: 46ch;
 }
+
+/* =========================================================
+   THE INTERLEAVES
+   ---------------------------------------------------------
+   Two unnumbered bands — The Standard, and Enrolment. They
+   are not chapters: they carry no roman numeral and no
+   data-chapter, so js/motion.js does not give them a rail
+   dot and the I–IX sequence stays intact around them.
+   Padded a little tighter than a chapter for the same
+   reason a printed interleaf is a lighter stock than the
+   text block it sits between.
+   ========================================================= */
+.interleaf { padding: 96px 0; position: relative; }
+@media (max-width: 720px) { .interleaf { padding: 64px 0; } }
+.interleaf .chapter__num::after { content: none; }
+
+/* ---- The Standard ------------------------------------- */
+.standard__spread {
+  display: grid;
+  grid-template-columns: minmax(200px, 300px) 1fr;
+  gap: clamp(32px, 5vw, 76px);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .standard__spread { grid-template-columns: 1fr; }
+  .standard__object { justify-self: center; margin-bottom: 12px; }
+}
+.standard__object { position: sticky; top: calc(var(--header-h, 84px) + 40px); text-align: center; }
+@media (max-width: 900px) { .standard__object { position: static; } }
+.standard__caption {
+  margin-top: 34px;
+  display: inline-flex; align-items: center; gap: .5em;
+  font-family: var(--font-body); font-size: .68rem; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(247, 244, 236, .58);
+}
+.standard__typed {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.1rem, .92rem + .8vw, 1.5rem);
+  color: var(--gold-champagne);
+  margin: 0 0 1.6em; min-height: 1.6em;
+}
+
+/* The contrast list. Two answers to one question, the second
+   carrying the gold — so the eye lands on what the College
+   does rather than on what everyone else does, which is the
+   opposite of how a comparison table usually reads. */
+.contrast { margin: 0 0 38px; }
+.contrast__row {
+  display: grid;
+  grid-template-columns: minmax(120px, .8fr) 1fr 1.15fr;
+  gap: 10px clamp(14px, 2.4vw, 30px);
+  align-items: start;
+  padding: 20px 0;
+  border-top: 1px solid rgba(247, 244, 236, .12);
+}
+.contrast__row:last-child { border-bottom: 1px solid rgba(247, 244, 236, .12); }
+@media (max-width: 760px) {
+  .contrast__row { grid-template-columns: 1fr; gap: 8px; }
+}
+.contrast dt {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 1.02rem; color: var(--gold-champagne);
+  margin: 0;
+}
+.contrast dd { margin: 0; font-size: .92rem; line-height: 1.6; }
+.contrast__was { color: rgba(247, 244, 236, .52); }
+.contrast__is { color: rgba(247, 244, 236, .92); }
+.contrast__tag {
+  display: block;
+  font-family: var(--font-body); font-size: .58rem; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: rgba(247, 244, 236, .38);
+  margin-bottom: .5em;
+}
+.contrast__tag--gold { color: var(--gold); }
+/* The last row is the argument the rest of the band exists to
+   set up, so it is the one that carries a rule of its own. */
+.contrast__row--pointed .contrast__is {
+  border-left: 2px solid var(--gold-royal);
+  padding-left: 16px;
+}
+[dir="rtl"] .contrast__row--pointed .contrast__is {
+  border-left: 0; border-right: 2px solid var(--gold-royal);
+  padding-left: 0; padding-right: 16px;
+}
+
+/* ---- Enrolment ---------------------------------------- */
+.procession {
+  list-style: none; margin: 48px 0 0; padding: 0;
+  display: grid; gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  counter-reset: procession;
+}
+.procession__step {
+  position: relative;
+  padding: 30px 24px 26px;
+  border: 1px solid var(--line, rgba(20, 38, 74, .14));
+  border-radius: var(--r-sm, 6px);
+  background: rgba(255, 255, 255, .5);
+}
+.procession__mark {
+  display: grid; place-items: center;
+  width: 46px; height: 46px; margin-bottom: 16px;
+  border: 1px solid var(--gold-royal); border-radius: 50%;
+  color: var(--bronze);
+  background: radial-gradient(circle at 34% 28%, rgba(255, 250, 235, .8), transparent 68%);
+}
+.procession__num {
+  position: absolute; top: 18px; inset-inline-end: 20px;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: .78rem; letter-spacing: .08em;
+  color: var(--bronze);
+}
+.procession__step h3 {
+  font-family: var(--font-display); font-size: 1.06rem;
+  margin: 0 0 .55em; line-height: 1.25;
+}
+.procession__step p { margin: 0; font-size: .88rem; line-height: 1.62; color: var(--ink-soft); }
+
+/* The closing typed line, sitting between the CTA heading and
+   its lede. Centred, because the whole closing band is. */
+.cta__typed {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.05rem, .9rem + .7vw, 1.4rem);
+  color: var(--gold-champagne);
+  margin: 0 auto 1em; min-height: 1.6em;
+  justify-content: center;
+}

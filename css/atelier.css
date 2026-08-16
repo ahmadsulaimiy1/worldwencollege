@@ -896,6 +896,126 @@
 }
 
 /* =========================================================
+   THE MEDALLION — a struck coin, in actual three dimensions
+   ---------------------------------------------------------
+   Two faces and a rim on a preserve-3d stage. js/atelier.js
+   writes --medal-y / --medal-x; every transform lives here,
+   so the effect can be switched off from this file alone.
+
+   The reverse face is rotated 180deg and permanently
+   backface-visible:hidden on BOTH faces — that pairing is
+   what makes a coin read as one solid object rather than as
+   two cards stacked, and getting it wrong shows the obverse
+   ghosting through the reverse at shallow angles.
+   ========================================================= */
+.medallion {
+  --medal-y: 0deg;
+  --medal-x: 0deg;
+  --medal-size: 168px;
+  position: relative;
+  width: var(--medal-size);
+  height: var(--medal-size);
+  perspective: 900px;
+  flex-shrink: 0;
+  margin-inline: auto;
+}
+.medallion__stage {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--medal-y)) rotateX(var(--medal-x));
+  will-change: transform;
+}
+.medallion__face {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 2px solid var(--gold-royal);
+  background:
+    radial-gradient(circle at 32% 26%, rgba(255, 250, 235, .30), transparent 56%),
+    conic-gradient(from 210deg,
+      #8C6A3F 0deg, #F2E3C0 62deg, #D4AF37 128deg,
+      #A8863C 196deg, #F2E3C0 268deg, #8C6A3F 360deg);
+  box-shadow:
+    inset 0 0 0 6px rgba(20, 38, 74, .16),
+    inset 0 2px 14px rgba(255, 250, 235, .34),
+    0 18px 40px rgba(9, 18, 38, .42);
+  color: var(--midnight);
+}
+/* The milled rim: a ring of fine radial ticks, the way a struck
+   coin is knurled. Drawn with a repeating conic gradient rather
+   than 90 elements. */
+.medallion__face::before {
+  content: ""; position: absolute; inset: 5px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(20, 38, 74, .22) 0deg 1.1deg,
+    transparent 1.1deg 3.2deg);
+  -webkit-mask: radial-gradient(circle, transparent 0 86%, #000 87%);
+          mask: radial-gradient(circle, transparent 0 86%, #000 87%);
+  pointer-events: none;
+}
+.medallion__face--reverse { transform: rotateY(180deg); }
+.medallion__legend {
+  font-family: var(--font-ceremonial);
+  font-size: .58rem; font-weight: 600;
+  letter-spacing: .22em; text-transform: uppercase;
+  text-align: center; line-height: 1.5;
+  color: rgba(16, 32, 62, .82);
+  padding: 0 18%;
+}
+.medallion__figure {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2.3rem; font-weight: 700; line-height: 1;
+  color: var(--midnight);
+}
+.medallion .icon { width: 2.6rem; height: 2.6rem; stroke-width: 1; }
+
+/* The shadow the coin casts on the ground beneath it. Sits
+   outside the 3D stage so it does not rotate with the faces. */
+.medallion::after {
+  content: ""; position: absolute;
+  left: 12%; right: 12%; bottom: -13%;
+  height: 14%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(9, 18, 38, .42), transparent 72%);
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+/* =========================================================
+   DEPTH — decorative layers on their own plane
+   js/atelier.js writes the transform. Nothing that carries
+   real text may take this class: fractional compositor
+   offsets soften glyph edges on some GPUs.
+   ========================================================= */
+[data-depth] { will-change: transform; }
+
+/* =========================================================
+   THE LIT LEDGER
+   A warm band under the row the pointer is on, brightest at
+   the pointer's own column (--lit-x). Replaces zebra
+   striping, which turns a ledger into a spreadsheet.
+   ========================================================= */
+.ledger--flagship tbody tr { position: relative; transition: background-color .22s ease; }
+.ledger--flagship tbody tr.is-lit {
+  background-image: radial-gradient(
+    ellipse 60% 300% at var(--lit-x, 50%) 50%,
+    rgba(199, 162, 74, .17), rgba(199, 162, 74, .05) 62%, transparent);
+}
+.section--light .ledger--flagship tbody tr.is-lit,
+.section--warm  .ledger--flagship tbody tr.is-lit,
+.section--cream .ledger--flagship tbody tr.is-lit,
+.section--pearl .ledger--flagship tbody tr.is-lit {
+  background-image: radial-gradient(
+    ellipse 60% 300% at var(--lit-x, 50%) 50%,
+    rgba(140, 106, 63, .16), rgba(140, 106, 63, .05) 62%, transparent);
+}
+
+/* =========================================================
    REDUCED MOTION
    Same contract as brand.css: every rule resolves to the
    FINISHED state. Nothing here may leave content invisible.
@@ -917,6 +1037,12 @@
   .assemble__d { opacity: 1; transform: none; transition: none; }
   .gilt { --gilt: 1; }
   .magnetic, .tilt { transform: none; transition: none; }
+  /* The coin keeps its struck three-quarter angle — a static object,
+     not a flattened one — and simply stops turning. js/atelier.js sets
+     the same angle and registers no tick. */
+  .medallion__stage { transition: none; }
+  [data-depth] { transform: none !important; }
+  .ledger--flagship tbody tr { transition: none; }
   .aura { display: none; }
   .constellation { display: none; }
   @view-transition { navigation: none; }
