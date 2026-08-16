@@ -158,6 +158,12 @@ function markCurrentNav(header, navKey) {
 const BUILD_ID = (process.env.GITHUB_SHA || '').slice(0, 12);
 
 function build() {
+  // The icon sprite, read once rather than per page. Inlined rather than
+  // linked because `currentColor` does not inherit across an external
+  // <use> reference in several browsers — which is the whole mechanism
+  // that lets one symbol render on navy, on paper and in gold.
+  const icons = read(path.join(PARTIALS, 'icons.html')).trimEnd();
+
   const manifest = JSON.parse(read(path.join(SRC, 'manifest.json')));
   const seen = new Set();
   let count = 0;
@@ -197,6 +203,7 @@ ${head}
 </head>
 <body data-section="${entry.nav || 'root'}">
 <a class="skip-link" href="#main">Skip to main content</a>
+${icons}
 ${read(path.join(PARTIALS, 'topbar.html')).trimEnd()}
 ${markCurrentNav(read(path.join(PARTIALS, 'header.html')).trimEnd(), entry.nav)}
 <main id="main">
@@ -205,6 +212,8 @@ ${content}
 ${read(path.join(PARTIALS, 'footer.html')).trimEnd()}
 <script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
+<script src="/js/atelier.js" defer></script>
+<script src="/js/rusukh-clock.js" defer></script>
 </body>
 </html>
 `;

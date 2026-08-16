@@ -1,3 +1,9 @@
+/* NOTE: the header, topbar, nav and footer are now the shared institutional
+   components (.site-header / .topbar / .site-footer) from css/brand.css and
+   css/atelier.css, as used by WEC-LC. The bespoke .r-header / .r-nav /
+   .r-footer layer that stood here has been removed rather than left to rot.
+   .page-hero, the home hero and the page components below remain ours. */
+
 /* =========================================================================
    DĀR AL-RUSŪKH — house layer
    -------------------------------------------------------------------------
@@ -26,208 +32,12 @@ body[data-section] {
   letter-spacing: 0;
 }
 
-/* ---------------------------------------------------------------- topbar */
 
-.r-topbar {
-  background: var(--oxford);
-  color: var(--cerulean);
-  border-bottom: 1px solid rgba(199, 162, 74, 0.22);
-  font-size: 0.8rem;
-}
-
-.r-topbar__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  min-height: 40px;
-  flex-wrap: wrap;
-}
-
-.r-topbar__motto {
-  margin: 0;
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  color: var(--gold-soft);
-  letter-spacing: 0.02em;
-}
-
-.r-topbar__motto .r-ar { font-size: 1.02rem; }
-.r-topbar__sep { color: var(--steel); }
-.r-topbar__motto > span:last-child { color: var(--cerulean); font-style: italic; }
-
-.r-topbar__links { display: flex; gap: 22px; }
-
-.r-topbar__links a {
-  color: var(--cerulean);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  padding-bottom: 1px;
-}
-
-.r-topbar__links a:hover {
-  color: var(--gold-soft);
-  border-bottom-color: var(--gold-royal);
-}
-
-@media (max-width: 720px) {
-  .r-topbar__motto > span:last-child { display: none; }
-  .r-topbar__sep { display: none; }
-  .r-topbar__links { gap: 14px; font-size: 0.75rem; }
-}
-
-/* ---------------------------------------------------------------- header */
-
-.r-header {
-  position: sticky;
-  top: 0;
-  z-index: 60;
-  background: var(--navy);
-  border-bottom: 1px solid rgba(199, 162, 74, 0.3);
-}
-
-.r-header__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  min-height: 78px;
-}
-
-/* --- the lockup ---------------------------------------------------------
-   Crest, then a hairline, then the name. The rule between name and
-   descriptor is what makes a wordmark read as an institution's rather
-   than a product's: it is the letterhead gesture, borrowed exactly. */
-
-.r-lockup {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  text-decoration: none;
-  color: var(--gold-rich);
-  flex: 0 0 auto;
-}
-
-.r-crest {
-  width: 44px;
-  height: 44px;
-  flex: 0 0 auto;
-  color: var(--gold-rich);
-}
-
-.r-crest__glyph {
-  font-family: 'Amiri', serif;
-  font-size: 13px;
-  fill: currentColor;
-  stroke: none;
-}
-
-.r-lockup__text { display: flex; flex-direction: column; gap: 3px; }
-
-.r-lockup__name {
-  font-family: 'Cinzel', serif;
-  font-weight: 600;
-  font-size: 1.16rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gold-champagne);
-  line-height: 1;
-}
-
-.r-lockup__rule {
-  height: 1px;
-  background: linear-gradient(90deg, var(--gold-royal), rgba(199, 162, 74, 0));
-}
-
-.r-lockup__sub {
-  font-size: 0.66rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--cerulean);
-  line-height: 1.2;
-}
-
-/* --- nav ---------------------------------------------------------------- */
-
-.r-nav { display: flex; align-items: center; gap: 30px; }
-
-.r-nav__list {
-  display: flex;
-  gap: 26px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.r-nav__list a {
-  color: var(--ivory);
-  text-decoration: none;
-  font-size: 0.87rem;
-  letter-spacing: 0.03em;
-  padding: 6px 0;
-  border-bottom: 1.5px solid transparent;
-  white-space: nowrap;
-  transition: color 0.18s, border-color 0.18s;
-}
-
-.r-nav__list a:hover { color: var(--gold-soft); border-bottom-color: var(--gold-royal); }
-
-.r-nav__list a[aria-current="page"] {
-  color: var(--gold-champagne);
-  border-bottom-color: var(--gold-rich);
-}
-
-.r-nav__cta { flex: 0 0 auto; font-size: 0.84rem; padding: 11px 20px; }
-
-.r-burger {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  background: none;
-  border: 1px solid rgba(199, 162, 74, 0.4);
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.r-burger span {
-  display: block;
-  height: 1.5px;
-  width: 22px;
-  margin: 0 auto;
-  background: var(--gold-soft);
-}
-
-@media (max-width: 1040px) {
-  .r-burger { display: flex; }
-  .r-nav {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: var(--navy);
-    border-bottom: 1px solid rgba(199, 162, 74, 0.3);
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    padding: 8px 20px 22px;
-    display: none;
-  }
-  .r-nav[data-open] { display: flex; }
-  .r-nav__list { flex-direction: column; gap: 0; }
-  .r-nav__list a {
-    display: block;
-    padding: 14px 0;
-    border-bottom: 1px solid rgba(110, 147, 196, 0.18);
-  }
-  .r-nav__cta { margin-top: 18px; text-align: center; }
-}
-
-/* ------------------------------------------------------------- mastheads */
+/* ------------------------------------------------------------- mastheads
+   The inner-page masthead. pages.css gives .page-hero its structure and
+   its watermark slots; this sets the ground and the ink for THIS house —
+   sapphire raked in from the top-left over a midnight-to-oxford fall,
+   with the headline in champagne and the lede in cerulean. */
 
 .page-hero {
   background:
@@ -240,56 +50,6 @@ body[data-section] {
 .page-hero .eyebrow { color: var(--gold-soft); }
 .page-hero h1 { color: var(--gold-champagne); max-width: 20ch; }
 .page-hero .lede { color: var(--cerulean); max-width: 62ch; }
-
-/* --------------------------------------------------------- contents rail */
-
-.contents {
-  background: var(--oxford);
-  border-bottom: 1px solid rgba(199, 162, 74, 0.22);
-  position: sticky;
-  top: 78px;
-  z-index: 40;
-}
-
-.contents__inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 12px 24px;
-  display: flex;
-  align-items: baseline;
-  gap: 20px;
-  overflow-x: auto;
-}
-
-.contents__label {
-  font-family: 'Cinzel', serif;
-  font-size: 0.64rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--bronze);
-  filter: brightness(1.7);
-  white-space: nowrap;
-}
-
-.contents__list {
-  display: flex;
-  gap: 22px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.contents__list a {
-  color: var(--cerulean);
-  text-decoration: none;
-  font-size: 0.82rem;
-  white-space: nowrap;
-  border-bottom: 1px solid transparent;
-}
-
-.contents__list a:hover { color: var(--gold-soft); border-bottom-color: var(--gold-royal); }
-
-@media (max-width: 900px) { .contents { position: static; } }
 
 /* ============================================================ HOME: hero */
 
@@ -662,87 +422,6 @@ body[data-section] {
   .r-stage__when { grid-column: 2; text-align: left; padding-top: 10px; }
 }
 
-/* ============================================================ the footer */
-
-.r-footer {
-  background: var(--oxford);
-  color: var(--cerulean);
-  padding: 62px 0 0;
-  border-top: 3px solid var(--gold-royal);
-}
-
-.r-footer__top {
-  display: grid;
-  grid-template-columns: minmax(280px, 1.15fr) 2fr;
-  gap: 52px;
-  padding-bottom: 46px;
-}
-
-.r-footer__name {
-  font-family: 'Cinzel', serif;
-  font-size: 1.16rem;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--gold-champagne);
-  display: block;
-}
-
-.r-footer__ar { display: block; font-size: 1.5rem; color: var(--gold-soft); margin: 6px 0 16px; }
-.r-footer__line { margin: 0 0 12px; font-size: 0.9rem; line-height: 1.66; }
-.r-footer__line--quiet { color: var(--steel); font-size: 0.84rem; }
-
-.r-footer__cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(168px, 1fr)); gap: 34px; }
-
-.r-footer__head {
-  font-family: 'Cinzel', serif;
-  font-size: 0.66rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold-soft);
-  margin: 0 0 16px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(199, 162, 74, 0.28);
-}
-
-.r-footer__cols ul { list-style: none; margin: 0; padding: 0; }
-.r-footer__cols li { margin-bottom: 10px; }
-
-.r-footer__cols a {
-  color: var(--cerulean);
-  text-decoration: none;
-  font-size: 0.89rem;
-  border-bottom: 1px solid transparent;
-}
-
-.r-footer__cols a:hover { color: var(--gold-soft); border-bottom-color: var(--gold-royal); }
-
-.r-footer__bar {
-  border-top: 1px solid rgba(110, 147, 196, 0.2);
-  padding: 22px 0 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 24px;
-  flex-wrap: wrap;
-  font-size: 0.8rem;
-  color: var(--steel);
-}
-
-.r-footer__bar p { margin: 0; }
-
-.r-footer__standard { letter-spacing: 0.06em; }
-
-.r-footer__standard-key {
-  font-family: 'Cinzel', serif;
-  color: var(--gold-soft);
-  letter-spacing: 0.2em;
-  margin-right: 10px;
-}
-
-@media (max-width: 860px) {
-  .r-footer__top { grid-template-columns: 1fr; gap: 38px; }
-}
-
 /* ---------------------------------------------------------------- misc */
 
 .skip-link {
@@ -839,24 +518,36 @@ body[data-section] {
    margin; the bidi ORDER inside it is untouched and still correct. */
 .r-hero__ar { text-align: left; }
 
-/* ------------------------------------------------------ the narrow header
-   At 390px the lockup would not fit beside the burger: `flex: 0 0 auto`
-   forbade it from shrinking, and the descriptor line — thirty-six
-   characters at 0.16em tracking — is wider than a phone. The whole
-   document then scrolled sideways on every page, which is the one
-   layout fault a reader notices immediately and never forgives.
 
-   The descriptor is the part that goes. A crest and a name identify the
-   institution on a phone; the sub-line is a letterhead courtesy that
-   costs more than it gives at this width. */
 
-.r-lockup { flex: 0 1 auto; min-width: 0; }
-.r-lockup__text { min-width: 0; }
+/* ------------------------------------------------------------ the crest
+   The shared .crest__* rules were drawn for WEC's arms, where the crown
+   is a small figure at the top of a large shield and 1.2px of stroke is
+   plenty. Ours is the opposite shape: the khātim IS the mark, spanning
+   the full width, and at rail size (34px from a 48-unit viewBox) 1.2px
+   renders under a pixel and the eight points dissolve into the ring.
+   The octagram therefore takes a heavier stroke and the rings step back,
+   so the figure reads as a struck seal rather than a gold blob. */
 
-@media (max-width: 560px) {
-  .r-lockup__sub,
-  .r-lockup__rule { display: none; }
-  .r-lockup__name { font-size: 1.02rem; letter-spacing: 0.07em; }
-  .r-crest { width: 36px; height: 36px; }
-  .r-header__inner { min-height: 64px; gap: 12px; }
+.brand__crest .crest__crown { stroke-width: 1.9; opacity: .95; }
+.brand__crest .crest__shield { fill: rgba(199, 162, 74, .1); stroke-width: 1.1; }
+.brand__crest .crest__inner { opacity: .38; }
+.brand__crest .crest__book { stroke-width: 1; opacity: .55; }
+.brand__crest .crest__mono { font-size: 6.6px; letter-spacing: .6px; }
+
+/* ------------------------------------------------- the rail at phone width
+   brand.css sets every part of the lockup to `white-space: nowrap` — the
+   rail has one line to fit four groups on, and anything allowed to wrap
+   takes the whole band with it. WEC's descriptor is "London Campus", two
+   words; ours is "College of Qur'ānic & Islamic Sciences", thirty-six
+   characters, which at 390px pushed .header__actions 19px past the
+   viewport and scrolled every page of the site sideways.
+
+   The descriptor is what goes. A crest and a name identify the College on
+   a phone; the descriptor is a letterhead courtesy that costs more than it
+   gives at this width — and brand.css already withdraws it when the rail
+   condenses, so this only brings that behaviour forward. */
+
+@media (max-width: 620px) {
+  .brand__campus { display: none; }
 }
