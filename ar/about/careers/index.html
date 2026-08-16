@@ -931,79 +931,205 @@
 </header>
 
 <main id="main">
-<section class="page-hero section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">عن الكلية</span>
-    <h1 data-split>العمل في الكلية العالمية للغة الإنجليزية.</h1>
-    <p class="lede">الكلية في بدايتها. هذا هو التأطير الصادق لكل من يفكر في الانضمام إليها، وهو
-      أنفع من دعوة توحي بقسم راسخ. ما يلي هو ما هو مطلوب فعلًا وما الذي يفتحه كل منصب.</p>
-    <div class="btn-row">
-      <a href="mailto:info@worldwencollege.co.uk?subject=Interest%20in%20a%20post%20at%20WEC-LC" class="btn btn--gold">أبدِ اهتمامك</a>
+<!--
+  العمل في الكلية — الصفحة الفرعية تحت ركن &laquo;عن الكلية&raquo;.
+
+  مضبوطة في الأداة نفسها التي ضُبطت بها ‎/ar/about/‎: ترويسة، ثم أوراق
+  مرقّمة يحمل هامش كل واحدة رقمها وحاشيتها، ثم بيان ختامي. التنسيق في
+  css/college.css.
+
+  النبرة هنا أهدأ من نبرة صفحة الركن عن قصد. يقرأ هذه الصفحة شخص واحد
+  يقرّر إن كان سينفق سمعته الشخصية على مؤسسة لا سمعة لها بعد، والنافع
+  له ليس الحماسة بل قائمة ما هو غير قائم — قبل المحادثة الأولى لا
+  بعدها. وهذا المقطع كان أفضل ما في الصفحة السابقة، وقد صار الورقة
+  التي بُنيت عليها بدل بطاقة قرب الأسفل.
+
+  لا يحمل أي قسم هنا id، فلا تُنتج هذه الصفحة شريط محتويات: أربع أوراق
+  تُقرأ متتابعة، وشريط فوقها زينة لا أداة.
+-->
+
+<!-- ==================================================================
+     الترويسة
+     ================================================================== -->
+<section class="page-hero masthead">
+  <img class="masthead__plate" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></p>
+
+    <p class="masthead__eyebrow">عن الكلية &middot; العمل في الكلية</p>
+    <h1>العمل في الكلية العالمية للغة الإنجليزية.</h1>
+    <p class="lede">الكلية في بدايتها. هذا هو التأطير الصادق لكل من يفكر في الانضمام إليها، وهو أنفع من دعوة توحي بقسم راسخ. ما يلي هو ما هو مطلوب فعلًا، وما الذي يفتحه كل منصب، وما هو غير قائم بعد.</p>
+
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>المناصب</dt><dd>ثلاثة</dd></div>
+      <div class="masthead__fact"><dt>الارتباط</dt><dd>اثنان قد يكونان جزئيَّين</dd></div>
+      <div class="masthead__fact"><dt>موعد الإغلاق</dt><dd>لا يوجد</dd></div>
+    </dl>
+
+    <div class="btn-row" style="justify-content:center">
+      <a href="mailto:info@worldwencollege.co.uk?subject=Interest%20in%20a%20post%20at%20WEC-LC" class="btn btn--gold magnetic aurum aurum--twin">أبدِ اهتمامك<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </div>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
   </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">ما نبحث عنه</span>
+<!-- ==================================================================
+     الأولى · المناصب
+     ================================================================== -->
+<section class="leaf section--paper">
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num">١</span>
+      <span class="leaf__label">المناصب</span>
+      <p class="leaf__rubric">ثلاثة، مرتّبة بما يفتحه كل منها لا بأقدميته.</p>
+    </div>
+    <div class="leaf__body reveal">
       <h2>ثلاثة مناصب، بترتيب ما تفتحه.</h2>
-      <p class="lede">اثنان منها يمكن أن يكونا ارتباطًا جزئيًا أو استشاريًا لا وظيفة براتب.
-        يُقال هذا لأنه صحيح، لا للتقليل منهما.</p>
-    </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">الأول</span>
-        <h3>مراجع أكاديمي</h3>
-        <p>ماجستير في تدريس الإنجليزية أو اللسانيات التطبيقية أو ما يعادلهما، مع خبرة في التقييم. عدد محدد من الأيام لقراءة قائمة محددة. كل ما أنتجته الكلية من منشورات لم يراجعه بعدُ أحدٌ لم يكتبه، وهذا المنصب يغيّر ذلك أكثر من أي منصب آخر.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">الثاني</span>
-        <h3>معلم ممارس</h3>
-        <p>أي مستوى، وأي عدد من الساعات. معلم واحد ودفعة واحدة وفصل واحد ينتج الدليل الصفي الذي تفتقر إليه الكلية كليًا — والذي لا يُستنتَج، إنما يُشاهَد.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">الثالث</span>
-        <h3>ممتحن خارجي</h3>
-        <p>ممارسة قطاعية معيارية، يُرتبط به لكل دورة. المنصب الوحيد الذي وظيفته كلها أن يكون خارج الكلية، والذي يجب شغله قبل أن تُمنح أي شهادة.</p>
+      <p class="lede">اثنان منها يمكن أن يكونا ارتباطًا جزئيًا أو استشاريًا لا وظيفة براتب. يُقال هذا لأنه صحيح، لا للتقليل منهما &mdash; فعدد محدد من الأيام من الشخص المناسب أنفع هنا من تعيين متفرّغ للشخص غير المناسب.</p>
+
+      <div class="tenets">
+        <div class="tenet">
+          <span class="tenet__num">١</span>
+          <div>
+            <h3>مراجع أكاديمي</h3>
+            <p>ماجستير في تدريس الإنجليزية أو اللسانيات التطبيقية أو ما يعادلهما، مع خبرة في التقييم. عدد محدد من الأيام لقراءة قائمة محددة. كل ما أنتجته الكلية من منشورات لم يراجعه بعدُ أحدٌ لم يكتبه، وهذا المنصب يغيّر ذلك أكثر من أي منصب آخر.</p>
+            <span class="vacancy__blocks" style="color:var(--burgundy);border-color:rgba(122,26,42,.32)">يفتح المراجعة</span>
+          </div>
+        </div>
+        <div class="tenet">
+          <span class="tenet__num">٢</span>
+          <div>
+            <h3>معلم ممارس</h3>
+            <p>أي مستوى، وأي عدد من الساعات. معلم واحد ودفعة واحدة وفصل واحد ينتج الدليل الصفي الذي تفتقر إليه الكلية كليًا &mdash; والذي لا يُستنتَج، إنما يُشاهَد.</p>
+            <span class="vacancy__blocks" style="color:var(--burgundy);border-color:rgba(122,26,42,.32)">يفتح الدليل الصفي</span>
+          </div>
+        </div>
+        <div class="tenet">
+          <span class="tenet__num">٣</span>
+          <div>
+            <h3>ممتحن خارجي</h3>
+            <p>ممارسة قطاعية معيارية، يُرتبط به لكل دورة. المنصب الوحيد الذي وظيفته كلها أن يكون خارج الكلية، والذي يجب شغله قبل أن تُمنح أي شهادة.</p>
+            <span class="vacancy__blocks" style="color:var(--burgundy);border-color:rgba(122,26,42,.32)">يفتح منح الشهادة</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">ما الذي تنضم إليه</span>
+<!-- ==================================================================
+     الثانية · ما الذي تنضم إليه  ·  السجلّ
+     ================================================================== -->
+<section class="leaf section--light">
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num">٢</span>
+      <span class="leaf__label">ما هو قائم</span>
+      <p class="leaf__rubric">العمودان معًا، قبل المحادثة الأولى لا بعدها.</p>
+    </div>
+    <div class="leaf__body reveal">
       <h2>ما هو قائم، بوضوح.</h2>
-    </div>
-    <div class="grid grid--2">
-      <div class="card">
-        <span class="card__num">قائم</span>
-        <h3>برنامج كامل</h3>
-        <p>ستة مستويات، وستون وحدة، وكل درس مخطط مرحلةً مرحلة، وكل تقييم مكتوب بمعايير منشورة، ومجموعة مجلدات منشورة تغطي المنهج والتقييم والتدريس.</p>
+      <p class="lede">المرشّح ينفق سمعته الشخصية على هذا. والعمود الثاني أدناه هو ما يهمّه فعلًا، فهو منشور بالعناية نفسها التي نُشر بها الأول.</p>
+
+      <div class="register">
+        <div class="register__col">
+          <div class="register__head">
+            <svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg>
+            <h3>قائم اليوم</h3>
+            <span class="register__count">٥</span>
+          </div>
+          <ul class="register__list register__list--held">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>ستة مستويات وستون وحدة، مكتملة بوصفها هيكلًا</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>كل درس مخطَّط مرحلةً مرحلة، بتوقيتاته ومتطلباته</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>كل تقييم مكتوب، ومعاييره منشورة قبله</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>مجلدات منشورة تغطي المنهج والتقييم والتدريس</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>منصة مبنية لهذا البرنامج، بسجلٍّ يملكه المتعلم</span></li>
+          </ul>
+        </div>
+
+        <div class="register__col register__col--open">
+          <div class="register__head">
+            <svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg>
+            <h3>غير قائم</h3>
+            <span class="register__count">٥</span>
+          </div>
+          <ul class="register__list register__list--open">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>الاعتماد</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>ممتحن خارجي</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>أعضاء مُعيَّنون في مجلس المعايير &mdash; العدد صفر</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>دفعة مُدرَّسة</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>خريجون</span></li>
+          </ul>
+          <p class="register__note">كل ما في هذا العمود يحتاج إلى أشخاص، وهذا هو سبب وجود هذه الصفحة كلها. وينبغي أن يعرفه المرشّح قبل المحادثة الأولى لا بعدها.</p>
+        </div>
       </div>
-      <div class="card">
-        <span class="card__num">غير قائم</span>
-        <h3>كل ما يحتاج أشخاصًا</h3>
-        <p>لا اعتماد، ولا ممتحن خارجي، ولا أعضاء مجالس معيَّنين، ولا دفعة دُرّست، ولا خريجين. ينبغي أن يعرف المرشح هذا قبل المحادثة الأولى، لا بعدها.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الثالثة · كيف تُبدي اهتمامك
+     ================================================================== -->
+<section class="leaf section--oxford grain">
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num">٣</span>
+      <span class="leaf__label">كيف تتقدّم</span>
+      <p class="leaf__rubric">عنوان واحد، بلا بوابة تقديم وبلا موعد إغلاق.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>اكتب، مسمّيًا المنصب.</h2>
+      <p class="lede">لا توجد بوابة تقديم ولا موعد إغلاق. تُشغَل هذه المناصب حين يوجد الشخص المناسب لا وفق جدول، ويقرأ الرسالة الأولى عضو من الفريق المؤسِّس لا نظام آليّ.</p>
+
+      <div class="separation">
+        <div class="sep__role">
+          <span class="sep__disc"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
+          <h3>اكتب</h3>
+          <p>إلى <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a>، مسمّيًا أيّ المناصب الثلاثة تقصد.</p>
+        </div>
+        <span class="sep__rel" aria-hidden="true">&larr;</span>
+        <div class="sep__role">
+          <span class="sep__disc"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
+          <h3>اقرأ أولًا</h3>
+          <p>المجلدات التي ستراجعها منشورة. اقرأ واحدًا قبل أن تكتب، وقل رأيك فيه.</p>
+        </div>
+        <span class="sep__rel" aria-hidden="true">&larr;</span>
+        <div class="sep__role">
+          <span class="sep__disc"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
+          <h3>الشروط</h3>
+          <p>تُتفق الأيام والنطاق والأتعاب كتابةً قبل بدء أي عمل، وكذلك في الارتباط الجزئي.</p>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:2.4em">
+        <a href="mailto:info@worldwencollege.co.uk?subject=Interest%20in%20a%20post%20at%20WEC-LC" class="btn btn--gold magnetic aurum aurum--twin">أبدِ اهتمامك<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a href="/ar/press/catalogue/" class="btn btn--ghost magnetic">اقرأ الفهرس أولًا</a>
       </div>
     </div>
-    <div class="callout">
-      <span class="callout__label">كيف تُبدي اهتمامك</span>
-      <p>اكتب إلى <a href="mailto:info@worldwencollege.co.uk" dir="ltr">info@worldwencollege.co.uk</a>
-        مسمّيًا المنصب. لا بوابة تقديم ولا موعد إغلاق؛ هذه المناصب تُشغل حين يوجد الشخص المناسب
-        لا وفق جدول.</p>
-    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     البيان الختامي
+     ================================================================== -->
+<section class="colophon section--paper">
+  <div class="container reveal">
+    <p class="masthead__rule colophon__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></p>
+    <p>المناصب في هذه الصفحة هي التي تشغلها الكلية أولًا، وترتيبها هو ترتيب ما يفتحه كل منها مما لا تستطيع المؤسسة الاستغناء عنه. وحين يُشغل منصب ينتقل إلى <a href="/ar/governance/evidence/">سجل الأدلة</a> بدل أن يختفي من هذه الصفحة بهدوء.</p>
+    <dl>
+      <div><dt>المناصب</dt><dd>ثلاثة</dd></div>
+      <div><dt>بوابة التقديم</dt><dd>لا يوجد</dd></div>
+      <div><dt>التواصل</dt><dd>info@worldwencollege.co.uk</dd></div>
+    </dl>
   </div>
 </section>
 
 <section class="section--dark cta-band">
   <div class="container reveal">
-    <h2>اقرأ ما الذي ستراجعه.</h2>
+    <h2>اقرأ ما ستراجعه.</h2>
     <div class="btn-row u-center">
-      <a href="/ar/academics/#levels" class="btn btn--gold">برنامج IEFC</a>
-      <a href="/ar/governance/#quality" class="btn btn--outline">معاييرنا</a>
+      <a href="/ar/academics/#levels" class="btn btn--gold">برنامج <span dir="ltr">IEFC</span></a>
+      <a href="/ar/governance/#quality" class="btn btn--outline">المعايير التي تُحاسَب عليها</a>
     </div>
   </div>
 </section>

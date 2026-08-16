@@ -1,138 +1,406 @@
-<section class="section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">عن الكلية</span>
+<!--
+  عن الكلية — الصفحة الرئيسية للركن.
+
+  النسخة العربية من pages/about.html، مضبوطة في الأداة نفسها:
+  ترويسة، ثم أوراق مرقّمة يحمل هامش كل واحدة رقمها وحاشيتها، ثم سجلّ،
+  ثم بيان ختامي. التنسيق في css/college.css.
+
+  العلامتان في السجلّ مختلفتان عن قصد. كانت النسختان العربية
+  والإنجليزية تضعان علامة الصح نفسها أمام ما هو مؤكد وأمام ما لا يزال
+  قيد الإنجاز — أي أن صفحةً حجّتها كلها أنها تنشر ما ليس صحيحًا بعد،
+  كانت تضع علامة الإنجاز على ما لم يُنجز. صار المؤكد يحمل ختمًا
+  (‎#i-struck‎) وغير المؤكد يحمل حلقة مفتوحة (‎#i-ring‎)، ولا تتطابق
+  العلامتان أبدًا.
+
+  المراسي التي تربطها القائمة العلوية العربية — ‎#vision‎ و‎#philosophy‎
+  و‎#structure‎ و‎#status‎ — يجب أن تبقى في أي إعادة ترتيب لهذا الملف.
+  وكل قسم يحمل id يُدرج تلقائيًا في شريط المحتويات؛ انظر
+  tests/contents-rail.test.mjs.
+-->
+
+<!-- ==================================================================
+     الترويسة
+     ================================================================== -->
+<section class="page-hero masthead">
+  <img class="masthead__plate" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></p>
+
+    <p class="masthead__eyebrow">الكلية العالمية للغة الإنجليزية &middot; الحرم الجامعي في لندن</p>
     <h1>قناعة واحدة، وبرنامج واحد مبنيّ عليها: إتقان الإنجليزية يقرّر من يُسمع صوته.</h1>
-    <p class="lede">الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن، مؤسسة دولية لتعليم اللغة الإنجليزية ببرنامج واحد: دورة الطلاقة الإنجليزية الدولية، ستة مستويات موائمة للإطار الأوروبي المرجعي، يُدرَّس ويُقيَّم عبر الإنترنت، لطلاب في كل مكان حول العالم.</p>
+    <p class="lede">مؤسسة دولية لتعليم اللغة الإنجليزية ببرنامج واحد &mdash; دورة الطلاقة الإنجليزية الدولية، ستة مستويات موائمة للإطار الأوروبي المرجعي، تُدرَّس وتُقيَّم عبر الإنترنت، لطلاب في كل مكان حول العالم.</p>
+
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>التأسيس</dt><dd>٢٠٢٣</dd></div>
+      <div class="masthead__fact"><dt>التكليف الرسمي</dt><dd>١٠ نوفمبر ٢٠٢٤</dd></div>
+      <div class="masthead__fact"><dt>المقر</dt><dd>لندن</dd></div>
+      <div class="masthead__fact"><dt>التدريس</dt><dd>عبر الإنترنت عالميًا</dd></div>
+    </dl>
+
+    <p class="masthead__motto">&laquo;تمكين العالم من خلال التميّز في اللغة الإنجليزية.&raquo;</p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
   </div>
 </section>
 
-<section class="section--light section-pad" id="vision" data-contents="الرؤية والرسالة">
-  <div class="container two-col reveal">
-    <div>
-      <span class="module-marker">الرؤية</span>
-      <h2>الوجهة.</h2>
-      <blockquote class="pull-quote">أن نصبح واحدة من أبرز المؤسسات العالمية لتعليم اللغة الإنجليزية، معترفًا بتميّزها في التعليم اللغوي والابتكار والنزاهة الأكاديمية ونجاح الخريجين.</blockquote>
+<!-- ==================================================================
+     الأولى · نموذج التشغيل
+     ================================================================== -->
+<section class="leaf section--paper" id="operating-model" data-contents="نموذج التشغيل">
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num">١</span>
+      <span class="leaf__label">نموذج التشغيل</span>
+      <p class="leaf__rubric">ما تعنيه عبارة &laquo;الحرم الجامعي في لندن&raquo;، وما لا تعنيه.</p>
     </div>
-    <div id="mission">
-      <span class="module-marker">الرسالة</span>
-      <h2>التعهّد.</h2>
-      <ul class="check-list">
-        <li>تدريس الإنجليزية وفق معيار منشور، مستوى بعد مستوى، من A1 إلى C2.</li>
-        <li>تطوير متحدّثين واثقين وطليقين ومؤهّلين أكاديميًا.</li>
-        <li>إعداد المتعلمين للدراسة الدولية والتوظيف والتواصل المهني.</li>
-        <li>بناء الأداة التي يحتاجها البرنامج، بدل ترخيص أداة بُنيت لغرض آخر.</li>
-        <li>الوصول إلى المتعلمين حول العالم بالشروط نفسها، وبأسعار منشورة بعملاتهم.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head center">
-      <span class="module-marker">القيم الجوهرية</span>
-      <h2>ما نلتزم به.</h2>
-    </div>
-    <div class="grid grid--4">
-      <div class="card"><h3>التميّز الأكاديمي</h3></div>
-      <div class="card"><h3>النزاهة</h3></div>
-      <div class="card"><h3>الابتكار</h3></div>
-      <div class="card"><h3>الاحترافية</h3></div>
-      <div class="card"><h3>الشمولية</h3></div>
-      <div class="card"><h3>التعلّم مدى الحياة</h3></div>
-      <div class="card"><h3>المواطنة العالمية</h3></div>
-      <div class="card"><h3>التعليم المتمحور حول الطالب</h3></div>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">لمن بُنيت</span>
-      <h2>بُنيت لقارئ يتحقق من الادّعاءات.</h2>
-      <p class="lede">للعائلات والمهنيين والمؤسسات في دول الخليج وأوروبا وأفريقيا وآسيا — لطلاب يقرؤون ما يشترونه قبل أن يشتروه. لهذا القارئ تكتب الكلية: المنهج الكامل والأسعار والسياسات والوضع المؤسسي الحالي، كلها منشورة قبل التسجيل، بالإنجليزية والعربية.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad" id="operating-model" data-contents="نموذج التشغيل">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">نموذج التشغيل</span>
+    <div class="leaf__body reveal">
       <h2>رقمية أولًا بالتصميم. مقرها الإداري في لندن.</h2>
-      <p class="lede">تشير عبارة "الحرم الجامعي في لندن" إلى المقر الإداري والتنظيمي للكلية — وليست ادّعاءً بوجود حرم جامعي فعلي تُلقى فيه الدروس، ولم تشر يومًا إلى أكثر من موقع واحد. الكلية رقمية أولًا بالتصميم: يُدرَّس كل مستوى من برنامج <span dir="ltr">IEFC</span> ويُقيَّم داخل الحرم الرقمي، بحيث يدرس طالب في لاغوس أو الرياض أو مانيلا بالشروط نفسها التي يدرس بها طالب في لندن. هذه هي البنية التي اختارتها الكلية، وهي سبب أن يُدرَّس المتعلم أينما كان وفق معيار واحد، لا وفق المعيار الذي يصادف أن يحمله وكيل محلي.</p>
-    </div>
-    <div class="grid grid--2">
-      <div class="card"><h3>ماذا تعني "الحرم الجامعي في لندن"</h3><p>المقر الإداري والتنظيمي للكلية، ومقر حوكمتها — البيت القانوني والعلامة التجارية للكلية العالمية للغة الإنجليزية.</p></div>
-      <div class="card"><h3>ماذا لا تعنيه</h3><p>لا تعني مبنى فعليًا تُلقى فيه الدروس، ولا شبكة من الحرم الجامعية الإقليمية. كل طالب، في أي مكان، يدرس عبر الحرم الرقمي ذاته.</p></div>
+      <p class="lede">تشير عبارة &laquo;الحرم الجامعي في لندن&raquo; إلى المقر الإداري والتنظيمي للكلية &mdash; وليست ادّعاءً بوجود حرم جامعي فعلي تُلقى فيه الدروس، ولم تشر يومًا إلى أكثر من موقع واحد. الكلية رقمية أولًا بالتصميم: يُدرَّس كل مستوى من برنامج <span dir="ltr">IEFC</span> ويُقيَّم داخل الحرم الرقمي، بحيث يدرس طالب في لاغوس أو الرياض أو مانيلا بالشروط نفسها التي يدرس بها طالب في لندن.</p>
+      <p>هذه هي البنية التي اختارتها الكلية، وهي سبب أن يُدرَّس المتعلم أينما كان وفق معيار واحد، لا وفق المعيار الذي يصادف أن يحمله وكيل محلي.</p>
+
+      <div class="separation">
+        <div class="sep__role">
+          <span class="sep__disc"><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg></span>
+          <h3>ماذا تعني</h3>
+          <p>المقر الإداري والتنظيمي للكلية، ومقر حوكمتها &mdash; البيت القانوني والعلامة التجارية للكلية.</p>
+        </div>
+        <span class="sep__rel" aria-hidden="true">&ne;</span>
+        <div class="sep__role">
+          <span class="sep__disc"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
+          <h3>ماذا لا تعنيه</h3>
+          <p>لا تعني مبنى فعليًا تُلقى فيه الدروس، ولا شبكة من الحرم الجامعية الإقليمية. كل طالب، في أي مكان، يدرس عبر الحرم الرقمي ذاته.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:2.4em">لمن كُتبت هذه الصفحة</h3>
+      <p>للعائلات والمهنيين والمؤسسات في دول الخليج وأوروبا وأفريقيا وآسيا &mdash; لقرّاء يتحققون مما يشترونه قبل أن يشتروه. لهذا القارئ تكتب الكلية: المنهج الكامل والأسعار والسياسات والوضع المؤسسي الحالي، كلها منشورة قبل التسجيل، بالإنجليزية والعربية.</p>
     </div>
   </div>
 </section>
 
-<section class="section--paper section-pad" id="philosophy" data-contents="الفلسفة التربوية">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الفلسفة التربوية</span>
-      <h2>ما تعتقده الكلية في تعلّم الإنجليزية.</h2>
-      <p class="lede">خمسة مواقف تشكّل كل درس: اللغة تُكتسب بالاستعمال لا بالتلقي، فالتحدث يبدأ
-        من الدرس الأول قبل أن تجهز القواعد؛ والاستماع عمود البرنامج، قليلًا يوميًا لا طويلًا
-        أسبوعيًا؛ والمعيار يُكتب قبل التدريس لا يُجمَّع بعده؛ والمهارات الأربع تُقاس منفصلة
-        لأن الدرجة الواحدة تخفي موضع الضعف الحقيقي؛ والخطأ مادة التعلم لا دليل فشله، ولذلك
-        تُكتب الأخطاء المتوقعة في خطة الدرس سلفًا. هذه المواقف قابلة للنقاش، ونشرها صراحةً
-        هو ما يجعلها قابلة له.</p>
+<!-- ==================================================================
+     الثانية · الوضع المؤسسي  ·  السجلّ
+     ================================================================== -->
+<section class="leaf section--light" id="status" data-contents="الوضع المؤسسي">
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num">٢</span>
+      <span class="leaf__label">الوضع المؤسسي</span>
+      <p class="leaf__rubric">عمودان وعلامتان. ولا شيء غير مكتمل يحمل علامة الإنجاز.</p>
     </div>
-  </div>
-</section>
-
-<section class="section--light section-pad" id="structure" data-contents="التنظيم">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">التنظيم</span>
-      <h2>كيف تُنظَّم الكلية.</h2>
-      <p class="lede">يفصل الهيكل بين الحكم الأكاديمي والحوكمة المؤسسية وضمان الجودة والإدارة
-        اليومية: مجلس أمناء يملك الإشراف الاستراتيجي، ومجلس أكاديمي هو أعلى سلطة أكاديمية،
-        وإدارة تنفيذية تدير التشغيل ولا تضع المعايير التي تعمل تحتها، ودار نشر تصدر المناهج،
-        ومنصة رقمية تحمل التدريس. والمناصب غير المشغولة — الممتحن الخارجي وأعضاء مجلس
-        المعايير — مذكورة في <a href="/ar/governance/">صفحة الحوكمة</a> مع ما يعطّله كل
-        منها.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--light section-pad" id="status" data-contents="الوضع المؤسسي">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الوضع المؤسسي</span>
+    <div class="leaf__body reveal">
       <h2>ما هو مؤكد، وما لا يزال قيد البناء.</h2>
-      <p class="lede">الثقة تُبنى بالدقة، لا بالوعود. هذا هو الوضع الحالي للكلية.</p>
-    </div>
-    <div class="grid grid--2">
-      <div class="card">
-        <h3>مؤكد اليوم</h3>
-        <ul class="check-list">
-          <li>تأسست الكلية عام 2023، وبدأ تكليفها الرسمي في 10 نوفمبر 2024</li>
-          <li>اسم المؤسسة، شعارها، رؤيتها، رسالتها وقيمها الجوهرية</li>
-          <li>هيكل برنامج <span dir="ltr">IEFC</span> الكامل — ستة مستويات، توافق مع <span dir="ltr">CEFR</span>، المنهج والمنهجية</li>
-          <li>هيكل الرسوم الدراسية والتسعير لكل مستوى</li>
-          <li>عملية القبول والفئة المستهدفة من المتعلمين</li>
-          <li>نموذج العمل — تعليم رقمي أولًا حول العالم، مع مقر إداري في لندن</li>
-          <li>القيادة الأكاديمية المُسمّاة وسجل هيئة التدريس (انظر <a href="/ar/faculty/#roster">هيئة التدريس</a>)</li>
-        </ul>
+      <p class="lede">الثقة تُكتسب بالدقة لا بالوعود. هذا هو الوضع الحالي للكلية، والعمود الثاني منشور بالعناية نفسها التي نُشر بها الأول.</p>
+
+      <div class="register">
+        <div class="register__col">
+          <div class="register__head">
+            <svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg>
+            <h3>مؤكد اليوم</h3>
+            <span class="register__count">٧</span>
+          </div>
+          <ul class="register__list register__list--held">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>تأسست الكلية عام 2023، وبدأ تكليفها الرسمي في 10 نوفمبر 2024</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>اسم المؤسسة، شعارها، رؤيتها، رسالتها وقيمها الجوهرية</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>هيكل برنامج <span dir="ltr">IEFC</span> الكامل &mdash; ستة مستويات، توافق مع <span dir="ltr">CEFR</span>، المنهج والمنهجية</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>هيكل الرسوم الدراسية والتسعير لكل مستوى</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>عملية القبول والفئة المستهدفة من المتعلمين</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>القيادة الأكاديمية المُسمّاة وسجل هيئة التدريس (انظر <a href="/ar/faculty/#roster">هيئة التدريس</a>)</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>نموذج العمل &mdash; تعليم رقمي أولًا حول العالم، مع مقر إداري في لندن</span></li>
+          </ul>
+        </div>
+
+        <div class="register__col register__col--open">
+          <div class="register__head">
+            <svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg>
+            <h3>قيد الإنجاز</h3>
+            <span class="register__count">٤</span>
+          </div>
+          <ul class="register__list register__list--open">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>عنوان المقر الإداري المسجَّل في لندن</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>الاعتمادات الرسمية وشراكات ضمان الجودة الخارجية</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>التقويم الأكاديمي وتاريخ بدء الدفعة الأولى</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>اكتمال محتوى الدروس داخل كل وحدة &mdash; الوحدات الستون كلها قائمة، والدروس داخلها لا تزال قيد الكتابة</span></li>
+          </ul>
+          <p class="register__note">كل بند هنا منشور قبل أن يُنجز، ولا ينتقل إلى العمود الآخر إلا حين يُنجز فعلًا. والعلامة في هذا الجانب حلقة مفتوحة لا علامة صح، لأن علامة الصح أمام عمل غير مكتمل هي أصغر كذبة ممكنة وأسهلها وقوعًا بغير قصد.</p>
+        </div>
       </div>
-      <div class="card">
-        <h3>قيد الإنجاز — سيُنشر هنا فور تأكيده</h3>
-        <ul class="check-list">
-          <li>عنوان المقر الإداري المسجَّل في لندن</li>
-          <li>الاعتمادات الرسمية وشراكات ضمان الجودة الخارجية</li>
-          <li>التقويم الأكاديمي وتاريخ بدء الفوج الأول</li>
-        </ul>
+
+      <div class="callout" style="margin-top:2.2em">
+        <span class="callout__label">التزام الكلية</span>
+        <p>تذكر الكلية ما لم يكتمل بدل أن تقدّم ادّعاءً ناقصًا على أنه أمر مستقر. وكل قسم في هذا الموقع مكتوب وفق هذه القاعدة، بما في ذلك هذا القسم.</p>
       </div>
     </div>
-    <div class="callout">
-      <span class="callout__label">التزامنا</span>
-      <p>نفضّل أن نخبرك بوضوح بما لم يكتمل بعد، على أن نُقدّم ادّعاءً غير مكتمل وكأنه حقيقة راسخة. كل قسم في هذا الموقع يتبع هذه القاعدة — بما في ذلك هذا القسم.</p>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الثالثة · الرؤية
+     ================================================================== -->
+<section class="leaf section--oxford grain" id="vision" data-contents="الرؤية">
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num">٣</span>
+      <span class="leaf__label">الرؤية</span>
+      <p class="leaf__rubric">وجهة، منشورة بوصفها وجهة لا وصفًا للحال.</p>
     </div>
+    <div class="leaf__body reveal">
+      <h2>طموح، مذكور بوصفه طموحًا.</h2>
+
+      <blockquote class="pull-quote">أن تصبح إحدى المؤسسات الرائدة عالميًا في تعليم اللغة الإنجليزية، معروفةً بالتميّز في التعليم والابتكار والنزاهة الأكاديمية ونجاح خريجيها.</blockquote>
+
+      <p class="lede">هذه الجملة وجهة، لا وصفًا. الكلية مؤسسة حديثة: لا تحمل اعتمادًا، ولم تمنح شهادة، ولم تُدرّس دفعة. ونشر الرؤية لا يغيّر شيئًا من ذلك، وهذه الصفحة لا تدّعي غير ذلك.</p>
+
+      <div class="tenets">
+        <div class="tenet">
+          <span class="tenet__num">١</span>
+          <div>
+            <h3>الاعتراف يُكتسب من الخارج</h3>
+            <p>الاعتراف يعني أن تشهد جهات خارجية بالجودة &mdash; اعتماد، وامتحان خارجي، وتزكية مهنية. ولا يمكن منح أيٍّ من ذلك ذاتيًا، ولم تحصل الكلية على أيٍّ منه. وهي تبني الأدلة التي تطلبها تلك الجهات بدل أن تصف نفسها كما لو أنها طلبتها بالفعل.</p>
+          </div>
+        </div>
+        <div class="tenet">
+          <span class="tenet__num">٢</span>
+          <div>
+            <h3>التميّز معيار لا ادّعاء</h3>
+            <p>ما يمكن إظهاره اليوم هو المعيار الذي يُحاسَب عليه العمل: منهج مرسوم، ومعايير تصحيح منشورة، وتقييمات كُتبت قبل التدريس الذي تختبره، وسياسة تسجّل ما هو ناقص. هذا قابل للقياس الآن؛ ونجاح الخريجين ليس كذلك.</p>
+          </div>
+        </div>
+        <div class="tenet">
+          <span class="tenet__num">٣</span>
+          <div>
+            <h3>الرؤية تشمل طريقة السعي إليها</h3>
+            <p>مؤسسة تبالغ في وصف نفسها وهي في طريقها إلى التميّز ليست في طريقها إليه. ورفض نشر ادّعاءات غير مستحقة جزء من الرؤية لا قيد عليها.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الرابعة · الرسالة
+     ================================================================== -->
+<section class="leaf section--light" id="mission" data-contents="الرسالة">
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num">٤</span>
+      <span class="leaf__label">الرسالة</span>
+      <p class="leaf__rubric">خمسة تعهّدات، مع الآلية التي تحقق كلًّا منها.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>ما تتعهّد الكلية بفعله.</h2>
+      <p class="lede">خمسة تعهّدات. كل واحد مذكور مع ما يحققه فعلًا، لأن تعهّدًا بلا آلية هو شعور لا التزام.</p>
+
+      <div class="tenets">
+        <div class="tenet">
+          <span class="tenet__num">١</span>
+          <div>
+            <h3>تدريس الإنجليزية وفق معيار منشور، من A1 إلى C2</h3>
+            <p>ستة مستويات موائمة للإطار الأوروبي المرجعي، وستون وحدة &mdash; كل درس فيها مخطَّط مرحلةً مرحلة لا متروك للقاعة.</p>
+          </div>
+        </div>
+        <div class="tenet">
+          <span class="tenet__num">٢</span>
+          <div>
+            <h3>تطوير متحدّثين واثقين وطليقين ومؤهّلين أكاديميًا</h3>
+            <p>التحدث الموجَّه مبنيّ في كل درس منذ الأول، والمهارات الأربع تُقاس منفصلة، فلا يُوصف متعلم قوي في القراءة وضعيف في التحدث بأنه &laquo;متوسط&raquo; وحسب.</p>
+          </div>
+        </div>
+        <div class="tenet">
+          <span class="tenet__num">٣</span>
+          <div>
+            <h3>إعداد المتعلمين للدراسة والتوظيف والتواصل المهني</h3>
+            <p>تُدرّس المستويات العليا الكتابة الأكاديمية والاجتماعات والتفاوض والمرافعة وعرض البحث &mdash; المسجّلات اللغوية التي تقرّر النتائج، لا تلك التي تجتاز اختبارًا.</p>
+          </div>
+        </div>
+        <div class="tenet">
+          <span class="tenet__num">٤</span>
+          <div>
+            <h3>بناء الأداة التي يحتاجها البرنامج</h3>
+            <p>منصة تعليمية تحمل الدروس والاختبارات والمراجعات الذاتية والتقدّم، ومختبر استماع يسجّل صوت المتعلم نفسه لتقويم النطق. تقنية تخدم التدريس ولا تحلّ محله &mdash; ومبنية لهذا البرنامج لا مرخَّصة من برنامج بُني لغرض آخر.</p>
+          </div>
+        </div>
+        <div class="tenet">
+          <span class="tenet__num">٥</span>
+          <div>
+            <h3>الوصول إلى المتعلمين حول العالم بالشروط نفسها</h3>
+            <p>تدريس عبر الإنترنت من قاعدة إدارية في لندن، بتسعير متعدد العملات ومسارات دفع مبنية لمتعلمي أفريقيا والخليج وأوروبا وآسيا لا مُعدَّلة لهم لاحقًا.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     الخامسة · القيم الجوهرية
+     ================================================================== -->
+<section class="leaf section--oxford grain" id="values" data-contents="القيم الجوهرية">
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num">٥</span>
+      <span class="leaf__label">القيم الجوهرية</span>
+      <p class="leaf__rubric">ثماني كلمات عادية. والمهم ما تكلّفه كل واحدة.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>ما تلتزم به الكلية.</h2>
+      <p class="lede">ثماني قيم. وهي كلمات عادية، وما يجعلها ذات معنى هو إمكان إثبات أن المؤسسة تعمل بها حين تكلّفها شيئًا. وكل واحدة منشورة هنا مع كلفتها.</p>
+
+      <div class="creed">
+        <div class="creed__item">
+          <span class="creed__mark"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
+          <h3>التميّز الأكاديمي</h3>
+          <p>يُكتب المعيار قبل التدريس الذي يستوفيه، ويُنشر قبل التقييم الذي يختبره.</p>
+        </div>
+        <div class="creed__item">
+          <span class="creed__mark"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <h3>النزاهة</h3>
+          <p>ما لم يكتمل يُسمّى غير مكتمل، في الصفحة التي كان القارئ سيفترض فيها العكس.</p>
+        </div>
+        <div class="creed__item">
+          <span class="creed__mark"><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></span>
+          <h3>الابتكار</h3>
+          <p>أداة مبنية لهذا البرنامج، لا مشغّل دروس مرخَّص وُضع عليه شعار.</p>
+        </div>
+        <div class="creed__item">
+          <span class="creed__mark"><svg class="icon" aria-hidden="true"><use href="#i-nib"/></svg></span>
+          <h3>الاحترافية</h3>
+          <p>كل درس يحمل توقيتاته ومتطلباته وأهدافه، فيُدرَّس المتعلم بالطريقة نفسها على يد شخصين مختلفين.</p>
+        </div>
+        <div class="creed__item">
+          <span class="creed__mark"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
+          <h3>الشمولية</h3>
+          <p>معيار واحد وقائمة أسعار واحدة، منشورة بعملة المتعلم أينما كان.</p>
+        </div>
+        <div class="creed__item">
+          <span class="creed__mark"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <h3>التعلّم مدى الحياة</h3>
+          <p>يُنشر حجم العمل بالساعات لا بالأشهر، لأن مدة المسار تخصّ المتعلم وحده.</p>
+        </div>
+        <div class="creed__item">
+          <span class="creed__mark"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
+          <h3>المواطنة العالمية</h3>
+          <p>الإنجليزية تُدرَّس بوصفها لغة التفاوض والدراسة وإسماع الصوت، لا مادةً تنتهي عند الامتحان.</p>
+        </div>
+        <div class="creed__item">
+          <span class="creed__mark"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+          <h3>التعليم المتمحور حول الطالب</h3>
+          <p>السجل ملك المتعلم، يتراكم وهو يُكتب، وله وحده أن يشاركه أو يحجبه.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     السادسة · الفلسفة التربوية
+     ================================================================== -->
+<section class="leaf section--light" id="philosophy" data-contents="الفلسفة التربوية">
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num">٦</span>
+      <span class="leaf__label">الفلسفة التربوية</span>
+      <p class="leaf__rubric">خمسة مواقف، وما يفعله كل واحد منها بالدرس.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>المواقف التي بُني عليها كل درس.</h2>
+      <p class="lede">هذه المواقف قابلة للنقاش، ونشرها صراحةً هو ما يجعلها قابلة له.</p>
+
+      <div class="tenets">
+        <div class="tenet">
+          <span class="tenet__num">١</span>
+          <div>
+            <h3>التحدث يسبق الجاهزية</h3>
+            <p>يُطلب من المتعلمين التحدث من الدرس الأول، قبل أن تسند قواعدهم ذلك. فانتظار الدقة قبل الكلام هو الطريق الذي يدرس فيه الناس لغةً سنواتٍ ولا يستعملونها. الدقة تُبنى بالاستعمال لا قبله.</p>
+          </div>
+        </div>
+        <div class="tenet">
+          <span class="tenet__num">٢</span>
+          <div>
+            <h3>المنهج وعد لا اقتراح</h3>
+            <p>كل درس يذكر أهدافه ومتطلباته وتوقيت كل مرحلة فيه، وكل مدرّس يدرّس وفقه. وهذا ليس عدم ثقة بالمدرّسين؛ بل هو ما يتيح للمتعلم أن يغيّر شعبته، أو يتوقف ثم يعود، أو يُدرَّس على يد شخصين، دون أن يفقد موضعه.</p>
+          </div>
+        </div>
+        <div class="tenet">
+          <span class="tenet__num">٣</span>
+          <div>
+            <h3>معايير التقييم ملك المتعلم</h3>
+            <p>تُنشر معايير التصحيح وشروط النجاح قبل التقييم. والمتعلم الذي لا يعرف ما يُحكم عليه إنما يُختبر في تخمين الممتحِن، وأقل المتعلمين حظًّا هم أسوأ من يخمّن.</p>
+          </div>
+        </div>
+        <div class="tenet">
+          <span class="tenet__num">٤</span>
+          <div>
+            <h3>أربع مهارات، أربعة قياسات</h3>
+            <p>يُسجَّل الاستماع والقراءة والتحدث والكتابة منفصلة. فالدرجة الواحدة الشاملة تُخفي بالضبط ما يحتاج المتعلم إلى معرفته &mdash; أي مهارة هي التي تعطّله.</p>
+          </div>
+        </div>
+        <div class="tenet">
+          <span class="tenet__num">٥</span>
+          <div>
+            <h3>الخطأ مادة لا فشل</h3>
+            <p>كل درس يحمل مراجعة ذاتية مبنية على الأخطاء التي يقع فيها متعلمو هذا المستوى فعلًا، فيلتقي المتعلم بخطئه على انفراد قبل أن يلتقي به ممتحِن. والمصائد مقصودة.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     السابعة · التنظيم
+     ================================================================== -->
+<section class="leaf section--paper" id="structure" data-contents="التنظيم">
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num">٧</span>
+      <span class="leaf__label">التنظيم</span>
+      <p class="leaf__rubric">فصلٌ بين من يضع المعيار ومن يعمل تحته.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>كيف تُنظَّم الكلية.</h2>
+      <p class="lede">يفصل الهيكل بين الحكم الأكاديمي والحوكمة المؤسسية وضمان الجودة والإدارة اليومية: مجلس أمناء يملك الإشراف الاستراتيجي، ومجلس أكاديمي هو أعلى سلطة أكاديمية، وإدارة تنفيذية تدير التشغيل ولا تضع المعايير التي تعمل تحتها، ودار نشر تصدر المناهج، ومنصة رقمية تحمل التدريس.</p>
+
+      <h3 style="margin-top:2.2em">ثلاثة فواصل غير قابلة للتفاوض</h3>
+      <p>توجد هذه الفواصل لغرض واحد: إبقاء أشخاص بعينهم مستقلين عن بعضهم. وهي أول ما تبحث عنه لجنة الاعتماد، ولا تكلّف شيئًا الآن، ويصعب فكّها لاحقًا.</p>
+
+      <div class="separation">
+        <div class="sep__role">
+          <span class="sep__disc"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+          <h3>المؤلِّف</h3>
+          <p>لا أحد يراجع عمله. والمنشور الذي يراجعه مؤلفه لم يُراجَع.</p>
+        </div>
+        <span class="sep__rel" aria-hidden="true">&ne;</span>
+        <div class="sep__role">
+          <span class="sep__disc"><svg class="icon" aria-hidden="true"><use href="#i-nib"/></svg></span>
+          <h3>المراجِع الأكاديمي</h3>
+          <p>داخليّ، ومستقل عمّن كتب المجلد محل المراجعة.</p>
+        </div>
+        <span class="sep__rel" aria-hidden="true">&ne;</span>
+        <div class="sep__role">
+          <span class="sep__disc"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+          <h3>الممتحِن الخارجي</h3>
+          <p>وظيفته كلها أن يكون خارج الكلية، فلا يمكن جمعها مع أي دور داخلي، ومن يمنح الشهادة ليس من امتحنها.</p>
+        </div>
+      </div>
+
+      <p class="form-note" style="margin-top:1.8em">والمناصب غير المشغولة &mdash; الممتحن الخارجي وأعضاء مجلس المعايير &mdash; مذكورة في <a href="/ar/governance/">صفحة الحوكمة</a> مع ما يعطّله كل منها، وفي <a href="/ar/about/careers/">صفحة العمل في الكلية</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     البيان الختامي
+     ================================================================== -->
+<section class="colophon section--paper">
+  <div class="container reveal">
+    <p class="masthead__rule colophon__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></p>
+    <p>تُحفظ هذه الصفحة بوصفها سجلًّا لا كتيّبًا ترويجيًا. وحين تتغيّر حقيقة فيها، تتغيّر هنا أولًا وفي <a href="/ar/governance/evidence/">سجل الأدلة</a> بجانبها &mdash; وما ليس صحيحًا بعد يُنشر في عمود &laquo;قيد الإنجاز&raquo; أعلاه بدل أن يُحذف.</p>
+    <dl>
+      <div><dt>التأسيس</dt><dd>٢٠٢٣</dd></div>
+      <div><dt>التكليف</dt><dd>١٠ نوفمبر ٢٠٢٤</dd></div>
+      <div><dt>دار النشر</dt><dd>مطبعة الكلية</dd></div>
+    </dl>
   </div>
 </section>
 
