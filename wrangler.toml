@@ -27,6 +27,22 @@ database_id = "REPLACE_WITH_REAL_D1_DATABASE_ID"
 binding = "RECORDINGS"
 bucket_name = "wec-lc-recordings"
 
+# Object storage for applicant-uploaded identity documents (passport or
+# national ID scans), collected as an OPTIONAL step in the admissions
+# wizard — see functions/_lib/admissions/kyc-storage.js. PRIVATE, same
+# discipline as RECORDINGS: no public or signed URL is ever handed out;
+# every read goes through an endpoint that authorises the request first.
+# Uploading a document is not the same thing as verifying one — nothing
+# here checks the document against a real identity-verification
+# provider, and the application says so wherever this is offered.
+#
+# Create it once with:
+#   wrangler r2 bucket create wec-lc-kyc-documents
+# (the deploy workflow does this automatically if it is missing)
+[[r2_buckets]]
+binding = "KYC_DOCUMENTS"
+bucket_name = "wec-lc-kyc-documents"
+
 # Secrets (Stripe/Paystack/Flutterwave/Opay keys, Clerk keys, Resend
 # key) are deliberately NOT set here — wrangler.toml is committed to
 # git. Set them with `wrangler pages secret put <NAME>` once real

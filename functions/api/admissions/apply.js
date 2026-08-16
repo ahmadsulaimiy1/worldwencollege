@@ -47,8 +47,9 @@ export async function onRequestPost({ request, env }) {
          residency_interest, funding, payment_plan, heard_via, notes,
          privacy_agreed_at, residential_address, emergency_contact_name,
          emergency_contact_relationship, emergency_contact_phone,
-         education_level, education_institution, sponsor_name, sponsor_relationship)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+         education_level, education_institution, sponsor_name, sponsor_relationship,
+         passport_number)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
       .bind(
         id, user ? user.id : null, body.fullName.trim(), body.email.trim().toLowerCase(),
         body.country || null, body.selfAssessedLevelId || null, body.source || 'website',
@@ -64,6 +65,10 @@ export async function onRequestPost({ request, env }) {
         t(body.emergencyContactRelationship), t(body.emergencyContactPhone),
         t(body.educationLevel), t(body.educationInstitution),
         t(body.sponsorName), t(body.sponsorRelationship),
+        // Optional and opt-in — see sql/migrations/019-kyc-documents.sql.
+        // Never required; provided only by an applicant who chose the
+        // full submission from day one rather than a minimal one.
+        t(body.passportNumber),
       )
       .run();
 
@@ -141,6 +146,9 @@ function validate(body) {
   }
   if (typeof body?.notes === 'string' && body.notes.length > MAX_FREE_TEXT) {
     errors.notes = `Please keep this under ${MAX_FREE_TEXT} characters.`;
+  }
+  if (body?.passportNumber != null && body.passportNumber !== '' && !/^[A-Za-z0-9]{5,20}$/.test(body.passportNumber)) {
+    errors.passportNumber = 'Enter the document number as printed — letters and digits only, 5–20 characters.';
   }
   if (body?.source != null && !VALID_SOURCES.includes(body.source)) {
     errors.source = 'Invalid source.';
