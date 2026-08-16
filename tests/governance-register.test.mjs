@@ -192,10 +192,19 @@ for (const [label, text, phrase] of [
 }
 
 // The post fifteen appointments did not fill.
+//
+// These two checks used to demand the words "cannot properly be
+// conferred". That was true while the College had conferred nothing;
+// it has since conferred awards at Level I and Level II, and a check
+// demanding the old sentence is a check demanding a lie. What the
+// vacancy actually costs is unchanged and is what the page must keep
+// saying: the awards carry the College's authority and no outside
+// party's. Both editions, in their own words.
 check('The External Examiner is still recorded as vacant', GOV.EXTERNAL_EXAMINER_VACANT);
-check('The English page still says no award can be conferred',
-  /cannot properly be conferred/i.test(enText));
-check('The Arabic page still says it too', arText.includes('لا يمكن منحها لأحد'));
+check('The English page still says the awards carry no outside authority',
+  /carry the College&rsquo;s authority and nobody else&rsquo;s|internally moderated/i.test(enText));
+check('The Arabic page still says it too',
+  arText.includes('تحمل سلطتها هي') || arText.includes('معدَّلة داخليًا'));
 
 // The membership figure appears on the page as a figure, and it has to
 // be the one the record holds. A number in prose is the easiest thing on

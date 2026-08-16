@@ -1385,6 +1385,28 @@ section { position: relative; }
               border-color var(--dur-med) ease;
 }
 .card > p:last-of-type { margin-bottom: 0; }
+
+/* ---------------------------------------------------------------------
+   NO CARD IN A ROW POOLS ITS SLACK AT THE FOOT
+   ---------------------------------------------------------------------
+   A grid row stretches every card to the tallest one, and the shorter
+   cards spent the difference as a void under the last line — 176px of
+   it on /students/awards/, which CLAUDE.md §1 forbids outright and
+   which no amount of copy-editing fixes: three prose cards balanced at
+   1440 are unbalanced at 900, and balancing them there unbalances 1440.
+   Four rounds of trimming and padding sentences proved that, and each
+   round changed the writing to serve the layout, which is backwards.
+
+   The card is already a flex column, so the slack can simply be shared
+   out between the dome, the eyebrow, the heading and the paragraph
+   instead of pooled beneath them. Diffused, it reads as a card with
+   air in it. Pooled, it reads as a card that lost its last paragraph.
+
+   Scoped to `.grid` because that is where the stretch comes from —
+   a card standing on its own is sized by its own content and has no
+   slack to distribute.
+   --------------------------------------------------------------------- */
+.grid .card { justify-content: space-between; }
 .card:hover {
   background-size:
     100% 3px,

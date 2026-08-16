@@ -185,6 +185,60 @@ for (const route of routes) {
       };
     });
 
+    // ── SCROLL BEFORE THE SHUTTER ───────────────────────────────────
+    //
+    // Every .reveal element starts at opacity 0 and is raised by an
+    // IntersectionObserver (js/site.js, js/motion.js). A fullPage
+    // screenshot does not scroll the page, so before this loop existed
+    // no observer below the first viewport ever fired and every leaf
+    // body, card and register in the capture was blank cream.
+    //
+    // That is precisely the half CLAUDE.md §6 says no assertion
+    // covers — and it was covering nothing. The measurements above were
+    // unaffected (an opacity-0 element still has its full layout box),
+    // which is why this went unnoticed: the numbers were right and the
+    // pictures were empty.
+    //
+    // So walk the page a viewport at a time, let each step's observers
+    // fire, then return to the top and capture. A page is at most a few
+    // dozen steps, and the cost buys a screenshot that shows the page a
+    // reader would actually see.
+    // `behavior: 'instant'` is not decoration. css/brand.css sets
+    // `html { scroll-behavior: smooth }`, so a plain scrollTo ANIMATES:
+    // stepping every 60ms, the page never arrived anywhere before the
+    // next call retargeted it, and the first version of this loop moved
+    // the document about one viewport in total. Every observer below
+    // that stayed unfired and the capture was as blank as before —
+    // a fix that reported success and changed nothing.
+    // HALF a viewport per step, not a whole one. IntersectionObserver
+    // callbacks are asynchronous and coalesced: jumping a full viewport
+    // every 60ms let short elements enter and leave between delivered
+    // notifications, and four .stat-row__item on /press/ were reported
+    // as never rising when they rise perfectly well for a reader. The
+    // overlap guarantees every element is inside the viewport across at
+    // least two steps.
+    await page.evaluate(async () => {
+      const step = Math.round(window.innerHeight / 2);
+      for (let y = 0; y < document.body.scrollHeight; y += step) {
+        window.scrollTo({ top: y, behavior: 'instant' });
+        await new Promise((r) => setTimeout(r, 60));
+      }
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      await new Promise((r) => setTimeout(r, 200));
+    });
+    // The reveal transition itself still has to play out.
+    await page.waitForTimeout(700);
+
+    // And say so if it did not work, rather than filing another blank
+    // picture: a still-hidden .reveal after a full pass is either a
+    // broken observer or a script that threw.
+    const stillHidden = await page.evaluate(() =>
+      [...document.querySelectorAll('.reveal')]
+        .filter((e) => getComputedStyle(e).opacity === '0').length);
+    if (stillHidden) {
+      fault(route, vp.name, `${stillHidden} .reveal element(s) never rose — screenshot is not the page`);
+    }
+
     const shot = join(SHOTS, `${route.replace(/\//g, '_') || 'root'}-${vp.name}.png`);
     await page.screenshot({ path: shot, fullPage: true });
 

@@ -579,10 +579,18 @@
       el.style.transition = 'opacity .7s var(--ease-premium), transform .7s var(--ease-premium)';
     });
 
+    // Threshold 0, not 0.2. intersectionRatio is a fraction of the
+    // ELEMENT, so anything taller than five viewports can never reach
+    // 0.2 and never rises — which is exactly what happened to two
+    // .leaf__body sections on /academics/ at 390px wide (ratios 0.194
+    // and 0.185). observeOnce already carries a -8% bottom rootMargin,
+    // so the entrance still waits for the element to be properly in
+    // view rather than firing on the first pixel. See the same
+    // correction in js/site.js.
     observeOnce(els, function (el) {
       el.style.opacity = '';
       el.style.transform = '';
-    }, 0.2);
+    }, 0);
   })();
 
   /* -------------------------------------------------------------------

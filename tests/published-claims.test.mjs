@@ -170,12 +170,48 @@ check('The WEC Credit is declared internal, not ECTS or CATS',
   check('No English page claims a number of months from beginner to mastery',
     months.length === 0, months.map(([f]) => f).join(', '));
 
-  // And the promise that mattered most: a certificate on completion,
-  // when no award can be conferred at all.
-  const promisesCert = english.filter(([, b]) =>
-    /certificate the moment|certificate on completion|certificate upon completion/i.test(b));
-  check('No English page promises a certificate on completion — none can be conferred',
-    promisesCert.length === 0, promisesCert.map(([f]) => f).join(', '));
+  // ── THE PROMISE THAT MATTERED MOST, AND WHAT REPLACED IT ──
+  //
+  // This used to ban "a certificate on completion", because no award
+  // could be conferred at all. The College has taught three cohorts
+  // since 2023 and conferred awards at Level I and Level II, so a
+  // certificate on completion is now a thing it does, and banning the
+  // sentence would ban the truth.
+  //
+  // The claim that can still cost a student something is one level up:
+  // that the certificate is worth something OUTSIDE this College. It
+  // is not accredited, no External Examiner has moderated it, and no
+  // university or immigration authority recognises it. A page may say
+  // an award follows completion. It may not dress that award in an
+  // external validation nobody has given it.
+  // The first cut of this sweep matched any occurrence of "externally
+  // moderated" and failed on three pages that use it to say the exact
+  // opposite — "no award is moderated externally until that
+  // appointment is made". A bare phrase match cannot tell a claim from
+  // its denial, which is the same mistake recorded in
+  // tests/adopted-decisions.test.mjs and worth not making twice.
+  //
+  // So the subject has to be the College's OWN credential, and the
+  // page carries the vacancy disclosure or it fails. A page may
+  // discuss external moderation all day; what it may not do is leave a
+  // reader believing this award has had it.
+  const CLAIMS_EXTERNAL = new RegExp([
+    '(our|the|this|WEC-LC.{0,3}s|IEFC)\\s+(certificate|award|qualification)\\s+' +
+      '(is|has been)\\s+(accredited|externally\\s+(examined|moderated|validated)|' +
+      '(internationally|globally|officially)\\s+recognised)',
+    '(accredited|(internationally|globally|officially)\\s+recognised)\\s+' +
+      '(WEC-LC|IEFC)\\s+(certificate|award|qualification)',
+    '(certificate|award|qualification)\\s+recognised\\s+by\\s+' +
+      '(universities|employers|immigration)',
+  ].join('|'), 'i');
+  const DISCLOSED = /no External Examiner (is|has been) appointed|internally moderated|holds no accreditation|no accreditation is yet held/i;
+  const claimsExternal = english.filter(([, b]) => CLAIMS_EXTERNAL.test(b) && !DISCLOSED.test(b));
+  check('No English page dresses its award in an external validation nobody gave it',
+    claimsExternal.length === 0, claimsExternal.map(([f]) => f).join(', '));
+  check('...and that sweep does catch the claim it exists for',
+    CLAIMS_EXTERNAL.test('the IEFC award is internationally recognised')
+    && CLAIMS_EXTERNAL.test('an accredited WEC-LC certificate')
+    && !CLAIMS_EXTERNAL.test('no award is moderated externally until that appointment is made'));
 
   // ── A LIVE CLASS AS A STEP THE APPLICANT WILL REACH ──
   //
@@ -386,9 +422,18 @@ check('...and the design figure is one the framework actually specifies',
   check(`Every Arabic page publishing the 1,200-hour figure qualifies it — ${arHours.length} publish it`,
     arUnqualified.length === 0, arUnqualified.map(([f]) => f).join(', '));
 
-  const arCert = AR.filter(([, b]) => /شهادة رقمية عند الإتمام|شهادة عند الإتمام/.test(b));
-  check('No Arabic page promises a certificate on completion — none can be conferred',
-    arCert.length === 0, arCert.map(([f]) => f).join(', '));
+  // The same move in the language the primary audience reads: a
+  // certificate on completion is now true, and what stays banned is
+  // the external validation nobody has given it.
+  // Same narrowing on the Arabic side, and for the same reason: the
+  // first cut failed on the homepage, where "معترف بها دوليًا"
+  // describes ASIC — the accrediting body — and not this College's
+  // certificate. The subject has to be the credential.
+  const AR_EXTERNAL = /(شهادة|شهادات) (الكلية |البرنامج )?(معتمدة|معترف بها دوليًا|معترف بها عالميًا|مُعتمدة رسميًا)|تعترف (بها|بشهادتنا) الجامعات/;
+  const AR_DISCLOSED = /معدَّلة داخليًا|لم يُعيَّن ممتحن خارجي|لا تحمل .{0,12}اعتماد/;
+  const arExternal = AR.filter(([, b]) => AR_EXTERNAL.test(b) && !AR_DISCLOSED.test(b));
+  check('No Arabic page dresses its award in an external validation nobody gave it',
+    arExternal.length === 0, arExternal.map(([f]) => f).join(', '));
 
   // Structured data is a claim a search engine repeats verbatim, and
   // nobody reads it. It said the course takes 24 months and that its

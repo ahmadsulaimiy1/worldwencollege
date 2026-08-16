@@ -129,7 +129,22 @@
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15 });
+    // ── A RATIO THRESHOLD CANNOT BE REACHED BY A TALL ELEMENT ───────
+    //
+    // intersectionRatio is measured against the ELEMENT, so an element
+    // taller than the viewport can never exceed viewportHeight/height.
+    // At 390 x 844 two .leaf__body sections on /academics/ measure
+    // 4,341px and 4,554px — maximum ratios of 0.194 and 0.185. Both sit
+    // under the 0.2 that js/motion.js used, and the 0.15 here was one
+    // long section away from the same fate. Those two sections never
+    // rose at all: on a phone the whole of each was invisible,
+    // permanently, with no error and nothing in the console.
+    //
+    // Threshold 0 fires on any intersection, which cannot be starved by
+    // element height, and the negative bottom margin keeps the entrance
+    // deliberate — the element rises when its leading edge is properly
+    // into the viewport rather than the instant a sliver of it appears.
+    }, { threshold: 0, rootMargin: '0px 0px -12% 0px' });
     reveals.forEach(function (el) { io.observe(el); });
   } else {
     reveals.forEach(function (el) { el.classList.add('is-visible'); });
