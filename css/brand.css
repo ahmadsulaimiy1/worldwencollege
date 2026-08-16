@@ -1312,48 +1312,111 @@ section { position: relative; }
    baseline rule pushed to the foot with margin-top:auto. A short card
    now ends on a deliberate flourish at the same height as its
    neighbours instead of on nothing. */
+/* NEITHER PSEUDO-ELEMENT BELONGS TO THE CARD, and that is the whole
+   architecture of this block.
+   ---------------------------------------------------------------------
+   A card is the surface that most often wears .aurum (the travelling
+   gold point, which claims ::after) and .edge-lit (the lit rim, which
+   claims ::before) — CLAUDE.md §2 states the division and forbids
+   taking either from a shape wearing those classes.
+
+   The card was breaking that rule twice over, silently:
+
+     · ::before was the gold hairline that draws across the top on
+       hover. Every card wearing .edge-lit lost it.
+     · ::after was claimed THREE times in this one file — a foot rule
+       here, and a masked lit rim four hundred lines below under THE
+       MATERIAL, EXTENDED. The later rule won, so the foot rule never
+       painted on a single card on the site; and on any card wearing
+       .aurum, the travelling light won and the rim went too.
+
+   Nothing announced any of it. The rules were all present in the
+   stylesheet and two of the three were dead.
+
+   So both card effects are painted as BACKGROUND LAYERS on the card's
+   own box, where nothing can claim them:
+
+     layer 1 — the top hairline, sized 0 wide at rest and 100% on
+               hover, which transitions as smoothly as the scaleX it
+               replaces.
+     layer 2 — the foot rule, held 22px off the bottom edge and inset
+               to the card's own padding, so a plate is closed at the
+               foot whatever its content height.
+
+   background-color carries the ground, because `background` shorthand
+   would reset the layers. */
 .card {
-  background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-md);
-  padding: 32px; position: relative; overflow: hidden;
+  --card-pad: 32px;
+  --card-rule: rgba(199, 162, 74, .55);
+  --card-rule-mid: rgba(199, 162, 74, .16);
+
+  background-color: var(--paper);
+  /* Four ornaments, four painted layers, in paint order:
+       1 · the gold hairline across the head, 0 wide at rest
+       2 · the closing rule at the foot, inset to the card's padding
+       3 · the corner bracket, upright
+       4 · the corner bracket, level
+     Every one of them used to be a pseudo-element and every one of
+     them collided with another. Painted layers cannot collide: they
+     compose. */
+  background-image:
+    linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%),
+    linear-gradient(90deg, var(--card-rule) 0%, var(--card-rule-mid) 38%, transparent 72%),
+    linear-gradient(var(--line), var(--line)),
+    linear-gradient(var(--line), var(--line));
+  background-repeat: no-repeat;
+  background-position:
+    left top,
+    var(--card-pad) calc(100% - 22px),
+    right 12px bottom 12px,
+    right 12px bottom 12px;
+  background-size:
+    0 3px,
+    calc(100% - var(--card-pad) * 2) 1px,
+    1px 0,
+    0 1px;
+  border: 1px solid var(--line); border-radius: var(--r-md);
+  padding: var(--card-pad); position: relative; overflow: hidden;
   box-shadow: var(--shadow-sm);
   display: flex; flex-direction: column;
-  transition: transform var(--dur-med) var(--ease-premium), box-shadow var(--dur-med) var(--ease-premium), border-color var(--dur-med) ease;
+  transition: transform var(--dur-med) var(--ease-premium),
+              box-shadow var(--dur-med) var(--ease-premium),
+              background-size var(--dur-med) var(--ease-premium),
+              border-color var(--dur-med) ease;
 }
 .card > p:last-of-type { margin-bottom: 0; }
-.card::after {
-  content: ''; display: block; margin-top: auto; padding-top: 22px;
-  height: 1px; align-self: stretch;
-  background: linear-gradient(90deg,
-    rgba(199, 162, 74, .55) 0%, rgba(199, 162, 74, .16) 38%, transparent 72%);
-  background-clip: content-box;
-  transition: background var(--dur-med) var(--ease-premium);
+.card:hover {
+  background-size:
+    100% 3px,
+    calc(100% - var(--card-pad) * 2) 1px,
+    1px 16px,
+    16px 1px;
 }
-[dir="rtl"] .card::after {
-  background: linear-gradient(-90deg,
-    rgba(199, 162, 74, .55) 0%, rgba(199, 162, 74, .16) 38%, transparent 72%);
-  background-clip: content-box;
+/* Mirrored: the hairline draws from the trailing edge, the closing rule
+   falls away in the direction the eye is travelling, and the bracket
+   marks the corner the reader finishes at. */
+[dir="rtl"] .card {
+  background-image:
+    linear-gradient(225deg, var(--gold) 0%, var(--gold-bright) 100%),
+    linear-gradient(-90deg, var(--card-rule) 0%, var(--card-rule-mid) 38%, transparent 72%),
+    linear-gradient(var(--line), var(--line)),
+    linear-gradient(var(--line), var(--line));
+  background-position:
+    right top,
+    right var(--card-pad) bottom 22px,
+    left 12px bottom 12px,
+    left 12px bottom 12px;
 }
-.card:hover::after {
-  background: linear-gradient(90deg,
-    rgba(242, 227, 192, .95) 0%, rgba(199, 162, 74, .5) 46%, transparent 84%);
-  background-clip: content-box;
-}
-.card--dark::after {
-  background: linear-gradient(90deg,
-    rgba(242, 227, 192, .5) 0%, rgba(199, 162, 74, .14) 38%, transparent 72%);
-  background-clip: content-box;
-}
-/* A hairline gold rule that draws in from the left on hover — the
-   card equivalent of the button's shine sweep, at a scale appropriate
-   to a resting surface rather than a call to action. */
-.card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--gold-gradient); transform: scaleX(0); transform-origin: left;
-  transition: transform var(--dur-med) var(--ease-premium);
+.card--dark {
+  --card-rule: rgba(242, 227, 192, .5);
+  --card-rule-mid: rgba(199, 162, 74, .14);
 }
 .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(199,162,74,.55); }
 .card:hover::before { transform: scaleX(1); }
-.card--dark { background: rgba(255,255,255,.04); border-color: var(--line-dark); }
+/* background-COLOR, not the shorthand: `background` would reset the two
+   painted layers the card sets above and take the top hairline and the
+   foot rule off every dark card on the site. */
+.card--dark { background-color: rgba(255,255,255,.04); border-color: var(--line-dark); }
 .card--dark:hover { border-color: var(--line-dark); }
 .card h3 { font-size: 1.1rem; }
 .card__num { font-family: var(--font-display); font-size: .82rem; color: var(--gold); font-weight: 700; margin-bottom: 10px; display: block; }
@@ -2532,6 +2595,14 @@ ul.check-list li::before {
     rgba(199,162,74,.06) 46%, rgba(6,13,28,.55) 100%);
 }
 [dir="rtl"] .card::after { transform: scaleX(-1); }
+/* A CARD WEARING .aurum TRADES ITS RIM FOR A TRAVELLING LIGHT, because
+   both live on ::after and the travelling one is declared later. That
+   is the right trade — an orbiting point beats a static rim — but the
+   card must not come out of it flatter than it went in. The relief
+   pair restores the turned edge as light and shadow on the box itself,
+   which costs no pseudo-element and so cannot be claimed away. */
+.card.aurum { box-shadow: var(--shadow-sm), var(--relief-raised); }
+.card.aurum:hover { box-shadow: var(--shadow-md), var(--relief-raised); }
 
 /* THE LEDGER ROW lights as the eye crosses it — on every ledger on the
    site, not only the homepage's. Six rows of near-identical figures is

@@ -50,6 +50,15 @@
 .section--oxford .leaf__label,
 .section--midnight .leaf__label { color: #93B4E8; }
 
+/* THE CARD EYEBROW TAKES THE PILLAR'S ACCENT TOO. brand.css sets
+   .card__num to --red on pale grounds, which is the house default and
+   right for a page with no accent of its own. On a pillar that has
+   one, a red eyebrow above a royal-blue register is the only
+   discordant note on the page — measured on screen, not assumed. Same
+   substitution css/students.css makes for .leaf__label, extended to
+   the one other mark a reader sees at the head of every card. */
+.section--light .card__num, .section--paper .card__num { color: #1F3D7A; }
+
 /* =========================================================
    THE ASCENT
    Six levels on a rising spine.
