@@ -103,12 +103,42 @@
   // use the same palette rather than inventing a second one.
   window.WECSonics = { play, get enabled() { return enabled; } };
 
-  /** Which voice an element answers with. First match wins. */
+  /** Which voice an element answers with. First match wins.
+   *
+   *  EVERY STRUCK SHAPE ON THE SITE ANSWERS, and the ordering below is
+   *  the whole design. The list used to name eight selectors and two
+   *  page sections, which meant a reader could tap a medallion on the
+   *  homepage and hear nothing, then tap a card on Academics and hear
+   *  something — the inconsistency read as a bug rather than as
+   *  restraint.
+   *
+   *  The voices are ranked by CEREMONY, not by element type, and the
+   *  first match wins, so a seal inside a card sounds like a seal:
+   *
+   *    chime  — the act of committing. Gold CTAs only.
+   *    seal   — conferral and identity: wax seals, struck medallions,
+   *             the honour plates, the matricula, the crest.
+   *    open   — anything that expands or reveals.
+   *    tap    — every other struck surface: cards, domes, gauges,
+   *             clauses, tenets, register columns, quicknav tiles.
+   *
+   *  A surface with no relief is deliberately silent. Body text, table
+   *  rows and plain list items get no voice, because a site where
+   *  everything makes a noise is not luxurious, it is a toy. */
+  var CHIME = '.btn--gold, .quiet-btn--apply';
+  var SEAL  = '.wax-seal, .cta__seal, .vessel, .medallion, .honour, .honour__wreath, '
+            + '.matricula, .case__medallion, .brand__crest, .masthead__rule, .colophon__rule';
+  var OPEN  = 'details > summary, .accordion__trigger, .accordion__q, .nav__toggle, [aria-expanded]';
+  var TAP   = 'a, button, .card, .audience, .region, .case, .principle, .badge-dome, '
+            + '.quad__skill, .quad__gauge, .sep__role, .sep__disc, .creed__item, .creed__mark, '
+            + '.clause, .tenet, .register__col, .vacancy, .footergrid__tile, .quicknav__tile, '
+            + '.plate__frame, .stage-mark, .ledger--flagship tbody tr';
+
   function voiceFor(el) {
-    if (el.closest('.btn--gold, .quiet-btn--apply')) return 'chime';
-    if (el.closest('.wax-seal, .cta__seal, .vessel')) return 'seal';
-    if (el.closest('details > summary, .accordion__trigger, .nav__toggle, [aria-expanded]')) return 'open';
-    if (el.closest('a, button, .audience, .region, .case, .principle, .footergrid__tile, [data-section="academics"] .card, [data-section="study"] .card')) return 'tap';
+    if (el.closest(CHIME)) return 'chime';
+    if (el.closest(SEAL)) return 'seal';
+    if (el.closest(OPEN)) return 'open';
+    if (el.closest(TAP)) return 'tap';
     return null;
   }
 

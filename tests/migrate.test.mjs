@@ -329,6 +329,11 @@ for (const f of files) {
   // needs removing.
   db.exec(`DROP INDEX IF EXISTS idx_application_drafts_user;
     DROP TABLE IF EXISTS application_drafts;`);
+  // 019 adds `applications.passport_number` — already absent from the
+  // 017 rebuild above for the same reason 018's columns are — plus the
+  // whole `kyc_documents` table.
+  db.exec(`DROP INDEX IF EXISTS idx_kyc_documents_user;
+    DROP TABLE IF EXISTS kyc_documents;`);
 
   db.exec('DROP TABLE schema_migrations');
 

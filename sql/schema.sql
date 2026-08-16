@@ -153,6 +153,10 @@ CREATE TABLE applications (
   sponsor_name      TEXT,
   sponsor_relationship TEXT CHECK (sponsor_relationship IS NULL OR sponsor_relationship IN
                       ('employer','parent_or_guardian','other_family','scholarship_body','government','other')),
+  -- Optional, opt-in, from sql/migrations/019-kyc-documents.sql. Never
+  -- required at application stage — see that migration for why an
+  -- applicant may still choose to provide it from day one.
+  passport_number   TEXT,
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   updated_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
@@ -176,6 +180,30 @@ CREATE TABLE application_drafts (
   updated_at                TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 CREATE INDEX idx_application_drafts_user ON application_drafts(user_id);
+
+-- ---------------------------------------------------------------------
+-- KYC documents — an applicant's OPTIONAL, opt-in identity-document
+-- upload (passport or national ID), available from the first day of
+-- the application rather than deferred to after an offer, for anyone
+-- who chooses to provide it. Uploaded, never automatically verified —
+-- see sql/migrations/019-kyc-documents.sql for the full reasoning and
+-- functions/_lib/admissions/kyc-storage.js for where the file itself
+-- lives (R2, never a public URL).
+-- ---------------------------------------------------------------------
+CREATE TABLE kyc_documents (
+  id                TEXT PRIMARY KEY,
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  document_type     TEXT NOT NULL DEFAULT 'passport'
+                    CHECK (document_type IN ('passport','national_id','other')),
+  object_key        TEXT NOT NULL,
+  original_filename TEXT,
+  content_type      TEXT NOT NULL,
+  size_bytes        INTEGER NOT NULL,
+  status            TEXT NOT NULL DEFAULT 'uploaded'
+                    CHECK (status IN ('uploaded','reviewed','rejected')),
+  uploaded_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_kyc_documents_user ON kyc_documents(user_id);
 
 -- ---------------------------------------------------------------------
 -- Enrolments — one row per student per level, created once payment for

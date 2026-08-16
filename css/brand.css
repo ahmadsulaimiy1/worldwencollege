@@ -1303,11 +1303,45 @@ section { position: relative; }
 @media (max-width: 900px) { .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 620px) { .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; } }
 
+/* A CARD IN A GRID STRETCHES TO ITS TALLEST SIBLING, and with the
+   content top-aligned that left up to 39px of measured void at the
+   foot of every short card — the "blank space" that made the
+   Academics page read as unfinished. Two changes fix it and neither
+   is a hack: the card becomes a flex column so the space is
+   distributable, and the space that remains is CLAIMED by a struck
+   baseline rule pushed to the foot with margin-top:auto. A short card
+   now ends on a deliberate flourish at the same height as its
+   neighbours instead of on nothing. */
 .card {
   background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-md);
   padding: 32px; position: relative; overflow: hidden;
   box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column;
   transition: transform var(--dur-med) var(--ease-premium), box-shadow var(--dur-med) var(--ease-premium), border-color var(--dur-med) ease;
+}
+.card > p:last-of-type { margin-bottom: 0; }
+.card::after {
+  content: ''; display: block; margin-top: auto; padding-top: 22px;
+  height: 1px; align-self: stretch;
+  background: linear-gradient(90deg,
+    rgba(199, 162, 74, .55) 0%, rgba(199, 162, 74, .16) 38%, transparent 72%);
+  background-clip: content-box;
+  transition: background var(--dur-med) var(--ease-premium);
+}
+[dir="rtl"] .card::after {
+  background: linear-gradient(-90deg,
+    rgba(199, 162, 74, .55) 0%, rgba(199, 162, 74, .16) 38%, transparent 72%);
+  background-clip: content-box;
+}
+.card:hover::after {
+  background: linear-gradient(90deg,
+    rgba(242, 227, 192, .95) 0%, rgba(199, 162, 74, .5) 46%, transparent 84%);
+  background-clip: content-box;
+}
+.card--dark::after {
+  background: linear-gradient(90deg,
+    rgba(242, 227, 192, .5) 0%, rgba(199, 162, 74, .14) 38%, transparent 72%);
+  background-clip: content-box;
 }
 /* A hairline gold rule that draws in from the left on hover — the
    card equivalent of the button's shine sweep, at a scale appropriate
@@ -1345,9 +1379,57 @@ section { position: relative; }
     0 0 0 1px rgba(199,162,74,.38);
   transition: transform var(--dur-med) var(--ease-premium), box-shadow var(--dur-med) var(--ease-premium);
 }
-.badge-dome .icon { width: 24px; height: 24px; filter: drop-shadow(0 1px 1px rgba(20,20,10,.14)); }
-.badge-dome--sm { width: 44px; height: 44px; border-radius: var(--r-sm); margin-bottom: 12px; }
-.badge-dome--sm .icon { width: 20px; height: 20px; }
+.badge-dome .icon { width: 30px; height: 30px; filter: drop-shadow(0 1px 1px rgba(20,20,10,.14)); }
+.badge-dome--sm { width: 46px; height: 46px; border-radius: var(--r-sm); margin-bottom: 12px; }
+.badge-dome--sm .icon { width: 22px; height: 22px; }
+
+/* THE DOME IS GLASS OVER METAL, and it needs both surfaces to read as
+   a real object rather than a tinted square.
+
+   ::before is the SPECULAR CAP — a hard-edged crescent of light in the
+   upper third, which is what a curved glossy surface does to a light
+   source and what a soft radial gradient never quite says. It is
+   clipped to the dome's own radius and does not move.
+
+   ::after is the TRAVELLING POINT — a narrow bright arc orbiting the
+   rim, masked to a 1.5px ring by the same content-box/border-box
+   exclude trick .aurum uses in atelier.css. The gold runs to near-white
+   at its centre so it reads as a diamond catching light rather than as
+   a glowing outline. Nine seconds a turn, staggered per card below, so
+   a grid of domes never pulses in unison.
+
+   The two pseudo-elements are deliberately split this way so a dome can
+   ALSO wear .aurum on its parent without either fighting the other. */
+.badge-dome { position: relative; isolation: isolate; }
+.badge-dome::before {
+  content: ''; position: absolute; z-index: 2; pointer-events: none;
+  left: 12%; right: 12%; top: 7%; height: 34%;
+  border-radius: 50% 50% 44% 44% / 68% 68% 32% 32%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .78), rgba(255, 255, 255, .06));
+  opacity: .78;
+}
+.badge-dome::after {
+  content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  border-radius: inherit; padding: 1.5px;
+  background: conic-gradient(from var(--aurum-angle, 0deg),
+    transparent 0deg, transparent 36deg,
+    rgba(212, 175, 55, .42) 50deg,
+    rgba(255, 253, 244, 1) 60deg,
+    rgba(242, 227, 192, .72) 70deg,
+    transparent 86deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: aurum-orbit var(--dome-dur, 9s) linear infinite;
+  animation-delay: var(--dome-delay, 0s);
+}
+/* Staggered so a row of domes is a procession, not a strobe. */
+.card:nth-child(2) .badge-dome::after, .audience:nth-child(2) .badge-dome::after { --dome-delay: 1.5s; }
+.card:nth-child(3) .badge-dome::after, .audience:nth-child(3) .badge-dome::after { --dome-delay: 3s; }
+.card:nth-child(4) .badge-dome::after, .audience:nth-child(4) .badge-dome::after { --dome-delay: 4.5s; }
+.card:nth-child(5) .badge-dome::after { --dome-delay: 6s; }
+.card:nth-child(6) .badge-dome::after { --dome-delay: 7.5s; }
 .card:hover .badge-dome, .audience:hover .badge-dome, .region:hover .badge-dome {
   transform: translateY(-1px);
   box-shadow:
@@ -1364,7 +1446,7 @@ section { position: relative; }
    same 6.5s cycle .case__medallion uses, so a reader who has met one
    recognises the other as the same material, just lit differently. */
 .badge-dome--lg {
-  width: 84px; height: 84px; border-radius: 28px; margin-bottom: 20px;
+  width: 106px; height: 106px; border-radius: 34px; margin-bottom: 22px;
   box-shadow:
     inset 0 3px 4px rgba(255,255,255,.92),
     inset 0 -4px 6px rgba(20,20,10,.14),
@@ -1372,7 +1454,7 @@ section { position: relative; }
     0 0 0 1.5px rgba(199,162,74,.42);
 }
 .badge-dome--lg .icon {
-  width: 36px; height: 36px; stroke-width: 1.1;
+  width: 50px; height: 50px; stroke-width: 1;
   color: var(--gold-royal); filter: drop-shadow(0 1px 1px rgba(20,20,10,.18));
   animation: badge-dome-breathe 6.5s var(--ease-premium) infinite alternate;
 }
@@ -2336,6 +2418,13 @@ ul.check-list li::before {
   .plate--drift > .plate__frame > svg { animation: none; transform: none; }
   .wax-seal, .wax-seal.is-visible { animation: none; opacity: 1; transform: none; }
   .typeline__caret { animation: none; opacity: 1; }
+  /* The dome's travelling point stops travelling and RESTS at the
+     top-left rim, where the light in this room comes from — the
+     finished state, not a hidden one. The specular cap never moved
+     and is untouched. */
+  .badge-dome::after { animation: none; --aurum-angle: 296deg; }
+  .badge-dome--lg .icon { animation: none; transform: none; }
+  .card::after, .card, .badge-dome { transition: none; }
   .site-header, .site-header__inner, .brand__crest, .brand__campus,
   .chapter-rail__dot, .chapter-rail__label { transition: none; }
   /* js/motion.js reads this same query and, when it matches, writes the

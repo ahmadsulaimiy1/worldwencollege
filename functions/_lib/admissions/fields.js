@@ -29,6 +29,11 @@ export const ENUMS = {
 // apply with everything gathered so far.
 export const WIZARD_STEPS = [
   { key: 'identity',    fields: ['fullName', 'nationality', 'country'] },
+  // Optional and opt-in — see sql/migrations/019-kyc-documents.sql.
+  // The file itself never travels through this JSON step-save
+  // endpoint (see functions/api/admissions/document.js for the
+  // upload); passportNumber is the one text field this step owns.
+  { key: 'identity-document', fields: ['passportNumber'] },
   { key: 'contact',     fields: ['email', 'phone', 'city', 'residentialAddress'] },
   { key: 'emergency',   fields: ['emergencyContactName', 'emergencyContactRelationship', 'emergencyContactPhone'] },
   { key: 'programme',   fields: ['selfAssessedLevelId', 'purpose', 'startPreference', 'residencyInterest'] },
@@ -74,6 +79,12 @@ export function validateStepFields(fields) {
     if (key === 'selfAssessedLevelId') {
       const n = Number(value);
       if (!Number.isInteger(n) || n < 1 || n > 6) errors[key] = 'Invalid level.';
+      continue;
+    }
+    if (key === 'passportNumber') {
+      if (typeof value !== 'string' || !/^[A-Za-z0-9]{5,20}$/.test(value)) {
+        errors[key] = 'Enter the document number as printed — letters and digits only, 5–20 characters.';
+      }
       continue;
     }
     if (key in ENUMS) {

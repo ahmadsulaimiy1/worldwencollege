@@ -41,6 +41,7 @@
   var stepError = $('[data-wizard-step-error]');
   var wizardShell = $('[data-wizard-shell]');
   var statusShell = $('[data-application-status]');
+  var loadErrorShell = $('[data-wizard-load-error]');
 
   var current = 0;
   var completedSteps = [];
@@ -114,8 +115,86 @@
     nextBtn.hidden = isReview;
     submitBtn.hidden = !isReview;
     if (isReview) renderReview();
+    if (stepKeys[index] === 'identity-document') renderKycDocs();
     updateStepper();
     steps[index].scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }
+
+  // The identity document is OPTIONAL and uploaded through its own
+  // binary endpoint (functions/api/admissions/document.js), not the
+  // JSON step-save PUT every other field goes through — a file cannot
+  // travel in a JSON body. This list is what tells an applicant
+  // returning to a saved draft what they already uploaded, since the
+  // file itself lives in R2, not in the draft's own JSON blob.
+  function renderKycDocs() {
+    var list = $('[data-kyc-doc-list]');
+    if (!list) return;
+    list.innerHTML = '<li class="kyc-doc-list__loading">Checking for an existing upload…</li>';
+    api('/api/admissions/document').then(function (result) {
+      list.innerHTML = '';
+      if (!result.documents.length) {
+        list.innerHTML = '<li class="kyc-doc-list__empty">Nothing uploaded yet — this step can stay empty.</li>';
+        return;
+      }
+      result.documents.forEach(function (doc) {
+        var li = document.createElement('li');
+        li.className = 'kyc-doc-list__item';
+        var name = document.createElement('span');
+        name.textContent = (doc.filename || doc.documentType) + ' — uploaded, not verified';
+        var del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'kyc-doc-list__remove';
+        del.textContent = 'Remove';
+        del.addEventListener('click', function () {
+          del.disabled = true;
+          api('/api/admissions/document?id=' + encodeURIComponent(doc.id), { method: 'DELETE' })
+            .then(renderKycDocs)
+            .catch(function () { del.disabled = false; });
+        });
+        li.appendChild(name);
+        li.appendChild(del);
+        list.appendChild(li);
+      });
+    }).catch(function () {
+      list.innerHTML = '<li class="kyc-doc-list__empty">Could not check for an existing upload.</li>';
+    });
+  }
+
+  function wireKycUpload() {
+    var btn = $('[data-kyc-upload-btn]');
+    var fileInput = $('[data-kyc-file-input]');
+    var typeSelect = $('[data-kyc-doc-type]');
+    var errorEl = $('[data-kyc-upload-error]');
+    if (!btn || !fileInput) return;
+    btn.addEventListener('click', function () {
+      var file = fileInput.files && fileInput.files[0];
+      if (errorEl) errorEl.textContent = '';
+      if (!file) { if (errorEl) errorEl.textContent = 'Choose a file first.'; return; }
+      btn.disabled = true;
+      window.WEC_LC_apiAuth.headers().then(function (headers) {
+        return file.arrayBuffer().then(function (bytes) {
+          return fetch('/api/admissions/document', {
+            method: 'POST',
+            headers: Object.assign({}, headers, {
+              'content-type': file.type,
+              'x-kyc-document-type': typeSelect ? typeSelect.value : 'passport',
+              'x-kyc-filename': encodeURIComponent(file.name),
+            }),
+            body: bytes,
+          });
+        });
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (body) {
+          if (!r.ok) throw Object.assign(new Error(body.message || r.statusText), { body: body });
+          return body;
+        });
+      }).then(function () {
+        fileInput.value = '';
+        renderKycDocs();
+      }).catch(function (err) {
+        if (errorEl) errorEl.textContent = (err.body && err.body.message) || 'Upload did not go through — try again.';
+      }).then(function () { btn.disabled = false; });
+    });
   }
 
   function renderReview() {
@@ -191,6 +270,7 @@
   }
 
   function init() {
+    wireKycUpload();
     api('/api/admissions/draft').then(function (draft) {
       if (draft.application) { renderStatus(draft.application); return; }
       completedSteps = draft.completedSteps || [];
@@ -201,7 +281,12 @@
       var resumeIndex = stepKeys.findIndex(function (k) { return k !== 'review' && completedSteps.indexOf(k) === -1; });
       showStep(resumeIndex === -1 ? steps.length - 1 : resumeIndex);
     }).catch(function () {
-      if (stepError) stepError.textContent = 'Could not load your application. Reload the page, or write to Admissions if this continues.';
+      // The wizard shell itself is never revealed on this path, so a
+      // message written inside it (e.g. onto data-wizard-step-error)
+      // would be invisible — a blank page behind a signed-in header.
+      // This dedicated state is the one place a load failure is
+      // actually shown.
+      if (loadErrorShell) loadErrorShell.hidden = false;
     });
 
     nextBtn.addEventListener('click', function () {
@@ -249,6 +334,9 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
+    var reloadBtn = $('[data-wizard-reload]');
+    if (reloadBtn) reloadBtn.addEventListener('click', function () { window.location.reload(); });
+
     var guarded = window.WEC_LC_guardPortal({
       signOutRedirect: '/admissions/',
       shellSelector: '.lab-body',
@@ -256,6 +344,12 @@
         window.WEC_LC_apiAuth.attach(clerk);
         done();
         init();
+      },
+      // Clerk's own SDK could not be reached at all (offline, blocked
+      // script) — the gate is already gone by the time this fires, so
+      // without a handler the page is just blank behind the header.
+      onAuthUnavailable: function () {
+        if (loadErrorShell) loadErrorShell.hidden = false;
       },
     });
     // No Clerk key configured: the page cannot check a session at

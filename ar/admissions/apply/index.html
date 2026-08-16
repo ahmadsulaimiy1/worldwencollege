@@ -42,29 +42,38 @@
     <p><a class="btn btn--gold" href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">راسل إدارة القبول</a></p>
   </div>
 
+  <div data-wizard-load-error hidden>
+    <h2>تعذّر تحميل طلبك</h2>
+    <p class="lede">سجّلت دخولك، لكن الطلب نفسه لم يُحمَّل &mdash; غالبًا ما يكون هذا عارضًا مؤقتًا. لا شيء مما أدخلته سابقًا قد ضاع.</p>
+    <p><button type="button" class="btn btn--gold" data-wizard-reload>حاول مرة أخرى</button></p>
+    <p><a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">لا يزال المشكل قائمًا؟ راسل إدارة القبول مباشرة.</a></p>
+  </div>
+
   <div data-wizard-shell hidden>
     <span class="eyebrow" style="margin-bottom:8px">القبول والتسجيل</span>
     <h1>طلبك.</h1>
-    <p class="lede" style="margin-bottom:28px">سبع خطوات قصيرة، تُحفَظ أولًا بأول. أغلق الصفحة في أي وقت واستأنف تمامًا من حيث توقفت &mdash; لا شيء يضيع بين الزيارات.</p>
+    <p class="lede" style="margin-bottom:28px">تسع خطوات قصيرة، تُحفَظ أولًا بأول. أغلق الصفحة في أي وقت واستأنف تمامًا من حيث توقفت &mdash; لا شيء يضيع بين الزيارات. خطوة واحدة، وثيقة الهوية، اختيارية بالكامل: تخطَّها الآن وأضفها لاحقًا، أو ارفعها اليوم إن كنت تفضّل تقديم طلب كامل من البداية.</p>
 
-    <p class="wizard-progress-label" data-wizard-progress-label>الخطوة ١ من ٨</p>
+    <p class="wizard-progress-label" data-wizard-progress-label>الخطوة ١ من ٩</p>
 
     <div class="stepper" data-stepper style="margin-bottom:32px">
       <div class="stepper__node" data-stepper-node><div class="stepper__dot">١</div><div class="stepper__label">من أنت</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٢</div><div class="stepper__label">التواصل</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٢</div><div class="stepper__label">وثيقة الهوية<br>(اختياري)</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٣</div><div class="stepper__label">جهة اتصال<br>الطوارئ</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٣</div><div class="stepper__label">التواصل</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٤</div><div class="stepper__label">البرنامج</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٤</div><div class="stepper__label">جهة اتصال<br>الطوارئ</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٥</div><div class="stepper__label">التعليم</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٥</div><div class="stepper__label">البرنامج</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٦</div><div class="stepper__label">الرسوم</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٦</div><div class="stepper__label">التعليم</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٧</div><div class="stepper__label">الإقرار</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٧</div><div class="stepper__label">الرسوم</div></div>
       <div class="stepper__line"></div>
-      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٨</div><div class="stepper__label">المراجعة</div></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٨</div><div class="stepper__label">الإقرار</div></div>
+      <div class="stepper__line"></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">٩</div><div class="stepper__label">المراجعة</div></div>
     </div>
 
     <div class="wizard-card">
@@ -112,6 +121,37 @@
               </select>
               <span data-review-label="الجنسية"></span>
               <span class="field__error" data-error-for="nationality"></span>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset data-step="identity-document" hidden>
+          <legend><h2>وثيقة الهوية <span class="field__optional">اختياري</span></h2></legend>
+          <p class="step-intro">تخطَّ هذه الخطوة وأضفها لاحقًا، أو ارفع الوثيقة الآن إن كنت تفضّل تقديم طلب كامل من البداية. تُحفَظ الوثيقة ولا تُتحقَّق منها &mdash; لا شيء هنا يقابلها بسجل رسمي؛ يحدث ذلك لاحقًا في إجراءات الإقامة.</p>
+          <div class="form-grid">
+            <div class="field field--full">
+              <label for="w-passportNumber">رقم جواز السفر أو الهوية <span class="field__optional">اختياري</span></label>
+              <input id="w-passportNumber" name="passportNumber" type="text" autocomplete="off" dir="ltr">
+              <span data-review-label="رقم الوثيقة"></span>
+              <span class="field__error" data-error-for="passportNumber"></span>
+            </div>
+            <div class="field">
+              <label for="w-docType">نوع الوثيقة</label>
+              <select id="w-docType" data-kyc-doc-type>
+                <option value="passport">جواز سفر</option>
+                <option value="national_id">هوية وطنية</option>
+                <option value="other">أخرى</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="w-docFile">ارفع نسخة ممسوحة أو صورة</label>
+              <input id="w-docFile" type="file" accept="application/pdf,image/jpeg,image/png" data-kyc-file-input>
+              <span class="field__optional">PDF أو JPEG أو PNG، حتى 10 ميغابايت</span>
+            </div>
+            <div class="field field--full">
+              <button type="button" class="btn btn--outline" data-kyc-upload-btn>ارفع الوثيقة</button>
+              <p class="field__error" data-kyc-upload-error role="alert"></p>
+              <ul class="kyc-doc-list" data-kyc-doc-list></ul>
             </div>
           </div>
         </fieldset>
