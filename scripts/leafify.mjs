@@ -90,8 +90,21 @@ for (let i = found.length - 1; i >= 0; i--) {
   // The ground keeps whatever it had; grain and aurora are the leaf's
   // texture, and aurora belongs only on a dark ground.
   const dark = /section--(dark|oxford|midnight)/.test(block);
-  block = block.replace(/<section class="([^"]*)\bsection-pad\b([^"]*)"/,
-    (_, a, b) => `<section class="leaf ${(a + b).trim()} grain${dark ? ' aurora' : ''}"`);
+  // MATCH class= WHEREVER IT SITS IN THE TAG. This anchored on
+  // `<section class="…"` and silently did nothing on any section
+  // written `<section id="x" data-contents="y" class="…">`, of which
+  // there are several. The margin was still inserted, so the section
+  // came out carrying a leaf's ornament and margin WITHOUT .leaf —
+  // which means without `overflow: clip`, which means the ornament
+  // bled 58px past the viewport. Nothing errored. It was found by
+  // rendering, which is the whole of CLAUDE.md §6.
+  const before = block;
+  block = block.replace(/(<section\b[^>]*?\bclass=")([^"]*)"/,
+    (_, head, cls) => `${head}leaf ${cls.replace(/\bsection-pad\b/, '').replace(/\s+/g, ' ').trim()} grain${dark ? ' aurora' : ''}"`);
+  if (block === before) {
+    console.error(`section ${i + 1}: could not rewrite its class attribute — skipped`);
+    continue;
+  }
 
   const margin =
     `\n  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(${spec.plate})"></span>`

@@ -131,7 +131,7 @@
             /* The warrant is a ruling with a seal on it, so it takes
                the conferral voice rather than the tap every other
                struck surface gets. Ceremony is ranked, not uniform. */
-            + '.warrant';
+            + '.warrant, .article__seal';
   var OPEN  = 'details > summary, .accordion__trigger, .accordion__q, .nav__toggle, [aria-expanded]';
   var TAP   = 'a, button, .card, .audience, .region, .case, .principle, .badge-dome, '
             + '.quad__skill, .quad__gauge, .sep__role, .sep__disc, .creed__item, .creed__mark, '
@@ -142,7 +142,10 @@
             /* The Admissions pillar — css/admissions.css. The warrant
                is a sealed instrument and takes SEAL, not TAP; it is in
                the list above. */
-            + '.passage__stage, .passage__mark, .tariff__line';
+            + '.passage__stage, .passage__mark, .tariff__line, '
+            /* The Governance pillar — css/governance.css. The article
+               is sealed, so it takes SEAL and is in the list above. */
+            + '.docket__entry, .attest';
 
   function voiceFor(el) {
     if (el.closest(CHIME)) return 'chime';

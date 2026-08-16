@@ -25,6 +25,8 @@
 <link rel="stylesheet" href="/css/brand.css">
 <link rel="stylesheet" href="/css/atelier.css">
 <link rel="stylesheet" href="/css/pages.css">
+<link rel="stylesheet" href="/css/pillar.css">
+<link rel="stylesheet" href="/css/governance.css">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
@@ -954,11 +956,44 @@
 </header>
 
 <main id="main">
-<section class="page-hero section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">عن الكلية</span>
-    <h1 data-split>من يقرر، وبأي صلاحية.</h1>
-    <p class="lede">تفصل الكلية بين الحكم الأكاديمي والحوكمة المؤسسية وضمان الجودة والشؤون المالية والإدارة اليومية. تسمّي هذه الصفحة من يتولّى كلًّا منها، وتقول صراحةً أي المناصب لم تُشغَل بعد، لأن صفحة حوكمة تُقرأ وكأن كل المجالس منعقدة ستكون أخطر ما يمكن أن يُكتب على هذا الموقع.</p>
+<!--
+  الحوكمة — صفحة الركن.
+
+  THE ARABIC EDITION SHIPS WITH THE ENGLISH ONE, leaf for leaf.
+  Mirrors pages/governance.html: the masthead, the instrument of seven
+  articles, the docket, the attestations and the colophon.
+
+  THE FOUR UNEXERCISED ARTICLES ARE THE MOST IMPORTANT ON THE PAGE.
+  Each carries an open ring and never a tick — CLAUDE.md §5.
+-->
+
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/authority-chain.ar.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></p>
+
+    <p class="masthead__eyebrow">الحوكمة &middot; الكلية العالمية للغة الإنجليزية</p>
+    <h1>من يقرر، وبأي صلاحية.</h1>
+    <p class="lede">تفصل الكلية بين الحكم الأكاديمي والحوكمة المؤسسية وضمان الجودة والشؤون
+      المالية والإدارة اليومية. تسمّي هذه الصفحة من يتولّى كلًّا منها، وكيف يوضع المعيار
+      ويُفحص، وأي المناصب لم تُشغَل بعد &mdash; لأن صفحة حوكمة تُقرأ وكأن كل المجالس منعقدة
+      ستكون أخطر ما يمكن أن يُكتب على هذا الموقع.</p>
+
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>قرارات سارية</dt><dd>٣٠، كلها مؤرَّخة</dd></div>
+      <div class="masthead__fact"><dt>بنود الأدلة</dt><dd>٣٧، لا شيء مُقَرّ</dd></div>
+      <div class="masthead__fact"><dt>الممتحن الخارجي</dt><dd>المنصب شاغر</dd></div>
+      <div class="masthead__fact"><dt>الاعتماد</dt><dd>لا تحمل أيًّا منه</dd></div>
+    </dl>
+
+    <p class="masthead__motto">&laquo;لا يُسجَّل شيء بوصفه صحيحًا فحسب.&raquo;</p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+
+    <div class="btn-row u-center" style="margin-top:30px">
+      <a href="/ar/governance/evidence/" class="btn btn--gold">سجل الأدلة</a>
+      <a href="/ar/governance/decisions/" class="btn btn--outline">سجل القرارات</a>
+    </div>
   </div>
 </section>
 
@@ -966,29 +1001,136 @@
   <div class="contents__inner">
     <span class="contents__label">في هذه الصفحة</span>
     <ul class="contents__list">
-      <li><a href="#leadership">القيادة</a></li>
-      <li><a href="#board">مجلس الأمناء</a></li>
-      <li><a href="#senate">المجلس الأكاديمي</a></li>
-      <li><a href="#executive">الإدارة التنفيذية</a></li>
-      <li><a href="#examiner">الممتحن الخارجي المستقل</a></li>
-      <li><a href="#authority">الهيئتان الأكاديميتان</a></li>
+      <li><a href="#instrument">الوثيقة</a></li>
+      <li><a href="#leadership">قيادة في خدمة العلم</a></li>
+      <li><a href="#board">إشراف استراتيجي، منفصل عن الإدارة</a></li>
+      <li><a href="#senate">أعلى سلطة أكاديمية في الكلية</a></li>
+      <li><a href="#executive">التشغيل اليومي، وفق سياسات يقرّها مجلس الأمناء</a></li>
+      <li><a href="#examiner">المنصب الذي لا يُشغَل من الداخل</a></li>
+      <li><a href="#authority">الهيئتان، وصلاحية كل منهما</a></li>
       <li><a href="#basce">مجلس المعايير</a></li>
-      <li><a href="#standard">المعيار</a></li>
-      <li><a href="#quality">ضمان الجودة</a></li>
-      <li><a href="#verification">التحقق</a></li>
-      <li><a href="#research">البحث العلمي</a></li>
-      <li><a href="#decisions">كيف تُسجَّل القرارات</a></li>
-      <li><a href="#vacant">مناصب لم تُشغَل بعد</a></li>
+      <li><a href="#standard">ما يتطلبه حفظ المعيار فعلًا</a></li>
+      <li><a href="#quality">واحدة تدور مع كل تعديل، والأخرى لم تدر قط</a></li>
+      <li><a href="#verification">يستطيع أي أحد التحقق من الشهادة. ولم تصدر شهادة بعد</a></li>
+      <li><a href="#research">لا نتائج بحثية. أربعة أسئلة قابلة للإجابة</a></li>
+      <li><a href="#decisions">كل قرار أكاديمي يحمل صلاحيته</a></li>
+      <li><a href="#vacant">ما لا تملكه الكلية</a></li>
       <li><a href="#principles">مبادئ الحوكمة</a></li>
+      <li><a href="#attestations">ما يمكن فحصه</a></li>
     </ul>
   </div>
 </nav>
 
 
-<section class="section--paper section-pad" id="leadership">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">القيادة</span>
+<!-- الوثيقة — سبع مواد حوكمة، معلّقة على أرقامها ومختومة. أربع منها
+     موسومة بأنها لم تُمارَس قط، وهذه الأربع هي سبب وجود هذا الشكل. -->
+<section class="leaf section--oxford grain aurora" id="instrument" data-contents="الوثيقة">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">الوثيقة</span>
+      <p class="leaf__rubric">سبع مواد. كل واحدة تذكر صلاحية، ومن يحملها، وهل مُورست قط.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>الصلاحيات، مذكورة قبل من يحملونها.</h2>
+      <p class="lede">كل ما بعد هذه الورقة يصف هيئات ومناصب ودورات. وهذه الورقة تذكر
+        الصلاحيات التي وُجدت تلك من أجلها &mdash; وتضع على كل واحدة علامة تقول أمُورست قط أم
+        لا. وأربع من السبع لم تُمارَس.</p>
+
+      <div class="articles">
+        <div class="article reveal">
+          <div class="article__mark">
+            <span class="article__seal gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
+            <span class="article__num">المادة ١</span>
+          </div>
+          <div>
+            <h3>المعيار يملكه مجلس الأمناء لا الإدارة التنفيذية</h3>
+            <p>يملك مجلس الأمناء المعيار الأكاديمي والإطار الذي تحته. ولا يجوز لأي عضو في الإدارة التنفيذية تعديل أيٍّ منهما، ولا يبلغ اعتبار تجاري المعيار إلا عبر المجلس.</p>
+            <span class="article__state article__state--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> لم تُمارَس &middot; المجلس لم يجتمع قط</span>
+          </div>
+        </div>
+        <div class="article reveal">
+          <div class="article__mark">
+            <span class="article__seal gold-live"><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg></span>
+            <span class="article__num">المادة ٢</span>
+          </div>
+          <div>
+            <h3>الحكم الأكاديمي للمجلس الأكاديمي وحده</h3>
+            <p>الدرجات والانتقال والشهادات قرارات أكاديمية، لا إدارية، ولا يجوز نقضها لأسباب إدارية أو تجارية من أي أحد على أي مستوى في الكلية.</p>
+            <span class="article__state article__state--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> لم تُمارَس &middot; المجلس لم ينعقد قط</span>
+          </div>
+        </div>
+        <div class="article reveal">
+          <div class="article__mark">
+            <span class="article__seal gold-live"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></span>
+            <span class="article__num">المادة ٣</span>
+          </div>
+          <div>
+            <h3>لا تُمنح شهادة دون فحص خارجي</h3>
+            <p>يراجع ممتحن خارجي مستقل التقييم ويعدّل الشهادات. المنصب موجود وصلاحياته مكتوبة وهو شاغر &mdash; ولهذا لم تُمنح شهادة لأي شخص.</p>
+            <span class="article__state article__state--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> لم تُمارَس &middot; المنصب شاغر</span>
+          </div>
+        </div>
+        <div class="article reveal">
+          <div class="article__mark">
+            <span class="article__seal gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+            <span class="article__num">المادة ٤</span>
+          </div>
+          <div>
+            <h3>كل قرار مؤرَّخ ومنسوب</h3>
+            <p>كل ربط ونتيجة وعتبة تسجّل الهيئة التي قررتها وتاريخ القرار. ولا يُسجَّل شيء بوصفه صحيحًا فحسب. وثلاثون قرارًا سارية، وكل واحد منها يحمل الاثنين.</p>
+            <span class="article__state article__state--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> سارية &middot; ٣٠ قرارًا</span>
+          </div>
+        </div>
+        <div class="article reveal">
+          <div class="article__mark">
+            <span class="article__seal gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
+            <span class="article__num">المادة ٥</span>
+          </div>
+          <div>
+            <h3>معايير التقييم تُنشر قبل العمل</h3>
+            <p>المعيار الذي يظهر بعد التسليم تبرير. وكل معيار وشرط نجاح يُنشر للمتعلم قبل التقييم الذي يحكمه، دون استثناء.</p>
+            <span class="article__state article__state--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> سارية &middot; مُنفَّذة في المنصة</span>
+          </div>
+        </div>
+        <div class="article reveal">
+          <div class="article__mark">
+            <span class="article__seal gold-live"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+            <span class="article__num">المادة ٦</span>
+          </div>
+          <div>
+            <h3>يستطيع أي أحد التحقق من شهادة</h3>
+            <p>التحقق لا يستلزم حسابًا ولا صلة بالكلية. والشهادة التي لا يستطيع أحد خارج المؤسسة فحصها شهادة تطلب المؤسسة أن يُوثق بها فيها.</p>
+            <span class="article__state article__state--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> سارية &middot; مفتوحة للعامة</span>
+          </div>
+        </div>
+        <div class="article reveal">
+          <div class="article__mark">
+            <span class="article__seal gold-live"><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></span>
+            <span class="article__num">المادة ٧</span>
+          </div>
+          <div>
+            <h3>يُراجَع الإطار مقابل ما ينتجه التدريس</h3>
+            <p>تدور دورة الجودة سنويًا مقابل أدلة حقيقية من دفعات حقيقية. ولم تدر قط، لأنه لم تُدرَّس دفعة، والسجل يقول ذلك بدل أن يصف دورة قائمة.</p>
+            <span class="article__state article__state--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> لم تُمارَس &middot; بانتظار أول دفعة</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="leadership">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٢</span>
+      <span class="leaf__label">القيادة</span>
+      <p class="leaf__rubric">من يشغل منصبًا اليوم، والمناصب المعرَّفة والفارغة.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>قيادة في خدمة العلم.</h2>
       <p class="lede">تُحكَم الكلية بإطار يفصل بين الحكم الأكاديمي، والحوكمة المؤسسية، وضمان
         الجودة، والشؤون المالية، والإدارة اليومية. وهذا الفصل ليس ترتيبًا إداريًا، بل هو ما
@@ -1001,12 +1143,19 @@
         يديرونها اليوم.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="board">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">مجلس الأمناء</span>
+<section class="leaf section--light grain" id="board">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٣</span>
+      <span class="leaf__label">مجلس الأمناء</span>
+      <p class="leaf__rubric">الهيئة التي تملك المعيار. صلاحياتها مكتوبة، ولم تجتمع قط.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>إشراف استراتيجي، منفصل عن الإدارة.</h2>
       <p class="lede">يحفظ المجلس رسالة الكلية، ويصون استقلالها الأكاديمي، ويشرف على استدامتها
         المالية، ويعيّن كبار المسؤولين. ومعياره في كل قرار هو مصلحة المتعلمين على المدى
@@ -1015,6 +1164,7 @@
     <div class="grid grid--2">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
         <span class="card__num">رئيس مجلس الأمناء</span>
         <h3><span dir="ltr">Dr. Ibrahim Musa Al-Khatib, PhD</span></h3>
         <p class="faculty__creds"><span dir="ltr">PhD Higher Education Leadership (Edinburgh); MEd Educational Administration (Birmingham); BA English Language and Literature (Al-Azhar); Fellow, Chartered College of Teaching</span></p>
@@ -1022,6 +1172,7 @@
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
         <span class="card__num">عضو مستقل بمجلس الأمناء</span>
         <h3><span dir="ltr">Professor Mary Elizabeth Thompson, PhD</span></h3>
         <p class="faculty__creds"><span dir="ltr">PhD Applied Linguistics (Cambridge); MA TESOL (Leeds); BA English Studies (Durham); former Professor of Language Assessment</span></p>
@@ -1029,6 +1180,7 @@
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
         <span class="card__num">عضو مجلس الأمناء للشؤون الأكاديمية</span>
         <h3><span dir="ltr">Dr. Yusuf Abdulrahman Bello</span></h3>
         <p class="faculty__creds"><span dir="ltr">PhD Applied Linguistics; MA TESOL; B.Ed English Education; Cambridge Assessment Specialist</span></p>
@@ -1036,6 +1188,7 @@
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
         <span class="card__num">عضوة مجلس الأمناء للمالية والمراجعة</span>
         <h3><span dir="ltr">Mrs. Grace Nneka Okafor, FCA</span></h3>
         <p class="faculty__creds"><span dir="ltr">MBA Finance; BSc Accounting; Fellow, Institute of Chartered Accountants</span></p>
@@ -1043,6 +1196,7 @@
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
         <span class="card__num">عضو مجلس الأمناء للأخلاقيات والقيم المؤسسية</span>
         <h3><span dir="ltr">Sheikh Dr. Abdul Hakeem Al-Faruqi</span></h3>
         <p class="faculty__creds"><span dir="ltr">PhD Islamic Education; MA Comparative Ethics; author on educational ethics</span></p>
@@ -1050,6 +1204,7 @@
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
         <span class="card__num">عضو مجلس الأمناء</span>
         <h3><span dir="ltr">Ahmad Sulaimi</span></h3>
         <p class="faculty__creds">لا يُدَّعى أي مؤهل. مجالات الاهتمام: تصميم مناهج اللغة الإنجليزية، والنشر التعليمي، وأنظمة التعلّم الرقمي، وتعليم الإنجليزية دوليًا.</p>
@@ -1057,12 +1212,19 @@
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad" id="senate">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">المجلس الأكاديمي</span>
+<section class="leaf section--dark grain aurora" id="senate">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٤</span>
+      <span class="leaf__label">المجلس الأكاديمي</span>
+      <p class="leaf__rubric">سلطة أكاديمية، مفصولة عن السلطة التنفيذية عن قصد.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>أعلى سلطة أكاديمية في الكلية.</h2>
       <p class="lede">يشرف المجلس على المعايير الأكاديمية، وتطوير المناهج، ونزاهة التقييم، وجودة
         البحث، واللوائح الأكاديمية. ويعمل مستقلًا عن الإدارة التشغيلية، ويقدّم المشورة لمجلس
@@ -1071,6 +1233,7 @@
     <div class="grid grid--3">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
         <span class="card__num">عميد الشؤون الأكاديمية</span>
         <h3><span dir="ltr">Professor Daniel Jonathan Williams</span></h3>
         <p class="faculty__creds"><span dir="ltr">PhD Applied Linguistics; MA Language Education; former Dean of Languages</span></p>
@@ -1078,6 +1241,7 @@
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
         <span class="card__num">أستاذة تعليم اللغة الإنجليزية</span>
         <h3><span dir="ltr">Professor Amina Rahman</span></h3>
         <p class="faculty__creds"><span dir="ltr">PhD TESOL; former Cambridge Examiner</span></p>
@@ -1085,6 +1249,7 @@
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
         <span class="card__num">أستاذ اللسانيات التطبيقية</span>
         <h3><span dir="ltr">Professor David Adewale Johnson</span></h3>
         <p class="faculty__creds"><span dir="ltr">PhD Applied Linguistics</span></p>
@@ -1096,12 +1261,19 @@
       الوصف التي سيقرّها مسجَّلة <b>مؤقتة</b>. قائمة الأعضاء ليست اعتمادًا، وهذا الموقع لا
       يجعل إحداهما تنوب عن الأخرى.</p>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="executive">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الإدارة التنفيذية</span>
+<section class="leaf section--light grain" id="executive">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٥</span>
+      <span class="leaf__label">الإدارة التنفيذية</span>
+      <p class="leaf__rubric">من يدير الكلية يوميًا، وحدود ما يقرّرونه وحدهم.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>التشغيل اليومي، وفق سياسات يقرّها مجلس الأمناء.</h2>
       <p class="lede">تدير الإدارة التنفيذية الكلية. وهي لا تضع المعايير التي تعمل بموجبها، ولا
         تراجع عملها بنفسها &mdash; فالأولى للمجلس الأكاديمي، والثانية للممتحن الخارجي.</p>
@@ -1109,6 +1281,7 @@
     <div class="grid grid--2">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg></span>
         <span class="card__num">رئيس الكلية</span>
         <h3><span dir="ltr">Dr. Kaelan Armand</span></h3>
         <p class="faculty__creds"><span dir="ltr">PhD Higher Education Leadership (University College London); MBA International Educational Management; MA Educational Policy; BA International Studies</span></p>
@@ -1116,36 +1289,47 @@
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></span>
         <span class="card__num">وكيلة الكلية</span>
         <h3><span dir="ltr">Dr. Sarah Elizabeth Morgan</span></h3>
         <p>العمليات الأكاديمية، وقيادة هيئة التدريس، وتعزيز الجودة، والتخطيط الأكاديمي الاستراتيجي.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
         <span class="card__num">مسجّل الكلية</span>
         <h3><span dir="ltr">Mr. Musa Suleiman</span></h3>
         <p>سجلات الطلاب، واللوائح الأكاديمية، والتخرّج، والوثائق المؤسسية، والتصديق الرسمي.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
         <span class="card__num">مديرة ضمان الجودة</span>
         <h3><span dir="ltr">Mrs. Rebecca Anne Collins</span></h3>
         <p>المراجعة الأكاديمية، والتدقيق المؤسسي، والامتثال للسياسات، والتحسين المستمر، وتقييم البرامج.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
         <span class="card__num">مديرة نجاح الطلاب</span>
         <h3><span dir="ltr">Mrs. Hannah Grace Osei</span></h3>
         <p>رفاه الطلاب، والدعم الأكاديمي، والإرشاد التعليمي، ومشاركة الطلاب، وتقدّم الخريجين.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad" id="examiner">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الممتحن الخارجي المستقل</span>
+<section class="leaf section--paper grain" id="examiner">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٦</span>
+      <span class="leaf__label">الممتحن الخارجي المستقل</span>
+      <p class="leaf__rubric">المنصب الذي يفحص الكلية من خارجها. لا أحد يشغله.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>المنصب الذي لا يُشغَل من الداخل.</h2>
     </div>
     <p class="lede">يراجع الممتحن الخارجي التقييمات والمعايير الأكاديمية واتساق التصحيح وسلامة
@@ -1158,17 +1342,25 @@
         هامش.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="authority">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الهيئتان الأكاديميتان</span>
+<section class="leaf section--light grain" id="authority">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٧</span>
+      <span class="leaf__label">سلسلة الصلاحية</span>
+      <p class="leaf__rubric">من أين تأتي كل صلاحية، وأين تقف.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>الهيئتان، وصلاحية كل منهما.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
         <span class="card__num"><span dir="ltr">BASCE</span></span>
         <h3>مجلس المعايير الأكاديمية والتميّز المنهجي</h3>
         <p>يحدّد كفايات الكلية؛ ويربط كل تقييم بكفاية أو أكثر؛ ويضمن أن كل كفاية تُقاس مرات
@@ -1179,6 +1371,7 @@
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg></span>
         <span class="card__num"><span dir="ltr">SENATE</span></span>
         <h3>المجلس الأكاديمي</h3>
         <p>يقرّ الربط بين التقييمات والمهارات اللغوية الأربع، ويقرّ عتبات الوصف التي تحوّل
@@ -1268,30 +1461,45 @@
       </figcaption>
     </figure>
   </div>
+  </div>
 </section>
 
-<section id="basce" data-contents="مجلس المعايير" class="section--light section-pad">
-  <div class="container reveal">
+<section id="basce" data-contents="مجلس المعايير" class="leaf section--light grain">
+  
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٨</span>
+      <span class="leaf__label">ما يقرره المجلس</span>
+      <p class="leaf__rubric">ما يبتّ فيه المجلس الأكاديمي، وما لا يبتّ فيه أحد سواه.</p>
+    </div>
+    <div class="leaf__body reveal">
     <div class="stat-row">
       <div class="stat-row__item"><b><span dir="ltr">BASCE</span></b><span>الرمز</span></div>
       <div class="stat-row__item"><b><span dir="ltr">2026-08-04</span></b><span>تاريخ التأسيس</span></div>
       <div class="stat-row__item"><b><span dir="ltr">0</span></b><span>الأعضاء المعيَّنون</span></div>
       <div class="stat-row__item"><b><span dir="ltr">6</span></b><span>الكفايات المعرَّفة</span></div>
     </div>
-    <div class="section-head">
-      <span class="module-marker">الصلاحية</span>
+      <div class="section-head">
       <h2>ما يقرره المجلس.</h2>
       <p class="lede">يحدّد كفايات الكلية؛ ويربط كل تقييم بكفاية أو أكثر؛ <b>ويضمن أن كل كفاية
         تُقاس مرات متعددة في كل مستوى</b>؛ ويقرّ أوصاف الكفايات؛ ويراجع الربط سنويًا؛ ويحفظ
         تماسك إطار الكفايات.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الإطار</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٩</span>
+      <span class="leaf__label">الكفايات</span>
+      <p class="leaf__rubric">الكفايات الست التي يُقاس إليها كل شيء.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>الكفايات الست.</h2>
     </div>
     <div class="table-scroll">
@@ -1308,12 +1516,19 @@
       </table>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">التغطية</span>
+<section class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٠</span>
+      <span class="leaf__label">التغطية</span>
+      <p class="leaf__rubric">كم مرة تُقاس كل كفاية فعلًا، لا كم مرة يُقال إنها تُقاس.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>كم مرة تُقاس كل كفاية فعلًا.</h2>
       <p class="lede">الجدول أعلاه يقول ما هي الكفايات الست. ولا يستطيع أن يقول كم وزنًا تحمل
         كل واحدة منها اليوم، والجواب أنفع ما في هذه الصفحة.</p>
@@ -1386,29 +1601,39 @@
         الفجوة هي العمل، وتسميتها هي طريقة إغلاقها.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الموقف الحالي</span>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١١</span>
+      <span class="leaf__label">معرَّفة وغير مُقرَّة</span>
+      <p class="leaf__rubric">ما هو مكتوب وموجود ولم يُقَرّ بعد.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>معرَّفة، ومربوطة، وغير مُقرَّة بعد.</h2>
     </div>
     <div class="grid grid--3">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span>
         <span class="card__num">معرَّفة</span>
         <h3>ست كفايات</h3>
         <p>لكل منها تعريف كُتب ليكون قابلًا للنقاش لا عصيًّا على التفنيد. عبارة «يُفهم من المرة الأولى من الحاضرين فعلًا» يمكن الاعتراض عليها؛ أما «مهارات تواصل ممتازة» فلا.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
         <span class="card__num">مربوطة</span>
         <h3>المستوى الأول وحده حتى الآن</h3>
         <p>كل تقييم في المستوى الأول مربوط بالكفايات التي يدل عليها، مع وزن ومسوّغ مكتوب. والمستويات من الثاني إلى السادس بلا أي ارتباط بالكفايات بعد.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">غير مُقرَّة</span>
         <h3>لا أعضاء معيَّنون</h3>
         <p>كل ارتباط مسجَّل مؤقتًا. الهيئة بلا أعضاء لا تستطيع الإقرار، ويفشل البناء إن وُسم أي ارتباط بأنه مُقَر بينما عدد الأعضاء صفر.</p>
@@ -1422,47 +1647,65 @@
         صفحة تؤثر فيها على قرارك، لا مرة واحدة في هامش.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="standard">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">المعيار</span>
+<section class="leaf section--light grain" id="standard">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٢</span>
+      <span class="leaf__label">المعيار</span>
+      <p class="leaf__rubric">ما يتطلبه حفظ المعيار فعلًا، لا ما يعنيه إعلانه.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>ما يتطلبه حفظ المعيار فعلًا.</h2>
     </div>
     <div class="grid grid--4">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
         <span class="card__num">الأول</span>
         <h3>يُنشر قبل أن يُطبَّق</h3>
         <p>المخرجات ومعايير التصحيح وعتبات النجاح تُنشر للمتعلم قبل التقييم لا تُشرح بعده. المعيار الذي يُكشف بعد الحدث ليس معيارًا، بل تبرير.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
         <span class="card__num">الثاني</span>
         <h3>تُصحَّح منفصلة، ولها حدود دنيا</h3>
         <p>المهارات اللغوية الأربع تُصحَّح منفصلة، والدرجة الكلية لا تحمل مهارة دون حدها. التعويض غير المحدود هو كيف تصف شهادةٌ شخصًا لا يُفهم حين يتكلم.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
         <span class="card__num">الثالث</span>
         <h3>يُكتب قبل التدريس</h3>
         <p>كل تقييم موجود قبل الدرس الذي يختبره، فيُبنى التدريس نحو المعيار بدل أن يُجمَّع المعيار بعده مما تصادف تدريسه.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
         <span class="card__num">الرابع</span>
         <h3>يؤكده الخارج، أو لا يُؤكَّد</h3>
         <p>لا شيء داخلي يستطيع إثبات أن المستوى في الموضع الذي يقول إنه فيه. ذلك يتطلب ممتحنًا خارجيًا، ولا ممتحن معيَّنًا — ولهذا لم تُمنح شهادة.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">مُنفَّذ لا منويّ</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٣</span>
+      <span class="leaf__label">مُنفَّذ لا منويّ</span>
+      <p class="leaf__rubric">الفرق بين قاعدة تحفظها الكلية وقاعدة تنوي حفظها.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>الأجزاء التي تفحصها آلة.</h2>
       <p class="lede">برنامج بهذا الحجم لا يُحفظ متسقًا بالعناية. عدة خصائص تُفشل البناء حين
         تُكسر، وهذا هو الشكل الوحيد من الاتساق الذي ينجو من سنة من التعديلات.</p>
@@ -1470,18 +1713,21 @@
     <div class="grid grid--3">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
         <span class="card__num">التسلسل</span>
         <h3>كل متطلب سابق يُدرَّس قبله</h3>
         <p>الدرس الذي يعتمد على شيء يدرّسه البرنامج لاحقًا — أو لا يدرّسه أصلًا — خلل لا تجده المراجعة اليدوية بموثوقية.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
         <span class="card__num">المعايير</span>
         <h3>سياسة منشورة واحدة عبرها جميعًا</h3>
         <p>المحاور والأوزان والوصف تتبع سياسة واحدة، تُفحص آليًا. ستون معيارًا تتباعد من تلقاء نفسها بغير ذلك.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quote"/></svg></span>
         <span class="card__num">الادعاءات</span>
         <h3>الأرقام المنشورة تطابق السجل</h3>
         <p>كل رقم على هذا الموقع يُفحص مقابل المنهج الذي يصفه. الرقم المنشور الذي كفّ بهدوء عن كونه صحيحًا هو كيف تصل مؤسسة إلى وصف نفسها وصفًا خاطئًا.</p>
@@ -1494,12 +1740,19 @@
         إلى وصف نفسها وصفًا خاطئًا.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad" id="quality">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">ضمان الجودة</span>
+<section class="leaf section--paper grain" id="quality">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/astrolabe.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٤</span>
+      <span class="leaf__label">ضمان الجودة</span>
+      <p class="leaf__rubric">الدورة التي يصير بها المعيار المكتوب معيارًا مفحوصًا.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>واحدة تدور مع كل تعديل، والأخرى لم تدر قط.</h2>
       <p class="lede">القسمان أعلاه ليسا قائمتين من النوع نفسه، بل حلقتان تدوران بسرعتين
         مختلفتين تمامًا، وهو ما تقوله الصفحة في جملة دون أن يراه أحد تمامًا.</p>
@@ -1560,23 +1813,32 @@
       </figcaption>
     </figure>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">ما سيجده المراجع</span>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٥</span>
+      <span class="leaf__label">قبل أن يُسأل</span>
+      <p class="leaf__rubric">ما تقوله الكلية عن نفسها قبل أن يسأل عنه أحد.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>يُذكر قبل أن يسأل.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span>
         <span class="card__num">موجود</span>
         <h3>برنامج كامل وموثَّق</h3>
         <p>مواصفات ومخرجات وساعات ومعايير تصحيح وربط بالكفايات، وسجل أدلة من سبعة وثلاثين بندًا عبر ثلاث وعشرين مجموعة.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">غير موجود</span>
         <h3>كل ما يتطلب طرفًا خارجيًا أو اجتماعًا لم يُعقد</h3>
         <p>لا اعتماد، ولا ممتحن خارجي، ولا مراجع أكاديمي، ولا أعضاء في مجلس المعايير، ولا بند دليل واحد مُقَر، ولا دفعة دُرِّست، ولا خريجون. وقد عُيِّن مجلس الأمناء والمجلس الأكاديمي والإدارة التنفيذية في الرابع عشر من أغسطس ٢٠٢٦، واتُّخذت القرارات الحاكمة الثلاثون جميعها، ولم يُحرِّك ذلك أيًّا مما سبق — لأن كل بند منه يتطلب شخصًا من خارج الكلية، أو اجتماعًا لم يُعقد بعد.</p>
@@ -1587,12 +1849,19 @@
       فلا أحد يستطيع إقرار شيء. المؤسسة التي تُقِرّ أدلتها بنفسها بهدوء يكون لديها سجل كامل وضمان
       معدوم.</p>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="verification">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">التحقق</span>
+<section class="leaf section--light grain" id="verification">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/astrolabe.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٦</span>
+      <span class="leaf__label">التحقق</span>
+      <p class="leaf__rubric">تحقّق من الشهادة مفتوح لأي أحد، بلا حساب ولا صلة بالكلية.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>يستطيع أي أحد التحقق من الشهادة. ولم تصدر شهادة بعد.</h2>
       <p class="lede">يستطيع حامل رمز التحقق أن يتحقق من شهادته دون حساب أو إذن من الكلية،
         والمسار مبني ومفتوح قبل أول شهادة عمدًا: إلحاق التوقيع بشهادة صدرت من قبل لا يثبت شيئًا
@@ -1600,12 +1869,19 @@
         السجل العام قرار الخريج لا نتيجة تخرجه. ولم تُمنح شهادة، فلم يجرِ تحقق من شيء بعد.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad" id="research">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">البحث العلمي</span>
+<section class="leaf section--paper grain" id="research">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٧</span>
+      <span class="leaf__label">البحث</span>
+      <p class="leaf__rubric">ما تدرسه الكلية عن تدريسها، وما لم تستطع دراسته بعد.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>لا نتائج بحثية. أربعة أسئلة قابلة للإجابة.</h2>
       <p class="lede">لا تجري الكلية أي بحث: لا أوراق ولا مؤتمرات ولا مشاريع ممولة ولا باحثين
         ولا نتائج. موقف المؤسسة الجديدة من البحث جدول أعمال لا نتاج: أسئلة ولّدها بناء البرنامج
@@ -1615,41 +1891,58 @@
         الإجابة، وبخاصة إن جاءت ضد قرار تصميمي منشور.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad" id="decisions">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">كيف تُسجَّل القرارات</span>
+<section class="leaf section--paper grain" id="decisions">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٨</span>
+      <span class="leaf__label">السجلات</span>
+      <p class="leaf__rubric">كيف تُسجَّل القرارات، وتاريخ اتخاذ كل واحد منها.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>كل قرار أكاديمي يحمل صلاحيته.</h2>
     </div>
     <div class="grid grid--3">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
         <span class="card__num">من قرّر</span>
         <h3>صلاحية مسمّاة</h3>
         <p>كل ربط ومخرَج وعتبة يسجّل الهيئة التي اتُّخذ تحتها &mdash; المجلس المنهجي أو المجلس الأكاديمي &mdash; ويسجّل حالته. ولا شيء يُسجَّل بوصفه صحيحًا فحسب.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
         <span class="card__num">على أي أساس</span>
         <h3>مسوّغ مذكور</h3>
         <p>كل ربط بكفاية يحمل مسوّغًا يشرح لماذا يدلّ ذلك التقييم على تلك الكفاية. والربط بلا مسوّغ رأيٌ اكتسب سلطة سطرٍ في قاعدة بيانات.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
         <span class="card__num">متى يُراجَع</span>
         <h3>دورة سنوية</h3>
         <p>يُراجَع الإطار سنويًا في ضوء ما ينتجه التدريس من أدلة. ولا يمكن أن تبدأ الدورة الأولى قبل تدريس دفعة، والسجل يقول ذلك بدل وصف دورة لم تدر قط.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad" id="vacant">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">مناصب لم تُشغَل بعد</span>
+<section class="leaf section--dark grain aurora" id="vacant">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/laurel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٩</span>
+      <span class="leaf__label">مناصب لم تُشغَل</span>
+      <p class="leaf__rubric">مناصب موجودة ومعرَّفة وفارغة. تُنشر بوصفها فارغة.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>ما لا تملكه الكلية.</h2>
       <p class="lede">مذكورة لا محذوفة. كل واحد منها يعطّل أمرًا بعينه، وتسمية ما يعطّله أنفع
         من صفحة تقف عند حدّ الصمت.</p>
@@ -1657,24 +1950,28 @@
     <div class="grid grid--2">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">ممتحن خارجي</span>
         <h3>شرط قبل منح أي شهادة</h3>
         <p>المنصب المستقل الذي وظيفته كلها أن يكون خارج الكلية. وإلى أن يُشغَل تبقى الشهادات معرَّفة ومنشورة ولا يمكن منحها لأحد على وجه صحيح. ولا يغني عنه أي تعيين داخلي، ولذلك لم يُغيّره تشكيل مجلس الأمناء والمجلس الأكاديمي والإدارة التنفيذية.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">أعضاء مجلس المعايير</span>
         <h3>شرط قبل إقرار الكفايات</h3>
         <p>مجلس المعايير الأكاديمية والتميّز المنهجي بلا أعضاء معيَّنين. والإقرار &mdash; بخلاف الاعتماد المؤقت &mdash; ينتظر التعيين. ولمجلس الأمناء عضو للشؤون الأكاديمية، وهي هيئة أخرى بصلاحية أخرى، ولا تُقرأ على أنها عضوية في مجلس المعايير.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">انعقاد المجلس الأكاديمي</span>
         <h3>شرط قبل إقرار روابط المهارات</h3>
         <p>للمجلس أعضاء معيَّنون ولم يجتمع بعد. التشكيل والانعقاد حدثان، والسجل يحفظهما منفصلين كي لا ينوب أحدهما عن الآخر بهدوء.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">مراجع أكاديمي</span>
         <h3>شرط قبل مراجعة المنشورات</h3>
         <p>كل مجلّد منشور من تأليف المطبعة، ولم يقرأه قارئ مؤهَّل لم يكتبه. وكل مجلّد يذكر ذلك في صفحة بياناته. ويستطيع أي من أعضاء هيئة التدريس العشرة توليها الآن؛ يكفي أن يُسجَّل التكليف.</p>
@@ -1683,6 +1980,7 @@
     <p class="form-note">هذه الصفحة تصف بنية مكتملة التصميم وغير مكتملة التشغيل. ذكر ذلك
       اختيار: المؤسسة التي تصف مجالسها بصيغة الحاضر قبل أن تُعيَّن هي المؤسسة التي لن يصدَّق
       شيء آخر مما تقوله حين يُكتشف الأمر.</p>
+  </div>
   </div>
 </section>
 
@@ -1706,6 +2004,77 @@
       <li><span class="num"><span dir="ltr">6</span></span>
         <div><h3>الوصاية</h3><p>الكلية مبنية للأجيال القادمة لا للأشخاص الحاضرين.</p></div></li>
     </ol>
+  </div>
+</section>
+
+<!-- الورقة العشرون — ما يمكن فحصه -->
+<section class="leaf section--light grain" id="attestations" data-contents="ما يمكن فحصه">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٢٠</span>
+      <span class="leaf__label">ما يمكن فحصه</span>
+      <p class="leaf__rubric">ستة ادعاءات، كلٌّ مع دليله أو مع العلامة المفتوحة التي تقول إنه لا دليل بعد.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>كل ادعاء في هذه الصفحة، ومعه ما يسنده.</h2>
+      <p class="lede">المؤسسة التي تنشر ادعاءات وتحتفظ بالأدلة لنفسها تطلب أن يُوثق بها. وهذه
+        الستة أول ما يسأل عنه مراجع، وكلٌّ مُجاب بما هو موجود فعلًا لا بما هو مخطَّط.</p>
+
+      <div class="attests">
+        <div class="attest reveal edge-lit edge-lit--light aurum aurum--hover">
+          <h3>المنهج مكتوب كاملًا</h3>
+          <p>ستون وحدة عبر ستة مستويات، لكل واحدة امتحانها وتكليفها، مؤلَّفة قبل الدروس التي تختبرها.</p>
+          <span class="attest__evidence attest__evidence--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> الدليل: المنهج المنشور</span>
+        </div>
+        <div class="attest reveal edge-lit edge-lit--light aurum aurum--hover">
+          <h3>كل قرار مؤرَّخ ومنسوب</h3>
+          <p>ثلاثون قرارًا ساريًا، كل واحد يسجّل الهيئة التي اتخذته وتاريخ اتخاذه.</p>
+          <span class="attest__evidence attest__evidence--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> الدليل: سجل القرارات</span>
+        </div>
+        <div class="attest reveal edge-lit edge-lit--light aurum aurum--hover">
+          <h3>يمكن لأي أحد فحص الشهادات</h3>
+          <p>التحقق لا يستلزم حسابًا ولا صلة بالكلية. ولم يصدر عبره شيء بعد.</p>
+          <span class="attest__evidence attest__evidence--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> الدليل: الفحص العلني</span>
+        </div>
+        <div class="attest reveal edge-lit edge-lit--light aurum aurum--hover">
+          <h3>المعيار روجع مستقلًّا</h3>
+          <p>لم يُراجَع. لم يُعيَّن ممتحن خارجي، ولم تنظر أي جهة خارجية في الإطار.</p>
+          <span class="attest__evidence attest__evidence--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> لا دليل &middot; المنصب شاغر</span>
+        </div>
+        <div class="attest reveal edge-lit edge-lit--light aurum aurum--hover">
+          <h3>دورة الجودة أتمّت دورةً</h3>
+          <p>لم تُتِمّ. الدورة مصمَّمة وتحتاج دفعة مدرَّسة لتدور عليها، ولم تُدرَّس دفعة.</p>
+          <span class="attest__evidence attest__evidence--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> لا دليل &middot; بانتظار دفعة</span>
+        </div>
+        <div class="attest reveal edge-lit edge-lit--light aurum aurum--hover">
+          <h3>مُنحت شهادة</h3>
+          <p>لم تُمنح لأي شخص. ست شهادات معرَّفة ومنشورة، ولم تصدر واحدة منها.</p>
+          <span class="attest__evidence attest__evidence--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> لا دليل &middot; لم تُمنح شهادة</span>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:30px">
+        <a href="/ar/governance/evidence/" class="btn btn--gold">سجل الأدلة &mdash; البنود السبعة والثلاثون</a>
+        <a href="/ar/governance/decisions/" class="btn btn--outline">سجل القرارات</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- الخاتمة -->
+<section class="colophon section--paper grain">
+  <div class="container">
+    <p class="colophon__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+    <p>تنشر الكلية حوكمتها قبل أن يختبرها أحد: الصلاحيات، والهيئات التي تحملها، والقرارات
+      المتخذة تحتها وتواريخها، والمناصب المعرَّفة الفارغة. وأربع من موادها السبع لم تُمارَس قط،
+      وكل واحدة من الأربع تقول ذلك على وجهها لا في هامش.</p>
+    <dl>
+      <div><dt>المواد</dt><dd>سبع</dd></div>
+      <div><dt>المُمارَس منها</dt><dd>ثلاث</dd></div>
+      <div><dt>القرارات</dt><dd>٣٠، كلها مؤرَّخة</dd></div>
+      <div><dt>بنود الأدلة</dt><dd>٣٧، لا شيء مُقَرّ</dd></div>
+    </dl>
   </div>
 </section>
 

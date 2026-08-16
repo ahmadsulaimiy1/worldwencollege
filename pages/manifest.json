@@ -631,7 +631,11 @@
     "lang": "en",
     "dir": "ltr",
     "contents": true,
-    "altHref": "/ar/governance/"
+    "altHref": "/ar/governance/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/governance.css"
+    ]
   },
   {
     "slug": "governance-evidence",
@@ -641,7 +645,11 @@
     "contentFile": "governance-evidence.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/governance/evidence/"
+    "altHref": "/ar/governance/evidence/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/governance.css"
+    ]
   },
   {
     "slug": "governance-decisions",
@@ -651,7 +659,11 @@
     "contentFile": "governance-decisions.html",
     "lang": "en",
     "dir": "ltr",
-    "altHref": "/ar/governance/decisions/"
+    "altHref": "/ar/governance/decisions/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/governance.css"
+    ]
   },
   {
     "slug": "governance-ar",
@@ -662,7 +674,11 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/governance/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/governance.css"
+    ]
   },
   {
     "slug": "academics-teaching",
@@ -817,7 +833,11 @@
     "contentFile": "governance-evidence.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/governance/evidence/"
+    "altHref": "/governance/evidence/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/governance.css"
+    ]
   },
   {
     "slug": "governance-decisions-ar",
@@ -827,6 +847,10 @@
     "contentFile": "governance-decisions.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/governance/decisions/"
+    "altHref": "/governance/decisions/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/governance.css"
+    ]
   }
 ]
