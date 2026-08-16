@@ -180,7 +180,11 @@
 }
 .matricula__rows { display: grid; gap: 0; margin: 0; }
 .matricula__row {
-  display: grid; grid-template-columns: minmax(120px, .7fr) 1fr;
+  /* A capped track, not a fraction. As .7fr the term column grew with
+     the card and left the value stranded half a card away from its own
+     label — a record card is read across, so the two have to stay
+     within a saccade of each other. */
+  display: grid; grid-template-columns: minmax(110px, 190px) 1fr;
   gap: .6em clamp(14px, 2.4vw, 28px);
   padding: .85em 0;
   border-bottom: 1px solid rgba(247, 244, 236, .1);
