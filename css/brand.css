@@ -1573,6 +1573,31 @@ section { position: relative; }
   border: 1px solid var(--line-dark); border-radius: 8px; cursor: pointer;
   background: rgba(255,255,255,.03); transition: border-color .15s ease, background .15s ease;
 }
+/* THE RADIO IS A 44px CONTROL, drawn as a 20px one.
+   These six sat at the browser default of 13×13 — the smallest tap
+   targets on the site, on the one interaction an applicant must
+   complete six times to get a level recommendation. The label around
+   each was already comfortably large, but a thumb aiming at the circle
+   still hit 13px, and every accessibility tool measured 13px because
+   that is what the interactive element's own box was.
+   Same technique as the declaration checkboxes in css/pages.css: a
+   44px box with the visible mark drawn as a background image. Not
+   `transform: scale()` — that changes the measured rect too, so it
+   would report the small size and fail for the same reason. */
+.level-quiz__option input[type="radio"] {
+  -webkit-appearance: none; appearance: none;
+  width: 44px; height: 44px; flex: 0 0 auto;
+  margin: -12px -12px -12px -12px; cursor: pointer;
+  border: 0; background: transparent center / 20px 20px no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='9' fill='rgba(8,16,34,.45)' stroke='%23C7A24A' stroke-width='1.5'/%3E%3C/svg%3E");
+  transition: background-image var(--dur-fast) ease;
+}
+.level-quiz__option input[type="radio"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='9' fill='rgba(8,16,34,.45)' stroke='%23E7C97A' stroke-width='1.5'/%3E%3Ccircle cx='10' cy='10' r='5' fill='%23D4AF37'/%3E%3C/svg%3E");
+}
+.level-quiz__option input[type="radio"]:focus-visible {
+  outline: 2px solid var(--gold-bright); outline-offset: -10px; border-radius: 50%;
+}
 .level-quiz__option:hover { border-color: var(--gold); }
 .level-quiz__option:has(input:checked) { border-color: var(--gold); background: rgba(199,162,74,.1); }
 .level-quiz__option input { margin-top: 3px; accent-color: var(--gold); flex-shrink: 0; }

@@ -6,9 +6,22 @@
 // whether it succeeded.
 
 import { resendAdapter } from './resend-adapter.js';
+import { brevoAdapter } from './brevo-adapter.js';
 import { db, newId } from '../db.js';
 
-const provider = resendAdapter;
+// CHOSEN BY WHICH KEY IS CONFIGURED, not by editing this line.
+//
+// Brevo first because it is the provider the College can actually use:
+// its free tier authenticates a domain, so admissions@ can write to an
+// applicant. Resend stays as a working fallback rather than being
+// deleted — it is configured, tested, and one environment variable away
+// if Brevo is ever unavailable.
+//
+// Deciding at runtime rather than at edit time means switching provider
+// is a deployment setting, not a code change, and a misconfigured
+// environment fails with GatewayNotConfiguredError naming the missing
+// variable instead of silently sending from nowhere.
+const provider = (env) => (env && env.BREVO_API_KEY ? brevoAdapter : resendAdapter);
 
 // Every template below interpolates caller-supplied data — some of it
 // (name/email/country on application_received and new_application_alert)
@@ -112,7 +125,7 @@ export async function notify(env, eventType, { userId, to, ...data }) {
 
   const logId = newId('ntf');
   try {
-    const { providerRef } = await provider.send({ to, subject, html }, env);
+    const { providerRef } = await provider(env).send({ to, subject, html }, env);
     await db(env)
       .prepare('INSERT INTO notification_log (id, user_id, event_type, channel, provider, provider_ref, status) VALUES (?, ?, ?, ?, ?, ?, ?)')
       .bind(logId, userId || null, eventType, 'email', 'resend', providerRef, 'sent')

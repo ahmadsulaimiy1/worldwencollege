@@ -274,9 +274,7 @@
     // --- Draft persistence (requirement: don't lose data on failure) ---
     function saveDraft() {
       try {
-        sessionStorage.setItem(storageKey, JSON.stringify({
-          fullName: nameField.value, email: emailField.value, country: countryField.value,
-        }));
+        sessionStorage.setItem(storageKey, JSON.stringify(collectFields()));
       } catch (err) { /* storage unavailable (private browsing etc.) — degrade silently */ }
     }
     function restoreDraft() {
@@ -284,9 +282,20 @@
         var raw = sessionStorage.getItem(storageKey);
         if (!raw) return;
         var draft = JSON.parse(raw);
-        if (draft.fullName) nameField.value = draft.fullName;
-        if (draft.email) emailField.value = draft.email;
-        if (draft.country) countryField.value = draft.country;
+        // Restored by name, so a draft covers every question the form
+        // asks. A long form the applicant has to retype after one
+        // mistyped email is a form they abandon instead.
+        Object.keys(draft).forEach(function (key) {
+          var el = form.querySelector('[name="' + key + '"]');
+          if (!el || draft[key] === '' || draft[key] == null) return;
+          if (el.type === 'checkbox') { el.checked = !!draft[key]; return; }
+          if (el.type === 'radio') {
+            var picked = form.querySelector('[name="' + key + '"][value="' + draft[key] + '"]');
+            if (picked) picked.checked = true;
+            return;
+          }
+          el.value = draft[key];
+        });
       } catch (err) { /* corrupt/unavailable draft — start clean, not fatal */ }
     }
     function clearDraft() {
@@ -335,16 +344,65 @@
       submitBtn.classList.toggle('btn--loading', isLoading);
     }
 
+    // EVERY NAMED CONTROL, COLLECTED ONCE.
+    //
+    // The payload, the saved draft and the email fallback each used to
+    // name fullName, email and country by hand. That is fine for three
+    // fields and a silent data-loss bug for four: adding a question to
+    // the form would have posted markup the applicant filled in and a
+    // payload that never carried it, and nothing anywhere would have
+    // said so. The applicant would believe they had told us.
+    //
+    // So the form is read, not enumerated. Add a control with a `name`
+    // and it flows to the API, the draft and the fallback email without
+    // touching this file — which is the only arrangement in which a
+    // form and its transport cannot drift apart.
+    //
+    // Unticked checkboxes are false rather than absent, because "did
+    // not consent" and "was not asked" are different facts.
+    function collectFields() {
+      var out = {};
+      form.querySelectorAll('[name]').forEach(function (el) {
+        var key = el.getAttribute('name');
+        if (!key || el.disabled) return;
+        if (el.type === 'checkbox') { out[key] = el.checked; return; }
+        if (el.type === 'radio') { if (el.checked) out[key] = el.value; return; }
+        out[key] = typeof el.value === 'string' ? el.value.trim() : el.value;
+      });
+      return out;
+    }
+
+    // The human-readable label for a control's current value — the text
+    // of a chosen <option>, not its code. An email to Admissions saying
+    // "Country: AE" is a worse email than one saying "United Arab
+    // Emirates", and the fallback exists to be read by a person.
+    function labelFor(el) {
+      if (el.tagName === 'SELECT') {
+        var opt = el.options[el.selectedIndex];
+        return opt ? opt.text : el.value;
+      }
+      if (el.type === 'checkbox') return el.checked ? 'Yes' : 'No';
+      return el.value.trim();
+    }
+
     function buildMailtoFallback() {
       var subject = 'IEFC Application — ' + nameField.value.trim();
-      var lines = [
-        'Full name: ' + nameField.value.trim(),
-        'Email: ' + emailField.value.trim(),
-        'Country: ' + countryField.options[countryField.selectedIndex].text,
-        suggestedLevelId ? 'Self-assessed starting level: ' + (levelSummaryText ? levelSummaryText.textContent : suggestedLevelId) : '',
-        '',
-        '(Sent automatically because the online application system was unreachable.)',
-      ].filter(Boolean);
+      var lines = [];
+      form.querySelectorAll('[name]').forEach(function (el) {
+        if (el.disabled) return;
+        if (el.type === 'radio' && !el.checked) return;
+        var value = labelFor(el);
+        if (!value) return;
+        // The label the applicant read, so the email reads the way the
+        // form did rather than in field names.
+        var lab = form.querySelector('label[for="' + el.id + '"]');
+        var name = lab ? lab.textContent.replace(/\s+/g, ' ').trim() : el.getAttribute('name');
+        lines.push(name + ': ' + value);
+      });
+      if (suggestedLevelId) {
+        lines.push('Self-assessed starting level: ' + (levelSummaryText ? levelSummaryText.textContent : suggestedLevelId));
+      }
+      lines.push('', '(Sent automatically because the online application system was unreachable.)');
       return 'mailto:' + encodeURIComponent(fallbackEmail) +
         '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
     }
@@ -388,12 +446,9 @@
       setLoading(true);
       hideFormStatus(form); // clear any previous status while we try
 
-      var result = await submitToApi({
-        fullName: nameField.value.trim(),
-        email: emailField.value.trim(),
-        country: countryField.value,
-        selfAssessedLevelId: suggestedLevelId,
-      });
+      var payload = collectFields();
+      payload.selfAssessedLevelId = suggestedLevelId;
+      var result = await submitToApi(payload);
 
       setLoading(false);
 

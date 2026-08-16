@@ -806,6 +806,22 @@
       <p class="lede">This connects directly to Admissions. If our online application system is briefly unreachable, your details open in your email app instead — either way, nothing you've entered is lost.</p>
     </div>
 
+    <div class="application-plate edge-lit">
+      <!-- THE COLOPHON.
+           An application is a document, and a document has a masthead.
+           This is the line that turns a web form into something the
+           applicant treats as an instrument they are signing — the
+           crest, what the document IS, and the reference the College
+           will use when it replies. -->
+      <div class="application-plate__colophon">
+        <svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg>
+        <div>
+          <p class="application-plate__title">Application for Admission</p>
+          <p class="application-plate__sub">The International English Fluency Course &middot; WorldWide English College, London Campus</p>
+        </div>
+        <span class="application-plate__ref">Form <span class="roman-caps">IEFC&nbsp;/&nbsp;A1</span></span>
+      </div>
+
     <form class="form-grid" data-admissions-form
       data-endpoint="/api/admissions/apply"
       data-fallback-email="info@worldwencollege.co.uk"
@@ -824,6 +840,8 @@
         <span style="font-size:.82rem;color:var(--gold-bright)" data-level-summary-text></span>
         <a href="#self-assessment" style="font-size:.78rem;text-decoration:underline;margin-left:.8em;color:rgba(247,244,236,.7)">Retake the assessment</a>
       </div>
+
+      <p class="form-section"><span class="form-section__num roman-caps">I</span> Who you are</p>
 
       <div class="field">
         <label for="app-name">Full Name</label>
@@ -871,11 +889,159 @@
         <span class="field__error" id="app-country-error" role="alert">Please select your country.</span>
       </div>
 
+      <!-- ── II · CONTACT AND NATIONALITY ─────────────────────────
+           Nationality is asked separately from country of residence, and
+           the distinction is load-bearing rather than pedantic: it is
+           what determines the entry permission available for a United
+           Kingdom residency, and therefore how long that residency can
+           be. A form that collects only one of the two has lost the
+           fact the Residency chapter depends on. -->
+      <p class="form-section"><span class="form-section__num roman-caps">II</span> Contact and nationality</p>
+
+      <div class="field">
+        <label for="app-phone">Telephone (including country code)</label>
+        <input id="app-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+971 50 000 0000">
+      </div>
+      <div class="field">
+        <label for="app-city">City</label>
+        <input id="app-city" name="city" type="text" autocomplete="address-level2">
+      </div>
       <div class="field field--full">
-        <button type="submit" class="btn btn--gold" data-submit-btn><span data-btn-label>Submit Application</span></button>
-        <p class="form-note">Prefer email? <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">Write to Admissions directly</a>.</p>
+        <label for="app-nationality">Nationality &mdash; the passport you hold</label>
+        <select id="app-nationality" name="nationality">
+          <option value="">Select your nationality</option>
+          <option value="AE">United Arab Emirates</option><option value="SA">Saudi Arabia</option>
+          <option value="QA">Qatar</option><option value="KW">Kuwait</option><option value="BH">Bahrain</option>
+          <option value="OM">Oman</option><option value="JO">Jordan</option><option value="EG">Egypt</option>
+          <option value="IQ">Iraq</option><option value="LB">Lebanon</option><option value="LY">Libya</option>
+          <option value="MA">Morocco</option><option value="DZ">Algeria</option><option value="TN">Tunisia</option>
+          <option value="SD">Sudan</option><option value="SY">Syria</option><option value="YE">Yemen</option>
+          <option value="NG">Nigeria</option><option value="GH">Ghana</option><option value="KE">Kenya</option>
+          <option value="ZA">South Africa</option><option value="ET">Ethiopia</option><option value="TZ">Tanzania</option>
+          <option value="UG">Uganda</option><option value="SN">Senegal</option><option value="CM">Cameroon</option>
+          <option value="PK">Pakistan</option><option value="IN">India</option><option value="BD">Bangladesh</option>
+          <option value="LK">Sri Lanka</option><option value="ID">Indonesia</option><option value="MY">Malaysia</option>
+          <option value="PH">Philippines</option><option value="CN">China</option><option value="TR">Turkey</option>
+          <option value="GB">United Kingdom</option><option value="US">United States</option>
+          <option value="FR">France</option><option value="DE">Germany</option><option value="ES">Spain</option>
+          <option value="IT">Italy</option><option value="OTHER">Other</option>
+        </select>
+        <span class="form-note" style="margin-top:6px">Your nationality, not your country of residence. It is what determines the entry permission available for a United Kingdom residency.</span>
+      </div>
+
+      <!-- ── III · YOUR PROGRAMME ───────────────────────────────── -->
+      <p class="form-section"><span class="form-section__num roman-caps">III</span> Your programme</p>
+
+      <div class="field">
+        <label for="app-purpose">What is the English for?</label>
+        <select id="app-purpose" name="purpose">
+          <option value="">Select a reason</option>
+          <option value="university">A university place</option>
+          <option value="career">Career and professional work</option>
+          <option value="government">Government or diplomatic service</option>
+          <option value="examination">IELTS, TOEFL or Cambridge</option>
+          <option value="business">Business and commerce</option>
+          <option value="personal">Personal mastery</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="app-start">When would you begin?</label>
+        <select id="app-start" name="startPreference">
+          <option value="">Select a timing</option>
+          <option value="immediately">Immediately</option>
+          <option value="within_3_months">Within three months</option>
+          <option value="within_6_months">Within six months</option>
+          <option value="undecided">Not yet decided</option>
+        </select>
+      </div>
+      <div class="field field--full">
+        <label for="app-residency">The residency &mdash; where would you complete it?</label>
+        <select id="app-residency" name="residencyInterest">
+          <option value="">Select a preference</option>
+          <option value="own_city">In my own city, under College supervision</option>
+          <option value="uk_london">United Kingdom &mdash; London and Westminster</option>
+          <option value="uk_manchester">United Kingdom &mdash; Manchester</option>
+          <option value="uk_other">United Kingdom &mdash; another location</option>
+          <option value="undecided">Not yet decided</option>
+        </select>
+        <span class="form-note" style="margin-top:6px">The supervised practice period that closes the pathway, thirty to sixty days. A United Kingdom residency requires the appropriate entry permission, which is granted by the Home Office and not by the College &mdash; Admissions advises on the route and issues the documentation an application needs.</span>
+      </div>
+
+      <!-- ── IV · TUITION ────────────────────────────────────────
+           WHO PAYS IS ASKED HERE, not after an offer: an
+           employer-sponsored applicant needs an invoice and a purchase
+           order, and discovering that at the payment step has already
+           cost a week.
+
+           NO CARD, ACCOUNT OR IBAN FIELD APPEARS ON THIS FORM, AND NONE
+           MAY BE ADDED. Card data entered into a page like this one and
+           emailed to an inbox is a PCI-DSS breach, uninsurable, and the
+           single most damaging thing this site could do to an applicant.
+           Payment is taken by the providers in functions/_lib/payments/
+           — Stripe, Paystack, Flutterwave, OPay — which is where card
+           details belong and the only place they ever go. -->
+      <p class="form-section"><span class="form-section__num roman-caps">IV</span> Tuition</p>
+
+      <div class="field">
+        <label for="app-funding">Who will be paying the tuition?</label>
+        <select id="app-funding" name="funding">
+          <option value="">Select who pays</option>
+          <option value="self">Myself</option>
+          <option value="employer">My employer</option>
+          <option value="family">A family member</option>
+          <option value="government">A government sponsor</option>
+          <option value="scholarship">A scholarship or trust</option>
+          <option value="undecided">Not yet decided</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="app-plan">How would you prefer to pay?</label>
+        <select id="app-plan" name="paymentPlan">
+          <option value="">Select a preference</option>
+          <option value="level_by_level">One level at a time</option>
+          <option value="instalments">By instalments</option>
+          <option value="full_pathway">The full pathway in advance</option>
+          <option value="undecided">Not yet decided</option>
+        </select>
+      </div>
+      <div class="field field--full">
+        <p class="form-note">Tuition is payable one level at a time &mdash; you commit to the next ten modules, never to the whole pathway at once. Fees, currencies and instalment terms are published in full at <a href="/admissions/tuition/" style="color:var(--gold-bright);text-decoration:underline">Tuition, Fees &amp; Funding</a>. <strong>No payment is taken with this application</strong>, and the College will never ask for card or bank details by email. An invoice is issued after an offer, and payment is made through the College&rsquo;s secure payment providers.</p>
+      </div>
+
+      <!-- ── V · DECLARATION ─────────────────────────────────────
+           A declaration rather than a checkbox in a corner. The consent
+           timestamp is stamped server-side in
+           functions/api/admissions/apply.js, because a consent time the
+           client can choose is not evidence of anything. -->
+      <p class="form-section"><span class="form-section__num roman-caps">V</span> Declaration</p>
+
+      <div class="field field--full">
+        <label for="app-heard">How did you hear of the College? <span class="field__optional">Optional</span></label>
+        <input id="app-heard" name="heardVia" type="text">
+      </div>
+      <div class="field field--full">
+        <label for="app-notes">Anything Admissions should know <span class="field__optional">Optional</span></label>
+        <textarea id="app-notes" name="notes" rows="4" maxlength="2000" placeholder="Your circumstances, your current English, or any invoicing requirements &mdash; the organisation to bill, a purchase order number, or a billing address."></textarea>
+      </div>
+
+      <div class="field field--full declaration">
+        <label class="declaration__line">
+          <input type="checkbox" name="isAdult" value="1" required>
+          <span>I confirm that I am 18 years of age or over. <span class="declaration__note">The College admits adult learners; a family enquiring on behalf of an applicant under 18 should write to Admissions directly.</span></span>
+        </label>
+        <label class="declaration__line">
+          <input type="checkbox" name="privacyAgreed" value="1" required>
+          <span>I have read the <a href="/support/privacy/">privacy notice</a> and agree that the College may hold these details in order to process my application. <span class="declaration__note">You may ask for your record at any time, and ask for it to be deleted.</span></span>
+        </label>
+        <p class="declaration__oath">The information given above is true and complete to the best of my knowledge.</p>
+      </div>
+
+      <div class="field field--full application-plate__foot">
+        <button type="submit" class="btn btn--gold aurum aurum--twin" data-submit-btn><span data-btn-label>Submit Application</span></button>
+        <p class="form-note">Prefer email? <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry">Write to Admissions directly</a>.</p>
       </div>
     </form>
+    </div>
   </div>
 </section>
 
