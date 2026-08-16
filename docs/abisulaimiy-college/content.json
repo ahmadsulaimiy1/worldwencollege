@@ -1,0 +1,352 @@
+{
+  "$comment": "Structured extract of abisulaimiycollege.com.ng, captured 2026-08-16. Prose source of truth: refined-content.md. Issues: audit.md. A null value means the site publishes a placeholder or nothing at all for that field — it is never a guess.",
+  "meta": {
+    "sourceSite": "https://www.abisulaimiycollege.com.ng",
+    "apexHostWorking": false,
+    "platform": "Google Sites",
+    "capturedOn": "2026-08-16",
+    "pagesCrawled": 35,
+    "pagesEmpty": 5,
+    "pagesStub": 8
+  },
+
+  "institution": {
+    "canonicalName": "Imam Ahmad bin Ibrohim Sulaimiy College",
+    "canonicalNameConfirmed": false,
+    "shortName": "Abisulaimiy College",
+    "nameVariantsPublished": [
+      "Imam Ahmad Bin Ibrohim Sulaimiy College",
+      "Imam Ahmad bin Ibrohim Sulaimiy College",
+      "Imam Ahmad Bin Ibrahim Sulaimiy College",
+      "Imam Ahmed bin Ibrahim Suleimani College",
+      "Imam Ahmed bin Ibrahim Suleimi College",
+      "Imam Ahmad bin Ibrohim College",
+      "Imam Ahmad bin Ibrohim Centre for Islamic Sciences and Humanitarian Aid",
+      "Abisulaimiy College",
+      "abisulaimiy college"
+    ],
+    "deliveryModel": "online-only",
+    "administrativeLocation": "Lagos Island, Nigeria",
+    "fullAddress": null,
+    "founded": "2020-02-22",
+    "dormantYears": [2022, 2023],
+    "relaunchDate": null,
+    "studentsServed": 1550,
+    "studentsServedQualifier": "more than",
+    "countriesReached": 22,
+    "countriesNamed": ["United States", "United Kingdom", "Qatar", "United Arab Emirates", "Saudi Arabia", "Nigeria"],
+    "affiliationsClaimed": [
+      { "name": "Haramain International University", "verified": false, "note": "Not identifiable in public search; see audit.md C1" }
+    ],
+    "notForProfitStated": true
+  },
+
+  "contact": {
+    "website": "https://www.abisulaimiycollege.com.ng",
+    "addressPublished": null,
+    "phoneGeneral": null,
+    "phoneAdmissions": null,
+    "phoneDataProtection": null,
+    "emails": [
+      { "purpose": "general", "address": "info@ibrahimsulaimiycollege.com", "domainMatchesSite": false, "usable": null },
+      { "purpose": "admissions", "address": "admissions@ibrahimsulaimiycollege.com", "domainMatchesSite": false, "usable": null },
+      { "purpose": "donations", "address": "donations@imamsulaimiycollege.edu", "domainMatchesSite": false, "usable": false, "note": ".edu is restricted to accredited US institutions" },
+      { "purpose": "support", "address": "support@imamsulaimiycollege.edu", "domainMatchesSite": false, "usable": false, "note": ".edu is restricted to accredited US institutions" },
+      { "purpose": "data protection", "address": "privacy@imamcol.edu", "domainMatchesSite": false, "usable": false, "note": ".edu is restricted to accredited US institutions" },
+      { "purpose": "volunteering", "address": "abisulaimiycollege@gmail.com", "domainMatchesSite": false, "usable": true }
+    ],
+    "socialMedia": [],
+    "openingHours": {
+      "timezone": null,
+      "timezoneSuggested": "Africa/Lagos (UTC+1)",
+      "monday": "09:00-17:00",
+      "tuesday": "09:00-17:00",
+      "wednesday": "09:00-17:00",
+      "thursday": "09:00-17:00",
+      "friday": "09:00-12:00",
+      "saturday": "closed",
+      "sunday": "closed"
+    }
+  },
+
+  "programmes": [
+    {
+      "id": "quran",
+      "family": "Qur'an Programmes",
+      "path": "/programmes/quran-programmes",
+      "published": "full",
+      "entryLevels": [
+        { "level": "Beginner", "for": "Starting out or minimal prior knowledge", "covers": "Foundational reading, correct pronunciation, gradual memorisation with accuracy as the priority" },
+        { "level": "Intermediate", "for": "Some recitation experience and basic memorisation", "covers": "Fluency, Tajweed mastery, larger memorisation portions, structured review" },
+        { "level": "Advanced", "for": "Already memorised significant portions", "covers": "Intensive Tajweed, frequent review, completion of memorisation, Ijazah preparation" }
+      ],
+      "courses": [
+        { "code": "RQP", "name": "Regular Qur'an Program", "duration": null, "note": "Self-paced; the home page attributes a 24-month / 1-hour-per-day figure to 'Complete Qur'anic Memorization'" },
+        { "code": "IQC", "name": "Intensive Qur'an Course", "duration": null, "note": "Fast-track; duration not published" }
+      ],
+      "relatedUncatalogued": [
+        "Adhan voice training (approx. 2 weeks)",
+        "Nasheed voice training (runs on demand)",
+        "Accelerated 150% Qur'anic Memorization Program",
+        "Muraja'ah (revision) Program",
+        "Tajweed Mastery Certification",
+        "Shahada of Hifz"
+      ]
+    },
+    {
+      "id": "islamic-studies",
+      "family": "Islamic Studies",
+      "path": "/programmes/islamic-studies",
+      "published": "empty",
+      "note": "Advertised in navigation and on the Programmes hub; the page renders no content. The certification pathway in section 3 depends on this programme."
+    },
+    {
+      "id": "arabic",
+      "family": "Arabic Language & Communication Programmes",
+      "path": "/programmes/arabic-language-communication-programmes",
+      "published": "partial",
+      "courses": [
+        { "code": null, "name": "Diploma in Arabic", "nameArabic": "الدبلوم في اللغة العربية", "published": "heading only" },
+        { "code": "RAP", "name": "Regular Arabic Programme", "published": "heading only" },
+        {
+          "code": "IAC",
+          "name": "Intensive Arabic Course",
+          "nameArabic": "برنامج اللغة العربية المكثف",
+          "path": "/programmes/arabic-language-communication-programmes/iac",
+          "published": "partial",
+          "duration": "3 months",
+          "structure": "One stage (مرحلة) per month",
+          "classDays": ["Thursday", "Friday", "Saturday", "Sunday"],
+          "assignmentDay": "Monday",
+          "classTimes": [
+            { "region": "Nigeria", "time": "20:30-21:30" },
+            { "region": "United Kingdom", "time": "19:30-20:30" }
+          ],
+          "classTimesValid": false,
+          "classTimesNote": "The one-hour offset only holds while the UK is on GMT; during BST both times are identical",
+          "stages": [
+            { "stage": 1, "topic": "Nahw (النحو) — Arabic grammar", "published": true, "subjectCount": 15 },
+            { "stage": 2, "topic": "Sarf — morphology", "published": false },
+            { "stage": 3, "topic": "Balagha — rhetoric", "published": false }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "humanitarian",
+      "family": "Humanitarian & Professional Development Programmes",
+      "path": "/programmes/humanitarian-professional-development-programmes",
+      "published": "empty",
+      "brokenLinkFromHub": "http://hum",
+      "knownFromElsewhere": {
+        "admissionRoute": "Formal application letter in a prescribed format (format not published), two passport photographs, relevant qualifications",
+        "feeModel": "Priced per module",
+        "scholarshipCategory": "Humanitarian scholarships, subject to availability",
+        "relatedActivity": ["Humanitarian Aid Training", "Document Translation", "Humanitarian Aid & Islamic Ethics webinar series"]
+      }
+    },
+    {
+      "id": "english",
+      "family": "English Language Programmes",
+      "path": "/programmes/english-language-programme",
+      "published": "partial",
+      "courses": [
+        {
+          "code": "EDIC",
+          "alternateCodePublished": "EPCD",
+          "name": "English for Da'wah and Islamic Communication",
+          "path": "/programmes/english-language-programme/edic",
+          "published": "full",
+          "totalDurationSectionsAtoC": "12 months",
+          "sections": [
+            { "section": "A", "level": "Foundational", "title": "Islamic Terminologies and Basic English Grammar", "durationMonths": 3, "award": "Certificate of Completion in Basic Da'wah English" },
+            { "section": "B", "level": "Intermediate", "title": "Public Speaking for Islamic Propagation", "durationMonths": 4, "award": "Certificate in Public Speaking for Da'wah" },
+            { "section": "C", "level": "Advanced", "title": "Professional Writing and Academic Communication", "durationMonths": 5, "award": "Diploma in Islamic and Professional Communication" },
+            { "section": "D", "level": "Specialist", "title": "Islamic Terminology Translation Certification (ITTC)", "durationMonths": null, "award": "Ijazah in Islamic Terminology Translation" }
+          ]
+        },
+        { "code": "DMP", "name": "Diction Mastery Programme", "published": "heading only", "note": "Explicitly secular — no Islamic focus" },
+        { "code": "IEFC", "name": "Intensive English Fluency Course", "published": "none", "note": "Named only in a home-page testimonial; exists nowhere else on the site" }
+      ]
+    },
+    {
+      "id": "certifications",
+      "family": "Earn Professional Certifications",
+      "path": "/programmes/earn-professional-certifications",
+      "published": "full",
+      "seeAlso": "certification"
+    }
+  ],
+
+  "certification": {
+    "pledge": "We do not issue fake certificates for financial gain.",
+    "purpose": "Legitimate, examined credentials for people whose knowledge is real but formally unrecognised",
+    "oversight": "Council of Scholars; curriculum vetted by the academic council",
+    "awards": [
+      { "name": "Ibtida'iyyah", "equivalentTo": "Islamic Primary Certificate", "minimumAge": null, "minimumAgeConflict": "One section says 'no age limit', another says 'above 10 years of age'", "prerequisite": null },
+      { "name": "I'dadiyyah", "equivalentTo": "Islamic Junior Secondary Certificate", "minimumAge": 12, "prerequisite": "Ibtida'iyyah" },
+      { "name": "Thanawiyyah", "equivalentTo": "Islamic Senior Secondary Certificate", "minimumAge": 15, "prerequisite": "I'dadiyyah" }
+    ],
+    "progression": "sequential",
+    "directEntryPossible": true,
+    "directEntryNote": "A candidate with knowledge but no paperwork may be issued Ibtida'iyyah, or awarded I'dadiyyah after both examinations plus background verification",
+    "examinations": {
+      "written": { "required": true, "passMark": 70 },
+      "oral": { "required": true, "passMark": null },
+      "mode": "online",
+      "batched": true,
+      "liveVideoPossible": true,
+      "retakesAllowed": true,
+      "retakeLimit": null
+    },
+    "eligibilityConditions": [
+      "Adherence to the Aqidah of Ahlus Sunnah wal Jama'ah",
+      "Not expelled from a Madrasah or Islamic institution for disciplinary reasons",
+      "Completion of the prescribed curriculum",
+      "Pass the written examination (70%)",
+      "Pass the oral examination",
+      "Submit a purpose statement (Thanawiyyah and above)",
+      "Submit an attestation letter where required (Thanawiyyah and above)",
+      "Government-issued identity document and proof of age"
+    ],
+    "acceptedIdentityDocuments": ["National identity card", "Passport", "Driver's licence"],
+    "issuance": {
+      "turnaroundWorkingDays": "3-7",
+      "digitalCopy": "emailed",
+      "hardCopy": "posted on request, shipping paid by candidate",
+      "transcriptIncluded": true,
+      "statesOnlineDelivery": false,
+      "statesOnlineDeliveryFlag": "Deliberate policy; carries misrepresentation risk — see audit.md section 3.5"
+    },
+    "commitmentFee": { "charged": true, "amount": null, "chargedBy": "Registry and Examination Office", "payableBefore": "results processing and certificate issuance" }
+  },
+
+  "admissions": {
+    "applicationRouteExists": false,
+    "applicationRouteNote": "/apply-now is an empty page; no form, email or link is published anywhere",
+    "steps": [
+      "Complete the online application form",
+      "Submit the required documents for the chosen programme",
+      "Attend an interview or assessment if required",
+      "Receive the admission decision by email",
+      "Receive an official admission letter on acceptance"
+    ],
+    "requirements": [
+      { "programme": "Ibtida'iyyah", "academic": "None", "documents": ["Two passport photographs", "Any available academic testimonials"] },
+      { "programme": "I'dadiyyah", "academic": "Ibtida'iyyah or equivalent", "documents": ["Ibtida'iyyah certificate", "Two passport photographs"] },
+      { "programme": "Thanawiyyah", "academic": "I'dadiyyah", "documents": ["I'dadiyyah certificate", "Two passport photographs"] },
+      { "programme": "Diploma", "academic": "Recognised senior secondary certificate (NECO, WAEC or equivalent)", "documents": ["Secondary certificate", "Two passport photographs", "Two letters of recommendation", "National Identification Number (NIN) or equivalent"] },
+      { "programme": "Humanitarian Aid", "academic": "Relevant qualifications if any", "documents": ["Formal application letter in the prescribed format", "Two passport photographs", "Relevant qualifications"] }
+    ],
+    "languageProficiency": {
+      "quranAndArabic": "Basic Arabic reading and writing recommended; beginner programmes available from zero",
+      "intensiveArabicAndHigherQuranic": "Intermediate to advanced Arabic preferred"
+    },
+    "fees": {
+      "currency": null,
+      "published": false,
+      "tuition": [
+        { "programme": "Ibtida'iyyah", "amount": null, "basis": "per term" },
+        { "programme": "I'dadiyyah", "amount": null, "basis": "per term" },
+        { "programme": "Thanawiyyah", "amount": null, "basis": "per term" },
+        { "programme": "Diploma", "amount": null, "basis": "per semester" },
+        { "programme": "Humanitarian Aid", "amount": null, "basis": "per module" }
+      ],
+      "registrationFee": { "charged": true, "refundable": false, "amount": null },
+      "paymentPlansAvailable": true
+    },
+    "scholarships": {
+      "applicationFormExists": false,
+      "categories": [
+        { "type": "Merit-based", "for": "High-achieving students" },
+        { "type": "Need-based", "for": "Students facing financial difficulty" },
+        { "type": "Humanitarian", "for": "Students on the Humanitarian Aid programme, subject to availability" },
+        { "type": "Special", "for": "Specific categories of student or specific regions" }
+      ],
+      "applicationRequires": ["Completed scholarship application form", "Financial documentation", "Personal statement"],
+      "externalSupport": "Assistance applying for scholarships to universities in the Gulf and elsewhere"
+    },
+    "diplomaDurationWeeks": { "min": 12, "max": 24 }
+  },
+
+  "people": [
+    { "role": "Founder", "name": "Imam Ahmad Sulaimiy", "published": true, "credentials": ["Degree in Qur'anic Sciences — Taif University, Saudi Arabia", "Studied under scholars in Madinah and Egypt", "Proficient in the ten Qira'at", "Ijazah in the six major books of the Sunnah", "ESL professional — 'University of Millerville, USA'"], "credentialFlags": ["'University of Millerville' does not exist; Millersville University of Pennsylvania may be meant"], "works": ["Grammar Planet", "علمني ربي", "كيف عاش الرسول؟", "Islamic Law and Contemporary View"] },
+    { "role": "Executive Director", "name": "Dr. Ahmed Mustafa Al-Farsi", "published": true, "credentials": ["PhD Islamic Studies — Islamic University of Madinah", "MA Qur'anic Sciences — Taif University", "BA Shariah and Islamic Law — Qatar University"], "credentialFlags": ["Biography says 'University of Medina', credential list says 'Islamic University of Madinah'"] },
+    { "role": "Vice Director", "name": "Dr. Abdullahi Al-Hilwan", "published": true, "credentials": ["PhD Qur'anic Sciences — Cairo University", "MA Islamic Jurisprudence — Al-Azhar University", "BA Qur'anic Studies — Umm al-Qura University"], "credentialFlags": ["Also titled 'Head of Quranic Sciences Department', clashing with Dr. Hussain Al-Najdi"] },
+    { "role": "Chief Special Advisor", "name": null, "published": false, "note": "Coming soon" },
+    { "role": "Registrar", "name": "Shaykh Abdur Rohim Ibrahim", "published": true, "credentials": ["Islamic Sciences — Qur'an International University", "IT engineer and GSM professional", "Studying at Islamic University of Minnesota, USA"], "credentialFlags": ["'Qur'an International University' not identifiable", "Verify accreditation of Islamic University of Minnesota"] },
+    { "role": "Human Resources Manager", "name": "Shaykh Abdurrahman Al-Jaoziy", "published": true, "credentials": ["Islamic medical doctor", "Expert in bilateral and social relations"], "credentialFlags": ["No institution named for any qualification"] },
+    { "role": "Curriculum Development Director", "name": "Fadheelatu-s Shaykh Talal Hassan Al-Farsi", "published": true, "credentials": ["BA English Language — King Abdulaziz University", "Diploma Qur'anic Studies — an Islamic institute in the Middle East", "MA Arabic and Islamic Studies — University of Kuwait", "PhD Islamic Studies — Umm al-Qura University (in final stages)"], "credentialFlags": ["The institution is named 'Kuwait University', not 'University of Kuwait'", "Diploma institution unnamed"] },
+    { "role": "Director of Students Affairs", "name": "Shaykh Abubakr Solah", "published": true, "credentials": ["Diploma in Arabic — Cairo University", "Hafiz of the Qur'an", "Studying Islamic Studies at Islamic University of Minnesota, USA"], "credentialFlags": ["Verify accreditation of Islamic University of Minnesota"] },
+    { "role": "Director, Information Technology", "name": "Dr. Dhikrullahi Ibrahim", "published": true, "credentials": ["Diploma Computer Programming", "BA and MA Arabic and Islamic Studies — King Khalid University", "MSc Economics — National Open University of Nigeria", "PhD Computer Sciences — University of Manitoba, Canada"], "credentialFlags": ["Headed 'IT Support Manager' but described as 'Director, Information Technology Department'"] },
+    { "role": "Director of Qur'anic Studies", "name": "Dr. Hussain Al-Najdi", "published": true, "credentials": ["BSc Qur'anic Sciences — Taif University", "BA Islamic Studies — 'a reputable university in the UAE'"], "credentialFlags": ["UAE institution unnamed", "Post appears to clash with Dr. Al-Hilwan's"] },
+    { "role": "Director, English Department", "name": "Dr. Yusuf Abdul-Malik", "published": true, "credentials": ["PhD English Linguistics — 'Oxford University', UK", "MA Arabic Language and Islamic Studies — Dar Al-Uloom, Cairo", "BA English and Comparative Literature — University of Damascus"], "credentialFlags": ["The institution is the University of Oxford, which awards a DPhil, not a PhD"] },
+    { "role": "Director, Arabic Department", "name": "Shaykh Mohammed Al-Sagheer", "published": true, "credentials": ["Memorised the Qur'an in seven Qira'at", "MA Arabic sciences — Alexandria University", "PhD in progress"], "credentialFlags": ["Named both 'Sheykh Mohammed Al-Sagheer' and 'Sheikh Muhammad' within his own entry"] }
+  ],
+  "instructorsPublished": false,
+
+  "testimonials": [
+    { "name": "Mohammed Al-Farouq", "location": "New York, USA", "programme": "Qur'an class", "verified": false },
+    { "name": "Fatima Al-Zahrani", "location": "United Arab Emirates", "programme": "English programme", "verified": false },
+    { "name": "Nasiru David", "location": "Nigeria", "programme": "Arabic then English programmes", "verified": false },
+    { "name": "Yasir Imani", "location": "Jeddah, Saudi Arabia", "programme": "Intensive English Fluency Course (IEFC)", "verified": false, "flag": "Names a programme that exists nowhere else on the site" }
+  ],
+
+  "supportUs": {
+    "donations": {
+      "usesOfFunds": ["Student scholarships", "Programme development", "Mosque construction and maintenance", "Feeding the poor", "Disaster relief and humanitarian aid", "Medical assistance", "Community education and awareness"],
+      "methods": ["One-time donation", "Recurring donation (monthly or annual)", "Zakat and Sadaqah"],
+      "channels": [
+        { "channel": "online", "detail": null, "working": false, "publishedAs": "www.imamsulaimiycollege.edu/donate" },
+        { "channel": "bank transfer", "detail": null, "working": false, "publishedAs": "donations@imamsulaimiycollege.edu" },
+        { "channel": "post", "detail": null, "working": false, "publishedAs": "Cheques to the administrative office (no address published)" }
+      ],
+      "anyWorkingChannel": false
+    },
+    "volunteering": {
+      "roles": ["Academic mentoring", "Event coordination", "Administrative support", "Content development", "Outreach and community engagement"],
+      "compensation": "A token payment as salary or commitment bonus, where applicable",
+      "contact": "abisulaimiycollege@gmail.com",
+      "formExists": false
+    }
+  },
+
+  "newsAndEvents": {
+    "anyDatedItem": false,
+    "announcementCategories": ["Admissions", "Examinations and certification", "Programme launches"],
+    "eventCategories": ["Islamic studies and Qur'anic competitions", "Arabic and Islamic cultural days", "Career fairs and professional development workshops"],
+    "webinarSeries": ["Masterclass in Qur'anic Recitation and Tajweed", "Arabic Grammar and Rhetoric Series", "Humanitarian Aid & Islamic Ethics Webinars"],
+    "guestSpeakers": [
+      { "name": "Shaykh Dr. Abdulla al-Qari", "field": "Qur'anic sciences", "status": "invited", "confirmed": false },
+      { "name": "Professor Maryam al-Ghazzali", "field": "Islamic pedagogy", "status": "invited", "confirmed": false },
+      { "name": "Dr. Yousuf Khalifa", "field": "Humanitarian aid", "status": "invited", "confirmed": false }
+    ]
+  },
+
+  "studentLife": {
+    "resourcesAdvertised": ["Learning Resources", "Learning Scope", "Syllabus & Exam Guide"],
+    "resourcesPublished": 0,
+    "learningPlatformNamed": false,
+    "technicalRequirements": ["Computer or mobile device", "Internet access", "Webcam", "Microphone"],
+    "mobileFriendly": true,
+    "graduationCeremony": "online"
+  },
+
+  "policies": {
+    "termsOfService": { "published": true, "clauseNumberingGap": 6, "governingLaw": "Shariah principles and applicable local law", "jurisdictionNamed": false, "highRiskClause": "Clause 9 — 'No Right to Prosecution'; a blanket waiver of legal action, unenforceable and reputationally damaging" },
+    "privacyPolicy": { "published": true, "childrenThresholdAge": 13, "dataProtectionOfficerEmail": "privacy@imamcol.edu", "dataProtectionOfficerPhone": null, "rightsOffered": ["access", "correction", "deletion", "restriction", "objection"], "applicableLawNamed": false, "flag": "Offers GDPR-shaped rights without naming a legal basis; Nigeria Data Protection Act 2023 obligations not addressed" },
+    "generalPolicy": { "published": false },
+    "socialMediaLinks": { "published": false }
+  },
+
+  "siteHealth": {
+    "apexDomainWorks": false,
+    "apexDomainFailure": "TLS error over HTTPS; plain HTTP redirects to registrar parking page dns3.qservers.net/domainnotknown.html",
+    "wwwHostWorks": true,
+    "brokenLinks": ["http://hum"],
+    "emptyPages": ["/programmes/islamic-studies", "/programmes/humanitarian-professional-development-programmes", "/apply-now", "/contact-us/contact-information", "/contact-us/make-an-enquiry"],
+    "stubPages": ["/home/testimonials", "/application-process/admission-requirements", "/application-process/tuitions-and-fees", "/application-process/scholarships", "/faculty-staff/meet-the-staff", "/faculty-staff/our-instructors", "/terms-of-services/general-policy", "/terms-of-services/privacy-policy", "/terms-of-services/social-media-links"],
+    "pagesWithWrongHeading": ["/application-process/tuitions-and-fees", "/application-process/scholarships", "/faculty-staff/meet-the-staff", "/terms-of-services/general-policy", "/terms-of-services/social-media-links", "/news-events/announcements", "/news-events/webinars-lectures", "/faqs-frequently-asked-questions"],
+    "embeddedThirdPartyContent": []
+  }
+}
