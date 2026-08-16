@@ -41,6 +41,7 @@
   var stepError = $('[data-wizard-step-error]');
   var wizardShell = $('[data-wizard-shell]');
   var statusShell = $('[data-application-status]');
+  var loadErrorShell = $('[data-wizard-load-error]');
 
   var current = 0;
   var completedSteps = [];
@@ -280,7 +281,12 @@
       var resumeIndex = stepKeys.findIndex(function (k) { return k !== 'review' && completedSteps.indexOf(k) === -1; });
       showStep(resumeIndex === -1 ? steps.length - 1 : resumeIndex);
     }).catch(function () {
-      if (stepError) stepError.textContent = 'Could not load your application. Reload the page, or write to Admissions if this continues.';
+      // The wizard shell itself is never revealed on this path, so a
+      // message written inside it (e.g. onto data-wizard-step-error)
+      // would be invisible — a blank page behind a signed-in header.
+      // This dedicated state is the one place a load failure is
+      // actually shown.
+      if (loadErrorShell) loadErrorShell.hidden = false;
     });
 
     nextBtn.addEventListener('click', function () {
@@ -328,6 +334,9 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
+    var reloadBtn = $('[data-wizard-reload]');
+    if (reloadBtn) reloadBtn.addEventListener('click', function () { window.location.reload(); });
+
     var guarded = window.WEC_LC_guardPortal({
       signOutRedirect: '/admissions/',
       shellSelector: '.lab-body',
@@ -335,6 +344,12 @@
         window.WEC_LC_apiAuth.attach(clerk);
         done();
         init();
+      },
+      // Clerk's own SDK could not be reached at all (offline, blocked
+      // script) — the gate is already gone by the time this fires, so
+      // without a handler the page is just blank behind the header.
+      onAuthUnavailable: function () {
+        if (loadErrorShell) loadErrorShell.hidden = false;
       },
     });
     // No Clerk key configured: the page cannot check a session at
