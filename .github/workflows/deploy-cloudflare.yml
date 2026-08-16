@@ -403,6 +403,7 @@ jobs:
           rm -rf .deploy && mkdir -p .deploy
           rsync -a --delete \
             --exclude='.deploy/' \
+            --exclude='.render-audit/' \
             --exclude='.git/' \
             --exclude='node_modules/' \
             --exclude='docs/' \

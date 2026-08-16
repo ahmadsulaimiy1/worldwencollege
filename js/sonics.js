@@ -125,14 +125,25 @@
    *  A surface with no relief is deliberately silent. Body text, table
    *  rows and plain list items get no voice, because a site where
    *  everything makes a noise is not luxurious, it is a toy. */
-  var CHIME = '.btn--gold, .quiet-btn--apply';
+  /* TWO SELECTORS HERE MATCHED NOTHING, and had matched nothing for as
+     long as the list existed: .quiet-btn--apply and .accordion__trigger
+     are defined in no stylesheet, no partial and no script in this
+     repository. A voice list that names a class nothing wears is worse
+     than a short list — it reports coverage it does not have, which is
+     precisely the failure CLAUDE.md §3 is written against, wearing the
+     appearance of a fix. The mobile menu's real trigger is
+     .accordion__q, which is already in OPEN.
+     tests/sonics-coverage.test.mjs now fails on any selector in these
+     four lists that matches nothing in the built site, and on any major
+     struck component that is missing from them. */
+  var CHIME = '.btn--gold';
   var SEAL  = '.wax-seal, .cta__seal, .vessel, .medallion, .honour, .honour__wreath, '
             + '.matricula, .case__medallion, .brand__crest, .masthead__rule, .colophon__rule, '
             /* The warrant is a ruling with a seal on it, so it takes
                the conferral voice rather than the tap every other
                struck surface gets. Ceremony is ranked, not uniform. */
             + '.warrant, .article__seal, .imprint, .imprint__device';
-  var OPEN  = 'details > summary, .accordion__trigger, .accordion__q, .nav__toggle, [aria-expanded]';
+  var OPEN  = 'details > summary, .accordion__q, .nav__toggle, [aria-expanded]';
   var TAP   = 'a, button, .card, .audience, .region, .case, .principle, .badge-dome, '
             + '.quad__skill, .quad__gauge, .sep__role, .sep__disc, .creed__item, .creed__mark, '
             + '.clause, .tenet, .register__col, .vacancy, .footergrid__tile, .quicknav__tile, '
