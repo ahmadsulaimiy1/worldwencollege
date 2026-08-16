@@ -11,7 +11,9 @@
 // cannot fail a payment webhook, which means this string and the
 // notification_log row are the ONLY signal that admissions email has
 // stopped working.
-import { loadUrl } from './helpers.mjs';
+import { readFileSync } from 'node:fs';
+import { makeD1 } from './d1-shim.mjs';
+import { ROOT, loadUrl } from './helpers.mjs';
 
 let pass = 0, fail = 0;
 const check = (label, cond, detail) => {
@@ -131,6 +133,42 @@ function stubFetch(responses) {
   try { await resendAdapter.send(MSG, { RESEND_FROM_ADDRESS: 'x@y.z' }); } catch (e) { err = e; }
   check('A missing API key still throws GatewayNotConfiguredError, not a fetch error',
     err && err.constructor.name === 'GatewayNotConfiguredError', err && err.constructor.name);
+}
+
+// --- notification_log names the gateway that actually ran ------------
+// The column was the literal 'resend'. That was true while there was
+// one adapter and became a lie the moment provider() could return
+// Brevo: with BREVO_API_KEY set, every row still claimed Resend sent
+// it. The column is how anyone reconstructs a deliverability problem
+// across two providers, so a wrong value there is worse than none.
+{
+  const { notify } = await import(loadUrl('functions/_lib/notifications/events.js'));
+  const schema = readFileSync(`${ROOT}/sql/schema.sql`, 'utf8');
+
+  async function loggedProviderFor(env) {
+    env.DB = makeD1(schema);
+    await notify(env, 'application_received', { to: 'a@example.com', name: 'A' });
+    const row = await env.DB.prepare('SELECT provider, status FROM notification_log').first();
+    return row;
+  }
+
+  stubFetch([{ status: 200, body: JSON.stringify({ id: 'x' }) }]);
+  const viaResend = await loggedProviderFor({ RESEND_API_KEY: 're_x', RESEND_FROM_ADDRESS: 'a@b.c' });
+  check('A send through Resend is logged as resend', viaResend && viaResend.provider === 'resend',
+    viaResend && viaResend.provider);
+
+  stubFetch([{ status: 201, body: JSON.stringify({ messageId: 'y' }) }]);
+  const viaBrevo = await loggedProviderFor({ BREVO_API_KEY: 'x', BREVO_FROM_ADDRESS: 'a@b.c' });
+  check('A send through Brevo is logged as brevo, not as resend',
+    viaBrevo && viaBrevo.provider === 'brevo', viaBrevo && viaBrevo.provider);
+
+  // The failure path writes its own row, and used to carry its own
+  // copy of the same literal.
+  stubFetch([{ status: 422, body: JSON.stringify({ message: 'nope' }) }]);
+  const failed = await loggedProviderFor({ BREVO_API_KEY: 'x', BREVO_FROM_ADDRESS: 'a@b.c' });
+  check('...and a FAILED send through Brevo is logged as brevo too',
+    failed && failed.provider === 'brevo' && failed.status === 'failed',
+    failed && `${failed.provider}/${failed.status}`);
 }
 
 globalThis.fetch = realFetch;
