@@ -3,8 +3,8 @@
     "slug": "home",
     "output": "index.html",
     "nav": "root",
-    "title": "Dār al-Rusūkh — College of Qur'ānic and Islamic Sciences",
-    "description": "A distance-learning college teaching the Qur'ān, Arabic and the Islamic sciences on the classical matn ladder — ḥalaqāt capped at twelve, examined in writing and aloud, concluding in the certification ladder and ijāzah with a named, unbroken chain.",
+    "title": "Dār al-Rusūkh — College of Qur’ānic and Islamic Sciences",
+    "description": "A distance-learning college offering certificate, diploma and higher diploma programmes in the Qur’ānic sciences, the Arabic language, the Sharī’ah sciences and Islamic professional studies.",
     "contentFile": "home.html",
     "contents": true
   },
@@ -13,7 +13,7 @@
     "output": "about/index.html",
     "nav": "about",
     "title": "The College — Dār al-Rusūkh",
-    "description": "Why the College is named for rootedness, why it teaches wholly at a distance by design, who founded it, and which offices answer for it.",
+    "description": "The constitution, method of instruction, foundation and governance of the Dār al-Rusūkh College of Qur’ānic and Islamic Sciences.",
     "contentFile": "about.html",
     "contents": true
   },
@@ -21,8 +21,8 @@
     "slug": "faculties",
     "output": "faculties/index.html",
     "nav": "faculties",
-    "title": "Faculties — Dār al-Rusūkh",
-    "description": "Four faculties — the Qur'ān, Arabic, Sharī'ah sciences, and Applied & Professional studies — each a ladder of named classical texts, taught in order and examined aloud.",
+    "title": "Programmes of Study — Dār al-Rusūkh",
+    "description": "Seventeen programmes across four faculties, with the award, normal duration, conditions of entry and prescribed texts for each.",
     "contentFile": "faculties.html",
     "contents": true
   },
@@ -30,8 +30,8 @@
     "slug": "faculties-quran",
     "output": "faculties/quran/index.html",
     "nav": "faculties",
-    "title": "Kulliyyat al-Qur'ān — Dār al-Rusūkh",
-    "description": "Eleven rungs from al-Qā'idah al-Nūrāniyyah to ijāzah in the ten qirā'āt: Tajwīd on Tuḥfat al-Aṭfāl and al-Jazariyyah, three Ḥifẓ tracks, consolidation, and the chain.",
+    "title": "Faculty of the Qur’ān and its Sciences — Dār al-Rusūkh",
+    "description": "Six programmes in recitation, Tajwīd, memorisation and the ten readings, from the foundation certificate to the Higher Diploma with ijāzah.",
     "contentFile": "quran.html",
     "contents": true
   },
@@ -39,8 +39,8 @@
     "slug": "awards",
     "output": "awards/index.html",
     "nav": "awards",
-    "title": "Awards & Ijāzah Policy — Dār al-Rusūkh",
-    "description": "The four-award certification ladder for those whose knowledge has never been recognised, examined at 70% in writing and aloud — and the ijāzah policy governing chains conferred by this house.",
+    "title": "Awards, Examination and Certification — Dār al-Rusūkh",
+    "description": "The awards conferred by the College, the regulations of examination, the graded certificates of Islamic education, and the conditions governing the grant of ijāzah.",
     "contentFile": "awards.html",
     "contents": true
   },
@@ -48,34 +48,34 @@
     "slug": "register-of-chains",
     "output": "awards/register-of-chains/index.html",
     "nav": "awards",
-    "title": "The Register of Chains — Dār al-Rusūkh",
-    "description": "Which chains this College holds, through whom they came, and which teachers may confer them — published rather than furnished on request, vacancies included.",
+    "title": "Register of Asānīd — Dār al-Rusūkh",
+    "description": "The chains of transmission held by members of the faculty, the transmitters through whom they came, and the members authorised to confer each.",
     "contentFile": "register-of-chains.html"
   },
   {
     "slug": "short-courses",
     "output": "short-courses/index.html",
     "nav": "short-courses",
-    "title": "Short Courses & Ramaḍān Intensives — Dār al-Rusūkh",
-    "description": "Seven examined short courses of four to eight weeks, each mapping onto a rung of the main ladder, plus the Ramaḍān intensive programme and free memorisation schedules.",
+    "title": "Continuing Education — Dār al-Rusūkh",
+    "description": "Short courses of four to eight weeks, examined and certificated, with a new cohort admitted each month, and the Ramaḍān programme.",
     "contentFile": "short-courses.html",
     "contents": true
   },
   {
-    "slug": "fees",
-    "output": "fees/index.html",
-    "nav": "fees",
-    "title": "Fees, Payment Plans & Kafālah — Dār al-Rusūkh",
-    "description": "Four tiers from ₦8,000 a month, payable monthly, per term or per year, in naira or dollars — with pause rights, family and teacher rates, and the zakāh-funded kafālah scheme.",
-    "contentFile": "fees.html",
+    "slug": "tuition",
+    "output": "admissions/tuition/index.html",
+    "nav": "admissions",
+    "title": "Tuition and Financial Support — Dār al-Rusūkh",
+    "description": "The schedule of fees for the current session, the terms on which they may be paid, and the provisions for supported places.",
+    "contentFile": "tuition.html",
     "contents": true
   },
   {
     "slug": "admissions",
     "output": "admissions/index.html",
     "nav": "admissions",
-    "title": "Admissions — Dār al-Rusūkh",
-    "description": "Five stages from enquiry to your first ḥalaqah. Placement is by assessment and is free, and it happens before any fee is discussed.",
+    "title": "Admission — Dār al-Rusūkh",
+    "description": "The procedure of admission, conditions of entry by programme, and how to apply to the Registry.",
     "contentFile": "admissions.html",
     "contents": true
   },
@@ -84,15 +84,15 @@
     "output": "calendar/index.html",
     "nav": "root",
     "title": "Academic Calendar — Dār al-Rusūkh",
-    "description": "Three terms kept against the Hijrī year, with the general timetable pausing in Ramaḍān for intensives. Class times in West Africa Time with an explicit UTC offset.",
+    "description": "Three semesters kept against the Hijrī calendar, the Ramaḍān programme, and the publication of class times.",
     "contentFile": "calendar.html"
   },
   {
     "slug": "verify",
     "output": "verify/index.html",
     "nav": "root",
-    "title": "Verify a Credential — Dār al-Rusūkh",
-    "description": "Check any certificate, transcript or ijāzah issued by the College against its reference number. Public, free, and answered without the holder's involvement.",
+    "title": "Verification of Instruments — Dār al-Rusūkh",
+    "description": "Certificates, transcripts and instruments of ijāzah may be verified against their reference number, without charge.",
     "contentFile": "verify.html"
   },
   {
@@ -100,7 +100,7 @@
     "output": "contact/index.html",
     "nav": "root",
     "title": "Contact — Dār al-Rusūkh",
-    "description": "The Registry, the Bursary, the Academic Council and the Foundation — every office of the College by name, with office hours in West Africa Time.",
+    "description": "The Registry, the Bursary, the Academic Council and the Foundation, with hours of business in West Africa Time.",
     "contentFile": "contact.html"
   }
 ]
