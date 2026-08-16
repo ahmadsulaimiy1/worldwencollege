@@ -250,6 +250,29 @@
 .riwaq-interval strong { display: block; color: var(--royal-blue); font-size: 1.02rem; }
 .riwaq-interval span { font-size: .8rem; color: var(--slate); }
 
+/* The Five Returns. Gold rather than sapphire, and stepped: the whole
+   point of the schedule is that the intervals EXPAND, so a legend whose
+   five cards are identical would be arguing against the method it
+   describes. The left rule thickens across the row. */
+.riwaq-returns {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: 12px; margin-bottom: 22px;
+}
+.riwaq-return {
+  border: 1px solid var(--stone); border-left: 3px solid var(--gold-antique);
+  border-radius: 6px; padding: 13px 15px; background: var(--cream);
+}
+.riwaq-return:nth-child(2) { border-left-width: 4px; }
+.riwaq-return:nth-child(3) { border-left-width: 5px; }
+.riwaq-return:nth-child(4) { border-left-width: 6px; }
+.riwaq-return:nth-child(5) { border-left-width: 7px; border-left-color: var(--gold-rich); }
+.riwaq-return__no {
+  display: block; font-size: .64rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--bronze);
+}
+.riwaq-return strong { display: block; color: var(--royal-blue); font-size: 1.02rem; margin: 3px 0 2px; }
+.riwaq-return__n { font-size: .78rem; color: var(--slate); }
+
 /* ====================================================== CORRECTION LEDGER */
 
 .riwaq-corr { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--stone); }

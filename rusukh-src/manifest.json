@@ -36,6 +36,33 @@
     "contents": true
   },
   {
+    "slug": "regulations",
+    "output": "regulations/index.html",
+    "nav": "about",
+    "title": "Academic Regulations — Dār al-Rusūkh",
+    "description": "The regulations in force: the measure of study in notional hours, the standard of attainment and the Rule of Retention, registration and leave, examination, grading, adjustments, the record, and the independence of examiners.",
+    "contentFile": "regulations.html",
+    "contents": true
+  },
+  {
+    "slug": "safeguarding",
+    "output": "safeguarding/index.html",
+    "nav": "about",
+    "title": "Safeguarding and the Conduct of Teaching — Dār al-Rusūkh",
+    "description": "The conditions under which the College teaches a student under eighteen, the route by which a concern is raised, and the arrangements between men and women.",
+    "contentFile": "safeguarding.html",
+    "contents": true
+  },
+  {
+    "slug": "standing",
+    "output": "standing/index.html",
+    "nav": "about",
+    "title": "Standing, Recognition and Disclosure — Dār al-Rusūkh",
+    "description": "What the College claims and does not claim, the position on external school-stage certification, the limits of internal moderation, the continuity of the register of instruments, and how figures are stated.",
+    "contentFile": "standing.html",
+    "contents": true
+  },
+  {
     "slug": "awards",
     "output": "awards/index.html",
     "nav": "awards",

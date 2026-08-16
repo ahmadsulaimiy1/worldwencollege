@@ -422,6 +422,51 @@ body[data-section] {
   .r-stage__when { grid-column: 2; text-align: left; padding-top: 10px; }
 }
 
+/* ========================================================== the clauses
+   The regulation clause. A sibling of .r-stage, and deliberately not the
+   same component: a stage is a sequence and numbers itself with a CSS
+   counter, whereas a regulation is CITED — Reg. 3.2 — so its number is
+   content, typed into the markup, and survives a clause being inserted
+   above it. A counter here would silently renumber every citation in the
+   prospectus the first time a clause was added. */
+
+.r-clauses { display: grid; gap: 0; margin-top: 30px; }
+
+.r-clause {
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  gap: 26px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--stone);
+  align-items: start;
+}
+
+.r-clause:first-child { border-top: 1px solid var(--gold-royal); }
+
+.r-clause__no {
+  font-family: 'Cinzel', serif;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  color: var(--gold-antique);
+  padding-top: 5px;
+  white-space: nowrap;
+}
+
+.r-clause h3 { font-size: 1.14rem; margin: 0 0 9px; color: var(--ink); line-height: 1.25; }
+.r-clause p { margin: 0 0 11px; color: var(--slate); line-height: 1.66; font-size: 0.95rem; }
+.r-clause p:last-child { margin-bottom: 0; }
+.r-clause strong { color: var(--ink); }
+
+.section--dark .r-clause { border-bottom-color: rgba(110, 147, 196, 0.18); }
+.section--dark .r-clause h3 { color: var(--ivory); }
+.section--dark .r-clause p { color: var(--steel); }
+.section--dark .r-clause strong { color: var(--gold-champagne); }
+
+@media (max-width: 720px) {
+  .r-clause { grid-template-columns: 1fr; gap: 6px; }
+  .r-clause__no { padding-top: 0; }
+}
+
 /* ---------------------------------------------------------------- misc */
 
 .skip-link {

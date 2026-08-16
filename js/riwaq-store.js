@@ -26,7 +26,7 @@
 (function () {
   'use strict';
 
-  var VERSION = 2;
+  var VERSION = 3;
   var PREFIX = 'riwaq.data.';
   var SESSION = 'riwaq.session';
 
@@ -68,7 +68,13 @@
         : state === 'sabaq' ? 0
         : state === 'sabqi' ? Math.floor(r() * 3)
         : Math.floor(r() * 34);
-      out[p] = { page: p, juz: j, state: state, itqan: itqan, since: since, recitals: 0 };
+      /* The return index: how many of the Five Returns this page has
+         already survived. A page in the manzil has passed all five by
+         definition; a sabqi page is somewhere inside the schedule. */
+      var ret = state === 'manzil' || state === 'itqan' ? 5
+        : state === 'sabqi' ? Math.floor(r() * 5)
+        : 0;
+      out[p] = { page: p, juz: j, state: state, itqan: itqan, since: since, ret: ret, recitals: 0 };
     }
     return out;
   }
@@ -207,25 +213,37 @@
     return base;
   }
 
-  /* The revision interval.
-     Keyed to itqān — but capped by STATE, which is the correction the
-     first version needed. A page recited once at 94% was being given a
-     fourteen-day interval, which contradicts the whole method: sabaq is
-     today's new portion and is revisited tomorrow whatever it scored,
-     and sabqi is recent work that has not yet settled. Only manzil and
-     itqān earn the long intervals. */
-  function interval(itqan, state) {
-    var base = itqan >= 95 ? 21 : itqan >= 88 ? 14 : itqan >= 80 ? 7 : itqan >= 72 ? 4 : 2;
+  /* THE FIVE RETURNS — المراجعات الخمس.  Reg. 3.3.
+
+     The earlier scheduler keyed the interval to itqān alone and capped
+     sabqi at three days. That was better than nothing and still wrong in
+     the way the classical method warns about: it treated the fragile
+     phase as ONE interval repeated, when what consolidates a memory is a
+     sequence of intervals that EXPAND. A portion revised while it is
+     still effortless teaches the student very little.
+
+     So a page in sabqi is now carried through a fixed schedule of five
+     returns — 1, 3, 7, 21, 60 days — and its position in that schedule
+     is `ret`. It joins the manzil only on surviving the fifth, and after
+     that it is sampled on the itqān-keyed cycle, without notice. A break
+     at any return sends the page back to the first: the schedule is not
+     a countdown a student can wait out. */
+  var RETURNS = [1, 3, 7, 21, 60];
+
+  function interval(row) {
+    if (!row) return 1;
+    var state = row.state, itqan = row.itqan || 0;
+    if (state === 'new') return null;
     if (state === 'sabaq') return 1;
-    if (state === 'sabqi') return Math.min(base, 3);
-    return base;
+    if (state === 'sabqi') return RETURNS[Math.min(row.ret || 0, RETURNS.length - 1)];
+    return itqan >= 95 ? 21 : itqan >= 88 ? 14 : itqan >= 80 ? 7 : itqan >= 72 ? 4 : 2;
   }
 
   function dueToday(ledger) {
     return ledger.filter(function (p) {
-      return p && p.since != null && p.state !== 'new' && p.since >= interval(p.itqan, p.state);
+      return p && p.since != null && p.state !== 'new' && p.since >= interval(p);
     }).sort(function (a, b) {
-      return (b.since - interval(b.itqan, b.state)) - (a.since - interval(a.itqan, a.state));
+      return (b.since - interval(b)) - (a.since - interval(a));
     });
   }
 
@@ -246,6 +264,33 @@
     };
   }
 
+  /* One hearing, and what it does to a page's position in the schedule.
+
+     A break is not merely a lower itqān: it returns the page to the
+     first of the Five Returns, and it demotes a consolidated page back
+     into sabqi, because a portion that broke is by definition no longer
+     held. A clean or nearly clean hearing advances one return, and the
+     fifth admits the page to the manzil. */
+  function advance(row, outcome, itqan) {
+    var state = row.state === 'new' ? 'sabaq' : row.state;
+    var ret = row.ret || 0;
+
+    if (outcome === 'broken') {
+      return { state: state === 'sabaq' ? 'sabaq' : 'sabqi', ret: 0 };
+    }
+
+    if (state === 'sabaq') return { state: 'sabqi', ret: 1 };
+
+    if (state === 'sabqi') {
+      ret = Math.min(ret + 1, RETURNS.length);
+      if (ret >= RETURNS.length) return { state: itqan >= 92 ? 'itqan' : 'manzil', ret: ret };
+      return { state: 'sabqi', ret: ret };
+    }
+
+    // Already in the perpetual cycle: only the band moves.
+    return { state: itqan >= 92 ? 'itqan' : 'manzil', ret: 5 };
+  }
+
   /* -------------------------------------------------------- actions
      Each one mutates, records, persists and returns the new record. The
      ledger is recomputed from the delta rather than held in a variable,
@@ -261,12 +306,9 @@
       if (!row) return d;
       var delta = { clean: 7, minor: 3, broken: -6 }[outcome] || 0;
       var itqan = Math.max(0, Math.min(100, (row.state === 'new' ? 30 : row.itqan) + delta));
-      var state = row.state;
-      if (state === 'new') state = 'sabaq';
-      else if (itqan >= 92 && state !== 'sabaq') state = 'itqan';
-      else if (itqan >= 72 && (state === 'sabqi' || state === 'sabaq')) state = 'sabqi';
-      else if (state === 'itqan' && itqan < 92) state = 'manzil';
-      d.delta[page] = { state: state, itqan: itqan, since: 0, recitals: (row.recitals || 0) + 1 };
+      var next = advance(row, outcome, itqan);
+      d.delta[page] = { state: next.state, itqan: itqan, since: 0, ret: next.ret,
+                        recitals: (row.recitals || 0) + 1 };
       Actions.attend(d);
       return write(d);
     },
@@ -294,12 +336,15 @@
       s.errors = mark.errors || [];
       s.markedAt = Date.now();
       var led = ledgerFor(d);
+      /* A mark is a hearing: it moves the schedule exactly as a recital
+         does, so a page marked at 58% goes back to the first return
+         rather than merely acquiring a poor number. */
+      var outcome = mark.itqan >= 88 ? 'clean' : mark.itqan >= 70 ? 'minor' : 'broken';
       for (var p = s.from; p <= s.to; p++) {
         if (!led[p]) continue;
-        var state = led[p].state === 'new' ? 'sabaq' : led[p].state;
-        if (mark.itqan >= 92 && state !== 'sabaq') state = 'itqan';
-        else if (state === 'itqan' && mark.itqan < 92) state = 'manzil';
-        d.delta[p] = { state: state, itqan: mark.itqan, since: 0, recitals: (led[p].recitals || 0) + 1 };
+        var next = advance(led[p], outcome, mark.itqan);
+        d.delta[p] = { state: next.state, itqan: mark.itqan, since: 0, ret: next.ret,
+                       recitals: (led[p].recitals || 0) + 1 };
       }
       return write(d);
     },
@@ -347,6 +392,7 @@
         d.delta[row.page] = Object.assign({}, cur, {
           state: cur.state != null ? cur.state : row.state,
           itqan: cur.itqan != null ? cur.itqan : row.itqan,
+          ret: cur.ret != null ? cur.ret : row.ret,
           since: row.since + days
         });
       });
@@ -361,6 +407,7 @@
     juzOf: juzOf, juzRange: juzRange,
     read: read, write: write, reset: reset, ageIfNewDay: ageIfNewDay,
     ledgerFor: ledgerFor, interval: interval, dueToday: dueToday, stats: stats,
+    RETURNS: RETURNS,
     actions: Actions,
     exportJSON: function (email) { return JSON.stringify(read(email), null, 2); },
     importJSON: function (email, text) {

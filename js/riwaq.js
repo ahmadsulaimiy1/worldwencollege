@@ -193,7 +193,7 @@
         (due.length ? due.slice(0, 5).map(function (p) {
           return '<div class="class-row"><div class="class-row__when">Juzʾ<strong>' + p.juz + '</strong></div>' +
             '<div class="class-row__body"><h3>Page ' + p.page + '</h3><span>Last recited ' + p.since +
-            ' days ago · interval ' + S.interval(p.itqan, p.state) + ' days · itqān ' + p.itqan + '%</span></div>' +
+            ' days ago · interval ' + S.interval(p) + ' days · itqān ' + p.itqan + '%</span></div>' +
             (canWrite() ? '<button class="btn btn--outline" data-open-page="' + p.page + '">Recite</button>' : '') +
           '</div>';
         }).join('') : '<p class="riwaq-empty">Nothing is past its interval today.</p>') +
@@ -269,13 +269,32 @@
       }).join('') + '</div></div>';
   }
 
+  /* Where a page stands in the Five Returns. A page in the manzil has
+     finished the schedule and says so rather than showing "5 of 5",
+     which reads as though it were still inside it. */
+  function returnLabel(p) {
+    if (!p || p.state === 'new') return '—';
+    if (p.state === 'sabaq') return 'Not yet begun';
+    if (p.state === 'sabqi') return (Math.min(p.ret || 0, 4) + 1) + ' of 5';
+    return 'Complete · manzil';
+  }
+
   function vMuraja(a, d) {
     var led = S.ledgerFor(d), due = S.dueToday(led);
     return '<div class="panel"><div class="panel__head"><h2>Murājaʿah scheduler</h2>' +
       '<span class="riwaq-quiet">' + due.length + ' pages due today</span></div>' +
-      '<p class="riwaq-lede">Intervals are set by <strong>itqān</strong>, not by a count of ' +
-        'successful recitals. Recording a recital here moves the page’s itqān, which moves its ' +
-        'interval, which moves tomorrow’s queue.</p>' +
+      '<p class="riwaq-lede">A page in <strong>sabqī</strong> runs the <strong>Five Returns</strong> ' +
+        '(Reg. 3.3) — an expanding schedule, not one interval repeated. It joins the ' +
+        '<strong>manzil</strong> only on surviving the fifth, and is then sampled on the ' +
+        'itqān-keyed cycle without notice. A break at any return sends the page back to the ' +
+        'first: the schedule cannot be waited out.</p>' +
+      '<div class="riwaq-returns">' + S.RETURNS.map(function (n, i) {
+        var held = led.filter(function (p) { return p && p.state === 'sabqi' && (p.ret || 0) === i; }).length;
+        return '<div class="riwaq-return"><span class="riwaq-return__no">Return ' + (i + 1) + '</span>' +
+          '<strong>' + n + ' day' + (n > 1 ? 's' : '') + '</strong>' +
+          '<span class="riwaq-return__n">' + held + ' page' + (held === 1 ? '' : 's') + ' waiting</span></div>';
+      }).join('') + '</div>' +
+      '<p class="riwaq-lede">Once a page is held, its cycle is set by itqān:</p>' +
       '<div class="riwaq-intervals">' + [[95, 21], [88, 14], [80, 7], [72, 4], [0, 2]].map(function (x) {
         return '<div class="riwaq-interval"><strong>' + (x[0] ? x[0] + '%+' : 'below 72%') +
           '</strong><span>every ' + x[1] + ' day' + (x[1] > 1 ? 's' : '') + '</span></div>';
@@ -283,16 +302,16 @@
 
       '<div class="panel"><div class="panel__head"><h2>Today’s queue</h2></div>' +
       '<div class="table-scroll"><table class="assign-table riwaq-table"><thead><tr>' +
-      '<th>Page</th><th>Juzʾ</th><th>State</th><th>Itqān</th><th>Interval</th><th>Last</th><th>Overdue</th>' +
+      '<th>Page</th><th>Juzʾ</th><th>State</th><th>Return</th><th>Itqān</th><th>Interval</th><th>Last</th><th>Overdue</th>' +
       (canWrite() ? '<th>Record</th>' : '') + '</tr></thead><tbody>' +
       (due.length ? due.slice(0, 40).map(function (p) {
-        var over = p.since - S.interval(p.itqan, p.state);
+        var over = p.since - S.interval(p);
         return '<tr><th scope="row">' + p.page + '</th><td>' + p.juz + '</td><td>' + STATE_LABEL[p.state] +
-          '</td><td>' + p.itqan + '%</td><td>' + S.interval(p.itqan, p.state) + 'd</td><td>' + p.since + 'd</td>' +
+          '</td><td>' + returnLabel(p) + '</td><td>' + p.itqan + '%</td><td>' + S.interval(p) + 'd</td><td>' + p.since + 'd</td>' +
           '<td>' + pill(over + ' days', over > 6 ? 'critical' : 'progress') + '</td>' +
           (canWrite() ? '<td><button class="btn btn--outline btn--sm" data-open-page="' + p.page + '">Recite</button></td>' : '') +
           '</tr>';
-      }).join('') : '<tr><td colspan="8">Nothing due.</td></tr>') +
+      }).join('') : '<tr><td colspan="9">Nothing due.</td></tr>') +
       '</tbody></table></div></div>';
   }
 
@@ -562,7 +581,8 @@
       '<div class="drawer__stats">' +
         '<div><dt>State</dt><dd>' + STATE_LABEL[p.state] + '</dd></div>' +
         '<div><dt>Itqān</dt><dd>' + (p.state === 'new' ? '—' : p.itqan + '%') + '</dd></div>' +
-        '<div><dt>Interval</dt><dd>' + (p.state === 'new' ? '—' : S.interval(p.itqan, p.state) + ' days') + '</dd></div>' +
+        '<div><dt>Interval</dt><dd>' + (p.state === 'new' ? '—' : S.interval(p) + ' days') + '</dd></div>' +
+        '<div><dt>Five Returns</dt><dd>' + returnLabel(p) + '</dd></div>' +
         '<div><dt>Last recited</dt><dd>' + (p.since == null ? '—' : p.since + ' days ago') + '</dd></div>' +
         '<div><dt>Recitals</dt><dd>' + (p.recitals || 0) + '</dd></div>' +
       '</div>' +
@@ -573,7 +593,9 @@
           '<button class="btn btn--outline" data-recite-page="broken">Broke</button>' +
         '</div>' +
         '<p class="drawer__note">A clean recital adds 7 to itqān, minor slips 3, a break takes 6 ' +
-          'away. The revision clock resets either way, and the interval is recomputed.</p>'
+          'away. A clean or nearly clean hearing also advances the page one of the Five Returns; ' +
+          'a break returns it to the first and, if it had been held, back into sabqī. The revision ' +
+          'clock resets either way and the interval is recomputed.</p>'
         : '<p class="drawer__note">Read-only.</p>') +
       '</div></div>';
   }
