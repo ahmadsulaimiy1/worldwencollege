@@ -1,0 +1,498 @@
+/* =========================================================
+   WorldWide English College — London Campus
+   THE COLLEGE PILLAR
+   ---------------------------------------------------------
+   Loaded only on /about/, /about/careers/ and their Arabic
+   editions, via the `extraCss` key on those manifest entries.
+   Everything reusable lives in css/brand.css; this file is
+   composition only, so the other 84 pages never download it.
+
+   WHY THIS IS NOT css/home.css WITH DIFFERENT COLOURS.
+
+   The homepage is a flagship prospectus: chapters on coloured
+   stock, a cinematic vista, a struck medallion — it is built
+   to be *arriving somewhere*. This pillar is the opposite
+   document. It is where a reader goes to check the College
+   against itself, and the register that suits that is not a
+   magazine. It is a CONSTITUTIONAL DOCUMENT: something bound,
+   numbered, annotated in the margin, and signed at the foot.
+
+   So the devices here are the devices of a printed instrument
+   rather than of an editorial spread —
+
+     · a MASTHEAD that states the institution, its founding
+       and its motto before it argues anything;
+     · a MARGIN running down the leading edge of every leaf,
+       carrying the numeral and a note about what the leaf is
+       for, the way an annotated statute carries its rubrics;
+     · a REGISTER rather than a card grid, because a list of
+       what is settled and what is not is a register;
+     · a COLOPHON at the foot, which is where a document
+       states who made it and when.
+
+   The margin is the signature. It is sticky, so the numeral
+   and its note stay beside the passage they belong to for as
+   long as that passage is on screen, and it collapses to a
+   plain heading rule below 940px where there is no margin to
+   have.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   RHYTHM
+   One spacing scale, as on the homepage, so the two pillars
+   feel machined by the same shop even though they are set
+   differently. --leaf-pad is the only number invented here.
+   --------------------------------------------------------- */
+:root {
+  --leaf-pad: clamp(64px, 3.6vw + 40px, 108px);
+  --margin-w: clamp(120px, 13vw, 208px);
+  --rule-ink: rgba(20, 38, 74, .16);
+  --rule-ivory: rgba(247, 244, 236, .18);
+}
+
+/* =========================================================
+   THE MASTHEAD
+   The first thing on the page, and the only place the
+   College states itself rather than argues. A struck plate
+   on oxford ground: crest, name, motto, founding, and two
+   rules that frame it the way a title page is framed.
+   ========================================================= */
+.masthead {
+  position: relative;
+  padding: clamp(72px, 7vw, 132px) 0 clamp(56px, 5vw, 92px);
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 0%, rgba(199, 162, 74, .16), transparent 64%),
+    linear-gradient(174deg, var(--midnight) 0%, var(--oxford) 100%);
+  color: var(--ivory);
+  /* `clip`, not `hidden` — the same reason css/pages.css gives on
+     .page-hero, whose class this section also carries: hidden creates
+     a scroll container and kills position:sticky in descendants, and
+     the leaf margins below rely on sticky. */
+  overflow: clip;
+  border-bottom: 1px solid rgba(199, 162, 74, .3);
+}
+@supports not (overflow: clip) { .masthead { overflow: hidden; } }
+/* RECONCILING WITH .page-hero, whose class this section also carries.
+   That shared masthead is built LEFT-ALIGNED with its ornament out to
+   the trailing edge, and this one is a centred title page. Three of its
+   rules actively fight that, so each is answered here rather than by
+   dropping the class — the class is what makes this page satisfy the
+   site-wide "every page opens with a masthead" contract, and it is
+   honest: this IS the masthead, it just carries more.
+
+   Kept: .page-hero::before, the guilloche wash. It reads as laid paper
+   under a title page and wants no change. */
+
+/* 1. The trailing-edge crest. This page has its own, centred behind
+      the type, and two crests on one masthead is an accident. */
+.masthead::after { content: none; }
+
+/* 2. The accent rule, which draws from the leading edge. On a centred
+      masthead it lands under the left margin looking like a stray mark.
+      The rule pairs above and below the type already do this job. */
+.masthead .container::after { content: none; }
+
+/* 3. h1 { max-width: 20ch }, which is right for a left-aligned
+      masthead and is what pushed this centred one visibly off its
+      axis: a 20ch block centred in a 900px container is not centred
+      text, it is a narrow column sitting left. */
+.masthead h1 { max-width: none; margin-inline: auto; }
+
+.masthead__plate {
+  position: absolute; inset: 0; margin: auto;
+  width: clamp(320px, 40vw, 560px);
+  opacity: .09; pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, #000 34%, transparent 76%);
+          mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, #000 34%, transparent 76%);
+}
+.masthead__inner { position: relative; z-index: 2; text-align: center; max-width: 860px; margin-inline: auto; }
+/* brand.css sets `[dir="ltr"] p { max-width: 70ch }` for measure, which
+   is right everywhere else and silently breaks a centred title page:
+   a 70ch block inside an 860px centred container is a LEFT-ALIGNED
+   block of centred text, so the eyebrow, the rules and the motto each
+   sat on their own axis — measured at 529, 641 and 652 against the
+   heading's 720. Centring the block is the fix; capping the measure is
+   still correct and stays. */
+.masthead__inner > p, .masthead__inner > dl { margin-inline: auto; }
+
+/* The rule pair. A title page is framed by rules with a mark
+   set into them, not by a border — so these are two rules
+   with a device between, drawn with flex rather than with a
+   background image that would not scale with the type. */
+.masthead__rule {
+  display: flex; align-items: center; gap: 1.1em;
+  justify-content: center; margin: 0 0 2.2em;
+  color: var(--gold-royal);
+}
+.masthead__rule::before, .masthead__rule::after {
+  content: ''; height: 1px; flex: 1; max-width: 180px;
+  background: linear-gradient(90deg, transparent, currentColor 40%, currentColor 60%, transparent);
+}
+.masthead__rule .icon { width: 1.5rem; height: 1.5rem; flex-shrink: 0; }
+.masthead__rule--foot { margin: 2.4em 0 0; }
+
+.masthead__eyebrow {
+  font-family: var(--font-ceremonial); font-weight: 600;
+  font-size: clamp(.72rem, .66rem + .2vw, .86rem);
+  letter-spacing: .34em; text-transform: uppercase;
+  color: var(--gold-champagne); margin: 0 0 1.4em;
+}
+.masthead h1 { color: #fff; margin: 0 0 .5em; }
+.masthead .lede {
+  color: rgba(247, 244, 236, .82);
+  max-width: 62ch; margin-inline: auto;
+}
+
+/* The founding line: three facts, set as a struck strip. */
+.masthead__facts {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 0 clamp(20px, 4vw, 52px);
+  margin: 2.4em 0 0; padding: 1.1em 0;
+  border-block: 1px solid rgba(199, 162, 74, .26);
+}
+.masthead__fact { text-align: center; padding: .3em 0; }
+.masthead__fact dt {
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .58rem; letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(247, 244, 236, .5); margin: 0 0 .5em;
+}
+.masthead__fact dd {
+  margin: 0; font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(.95rem, .88rem + .3vw, 1.14rem);
+  color: var(--gold-champagne); white-space: nowrap;
+}
+.masthead__motto {
+  margin: 2em 0 0; font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1rem, .9rem + .5vw, 1.28rem);
+  color: rgba(247, 244, 236, .72);
+}
+
+/* =========================================================
+   THE LEAF
+   One chapter of the document. A margin on the leading edge
+   carrying the numeral and a rubric, and the body beside it.
+   ========================================================= */
+.leaf { padding: var(--leaf-pad) 0; position: relative; }
+.leaf__grid {
+  display: grid;
+  grid-template-columns: var(--margin-w) minmax(0, 1fr);
+  gap: clamp(24px, 3.4vw, 56px);
+  align-items: start;
+}
+.leaf__margin { position: sticky; top: calc(var(--header-h, 88px) + var(--contents-h, 50px) + 28px); }
+.leaf__num {
+  display: block;
+  font-family: var(--font-ceremonial); font-weight: 600;
+  font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.3rem);
+  line-height: 1; color: var(--gold-royal);
+  letter-spacing: .06em;
+}
+.leaf__label {
+  display: block; margin-top: .9em;
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--bronze);
+}
+/* The rubric: a note about what this leaf is for, set small
+   and quiet. It is the one place on the page the document
+   talks about itself. */
+.leaf__rubric {
+  margin: 1.1em 0 0; padding-top: 1.1em;
+  border-top: 1px solid var(--rule-ink);
+  font-size: .76rem; line-height: 1.7; color: var(--ink-soft);
+  max-width: 22ch;
+}
+.leaf__body > :first-child { margin-top: 0; }
+.leaf__body h2 { margin-top: 0; }
+
+/* Dark leaves invert the margin's rules. */
+.section--dark .leaf__label, .section--oxford .leaf__label, .section--midnight .leaf__label {
+  color: var(--gold-soft);
+}
+.section--dark .leaf__rubric, .section--oxford .leaf__rubric, .section--midnight .leaf__rubric {
+  border-top-color: var(--rule-ivory); color: rgba(247, 244, 236, .62);
+}
+.section--dark .leaf__num, .section--oxford .leaf__num, .section--midnight .leaf__num { color: var(--gold-rich); }
+
+/* Below the margin's own width there is no margin to have.
+   It becomes a heading rule above the body instead — the
+   numeral and label on one line, the rubric dropped, because
+   a rubric with no margin to sit in is just an interruption. */
+@media (max-width: 940px) {
+  .leaf__grid { grid-template-columns: 1fr; gap: 20px; }
+  .leaf__margin {
+    position: static;
+    display: flex; align-items: baseline; gap: .8em;
+    padding-bottom: .9em; border-bottom: 1px solid var(--rule-ink);
+  }
+  .section--dark .leaf__margin, .section--oxford .leaf__margin, .section--midnight .leaf__margin {
+    border-bottom-color: var(--rule-ivory);
+  }
+  .leaf__num { font-size: 1.5rem; }
+  .leaf__label { margin-top: 0; }
+  .leaf__rubric { display: none; }
+}
+
+/* A dropped capital opens the first passage of a leaf that
+   asks for one. Ceremonial face, three lines deep, and it
+   takes the burgundy on paper because gold at that size on
+   cream is under contrast. */
+.dropcap::first-letter {
+  float: inline-start;
+  font-family: var(--font-ceremonial); font-weight: 600;
+  font-size: 3.4em; line-height: .84;
+  margin: .06em .12em 0 0; color: var(--burgundy);
+}
+[dir="rtl"] .dropcap::first-letter { margin: .06em 0 0 .12em; }
+.section--dark .dropcap::first-letter,
+.section--oxford .dropcap::first-letter,
+.section--midnight .dropcap::first-letter { color: var(--gold-rich); }
+/* Arabic has no majuscule, so a dropped capital is a Latin
+   typographic convention being imposed on a script that does
+   not have the letterform to carry it. Suppressed rather
+   than approximated. */
+[dir="rtl"] .dropcap::first-letter { float: none; font-size: inherit; margin: 0; color: inherit; font-family: inherit; }
+
+/* =========================================================
+   THE REGISTER
+   What is settled, and what is not. Replaces two card lists
+   of ticks — and the tick is the point: the old markup gave
+   the OUTSTANDING column the same ✓ as the settled one, so
+   the page marked unfinished work as done. A register uses
+   two different marks because it is recording two different
+   states.
+   ========================================================= */
+.register {
+  display: grid; gap: clamp(20px, 2.6vw, 38px);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin-top: clamp(28px, 3vw, 44px);
+}
+.register__col {
+  border: 1px solid var(--rule-ink); border-radius: var(--r-sm, 6px);
+  padding: clamp(22px, 2.4vw, 34px);
+  background: rgba(255, 255, 255, .46);
+}
+.register__col--open { background: transparent; border-style: dashed; }
+.register__head {
+  display: flex; align-items: center; gap: .7em;
+  margin: 0 0 1.2em; padding-bottom: .9em;
+  border-bottom: 1px solid var(--rule-ink);
+}
+.register__head h3 { margin: 0; font-size: 1.02rem; font-family: var(--font-display); }
+.register__head .icon { width: 1.3rem; height: 1.3rem; color: var(--bronze); flex-shrink: 0; }
+.register__count {
+  margin-inline-start: auto;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: .82rem; color: var(--bronze);
+}
+.register__list { list-style: none; margin: 0; padding: 0; display: grid; gap: .95em; }
+.register__list li {
+  display: grid; grid-template-columns: 1.5rem 1fr; gap: .7em;
+  align-items: start; font-size: .9rem; line-height: 1.62;
+}
+.register__list .icon { width: 1.05rem; height: 1.05rem; margin-top: .28em; }
+/* Settled: a struck seal. Outstanding: an open ring — the
+   same diameter, deliberately EMPTY, so the difference is
+   visible at a glance and nothing unfinished wears a tick. */
+.register__list--held .icon { color: var(--emerald, #2C6B4F); }
+.register__list--open .icon { color: var(--bronze); opacity: .8; }
+.register__note {
+  margin: 1.4em 0 0; padding-top: 1em;
+  border-top: 1px solid var(--rule-ink);
+  font-size: .78rem; line-height: 1.68; color: var(--ink-soft);
+}
+
+/* =========================================================
+   THE CREED
+   Eight values. They were eight bare boxes containing one
+   word each, which is a list of nouns pretending to be a
+   design. Each now carries an engraved mark and the single
+   line that says what it costs — a value with no cost
+   attached is decoration, which the page itself argues.
+   ========================================================= */
+/* EIGHT ITEMS, AND THE COLUMN COUNT IS NOT auto-fit.
+   The hairlines here are the 1px gaps with the container's background
+   showing through, which is the cheapest way to draw a grid — and it
+   means an unfilled cell is not empty, it is a pale block. auto-fit
+   gave three columns at this width, so the eighth value left a lit
+   ninth cell sitting in the corner. Eight divides by 1, 2 and 4 and
+   never by 3, so the counts are stated rather than negotiated. */
+.creed {
+  display: grid; gap: 1px;
+  grid-template-columns: 1fr;
+  background: var(--rule-ivory);
+  border: 1px solid var(--rule-ivory);
+  margin-top: clamp(28px, 3vw, 44px);
+}
+@media (min-width: 520px) { .creed { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .creed { grid-template-columns: repeat(4, 1fr); } }
+.creed__item {
+  background: var(--oxford);
+  padding: clamp(20px, 2.2vw, 30px);
+  display: flex; flex-direction: column; gap: .7em;
+  transition: background .3s var(--ease-premium, ease);
+}
+.creed__item:hover { background: var(--midnight); }
+.creed__mark {
+  display: grid; place-items: center;
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid rgba(199, 162, 74, .5);
+  color: var(--gold-rich);
+  background: radial-gradient(circle at 34% 28%, rgba(242, 227, 192, .16), transparent 68%);
+}
+.creed__item h3 {
+  margin: 0; font-family: var(--font-display); font-size: 1.02rem;
+  color: var(--gold-champagne);
+}
+.creed__item p { margin: 0; font-size: .84rem; line-height: 1.62; color: rgba(247, 244, 236, .72); }
+
+/* =========================================================
+   THE TENETS
+   Numbered positions. A hanging numeral in the ceremonial
+   face against a hairline, so five positions read as five
+   clauses rather than as five cards.
+   ========================================================= */
+.tenets { display: grid; gap: 0; margin-top: clamp(28px, 3vw, 44px); counter-reset: tenet; }
+.tenet {
+  display: grid; grid-template-columns: clamp(48px, 6vw, 76px) 1fr;
+  gap: clamp(16px, 2.4vw, 34px);
+  padding: clamp(22px, 2.6vw, 34px) 0;
+  border-top: 1px solid var(--rule-ink);
+}
+.tenet:last-child { border-bottom: 1px solid var(--rule-ink); }
+.section--dark .tenet, .section--oxford .tenet { border-color: var(--rule-ivory); }
+.tenet__num {
+  font-family: var(--font-ceremonial); font-weight: 600;
+  font-size: clamp(1.1rem, .95rem + .5vw, 1.5rem);
+  line-height: 1.1; color: var(--bronze); letter-spacing: .06em;
+}
+.section--dark .tenet__num, .section--oxford .tenet__num { color: var(--gold-rich); }
+.tenet h3 { margin: 0 0 .5em; font-family: var(--font-display); font-size: clamp(1.05rem, .96rem + .34vw, 1.24rem); }
+.tenet p { margin: 0; color: var(--ink-soft); line-height: 1.72; max-width: 68ch; }
+.section--dark .tenet p, .section--oxford .tenet p { color: rgba(247, 244, 236, .76); }
+@media (max-width: 620px) {
+  .tenet { grid-template-columns: 1fr; gap: .5em; }
+}
+
+/* =========================================================
+   THE SEPARATION
+   Three roles that may not be the same person. Drawn as
+   three struck discs with the non-identity between them set
+   as type, because the claim IS the relation and a row of
+   cards cannot show a relation.
+   ========================================================= */
+.separation {
+  display: flex; flex-wrap: wrap; align-items: stretch;
+  justify-content: center; gap: clamp(10px, 1.6vw, 22px);
+  margin-top: clamp(28px, 3vw, 44px);
+}
+.sep__role {
+  flex: 1 1 190px; max-width: 260px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  gap: .8em; padding: clamp(20px, 2.2vw, 30px) 1em;
+  border: 1px solid var(--rule-ink); border-radius: var(--r-sm, 6px);
+  background: rgba(255, 255, 255, .5);
+}
+.sep__disc {
+  display: grid; place-items: center;
+  width: 58px; height: 58px; border-radius: 50%;
+  border: 1px solid var(--gold-royal); color: var(--bronze);
+  background: radial-gradient(circle at 34% 28%, rgba(255, 250, 235, .85), transparent 70%);
+}
+.sep__role h3 { margin: 0; font-size: .98rem; font-family: var(--font-display); }
+.sep__role p { margin: 0; font-size: .82rem; line-height: 1.6; color: var(--ink-soft); }
+/* ON A DARK LEAF the disc and the prose keep paper colours unless
+   told otherwise, and both were illegible: the disc's highlight is a
+   near-white radial built for cream, which on oxford renders as a grey
+   blob with an unreadable mark inside it, and .sep__role p takes
+   --ink-soft, a dark grey, on a dark ground. Written here rather than
+   as inline styles on the markup so any later separation block on any
+   dark leaf inherits the fix. */
+.section--dark .sep__role, .section--oxford .sep__role, .section--midnight .sep__role {
+  background: rgba(255, 255, 255, .04);
+  border-color: rgba(247, 244, 236, .18);
+}
+.section--dark .sep__role p, .section--oxford .sep__role p, .section--midnight .sep__role p {
+  color: rgba(247, 244, 236, .74);
+}
+.section--dark .sep__role h3, .section--oxford .sep__role h3, .section--midnight .sep__role h3 {
+  color: var(--gold-champagne);
+}
+.section--dark .sep__disc, .section--oxford .sep__disc, .section--midnight .sep__disc {
+  color: var(--gold-rich);
+  border-color: rgba(199, 162, 74, .5);
+  background: radial-gradient(circle at 34% 28%, rgba(242, 227, 192, .18), transparent 68%);
+}
+.section--dark .sep__rel, .section--oxford .sep__rel, .section--midnight .sep__rel {
+  color: var(--gold-rich);
+}
+
+/* The relation. A bold non-identity sign, set in the display
+   face at the size of a heading, because it is the claim. */
+.sep__rel {
+  align-self: center; flex: 0 0 auto;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.3rem, 1.1rem + .8vw, 2rem);
+  color: var(--burgundy); padding: 0 .1em;
+}
+@media (max-width: 780px) {
+  .sep__rel { transform: rotate(90deg); padding: .3em 0; }
+}
+
+/* =========================================================
+   THE VACANCY LIST
+   Posts not filled, and what each blocks. The blocking fact
+   is the point, so it is the part that carries the colour.
+   ========================================================= */
+.vacancies { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-top: clamp(28px, 3vw, 44px); }
+.vacancy {
+  border: 1px dashed var(--rule-ivory); border-radius: var(--r-sm, 6px);
+  padding: clamp(20px, 2.2vw, 28px);
+  background: rgba(255, 255, 255, .03);
+}
+.vacancy h3 { margin: 0 0 .5em; font-size: 1rem; font-family: var(--font-display); color: var(--gold-champagne); }
+.vacancy p { margin: 0; font-size: .86rem; line-height: 1.62; color: rgba(247, 244, 236, .72); }
+.vacancy__blocks {
+  display: inline-block; margin-top: 1em;
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .58rem; letter-spacing: .16em; text-transform: uppercase;
+  color: #E4A6A6; border: 1px solid rgba(228, 166, 166, .38);
+  border-radius: var(--r-xs, 4px); padding: .42em .8em;
+}
+
+/* =========================================================
+   THE COLOPHON
+   Where a document says who made it and when. The last thing
+   on the pillar, and the quietest.
+   ========================================================= */
+.colophon {
+  padding: clamp(44px, 4vw, 72px) 0;
+  border-top: 1px solid var(--rule-ink);
+  text-align: center;
+}
+.colophon__rule { color: var(--gold-royal); }
+.colophon p {
+  margin: 1.2em auto 0; max-width: 60ch;
+  font-size: .82rem; line-height: 1.8; color: var(--ink-soft);
+}
+.colophon dl {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: .6em clamp(18px, 3vw, 40px); margin: 1.6em 0 0;
+}
+.colophon dt {
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .56rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.colophon dd { margin: 0 0 0 .5em; font-family: var(--font-display); font-size: .88rem; }
+
+/* =========================================================
+   REDUCED MOTION
+   Same contract as brand.css and atelier.css: every rule
+   resolves to the FINISHED state, nothing left invisible.
+   The sticky margin is not motion — it is position — and it
+   stays.
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .creed__item { transition: none; }
+}

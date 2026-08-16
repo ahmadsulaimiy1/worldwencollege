@@ -18,6 +18,9 @@
     "title": "About the College &mdash; Worldwide English College",
     "description": "Who Worldwide English College is: its vision, mission and educational philosophy, how it is organised, and its institutional status stated plainly.",
     "contentFile": "about.html",
+    "extraCss": [
+      "/css/college.css"
+    ],
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/about/",
@@ -120,6 +123,9 @@
     "title": "عن الكلية | الرؤية والرسالة والوضع المؤسسي",
     "description": "رؤية ورسالة والقيم الجوهرية والوضع المؤسسي الصادق للكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن.",
     "contentFile": "about.ar.html",
+    "extraCss": [
+      "/css/college.css"
+    ],
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/about/",
@@ -295,6 +301,9 @@
     "title": "Careers &mdash; Worldwide English College",
     "description": "Working at Worldwide English College: the posts the College is seeking to fill, what each one unblocks, and how to express interest.",
     "contentFile": "about-careers.html",
+    "extraCss": [
+      "/css/college.css"
+    ],
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/about/careers/"
@@ -626,6 +635,9 @@
     "title": "العمل في الكلية — الكلية العالمية للغة الإنجليزية",
     "description": "المناصب الثلاثة التي تحتاجها الكلية فعلًا، وما الذي يفتحه كل منها، وما الذي ينضم إليه المرشح بالضبط.",
     "contentFile": "about-careers.ar.html",
+    "extraCss": [
+      "/css/college.css"
+    ],
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/about/careers/"
