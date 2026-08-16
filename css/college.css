@@ -172,7 +172,22 @@
    One chapter of the document. A margin on the leading edge
    carrying the numeral and a rubric, and the body beside it.
    ========================================================= */
-.leaf { padding: var(--leaf-pad) 0; position: relative; }
+.leaf {
+  padding: var(--leaf-pad) 0;
+  position: relative;
+  /* `clip`, not `hidden`. The ornament below bleeds past the trailing
+     edge on purpose and would otherwise widen the document — measured
+     at 58px of horizontal scroll once the plates went in. `hidden`
+     would fix that and create a scroll container, which kills the
+     sticky margin inside every leaf; `clip` trims without scrolling.
+     Where clip is unsupported the ornament is pulled back inside
+     instead, which costs the bleed and not the layout. */
+  overflow: clip;
+}
+@supports not (overflow: clip) {
+  .leaf { overflow: visible; }
+  .leaf__ornament { inset-inline-end: 0; }
+}
 .leaf__grid {
   display: grid;
   grid-template-columns: var(--margin-w) minmax(0, 1fr);
@@ -485,6 +500,154 @@
   color: var(--ink-soft);
 }
 .colophon dd { margin: 0 0 0 .5em; font-family: var(--font-display); font-size: .88rem; }
+
+/* =========================================================
+   MATERIAL
+   ---------------------------------------------------------
+   THIS SECTION IS A CORRECTION. The first cut of this file
+   built its own surfaces — flat rgba fills with a hairline
+   border — while the site already carried a full atelier
+   layer the homepage uses forty-three times over: a light
+   that travels a rim (.aurum), a static lit edge
+   (.edge-lit), metal that tracks the pointer (.gold-live),
+   a sheen plane (.tilt), a foil sweep across gold type
+   (.foil). None of it appeared on these pages. The result
+   read exactly as what it was: static HTML and CSS beside a
+   page made of struck metal.
+
+   So the surfaces below stop being fills and start being
+   MATERIAL — every one gets relief (a lit top edge and a
+   shaded floor, which is what makes a panel look pressed
+   rather than drawn), a ground that is a gradient rather
+   than a colour, and the atelier primitives are worn in the
+   markup on top.
+
+   .aurum takes ::after and .edge-lit takes ::before,
+   deliberately, so a surface can wear both — a lit rim AND
+   a light going round it. Nothing here may claim either
+   pseudo-element on an element that wears those classes.
+   ========================================================= */
+
+/* A leaf is no longer a flat band of colour. Light enters
+   from the leading edge, high, the way it does on every
+   other ground in this site's system. */
+.leaf.section--paper {
+  background:
+    radial-gradient(ellipse 52% 60% at 12% 0%, rgba(199, 162, 74, .09), transparent 62%),
+    var(--paper);
+}
+.leaf.section--light {
+  background:
+    radial-gradient(ellipse 52% 60% at 88% 0%, rgba(199, 162, 74, .08), transparent 62%),
+    var(--ivory);
+}
+.leaf.section--oxford {
+  background:
+    radial-gradient(ellipse 62% 68% at 16% 0%, rgba(199, 162, 74, .16), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 92% 96%, rgba(31, 61, 122, .38), transparent 62%),
+    linear-gradient(168deg, var(--oxford) 0%, var(--midnight) 100%);
+}
+[dir="rtl"] .leaf.section--paper { background-position: right top, 0 0; }
+
+/* THE LEAF ORNAMENT — a plate set into the leaf at the
+   weight of a watermark, on the trailing edge so it never
+   collides with the measure. This is what the margin of a
+   real instrument carries, and its absence is most of why
+   these leaves read as empty. Driven by --leaf-plate so one
+   rule serves every leaf and the markup names the art. */
+.leaf__ornament {
+  position: absolute; z-index: 0; pointer-events: none;
+  inset-inline-end: -4%; top: 50%; transform: translateY(-50%);
+  width: clamp(200px, 24vw, 400px); aspect-ratio: 1;
+  opacity: .05;
+  background: var(--leaf-plate) no-repeat center / contain;
+  -webkit-mask-image: radial-gradient(ellipse 64% 64% at 50% 50%, #000 30%, transparent 76%);
+          mask-image: radial-gradient(ellipse 64% 64% at 50% 50%, #000 30%, transparent 76%);
+}
+.leaf.section--oxford .leaf__ornament, .leaf.section--dark .leaf__ornament { opacity: .085; }
+.leaf > .container { position: relative; z-index: 1; }
+@media (max-width: 860px) { .leaf__ornament { opacity: .03; inset-inline-end: -18%; } }
+
+/* Struck panels. Relief first, colour second — a lit top
+   hairline and a shaded floor is what separates a pressed
+   panel from a rectangle with a border. */
+.register__col {
+  background:
+    linear-gradient(168deg, rgba(255, 255, 255, .72), rgba(255, 255, 255, .34));
+  box-shadow: var(--relief-raised), 0 18px 38px -26px rgba(9, 18, 38, .5);
+}
+.register__col--open {
+  background: linear-gradient(168deg, rgba(255, 255, 255, .34), rgba(255, 255, 255, .08));
+  box-shadow: none;
+}
+.section--oxford .register__col, .section--dark .register__col {
+  background: linear-gradient(168deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .02));
+  border-color: var(--rule-ivory);
+}
+
+/* The register's marks sit in a struck well rather than
+   floating as bare strokes. */
+.register__head .icon {
+  width: 1.9rem; height: 1.9rem; padding: .34rem;
+  border-radius: 50%;
+  border: 1px solid rgba(199, 162, 74, .42);
+  background: radial-gradient(circle at 34% 28%, rgba(255, 250, 235, .9), transparent 72%);
+  box-shadow: var(--relief-metal);
+}
+.section--oxford .register__head .icon, .section--dark .register__head .icon {
+  background: radial-gradient(circle at 34% 28%, rgba(242, 227, 192, .2), transparent 68%);
+  box-shadow: none;
+}
+
+.creed__item {
+  background:
+    radial-gradient(ellipse 80% 70% at 20% 0%, rgba(199, 162, 74, .07), transparent 64%),
+    var(--oxford);
+  box-shadow: var(--relief-raised);
+}
+.creed__item:hover {
+  background:
+    radial-gradient(ellipse 80% 70% at 20% 0%, rgba(199, 162, 74, .14), transparent 64%),
+    var(--midnight);
+}
+/* The mark becomes a struck dome rather than a ring: a
+   graduated well with a bright rim, which is the same
+   material the vessel badges in the header are made of. */
+.creed__mark {
+  width: 46px; height: 46px;
+  background:
+    radial-gradient(circle at 34% 26%, rgba(242, 227, 192, .3), transparent 62%),
+    linear-gradient(158deg, rgba(255, 255, 255, .1), rgba(8, 16, 34, .34));
+  box-shadow: var(--relief-metal), 0 8px 18px -12px rgba(3, 8, 20, .9);
+}
+
+.sep__role {
+  background: linear-gradient(168deg, rgba(255, 255, 255, .78), rgba(255, 255, 255, .38));
+  box-shadow: var(--relief-raised), 0 16px 34px -26px rgba(9, 18, 38, .46);
+}
+.sep__disc {
+  box-shadow: var(--relief-metal), 0 10px 20px -14px rgba(9, 18, 38, .7);
+}
+.section--oxford .sep__disc, .section--dark .sep__disc, .section--midnight .sep__disc {
+  box-shadow: var(--relief-raised), 0 10px 22px -14px rgba(3, 8, 20, .9);
+}
+
+.vacancy {
+  background: linear-gradient(168deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .015));
+  box-shadow: var(--relief-raised);
+}
+
+/* The masthead's fact strip, struck rather than ruled. */
+.masthead__facts {
+  background: linear-gradient(180deg, rgba(242, 227, 192, .07), rgba(199, 162, 74, .02));
+  box-shadow: var(--relief-raised);
+  border-radius: var(--r-xs, 4px);
+  padding-inline: clamp(14px, 3vw, 34px);
+}
+
+/* The leaf numeral catches the foil sweep like the chapter
+   numerals on the homepage do. */
+.leaf__num.foil, .tenet__num.foil { -webkit-background-clip: text; background-clip: text; }
 
 /* =========================================================
    REDUCED MOTION
