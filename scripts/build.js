@@ -175,6 +175,70 @@ function inlineSvgIncludes(html, contentFile) {
   });
 }
 
+// ---------------------------------------------------------------------
+// THE RECORD OF STANDING  —  {{S:KEY}}, {{N:key}}, {{V:key}}
+//
+// data/standing.json is the only place the College's own figures live:
+// how many cohorts have been taught, how many students completed a
+// level, how many awards were conferred. Before it existed those facts
+// were typed into the copy of 56 pages in two languages, which meant
+// they could not be corrected — only re-typed, 56 times, with the
+// Arabic edition drifting from the English on the first mistake.
+//
+// Three tokens read it:
+//
+//   {{S:COHORTS_TAUGHT}}   a sentence, in the page's own language
+//   {{N:completed_level_1}} the count and a space — or NOTHING at all
+//   {{V:cohorts.run}}      a raw value, spelled where a numeral is wanted
+//
+// {{N:…}} is the important one, and its emptiness is the whole design.
+// A count the College has not released for publication is null, and a
+// null renders as the empty string, so
+//
+//   <p>{{N:completed_level_1}}{{S:COMPLETED_1}} sat the Level II paper.</p>
+//
+// publishes "students who have completed Level I sat the Level II
+// paper" today, and "31 students who have completed Level I sat the
+// Level II paper" the moment somebody puts 31 in the record. The
+// sentence is true in both states and needs no rewriting between them.
+// Every prose string is therefore written to begin with its noun.
+//
+// tests/published-claims.test.mjs enforces the other half: a numeral
+// standing next to a cohort or award claim that this file did not
+// supply fails the build. A figure cannot reach the site by being typed
+// confidently into a paragraph.
+// ---------------------------------------------------------------------
+const STANDING = JSON.parse(read(path.join(ROOT, 'data', 'standing.json')));
+
+function standingValue(dotted) {
+  return dotted.split('.').reduce((o, k) => (o == null ? o : o[k]), STANDING);
+}
+
+function fillStanding(html, lang, contentFile) {
+  const prose = STANDING.prose[lang === 'ar' ? 'ar' : 'en'];
+  return html
+    .replace(/\{\{S:([A-Z0-9_]+)\}\}/g, (_, key) => {
+      if (!(key in prose)) {
+        throw new Error(`${contentFile}: no standing prose named ${key} for ${lang}`);
+      }
+      return prose[key];
+    })
+    .replace(/\{\{N:([a-z0-9_]+)\}\}/g, (_, key) => {
+      if (!(key in STANDING.counts)) {
+        throw new Error(`${contentFile}: no standing count named ${key}`);
+      }
+      const n = STANDING.counts[key];
+      // Not released is not zero. It renders as nothing, and the
+      // sentence carries on without it.
+      return n == null ? '' : `${n}&nbsp;`;
+    })
+    .replace(/\{\{V:([a-z0-9_.]+)\}\}/g, (_, key) => {
+      const v = standingValue(key);
+      if (v == null) throw new Error(`${contentFile}: standing value ${key} is unset`);
+      return String(v);
+    });
+}
+
 function partialFor(name, lang) {
   const arPath = path.join(PARTIALS, `${name}.ar.html`);
   if (lang === 'ar' && fs.existsSync(arPath)) return read(arPath);
@@ -365,7 +429,10 @@ function build() {
     const footer = fill(partialFor('footer', lang), { ALT_HREF: altHref });
     const content = withContentsRail(
       raiseMasthead(
-        inlineSvgIncludes(read(path.join(PAGES, entry.contentFile)), entry.contentFile)
+        fillStanding(
+          inlineSvgIncludes(read(path.join(PAGES, entry.contentFile)), entry.contentFile),
+          lang, entry.contentFile
+        )
       ),
       entry, lang
     );
