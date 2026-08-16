@@ -25,6 +25,8 @@
 <link rel="stylesheet" href="/css/brand.css">
 <link rel="stylesheet" href="/css/atelier.css">
 <link rel="stylesheet" href="/css/pages.css">
+<link rel="stylesheet" href="/css/pillar.css">
+<link rel="stylesheet" href="/css/press.css">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
@@ -954,16 +956,42 @@
 </header>
 
 <main id="main">
-<section class="page-hero section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">مطبعة الكلية</span>
-    <h1 data-split>ذراع النشر في الكلية.</h1>
-    <p class="lede"><span dir="ltr">11</span> مجلدًا أُنتج ونُضِّد للطباعة، مركَّبًا من
-      السجل ذاته الذي يُدرَّس منه البرنامج. هذا هو الجزء من الكلية الذي اكتمل فيه العمل ويمكن
-      عدُّه لا وصفه.</p>
-    <div class="btn-row">
+<!--
+  المطبعة والمكتبة — صفحة الركن.
+
+  THE ARABIC EDITION SHIPS WITH THE ENGLISH ONE, leaf for leaf.
+  Mirrors pages/press.html: the masthead, the imprint and its four
+  folios, the shelf and the colophon.
+
+  EVERY FOLIO CARRIES ITS REVIEW STATE ON ITS OWN SPINE, and every one
+  of them is open. CLAUDE.md §5.
+-->
+
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/library-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></p>
+
+    <p class="masthead__eyebrow">مطبعة الكلية &middot; الكلية العالمية للغة الإنجليزية</p>
+    <h1>ذراع النشر في الكلية.</h1>
+    <p class="lede">أحد عشر مجلدًا أُنتج ونُضِّد للطباعة، مركَّبًا من السجل ذاته الذي يُدرَّس
+      منه البرنامج. هذا هو الجزء من الكلية الذي اكتمل فيه العمل ويمكن عدُّه لا وصفه &mdash;
+      وحيث لم يقرأ أحد من خارج الكلية شيئًا منه، فكل إصدار يقول ذلك على كعبه.</p>
+
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>المجلدات</dt><dd>١١، منتَجة</dd></div>
+      <div class="masthead__fact"><dt>الصيغ</dt><dd>أربع، بنظام طباعي واحد</dd></div>
+      <div class="masthead__fact"><dt>المراجَع خارجيًا</dt><dd>لا شيء</dd></div>
+      <div class="masthead__fact"><dt>مركَّبة من</dt><dd>سجل التدريس</dd></div>
+    </dl>
+
+    <p class="masthead__motto">&laquo;لا تنشر أبدًا لرفع العدد.&raquo;</p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+
+    <div class="btn-row u-center" style="margin-top:30px">
       <a href="/ar/press/catalogue/" class="btn btn--gold">الكتالوج</a>
-      <a href="/ar/press/#review" class="btn btn--outline">عن المراجعة</a>
+      <a href="#review" class="btn btn--outline">عن المراجعة</a>
     </div>
   </div>
 </section>
@@ -972,19 +1000,84 @@
   <div class="contents__inner">
     <span class="contents__label">في هذه الصفحة</span>
     <ul class="contents__list">
+      <li><a href="#imprint">الدار</a></li>
       <li><a href="#standards">معايير الدار</a></li>
       <li><a href="#review">عن المراجعة</a></li>
       <li><a href="#programme">برنامج النشر</a></li>
       <li><a href="#library">المكتبة</a></li>
+      <li><a href="#shelf">الرفّ</a></li>
     </ul>
   </div>
 </nav>
 
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">لماذا وُجدت</span>
+<!-- الورقة الأولى — الدار وإصداراتها -->
+<section class="leaf section--oxford grain aurora" id="imprint" data-contents="الدار">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/library-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">الدار</span>
+      <p class="leaf__rubric">خاتمة الدار نفسها، والصيغ الأربع التي تنتجها &mdash; كلٌّ بحالة مراجعتها على كعبها.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="imprint reveal edge-lit aurum aurum--hover">
+        <span class="imprint__device gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+        <h3>مطبعة الكلية &middot; لندن</h3>
+        <p>ذراع النشر في الكلية العالمية للغة الإنجليزية. وُجدت لتجعل ادعاءات الكلية قابلة
+          للفحص بوضعها في صورة ثابتة تُمسك ويُستشهد بها وتُؤرَّخ &mdash; لا لتُظهر المؤسسة أكبر
+          مما هي.</p>
+        <span class="imprint__rule" aria-hidden="true"></span>
+        <p>وتنشر تحت قاعدة واحدة: <b>لا تنشر أبدًا لرفع العدد.</b> يُنتج المجلد لأن المادة التي
+          وراءه اكتملت، أو لا يُنتج. لا شيء هنا سادّ فراغ، ولا شيء هنا حُشي لبلوغ رقم.</p>
+        <dl>
+          <div><dt>التأسيس</dt><dd>٢٠٢٤</dd></div>
+          <div><dt>المجلدات</dt><dd>١١</dd></div>
+          <div><dt>الصيغ</dt><dd>أربع</dd></div>
+          <div><dt>المراجعة الخارجية</dt><dd>لا شيء حتى اليوم</dd></div>
+        </dl>
+      </div>
+
+      <div class="folios">
+        <div class="folio reveal edge-lit aurum aurum--hover">
+          <span class="folio__format">الصيغة &mdash; المجلد الرئيس</span>
+          <h3>المنهج الكامل</h3>
+          <p>البرنامج كله في مجلد واحد: ستة مستويات وستون وحدة وكل ناتج وتقييم، منضَّدًا للطباعة ومولَّدًا من سجل التدريس لا مصانًا إلى جواره.</p>
+          <span class="folio__review folio__review--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> غير مراجَع خارجيًا</span>
+        </div>
+        <div class="folio reveal edge-lit aurum aurum--hover">
+          <span class="folio__format">الصيغة &mdash; المواصفة</span>
+          <h3>مواصفات المستويات</h3>
+          <p>وثيقة لكل مستوى تذكر ما يُدرَّس وما يُقيَّم وبأي معايير. وهي أول ما يُسلَّم لممتحن خارجي.</p>
+          <span class="folio__review folio__review--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> غير مراجَع خارجيًا</span>
+        </div>
+        <div class="folio reveal edge-lit aurum aurum--hover">
+          <span class="folio__format">الصيغة &mdash; المرافق</span>
+          <h3>مرافق المدرّس</h3>
+          <p>ممارسة التدريس في الصورة التي يعمل منها المدرّس: كيف يُرتَّب الدرس مرحليًا، وما المطلوب في كل مرحلة، وكيف يُعايَر التصحيح بين الأشخاص.</p>
+          <span class="folio__review folio__review--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> غير مراجَع خارجيًا</span>
+        </div>
+        <div class="folio reveal edge-lit aurum aurum--hover">
+          <span class="folio__format">الصيغة &mdash; كراسة العمل</span>
+          <h3>كراسات المتعلم</h3>
+          <p>النصف القابل للطباعة من البرنامج، لمن لا يحتمل اتصالُهم درسًا ويحتاجون العمل على الورق.</p>
+          <span class="folio__review folio__review--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> غير مراجَع خارجيًا</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/publication-funnel.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٢</span>
+      <span class="leaf__label">لماذا توجد</span>
+      <p class="leaf__rubric">الدار توجد لتجعل الادعاءات قابلة للفحص، لا لتُكبِّر حجم المؤسسة في العين.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>الدار توجد لتجعل الادعاءات قابلة للفحص.</h2>
       <p class="lede">منهجٌ يعيش في قاعدة بيانات وحدها يمكن تغييره دون أن يلاحظ أحد. المجلد
         المطبوع لا يمكن.</p>
@@ -992,30 +1085,40 @@
     <div class="grid grid--3">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
         <span class="card__num">الأول</span>
         <h3>لتثبيت نسخة</h3>
         <p>المجلد نسخةٌ من البرنامج يمكن إمساكها وتأريخها ومخالفتها. وما إن يُطبع لا يمكن تنقيح ادعاء منه بصمت — وهذا بالضبط ما يجعله جديرًا بالمراجعة.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
         <span class="card__num">الثاني</span>
         <h3>ليفحصه الخارجيون</h3>
         <p>لجنة اعتماد أو ممتحن خارجي أو معلم متشكك يمكن أن يُناوَل كتابًا. ولا يمكن أن يُناوَل حسابَ دخول ووعدًا. النشر هو كيف تجعل مؤسسةٌ جديدة نفسها قابلة للتفتيش.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
         <span class="card__num">الثالث</span>
         <h3>ليحمل مصدره بنفسه</h3>
         <p>كل مجلد يذكر ما يستند إليه وما لا يستند. هذه قاعدة دار لا تفضيل — راجع <a href="/ar/press/#standards">معايير الدار</a>.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">قاعدة النشر</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/library-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٣</span>
+      <span class="leaf__label">القاعدة التي تنشر تحتها</span>
+      <p class="leaf__rubric">قاعدة واحدة، وتحرّم ما تفعله كل دار نشر ناشئة أولًا.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>لا تنشر أبدًا لرفع العدد.</h2>
     </div>
     <div class="callout">
@@ -1027,70 +1130,97 @@
     <div class="grid grid--2">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
         <span class="card__num">لماذا تلزم القاعدة</span>
         <h3>برنامج النشر يكافئ الكثرة</h3>
         <p>ما إن يوجد كتالوج، يصير أسهل طرق تقويته الإضافةَ إليه. القاعدة موجودة لأن هذا الضغط حقيقي ولا يعلن عن نفسه.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
         <span class="card__num">وما كلفتها</span>
         <h3>قائمة أقصر مما تستطيع الكلية إنتاجه</h3>
         <p>السجل خلف الدار يحمل 74 موردًا مرشحًا. إنتاجها كلها ممكن؛ ومعظمها لن يحسّن شيئًا، والكتالوج أقصر لهذا.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الموقف</span>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/publication-funnel.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٤</span>
+      <span class="leaf__label">الموقف</span>
+      <p class="leaf__rubric">منتَجة وغير مراجَعة. يُقال هنا لا يُكتشف لاحقًا.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>منتَجة، وغير مراجَعة.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span>
         <span class="card__num">أُنجز</span>
         <h3>&lt;span dir="ltr"&gt;11&lt;/span&gt; مجلدًا</h3>
         <p>مركَّبة ومنضَّدة ومدققة ومنتَجة. كل واحد منها شيء حقيقي يمكن طلبه وقراءته اليوم.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">لم يُنجز</span>
         <h3>مراجعةٌ من أحد مستقل</h3>
         <p>لم يُعيَّن مراجع أكاديمي. كل مجلد أنتجته الكلية راجعه، إن رُوجع أصلًا, الذين كتبوه — أي أنه لم يُراجَع. ولهذا قسمه الخاص لا هامش.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="standards" data-contents="معايير الدار">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">القاعدة الأولى</span>
+<section class="leaf section--light grain" id="standards" data-contents="معايير الدار">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٥</span>
+      <span class="leaf__label">مولَّد من السجل</span>
+      <p class="leaf__rubric">لا مصان إلى جواره — والفرق يقرر أيمكن للمنشور أن ينحرف عن الحقيقة أم لا.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>مولَّد من السجل، لا مصانًا إلى جواره.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
         <span class="card__num">ما تمنعه</span>
         <h3>كتابٌ يخالف البرنامج</h3>
         <p>المجلد المصان يدويًا ينجرف عن المنهج خلال مراجعة واحدة، فيدرّس كلُّ معلم يثق به شيئًا لم تعد الكلية تقوله. التركيب من المصدر يجعل الانجراف مستحيلًا لا مستبعدًا.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
         <span class="card__num">وما كلفتها</span>
         <h3>الكتاب لا يُحسَّن في الكتاب</h3>
         <p>تحسين جملة يعني تحسين السجل الذي جاءت منه، وهو أبطأ ومزعج أحيانًا. وهو أيضًا الترتيب الوحيد الذي يصل فيه التحسين إلى المتعلمين كما يصل إلى القراء.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">القاعدة الثانية</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/library-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٦</span>
+      <span class="leaf__label">نظام طباعي واحد</span>
+      <p class="leaf__rubric">أربع صيغ، ومجموعة قواعد واحدة، فيعرف القارئ إصدار الكلية من حرفه.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>نظام طباعي واحد، أربع صيغ.</h2>
       <p class="lede">الدار تُعرف باتساقها، والاتساق بهذا الحجم يُفرض بنظام مشترك لا
         بالتذكّر.</p>
@@ -1098,76 +1228,99 @@
     <div class="grid grid--4">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
         <span class="card__num">مرجعي</span>
         <h3>للاستشارة</h3>
         <p>الأدلة المرافقة والكتيبات — تُفتح عند نقطة لا تُقرأ من أولها، فالصفحة مبنية للمسح والعودة.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
         <span class="card__num">تدريبي</span>
         <h3>للعمل فيه</h3>
         <p>كراسات التمارين، حيث على الصفحة أن تترك مكانًا يكتب فيه المتعلم وتحفظ بنيتها.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
         <span class="card__num">رئيسي</span>
         <h3>للبرنامج كاملًا</h3>
         <p>المنهج بتمامه، حيث مشكلة القارئ التنقل عبر مئات الصفحات لا الكثافة في واحدة.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
         <span class="card__num">بحثي</span>
         <h3>للفحص</h3>
         <p>المجلدات المؤسسية والمعمارية، منضَّدة لقارئ يدقق لا يتعلم.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">القاعدة الثالثة</span>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٧</span>
+      <span class="leaf__label">المصدر</span>
+      <p class="leaf__rubric">كل ادعاء يحمل من أين جاء.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>كل ادعاء يحمل مصدره.</h2>
     </div>
     <div class="grid grid--3">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
         <span class="card__num">على الصفحة</span>
         <h3>لا في المقدمة</h3>
         <p>حيث يقول مجلدٌ شيئًا سيعمل به معلم، يوسم مصدر القول على اللوحة ذاتها. ملاحظة المصدر المشروحة مرة في التصدير ملاحظةٌ لا يقرؤها أحد.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">بما في ذلك الغياب</span>
         <h3>فئة لا تظهر في أي موضع</h3>
         <p>دليل المعلم المرافق يسم كل لوحة مشتقةً أو مُثبَتة أو مصمَّمة. الوسم الرابع — مُشاهَد في صف — لا يظهر في الكتاب إطلاقًا، والتصدير يقول لماذا بدل إسقاط الفئة بصمت.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
         <span class="card__num">معدود لا مُدّعى</span>
         <h3>الأرقام تُقاس من الصفحات</h3>
         <p>أعداد التصدير تُؤخذ من الصفحات المركَّبة لا من قاعدة البيانات التي غذّتها، لأن بعض المدخلات يظهر في رأس جارٍ لا لوحةً. العدد المأخوذ من المكان الخطأ خطأٌ لن يفحصه أحد أبدًا.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="review" data-contents="عن المراجعة">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الحقيقة</span>
+<section class="leaf section--light grain" id="review" data-contents="عن المراجعة">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٨</span>
+      <span class="leaf__label">مراجعة الأقران</span>
+      <p class="leaf__rubric">ما ألّفه وراجعه الأشخاص أنفسهم غير مراجَع.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>ما ألّفه وراجعه الأشخاص أنفسهم غير مراجَع.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
         <span class="card__num">ما فُعل</span>
         <h3>تدقيق داخلي، وكثير منه</h3>
         <p>المجلدات تُدقق وتُقابَل بالسجل وتُفحص آليًا للاتساق الداخلي — التسلسل والحساب والمصطلح والتغطية. وهذا يصطاد التناقضات وأخطاء الوقائع.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">وما لا يستطيع اصطياده</span>
         <h3>الخطأ الذي يشترك فيه المؤلفون</h3>
         <p>الافتراض المشترك غير مرئي من الداخل. هل يعلّم الدرس ما يدّعي تعليمه، وهل يقيس التقييم ما يقول إنه يقيسه، وهل المستوى حيث يقول إنه هو — لا شيء من ذلك يستطيع إثباته الذين قرروه.</p>
@@ -1176,18 +1329,21 @@
     <div class="grid grid--3" style="margin-top:26px">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg></span>
         <span class="card__num">المنصب</span>
         <h3>مراجع أكاديمي</h3>
         <p>ماجستير في تدريس الإنجليزية أو اللسانيات التطبيقية أو ما يعادلهما، مع خبرة تقييم. أيام محددة لقراءة قائمة محددة. يمكن أن يكون ارتباطًا استشاريًا، وهو التعيين الذي سيغيّر أكثر من أي تعيين آخر.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
         <span class="card__num">الفصل</span>
         <h3>المؤلف ليس المراجع، أبدًا</h3>
         <p>تعدّه الكلية غير قابل للتفاوض. تعيين مؤلف لمراجعة عمله ينتج صفحةً تقول «رُوجع» ولا يغيّر شيئًا في المجلدات، وهو أسوأ من الوضع الحالي لأنه كاذب.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
         <span class="card__num">الدعوة</span>
         <h3>المجلدات معروضة للمراجعة</h3>
         <p>كل قارئ مؤهل مستعد لمراجعة مجلد يُعرض عليه نسخة. اكتب إلى <a href="mailto:info@worldwencollege.co.uk?subject=Review%20of%20a%20WEC%20Press%20volume" dir="ltr">info@worldwencollege.co.uk</a>. النقد غاية التمرين لا خطره.</p>
@@ -1196,24 +1352,33 @@
     <div class="grid grid--2" style="margin-top:26px">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span>
         <span class="card__num">سيُنشر</span>
         <h3>ما تقلبه المراجعة، بوصفه قلبًا</h3>
         <p>ستُسجَّل النتائج على المجلدات التي تخصها، على مرأى. مراجعةٌ تؤكد نتائجها المؤلفَ دائمًا مراجعةٌ لا يقرؤها أحد فعلًا.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
         <span class="card__num">ولن يُسترجَع</span>
         <h3>لن يوسم مجلد مراجَعًا بأثر رجعي</h3>
         <p>المجلدات المنتَجة قبل المراجعة تبقى منتَجة قبل المراجعة. حالتها ستُذكر على سجلها لا تُرقّى بصمت بتعيين لاحق.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="programme" data-contents="برنامج النشر">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">المقياس</span>
+<section class="leaf section--light grain" id="programme" data-contents="برنامج النشر">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/astrolabe.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٩</span>
+      <span class="leaf__label">برنامج القراءة</span>
+      <p class="leaf__rubric">سبعة قراء، سبعة أسئلة.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>سبعة قراء، سبعة أسئلة.</h2>
       <p class="lede">كلٌّ يسأل هل يستطيع شخص مسمًّى أن يؤدي عمله فعلًا بما هو موجود. عدُّ
         الموارد لا يجيب عن أي منها.</p>
@@ -1243,18 +1408,21 @@
     <div class="grid grid--3" style="margin-top:26px">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
         <span class="card__num">يتطلب استوديو</span>
         <h3>الصوتيات المسجلة</h3>
         <p>نصوص الاستماع مكتوبة وموسومة ومنشورة مجلدًا. التسجيلات غير موجودة. إنتاجها يحتاج أصواتًا وغرفة، وهو أكبر بند واحد بين البرنامج وأول تدريس.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
         <span class="card__num">يتطلب صفًا</span>
         <h3>دليل المشاهدة</h3>
         <p>لا شيء في السجل شوهد في تدريس. معلم واحد ودفعة واحدة وفصل واحد ينتج دليلًا لا يُستنتج — راجع <a href="/ar/academics/teaching/#development">التطوير والمشاهدة</a>.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">يتطلب جهة خارجية</span>
         <h3>الفحص الخارجي والمراجعة</h3>
         <p>الشهادة لا يمكن منحها والمجلدات لا يستطيع مراجعتها أحد داخل الكلية. كلاهما تعيين لا مهمة.</p>
@@ -1263,24 +1431,33 @@
     <div class="grid grid--2" style="margin-top:26px">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
         <span class="card__num">مدموج</span>
         <h3>عنوانان استوعبتهما مجلدات أخرى</h3>
         <p>حيث تبيّن أن مجلدًا مقترحًا فصلٌ من مجلد قائم، سُحب وسُمّي مضيفه. مجلد منفصل كان سيضيف عنوانًا إلى الكتالوج ولا شيء إلى التعليم.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">غير مسنود</span>
         <h3>ثلاثة لا يسوّغها المنهج</h3>
         <p>حيث لم يكن لمورد مقترح أساس فيما يدرّسه البرنامج فعلًا، سُجّل غير مسنود بدل أن يُبنى. الدعم المرئي أوضح حالة: إنتاجه قرار عمّا هي الكلية، لا ثغرة فيما كتبته.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="library" data-contents="المكتبة">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">بوضوح</span>
+<section class="leaf section--light grain" id="library" data-contents="المكتبة">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/library-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١٠</span>
+      <span class="leaf__label">المكتبة</span>
+      <p class="leaf__rubric">ما ليست هي المكتبة، مذكورًا قبل ما هي.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>ما ليست هي.</h2>
     </div>
     <div class="callout">
@@ -1293,18 +1470,21 @@
     <div class="grid grid--3" style="margin-top:26px">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
         <span class="card__num">البرنامج</span>
         <h3>كل ما يحويه مستواك</h3>
         <p>الدروس والتمارين ومجموعات الاستماع وعمل المفردات والفحوص الذاتية والتقييمات لمستواك المسجَّل فيه، متاحة من يوم تسجيلك.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
         <span class="card__num">المجلدات</span>
         <h3>&lt;span dir="ltr"&gt;11&lt;/span&gt; عنوانًا منشورًا</h3>
         <p>المنهج وكتيب التقييم والكراسات والأدلة المرافقة والكتيبات — راجع <a href="/ar/press/catalogue/">الكتالوج</a>. تُقدَّم بالطلب لا تُنزَّل هنا.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
         <span class="card__num">السجل</span>
         <h3>ما قررته الكلية، ولماذا</h3>
         <p>الأطر والمعايير ومواقف الحوكمة منشورة صفحاتٍ على هذا الموقع لا محجوزة وثائق داخلية. المؤسسة التي تنشر منطقها يمكن مجادلتها، وذلك هو المقصود.</p>
@@ -1313,23 +1493,103 @@
     <div class="grid grid--3" style="margin-top:26px">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
         <span class="card__num">مجاني وواسع</span>
         <h3>البث العام والمدونات الصوتية</h3>
         <p>ساعات من الكلام الطبيعي في كل مستوى، بلا كلفة، في أي موضوع تهتم به أصلًا. الاهتمام بالموضوع هو ما يجعل تمرين الاستماع يتجاوز الأسبوع الثالث.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></span>
         <span class="card__num">مجاني وواسع</span>
         <h3>المكتبات العامة والمجموعات المفتوحة</h3>
         <p>قراءات متدرجة وصحف ونصوص مفتوحة. المتعلم الذي يقرأ أسبوعيًا شيئًا اختاره بنفسه سيقرأ أضعاف نصوص البرنامج المقررة.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
         <span class="card__num">والشيء الوحيد الذي يُتجنب</span>
         <h3>مادة أعلى بكثير من مستواك</h3>
         <p>المدخل الذي يتجاوز متناولك قليلًا يبني لغة؛ والذي يتجاوزه بكثير لا يبني إلا الإحباط. صفحة مستواك تسمّي أين أنت؛ فاختر وفق ذلك.</p>
       </div>
     </div>
+  </div>
+  </div>
+</section>
+
+<!-- الورقة الحادية عشرة — الرفّ -->
+<section class="leaf section--light grain" id="shelf" data-contents="الرفّ">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/publication-funnel.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١١</span>
+      <span class="leaf__label">الرفّ</span>
+      <p class="leaf__rubric">ما على الرفّ اليوم، وحال كل إصدار فعلًا.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>ما أُنتج، وما لم يُنتج.</h2>
+      <p class="lede">«منتَج» تعني منضَّدًا ومكتملًا ويُمسك باليد. ولا شيء أدناه موصوف بأنه
+        مكتمل وليس كذلك، ولا شيء موصوف بأنه مراجَع &mdash; لأن لا شيء منه مراجَع.</p>
+
+      <div class="shelf">
+        <div class="shelf__title reveal">
+          <h3>المنهج الكامل &mdash; الطبعة المؤسسية</h3>
+          <span class="shelf__state shelf__state--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> منتَج</span>
+          <p>البرنامج كاملًا، مولَّدًا من السجل. منضَّد للطباعة ومكتمل.</p>
+        </div>
+        <div class="shelf__title reveal">
+          <h3>المنهج الكامل &mdash; طبعة الطالب</h3>
+          <span class="shelf__state shelf__state--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> منتَج</span>
+          <p>المحتوى نفسه، مقطوعًا لمتعلّم لا لمراجع.</p>
+        </div>
+        <div class="shelf__title reveal">
+          <h3>مواصفات المستويات &mdash; ستة مجلدات</h3>
+          <span class="shelf__state shelf__state--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> منتَج</span>
+          <p>واحد لكل مستوى، يذكر ما يُدرَّس وما يُقيَّم وبأي معايير.</p>
+        </div>
+        <div class="shelf__title reveal">
+          <h3>مرافق المدرّس</h3>
+          <span class="shelf__state shelf__state--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> منتَج</span>
+          <p>ممارسة التدريس في صورة عملية، ملزِمة لكل مدرّس.</p>
+        </div>
+        <div class="shelf__title reveal">
+          <h3>مدوّنة النطق</h3>
+          <span class="shelf__state shelf__state--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> منتَج</span>
+          <p>السمات المستهدفة، محدَّدة ومرتَّبة. أما الصوت الذي يرافقها فلم يُسجَّل.</p>
+        </div>
+        <div class="shelf__title reveal">
+          <h3>مجموعات الاستماع &mdash; الصوت المسجَّل</h3>
+          <span class="shelf__state shelf__state--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> نصوص فقط</span>
+          <p>كل نص مكتوب مع تحديد سماته المستهدفة. والتسجيلات تحتاج أصواتًا واستوديو، ولم يُحجز أيٌّ منهما.</p>
+        </div>
+        <div class="shelf__title reveal">
+          <h3>أي إصدار مراجَع خارجيًا</h3>
+          <span class="shelf__state shelf__state--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> لا وجود له</span>
+          <p>لم يقرأ أحد من خارج الكلية أي مجلد أُنتج هنا. والمنصب الذي يغيّر ذلك شاغر.</p>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:30px">
+        <a href="/ar/press/catalogue/" class="btn btn--gold">الكتالوج كاملًا</a>
+        <a href="#review" class="btn btn--outline">لماذا لا شيء منه مراجَع</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- الخاتمة -->
+<section class="colophon section--paper grain">
+  <div class="container">
+    <p class="colophon__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+    <p>تنشر مطبعة الكلية تحت قاعدة واحدة، والقاعدة تحرّم ما تفعله كل دار ناشئة أولًا: لا تنشر
+      أبدًا لرفع العدد. أحد عشر مجلدًا موجودة لأن المادة التي وراءها اكتملت. ولم يقرأ أحد من
+      خارج الكلية شيئًا منها، وكل إصدار على الرفّ يحمل ذلك على كعبه لا في هامش أسفل صفحة.</p>
+    <dl>
+      <div><dt>المجلدات</dt><dd>١١</dd></div>
+      <div><dt>الصيغ</dt><dd>أربع</dd></div>
+      <div><dt>النظام الطباعي</dt><dd>واحد</dd></div>
+      <div><dt>المراجعة الخارجية</dt><dd>لا شيء حتى اليوم</dd></div>
+    </dl>
   </div>
 </section>
 
@@ -1338,7 +1598,7 @@
     <h2>انظر ما الذي أُنتج.</h2>
     <div class="btn-row u-center">
       <a href="/ar/press/catalogue/" class="btn btn--gold">الكتالوج</a>
-      <a href="/ar/press/#programme" class="btn btn--outline">برنامج النشر</a>
+      <a href="#programme" class="btn btn--outline">برنامج النشر</a>
     </div>
   </div>
 </section>

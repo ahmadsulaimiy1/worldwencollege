@@ -1,0 +1,304 @@
+/* =========================================================
+   WorldWide English College — London Campus
+   THE PRESS & LIBRARY PILLAR
+   ---------------------------------------------------------
+   Loaded AFTER css/pillar.css on the Press pages and their
+   Arabic editions. pillar.css carries the instrument —
+   masthead, numbered leaves, register, colophon. This file
+   carries only what is true of THIS pillar, which is why it
+   is a second stylesheet and not a fork of the first.
+   css/students.css is the model.
+
+   WHAT MAKES THIS PILLAR DIFFERENT.
+
+   /about/ is the institution describing itself. /students/ is
+   one learner's standing. /academics/ is a curriculum.
+   /admissions/ is a threshold. /governance/ is an instrument
+   of power. This pillar is the only one whose subject is the
+   OBJECT — a made thing, with a spine, a format, a date and
+   somebody's name on it.
+
+   The register for that is an IMPRINT: publications set as
+   FOLIOS, each with the spine you would read on a shelf, the
+   format it exists in, and the mark that says whether anyone
+   outside the College has reviewed it. The last of those is
+   the point. This pillar's whole argument is that an imprint
+   exists to make claims checkable, and the College's own
+   titles are authored and reviewed by the same people —
+   which is to say unreviewed — so every folio says so on its
+   own spine rather than in a note at the foot of the page.
+
+     · the FOLIO — a publication, with its spine, format and
+       review state.
+     · the IMPRINT — the press's own colophon: what it is,
+       what rule it publishes under, and what it will not do.
+     · the SHELF — the catalogue, one struck row per title.
+
+   THE ACCENT IS BURGUNDY, which is not a new decision:
+   css/pages.css already sets --hero-accent to 122,34,52 for
+   body[data-section="press"], "publication" and "library".
+   This file reads that same value rather than inventing a
+   second red, so a change there moves this pillar with it.
+   ========================================================= */
+
+:root {
+  --press-accent: 122, 34, 52;
+}
+
+.leaf__label { color: #7A2234; }
+.section--dark .leaf__label,
+.section--oxford .leaf__label,
+.section--midnight .leaf__label { color: #E39BAA; }
+.section--light .card__num, .section--paper .card__num { color: #7A2234; }
+
+/* =========================================================
+   THE FOLIO
+   A publication, with the spine you would read on a shelf.
+
+   THE SPINE IS A BACKGROUND LAYER, not a border and not a
+   pseudo-element. A folio wears .aurum and .edge-lit, which
+   own ::after and ::before, and a border-inline-start would
+   be lost the moment a variant restyled the border. As a
+   painted layer it composes with everything and can be
+   claimed by nothing. CLAUDE.md §2.
+   ========================================================= */
+.folios {
+  display: grid;
+  gap: clamp(16px, 2vw, 24px);
+  grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
+  margin-top: clamp(28px, 3vw, 44px);
+}
+.folio {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: .6em;
+  padding: clamp(24px, 2.8vw, 34px);
+  padding-inline-start: clamp(32px, 3.4vw, 44px);
+  border: 1px solid rgba(199, 162, 74, .32);
+  border-radius: var(--r-sm, 10px);
+  /* Layer 1 is the spine — 6px of struck cloth down the leading
+     edge, the way a bound volume presents itself on a shelf. */
+  background:
+    linear-gradient(180deg,
+      rgba(var(--press-accent), .95) 0%, rgba(var(--press-accent), .62) 52%,
+      rgba(var(--press-accent), .95) 100%) no-repeat left top / 6px 100%,
+    radial-gradient(ellipse 80% 72% at 50% 0%, rgba(var(--press-accent), .12), transparent 64%),
+    linear-gradient(168deg, rgba(255, 255, 255, .82), rgba(255, 255, 255, .34));
+  box-shadow: var(--relief-raised), 0 18px 40px -30px rgba(9, 18, 38, .52);
+  transition: transform var(--dur-mid, .38s) var(--ease-premium, cubic-bezier(.2, .7, .2, 1)),
+              box-shadow var(--dur-mid, .38s) var(--ease-premium, cubic-bezier(.2, .7, .2, 1));
+}
+[dir="rtl"] .folio {
+  background:
+    linear-gradient(180deg,
+      rgba(var(--press-accent), .95) 0%, rgba(var(--press-accent), .62) 52%,
+      rgba(var(--press-accent), .95) 100%) no-repeat right top / 6px 100%,
+    radial-gradient(ellipse 80% 72% at 50% 0%, rgba(var(--press-accent), .12), transparent 64%),
+    linear-gradient(168deg, rgba(255, 255, 255, .82), rgba(255, 255, 255, .34));
+}
+.folio:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--relief-raised), 0 26px 54px -30px rgba(9, 18, 38, .6);
+}
+.section--dark .folio,
+.section--oxford .folio,
+.section--midnight .folio {
+  border-color: rgba(199, 162, 74, .26);
+  background:
+    linear-gradient(180deg,
+      rgba(var(--press-accent), 1) 0%, rgba(var(--press-accent), .7) 52%,
+      rgba(var(--press-accent), 1) 100%) no-repeat left top / 6px 100%,
+    radial-gradient(ellipse 80% 72% at 50% 0%, rgba(var(--press-accent), .34), transparent 64%),
+    linear-gradient(168deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .02));
+}
+[dir="rtl"] .section--dark .folio,
+[dir="rtl"] .section--oxford .folio,
+[dir="rtl"] .section--midnight .folio {
+  background:
+    linear-gradient(180deg,
+      rgba(var(--press-accent), 1) 0%, rgba(var(--press-accent), .7) 52%,
+      rgba(var(--press-accent), 1) 100%) no-repeat right top / 6px 100%,
+    radial-gradient(ellipse 80% 72% at 50% 0%, rgba(var(--press-accent), .34), transparent 64%),
+    linear-gradient(168deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .02));
+}
+
+.folio__format {
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .54rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--bronze);
+}
+.section--dark .folio__format,
+.section--oxford .folio__format,
+.section--midnight .folio__format { color: var(--gold-soft); }
+.folio h3 {
+  margin: 0; font-family: var(--font-display);
+  font-size: clamp(1.02rem, .96rem + .24vw, 1.18rem); line-height: 1.26;
+}
+.folio p { margin: 0; font-size: .87rem; line-height: 1.64; color: var(--ink-soft); }
+.section--dark .folio p,
+.section--oxford .folio p,
+.section--midnight .folio p { color: rgba(247, 244, 236, .76); }
+
+/* THE REVIEW MARK. Every folio carries one, and on this pillar
+   almost every one of them is OPEN — the College's own titles
+   are authored and reviewed by the same people, which is to
+   say unreviewed. Saying that on each spine rather than once
+   in a footnote is the entire argument of the pillar, and
+   CLAUDE.md §5 in its most literal application. */
+.folio__review {
+  margin-top: auto; padding-top: .9em;
+  border-top: 1px solid rgba(199, 162, 74, .26);
+  display: flex; align-items: center; gap: .55em;
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .55rem; letter-spacing: .15em; text-transform: uppercase;
+}
+.folio__review .icon { width: .95rem; height: .95rem; flex-shrink: 0; }
+.folio__review--held { color: var(--emerald, #2C6B4F); }
+.folio__review--open { color: var(--bronze); }
+.section--dark .folio__review--held,
+.section--oxford .folio__review--held,
+.section--midnight .folio__review--held { color: #7FC9A6; }
+.section--dark .folio__review--open,
+.section--oxford .folio__review--open,
+.section--midnight .folio__review--open { color: var(--gold-soft); }
+
+/* =========================================================
+   THE IMPRINT
+   The press's own colophon — what it is, the rule it
+   publishes under, and what it will not do. Struck on the
+   dark ground, because an imprint is a signature and a
+   signature belongs on the plate rather than on the page.
+   ========================================================= */
+.imprint {
+  position: relative;
+  border: 1px solid rgba(199, 162, 74, .42);
+  border-radius: var(--r-sm, 10px);
+  padding: clamp(26px, 3vw, 42px);
+  margin-top: clamp(28px, 3vw, 44px);
+  background:
+    radial-gradient(ellipse 70% 80% at 88% 0%, rgba(var(--press-accent), .24), transparent 60%),
+    linear-gradient(166deg, var(--oxford) 0%, var(--midnight) 100%);
+  color: var(--ivory);
+  box-shadow: var(--relief-raised), 0 26px 54px -34px rgba(3, 8, 20, .96);
+  overflow: clip;
+  text-align: center;
+}
+.imprint::before {
+  content: '';
+  position: absolute; inset: -20%;
+  background: url('/assets/art/guilloche.svg') no-repeat center / 520px auto;
+  opacity: .07; pointer-events: none;
+}
+.imprint > * { position: relative; z-index: 1; }
+.imprint__device {
+  display: grid; place-items: center;
+  width: 74px; height: 74px; margin: 0 auto 1.1em;
+  border-radius: 50%;
+  border: 1px solid var(--gold-royal); color: var(--gold-rich);
+  background:
+    radial-gradient(circle at 34% 26%, rgba(255, 250, 235, .5), transparent 66%),
+    linear-gradient(158deg, rgba(242, 227, 192, .18), rgba(8, 16, 34, .1));
+  box-shadow: var(--relief-metal), 0 10px 22px -14px rgba(9, 18, 38, .7);
+}
+.imprint__device .icon { width: 2.1rem; height: 2.1rem; }
+.imprint h3 {
+  margin: 0 0 .6em;
+  font-family: var(--font-ceremonial); font-weight: 600;
+  font-size: .86rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold-champagne);
+}
+.imprint p {
+  margin: 0 auto .8em; max-width: 62ch;
+  font-size: .92rem; line-height: 1.72; color: rgba(247, 244, 236, .84);
+}
+.imprint p:last-of-type { margin-bottom: 0; }
+.imprint__rule {
+  display: block; width: 62px; height: 1px; margin: 1.4em auto;
+  background: linear-gradient(90deg, transparent, var(--gold-royal), transparent);
+}
+.imprint dl {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: .6em clamp(20px, 3vw, 40px);
+  margin: 1.4em 0 0; padding-top: 1.2em;
+  border-top: 1px solid rgba(199, 162, 74, .28);
+}
+.imprint dt {
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .54rem; letter-spacing: .17em; text-transform: uppercase;
+  color: rgba(247, 244, 236, .52);
+}
+.imprint dd {
+  margin: .25em 0 0; font-family: var(--font-display);
+  font-size: .92rem; color: var(--gold-champagne);
+}
+
+/* =========================================================
+   THE SHELF
+   The catalogue: one struck row per title, read across
+   rather than down, because a shelf is scanned by spine.
+   ========================================================= */
+.shelf {
+  display: grid; gap: 1px;
+  margin-top: clamp(28px, 3vw, 44px);
+  background: var(--rule-ink);
+  border: 1px solid var(--rule-ink);
+  border-radius: var(--r-sm, 10px);
+  overflow: hidden;
+}
+.section--dark .shelf,
+.section--oxford .shelf,
+.section--midnight .shelf { background: var(--rule-ivory); border-color: var(--rule-ivory); }
+.shelf__title {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .5em clamp(14px, 2.2vw, 26px);
+  align-items: baseline;
+  padding: clamp(16px, 1.9vw, 22px) clamp(18px, 2.1vw, 26px);
+  background:
+    radial-gradient(ellipse 90% 80% at 4% 0%, rgba(var(--press-accent), .1), transparent 62%),
+    linear-gradient(168deg, rgba(255, 255, 255, .8), rgba(255, 255, 255, .36));
+  box-shadow: var(--relief-raised);
+}
+.section--dark .shelf__title,
+.section--oxford .shelf__title,
+.section--midnight .shelf__title {
+  background:
+    radial-gradient(ellipse 90% 80% at 4% 0%, rgba(var(--press-accent), .32), transparent 62%),
+    linear-gradient(168deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .02));
+}
+.shelf__title h3 { margin: 0; font-family: var(--font-display); font-size: 1rem; font-weight: 600; line-height: 1.3; }
+.shelf__title p { grid-column: 1 / -1; margin: .35em 0 0; font-size: .85rem; line-height: 1.6; color: var(--ink-soft); }
+.section--dark .shelf__title p,
+.section--oxford .shelf__title p,
+.section--midnight .shelf__title p { color: rgba(247, 244, 236, .76); }
+.shelf__state {
+  display: inline-flex; align-items: center; gap: .45em;
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .54rem; letter-spacing: .15em; text-transform: uppercase;
+  white-space: nowrap;
+}
+.shelf__state .icon { width: .85rem; height: .85rem; }
+.shelf__state--held { color: var(--emerald, #2C6B4F); }
+.shelf__state--open { color: var(--bronze); }
+.section--dark .shelf__state--held,
+.section--oxford .shelf__state--held,
+.section--midnight .shelf__state--held { color: #7FC9A6; }
+.section--dark .shelf__state--open,
+.section--oxford .shelf__state--open,
+.section--midnight .shelf__state--open { color: var(--gold-soft); }
+@media (max-width: 560px) {
+  .shelf__title { grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   The folio's only movement is its hover lift, and it is
+   already at rest. Removing the transition removes the
+   travel and leaves the finished state, never a hidden or
+   half-drawn one.
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .folio { transition: none; }
+  .folio:hover { transform: none; }
+}

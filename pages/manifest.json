@@ -463,7 +463,11 @@
     "contentFile": "press.html",
     "lang": "en",
     "dir": "ltr",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ]
   },
   {
     "slug": "press-catalogue",
@@ -472,7 +476,11 @@
     "description": "The 11 volumes WEC Press has produced, who each is for, and how to obtain one.",
     "contentFile": "press-catalogue.html",
     "lang": "en",
-    "dir": "ltr"
+    "dir": "ltr",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ]
   },
   {
     "slug": "support-accessibility",
@@ -813,7 +821,11 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/press/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ]
   },
   {
     "slug": "press-catalogue-ar",
@@ -823,7 +835,11 @@
     "contentFile": "press-catalogue.ar.html",
     "lang": "ar",
     "dir": "rtl",
-    "altHref": "/press/catalogue/"
+    "altHref": "/press/catalogue/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ]
   },
   {
     "slug": "governance-evidence-ar",

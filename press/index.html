@@ -26,6 +26,8 @@
 <link rel="stylesheet" href="/css/brand.css">
 <link rel="stylesheet" href="/css/atelier.css">
 <link rel="stylesheet" href="/css/pages.css">
+<link rel="stylesheet" href="/css/pillar.css">
+<link rel="stylesheet" href="/css/press.css">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
@@ -973,14 +975,55 @@
 </header>
 
 <main id="main">
-<section class="page-hero section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">WEC Press</span>
-    <h1 data-split>The College&rsquo;s publishing arm.</h1>
-    <p class="lede">11 volumes produced, typeset for print, composed from the same record the programme is taught from. This is the part of the College where the work is finished and can be counted rather than described.</p>
-    <div class="btn-row">
+<!--
+  PRESS & LIBRARY — the pillar page.
+
+  SET AS AN IMPRINT.
+  ---------------------------------------------------------------------
+  /about/ is the institution describing itself. /students/ is one
+  learner's standing. /academics/ is a curriculum. /admissions/ is a
+  threshold. /governance/ is an instrument of power. This pillar is the
+  only one whose subject is the OBJECT — a made thing, with a spine, a
+  format, a date and somebody's name on it. Composition lives in
+  css/press.css, after css/pillar.css.
+
+  EVERY FOLIO CARRIES ITS REVIEW STATE ON ITS OWN SPINE, and almost
+  every one of them is open. The College's titles are authored and
+  reviewed by the same people, which is to say unreviewed, and this
+  pillar's entire argument is that an imprint exists to make claims
+  checkable. Saying that once in a footnote would contradict the
+  argument the page is making. CLAUDE.md §5.
+
+  THE IDS #standards, #review, #programme AND #library ARE LINKED FROM
+  EIGHTEEN PLACES and must survive any rearrangement.
+-->
+
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/library-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></p>
+
+    <p class="masthead__eyebrow">WEC Press &middot; WorldWide English College</p>
+    <h1>The College&rsquo;s publishing arm.</h1>
+    <p class="lede">Eleven volumes produced, typeset for print, composed from the same record the
+      programme is taught from. This is the part of the College where the work is finished and
+      can be counted rather than described &mdash; and where, because none of it has been read
+      by anyone outside the College, every title says so on its own spine.</p>
+
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>Volumes</dt><dd>11, produced</dd></div>
+      <div class="masthead__fact"><dt>Formats</dt><dd>Four, one type system</dd></div>
+      <div class="masthead__fact"><dt>Externally reviewed</dt><dd>None</dd></div>
+      <div class="masthead__fact"><dt>Composed from</dt><dd>The teaching record</dd></div>
+    </dl>
+
+    <p class="masthead__motto">&ldquo;Never publish to raise the count.&rdquo;</p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+
+    <div class="btn-row u-center" style="margin-top:30px">
       <a href="/press/catalogue/" class="btn btn--gold">The Catalogue</a>
-      <a href="/press/#review" class="btn btn--outline">On Review</a>
+      <a href="#review" class="btn btn--outline">On Review</a>
     </div>
   </div>
 </section>
@@ -989,19 +1032,91 @@
   <div class="contents__inner">
     <span class="contents__label">On this page</span>
     <ul class="contents__list">
+      <li><a href="#imprint">The Imprint</a></li>
       <li><a href="#standards">House Standards</a></li>
       <li><a href="#review">On Review</a></li>
       <li><a href="#programme">The Publishing Programme</a></li>
       <li><a href="#library">The Library</a></li>
+      <li><a href="#shelf">The Shelf</a></li>
     </ul>
   </div>
 </nav>
 
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">What It Is For</span>
+<!-- ==================================================================
+     LEAF I — THE IMPRINT AND ITS FOLIOS
+     The press's own colophon, and the four formats it produces, each
+     carrying the mark that says whether anyone outside the College has
+     read it. Every one of the four is open. That is the fact this
+     pillar exists to state.
+     ================================================================== -->
+<section class="leaf section--oxford grain aurora" id="imprint" data-contents="The Imprint">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/library-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">I</span>
+      <span class="leaf__label">The Imprint</span>
+      <p class="leaf__rubric">The press&rsquo;s own colophon, and the four formats it produces &mdash; each with its review state on its spine.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="imprint reveal edge-lit aurum aurum--hover">
+        <span class="imprint__device gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+        <h3>WEC Press &middot; London</h3>
+        <p>The publishing arm of WorldWide English College. It exists to make the College&rsquo;s
+          claims checkable by putting them in a fixed form that can be held, cited and dated
+          &mdash; not to make the institution look larger than it is.</p>
+        <span class="imprint__rule" aria-hidden="true"></span>
+        <p>It publishes under one rule: <b>never publish to raise the count.</b> A volume is
+          produced because the material behind it is finished, or it is not produced. Nothing
+          here is a placeholder, and nothing here has been padded to reach a number.</p>
+        <dl>
+          <div><dt>Established</dt><dd>2024</dd></div>
+          <div><dt>Volumes</dt><dd>11</dd></div>
+          <div><dt>Formats</dt><dd>Four</dd></div>
+          <div><dt>External review</dt><dd>None to date</dd></div>
+        </dl>
+      </div>
+
+      <div class="folios">
+        <div class="folio reveal edge-lit aurum aurum--hover">
+          <span class="folio__format">Format &mdash; the flagship</span>
+          <h3>The Complete Curriculum</h3>
+          <p>The whole programme in one volume: six levels, sixty modules, every outcome and assessment, typeset for print and generated from the teaching record rather than maintained beside it.</p>
+          <span class="folio__review folio__review--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> Not externally reviewed</span>
+        </div>
+        <div class="folio reveal edge-lit aurum aurum--hover">
+          <span class="folio__format">Format &mdash; the specification</span>
+          <h3>Level Specifications</h3>
+          <p>One document per level, stating what is taught, what is assessed and against which criteria. The document an External Examiner would be handed first.</p>
+          <span class="folio__review folio__review--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> Not externally reviewed</span>
+        </div>
+        <div class="folio reveal edge-lit aurum aurum--hover">
+          <span class="folio__format">Format &mdash; the companion</span>
+          <h3>The Instructor&rsquo;s Companion</h3>
+          <p>The teaching practice in the form an instructor works from: how a lesson is staged, what is expected at each stage, and how marking is calibrated between people.</p>
+          <span class="folio__review folio__review--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> Not externally reviewed</span>
+        </div>
+        <div class="folio reveal edge-lit aurum aurum--hover">
+          <span class="folio__format">Format &mdash; the workbook</span>
+          <h3>Learner Workbooks</h3>
+          <p>The printable half of the programme, for learners whose connection cannot carry a lesson and who need the work on paper.</p>
+          <span class="folio__review folio__review--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> Not externally reviewed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/publication-funnel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">II</span>
+      <span class="leaf__label">What It Is For</span>
+      <p class="leaf__rubric">An imprint exists to make claims checkable, not to make an institution look larger.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>An imprint exists to make claims checkable.</h2>
       <p class="lede">A curriculum that lives only in a database can be changed without anyone
         noticing. A printed volume cannot.</p>
@@ -1009,30 +1124,40 @@
     <div class="grid grid--3">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
         <span class="card__num">One</span>
         <h3>To fix a version</h3>
         <p>A volume is a version of the programme that can be held, dated and disagreed with. Once printed, a claim cannot be quietly revised out of existence &mdash; which is precisely what makes it worth reviewing.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
         <span class="card__num">Two</span>
         <h3>To be examined by outsiders</h3>
         <p>An accreditation panel, an external examiner or a sceptical teacher can be handed a book. They cannot be handed a login and a promise. Publication is how a new institution makes itself inspectable.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
         <span class="card__num">Three</span>
         <h3>To carry its own provenance</h3>
         <p>Every volume states what it rests on and what it does not. That is a house rule, not a preference &mdash; see <a href="/press/#standards">House standards</a>.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Rule It Publishes Under</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/library-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">III</span>
+      <span class="leaf__label">The Rule It Publishes Under</span>
+      <p class="leaf__rubric">One rule, and it forbids the thing every young press does first.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Never publish to raise the count.</h2>
     </div>
     <div class="callout">
@@ -1045,24 +1170,33 @@
     <div class="grid grid--2">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
         <span class="card__num">Why the rule is needed</span>
         <h3>A publishing programme rewards volume</h3>
         <p>Once a catalogue exists, the easiest way to make it look stronger is to add to it. The rule exists because that pressure is real and does not announce itself.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
         <span class="card__num">What it costs</span>
         <h3>A shorter list than the College could produce</h3>
         <p>The register behind the Press holds 74 candidate resources. Producing all of them is possible; most of them would not improve anything, and the catalogue is shorter for it.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Position</span>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/publication-funnel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">IV</span>
+      <span class="leaf__label">The Position</span>
+      <p class="leaf__rubric">Produced, and unreviewed. Said here rather than discovered later.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Produced, and unreviewed.</h2>
     </div>
 
@@ -1116,47 +1250,65 @@
     <div class="grid grid--2">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span>
         <span class="card__num">Done</span>
         <h3>11 volumes</h3>
         <p>Composed, typeset, proofed and produced. Each one is a real object that can be requested and read today.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">Not done</span>
         <h3>Reviewed by anyone independent</h3>
         <p>No Academic Reviewer has been appointed. Every volume the College has produced was reviewed, if at all, by the people who wrote it &mdash; which is to say not reviewed. This has its own page rather than a footnote.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="standards" data-contents="House Standards">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Rule One</span>
+<section class="leaf section--light grain" id="standards" data-contents="House Standards">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">V</span>
+      <span class="leaf__label">Generated From The Record</span>
+      <p class="leaf__rubric">Never maintained alongside it — the difference decides whether a publication can drift from the truth.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Generated from the record, never maintained alongside it.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
         <span class="card__num">What it prevents</span>
         <h3>A book that disagrees with the programme</h3>
         <p>A volume maintained by hand drifts from the curriculum within one revision, and every teacher who trusts it then teaches something the College no longer says. Composition from the source makes that drift impossible rather than unlikely.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
         <span class="card__num">What it costs</span>
         <h3>The book cannot be improved in the book</h3>
         <p>Improving a sentence means improving the record it came from, which is slower and occasionally infuriating. It is also the only arrangement in which the improvement reaches the learners as well as the readers.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Rule Two</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/library-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VI</span>
+      <span class="leaf__label">One Typographic System</span>
+      <p class="leaf__rubric">Four formats, one set of rules, so a reader can tell a College title by its type.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>One typographic system, four formats.</h2>
       <p class="lede">A house is recognisable because it is consistent, and consistency at this
         scale is enforced by a shared system rather than by remembering.</p>
@@ -1164,140 +1316,189 @@
     <div class="grid grid--4">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
         <span class="card__num">Reference</span>
         <h3>For consulting</h3>
         <p>Companions and handbooks &mdash; opened at a point rather than read through, so the page is built to be scanned and returned to.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
         <span class="card__num">Practice</span>
         <h3>For working in</h3>
         <p>Workbooks, where the page has to leave room for a learner to write and still hold its structure.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
         <span class="card__num">Flagship</span>
         <h3>For the whole programme</h3>
         <p>The curriculum in full, where the reader&rsquo;s problem is navigation across hundreds of pages rather than density on one.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
         <span class="card__num">Scholarly</span>
         <h3>For examination</h3>
         <p>Institutional and architectural volumes, set for a reader who is checking rather than learning.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Rule Three</span>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VII</span>
+      <span class="leaf__label">Provenance</span>
+      <p class="leaf__rubric">Every claim carries where it came from.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Every claim carries its provenance.</h2>
     </div>
     <div class="grid grid--3">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
         <span class="card__num">On the page</span>
         <h3>Not in the preface</h3>
         <p>Where a volume states something a teacher will act on, the source of that statement is marked on the panel itself. A provenance note explained once in the front matter is a provenance note nobody reads.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">Including absence</span>
         <h3>A category that appears nowhere</h3>
         <p>The Teacher&rsquo;s Companion marks each panel as derived, established or designed. The fourth mark &mdash; observed in a classroom &mdash; appears nowhere in the book, and the front matter says why rather than quietly dropping the category.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
         <span class="card__num">Counted, not asserted</span>
         <h3>The figures are measured from the pages</h3>
         <p>Front-matter counts are taken from the composed pages rather than from the database that fed them, because some entries render in a running head instead of as a panel. A count taken from the wrong place would be wrong in a way nobody would ever check.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="review" data-contents="On Review">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Fact</span>
+<section class="leaf section--light grain" id="review" data-contents="On Review">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VIII</span>
+      <span class="leaf__label">Peer Review</span>
+      <p class="leaf__rubric">Authored and reviewed by the same people is not reviewed.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Authored and reviewed by the same people is not reviewed.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
         <span class="card__num">What was done</span>
         <h3>Internal checking, and a great deal of it</h3>
         <p>Volumes are proofed, cross-checked against the record, and verified automatically for internal consistency &mdash; sequence, arithmetic, terminology, coverage. That catches contradictions and errors of fact.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">What it cannot catch</span>
         <h3>Being wrong in a way the authors share</h3>
         <p>A shared assumption is invisible from inside. Whether a lesson teaches what it claims to teach, whether an assessment measures what it says it measures, whether the level is pitched where it says it is &mdash; none of that can be established by the people who decided it.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Why It Is Not Simply Fixed</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">IX</span>
+      <span class="leaf__label">Why It Is Not Simply Fixed</span>
+      <p class="leaf__rubric">It requires a person, and the post is open.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>It requires a person, and the post is open.</h2>
     </div>
     <div class="grid grid--3">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg></span>
         <span class="card__num">The post</span>
         <h3>Academic Reviewer</h3>
         <p>MA TESOL, Applied Linguistics or equivalent, with assessment experience. A defined number of days reading a defined list. It can be a consultancy engagement rather than a salaried role, and it is the appointment that would change more than any other.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
         <span class="card__num">The separation</span>
         <h3>Author is not reviewer, ever</h3>
         <p>The College treats this as non-negotiable. Appointing an author to review their own work would produce a page saying &ldquo;reviewed&rdquo; and change nothing about the volumes, which is worse than the present position because it would be false.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
         <span class="card__num">The invitation</span>
         <h3>The volumes are offered for review</h3>
         <p>Any suitably qualified reader willing to review a volume is offered a copy. Write to <a href="mailto:info@worldwencollege.co.uk?subject=Review%20of%20a%20WEC%20Press%20volume">info@worldwencollege.co.uk</a>. Criticism is the point of the exercise, not a risk of it.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Commitment</span>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">X</span>
+      <span class="leaf__label">The Commitment</span>
+      <p class="leaf__rubric">What will happen when review begins, written before it does.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>What will happen when review begins.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span>
         <span class="card__num">Published</span>
         <h3>What review overturns, as an overturning</h3>
         <p>Findings will be recorded against the volumes they concern, visibly. A review whose findings all confirm the author is a review nobody is actually reading.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
         <span class="card__num">Not retrofitted</span>
         <h3>No volume will be marked reviewed retrospectively</h3>
         <p>Volumes produced before review remain volumes produced before review. Their status will be stated on their own record rather than quietly upgraded by a later appointment.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="programme" data-contents="The Publishing Programme">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Measure</span>
+<section class="leaf section--light grain" id="programme" data-contents="The Publishing Programme">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/astrolabe.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XI</span>
+      <span class="leaf__label">The Reading Programme</span>
+      <p class="leaf__rubric">Seven readers, seven questions.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Seven readers, seven questions.</h2>
       <p class="lede">Each asks whether a named person could actually do their work with what
         exists. A resource count answers none of them.</p>
@@ -1326,12 +1527,19 @@
       resources are in hand and the stage is well short of complete, because the last few
       resources are the ones no amount of writing produces.</p>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">What Is Blocking It</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XII</span>
+      <span class="leaf__label">What Is Blocking It</span>
+      <p class="leaf__rubric">Nothing that can be written. The blocker is a person, not a document.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Nothing that can be written.</h2>
       <p class="lede">Every remaining item requires a person, a studio or an outside body. That
         is why the resource figure and the stage figure separated.</p>
@@ -1339,53 +1547,72 @@
     <div class="grid grid--3">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
         <span class="card__num">Requires a studio</span>
         <h3>The recorded audio</h3>
         <p>The listening scripts are written, marked and published as a volume. The recordings do not exist. Producing them needs voices and a room, and it is the largest single item standing between the programme and first delivery.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
         <span class="card__num">Requires a classroom</span>
         <h3>Observation evidence</h3>
         <p>Nothing in the record has been observed in teaching. One teacher, one cohort, one term produces evidence that cannot be reasoned out &mdash; see <a href="/academics/teaching/#development">Development and observation</a>.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">Requires an outside body</span>
         <h3>External examining and review</h3>
         <p>The award cannot be conferred and the volumes cannot be reviewed by anyone inside the College. Both are appointments, not tasks.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Withdrawn</span>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/crest-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XIII</span>
+      <span class="leaf__label">Withdrawn</span>
+      <p class="leaf__rubric">Titles the register has stopped, listed rather than deleted.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Titles the register has stopped.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
         <span class="card__num">Consolidated</span>
         <h3>Two titles absorbed into others</h3>
         <p>Where a proposed volume turned out to be a chapter of one that already existed, it was withdrawn and its host named. A separate volume would have added a title to the catalogue and nothing to the education.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">Unsupported</span>
         <h3>Three the curriculum does not justify</h3>
         <p>Where a proposed resource had no basis in what the programme actually teaches, it was recorded as unsupported rather than built. Video support is the clearest case: producing it would be a decision about what the College is, not a gap in what it has written.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--light section-pad" id="library" data-contents="The Library">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Plainly</span>
+<section class="leaf section--light grain" id="library" data-contents="The Library">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/library-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XIV</span>
+      <span class="leaf__label">Plainly</span>
+      <p class="leaf__rubric">What the library is not, stated before what it is.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>What it is not.</h2>
     </div>
     <div class="callout">
@@ -1397,41 +1624,58 @@
         the phrase do work it has not earned.</p>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">What It Holds</span>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/library-plate.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XV</span>
+      <span class="leaf__label">What It Holds</span>
+      <p class="leaf__rubric">Three collections, all produced here.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>Three collections, all produced here.</h2>
     </div>
     <div class="grid grid--3">
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
         <span class="card__num">The programme</span>
         <h3>Everything your level contains</h3>
         <p>Lessons, exercises, listening sets, vocabulary work, self-checks and assessments for the level you are enrolled in, available from the day you enrol.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
         <span class="card__num">The volumes</span>
         <h3>11 published titles</h3>
         <p>The curriculum, the assessment handbook, the workbooks, the companions and the handbooks &mdash; see <a href="/press/catalogue/">the catalogue</a>. Supplied on request rather than downloaded here.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
         <span class="card__num">The record</span>
         <h3>What the College has decided, and why</h3>
         <p>Frameworks, standards and governance positions are published as pages on this site rather than held back as internal documents. An institution that publishes its reasoning can be argued with, which is the point.</p>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Reading Beyond The Programme</span>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/globe-meridian.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XVI</span>
+      <span class="leaf__label">Reading Beyond The Programme</span>
+      <p class="leaf__rubric">What the College recommends instead of what it does not hold.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
       <h2>What the College recommends instead.</h2>
       <p class="lede">A language learner needs far more input than any single programme supplies.
         Since the College cannot supply a collection, it says where the input actually is.</p>
@@ -1439,23 +1683,112 @@
     <div class="grid grid--3">
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
         <span class="card__num">Free and vast</span>
         <h3>Public broadcasting and podcasts</h3>
         <p>Hours of natural speech at every level, at no cost, on any subject you already care about. Interest in the subject is what makes listening practice survive week three.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></span>
         <span class="card__num">Free and vast</span>
         <h3>Public libraries and open collections</h3>
         <p>Graded readers, newspapers and open-access texts. A learner reading one thing a week they chose themselves will out-read the programme&rsquo;s set texts many times over.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum aurum--hover">
         <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
         <span class="card__num">The one thing to avoid</span>
         <h3>Material far above your level</h3>
         <p>Input just beyond your current reach builds a language; input far beyond it builds nothing but discouragement. Your level page names where you are; choose accordingly.</p>
       </div>
     </div>
+  </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     LEAF XVII — THE SHELF
+     The catalogue in summary, read by spine. The full catalogue is the
+     authority; this is the shelf you scan before pulling a volume down.
+     ================================================================== -->
+<section class="leaf section--light grain" id="shelf" data-contents="The Shelf">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/publication-funnel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">XVII</span>
+      <span class="leaf__label">The Shelf</span>
+      <p class="leaf__rubric">What is on the shelf today, and what state each title is actually in.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>What has been produced, and what has not.</h2>
+      <p class="lede">Produced means typeset, complete and holdable. Nothing below is described as
+        finished that is not, and nothing is described as reviewed &mdash; because none of it
+        is.</p>
+
+      <div class="shelf">
+        <div class="shelf__title reveal">
+          <h3>The Complete Curriculum &mdash; institutional edition</h3>
+          <span class="shelf__state shelf__state--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> Produced</span>
+          <p>The full programme, generated from the record. Typeset for print and complete.</p>
+        </div>
+        <div class="shelf__title reveal">
+          <h3>The Complete Curriculum &mdash; student edition</h3>
+          <span class="shelf__state shelf__state--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> Produced</span>
+          <p>The same content, cut for a learner rather than for a reviewer.</p>
+        </div>
+        <div class="shelf__title reveal">
+          <h3>Level Specifications &mdash; six volumes</h3>
+          <span class="shelf__state shelf__state--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> Produced</span>
+          <p>One per level, each stating what is taught, what is assessed, and against which criteria.</p>
+        </div>
+        <div class="shelf__title reveal">
+          <h3>The Instructor&rsquo;s Companion</h3>
+          <span class="shelf__state shelf__state--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> Produced</span>
+          <p>The teaching practice in working form, binding on every instructor.</p>
+        </div>
+        <div class="shelf__title reveal">
+          <h3>The Pronunciation Canon</h3>
+          <span class="shelf__state shelf__state--held"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg> Produced</span>
+          <p>The target features, marked and ordered. The audio that would accompany it has not been recorded.</p>
+        </div>
+        <div class="shelf__title reveal">
+          <h3>Listening sets &mdash; recorded audio</h3>
+          <span class="shelf__state shelf__state--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> Scripts only</span>
+          <p>Every script is written with its target features marked. The recordings need voices and a studio, and neither has been booked.</p>
+        </div>
+        <div class="shelf__title reveal">
+          <h3>Any externally reviewed title</h3>
+          <span class="shelf__state shelf__state--open"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg> None exists</span>
+          <p>No volume produced here has been read by anyone outside the College. The post that would change that is open.</p>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:30px">
+        <a href="/press/catalogue/" class="btn btn--gold">The Full Catalogue</a>
+        <a href="#review" class="btn btn--outline">Why None Is Reviewed</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     THE COLOPHON
+     ================================================================== -->
+<section class="colophon section--paper grain">
+  <div class="container">
+    <p class="colophon__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+    <p>WEC Press publishes under one rule, and the rule forbids the thing every young press does
+      first: it never publishes to raise the count. Eleven volumes exist because the material
+      behind them was finished. None has been read by anyone outside the College, and every
+      title on the shelf carries that on its own spine rather than in a note at the foot of a
+      page.</p>
+    <dl>
+      <div><dt>Volumes</dt><dd>11</dd></div>
+      <div><dt>Formats</dt><dd>Four</dd></div>
+      <div><dt>Type system</dt><dd>One</dd></div>
+      <div><dt>External review</dt><dd>None to date</dd></div>
+    </dl>
   </div>
 </section>
 
@@ -1464,7 +1797,7 @@
     <h2>See what has been produced.</h2>
     <div class="btn-row u-center">
       <a href="/press/catalogue/" class="btn btn--gold">The Catalogue</a>
-      <a href="/press/#programme" class="btn btn--outline">The Publishing Programme</a>
+      <a href="#programme" class="btn btn--outline">The Publishing Programme</a>
     </div>
   </div>
 </section>

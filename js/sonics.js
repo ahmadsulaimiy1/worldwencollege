@@ -131,7 +131,7 @@
             /* The warrant is a ruling with a seal on it, so it takes
                the conferral voice rather than the tap every other
                struck surface gets. Ceremony is ranked, not uniform. */
-            + '.warrant, .article__seal';
+            + '.warrant, .article__seal, .imprint, .imprint__device';
   var OPEN  = 'details > summary, .accordion__trigger, .accordion__q, .nav__toggle, [aria-expanded]';
   var TAP   = 'a, button, .card, .audience, .region, .case, .principle, .badge-dome, '
             + '.quad__skill, .quad__gauge, .sep__role, .sep__disc, .creed__item, .creed__mark, '
@@ -145,7 +145,10 @@
             + '.passage__stage, .passage__mark, .tariff__line, '
             /* The Governance pillar — css/governance.css. The article
                is sealed, so it takes SEAL and is in the list above. */
-            + '.docket__entry, .attest';
+            + '.docket__entry, .attest, '
+            /* The Press pillar — css/press.css. The imprint is the
+               press's own signature and takes SEAL; it is above. */
+            + '.folio, .shelf__title';
 
   function voiceFor(el) {
     if (el.closest(CHIME)) return 'chime';
