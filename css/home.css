@@ -1094,3 +1094,64 @@
 [dir="rtl"] .hero__stake::after {
   background: linear-gradient(-90deg, var(--gold-royal), transparent);
 }
+
+/* =========================================================
+   THE COVENANT
+   ---------------------------------------------------------
+   Eight promises, each one absolute, each one something the
+   College entirely controls.
+
+   THIS IS THE ONLY PLACE ON THE SITE THAT PROMISES, and the
+   discipline is what makes it worth reading: not one line
+   here depends on accreditation, on an examiner being
+   appointed, on a cohort being taught, or on anything else
+   the College cannot deliver today. A promise that needs a
+   third party is a hope with better typography.
+
+   The eighth is the one that secures the other seven — that
+   nothing undone is described as done — and it is the reason
+   a reader has cause to believe the rest of the page.
+
+   Set as a struck plate on the deepest ground, numbered, and
+   read as a list of undertakings rather than as features.
+   ========================================================= */
+.covenant {
+  display: grid;
+  gap: 0;
+  margin-top: clamp(30px, 3.4vw, 48px);
+  border-top: 1px solid rgba(199, 162, 74, .3);
+}
+.covenant__item {
+  display: grid;
+  grid-template-columns: clamp(46px, 5vw, 64px) 1fr;
+  gap: clamp(14px, 2vw, 26px);
+  align-items: baseline;
+  padding: clamp(18px, 2.1vw, 26px) 0;
+  border-bottom: 1px solid rgba(199, 162, 74, .3);
+}
+.covenant__num {
+  font-family: var(--font-ceremonial);
+  font-weight: 600;
+  font-size: clamp(.86rem, .8rem + .28vw, 1.02rem);
+  letter-spacing: .08em;
+  color: var(--gold-royal);
+}
+.covenant__item p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.02rem, .96rem + .34vw, 1.24rem);
+  line-height: 1.56;
+  color: rgba(247, 244, 236, .94);
+  max-width: 62ch;
+}
+.covenant__item p b { color: #fff; font-weight: 600; }
+/* The last undertaking is the one the other seven rest on, so it is
+   set apart rather than merely last. */
+.covenant__item--seal {
+  border-bottom: 0;
+  margin-top: .4em;
+}
+.covenant__item--seal p { color: var(--gold-champagne); font-style: italic; }
+@media (max-width: 560px) {
+  .covenant__item { grid-template-columns: 1fr; gap: .35em; }
+}

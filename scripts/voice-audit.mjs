@@ -1,0 +1,164 @@
+// scripts/voice-audit.mjs — find the wording that costs the College
+// authority, and leave alone the wording that earns it.
+//
+// THE DISTINCTION THIS WHOLE FILE EXISTS TO DRAW.
+//
+// This site hedges constantly, and roughly half of that hedging is the
+// most valuable thing on it. "No award has been conferred on anyone."
+// "The Board has never met." "This is a design figure, not a
+// measurement." Those are not weak sentences — they are the entire
+// proposition, they are enforced by tests/published-claims.test.mjs,
+// and an editor who strips them has destroyed the College's argument
+// while believing they strengthened its tone.
+//
+// The other half protects nothing at all. "Is designed to" where the
+// thing simply IS. "Aims to", "seeks to", "works towards". "May",
+// "should", "can help you" where the College has decided and could
+// simply say so. Softeners — "quite", "somewhat", "generally",
+// "typically", "simply". Connective throat-clearing — "it is worth
+// noting that", "in order to", "furthermore", "moreover". Those cost
+// authority and buy nothing.
+//
+// So this classifies rather than counts:
+//
+//   DEAD      cut or rewrite. Hedges a decision the College has made.
+//   MACHINE   the register of a language model rather than a college.
+//   LOAD      leave alone. A disclosure that carries a real fact, and
+//             usually one a guardrail test is watching.
+//
+// A phrase that matches DEAD *inside* a sentence that also matches LOAD
+// is reported as LOAD and left, because in that position the hedge is
+// doing the honest work — "the audio has not yet been produced" needs
+// its "yet".
+//
+// USAGE
+//   node scripts/voice-audit.mjs            # summary per page
+//   node scripts/voice-audit.mjs --lines    # every hit with its line
+
+import { readFileSync, readdirSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const PAGES = path.join(ROOT, 'pages');
+const SHOW_LINES = process.argv.includes('--lines');
+
+// ── LOAD-BEARING: a sentence carrying one of these is left alone ──────
+// These are the College's honest disclosures. Most are guarded by
+// tests/published-claims.test.mjs; all of them are the reason anyone
+// should believe the rest of the site.
+const LOAD = [
+  /\bno (award|cohort|student|graduate|accreditation|external examiner)/i,
+  /\bhas (not|never) (been|yet)/i, /\bhave (not|never) (been|yet)/i,
+  /\bnot (yet )?(adopted|appointed|approved|conferred|ratified|produced|run|taught|measured|filled|constituted|instrumented|evidenced)/i,
+  /\bdesign figure\b/i, /\binterim\b/i, /\bunexercised\b/i,
+  /\bdoes not (hold|claim|guarantee|entitle)/i,
+  /\bnobody has\b/i, /\bnone (has|have|of them)\b/i,
+  /\bwill (be|say|change) .{0,24}when\b/i,
+  // Arabic
+  /\bلم (يُ|تُ|ي|ت)/u, /\bلا (تحمل|توجد|يوجد|شيء)/u, /\bمبدئي/u,
+  /\bرقم تصميم/u, /\bلم تُمارَس/u, /\bلم تُدرَّس/u, /\bلم تُمنح/u,
+];
+
+// ── DEAD: hedges a decision that has actually been taken ─────────────
+const DEAD = [
+  [/\bis designed to\b/gi,        'is / does'],
+  [/\bare designed to\b/gi,       'are / do'],
+  [/\b(aims?|seeks?|strives?|works?) to\b/gi, 'does'],
+  [/\bwe (hope|believe|feel|think)\b/gi, 'state it, or cut it'],
+  [/\bshould be able to\b/gi,     'can'],
+  [/\bmay be able to\b/gi,        'can'],
+  [/\bwill be able to\b/gi,       'can'],
+  // NOT `rather`. The first cut of this list matched it as a softener
+  // and reported 100+ hits, nearly all of them "rather than" — which is
+  // this site's strongest device, not a weakness: "published rather
+  // than smoothed", "listed rather than omitted", "named rather than
+  // gestured at". Antithesis that names what the College did NOT do is
+  // the opposite of hedging, and a bulk edit on that pattern would have
+  // gutted the best writing on the site.
+  [/\b(quite|somewhat|fairly)\s+(a |an )?\w+/gi, 'cut the softener'],
+  [/\bgenerally\b/gi,             'cut, or say when'],
+  [/\btypically\b/gi,             'cut, or say when'],
+  [/\barguably\b/gi,              'cut'],
+  // REVIEW, not cut: "nothing is recorded as simply true" means
+  // "merely true", and removing the word removes the point.
+  [/\bsimply\b/gi,                'REVIEW in context'],
+  [/\bjust\b/gi,                  'REVIEW in context'],
+  [/\bit is worth noting that\b/gi, 'cut'],
+  [/\bit should be noted that\b/gi, 'cut'],
+  [/\bin order to\b/gi,           'to'],
+  [/\bhelps? (you )?to\b/gi,      'does'],
+  [/\bcan help\b/gi,              'does'],
+  [/\bstrives?\b/gi,              'does'],
+  [/\bendeavours?\b/gi,           'does'],
+  // Arabic
+  [/\bنسعى\b/gu,                  'قرَّرت / تفعل'],
+  [/\bنأمل\b/gu,                  'اذكرها أو احذفها'],
+  [/\bيهدف إلى\b/gu,              'يفعل'],
+  [/\bتهدف إلى\b/gu,              'تفعل'],
+  [/\bبشكل عام\b/gu,              'احذف'],
+  [/\bعادةً ما\b/gu,              'احذف أو حدّد'],
+];
+
+// ── MACHINE: the register of a model rather than of a college ────────
+const MACHINE = [
+  [/\bdelve\b/gi, ''], [/\bleverage\b/gi, 'use'], [/\brobust\b/gi, ''],
+  [/\bseamless(ly)?\b/gi, ''], [/\bcutting[- ]edge\b/gi, ''],
+  [/\bstate[- ]of[- ]the[- ]art\b/gi, ''], [/\bworld[- ]class\b/gi, ''],
+  [/\bbest[- ]in[- ]class\b/gi, ''], [/\bunlock\b/gi, ''],
+  [/\bempower(s|ing)?\b/gi, ''], [/\bjourney\b/gi, ''],
+  [/\bvibrant\b/gi, ''], [/\bholistic\b/gi, ''], [/\bsynerg/gi, ''],
+  [/\btailored\b/gi, ''], [/\bbespoke\b/gi, ''],
+  [/\bin today'?s (world|market|economy)\b/gi, ''],
+  [/\bfurthermore\b/gi, ''], [/\bmoreover\b/gi, ''],
+  [/\badditionally\b/gi, ''], [/\bthat (being )?said\b/gi, ''],
+  [/\bat the end of the day\b/gi, ''],
+  [/\bcomprehensive\b/gi, 'say the size'],
+  [/\bwide range of\b/gi, 'say how many'],
+  [/\bvariety of\b/gi, 'say how many'],
+];
+
+const strip = (h) => h
+  .replace(/<!--[\s\S]*?-->/g, ' ')          // authoring notes are not copy
+  .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+  .replace(/<style[\s\S]*?<\/style>/gi, ' ');
+
+const sentences = (text) => text.split(/(?<=[.!?؟])\s+|\n/).filter((s) => s.trim());
+
+const files = readdirSync(PAGES).filter((f) => f.endsWith('.html')).sort();
+let totals = { dead: 0, machine: 0, load: 0 };
+const rows = [];
+
+for (const f of files) {
+  const raw = strip(readFileSync(path.join(PAGES, f), 'utf8'));
+  // Only the visible copy: text between tags.
+  const visible = raw.replace(/<[^>]+>/g, '\n');
+  let dead = 0, machine = 0, load = 0;
+  const hits = [];
+
+  for (const s of sentences(visible)) {
+    const isLoad = LOAD.some((re) => re.test(s));
+    if (isLoad) { load++; continue; }
+    for (const [re, fix] of DEAD) {
+      const m = s.match(re);
+      if (m) { dead += m.length; hits.push(['DEAD', m[0].trim(), fix, s.trim().slice(0, 96)]); }
+    }
+    for (const [re, fix] of MACHINE) {
+      const m = s.match(re);
+      if (m) { machine += m.length; hits.push(['MACHINE', m[0].trim(), fix, s.trim().slice(0, 96)]); }
+    }
+  }
+  totals.dead += dead; totals.machine += machine; totals.load += load;
+  if (dead || machine) rows.push({ f, dead, machine, load, hits });
+}
+
+rows.sort((a, b) => (b.dead + b.machine) - (a.dead + a.machine));
+console.log(`${'page'.padEnd(30)}${'dead'.padStart(6)}${'machine'.padStart(9)}${'protected'.padStart(11)}`);
+for (const r of rows) {
+  console.log(`${r.f.padEnd(30)}${String(r.dead).padStart(6)}${String(r.machine).padStart(9)}${String(r.load).padStart(11)}`);
+  if (SHOW_LINES) for (const [kind, hit, fix, ctx] of r.hits) {
+    console.log(`   ${kind.padEnd(8)} "${hit}"${fix ? ` → ${fix}` : ''}\n      ${ctx}`);
+  }
+}
+console.log(`\n${totals.dead} dead hedges · ${totals.machine} machine phrases`);
+console.log(`${totals.load} sentences carry a real disclosure and are LEFT ALONE.`);
