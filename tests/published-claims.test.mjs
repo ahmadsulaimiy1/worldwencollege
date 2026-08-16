@@ -81,8 +81,21 @@ const PUBLISHED_UNITS_PER_LEVEL = 120;
 const PUBLISHED_UNITS_TOTAL = 720;
 const backed = items >= PUBLISHED_UNITS_TOTAL;
 
+// THE MARKUP MOVED AND THE CLAIM DID NOT.
+// This pinned `<td>120</td>` while the six levels were set as two
+// near-duplicate tables. They are one ASCENT now — a definition list
+// per level — and the test follows the claim rather than the table,
+// which is what the failure message told the next person to do.
+//
+// The new pin is STRICTER than the old one, deliberately. `<td>120</td>`
+// plus a Lessons header somewhere on the page only proved that both
+// existed; it could not prove they referred to each other. In a
+// definition list the label and the figure are adjacent, so the pairing
+// itself is now assertable — and that pairing is the whole point of the
+// check below.
+const LESSON_FIGURE = /<dt>Lessons<\/dt><dd>120<\/dd>/;
 check('The page still publishes the design figure this test is watching',
-  /<td>120<\/td>/.test(iefc), 'the claim moved — update this test rather than deleting it');
+  LESSON_FIGURE.test(iefc), 'the claim moved — update this test rather than deleting it');
 
 // ---------------------------------------------------------------------
 // The terminology register (docs/academic-framework.md § XVII)
@@ -284,14 +297,20 @@ if (backed) {
   // framework (80 GLH per level) — while this file kept passing,
   // because it pinned the sentence and not the label the sentence is
   // about. The figure is a lesson count, and hours it must never be.
-  check('...and the 120 is labelled as Lessons in the table itself',
-    /<th scope="col">Lessons<\/th>/.test(iefc), 'no Lessons column header');
+  check('...and the 120 is labelled as Lessons where it is printed',
+    LESSON_FIGURE.test(iefc), 'the 120 is not bound to a Lessons label');
+  // Six levels, six figures, and every one of them labelled. A single
+  // labelled instance would have passed the old check while five others
+  // drifted.
+  check('...on every one of the six levels, not just the first',
+    (iefc.match(new RegExp(LESSON_FIGURE.source, 'g')) || []).length === 6,
+    `${(iefc.match(new RegExp(LESSON_FIGURE.source, 'g')) || []).length} labelled lesson figures, expected 6`);
   check('...never as hours — 120 is the designed lesson count, not delivery',
     !/taught hours/i.test(iefc), '"taught hours" found on the page');
   check('...and does not hide behind vagueness — it names what IS complete',
     /sixty modules/i.test(iefc) && /still being written/i.test(iefc));
-  check('The disclosure sits with the table, not on some other page',
-    iefc.indexOf('id="curriculum-status"') > iefc.indexOf('<td>120</td>'),
+  check('The disclosure sits after the claim, not on some other page',
+    iefc.indexOf('id="curriculum-status"') > iefc.search(LESSON_FIGURE),
     'disclosure appears before the claim it qualifies');
   check('The institutional status page lists it as outstanding too',
     /still being written/i.test(about) && /curriculum-status/.test(about),

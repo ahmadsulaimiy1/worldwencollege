@@ -132,7 +132,9 @@
   var TAP   = 'a, button, .card, .audience, .region, .case, .principle, .badge-dome, '
             + '.quad__skill, .quad__gauge, .sep__role, .sep__disc, .creed__item, .creed__mark, '
             + '.clause, .tenet, .register__col, .vacancy, .footergrid__tile, .quicknav__tile, '
-            + '.plate__frame, .stage-mark, .ledger--flagship tbody tr';
+            + '.plate__frame, .stage-mark, .ledger--flagship tbody tr, '
+            /* The Academics pillar — css/academics.css. */
+            + '.ascent__step, .ascent__band, .horarium__band, .discipline';
 
   function voiceFor(el) {
     if (el.closest(CHIME)) return 'chime';

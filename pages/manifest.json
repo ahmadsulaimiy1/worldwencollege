@@ -35,7 +35,11 @@
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/academics/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "admissions",
@@ -140,7 +144,11 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/academics/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "admissions-ar",
@@ -238,7 +246,11 @@
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/study/level-1/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "study-level-2",
@@ -249,7 +261,11 @@
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/study/level-2/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "study-level-3",
@@ -260,7 +276,11 @@
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/study/level-3/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "study-level-4",
@@ -271,7 +291,11 @@
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/study/level-4/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "study-level-5",
@@ -282,7 +306,11 @@
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/study/level-5/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "study-level-6",
@@ -293,7 +321,11 @@
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/study/level-6/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "about-careers",
@@ -489,7 +521,11 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/study/level-1/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "study-level-2-ar",
@@ -500,7 +536,11 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/study/level-2/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "study-level-3-ar",
@@ -511,7 +551,11 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/study/level-3/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "study-level-4-ar",
@@ -522,7 +566,11 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/study/level-4/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "study-level-5-ar",
@@ -533,7 +581,11 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/study/level-5/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "study-level-6-ar",
@@ -544,7 +596,11 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/study/level-6/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "governance",
@@ -597,7 +653,11 @@
     "lang": "en",
     "dir": "ltr",
     "contents": true,
-    "altHref": "/ar/academics/teaching/"
+    "altHref": "/ar/academics/teaching/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "students-ar",
@@ -623,7 +683,11 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/academics/teaching/",
-    "contents": true
+    "contents": true,
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ]
   },
   {
     "slug": "students-record-ar",

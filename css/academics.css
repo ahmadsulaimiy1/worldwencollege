@@ -1,0 +1,387 @@
+/* =========================================================
+   WorldWide English College — London Campus
+   THE ACADEMICS PILLAR
+   ---------------------------------------------------------
+   Loaded AFTER css/pillar.css on the Academics pages, the six
+   study-level pages and their Arabic editions. pillar.css
+   carries the instrument — masthead, numbered leaves,
+   register, colophon. This file carries only what is true of
+   THIS pillar, which is why it is a second stylesheet rather
+   than a fork of the first. css/students.css is the model.
+
+   WHAT MAKES THIS PILLAR DIFFERENT.
+
+   /about/ is the institution describing itself, so it is set
+   as a constitutional document. /students/ is one learner's
+   standing, so it is set as a matricula. This pillar is
+   neither. It is a CURRICULUM, and the one fact a curriculum
+   has that neither of the others does is ORDER: six levels
+   that are climbed, in sequence, each one resting on the last.
+   A grid loses that. A table states it but does not show it.
+
+   So the register here is an ASCENT — six struck plates
+   climbing a rising gold spine, each hung on the CEFR band it
+   is designed to reach. The spine is the argument: you can see
+   from across the room that this is a route and not a menu.
+
+     · the ASCENT — the six levels, in order, on their spine.
+     · the HORARIUM — the hours of a level struck as a divided
+       bar. The College publishes 80 guided hours against 120
+       independent ones, and the bar is drawn to that ratio, so
+       the drawing cannot drift from the figure it illustrates.
+     · the DISCIPLINE — a curriculum area, dome-anchored.
+
+   THE ACCENT IS ROYAL BLUE, which is not a new decision:
+   css/pages.css already sets --hero-accent to 31,61,122 for
+   body[data-section="academics"] and body[data-section="study"].
+   This file reads that same value rather than inventing a
+   second blue, so a change there moves this pillar with it.
+   ========================================================= */
+
+:root {
+  --academics-accent: 31, 61, 122;
+}
+
+/* The leaf numerals and margin labels take the pillar's own
+   accent rather than the house gold, so a reader can tell
+   which pillar they are in from the margin alone. */
+.leaf__label { color: #1F3D7A; }
+.section--dark .leaf__label,
+.section--oxford .leaf__label,
+.section--midnight .leaf__label { color: #93B4E8; }
+
+/* =========================================================
+   THE ASCENT
+   Six levels on a rising spine.
+
+   THE SPINE IS DRAWN ON THE LIST, NOT ON THE STEP. Each step
+   wears .aurum (which claims ::after) and .edge-lit (which
+   claims ::before) — the material law forbids taking either
+   pseudo-element from a shape wearing those classes, so the
+   spine belongs to .ascent, which wears neither. It runs
+   behind the band medallions and is masked at both ends so it
+   does not appear to continue past Level I or Level VI.
+   ========================================================= */
+.ascent {
+  position: relative;
+  list-style: none;
+  margin: clamp(30px, 3.4vw, 48px) 0 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(14px, 1.8vw, 22px);
+}
+.ascent::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  /* Centred on the band medallion, which sits at
+     clamp(20px,2.4vw,30px) of padding + 33px of half-band. */
+  inset-block: 46px;
+  inset-inline-start: clamp(53px, 5.6vw, 63px);
+  width: 2px;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(199, 162, 74, .18) 6%,
+    rgba(199, 162, 74, .62) 34%,
+    var(--gold-rich) 76%,
+    rgba(242, 227, 192, .9) 96%,
+    transparent 100%);
+  border-radius: 2px;
+}
+@media (max-width: 620px) { .ascent::before { display: none; } }
+
+.ascent__step {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 66px 1fr;
+  gap: clamp(16px, 2.2vw, 28px);
+  align-items: start;
+  padding: clamp(20px, 2.4vw, 30px) clamp(20px, 2.4vw, 30px);
+  border: 1px solid rgba(199, 162, 74, .3);
+  border-radius: var(--r-sm, 10px);
+  background:
+    radial-gradient(ellipse 74% 86% at 6% 0%, rgba(var(--academics-accent), .11), transparent 62%),
+    linear-gradient(168deg, rgba(255, 255, 255, .82), rgba(255, 255, 255, .36));
+  box-shadow: var(--relief-raised), 0 18px 40px -30px rgba(9, 18, 38, .58);
+  transition: transform var(--dur-mid, .38s) var(--ease-premium, cubic-bezier(.2, .7, .2, 1)),
+              box-shadow var(--dur-mid, .38s) var(--ease-premium, cubic-bezier(.2, .7, .2, 1));
+}
+.ascent__step:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--relief-raised), 0 26px 54px -30px rgba(9, 18, 38, .66);
+}
+.section--dark .ascent__step,
+.section--oxford .ascent__step,
+.section--midnight .ascent__step {
+  border-color: rgba(199, 162, 74, .26);
+  background:
+    radial-gradient(ellipse 74% 86% at 6% 0%, rgba(var(--academics-accent), .32), transparent 62%),
+    linear-gradient(168deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .02));
+}
+
+/* THE BAND MEDALLION — the CEFR letter, struck.
+   Deep royal enamel inside a gold rim, on the pattern
+   .quad__gauge established: the colour at full strength in
+   the well, the metal on the rim, the highlight on the metal
+   rather than flooding the face. A washed 12% tint reads
+   silver on a pale ground; this was got wrong once already
+   and is not repeated here. */
+.ascent__band {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  width: 66px; height: 66px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold-royal);
+  font-family: var(--font-ceremonial);
+  font-weight: 600;
+  font-size: 1.16rem;
+  letter-spacing: .04em;
+  color: var(--gold-champagne);
+  background:
+    radial-gradient(circle at 36% 24%, rgba(255, 250, 235, .32), transparent 46%),
+    linear-gradient(158deg, rgba(var(--academics-accent), .98), #071227 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 252, 240, .34),
+    inset 0 -2px 4px rgba(3, 8, 20, .5),
+    0 10px 22px -12px rgba(9, 18, 38, .8);
+}
+/* The specular cap. Light lands on the upper third of a
+   struck disc and nowhere else. */
+.ascent__band::before {
+  content: '';
+  position: absolute;
+  inset: 3px 3px 52% 3px;
+  border-radius: 50% 50% 46% 46% / 62% 62% 38% 38%;
+  background: linear-gradient(180deg, rgba(255, 253, 245, .34), rgba(255, 253, 245, 0));
+  pointer-events: none;
+  z-index: 1;
+}
+.ascent__band > * { position: relative; z-index: 2; }
+
+.ascent__ord {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: .58rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-bottom: .5em;
+}
+.section--dark .ascent__ord,
+.section--oxford .ascent__ord,
+.section--midnight .ascent__ord { color: var(--gold-soft); }
+
+.ascent__step h3 {
+  margin: 0 0 .45em;
+  font-family: var(--font-display);
+  font-size: clamp(1.06rem, .98rem + .3vw, 1.26rem);
+  line-height: 1.24;
+}
+.ascent__step h3 a { color: inherit; text-decoration: none; }
+.ascent__step h3 a:hover { color: var(--gold-royal); }
+.section--dark .ascent__step h3 a:hover,
+.section--oxford .ascent__step h3 a:hover,
+.section--midnight .ascent__step h3 a:hover { color: var(--gold-soft); }
+.ascent__step p {
+  margin: 0;
+  font-size: .88rem;
+  line-height: 1.66;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+.section--dark .ascent__step p,
+.section--oxford .ascent__step p,
+.section--midnight .ascent__step p { color: rgba(247, 244, 236, .76); }
+
+/* The facts of the level, set as a struck strip at the foot
+   of the plate rather than as a second paragraph — these are
+   figures and they should read as figures. */
+.ascent__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5em clamp(14px, 2vw, 26px);
+  margin: 1em 0 0;
+  padding-top: .9em;
+  border-top: 1px solid rgba(199, 162, 74, .26);
+}
+.ascent__facts > div { display: flex; align-items: baseline; gap: .5em; }
+.ascent__facts dt {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: .54rem;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+.ascent__facts dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.section--dark .ascent__facts dt,
+.section--oxford .ascent__facts dt,
+.section--midnight .ascent__facts dt { color: var(--gold-soft); }
+.section--dark .ascent__facts dd,
+.section--oxford .ascent__facts dd,
+.section--midnight .ascent__facts dd { color: var(--gold-champagne); }
+
+@media (max-width: 620px) {
+  .ascent__step { grid-template-columns: 1fr; gap: .9em; }
+  .ascent__band { width: 54px; height: 54px; font-size: 1rem; }
+}
+
+/* =========================================================
+   THE HORARIUM
+   The hours of one level, struck as a divided bar.
+
+   THE WIDTHS ARE THE FIGURES. 80 guided against 120
+   independent is 40% and 60% of 200, and the flex-grow values
+   below are 80 and 120 rather than 2 and 3, so that anyone
+   editing the published figure edits the drawing with it. A
+   bar whose proportions have drifted from the number printed
+   beside it is worse than no bar.
+   ========================================================= */
+.horarium {
+  display: flex;
+  margin-top: clamp(26px, 3vw, 40px);
+  border: 1px solid rgba(199, 162, 74, .38);
+  border-radius: var(--r-sm, 10px);
+  overflow: hidden;
+  box-shadow: var(--relief-raised), 0 16px 36px -28px rgba(9, 18, 38, .6);
+}
+.horarium__band {
+  position: relative;
+  padding: clamp(20px, 2.4vw, 30px) clamp(18px, 2.2vw, 26px);
+  display: flex;
+  flex-direction: column;
+  gap: .35em;
+  min-width: 0;
+}
+.horarium__band--guided {
+  flex: 80 1 0;
+  background:
+    radial-gradient(ellipse 90% 74% at 20% 0%, rgba(255, 250, 235, .2), transparent 60%),
+    linear-gradient(158deg, rgba(var(--academics-accent), .98), #071227 100%);
+  color: var(--ivory);
+}
+.horarium__band--independent {
+  flex: 120 1 0;
+  background:
+    radial-gradient(ellipse 90% 74% at 20% 0%, rgba(199, 162, 74, .14), transparent 60%),
+    linear-gradient(158deg, rgba(255, 255, 255, .8), rgba(255, 255, 255, .38));
+  color: var(--ink);
+  border-inline-start: 1px solid rgba(199, 162, 74, .4);
+}
+.section--dark .horarium__band--independent,
+.section--oxford .horarium__band--independent,
+.section--midnight .horarium__band--independent {
+  background:
+    radial-gradient(ellipse 90% 74% at 20% 0%, rgba(199, 162, 74, .16), transparent 60%),
+    linear-gradient(158deg, rgba(255, 255, 255, .09), rgba(255, 255, 255, .025));
+  color: var(--ivory);
+}
+.horarium__figure {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2.1rem);
+  line-height: 1;
+  letter-spacing: -.01em;
+}
+.horarium__band--guided .horarium__figure { color: var(--gold-champagne); }
+.horarium__band--independent .horarium__figure { color: #1F3D7A; }
+.section--dark .horarium__band--independent .horarium__figure,
+.section--oxford .horarium__band--independent .horarium__figure,
+.section--midnight .horarium__band--independent .horarium__figure { color: var(--gold-champagne); }
+.horarium__label {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: .58rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.horarium__band--guided .horarium__label { color: rgba(242, 227, 192, .78); }
+.horarium__band--independent .horarium__label { color: var(--bronze); }
+.section--dark .horarium__band--independent .horarium__label,
+.section--oxford .horarium__band--independent .horarium__label,
+.section--midnight .horarium__band--independent .horarium__label { color: var(--gold-soft); }
+.horarium__note {
+  font-size: .8rem;
+  line-height: 1.56;
+  margin: .3em 0 0;
+}
+.horarium__band--guided .horarium__note { color: rgba(247, 244, 236, .72); }
+.horarium__band--independent .horarium__note { color: var(--ink-soft); }
+.section--dark .horarium__band--independent .horarium__note,
+.section--oxford .horarium__band--independent .horarium__note,
+.section--midnight .horarium__band--independent .horarium__note { color: rgba(247, 244, 236, .74); }
+@media (max-width: 620px) {
+  .horarium { flex-direction: column; }
+  .horarium__band--independent { border-inline-start: 0; border-top: 1px solid rgba(199, 162, 74, .4); }
+}
+
+/* =========================================================
+   THE DISCIPLINE
+   A curriculum area. Twenty of them used to be set as .tag —
+   inline chips, which is the register of a filter control and
+   not of a subject that carries ten modules behind it. These
+   are struck plates with the area's own mark on a dome.
+   ========================================================= */
+.disciplines {
+  display: grid;
+  gap: clamp(12px, 1.6vw, 18px);
+  grid-template-columns: repeat(auto-fit, minmax(208px, 1fr));
+  margin-top: clamp(28px, 3vw, 44px);
+}
+.discipline {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: .9em;
+  padding: clamp(14px, 1.8vw, 20px) clamp(15px, 1.9vw, 21px);
+  border: 1px solid rgba(199, 162, 74, .28);
+  border-radius: var(--r-sm, 10px);
+  background:
+    radial-gradient(ellipse 84% 80% at 12% 0%, rgba(var(--academics-accent), .1), transparent 62%),
+    linear-gradient(168deg, rgba(255, 255, 255, .78), rgba(255, 255, 255, .32));
+  box-shadow: var(--relief-raised), 0 14px 30px -26px rgba(9, 18, 38, .55);
+  transition: transform var(--dur-mid, .38s) var(--ease-premium, cubic-bezier(.2, .7, .2, 1));
+}
+.discipline:hover { transform: translateY(-2px); }
+.section--dark .discipline,
+.section--oxford .discipline,
+.section--midnight .discipline {
+  border-color: rgba(199, 162, 74, .24);
+  background:
+    radial-gradient(ellipse 84% 80% at 12% 0%, rgba(var(--academics-accent), .3), transparent 62%),
+    linear-gradient(168deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .02));
+}
+.discipline h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: .98rem;
+  line-height: 1.24;
+}
+/* .badge-dome carries margin-bottom: 14px for its usual home, which is
+   stacked above a card's heading. Here it sits BESIDE the heading, and
+   that margin pushed the dome 14px off the plate's own axis — measured,
+   not guessed: the dome sat 21px from the top and 35px from the foot of
+   a 108px plate. On a row, the margin is wrong by definition. */
+.discipline .badge-dome { flex-shrink: 0; margin-bottom: 0; }
+
+/* =========================================================
+   REDUCED MOTION
+   Every transition in this file resolves to the FINISHED
+   state, never to a hidden or half-drawn one: the plates are
+   already at rest, so removing the transition removes the
+   travel and nothing else.
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .ascent__step, .discipline { transition: none; }
+  .ascent__step:hover, .discipline:hover { transform: none; }
+}
