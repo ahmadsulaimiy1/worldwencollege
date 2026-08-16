@@ -256,6 +256,20 @@ body[data-section="contact"]    { --hero-accent: 199, 162, 74; }
 .card:hover::after { opacity: 1; }
 .card h3 { font-size: 1.12rem; letter-spacing: -.008em; }
 
+/* Academics and the six study-level pages carry the same cinematic
+   treatment as the homepage — a deeper plate radius and a badge-dome
+   icon well, rather than the document-flat 6px the rest of the
+   interior estate keeps. Scoped to these two sections only, via the
+   body[data-section] build.js already writes; the shared .card rule
+   above is untouched for every other page. */
+[data-section="academics"] .card, [data-section="study"] .card {
+  border-radius: var(--r-lg);
+  padding: clamp(28px, 2.6vw, 38px);
+}
+[data-section="academics"] .card::after, [data-section="study"] .card::after {
+  display: none;
+}
+
 /* --- Statistics ----------------------------------------------------- */
 .stat-row { border-color: var(--line-stone); border-radius: 4px; }
 .stat-row__item { border-right-color: var(--line-stone); padding: 30px 22px; }

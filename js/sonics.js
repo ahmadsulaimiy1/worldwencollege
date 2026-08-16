@@ -108,7 +108,7 @@
     if (el.closest('.btn--gold, .quiet-btn--apply')) return 'chime';
     if (el.closest('.wax-seal, .cta__seal, .vessel')) return 'seal';
     if (el.closest('details > summary, .accordion__trigger, .nav__toggle, [aria-expanded]')) return 'open';
-    if (el.closest('a, button, .audience, .region, .case, .principle, .footergrid__tile')) return 'tap';
+    if (el.closest('a, button, .audience, .region, .case, .principle, .footergrid__tile, [data-section="academics"] .card, [data-section="study"] .card')) return 'tap';
     return null;
   }
 
