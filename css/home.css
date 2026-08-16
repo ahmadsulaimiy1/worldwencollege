@@ -322,14 +322,26 @@
    is the recessed pair, so the icon reads as engraved into a counter-
    sunk medallion. Under the pointer the well fills with light and the
    disc rises to meet the reader — the only movement in the list. */
+/* 58px with a 32px glyph. It was 50px with a TWENTY-TWO pixel glyph —
+   the smallest icon on the site, on the page a visitor sees first, and
+   the single most-used icon container the homepage has. CLAUDE.md §2
+   sets the floor at 52/30 and says why: small icons read as an admin
+   panel. This is the one that made the owner say the icons were still
+   too small, and it was below the floor by a third.
+
+   It was also cut as an inset WELL — --relief-inset, a shape light
+   falls into. Every other icon container in the house is a struck dome,
+   a shape light falls ON. Raised now, with a specular cap on ::before,
+   which is free here: this element takes .tilt and .gold-live but
+   neither claims a pseudo-element. */
 .feature-list__icon {
-  width: 50px; height: 50px; display: grid; place-items: center;
+  width: 58px; height: 58px; display: grid; place-items: center;
   border: 1px solid var(--line); border-radius: 50%;
   color: var(--gold-royal); flex-shrink: 0;
-  position: relative; overflow: hidden;
+  position: relative; overflow: hidden; isolation: isolate;
   background: radial-gradient(circle at 32% 26%,
-    rgba(255,252,240,.30), rgba(199,162,74,.05) 58%, rgba(10,20,40,.06) 100%);
-  box-shadow: var(--relief-inset);
+    rgba(255,252,240,.46), rgba(199,162,74,.10) 58%, rgba(10,20,40,.08) 100%);
+  box-shadow: var(--relief-raised), 0 8px 18px -12px rgba(9, 18, 38, .55);
   transition: border-color var(--dur-med) ease, color var(--dur-med) ease,
               background var(--dur-med) var(--ease-premium),
               box-shadow var(--dur-med) var(--ease-premium),
@@ -340,7 +352,20 @@
    the icon reads as a small piece of the same engraved-metal surface
    as the plates, not a separate, flatter decoration. */
 .feature-list__icon .icon { position: relative; z-index: 1; }
-.feature-list__icon .icon { width: 22px; height: 22px; }
+.feature-list__icon .icon { width: 32px; height: 32px; }
+/* The specular cap: light lands on the upper third of a struck disc
+   and nowhere else. */
+.feature-list__icon::before {
+  content: ''; position: absolute; inset: 2px 2px 54% 2px;
+  border-radius: 50% 50% 46% 46% / 62% 62% 38% 38%;
+  background: linear-gradient(180deg, rgba(255, 253, 245, .5), rgba(255, 253, 245, 0));
+  pointer-events: none; z-index: 0;
+}
+.section--dark .feature-list__icon::before,
+.section--midnight .feature-list__icon::before,
+.section--oxford .feature-list__icon::before {
+  background: linear-gradient(180deg, rgba(255, 253, 245, .3), rgba(255, 253, 245, 0));
+}
 .section--dark .feature-list__icon, .section--midnight .feature-list__icon,
 .section--oxford .feature-list__icon {
   background: radial-gradient(circle at 32% 26%,
@@ -997,13 +1022,25 @@
   border-radius: var(--r-sm, 6px);
   background: rgba(255, 255, 255, .5);
 }
+/* 56px, over the 52px floor, and struck rather than merely outlined —
+   this mark heads each step of the procession and was the second
+   under-sized container on this page. */
 .procession__mark {
+  position: relative; isolation: isolate;
   display: grid; place-items: center;
-  width: 46px; height: 46px; margin-bottom: 16px;
+  width: 56px; height: 56px; margin-bottom: 16px;
   border: 1px solid var(--gold-royal); border-radius: 50%;
   color: var(--bronze);
   background: radial-gradient(circle at 34% 28%, rgba(255, 250, 235, .8), transparent 68%);
+  box-shadow: var(--relief-raised), 0 8px 18px -12px rgba(9, 18, 38, .5);
 }
+.procession__mark::before {
+  content: ''; position: absolute; inset: 2px 2px 54% 2px;
+  border-radius: 50% 50% 46% 46% / 62% 62% 38% 38%;
+  background: linear-gradient(180deg, rgba(255, 253, 245, .55), rgba(255, 253, 245, 0));
+  pointer-events: none; z-index: 0;
+}
+.procession__mark .icon { position: relative; z-index: 1; width: 30px; height: 30px; }
 .procession__num {
   position: absolute; top: 18px; inset-inline-end: 20px;
   font-family: var(--font-display); font-weight: 700;
