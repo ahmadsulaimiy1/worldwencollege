@@ -30,7 +30,7 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 # ── SECTION SHORTHANDS ───────────────────────────────────────────────
 # Short paths a person is likely to type or to be given verbally,
 # pointed at the page that actually answers them.
-/apply     /admissions/#apply          301
+/apply     /admissions/apply/          301
 /fees      /admissions/tuition/        301
 /tuition   /admissions/tuition/        301
 /levels    /academics/#levels                     301
@@ -48,7 +48,7 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 #
 # The architecture in docs/information-architecture.html retires these
 # URLs. Each one is indexed, may be printed in a published volume, and
-# must never return 404. 74 of 74 planned routes have moved
+# must never return 404. 72 of 72 planned routes have moved
 # so far; the rest keep serving their own page until their phase lands.
 #
 /ar/admissions/entry-requirements/  /ar/admissions/#requirements  301
@@ -82,7 +82,6 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 /ar/about/philosophy/               /ar/about/#philosophy  301
 /ar/about/governance/               /ar/governance/  301
 /ar/teaching/support/               /ar/academics/teaching/  301
-/ar/admissions/apply/               /ar/admissions/#apply  301
 /ar/admissions/dates/               /ar/admissions/#dates  301
 /ar/admissions/visas/               /ar/admissions/#visas  301
 /ar/students/support/               /ar/students/#support  301
@@ -99,7 +98,6 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 /about/philosophy/                  /about/#philosophy  301
 /about/governance/                  /governance/  301
 /teaching/support/                  /academics/teaching/#support  301
-/admissions/apply/                  /admissions/#apply  301
 /admissions/dates/                  /admissions/#dates  301
 /admissions/visas/                  /admissions/#visas  301
 /students/support/                  /students/#support  301

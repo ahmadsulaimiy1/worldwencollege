@@ -139,12 +139,43 @@ CREATE TABLE applications (
                       ('level_by_level','instalments','full_pathway','undecided')),
   heard_via         TEXT,
   privacy_agreed_at TEXT,
+  -- The wizard's further questions. Mirrored in
+  -- sql/migrations/018-admissions-wizard.sql, which carries the
+  -- reasoning for each column (and states what is still deliberately
+  -- not collected) for databases created before this block did.
+  residential_address    TEXT,
+  emergency_contact_name TEXT,
+  emergency_contact_relationship TEXT,
+  emergency_contact_phone TEXT,
+  education_level   TEXT CHECK (education_level IS NULL OR education_level IN
+                      ('secondary','undergraduate','postgraduate','doctorate','professional','other')),
+  education_institution TEXT,
+  sponsor_name      TEXT,
+  sponsor_relationship TEXT CHECK (sponsor_relationship IS NULL OR sponsor_relationship IN
+                      ('employer','parent_or_guardian','other_family','scholarship_body','government','other')),
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   updated_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 CREATE INDEX idx_applications_email ON applications(email);
 CREATE INDEX idx_applications_country ON applications(country);
 CREATE INDEX idx_applications_status ON applications(status);
+
+-- ---------------------------------------------------------------------
+-- Application drafts — the wizard's in-progress state, one row per
+-- applicant account, promoted into a real `applications` row (typed,
+-- constrained) only at final submission. See
+-- sql/migrations/018-admissions-wizard.sql for the full reasoning.
+-- ---------------------------------------------------------------------
+CREATE TABLE application_drafts (
+  id                        TEXT PRIMARY KEY,
+  user_id                   TEXT NOT NULL UNIQUE REFERENCES users(id),
+  data                      TEXT NOT NULL DEFAULT '{}',
+  completed_steps           TEXT NOT NULL DEFAULT '[]',
+  submitted_application_id  TEXT REFERENCES applications(id),
+  created_at                TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  updated_at                TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_application_drafts_user ON application_drafts(user_id);
 
 -- ---------------------------------------------------------------------
 -- Enrolments — one row per student per level, created once payment for

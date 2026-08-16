@@ -40,11 +40,10 @@
  * NO CHAINS
  * ────────────────────────────────────────────────────────────────────
  * A redirect target may never itself be a retired URL. The section
- * shorthands already in _redirects are the reason this needs saying:
- * `/apply` points at `/admissions/apply/`, which this map retires, so
- * without the rule a visitor typing /apply would take two hops to
- * arrive. The test forbids it and the generator resolves shorthands
- * through the map.
+ * shorthands already in _redirects are the reason this needs saying —
+ * a hand-written shorthand pointed at a URL this map later retires
+ * would otherwise cost a visitor two hops to arrive. The test forbids
+ * it and the generator resolves shorthands through the map.
  */
 
 /** `from` is retired. `to` is where it goes. `why` is the clause in the
@@ -85,7 +84,13 @@ const RETIRED = [
   { from: '/teaching/development/', to: '/academics/teaching/#development', why: 'section of Teaching Practice', migrated: true },
 
   // ── into /admissions/ ─────────────────────────────────────────────
-  { from: '/admissions/apply/', to: '/admissions/#apply', why: 'section of Admissions', migrated: true },
+  // /admissions/apply/ is NOT in this list. It was retired here once
+  // (into /admissions/#apply, in the Phase 5 consolidation), but it is
+  // back in service — deliberately, as a different kind of page: the
+  // authenticated, multi-step application wizard, not a marketing
+  // sub-page. Reusing a retired address for a genuinely different
+  // purpose is exactly the case this map cannot express as "still
+  // retired," so the entry is removed rather than left to lie.
   { from: '/admissions/entry-requirements/', to: '/admissions/#requirements', why: 'section of Admissions', migrated: true },
   { from: '/admissions/dates/', to: '/admissions/#dates', why: 'section of Admissions', migrated: true },
   { from: '/admissions/international/', to: '/admissions/#international', why: 'section of Admissions', migrated: true },
