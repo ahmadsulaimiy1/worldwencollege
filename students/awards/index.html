@@ -26,6 +26,8 @@
 <link rel="stylesheet" href="/css/brand.css">
 <link rel="stylesheet" href="/css/atelier.css">
 <link rel="stylesheet" href="/css/pages.css">
+<link rel="stylesheet" href="/css/pillar.css">
+<link rel="stylesheet" href="/css/students.css">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
@@ -950,24 +952,29 @@
 </header>
 
 <main id="main">
-<section class="page-hero section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">Students</span>
-    <h1 data-split>Awards and honours.</h1>
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></p>
+
+    <p class="masthead__eyebrow">Students</p>
+    <h1>Awards and honours.</h1>
     <p class="lede">Six awards, one for each level, each with its own title and post-nominal. None of them has been conferred on anyone, and this page explains why that is a decision rather than a delay.</p>
-    
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
   </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Awards</span>
-      <h2>One for each level.</h2>
-      <p class="lede">Each award names a real standing rather than decorating a completion. The
-        first is deliberately modest, because the first is where most people stop.</p>
+<section class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">I</span>
+      <span class="leaf__label">The Awards</span>
     </div>
-    <div class="table-scroll">
+    <div class="leaf__body reveal">    <h2>One for each level.</h2>
+      <p class="lede">Each award names a real standing rather than decorating a completion. The
+        first is deliberately modest, because the first is where most people stop.</p>    <div class="table-scroll ledger-mount edge-lit">
       <table class="ledger">
         <thead><tr><th>Level</th><th>CEFR</th><th>Award</th><th>Post-nominal</th><th>Standing</th></tr></thead>
         <tbody>
@@ -980,20 +987,22 @@
         </tbody>
       </table>
     </div>
+    </div>
   </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Honours</span>
-      <h2>Adopted, and applied to nobody.</h2>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">II</span>
+      <span class="leaf__label">Honours</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>Adopted, and applied to nobody.</h2>
       <p class="lede">The scheme below was adopted by the Executive on 14 August 2026, subject to
         ratification by the Academic Senate once that body has appointed members. It is in force.
         It has been applied to no one, because no one has yet been assessed &mdash; and those are
-        different statements.</p>
-    </div>
-    <div class="table-scroll">
+        different statements.</p>    <div class="table-scroll ledger-mount edge-lit">
       <table class="ledger">
         <thead><tr><th>Honour</th><th>Overall</th><th>Skill floor</th></tr></thead>
         <tbody>
@@ -1007,31 +1016,34 @@
     </div>
     <p class="form-note">No academic distinction of any kind has been conferred on anyone. The
       record that would hold them is empty, and this page is generated from it.</p>
+    </div>
   </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Why Nothing Has Been Conferred</span>
-      <h2>The missing person, not the missing paperwork.</h2>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">III</span>
+      <span class="leaf__label">Why Nothing Has Been Conferred</span>
     </div>
-    <div class="grid grid--3">
-      <div class="card card--dark">
+    <div class="leaf__body reveal">    <h2>The missing person, not the missing paperwork.</h2>    <div class="grid grid--3">
+      <div class="card card--dark reveal edge-lit aurum aurum--hover">
         <span class="card__num">The reason</span>
         <h3>No External Examiner is appointed</h3>
         <p>An external examiner exists to be outside the College &mdash; to confirm that its standards are what it says they are, by someone with nothing to gain from the answer. Conferring an award without one would make the award worth less, not more, and would have to be undone rather than upgraded later.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card card--dark reveal edge-lit aurum aurum--hover">
         <span class="card__num">The consequence</span>
         <h3>No graduates, and no graduate statistics</h3>
         <p>The College publishes no completion rates, employment outcomes or graduate numbers, because there are none. Every figure of that kind on a new institution&rsquo;s website is either borrowed or invented.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card card--dark reveal edge-lit aurum aurum--hover">
         <span class="card__num">The commitment</span>
         <h3>The order will not be reversed</h3>
         <p>The examiner is appointed first and awards are conferred after. Doing it the other way would be cheaper, faster, and would permanently compromise every credential the College ever issues.</p>
       </div>
+    </div>
     </div>
   </div>
 </section>
@@ -1040,8 +1052,8 @@
   <div class="container reveal">
     <h2>See how the standard is set.</h2>
     <div class="btn-row u-center">
-      <a href="/governance/#quality" class="btn btn--gold">Quality Assurance</a>
-      <a href="/students/academic-record/" class="btn btn--outline">Your Academic Record</a>
+      <a href="/governance/#quality" class="btn btn--gold magnetic aurum aurum--twin">Quality Assurance</a>
+      <a href="/students/academic-record/" class="btn btn--outline magnetic">Your Academic Record</a>
     </div>
   </div>
 </section>

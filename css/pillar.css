@@ -1,11 +1,24 @@
 /* =========================================================
    WorldWide English College — London Campus
-   THE COLLEGE PILLAR
+   THE PILLAR INSTRUMENT
    ---------------------------------------------------------
-   Loaded only on /about/, /about/careers/ and their Arabic
-   editions, via the `extraCss` key on those manifest entries.
-   Everything reusable lives in css/brand.css; this file is
-   composition only, so the other 84 pages never download it.
+   The shared chrome for a PILLAR PAGE and its sub-pages: a
+   masthead, numbered leaves with a rubric in the margin, a
+   two-mark register, struck panels and a colophon. Loaded via
+   the `extraCss` key on the manifest entries that want it, so
+   pages that do not are unaffected.
+
+   IT WAS css/college.css AND WAS RENAMED, because none of it
+   was ever about The College. It was written for that pillar
+   first and every component in it — leaf, register, tenets,
+   separation, colophon — describes a bound institutional
+   document rather than a subject. The Students pillar needs
+   exactly the same instrument, so duplicating five hundred
+   lines to get it would have been the wrong answer twice.
+
+   A pillar that wants an accent of its own adds a SECOND
+   stylesheet after this one (css/students.css does), rather
+   than forking this file.
 
    WHY THIS IS NOT css/home.css WITH DIFFERENT COLOURS.
 

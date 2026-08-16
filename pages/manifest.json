@@ -19,7 +19,7 @@
     "description": "Who Worldwide English College is: its vision, mission and educational philosophy, how it is organised, and its institutional status stated plainly.",
     "contentFile": "about.html",
     "extraCss": [
-      "/css/college.css"
+      "/css/pillar.css"
     ],
     "lang": "en",
     "dir": "ltr",
@@ -124,7 +124,7 @@
     "description": "رؤية ورسالة والقيم الجوهرية والوضع المؤسسي الصادق للكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن.",
     "contentFile": "about.ar.html",
     "extraCss": [
-      "/css/college.css"
+      "/css/pillar.css"
     ],
     "lang": "ar",
     "dir": "rtl",
@@ -302,7 +302,7 @@
     "description": "Working at Worldwide English College: the posts the College is seeking to fill, what each one unblocks, and how to express interest.",
     "contentFile": "about-careers.html",
     "extraCss": [
-      "/css/college.css"
+      "/css/pillar.css"
     ],
     "lang": "en",
     "dir": "ltr",
@@ -324,6 +324,10 @@
     "title": "Students &mdash; Worldwide English College",
     "description": "What a WEC-LC student meets: the platform, the assessment scheme, the academic record, and the rules that govern all three.",
     "contentFile": "students.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
     "lang": "en",
     "dir": "ltr",
     "contents": true,
@@ -335,6 +339,10 @@
     "title": "How You Are Assessed &mdash; Worldwide English College",
     "description": "The four language skills, the six competencies, published rubrics, and the threshold the WEC-LC platform enforces today.",
     "contentFile": "students-assessment.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/students/assessment/"
@@ -345,6 +353,10 @@
     "title": "Your Academic Record &mdash; Worldwide English College",
     "description": "What WEC-LC records about a student, who can see it, what the student controls, and how a third party verifies it.",
     "contentFile": "students-record.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/students/academic-record/"
@@ -355,6 +367,10 @@
     "title": "Awards &amp; Honours &mdash; Worldwide English College",
     "description": "The six WEC-LC awards, their post-nominals, the adopted honours scheme, and why no award has yet been conferred on anyone.",
     "contentFile": "students-awards.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/students/awards/"
@@ -365,6 +381,10 @@
     "title": "Academic Integrity &mdash; Worldwide English College",
     "description": "The WEC-LC position on work that is not the learner’s own: assessment design rather than detection software, and the adopted procedure for a suspected breach.",
     "contentFile": "students-integrity.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/students/integrity/"
@@ -375,6 +395,10 @@
     "title": "Academic Regulations &mdash; Worldwide English College",
     "description": "Progression, resits, academic standing and appeals at WEC-LC, separated into when each rule took effect and on whose authority.",
     "contentFile": "students-regulations.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
     "lang": "en",
     "dir": "ltr",
     "altHref": "/ar/students/regulations/"
@@ -424,6 +448,10 @@
     "title": "كيف يتم تقييمك — الكلية العالمية للغة الإنجليزية",
     "description": "المهارات اللغوية الأربع، والمعايير المنشورة قبل التقييم، والعتبة التي تطبقها المنصة اليوم.",
     "contentFile": "students-assessment.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/students/assessment/"
@@ -434,6 +462,10 @@
     "title": "الشهادات والمراتب — الكلية العالمية للغة الإنجليزية",
     "description": "شهادات المستويات الستة ورموزها، والمراتب المعتمدة، ولماذا لم تُمنح شهادة لأحد بعد.",
     "contentFile": "students-awards.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/students/awards/"
@@ -573,6 +605,10 @@
     "title": "الحياة الطلابية — الكلية العالمية للغة الإنجليزية",
     "description": "ما تعنيه الدراسة في الكلية: كيف تُقيَّم، وسجلك الأكاديمي، ومعمل الاستماع، والدعم المتاح وما لا تقدمه الكلية.",
     "contentFile": "students.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/students/",
@@ -595,6 +631,10 @@
     "title": "سجلك الأكاديمي — الكلية العالمية للغة الإنجليزية",
     "description": "ما تسجّله الكلية عن الطالب، ومن يستطيع رؤيته، وما الذي يتحكم فيه الطالب، وكيف تتحقق جهة ثالثة منه.",
     "contentFile": "students-record.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/students/academic-record/"
@@ -605,6 +645,10 @@
     "title": "النزاهة الأكاديمية — الكلية العالمية للغة الإنجليزية",
     "description": "موقف الكلية من العمل الذي ليس من إنتاج المتعلم: تصميم التقييم بدل برمجيات الكشف، والإجراء المعتمد عند الاشتباه في مخالفة.",
     "contentFile": "students-integrity.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/students/integrity/"
@@ -615,6 +659,10 @@
     "title": "اللوائح الأكاديمية — الكلية العالمية للغة الإنجليزية",
     "description": "الترقّي وإعادة التقييم والوضع الأكاديمي والاستئناف في الكلية، مفصولة بحسب متى دخلت كل قاعدة حيز النفاذ وبأي سلطة.",
     "contentFile": "students-regulations.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/students/regulations/"
@@ -636,7 +684,7 @@
     "description": "المناصب الثلاثة التي تحتاجها الكلية فعلًا، وما الذي يفتحه كل منها، وما الذي ينضم إليه المرشح بالضبط.",
     "contentFile": "about-careers.ar.html",
     "extraCss": [
-      "/css/college.css"
+      "/css/pillar.css"
     ],
     "lang": "ar",
     "dir": "rtl",

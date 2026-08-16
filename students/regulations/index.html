@@ -26,6 +26,8 @@
 <link rel="stylesheet" href="/css/brand.css">
 <link rel="stylesheet" href="/css/atelier.css">
 <link rel="stylesheet" href="/css/pages.css">
+<link rel="stylesheet" href="/css/pillar.css">
+<link rel="stylesheet" href="/css/students.css">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
@@ -950,51 +952,58 @@
 </header>
 
 <main id="main">
-<section class="page-hero section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">Students</span>
-    <h1 data-split>Academic regulations.</h1>
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></p>
+
+    <p class="masthead__eyebrow">Students</p>
+    <h1>Academic regulations.</h1>
     <p class="lede">The rules that govern progression and standing. All of them are in force. The page keeps them in two groups because they took effect at different times, and a student is entitled to see which rule arrived when.</p>
-    
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
   </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">In Force</span>
-      <h2>Rules operating today.</h2>
+<section class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">I</span>
+      <span class="leaf__label">In Force</span>
     </div>
-    <div class="grid grid--3">
-      <div class="card">
+    <div class="leaf__body reveal">    <h2>Rules operating today.</h2>    <div class="grid grid--3">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">Progression</span>
         <h3>One level at a time</h3>
         <p>A level opens when the level before it is completed. This applies whether you paid per level or for the whole programme &mdash; nothing is withheld from you; a level simply opens when you are ready for it.</p>
       </div>
-      <div class="card">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">Completion</span>
         <h3>70% to complete a module</h3>
         <p>The threshold the platform applies. It is held in configuration rather than in code, so changing it is a recorded decision.</p>
       </div>
-      <div class="card">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">Confirmation</span>
         <h3>A person confirms a level is finished</h3>
         <p>There is no automated grading engine. A member of staff confirms completion, which then opens the next level. The College says so rather than implying automation it does not have.</p>
       </div>
     </div>
+    </div>
   </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Also In Force</span>
-      <h2>Adopted on 14 August 2026.</h2>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">II</span>
+      <span class="leaf__label">Also In Force</span>
+    </div>
+    <div class="leaf__body reveal">    <h2>Adopted on 14 August 2026.</h2>
       <p class="lede">These were carried as drafted recommendations for months. They are now
         decisions of the Executive, in force, and the academic ones are subject to ratification
-        by the Academic Senate once it has appointed members.</p>
-    </div>
-    <div class="table-scroll">
+        by the Academic Senate once it has appointed members.</p>    <div class="table-scroll ledger-mount edge-lit">
       <table class="ledger">
         <thead><tr><th>Rule</th><th>Proposal</th></tr></thead>
         <tbody>
@@ -1005,27 +1014,29 @@
         </tbody>
       </table>
     </div>
+    </div>
   </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Academic Standing</span>
-      <h2>Three states, and one rule that overrides them.</h2>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">III</span>
+      <span class="leaf__label">Academic Standing</span>
     </div>
-    <div class="grid grid--3">
-      <div class="card card--dark">
+    <div class="leaf__body reveal">    <h2>Three states, and one rule that overrides them.</h2>    <div class="grid grid--3">
+      <div class="card card--dark reveal edge-lit aurum aurum--hover">
         <span class="card__num">In Good Standing</span>
         <h3>Meeting requirements</h3>
         <p>The ordinary state, and the one nobody needs to think about.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card card--dark reveal edge-lit aurum aurum--hover">
         <span class="card__num">Under Review</span>
         <h3>Two failed summatives, or a flagged review</h3>
         <p>Triggers a tutorial, not a sanction. The purpose of noticing that someone is struggling is to reach them, and a penalty reaches nobody.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card card--dark reveal edge-lit aurum aurum--hover">
         <span class="card__num">Suspended Progression</span>
         <h3>Pending resolution of an integrity matter</h3>
         <p>Progression pauses; access does not stop. It is the narrowest measure that resolves the situation.</p>
@@ -1037,26 +1048,29 @@
         That is partly principle and partly plain sense: each of those would carry contractual
         and consumer-protection weight the College has not taken on and does not intend to.</p>
     </div>
+    </div>
   </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Appeals</span>
-      <h2>What you can do, and what does not exist yet.</h2>
+<section class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">IV</span>
+      <span class="leaf__label">Appeals</span>
     </div>
-    <div class="grid grid--2">
-      <div class="card">
+    <div class="leaf__body reveal">    <h2>What you can do, and what does not exist yet.</h2>    <div class="grid grid--2">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">Exists</span>
         <h3>A written answer from a person</h3>
         <p>Challenge a mark, a decision or a piece of feedback by writing to the College, and you will receive a written response with reasons. Every such exchange is kept on the record.</p>
       </div>
-      <div class="card">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">Does not exist</span>
         <h3>An independent stage</h3>
         <p>There is no body to escalate to. Both of the College&rsquo;s academic bodies stand at zero appointed members, so an &ldquo;independent&rdquo; appeal would currently be the same people reconsidering. Publishing an appeals procedure with no independent stage would be publishing a formality.</p>
       </div>
+    </div>
     </div>
   </div>
 </section>
@@ -1065,8 +1079,8 @@
   <div class="container reveal">
     <h2>See who is meant to hear an appeal.</h2>
     <div class="btn-row u-center">
-      <a href="/governance/" class="btn btn--gold">Governance</a>
-      <a href="/students/#support" class="btn btn--outline">Support</a>
+      <a href="/governance/" class="btn btn--gold magnetic aurum aurum--twin">Governance</a>
+      <a href="/students/#support" class="btn btn--outline magnetic">Support</a>
     </div>
   </div>
 </section>

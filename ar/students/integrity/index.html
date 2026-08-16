@@ -25,6 +25,8 @@
 <link rel="stylesheet" href="/css/brand.css">
 <link rel="stylesheet" href="/css/atelier.css">
 <link rel="stylesheet" href="/css/pages.css">
+<link rel="stylesheet" href="/css/pillar.css">
+<link rel="stylesheet" href="/css/students.css">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
@@ -930,113 +932,125 @@
 </header>
 
 <main id="main">
-<section class="page-hero section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">الطلاب</span>
-    <h1 data-split>النزاهة الأكاديمية.</h1>
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></p>
+
+    <p class="masthead__eyebrow">الطلاب</p>
+    <h1>النزاهة الأكاديمية.</h1>
     <p class="lede">تتوقع الكلية أن يكون العمل عملك. تقولها مرة واحدة بوضوح، وتُنفق جهدها على
       تقييم يصعب تزييفه بدل برمجيات تحاول الإيقاع بك، ولديها إجراء عند الاشتباه في مخالفة يمنحك
       ردًا واستئنافًا.</p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
   </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">الموقف</span>
-      <h2>تصميمٌ لا كشف.</h2>
-      <p class="lede">هذا موقف مؤسسي مدروس له كلفة، لا سياسة مخففة اللهجة.</p>
+<section class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">الموقف</span>
     </div>
-    <div class="grid grid--2">
-      <div class="card">
+    <div class="leaf__body reveal">    <h2>تصميمٌ لا كشف.</h2>
+      <p class="lede">هذا موقف مؤسسي مدروس له كلفة، لا سياسة مخففة اللهجة.</p>    <div class="grid grid--2">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">المنطق</span>
         <h3>الكشف سباق تسلح تخسره المؤسسة</h3>
         <p>كل نظام مبني على الإيقاع بالناس يعتمد على التقدم على أدوات تتحسن شهريًا ولا تكلف شيئًا. المؤسسة التي تقوم نزاهتها على الكشف راهنت على سباق لن تربحه. أما التي تتطلب تقييماتها حضور شخصٍ مسؤول فليست في السباق أصلًا.</p>
       </div>
-      <div class="card">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">الكلفة</span>
         <h3>أغلى في التشغيل</h3>
         <p>المناقشة الحية والكلام المسجل يأخذان وقت الموظفين؛ وماسح الانتحال يأخذ اشتراكًا. تقبل الكلية الترتيب الأغلى لأن الأرخص لا يعمل.</p>
       </div>
     </div>
+    </div>
   </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">ما يجعله صعب التزييف</span>
-      <h2>أربع سمات في نظام التقييم.</h2>
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٢</span>
+      <span class="leaf__label">ما يجعله صعب التزييف</span>
     </div>
-    <div class="grid grid--4">
-      <div class="card">
+    <div class="leaf__body reveal">    <h2>أربع سمات في نظام التقييم.</h2>    <div class="grid grid--4">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">مُدافَع عنه</span>
         <h3>المشروع الختامي يُناقَش حيًا</h3>
         <p>المتعلم الذي لم ينتج العمل لا يستطيع الدفاع عنه، وإثبات ذلك لا يحتاج أداة كشف — بل محادثة.</p>
       </div>
-      <div class="card">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">منطوق</span>
         <h3>كلام مسجل في كل مستوى</h3>
         <p>تقييمات التحدث هي صوتك. واستبدالها يتطلب استبدال إنسان.</p>
       </div>
-      <div class="card">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">تراكمي</span>
         <h3>ملف يتطور</h3>
         <p>التطور عبر الأشهر مرئي في الملف، والانقطاع المفاجئ في الصوت واضح لأي قارئ دون أي أداة.</p>
       </div>
-      <div class="card">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">تطبيقي</span>
         <h3>مهام لا موضوعات إنشاء</h3>
         <p>التقييمات تطلب منك فعل شيء في موقف، لا إنتاج نثر في موضوع — وهو بالضبط ما تجيب عنه الأدوات التوليدية بأسهل ما يكون.</p>
       </div>
     </div>
+    </div>
   </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">عن أدوات الذكاء الاصطناعي</span>
-      <h2>تُقال بوضوح، لأنك ستستخدمها.</h2>
+<section class="leaf section--dark grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٣</span>
+      <span class="leaf__label">عن أدوات الذكاء الاصطناعي</span>
     </div>
-    <div class="grid grid--2">
-      <div class="card card--dark">
+    <div class="leaf__body reveal">    <h2>تُقال بوضوح، لأنك ستستخدمها.</h2>    <div class="grid grid--2">
+      <div class="card card--dark reveal edge-lit aurum aurum--hover">
         <span class="card__num">الحد</span>
         <h3>العمل المسلَّم يجب أن يكون عملك</h3>
         <p>العمل الذي تسلّمه للتقييم يجب أن يكون من إنتاجك أنت. هذه هي القاعدة كلها، وتنطبق على الأداة التوليدية تمامًا كما تنطبق على صديق يكتبه عنك.</p>
       </div>
-      <div class="card card--dark">
+      <div class="card card--dark reveal edge-lit aurum aurum--hover">
         <span class="card__num">ليس حظرًا للأدوات</span>
         <h3>لأن الحظر غير قابل للإنفاذ وغير صادق</h3>
         <p>البحث عن كلمة، والتحقق من عبارة، وطلب شرح — هذه دراسة. لا تدّعي الكلية مراقبتها ولا تتوعّظ فيها. ما تفعله هو التقييم بطرائق يكفّ فيها الفارق عن أن يهم.</p>
       </div>
     </div>
+    </div>
   </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">عند الاشتباه في مخالفة</span>
-      <h2>الإجراء، المعتمد في 14 أغسطس 2026.</h2>
+<section class="leaf section--light grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">٤</span>
+      <span class="leaf__label">عند الاشتباه في مخالفة</span>
     </div>
-    <div class="grid grid--4">
-      <div class="card">
+    <div class="leaf__body reveal">    <h2>الإجراء، المعتمد في 14 أغسطس 2026.</h2>    <div class="grid grid--4">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">أولًا</span>
         <h3>يُعرض عليك أولًا</h3>
         <p>المخالفة المشتبه بها تُعرض على المتعلم قبل أي قرار، كتابةً، بما هو مدّعى وما يستند إليه. القرار المتخذ دون ذلك غير قابل للدفاع عنه — أمامك، أو أمام أي مراجع لاحق.</p>
       </div>
-      <div class="card">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">ثانيًا</span>
         <h3>تردّ أنت</h3>
         <p>ردك جزء من السجل ويُنظر فيه قبل القرار لا بعده. لا توجد مرحلة يُتوصل فيها إلى نتيجة ثم تُشرح لك.</p>
       </div>
-      <div class="card">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">ثالثًا</span>
         <h3>المجلس يقرر</h3>
         <p>القرار وسببه والدليل المعتمد تُسجَّل معًا. النتيجة بلا سبب مسجل لا يمكن استئنافها، مما يجعل الاستئناف شكليًا.</p>
       </div>
-      <div class="card">
+      <div class="card reveal edge-lit edge-lit--light aurum aurum--hover">
         <span class="card__num">رابعًا</span>
         <h3>لك أن تستأنف</h3>
         <p>أمام شخص لم يشارك في القرار الأصلي. هذا هو الجزء الذي يجعل للبقية معنى، وليس إضافة اختيارية.</p>
@@ -1050,6 +1064,7 @@
         يُدرَّس أحد؛ الإجراء موجود قبل أول ادعاء لا بعده، وهو الترتيب الوحيد الذي يكون به
         عادلًا.</p>
     </div>
+    </div>
   </div>
 </section>
 
@@ -1057,8 +1072,8 @@
   <div class="container reveal">
     <h2>انظر كيف تُصمَّم التقييمات.</h2>
     <div class="btn-row u-center">
-      <a href="/ar/students/assessment/" class="btn btn--gold">كيف يتم تقييمك</a>
-      <a href="/ar/students/regulations/" class="btn btn--outline">اللوائح الأكاديمية</a>
+      <a href="/ar/students/assessment/" class="btn btn--gold magnetic aurum aurum--twin">كيف يتم تقييمك</a>
+      <a href="/ar/students/regulations/" class="btn btn--outline magnetic">اللوائح الأكاديمية</a>
     </div>
   </div>
 </section>
