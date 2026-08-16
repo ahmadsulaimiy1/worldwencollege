@@ -1320,6 +1320,68 @@ section { position: relative; }
    identical contrast problem in the identical context. */
 .section--light .card__num, .section--paper .card__num { color: var(--red); }
 
+/* -------------------- The badge dome --------------------
+   A struck disc, not a floating glyph — bevel above, shadow below,
+   a gold hairline rim. Global so any card, on any page, that wants
+   an icon has a surface to give it rather than empty air above a
+   heading. --dark is the same recipe recut for a card--dark ground. */
+.badge-dome {
+  width: 52px; height: 52px; border-radius: var(--r-md);
+  display: grid; place-items: center; margin-bottom: 14px;
+  background: radial-gradient(circle at 32% 24%, #fff 0%, var(--paper) 55%, var(--stone) 100%);
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.9),
+    inset 0 -3px 5px rgba(20,20,10,.12),
+    0 6px 14px -9px rgba(20,20,10,.4),
+    0 0 0 1px rgba(199,162,74,.38);
+  transition: transform var(--dur-med) var(--ease-premium), box-shadow var(--dur-med) var(--ease-premium);
+}
+.badge-dome .icon { width: 24px; height: 24px; filter: drop-shadow(0 1px 1px rgba(20,20,10,.14)); }
+.badge-dome--sm { width: 44px; height: 44px; border-radius: var(--r-sm); margin-bottom: 12px; }
+.badge-dome--sm .icon { width: 20px; height: 20px; }
+.card:hover .badge-dome, .audience:hover .badge-dome, .region:hover .badge-dome {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.95),
+    inset 0 -3px 5px rgba(20,20,10,.14),
+    0 9px 18px -9px rgba(20,20,10,.46),
+    0 0 0 1px rgba(199,162,74,.55);
+}
+.badge-dome--dark {
+  background: radial-gradient(circle at 32% 24%, rgba(255,255,255,.16) 0%, rgba(18,28,50,.65) 55%, rgba(6,12,26,.85) 100%);
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.16),
+    inset 0 -3px 5px rgba(0,0,0,.5),
+    0 6px 14px -9px rgba(0,0,0,.55),
+    0 0 0 1px rgba(199,162,74,.42);
+}
+.badge-dome--dark .icon { color: var(--gold); filter: drop-shadow(0 1px 1px rgba(0,0,0,.4)); }
+.card--dark:hover .badge-dome--dark {
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.22),
+    inset 0 -3px 5px rgba(0,0,0,.55),
+    0 9px 18px -9px rgba(0,0,0,.6),
+    0 0 0 1px rgba(199,162,74,.6);
+}
+@media (prefers-reduced-motion: reduce) {
+  .badge-dome, .card:hover .badge-dome, .audience:hover .badge-dome, .region:hover .badge-dome { transform: none; transition: none; }
+}
+
+/* -------------------- The click light --------------------
+   A one-shot ring of light struck from the point a reader presses,
+   positioned and removed by js/motion.js. No CSS-only fallback —
+   a ring with nothing to trigger it is a decoration for nobody. */
+.click-ring {
+  position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  border-radius: 50%; pointer-events: none; z-index: 6;
+  background: radial-gradient(circle, rgba(255,246,218,.95) 0%, rgba(212,175,55,.6) 42%, transparent 74%);
+  animation: click-ring-expand .65s var(--ease-premium) forwards;
+}
+@keyframes click-ring-expand {
+  from { transform: scale(0); opacity: .95; }
+  to   { transform: scale(16); opacity: 0; }
+}
+
 /* -------------------- Faculty roster -------------------- */
 /* The credentials line sits between the name and the specialism, so it
    needs to read as metadata rather than as body copy — smaller, softer,

@@ -640,7 +640,7 @@
      ------------------------------------------------------------------- */
   (function clickLight() {
     if (prefersReduced()) return;
-    var SEL = '.audience, .region, .case, .principle';
+    var SEL = '.audience, .region, .case, .principle, [data-section="academics"] .card, [data-section="study"] .card';
 
     document.addEventListener('pointerdown', function (e) {
       var host = e.target instanceof Element ? e.target.closest(SEL) : null;
