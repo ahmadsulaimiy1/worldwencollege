@@ -907,3 +907,17 @@ body[data-section] {
 .site-header.is-condensed .brand__est { opacity: 0; max-height: 0; overflow: hidden; }
 
 @media (max-width: 1180px) { .brand__est { display: none; } }
+
+/* --------------------------------------------- the topbar at phone width
+   The right-hand group grew a fourth item when the portal was added, and
+   at 390px it ran 37px past the viewport and scrolled every page of the
+   site sideways again — the same failure the lockup caused, from the
+   other end of the bar.
+
+   Calendar, Verify and Sign in all appear in the mobile drawer, so below
+   700px the bar keeps only what the drawer does not carry: the
+   personalisation control and the College's name in Arabic. */
+
+@media (max-width: 700px) {
+  .topbar__right > .topbar__item:not(.topbar__pref) { display: none; }
+}

@@ -245,7 +245,7 @@ ${read(path.join(PARTIALS, 'footer.html')).trimEnd()}
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
 <script src="/js/rusukh-clock.js" defer></script>
-<script src="/js/rusukh-atelier.js" defer></script>
+<script src="/js/rusukh-atelier.js" defer></script>${(entry.scripts || []).map(function (src) { return '\n<script src="' + src + '" defer></script>'; }).join('')}
 </body>
 </html>
 `;

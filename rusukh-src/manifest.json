@@ -102,5 +102,20 @@
     "title": "Contact — Dār al-Rusūkh",
     "description": "The Registry, the Bursary, the Academic Council and the Foundation, with hours of business in West Africa Time.",
     "contentFile": "contact.html"
+  },
+  {
+    "slug": "riwaq",
+    "output": "riwaq/index.html",
+    "nav": "riwaq",
+    "title": "The Riwāq — Dār al-Rusūkh",
+    "description": "The College's learning portal: the Ḥifẓ ledger across all 604 pages of the muṣḥaf, the murājaʿah scheduler, recitation submission, the correction ledger and ijāzah readiness.",
+    "contentFile": "riwaq.html",
+    "extraCss": [
+      "/css/dashboard.css",
+      "/css/riwaq.css"
+    ],
+    "scripts": [
+      "/js/riwaq.js"
+    ]
   }
 ]

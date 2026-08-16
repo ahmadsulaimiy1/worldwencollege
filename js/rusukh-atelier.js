@@ -354,6 +354,11 @@
 
   /* ------------------------------------------------------------------ */
 
+  // The portal re-renders its shell on every view change, which replaces
+  // the node the Hijrī date was written into. Exposing the renderer lets
+  // it ask for the date again rather than duplicating the conversion.
+  window.__rusukhDates = renderDates;
+
   function tick() { renderPrayer(); renderNow(); }
 
   function start() {

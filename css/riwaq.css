@@ -1,0 +1,336 @@
+/* =========================================================================
+   THE RIWĀQ — the learning portal's layer.
+   -------------------------------------------------------------------------
+   Sits on css/dashboard.css, which supplies the app shell, panels, stat
+   tiles, status pills and progress meters. Three of that file's rules
+   carry WEC-LC's identity rather than its structure and are corrected
+   here: the sidebar is pinned to a topbar 41px tall (ours is taller and
+   carries a prayer band beneath it), and panel links and meters are drawn
+   in oxblood, which has no meaning in this palette.
+
+   Everything else below is the ḥifẓ-specific instrumentation — the triad,
+   the muṣḥaf ledger, the murājaʿah scheduler, the correction ledger —
+   which no general learning system has an equivalent for.
+   ========================================================================= */
+
+/* ------------------------------------------------- inherited corrections */
+
+.app-sidebar {
+  background: var(--oxford);
+  /* The site header is sticky and measures its own height into
+     --header-h (js/motion.js). Pinning the sidebar to 0 would slide it
+     under the header; pinning it to a constant would break the moment
+     the header condenses. */
+  top: var(--header-h, 92px);
+  height: calc(100vh - var(--header-h, 92px));
+  border-right: 1px solid rgba(199, 162, 74, .22);
+}
+
+.panel__head a { color: var(--royal-blue); }
+.panel__head a:hover { color: var(--gold-antique); }
+.progress-meter__fill { background: linear-gradient(90deg, var(--royal-blue), var(--sapphire)); }
+.stat-tile__value { color: var(--royal-blue); }
+.app-student__avatar { background: var(--royal-blue); color: var(--gold-champagne); }
+
+.preview-banner {
+  background: var(--midnight);
+  color: var(--gold-soft);
+  border-bottom: 1px solid rgba(199, 162, 74, .3);
+  text-align: center;
+  padding: 10px 18px;
+  font-size: .8rem;
+  letter-spacing: .02em;
+}
+
+.app-sidebar__brand { flex-direction: column; align-items: flex-start; gap: 2px; }
+.app-sidebar__brand a {
+  font-family: 'Cinzel', serif; font-size: .96rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--gold-champagne); text-decoration: none;
+}
+.app-sidebar__brand span {
+  font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--steel);
+}
+
+.app-nav { display: flex; flex-direction: column; gap: 2px; }
+.app-nav a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 4px;
+  color: var(--cerulean); text-decoration: none; font-size: .87rem;
+  border-left: 2px solid transparent;
+}
+.app-nav a .icon { width: 16px; height: 16px; flex: 0 0 auto; }
+.app-nav a:hover { background: rgba(39, 80, 143, .26); color: var(--gold-soft); }
+.app-nav a[aria-current="page"] {
+  background: rgba(199, 162, 74, .14);
+  color: var(--gold-champagne);
+  border-left-color: var(--gold-rich);
+}
+.app-sidebar__foot { margin-top: auto; padding-top: 18px; }
+.app-sidebar__foot .btn { width: 100%; text-align: center; }
+
+/* ================================================================ SIGN IN */
+
+.signin {
+  min-height: 78vh;
+  display: grid; place-items: center;
+  padding: clamp(28px, 6vw, 70px) 18px;
+  background:
+    radial-gradient(80% 110% at 78% 4%, var(--sapphire) 0%, rgba(39, 80, 143, 0) 58%),
+    linear-gradient(170deg, var(--midnight), var(--oxford));
+}
+
+.signin__panel {
+  width: min(430px, 100%);
+  padding: clamp(28px, 4vw, 40px);
+  text-align: center;
+}
+
+.signin__crest { width: 56px; height: 56px; color: var(--gold-rich); margin-bottom: 14px; }
+
+.signin__title {
+  font-family: 'Cinzel', serif; font-size: 1.3rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--gold-champagne); margin: 0 0 4px;
+}
+.signin__sub { font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--steel); margin: 0 0 26px; }
+
+.signin form { text-align: left; }
+.signin .btn { width: 100%; margin-top: 6px; }
+
+.signin__error { color: #E8899A; font-size: .82rem; margin: 10px 0 0; min-height: 1em; }
+
+.signin__demo {
+  margin-top: 26px; padding-top: 20px;
+  border-top: 1px solid rgba(199, 162, 74, .26); text-align: left;
+}
+.signin__demo-h {
+  font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--bronze); filter: brightness(1.8); margin: 0 0 10px;
+}
+.signin__as {
+  display: block; width: 100%; text-align: left; cursor: pointer;
+  background: rgba(39, 80, 143, .2); border: 1px solid rgba(110, 147, 196, .26);
+  border-radius: 4px; padding: 10px 13px; margin-bottom: 8px; color: var(--cerulean);
+  font-family: inherit;
+}
+.signin__as:hover { border-color: var(--gold-royal); }
+.signin__as strong { display: block; color: var(--gold-soft); font-size: .84rem; }
+.signin__as span { font-size: .74rem; font-variant-numeric: tabular-nums; }
+
+.signin__note {
+  margin: 20px 0 0; font-size: .74rem; line-height: 1.6; color: var(--steel); text-align: left;
+}
+
+/* ============================================== FIELDS, FORMS, UTILITIES */
+
+.riwaq-field { margin-bottom: 14px; }
+.riwaq-field label {
+  display: block; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--steel); margin-bottom: 6px;
+}
+.riwaq-field input, .riwaq-field select, .riwaq-field textarea {
+  width: 100%; font-family: inherit; font-size: .92rem;
+  background: rgba(10, 20, 40, .35);
+  border: 1px solid rgba(110, 147, 196, .3);
+  color: var(--ivory); padding: 10px 12px; border-radius: 4px;
+}
+.riwaq-field input:focus, .riwaq-field select:focus, .riwaq-field textarea:focus {
+  outline: none; border-color: var(--gold-royal); box-shadow: 0 0 0 3px rgba(199, 162, 74, .16);
+}
+
+.panel .riwaq-field input, .panel .riwaq-field select, .panel .riwaq-field textarea {
+  background: var(--warm-white); color: var(--ink); border-color: var(--stone);
+}
+.panel .riwaq-field label { color: var(--slate); }
+
+.riwaq-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0 18px; }
+.riwaq-form > .btn, .riwaq-form > .riwaq-rec, .riwaq-form > .riwaq-form__status,
+.riwaq-field--wide { grid-column: 1 / -1; }
+
+.riwaq-form__status { font-size: .86rem; color: var(--slate); margin: 12px 0 0; }
+.riwaq-form__status.is-ok { color: var(--emerald); }
+
+.riwaq-rec {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 14px 0 18px; margin-bottom: 6px;
+  border-top: 1px solid var(--stone); border-bottom: 1px solid var(--stone);
+}
+.riwaq-rec__time { font-variant-numeric: tabular-nums; font-size: 1.1rem; color: var(--royal-blue); }
+.riwaq-rec__hint { font-size: .78rem; color: var(--slate); }
+[data-rec-toggle].is-recording { border-color: var(--oxblood); color: var(--oxblood); }
+
+.riwaq-lede { color: var(--slate); line-height: 1.66; margin: 0 0 20px; max-width: 76ch; }
+.riwaq-quiet { font-size: .78rem; color: var(--slate); }
+.riwaq-empty { color: var(--slate); font-size: .9rem; margin: 0; }
+.riwaq-note { color: var(--slate); font-size: .86rem; }
+.riwaq-overdue {
+  font-size: .74rem; font-variant-numeric: tabular-nums;
+  color: var(--oxblood); white-space: nowrap;
+}
+
+.riwaq-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.riwaq-table th, .riwaq-table td {
+  text-align: left; padding: 10px 12px 10px 0;
+  border-bottom: 1px solid var(--stone); vertical-align: middle;
+}
+.riwaq-table thead th {
+  font-size: .66rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--bronze); border-bottom: 1.5px solid var(--gold-royal); font-weight: 700;
+}
+.riwaq-table tbody th { color: var(--royal-blue); font-weight: 700; white-space: nowrap; }
+.riwaq-table tbody tr:hover { background: var(--pearl); }
+.riwaq-table .riwaq-meter { min-width: 110px; }
+
+.app-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px; }
+
+/* ================================================ SABAQ / SABQI / MANZIL */
+
+.riwaq-triad {
+  display: grid; gap: 18px; margin-bottom: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.triad {
+  background: var(--surface, #fff);
+  border: 1px solid var(--stone);
+  border-top: 3px solid var(--gold-royal);
+  border-radius: 10px; padding: 22px 22px 20px;
+}
+.triad.is-sabaq { border-top-color: var(--gold-rich); }
+.triad.is-sabqi { border-top-color: var(--sapphire); }
+.triad.is-manzil { border-top-color: var(--teal); }
+
+.triad__head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.triad__name {
+  font-family: 'Cinzel', serif; font-size: .96rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--royal-blue);
+}
+.triad__ar { font-family: 'Amiri', serif; font-size: 1.2rem; color: var(--bronze); }
+.triad__scope { margin: 10px 0 4px; font-weight: 700; color: var(--ink); font-size: .92rem; }
+.triad__desc { margin: 0 0 14px; font-size: .84rem; color: var(--slate); line-height: 1.55; }
+
+/* =================================================== THE MUṢḤAF LEDGER */
+
+.mushaf {
+  display: flex; flex-wrap: wrap; gap: 2px;
+  padding: 16px; border: 1px solid var(--stone); border-radius: 8px;
+  background: var(--pearl);
+}
+
+.mushaf__juz {
+  flex: 0 0 100%;
+  font-size: .58rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--bronze); margin: 8px 0 2px;
+}
+.mushaf__juz::before { content: 'Juzʾ '; }
+
+.mushaf__pg {
+  width: 9px; height: 12px; border-radius: 1px; display: inline-block;
+  background: var(--stone); border: 1px solid rgba(0, 0, 0, .05);
+  transition: transform .12s ease;
+}
+.mushaf__pg:hover { transform: scale(1.55); }
+
+.mushaf__pg.is-new { background: #DCD6C8; }
+.mushaf__pg.is-manzil { background: var(--sapphire); }
+.mushaf__pg.is-sabqi { background: var(--cerulean); }
+.mushaf__pg.is-sabaq { background: var(--gold-rich); box-shadow: 0 0 0 2px rgba(212, 175, 55, .35); }
+.mushaf__pg.is-itqan { background: var(--emerald); }
+
+.mushaf__key { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px; font-size: .78rem; color: var(--slate); }
+.mushaf__key span { display: inline-flex; align-items: center; gap: 7px; }
+.mushaf__key .mushaf__pg:hover { transform: none; }
+
+/* ==================================================== MURĀJAʿAH INTERVALS */
+
+.riwaq-intervals { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
+.riwaq-interval {
+  border: 1px solid var(--stone); border-left: 3px solid var(--sapphire);
+  border-radius: 6px; padding: 14px 16px; background: var(--pearl);
+}
+.riwaq-interval strong { display: block; color: var(--royal-blue); font-size: 1.02rem; }
+.riwaq-interval span { font-size: .8rem; color: var(--slate); }
+
+/* ====================================================== CORRECTION LEDGER */
+
+.riwaq-corr { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--stone); }
+.riwaq-corr:last-child { border-bottom: 0; }
+.riwaq-corr div { min-width: 0; }
+.riwaq-corr strong { display: block; color: var(--ink); font-size: .9rem; }
+.riwaq-corr span { font-size: .84rem; color: var(--slate); line-height: 1.5; }
+
+.riwaq-corr__kind {
+  align-self: flex-start; white-space: nowrap;
+  font-size: .64rem; letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 9px; border-radius: 2px; border: 1px solid;
+}
+.riwaq-corr__kind.is-harakah   { color: #8A5F0F; border-color: rgba(201,138,22,.4); background: rgba(201,138,22,.1); }
+.riwaq-corr__kind.is-madd      { color: #1D5C63; border-color: rgba(29,92,99,.4);  background: rgba(29,92,99,.1); }
+.riwaq-corr__kind.is-ghunnah   { color: #3E2A56; border-color: rgba(62,42,86,.4);  background: rgba(62,42,86,.1); }
+.riwaq-corr__kind.is-waqf      { color: #1F3D7A; border-color: rgba(31,61,122,.4); background: rgba(31,61,122,.1); }
+.riwaq-corr__kind.is-omission  { color: #A32638; border-color: rgba(163,38,56,.4); background: rgba(163,38,56,.1); }
+.riwaq-corr__kind.is-hesitation{ color: #6E1F2E; border-color: rgba(110,31,46,.4); background: rgba(110,31,46,.1); }
+
+.riwaq-kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.riwaq-kind {
+  border: 1px solid var(--stone); border-radius: 6px; padding: 16px;
+  background: var(--pearl); border-top: 3px solid var(--gold-royal);
+}
+.riwaq-kind strong { display: block; font-family: 'Bodoni Moda', serif; font-size: 1.7rem; color: var(--royal-blue); line-height: 1; }
+.riwaq-kind span { display: block; font-weight: 700; font-size: .84rem; margin: 6px 0 3px; color: var(--ink); }
+.riwaq-kind small { font-size: .76rem; color: var(--slate); line-height: 1.45; }
+
+/* ======================================================= IJĀZAH READINESS */
+
+.riwaq-steps { display: grid; gap: 0; }
+.riwaq-step {
+  display: grid; grid-template-columns: 54px 1fr; gap: 18px;
+  padding: 20px 0; border-bottom: 1px solid var(--stone); opacity: .55;
+}
+.riwaq-step:first-child { border-top: 1px solid var(--gold-royal); }
+.riwaq-step.is-done, .riwaq-step.is-active { opacity: 1; }
+.riwaq-step__n { font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--gold-antique); }
+.riwaq-step h3 { font-size: 1rem; margin: 0 0 4px; color: var(--ink); }
+.riwaq-step p { margin: 0 0 10px; font-size: .86rem; color: var(--slate); }
+.riwaq-step.is-done .riwaq-step__n { color: var(--emerald); }
+
+/* ============================================================ RULES + KV */
+
+.riwaq-rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px 26px; }
+.riwaq-rule__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.riwaq-rule__head span { font-size: .86rem; color: var(--ink); }
+.riwaq-rule__head strong { font-variant-numeric: tabular-nums; color: var(--royal-blue); font-size: .88rem; }
+
+.riwaq-kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 30px; }
+.riwaq-kv__row { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--stone); }
+.riwaq-kv dt { font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--slate); margin: 0; }
+.riwaq-kv dd { margin: 0; font-weight: 600; color: var(--ink); font-size: .9rem; text-align: right; }
+
+/* ---------------------------------------------------------------- narrow */
+
+@media (max-width: 940px) {
+  .app-shell { flex-direction: column; }
+  .app-sidebar { width: 100%; height: auto; position: static; padding: 18px; }
+  .app-nav { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+  .app-nav a { border-left: 0; border-bottom: 2px solid transparent; padding: 8px 10px; }
+  .app-nav a[aria-current="page"] { border-left: 0; border-bottom-color: var(--gold-rich); }
+  .app-sidebar__foot { margin-top: 16px; }
+  .app-sidebar__foot .btn { width: auto; }
+  .app-main { padding: 24px 18px 60px; }
+}
+
+/* -------------------------------------------------------- the sign-out
+   .btn--outline in brand.css is drawn for a light ground — ink text on a
+   hairline border. On the sidebar's oxford it rendered as a dark button
+   on a dark panel: legible to no one, and it is the control a reader most
+   needs to be able to find. */
+
+.app-sidebar .btn--outline {
+  color: var(--gold-soft);
+  border-color: rgba(199, 162, 74, .45);
+  background: rgba(199, 162, 74, .06);
+}
+.app-sidebar .btn--outline:hover {
+  color: var(--oxford);
+  background: var(--gold-soft);
+  border-color: var(--gold-soft);
+}
