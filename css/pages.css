@@ -265,9 +265,32 @@ body[data-section="contact"]    { --hero-accent: 199, 162, 74; }
 [data-section="academics"] .card, [data-section="study"] .card {
   border-radius: var(--r-lg);
   padding: clamp(28px, 2.6vw, 38px);
+  /* A grid row stretches every card to its tallest sibling, which
+     left short-copy cards with a slab of dead air below the last
+     line. Flex column + a closing rule pushed to the true bottom
+     turns that leftover space into a deliberate terminus instead
+     of an accident — every card ends the same way regardless of
+     how much its own copy runs. */
+  display: flex; flex-direction: column;
 }
 [data-section="academics"] .card::after, [data-section="study"] .card::after {
-  display: none;
+  /* brand.css's lit-rim ::after (mask-composite gradient ring) and
+     this file's own corner-bracket ::after both target the same
+     pseudo-element; `all: unset` clears every property either one
+     set — padding, background, mask — so this rule starts from a
+     blank box rather than inheriting whichever property neither
+     override happened to touch. */
+  all: unset;
+  content: ''; display: block;
+  width: 100%; height: 0; margin-top: auto; padding-top: 20px;
+  border-top: 1px solid rgba(199,162,74,.24);
+  opacity: 1;
+}
+[data-section="academics"] .card--dark::after, [data-section="study"] .card--dark::after {
+  border-top-color: rgba(231,201,122,.2);
+}
+[data-section="academics"] .card:hover::after, [data-section="study"] .card:hover::after {
+  border-top-color: rgba(199,162,74,.46);
 }
 
 /* --- Statistics ----------------------------------------------------- */

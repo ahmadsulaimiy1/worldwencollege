@@ -1,0 +1,92 @@
+/* WEC-LC — the admissions application wizard.
+   Loaded only on admissions/apply/ (and its Arabic mirror). Reuses
+   css/brand.css's .form-grid/.field components and css/dashboard.css's
+   .stepper — this file adds only what neither already has: the
+   step-visibility mechanics, the review screen, and the declaration
+   well (adapted from css/pages.css's .declaration, which this
+   standalone app-shell page does not load). */
+
+.wizard-card {
+  background: var(--surface, #fff); border: 1px solid var(--line);
+  border-radius: 14px; padding: clamp(24px, 3vw, 40px);
+  box-shadow: var(--shadow-sm); max-width: 760px; margin: 0 auto;
+}
+
+.wizard-progress-label {
+  font-size: .74rem; letter-spacing: .1em; text-transform: uppercase;
+  font-weight: 700; color: var(--ink-soft); margin: 0 0 18px;
+}
+
+[data-step] legend { padding: 0; margin: 0 0 4px; }
+[data-step] h2 { font-size: 1.3rem; margin: 0 0 6px; }
+[data-step] .step-intro { color: var(--ink-soft); margin: 0 0 24px; font-size: .95rem; }
+
+.field__optional {
+  font-weight: 400; letter-spacing: .04em; text-transform: none;
+  font-size: .74rem; color: var(--ink-soft);
+}
+.field__error {
+  color: var(--red, #7a2234); font-size: .8rem; margin-top: 2px; display: block; min-height: 1.1em;
+}
+
+.wizard-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 12px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line);
+}
+.wizard-nav [data-wizard-back] { visibility: visible; }
+.wizard-step-error {
+  color: var(--red, #7a2234); font-size: .88rem; margin: 12px 0 0; min-height: 1.2em;
+}
+
+/* --- Review step ------------------------------------------------ */
+.review-summary {
+  display: grid; grid-template-columns: minmax(160px, 1fr) 2fr;
+  gap: 4px 20px; margin: 0 0 24px; font-size: .92rem;
+}
+.review-summary dt { color: var(--ink-soft); font-weight: 600; }
+.review-summary dd { margin: 0; color: var(--ink); }
+.review-summary dt, .review-summary dd { padding: 8px 0; border-bottom: 1px solid var(--line); }
+
+/* --- Declaration well (adapted from css/pages.css's .declaration for
+   a page that does not load pages.css) ----------------------------- */
+.declaration {
+  border-radius: 12px; border: 1px solid rgba(199,162,74,.32);
+  background: linear-gradient(168deg, rgba(8,16,34,.06), rgba(31,61,122,.04));
+  padding: clamp(18px, 2vw, 26px); margin-top: 8px;
+}
+.declaration__line {
+  display: flex; align-items: flex-start; gap: 4px;
+  padding: 10px 0; font-size: .9rem; line-height: 1.6; cursor: pointer;
+}
+.declaration__line + .declaration__line { border-top: 1px solid rgba(199,162,74,.2); }
+.declaration__line input[type="checkbox"] {
+  -webkit-appearance: none; appearance: none;
+  width: 44px; height: 44px; flex: 0 0 auto;
+  margin: -11px -11px -11px -11px; cursor: pointer;
+  border: 0; background: transparent center / 22px 22px no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Crect x='.75' y='.75' width='20.5' height='20.5' rx='5' fill='%23fff' stroke='%23C7A24A' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+.declaration__line input[type="checkbox"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Crect x='.75' y='.75' width='20.5' height='20.5' rx='5' fill='%23D4AF37' stroke='%23E7C97A' stroke-width='1.5'/%3E%3Cpath d='M6 11.4l3.6 3.6L16.4 8' fill='none' stroke='%230A1428' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.declaration__line input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--gold-bright); outline-offset: -9px; border-radius: 6px;
+}
+.declaration__note { display: block; margin-top: 4px; font-size: .82rem; color: var(--ink-soft); }
+
+/* --- Status view (shown instead of the wizard once a real
+   application exists) --------------------------------------------- */
+.application-status {
+  max-width: 640px; margin: 0 auto; text-align: center;
+}
+.application-status .status-pill { display: inline-flex; margin-bottom: 16px; }
+.application-status__id {
+  font-family: var(--font-mono, monospace); font-size: .95rem;
+  background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+  padding: 10px 16px; display: inline-block; margin: 12px 0 24px;
+}
+
+[data-wizard-unavailable] {
+  max-width: 640px; margin: 40px auto; text-align: center;
+  color: var(--ink-soft);
+}

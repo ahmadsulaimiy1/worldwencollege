@@ -6,26 +6,30 @@
 
 import { db, newId, jsonResponse, errorResponse, ValidationError, readJsonBody } from '../../_lib/db.js';
 import { notify, notifyStaff } from '../../_lib/notifications/events.js';
+import { requireUser } from '../../_lib/auth/session.js';
+import { markDraftSubmitted } from '../../_lib/admissions/draft.js';
+import { ENUMS, MAX_NAME_LENGTH, MAX_FREE_TEXT } from '../../_lib/admissions/fields.js';
 
 const VALID_SOURCES = ['website', 'manual_bridge', 'referral'];
-const MAX_NAME_LENGTH = 200;
-const MAX_FREE_TEXT = 2000;
 
-// EVERY ENUM HERE MIRRORS A CHECK CONSTRAINT in
-// sql/migrations/017-admissions-application-detail.sql, and mirrors it
-// deliberately rather than trusting the database to reject a bad value.
-// The database WOULD reject it — as an unclassified 500, on a public
-// endpoint with no auth, telling the applicant nothing and the College
-// less. Validating here turns the same bad value into a 422 naming the
-// field. When a constraint changes in that file, it changes here too;
-// tests/admissions-and-currency.test.mjs holds the two together.
-const ENUMS = {
-  purpose:           ['university', 'career', 'government', 'examination', 'business', 'personal'],
-  startPreference:   ['immediately', 'within_3_months', 'within_6_months', 'undecided'],
-  residencyInterest: ['own_city', 'uk_london', 'uk_manchester', 'uk_other', 'undecided'],
-  funding:           ['self', 'employer', 'family', 'scholarship', 'government', 'undecided'],
-  paymentPlan:       ['level_by_level', 'instalments', 'full_pathway', 'undecided'],
-};
+// An Authorization header is accepted but never required — this
+// endpoint predates applicant accounts and must keep working for a
+// visitor who fills it in without ever signing in (the mailto fallback
+// path in docs/api-reference.md's Frontend Integration Pattern assumes
+// exactly that). When a valid session IS present, the application is
+// linked to that account (`user_id`) and the wizard's draft is marked
+// submitted, so /api/admissions/draft can show the applicant their own
+// finished application. An invalid or expired token is treated the
+// same as no token — this is not the place to reject a request over a
+// stale session when the application itself is perfectly valid.
+async function optionalUser(request, env) {
+  if (!request.headers.get('authorization')) return null;
+  try {
+    return await requireUser(request, env);
+  } catch {
+    return null;
+  }
+}
 
 export async function onRequestPost({ request, env }) {
   try {
@@ -33,17 +37,20 @@ export async function onRequestPost({ request, env }) {
     const errors = validate(body);
     if (Object.keys(errors).length) throw new ValidationError('Please check the highlighted fields.', errors);
 
+    const user = await optionalUser(request, env);
     const id = newId('app');
     const t = (v) => (typeof v === 'string' && v.trim() ? v.trim() : null);
     await db(env)
       .prepare(`INSERT INTO applications
-        (id, full_name, email, country, self_assessed_level_id, source,
+        (id, user_id, full_name, email, country, self_assessed_level_id, source,
          phone, city, nationality, is_adult, purpose, start_preference,
          residency_interest, funding, payment_plan, heard_via, notes,
-         privacy_agreed_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+         privacy_agreed_at, residential_address, emergency_contact_name,
+         emergency_contact_relationship, emergency_contact_phone,
+         education_level, education_institution, sponsor_name, sponsor_relationship)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
       .bind(
-        id, body.fullName.trim(), body.email.trim().toLowerCase(),
+        id, user ? user.id : null, body.fullName.trim(), body.email.trim().toLowerCase(),
         body.country || null, body.selfAssessedLevelId || null, body.source || 'website',
         t(body.phone), t(body.city), body.nationality ? body.nationality.toUpperCase() : null,
         body.isAdult ? 1 : 0,
@@ -53,8 +60,14 @@ export async function onRequestPost({ request, env }) {
         // body: a consent timestamp a client can choose is not evidence
         // of anything.
         body.privacyAgreed ? new Date().toISOString() : null,
+        t(body.residentialAddress), t(body.emergencyContactName),
+        t(body.emergencyContactRelationship), t(body.emergencyContactPhone),
+        t(body.educationLevel), t(body.educationInstitution),
+        t(body.sponsorName), t(body.sponsorRelationship),
       )
       .run();
+
+    if (user) await markDraftSubmitted(env, user.id, id);
 
     await notify(env, 'application_received', { to: body.email, name: body.fullName.trim() });
     // The staff alert carries the whole application, not a name and a
@@ -117,7 +130,11 @@ function validate(body) {
       errors[field] = 'Please choose one of the listed options.';
     }
   }
-  for (const field of ['phone', 'city', 'heardVia']) {
+  for (const field of [
+    'phone', 'city', 'heardVia', 'residentialAddress',
+    'emergencyContactName', 'emergencyContactRelationship', 'emergencyContactPhone',
+    'educationInstitution', 'sponsorName',
+  ]) {
     if (typeof body?.[field] === 'string' && body[field].length > MAX_NAME_LENGTH) {
       errors[field] = 'This answer is too long.';
     }
