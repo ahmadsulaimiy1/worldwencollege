@@ -88,6 +88,22 @@
       <p class="lede">This connects directly to Admissions. If our online application system is briefly unreachable, your details open in your email app instead — either way, nothing you've entered is lost.</p>
     </div>
 
+    <div class="application-plate edge-lit">
+      <!-- THE COLOPHON.
+           An application is a document, and a document has a masthead.
+           This is the line that turns a web form into something the
+           applicant treats as an instrument they are signing — the
+           crest, what the document IS, and the reference the College
+           will use when it replies. -->
+      <div class="application-plate__colophon">
+        <svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg>
+        <div>
+          <p class="application-plate__title">Application for Admission</p>
+          <p class="application-plate__sub">The International English Fluency Course &middot; WorldWide English College, London Campus</p>
+        </div>
+        <span class="application-plate__ref">Form <span class="roman-caps">IEFC&nbsp;/&nbsp;A1</span></span>
+      </div>
+
     <form class="form-grid" data-admissions-form
       data-endpoint="/api/admissions/apply"
       data-fallback-email="info@worldwencollege.co.uk"
@@ -302,11 +318,12 @@
         <p class="declaration__oath">The information given above is true and complete to the best of my knowledge.</p>
       </div>
 
-      <div class="field field--full">
-        <button type="submit" class="btn btn--gold" data-submit-btn><span data-btn-label>Submit Application</span></button>
-        <p class="form-note">Prefer email? <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">Write to Admissions directly</a>.</p>
+      <div class="field field--full application-plate__foot">
+        <button type="submit" class="btn btn--gold aurum aurum--twin" data-submit-btn><span data-btn-label>Submit Application</span></button>
+        <p class="form-note">Prefer email? <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry">Write to Admissions directly</a>.</p>
       </div>
     </form>
+    </div>
   </div>
 </section>
 
