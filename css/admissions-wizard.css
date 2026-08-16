@@ -100,7 +100,7 @@
   padding: 10px 16px; display: inline-block; margin: 12px 0 24px;
 }
 
-[data-wizard-unavailable] {
+[data-wizard-unavailable], [data-wizard-load-error] {
   max-width: 640px; margin: 40px auto; text-align: center;
   color: var(--ink-soft);
 }
