@@ -1025,3 +1025,35 @@
   margin: 0 auto 1em; min-height: 1.6em;
   justify-content: center;
 }
+
+/* =========================================================
+   THE HERO STAKE
+   ---------------------------------------------------------
+   The same job css/pillar.css's .masthead__stake does, cut
+   for the flagship: one sentence naming what the READER
+   stands to lose, before a word about the institution.
+
+   The hero opened with what the College is and gave a
+   visitor no reason to keep reading. Everything it said was
+   true and none of it was a reason. This is the reason.
+   ========================================================= */
+.hero__stake {
+  max-width: 48ch;
+  margin: 0 0 1.2em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.14rem, 1rem + .62vw, 1.52rem);
+  line-height: 1.5;
+  color: var(--gold-champagne);
+  text-wrap: balance;
+}
+.hero__stake strong { font-style: normal; font-weight: 600; color: #fff; }
+.hero__stake::after {
+  content: '';
+  display: block; width: 62px; height: 1px;
+  margin: 1em 0 0;
+  background: linear-gradient(90deg, var(--gold-royal), transparent);
+}
+[dir="rtl"] .hero__stake::after {
+  background: linear-gradient(-90deg, var(--gold-royal), transparent);
+}

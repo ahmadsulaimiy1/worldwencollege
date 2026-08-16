@@ -688,3 +688,45 @@
 @media (prefers-reduced-motion: reduce) {
   .creed__item { transition: none; }
 }
+
+/* =========================================================
+   THE STAKE
+   ---------------------------------------------------------
+   One sentence, between the title and the lede, naming what
+   the READER stands to gain or lose. It exists because the
+   mastheads described the College accurately and gave a
+   visitor no reason to care: every one of them opened with
+   what the institution is, and none with what it is FOR.
+
+   A prospectus that only states is a prospectus that has to
+   be believed on trust. The stake is the sentence that earns
+   the next paragraph — so it is set larger than the lede,
+   not smaller, and it is the only italic on the masthead.
+
+   Kept to one sentence, deliberately. Two is a pitch.
+   ========================================================= */
+.masthead__stake {
+  max-width: 46ch;
+  margin: 0 auto 1.1em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.12rem, 1rem + .58vw, 1.46rem);
+  line-height: 1.5;
+  color: var(--gold-champagne);
+  text-wrap: balance;
+}
+.masthead__stake strong {
+  font-style: normal;
+  font-weight: 600;
+  color: #fff;
+}
+/* A hairline beneath, so the stake reads as a standing epigraph
+   rather than as the first line of the lede. */
+.masthead__stake::after {
+  content: '';
+  display: block;
+  width: 54px; height: 1px;
+  margin: .9em auto 0;
+  background: linear-gradient(90deg, transparent, var(--gold-royal), transparent);
+}
+@media (max-width: 560px) { .masthead__stake { max-width: 34ch; } }
