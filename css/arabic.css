@@ -75,7 +75,7 @@
    for a pull quote or a ceremonial line where the leading is generous
    enough to earn it. */
 [dir="rtl"], :lang(ar) {
-  --font-display: 'Cairo', 'Amiri', 'Bodoni Moda', serif;
+  --font-display: 'Cairo', 'Amiri', 'EB Garamond', serif;
   --font-body: 'Cairo', 'Inter', -apple-system, sans-serif;
 }
 
@@ -91,7 +91,7 @@
 :lang(ar) h1, :lang(ar) h2, :lang(ar) h3, :lang(ar) h4,
 [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4,
 [dir="rtl"] .display-1, [dir="rtl"] .display-2, [dir="rtl"] .display-3 {
-  font-family: 'Cairo', 'Amiri', 'Bodoni Moda', serif;
+  font-family: 'Cairo', 'Amiri', 'EB Garamond', serif;
 }
 /* THE CEREMONIAL FACE NEEDS NO OVERRIDE HERE, and one was written and
    then removed, which is worth recording so it is not written again.

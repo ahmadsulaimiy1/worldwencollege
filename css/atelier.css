@@ -981,7 +981,7 @@
      override is written this way: --font-display resolves once against
      :root, so changing the token on a descendant changes nothing. This
      is the same stack that file gives Arabic headings. */
-  font-family: 'Cairo', 'Amiri', 'Bodoni Moda', serif;
+  font-family: 'Cairo', 'Amiri', 'EB Garamond', serif;
   font-size: .82rem;
   font-weight: 700;
   letter-spacing: normal;

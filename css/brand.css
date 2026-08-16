@@ -181,18 +181,27 @@
   /* =====================================================================
      THE FACES
      ---------------------------------------------------------------------
-     --font-display  Bodoni Moda. A Didone: vertical stress, unbracketed
-                     serifs, and a stroke contrast steep enough that at
-                     display size the letterforms read as engraved rather
-                     than written. It replaced Playfair Display, which is
-                     a fine face and the single most-used "elegant" font
-                     on the web — a masthead that a reader has already
-                     seen on ten thousand other sites cannot carry an
-                     institution's authority no matter how well it is set.
-                     Requested VARIABLE on `opsz`; see the note in
-                     scripts/build.js for why that axis is the reason
-                     this face can serve both a 4.6rem headline and a
-                     1.05rem sub-heading.
+     --font-display  EB Garamond. An old-style serif: inclined stress,
+                     bracketed serifs, and moderate stroke contrast — a
+                     face that reads as WRITTEN rather than engraved,
+                     which for an institution that publishes documents
+                     is the correct register.
+
+                     IT REPLACED BODONI MODA on a plain judgement: the
+                     headings were disliked, and the diagnosis was that
+                     the site set every h1 and h2 in a Didone at weight
+                     700. A Didone's whole character is the clash of a
+                     thick stem against a hairline; at 700 across every
+                     page heading on the site that reads as fashion, not
+                     as a college, and the contrast costs legibility at
+                     every size below display. Garamond gives up the
+                     drama and buys back dignity and reading comfort,
+                     which is the trade that was wanted.
+
+                     Weight stays at 700 for h1/h2 — that was a
+                     deliberate choice, and it survives the swap because
+                     Garamond's 700 is a sturdy text bold rather than a
+                     hairline-and-slab collision.
 
      --font-ceremonial  Cinzel. Inscriptional Roman capitals, the letters
                      cut into Trajan's column and inherited by every
@@ -211,13 +220,13 @@
                      around it — not from replacing a workhorse that is
                      doing its job.
 
-     Fallbacks name real Didones (Didot, Bodoni MT) before Georgia, so a
-     machine without webfonts still gets the closest thing it owns
-     rather than jumping to a slab. 'Amiri' stays in every stack as the
-     Arabic backstop — see css/arabic.css, which is what actually holds
-     the line for Arabic. */
-  --font-display:    'Bodoni Moda', 'Didot', 'Bodoni MT', Georgia, 'Amiri', serif;
-  --font-ceremonial: 'Cinzel', 'Trajan Pro', 'Bodoni Moda', Georgia, 'Amiri', serif;
+     Fallbacks name real Garamonds (Garamond, Adobe Garamond Pro) before
+     Georgia, so a machine without webfonts still gets the closest thing
+     it owns rather than jumping to a slab. 'Amiri' stays in every stack
+     as the Arabic backstop — see css/arabic.css, which is what actually
+     holds the line for Arabic. */
+  --font-display:    'EB Garamond', 'Garamond', 'Adobe Garamond Pro', Georgia, 'Amiri', serif;
+  --font-ceremonial: 'Cinzel', 'Trajan Pro', 'EB Garamond', Georgia, 'Amiri', serif;
   --font-body:       'Inter', -apple-system, 'Cairo', sans-serif;
 
   --wrap: 1180px;
@@ -1872,37 +1881,43 @@ ul.check-list li::before {
    ===================================================================== */
 
 /* -------------------- Display typography -------------------- */
-/* SETTING A DIDONE.
+/* SETTING AN OLD-STYLE FACE.
    ---------------------------------------------------------------------
-   Bodoni Moda is not Playfair Display with better manners, and the
-   settings below are not the old ones nudged. A Didone has vertical
-   stress, unbracketed serifs and extreme stroke contrast, and each of
-   those changes how it must be set:
+   These numbers were tuned for a Didone and they SURVIVE the move to
+   EB Garamond, which is worth writing down so nobody 'corrects' them
+   back. Each was set to solve a problem Bodoni had; Garamond either
+   has the same problem more mildly, or the value is right for an
+   unrelated reason.
 
-   1. WEIGHT. The hairlines are genuinely hair-thin, so at 600 on a dark
-      ground the face begins to shimmer and the stems bloom into them.
-      Display sizes take 500 — lighter than Playfair wanted, and the
-      right answer, because the drama in a Didone is the CONTRAST
-      between stem and hairline, not mass. Weight climbs back as the
-      size falls, which the `opsz` axis is doing in parallel.
+   1. WEIGHT. Display sizes take 500-600 and headings take 700. Under
+      Bodoni the low display weights were a rescue — hairlines shimmer
+      on a dark ground and stems bloom into them above 600. Garamond has
+      no such failure, so the same values now read as a deliberate
+      hierarchy instead: size carries the emphasis, weight only marks
+      the difference between a headline and a heading.
 
-   2. TRACKING. Playfair took -.021em at the top of the scale. That is
-      much too tight here: a Didone's serifs are flat, thin and
-      horizontal, so closing the letters up makes adjacent serifs touch
-      and the line reads as though it were underscored. Display-1 sits
-      at -.008em — closed only enough to stop a 5rem line drifting
-      apart, never enough to weld it.
+   2. TRACKING. -.008em at the top of the scale, opening as the size
+      falls. Bodoni needed the restraint because its flat horizontal
+      serifs weld together when closed up. Garamond's serifs are
+      bracketed and angled, so it tolerates more — but an old-style face
+      at 5rem still drifts apart untracked, and this is the same small
+      negative that stops it.
 
-   3. LEADING. Higher contrast makes each line read as a heavier band,
-      so the lines need more air or the block looks striped. 1.04
-      becomes 1.08 at the top of the scale.
+   3. LEADING. 1.08 at the top of the scale. Set for Bodoni because high
+      contrast makes each line read as a heavy band; kept for Garamond
+      because its long ascenders and descenders need the same air for a
+      different reason.
 
    Everything stays clamp()ed, so there is no breakpoint at which a
    headline is the wrong size, and every value moves on one continuous
-   ramp between a phone and a 1440px desktop. The top of the ramp is
-   also raised (4.6rem → 5rem): the previous ceiling was set for a face
-   with a larger x-height, and the same measured cap-height needs more
-   point size in this one. */
+   ramp between a phone and a 1440px desktop. The 5rem ceiling stays:
+   Garamond's cap-height is smaller again than Bodoni's, so if anything
+   it wants that ramp more, and checked against the rendered page it
+   sits right.
+
+   `font-optical-sizing: auto` below is now inert — EB Garamond carries
+   no opsz axis. It is left in place because it costs nothing and is
+   correct the day a face with one is used again. */
 .display-1 {
   font-family: var(--font-display); font-weight: 500;
   font-size: clamp(2.5rem, 1.35rem + 4.9vw, 5rem);

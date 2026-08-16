@@ -187,17 +187,30 @@ const SITE_URL = 'https://www.worldwencollege.co.uk';
 //
 // Three Latin families, each with one job, plus two Arabic families.
 //
-//   Bodoni Moda  — the display face. A Didone, requested VARIABLE on the
-//                  optical-size axis (`opsz 6..96`). That axis is the
-//                  whole reason this face replaced Playfair Display: a
-//                  Didone's hairlines are what make it magnificent at
-//                  64px and illegible at 15px, and `opsz` is the
-//                  typeface's own answer to that — the browser
-//                  interpolates a sturdier cut as the type gets smaller,
-//                  automatically, via `font-optical-sizing: auto`. One
-//                  family therefore covers a 4.6rem masthead and a
-//                  1.05rem sub-heading without either being a
-//                  compromise, which no static face can do.
+//   EB Garamond  — the display face. An old-style serif, requested
+//                  VARIABLE on weight (`wght 400..800`) with a matching
+//                  italic.
+//
+//                  IT REPLACED BODONI MODA, and the reasoning is worth
+//                  keeping because it inverts the reasoning that put
+//                  Bodoni here. Bodoni is a Didone: enormous stroke
+//                  contrast, flat unbracketed serifs. That is what made
+//                  it magnificent at 64px and illegible at 15px, and it
+//                  was carried on the optical-size axis (`opsz 6..96`)
+//                  precisely to rescue it — the browser interpolating a
+//                  sturdier cut as the type got smaller. It worked, and
+//                  it was still a face whose headings read as fashion
+//                  rather than as an institution, at every size.
+//
+//                  EB Garamond needs no such rescue. Its contrast is
+//                  moderate everywhere, so it is legible at 15px and
+//                  dignified at 64px without an axis mediating between
+//                  the two — which is the same property that makes it
+//                  easier to read. It therefore carries NO opsz axis
+//                  (Google returns 400 for the request), and
+//                  `font-optical-sizing: auto` in css/ is now a no-op
+//                  rather than load-bearing. Do not add an opsz range
+//                  to this family; it does not have one.
 //   Cinzel       — ceremonial capitals only. Inscriptional Roman letter-
 //                  forms (the Trajan lineage): the crest lockup, chapter
 //                  numerals, CEFR marks, seals. Rationed hard — it is
@@ -205,10 +218,12 @@ const SITE_URL = 'https://www.worldwencollege.co.uk';
 //   Inter        — everything that is read rather than admired: body,
 //                  UI, labels, tables, forms.
 //
-// Weights are the ones actually set in css/. Bodoni's italic stops at
-// 600 because nothing sets an italic heavier than that; Cinzel asks for
-// two weights because it appears at two sizes and nowhere else.
-const LATIN_FONTS = 'family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600'
+// Weights are the ones actually set in css/ — headings run to 700 and
+// the display sizes sit at 500-600, so the roman range covers 400..700;
+// the italic is used for pull quotes and typed lines and never above
+// 600. Cinzel asks for two weights because it appears at two sizes and
+// nowhere else.
+const LATIN_FONTS = 'family=EB+Garamond:ital,wght@0,400..700;1,400..600'
   + '&family=Cinzel:wght@500;600'
   + '&family=Inter:wght@400;600;700;800';
 const ARABIC_FONTS = '&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700';
@@ -237,7 +252,7 @@ function fontsUrlFor(lang) {
 // parameter returns a face containing only the glyphs asked for, so
 // this costs a few hundred bytes instead of ~40KB. It must be its own
 // request: `text=` applies to every family in the URL it appears in,
-// so folding it into the main one would subset Bodoni and Inter to
+// so folding it into the main one would subset EB Garamond and Inter to
 // six Arabic characters and leave the page with no Latin text at all.
 //
 // Arabic pages get nothing here — they already load Cairo in full.
