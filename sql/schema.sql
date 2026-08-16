@@ -119,10 +119,31 @@ CREATE TABLE applications (
                     CHECK (status IN ('submitted','placement_pending','offer_sent','accepted','enrolled','withdrawn','rejected')),
   source            TEXT NOT NULL DEFAULT 'website' CHECK (source IN ('website','manual_bridge','referral')),
   notes             TEXT,
+  -- The detail the application form collects. Mirrored in
+  -- sql/migrations/017-admissions-application-detail.sql, which carries
+  -- the reasoning for each column and exists for databases created
+  -- before this block did.
+  phone             TEXT,
+  city              TEXT,
+  nationality       TEXT,                -- ISO 3166-1 alpha-2; NOT the same fact as country
+  is_adult          INTEGER,             -- 1 = confirmed 18+
+  purpose           TEXT CHECK (purpose IS NULL OR purpose IN
+                      ('university','career','government','examination','business','personal')),
+  start_preference  TEXT CHECK (start_preference IS NULL OR start_preference IN
+                      ('immediately','within_3_months','within_6_months','undecided')),
+  residency_interest TEXT CHECK (residency_interest IS NULL OR residency_interest IN
+                      ('own_city','uk_london','uk_manchester','uk_other','undecided')),
+  funding           TEXT CHECK (funding IS NULL OR funding IN
+                      ('self','employer','family','scholarship','government','undecided')),
+  payment_plan      TEXT CHECK (payment_plan IS NULL OR payment_plan IN
+                      ('level_by_level','instalments','full_pathway','undecided')),
+  heard_via         TEXT,
+  privacy_agreed_at TEXT,
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   updated_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 CREATE INDEX idx_applications_email ON applications(email);
+CREATE INDEX idx_applications_country ON applications(country);
 CREATE INDEX idx_applications_status ON applications(status);
 
 -- ---------------------------------------------------------------------

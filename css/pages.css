@@ -440,3 +440,228 @@ html { scroll-behavior: smooth; }
 .contents--scrollable .contents__list:focus-within {
   -webkit-mask-image: none; mask-image: none;
 }
+
+/* -------------------- THE APPLICATION FORM -------------------- */
+/* A form a person gives their year to should read as a document, not as
+   a contact box. The sections are numbered in the ceremonial face — the
+   same inscriptional capitals the chapter numerals use — because a
+   numbered section tells an applicant how much is left, which is the
+   single largest determinant of whether a long form is finished. */
+.form-section {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; gap: .8em;
+  margin: clamp(26px, 2.6vw, 40px) 0 2px;
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold-soft);
+}
+.form-section::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, rgba(199,162,74,.4), transparent);
+}
+.form-section:first-of-type { margin-top: 4px; }
+.form-section__num {
+  font-size: .95rem; letter-spacing: .1em; color: var(--gold-rich);
+  min-width: 2.2ch;
+}
+.field__optional {
+  font-weight: 400; letter-spacing: .04em; text-transform: none;
+  font-size: .74rem; color: rgba(247,244,236,.45);
+}
+
+/* THE DECLARATION.
+   Set as a bordered well rather than two loose checkboxes, because it is
+   the part of the form with legal weight and it should look like it.
+   The consent is recorded with a server-side timestamp — see
+   functions/api/admissions/apply.js. */
+.declaration {
+  border-radius: var(--r-md);
+  border: 1px solid rgba(199,162,74,.3);
+  background: linear-gradient(168deg, rgba(8,16,34,.5), rgba(31,61,122,.12));
+  box-shadow: var(--relief-inset);
+  padding: clamp(20px, 2vw, 28px);
+  margin-top: 8px;
+}
+.declaration__line {
+  display: flex; align-items: flex-start; gap: 4px;
+  padding: 10px 0; font-size: .9rem; line-height: 1.6;
+  color: rgba(247,244,236,.86); cursor: pointer;
+}
+.declaration__line + .declaration__line { border-top: 1px solid rgba(199,162,74,.16); }
+/* A 44px CONTROL THAT LOOKS LIKE A 22px ONE.
+   This is the control carrying the form's legal weight, and the browser
+   default is 13px — a target a thumb misses. Sizing the box to 44px and
+   drawing the visible mark inside it as a background image gives the
+   real hit area an accessibility tool and a thumb both measure, without
+   a checkbox the size of a postage stamp.
+   Not `transform: scale()`, which was the obvious alternative and is
+   wrong: transforms change the measured rect too, so a 44px box scaled
+   to look like 22px reports 22px and fails for the same reason the
+   default did. Negative margin keeps the text where the eye expects it. */
+.declaration__line input[type="checkbox"] {
+  -webkit-appearance: none; appearance: none;
+  width: 44px; height: 44px; flex: 0 0 auto;
+  margin: -11px -11px -11px -11px; cursor: pointer;
+  border: 0; background: transparent center / 22px 22px no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Crect x='.75' y='.75' width='20.5' height='20.5' rx='5' fill='rgba(8,16,34,.5)' stroke='%23C7A24A' stroke-width='1.5'/%3E%3C/svg%3E");
+  transition: background-image var(--dur-fast) ease;
+}
+.declaration__line input[type="checkbox"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Crect x='.75' y='.75' width='20.5' height='20.5' rx='5' fill='%23D4AF37' stroke='%23E7C97A' stroke-width='1.5'/%3E%3Cpath d='M6 11.4l3.6 3.6L16.4 8' fill='none' stroke='%230A1428' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.declaration__line input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--gold-bright); outline-offset: -9px; border-radius: var(--r-sm);
+}
+.declaration__line a { color: var(--gold-bright); text-decoration: underline; text-underline-offset: 3px; }
+.declaration__note {
+  display: block; margin-top: 4px;
+  font-size: .82rem; color: rgba(247,244,236,.58);
+}
+.declaration__oath {
+  margin: 16px 0 0; padding-top: 14px;
+  border-top: 1px solid rgba(199,162,74,.24);
+  font-family: var(--font-display); font-style: italic;
+  font-size: .95rem; color: var(--gold-champagne);
+}
+[dir="rtl"] .form-section::after {
+  background: linear-gradient(270deg, rgba(199,162,74,.4), transparent);
+}
+
+/* =========================================================
+   THE APPLICATION PLATE
+   ---------------------------------------------------------
+   The form was a column of controls on the section's bare ground:
+   edge-to-edge inputs, no container, a full-width submit bar. It read
+   as a web form. An application is a DOCUMENT — the applicant is
+   committing a year of their life and signing a declaration at the
+   bottom of it — so it is now mounted the way the ledger and the
+   diagrams are, on a plate with a colophon at its head.
+   ========================================================= */
+.application-plate {
+  position: relative; isolation: isolate;
+  border-radius: var(--r-xl);
+  padding: clamp(24px, 3vw, 48px) clamp(20px, 3vw, 46px) clamp(30px, 3vw, 46px);
+  background: linear-gradient(168deg, rgba(8,16,34,.55), rgba(31,61,122,.14));
+  box-shadow: var(--relief-inset), 0 34px 76px -40px rgba(3,8,20,.95);
+}
+.application-plate__colophon {
+  display: flex; align-items: center; gap: 16px;
+  padding-bottom: 20px; margin-bottom: 6px;
+  border-bottom: 1px solid rgba(199,162,74,.28);
+}
+.application-plate__colophon .icon {
+  width: 38px; height: 38px; flex: 0 0 auto; color: var(--gold-rich);
+}
+.application-plate__title {
+  margin: 0; font-family: var(--font-display); font-weight: 550;
+  font-size: clamp(1.15rem, 1rem + .6vw, 1.5rem); color: #fff;
+  letter-spacing: -.004em; line-height: 1.2;
+}
+.application-plate__sub {
+  margin: 4px 0 0; font-size: .78rem; letter-spacing: .04em;
+  color: rgba(247,244,236,.55);
+}
+/* The reference mark. A document that names itself is a document
+   somebody can quote back at you, which is what an institution's
+   paperwork is for. */
+.application-plate__ref {
+  margin-inline-start: auto; flex: 0 0 auto;
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold-soft); padding: .5em .9em;
+  border: 1px solid rgba(199,162,74,.35); border-radius: var(--r-xs);
+  background: rgba(242,227,192,.06); box-shadow: var(--relief-raised);
+}
+@media (max-width: 640px) {
+  .application-plate__ref { display: none; }
+  .application-plate__colophon .icon { width: 30px; height: 30px; }
+}
+
+/* THE CONTROLS, as struck wells rather than flat boxes.
+   A field is cut INTO the plate — dark hairline on its top edge, light
+   on its floor — which is the reverse of the raised bevel the buttons
+   carry, and the reason the two read as different kinds of object. */
+/* :not() on the checkbox and radio, and it is load-bearing rather than
+   tidy. Without it this rule out-specifies the custom 44px controls
+   below — same specificity, later in the file — and repaints them as
+   plain dark boxes with the gold mark gone. That is exactly what it did
+   on first write, and the screenshot showed two blank squares where the
+   declaration's consent boxes should be. A checkbox is a different kind
+   of control from a text field and must not be swept up with them. */
+.application-plate .field input:not([type="checkbox"]):not([type="radio"]),
+.application-plate .field select,
+.application-plate .field textarea {
+  border-radius: var(--r-sm);
+  background: linear-gradient(180deg, rgba(3,8,20,.5), rgba(3,8,20,.24));
+  border: 1px solid rgba(199,162,74,.22);
+  box-shadow: var(--relief-inset);
+  color: #fff; padding: .85em 1em;
+  transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease,
+              background var(--dur-fast) ease;
+}
+.application-plate .field input::placeholder,
+.application-plate .field textarea::placeholder { color: rgba(247,244,236,.34); }
+.application-plate .field input:hover,
+.application-plate .field select:hover,
+.application-plate .field textarea:hover { border-color: rgba(199,162,74,.42); }
+/* Focus is gold and unmistakable: on a form this long the reader must
+   never have to hunt for where they are. */
+.application-plate .field input:focus,
+.application-plate .field select:focus,
+.application-plate .field textarea:focus {
+  outline: none;
+  border-color: var(--gold-rich);
+  background: linear-gradient(180deg, rgba(3,8,20,.4), rgba(31,61,122,.2));
+  box-shadow: var(--relief-inset), 0 0 0 3px rgba(199,162,74,.22);
+}
+.application-plate .field label {
+  color: var(--gold-soft); font-size: .7rem; letter-spacing: .14em;
+}
+/* THE DECLARATION IS NOT A FIELD LABEL. It inherited `.field label`'s
+   uppercase and set two paragraphs of consent text in small caps —
+   which is the least readable way to present the only text on the form
+   with legal weight, and reads as shouting at the applicant at the
+   moment they are being asked to agree to something. Sentence case,
+   at reading size. */
+.application-plate .declaration__line,
+.application-plate .declaration__line span {
+  text-transform: none; letter-spacing: normal;
+  font-weight: 400; font-size: .92rem;
+  color: rgba(247,244,236,.88);
+}
+.application-plate .declaration__note {
+  font-size: .84rem; color: rgba(247,244,236,.55);
+}
+
+/* THE FOOT. The submit was a full-width bar, which is what a toolbar
+   looks like. It is now a considered control on its own line, with the
+   travelling light the primary call to action carries everywhere else. */
+.application-plate__foot {
+  margin-top: clamp(24px, 2.6vw, 36px); padding-top: 26px;
+  border-top: 1px solid rgba(199,162,74,.24);
+  display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
+}
+.application-plate__foot .btn { padding: 1.05em 2.6em; font-size: .92rem; }
+.application-plate__foot .form-note { margin: 0; }
+.application-plate__foot .form-note a {
+  color: var(--gold-bright); text-decoration: underline; text-underline-offset: 3px;
+}
+
+/* THE PLATE MUST NOT COST THE FORM ITS WIDTH.
+   Mounting the form inside a padded plate took ~40px off the grid, and
+   at 390px that was enough to push /admissions/ 7px past the viewport.
+   Two causes, both fixed here rather than by shrinking the type:
+
+   1. `1fr` is shorthand for `minmax(auto, 1fr)`, and `auto` floors a
+      track at its MIN-CONTENT width — so a select holding "United Arab
+      Emirates" refuses to go below its longest option no matter how
+      narrow the screen. minmax(0, 1fr) lets the track shrink, which is
+      what a responsive grid actually needs.
+   2. The plate keeps its generous padding on a desktop and gives most
+      of it back on a phone, where the margin is the scarce thing. */
+.application-plate .form-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+@media (max-width: 720px) {
+  .application-plate { padding: 22px 14px 26px; border-radius: var(--r-lg); }
+  .application-plate .form-grid { grid-template-columns: minmax(0, 1fr); }
+  .application-plate__colophon { gap: 12px; }
+}

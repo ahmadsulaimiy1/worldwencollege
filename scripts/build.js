@@ -222,6 +222,32 @@ function fontsUrlFor(lang) {
   return `https://fonts.googleapis.com/css2?${families}&display=swap`;
 }
 
+// THE ONE ARABIC WORD ON EVERY ENGLISH PAGE.
+//
+// Skipping Amiri and Cairo on English pages is right — an English page
+// renders no Arabic and should not pay for two families it never uses.
+// Except that it does render Arabic: the language switch in the topbar
+// reads العربية on all 101 English routes, and css/arabic.css sets it
+// in Cairo. With Cairo not loaded there, that word fell through to
+// whatever Naskh the visitor's operating system happened to have, so
+// the single most identity-bearing word for the primary audience
+// rendered differently on every machine and identically on none.
+//
+// The fix is a TEXT SUBSET, not the family. Google Fonts' `text=`
+// parameter returns a face containing only the glyphs asked for, so
+// this costs a few hundred bytes instead of ~40KB. It must be its own
+// request: `text=` applies to every family in the URL it appears in,
+// so folding it into the main one would subset Bodoni and Inter to
+// six Arabic characters and leave the page with no Latin text at all.
+//
+// Arabic pages get nothing here — they already load Cairo in full.
+const AR_SWITCH = encodeURIComponent('العربية');
+function fontSubsetUrlFor(lang) {
+  if (lang === 'ar') return '';
+  return `\n<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600`
+    + `&text=${AR_SWITCH}&display=swap" rel="stylesheet">`;
+}
+
 // "about/index.html" -> "/about/"; "index.html" -> "/"
 function urlPathFor(outputPath) {
   const trimmed = outputPath.replace(/index\.html$/, '');
@@ -309,6 +335,7 @@ function build() {
       CANONICAL: canonical,
       ALTERNATES: alternates,
       FONTS_URL: fontsUrlFor(lang),
+      FONTS_SUBSET: fontSubsetUrlFor(lang),
       BUILD_ID,
       EXTRA_CSS: extraCss,
       OG_LOCALE: lang === 'ar' ? 'ar_AR' : 'en_GB',

@@ -366,6 +366,52 @@
    Scoped to English only; see the note in brand.css's type system. */
 [dir="ltr"] .feature-list p { font-size: 1rem; }
 
+/* Two columns once there is width for it — used where a chapter has
+   four short entries rather than three long ones, so the list does not
+   read as an unusually tall single column. */
+@media (min-width: 720px) {
+  .feature-list--twocol { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--gutter); }
+  .feature-list--twocol > li { border-top: 1px solid var(--line-stone); }
+  .feature-list--twocol > li:nth-last-child(-n+2) { border-bottom: 1px solid var(--line-stone); }
+}
+
+/* =========================================================
+   THE VISTA
+   One full-bleed photograph, edge to edge, the width of the
+   viewport rather than the width of the container. Every other
+   image on this page sits inside a bordered plate because a
+   plate is what a prospectus does with a photograph — bounded,
+   captioned, one of several. This is deliberately the only
+   exception on the page: a single widescreen establishing shot
+   for the one chapter that is actually about a place rather
+   than about the College's method, used once so it still reads
+   as a departure rather than a second register.
+   ========================================================= */
+.vista {
+  position: relative; overflow: hidden; margin: 0 0 var(--chapter-pad);
+  height: clamp(320px, 52vw, 560px);
+}
+.vista__img {
+  position: absolute; inset: -10% 0; width: 100%; height: 120%;
+  object-fit: cover; will-change: transform;
+  filter: grayscale(.22) contrast(1.06) brightness(.93);
+}
+.vista__scrim {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(10,20,40,.05) 0%, transparent 34%, transparent 60%, rgba(10,20,40,.62) 100%),
+    linear-gradient(100deg, rgba(10,20,40,.30) 0%, transparent 42%);
+}
+.vista__caption {
+  position: absolute; left: 0; right: 0; bottom: 24px; margin: 0;
+  display: flex; align-items: center; justify-content: center; gap: .7em;
+  color: rgba(247,244,236,.94);
+  font-family: var(--font-body); font-weight: 700;
+  font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+}
+.vista__caption .icon { width: 1.1em; height: 1.1em; color: var(--gold-champagne); }
+@media (prefers-reduced-motion: reduce) { .vista__img { transform: none !important; } }
+
 /* The living-diagram frame (.diagram) moved to css/atelier.css when
    the second diagram landed on /students/assessment/ — it was defined
    here, and css/home.css loads on the homepage only, so any diagram on
@@ -696,6 +742,7 @@
    component.
    ========================================================= */
 [dir="rtl"] .chapter__num::after { transform: scaleX(-1); }
+[dir="rtl"] .vista__scrim { transform: scaleX(-1); }
 [dir="rtl"] .feature-list > li { grid-template-columns: auto 1fr; }
 
 /* =========================================================
