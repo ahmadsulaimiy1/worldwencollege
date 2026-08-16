@@ -626,4 +626,33 @@
     window.addEventListener('resize', onScroll, { passive: true });
     apply();
   })();
+
+  /* -------------------------------------------------------------------
+     9 · THE CLICK LIGHT
+     -------------------------------------------------------------------
+     A ring of light struck from the exact point a reader presses, on
+     the cards this page already invites a press on — js/sonics.js
+     answers the same press with a sound; this is its visual twin.
+     One-shot and removed on its own animationend, so nothing here
+     accumulates in the DOM or keeps moving after the reader stops
+     touching the page, which is the same discipline every other
+     entrance in this file holds itself to.
+     ------------------------------------------------------------------- */
+  (function clickLight() {
+    if (prefersReduced()) return;
+    var SEL = '.audience, .region, .case, .principle';
+
+    document.addEventListener('pointerdown', function (e) {
+      var host = e.target instanceof Element ? e.target.closest(SEL) : null;
+      if (!host) return;
+      var r = host.getBoundingClientRect();
+      var ring = document.createElement('span');
+      ring.className = 'click-ring';
+      ring.setAttribute('aria-hidden', 'true');
+      ring.style.left = (e.clientX - r.left) + 'px';
+      ring.style.top = (e.clientY - r.top) + 'px';
+      host.appendChild(ring);
+      ring.addEventListener('animationend', function () { ring.remove(); });
+    }, { passive: true });
+  })();
 })();
