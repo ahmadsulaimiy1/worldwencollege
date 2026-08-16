@@ -322,6 +322,13 @@ for (const f of files) {
     ALTER TABLE applications_pre017 RENAME TO applications;
     CREATE INDEX IF NOT EXISTS idx_applications_email ON applications(email);
     CREATE INDEX IF NOT EXISTS idx_applications_status ON applications(status);`);
+  // 018 adds eight further columns to `applications` — already absent
+  // from the rebuild above, since that rebuild's column list predates
+  // both 017 and 018 — plus the whole `application_drafts` table.
+  // Nothing to rebuild for `applications` here; only the new table
+  // needs removing.
+  db.exec(`DROP INDEX IF EXISTS idx_application_drafts_user;
+    DROP TABLE IF EXISTS application_drafts;`);
 
   db.exec('DROP TABLE schema_migrations');
 

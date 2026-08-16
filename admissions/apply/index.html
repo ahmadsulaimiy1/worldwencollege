@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apply | WEC-LC Admissions</title>
+<meta name="description" content="The WEC-LC application, step by step. Sign in, work through it at your own pace, and see exactly what is left.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#14264A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600&family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/listening-lab.css">
+<link rel="stylesheet" href="/css/dashboard.css">
+<link rel="stylesheet" href="/css/admissions-wizard.css">
+</head>
+<body class="lab">
+
+<header class="lab-head">
+  <div class="lab-head__wrap">
+    <a class="app-crest" href="/">
+      <img src="/assets/images/favicon.svg" alt="" width="34" height="34" aria-hidden="true">
+      <span>Worldwide English College<small>London Campus</small></span>
+    </a>
+    <p class="lab-eyebrow">
+      <span>Admissions</span>
+      <span data-sep>—</span>
+      <span>Your application</span>
+    </p>
+    <a href="/admissions/" style="color:inherit">&larr; Back to Admissions</a>
+  </div>
+</header>
+
+<main class="lab-body" id="main" style="grid-template-columns:minmax(0,1fr)">
+
+  <div data-wizard-unavailable hidden>
+    <h2>Sign-in is not switched on yet</h2>
+    <p class="lede">The step-by-step application needs a signed-in account, and that account system is built but not yet connected on this deployment. Nothing is broken on your end &mdash; write to Admissions directly and we will take it from there.</p>
+    <p><a class="btn btn--gold" href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">Write to Admissions</a></p>
+  </div>
+
+  <div data-wizard-shell hidden>
+    <span class="eyebrow" style="margin-bottom:8px">Admissions</span>
+    <h1>Your application.</h1>
+    <p class="lede" style="margin-bottom:28px">Seven short steps, saved as you go. Close this at any point and pick up exactly where you left off &mdash; nothing is lost between visits.</p>
+
+    <p class="wizard-progress-label" data-wizard-progress-label>Step 1 of 8</p>
+
+    <div class="stepper" data-stepper style="margin-bottom:32px">
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">1</div><div class="stepper__label">Who you are</div></div>
+      <div class="stepper__line"></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">2</div><div class="stepper__label">Contact</div></div>
+      <div class="stepper__line"></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">3</div><div class="stepper__label">Emergency<br>contact</div></div>
+      <div class="stepper__line"></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">4</div><div class="stepper__label">Programme</div></div>
+      <div class="stepper__line"></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">5</div><div class="stepper__label">Education</div></div>
+      <div class="stepper__line"></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">6</div><div class="stepper__label">Tuition</div></div>
+      <div class="stepper__line"></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">7</div><div class="stepper__label">Declaration</div></div>
+      <div class="stepper__line"></div>
+      <div class="stepper__node" data-stepper-node><div class="stepper__dot">8</div><div class="stepper__label">Review</div></div>
+    </div>
+
+    <div class="wizard-card">
+      <form data-wizard-form>
+
+        <fieldset data-step="identity">
+          <legend><h2>Who you are</h2></legend>
+          <p class="step-intro">The name on your record, and the two facts that shape your residency options later.</p>
+          <div class="form-grid">
+            <div class="field field--full">
+              <label for="w-fullName">Full name <span data-review-label="Full name"></span></label>
+              <input id="w-fullName" name="fullName" type="text" autocomplete="name" required>
+              <span class="field__error" data-error-for="fullName"></span>
+            </div>
+            <div class="field">
+              <label for="w-country">Country of residence</label>
+              <select id="w-country" name="country">
+                <option value="">Select your country</option>
+                <option value="AE">United Arab Emirates</option><option value="SA">Saudi Arabia</option>
+                <option value="QA">Qatar</option><option value="KW">Kuwait</option><option value="BH">Bahrain</option>
+                <option value="OM">Oman</option><option value="EG">Egypt</option><option value="JO">Jordan</option>
+                <option value="NG">Nigeria</option><option value="GH">Ghana</option><option value="KE">Kenya</option>
+                <option value="ZA">South Africa</option><option value="PK">Pakistan</option><option value="IN">India</option>
+                <option value="BD">Bangladesh</option><option value="ID">Indonesia</option><option value="MY">Malaysia</option>
+                <option value="PH">Philippines</option><option value="CN">China</option><option value="TR">Turkey</option>
+                <option value="GB">United Kingdom</option><option value="US">United States</option>
+                <option value="FR">France</option><option value="DE">Germany</option><option value="OTHER">Other</option>
+              </select>
+              <span data-review-label="Country of residence"></span>
+              <span class="field__error" data-error-for="country"></span>
+            </div>
+            <div class="field">
+              <label for="w-nationality">Nationality &mdash; the passport you hold</label>
+              <select id="w-nationality" name="nationality">
+                <option value="">Select your nationality</option>
+                <option value="AE">United Arab Emirates</option><option value="SA">Saudi Arabia</option>
+                <option value="QA">Qatar</option><option value="KW">Kuwait</option><option value="BH">Bahrain</option>
+                <option value="OM">Oman</option><option value="JO">Jordan</option><option value="EG">Egypt</option>
+                <option value="NG">Nigeria</option><option value="GH">Ghana</option><option value="KE">Kenya</option>
+                <option value="ZA">South Africa</option><option value="PK">Pakistan</option><option value="IN">India</option>
+                <option value="BD">Bangladesh</option><option value="ID">Indonesia</option><option value="MY">Malaysia</option>
+                <option value="PH">Philippines</option><option value="CN">China</option><option value="TR">Turkey</option>
+                <option value="GB">United Kingdom</option><option value="US">United States</option>
+                <option value="FR">France</option><option value="DE">Germany</option><option value="OTHER">Other</option>
+              </select>
+              <span data-review-label="Nationality"></span>
+              <span class="field__error" data-error-for="nationality"></span>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset data-step="contact" hidden>
+          <legend><h2>Contact details</h2></legend>
+          <p class="step-intro">How Admissions reaches you, and where you are today.</p>
+          <div class="form-grid">
+            <div class="field field--full">
+              <label for="w-email">Email</label>
+              <input id="w-email" name="email" type="email" autocomplete="email" required>
+              <span data-review-label="Email"></span>
+              <span class="field__error" data-error-for="email"></span>
+            </div>
+            <div class="field">
+              <label for="w-phone">Telephone (including country code)</label>
+              <input id="w-phone" name="phone" type="tel" autocomplete="tel" placeholder="+971 50 000 0000">
+              <span data-review-label="Telephone"></span>
+              <span class="field__error" data-error-for="phone"></span>
+            </div>
+            <div class="field">
+              <label for="w-city">City</label>
+              <input id="w-city" name="city" type="text" autocomplete="address-level2">
+              <span data-review-label="City"></span>
+              <span class="field__error" data-error-for="city"></span>
+            </div>
+            <div class="field field--full">
+              <label for="w-address">Residential address <span class="field__optional">Optional</span></label>
+              <input id="w-address" name="residentialAddress" type="text" autocomplete="street-address">
+              <span data-review-label="Residential address"></span>
+              <span class="field__error" data-error-for="residentialAddress"></span>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset data-step="emergency" hidden>
+          <legend><h2>Emergency contact</h2></legend>
+          <p class="step-intro">Someone the College can reach if it genuinely needs to. Not shared or used for anything else.</p>
+          <div class="form-grid">
+            <div class="field field--full">
+              <label for="w-ecName">Name <span class="field__optional">Optional</span></label>
+              <input id="w-ecName" name="emergencyContactName" type="text">
+              <span data-review-label="Emergency contact"></span>
+              <span class="field__error" data-error-for="emergencyContactName"></span>
+            </div>
+            <div class="field">
+              <label for="w-ecRel">Relationship to you <span class="field__optional">Optional</span></label>
+              <input id="w-ecRel" name="emergencyContactRelationship" type="text" placeholder="e.g. Parent, spouse, sibling">
+              <span data-review-label="Relationship"></span>
+              <span class="field__error" data-error-for="emergencyContactRelationship"></span>
+            </div>
+            <div class="field">
+              <label for="w-ecPhone">Their telephone <span class="field__optional">Optional</span></label>
+              <input id="w-ecPhone" name="emergencyContactPhone" type="tel">
+              <span data-review-label="Emergency telephone"></span>
+              <span class="field__error" data-error-for="emergencyContactPhone"></span>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset data-step="programme" hidden>
+          <legend><h2>Your programme</h2></legend>
+          <p class="step-intro">What the English is for, and where you expect to begin.</p>
+          <div class="form-grid">
+            <div class="field">
+              <label for="w-level">Where do you expect to start?</label>
+              <select id="w-level" name="selfAssessedLevelId">
+                <option value="">Not sure &mdash; I will take the placement assessment</option>
+                <option value="1">Level I &middot; Foundation (A1)</option>
+                <option value="2">Level II &middot; Elementary (A2)</option>
+                <option value="3">Level III &middot; Intermediate (B1)</option>
+                <option value="4">Level IV &middot; Upper Intermediate (B2)</option>
+                <option value="5">Level V &middot; Advanced (C1)</option>
+                <option value="6">Level VI &middot; Mastery (C2)</option>
+              </select>
+              <span data-review-label="Starting level (self-assessed)"></span>
+              <span class="field__error" data-error-for="selfAssessedLevelId"></span>
+            </div>
+            <div class="field">
+              <label for="w-purpose">What is the English for?</label>
+              <select id="w-purpose" name="purpose">
+                <option value="">Select a reason</option>
+                <option value="university">A university place</option>
+                <option value="career">Career and professional work</option>
+                <option value="government">Government or diplomatic service</option>
+                <option value="examination">IELTS, TOEFL or Cambridge</option>
+                <option value="business">Business and commerce</option>
+                <option value="personal">Personal mastery</option>
+              </select>
+              <span data-review-label="Purpose"></span>
+              <span class="field__error" data-error-for="purpose"></span>
+            </div>
+            <div class="field">
+              <label for="w-start">When would you begin?</label>
+              <select id="w-start" name="startPreference">
+                <option value="">Select a timing</option>
+                <option value="immediately">Immediately</option>
+                <option value="within_3_months">Within three months</option>
+                <option value="within_6_months">Within six months</option>
+                <option value="undecided">Not yet decided</option>
+              </select>
+              <span data-review-label="Start preference"></span>
+              <span class="field__error" data-error-for="startPreference"></span>
+            </div>
+            <div class="field field--full">
+              <label for="w-residency">The residency &mdash; where would you complete it?</label>
+              <select id="w-residency" name="residencyInterest">
+                <option value="">Select a preference</option>
+                <option value="own_city">In my own city, under College supervision</option>
+                <option value="uk_london">United Kingdom &mdash; London and Westminster</option>
+                <option value="uk_manchester">United Kingdom &mdash; Manchester</option>
+                <option value="uk_other">United Kingdom &mdash; another location</option>
+                <option value="undecided">Not yet decided</option>
+              </select>
+              <span data-review-label="Residency interest"></span>
+              <span class="field__error" data-error-for="residencyInterest"></span>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset data-step="education" hidden>
+          <legend><h2>Education background</h2></legend>
+          <p class="step-intro">Background for Admissions and for placement guidance &mdash; nothing here is verified at this stage.</p>
+          <div class="form-grid">
+            <div class="field">
+              <label for="w-eduLevel">Highest level completed <span class="field__optional">Optional</span></label>
+              <select id="w-eduLevel" name="educationLevel">
+                <option value="">Select a level</option>
+                <option value="secondary">Secondary school</option>
+                <option value="undergraduate">Undergraduate degree</option>
+                <option value="postgraduate">Postgraduate degree</option>
+                <option value="doctorate">Doctorate</option>
+                <option value="professional">Professional qualification</option>
+                <option value="other">Other</option>
+              </select>
+              <span data-review-label="Education level"></span>
+              <span class="field__error" data-error-for="educationLevel"></span>
+            </div>
+            <div class="field">
+              <label for="w-eduInst">Institution <span class="field__optional">Optional</span></label>
+              <input id="w-eduInst" name="educationInstitution" type="text">
+              <span data-review-label="Institution"></span>
+              <span class="field__error" data-error-for="educationInstitution"></span>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset data-step="funding" hidden>
+          <legend><h2>Tuition</h2></legend>
+          <p class="step-intro">Who pays, and how &mdash; asked now so an employer-sponsored applicant does not lose a week discovering it after an offer. <strong>No payment is taken here</strong>, and the College never asks for card or bank details by email.</p>
+          <div class="form-grid">
+            <div class="field">
+              <label for="w-funding">Who will be paying the tuition?</label>
+              <select id="w-funding" name="funding">
+                <option value="">Select who pays</option>
+                <option value="self">Myself</option>
+                <option value="employer">My employer</option>
+                <option value="family">A family member</option>
+                <option value="government">A government sponsor</option>
+                <option value="scholarship">A scholarship or trust</option>
+                <option value="undecided">Not yet decided</option>
+              </select>
+              <span data-review-label="Funding source"></span>
+              <span class="field__error" data-error-for="funding"></span>
+            </div>
+            <div class="field">
+              <label for="w-plan">How would you prefer to pay?</label>
+              <select id="w-plan" name="paymentPlan">
+                <option value="">Select a preference</option>
+                <option value="level_by_level">One level at a time</option>
+                <option value="instalments">By instalments</option>
+                <option value="full_pathway">The full pathway in advance</option>
+                <option value="undecided">Not yet decided</option>
+              </select>
+              <span data-review-label="Payment plan"></span>
+              <span class="field__error" data-error-for="paymentPlan"></span>
+            </div>
+            <div class="field">
+              <label for="w-sponsorName">Sponsor's name <span class="field__optional">If not self-funded</span></label>
+              <input id="w-sponsorName" name="sponsorName" type="text">
+              <span data-review-label="Sponsor"></span>
+              <span class="field__error" data-error-for="sponsorName"></span>
+            </div>
+            <div class="field">
+              <label for="w-sponsorRel">Sponsor's relationship to you <span class="field__optional">Optional</span></label>
+              <select id="w-sponsorRel" name="sponsorRelationship">
+                <option value="">Select an option</option>
+                <option value="employer">Employer</option>
+                <option value="parent_or_guardian">Parent or guardian</option>
+                <option value="other_family">Other family member</option>
+                <option value="scholarship_body">Scholarship body</option>
+                <option value="government">Government</option>
+                <option value="other">Other</option>
+              </select>
+              <span data-review-label="Sponsor relationship"></span>
+              <span class="field__error" data-error-for="sponsorRelationship"></span>
+            </div>
+            <div class="field field--full">
+              <p class="form-note">Fees, currencies and instalment terms are published in full at <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>. An invoice is issued after an offer, and payment is made through the College&rsquo;s secure payment providers.</p>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset data-step="declaration" hidden>
+          <legend><h2>Declaration</h2></legend>
+          <p class="step-intro">The last details, and the two things the College needs you to confirm.</p>
+          <div class="form-grid">
+            <div class="field field--full">
+              <label for="w-heard">How did you hear of the College? <span class="field__optional">Optional</span></label>
+              <input id="w-heard" name="heardVia" type="text">
+              <span data-review-label="Heard via"></span>
+              <span class="field__error" data-error-for="heardVia"></span>
+            </div>
+            <div class="field field--full">
+              <label for="w-notes">Anything Admissions should know <span class="field__optional">Optional</span></label>
+              <textarea id="w-notes" name="notes" rows="4" maxlength="2000"></textarea>
+              <span data-review-label="Notes"></span>
+              <span class="field__error" data-error-for="notes"></span>
+            </div>
+            <div class="field field--full declaration">
+              <label class="declaration__line">
+                <input type="checkbox" name="isAdult" required>
+                <span>I confirm that I am 18 years of age or over. <span class="declaration__note">The College admits adult learners; a family enquiring on behalf of an applicant under 18 should write to Admissions directly.</span></span>
+                <span data-review-label="Confirmed 18+" data-review-yes="Confirmed" data-review-no="Not confirmed"></span>
+              </label>
+              <label class="declaration__line">
+                <input type="checkbox" name="privacyAgreed" required>
+                <span>I have read the <a href="/support/privacy/">privacy notice</a> and agree that the College may hold these details in order to process my application. <span class="declaration__note">You may ask for your record at any time, and ask for it to be deleted.</span></span>
+                <span data-review-label="Privacy notice agreed" data-review-yes="Agreed" data-review-no="Not agreed"></span>
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset data-step="review" hidden>
+          <legend><h2>Review your application</h2></legend>
+          <p class="step-intro">Everything below is what will be submitted. Go back to any step to change something.</p>
+          <dl class="review-summary" data-review-summary></dl>
+        </fieldset>
+
+        <p class="wizard-step-error" data-wizard-step-error role="alert"></p>
+
+        <div class="wizard-nav">
+          <button type="button" class="btn btn--outline" data-wizard-back hidden>Back</button>
+          <span style="flex:1"></span>
+          <button type="button" class="btn btn--gold" data-wizard-next>Continue</button>
+          <button type="submit" class="btn btn--gold" data-wizard-submit hidden>Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="application-status" data-application-status hidden>
+    <span class="status-pill status-pill--progress" data-status-state>submitted</span>
+    <h2>Your application is in.</h2>
+    <p class="lede">Reference id, if you need to write to Admissions about it:</p>
+    <div class="application-status__id" data-status-id>&mdash;</div>
+    <p data-status-only="submitted">A confirmation has been sent to your email. Admissions reviews applications in the order received &mdash; there is no queue position to check, only the reply.</p>
+    <p data-status-only="placement_pending" hidden>Your placement assessment is being arranged. Admissions will be in touch by email to schedule it.</p>
+    <p data-status-only="offer_sent" hidden>An offer has been sent to your email. Reply there to accept it and receive your invoice.</p>
+    <p data-status-only="accepted" hidden>Your offer is accepted. Enrolment completes once payment is received &mdash; see your email for the invoice.</p>
+    <p data-status-only="enrolled" hidden>You are enrolled. <a href="/my-programme.html">Go to My Programme &rarr;</a></p>
+    <p class="form-note" style="margin-top:24px"><a href="mailto:info@worldwencollege.co.uk?subject=Application%20Query">Write to Admissions</a> with any question, quoting the reference id above.</p>
+  </div>
+
+</main>
+
+<script src="/js/auth-config.js"></script>
+<script src="/js/clerk-loader.js"></script>
+<script src="/js/portal-guard.js"></script>
+<script src="/js/api-auth.js"></script>
+<script src="/js/admissions-wizard.js"></script>
+</body>
+</html>
