@@ -73,7 +73,7 @@
 .article {
   position: relative;
   display: grid;
-  grid-template-columns: clamp(58px, 6.4vw, 84px) 1fr;
+  grid-template-columns: clamp(64px, 6.8vw, 88px) 1fr;
   gap: clamp(14px, 2.2vw, 30px);
   padding: clamp(22px, 2.6vw, 32px) 0;
   border-top: 1px solid var(--rule-ink);
@@ -97,7 +97,11 @@
   isolation: isolate;
   display: grid;
   place-items: center;
-  width: 40px; height: 40px;
+  /* 52px, which is the house minimum for a shape that carries a glyph
+     — CLAUDE.md §2, "small icons read as an admin panel". This was cut
+     at 40px and looked exactly like one against the 52px domes on the
+     same page. */
+  width: 52px; height: 52px;
   border-radius: 50%;
   border: 1.5px solid var(--gold-royal);
   color: var(--gold-champagne);
@@ -118,7 +122,9 @@
   pointer-events: none;
   z-index: 1;
 }
-.article__seal .icon { position: relative; z-index: 2; width: 1.15rem; height: 1.15rem; }
+/* 30px in a 52px disc, exactly the ratio .badge-dome keeps, so the
+   two struck discs on this page read as the same family. */
+.article__seal .icon { position: relative; z-index: 2; width: 1.875rem; height: 1.875rem; }
 .article__num {
   font-family: var(--font-ceremonial); font-weight: 600;
   font-size: clamp(.9rem, .82rem + .3vw, 1.1rem);
