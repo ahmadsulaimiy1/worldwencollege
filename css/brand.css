@@ -965,14 +965,29 @@ section { position: relative; }
    it is the callers (.quicknav, .footergrid) that decide where
    and when a vessel appears; the material itself is constant.
    ========================================================= */
+/* The bezel the badge is seated in, cut on the same logic: a chamfer
+   with a hard stop rather than a smooth radial, so the plate and the
+   badge belong to the same object instead of being a disc resting on a
+   pillow. The angle matches the badge's 152deg, because two bevels lit
+   from different directions is what makes a composite read as assembled
+   rather than struck. */
 .vessel {
-  position: relative; width: 80px; height: 80px; border-radius: 24px; flex-shrink: 0;
+  position: relative; width: 80px; height: 80px; border-radius: 22px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  background: radial-gradient(circle at 30% 24%, var(--warm-white) 0%, var(--pearl) 55%, var(--stone) 100%);
+  background:
+    linear-gradient(152deg,
+      rgba(255,255,255,.95) 0%,
+      rgba(255,255,255,.34) 31.5%,
+      rgba(255,255,255,0) 32.1%,
+      rgba(120,100,60,.10) 32.7%,
+      rgba(120,100,60,.26) 100%),
+    radial-gradient(circle at 32% 26%, var(--warm-white) 0%, var(--pearl) 55%, var(--stone) 100%);
   box-shadow:
-    inset 0 2px 3px rgba(255,255,255,.9),
-    inset 0 -3px 5px rgba(120,100,60,.24),
-    0 14px 26px -12px rgba(20,30,50,.4),
+    inset 0 1.5px 0 rgba(255,255,255,.98),
+    inset 0 -1.5px 0 rgba(120,100,60,.42),
+    inset 0 6px 10px -4px rgba(255,255,255,.85),
+    inset 0 -8px 12px -5px rgba(120,100,60,.30),
+    0 14px 26px -12px rgba(20,30,50,.42),
     0 0 0 1.5px rgba(199,162,74,.55);
 }
 /* THE HALOES WERE PAINTING WEDGES, NOT RINGS.
@@ -1019,15 +1034,50 @@ section { position: relative; }
   animation-delay: calc(var(--halo-delay, 0s) + 1.1s);
 }
 @keyframes glance-halo-spin { to { transform: rotate(360deg); } }
+/* THE BADGE IS STRUCK, NOT MOULDED.
+   It used to be a single radial gradient, which is how you draw a
+   sphere: light falls off smoothly in every direction and the eye reads
+   soft plastic. A struck medal does not do that. It has FACETS — a
+   chamfer cut around the rim at an angle to the face, so the surface
+   changes direction along a hard line and the two planes take light
+   differently.
+
+   That hard line is what the layered gradients below produce. The first
+   is the chamfer: a linear gradient with a near-instant stop (34% to
+   34.6%) so it terminates on an EDGE rather than a fade, angled at 152deg
+   so the cut runs across the upper-left face the way a bevel would under
+   a light set high and left. The conic beneath it varies the rim's
+   brightness around the circumference, which is what stops the chamfer
+   reading as a flat wedge pasted on.
+
+   The box-shadow does the same job at the boundary: a 0-blur inset at the
+   top and bottom draws the crisp lit and shaded edges of the bevel, and
+   the blurred insets behind them give the face its depth. Blur alone
+   reads as a dome; a hard edge in front of blur reads as metal. */
 .vessel__badge {
   position: relative; overflow: hidden; width: 58px; height: 58px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  background: radial-gradient(circle at 32% 24%, var(--sapphire) 0%, var(--navy) 55%, var(--oxford) 100%);
+  background:
+    linear-gradient(152deg,
+      rgba(255,255,255,.34) 0%,
+      rgba(255,255,255,.13) 33.4%,
+      rgba(255,255,255,.02) 34%,
+      rgba(0,0,0,.10) 34.6%,
+      rgba(0,0,0,.30) 100%),
+    conic-gradient(from 196deg at 50% 50%,
+      rgba(255,255,255,.16) 0deg,
+      rgba(0,0,0,.20) 84deg,
+      rgba(0,0,0,.26) 190deg,
+      rgba(255,255,255,.20) 300deg,
+      rgba(255,255,255,.16) 360deg),
+    radial-gradient(circle at 34% 26%, var(--sapphire) 0%, var(--navy) 54%, var(--oxford) 100%);
   box-shadow:
-    inset 0 3px 4px rgba(255,255,255,.22),
-    inset 0 -4px 6px rgba(0,0,0,.55),
-    0 6px 12px -7px rgba(0,0,0,.6),
-    0 0 0 1.5px rgba(199,162,74,.4);
+    inset 0 1.5px 0 rgba(255,255,255,.50),
+    inset 0 -1.5px 0 rgba(0,0,0,.62),
+    inset 0 7px 11px -4px rgba(255,255,255,.16),
+    inset 0 -9px 13px -5px rgba(0,0,0,.60),
+    0 8px 16px -8px rgba(0,0,0,.66),
+    0 0 0 1.5px rgba(199,162,74,.52);
 }
 /* The badge's own surface is foiled, not just the glyph on it: a fixed
    specular sweep — bright along the upper-left curve, dark along the
@@ -1871,12 +1921,41 @@ section { position: relative; }
    locks to a fixed four (the vessel shrinks to make room, see below),
    falling back to three only on the narrowest handsets where even a
    shrunk vessel can't fit four without crowding. */
+/* THE LAST ROW USED TO BE AN ORPHAN.
+   auto-FILL with 1fr tracks stretches every column to fill the row, so a
+   group of fifteen at six across left three tiles hard against the left
+   edge with a third of the band empty beside them — the arrangement read
+   as unfinished rather than composed.
+
+   auto-FIT with a fixed maximum track and justify-content:center fixes
+   both halves of that: tracks no longer stretch to swallow the leftover
+   space, and a short final row sits centred under the rows above it. A
+   group of any size now ends deliberately.
+
+   FLEX, NOT GRID, and that distinction is the whole fix. Grid's
+   justify-content centres the TRACKS within the container; it does not
+   centre the items of a short final row, because those items still sit
+   in the first tracks of a row whose track count the container fixed.
+   auto-fit plus justify-content:center therefore left the orphan exactly
+   where it had been — measured, not assumed. Wrapping flex has no track
+   grid to sit in, so a short last line centres itself. */
 .footergrid__row {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 4px;
-  padding: 0 26px 34px;
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 14px 4px;
+  padding: 0 26px 36px;
 }
-@media (max-width: 780px) { .footergrid__row { grid-template-columns: repeat(4, 1fr); padding-inline: 18px; } }
-@media (max-width: 340px) { .footergrid__row { grid-template-columns: repeat(3, 1fr); } }
+.footergrid__row > .footergrid__tile { flex: 0 1 168px; max-width: 168px; }
+/* Phone keeps four across by sizing the tile rather than by counting
+   columns, because the row is flex now and a column count would be a
+   rule with nothing to apply to. The basis is what four-up costs at this
+   width; the vessel shrinks below to make room for it. */
+@media (max-width: 780px) {
+  .footergrid__row { padding-inline: 18px; gap: 12px 2px; }
+  .footergrid__row > .footergrid__tile { flex-basis: calc(25% - 2px); max-width: calc(25% - 2px); }
+}
+@media (max-width: 340px) {
+  .footergrid__row > .footergrid__tile { flex-basis: calc(33.333% - 2px); max-width: calc(33.333% - 2px); }
+}
 /* The full-size vessel (Explore Further) is comfortably wide enough at
    its usual 80px that four of them plus gaps overflow a phone-width
    row; it shrinks here so the row keeps its preferred four columns
@@ -2500,4 +2579,109 @@ ul.check-list li::before {
 }
 @media (prefers-reduced-motion: reduce) {
   .tag, .tag:hover, .ledger tbody tr { transition: none; transform: none; }
+}
+
+/* ── THE ACTION BAND ──────────────────────────────────────────────────
+   A second band beneath the rail carrying the three things a reader
+   does, rather than the places a reader goes. It has to read as part of
+   the header rather than as a strip of buttons parked under it, so it
+   shares the header's ground and is separated from the rail by a single
+   gold hairline rather than by a gap.
+
+   The item badges are cut on the same chamfer as .vessel__badge — a hard
+   stop at 152deg — so every struck surface on this site takes light from
+   the same direction. That consistency is most of what separates a
+   designed page from an assembled one. */
+.actionband {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05) 0%, rgba(0,0,0,.16) 100%),
+    linear-gradient(90deg, var(--oxford) 0%, var(--navy) 50%, var(--oxford) 100%);
+  border-top: 1px solid rgba(199,162,74,.34);
+  border-bottom: 1px solid rgba(199,162,74,.20);
+}
+.actionband__inner {
+  max-width: var(--wrap); margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+}
+.actionband__item {
+  position: relative; display: flex; align-items: center; gap: 13px;
+  padding: 13px 20px; min-height: 44px; color: rgba(247,244,236,.9);
+  transition: background var(--dur-med) var(--ease-premium),
+              color var(--dur-med) var(--ease-premium);
+}
+/* Hairline separators drawn between items only — a border on each would
+   put one against the container edge, which reads as a cage. */
+.actionband__item + .actionband__item::before {
+  content: ''; position: absolute; inset-inline-start: 0; top: 22%; bottom: 22%;
+  width: 1px; background: linear-gradient(180deg,
+    transparent, rgba(199,162,74,.34) 22%, rgba(199,162,74,.34) 78%, transparent);
+}
+.actionband__badge {
+  flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center;
+  background:
+    linear-gradient(152deg,
+      rgba(255,255,255,.30) 0%, rgba(255,255,255,.11) 33.4%,
+      rgba(255,255,255,.02) 34%, rgba(0,0,0,.12) 34.6%, rgba(0,0,0,.30) 100%),
+    radial-gradient(circle at 34% 26%, var(--sapphire) 0%, var(--navy) 56%, var(--oxford) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.44),
+    inset 0 -1px 0 rgba(0,0,0,.58),
+    0 4px 9px -5px rgba(0,0,0,.7),
+    0 0 0 1px rgba(199,162,74,.46);
+  transition: transform var(--dur-med) var(--ease-premium),
+              box-shadow var(--dur-med) var(--ease-premium);
+}
+.actionband__badge .icon { width: 16px; height: 16px; color: var(--gold-champagne); }
+.actionband__text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.actionband__title {
+  font-family: var(--font-body); font-weight: 700; font-size: .8rem;
+  letter-spacing: .012em; color: var(--warm-white); white-space: nowrap;
+}
+.actionband__note {
+  font-family: var(--font-body); font-size: .69rem; letter-spacing: .006em;
+  color: rgba(247,244,236,.56);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.actionband__go {
+  width: 15px; height: 15px; margin-inline-start: auto; flex-shrink: 0;
+  color: rgba(199,162,74,.72);
+  transition: transform var(--dur-med) var(--ease-premium), color var(--dur-med) var(--ease-premium);
+}
+/* The arrow travels along the reading direction, so it must flip in RTL
+   rather than pointing back at the text it is leading away from. */
+[dir="rtl"] .actionband__go { transform: scaleX(-1); }
+
+.actionband__item:hover { background: rgba(255,255,255,.045); }
+.actionband__item:hover .actionband__badge {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.55),
+    inset 0 -1px 0 rgba(0,0,0,.6),
+    0 6px 13px -6px rgba(0,0,0,.75),
+    0 0 0 1px rgba(199,162,74,.7);
+}
+.actionband__item:hover .actionband__go { color: var(--gold-champagne); transform: translateX(3px); }
+[dir="rtl"] .actionband__item:hover .actionband__go { transform: scaleX(-1) translateX(3px); }
+.actionband__item:focus-visible { outline: 2px solid var(--bronze); outline-offset: -3px; }
+
+/* The lead route is the one the College actually wants taken, and it is
+   marked by a gold rule under it rather than by a filled button: a third
+   filled control this close to "Apply Now" in the rail above would read
+   as two competing primaries. */
+.actionband__item--lead::after {
+  content: ''; position: absolute; inset-inline: 14px; bottom: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-champagne), transparent);
+  opacity: .75;
+}
+.actionband__item--lead .actionband__title { color: var(--gold-champagne); }
+
+/* Below the rail's own breakpoint the quicknav strip takes over. */
+@media (max-width: 1180px) { .actionband { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .actionband__badge, .actionband__go { transition: none; }
+  .actionband__item:hover .actionband__badge { transform: none; }
+  .actionband__item:hover .actionband__go { transform: none; }
+  [dir="rtl"] .actionband__item:hover .actionband__go { transform: scaleX(-1); }
 }

@@ -616,6 +616,37 @@
        بلمسة الإصبع يحمل الأركان الستة ذاتها، وبطاقة سابعة "القائمة
        الكاملة" تفتح اللوحة أدناه بدل الانتقال إلى صفحة — الشريط
        اختصار للمستوى الأول، واللوحة تبقى حيث يقيم الموقع كاملًا. -->
+  <!-- شريط الإجراءات: انظر التعليق في partials/header.html. ثلاثة مسارات
+       لا رابعة: من ينتمي إلى الكلية بالفعل، ومن يقرّر أينتمي، ومن قرّر. -->
+  <div class="actionband">
+    <div class="actionband__inner">
+      <a class="actionband__item" href="/ar/student-portal/">
+        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+        <span class="actionband__text">
+          <span class="actionband__title">ادخل إلى البوابة</span>
+          <span class="actionband__note">برنامجك وتسجيلاتك وسجلك</span>
+        </span>
+        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+      <a class="actionband__item" href="/ar/admissions/">
+        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="actionband__text">
+          <span class="actionband__title">كيف يجري القبول</span>
+          <span class="actionband__note">أربع خطوات، ولا دفعة تنتظرها</span>
+        </span>
+        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+      <a class="actionband__item actionband__item--lead" href="/ar/admissions/apply/">
+        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <span class="actionband__text">
+          <span class="actionband__title">ابدأ طلبًا</span>
+          <span class="actionband__note">بلا رسوم، ودون طلب بيانات بطاقة</span>
+        </span>
+        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+    </div>
+  </div>
+
   <div class="quicknav grain" aria-label="التنقّل السريع">
     <div class="quicknav__track">
       <a href="/ar/about/" class="quicknav__tile">
@@ -915,30 +946,6 @@
         <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span></span>
         <span class="footergrid__label">الوضع المؤسسي</span>
       </a>
-      <a href="/ar/study/level-1/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 2.7s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">المستوى الأول &middot; A1</span>
-      </a>
-      <a href="/ar/study/level-2/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">المستوى الثاني &middot; A2</span>
-      </a>
-      <a href="/ar/study/level-3/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3.3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">المستوى الثالث &middot; B1</span>
-      </a>
-      <a href="/ar/study/level-4/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3.6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">المستوى الرابع &middot; B2</span>
-      </a>
-      <a href="/ar/study/level-5/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3.9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">المستوى الخامس &middot; C1</span>
-      </a>
-      <a href="/ar/study/level-6/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 4.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">المستوى السادس &middot; C2</span>
-      </a>
     </div>
   </div>
 
@@ -971,6 +978,31 @@
       <a href="/ar/student-portal/" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span></span>
         <span class="footergrid__label">بوابة الطالب</span>
+      </a>
+    
+      <a href="/ar/study/level-1/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 2.7s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">المستوى الأول &middot; A1</span>
+      </a>
+      <a href="/ar/study/level-2/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">المستوى الثاني &middot; A2</span>
+      </a>
+      <a href="/ar/study/level-3/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">المستوى الثالث &middot; B1</span>
+      </a>
+      <a href="/ar/study/level-4/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">المستوى الرابع &middot; B2</span>
+      </a>
+      <a href="/ar/study/level-5/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">المستوى الخامس &middot; C1</span>
+      </a>
+      <a href="/ar/study/level-6/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 4.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">المستوى السادس &middot; C2</span>
       </a>
     </div>
   </div>

@@ -644,6 +644,49 @@
     </div>
   </div>
 
+  <!-- THE ACTION BAND.
+       The rail answers "what is here"; it does not answer "what do I do
+       now", and those are different questions asked by different people.
+       Three routes, and they are the only three a first-time reader
+       actually has: one for somebody who already belongs here, one for
+       somebody deciding whether to, and one for somebody who has already
+       decided. Anything else on this band would be a fourth thing
+       competing with the three that matter.
+
+       Desktop only. Below 1180px the rail collapses and the quicknav
+       strip immediately underneath already carries the pillars as
+       tappable tiles, so repeating these there would be a second row of
+       chrome on the smallest screens — which is the failure the header
+       note above spent four layers learning not to repeat. -->
+  <div class="actionband">
+    <div class="actionband__inner">
+      <a class="actionband__item" href="/student-portal/">
+        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+        <span class="actionband__text">
+          <span class="actionband__title">Log into the Portal</span>
+          <span class="actionband__note">Your programme, your recordings and your record</span>
+        </span>
+        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+      <a class="actionband__item" href="/admissions/">
+        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+        <span class="actionband__text">
+          <span class="actionband__title">How Admission Works</span>
+          <span class="actionband__note">Four steps, no intake to wait for</span>
+        </span>
+        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+      <a class="actionband__item actionband__item--lead" href="/admissions/apply/">
+        <span class="actionband__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+        <span class="actionband__text">
+          <span class="actionband__title">Start an Application</span>
+          <span class="actionband__note">No fee, and no card details asked for</span>
+        </span>
+        <svg class="icon actionband__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+    </div>
+  </div>
+
   <!-- THE HEADER CLOCK.
        Mobile only, sitting directly above the quicknav strip — where
        the reference screenshot carries its own date/time line, at the
@@ -934,30 +977,6 @@
         <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span></span>
         <span class="footergrid__label">Institutional Status</span>
       </a>
-      <a href="/study/level-1/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 2.7s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">Level I &middot; A1</span>
-      </a>
-      <a href="/study/level-2/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">Level II &middot; A2</span>
-      </a>
-      <a href="/study/level-3/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3.3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">Level III &middot; B1</span>
-      </a>
-      <a href="/study/level-4/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3.6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">Level IV &middot; B2</span>
-      </a>
-      <a href="/study/level-5/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3.9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">Level V &middot; C1</span>
-      </a>
-      <a href="/study/level-6/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 4.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">Level VI &middot; C2</span>
-      </a>
     </div>
   </div>
 
@@ -990,6 +1009,31 @@
       <a href="/student-portal/" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span></span>
         <span class="footergrid__label">Student Portal</span>
+      </a>
+    
+      <a href="/study/level-1/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 2.7s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">Level I &middot; A1</span>
+      </a>
+      <a href="/study/level-2/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">Level II &middot; A2</span>
+      </a>
+      <a href="/study/level-3/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">Level III &middot; B1</span>
+      </a>
+      <a href="/study/level-4/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">Level IV &middot; B2</span>
+      </a>
+      <a href="/study/level-5/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">Level V &middot; C1</span>
+      </a>
+      <a href="/study/level-6/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 4.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">Level VI &middot; C2</span>
       </a>
     </div>
   </div>
