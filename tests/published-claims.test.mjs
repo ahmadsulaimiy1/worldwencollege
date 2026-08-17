@@ -305,6 +305,44 @@ const HOURS_QUALIFIED = /design figure(?:\s+rather than an average|,?\s+not a me
     && !PROMISED_LIVE.test('shared pace, live classes where everyone is at the same point'));
 }
 
+// ── NOBODY HAS FINISHED THE PROGRAMME ─────────────────────────────────
+//
+// The IEFC is six levels and is conferred at Level VI. Awards have been
+// conferred at Level I and Level II — data/standing.json — and no
+// further. So "two cohorts have finished the programme" is false, and it
+// was on the HOMEPAGE HERO, the most-read line on the site, in both
+// languages, plus a second time further down each page.
+//
+// It survived every sweep in this file because the sweeps were written
+// against the OLD lie — that the College had taught nobody — and this is
+// the opposite one: the College now has real cohorts, and the temptation
+// changed from inventing students to promoting the ones it has. A
+// guardrail cut for one direction does not hold the other.
+//
+// "Gone before you" is true and says the same thing. What is banned is
+// the claim of COMPLETION, until a Level VI award exists.
+{
+  const pagesDir = path.join(ROOT, 'pages');
+  const all = readdirSync(pagesDir).filter((f) => f.endsWith('.html'))
+    .map((f) => [f, readFileSync(path.join(pagesDir, f), 'utf8').replace(/\s+/g, ' ')]);
+
+  const FINISHED = /(?:cohorts?|students?|learners?|they)\s+(?:have\s+)?(?:finished|completed)\s+(?:the\s+)?(?:whole\s+|full\s+)?programme|(?:have\s+)?finished\s+the\s+programme|graduates?\s+of\s+the\s+(?:IEFC|programme)/i;
+  const AR_FINISHED = /أنهت?\s*(?:دفعتان|دفعات|الدفعات)?\s*البرنامج|أتمّ(?:وا)?\s*البرنامج|خرّيجو\s*البرنامج/;
+
+  const claiming = all.filter(([f, b]) =>
+    (f.endsWith('.ar.html') ? AR_FINISHED : FINISHED).test(b));
+  check(`No page claims anyone has finished the programme — ${all.length} pages swept`,
+    claiming.length === 0, claiming.map(([f]) => f).join(', '));
+
+  check('...and this sweep does catch the line that shipped',
+    FINISHED.test('Two have finished the programme ahead of you, and it is still small')
+    && FINISHED.test('Two cohorts have finished the programme')
+    && AR_FINISHED.test('أنهت دفعتان البرنامج قبلك والثالثة تدرس الآن')
+    // ...and does NOT fire on the true replacement
+    && !FINISHED.test('Two have gone before you, and the College is still small enough')
+    && !AR_FINISHED.test('سبقتك دفعتان، وما زالت الكلية صغيرة بما يكفي'));
+}
+
 // ── THINGS THE PLATFORM DOES NOT DO ──
 //
 // Three capabilities were advertised across five pages and two

@@ -176,6 +176,30 @@ check('...and that the competency mapping is commissioned, not finished',
   check(`Every page publishing a decisions count publishes ${total}`,
     wrong.length === 0, wrong.join('; '));
 
+  // AND THE METADATA. The sweep above reads pages/*.html and the count
+  // promptly turned out to be stale in a place no page body reaches:
+  // pages/manifest.json carried "All 30 of the College's institutional
+  // decisions" as the meta description of the decisions register, in
+  // both languages — the sentence a search engine shows before anybody
+  // opens the page at all.
+  {
+    const manifest = JSON.parse(readFileSync(path.join(ROOT, 'pages/manifest.json'), 'utf8'));
+    const entries = Array.isArray(manifest) ? manifest : manifest.pages;
+    const bad = [];
+    for (const e of entries) {
+      const text = `${e.title || ''} ${e.description || ''}`;
+      for (const re of [/(\d+)\s+(?:of the College's\s+)?(?:governance\s+|institutional\s+)?decisions/gi,
+        /All (\d+) of/gi, /([٠-٩]+|\d+)\s+قرار(?:ًا)?/g]) {
+        for (const m of text.matchAll(re)) {
+          const n = Number(latin(m[1]));
+          if (n >= 20 && n !== total && n !== adoptedNow) bad.push(`${e.slug}: "${m[0].trim()}"`);
+        }
+      }
+    }
+    check(`No page's title or description publishes a stale decisions count — ${entries.length} entries`,
+      bad.length === 0, bad.join('; '));
+  }
+
   // The spelled-out form the Arabic edition used, which no numeral
   // pattern can see. It is banned rather than parsed: a word does not
   // update when the register does.
