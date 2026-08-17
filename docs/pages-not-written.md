@@ -29,12 +29,12 @@ page would have been read for.
 
 | Requested | Written instead | Why |
 |---|---|---|
-| Academic Calendar | `/admissions/dates/` | No calendar is adopted and `/about/` lists it as outstanding. The page answers "when can I start?" — the actual question — and explains why there are no term dates. |
-| Alumni | `/standards/verification/` | There are no alumni. What exists is the route by which a credential will be checked, built ahead of the first award. |
+| Academic Calendar | `/admissions/#dates` | No calendar is adopted and `/about/` lists it as outstanding. The page answers "when can I start?" — the actual question — and explains why there are no term dates. |
+| Alumni | `/governance/#verification` | There are no alumni. What exists is the route by which a credential will be checked, built ahead of the first award. |
 | Results / Graduation | `/students/awards/` | Nothing has been conferred. The awards, the post-nominals and the proposed honours scheme are real; results are not. |
-| Research / Publications | `/standards/research/` | No research output exists. A research *agenda* does, and four answerable questions are published. |
-| Student Life | `/learning/` | No student has had a life here. What a week of study consists of is describable. |
-| Teacher Training | `/teaching/development/` | No teacher has been trained or observed. The record that would hold it is published, empty, with the reason. |
+| Research / Publications | `/governance/#research` | No research output exists. A research *agenda* does, and four answerable questions are published. |
+| Student Life | `/academics/#learning` | No student has had a life here. What a week of study consists of is describable. |
+| Teacher Training | `/academics/teaching/#development` | No teacher has been trained or observed. The record that would hold it is published, empty, with the reason. |
 
 ---
 
@@ -73,7 +73,7 @@ An annual report before a first year is a form with nothing in it. No
 external review has been carried out, and none can be until a reviewer
 is appointed. Both are recorded in the evidence register as `scheduled`
 and `governance_pending` respectively, and both appear on
-`/standards/evidence/` in those states.
+`/governance/evidence/` in those states.
 **Writable when:** a year has passed, and a reviewer has reported.
 
 ### 6. Community / Societies / Student Union / Chapters
@@ -90,7 +90,7 @@ editorial office producing plausible-sounding terms would be creating
 enforceable-looking obligations nobody with authority had approved. The
 factual position — what is collected, what is charged, what is refunded,
 what is not provided — is published across `/support/privacy/`,
-`/admissions/payment/`, `/admissions/policy/` and `/students/support/`.
+`/admissions/tuition/#paying`, `/admissions/policy/` and `/students/#support`.
 **Writable when:** a qualified person drafts it and the Executive adopts
 it.
 
@@ -98,7 +98,7 @@ it.
 No principal officer is appointed. A Leadership page would be either
 empty or invented, and `docs/org-chart-placeholders.md` exists precisely
 because inventing one was considered and refused.
-`/about/structure/` names the posts and states which are vacant, which is
+`/about/#structure` names the posts and states which are vacant, which is
 the honest version of the same page.
 **Writable when:** somebody is appointed.
 
@@ -114,3 +114,20 @@ a named faculty.
 The pages above are not missing because the work was not done. They are
 missing because the events they describe have not happened, and the
 alternative to omitting them was to invent them.
+
+---
+
+## A note on the routes cited above
+
+This document was written before the site was consolidated, and cited
+several pages at their pre-consolidation URLs. Those URLs are recorded as
+retired in `scripts/lib/route-map.js`, and their content lives in
+sections of the surviving pages — the citations above have been updated to
+match. `route-map.test.mjs` enforces that a retired URL never serves its
+own page again, which is what a reader of this document should trust over
+the document itself.
+
+The distinction matters: a page cited here as "written instead" is
+*written*, not *missing*. Reading the old URLs as a gap list produces the
+conclusion that ten pages are unbuilt, when in fact all ten targets
+resolve. They were checked, and they do.
