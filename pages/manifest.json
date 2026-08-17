@@ -868,5 +868,35 @@
       "/css/pillar.css",
       "/css/governance.css"
     ]
+  },
+  {
+    "slug": "press-library",
+    "output": "press/library/index.html",
+    "title": "The Library &mdash; WEC Press",
+    "description": "14 volumes of the College's own curriculum, assessment and teaching work, free to download without an account.",
+    "contentFile": "press-library.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/library/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "press-library-ar",
+    "output": "ar/press/library/index.html",
+    "title": "المكتبة — مطبعة الكلية",
+    "description": "14 مجلدًا من منهج الكلية وتقييمها وعملها التدريسي، حرةَ التنزيل بلا حساب.",
+    "contentFile": "press-library.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/library/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "contents": true
   }
 ]
