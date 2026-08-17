@@ -444,8 +444,11 @@ ${card('صورة الخريج', 'ما يستطيعه حاملها', AR_GRADUATE_
       <div class="stat-row__item"><b>${ltr(String(lv.modules.length))}</b><span>وحدة</span></div>
       <div class="stat-row__item"><b>${ltr(String(lv.units))}</b><span>درسًا مصمَّمًا</span></div>
       <div class="stat-row__item"><b>${ltr(String(lv.duration_months))}</b><span>شهرًا</span></div>
-      <div class="stat-row__item"><b>${money(lv.price_usd_cents)}</b><span>الرسوم</span></div>
+      <div class="stat-row__item"><b>${money(lv.price_usd_cents)}</b><span>هذا المستوى</span></div>
     </div>
+    <p class="form-note">تبدأ بقسط واحد قدره <span dir="ltr">$791.67</span>، لا برسوم المستوى.
+      والتقسيط هو الترتيب الافتراضي ولا رسم عليه &mdash; انظر
+      <a href="/ar/admissions/tuition/#ladder">السُّلَّم</a>.</p>
     <div class="section-head">
       <span class="module-marker">نظرة عامة</span>
       <h2>ما يحتويه هذا المستوى.</h2>
@@ -582,7 +585,7 @@ ${award}
     </div>
     <div class="grid grid--2">
 ${card('المدة', `كم يستغرق المستوى ${ord}؟`, `${ltr(String(lv.duration_months))} أشهر من الدراسة بحسب التصميم، تغطي ${ltr(String(lv.units))} درسًا مصمَّمًا عبر ${ltr(String(lv.modules.length))} وحدات. ومن يحتاج وقتًا أطول لا يُعاقَب؛ المستوى عمل يُنجز لا سباق يُركض.`, 'i-clocktower')}
-${card('الرسوم', 'كم تكلفة هذا المستوى؟', `${money(lv.price_usd_cents)} لهذا المستوى وحده. البرنامج كامل ${ltr('$19,000')} موزّعة بالتساوي على المستويات الستة، ويمكن الدفع مستوى بمستوى.`, 'i-ledger')}
+${card('الرسوم', 'كم تكلفة هذا المستوى؟', `تبدأ بقسط واحد قدره ${ltr('$791.67')}. ورسوم المستوى كاملة ${money(lv.price_usd_cents)}، والبرنامج كله ${ltr('$19,000')} موزّعة بالتساوي على المستويات الستة، ولا يُطلب منك ذلك دفعةً واحدة أبدًا.`, 'i-ledger')}
 ${card('اللغة', 'هل الدراسة بالعربية؟', 'التدريس بالإنجليزية. هذه الصفحة وصفحات القبول والرسوم والتقييم منشورة بالعربية حتى تتخذ قرارك بلغتك، ثم تدرس باللغة التي جئت لتتعلمها.', 'i-globe')}
 ${card('البدء', 'متى أبدأ؟', 'القبول مستمر ولا توجد دفعات محددة. تبدأ في اليوم الذي تُسجَّل فيه.', 'i-passport')}
     </div>

@@ -956,17 +956,31 @@
 </header>
 
 <main id="main">
-<section class="page-hero section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">الرسوم الدراسية</span>
-    <h1 data-split>تسعير شفاف لمسار <span dir="ltr">IEFC</span> كاملًا.</h1>
-    <p class="lede">رسم برنامج واحد، مقسّم بالتساوي على ستة مستويات — ادفع دفعة واحدة، أو لكل مستوى، أو أقساطًا داخل المستوى بالطلب.</p>
-    <div class="stat-row" style="margin-top:40px">
-      <div class="stat-row__item"><strong>19,000$</strong><span>البرنامج كاملًا</span></div>
-      <div class="stat-row__item"><strong>3,166.67$</strong><span>لكل مستوى</span></div>
-      <div class="stat-row__item"><strong>20</strong><span>رصيد <span dir="ltr">WEC</span> لكل مستوى</span></div>
-      <div class="stat-row__item"><strong>120</strong><span>إجمالي أرصدة <span dir="ltr">WEC</span></span></div>
-    </div>
+<!--
+  الرسوم — السُّلَّم، لا المجموع.
+  النسخة العربية من pages/admissions-tuition.html. كانت الصفحة تفتح
+  بـ 19,000$ أكبرَ رقم فيها وأولَه، وهو رقم لا يُطلب من أحد في يوم
+  واحد. الترتيب الآن ترتيب القرار: التقديم بلا شيء، والبدء بقسط،
+  والمستوى بمستوى، والبرنامج كاملًا إن اخترته. ولم يتغير رقم واحد.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></p>
+
+    <p class="masthead__eyebrow">القبول &middot; الرسوم الدراسية</p>
+    <h1>لا يُطلب منك المبلغ كله أبدًا.</h1>
+    <p class="masthead__stake">برنامج من ستة مستويات مسعَّر برقم واحد رقمٌ لا يستطيع أحد التصرف بناءً عليه. <strong>وهذا يُؤخَذ درجةً درجة</strong> &mdash; لا شيء للتقديم، وقسط واحد للبدء، ومستوى يُقرَّر في وقته، ولا التزام يتجاوز الوحدات العشر التي أمامك.</p>
+    <p class="lede">كل رقم تتقاضاه الكلية منشور هنا، بالترتيب الذي تلقاه به، ومعه ما أنت ملتزم به عند كل خطوة. والرسوم محددة بالدولار الأمريكي ولا تتغير بعد التحاقك بمستوى.</p>
+
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>للتقديم</dt><dd>لا شيء</dd></div>
+      <div class="masthead__fact"><dt>للبدء</dt><dd dir="ltr">$791.67</dd></div>
+      <div class="masthead__fact"><dt>للساعة المُدرَّسة</dt><dd dir="ltr">$15.83</dd></div>
+      <div class="masthead__fact"><dt>المستويات الستة</dt><dd dir="ltr">$19,000</dd></div>
+    </dl>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
   </div>
 </section>
 
@@ -974,6 +988,7 @@
   <div class="contents__inner">
     <span class="contents__label">في هذه الصفحة</span>
     <ul class="contents__list">
+      <li><a href="#ladder">السُّلَّم</a></li>
       <li><a href="#fees">الرسوم</a></li>
       <li><a href="#paying">السداد</a></li>
       <li><a href="#plans">طرق الدفع</a></li>
@@ -984,13 +999,70 @@
 </nav>
 
 
+<!-- ==================================================================
+     السُّلَّم
+     ================================================================== -->
+<section class="leaf section--paper grain" id="ladder" data-contents="السُّلَّم">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">السُّلَّم</span>
+      <p class="leaf__rubric">أربع درجات. وأنت تقرّر من جديد عند كل واحدة منها.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+      <h2>ما تلتزم به، بالترتيب الذي تلتزم به.</h2>
+      <p class="lede">الرقم المهم ليس المجموع أبدًا. بل ما أنت ملتزم به يوم تقرّر &mdash; وهو في
+        هذا البرنامج قسطٌ واحد، ثم مستوى واحد، ولا يتجاوز الوحدات العشر التي أمامك.</p>
+    </div>
+
+    <div class="tariff tariff--ladder">
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
+        <span class="tariff__figure">لا شيء</span>
+        <span class="tariff__label">للتقديم</span>
+        <span class="tariff__note">لا رسم، ولا مستندات، ولا بطاقة. ويأتي تحديد المستوى والعرض كلاهما قبل أن يُطلب أي سداد، فتعرف مستواك وسعرك قبل أن تنفق شيئًا.</span>
+      </div>
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+        <span class="tariff__figure" dir="ltr">$791.67</span>
+        <span class="tariff__label">للبدء بالدراسة</span>
+        <span class="tariff__note">أول أربعة أقساط على مستواك الأول. يفتح المستوى كاملًا &mdash; الوحدات العشر، ومعمل الاستماع، وتصحيح شخصٍ لعملك &mdash; يوم يُقيَّد. وهذا أكبر مبلغ تحتفظ به الكلية منك قبل أن تدرس شيئًا.</span>
+      </div>
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+        <span class="tariff__figure" dir="ltr">$3,166.67</span>
+        <span class="tariff__label">مستوى واحد كاملًا</span>
+        <span class="tariff__note">عشر وحدات، وعشرون رصيدًا، ومئتا ساعة عمل مصمَّم، وشهادة في آخره. سُدس البرنامج بالضبط. يُقرَّر مستوى بمستوى، ولا يلزمك تعليل لتتوقف.</span>
+      </div>
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
+        <span class="tariff__figure" dir="ltr">$19,000</span>
+        <span class="tariff__label">الستة كلها، إن أخذتها</span>
+        <span class="tariff__note">من <span dir="ltr">A1</span> إلى <span dir="ltr">C2</span>، ومئة وعشرون رصيدًا، وألف ومئتا ساعة. ولا يُطلب من أحد الالتزام بهذا، ولا يشتري اختياره خصمًا &mdash; فالكلية لا تسعّر التزامًا أكبر على أنه صفقة.</span>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="callout__label">الرقم الذي يجعل بقية الأرقام مقروءة</span>
+      <p><strong><span dir="ltr">$15.83</span> للساعة.</strong> هذا <span dir="ltr">$19,000</span>
+        على ألف ومئتي ساعة، و<span dir="ltr">$3,166.67</span> على مئتين &mdash; الرقم نفسه في
+        الحالين، لأن المستويات مسعَّرة بالتساوي. وهو يشتري دروسًا مؤلَّفة، وتقييمًا كُتب قبل
+        التدريس الذي يختبره، وعمل نطق مسجَّلًا، وكل تكليف يصححه شخص لا درجة آلية. وتنشره الكلية
+        لأن المجموع يخبرك بكم يكلّف البرنامج، أما السعر بالساعة فيخبرك بقيمة ساعة منه.</p>
+    </div>
+    </div>
+  </div>
+</section>
+
 <section class="section--light section-pad" id="fees" data-contents="الرسوم">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">التفصيل حسب المستوى</span>
       <h2>الاستثمار ذاته، في كل مستوى.</h2>
     </div>
-    <div class="table-scroll">
+    <div class="table-scroll ledger-mount edge-lit">
       <table class="ledger">
         <thead><tr><th>المستوى</th><th dir="ltr">CEFR</th><th>الأرصدة</th><th>الزمن الكلي للمؤهل</th><th>الرسوم</th></tr></thead>
         <tbody>
@@ -1069,6 +1141,8 @@
     <div class="section-head">
       <span class="module-marker">وسائل الدفع</span>
       <h2>ما يصلك منها يعتمد على مكانك.</h2>
+      <p class="lede">تحمل المنصة تفضيلات توجيه لعدة بلدان، وتعرض منها ما تملك الكلية له بيانات
+        تاجر فعّالة اليوم. تقترح ولا تُلزم أبدًا.</p>
     </div>
     <div class="callout">
       <span class="callout__label">نيجيريا تحديدًا</span>
@@ -1079,28 +1153,18 @@
         وإن لم تظهر وسيلة عند السداد فذلك لأن بيانات التاجر الخاصة بها لم تُفعَّل بعد — اكتب
         إلى إدارة القبول وادفع بالتحويل في هذه الأثناء.</p>
     </div>
-    <div class="grid grid--3">
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
-        <span class="card__num">الخليج والمملكة المتحدة</span>
-        <h3>بطاقة دولية</h3>
-        <p>السعودية والإمارات وقطر والكويت والمملكة المتحدة تُوجَّه إلى بوابة البطاقات الدولية، مع خيارات محلية حيث تتوفر.</p>
-      </div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
-        <span class="card__num">اقتراح لا إلزام</span>
-        <h3>تختار أنت</h3>
-        <p>يقترح النظام الوسيلة الأنسب لبلدك ولا يفرضها. إن كانت وسيلة أخرى أيسر عليك فاستخدمها.</p>
-      </div>
-      <div class="card reveal tilt edge-lit edge-lit--light aurum">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
-        <span class="card__num">البطاقة لا تصل الكلية</span>
-        <h3>بيانات بطاقتك عند البوابة</h3>
-        <p>تُدخَل بيانات البطاقة لدى مزوّد الدفع لا لدى الكلية. تسجّل الكلية أن السداد تم ومبلغه ومرجعه، ولا ترى رقم بطاقة ولا تخزنه.</p>
-      </div>
+    <div class="table-scroll ledger-mount edge-lit">
+      <table class="ledger">
+        <thead><tr><th>الدولة</th><th>الترتيب المفضَّل</th></tr></thead>
+        <tbody>
+          <tr><td><strong>الإمارات العربية المتحدة</strong></td><td dir="ltr">Card (Stripe) &rarr; Flutterwave</td></tr>
+          <tr><td><strong>المملكة المتحدة</strong></td><td dir="ltr">Card (Stripe)</td></tr>
+          <tr><td><strong>الكويت</strong></td><td dir="ltr">Card (Stripe)</td></tr>
+          <tr><td><strong>نيجيريا</strong></td><td dir="ltr">Paystack &rarr; Flutterwave &rarr; OPay &rarr; Card (Stripe)</td></tr>
+          <tr><td><strong>قطر</strong></td><td dir="ltr">Card (Stripe)</td></tr>
+          <tr><td><strong>السعودية</strong></td><td dir="ltr">Card (Stripe) &rarr; Flutterwave</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
@@ -1109,29 +1173,29 @@
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">طرق الدفع</span>
-      <h2>ثلاثة ترتيبات.</h2>
+      <h2>ثلاثة ترتيبات، أصغرها أولًا.</h2>
     </div>
     <div class="grid grid--3">
       <div class="card card--dark reveal tilt edge-lit aurum">
         <span class="tilt__sheen" aria-hidden="true"></span>
         <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span>
-        <span class="card__num">البرنامج كاملًا</span>
-        <h3><span dir="ltr">$19,000</span> مرة واحدة</h3>
-        <p>دفعة واحدة تغطي المستويات الستة. تسجّلك في المستوى الأول فورًا، وتُضاف المستويات من الثاني إلى السادس إلى حسابك واحدًا تلو الآخر مع إتمام كل مستوى قبله. لا شيء يُحجب عنك — الترتيب موجود ليكون المستوى المدفوع مستوىً أنت مستعد له فعلًا.</p>
+        <span class="card__num">التقسيط &middot; الترتيب الافتراضي</span>
+        <h3>أربع دفعات قدر كلٍّ منها <span dir="ltr">$791.67</span></h3>
+        <p>رسوم المستوى في أربعة أجزاء متساوية، تُعرض على الجميع لا تُمنح بالطلب، ولا رسم على استعمالها. وتتحمّل الكلية فرق التقريب بدل أن تناولك كسر سنت. والتقسيم متساوٍ لأنه لم تُعتمد سياسة إيقاع مبنية على أدلة؛ وحين تُعتمد ستُنشر هنا لا تُغيَّر بصمت.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum">
         <span class="tilt__sheen" aria-hidden="true"></span>
         <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">مستوى بمستوى</span>
         <h3><span dir="ltr">$3,166.67</span> في كل مرة</h3>
-        <p>تدفع عند بداية كل مستوى. وهو الترتيب الأشيع، والأقل التزامًا قبل أن ترى كيف تُدرّس الكلية.</p>
+        <p>مستوى واحد يُدفع في بدايته، والذي بعده يُقرَّر حين تبلغه. وهذا ما يختاره أكثر الناس، وهو ما كانت الكلية ستختاره في موضعك: يلزمك بعشر وحدات ولا يلزمك بشيء بعدها.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum">
         <span class="tilt__sheen" aria-hidden="true"></span>
         <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span>
-        <span class="card__num">تقسيط</span>
-        <h3><span dir="ltr">4</span> دفعات لكل مستوى</h3>
-        <p>رسوم المستوى مقسّمة إلى <span dir="ltr">4</span> أجزاء متساوية. التقسيم متساوٍ لأنه لم تُعتمد سياسة إيقاع مبنية على أدلة؛ وحين تُعتمد ستُنشر هنا لا تُغيَّر بصمت.</p>
+        <span class="card__num">البرنامج كاملًا</span>
+        <h3><span dir="ltr">$19,000</span> مرة واحدة</h3>
+        <p>دفعة واحدة تغطي المستويات الستة. تسجّلك في المستوى الأول فورًا، وتُضاف المستويات من الثاني إلى السادس واحدًا تلو الآخر مع إتمام كل مستوى قبله، فيكون المستوى المدفوع مستوىً أنت مستعد له. ولا يشتري خصمًا، ولن تعرضه الكلية بوصفه الخيار الأفضل: هو الالتزام الأكبر، والقسم التالي يقول ذلك.</p>
       </div>
     </div>
   </div>
@@ -1141,7 +1205,7 @@
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">الاسترداد</span>
-      <h2>لا توجد سياسة استرداد بعد، ومن حقك أن تعرف ذلك قبل أن تدفع.</h2>
+      <h2>لا سياسة استرداد بعد &mdash; ولذلك تحدّ الكلية ما تستطيع الاحتفاظ به.</h2>
     </div>
     <div class="callout">
       <span class="callout__label">ما هو صحيح</span>
@@ -1157,14 +1221,14 @@
         <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg></span>
         <span class="card__num">إن أردت اليقين أولًا</span>
         <h3>ادفع مستوى بمستوى</h3>
-        <p>التزامك في السداد بالمستوى هو <span dir="ltr">$3,166.67</span>، وفي السداد الكامل <span dir="ltr">$19,000</span>. إلى أن توجد سياسة استرداد، هذا الفرق هو الحماية العملية المتاحة لك، وتفضّل الكلية أن تقول لك ذلك على أن تبيعك الحزمة الأكبر.</p>
+        <p>التزامك هو ما دفعته ولم تدرسه بعد. وهو في التقسيط <span dir="ltr">$791.67</span>، وفي المستوى <span dir="ltr">$3,166.67</span>، وفي البرنامج كاملًا <span dir="ltr">$19,000</span>. وإلى أن توجد سياسة، لن توصي الكلية بأكبرها، ولا تسعّرها لتغريك بها.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum">
         <span class="tilt__sheen" aria-hidden="true"></span>
         <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
         <span class="card__num">ما تلتزم به الكلية الآن</span>
-        <h3>جواب مكتوب، وسجل له</h3>
-        <p>كل طلب استرداد يُجاب كتابةً وبسبب. وأيًا كانت السياسة التي تُعتمد لاحقًا، تبقى القرارات السابقة عليها في السجل ولا يُعاد تفسيرها بصمت.</p>
+        <h3>قسط واحد، ولا أكثر، قبل أن تدرس</h3>
+        <p>إلى أن تُعتمد سياسة استرداد، لن تحتفظ الكلية بأكثر من قسط واحد ممن لم يبدأ الدراسة بعد. وهذا تعهّد تستطيع الوفاء به دون إذن أحد، وهو النوع الوحيد من التعهدات الذي تقطعه هذه الكلية. وكل طلب استرداد يُجاب كتابةً وبسبب، وتبقى القرارات السابقة على أي سياسة في السجل ولا يُعاد تفسيرها بصمت حين تُعتمد.</p>
       </div>
     </div>
   </div>

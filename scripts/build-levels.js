@@ -224,8 +224,11 @@ ${card('Graduate profile', 'What the holder can do', esc(a.graduate_profile), 'i
       <div class="stat-row__item"><b>${lv.modules.length}</b><span>Modules</span></div>
       <div class="stat-row__item"><b>${lessons}</b><span>Designed Lessons</span></div>
       <div class="stat-row__item"><b>${lv.duration_months}</b><span>Months</span></div>
-      <div class="stat-row__item"><b>${money(lv.price_usd_cents)}</b><span>Tuition</span></div>
+      <div class="stat-row__item"><b>${money(lv.price_usd_cents)}</b><span>This level</span></div>
     </div>
+    <p class="form-note">You begin with one instalment of $791.67, not with the level fee.
+      Instalments are the default arrangement and carry no charge &mdash; see
+      <a href="/admissions/tuition/#ladder">the ladder</a>.</p>
     <div class="section-head">
       <span class="module-marker">Overview</span>
       <h2>What this level contains.</h2>

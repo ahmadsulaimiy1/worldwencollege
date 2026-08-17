@@ -302,6 +302,25 @@
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   margin-top: clamp(28px, 3vw, 44px);
 }
+/* ── THE LADDER ──────────────────────────────────────────────────────
+   Four rungs that have to read as an ascent, left to right, which
+   `auto-fit` will not guarantee: inside a leaf body at 1440 the fourth
+   rung wrapped alone onto a second row, so the largest figure on the
+   page — the one the ladder exists to put LAST — was sitting by itself
+   under the other three, reading as an emphasis instead of a footnote.
+   An orphan in a four-item grid is the same defect as a lit ninth cell
+   in an eight-item one (CLAUDE.md §6), and the fix is the same: state
+   the columns rather than let them be inferred.
+
+   Four across, then two, then one. Never three. */
+.tariff--ladder { grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 1080px) {
+  .tariff--ladder { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 620px) {
+  .tariff--ladder { grid-template-columns: 1fr; }
+}
+
 .tariff__line {
   position: relative;
   padding: clamp(20px, 2.2vw, 28px);

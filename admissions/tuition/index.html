@@ -976,17 +976,44 @@
 </header>
 
 <main id="main">
-<section class="page-hero section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">Tuition &amp; Fees</span>
-    <h1 data-split>Transparent pricing for the full IEFC pathway.</h1>
-    <p class="lede">One programme fee, spread evenly across six levels — pay in full, by level, or in instalments within a level, on request.</p>
-    <div class="stat-row" style="margin-top:40px">
-      <div class="stat-row__item"><strong>$19,000</strong><span>Full Programme</span></div>
-      <div class="stat-row__item"><strong>$3,166.67</strong><span>Per Level</span></div>
-      <div class="stat-row__item"><strong>20</strong><span>WEC Credits Per Level</span></div>
-      <div class="stat-row__item"><strong>120</strong><span>WEC Credits Total</span></div>
-    </div>
+<!--
+  TUITION — THE LADDER, NOT THE TOTAL.
+  ---------------------------------------------------------------------
+  This page used to open with $19,000 as its first and largest figure,
+  under the heading "Transparent pricing". It was transparent and it was
+  frightening, and those are not the same virtue: nobody buys six levels
+  at once, so the number shown first was a number nobody is ever asked
+  to pay on any single day.
+
+  The order is now the order of the decision. Applying costs nothing.
+  Beginning costs one instalment. A level costs a level. The programme
+  costs the programme, and only if you choose to take all six. Every
+  figure on the page is unchanged — what changed is which one a reader
+  meets first, and that a reader can now see what they are exposed to at
+  each rung rather than only what the whole thing sums to.
+
+  The per-hour figure is exact and derived, not invented: $19,000 over
+  1,200 hours, and $3,166.67 over 200, are both $15.83. It is on the
+  masthead because it is the one figure that makes the others legible.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></p>
+
+    <p class="masthead__eyebrow">Admissions &middot; Tuition and Fees</p>
+    <h1>You are never asked for the whole of it.</h1>
+    <p class="masthead__stake">A six-level programme priced as one number is a number nobody can act on. <strong>This one is taken a rung at a time</strong> &mdash; nothing to apply, one instalment to begin, one level decided at a time, and no commitment beyond the ten modules in front of you.</p>
+    <p class="lede">Every figure the College charges is published here, in the order you meet it, with what you are exposed to at each step. Fees are set in US dollars and do not change once you are enrolled in a level.</p>
+
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>To apply</dt><dd>Nothing</dd></div>
+      <div class="masthead__fact"><dt>To begin</dt><dd>$791.67</dd></div>
+      <div class="masthead__fact"><dt>Per taught hour</dt><dd>$15.83</dd></div>
+      <div class="masthead__fact"><dt>All six levels</dt><dd>$19,000</dd></div>
+    </dl>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
   </div>
 </section>
 
@@ -994,6 +1021,7 @@
   <div class="contents__inner">
     <span class="contents__label">On this page</span>
     <ul class="contents__list">
+      <li><a href="#ladder">The Ladder</a></li>
       <li><a href="#fees">The Fees</a></li>
       <li><a href="#paying">Paying</a></li>
       <li><a href="#plans">Ways to Pay</a></li>
@@ -1004,13 +1032,73 @@
 </nav>
 
 
+<!-- ==================================================================
+     THE LADDER
+     Four rungs, smallest first, each with its own exposure stated.
+     ================================================================== -->
+<section class="leaf section--paper grain" id="ladder" data-contents="The Ladder">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">I</span>
+      <span class="leaf__label">The Ladder</span>
+      <p class="leaf__rubric">Four rungs. You decide again at every one of them.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+      <h2>What you commit to, in the order you commit to it.</h2>
+      <p class="lede">The figure that matters is never the total. It is what you are exposed to
+        on the day you decide &mdash; and on this programme that is one instalment, then one
+        level, and never more than the ten modules in front of you.</p>
+    </div>
+
+    <div class="tariff tariff--ladder">
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
+        <span class="tariff__figure">Nothing</span>
+        <span class="tariff__label">To apply</span>
+        <span class="tariff__note">No fee, no documents, no card. The placement assessment and the offer both come before any payment is asked for, so you learn your level and your price before you spend anything.</span>
+      </div>
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+        <span class="tariff__figure">$791.67</span>
+        <span class="tariff__label">To begin studying</span>
+        <span class="tariff__note">The first of four instalments on your first level. It opens the level in full &mdash; all ten modules, the Listening Lab, marking by a person &mdash; on the day it clears. This is the largest sum the College will hold from you before you have studied anything.</span>
+      </div>
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+        <span class="tariff__figure">$3,166.67</span>
+        <span class="tariff__label">One level, complete</span>
+        <span class="tariff__note">Ten modules, 20 WEC Credits, 200 hours of designed work, and an award at the end of it. One sixth of the programme exactly. Decided one level at a time, with no explanation required to stop.</span>
+      </div>
+      <div class="tariff__line reveal edge-lit edge-lit--light aurum">
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
+        <span class="tariff__figure">$19,000</span>
+        <span class="tariff__label">All six, if you take them</span>
+        <span class="tariff__note">A1 to C2, 120 WEC Credits, 1,200 hours. Nobody is asked to commit to this, and choosing it buys no discount &mdash; the College will not price a bigger commitment as a bargain.</span>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="callout__label">The figure that makes the others legible</span>
+      <p><strong>$15.83 an hour.</strong> That is $19,000 across 1,200 hours, and $3,166.67
+        across 200 &mdash; the same number either way, because the levels are priced evenly. It
+        buys authored lessons, an assessment written before the teaching it tests, recorded
+        pronunciation work, and every assignment marked by a person rather than a score. The
+        College publishes it because a total tells you what a programme costs and a rate tells
+        you what an hour of it is worth.</p>
+    </div>
+    </div>
+  </div>
+</section>
+
 <section class="section--light section-pad" id="fees" data-contents="The Fees">
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Per-Level Breakdown</span>
       <h2>The same investment, every level.</h2>
     </div>
-    <div class="table-scroll">
+    <div class="table-scroll ledger-mount edge-lit">
       <table class="ledger">
         <thead><tr><th>Level</th><th>CEFR</th><th>Credits</th><th>Total Qualification Time</th><th>Tuition</th></tr></thead>
         <tbody>
@@ -1066,27 +1154,25 @@
         as recognised codes, but a currency is only settled once a rate policy stands behind it,
         and none of them has one yet.</p>
     </div>
-    <div class="table-scroll">
-      <table class="ledger">
-        <thead><tr><th>Currency</th><th>Status</th><th>What it means for you</th></tr></thead>
-        <tbody>
-          <tr><td><strong>USD &mdash; US dollar</strong></td><td>Settled</td>
-              <td>Every fee is set and charged in dollars. $19,000 means $19,000.</td></tr>
-          <tr><td><strong>AED &mdash; UAE dirham</strong></td><td>Recognised, not settled</td>
-              <td>Your bank or card issuer converts at its own rate on the day. WEC-LC does not publish a AED price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
-          <tr><td><strong>GBP &mdash; pound sterling</strong></td><td>Recognised, not settled</td>
-              <td>Your bank or card issuer converts at its own rate on the day. WEC-LC does not publish a GBP price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
-          <tr><td><strong>KWD &mdash; Kuwaiti dinar</strong></td><td>Recognised, not settled</td>
-              <td>Your bank or card issuer converts at its own rate on the day. WEC-LC does not publish a KWD price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
-          <tr><td><strong>NGN &mdash; Nigerian naira</strong></td><td>Recognised, not settled</td>
-              <td>Your bank or card issuer converts at its own rate on the day. WEC-LC does not publish a NGN price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
-          <tr><td><strong>QAR &mdash; Qatari riyal</strong></td><td>Recognised, not settled</td>
-              <td>Your bank or card issuer converts at its own rate on the day. WEC-LC does not publish a QAR price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
-          <tr><td><strong>SAR &mdash; Saudi riyal</strong></td><td>Recognised, not settled</td>
-              <td>Your bank or card issuer converts at its own rate on the day. WEC-LC does not publish a SAR price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>
-        </tbody>
-      </table>
+    <div class="grid grid--2">
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
+        <span class="card__num">Settled</span>
+        <h3>The US dollar</h3>
+        <p>Every fee is set and charged in dollars. $19,000 means $19,000, and $791.67 means $791.67 &mdash; on the day you pay it and on any other day.</p>
+      </div>
+      <div class="card reveal tilt edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+        <span class="card__num">Recognised, not settled</span>
+        <h3>Sterling, naira, riyal, dirham, dinar</h3>
+        <p>Your bank or card issuer converts at its own rate on the day. The College publishes no local-currency price, because a price with no fixed rate behind it is a number that changes without notice &mdash; and it would change most for the students furthest from a dollar economy.</p>
+      </div>
     </div>
+    <p class="form-note">Recognised in the system as codes: AED, GBP, KWD, NGN, QAR, SAR. A code
+      is not a price. A currency becomes settled here on the day a rate policy stands behind it,
+      and that policy will be published rather than applied quietly.</p>
     <p class="form-note">Where a bank converts, the conversion is between you and your bank. The
       College sees only the dollar amount and cannot quote or guarantee the local figure.</p>
   </div>
@@ -1101,7 +1187,7 @@
         whichever of them the College currently has live merchant credentials for. It suggests;
         it never forces.</p>
     </div>
-    <div class="table-scroll">
+    <div class="table-scroll ledger-mount edge-lit">
       <table class="ledger">
         <thead><tr><th>Country</th><th>Preferred order</th></tr></thead>
         <tbody>
@@ -1130,29 +1216,29 @@
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Ways to Pay</span>
-      <h2>Three arrangements.</h2>
+      <h2>Three arrangements, smallest first.</h2>
     </div>
     <div class="grid grid--3">
       <div class="card card--dark reveal tilt edge-lit aurum">
         <span class="tilt__sheen" aria-hidden="true"></span>
         <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span>
-        <span class="card__num">Full programme</span>
-        <h3>$19,000 once</h3>
-        <p>One payment covers all six levels. It enrols you in Level I immediately; Levels II to VI are added to your account one at a time as each preceding level is completed. Nothing is withheld from you &mdash; the arrangement exists so that a paid-for level is a level you are actually ready to study.</p>
+        <span class="card__num">Instalments &middot; the default</span>
+        <h3>Four payments of $791.67</h3>
+        <p>A level&rsquo;s fee in four equal parts, offered to everyone rather than granted on request, and carrying no charge for using it. The College absorbs the rounding rather than handing you a fraction of a cent. The split is equal because no evidence-based cadence policy has been adopted; when one is, it will be published here rather than changed quietly.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum">
         <span class="tilt__sheen" aria-hidden="true"></span>
         <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
         <span class="card__num">Per level</span>
         <h3>$3,166.67 at a time</h3>
-        <p>Pay at the start of each level. The most common arrangement, and the one that requires the least commitment before you have seen how the College teaches.</p>
+        <p>One level paid at its start, and the next decided only when you reach it. This is what most people choose, and it is what the College would choose in your position: it commits you to ten modules and to nothing after them.</p>
       </div>
       <div class="card card--dark reveal tilt edge-lit aurum">
         <span class="tilt__sheen" aria-hidden="true"></span>
         <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
-        <span class="card__num">Instalments</span>
-        <h3>4 payments per level</h3>
-        <p>A level&rsquo;s fee split into 4 equal parts. The split is equal because no evidence-based cadence policy has been set; when one is, it will be published here rather than changed quietly.</p>
+        <span class="card__num">Full programme</span>
+        <h3>$19,000 once</h3>
+        <p>One payment covers all six levels. It enrols you in Level&nbsp;I immediately; Levels&nbsp;II to VI are added one at a time as each preceding level is completed, so a paid-for level is a level you are ready to study. It buys no discount, and the College will not present it as the better choice: it is the larger exposure, and the section below says so.</p>
       </div>
     </div>
   </div>
@@ -1162,7 +1248,7 @@
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Refunds</span>
-      <h2>There is no refund policy yet, and you should know that before you pay.</h2>
+      <h2>No refund policy yet &mdash; so the College limits what it can hold.</h2>
     </div>
     <div class="callout">
       <span class="callout__label">What is true</span>
@@ -1179,14 +1265,14 @@
         <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
         <span class="card__num">If you want certainty first</span>
         <h3>Pay by level, not in full</h3>
-        <p>The exposure of a per-level payment is $3,166.67; the exposure of a full-programme payment is $19,000. Until a refund policy exists, that difference is the practical protection available to you, and the College would rather tell you that than sell the larger package.</p>
+        <p>Your exposure is whatever you have paid and not yet studied. On instalments that is $791.67; on a level, $3,166.67; on the full programme, $19,000. Until a policy exists the College will not recommend the largest of those, and it does not price it to tempt you into it.</p>
       </div>
       <div class="card reveal tilt edge-lit edge-lit--light aurum">
         <span class="tilt__sheen" aria-hidden="true"></span>
         <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
         <span class="card__num">What the College commits to now</span>
-        <h3>A written answer, and a record of it</h3>
-        <p>Every refund request is answered in writing with a reason. Whatever policy is eventually adopted, decisions taken before it will remain on the record and will not be quietly reinterpreted afterwards.</p>
+        <h3>One instalment, and never more, before you have studied</h3>
+        <p>Until a refund policy is adopted, the College will not hold more than a single instalment from anyone who has not yet begun studying. That is a commitment it can keep without anybody&rsquo;s permission, which is the only kind this College makes. Every refund request is also answered in writing with a reason, and decisions taken before a policy exists will stay on the record rather than be quietly reinterpreted once one does.</p>
       </div>
     </div>
   </div>
