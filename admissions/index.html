@@ -1,93 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-<!-- THE BUILD STAMP.
-     The commit this page was generated from, emitted on every page.
-     It exists so a deployment can be PROVEN rather than assumed: the
-     deploy workflow fetches the live domain after publishing and
-     refuses to report success unless the stamp it finds is the commit
-     it just built. Four rounds of "it deployed" / "I cannot see it"
-     were spent because nothing on the served page said which build it
-     was. Now every page says. -->
-<meta name="wec-build" content="">
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Admissions &mdash; Worldwide English College</title>
-<meta name="description" content="The whole admissions decision in one place: whether you qualify, how to apply, when you can start, and what applies to international applicants — visas included.">
-<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
-<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
-<link rel="manifest" href="/manifest.webmanifest">
-<meta name="theme-color" content="#14264A">
+<title>Admission — Al-Madinah International College</title>
+<meta name="description" content="The procedure of admission, conditions of entry by programme, and how to apply to the Registry.">
+<link rel="canonical" href="https://www.al-madinahcollege.com/admissions/">
+<link rel="alternate" hreflang="en" href="https://www.al-madinahcollege.com/admissions/">
+<link rel="alternate" hreflang="ar" href="https://www.al-madinahcollege.com/ar/admissions/">
+<link rel="alternate" hreflang="x-default" href="https://www.al-madinahcollege.com/admissions/">
+<meta name="build" content="">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Al-Madinah International College">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="Admission — Al-Madinah International College">
+<meta property="og:description" content="The procedure of admission, conditions of entry by programme, and how to apply to the Registry.">
+<meta property="og:url" content="https://www.al-madinahcollege.com/admissions/">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="theme-color" content="#0A1428">
+
+<link rel="icon" href="/assets/madinah/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/madinah/favicon.svg" sizes="any" type="image/svg+xml">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600&family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&text=%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600&family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="/css/brand.css">
-<link rel="stylesheet" href="/css/atelier.css">
 <link rel="stylesheet" href="/css/pages.css">
-<!-- LAST, and that ordering is load-bearing. Script-specific typography
-     has to be able to override the general stylesheets, because those
-     set tracking and leading tuned to Latin faces and Arabic inherits
-     it. Putting this first — which is where it started — left 951 of
-     1,049 violations standing. See the header of css/arabic.css. -->
-<link rel="stylesheet" href="/css/arabic.css">
-<noscript><style>
-/* Several entrance effects are authored hidden and revealed by script:
-   .reveal (js/site.js), .split-word and .rule-draw (js/motion.js),
-   .assemble__d and .gilt (js/atelier.js). With scripting off, nothing
-   ever reveals them — the page renders, passes every check, and shows
-   the reader blank space where the content is. Each is pinned to its
-   finished state here, which is the same contract the
-   prefers-reduced-motion blocks keep. */
-.reveal, .split-word, .assemble__d, .foil, .wax-seal, .constellation { opacity: 1 !important; transform: none !important; }
-.rule-draw { transform: scaleX(1) !important; }
-.gilt { --gilt: 1; }
-.plate--drift img, .plate--drift svg { animation: none !important; }
-</style></noscript>
-<meta property="og:site_name" content="WorldWide English College">
-<meta property="og:locale" content="en_GB">
-<meta property="og:title" content="Admissions &mdash; Worldwide English College">
-<meta property="og:description" content="The whole admissions decision in one place: whether you qualify, how to apply, when you can start, and what applies to international applicants — visas included.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.worldwencollege.co.uk/admissions/">
-<meta property="og:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Admissions &mdash; Worldwide English College">
-<meta name="twitter:description" content="The whole admissions decision in one place: whether you qualify, how to apply, when you can start, and what applies to international applicants — visas included.">
-<meta name="twitter:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
-<link rel="canonical" href="https://www.worldwencollege.co.uk/admissions/">
-<!-- Assembled in scripts/build.js rather than written out here: a page
-     with no counterpart in the other language must declare no alternate
-     at all, and there is no way to omit a line from a template that
-     only substitutes values. -->
-<link rel="alternate" hreflang="en" href="https://www.worldwencollege.co.uk/admissions/">
-<link rel="alternate" hreflang="ar" href="https://www.worldwencollege.co.uk/ar/admissions/">
-<link rel="alternate" hreflang="x-default" href="https://www.worldwencollege.co.uk/admissions/">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "EducationalOrganization",
-  "name": "WorldWide English College — London Campus",
-  "alternateName": "WEC-LC",
-  "url": "https://www.worldwencollege.co.uk/",
-  "email": "info@worldwencollege.co.uk",
-  "slogan": "Empowering the World Through English Excellence.",
-  "description": "An international English language institution delivering the International English Fluency Course (IEFC) — six CEFR-aligned levels, taught entirely online from a London administrative headquarters.",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "London",
-    "addressCountry": "GB"
-  },
-  "sameAs": []
-}
-</script>
+<link rel="stylesheet" href="/css/atelier.css">
+<link rel="stylesheet" href="/css/rusukh.css">
 
 </head>
-<body data-section="admissions">
+<body data-section="admissions" data-lang="en">
 <a class="skip-link" href="#main">Skip to main content</a>
 <!--
   THE ICON SPRITE.
@@ -111,7 +58,7 @@
   does not inherit across an external <use> reference in several
   browsers, which would defeat the whole arrangement above.
 -->
-<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false"><defs>
 
   <!-- A genuine foil-stamped stroke, not a flat colour standing in for
        one: an actual gold gradient a badge icon can be drawn in, the
@@ -129,9 +76,9 @@
 
   <!-- The institution's mark, reduced to a stroke. -->
   <symbol id="i-crest" viewBox="0 0 24 24">
-    <path d="M12 1.6 21 4.8v8.1c0 5.6-3.8 10-9 12.1C6.8 22.9 3 18.5 3 12.9V4.8Z"/>
-    <path d="M12 5.2 17.6 7.2v5.6c0 3.7-2.4 6.7-5.6 8.1-3.2-1.4-5.6-4.4-5.6-8.1V7.2Z"/>
-    <path d="M9.4 12.6h5.2M12 10v5.2"/>
+    <path d="M12 1.8 22.2 12 12 22.2 1.8 12Z"/>
+    <path d="M4.9 4.9h14.2v14.2H4.9Z"/>
+    <circle cx="12" cy="12" r="3.4"/>
   </symbol>
 
   <!-- Laurel — awards, honours, distinction. -->
@@ -295,241 +242,291 @@
     <path d="M3 12h18M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9S9.6 5.6 12 3Z"/>
   </symbol>
 
+
+  <!-- ADDED FOR DĀR AL-RUSŪKH.
+       Four symbols the shared sprite has no equivalent for, drawn to the
+       same rule as the rest: 24x24 grid, 1.25px stroke, no fills. -->
+  <symbol id="i-sanad" viewBox="0 0 24 24">
+    <path d="M9.5 14.5a3.6 3.6 0 0 1 0-5.1l2.6-2.6a3.6 3.6 0 0 1 5.1 5.1l-1.2 1.2"/>
+    <path d="M14.5 9.5a3.6 3.6 0 0 1 0 5.1l-2.6 2.6a3.6 3.6 0 0 1-5.1-5.1l1.2-1.2"/>
+  </symbol>
+
+  <symbol id="i-mushaf" viewBox="0 0 24 24">
+    <path d="M3.4 5.2h6.1c1.4 0 2.5.8 2.5 1.9v12c0-1.1-1.1-1.9-2.5-1.9H3.4Z"/>
+    <path d="M20.6 5.2h-6.1c-1.4 0-2.5.8-2.5 1.9v12c0-1.1 1.1-1.9 2.5-1.9h6.1Z"/>
+    <path d="M12 7.1v12"/>
+  </symbol>
+
+  <symbol id="i-minaret" viewBox="0 0 24 24">
+    <path d="M12 1.6c1.9 1.9 2.9 3.7 2.9 5.4H9.1c0-1.7 1-3.5 2.9-5.4Z"/>
+    <path d="M9.6 7h4.8v13.4H9.6Z"/>
+    <path d="M6.8 20.4h10.4V22.4H6.8Z"/>
+    <path d="M11 10.6h2v3.4h-2Z"/>
+  </symbol>
+
+  <symbol id="i-whatsapp" viewBox="0 0 24 24">
+    <path d="M12 2.6a9.4 9.4 0 0 0-8 14.3L2.6 21.4l4.6-1.3A9.4 9.4 0 1 0 12 2.6Z"/>
+    <path d="M8.8 8.2c.3-.1.6 0 .8.3l.9 1.4c.1.2.1.5 0 .7l-.5.7c.6 1.2 1.5 2.1 2.7 2.7l.7-.5c.2-.1.5-.2.7 0l1.4.9c.3.2.4.5.3.8-.3.9-1.2 1.4-2.1 1.2-2.9-.6-5.2-2.9-5.8-5.8-.2-.9.3-1.8 1.2-2.1Z"/>
+  </symbol>
+
 </defs></svg>
-<div class="topbar">
-  <div class="topbar__inner">
-    <div class="topbar__contacts">
-      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
-        info@worldwencollege.co.uk
-      </a>
-      <span class="topbar__item topbar__item--muted">
-        <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-        London Campus · Applications open worldwide
-      </span>
-    </div>
-    <div class="topbar__right">
-      <a href="/contact/" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
-        Contact
-      </a>
-      <a class="topbar__lang" href="/ar/admissions/" lang="ar" hreflang="ar">
-        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
-        العربية
-      </a>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
-    </div>
+<!--  THE STRIP THAT USED TO BE HERE IS GONE.
+
+      It carried an address, a standing line, Calendar, Verify, Sign in,
+      Personalise and the language switch — seven items of seven different
+      lengths, stacked ABOVE the College's own name. A masthead is the
+      first thing a reader sees and it was being preceded by a row of
+      utilities, which is the opposite of how a serious institution
+      presents itself.
+
+      Every one of them still exists. Calendar, Verify and Contact live in
+      the mega-menus and the footer; Sign in, Apply, WhatsApp and
+      Personalise moved to the floating dock (partials/dock.html); the
+      language switch sits in the header's own action group; and the whole
+      set is in the mobile drawer under Full Menu.
+
+      What remains above the name is the prayer band alone — the one thing
+      a college of Qur'ānic sciences has a reason to put there.  -->
+
+<!-- THE PRAYER BAND.
+     The one thing a college of Qur'ānic sciences should carry above its
+     own name. Times are computed on the reader's device from the solar
+     position at Lagos — Muslim World League angles, shadow factor one —
+     and the band says so, because reasonable tables differ and a school
+     that prints a prayer time without naming its convention is asserting
+     more than it knows. -->
+<div class="prayerband" data-prayer-band>
+  <div class="prayerband__inner">
+    <span class="prayerband__place">
+      <svg class="icon" aria-hidden="true"><use href="#i-minaret"/></svg>
+      Lagos &middot; West Africa Time
+    </span>
+    <span class="prayerband__next">
+      <span class="prayerband__label">Next</span>
+      <strong data-prayer-name>—</strong>
+      <span class="prayerband__time" data-prayer-time>—:—</span>
+      <span class="prayerband__cd" data-prayer-countdown></span>
+    </span>
+    <span class="prayerband__date">
+      <span data-hijri-long>—</span>
+      <span class="prayerband__sep" aria-hidden="true">&middot;</span>
+      <span data-gregorian>—</span>
+    </span>
   </div>
 </div>
 
+<!-- THE PERSONALISATION CENTRE.
+     Three settings, remembered on this device and nowhere else. Livery
+     recolours the institutional blues without touching the golds; ornament
+     governs the raking light, the drifting motes and the paper grain;
+     text size scales the whole document from the root. -->
+<div class="personalise crystal" id="personalise" data-personalise-panel hidden>
+  <div class="personalise__inner">
+    <div class="personalise__head">
+      <h2 class="personalise__title">Personalise this site</h2>
+      <button type="button" class="personalise__close" data-personalise-close aria-label="Close">&times;</button>
+    </div>
+
+    <div class="personalise__group">
+      <p class="personalise__label">Livery</p>
+      <div class="personalise__opts">
+        <button type="button" data-pref="livery" data-value="sapphire" aria-pressed="true">Sapphire</button>
+        <button type="button" data-pref="livery" data-value="obsidian" aria-pressed="false">Obsidian</button>
+        <button type="button" data-pref="livery" data-value="emerald" aria-pressed="false">Emerald</button>
+      </div>
+    </div>
+
+    <div class="personalise__group">
+      <p class="personalise__label">Ornament</p>
+      <div class="personalise__opts">
+        <button type="button" data-pref="ornament" data-value="full" aria-pressed="true">Full</button>
+        <button type="button" data-pref="ornament" data-value="restrained" aria-pressed="false">Restrained</button>
+        <button type="button" data-pref="ornament" data-value="none" aria-pressed="false">None</button>
+      </div>
+    </div>
+
+    <div class="personalise__group">
+      <p class="personalise__label">Text size</p>
+      <div class="personalise__opts">
+        <button type="button" data-pref="textsize" data-value="small" aria-pressed="false">Small</button>
+        <button type="button" data-pref="textsize" data-value="medium" aria-pressed="true">Medium</button>
+        <button type="button" data-pref="textsize" data-value="large" aria-pressed="false">Large</button>
+      </div>
+    </div>
+
+    <p class="personalise__note">Remembered on this device. Nothing is sent anywhere,
+      and no account is required.</p>
+  </div>
+</div>
 <!--
-  THE HEADER: ONE ELEMENT, NOT THREE BANDS.
+  THE HEADER.
 
-  It used to be four layers — a utility strip, a ceremonial identity
-  band that withdrew on scroll, a navigation rail and an actions group.
-  Each was defensible on its own. Stacked, they produced roughly 350px
-  of chrome before any content, three horizontal seams, and an alignment
-  axis that changed on every band: a rule pinned far left, the wordmark
-  centred, the navigation left-aligned, the buttons right. Read quickly
-  it did not look like architecture. It looked like something had failed
-  to load.
+  Built on the same architecture as the WEC-LC rail in partials/header.html
+  and using the same components from css/brand.css and css/atelier.css —
+  lattice ground, trim-metal edge, tilt/sheen on the lockup, mega-menus on
+  the crystal panel, the mobile quicknav strip and the accordion drawer.
+  It condenses past 90px scroll: js/motion.js adds .is-condensed, the crest
+  scales down and the descriptor line withdraws so the name holds full size.
 
-  So the ceremonial band is gone and its job moved into the rail. The
-  institution still presents itself — crest, name, campus — but on the
-  same line and the same axis as everything else, which is what makes a
-  header read as one object.
+  WHAT IS OURS RATHER THAN INHERITED:
 
-  What survives from the old design is the behaviour that was actually
-  good: on scroll the rail condenses, the crest scales down and the
-  campus line withdraws, so the name stays full size rather than
-  everything shrinking together. js/motion.js adds .is-condensed past
-  90px; css/brand.css does the rest.
+  - The crest. WEC's arms are a crowned shield over an open book; ours is
+    the eight-point khātim — two squares at 45° inside a double ring, the
+    oldest ornament in the Islamic geometric repertoire and the one that
+    survives being shrunk to 27px in the condensed rail. It reuses the
+    .crest__* classes so it inherits the same gold treatment, but not one
+    path is WEC's.
 
-  THE MENUS ARE THE SIX PILLARS of docs/information-architecture.html:
-  The College, Academics, Admissions, Students, Governance, Press &
-  Library. Governance holds a top-level slot because the architecture
-  says it is the page the College should be judged by; Faculty is a
-  roster, not a pillar, and lives inside Academics; Contact sits in the
-  utility bar above. Each menu carries the sections of one pillar and
-  nothing else — thirty-one links across all six, inside the 28–36
-  band the navigation research names. Anything deeper (a single level,
-  BASCE, the verification protocol) is one click behind these links,
-  on a pillar page whose contents rail carries it by name.
+  - The clock reads Lagos, not London, and carries the Hijrī date beside
+    the Gregorian — this College keeps its calendar against the Hijrī year,
+    so a header clock that showed only the Gregorian would contradict the
+    academic calendar two clicks away.
 
-  THE MOBILE DRAWER is a full-screen accordion, not a scroll of thirty-
-  one links. Grouping the pillars under static labels (Phase 5b) fixed
-  legibility but not density: every link was still on screen at once,
-  which is what "jam-packed" means on a 375px phone. Each pillar is now
-  a closed accordion__q/accordion__a pair — the same component the FAQ
-  page already used, wired once in js/site.js, reused here rather than
-  written twice — so a reader sees seven names, opens one, and the rest
-  stay out of the way. The drawer itself is a fixed overlay pinned to
-  var(--header-h) rather than an inline block, with its own guilloché
-  watermark for ceremony and a hamburger-to-X morph so the same control
-  that opened it closes it. It still carries the language switch and
-  social links: the topbar above is not sticky, so a reader who has
-  scrolled even one screen down has already lost those and cannot reach
-  them again without scrolling back to the top.
+  THE MENUS are the five pillars of the site: The College, Faculties,
+  Academic Awards, Continuing Education, Admission. Every link behind them
+  resolves; nothing is listed that has no page.
 -->
 <header class="site-header lattice" data-nodes="7">
   <div class="trim-metal" aria-hidden="true"></div>
   <div class="lattice__bed" aria-hidden="true"></div>
 
   <div class="site-header__inner">
-    <a href="/" class="brand tilt" aria-label="WorldWide English College, home">
+    <a href="/" class="brand tilt" aria-label="Al-Madinah International College, home">
       <span class="tilt__sheen" aria-hidden="true"></span>
       <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
-        <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
-        <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
-        <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
-        <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
-        <path class="crest__book" d="M24 28.5 V37.4"/>
-        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
+        <circle class="crest__shield" cx="24" cy="27" r="21"/>
+        <circle class="crest__inner" cx="24" cy="27" r="17.5"/>
+        <path class="crest__crown" d="M10.5 13.5h27v27h-27Z"/>
+        <path class="crest__crown" d="M10.5 13.5h27v27h-27Z" transform="rotate(45 24 27)"/>
+        <circle class="crest__book" cx="24" cy="27" r="7.2"/>
+        <text x="24" y="30.2" text-anchor="middle" class="crest__mono">AMC</text>
       </svg>
       <span class="brand__word">
-        <span class="brand__name">WorldWide English College</span>
-        <span class="brand__campus">London Campus</span>
+        <span class="brand__name">Al-Madinah</span>
+        <span class="brand__campus">International College</span>
+        <span class="brand__est">Established 1441&nbsp;/&nbsp;2020 &middot; Lagos, Nigeria</span>
       </span>
     </a>
 
     <nav class="nav" aria-label="Primary">
 
       <div class="nav__item nav__item--has-menu">
-        <a href="/about/" aria-haspopup="true" aria-expanded="false">The College</a>
-        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+        <a href="/about/" data-nav="about" aria-haspopup="true" aria-expanded="false">The College</a>
+        <div class="nav__menu nav__menu--mega crystal">
           <div class="mega__cols">
             <div class="mega__col">
               <p class="mega__label">The Institution</p>
               <a href="/about/">About the College</a>
-              <a href="/about/#vision">Vision &amp; Mission</a>
-              <a href="/about/#philosophy">Educational Philosophy</a>
-              <a href="/about/#structure">How It Is Organised</a>
-              <a href="/about/careers/">Careers</a>
+              <a href="/about/#name">The Name</a>
+              <a href="/about/#method">Method of Instruction</a>
+              <a href="/about/#foundation">Foundation &amp; the Founder</a>
+              <a href="/about/#governance">Governance</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">The Standing Orders</p>
+              <a href="/regulations/">Academic Regulations</a>
+              <a href="/regulations/#attainment">The Rule of Retention</a>
+              <a href="/regulations/#pace">Registration, Leave &amp; Lapse</a>
+              <a href="/safeguarding/">Safeguarding &amp; Conduct of Teaching</a>
+              <a href="/standing/">Standing, Recognition &amp; Disclosure</a>
             </div>
           </div>
-          <a class="mega__feature" href="/about/#status">
-            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-columns"/></svg>
-            <span class="mega__feature-label">Institutional status</span>
-            <span class="mega__feature-text">What the College is today — and what it is not yet. Stated plainly, kept current.</span>
-            <span class="mega__feature-go">Read the status <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          <a class="mega__feature" href="/regulations/#attainment">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-shield-check"/></svg>
+            <span class="mega__feature-label">The Rule of Retention</span>
+            <span class="mega__feature-text">Most institutions record what a student reached. This College records what a student retains, and the two are not the same number.</span>
+            <span class="mega__feature-go">Read the regulation <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
       </div>
 
       <div class="nav__item nav__item--has-menu">
-        <a href="/academics/" aria-haspopup="true" aria-expanded="false">Academics</a>
+        <a href="/faculties/" data-nav="faculties" aria-haspopup="true" aria-expanded="false">Faculties</a>
         <div class="nav__menu nav__menu--mega crystal">
           <div class="mega__cols">
             <div class="mega__col">
-              <p class="mega__label">The Programme</p>
-              <a href="/academics/">Academics Overview</a>
-              <a href="/academics/#iefc">The IEFC Programme</a>
-              <a href="/academics/#levels">The Six Levels</a>
-              <a href="/academics/#learning">How Learning Works</a>
-              <a href="/academics/#campus">The Digital Campus</a>
+              <p class="mega__label">The Four Faculties</p>
+              <a href="/faculties/quran/">The Qur&rsquo;ān and its Sciences</a>
+              <a href="/faculties/#arabic">Arabic Language</a>
+              <a href="/faculties/#shariah">Sharī&rsquo;ah Sciences</a>
+              <a href="/faculties/#applied">Da&rsquo;wah &amp; Applied Studies</a>
             </div>
             <div class="mega__col">
-              <p class="mega__label">Teaching &amp; Faculty</p>
-              <a href="/academics/teaching/">Teaching Practice</a>
-              <a href="/faculty/">The Faculty</a>
+              <p class="mega__label">Academic Structure</p>
+              <a href="/faculties/">All Programmes of Study</a>
+              <a href="/faculties/#structure">Prescribed Texts &amp; Syllabi</a>
+              <a href="/calendar/">Academic Calendar</a>
             </div>
           </div>
-          <a class="mega__feature" href="/academics/#levels">
-            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-progress"/></svg>
-            <span class="mega__feature-label">Sixty modules, written</span>
-            <span class="mega__feature-text">Every outcome and every mark scheme, readable before you enrol.</span>
-            <span class="mega__feature-go">Explore the levels <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          <a class="mega__feature" href="/faculties/quran/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-mushaf"/></svg>
+            <span class="mega__feature-label">The Faculty of the Qur&rsquo;ān</span>
+            <span class="mega__feature-text">Six programmes, from the foundation certificate to the Higher Diploma in the Ten Readings.</span>
+            <span class="mega__feature-go">Enter the faculty <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
       </div>
 
       <div class="nav__item nav__item--has-menu">
-        <a href="/admissions/" aria-haspopup="true" aria-expanded="false">Admissions</a>
+        <a href="/awards/" data-nav="awards" aria-haspopup="true" aria-expanded="false">Academic Awards</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">Awards &amp; Examination</p>
+              <a href="/awards/">Awards of the College</a>
+              <a href="/awards/#general">Graded Certificates</a>
+              <a href="/awards/#examination">Regulations of Examination</a>
+              <a href="/awards/#ijazah">Conditions of Ijāzah</a>
+              <a href="/awards/register-of-chains/">Register of Asānīd</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/awards/register-of-chains/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-sanad"/></svg>
+            <span class="mega__feature-label">The Register of Asānīd</span>
+            <span class="mega__feature-text">Which chains the faculty holds, through whom they came, and who may confer each.</span>
+            <span class="mega__feature-go">Read the register <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/short-courses/" data-nav="short-courses" aria-haspopup="true" aria-expanded="false">Continuing Education</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">Short Courses</p>
+              <a href="/short-courses/">All Short Courses</a>
+              <a href="/short-courses/#ramadan">The Ramaḍān Programme</a>
+              <a href="/short-courses/#schedules">Schedules of Memorisation</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/short-courses/#schedules">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-calendar"/></svg>
+            <span class="mega__feature-label">Issued without charge</span>
+            <span class="mega__feature-text">Four graduated schedules for memorising the Qur&rsquo;ān, free and without condition of enrolment.</span>
+            <span class="mega__feature-go">Request a schedule <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/admissions/" data-nav="admissions" aria-current="page" aria-haspopup="true" aria-expanded="false">Admission</a>
         <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
           <div class="mega__cols">
             <div class="mega__col">
               <p class="mega__label">Applying</p>
-              <a href="/admissions/">Admissions Overview</a>
-              <a href="/admissions/#apply">How to Apply</a>
+              <a href="/admissions/">Admission Overview</a>
+              <a href="/admissions/#procedure">The Five Stages</a>
               <a href="/admissions/#requirements">Entry Requirements</a>
-              <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
-              <a href="/admissions/policy/">Admissions Policy</a>
+              <a href="/admissions/charges/">Charges &amp; Funding</a>
+              <a href="/admissions/charges/#terms">How the College is Funded</a>
             </div>
           </div>
-          <a class="mega__feature" href="/admissions/#apply">
+          <a class="mega__feature" href="/admissions/#requirements">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-seal"/></svg>
-            <span class="mega__feature-label">Admission is continuous</span>
-            <span class="mega__feature-text">No intake to wait for. You begin the day you enrol.</span>
-            <span class="mega__feature-go">Begin your application <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
-          </a>
-        </div>
-      </div>
-
-      <div class="nav__item nav__item--has-menu">
-        <a href="/students/" aria-haspopup="true" aria-expanded="false">Students</a>
-        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
-          <div class="mega__cols">
-            <div class="mega__col">
-              <p class="mega__label">Student Life</p>
-              <a href="/students/">Student Life</a>
-              <a href="/students/assessment/">How You Are Assessed</a>
-              <a href="/students/academic-record/">Your Academic Record</a>
-              <a href="/students/awards/">Awards &amp; Honours</a>
-              <a href="/students/regulations/">Academic Regulations</a>
-            </div>
-          </div>
-          <a class="mega__feature" href="/student-portal/">
-            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-key"/></svg>
-            <span class="mega__feature-label">The Student Portal</span>
-            <span class="mega__feature-text">Your programme, your recordings and your record, in one place.</span>
-            <span class="mega__feature-go">Enter the portal <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
-          </a>
-        </div>
-      </div>
-
-      <div class="nav__item nav__item--has-menu">
-        <a href="/governance/" aria-haspopup="true" aria-expanded="false">Governance</a>
-        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
-          <div class="mega__cols">
-            <div class="mega__col">
-              <p class="mega__label">How the College Is Run</p>
-              <a href="/governance/">Governance</a>
-              <a href="/governance/#leadership">Board, Senate &amp; Executive</a>
-              <a href="/governance/#quality">Quality Assurance</a>
-              <a href="/governance/evidence/">The Evidence Record</a>
-              <a href="/governance/decisions/">The Decisions Register</a>
-            </div>
-          </div>
-          <a class="mega__feature" href="/governance/evidence/">
-            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-shield-check"/></svg>
-            <span class="mega__feature-label">Evidence, not assertion</span>
-            <span class="mega__feature-text">Every institutional claim, published beside the record behind it.</span>
-            <span class="mega__feature-go">The evidence record <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
-          </a>
-        </div>
-      </div>
-
-      <div class="nav__item nav__item--has-menu">
-        <a href="/press/" aria-haspopup="true" aria-expanded="false">Press &amp; Library</a>
-        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
-          <div class="mega__cols">
-            <div class="mega__col">
-              <p class="mega__label">The Imprint</p>
-              <a href="/press/">WEC Press</a>
-              <a href="/press/catalogue/">The Catalogue</a>
-              <a href="/press/#standards">House Standards</a>
-              <a href="/press/#library">The Library</a>
-            </div>
-          </div>
-          <a class="mega__feature" href="/press/catalogue/">
-            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-book"/></svg>
-            <span class="mega__feature-label">The Catalogue</span>
-            <span class="mega__feature-text">Everything the College has published, and everything it is writing.</span>
-            <span class="mega__feature-go">Browse the catalogue <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+            <span class="mega__feature-label">No certificate? No bar.</span>
+            <span class="mega__feature-text">Study at a madrasah without formal certification is assessed on its own evidence and examined at the level it warrants.</span>
+            <span class="mega__feature-go">Conditions of entry <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
       </div>
@@ -537,926 +534,513 @@
     </nav>
 
     <div class="header__actions">
-      <a href="/student-portal/" class="btn btn--quiet">
+      <a href="/riwaq/" class="btn btn--quiet" data-nav="riwaq">
         <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg>
-        Portal
+        The Riwāq
       </a>
-      <a href="/admissions/#apply" class="btn btn--gold magnetic gold-live">Apply Now</a>
+      <a href="/admissions/#apply" class="btn btn--gold magnetic gold-live">Apply</a>
       <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
 
-  <!-- THE HEADER CLOCK.
-       Mobile only, sitting directly above the quicknav strip — where
-       the reference screenshot carries its own date/time line, at the
-       very top of the app rather than buried in page content. Compact
-       by design: one line, no analogue face, so it costs the header
-       almost nothing in height. js/worldclock.js fills all three
-       values; the numerals shown here are only the pre-script state. -->
-  <div class="headerclock grain" data-worldclock>
-    <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-    <span class="headerclock__times">
-      <span data-clock-london>13:36</span><span class="headerclock__tz">LON</span>
-      <span class="headerclock__sep">&middot;</span>
-      <span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span>
-    </span>
-    <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
-  </div>
+  <!--  THE CLOCK AND THE QUICKNAV STRIP HAVE MOVED INTO THE DRAWER.
 
-  <!-- THE QUICKNAV STRIP.
-       Mobile only (css/brand.css hides it from 861px up, where the six
-       pillars already sit in the visible nav row — a second copy of
-       the same links there would be redundant chrome, not navigation).
-       A horizontally swiping row of the same six pillars plus a
-       seventh tile, Full Menu, which opens the drawer below rather
-       than linking anywhere — the strip is a shortcut to the top
-       level, the drawer is still where the complete site lives. Native
-       scroll-snap, no carousel library: this is seven flex children in
-       an overflow-x row, which is the entire mechanism. -->
-  <div class="quicknav grain" aria-label="Quick navigation">
-    <div class="quicknav__track">
-      <a href="/about/" class="quicknav__tile">
-        <span class="vessel" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span></span>
-        <span class="quicknav__label">The College</span>
-      </a>
-      <a href="/academics/" class="quicknav__tile">
-        <span class="vessel" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span></span>
-        <span class="quicknav__label">Academics</span>
-      </a>
-      <a href="/admissions/" class="quicknav__tile">
-        <span class="vessel" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span></span>
-        <span class="quicknav__label">Admissions</span>
-      </a>
-      <a href="/students/" class="quicknav__tile">
-        <span class="vessel" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
-        <span class="quicknav__label">Students</span>
-      </a>
-      <a href="/governance/" class="quicknav__tile">
-        <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
-        <span class="quicknav__label">Governance</span>
-      </a>
-      <a href="/press/" class="quicknav__tile">
-        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span></span>
-        <span class="quicknav__label">Press</span>
-      </a>
-      <button type="button" class="quicknav__tile quicknav__tile--full" data-quicknav-full aria-controls="nav-mobile">
-        <span class="vessel" style="--halo-delay: 3.6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
-        <span class="quicknav__label">Full Menu</span>
-      </button>
-    </div>
-  </div>
+        They lived here, inside .site-header, and js/motion.js measures
+        that element into --header-h. On a phone the measurement was
+        275px: the College's masthead had a clock and a seven-tile strip
+        stacked under it, and the drawer — which opens BELOW --header-h —
+        was left whatever remained of the screen.
+
+        The header is now the crest, the name, the menu and the actions.
+        Nothing else. Everything removed is in the drawer below, which is
+        what "Full Menu" should have meant all along.  -->
 
   <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile">
+    <!-- THE CLOCK, moved in from the rail.
+         It was sitting inside .site-header, which on a phone made the
+         header 275px tall — a quarter of the screen spent on chrome
+         before a word of the College appeared, and a drawer that opened
+         into whatever was left. Here it is the drawer's own header. -->
+    <div class="navdraw__clock" data-rusukh-clock>
+      <span class="navdraw__clock-times">
+        <span data-clock-lagos>09:00</span><span class="navdraw__tz">Lagos</span>
+        <span class="navdraw__sep">&middot;</span>
+        <span data-clock-local>09:00</span><span class="navdraw__tz">You</span>
+      </span>
+      <span class="navdraw__date" data-clock-hijri>&mdash;</span>
+    </div>
+
     <div class="accordion">
       <div class="accordion__item">
         <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span><span>The College</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
           <a href="/about/">About the College</a>
-          <a href="/about/#vision">Vision &amp; Mission</a>
-          <a href="/about/#philosophy">Educational Philosophy</a>
-          <a href="/about/#structure">How It Is Organised</a>
-          <a href="/about/careers/">Careers</a>
-          <a href="/about/#status">Institutional Status</a>
+          <a href="/about/#name">The Name</a>
+          <a href="/about/#method">Method of Instruction</a>
+          <a href="/about/#foundation">Foundation &amp; the Founder</a>
+          <a href="/about/#governance">Governance</a>
+          <a href="/regulations/">Academic Regulations</a>
+          <a href="/safeguarding/">Safeguarding &amp; Conduct of Teaching</a>
+          <a href="/standing/">Standing, Recognition &amp; Disclosure</a>
         </div></div>
       </div>
       <div class="accordion__item">
-        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span><span>Academics</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-mushaf"/></svg></span><span>Faculties</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
-          <a href="/academics/">Academics Overview</a>
-          <a href="/academics/#iefc">The IEFC Programme</a>
-          <a href="/academics/#levels">The Six Levels</a>
-          <a href="/academics/#learning">How Learning Works</a>
-          <a href="/academics/#campus">The Digital Campus</a>
+          <a href="/faculties/">All Programmes of Study</a>
+          <a href="/faculties/quran/">The Qur&rsquo;ān and its Sciences</a>
+          <a href="/faculties/#arabic">Arabic Language</a>
+          <a href="/faculties/#shariah">Sharī&rsquo;ah Sciences</a>
+          <a href="/faculties/#applied">Da&rsquo;wah &amp; Applied Studies</a>
         </div></div>
       </div>
       <div class="accordion__item">
-        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span><span>Teaching &amp; Faculty</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span><span>Academic Awards</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
-          <a href="/academics/teaching/">Teaching Practice</a>
-          <a href="/faculty/">The Faculty</a>
+          <a href="/awards/">Awards of the College</a>
+          <a href="/awards/#general">Graded Certificates</a>
+          <a href="/awards/#examination">Regulations of Examination</a>
+          <a href="/awards/#ijazah">Conditions of Ijāzah</a>
+          <a href="/awards/register-of-chains/">Register of Asānīd</a>
+          <a href="/verify/">Verification of Instruments</a>
         </div></div>
       </div>
       <div class="accordion__item">
-        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span><span>Admissions</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span><span>Continuing Education</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
-          <a href="/admissions/">Admissions Overview</a>
-          <a href="/admissions/#apply">How to Apply</a>
+          <a href="/short-courses/">All Short Courses</a>
+          <a href="/short-courses/#ramadan">The Ramaḍān Programme</a>
+          <a href="/short-courses/#schedules">Schedules of Memorisation</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span><span>Admission</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/admissions/">Admission Overview</a>
+          <a href="/admissions/#procedure">The Five Stages</a>
           <a href="/admissions/#requirements">Entry Requirements</a>
-          <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
-          <a href="/admissions/policy/">Admissions Policy</a>
-          <a href="/faq/">Admissions Questions</a>
+          <a href="/admissions/charges/">Charges &amp; Funding</a>
+          <a href="/admissions/charges/#terms">How the College is Funded</a>
         </div></div>
       </div>
       <div class="accordion__item">
-        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span><span>Student Life</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span><span>The Registry</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
-          <a href="/students/">Student Life</a>
-          <a href="/students/assessment/">How You Are Assessed</a>
-          <a href="/students/academic-record/">Your Academic Record</a>
-          <a href="/students/awards/">Awards &amp; Honours</a>
-          <a href="/students/regulations/">Academic Regulations</a>
-          <a href="/student-portal/">Student Portal</a>
-        </div></div>
-      </div>
-      <div class="accordion__item">
-        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span><span>Governance</span></span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">
-          <a href="/governance/">Governance</a>
-          <a href="/governance/#leadership">Board, Senate &amp; Executive</a>
-          <a href="/governance/#quality">Quality Assurance</a>
-          <a href="/governance/evidence/">The Evidence Record</a>
-          <a href="/governance/decisions/">The Decisions Register</a>
-        </div></div>
-      </div>
-      <div class="accordion__item">
-        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span><span>Press &amp; Library</span></span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">
-          <a href="/press/">WEC Press</a>
-          <a href="/press/catalogue/">The Catalogue</a>
-          <a href="/press/#standards">House Standards</a>
-          <a href="/press/#library">The Library</a>
+          <a href="/riwaq/">The Riwāq — learning portal</a>
+          <a href="/calendar/">Academic Calendar</a>
+          <a href="/verify/">Verification of Instruments</a>
+          <a href="/contact/">Contact the Registry</a>
         </div></div>
       </div>
     </div>
+    <!-- THE UTILITIES, moved in from the strip above the masthead.
+         Every item that used to precede the College's own name is here,
+         in one place, at one size. -->
     <div class="nav-mobile__group--utility">
-      <a href="/support/accessibility/">Accessibility</a>
-      <a href="/support/privacy/">Privacy &amp; Your Data</a>
-      <a href="/contact/">Contact</a>
+      <a href="/calendar/">Academic Calendar</a>
+      <a href="/verify/">Verification</a>
+      <a href="/contact/">Contact the Registry</a>
+      <a href="/riwaq/">Sign in to the Riwāq</a>
+      <a href="https://wa.me/2348000000000" target="_blank" rel="noopener">WhatsApp the Registry</a>
+      <a href="mailto:registry@al-madinahcollege.com">registry@al-madinahcollege.com</a>
     </div>
     <div class="nav-mobile__lang">
-      <a class="topbar__lang" href="/ar/admissions/" lang="ar" hreflang="ar">
+      <a href="/ar/admissions/" class="topbar__lang r-ar" lang="ar" dir="rtl" hreflang="ar">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
-        العربية
+        كلية المدينة العالمية
       </a>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
+      <div class="topbar__social" aria-label="Contact channels">
+        <a href="mailto:registry@al-madinahcollege.com" aria-label="Email the Registry"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></a>
+        <a href="/contact/" aria-label="Contact channels"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
       </div>
     </div>
-    <a href="/admissions/#apply" class="btn btn--gold">Apply Now</a>
+    <a href="/admissions/#apply" class="btn btn--gold">Apply</a>
   </nav>
 </header>
-
 <main id="main">
-<section class="page-hero section--dark section-pad">
+<section class="page-hero section--dark section-pad motes">
   <div class="container">
-    <span class="eyebrow">Admissions</span>
-    <h1 data-split>How to join the International English Fluency Course.</h1>
-    <p class="lede">A clear, five-step journey from enquiry to your first module — designed for school pupils, university students, working professionals and international applicants alike.</p>
-  </div>
-</section>
-
-<nav class="contents" aria-label="On this page">
-  <div class="contents__inner">
-    <span class="contents__label">On this page</span>
-    <ul class="contents__list">
-      <li><a href="#self-assessment">Step One · Know Your Starting Point</a></li>
-      <li><a href="#apply">Start Your Application</a></li>
-      <li><a href="#requirements">Entry Requirements</a></li>
-      <li><a href="#dates">Dates & Calendar</a></li>
-      <li><a href="#international">International Applicants</a></li>
-      <li><a href="#visas">Visas & Permits</a></li>
-    </ul>
-  </div>
-</nav>
-
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Who WEC-LC Is For</span>
-      <h2>Designed for ambitious learners, at every stage.</h2>
-    </div>
-    <div class="tag-row">
-      <span class="tag">School Pupils</span><span class="tag">Secondary School Students</span>
-      <span class="tag">University Students</span><span class="tag">Working Professionals</span>
-      <span class="tag">Government Employees</span><span class="tag">Business Executives</span>
-      <span class="tag">International Students</span><span class="tag">Study-Abroad Candidates</span>
-      <span class="tag">Advanced Proficiency Seekers</span>
+    <span class="eyebrow">Admission</span>
+    <h1 class="letterpress rake">Admission to the College</h1>
+    <p class="lede">Admission is by application to the Registry followed by assessment.
+      Applicants are placed at the level their attainment warrants rather than at the level
+      they declare. No charge is made for assessment.</p>
+    <div class="btn-row">
+      <a href="#apply" class="btn btn--gold">Apply to the Registry</a>
+      <a href="/admissions/charges/" class="btn btn--outline">Charges and funding</a>
     </div>
   </div>
 </section>
 
-<section class="section--dark section-pad" id="self-assessment">
+
+<section class="section--light section-pad grain" id="procedure" data-contents="Procedure">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">Step One · Know Your Starting Point</span>
-      <h2>Which statement sounds most like you today?</h2>
-      <p class="lede">A 30-second self-assessment to guide your application — not the official placement test, which happens during Step 3.</p>
+      <span class="module-marker">Procedure</span>
+      <h2 class="rake">The five stages of admission.</h2>
     </div>
-    <form class="level-quiz" data-level-quiz
-      data-result-template="Based on your answer, we'd suggest starting at Level {roman} — {name} ({cefr})."
-      data-levels='[
-        {"roman":"I","name":"Foundation Programme","cefr":"A1"},
-        {"roman":"II","name":"Elementary Programme","cefr":"A2"},
-        {"roman":"III","name":"Intermediate Programme","cefr":"B1"},
-        {"roman":"IV","name":"Upper Intermediate Programme","cefr":"B2"},
-        {"roman":"V","name":"Advanced Programme","cefr":"C1"},
-        {"roman":"VI","name":"English Mastery Programme","cefr":"C2"}
-      ]'>
-      <fieldset>
-        <legend class="sr-only">Which statement sounds most like you today?</legend>
-        <div class="level-quiz__options">
-          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="0"><span>I can understand and use simple everyday phrases and introduce myself, but I need help with most conversations.</span></label>
-          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="1"><span>I can talk about familiar topics like my family, school, and daily routine in simple sentences.</span></label>
-          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="2"><span>I can handle most everyday situations, describe experiences, and give simple reasons for my opinions.</span></label>
-          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="3"><span>I can discuss a range of topics fluently, follow the main ideas of complex texts, and interact naturally with native speakers.</span></label>
-          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="4"><span>I can express myself fluently and spontaneously on complex subjects, using English flexibly for academic or professional purposes.</span></label>
-          <label class="level-quiz__option"><input type="radio" name="level-quiz" value="5"><span>I can understand virtually everything I read or hear, summarise information from different sources, and express myself precisely in any situation.</span></label>
-        </div>
-      </fieldset>
-      <button type="submit" class="btn btn--gold">See My Recommended Starting Level</button>
-      <div class="level-quiz__result" data-level-quiz-result hidden>
-        <span class="callout__label" style="color:var(--gold-bright)">Suggested Starting Point</span>
-        <p data-level-quiz-text></p>
-        <div class="btn-row">
-          <a href="/academics/#iefc" class="btn btn--ghost">See This Level on the IEFC Programme</a>
-          <a href="#apply" class="btn btn--gold">Start Your Application</a>
-        </div>
+
+    <div class="r-stages">
+      <div class="r-stage">
+        <span class="r-stage__num"></span>
+        <div><h3>Application</h3><p>The applicant writes to the Registry naming the faculty
+          and programme sought, with an account of prior study.</p></div>
+        <span class="r-stage__when">Two working days</span>
       </div>
-      <p class="form-note">This is a self-guided estimate to help you apply with confidence — your actual starting level is confirmed by the placement assessment in Step 3.</p>
-    </form>
+      <div class="r-stage">
+        <span class="r-stage__num"></span>
+        <div><h3>Assessment</h3><p>Applicants to the Faculty of the Qur&rsquo;ān are assessed
+          by recitation before a member of faculty. Applicants to other faculties sit a
+          written placement paper. Neither the application nor the assessment carries a charge.</p></div>
+        <span class="r-stage__when">One sitting</span>
+      </div>
+      <div class="r-stage">
+        <span class="r-stage__num"></span>
+        <div><h3>Offer of place</h3><p>The Registry issues an offer naming the programme, the
+          level of entry, the class, the timetable, the supervising member of faculty and the
+          mode of instruction.</p></div>
+        <span class="r-stage__when">Within one week</span>
+      </div>
+      <div class="r-stage">
+        <span class="r-stage__num"></span>
+        <div><h3>Matriculation</h3><p>The applicant signs the academic undertaking and is entered
+          on the register of the College. There is nothing to pay: the College charges no
+          tuition, and its only charges are for engrossed instruments, later and by
+          choice.</p></div>
+        <span class="r-stage__when">On acceptance</span>
+      </div>
+      <div class="r-stage">
+        <span class="r-stage__num"></span>
+        <div><h3>Commencement</h3><p>Classes begin at the start of the following teaching
+          week. Admission is continuous through the session and does not wait upon the
+          opening of a semester.</p></div>
+        <span class="r-stage__when">Following week</span>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="section--paper section-pad">
+
+<section class="section--dark section-pad motes" id="requirements" data-contents="Entry requirements">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">The Application Journey</span>
-      <h2>Five steps to enrolment.</h2>
-    </div>
-    <ol class="dot-list">
-      <li><span class="num">01</span><span><strong>Enquire &amp; choose your entry point</strong> — tell us your current English level and goals.</span><span class="leader"></span></li>
-      <li><span class="num">02</span><span><strong>Submit your application</strong> — the form below. Nothing else is asked for at this stage: no documents, no fee.</span><span class="leader"></span></li>
-      <li><span class="num">03</span><span><strong>Placement assessment</strong> — a short assessment confirms your correct starting level, Foundation through Advanced.</span><span class="leader"></span></li>
-      <li><span class="num">04</span><span><strong>Offer &amp; enrolment</strong> — receive your offer, confirm your payment plan, and secure your place.</span><span class="leader"></span></li>
-      <li><span class="num">05</span><span><strong>Orientation &amp; your first module</strong> — onboarding to the digital campus, then Level I opens and the first module is yours to begin.</span><span class="leader"></span></li>
-    </ol>
-  </div>
-</section>
-
-<section class="section--dark section-pad" id="apply">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Start Your Application</span>
-      <h2>Step 2: submit your application.</h2>
-      <p class="lede">This connects directly to Admissions. If our online application system is briefly unreachable, your details open in your email app instead — either way, nothing you've entered is lost.</p>
+      <span class="module-marker">Entry requirements</span>
+      <h2 class="rake">Conditions of entry, by programme.</h2>
     </div>
 
-    <form class="form-grid" data-admissions-form
-      data-endpoint="/api/admissions/apply"
-      data-fallback-email="info@worldwencollege.co.uk"
-      data-storage-key="wec-lc-admissions-draft"
-      data-loading-text="Submitting…"
-      data-error-text="Please fix the highlighted fields below."
-      data-success-text="Application received — we'll be in touch soon."
-      data-fallback-text="We couldn't reach our online application system, so we've opened your email app with your details ready to send — please hit send to complete your application."
-      data-retry-label="Try the Online Form Again"
-      data-level-summary-template="Suggested starting level: {text}"
-      novalidate>
-
-      <div class="field field--full"><div class="form-status" data-form-status role="status" aria-live="polite"></div></div>
-
-      <div class="field field--full" data-level-summary hidden style="background:rgba(199,162,74,.08);border:1px solid var(--line-dark);border-radius:6px;padding:12px 16px;">
-        <span style="font-size:.82rem;color:var(--gold-bright)" data-level-summary-text></span>
-        <a href="#self-assessment" style="font-size:.78rem;text-decoration:underline;margin-left:.8em;color:rgba(247,244,236,.7)">Retake the assessment</a>
-      </div>
-
-      <div class="field">
-        <label for="app-name">Full Name</label>
-        <input id="app-name" name="fullName" type="text" required aria-describedby="app-name-error">
-        <span class="field__error" id="app-name-error" role="alert">Please enter your full name.</span>
-      </div>
-      <div class="field">
-        <label for="app-email">Email Address</label>
-        <input id="app-email" name="email" type="email" required aria-describedby="app-email-error">
-        <span class="field__error" id="app-email-error" role="alert">Please enter a valid email address.</span>
-      </div>
-      <div class="field field--full">
-        <label for="app-country">Country of Residence</label>
-        <select id="app-country" name="country" required aria-describedby="app-country-error">
-          <option value="">Select your country</option>
-          <option value="AF">Afghanistan</option><option value="DZ">Algeria</option><option value="AR">Argentina</option>
-          <option value="AU">Australia</option><option value="AT">Austria</option><option value="BH">Bahrain</option>
-          <option value="BD">Bangladesh</option><option value="BE">Belgium</option><option value="BR">Brazil</option>
-          <option value="CM">Cameroon</option><option value="CA">Canada</option><option value="TD">Chad</option>
-          <option value="CL">Chile</option><option value="CN">China</option><option value="CO">Colombia</option>
-          <option value="CD">Congo (DRC)</option><option value="EG">Egypt</option><option value="ET">Ethiopia</option>
-          <option value="FR">France</option><option value="GM">Gambia</option><option value="DE">Germany</option>
-          <option value="GH">Ghana</option><option value="GR">Greece</option><option value="GN">Guinea</option>
-          <option value="IN">India</option><option value="ID">Indonesia</option><option value="IQ">Iraq</option>
-          <option value="IE">Ireland</option><option value="IT">Italy</option><option value="CI">Ivory Coast</option>
-          <option value="JP">Japan</option><option value="JO">Jordan</option><option value="KE">Kenya</option>
-          <option value="KW">Kuwait</option><option value="LB">Lebanon</option><option value="LR">Liberia</option>
-          <option value="LY">Libya</option><option value="MY">Malaysia</option><option value="ML">Mali</option>
-          <option value="MX">Mexico</option><option value="MA">Morocco</option><option value="NL">Netherlands</option>
-          <option value="NZ">New Zealand</option><option value="NE">Niger</option><option value="NG">Nigeria</option>
-          <option value="OM">Oman</option><option value="PK">Pakistan</option><option value="PH">Philippines</option>
-          <option value="PL">Poland</option><option value="PT">Portugal</option><option value="QA">Qatar</option>
-          <option value="RU">Russia</option><option value="RW">Rwanda</option><option value="SA">Saudi Arabia</option>
-          <option value="SN">Senegal</option><option value="SL">Sierra Leone</option><option value="SG">Singapore</option>
-          <option value="SO">Somalia</option><option value="ZA">South Africa</option><option value="KR">South Korea</option>
-          <option value="ES">Spain</option><option value="LK">Sri Lanka</option><option value="SD">Sudan</option>
-          <option value="SE">Sweden</option><option value="CH">Switzerland</option><option value="SY">Syria</option>
-          <option value="TZ">Tanzania</option><option value="TH">Thailand</option><option value="TG">Togo</option>
-          <option value="TN">Tunisia</option><option value="TR">Turkey</option><option value="UG">Uganda</option>
-          <option value="UA">Ukraine</option><option value="AE">United Arab Emirates</option>
-          <option value="GB">United Kingdom</option><option value="US">United States</option>
-          <option value="VN">Vietnam</option><option value="YE">Yemen</option><option value="ZM">Zambia</option>
-          <option value="ZW">Zimbabwe</option><option value="OTHER">Other</option>
-        </select>
-        <span class="field__error" id="app-country-error" role="alert">Please select your country.</span>
-      </div>
-
-      <div class="field field--full">
-        <button type="submit" class="btn btn--gold" data-submit-btn><span data-btn-label>Submit Application</span></button>
-        <p class="form-note">Prefer email? <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">Write to Admissions directly</a>.</p>
-      </div>
-    </form>
-  </div>
-</section>
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Journey</span>
-      <h2>Five stages, and what each one really is.</h2>
-      <p class="lede">The application record moves through a fixed set of states, and the state
-        it is in is the honest answer to &ldquo;where is my application?&rdquo;. Those states
-        are listed here in the order they occur.</p>
-    </div>
     <div class="table-scroll">
-      <table class="ledger">
-        <thead><tr><th>Stage</th><th>What happens</th><th>Who does it</th><th>Application state</th></tr></thead>
+      <table class="r-ladder">
+        <thead><tr><th scope="col">Programme</th><th scope="col">Academic condition</th>
+          <th scope="col">Documents</th></tr></thead>
         <tbody>
-          <tr><td><strong>1 &middot; Estimate your level</strong></td>
-              <td>A one-question self-assessment on the Admissions page suggests a starting level. It is not the placement decision and it binds nobody, including you.</td>
-              <td>You, in about thirty seconds</td><td>&mdash;</td></tr>
-          <tr><td><strong>2 &middot; Submit the form</strong></td>
-              <td>Name, email address and country of residence, plus the self-assessed level if you took the estimate. Nothing else is asked for at this point &mdash; no documents, no fee.</td>
-              <td>You. The record is created immediately and you are emailed a confirmation.</td><td><code>submitted</code></td></tr>
-          <tr><td><strong>3 &middot; Placement</strong></td>
-              <td>A conversation and a short assessment to confirm which of the six levels you should enter. There is no automated placement test on this site; a member of the founding team arranges this with you by email.</td>
-              <td>A person, not the platform</td><td><code>placement_pending</code></td></tr>
-          <tr><td><strong>4 &middot; Offer</strong></td>
-              <td>A written offer naming your confirmed entry level, the fee for it, and the payment options open to you.</td>
-              <td>Admissions</td><td><code>offer_sent</code> &rarr; <code>accepted</code></td></tr>
-          <tr><td><strong>5 &middot; Enrolment</strong></td>
-              <td>Payment is confirmed, an account is created, and your enrolment for that level begins. Your first lesson is available the same day.</td>
-              <td>You and the platform together</td><td><code>enrolled</code></td></tr>
+          <tr><td class="r-prog">Certificate programmes,<br>Faculty of the Qur&rsquo;ān</td>
+            <td>None. Entry is determined by recitation.</td>
+            <td>Identity document at examination</td></tr>
+          <tr><td class="r-prog">Diploma in Tajwīd and Recitation</td>
+            <td>Certificate in Qur&rsquo;ānic Recitation, or equivalent by assessment.</td>
+            <td>Identity document</td></tr>
+          <tr><td class="r-prog">Higher Diploma with <em>ijāzah</em></td>
+            <td>Complete memorisation, and recitation assessed as sound by a member of
+              faculty holding the chain.</td>
+            <td>Identity document</td></tr>
+          <tr><td class="r-prog">Certificate in Arabic,<br>levels one to three</td>
+            <td>None. The programme assumes no prior Arabic.</td>
+            <td>None on entry</td></tr>
+          <tr><td class="r-prog">Diploma in Arabic Language</td>
+            <td>Certificate in Arabic at level three, or placement examination.</td>
+            <td>None on entry</td></tr>
+          <tr><td class="r-prog">Diploma in Islamic Studies</td>
+            <td>Certificate in Islamic Foundations, or recognised prior study.</td>
+            <td>Record of prior study</td></tr>
+          <tr><td class="r-prog">Ibtidā&rsquo;iyyah</td><td>Minimum age ten.</td>
+            <td>Two photographs; proof of age</td></tr>
+          <tr><td class="r-prog">I&rsquo;dādiyyah</td>
+            <td>Ibtidā&rsquo;iyyah, or recognised prior study. Minimum age twelve.</td>
+            <td>Certificate or record of prior study; two photographs; identity document</td></tr>
+          <tr><td class="r-prog">Thānawiyyah</td>
+            <td>I&rsquo;dādiyyah, or recognised prior study. Minimum age fifteen.</td>
+            <td>Certificate; two photographs; identity document; statement of purpose</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="form-note">An application can also end at <code>withdrawn</code> or
-      <code>rejected</code>. Both are states the College records rather than deletes, so that a
-      decision can be looked up later by whoever made it.</p>
-  </div>
-</section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Timing</span>
-      <h2>How long each stage takes, honestly stated.</h2>
-      <p class="lede">WEC-LC has processed no applications at volume, so these are commitments
-        rather than measured averages, and they are described that way.</p>
+    <div class="r-plate">
+      <span class="r-plate__label">Applicants without formal certification</span>
+      <p>An applicant who has studied at a <em>madrasah</em> or under a teacher without
+        receiving certification should state in the application where, with whom and in which
+        texts the study was conducted. The Registry will assess the account and arrange
+        examination at the stage the attainment warrants. Absence of a certificate is not a
+        bar to admission at any level.</p>
     </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">Immediate</span>
-        <h3>Submission</h3>
-        <p>The record is created and the confirmation email is sent while you are still on the page. If the online form cannot be reached, it hands your details to your email application instead, so nothing is lost.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Committed</span>
-        <h3>Placement contact within three working days</h3>
-        <p>A commitment the College is making, not an average it has measured. If it is missed, write to Admissions and say so &mdash; a stated commitment that goes unenforced is worse than none.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Your pace</span>
-        <h3>Offer to enrolment</h3>
-        <p>An offer does not expire on a timetable, because there is no intake to fill. Take the time you need; nothing is lost by waiting and nothing is gained by hurrying.</p>
-      </div>
+
+    <div class="r-plate">
+      <span class="r-plate__label">Applicants under eighteen</span>
+      <p>The graded certificates admit students from the age of ten, and the College publishes
+        the conditions under which it teaches a minor before a parent enrols one. No member of
+        faculty is ever alone with a student under eighteen in a private session; sessions are
+        recorded and open to the guardian; anyone teaching a minor is vetted before the first
+        session; and concerns go to a Safeguarding Officer who stands outside the teaching
+        line. Individual instruction and the <em>ijāzah</em> route are closed to minors except
+        where a guardian attends or the College appoints a second member of faculty, which it
+        does without charge.</p>
+      <a href="/safeguarding/" class="btn btn--outline">Safeguarding and the conduct of teaching</a>
     </div>
   </div>
 </section>
 
-<section class="section--dark section-pad">
+
+<section class="section--light section-pad grain" id="apply" data-contents="Applying">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">Checking Your Application</span>
-      <h2>You can look it up yourself.</h2>
+      <span class="module-marker">Applying</span>
+      <h2 class="rake">Application to the Registry.</h2>
+      <p class="lede">Applications are received and assessed by the Registry directly. An
+        acknowledgement is issued within two working days.</p>
     </div>
+
+    <div class="two-col">
+      <div>
+        <h3>The application should state</h3>
+        <ul class="check-list">
+          <li>Full name, country and city of residence</li>
+          <li>The faculty and programme sought</li>
+          <li>An account of prior study &mdash; where, with whom, and in which texts</li>
+          <li>Any certificates held, and the institutions that issued them</li>
+          <li>The hours a week available for study</li>
+          <li>Whether a supported place is sought</li>
+        </ul>
+      </div>
+      <div>
+        <div class="r-plate">
+          <span class="r-plate__label">The Registry</span>
+          <p><a href="mailto:registry@al-madinahcollege.com">registry@al-madinahcollege.com</a></p>
+          <p><strong>Charges, instalments and sponsorship</strong><br>
+            <a href="mailto:bursary@al-madinahcollege.com">bursary@al-madinahcollege.com</a></p>
+          <p><strong>Hours of business</strong><br>
+            Monday to Thursday 09:00&ndash;17:00; Friday 09:00&ndash;12:00.<br>
+            West Africa Time (UTC+1).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <a href="mailto:registry@al-madinahcollege.com?subject=Application%20for%20admission" class="btn btn--gold">Apply to the Registry</a>
+      <a href="/faculties/" class="btn btn--outline">Programmes of study</a>
+    </div>
+  </div>
+</section>
+
+
+<section class="section--dark section-pad motes" id="settled" data-contents="Settled in advance">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Settled in advance</span>
+      <h2 class="rake">What an applicant is told before paying, not after.</h2>
+      <p class="lede">Four matters decide whether this College is usable by a particular
+        person. Each is published here rather than left to be discovered at the first class.</p>
+    </div>
+
     <div class="grid grid--2">
       <div class="card card--dark">
-        <span class="card__num">Your reference</span>
-        <h3>Keep the application id</h3>
-        <p>The confirmation email carries an identifier beginning <code>app_</code>. It is the only key to your record, and it is deliberately the only key &mdash; the College will not disclose an application state to anyone who does not hold it, including someone who knows your email address.</p>
+        <h3>The language you will be spoken to in</h3>
+        <p>Explanation at the certificate levels is bilingual: Arabic is the object of study
+          and increasingly the medium, with English carrying the explanation. Instruction at
+          the Diploma and Higher Diploma is conducted in Arabic. That is stated at the outset so
+          it is a goal to work toward and not an ambush in the third week. The support language
+          of each class is named in the offer of a place.</p>
       </div>
       <div class="card card--dark">
-        <span class="card__num">No account needed</span>
-        <h3>Status without signing in</h3>
-        <p>You do not have an account at application stage &mdash; one is created at enrolment. So status is looked up by reference, not by login, and returns the state and the date it was created. Nothing else.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="callout">
-      <span class="callout__label">Four things the College tells you before it takes your money</span>
-      <p>Accreditation candidacy is underway and no accreditation is yet held. The External
-        Examiner appointment sits with the Senate, and until it is made no award is conferred on
-        anyone &mdash; which is the point of the commitment, not an exception to it. The founding
-        cohort has not yet been taught. The refund policy is with the board and is published the
-        day it is adopted &mdash; see <a href="/admissions/tuition/#refunds">Refunds</a>. Most
-        providers let an applicant discover all four after paying; this College puts them on the
-        page where the decision is made, because an institution that volunteers what it has not
-        yet done can be believed about what it has. The full position, and every
-        stage ahead of it, is published in the
-        <a href="/#pathway">accreditation pathway</a>.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--light section-pad" id="requirements" data-contents="Entry Requirements">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Academic Requirements</span>
-      <h2>There is no qualification to hold.</h2>
-      <p class="lede">Level I begins at A1 &mdash; the assumption is no usable English, not
-        some English. A prior certificate is welcome as evidence and is never a condition.</p>
-    </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">Not required</span>
-        <h3>A school-leaving certificate</h3>
-        <p>The College does not ask for one, does not check one, and does not price differently for one. A language programme that gated entry on schooling would be excluding exactly the learners Level I was written for.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Not required</span>
-        <h3>An IELTS or TOEFL score</h3>
-        <p>If you hold one, bring it &mdash; it shortens the placement conversation considerably. It is evidence, not a requirement, and a score that is more than two years old is treated as a starting hypothesis rather than a fact.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Required</span>
-        <h3>An honest placement</h3>
-        <p>The single genuine requirement. Entering at the wrong level is the most common way a language programme fails a learner, and it fails them in both directions: too low is insulting and too high is silent drowning.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Placement</span>
-      <h2>How the entry level is decided.</h2>
-      <p class="lede">Two things happen, in this order, and only the second one counts.</p>
-    </div>
-    <ol class="dot-list">
-      <li><span class="num">01</span><span><strong>Your own estimate.</strong> One question, six statements, thirty seconds. It exists so you can apply with a sense of where you are, and it is recorded on your application as a self-assessment &mdash; explicitly non-binding.</span><span class="leader"></span></li>
-      <li><span class="num">02</span><span><strong>The placement assessment.</strong> A short assessment and a conversation with a member of the founding team, arranged by email after you apply. It produces the level you actually enter. There is no automated placement test on this site, and describing one would be describing software that does not exist.</span><span class="leader"></span></li>
-    </ol>
-    <div class="callout">
-      <span class="callout__label">If the placement turns out to be wrong</span>
-      <p>Say so in the first two weeks. A placement is a judgement made on limited evidence, and
-        the evidence improves the moment you start studying. Moving a learner early costs the
-        College nothing and saves them a term of the wrong material.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Practical Requirements</span>
-      <h2>What you need to actually study.</h2>
-      <p class="lede">Each of these is listed because a specific part of the programme uses it,
-        not because a requirements list looks thorough.</p>
-    </div>
-    <div class="grid grid--4">
-      <div class="card card--dark">
-        <span class="card__num">Device</span>
-        <h3>A computer, tablet or phone</h3>
-        <p>The learning platform runs in a browser. There is nothing to install and no minimum specification worth publishing &mdash; if it can play video, it can run the programme.</p>
+        <h3>Arrangements between men and women</h3>
+        <p>Women are taught by women wherever a qualified teacher holds the specialism; no
+          individual session between the sexes is scheduled as a matter of course, and where one
+          is academically necessary the student chooses between a teacher of the same sex, a
+          third person present, or a recorded session &mdash; at no cost. The camera is never
+          required, in any class or any examination.
+          <a href="/safeguarding/#arrangements">The arrangements in full</a>.</p>
       </div>
       <div class="card card--dark">
-        <span class="card__num">Connection</span>
-        <h3>Enough to stream audio</h3>
-        <p>Listening work is the spine of every level, so audio has to arrive. Video calls for live sessions want more; audio-only participation is accepted when a connection will not carry video, and that is a stated accommodation rather than a workaround.</p>
+        <h3>The placement assessment is not a test you can fail</h3>
+        <p>It is free, untimed, may be resumed, may be taken again without limit, and is
+          <strong>never reported as a score</strong>. It exists to answer the question that
+          stops most people from applying &mdash; <em>where would I even begin, and will I be
+          embarrassed?</em> &mdash; and an instrument that answered that with a mark would have
+          failed at its only task. Nothing about admission carries a charge in any case.</p>
       </div>
       <div class="card card--dark">
-        <span class="card__num">Microphone</span>
-        <h3>Any microphone</h3>
-        <p>The Listening Lab asks you to record yourself and keeps the recordings so you and your teacher can hear the change over months. A phone or a laptop microphone is sufficient. This is the one requirement people are surprised by, which is why it is here rather than in a footnote.</p>
+        <h3>There is no tuition fee, and nothing money can buy</h3>
+        <p>The College charges nothing to teach, to examine, to re-examine, to hear an appeal, or
+          to issue the digital certificate and transcript that are the award. Its charges are for
+          engrossed instruments and an identity card, and none of them is a condition of
+          anything. Individual instruction is allocated by the faculty on attainment and need, not
+          on payment; and at the point of examination the examiner is not shown a
+          candidate&rsquo;s mode, charges or state of payment, because the record carries no such
+          field (<a href="/regulations/#independence">Reg.&nbsp;9.2</a>).</p>
       </div>
-      <div class="card card--dark">
-        <span class="card__num">Email</span>
-        <h3>An address you read</h3>
-        <p>Placement, offer and enrolment all move by email. It is the only channel the College currently relies on.</p>
-      </div>
+    </div>
+
+    <div class="btn-row">
+      <a href="/regulations/" class="btn btn--gold">Academic Regulations</a>
+      <a href="/standing/" class="btn btn--outline">Standing and disclosure</a>
     </div>
   </div>
 </section>
-
-<section class="section--light section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Age</span>
-      <h2>Applicants under 18 &mdash; an unresolved question.</h2>
-    </div>
-    <div class="callout">
-      <span class="callout__label">Stated rather than answered</span>
-      <p>WEC-LC has published a target audience that includes school pupils. It has not yet
-        adopted a safeguarding policy or appointed a named Safeguarding Lead, and both are
-        prerequisites for teaching anyone under 18 responsibly. Until they exist, an application
-        from someone under 18 is handled individually by the founding team in correspondence
-        with a parent or guardian rather than processed as routine. This is recorded as an
-        outstanding institutional decision, not presented as a policy.</p>
-    </div>
-    <div class="grid grid--2">
-      <div class="card">
-        <span class="card__num">Why it is not simply answered here</span>
-        <h3>Safeguarding is not a website decision</h3>
-        <p>A safeguarding policy that appeared on a marketing page without a named person accountable for it would be worse than none, because it would look like an answer. The decision belongs to the Academic Senate and the Executive.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">What is true today</span>
-        <h3>No policy, no appointed lead</h3>
-        <p>Both are listed in the College&rsquo;s own appointments schedule as posts that must be filled. The honest consequence is stated above rather than left for an applicant to discover.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section--light section-pad" id="dates" data-contents="Dates &amp; Calendar">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Starting</span>
-      <h2>Admission is continuous.</h2>
-      <p class="lede">This is not a marketing choice. It is what the platform actually does,
-        and describing anything else would describe software that does not exist.</p>
-    </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">The day you enrol</span>
-        <h3>Level I opens immediately</h3>
-        <p>A confirmed payment creates your enrolment and the first lesson is available the same day. Nothing is held back until a start date.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">At your own pace</span>
-        <h3>Progression is per learner</h3>
-        <p>Your progress record is yours alone. There is no class moving ahead of you and none waiting for you, and no lesson unlocks on a date.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">One level at a time</span>
-        <h3>The next level opens when this one closes</h3>
-        <p>Levels II to VI are added as each preceding level is completed, whether you paid per level or for the whole programme. Completion is confirmed by a member of staff, not calculated automatically &mdash; the College has no automated grading engine.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Why There Are No Term Dates</span>
-      <h2>Because the decision behind them has not been taken.</h2>
-      <p class="lede">A calendar is not a formatting exercise. It encodes an operating model,
-        and the College has not yet chosen which model it is.</p>
-    </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">Option A</span>
-        <h3>Rolling and self-paced</h3>
-        <p>What runs today. Nobody waits to start. The known weakness is completion: wholly self-paced language study finishes badly, for the well-understood reason that there is never anything to be late for.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Option B</span>
-        <h3>Fixed cohorts and termly intakes</h3>
-        <p>The structure that makes people finish &mdash; shared pace, live classes where everyone is at the same point, a graduation that means something. The cost is an applicant in October waiting until January, and it would require rebuilding how progression works.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Option C</span>
-        <h3>Rolling entry, fixed rhythm</h3>
-        <p>Study self-paced, but with live sessions, examination windows and orientation on a published recurring schedule you join at the next occurrence. This is what the College has drafted as a recommendation. It has not been adopted.</p>
-      </div>
-    </div>
-    <div class="callout">
-      <span class="callout__label">What this means for you today</span>
-      <p>Everything you study is available on enrolment and paced by you. The recurring live
-        timetable described in Option C does not yet run. The College&rsquo;s own status page
-        lists the academic calendar and first-cohort start date as outstanding, and this page
-        does not contradict it.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">How Long A Level Takes</span>
-      <h2>A design figure, not a measurement.</h2>
-    </div>
-    <div class="grid grid--2">
-      <div class="card card--dark">
-        <span class="card__num">200</span>
-        <h3>Total qualification hours per level</h3>
-        <p>The designed workload for one level, covering taught material, independent study, practice and assessment. It is the figure the curriculum was built to &mdash; a design figure, not a measurement, which the College will replace with hours measured from real time-on-task once the founding cohort has generated them.</p>
-      </div>
-      <div class="card card--dark">
-        <span class="card__num">1,200</span>
-        <h3>Across all six levels</h3>
-        <p>The sum of the six. How long that takes in calendar months depends entirely on the hours a week you can give it, which is why the College publishes the hours rather than a number of months it cannot stand behind.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section--light section-pad" id="international" data-contents="International Applicants">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">What &ldquo;London Campus&rdquo; Means</span>
-      <h2>An administrative headquarters, not a place you attend.</h2>
-      <p class="lede">This is stated first because the name invites exactly one wrong
-        assumption, and it is an expensive one to make.</p>
-    </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">Is</span>
-        <h3>An administrative address</h3>
-        <p>London identifies where the College is administered and managed from. The registered address is being finalised and will be published here when it is settled &mdash; not before.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Is not</span>
-        <h3>A teaching campus</h3>
-        <p>There are no classrooms, no lecture theatres and no student accommodation. Nobody attends WEC-LC in London or anywhere else, and no student has ever been asked to.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Therefore</span>
-        <h3>No relocation, no visa</h3>
-        <p>You study from where you live. See <a href="/admissions/#visas">Visas and study permits</a>, which exists to say clearly that the College issues no immigration documents.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Time Zones</span>
-      <h2>How a programme with no campus handles being everywhere at once.</h2>
-    </div>
-    <div class="grid grid--2">
-      <div class="card">
-        <span class="card__num">Independent of the clock</span>
-        <h3>The taught material</h3>
-        <p>Lessons, exercises, listening work and assignments are studied when you can study them. This is the majority of the programme by time, and it has no schedule attached to it at all.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Dependent on the clock</span>
-        <h3>Live sessions</h3>
-        <p>Conversation practice and tutorials are live, which means somebody&rsquo;s evening is somebody else&rsquo;s morning. Live sessions are scheduled against where students actually are once there are students; publishing a fixed timetable now would be publishing a guess. Recordings are the standing fallback and are not treated as a lesser option.</p>
-      </div>
-    </div>
-    <div class="callout">
-      <span class="callout__label">The honest caveat</span>
-      <p>No cohort has yet been taught, so no live timetable has been proven against real student
-        locations. What is described here is the design. The first cohort&rsquo;s experience will
-        change it, and the change will be published.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Language of Instruction</span>
-      <h2>English throughout, with one exception.</h2>
-    </div>
-    <div class="grid grid--2">
-      <div class="card card--dark">
-        <span class="card__num">Teaching</span>
-        <h3>Conducted in English from Level I</h3>
-        <p>Including at A1, where it is done with heavy support &mdash; visual, repetition, restricted language, and a teacher who slows down rather than translates. Teaching a language through the language is a method, not an obstacle, and Level I was written on that assumption.</p>
-      </div>
-      <div class="card card--dark">
-        <span class="card__num">The website</span>
-        <h3>Available in Arabic</h3>
-        <p>The public site is published in English and Arabic. The teaching itself is not translated: a translated lesson would be a different lesson, and the pronunciation and listening work in particular cannot survive translation.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section--light section-pad" id="visas" data-contents="Visas &amp; Permits">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Position</span>
-      <h2>Stated without qualification.</h2>
-    </div>
-    <div class="callout">
-      <span class="callout__label">What WEC-LC does not do</span>
-      <p>The College is not a licensed student sponsor. It issues no Confirmation of Acceptance
-        for Studies, no visa letter, no immigration attestation and no document that any
-        immigration authority accepts as the basis of a study visa. It does not offer, and will
-        not offer, assistance with immigration applications. Nothing on any other page of this
-        site should be read as qualifying that.</p>
-    </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">Why</span>
-        <h3>Because it teaches online</h3>
-        <p>Study visas exist to permit physical presence for study. The IEFC involves no physical presence anywhere &mdash; there is no campus to attend. A visa is not withheld; it is simply not part of what this programme is.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Consequence</span>
-        <h3>You study from home</h3>
-        <p>Wherever you live, you study there. No travel, no accommodation, no relocation cost, and no immigration risk arising from the programme itself.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Exception</span>
-        <h3>There is none</h3>
-        <p>Not for any level, any fee arrangement, any nationality, or any sponsor. There is no case in which the College can help, and describing edge cases would only create hope where there is none.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">A Warning Worth Printing</span>
-      <h2>If someone offers you a WEC-LC visa, they are defrauding you.</h2>
-    </div>
-    <div class="grid grid--2">
-      <div class="card">
-        <span class="card__num">No agent has this authority</span>
-        <h3>Because the College does not have it</h3>
-        <p>WEC-LC cannot delegate a power it does not hold. Any person or agency offering a WEC-LC study visa, admission letter for immigration purposes, or &ldquo;guaranteed&rdquo; entry to the United Kingdom through this College is making an offer the College could not fulfil itself.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">What to do</span>
-        <h3>Write to us and tell us</h3>
-        <p>Send it to <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a>. Publishing this warning is worth little if reports of it go nowhere, and a College that hears about a fraud in its name and stays quiet is participating in it.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">If Your Goal Is To Study Abroad</span>
-      <h2>What the programme can genuinely do for that.</h2>
-      <p class="lede">Many applicants come to English study on the way to something else. That
-        is a legitimate reason to be here, and it is worth being precise about what helps.</p>
-    </div>
-    <div class="grid grid--3">
-      <div class="card card--dark">
-        <span class="card__num">Can</span>
-        <h3>Build the English a destination requires</h3>
-        <p>The upper levels work directly on academic reading, academic writing, seminar discussion and the discourse of formal argument &mdash; the things that make the difference once you have arrived, and which a test score does not guarantee.</p>
-      </div>
-      <div class="card card--dark">
-        <span class="card__num">Can</span>
-        <h3>Prepare you for the tests that are accepted</h3>
-        <p>IELTS, TOEFL and Cambridge preparation are built into the curriculum from Upper Intermediate onwards. Those tests, not this College&rsquo;s certificate, are what admitting institutions and immigration systems currently recognise.</p>
-      </div>
-      <div class="card card--dark">
-        <span class="card__num">Cannot</span>
-        <h3>Substitute for a recognised qualification</h3>
-        <p>No External Examiner has been appointed and the College holds no accreditation, so the IEFC award should not be relied upon by anyone as an admission or immigration credential. That is the plain position and it will change only when it genuinely changes.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section--light cta-band">
-  <div class="container reveal">
-    <h2>Curious what each level costs?</h2>
-    <div class="btn-row u-center">
-      <a href="/admissions/tuition/" class="btn btn--red">View Tuition &amp; Fees</a>
-    </div>
-  </div>
-</section>
-
 
 </main>
+<!--
+  THE FOOTER.
+
+  The same register as partials/footer.html on WEC-LC: a lattice ground
+  under an aurora wash, a keyline, the seal, then a stacked run of tile
+  grids built from .footergrid / .vessel, a swipeable strip of quick
+  cards, and a bottom bar carrying the copyright, the standing note and
+  the utility group.
+
+  Everything below resolves to a page that exists. The College publishes
+  no link to a document it has not written.
+-->
 <footer class="site-footer lattice aurora" data-nodes="9">
   <div class="lattice__bed" aria-hidden="true"></div>
   <hr class="footer__keyline">
+
   <div class="site-footer__inner">
     <div class="footer__brand">
-      <!-- tilt + glint, not gold-live: the crest is line art (stroke/fill
-           on paths), and gold-live paints a CSS background — invisible
-           behind an SVG's own drawn shapes. tilt/glint work on any box
-           via transform and a ::before overlay, so they're the correct
-           fit for a mark rather than a gradient-filled surface. glint is
-           reserved sitewide for awards, seals and conferral marks — the
-           footer crest is the one place on every page that IS a seal. -->
+      <!-- tilt + glint rather than gold-live: the crest is line art, and
+           gold-live paints a CSS background that an SVG's own drawn
+           shapes sit on top of. glint is reserved sitewide for seals and
+           marks of conferral — on every page of this site the footer
+           crest is the one thing that IS a seal. -->
       <div class="brand__crest-wrap tilt glint">
         <span class="tilt__sheen" aria-hidden="true"></span>
         <svg class="brand__crest brand__crest--footer" viewBox="0 0 48 56" aria-hidden="true">
-          <!-- A crown of three points over the shield, and an open book
-               at the honour point. The full arms are in
-               assets/art/crest-plate.svg; this is the reduction that
-               still reads at 27px in the condensed header, where the
-               laurel and ribbon of the full mark turn to mud. -->
-          <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
-          <path class="crest__shield" d="M24 10 L43 16.4 V30 C43 41.6 35.4 50.6 24 54.4 C12.6 50.6 5 41.6 5 30 V16.4 Z"/>
-          <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
-          <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
-          <path class="crest__book" d="M24 28.5 V37.4"/>
-          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
+          <!-- The eight-point khātim inside a double ring. The full mark
+               is in assets/madinah/crest-plate.svg, which carries the
+               radial armature and the base rules; this is the reduction
+               that still reads at 27px in the condensed rail. -->
+          <circle class="crest__shield" cx="24" cy="27" r="21"/>
+          <circle class="crest__inner" cx="24" cy="27" r="17.5"/>
+          <path class="crest__crown" d="M10.5 13.5h27v27h-27Z"/>
+          <path class="crest__crown" d="M10.5 13.5h27v27h-27Z" transform="rotate(45 24 27)"/>
+          <circle class="crest__book" cx="24" cy="27" r="7.2"/>
+          <text x="24" y="30.2" text-anchor="middle" class="crest__mono">AMC</text>
         </svg>
       </div>
-      <p class="footer__name foil reveal">WorldWide English College<br><span>London Campus</span></p>
-      <p class="footer__motto">&ldquo;Empowering the World Through English Excellence.&rdquo;</p>
+      <p class="footer__name foil reveal">Al-Madinah<br><span>International College</span></p>
+      <p class="footer__motto r-ar" lang="ar" dir="rtl">وَالرَّاسِخُونَ فِي الْعِلْمِ</p>
+    </div>
+  </div>
+
+
+  <!-- TODAY'S WIRD.
+       One verse and one hadith, cycling by the day so that the same day
+       gives the same reading to every reader, each printed with the
+       reference that lets it be checked. A small fixed set — the College
+       publishes what it can source, not a feed. -->
+  <div class="wird lumen">
+    <div class="wird__inner">
+      <div class="wird__head">
+        <span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-mushaf"/></svg></span>
+        <div>
+          <h2 class="wird__title rake">Today&rsquo;s Wird</h2>
+          <p class="wird__date"><span data-hijri-long>&mdash;</span></p>
+        </div>
+      </div>
+
+      <div class="wird__cols" data-wird>
+        <div class="wird__panel">
+          <span class="wird__kind">Verse of the day</span>
+          <p class="wird__ar r-ar" lang="ar" dir="rtl" data-wird-verse-ar>&mdash;</p>
+          <p class="wird__en" data-wird-verse-en>&mdash;</p>
+          <p class="wird__ref" data-wird-verse-ref>&mdash;</p>
+        </div>
+        <div class="wird__panel">
+          <span class="wird__kind">Hadith of the day</span>
+          <p class="wird__en wird__en--lead" data-wird-hadith-en>&mdash;</p>
+          <p class="wird__ref" data-wird-hadith-ref>&mdash;</p>
+        </div>
+        <div class="wird__panel wird__panel--times">
+          <span class="wird__kind">Prayer times &middot; Lagos</span>
+          <table class="wird__times">
+            <tbody>
+              <tr data-prayer-row><th scope="row">Fajr <span class="r-ar" lang="ar" dir="rtl">الفجر</span></th><td data-prayer="fajr">&mdash;</td></tr>
+              <tr data-prayer-row><th scope="row">Sunrise <span class="r-ar" lang="ar" dir="rtl">الشروق</span></th><td data-prayer="sunrise">&mdash;</td></tr>
+              <tr data-prayer-row><th scope="row">Dhuhr <span class="r-ar" lang="ar" dir="rtl">الظهر</span></th><td data-prayer="dhuhr">&mdash;</td></tr>
+              <tr data-prayer-row><th scope="row">Asr <span class="r-ar" lang="ar" dir="rtl">العصر</span></th><td data-prayer="asr">&mdash;</td></tr>
+              <tr data-prayer-row><th scope="row">Maghrib <span class="r-ar" lang="ar" dir="rtl">المغرب</span></th><td data-prayer="maghrib">&mdash;</td></tr>
+              <tr data-prayer-row><th scope="row">Isha <span class="r-ar" lang="ar" dir="rtl">العشاء</span></th><td data-prayer="isha">&mdash;</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="wird__note">Times are computed on your own device from the solar position
+        at Lagos, using Muslim World League angles (Fajr 18&deg;, Isha 17&deg;) and shadow
+        factor one for Asr. They are arithmetic, not an authority: confirm against your own
+        mosque. Verses and reports are a small, fixed set, each printed with its reference
+        so that it can be checked independently.</p>
     </div>
   </div>
 
   <!-- THE FOOTER'S GRID REGISTER.
-       Everything below is a stacked run of the same component: a
-       polished-ivory panel, a small-caps heading with its own worked
-       badge, and a still tile grid (3-4 across, never thinner) built
-       from .vessel / .vessel__badge. Explore Further leads — the
-       pages that don't belong to any of the four categories after it,
-       and the first thing a reader finds on entering the footer, not
-       the last. The four categories that follow used to be plain
-       vertical link lists; they are the same links, the same order,
-       recommissioned into the same tile form so the whole footer reads
-       as one register instead of a grid bolted onto four lists. -->
+       Four stacked panels of the same component — a small-caps heading
+       with its own worked badge over a still tile grid. Explore Further
+       leads, because it carries the pages that belong to no category
+       after it and is the first thing a reader meets on entering the
+       footer rather than the last. -->
   <div class="footergrid grain">
     <h2 class="footergrid__heading">
       <span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
       Explore Further
     </h2>
     <div class="footergrid__row">
-      <a href="/about/careers/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span></span>
-        <span class="footergrid__label">Careers</span>
+      <a href="/faculties/quran/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-mushaf"/></svg></span></span>
+        <span class="footergrid__label">Faculty of the Qur&rsquo;ān</span>
       </a>
-      <a href="/academics/teaching/" class="footergrid__tile">
+      <a href="/faculties/#arabic" class="footergrid__tile">
         <span class="vessel" style="--halo-delay: .3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span></span>
-        <span class="footergrid__label">Teaching Practice</span>
+        <span class="footergrid__label">Arabic Language</span>
       </a>
-      <a href="/admissions/policy/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span></span>
-        <span class="footergrid__label">Admissions Policy</span>
+      <a href="/faculties/#shariah" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
+        <span class="footergrid__label">Sharī&rsquo;ah Sciences</span>
       </a>
-      <a href="/students/integrity/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: .9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span></span>
-        <span class="footergrid__label">Academic Integrity</span>
+      <a href="/faculties/#applied" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: .9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span></span>
+        <span class="footergrid__label">Da&rsquo;wah &amp; Applied</span>
       </a>
-      <a href="/students/regulations/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span></span>
-        <span class="footergrid__label">Academic Regulations</span>
+      <a href="/awards/register-of-chains/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-sanad"/></svg></span></span>
+        <span class="footergrid__label">Register of Asānīd</span>
       </a>
-      <a href="/students/academic-record/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
-        <span class="footergrid__label">Your Academic Record</span>
+      <a href="/awards/#ijazah" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span></span>
+        <span class="footergrid__label">Conditions of Ijāzah</span>
       </a>
-      <a href="/governance/decisions/" class="footergrid__tile">
+      <a href="/awards/#general" class="footergrid__tile">
         <span class="vessel" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
-        <span class="footergrid__label">Decisions Register</span>
+        <span class="footergrid__label">Graded Certificates</span>
       </a>
-      <a href="/press/catalogue/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 2.1s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
-        <span class="footergrid__label">Press Catalogue</span>
+      <a href="/awards/#examination" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 2.1s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span></span>
+        <span class="footergrid__label">Regulations of Examination</span>
       </a>
-      <a href="/about/#status" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span></span>
-        <span class="footergrid__label">Institutional Status</span>
+      <a href="/short-courses/#ramadan" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-minaret"/></svg></span></span>
+        <span class="footergrid__label">The Ramaḍān Programme</span>
       </a>
-      <a href="/study/level-1/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 2.7s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">Level I &middot; A1</span>
+      <a href="/short-courses/#schedules" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 2.7s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span></span>
+        <span class="footergrid__label">Schedules of Memorisation</span>
       </a>
-      <a href="/study/level-2/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">Level II &middot; A2</span>
+      <a href="/calendar/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span></span>
+        <span class="footergrid__label">Academic Calendar</span>
       </a>
-      <a href="/study/level-3/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3.3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">Level III &middot; B1</span>
-      </a>
-      <a href="/study/level-4/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3.6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">Level IV &middot; B2</span>
-      </a>
-      <a href="/study/level-5/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 3.9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">Level V &middot; C1</span>
-      </a>
-      <a href="/study/level-6/" class="footergrid__tile">
-        <span class="vessel" style="--halo-delay: 4.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">Level VI &middot; C2</span>
+      <a href="/verify/" class="footergrid__tile">
+        <span class="vessel" style="--halo-delay: 3.3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span></span>
+        <span class="footergrid__label">Verification of Instruments</span>
       </a>
     </div>
   </div>
@@ -1467,29 +1051,29 @@
       Study
     </h2>
     <div class="footergrid__row">
-      <a href="/academics/#iefc" class="footergrid__tile">
+      <a href="/faculties/" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span></span>
-        <span class="footergrid__label">The IEFC Programme</span>
+        <span class="footergrid__label">All Programmes of Study</span>
       </a>
-      <a href="/academics/#levels" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: .3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
-        <span class="footergrid__label">All Six Levels</span>
+      <a href="/faculties/#structure" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: .3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
+        <span class="footergrid__label">Prescribed Texts &amp; Syllabi</span>
       </a>
-      <a href="/academics/#learning" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
-        <span class="footergrid__label">How Learning Works</span>
+      <a href="/faculties/quran/#higher" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span></span>
+        <span class="footergrid__label">Higher Diplomas</span>
       </a>
-      <a href="/students/assessment/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: .9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
-        <span class="footergrid__label">How You Are Assessed</span>
+      <a href="/faculties/quran/#diplomas" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: .9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-mushaf"/></svg></span></span>
+        <span class="footergrid__label">Memorisation</span>
       </a>
-      <a href="/students/awards/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span></span>
-        <span class="footergrid__label">Awards &amp; Honours</span>
+      <a href="/faculties/quran/#supplementary" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
+        <span class="footergrid__label">Recitation Voice</span>
       </a>
-      <a href="/student-portal/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span></span>
-        <span class="footergrid__label">Student Portal</span>
+      <a href="/short-courses/" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span></span>
+        <span class="footergrid__label">Short Courses</span>
       </a>
     </div>
   </div>
@@ -1497,65 +1081,32 @@
   <div class="footergrid grain">
     <h2 class="footergrid__heading">
       <span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
-      Admissions
+      Admission
     </h2>
     <div class="footergrid__row">
       <a href="/admissions/#apply" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span></span>
-        <span class="footergrid__label">How to Apply</span>
+        <span class="footergrid__label">Apply to the Registry</span>
+      </a>
+      <a href="/admissions/#procedure" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: .3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span></span>
+        <span class="footergrid__label">The Five Stages</span>
       </a>
       <a href="/admissions/#requirements" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: .3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span></span>
+        <span class="vessel vessel--sm" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span></span>
         <span class="footergrid__label">Entry Requirements</span>
       </a>
-      <a href="/admissions/tuition/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
-        <span class="footergrid__label">Tuition &amp; Fees</span>
-      </a>
-      <a href="/admissions/tuition/#paying" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: .9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span></span>
-        <span class="footergrid__label">Paying for the Programme</span>
-      </a>
-      <a href="/admissions/#dates" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span></span>
-        <span class="footergrid__label">Dates &amp; Calendar</span>
-      </a>
-      <a href="/faq/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
-        <span class="footergrid__label">Admissions Questions</span>
-      </a>
-    </div>
-  </div>
-
-  <div class="footergrid grain">
-    <h2 class="footergrid__heading">
-      <span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
-      The College
-    </h2>
-    <div class="footergrid__row">
-      <a href="/about/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span></span>
-        <span class="footergrid__label">About WEC-LC</span>
-      </a>
-      <a href="/governance/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: .3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
-        <span class="footergrid__label">Governance</span>
-      </a>
-      <a href="/governance/#standard" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span></span>
-        <span class="footergrid__label">Academic Standards</span>
-      </a>
-      <a href="/governance/evidence/" class="footergrid__tile">
+      <a href="/admissions/charges/" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: .9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
-        <span class="footergrid__label">The Evidence Record</span>
+        <span class="footergrid__label">Charges &amp; Funding</span>
       </a>
-      <a href="/press/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span></span>
-        <span class="footergrid__label">WEC Press</span>
+      <a href="/admissions/charges/#terms" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span></span>
+        <span class="footergrid__label">Terms of Payment</span>
       </a>
-      <a href="/faculty/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span></span>
-        <span class="footergrid__label">Faculty</span>
+      <a href="/admissions/charges/#terms" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span></span>
+        <span class="footergrid__label">Supported Places</span>
       </a>
     </div>
   </div>
@@ -1563,37 +1114,85 @@
   <div class="footergrid grain">
     <h2 class="footergrid__heading">
       <span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
-      Get in Touch
+      The Registry
     </h2>
     <p class="footergrid__intro">
-      <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a><br>
-      Online worldwide &middot; London admin HQ — address to be confirmed, see Contact below.
+      <a href="mailto:registry@al-madinahcollege.com">registry@al-madinahcollege.com</a><br>
+      Administrative registry in Lagos, Nigeria &middot; instruction delivered wholly at a distance.
+      Hours Monday to Thursday 09:00&ndash;17:00, Friday 09:00&ndash;12:00 (WAT, UTC+1).
     </p>
     <div class="footergrid__row">
+      <a href="/riwaq/" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span></span>
+        <span class="footergrid__label">The Riwāq — sign in</span>
+      </a>
       <a href="/contact/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span></span>
-        <span class="footergrid__label">Contact the College</span>
+        <span class="vessel vessel--sm" style="--halo-delay: .15s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span></span>
+        <span class="footergrid__label">Contact the Registry</span>
       </a>
-      <a href="/faq/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: .3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span></span>
-        <span class="footergrid__label">Frequently Asked Questions</span>
+      <a href="mailto:bursary@al-madinahcollege.com" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: .3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
+        <span class="footergrid__label">The Bursary</span>
       </a>
-      <a href="/support/accessibility/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span></span>
-        <span class="footergrid__label">Accessibility</span>
+      <a href="mailto:majlis@al-madinahcollege.com" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
+        <span class="footergrid__label">The Academic Council</span>
       </a>
-      <a href="/support/privacy/" class="footergrid__tile">
-        <span class="vessel vessel--sm" style="--halo-delay: .9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span></span>
-        <span class="footergrid__label">Privacy &amp; Your Data</span>
+      <a href="/about/#governance" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: .9s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span></span>
+        <span class="footergrid__label">Governance</span>
+      </a>
+      <a href="/regulations/" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 1.05s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span></span>
+        <span class="footergrid__label">Academic Regulations</span>
+      </a>
+      <a href="/safeguarding/" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span></span>
+        <span class="footergrid__label">Safeguarding</span>
+      </a>
+      <a href="/standing/" class="footergrid__tile">
+        <span class="vessel vessel--sm" style="--halo-delay: 1.35s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
+        <span class="footergrid__label">Standing &amp; Disclosure</span>
       </a>
     </div>
   </div>
 
-  <!-- Six things a returning visitor wants fast, each with a line of
-       context a grid tile has no room for. Its own swipeable strip,
-       on the footer's navy rather than another ivory panel, so it
-       reads as a different register from the grids above it, not a
-       sixth one. -->
+
+  <!-- THE COLLEGE, RIGHT NOW.
+       The registry's own clock against the hours its offices actually
+       keep. Read from the reader's device; nothing is fetched and nothing
+       is sent anywhere. -->
+  <div class="rightnow" data-rightnow>
+    <div class="rightnow__inner">
+      <div class="rightnow__block">
+        <span class="rightnow__kind">The College, right now</span>
+        <p class="rightnow__clock"><span data-now-clock>--:--:--</span>
+          <span class="rightnow__tz">WAT &middot; UTC+1</span></p>
+        <p class="rightnow__where">Administrative registry, Lagos, Nigeria</p>
+      </div>
+      <div class="rightnow__block">
+        <span class="rightnow__kind">The offices</span>
+        <p><span class="rightnow__state" data-now-state>&mdash;</span></p>
+        <p class="rightnow__where">Today <span data-now-hours>&mdash;</span> &middot;
+          Mon&ndash;Thu 09:00&ndash;17:00, Fri 09:00&ndash;12:00</p>
+      </div>
+      <div class="rightnow__block">
+        <span class="rightnow__kind">Correspondence</span>
+        <p class="rightnow__where">
+          <a href="mailto:registry@al-madinahcollege.com">registry@al-madinahcollege.com</a> &mdash; Registry<br>
+          <a href="mailto:bursary@al-madinahcollege.com">bursary@al-madinahcollege.com</a> &mdash; Bursary<br>
+          <a href="mailto:majlis@al-madinahcollege.com">majlis@al-madinahcollege.com</a> &mdash; Academic Council
+        </p>
+      </div>
+    </div>
+    <p class="rightnow__note">Read live from your own device clock against the hours the
+      offices keep. Nothing here is fetched and nothing is sent anywhere.</p>
+  </div>
+
+  <!-- Six things a returning reader wants fast, each with a line of
+       context a grid tile has no room for. Its own swipeable strip on the
+       footer's navy rather than a fifth ivory panel, so it reads as a
+       different register rather than more of the same one. -->
   <div class="footerlinks">
     <h2 class="footerlinks__heading">
       <span class="footer__col-badge"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
@@ -1601,68 +1200,189 @@
     </h2>
     <div class="footerlinks__track">
       <a href="/admissions/#apply" class="footerlinks__card">
+        <span class="vessel__badge vessel__badge--sm vessel__badge--gold"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+        <span class="footerlinks__card-title">Apply</span>
+        <span class="footerlinks__card-desc">Write to the Registry. Admission, assessment and tuition carry no charge whatever.</span>
+      </a>
+      <a href="/riwaq/" class="footerlinks__card">
         <span class="vessel__badge vessel__badge--sm vessel__badge--gold"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
-        <span class="footerlinks__card-title">Apply Now</span>
-        <span class="footerlinks__card-desc">Start your application for any of the six IEFC levels.</span>
+        <span class="footerlinks__card-title">The Riwāq</span>
+        <span class="footerlinks__card-desc">The learning portal — ḥifẓ ledger, murājaʿah scheduler, recitation and corrections.</span>
       </a>
-      <a href="/student-portal/" class="footerlinks__card">
-        <span class="vessel__badge vessel__badge--sm vessel__badge--gold"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
-        <span class="footerlinks__card-title">Student Portal</span>
-        <span class="footerlinks__card-desc">Sign in to your dashboard, live classes and transcripts.</span>
+      <a href="/faculties/" class="footerlinks__card">
+        <span class="vessel__badge vessel__badge--sm vessel__badge--gold"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+        <span class="footerlinks__card-title">Programmes of Study</span>
+        <span class="footerlinks__card-desc">Award, duration, entry and prescribed texts for every programme.</span>
       </a>
-      <a href="/admissions/tuition/" class="footerlinks__card">
+      <a href="/admissions/charges/" class="footerlinks__card">
         <span class="vessel__badge vessel__badge--sm vessel__badge--gold"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
-        <span class="footerlinks__card-title">Tuition &amp; Fees</span>
-        <span class="footerlinks__card-desc">Per-level pricing, payment methods and refund terms.</span>
+        <span class="footerlinks__card-title">Charges</span>
+        <span class="footerlinks__card-desc">No tuition, no examination fee. What the engrossed instruments cost, and how the teaching is funded.</span>
       </a>
-      <a href="/contact/" class="footerlinks__card">
-        <span class="vessel__badge vessel__badge--sm vessel__badge--gold"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
-        <span class="footerlinks__card-title">Contact the College</span>
-        <span class="footerlinks__card-desc">Reach admissions, general enquiries or the press office.</span>
-      </a>
-      <a href="/faq/" class="footerlinks__card">
-        <span class="vessel__badge vessel__badge--sm vessel__badge--gold"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
-        <span class="footerlinks__card-title">FAQ</span>
-        <span class="footerlinks__card-desc">Answers to the questions applicants ask most often.</span>
-      </a>
-      <a href="/support/accessibility/" class="footerlinks__card">
+      <a href="/verify/" class="footerlinks__card">
         <span class="vessel__badge vessel__badge--sm vessel__badge--gold"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
-        <span class="footerlinks__card-title">Accessibility</span>
-        <span class="footerlinks__card-desc">What's been built, what's been audited, and what's available on request.</span>
+        <span class="footerlinks__card-title">Verify an Instrument</span>
+        <span class="footerlinks__card-desc">Check any certificate or ijāzah against its reference number, free of charge.</span>
+      </a>
+      <a href="/awards/register-of-chains/" class="footerlinks__card">
+        <span class="vessel__badge vessel__badge--sm vessel__badge--gold"><svg class="icon" aria-hidden="true"><use href="#i-sanad"/></svg></span>
+        <span class="footerlinks__card-title">Register of Asānīd</span>
+        <span class="footerlinks__card-desc">The chains the faculty holds, and who is authorised to confer each.</span>
+      </a>
+      <a href="/calendar/" class="footerlinks__card">
+        <span class="vessel__badge vessel__badge--sm vessel__badge--gold"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+        <span class="footerlinks__card-title">Academic Calendar</span>
+        <span class="footerlinks__card-desc">Three semesters kept against the Hijrī year, and the Ramaḍān programme.</span>
       </a>
     </div>
   </div>
 
+
+  <!-- THE COLOPHON.
+       Under the registers, before the small print: the closing plate of
+       the book. A colophon is where a manuscript records who made it,
+       where, when and by whose authority — which is exactly what a
+       college's footer should end with, and is a more truthful ending
+       than a row of badges. -->
+  <div class="colophon">
+    <div class="colophon__inner">
+      <div class="colophon__mark">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width=".8" opacity=".45"/>
+          <circle cx="32" cy="32" r="25" fill="none" stroke="currentColor" stroke-width=".8" opacity=".3"/>
+          <path d="M14 14h36v36H14Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M14 14h36v36H14Z" fill="none" stroke="currentColor" stroke-width="1.2" transform="rotate(45 32 32)"/>
+          <circle cx="32" cy="32" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+        </svg>
+        <p class="colophon__motto r-ar" lang="ar" dir="rtl">وَالرَّاسِخُونَ فِي الْعِلْمِ</p>
+      </div>
+
+      <div class="colophon__cols">
+        <div class="colophon__col">
+          <span class="colophon__label">Constituted</span>
+          <p>Founded 1441&nbsp;/&nbsp;2020 as a programme of instruction in the Qur&rsquo;ān
+            and the Arabic language; constituted as a College in 1448&nbsp;/&nbsp;2026 with a
+            faculty structure, an Academic Council and a published scheme of awards.</p>
+        </div>
+        <div class="colophon__col">
+          <span class="colophon__label">Authority</span>
+          <p>Governed by a Board of Trustees. Academic authority is vested in the Academic
+            Council, which approves the syllabi, appoints the examiners and confirms every
+            result. No commercial officer may alter an academic outcome.</p>
+        </div>
+        <div class="colophon__col">
+          <span class="colophon__label">Standing</span>
+          <p>Awards are conferred on the College&rsquo;s own authority. It confers no degree
+            and holds no external accreditation, and says so wherever it describes itself
+            &mdash; <a href="/standing/">Standing, Recognition and Disclosure</a>.</p>
+        </div>
+        <div class="colophon__col">
+          <span class="colophon__label">Undertakings</span>
+          <p>No tuition fee and no examination fee. Verification free to every enquirer, for
+            ever. The register of instruments is the last thing that would be switched off
+            &mdash; <a href="/admissions/charges/">Charges</a>.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="colophon__rule" aria-hidden="true"></p>
+
+    <p class="colophon__seal">
+      Set in Bodoni Moda, Cinzel, Inter and Amiri &middot; kept against the Hijrī calendar
+      &middot; written in English and in Arabic, each authored rather than translated
+    </p>
+  </div>
+
   <div class="site-footer__bottom">
-    <p>&copy; <span data-year>2026</span> WorldWide English College — London Campus. All rights reserved.</p>
-    <!-- A trust mark, not a badge: the icon signals "this is checkable",
-         not "this is certified" — WEC-LC holds no accreditation, and a
-         seal implying one would be exactly the false confidence the
-         Evidence Record exists to rule out. Same shield-check icon the
-         Governance mega-menu already uses for the same idea. -->
+    <p>&copy; <span data-year>2026</span> Al-Madinah International College.
+      Established 1441&nbsp;/&nbsp;2020 &middot; Lagos, Nigeria. Governed by a Board of
+      Trustees, with academic authority vested in the Academic Council.</p>
+    <!-- A statement of standing rather than a badge. The College confers
+         its awards on its own authority and holds no external
+         accreditation; a seal implying otherwise would be the one claim
+         this site is built to avoid making. -->
     <div class="footer__trust">
       <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
-      <p class="footer__legal">WEC-LC is an institution in active development. Accreditation, governance and enrolment status are described honestly throughout this site — see <a href="/about/#status">Institutional Status</a>.</p>
+      <p class="footer__legal">The College confers the Certificate, the Diploma, the Higher Diploma,
+        the graded certificates of Islamic education and <em>ijāzah bi-sanad muttaṣil</em>, on its own
+        authority. It confers no degree and holds no external accreditation — see
+        <a href="/awards/">Academic Awards</a>.</p>
     </div>
     <div class="footer__utility">
-      <a class="topbar__lang" href="/ar/admissions/" lang="ar" hreflang="ar">
+      <span class="topbar__lang r-ar" lang="ar" dir="rtl">
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
-        العربية
-      </a>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
+        كلية المدينة العالمية
+      </span>
+      <div class="topbar__social" aria-label="Contact channels">
+        <a href="mailto:registry@al-madinahcollege.com" aria-label="Email the Registry"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></a>
+        <a href="/contact/" aria-label="Contact channels"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
       </div>
     </div>
   </div>
   <div class="trim-metal" aria-hidden="true"></div>
 </footer>
+<!--
+  THE DOCK.
 
+  Four things a reader reaches for at any point on any page, taken out of
+  the strip that used to sit above the College's name and given a place of
+  their own: the Riwāq, admission, WhatsApp, and the personalisation
+  centre.
+
+  It is a DOCK rather than a chat bubble. A round green bubble in the
+  corner is the idiom of a shop; this is a column of engraved plates on
+  the sapphire ground, closed to a single seal until it is touched. The
+  seal is the College's own octagram, not a speech balloon.
+
+  Behaviour: closed it is one 56px mark. On hover, focus or tap it opens
+  upward and the four plates arrive in sequence. It never covers the
+  footer's own actions — js/rusukh-dock.js retires it when the footer
+  enters view, because a floating control over a page's own closing
+  buttons is a control competing with the thing it is meant to serve.
+-->
+<div class="dock" data-dock aria-label="Quick actions">
+  <div class="dock__stack" data-dock-stack hidden>
+
+    <a class="dock__plate" href="/riwaq/" data-dock-i="0">
+      <span class="dock__label">The Riwāq<em>Sign in to the portal</em></span>
+      <span class="dock__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+    </a>
+
+    <a class="dock__plate dock__plate--gold" href="/admissions/#apply" data-dock-i="1">
+      <span class="dock__label">Register<em>Apply to the Registry — no charge</em></span>
+      <span class="dock__badge"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+    </a>
+
+    <a class="dock__plate dock__plate--green" href="https://wa.me/2348000000000"
+       target="_blank" rel="noopener" data-dock-i="2">
+      <span class="dock__label">WhatsApp<em>The Registry, 09:00–17:00 WAT</em></span>
+      <span class="dock__badge"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></span>
+    </a>
+
+    <button type="button" class="dock__plate" data-personalise-toggle
+            aria-expanded="false" aria-controls="personalise" data-dock-i="3">
+      <span class="dock__label">Personalise<em>Livery, ornament, text size</em></span>
+      <span class="dock__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+    </button>
+
+  </div>
+
+  <button type="button" class="dock__seal" data-dock-toggle
+          aria-expanded="false" aria-label="Open quick actions">
+    <svg class="dock__crest" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+      <path d="M10.5 10.5h27v27h-27Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M10.5 10.5h27v27h-27Z" fill="none" stroke="currentColor" stroke-width="1.4" transform="rotate(45 24 24)"/>
+      <circle cx="24" cy="24" r="6" fill="currentColor" opacity=".22"/>
+    </svg>
+    <span class="dock__seal-x" aria-hidden="true">&times;</span>
+  </button>
+</div>
 <script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
-<script src="/js/worldclock.js" defer></script>
-<script src="/js/sonics.js" defer></script>
+<script src="/js/rusukh-clock.js" defer></script>
+<script src="/js/rusukh-atelier.js" defer></script>
+<script src="/js/rusukh-dock.js" defer></script>
 </body>
 </html>

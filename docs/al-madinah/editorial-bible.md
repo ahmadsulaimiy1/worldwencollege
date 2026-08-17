@@ -673,3 +673,40 @@ For anyone writing a page for this College who has two minutes. If these nine ar
 ---
 
 *Al-Madinah International College · وَالرَّاسِخُونَ فِي الْعِلْمِ · 1448 / 2026*
+
+---
+
+# Appendix D — The site's own addresses
+
+Added when the College moved to the root of its domain, because a URL is an
+editorial decision before it is a technical one.
+
+**The College is the root.** It was built into `/madinah/` while the domain
+still served WorldWide English College at `/`. That is over: the WEC-LC build
+is archived at `archive/wec-lc/`, and these pages are the site. A College whose
+prospectus lives in a subfolder of somebody else's site is telling the reader
+something it does not mean to.
+
+**No URL the College has published is ever retired.** Every `/madinah/…`
+address 301s to its root equivalent, permanently, and the Arabic rule is
+written first so `/madinah/ar/awards/` becomes `/ar/awards/` and not
+`/ar/ar/awards/`. This is `§3` applied to addresses: an instrument, a printed
+letter or a review link that names a URL is a claim the College made, and it
+holds.
+
+**A redirect must land on a page that exists.** The archived redirect table
+carried 74 generated routes pointing at `/academics/`, `/governance/`,
+`/students/` and `/press/` — none of which this College has. None were merged.
+A redirect into a 404 is worse than a 404, because it looks like the site
+meant to send you there.
+
+**A shorthand is a spoken address.** `/apply`, `/charges`, `/chains`,
+`/ijazah`, `/rules`, `/disclosure` exist because the Registry will read them
+down a telephone. Each resolves to a real page; a shorthand whose destination
+has been retired is removed, not repointed at something adjacent.
+
+**`/verify/` takes no wildcard, ever.** A rule pointing `/verify/*` at the
+verification page would drop whatever followed the slash, so a mistyped
+credential link or a re-encoded QR code would resolve to an *empty*
+verification page. That is the one failure this route must never produce: it
+looks like a check that ran.

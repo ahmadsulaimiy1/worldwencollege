@@ -6,11 +6,13 @@
 // folded into it. The two sites share a design system (css/brand.css)
 // and nothing else: different institution, different chrome, different
 // manifest, different output tree. Merging them would mean every WEC-LC
-// build touching Dār al-Rusūkh's pages and vice versa, which is exactly
-// the coupling that makes a shared generator dangerous.
+// build touching this College's pages and vice versa, which is exactly
+// the coupling that makes a shared generator dangerous. WEC-LC is now
+// archived, and this generator is the only one that writes the site.
 //
 // Source:  rusukh-src/{pages,partials}/  + rusukh-src/manifest.json
-// Output:  rusukh/**/index.html
+// Output:  ./**/index.html — the College is the site root. The WEC-LC build
+//          this file used to sit beside is archived under archive/wec-lc/.
 //
 // No dependencies — Node's built-in fs/path only.
 // =====================================================================
@@ -22,7 +24,10 @@ const ROOT = path.resolve(__dirname, '..');
 const SRC = path.join(ROOT, 'rusukh-src');
 const PAGES = path.join(SRC, 'pages');
 const PARTIALS = path.join(SRC, 'partials');
-const OUT_DIR = 'madinah';
+// The College is the site. It was built into a `madinah/` subfolder while the
+// domain still served WorldWide English College at the root; that build is now
+// archived under archive/wec-lc/ and these pages are the root. `_redirects`
+// keeps every /madinah/... URL alive as a 301 so nothing already shared breaks.
 
 const SITE_URL = 'https://www.al-madinahcollege.com';
 
@@ -56,9 +61,9 @@ const FONTS =
 
 const FONTS_URL = `https://fonts.googleapis.com/css2?${FONTS}&display=swap`;
 
-// "about/index.html" -> "/rusukh/about/";  "index.html" -> "/rusukh/"
+// "about/index.html" -> "/about/";  "index.html" -> "/"
 function urlPathFor(output) {
-  return '/' + OUT_DIR + '/' + output.replace(/index\.html$/, '');
+  return '/' + output.replace(/index\.html$/, '');
 }
 
 // ---------------------------------------------------------------------
@@ -266,32 +271,42 @@ function build() {
     }));
   });
 
-  // An Arabic page linking to /madinah/regulations/ would throw the reader
-  // back into English mid-sentence. Rewritten at assembly rather than typed
-  // into every Arabic file, so an author cannot forget the prefix and cannot
-  // get it wrong on one link out of two hundred.
+  // An Arabic page linking to /regulations/ would throw the reader back into
+  // English mid-sentence. Rewritten at assembly rather than typed into every
+  // Arabic file, so an author cannot forget the prefix and cannot get it
+  // wrong on one link out of three hundred and forty-seven.
   //
-  // Twice now this has been the source of a silent, total failure, so both
-  // lessons are recorded here rather than rediscovered a third time
+  // This has silently failed twice, and both failures were caused by the
+  // rewrite being a PATTERN over strings rather than a lookup over routes
   // (EB §13.2.11):
   //
-  //   1. The pattern is BUILT FROM OUT_DIR. It used to be written out as a
-  //      literal /rusukh/, and the rename to /madinah/ left it matching
-  //      nothing at all.
-  //   2. It is applied to the CHROME as well as the content. The header and
-  //      footer carry 117 of the site's Arabic links between them — every
-  //      mega-menu row and every footer register — and rewriting only the
-  //      page body left the entire navigation of the Arabic tree pointing
-  //      into English.
+  //   1. It was written out as a literal `/rusukh/`, and the rename to
+  //      `/madinah/` left it matching nothing at all.
+  //   2. It was applied to the page body but not to the chrome. The header
+  //      and footer carry 117 of the site's Arabic links between them, so
+  //      the entire navigation of the Arabic tree pointed into English.
   //
-  // The negative lookahead leaves an already-correct /madinah/ar/ link
-  // alone, and the language switch is safe because it travels as the
-  // {{ALT_HREF}} token and is substituted after this runs.
+  // It is now neither a pattern nor a prefix: it is an exact lookup built
+  // from the manifest's own English routes, which is what makes it safe at
+  // the root. A prefix rule here would have had to guess whether `/css/`,
+  // `/js/`, `/assets/` and `/api/` were pages — and would have rewritten
+  // the stylesheets on every Arabic page the first time someone tried it.
+  //
+  // A route only rewrites if the manifest says it exists in Arabic. The
+  // language switch is safe because it travels as the {{ALT_HREF}} token and
+  // is substituted after this runs.
+  const AR_ROUTE = new Map(
+    routes
+      .filter((e) => (e.lang || 'en') === 'en' && e.ar)
+      .map((e) => [urlPathFor(e.output), urlPathFor(arOutputFor(e.output))])
+  );
+
   function arLinks(html) {
-    return html.replace(
-      new RegExp('href="/' + OUT_DIR + '/(?!ar/)', 'g'),
-      'href="/' + OUT_DIR + '/ar/'
-    );
+    return html.replace(/href="(\/[^"#]*)(#[^"]*)?"/g, (m, path, frag) => {
+      const to = AR_ROUTE.get(path);
+      if (!to) return m;
+      return 'href="' + to + (frag || '') + '"';
+    });
   }
 
   routes.forEach((entry) => {
@@ -374,14 +389,14 @@ ${chrome('dock')}
 </html>
 `;
 
-    const outPath = path.join(ROOT, OUT_DIR, entry.output);
+    const outPath = path.join(ROOT, entry.output);
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
     fs.writeFileSync(outPath, html);
     count++;
   });
 
   writeSitemap(routes);
-  console.log(`Al-Madinah International College — built ${count} pages into ${OUT_DIR}/`);
+  console.log(`Al-Madinah International College — built ${count} pages at the root.`);
 }
 
 function writeSitemap(routes) {
@@ -400,8 +415,7 @@ function writeSitemap(routes) {
 ${urls.map((u) => `  <url><loc>${u}</loc></url>`).join('\n')}
 </urlset>
 `;
-  fs.mkdirSync(path.join(ROOT, OUT_DIR), { recursive: true });
-  fs.writeFileSync(path.join(ROOT, OUT_DIR, 'sitemap.xml'), xml);
+  fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), xml);
 }
 
 build();

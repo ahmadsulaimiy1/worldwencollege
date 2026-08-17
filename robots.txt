@@ -1,6 +1,16 @@
+# Al-Madinah International College.
+#
+# The whole site is public and meant to be indexed: the prospectus, the
+# Academic Regulations, the schedule of charges and the disclosure page are
+# all documents a prospective student is entitled to find without applying.
 User-agent: *
 Allow: /
-Disallow: /student-portal/preview/
-Disallow: /finance/preview/
 
-Sitemap: https://www.worldwencollege.co.uk/sitemap.xml
+# The Riwāq is a student's own ledger, kept in their browser. There is no
+# server-side record behind it to crawl and nothing there is a public
+# document, so it is excluded from indexing rather than left to accumulate
+# empty result pages in a search index.
+Disallow: /riwaq/
+Disallow: /ar/riwaq/
+
+Sitemap: https://www.al-madinahcollege.com/sitemap.xml

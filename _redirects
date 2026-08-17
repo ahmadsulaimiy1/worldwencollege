@@ -1,128 +1,68 @@
-# Cloudflare Pages redirects.
+# Cloudflare Pages redirects — Al-Madinah International College.
 #
+# The WEC-LC redirect table that used to live here is archived at
+# archive/wec-lc/_redirects. Not merged: all 74 of its generated routes point
+# at pages (/academics/, /governance/, /students/, /press/, /faq/) that are no
+# longer served, and a redirect to a 404 is worse than a 404 — it looks like
+# the site meant to send you somewhere.
+
 # ── APEX TO WWW ──────────────────────────────────────────────────────
-# Every canonical URL this site publishes — in <link rel="canonical">,
-# in sitemap.xml, in hreflang, in every printed volume — is on the www
-# host. If the apex also serves the site, the same page exists at two
-# addresses, which splits how search engines see it and makes any
-# cookie or origin-scoped setting ambiguous.
+# Every canonical URL the College publishes — in <link rel="canonical">, in
+# sitemap.xml, in hreflang, on every printed instrument — is on the www host.
+# If the apex also serves the site, the same page exists at two addresses,
+# which splits how search engines see it and makes any origin-scoped setting
+# ambiguous.
 #
-# This rule only takes effect once worldwencollege.co.uk (the apex) is
-# attached to this Pages project as a custom domain. If the apex is
-# instead pointed elsewhere, or not configured at all, the rule is inert
-# — it costs nothing and starts working the moment the domain is added.
-# Nothing here can break the www host, which is what serves the site
-# today.
-https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
+# Inert until al-madinahcollege.com (the apex) is attached to this Pages
+# project as a custom domain. It costs nothing meanwhile and starts working
+# the moment the domain is added; nothing here can affect the www host.
+https://al-madinahcollege.com/*  https://www.al-madinahcollege.com/:splat  301!
+
+# ── THE MADINAH SUBFOLDER ────────────────────────────────────────────
+# The College was built into /madinah/ while the domain still served WEC-LC
+# at the root. Those URLs were shared for review, and the review artefact
+# links them, so every one of them keeps working — permanently, not for a
+# grace period. The `ar` rule is first because /madinah/ar/x/ must become
+# /ar/x/ and not /ar/ar/x/.
+/madinah/ar/*  /ar/:splat  301
+/madinah/*     /:splat     301
 
 # ── HTML EXTENSIONS ──────────────────────────────────────────────────
 # The build writes directory-style paths (/about/, not /about.html). A
-# visitor arriving from an old link, a printed document or a mistyped
-# address should land on the page rather than a 404.
-/index.html      /            301
-/about.html      /about/      301
-/academics.html  /academics/  301
-/admissions.html /admissions/ 301
-/faculty.html    /faculty/    301
-/contact.html    /contact/    301
-/faq.html        /faq/        301
+# visitor arriving from an old link, a printed document or a mistyped address
+# should land on the page rather than a 404.
+/index.html          /                    301
+/about.html          /about/              301
+/admissions.html     /admissions/         301
+/awards.html         /awards/             301
+/contact.html        /contact/            301
+/faculties.html      /faculties/          301
+/regulations.html    /regulations/        301
+/standing.html       /standing/           301
+/safeguarding.html   /safeguarding/       301
+/calendar.html       /calendar/           301
+/riwaq.html          /riwaq/              301
 
-# ── SECTION SHORTHANDS ───────────────────────────────────────────────
-# Short paths a person is likely to type or to be given verbally,
-# pointed at the page that actually answers them.
-/apply     /admissions/#apply          301
-/fees      /admissions/tuition/        301
-/tuition   /admissions/tuition/        301
-/levels    /academics/#levels                     301
-/privacy   /support/privacy/           301
+# ── SHORTHANDS ───────────────────────────────────────────────────────
+# Short paths a person is likely to type, or to be given verbally by the
+# Registry over a telephone. Each one resolves to a page that exists — the
+# mistake the archived table made was keeping shorthands whose destinations
+# had been retired.
+/apply        /admissions/#apply           301
+/charges      /admissions/charges/         301
+/fees         /admissions/charges/         301
+/tuition      /admissions/charges/         301
+/programmes   /faculties/                  301
+/quran        /faculties/quran/            301
+/rules        /regulations/                301
+/disclosure   /standing/                   301
+/chains       /awards/register-of-chains/  301
+/asanid       /awards/register-of-chains/  301
+/ijazah       /awards/#ijazah              301
 
-# /verify is deliberately NOT redirected. The real verification URL is
-# /verify.html?code=<code> (js/verify.js), and a wildcard rule pointing
-# /verify/* at /verify.html would drop whatever followed the slash — so
-# a credential link that someone had mistyped or a QR code that had
-# been re-encoded would resolve to an empty verification page rather
-# than an error. An empty verification page is the one failure mode
-# this route must never produce: it looks like a check that ran.
-
-# >>> GENERATED FROM scripts/lib/route-map.js — DO NOT EDIT BY HAND
-#
-# The architecture in docs/information-architecture.html retires these
-# URLs. Each one is indexed, may be printed in a published volume, and
-# must never return 404. 74 of 74 planned routes have moved
-# so far; the rest keep serving their own page until their phase lands.
-#
-/ar/admissions/entry-requirements/  /ar/admissions/#requirements  301
-/admissions/entry-requirements/     /admissions/#requirements  301
-/ar/admissions/international/       /ar/admissions/#international  301
-/ar/about/quality-assurance/        /ar/governance/#quality  301
-/ar/admissions/scholarships/        /ar/admissions/tuition/#funding  301
-/ar/standards/verification/         /ar/governance/#verification  301
-/ar/teaching/lesson-design/         /ar/academics/teaching/  301
-/ar/students/listening-lab/         /ar/students/#lab  301
-/admissions/international/          /admissions/#international  301
-/ar/about/academic-senate/          /ar/governance/#senate  301
-/about/quality-assurance/           /governance/#quality  301
-/admissions/scholarships/           /admissions/tuition/#funding  301
-/ar/teaching/development/           /ar/academics/teaching/  301
-/ar/admissions/questions/           /ar/faq/  301
-/standards/verification/            /governance/#verification  301
-/teaching/lesson-design/            /academics/teaching/#design  301
-/students/listening-lab/            /students/#lab  301
-/ar/standards/decisions/            /ar/governance/  301
-/about/academic-senate/             /governance/#senate  301
-/ar/standards/evidence/             /ar/governance/  301
-/ar/standards/research/             /ar/governance/#research  301
-/ar/teaching/companion/             /ar/academics/teaching/  301
-/ar/admissions/payment/             /ar/admissions/tuition/#paying  301
-/teaching/development/              /academics/teaching/#development  301
-/admissions/questions/              /faq/  301
-/ar/learning/platform/              /ar/academics/#campus  301
-/ar/support/technical/              /ar/academics/#campus  301
-/standards/decisions/               /governance/decisions/  301
-/ar/about/philosophy/               /ar/about/#philosophy  301
-/ar/about/governance/               /ar/governance/  301
-/ar/teaching/support/               /ar/academics/teaching/  301
-/ar/admissions/apply/               /ar/admissions/#apply  301
-/ar/admissions/dates/               /ar/admissions/#dates  301
-/ar/admissions/visas/               /ar/admissions/#visas  301
-/ar/students/support/               /ar/students/#support  301
-/standards/evidence/                /governance/evidence/  301
-/standards/research/                /governance/#research  301
-/teaching/companion/                /academics/teaching/#companion  301
-/admissions/payment/                /admissions/tuition/#paying  301
-/ar/about/structure/                /ar/about/#structure  301
-/ar/press/standards/                /ar/press/#standards  301
-/ar/press/programme/                /ar/press/#programme  301
-/learning/platform/                 /academics/#campus  301
-/support/technical/                 /academics/#campus  301
-/ar/academics/iefc/                 /ar/academics/#iefc  301
-/about/philosophy/                  /about/#philosophy  301
-/about/governance/                  /governance/  301
-/teaching/support/                  /academics/teaching/#support  301
-/admissions/apply/                  /admissions/#apply  301
-/admissions/dates/                  /admissions/#dates  301
-/admissions/visas/                  /admissions/#visas  301
-/students/support/                  /students/#support  301
-/ar/about/mission/                  /ar/about/#mission  301
-/about/structure/                   /about/#structure  301
-/press/standards/                   /press/#standards  301
-/press/programme/                   /press/#programme  301
-/ar/about/vision/                   /ar/about/#vision  301
-/ar/press/review/                   /ar/press/#review  301
-/academics/iefc/                    /academics/#iefc  301
-/ar/about/basce/                    /ar/governance/#basce  301
-/about/mission/                     /about/#mission  301
-/about/vision/                      /about/#vision  301
-/press/review/                      /press/#review  301
-/ar/standards/                      /ar/governance/#standard  301
-/about/basce/                       /governance/#basce  301
-/ar/learning/                       /ar/academics/#learning  301
-/ar/teaching/                       /ar/academics/teaching/  301
-/ar/library/                        /ar/press/#library  301
-/standards/                         /governance/#standard  301
-/learning/                          /academics/#learning  301
-/teaching/                          /academics/teaching/  301
-/ar/study/                          /ar/academics/#levels  301
-/library/                           /press/#library  301
-/study/                             /academics/#levels  301
-# <<< END GENERATED
+# /verify is NOT redirected, and must not be. It is a real page at /verify/,
+# and a wildcard rule pointing /verify/* at it would drop whatever followed
+# the slash — so a credential link someone had mistyped, or a QR code that
+# had been re-encoded, would resolve to an EMPTY verification page rather
+# than an error. An empty verification page is the one failure this route
+# must never produce: it looks like a check that ran.
