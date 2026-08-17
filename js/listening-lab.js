@@ -577,7 +577,8 @@
       renderTakes();
       note.textContent = err.status === 401
         ? 'Sign in to save this take. It is still playable on this device until you reload.'
-        : 'Could not upload the take: ' + err.message + ' It is still playable on this device until you reload — press Record to try again.';
+        : window.AIPC_data.humanError(err, 'The take could not be uploaded.')
+          + ' It is still playable on this device until you reload — press Record to try again.';
     });
   }
 
@@ -681,7 +682,7 @@
           'Use the replay links to go back to the lines you missed, then try again.';
         showResult();
       }).catch(function (err) {
-        $('#quizResult').textContent = 'Could not submit: ' + err.message;
+        $('#quizResult').textContent = window.AIPC_data.humanError(err, 'Your answers could not be submitted.');
         showResult();
       });
     });
@@ -903,7 +904,7 @@
     }).catch(function (err) {
       $('#labError').textContent = err.status === 401
         ? 'Sign in to open the Listening Lab.'
-        : 'Could not load this listening: ' + err.message;
+        : window.AIPC_data.humanError(err, 'This listening could not be loaded.');
     });
   }
 

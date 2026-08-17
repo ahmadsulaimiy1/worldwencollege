@@ -140,5 +140,44 @@ for (const p of pages) {
 check('Every page loading a migrated module also loads the seam',
   unwired.length === 0, unwired.join(' | '));
 
+// ---------------------------------------------------------------------
+// 5 · No portal page prints a raw server message to a learner
+// ---------------------------------------------------------------------
+// The transport falls back to HTTP's own statusText when an endpoint
+// sends no message of its own, so a page that prints err.message shows
+// "File not found" or "Internal Server Error" to a student. That is what
+// the portal did on every failure path until humanError() existed. This
+// keeps it from coming back.
+const PORTAL_MODULES = [
+  'my-programme.js', 'my-record.js', 'listening-lab.js',
+  'admin-enrolments.js', 'instructor-review.js', 'graduate.js'
+];
+const raw = [];
+for (const f of PORTAL_MODULES) {
+  let src;
+  try { src = readFileSync(path.join(JS, f), 'utf8'); } catch { continue; }
+  for (const [i, line] of src.split('\n').entries()) {
+    // A message concatenated into user-facing text. Throwing one (inside
+    // the transport, where it is caught and classified) is fine; printing
+    // one is not.
+    if (/\b(?:textContent|innerHTML)\s*=[^;]*\b(?:err|e|error)\.message\b/.test(line)
+      || /['"`][^'"`]*['"`]\s*\+\s*(?:err|e|error)\.message\b/.test(line)) {
+      raw.push(`${f}:${i + 1}`);
+    }
+  }
+}
+check(`No portal module prints a raw server message — ${PORTAL_MODULES.length} modules`,
+  raw.length === 0, raw.join(', '));
+
+// And the helper must classify the statuses the portal actually meets.
+const seamSrc = readFileSync(path.join(JS, 'portal-data.js'), 'utf8');
+const hasHuman = /function humanError\(/.test(seamSrc);
+check('The seam exposes humanError()', hasHuman);
+const covered = ['401', '403', '404', '429'].filter((c) => seamSrc.includes(`=== ${c}`));
+check('humanError classifies 401, 403, 404 and 429 by status',
+  covered.length === 4, 'covered: ' + covered.join(', '));
+check('humanError never surfaces HTTP statusText',
+  !/return[^;]*statusText/.test(seamSrc.slice(seamSrc.indexOf('function humanError('))));
+
 console.log(`\n${passed} passed, ${failed} failed.`);
 if (failed) process.exitCode = 1;

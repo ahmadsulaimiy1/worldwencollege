@@ -32,7 +32,7 @@
   function fail(err) {
     $('#planError').textContent = err.status === 401
       ? 'Sign in to see your programme.'
-      : (err.message || 'Could not load your programme. Please try again.');
+      : window.AIPC_data.humanError(err, 'Could not load your programme. Please try again.');
   }
 
   // Each state is a different situation and gets a different sentence.

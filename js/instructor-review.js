@@ -134,7 +134,7 @@
         setTimeout(function () { el.remove(); tick(-1); }, 320);
       }).catch(function (e) {
         send.disabled = false;
-        status.textContent = 'could not send: ' + e.message;
+        status.textContent = window.AIPC_data.humanError(e, 'That review could not be sent.');
       });
     });
 
@@ -173,7 +173,7 @@
         $('#queue').innerHTML = '';
         $('#qError').textContent = e.status === 403
           ? 'This workspace is for teaching staff. Your account does not have access.'
-          : 'Could not load the queue: ' + e.message;
+          : window.AIPC_data.humanError(e, 'The review queue could not be loaded.');
       });
   }
 

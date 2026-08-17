@@ -61,7 +61,7 @@
   function fail(err) {
     $('#admError').textContent = err.status === 401
       ? 'Sign in to manage enrolments.'
-      : (err.message || 'Could not complete that. Please try again.');
+      : window.AIPC_data.humanError(err, 'Could not complete that. Please try again.');
   }
 
   // ---- Search ----------------------------------------------------------
@@ -180,7 +180,7 @@
       });
     }).catch(function (err) {
       box.style.color = 'var(--ink-soft)';
-      box.textContent = 'Could not load the appointment record — ' + (err.message || 'please try again.');
+      box.textContent = window.AIPC_data.humanError(err, 'Could not load the appointment record.');
     });
   }
 

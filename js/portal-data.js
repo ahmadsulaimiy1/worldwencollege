@@ -90,8 +90,16 @@ window.AIPC_data = (function () {
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (body) {
         if (!r.ok) {
-          throw Object.assign(new Error(body.message || r.statusText), {
-            status: r.status, body: body
+          // apiMessage is set ONLY when the endpoint deliberately wrote a
+          // sentence for a human. r.statusText is not that: it is HTTP's
+          // own wording ("File not found", "Internal Server Error"), and
+          // pages that printed err.message were showing it verbatim to
+          // learners. Keeping the two apart is what lets humanError()
+          // below decide which is safe to surface.
+          var apiMessage = body && typeof body.message === 'string' && body.message
+            ? body.message : null;
+          throw Object.assign(new Error(apiMessage || r.statusText), {
+            status: r.status, body: body, apiMessage: apiMessage
           });
         }
         return body;
@@ -204,6 +212,32 @@ window.AIPC_data = (function () {
     reconciliationReport: function () { return request('/api/admin/reports/reconciliation'); }
   };
 
+  // -------------------------------------------------------------------
+  // One sentence a learner should actually read.
+  //
+  // Every portal page had its own `'Could not load: ' + err.message`,
+  // which is fine while the API is answering and becomes "Could not
+  // load: File not found" the moment anything else does. A person
+  // reading that has been handed a server's internal vocabulary and no
+  // idea what to do next.
+  //
+  // So: a status the College recognises gets the College's own wording;
+  // a message the API deliberately wrote gets used as written; and
+  // HTTP's statusText is never shown to anyone.
+  // -------------------------------------------------------------------
+  function humanError(err, fallback) {
+    var status = err && err.status;
+    if (!status) {
+      return 'The College could not be reached. Check your connection and try again.';
+    }
+    if (status === 401) return 'Sign in to see this.';
+    if (status === 403) return 'This is not available on your account.';
+    if (status === 404) return fallback || 'That could not be found.';
+    if (status === 429) return 'That was tried a few times in a row. Wait a moment and try again.';
+    if (status >= 500) return 'Something went wrong at our end. Please try again shortly.';
+    return (err && err.apiMessage) || fallback || 'That did not work. Please try again.';
+  }
+
   function register(name, impl) {
     if (!name || !impl) throw new Error('AIPC_data.register needs a name and an implementation');
     providers[name] = impl;
@@ -227,6 +261,7 @@ window.AIPC_data = (function () {
     register: register,
     use: use,
     provider: function () { return activeName; },
+    humanError: humanError,
     operations: function () { return OPERATIONS.slice(); },
 
     // Escape hatch for a call that has no operation yet. Deliberately
