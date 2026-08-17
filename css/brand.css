@@ -1195,6 +1195,35 @@ section { position: relative; }
    measures overflow at 1440 and at 390, and 1024 is neither, so a
    header that broke on every laptop passed every check. It now
    measures 1280, 1180 and 1024 as well. */
+/* EIGHT PILLARS NEED MORE RAIL THAN SIX, and the rail had no slack.
+   Adding Study and Standards took the navigation from 611.8px to 772.8px
+   while the space available to it at 1440 is 648.8px — measured in
+   Chromium, header overflowing at 1440 and 1280 and the page itself
+   scrolling sideways at 1280.
+
+   The design's own rule is that a rail either fits or collapses to the
+   menu, never wraps. Collapsing from 1500px down would hand the hamburger
+   to every 1280 and 1366 laptop, which is most laptops, so the rail
+   tightens instead: gap to its clamp floor and type down one step, which
+   measures 640px against a ~649px budget.
+
+   This is deliberately NOT inside a max-width query. The first attempt
+   tightened only below 1500px on the assumption that a wider viewport
+   leaves the rail more room. It does not: .site-header__inner is capped
+   at var(--wrap), so the budget is constant above that cap and the rail
+   overflowed by 158px at 1920 and 152px at 1600 while passing every
+   width below. Widening the window made it worse, not better, which is
+   the opposite of what an untested guess predicts. Below 1180px the rail
+   is display:none, so applying this unconditionally costs nothing.
+
+   The gap is 13px rather than 14 for one measured reason: the header's
+   own gap is clamp(16px, 2.4vw, 40px), which reaches its 40px maximum
+   at 1920 and so eats a few pixels more there than at 1600. At 14px the
+   rail cleared every width except 1920, by two pixels. 13px returns 7px
+   across the seven gaps, which clears it with margin to spare. */
+.nav { gap: 13px; }
+.nav__item > a { font-size: .79rem; }
+
 @media (max-width: 1180px) {
   .nav { display: none; }
   /* See the note at .site-header__inner: the slack has to move to
