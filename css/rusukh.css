@@ -2265,3 +2265,107 @@ body[data-section] {
   pointer-events: none;
 }
 .dock.is-open .dock__plate { visibility: visible; pointer-events: auto; }
+
+/* =========================================================== THE BODY TYPE
+   A count, before the argument: the page sources carried 299 inline style
+   attributes, and the SAME ROLE — a heading inside a card — was set at
+   five different sizes: 1.08, 1.10, 1.14, 1.16 and 1.18rem. Five sizes for
+   one thing is not a decision, it is the absence of one, and it is what
+   makes a body of copy read as assembled rather than composed. The measure
+   was hand-typed five ways too (70, 72, 74, 76ch).
+
+   Everything below sets those roles ONCE so the pages can stop carrying
+   them. A page should say what a thing IS; the stylesheet says how big it
+   is. That separation is the whole of what "polished" means here — it is
+   not a finish applied at the end, it is the reason the finish is even.  */
+
+/* --- the measure --------------------------------------------------------
+   One value, derived rather than chosen: 68 characters is the upper end of
+   the range typography has settled on for continuous reading, and this
+   College's prose is continuous. Where a paragraph should be narrower —
+   a lead-in, a plate — its component sets it. */
+:root { --measure: 68ch; }
+
+.r-measure { max-width: var(--measure); }
+
+.section-pad > .container > p,
+.section-pad > .container > .r-note { max-width: var(--measure); }
+
+/* --- headings inside cards and columns ---------------------------------
+   Two sizes, not five. A card heading and a column heading are different
+   roles at different scales, and nothing else in the body needs an h3. */
+
+.card h3,
+.r-tier-card h3 {
+  font-size: 1.1rem;
+  line-height: 1.3;
+  letter-spacing: -.004em;
+  margin: 0 0 10px;
+}
+
+.two-col h3,
+.r-diagram-wrap h3 {
+  font-size: 1.16rem;
+  line-height: 1.28;
+  letter-spacing: -.006em;
+  margin: 0 0 12px;
+}
+
+/* --- rhythm -------------------------------------------------------------
+   The vertical intervals the pages were setting by hand, set once. */
+
+.section-pad .btn-row { margin-top: 30px; }
+.two-col { gap: 52px; }
+.two-col--wide { gap: 56px; }
+
+.card p:last-child,
+.r-plate p:last-child,
+.two-col p:last-child { margin-bottom: 0; }
+
+/* A plate opening a column sits flush with the heading beside it. */
+.r-plate:first-child,
+.r-plate--flush { margin-top: 0; }
+
+/* --- the card's metadata line ------------------------------------------
+   Programme cards carry a line of standing under the title — duration,
+   entry, admitting or forthcoming. It was being built by overriding
+   .r-note inline in twelve places, in two colour variants. It is its own
+   thing and now says so. */
+.r-meta {
+  font-size: .84rem;
+  line-height: 1.55;
+  color: var(--slate);
+  margin: 8px 0 14px;
+  padding: 0;
+  border-top: 0;
+}
+.section--dark .r-meta,
+.card--dark .r-meta { color: var(--cerulean); }
+
+/* --- the last roles that had no class ----------------------------------
+   Each of these was being built inline in several places. A role repeated
+   is a component; a component named is a decision that holds. */
+
+/* A second two-column block under the first, in the same section. */
+.two-col--stacked { margin-top: 44px; }
+
+/* The faculty's own name in Arabic, under its English heading in a
+   section head. It alternates gold on navy and bronze on paper — which is
+   the ONE rule the eight inline copies all encoded by hand, differently. */
+.r-fac-title {
+  font-size: 1.4rem;
+  line-height: 1.9;
+  display: block;
+  margin-top: 4px;
+  color: var(--bronze);
+}
+.section--dark .r-fac-title { color: var(--gold-soft); }
+
+/* A button closing a plate, and a button closing a block of table. */
+.r-plate > .btn { margin-top: 6px; }
+.table-scroll + .btn,
+.r-stages + .btn { margin-top: 22px; }
+
+/* The opening statement of a regulation — narrower than the measure on
+   purpose, because it is read as a single held sentence. */
+.r-lead-in--wide { max-width: 46ch; margin-bottom: 34px; }
