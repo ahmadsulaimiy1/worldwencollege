@@ -26,17 +26,6 @@
   // queue is staff-only, so this page needs both a valid token (401)
   // and a staff role (403); load() distinguishes the two for the
   // reviewer.
-  function api(path, opts) {
-    return window.AIPC_apiAuth.headers().then(function (headers) {
-      return fetch(path, Object.assign({}, opts || {}, { headers: headers }));
-    }).then(function (r) {
-      return r.json().catch(function () { return {}; }).then(function (b) {
-        if (!r.ok) throw Object.assign(new Error(b.message || r.statusText), { status: r.status });
-        return b;
-      });
-    });
-  }
-
   function fmt(ms) {
     if (!ms) return '—';
     var s = Math.round(ms / 1000);
@@ -137,9 +126,8 @@
         scores[i.dataset.dim] = Number(i.value) / 100;
       });
       send.disabled = true; status.textContent = 'sending…';
-      api('/api/lms/recording-review', {
-        method: 'POST',
-        body: JSON.stringify({ recordingId: rec.id, comment: ta.value || null, scores: scores }),
+      window.AIPC_data.recordingReview({
+        recordingId: rec.id, comment: ta.value || null, scores: scores
       }).then(function () {
         el.style.transition = 'opacity .3s var(--ease-premium), transform .3s var(--ease-premium)';
         el.style.opacity = '0'; el.style.transform = 'translateY(-6px)';
@@ -174,7 +162,7 @@
   function load() {
     var lv = $('#levelFilter').value;
     $('#queue').innerHTML = skeleton(3);
-    api('/api/lms/review-queue' + (lv ? '?levelId=' + lv : ''))
+    window.AIPC_data.reviewQueue(lv)
       .then(function (rows) {
         $('#queue').innerHTML = '';
         remaining = 0;

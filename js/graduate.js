@@ -300,8 +300,7 @@
     // and it is fetched rather than assumed, so a failure leaves the
     // typed URL above rather than a broken image beside a promise.
     var box = $('#qrBox');
-    fetch('/api/credentials/qr?code=' + encodeURIComponent(a.verificationCode))
-      .then(function (r) { return r.ok ? r.text() : Promise.reject(new Error(String(r.status))); })
+    window.AIPC_data.credentialQr(a.verificationCode)
       .then(function (svg) {
         var host = $('#qr');
         host.textContent = '';

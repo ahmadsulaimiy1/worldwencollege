@@ -29,17 +29,6 @@
     not_started: 'Not started',
   };
 
-  function api(path) {
-    return window.AIPC_apiAuth.headers().then(function (headers) {
-      return fetch(path, { headers: headers });
-    }).then(function (r) {
-      return r.json().catch(function () { return {}; }).then(function (b) {
-        if (!r.ok) throw Object.assign(new Error(b.message || r.statusText), { status: r.status });
-        return b;
-      });
-    });
-  }
-
   function fail(err) {
     $('#planError').textContent = err.status === 401
       ? 'Sign in to see your programme.'
@@ -256,7 +245,7 @@
   }
 
   function load() {
-    return api('/api/student/study-plan').then(render).catch(fail);
+    return window.AIPC_data.studyPlan().then(render).catch(fail);
   }
 
   document.addEventListener('DOMContentLoaded', function () {
