@@ -33,6 +33,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { emitPage, reportEmit } = require('./lib/emit-page');
 const { DatabaseSync } = require('node:sqlite');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -574,12 +575,16 @@ const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
+const emitted = [];
 
 // `body` may be null, meaning "this route belongs to the manifest but
 // its page is hand-authored" — see the note where academicsPage() was
 // removed. A null body upserts the entry and leaves the file alone.
 function upsert(entry, contentFile, body) {
-  if (body !== null) fs.writeFileSync(path.join(ROOT, 'pages', contentFile), body);
+  if (body !== null) {
+    const target = path.join(ROOT, 'pages', contentFile);
+    emitted.push({ file: target, result: emitPage(target, body) });
+  }
   const i = entries.findIndex((e) => e.slug === entry.slug);
   if (i >= 0) entries[i] = { ...entries[i], ...entry };
   else entries.push(entry);
@@ -622,6 +627,12 @@ levels.forEach((lv, i) => {
 });
 
 fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-console.log(`Wrote ${written.length} page sources:`);
+// The manifest entry is written for every page; the PAGE BODY is written
+// only where the guard allows it. "Routed" rather than "Wrote" because
+// the two are no longer the same act — see scripts/lib/emit-page.js, and
+// read the guard's own summary below this list for what reached disk.
+console.log(`Routed ${written.length} page sources through the manifest:`);
 for (const o of written) console.log(`  ${o}`);
 console.log('Run `npm run build` to generate the served pages.');
+
+reportEmit('build-levels.js', emitted);

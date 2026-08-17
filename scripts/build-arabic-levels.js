@@ -80,6 +80,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { emitPage, reportEmit } = require('./lib/emit-page');
 const { DatabaseSync } = require('node:sqlite');
 const {
   AR_LEVEL, AR_ROMAN, ltr, esc, card, darkCard, cta,
@@ -712,12 +713,14 @@ const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
+const emitted = [];
 
 levels.forEach((lv, i) => {
   const slug = `study-${SLUG[lv.roman]}-ar`;
   const file = `study-${SLUG[lv.roman]}.ar.html`;
   const output = `ar/study/${SLUG[lv.roman]}/index.html`;
-  fs.writeFileSync(path.join(ROOT, 'pages', file), levelPage(lv, i) + '\n');
+  const target = path.join(ROOT, 'pages', file);
+  emitted.push({ file: target, result: emitPage(target, levelPage(lv, i)) });
 
   const entry = {
     slug,
@@ -743,6 +746,12 @@ levels.forEach((lv, i) => {
 });
 
 fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-console.log(`Wrote ${written.length} Arabic level pages and paired them with their English editions:`);
+// The manifest entry is written for every page; the PAGE BODY is written
+// only where the guard allows it. "Routed" rather than "Wrote" because
+// the two are no longer the same act — see scripts/lib/emit-page.js, and
+// read the guard's own summary below this list for what reached disk.
+console.log(`Routed ${written.length} Arabic level pages and paired them with their English editions:`);
 for (const o of written) console.log(`  ${o}`);
 console.log('Run `npm run build` to generate the served pages.');
+
+reportEmit('build-arabic-levels.js', emitted);

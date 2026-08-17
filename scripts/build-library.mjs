@@ -58,6 +58,7 @@
 import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { emitPage, reportEmit } from './lib/emit-page.js';
 // The licence on the page and the licence printed inside the volumes are
 // the same instrument, read from one file, in both languages. See
 // scripts/publication/rights.mjs.
@@ -539,8 +540,14 @@ ${licenceLeaf(lang)}
 `;
 }
 
-writeFileSync(path.join(ROOT, 'pages', 'press-library.html'), page('en'));
-writeFileSync(path.join(ROOT, 'pages', 'press-library.ar.html'), page('ar'));
+// Through the guard, like every other generator: these two pages carry
+// hand-edited prose between the generated catalogue rows, and a bare
+// write would revert it. See scripts/lib/emit-page.js.
+const emitted = [['press-library.html', page('en')], ['press-library.ar.html', page('ar')]]
+  .map(([file, body]) => {
+    const target = path.join(ROOT, 'pages', file);
+    return { file: target, result: emitPage(target, body) };
+  });
 
 // ── THE MANIFEST ENTRIES ─────────────────────────────────────────────
 const MAN = path.join(ROOT, 'pages', 'manifest.json');
@@ -563,4 +570,5 @@ for (const e of ENTRIES) {
   if (i >= 0) entries[i] = { ...entries[i], ...e }; else entries.push(e);
 }
 writeFileSync(MAN, JSON.stringify(manifest, null, 2) + '\n');
-console.log(`library: pages/press-library{,.ar}.html written, manifest updated.`);
+reportEmit('build-library.mjs', emitted);
+console.log('library: manifest updated for pages/press-library{,.ar}.html.');
