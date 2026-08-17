@@ -660,6 +660,133 @@ against the complainant is a trap, not a remedy.
 subject to Senate ratification at its first properly constituted meeting,
 on the same footing as the 14 August batch.
 
+## F. Adopted 17 August 2026 — the commercial model, as one instrument
+
+The four decisions below were taken together and must be read together.
+Taken separately they contradict each other: a page that charges an
+independent candidate to be awarded, beside a page promising an enrolled
+student no graduation fee, reads as a hidden fee unless the reason is on
+both. So the model has one principle, stated once and applied four times:
+
+> **You pay for what the College does for you. You never pay for the
+> credential itself, and the credential is the same whichever route you
+> take to it.**
+
+Every figure is held in `data/commercial.json` and rendered by
+`scripts/build-commercial.mjs`, which refuses to build if any of them
+contradicts another or the level fee in `data/tuition.json`.
+
+### F1. The independent route
+**Recommendation:** a candidate who does not enrol may take any level by
+buying three things separately — the level's **materials ($150)**, the
+level **examination ($250)**, and **conferral of the award ($200)**;
+$600 a level, $3,600 for the programme. Each step stands alone: a
+candidate may buy materials and never sit, or sit and never take the
+award, and no step is a condition of selling the one before it.
+
+The examination is the same examination, marked by a person against the
+same published rubric, second-marked, and put through the same internal
+moderation. **The award is the same award**, entered in the same
+registry, verifiable by the same open route. One re-sit is included, as
+it is for an enrolled student.
+
+*Why the fees are not the enrolled cost-share.* `tuition.json` allocates
+15% of a level fee — $475 — to *Assessment and marking*, and this route
+charges $250. The two buy different things: the enrolled line covers ten
+module quizzes, ten assignments marked **with written feedback**, the
+examination and its second marking. Marking assignments with feedback is
+teaching, and it is priced where teaching is priced. The same holds for
+materials: authoring a curriculum is a fixed cost the enrolled fees
+carry, and charging a marginal reader the average cost is how an
+institution prices itself out of its own mission.
+
+*The conferral fee, and the promise it appears to break.* An enrolled
+student pays nothing to be awarded because certification is line eight
+of their level fee, already paid. An independent candidate has not paid
+that line, so they pay it here. Both pages say so and each links to the
+other.
+
+**Decision:** ☑ **ADOPTED 17 August 2026 (Executive).** Fee levels
+subject to Board ratification with the annual fee review; the structure
+subject to Senate ratification of the assessment equivalence.
+
+### F2. Partner and sponsored places
+This item sat in the deferred table above as *Corporate/bulk terms —
+needs an actual commercial model.* It now has one.
+
+**Recommendation:** an institution enrolling a group pays a **published
+band**, not a negotiated rate: **10–24 seats, 10% off tuition; 25–99,
+15%; 100 or more, 20%.** A price that changes with who is asking is a
+price the College cannot defend, and the buyer with the least leverage
+is always the one who needed the help most.
+
+Four conditions, each of which exists to stop a foreseeable abuse:
+the band applies to **tuition only** and never to an assessment
+standard, a pass mark or a moderation step; a sponsor sees a student's
+progress **only with that student's separate written consent**,
+withdrawable at any time; a sponsored student who leaves the sponsor
+**keeps the place and the record** — the seat is bought, the person is
+not; and the refund window is **the student's**, running from their own
+start.
+
+**Decision:** ☑ **ADOPTED 17 August 2026 (Executive).** Removes
+*Corporate/bulk terms* from the deferred table.
+
+### F3. The Foundation Remission
+The College's own page said, correctly, that publishing criteria it
+could not fund would be worse than publishing nothing. The way out is
+not to promise a sum. It is to make the fund a **rule** rather than a
+figure.
+
+**Recommendation:** **five per cent of every dollar of tuition
+received** is placed in the remission fund. The fund therefore exists
+exactly when tuition does, cannot be overspent, and needs no capital the
+College does not have. The consequence is published rather than hidden:
+in a term with little tuition there is little remission.
+
+Awards are full or partial remission of a level fee, decided on two
+published criteria — **financial need (60%)** and **academic promise
+(40%)** — each with a stated test that can be applied to a stranger.
+Need is evidenced by the applicant's own statement of household
+circumstances with one supporting document *where one exists*; the
+College does not demand documents a person in hardship cannot obtain,
+and says so rather than rejecting them silently.
+
+The chain, using posts that exist on the governance register with the
+remits they actually hold: applications to the **Registrar**, who holds
+student records; a panel of three — Registrar, **Director of Student
+Success** on need, **Dean of Academic Affairs** on promise; decisions
+minuted with the score against each criterion; **every applicant told
+the outcome**, including those not awarded; and the round's report to
+the **Governor for Finance and Audit**, who may audit any decision in
+it.
+
+A round opens with each cohort, closes fourteen days before that cohort
+begins, and is decided within fourteen days of closing.
+
+**Decision:** ☑ **ADOPTED 17 August 2026 (Executive).** The first round
+opens with the next cohort. **No round has run and no remission has been
+awarded to anyone**, and the page says so.
+
+### F4. The referral credit
+**Recommendation:** a student or award-holder who refers a candidate
+receives a **$250 credit against their own next fee** — usable against
+enrolled tuition or any step of the independent route — capped at
+**three per person for the whole programme**, settling **fourteen days
+after the referred student starts**, when their refund window has
+closed.
+
+It is a remission and never a commission, and the difference is
+load-bearing. The moment a person is paid cash for bringing the College
+a student, that person has an interest in what they say about it and the
+College has bought a salesperson it cannot supervise. So: **never cash**;
+never to anyone who is not a student or an award-holder; applied to one
+fee at a time and never beyond it, with any remainder carried forward
+and never paid out; and not payable on yourself, on a person already in
+the admissions record, or on a seat bought under a partner band.
+
+**Decision:** ☑ **ADOPTED 17 August 2026 (Executive).**
+
 ## E-deferred. Still insufficient basis to recommend
 
 I am not proposing values for these. Each needs information I do not
@@ -668,7 +795,6 @@ have, and a plausible-looking number would be worse than an open item.
 | Item | What it needs |
 |---|---|
 | Tuition currency policy beyond USD | A real FX source and a commercial decision on who carries rate risk |
-| Corporate/bulk terms | An actual commercial model |
 | Instructor:learner ratios, class sizes, contact hours | Operational reality, not a target |
 | Anything described as accreditation or recognition | An accrediting body |
 
