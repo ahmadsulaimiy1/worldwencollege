@@ -530,10 +530,22 @@ function materialLaw() {
       flag('MAJOR', f, `${bare.length} of ${cards.length} cards carry no travelling light`,
         'a .card without .aurum', 'Add .aurum, .edge-lit, .tilt and .reveal — CLAUDE.md §2.');
     }
-    const domes = (body.match(/badge-dome/g) || []).length;
-    const lg = (body.match(/badge-dome--lg/g) || []).length;
-    if (domes && lg / domes < 0.5) {
-      flag('MINOR', f, `${domes - lg} of ${domes} domes are the small size`,
+    // COUNT ELEMENTS, NOT SUBSTRINGS. This counted occurrences of the
+    // string "badge-dome", and every large dome contains it twice —
+    // `badge-dome badge-dome--lg` — while a dark one contains it three
+    // times. So a page on which EVERY dome was already the large size
+    // scored 30 of 66 and was reported as two thirds undersized. All
+    // twelve level pages, the accessibility page and the privacy page
+    // were flagged for a defect none of them had.
+    //
+    // The fourth counting fault found in this file, and the lesson is
+    // the same each time: an audit that reports work nobody needs to do
+    // costs more than no audit, because the next real finding is read
+    // as one more false alarm.
+    const domeEls = (body.match(/class="[^"]*\bbadge-dome\b[^"]*"/g) || []);
+    const small = domeEls.filter((c) => !/\bbadge-dome--lg\b/.test(c));
+    if (domeEls.length && small.length / domeEls.length > 0.5) {
+      flag('MINOR', f, `${small.length} of ${domeEls.length} domes are the small size`,
         'badge-dome without --lg',
         'A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2.');
     }

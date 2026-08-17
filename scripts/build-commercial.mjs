@@ -302,10 +302,17 @@ function remissionLeaf(lang) {
     icon: c.key === 'need' ? 'i-accord' : 'i-laurel',
     num: num(lang, pc(c.weight_bp)), h3: c[lang].name, p: c[lang].test,
   })).join('\n');
+  // A PROCEDURE IS A SEQUENCE, NOT A CHECKLIST. The first cut rendered
+  // these as ticked items and the audit blocked the build under
+  // CLAUDE.md §5 — correctly, though not for the reason it gave. No
+  // round has run, so a column of ticks beside "the panel's decisions
+  // are minuted" reads as four things that have happened. They are four
+  // things that WILL happen, in order, and a numbered list says that
+  // without any mark having to be argued about.
   const chain = (lang === 'ar' ? R.decision_chain_ar : R.decision_chain_en)
-    .map((s) => `          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>${s}</span></li>`).join('\n');
+    .map((s, i) => `          <li><span class="num">${num(lang, String(i + 1))}</span><span>${s}</span></li>`).join('\n');
   const kinds = (lang === 'ar' ? R.award_kinds_ar : R.award_kinds_en)
-    .map((k) => `          <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>${k}</span></li>`).join('\n');
+    .map((k, i) => `          <li><span class="num">${num(lang, String(i + 1))}</span><span>${k}</span></li>`).join('\n');
   return leaf({
     ground: 'section--dark grain aurora', id: 'funding', contents: t.remissionLabel,
     numeral: lang === 'ar' ? '٣' : 'III', label: t.remissionLabel, rubric: t.remissionRubric,
@@ -321,16 +328,16 @@ ${crits}
       </div>
       <div class="callout">
         <span class="callout__label">${t.chainHead}</span>
-        <ul class="check-list">
+        <ol class="dot-list">
 ${chain}
-        </ul>
+        </ol>
       </div>
       <div class="callout">
         <span class="callout__label">${t.roundHead}</span>
         <p>${lang === 'ar' ? R.round_ar : R.round_en}</p>
-        <ul class="check-list">
+        <ol class="dot-list">
 ${kinds}
-        </ul>
+        </ol>
       </div>
       <div class="callout">
         <span class="callout__label">${t.statusLabel}</span>

@@ -1,25 +1,32 @@
 {
-  "generated": 160,
+  "generated": 115,
   "counts": {
-    "SEVERE": 45,
+    "SEVERE": 48,
     "MAJOR": 56,
-    "MINOR": 59
+    "MINOR": 11
   },
   "byCommittee": {
-    "Editorial Excellence": 53,
+    "Editorial Excellence": 56,
     "Institutional Confidence": 17,
     "Visual Storytelling": 17,
     "Information Architecture": 24,
-    "Material Law": 48,
     "Typography": 1
   },
   "findings": [
     {
       "committee": "Editorial Excellence",
       "severity": "SEVERE",
-      "page": "admissions.html",
-      "what": "4656 words on one page",
+      "page": "admissions-tuition.html",
+      "what": "4574 words on one page",
       "evidence": "21 minutes of reading before the reader reaches the foot",
+      "remedy": "Move a chapter to its own page, or reduce the prose to what only prose can carry and let a register, a table or a diagram hold the rest."
+    },
+    {
+      "committee": "Editorial Excellence",
+      "severity": "SEVERE",
+      "page": "admissions.html",
+      "what": "4744 words on one page",
+      "evidence": "22 minutes of reading before the reader reaches the foot",
       "remedy": "Move a chapter to its own page, or reduce the prose to what only prose can carry and let a register, a table or a diagram hold the rest."
     },
     {
@@ -140,6 +147,14 @@
       "page": "study-level-1.ar.html, study-level-2.ar.html, study-level-3.ar.html, study-level-4.ar.html, study-level-5.ar.html, study-level-6.ar.html",
       "what": "One paragraph repeated verbatim on 6 pages",
       "evidence": "“الشهادة كيان معرَّف له عنوان رسمي ولاحقة اسمية، وترجمة العنوان تُنشئ شهادةً ثانية لم يعرّفها أحد ولا يستطيع أحد منحها. ي…”",
+      "remedy": "Say it once where it belongs and link to it, or write it afresh for each page it appears on."
+    },
+    {
+      "committee": "Editorial Excellence",
+      "severity": "SEVERE",
+      "page": "study-level-1.ar.html, study-level-2.ar.html, study-level-3.ar.html, study-level-4.ar.html, study-level-5.ar.html, study-level-6.ar.html",
+      "what": "One paragraph repeated verbatim on 6 pages",
+      "evidence": "“أكثر المرشحين يلتحقون: $3,166.67 للمستوى، بأربع دفعات، ومدرّس مسمّى وتغذية راجعة مكتوبة على كل عمل تنتجه. ومن أراد المؤه…”",
       "remedy": "Say it once where it belongs and link to it, or write it afresh for each page it appears on."
     },
     {
@@ -307,6 +322,14 @@
       "severity": "SEVERE",
       "page": "study-level-1.html, study-level-2.html, study-level-3.html, study-level-4.html, study-level-5.html, study-level-6.html",
       "what": "One paragraph repeated verbatim on 6 pages",
+      "evidence": "“Most candidates enrol: $3,166.67 for the level, four instalments, a named instructor and written feedback on every piece…”",
+      "remedy": "Say it once where it belongs and link to it, or write it afresh for each page it appears on."
+    },
+    {
+      "committee": "Editorial Excellence",
+      "severity": "SEVERE",
+      "page": "study-level-1.html, study-level-2.html, study-level-3.html, study-level-4.html, study-level-5.html, study-level-6.html",
+      "what": "One paragraph repeated verbatim on 6 pages",
       "evidence": "“Every award at this level is set, marked and second-marked inside the College, against the criteria published above and …”",
       "remedy": "Say it once where it belongs and link to it, or write it afresh for each page it appears on."
     },
@@ -418,17 +441,17 @@
       "committee": "Editorial Excellence",
       "severity": "MAJOR",
       "page": "admissions-tuition.html",
-      "what": "1 sentence(s) over 45 words",
-      "evidence": "longest is 52: “A request concerning a payment made before that date is decided under this policy as if it had already been in force, unless doing so would leave the …”",
-      "remedy": "Split at the first conjunction that carries a new subject."
+      "what": "Machine register — \"leverage\" as a verb",
+      "evidence": "1×: “leverage”",
+      "remedy": "Rewrite in the first person of an institution describing what it does."
     },
     {
       "committee": "Editorial Excellence",
       "severity": "MAJOR",
       "page": "admissions-tuition.html",
-      "what": "3368 words on one page",
-      "evidence": "15 minutes of reading before the reader reaches the foot",
-      "remedy": "Move a chapter to its own page, or reduce the prose to what only prose can carry and let a register, a table or a diagram hold the rest."
+      "what": "2 sentence(s) over 45 words",
+      "evidence": "longest is 52: “A request concerning a payment made before that date is decided under this policy as if it had already been in force, unless doing so would leave the …”",
+      "remedy": "Split at the first conjunction that carries a new subject."
     },
     {
       "committee": "Editorial Excellence",
@@ -706,7 +729,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "faq.ar.html",
-      "what": "1124 words and no photograph",
+      "what": "1165 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 0 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -714,7 +737,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "faq.html",
-      "what": "1476 words and no photograph",
+      "what": "1527 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 0 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -730,7 +753,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-1.ar.html",
-      "what": "1684 words and no photograph",
+      "what": "1737 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -738,7 +761,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-1.html",
-      "what": "1811 words and no photograph",
+      "what": "1884 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -746,7 +769,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-2.ar.html",
-      "what": "1305 words and no photograph",
+      "what": "1358 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -754,7 +777,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-2.html",
-      "what": "1506 words and no photograph",
+      "what": "1579 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -762,7 +785,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-3.ar.html",
-      "what": "1349 words and no photograph",
+      "what": "1402 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -770,7 +793,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-3.html",
-      "what": "1560 words and no photograph",
+      "what": "1633 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -778,7 +801,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-4.ar.html",
-      "what": "1346 words and no photograph",
+      "what": "1399 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -786,7 +809,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-4.html",
-      "what": "1554 words and no photograph",
+      "what": "1627 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -794,7 +817,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-5.ar.html",
-      "what": "1333 words and no photograph",
+      "what": "1386 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -802,7 +825,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-5.html",
-      "what": "1547 words and no photograph",
+      "what": "1620 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -810,7 +833,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-6.ar.html",
-      "what": "1312 words and no photograph",
+      "what": "1365 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -818,7 +841,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-6.html",
-      "what": "1555 words and no photograph",
+      "what": "1628 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -901,390 +924,6 @@
       "what": "2 construction(s) narrating what has not happened",
       "evidence": "“nobody has”, “has not been”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "academics-teaching.ar.html",
-      "what": "45 of 79 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "academics-teaching.html",
-      "what": "45 of 79 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "academics.ar.html",
-      "what": "68 of 101 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "academics.html",
-      "what": "68 of 101 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "admissions-policy.ar.html",
-      "what": "9 of 16 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "admissions-policy.html",
-      "what": "9 of 16 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "admissions-tuition.ar.html",
-      "what": "31 of 57 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "admissions-tuition.html",
-      "what": "31 of 57 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "admissions.ar.html",
-      "what": "56 of 95 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "admissions.html",
-      "what": "56 of 95 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "faculty.ar.html",
-      "what": "17 of 32 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "faculty.html",
-      "what": "17 of 32 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "governance-decisions.ar.html",
-      "what": "6 of 10 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "governance-decisions.html",
-      "what": "6 of 10 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "governance.ar.html",
-      "what": "70 of 126 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "governance.html",
-      "what": "67 of 123 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "press-catalogue.ar.html",
-      "what": "7 of 12 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "press-catalogue.html",
-      "what": "7 of 12 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "press-library.ar.html",
-      "what": "19 of 37 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "press-library.html",
-      "what": "19 of 37 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "press.ar.html",
-      "what": "46 of 80 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "press.html",
-      "what": "46 of 80 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "students-assessment.ar.html",
-      "what": "17 of 30 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "students-assessment.html",
-      "what": "17 of 30 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "students-awards.ar.html",
-      "what": "6 of 9 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "students-awards.html",
-      "what": "6 of 9 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "students-integrity.ar.html",
-      "what": "14 of 26 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "students-integrity.html",
-      "what": "14 of 26 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "students-record.ar.html",
-      "what": "15 of 27 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "students-record.html",
-      "what": "15 of 27 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "students.ar.html",
-      "what": "32 of 59 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "students.html",
-      "what": "32 of 59 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "study-level-1.ar.html",
-      "what": "36 of 66 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "study-level-1.html",
-      "what": "36 of 66 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "study-level-2.ar.html",
-      "what": "36 of 66 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "study-level-2.html",
-      "what": "36 of 66 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "study-level-3.ar.html",
-      "what": "36 of 66 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "study-level-3.html",
-      "what": "36 of 66 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "study-level-4.ar.html",
-      "what": "36 of 66 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "study-level-4.html",
-      "what": "36 of 66 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "study-level-5.ar.html",
-      "what": "36 of 66 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "study-level-5.html",
-      "what": "36 of 66 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "study-level-6.ar.html",
-      "what": "36 of 66 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "study-level-6.html",
-      "what": "36 of 66 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "support-accessibility.ar.html",
-      "what": "10 of 17 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "support-accessibility.html",
-      "what": "10 of 17 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "support-privacy.ar.html",
-      "what": "8 of 13 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Material Law",
-      "severity": "MINOR",
-      "page": "support-privacy.html",
-      "what": "8 of 13 domes are the small size",
-      "evidence": "badge-dome without --lg",
-      "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
     },
     {
       "committee": "Typography",
