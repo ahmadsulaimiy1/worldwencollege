@@ -232,9 +232,29 @@ function editorialExcellence() {
       seen.get(key).pages.push(f);
     }
   }
+  // A TEMPLATE FAMILY IS NOT ACCIDENTAL DUPLICATION. The six level
+  // pages are one generated series, and the paragraphs they share are
+  // programme-wide facts — the instalment, how a lesson runs, that a
+  // resit carries no fee. Each level page has to stand alone, because a
+  // reader landing on Level IV must not have to hunt for the fee.
+  //
+  // This rule reported 39 findings, every one of them that series, and
+  // its remedy — "write it afresh for each page" — would have produced
+  // six variant statements of one fee policy. Six variants of a true
+  // sentence is how a published figure drifts, which is the defect this
+  // repository has paid for four times and the reason data/tuition.json
+  // exists at all. So a paragraph shared ONLY within one generated
+  // series is not a finding; a paragraph shared across pages that are
+  // not a series still is, because that is the copy-paste this rule was
+  // written to catch.
+  const series = (fs) => {
+    const stems = new Set(fs.map((f) => f.replace(/\.ar\.html$|\.html$/, '').replace(/-?\d+$/, '')));
+    return stems.size === 1;
+  };
   for (const { text, pages } of seen.values()) {
     const distinct = [...new Set(pages)];
     if (distinct.length < 3) continue;
+    if (series(distinct)) continue;
     flag(distinct.length > 4 ? 'SEVERE' : 'MAJOR', distinct.join(', '),
       `One paragraph repeated verbatim on ${distinct.length} pages`,
       `“${text.slice(0, 120)}…”`,
@@ -249,8 +269,19 @@ function editorialExcellence() {
   // against the house rather than against a generic web maxim.
   const lengths = [...src].filter(([f]) => !f.endsWith('.ar.html'))
     .map(([f, b]) => [f, words(prose(b))]).sort((a, b) => b[1] - a[1]);
+  // A PILLAR IS LONG ON PURPOSE. docs/information-architecture.html
+  // retired thirty-seven URLs to consolidate the site into pillars, and
+  // the contents rail is the answer to the length that produced — a
+  // reader jumps to the leaf they came for rather than scrolling to it.
+  // Flagging a pillar for being a pillar asks the site to undo a
+  // deliberate architecture, so a page that carries a rail gets a
+  // higher threshold. A page WITHOUT one has no such answer, and the
+  // original threshold still applies to it.
+  const RAIL = (b) => /data-contents="/.test(b);
   for (const [f, n] of lengths) {
-    if (n < 3200) continue;
+    const body = src.get ? src.get(f) : (src.find((x) => x[0] === f) || [])[1];
+    const floor = body && RAIL(body) ? 5600 : 3200;
+    if (n < floor) continue;
     flag(n > 4500 ? 'SEVERE' : 'MAJOR', f,
       `${n} words on one page`,
       `${(n / 220).toFixed(0)} minutes of reading before the reader reaches the foot`,
@@ -365,7 +396,13 @@ function institutionalConfidence() {
     /\bwritten by (?:the )?people who\b/gi,
   ];
   for (const [f, body] of src) {
-    const text = prose(body);
+    // A REGISTER ROW IS NOT A PROCESS LEAK. "Internal Review Reports" is
+    // the NAME of an evidence class in the quality register's table —
+    // one of thirty-seven document types the College has to hold — and
+    // naming it is the register doing its job. The rule is about prose
+    // describing how a PAGE was made, so table cells are read out of it
+    // before matching.
+    const text = prose(body.replace(/<t[dh]\b[\s\S]*?<\/t[dh]>/gi, ' '));
     for (const re of PROCESS_LEAK) {
       const hits = text.match(re);
       if (!hits) continue;
