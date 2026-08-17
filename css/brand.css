@@ -1758,7 +1758,24 @@ section { position: relative; }
   max-width: 420px; margin: 0 auto; background: var(--paper); border: 1px solid var(--line);
   border-radius: 10px; padding: 40px; box-shadow: var(--shadow);
 }
-.portal-shell h2 { font-size: 1.4rem; text-align: center; }
+/* A LIGHT CARD INSIDE A DARK SECTION INHERITS THE WRONG COLOURS.
+   .portal-shell paints itself --paper and then sits inside
+   .section--dark, so everything in it kept the dark section's palette:
+   the heading rendered #fff on cream at 1.04:1 — a headline nobody could
+   read — with the eyebrow at 2.31 and the ghost button at 1.54. The card
+   looked broken and no earlier check caught it, because measuring
+   against the nearest SOLID ancestor found the dark section rather than
+   the cream card actually behind the glyphs.
+
+   The card therefore restates the light-ground palette for its own
+   contents. Any light card dropped into a dark section needs this; it is
+   not specific to the portal. */
+.portal-shell { color: var(--ink); }
+.portal-shell h2 { font-size: 1.4rem; text-align: center; color: var(--royal-deep); }
+.portal-shell .lede, .portal-shell p { color: var(--ink-soft); }
+.portal-shell .module-marker { color: var(--bronze); }
+.portal-shell .btn--ghost { color: var(--bronze); border-color: rgba(121,90,50,.42); }
+.portal-shell .btn--ghost:hover { color: var(--royal-deep); border-color: var(--bronze); }
 .portal-shell .lede { text-align: center; margin: 0 auto 24px; font-size: .95rem; }
 
 /* -------------------- Footer -------------------- */
