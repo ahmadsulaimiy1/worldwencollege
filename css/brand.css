@@ -380,6 +380,21 @@ section { position: relative; }
   margin-bottom: 1em;
 }
 .section--light .module-marker { color: var(--red); border-color: rgba(163,38,56,.3); }
+/* CONTRAST, MEASURED RATHER THAN EYEBALLED.
+   .module-marker sets 11px small caps and defaulted to --gold, which is
+   #C7A24A. On the pale grounds these markers actually sit on that is
+   2.31:1 — WCAG AA wants 4.5:1 for text this size, so the eyebrow above
+   almost every section on the site was failing.
+
+   The fix is not a new colour. --bronze is defined in the palette as
+   "small-caps metadata and icon strokes on light ground", which is this
+   component exactly; it was simply never used here. It measures 6.06:1
+   on the cream ground and keeps the same metallic family, so nothing
+   about the page's character changes — only its legibility. */
+.section--cream .module-marker,
+.section--paper .module-marker,
+.section--pearl .module-marker,
+.section--warm .module-marker { color: var(--bronze); }
 
 .lede { font-size: 1.15rem; color: var(--ink-soft); max-width: 62ch; }
 .section--dark .lede { color: rgba(247,244,236,.78); }
@@ -1510,6 +1525,17 @@ section { position: relative; }
   font-size: .86rem; color: var(--ink-soft); margin: 0 0 10px;
   padding-bottom: 10px; border-bottom: 1px solid var(--line);
 }
+/* Same class of fault as .module-marker above, in the other direction:
+   --ink-soft resolves to --slate, which the palette defines as secondary
+   body text ON LIGHT. On the dark faculty card it measures 2.04:1, so a
+   member's qualifications — the line a reader is most likely to squint
+   at — were the least legible text on the card. --cerulean is the
+   palette's readable-on-dark token and measures 4.72:1. */
+.section--dark .faculty__creds,
+.section--deep .faculty__creds,
+.section--midnight .faculty__creds,
+.section--oxford .faculty__creds,
+.card--dark .faculty__creds { color: var(--cerulean); }
 
 /* -------------------- Ledger table -------------------- */
 .ledger { width: 100%; border-collapse: collapse; margin-top: 8px; }
