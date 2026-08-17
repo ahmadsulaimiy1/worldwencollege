@@ -83,7 +83,7 @@ derivatives, which would forbid the plate crop).
 | File | Licence | Creator | Source | Where used | Attribution |
 |---|---|---|---|---|---|
 | `reading-hall.jpg` | BY 2.0 | robert.claypool | [flickr](https://www.flickr.com/photos/35106989@N08/6780155266) | Academics, leaf I (The IEFC); Level IV (both editions) | **Required** — rendered in the plate caption |
-| `charter.jpg` | CC0 1.0 | — | [rawpixel](https://www.rawpixel.com/image/8718128/photo-image-vintage-public-domain) | Governance, leaf I (The Instrument) | Not required |
+| `charter.jpg` | CC0 1.0 | — | [rawpixel](https://www.rawpixel.com/image/8718128/photo-image-vintage-public-domain) | Governance, leaf I (The Instrument); The Decisions Register (both editions) | Not required |
 | `letterpress.jpg` | CC0 1.0 | — | [rawpixel](https://www.rawpixel.com/image/3296480/free-photo-image-printing-press-advertising-block) | Press, leaf XVII (The Shelf); Teaching Practice (both editions) | Not required |
 | `worldmap.jpg` | CC0 1.0 | themet | [rawpixel](https://www.rawpixel.com/image/2038222/vintage-world-map) | The College — Equity & Welcome; FAQ (both editions) | Not required |
 | `astrolabe.jpg` | BY-SA 3.0 | Ragesoss | [wikimedia](https://commons.wikimedia.org/w/index.php?curid=2717737) | Academics, leaf VI (Teaching Practice) | **Required** — rendered in the plate caption |

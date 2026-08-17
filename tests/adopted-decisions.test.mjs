@@ -150,16 +150,38 @@ check('...and that the competency mapping is commissioned, not finished',
 
   // Both languages, and both the bare "N, all dated" of a masthead fact
   // and the "N decisions" of running prose.
+  // BOTH DIGIT SETS ON THE ARABIC SIDE. An Arabic page writes ٣٦ in
+  // running text but a Latin 36 wherever the numeral sits inside a
+  // `dir="ltr"` span — which is how the decisions register writes its
+  // own headline figure, because a Latin numeral in RTL text needs the
+  // span to render in the right order. The pattern knew only the
+  // Arabic-Indic digits, so that one figure was invisible to it and sat
+  // stale at 32 while the register held 36, on the page whose entire
+  // subject is that count.
+  const D = '(?:[٠-٩]+|\\d+)';
   const PATTERNS = [
     /(\d+),\s*all dated/gi,
     /\b(\d+)\s+(?:governance\s+)?decisions\b/gi,
-    /([٠-٩]+)،\s*كلها مؤرَّخة/g,
-    /([٠-٩]+)\s+قرار(?:ًا)?\b/g,
+    new RegExp(`(${D})\\s*،\\s*كلها مؤرَّخة`, 'g'),
+    // NO \b AFTER ARABIC. JavaScript defines a word boundary on
+    // [A-Za-z0-9_], so between an Arabic letter and a comma there are two
+    // non-word characters and no boundary — the assertion can never
+    // succeed. With \b on the end this pattern matched nothing on any
+    // Arabic page, ever, which is why the count drifted there and only
+    // there.
+    new RegExp(`(${D})\\s+قرار(?:ًا)?`, 'g'),
   ];
 
   const wrong = [];
   for (const f of files) {
-    const body = readFileSync(path.join(pagesDir, f), 'utf8');
+    // TAGS STRIPPED BEFORE MATCHING. The Arabic decisions page wrote the
+    // figure as `<span dir="ltr">32</span> قرارًا` — the span is needed
+    // so a Latin numeral renders left-to-right inside RTL text — and the
+    // markup between the numeral and the noun meant no pattern here ever
+    // saw them as adjacent. The count sat stale at 32 while the register
+    // held 36, on the page whose entire subject is that count.
+    const body = readFileSync(path.join(pagesDir, f), 'utf8')
+      .replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ');
     for (const re of PATTERNS) {
       for (const m of body.matchAll(re)) {
         const n = Number(latin(m[1]));

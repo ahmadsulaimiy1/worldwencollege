@@ -1,14 +1,13 @@
 {
-  "generated": 20,
+  "generated": 17,
   "counts": {
     "SEVERE": 2,
-    "MAJOR": 8,
+    "MAJOR": 5,
     "MINOR": 10
   },
   "byCommittee": {
     "Institutional Confidence": 14,
-    "Editorial Excellence": 2,
-    "Visual Storytelling": 4
+    "Visual Storytelling": 3
   },
   "findings": [
     {
@@ -26,22 +25,6 @@
       "what": "11 construction(s) narrating what has not happened",
       "evidence": "“has not yet”, “not yet met”, “has not met”, “has not been”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "MAJOR",
-      "page": "academics.html",
-      "what": "1 paragraph(s) over 110 words",
-      "evidence": "longest 117 words",
-      "remedy": "Break into two, or convert the enumeration inside it into a real list or a register."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "MAJOR",
-      "page": "students-integrity.html",
-      "what": "1 paragraph(s) over 110 words",
-      "evidence": "longest 112 words",
-      "remedy": "Break into two, or convert the enumeration inside it into a real list or a register."
     },
     {
       "committee": "Institutional Confidence",
@@ -74,14 +57,6 @@
       "what": "One visual per 1200 words",
       "evidence": "2 visual element(s) across 2399 words",
       "remedy": "Aim for a visual anchor every ~500 words on a reading page."
-    },
-    {
-      "committee": "Visual Storytelling",
-      "severity": "MAJOR",
-      "page": "governance-decisions.html",
-      "what": "748 words and no photograph",
-      "evidence": "0 plates, 0 drawn devices, 10 domes — nothing photographic",
-      "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
     {
       "committee": "Visual Storytelling",
