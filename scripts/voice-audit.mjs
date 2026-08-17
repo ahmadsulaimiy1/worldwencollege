@@ -102,7 +102,12 @@ const DEAD = [
 
 // ── MACHINE: the register of a model rather than of a college ────────
 const MACHINE = [
-  [/\bdelve\b/gi, ''], [/\bleverage\b/gi, 'use'], [/\brobust\b/gi, ''],
+  [/\bdelve\b/gi, ''], [/\brobust\b/gi, ''],
+  // The VERB is machine register; the NOUN is ordinary English, and
+  // the site uses it in the sentence that carries the whole argument
+  // for publishing the partner bands — "the buyer with the least
+  // leverage is always the one who needed the help most".
+  [/\b(?:leverages|leveraged|leveraging)\b|\bto leverage\b|\bleverage (?:our|its|their|the) \w+/gi, 'use'],
   [/\bseamless(ly)?\b/gi, ''], [/\bcutting[- ]edge\b/gi, ''],
   [/\bstate[- ]of[- ]the[- ]art\b/gi, ''], [/\bworld[- ]class\b/gi, ''],
   [/\bbest[- ]in[- ]class\b/gi, ''], [/\bunlock\b/gi, ''],
@@ -111,7 +116,11 @@ const MACHINE = [
   [/\btailored\b/gi, ''], [/\bbespoke\b/gi, ''],
   [/\bin today'?s (world|market|economy)\b/gi, ''],
   [/\bfurthermore\b/gi, ''], [/\bmoreover\b/gi, ''],
-  [/\badditionally\b/gi, ''], [/\bthat (being )?said\b/gi, ''],
+  [/\badditionally\b/gi, ''],
+  // The DISCOURSE MARKER opens a clause — ", that said, ...". A
+  // relative clause does not: "a front matter that said otherwise"
+  // is ordinary English and was being reported as machine register.
+  [/(?:^|[,;—-]\s*)that (?:being )?said\s*[,.]/gi, ''],
   [/\bat the end of the day\b/gi, ''],
   [/\bcomprehensive\b/gi, 'say the size'],
   [/\bwide range of\b/gi, 'say how many'],

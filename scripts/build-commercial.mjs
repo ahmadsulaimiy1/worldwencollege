@@ -125,7 +125,7 @@ const L = {
     enrolledWhat: 'A named instructor, written feedback on every piece of produced work, tutorials, advising, the platform, the assessment and the award. Four instalments a level, no charge for using them.',
     independentWhat: 'You buy the material, sit the examination and take the award. No instructor, no feedback on practice work, no tutorials, no advising.',
     stepsHead: 'The independent route, itemised.',
-    stepsLede: 'Three steps, each bought on its own. A candidate may buy the materials and never sit; sit and never take the award. The College does not require the next step in order to sell you the last one.',
+    stepsLede: 'Three steps, each bought on its own. A candidate may buy the materials and never sit; sit and never take the award. The College does not require the next step to sell you the last one.',
     buys: 'What it buys',
     theStep: 'Step', theFee: 'Fee',
     totalRow: 'A level, by the independent route',
