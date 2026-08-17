@@ -100,3 +100,24 @@ labelled "Institutional Status" callouts rather than invented — see
 names AIPC's administrative headquarters — delivery is online-first
 worldwide by design, not a placeholder for premises that don't exist (see
 About → Our Operating Model).
+
+## A note on hosting
+
+This site's real host is **Cloudflare Pages**. `wrangler.toml`, `_redirects`,
+`_headers` and the 107 endpoint files under `functions/` are all Cloudflare
+Pages Functions and Cloudflare-specific config, and
+`.github/workflows/deploy-cloudflare.yml` is the deployment path that makes
+the site work end to end.
+
+`vercel.json` exists only so a **static preview** can be built on Vercel for
+reviewing design and content. On Vercel:
+
+- every `/api/*` route returns 404, because Vercel cannot run Cloudflare
+  Pages Functions — the portal, application submission, credential
+  verification and the graduate register are all inert
+- `_redirects` and `_headers` are ignored, so the security headers and the
+  apex→www rule do not apply
+- the application form still reaches Admissions, because it falls back to
+  the reader's own mail client rather than posting to an endpoint
+
+Treat a Vercel URL as a picture of the site, not as the site.
