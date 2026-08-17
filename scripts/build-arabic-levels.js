@@ -53,7 +53,7 @@
  * ────────────────────────────────────────────────────────────────────
  * The Arabic for "module" is وحدة, which is also the word the RETIRED
  * measurement scheme used for a "learning unit" — the one the College
- * replaced with AIPC Credits, and the one it priced at $26.39 apiece
+ * replaced with <span dir="ltr">AIPC</span> Credits, and the one it priced at $26.39 apiece
  * before deciding that pricing content 41% of which is unwritten was
  * indefensible. tests/published-claims.test.mjs bans the phrase لكل وحدة
  * outright across every Arabic page for that reason.
@@ -69,7 +69,7 @@
  * NO (EN) CROSSINGS, AND THAT IS THE POINT
  * ────────────────────────────────────────────────────────────────────
  * Every onward link from these six pages lands in Arabic: admissions,
- * tuition, how to apply, the IEFC programme, assessment, institutional
+ * tuition, how to apply, the <span dir="ltr">IEFC</span> programme, assessment, institutional
  * status, and the next level. So they carry no "some links open in
  * English" notice — an apology for something that does not happen is
  * not honesty, it is furniture. tests/bilingual-links.test.mjs is what
@@ -286,7 +286,7 @@ for (const lv of levels) if (!AR_CHARACTER[lv.roman]) throw new Error(`No Arabic
 const AR_OUTCOME = {
   'IEFC-I-LO1': 'تبادل المعلومات الشخصية والاحتياجات والخطط البسيطة مع محدّث متعاون، وأن يُفهَم '
     + 'من المرة الأولى في الموضوعات اليومية المألوفة.',
-  'IEFC-I-LO2': 'استخدام المضارع البسيط والماضي البسيط وصيغتَي there is / there are، والأسماء '
+  'IEFC-I-LO2': 'استخدام المضارع البسيط والماضي البسيط وصيغتَي <span dir="ltr">there is / there are</span>، والأسماء '
     + 'المعدودة وغير المعدودة، وأدوات الملكية، وأفعال القدرة، وصيغة going to، بالدقة التي تتيح '
     + 'للمستمع المتابعة دون طلب توضيح.',
   'IEFC-I-LO3': 'الاختيار بين الصيغة المهذبة والصيغة المباشرة بحسب الموقف والشخص المخاطَب، في '
@@ -391,12 +391,12 @@ ${lv.outcomes.map((o) => {
 
   return `<section class="section--dark section-pad">
   <div class="container">
-    <span class="eyebrow">${ltr('IEFC')} &middot; المستوى ${ord}</span>
+    <span class="eyebrow">${ltr('<span dir="ltr">IEFC</span>')} &middot; المستوى ${ord}</span>
     <h1>${arName}</h1>
     <p class="lede">${AR_CHARACTER[lv.roman]}</p>
     <div class="btn-row">
       <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم للمستوى ${ord}</a>
-      <a href="/ar/academics/#iefc" class="btn btn--outline">برنامج ${ltr('IEFC')} كاملًا</a>
+      <a href="/ar/academics/#iefc" class="btn btn--outline">برنامج ${ltr('<span dir="ltr">IEFC</span>')} كاملًا</a>
     </div>
   </div>
 </section>
@@ -510,7 +510,7 @@ ${darkCard('قبله', prev ? `المستوى ${AR_ROMAN[prev.roman]} — ${AR_N
 ${darkCard('بعده', next ? `المستوى ${AR_ROMAN[next.roman]} — ${AR_NAME[next.id]}` : 'نهاية البرنامج',
     next
       ? `عند الإتمام ينتقل المتعلم إلى ${AR_NAME[next.id]} (${ltr(esc(next.cefr))})، وهو يفترض كل ما عُلّم هنا.`
-      : `${AR_NAME[lv.id]} آخر مستويات برنامج ${ltr('IEFC')}. لا مستوى فوقه في هذا البرنامج.`)}
+      : `${AR_NAME[lv.id]} آخر مستويات برنامج ${ltr('<span dir="ltr">IEFC</span>')}. لا مستوى فوقه في هذا البرنامج.`)}
     </div>
     ${next ? `<div class="btn-row">
       <a href="/ar/study/${SLUG[next.roman]}/" class="btn btn--gold">المستوى ${AR_ROMAN[next.roman]} — ${AR_NAME[next.id]}</a>
@@ -552,7 +552,7 @@ levels.forEach((lv, i) => {
     slug,
     output,
     title: `المستوى ${AR_ROMAN[lv.roman]}: ${AR_NAME[lv.id]} (${lv.cefr}) — كلية البلاغ الدولية المتميّزة`,
-    description: `المستوى ${AR_ROMAN[lv.roman]} من برنامج IEFC: ${lv.modules.length} وحدات، و${lv.units} درسًا مصمَّمًا `
+    description: `المستوى ${AR_ROMAN[lv.roman]} من برنامج <span dir="ltr">IEFC</span>: ${lv.modules.length} وحدات، و${lv.units} درسًا مصمَّمًا `
       + `على مدى ${lv.duration_months} أشهر، وفق مستوى ${lv.cefr} في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.`,
     contentFile: file, lang: 'ar', dir: 'rtl',
     contents: true,

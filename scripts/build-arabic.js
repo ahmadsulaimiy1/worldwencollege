@@ -39,7 +39,7 @@
  * Personal names stay in Latin script and qualifications stay in
  * English, following the rule already set for /faculty/: rendering a
  * degree title into Arabic risks stating a qualification the holder
- * does not have. Prices, CEFR codes and the programme's initials are
+ * does not have. Prices, <span dir="ltr">CEFR</span> codes and the programme's initials are
  * wrapped in dir="ltr" so they render correctly inside right-to-left
  * text rather than being reordered by the browser.
  *
@@ -175,7 +175,7 @@ PAGES.admissions = {
         <span class="callout__label" style="color:var(--gold-bright)">نقطة الانطلاق المقترحة</span>
         <p data-level-quiz-text></p>
         <div class="btn-row">
-          <a href="/ar/academics/#iefc" class="btn btn--ghost">اطّلع على هذا المستوى في برنامج IEFC</a>
+          <a href="/ar/academics/#iefc" class="btn btn--ghost">اطّلع على هذا المستوى في برنامج <span dir="ltr">IEFC</span></a>
           <a href="#apply" class="btn btn--gold">ابدأ طلبك الآن</a>
         </div>
       </div>
@@ -498,7 +498,7 @@ ${darkCard(ltr('1,200'), 'عبر المستويات الستة', 'مجموع ا�
         تخفف من ذلك.</p>
     </div>
     <div class="grid grid--3">
-${card('لماذا', 'لأنها تُدرّس عن بُعد', 'تأشيرات الدراسة وُجدت لإتاحة الحضور الجسدي للدراسة. برنامج <span dir="ltr">IEFC</span> لا يتضمن حضورًا جسديًا في أي مكان — لا يوجد حرم يُحضَر إليه. التأشيرة ليست محجوبة؛ هي ببساطة ليست جزءًا من طبيعة هذا البرنامج.')}
+${card('لماذا', 'لأنها تُدرّس عن بُعد', 'تأشيرات الدراسة وُجدت لإتاحة الحضور الجسدي للدراسة. برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span> لا يتضمن حضورًا جسديًا في أي مكان — لا يوجد حرم يُحضَر إليه. التأشيرة ليست محجوبة؛ هي ببساطة ليست جزءًا من طبيعة هذا البرنامج.')}
 ${card('النتيجة', 'تدرس من بيتك', 'حيثما تعيش، تدرس هناك. لا سفر ولا سكن ولا تكلفة انتقال، ولا خطر هجرة ناشئ عن البرنامج نفسه.')}
 ${card('الاستثناء', 'لا يوجد', 'لا لأي مستوى، ولا لأي ترتيب سداد، ولا لأي جنسية، ولا لأي جهة راعية. لا توجد حالة تستطيع الكلية فيها المساعدة، ووصف حالات هامشية لن ينتج إلا أملًا لا أساس له.')}
     </div>
@@ -527,7 +527,7 @@ ${card('ما تفعله', 'اكتب إلينا وأخبرنا', 'أرسل ذلك
     <div class="grid grid--3">
 ${darkCard('يستطيع', 'بناء الإنجليزية التي تطلبها الوجهة', 'تعمل المستويات العليا مباشرةً على القراءة الأكاديمية والكتابة الأكاديمية والنقاش والحجاج الرسمي — وهي ما يصنع الفرق بعد الوصول، وما لا تضمنه درجة اختبار.')}
 ${darkCard('يستطيع', 'إعدادك للاختبارات المعترف بها', 'الإعداد لـ <span dir="ltr">IELTS</span> و<span dir="ltr">TOEFL</span> و<span dir="ltr">Cambridge</span> مدمج في المنهج من المستوى المتوسط المتقدم فصاعدًا. هذه الاختبارات، لا شهادة هذه الكلية، هي ما تعترف به اليوم جهات القبول وأنظمة الهجرة.')}
-${darkCard('لا يستطيع', 'أن يحل محل مؤهل معترف به', 'لم يُعيَّن ممتحن خارجي ولا تحمل الكلية اعتمادًا، فلا ينبغي لأحد أن يعتمد على شهادة <span dir="ltr">IEFC</span> كمؤهل قبول أو هجرة. هذا هو الموقف الصريح، ولن يتغيّر إلا حين يتغيّر فعلًا.')}
+${darkCard('لا يستطيع', 'أن يحل محل مؤهل معترف به', 'لم يُعيَّن ممتحن خارجي ولا تحمل الكلية اعتمادًا، فلا ينبغي لأحد أن يعتمد على شهادة <span dir="ltr"><span dir="ltr">IEFC</span></span> كمؤهل قبول أو هجرة. هذا هو الموقف الصريح، ولن يتغيّر إلا حين يتغيّر فعلًا.')}
     </div>
   </div>
 </section>
@@ -599,7 +599,7 @@ ${card('غير قائم', 'كل ما يحتاج أشخاصًا', 'لا اعتم�
   <div class="container reveal">
     <h2>اقرأ ما الذي ستراجعه.</h2>
     <div class="btn-row u-center">
-      <a href="/ar/academics/#levels" class="btn btn--gold">برنامج IEFC</a>
+      <a href="/ar/academics/#levels" class="btn btn--gold">برنامج <span dir="ltr">IEFC</span></a>
       <a href="/ar/governance/#quality" class="btn btn--outline">معاييرنا</a>
     </div>
   </div>
@@ -702,7 +702,7 @@ PAGES.policy = {
       <h2>أربع قواعد تحكم كل قرار.</h2>
     </div>
     <div class="grid grid--2">
-${card('الأولى', 'القبول بتحديد المستوى لا بالمفاضلة', 'برنامج IEFC ليس انتقائيًا. سؤال القبول هو أي المستويات الستة تنتمي إليه، لا هل أنت جيد بما يكفي لتُقبل. لا ترتيب ولا حصص ولا جولة تنافسية.')}
+${card('الأولى', 'القبول بتحديد المستوى لا بالمفاضلة', 'برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span> ليس انتقائيًا. سؤال القبول هو أي المستويات الستة تنتمي إليه، لا هل أنت جيد بما يكفي لتُقبل. لا ترتيب ولا حصص ولا جولة تنافسية.')}
 ${card('الثانية', 'الرسم ذاته للجميع', `${PER_LEVEL} للمستوى و${FULL} للبرنامج، أيًّا كانت الجنسية أو الإقامة أو طريقة وصول الطلب. لا سعر دوليًا ولا سعر متفاوضًا عليه.`)}
 ${card('الثالثة', 'القرار يُسجَّل بسببه', 'الطلبات المرفوضة أو المسحوبة تبقى في السجل بحالتها، ليمكن الرجوع إلى القرار ومن اتخذه. لا شيء يُحذف لتجميل الأرقام.')}
 ${card('الرابعة', 'لا يُطلب ما لا يُستخدم', 'الطلب يسأل عن اسم وبريد إلكتروني وبلد. لا مستندات ولا صور ولا أوراق هوية ولا رسوم، لأن لا شيء من ذلك يلزم لوضع متعلم في مستوى لغوي.')}
@@ -788,11 +788,11 @@ PAGES.tuition = {
   contents: true,
   altHref: '/admissions/tuition/',
   title: 'الرسوم والسداد والدعم — كلية البلاغ الدولية المتميّزة',
-  description: 'رسوم برنامج IEFC وأسعار المستويات، وكيف يجري السداد فعلًا — العملة والوسائل والاسترداد — والمنح ومسارات الدعم القائمة اليوم.',
+  description: 'رسوم برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span> وأسعار المستويات، وكيف يجري السداد فعلًا — العملة والوسائل والاسترداد — والمنح ومسارات الدعم القائمة اليوم.',
   body: `<section class="section--dark section-pad">
   <div class="container">
     <span class="eyebrow">الرسوم الدراسية</span>
-    <h1>تسعير شفاف لمسار <span dir="ltr">IEFC</span> كاملًا.</h1>
+    <h1>تسعير شفاف لمسار <span dir="ltr"><span dir="ltr">IEFC</span></span> كاملًا.</h1>
     <p class="lede">رسم برنامج واحد، مقسّم بالتساوي على ستة مستويات — ادفع دفعة واحدة، أو لكل مستوى، أو أقساطًا داخل المستوى بالطلب.</p>
     <div class="stat-row" style="margin-top:40px">
       <div class="stat-row__item"><strong>19,000$</strong><span>البرنامج كاملًا</span></div>
@@ -1004,12 +1004,12 @@ PAGES.faq = {
   slug: 'faq-ar', output: 'ar/faq/index.html', file: 'faq.ar.html',
   altHref: '/faq/',
   title: 'الأسئلة الشائعة — كلية البلاغ الدولية المتميّزة',
-  description: 'الأسئلة الشائعة عن برنامج IEFC والقبول والرسوم والدراسة في الكلية، ومعها أسئلة القبول التي يسألها المتقدمون فعلًا.',
+  description: 'الأسئلة الشائعة عن برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span> والقبول والرسوم والدراسة في الكلية، ومعها أسئلة القبول التي يسألها المتقدمون فعلًا.',
   body: `<section class="section--dark section-pad">
   <div class="container">
     <span class="eyebrow">الأسئلة الشائعة</span>
     <h1>الأسئلة الأكثر شيوعًا</h1>
-    <p class="lede">كل ما تحتاج معرفته عن برنامج <span dir="ltr">IEFC</span>، والقبول، والدراسة في الكلية.</p>
+    <p class="lede">كل ما تحتاج معرفته عن برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span>، والقبول، والدراسة في الكلية.</p>
   </div>
 </section>
 
@@ -1018,13 +1018,13 @@ PAGES.faq = {
     <div class="accordion">
 
       <div class="accordion__item">
-        <button class="accordion__q"><span>ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية <span dir="ltr">(IEFC)</span>؟</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">برنامج <span dir="ltr">IEFC</span> هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع <span dir="ltr">CEFR</span> (من <span dir="ltr">A1</span> إلى <span dir="ltr">C2</span>)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة <span dir="ltr">AIPC</span> وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس، وكم يستغرق بالأشهر يعتمد على الساعات التي تستطيع منحها أسبوعيًا.</div></div>
+        <button class="accordion__q"><span>ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية <span dir="ltr">(<span dir="ltr">IEFC</span>)</span>؟</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span> هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع <span dir="ltr">CEFR</span> (من <span dir="ltr">A1</span> إلى <span dir="ltr">C2</span>)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة <span dir="ltr">AIPC</span> وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس، وكم يستغرق بالأشهر يعتمد على الساعات التي تستطيع منحها أسبوعيًا.</div></div>
       </div>
 
       <div class="accordion__item">
         <button class="accordion__q"><span>هل البرنامج كامل عبر الإنترنت؟</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">نعم، بالكامل. تقدّم الكلية برنامج <span dir="ltr">IEFC</span> عبر حرم رقمي — دروس مُدرَّجة، ومختبر الاستماع، وتكاليف يصححها شخص، وسجلك الأكاديمي — بحيث يمكن لأي طالب حول العالم الالتحاق دون الحاجة للانتقال. أما الحصص المباشرة فمصمَّمة ولم تُعقد بعد لأن أي دفعة لم تُدرَّس، والتسجيلات الصوتية لعمل الاستماع لم تُنتج. يُذكر الأمران لا يُوهَمان.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">نعم، بالكامل. تقدّم الكلية برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span> عبر حرم رقمي — دروس مُدرَّجة، ومختبر الاستماع، وتكاليف يصححها شخص، وسجلك الأكاديمي — بحيث يمكن لأي طالب حول العالم الالتحاق دون الحاجة للانتقال. أما الحصص المباشرة فمصمَّمة ولم تُعقد بعد لأن أي دفعة لم تُدرَّس، والتسجيلات الصوتية لعمل الاستماع لم تُنتج. يُذكر الأمران لا يُوهَمان.</div></div>
       </div>
 
       <div class="accordion__item">
@@ -1043,13 +1043,13 @@ PAGES.faq = {
       </div>
 
       <div class="accordion__item">
-        <button class="accordion__q"><span>لمن صُمم برنامج <span dir="ltr">IEFC</span>؟</span><span class="plus" aria-hidden="true">+</span></button>
+        <button class="accordion__q"><span>لمن صُمم برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span>؟</span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">تلاميذ المدارس، وطلاب المرحلة الثانوية والجامعية، والمهنيون العاملون، وموظفو القطاع الحكومي، وقادة الأعمال، والطلاب الدوليون المستعدّون للدراسة بالخارج أو الباحثون عن كفاءة لغوية متقدّمة.</div></div>
       </div>
 
       <div class="accordion__item">
         <button class="accordion__q"><span>ماذا سأحصل عليه عند إتمام البرنامج؟</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">يُصدَر كشف درجات رقمي بعد كل مستوى. أما شهادة <span dir="ltr">IEFC</span> نفسها فلا يمكن منحها بعد: منح الشهادة يتطلب ممتحنًا خارجيًا، ولم يُعيَّن أحد. حين يبدأ المنح، تُصدَر شهادة رقمية عند إتمام البرنامج كاملًا بنجاح، مع النسخة المطبوعة والتحقق كخدمتين اختياريتين.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">يُصدَر كشف درجات رقمي بعد كل مستوى. أما شهادة <span dir="ltr"><span dir="ltr">IEFC</span></span> نفسها فلا يمكن منحها بعد: منح الشهادة يتطلب ممتحنًا خارجيًا، ولم يُعيَّن أحد. حين يبدأ المنح، تُصدَر شهادة رقمية عند إتمام البرنامج كاملًا بنجاح، مع النسخة المطبوعة والتحقق كخدمتين اختياريتين.</div></div>
       </div>
 
       <div class="accordion__item">
@@ -1120,7 +1120,7 @@ ${card('س', 'هل الدراسة كلها عبر الإنترنت؟', 'نعم،
 ${card('س', 'متى تبدأ الحصص؟', 'موادك متاحة يوم تسجّل. لا موعد دفعة ولا فصل تنتظره. والجدول المباشر الدوري لم يبدأ بعد — راجع <a href="/ar/admissions/#dates">المواعيد</a>.')}
 ${card('س', 'كم يستغرق البرنامج؟', 'كل مستوى مصمَّم على 200 ساعة تأهيلية، و1,200 عبر المستويات الستة. وكم يستغرق ذلك بالأشهر يعتمد على الساعات التي تمنحها أسبوعيًا — تنشر الكلية الساعات لا عددًا من الأشهر لا تستطيع الوقوف خلفه.')}
 ${card('س', 'هل أحتاج تجهيزات؟', 'جهاز يشغّل الفيديو، واتصال يحمل الصوت، وميكروفون — الأخير لأن معمل الاستماع يطلب منك تسجيل صوتك ليُسمَع تغيّره عبر الأشهر. وميكروفون الهاتف كافٍ.')}
-${card('س', 'هل سأحصل على شهادة؟', 'يُصدَر كشف درجات بعد كل مستوى. أما شهادة <span dir="ltr">IEFC</span> نفسها فلا يمكن منحها بعد: لم يُعيَّن ممتحن خارجي، ومنح شهادة دون فحص خارجي يجعلها أقل قيمة لا أكثر. راجع <a href="/ar/governance/#quality">ضمان الجودة</a>.')}
+${card('س', 'هل سأحصل على شهادة؟', 'يُصدَر كشف درجات بعد كل مستوى. أما شهادة <span dir="ltr"><span dir="ltr">IEFC</span></span> نفسها فلا يمكن منحها بعد: لم يُعيَّن ممتحن خارجي، ومنح شهادة دون فحص خارجي يجعلها أقل قيمة لا أكثر. راجع <a href="/ar/governance/#quality">ضمان الجودة</a>.')}
     </div>
   </div>
 </section>
@@ -1157,13 +1157,13 @@ ${darkCard('س', 'إذن ما الذي أدفع مقابله؟', 'برنامج �
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية (IEFC)؟",
-      "acceptedAnswer": { "@type": "Answer", "text": "برنامج IEFC هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع CEFR (من A1 إلى C2)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة AIPC وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس." }
+      "name": "ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية (<span dir="ltr"><span dir="ltr">IEFC</span></span>)؟",
+      "acceptedAnswer": { "@type": "Answer", "text": "برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span> هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع <span dir="ltr">CEFR</span> (من A1 إلى C2)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة <span dir="ltr">AIPC</span> وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس." }
     },
     {
       "@type": "Question",
       "name": "هل البرنامج كامل عبر الإنترنت؟",
-      "acceptedAnswer": { "@type": "Answer", "text": "نعم، بالكامل. تقدّم الكلية برنامج IEFC عبر حرم رقمي — دروس مُدرَّجة، ومختبر الاستماع، وتكاليف يصححها شخص، وسجلك الأكاديمي. أما الحصص المباشرة فمصمَّمة ولم تُعقد بعد، والتسجيلات الصوتية لم تُنتج." }
+      "acceptedAnswer": { "@type": "Answer", "text": "نعم، بالكامل. تقدّم الكلية برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span> عبر حرم رقمي — دروس مُدرَّجة، ومختبر الاستماع، وتكاليف يصححها شخص، وسجلك الأكاديمي. أما الحصص المباشرة فمصمَّمة ولم تُعقد بعد، والتسجيلات الصوتية لم تُنتج." }
     },
     {
       "@type": "Question",
@@ -1182,13 +1182,13 @@ ${darkCard('س', 'إذن ما الذي أدفع مقابله؟', 'برنامج �
     },
     {
       "@type": "Question",
-      "name": "لمن صُمم برنامج IEFC؟",
+      "name": "لمن صُمم برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span>؟",
       "acceptedAnswer": { "@type": "Answer", "text": "تلاميذ المدارس، وطلاب المرحلة الثانوية والجامعية، والمهنيون العاملون، وموظفو القطاع الحكومي، وقادة الأعمال، والطلاب الدوليون المستعدّون للدراسة بالخارج أو الباحثون عن كفاءة لغوية متقدّمة." }
     },
     {
       "@type": "Question",
       "name": "ماذا سأحصل عليه عند إتمام البرنامج؟",
-      "acceptedAnswer": { "@type": "Answer", "text": "يُصدَر كشف درجات رقمي بعد كل مستوى. أما شهادة IEFC نفسها فلا يمكن منحها بعد: منح الشهادة يتطلب ممتحنًا خارجيًا، ولم يُعيَّن أحد. حين يبدأ المنح، تُصدَر شهادة رقمية عند إتمام البرنامج كاملًا بنجاح، مع النسخة المطبوعة والتحقق كخدمتين اختياريتين." }
+      "acceptedAnswer": { "@type": "Answer", "text": "يُصدَر كشف درجات رقمي بعد كل مستوى. أما شهادة <span dir="ltr"><span dir="ltr">IEFC</span></span> نفسها فلا يمكن منحها بعد: منح الشهادة يتطلب ممتحنًا خارجيًا، ولم يُعيَّن أحد. حين يبدأ المنح، تُصدَر شهادة رقمية عند إتمام البرنامج كاملًا بنجاح، مع النسخة المطبوعة والتحقق كخدمتين اختياريتين." }
     },
     {
       "@type": "Question",
@@ -1211,7 +1211,7 @@ PAGES.academics = {
   contents: true,
   altHref: '/academics/',
   title: 'البرامج الأكاديمية — كلية البلاغ الدولية المتميّزة',
-  description: 'برنامج IEFC في ستة مستويات متوافقة مع الإطار الأوروبي: ما يحتويه كل مستوى، وكيف يجري التعلّم، والحرم الرقمي الذي يعمل عليه.',
+  description: 'برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span> في ستة مستويات متوافقة مع الإطار الأوروبي: ما يحتويه كل مستوى، وكيف يجري التعلّم، والحرم الرقمي الذي يعمل عليه.',
   body: `${hero('البرامج الأكاديمية', 'برنامج واحد، يُدرَّس بمعيار مكتوب.',
     'تدرّس الكلية مسارًا واحدًا — برنامج الطلاقة الدولي في اللغة الإنجليزية — في ستة مستويات '
     + 'متوافقة مع الإطار الأوروبي، من عدم وجود إنجليزية إلى الإتقان. كل وحدة مكتوبة، وكل تقييم '
@@ -1221,10 +1221,10 @@ PAGES.academics = {
       <a href="/ar/admissions/tuition/" class="btn btn--outline">الرسوم</a>
     </div>`)}
 
-<section class="section--light section-pad" id="iefc" data-contents="برنامج IEFC">
+<section class="section--light section-pad" id="iefc" data-contents="برنامج ⁦IEFC⁩">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">برنامج <span dir="ltr">IEFC</span></span>
+      <span class="module-marker">برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span></span>
       <h2>ستة مستويات، متوافقة مع الإطار الأوروبي.</h2>
       <p class="lede">صُمّم كل مستوى ليبني نحو نطاقه في الإطار الأوروبي المرجعي المشترك للغات —
         المعيار الأوسع اعترافًا لدى الجامعات وأصحاب العمل ومؤسسات اللغة الإنجليزية في العالم.
@@ -1741,7 +1741,7 @@ ${cta('ماذا يُحفظ عن الطالب.', 'سياسة القبول', '/ar/
 // The competency NAMES are translated; the definitions are re-authored
 // in Arabic rather than rendered word-for-word, because each definition
 // was written to be arguable and a literal translation of an epigram is
-// usually neither literal nor an epigram. Used by the BASCE section of
+// usually neither literal nor an epigram. Used by the <span dir="ltr">BASCE</span> section of
 // the governance pillar below.
 const AR_COMPETENCY = [
   ['الوضوح', 'يُفهم من المرة الأولى، من الحاضرين فعلًا لا من قارئ مثالي.'],
@@ -1774,7 +1774,7 @@ ${GOV.leadershipAR()}
     </div>
     <div class="grid grid--2">
       <div class="card">
-        <span class="card__num">${ltr('BASCE')}</span>
+        <span class="card__num">${ltr('<span dir="ltr">BASCE</span>')}</span>
         <h3>مجلس المعايير الأكاديمية والتميّز المنهجي</h3>
         <p>يحدّد كفايات الكلية؛ ويربط كل تقييم بكفاية أو أكثر؛ ويضمن أن كل كفاية تُقاس مرات
           متعددة في كل مستوى؛ ويقرّ أوصاف الكفايات؛ ويراجع الربط سنويًا؛ ويحفظ تماسك إطار
@@ -1820,7 +1820,7 @@ ${GOV.leadershipAR()}
 <section id="basce" data-contents="مجلس المعايير" class="section--light section-pad">
   <div class="container reveal">
     <div class="stat-row">
-      <div class="stat-row__item"><b>${ltr('BASCE')}</b><span>الرمز</span></div>
+      <div class="stat-row__item"><b>${ltr('<span dir="ltr">BASCE</span>')}</b><span>الرمز</span></div>
       <div class="stat-row__item"><b>${ltr('2026-08-04')}</b><span>تاريخ التأسيس</span></div>
       <div class="stat-row__item"><b>${ltr('0')}</b><span>الأعضاء المعيَّنون</span></div>
       <div class="stat-row__item"><b>${ltr(String(AR_COMPETENCY.length))}</b><span>الكفايات المعرَّفة</span></div>
@@ -2055,7 +2055,7 @@ ${cta('اقرأ الموقف المؤسسي كاملًا.', 'وضع الكلية
 // usually neither literal nor an epigram.
 
 
-// The Arabic BASCE and quality-assurance pages are sections of the
+// The Arabic <span dir="ltr">BASCE</span> and quality-assurance pages are sections of the
 // governance pillar above now, mirroring the English architecture.
 
 // ── write ────────────────────────────────────────────────────────────

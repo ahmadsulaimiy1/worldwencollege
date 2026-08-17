@@ -2685,3 +2685,15 @@ ul.check-list li::before {
   .actionband__item:hover .actionband__go { transform: none; }
   [dir="rtl"] .actionband__item:hover .actionband__go { transform: scaleX(-1); }
 }
+
+/* ROMAN NUMERALS ARE LATIN SCRIPT IN AN RTL SENTENCE.
+   I, V and X are Latin letters to the Unicode bidi algorithm, so a level
+   numeral sitting beside Arabic can be reordered — "المستوى VIII" is safe
+   alone, but the moment a numeral neighbours digits or punctuation the
+   run can flip. The Arabic audit found III, VII and VIII unisolated on
+   the home page. Isolating the elements that exist to hold them is one
+   rule; wrapping every occurrence in markup would be dozens of edits and
+   would be missed by the next person who adds a level. */
+[dir="rtl"] .roman,
+[dir="rtl"] .roman-caps,
+[dir="rtl"] .ledger__roman { direction: ltr; unicode-bidi: isolate; display: inline-block; }
