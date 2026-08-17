@@ -1,7 +1,15 @@
-# Transfer register — Al-Madeenah → Dār al-Rusūkh
+# Transfer register — Al-Madeenah → Al-Madinah International College
+
+> **Status: closed register.** This records a one-time transfer, completed. The Al-Madeenah
+> academic editorial bible is **no longer consulted** — see `editorial-bible.md` `EB §0`, which
+> supersedes it and sets out what it imposed. The sixteen academic rules listed below survive
+> because they were re-examined and are right; they are now the College's own, in the Academic
+> Regulations. Nothing further is to be taken from that repository.
+>
+> Written before the rename; *Dār al-Rusūkh* below means Al-Madinah International College.
 
 What was taken from the Al-Madeenah International Studies repository, where it landed in
-Dār al-Rusūkh's **contents**, and — as importantly — what was left behind.
+the College's **contents**, and — as importantly — what was left behind.
 
 Source read: `ahmadsulaimiy1/Al-Madeenahcollege` — `docs/12-academic-editorial-bible.md`
 (1,672 lines), `docs/decision-register.md` (708), `docs/14-academic-engine.md` (262).

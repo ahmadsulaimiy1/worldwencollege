@@ -18,8 +18,20 @@
   var localEl = root.querySelector('[data-clock-local]');
   var dateEl = root.querySelector('[data-clock-hijri]');
 
+  // The locale is the page's. Clock times are 24-hour in both trees, but the
+  // dates take Arabic month names and Arabic-Indic digits in the Arabic tree
+  // rather than Latin ones inside an RTL strip (EB §4.4, §5.3).
+  var IS_AR = document.documentElement.lang === 'ar';
+  var LOCALE = IS_AR ? 'ar' : 'en-GB';
+
+  // The numbering system travels in the options rather than appended to the
+  // tag: a second `-u-` extension makes the tag invalid, the constructor
+  // rejects it, and the catch below silently returns null instead.
   function fmt(opts) {
-    try { return new Intl.DateTimeFormat('en-GB', opts); } catch (e) { return null; }
+    try {
+      if (IS_AR) { opts = Object.assign({}, opts, { numberingSystem: 'arab' }); }
+      return new Intl.DateTimeFormat(LOCALE, opts);
+    } catch (e) { return null; }
   }
 
   var lagos = fmt({ timeZone: 'Africa/Lagos', hour: '2-digit', minute: '2-digit', hour12: false });

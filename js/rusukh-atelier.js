@@ -104,14 +104,27 @@
     return t;
   }
 
+  function isArabic() { return document.documentElement.lang === 'ar'; }
+
+  /* The Arabic tree is set in Arabic-Indic digits throughout — 244 of them on
+     the charges page alone and not one Western digit — because that is what
+     its prose was authored in. Every figure this file WRITES was built by
+     hand out of `pad()` and arrived in Western digits, so the prayer band and
+     the clock were the only Western numerals in that tree: ١٦ everywhere in
+     the page and 16:05 in the strip above it. Mapped at the point of output
+     rather than at every call site (EB §4.4, §5.3). */
+  var ARABIC_DIGITS = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  function figures(s) {
+    if (!isArabic()) return s;
+    return String(s).replace(/[0-9]/g, function (d) { return ARABIC_DIGITS[+d]; });
+  }
+
   function hhmm(h) {
     if (h == null) return '—';
     h = ((h % 24) + 24) % 24;
     var m = Math.round(h * 60);
-    return pad(Math.floor(m / 60) % 24) + ':' + pad(m % 60);
+    return figures(pad(Math.floor(m / 60) % 24) + ':' + pad(m % 60));
   }
-
-  function isArabic() { return document.documentElement.lang === 'ar'; }
 
   var ORDER = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
   var ARABIC = {
@@ -156,7 +169,7 @@
          its two written strings — the prayer's name and the countdown —
          follow the document's language rather than the build's default. */
       cdEl.textContent = isArabic()
-        ? 'بعد ' + (mins >= 60 ? Math.floor(mins / 60) + ' س ' : '') + (mins % 60) + ' د'
+        ? 'بعد ' + (mins >= 60 ? figures(Math.floor(mins / 60)) + ' س ' : '') + figures(mins % 60) + ' د'
         : 'in ' + (mins >= 60 ? Math.floor(mins / 60) + 'h ' : '') + (mins % 60) + 'm';
     }
 
@@ -174,9 +187,34 @@
      Not every engine ships the Islamic calendar; where it is absent the
      Gregorian stands alone rather than the line breaking.
      =================================================================== */
+  /* The locale is the page's, not the developer's. Both dates were formatted
+     'en-GB' unconditionally, so an Arabic page carrying a localised prayer
+     band still printed "4 Rabiʻ I 1448 AH · 17 August 2026" in its own
+     chrome — Latin month names and Western digits inside an RTL strip. The
+     Arabic tree now gets Arabic months and Arabic-Indic digits, which is
+     what the reader of that tree writes (EB §4.4, §5.3). */
+  function locale() { return isArabic() ? 'ar' : 'en-GB'; }
+
+  /* The calendar and the numbering system travel in the OPTIONS, never
+     appended to the tag. Building `locale() + '-u-ca-islamic-umalqura'` once
+     produced `ar-u-nu-arab-u-ca-islamic-umalqura` — two `-u-` extension
+     sequences, which is not a valid BCP-47 tag. It did not throw where it
+     could be seen: the constructor rejected it, the catch returned '', and
+     the caller's `|| g` fallback printed the GREGORIAN date in the Hijrī
+     slot. The band read "١٧ أغسطس ٢٠٢٦ · ١٧ أغسطس ٢٠٢٦" and every part of
+     that was correctly formatted. */
+  function dateOpts(opts) {
+    var o = { day: opts.day, month: opts.month, year: opts.year };
+    if (opts.calendar) o.calendar = opts.calendar;
+    if (isArabic()) o.numberingSystem = 'arab';
+    return o;
+  }
+
   function hijri(now, opts) {
     try {
-      return new Intl.DateTimeFormat('en-GB-u-ca-islamic-umalqura', opts).format(now);
+      var o = dateOpts(opts);
+      o.calendar = 'islamic-umalqura';
+      return new Intl.DateTimeFormat(locale(), o).format(now);
     } catch (e) { return ''; }
   }
 
@@ -184,7 +222,7 @@
     var now = new Date();
     var longH = hijri(now, { day: 'numeric', month: 'long', year: 'numeric' });
     var shortH = hijri(now, { day: 'numeric', month: 'short' });
-    var g = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(now);
+    var g = new Intl.DateTimeFormat(locale(), dateOpts({ day: 'numeric', month: 'long', year: 'numeric' })).format(now);
     $$('[data-hijri-long]').forEach(function (el) { el.textContent = longH || g; });
     $$('[data-hijri-short]').forEach(function (el) { el.textContent = shortH || ''; });
     $$('[data-gregorian]').forEach(function (el) { el.textContent = g; });
@@ -256,7 +294,7 @@
     }).formatToParts(now).reduce(function (a, x) { a[x.type] = x.value; return a; }, {});
 
     var clock = $('[data-now-clock]', host);
-    if (clock) clock.textContent = parts.hour + ':' + parts.minute + ':' + parts.second;
+    if (clock) clock.textContent = figures(parts.hour + ':' + parts.minute + ':' + parts.second);
 
     var dayIdx = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(parts.weekday);
     var span = HOURS[dayIdx];
@@ -265,14 +303,16 @@
 
     var state = $('[data-now-state]', host);
     if (state) {
-      state.textContent = open ? 'Open now' : 'Closed';
+      state.textContent = isArabic()
+        ? (open ? 'مفتوح الآن' : 'مغلق')
+        : (open ? 'Open now' : 'Closed');
       state.className = 'rightnow__state ' + (open ? 'is-open' : 'is-closed');
     }
     var today = $('[data-now-hours]', host);
     if (today) {
       today.textContent = span
-        ? pad(span[0]) + ':00 – ' + pad(span[1]) + ':00'
-        : 'Closed today';
+        ? figures(pad(span[0]) + ':00 – ' + pad(span[1]) + ':00')
+        : (isArabic() ? 'مغلق اليوم' : 'Closed today');
     }
   }
 

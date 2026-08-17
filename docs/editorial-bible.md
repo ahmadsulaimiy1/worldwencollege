@@ -1,5 +1,23 @@
 # WorldWide English College, London Campus — Editorial & Brand Bible
 
+> ## SUPERSEDED — do not follow
+>
+> **This document is no longer the editorial authority for this repository.** It was written
+> for *WorldWide English College, London Campus*, a different institution, and is superseded
+> in full by **`docs/al-madinah/editorial-bible.md`** (*The Editorial Bible of Al-Madinah
+> International College*, v1.0, 1448/2026).
+>
+> It is kept as the record of an inheritance. Where this document and the current bible
+> differ, the current bible governs; where the current bible is silent, the answer is
+> `EB §13.5`, not a clause from here.
+>
+> The parts of this document that were re-examined and kept — the Didone masthead and its
+> optical-size axis, reverse type set lighter, radius as a proportion of the shortest edge,
+> two-part shadows, the material/effect light distinction, the Cinzel ration, module markers,
+> ledger tables, authored art, reduced motion resolving to the finished state — are restated
+> as the current bible's own rules at `EB §0.4`, `§8` and `§9`, and should be read there.
+> An account of what this document *imposed* that had to be undone is at `EB §0.2`–`§0.3`.
+
 *Version 1.0 — companion to `site-architecture.md`.*
 
 ---

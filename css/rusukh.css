@@ -469,17 +469,35 @@ body[data-section] {
 
 /* ---------------------------------------------------------------- misc */
 
+/* The skip link was hidden here by pushing it out to `left: -9999px`, while
+   brand.css hides it by pulling it above the viewport and re-homes it under
+   RTL with a physical `right: 12px` at higher specificity. The two schemes
+   crossed: in the Arabic tree the `[dir="rtl"]` rule won the horizontal
+   axis, this layer won `top: 0`, and the result was a gold pill sitting
+   permanently over the prayer band on every Arabic page at every width.
+   It rendered on every screenshot ever taken of that tree and was read as
+   part of the chrome.
+
+   One axis now does the hiding, and it is the vertical one, so direction
+   cannot participate. Horizontal placement is logical, and the RTL rule
+   below exists only to unset brand.css's physical `right`. */
 .skip-link {
   position: absolute;
-  left: -9999px;
-  top: 0;
+  top: -100px;
+  inset-inline-start: 8px;
   background: var(--gold-rich);
   color: var(--oxford);
   padding: 10px 18px;
+  border-radius: var(--r-xs);
+  font-weight: 700;
   z-index: 200;
+  transition: top .15s var(--ease-premium, ease);
 }
 
-.skip-link:focus { left: 8px; top: 8px; }
+.skip-link:focus,
+.skip-link:focus-visible { top: 8px; }
+
+[dir="rtl"] .skip-link { left: auto; right: 8px; }
 
 .r-note {
   font-size: 0.84rem;
@@ -1981,6 +1999,13 @@ body[data-section] {
 @media (prefers-reduced-motion: reduce) {
   .dock, .dock__plate, .dock__crest, .dock__seal-x, .dock__seal { transition: none; animation: none; }
   .dock.is-open .dock__plate { transition-delay: 0s; }
+  /* The breath is authored at .dock:not(.is-open) .dock__seal — (0,3,0) —
+     so the bare .dock__seal above lost the cascade and the seal went on
+     pulsing for a reader who had asked for no motion. A carve-out has to
+     be written at the specificity of the rule it is carving out of, and
+     `animation: none` on a compound selector is not the same declaration
+     as `animation: none` on a class (EB §12.2). */
+  .dock:not(.is-open) .dock__seal { animation: none; }
 }
 
 :root[data-ornament="none"] .dock:not(.is-open) .dock__seal { animation: none; }
@@ -2369,3 +2394,104 @@ body[data-section] {
 /* The opening statement of a regulation — narrower than the measure on
    purpose, because it is read as a single held sentence. */
 .r-lead-in--wide { max-width: 46ch; margin-bottom: 34px; }
+
+
+/* ─── Utilities that exist so no page carries an inline style (EB §9.5) ───
+   Sixteen one-off `style` attributes were left after the type-system pass:
+   a motto set larger, six one-off top margins, an Arabic sub-heading in a
+   card, a role line in the register, and the sprite's own hiding rule. Each
+   was a decision made eight times by hand and therefore made eight ways.
+   They are decisions, so they are classes. */
+
+.r-stack       { margin-top: 20px; }
+.r-stack--md   { margin-top: 26px; }
+.r-stack--lg   { margin-top: 38px; }
+
+/* The motto, set as a held line rather than as body Arabic. */
+.r-ar--display { font-size: 1.45em; }
+
+/* An Arabic name beneath an English heading inside a card — the card
+   equivalent of .r-fac-title, and it takes the same light/dark switch
+   rather than hard-coding bronze onto a navy ground (EB §12.2). */
+.r-ar--sub {
+  display: block;
+  font-size: 1.2rem;
+  line-height: 1.9;
+  margin-top: 4px;
+  color: var(--bronze);
+}
+.section--dark .r-ar--sub { color: var(--gold-soft); }
+
+/* A role or qualifier under a name in the ledger's first column, which is
+   otherwise set in the programme weight. */
+.r-prog__role { font-weight: 400; }
+
+/* A section that hands straight to the one below it with no gutter. */
+.section--flush-b { padding-bottom: 0; }
+
+/* The inlined icon sprite. Hidden without display:none, which would stop
+   several browsers resolving a <use> reference into it. */
+.icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+
+/* ─── Links in prose (EB §7.7) ─────────────────────────────────────────
+   `brand.css` sets `a { color: inherit; text-decoration: none }` globally,
+   which is right for chrome and wrong for reading matter: every in-prose
+   link on a paper ground computed to exactly the paragraph's own colour
+   with no underline and no weight change, so it was invisible. On navy the
+   links at least lifted to --cerulean; on cream there was nothing.
+
+   That was tolerable while a link was a convenience. It is not tolerable
+   now: the Disclosure Doctrine (EB §3.2) replaces a repeated limitation
+   with a CITATION, and a citation the reader cannot see is not a citation,
+   it is a deletion. Every `Reg. n.n`, every cross-reference to Standing and
+   every Registry address depends on this rule existing.
+
+   The treatment is a printed cross-reference rather than a web link: the
+   word keeps the ink of its sentence and takes a bronze rule beneath it,
+   offset far enough off the baseline that descenders survive it. Under the
+   pointer the rule thickens and takes the ink — the same asymmetric build
+   as the material layer (EB §8.4), fast in, slow out. */
+
+main :is(p, li, dd, td, th, figcaption, caption) a:not(.btn) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-skip-ink: auto;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--bronze);
+  transition:
+    text-decoration-color .9s var(--ease-premium, ease),
+    text-decoration-thickness .9s var(--ease-premium, ease);
+}
+
+/* On navy the link is already lifted to --cerulean, so a bronze rule under
+   a blue word would read as two decisions. The rule is drawn from the
+   word's own colour instead, held back so it sits under the text rather
+   than beside it. */
+.section--dark :is(p, li, dd, td, th, figcaption, caption) a:not(.btn),
+.card--dark :is(p, li, dd) a:not(.btn) {
+  text-decoration-color: color-mix(in srgb, currentColor 50%, transparent);
+}
+
+main :is(p, li, dd, td, th, figcaption, caption) a:not(.btn):hover,
+main :is(p, li, dd, td, th, figcaption, caption) a:not(.btn):focus-visible {
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+  transition-duration: .34s;
+}
+
+/* An email address is the one prose link the reader is going to copy rather
+   than follow, so it is set in bronze on paper to be found in a block of
+   text at a glance. */
+.section--light :is(p, li, dd) a[href^="mailto:"] { color: var(--bronze); }
+
+/* Arabic sits lower on its baseline and carries far more below it than Latin
+   does — a rule set 3px down cuts through the tails of ي، ج، ن، ر. The offset
+   is opened up and the word takes bronze as well, so the link is found by
+   colour first and confirmed by the rule (EB §5.6). */
+[dir="rtl"] main :is(p, li, dd, td, th, figcaption, caption) a:not(.btn) {
+  text-underline-offset: 6px;
+}
+[dir="rtl"] .section--light :is(p, li, dd, td, th, caption) a:not(.btn) {
+  color: var(--bronze);
+}

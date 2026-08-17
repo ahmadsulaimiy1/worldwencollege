@@ -266,8 +266,40 @@ function build() {
     }));
   });
 
+  // An Arabic page linking to /madinah/regulations/ would throw the reader
+  // back into English mid-sentence. Rewritten at assembly rather than typed
+  // into every Arabic file, so an author cannot forget the prefix and cannot
+  // get it wrong on one link out of two hundred.
+  //
+  // Twice now this has been the source of a silent, total failure, so both
+  // lessons are recorded here rather than rediscovered a third time
+  // (EB §13.2.11):
+  //
+  //   1. The pattern is BUILT FROM OUT_DIR. It used to be written out as a
+  //      literal /rusukh/, and the rename to /madinah/ left it matching
+  //      nothing at all.
+  //   2. It is applied to the CHROME as well as the content. The header and
+  //      footer carry 117 of the site's Arabic links between them — every
+  //      mega-menu row and every footer register — and rewriting only the
+  //      page body left the entire navigation of the Arabic tree pointing
+  //      into English.
+  //
+  // The negative lookahead leaves an already-correct /madinah/ar/ link
+  // alone, and the language switch is safe because it travels as the
+  // {{ALT_HREF}} token and is substituted after this runs.
+  function arLinks(html) {
+    return html.replace(
+      new RegExp('href="/' + OUT_DIR + '/(?!ar/)', 'g'),
+      'href="/' + OUT_DIR + '/ar/'
+    );
+  }
+
   routes.forEach((entry) => {
     const lang = entry.lang || 'en';
+    const chrome = (name) => {
+      const src = partialFor(name, lang).trimEnd();
+      return lang === 'ar' ? arLinks(src) : src;
+    };
     const canonical = SITE_URL + urlPathFor(entry.output);
     // The switch and the hreflang pair are two different questions with
     // the same answer here: the other tree's URL for THIS page.
@@ -315,16 +347,7 @@ function build() {
       entry
     );
 
-    // An Arabic page linking to /rusukh/regulations/ would throw the
-    // reader back into English mid-sentence. Rewritten at assembly rather
-    // than typed into every Arabic file, so an author cannot forget the
-    // prefix and cannot get it wrong on one link out of ninety.
-    if (lang === 'ar') {
-      content = content.replace(
-        /href="\/rusukh\/(?!ar\/)/g,
-        'href="/' + OUT_DIR + '/ar/'
-      );
-    }
+    if (lang === 'ar') content = arLinks(content);
 
     const html = `<!DOCTYPE html>
 <html lang="${lang}" dir="${lang === 'ar' ? 'rtl' : 'ltr'}">
@@ -334,13 +357,13 @@ ${head}
 <body data-section="${entry.nav || 'root'}" data-lang="${lang}">
 <a class="skip-link" href="#main">${SKIP_LABEL[lang] || SKIP_LABEL.en}</a>
 ${icons}
-${fill(partialFor('topbar', lang).trimEnd(), { ALT_HREF: altHref })}
-${markCurrentNav(fill(partialFor('header', lang).trimEnd(), { ALT_HREF: altHref }), entry.nav)}
+${fill(chrome('topbar'), { ALT_HREF: altHref })}
+${markCurrentNav(fill(chrome('header'), { ALT_HREF: altHref }), entry.nav)}
 <main id="main">
 ${content}
 </main>
-${fill(partialFor('footer', lang).trimEnd(), { ALT_HREF: altHref })}
-${partialFor('dock', lang).trimEnd()}
+${fill(chrome('footer'), { ALT_HREF: altHref })}
+${chrome('dock')}
 <script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
