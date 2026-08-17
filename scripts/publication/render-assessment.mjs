@@ -48,6 +48,7 @@ import { walk } from './apparatus.mjs';
 import { TYPE, C as PAL, BRAND, paletteFor } from './design.mjs';
 import { crest, fleuron, guillocheBand } from './ornament.mjs';
 import { publicationIdentity } from './identity.mjs';
+import { editionMark, runningHead, runningFoot, rightsPage } from './rights.mjs';
 import { legacyBlock, ecosystem } from './legacy.mjs';
 import { formatFor, marginsFor, familyColours } from './house.mjs';
 
@@ -62,6 +63,13 @@ const ACCENT = familyColours().find((c) => c.family === FAMILY);
 
 const C = buildCurriculum();
 const ID = publicationIdentity(C, { edition: 1, revision: 0, impression: 1 });
+
+// This volume's name and its edition mark, printed on every page it
+// prints. The mark is derived from the volume and from the curriculum
+// edition it was set from, so a page found somewhere else names the
+// edition it was taken from — see rights.mjs.
+const VOLUME = 'The IEFC Assessment Handbook';
+const MARK = editionMark('assessment', ID.contentDigest);
 
 // ─────────────────────────────────────────────────────────────────────
 // THE MODEL
@@ -374,6 +382,17 @@ ul.q__c li.is-key { color:${PAL.midnightNavy}; font-weight:700; }
 ${ROMANS.map(levelSection).join('')}
 
 ${LEGACY}
+${rightsPage({
+  title: VOLUME,
+  mark: MARK,
+  edition: `${ID.editionName} edition`,
+  year: ID.year,
+  series: FAMILY,
+  palette: {
+    ink: PAL.warmCharcoal, deep: PAL.royalBlue, grey: PAL.slateGrey, gold: PAL.bronze,
+    rule: PAL.platinum, wash: PAL.softCream, serif: TYPE.serif, sans: TYPE.sans,
+  },
+})}
 </body></html>`;
 
 mkdirSync(path.join(ROOT, 'publication'), { recursive: true });
@@ -391,10 +410,8 @@ await page.pdf({
   printBackground: true,
   preferCSSPageSize: true,
   displayHeaderFooter: true,
-  headerTemplate: '<div></div>',
-  footerTemplate: `<div style="font:400 6.6pt Calibri,Arial,sans-serif;color:${PAL.slateGrey};`
-    + `width:100%;padding:0 ${M.gutter}mm;display:flex;justify-content:space-between;">`
-    + '<span>The IEFC Assessment Handbook</span><span class="pageNumber"></span></div>',
+  headerTemplate: runningHead(MARK, { gutter: M.gutter }),
+  footerTemplate: runningFoot(VOLUME, { gutter: M.gutter, size: 6.6 }),
   margin: { top: `${M.head}mm`, bottom: `${M.foot}mm`,
     left: `${M.gutter}mm`, right: `${M.fore}mm` },
   tagged: true,

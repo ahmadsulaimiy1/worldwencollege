@@ -30,6 +30,7 @@ import { crest, guillocheRosette, guillocheBand, girihField, frame, cornerFan, f
 import { C, BRAND, TYPE, LEVEL_PALETTES } from './design.mjs';
 import { toSvg as qrSvg } from '../../functions/_lib/registry/qr.js';
 import { AUTHENTICITY_NOTICE } from './identity.mjs';
+import { SUMMARY, GRANTED, RESERVED, CHANNEL, TRACEABLE, NO_LOCK, HOLDER, editionMark } from './rights.mjs';
 
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -49,6 +50,10 @@ export function spineWidth(pages) {
 export function coverSpread(id, spine, levels) {
   const W = TRIM.w * 2 + spine + BLEED * 2;
   const H = TRIM.h + BLEED * 2;
+  // Keyed on the publication ID as well as the digest, so the three
+  // cuts of the curriculum — reference, student, institutional — carry
+  // three different cover marks rather than one shared one.
+  const coverMark = editionMark(`cover/${id.publicationId}`, id.contentDigest);
   const blurb = [
     `The complete teaching curriculum of the International English Fluency Certificate: `
     + `every authored lesson, every assessment question with its answer key, and every `
@@ -89,6 +94,14 @@ export function coverSpread(id, spine, levels) {
             <p><b>Document ID</b> ${esc(id.documentId)}</p>
             <p><b>Issue</b> ${esc(id.issueCode)} · <b>Print</b> ${esc(id.printIdentifier)}</p>
             <p class="back__isbn">ISBN not assigned · DOI not registered</p>
+            <!-- The copyright line and the edition mark, on the back
+                 panel, where a bound book carries them. The cover is
+                 artwork with bleed and takes no running foot, so this is
+                 the only place on the spread that can hold them — and
+                 without them the printed object was the one artefact of
+                 the Press that stated no rights at all. -->
+            <p class="back__isbn">© ${esc(id.year)} ${esc(HOLDER)} · All rights reserved except
+              as granted in the volume · Edition mark ${esc(coverMark)}</p>
           </div>
         </div>
         <div class="back__band">${guillocheBand({ width: 420, height: 16, stroke: C.champagneGold, opacity: 0.55 })}</div>
@@ -243,10 +256,7 @@ export function frontMatter(id, I, contentsHtml, howtoHtml) {
   <p class="imp__title"><b>The International English Fluency Certificate: The Complete Curriculum</b></p>
   <p>${esc(id.editionName)} edition, ${esc(id.year)}. Published by Worldwide English College Press,
     London Campus.</p>
-  <p>© Worldwide English College. All rights reserved. No part of this publication may be
-    reproduced, distributed or transmitted in any form without the prior written permission of the
-    publisher, except that a teacher engaged by the College may reproduce individual lesson pages
-    for classroom use.</p>
+  <p>© Worldwide English College. All rights reserved except as granted below. ${esc(SUMMARY)}</p>
   <p>The curriculum in this volume is set from the College's academic database. Typography,
     ornament and page design are original to this edition and were generated from their own
     geometry; no third-party artwork, photography or typeface licence is embedded.</p>
@@ -276,6 +286,15 @@ export function frontMatter(id, I, contentsHtml, howtoHtml) {
   <div class="panel panel--auth">
     <p class="panel__h">Digital authenticity notice</p>
     <p>${esc(AUTHENTICITY_NOTICE)}</p>
+  </div>
+
+  <div class="panel">
+    <p class="panel__h">Rights and permissions</p>
+    <p><b>Granted, without asking and without conditions.</b> ${GRANTED.map(esc).join(' ')}</p>
+    <p><b>Reserved to the College.</b> ${RESERVED.map(esc).join(' ')}</p>
+    <p>${esc(CHANNEL)}</p>
+    <p>${esc(TRACEABLE)}</p>
+    <p>${esc(NO_LOCK)}</p>
   </div>
 
   <div class="panel">

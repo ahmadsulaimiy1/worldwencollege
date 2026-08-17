@@ -147,7 +147,7 @@ const nodes = LEVELS.map((lv, i) => {
       <circle cx="${fmt(x)}" cy="${fmt(y)}" r="7.5" fill="#0A1428" stroke="#D4AF37" stroke-width="1.6"/>
       <circle cx="${fmt(x)}" cy="${fmt(y)}" r="2.6" fill="#D4AF37"/>
       <text x="${fmt(x + dx)}" y="${fmt(y - 3)}" text-anchor="${anchor}"
-            font-family="'Bodoni Moda', Georgia, serif" font-size="21" font-weight="700"
+            font-family="'EB Garamond', Georgia, serif" font-size="21" font-weight="700"
             fill="#F2E3C0">${lv.roman}<tspan font-family="Inter, sans-serif" font-size="12" font-weight="700"
             letter-spacing="1.6" fill="#C7A24A" dx="9" direction="ltr">${lv.cefr}</tspan></text>
       <text x="${fmt(x + dx)}" y="${fmt(y + 15)}" text-anchor="${anchor}"

@@ -39,11 +39,12 @@ const FS_VAR_DIR = join(ROOT, 'node_modules', '@fontsource-variable');
 // are set in the 96pt hairline cut while the visitor's page sets them
 // in the 6pt cut. The two are visibly different faces. Serving the
 // variable file is the only way a measurement here describes the site.
+// Fraunces — the display face since the third recasting — is absent
+// here DELIBERATELY: it is self-hosted from /assets/fonts/, so the page
+// requests it from the same local server that serves the HTML and the
+// harness measures the identical bytes a visitor downloads. Only the
+// faces still fetched from Google need interception.
 export const FACES = [
-  { family: 'Bodoni Moda', pkg: 'bodoni-moda', subset: 'latin', variable: true,
-    axes: 'standard', style: 'normal', range: '400 900', opsz: '6 96' },
-  { family: 'Bodoni Moda', pkg: 'bodoni-moda', subset: 'latin', variable: true,
-    axes: 'standard', style: 'italic', range: '400 900', opsz: '6 96' },
   { family: 'Cinzel', pkg: 'cinzel', subset: 'latin', variable: true,
     axes: 'wght', style: 'normal', range: '400 900' },
   { family: 'Inter', pkg: 'inter', subset: 'latin', weights: ['400', '600', '700', '800'] },
@@ -53,7 +54,7 @@ export const FACES = [
 
 /** Families that carry NO Arabic glyphs. Arabic text landing on one of
  *  these has silently fallen through to whatever the OS offers. */
-export const LATIN_ONLY = ['Bodoni Moda', 'Cinzel', 'Playfair Display', 'Inter', 'Georgia', 'Times New Roman'];
+export const LATIN_ONLY = ['Fraunces', 'EB Garamond', 'Bodoni Moda', 'Cinzel', 'Playfair Display', 'Inter', 'Georgia', 'Times New Roman'];
 
 /** Families that do carry Arabic. */
 export const ARABIC_CAPABLE = ['Amiri', 'Cairo', 'Noto Naskh Arabic', 'Noto Sans Arabic'];

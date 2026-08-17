@@ -1,0 +1,310 @@
+{
+  "_": [
+    "THE COMMERCIAL MODEL — one qualification, three routes, one price logic.",
+    "",
+    "data/tuition.json decomposes ONE level fee for ONE route. This file",
+    "holds everything else the College charges or remits, and it exists for",
+    "the same reason: a figure typed onto a page drifts, and a figure",
+    "computed from a weight cannot.",
+    "",
+    "THE PRINCIPLE THE WHOLE MODEL RESTS ON",
+    "",
+    "  You pay for what the College DOES for you. You never pay for the",
+    "  credential itself, and the credential is the same whichever route",
+    "  you take to it: same examination, same rubric, same second marking,",
+    "  same internal moderation, same registry entry, same verification.",
+    "",
+    "That is why the routes may differ in price by a factor of five and",
+    "still be honest. What the enrolled student buys that the independent",
+    "candidate does not is TEACHING — a named instructor, written feedback",
+    "on every piece of produced work, tutorials, advising and support. What",
+    "they both buy is the assessment and the award.",
+    "",
+    "WHY THE INDEPENDENT FEES ARE NOT THE ENROLLED COST-SHARE",
+    "",
+    "tuition.json allocates 15% of a level fee to 'Assessment and marking'",
+    "— $475 — and the independent assessment fee is $250. That is not a",
+    "discount and not an inconsistency: the two buy different things. The",
+    "enrolled line covers ten module quizzes, ten assignments marked with",
+    "written feedback by a person, the level examination and its second",
+    "marking. The independent fee covers the level examination, its second",
+    "marking and its internal moderation. Marking ten assignments with",
+    "feedback is teaching; it is priced where teaching is priced.",
+    "",
+    "The same reasoning holds for materials. Authoring a curriculum is a",
+    "fixed cost the enrolled fees carry; supplying it to one more reader",
+    "costs almost nothing, and the College charges $150 rather than the",
+    "$348 cost-share because charging a marginal reader an average cost is",
+    "how an institution prices itself out of its own mission.",
+    "",
+    "WHAT IS DELIBERATELY NOT HERE",
+    "",
+    "No cash commission, anywhere. No fee for sitting again. No fee for",
+    "the certificate an enrolled student earns. No negotiated partner rate",
+    "— the bands below are published, so an institution that asks for a",
+    "price gets the same answer as one that does not know to ask."
+  ],
+  "currency": "USD",
+  "routes": {
+    "enrolled": {
+      "_": "The default. Priced in data/tuition.json and decomposed there.",
+      "level_fee_cents": 316667,
+      "programme_total_usd": 19000
+    },
+    "independent": {
+      "_": [
+        "For a candidate who wants the qualification without the teaching.",
+        "Unbundled into the three things the College actually performs:",
+        "supply the material, assess the work, confer and record the award.",
+        "Each is bought separately and each stands alone — a candidate may",
+        "buy the materials and never sit, or sit and never take the award,",
+        "and the College does not require the next step to sell the last.",
+        "A CONFLICT CAUGHT ON THE DAY THIS SHIPPED. The first draft of the materials step sold 'every authored lesson of the level, downloadable' — which the Library already gives away free to anyone, in print-ready volumes. That would have been the College charging $150 for a book on one page and giving it away on another. The step is access to the level INSIDE THE PLATFORM: staged lessons, the Listening Lab, the recording workspace, the self-checks. The books stay free, and the page says so where the fee is charged."
+      ],
+      "steps": [
+        {
+          "key": "materials",
+          "cents": 15000,
+          "icon": "i-book",
+          "en": {
+            "name": "Access to the level",
+            "buys": "The level inside the platform: its lessons staged and timed, the Listening Lab, the recording workspace that keeps your own attempts, and the self-checks with their answers. <strong>The books stay free</strong> &mdash; every volume of the curriculum is in the <a href=\"/press/library/\">Library</a>, for you and for anyone, enrolled or not. This step buys the level as a place to work in, not as a document to read."
+          },
+          "ar": {
+            "name": "الوصول إلى المستوى",
+            "buys": "المستوى داخل المنصة: دروسه مرتَّبة موقوتة، ومعمل الاستماع، ومساحة التسجيل التي تحفظ محاولاتك، والمراجعات الذاتية بأجوبتها. <strong>أما الكتب فتبقى مجانية</strong> &mdash; فكل مجلد من المنهج في <a href=\"/ar/press/library/\">المكتبة</a>، لك ولغيرك، التحقت أو لم تلتحق. وهذه الخطوة تشتري المستوى مكانًا تعمل فيه، لا مستندًا تقرؤه."
+          }
+        },
+        {
+          "key": "assessment",
+          "cents": 25000,
+          "icon": "i-scales",
+          "en": {
+            "name": "The level examination",
+            "buys": "The same examination an enrolled candidate sits, marked by a person against the same published rubric, second-marked, and put through the same internal moderation. One re-sit is included; there is no re-sit fee on either route."
+          },
+          "ar": {
+            "name": "امتحان المستوى",
+            "buys": "الامتحان نفسه الذي يؤدّيه الملتحق، يصححه شخص وفق المعيار المنشور نفسه، ويُصحَّح ثانيةً، ويمر بالتعديل الداخلي نفسه. وتدخل فيه إعادة واحدة؛ ولا رسم إعادة في أي من المسارين."
+          }
+        },
+        {
+          "key": "conferral",
+          "cents": 20000,
+          "icon": "i-seal",
+          "en": {
+            "name": "The award and its record",
+            "buys": "The award itself: the digital certificate, the signature on it, your entry in the registry, the transcript, and verification by anyone, without an account, for as long as the College exists."
+          },
+          "ar": {
+            "name": "الشهادة وسجلها",
+            "buys": "الشهادة نفسها: المستند الرقمي، والتوقيع عليه، وقيدك في السجل، وكشف الدرجات، وتحقّقٌ يجريه أي أحد بلا حساب ما دامت الكلية قائمة."
+          }
+        }
+      ],
+      "_no_conferral_fee_for_enrolled": [
+        "The conferral step is the one that has to be explained, because",
+        "the tuition page promises an enrolled student 'no graduation fee'",
+        "and means it. An enrolled student pays nothing to be awarded:",
+        "certification is line 8 of their level fee. The independent",
+        "candidate has not paid that line, so they pay it here. Both pages",
+        "say so, and each links to the other — an unexplained fee on one",
+        "page and a promise it does not exist on another is how a fee",
+        "schedule stops being trusted."
+      ]
+    },
+    "partner": {
+      "_": [
+        "An institution enrolling a group — a school, an employer, a",
+        "ministry. Published bands rather than a negotiated rate, because",
+        "a price that depends on who asks is a price the College cannot",
+        "defend, and the buyer with the least leverage is always the one",
+        "who needed the help most."
+      ],
+      "applies_to": "enrolled tuition only",
+      "bands": [
+        {
+          "from": 10,
+          "to": 24,
+          "bp": 1000
+        },
+        {
+          "from": 25,
+          "to": 99,
+          "bp": 1500
+        },
+        {
+          "from": 100,
+          "to": null,
+          "bp": 2000
+        }
+      ],
+      "conditions_en": [
+        "The band applies to tuition. It never applies to an assessment standard, a pass mark or a moderation step.",
+        "A sponsor sees a student's progress only with that student's written consent, given separately from the sponsorship and withdrawable at any time. The record belongs to the student.",
+        "A sponsored student who leaves the sponsor keeps the place and the record. The seat is bought; the person is not.",
+        "The refund window is the student's, not the sponsor's, and runs from the student's own start."
+      ],
+      "conditions_ar": [
+        "تنطبق الشريحة على الرسوم الدراسية. ولا تنطبق أبدًا على معيار تقييم ولا درجة نجاح ولا خطوة تعديل.",
+        "لا يرى الراعي تقدّم الطالب إلا بموافقة خطية من الطالب نفسه، تُعطى منفصلة عن الرعاية ويجوز سحبها في أي وقت. فالسجل ملك الطالب.",
+        "الطالب المكفول الذي يترك راعيه يحتفظ بمقعده وبسجله. فالمقعد يُشترى، أما الشخص فلا.",
+        "نافذة الاسترداد للطالب لا للراعي، وتبدأ من تاريخ بدئه هو."
+      ]
+    }
+  },
+  "remission": {
+    "_": [
+      "THE FOUNDATION REMISSION — a scholarship scheme that cannot be",
+      "announced and then not funded.",
+      "",
+      "The College's own page said, correctly, that publishing criteria it",
+      "could not fund would be worse than publishing nothing. The way out",
+      "is not to promise a sum; it is to make the fund a RULE rather than",
+      "a figure. Five per cent of every dollar of tuition received is",
+      "placed in the remission fund. The fund therefore exists exactly",
+      "when tuition does, cannot be overspent, and needs no capital the",
+      "College does not have.",
+      "",
+      "One consequence, stated plainly on the page: in a term with little",
+      "tuition there is little remission. A scheme that scales with what",
+      "the College takes is honest about its own size in a way a fixed",
+      "promise is not."
+    ],
+    "fund_bp_of_tuition": 500,
+    "award_kinds_en": [
+      "Full remission of a level fee",
+      "Partial remission, stated as a percentage"
+    ],
+    "award_kinds_ar": [
+      "إعفاء كامل من رسوم مستوى",
+      "إعفاء جزئي، يُذكر بالنسبة المئوية"
+    ],
+    "criteria": [
+      {
+        "key": "need",
+        "weight_bp": 6000,
+        "en": {
+          "name": "Financial need",
+          "test": "Household circumstances as stated by the applicant, with one supporting document where one exists. The College does not require documents a candidate in hardship cannot obtain, and says so rather than quietly rejecting them."
+        },
+        "ar": {
+          "name": "الحاجة المالية",
+          "test": "ظروف الأسرة كما يذكرها المتقدم، مع مستند مؤيد واحد إن وُجد. ولا تطلب الكلية مستندات يعجز عن استخراجها من هو في ضائقة، وتقول ذلك صراحةً بدل أن ترفضه بصمت."
+        }
+      },
+      {
+        "key": "promise",
+        "weight_bp": 4000,
+        "en": {
+          "name": "Academic promise",
+          "test": "The placement assessment already taken, and a written statement of 300 words on what command of English would change for the applicant. Marked against a published descriptor, not an impression."
+        },
+        "ar": {
+          "name": "الوعد الأكاديمي",
+          "test": "تقييم تحديد المستوى المؤدَّى أصلًا، وبيان مكتوب في ثلاثمئة كلمة عمّا سيغيّره إتقان الإنجليزية في حياة المتقدم. يُقيَّم وفق وصف منشور لا وفق انطباع."
+        }
+      }
+    ],
+    "decision_chain_en": [
+      "Applications are received by the Registrar, who holds student records and confirms eligibility.",
+      "A panel of three assesses them: the Registrar, the Director of Student Success on need, and the Dean of Academic Affairs on promise.",
+      "The panel's decisions are minuted with the score against each criterion. Every applicant is told the outcome, including those who are not awarded.",
+      "The Governor for Finance and Audit receives the round's report and may audit any decision in it."
+    ],
+    "decision_chain_ar": [
+      "يتلقّى الطلبات مسجّل الكلية، وهو من يحفظ سجلات الطلاب ويتحقق من الاستحقاق.",
+      "وتنظر فيها لجنة ثلاثية: مسجّل الكلية، ومديرة نجاح الطلاب في باب الحاجة، وعميد الشؤون الأكاديمية في باب الوعد الأكاديمي.",
+      "وتُثبَّت قرارات اللجنة في محضر مع درجة كل معيار. ويُبلَّغ كل متقدم بالنتيجة، بمن فيهم من لم يُمنح.",
+      "وتتلقى عضوة مجلس الأمناء للمالية والمراجعة تقرير الدورة، ولها أن تراجع أي قرار فيه."
+    ],
+    "round_en": "A round opens with each cohort, closes fourteen days before that cohort begins, and is decided within fourteen days of closing.",
+    "round_ar": "تُفتح دورة مع كل دفعة، وتُغلق قبل بدء الدفعة بأربعة عشر يومًا، ويُبتّ فيها خلال أربعة عشر يومًا من إغلاقها.",
+    "status_en": "Adopted 17 August 2026. The first round opens with the next cohort; none has run, and no remission has been awarded to anyone.",
+    "status_ar": "اعتُمِد في ١٧ أغسطس ٢٠٢٦. وتُفتح الدورة الأولى مع الدفعة القادمة؛ ولم تجرِ دورة بعد، ولم يُمنح إعفاء لأحد."
+  },
+  "referral": {
+    "_": [
+      "A remission, never a commission. The moment a person is paid cash",
+      "for bringing the College a student, that person has an interest in",
+      "what they say about it, and the College has bought a salesperson it",
+      "cannot supervise. So the benefit is a credit against the referrer's",
+      "own next fee, it is capped, and it settles only after the referred",
+      "student's refund window has closed — so nobody profits from a",
+      "student who leaves in the first fortnight."
+    ],
+    "credit_cents": 25000,
+    "cap_per_person": 3,
+    "settles_after_days": 14,
+    "usable_against_en": "Any fee the referrer owes the College — an enrolled level fee, or any step of the independent route.",
+    "usable_against_ar": "أي رسم يستحق على المُحيل للكلية — رسم مستوى للملتحق، أو أي خطوة من خطوات المسار المستقل.",
+    "rules_en": [
+      "Paid as a credit, never as cash, and never to anyone who is not a student or an award-holder of the College.",
+      "Applied to one fee at a time and never beyond it. Anything left over carries to your next fee, and is never paid out.",
+      "Three per person across the whole programme. A cap is what separates a thank-you from a job.",
+      "Settled fourteen days after the referred student starts, when their refund window has closed.",
+      "Not payable on yourself, on a person already in the admissions record, or on a sponsored seat bought under a partner band."
+    ],
+    "rules_ar": [
+      "تُدفع رصيدًا لا نقدًا، ولا تُدفع أبدًا لمن ليس طالبًا في الكلية ولا حاملًا لشهادة منها.",
+      "يُطبَّق على رسم واحد في المرة ولا يتجاوزه. وما بقي منه يُرحَّل إلى رسمك التالي، ولا يُدفَع نقدًا أبدًا.",
+      "ثلاث إحالات للشخص الواحد في البرنامج كله. والحدّ هو ما يفصل الشكر عن الوظيفة.",
+      "تُسوّى بعد أربعة عشر يومًا من بدء الطالب المُحال، حين تُغلق نافذة استرداده.",
+      "ولا تُستحق على نفسك، ولا على شخص مقيَّد في سجل القبول أصلًا، ولا على مقعد مكفول ضمن شريحة شراكة."
+    ],
+    "never_paid_as_cash": true,
+    "carries_forward": true
+  },
+  "alumni": {
+    "_": [
+      "The honest finding, and it is worth stating rather than dressing:",
+      "almost everything a college normally sells its alumni, this one",
+      "already gives away. The Library is free to anyone. Verification is",
+      "free to anyone. Digital certificates and transcripts are reissued",
+      "free, for life, to the person they belong to. There is no discount",
+      "to invent that would not be an admission the first fee was too",
+      "high.",
+      "",
+      "What an award-holder gets that a stranger does not is STANDING:",
+      "the right to take a further level without re-enrolling, the",
+      "referral credit usable against it, and a place in the register if",
+      "they want one."
+    ],
+    "standings_en": [
+      {
+        "name": "The independent route, without re-enrolling",
+        "what": "An award-holder may take any later level by the independent route at the published step fees, without applying again. The placement already stands."
+      },
+      {
+        "name": "The referral credit, usable either way",
+        "what": "An award-holder who refers a candidate receives the same $250 credit, and may set it against an independent-route fee rather than tuition."
+      },
+      {
+        "name": "The register, by choice",
+        "what": "A public roll of award-holders, for anyone wanting to confirm a person rather than a document. Appearing in it is the graduate's decision, not a consequence of graduating."
+      },
+      {
+        "name": "Everything else, already free",
+        "what": "Every Library volume, every verification check, and every reissue of a certificate or transcript &mdash; free to alumni because they are free to everyone."
+      }
+    ],
+    "standings_ar": [
+      {
+        "name": "المسار المستقل، بلا التحاق جديد",
+        "what": "لحامل الشهادة أن يأخذ أي مستوى لاحق بالمسار المستقل بالرسوم المنشورة، دون تقديم طلب جديد. فتحديد مستواه قائم."
+      },
+      {
+        "name": "رصيد الإحالة، صالح في المسارين",
+        "what": "حامل الشهادة الذي يُحيل مرشحًا يأخذ الرصيد نفسه، وله أن يضعه مقابل رسم في المسار المستقل بدل الرسوم الدراسية."
+      },
+      {
+        "name": "السجل، بالاختيار",
+        "what": "سجل عام بحملة الشهادات، لمن أراد أن يتثبّت من شخص لا من مستند. والظهور فيه قرار الخريج، لا نتيجة تلقائية لتخرجه."
+      },
+      {
+        "name": "وما عدا ذلك، مجاني أصلًا",
+        "what": "كل مجلد في المكتبة، وكل عملية تحقق، وكل إعادة إصدار لشهادة أو كشف درجات &mdash; مجانية للخريجين لأنها مجانية للجميع."
+      }
+    ]
+  }
+}

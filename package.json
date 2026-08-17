@@ -1,9 +1,9 @@
 {
   "name": "wec-lc",
   "private": true,
-  "description": "WorldWide English College, London Campus — public site (static, no framework) + backend (Cloudflare Pages Functions, no npm runtime dependencies).",
-  "comment_on_modules": "No root-level \"type\" field, deliberately: scripts/build.js (the existing static-site generator) is CommonJS, while functions/**/*.js (Pages Functions) use ES module import/export. Node 22's built-in CJS/ESM syntax auto-detection handles both correctly from one tree without a type field — verified by running both. Do not add \"type\": \"module\" here without also converting scripts/build.js, or it breaks the static build.",
-  "comment_on_engines": "scripts/build.js alone would run on much older Node, but `npm test` needs 22+ for node:sqlite (see tests/README.md) — the honest minimum for full local development, not just the static build.",
+  "description": "WorldWide English College, London Campus \u2014 public site (static, no framework) + backend (Cloudflare Pages Functions, no npm runtime dependencies).",
+  "comment_on_modules": "No root-level \"type\" field, deliberately: scripts/build.js (the existing static-site generator) is CommonJS, while functions/**/*.js (Pages Functions) use ES module import/export. Node 22's built-in CJS/ESM syntax auto-detection handles both correctly from one tree without a type field \u2014 verified by running both. Do not add \"type\": \"module\" here without also converting scripts/build.js, or it breaks the static build.",
+  "comment_on_engines": "scripts/build.js alone would run on much older Node, but `npm test` needs 22+ for node:sqlite (see tests/README.md) \u2014 the honest minimum for full local development, not just the static build.",
   "scripts": {
     "build": "node scripts/build.js",
     "faculty": "node scripts/build-faculty.js && node scripts/build.js",
@@ -26,10 +26,13 @@
     "listening": "node --experimental-sqlite scripts/publication/render-listening.mjs",
     "assessment": "node --experimental-sqlite scripts/publication/render-assessment.mjs",
     "workbook": "node --experimental-sqlite scripts/publication/render-workbook.mjs",
-    "companion": "node --experimental-sqlite scripts/publication/render-companion.mjs"
+    "companion": "node --experimental-sqlite scripts/publication/render-companion.mjs",
+    "audit": "node scripts/red-flag-audit.mjs --write",
+    "commercial": "node scripts/build-commercial.mjs && node scripts/build.js",
+    "tuition": "node scripts/build-tuition.mjs && node scripts/build.js"
   },
   "devDependencies": {
-    "@fontsource-variable/bodoni-moda": "^5.3.0",
+    "@fontsource-variable/eb-garamond": "^5.3.0",
     "@fontsource-variable/cinzel": "^5.3.0",
     "@fontsource/amiri": "^5.3.0",
     "@fontsource/cairo": "^5.3.0",

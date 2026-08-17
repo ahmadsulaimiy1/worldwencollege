@@ -54,6 +54,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { emitPage, reportEmit } = require('./lib/emit-page');
 const { DatabaseSync } = require('node:sqlite');
 const GOV = require('./lib/governance-register');
 
@@ -243,9 +244,9 @@ PAGES.pillar = {
       <span class="module-marker">The Vision</span>
       <h2>An ambition, stated as an ambition.</h2>
       <p class="lede">That sentence is a destination, not a description. WEC-LC is a new
-        institution: it holds no accreditation, has conferred no award, and has taught no
-        cohort. Publishing a vision does not change any of that, and this page does not pretend
-        otherwise.</p>
+        institution: it holds no accreditation, has appointed no External Examiner, so the awards
+        it has conferred are internally moderated. Publishing a vision does not change any of
+        that, and this page does not pretend otherwise.</p>
     </div>
     <div class="grid grid--3">
 ${card('Recognised', 'Recognition has to be earned from outside', 'Recognition means external bodies attesting to quality &mdash; accreditation, external examining, professional endorsement. None of it can be self-awarded, and none of it has been obtained. The College is building the evidence such bodies ask for rather than describing itself as though they had already asked.')}
@@ -314,7 +315,7 @@ ${['Academic Excellence', 'Integrity', 'Innovation', 'Professionalism',
     <div class="grid grid--3">
 ${card('No invented staff', 'Eighteen names that will never be published', 'A realistic staff chart exists for designing the administration screens against. Every name on it is fictional, and an automated check fails the build if any of them reaches a page the public can load.')}
 ${card('No invented approval', 'Interim means interim', `The Level I learning outcomes and every competency mapping are recorded as interim, not approved, because the board that would approve them has ${D.bodies.find((b) => b.code === 'BASCE').members_appointed} appointed members. The pages say interim.`)}
-${card('No invented evidence', 'Books that state what they do not rest on', 'The Teacher&rsquo;s Companion marks every one of its 245 panels with where it came from, and states in its front matter that it contains no classroom observation, because the College has taught nobody.')}
+${card('No invented evidence', 'Books that state what they do not rest on', 'The Teacher&rsquo;s Companion marks every one of its 245 panels with where it came from, and states in its front matter that it contains no classroom observation, because none has been entered into the record it is set from.')}
     </div>
   </div>
 </section>
@@ -495,6 +496,7 @@ const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
+const emitted = [];
 
 // Absorbed into the College pillar as #vision, #mission, #philosophy
 // and #structure.
@@ -504,7 +506,8 @@ for (const slug of ['about-vision', 'about-mission', 'about-philosophy', 'about-
 }
 
 for (const p of Object.values(PAGES)) {
-  fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
+  const target = path.join(ROOT, 'pages', p.file);
+  emitted.push({ file: target, result: emitPage(target, p.body) });
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: 'en', dir: 'ltr',
@@ -516,6 +519,12 @@ for (const p of Object.values(PAGES)) {
 }
 
 fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-console.log(`Wrote ${written.length} About-cluster pages:`);
+// The manifest entry is written for every page; the PAGE BODY is written
+// only where the guard allows it. "Routed" rather than "Wrote" because
+// the two are no longer the same act — see scripts/lib/emit-page.js, and
+// read the guard's own summary below this list for what reached disk.
+console.log(`Routed ${written.length} About-cluster pages through the manifest:`);
 for (const o of written) console.log(`  ${o}`);
 console.log('Run `npm run build` to generate the served pages.');
+
+reportEmit('build-about.js', emitted);

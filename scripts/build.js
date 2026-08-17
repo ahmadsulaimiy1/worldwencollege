@@ -175,6 +175,70 @@ function inlineSvgIncludes(html, contentFile) {
   });
 }
 
+// ---------------------------------------------------------------------
+// THE RECORD OF STANDING  —  {{S:KEY}}, {{N:key}}, {{V:key}}
+//
+// data/standing.json is the only place the College's own figures live:
+// how many cohorts have been taught, how many students completed a
+// level, how many awards were conferred. Before it existed those facts
+// were typed into the copy of 56 pages in two languages, which meant
+// they could not be corrected — only re-typed, 56 times, with the
+// Arabic edition drifting from the English on the first mistake.
+//
+// Three tokens read it:
+//
+//   {{S:COHORTS_TAUGHT}}   a sentence, in the page's own language
+//   {{N:completed_level_1}} the count and a space — or NOTHING at all
+//   {{V:cohorts.run}}      a raw value, spelled where a numeral is wanted
+//
+// {{N:…}} is the important one, and its emptiness is the whole design.
+// A count the College has not released for publication is null, and a
+// null renders as the empty string, so
+//
+//   <p>{{N:completed_level_1}}{{S:COMPLETED_1}} sat the Level II paper.</p>
+//
+// publishes "students who have completed Level I sat the Level II
+// paper" today, and "31 students who have completed Level I sat the
+// Level II paper" the moment somebody puts 31 in the record. The
+// sentence is true in both states and needs no rewriting between them.
+// Every prose string is therefore written to begin with its noun.
+//
+// tests/published-claims.test.mjs enforces the other half: a numeral
+// standing next to a cohort or award claim that this file did not
+// supply fails the build. A figure cannot reach the site by being typed
+// confidently into a paragraph.
+// ---------------------------------------------------------------------
+const STANDING = JSON.parse(read(path.join(ROOT, 'data', 'standing.json')));
+
+function standingValue(dotted) {
+  return dotted.split('.').reduce((o, k) => (o == null ? o : o[k]), STANDING);
+}
+
+function fillStanding(html, lang, contentFile) {
+  const prose = STANDING.prose[lang === 'ar' ? 'ar' : 'en'];
+  return html
+    .replace(/\{\{S:([A-Z0-9_]+)\}\}/g, (_, key) => {
+      if (!(key in prose)) {
+        throw new Error(`${contentFile}: no standing prose named ${key} for ${lang}`);
+      }
+      return prose[key];
+    })
+    .replace(/\{\{N:([a-z0-9_]+)\}\}/g, (_, key) => {
+      if (!(key in STANDING.counts)) {
+        throw new Error(`${contentFile}: no standing count named ${key}`);
+      }
+      const n = STANDING.counts[key];
+      // Not released is not zero. It renders as nothing, and the
+      // sentence carries on without it.
+      return n == null ? '' : `${n}&nbsp;`;
+    })
+    .replace(/\{\{V:([a-z0-9_.]+)\}\}/g, (_, key) => {
+      const v = standingValue(key);
+      if (v == null) throw new Error(`${contentFile}: standing value ${key} is unset`);
+      return String(v);
+    });
+}
+
 function partialFor(name, lang) {
   const arPath = path.join(PARTIALS, `${name}.ar.html`);
   if (lang === 'ar' && fs.existsSync(arPath)) return read(arPath);
@@ -187,17 +251,30 @@ const SITE_URL = 'https://www.worldwencollege.co.uk';
 //
 // Three Latin families, each with one job, plus two Arabic families.
 //
-//   Bodoni Moda  — the display face. A Didone, requested VARIABLE on the
-//                  optical-size axis (`opsz 6..96`). That axis is the
-//                  whole reason this face replaced Playfair Display: a
-//                  Didone's hairlines are what make it magnificent at
-//                  64px and illegible at 15px, and `opsz` is the
-//                  typeface's own answer to that — the browser
-//                  interpolates a sturdier cut as the type gets smaller,
-//                  automatically, via `font-optical-sizing: auto`. One
-//                  family therefore covers a 4.6rem masthead and a
-//                  1.05rem sub-heading without either being a
-//                  compromise, which no static face can do.
+//   EB Garamond  — the display face. An old-style serif, requested
+//                  VARIABLE on weight (`wght 400..800`) with a matching
+//                  italic.
+//
+//                  IT REPLACED BODONI MODA, and the reasoning is worth
+//                  keeping because it inverts the reasoning that put
+//                  Bodoni here. Bodoni is a Didone: enormous stroke
+//                  contrast, flat unbracketed serifs. That is what made
+//                  it magnificent at 64px and illegible at 15px, and it
+//                  was carried on the optical-size axis (`opsz 6..96`)
+//                  precisely to rescue it — the browser interpolating a
+//                  sturdier cut as the type got smaller. It worked, and
+//                  it was still a face whose headings read as fashion
+//                  rather than as an institution, at every size.
+//
+//                  EB Garamond needs no such rescue. Its contrast is
+//                  moderate everywhere, so it is legible at 15px and
+//                  dignified at 64px without an axis mediating between
+//                  the two — which is the same property that makes it
+//                  easier to read. It therefore carries NO opsz axis
+//                  (Google returns 400 for the request), and
+//                  `font-optical-sizing: auto` in css/ is now a no-op
+//                  rather than load-bearing. Do not add an opsz range
+//                  to this family; it does not have one.
 //   Cinzel       — ceremonial capitals only. Inscriptional Roman letter-
 //                  forms (the Trajan lineage): the crest lockup, chapter
 //                  numerals, CEFR marks, seals. Rationed hard — it is
@@ -205,11 +282,15 @@ const SITE_URL = 'https://www.worldwencollege.co.uk';
 //   Inter        — everything that is read rather than admired: body,
 //                  UI, labels, tables, forms.
 //
-// Weights are the ones actually set in css/. Bodoni's italic stops at
-// 600 because nothing sets an italic heavier than that; Cinzel asks for
-// two weights because it appears at two sizes and nowhere else.
-const LATIN_FONTS = 'family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600'
-  + '&family=Cinzel:wght@500;600'
+// Weights are the ones actually set in css/ — headings run to 700 and
+// the display sizes sit at 500-600, so the roman range covers 400..700;
+// the italic is used for pull quotes and typed lines and never above
+// 600. Cinzel asks for two weights because it appears at two sizes and
+// nowhere else.
+// Fraunces — the display face — is SELF-HOSTED from /assets/fonts/ and
+// declared in css/brand.css, so it never appears in this URL. Only the
+// faces still worth a third-party round trip are requested here.
+const LATIN_FONTS = 'family=Cinzel:wght@500;600'
   + '&family=Inter:wght@400;600;700;800';
 const ARABIC_FONTS = '&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700';
 
@@ -237,7 +318,7 @@ function fontsUrlFor(lang) {
 // parameter returns a face containing only the glyphs asked for, so
 // this costs a few hundred bytes instead of ~40KB. It must be its own
 // request: `text=` applies to every family in the URL it appears in,
-// so folding it into the main one would subset Bodoni and Inter to
+// so folding it into the main one would subset EB Garamond and Inter to
 // six Arabic characters and leave the page with no Latin text at all.
 //
 // Arabic pages get nothing here — they already load Cairo in full.
@@ -350,7 +431,10 @@ function build() {
     const footer = fill(partialFor('footer', lang), { ALT_HREF: altHref });
     const content = withContentsRail(
       raiseMasthead(
-        inlineSvgIncludes(read(path.join(PAGES, entry.contentFile)), entry.contentFile)
+        fillStanding(
+          inlineSvgIncludes(read(path.join(PAGES, entry.contentFile)), entry.contentFile),
+          lang, entry.contentFile
+        )
       ),
       entry, lang
     );

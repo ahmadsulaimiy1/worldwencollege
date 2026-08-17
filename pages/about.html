@@ -1,434 +1,724 @@
-<section class="section--dark section-pad">
-  <div class="container">
-    <span class="eyebrow">About WEC-LC</span>
-    <h1>An institution built on one conviction: English fluency changes what's possible.</h1>
-    <p class="lede">WorldWide English College, London Campus is being built as an international English-language institution: one programme, six CEFR-aligned levels, taught and assessed online, for students wherever they are in the world.</p>
+<!--
+  THE COLLEGE — the pillar page.
+
+  SET AS A DOCUMENT, NOT AS A PAGE.
+  ---------------------------------------------------------------------
+  The homepage is a prospectus: chapters on coloured stock, a cinematic
+  vista, a struck medallion. It is built to be arriving somewhere. This
+  page is the opposite instrument. It is where a reader goes to check
+  the College against itself, and the register that suits that is a
+  bound constitutional document — numbered leaves, a rubric in the
+  margin of each, a register of what is settled, and a colophon at the
+  foot. Composition lives in css/college.css, loaded only on this page,
+  the Careers page and their Arabic editions.
+
+  WHAT WAS WRONG BEFORE, recorded so it is not reintroduced.
+
+  1. THE PAGE SAID EVERYTHING TWICE. There were two Vision sections —
+     "The destination." near the top and "An ambition, stated as an
+     ambition." three thousand pixels below it — and two Mission
+     sections, a five-item checklist and then five cards restating the
+     same five items. Seventeen sections on one flat cream ground, of
+     which four were duplicates. Nothing has been deleted: the two
+     Vision passages are now one leaf and the two Mission passages are
+     one leaf, each carrying everything both halves said.
+
+  2. THE TICKS WERE A LIE. Institutional Status listed what is
+     confirmed and what is outstanding as two `check-list`s — the same
+     ✓ against both columns. A page whose entire argument is that it
+     publishes what is not yet true was marking unfinished work as
+     done. The register now uses #i-struck for what is held and #i-ring,
+     an open circle, for what is not, and the two are never the same
+     mark.
+
+  3. THE MOTTO WAS LISTED AS CONFIRMED AND NEVER PRINTED. It is in the
+     "Confirmed today" column and appeared nowhere on the page. It is
+     on the masthead now, which is where a document states itself.
+
+  EVERY SECTION WITH AN id GETS A RAIL ENTRY automatically — see
+  contentsEntries() in scripts/build.js, and tests/contents-rail.test.mjs
+  which fails on a named section that has one and is missing from the
+  rail. So a section here either carries an id AND belongs in the rail,
+  or carries no id at all. The four ids the header's mega-menu links to
+  — #vision, #philosophy, #structure, #status — must survive any
+  rearrangement of this file.
+-->
+
+<!-- ==================================================================
+     THE MASTHEAD
+     ================================================================== -->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></p>
+
+    <p class="masthead__eyebrow">WorldWide English College &middot; London Campus</p>
+    <h1>One conviction, and one programme built to it: command of English decides who is heard.</h1>
+    <p class="masthead__stake">Every year, capable people lose places, promotions and hearings they were qualified for &mdash; not for want of the knowledge, but because they could not command the language it had to be argued in. <strong>That is a solvable problem, and it is the only one this College works on.</strong></p>
+    <p class="lede">An international English-language institution with a single programme &mdash; the International English Fluency Course, six CEFR-aligned levels, taught and assessed online, for students wherever they are in the world.</p>
+
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>Founded</dt><dd>2023</dd></div>
+      <div class="masthead__fact"><dt>Commissioned</dt><dd>10 November 2024</dd></div>
+      <div class="masthead__fact"><dt>Headquarters</dt><dd>London</dd></div>
+      <div class="masthead__fact"><dt>Delivery</dt><dd>Online worldwide</dd></div>
+    </dl>
+
+    <p class="masthead__motto">&ldquo;Empowering the World Through English Excellence.&rdquo;</p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
   </div>
 </section>
 
-<section class="section--light section-pad">
-  <div class="container two-col reveal">
-    <div>
-      <span class="module-marker">Vision</span>
-      <h2>Where we're going.</h2>
-      <blockquote class="pull-quote">To become one of the world's leading English language institutions, recognised for excellence in English language education, innovation, academic integrity, and graduate success.</blockquote>
+<!-- ==================================================================
+     I · THE OPERATING MODEL
+     ================================================================== -->
+<section class="leaf section--paper grain" id="operating-model" data-contents="The Operating Model">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/globe-meridian.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">I</span>
+      <span class="leaf__label">The Operating Model</span>
+      <p class="leaf__rubric">What &ldquo;London Campus&rdquo; names, and what it does not.</p>
     </div>
-    <div>
-      <span class="module-marker">Mission</span>
-      <h2>How we get there.</h2>
-      <ul class="check-list">
-        <li>Deliver world-class English language education.</li>
-        <li>Develop confident, fluent and academically competent English speakers.</li>
-        <li>Prepare learners for international study, employment and professional communication.</li>
-        <li>Integrate modern educational technology with expert instruction.</li>
-        <li>Provide accessible, high-quality English education to learners worldwide.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Who It Serves</span>
-      <h2>Built for readers who check claims.</h2>
-      <p class="lede">Families, professionals and institutions across the Gulf, Europe, Africa and Asia — students who read what they are buying before they buy it. The College writes for that reader: the full syllabus, the pricing, the policies and the current institutional status are published before enrolment, in English and in Arabic.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--paper section-pad" id="operating-model">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Our Operating Model</span>
+    <div class="leaf__body reveal">
       <h2>Online-first by design. London-based by administration.</h2>
-      <p class="lede">"London Campus" identifies WEC-LC's administrative and management headquarters — it is not a claim of a physical teaching campus, and it never referred to more than one. Our educational delivery is intentionally online-first: every level of the IEFC is taught through live and recorded instruction inside our digital campus, so a student in Lagos, Riyadh, or Manila studies on equal footing with one in London. This is a deliberate strategic choice for global accessibility and flexibility, not a stand-in for premises we don't yet have.</p>
-    </div>
-    <div class="grid grid--2">
-      <div class="card"><h3>What "London Campus" means</h3><p>The institution's administrative and management headquarters, and the seat of its governance — the brand and legal home of WEC-LC.</p></div>
-      <div class="card"><h3>What "London Campus" doesn't mean</h3><p>A physical building where classes are taught, or a network of regional campuses. Every student, everywhere, studies through the same online digital campus.</p></div>
+      <p class="lede dropcap">&ldquo;London Campus&rdquo; identifies WEC-LC&rsquo;s administrative and management headquarters. It is not a claim of a physical teaching campus, and it never referred to more than one. The College is online-first by design: every level of the IEFC is taught and assessed inside the digital campus, so a student in Lagos, Riyadh or Manila studies on the same terms as one in London.</p>
+      <p>That is the architecture the College chose, and it is the reason a learner anywhere is taught to one standard rather than to whichever standard a local franchise happens to hold.</p>
+
+      <div class="separation">
+        <div class="sep__role reveal edge-lit edge-lit--light aurum">
+          <span class="sep__disc tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg></span>
+          <h3>What it means</h3>
+          <p>The institution&rsquo;s administrative and management headquarters, and the seat of its governance &mdash; the brand and legal home of WEC-LC.</p>
+        </div>
+        <span class="sep__rel" aria-hidden="true">&ne;</span>
+        <div class="sep__role reveal edge-lit edge-lit--light aurum">
+          <span class="sep__disc tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
+          <h3>What it does not mean</h3>
+          <p>A physical building where classes are taught, or a network of regional campuses. Every student, everywhere, studies through the same online digital campus.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:2.4em">Who this page is written for</h3>
+      <p>Families, professionals and institutions across the Gulf, Europe, Africa and Asia &mdash; readers who check what they are buying before they buy it. The College writes for that reader: the full syllabus, the pricing, the policies and the current institutional status are published before enrolment, in English and in Arabic.</p>
     </div>
   </div>
 </section>
 
-<section class="section--light section-pad" id="status">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Institutional Status</span>
-      <h2>What's confirmed, and what's still being built.</h2>
-      <p class="lede">Trust is earned through precision, not promises. Here is the current state of WEC-LC.</p>
+<!-- ==================================================================
+     II · INSTITUTIONAL STATUS  ·  the register
+     ================================================================== -->
+<section class="leaf section--light grain" id="status" data-contents="Institutional Status">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">II</span>
+      <span class="leaf__label">Institutional Status</span>
+      <p class="leaf__rubric">Two columns, two marks. Nothing outstanding wears a tick.</p>
     </div>
-    <div class="grid grid--2">
-      <div class="card">
-        <h3>Confirmed today</h3>
-        <ul class="check-list">
-          <li>Founded in 2023; formally commissioned on 10 November 2024</li>
-          <li>Institutional name, motto, vision, mission and core values</li>
-          <li>The full International English Fluency Course structure — six levels, CEFR alignment, curriculum and methodology</li>
-          <li>Tuition structure and per-level pricing</li>
-          <li>Admissions process and target learner profile</li>
-          <li>Named academic leadership and the faculty roster (see <a href="/faculty/#roster">Faculty</a>)</li>
-          <li>Operating model — online-first delivery worldwide, with a London administrative headquarters</li>
-        </ul>
+    <div class="leaf__body reveal">
+      <h2>What is confirmed, and what is still being built.</h2>
+      <p class="lede">Trust is earned through precision, not promises. This is the current state of WEC-LC, and the second column is published with the same care as the first.</p>
+
+      <div class="register">
+        <div class="register__col reveal edge-lit edge-lit--light aurum">
+          <div class="register__head">
+            <svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg>
+            <h3>Held today</h3>
+            <span class="register__count">8</span>
+          </div>
+          <ul class="register__list register__list--held">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Founded in 2023; formally commissioned on 10 November 2024</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Three cohorts taught since inauguration, with awards conferred at Level&nbsp;I and Level&nbsp;II &mdash; moderated inside the College, by nobody outside it</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Institutional name, motto, vision, mission and core values</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>The full International English Fluency Course structure &mdash; six levels, CEFR alignment, curriculum and methodology</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Tuition structure and per-level pricing</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Admissions process and target learner profile</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Named academic leadership and the faculty roster (see <a href="/faculty/#roster">Faculty</a>)</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Operating model &mdash; online-first delivery worldwide, with a London administrative headquarters</span></li>
+          </ul>
+        </div>
+
+        <div class="register__col register__col--open reveal edge-lit edge-lit--light aurum">
+          <div class="register__head">
+            <svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg>
+            <h3>Outstanding</h3>
+            <span class="register__count">4</span>
+          </div>
+          <ul class="register__list register__list--open">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>Registered administrative headquarters address in London</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>Formal accreditation and external quality-assurance affiliations</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>A public roll a stranger can search &mdash; verification is built and open, and the records of the awards already conferred are still being entered against it (see <a href="/governance/#verification">Verification</a>)</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-ring"/></svg><span>Completion of the full lesson content within each module &mdash; all sixty modules are live; the lessons inside them are still being written (see <a href="/academics/#curriculum-status">Curriculum status</a>)</span></li>
+          </ul>
+          <p class="register__note">Each of these is published here before it is settled, and moves column only when it is. The mark on this side is an open ring rather than a tick, because a tick against unfinished work is the smallest possible lie and the easiest one to tell by accident.</p>
+        </div>
       </div>
-      <div class="card">
-        <h3>In progress — to be published here as confirmed</h3>
-        <ul class="check-list">
-          <li>Registered administrative headquarters address in London</li>
-          <li>Formal accreditation and external quality-assurance affiliations</li>
-          <li>Academic calendar and first-cohort start date</li>
-          <li>Completion of the full lesson content within each module — all sixty modules are live; the lessons inside them are still being written (see <a href="/academics/#curriculum-status">Curriculum status</a>)</li>
-        </ul>
+
+      <div class="callout" style="margin-top:2.2em">
+        <span class="callout__label">The Commitment</span>
+        <p>The College states what is unfinished rather than presenting an incomplete claim as a settled fact. Every section of this site is written under that rule.</p>
       </div>
-    </div>
-    <div class="callout">
-      <span class="callout__label">Our Commitment</span>
-      <p>We would rather tell you plainly what isn't finished yet than dress up an incomplete claim as a settled fact. Every section on this site follows that rule — including this one.</p>
     </div>
   </div>
 </section>
 
-<section class="section--light section-pad" id="vision" data-contents="Vision">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Vision</span>
+<!-- ==================================================================
+     III · THE VISION
+     ---------------------------------------------------------------
+     CONSOLIDATED. This leaf carries what used to be two sections:
+     "The destination." (the vision statement) and "An ambition, stated
+     as an ambition." (the qualification of it), which sat three
+     thousand pixels apart and restated each other. Both are here in
+     full, in the order that makes the argument once.
+     ================================================================== -->
+<section class="leaf section--oxford grain aurora" id="vision" data-contents="Vision">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/astrolabe.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">III</span>
+      <span class="leaf__label">Vision</span>
+      <p class="leaf__rubric">A destination, published as a destination and not as a description.</p>
+    </div>
+    <div class="leaf__body reveal">
       <h2>An ambition, stated as an ambition.</h2>
-      <p class="lede">That sentence is a destination, not a description. WEC-LC is a new
-        institution: it holds no accreditation, has conferred no award, and has taught no
-        cohort. Publishing a vision does not change any of that, and this page does not pretend
-        otherwise.</p>
-    </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">Recognised</span>
-        <h3>Recognition has to be earned from outside</h3>
-        <p>Recognition means external bodies attesting to quality &mdash; accreditation, external examining, professional endorsement. None of it can be self-awarded, and none of it has been obtained. The College is building the evidence such bodies ask for rather than describing itself as though they had already asked.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Excellent</span>
-        <h3>Excellence is a standard, not a claim</h3>
-        <p>What can be shown today is the standard the work is held to: a mapped curriculum, published rubrics, assessments written before the teaching they test, and a policy of recording what is missing. That is measurable now; graduate success is not.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Honest</span>
-        <h3>The vision includes how it is pursued</h3>
-        <p>An institution that overstates itself while becoming excellent is not becoming excellent. The refusal to publish unearned claims is part of the vision, not a constraint on it.</p>
+
+      <blockquote class="pull-quote">To become one of the world&rsquo;s leading English language institutions, recognised for excellence in English language education, innovation, academic integrity, and graduate success.</blockquote>
+
+      <p class="lede">That sentence is a destination, not a description. {{S:COHORTS_TAUGHT}} {{S:CONFERRED}} And WEC-LC holds no accreditation, has appointed no External Examiner, and has had no outside body confirm that its levels sit where it says they sit. A reader deciding whether to spend a year here is owed both halves of that, so both are here.</p>
+
+      <div class="tenets">
+        <div class="tenet reveal">
+          <span class="tenet__num foil">i</span>
+          <div>
+            <h3>Recognition has to be earned from outside</h3>
+            <p>Recognition means external bodies attesting to quality &mdash; accreditation, external examining, professional endorsement. None of it can be self-awarded, and none of it has been obtained. The College is building the evidence such bodies ask for rather than describing itself as though they had already asked.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">ii</span>
+          <div>
+            <h3>Excellence is a standard, not a claim</h3>
+            <p>What can be shown today is the standard the work is held to: a mapped curriculum, published rubrics, assessments written before the teaching they test, and a policy of recording what is missing. Three cohorts have been taught against it and awards conferred under it. What cannot be shown is a graduate success record &mdash; the first holders are too recent for their careers to have said anything yet, and the College will not report an outcome before there is one.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">iii</span>
+          <div>
+            <h3>The vision includes how it is pursued</h3>
+            <p>An institution that overstates itself while becoming excellent is not becoming excellent. The refusal to publish unearned claims is part of the vision, not a constraint on it.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">What This Means In Practice</span>
-      <h2>Three commitments that follow from it.</h2>
+<!-- ==================================================================
+     IV · THE MISSION
+     ---------------------------------------------------------------
+     CONSOLIDATED. A five-item checklist and five cards restating the
+     same five items are now five clauses, each carrying the sentence
+     the card carried.
+     ================================================================== -->
+<section class="leaf section--light grain" id="mission" data-contents="Mission">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/curriculum-spiral.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">IV</span>
+      <span class="leaf__label">Mission</span>
+      <p class="leaf__rubric">Five undertakings, each with the mechanism that delivers it.</p>
     </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">One</span>
-        <h3>Publish the standard before the result</h3>
-        <p>Rubrics, pass criteria and learning outcomes are published to learners before assessment, not explained afterwards. A standard revealed after the fact is not a standard.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Two</span>
-        <h3>Record the gap rather than fill it</h3>
-        <p>Where the College lacks something &mdash; an external examiner, appointed board members, classroom evidence &mdash; the record says so. Every published volume states what it does not yet rest on.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Three</span>
-        <h3>Let the curriculum carry the claim</h3>
-        <p>The strongest thing WEC-LC can show a prospective student is the programme itself: six levels, sixty modules, every lesson planned and every assessment mapped. That is inspectable today.</p>
-      </div>
-    </div>
-    <div class="callout">
-      <span class="callout__label">Institutional Status</span>
-      <p>WEC-LC holds no accreditation and has appointed no External Examiner. Its Academic
-        Senate is constituted and has not yet convened; BASCE has no appointed members. The
-        College states this wherever it is relevant rather than once in a footnote &mdash; see
-        <a href="/about/#status">About &middot; Institutional Status</a>.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--light section-pad" id="mission" data-contents="Mission">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Mission</span>
+    <div class="leaf__body reveal">
       <h2>What the College undertakes to do.</h2>
-    </div>
-    <div class="grid grid--2">
-      <div class="card">
-        <span class="card__num">One</span>
-        <h3>Deliver world-class English language education</h3>
-        <p>Delivered as 6 CEFR-aligned levels, 60 modules, and 720 designed lessons &mdash; every one planned stage by stage rather than left to the room.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Two</span>
-        <h3>Develop confident, fluent and academically competent speakers</h3>
-        <p>Guided speaking is built into every lesson from the first, and the four skills are assessed separately so a learner strong in reading and weak in speaking is not described as simply "intermediate".</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Three</span>
-        <h3>Prepare learners for study, employment and professional communication</h3>
-        <p>The upper levels teach academic writing, meetings, negotiation, advocacy and research presentation &mdash; the registers that decide outcomes rather than the ones that pass a test.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Four</span>
-        <h3>Integrate modern educational technology with expert instruction</h3>
-        <p>A learning platform carrying lessons, quizzes, self-checks and progress, plus a Listening Lab that records the learner&rsquo;s own speech for pronunciation feedback. Technology serving instruction, not replacing it.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Five</span>
-        <h3>Provide accessible, high-quality English education worldwide</h3>
-        <p>Taught online from a London administrative base, with multi-currency pricing and payment routing built for learners in Africa, the Gulf, Europe and Asia rather than retrofitted for them.</p>
+      <p class="lede">Five undertakings. Each is stated with the thing that actually delivers it, because an undertaking with no mechanism attached is a sentiment.</p>
+
+      <div class="tenets">
+        <div class="tenet reveal">
+          <span class="tenet__num foil">i</span>
+          <div>
+            <h3>Teach English to a published standard, level by level, from A1 to C2</h3>
+            <p>Delivered as 6 CEFR-aligned levels, 60 modules, and 720 designed lessons &mdash; every one planned stage by stage rather than left to the room.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">ii</span>
+          <div>
+            <h3>Develop confident, fluent and academically competent speakers</h3>
+            <p>Guided speaking is built into every lesson from the first, and the four skills are assessed separately so a learner strong in reading and weak in speaking is not described as simply &ldquo;intermediate&rdquo;.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">iii</span>
+          <div>
+            <h3>Prepare learners for study, employment and professional communication</h3>
+            <p>The upper levels teach academic writing, meetings, negotiation, advocacy and research presentation &mdash; the registers that decide outcomes rather than the ones that pass a test.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">iv</span>
+          <div>
+            <h3>Build the instrument the programme needs</h3>
+            <p>A learning platform carrying lessons, quizzes, self-checks and progress, plus a Listening Lab that records the learner&rsquo;s own speech for pronunciation feedback. Technology serving instruction, not replacing it &mdash; and built for this programme rather than licensed from one built for something else.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">v</span>
+          <div>
+            <h3>Reach learners worldwide on the same terms</h3>
+            <p>Taught online from a London administrative base, with multi-currency pricing and payment routing built for learners in Africa, the Gulf, Europe and Asia rather than retrofitted for them.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Core Values</span>
-      <h2>What we hold ourselves to.</h2>
-      <p class="lede">Eight values. They are ordinary words, and what makes them meaningful is
-        whether an institution can be shown to act on them when it costs something.</p>
+<!-- ==================================================================
+     V · CORE VALUES
+     ================================================================== -->
+<section class="leaf section--oxford grain aurora" id="values" data-contents="Core Values">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/laurel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">V</span>
+      <span class="leaf__label">Core Values</span>
+      <p class="leaf__rubric">Eight ordinary words. What matters is what each costs.</p>
     </div>
-    <div class="grid grid--4">
-      <div class="card card--dark"><h3>Academic Excellence</h3></div>
-      <div class="card card--dark"><h3>Integrity</h3></div>
-      <div class="card card--dark"><h3>Innovation</h3></div>
-      <div class="card card--dark"><h3>Professionalism</h3></div>
-      <div class="card card--dark"><h3>Inclusiveness</h3></div>
-      <div class="card card--dark"><h3>Lifelong Learning</h3></div>
-      <div class="card card--dark"><h3>Global Citizenship</h3></div>
-      <div class="card card--dark"><h3>Student-Centred Education</h3></div>
+    <div class="leaf__body reveal">
+      <h2>What the College holds itself to.</h2>
+      <p class="lede">Eight values. They are ordinary words, and what makes them meaningful is whether an institution can be shown to act on them when it costs something. Each is published here with the cost attached.</p>
+
+      <div class="creed">
+        <div class="creed__item reveal edge-lit aurum">
+          <span class="creed__mark tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
+          <h3>Academic Excellence</h3>
+          <p>The standard is written before the teaching that meets it, and published before the assessment that tests it.</p>
+        </div>
+        <div class="creed__item reveal edge-lit aurum">
+          <span class="creed__mark tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <h3>Integrity</h3>
+          <p>What is unfinished is named as unfinished, on the page where a reader would otherwise assume otherwise.</p>
+        </div>
+        <div class="creed__item reveal edge-lit aurum">
+          <span class="creed__mark tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></span>
+          <h3>Innovation</h3>
+          <p>An instrument built for this programme rather than a licensed player with a crest applied to it.</p>
+        </div>
+        <div class="creed__item reveal edge-lit aurum">
+          <span class="creed__mark tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-nib"/></svg></span>
+          <h3>Professionalism</h3>
+          <p>Every lesson carries timings, prerequisites and objectives, so a learner is taught the same way by two different people.</p>
+        </div>
+        <div class="creed__item reveal edge-lit aurum">
+          <span class="creed__mark tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
+          <h3>Inclusiveness</h3>
+          <p>One standard and one price list, published in the learner&rsquo;s own currency wherever they are.</p>
+        </div>
+        <div class="creed__item reveal edge-lit aurum">
+          <span class="creed__mark tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <h3>Lifelong Learning</h3>
+          <p>Workload is published in hours rather than months, because how long the pathway takes belongs to the learner.</p>
+        </div>
+        <div class="creed__item reveal edge-lit aurum">
+          <span class="creed__mark tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
+          <h3>Global Citizenship</h3>
+          <p>English taught as the language people negotiate, study and are heard in &mdash; not as a subject that ends at the exam.</p>
+        </div>
+        <div class="creed__item reveal edge-lit aurum">
+          <span class="creed__mark tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+          <h3>Student-Centred Education</h3>
+          <p>The record belongs to the learner, accumulates as it is written, and is theirs to share or withhold.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Integrity, Specifically</span>
+<!-- ==================================================================
+     INTEGRITY, SPECIFICALLY  ·  no id, so no rail entry
+     ================================================================== -->
+<section class="leaf section--paper grain">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">&sect;</span>
+      <span class="leaf__label">Integrity, Specifically</span>
+      <p class="leaf__rubric">Three occasions the value above cost the College something.</p>
+    </div>
+    <div class="leaf__body reveal">
       <h2>The value that costs something.</h2>
-      <p class="lede">Integrity is the easiest value to list and the hardest to demonstrate. At
-        WEC-LC it has a concrete meaning, and it has repeatedly cost the College the right to
-        say flattering things.</p>
-    </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">No invented staff</span>
-        <h3>Eighteen names that will never be published</h3>
-        <p>A realistic staff chart exists for designing the administration screens against. Every name on it is fictional, and an automated check fails the build if any of them reaches a page the public can load.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">No invented approval</span>
-        <h3>Interim means interim</h3>
-        <p>The Level I learning outcomes and every competency mapping are recorded as interim, not approved, because the board that would approve them has 0 appointed members. The pages say interim.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">No invented evidence</span>
-        <h3>Books that state what they do not rest on</h3>
-        <p>The Teacher&rsquo;s Companion marks every one of its 245 panels with where it came from, and states in its front matter that it contains no classroom observation, because the College has taught nobody.</p>
+      <p class="lede">Integrity is the easiest value to list and the hardest to demonstrate. At WEC-LC it has a concrete meaning, and it has repeatedly cost the College the right to say flattering things.</p>
+
+      <div class="tenets">
+        <div class="tenet reveal">
+          <span class="tenet__num foil">i</span>
+          <div>
+            <h3>Eighteen names that will never be published</h3>
+            <p>A realistic staff chart exists for designing the administration screens against. Every name on it is fictional, and an automated check fails the build if any of them reaches a page the public can load.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">ii</span>
+          <div>
+            <h3>Interim means interim</h3>
+            <p>The Level I learning outcomes and every competency mapping are recorded as interim, not approved, because the board that would approve them has 0 appointed members. The pages say interim.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">iii</span>
+          <div>
+            <h3>Books that state what they do not rest on</h3>
+            <p>The Teacher&rsquo;s Companion marks every one of its 245 panels with where it came from, and states in its front matter that it contains no classroom observation, because no lesson at this College has ever been formally observed.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section--light section-pad" id="philosophy" data-contents="Educational Philosophy">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Five Positions</span>
-      <h2>The beliefs that shape every lesson.</h2>
+<!-- ==================================================================
+     VI · EDUCATIONAL PHILOSOPHY
+     ================================================================== -->
+<section class="leaf section--light grain" id="philosophy" data-contents="Educational Philosophy">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VI</span>
+      <span class="leaf__label">Educational Philosophy</span>
+      <p class="leaf__rubric">Five positions, and what each one does to a lesson.</p>
     </div>
-    <div class="grid grid--2">
-      <div class="card">
-        <span class="card__num">One</span>
-        <h3>Speaking comes before readiness</h3>
-        <p>Learners are asked to speak from the first lesson, before their grammar can support it. Waiting until you are accurate enough to speak is how people study a language for years and cannot use it. Accuracy is built through use, not before it.</p>
+    <div class="leaf__body reveal">
+      <h2>The positions every lesson is built on.</h2>
+
+      <div class="tenets">
+        <div class="tenet reveal">
+          <span class="tenet__num foil">i</span>
+          <div>
+            <h3>Speaking comes before readiness</h3>
+            <p>Learners are asked to speak from the first lesson, before their grammar can support it. Waiting until you are accurate enough to speak is how people study a language for years and cannot use it. Accuracy is built through use, not before it.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">ii</span>
+          <div>
+            <h3>A curriculum is a promise, not a suggestion</h3>
+            <p>Every lesson states its objectives, its prerequisites and the timing of each stage, and every instructor teaches to it. This is not distrust of teachers; it is what lets a learner change class, pause and return, or be taught by two people, without losing their place.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">iii</span>
+          <div>
+            <h3>Assessment criteria belong to the learner</h3>
+            <p>Rubrics and pass criteria are published before the assessment. A learner who does not know what is being judged is being tested on guessing the examiner, and the least advantaged learners guess worst.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">iv</span>
+          <div>
+            <h3>Four skills, four measurements</h3>
+            <p>Listening, reading, speaking and writing are recorded separately. A single overall grade averages away exactly the information a learner needs &mdash; which skill is holding them back.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">v</span>
+          <div>
+            <h3>Error is data, not failure</h3>
+            <p>Each lesson carries a self-check built around the mistakes learners at that level actually make, so a learner meets their own error privately before an examiner meets it. The traps are deliberate.</p>
+          </div>
+        </div>
       </div>
-      <div class="card">
-        <span class="card__num">Two</span>
-        <h3>A curriculum is a promise, not a suggestion</h3>
-        <p>Every lesson states its objectives, its prerequisites and the timing of each stage, and every instructor teaches to it. This is not distrust of teachers; it is what lets a learner change class, pause and return, or be taught by two people, without losing their place.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Three</span>
-        <h3>Assessment criteria belong to the learner</h3>
-        <p>Rubrics and pass criteria are published before the assessment. A learner who does not know what is being judged is being tested on guessing the examiner, and the least advantaged learners guess worst.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Four</span>
-        <h3>Four skills, four measurements</h3>
-        <p>Listening, reading, speaking and writing are recorded separately. A single overall grade averages away exactly the information a learner needs &mdash; which skill is holding them back.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Five</span>
-        <h3>Error is data, not failure</h3>
-        <p>Each lesson carries a self-check built around the mistakes learners at that level actually make, so a learner meets their own error privately before an examiner meets it. The traps are deliberate.</p>
+
+      <h3 style="margin-top:2.6em">How a position becomes practice</h3>
+      <div class="grid grid--3">
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
+        <span class="card__num">In the lesson</span>
+          <h3>A plan with timings</h3>
+          <p>Warm-up, presentation, guided practice, independent practice, listening, reading, writing, pronunciation, homework &mdash; each with stated minutes, so the speaking stage is not the one that gets cut when time runs short.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg></span>
+        <span class="card__num">In the room</span>
+          <h3>A teacher who knows what fails</h3>
+          <p>Instructors work from a Companion that names, for each lesson, what commonly goes wrong, a second way to explain it, and what to do for the learner who is behind and the one who finished early.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+        <span class="card__num">After the lesson</span>
+          <h3>Evidence that accumulates</h3>
+          <p>Quiz and assignment results, time on task and pronunciation attempts build a record the learner owns and can show &mdash; not a certificate asserting a level, but evidence of what was done.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Competency Framework</span>
+<!-- ==================================================================
+     VII · THE COMPETENCY FRAMEWORK
+     ================================================================== -->
+<section class="leaf section--paper grain" id="competencies" data-contents="Competencies">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/publication-funnel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VII</span>
+      <span class="leaf__label">Competencies</span>
+      <p class="leaf__rubric">Six competencies, defined and mapped &mdash; and recorded as interim.</p>
+    </div>
+    <div class="leaf__body reveal">
       <h2>Beyond proficiency: what fluency is for.</h2>
       <p class="lede">IEFC is an advanced academic qualification built on CEFR proficiency, extending it through competency verification, leadership, professional communication, critical thinking, authentic assessment, and independently verifiable digital credentials.</p>
-    </div>
-    <div class="table-scroll">
-      <table class="ledger">
-        <thead><tr><th scope="col">Competency</th><th scope="col">What it means</th></tr></thead>
-        <tbody>
-          <tr><td><b>Clarity</b></td><td>Understood the first time, by the audience actually present</td></tr>
-          <tr><td><b>Command</b></td><td>Controls the language rather than being carried by it</td></tr>
-          <tr><td><b>Judgement</b></td><td>Chooses register, channel and moment; knows what not to say</td></tr>
-          <tr><td><b>Reason</b></td><td>Constructs an argument, tests it, concedes what should be conceded</td></tr>
-          <tr><td><b>Bearing</b></td><td>Holds a room, a call, a difficult conversation</td></tr>
-          <tr><td><b>Reach</b></td><td>Communicates across cultures, and across the distance between expert and layperson</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="callout">
-      <span class="callout__label">The status of this framework</span>
-      <p>The competencies are defined and every Level I assessment is mapped to them. Those
-        mappings are recorded as <b>interim</b>, approved under authority delegated to the
-        Press, because the Board that would ratify them has not been constituted. They are used
-        and they are not yet ratified, and the difference is recorded in the database rather
-        than smoothed over.</p>
-    </div>
-  </div>
-</section>
 
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">What Follows</span>
-      <h2>How belief becomes practice.</h2>
-    </div>
-    <div class="grid grid--3">
-      <div class="card card--dark">
-        <span class="card__num">In the lesson</span>
-        <h3>A plan with timings</h3>
-        <p>Warm-up, presentation, guided practice, independent practice, listening, reading, writing, pronunciation, homework &mdash; each with stated minutes, so the speaking stage is not the one that gets cut when time runs short.</p>
+      <div class="table-scroll ledger-mount edge-lit">
+        <table class="ledger">
+          <thead><tr><th scope="col">Competency</th><th scope="col">What it means</th></tr></thead>
+          <tbody>
+            <tr><td><b>Clarity</b></td><td>Understood the first time, by the audience actually present</td></tr>
+            <tr><td><b>Command</b></td><td>Controls the language rather than being carried by it</td></tr>
+            <tr><td><b>Judgement</b></td><td>Chooses register, channel and moment; knows what not to say</td></tr>
+            <tr><td><b>Reason</b></td><td>Constructs an argument, tests it, concedes what should be conceded</td></tr>
+            <tr><td><b>Bearing</b></td><td>Holds a room, a call, a difficult conversation</td></tr>
+            <tr><td><b>Reach</b></td><td>Communicates across cultures, and across the distance between expert and layperson</td></tr>
+          </tbody>
+        </table>
       </div>
-      <div class="card card--dark">
-        <span class="card__num">In the room</span>
-        <h3>A teacher who knows what fails</h3>
-        <p>Instructors work from a Companion that names, for each lesson, what commonly goes wrong, a second way to explain it, and what to do for the learner who is behind and the one who finished early.</p>
-      </div>
-      <div class="card card--dark">
-        <span class="card__num">After the lesson</span>
-        <h3>Evidence that accumulates</h3>
-        <p>Quiz and assignment results, time on task and pronunciation attempts build a record the learner owns and can show &mdash; not a certificate asserting a level, but evidence of what was done.</p>
+
+      <div class="callout">
+        <span class="callout__label">The status of this framework</span>
+        <p>The competencies are defined and every Level&nbsp;I assessment is mapped to them. Those mappings are recorded as <b>interim</b> and approved under authority delegated to the Press: ratification belongs to the Board of Academic Standards and Curriculum Excellence, which has no appointed members. Interim and ratified are held as different states in the record, so a mapping in use is never mistaken for a mapping approved.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section--light section-pad" id="structure" data-contents="How It Is Organised">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Three Functions</span>
+<!-- ==================================================================
+     VIII · HOW IT IS ORGANISED
+     ================================================================== -->
+<section class="leaf section--light grain" id="structure" data-contents="How It Is Organised">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VIII</span>
+      <span class="leaf__label">How It Is Organised</span>
+      <p class="leaf__rubric">Three functions, and three separations that hold them apart.</p>
+    </div>
+    <div class="leaf__body reveal">
       <h2>Academic, administrative, publishing.</h2>
-    </div>
-    <div class="grid grid--3">
-      <div class="card">
+
+      <div class="grid grid--3">
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
         <span class="card__num">Academic</span>
-        <h3>Teaching and standards</h3>
-        <p>Academic staff and tutors deliver the programme; the two academic bodies &mdash; BASCE and SENATE &mdash; hold standards and the competency framework. The roster is published on the Faculty page.</p>
-      </div>
-      <div class="card">
+          <h3>Teaching and standards</h3>
+          <p>Academic staff and tutors deliver the programme; the two academic bodies &mdash; BASCE and SENATE &mdash; hold standards and the competency framework. The roster is published on the Faculty page.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
         <span class="card__num">Administrative</span>
-        <h3>Admissions, records, finance</h3>
-        <p>Admissions, student records, assessment administration and finance. At the College&rsquo;s current size these are designed to be held by few people rather than many, and the platform&rsquo;s access levels reflect that.</p>
-      </div>
-      <div class="card">
+          <h3>Admissions, records, finance</h3>
+          <p>Admissions, student records, assessment administration and finance. At the College&rsquo;s current size these are held by few people rather than many, and the platform&rsquo;s access levels enforce it.</p>
+        </div>
+        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
         <span class="card__num">Publishing</span>
-        <h3>WEC Press</h3>
-        <p>The College&rsquo;s imprint publishes the curriculum, assessment and teaching volumes. It has no separate legal personality and no staff of its own, and every volume says so.</p>
+          <h3>WEC Press</h3>
+          <p>The College&rsquo;s imprint publishes the curriculum, assessment and teaching volumes. It has no separate legal personality and no staff of its own, and every volume says so.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:2.6em">Three separations that are not negotiable</h3>
+      <p>These exist only to keep certain people independent of each other. They are the first thing an accreditation panel looks for, they cost nothing to preserve now, and they are expensive to unpick later.</p>
+
+      <div class="separation">
+        <div class="sep__role reveal edge-lit edge-lit--light aurum">
+          <span class="sep__disc tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+          <h3>Author</h3>
+          <p>Nobody reviews their own work. A publication reviewed by its author has not been reviewed.</p>
+        </div>
+        <span class="sep__rel" aria-hidden="true">&ne;</span>
+        <div class="sep__role reveal edge-lit edge-lit--light aurum">
+          <span class="sep__disc tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-nib"/></svg></span>
+          <h3>Academic Reviewer</h3>
+          <p>Internal, and independent of whoever wrote the volume under review.</p>
+        </div>
+        <span class="sep__rel" aria-hidden="true">&ne;</span>
+        <div class="sep__role reveal edge-lit edge-lit--light aurum">
+          <span class="sep__disc tilt gold-live"><span class="tilt__sheen" aria-hidden="true"></span><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+          <h3>External Examiner</h3>
+          <p>The examiner&rsquo;s whole function is being outside the College. It cannot be doubled with an internal role, and whoever confers an award is not whoever examined it.</p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:2.2em">
+        <span class="callout__label">What this means for staffing</span>
+        <p>The minimum credible academic staffing is two qualified people who are not each other, plus one external. Everything else at this size can legitimately be combined &mdash; records with assessment administration, finance with procurement, IT with learning technologies.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section--paper section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Separation of Duties</span>
-      <h2>Three separations that are not negotiable.</h2>
-      <p class="lede">These exist only to keep certain people independent of each other. They
-        are the first thing an accreditation panel looks for, they cost nothing to preserve now,
-        and they are expensive to unpick later.</p>
+<!-- ==================================================================
+     VACANT POSTS  ·  no id, so no rail entry
+     ================================================================== -->
+<section class="leaf section--oxford grain aurora">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">&sect;</span>
+      <span class="leaf__label">Vacant</span>
+      <p class="leaf__rubric">Four posts, and what each one currently blocks.</p>
     </div>
-    <div class="grid grid--3">
-      <div class="card">
-        <span class="card__num">First</span>
-        <h3>Author &amp;ne; Academic Reviewer</h3>
-        <p>Nobody reviews their own work. A publication reviewed by its author has not been reviewed.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Second</span>
-        <h3>Reviewer &amp;ne; External Examiner</h3>
-        <p>The examiner&rsquo;s whole function is being outside the College. It cannot be doubled with an internal role.</p>
-      </div>
-      <div class="card">
-        <span class="card__num">Third</span>
-        <h3>Conferring &amp;ne; examining</h3>
-        <p>Whoever confers an award is not whoever examined it.</p>
-      </div>
-    </div>
-    <div class="callout">
-      <span class="callout__label">What this means for staffing</span>
-      <p>The minimum credible academic staffing is two qualified people who are not each other,
-        plus one external. Everything else at this size can legitimately be combined &mdash;
-        records with assessment administration, finance with procurement, IT with learning
-        technologies.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section--dark section-pad">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Vacant</span>
+    <div class="leaf__body reveal">
       <h2>Posts the College has not filled.</h2>
+      <p class="lede">Each of these blocks something specific, and the blocked thing is named rather than left to be discovered. Two of them can be fractional or consultancy engagements &mdash; see <a href="/about/careers/">Careers</a>.</p>
+
+      <div class="vacancies">
+        <div class="vacancy reveal edge-lit aurum">
+          <h3>External Examiner</h3>
+          <p>Independent of the College by definition. No award can properly be conferred until it is filled.</p>
+          <span class="vacancy__blocks">Blocks conferral</span>
+        </div>
+        <div class="vacancy reveal edge-lit aurum">
+          <h3>Academic Reviewer</h3>
+          <p>Every published volume is authored and unreviewed by anyone who did not write it.</p>
+          <span class="vacancy__blocks">Blocks review</span>
+        </div>
+        <div class="vacancy reveal edge-lit aurum">
+          <h3>BASCE members</h3>
+          <p>The Board of Academic Standards and Curriculum Excellence stands at 0 appointed members. The Academic Senate is constituted; this one is not.</p>
+          <span class="vacancy__blocks">Blocks approval</span>
+        </div>
+        <div class="vacancy reveal edge-lit aurum">
+          <h3>A convened Senate</h3>
+          <p>The Senate has 3 members and has not met. Appointment makes approval possible; only a meeting makes it happen.</p>
+          <span class="vacancy__blocks">Blocks approval</span>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:2.2em">
+        <a href="/about/careers/" class="btn btn--gold magnetic">What the College Is Seeking<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a href="/governance/evidence/" class="btn btn--ghost magnetic">The Evidence Record</a>
+      </div>
     </div>
-    <div class="grid grid--2">
-      <div class="card card--dark">
-        <span class="card__num">External Examiner</span>
-        <h3>Blocks conferral</h3>
-        <p>Independent of the College by definition. No award can properly be conferred until it is filled.</p>
+  </div>
+</section>
+
+<!-- ==================================================================
+     THE COLOPHON
+     ================================================================== -->
+<!-- ==================================================================
+     EQUITY AND WELCOME
+     Written because the College is asked this before it is asked
+     anything else, and because a page that leaves it to be inferred
+     leaves it to be guessed wrong. The register is the same as every
+     other leaf here: state the commitment, then state the MECHANISM
+     that delivers it, because a commitment without a mechanism is a
+     mood.
+     ================================================================== -->
+<section class="leaf section--oxford grain aurora" id="welcome" data-contents="Equity &amp; Welcome">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/globe-meridian.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VIII</span>
+      <span class="leaf__label">Equity &amp; Welcome</span>
+      <p class="leaf__rubric">Who is welcome, what is protected, and the mechanism behind each &mdash; not the sentiment.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>English belongs to whoever learns it.</h2>
+      <p class="lede">English is not the property of one country, one culture or one faith. It is
+        the language in which a scholarship is applied for, a diagnosis is explained, a contract
+        is argued and a case is made &mdash; and the person who commands it is heard, while the
+        person who does not is spoken about. That is the whole reason this College exists, and
+        it is why the door is the width of the world.</p>
+
+      <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 21 / 9">
+        <div class="plate__frame tilt gold-live edge-lit aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <img src="/assets/images/plates/worldmap.jpg" alt="An engraved world map in two hemispheres, the continents outlined and lightly tinted." loading="lazy" decoding="async">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>
+          Taught online, to wherever the learner already is.
+        </figcaption>
+      </figure>
+
+      <div class="tenets">
+        <div class="tenet reveal">
+          <span class="tenet__num foil">I</span>
+          <div>
+            <h3>Muslim and Christian students, and students of no faith, are taught the same programme</h3>
+            <p>There is one curriculum, one set of assessment criteria and one standard of marking. No learner is offered a lesser version of the course on any ground, and no learner is asked what they believe to enrol &mdash; the application form does not ask, because the College does not need to know.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">II</span>
+          <div>
+            <h3>The teaching does not require anyone to argue against their own faith</h3>
+            <p>A language course teaches how to disagree, how to concede a point and how to hold a position under question. Those are transferable skills, and the College teaches them on subjects nobody has to be uncomfortable about. Where a discussion topic would put a learner in the position of arguing against their own religion, the topic is changed &mdash; not the learner.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">III</span>
+          <div>
+            <h3>Assessment is blind to everything except the English</h3>
+            <p>Rubrics are published before the work and mark the four skills apart. They contain no criterion for background, accent, nationality or belief, and an instructor may not introduce one &mdash; a mark that cannot be justified against the published rubric is not a mark, it is an opinion, and it is overturned.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">IV</span>
+          <div>
+            <h3>Where a learner needs a particular instructor, that is arranged</h3>
+            <p>A learner who would rather be taught and assessed by an instructor of the same gender may ask, and the College arranges it where staffing allows. This is treated as a scheduling matter and never as a concession: no reason has to be given, and asking is not recorded against anyone.</p>
+          </div>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet__num foil">V</span>
+          <div>
+            <h3>Nothing here is scheduled against anyone&rsquo;s obligations</h3>
+            <p>The programme is self-paced, and that is the accommodation before any other: a learner fits it around prayer, fasting, a night shift or a family. Three cohorts have studied it that way and nobody has been asked to choose between a deadline and a religious obligation, because there are no fixed deadlines to choose against. Where live sessions are introduced they will be offered at more than one hour. No live session has run, so that arrangement is untested.</p>
+          </div>
+        </div>
       </div>
-      <div class="card card--dark">
-        <span class="card__num">Academic Reviewer</span>
-        <h3>Blocks review</h3>
-        <p>Every published volume is authored and unreviewed by anyone who did not write it.</p>
-      </div>
-      <div class="card card--dark">
-        <span class="card__num">BASCE members</span>
-        <h3>Blocks approval</h3>
-        <p>The Board of Academic Standards and Curriculum Excellence stands at 0 appointed members. The Academic Senate is constituted; this one is not.</p>
-      </div>
-      <div class="card card--dark">
-        <span class="card__num">A convened Senate</span>
-        <h3>Blocks approval</h3>
-        <p>The Senate has 3 members and has not met. Appointment makes approval possible; only a meeting makes it happen.</p>
+
+      <div class="callout">
+        <span class="callout__label">What this is not</span>
+        <p>It is not a claim to have measured it. Three cohorts have studied here and the College
+          holds no equality monitoring data on any of them &mdash; it has never asked a student
+          their faith, and it is not going to start in order to produce a statistic about its own
+          fairness. So what is above is a standard, not a finding: written by the College for
+          itself, published so that a student can hold it to them, and so that anyone who finds
+          the College falling short of it can quote this page back.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="colophon section--paper">
+  <div class="container reveal">
+    <p class="masthead__rule colophon__rule wax-seal glint" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></p>
+    <p>This page is a record. Where a fact on it changes, it changes here first and on the <a href="/governance/evidence/">evidence record</a> beside it, and what is outstanding stands in the outstanding column above under an open ring.</p>
+    <dl>
+      <div><dt>Founded</dt><dd>2023</dd></div>
+      <div><dt>Commissioned</dt><dd>10 November 2024</dd></div>
+      <div><dt>Imprint</dt><dd>WEC Press</dd></div>
+    </dl>
   </div>
 </section>
 
 <section class="section--dark cta-band">
   <div class="container reveal">
-    <h2>See the programme this vision is built around.</h2>
+    <h2>A vision is worth exactly the programme underneath it.</h2>
     <div class="btn-row u-center">
-      <a href="/academics/#iefc" class="btn btn--gold">Explore the IEFC Programme</a>
+      <a href="/academics/#iefc" class="btn btn--gold magnetic aurum aurum--twin">Explore the IEFC Programme</a>
     </div>
   </div>
 </section>
-

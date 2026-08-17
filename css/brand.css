@@ -3,6 +3,29 @@
    Brand System — Royal Blue / Gold / Oxblood Red
    ========================================================= */
 
+/* THE DISPLAY FACE, SELF-HOSTED.
+   Fraunces, variable: one file carries weights 400–700 across optical
+   sizes 9–144, the italic a second. Self-hosted so no page makes a
+   request to a third party for its own identity, and so the browser
+   harness in tests/browser/ measures the exact bytes a visitor gets.
+   `font-weight` as a RANGE is load-bearing: without it the browser
+   clamps every weight to the file's default and the axis is inert.
+   The rationale for the face itself is with the tokens below. */
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/assets/fonts/fraunces-var.woff2') format('woff2-variations');
+}
+@font-face {
+  font-family: 'Fraunces';
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/assets/fonts/fraunces-italic-var.woff2') format('woff2-variations');
+}
+
 :root {
   /* =====================================================================
      THE PALETTE
@@ -181,18 +204,44 @@
   /* =====================================================================
      THE FACES
      ---------------------------------------------------------------------
-     --font-display  Bodoni Moda. A Didone: vertical stress, unbracketed
-                     serifs, and a stroke contrast steep enough that at
-                     display size the letterforms read as engraved rather
-                     than written. It replaced Playfair Display, which is
-                     a fine face and the single most-used "elegant" font
-                     on the web — a masthead that a reader has already
-                     seen on ten thousand other sites cannot carry an
-                     institution's authority no matter how well it is set.
-                     Requested VARIABLE on `opsz`; see the note in
-                     scripts/build.js for why that axis is the reason
-                     this face can serve both a 4.6rem headline and a
-                     1.05rem sub-heading.
+     --font-display  Fraunces, variable, optical size 9–144, self-hosted
+                     from /assets/fonts/ (see the @font-face block above
+                     this :root).
+
+                     THE THIRD FACE IN THIS SLOT, and the pattern of the
+                     first two rejections is the reason it is not a
+                     fourth serif of the same kind. Bodoni Moda was
+                     disliked: too much hairline, read as fashion. It
+                     was traded for EB Garamond — the opposite trade,
+                     softer, older. That was disliked too: thin, fussy,
+                     "cheap and complicated to read". Both complaints
+                     are about the same thing — STROKE WEIGHT AT READING
+                     SIZE. A Didone puts its thinness in the hairlines;
+                     an old-style Garamond puts it everywhere. Swapping
+                     between them re-trades the problem.
+
+                     Fraunces resolves it instead. A soft-serif with
+                     real flesh on the stroke at every size, and a true
+                     optical axis: at masthead scale it tightens and
+                     sharpens into something grand, at card scale it
+                     opens into something sturdy and effortless. The
+                     'SOFT' and 'WONK' axes are pinned to 0 on body —
+                     the classical cut, not the novelty one. It reads
+                     modern, simple and expensive, and it will still
+                     read that way in five years, which fashionable
+                     display faces do not.
+
+                     SELF-HOSTED, deliberately: two woff2 files, ~150KB
+                     for the whole family including italics, no request
+                     to a third party, and the render harness measures
+                     the identical file a visitor downloads.
+
+                     Weight comes DOWN with the swap: h1/h2 at 620
+                     rather than 700. Fraunces carries more ink per
+                     stroke than Garamond did, so Garamond's 700 becomes
+                     heavy-set at display size; 620 on the variable axis
+                     is the confident weight, and the difference between
+                     a headline and a heading stays marked by size.
 
      --font-ceremonial  Cinzel. Inscriptional Roman capitals, the letters
                      cut into Trajan's column and inherited by every
@@ -211,13 +260,14 @@
                      around it — not from replacing a workhorse that is
                      doing its job.
 
-     Fallbacks name real Didones (Didot, Bodoni MT) before Georgia, so a
-     machine without webfonts still gets the closest thing it owns
-     rather than jumping to a slab. 'Amiri' stays in every stack as the
+     Fallbacks: Georgia is the nearest thing most machines own to a
+     sturdy screen serif, so a visitor whose font request fails gets
+     weight rather than a spindle. 'Amiri' stays in every stack as the
      Arabic backstop — see css/arabic.css, which is what actually holds
-     the line for Arabic. */
-  --font-display:    'Bodoni Moda', 'Didot', 'Bodoni MT', Georgia, 'Amiri', serif;
-  --font-ceremonial: 'Cinzel', 'Trajan Pro', 'Bodoni Moda', Georgia, 'Amiri', serif;
+     the line for Arabic and is NOT touched by this change: the Arabic
+     programme (Cairo display, Amiri text) is settled and correct. */
+  --font-display:    'Fraunces', Georgia, 'Times New Roman', 'Amiri', serif;
+  --font-ceremonial: 'Cinzel', 'Trajan Pro', Georgia, 'Amiri', serif;
   --font-body:       'Inter', -apple-system, 'Cairo', sans-serif;
 
   --wrap: 1180px;
@@ -266,6 +316,12 @@ body {
      reason it was chosen is switched off — silently, since the page
      still renders in the right family. */
   font-optical-sizing: auto;
+  /* Fraunces carries two novelty axes and both are pinned to zero: SOFT
+     rounds the terminals toward a confection, WONK swaps in the quirky
+     alternate letterforms. The College wants the classical cut. Set
+     here because font-variation-settings inherits, and the faces that
+     lack these axes ignore the setting at no cost. */
+  font-variation-settings: 'SOFT' 0, 'WONK' 0;
   /* Never let the browser fake a WEIGHT. A synthesised bold on a Didone
      smears the hairlines along with the stems and destroys the stroke
      contrast that IS the face — and with a variable weight axis loaded
@@ -316,8 +372,8 @@ p { margin: 0 0 1em; }
    is what keeps Arabic, which this pass does not touch, genuinely
    untouched rather than untouched-by-accident.
    ========================================================= */
-[dir="ltr"] h1 { font-size: clamp(2.05rem, 1.35rem + 3.1vw, 3.5rem); line-height: 1.06; letter-spacing: -.019em; font-weight: 700; }
-[dir="ltr"] h2 { font-size: clamp(1.7rem, 1.2rem + 2.1vw, 2.6rem); line-height: 1.1; letter-spacing: -.016em; font-weight: 700; }
+[dir="ltr"] h1 { font-size: clamp(2.05rem, 1.35rem + 3.1vw, 3.5rem); line-height: 1.06; letter-spacing: -.019em; font-weight: 620; }
+[dir="ltr"] h2 { font-size: clamp(1.7rem, 1.2rem + 2.1vw, 2.6rem); line-height: 1.1; letter-spacing: -.016em; font-weight: 620; }
 [dir="ltr"] h3 { font-size: clamp(1.3rem, 1.1rem + 1vw, 1.75rem); line-height: 1.2; letter-spacing: -.01em; font-weight: 600; }
 /* H4 moves to Inter rather than a fourth shade of Playfair: a
    display-optical serif reads thin and mushy below ~20px, so the
@@ -845,8 +901,47 @@ section { position: relative; }
    transparency was never the part doing the work. */
 .nav__menu.crystal { background: #0E1B33; }
 [dir="rtl"] .nav__menu { left: auto; right: 0; transform-origin: top right; }
+/* THREE WAYS IN, NOT ONE.
+   :hover and :focus-within alone made the whole primary navigation a
+   mouse-only object — on any touch device above the 1180px breakpoint a
+   tap followed the link instead of opening the panel, and the six mega
+   menus were unreachable. `.is-open` is set by js/site.js from the
+   pointer type, which is what makes a press on a tablet mean disclose
+   and a click on a mouse mean go. See the long note at the primary
+   navigation block in that file.
+
+   :hover is kept as a selector rather than replaced by the class so the
+   desktop panel still opens with JavaScript unavailable. The touch path
+   cannot be made to work without script; the mouse path never needed
+   it and does not lose it. */
 .nav__item--has-menu:hover .nav__menu,
-.nav__item--has-menu:focus-within .nav__menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+.nav__item--has-menu:focus-within .nav__menu,
+.nav__item--has-menu.is-open .nav__menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+
+/* On a coarse pointer, hover is a lie the browser tells once per tap.
+   Suppressing the hover selector there means the panel is shown by the
+   class alone, so it cannot flash open for the length of a synthetic
+   hover and then vanish as the page navigates. */
+@media (hover: none) {
+  .nav__item--has-menu:hover .nav__menu { opacity: 0; visibility: hidden; transform: translateY(6px) scale(.98); }
+  .nav__item--has-menu.is-open .nav__menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+}
+
+/* The disclosure caret. A label that opens a panel has to look unlike a
+   label that does not — on a mouse the difference is discoverable by
+   hovering, and on touch there is nothing to hover, so it must be
+   visible at rest. It rotates when the panel is open. */
+.nav__item--has-menu > a[aria-haspopup]::before {
+  content: ''; display: inline-block; width: .42em; height: .42em;
+  margin-inline-end: .52em; vertical-align: .08em;
+  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-.06em); opacity: .5;
+  transition: transform var(--dur-med) var(--ease-premium), opacity var(--dur-med) ease;
+}
+.nav__item--has-menu:hover > a[aria-haspopup]::before,
+.nav__item--has-menu.is-open > a[aria-haspopup]::before {
+  transform: rotate(225deg) translateY(-.06em); opacity: .95;
+}
 .nav__menu a { display: block; padding: 10px 12px; border-radius: 4px; color: var(--ink); font-size: .86rem; font-weight: 600; transition: background var(--dur-fast) ease, color var(--dur-fast) ease, padding-left var(--dur-fast) var(--ease-premium); }
 .nav__menu a:hover { background: var(--ivory); color: var(--red); padding-left: 16px; }
 [dir="rtl"] .nav__menu a:hover { padding-left: 12px; padding-right: 16px; }
@@ -1294,23 +1389,142 @@ section { position: relative; }
 @media (max-width: 900px) { .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 620px) { .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; } }
 
+/* A CARD IN A GRID STRETCHES TO ITS TALLEST SIBLING, and with the
+   content top-aligned that left up to 39px of measured void at the
+   foot of every short card — the "blank space" that made the
+   Academics page read as unfinished. Two changes fix it and neither
+   is a hack: the card becomes a flex column so the space is
+   distributable, and the space that remains is CLAIMED by a struck
+   baseline rule pushed to the foot with margin-top:auto. A short card
+   now ends on a deliberate flourish at the same height as its
+   neighbours instead of on nothing. */
+/* NEITHER PSEUDO-ELEMENT BELONGS TO THE CARD, and that is the whole
+   architecture of this block.
+   ---------------------------------------------------------------------
+   A card is the surface that most often wears .aurum (the travelling
+   gold point, which claims ::after) and .edge-lit (the lit rim, which
+   claims ::before) — CLAUDE.md §2 states the division and forbids
+   taking either from a shape wearing those classes.
+
+   The card was breaking that rule twice over, silently:
+
+     · ::before was the gold hairline that draws across the top on
+       hover. Every card wearing .edge-lit lost it.
+     · ::after was claimed THREE times in this one file — a foot rule
+       here, and a masked lit rim four hundred lines below under THE
+       MATERIAL, EXTENDED. The later rule won, so the foot rule never
+       painted on a single card on the site; and on any card wearing
+       .aurum, the travelling light won and the rim went too.
+
+   Nothing announced any of it. The rules were all present in the
+   stylesheet and two of the three were dead.
+
+   So both card effects are painted as BACKGROUND LAYERS on the card's
+   own box, where nothing can claim them:
+
+     layer 1 — the top hairline, sized 0 wide at rest and 100% on
+               hover, which transitions as smoothly as the scaleX it
+               replaces.
+     layer 2 — the foot rule, held 22px off the bottom edge and inset
+               to the card's own padding, so a plate is closed at the
+               foot whatever its content height.
+
+   background-color carries the ground, because `background` shorthand
+   would reset the layers. */
 .card {
-  background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-md);
-  padding: 32px; position: relative; overflow: hidden;
+  --card-pad: 32px;
+  --card-rule: rgba(199, 162, 74, .55);
+  --card-rule-mid: rgba(199, 162, 74, .16);
+
+  background-color: var(--paper);
+  /* Four ornaments, four painted layers, in paint order:
+       1 · the gold hairline across the head, 0 wide at rest
+       2 · the closing rule at the foot, inset to the card's padding
+       3 · the corner bracket, upright
+       4 · the corner bracket, level
+     Every one of them used to be a pseudo-element and every one of
+     them collided with another. Painted layers cannot collide: they
+     compose. */
+  background-image:
+    linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%),
+    linear-gradient(90deg, var(--card-rule) 0%, var(--card-rule-mid) 38%, transparent 72%),
+    linear-gradient(var(--line), var(--line)),
+    linear-gradient(var(--line), var(--line));
+  background-repeat: no-repeat;
+  background-position:
+    left top,
+    var(--card-pad) calc(100% - 22px),
+    right 12px bottom 12px,
+    right 12px bottom 12px;
+  background-size:
+    0 3px,
+    calc(100% - var(--card-pad) * 2) 1px,
+    1px 0,
+    0 1px;
+  border: 1px solid var(--line); border-radius: var(--r-md);
+  padding: var(--card-pad); position: relative; overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: transform var(--dur-med) var(--ease-premium), box-shadow var(--dur-med) var(--ease-premium), border-color var(--dur-med) ease;
+  display: flex; flex-direction: column;
+  transition: transform var(--dur-med) var(--ease-premium),
+              box-shadow var(--dur-med) var(--ease-premium),
+              background-size var(--dur-med) var(--ease-premium),
+              border-color var(--dur-med) ease;
 }
-/* A hairline gold rule that draws in from the left on hover — the
-   card equivalent of the button's shine sweep, at a scale appropriate
-   to a resting surface rather than a call to action. */
-.card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--gold-gradient); transform: scaleX(0); transform-origin: left;
-  transition: transform var(--dur-med) var(--ease-premium);
+.card > p:last-of-type { margin-bottom: 0; }
+
+/* ---------------------------------------------------------------------
+   NO CARD IN A ROW POOLS ITS SLACK AT THE FOOT
+   ---------------------------------------------------------------------
+   A grid row stretches every card to the tallest one, and the shorter
+   cards spent the difference as a void under the last line — 176px of
+   it on /students/awards/, which CLAUDE.md §1 forbids outright and
+   which no amount of copy-editing fixes: three prose cards balanced at
+   1440 are unbalanced at 900, and balancing them there unbalances 1440.
+   Four rounds of trimming and padding sentences proved that, and each
+   round changed the writing to serve the layout, which is backwards.
+
+   The card is already a flex column, so the slack can simply be shared
+   out between the dome, the eyebrow, the heading and the paragraph
+   instead of pooled beneath them. Diffused, it reads as a card with
+   air in it. Pooled, it reads as a card that lost its last paragraph.
+
+   Scoped to `.grid` because that is where the stretch comes from —
+   a card standing on its own is sized by its own content and has no
+   slack to distribute.
+   --------------------------------------------------------------------- */
+.grid .card { justify-content: space-between; }
+.card:hover {
+  background-size:
+    100% 3px,
+    calc(100% - var(--card-pad) * 2) 1px,
+    1px 16px,
+    16px 1px;
+}
+/* Mirrored: the hairline draws from the trailing edge, the closing rule
+   falls away in the direction the eye is travelling, and the bracket
+   marks the corner the reader finishes at. */
+[dir="rtl"] .card {
+  background-image:
+    linear-gradient(225deg, var(--gold) 0%, var(--gold-bright) 100%),
+    linear-gradient(-90deg, var(--card-rule) 0%, var(--card-rule-mid) 38%, transparent 72%),
+    linear-gradient(var(--line), var(--line)),
+    linear-gradient(var(--line), var(--line));
+  background-position:
+    right top,
+    right var(--card-pad) bottom 22px,
+    left 12px bottom 12px,
+    left 12px bottom 12px;
+}
+.card--dark {
+  --card-rule: rgba(242, 227, 192, .5);
+  --card-rule-mid: rgba(199, 162, 74, .14);
 }
 .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(199,162,74,.55); }
 .card:hover::before { transform: scaleX(1); }
-.card--dark { background: rgba(255,255,255,.04); border-color: var(--line-dark); }
+/* background-COLOR, not the shorthand: `background` would reset the two
+   painted layers the card sets above and take the top hairline and the
+   foot rule off every dark card on the site. */
+.card--dark { background-color: rgba(255,255,255,.04); border-color: var(--line-dark); }
 .card--dark:hover { border-color: var(--line-dark); }
 .card h3 { font-size: 1.1rem; }
 .card__num { font-family: var(--font-display); font-size: .82rem; color: var(--gold); font-weight: 700; margin-bottom: 10px; display: block; }
@@ -1336,9 +1550,57 @@ section { position: relative; }
     0 0 0 1px rgba(199,162,74,.38);
   transition: transform var(--dur-med) var(--ease-premium), box-shadow var(--dur-med) var(--ease-premium);
 }
-.badge-dome .icon { width: 24px; height: 24px; filter: drop-shadow(0 1px 1px rgba(20,20,10,.14)); }
-.badge-dome--sm { width: 44px; height: 44px; border-radius: var(--r-sm); margin-bottom: 12px; }
-.badge-dome--sm .icon { width: 20px; height: 20px; }
+.badge-dome .icon { width: 30px; height: 30px; filter: drop-shadow(0 1px 1px rgba(20,20,10,.14)); }
+.badge-dome--sm { width: 46px; height: 46px; border-radius: var(--r-sm); margin-bottom: 12px; }
+.badge-dome--sm .icon { width: 22px; height: 22px; }
+
+/* THE DOME IS GLASS OVER METAL, and it needs both surfaces to read as
+   a real object rather than a tinted square.
+
+   ::before is the SPECULAR CAP — a hard-edged crescent of light in the
+   upper third, which is what a curved glossy surface does to a light
+   source and what a soft radial gradient never quite says. It is
+   clipped to the dome's own radius and does not move.
+
+   ::after is the TRAVELLING POINT — a narrow bright arc orbiting the
+   rim, masked to a 1.5px ring by the same content-box/border-box
+   exclude trick .aurum uses in atelier.css. The gold runs to near-white
+   at its centre so it reads as a diamond catching light rather than as
+   a glowing outline. Nine seconds a turn, staggered per card below, so
+   a grid of domes never pulses in unison.
+
+   The two pseudo-elements are deliberately split this way so a dome can
+   ALSO wear .aurum on its parent without either fighting the other. */
+.badge-dome { position: relative; isolation: isolate; }
+.badge-dome::before {
+  content: ''; position: absolute; z-index: 2; pointer-events: none;
+  left: 12%; right: 12%; top: 7%; height: 34%;
+  border-radius: 50% 50% 44% 44% / 68% 68% 32% 32%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .78), rgba(255, 255, 255, .06));
+  opacity: .78;
+}
+.badge-dome::after {
+  content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  border-radius: inherit; padding: 1.5px;
+  background: conic-gradient(from var(--aurum-angle, 0deg),
+    transparent 0deg, transparent 36deg,
+    rgba(212, 175, 55, .42) 50deg,
+    rgba(255, 253, 244, 1) 60deg,
+    rgba(242, 227, 192, .72) 70deg,
+    transparent 86deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: aurum-orbit var(--dome-dur, 9s) linear infinite;
+  animation-delay: var(--dome-delay, 0s);
+}
+/* Staggered so a row of domes is a procession, not a strobe. */
+.card:nth-child(2) .badge-dome::after, .audience:nth-child(2) .badge-dome::after { --dome-delay: 1.5s; }
+.card:nth-child(3) .badge-dome::after, .audience:nth-child(3) .badge-dome::after { --dome-delay: 3s; }
+.card:nth-child(4) .badge-dome::after, .audience:nth-child(4) .badge-dome::after { --dome-delay: 4.5s; }
+.card:nth-child(5) .badge-dome::after { --dome-delay: 6s; }
+.card:nth-child(6) .badge-dome::after { --dome-delay: 7.5s; }
 .card:hover .badge-dome, .audience:hover .badge-dome, .region:hover .badge-dome {
   transform: translateY(-1px);
   box-shadow:
@@ -1355,7 +1617,7 @@ section { position: relative; }
    same 6.5s cycle .case__medallion uses, so a reader who has met one
    recognises the other as the same material, just lit differently. */
 .badge-dome--lg {
-  width: 84px; height: 84px; border-radius: 28px; margin-bottom: 20px;
+  width: 106px; height: 106px; border-radius: 34px; margin-bottom: 22px;
   box-shadow:
     inset 0 3px 4px rgba(255,255,255,.92),
     inset 0 -4px 6px rgba(20,20,10,.14),
@@ -1363,7 +1625,7 @@ section { position: relative; }
     0 0 0 1.5px rgba(199,162,74,.42);
 }
 .badge-dome--lg .icon {
-  width: 36px; height: 36px; stroke-width: 1.1;
+  width: 50px; height: 50px; stroke-width: 1;
   color: var(--gold-royal); filter: drop-shadow(0 1px 1px rgba(20,20,10,.18));
   animation: badge-dome-breathe 6.5s var(--ease-premium) infinite alternate;
 }
@@ -1911,37 +2173,43 @@ ul.check-list li::before {
    ===================================================================== */
 
 /* -------------------- Display typography -------------------- */
-/* SETTING A DIDONE.
+/* SETTING THE DISPLAY SCALE.
    ---------------------------------------------------------------------
-   Bodoni Moda is not Playfair Display with better manners, and the
-   settings below are not the old ones nudged. A Didone has vertical
-   stress, unbracketed serifs and extreme stroke contrast, and each of
-   those changes how it must be set:
+   These numbers were tuned for a Didone, survived EB Garamond, and now
+   serve Fraunces — worth writing down so nobody 'corrects' them back. Each was set to solve a problem Bodoni had; Garamond either
+   has the same problem more mildly, or the value is right for an
+   unrelated reason.
 
-   1. WEIGHT. The hairlines are genuinely hair-thin, so at 600 on a dark
-      ground the face begins to shimmer and the stems bloom into them.
-      Display sizes take 500 — lighter than Playfair wanted, and the
-      right answer, because the drama in a Didone is the CONTRAST
-      between stem and hairline, not mass. Weight climbs back as the
-      size falls, which the `opsz` axis is doing in parallel.
+   1. WEIGHT. Display sizes take 500-600 and headings take 700. Under
+      Bodoni the low display weights were a rescue — hairlines shimmer
+      on a dark ground and stems bloom into them above 600. Garamond has
+      no such failure, so the same values now read as a deliberate
+      hierarchy instead: size carries the emphasis, weight only marks
+      the difference between a headline and a heading.
 
-   2. TRACKING. Playfair took -.021em at the top of the scale. That is
-      much too tight here: a Didone's serifs are flat, thin and
-      horizontal, so closing the letters up makes adjacent serifs touch
-      and the line reads as though it were underscored. Display-1 sits
-      at -.008em — closed only enough to stop a 5rem line drifting
-      apart, never enough to weld it.
+   2. TRACKING. -.008em at the top of the scale, opening as the size
+      falls. Bodoni needed the restraint because its flat horizontal
+      serifs weld together when closed up. Garamond's serifs are
+      bracketed and angled, so it tolerates more — but an old-style face
+      at 5rem still drifts apart untracked, and this is the same small
+      negative that stops it.
 
-   3. LEADING. Higher contrast makes each line read as a heavier band,
-      so the lines need more air or the block looks striped. 1.04
-      becomes 1.08 at the top of the scale.
+   3. LEADING. 1.08 at the top of the scale. Set for Bodoni because high
+      contrast makes each line read as a heavy band; kept for Garamond
+      because its long ascenders and descenders need the same air for a
+      different reason.
 
    Everything stays clamp()ed, so there is no breakpoint at which a
    headline is the wrong size, and every value moves on one continuous
-   ramp between a phone and a 1440px desktop. The top of the ramp is
-   also raised (4.6rem → 5rem): the previous ceiling was set for a face
-   with a larger x-height, and the same measured cap-height needs more
-   point size in this one. */
+   ramp between a phone and a 1440px desktop. The 5rem ceiling stays:
+   Garamond's cap-height is smaller again than Bodoni's, so if anything
+   it wants that ramp more, and checked against the rendered page it
+   sits right.
+
+   `font-optical-sizing: auto` below is live again: Fraunces carries a
+   true 9–144 opsz axis, so the 5rem display sets in the sharp large
+   cut and a card heading in the sturdy small one — the property the
+   face was chosen for. */
 .display-1 {
   font-family: var(--font-display); font-weight: 500;
   font-size: clamp(2.5rem, 1.35rem + 4.9vw, 5rem);
@@ -2321,6 +2589,13 @@ ul.check-list li::before {
   .plate--drift > .plate__frame > svg { animation: none; transform: none; }
   .wax-seal, .wax-seal.is-visible { animation: none; opacity: 1; transform: none; }
   .typeline__caret { animation: none; opacity: 1; }
+  /* The dome's travelling point stops travelling and RESTS at the
+     top-left rim, where the light in this room comes from — the
+     finished state, not a hidden one. The specular cap never moved
+     and is untouched. */
+  .badge-dome::after { animation: none; --aurum-angle: 296deg; }
+  .badge-dome--lg .icon { animation: none; transform: none; }
+  .card::after, .card, .badge-dome { transition: none; }
   .site-header, .site-header__inner, .brand__crest, .brand__campus,
   .chapter-rail__dot, .chapter-rail__label { transition: none; }
   /* js/motion.js reads this same query and, when it matches, writes the
@@ -2428,6 +2703,14 @@ ul.check-list li::before {
     rgba(199,162,74,.06) 46%, rgba(6,13,28,.55) 100%);
 }
 [dir="rtl"] .card::after { transform: scaleX(-1); }
+/* A CARD WEARING .aurum TRADES ITS RIM FOR A TRAVELLING LIGHT, because
+   both live on ::after and the travelling one is declared later. That
+   is the right trade — an orbiting point beats a static rim — but the
+   card must not come out of it flatter than it went in. The relief
+   pair restores the turned edge as light and shadow on the box itself,
+   which costs no pseudo-element and so cannot be claimed away. */
+.card.aurum { box-shadow: var(--shadow-sm), var(--relief-raised); }
+.card.aurum:hover { box-shadow: var(--shadow-md), var(--relief-raised); }
 
 /* THE LEDGER ROW lights as the eye crosses it — on every ledger on the
    site, not only the homepage's. Six rows of near-identical figures is

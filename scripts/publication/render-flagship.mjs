@@ -12,6 +12,7 @@ import { buildCurriculum } from './curriculum.mjs';
 import { build as buildInstitutional } from './canonical.mjs';
 import { paletteFor, BRAND, TYPE, C as PAL, STAGE_MARK, EMPHASIS_STAGES, ascentOrnament } from './design.mjs';
 import { publicationIdentity } from './identity.mjs';
+import { editionMark, runningFoot } from './rights.mjs';
 import { legacyBlock, ecosystem } from './legacy.mjs';
 import { frontMatter, backMatter, coverSpread, spineWidth, TRIM, BLEED } from './covers.mjs';
 import { guillocheRosette, guillocheBand, girihRosette, frame, cornerFan, fleuron, crest, EMBOSS } from './ornament.mjs';
@@ -117,6 +118,13 @@ const EDITIONS = {
       + 'available in full as a separate volume.' },
 };
 const EDITION = EDITIONS[process.env.IEFC_EDITION || 'teacher'] || EDITIONS.teacher;
+
+// The edition mark printed in the foot of every page. Keyed on the
+// edition as well as the volume, so the teacher's, student's and
+// institutional cuts of the same curriculum are separately traceable —
+// which is the point, since they are handed to different people. See
+// rights.mjs.
+const MARK = editionMark(`flagship/${process.env.IEFC_EDITION || 'teacher'}`, ID.contentDigest);
 
 
 // ---- Lesson stages ---------------------------------------------------
@@ -2038,8 +2046,7 @@ await page.pdf({
     + 'padding:0 20mm;text-align:right;letter-spacing:.12em;text-transform:uppercase;">'
     + `The International English Fluency Certificate · ${EDITION.lessons
       ? 'The Complete Curriculum' : 'Programme Architecture'}</div>`,
-  footerTemplate: '<div style="font:400 7.5pt Calibri,Arial,sans-serif;color:#6B7280;width:100%;'
-    + 'padding:0 20mm;text-align:center;"><span class="pageNumber"></span></div>',
+  footerTemplate: runningFoot(EDITION.file, { gutter: 20, size: 6.6, mark: MARK }),
   margin: { top: '17mm', bottom: '15mm', left: '20mm', right: '20mm' },
   tagged: true, outline: true,
 });

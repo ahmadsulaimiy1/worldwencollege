@@ -322,14 +322,26 @@
    is the recessed pair, so the icon reads as engraved into a counter-
    sunk medallion. Under the pointer the well fills with light and the
    disc rises to meet the reader — the only movement in the list. */
+/* 58px with a 32px glyph. It was 50px with a TWENTY-TWO pixel glyph —
+   the smallest icon on the site, on the page a visitor sees first, and
+   the single most-used icon container the homepage has. CLAUDE.md §2
+   sets the floor at 52/30 and says why: small icons read as an admin
+   panel. This is the one that made the owner say the icons were still
+   too small, and it was below the floor by a third.
+
+   It was also cut as an inset WELL — --relief-inset, a shape light
+   falls into. Every other icon container in the house is a struck dome,
+   a shape light falls ON. Raised now, with a specular cap on ::before,
+   which is free here: this element takes .tilt and .gold-live but
+   neither claims a pseudo-element. */
 .feature-list__icon {
-  width: 50px; height: 50px; display: grid; place-items: center;
+  width: 58px; height: 58px; display: grid; place-items: center;
   border: 1px solid var(--line); border-radius: 50%;
   color: var(--gold-royal); flex-shrink: 0;
-  position: relative; overflow: hidden;
+  position: relative; overflow: hidden; isolation: isolate;
   background: radial-gradient(circle at 32% 26%,
-    rgba(255,252,240,.30), rgba(199,162,74,.05) 58%, rgba(10,20,40,.06) 100%);
-  box-shadow: var(--relief-inset);
+    rgba(255,252,240,.46), rgba(199,162,74,.10) 58%, rgba(10,20,40,.08) 100%);
+  box-shadow: var(--relief-raised), 0 8px 18px -12px rgba(9, 18, 38, .55);
   transition: border-color var(--dur-med) ease, color var(--dur-med) ease,
               background var(--dur-med) var(--ease-premium),
               box-shadow var(--dur-med) var(--ease-premium),
@@ -340,7 +352,20 @@
    the icon reads as a small piece of the same engraved-metal surface
    as the plates, not a separate, flatter decoration. */
 .feature-list__icon .icon { position: relative; z-index: 1; }
-.feature-list__icon .icon { width: 22px; height: 22px; }
+.feature-list__icon .icon { width: 32px; height: 32px; }
+/* The specular cap: light lands on the upper third of a struck disc
+   and nowhere else. */
+.feature-list__icon::before {
+  content: ''; position: absolute; inset: 2px 2px 54% 2px;
+  border-radius: 50% 50% 46% 46% / 62% 62% 38% 38%;
+  background: linear-gradient(180deg, rgba(255, 253, 245, .5), rgba(255, 253, 245, 0));
+  pointer-events: none; z-index: 0;
+}
+.section--dark .feature-list__icon::before,
+.section--midnight .feature-list__icon::before,
+.section--oxford .feature-list__icon::before {
+  background: linear-gradient(180deg, rgba(255, 253, 245, .3), rgba(255, 253, 245, 0));
+}
 .section--dark .feature-list__icon, .section--midnight .feature-list__icon,
 .section--oxford .feature-list__icon {
   background: radial-gradient(circle at 32% 26%,
@@ -837,7 +862,9 @@
   max-width: 72ch; margin: clamp(34px, 3.4vw, 50px) auto 0; text-align: center;
   color: var(--gold-champagne); font-family: var(--font-display);
   font-size: clamp(1.05rem, .95rem + .5vw, 1.35rem); line-height: 1.5;
-  font-style: italic; font-optical-sizing: auto;
+  /* Roman for the same reason as .hero__stake: a centred 72ch italic
+     paragraph is a wall of ornament. The face carries the ceremony. */
+  font-weight: 460; font-optical-sizing: auto;
 }
 
 /* The chapter itself sits on a deeper ground than the hero above it,
@@ -863,36 +890,240 @@
 }
 
 /* =========================================================
-   THE PATHWAY  ·  stage marks
+   THE INTERLEAVES
    ---------------------------------------------------------
-   DELIBERATELY NOT BADGES. These name real schemes with public
-   registers — ASIC, BAC, Accreditation UK — and a pill that reads as a
-   granted mark is the one thing this table must never become. So the
-   mark carries STATUS, never an authority's identity: it is a small
-   ruled label, square-cornered like the ledger it sits in, and it is
-   never gold. Gold on this site means conferred.
+   Two unnumbered bands — The Standard, and Enrolment. They
+   are not chapters: they carry no roman numeral and no
+   data-chapter, so js/motion.js does not give them a rail
+   dot and the I–IX sequence stays intact around them.
+   Padded a little tighter than a chapter for the same
+   reason a printed interleaf is a lighter stock than the
+   text block it sits between.
    ========================================================= */
-.stage-mark {
-  display: inline-block; white-space: nowrap;
-  font-family: var(--font-body); font-weight: 700;
-  font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
-  padding: .42em .8em; border-radius: var(--r-xs);
-  color: rgba(247,244,236,.66);
-  border: 1px solid rgba(247,244,236,.2);
-  background: rgba(255,255,255,.03);
+.interleaf { padding: 96px 0; position: relative; }
+@media (max-width: 720px) { .interleaf { padding: 64px 0; } }
+.interleaf .chapter__num::after { content: none; }
+
+/* ---- The Standard ------------------------------------- */
+.standard__spread {
+  display: grid;
+  grid-template-columns: minmax(200px, 300px) 1fr;
+  gap: clamp(32px, 5vw, 76px);
+  align-items: start;
 }
-/* The one stage actually underway reads as live — teal, the platform
-   colour, which on this palette means "working" and never "awarded". */
-.stage-mark--live {
-  color: #7FC3C9; border-color: rgba(127,195,201,.42);
-  background: rgba(29,92,99,.18);
+@media (max-width: 900px) {
+  .standard__spread { grid-template-columns: 1fr; }
+  .standard__object { justify-self: center; margin-bottom: 12px; }
 }
-/* And the one that is explicitly distant recedes rather than shouts. */
-.stage-mark--future {
-  color: rgba(247,244,236,.44); border-style: dashed;
-  border-color: rgba(247,244,236,.18);
+.standard__object { position: sticky; top: calc(var(--header-h, 84px) + 40px); text-align: center; }
+@media (max-width: 900px) { .standard__object { position: static; } }
+.standard__caption {
+  margin-top: 34px;
+  display: inline-flex; align-items: center; gap: .5em;
+  font-family: var(--font-body); font-size: .68rem; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(247, 244, 236, .58);
 }
-.chapter--pathway .ledger--flagship td { vertical-align: top; }
-.chapter--pathway .ledger--flagship td:nth-child(2) {
-  color: rgba(247,244,236,.72); font-size: .9rem; max-width: 46ch;
+.standard__typed {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.1rem, .92rem + .8vw, 1.5rem);
+  color: var(--gold-champagne);
+  margin: 0 0 1.6em; min-height: 1.6em;
+}
+
+/* The contrast list. Two answers to one question, the second
+   carrying the gold — so the eye lands on what the College
+   does rather than on what everyone else does, which is the
+   opposite of how a comparison table usually reads. */
+.contrast { margin: 0 0 38px; }
+.contrast__row {
+  display: grid;
+  grid-template-columns: minmax(120px, .8fr) 1fr 1.15fr;
+  gap: 10px clamp(14px, 2.4vw, 30px);
+  align-items: start;
+  padding: 20px 0;
+  border-top: 1px solid rgba(247, 244, 236, .12);
+}
+.contrast__row:last-child { border-bottom: 1px solid rgba(247, 244, 236, .12); }
+@media (max-width: 760px) {
+  .contrast__row { grid-template-columns: 1fr; gap: 8px; }
+}
+.contrast dt {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 1.02rem; color: var(--gold-champagne);
+  margin: 0;
+}
+.contrast dd { margin: 0; font-size: .92rem; line-height: 1.6; }
+.contrast__was { color: rgba(247, 244, 236, .52); }
+.contrast__is { color: rgba(247, 244, 236, .92); }
+.contrast__tag {
+  display: block;
+  font-family: var(--font-body); font-size: .58rem; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: rgba(247, 244, 236, .38);
+  margin-bottom: .5em;
+}
+.contrast__tag--gold { color: var(--gold); }
+/* The last row is the argument the rest of the band exists to
+   set up, so it is the one that carries a rule of its own. */
+.contrast__row--pointed .contrast__is {
+  border-left: 2px solid var(--gold-royal);
+  padding-left: 16px;
+}
+[dir="rtl"] .contrast__row--pointed .contrast__is {
+  border-left: 0; border-right: 2px solid var(--gold-royal);
+  padding-left: 0; padding-right: 16px;
+}
+
+/* ---- Enrolment ---------------------------------------- */
+.procession {
+  list-style: none; margin: 48px 0 0; padding: 0;
+  display: grid; gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  counter-reset: procession;
+}
+.procession__step {
+  position: relative;
+  padding: 30px 24px 26px;
+  border: 1px solid var(--line, rgba(20, 38, 74, .14));
+  border-radius: var(--r-sm, 6px);
+  background: rgba(255, 255, 255, .5);
+}
+/* 56px, over the 52px floor, and struck rather than merely outlined —
+   this mark heads each step of the procession and was the second
+   under-sized container on this page. */
+.procession__mark {
+  position: relative; isolation: isolate;
+  display: grid; place-items: center;
+  width: 56px; height: 56px; margin-bottom: 16px;
+  border: 1px solid var(--gold-royal); border-radius: 50%;
+  color: var(--bronze);
+  background: radial-gradient(circle at 34% 28%, rgba(255, 250, 235, .8), transparent 68%);
+  box-shadow: var(--relief-raised), 0 8px 18px -12px rgba(9, 18, 38, .5);
+}
+.procession__mark::before {
+  content: ''; position: absolute; inset: 2px 2px 54% 2px;
+  border-radius: 50% 50% 46% 46% / 62% 62% 38% 38%;
+  background: linear-gradient(180deg, rgba(255, 253, 245, .55), rgba(255, 253, 245, 0));
+  pointer-events: none; z-index: 0;
+}
+.procession__mark .icon { position: relative; z-index: 1; width: 30px; height: 30px; }
+.procession__num {
+  position: absolute; top: 18px; inset-inline-end: 20px;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: .78rem; letter-spacing: .08em;
+  color: var(--bronze);
+}
+.procession__step h3 {
+  font-family: var(--font-display); font-size: 1.06rem;
+  margin: 0 0 .55em; line-height: 1.25;
+}
+.procession__step p { margin: 0; font-size: .88rem; line-height: 1.62; color: var(--ink-soft); }
+
+/* The closing typed line, sitting between the CTA heading and
+   its lede. Centred, because the whole closing band is. */
+.cta__typed {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.05rem, .9rem + .7vw, 1.4rem);
+  color: var(--gold-champagne);
+  margin: 0 auto 1em; min-height: 1.6em;
+  justify-content: center;
+}
+
+/* =========================================================
+   THE HERO STAKE
+   ---------------------------------------------------------
+   The same job css/pillar.css's .masthead__stake does, cut
+   for the flagship: one sentence naming what the READER
+   stands to lose, before a word about the institution.
+
+   The hero opened with what the College is and gave a
+   visitor no reason to keep reading. Everything it said was
+   true and none of it was a reason. This is the reason.
+   ========================================================= */
+.hero__stake {
+  max-width: 48ch;
+  margin: 0 0 1.2em;
+  font-family: var(--font-display);
+  /* Roman, not italic — and this used to be italic. A three-line
+     italic passage in a display serif is the single most "complicated
+     to read" object the site had, and it was the first thing under the
+     headline. Italic survives only where it is a quotation or a typed
+     one-line flourish; a running stake is an argument and sets roman. */
+  font-weight: 460;
+  font-size: clamp(1.14rem, 1rem + .62vw, 1.52rem);
+  line-height: 1.5;
+  color: var(--gold-champagne);
+  text-wrap: balance;
+}
+.hero__stake strong { font-style: normal; font-weight: 600; color: #fff; }
+.hero__stake::after {
+  content: '';
+  display: block; width: 62px; height: 1px;
+  margin: 1em 0 0;
+  background: linear-gradient(90deg, var(--gold-royal), transparent);
+}
+[dir="rtl"] .hero__stake::after {
+  background: linear-gradient(-90deg, var(--gold-royal), transparent);
+}
+
+/* =========================================================
+   THE COVENANT
+   ---------------------------------------------------------
+   Eight promises, each one absolute, each one something the
+   College entirely controls.
+
+   THIS IS THE ONLY PLACE ON THE SITE THAT PROMISES, and the
+   discipline is what makes it worth reading: not one line
+   here depends on accreditation, on an examiner being
+   appointed, on a cohort being taught, or on anything else
+   the College cannot deliver today. A promise that needs a
+   third party is a hope with better typography.
+
+   The eighth is the one that secures the other seven — that
+   nothing undone is described as done — and it is the reason
+   a reader has cause to believe the rest of the page.
+
+   Set as a struck plate on the deepest ground, numbered, and
+   read as a list of undertakings rather than as features.
+   ========================================================= */
+.covenant {
+  display: grid;
+  gap: 0;
+  margin-top: clamp(30px, 3.4vw, 48px);
+  border-top: 1px solid rgba(199, 162, 74, .3);
+}
+.covenant__item {
+  display: grid;
+  grid-template-columns: clamp(46px, 5vw, 64px) 1fr;
+  gap: clamp(14px, 2vw, 26px);
+  align-items: baseline;
+  padding: clamp(18px, 2.1vw, 26px) 0;
+  border-bottom: 1px solid rgba(199, 162, 74, .3);
+}
+.covenant__num {
+  font-family: var(--font-ceremonial);
+  font-weight: 600;
+  font-size: clamp(.86rem, .8rem + .28vw, 1.02rem);
+  letter-spacing: .08em;
+  color: var(--gold-royal);
+}
+.covenant__item p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.02rem, .96rem + .34vw, 1.24rem);
+  line-height: 1.56;
+  color: rgba(247, 244, 236, .94);
+  max-width: 62ch;
+}
+.covenant__item p b { color: #fff; font-weight: 600; }
+/* The last undertaking is the one the other seven rest on, so it is
+   set apart rather than merely last. */
+.covenant__item--seal {
+  border-bottom: 0;
+  margin-top: .4em;
+}
+.covenant__item--seal p { color: var(--gold-champagne); font-style: italic; }
+@media (max-width: 560px) {
+  .covenant__item { grid-template-columns: 1fr; gap: .35em; }
 }

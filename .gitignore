@@ -28,3 +28,6 @@ publication/IEFC Complete Curriculum (Student Edition) — Cover Artwork.pdf
 publication/.student.html
 publication/.cover-student.html
 publication/.institutional.html
+
+# Render-audit screenshots — an instrument's output, not source.
+.render-audit/

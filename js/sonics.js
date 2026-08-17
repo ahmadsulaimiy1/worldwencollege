@@ -103,12 +103,72 @@
   // use the same palette rather than inventing a second one.
   window.WECSonics = { play, get enabled() { return enabled; } };
 
-  /** Which voice an element answers with. First match wins. */
+  /** Which voice an element answers with. First match wins.
+   *
+   *  EVERY STRUCK SHAPE ON THE SITE ANSWERS, and the ordering below is
+   *  the whole design. The list used to name eight selectors and two
+   *  page sections, which meant a reader could tap a medallion on the
+   *  homepage and hear nothing, then tap a card on Academics and hear
+   *  something — the inconsistency read as a bug rather than as
+   *  restraint.
+   *
+   *  The voices are ranked by CEREMONY, not by element type, and the
+   *  first match wins, so a seal inside a card sounds like a seal:
+   *
+   *    chime  — the act of committing. Gold CTAs only.
+   *    seal   — conferral and identity: wax seals, struck medallions,
+   *             the honour plates, the matricula, the crest.
+   *    open   — anything that expands or reveals.
+   *    tap    — every other struck surface: cards, domes, gauges,
+   *             clauses, tenets, register columns, quicknav tiles.
+   *
+   *  A surface with no relief is deliberately silent. Body text, table
+   *  rows and plain list items get no voice, because a site where
+   *  everything makes a noise is not luxurious, it is a toy. */
+  /* TWO SELECTORS HERE MATCHED NOTHING, and had matched nothing for as
+     long as the list existed: .quiet-btn--apply and .accordion__trigger
+     are defined in no stylesheet, no partial and no script in this
+     repository. A voice list that names a class nothing wears is worse
+     than a short list — it reports coverage it does not have, which is
+     precisely the failure CLAUDE.md §3 is written against, wearing the
+     appearance of a fix. The mobile menu's real trigger is
+     .accordion__q, which is already in OPEN.
+     tests/sonics-coverage.test.mjs now fails on any selector in these
+     four lists that matches nothing in the built site, and on any major
+     struck component that is missing from them. */
+  var CHIME = '.btn--gold';
+  var SEAL  = '.wax-seal, .cta__seal, .vessel, .medallion, .honour, .honour__wreath, '
+            + '.matricula, .case__medallion, .brand__crest, .masthead__rule, .colophon__rule, '
+            /* The warrant is a ruling with a seal on it, so it takes
+               the conferral voice rather than the tap every other
+               struck surface gets. Ceremony is ranked, not uniform. */
+            + '.warrant, .article__seal, .imprint, .imprint__device';
+  var OPEN  = 'details > summary, .accordion__q, .nav__toggle, [aria-expanded]';
+  var TAP   = 'a, button, .card, .audience, .region, .case, .principle, .badge-dome, '
+            + '.quad__skill, .quad__gauge, .sep__role, .sep__disc, .creed__item, .creed__mark, '
+            + '.clause, .tenet, .register__col, .vacancy, .footergrid__tile, .quicknav__tile, '
+            /* The hero's struck eyebrow pill — it wears .aurum, so it
+               must not be the one silent object on the homepage. */
+            + '.hero__eyebrow, '
+            + '.plate__frame, .ledger--flagship tbody tr, '
+            /* The Academics pillar — css/academics.css. */
+            + '.ascent__step, .ascent__band, .horarium__band, .discipline, '
+            /* The Admissions pillar — css/admissions.css. The warrant
+               is a sealed instrument and takes SEAL, not TAP; it is in
+               the list above. */
+            + '.passage__stage, .passage__mark, .tariff__line, '
+            /* The Governance pillar — css/governance.css. The article
+               is sealed, so it takes SEAL and is in the list above. */
+            + '.docket__entry, .attest, '
+            /* The Press pillar — css/press.css. The imprint is the
+               press's own signature and takes SEAL; it is above. */
+            + '.folio, .shelf__title';
+
   function voiceFor(el) {
-    if (el.closest('.btn--gold, .quiet-btn--apply')) return 'chime';
-    if (el.closest('.wax-seal, .cta__seal, .vessel')) return 'seal';
-    if (el.closest('details > summary, .accordion__trigger, .nav__toggle, [aria-expanded]')) return 'open';
-    if (el.closest('a, button, .audience, .region, .case, .principle, .footergrid__tile, [data-section="academics"] .card, [data-section="study"] .card')) return 'tap';
+    if (el.closest(CHIME)) return 'chime';
+    if (el.closest(SEAL)) return 'seal';
+    if (el.closest(OPEN)) return 'open';
+    if (el.closest(TAP)) return 'tap';
     return null;
   }
 

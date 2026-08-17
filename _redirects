@@ -124,3 +124,28 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 /library/                           /press/#library  301
 /study/                             /academics/#levels  301
 # <<< END GENERATED
+
+# >>> GENERATED FROM scripts/build-library.mjs — DO NOT EDIT BY HAND
+#
+# The Library's citable URLs. Each one maps a stable slug onto the file
+# the publication pipeline writes, so a volume rebuilt under its own
+# name is live immediately and no PDF is duplicated into this repo.
+#
+# 200 rather than 301: the slug IS the address the College publishes and
+# prints. A redirect would make the ugly path the real one.
+#
+/library/flagship-curriculum.pdf               /publication/IEFC%20Flagship%20Curriculum.pdf  200
+/library/programme-architecture.pdf            /publication/IEFC%20Programme%20Architecture%20(Institutional%20Edition).pdf  200
+/library/assessment-handbook.pdf               /publication/IEFC%20Assessment%20Handbook.pdf  200
+/library/teachers-companion-level-1.pdf        /publication/IEFC%20Level%20I%20Teacher's%20Companion.pdf  200
+/library/pronunciation-handbook.pdf            /publication/IEFC%20Pronunciation%20Handbook.pdf  200
+/library/listening-scripts.pdf                 /publication/IEFC%20Listening%20Scripts.pdf  200
+/library/student-workbook-level-1.pdf          /publication/IEFC%20Level%20I%20Student%20Workbook.pdf  200
+/library/publishing-constitution.pdf           /publication/WEC%20Press%20%E2%80%94%20The%20Publishing%20Constitution.pdf  200
+/library/canon-index.pdf                       /publication/WEC%20Canon%20Index.pdf  200
+/library/editorial-bible.pdf                   /publication/IEFC%20Internal%20Editorial%20Bible.pdf  200
+/library/production-specifications.pdf         /publication/IEFC%20Production%20Specifications.pdf  200
+/library/cover-artwork-curriculum.pdf          /publication/IEFC%20Cover%20Artwork.pdf  200
+/library/cover-artwork-curriculum-student.pdf  /publication/IEFC%20Complete%20Curriculum%20(Student%20Edition)%20%E2%80%94%20Cover%20Artwork.pdf  200
+/library/cover-artwork-architecture.pdf        /publication/IEFC%20Programme%20Architecture%20(Institutional%20Edition)%20%E2%80%94%20Cover%20Artwork.pdf  200
+# <<< END LIBRARY

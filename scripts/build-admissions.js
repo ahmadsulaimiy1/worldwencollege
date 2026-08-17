@@ -51,6 +51,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { emitPage, reportEmit } = require('./lib/emit-page');
 const { DatabaseSync } = require('node:sqlite');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -722,7 +723,7 @@ ${qa('What does it cost?', `${FULL_PRICE} for the full six-level programme, or $
 ${qa('Can I pay in my own currency?', 'Fees are set and charged in US dollars. Your bank or card issuer converts at its own rate. The College does not publish local-currency prices because it has not fixed rates behind them, and a published price that changes without notice is not a price.')}
 ${qa('Can I pay from Nigeria?', 'Yes. Nigerian applicants are routed to Nigerian payment providers ahead of international card gateways, precisely because several international gateways do not work for Nigerian cards or merchants. If a method is not yet showing at checkout, write to Admissions and pay by transfer.')}
 ${qa('Can I get a refund?', 'There is no adopted refund policy. Requests are decided case by case by the founding team, in writing, and the decision is recorded. That is a weaker guarantee than a published policy, which is why it is stated here rather than discovered later. If certainty matters to you, pay level by level rather than in full.')}
-${qa('Are there scholarships?', 'No scheme is open, no fund is allocated and no scholarship has been awarded. The mechanism to record one exists; the policy does not. See <a href="/admissions/tuition/#funding">Scholarships</a>.')}
+${qa('Are there scholarships?', 'The Foundation Remission was adopted on 17 August 2026. It is funded by a rule rather than a figure &mdash; five per cent of every dollar of tuition the College receives &mdash; and decided on two published criteria, financial need at 60% and academic promise at 40%. A round opens with each cohort and closes fourteen days before it begins. No round has run yet and no remission has been awarded to anyone. See <a href="/admissions/tuition/#funding">The Foundation Remission</a>.')}
     </div>
   </div>
 </section>
@@ -1176,6 +1177,7 @@ const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
+const emitted = [];
 
 // Absorbed by the Admissions pillar, Tuition Fees & Funding, and the FAQ.
 for (const slug of ['admissions-apply', 'admissions-entry', 'admissions-dates',
@@ -1186,7 +1188,8 @@ for (const slug of ['admissions-apply', 'admissions-entry', 'admissions-dates',
 }
 
 for (const p of Object.values(PAGES)) {
-  fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
+  const target = path.join(ROOT, 'pages', p.file);
+  emitted.push({ file: target, result: emitPage(target, p.body) });
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: 'en', dir: 'ltr',
@@ -1198,6 +1201,12 @@ for (const p of Object.values(PAGES)) {
 }
 
 fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-console.log(`Wrote ${written.length} Admissions-cluster pages:`);
+// The manifest entry is written for every page; the PAGE BODY is written
+// only where the guard allows it. "Routed" rather than "Wrote" because
+// the two are no longer the same act — see scripts/lib/emit-page.js, and
+// read the guard's own summary below this list for what reached disk.
+console.log(`Routed ${written.length} Admissions-cluster pages through the manifest:`);
 for (const o of written) console.log(`  ${o}`);
 console.log('Run `npm run build` to generate the served pages.');
+
+reportEmit('build-admissions.js', emitted);

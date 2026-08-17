@@ -33,7 +33,7 @@ export const INK = {
   slateText: '#8FA3C4',
 };
 
-export const SERIF = "'Bodoni Moda', Georgia, serif";
+export const SERIF = "'EB Garamond', Georgia, serif";
 export const sansFor = (lang) => (lang === 'ar' ? 'Cairo, Inter, sans-serif' : 'Inter, sans-serif');
 export const isRtl = (lang) => lang === 'ar';
 

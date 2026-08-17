@@ -170,15 +170,49 @@
           mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
-  animation: aurum-orbit var(--aurum-dur, 9s) linear infinite;
+  /* STEPPED, NOT LINEAR, and the reason is measured. A registered
+     custom property driving a conic-gradient repaints a masked
+     pseudo-element on every frame, on the main thread. With the light
+     lit by default rather than on hover, twenty of these can be on
+     screen at once — the disciplines grid on /academics/ is exactly
+     that — and a linear orbit took the page from 60fps to 39.
+
+     steps(90) advances the point 4° at a time, ten times a second
+     instead of sixty. The bright arc is 12° wide, so each step moves
+     the light by a third of its own width: at this speed that reads as
+     travel, not as stutter. Same effect, roughly a sixth of the
+     repaints. */
+  animation: aurum-orbit var(--aurum-dur, 9s) steps(90) infinite;
   animation-delay: var(--aurum-delay, 0s);
 }
 @keyframes aurum-orbit { to { --aurum-angle: 360deg; } }
 
-/* The hover-only variant, which is the one used most — a grid of
-   tiles where the one under the pointer lights its own perimeter.
-   At rest the ring is not merely transparent: the animation is
-   PAUSED, so twenty of these off-screen cost the compositor nothing. */
+/* THE LIGHT TRAVELS BY DEFAULT, AND THAT IS THE CORRECTION.
+   ---------------------------------------------------------
+   `.aurum--hover` below hides the ring at opacity 0 and only reveals
+   it inside `@media (hover: hover) and (pointer: fine)`. Applied
+   broadly — as it was, to nearly every struck shape on the site — that
+   produces a site where the travelling light is invisible on every
+   phone and tablet ever made, and on a desktop appears only under the
+   pointer, one shape at a time. The owner reported not seeing it. They
+   were right, and no amount of adding more .aurum would have fixed it,
+   because the class doing the hiding was the one being added.
+
+   So the resting state of `.aurum` is now LIT AND MOVING, and the cost
+   is paid where it should be — by not animating what is off-screen.
+   js/atelier.js observes every .aurum and puts `.aurum--rest` on the
+   ones outside the viewport, which pauses the orbit without hiding it.
+
+   The default is RUNNING rather than paused, deliberately: if the
+   script never loads, or IntersectionObserver is missing, the light
+   still travels. A failsafe that fails to the invisible state is the
+   bug this block exists to correct. */
+.aurum--rest::after { animation-play-state: paused; }
+
+/* The hover-only variant is kept, and is now genuinely a variant
+   rather than the default. Use it where a grid should light ONE tile
+   under the pointer and stay quiet otherwise — a dense index, a table
+   of links. Never on a page's principal shapes. */
 .aurum--hover::after { opacity: 0; animation-play-state: paused;
   transition: opacity .5s var(--ease-premium); }
 @media (hover: hover) and (pointer: fine) {
@@ -896,6 +930,150 @@
 }
 
 /* =========================================================
+   THE MEDALLION — a struck coin, in actual three dimensions
+   ---------------------------------------------------------
+   Two faces and a rim on a preserve-3d stage. js/atelier.js
+   writes --medal-y / --medal-x; every transform lives here,
+   so the effect can be switched off from this file alone.
+
+   The reverse face is rotated 180deg and permanently
+   backface-visible:hidden on BOTH faces — that pairing is
+   what makes a coin read as one solid object rather than as
+   two cards stacked, and getting it wrong shows the obverse
+   ghosting through the reverse at shallow angles.
+   ========================================================= */
+.medallion {
+  --medal-y: 0deg;
+  --medal-x: 0deg;
+  --medal-size: 168px;
+  position: relative;
+  width: var(--medal-size);
+  height: var(--medal-size);
+  perspective: 900px;
+  flex-shrink: 0;
+  margin-inline: auto;
+}
+.medallion__stage {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--medal-y)) rotateX(var(--medal-x));
+  will-change: transform;
+}
+.medallion__face {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 2px solid var(--gold-royal);
+  background:
+    radial-gradient(circle at 32% 26%, rgba(255, 250, 235, .30), transparent 56%),
+    conic-gradient(from 210deg,
+      #8C6A3F 0deg, #F2E3C0 62deg, #D4AF37 128deg,
+      #A8863C 196deg, #F2E3C0 268deg, #8C6A3F 360deg);
+  box-shadow:
+    inset 0 0 0 6px rgba(20, 38, 74, .16),
+    inset 0 2px 14px rgba(255, 250, 235, .34),
+    0 18px 40px rgba(9, 18, 38, .42);
+  color: var(--midnight);
+}
+/* The milled rim: a ring of fine radial ticks, the way a struck
+   coin is knurled. Drawn with a repeating conic gradient rather
+   than 90 elements. */
+.medallion__face::before {
+  content: ""; position: absolute; inset: 5px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(20, 38, 74, .22) 0deg 1.1deg,
+    transparent 1.1deg 3.2deg);
+  -webkit-mask: radial-gradient(circle, transparent 0 86%, #000 87%);
+          mask: radial-gradient(circle, transparent 0 86%, #000 87%);
+  pointer-events: none;
+}
+.medallion__face--reverse { transform: rotateY(180deg); }
+.medallion__legend {
+  font-family: var(--font-ceremonial);
+  font-size: .58rem; font-weight: 600;
+  letter-spacing: .22em; text-transform: uppercase;
+  text-align: center; line-height: 1.5;
+  color: rgba(16, 32, 62, .82);
+  padding: 0 18%;
+}
+/* THE LEGEND IN ARABIC.
+   css/arabic.css already strips the tracking site-wide — on a cursive
+   script the space between letters is the join, not a gap — so the
+   only thing left wrong here is SIZE. .58rem is roughly 9px, which is
+   legible for three tracked Latin words stamped on a coin and is not
+   legible for Arabic at all: the script carries its meaning in strokes
+   that simply vanish at that size. It is set larger, unspaced, and in
+   the Arabic display face, and `uppercase` is dropped because it never
+   meant anything here in the first place. */
+[dir="rtl"] .medallion__legend {
+  /* The family is declared rather than re-pointed at a token, which is
+     the rule css/arabic.css sets out and the reason its own heading
+     override is written this way: --font-display resolves once against
+     :root, so changing the token on a descendant changes nothing. This
+     is the same stack that file gives Arabic headings. */
+  font-family: 'Cairo', 'Amiri', 'EB Garamond', serif;
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: normal;
+  text-transform: none;
+  line-height: 1.85;
+  padding: 0 14%;
+}
+
+.medallion__figure {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2.3rem; font-weight: 700; line-height: 1;
+  color: var(--midnight);
+}
+.medallion .icon { width: 2.6rem; height: 2.6rem; stroke-width: 1; }
+
+/* The shadow the coin casts on the ground beneath it. Sits
+   outside the 3D stage so it does not rotate with the faces. */
+.medallion::after {
+  content: ""; position: absolute;
+  left: 12%; right: 12%; bottom: -13%;
+  height: 14%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(9, 18, 38, .42), transparent 72%);
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+/* =========================================================
+   DEPTH — decorative layers on their own plane
+   js/atelier.js writes the transform. Nothing that carries
+   real text may take this class: fractional compositor
+   offsets soften glyph edges on some GPUs.
+   ========================================================= */
+[data-depth] { will-change: transform; }
+
+/* =========================================================
+   THE LIT LEDGER
+   A warm band under the row the pointer is on, brightest at
+   the pointer's own column (--lit-x). Replaces zebra
+   striping, which turns a ledger into a spreadsheet.
+   ========================================================= */
+.ledger--flagship tbody tr { position: relative; transition: background-color .22s ease; }
+.ledger--flagship tbody tr.is-lit {
+  background-image: radial-gradient(
+    ellipse 60% 300% at var(--lit-x, 50%) 50%,
+    rgba(199, 162, 74, .17), rgba(199, 162, 74, .05) 62%, transparent);
+}
+.section--light .ledger--flagship tbody tr.is-lit,
+.section--warm  .ledger--flagship tbody tr.is-lit,
+.section--cream .ledger--flagship tbody tr.is-lit,
+.section--pearl .ledger--flagship tbody tr.is-lit {
+  background-image: radial-gradient(
+    ellipse 60% 300% at var(--lit-x, 50%) 50%,
+    rgba(140, 106, 63, .16), rgba(140, 106, 63, .05) 62%, transparent);
+}
+
+/* =========================================================
    REDUCED MOTION
    Same contract as brand.css: every rule resolves to the
    FINISHED state. Nothing here may leave content invisible.
@@ -917,6 +1095,12 @@
   .assemble__d { opacity: 1; transform: none; transition: none; }
   .gilt { --gilt: 1; }
   .magnetic, .tilt { transform: none; transition: none; }
+  /* The coin keeps its struck three-quarter angle — a static object,
+     not a flattened one — and simply stops turning. js/atelier.js sets
+     the same angle and registers no tick. */
+  .medallion__stage { transition: none; }
+  [data-depth] { transform: none !important; }
+  .ledger--flagship tbody tr { transition: none; }
   .aura { display: none; }
   .constellation { display: none; }
   @view-transition { navigation: none; }
@@ -935,3 +1119,23 @@
   .lattice__bed::before, .lattice__bed::after, .aurora::before { animation: none; }
   .constellation { display: none; }
 }
+
+/* THE PLATE CREDIT.
+   A BY or BY-SA photograph that is cropped to --plate-ratio and toned
+   is an ADAPTATION, and both licences require the creator to be named
+   wherever the work appears — not in a file in the repository. Set
+   small and quiet, but present on the page itself, because an
+   attribution the visitor cannot see is not an attribution. */
+.plate__credit {
+  display: block;
+  margin-top: .5em;
+  font-family: var(--font-body);
+  font-size: .58rem;
+  letter-spacing: .06em;
+  color: var(--bronze);
+  opacity: .8;
+}
+.section--dark .plate__credit,
+.section--oxford .plate__credit,
+.section--midnight .plate__credit { color: var(--gold-soft); opacity: .62; }
+.plate__credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }

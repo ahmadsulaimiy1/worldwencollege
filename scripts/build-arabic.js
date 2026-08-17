@@ -50,6 +50,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { emitPage, reportEmit } = require('./lib/emit-page');
 const { DatabaseSync } = require('node:sqlite');
 const GOV = require('./lib/governance-register');
 
@@ -1370,7 +1371,7 @@ ${darkCard('المسودات تبقى محلية', 'النص غير المكتم
         مقيدة وتكرار ودعم بصري لا عبر الترجمة؛ ويُكتب التقييم قبل التدريس الذي يختبره؛ ويُقيَّم
         التحدث بالتحدث، تسجيلًا يصححه شخص لا خوارزمية؛ ويخطط كل درس للمتعلم الذي لا يتابع —
         شرح ثانٍ، والأخطاء التي يثيرها الموضع، مكتوبة سلفًا لا مرتجلة. والعمود الوحيد الفارغ في
-        سجل الدعم التعليمي هو المشاهدة الصفية: الكلية لم تدرّس أحدًا بعد، والسجل يفصل التصميم
+        سجل الدعم التعليمي هو المشاهدة الصفية: لم تُدوَّن فيه مشاهدةُ صفٍّ بعد، والسجل يفصل التصميم
         عن الدليل كي لا يقوم أحدهما مقام الآخر. التفاصيل الكاملة منشورة في
         <a href="/ar/academics/teaching/">ممارسة التدريس</a>.</p>
     </div>
@@ -2063,6 +2064,7 @@ const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
+const emitted = [];
 
 // Retired by the Governance pillar: the old Arabic governance slug and
 // the two pages absorbed into it. Pruned so a manifest that once
@@ -2090,7 +2092,8 @@ for (const p of Object.values(PAGES)) {
 }
 
 for (const p of Object.values(PAGES)) {
-  fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
+  const target = path.join(ROOT, 'pages', p.file);
+  emitted.push({ file: target, result: emitPage(target, p.body) });
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: 'ar', dir: 'rtl', altHref: p.altHref,
@@ -2111,6 +2114,12 @@ for (const p of Object.values(PAGES)) {
 }
 
 fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-console.log(`Wrote ${written.length} Arabic editions and paired them with their English pages:`);
+// The manifest entry is written for every page; the PAGE BODY is written
+// only where the guard allows it. "Routed" rather than "Wrote" because
+// the two are no longer the same act — see scripts/lib/emit-page.js, and
+// read the guard's own summary below this list for what reached disk.
+console.log(`Routed ${written.length} Arabic editions and paired them with their English pages:`);
 for (const o of written) console.log(`  ${o}`);
 console.log('Run `npm run build` to generate the served pages.');
+
+reportEmit('build-arabic.js', emitted);

@@ -242,8 +242,9 @@ export const PROCESSES = [
     process: 'An annual editorial cycle against the programme as actually taught, informed by '
       + 'the pedagogical record filled in by teaching.',
     exists: false,
-    evidence: 'Cannot run yet. The record has no observed_in_teaching entries because the '
-      + 'College has taught nobody, so there is nothing a year of teaching would feed back.' },
+    evidence: 'Cannot run yet. The record has no observed_in_teaching entries, because no '
+      + 'classroom observation has been written into it, so there is nothing for a review cycle '
+      + 'to feed back.' },
 ];
 
 // ─────────────────────────────────────────────────────────────────────

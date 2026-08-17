@@ -403,6 +403,7 @@ jobs:
           rm -rf .deploy && mkdir -p .deploy
           rsync -a --delete \
             --exclude='.deploy/' \
+            --exclude='.render-audit/' \
             --exclude='.git/' \
             --exclude='node_modules/' \
             --exclude='docs/' \
@@ -410,18 +411,39 @@ jobs:
             --exclude='sql/' \
             --exclude='scripts/' \
             --exclude='.github/' \
-            --exclude='publication/' \
+            --exclude='publication/*.docx' \
+            --exclude='publication/.*' \
+            --exclude='publication/IEFC Complete Curriculum.pdf' \
+            --exclude='publication/IEFC Complete Curriculum (Student Edition).pdf' \
+            --exclude='CLAUDE.md' \
             ./ .deploy/
           echo "Uploading $(find .deploy -type f | wc -l) files."
           if [ -d .deploy/docs ] || [ -d .deploy/sql ] || [ -d .deploy/tests ]; then
             echo "::error::Internal directories reached the deploy surface."; exit 1
           fi
+          # THE LIBRARY IS NOW PART OF THE DEPLOY SURFACE.
+          #
+          # publication/ used to be excluded wholesale, on the reasoning
+          # that the PDFs were "not linked from any page". That argument
+          # sealed itself shut: nothing linked them because nothing
+          # served them, so nothing could link them, so fourteen
+          # finished volumes of the College's own academic work existed
+          # only on the build machine. A college whose library is not
+          # reachable has no library.
+          #
+          # Now excluded, precisely and for stated reasons:
+          #   *.docx        editable masters, not publications
+          #   .*            the staged HTML the PDFs are printed from
+          #   two volumes   over Cloudflare's 25 MiB per-file ceiling
+          #
           # Cloudflare Pages rejects any file over 25 MiB and fails the
-          # WHOLE upload, not just that file. Three Press PDFs are over
-          # it — the Complete Curriculum is 26.7 MiB — and they are not
-          # linked from any page, so publication/ is excluded above.
-          # This catches the next oversized file before wrangler does,
-          # and names it.
+          # WHOLE upload, not just that file, so the two oversized
+          # curriculum editions stay off the surface and the Library
+          # page says so in those words and offers them on request.
+          # scripts/build-library.mjs computes that list from measured
+          # file sizes, so this cannot drift from what the page claims.
+          # The check below catches the next oversized file before
+          # wrangler does, and names it.
           big=$(find .deploy -type f -size +25M)
           if [ -n "$big" ]; then
             echo "::error::Files over Cloudflare's 25 MiB limit would fail the upload:"

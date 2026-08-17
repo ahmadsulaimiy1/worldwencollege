@@ -8,7 +8,8 @@
  * ────────────────────────────────────────────────────────────────────
  * A "Teaching" section on an institution's website usually rests on
  * classroom experience: what our teachers have found, how our lessons
- * go, what works with our students. WEC-LC has taught nobody. Every
+ * go, what works with our students. No observation of a WEC-LC classroom
+ * has been written into the record. Every
  * sentence of that kind would be fabricated.
  *
  * What it does have is unusual and genuinely publishable: a teaching
@@ -44,6 +45,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { emitPage, reportEmit } = require('./lib/emit-page');
 const { DatabaseSync } = require('node:sqlite');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -218,7 +220,7 @@ ${card('Four', 'Every lesson plans for the learner who does not follow', 'A seco
         footnote.</p>
     </div>
     <div class="grid grid--2">
-${darkCard('Why it is empty', 'The College has taught no one', 'Every entry in the support record declares where its knowledge came from, and one of the four possible sources is a real classroom. That column stands at zero and will stand at zero until a teacher teaches a cohort and writes down what happened.')}
+${darkCard('Why it is empty', 'Nothing has been written down from a room', 'Every entry in the support record declares where its knowledge came from, and one of the four possible sources is a real classroom. That column stands at zero and will stand at zero until a teacher writes down what happened in one.')}
 ${darkCard('Why it is a column at all', 'So that it cannot be quietly filled by something else', 'The easy version of this record would mark everything simply "our teaching experience". Keeping observation separate means the College can say precisely which of its claims a first term would confirm, correct or overturn &mdash; and cannot pass off design for evidence.')}
     </div>
   </div>
@@ -283,12 +285,13 @@ ${darkCard('Coverage', 'Every module carries its assessments', `Quiz, assignment
 ${card('Derived', `${D.states.derived_from_curriculum || 0} entries`, 'Read off the programme itself: the prerequisite a lesson names, the minutes its stages declare, the confusion its own self-check was written to trap. Not an opinion &mdash; a fact about the curriculum, and checkable against it.')}
 ${card('Established', `${D.states.established_pedagogy || 0} entries`, 'Attested in the international teaching of English and not particular to this College &mdash; that the third-person <em>-s</em> is among the most persistent errors for learners of every first language, that countability in English is arbitrary and must be memorised. Synthesis, and marked as synthesis.')}
 ${card('Designed', `${D.states.educational_expertise || 0} entries`, 'An authored judgement by the people who wrote the curriculum: how else to explain this, which analogy holds, how to stretch a learner who has finished early. Defensible, and improvable by anyone who teaches it and finds better.')}
-${card('Observed', `${OBSERVED} entries`, 'What actually happened in a room with real learners. This is empty, and it is empty because the College has taught nobody. It is not filled with the other three.')}
+${card('Observed', `${OBSERVED} entries`, 'What actually happened in a room with real learners. This is empty, and it is empty because no observation of a room has been entered into the record. It is not filled with the other three.')}
     </div>
     <div class="callout">
       <span class="callout__label">Why this record was rebuilt</span>
       <p>It began with three states and most of it empty, on the reasoning that a teacher&rsquo;s
-        knowledge comes from teaching and this College has taught no one. That was right about
+        knowledge comes from teaching and none of it has been written into this record yet.
+        That was right about
         one kind of knowledge and wrong about three others &mdash; and the conflation left the
         Teacher&rsquo;s Companion unwritable for a reason that did not actually apply to most of
         what it would contain.</p>
@@ -503,7 +506,7 @@ ${card('الرابع', 'كل درس يخطط للمتعلم الذي لا يتا
       <p class="lede">هذه أهم جملة في هذا القسم، ولهذا ليست في هامش.</p>
     </div>
     <div class="grid grid--2">
-${darkCard('لماذا هو فارغ', 'الكلية لم تدرّس أحدًا', 'كل مدخلة في سجل الدعم تعلن مصدر معرفتها، وأحد المصادر الأربعة الممكنة هو صف حقيقي. هذا العمود يقف عند الصفر وسيبقى عند الصفر حتى يدرّس معلمٌ دفعةً ويكتب ما حدث.')}
+${darkCard('لماذا هو فارغ', 'لم يُكتب شيء من غرفة صف', 'كل مدخلة في سجل الدعم تعلن مصدر معرفتها، وأحد المصادر الأربعة الممكنة هو صف حقيقي. هذا العمود يقف عند الصفر وسيبقى عند الصفر حتى يكتب معلمٌ ما حدث في غرفة.')}
 ${darkCard('ولماذا هو عمود أصلًا', 'كي لا يُملأ خلسةً بشيء آخر', 'النسخة السهلة من هذا السجل كانت ستصف كل شيء بعبارة «خبرتنا التدريسية». إبقاء المشاهدة منفصلةً يعني أن الكلية تستطيع أن تقول بدقة أي ادعاءاتها سيؤكده فصلٌ أول من التدريس أو يصححه أو يقلبه — ولا تستطيع أن تقدّم التصميم على أنه دليل.')}
     </div>
   </div>
@@ -568,7 +571,7 @@ ${darkCard('التغطية', 'كل وحدة تحمل تقييماتها', 'اخ�
 ${card('مشتق', `${ltr(String(D.states.derived_from_curriculum || 0))} مدخلة`, 'مقروء من البرنامج نفسه: المتطلب الذي يسمّيه الدرس، والدقائق التي تعلنها مراحله، والالتباس الذي كُتب فحصه الذاتي ليصطاده. ليس رأيًا — حقيقة عن المنهج، وقابلة للفحص ضده.')}
 ${card('مُثبَت', `${ltr(String(D.states.established_pedagogy || 0))} مدخلة`, 'مشهود له في التدريس الدولي للإنجليزية وليس خاصًا بهذه الكلية — أن سين الغائب من أعند الأخطاء لدى متعلمي كل لغة أم، وأن العدّ في الإنجليزية اعتباطي ولا بد من حفظه. تركيبٌ، وموسوم أنه تركيب.')}
 ${card('مصمَّم', `${ltr(String(D.states.educational_expertise || 0))} مدخلة`, 'اجتهاد مؤلف من الذين كتبوا المنهج: كيف يُشرح هذا بطريقة أخرى، وأي تشبيه يصمد، وكيف يُمدّ من أنهى مبكرًا. قابل للدفاع عنه، وقابل للتحسين ممن يدرّسه فيجد أفضل.')}
-${card('مُشاهَد', `${ltr(String(OBSERVED))} مدخلة`, 'ما حدث فعلًا في غرفة فيها متعلمون حقيقيون. هذا فارغ، وفارغ لأن الكلية لم تدرّس أحدًا. ولا يُملأ بالأنواع الثلاثة الأخرى.')}
+${card('مُشاهَد', `${ltr(String(OBSERVED))} مدخلة`, 'ما حدث فعلًا في غرفة فيها متعلمون حقيقيون. هذا فارغ، وفارغ لأن مشاهدةَ غرفةٍ لم تُدوَّن في السجل بعد. ولا يُملأ بالأنواع الثلاثة الأخرى.')}
     </div>
     <div class="callout">
       <span class="callout__label">الحقول</span>
@@ -650,6 +653,7 @@ const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const written = [];
+const emitted = [];
 
 // The four sub-pages this hub absorbs, plus its own old address.
 for (const slug of ['teaching', 'teaching-lesson-design', 'teaching-support', 'teaching-companion', 'teaching-development']) {
@@ -658,7 +662,8 @@ for (const slug of ['teaching', 'teaching-lesson-design', 'teaching-support', 't
 }
 
 for (const p of Object.values(PAGES)) {
-  fs.writeFileSync(path.join(ROOT, 'pages', p.file), p.body + '\n');
+  const target = path.join(ROOT, 'pages', p.file);
+  emitted.push({ file: target, result: emitPage(target, p.body) });
   const entry = {
     slug: p.slug, output: p.output, title: p.title, description: p.description,
     contentFile: p.file, lang: p.lang || 'en', dir: p.dir || 'ltr',
@@ -671,6 +676,12 @@ for (const p of Object.values(PAGES)) {
 }
 
 fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-console.log(`Wrote ${written.length} Teaching-cluster pages:`);
+// The manifest entry is written for every page; the PAGE BODY is written
+// only where the guard allows it. "Routed" rather than "Wrote" because
+// the two are no longer the same act — see scripts/lib/emit-page.js, and
+// read the guard's own summary below this list for what reached disk.
+console.log(`Routed ${written.length} Teaching-cluster pages through the manifest:`);
 for (const o of written) console.log(`  ${o}`);
 console.log('Run `npm run build` to generate the served pages.');
+
+reportEmit('build-teaching.js', emitted);
