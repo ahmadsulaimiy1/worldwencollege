@@ -2972,3 +2972,160 @@ body { background: var(--cream); }
 .section--dark .module-marker,
 .section--oxford .module-marker,
 .section--midnight .module-marker { color: var(--gold-royal); }
+
+
+/* Body copy on the glass plates, and the "in preparation" chip.
+   ---------------------------------------------------------------------
+   A dark plate is glass: `backdrop-filter: blur(12px) saturate(145%)`. The
+   saturate is the point of it — it is what makes the plate read as a pane
+   with the section alive behind it rather than a flat panel — and it is
+   also what lifts the plate's ground well above the section's own, to as
+   much as rgb(64,82,116) where the gold lattice passes behind. Against
+   that, --cerulean body copy measured 2.95.
+
+   The glass stays and the text is lifted instead: --cerulean-pale is the
+   same blue register two steps brighter, and clears 4.5 on every plate
+   ground in use with margin (5.29 at worst, 8.02 at best). Making the pane
+   darker would have bought the contrast by taking away the effect. */
+
+.section--dark .r-plate p,
+.section--dark .r-plate li,
+.section--oxford .r-plate p,
+.section--midnight .r-plate p { color: var(--cerulean-pale); }
+
+.section--dark .r-plate a:not(.btn),
+.section--oxford .r-plate a:not(.btn),
+.section--midnight .r-plate a:not(.btn) { color: var(--cerulean-pale); }
+
+/* --amber on its own chip ground measured 3.86. The chip is how the College
+   says a thing is not open yet (EB §3.7), so it is read by exactly the
+   person who most needs to read it. */
+.section--dark .r-when--later,
+.section--oxford .r-when--later,
+.section--midnight .r-when--later { color: #D69B2A; }
+
+
+/* --steel is documented in brand.css as "rules on dark". It keeps turning up
+   as TEXT — the Riwāq's sign-in labels at 2.47, and `.r-note` on dark at
+   2.51. A colour whose name is a role gets used for its look; the fix is not
+   to chase each site but to state the pairing once, here, for every place a
+   note is set on a dark ground. */
+.section--dark .r-note,
+.section--oxford .r-note,
+.section--midnight .r-note,
+.section--dark .r-meta,
+.section--oxford .r-meta,
+.section--midnight .r-meta { color: var(--cerulean); }
+
+
+/* ═════════════════════════════════════════════════════════════════════
+   THE NIGHT DIAGRAM IS A DARK ISLAND
+   ---------------------------------------------------------------------
+   `.r-diagram-wrap--night` is a navy figure set into the page — a tipped-in
+   intaglio plate. It used to sit inside `.section--dark`, so it inherited
+   every dark-ground rule for free. With the body of every page now on cream
+   (EB §8.2), it is a dark island in a light section and inherits nothing:
+   its caption came out in --steel at 2.97, and its gold labels in
+   --gold-royal at 3.80.
+
+   Stated as its own context rather than patched per page, because that is
+   the whole lesson of the faculty-names bug and the stage-headings bug: a
+   component whose colours depend on an ancestor it no longer has does not
+   complain, it just goes quiet. */
+
+.r-diagram-wrap--night .r-note,
+.r-diagram-wrap--night .r-meta,
+.r-diagram-wrap--night p { color: var(--cerulean); }
+
+/* NOT a blanket fill. An earlier version of this rule set every cap in the
+   night plate to gold, which silently overrode the labels that carry a
+   MEANING in their colour — the Ramaḍān arc is green because Ramaḍān is the
+   month the timetable is suspended, and CSS beats a presentation attribute,
+   so the meaning went and the contrast got worse. Only the caps that are
+   gold by intent are named here; a label with its own colour keeps it, and
+   is fixed at the label if it needs fixing. */
+.r-diagram-wrap--night .r-diagram__cap:not([fill]) { fill: var(--gold-soft); }
+
+/* The night plate's own captions and notes, two steps brighter than the
+   section-level pairing: the plate is darker than the page but its labels
+   are small and set over a drawn diagram, where a stroke can pass behind a
+   glyph. Measured 4.09 and 4.16 before; champagne and the pale blue clear
+   it with room. */
+.r-diagram-wrap--night .r-diagram__cap:not([fill]) { fill: var(--gold-champagne); }
+.r-diagram-wrap--night .r-diagram__note:not([fill]) { fill: var(--cerulean-pale); }
+.r-diagram-wrap--night p,
+.r-diagram-wrap--night .r-note { color: var(--cerulean-pale); }
+
+
+/* ═════════════════════════════════════════════════════════════════════
+   A DARK CARD ON A CREAM SECTION IS A CREAM CARD
+   ---------------------------------------------------------------------
+   `.card--dark` is a TRANSLUCENT face: rgba over whatever is behind it,
+   which is how it reads as glass on navy. Put it on cream and the same
+   rgba produces a pale grey panel — rgb(200,206,214) measured — while it
+   keeps every colour it chose for navy. On the Faculty of the Qur'ān page
+   that gave `.r-meta` in --cerulean at 1.68:1 and the "Admitting" chip at
+   3.25.
+
+   The class stays in the markup, because it is the AUTHOR'S statement that
+   this card is emphatic — and emphasis is a real editorial distinction that
+   should survive a change of ground. What changes is what emphatic means on
+   paper: the light material, and the light pairing for everything set on it.
+   This is the general form of the fault that produced the invisible faculty
+   names, the invisible stage headings and the night diagram on cream — a
+   component keeping colours chosen for a ground it no longer stands on. */
+
+.section--light .card--dark,
+.section--warm .card--dark,
+.section--paper .card--dark {
+  background-image: var(--pol-sheen-l), var(--pol-face-l);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l),
+    var(--pol-cast-l);
+  -webkit-backdrop-filter: none;
+          backdrop-filter: none;
+  color: var(--ink);
+}
+.section--light .card--dark:hover,
+.section--warm .card--dark:hover,
+.section--paper .card--dark:hover {
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l-2),
+    var(--pol-cast-l2), var(--pol-bloom);
+}
+
+.section--light .card--dark h3,
+.section--warm .card--dark h3,
+.section--paper .card--dark h3 { color: var(--midnight); }
+
+.section--light .card--dark p,
+.section--warm .card--dark p,
+.section--paper .card--dark p,
+.section--light .card--dark .r-meta,
+.section--warm .card--dark .r-meta,
+.section--paper .card--dark .r-meta { color: var(--slate); }
+
+.section--light .card--dark strong,
+.section--warm .card--dark strong,
+.section--paper .card--dark strong { color: var(--ink); }
+
+.section--light .card--dark .r-ar,
+.section--warm .card--dark .r-ar,
+.section--paper .card--dark .r-ar { color: var(--bronze); }
+
+/* The chips take their light pairing back, since the card under them is
+   paper again. */
+.section--light .card--dark .r-when--open,
+.section--warm .card--dark .r-when--open,
+.section--paper .card--dark .r-when--open {
+  background: rgba(30, 106, 79, .13); color: var(--emerald);
+  border-color: rgba(30, 106, 79, .3);
+}
+.section--light .card--dark .r-when--later,
+.section--warm .card--dark .r-when--later,
+.section--paper .card--dark .r-when--later {
+  background: rgba(201, 138, 22, .13); color: #7A5410;
+  border-color: rgba(201, 138, 22, .32);
+}

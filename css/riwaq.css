@@ -48,7 +48,7 @@
   text-transform: uppercase; color: var(--gold-champagne); text-decoration: none;
 }
 .app-sidebar__brand span {
-  font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--steel);
+  font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--cerulean);
 }
 
 .app-nav { display: flex; flex-direction: column; gap: 2px; }
@@ -91,7 +91,7 @@
   font-family: 'Cinzel', serif; font-size: 1.3rem; letter-spacing: .16em;
   text-transform: uppercase; color: var(--gold-champagne); margin: 0 0 4px;
 }
-.signin__sub { font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--steel); margin: 0 0 26px; }
+.signin__sub { font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--cerulean); margin: 0 0 26px; }
 
 .signin form { text-align: left; }
 .signin .btn { width: 100%; margin-top: 6px; }
@@ -117,7 +117,7 @@
 .signin__as span { font-size: .74rem; font-variant-numeric: tabular-nums; }
 
 .signin__note {
-  margin: 20px 0 0; font-size: .74rem; line-height: 1.6; color: var(--steel); text-align: left;
+  margin: 20px 0 0; font-size: .74rem; line-height: 1.6; color: var(--cerulean); text-align: left;
 }
 
 /* ============================================== FIELDS, FORMS, UTILITIES */
@@ -125,7 +125,7 @@
 .riwaq-field { margin-bottom: 14px; }
 .riwaq-field label {
   display: block; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--steel); margin-bottom: 6px;
+  color: var(--cerulean); margin-bottom: 6px;
 }
 .riwaq-field input, .riwaq-field select, .riwaq-field textarea {
   width: 100%; font-family: inherit; font-size: .92rem;
@@ -416,14 +416,14 @@
 
 .drawer__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; margin-bottom: 22px; }
 .drawer__stats > div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(110,147,196,.2); }
-.drawer__stats dt { margin: 0; font-size: .76rem; color: var(--steel); }
+.drawer__stats dt { margin: 0; font-size: .76rem; color: var(--cerulean); }
 .drawer__stats dd { margin: 0; font-size: .84rem; color: var(--ivory); font-weight: 600; font-variant-numeric: tabular-nums; }
 
 .drawer__ask { font-size: .84rem; color: var(--cerulean); margin: 0 0 10px; }
 .drawer__acts { display: flex; gap: 8px; flex-wrap: wrap; }
 .drawer__acts .btn { flex: 1; min-width: 96px; font-size: .8rem; padding: 9px 10px; }
 .drawer__acts .btn--outline { color: var(--gold-soft); border-color: rgba(199,162,74,.45); }
-.drawer__note { font-size: .74rem; color: var(--steel); line-height: 1.55; margin: 16px 0 0; }
+.drawer__note { font-size: .74rem; color: var(--cerulean); line-height: 1.55; margin: 16px 0 0; }
 
 /* ----------------------------------------------- submissions + marking */
 
@@ -453,7 +453,7 @@
 
 /* --------------------------------------------------- sign-in demo list */
 
-.signin__as em { display: block; font-style: normal; font-size: .7rem; color: var(--steel); margin-top: 2px; }
+.signin__as em { display: block; font-style: normal; font-size: .7rem; color: var(--cerulean); margin-top: 2px; }
 .signin__demo-h code { font-family: inherit; color: var(--gold-soft); letter-spacing: 0; text-transform: none; }
 
 /* ------------------------------------------------------------- print */
@@ -717,3 +717,11 @@
 :root[data-ornament="none"] .app-main .stat-tile__label::after { transform: none; }
 :root[data-ornament="none"] .app-main .stat-tile:hover::after { animation: none; }
 :root[data-ornament="restrained"] .app-main .stat-tile:hover::after { animation: none; }
+
+/* --steel is a RULE colour (brand.css says so in its own comment) and the
+   portal had it carrying thirteen pieces of text — the sign-in subtitle, the
+   field labels, the demonstration-account note, the drawer statistics — all
+   between 2.40 and 2.88 against the navy behind them. They take --cerulean.
+   The one bronze run went with them: bronze is the small-caps colour on a
+   LIGHT ground, and this panel is navy. */
+.signin__demo-h { color: var(--gold-soft); }

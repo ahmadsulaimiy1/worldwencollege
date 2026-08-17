@@ -30,6 +30,7 @@
   --sapphire:     #27508F;   /* lifted section grounds, gradient partners */
   --steel:        #4A6491;   /* rules and borders on dark ground */
   --cerulean:     #7CA1D2;   /* readable light-blue text and links on dark */
+  --cerulean-pale: #C3D6EE;   /* body copy on GLASS — see css/rusukh.css, dark plates */
 
   /* --- Golds · distinction, never decoration -------------------------
      Five gold tones because gold behaves differently by size: a hairline
@@ -48,7 +49,7 @@
      4.50:1 on --ivory — i.e. it failed AA on exactly the chapters it
      exists to serve. This value clears 4.5:1 on every light ground in
      the palette, --stone included. */
-  --bronze:         #76572F; /* small-caps metadata and icon strokes on light ground */
+  --bronze:         #6F5028; /* small-caps metadata and icon strokes on light ground */
 
   /* --- Neutrals · the paper ------------------------------------------
      Warm throughout. A cool grey next to this navy reads as a dashboard;
