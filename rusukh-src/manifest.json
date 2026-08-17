@@ -89,12 +89,12 @@
     "contents": true
   },
   {
-    "slug": "tuition",
-    "output": "admissions/tuition/index.html",
+    "slug": "charges",
+    "output": "admissions/charges/index.html",
     "nav": "admissions",
-    "title": "Tuition and Financial Support — Dār al-Rusūkh",
-    "description": "The schedule of fees for the current session, the terms on which they may be paid, and the provisions for supported places.",
-    "contentFile": "tuition.html",
+    "title": "Charges — Dār al-Rusūkh",
+    "description": "The College charges no tuition and no examination fee. It charges for the engrossed instrument — the sealed certificate, the report sheet, the identity card, the instrument of ijāzah — and publishes the schedule in full, with the sources that fund the teaching.",
+    "contentFile": "charges.html",
     "contents": true
   },
   {

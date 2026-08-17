@@ -466,6 +466,58 @@
   // for a rescan rather than this file watching the DOM for it.
   window.__rusukhFigures = countFigures;
 
+
+  /* =====================================================================
+     THE ORBIT GATE
+
+     css/rusukh.css gives every card a travelling light — a conic gradient
+     rotated through a registered @property, masked to a one-pixel ring.
+     It is authored PAUSED, and this turns it on only while the card is on
+     screen.
+
+     Why bother: a long page carries sixty of these, and a rotating conic
+     gradient is a repaint per frame per element. Sixty of them, most
+     below the fold, is a laptop fan for no visual gain. A screenful is
+     six to nine.
+
+     Paused rather than removed, deliberately. Removing the class would
+     reset --aurum-angle to 0, so a card scrolled back into view would
+     snap its highlight to the top-left instead of resuming its turn.
+     ===================================================================== */
+
+  var ORBIT = '.card, .r-plate, .r-fac-card, .r-tier-card,' +
+              ' .r-standard__cell, .r-standing__item,' +
+              ' .stat-tile, .triad';
+
+  var orbitObserver = null;
+
+  function orbits(root) {
+    if (reducedMotion.matches || !window.IntersectionObserver) return;
+    var els = (root || document).querySelectorAll(ORBIT);
+    if (!els.length) return;
+
+    if (!orbitObserver) {
+      orbitObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          e.target.classList.toggle('is-lit', e.isIntersecting);
+        });
+      }, {
+        /* A generous margin so a card is already turning by the time it
+           is looked at, rather than starting the instant it is seen. */
+        rootMargin: '140px 0px 140px 0px',
+        threshold: 0
+      });
+    }
+
+    [].forEach.call(els, function (el) {
+      if (el.hasAttribute('data-orbiting')) return;
+      el.setAttribute('data-orbiting', '');
+      orbitObserver.observe(el);
+    });
+  }
+
+  window.__rusukhOrbits = orbits;
+
   /* ------------------------------------------------------------------ */
 
   // The portal re-renders its shell on every view change, which replaces
@@ -483,6 +535,7 @@
     setInterval(tick, 1000);
     initRakingLight();
     countFigures(document);
+    orbits(document);
   }
 
   if (document.readyState === 'loading') {

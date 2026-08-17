@@ -131,6 +131,59 @@
       </div>
     </div>
 
+    <div class="r-diagram-wrap r-diagram-wrap--night">
+      <p class="r-diagram-wrap__title">The Five Returns &mdash; المراجعات الخمس</p>
+      <svg class="r-diagram" viewBox="0 0 960 290" role="img" data-diagram
+        aria-label="The five returns after a portion is first heard sound: at one day, three days, seven days, twenty-one days and sixty days, after which the portion joins the manzil and is sampled without notice.">
+        <defs>
+          <linearGradient id="rt-line" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#D4AF37"/>
+            <stop offset="70%" stop-color="#E7C97A"/>
+            <stop offset="100%" stop-color="#5FA98A"/>
+          </linearGradient>
+        </defs>
+
+        <path data-draw="1800" d="M150 150 H900" fill="none" stroke="url(#rt-line)" stroke-width="2"/>
+
+        <!-- The arcs ARE the argument: each span is wider than the one
+             before it, so the expansion is visible before a number is read. -->
+        <path data-draw="600"  d="M150 150 Q195 100 240 150" fill="none" stroke="rgba(199,162,74,.5)" stroke-width="1.5"/>
+        <path data-draw="700"  d="M240 150 Q295 92 350 150" fill="none" stroke="rgba(199,162,74,.55)" stroke-width="1.5"/>
+        <path data-draw="850"  d="M350 150 Q420 82 490 150" fill="none" stroke="rgba(199,162,74,.6)" stroke-width="1.5"/>
+        <path data-draw="1000" d="M490 150 Q580 68 670 150" fill="none" stroke="rgba(231,201,122,.7)" stroke-width="1.5"/>
+        <path data-draw="1200" d="M670 150 Q785 52 900 150" fill="none" stroke="rgba(242,227,192,.8)" stroke-width="1.5"/>
+
+        <g fill="#D4AF37">
+          <circle data-pop cx="150" cy="150" r="5"/>
+          <circle data-pop cx="240" cy="150" r="5"/>
+          <circle data-pop cx="350" cy="150" r="5"/>
+          <circle data-pop cx="490" cy="150" r="5"/>
+          <circle data-pop cx="670" cy="150" r="5"/>
+        </g>
+        <circle data-pop cx="900" cy="150" r="7" fill="#5FA98A"/>
+
+        <g class="r-diagram__cap" fill="#C7A24A" text-anchor="middle">
+          <text data-pop x="240" y="192">RETURN 1</text>
+          <text data-pop x="350" y="192">RETURN 2</text>
+          <text data-pop x="490" y="192">RETURN 3</text>
+          <text data-pop x="670" y="192">RETURN 4</text>
+          <text data-pop x="900" y="192">RETURN 5</text>
+        </g>
+        <g class="r-diagram__lab" fill="#F2E3C0" text-anchor="middle">
+          <text data-pop x="240" y="224">1 day</text>
+          <text data-pop x="350" y="224">3 days</text>
+          <text data-pop x="490" y="224">7 days</text>
+          <text data-pop x="670" y="224">21 days</text>
+          <text data-pop x="900" y="224">60 days</text>
+        </g>
+
+        <text data-pop x="0" y="146" class="r-diagram__cap" fill="#6E93C4">FIRST HEARD</text>
+        <text data-pop x="0" y="168" class="r-diagram__cap" fill="#6E93C4">SOUND</text>
+        <text data-pop x="950" y="264" class="r-diagram__cap" fill="#5FA98A" text-anchor="end">JOINS THE MANZIL &#183; SAMPLED WITHOUT NOTICE THEREAFTER</text>
+        <text data-pop x="0" y="34" class="r-diagram__note" fill="#6E93C4">Each interval is wider than the last. A portion that fails any return re-enters at the first.</text>
+      </svg>
+    </div>
+
     <div class="r-plate">
       <span class="r-plate__label">Kept in the Riwāq</span>
       <p>Every student of this faculty carries a ledger of all 604 pages of the

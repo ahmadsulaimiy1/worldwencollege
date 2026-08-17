@@ -704,6 +704,7 @@
     host.innerHTML = appScreen(a, d);
     if (window.__rusukhDates) window.__rusukhDates();
     if (window.__rusukhFigures) window.__rusukhFigures(host);
+    if (window.__rusukhOrbits) window.__rusukhOrbits(host);
   }
 
   function status(sel, msg, ok) {
