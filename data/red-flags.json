@@ -1,14 +1,13 @@
 {
-  "generated": 33,
+  "generated": 30,
   "counts": {
     "SEVERE": 2,
-    "MAJOR": 20,
+    "MAJOR": 17,
     "MINOR": 11
   },
   "byCommittee": {
     "Institutional Confidence": 14,
-    "Editorial Excellence": 12,
-    "Information Architecture": 2,
+    "Editorial Excellence": 11,
     "Visual Storytelling": 4,
     "Typography": 1
   },
@@ -52,14 +51,6 @@
       "what": "1 paragraph(s) over 110 words",
       "evidence": "longest 117 words",
       "remedy": "Break into two, or convert the enumeration inside it into a real list or a register."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "MAJOR",
-      "page": "admissions-tuition.html",
-      "what": "Machine register — \"leverage\" as a verb",
-      "evidence": "1×: “leverage”",
-      "remedy": "Rewrite in the first person of an institution describing what it does."
     },
     {
       "committee": "Editorial Excellence",
@@ -124,22 +115,6 @@
       "what": "1 sentence(s) over 45 words",
       "evidence": "longest is 48: “The learner already has the present and the past; this level teaches them to join, sequence and qualify — to tell a story rather than list events, to …”",
       "remedy": "Split at the first conjunction that carries a new subject."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "press.ar.html",
-      "what": "1 skipped heading level(s)",
-      "evidence": "h1→h3",
-      "remedy": "Use the next level down, or promote the section."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "press.html",
-      "what": "1 skipped heading level(s)",
-      "evidence": "h1→h3",
-      "remedy": "Use the next level down, or promote the section."
     },
     {
       "committee": "Institutional Confidence",

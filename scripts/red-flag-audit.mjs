@@ -163,7 +163,13 @@ function editorialExcellence() {
     [/\bat the (?:heart|core) of (?:this|our|the) (?:is|lies)\b/gi, 'at the heart of this lies'],
     [/\bseamless(?:ly)?\b/gi, '"seamless"'],
     [/\brobust\b/gi, '"robust"'],
-    [/\bleverage[sd]?\b/gi, '"leverage" as a verb'],
+    // The VERB is the machine register — "leverage our expertise". The
+    // NOUN is ordinary English and the site uses it correctly: "the
+    // buyer with the least leverage is always the one who needed the
+    // help most", which is the sentence explaining why the partner
+    // bands are published rather than negotiated. Banning the noun
+    // would have cost that sentence.
+    [/\b(?:leverages|leveraged|leveraging)\b|\bto leverage\b|\bleverage (?:our|its|their|the) \w+/gi, '"leverage" as a verb'],
     [/\bcutting[- ]edge\b/gi, '"cutting-edge"'],
     [/\bstate[- ]of[- ]the[- ]art\b/gi, '"state of the art"'],
     [/\bholistic\b/gi, '"holistic"'],

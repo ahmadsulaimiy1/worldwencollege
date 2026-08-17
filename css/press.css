@@ -202,7 +202,7 @@
   box-shadow: var(--relief-metal), 0 10px 22px -14px rgba(9, 18, 38, .7);
 }
 .imprint__device .icon { width: 2.1rem; height: 2.1rem; }
-.imprint h3 {
+.imprint h2, .imprint h3 {
   margin: 0 0 .6em;
   font-family: var(--font-ceremonial); font-weight: 600;
   font-size: .86rem; letter-spacing: .2em; text-transform: uppercase;
