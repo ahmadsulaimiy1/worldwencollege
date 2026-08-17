@@ -142,6 +142,77 @@ const card = (num, title, body, icon) => `      <div class="${icon ? struck(fals
         <p>${body}</p>
       </div>`;
 
+// ─────────────────────────────────────────────────────────────────────
+// EACH LEVEL IS A COMPLETE QUALIFICATION
+// ─────────────────────────────────────────────────────────────────────
+// The six levels form one pathway, and the pathway framing had a cost
+// nobody had priced: it made Level VI the only finish line. A learner
+// who took Level I and stopped read these pages as somebody who had
+// abandoned a course a sixth of the way through.
+//
+// That is false, and it is expensive. Level I is a taught, assessed,
+// certificated qualification with its own entry standard, its own exit
+// standard and its own uses in the world. A learner who completes it
+// has FINISHED something. The pathway is what they may do next, not
+// what they failed to do.
+//
+// So every level page now carries what a qualification has to state to
+// be recognised as one: who it is for, what it takes to enter, what it
+// takes to be awarded, what a holder can do with it at work and in
+// study, and what stopping here actually means. Authored per level
+// because the answer genuinely differs — an A1 award is used to open a
+// door, a C1 award is used to chair a meeting.
+const QUALIFICATION = {
+  1: {
+    forWhom: 'An adult beginning English as an adult — with no usable English, or with school English that never became speech. It assumes nothing and starts at nothing.',
+    entry: 'Nothing. No qualification, no test, no documents, no prior study. The placement assessment exists to confirm this is the right level for you, not to keep you out of it.',
+    exit: '70% overall on the level examination with no single skill below 50%, all ten module assignments submitted and marked, and the spoken paper recorded and passed. The skill floor is why a pass here means you can speak, not that you compensated with reading.',
+    work: 'Understood in a workplace where instructions, safety notices and short exchanges happen in English. It is the level that turns "no English" into "some English" on an application form, and that is the largest single change in employability on the whole pathway.',
+    study: 'Satisfies the entry standard for Level&nbsp;II. Recognised by this College as evidence of A1 attainment; no external body recognises it, and the page below says so.',
+    stopping: 'A complete A1 qualification, certificated and verifiable. If you stop here you hold a finished award from a College that publishes what it was marked against &mdash; not an abandoned course.',
+  },
+  2: {
+    forWhom: 'A learner who can already handle single sentences and needs connected speech: the person who is understood word by word and wants to be understood in paragraphs.',
+    entry: 'The Level&nbsp;I award, or A2 attainment demonstrated through the placement assessment or a recognised external qualification. See the recognition table on Admissions.',
+    exit: '70% overall with no skill below 50%, ten assignments marked, and a spoken paper at A2 &mdash; where the standard becomes sustained speech rather than accurate fragments.',
+    work: 'Enough English to hold a service, retail, hospitality or administrative role conducted partly in English: taking an instruction, describing a problem, writing a short message that reads as intended.',
+    study: 'Satisfies the entry standard for Level&nbsp;III. The last level at which a learner is usually described as a beginner, and the first at which they are not.',
+    stopping: 'A complete A2 qualification. Most language learning in the world stops somewhere around here without anything to show for it; this stops with an award and a transcript naming every skill separately.',
+  },
+  3: {
+    forWhom: 'A learner who needs English for work or study rather than for survival: the point at which the language stops being the subject and starts being the tool.',
+    entry: 'The Level&nbsp;II award, or B1 attainment demonstrated through the placement assessment or a recognised external qualification.',
+    exit: '70% overall with no skill below 50%, ten assignments, and a spoken paper at B1 requiring an opinion held and defended rather than information reported.',
+    work: 'The threshold most employers mean by "English required": correspondence handled, a meeting followed, a problem explained to somebody who was not there. It is the level at which English stops limiting which jobs you can apply for.',
+    study: 'Satisfies the entry standard for Level&nbsp;IV, and is the level from which the College&rsquo;s IELTS, TOEFL and Cambridge preparation begins to be useful rather than premature.',
+    stopping: 'A complete B1 qualification, and a defensible place to stop. B1 is the level at which a great many professional lives are conducted entirely adequately, and the award says B1 rather than implying more.',
+  },
+  4: {
+    forWhom: 'A professional or a university-bound student who is already functional and is being held back by precision: register, structure, and the difference between being understood and being persuasive.',
+    entry: 'The Level&nbsp;III award, or B2 attainment demonstrated through the placement assessment or a recognised external qualification.',
+    exit: '70% overall with no skill below 50%, ten assignments, and a spoken paper at B2 requiring a technical topic discussed in the candidate&rsquo;s own field.',
+    work: 'The level at which you can represent a position rather than only state one: chair a routine meeting, write a document that goes out under your name, negotiate a detail. Most international employers treat B2 as the working standard for professional English.',
+    study: 'Satisfies the entry standard for Level&nbsp;V. B2 is the band most universities require for admission to an English-taught programme, and this is where the College&rsquo;s examination preparation is at its most direct.',
+    stopping: 'A complete B2 qualification &mdash; the most commonly required level in the world of work and study, and a finish line rather than a way station for most of the people who reach it.',
+  },
+  5: {
+    forWhom: 'Somebody whose English is already good and whose ceiling is now judgement: knowing which register a situation takes, and what not to say.',
+    entry: 'The Level&nbsp;IV award, or C1 attainment demonstrated through the placement assessment or a recognised external qualification.',
+    exit: '70% overall with no skill below 50%, ten assignments, and a spoken paper at C1 requiring flexible, effective use under conditions the candidate has not rehearsed.',
+    work: 'Senior professional English: leading a discussion, arguing a case, writing at length for a demanding reader, and handling the register shifts a difficult conversation needs. The level at which English is no longer a consideration in what you can be asked to do.',
+    study: 'Satisfies the entry standard for Level&nbsp;VI, and meets or exceeds the language requirement of most postgraduate programmes taught in English.',
+    stopping: 'A complete C1 qualification. Very few learners need anything beyond C1 for any professional purpose, and the College would rather say that than sell a sixth level to somebody who is finished.',
+  },
+  6: {
+    forWhom: 'A learner at the top of the framework who wants a personal voice rather than more accuracy: style chosen instead of inherited, and argument built for a specific audience.',
+    entry: 'The Level&nbsp;V award, or C2 attainment demonstrated through the placement assessment or a recognised external qualification.',
+    exit: '70% overall with no skill below 50%, ten assignments, and a spoken paper at C2 requiring precision fine enough to carry shades of meaning in a complex situation.',
+    work: 'Work in which the English itself is the product: public argument, published writing, advocacy, teaching the language, or any role where nuance decides the outcome.',
+    study: 'The end of this programme. There is no level above it here, and the College does not invent one.',
+    stopping: 'A complete C2 qualification and the highest award the College confers. It is the end of the pathway rather than a stage of it, and the transcript records the whole of the route taken to reach it.',
+  },
+};
+
 function levelPage(lv, i) {
   const prev = levels[i - 1] || null;
   const next = levels[i + 1] || null;
@@ -179,6 +250,37 @@ ${lv.outcomes.map((o) => `          <tr><td>${esc(o.code)}</td><td>${esc(o.state
         constituted and reviews them. They are used, and they are not yet ratified &mdash; and
         we would rather say so than describe them as settled.</p>
     </div>` : ''}
+  </div>
+</section>` : '';
+
+
+  const q = QUALIFICATION[lv.id];
+  const qualification = q ? `
+<section class="section--light section-pad" id="qualification">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">A Complete Qualification</span>
+      <h2>Level ${esc(lv.roman)} is a qualification, not a stage of one.</h2>
+      <p class="lede">Six levels form one pathway, and every one of them is also a finished
+        award with its own entry standard, its own exit standard and its own uses. A learner who
+        completes this level and stops has completed something.</p>
+    </div>
+    <div class="grid grid--3">
+${card('Who it is for', 'The reader this level was written for', esc(q.forWhom), 'i-portico')}
+${card('To enter', 'What is required to start', esc(q.entry), 'i-key')}
+${card('To be awarded', 'What is required to finish', esc(q.exit), 'i-seal')}
+    </div>
+    <h3 style="margin-top:2.6em">What the award is used for</h3>
+    <div class="grid grid--2">
+${card('At work', 'What a holder can do professionally', esc(q.work), 'i-ledger')}
+${card('In study', 'Where it is accepted academically', esc(q.study), 'i-mortarboard')}
+    </div>
+    <div class="callout">
+      <span class="callout__label">If you stop at Level ${esc(lv.roman)}</span>
+      <p>${esc(q.stopping)} The College recommends the full pathway to anyone whose purpose needs
+        it, and recommends stopping to anyone whose purpose does not. A provider that treats every
+        exit as a failure is selling levels rather than teaching English.</p>
+    </div>
   </div>
 </section>` : '';
 
@@ -359,6 +461,7 @@ ${card('Press volumes', 'Printed and digital', 'The curriculum is published as a
     </div>` : ''}
   </div>
 </section>
+${qualification}
 ${award}
 <section class="section--light section-pad" id="questions">
   <div class="container reveal">
