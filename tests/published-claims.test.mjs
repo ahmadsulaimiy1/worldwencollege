@@ -56,6 +56,10 @@ console.log(`Learning items per level: ${perLevel.map((r) => `${r.lvl}=${r.n}`).
 // The IEFC page is a section of the Academics pillar now; the claims it
 // carried moved with it.
 const iefc = readFileSync(path.join(ROOT, 'pages/academics.html'), 'utf8');
+// Prose in these sources is wrapped for a human editor, so a sentence
+// spans line breaks. Any check on a SENTENCE reads this copy; checks on
+// markup keep reading `iefc`.
+const iefcFlat = iefc.replace(/\s+/g, ' ');
 const about = readFileSync(path.join(ROOT, 'pages/about.html'), 'utf8');
 
 // ---------------------------------------------------------------------
@@ -188,14 +192,21 @@ check('The WEC Credit is declared internal, not ECTS or CATS',
 //
 // So: any English page that publishes the hours figure must carry the
 // design-figure statement with it, wherever that page is.
+const HOURS_QUALIFIED = /design figure(?:\s+rather than an average|,?\s+not a measurement)/i;
+
 {
   const pagesDir = path.join(ROOT, 'pages');
   const english = readdirSync(pagesDir)
     .filter((f) => f.endsWith('.html') && !f.endsWith('.ar.html'))
     .map((f) => [f, readFileSync(path.join(pagesDir, f), 'utf8')]);
 
+  // The qualification is a substance, not a sentence. What has to reach
+  // the reader is that the hours figure describes the workload the
+  // curriculum was BUILT to and not an observed average — so the check
+  // accepts any wording that draws that contrast, and still fails a
+  // page that publishes the figure bare.
   const publishHours = english.filter(([, b]) => /1,200\s*(hrs|hours)/i.test(b));
-  const unqualified = publishHours.filter(([, b]) => !/design figure, not a measurement/i.test(b));
+  const unqualified = publishHours.filter(([, b]) => !HOURS_QUALIFIED.test(b));
   check(`Every page publishing the 1,200-hour figure qualifies it — ${publishHours.length} page(s) publish it`,
     unqualified.length === 0, `unqualified: ${unqualified.map(([f]) => f).join(', ')}`);
 
@@ -285,6 +296,9 @@ check('The WEC Credit is declared internal, not ECTS or CATS',
     /twenty-four months|24 months/i.test('twenty-four months from first word')
     && /certificate the moment/i.test('a certificate the moment the final lesson is complete')
     && /1,200\s*hrs/i.test('<td>1,200 hrs</td>')
+    && !HOURS_QUALIFIED.test('1,200 hrs across six levels.')
+    && HOURS_QUALIFIED.test('a design figure rather than an average')
+    && HOURS_QUALIFIED.test('a design figure, not a measurement')
     && PROMISED_LIVE.test('enquiry to your first live class')
     && PROMISED_LIVE.test('Orientation &amp; first live class')
     // ...and does NOT fire on a page weighing live teaching as an option
@@ -360,8 +374,12 @@ if (backed) {
 
   check('An unbacked figure carries an explicit design-versus-delivered statement',
     /id="curriculum-status"/.test(iefc), 'no #curriculum-status disclosure on the IEFC page');
+  // Matched against a whitespace-collapsed copy. Pinning the sentence to
+  // one physical line made the check fire on a re-wrap that changed no
+  // word, which teaches whoever hits it to edit the test — the opposite
+  // of what a guardrail is for.
   check('...that says plainly it is the designed size, not what is published today',
-    /designed size of each level, not the amount of content published/i.test(iefc));
+    /designed size of each level, not the amount of content published/i.test(iefcFlat));
   // The caveat's subject must be VISIBLE: a column that actually says
   // Lessons. A consolidation once relabelled this same 120 "Taught
   // Hours" — an inflated delivery claim under the College's own
