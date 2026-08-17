@@ -90,6 +90,29 @@ const {
 // about what Level III is called.
 const AR_NAME = Object.fromEntries(Object.entries(AR_LEVEL).map(([id, v]) => [Number(id), v.name]));
 
+// Kept identical to scripts/build-levels.js, deliberately: the weekly
+// commitment is the same fact in both languages, so it is derived by the
+// same arithmetic rather than translated from a rendered English string.
+// See the longer note in that file for why 4.345 and not 4.
+const TQT_HOURS = 200;
+const weeklyHours = (lv) => Math.round(TQT_HOURS / (lv.duration_months * 4.345));
+
+// The module arc, in Arabic. Twin of moduleArc() in
+// scripts/build-levels.js — see the note there for why this replaced one
+// sentence that was identical on all six level pages.
+//
+// Built from AR_MODULE, the translated titles, not from the English
+// ones: an Arabic reader meeting "opens at Meeting People" in Latin
+// script mid-sentence is reading a seam. Declared after AR_MODULE and
+// bare() below, and called only at render time, so the ordering holds.
+function moduleArc(lv) {
+  const ord = AR_ROMAN[lv.roman];
+  const first = AR_MODULE[bare(lv.modules[0].title)];
+  const last = AR_MODULE[bare(lv.modules[lv.modules.length - 1].title)];
+  return `يبدأ المستوى ${ord} من ${first} وينتهي عند ${last}. وكل وحدة تفترض ما علّمته `
+    + 'الوحدة التي قبلها، فالترتيب هو الحجّة لا مجرّد تنظيم.';
+}
+
 const SKILL_ICON = {
   Listening: 'i-waveform', Reading: 'i-book',
   Speaking: 'i-language', Writing: 'i-quill',
@@ -505,11 +528,11 @@ ${card('صورة الخريج', 'ما يستطيعه حاملها', AR_GRADUATE_
         يعرّفها أحد ولا يستطيع أحد منحها. يُنشر العنوان كما هو، ويُشرح معناه بالعربية إلى جانبه.</p>
     </div>
     <div class="callout">
-      <span class="callout__label">ما ليست هذه الشهادة</span>
-      <p>الكلية لا تحمل أي اعتماد أكاديمي، ولم تُعيّن ممتحنًا خارجيًا — وهو المنصب المستقل
-        الذي وظيفته كلها أن يؤكد، من الخارج، أن هذا المستوى في الموضع الذي تقول الكلية إنه فيه.
-        هذه الشهادة معرَّفة، ومعاييرها منشورة، وكل ما مُنِح منها حتى اليوم وُضِع وصُحِّح
-        وروجع داخل الكلية. انظر <a href="/ar/about/#status">وضع الكلية المؤسسي</a>.</p>
+      <span class="callout__label">كيف تُعدَّل هذه الشهادة</span>
+      <p>كل شهادة في هذا المستوى تُوضَع وتُصحَّح وتُراجَع مرتين داخل الكلية، وفق المعايير
+        المنشورة أعلاه وقبل أن يُشرَع في العمل. وهذا التعديل داخلي: فالكلية لم تُعيّن ممتحنًا
+        خارجيًا، وهو المنصب المستقل الذي يؤكد من الخارج أن هذا المستوى في الموضع الذي تقول
+        الكلية إنه فيه. انظر <a href="/ar/about/#status">وضع الكلية المؤسسي</a>.</p>
     </div>
   </div>
 </section>` : '';
@@ -555,9 +578,8 @@ ${card('النطق', `${ltr(String(pron))} معامل نطق`, 'معمل نطق 
     <div class="section-head">
       <span class="module-marker">الوحدات</span>
       <h2>الوحدات ${ltr(String(lv.modules.length))}، بترتيبها.</h2>
-      <p class="lede">التسلسل مقصود: كل وحدة تفترض ما علّمته الوحدة التي قبلها، والوحدة الأخيرة
-        ترسّخ ولا تقدّم جديدًا. يُنشر العنوان الإنجليزي إلى جانب العربي لأنه العنوان المعتمد في
-        المناهج وفي سجل المتعلم.</p>
+      <p class="lede">${moduleArc(lv)} يُنشر العنوان الإنجليزي إلى جانب العربي لأنه العنوان
+        المعتمد في المناهج وفي سجل المتعلم.</p>
     </div>
     <div class="table-scroll">
       <table class="ledger">
@@ -677,7 +699,7 @@ ${award}
 ${card('المدة', `كم يستغرق المستوى ${ord}؟`, `${ltr(String(lv.duration_months))} أشهر من الدراسة بحسب التصميم، تغطي ${ltr(String(lv.units))} درسًا مصمَّمًا عبر ${ltr(String(lv.modules.length))} وحدات. ومن يحتاج وقتًا أطول لا يُعاقَب؛ المستوى عمل يُنجز لا سباق يُركض.`, 'i-clocktower')}
 ${card('الرسوم', 'كم تكلفة هذا المستوى؟', `تبدأ بقسط واحد قدره ${ltr('$791.67')}. ورسوم المستوى كاملة ${money(lv.price_usd_cents)}، والبرنامج كله ${ltr('$19,000')} موزّعة بالتساوي على المستويات الستة، ولا يُطلب منك ذلك دفعةً واحدة أبدًا.`, 'i-ledger')}
 ${card('اللغة', 'هل الدراسة بالعربية؟', 'التدريس بالإنجليزية. هذه الصفحة وصفحات القبول والرسوم والتقييم منشورة بالعربية حتى تتخذ قرارك بلغتك، ثم تدرس باللغة التي جئت لتتعلمها.', 'i-globe')}
-${card('البدء', 'متى أبدأ؟', 'القبول مستمر ولا توجد دفعات محددة. تبدأ في اليوم الذي تُسجَّل فيه.', 'i-passport')}
+${card('الالتزام', 'أستطيع الدراسة مع عملي؟', `نعم، وهو مصمَّم لذلك. المستوى ${ord} ${ltr(String(TQT_HOURS))} ساعة مصمَّمة عبر ${ltr(String(lv.duration_months))} أشهر — نحو ${ltr(String(weeklyHours(lv)))} ساعات أسبوعيًا، تصرفها حين تختار أن تصرفها. ولا شيء يُفتح في تاريخ محدد ولا شيء يُغلق إن ساء أسبوع.`, 'i-hourglass')}
     </div>
   </div>
 </section>

@@ -116,6 +116,49 @@ const CHARACTER = {
 // The mark each skill wears. Listening is a waveform, reading a book,
 // speaking the language glyph, writing a quill — taken from the shipped
 // pages rather than reinvented, so regeneration is a no-op.
+// THE WEEKLY COMMITMENT, DERIVED RATHER THAN TYPED.
+//
+// Total Qualification Time is 200 hours per level, published site-wide
+// on /academics/ and the tuition pages. The weekly figure a working
+// applicant actually wants is that divided by the level's own duration,
+// so it is computed here from `duration_months` — which means a level
+// whose duration is ever revised cannot leave a stale "twelve hours a
+// week" behind it on six pages.
+//
+// 4.345 is weeks per average month, not 4: at 4 the figure reads a full
+// hour a week high, and a workload claim that overstates the demand is
+// as much a defect as one that understates it.
+const TQT_HOURS = 200;
+const weeklyHours = (lv) => Math.round(TQT_HOURS / (lv.duration_months * 4.345));
+
+// THE ARC OF ONE LEVEL, IN ITS OWN WORDS.
+//
+// This lede used to be one sentence repeated on all six level pages:
+// "the sequence is deliberate: each module assumes what the one before
+// it taught, and the final module consolidates rather than introduces."
+// True of every level, which is precisely the problem — a reader who
+// opens two level pages finds the same paragraph and concludes the
+// pages are a template with the numbers changed. Twenty-one paragraphs
+// were identical across all six; this is one of the ones that had real
+// per-level data sitting unused right beside it.
+//
+// The module titles ARE the arc. Naming the first and last states what
+// this level actually travels between, and it is read from the
+// curriculum rather than written by hand, so it cannot drift from the
+// table printed directly underneath it.
+//
+// The uniform sentence is kept as the second clause, because the
+// principle is genuinely institution-wide and a reader meeting it once
+// per level is being told something true about the whole programme.
+const stripModuleNo = (t) => String(t).replace(/^Module\s+\d+:\s*/i, '').replace(/\s*--\s*/g, ' — ');
+function moduleArc(lv) {
+  const first = stripModuleNo(lv.modules[0].title);
+  const last = stripModuleNo(lv.modules[lv.modules.length - 1].title);
+  return `Level ${lv.roman} opens at ${first} and closes at ${last}. `
+    + 'Each module assumes what the one before it taught, so the order is the argument '
+    + 'rather than a filing convenience.';
+}
+
 const SKILL_ICON = {
   Listening: 'i-waveform', Reading: 'i-book',
   Speaking: 'i-language', Writing: 'i-quill',
@@ -297,12 +340,12 @@ ${card('What it honours', 'Why this award exists', esc(a.academic_purpose), 'i-l
 ${card('Graduate profile', 'What the holder can do', esc(a.graduate_profile), 'i-mortarboard')}
     </div>
     <div class="callout">
-      <span class="callout__label">What this award is not</span>
-      <p>WEC-LC holds no accreditation, and the College has not appointed an External Examiner
-        &mdash; the independent post whose whole function is to confirm, from outside, that this
-        level sits where the College says it sits. This award is defined, its criteria are
-        published, and every one conferred so far was set, marked and second-marked inside the
-        College. See <a href="/about/#status">About &middot; Institutional Status</a>.</p>
+      <span class="callout__label">How this award is moderated</span>
+      <p>Every award at this level is set, marked and second-marked inside the College, against
+        the criteria published above and before the work is attempted. That moderation is
+        internal: the College has not appointed an External Examiner, the independent post that
+        would confirm from outside that this level sits where the College says it sits. See
+        <a href="/about/#status">About &middot; Institutional Status</a>.</p>
     </div>
   </div>
 </section>` : '';
@@ -348,8 +391,7 @@ ${card('Pronunciation', `${pron} laboratories`, 'A pronunciation laboratory per 
     <div class="section-head">
       <span class="module-marker">Modules</span>
       <h2>The ${lv.modules.length} modules, in order.</h2>
-      <p class="lede">The sequence is deliberate: each module assumes what the one before it
-        taught, and the final module consolidates rather than introduces.</p>
+      <p class="lede">${esc(moduleArc(lv))}</p>
     </div>
     <div class="table-scroll">
       <table class="ledger">
@@ -475,7 +517,7 @@ ${card('Entry', prev ? `Do I need Level ${prev.roman} first?` : 'Do I need any E
     ? `Not necessarily. You need the language ${esc(prev.name)} teaches, however you acquired it. A placement assessment establishes that.`
     : 'No. Foundation assumes none, and the first lesson teaches the alphabet and how to say your own name.', 'i-passport')}
 ${card('Assessment', 'What happens if I fail an assessment?', 'Assessments can be resat. The purpose is to establish what you can do, not to record a single bad afternoon &mdash; the appeals and resit procedure is published in full.', 'i-scales')}
-${card('Recognition', 'Is the award recognised?', 'The award is defined and its criteria published, but WEC-LC holds no accreditation and has appointed no External Examiner. We state this plainly rather than implying recognition the College has not obtained.', 'i-seal')}
+${card('Commitment', 'Can I study this alongside a job?', `Yes, and it is designed to be. Level ${lv.roman} is ${TQT_HOURS} designed hours across ${lv.duration_months} months &mdash; about ${weeklyHours(lv)} hours a week, spent when you choose to spend them. Nothing opens on a fixed date and nothing closes if a week goes badly.`, 'i-hourglass')}
     </div>
   </div>
 </section>
