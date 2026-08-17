@@ -42,8 +42,13 @@
 //   node scripts/parity-audit.mjs              # the table
 //   node scripts/parity-audit.mjs students     # the headings for one pair
 //
-// This is a report, not a test, and deliberately so: it currently
-// fails on fifteen pairs. Promote it to tests/ when it reaches zero.
+// PROMOTED. tests/arabic-parity.test.mjs now holds the result on every
+// run: cards, tenets and .aurum exactly equal in both directions, and
+// section/heading/dome/edge-lit divergence held to a per-page ratchet
+// that may shrink and never grow. This file stays as the diagnostic —
+// it is the one that NAMES the headings on either side, which a test
+// reporting a count cannot do, and it is what to run when the test
+// fails.
 
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import path from 'node:path';
