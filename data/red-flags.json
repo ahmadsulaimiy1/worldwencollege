@@ -1,13 +1,13 @@
 {
-  "generated": 166,
+  "generated": 160,
   "counts": {
     "SEVERE": 45,
     "MAJOR": 56,
-    "MINOR": 65
+    "MINOR": 59
   },
   "byCommittee": {
     "Editorial Excellence": 53,
-    "Institutional Confidence": 23,
+    "Institutional Confidence": 17,
     "Visual Storytelling": 17,
     "Information Architecture": 24,
     "Material Law": 48,
@@ -18,7 +18,7 @@
       "committee": "Editorial Excellence",
       "severity": "SEVERE",
       "page": "admissions.html",
-      "what": "4657 words on one page",
+      "what": "4656 words on one page",
       "evidence": "21 minutes of reading before the reader reaches the foot",
       "remedy": "Move a chapter to its own page, or reduce the prose to what only prose can carry and let a register, a table or a diagram hold the rest."
     },
@@ -730,7 +730,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-1.ar.html",
-      "what": "1685 words and no photograph",
+      "what": "1684 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -738,7 +738,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-1.html",
-      "what": "1812 words and no photograph",
+      "what": "1811 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -746,7 +746,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-2.ar.html",
-      "what": "1306 words and no photograph",
+      "what": "1305 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -754,7 +754,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-2.html",
-      "what": "1507 words and no photograph",
+      "what": "1506 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -762,7 +762,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-3.ar.html",
-      "what": "1350 words and no photograph",
+      "what": "1349 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -770,7 +770,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-3.html",
-      "what": "1561 words and no photograph",
+      "what": "1560 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -778,7 +778,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-4.ar.html",
-      "what": "1347 words and no photograph",
+      "what": "1346 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -786,7 +786,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-4.html",
-      "what": "1555 words and no photograph",
+      "what": "1554 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -794,7 +794,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-5.ar.html",
-      "what": "1334 words and no photograph",
+      "what": "1333 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -802,7 +802,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-5.html",
-      "what": "1548 words and no photograph",
+      "what": "1547 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -810,7 +810,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-6.ar.html",
-      "what": "1313 words and no photograph",
+      "what": "1312 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -818,7 +818,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-6.html",
-      "what": "1556 words and no photograph",
+      "what": "1555 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -874,8 +874,8 @@
       "committee": "Institutional Confidence",
       "severity": "MINOR",
       "page": "home.html",
-      "what": "2 construction(s) narrating what has not happened",
-      "evidence": "“have not yet”, “not yet produced”",
+      "what": "1 construction(s) narrating what has not happened",
+      "evidence": "“have not yet”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
@@ -892,54 +892,6 @@
       "page": "students-awards.html",
       "what": "1 construction(s) narrating what has not happened",
       "evidence": "“nobody has”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MINOR",
-      "page": "study-level-1.html",
-      "what": "1 construction(s) narrating what has not happened",
-      "evidence": "“has not appointed”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MINOR",
-      "page": "study-level-2.html",
-      "what": "1 construction(s) narrating what has not happened",
-      "evidence": "“has not appointed”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MINOR",
-      "page": "study-level-3.html",
-      "what": "1 construction(s) narrating what has not happened",
-      "evidence": "“has not appointed”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MINOR",
-      "page": "study-level-4.html",
-      "what": "1 construction(s) narrating what has not happened",
-      "evidence": "“has not appointed”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MINOR",
-      "page": "study-level-5.html",
-      "what": "1 construction(s) narrating what has not happened",
-      "evidence": "“has not appointed”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MINOR",
-      "page": "study-level-6.html",
-      "what": "1 construction(s) narrating what has not happened",
-      "evidence": "“has not appointed”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
@@ -1066,7 +1018,7 @@
       "committee": "Material Law",
       "severity": "MINOR",
       "page": "governance.ar.html",
-      "what": "51 of 90 domes are the small size",
+      "what": "70 of 126 domes are the small size",
       "evidence": "badge-dome without --lg",
       "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
     },
