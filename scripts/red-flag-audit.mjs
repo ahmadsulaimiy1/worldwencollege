@@ -95,6 +95,17 @@ function prose(html) {
     .replace(/<!--[\s\S]*?-->/g, ' ')
     .replace(/<(script|style|svg)\b[\s\S]*?<\/\1>/gi, ' ')
     .replace(new RegExp(`</(?:${BLOCK})>`, 'gi'), '')
+    // A LABEL IS A HEADING WEARING A SPAN. `.callout__label`,
+    // `.card__num`, `.module-marker` and their kin are short titles set
+    // inline, and with no boundary after them the extractor glued each
+    // one to the sentence beneath it. That is how "What the College
+    // tells you before it takes your money" became the opening of a
+    // 56-word sentence, and it inflated the length committee on five
+    // pages at once.
+    //
+    // The fifth parsing fault found in this file. Each one sent an
+    // editor after prose that was never wrong.
+    .replace(new RegExp(`<span class="(?:callout__label|card__num|module-marker|leaf__label|eyebrow|docket__date|docket__stamp|honour__note|tariff__label|tariff__figure|shelf__state|article__state|register__count|plate__credit)[^"]*"[^>]*>([\\s\\S]*?)</span>`, 'gi'), '$1')
     .replace(/<(?:br|hr)\s*\/?>/gi, '')
     .replace(/<[^>]+>/g, ' ')
     // A boundary that already has its own punctuation keeps it; one that

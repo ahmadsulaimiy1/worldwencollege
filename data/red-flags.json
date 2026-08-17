@@ -1,13 +1,13 @@
 {
-  "generated": 30,
+  "generated": 29,
   "counts": {
     "SEVERE": 2,
-    "MAJOR": 17,
+    "MAJOR": 16,
     "MINOR": 11
   },
   "byCommittee": {
     "Institutional Confidence": 14,
-    "Editorial Excellence": 11,
+    "Editorial Excellence": 10,
     "Visual Storytelling": 4,
     "Typography": 1
   },
@@ -56,8 +56,8 @@
       "committee": "Editorial Excellence",
       "severity": "MAJOR",
       "page": "admissions-tuition.html",
-      "what": "2 sentence(s) over 45 words",
-      "evidence": "longest is 52: “A request concerning a payment made before that date is decided under this policy as if it had already been in force, unless doing so would leave the …”",
+      "what": "1 sentence(s) over 45 words",
+      "evidence": "longest is 50: “A candidate who does not enrol buys the examination and the award separately, and the reason is set out under Two routes to the same award — an unexpl…”",
       "remedy": "Split at the first conjunction that carries a new subject."
     },
     {
@@ -65,7 +65,7 @@
       "severity": "MAJOR",
       "page": "admissions.html",
       "what": "1 sentence(s) over 45 words",
-      "evidence": "longest is 56: “What the College tells you before it takes your money Every award conferred so far — the Level I and Level II awards among them — was set, marked and …”",
+      "evidence": "longest is 46: “Every award conferred so far — the Level I and Level II awards among them — was set, marked and second-marked inside the College: the External Examine…”",
       "remedy": "Split at the first conjunction that carries a new subject."
     },
     {
@@ -80,8 +80,8 @@
       "committee": "Editorial Excellence",
       "severity": "MAJOR",
       "page": "home.html",
-      "what": "2 sentence(s) over 45 words",
-      "evidence": "longest is 53: “The pathway closes with a supervised practice period of between thirty and sixty days, in which a learner stops studying English and starts working in…”",
+      "what": "1 sentence(s) over 45 words",
+      "evidence": "longest is 47: “Two cohorts have gone ahead of you and the third is in study now, so the programme has been run and corrected before it reaches you — and it is still …”",
       "remedy": "Split at the first conjunction that carries a new subject."
     },
     {
@@ -99,14 +99,6 @@
       "what": "1 paragraph(s) over 110 words",
       "evidence": "longest 115 words",
       "remedy": "Break into two, or convert the enumeration inside it into a real list or a register."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "MAJOR",
-      "page": "students-regulations.html",
-      "what": "1 sentence(s) over 45 words",
-      "evidence": "longest is 48: “What the procedure guarantees, and what it does not It guarantees that a decision affecting you is reconsidered by people who did not make it, that ev…”",
-      "remedy": "Split at the first conjunction that carries a new subject."
     },
     {
       "committee": "Editorial Excellence",
