@@ -287,8 +287,10 @@ const SITE_URL = 'https://www.worldwencollege.co.uk';
 // the italic is used for pull quotes and typed lines and never above
 // 600. Cinzel asks for two weights because it appears at two sizes and
 // nowhere else.
-const LATIN_FONTS = 'family=EB+Garamond:ital,wght@0,400..700;1,400..600'
-  + '&family=Cinzel:wght@500;600'
+// Fraunces — the display face — is SELF-HOSTED from /assets/fonts/ and
+// declared in css/brand.css, so it never appears in this URL. Only the
+// faces still worth a third-party round trip are requested here.
+const LATIN_FONTS = 'family=Cinzel:wght@500;600'
   + '&family=Inter:wght@400;600;700;800';
 const ARABIC_FONTS = '&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700';
 

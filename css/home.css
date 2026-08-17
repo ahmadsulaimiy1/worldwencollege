@@ -862,7 +862,9 @@
   max-width: 72ch; margin: clamp(34px, 3.4vw, 50px) auto 0; text-align: center;
   color: var(--gold-champagne); font-family: var(--font-display);
   font-size: clamp(1.05rem, .95rem + .5vw, 1.35rem); line-height: 1.5;
-  font-style: italic; font-optical-sizing: auto;
+  /* Roman for the same reason as .hero__stake: a centred 72ch italic
+     paragraph is a wall of ornament. The face carries the ceremony. */
+  font-weight: 460; font-optical-sizing: auto;
 }
 
 /* The chapter itself sits on a deeper ground than the hero above it,
@@ -1078,7 +1080,12 @@
   max-width: 48ch;
   margin: 0 0 1.2em;
   font-family: var(--font-display);
-  font-style: italic;
+  /* Roman, not italic — and this used to be italic. A three-line
+     italic passage in a display serif is the single most "complicated
+     to read" object the site had, and it was the first thing under the
+     headline. Italic survives only where it is a quotation or a typed
+     one-line flourish; a running stake is an argument and sets roman. */
+  font-weight: 460;
   font-size: clamp(1.14rem, 1rem + .62vw, 1.52rem);
   line-height: 1.5;
   color: var(--gold-champagne);

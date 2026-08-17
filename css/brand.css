@@ -3,6 +3,29 @@
    Brand System — Royal Blue / Gold / Oxblood Red
    ========================================================= */
 
+/* THE DISPLAY FACE, SELF-HOSTED.
+   Fraunces, variable: one file carries weights 400–700 across optical
+   sizes 9–144, the italic a second. Self-hosted so no page makes a
+   request to a third party for its own identity, and so the browser
+   harness in tests/browser/ measures the exact bytes a visitor gets.
+   `font-weight` as a RANGE is load-bearing: without it the browser
+   clamps every weight to the file's default and the axis is inert.
+   The rationale for the face itself is with the tokens below. */
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/assets/fonts/fraunces-var.woff2') format('woff2-variations');
+}
+@font-face {
+  font-family: 'Fraunces';
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/assets/fonts/fraunces-italic-var.woff2') format('woff2-variations');
+}
+
 :root {
   /* =====================================================================
      THE PALETTE
@@ -181,27 +204,44 @@
   /* =====================================================================
      THE FACES
      ---------------------------------------------------------------------
-     --font-display  EB Garamond. An old-style serif: inclined stress,
-                     bracketed serifs, and moderate stroke contrast — a
-                     face that reads as WRITTEN rather than engraved,
-                     which for an institution that publishes documents
-                     is the correct register.
+     --font-display  Fraunces, variable, optical size 9–144, self-hosted
+                     from /assets/fonts/ (see the @font-face block above
+                     this :root).
 
-                     IT REPLACED BODONI MODA on a plain judgement: the
-                     headings were disliked, and the diagnosis was that
-                     the site set every h1 and h2 in a Didone at weight
-                     700. A Didone's whole character is the clash of a
-                     thick stem against a hairline; at 700 across every
-                     page heading on the site that reads as fashion, not
-                     as a college, and the contrast costs legibility at
-                     every size below display. Garamond gives up the
-                     drama and buys back dignity and reading comfort,
-                     which is the trade that was wanted.
+                     THE THIRD FACE IN THIS SLOT, and the pattern of the
+                     first two rejections is the reason it is not a
+                     fourth serif of the same kind. Bodoni Moda was
+                     disliked: too much hairline, read as fashion. It
+                     was traded for EB Garamond — the opposite trade,
+                     softer, older. That was disliked too: thin, fussy,
+                     "cheap and complicated to read". Both complaints
+                     are about the same thing — STROKE WEIGHT AT READING
+                     SIZE. A Didone puts its thinness in the hairlines;
+                     an old-style Garamond puts it everywhere. Swapping
+                     between them re-trades the problem.
 
-                     Weight stays at 700 for h1/h2 — that was a
-                     deliberate choice, and it survives the swap because
-                     Garamond's 700 is a sturdy text bold rather than a
-                     hairline-and-slab collision.
+                     Fraunces resolves it instead. A soft-serif with
+                     real flesh on the stroke at every size, and a true
+                     optical axis: at masthead scale it tightens and
+                     sharpens into something grand, at card scale it
+                     opens into something sturdy and effortless. The
+                     'SOFT' and 'WONK' axes are pinned to 0 on body —
+                     the classical cut, not the novelty one. It reads
+                     modern, simple and expensive, and it will still
+                     read that way in five years, which fashionable
+                     display faces do not.
+
+                     SELF-HOSTED, deliberately: two woff2 files, ~150KB
+                     for the whole family including italics, no request
+                     to a third party, and the render harness measures
+                     the identical file a visitor downloads.
+
+                     Weight comes DOWN with the swap: h1/h2 at 620
+                     rather than 700. Fraunces carries more ink per
+                     stroke than Garamond did, so Garamond's 700 becomes
+                     heavy-set at display size; 620 on the variable axis
+                     is the confident weight, and the difference between
+                     a headline and a heading stays marked by size.
 
      --font-ceremonial  Cinzel. Inscriptional Roman capitals, the letters
                      cut into Trajan's column and inherited by every
@@ -220,13 +260,14 @@
                      around it — not from replacing a workhorse that is
                      doing its job.
 
-     Fallbacks name real Garamonds (Garamond, Adobe Garamond Pro) before
-     Georgia, so a machine without webfonts still gets the closest thing
-     it owns rather than jumping to a slab. 'Amiri' stays in every stack
-     as the Arabic backstop — see css/arabic.css, which is what actually
-     holds the line for Arabic. */
-  --font-display:    'EB Garamond', 'Garamond', 'Adobe Garamond Pro', Georgia, 'Amiri', serif;
-  --font-ceremonial: 'Cinzel', 'Trajan Pro', 'EB Garamond', Georgia, 'Amiri', serif;
+     Fallbacks: Georgia is the nearest thing most machines own to a
+     sturdy screen serif, so a visitor whose font request fails gets
+     weight rather than a spindle. 'Amiri' stays in every stack as the
+     Arabic backstop — see css/arabic.css, which is what actually holds
+     the line for Arabic and is NOT touched by this change: the Arabic
+     programme (Cairo display, Amiri text) is settled and correct. */
+  --font-display:    'Fraunces', Georgia, 'Times New Roman', 'Amiri', serif;
+  --font-ceremonial: 'Cinzel', 'Trajan Pro', Georgia, 'Amiri', serif;
   --font-body:       'Inter', -apple-system, 'Cairo', sans-serif;
 
   --wrap: 1180px;
@@ -275,6 +316,12 @@ body {
      reason it was chosen is switched off — silently, since the page
      still renders in the right family. */
   font-optical-sizing: auto;
+  /* Fraunces carries two novelty axes and both are pinned to zero: SOFT
+     rounds the terminals toward a confection, WONK swaps in the quirky
+     alternate letterforms. The College wants the classical cut. Set
+     here because font-variation-settings inherits, and the faces that
+     lack these axes ignore the setting at no cost. */
+  font-variation-settings: 'SOFT' 0, 'WONK' 0;
   /* Never let the browser fake a WEIGHT. A synthesised bold on a Didone
      smears the hairlines along with the stems and destroys the stroke
      contrast that IS the face — and with a variable weight axis loaded
@@ -325,8 +372,8 @@ p { margin: 0 0 1em; }
    is what keeps Arabic, which this pass does not touch, genuinely
    untouched rather than untouched-by-accident.
    ========================================================= */
-[dir="ltr"] h1 { font-size: clamp(2.05rem, 1.35rem + 3.1vw, 3.5rem); line-height: 1.06; letter-spacing: -.019em; font-weight: 700; }
-[dir="ltr"] h2 { font-size: clamp(1.7rem, 1.2rem + 2.1vw, 2.6rem); line-height: 1.1; letter-spacing: -.016em; font-weight: 700; }
+[dir="ltr"] h1 { font-size: clamp(2.05rem, 1.35rem + 3.1vw, 3.5rem); line-height: 1.06; letter-spacing: -.019em; font-weight: 620; }
+[dir="ltr"] h2 { font-size: clamp(1.7rem, 1.2rem + 2.1vw, 2.6rem); line-height: 1.1; letter-spacing: -.016em; font-weight: 620; }
 [dir="ltr"] h3 { font-size: clamp(1.3rem, 1.1rem + 1vw, 1.75rem); line-height: 1.2; letter-spacing: -.01em; font-weight: 600; }
 /* H4 moves to Inter rather than a fourth shade of Playfair: a
    display-optical serif reads thin and mushy below ~20px, so the
@@ -2126,11 +2173,10 @@ ul.check-list li::before {
    ===================================================================== */
 
 /* -------------------- Display typography -------------------- */
-/* SETTING AN OLD-STYLE FACE.
+/* SETTING THE DISPLAY SCALE.
    ---------------------------------------------------------------------
-   These numbers were tuned for a Didone and they SURVIVE the move to
-   EB Garamond, which is worth writing down so nobody 'corrects' them
-   back. Each was set to solve a problem Bodoni had; Garamond either
+   These numbers were tuned for a Didone, survived EB Garamond, and now
+   serve Fraunces — worth writing down so nobody 'corrects' them back. Each was set to solve a problem Bodoni had; Garamond either
    has the same problem more mildly, or the value is right for an
    unrelated reason.
 
@@ -2160,9 +2206,10 @@ ul.check-list li::before {
    it wants that ramp more, and checked against the rendered page it
    sits right.
 
-   `font-optical-sizing: auto` below is now inert — EB Garamond carries
-   no opsz axis. It is left in place because it costs nothing and is
-   correct the day a face with one is used again. */
+   `font-optical-sizing: auto` below is live again: Fraunces carries a
+   true 9–144 opsz axis, so the 5rem display sets in the sharp large
+   cut and a card heading in the sturdy small one — the property the
+   face was chosen for. */
 .display-1 {
   font-family: var(--font-display); font-weight: 500;
   font-size: clamp(2.5rem, 1.35rem + 4.9vw, 5rem);

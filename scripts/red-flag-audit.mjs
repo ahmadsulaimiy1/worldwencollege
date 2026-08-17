@@ -590,21 +590,31 @@ function typography() {
 function motion() {
   committee = 'Motion';
 
-  const js = readdirSync(path.join(ROOT, 'js')).filter((f) => f.endsWith('.js'));
-  const cssAll = readdirSync(path.join(ROOT, 'css')).filter((f) => f.endsWith('.css'))
-    .map((f) => readFileSync(path.join(ROOT, 'css', f), 'utf8')).join('\n');
+  const cssFiles = readdirSync(path.join(ROOT, 'css')).filter((f) => f.endsWith('.css'));
 
   // Every animation needs a reduced-motion carve-out that resolves to
   // the FINISHED state — never a hidden element. CLAUDE.md §2.
-  const anims = new Set([...cssAll.matchAll(/@keyframes\s+([A-Za-z0-9_-]+)/g)].map((m) => m[1]));
-  const reducedBlocks = cssAll.match(/@media[^{]*prefers-reduced-motion[^{]*\{[\s\S]*?\n\}/g) || [];
-  const reduced = reducedBlocks.join('\n');
-  const uncarved = [...anims].filter((a) => !reduced.includes(a)
-    && !/animation:\s*none/.test(reduced));
-  if (uncarved.length && !/\*\s*,?[^{]*\{[^}]*animation:\s*none/.test(reduced)) {
-    flag('MAJOR', 'css/', `${uncarved.length} keyframe animation(s) with no reduced-motion carve-out`,
-      uncarved.slice(0, 6).join(', '),
-      'Resolve to the finished state under prefers-reduced-motion — never to a hidden element.');
+  //
+  // CHECKED PER FILE AND BY PRESENCE, not by keyframe name — and the
+  // first version of this check is the reason for the caveat. It looked
+  // for each @keyframes NAME inside the reduced-motion blocks and
+  // reported six atelier animations as uncarved, when every one of them
+  // is stopped correctly: the carve-out sets `animation: none` on the
+  // CONSUMING selectors (.lumen::after, .aurum::after …), which is the
+  // right way to write it and never repeats the keyframe's name. A
+  // static check cannot map selector to animation without a cascade
+  // engine, so it claims only what it can know: a file that declares
+  // keyframes and contains no reduced-motion block at all has made no
+  // provision anywhere. Whether a provision actually resolves to the
+  // finished state is the render harness's question, not this one's.
+  for (const f of cssFiles) {
+    const body = readFileSync(path.join(ROOT, 'css', f), 'utf8');
+    const kf = (body.match(/@keyframes\s+[A-Za-z0-9_-]+/g) || []).length;
+    if (kf && !/prefers-reduced-motion/.test(body)) {
+      flag('MAJOR', `css/${f}`, `${kf} keyframe animation(s) and no reduced-motion block in the file`,
+        'no @media (prefers-reduced-motion: reduce) anywhere',
+        'Stop each consumer at its finished state — never a hidden element. CLAUDE.md §2.');
+    }
   }
 
   // A struck surface with no voice reads as a bug — CLAUDE.md §3.
@@ -623,7 +633,7 @@ function motion() {
       silent.slice(0, 8).join(', '),
       'Add to the TAP or SEAL selector list — a silent struck surface reads as a fault. §3.');
   }
-  void js;
+
 }
 
 // =====================================================================

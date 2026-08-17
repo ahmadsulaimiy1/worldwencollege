@@ -723,7 +723,9 @@
   max-width: 46ch;
   margin: 0 auto 1.1em;
   font-family: var(--font-display);
-  font-style: italic;
+  /* Roman — see .hero__stake in css/home.css. One sentence of stake on
+     every pillar masthead, set to be READ, not admired past. */
+  font-weight: 460;
   font-size: clamp(1.12rem, 1rem + .58vw, 1.46rem);
   line-height: 1.5;
   color: var(--gold-champagne);
