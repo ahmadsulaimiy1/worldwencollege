@@ -1,0 +1,1220 @@
+<title>SHRS Royal Standard</title>
+
+<style>
+/* ============================================================
+   TOKENS — dark-first, derived from the SHRS armorial crest.
+   Bare :root = dark (the intended look). Light is the override.
+   ============================================================ */
+:root {
+  --ground:      #0B0C0F;
+  --raised:      #14161B;
+  --raised-2:    #1B1E25;
+  --ink:         #EDE9DF;
+  --ink-soft:    #C3BDB0;
+  --muted:       #8C8677;
+  --gold:        #C7A560;
+  --gold-bright: #F0C244;
+  --rule:        rgba(199,165,96,0.22);
+  --rule-soft:   rgba(199,165,96,0.11);
+  --chip:        rgba(199,165,96,0.09);
+  --shadow:      0 1px 0 rgba(255,255,255,0.03), 0 18px 40px -24px rgba(0,0,0,0.9);
+
+  --sans: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  --display: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "Iowan Old Style", Georgia, serif;
+  --body: Charter, "Bitstream Charter", "Iowan Old Style", "Sitka Text", Cambria, Georgia, serif;
+  --arabic: Amiri, "Scheherazade New", "Traditional Arabic", "Geeza Pro", "Segoe UI Historic", serif;
+
+  --measure: 68ch;
+  --step--1: 0.815rem;
+  --step-0:  1.0625rem;
+  --step-1:  1.27rem;
+  --step-2:  1.6rem;
+  --step-3:  2.1rem;
+  --step-4:  2.9rem;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --ground:      #FBFAF6;
+    --raised:      #FFFFFF;
+    --raised-2:    #F4F1E9;
+    --ink:         #15161A;
+    --ink-soft:    #3B3B3E;
+    --muted:       #6B6558;
+    --gold:        #8A6D1F;
+    --gold-bright: #A87C08;
+    --rule:        rgba(138,109,31,0.26);
+    --rule-soft:   rgba(138,109,31,0.13);
+    --chip:        rgba(138,109,31,0.08);
+    --shadow:      0 1px 0 rgba(255,255,255,0.8), 0 16px 34px -26px rgba(60,48,16,0.5);
+  }
+}
+
+:root[data-theme="light"] {
+  --ground:      #FBFAF6;
+  --raised:      #FFFFFF;
+  --raised-2:    #F4F1E9;
+  --ink:         #15161A;
+  --ink-soft:    #3B3B3E;
+  --muted:       #6B6558;
+  --gold:        #8A6D1F;
+  --gold-bright: #A87C08;
+  --rule:        rgba(138,109,31,0.26);
+  --rule-soft:   rgba(138,109,31,0.13);
+  --chip:        rgba(138,109,31,0.08);
+  --shadow:      0 1px 0 rgba(255,255,255,0.8), 0 16px 34px -26px rgba(60,48,16,0.5);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: var(--step-0);
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--gold); color: var(--ground); }
+
+a { color: var(--gold-bright); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 3px; border-radius: 2px; }
+
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; text-wrap: balance; margin: 0; }
+
+code, .mono { font-family: var(--sans); font-size: 0.86em; }
+.ar { font-family: var(--arabic); direction: rtl; unicode-bidi: isolate; }
+
+/* ============================================================
+   SHELL
+   ============================================================ */
+.shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 clamp(1.1rem, 4vw, 3rem);
+}
+
+@media (min-width: 1040px) {
+  .shell { grid-template-columns: 15.5rem minmax(0, 1fr); gap: clamp(2rem, 5vw, 4.5rem); }
+}
+
+/* ---- Contents rail ---- */
+.rail { display: none; }
+
+@media (min-width: 1040px) {
+  .rail {
+    display: block;
+    position: sticky;
+    top: 0;
+    align-self: start;
+    max-height: 100vh;
+    overflow-y: auto;
+    padding: 3.4rem 0 3rem;
+    border-right: 1px solid var(--rule-soft);
+  }
+}
+
+.rail-label {
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 1.1rem;
+}
+
+.rail ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.1rem; }
+
+.rail a {
+  display: grid;
+  grid-template-columns: 1.85rem 1fr;
+  gap: 0.2rem;
+  padding: 0.34rem 0.7rem 0.34rem 0;
+  font-family: var(--body);
+  font-size: 0.845rem;
+  line-height: 1.3;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  padding-left: 0.7rem;
+}
+.rail a:hover { color: var(--ink); border-left-color: var(--gold); background: var(--chip); }
+.rail a .n { font-family: var(--sans); font-size: 0.66rem; color: var(--gold); padding-top: 0.15rem; }
+
+/* ============================================================
+   MASTHEAD
+   ============================================================ */
+.masthead {
+  padding: clamp(3.2rem, 9vw, 6.5rem) 0 clamp(2.4rem, 5vw, 3.6rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+.crest-line { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 2.1rem; }
+.crest-line .star { width: 26px; height: 26px; color: var(--gold); flex: none; }
+.crest-line .txt {
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.masthead h1 {
+  font-size: var(--step-4);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.5rem;
+}
+.masthead .ar-title {
+  font-family: var(--arabic);
+  font-size: var(--step-2);
+  color: var(--gold);
+  direction: rtl;
+  margin-bottom: 1.6rem;
+  line-height: 1.5;
+}
+.masthead .standfirst {
+  max-width: var(--measure);
+  font-size: var(--step-1);
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.docmeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2.2rem;
+  margin-top: 2.4rem;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.docmeta b { color: var(--gold); font-weight: 400; }
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+main { padding-bottom: 6rem; }
+
+.part {
+  padding: clamp(2.8rem, 6vw, 4.6rem) 0 0;
+  scroll-margin-top: 1.5rem;
+}
+
+.part-head { display: flex; align-items: baseline; gap: 0.9rem; margin-bottom: 1.5rem; }
+.part-head .num {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: var(--gold);
+  flex: none;
+  padding-top: 0.2rem;
+}
+.part-head h2 { font-size: var(--step-3); line-height: 1.12; letter-spacing: -0.01em; }
+
+.part > p,
+.part > ul,
+.part > ol,
+.part > .note { max-width: var(--measure); }
+
+.part p { margin: 0 0 1.05rem; }
+
+h3 {
+  font-size: var(--step-1);
+  margin: 2.3rem 0 0.75rem;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+h3 .star { width: 15px; height: 15px; color: var(--gold); flex: none; }
+
+h4 {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 1.8rem 0 0.6rem;
+  font-weight: 400;
+}
+
+.part ul, .part ol { margin: 0 0 1.15rem; padding-left: 1.15rem; }
+.part li { margin-bottom: 0.44rem; }
+.part li::marker { color: var(--gold); }
+
+strong { color: var(--ink); font-weight: 600; }
+em { color: var(--ink-soft); }
+
+/* ---- Lede paragraph ---- */
+.lede { font-size: var(--step-1); line-height: 1.5; color: var(--ink-soft); }
+
+/* ---- Pull note ---- */
+.note {
+  border-left: 2px solid var(--gold);
+  background: var(--chip);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  font-size: 0.965rem;
+}
+.note p:last-child { margin-bottom: 0; }
+.note .tag {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.45rem;
+}
+
+/* ---- Cards ---- */
+.grid {
+  display: grid;
+  gap: 1px;
+  background: var(--rule-soft);
+  border: 1px solid var(--rule-soft);
+  margin: 1.6rem 0 1.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr));
+}
+.card { background: var(--ground); padding: 1.15rem 1.2rem 1.25rem; }
+.card .k {
+  font-family: var(--sans);
+  font-size: 0.63rem;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.card h5 { font-family: var(--display); font-size: 1.02rem; font-weight: 600; margin: 0 0 0.4rem; }
+.card p { font-size: 0.905rem; line-height: 1.52; color: var(--ink-soft); margin: 0; }
+
+/* ---- Tables ---- */
+.tablewrap { overflow-x: auto; margin: 1.5rem 0 1.9rem; border: 1px solid var(--rule-soft); }
+table { border-collapse: collapse; width: 100%; min-width: 34rem; font-size: 0.9rem; }
+thead th {
+  text-align: left;
+  font-family: var(--sans);
+  font-size: 0.63rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 400;
+  padding: 0.75rem 0.95rem;
+  border-bottom: 1px solid var(--rule);
+  white-space: nowrap;
+}
+tbody td { padding: 0.72rem 0.95rem; border-bottom: 1px solid var(--rule-soft); vertical-align: top; color: var(--ink-soft); }
+tbody tr:last-child td { border-bottom: 0; }
+tbody td:first-child { color: var(--ink); }
+td .mono, th .mono { color: var(--gold); }
+
+/* ---- Figures ---- */
+figure { margin: 2rem 0 2.2rem; }
+.plate {
+  border: 1px solid var(--rule-soft);
+  background: var(--raised);
+  padding: 1.5rem 1.2rem 1.1rem;
+  overflow-x: auto;
+}
+.plate svg { display: block; width: 100%; min-width: 32rem; max-width: 100%; height: auto; color: var(--ink-soft); }
+figcaption {
+  font-size: 0.855rem;
+  color: var(--muted);
+  margin-top: 0.85rem;
+  max-width: var(--measure);
+  line-height: 1.5;
+}
+figcaption b { color: var(--gold); font-weight: 400; font-family: var(--sans); font-size: 0.63rem; letter-spacing: 0.15em; text-transform: uppercase; display: block; margin-bottom: 0.35rem; }
+
+/* SVG diagram primitives */
+.d-box { fill: none; stroke: currentColor; stroke-width: 1.2; }
+.d-box-key { fill: none; stroke-width: 1.6; }
+.d-fill { fill: var(--chip); stroke: none; }
+.d-t { font-family: var(--sans); font-size: 12px; fill: var(--ink); }
+.d-t-sm { font-family: var(--sans); font-size: 10.5px; fill: var(--muted); }
+.d-t-key { font-family: var(--sans); font-size: 12px; }
+.d-line { stroke: currentColor; stroke-width: 1.2; fill: none; }
+.d-line-soft { stroke: currentColor; stroke-width: 1; fill: none; opacity: 0.45; }
+.d-dash { stroke-dasharray: 4 3; }
+
+/* ---- Decision block ---- */
+.decision {
+  border: 1px solid var(--rule);
+  padding: 1.15rem 1.25rem;
+  margin: 1.1rem 0;
+  background: var(--raised);
+}
+.decision .q { font-family: var(--display); font-size: 1.06rem; font-weight: 600; margin: 0 0 0.5rem; }
+.decision p { font-size: 0.925rem; color: var(--ink-soft); margin: 0 0 0.55rem; max-width: none; }
+.decision p:last-child { margin-bottom: 0; }
+.decision .rec { color: var(--gold); font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.13em; text-transform: uppercase; }
+
+/* ---- Divider ---- */
+.rule-star { display: flex; align-items: center; gap: 1rem; margin: 3.2rem 0 0; color: var(--rule); }
+.rule-star::before, .rule-star::after { content: ""; height: 1px; background: var(--rule); flex: 1; }
+.rule-star .star { width: 17px; height: 17px; color: var(--gold); flex: none; }
+
+/* ---- Footer ---- */
+footer {
+  border-top: 1px solid var(--rule);
+  margin-top: 4rem;
+  padding: 2.2rem 0 1rem;
+  font-size: 0.87rem;
+  color: var(--muted);
+  max-width: var(--measure);
+}
+footer a { color: var(--gold); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+</style>
+
+<!-- Eight-point khātim star: two squares, one rotated 45° — the construction on the SHRS crest -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="khatim">
+      <rect x="3.2" y="3.2" width="17.6" height="17.6" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <rect x="3.2" y="3.2" width="17.6" height="17.6" fill="none" stroke="currentColor" stroke-width="1.4" transform="rotate(45 12 12)"/>
+    </g>
+    <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+</svg>
+
+<div class="shell">
+
+  <!-- ================= CONTENTS RAIL ================= -->
+  <nav class="rail" aria-label="Contents">
+    <p class="rail-label">Contents</p>
+    <ol>
+      <li><a href="#mandate"><span class="n">00</span><span>The mandate</span></a></li>
+      <li><a href="#study"><span class="n">01</span><span>What the study found</span></a></li>
+      <li><a href="#problem"><span class="n">02</span><span>Three worlds, one institution</span></a></li>
+      <li><a href="#model"><span class="n">03</span><span>The Academic Object Model</span></a></li>
+      <li><a href="#pillars"><span class="n">04</span><span>The nine pillars</span></a></li>
+      <li><a href="#hifdh"><span class="n">05</span><span>The Hifdh Engine</span></a></li>
+      <li><a href="#registry"><span class="n">06</span><span>The Registrar's Works</span></a></li>
+      <li><a href="#ai"><span class="n">07</span><span>Quiet intelligence</span></a></li>
+      <li><a href="#analytics"><span class="n">08</span><span>Instrumentation</span></a></li>
+      <li><a href="#standard"><span class="n">09</span><span>The Royal Standard</span></a></li>
+      <li><a href="#platform"><span class="n">10</span><span>Platform &amp; security</span></a></li>
+      <li><a href="#scale"><span class="n">11</span><span>The scale path</span></a></li>
+      <li><a href="#sequence"><span class="n">12</span><span>Build sequence</span></a></li>
+      <li><a href="#decisions"><span class="n">13</span><span>Decisions I need</span></a></li>
+    </ol>
+  </nav>
+
+  <div>
+    <!-- ================= MASTHEAD ================= -->
+    <header class="masthead">
+      <div class="crest-line">
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg>
+        <span class="txt">Sultan Hanafi Royal Schools &middot; Internal architecture</span>
+      </div>
+      <h1>The Royal Standard</h1>
+      <p class="ar-title">مدارس السلطان حنفي الملكية</p>
+      <p class="standfirst">
+        A master blueprint for the SHRS Learning &amp; Academic Management Platform — the architecture
+        settled before a line of it is built. Not a copy of Canvas, Moodle or Blackboard: an
+        institution-shaped system that can hold secular secondary education, the classical Islamic
+        sciences, and complete Qur'ān memorisation inside one coherent ecosystem, and still be
+        recognisably SHRS on every screen.
+      </p>
+      <div class="docmeta">
+        <span>Phase <b>2 of 3</b> — architecture</span>
+        <span>Status <b>Draft for approval</b></span>
+        <span>Precedes <b>all implementation</b></span>
+      </div>
+    </header>
+
+    <main>
+
+      <!-- ================= 00 MANDATE ================= -->
+      <section class="part" id="mandate">
+        <div class="part-head"><span class="num">00</span><h2>The mandate</h2></div>
+        <p class="lede">
+          The instruction was to stop, study the field, and design the whole thing before building any
+          of it. This document is that design. It is written to be argued with — every structural
+          decision below is stated plainly enough to be rejected.
+        </p>
+        <p>
+          Three standing constraints govern everything that follows, and they are the reason this is
+          not simply a feature list.
+        </p>
+        <ul>
+          <li><strong>Nothing may feel added afterwards.</strong> A module that has to be bolted on later is a module the model got wrong. The test applied throughout: <em>could a programme SHRS has not yet invented be launched without a schema migration or a redesign?</em></li>
+          <li><strong>The institution is the product, not the software.</strong> A student should feel they are studying inside a great institution, not operating an application. That is a design constraint with engineering consequences — chiefly that the credential, the record and the seal are first-class objects, not PDF exports.</li>
+          <li><strong>Excellence over delivery speed.</strong> Where a shortcut exists, it is named and rejected in writing, so the decision survives the people who made it.</li>
+        </ul>
+        <div class="note">
+          <span class="tag">On honesty of claims</span>
+          <p>
+            A platform that issues credentials must never overstate what it has verified. Throughout
+            this design, <em>uploading</em> a document is distinguished from <em>verifying</em> it;
+            <em>completing</em> a programme is distinguished from being <em>accredited</em> by an
+            external body. Every screen that could be misread as an accreditation claim says plainly
+            what it is and is not. This is not timidity — it is what makes the seal worth something.
+          </p>
+        </div>
+      </section>
+
+      <div class="rule-star"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg></div>
+
+      <!-- ================= 01 STUDY ================= -->
+      <section class="part" id="study">
+        <div class="part-head"><span class="num">01</span><h2>What the study found</h2></div>
+        <p class="lede">
+          The brief asked for a study of more than a hundred leading institutions. The efficient route
+          to that coverage is not a hundred homepages — it is the platforms those institutions actually
+          run, plus the standards bodies that bind them together.
+        </p>
+        <p>
+          By enrolment share in North America, Canvas holds roughly 50%, Brightspace about 20%,
+          Blackboard about 12% and Moodle about 9% — so four platform families account for around nine
+          in ten institutions in scope, from Harvard and MIT (Open edX) through state systems to
+          secondary schools. Studying those families, the enterprise student-record systems behind them
+          (Ellucian Banner, Workday Student), the credential standards they must speak, and the
+          specialist Qur'ān platforms that none of them can accommodate, covers the field far better
+          than a survey of marketing sites.
+        </p>
+
+        <h4>What the leaders genuinely do well</h4>
+        <div class="grid">
+          <div class="card">
+            <span class="k">Canvas</span>
+            <h5>Open integration surface</h5>
+            <p>Its advantage is not features but LTI openness — the institution can adopt a specialist tool without waiting for the vendor. Worth taking: never let a module become the only way to do something.</p>
+          </div>
+          <div class="card">
+            <span class="k">Brightspace</span>
+            <h5>Outcomes as evidence</h5>
+            <p>Targets WCAG 2.2 AAA and EN 301 549, and treats learning outcomes as accreditation evidence rather than decoration. Worth taking: outcomes must be queryable, not narrative.</p>
+          </div>
+          <div class="card">
+            <span class="k">Moodle</span>
+            <h5>Source-code sovereignty</h5>
+            <p>Twenty years of accreditor recognition and 1,800+ plugins, because the institution owns the code. Worth taking: SHRS must own its data model outright.</p>
+          </div>
+          <div class="card">
+            <span class="k">Open edX</span>
+            <h5>Content as components</h5>
+            <p>The xBlock architecture lets new interaction types be added without touching the core. Worth taking — but not its operational weight: 20+ containers in a default install.</p>
+          </div>
+        </div>
+
+        <h4>Where all of them fail SHRS</h4>
+        <p>
+          Every mainstream LMS encodes one shape of learning: <span class="mono">course → module →
+          item → completion</span>, assessed once, marked, and closed. That model is a good fit for a
+          semester of Chemistry. It cannot express hifdh at all.
+        </p>
+        <ul>
+          <li><strong>Memorisation is a stock, not a course.</strong> A ḥāfiẓ does not <em>complete</em> Juz' 30 — they hold it, and holding decays without revision. A completion checkbox is the wrong instrument in principle, not in detail.</li>
+          <li><strong>Oral assessment is second-class.</strong> Mainstream platforms treat recitation as a file upload with a comment. The classical error taxonomy — <em>laḥn jalī</em> against <em>laḥn khafī</em> — has no representation anywhere in them.</li>
+          <li><strong>Transmission has no model.</strong> An <em>ijāzah</em> carries a <em>sanad</em>: an ordered chain of named teachers. No LMS on earth models a credential whose value lies in its chain.</li>
+          <li><strong>The registrar is an afterthought.</strong> Banner is Oracle/PL-SQL with a data model largely unchanged beneath a newer web skin; upgrades are disruptive and customisations accumulate as debt. Credential production is bolted to third parties.</li>
+        </ul>
+
+        <h4>The standards SHRS will speak</h4>
+        <p>
+          Owning the model does not mean inventing the interfaces. These are settled, and adopting them
+          costs little now and saves everything later.
+        </p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Standard</th><th>Why SHRS adopts it</th><th>When</th></tr></thead>
+            <tbody>
+              <tr><td>LTI 1.3 / Advantage</td><td>Lets a specialist tool (a tajwīd analyser, a maths practice engine) launch inside SHRS with roles and grade pass-back, without custom integration.</td><td>Phase 2</td></tr>
+              <tr><td>Open Badges 3.0</td><td>Published May 2024; aligned to the W3C Verifiable Credentials Data Model v2.0. Makes an SHRS award cryptographically verifiable by anyone, forever, without calling SHRS.</td><td>Phase 1</td></tr>
+              <tr><td>CLR 2.0</td><td>A learner record that can carry achievements from several issuers — the correct container for a student holding both a WAEC-track record and an ijāzah.</td><td>Phase 2</td></tr>
+              <tr><td>QTI</td><td>Assessment items become portable data, so a decade of question banks survives any future platform decision.</td><td>Phase 2</td></tr>
+              <tr><td>Caliper / xAPI</td><td>Learning events as a standard stream — the substrate every analytics claim in §08 rests on.</td><td>Phase 1</td></tr>
+              <tr><td>OneRoster 1.2</td><td>Class rosters and gradebook exchange; the path to interoperating with any future government or partner system.</td><td>Phase 3</td></tr>
+              <tr><td>WCAG 2.2 AA</td><td>The floor, not the target. Brightspace aims at AAA and SHRS should not aim lower than its peers.</td><td>Phase 1</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="rule-star"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg></div>
+
+      <!-- ================= 02 PROBLEM ================= -->
+      <section class="part" id="problem">
+        <div class="part-head"><span class="num">02</span><h2>Three worlds, one institution</h2></div>
+        <p class="lede">
+          This is the intellectual centre of the design. SHRS is unusual — it runs three educational
+          traditions that have genuinely different shapes, and the platform's whole architecture turns
+          on refusing to flatten them.
+        </p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Tradition</th><th>Unit of progress</th><th>Assessment</th><th>Ends?</th></tr></thead>
+            <tbody>
+              <tr><td>Secular secondary <span class="mono">(NERDC → WAEC / NECO / JAMB)</span></td><td>Term and cohort; a fixed syllabus moving at one pace</td><td>Continuous assessment plus a terminal written exam, increasingly computer-based</td><td>Yes — at the certificate</td></tr>
+              <tr><td>Islamic sciences <span class="mono">(Arabic, fiqh, Ḥanafī)</span></td><td>Text: a <em>matn</em>, then its <em>sharḥ</em>, under a named teacher</td><td>Oral examination and the teacher's authorisation to transmit</td><td>Yes — at the ijāzah</td></tr>
+              <tr><td>Qur'ān hifdh</td><td>Portion of a fixed 604-page, 6,236-āyah space, individually paced</td><td>Oral recitation, error-classified, before a teacher</td><td><strong>No</strong> — retention is maintained for life</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          A student at SHRS is inside all three at once. On one Tuesday they sit a Chemistry
+          continuous-assessment test, recite their <em>sabaq</em> to a teacher, and read a passage of
+          <em>matn</em>. One timetable, one attendance record, one parent, one fee, one report.
+        </p>
+        <div class="note">
+          <span class="tag">The decision this forces</span>
+          <p>
+            Most platforms would model this as three products stitched together — and it would feel
+            stitched, forever. The alternative is to find the abstraction that all three are special
+            cases of, and make the differences <em>data</em> rather than <em>code</em>. That is what
+            §03 does, and it is the single decision the rest of the platform hangs from.
+          </p>
+        </div>
+      </section>
+
+      <div class="rule-star"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg></div>
+
+      <!-- ================= 03 MODEL ================= -->
+      <section class="part" id="model">
+        <div class="part-head"><span class="num">03</span><h2>The Academic Object Model</h2></div>
+        <p class="lede">
+          Four primitives. Everything the institution teaches, assesses, records and certifies is
+          expressed in them — and the behavioural differences between traditions live in one field.
+        </p>
+
+        <figure>
+          <div class="plate">
+            <svg viewBox="0 0 980 232" role="img" aria-label="Four primitives in sequence — Programme prescribes Study Units, which evidence Attainment Records, which confer an Award. A Study Unit's modality field selects one of six behaviours.">
+              <!-- row of primitives -->
+              <rect class="d-box" x="15"  y="40" width="165" height="72"/>
+              <rect class="d-fill" x="250" y="40" width="180" height="72"/>
+              <rect class="d-box-key" x="250" y="40" width="180" height="72" stroke="var(--gold)"/>
+              <rect class="d-box" x="500" y="40" width="185" height="72"/>
+              <rect class="d-box" x="755" y="40" width="165" height="72"/>
+
+              <text class="d-t" x="97"  y="70"  text-anchor="middle">Programme</text>
+              <text class="d-t-sm" x="97" y="88" text-anchor="middle">a named path to</text>
+              <text class="d-t-sm" x="97" y="101" text-anchor="middle">an award</text>
+
+              <text class="d-t-key" x="340" y="70" text-anchor="middle" fill="var(--gold)">Study Unit</text>
+              <text class="d-t-sm" x="340" y="88" text-anchor="middle">a bounded body</text>
+              <text class="d-t-sm" x="340" y="101" text-anchor="middle">of learning</text>
+
+              <text class="d-t" x="592" y="70" text-anchor="middle">Attainment Record</text>
+              <text class="d-t-sm" x="592" y="88" text-anchor="middle">append-only; what was</text>
+              <text class="d-t-sm" x="592" y="101" text-anchor="middle">demonstrated, when, to whom</text>
+
+              <text class="d-t" x="837" y="70" text-anchor="middle">Award</text>
+              <text class="d-t-sm" x="837" y="88" text-anchor="middle">what the institution</text>
+              <text class="d-t-sm" x="837" y="101" text-anchor="middle">certifies and seals</text>
+
+              <!-- arrows -->
+              <line class="d-line" x1="180" y1="76" x2="243" y2="76" marker-end="url(#arw)"/>
+              <text class="d-t-sm" x="211" y="66" text-anchor="middle">prescribes</text>
+
+              <line class="d-line" x1="430" y1="76" x2="493" y2="76" marker-end="url(#arw)"/>
+              <text class="d-t-sm" x="461" y="66" text-anchor="middle">evidenced by</text>
+
+              <line class="d-line" x1="685" y1="76" x2="748" y2="76" marker-end="url(#arw)"/>
+              <text class="d-t-sm" x="716" y="66" text-anchor="middle">confers</text>
+
+              <!-- modality spine -->
+              <line class="d-line" x1="340" y1="112" x2="340" y2="150" stroke="var(--gold)"/>
+              <text class="d-t-sm" x="352" y="134" fill="var(--gold)">modality — one field, six behaviours</text>
+              <line class="d-line-soft" x1="92" y1="150" x2="888" y2="150"/>
+
+              <!-- ticks + chips -->
+              <line class="d-line-soft" x1="92"  y1="150" x2="92"  y2="172"/>
+              <line class="d-line-soft" x1="251" y1="150" x2="251" y2="172"/>
+              <line class="d-line-soft" x1="410" y1="150" x2="410" y2="172"/>
+              <line class="d-line-soft" x1="569" y1="150" x2="569" y2="172"/>
+              <line class="d-line-soft" x1="728" y1="150" x2="728" y2="172"/>
+              <line class="d-line-soft" x1="888" y1="150" x2="888" y2="172"/>
+
+              <rect class="d-box" x="20"  y="172" width="145" height="30"/>
+              <rect class="d-box" x="179" y="172" width="145" height="30"/>
+              <rect class="d-box" x="338" y="172" width="145" height="30"/>
+              <rect class="d-box" x="497" y="172" width="145" height="30"/>
+              <rect class="d-box" x="656" y="172" width="145" height="30"/>
+              <rect class="d-box" x="815" y="172" width="145" height="30"/>
+
+              <text class="d-t-sm" x="92"  y="191" text-anchor="middle">cohort_course</text>
+              <text class="d-t-sm" x="251" y="191" text-anchor="middle">mastery_track</text>
+              <text class="d-t-sm" x="410" y="191" text-anchor="middle">text_transmission</text>
+              <text class="d-t-sm" x="569" y="191" text-anchor="middle">competency_portfolio</text>
+              <text class="d-t-sm" x="728" y="191" text-anchor="middle">research_supervision</text>
+              <text class="d-t-sm" x="887" y="191" text-anchor="middle">open_enrolment</text>
+
+              <text class="d-t-sm" x="92"  y="219" text-anchor="middle">Chemistry SS2</text>
+              <text class="d-t-sm" x="251" y="219" text-anchor="middle">Hifdh</text>
+              <text class="d-t-sm" x="410" y="219" text-anchor="middle">Ḥanafī fiqh matn</text>
+              <text class="d-t-sm" x="569" y="219" text-anchor="middle">Diploma</text>
+              <text class="d-t-sm" x="728" y="219" text-anchor="middle">Degree / research</text>
+              <text class="d-t-sm" x="887" y="219" text-anchor="middle">Executive / lifelong</text>
+            </svg>
+          </div>
+          <figcaption>
+            <b>Plate I — The Academic Object Model</b>
+            Modality is a field on the Study Unit, not a subclass in code. It selects how the unit
+            schedules, how it is assessed, how progress is computed and how it appears. A programme
+            SHRS invents in 2031 gets a modality value, not a migration.
+          </figcaption>
+        </figure>
+
+        <h3><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg>Why the Attainment Record is append-only</h3>
+        <p>
+          The record is the institution's memory, and memory that can be quietly rewritten is worthless
+          at exactly the moment it matters — a disputed grade, an audit, a graduate's employer calling
+          in 2043. Corrections are therefore <em>new records that supersede</em>, never edits. The
+          current mark is a computed view over the chain; the chain itself is immutable and carries who
+          changed what, when, and on whose authority.
+        </p>
+        <p>
+          This costs a little storage and buys the thing no LMS gives you back once it is lost:
+          an academic history that can be defended.
+        </p>
+      </section>
+
+      <div class="rule-star"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg></div>
+
+      <!-- ================= 04 PILLARS ================= -->
+      <section class="part" id="pillars">
+        <div class="part-head"><span class="num">04</span><h2>The nine pillars</h2></div>
+        <p class="lede">
+          The domain divided into nine bounded contexts. Each owns its data and exposes it through a
+          defined contract; none reaches into another's tables. This is what allows the platform to be
+          built in phases without the later phases forcing rewrites of the earlier ones.
+        </p>
+        <div class="grid">
+          <div class="card"><span class="k">Pillar I</span><h5>Identity &amp; People</h5><p>One person, many roles, held over time — a student becomes an alumnus, a parent is also a teacher. Roles are dated grants, so history stays truthful.</p></div>
+          <div class="card"><span class="k">Pillar II</span><h5>Admissions</h5><p>Enquiry through offer to enrolment, as a resumable multi-step application with optional document upload — never a single form that loses work.</p></div>
+          <div class="card"><span class="k">Pillar III</span><h5>Curriculum</h5><p>Programmes, study units, modalities, outcomes. The authored spine — versioned, so a syllabus change never rewrites last year's records.</p></div>
+          <div class="card"><span class="k">Pillar IV</span><h5>Delivery</h5><p>Timetable, attendance, halaqah and class sessions, lesson materials, live sessions. Where the school day actually happens.</p></div>
+          <div class="card"><span class="k">Pillar V</span><h5>Assessment</h5><p>Items, banks, sittings, submissions, oral recitations, marking, moderation. Written and oral treated as equals, not one as a special case of the other.</p></div>
+          <div class="card"><span class="k">Pillar VI</span><h5>The Register</h5><p>Attainment records, progression, awards, transcripts, ijāzāt. The append-only spine and the institution's legal memory.</p></div>
+          <div class="card"><span class="k">Pillar VII</span><h5>Finance</h5><p>Fees, instalments, scholarships, receipts, reconciliation — multi-currency and multi-provider from day one, given the Nigerian payments landscape.</p></div>
+          <div class="card"><span class="k">Pillar VIII</span><h5>Communication</h5><p>Announcements, teacher–parent correspondence, results release, notifications. Logged, because a school is judged on what it told whom and when.</p></div>
+          <div class="card"><span class="k">Pillar IX</span><h5>Insight</h5><p>Event stream, dashboards, early support signals. Reads from every pillar; writes to none.</p></div>
+        </div>
+        <div class="note">
+          <span class="tag">Reuse already available</span>
+          <p>
+            A substantial part of Pillars I, II, VI and VII is already engineered in the sibling
+            codebase on Cloudflare — roughly 130 tables covering enrolment, a four-provider payment
+            router, signing keys, credential signatures, issued documents with verification codes, and
+            an evidence register. Pillar V's oral machinery is largely there too:
+            <span class="mono">learner_recordings</span>, <span class="mono">recording_upload_parts</span>,
+            <span class="mono">pronunciation_targets</span> and private R2 audio storage with authorised
+            playback. That is most of the hifdh recitation pipeline, already built and tested.
+          </p>
+        </div>
+      </section>
+
+      <div class="rule-star"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg></div>
+
+      <!-- ================= 05 HIFDH ================= -->
+      <section class="part" id="hifdh">
+        <div class="part-head"><span class="num">05</span><h2>The Hifdh Engine</h2></div>
+        <p class="lede">
+          This is where SHRS beats every platform in the world, because none of them attempt it. The
+          crest names it — <em>Complete Qur'ān Memorisation</em> — and the platform should make that
+          claim technically real.
+        </p>
+        <p>
+          The Qur'ān is a fixed, fully addressable space: 114 sūrah, 30 juz', 6,236 āyāt, 604 pages of
+          the standard muṣḥaf. Every portion of it can be given a stable identifier, and every learner
+          holds a <em>state</em> against every portion. That is the model — not a course, a holding.
+        </p>
+
+        <figure>
+          <div class="plate">
+            <svg viewBox="0 0 920 250" role="img" aria-label="A portion moves from unseen to sabaq to sabqi to manzil as it is held over time, and is demoted back a stage when a recitation lapses. All three held states feed the daily revision plan.">
+              <rect class="d-box" x="15"  y="66" width="170" height="62"/>
+              <rect class="d-box" x="265" y="66" width="170" height="62"/>
+              <rect class="d-box" x="515" y="66" width="170" height="62"/>
+              <rect class="d-fill" x="740" y="66" width="165" height="62"/>
+              <rect class="d-box-key" x="740" y="66" width="165" height="62" stroke="var(--gold)"/>
+
+              <text class="d-t" x="100" y="92"  text-anchor="middle">Unseen</text>
+              <text class="d-t-sm" x="100" y="110" text-anchor="middle">not yet taken</text>
+
+              <text class="d-t" x="350" y="92"  text-anchor="middle">Sabaq</text>
+              <text class="d-t-sm" x="350" y="110" text-anchor="middle">today's new portion</text>
+
+              <text class="d-t" x="600" y="92"  text-anchor="middle">Sabqī</text>
+              <text class="d-t-sm" x="600" y="110" text-anchor="middle">recent, still fragile</text>
+
+              <text class="d-t-key" x="822" y="92" text-anchor="middle" fill="var(--gold)">Manzil</text>
+              <text class="d-t-sm" x="822" y="110" text-anchor="middle">consolidated</text>
+
+              <!-- forward transitions -->
+              <line class="d-line" x1="185" y1="97" x2="258" y2="97" marker-end="url(#arw)"/>
+              <text class="d-t-sm" x="221" y="87" text-anchor="middle">first heard</text>
+
+              <line class="d-line" x1="435" y1="97" x2="508" y2="97" marker-end="url(#arw)"/>
+              <text class="d-t-sm" x="471" y="87" text-anchor="middle">clean recitation</text>
+
+              <line class="d-line" x1="685" y1="97" x2="733" y2="97" marker-end="url(#arw)"/>
+              <text class="d-t-sm" x="709" y="87" text-anchor="middle">held</text>
+
+              <!-- demotion arcs -->
+              <path class="d-line d-dash" d="M 800 66 C 760 20 660 20 615 62" marker-end="url(#arw)" stroke="var(--gold)"/>
+              <text class="d-t-sm" x="707" y="30" text-anchor="middle" fill="var(--gold)">laḥn jalī → demoted</text>
+
+              <path class="d-line d-dash" d="M 560 66 C 520 30 420 30 372 62" marker-end="url(#arw)" stroke="var(--gold)"/>
+              <text class="d-t-sm" x="466" y="40" text-anchor="middle" fill="var(--gold)">lapse → demoted</text>
+
+              <!-- revision plan -->
+              <line class="d-line-soft" x1="350" y1="128" x2="350" y2="163"/>
+              <line class="d-line-soft" x1="600" y1="128" x2="600" y2="163"/>
+              <line class="d-line-soft" x1="822" y1="128" x2="822" y2="163"/>
+              <line class="d-line-soft" x1="350" y1="163" x2="822" y2="163"/>
+              <line class="d-line" x1="586" y1="163" x2="586" y2="192" marker-end="url(#arw)"/>
+
+              <rect class="d-box-key" x="425" y="192" width="322" height="42" stroke="var(--gold)"/>
+              <text class="d-t-key" x="586" y="211" text-anchor="middle" fill="var(--gold)">Today's murāja'ah plan</text>
+              <text class="d-t-sm" x="586" y="226" text-anchor="middle">scheduled by decay, capped by the teacher</text>
+            </svg>
+          </div>
+          <figcaption>
+            <b>Plate II — Portion state, per learner</b>
+            The classical <em>sabaq / sabqī / manzil</em> discipline expressed as a state machine with
+            decay. Demotion is the mechanism a completion checkbox cannot express: a portion once held
+            can be lost, and the system must notice before the teacher does.
+          </figcaption>
+        </figure>
+
+        <h3><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg>The error taxonomy is the differentiator</h3>
+        <p>
+          When a student recites, the teacher marks errors against the portion — and the taxonomy is
+          the classical one, because it is the one that carries meaning:
+        </p>
+        <ul>
+          <li><strong>Laḥn jalī</strong> — clear error: a wrong word, a wrong ending, a changed meaning. Blocks progression on that portion.</li>
+          <li><strong>Laḥn khafī</strong> — subtle error: a tajwīd rule mis-applied. Tracked and coached, does not block.</li>
+          <li>Each error is tagged to a <strong>rule</strong> — <em>ikhfā', idghām, iqlāb, qalqalah, madd</em> and its measures — and to an <strong>āyah position</strong>.</li>
+        </ul>
+        <p>
+          Tagging at that grain produces something no ordinary gradebook can: a <strong>tajwīd weakness
+          profile</strong> per student, per class, per teacher. A teacher can see that eleven of their
+          thirty students consistently miss <em>madd munfaṣil</em> length, and teach it on Monday. That
+          is the difference between recording marks and improving recitation.
+        </p>
+        <p>
+          Recitations are captured as audio against the portion — the existing recording pipeline
+          already handles multipart upload, private storage and authorised playback — so a mark is
+          never an unevidenced assertion, and a disputed assessment can be re-heard.
+        </p>
+
+        <h3><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg>Sanad and ijāzah as a modelled chain</h3>
+        <p>
+          An <em>ijāzah</em> is not a certificate of attendance; its worth is the <em>sanad</em>, the
+          named chain of transmission behind it. SHRS should model that chain explicitly — an ordered
+          list of named authorities with the riwāyah (Ḥafṣ, Warsh, and others) recorded — and issue the
+          ijāzah as a signed verifiable credential carrying the chain inside it.
+        </p>
+        <div class="note">
+          <span class="tag">Why this matters beyond SHRS</span>
+          <p>
+            No learning platform anywhere issues a cryptographically verifiable credential whose payload
+            is a chain of transmission. Doing it correctly — Open Badges 3.0 over the W3C Verifiable
+            Credentials model, with the sanad as structured data rather than prose on a certificate —
+            would be a genuine first, and it is achievable with the signing infrastructure already built.
+          </p>
+        </div>
+      </section>
+
+      <div class="rule-star"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg></div>
+
+      <!-- ================= 06 REGISTRY ================= -->
+      <section class="part" id="registry">
+        <div class="part-head"><span class="num">06</span><h2>The Registrar's Works</h2></div>
+        <p class="lede">
+          The brief asked that the Registrar operate something closer to a credential manufactory than
+          a set of forms. That is the right instinct, and it is mostly an architectural question:
+          documents must be <em>produced from the record</em>, never typed.
+        </p>
+
+        <figure>
+          <div class="plate">
+            <svg viewBox="0 0 960 212" role="img" aria-label="An attainment record is conferred as an award by the registrar, sealed with an institutional signing key, then issued both as a printed instrument with a QR code and as an Open Badge, both of which resolve at one public verification endpoint.">
+              <rect class="d-box" x="12"  y="72" width="150" height="60"/>
+              <rect class="d-box" x="212" y="72" width="150" height="60"/>
+              <rect class="d-fill" x="412" y="72" width="150" height="60"/>
+              <rect class="d-box-key" x="412" y="72" width="150" height="60" stroke="var(--gold)"/>
+              <rect class="d-box" x="612" y="18" width="160" height="52"/>
+              <rect class="d-box" x="612" y="134" width="160" height="52"/>
+              <rect class="d-box" x="822" y="72" width="128" height="60"/>
+
+              <text class="d-t" x="87"  y="98"  text-anchor="middle">Attainment</text>
+              <text class="d-t-sm" x="87" y="115" text-anchor="middle">append-only record</text>
+
+              <text class="d-t" x="287" y="98"  text-anchor="middle">Conferral</text>
+              <text class="d-t-sm" x="287" y="115" text-anchor="middle">registrar's authority</text>
+
+              <text class="d-t-key" x="487" y="98" text-anchor="middle" fill="var(--gold)">Seal</text>
+              <text class="d-t-sm" x="487" y="115" text-anchor="middle">Ed25519 signing key</text>
+
+              <text class="d-t" x="692" y="41"  text-anchor="middle">Printed instrument</text>
+              <text class="d-t-sm" x="692" y="57" text-anchor="middle">guilloche, QR, serial</text>
+
+              <text class="d-t" x="692" y="157" text-anchor="middle">Open Badge 3.0</text>
+              <text class="d-t-sm" x="692" y="173" text-anchor="middle">portable, learner-held</text>
+
+              <text class="d-t" x="886" y="98"  text-anchor="middle">Verification</text>
+              <text class="d-t-sm" x="886" y="115" text-anchor="middle">public, no login</text>
+
+              <line class="d-line" x1="162" y1="102" x2="205" y2="102" marker-end="url(#arw)"/>
+              <line class="d-line" x1="362" y1="102" x2="405" y2="102" marker-end="url(#arw)"/>
+              <text class="d-t-sm" x="287" y="62" text-anchor="middle">confers</text>
+              <text class="d-t-sm" x="487" y="62" text-anchor="middle">seals</text>
+
+              <path class="d-line" d="M 562 96 C 585 96 588 44 605 44" marker-end="url(#arw)"/>
+              <path class="d-line" d="M 562 110 C 585 110 588 160 605 160" marker-end="url(#arw)"/>
+
+              <path class="d-line" d="M 772 44 C 795 44 800 92 815 96" marker-end="url(#arw)"/>
+              <path class="d-line" d="M 772 160 C 795 160 800 112 815 108" marker-end="url(#arw)"/>
+              <text class="d-t-sm" x="886" y="150" text-anchor="middle">checks the signature,</text>
+              <text class="d-t-sm" x="886" y="164" text-anchor="middle">not a trust list</text>
+            </svg>
+          </div>
+          <figcaption>
+            <b>Plate III — Credential production</b>
+            One conferral, one seal, two instruments, one verification path. Because verification checks
+            a cryptographic signature rather than looking the holder up in a table, an SHRS award stays
+            verifiable even if the platform is offline — and cannot be forged by anyone who has not got
+            the private key.
+          </figcaption>
+        </figure>
+
+        <h4>What the Registrar's console must do</h4>
+        <ul>
+          <li><strong>Issue in batch.</strong> A cohort's certificates produced in one authorised action, serialised, sealed and logged — not one form at a time.</li>
+          <li><strong>Reissue without rewriting history.</strong> A replacement carries a new serial and a visible link to the original; the original is never deleted.</li>
+          <li><strong>Answer verifications.</strong> An employer or university scans the QR and gets a plain, unambiguous statement of what SHRS certifies — and nothing it does not.</li>
+          <li><strong>Rotate keys safely.</strong> Signatures record the key that made them, so a rotated key does not invalidate a decade of past awards.</li>
+          <li><strong>Show the audit trail.</strong> Every conferral, correction and reissue attributable to a named officer at a timestamp.</li>
+        </ul>
+        <p>
+          Transcripts follow the same discipline: rendered from the register on demand, in an SHRS
+          typographic standard, with a verification code — and structured as a Comprehensive Learner
+          Record so that a student's secular results and their ijāzāt can sit in one document without
+          either pretending to be the other.
+        </p>
+      </section>
+
+      <div class="rule-star"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg></div>
+
+      <!-- ================= 07 AI ================= -->
+      <section class="part" id="ai">
+        <div class="part-head"><span class="num">07</span><h2>Quiet intelligence</h2></div>
+        <p class="lede">
+          The brief was exact: AI throughout, but quietly — assist, never distract. That is a
+          governance rule as much as a design one, so it is written as constraints first.
+        </p>
+        <ul>
+          <li><strong>No AI mark is ever final.</strong> Machine assessment proposes; a teacher disposes. On a credential-bearing judgement a human is always the author of record.</li>
+          <li><strong>No chat bubble in the corner.</strong> Intelligence appears where the work is — a suggested revision plan inside the plan, a flagged submission inside the marking queue.</li>
+          <li><strong>Everything suggested is attributable and reversible.</strong> If the system drafted it, the record says so.</li>
+          <li><strong>No AI in the sacred path without scholarly sign-off.</strong> Automated tajwīd feedback is a coaching aid shown to the student and teacher; it never issues an ijāzah, never certifies a portion, and its limits are stated on screen.</li>
+        </ul>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Where</th><th>What it does</th><th>Who decides</th></tr></thead>
+            <tbody>
+              <tr><td>Murāja'ah planning</td><td>Proposes the day's revision load from decay state and available time</td><td>Teacher caps and approves</td></tr>
+              <tr><td>Tajwīd coaching</td><td>Flags likely rule errors in a recording for the teacher's attention first</td><td>Teacher marks</td></tr>
+              <tr><td>Marking assistance</td><td>Drafts feedback on written work against the rubric; pre-sorts the queue</td><td>Teacher edits and signs</td></tr>
+              <tr><td>Support signals</td><td>Surfaces students whose engagement has dropped, with the evidence shown</td><td>Form teacher acts</td></tr>
+              <tr><td>Timetabling</td><td>Proposes schedules satisfying room, teacher and halaqah constraints</td><td>Registrar approves</td></tr>
+              <tr><td>Search</td><td>Finds across materials, records and correspondence within the asker's permissions</td><td>Permissions, always</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="rule-star"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg></div>
+
+      <!-- ================= 08 ANALYTICS ================= -->
+      <section class="part" id="analytics">
+        <div class="part-head"><span class="num">08</span><h2>Instrumentation</h2></div>
+        <p class="lede">
+          Dashboards at every level — institution, department, programme, class, teacher, student,
+          registrar, finance — all reading one event stream rather than each querying the tables their
+          own way. One definition of "attendance", computed once.
+        </p>
+        <p>
+          The research on early-alert systems is genuinely useful here, and part of it is a warning.
+          Systems that predict course failure from engagement, missed work and declining scores do work
+          — but two failure modes are well documented and both are designed out here rather than
+          discovered later.
+        </p>
+        <ul>
+          <li><strong>Target leakage.</strong> A model that quietly uses information unavailable at prediction time scores beautifully in testing and fails in use. Every SHRS signal must be computable from data that existed <em>before</em> the moment it claims to predict — enforced in how features are built, not checked afterwards.</li>
+          <li><strong>Alerts that harm.</strong> A flag with no agreed response, or one that follows a student as a label, does damage. So: every signal names an intervention and an owner, signals expire, and no student is shown a prediction about themselves as a verdict.</li>
+        </ul>
+        <p>
+          What a student sees of their own data is progress and effort, honestly presented — including
+          for hifdh, where the meaningful number is not pages memorised but <em>retention held</em>.
+        </p>
+      </section>
+
+      <div class="rule-star"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg></div>
+
+      <!-- ================= 09 STANDARD ================= -->
+      <section class="part" id="standard">
+        <div class="part-head"><span class="num">09</span><h2>The Royal Standard</h2></div>
+        <p class="lede">
+          The design language, taken from the crest rather than invented alongside it. This page is
+          drawn in it, so it can be judged rather than described.
+        </p>
+
+        <h4>Palette</h4>
+        <p>
+          The crest is a gold armorial shield on an obsidian field, bordered in bright gold, set within
+          a pearl eight-point star. That is the palette; nothing needs adding to it.
+        </p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Token</th><th>Value</th><th>Role</th></tr></thead>
+            <tbody>
+              <tr><td>Obsidian</td><td class="mono">#0B0C0F</td><td>The ground. Everything sits on it.</td></tr>
+              <tr><td>Antique gold</td><td class="mono">#C7A560</td><td>Structure — rules, small caps, the shield itself.</td></tr>
+              <tr><td>Bright gold</td><td class="mono">#F0C244</td><td>The single accent. Used rarely enough to still mean something.</td></tr>
+              <tr><td>Pearl</td><td class="mono">#EDE9DF</td><td>Reading text on dark.</td></tr>
+              <tr><td>Warm grey</td><td class="mono">#8C8677</td><td>A grey biased toward the gold, so it reads as chosen.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>The eight-point star</h4>
+        <p>
+          The <em>khātim</em> on the crest is two squares, one rotated forty-five degrees. That
+          construction is the platform's structural motif — section markers, focus states, loading
+          states, the grid itself. It appears throughout this document. It is used as geometry, never
+          as ornament pasted onto a surface.
+        </p>
+
+        <h4>Typography</h4>
+        <p>
+          An all-serif document, because SHRS is a school of classical scholarship and a charter reads
+          better than a dashboard. A humanist display face with inscriptional weight for headings, a
+          transitional serif for reading, a monospace for codes, serials and identifiers — and
+          <span class="ar">أميري</span> for Arabic, set at a size that respects it rather than shrinking
+          it to fit an English line.
+        </p>
+        <div class="note">
+          <span class="tag">Bilingual is structural, not a translation layer</span>
+          <p>
+            Arabic is not an afterthought at SHRS, so the platform is built with a full right-to-left
+            mirror of every surface — direction, layout, numerals and typography — rather than a
+            language toggle over an English skeleton. The sibling codebase already carries this
+            discipline with a parallel <span class="mono">/ar</span> tree and RTL partials, which is a
+            pattern worth inheriting wholesale.
+          </p>
+        </div>
+
+        <h4>Motion</h4>
+        <p>
+          Weight, not bounce. Everything moves like a heavy, well-machined object: 200–400ms, eased,
+          never springy, never playful. Motion confirms an action or reveals structure; it does not
+          decorate. And it respects <span class="mono">prefers-reduced-motion</span> — as this page does.
+        </p>
+
+        <h4>Mobile</h4>
+        <p>
+          Desktop is the flagship; mobile is not a reduction of it. Different layouts, same standard —
+          which in practice means the phone gets the things a phone is for (today's plan, this week's
+          recitation, a fee notice, a message from a teacher) at full quality, rather than a shrunken
+          registrar console nobody can use.
+        </p>
+      </section>
+
+      <div class="rule-star"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg></div>
+
+      <!-- ================= 10 PLATFORM ================= -->
+      <section class="part" id="platform">
+        <div class="part-head"><span class="num">10</span><h2>Platform &amp; security</h2></div>
+        <p class="lede">
+          The recommendation is to build on the stack already proven in the sibling codebase, because
+          it is a genuinely good fit for a Nigerian institution and it is already working.
+        </p>
+        <div class="grid">
+          <div class="card"><span class="k">Edge</span><h5>Cloudflare Pages + Functions</h5><p>Served from points of presence close to Nigerian users, with no server to maintain. Bandwidth and cold-start behaviour matter more here than in Europe or North America.</p></div>
+          <div class="card"><span class="k">Data</span><h5>D1, with a defined exit</h5><p>SQLite at the edge — right for the first phase. §11 sets the threshold at which this must be revisited, so the decision is dated rather than assumed permanent.</p></div>
+          <div class="card"><span class="k">Objects</span><h5>Private R2</h5><p>Recitations and identity documents. Never a public or signed URL — every read passes an authorisation check, as the existing buckets already enforce.</p></div>
+          <div class="card"><span class="k">Delivery</span><h5>Server-rendered, progressive</h5><p>No heavy client framework for pages that must work on a mid-range Android over patchy 3G. Interactivity where it earns its weight.</p></div>
+        </div>
+
+        <h4>Security</h4>
+        <ul>
+          <li><strong>Permissions are fine-grained and role-dated.</strong> A teacher sees their classes; a form teacher sees their form; the registrar sees the register. Every grant is an event with a start and an end.</li>
+          <li><strong>Everything consequential is audited</strong> — who saw a record, who changed a mark, who issued a document, on whose authority.</li>
+          <li><strong>Academic history is immutable</strong> by construction, per §03.</li>
+          <li><strong>Credential integrity by signature</strong>, not by database trust, per §06.</li>
+        </ul>
+
+        <h4>Nigerian compliance is not optional</h4>
+        <p>
+          In February 2026 the Nigeria Data Protection Commission issued a 21-day compliance notice to
+          educational institutions, requiring evidence of Compliance Audit Returns, a designated Data
+          Protection Officer, and registration as a Data Controller of Major Importance where
+          applicable — with administrative penalties for those who cannot demonstrate adequate
+          practice. SHRS processes children's data, which is exactly the high-risk category the
+          Commission is targeting.
+        </p>
+        <p>So the platform is built to make compliance demonstrable rather than asserted:</p>
+        <ul>
+          <li>A data inventory that is generated from the schema, not maintained by hand in a document nobody updates.</li>
+          <li>Retention periods declared per data class — recitation audio in particular — and enforced by a scheduled purge, which the existing codebase already implements.</li>
+          <li>Consent and guardian authority modelled explicitly for students under 18.</li>
+          <li>Breach detection and a reporting path, because the Act requires notification.</li>
+          <li>A DPIA prepared for the high-risk processing before it goes live, not after.</li>
+        </ul>
+      </section>
+
+      <div class="rule-star"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg></div>
+
+      <!-- ================= 11 SCALE ================= -->
+      <section class="part" id="scale">
+        <div class="part-head"><span class="num">11</span><h2>The scale path</h2></div>
+        <p class="lede">
+          The brief asks for an architecture that could serve ten schools, a hundred, or a million
+          learners without redesign. That is achievable, but only if the tenancy decision is made now —
+          retrofitting it is the single most expensive mistake available here.
+        </p>
+        <p>
+          So: <strong>every row that belongs to a school carries a school identifier from the first
+          migration</strong>, even while there is exactly one school. It costs almost nothing today and
+          it is the difference between opening a second campus in a week and rebuilding for a year.
+        </p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Stage</th><th>Shape</th><th>What changes</th></tr></thead>
+            <tbody>
+              <tr><td>One school</td><td>Single D1 database, tenant column present and always set</td><td>Nothing — this is the starting point</td></tr>
+              <tr><td>A few campuses</td><td>Same database, tenant-scoped queries and permissions</td><td>Nothing structural; administration gains a school switcher</td></tr>
+              <tr><td>Many schools</td><td>Database per tenant, one routing layer</td><td>Only the connection resolver — because every query was already tenant-scoped</td></tr>
+              <tr><td>Very large</td><td>Regional data stores; heavy reads moved off the write path</td><td>Storage engine, not the domain model</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          The honest caveat: D1 is right for stage one and probably stage two, and it is not where a
+          million learners will live. The design keeps the domain model independent of the store, so
+          that migration is an infrastructure project rather than a rewrite — and the trigger for it is
+          named in advance rather than discovered during an outage.
+        </p>
+      </section>
+
+      <div class="rule-star"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg></div>
+
+      <!-- ================= 12 SEQUENCE ================= -->
+      <section class="part" id="sequence">
+        <div class="part-head"><span class="num">12</span><h2>Build sequence</h2></div>
+        <p class="lede">
+          Ordered so that each phase is independently useful to the school, and so that the decisions
+          hardest to reverse are made first.
+        </p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Phase</th><th>What gets built</th><th>The school can then</th></tr></thead>
+            <tbody>
+              <tr><td><span class="mono">I</span> Foundation</td><td>Identity and roles, tenancy, the Academic Object Model, the append-only register, the design system, bilingual shell</td><td>Hold its people, programmes and records truthfully</td></tr>
+              <tr><td><span class="mono">II</span> The school day</td><td>Curriculum authoring, timetable, attendance, classes and halaqāt, materials, parent visibility</td><td>Run the term inside the platform</td></tr>
+              <tr><td><span class="mono">III</span> The Hifdh Engine</td><td>Portion state, murāja'ah scheduling, oral assessment with the error taxonomy, recitation capture</td><td>Do the thing no other platform can do for it</td></tr>
+              <tr><td><span class="mono">IV</span> Assessment &amp; results</td><td>Item banks, sittings, marking and moderation, continuous assessment, results release</td><td>Assess and publish without spreadsheets</td></tr>
+              <tr><td><span class="mono">V</span> The Registrar's Works</td><td>Conferral, sealing, transcripts, certificates, ijāzāt, public verification</td><td>Issue credentials the world can verify</td></tr>
+              <tr><td><span class="mono">VI</span> Admissions &amp; finance</td><td>Application wizard, offers, fees, instalments, receipts — largely portable from the sibling codebase</td><td>Take in students and money coherently</td></tr>
+              <tr><td><span class="mono">VII</span> Insight &amp; intelligence</td><td>Event stream, dashboards, support signals, the assistive AI of §07</td><td>See itself clearly and act earlier</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Hifdh sits at Phase III rather than later deliberately. It is the hardest part of the model
+          and the most distinctive; building it early proves the Academic Object Model can actually
+          carry a non-course modality, while the cost of being wrong is still low.
+        </p>
+      </section>
+
+      <div class="rule-star"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><use href="#khatim"/></svg></div>
+
+      <!-- ================= 13 DECISIONS ================= -->
+      <section class="part" id="decisions">
+        <div class="part-head"><span class="num">13</span><h2>Decisions I need</h2></div>
+        <p class="lede">
+          Everything above I can settle on the evidence. These five I should not decide alone — each
+          changes what gets built, and a wrong assumption here is expensive later.
+        </p>
+
+        <div class="decision">
+          <p class="q">Where does this live?</p>
+          <p>The <span class="mono">shroyalschools</span> repository holds only photographs today. The sibling college codebase holds ~130 tables of directly reusable engineering. My recommendation is a fresh SHRS repository that <em>ports</em> the proven components, rather than either starting from nothing or branching a codebase carrying another institution's identity throughout.</p>
+          <p class="rec">Recommended — new repository, port the good parts</p>
+        </div>
+
+        <div class="decision">
+          <p class="q">Which levels does SHRS actually run today?</p>
+          <p>The crest and signage say secular, Islamic/Arabic and complete Qur'ān memorisation, and the campus has real science laboratories. But the brief also names diplomas, degrees, research and executive education. I need to know which exist now, which are planned, and which are aspiration — the model accommodates all of them, but Phase II builds only what has real students.</p>
+        </div>
+
+        <div class="decision">
+          <p class="q">Which examination tracks must be supported first?</p>
+          <p>WAEC, NECO, JAMB/UTME, BECE — and with the Federal Government moving school candidates' May/June examinations toward full computer-based testing, does SHRS want internal CBT practice built as part of Phase IV?</p>
+        </div>
+
+        <div class="decision">
+          <p class="q">Do parents get their own portal in Phase II, or a view inside the student's?</p>
+          <p>A separate parent portal is significantly more work — separate identity, separate permissions, guardian relationships modelled properly. It is also, in my view, where a school of this kind wins or loses its reputation. My recommendation is to model guardianship properly in Phase I and ship the parent surface in Phase II.</p>
+          <p class="rec">Recommended — model in I, ship in II</p>
+        </div>
+
+        <div class="decision">
+          <p class="q">How many students, teachers and campuses, now and in three years?</p>
+          <p>This is the number that decides whether D1 is right for stage two, how the murāja'ah scheduler is built, and how much of §11 is real rather than theoretical.</p>
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          <strong>Phase 2 of 3.</strong> Phase 1 — the comparative study — is summarised in §01 and
+          sourced below. Phase 3 is implementation, which does not begin until this blueprint is
+          approved or corrected.
+        </p>
+        <p>
+          Sources consulted:
+          <a href="https://www.1edtech.org/specifications">1EdTech specifications</a> ·
+          <a href="https://www.imsglobal.org/spec/ob/v3p0">Open Badges 3.0</a> ·
+          <a href="https://www.1edtech.org/clr/faq">Comprehensive Learner Record</a> ·
+          <a href="https://www.imsglobal.org/lti-advantage-overview">LTI Advantage</a> ·
+          <a href="https://raccoongang.com/blog/best-lms-for-higher-education/">higher-education LMS comparison</a> ·
+          <a href="https://www.gartner.com/reviews/market/higher-education-learning-management-systems">Gartner Peer Insights</a> ·
+          <a href="https://ibl.ai/resources/comparisons/banner-vs-workday-student">Banner vs Workday Student</a> ·
+          <a href="https://ndpc.gov.ng/download/nigeria-data-protection-act-2023">Nigeria Data Protection Act 2023</a> ·
+          <a href="https://www.mondaq.com/nigeria/data-protection/1766236/regulatory-alert-the-nigeria-data-protection-commission-issues-compliance-notice-to-entities-operating-within-the-educational-sector-in-nigeria">NDPC education-sector compliance notice</a> ·
+          <a href="https://schoolhub.tech/blog/nerdc-curriculum-guide-nigerian-schools">NERDC curriculum</a> ·
+          <a href="https://technext24.com/2025/08/15/nigeria-waec-neco-2026-full-cbt-exams/">WAEC/NECO CBT transition</a> ·
+          <a href="https://arxiv.org/pdf/2605.25794">leakage-excluded early prediction</a> ·
+          <a href="https://www.civitaslearning.com/blog/effective-early-alert-system-in-higher-education/">early-alert system design</a> ·
+          <a href="https://link.springer.com/article/10.1007/s44217-025-00964-y">learning-analytics dashboards review</a>
+        </p>
+      </footer>
+
+    </main>
+  </div>
+</div>
