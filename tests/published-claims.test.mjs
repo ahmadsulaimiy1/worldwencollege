@@ -469,7 +469,25 @@ check('...and the design figure is one the framework actually specifies',
 for (const [label, file] of [['English', 'admissions-tuition.html'],
   ['Arabic', 'admissions-tuition.ar.html']]) {
   const body = readFileSync(path.join(ROOT, 'pages', file), 'utf8');
-  const table = body.slice(body.indexOf('<table class="ledger"'));
+  // THE FEE TABLE, not the first ledger on the page. This used to take
+  // whichever `.ledger` came first, and the moment the tuition
+  // breakdown was added above it the check started reading a table of
+  // percentages: it reported the credit total as `undefined` and the
+  // rows as summing to 100. It was measuring the wrong table and saying
+  // so confidently, which is the failure mode this whole block exists
+  // to catch on the page itself.
+  //
+  // Anchored on the header that only the fee table has. If the fee
+  // table is ever renamed the check fails loudly here rather than
+  // silently auditing a neighbour.
+  const FEE_HEAD = /<thead><tr>(?=[^<]*(?:<th>[^<]*<\/th>)*?<th>(?:Credits|أرصدة|الأرصدة)<\/th>)/;
+  const feeAt = body.search(/<table class="ledger">\s*<thead><tr><th>(?:Level|المستوى)<\/th>/);
+  if (feeAt === -1) {
+    check(`The ${label} fee table is findable`, false,
+      'no ledger whose first column is Level — the anchor this check depends on has moved');
+    continue;
+  }
+  const table = body.slice(feeAt);
   const rows = [...table.slice(0, table.indexOf('</table>')).matchAll(/<tr>([\s\S]*?)<\/tr>/g)]
     .map((m) => m[1]);
   const widthOf = (tr) => [...tr.matchAll(/<t[hd]([^>]*)>/g)]

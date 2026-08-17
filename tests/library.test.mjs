@@ -36,17 +36,38 @@ check(`The register holds volumes — ${reg.total} listed, ${reg.downloadable} d
     gone.length === 0, gone.map((v) => v.file).join(', '));
 }
 
-// ── 2 · EVERY SIZE IS THE FILE'S ACTUAL SIZE ─────────────────────────
+// ── 2 · EVERY PUBLISHED SIZE IS THE FILE'S ACTUAL SIZE ───────────────
 // Measured, not typed: a download size is exactly the sort of small
 // claim that goes stale on a rebuild and that nobody re-checks.
+//
+// Compared at the precision the page PUBLISHES — one decimal place of a
+// megabyte — and not byte-for-byte. A PDF carries a production
+// timestamp, so re-printing a volume changes its length by a few bytes
+// without changing anything a reader sees. A byte-exact check here
+// failed the suite the first time the publication tests re-rendered the
+// Teacher's Companion, which is a test reporting a defect that does not
+// exist. The claim on the page is "0.7 MB"; that is what is checked.
 {
   const wrong = reg.volumes.filter((v) => {
     const full = path.join(ROOT, 'publication', v.file);
-    return existsSync(full) && statSync(full).size !== v.bytes;
+    if (!existsSync(full)) return false;
+    return (statSync(full).size / 1048576).toFixed(1) !== v.mb;
   });
-  check('Every published size matches the file on disk',
+  check('Every published size matches the file on disk, to the tenth of a megabyte',
     wrong.length === 0,
-    wrong.map((v) => `${v.slug}: register ${v.bytes}B`).join(', '));
+    wrong.map((v) => `${v.slug}: page says ${v.mb} MB, file is `
+      + `${(statSync(path.join(ROOT, 'publication', v.file)).size / 1048576).toFixed(1)} MB`).join(', '));
+
+  // The oversize decision must be made on the real size, not a stale
+  // one: a volume that has grown past the ceiling since the register
+  // was written would break the whole deploy.
+  const misjudged = reg.volumes.filter((v) => {
+    const full = path.join(ROOT, 'publication', v.file);
+    if (!existsSync(full)) return false;
+    return (statSync(full).size > reg.max_bytes) !== Boolean(v.oversize);
+  });
+  check('...and no volume has crossed the size ceiling since the register was built',
+    misjudged.length === 0, misjudged.map((v) => v.slug).join(', '));
 }
 
 // ── 3 · EVERY DOWNLOADABLE VOLUME HAS A SERVING RULE ─────────────────

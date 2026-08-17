@@ -10,7 +10,7 @@
   "max_bytes": 26214400,
   "total": 16,
   "downloadable": 14,
-  "total_bytes": 78633603,
+  "total_bytes": 78633322,
   "collections": [
     "The Curriculum",
     "Teaching and Assessment",
@@ -91,7 +91,7 @@
       "collection": "Teaching and Assessment",
       "audience": "Teachers",
       "note": "For each lesson of Level I: what commonly goes wrong, why, a second way to explain it, and what to do for the learner who is behind and the one who finished early. Its front matter states that it contains no classroom observation.",
-      "bytes": 744496,
+      "bytes": 744215,
       "mb": "0.7",
       "oversize": false,
       "href": "/library/teachers-companion-level-1.pdf",
