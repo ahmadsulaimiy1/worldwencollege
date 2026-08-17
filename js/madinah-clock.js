@@ -11,7 +11,7 @@
    and nothing is sent anywhere.
    ===================================================================== */
 (function () {
-  var root = document.querySelector('[data-rusukh-clock]');
+  var root = document.querySelector('[data-madinah-clock]');
   if (!root) return;
 
   var lagosEl = root.querySelector('[data-clock-lagos]');

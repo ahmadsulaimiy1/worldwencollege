@@ -546,13 +546,13 @@
 
   // The portal replaces its whole shell on every view change, so it asks
   // for a rescan rather than this file watching the DOM for it.
-  window.__rusukhFigures = countFigures;
+  window.__madinahFigures = countFigures;
 
 
   /* =====================================================================
      THE ORBIT GATE
 
-     css/rusukh.css gives every card a travelling light — a conic gradient
+     css/madinah.css gives every card a travelling light — a conic gradient
      rotated through a registered @property, masked to a one-pixel ring.
      It is authored PAUSED, and this turns it on only while the card is on
      screen.
@@ -598,7 +598,7 @@
     });
   }
 
-  window.__rusukhOrbits = orbits;
+  window.__madinahOrbits = orbits;
 
   /* ------------------------------------------------------------------ */
 

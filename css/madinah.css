@@ -692,7 +692,7 @@ body[data-section] {
 
 /* --------------------------------------------------------- raking light
    A gilt highlight that follows the pointer across a heading, as a raking
-   light does across an engraved plate. js/rusukh-atelier.js publishes
+   light does across an engraved plate. js/madinah-atelier.js publishes
    --rake-x and --rake-o; with no pointer, no script, or reduced motion,
    the heading is simply itself. */
 
@@ -1582,7 +1582,7 @@ body[data-section] {
    which is free there.
 
    WHY IT IS PAUSED BY DEFAULT. Sixty conic gradients rotating at once is
-   sixty repaints a frame, most of them off screen. js/rusukh-atelier.js
+   sixty repaints a frame, most of them off screen. js/madinah-atelier.js
    adds .is-lit to a card when it enters the viewport and removes it when
    it leaves, and the animation is paused rather than removed so a card
    scrolled back into view resumes its turn instead of snapping to the
@@ -1856,7 +1856,7 @@ body[data-section] {
   transition: opacity .4s var(--ease-premium), transform .4s var(--ease-premium);
 }
 
-/* Retired over the footer — see js/rusukh-dock.js for why. */
+/* Retired over the footer — see js/madinah-dock.js for why. */
 .dock.is-retired {
   opacity: 0;
   transform: translateY(16px) scale(.94);

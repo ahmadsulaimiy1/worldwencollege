@@ -94,6 +94,6 @@ them:
 
 ## 7. Scope
 
-Every rule lives in `css/rusukh.css` and `css/riwaq.css`, which only the Dār al-Rusūkh build
+Every rule lives in `css/madinah.css` and `css/riwaq.css`, which only the Dār al-Rusūkh build
 loads. WorldWide English College shares `brand.css`, `pages.css` and `atelier.css` with this
 site and must not inherit a single one of these overrides.

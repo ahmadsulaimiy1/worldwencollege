@@ -127,7 +127,7 @@
       v + '%"></div></div>';
   }
   function pill(t, k) { return '<span class="status-pill status-pill--' + k + '">' + esc(t) + '</span>'; }
-  /* data-count is read by js/rusukh-atelier.js: the figure rises from
+  /* data-count is read by js/madinah-atelier.js: the figure rises from
      zero and settles when the tile enters view. These are measurements —
      pages held, itqān, days due — and a measurement that counts reads as
      one that was taken. An unparseable value is left exactly as written. */
@@ -703,8 +703,8 @@
     if (current === 'messages') S.actions.readMessages(d);
     host.innerHTML = appScreen(a, d);
     if (window.__rusukhDates) window.__rusukhDates();
-    if (window.__rusukhFigures) window.__rusukhFigures(host);
-    if (window.__rusukhOrbits) window.__rusukhOrbits(host);
+    if (window.__madinahFigures) window.__madinahFigures(host);
+    if (window.__madinahOrbits) window.__madinahOrbits(host);
   }
 
   function status(sel, msg, ok) {

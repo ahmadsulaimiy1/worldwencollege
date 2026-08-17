@@ -22,7 +22,7 @@ pages_build_output_dir = "."
 
 # ── BEFORE THE FIRST DEPLOY ──────────────────────────────────────────
 # `pages_build_output_dir = "."` publishes the whole repository, so
-# rusukh-src/, docs/, scripts/ and archive/ would all be fetchable as static
+# madinah-src/, docs/, scripts/ and archive/ would all be fetchable as static
 # files on the live domain. That is fine for a repository of documents and
 # wrong for a college's own planning papers. Resolve it before the domain is
 # attached — either by building into a dedicated output directory, or by

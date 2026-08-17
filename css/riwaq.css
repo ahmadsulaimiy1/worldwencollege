@@ -481,7 +481,7 @@
 
    The overrides below give those surfaces the material stated in
    docs/dar-al-rusukh/material-note.md, using the same tokens as
-   css/rusukh.css so the two files cannot drift apart.
+   css/madinah.css so the two files cannot drift apart.
    ========================================================================= */
 
 .app-main .panel {
@@ -506,7 +506,7 @@
    These carry the portal's four headline measurements, and they were the
    flattest thing in it. Radius, polished face, gold rim, a rule that
    draws under the label, and a figure that counts (data-count, wired in
-   js/riwaq.js and run by js/rusukh-atelier.js). */
+   js/riwaq.js and run by js/madinah-atelier.js). */
 
 .app-main .stat-tile {
   position: relative;
@@ -546,7 +546,7 @@
 }
 
 /* THE ORBIT, on the portal's own cards. Same primitive and the same
-   pseudo-element budget as css/rusukh.css: the sheen rides a background
+   pseudo-element budget as css/madinah.css: the sheen rides a background
    layer so ::after is free for the travelling ring. The tile's label rule
    sits on .stat-tile__label::after, which is a different element, so
    nothing collides. */

@@ -5,8 +5,8 @@
   "comment_on_modules": "No root-level \"type\" field, deliberately: scripts/build.js (the existing static-site generator) is CommonJS, while functions/**/*.js (Pages Functions) use ES module import/export. Node 22's built-in CJS/ESM syntax auto-detection handles both correctly from one tree without a type field \u2014 verified by running both. Do not add \"type\": \"module\" here without also converting scripts/build.js, or it breaks the static build.",
   "comment_on_engines": "scripts/build.js alone would run on much older Node, but `npm test` needs 22+ for node:sqlite (see tests/README.md) \u2014 the honest minimum for full local development, not just the static build.",
   "scripts": {
-    "build": "node scripts/build-rusukh.js",
-    "build:rusukh": "node scripts/build-rusukh.js",
+    "build": "node scripts/build-madinah.js",
+    "build:madinah": "node scripts/build-madinah.js",
     "dev": "wrangler pages dev .",
     "deploy": "wrangler pages deploy .",
     "wec:faculty": "node scripts/build-faculty.js && node scripts/build.js",

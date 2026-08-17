@@ -31,7 +31,7 @@ Source read: `ahmadsulaimiy1/Al-Madeenahcollege` — `docs/12-academic-editorial
 
 | Idea | Landed in |
 |---|---|
-| **A manual, numbered and citable** (`Reg. 3.2` in an offer letter, an appeal outcome, a syllabus) | New page `rusukh-src/pages/regulations.html` — ten regulations, cited by number, with an amendment and citation clause. A decision that cites no regulation is a decision a student cannot examine. |
+| **A manual, numbered and citable** (`Reg. 3.2` in an offer letter, an appeal outcome, a syllabus) | New page `madinah-src/pages/regulations.html` — ten regulations, cited by number, with an amendment and citation clause. A decision that cites no regulation is a decision a student cannot examine. |
 | **Levels are hours, not months** (`§19`) | Reg. 2 + a plate on the Faculties page telling the reader how to read the duration column. Duration is an output of pace; the body of work is the programme. |
 | **Notional hours rather than credit units** (`§19.1`) | Reg. 2, with the reason stated: *credit unit* carries a regulatory meaning in Nigeria and using it would borrow an authority the College has not earned. |
 | **The equal-standard rule** (`§21`) | Reg. 1.1. A pathway may never be made by removing content. |

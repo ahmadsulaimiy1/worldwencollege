@@ -490,7 +490,7 @@ It runs on the cards, the plates, the tier cards, the standing plinths, the stag
 
 **Two limits survive the ruling, and both are about something other than taste:**
 
-1. **The performance gate stays.** A rotating conic gradient is a repaint per frame per element, and a long page carries sixty of them. `js/rusukh-atelier.js` lights only what an IntersectionObserver reports on screen (`rootMargin: 140px`), pausing rather than unclassing so a shape scrolled back into view resumes its turn instead of snapping to the start. This is `§12.1`: the reader this College was built for is on an inexpensive phone paying for their own data, and sixty simultaneous repaints is a hot device and a flat battery. Restraint about *what the reader sees* was overruled; care about *what the reader's phone does* was not.
+1. **The performance gate stays.** A rotating conic gradient is a repaint per frame per element, and a long page carries sixty of them. `js/madinah-atelier.js` lights only what an IntersectionObserver reports on screen (`rootMargin: 140px`), pausing rather than unclassing so a shape scrolled back into view resumes its turn instead of snapping to the start. This is `§12.1`: the reader this College was built for is on an inexpensive phone paying for their own data, and sixty simultaneous repaints is a hot device and a flat battery. Restraint about *what the reader sees* was overruled; care about *what the reader's phone does* was not.
 2. **Structure takes no light.** The ring inherits `border-radius`, and a ledger table is deliberately square (`§8.1` — table cells and their rules are the page's architecture). Giving `.table-scroll` the orbit drew a moving rectangle around reading matter. Light belongs on the objects placed on the page, never on the page's own structure. "Almost every shape" is the ruling; a table is not a shape, it is a ledger.
 
 Material light (`.edge-lit`) is unchanged and remains the opposite kind of thing: applied broadly, because a one-colour 1px border asserts that every edge of an object receives identical light, which is true of nothing.
@@ -549,7 +549,7 @@ Gold on cream computes to roughly 2.3:1, well under AA. On warm-white, cream, pe
 
 ## §9.5 No inline styles
 
-Body copy carries **no** `style` attributes. The type system in `css/rusukh.css` sets the measure, the heading scale, the section rhythm and the meta line; a page that needs a one-off size needs a class. The site went from 299 inline styles to 15, and the fifteen are documented exceptions in art and diagram code.
+Body copy carries **no** `style` attributes. The type system in `css/madinah.css` sets the measure, the heading scale, the section rhythm and the meta line; a page that needs a one-off size needs a class. The site went from 299 inline styles to 15, and the fifteen are documented exceptions in art and diagram code.
 
 ## §9.6 Emphasis
 
@@ -653,7 +653,7 @@ No page ships until all of these have actually been done. Not reasoned about —
 
 ## §13.3 Where this bible is enforced in code
 
-`scripts/build-rusukh.js` warns by name on a missing `ar` block or Arabic file (`§5.2`). `css/rusukh.css` carries the type system that makes `§9.5` possible. `js/rusukh-atelier.js` gates the orbit (`§8.5`) and resolves figures under reduced motion (`§4.5`). `js/riwaq-store.js` implements `§10.2`. The rest of this document is enforced by a human reading a rendered page, which is why `§13.2` exists.
+`scripts/build-madinah.js` warns by name on a missing `ar` block or Arabic file (`§5.2`). `css/madinah.css` carries the type system that makes `§9.5` possible. `js/madinah-atelier.js` gates the orbit (`§8.5`) and resolves figures under reduced motion (`§4.5`). `js/riwaq-store.js` implements `§10.2`. The rest of this document is enforced by a human reading a rendered page, which is why `§13.2` exists.
 
 ## §13.4 Register of defects the bible found on its first pass
 
@@ -787,3 +787,22 @@ verification page would drop whatever followed the slash, so a mistyped
 credential link or a re-encoded QR code would resolve to an *empty*
 verification page. That is the one failure this route must never produce: it
 looks like a check that ran.
+
+---
+
+# Appendix E — What the files are called
+
+The College was built under a working name, *Dār al-Rusūkh*, and the code kept it long after the site stopped using it. That is now closed:
+
+| Was | Is |
+|---|---|
+| `css/rusukh.css` | `css/madinah.css` |
+| `js/rusukh-atelier.js` · `-clock.js` · `-dock.js` | `js/madinah-atelier.js` · `-clock.js` · `-dock.js` |
+| `rusukh-src/` | `madinah-src/` |
+| `scripts/build-rusukh.js` | `scripts/build-madinah.js` |
+| `data-rusukh-clock` · `window.__rusukhFigures` · `__rusukhOrbits` | `data-madinah-clock` · `__madinahFigures` · `__madinahOrbits` |
+| demo ledger accounts at `@rusukh.com` | `@al-madinahcollege.com` |
+
+**The `.r-` class prefix stays**, and that is a decision rather than an oversight. It is a namespace, not an abbreviation — it reads as *this College's own layer* against the design system underneath, and nobody meeting `.r-plate` infers a former name from it. Renaming it would touch several hundred occurrences across two stylesheets and thirty-two pages in two trees, for a change no reader can see and no author is confused by. Churn is not tidiness.
+
+The same applies to **the Riwāq**: `js/riwaq.js`, `js/riwaq-store.js`, `css/riwaq.css` keep their names because *riwāq* is what the thing is called — the College's own word for its ledger, after the *riwāq* of a mosque-college.
