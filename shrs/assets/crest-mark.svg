@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-labelledby="mark-title">
+  <title id="mark-title">Sultan Hanafi Royal Schools</title>
+
+  <!-- Compact mark for small sizes: the khatim and the shield alone.
+       The full armorial (crest.svg) carries the quartering, the mantling
+       and the style of the school, and is only legible above ~120px.
+       No opaque fill here, so the mark sits on either ground. -->
+
+  <g fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round">
+    <rect x="16" y="16" width="68" height="68"/>
+    <rect x="16" y="16" width="68" height="68" transform="rotate(45 50 50)"/>
+  </g>
+
+  <path d="M34 30 L66 30 L66 53 C66 66 58 74 50 79 C42 74 34 66 34 53 Z"
+        fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+
+  <g fill="currentColor">
+    <path d="M47 40 A 11 11 0 1 0 47 62 A 8.8 8.8 0 1 1 47 40 Z"/>
+    <polygon points="0,-6.5 1.6,-2.2 6.2,-2 2.6,0.85 3.8,5.25 0,2.7 -3.8,5.25 -2.6,0.85 -6.2,-2 -1.6,-2.2"
+             transform="translate(58 47)"/>
+  </g>
+</svg>

@@ -1,0 +1,638 @@
+/* ============================================================================
+   THE ROYAL STANDARD
+   Sultan Hanafi Royal Schools — platform design system.
+
+   Taken from the school crest rather than invented alongside it: a gold
+   armorial shield on an obsidian field, bordered bright gold, set within a
+   pearl eight-point khatim star.
+
+   Semantic colour is deliberately NOT the gold accent. It is drawn from the
+   palette of Islamic manuscript illumination — verdigris, lapis, ochre,
+   madder — which sits with gold on obsidian the way it has for a thousand
+   years, and which keeps "this needs attention" from ever reading as
+   "this is decorative".
+
+   Dark is the intended look, so bare :root carries the dark palette and
+   light is the override. Three viewer states are handled: explicit dark,
+   explicit light, and the unstamped default where only the OS preference
+   separates them.
+   ========================================================================= */
+
+/* ---------------------------------------------------------------- TOKENS */
+:root {
+  /* Ground and surfaces */
+  --sh-ground:     #0B0C0F;
+  --sh-raised:     #14161B;
+  --sh-raised-2:   #1B1E25;
+  --sh-sunken:     #07080A;
+
+  /* The crest */
+  --sh-gold:       #C7A560;
+  --sh-gold-lit:   #F0C244;
+  --sh-gold-deep:  #9C7C3C;
+
+  /* Text */
+  --sh-ink:        #EDE9DF;
+  --sh-ink-soft:   #C3BDB0;
+  --sh-muted:      #8C8677;   /* grey biased toward the gold — chosen, not inherited */
+
+  /* Rules and washes */
+  --sh-rule:       rgba(199, 165, 96, 0.22);
+  --sh-rule-soft:  rgba(199, 165, 96, 0.11);
+  --sh-wash:       rgba(199, 165, 96, 0.08);
+  --sh-wash-lit:   rgba(240, 194, 68, 0.14);
+
+  /* Semantic — illumination palette, never the accent */
+  --sh-verdigris:  #7C9E85;   /* held, consolidated, passed */
+  --sh-lapis:      #6E8FC0;   /* scheduled, informational */
+  --sh-ochre:      #C9873F;   /* fragile, attention */
+  --sh-madder:     #B85C4A;   /* lapsed, error, overdue */
+  --sh-verdigris-w: rgba(124, 158, 133, 0.15);
+  --sh-lapis-w:     rgba(110, 143, 192, 0.15);
+  --sh-ochre-w:     rgba(201, 135, 63, 0.15);
+  --sh-madder-w:    rgba(184, 92, 74, 0.15);
+
+  --sh-shadow: 0 1px 0 rgba(255,255,255,0.03), 0 20px 44px -26px rgba(0,0,0,0.9);
+
+  /* Type — no CDN, no silent fallback. All-serif, because a school of
+     classical scholarship should read like a charter, not a dashboard. */
+  --sh-display: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L",
+                "Iowan Old Style", Georgia, serif;
+  --sh-body:    Charter, "Bitstream Charter", "Iowan Old Style", "Sitka Text",
+                Cambria, Georgia, serif;
+  --sh-mono:    ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  --sh-arabic:  Amiri, "Scheherazade New", "Traditional Arabic", "Geeza Pro",
+                "Segoe UI Historic", serif;
+
+  /* Scale */
+  --sh--1: 0.815rem;
+  --sh-0:  1.0625rem;
+  --sh-1:  1.27rem;
+  --sh-2:  1.6rem;
+  --sh-3:  2.1rem;
+  --sh-4:  2.9rem;
+
+  --sh-measure: 68ch;
+
+  /* Motion — weight, not bounce. Nothing here springs. */
+  --sh-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --sh-quick: 180ms var(--sh-ease);
+  --sh-move:  280ms var(--sh-ease);
+  --sh-slow:  420ms var(--sh-ease);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --sh-ground:     #FBFAF6;
+    --sh-raised:     #FFFFFF;
+    --sh-raised-2:   #F4F1E9;
+    --sh-sunken:     #F1EDE2;
+
+    --sh-gold:       #8A6D1F;
+    --sh-gold-lit:   #A87C08;
+    --sh-gold-deep:  #6B5416;
+
+    --sh-ink:        #15161A;
+    --sh-ink-soft:   #3B3B3E;
+    --sh-muted:      #6B6558;
+
+    --sh-rule:       rgba(138, 109, 31, 0.26);
+    --sh-rule-soft:  rgba(138, 109, 31, 0.13);
+    --sh-wash:       rgba(138, 109, 31, 0.07);
+    --sh-wash-lit:   rgba(168, 124, 8, 0.13);
+
+    --sh-verdigris:  #4A7458;
+    --sh-lapis:      #3A5C93;
+    --sh-ochre:      #9A5F1C;
+    --sh-madder:     #97402F;
+    --sh-verdigris-w: rgba(74, 116, 88, 0.12);
+    --sh-lapis-w:     rgba(58, 92, 147, 0.12);
+    --sh-ochre-w:     rgba(154, 95, 28, 0.12);
+    --sh-madder-w:    rgba(151, 64, 47, 0.12);
+
+    --sh-shadow: 0 1px 0 rgba(255,255,255,0.8), 0 18px 36px -28px rgba(60,48,16,0.5);
+  }
+}
+
+:root[data-theme="light"] {
+  --sh-ground:     #FBFAF6;
+  --sh-raised:     #FFFFFF;
+  --sh-raised-2:   #F4F1E9;
+  --sh-sunken:     #F1EDE2;
+
+  --sh-gold:       #8A6D1F;
+  --sh-gold-lit:   #A87C08;
+  --sh-gold-deep:  #6B5416;
+
+  --sh-ink:        #15161A;
+  --sh-ink-soft:   #3B3B3E;
+  --sh-muted:      #6B6558;
+
+  --sh-rule:       rgba(138, 109, 31, 0.26);
+  --sh-rule-soft:  rgba(138, 109, 31, 0.13);
+  --sh-wash:       rgba(138, 109, 31, 0.07);
+  --sh-wash-lit:   rgba(168, 124, 8, 0.13);
+
+  --sh-verdigris:  #4A7458;
+  --sh-lapis:      #3A5C93;
+  --sh-ochre:      #9A5F1C;
+  --sh-madder:     #97402F;
+  --sh-verdigris-w: rgba(74, 116, 88, 0.12);
+  --sh-lapis-w:     rgba(58, 92, 147, 0.12);
+  --sh-ochre-w:     rgba(154, 95, 28, 0.12);
+  --sh-madder-w:    rgba(151, 64, 47, 0.12);
+
+  --sh-shadow: 0 1px 0 rgba(255,255,255,0.8), 0 18px 36px -28px rgba(60,48,16,0.5);
+}
+
+/* ------------------------------------------------------------------ BASE */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--sh-ground);
+  color: var(--sh-ink);
+  font-family: var(--sh-body);
+  font-size: var(--sh-0);
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--sh-gold); color: var(--sh-ground); }
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--sh-display);
+  font-weight: 600;
+  text-wrap: balance;
+  margin: 0;
+  letter-spacing: -0.008em;
+}
+
+p { margin: 0 0 1.05rem; }
+
+a { color: var(--sh-gold-lit); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--sh-ink); }
+
+:focus-visible {
+  outline: 2px solid var(--sh-gold-lit);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+code, .sh-mono { font-family: var(--sh-mono); font-size: 0.86em; }
+
+/* Arabic is structural here, not a translation layer. */
+.sh-ar { font-family: var(--sh-arabic); direction: rtl; unicode-bidi: isolate; }
+[dir="rtl"] { font-family: var(--sh-arabic); }
+
+/* Digits that sit in columns must line up. */
+.sh-num, td.sh-num, .sh-stat-v { font-variant-numeric: tabular-nums; }
+
+/* --------------------------------------------------------------- EYEBROW */
+.sh-eyebrow {
+  font-family: var(--sh-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sh-gold);
+  margin: 0 0 0.6rem;
+  font-weight: 400;
+}
+
+.sh-lede { font-size: var(--sh-1); line-height: 1.5; color: var(--sh-ink-soft); }
+
+/* ---------------------------------------------------------- KHATIM STARS */
+/* The crest's eight-point star is two squares, one rotated 45°. It is the
+   platform's structural motif — used as geometry, never pasted on. */
+/* inline-block, not block: the star has to sit inside plain headings as
+   happily as it sits inside a flex row, and a block-level SVG breaks the
+   line in the former. */
+.sh-star {
+  width: 1em; height: 1em;
+  color: var(--sh-gold);
+  flex: none;
+  display: inline-block;
+  vertical-align: -0.12em;
+}
+
+.sh-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2.6rem 0;
+  color: var(--sh-rule);
+}
+.sh-divider::before,
+.sh-divider::after { content: ""; height: 1px; background: var(--sh-rule); flex: 1; }
+.sh-divider .sh-star { width: 17px; height: 17px; }
+
+/* ----------------------------------------------------------------- SHELL */
+.sh-app {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+@media (min-width: 60rem) {
+  .sh-app { grid-template-columns: 16.5rem minmax(0, 1fr); }
+}
+
+/* ------------------------------------------------------------------ NAV */
+.sh-nav {
+  background: var(--sh-sunken);
+  border-inline-end: 1px solid var(--sh-rule-soft);
+  padding: 1.6rem 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+@media (min-width: 60rem) {
+  .sh-nav { position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+}
+
+.sh-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0 1.4rem;
+  text-decoration: none;
+  color: inherit;
+}
+.sh-brand-mark { width: 42px; height: 42px; flex: none; color: var(--sh-gold); display: block; }
+.sh-brand .sh-brand-n {
+  font-family: var(--sh-display);
+  font-size: 0.95rem;
+  line-height: 1.2;
+  font-weight: 600;
+}
+.sh-brand .sh-brand-s {
+  font-family: var(--sh-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--sh-muted);
+  margin-top: 0.2rem;
+  display: block;
+}
+
+.sh-navgroup { display: flex; flex-direction: column; gap: 0.1rem; }
+.sh-navgroup > .sh-eyebrow { padding: 0 1.4rem; margin-bottom: 0.45rem; font-size: 0.6rem; }
+
+.sh-navlink {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.5rem 1.4rem;
+  color: var(--sh-ink-soft);
+  text-decoration: none;
+  font-size: 0.945rem;
+  border-inline-start: 2px solid transparent;
+  transition: background var(--sh-quick), color var(--sh-quick), border-color var(--sh-quick);
+}
+.sh-navlink:hover { background: var(--sh-wash); color: var(--sh-ink); }
+.sh-navlink[aria-current="page"] {
+  background: var(--sh-wash);
+  color: var(--sh-ink);
+  border-inline-start-color: var(--sh-gold);
+}
+.sh-navlink[aria-current="page"] .sh-star { color: var(--sh-gold-lit); }
+.sh-navlink .sh-star { width: 14px; height: 14px; color: var(--sh-muted); }
+.sh-navlink .sh-count {
+  margin-inline-start: auto;
+  font-family: var(--sh-mono);
+  font-size: 0.68rem;
+  color: var(--sh-gold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ----------------------------------------------------------------- MAIN */
+.sh-main { min-width: 0; padding: 0 clamp(1.1rem, 4vw, 3rem) 5rem; }
+
+.sh-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2.2rem 0 1.5rem;
+  border-bottom: 1px solid var(--sh-rule);
+  margin-bottom: 2rem;
+}
+.sh-topbar h1 { font-size: var(--sh-3); line-height: 1.1; }
+.sh-topbar .sh-when {
+  font-family: var(--sh-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sh-muted);
+}
+
+.sh-section { margin: 2.6rem 0; }
+/* Descendant, not child: section headings also appear wrapped in .sh-between,
+   and they need the same star gap there. */
+.sh-section h2 {
+  font-size: var(--sh-2);
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.sh-section h2 .sh-star { width: 16px; height: 16px; }
+.sh-section > p { max-width: var(--sh-measure); color: var(--sh-ink-soft); }
+
+/* ---------------------------------------------------------------- PANELS */
+.sh-panel {
+  background: var(--sh-raised);
+  border: 1px solid var(--sh-rule-soft);
+  padding: 1.3rem 1.4rem 1.4rem;
+  box-shadow: var(--sh-shadow);
+}
+.sh-panel > h3 { font-size: var(--sh-1); margin-bottom: 0.15rem; }
+.sh-panel > .sh-eyebrow { margin-bottom: 0.5rem; }
+
+.sh-cols {
+  display: grid;
+  gap: 1.1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+}
+.sh-cols-2 {
+  display: grid;
+  gap: 1.1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  align-items: start;   /* panels size to their content, not to the tallest sibling */
+}
+
+/* ------------------------------------------------------------- STAT TILE */
+.sh-stats {
+  display: grid;
+  gap: 1px;
+  background: var(--sh-rule-soft);
+  border: 1px solid var(--sh-rule-soft);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+}
+.sh-stat { background: var(--sh-raised); padding: 1.05rem 1.15rem 1.15rem; }
+.sh-stat-k {
+  font-family: var(--sh-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--sh-muted);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.sh-stat-v {
+  font-family: var(--sh-display);
+  font-size: 1.95rem;
+  line-height: 1;
+  color: var(--sh-ink);
+  display: block;
+}
+.sh-stat-v small { font-size: 0.95rem; color: var(--sh-muted); font-family: var(--sh-body); }
+.sh-stat-n { font-size: 0.85rem; color: var(--sh-muted); margin: 0.45rem 0 0; }
+
+/* ----------------------------------------------------------------- CHIPS */
+.sh-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--sh-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  padding: 0.24rem 0.55rem;
+  border: 1px solid currentColor;
+  color: var(--sh-muted);
+  white-space: nowrap;
+}
+.sh-chip::before {
+  content: "";
+  width: 5px; height: 5px;
+  background: currentColor;
+  transform: rotate(45deg);
+  flex: none;
+}
+.sh-chip-held    { color: var(--sh-verdigris); background: var(--sh-verdigris-w); }
+.sh-chip-due     { color: var(--sh-lapis);     background: var(--sh-lapis-w); }
+.sh-chip-fragile { color: var(--sh-ochre);     background: var(--sh-ochre-w); }
+.sh-chip-lapsed  { color: var(--sh-madder);    background: var(--sh-madder-w); }
+.sh-chip-gold    { color: var(--sh-gold);      background: var(--sh-wash); }
+
+/* --------------------------------------------------------------- BUTTONS */
+.sh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--sh-mono);
+  font-size: 0.71rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.62rem 1.1rem;
+  border: 1px solid var(--sh-gold);
+  background: transparent;
+  color: var(--sh-gold);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--sh-quick), color var(--sh-quick), border-color var(--sh-quick);
+}
+.sh-btn:hover { background: var(--sh-gold); color: var(--sh-ground); }
+.sh-btn-solid { background: var(--sh-gold); color: var(--sh-ground); }
+.sh-btn-solid:hover { background: var(--sh-gold-lit); border-color: var(--sh-gold-lit); color: var(--sh-ground); }
+.sh-btn-quiet { border-color: var(--sh-rule); color: var(--sh-ink-soft); }
+.sh-btn-quiet:hover { background: var(--sh-wash); color: var(--sh-ink); border-color: var(--sh-gold); }
+
+/* ---------------------------------------------------------------- METERS */
+/* A meter reads as a fill AND a number — never colour alone. */
+.sh-meter {
+  height: 6px;
+  background: var(--sh-rule-soft);
+  overflow: hidden;
+  margin: 0.5rem 0 0;
+}
+.sh-meter > span {
+  display: block;
+  height: 100%;
+  background: var(--sh-gold);
+  transition: width var(--sh-slow);
+}
+.sh-meter-held > span    { background: var(--sh-verdigris); }
+.sh-meter-fragile > span { background: var(--sh-ochre); }
+.sh-meter-lapsed > span  { background: var(--sh-madder); }
+
+/* ----------------------------------------------------------------- LISTS */
+.sh-list { list-style: none; margin: 0; padding: 0; }
+.sh-list > li {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--sh-rule-soft);
+}
+.sh-list > li:last-child { border-bottom: 0; }
+.sh-list .sh-l-main { flex: 1; min-width: 0; }
+.sh-list .sh-l-t { display: block; color: var(--sh-ink); }
+.sh-list .sh-l-s { display: block; font-size: 0.87rem; color: var(--sh-muted); }
+
+/* ---------------------------------------------------------------- TABLES */
+.sh-tablewrap { overflow-x: auto; border: 1px solid var(--sh-rule-soft); }
+.sh-table { border-collapse: collapse; width: 100%; min-width: 34rem; font-size: 0.92rem; }
+.sh-table thead th {
+  text-align: start;
+  font-family: var(--sh-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--sh-gold);
+  font-weight: 400;
+  padding: 0.78rem 0.95rem;
+  border-bottom: 1px solid var(--sh-rule);
+  background: var(--sh-raised-2);
+  white-space: nowrap;
+}
+.sh-table tbody td {
+  padding: 0.75rem 0.95rem;
+  border-bottom: 1px solid var(--sh-rule-soft);
+  vertical-align: middle;
+  color: var(--sh-ink-soft);
+}
+.sh-table tbody tr:last-child td { border-bottom: 0; }
+.sh-table tbody td:first-child { color: var(--sh-ink); }
+.sh-table tbody tr:hover td { background: var(--sh-wash); }
+
+/* ------------------------------------------------------------------ NOTE */
+.sh-note {
+  border-inline-start: 2px solid var(--sh-gold);
+  background: var(--sh-wash);
+  padding: 0.95rem 1.15rem;
+  font-size: 0.945rem;
+}
+.sh-note p:last-child { margin-bottom: 0; }
+.sh-note .sh-eyebrow { font-size: 0.62rem; }
+.sh-note-caution { border-inline-start-color: var(--sh-ochre); background: var(--sh-ochre-w); }
+.sh-note-caution .sh-eyebrow { color: var(--sh-ochre); }
+
+/* ------------------------------------------------------- ASSISTED MARKER */
+/* Anything the machine drafted says so, every time, without exception. */
+.sh-assisted {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--sh-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--sh-lapis);
+}
+.sh-assisted::before {
+  content: "";
+  width: 6px; height: 6px;
+  border: 1px solid currentColor;
+  transform: rotate(45deg);
+  flex: none;
+}
+
+/* --------------------------------------------------------------- AYAH ROW */
+.sh-ayah {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--sh-rule-soft);
+}
+.sh-ayah:last-child { border-bottom: 0; }
+.sh-ayah-n {
+  font-family: var(--sh-mono);
+  font-size: 0.7rem;
+  color: var(--sh-gold);
+  padding-top: 0.5rem;
+  min-width: 3.2rem;
+  font-variant-numeric: tabular-nums;
+}
+.sh-ayah-t {
+  font-family: var(--sh-arabic);
+  direction: rtl;
+  font-size: 1.5rem;
+  line-height: 2.1;
+  flex: 1;
+  color: var(--sh-ink);
+}
+/* An error is marked by a rule beneath the word, not by colour alone. */
+.sh-jali {
+  color: var(--sh-madder);
+  border-bottom: 2px solid var(--sh-madder);
+  padding-bottom: 1px;
+}
+.sh-khafi {
+  color: var(--sh-ochre);
+  border-bottom: 2px dotted var(--sh-ochre);
+  padding-bottom: 1px;
+}
+
+/* ------------------------------------------------------------ MUSHAF MAP */
+/* Thirty ajza' as a fixed, addressable space. State is carried by fill AND
+   by a border weight, so it never depends on colour alone. */
+.sh-juz {
+  list-style: none;
+  margin: 1.2rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(2.4rem, 1fr));
+  gap: 4px;
+  max-width: 44rem;
+  align-items: start;   /* else the row height overrides aspect-ratio */
+}
+.sh-j {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--sh-rule-soft);
+  transition: transform var(--sh-quick), border-color var(--sh-quick);
+}
+.sh-j:hover { transform: translateY(-2px); border-color: var(--sh-gold); }
+.sh-j-n {
+  font-family: var(--sh-mono);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--sh-muted);
+}
+.sh-j-held    { background: var(--sh-verdigris-w); border-color: var(--sh-verdigris); }
+.sh-j-held    .sh-j-n { color: var(--sh-verdigris); }
+.sh-j-fragile { background: var(--sh-ochre-w);     border-color: var(--sh-ochre); }
+.sh-j-fragile .sh-j-n { color: var(--sh-ochre); }
+.sh-j-lapsed  { background: var(--sh-madder-w);    border-color: var(--sh-madder); border-width: 2px; }
+.sh-j-lapsed  .sh-j-n { color: var(--sh-madder); }
+.sh-j-unseen  { background: transparent; border-style: dashed; }
+
+/* ---------------------------------------------------------------- FOOTER */
+.sh-foot {
+  border-top: 1px solid var(--sh-rule);
+  margin-top: 3.5rem;
+  padding-top: 1.6rem;
+  font-size: 0.86rem;
+  color: var(--sh-muted);
+  max-width: var(--sh-measure);
+}
+
+/* ------------------------------------------------------------- UTILITIES */
+.sh-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.sh-between { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.sh-stack { display: flex; flex-direction: column; gap: 1.1rem; }
+.sh-stack-s { display: flex; flex-direction: column; gap: 0.5rem; }
+.sh-quiet { color: var(--sh-muted); }
+.sh-visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
