@@ -1,0 +1,320 @@
+<!--
+  THE HEADER.
+
+  Built on the same architecture as the WEC-LC rail in partials/header.html
+  and using the same components from css/brand.css and css/atelier.css —
+  lattice ground, trim-metal edge, tilt/sheen on the lockup, mega-menus on
+  the crystal panel, the mobile quicknav strip and the accordion drawer.
+  It condenses past 90px scroll: js/motion.js adds .is-condensed, the crest
+  scales down and the descriptor line withdraws so the name holds full size.
+
+  WHAT IS OURS RATHER THAN INHERITED:
+
+  - The crest. WEC's arms are a crowned shield over an open book; ours is
+    the eight-point khātim — two squares at 45° inside a double ring, the
+    oldest ornament in the Islamic geometric repertoire and the one that
+    survives being shrunk to 27px in the condensed rail. It reuses the
+    .crest__* classes so it inherits the same gold treatment, but not one
+    path is WEC's.
+
+  - The clock reads Lagos, not London, and carries the Hijrī date beside
+    the Gregorian — this College keeps its calendar against the Hijrī year,
+    so a header clock that showed only the Gregorian would contradict the
+    academic calendar two clicks away.
+
+  THE MENUS are the five pillars of the site: The College, Faculties,
+  Academic Awards, Continuing Education, Admission. Every link behind them
+  resolves; nothing is listed that has no page.
+-->
+<header class="site-header lattice" data-nodes="7">
+  <div class="trim-metal" aria-hidden="true"></div>
+  <div class="lattice__bed" aria-hidden="true"></div>
+
+  <div class="site-header__inner">
+    <a href="/rusukh/" class="brand tilt" aria-label="دار الرسوخ، الصفحة الرئيسة">
+      <span class="tilt__sheen" aria-hidden="true"></span>
+      <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
+        <circle class="crest__shield" cx="24" cy="27" r="21"/>
+        <circle class="crest__inner" cx="24" cy="27" r="17.5"/>
+        <path class="crest__crown" d="M10.5 13.5h27v27h-27Z"/>
+        <path class="crest__crown" d="M10.5 13.5h27v27h-27Z" transform="rotate(45 24 27)"/>
+        <circle class="crest__book" cx="24" cy="27" r="7.2"/>
+        <text x="24" y="30.2" text-anchor="middle" class="crest__mono">DAR</text>
+      </svg>
+      <span class="brand__word">
+        <span class="brand__name">دار الرسوخ</span>
+        <span class="brand__campus">كلية القرآن الكريم والعلوم الإسلامية</span>
+        <span class="brand__est">تأسست ١٤٤١هـ / ٢٠٢٠م &middot; لاغوس، نيجيريا</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="الرئيسة">
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/rusukh/about/" data-nav="about" aria-haspopup="true" aria-expanded="false">الكلية</a>
+        <div class="nav__menu nav__menu--mega crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">المؤسسة</p>
+              <a href="/rusukh/about/">عن الكلية</a>
+              <a href="/rusukh/about/#name">الاسم</a>
+              <a href="/rusukh/about/#method">منهج التدريس</a>
+              <a href="/rusukh/about/#foundation">النشأة والمؤسِّس</a>
+              <a href="/rusukh/about/#governance">الحكامة</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">اللوائح النافذة</p>
+              <a href="/rusukh/regulations/">اللوائح الأكاديمية</a>
+              <a href="/rusukh/regulations/#attainment">قاعدة الحفظ</a>
+              <a href="/rusukh/regulations/#pace">التسجيل والإجازة والانقطاع</a>
+              <a href="/rusukh/safeguarding/">حماية الطلاب وضوابط التدريس</a>
+              <a href="/rusukh/standing/">المكانة والاعتراف والإفصاح</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/rusukh/regulations/#attainment">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-shield-check"/></svg>
+            <span class="mega__feature-label">قاعدة الحفظ</span>
+            <span class="mega__feature-text">أكثر المؤسسات تسجّل ما بلغه الطالب، وهذه الكلية تسجّل ما بقي معه، وليسا رقمًا واحدًا.</span>
+            <span class="mega__feature-go">اقرأ اللائحة <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/rusukh/faculties/" data-nav="faculties" aria-haspopup="true" aria-expanded="false">الكليات</a>
+        <div class="nav__menu nav__menu--mega crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">الكليات الأربع</p>
+              <a href="/rusukh/faculties/quran/">القرآن الكريم وعلومه</a>
+              <a href="/rusukh/faculties/#arabic">اللغة العربية</a>
+              <a href="/rusukh/faculties/#shariah">العلوم الشرعية</a>
+              <a href="/rusukh/faculties/#applied">الدعوة والدراسات التطبيقية</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__label">البناء الأكاديمي</p>
+              <a href="/rusukh/faculties/">جميع برامج الدراسة</a>
+              <a href="/rusukh/faculties/#structure">المتون المقررة والمناهج</a>
+              <a href="/rusukh/calendar/">التقويم الدراسي</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/rusukh/faculties/quran/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-mushaf"/></svg>
+            <span class="mega__feature-label">كلية القرآن الكريم</span>
+            <span class="mega__feature-text">ستة برامج، من شهادة التأسيس إلى الدبلوم العالي في القراءات العشر.</span>
+            <span class="mega__feature-go">ادخل الكلية <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/rusukh/awards/" data-nav="awards" aria-haspopup="true" aria-expanded="false">الشهادات</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">الشهادات والامتحان</p>
+              <a href="/rusukh/awards/">شهادات الكلية</a>
+              <a href="/rusukh/awards/#general">الشهادات المرحلية</a>
+              <a href="/rusukh/awards/#examination">لوائح الامتحان</a>
+              <a href="/rusukh/awards/#ijazah">شروط الإجازة</a>
+              <a href="/rusukh/awards/register-of-chains/">سجل الأسانيد</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/rusukh/awards/register-of-chains/">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-sanad"/></svg>
+            <span class="mega__feature-label">The سجل الأسانيد</span>
+            <span class="mega__feature-text">الأسانيد التي تحملها هيئة التدريس، ومن رويت عنهم، ومن يُخوَّل بالإجازة بها.</span>
+            <span class="mega__feature-go">اقرأ السجل <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/rusukh/short-courses/" data-nav="short-courses" aria-haspopup="true" aria-expanded="false">التعليم المستمر</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">الدورات القصيرة</p>
+              <a href="/rusukh/short-courses/">All الدورات القصيرة</a>
+              <a href="/rusukh/short-courses/#ramadan">برنامج رمضان</a>
+              <a href="/rusukh/short-courses/#schedules">جداول الحفظ</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/rusukh/short-courses/#schedules">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-calendar"/></svg>
+            <span class="mega__feature-label">تُصدر دون أجر</span>
+            <span class="mega__feature-text">أربعة جداول متدرجة لحفظ القرآن، مجانًا ودون شرط التسجيل.</span>
+            <span class="mega__feature-go">اطلب جدولًا <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/rusukh/admissions/" data-nav="admissions" aria-haspopup="true" aria-expanded="false">القبول</a>
+        <div class="nav__menu nav__menu--mega nav__menu--slim crystal">
+          <div class="mega__cols">
+            <div class="mega__col">
+              <p class="mega__label">التقديم</p>
+              <a href="/rusukh/admissions/">نظرة عامة على القبول</a>
+              <a href="/rusukh/admissions/#procedure">المراحل الخمس</a>
+              <a href="/rusukh/admissions/#requirements">شروط الدخول</a>
+              <a href="/rusukh/admissions/charges/">الرسوم والتمويل</a>
+              <a href="/rusukh/admissions/charges/#terms">كيف تُموَّل الكلية</a>
+            </div>
+          </div>
+          <a class="mega__feature" href="/rusukh/admissions/#requirements">
+            <svg class="icon icon--lg" aria-hidden="true"><use href="#i-seal"/></svg>
+            <span class="mega__feature-label">لا شهادة؟ لا مانع.</span>
+            <span class="mega__feature-text">الدراسة في المدرسة أو على الشيوخ دون شهادة رسمية تُقدَّر ببيّنتها ويُمتحن صاحبها في المستوى الذي يستحقه.</span>
+            <span class="mega__feature-go">شروط الدخول <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+    </nav>
+
+    <div class="header__actions">
+      <a href="/rusukh/riwaq/" class="btn btn--quiet" data-nav="riwaq">
+        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg>
+        الرواق
+      </a>
+      <a href="/rusukh/admissions/#apply" class="btn btn--gold magnetic gold-live">تقدَّم</a>
+      <button class="nav__toggle" type="button" aria-label="افتح القائمة" aria-expanded="false" aria-controls="nav-mobile">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- THE HEADER CLOCK. Mobile only. Lagos is the registry's clock and
+       does not shift through the year; the reader's own is beside it, and
+       the date carries the Hijrī year because that is the calendar the
+       session is kept against. js/rusukh-clock.js fills all four values;
+       the numerals below are only the pre-script state. -->
+  <div class="headerclock grain" data-rusukh-clock>
+    <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
+    <span class="headerclock__times">
+      <span data-clock-lagos>09:00</span><span class="headerclock__tz">لاغوس</span>
+      <span class="headerclock__sep">&middot;</span>
+      <span data-clock-local>09:00</span><span class="headerclock__tz">عندك</span>
+    </span>
+    <span class="headerclock__date" data-clock-hijri>&mdash;</span>
+  </div>
+
+  <!-- THE QUICKNAV STRIP. Mobile only — above 861px the five pillars are
+       already in the visible rail, and a second copy there is chrome, not
+       navigation. Native scroll-snap on an overflow-x row; no carousel. -->
+  <div class="quicknav grain" aria-label="تنقل سريع">
+    <div class="quicknav__track">
+      <a href="/rusukh/about/" class="quicknav__tile">
+        <span class="vessel" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span></span>
+        <span class="quicknav__label">الكلية</span>
+      </a>
+      <a href="/rusukh/faculties/" class="quicknav__tile">
+        <span class="vessel" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-mushaf"/></svg></span></span>
+        <span class="quicknav__label">الكليات</span>
+      </a>
+      <a href="/rusukh/awards/" class="quicknav__tile">
+        <span class="vessel" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span></span>
+        <span class="quicknav__label">الشهادات</span>
+      </a>
+      <a href="/rusukh/short-courses/" class="quicknav__tile">
+        <span class="vessel" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span></span>
+        <span class="quicknav__label">الدورات القصيرة</span>
+      </a>
+      <a href="/rusukh/admissions/" class="quicknav__tile">
+        <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span></span>
+        <span class="quicknav__label">القبول</span>
+      </a>
+      <a href="/rusukh/riwaq/" class="quicknav__tile">
+        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span></span>
+        <span class="quicknav__label">الرواق</span>
+      </a>
+      <button type="button" class="quicknav__tile quicknav__tile--full" data-quicknav-full aria-controls="nav-mobile">
+        <span class="vessel" style="--halo-delay: 3.6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
+        <span class="quicknav__label">القائمة الكاملة</span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="nav-mobile" id="nav-mobile" aria-label="قائمة الجوال">
+    <div class="accordion">
+      <div class="accordion__item">
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span><span>الكلية</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/rusukh/about/">عن الكلية</a>
+          <a href="/rusukh/about/#name">الاسم</a>
+          <a href="/rusukh/about/#method">منهج التدريس</a>
+          <a href="/rusukh/about/#foundation">النشأة والمؤسِّس</a>
+          <a href="/rusukh/about/#governance">الحكامة</a>
+          <a href="/rusukh/regulations/">اللوائح الأكاديمية</a>
+          <a href="/rusukh/safeguarding/">حماية الطلاب وضوابط التدريس</a>
+          <a href="/rusukh/standing/">المكانة والاعتراف والإفصاح</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-mushaf"/></svg></span><span>الكليات</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/rusukh/faculties/">جميع برامج الدراسة</a>
+          <a href="/rusukh/faculties/quran/">القرآن الكريم وعلومه</a>
+          <a href="/rusukh/faculties/#arabic">اللغة العربية</a>
+          <a href="/rusukh/faculties/#shariah">العلوم الشرعية</a>
+          <a href="/rusukh/faculties/#applied">الدعوة والدراسات التطبيقية</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span><span>الشهادات</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/rusukh/awards/">شهادات الكلية</a>
+          <a href="/rusukh/awards/#general">الشهادات المرحلية</a>
+          <a href="/rusukh/awards/#examination">لوائح الامتحان</a>
+          <a href="/rusukh/awards/#ijazah">شروط الإجازة</a>
+          <a href="/rusukh/awards/register-of-chains/">سجل الأسانيد</a>
+          <a href="/rusukh/verify/">التحقق من الوثائق</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span><span>التعليم المستمر</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/rusukh/short-courses/">All الدورات القصيرة</a>
+          <a href="/rusukh/short-courses/#ramadan">برنامج رمضان</a>
+          <a href="/rusukh/short-courses/#schedules">جداول الحفظ</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span><span>القبول</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/rusukh/admissions/">نظرة عامة على القبول</a>
+          <a href="/rusukh/admissions/#procedure">المراحل الخمس</a>
+          <a href="/rusukh/admissions/#requirements">شروط الدخول</a>
+          <a href="/rusukh/admissions/charges/">الرسوم والتمويل</a>
+          <a href="/rusukh/admissions/charges/#terms">كيف تُموَّل الكلية</a>
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span><span>شؤون الطلاب</span></span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">
+          <a href="/rusukh/riwaq/">الرواق — learning portal</a>
+          <a href="/rusukh/calendar/">التقويم الدراسي</a>
+          <a href="/rusukh/verify/">التحقق من الوثائق</a>
+          <a href="/rusukh/contact/">مراسلة شؤون الطلاب</a>
+        </div></div>
+      </div>
+    </div>
+    <div class="nav-mobile__group--utility">
+      <a href="/rusukh/calendar/">التقويم الدراسي</a>
+      <a href="/rusukh/verify/">التحقق</a>
+      <a href="/rusukh/contact/">الاتصال</a>
+    </div>
+    <div class="nav-mobile__lang">
+      <a href="{{ALT_HREF}}" class="topbar__lang" lang="en" dir="ltr" hreflang="en">
+        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+        English
+      </a>
+      <div class="topbar__social" aria-label="قنوات الاتصال">
+        <a href="mailto:registry@daralrusukh.com" aria-label="راسل شؤون الطلاب"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></a>
+        <a href="/rusukh/contact/" aria-label="قنوات الاتصال"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+      </div>
+    </div>
+    <a href="/rusukh/admissions/#apply" class="btn btn--gold">تقدَّم</a>
+  </nav>
+</header>

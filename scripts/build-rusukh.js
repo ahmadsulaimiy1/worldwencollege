@@ -62,6 +62,40 @@ function urlPathFor(output) {
 }
 
 // ---------------------------------------------------------------------
+// TWO LANGUAGES, ONE MANIFEST
+//
+// The Arabic tree is NOT a second manifest. Every entry carries an `ar`
+// block with its own title and description, and the build emits both
+// trees from the one list — so a page cannot be added to the College in
+// English and quietly not exist in Arabic. The build says so out loud
+// when an `ar` block is missing rather than skipping it silently.
+//
+// Arabic content lives beside its English counterpart as `<name>.ar.html`
+// and is AUTHORED, not translated: `charges.ar.html` is written in Arabic
+// from the same institutional facts, which is why it is a file of its own
+// rather than a string table.
+// ---------------------------------------------------------------------
+function arOutputFor(output) {
+  return 'ar/' + output;
+}
+
+function arContentFileFor(contentFile) {
+  return contentFile.replace(/\.html$/, '.ar.html');
+}
+
+// A partial may have an Arabic counterpart; where it does not, the
+// English one is used. The chrome partials all have one — the RTL header
+// and footer are not the LTR ones mirrored, they are authored.
+function partialFor(name, lang) {
+  const ar = path.join(PARTIALS, name + '.ar.html');
+  if (lang === 'ar' && fs.existsSync(ar)) return read(ar);
+  return read(path.join(PARTIALS, name + '.html'));
+}
+
+const SKIP_LABEL = { en: 'Skip to main content', ar: 'انتقل إلى المحتوى' };
+const RAIL_LABEL = { en: 'On this page', ar: 'في هذه الصفحة' };
+
+// ---------------------------------------------------------------------
 // THE MASTHEAD
 //
 // Every page but the home page opens with the same shape — eyebrow, h1,
@@ -124,9 +158,10 @@ function withContentsRail(html, entry) {
   // Under four sections a rail costs a band of chrome to save a scroll.
   if (items.length < 4) return html;
 
-  const rail = `<nav class="contents" aria-label="On this page">
+  const label = RAIL_LABEL[entry.lang || 'en'] || RAIL_LABEL.en;
+  const rail = `<nav class="contents" aria-label="${label}">
   <div class="contents__inner">
-    <span class="contents__label">On this page</span>
+    <span class="contents__label">${label}</span>
     <ul class="contents__list">
 ${items.map((i) => `      <li><a href="#${i.id}">${i.label}</a></li>`).join('\n')}
     </ul>
@@ -199,8 +234,48 @@ function build() {
   const seen = new Set();
   let count = 0;
 
+  // Each manifest entry produces TWO pages. The Arabic entry is derived
+  // rather than authored so the two trees cannot drift: same slug, same
+  // nav key, same section anchors, same extra CSS and scripts.
+  const routes = [];
   manifest.forEach((entry) => {
+    routes.push(Object.assign({}, entry, { lang: 'en' }));
+    if (!entry.ar) {
+      console.warn(`  ! ${entry.slug}: no "ar" block in the manifest — Arabic page not built`);
+      return;
+    }
+    const arContent = path.join(PAGES, arContentFileFor(entry.contentFile));
+    if (!fs.existsSync(arContent)) {
+      console.warn(`  ! ${entry.slug}: ${arContentFileFor(entry.contentFile)} missing — Arabic page not built`);
+      return;
+    }
+    routes.push(Object.assign({}, entry, {
+      lang: 'ar',
+      output: arOutputFor(entry.output),
+      contentFile: arContentFileFor(entry.contentFile),
+      title: entry.ar.title,
+      description: entry.ar.description,
+    }));
+  });
+
+  routes.forEach((entry) => {
+    const lang = entry.lang || 'en';
     const canonical = SITE_URL + urlPathFor(entry.output);
+    // The switch and the hreflang pair are two different questions with
+    // the same answer here: the other tree's URL for THIS page.
+    const altOutput = lang === 'ar'
+      ? entry.output.replace(/^ar\//, '')
+      : arOutputFor(entry.output);
+    const altHref = urlPathFor(altOutput);
+    const altUrl = SITE_URL + altHref;
+    const hasAlt = entry.ar || lang === 'ar';
+    const alternates = hasAlt
+      ? [
+          `<link rel="alternate" hreflang="en" href="${lang === 'en' ? canonical : altUrl}">`,
+          `<link rel="alternate" hreflang="ar" href="${lang === 'ar' ? canonical : altUrl}">`,
+          `<link rel="alternate" hreflang="x-default" href="${lang === 'en' ? canonical : altUrl}">`,
+        ].join('\n')
+      : '';
     if (seen.has(canonical)) {
       throw new Error(`Two manifest entries produce the same URL — ${canonical}`);
     }
@@ -211,36 +286,52 @@ function build() {
       throw new Error(`${entry.slug}: content file not found — ${entry.contentFile}`);
     }
 
-    const head = fill(read(path.join(PARTIALS, 'head.html')), {
+    const head = fill(partialFor('head', lang), {
       TITLE: entry.title,
       DESCRIPTION: entry.description,
       CANONICAL: canonical,
       FONTS_URL,
       BUILD_ID,
+      OG_LOCALE: lang === 'ar' ? 'ar_AR' : 'en_GB',
+      ALTERNATES: alternates,
+      // css/arabic.css is the type layer for the script — it undoes the
+      // Latin tracking and leading that every earlier stylesheet sets, so
+      // it must load LAST, after the house layer and after any page CSS.
       EXTRA_CSS: (entry.extraCss || [])
         .map((h) => `\n<link rel="stylesheet" href="${h}">`)
-        .join(''),
+        .join('') + (lang === 'ar' ? '\n<link rel="stylesheet" href="/css/arabic.css">' : ''),
     });
 
-    const content = withContentsRail(
+    let content = withContentsRail(
       ornament(raiseMasthead(read(contentPath))),
       entry
     );
 
+    // An Arabic page linking to /rusukh/regulations/ would throw the
+    // reader back into English mid-sentence. Rewritten at assembly rather
+    // than typed into every Arabic file, so an author cannot forget the
+    // prefix and cannot get it wrong on one link out of ninety.
+    if (lang === 'ar') {
+      content = content.replace(
+        /href="\/rusukh\/(?!ar\/)/g,
+        'href="/' + OUT_DIR + '/ar/'
+      );
+    }
+
     const html = `<!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="${lang}" dir="${lang === 'ar' ? 'rtl' : 'ltr'}">
 <head>
 ${head}
 </head>
-<body data-section="${entry.nav || 'root'}">
-<a class="skip-link" href="#main">Skip to main content</a>
+<body data-section="${entry.nav || 'root'}" data-lang="${lang}">
+<a class="skip-link" href="#main">${SKIP_LABEL[lang] || SKIP_LABEL.en}</a>
 ${icons}
-${read(path.join(PARTIALS, 'topbar.html')).trimEnd()}
-${markCurrentNav(read(path.join(PARTIALS, 'header.html')).trimEnd(), entry.nav)}
+${fill(partialFor('topbar', lang).trimEnd(), { ALT_HREF: altHref })}
+${markCurrentNav(fill(partialFor('header', lang).trimEnd(), { ALT_HREF: altHref }), entry.nav)}
 <main id="main">
 ${content}
 </main>
-${read(path.join(PARTIALS, 'footer.html')).trimEnd()}
+${fill(partialFor('footer', lang).trimEnd(), { ALT_HREF: altHref })}
 <script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
@@ -256,14 +347,14 @@ ${read(path.join(PARTIALS, 'footer.html')).trimEnd()}
     count++;
   });
 
-  writeSitemap(manifest);
+  writeSitemap(routes);
   console.log(`Dār al-Rusūkh — built ${count} pages into ${OUT_DIR}/`);
 }
 
-function writeSitemap(manifest) {
+function writeSitemap(routes) {
   const urls = [
     ...new Set(
-      manifest
+      routes
         .filter((e) => !/(^|\/)404\.html$/.test(e.output))
         .map((e) => SITE_URL + urlPathFor(e.output))
     ),

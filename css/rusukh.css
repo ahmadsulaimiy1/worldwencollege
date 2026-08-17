@@ -1786,3 +1786,18 @@ body[data-section] {
   .r-diagram__cap { font-size: 13px; }
   .r-diagram__note { font-size: 14px; }
 }
+
+/* ------------------------------------------- assembled digits under RTL
+   js/atelier.js splits a figure into one inline span per character so the
+   digits can arrive in sequence. Inside an RTL document those spans lay
+   out RIGHT TO LEFT, and ١٧ renders as ٧١ — the College's own figures,
+   silently reversed on every Arabic page.
+
+   Arabic-Indic digits are written left-to-right inside RTL text, so the
+   fix is to isolate the figure as its own LTR run. Caught by rendering
+   the Arabic home page and reading the number. */
+[dir="rtl"] [data-assemble] {
+  display: inline-block;
+  direction: ltr;
+  unicode-bidi: isolate;
+}

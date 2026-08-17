@@ -1,0 +1,108 @@
+<div class="topbar">
+  <div class="topbar__inner">
+    <div class="topbar__contacts">
+      <a href="mailto:registry@daralrusukh.com" class="topbar__item">
+        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
+        registry@daralrusukh.com
+      </a>
+      <span class="topbar__item topbar__item--muted">
+        <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
+        شؤون الطلاب في لاغوس &middot; التدريس عن بُعد كليًّا &middot; القبول مستمر
+      </span>
+    </div>
+    <div class="topbar__right">
+      <a href="/rusukh/calendar/" class="topbar__item">
+        <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+        التقويم
+      </a>
+      <a href="/rusukh/verify/" class="topbar__item">
+        <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
+        التحقق
+      </a>
+      <a href="/rusukh/riwaq/" class="topbar__item">
+        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg>
+        الدخول
+      </a>
+      <button type="button" class="topbar__item topbar__pref" data-personalise-toggle
+              aria-expanded="false" aria-controls="personalise">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+        التخصيص
+      </button>
+      <a href="{{ALT_HREF}}" class="topbar__lang" lang="en" dir="ltr" hreflang="en">
+        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+        English
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- THE PRAYER BAND.
+     The one thing a college of Qur'ānic sciences should carry above its
+     own name. Times are computed on the reader's device from the solar
+     position at Lagos — Muslim World League angles, shadow factor one —
+     and the band says so, because reasonable tables differ and a school
+     that prints a prayer time without naming its convention is asserting
+     more than it knows. -->
+<div class="prayerband" data-prayer-band>
+  <div class="prayerband__inner">
+    <span class="prayerband__place">
+      <svg class="icon" aria-hidden="true"><use href="#i-minaret"/></svg>
+      لاغوس &middot; توقيت غرب أفريقيا
+    </span>
+    <span class="prayerband__next">
+      <span class="prayerband__label">التالية</span>
+      <strong data-prayer-name>—</strong>
+      <span class="prayerband__time" data-prayer-time>—:—</span>
+      <span class="prayerband__cd" data-prayer-countdown></span>
+    </span>
+    <span class="prayerband__date">
+      <span data-hijri-long>—</span>
+      <span class="prayerband__sep" aria-hidden="true">&middot;</span>
+      <span data-gregorian>—</span>
+    </span>
+  </div>
+</div>
+
+<!-- THE PERSONALISATION CENTRE.
+     Three settings, remembered on this device and nowhere else. الحِلية
+     recolours the institutional blues without touching the golds; ornament
+     governs the raking light, the drifting motes and the paper grain;
+     text size scales the whole document from the root. -->
+<div class="personalise crystal" id="personalise" data-personalise-panel hidden>
+  <div class="personalise__inner">
+    <div class="personalise__head">
+      <h2 class="personalise__title">تخصيص الموقع</h2>
+      <button type="button" class="personalise__close" data-personalise-close aria-label="Close">&times;</button>
+    </div>
+
+    <div class="personalise__group">
+      <p class="personalise__label">الحِلية</p>
+      <div class="personalise__opts">
+        <button type="button" data-pref="livery" data-value="sapphire" aria-pressed="true">الياقوت</button>
+        <button type="button" data-pref="livery" data-value="obsidian" aria-pressed="false">السَّبَج</button>
+        <button type="button" data-pref="livery" data-value="emerald" aria-pressed="false">الزمرد</button>
+      </div>
+    </div>
+
+    <div class="personalise__group">
+      <p class="personalise__label">الزخرفة</p>
+      <div class="personalise__opts">
+        <button type="button" data-pref="ornament" data-value="full" aria-pressed="true">كاملة</button>
+        <button type="button" data-pref="ornament" data-value="restrained" aria-pressed="false">مقتصدة</button>
+        <button type="button" data-pref="ornament" data-value="none" aria-pressed="false">بلا</button>
+      </div>
+    </div>
+
+    <div class="personalise__group">
+      <p class="personalise__label">حجم الخط</p>
+      <div class="personalise__opts">
+        <button type="button" data-pref="textsize" data-value="small" aria-pressed="false">صغير</button>
+        <button type="button" data-pref="textsize" data-value="medium" aria-pressed="true">عادي</button>
+        <button type="button" data-pref="textsize" data-value="large" aria-pressed="false">كبير</button>
+      </div>
+    </div>
+
+    <p class="personalise__note">Remembered on this device. Nothing is sent anywhere,
+      and no account is required.</p>
+  </div>
+</div>

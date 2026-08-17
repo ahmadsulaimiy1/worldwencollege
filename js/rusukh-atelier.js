@@ -111,6 +111,8 @@
     return pad(Math.floor(m / 60) % 24) + ':' + pad(m % 60);
   }
 
+  function isArabic() { return document.documentElement.lang === 'ar'; }
+
   var ORDER = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
   var ARABIC = {
     Fajr: 'الفجر', Sunrise: 'الشروق', Dhuhr: 'الظهر',
@@ -146,11 +148,16 @@
     var nameEl = $('[data-prayer-name]', band);
     var timeEl = $('[data-prayer-time]', band);
     var cdEl = $('[data-prayer-countdown]', band);
-    if (nameEl) nameEl.textContent = next.name;
+    if (nameEl) nameEl.textContent = isArabic() ? (ARABIC[next.name] || next.name) : next.name;
     if (timeEl) timeEl.textContent = hhmm(next.at);
     if (cdEl) {
       var mins = Math.max(0, Math.round((next.at - nowH) * 60));
-      cdEl.textContent = 'in ' + (mins >= 60 ? Math.floor(mins / 60) + 'h ' : '') + (mins % 60) + 'm';
+      /* The band is chrome and appears on every page of both trees, so
+         its two written strings — the prayer's name and the countdown —
+         follow the document's language rather than the build's default. */
+      cdEl.textContent = isArabic()
+        ? 'بعد ' + (mins >= 60 ? Math.floor(mins / 60) + ' س ' : '') + (mins % 60) + ' د'
+        : 'in ' + (mins >= 60 ? Math.floor(mins / 60) + 'h ' : '') + (mins % 60) + 'm';
     }
 
     // The full table, where the page carries one.
