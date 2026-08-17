@@ -429,6 +429,53 @@ const AR_QUALIFICATION = {
   },
 };
 
+// ── اللوحة، واحدة لكل مستوى ───────────────────────────────────────────
+// نفس اللوحات المرخَّصة والمسجَّلة في assets/images/plates/CREDITS.md،
+// وبالترتيب نفسه الذي يروي الصعود: أول الحروف، ثم متعلم وحده يعمل، ثم
+// المحادثة، ثم القراءة الطويلة في صحبة، ثم عمق المكتبة، ثم المؤسسة
+// نفسها. والنص البديل مكتوب للإطار بالعربية لا مترجمًا حرفًا بحرف عن
+// الإنجليزية — فالقارئ الذي يسمع الوصف يستحق جملة كُتبت له.
+const PLATE = {
+  I:   { file: 'manuscript.jpg', icon: 'i-quill',
+         alt: 'ورقة من مخطوط عربي مذهَّب، خطُّها مسطَّر في أسطر متساوية وزخرفةٌ مذهَّبة في الهامش.',
+         caption: 'كل لغة تبدأ علاماتٍ تعلَّم أحدهم رسمها.' },
+  II:  { file: 'study.jpg', icon: 'i-lectern',
+         alt: 'شاب بقميص بياقة يعمل على حاسوب محمول وسمّاعتان على أذنيه، وأوراق وملفات إلى جانبه.',
+         caption: 'المستوى يطلب ساعات، ويعطيك الشكل الذي تنفقها فيه.' },
+  III: { file: 'seminar.jpg', icon: 'i-language',
+         alt: 'طالبتان تتحاوران على حاسوب محمول في مكتبة، إحداهما بحجاب، وثالث يقرأ خلفهما.',
+         caption: 'هنا يبدأ التحدث يحمل الدرجة.' },
+  IV:  { file: 'reading-hall.jpg', icon: 'i-book',
+         alt: 'قاعة مطالعة جامعية طويلة بسقف خشبي مزخرف، وخزائن كتب مصفوفة وطاولات قراءة تحتها.',
+         caption: 'القراءة الطويلة، وفي صحبة.',
+         credit: 'تصوير <a href="https://www.flickr.com/photos/35106989@N08/6780155266">robert.claypool</a>، <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>' },
+  V:   { file: 'stacks.jpg', icon: 'i-columns',
+         alt: 'رفوف مكتبة تتوالى في العمق، رفٌّ بعد رفٍّ من المجلدات المجلَّدة تحت ضوء متساوٍ.',
+         caption: 'الاتساع والمقام: المستوى الذي تكفّ فيه الإنجليزية عن أن تكون صوتًا واحدًا.' },
+  VI:  { file: 'colonnade.jpg', icon: 'i-crest',
+         alt: 'رواق حجري بأعمدة في ضوء مائل، تتوالى أقواسه نحو صحن مفتوح.',
+         caption: 'الوصول — إلى اللغة، وإلى المؤسسة المبنية عليها.',
+         credit: 'تصوير <a href="https://www.flickr.com/photos/98115025@N00/496743569">stevecadman</a>، <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>' },
+};
+
+function plate(roman) {
+  const p = PLATE[roman];
+  if (!p) return '';
+  return `    <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 16 / 9">
+      <div class="plate__frame tilt gold-live edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <img src="/assets/images/plates/${p.file}" alt="${p.alt}" loading="lazy" decoding="async">
+        <span class="plate__tone" aria-hidden="true"></span>
+        <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+      </div>
+      <figcaption class="plate__caption">
+        <svg class="icon" aria-hidden="true"><use href="#${p.icon}"/></svg>
+        ${p.caption}${p.credit ? `\n        <span class="plate__credit">${p.credit}</span>` : ''}
+      </figcaption>
+    </figure>
+`;
+}
+
 function levelPage(lv, i) {
   const prev = levels[i - 1] || null;
   const next = levels[i + 1] || null;
@@ -570,6 +617,7 @@ ${card('صورة الخريج', 'ما يستطيعه حاملها', AR_GRADUATE_
     <p class="form-note">تبدأ بقسط واحد قدره <span dir="ltr">$791.67</span>، لا برسوم المستوى.
       والتقسيط هو الترتيب الافتراضي ولا رسم عليه &mdash; انظر
       <a href="/ar/admissions/tuition/#ladder">السُّلَّم</a>.</p>
+${plate(lv.roman)}
     <div class="section-head">
       <span class="module-marker">نظرة عامة</span>
       <h2>ما يحتويه هذا المستوى.</h2>

@@ -257,6 +257,63 @@ const QUALIFICATION = {
   },
 };
 
+// ── THE PLATE, ONE PER LEVEL ──────────────────────────────────────────
+// docs/imagery-plan.md: twelve level pages carried over 700 words each
+// with nothing photographic on them, and a reader scrolling a wall of
+// type has nothing to rest on. Every plate below is already licensed and
+// registered in assets/images/plates/CREDITS.md — no new sourcing, no
+// new licence, nothing unverifiable.
+//
+// The SEQUENCE is the point. Read in order, the six plates tell the
+// ascent on their own: first letters, then one learner working, then
+// conversation, then sustained reading in company, then the depth of a
+// library, then the institution itself. A reader who only looks at the
+// pictures still learns the shape of the programme.
+//
+// `credit` is present only where the licence requires attribution to be
+// rendered — CREDITS.md marks which, and a plate wanting one and not
+// getting it is a licensing incident, not a styling choice.
+const PLATE = {
+  I:   { file: 'manuscript.jpg', icon: 'i-quill',
+         alt: 'A leaf from an illuminated Arabic manuscript, its script ruled in even lines with gilded ornament in the margin.',
+         caption: 'Every language begins as marks somebody learned to make.' },
+  II:  { file: 'study.jpg', icon: 'i-lectern',
+         alt: 'A young man in a collared shirt working at a laptop with headphones on, papers and files beside him.',
+         caption: 'The level asks for hours, and gives you the shape to spend them in.' },
+  III: { file: 'seminar.jpg', icon: 'i-language',
+         alt: 'Two students in conversation over a laptop in a library, one wearing a hijab, a third reading behind them.',
+         caption: 'This is the level where speaking starts carrying the grade.' },
+  IV:  { file: 'reading-hall.jpg', icon: 'i-book',
+         alt: 'A long university reading hall with a painted timber ceiling, ranked bookcases and reading tables beneath.',
+         caption: 'Reading at length, and in company.',
+         credit: 'Photograph <a href="https://www.flickr.com/photos/35106989@N08/6780155266">robert.claypool</a>, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>' },
+  V:   { file: 'stacks.jpg', icon: 'i-columns',
+         alt: 'Library stacks receding into depth, shelf after shelf of bound volumes under even light.',
+         caption: 'Range and register: the level where English stops being one voice.' },
+  VI:  { file: 'colonnade.jpg', icon: 'i-crest',
+         alt: 'A stone colonnade in raking light, its arches receding toward an open court.',
+         caption: 'Arrival — at the language, and at the institution built on it.',
+         credit: 'Photograph <a href="https://www.flickr.com/photos/98115025@N00/496743569">stevecadman</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>' },
+};
+
+function plate(roman) {
+  const p = PLATE[roman];
+  if (!p) return '';
+  return `    <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 16 / 9">
+      <div class="plate__frame tilt gold-live edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <img src="/assets/images/plates/${p.file}" alt="${p.alt}" loading="lazy" decoding="async">
+        <span class="plate__tone" aria-hidden="true"></span>
+        <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+      </div>
+      <figcaption class="plate__caption">
+        <svg class="icon" aria-hidden="true"><use href="#${p.icon}"/></svg>
+        ${p.caption}${p.credit ? `\n        <span class="plate__credit">${p.credit}</span>` : ''}
+      </figcaption>
+    </figure>
+`;
+}
+
 function levelPage(lv, i) {
   const prev = levels[i - 1] || null;
   const next = levels[i + 1] || null;
@@ -384,6 +441,7 @@ ${card('Graduate profile', 'What the holder can do', esc(a.graduate_profile), 'i
     <p class="form-note">You begin with one instalment of $791.67, not with the level fee.
       Instalments are the default arrangement and carry no charge &mdash; see
       <a href="/admissions/tuition/#ladder">the ladder</a>.</p>
+${plate(lv.roman)}
     <div class="section-head">
       <span class="module-marker">Overview</span>
       <h2>What this level contains.</h2>
