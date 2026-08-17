@@ -537,10 +537,28 @@ function informationArchitecture() {
   // A long page's rail is how a reader decides whether to keep going. A
   // leaf missing from it is a chapter with no entry in the table of
   // contents.
+  // MEASURED AGAINST WHAT THE RAIL ACTUALLY DOES, not against one
+  // attribute. contentsEntries() in scripts/build.js labels a leaf from
+  // data-contents, then .module-marker, then .leaf__label, then the
+  // <h2>, and gives an unanchored leaf a positional id so it can be
+  // listed at all. This rule looked only for data-contents and so
+  // reported 24 findings against pillars whose rails list every leaf —
+  // Admissions 22 of 22, Governance 20 of 20, the Press 17 of 17.
+  //
+  // A leaf is unlisted only if the rail could not name it: no explicit
+  // label, no marker, no leaf label and no heading. That is the real
+  // defect, and it is the one worth reporting.
   for (const [f, body] of src) {
-    const leaves = [...body.matchAll(/<section[^>]*class="[^"]*\bleaf\b[^"]*"[^>]*>/gi)];
-    if (leaves.length < 3) continue;
-    const unlisted = leaves.filter((m) => !/data-contents=/.test(m[0])).length;
+    const secs = [...body.matchAll(/<section[^>]*class="[^"]*\bleaf\b[^"]*"[^>]*>/gi)];
+    if (secs.length < 3) continue;
+    const leaves = secs.filter((m) => {
+      const rest = body.slice(m.index, body.indexOf('</section>', m.index));
+      return !(/data-contents=/.test(m[0])
+        || /class="module-marker"/.test(rest)
+        || /class="leaf__label"/.test(rest)
+        || /<h2[\s>]/.test(rest));
+    });
+    const unlisted = leaves.length;
     if (unlisted) {
       flag('MAJOR', f, `${unlisted} of ${leaves.length} leaves absent from the contents rail`,
         'section.leaf without data-contents',

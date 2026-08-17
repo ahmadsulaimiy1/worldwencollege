@@ -1,14 +1,14 @@
 {
-  "generated": 55,
+  "generated": 33,
   "counts": {
     "SEVERE": 2,
-    "MAJOR": 42,
+    "MAJOR": 20,
     "MINOR": 11
   },
   "byCommittee": {
     "Institutional Confidence": 14,
     "Editorial Excellence": 12,
-    "Information Architecture": 24,
+    "Information Architecture": 2,
     "Visual Storytelling": 4,
     "Typography": 1
   },
@@ -128,70 +128,6 @@
     {
       "committee": "Information Architecture",
       "severity": "MAJOR",
-      "page": "about-careers.ar.html",
-      "what": "3 of 3 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "about-careers.html",
-      "what": "3 of 3 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "about.ar.html",
-      "what": "1 of 11 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "about.html",
-      "what": "2 of 11 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "admissions.ar.html",
-      "what": "15 of 21 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "admissions.html",
-      "what": "16 of 22 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "governance.ar.html",
-      "what": "17 of 20 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "governance.html",
-      "what": "9 of 20 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
       "page": "press.ar.html",
       "what": "1 skipped heading level(s)",
       "evidence": "h1→h3",
@@ -200,122 +136,10 @@
     {
       "committee": "Information Architecture",
       "severity": "MAJOR",
-      "page": "press.ar.html",
-      "what": "11 of 17 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
       "page": "press.html",
       "what": "1 skipped heading level(s)",
       "evidence": "h1→h3",
       "remedy": "Use the next level down, or promote the section."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "press.html",
-      "what": "11 of 17 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "students-assessment.ar.html",
-      "what": "5 of 5 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "students-assessment.html",
-      "what": "5 of 5 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "students-awards.ar.html",
-      "what": "3 of 3 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "students-awards.html",
-      "what": "3 of 3 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "students-integrity.ar.html",
-      "what": "4 of 4 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "students-integrity.html",
-      "what": "4 of 4 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "students-record.ar.html",
-      "what": "4 of 4 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "students-record.html",
-      "what": "4 of 4 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "students-regulations.ar.html",
-      "what": "4 of 4 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "students-regulations.html",
-      "what": "4 of 4 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "students.ar.html",
-      "what": "5 of 10 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
-    },
-    {
-      "committee": "Information Architecture",
-      "severity": "MAJOR",
-      "page": "students.html",
-      "what": "6 of 10 leaves absent from the contents rail",
-      "evidence": "section.leaf without data-contents",
-      "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
     },
     {
       "committee": "Institutional Confidence",

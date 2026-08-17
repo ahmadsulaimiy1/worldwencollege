@@ -83,13 +83,45 @@ function raiseMasthead(html) {
 // ---------------------------------------------------------------------
 const RAIL_LABEL = { en: 'On this page', ar: 'في هذه الصفحة' };
 
+// A LEAF WITHOUT AN ANCHOR CANNOT BE IN THE RAIL, AND A RAIL THAT LISTS
+// HALF A PAGE TEACHES THE READER TO STOP USING IT.
+//
+// This required an id and skipped anything without one, and most leaves
+// have never had one: 14 of Admissions' 22, 11 of the Press's 17, 9 of
+// Governance's 20. Those pillars are long ON PURPOSE — the architecture
+// consolidated thirty-seven URLs into them and the rail is the whole
+// answer to the length that produced — so a rail listing six of
+// twenty-two was undoing the decision it exists to serve.
+//
+// Every leaf already carries a `leaf__label`: a short human name,
+// authored, translated, and sitting in the reader's eye at the top of
+// the leaf they land in. That is exactly what a rail wants. So a leaf
+// with no id is given a positional one, `leaf-N`, which is stable while
+// the leaves are, language-independent — an Arabic label slugifies to
+// nothing — and cannot collide with a hand-authored anchor, because any
+// leaf that deserved a permanent semantic id already has one.
+//
+// contentsEntries therefore REWRITES the html it was handed, and its
+// caller uses the returned copy.
 function contentsEntries(html) {
   const out = [];
+  let body = html;
+  let leafN = 0;
   const open = /<section\b([^>]*)>/g;
   let m;
   while ((m = open.exec(html))) {
     const attrs = m[1];
-    const id = (attrs.match(/\bid="([^"]+)"/) || [])[1];
+    const isLeaf = /\bclass="[^"]*\bleaf\b/.test(attrs);
+    if (isLeaf) leafN += 1;
+    let id = (attrs.match(/\bid="([^"]+)"/) || [])[1];
+    if (!id && isLeaf) {
+      id = `leaf-${leafN}`;
+      const tag = m[0];
+      const withId = tag.replace(/^<section\b/, `<section id="${id}"`);
+      // Replace this occurrence only — two leaves can share attributes.
+      const at = body.indexOf(tag);
+      if (at >= 0) body = body.slice(0, at) + withId + body.slice(at + tag.length);
+    }
     if (!id) continue;
     // The masthead is where the reader already is; listing it is noise.
     if (/\bpage-hero\b/.test(attrs)) continue;
@@ -104,8 +136,10 @@ function contentsEntries(html) {
     // means the rail needs no second set of labels to fall out of step
     // with the first.
     const marker = (rest.match(/<span class="module-marker"[^>]*>([\s\S]*?)<\/span>/) || [])[1];
+    // A leaf names itself in the margin before it says anything else.
+    const leafLabel = (rest.match(/<span class="leaf__label"[^>]*>([\s\S]*?)<\/span>/) || [])[1];
     const h2 = (rest.match(/<h2[^>]*>([\s\S]*?)<\/h2>/) || [])[1];
-    const src = explicit || marker || h2;
+    const src = explicit || marker || leafLabel || h2;
     if (!src) continue;
     const label = src
       .replace(/<[^>]+>/g, '')
@@ -115,15 +149,16 @@ function contentsEntries(html) {
       .replace(/[.。]$/, '');
     if (label) out.push({ id, label });
   }
-  return out;
+  return { items: out, html: body };
 }
 
 function withContentsRail(html, entry, lang) {
   if (!entry.contents) return html;
-  const items = contentsEntries(html);
+  const { items, html: anchored } = contentsEntries(html);
   // Under four sections a rail is furniture: it costs a band of chrome
   // to save a reader a scroll they were going to do anyway.
   if (items.length < 4) return html;
+  html = anchored;
 
   const rail = `<nav class="contents" aria-label="${RAIL_LABEL[lang] || RAIL_LABEL.en}">
   <div class="contents__inner">
