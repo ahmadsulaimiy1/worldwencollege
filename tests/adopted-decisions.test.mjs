@@ -130,6 +130,69 @@ check('...and that the competency mapping is commissioned, not finished',
   /not as a claim the work is finished/i.test(decisionsPage));
 
 // ---------------------------------------------------------------------
+// 3b · EVERY PAGE THAT PUBLISHES THE COUNT, NOT JUST THE REGISTER PAGE
+// ---------------------------------------------------------------------
+// Check 3 above read one page, and the count promptly drifted on three
+// other surfaces: the Governance masthead said "30, all dated", its
+// article state said "In force · 30 decisions", its colophon said 30 —
+// while the same page's own prose said 32, and the Arabic edition said
+// ٣٠ in two places and ٣٢ in a third. A figure that disagrees with
+// itself on one page is worse than a figure nobody publishes, and it
+// went unnoticed because the guard was pointed at a single file.
+//
+// So: every page in either language that states a number of decisions
+// must state the register's number.
+{
+  const pagesDir = path.join(ROOT, 'pages');
+  const files = readdirSync(pagesDir).filter((f) => f.endsWith('.html'));
+  const AR_DIGITS = '٠١٢٣٤٥٦٧٨٩';
+  const latin = (n) => n.replace(/[٠-٩]/g, (d) => String(AR_DIGITS.indexOf(d)));
+
+  // Both languages, and both the bare "N, all dated" of a masthead fact
+  // and the "N decisions" of running prose.
+  const PATTERNS = [
+    /(\d+),\s*all dated/gi,
+    /\b(\d+)\s+(?:governance\s+)?decisions\b/gi,
+    /([٠-٩]+)،\s*كلها مؤرَّخة/g,
+    /([٠-٩]+)\s+قرار(?:ًا)?\b/g,
+  ];
+
+  const wrong = [];
+  for (const f of files) {
+    const body = readFileSync(path.join(pagesDir, f), 'utf8');
+    for (const re of PATTERNS) {
+      for (const m of body.matchAll(re)) {
+        const n = Number(latin(m[1]));
+        // Small numbers are counting something else — "3 decisions of
+        // the Board this cycle" — so only a figure in the register's
+        // own range is read as a claim about the register. Two figures
+        // are legitimate: the total in force, and the size of the
+        // founding batch, which the decisions page states in its own
+        // heading. Anything else is drift.
+        if (n >= 20 && n !== total && n !== adoptedNow) wrong.push(`${f}: "${m[0].trim()}"`);
+      }
+    }
+  }
+  check(`Every page publishing a decisions count publishes ${total}`,
+    wrong.length === 0, wrong.join('; '));
+
+  // The spelled-out form the Arabic edition used, which no numeral
+  // pattern can see. It is banned rather than parsed: a word does not
+  // update when the register does.
+  const spelled = files.filter((f) =>
+    /القرارات الحاكمة ال(?:ثلاثون|ثلاثين|اثنان|اثنين)/.test(readFileSync(path.join(pagesDir, f), 'utf8')));
+  check('No Arabic page spells the decisions total as a word',
+    spelled.length === 0, spelled.join(', '));
+
+  check('...and this sweep catches the drift it exists for',
+    /(\d+),\s*all dated/i.test('<dd>30, all dated</dd>')
+    && /([٠-٩]+)،\s*كلها مؤرَّخة/.test('<dd>٣٠، كلها مؤرَّخة</dd>')
+    && latin('٣٠') === '30'
+    // 30 is drift; 25 and 32 are the two figures a page may state.
+    && 30 !== total && 30 !== adoptedNow && adoptedNow === 25);
+}
+
+// ---------------------------------------------------------------------
 // 4 · WHAT ADOPTION MUST NOT HAVE SILENTLY CHANGED
 // ---------------------------------------------------------------------
 // Adopting a conferral procedure is exactly the moment an institution
