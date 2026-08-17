@@ -150,7 +150,7 @@
             /* The hero's struck eyebrow pill — it wears .aurum, so it
                must not be the one silent object on the homepage. */
             + '.hero__eyebrow, '
-            + '.plate__frame, .stage-mark, .ledger--flagship tbody tr, '
+            + '.plate__frame, .ledger--flagship tbody tr, '
             /* The Academics pillar — css/academics.css. */
             + '.ascent__step, .ascent__band, .horarium__band, .discipline, '
             /* The Admissions pillar — css/admissions.css. The warrant
