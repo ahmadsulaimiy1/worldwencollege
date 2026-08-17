@@ -24,7 +24,7 @@ const PAGES = path.join(SRC, 'pages');
 const PARTIALS = path.join(SRC, 'partials');
 const OUT_DIR = 'madinah';
 
-const SITE_URL = 'https://www.almadinahcollege.com';
+const SITE_URL = 'https://www.al-madinahcollege.com';
 
 const read = (p) => fs.readFileSync(p, 'utf8');
 

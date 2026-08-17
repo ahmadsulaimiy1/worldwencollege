@@ -523,7 +523,7 @@ body[data-section] {
    ========================================================================= */
 
 .page-hero::after {
-  background-image: url('/assets/rusukh/crest-plate.svg');
+  background-image: url('/assets/madinah/crest-plate.svg');
   opacity: 0.14;
 }
 
