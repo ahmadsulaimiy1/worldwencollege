@@ -132,9 +132,18 @@ check('...and the 19 established ones are the why-mistakes field',
 // ---------------------------------------------------------------------
 // The front matter has to say the uncomfortable thing
 // ---------------------------------------------------------------------
+// The claim this holds the volume to has been narrowed to the one that
+// is true. The book used to say the College "has taught nobody", which
+// stopped being accurate when the record of standing was rewritten:
+// learners have been taught since 2023 and two cohorts have completed
+// levels. What is still true — and what the volume has to keep saying,
+// because a DESIGNED panel read as a classroom finding is trusted at the
+// wrong moment — is that no observation of a classroom has been entered
+// into the academic record this book is set from. The obligation moves;
+// it is not dropped.
 check('The book states that it contains no classroom observation',
   /fourth kind of knowledge about teaching/.test(flat)
-  && /the College has taught nobody yet/.test(flat));
+  && /no observation of a classroom has been entered into the academic record/.test(flat));
 check('...and tells the teacher how to read a DESIGNED panel because of it',
   /careful, defensible starting points/.test(flat)
   && /have not met your class/.test(flat));

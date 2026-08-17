@@ -294,6 +294,20 @@
   display: grid; gap: clamp(20px, 2.6vw, 38px);
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   margin-top: clamp(28px, 3vw, 44px);
+  /* NO STRETCH, SO THERE IS NO SLACK TO DEAL WITH.
+     The columns of a register never hold the same amount — that
+     asymmetry IS the object — and the grid's default `stretch` made the
+     shorter plate as tall as the taller one, which left a hole. The
+     first fix distributed that hole between the entries (see
+     .register__list below), which works when the imbalance is small and
+     fails badly when it is not: the Library's licence register holds six
+     short grants against seven long reservations, and the distributed
+     version opened 95px between one-line entries — 740px of pooled air
+     in one plate. Two plates of honestly different height read as two
+     plates holding different amounts. A plate padded out to match its
+     neighbour reads as an unfinished page, which is the defect this
+     whole component was built to remove. */
+  align-items: start;
 }
 /* A COLUMN FILLS ITSELF. The two columns of a register never hold the
    same number of entries — that asymmetry is the point of the object —

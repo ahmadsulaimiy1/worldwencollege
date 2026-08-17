@@ -223,20 +223,80 @@ for (const route of routes) {
         window.scrollTo({ top: y, behavior: 'instant' });
         await new Promise((r) => setTimeout(r, 60));
       }
+      // AND THEN THE BOTTOM ITSELF. The loop above stops at the last
+      // multiple of the half-step, which can leave up to half a viewport
+      // of the document below it — and what lives there is the footer.
+      // At 1440×900 the taller viewport happened to catch p.footer__name;
+      // at 390×900 it did not, so the site's own colophon was reported as
+      // never rising on the narrow pass and nowhere else. A pass that
+      // does not reach the end of the page has not looked at the page.
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' });
+      await new Promise((r) => setTimeout(r, 120));
       window.scrollTo({ top: 0, behavior: 'instant' });
       await new Promise((r) => setTimeout(r, 200));
     });
-    // The reveal transition itself still has to play out.
-    await page.waitForTimeout(700);
+    // WAIT ON THE CONDITION, NOT ON A GUESS.
+    //
+    // A flat 700ms was wrong twice over. The reveal transition carries a
+    // stagger delay of up to six steps, so the last card in a long grid
+    // starts nearly a second after its neighbours; and the pass above
+    // takes longer on a longer page, which pushes the tail's observer
+    // callbacks later still. The Library grew by one leaf to 11,487px
+    // and this check began failing intermittently — naming four cards on
+    // one run, one on the next, and none on a third.
+    //
+    // A check that reports a different defect each time it runs is worse
+    // than no check: it teaches you to disbelieve it. So poll until the
+    // page has settled, and call it a fault only when it has not settled
+    // inside a bound generous enough that a real failure is a real one.
+    // Poll for the page to settle, and if anything is still down, do
+    // what a reader would do: put it in the middle of the viewport and
+    // look again. That is what separates "the observer never fired" from
+    // "the observer had not got there yet" — and only the first is a
+    // defect. Sweeping the whole run at once, three viewports deep with
+    // the aurora and constellation canvases competing for frames, made
+    // the difference between them a matter of machine load: the same
+    // three .tenet on /about/ were named on one pass, four cards on
+    // /academics/ on another, and none of them when either page was
+    // opened alone in a quiet browser. Reported that way it is not a
+    // finding, it is noise wearing a finding's clothes.
+    const SETTLE_MS = 3000;
+    for (let waited = 0; waited < SETTLE_MS; waited += 150) {
+      const hidden = await page.evaluate(() => [...document.querySelectorAll('.reveal')]
+        .filter((e) => getComputedStyle(e).opacity === '0').length);
+      if (!hidden) break;
+      await page.waitForTimeout(150);
+    }
+    await page.evaluate(async () => {
+      const down = () => [...document.querySelectorAll('.reveal')]
+        .filter((e) => getComputedStyle(e).opacity === '0');
+      for (const el of down()) {
+        el.scrollIntoView({ block: 'center', behavior: 'instant' });
+        await new Promise((r) => setTimeout(r, 120));
+      }
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    });
+    await page.waitForTimeout(1200);
 
     // And say so if it did not work, rather than filing another blank
     // picture: a still-hidden .reveal after a full pass is either a
     // broken observer or a script that threw.
+    // Named, not counted. "1 .reveal never rose" sends you scrolling a
+    // full-page screenshot looking for the invisible thing; the section
+    // id and the class list put you on the line.
     const stillHidden = await page.evaluate(() =>
       [...document.querySelectorAll('.reveal')]
-        .filter((e) => getComputedStyle(e).opacity === '0').length);
-    if (stillHidden) {
-      fault(route, vp.name, `${stillHidden} .reveal element(s) never rose — screenshot is not the page`);
+        .filter((e) => getComputedStyle(e).opacity === '0')
+        .map((e) => {
+          const sec = e.closest('section[id]');
+          const r = e.getBoundingClientRect();
+          return `${sec ? `#${sec.id} ` : ''}${e.tagName.toLowerCase()}.${
+            e.className.split(/\s+/).join('.')} [${Math.round(r.width)}×${Math.round(r.height)}]`;
+        }));
+    if (stillHidden.length) {
+      fault(route, vp.name,
+        `${stillHidden.length} .reveal element(s) never rose — screenshot is not the page`);
+      for (const s of stillHidden) console.log(`      ${s}`);
     }
 
     const shot = join(SHOTS, `${route.replace(/\//g, '_') || 'root'}-${vp.name}.png`);

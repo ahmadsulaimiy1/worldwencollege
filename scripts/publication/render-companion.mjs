@@ -47,9 +47,10 @@
  *               teacher who tries it and finds better.
  *
  * There is a fourth state, OBSERVED, and this book does not use it
- * once. Nothing here reports what happened in a room, because nothing
- * has happened in a room: the College has taught nobody. When it has,
- * the observed layer is where a year of teaching goes, and the panels
+ * once. Nothing here reports what happened in a room — not because
+ * nothing has happened in a room, but because no observation of one has
+ * been written into the academic record this volume is set from. When it
+ * has, the observed layer is where the teaching goes, and the panels
  * that are DESIGNED today become the first things to be corrected.
  *
  * That is stated on the page, not only here. A teacher who thinks they
@@ -70,6 +71,7 @@ import { walk } from './apparatus.mjs';
 import { TYPE, C as PAL, BRAND } from './design.mjs';
 import { fleuron, guillocheBand } from './ornament.mjs';
 import { publicationIdentity } from './identity.mjs';
+import { editionMark, runningHead, runningFoot, rightsPage } from './rights.mjs';
 import { legacyBlock } from './legacy.mjs';
 import { formatFor, marginsFor, familyColours } from './house.mjs';
 
@@ -146,6 +148,13 @@ function build() {
 const { byRef: PED, index: INDEX } = build();
 const C = buildCurriculum();
 const ID = publicationIdentity(C, { edition: 1, revision: 0, impression: 1 });
+
+// This volume's name and its edition mark, printed on every page it
+// prints. The mark is derived from the volume and from the curriculum
+// edition it was set from, so a page found somewhere else names the
+// edition it was taken from — see rights.mjs.
+const VOLUME = 'The IEFC Level I Teacher\'s Companion';
+const MARK = editionMark('companion-1', ID.contentDigest);
 const LV = C.levels.find((l) => l.roman === LEVEL);
 
 // A lesson belongs in the Companion when the record has something to
@@ -427,12 +436,13 @@ p { margin:0 0 5pt; }
     <p>There is a fourth kind of knowledge about teaching: what actually happened, in a real
       room, with real learners. It cannot be reasoned out and it cannot be written in
       advance. This edition carries ${observed === 0 ? 'none of it' : `${observed} entries of it`},
-      because the College has taught nobody yet, and a book that dressed a designer's proposal
-      as a classroom finding would be asking for trust it has not earned.</p>
+      because no observation of a classroom has been entered into the academic record this book
+      is set from, and a book that dressed a designer's proposal as a classroom finding would be
+      asking for trust it has not earned.</p>
     <p>So read the ${designed} DESIGNED panels as what they are: careful, defensible starting
-      points, written by people who know the curriculum and have not met your class. The first
-      teacher to run this level will know things this book does not. That is the intended
-      order of events, and the observed layer is where their year goes.</p>
+      points, written by people who know the curriculum and have not met your class. The teacher
+      who runs this level knows things this book does not, and the observed layer is where that
+      is written down. That is the intended order of events.</p>
   </div>
   <div class="fleuron">${fleuron({ colour: ACCENT.hex, width: 76 })}</div>
 </section>
@@ -443,6 +453,17 @@ ${indexSection}
 
 <div class="band">${guillocheBand({ width: 140, height: 9, stroke: ACCENT.hex, opacity: 0.5 })}</div>
 ${LEGACY}
+${rightsPage({
+  title: VOLUME,
+  mark: MARK,
+  edition: `${ID.editionName} edition`,
+  year: ID.year,
+  series: FAMILY,
+  palette: {
+    ink: PAL.warmCharcoal, deep: PAL.royalBlue, grey: PAL.slateGrey, gold: PAL.bronze,
+    rule: PAL.platinum, wash: PAL.softCream, serif: TYPE.serif, sans: TYPE.sans,
+  },
+})}
 </body></html>`;
 
 mkdirSync(path.join(ROOT, 'publication'), { recursive: true });
@@ -460,10 +481,8 @@ await page.pdf({
   printBackground: true,
   preferCSSPageSize: true,
   displayHeaderFooter: true,
-  headerTemplate: '<div></div>',
-  footerTemplate: `<div style="font:400 6.4pt Calibri,Arial,sans-serif;color:${PAL.slateGrey};`
-    + `width:100%;padding:0 ${M.gutter}mm;display:flex;justify-content:space-between;">`
-    + "<span>The IEFC Level I Teacher's Companion</span><span class=\"pageNumber\"></span></div>",
+  headerTemplate: runningHead(MARK, { gutter: M.gutter }),
+  footerTemplate: runningFoot(VOLUME, { gutter: M.gutter, size: 6.4 }),
   margin: { top: `${M.head}mm`, bottom: `${M.foot}mm`,
     left: `${M.gutter}mm`, right: `${M.fore}mm` },
   tagged: true,

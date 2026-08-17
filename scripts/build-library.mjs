@@ -58,6 +58,13 @@
 import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+// The licence on the page and the licence printed inside the volumes are
+// the same instrument, read from one file, in both languages. See
+// scripts/publication/rights.mjs.
+import {
+  SUMMARY, GRANTED, RESERVED, CHANNEL, TRACEABLE, NO_LOCK,
+  SUMMARY_AR, GRANTED_AR, RESERVED_AR, CHANNEL_AR, TRACEABLE_AR, NO_LOCK_AR,
+} from './publication/rights.mjs';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const PUB = path.join(ROOT, 'publication');
@@ -247,7 +254,7 @@ const LANG = {
     eyebrow: 'WEC Press &middot; The Library',
     h1: 'Read the whole of it before you pay for any of it.',
     stake: 'Most institutions publish a prospectus and keep the curriculum. <strong>This College publishes the curriculum</strong> &mdash; every lesson, every rubric, every pass mark, every pronunciation target &mdash; as typeset volumes you can download now, without an account and without asking.',
-    lede: 'Fourteen volumes of the College&rsquo;s own academic work, free to download, print and quote. No registration, no email address, no licence to accept.',
+    lede: 'Fourteen volumes of the College&rsquo;s own academic work, free to download, print and quote. No registration, no email address, no account. The <a href="#licence">licence</a> is one page and grants all of that outright.',
     facts: [['Volumes', 'V'], ['Downloadable', 'D'], ['Free', 'Always'], ['Account needed', 'None']],
     leafLabel: 'The Library',
     rubric: 'What the College has produced, and where to get it.',
@@ -258,7 +265,7 @@ const LANG = {
     onRequest: 'On request',
     overNote: 'Over the 25&nbsp;MB limit this host accepts for a single file. That is a hosting constraint and nothing else: the volume is supplied in full on request, and the same material is downloadable above in the Flagship Curriculum and the Programme Architecture.',
     citeLabel: 'How to cite, and what you may do with these',
-    cite: 'Cite as <em>Worldwide English College</em>, WEC Press, with the volume title and the edition year. You may download, print, photocopy and quote any volume here for teaching or study, including in another institution&rsquo;s classroom. You may not present the College&rsquo;s material as another body&rsquo;s work, and you may not sell it. Nothing here has been reviewed by anyone who did not write it &mdash; <a href="/press/#review">On review</a> says exactly what that means and offers a copy to anyone willing to change it.',
+    cite: 'Cite as <em>Worldwide English College</em>, WEC Press, with the volume title and the edition year. Every page of every volume prints its title, the College&rsquo;s name and its edition mark, so a quotation can be traced to the page it came from &mdash; the full terms are in <a href="#licence">The Licence</a> below. Nothing here has been reviewed by anyone who did not write it &mdash; <a href="/press/#review">On review</a> says exactly what that means and offers a copy to anyone willing to change it.',
     ctaH2: 'The curriculum is open. The programme is the part you enrol in.',
     ctaA: ['/academics/#levels', 'The Six Levels'],
     ctaB: ['/admissions/tuition/#ladder', 'What It Costs'],
@@ -272,7 +279,7 @@ const LANG = {
     eyebrow: 'مطبعة الكلية &middot; المكتبة',
     h1: 'اقرأه كله قبل أن تدفع في أيٍّ منه.',
     stake: 'تنشر أكثر المؤسسات كُتيّبًا تعريفيًا وتحتفظ بالمنهج. <strong>وهذه الكلية تنشر المنهج</strong> &mdash; كل درس، وكل معيار تصحيح، وكل درجة نجاح، وكل هدف نطق &mdash; مجلداتٍ مركَّبة تستطيع تنزيلها الآن، بلا حساب وبلا استئذان.',
-    lede: 'أربعة عشر مجلدًا من العمل الأكاديمي للكلية، حرةَ التنزيل والطباعة والاقتباس. لا تسجيل، ولا بريد إلكتروني، ولا ترخيص تقبله.',
+    lede: 'أربعة عشر مجلدًا من العمل الأكاديمي للكلية، حرةَ التنزيل والطباعة والاقتباس. لا تسجيل، ولا بريد إلكتروني، ولا حساب. و<a href="#licence">الرخصة</a> صفحة واحدة تُبيح ذلك كله صراحةً.',
     facts: [['المجلدات', 'V'], ['قابلة للتنزيل', 'D'], ['التكلفة', 'مجانًا'], ['الحساب', 'غير مطلوب']],
     leafLabel: 'المكتبة',
     rubric: 'ما أنتجته الكلية، ومن أين تحصل عليه.',
@@ -283,7 +290,7 @@ const LANG = {
     onRequest: 'بالطلب',
     overNote: 'يتجاوز حدَّ الـ25&nbsp;ميجابايت الذي يقبله هذا المستضيف للملف الواحد. وهذا قيد استضافة لا غير: يُسلَّم المجلد كاملًا بالطلب، والمادة نفسها قابلة للتنزيل أعلاه في المنهج الموجز وفي بنية البرنامج.',
     citeLabel: 'كيف تُستشهد، وما يُباح لك بها',
-    cite: 'استشهد بها بوصفها من إصدار <em>الكلية العالمية للغة الإنجليزية</em>، مطبعة الكلية، مع عنوان المجلد وسنة الطبعة. ويُباح لك تنزيل أي مجلد هنا وطباعته ونسخه والاقتباس منه للتدريس أو الدراسة، بما في ذلك في صفٍّ تابع لمؤسسة أخرى. ولا يُباح لك أن تَعرِض مادة الكلية بوصفها عمل جهة أخرى، ولا أن تبيعها. ولم يراجع شيئًا هنا أحدٌ لم يكتبه &mdash; و<a href="/ar/press/#review">عن المراجعة</a> يقول ما يعنيه ذلك بالضبط، ويعرض نسخة على كل من يستعد لتغيير ذلك.',
+    cite: 'استشهد بها بوصفها من إصدار <em>الكلية العالمية للغة الإنجليزية</em>، مطبعة الكلية، مع عنوان المجلد وسنة الطبعة. وتطبع كل صفحة في كل مجلد عنوانَه واسمَ الكلية وعلامةَ طبعته، فيمكن تتبُّع الاقتباس إلى صفحته التي جاء منها &mdash; والشروط كاملة في <a href="#licence">الرخصة</a> أدناه. ولم يراجع شيئًا هنا أحدٌ لم يكتبه &mdash; و<a href="/ar/press/#review">عن المراجعة</a> يقول ما يعنيه ذلك بالضبط، ويعرض نسخة على كل من يستعد لتغيير ذلك.',
     ctaH2: 'المنهج مفتوح. والبرنامج هو ما تلتحق به.',
     ctaA: ['/ar/academics/#levels', 'المستويات الستة'],
     ctaB: ['/ar/admissions/tuition/#ladder', 'ما تكلفته'],
@@ -326,6 +333,110 @@ const SLUG = {
 };
 const ICON = { 'The Curriculum': 'i-columns', 'Teaching and Assessment': 'i-scales',
   'Student Material': 'i-book', 'The Press': 'i-portico', 'Cover Artwork': 'i-crest' };
+
+// ── THE LICENCE ──────────────────────────────────────────────────────
+// The seventh leaf, and the one the Library was missing. The page has
+// always said "free to download, print and quote"; what it never said
+// was where that generosity stops, which left the College's own
+// curriculum published with no stated term on it at all.
+//
+// Set from scripts/publication/rights.mjs — the same constants the
+// printed volumes carry — so the licence a reader accepts on the website
+// and the licence printed inside the file cannot drift apart. Both
+// editions read from that one source, in their own language.
+//
+// The two lists are deliberately asymmetric in length and that is the
+// argument: six things granted outright, and a short reserved set that
+// every line of shares one property — it substitutes for the College
+// rather than examining it.
+function licenceLeaf(lang) {
+  const ar = lang === 'ar';
+  const T = ar
+    ? { num: '٧', label: 'الرخصة', contents: 'الرخصة',
+      h2: 'ما يُباح لك بهذه المجلدات، والقليل المحفوظ.',
+      lede: SUMMARY_AR,
+      grantedH: 'مُباح، دون استئذان ودون شروط',
+      reservedH: 'محفوظ للكلية',
+      channelH: 'السؤال هو الطريق الأقصر',
+      traceH: 'قابلية التتبُّع', noLockH: 'ما لا تدّعيه الكلية',
+      channel: CHANNEL_AR, trace: TRACEABLE_AR, noLock: NO_LOCK_AR,
+      granted: GRANTED_AR, reserved: RESERVED_AR }
+    : { num: 'VII', label: 'The Licence', contents: 'The Licence',
+      h2: 'What you may do with these volumes, and the little that is reserved.',
+      lede: SUMMARY,
+      grantedH: 'Granted, without asking and without conditions',
+      reservedH: 'Reserved to the College',
+      channelH: 'Asking is the short route',
+      traceH: 'Traceability', noLockH: 'What the College does not claim',
+      channel: CHANNEL, trace: TRACEABLE, noLock: NO_LOCK,
+      granted: GRANTED, reserved: RESERVED };
+
+  // The register, not two cards — because this is the object the site
+  // already has for exactly this shape: two columns recording two
+  // DIFFERENT states, each with its own mark. A granted permission takes
+  // #i-struck, the settled mark; a reserved one takes #i-lock, which is
+  // held rather than absent. Giving both the same tick would say the two
+  // columns mean the same thing, which is the defect css/pillar.css
+  // records the register as having been built to correct.
+  const col = (open, icon, head, items) => `        <div class="register__col${
+    open ? ' register__col--open' : ''} reveal edge-lit edge-lit--light aurum">
+          <div class="register__head">
+            <svg class="icon" aria-hidden="true"><use href="#${icon}"/></svg>
+            <h3>${head}</h3>
+            <span class="register__count">${items.length}</span>
+          </div>
+          <ul class="register__list register__list--${open ? 'open' : 'held'}">
+${items.map((i) => `            <li><svg class="icon" aria-hidden="true"><use href="#${icon}"/></svg><span>${i}</span></li>`).join('\n')}
+          </ul>
+        </div>`;
+
+  const plate = (icon, head, body) => `        <div class="card reveal tilt edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#${icon}"/></svg></span>
+          <h3>${head}</h3>
+          <p>${body}</p>
+        </div>`;
+
+  // A PAPER GROUND, NOT A DARK ONE. The register is a light-ground
+  // object — css/pillar.css gives .register__col a translucent white
+  // fill and an ink rule — and on the navy leaf it first shipped on, the
+  // plate fills read as smudges, the entry count numerals were bronze on
+  // navy and effectively invisible, and the two head marks disappeared.
+  // The rule in CLAUDE.md §2 is to use the atelier layer rather than
+  // build a variant beside it, so the leaf moves to the material the
+  // component was cut for instead of the component being re-cut.
+  return `<section class="leaf section--paper grain" id="licence" data-contents="${T.contents}">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/authority-chain.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">${T.num}</span>
+      <span class="leaf__label">${T.label}</span>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>${T.h2}</h2>
+        <p class="lede">${T.lede}</p>
+      </div>
+
+      <div class="register">
+${col(false, 'i-struck', T.grantedH, T.granted)}
+
+${col(true, 'i-lock', T.reservedH, T.reserved)}
+      </div>
+
+      <div class="callout reveal">
+        <span class="callout__label">${T.channelH}</span>
+        <p>${T.channel}</p>
+      </div>
+
+      <div class="grid grid--2">
+${plate('i-countermark', T.traceH, T.trace)}
+${plate('i-ring', T.noLockH, T.noLock)}
+      </div>
+    </div>
+  </div>
+</section>`;
+}
 
 function page(lang) {
   const L = LANG[lang];
@@ -413,6 +524,8 @@ ${leaves}
     </div>
   </div>
 </section>
+
+${licenceLeaf(lang)}
 
 <section class="section--dark cta-band">
   <div class="container reveal">
