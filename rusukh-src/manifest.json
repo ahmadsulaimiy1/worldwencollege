@@ -3,12 +3,12 @@
     "slug": "home",
     "output": "index.html",
     "nav": "root",
-    "title": "Dār al-Rusūkh — College of Qur’ānic and Islamic Sciences",
+    "title": "Al-Madinah International College — Qur’ānic and Islamic Sciences",
     "description": "A distance-learning college offering certificate, diploma and higher diploma programmes in the Qur’ānic sciences, the Arabic language, the Sharī’ah sciences and Islamic professional studies.",
     "contentFile": "home.html",
     "contents": true,
     "ar": {
-      "title": "دار الرسوخ — كلية القرآن الكريم والعلوم الإسلامية",
+      "title": "كلية المدينة العالمية — علوم القرآن والدراسات الإسلامية",
       "description": "كلية للتعليم عن بُعد تمنح الشهادة والدبلوم والدبلوم العالي في علوم القرآن واللغة العربية والعلوم الشرعية والدراسات التطبيقية، لطلاب نيجيريا والعالم."
     }
   },
@@ -16,12 +16,12 @@
     "slug": "about",
     "output": "about/index.html",
     "nav": "about",
-    "title": "The College — Dār al-Rusūkh",
-    "description": "The constitution, method of instruction, foundation and governance of the Dār al-Rusūkh College of Qur’ānic and Islamic Sciences.",
+    "title": "The College — Al-Madinah International College",
+    "description": "The constitution, method of instruction, foundation and governance of the Al-Madinah International College College of Qur’ānic and Islamic Sciences.",
     "contentFile": "about.html",
     "contents": true,
     "ar": {
-      "title": "الكلية — دار الرسوخ",
+      "title": "الكلية — كلية المدينة العالمية",
       "description": "اسم الكلية ومنهج التدريس ونشأتها ومجالسها الحاكمة."
     }
   },
@@ -29,12 +29,12 @@
     "slug": "faculties",
     "output": "faculties/index.html",
     "nav": "faculties",
-    "title": "Programmes of Study — Dār al-Rusūkh",
+    "title": "Programmes of Study — Al-Madinah International College",
     "description": "Seventeen programmes across four faculties, with the award, normal duration, conditions of entry and prescribed texts for each.",
     "contentFile": "faculties.html",
     "contents": true,
     "ar": {
-      "title": "برامج الدراسة — دار الرسوخ",
+      "title": "برامج الدراسة — كلية المدينة العالمية",
       "description": "سبعة عشر برنامجًا في أربع كليات، ولكل برنامج شهادته ومدته الطبيعية وشروط قبوله ومتونه المقررة."
     }
   },
@@ -42,12 +42,12 @@
     "slug": "faculties-quran",
     "output": "faculties/quran/index.html",
     "nav": "faculties",
-    "title": "Faculty of the Qur’ān and its Sciences — Dār al-Rusūkh",
+    "title": "Faculty of the Qur’ān and its Sciences — Al-Madinah International College",
     "description": "Six programmes in recitation, Tajwīd, memorisation and the ten readings, from the foundation certificate to the Higher Diploma with ijāzah.",
     "contentFile": "quran.html",
     "contents": true,
     "ar": {
-      "title": "كلية القرآن الكريم وعلومه — دار الرسوخ",
+      "title": "كلية القرآن الكريم وعلومه — كلية المدينة العالمية",
       "description": "ستة برامج في التلاوة والتجويد والحفظ والقراءات العشر، من شهادة التأسيس إلى الدبلوم العالي مع الإجازة."
     }
   },
@@ -55,12 +55,12 @@
     "slug": "regulations",
     "output": "regulations/index.html",
     "nav": "about",
-    "title": "Academic Regulations — Dār al-Rusūkh",
+    "title": "Academic Regulations — Al-Madinah International College",
     "description": "The regulations in force: the measure of study in notional hours, the standard of attainment and the Rule of Retention, registration and leave, examination, grading, adjustments, the record, and the independence of examiners.",
     "contentFile": "regulations.html",
     "contents": true,
     "ar": {
-      "title": "اللوائح الأكاديمية — دار الرسوخ",
+      "title": "اللوائح الأكاديمية — كلية المدينة العالمية",
       "description": "اللوائح النافذة: قياس البرنامج بالساعات المعيارية، وحدُّ الإتقان وقاعدة الحفظ، والتسجيل والإجازة والانقطاع، والامتحان والتقدير والتيسيرات وسجل الطالب واستقلال الممتحنين."
     }
   },
@@ -68,12 +68,12 @@
     "slug": "safeguarding",
     "output": "safeguarding/index.html",
     "nav": "about",
-    "title": "Safeguarding and the Conduct of Teaching — Dār al-Rusūkh",
+    "title": "Safeguarding and the Conduct of Teaching — Al-Madinah International College",
     "description": "The conditions under which the College teaches a student under eighteen, the route by which a concern is raised, and the arrangements between men and women.",
     "contentFile": "safeguarding.html",
     "contents": true,
     "ar": {
-      "title": "حماية الطلاب وضوابط التدريس — دار الرسوخ",
+      "title": "حماية الطلاب وضوابط التدريس — كلية المدينة العالمية",
       "description": "الشروط التي تُدرَّس بها الطالبة أو الطالب دون الثامنة عشرة، وطريق تقديم الشكوى، وترتيبات التدريس بين الرجال والنساء."
     }
   },
@@ -81,12 +81,12 @@
     "slug": "standing",
     "output": "standing/index.html",
     "nav": "about",
-    "title": "Standing, Recognition and Disclosure — Dār al-Rusūkh",
+    "title": "Standing, Recognition and Disclosure — Al-Madinah International College",
     "description": "What the College claims and does not claim, the position on external school-stage certification, the limits of internal moderation, the continuity of the register of instruments, and how figures are stated.",
     "contentFile": "standing.html",
     "contents": true,
     "ar": {
-      "title": "المكانة والاعتراف والإفصاح — دار الرسوخ",
+      "title": "المكانة والاعتراف والإفصاح — كلية المدينة العالمية",
       "description": "ما تدّعيه الكلية وما لا تدّعيه، وموقفها من الشهادات المرحلية الخارجية، وحدود التحكيم الداخلي، واستدامة سجل الوثائق، وكيف تُذكر الأرقام."
     }
   },
@@ -94,12 +94,12 @@
     "slug": "awards",
     "output": "awards/index.html",
     "nav": "awards",
-    "title": "Awards, Examination and Certification — Dār al-Rusūkh",
+    "title": "Awards, Examination and Certification — Al-Madinah International College",
     "description": "The awards conferred by the College, the regulations of examination, the graded certificates of Islamic education, and the conditions governing the grant of ijāzah.",
     "contentFile": "awards.html",
     "contents": true,
     "ar": {
-      "title": "الشهادات والامتحان والتصديق — دار الرسوخ",
+      "title": "الشهادات والامتحان والتصديق — كلية المدينة العالمية",
       "description": "الشهادات التي تمنحها الكلية، ولوائح الامتحان، والشهادات المرحلية العامة، وشروط منح الإجازة."
     }
   },
@@ -107,11 +107,11 @@
     "slug": "register-of-chains",
     "output": "awards/register-of-chains/index.html",
     "nav": "awards",
-    "title": "Register of Asānīd — Dār al-Rusūkh",
+    "title": "Register of Asānīd — Al-Madinah International College",
     "description": "The chains of transmission held by members of the faculty, the transmitters through whom they came, and the members authorised to confer each.",
     "contentFile": "register-of-chains.html",
     "ar": {
-      "title": "سجل الأسانيد — دار الرسوخ",
+      "title": "سجل الأسانيد — كلية المدينة العالمية",
       "description": "الأسانيد التي يحملها أعضاء هيئة التدريس، ومن رويت عنهم، ومن يُخوَّل منهم بالإقراء والإجازة."
     }
   },
@@ -119,12 +119,12 @@
     "slug": "short-courses",
     "output": "short-courses/index.html",
     "nav": "short-courses",
-    "title": "Continuing Education — Dār al-Rusūkh",
+    "title": "Continuing Education — Al-Madinah International College",
     "description": "Short courses of four to eight weeks, examined and certificated, with a new cohort admitted each month, and the Ramaḍān programme.",
     "contentFile": "short-courses.html",
     "contents": true,
     "ar": {
-      "title": "التعليم المستمر — دار الرسوخ",
+      "title": "التعليم المستمر — كلية المدينة العالمية",
       "description": "دورات قصيرة من أربعة إلى ثمانية أسابيع، ممتحَنة ومصدَّقة، بفوج جديد كل شهر، وبرنامج رمضان."
     }
   },
@@ -132,12 +132,12 @@
     "slug": "charges",
     "output": "admissions/charges/index.html",
     "nav": "admissions",
-    "title": "Charges — Dār al-Rusūkh",
+    "title": "Charges — Al-Madinah International College",
     "description": "The College charges no tuition and no examination fee. It charges for the engrossed instrument — the sealed certificate, the report sheet, the identity card, the instrument of ijāzah — and publishes the schedule in full, with the sources that fund the teaching.",
     "contentFile": "charges.html",
     "contents": true,
     "ar": {
-      "title": "الرسوم — دار الرسوخ",
+      "title": "الرسوم — كلية المدينة العالمية",
       "description": "لا تأخذ الكلية أجرًا على التعليم ولا على الامتحان. وإنما تأخذ على الوثيقة المخطوطة — الشهادة المختومة وكشف الدرجات والبطاقة وسند الإجازة — وهذا جدولها كاملًا."
     }
   },
@@ -145,12 +145,12 @@
     "slug": "admissions",
     "output": "admissions/index.html",
     "nav": "admissions",
-    "title": "Admission — Dār al-Rusūkh",
+    "title": "Admission — Al-Madinah International College",
     "description": "The procedure of admission, conditions of entry by programme, and how to apply to the Registry.",
     "contentFile": "admissions.html",
     "contents": true,
     "ar": {
-      "title": "القبول — دار الرسوخ",
+      "title": "القبول — كلية المدينة العالمية",
       "description": "إجراء القبول، وشروط الدخول لكل برنامج، وكيف تُقدَّم الطلبات إلى شؤون الطلاب."
     }
   },
@@ -158,11 +158,11 @@
     "slug": "calendar",
     "output": "calendar/index.html",
     "nav": "root",
-    "title": "Academic Calendar — Dār al-Rusūkh",
+    "title": "Academic Calendar — Al-Madinah International College",
     "description": "Three semesters kept against the Hijrī calendar, the Ramaḍān programme, and the publication of class times.",
     "contentFile": "calendar.html",
     "ar": {
-      "title": "التقويم الدراسي — دار الرسوخ",
+      "title": "التقويم الدراسي — كلية المدينة العالمية",
       "description": "ثلاثة فصول تُحسب على التقويم الهجري، وبرنامج رمضان، ومواعيد الحصص."
     }
   },
@@ -170,11 +170,11 @@
     "slug": "verify",
     "output": "verify/index.html",
     "nav": "root",
-    "title": "Verification of Instruments — Dār al-Rusūkh",
+    "title": "Verification of Instruments — Al-Madinah International College",
     "description": "Certificates, transcripts and instruments of ijāzah may be verified against their reference number, without charge.",
     "contentFile": "verify.html",
     "ar": {
-      "title": "التحقق من الوثائق — دار الرسوخ",
+      "title": "التحقق من الوثائق — كلية المدينة العالمية",
       "description": "يمكن التحقق من الشهادات وكشوف الدرجات وسندات الإجازة برقمها المرجعي، دون أجر."
     }
   },
@@ -182,11 +182,11 @@
     "slug": "contact",
     "output": "contact/index.html",
     "nav": "root",
-    "title": "Contact — Dār al-Rusūkh",
+    "title": "Contact — Al-Madinah International College",
     "description": "The Registry, the Bursary, the Academic Council and the Foundation, with hours of business in West Africa Time.",
     "contentFile": "contact.html",
     "ar": {
-      "title": "الاتصال — دار الرسوخ",
+      "title": "الاتصال — كلية المدينة العالمية",
       "description": "شؤون الطلاب، والشؤون المالية، والمجلس العلمي، والمؤسسة، وأوقات العمل بتوقيت غرب أفريقيا."
     }
   },
@@ -194,7 +194,7 @@
     "slug": "riwaq",
     "output": "riwaq/index.html",
     "nav": "riwaq",
-    "title": "The Riwāq — Dār al-Rusūkh",
+    "title": "The Riwāq — Al-Madinah International College",
     "description": "The College's learning portal: the Ḥifẓ ledger across all 604 pages of the muṣḥaf, the murājaʿah scheduler, recitation submission, the correction ledger and ijāzah readiness.",
     "contentFile": "riwaq.html",
     "extraCss": [
@@ -206,7 +206,7 @@
       "/js/riwaq.js"
     ],
     "ar": {
-      "title": "الرواق — دار الرسوخ",
+      "title": "الرواق — كلية المدينة العالمية",
       "description": "بوابة الكلية التعليمية: سجل الحفظ في صفحات المصحف كلها، ومجدول المراجعة، ورفع التسجيلات، وسجل التصحيح، والاستعداد للإجازة."
     }
   }

@@ -2245,3 +2245,23 @@ body[data-section] {
   .colophon__inner { grid-template-columns: 1fr; }
   .colophon__mark svg { width: 66px; height: 66px; }
 }
+
+/* ------------------------------------------------------- THE DOCK, CLOSED
+   `hidden` is `display: none` from the user-agent stylesheet, which is the
+   weakest declaration in the cascade — and `.dock__stack { display: flex }`
+   beat it. So the plates stayed laid out while closed: invisible at
+   opacity 0, but still occupying their full width past the right edge of
+   the viewport, which pushed the DOCUMENT 82px wider than the screen on
+   every page of the site.
+
+   Found by the render sweep reporting horizontal overflow, not by reading
+   the rule. Two guards rather than one: the attribute now wins, and a
+   closed plate is also inert to the pointer and to the accessibility
+   tree, so a keyboard user cannot tab into a stack that is not there. */
+.dock__stack[hidden] { display: none; }
+
+.dock:not(.is-open) .dock__plate {
+  visibility: hidden;
+  pointer-events: none;
+}
+.dock.is-open .dock__plate { visibility: visible; pointer-events: auto; }

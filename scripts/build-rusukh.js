@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // =====================================================================
-// DĀR AL-RUSŪKH — site assembly
+// AL-MADINAH INTERNATIONAL COLLEGE — site assembly
 //
 // A sibling of scripts/build.js, deliberately kept separate rather than
 // folded into it. The two sites share a design system (css/brand.css)
@@ -22,9 +22,9 @@ const ROOT = path.resolve(__dirname, '..');
 const SRC = path.join(ROOT, 'rusukh-src');
 const PAGES = path.join(SRC, 'pages');
 const PARTIALS = path.join(SRC, 'partials');
-const OUT_DIR = 'rusukh';
+const OUT_DIR = 'madinah';
 
-const SITE_URL = 'https://www.daralrusukh.com';
+const SITE_URL = 'https://www.almadinahcollege.com';
 
 const read = (p) => fs.readFileSync(p, 'utf8');
 
@@ -358,7 +358,7 @@ ${partialFor('dock', lang).trimEnd()}
   });
 
   writeSitemap(routes);
-  console.log(`Dār al-Rusūkh — built ${count} pages into ${OUT_DIR}/`);
+  console.log(`Al-Madinah International College — built ${count} pages into ${OUT_DIR}/`);
 }
 
 function writeSitemap(routes) {
