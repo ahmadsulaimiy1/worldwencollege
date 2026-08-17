@@ -966,3 +966,574 @@ body[data-section] {
 @media (max-width: 700px) {
   .topbar__right > .topbar__item:not(.topbar__pref) { display: none; }
 }
+
+
+/* =========================================================================
+   THE MATERIAL LAYER
+   -------------------------------------------------------------------------
+   Every card surface on this site was a one-pixel stone rectangle with
+   square corners on a flat fill — inert. This layer makes them objects:
+   a radius, an edge that catches light, a surface with a direction, and
+   a gold bloom that DAMPS rather than snaps off.
+
+   Architecture, stated once because it governs every rule below:
+
+     radius        --r-sm/md/lg from brand.css. Form, not ornament: it
+                   survives even [data-ornament="none"].
+     rim + bevel   a box-shadow INSET stack. An inset ring follows
+                   border-radius for free, animates cheaply, and leaves
+                   both pseudo-elements free for other work.
+     surface       a gradient, not a fill, so the material has a
+                   direction of light — 148–158°, the angle the whole
+                   design system is lit from.
+     ::before      the gold rule that draws in on hover.
+     ::after       the sheen: one crossing on hover, then gone.
+
+   THE DAMPING. The bloom arrives in --pol-in and leaves in --pol-out,
+   which are different numbers. The transition-duration is declared on
+   the RESTING rule (the slow one) and overridden on :hover (the fast
+   one), so gold builds quickly and decays slowly. That asymmetry is the
+   whole difference between a hover effect and a lit object.
+
+   SCOPE. This file is loaded by the Dār al-Rusūkh build alone. WEC-LC
+   shares brand.css, pages.css and atelier.css with this site and must
+   not inherit one line of it.
+   ========================================================================= */
+
+:root {
+  --pol-in:  .34s;
+  --pol-out: .9s;
+
+  /* paper */
+  --pol-bevel-l: rgba(255, 255, 255, .92);
+  --pol-rim-l:   rgba(199, 162, 74, .18);
+  --pol-rim-l-2: rgba(199, 162, 74, .44);
+  --pol-cast-l:  0 10px 30px -18px rgba(20, 38, 74, .22);
+  --pol-cast-l2: 0 20px 46px -20px rgba(20, 38, 74, .30);
+  --pol-face-l:  linear-gradient(158deg, #FFFDF8 0%, var(--warm-white) 46%, var(--cream) 100%);
+
+  /* navy */
+  --pol-bevel-d: rgba(255, 252, 240, .11);
+  --pol-rim-d:   rgba(199, 162, 74, .16);
+  --pol-rim-d-2: rgba(199, 162, 74, .40);
+  --pol-cast-d:  0 22px 48px -30px rgba(2, 6, 16, .9);
+  --pol-cast-d2: 0 30px 68px -28px rgba(2, 6, 16, .95);
+  --pol-face-d:  linear-gradient(158deg, rgba(39, 80, 143, .30) 0%, rgba(20, 38, 74, .34) 52%, rgba(10, 20, 40, .40) 100%);
+
+  --pol-bloom:   0 0 44px -14px rgba(199, 162, 74, .46);
+}
+
+/* The sheen. One crossing. Clipped by the card's own overflow. */
+@keyframes rusukh-sheen {
+  from { transform: translateX(-135%) skewX(-14deg); opacity: 0; }
+  18%  { opacity: 1; }
+  to   { transform: translateX(135%) skewX(-14deg); opacity: 0; }
+}
+
+/* ------------------------------------------------------------ the cards
+   .card carries brand.css's gold top rule on ::before and pages.css's
+   corner tick on ::after. The rule is kept — it is good, and it is the
+   house's own gesture. The corner tick is WEC's idiom and is replaced
+   here by the sheen, which is the same 16px of attention spent on
+   something that reads as material rather than as a bracket. */
+
+.section--light .card,
+.r-fac-card,
+.r-tier-card {
+  border-radius: var(--r-md);
+  border: 0;
+  background: var(--pol-face-l);
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l),
+    var(--pol-cast-l);
+  transition:
+    transform var(--pol-out) var(--ease-premium),
+    box-shadow var(--pol-out) var(--ease-premium);
+}
+
+.section--light .card:hover,
+.r-fac-card:hover,
+.r-tier-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l-2),
+    var(--pol-cast-l2),
+    var(--pol-bloom);
+  transition-duration: var(--pol-in);
+}
+
+.card--dark,
+.section--dark .card {
+  border-radius: var(--r-md);
+  border: 0;
+  background: var(--pol-face-d);
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-d),
+    inset 0 0 0 1px var(--pol-rim-d),
+    var(--pol-cast-d);
+  transition:
+    transform var(--pol-out) var(--ease-premium),
+    box-shadow var(--pol-out) var(--ease-premium);
+}
+
+.card--dark:hover,
+.section--dark .card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-d),
+    inset 0 0 0 1px var(--pol-rim-d-2),
+    var(--pol-cast-d2),
+    var(--pol-bloom);
+  transition-duration: var(--pol-in);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .card--dark, .section--dark .card {
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+            backdrop-filter: blur(14px) saturate(150%);
+  }
+}
+
+/* pages.css's corner tick, retired in favour of the sheen. */
+.card::after {
+  content: ''; position: absolute; inset: -40% -12%;
+  border: 0; width: auto; height: auto; opacity: 0;
+  pointer-events: none; z-index: 2;
+  background: linear-gradient(104deg,
+    transparent 36%,
+    rgba(255, 252, 240, .10) 46%,
+    rgba(255, 252, 240, .26) 50%,
+    rgba(255, 252, 240, .10) 54%,
+    transparent 64%);
+  transform: translateX(-135%) skewX(-14deg);
+  transition: none;
+}
+.card:hover::after { animation: rusukh-sheen 1.05s var(--ease-premium); }
+.section--light .card::after {
+  background: linear-gradient(104deg,
+    transparent 36%,
+    rgba(255, 255, 255, .38) 46%,
+    rgba(255, 255, 255, .78) 50%,
+    rgba(255, 255, 255, .38) 54%,
+    transparent 64%);
+}
+
+.r-fac-card, .r-tier-card { position: relative; }
+
+.r-fac-card::after,
+.r-tier-card::after {
+  content: ''; position: absolute; inset: -40% -12%; opacity: 0;
+  pointer-events: none; z-index: 2;
+  background: linear-gradient(104deg,
+    transparent 36%,
+    rgba(255, 255, 255, .38) 46%,
+    rgba(255, 255, 255, .78) 50%,
+    rgba(255, 255, 255, .38) 54%,
+    transparent 64%);
+  transform: translateX(-135%) skewX(-14deg);
+}
+.r-fac-card:hover::after,
+.r-tier-card:hover::after { animation: rusukh-sheen 1.05s var(--ease-premium); }
+
+/* The tier card's 3px top border cannot survive a radius — on a rounded
+   box a thick single-side border renders as a tapering arc, which is the
+   cheap look this whole layer exists to remove. It becomes a rule
+   INSIDE the card instead, which is what it always was visually. */
+.r-tier-card { border-top: 0; }
+.r-tier-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--gold-gradient); z-index: 2;
+}
+.r-tier-card--feature::before { background: linear-gradient(90deg, var(--gold-rich), var(--gold-champagne), var(--gold-rich)); }
+.r-tier-card--feature { background: linear-gradient(158deg, #FFFDF7 0%, var(--cream) 100%); }
+
+/* --------------------------------------------------------- the plates
+   Same correction as the tier card: the 3px left border becomes a bar
+   drawn inside a rounded surface. */
+
+.r-plate {
+  position: relative;
+  border-left: 0;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  padding: 26px 28px 26px 32px;
+  background: var(--pol-face-l);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l),
+    var(--pol-cast-l);
+  transition: box-shadow var(--pol-out) var(--ease-premium);
+}
+
+.r-plate::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 3px;
+  background: linear-gradient(180deg, var(--gold-champagne), var(--gold-royal) 40%, var(--bronze));
+  z-index: 2;
+}
+
+.r-plate:hover {
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l-2),
+    var(--pol-cast-l2),
+    var(--pol-bloom);
+  transition-duration: var(--pol-in);
+}
+
+.section--dark .r-plate {
+  background: var(--pol-face-d);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-d),
+    inset 0 0 0 1px var(--pol-rim-d),
+    var(--pol-cast-d);
+}
+.section--dark .r-plate::before {
+  background: linear-gradient(180deg, var(--gold-champagne), var(--gold-rich) 45%, var(--gold-antique));
+}
+.section--dark .r-plate:hover {
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-d),
+    inset 0 0 0 1px var(--pol-rim-d-2),
+    var(--pol-cast-d2),
+    var(--pol-bloom);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .section--dark .r-plate {
+    -webkit-backdrop-filter: blur(12px) saturate(145%);
+            backdrop-filter: blur(12px) saturate(145%);
+  }
+}
+
+/* ------------------------------------------------------ chrome surfaces
+   The footer register, the quicknav strip, the mega-menu feature and the
+   footer link cards. No sheen here: these sit on the lattice, which is
+   already in motion behind them, and a second moving thing on top of a
+   moving thing is noise. Radius, rim and bloom only.
+
+   Their .vessel badges animate a halo that must not be clipped, so
+   overflow stays visible and the effect is carried entirely by the
+   box-shadow stack — which is exactly why the rim was built that way. */
+
+.footergrid__tile,
+.quicknav__tile {
+  border-radius: var(--r-sm);
+  transition: box-shadow var(--pol-out) var(--ease-premium),
+              transform var(--pol-out) var(--ease-premium);
+}
+
+/* The footer registers are IVORY panels and the quicknav strip is navy.
+   Same gesture, two materials — a warm rim on paper, a champagne one on
+   the dark. Getting this backwards is how a gold rim ends up looking
+   like a smudge. */
+.footergrid__tile:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l-2),
+    0 0 26px -14px rgba(199, 162, 74, .38);
+  transition-duration: var(--pol-in);
+}
+
+.quicknav__tile:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-d),
+    inset 0 0 0 1px var(--pol-rim-d-2),
+    0 0 30px -14px rgba(199, 162, 74, .40);
+  transition-duration: var(--pol-in);
+}
+
+.footerlinks__card,
+.mega__feature {
+  border-radius: var(--r-lg);
+  transition: box-shadow var(--pol-out) var(--ease-premium),
+              transform var(--pol-out) var(--ease-premium),
+              border-color var(--pol-out) ease;
+}
+.footerlinks__card:hover,
+.mega__feature:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-d),
+    inset 0 0 0 1px var(--pol-rim-d-2),
+    var(--pol-cast-d2),
+    var(--pol-bloom);
+  transition-duration: var(--pol-in);
+}
+
+/* ------------------------------------------------------- the plinths
+   The standing strip. It carried five bare figures behind hairlines and
+   was the most dormant thing on the site — which matters, because it is
+   the first statement of what this College actually confers.
+
+   Each is now a glass plinth: the figure ASSEMBLES digit by digit
+   (data-assemble, atelier.js), a gold rule DRAWS beneath it, and a line
+   of context arrives under the label. Staggered by nth-child so the row
+   builds left to right rather than switching on. */
+
+.r-standing {
+  gap: 12px;
+  border-top: 0;
+  margin-top: 46px;
+}
+
+.r-standing__item {
+  position: relative;
+  padding: 20px 20px 18px;
+  border-right: 0;
+  border-radius: var(--r-md);
+  background: var(--pol-face-d);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-d),
+    inset 0 0 0 1px var(--pol-rim-d),
+    var(--pol-cast-d);
+  transition: box-shadow var(--pol-out) var(--ease-premium),
+              transform var(--pol-out) var(--ease-premium);
+  animation: plinth-rise .8s var(--ease-premium) backwards;
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .r-standing__item {
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+            backdrop-filter: blur(12px) saturate(150%);
+  }
+}
+
+.r-standing__item:nth-child(1) { animation-delay: .10s; }
+.r-standing__item:nth-child(2) { animation-delay: .20s; }
+.r-standing__item:nth-child(3) { animation-delay: .30s; }
+.r-standing__item:nth-child(4) { animation-delay: .40s; }
+.r-standing__item:nth-child(5) { animation-delay: .50s; }
+
+@keyframes plinth-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.r-standing__item:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-d),
+    inset 0 0 0 1px var(--pol-rim-d-2),
+    var(--pol-cast-d2),
+    var(--pol-bloom);
+  transition-duration: var(--pol-in);
+}
+
+/* The rule that draws. Its own element would be markup for a decoration;
+   as ::after it costs nothing and inherits the plinth's stagger. */
+.r-standing__item::after {
+  content: ''; position: absolute; left: 20px; right: 20px;
+  top: 68px; height: 1px;
+  background: linear-gradient(90deg, var(--gold-rich), rgba(199, 162, 74, .12));
+  transform: scaleX(0); transform-origin: left;
+  /* `both`, not `backwards`. With `backwards` alone the rule draws and
+     then snaps back to scaleX(0) the instant the animation ends, because
+     the element's own resting transform takes over again — a hairline
+     that flashes and vanishes. Caught by rendering it, not by reading it. */
+  animation: plinth-rule .9s var(--ease-premium) both;
+}
+.r-standing__item:nth-child(1)::after { animation-delay: .45s; }
+.r-standing__item:nth-child(2)::after { animation-delay: .55s; }
+.r-standing__item:nth-child(3)::after { animation-delay: .65s; }
+.r-standing__item:nth-child(4)::after { animation-delay: .75s; }
+.r-standing__item:nth-child(5)::after { animation-delay: .85s; }
+
+@keyframes plinth-rule { to { transform: scaleX(1); } }
+
+.r-standing__fig {
+  font-size: 2.6rem;
+  margin-bottom: 20px;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 26px rgba(199, 162, 74, .30);
+}
+
+.r-standing__note {
+  display: block;
+  margin-top: 7px;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: var(--steel);
+}
+
+@media (max-width: 700px) {
+  .r-standing__item { border-bottom: 0; padding: 18px 18px 16px; }
+  .r-standing__item::after { top: 64px; }
+}
+
+/* ------------------------------------------------------- the stages
+   Numbered rows, not cards — so they get the light without becoming
+   objects. A gold wash on the numeral's well and a hover lift is the
+   whole of it. */
+
+.r-stage {
+  border-radius: var(--r-md);
+  padding: 22px 18px;
+  margin: 0 -18px;
+  transition: background var(--pol-out) var(--ease-premium),
+              box-shadow var(--pol-out) var(--ease-premium);
+}
+.r-stage:hover {
+  background: linear-gradient(100deg, rgba(199, 162, 74, .07), transparent 62%);
+  box-shadow: inset 0 0 0 1px var(--pol-rim-l);
+  transition-duration: var(--pol-in);
+}
+.section--dark .r-stage:hover {
+  background: linear-gradient(100deg, rgba(199, 162, 74, .10), transparent 62%);
+  box-shadow: inset 0 0 0 1px var(--pol-rim-d-2);
+}
+.r-stage__num { text-shadow: 0 0 22px rgba(199, 162, 74, .34); }
+
+/* The regulation clause gets the same treatment at lower amplitude: it
+   is a paragraph of law, and law should be readable before it is
+   handsome. */
+.r-clause {
+  border-radius: var(--r-md);
+  padding: 24px 18px;
+  margin: 0 -18px;
+  transition: background var(--pol-out) var(--ease-premium);
+}
+.r-clause:hover { background: linear-gradient(100deg, rgba(199, 162, 74, .06), transparent 58%); transition-duration: var(--pol-in); }
+.section--dark .r-clause:hover { background: linear-gradient(100deg, rgba(199, 162, 74, .09), transparent 58%); }
+.r-clause__no { text-shadow: 0 0 18px rgba(199, 162, 74, .28); }
+
+/* ------------------------------------------------- pills and small marks */
+
+.r-when--open, .r-when--later { border-radius: var(--r-pill); }
+
+/* ==================================================== ORNAMENT LEVELS
+   The personalisation centre's three settings govern this material too.
+   Note what does NOT change: the radii. A rounded corner is the shape of
+   the object, not a decoration applied to it, and a reader who asks for
+   less ornament is not asking for a different set of objects. */
+
+:root[data-ornament="restrained"] .card:hover::after,
+:root[data-ornament="restrained"] .r-fac-card:hover::after,
+:root[data-ornament="restrained"] .r-tier-card:hover::after { animation: none; }
+
+:root[data-ornament="restrained"] { --pol-bloom: 0 0 26px -16px rgba(199, 162, 74, .26); }
+
+:root[data-ornament="none"] { --pol-bloom: 0 0 0 0 transparent; }
+:root[data-ornament="none"] .card,
+:root[data-ornament="none"] .card--dark,
+:root[data-ornament="none"] .r-plate,
+:root[data-ornament="none"] .r-fac-card,
+:root[data-ornament="none"] .r-tier-card,
+:root[data-ornament="none"] .r-standing__item {
+  background: var(--warm-white);
+  -webkit-backdrop-filter: none;
+          backdrop-filter: none;
+  box-shadow: inset 0 0 0 1px var(--stone);
+}
+:root[data-ornament="none"] .section--dark .card,
+:root[data-ornament="none"] .card--dark,
+:root[data-ornament="none"] .section--dark .r-plate,
+:root[data-ornament="none"] .r-standing__item {
+  background: rgba(20, 38, 74, .5);
+  box-shadow: inset 0 0 0 1px rgba(110, 147, 196, .26);
+}
+:root[data-ornament="none"] .card:hover::after,
+:root[data-ornament="none"] .r-fac-card:hover::after,
+:root[data-ornament="none"] .r-tier-card:hover::after { animation: none; }
+:root[data-ornament="none"] .r-standing__item,
+:root[data-ornament="none"] .r-standing__item::after { animation: none; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover::after,
+  .r-fac-card:hover::after,
+  .r-tier-card:hover::after { animation: none; }
+  .r-standing__item,
+  .r-standing__item::after { animation: none; transform: none; }
+  .section--light .card:hover, .card--dark:hover, .section--dark .card:hover,
+  .r-fac-card:hover, .r-tier-card:hover, .r-plate:hover,
+  .footergrid__tile:hover, .quicknav__tile:hover,
+  .footerlinks__card:hover, .mega__feature:hover,
+  .r-standing__item:hover { transform: none; }
+}
+
+/* ------------------------------------------------- the RUSŪKH standard
+   Five cells in a hairline grid, seamed together by a 1px stone gap.
+   That composition is a TABLE of definitions and it read as one — which
+   is exactly the flatness complained of. Separated into five objects with
+   their own light, it reads as five things the College stands for. */
+
+.r-standard {
+  gap: 14px;
+  background: none;
+  border: 0;
+}
+
+.r-standard__cell {
+  position: relative;
+  border-radius: var(--r-md);
+  padding: 28px 26px 26px;
+  background: var(--pol-face-l);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l),
+    var(--pol-cast-l);
+  transition: box-shadow var(--pol-out) var(--ease-premium),
+              transform var(--pol-out) var(--ease-premium);
+}
+
+.r-standard__cell:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l-2),
+    var(--pol-cast-l2),
+    var(--pol-bloom);
+  transition-duration: var(--pol-in);
+}
+
+.r-standard__letter { text-shadow: 0 0 22px rgba(199, 162, 74, .34); }
+
+/* The letters R · U · S · Ū · KH are the point of this block, so they
+   arrive in sequence — the word spelling itself out. */
+.r-standard__cell { animation: plinth-rise .7s var(--ease-premium) backwards; }
+.r-standard__cell:nth-child(1) { animation-delay: .06s; }
+.r-standard__cell:nth-child(2) { animation-delay: .14s; }
+.r-standard__cell:nth-child(3) { animation-delay: .22s; }
+.r-standard__cell:nth-child(4) { animation-delay: .30s; }
+.r-standard__cell:nth-child(5) { animation-delay: .38s; }
+.r-standard__cell:nth-child(6) { animation-delay: .46s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .r-standard__cell { animation: none; }
+  .r-standard__cell:hover { transform: none; }
+}
+:root[data-ornament="none"] .r-standard__cell {
+  animation: none;
+  background: var(--warm-white);
+  box-shadow: inset 0 0 0 1px var(--stone);
+}
+
+/* --------------------------------------------------- an inherited defect
+   brand.css:392 sets `.section--dark h1, h2, h3 { color: #fff }`, which is
+   correct for a heading sitting ON the navy and wrong for one sitting on a
+   CREAM CARD that happens to be inside a dark section. Its specificity
+   (0,1,1) beats the component class (0,1,0), so the faculty names on the
+   home page have been white on warm-white — invisible — for as long as
+   those cards have existed. Found by rendering the page and reading the
+   computed colour, which is the only way it could have been found.
+
+   Every card here that keeps a paper face inside a dark section needs the
+   same correction. */
+
+.section--dark .r-fac-card__name,
+.section--dark .r-tier-card__name,
+.section--dark .r-standard__word,
+.section--dark .r-fac-card h3,
+.section--dark .r-tier-card h3 { color: var(--royal-blue); }
+
+.section--dark .r-fac-card__desc,
+.section--dark .r-tier-card__what,
+.section--dark .r-standard__cell p { color: var(--slate); }
+
+.section--dark .r-fac-card__meta,
+.section--dark .r-tier-card__cap,
+.section--dark .r-fac-card__num { color: var(--bronze); }

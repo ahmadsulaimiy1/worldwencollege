@@ -467,3 +467,213 @@
   .riwaq-table { font-size: 10pt; }
   body { background: #fff; }
 }
+
+
+/* =========================================================================
+   THE PORTAL, IN THE HOUSE MATERIAL
+   -------------------------------------------------------------------------
+   css/dashboard.css is shared with WEC-LC and gives the portal its
+   structure: .stat-tile, .panel, .class-row, .progress-meter. Its
+   surfaces are flat fills with 10px corners and a grey hairline, which
+   is correct for a working dashboard and wrong for this one — a student
+   opens the Riwāq more often than any other page of the College, and it
+   should be the same room as the rest of it.
+
+   The overrides below give those surfaces the material stated in
+   docs/dar-al-rusukh/material-note.md, using the same tokens as
+   css/rusukh.css so the two files cannot drift apart.
+   ========================================================================= */
+
+.app-main .panel {
+  border: 0;
+  border-radius: var(--r-lg);
+  background: var(--pol-face-l);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l),
+    var(--pol-cast-l);
+  transition: box-shadow var(--pol-out) var(--ease-premium);
+}
+.app-main .panel:hover {
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l-2),
+    var(--pol-cast-l2);
+  transition-duration: var(--pol-in);
+}
+
+/* --------------------------------------------------------- the tiles
+   These carry the portal's four headline measurements, and they were the
+   flattest thing in it. Radius, polished face, gold rim, a rule that
+   draws under the label, and a figure that counts (data-count, wired in
+   js/riwaq.js and run by js/rusukh-atelier.js). */
+
+.app-main .stat-tile {
+  position: relative;
+  border: 0;
+  border-radius: var(--r-md);
+  background: var(--pol-face-l);
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l),
+    var(--pol-cast-l);
+  transition: box-shadow var(--pol-out) var(--ease-premium),
+              transform var(--pol-out) var(--ease-premium);
+  animation: tile-rise .7s var(--ease-premium) backwards;
+}
+.app-main .stat-tile:nth-child(1) { animation-delay: .04s; }
+.app-main .stat-tile:nth-child(2) { animation-delay: .12s; }
+.app-main .stat-tile:nth-child(3) { animation-delay: .20s; }
+.app-main .stat-tile:nth-child(4) { animation-delay: .28s; }
+
+@keyframes tile-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.app-main .stat-tile:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l-2),
+    var(--pol-cast-l2),
+    var(--pol-bloom);
+  transition-duration: var(--pol-in);
+}
+
+/* The sheen, on hover only. The tile sets overflow:hidden above, so the
+   band is clipped to the rounded face without a second clip-path. */
+.app-main .stat-tile::after {
+  content: ''; position: absolute; inset: -40% -12%; opacity: 0;
+  pointer-events: none; z-index: 2;
+  background: linear-gradient(104deg,
+    transparent 36%,
+    rgba(255, 255, 255, .40) 46%,
+    rgba(255, 255, 255, .80) 50%,
+    rgba(255, 255, 255, .40) 54%,
+    transparent 64%);
+  transform: translateX(-135%) skewX(-14deg);
+}
+.app-main .stat-tile:hover::after { animation: rusukh-sheen 1.05s var(--ease-premium); }
+
+/* The rule under the label, drawn rather than printed. */
+.app-main .stat-tile__label { position: relative; padding-bottom: 10px; }
+.app-main .stat-tile__label::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: linear-gradient(90deg, var(--gold-rich), rgba(199, 162, 74, .10));
+  transform: scaleX(0); transform-origin: left;
+  animation: tile-rule .8s var(--ease-premium) .38s both;
+}
+@keyframes tile-rule { to { transform: scaleX(1); } }
+
+.app-main .stat-tile__value {
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 24px rgba(199, 162, 74, .22);
+}
+
+/* ------------------------------------------------------- the meters
+   js/riwaq.js writes the target as --fill instead of width so the bar
+   has something to travel to. Without that the bar is already its final
+   length before any animation could run. */
+
+.progress-meter__fill.is-drawn {
+  width: var(--fill, 0%);
+  animation: meter-draw 1.1s var(--ease-premium) backwards;
+}
+@keyframes meter-draw { from { width: 0; } }
+
+/* ------------------------------------------------- triads and returns */
+
+.triad,
+.riwaq-return,
+.riwaq-interval,
+.riwaq-corr,
+.message-card {
+  border-radius: var(--r-md);
+}
+
+/* The triad's 3px top border cannot survive a 16px radius — on a rounded
+   box a thick single-side border renders as a tapering arc. It becomes a
+   bar drawn inside the card, which keeps the per-state colour that tells
+   sabaq from sabqī from manzil at a glance. */
+.triad {
+  position: relative;
+  overflow: hidden;
+  border: 0;
+  border-top: 0;
+  background: var(--pol-face-l);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l),
+    var(--pol-cast-l);
+  transition: box-shadow var(--pol-out) var(--ease-premium),
+              transform var(--pol-out) var(--ease-premium);
+}
+.triad::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--gold-royal); z-index: 2;
+}
+.triad.is-sabaq::before  { background: linear-gradient(90deg, var(--gold-rich), var(--gold-champagne)); }
+.triad.is-sabqi::before  { background: linear-gradient(90deg, var(--sapphire), var(--cerulean)); }
+.triad.is-manzil::before { background: linear-gradient(90deg, var(--teal), var(--emerald)); }
+.triad:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l-2),
+    var(--pol-cast-l2),
+    var(--pol-bloom);
+  transition-duration: var(--pol-in);
+}
+
+.riwaq-return,
+.riwaq-interval {
+  transition: box-shadow var(--pol-out) var(--ease-premium),
+              transform var(--pol-out) var(--ease-premium);
+}
+.riwaq-return:hover,
+.riwaq-interval:hover {
+  transform: translateY(-2px);
+  box-shadow: inset 0 0 0 1px var(--pol-rim-l-2), 0 0 26px -14px rgba(199, 162, 74, .42);
+  transition-duration: var(--pol-in);
+}
+
+/* The five returns each rise in sequence, so the expanding schedule is
+   legible as a shape before a word of it is read. */
+.riwaq-return { animation: tile-rise .62s var(--ease-premium) backwards; }
+.riwaq-return:nth-child(1) { animation-delay: .05s; }
+.riwaq-return:nth-child(2) { animation-delay: .13s; }
+.riwaq-return:nth-child(3) { animation-delay: .21s; }
+.riwaq-return:nth-child(4) { animation-delay: .29s; }
+.riwaq-return:nth-child(5) { animation-delay: .37s; }
+
+/* --------------------------------------------------------- the mushaf
+   604 page cells. No shadow, no transition on the grid itself — at this
+   count either would cost real frames. A radius and a hover ring only. */
+
+.mushaf__pg { border-radius: 3px; }
+.mushaf__pg:hover { box-shadow: 0 0 0 1px var(--gold-rich); }
+
+/* -------------------------------------------------------- the sidebar */
+
+.app-sidebar .btn--outline { border-radius: var(--r-sm); }
+
+@media (prefers-reduced-motion: reduce) {
+  .app-main .stat-tile,
+  .app-main .stat-tile__label::after,
+  .riwaq-return,
+  .progress-meter__fill.is-drawn { animation: none; }
+  .app-main .stat-tile__label::after { transform: none; }
+  .app-main .stat-tile:hover::after { animation: none; }
+  .app-main .stat-tile:hover, .triad:hover,
+  .riwaq-return:hover, .riwaq-interval:hover { transform: none; }
+}
+
+:root[data-ornament="none"] .app-main .stat-tile,
+:root[data-ornament="none"] .app-main .stat-tile__label::after,
+:root[data-ornament="none"] .riwaq-return,
+:root[data-ornament="none"] .progress-meter__fill.is-drawn { animation: none; }
+:root[data-ornament="none"] .app-main .stat-tile__label::after { transform: none; }
+:root[data-ornament="none"] .app-main .stat-tile:hover::after { animation: none; }
+:root[data-ornament="restrained"] .app-main .stat-tile:hover::after { animation: none; }

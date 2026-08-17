@@ -117,14 +117,23 @@
 
   /* ---------------------------------------------------- small parts */
 
+  /* The fill is written as a custom property rather than a width so that
+     css/riwaq.css can animate from 0 to it on entry. Writing `width`
+     directly would fix the bar at its final length before the animation
+     ever had anything to travel. */
   function meter(pct) {
-    return '<div class="progress-meter"><div class="progress-meter__fill" style="width:' +
-      Math.max(0, Math.min(100, pct)) + '%"></div></div>';
+    var v = Math.max(0, Math.min(100, pct));
+    return '<div class="progress-meter"><div class="progress-meter__fill is-drawn" style="--fill:' +
+      v + '%"></div></div>';
   }
   function pill(t, k) { return '<span class="status-pill status-pill--' + k + '">' + esc(t) + '</span>'; }
+  /* data-count is read by js/rusukh-atelier.js: the figure rises from
+     zero and settles when the tile enters view. These are measurements —
+     pages held, itqān, days due — and a measurement that counts reads as
+     one that was taken. An unparseable value is left exactly as written. */
   function tile(label, value, sub) {
     return '<div class="stat-tile"><div class="stat-tile__content">' +
-      '<div class="stat-tile__label">' + label + '</div><div class="stat-tile__value">' + value +
+      '<div class="stat-tile__label">' + label + '</div><div class="stat-tile__value" data-count>' + value +
       '</div><div class="stat-tile__sub">' + sub + '</div></div></div>';
   }
 
@@ -694,6 +703,7 @@
     if (current === 'messages') S.actions.readMessages(d);
     host.innerHTML = appScreen(a, d);
     if (window.__rusukhDates) window.__rusukhDates();
+    if (window.__rusukhFigures) window.__rusukhFigures(host);
   }
 
   function status(sel, msg, ok) {

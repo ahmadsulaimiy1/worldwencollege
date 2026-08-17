@@ -352,6 +352,120 @@
     }, { passive: true });
   }
 
+
+  /* =====================================================================
+     COUNTING FIGURES
+
+     A number that rises from zero and settles reads as a MEASUREMENT —
+     something that was taken. A number that is simply printed reads as a
+     claim. That distinction is worth an animation, and it is the only
+     reason this exists.
+
+     atelier.js already carries `data-assemble`, which forms a figure
+     digit by digit. The two are for different jobs and are deliberately
+     not merged: assembling suits a fixed institutional fact (four
+     faculties, established 1441), and counting suits a quantity that
+     could have come out otherwise (pages held, itqān, days due).
+
+     THREE THINGS THIS GETS RIGHT that a naive counter does not:
+
+       - The element's authored text is the source of truth and is
+         restored exactly at the end, including its suffix, its thousands
+         separators and its decimals. Nothing is reformatted.
+       - `aria-label` carries the final value from the first frame, so a
+         screen reader is never read a running total.
+       - Every path that cannot animate — reduced motion, no
+         IntersectionObserver, an unparseable string — resolves to the
+         final text immediately. A statistic must never be capable of
+         rendering as a zero that stays.
+     ===================================================================== */
+
+  var reducedMotion = window.matchMedia
+    ? window.matchMedia('(prefers-reduced-motion: reduce)')
+    : { matches: false };
+
+  function parseFigure(text) {
+    // Leading non-numeric (₦, $), the number itself, then any suffix (%, +).
+    var m = /^([^\d\-]*)(-?[\d,]*\.?\d+)(.*)$/.exec(text.trim());
+    if (!m) return null;
+    var raw = m[2].replace(/,/g, '');
+    var value = parseFloat(raw);
+    if (!isFinite(value)) return null;
+    var dot = raw.indexOf('.');
+    return {
+      prefix: m[1],
+      suffix: m[3],
+      value: value,
+      decimals: dot === -1 ? 0 : raw.length - dot - 1,
+      grouped: m[2].indexOf(',') !== -1
+    };
+  }
+
+  function formatFigure(n, f) {
+    var s = f.decimals ? n.toFixed(f.decimals) : String(Math.round(n));
+    if (f.grouped) {
+      var parts = s.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      s = parts.join('.');
+    }
+    return f.prefix + s + f.suffix;
+  }
+
+  function runCount(el, final, f) {
+    var start = null;
+    // 1.1s is long enough to be read as motion and short enough that a
+    // reader who came for the number is not kept waiting for it.
+    var dur = 1100;
+    function frame(t) {
+      if (start === null) start = t;
+      var p = Math.min(1, (t - start) / dur);
+      // easeOutCubic: fast away, slow into place — a dial settling.
+      var e = 1 - Math.pow(1 - p, 3);
+      el.textContent = p === 1 ? final : formatFigure(f.value * e, f);
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  var countObserver = null;
+
+  function countFigures(root) {
+    var scope = root || document;
+    var els = scope.querySelectorAll ? scope.querySelectorAll('[data-count]') : [];
+    if (!els.length) return;
+
+    if (!countObserver && window.IntersectionObserver) {
+      countObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          countObserver.unobserve(e.target);
+          var el = e.target;
+          runCount(el, el.getAttribute('data-count-final'), JSON.parse(el.getAttribute('data-count-spec')));
+        });
+      }, { threshold: 0.5 });
+    }
+
+    [].forEach.call(els, function (el) {
+      if (el.hasAttribute('data-counted')) return;
+      el.setAttribute('data-counted', '');
+      var final = el.textContent.trim();
+      var f = parseFigure(final);
+      // An unparseable value — an em dash, a range, a word — is left
+      // exactly as authored. Silence is the correct behaviour here.
+      if (!f) return;
+      el.setAttribute('aria-label', final);
+      if (reducedMotion.matches || !countObserver) return;
+      el.setAttribute('data-count-final', final);
+      el.setAttribute('data-count-spec', JSON.stringify(f));
+      el.textContent = formatFigure(0, f);
+      countObserver.observe(el);
+    });
+  }
+
+  // The portal replaces its whole shell on every view change, so it asks
+  // for a rescan rather than this file watching the DOM for it.
+  window.__rusukhFigures = countFigures;
+
   /* ------------------------------------------------------------------ */
 
   // The portal re-renders its shell on every view change, which replaces
@@ -368,6 +482,7 @@
     tick();
     setInterval(tick, 1000);
     initRakingLight();
+    countFigures(document);
   }
 
   if (document.readyState === 'loading') {
