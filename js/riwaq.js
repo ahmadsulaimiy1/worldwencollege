@@ -650,7 +650,7 @@
       '<rect x="14" y="14" width="36" height="36"/><rect x="14" y="14" width="36" height="36" transform="rotate(45 32 32)"/></g>' +
       '<circle cx="32" cy="32" r="8" fill="currentColor" opacity=".2"/></svg>' +
       '<h1 class="signin__title">The Riwāq</h1>' +
-      '<p class="signin__sub">Dār al-Rusūkh · learning portal</p>' +
+      '<p class="signin__sub">Al-Madinah International College · learning portal</p>' +
       '<form data-signin>' +
         '<div class="riwaq-field"><label for="si-email">Email</label>' +
         '<input id="si-email" type="email" autocomplete="username" required></div>' +
@@ -679,7 +679,7 @@
     return '<div class="preview-banner">The Riwāq is a working demonstration. It persists on ' +
       'this device, holds no real record, and issues nothing.</div>' +
       '<div class="app-shell"><aside class="app-sidebar">' +
-      '<div class="app-sidebar__brand"><a href="/rusukh/">Dār al-Rusūkh</a><span>The Riwāq</span></div>' +
+      '<div class="app-sidebar__brand"><a href="/">Al-Madinah International College</a><span>The Riwāq</span></div>' +
       '<nav class="app-nav">' + nav.map(function (n) {
         return '<a href="#' + n[0] + '" data-view="' + n[0] + '"' + (n[0] === current ? ' aria-current="page"' : '') + '>' +
           '<svg class="icon" aria-hidden="true"><use href="#' + n[2] + '"/></svg>' + n[1] +

@@ -1366,9 +1366,14 @@ body[data-section] {
 .r-standing__note {
   display: block;
   margin-top: 7px;
-  font-size: 0.76rem;
-  line-height: 1.45;
-  color: var(--steel);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  /* --steel measured 2.96:1 against the hero's oxford ground — under AA and
+     visibly dim, which is what "the text is not clear" meant. --cerulean is
+     the palette's readable blue on dark and clears 4.5 at this size. The
+     note is the only place on the home page a reader is given a fact in
+     twelve-point type, so it is the last place to be economical with light. */
+  color: var(--cerulean);
 }
 
 @media (max-width: 700px) {
@@ -1410,7 +1415,17 @@ body[data-section] {
 }
 .r-clause:hover { background: linear-gradient(100deg, rgba(199, 162, 74, .06), transparent 58%); transition-duration: var(--pol-in); }
 .section--dark .r-clause:hover { background: linear-gradient(100deg, rgba(199, 162, 74, .09), transparent 58%); }
-.r-clause__no { text-shadow: 0 0 18px rgba(199, 162, 74, .28); }
+/* A regulation's number is 15px small-caps on cream, and it was set in
+   --gold-antique: 3.31:1, which is our own §9.4 broken in our own file —
+   "gold is never small text on a light ground". It takes --bronze (6.11:1)
+   and loses the gold bloom, which only ever worked on navy anyway. */
+.r-clause__no { color: var(--bronze); text-shadow: none; }
+.section--dark .r-clause__no,
+.section--oxford .r-clause__no,
+.section--midnight .r-clause__no {
+  color: var(--gold-soft);
+  text-shadow: 0 0 18px rgba(199, 162, 74, .28);
+}
 
 /* ------------------------------------------------- pills and small marks */
 
@@ -2495,3 +2510,465 @@ main :is(p, li, dd, td, th, figcaption, caption) a:not(.btn):focus-visible {
 [dir="rtl"] .section--light :is(p, li, dd, td, th, caption) a:not(.btn) {
   color: var(--bronze);
 }
+
+
+/* ═════════════════════════════════════════════════════════════════════
+   THE POLISHED CREAM GROUND                        [FOUNDER'S RULING]
+   ---------------------------------------------------------------------
+   The body of this College is polished cream, not navy. Navy is now the
+   jewel box — the masthead and the footer — and everything between them
+   is a cream surface with real light on it.
+
+   Why layers rather than a flat fill. `--ivory` alone is paper: even,
+   matte, and dead under the eye. Polished stone is not one colour, it is
+   one colour under a light source, and the eye reads the difference
+   instantly without being able to name it. So the ground is built as a
+   stack, back to front:
+
+     5. the base       a long vertical gradient, warm-white into cream,
+                       so the panel has a top and a bottom
+     4. the gloss      one broad, very soft diagonal sweep — this is the
+                       layer that makes it read POLISHED rather than
+                       printed. It is wide and weak on purpose: a narrow
+                       bright streak reads as a screen reflection, a wide
+                       faint one reads as a surface
+     3. the settle     a cool pool at the foot, so the panel sits in
+                       something instead of floating
+     2. the gilding    a warm champagne bloom at the upper right, which
+                       is where the gold in this palette lives
+     1. the specular   a near-white bloom at the upper left, the light
+                       source every bevel and every shadow on this site
+                       is already drawn against (light from above and
+                       slightly forward)
+
+   All five are BACKGROUND layers. Not one pseudo-element is spent here,
+   because ::before and ::after on a section are already committed —
+   ::before to a rule or a marker, ::after to the travelling light. A
+   ground that costs a pseudo-element is a ground that silently deletes
+   an effect three months later (EB §8.6). */
+
+:root {
+  --cream-ground:
+    radial-gradient(1180px 620px at 12% -10%, rgba(255, 255, 255, .96) 0%, rgba(255, 255, 255, 0) 60%),
+    radial-gradient(880px 540px at 92% 2%,   rgba(242, 227, 192, .46) 0%, rgba(242, 227, 192, 0) 66%),
+    radial-gradient(1020px 520px at 50% 110%, rgba(228, 222, 208, .58) 0%, rgba(228, 222, 208, 0) 70%),
+    linear-gradient(104deg,
+      rgba(255, 255, 255, 0) 26%,
+      rgba(255, 255, 255, .58) 45%,
+      rgba(255, 255, 255, .20) 53%,
+      rgba(255, 255, 255, 0) 66%),
+    linear-gradient(176deg, #FFFDF8 0%, var(--warm-white) 38%, var(--cream) 100%);
+
+  /* The gold hairlines that close a cream panel top and bottom. A panel
+     with no edge is a colour change; a panel with a gold edge is a plate
+     set into the page. */
+  --cream-edges:
+    inset 0  1px 0 rgba(199, 162, 74, .34),
+    inset 0 -1px 0 rgba(199, 162, 74, .22);
+}
+
+/* The page floor. brand.css sets --ivory here; cream is warmer and is
+   what the sections above it are made of, so the two never disagree at a
+   scroll boundary. */
+body { background: var(--cream); }
+
+.section--light,
+.section--warm,
+.section--paper {
+  background-image: var(--cream-ground);
+  background-color: var(--cream);
+  box-shadow: var(--cream-edges);
+  color: var(--ink);
+  position: relative;
+  isolation: isolate;
+}
+
+/* Headings on cream take the deep navy rather than near-black. Ink on
+   cream is correct for reading matter and slightly severe for a display
+   face; the navy is the same family as the masthead and reads as the
+   institution's own colour. */
+.section--light h2,
+.section--warm h2,
+.section--paper h2 { color: var(--midnight); }
+
+
+/* ═════════════════════════════════════════════════════════════════════
+   THE FIVE STAGES, AS PLATES                       [FOUNDER'S RULING]
+   ---------------------------------------------------------------------
+   The stages were five rows separated by hairlines, with their headings
+   in `--ink` and their captions in `--bronze` — both correct on cream and
+   both very nearly invisible on navy, which is where the home page put
+   them. Measured: the heading came out at contrast ratio 1.10 against
+   the navy behind it, the body at 2.04, the caption at 2.36. Every one of
+   those failed AA and the first failed sight.
+
+   They are now plates: five polished cream objects with their own
+   surface, their own bevel and their own travelling light, each opened by
+   a Roman numeral struck into a gold roundel. That is the upgrade asked
+   for, and it also closes the fault at the root — a plate carries its own
+   ground, so its text can no longer be legible or illegible depending on
+   what somebody drops it onto (EB §12.2).
+
+   The dark-ground variant below is the belt to that brace. */
+
+.r-stages {
+  counter-reset: stage;
+  display: grid;
+  gap: 16px;
+  margin-top: 34px;
+}
+
+.r-stage {
+  counter-increment: stage;
+  display: grid;
+  grid-template-columns: 74px 1fr 172px;
+  gap: 26px;
+  align-items: start;
+  position: relative;
+  isolation: isolate;
+  padding: 26px 28px;
+  border: 0;
+  border-radius: var(--r-lg);
+  background-image: var(--pol-sheen-l), var(--pol-face-l);
+  background-repeat: no-repeat;
+  background-size: 220% 100%, auto;
+  background-position: -60% 0, 0 0;
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l),
+    var(--pol-cast-l);
+  transition:
+    transform var(--pol-out) var(--ease-premium),
+    box-shadow var(--pol-out) var(--ease-premium),
+    background-position var(--pol-out) var(--ease-premium);
+}
+
+.r-stage:first-child { border-top: 0; }
+.r-stage:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l-2),
+    var(--pol-cast-l2), var(--pol-bloom);
+  background-position: 160% 0, 0 0;
+  transition-duration: var(--pol-in);
+}
+
+/* The numeral is struck into a roundel rather than set beside the text.
+   A Roman numeral floating in a column reads as a list marker; the same
+   numeral in a gold disc reads as a stage of a process, which is what it
+   is. Cinzel is allowed here — it is a numeral, which is exactly the
+   ration this face is kept to (EB §9.1). */
+.r-stage__num {
+  font-family: 'Cinzel', serif;
+  font-size: 1.24rem;
+  line-height: 1;
+  color: var(--oxford);
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--gold-gradient, linear-gradient(148deg, var(--gold-soft), var(--gold-royal) 58%, var(--gold-antique)));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .7),
+    inset 0 0 0 1px rgba(140, 106, 63, .5),
+    0 6px 16px -8px rgba(140, 106, 63, .8);
+}
+
+.r-stage h3 { font-size: 1.16rem; margin: 0 0 8px; color: var(--midnight); }
+.r-stage p  { margin: 0; color: var(--slate); line-height: 1.62; font-size: .95rem; }
+
+.r-stage__when {
+  font-size: .76rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  text-align: right;
+  padding-top: 16px;
+}
+
+/* If a stage is ever placed on navy again, it stays a plate and simply
+   changes material. The failure this replaces was a component that kept
+   its light-ground colours on a dark ground and said nothing. */
+.section--dark .r-stage,
+.section--oxford .r-stage,
+.section--midnight .r-stage {
+  background-image: var(--pol-sheen-d), var(--pol-face-d);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-d),
+    inset 0 0 0 1px var(--pol-rim-d),
+    var(--pol-cast-d);
+}
+.section--dark .r-stage h3,
+.section--oxford .r-stage h3,
+.section--midnight .r-stage h3 { color: var(--gold-champagne); }
+.section--dark .r-stage p,
+.section--oxford .r-stage p,
+.section--midnight .r-stage p { color: rgba(247, 244, 236, .84); }
+.section--dark .r-stage__when,
+.section--oxford .r-stage__when,
+.section--midnight .r-stage__when { color: var(--gold-soft); }
+
+@media (max-width: 780px) {
+  .r-stage { grid-template-columns: 54px 1fr; gap: 18px; padding: 22px 20px; }
+  .r-stage__num { width: 46px; height: 46px; font-size: 1.05rem; }
+  .r-stage__when { grid-column: 2; text-align: left; padding-top: 12px; }
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════
+   THE FACULTIES, TWO BY TWO
+   ---------------------------------------------------------------------
+   `repeat(auto-fit, minmax(280px, 1fr))` fitted four cards as three plus
+   one, so the row of faculties ended in two thirds of a row of nothing —
+   which is what made the section read as unfinished. Four things go two
+   by two. The auto-fit rule is kept below 900px, where two columns of
+   280px no longer fit anyway. */
+@media (min-width: 900px) {
+  .r-faculty { grid-template-columns: repeat(2, 1fr); gap: 26px; }
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════
+   THE TRAVELLING LIGHT, RAISED                     [FOUNDER'S RULING]
+   ---------------------------------------------------------------------
+   The founder has asked twice for this, and the second time in terms that
+   leave nothing to interpret: gold or diamond, travelling around the edges
+   of almost every shape, VERY visibly.
+
+   The earlier rule in this file rationed it — a 1px ring at .8 opacity on
+   six components, on the argument that a perimeter which is always moving
+   everywhere reads as a casino. That argument was mine, it is written into
+   our own editorial bible at §8.5, and the founder has overruled it. The
+   bible is amended to match rather than left arguing with the site.
+
+   What changed, and what did not:
+
+     RAISED   the ring is 2px, not 1; the arc is longer and carries a
+              white-hot core between gold flanks, so it reads as a point
+              of light rather than a warm patch; opacity is 1; the turn is
+              8s rather than 12; and the ring gets a drop-shadow, which on
+              a masked element glows ONLY where the ring is painted — the
+              difference between a lit edge and a lit box
+     WIDENED  it now runs on the stages, the tables, the diagrams, the
+              plinths and the tier cards as well as the cards and plates
+     KEPT     the IntersectionObserver gate. That was never about taste.
+              A rotating conic gradient is a repaint per frame per element,
+              and the reader this College was built for is on a cheap phone
+              paying for their own data (EB §12.1). Sixty of these running
+              at once is a hot phone and a flat battery, so a screenful
+              runs and the rest wait, paused mid-turn so they resume rather
+              than restart.
+
+   The variables let any one shape be tuned without touching the arc:
+   --orbit-w (ring width), --orbit-dur (period), --orbit-i (phase index),
+   --orbit-glow (bloom radius). */
+
+:root {
+  --orbit-w: 2px;
+  --orbit-glow: 7px;
+}
+
+.card::after,
+.r-plate::after,
+.r-fac-card::after,
+.r-tier-card::after,
+.r-stage::after,
+.r-standard__cell::after,
+.r-diagram-wrap::after,
+.r-standing__item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: inherit;
+  pointer-events: none;
+  padding: var(--orbit-w);
+  background: conic-gradient(from var(--aurum-angle),
+    transparent 0deg,
+    transparent 30deg,
+    rgba(199, 162, 74, .30)  44deg,
+    rgba(231, 201, 122, .78) 54deg,
+    rgba(255, 255, 255, 1)   61deg,
+    rgba(242, 227, 192, .90) 68deg,
+    rgba(212, 175, 55, .52)  80deg,
+    transparent 96deg,
+    /* the diamond's second, quieter facet, opposite the first — a single
+       arc reads as a lamp going round, two read as light on a bevel */
+    transparent 200deg,
+    rgba(231, 201, 122, .22) 216deg,
+    rgba(255, 252, 240, .52) 224deg,
+    rgba(199, 162, 74, .18)  232deg,
+    transparent 248deg,
+    transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  filter: drop-shadow(0 0 var(--orbit-glow) rgba(255, 236, 186, .75));
+  animation: aurum-orbit var(--orbit-dur, 8s) linear infinite;
+  animation-play-state: paused;
+  animation-delay: calc(var(--orbit-i, 0) * -1.9s);
+  opacity: 1;
+}
+
+/* A diagram's frame is `position: static` by default, so its ring would
+   escape to the nearest positioned ancestor and draw round the whole
+   section instead of the figure.
+
+   The travelling light was briefly given to `.table-scroll` too, on the
+   founder's "almost every shape". It was taken back off: the ring inherits
+   its border-radius, a ledger table is deliberately square (EB §8.1 — table
+   cells and their rules are the page's ARCHITECTURE, not objects placed on
+   it), and the result was a moving rectangle drawn around reading matter.
+   Light belongs on the objects, not on the structure. */
+.r-diagram-wrap { position: relative; isolation: isolate; }
+
+.is-lit::after,
+.r-standing__item.is-lit::before { animation-play-state: running; }
+
+/* Under the pointer the arc quickens and the bloom opens. The card
+   acknowledges the reader with the light it already had. */
+.card:hover::after,
+.r-plate:hover::after,
+.r-fac-card:hover::after,
+.r-tier-card:hover::after,
+.r-stage:hover::after,
+.r-standard__cell:hover::after,
+.r-standing__item:hover::before {
+  --orbit-dur: 3.4s;
+  --orbit-glow: 12px;
+}
+
+/* Phase offsets across a row of four as well as three, so the two-by-two
+   faculty grid does not light its diagonal in unison. */
+.r-faculty > *:nth-child(4n+1) { --orbit-i: 0; }
+.r-faculty > *:nth-child(4n+2) { --orbit-i: 1.5; }
+.r-faculty > *:nth-child(4n+3) { --orbit-i: 3; }
+.r-faculty > *:nth-child(4n+4) { --orbit-i: 2.2; }
+.r-stages > *:nth-child(odd)   { --orbit-i: 0.6; }
+.r-stages > *:nth-child(even)  { --orbit-i: 2.4; }
+
+@supports not ((-webkit-mask-composite: xor) or (mask-composite: exclude)) {
+  .card::after, .r-plate::after, .r-fac-card::after, .r-tier-card::after,
+  .r-stage::after, .r-standard__cell::after, .r-diagram-wrap::after,
+  .r-standing__item::before { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card::after, .r-plate::after, .r-fac-card::after, .r-tier-card::after,
+  .r-stage::after, .r-standard__cell::after, .r-diagram-wrap::after,
+  .r-standing__item::before {
+    animation: none;
+    filter: none;
+    /* Still a lit rim, just a still one: the light stops travelling, it
+       does not go out. */
+    background: linear-gradient(148deg,
+      rgba(255, 252, 240, .72) 0%, rgba(199, 162, 74, .34) 30%,
+      rgba(199, 162, 74, .10) 60%, transparent 100%);
+  }
+}
+
+/* At the lowest ornament level the light goes out entirely and the page
+   is a document. Written at the specificity of the rules above, because a
+   carve-out has to be — the last one was not, and lost (EB §12.2). */
+:root[data-ornament="none"] .card::after,
+:root[data-ornament="none"] .r-plate::after,
+:root[data-ornament="none"] .r-fac-card::after,
+:root[data-ornament="none"] .r-tier-card::after,
+:root[data-ornament="none"] .r-stage::after,
+:root[data-ornament="none"] .r-standard__cell::after,
+:root[data-ornament="none"] .r-diagram-wrap::after,
+:root[data-ornament="none"] .r-standing__item::before { display: none; }
+
+
+/* The light material was tuned against --ivory, which is flatter and a
+   little cooler than the cream ground it now sits on: cream on cream read
+   as one surface with a faint line on it rather than as an object placed on
+   a plate. The cast is deepened and warmed, the rim carries more gold, and
+   the top bevel is brought to full white so the edge catches the light
+   the ground is lit from. Same three-part stack, more of it. */
+:root {
+  --pol-bevel-l: rgba(255, 255, 255, 1);
+  --pol-rim-l:   rgba(199, 162, 74, .30);
+  --pol-rim-l-2: rgba(199, 162, 74, .62);
+  --pol-cast-l:  0 2px 4px -2px rgba(94, 74, 40, .16),
+                 0 14px 34px -16px rgba(60, 48, 28, .28);
+  --pol-cast-l2: 0 3px 6px -2px rgba(94, 74, 40, .20),
+                 0 26px 56px -20px rgba(60, 48, 28, .36);
+}
+
+
+/* --cerulean is the palette's readable blue on dark, and it carries most of
+   the body copy in every dark section. Measured against the grounds it
+   actually sits on, #6E93C4 came out between 3.79 and 4.41 — under AA
+   everywhere, and worst on the lightest navies. It is lifted to #7CA1D2 in
+   brand.css, the smallest uniform lift that clears 4.5 on all ten grounds
+   in use (4.50 at worst, 6.90 at best). Recorded here because the change is
+   one token and its reason is nine measurements. */
+
+
+/* Two contrast faults found by sampling the pixels actually painted, both
+   of them a light treatment surviving onto a dark ground (EB §12.2):
+
+   1. `.r-ladder tbody tr:hover { background: var(--pearl) }` is right on
+      cream and catastrophic on navy, where the row text is --ivory: hovering
+      a row in a dark table painted near-white text onto a near-white band.
+      A dark table lifts its hovered row with light, not with paper.
+
+   2. The dark plate's face lifted its ground to rgb(36,62,107), against
+      which --cerulean body copy computed 3.99. The face is darkened so the
+      plate still reads as raised and its text clears 4.5 (4.55 measured). */
+
+.section--dark .r-ladder tbody tr:hover,
+.section--oxford .r-ladder tbody tr:hover,
+.section--midnight .r-ladder tbody tr:hover {
+  background: rgba(110, 147, 196, .10);
+}
+
+:root {
+  --pol-face-d: linear-gradient(158deg,
+    rgba(39, 80, 143, .20) 0%,
+    rgba(20, 38, 74, .30) 52%,
+    rgba(10, 20, 40, .40) 100%);
+}
+
+
+/* The Riwāq's sign-in set its subtitle and its field labels in --steel, whose
+   own comment in brand.css says "rules on dark" — it is a hairline colour and
+   it measured 2.47:1 as text. Field labels are the last place to be economical
+   with light: a reader who cannot read "Password" cannot sign in. */
+.signin__sub,
+.signin label,
+.signin__form label { color: var(--cerulean); }
+
+
+/* ═════════════════════════════════════════════════════════════════════
+   §9.4 ENFORCED: GOLD IS NEVER SMALL TEXT ON A LIGHT GROUND
+   ---------------------------------------------------------------------
+   Moving the Faculties and Admission sections onto the cream ground put
+   two gold small-caps runs onto paper, and both failed exactly as our own
+   §9.4 says they must:
+
+     .r-fac-card__num   --gold-antique on cream   3.34:1
+     .module-marker     --gold-royal   on cream   2.37:1
+
+   Both take --bronze on light and the gold family on dark. Note that
+   `.section--dark .r-fac-card__num { color: var(--bronze) }` above is the
+   rule INVERTED — bronze is the light-ground substitute, and it had been
+   applied to the dark ground and left off the light one. It is corrected
+   here rather than edited in place, so the pairing is written once and
+   both halves are visible together. */
+
+.r-fac-card__num { color: var(--bronze); }
+.section--dark .r-fac-card__num,
+.section--oxford .r-fac-card__num,
+.section--midnight .r-fac-card__num { color: var(--gold-soft); }
+
+.section--light .module-marker,
+.section--warm .module-marker,
+.section--paper .module-marker { color: var(--bronze); }
+.section--dark .module-marker,
+.section--oxford .module-marker,
+.section--midnight .module-marker { color: var(--gold-royal); }

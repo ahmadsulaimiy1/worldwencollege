@@ -1,6 +1,6 @@
 # The Editorial Bible of Al-Madinah International College
 
-**Version 1.0 — 1448 / 2026.**
+**Version 1.1 — 1448 / 2026.** Amended at `§8.2`, `§8.5` and `§8.10` by the Founder's ruling on material and light; see `§13.6`.
 Cited as `EB §n` in the way the Academic Regulations are cited as `Reg. n.n`.
 
 This document **supersedes in full**:
@@ -426,9 +426,19 @@ Codifies `material-note.md`, which remains the working note; this Part is the la
 
 Radius is a proportion of the shortest edge (~6–10%), so it climbs with the component. It survives `[data-ornament="none"]`, because it is the *shape of the object*, not a decoration on it. **Square, by decision:** table cells and their rules, hairline dividers, chapter rules, the ledger, column keylines, grain and guilloché grounds — the page's architecture. Radius belongs to the objects placed on it. Where a curved object holds a square one, the mount curves and the table does not. **Concentricity:** inner radius = outer radius − gap.
 
-## §8.2 Two materials, and only two
+## §8.2 Two materials, and only two                           [amended v1.1]
 
-**Sapphire glass on navy** and **polished cream on paper.** Everything on the site is one or the other. A third material — a grey card, a flat white panel, a borrowed UI surface — is what makes a site look assembled from parts.
+**Polished cream on cream** and **sapphire glass on navy.** Everything on the site is one or the other. A third material — a grey card, a flat white panel, a borrowed UI surface — is what makes a site look assembled from parts.
+
+**The body of the College is the cream one.** Navy is now the jewel box: the masthead at the top of a page and the footer at the foot of it. Everything between them is a polished cream surface with real light on it. This is the Founder's ruling (`§13.6`) and it replaces the alternating light/dark rhythm the site inherited.
+
+*Polished* is load-bearing and is not the same as *light*. `--ivory` alone is paper — even, matte, and dead under the eye. Polished stone is not one colour, it is one colour under a light source, and a reader registers the difference instantly without being able to name it. So the ground (`--cream-ground`) is a stack of five background layers, back to front: a long vertical base gradient so the panel has a top and a bottom; one broad, very soft diagonal gloss sweep — the layer that makes it read polished rather than printed, wide and weak on purpose, because a narrow bright streak reads as a screen reflection and a wide faint one reads as a surface; a cool pool at the foot so the panel sits in something; a champagne bloom at the upper right where the gold in this palette lives; and a near-white specular at the upper left, which is the light source every bevel and every shadow on this site is already drawn against.
+
+All five are **background** layers. Not one pseudo-element is spent on the ground, because `::before` and `::after` are already committed (`§8.6`). A ground that costs a pseudo-element is a ground that silently deletes an effect three months later.
+
+A cream panel closes top and bottom on a gold hairline (`--cream-edges`). A panel with no edge is a colour change; a panel with a gold edge is a plate set into the page.
+
+**The cast shadow was re-tuned for it.** The light material was calibrated against `--ivory`, which is flatter and cooler; on the cream ground, cream cards read as one surface with a faint line on them. The cast is deepened and warmed, the rim carries more gold, and the top bevel goes to full white so the edge catches the light the ground is lit from. Same three-part stack (`§8.3`), more of it.
 
 ## §8.3 Rim, bevel and halo are one inset stack
 
@@ -438,11 +448,22 @@ A card's edge light is a single `box-shadow` inset stack, not a border plus an o
 
 Gold builds fast and decays slow: `--pol-in: .34s` declared on `:hover`, `--pol-out: .9s` on the resting rule. This is the whole difference between a card that *warms* and a card that *blinks*. Symmetric transitions are why hover states feel cheap.
 
-## §8.5 The travelling light
+## §8.5 The travelling light                                  [amended v1.1]
 
-`.aurum` — a point of light travelling the perimeter, masked to a 1px ring by `mask-composite: exclude`, rotated through a registered `@property` — is **effect**, and effect is rationed. It is allowed on the cards the founder asked for it on, on the primary call to action, on seals and awards, and on a card under the pointer. It is authored **paused**, and `js/rusukh-atelier.js` lights only what an IntersectionObserver says is on screen (`rootMargin: 140px`), pausing rather than unclassing so phase resumes. A perimeter that is always moving everywhere is a casino; one that lights where the reader is, is a threshold.
+`.aurum` — a point of light travelling the perimeter, masked to a 1px ring by `mask-composite: exclude`, rotated through a registered `@property`.
 
-Material light (`.edge-lit`) is the opposite: applied broadly, because a one-colour 1px border asserts that every edge of an object receives identical light, which is true of nothing.
+**Version 1.0 of this clause rationed it**, and was wrong. It read: *allowed on the primary call to action, on seals and awards, and on a card under the pointer… a perimeter that is always moving everywhere is a casino; one that lights where the reader is, is a threshold.* That is a defensible position about restraint. It is not this College's position, and the reasoning behind it was mine rather than the Founder's.
+
+**The ruling, and it governs:** gold or diamond light travels the edges of *almost every shape*, and **visibly**. Not a hint at the edge of perception — a light a reader sees. In practice: a 2px ring, an arc with a white-hot core between gold flanks, a second quieter facet opposite it so the shape reads as a bevel catching light rather than a lamp going round, full opacity, an eight-second turn, and a `drop-shadow` on the ring — which, because the element is masked, blooms *only where the ring is painted*. That is the difference between a lit edge and a lit box.
+
+It runs on the cards, the plates, the tier cards, the standing plinths, the stages and the diagram frames. Under the pointer the turn quickens to 3.4s and the bloom opens.
+
+**Two limits survive the ruling, and both are about something other than taste:**
+
+1. **The performance gate stays.** A rotating conic gradient is a repaint per frame per element, and a long page carries sixty of them. `js/rusukh-atelier.js` lights only what an IntersectionObserver reports on screen (`rootMargin: 140px`), pausing rather than unclassing so a shape scrolled back into view resumes its turn instead of snapping to the start. This is `§12.1`: the reader this College was built for is on an inexpensive phone paying for their own data, and sixty simultaneous repaints is a hot device and a flat battery. Restraint about *what the reader sees* was overruled; care about *what the reader's phone does* was not.
+2. **Structure takes no light.** The ring inherits `border-radius`, and a ledger table is deliberately square (`§8.1` — table cells and their rules are the page's architecture). Giving `.table-scroll` the orbit drew a moving rectangle around reading matter. Light belongs on the objects placed on the page, never on the page's own structure. "Almost every shape" is the ruling; a table is not a shape, it is a ledger.
+
+Material light (`.edge-lit`) is unchanged and remains the opposite kind of thing: applied broadly, because a one-colour 1px border asserts that every edge of an object receives identical light, which is true of nothing.
 
 **A conic gradient without the ring mask fills its box from the centre and paints a hard pie-slice across the object's face.** This shipped once. Check the mask.
 
@@ -463,6 +484,18 @@ Per card: bar or rule on `::before`, orbit on `::after`, sheen in a **background
 Infographics are authored SVG that draws itself (`data-diagram` / `data-draw` / `data-pop`, `stroke-dashoffset` from `getTotalLength()`). Two rules: **a diagram must be fully readable in its undrawn state**, and **a diagram must not restate the paragraph beside it** — it exists to show a relationship prose is bad at (a ring of semesters, a ladder of returns), or it does not exist. No stock illustration, no icon set from a library, no raster.
 
 ---
+
+## §8.10 A published figure counts                            [new in v1.1]
+
+A statistic on this site **counts to its value** when it comes into view. The Founder's ruling, and it applies wherever the College publishes a figure large enough to be read as a figure: the standing plinths, the tier cards, the ledger tiles.
+
+The discipline that makes it safe is `§4.5`: the final value is authored in the DOM and carried in `aria-label`, the count is decoration over the top of it, and under reduced motion — or with no IntersectionObserver, or on an unparseable string — the figure resolves immediately to what was authored. A number that exists only as the endpoint of an animation does not exist for a screen reader, a crawler, or a reader who scrolled fast.
+
+Three specific rules, each learned by getting it wrong:
+
+1. **A year does not count from zero.** `1441` ticking up from `0` is the tackiest effect on the web: it tells the reader the site is showing off, not that the College was founded. A date takes `data-count-from` and settles across its own decades — 1400 to 1441, a little slower, and it reads as a dial coming to rest.
+2. **The counter and the per-digit reveal cannot share a figure.** `data-assemble` splits a number into inline spans; the counter writes a single text node. Whichever runs second destroys the other. One figure, one effect.
+3. **The counter must speak the page's digits.** JavaScript's `\d` is ASCII-only, so every figure in the Arabic tree — ٤, ١٧, ١٤٤١ — failed to parse and was silently left uncounted, while the English tree animated. It failed *through the deliberate quiet path*, which is the worst way for anything to fail. Digits are normalised before parsing and rendered back in the page's own system after. Parity is not optional (`§5.2`).
 
 # Part IX — Type
 
@@ -616,6 +649,20 @@ Academic policy is the Regulations' and the Academic Council's, not this documen
 
 ---
 
+## §13.6 Register of Founder's rulings
+
+This document is the College's, not mine. Where the Founder rules against a clause, the clause changes and the ruling is recorded here with what it replaced — so that nobody later reads the amended text and assumes it was always the position, and so that the reasoning I got wrong stays visible.
+
+| Ruled | Was | Now |
+|---|---|---|
+| **The travelling light is visible, and on almost every shape.** Gold or diamond, around the edges, plainly seen. | `§8.5` v1.0 rationed it to the primary call to action, seals, awards and a card under the pointer, at a 1px ring and .8 opacity, on the argument that *a perimeter that is always moving everywhere is a casino*. Mine, not the Founder's. | `§8.5` v1.1. 2px ring, white-hot core, second facet, full opacity, 8s turn, bloom. On cards, plates, tier cards, plinths, stages and diagram frames. Two limits survive, and both are engineering rather than taste: the IntersectionObserver gate (`§12.1` — the reader's phone), and no light on structure (`§8.1` — a ledger table is square, so the ring drew a moving rectangle around reading matter). |
+| **The body of the College is polished cream, glossy and luxurious.** | The site alternated light and dark sections down every page, with `--ivory` as a flat light ground. | `§8.2` v1.1. Navy is the jewel box — masthead and footer; everything between is a five-layer polished cream ground with a gloss sweep, gold edges, and a re-tuned cast shadow. On the home page the Faculties and Admission sections came onto it. |
+| **The statistics count.** | Figures were struck in gold and static; only the Riwāq counted anything. | `§8.10`, new. Every standing figure counts on entering view, with the year settling from its own decade, and with `§4.5`'s authored-value discipline underneath. |
+| **The text must be clear where it is not.** | Measured on the home page: five stage headings at contrast ratio **1.10** against the navy behind them, their body at 2.04, their captions at 2.36 — and the hero's plinth notes at 2.96. All under AA; the first under sight. | Stages became polished plates carrying their own ground, so their text can no longer be legible or illegible depending on what they are dropped onto; the plinth note took `--cerulean`. Home page now measures **zero** contrast failures in both trees, against pixels actually painted rather than against a parent's declared colour. |
+
+A note on the last row, because it changed how this is checked. The first contrast harness walked the DOM for an ancestor's `background-color`, and every gradient ground on the site — the hero, the gold buttons, the new cream sections — fell through it to a light ancestor. It reported 25 failures of which 12 were fictional and it would have missed a real one on any gradient. It now hides the element's own text, screenshots the box, and averages the pixels behind. `§13.2.2` means *read the colour that was painted*, not *read the colour that was declared*.
+
+---
 # Appendix A — Banned lexicon, in full
 
 **Superlatives and self-praise:** world-class · leading · premier · foremost · prestigious · elite · unrivalled · unparalleled · best-in-class · renowned · esteemed · top-tier · exclusive.

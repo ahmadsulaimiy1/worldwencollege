@@ -431,7 +431,21 @@
     ? window.matchMedia('(prefers-reduced-motion: reduce)')
     : { matches: false };
 
+  /* JavaScript's \d is ASCII-only, so every figure in the Arabic tree —
+     ٤, ١٧, ١٤٤١ — failed to parse here and was left uncounted. That was
+     invisible in the worst way: the code has a deliberate "leave an
+     unparseable figure exactly as authored" branch, so the Arabic home
+     page silently took the silent path while the English one animated.
+     Parity is not optional (EB §5.2), so the digits are normalised before
+     parsing and rendered back in the page's own system after. */
+  function westernise(s) {
+    return String(s).replace(/[٠-٩]/g, function (d) {
+      return String(d.charCodeAt(0) - 0x0660);
+    });
+  }
+
   function parseFigure(text) {
+    text = westernise(text);
     // Leading non-numeric (₦, $), the number itself, then any suffix (%, +).
     var m = /^([^\d\-]*)(-?[\d,]*\.?\d+)(.*)$/.exec(text.trim());
     if (!m) return null;
@@ -450,25 +464,32 @@
 
   function formatFigure(n, f) {
     var s = f.decimals ? n.toFixed(f.decimals) : String(Math.round(n));
+    // figures() is a no-op outside the Arabic tree.
     if (f.grouped) {
       var parts = s.split('.');
       parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       s = parts.join('.');
     }
-    return f.prefix + s + f.suffix;
+    return f.prefix + figures(s) + f.suffix;
   }
 
   function runCount(el, final, f) {
     var start = null;
     // 1.1s is long enough to be read as motion and short enough that a
-    // reader who came for the number is not kept waiting for it.
-    var dur = 1100;
+    // reader who came for the number is not kept waiting for it. A longer
+    // run is allowed for a figure that travels further.
+    var dur = f.dur || 1100;
+    // Where does the count begin? Zero, normally. But a YEAR counted from
+    // zero is the tackiest effect on the web — 1441 ticking up from 0 tells
+    // the reader the site is showing off, not that the College was founded.
+    // `data-count-from` gives such a figure a short, settled run instead.
+    var from = typeof f.from === 'number' ? f.from : 0;
     function frame(t) {
       if (start === null) start = t;
       var p = Math.min(1, (t - start) / dur);
       // easeOutCubic: fast away, slow into place — a dial settling.
       var e = 1 - Math.pow(1 - p, 3);
-      el.textContent = p === 1 ? final : formatFigure(f.value * e, f);
+      el.textContent = p === 1 ? final : formatFigure(from + (f.value - from) * e, f);
       if (p < 1) requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
@@ -502,9 +523,13 @@
       if (!f) return;
       el.setAttribute('aria-label', final);
       if (reducedMotion.matches || !countObserver) return;
+      var from = parseFloat(el.getAttribute('data-count-from'));
+      if (isFinite(from)) f.from = from;
+      var dur = parseFloat(el.getAttribute('data-count-dur'));
+      if (isFinite(dur)) f.dur = dur;
       el.setAttribute('data-count-final', final);
       el.setAttribute('data-count-spec', JSON.stringify(f));
-      el.textContent = formatFigure(0, f);
+      el.textContent = formatFigure(f.from || 0, f);
       countObserver.observe(el);
     });
   }
@@ -532,9 +557,9 @@
      snap its highlight to the top-left instead of resuming its turn.
      ===================================================================== */
 
-  var ORBIT = '.card, .r-plate, .r-fac-card, .r-tier-card,' +
+  var ORBIT = '.card, .r-plate, .r-fac-card, .r-tier-card, .r-stage,' +
               ' .r-standard__cell, .r-standing__item,' +
-              ' .stat-tile, .triad';
+              ' .r-diagram-wrap, .stat-tile, .triad';
 
   var orbitObserver = null;
 
