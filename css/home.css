@@ -723,7 +723,13 @@
   border: 0; border-inline-start: 2px solid rgba(199,162,74,.5);
   background: linear-gradient(110deg, rgba(8,16,34,.5), rgba(8,16,34,.16));
   box-shadow: var(--relief-inset);
-  color: rgba(247,244,236,.72); font-size: .89rem; max-width: 82ch;
+  color: rgba(247,244,236,.72); font-size: .89rem;
+  /* The measure is set on the BOX, and the box also holds a 20px icon
+     and a 16px gap before the text starts — so a declared 82ch was
+     giving the prose about 78 and reading as a long line at 1440.
+     76ch on the box is roughly 72 of text, which is where this
+     site's body copy sits everywhere else. */
+  max-width: 76ch;
 }
 .status-note .icon { color: var(--gold-royal); margin-top: .15em; width: 20px; height: 20px; }
 .status-note p { margin: 0; }

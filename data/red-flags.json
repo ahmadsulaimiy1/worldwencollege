@@ -1,15 +1,14 @@
 {
-  "generated": 29,
+  "generated": 20,
   "counts": {
     "SEVERE": 2,
-    "MAJOR": 16,
-    "MINOR": 11
+    "MAJOR": 8,
+    "MINOR": 10
   },
   "byCommittee": {
     "Institutional Confidence": 14,
-    "Editorial Excellence": 10,
-    "Visual Storytelling": 4,
-    "Typography": 1
+    "Editorial Excellence": 2,
+    "Visual Storytelling": 4
   },
   "findings": [
     {
@@ -31,22 +30,6 @@
     {
       "committee": "Editorial Excellence",
       "severity": "MAJOR",
-      "page": "academics-teaching.html",
-      "what": "1 sentence(s) over 45 words",
-      "evidence": "longest is 52: “The number of panels of each kind is counted from the pages as composed, not from the database that fed them — because some entries render in a runnin…”",
-      "remedy": "Split at the first conjunction that carries a new subject."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "MAJOR",
-      "page": "academics.ar.html",
-      "what": "1 sentence(s) over 45 words",
-      "evidence": "longest is 51: “أربعة التزامات تشكّل كل درس: يُدرَّس بالإنجليزية من المستوى الأول، عبر لغة مقيدة وتكرار ودعم بصري لا عبر الترجمة؛ ويُكتب التقييم قبل التدريس الذي يختب…”",
-      "remedy": "Split at the first conjunction that carries a new subject."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "MAJOR",
       "page": "academics.html",
       "what": "1 paragraph(s) over 110 words",
       "evidence": "longest 117 words",
@@ -55,58 +38,10 @@
     {
       "committee": "Editorial Excellence",
       "severity": "MAJOR",
-      "page": "admissions-tuition.html",
-      "what": "1 sentence(s) over 45 words",
-      "evidence": "longest is 50: “A candidate who does not enrol buys the examination and the award separately, and the reason is set out under Two routes to the same award — an unexpl…”",
-      "remedy": "Split at the first conjunction that carries a new subject."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "MAJOR",
-      "page": "admissions.html",
-      "what": "1 sentence(s) over 45 words",
-      "evidence": "longest is 46: “Every award conferred so far — the Level I and Level II awards among them — was set, marked and second-marked inside the College: the External Examine…”",
-      "remedy": "Split at the first conjunction that carries a new subject."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "MAJOR",
-      "page": "governance.html",
-      "what": "1 sentence(s) over 45 words",
-      "evidence": "longest is 49: “The Senate owns the relationship between what a learner is assessed on and what the College then says they can do: which assessments count as evidence…”",
-      "remedy": "Split at the first conjunction that carries a new subject."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "MAJOR",
-      "page": "home.html",
-      "what": "1 sentence(s) over 45 words",
-      "evidence": "longest is 47: “Two cohorts have gone ahead of you and the third is in study now, so the programme has been run and corrected before it reaches you — and it is still …”",
-      "remedy": "Split at the first conjunction that carries a new subject."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "MAJOR",
-      "page": "students-integrity.html",
-      "what": "1 sentence(s) over 45 words",
-      "evidence": "longest is 48: “The College records that as what it is — a count of cases opened, not a claim that nothing has ever occurred — and the procedure was written ahead of …”",
-      "remedy": "Split at the first conjunction that carries a new subject."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "MAJOR",
       "page": "students-integrity.html",
       "what": "1 paragraph(s) over 110 words",
-      "evidence": "longest 115 words",
+      "evidence": "longest 112 words",
       "remedy": "Break into two, or convert the enumeration inside it into a real list or a register."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "MAJOR",
-      "page": "study-level-2.html",
-      "what": "1 sentence(s) over 45 words",
-      "evidence": "longest is 48: “The learner already has the present and the past; this level teaches them to join, sequence and qualify — to tell a story rather than list events, to …”",
-      "remedy": "Split at the first conjunction that carries a new subject."
     },
     {
       "committee": "Institutional Confidence",
@@ -128,16 +63,16 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "academics-teaching.ar.html",
-      "what": "One visual per 942 words",
-      "evidence": "2 visual element(s) across 1884 words",
+      "what": "One visual per 941 words",
+      "evidence": "2 visual element(s) across 1882 words",
       "remedy": "Aim for a visual anchor every ~500 words on a reading page."
     },
     {
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "academics-teaching.html",
-      "what": "One visual per 1201 words",
-      "evidence": "2 visual element(s) across 2401 words",
+      "what": "One visual per 1200 words",
+      "evidence": "2 visual element(s) across 2399 words",
       "remedy": "Aim for a visual anchor every ~500 words on a reading page."
     },
     {
@@ -235,14 +170,6 @@
       "what": "2 construction(s) narrating what has not happened",
       "evidence": "“nobody has”, “has not been”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Typography",
-      "severity": "MINOR",
-      "page": "css/",
-      "what": "1 declared measure(s) over 78ch",
-      "evidence": "82ch",
-      "remedy": "Body prose reads best between 62 and 74 characters."
     }
   ]
 }

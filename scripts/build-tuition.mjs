@@ -79,7 +79,7 @@ const L = {
     schedLede: 'The only things the College charges for beyond tuition are physical items it posts to you, because a physical item costs the College money to make and post. Every one carries its price here. The second list is longer on purpose: it names what other providers charge for.',
     chargeH3: 'What costs extra',
     inclH3: 'What never costs extra',
-    schedNote: 'These are the only charges an enrolled student meets. There is no application fee, no registration fee, no examination fee, no re-sit fee, no instalment charge, no technology fee, no library fee, no graduation fee and no withdrawal charge. If a cost is not in the left-hand list, it does not exist. A candidate who does not enrol buys the examination and the award separately, and the reason is set out under <a href="#routes">Two routes to the same award</a> &mdash; an unexplained fee on one page beside a promise it does not exist on another is how a fee schedule stops being believed.',
+    schedNote: 'These are the only charges an enrolled student meets. There is no application fee, no registration fee, no examination fee, no re-sit fee, no instalment charge, no technology fee, no library fee, no graduation fee and no withdrawal charge. If a cost is not in the left-hand list, it does not exist. A candidate who does not enrol buys the examination and the award separately; the reason is set out under <a href="#routes">Two routes to the same award</a>. An unexplained fee on one page, beside a promise it does not exist on another, is how a fee schedule stops being believed.',
   },
   ar: {
     label: 'التفصيل', num: '٢',
@@ -97,7 +97,7 @@ const L = {
     schedLede: 'الأشياء الوحيدة التي تتقاضى الكلية عليها مالًا زيادةً على الرسوم موادُّ مادية تُرسلها إليك، لأن المادة المادية تكلّف الكلية مالًا في صناعتها وإرسالها. وكل واحدة منها تحمل سعرها هنا. والقائمة الثانية أطول عن قصد: فهي تسمّي ما يتقاضى عليه غيرها.',
     chargeH3: 'ما يكلّف زيادة',
     inclH3: 'ما لا يكلّف زيادة أبدًا',
-    schedNote: 'هذه هي الرسوم الوحيدة التي يلقاها الطالب الملتحق. لا رسم تقديم، ولا رسم تسجيل، ولا رسم امتحان، ولا رسم إعادة، ولا رسم تقسيط، ولا رسم تقني، ولا رسم مكتبة، ولا رسم تخرّج، ولا رسم انسحاب. وما ليس في القائمة اليمنى فلا وجود له. أما من لم يلتحق فيشتري الامتحان والشهادة منفصلَين، وسبب ذلك مبسوط في <a href="#routes">مساران إلى الشهادة نفسها</a> &mdash; فالرسم الذي يظهر بلا تفسير في صفحة، ووعدٌ بعدم وجوده في أخرى، هو الطريق الذي يفقد به جدول الرسوم تصديق الناس.',
+    schedNote: 'هذه هي الرسوم الوحيدة التي يلقاها الطالب الملتحق. لا رسم تقديم، ولا رسم تسجيل، ولا رسم امتحان، ولا رسم إعادة، ولا رسم تقسيط، ولا رسم تقني، ولا رسم مكتبة، ولا رسم تخرّج، ولا رسم انسحاب. وما ليس في القائمة اليمنى فلا وجود له. أما من لم يلتحق فيشتري الامتحان والشهادة منفصلَين، وسبب ذلك مبسوط في <a href="#routes">مساران إلى الشهادة نفسها</a>. فالرسم الذي يظهر بلا تفسير في صفحة، ووعدٌ بعدم وجوده في أخرى، هو الطريق الذي يفقد به جدول الرسوم تصديق الناس.',
   },
 };
 
