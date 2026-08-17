@@ -243,9 +243,9 @@ PAGES.pillar = {
       <span class="module-marker">The Vision</span>
       <h2>An ambition, stated as an ambition.</h2>
       <p class="lede">That sentence is a destination, not a description. WEC-LC is a new
-        institution: it holds no accreditation, has conferred no award, and has taught no
-        cohort. Publishing a vision does not change any of that, and this page does not pretend
-        otherwise.</p>
+        institution: it holds no accreditation, has appointed no External Examiner, so the awards
+        it has conferred are internally moderated. Publishing a vision does not change any of
+        that, and this page does not pretend otherwise.</p>
     </div>
     <div class="grid grid--3">
 ${card('Recognised', 'Recognition has to be earned from outside', 'Recognition means external bodies attesting to quality &mdash; accreditation, external examining, professional endorsement. None of it can be self-awarded, and none of it has been obtained. The College is building the evidence such bodies ask for rather than describing itself as though they had already asked.')}
@@ -314,7 +314,7 @@ ${['Academic Excellence', 'Integrity', 'Innovation', 'Professionalism',
     <div class="grid grid--3">
 ${card('No invented staff', 'Eighteen names that will never be published', 'A realistic staff chart exists for designing the administration screens against. Every name on it is fictional, and an automated check fails the build if any of them reaches a page the public can load.')}
 ${card('No invented approval', 'Interim means interim', `The Level I learning outcomes and every competency mapping are recorded as interim, not approved, because the board that would approve them has ${D.bodies.find((b) => b.code === 'BASCE').members_appointed} appointed members. The pages say interim.`)}
-${card('No invented evidence', 'Books that state what they do not rest on', 'The Teacher&rsquo;s Companion marks every one of its 245 panels with where it came from, and states in its front matter that it contains no classroom observation, because the College has taught nobody.')}
+${card('No invented evidence', 'Books that state what they do not rest on', 'The Teacher&rsquo;s Companion marks every one of its 245 panels with where it came from, and states in its front matter that it contains no classroom observation, because none has been entered into the record it is set from.')}
     </div>
   </div>
 </section>

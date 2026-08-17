@@ -117,6 +117,41 @@ check('No public page uses "unit" — the word means three different things and 
   unitOffenders.length === 0, unitOffenders.map(([f]) => f).join(', '));
 
 // ---------------------------------------------------------------------
+// The retired no-teaching claim, held out of the pages by force
+// ---------------------------------------------------------------------
+// "The College has taught nobody" was true when it was written and is
+// now false: learners have been taught since 2023 and two cohorts have
+// completed levels. The sentences were removed from the pages, but four
+// page GENERATORS still hold them — scripts/build-teaching.js,
+// build-students.js, build-about.js and build-arabic.js all write into
+// pages/ from templates containing the retired claim, and running any of
+// them would silently republish it.
+//
+// That is not a hypothetical. This repository has already lost
+// pages/academics.html once to a stale generator template overwriting a
+// hand-corrected page, and the loss was noticed only because the file
+// got shorter. A claim about what the College has done is worse: it gets
+// longer and reads fine.
+//
+// So the pages are guarded rather than the generators. A generator run
+// that reintroduces the claim fails the suite at the moment its output
+// is built, which is the moment somebody can still act on it.
+const RETIRED_NO_TEACHING = [
+  /has taught (?:nobody|no one|no-one)/i,
+  /taught (?:nobody|no one) (?:yet|so far)/i,
+  /the College has taught no/i,
+  /لم تدرّس أحدًا بعد/,
+  /لم تُدرّس أي دفعة/,
+  /لم تُعلِّم أحدًا/,
+];
+{
+  const offenders = PUBLIC_PAGES.filter(([, body]) =>
+    RETIRED_NO_TEACHING.some((r) => r.test(body)));
+  check('No page claims the College has taught nobody — retired, and false since 2023',
+    offenders.length === 0, offenders.map(([f]) => f).join(', '));
+}
+
+// ---------------------------------------------------------------------
 // Workload is the headline, not a content count
 // ---------------------------------------------------------------------
 // An hours figure is comparable across institutions and cannot be padded

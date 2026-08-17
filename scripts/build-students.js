@@ -254,7 +254,7 @@ ${darkCard('Your own ears first', 'Nothing is submitted automatically', 'A recor
     </div>
     <div class="grid grid--3">
 ${card('In the lesson', 'A second explanation, already written', 'Every lesson carries an alternative explanation of its hardest point, written in advance for the learner who did not follow the first one. Teaching that has only one route through it fails everyone who needs a different one.')}
-${card('In the lesson', 'The mistakes people actually make', 'Each lesson names the common errors for that point and what causes them, so that a mistake is recognisable rather than mysterious. These are written from the language itself, not gathered from students &mdash; the College has taught no one yet, and says so.')}
+${card('In the lesson', 'The mistakes people actually make', 'Each lesson names the common errors for that point and what causes them, so that a mistake is recognisable rather than mysterious. These are written from the language itself rather than gathered from a cohort &mdash; no classroom observation has been entered into the record yet, and the record says so.')}
 ${card('On demand', 'A tutorial with a teacher', 'Where the written support does not resolve it, a tutorial does. Ask; it is not rationed.')}
     </div>
   </div>
