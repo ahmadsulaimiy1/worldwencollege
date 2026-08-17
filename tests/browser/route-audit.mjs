@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = dirname(dirname(HERE));
 // Point at a deployed origin to audit it directly:
-//   LAB_BASE=https://wec-lc.pages.dev node tests/browser/route-audit.mjs
+//   LAB_BASE=https://aipc.pages.dev node tests/browser/route-audit.mjs
 // The route LIST still comes from this checkout, which is the point:
 // it audits the deployment against the routes this commit says should
 // exist, so a page that failed to publish shows up as a 404 rather

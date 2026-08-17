@@ -75,7 +75,7 @@ async function composePayload(env, { documentType, userId, now }) {
     documentType,
     issuedOn: new Date(now).toISOString().slice(0, 10),
     holderName,
-    institution: 'Worldwide English College — London Campus',
+    institution: 'Albalagh International Premium College — London Campus',
     programme: 'International English Fluency Course',
   };
 
@@ -111,7 +111,7 @@ async function composePayload(env, { documentType, userId, now }) {
         cefr: tr.highestAward.cefr, honourLabel: tr.highestAward.honourLabel,
         conferredOn: tr.highestAward.conferredOn,
       } : null,
-      creditModel: 'WEC Credit — 1 credit represents 10 notional learning hours. An internal credit unit of the College; it is not ECTS, and no equivalence to any national credit framework is claimed.',
+      creditModel: 'AIPC Credit — 1 credit represents 10 notional learning hours. An internal credit unit of the College; it is not ECTS, and no equivalence to any national credit framework is claimed.',
       creditsAwarded: tr.creditsAwarded,
       tqtHoursAwarded: tr.tqtHoursAwarded,
       // Carried with its state, so a supplement showing no competency
@@ -122,7 +122,7 @@ async function composePayload(env, { documentType, userId, now }) {
       cpdVerifiedHours: cpd.verifiedHours,
       // Said on the document, because a supplement is exactly where a
       // reader looks for it and its absence would be read as an answer.
-      recognitionStatement: 'Worldwide English College is not accredited by, or affiliated with, any external accreditation body or awarding organisation. This document records the College\'s own assessment of its own programme.',
+      recognitionStatement: 'Albalagh International Premium College is not accredited by, or affiliated with, any external accreditation body or awarding organisation. This document records the College\'s own assessment of its own programme.',
     };
   }
 
@@ -217,7 +217,7 @@ export async function verifyDocument(env, { code, now = Date.now() }) {
   const parsed = parseCode(code);
   if (!parsed.ok) {
     return { outcome: 'malformed', document: null,
-      message: 'That is not a valid WEC verification code. Codes look like WEC-XXXX-XXXX-XXXXX.' };
+      message: 'That is not a valid AIPC verification code. Codes look like AIPC-XXXX-XXXX-XXXXX.' };
   }
   const row = await db(env)
     .prepare('SELECT * FROM issued_documents WHERE verification_code = ?')
@@ -325,7 +325,7 @@ export async function registerInstitution(env, {
   }
 
   const id = newId('inst');
-  const key = `wecv_${[...crypto.getRandomValues(new Uint8Array(24))]
+  const key = `aipcv_${[...crypto.getRandomValues(new Uint8Array(24))]
     .map((b) => b.toString(16).padStart(2, '0')).join('')}`;
   await db(env)
     .prepare(`INSERT INTO verifying_institutions (id, name, kind, contact_email, country_code, api_key_hash, daily_limit, approved_by, created_at)

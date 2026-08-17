@@ -1,4 +1,4 @@
-# WorldWide English College, London Campus — Editorial & Brand Bible
+# Albalagh International Premium College, London Campus — Editorial & Brand Bible
 
 *Version 1.0 — companion to `site-architecture.md`.*
 
@@ -6,8 +6,8 @@
 
 ## Preface — How This Was Built
 
-WEC-LC was originally a fictional placeholder name used in an unrelated
-brief (a navy-and-gold "Worldwide English College, London Campus" seal,
+AIPC was originally a fictional placeholder name used in an unrelated
+brief (a navy-and-gold "Albalagh International Premium College, London Campus" seal,
 "world-class international English institution" positioned toward Gulf
 families and global elites) that was ultimately built out for a different,
 real client under a different identity. This repository is where that
@@ -32,7 +32,7 @@ Two rules governed everything in this build:
 
 ## Part I — Institutional Identity
 
-**Name:** WorldWide English College — London Campus (WEC-LC)
+**Name:** Albalagh International Premium College — London Campus (AIPC)
 **Motto:** "Empowering the World Through English Excellence."
 
 **Vision:** To become one of the world's leading English language
@@ -74,7 +74,7 @@ One flagship pathway: the **International English Fluency Course (IEFC)** —
 
 CEFR alignment was chosen (over a purely bespoke naming scheme) because it's
 the benchmark most widely recognised by universities, employers, and
-English-language institutions worldwide — while the WEC-LC programme titles
+English-language institutions worldwide — while the AIPC programme titles
 keep the institution's own branding on top of that shared reference.
 
 **Curriculum areas (all levels):** Grammar, Vocabulary, Listening, Speaking,
@@ -101,7 +101,7 @@ courier, verification) are confirmed at application.
 - An academic calendar and first-cohort start date
 
 These remain flagged as `.callout` "Institutional Status" sections until
-WEC-LC's operators supply the real data.
+AIPC's operators supply the real data.
 
 ---
 
@@ -454,7 +454,7 @@ reader with vestibular sensitivity is not a calmer page but a blank one.
    News were deliberately not built as separate pages in this pass (see
    that document for the reasoning); Testimonials were deliberately not
    fabricated (see below).
-3. **Testimonials** — not written. WEC-LC has no enrolled students yet, so
+3. **Testimonials** — not written. AIPC has no enrolled students yet, so
    named or quoted testimonials would be fabricated claims from people who
    don't exist. This is called out explicitly rather than left as a silent
    gap, consistent with the rest of the honesty discipline in this bible.
@@ -470,7 +470,7 @@ reader with vestibular sensitivity is not a calmer page but a blank one.
    curriculum content — no lesson, quiz, or assignment for any of the
    six levels is seeded anywhere, because inventing one would be
    exactly the kind of fabricated institutional fact this bible exists
-   to prevent; that's real WEC-LC academic staff's work (see
+   to prevent; that's real AIPC academic staff's work (see
    `docs/lms-architecture.md`'s Milestone 2). The public Student
    Portal *page* stays a preview either way, with an honest "request
    early access" path (a `mailto:` link), not a fake login form.

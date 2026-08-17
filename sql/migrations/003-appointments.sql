@@ -13,7 +13,7 @@
 -- SQL against a live student database.
 --
 -- Apply with:
---   wrangler d1 execute wec-lc --remote --file=sql/migrations/003-appointments.sql
+--   wrangler d1 execute aipc --remote --file=sql/migrations/003-appointments.sql
 -- or via the deploy workflow's `apply_migrations` input.
 --
 -- NOT idempotent. Run once per database.

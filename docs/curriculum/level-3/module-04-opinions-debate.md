@@ -1,4 +1,4 @@
-# WEC-LC — Level III, Module 4: Opinions & Debate
+# AIPC — Level III, Module 4: Opinions & Debate
 
 *Part of `docs/curriculum-level-3-intermediate.md`'s Level III build-out.*
 

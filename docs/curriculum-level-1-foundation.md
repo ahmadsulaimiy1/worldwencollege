@@ -1,4 +1,4 @@
-# WEC-LC — Level I: Foundation Programme (A1) — Full Curriculum
+# AIPC — Level I: Foundation Programme (A1) — Full Curriculum
 
 *Companion to `docs/curriculum-framework.md` (the six-level
 architecture this document implements one level of) and
@@ -322,7 +322,7 @@ Module 1 standard — genuinely usable, specific, pedagogically
 sequenced lesson content, not a thinner or lower-quality pass to
 create an appearance of coverage. What it does **not** mean: this is
 one authoring pass, not a claim of a finished, field-tested course. A
-real WEC-LC instructor should still review this content before it's
+real AIPC instructor should still review this content before it's
 used with real students — the same caveat this project applies to
 every "implemented against, not tested against a live account" claim
 elsewhere, now applied to pedagogy rather than a third-party API.

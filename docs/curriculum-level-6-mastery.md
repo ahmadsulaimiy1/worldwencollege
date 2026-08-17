@@ -1,11 +1,11 @@
-# WEC-LC — Level VI: English Mastery Programme (C2) — Full Curriculum
+# AIPC — Level VI: English Mastery Programme (C2) — Full Curriculum
 
 *Companion to `docs/curriculum-framework.md` (see its Level VI section
 for the module map, the recorded re-theming decision, and the
 Executive Academic Objective this build implements) and
 `docs/curriculum-level-5-advanced.md` (Level V, the process this level
 concludes). Written to your standing instruction that this level is
-"not simply another language level — it is the capstone of the WEC-LC
+"not simply another language level — it is the capstone of the AIPC
 academic journey," and should represent **mastery, not merely
 proficiency**. See § What's different from Level V below for exactly
 how this build answers that.*
@@ -59,7 +59,7 @@ of level again — the programme's terminal, capstone stage. Concretely:
   the level's written work, a major presentation with sustained
   questioning, an oral defence, and a reflective analysis of the
   learner's development across all six levels — the programme's
-  terminal assessment, and the deliverable a WEC-LC graduate can show
+  terminal assessment, and the deliverable a AIPC graduate can show
   an employer or admissions committee.
 
 **Same as Levels I-V, unchanged:** the lesson template's required
@@ -70,10 +70,10 @@ LMS verification for every module. Assignment rubrics keep Level V's
 demands it — **independent judgement** (does the writer form and
 defend a genuinely original position, rather than competently
 summarising others'?) as a named criterion. This is the criterion that
-most distinguishes C2 from C1 in WEC-LC's assessment model.
+most distinguishes C2 from C1 in AIPC's assessment model.
 
 **On the graduate attributes.** Your directive names eight attributes
-every WEC-LC graduate should demonstrate. Each is assessed somewhere
+every AIPC graduate should demonstrate. Each is assessed somewhere
 concrete in this level, not merely aspired to: exceptional written
 communication (the ten genres, and the portfolio that collects them);
 confident public speaking (the nine speaking formats, culminating in
@@ -117,7 +117,7 @@ completed `unit_progress` row — while separately asserting that
 carries 4 and a 20-question Mastery Examination, the pattern used by
 the tenth module at every level.
 
-**With this level, the six-level WEC-LC curriculum is complete** —
+**With this level, the six-level AIPC curriculum is complete** —
 Levels I-VI, 60 modules, 294 learning items, 60 quizzes, 60
 rubric-graded assignments, and 642 authored quiz questions, all
 seeded and all verified. (Levels II-VI carry 110 questions each;

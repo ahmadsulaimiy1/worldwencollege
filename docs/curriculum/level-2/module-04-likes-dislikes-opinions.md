@@ -1,4 +1,4 @@
-# WEC-LC — Level II, Module 4: Likes, Dislikes & Opinions
+# AIPC — Level II, Module 4: Likes, Dislikes & Opinions
 
 *Part of `docs/curriculum-level-2-elementary.md`'s Level II build-out.*
 
@@ -29,7 +29,7 @@ differently in register: British speakers often use "I'd say..." or
 speakers more often use "I feel like..." (e.g. "I feel like the book
 was better than the film"), which sounds notably informal/dispreferred
 in written British academic register. Neither is "more correct" —
-WEC-LC teaches "In my opinion.../I think..." as the neutral,
+AIPC teaches "In my opinion.../I think..." as the neutral,
 register-safe form suitable in both varieties and in writing.
 
 **Key vocabulary previewed:** opinion verbs (love, like, enjoy, don't

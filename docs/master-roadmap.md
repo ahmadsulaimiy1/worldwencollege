@@ -1,4 +1,4 @@
-# WEC-LC Master Roadmap — Executive Blueprint
+# AIPC Master Roadmap — Executive Blueprint
 
 *Governing planning document. Companion to `editorial-bible.md` (brand
 system) and `site-architecture.md` (public site IA). Status: **draft,
@@ -18,7 +18,7 @@ Every claim below is tagged:
 - **📋 Planned** — an approved direction for the next build step, not yet built.
 - **🔭 Aspirational** — the long-term ambition from the founding brief. Real,
   worth planning for, but gated on decisions (budget, team, vendors, legal
-  counsel) that belong to WEC-LC's operators, not to a coding session.
+  counsel) that belong to AIPC's operators, not to a coding session.
 
 This mirrors the honesty discipline already established in
 `editorial-bible.md` ("silence over invention") — applied here to *plans*
@@ -40,7 +40,7 @@ keeps all fifteen domains — nothing is dropped — but sequences them by
 *what unlocks revenue and trust fastest*, gated by real decisions at each
 stage, rather than building everything at once.
 
-**What's actually true right now:** WEC-LC has a complete, bilingual,
+**What's actually true right now:** AIPC has a complete, bilingual,
 premium public website plus a written-and-tested (but not live)
 backend (Phase 0 below) and no confirmed budget, engineering team,
 hosting account, activated payment processor account, or legal/
@@ -110,7 +110,7 @@ volume grows; an LMS built before the academic architecture (Phase 3, done)
 would have had nothing correct to encode. Corporate/alumni platforms
 literally cannot have real content before there are corporate clients or
 alumni — building them now would mean fabricating placeholder "corporate
-partners" the way `editorial-bible.md` already commits WEC-LC not to do.
+partners" the way `editorial-bible.md` already commits AIPC not to do.
 
 **Confirmed by Executive Decision #8:** Admissions → Payments →
 Student Portal → LMS integration → Faculty Portal → Administration
@@ -147,7 +147,7 @@ its main remaining deliverable.
      all point different directions) rather than leaving it as an
      unexamined default.
 - **Risks:** proceeding to Phase 8+ without resolving #1 and #3 exposes
-  WEC-LC to real legal and financial risk the moment a real application is
+  AIPC to real legal and financial risk the moment a real application is
   accepted.
 - **Deliverable:** this roadmap, plus an explicit decision log (see
   "Decisions Needed From You" at the end).
@@ -327,7 +327,7 @@ endpoint) — those remain real scope, not just an activation step.
 - **MVP scope (Stage C):** account creation post-payment, a dashboard
   showing current level/progress, a document/transcript download, and a
   secure messaging channel to Admissions. This alone replaces the
-  `mailto:`-based flows and lets WEC-LC accept its first real cohort.
+  `mailto:`-based flows and lets AIPC accept its first real cohort.
 - **Deferred past MVP, by design:** in-portal live-class hosting
   (Phase 9 territory — use an existing video platform embedded, don't
   build video infrastructure from scratch), automatic grading, and a
@@ -354,7 +354,7 @@ endpoint) — those remain real scope, not just an activation step.
 **Status:** 🚧 In active development, Milestone 1. **Superseded
 recommendation, kept for record: this phase originally recommended
 buy-don't-build (below). Executive Decision #4 explicitly overrode
-that recommendation — WEC-LC now builds and owns its LMS as a
+that recommendation — AIPC now builds and owns its LMS as a
 long-term strategic institutional asset. `docs/lms-architecture.md` is
 the authoritative plan going forward; this entry stays as a record of
 the reasoning that was weighed and deliberately overridden, not as
@@ -362,11 +362,11 @@ current guidance.**
 
 - **Original reasoning (overridden):** a bespoke LMS competing with
   Canvas/Moodle/Teachable-class maturity is a multi-year engineering
-  investment for capability WEC-LC's brand doesn't actually depend on —
+  investment for capability AIPC's brand doesn't actually depend on —
   students don't choose an English college for its LMS UI, they choose
   it for outcomes. The counter-consideration the executive decision
   weighed: a proprietary LMS is a defining, differentiated institutional
-  asset rather than a rented commodity, and WEC-LC's own engineering
+  asset rather than a rented commodity, and AIPC's own engineering
   capacity (this project) makes "build" a materially lower-cost path
   than the market-rate estimate above assumed.
 - **What's actually being built, and how it stays scoped:** phased
@@ -386,7 +386,7 @@ current guidance.**
 
 **Status:** 🔭 Aspirational, Stage D. Phase 9's buy-vs-build question is
 now resolved (build — see above), so this phase's scope is the
-Faculty/Administration surfaces of WEC-LC's own LMS (gradebook,
+Faculty/Administration surfaces of AIPC's own LMS (gradebook,
 scheduling, staff-facing reporting) rather than "wrap whatever a
 vendor doesn't cover" — sequenced per Executive Decision #8's launch
 order (Faculty Portal after Student Portal + LMS integration,
@@ -394,7 +394,7 @@ Administration Portal after that).
 
 - **Recommendation (partially superseded by the above):** this phase's
   real scope is "what the LMS's own content/assessment layer doesn't
-  already cover" (WEC-LC-specific reporting,
+  already cover" (AIPC-specific reporting,
   the three-tier institutional sign-off pattern already established for
   policies in `editorial-bible.md`, finance reconciliation against Stripe).
 - **Effort:** unknown until Phase 9 is resolved — placeholder, not a gap.
@@ -432,10 +432,10 @@ one "backend" phase worth resolving before Stage C, not during it.
 - **Recommended, bounded uses:** placement-test scoring assistance
   (flagged for human review, never auto-final), writing-feedback
   suggestions inside assignments (assistive, not grading), and a
-  site/portal support chatbot answering from WEC-LC's actual published
+  site/portal support chatbot answering from AIPC's actual published
   content (no open-ended generation of institutional claims — the same
   "don't invent facts" discipline that governs this entire project applies
-  doubly to anything AI-generated and published under WEC-LC's name).
+  doubly to anything AI-generated and published under AIPC's name).
 - **Explicitly not recommended for v1:** AI as the primary tutor/instructor
   for a premium, human-led brand positioning — replacing the "expert
   instruction" the brand promise is built on with AI risks contradicting
@@ -531,7 +531,7 @@ answer them myself.**
   a similar restriction under Companies House's "sensitive words" regime
   is less certain from where I sit; **treat this as unresolved, not
   cleared**, and run the formal sensitive-words check before incorporating
-  WEC-LC as a UK entity under this name.
+  AIPC as a UK entity under this name.
 - **Registered office.** Regardless of whether a teaching campus ever
   exists, a UK limited company needs a registered office address on file
   with Companies House. This is separate from, and cheaper/faster than,
@@ -546,7 +546,7 @@ answer them myself.**
 - **Immigration/visa sponsorship — good news, not a gap.** A UK Student
   Sponsor Licence (needed to issue a CAS and sponsor a Student visa) is
   only required for institutions delivering **in-person** study in the
-  UK. As currently marketed ("100% Online Digital Campus"), WEC-LC likely
+  UK. As currently marketed ("100% Online Digital Campus"), AIPC likely
   avoids this entire regulatory track — a real advantage worth *keeping*
   deliberately, not losing by accident if Phase 16's naming question (see
   Phase 19) drifts toward implying in-person delivery.
@@ -574,7 +574,7 @@ answer them myself.**
 
 **Status:** 🔭 Not addressed until now.
 
-WEC-LC currently has no named leadership at all — not even a founder
+AIPC currently has no named leadership at all — not even a founder
 listed publicly (an honest, deliberate omission per `editorial-bible.md`).
 That's defensible for a pre-launch marketing site; it is not a
 governance structure an accreditor, a bank, or a payment processor's
@@ -629,7 +629,7 @@ Breakeven cohort size = Fixed annual costs ÷ (Revenue per student − Variable 
 | Fixed annual costs (Stage C/D team, hosting, DPO, base marketing) | $150,000–$250,000/yr (placeholder range) | Real hiring plan from Phase 17 |
 | **Illustrative breakeven** | **≈15–25 fully-enrolled students/year** | — |
 
-- **Why this matters even as a placeholder:** it suggests WEC-LC's model
+- **Why this matters even as a placeholder:** it suggests AIPC's model
   does *not* require hundreds of students to sustain a lean founding
   team — a small, high-conversion founding cohort could plausibly cover
   Stage C/D operating costs. That's a materially different fundraising
@@ -641,7 +641,7 @@ Breakeven cohort size = Fixed annual costs ÷ (Revenue per student − Variable 
   admissions flow already works today via `mailto:` — pair it with a
   **Stripe Payment Link** (zero engineering, live in under an hour) and
   Zoom/Google Classroom for the first cohort's live classes and materials.
-  This "manual bridge" lets WEC-LC accept paying students *now*, prove
+  This "manual bridge" lets AIPC accept paying students *now*, prove
   real demand, and fund Stage C's proper build from real revenue and real
   proof — rather than spending $50k–150k (illustrative) upfront on
   infrastructure for a demand level that's currently unverified.
@@ -661,7 +661,7 @@ in this addendum, because it gets more expensive to fix the longer it's
 left.
 
 - **The "London Campus" vs. "100% Online" tension.** The site currently
-  states, in the same breath, that WEC-LC is a "**100% Online Digital
+  states, in the same breath, that AIPC is a "**100% Online Digital
   Campus**" (home page hero stat) and is named "**WorldWide English
   College — *London Campus***," with a physical London address flagged as
   "to be confirmed" — i.e., currently pending, not currently false, but
@@ -676,7 +676,7 @@ left.
   every other Institutional Status callout already on the site). **Adding
   this as Decision #8 below rather than resolving it myself** — the
   existing site content doesn't tell me which future you're planning for.
-- **Name genericness.** "WorldWide English College" is highly descriptive
+- **Name genericness.** "Albalagh International Premium College" is highly descriptive
   — good for immediate comprehension, weaker as a trademark (descriptive
   marks are harder to register and defend than distinctive/invented ones).
   Recommend a UK IPO (and EUIPO, given the GCC/Gulf target market often
@@ -718,7 +718,7 @@ Six items that need no budget approval and no resolved decision to start
 today, ranked by how much more expensive they get if delayed:
 
 1. **Run the Companies House sensitive-words + UK IPO trademark search**
-   for "WorldWide English College," "WEC-LC," and "IEFC" — free-to-cheap,
+   for "Albalagh International Premium College," "AIPC," and "IEFC" — free-to-cheap,
    and the single most time-sensitive item on this list.
 2. **Secure `@worldwencollege`-pattern social handles** across LinkedIn,
    Instagram, X, YouTube, TikTok.
@@ -758,13 +758,13 @@ so explicitly.
 | Hosting (Decision #1) | Cloudflare Pages + Pages Functions + D1, first in Executive Decision #7's confirmed provisioning order | Real account, real `database_id` in `wrangler.toml` |
 | Payments (Decision #4) | Modular multi-gateway: Stripe, Paystack, Flutterwave, Opay — provider-agnostic core, no gateway hardcoded in; rollout order confirmed as Executive Decision #3 | Real merchant accounts for all four; Opay's adapter additionally needs its field names verified against current docs (see its file header) |
 | Auth (Decision #5) | Clerk, behind a swappable interface, third in Executive Decision #7's provisioning order | Real Clerk instance; `CLERK_JWKS_URL`/`CLERK_WEBHOOK_SECRET` |
-| LMS (Decision #6) | **Superseded by Executive Decision #4: build, not buy.** WEC-LC's own proprietary LMS is in active development (Milestone 1 shipped) — see `docs/lms-architecture.md`. The buy-and-wrap contract this row originally pointed to has been removed. | Real curriculum content (Milestone 2+); nothing about vendor selection remains open, because there is no longer a vendor to select |
+| LMS (Decision #6) | **Superseded by Executive Decision #4: build, not buy.** AIPC's own proprietary LMS is in active development (Milestone 1 shipped) — see `docs/lms-architecture.md`. The buy-and-wrap contract this row originally pointed to has been removed. | Real curriculum content (Milestone 2+); nothing about vendor selection remains open, because there is no longer a vendor to select |
 | Currency (Decision #2) | Config-driven, multi-currency-ready; GBP/USD confirmed primary as Executive Decision #2 | Which currencies actually activate, and whether GBP uses a live feed or a policy-fixed rate — mechanism now built, see `payments-architecture.md` § Multi-currency |
 
 **What changed vs. the original recommendation:** the roadmap above
 (Phase 9) recommended Stripe alone for simplicity; the updated
 instruction explicitly required a modular multi-gateway architecture
-from the outset given WEC-LC's global, Nigeria-inclusive target market.
+from the outset given AIPC's global, Nigeria-inclusive target market.
 The architecture built reflects the updated instruction, not the
 original recommendation — Phase 9's text is left as written above for
 the historical record of how the recommendation evolved, rather than
@@ -794,7 +794,7 @@ platform is built multi-currency with GBP/USD primary (question #2's
 currency half — the *strategy* is resolved, a real GBP rate/policy is
 still pending, see below); gateway rollout is Stripe → Paystack/
 Flutterwave → Opay (question #4, confirmed, not changed); **the LMS
-question (former #6) is resolved as build, not buy** — WEC-LC develops
+question (former #6) is resolved as build, not buy** — AIPC develops
 its own proprietary LMS (see `docs/lms-architecture.md`); financial
 policy (refunds, promos, scholarships, instalments, corporate
 invoicing) is config-driven via `platform_config`; Arabic localisation
@@ -813,7 +813,7 @@ The next session should start from whichever of these you resolve:
 2. **A real GBP exchange rate or policy-fixed rate** — the currency
    *strategy* (multi-currency, GBP/USD primary) is decided; GBP itself
    stays inactive at checkout until either a real FX feed is connected
-   or WEC-LC sets a policy-fixed rate — see `payments-architecture.md`
+   or AIPC sets a policy-fixed rate — see `payments-architecture.md`
    § Multi-currency. No rate is fabricated to unblock this.
 3. **Legal/compliance owner** — who reviews data protection before any
    real application form goes live?
@@ -823,7 +823,7 @@ The next session should start from whichever of these you resolve:
 5. **Auth provider** — *Building against: Clerk, behind a swappable interface
    — confirm or override before a real Clerk instance is created, next in
    the confirmed provisioning order after Cloudflare D1.*
-6. ~~**LMS: buy or build?**~~ — resolved: build. WEC-LC's own proprietary
+6. ~~**LMS: buy or build?**~~ — resolved: build. AIPC's own proprietary
    LMS is now Milestone-based work in active development — see
    `docs/lms-architecture.md`. `functions/_lib/lms/provider-interface.js`
    (the buy-and-wrap adapter contract) has been removed; it no longer

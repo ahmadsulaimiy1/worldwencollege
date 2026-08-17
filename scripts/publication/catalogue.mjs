@@ -1,5 +1,5 @@
 /**
- * WEC PRESS — THE PUBLICATION ARCHITECTURE.
+ * AIPC PRESS — THE PUBLICATION ARCHITECTURE.
  *
  * ────────────────────────────────────────────────────────────────────
  * THE ONLY HONEST WAY TO WRITE A TEN-YEAR PUBLISHING LIST
@@ -290,7 +290,7 @@ export const TITLES = [
       + 'two editions cannot drift apart.',
   }),
   t({
-    n: 3, family: 'WEC Academic Framework Series', wave: 1,
+    n: 3, family: 'AIPC Academic Framework Series', wave: 1,
     name: 'The International English Fluency Certificate — Programme Architecture',
     edition: 'Institutional Edition',
     audience: 'Partner institutions, employers, ministries, quality reviewers',
@@ -322,7 +322,7 @@ export const TITLES = [
   }),
 
   t({
-    n: 43, family: 'WEC Academic Framework Series', wave: 1,
+    n: 43, family: 'AIPC Academic Framework Series', wave: 1,
     name: 'The International English Fluency Certificate', edition: 'Flagship Document',
     audience: 'Reviewers and partners who need the qualification, not the lessons',
     artefact: 'publication/IEFC Flagship Curriculum.pdf', build: 'publication',
@@ -454,7 +454,7 @@ export const TITLES = [
   
   // ── Teacher and professional ──────────────────────────────────────
   t({
-    n: 17, family: 'WEC Professional Development Series', wave: 2,
+    n: 17, family: 'AIPC Professional Development Series', wave: 2,
     name: 'Teaching the IEFC: A Handbook for Staff',
     audience: 'Teaching staff',
     needs: [need('authored chapters on teaching method', 'pedagogyChapters', 8)],
@@ -462,7 +462,7 @@ export const TITLES = [
       + 'method is a different work and none of it has been written.',
   }),
   t({
-    n: 18, family: 'WEC Professional Development Series', wave: 2,
+    n: 18, family: 'AIPC Professional Development Series', wave: 2,
     name: 'Assessment Literacy for IEFC Teachers',
     audience: 'Teaching staff; internal moderators',
     needs: [need('assessments carrying a competency mapping', 'assessmentsMapped', 120),
@@ -472,7 +472,7 @@ export const TITLES = [
       + 'that omitted that would be teaching the wrong lesson.',
   }),
   t({
-    n: 19, family: 'WEC Governance Series', wave: 4,
+    n: 19, family: 'AIPC Governance Series', wave: 4,
     name: 'The Staff Induction Manual',
     audience: 'Newly appointed teaching and academic staff',
     governance: 'There is an institution to describe now — twenty teaching and academic staff, '
@@ -502,7 +502,7 @@ export const TITLES = [
       + 'a graph: what each module is built on, and what later returns to it.',
   }),
   t({
-    n: 22, family: 'WEC Academic Framework Series', wave: 1,
+    n: 22, family: 'AIPC Academic Framework Series', wave: 1,
     name: 'The Award Architecture of the College',
     audience: 'Employers, partner institutions, verifying bodies',
     needs: [need('award definitions', 'awardDefinitions', 6),
@@ -511,7 +511,7 @@ export const TITLES = [
       + 'academic purpose and graduate profiles, and the verification mechanism.',
   }),
   t({
-    n: 23, family: 'WEC Academic Framework Series', wave: 2,
+    n: 23, family: 'AIPC Academic Framework Series', wave: 2,
     name: 'The Academic Framework of the College',
     audience: 'Quality reviewers; academic partners',
     needs: [need('competencies', 'competencies', 6),
@@ -524,7 +524,7 @@ export const TITLES = [
 
   // ── Institutional ─────────────────────────────────────────────────
   t({
-    n: 24, family: 'WEC Institutional Series', wave: 1,
+    n: 24, family: 'AIPC Institutional Series', wave: 1,
     name: 'The Prospectus',
     audience: 'Prospective learners and their sponsors',
     needs: [need('modules', 'modules', 60), need('award definitions', 'awardDefinitions', 6)],
@@ -532,7 +532,7 @@ export const TITLES = [
       + 'claim standard as the website — which is checked, in both languages, by a test.',
   }),
   t({
-    n: 25, family: 'WEC Governance Series', wave: 2,
+    n: 25, family: 'AIPC Governance Series', wave: 2,
     name: 'The Academic Regulations',
     audience: 'Learners, staff, external reviewers',
     governance: 'Regulations bind. They are made by a body with the standing to make them, '
@@ -542,7 +542,7 @@ export const TITLES = [
       + 'assessment design are already written and consistent.',
   }),
   t({
-    n: 26, family: 'WEC Institutional Series', wave: 4,
+    n: 26, family: 'AIPC Institutional Series', wave: 4,
     name: 'The Annual Report',
     audience: 'Sponsors, partners, public record',
     governance: 'No academic year has been completed, no learner is enrolled, no award has '
@@ -552,7 +552,7 @@ export const TITLES = [
       + 'reporting instrument exists before the year it would report on.',
   }),
   t({
-    n: 27, family: 'WEC Institutional Series', wave: 4,
+    n: 27, family: 'AIPC Institutional Series', wave: 4,
     name: 'The Alumni Review',
     audience: 'Graduates; the six alumni chapters',
     governance: 'Six chapters are defined; nought officers have been elected and nought '
@@ -560,16 +560,16 @@ export const TITLES = [
     source: 'The chapter architecture, the award titles and the post-nominals are settled.',
   }),
   t({
-    n: 28, family: 'WEC Governance Series', wave: 1,
-    name: 'WEC Press — The Publishing Constitution',
+    n: 28, family: 'AIPC Governance Series', wave: 1,
+    name: 'AIPC Press — The Publishing Constitution',
     audience: 'Everyone who will ever produce a publication for the College',
-    artefact: 'publication/WEC Press — The Publishing Constitution.pdf', build: 'press',
+    artefact: 'publication/AIPC Press — The Publishing Constitution.pdf', build: 'press',
     htmlSource: 'publication/.press.html',
     source: 'Twenty-three constitutions, this catalogue, and the house visual identity, each '
       + 'clause declaring whether a test enforces it.',
   }),
   t({
-    n: 29, family: 'WEC Governance Series', wave: 1,
+    n: 29, family: 'AIPC Governance Series', wave: 1,
     name: 'IEFC Production Specifications',
     audience: 'Printers, binders, production suppliers',
     artefact: 'publication/IEFC Production Specifications.pdf', build: 'curriculum',
@@ -578,7 +578,7 @@ export const TITLES = [
       + 'checklist for the flagship.',
   }),
   t({
-    n: 30, family: 'WEC Governance Series', wave: 1,
+    n: 30, family: 'AIPC Governance Series', wave: 1,
     name: 'The Internal Editorial Bible', edition: 'Internal — not for distribution',
     audience: 'The editorial function only',
     artefact: 'publication/IEFC Internal Editorial Bible.pdf', build: 'curriculum',
@@ -589,7 +589,7 @@ export const TITLES = [
 
   // ── New programmes ────────────────────────────────────────────────
   t({
-    n: 31, family: 'WEC New Programmes Series', wave: 3,
+    n: 31, family: 'AIPC New Programmes Series', wave: 3,
     name: 'English for Business', edition: 'A series',
     audience: 'Professionals; corporate clients',
     needs: [need('modules written as business English', 'businessModules', 20)],
@@ -599,7 +599,7 @@ export const TITLES = [
       + 'level, not one at the top.',
   }),
   t({
-    n: 32, family: 'WEC New Programmes Series', wave: 3,
+    n: 32, family: 'AIPC New Programmes Series', wave: 3,
     name: 'Executive English', edition: 'Intensive, short-form',
     audience: 'Senior professionals with little time',
     needs: [need('modules written for executive delivery', 'executiveModules', 12)],
@@ -609,7 +609,7 @@ export const TITLES = [
       + 'this one.',
   }),
   t({
-    n: 33, family: 'WEC New Programmes Series', wave: 3,
+    n: 33, family: 'AIPC New Programmes Series', wave: 3,
     name: 'English for Young Learners', edition: 'A series',
     audience: 'Children and their teachers',
     governance: 'The College admits adults. Publishing for children changes the admissions '
@@ -619,7 +619,7 @@ export const TITLES = [
       + 'adapted without the decisions above being taken first.',
   }),
   t({
-    n: 34, family: 'WEC New Programmes Series', wave: 3,
+    n: 34, family: 'AIPC New Programmes Series', wave: 3,
     name: 'English for Academic Purposes', edition: 'Pre-sessional and in-sessional',
     audience: 'Learners entering English-medium universities',
     needs: [need('modules devoted to academic writing or research', 'academicWritingModules', 10)],
@@ -627,7 +627,7 @@ export const TITLES = [
       + 'programme needs roughly twice that, plus seminar skills and source handling.',
   }),
   t({
-    n: 35, family: 'WEC New Programmes Series', wave: 3,
+    n: 35, family: 'AIPC New Programmes Series', wave: 3,
     name: 'In-Company Training Materials', edition: 'Contract-specific',
     audience: 'Corporate accounts',
     governance: 'The platform supports corporate accounts and seats. No contract has been '
@@ -639,8 +639,8 @@ export const TITLES = [
 
   // ── Scholarly ─────────────────────────────────────────────────────
   t({
-    n: 36, family: 'WEC Research Series', wave: 4,
-    name: 'The WEC Journal of English Language Education',
+    n: 36, family: 'AIPC Research Series', wave: 4,
+    name: 'The AIPC Journal of English Language Education',
     audience: 'The field',
     governance: 'A journal requires an editorial board, named peer reviewers, an ISSN from '
       + 'the national centre, a submissions and ethics policy, and an archiving arrangement. '
@@ -650,7 +650,7 @@ export const TITLES = [
       + 'advance; it cannot constitute a board.',
   }),
   t({
-    n: 37, family: 'WEC Research Series', wave: 4,
+    n: 37, family: 'AIPC Research Series', wave: 4,
     name: 'Conference Proceedings',
     audience: 'Delegates and the field',
     governance: 'No conference has been held. Proceedings are a record of one.',
@@ -658,7 +658,7 @@ export const TITLES = [
       + 'delegates presented; there are no delegates, no papers and no programme committee.',
   }),
   t({
-    n: 38, family: 'WEC Research Series', wave: 3,
+    n: 38, family: 'AIPC Research Series', wave: 3,
     name: 'Research Monographs', edition: 'An occasional series',
     audience: 'Researchers in language education',
     needs: [need('completed research papers', 'researchPapers', 3)],
@@ -687,7 +687,7 @@ export const TITLES = [
       + 'is a stated limitation of the first release, not a reason to withhold it.',
   }),
   t({
-    n: 41, family: 'WEC Institutional Series', wave: 2,
+    n: 41, family: 'AIPC Institutional Series', wave: 2,
     name: 'The IEFC Presentation Edition', edition: 'Cloth, foiled, slipcased',
     audience: 'Ceremonial and diplomatic presentation',
     governance: 'The specification is complete — trim, stock, foil, emboss, binding and '
@@ -787,7 +787,7 @@ export const TITLES = [
       + 'on the board, which is what a brief is for. A learner alone cannot.',
   }),
   t({
-    n: 51, family: 'WEC Professional Development Series', wave: 2,
+    n: 51, family: 'AIPC Professional Development Series', wave: 2,
     name: 'The Professional Development Handbook',
     audience: 'Teaching staff and the wider profession',
     needs: [need('authored chapters on teaching method', 'pedagogyChapters', 8)],
@@ -795,7 +795,7 @@ export const TITLES = [
       + 'rearrangement of a syllabus, and none of it has been written.',
   }),
   t({
-    n: 52, family: 'WEC Academic Framework Series', wave: 1,
+    n: 52, family: 'AIPC Academic Framework Series', wave: 1,
     name: 'The Curriculum Framework',
     audience: 'Academic reviewers, partner institutions, curriculum designers',
     needs: [need('modules', 'modules', 60), need('levels', 'levels', 6),
@@ -805,7 +805,7 @@ export const TITLES = [
       + 'Programme Architecture, which states what the programme IS rather than why.',
   }),
   t({
-    n: 53, family: 'WEC Governance Series', wave: 3,
+    n: 53, family: 'AIPC Governance Series', wave: 3,
     name: 'The Quality Assurance Manual',
     audience: 'Reviewers, staff, awarding partners',
     governance: 'Quality assurance is a function, not a document: it requires a body that owns '
@@ -816,7 +816,7 @@ export const TITLES = [
       + 'written and consistent; what is missing is the authority that would own them.',
   }),
   t({
-    n: 54, family: 'WEC Institutional Series', wave: 2,
+    n: 54, family: 'AIPC Institutional Series', wave: 2,
     name: 'The Academic Calendar', edition: 'Published annually',
     audience: 'Learners, staff, sponsors',
     governance: 'The cohort structure, term pattern and progression points are designed. The '
@@ -826,7 +826,7 @@ export const TITLES = [
       + 'points, all recorded and awaiting an intake date.',
   }),
   t({
-    n: 55, family: 'WEC Governance Series', wave: 4,
+    n: 55, family: 'AIPC Governance Series', wave: 4,
     name: 'The Governance Manual',
     audience: 'Officers, staff, external reviewers',
     governance: 'A governance manual states who decides what. Nought members have been '
@@ -836,7 +836,7 @@ export const TITLES = [
       + 'are not.',
   }),
   t({
-    n: 56, family: 'WEC Governance Series', wave: 4,
+    n: 56, family: 'AIPC Governance Series', wave: 4,
     name: 'Institutional Policies', edition: 'A collected volume',
     audience: 'Staff, learners, regulators',
     governance: 'Policies bind, and only a constituted body may adopt them. Drafting them '
@@ -845,7 +845,7 @@ export const TITLES = [
       + 'implemented behaviour in the platform; none has been adopted as policy.',
   }),
   t({
-    n: 57, family: 'WEC Institutional Series', wave: 4,
+    n: 57, family: 'AIPC Institutional Series', wave: 4,
     name: 'The Strategic Plan',
     audience: 'Sponsors, partners, staff',
     governance: 'A strategic plan commits an institution to a direction over years. It is the '
@@ -855,7 +855,7 @@ export const TITLES = [
     source: 'Nothing, and nothing that could stand in for it.',
   }),
   t({
-    n: 58, family: 'WEC Institutional Series', wave: 1,
+    n: 58, family: 'AIPC Institutional Series', wave: 1,
     name: 'The Graduate Handbook',
     audience: 'Graduates and the employers who verify them',
     needs: [need('award definitions', 'awardDefinitions', 6),
@@ -865,7 +865,7 @@ export const TITLES = [
       + 'mechanism, both of which exist and work.',
   }),
   t({
-    n: 59, family: 'WEC Institutional Series', wave: 3,
+    n: 59, family: 'AIPC Institutional Series', wave: 3,
     name: 'The Career Guide',
     audience: 'Learners and graduates',
     needs: [need('authored careers guidance', 'careerContent', 1)],
@@ -874,7 +874,7 @@ export const TITLES = [
       + 'qualified to give.',
   }),
   t({
-    n: 60, family: 'WEC Professional Development Series', wave: 3,
+    n: 60, family: 'AIPC Professional Development Series', wave: 3,
     name: 'The Leadership Handbook',
     audience: 'Senior professionals studying in English',
     needs: [need('modules on leadership or persuasion', 'leadershipModules', 6)],
@@ -883,7 +883,7 @@ export const TITLES = [
       + 'not three modules at the top of the programme.',
   }),
   t({
-    n: 61, family: 'WEC Research Series', wave: 3,
+    n: 61, family: 'AIPC Research Series', wave: 3,
     name: 'The Research Handbook',
     audience: 'Learners and staff undertaking research in English',
     needs: [need('modules on research or scholarship', 'researchModules', 4)],
@@ -892,10 +892,10 @@ export const TITLES = [
       + 'twice that, and the missing half is method rather than language.',
   }),
   t({
-    n: 62, family: 'WEC Governance Series', wave: 1,
-    name: 'The Worldwide English College Canon', edition: 'The Canon Index',
-    audience: 'Every reader of a WEC Press publication, and every editor of a future one',
-    artefact: 'publication/WEC Canon Index.pdf', build: 'canon',
+    n: 62, family: 'AIPC Governance Series', wave: 1,
+    name: 'The Albalagh International Premium College Canon', edition: 'The Canon Index',
+    audience: 'Every reader of a AIPC Press publication, and every editor of a future one',
+    artefact: 'publication/AIPC Canon Index.pdf', build: 'canon',
     htmlSource: 'publication/.canon.html',
     source: 'The catalogue, the legacy layer and the canon read at generation: five divisions, '
       + 'every title placed, what to read before, alongside and after each, the register of '

@@ -42,7 +42,7 @@ function freshEnv() {
   return env;
 }
 const AWARD = {
-  awardTitle: 'English Associate of Worldwide English College', postNominal: 'AsWEC',
+  awardTitle: 'English Associate of Albalagh International Premium College', postNominal: 'AsAIPC',
   cefr: 'B1', credits: 20, tqtHours: 200,
 };
 

@@ -1,4 +1,4 @@
-/* WEC-LC — My Programme.
+/* AIPC — My Programme.
 
    The page that did not exist. The Listening Lab opens at
    /listening-lab.html?unit=<id> and, without that parameter, says "No
@@ -30,7 +30,7 @@
   };
 
   function api(path) {
-    return window.WEC_LC_apiAuth.headers().then(function (headers) {
+    return window.AIPC_apiAuth.headers().then(function (headers) {
       return fetch(path, { headers: headers });
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (b) {
@@ -261,11 +261,11 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     offline();
-    var guarded = window.WEC_LC_guardPortal({
+    var guarded = window.AIPC_guardPortal({
       signOutRedirect: '/',
       shellSelector: '.lab-body',
       onAuthenticated: function (clerk, done) {
-        window.WEC_LC_apiAuth.attach(clerk);
+        window.AIPC_apiAuth.attach(clerk);
         done();
         load();
       },

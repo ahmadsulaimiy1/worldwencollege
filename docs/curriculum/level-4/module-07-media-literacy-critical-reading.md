@@ -1,4 +1,4 @@
-# WEC-LC — Level IV, Module 7: Media Literacy & Critical Reading
+# AIPC — Level IV, Module 7: Media Literacy & Critical Reading
 
 *Part of `docs/curriculum-level-4-upper-intermediate.md`'s Level IV build-out.*
 

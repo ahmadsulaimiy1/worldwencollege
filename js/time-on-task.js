@@ -1,4 +1,4 @@
-/* WEC-LC — time-on-task beacon.
+/* AIPC — time-on-task beacon.
 
    The client half of the College's measured-hours commitment
    (docs/academic-framework.md § I). It sends one thing, on a timer:
@@ -55,7 +55,7 @@
   function beat() {
     if (!studying() || sending) return;
     sending = true;
-    window.WEC_LC_apiAuth.headers().then(function (headers) {
+    window.AIPC_apiAuth.headers().then(function (headers) {
       return fetch('/api/lms/time-on-task', {
         method: 'POST',
         headers: headers,
@@ -78,7 +78,7 @@
   }
 
   function start(id) {
-    if (!id || !window.WEC_LC_apiAuth) return;
+    if (!id || !window.AIPC_apiAuth) return;
     unitId = id;
     markActive();
 
@@ -105,5 +105,5 @@
     });
   }
 
-  window.WEC_LC_timeOnTask = { start: start };
+  window.AIPC_timeOnTask = { start: start };
 })();

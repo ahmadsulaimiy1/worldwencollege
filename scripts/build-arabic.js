@@ -116,7 +116,7 @@ PAGES.admissions = {
   slug: 'admissions-ar', output: 'ar/admissions/index.html', file: 'admissions.ar.html',
   contents: true,
   altHref: '/admissions/',
-  title: 'القبول — الكلية العالمية للغة الإنجليزية',
+  title: 'القبول — كلية البلاغ الدولية المتميّزة',
   description: 'قرار الالتحاق كاملًا في صفحة واحدة: هل تنطبق الشروط عليك، وكيف تقدّم، ومتى تبدأ، وما يخص المتقدمين الدوليين والتأشيرات.',
   body: `<section class="section--dark section-pad">
   <div class="container">
@@ -211,7 +211,7 @@ PAGES.admissions = {
     <form class="form-grid" data-admissions-form
       data-endpoint="/api/admissions/apply"
       data-fallback-email="info@worldwencollege.co.uk"
-      data-storage-key="wec-lc-admissions-draft-ar"
+      data-storage-key="aipc-admissions-draft-ar"
       data-loading-text="جارٍ الإرسال…"
       data-error-text="يرجى تصحيح الحقول المظلّلة أدناه."
       data-success-text="تم استلام طلبك — سنتواصل معك قريبًا."
@@ -546,16 +546,16 @@ ${darkCard('لا يستطيع', 'أن يحل محل مؤهل معترف به', '
 PAGES.careers = {
   slug: 'about-careers-ar', output: 'ar/about/careers/index.html', file: 'about-careers.ar.html',
   altHref: '/about/careers/',
-  title: 'العمل في الكلية — الكلية العالمية للغة الإنجليزية',
+  title: 'العمل في الكلية — كلية البلاغ الدولية المتميّزة',
   description: 'المناصب الثلاثة التي تحتاجها الكلية فعلًا، وما الذي يفتحه كل منها، وما الذي ينضم إليه المرشح بالضبط.',
   body: `<section class="section--dark section-pad">
   <div class="container">
     <span class="eyebrow">عن الكلية</span>
-    <h1>العمل في الكلية العالمية للغة الإنجليزية.</h1>
+    <h1>العمل في كلية البلاغ الدولية المتميّزة.</h1>
     <p class="lede">الكلية في بدايتها. هذا هو التأطير الصادق لكل من يفكر في الانضمام إليها، وهو
       أنفع من دعوة توحي بقسم راسخ. ما يلي هو ما هو مطلوب فعلًا وما الذي يفتحه كل منصب.</p>
     <div class="btn-row">
-      <a href="mailto:info@worldwencollege.co.uk?subject=Interest%20in%20a%20post%20at%20WEC-LC" class="btn btn--gold">أبدِ اهتمامك</a>
+      <a href="mailto:info@worldwencollege.co.uk?subject=Interest%20in%20a%20post%20at%20AIPC" class="btn btn--gold">أبدِ اهتمامك</a>
     </div>
   </div>
 </section>
@@ -609,7 +609,7 @@ ${card('غير قائم', 'كل ما يحتاج أشخاصًا', 'لا اعتم�
 PAGES.accessibility = {
   slug: 'support-accessibility-ar', output: 'ar/support/accessibility/index.html', file: 'support-accessibility.ar.html',
   altHref: '/support/accessibility/',
-  title: 'الإتاحة — الكلية العالمية للغة الإنجليزية',
+  title: 'الإتاحة — كلية البلاغ الدولية المتميّزة',
   description: 'ما بنته الكلية للإتاحة عمدًا، وما لم يُختبر، وما الذي تفعله الكلية عند الطلب — دون ادعاء مطابقة لم يدقق فيها أحد.',
   body: `<section class="section--dark section-pad">
   <div class="container">
@@ -684,7 +684,7 @@ ${darkCard('غير متوفر', 'إجراء رسمي للتكييفات', 'لا 
 PAGES.policy = {
   slug: 'admissions-policy-ar', output: 'ar/admissions/policy/index.html', file: 'admissions-policy.ar.html',
   altHref: '/admissions/policy/',
-  title: 'سياسة القبول — الكلية العالمية للغة الإنجليزية',
+  title: 'سياسة القبول — كلية البلاغ الدولية المتميّزة',
   description: 'القواعد التي تطبقها الكلية عند البتّ في طلب: مبادئ القرار، وأسباب الرفض المسمّاة، وبياناتك، والسياسات التي لم تُعتمد بعد.',
   body: `<section class="section--dark section-pad">
   <div class="container">
@@ -787,7 +787,7 @@ PAGES.tuition = {
   slug: 'admissions-tuition-ar', output: 'ar/admissions/tuition/index.html', file: 'admissions-tuition.ar.html',
   contents: true,
   altHref: '/admissions/tuition/',
-  title: 'الرسوم والسداد والدعم — الكلية العالمية للغة الإنجليزية',
+  title: 'الرسوم والسداد والدعم — كلية البلاغ الدولية المتميّزة',
   description: 'رسوم برنامج IEFC وأسعار المستويات، وكيف يجري السداد فعلًا — العملة والوسائل والاسترداد — والمنح ومسارات الدعم القائمة اليوم.',
   body: `<section class="section--dark section-pad">
   <div class="container">
@@ -797,8 +797,8 @@ PAGES.tuition = {
     <div class="stat-row" style="margin-top:40px">
       <div class="stat-row__item"><strong>19,000$</strong><span>البرنامج كاملًا</span></div>
       <div class="stat-row__item"><strong>3,166.67$</strong><span>لكل مستوى</span></div>
-      <div class="stat-row__item"><strong>20</strong><span>رصيد <span dir="ltr">WEC</span> لكل مستوى</span></div>
-      <div class="stat-row__item"><strong>120</strong><span>إجمالي أرصدة <span dir="ltr">WEC</span></span></div>
+      <div class="stat-row__item"><strong>20</strong><span>رصيد <span dir="ltr">AIPC</span> لكل مستوى</span></div>
+      <div class="stat-row__item"><strong>120</strong><span>إجمالي أرصدة <span dir="ltr">AIPC</span></span></div>
     </div>
   </div>
 </section>
@@ -1003,7 +1003,7 @@ ${darkCard('غير مبني', 'فوترة المؤسسات والمقاعد ال
 PAGES.faq = {
   slug: 'faq-ar', output: 'ar/faq/index.html', file: 'faq.ar.html',
   altHref: '/faq/',
-  title: 'الأسئلة الشائعة — الكلية العالمية للغة الإنجليزية',
+  title: 'الأسئلة الشائعة — كلية البلاغ الدولية المتميّزة',
   description: 'الأسئلة الشائعة عن برنامج IEFC والقبول والرسوم والدراسة في الكلية، ومعها أسئلة القبول التي يسألها المتقدمون فعلًا.',
   body: `<section class="section--dark section-pad">
   <div class="container">
@@ -1019,7 +1019,7 @@ PAGES.faq = {
 
       <div class="accordion__item">
         <button class="accordion__q"><span>ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية <span dir="ltr">(IEFC)</span>؟</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">برنامج <span dir="ltr">IEFC</span> هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع <span dir="ltr">CEFR</span> (من <span dir="ltr">A1</span> إلى <span dir="ltr">C2</span>)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة <span dir="ltr">WEC</span> وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس، وكم يستغرق بالأشهر يعتمد على الساعات التي تستطيع منحها أسبوعيًا.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">برنامج <span dir="ltr">IEFC</span> هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع <span dir="ltr">CEFR</span> (من <span dir="ltr">A1</span> إلى <span dir="ltr">C2</span>)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة <span dir="ltr">AIPC</span> وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس، وكم يستغرق بالأشهر يعتمد على الساعات التي تستطيع منحها أسبوعيًا.</div></div>
       </div>
 
       <div class="accordion__item">
@@ -1158,7 +1158,7 @@ ${darkCard('س', 'إذن ما الذي أدفع مقابله؟', 'برنامج �
     {
       "@type": "Question",
       "name": "ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية (IEFC)؟",
-      "acceptedAnswer": { "@type": "Answer", "text": "برنامج IEFC هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع CEFR (من A1 إلى C2)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة WEC وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس." }
+      "acceptedAnswer": { "@type": "Answer", "text": "برنامج IEFC هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع CEFR (من A1 إلى C2)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة AIPC وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس." }
     },
     {
       "@type": "Question",
@@ -1210,7 +1210,7 @@ PAGES.academics = {
   slug: 'academics-ar', output: 'ar/academics/index.html', file: 'academics.ar.html',
   contents: true,
   altHref: '/academics/',
-  title: 'البرامج الأكاديمية — الكلية العالمية للغة الإنجليزية',
+  title: 'البرامج الأكاديمية — كلية البلاغ الدولية المتميّزة',
   description: 'برنامج IEFC في ستة مستويات متوافقة مع الإطار الأوروبي: ما يحتويه كل مستوى، وكيف يجري التعلّم، والحرم الرقمي الذي يعمل عليه.',
   body: `${hero('البرامج الأكاديمية', 'برنامج واحد، يُدرَّس بمعيار مكتوب.',
     'تدرّس الكلية مسارًا واحدًا — برنامج الطلاقة الدولي في اللغة الإنجليزية — في ستة مستويات '
@@ -1392,7 +1392,7 @@ PAGES.students = {
   slug: 'students-ar', output: 'ar/students/index.html', file: 'students.ar.html',
   contents: true,
   altHref: '/students/',
-  title: 'الحياة الطلابية — الكلية العالمية للغة الإنجليزية',
+  title: 'الحياة الطلابية — كلية البلاغ الدولية المتميّزة',
   description: 'ما تعنيه الدراسة في الكلية: كيف تُقيَّم، وسجلك الأكاديمي، ومعمل الاستماع، والدعم المتاح وما لا تقدمه الكلية.',
   body: `${hero('الطلاب', 'الحياة الطلابية.',
     'ما تعنيه الدراسة هنا: كيف تُقيَّم، وما يُحفظ في سجلك، وأين تتدرب على الاستماع والنطق، '
@@ -1461,7 +1461,7 @@ ${cta('كيف يتم تقييمك.', 'التقييم', '/ar/students/assessment/
 PAGES.assessment = {
   slug: 'students-assessment-ar', output: 'ar/students/assessment/index.html', file: 'students-assessment.ar.html',
   altHref: '/students/assessment/',
-  title: 'كيف يتم تقييمك — الكلية العالمية للغة الإنجليزية',
+  title: 'كيف يتم تقييمك — كلية البلاغ الدولية المتميّزة',
   description: 'المهارات اللغوية الأربع، والمعايير المنشورة قبل التقييم، والعتبة التي تطبقها المنصة اليوم.',
   body: `${hero('الطلاب', 'كيف يتم تقييمك.',
     'التقييم في الكلية يُكتب قبل التدريس الذي يختبره، ويُنشر قبل أن تخوضه، ويُبلَّغ بحسب المهارة '
@@ -1556,7 +1556,7 @@ ${cta('انظر ما يمكن منحه.', 'الشهادات والمراتب', '
 PAGES.awards = {
   slug: 'students-awards-ar', output: 'ar/students/awards/index.html', file: 'students-awards.ar.html',
   altHref: '/students/awards/',
-  title: 'الشهادات والمراتب — الكلية العالمية للغة الإنجليزية',
+  title: 'الشهادات والمراتب — كلية البلاغ الدولية المتميّزة',
   description: 'شهادات المستويات الستة ورموزها، والمراتب المعتمدة، ولماذا لم تُمنح شهادة لأحد بعد.',
   body: `${hero('الطلاب', 'الشهادات والمراتب.',
     'ست شهادات، واحدة لكل مستوى، لكل منها اسمها ورمزها. ولم تُمنح أي منها لأحد، وهذه الصفحة '
@@ -1636,7 +1636,7 @@ ${cta('كيف يُضبط المعيار.', 'ضمان الجودة', '/ar/governa
 PAGES.privacy = {
   slug: 'support-privacy-ar', output: 'ar/support/privacy/index.html', file: 'support-privacy.ar.html',
   altHref: '/support/privacy/',
-  title: 'الخصوصية وبياناتك — الكلية العالمية للغة الإنجليزية',
+  title: 'الخصوصية وبياناتك — كلية البلاغ الدولية المتميّزة',
   description: 'ما يجمعه هذا الموقع وما لا يجمعه، ومن الأطراف الثالثة، والمسؤولية التي لم تُعيَّن بعد.',
   body: `${hero('الدعم', 'الخصوصية وبياناتك.',
     'ما يجمعه هذا الموقع، وأي أطراف ثالثة تشارك فيه، والثغرة الوحيدة في المسؤولية التي يجب '
@@ -1756,7 +1756,7 @@ PAGES.governance = {
   slug: 'governance-ar', output: 'ar/governance/index.html', file: 'governance.ar.html',
   contents: true,
   altHref: '/governance/',
-  title: 'الحوكمة | من يقرر وبأي صلاحية — الكلية العالمية للغة الإنجليزية',
+  title: 'الحوكمة | من يقرر وبأي صلاحية — كلية البلاغ الدولية المتميّزة',
   description: 'الهيئتان الأكاديميتان للكلية، وصلاحية كل منهما، وحقيقة أنه لم يُعيَّن فيهما عضو واحد بعد.',
   body: `${hero('عن الكلية', 'من يقرر، وبأي صلاحية.',
     'تفصل الكلية بين الحكم الأكاديمي والحوكمة المؤسسية وضمان الجودة والشؤون المالية '

@@ -1,4 +1,4 @@
-# WEC-LC — Level III, Module 3: Work, Careers & Entrepreneurship
+# AIPC — Level III, Module 3: Work, Careers & Entrepreneurship
 
 *Part of `docs/curriculum-level-3-intermediate.md`'s Level III build-out.*
 

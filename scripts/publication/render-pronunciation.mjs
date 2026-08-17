@@ -339,7 +339,7 @@ tr { break-inside:avoid; }
 
 <section class="title">
   <div>${crest({ size: 56, gold: PAL.royalGold, ink: 'none', mono: true })}</div>
-  <p class="eyebrow" style="margin-top:12pt">Worldwide English College · London Campus</p>
+  <p class="eyebrow" style="margin-top:12pt">Albalagh International Premium College · London Campus</p>
   <h1>The IEFC Pronunciation Handbook</h1>
   <div class="title__rule"></div>
   <p class="title__sub">Every pronunciation target in the International English Fluency

@@ -1,4 +1,4 @@
-# WEC-LC — Level IV, Module 8: Meetings & Negotiation
+# AIPC — Level IV, Module 8: Meetings & Negotiation
 
 *Part of `docs/curriculum-level-4-upper-intermediate.md`'s Level IV build-out.*
 

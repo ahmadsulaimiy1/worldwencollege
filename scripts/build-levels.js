@@ -168,7 +168,7 @@ ${lv.outcomes.map((o) => `          <tr><td>${esc(o.code)}</td><td>${esc(o.state
     </div>
     <div class="callout">
       <span class="callout__label">What this award is not</span>
-      <p>WEC-LC holds no accreditation, and the College has not appointed an External Examiner
+      <p>AIPC holds no accreditation, and the College has not appointed an External Examiner
         &mdash; the independent post required before any award can properly be conferred. This
         award is defined, its criteria are published, and it has been conferred on nobody. See
         <a href="/about/#status">About &middot; Institutional Status</a>.</p>
@@ -289,10 +289,10 @@ ${card('Measured', 'Adjusted to the cohort', 'Quiz and assignment results are vi
     <div class="grid grid--3">
 ${card('Platform', 'The learning platform', 'Lessons, quizzes, self-checks and progress tracking, with your marks and feedback in one record you keep.')}
 ${card('Listening Lab', 'Recorded practice', 'The Listening Lab holds the level&rsquo;s recorded material with the script, and records your own speaking for pronunciation feedback.')}
-${card('Press volumes', 'Printed and digital', 'The curriculum is published as a set of volumes by WEC Press &mdash; the Complete Curriculum, the Assessment Handbook, and for Level I a Student Workbook and Teacher&rsquo;s Companion.')}
+${card('Press volumes', 'Printed and digital', 'The curriculum is published as a set of volumes by AIPC Press &mdash; the Complete Curriculum, the Assessment Handbook, and for Level I a Student Workbook and Teacher&rsquo;s Companion.')}
     </div>
     <div class="btn-row">
-      <a href="/press/" class="btn btn--outline">WEC Press Catalogue</a>
+      <a href="/press/" class="btn btn--outline">AIPC Press Catalogue</a>
     </div>
   </div>
 </section>
@@ -337,7 +337,7 @@ ${card('Entry', prev ? `Do I need Level ${prev.roman} first?` : 'Do I need any E
     ? `Not necessarily. You need the language ${esc(prev.name)} teaches, however you acquired it. A placement assessment establishes that.`
     : 'No. Foundation assumes none, and the first lesson teaches the alphabet and how to say your own name.')}
 ${card('Assessment', 'What happens if I fail an assessment?', 'Assessments can be resat. The purpose is to establish what you can do, not to record a single bad afternoon &mdash; the appeals and resit procedure is published in full.')}
-${card('Recognition', 'Is the award recognised?', 'The award is defined and its criteria published, but WEC-LC holds no accreditation and has appointed no External Examiner. We state this plainly rather than implying recognition the College has not obtained.')}
+${card('Recognition', 'Is the award recognised?', 'The award is defined and its criteria published, but AIPC holds no accreditation and has appointed no External Examiner. We state this plainly rather than implying recognition the College has not obtained.')}
     </div>
   </div>
 </section>
@@ -366,7 +366,7 @@ function academicsPage() {
       open to read before anyone enrols.</p>
     <div class="stat-row" style="margin-top:40px">
       <div class="stat-row__item"><strong>${levels.length}</strong><span>Academic Levels</span></div>
-      <div class="stat-row__item"><strong>120</strong><span>WEC Credits</span></div>
+      <div class="stat-row__item"><strong>120</strong><span>AIPC Credits</span></div>
       <div class="stat-row__item"><strong>1,200</strong><span>Total Qualification Time (hrs)</span></div>
       <div class="stat-row__item"><strong>${levels.reduce((a, lv) => a + lv.modules.length, 0)}</strong><span>Modules, all written</span></div>
       <div class="stat-row__item"><strong>720</strong><span>Designed Lessons</span></div>
@@ -403,10 +403,10 @@ ${levels.map((lv) => `          <tr>
     </div>
     <div class="callout" id="curriculum-status">
       <span class="callout__label">Academic workload and curriculum status</span>
-      <p><strong>How the programme is measured.</strong> Each level carries <strong>20 WEC
+      <p><strong>How the programme is measured.</strong> Each level carries <strong>20 AIPC
         Credits</strong> and a <strong>Total Qualification Time of 200 hours</strong> &mdash; 80
         Guided Learning Hours and 120 Independent Learning Hours &mdash; across four months, or
-        about twelve hours a week. The full programme is 120 WEC Credits and 1,200 hours. A WEC
+        about twelve hours a week. The full programme is 120 AIPC Credits and 1,200 hours. A AIPC
         Credit is the College&rsquo;s own internal measure (one credit represents ten notional
         learning hours); it is not ECTS or CATS and carries no transfer entitlement to any
         institution.</p>
@@ -515,7 +515,7 @@ ${card('At the end', 'The level assessment', 'The summative point, against crite
     <div class="callout">
       <span class="callout__label">Self-paced study has a known failure mode</span>
       <p>Wholly self-paced language study finishes badly, and the reason is well understood: no
-        fixed points, no peers at the same stage, nothing to be late for. WEC-LC currently runs
+        fixed points, no peers at the same stage, nothing to be late for. AIPC currently runs
         self-paced, because that is what is built. A recommendation to add a fixed rhythm of
         live sessions, examination windows and orientation has been drafted and not adopted
         &mdash; see <a href="/admissions/#dates">Dates</a>. Until it is, the structure has to
@@ -576,7 +576,7 @@ ${darkCard('Drafts stay local', 'A half-written note is not sent anywhere', 'Wor
   <div class="container reveal">
     <div class="callout">
       <span class="callout__label">Institutional Status</span>
-      <p>WEC-LC holds no accreditation and has appointed no External Examiner. The curriculum,
+      <p>AIPC holds no accreditation and has appointed no External Examiner. The curriculum,
         assessments and awards described here are fully defined and published; no award has yet
         been conferred on anyone. The College states this on every page where it is relevant
         rather than in a footnote &mdash; see <a href="/about/#status">About &middot;
@@ -600,10 +600,10 @@ ${darkCard('Drafts stay local', 'A half-written note is not sent anywhere', 'Wor
   "@context": "https://schema.org",
   "@type": "Course",
   "name": "International English Fluency Course (IEFC)",
-  "description": "A six-level, 1,200-hour English language programme aligned to CEFR A1-C2, delivered entirely online by WorldWide English College, London Campus.",
+  "description": "A six-level, 1,200-hour English language programme aligned to CEFR A1-C2, delivered entirely online by Albalagh International Premium College, London Campus.",
   "provider": {
     "@type": "EducationalOrganization",
-    "name": "WorldWide English College - London Campus",
+    "name": "Albalagh International Premium College - London Campus",
     "sameAs": "https://www.worldwencollege.co.uk/"
   },
   "educationalLevel": "A1 to C2 (CEFR)",
@@ -657,7 +657,7 @@ function upsert(entry, contentFile, body) {
 upsert({
   slug: 'academics',
   output: 'academics/index.html',
-  title: 'Academics &mdash; Worldwide English College',
+  title: 'Academics &mdash; Albalagh International Premium College',
   description: 'The IEFC in six CEFR-aligned levels: what each contains, how learning works, '
     + 'the digital campus it runs on, and the standard the whole programme is taught to.',
   contentFile: 'academics.html',
@@ -677,7 +677,7 @@ levels.forEach((lv, i) => {
   upsert({
     slug: `study-${SLUG[lv.roman]}`,
     output: `study/${SLUG[lv.roman]}/index.html`,
-    title: `Level ${lv.roman}: ${lv.name} (${lv.cefr}) &mdash; Worldwide English College`,
+    title: `Level ${lv.roman}: ${lv.name} (${lv.cefr}) &mdash; Albalagh International Premium College`,
     description: `Level ${lv.roman} of the IEFC: ${lv.modules.length} modules, ${lv.units} `
       + `designed lessons over ${lv.duration_months} months, aligned to CEFR ${lv.cefr}. Modules, `
       + 'learning outcomes, assessment, teaching methods and the award.',

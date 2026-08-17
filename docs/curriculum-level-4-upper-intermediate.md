@@ -1,4 +1,4 @@
-# WEC-LC — Level IV: Upper Intermediate Programme (B2) — Full Curriculum
+# AIPC — Level IV: Upper Intermediate Programme (B2) — Full Curriculum
 
 *Companion to `docs/curriculum-framework.md` (see its Level IV
 section for the module map, grammar/vocabulary progression, and the

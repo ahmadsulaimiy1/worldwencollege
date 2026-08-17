@@ -1,5 +1,5 @@
 /**
- * WEC PRESS — THE LEGACY CONSTITUTION.
+ * AIPC PRESS — THE LEGACY CONSTITUTION.
  *
  * ────────────────────────────────────────────────────────────────────
  * THE PROBLEM THIS LAYER EXISTS TO SOLVE
@@ -86,26 +86,26 @@ export const FAMILIES = [
     purpose: 'Consulted rather than read through: grammar, vocabulary, pronunciation, '
       + 'listening scripts, glossary, cross-references.',
     readership: 'Teachers and advanced learners' },
-  { key: 'WEC Academic Framework Series',
+  { key: 'AIPC Academic Framework Series',
     purpose: 'The architecture of the qualification: levels, competencies, skills, '
       + 'descriptors, awards and their standing.',
     readership: 'Partner institutions, quality reviewers, employers' },
-  { key: 'WEC Governance Series',
+  { key: 'AIPC Governance Series',
     purpose: 'How the College publishes, produces and regulates. Includes the documents '
       + 'that bind the Press itself.',
     readership: 'Staff, reviewers, printers, future editors' },
-  { key: 'WEC Research Series',
+  { key: 'AIPC Research Series',
     purpose: 'Peer-reviewed and scholarly work in language education.',
     readership: 'Researchers, teacher educators and the wider field of language education' },
-  { key: 'WEC Professional Development Series',
+  { key: 'AIPC Professional Development Series',
     purpose: 'Continuing development for practising teachers, beyond the delivery of one '
       + 'programme.',
     readership: 'Teaching staff and the wider profession' },
-  { key: 'WEC New Programmes Series',
+  { key: 'AIPC New Programmes Series',
     purpose: 'Programmes the College does not yet teach, published only once the syllabus '
       + 'behind them exists.',
     readership: 'Prospective new markets' },
-  { key: 'WEC Institutional Series',
+  { key: 'AIPC Institutional Series',
     purpose: 'The College speaking as an institution: prospectus, annual report, alumni.',
     readership: 'Applicants, sponsors, graduates, the public record' },
 ];
@@ -227,8 +227,8 @@ export function revisionHistory(artefact, { limit = 8 } = {}) {
 // ─────────────────────────────────────────────────────────────────────
 
 export const IMPRINT = {
-  publisher: 'Worldwide English College Press',
-  parent: 'Worldwide English College, London Campus',
+  publisher: 'Albalagh International Premium College Press',
+  parent: 'Albalagh International Premium College, London Campus',
   place: 'London',
   language: 'English (en-GB)',
 };
@@ -242,11 +242,11 @@ export const IMPRINT = {
 export function citation({ title, edition, year, documentId, subtitle, artefact }) {
   const full = subtitle ? `${title}: ${subtitle}` : title;
   return {
-    note: `Worldwide English College. ${full}. ${edition} edition. ${IMPRINT.place}: `
+    note: `Albalagh International Premium College. ${full}. ${edition} edition. ${IMPRINT.place}: `
       + `${IMPRINT.publisher}, ${year}. Document ID ${documentId}.`,
-    inText: `(Worldwide English College ${year})`,
+    inText: `(Albalagh International Premium College ${year})`,
     fields: [
-      ['Corporate author', 'Worldwide English College, London Campus'],
+      ['Corporate author', 'Albalagh International Premium College, London Campus'],
       ['Title', full],
       ['Edition', `${edition} edition`],
       ['Place of publication', IMPRINT.place],
@@ -269,7 +269,7 @@ export function cataloguing({ title, subtitle, family, edition, year, pages, aud
   const fam = familyOf(family);
   return [
     ['Title', subtitle ? `${title}: ${subtitle}` : title],
-    ['Statement of responsibility', 'Worldwide English College, London Campus'],
+    ['Statement of responsibility', 'Albalagh International Premium College, London Campus'],
     ['Family', fam ? fam.key : family],
     ['Edition', `${edition} edition`],
     ['Imprint', `${IMPRINT.place}: ${IMPRINT.publisher}, ${year}`],
@@ -564,7 +564,7 @@ export function legacyBlock({
 </style>
 <section class="lg">
   <p class="lg__eyebrow">The record</p>
-  <h2>This publication in the WEC Press record</h2>
+  <h2>This publication in the AIPC Press record</h2>
   <p class="lg__note">Every publication of the Press carries this apparatus, generated from one
     source, so that a reader in twenty years can identify this copy, cite it, catalogue it, and
     find the publications it belongs beside — without needing anyone who made it.</p>

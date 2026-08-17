@@ -45,7 +45,7 @@ export async function refreshFromLiveFeed(env, { codes, provider = frankfurterAd
   return { updated, skipped, notReturnedByProvider };
 }
 
-// A staff-set rate WEC-LC has deliberately chosen not to float with
+// A staff-set rate AIPC has deliberately chosen not to float with
 // daily FX (common for tuition pricing) — see docs/payments-architecture.md
 // § Multi-currency.
 export async function setPolicyFixedRate(env, { code, rateToUsd, updatedBy = null, activate = false }) {

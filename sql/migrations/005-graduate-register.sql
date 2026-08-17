@@ -49,8 +49,8 @@ CREATE TABLE awards (
   -- read as it did in 2027 even if the College later renames an award or
   -- restructures a level. An academic record that changes retrospectively
   -- because a lookup table changed is not a record.
-  award_title       TEXT NOT NULL,      -- 'English Associate of Worldwide English College'
-  post_nominal      TEXT NOT NULL,      -- 'AsWEC'
+  award_title       TEXT NOT NULL,      -- 'English Associate of Albalagh International Premium College'
+  post_nominal      TEXT NOT NULL,      -- 'AsAIPC'
   cefr              TEXT NOT NULL,
   honour            TEXT NOT NULL DEFAULT 'pass'
                     CHECK (honour IN ('pass','merit','distinction','high_distinction','college_distinction')),

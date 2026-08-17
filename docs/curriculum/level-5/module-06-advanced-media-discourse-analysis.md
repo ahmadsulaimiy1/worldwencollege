@@ -1,4 +1,4 @@
-# WEC-LC — Level V, Module 6: Advanced Media & Discourse Analysis
+# AIPC — Level V, Module 6: Advanced Media & Discourse Analysis
 
 *Part of `docs/curriculum-level-5-advanced.md`'s Level V build-out.*
 

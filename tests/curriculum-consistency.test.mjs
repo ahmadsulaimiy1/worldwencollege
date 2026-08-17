@@ -1,6 +1,6 @@
 // Run with: node --experimental-sqlite tests/curriculum-consistency.test.mjs
 //
-// Programme-wide consistency harness for the WEC-LC curriculum
+// Programme-wide consistency harness for the AIPC curriculum
 // (Academic Edition v1.0). Where the per-level sweeps
 // (curriculum-level-N.test.mjs) verify that each level WORKS — content
 // loads, quizzes score, assignments grade — this file verifies that the

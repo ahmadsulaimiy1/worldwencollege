@@ -1,4 +1,4 @@
-# WEC-LC — Level V, Module 5: Cross-Cultural Communication
+# AIPC — Level V, Module 5: Cross-Cultural Communication
 
 *Part of `docs/curriculum-level-5-advanced.md`'s Level V build-out.*
 

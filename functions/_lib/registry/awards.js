@@ -51,7 +51,7 @@ import { signCredential, verifyCredential } from './signing.js';
 // enumerable, and short enough to read down a telephone.
 const ALPHABET = '23456789ABCDEFGHJKMNPQRSTVWXYZ';
 const BODY_LENGTH = 12;
-export const GENESIS = 'WEC-REGISTER-GENESIS';
+export const GENESIS = 'AIPC-REGISTER-GENESIS';
 
 export const HONOURS = ['pass', 'merit', 'distinction', 'high_distinction', 'college_distinction'];
 export const HONOUR_LABEL = {
@@ -121,7 +121,7 @@ function randomBody(length = BODY_LENGTH) {
 
 export function formatCode(body, check) {
   const s = body + check;
-  return `WEC-${s.slice(0, 4)}-${s.slice(4, 8)}-${s.slice(8, 13)}`;
+  return `AIPC-${s.slice(0, 4)}-${s.slice(4, 8)}-${s.slice(8, 13)}`;
 }
 
 export function newVerificationCode() {
@@ -139,7 +139,7 @@ export function newVerificationCode() {
  * Normalise anything a human might type or paste, then check it.
  *
  * Accepts lower case, missing dashes, surrounding whitespace and a
- * missing or present WEC prefix — all of which are how people actually
+ * missing or present AIPC prefix — all of which are how people actually
  * copy a code off a printed certificate.
  *
  * It does NOT try to rescue O/0 or I/L/1. The alphabet excludes those
@@ -151,10 +151,13 @@ export function newVerificationCode() {
 export function parseCode(input) {
   if (typeof input !== 'string') return { ok: false, reason: 'malformed' };
   let cleaned = input.toUpperCase().replace(/[^0-9A-Z]/g, '');
-  // Strip the prefix only when doing so leaves exactly a code. W, E and
-  // C are all valid body characters, so an unconditional strip would eat
-  // three of them from a code that arrived without the prefix.
-  if (cleaned.length === BODY_LENGTH + 4 && cleaned.startsWith('WEC')) cleaned = cleaned.slice(3);
+  // Strip the prefix only when doing so leaves exactly a code. A, P and C
+  // are all valid body characters, so an unconditional strip could eat
+  // four of them from a code that arrived without the prefix. (I is not
+  // in the alphabet, so a bare code cannot in fact begin "AIPC" — the
+  // length guard is what makes that a fact rather than a coincidence to
+  // rely on, and it stays for the same reason it was written.)
+  if (cleaned.length === BODY_LENGTH + 5 && cleaned.startsWith('AIPC')) cleaned = cleaned.slice(4);
   if (cleaned.length !== BODY_LENGTH + 1) return { ok: false, reason: 'malformed' };
   const body = cleaned.slice(0, BODY_LENGTH);
   const check = cleaned[BODY_LENGTH];
@@ -378,7 +381,7 @@ export async function verifyCode(env, { code, channel = 'public', now = Date.now
   if (!parsed.ok) {
     await logVerification(env, { awardId: null, code: String(code || '').slice(0, 64), outcome: 'malformed', channel, now });
     return { outcome: 'malformed', award: null,
-      message: 'That is not a valid WEC verification code. Check it against the certificate — codes look like WEC-XXXX-XXXX-XXXXX.' };
+      message: 'That is not a valid AIPC verification code. Check it against the certificate — codes look like AIPC-XXXX-XXXX-XXXXX.' };
   }
 
   const award = await db(env)
@@ -391,7 +394,7 @@ export async function verifyCode(env, { code, channel = 'public', now = Date.now
   if (!award) {
     await logVerification(env, { awardId: null, code: parsed.code, outcome: 'not_found', channel, now });
     return { outcome: 'not_found', award: null,
-      message: 'No award in the WEC-LC Graduate Register carries that code.' };
+      message: 'No award in the AIPC Graduate Register carries that code.' };
   }
 
   const outcome = award.status === 'conferred' ? 'valid' : award.status;

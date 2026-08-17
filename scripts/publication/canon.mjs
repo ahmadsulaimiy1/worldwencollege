@@ -1,5 +1,5 @@
 /**
- * THE WORLDWIDE ENGLISH COLLEGE CANON.
+ * THE ALBALAGH INTERNATIONAL PREMIUM COLLEGE CANON.
  *
  * ────────────────────────────────────────────────────────────────────
  * THE DIFFERENCE BETWEEN A CATALOGUE AND A CANON
@@ -178,7 +178,7 @@ export const SLATE = [
   s('IV', 'The Prospectus', 24, [], [3, 22], [2]),
   s('IV', 'The Staff Induction Manual', 19, [55], [1, 17], []),
   s('IV', 'The Presentation Edition', 41, [1], [29], []),
-  s('IV', 'The WEC Journal of English Language Education', 36, [38], [37], [37]),
+  s('IV', 'The AIPC Journal of English Language Education', 36, [38], [37], [37]),
   s('IV', 'Conference Proceedings', 37, [36], [38], []),
   s('V', 'English for Business', 31, [46], [32], []),
   s('V', 'English for Academic Purposes', 34, [45], [45], [61]),

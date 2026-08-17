@@ -153,12 +153,12 @@ const ARABIC = /[؀-ۿ]/;
   // nobody has defined and nobody can confer — so the Arabic page
   // prints the title as it stands and explains it in Arabic beside it.
   const TITLES = {
-    1: 'English Aspirant of Worldwide English College',
-    2: 'English Candidate of Worldwide English College',
-    3: 'English Associate of Worldwide English College',
-    4: 'English Envoy of Worldwide English College',
-    5: 'English Orator of Worldwide English College',
-    6: 'English Laureate of Worldwide English College',
+    1: 'English Aspirant of Albalagh International Premium College',
+    2: 'English Candidate of Albalagh International Premium College',
+    3: 'English Associate of Albalagh International Premium College',
+    4: 'English Envoy of Albalagh International Premium College',
+    5: 'English Orator of Albalagh International Premium College',
+    6: 'English Laureate of Albalagh International Premium College',
   };
   const missing = LEVELS.filter((n) => !ar[n].includes(TITLES[n]));
   check('Every Arabic level page prints its award\'s official title unaltered',

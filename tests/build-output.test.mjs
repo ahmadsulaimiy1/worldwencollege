@@ -49,7 +49,7 @@ execFileSync(process.execPath, [path.join(ROOT, 'scripts/build.js')], { cwd: ROO
 
 // THE BUILD STAMP IS EXCLUDED FROM THIS COMPARISON, DELIBERATELY.
 //
-// Every page carries <meta name="wec-build"> holding the commit it was
+// Every page carries <meta name="aipc-build"> holding the commit it was
 // generated from, so a deploy can be proven against the live domain
 // rather than assumed (see the workflow's proof step). That value is by
 // definition a function of the COMMIT, not of the source — so the
@@ -62,7 +62,7 @@ execFileSync(process.execPath, [path.join(ROOT, 'scripts/build.js')], { cwd: ROO
 // of what it is for. Stripping more than this line would start hiding
 // real drift, so it strips exactly this line.
 const unstamp = (html) =>
-  html.replace(/<meta name="wec-build" content="[^"]*">/g, '<meta name="wec-build">');
+  html.replace(/<meta name="aipc-build" content="[^"]*">/g, '<meta name="aipc-build">');
 
 const drifted = [];
 for (const page of manifest) {

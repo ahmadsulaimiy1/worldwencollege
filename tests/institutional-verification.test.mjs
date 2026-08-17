@@ -29,7 +29,7 @@ const check = (label, cond, detail) => {
 
 const schema = readFileSync(`${ROOT}/sql/schema.sql`, 'utf8');
 const AWARD = {
-  awardTitle: 'English Envoy of Worldwide English College', postNominal: 'EnWEC',
+  awardTitle: 'English Envoy of Albalagh International Premium College', postNominal: 'EnAIPC',
   cefr: 'B2', credits: 20, tqtHours: 200,
 };
 
@@ -167,7 +167,7 @@ const state = (layer, id) => (layer.find((c) => c.id === id) || {}).state;
   const r = await V.institutionalVerification(env, { code: a.verification_code });
 
   check('The verification carries the award\'s official definition', !!r.definition);
-  check('...its official title', r.definition.officialTitle === 'English Envoy of Worldwide English College',
+  check('...its official title', r.definition.officialTitle === 'English Envoy of Albalagh International Premium College',
     r.definition.officialTitle);
   check('...the standing it confers', r.definition.standing === 'Trusted representative and communicator',
     r.definition.standing);
@@ -190,7 +190,7 @@ const state = (layer, id) => (layer.find((c) => c.id === id) || {}).state;
     r.found === false && r.outcome === 'not_found', JSON.stringify(r).slice(0, 100));
   check('...with no layers at all, rather than three layers of failure', r.layers === null);
 
-  const bad = await V.institutionalVerification(env, { code: 'WEC-XXXX-XXXX-XXXXX' });
+  const bad = await V.institutionalVerification(env, { code: 'AIPC-XXXX-XXXX-XXXXX' });
   check('A malformed code is distinguished from an unissued one',
     bad.found === false && bad.outcome === 'malformed', bad.outcome);
 }

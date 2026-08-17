@@ -83,7 +83,7 @@ async function open(url, viewport) {
   // Register is what turns it into evidence.
   const href = await page.getAttribute('.grad-award__meta a', 'href');
   check('...each linking to its own verification, so the claim is checkable',
-    /verify\.html\?code=WEC-/.test(href || ''), href);
+    /verify\.html\?code=AIPC-/.test(href || ''), href);
   check('...with the honour where one was awarded',
     (await page.locator('.grad-badge--honour').count()) >= 1);
 
@@ -96,7 +96,7 @@ async function open(url, viewport) {
     await page.locator('#transcript tr').count());
   check('...including levels still in progress',
     /In progress/.test(await textOf(page, '#transcript')));
-  check('Credits and qualification time are totalled', /WEC Credits/.test(await textOf(page, '#totals')));
+  check('Credits and qualification time are totalled', /AIPC Credits/.test(await textOf(page, '#totals')));
 
   // The decisive honesty assertion on this page.
   check('Sections the graduate did not share are NAMED, not silently dropped',
@@ -269,7 +269,7 @@ async function open(url, viewport) {
   check('The verification panel is shown', (await page.locator('#secVerify').isVisible()) === true);
   {
     const facts = await textOf(page, '#verifyFacts');
-    check('...carrying the Graduate Register number', /WEC-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{5}/.test(facts), facts.slice(0, 120));
+    check('...carrying the Graduate Register number', /AIPC-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{5}/.test(facts), facts.slice(0, 120));
     check('...the award and its post-nominal', /Post-nominal/.test(facts) && /CEFR level/.test(facts));
     check('...and the date it was conferred', /Conferred/.test(facts));
 
@@ -278,7 +278,7 @@ async function open(url, viewport) {
     // trust the panel exists to make unnecessary.
     const svg = page.locator('#qr svg');
     check('A QR code is rendered', (await svg.count()) === 1);
-    const printed = (facts.match(/WEC-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{5}/) || [])[0];
+    const printed = (facts.match(/AIPC-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{5}/) || [])[0];
     const label = (await svg.count()) ? await svg.getAttribute('aria-label') : '';
     check('...labelled with the same code the panel prints',
       !!printed && (label || '').includes(printed), `${label} vs ${printed}`);

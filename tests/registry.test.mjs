@@ -34,8 +34,8 @@ function freshEnv(n = 3) {
 
 const AWARD = {
   levelId: 3,
-  awardTitle: 'English Associate of Worldwide English College',
-  postNominal: 'AsWEC',
+  awardTitle: 'English Associate of Albalagh International Premium College',
+  postNominal: 'AsAIPC',
   cefr: 'B1',
   credits: 20,
   tqtHours: 200,
@@ -52,26 +52,26 @@ const AWARD = {
 
   const code = reg.newVerificationCode();
   check('...formatted for reading aloud from a printed certificate',
-    /^WEC-[A-Z2-9]{4}-[A-Z2-9]{4}-[A-Z2-9]{5}$/.test(code), code);
+    /^AIPC-[A-Z2-9]{4}-[A-Z2-9]{4}-[A-Z2-9]{5}$/.test(code), code);
   check('...and contain no glyph anyone confuses when transcribing',
-    !/[01OIL U]/.test(code.replace(/^WEC-/, '').replace(/-/g, '')), code);
+    !/[01OIL U]/.test(code.replace(/^AIPC-/, '').replace(/-/g, '')), code);
 
   check('A code round-trips through the parser', reg.parseCode(code).code === code);
   check('...in lower case', reg.parseCode(code.toLowerCase()).code === code);
   check('...without its dashes', reg.parseCode(code.replace(/-/g, '')).code === code);
   check('...with stray whitespace', reg.parseCode('  ' + code + ' ').code === code);
-  check('...and without the WEC prefix at all', reg.parseCode(code.replace(/^WEC-/, '')).code === code);
+  check('...and without the AIPC prefix at all', reg.parseCode(code.replace(/^AIPC-/, '')).code === code);
   // O/0 and I/L/1 are excluded from the alphabet so they never appear in
   // a real code. A code containing one was mistyped, and there is no
   // correct substitution — guessing could resolve to a stranger's award,
   // which is worse than asking the checker to look again.
   check('...but a code containing an excluded glyph is rejected, not guessed at',
-    reg.parseCode(code.replace(/^WEC-/, '').replace(/-/g, '').replace(/^./, '0')).ok === false);
+    reg.parseCode(code.replace(/^AIPC-/, '').replace(/-/g, '').replace(/^./, '0')).ok === false);
 
   // A typo must fail, not resolve to a stranger's award. That is the
   // whole reason for a check character — it is not security, it is
   // preventing the worst possible wrong answer.
-  const body = code.replace(/^WEC-/, '').replace(/-/g, '');
+  const body = code.replace(/^AIPC-/, '').replace(/-/g, '');
   // Swap the first ADJACENT PAIR THAT DIFFERS. Fixing on positions 3 and
   // 4 made this test flaky at roughly one run in thirty: when those two
   // characters happened to be identical the "swap" produced the original
@@ -82,10 +82,10 @@ const AWARD = {
   while (i < body.length - 1 && body[i] === body[i + 1]) i++;
   const swapped = body.slice(0, i) + body[i + 1] + body[i] + body.slice(i + 2);
   check('A transposed pair of characters is rejected, not silently resolved',
-    swapped !== body && reg.parseCode('WEC-' + swapped).ok === false, `${body} -> ${swapped}`);
+    swapped !== body && reg.parseCode('AIPC-' + swapped).ok === false, `${body} -> ${swapped}`);
 
   const altered = (body[0] === 'A' ? 'B' : 'A') + body.slice(1);
-  check('A single wrong character is rejected', reg.parseCode('WEC-' + altered).ok === false);
+  check('A single wrong character is rejected', reg.parseCode('AIPC-' + altered).ok === false);
 
   // EXHAUSTIVE, not sampled. This assertion exists because the original
   // check character was weighted mod 30 — the alphabet size — and
@@ -105,20 +105,20 @@ const AWARD = {
   {
     let substitutions = 0, missed = 0, transpositions = 0, missedSwaps = 0;
     for (let n = 0; n < 200; n++) {
-      const c = reg.newVerificationCode().replace(/^WEC-/, '').replace(/-/g, '');
+      const c = reg.newVerificationCode().replace(/^AIPC-/, '').replace(/-/g, '');
       const stem = c.slice(0, 12);
       for (let i = 0; i < 12; i++) {
         for (const ch of '23456789ABCDEFGHJKMNPQRSTVWXYZ') {
           if (ch === stem[i]) continue;
           substitutions++;
-          if (reg.parseCode('WEC-' + stem.slice(0, i) + ch + stem.slice(i + 1) + c[12]).ok) missed++;
+          if (reg.parseCode('AIPC-' + stem.slice(0, i) + ch + stem.slice(i + 1) + c[12]).ok) missed++;
         }
       }
       for (let i = 0; i < 11; i++) {
         if (stem[i] === stem[i + 1]) continue;
         transpositions++;
         const sw = stem.slice(0, i) + stem[i + 1] + stem[i] + stem.slice(i + 2);
-        if (reg.parseCode('WEC-' + sw + c[12]).ok) missedSwaps++;
+        if (reg.parseCode('AIPC-' + sw + c[12]).ok) missedSwaps++;
       }
     }
     check('EVERY single-character substitution is detected',
@@ -137,7 +137,7 @@ const AWARD = {
 {
   const env = freshEnv();
   const a1 = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, now: T0 });
-  check('An award is conferred with a verification code', /^WEC-/.test(a1.verification_code), a1.verification_code);
+  check('An award is conferred with a verification code', /^AIPC-/.test(a1.verification_code), a1.verification_code);
   check('...chained from the genesis marker as the first record',
     a1.prevDigest === reg.GENESIS, a1.prevDigest);
   check('...carrying a digest', /^[0-9a-f]{64}$/.test(a1.digest), a1.digest);
@@ -199,7 +199,7 @@ const AWARD = {
   const e = await throws(() => env.DB.prepare(
     `INSERT INTO awards (id,user_id,level_id,award_title,post_nominal,cefr,honour,credits,tqt_hours,
        holder_name,conferred_on,verification_code,status,public_consent,prev_digest,digest,created_at)
-     VALUES ('awd_forged','usr_2',3,'x','x','B1','pass',20,200,'Forged','2027-03-14','WEC-AAAA-AAAA-AAAAA',
+     VALUES ('awd_forged','usr_2',3,'x','x','B1','pass',20,200,'Forged','2027-03-14','AIPC-AAAA-AAAA-AAAAA',
        'conferred',0,'${reg.GENESIS}','deadbeef','2027-03-14T10:00:00.000Z')`).bind().run());
   check('A second award cannot chain from the same predecessor', !!e, e && e.message.slice(0, 60));
   check('...leaving the real chain intact', (await reg.verifyChain(env)).intact === true);
@@ -232,7 +232,7 @@ const AWARD = {
   check('The response carries no email, no marks, no internal identifiers',
     !keys.some((k) => /email|mark|score|progress|userId|user_id|id$/i.test(k)), keys.join(', '));
 
-  const mistyped = await reg.verifyCode(env, { code: 'WEC-AAAA-BBBB-CCCCC', now: T0 });
+  const mistyped = await reg.verifyCode(env, { code: 'AIPC-AAAA-BBBB-CCCCC', now: T0 });
   check('A well-formed but unknown code says so plainly',
     ['not_found', 'malformed'].includes(mistyped.outcome) && mistyped.award === null, mistyped.outcome);
   check('...with a message that tells the checker what to do',
@@ -285,7 +285,7 @@ const AWARD = {
   const a = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, now: T0 });
   await reg.verifyCode(env, { code: a.verification_code, now: T0 + 1000 });
   await reg.verifyCode(env, { code: a.verification_code, channel: 'qr', now: T0 + 2000 });
-  await reg.verifyCode(env, { code: 'WEC-ZZZZ-ZZZZ-ZZZZZ', now: T0 + 3000 });
+  await reg.verifyCode(env, { code: 'AIPC-ZZZZ-ZZZZ-ZZZZZ', now: T0 + 3000 });
 
   const summary = await reg.verificationSummary(env, { awardId: a.id });
   check('Verifications are counted for the award', summary.total === 2, summary.total);
@@ -329,14 +329,14 @@ const AWARD = {
 // worth recording.
 {
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 1, awardTitle: 'English Aspirant of Worldwide English College', postNominal: 'ApWEC', cefr: 'A1', now: T0 });
-  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 2, awardTitle: 'English Candidate of Worldwide English College', postNominal: 'CnWEC', cefr: 'A2', now: T0 + 1000 });
+  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 1, awardTitle: 'English Aspirant of Albalagh International Premium College', postNominal: 'ApAIPC', cefr: 'A1', now: T0 });
+  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 2, awardTitle: 'English Candidate of Albalagh International Premium College', postNominal: 'CnAIPC', cefr: 'A2', now: T0 + 1000 });
   await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 3, honour: 'merit', now: T0 + 2000 });
 
   const hist = await reg.awardHistory(env, { userId: 'usr_1' });
   check('A graduate\'s history holds every award, not only the highest', hist.awards.length === 3, hist.awards.length);
   check('...in level order', hist.awards.map((a) => a.level.id).join(',') === '1,2,3');
-  check('...naming the highest currently held', hist.highest.postNominal === 'AsWEC', hist.highest.postNominal);
+  check('...naming the highest currently held', hist.highest.postNominal === 'AsAIPC', hist.highest.postNominal);
   check('...with credits totalled across the Ascent', hist.creditsTotal === 60, hist.creditsTotal);
   check('...and qualification time totalled', hist.tqtHoursTotal === 600, hist.tqtHoursTotal);
 }
@@ -498,12 +498,12 @@ const AWARD = {
       VALUES ('usr_${i}','clerk','c_${i}','g${i}@example.com','student')`).bind().run();
   }
   const LEVELS = [
-    [1, 'English Aspirant of Worldwide English College', 'ApWEC', 'A1'],
-    [2, 'English Candidate of Worldwide English College', 'CnWEC', 'A2'],
-    [3, 'English Associate of Worldwide English College', 'AsWEC', 'B1'],
-    [4, 'English Fellow of Worldwide English College', 'FlWEC', 'B2'],
-    [5, 'English Scholar of Worldwide English College', 'ScWEC', 'C1'],
-    [6, 'English Laureate of Worldwide English College', 'LrWEC', 'C2'],
+    [1, 'English Aspirant of Albalagh International Premium College', 'ApAIPC', 'A1'],
+    [2, 'English Candidate of Albalagh International Premium College', 'CnAIPC', 'A2'],
+    [3, 'English Associate of Albalagh International Premium College', 'AsAIPC', 'B1'],
+    [4, 'English Fellow of Albalagh International Premium College', 'FlAIPC', 'B2'],
+    [5, 'English Scholar of Albalagh International Premium College', 'ScAIPC', 'C1'],
+    [6, 'English Laureate of Albalagh International Premium College', 'LrAIPC', 'C2'],
   ];
   for (let i = 0; i < LEVELS.length; i++) {
     const [levelId, awardTitle, postNominal, cefr] = LEVELS[i];
@@ -521,7 +521,7 @@ const AWARD = {
   check('The register lists award holders at every level, not only the highest',
     levelsShown.size === 6, [...levelsShown].join(','));
   check('...naming the award in full for each of them',
-    all.entries.every((e) => /of Worldwide English College$/.test(e.awardTitle)));
+    all.entries.every((e) => /of Albalagh International Premium College$/.test(e.awardTitle)));
   check('...and carrying the honour in words the reader understands',
     all.entries.every((e) => typeof e.honourLabel === 'string' && e.honourLabel.length > 0));
 

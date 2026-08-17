@@ -14,7 +14,7 @@
 -- load is the classic source of "passes locally, fails in production".
 --
 -- Apply with:
---   wrangler d1 execute wec-lc --remote --file=sql/migrations/001-recording-storage.sql
+--   wrangler d1 execute aipc --remote --file=sql/migrations/001-recording-storage.sql
 -- or via the deploy workflow's `apply_migrations` input.
 --
 -- NOT idempotent: ALTER TABLE ADD COLUMN errors if the column already

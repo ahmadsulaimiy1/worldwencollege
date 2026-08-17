@@ -1,7 +1,7 @@
--- WEC-LC — Real curriculum content seed: Level VI ("English Mastery
+-- AIPC — Real curriculum content seed: Level VI ("English Mastery
 -- Programme," C2) — the programme's capstone level. Authored per your
 -- Level VI directive: "not simply another language level... the
--- capstone of the WEC-LC academic journey," representing mastery
+-- capstone of the AIPC academic journey," representing mastery
 -- rather than merely proficiency. See docs/curriculum-framework.md
 -- (the six-level architecture, including this level's Executive
 -- Academic Objective and the recorded decision to re-theme its ten
@@ -14,8 +14,8 @@
 -- other level seed files — see any of their headers for why
 -- curriculum content is never baked into schema.sql. Apply after
 -- schema.sql:
---   wrangler d1 execute wec-lc --file=sql/schema.sql
---   wrangler d1 execute wec-lc --file=sql/seed-curriculum-level-6.sql
+--   wrangler d1 execute aipc --file=sql/schema.sql
+--   wrangler d1 execute aipc --file=sql/seed-curriculum-level-6.sql
 
 -- ---------------------------------------------------------------------
 -- Module 1: Mastery Diagnostic & Executive Leadership
@@ -1072,7 +1072,7 @@ EXTENSION: Write the 200-word abstract of your capstone as it would appear in a 
 ('itm_l6_m10_examquiz', 'unt_l6_m10', 3, 'quiz', 'Mastery Examination -- Grammar, Vocabulary & Judgement', NULL),
 
 ('itm_l6_m10_examassignment', 'unt_l6_m10', 4, 'assignment', 'Mastery Examination -- The Capstone',
-'INSTRUCTIONS: This is the final assessment of the WEC-LC programme. It has four parts, all on a single global challenge chosen by you from the domain of GLOBAL CHALLENGES AND SUSTAINABLE DEVELOPMENT -- a challenge with genuine trade-offs, on which informed people disagree.
+'INSTRUCTIONS: This is the final assessment of the AIPC programme. It has four parts, all on a single global challenge chosen by you from the domain of GLOBAL CHALLENGES AND SUSTAINABLE DEVELOPMENT -- a challenge with genuine trade-offs, on which informed people disagree.
 
 PART A -- THE PROFESSIONAL PORTFOLIO. Five pieces on the chosen challenge, in five DIFFERENT genres drawn from Level VI''s nine, totalling 3,000-3,500 words, with a contents page stating for each piece its genre, its intended reader and its register. The portfolio must demonstrate range: five pieces that read alike fail this part regardless of individual quality.
 
@@ -1084,7 +1084,7 @@ PART D -- THE SIX-LEVEL REFLECTIVE ANALYSIS. 700-900 words accounting for your d
 
 GRADING RUBRIC: (1) Grammatical accuracy -- accuracy sustained across five genres and three spoken formats, with each genre''s characteristic structures correctly deployed; errors, where they occur, do not impede meaning at any point. (2) Vocabulary range -- precise domain vocabulary across at least four of Level VI''s nine domains, with register consistently matched to reader; one variety of English chosen and held. (3) Task completion -- five distinct genres with contents page in Part A; controlling idea, stated limitation and falsification condition in Part B; premise challenge, honest non-answer, and reasoned defence or concession in Part C; per-level capabilities, Module 1 diagnostic revisited, and a specific remaining limitation in Part D. (4) Evidence & argument quality -- is every claim across the portfolio placed at a strength its evidence supports, and does the capstone position rest on evidence the learner can produce under defence? (5) Independent judgement -- the criterion that distinguishes mastery from proficiency: are the choices made inside each genre ones you have reasoned to and can defend under challenge, and is your position on the chosen challenge one you hold rather than one you have assembled? (6) Rhetorical effectiveness -- does each portfolio piece work on the reader it names, and does the presentation land its controlling idea with a mixed audience? (7) Discourse coherence & register -- do five pieces on one challenge read as five genuinely different genres addressed to five different readers, rather than one register retitled?
 
-A grade at or above the platform''s pass threshold marks Module 10, Level VI, and the WEC-LC programme complete.');
+A grade at or above the platform''s pass threshold marks Module 10, Level VI, and the AIPC programme complete.');
 
 INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json, correct_index) VALUES
 ('qq_l6_m10_1', 'itm_l6_m10_examquiz', 1, '(M1) "The board recommends that the chief executive ___ the findings before publication."', '["review","reviews","will review","reviewed"]', 0),

@@ -2,7 +2,7 @@
 //
 // PUBLIC, and necessarily so. This is the College's published set of
 // signing keys, and it is what lets an employer, a university or a
-// government verify a WEC credential in their own systems without asking
+// government verify a AIPC credential in their own systems without asking
 // the College anything. A verification that requires the issuer to
 // participate is not verification — it is a phone call.
 //

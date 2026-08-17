@@ -158,7 +158,7 @@ function roundTrip(text, opts) {
 
 // --- Round trips through the independent decoder ----------------------
 {
-  const url = 'https://www.worldwencollege.co.uk/verify.html?code=WEC-7K3M-QP2V-XJ4NR';
+  const url = 'https://www.worldwencollege.co.uk/verify.html?code=AIPC-7K3M-QP2V-XJ4NR';
   const { decoded } = roundTrip(url);
   check('A verification URL survives the round trip through an independent decoder',
     decoded === url, decoded);
@@ -205,7 +205,7 @@ function roundTrip(text, opts) {
 
 {
   // The College serves an Arabic site; a graduate's name is not ASCII.
-  const text = 'شهادة — Aisha Al-Rashid — WEC-7K3M-QP2V-XJ4NR';
+  const text = 'شهادة — Aisha Al-Rashid — AIPC-7K3M-QP2V-XJ4NR';
   const { decoded } = roundTrip(text, { level: 'Q' });
   check('Non-ASCII text survives as UTF-8', decoded === text, decoded);
 }
@@ -215,7 +215,7 @@ function roundTrip(text, opts) {
   // and interleaving is what turns a contiguous blot into recoverable
   // damage spread across blocks. This fails if the interleave order is
   // wrong even when a clean code reads perfectly.
-  const url = 'https://www.worldwencollege.co.uk/verify.html?code=WEC-7K3M-QP2V-XJ4NR';
+  const url = 'https://www.worldwencollege.co.uk/verify.html?code=AIPC-7K3M-QP2V-XJ4NR';
   const img = raster(encode(url, { level: 'Q' }));
   const x0 = Math.floor(img.width * 0.42);
   const y0 = Math.floor(img.height * 0.62);
@@ -248,7 +248,7 @@ function roundTrip(text, opts) {
   // Rasterise the SVG's OWN path data rather than the matrix, so this
   // measures what a browser would draw. A wrong coordinate in toSvg()
   // passes every matrix assertion above and still ships a broken image.
-  const url = 'https://www.worldwencollege.co.uk/verify.html?code=WEC-AB12-CD34-EF56G';
+  const url = 'https://www.worldwencollege.co.uk/verify.html?code=AIPC-AB12-CD34-EF56G';
   const svg = toSvg(url, { level: 'Q' });
   const total = encode(url, { level: 'Q' }).size + 8;
 

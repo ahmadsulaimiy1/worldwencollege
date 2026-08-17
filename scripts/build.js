@@ -339,7 +339,7 @@ function build() {
       BUILD_ID,
       EXTRA_CSS: extraCss,
       OG_LOCALE: lang === 'ar' ? 'ar_AR' : 'en_GB',
-      OG_SITE_NAME: lang === 'ar' ? 'الكلية العالمية للغة الإنجليزية' : 'WorldWide English College',
+      OG_SITE_NAME: lang === 'ar' ? 'كلية البلاغ الدولية المتميّزة' : 'Albalagh International Premium College',
     });
     const topbar = fill(partialFor('topbar', lang), { ALT_HREF: altHref });
     // The mobile drawer and the footer each carry their own language

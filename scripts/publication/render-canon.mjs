@@ -1,5 +1,5 @@
 /**
- * THE WORLDWIDE ENGLISH COLLEGE CANON — the living index, rendered.
+ * THE ALBALAGH INTERNATIONAL PREMIUM COLLEGE CANON — the living index, rendered.
  *
  * One volume that answers, for any reader: what should I open, what
  * goes with it, and what comes next. It is the only publication of the
@@ -32,7 +32,7 @@ import { dashboard, completion, INTEGRITY } from './coverage.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-const FAMILY = 'WEC Governance Series';
+const FAMILY = 'AIPC Governance Series';
 const FMT = formatFor('scholarly');
 const M = marginsFor('scholarly', 120);
 const ACCENT = familyColours().find((c) => c.family === FAMILY);
@@ -106,13 +106,13 @@ const divisionSection = (d) => {
 
 const LEGACY = legacyBlock({
   id: ID,
-  title: 'The Worldwide English College Canon',
+  title: 'The Albalagh International Premium College Canon',
   subtitle: 'The Canon Index',
   family: FAMILY,
-  audience: 'Every reader of a WEC Press publication, and every editor of a future one',
+  audience: 'Every reader of a AIPC Press publication, and every editor of a future one',
   subjects: ['Publishers and publishing — Catalogues', 'Educational publishing',
     'Library science — Collection development', 'Scholarly publishing'],
-  artefact: 'publication/WEC Canon Index.pdf',
+  artefact: 'publication/AIPC Canon Index.pdf',
   relatives: (ECO.find((r) => /Publishing Constitution/.test(r.name)) || {}).relatives || [],
   maturity: MATURITY.FIRST,
   ink: PAL.royalBlue, rule: PAL.platinum, soft: PAL.slateGrey, accent: ACCENT.hex,
@@ -120,7 +120,7 @@ const LEGACY = legacyBlock({
 });
 
 const html = `<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
-<title>The Worldwide English College Canon — The Canon Index</title>
+<title>The Albalagh International Premium College Canon — The Canon Index</title>
 <style>
 @page { size:${FMT.w}mm ${FMT.h}mm; margin:${M.head}mm ${M.fore}mm ${M.foot}mm ${M.gutter}mm; }
 @page :left  { margin-left:${M.fore}mm; margin-right:${M.gutter}mm; }
@@ -218,8 +218,8 @@ td.no { color:${PAL.deepCrimson}; font-weight:700; }
 
 <section class="title">
   <div>${crest({ size: 60, gold: PAL.royalGold, ink: 'none', mono: true })}</div>
-  <p class="eyebrow" style="margin-top:12pt">Worldwide English College · London Campus</p>
-  <h1>The Worldwide English College Canon</h1>
+  <p class="eyebrow" style="margin-top:12pt">Albalagh International Premium College · London Campus</p>
+  <h1>The Albalagh International Premium College Canon</h1>
   <div class="title__rule"></div>
   <p class="title__sub">The Canon Index: five divisions, every title, and what to read before,
     alongside and after each of them.</p>
@@ -485,7 +485,7 @@ const exe = process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-li
 const browser = await chromium.launch(existsSync(exe) ? { executablePath: exe } : {});
 const page = await browser.newPage();
 await page.setContent(html, { waitUntil: 'load' });
-const out = path.join(ROOT, 'publication', 'WEC Canon Index.pdf');
+const out = path.join(ROOT, 'publication', 'AIPC Canon Index.pdf');
 await page.pdf({
   path: out,
   width: `${FMT.w}mm`,
@@ -496,7 +496,7 @@ await page.pdf({
   headerTemplate: '<div></div>',
   footerTemplate: `<div style="font:400 6.6pt Calibri,Arial,sans-serif;color:${PAL.slateGrey};`
     + `width:100%;padding:0 ${M.gutter}mm;display:flex;justify-content:space-between;">`
-    + '<span>The Worldwide English College Canon</span><span class="pageNumber"></span></div>',
+    + '<span>The Albalagh International Premium College Canon</span><span class="pageNumber"></span></div>',
   margin: { top: `${M.head}mm`, bottom: `${M.foot}mm`,
     left: `${M.gutter}mm`, right: `${M.fore}mm` },
   tagged: true,

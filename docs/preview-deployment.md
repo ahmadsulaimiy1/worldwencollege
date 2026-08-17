@@ -1,4 +1,4 @@
-# WEC-LC — Internal Preview Deployment
+# AIPC — Internal Preview Deployment
 
 *How to deploy the current build to a preview environment, what will
 work, and what will not. Written because the build is verified and
@@ -9,11 +9,11 @@ environment** — see § 1.*
 
 ## 0. Status — deployed
 
-**Live at https://preview.wec-lc.pages.dev** (3 August 2026, via
+**Live at https://preview.aipc.pages.dev** (3 August 2026, via
 `.github/workflows/deploy-cloudflare.yml`, run #2).
 
-- Pages project `wec-lc`, branch `preview`, 207 files + Functions bundle
-- D1 `wec-lc` (`531b5b52-…`) created and seeded: 31 tables, 1.74 MB
+- Pages project `aipc`, branch `preview`, 207 files + Functions bundle
+- D1 `aipc` (`531b5b52-…`) created and seeded: 31 tables, 1.74 MB
 - Verification ran before the deploy and passed: static build, backend
   suite, curriculum consistency, route audit, Listening Lab, auth
   contract
@@ -141,7 +141,7 @@ API token. Done once in the dashboard:
      `claude/worldwide-english-college-site-ezy1zo` publishes as a
      **preview** deployment with its own URL, which is what an internal
      preview should be.
-3. **Settings → Bindings → D1 database**: create `wec-lc`
+3. **Settings → Bindings → D1 database**: create `aipc`
    (Storage & Databases → D1), then bind it with the variable name
    **`DB`**. The binding name is not cosmetic — every Function reads
    `env.DB`.
@@ -159,7 +159,7 @@ After that every push to the connected branch redeploys automatically.
 npx wrangler login
 
 # 2. Create the database and record the id it prints
-npx wrangler d1 create wec-lc
+npx wrangler d1 create aipc
 #    -> put that id into wrangler.toml's database_id
 
 # 3. Seed it — see § 3.3
@@ -170,7 +170,7 @@ npx wrangler pages deploy . --branch=preview
 ```
 
 Step 4 prints the preview URL, of the form
-`https://<hash>.wec-lc.pages.dev`.
+`https://<hash>.aipc.pages.dev`.
 
 **Deploy to `--branch=preview`, not production.** Cloudflare treats any
 branch other than the production branch as a preview deployment with
@@ -188,10 +188,10 @@ it needs.
 ### 3.3 Seeding — order matters
 
 ```bash
-npx wrangler d1 execute wec-lc --remote --file=sql/schema.sql
+npx wrangler d1 execute aipc --remote --file=sql/schema.sql
 for n in 1 2 3 4 5 6; do
-  npx wrangler d1 execute wec-lc --remote --file=sql/seed-curriculum-level-$n.sql
-  npx wrangler d1 execute wec-lc --remote --file=sql/seed-audio-level-$n.sql
+  npx wrangler d1 execute aipc --remote --file=sql/seed-curriculum-level-$n.sql
+  npx wrangler d1 execute aipc --remote --file=sql/seed-audio-level-$n.sql
 done
 ```
 
@@ -224,7 +224,7 @@ The **publishable** key is not a secret and is not set this way. It is
 one line in `js/auth-config.js`:
 
 ```js
-window.WEC_LC_AUTH = { clerkPublishableKey: 'pk_live_...' };
+window.AIPC_AUTH = { clerkPublishableKey: 'pk_live_...' };
 ```
 
 Either commit it or let the CI workflow write it from the
@@ -445,5 +445,5 @@ scans every file the site serves for every placeholder name and fails
 the build if one appears. Locally:
 
 ```bash
-npx wrangler d1 execute wec-lc --local --file=sql/seed-demo-people.sql
+npx wrangler d1 execute aipc --local --file=sql/seed-demo-people.sql
 ```

@@ -113,7 +113,7 @@ check('No public page uses "unit" — the word means three different things and 
 // with.
 const iefcHead = iefc.slice(0, iefc.indexOf('</section>'));
 check('The IEFC page leads with academic workload, not a lesson count',
-  /WEC Credits/.test(iefcHead) && /Total Qualification Time/.test(iefcHead), 'headline metrics are not workload');
+  /AIPC Credits/.test(iefcHead) && /Total Qualification Time/.test(iefcHead), 'headline metrics are not workload');
 check('...and no longer leads with a raw content count',
   !/Lessons Total|Units Total|Lessons Per Level|Units Per Level/i.test(iefcHead));
 
@@ -125,7 +125,7 @@ check('...with the commitment to replace it with measured hours',
   /measured from real time-on-task/i.test(iefc));
 check('...and does NOT claim C2 is reachable in that time from no English',
   /not a claim that CEFR C2 can be reached/i.test(iefc));
-check('The WEC Credit is declared internal, not ECTS or CATS',
+check('The AIPC Credit is declared internal, not ECTS or CATS',
   /not ECTS or CATS/i.test(iefc) && /no transfer entitlement/i.test(iefc));
 
 // ── THE GAP THIS CHECK WAS MISSING ──
@@ -324,7 +324,7 @@ check('...and the design figure is one the framework actually specifies',
 // were scanned by exactly one check, the retired-word scan, whose regex
 // is \bunits?\b and therefore matches no Arabic at all.
 //
-// So while the English site was migrated to WEC Credits and Total
+// So while the English site was migrated to AIPC Credits and Total
 // Qualification Time, the Arabic site went on publishing the retired
 // scheme in full: "سبعمائة وعشرون وحدة تعليمية" in the lede, 120 units
 // per level and 720 in total on two pages, the units column in the fee

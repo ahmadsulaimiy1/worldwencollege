@@ -1,4 +1,4 @@
-// WEC-LC — Finance dashboard client-side auth + data guard.
+// AIPC — Finance dashboard client-side auth + data guard.
 //
 // Included only on finance/preview/index.html. Page-specific layer on
 // top of the shared js/portal-guard.js shell (also used by
@@ -12,7 +12,7 @@
 // server-side (requireStaff(), functions/_lib/auth/session.js)
 // regardless of what this script does.
 (function () {
-  window.WEC_LC_guardPortal({
+  window.AIPC_guardPortal({
     signOutRedirect: '/',
     onAuthenticated: authorizeAndLoad,
   });
@@ -134,7 +134,7 @@
 
   function showAccessDenied() {
     var main = document.getElementById('main');
-    if (main) main.innerHTML = '<div class="empty-state"><h3>Access restricted</h3><p>This dashboard is limited to WEC-LC staff accounts. Your account is signed in but isn\'t marked as staff.</p></div>';
+    if (main) main.innerHTML = '<div class="empty-state"><h3>Access restricted</h3><p>This dashboard is limited to AIPC staff accounts. Your account is signed in but isn\'t marked as staff.</p></div>';
   }
 
   function showLoadError() {

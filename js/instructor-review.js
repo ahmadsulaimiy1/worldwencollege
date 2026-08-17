@@ -1,4 +1,4 @@
-/* WEC-LC — Instructor pronunciation review workspace.
+/* AIPC — Instructor pronunciation review workspace.
 
    Scores a learner recording against the SPECIFIC drill targets they
    were working on, which the queue supplies with each item. Reviewing
@@ -27,7 +27,7 @@
   // and a staff role (403); load() distinguishes the two for the
   // reviewer.
   function api(path, opts) {
-    return window.WEC_LC_apiAuth.headers().then(function (headers) {
+    return window.AIPC_apiAuth.headers().then(function (headers) {
       return fetch(path, Object.assign({}, opts || {}, { headers: headers }));
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (b) {
@@ -199,11 +199,11 @@
     $('#levelFilter').addEventListener('change', load);
     // Same guard-then-load sequence as the Listening Lab — see the note
     // at the bottom of js/listening-lab.js.
-    var guarded = window.WEC_LC_guardPortal({
+    var guarded = window.AIPC_guardPortal({
       signOutRedirect: '/',
       shellSelector: '.lab-body',
       onAuthenticated: function (clerk, done) {
-        window.WEC_LC_apiAuth.attach(clerk);
+        window.AIPC_apiAuth.attach(clerk);
         done();
         load();
       },

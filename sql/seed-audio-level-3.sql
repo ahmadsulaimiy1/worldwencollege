@@ -1,4 +1,4 @@
--- WEC-LC — Audio curriculum seed: Level III (Intermediate, B1).
+-- AIPC — Audio curriculum seed: Level III (Intermediate, B1).
 --
 -- See sql/seed-audio-level-1.sql and docs/lms-architecture.md
 -- § The audio layer for the design.

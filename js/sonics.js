@@ -43,7 +43,7 @@
 (() => {
   'use strict';
 
-  const KEY = 'wec-sonics';
+  const KEY = 'aipc-sonics';
   const PEAK = 0.06;
 
   // Default OFF. The alternative — default on, mute available — was
@@ -101,7 +101,7 @@
   const play = (name) => { if (enabled && VOICES[name]) { try { VOICES[name](); } catch { /* no device */ } } };
   // Exposed so other modules (the Listening Lab, the level quiz) can
   // use the same palette rather than inventing a second one.
-  window.WECSonics = { play, get enabled() { return enabled; } };
+  window.AIPCSonics = { play, get enabled() { return enabled; } };
 
   /** Which voice an element answers with. First match wins. */
   function voiceFor(el) {

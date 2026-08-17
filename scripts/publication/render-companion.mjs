@@ -389,7 +389,7 @@ p { margin:0 0 5pt; }
     ${esc(LV ? `Level ${LV.roman} — ${LV.name}` : `Level ${LEVEL}`)}<br>
     ${LESSONS.length} lessons · ${panelCount} panels<br>
     ${esc(ID.edition || 'First edition')}<br>
-    Worldwide English College Press
+    Albalagh International Premium College Press
   </div>
 </section>
 

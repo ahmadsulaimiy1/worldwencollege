@@ -149,7 +149,7 @@ INSERT OR IGNORE INTO programme_claims
    'Extended through authentic assessment',
    'evidenced',
    'Sixty assignments, one per module, each marked by a person against a published rubric '
-   || 'normalised to the WEC-LC rubric policy — not auto-scored. Spoken work is captured as '
+   || 'normalised to the AIPC rubric policy — not auto-scored. Spoken work is captured as '
    || 'learner recordings and reviewed in the instructor workspace.',
    NULL),
 

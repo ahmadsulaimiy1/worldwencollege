@@ -1,4 +1,4 @@
-# WEC-LC — Level III, Module 8: Travel & Culture
+# AIPC — Level III, Module 8: Travel & Culture
 
 *Part of `docs/curriculum-level-3-intermediate.md`'s Level III build-out.*
 

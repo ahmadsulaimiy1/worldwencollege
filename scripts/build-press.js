@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * WEC PRESS AND THE LIBRARY — six pages.
+ * AIPC PRESS AND THE LIBRARY — six pages.
  *
  * ────────────────────────────────────────────────────────────────────
  * WHAT MAKES THESE PAGES POSSIBLE
@@ -72,8 +72,8 @@ const AUDIENCE = {
   'IEFC Pronunciation Handbook': 'Teachers',
   'IEFC Production Specifications': 'Internal',
   'IEFC Internal Editorial Bible': 'Internal',
-  'WEC Canon Index': 'Institutional',
-  'WEC Press — The Publishing Constitution': 'Institutional',
+  'AIPC Canon Index': 'Institutional',
+  'AIPC Press — The Publishing Constitution': 'Institutional',
 };
 for (const f of volumes) {
   if (!AUDIENCE[titleOf(f)]) {
@@ -124,21 +124,21 @@ const requestBlock = `<div class="callout">
       <span class="callout__label">How to obtain a volume</span>
       <p>Nothing is published for download on this site. Volumes are typeset for print and three
         of them are too large to serve here at all. Request any of them from
-        <a href="mailto:info@worldwencollege.co.uk?subject=WEC%20Press%20%E2%80%94%20volume%20request">info@worldwencollege.co.uk</a>,
+        <a href="mailto:info@worldwencollege.co.uk?subject=AIPC%20Press%20%E2%80%94%20volume%20request">info@worldwencollege.co.uk</a>,
         naming the title. They are supplied without charge to teachers, reviewers and anyone
         assessing the College&rsquo;s academic work.</p>
     </div>`;
 
 const PAGES = {};
 
-// 1 · WEC PRESS ───────────────────────────────────────────────────────
+// 1 · AIPC PRESS ───────────────────────────────────────────────────────
 PAGES.press = {
   slug: 'press', output: 'press/index.html', file: 'press.html',
   contents: true,
-  title: 'WEC Press &mdash; Worldwide English College',
-  description: 'The publishing arm of Worldwide English College: what it has produced, the rule '
+  title: 'AIPC Press &mdash; Albalagh International Premium College',
+  description: 'The publishing arm of Albalagh International Premium College: what it has produced, the rule '
     + 'it publishes under, and the review it has not yet had.',
-  body: `${hero('WEC Press', 'The College&rsquo;s publishing arm.',
+  body: `${hero('AIPC Press', 'The College&rsquo;s publishing arm.',
     `${publicVolumes.length} volumes produced, typeset for print, composed from the same record `
     + 'the programme is taught from. This is the part of the College where the work is finished '
     + 'and can be counted rather than described.',
@@ -277,7 +277,7 @@ ${card('What it cannot catch', 'Being wrong in a way the authors share', 'A shar
     <div class="grid grid--3">
 ${card('The post', 'Academic Reviewer', 'MA TESOL, Applied Linguistics or equivalent, with assessment experience. A defined number of days reading a defined list. It can be a consultancy engagement rather than a salaried role, and it is the appointment that would change more than any other.')}
 ${card('The separation', 'Author is not reviewer, ever', 'The College treats this as non-negotiable. Appointing an author to review their own work would produce a page saying &ldquo;reviewed&rdquo; and change nothing about the volumes, which is worse than the present position because it would be false.')}
-${card('The invitation', 'The volumes are offered for review', 'Any suitably qualified reader willing to review a volume is offered a copy. Write to <a href="mailto:info@worldwencollege.co.uk?subject=Review%20of%20a%20WEC%20Press%20volume">info@worldwencollege.co.uk</a>. Criticism is the point of the exercise, not a risk of it.')}
+${card('The invitation', 'The volumes are offered for review', 'Any suitably qualified reader willing to review a volume is offered a copy. Write to <a href="mailto:info@worldwencollege.co.uk?subject=Review%20of%20a%20AIPC%20Press%20volume">info@worldwencollege.co.uk</a>. Criticism is the point of the exercise, not a risk of it.')}
     </div>
   </div>
 </section>
@@ -360,7 +360,7 @@ ${darkCard('Unsupported', 'Three the curriculum does not justify', 'Where a prop
     </div>
     <div class="callout">
       <span class="callout__label">No licensed collection</span>
-      <p>WEC-LC holds no subscriptions to academic databases, no licensed journal access, no
+      <p>AIPC holds no subscriptions to academic databases, no licensed journal access, no
         e-book collection and no interlibrary arrangement. A student enrolling here does not gain
         access to a research library. &ldquo;Digital library access&rdquo; on this site means the
         College&rsquo;s own materials, and it is worth being exact about that rather than letting
@@ -405,10 +405,10 @@ ${cta('See what has been produced.', 'The Catalogue', '/press/catalogue/', 'The 
 // 2 · CATALOGUE ───────────────────────────────────────────────────────
 PAGES.catalogue = {
   slug: 'press-catalogue', output: 'press/catalogue/index.html', file: 'press-catalogue.html',
-  title: 'Catalogue &mdash; WEC Press',
-  description: `The ${publicVolumes.length} volumes WEC Press has produced, who each is for, and `
+  title: 'Catalogue &mdash; AIPC Press',
+  description: `The ${publicVolumes.length} volumes AIPC Press has produced, who each is for, and `
     + 'how to obtain one.',
-  body: `${hero('WEC Press', 'The catalogue.',
+  body: `${hero('AIPC Press', 'The catalogue.',
     'Every title below is a volume that has been produced. Nothing planned, in preparation or '
     + 'forthcoming appears here &mdash; a catalogue that lists intentions is a prospectus '
     + 'wearing a catalogue&rsquo;s clothes.')}
@@ -496,7 +496,7 @@ const arRequestBlock = `<div class="callout">
       <span class="callout__label">كيف تحصل على مجلد</span>
       <p>لا شيء يُنشر للتنزيل على هذا الموقع. المجلدات منضَّدة للطباعة وثلاثة منها أكبر من أن
         تُقدَّم هنا أصلًا. اطلب أيًا منها من
-        <a href="mailto:info@worldwencollege.co.uk?subject=WEC%20Press%20%E2%80%94%20volume%20request" dir="ltr">info@worldwencollege.co.uk</a>
+        <a href="mailto:info@worldwencollege.co.uk?subject=AIPC%20Press%20%E2%80%94%20volume%20request" dir="ltr">info@worldwencollege.co.uk</a>
         مسمّيًا العنوان. وتُقدَّم بلا مقابل للمعلمين والمراجعين وكل من يقيّم عمل الكلية
         الأكاديمي.</p>
     </div>`;
@@ -504,7 +504,7 @@ const arRequestBlock = `<div class="callout">
 PAGES.pressAr = {
   slug: 'press-ar', output: 'ar/press/index.html', file: 'press.ar.html',
   contents: true, lang: 'ar', dir: 'rtl', altHref: '/press/',
-  title: 'مطبعة الكلية — الكلية العالمية للغة الإنجليزية',
+  title: 'مطبعة الكلية — كلية البلاغ الدولية المتميّزة',
   description: `${publicVolumes.length} مجلدًا منتَجًا، ومعايير الدار، وحقيقة المراجعة، وبرنامج النشر، والمكتبة — بصدقٍ كامل.`,
   body: `<section class="section--dark section-pad">
   <div class="container">
@@ -625,7 +625,7 @@ ${card('وما لا يستطيع اصطياده', 'الخطأ الذي يشتر�
     <div class="grid grid--3" style="margin-top:26px">
 ${card('المنصب', 'مراجع أكاديمي', 'ماجستير في تدريس الإنجليزية أو اللسانيات التطبيقية أو ما يعادلهما، مع خبرة تقييم. أيام محددة لقراءة قائمة محددة. يمكن أن يكون ارتباطًا استشاريًا، وهو التعيين الذي سيغيّر أكثر من أي تعيين آخر.')}
 ${card('الفصل', 'المؤلف ليس المراجع، أبدًا', 'تعدّه الكلية غير قابل للتفاوض. تعيين مؤلف لمراجعة عمله ينتج صفحةً تقول «رُوجع» ولا يغيّر شيئًا في المجلدات، وهو أسوأ من الوضع الحالي لأنه كاذب.')}
-${card('الدعوة', 'المجلدات معروضة للمراجعة', 'كل قارئ مؤهل مستعد لمراجعة مجلد يُعرض عليه نسخة. اكتب إلى <a href="mailto:info@worldwencollege.co.uk?subject=Review%20of%20a%20WEC%20Press%20volume" dir="ltr">info@worldwencollege.co.uk</a>. النقد غاية التمرين لا خطره.')}
+${card('الدعوة', 'المجلدات معروضة للمراجعة', 'كل قارئ مؤهل مستعد لمراجعة مجلد يُعرض عليه نسخة. اكتب إلى <a href="mailto:info@worldwencollege.co.uk?subject=Review%20of%20a%20AIPC%20Press%20volume" dir="ltr">info@worldwencollege.co.uk</a>. النقد غاية التمرين لا خطره.')}
     </div>
     <div class="grid grid--2" style="margin-top:26px">
 ${darkCard('سيُنشر', 'ما تقلبه المراجعة، بوصفه قلبًا', 'ستُسجَّل النتائج على المجلدات التي تخصها، على مرأى. مراجعةٌ تؤكد نتائجها المؤلفَ دائمًا مراجعةٌ لا يقرؤها أحد فعلًا.')}

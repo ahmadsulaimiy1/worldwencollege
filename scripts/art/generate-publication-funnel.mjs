@@ -62,7 +62,7 @@ const COPY = {
     gateSub: 'Every volume was reviewed, if at all, by the people who wrote it.',
     title: 'From the register to the shelf, and the gate at the end of it',
     desc:
-      'A funnel in three stages. The register behind WEC Press holds seventy-four candidate resources. '
+      'A funnel in three stages. The register behind AIPC Press holds seventy-four candidate resources. '
       + 'Eleven volumes have been produced for readers, composed, typeset and proofed, with two further volumes produced for internal use. '
       + 'The narrowing between seventy-four and eleven is deliberate: the Press publishes under a standing rule never to publish in order to raise the count, '
       + 'and two planned titles have been formally withdrawn under that rule with the withdrawal recorded rather than forgotten. '

@@ -1,6 +1,6 @@
 # Faculty register
 
-The record of who teaches and leads academically at WEC-LC. This file
+The record of who teaches and leads academically at AIPC. This file
 is the **single source of truth** for the roster: `/faculty/` is
 published from it, and `tests/faculty-roster.test.mjs` fails the build
 if the page and this file ever disagree — in either direction.

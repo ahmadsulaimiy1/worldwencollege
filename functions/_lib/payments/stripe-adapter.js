@@ -45,7 +45,7 @@ export const stripeAdapter = {
         price_data: {
           currency: currency.toLowerCase(),
           unit_amount: amountMinor,
-          product_data: { name: metadata?.description || 'WEC-LC — IEFC tuition' },
+          product_data: { name: metadata?.description || 'AIPC — IEFC tuition' },
         },
       }],
     });

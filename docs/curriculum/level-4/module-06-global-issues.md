@@ -1,4 +1,4 @@
-# WEC-LC — Level IV, Module 6: Global Issues
+# AIPC — Level IV, Module 6: Global Issues
 
 *Part of `docs/curriculum-level-4-upper-intermediate.md`'s Level IV build-out.*
 

@@ -845,7 +845,7 @@ export const AUDIT = [
       + 'routes and the pronunciation strand. Faculty editing the curriculum had been the only '
       + 'readers unable to see the figure showing no competency mapping.',
     observation: 'THIS HEADING FAILED ITS FIRST AUDIT AND IS THE REASON THE AUDIT WAS WORTH '
-      + 'RUNNING. The English site had been migrated to WEC Credits and Total Qualification Time; '
+      + 'RUNNING. The English site had been migrated to AIPC Credits and Total Qualification Time; '
       + 'the Arabic site had not, and went on publishing the retired scheme in full — 720 learning '
       + 'units in the lede, in two stat rows, in the fee table and twice in the FAQ — together '
       + 'with per-unit pricing at $26.39, which the English pages had removed precisely because it '

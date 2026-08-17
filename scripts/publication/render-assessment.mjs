@@ -292,7 +292,7 @@ ul.q__c li.is-key { color:${PAL.midnightNavy}; font-weight:700; }
 
 <section class="title">
   <div>${crest({ size: 54, gold: PAL.royalGold, ink: 'none', mono: true })}</div>
-  <p class="eyebrow" style="margin-top:12pt">Worldwide English College · London Campus</p>
+  <p class="eyebrow" style="margin-top:12pt">Albalagh International Premium College · London Campus</p>
   <h1>The IEFC Assessment Handbook</h1>
   <div class="title__rule"></div>
   <p class="title__sub">Every assignment, every rubric and every question in the programme, with

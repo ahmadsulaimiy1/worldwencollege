@@ -1,4 +1,4 @@
--- WEC-LC — Real curriculum content seed: Level III ("Intermediate
+-- AIPC — Real curriculum content seed: Level III ("Intermediate
 -- Programme," B1). Authored per your Level III directive — "an
 -- important academic transition... students are no longer simply
 -- learning English, they are becoming independent users of the
@@ -13,8 +13,8 @@
 -- other level seed files — see any of their headers for why
 -- curriculum content is never baked into schema.sql. Apply after
 -- schema.sql:
---   wrangler d1 execute wec-lc --file=sql/schema.sql
---   wrangler d1 execute wec-lc --file=sql/seed-curriculum-level-3.sql
+--   wrangler d1 execute aipc --file=sql/schema.sql
+--   wrangler d1 execute aipc --file=sql/seed-curriculum-level-3.sql
 
 -- ---------------------------------------------------------------------
 -- Module 1: Present Perfect & Life Experience

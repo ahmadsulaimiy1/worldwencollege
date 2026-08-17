@@ -84,7 +84,7 @@ export function canonicalPayload(subjectType, subjectId, claims) {
     }
     return v;
   };
-  return `WEC-CRED-v1␟${subjectType}␟${subjectId}␟${JSON.stringify(walk(claims))}`;
+  return `AIPC-CRED-v1␟${subjectType}␟${subjectId}␟${JSON.stringify(walk(claims))}`;
 }
 
 function newKid(now) {
@@ -93,7 +93,7 @@ function newKid(now) {
   const stamp = new Date(now).toISOString().slice(0, 10).replace(/-/g, '');
   const rand = [...crypto.getRandomValues(new Uint8Array(4))]
     .map((b) => b.toString(16).padStart(2, '0')).join('');
-  return `wec-${stamp}-${rand}`;
+  return `aipc-${stamp}-${rand}`;
 }
 
 /**
@@ -260,11 +260,11 @@ export async function publicJwks(env) {
       // Non-standard members, and deliberately present. A verifier
       // needs to know a key is revoked, and standards-purity that
       // withholds that is not a service to anybody.
-      wec_status: k.status,
-      wec_mode: k.backend === 'development' ? 'development' : 'production',
-      wec_activated_at: k.activated_at,
-      wec_retired_at: k.retired_at,
-      wec_revoked_reason: k.revoked_reason,
+      aipc_status: k.status,
+      aipc_mode: k.backend === 'development' ? 'development' : 'production',
+      aipc_activated_at: k.activated_at,
+      aipc_retired_at: k.retired_at,
+      aipc_revoked_reason: k.revoked_reason,
     })),
     mode: results.some((k) => k.status === 'active' && k.backend === 'development') ? 'development' : 'production',
     notice: results.some((k) => k.status === 'active' && k.backend === 'development')

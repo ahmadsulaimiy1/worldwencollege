@@ -1,4 +1,4 @@
-// WEC-LC — client-side auth configuration.
+// AIPC — client-side auth configuration.
 //
 // This is the ONE line that needs a real value at deployment. It is safe
 // to ship publicly: Clerk publishable keys are not secret (they are
@@ -9,6 +9,6 @@
 // Left empty, every portal page that checks this config falls back to
 // its static illustrative-preview behavior with no auth calls attempted
 // — see js/portal-auth.js.
-window.WEC_LC_AUTH = {
+window.AIPC_AUTH = {
   clerkPublishableKey: ''
 };

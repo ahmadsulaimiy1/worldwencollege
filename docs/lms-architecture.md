@@ -1,7 +1,7 @@
-# WEC-LC — Learning Management System Architecture
+# AIPC — Learning Management System Architecture
 
 *Companion to `technical-architecture.md` and `payments-architecture.md`.
-Authoritative record of Executive Decision #4: WEC-LC develops and
+Authoritative record of Executive Decision #4: AIPC develops and
 owns its proprietary LMS as a long-term strategic institutional asset,
 rather than integrating a third-party product. This document
 supersedes `docs/master-roadmap.md`'s original Phase 9 buy-don't-build
@@ -13,14 +13,14 @@ guidance.*
 
 ## What "proprietary" means here, concretely
 
-Not a rebuilt Canvas/Moodle. The scope is exactly what WEC-LC's own
+Not a rebuilt Canvas/Moodle. The scope is exactly what AIPC's own
 six-level, sequential CEFR programme needs: ordered content within a
 level, quizzes and assignments that produce real completion data,
 scheduled live classes, and a progression mechanism that ties
 completion to Executive Decision #1's progressive full-programme
 unlock. Where an external building block does the job better than a
 from-scratch one would (video hosting, live-class join links), the LMS
-uses it — see § Deliberate MVP scope below — but the platform WEC-LC
+uses it — see § Deliberate MVP scope below — but the platform AIPC
 students and staff actually interact with, and the data model behind
 it, is fully owned.
 
@@ -99,7 +99,7 @@ could drift out of sync with billing.
 
 Staff bypass this for grading (`gradeAssignment()`), the same
 `requireStaff()` boundary used throughout the platform
-(`functions/_lib/auth/session.js`) — role lives on WEC-LC's own
+(`functions/_lib/auth/session.js`) — role lives on AIPC's own
 `users` row, not anything the auth provider asserts.
 
 ---
@@ -138,7 +138,7 @@ control (enrolled vs. not), quiz scoring and its pass threshold,
 retake history without regression, assignment submission → grading →
 completion, and the live-session listing. Test fixture content
 ("Unit 1", "2 + 2 = ?") is placeholder mechanism-testing data, not
-real WEC-LC curriculum, and lives only in the test file — nothing
+real AIPC curriculum, and lives only in the test file — nothing
 resembling it is seeded into the shipped schema.
 
 **Not yet built in Milestone 1, deliberately deferred:**
@@ -272,7 +272,7 @@ consistent with the "curriculum drives platform" principle below.
 
 **Level V ("Advanced Programme," C1) is now also complete** — all 10
 modules built per your Level V Executive Academic Objective:
-establishing WEC-LC as a premium international English institution,
+establishing AIPC as a premium international English institution,
 moving learners beyond language competence into intellectual
 communication. Critical evaluation of methodology, argument quality,
 assumptions, evidence, credibility, and rhetorical strategy (a further
@@ -288,7 +288,7 @@ negotiation, a media interview, the flagship 6-8 minute research-
 informed presentation with active Q&A facilitation, a crisis-
 communication simulation, a panel discussion under genuine challenge,
 and an executive briefing under time pressure); and a distinctive,
-WEC-LC-authored module sequence (precision of language → persuasion →
+AIPC-authored module sequence (precision of language → persuasion →
 cross-cultural/media context → scrutiny → voice) rather than an
 imitation of any single existing programme. See
 `docs/curriculum-level-5-advanced.md` (module map, § What's different
@@ -311,7 +311,7 @@ the "curriculum drives platform" principle below.
 
 **Level VI ("English Mastery Programme," C2) is now also complete, and
 with it the entire six-level curriculum** — all 10 modules built per
-your Level VI directive, which asked for the capstone of the WEC-LC
+your Level VI directive, which asked for the capstone of the AIPC
 academic journey rather than simply another language level. The level
 is organised by **professional domain** rather than by communication
 mode — a recorded revision to this document's original Level VI draft,
@@ -331,7 +331,7 @@ defence, keynote address, media interview with crisis statement,
 conference presentation, chaired ethical deliberation) are distributed
 one per module, culminating in a capstone presentation with oral
 defence. Assignment rubrics add **independent judgement** — the
-criterion that distinguishes C2 from C1 in WEC-LC's assessment model —
+criterion that distinguishes C2 from C1 in AIPC's assessment model —
 to the five inherited from Levels II-V. See
 `docs/curriculum-level-6-mastery.md` (module map, § What's different
 from Level V, the graduate-attribute mapping, and Module 1's full
@@ -426,7 +426,7 @@ Per the executive directive's own instruction ("study industry best
 practices... implementation, architecture, user experience, and
 product vision should be our own"), a few specific pieces are
 deliberately *not* custom infrastructure, because building them
-wouldn't produce better outcomes for WEC-LC students and would be a
+wouldn't produce better outcomes for AIPC students and would be a
 multi-month distraction from the parts that are actually the
 institution's differentiated IP:
 
@@ -441,7 +441,7 @@ institution's differentiated IP:
   existing Cloudflare Pages/D1 infrastructure (Executive Decision #7),
   and re-implementing adaptive video streaming would be pure
   reinvention with no institutional-IP benefit.
-- **What genuinely is WEC-LC's own IP, and is built accordingly:** the
+- **What genuinely is AIPC's own IP, and is built accordingly:** the
   CEFR-aligned progression model tying completion to unlocking
   (Executive Decision #1), the assessment data model, and — as it's
   built out — the competency-tracking/analytics layer specific to the

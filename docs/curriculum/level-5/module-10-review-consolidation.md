@@ -1,4 +1,4 @@
-# WEC-LC — Level V, Module 10: Review & Consolidation
+# AIPC — Level V, Module 10: Review & Consolidation
 
 *Part of `docs/curriculum-level-5-advanced.md`'s Level V build-out.
 Per `docs/curriculum-framework.md`'s assessment strategy, this module
@@ -9,7 +9,7 @@ not introduce new grammar or vocabulary.*
 can: demonstrate cumulative command of every grammar point and
 functional-language set from Modules 1-9; deploy the level's full
 range of advanced rhetorical and cohesion devices fluently across
-writing and speech; complete WEC-LC's Advanced-level (C1) end-of-level
+writing and speech; complete AIPC's Advanced-level (C1) end-of-level
 examination across grammar/vocabulary, listening, reading, writing,
 and speaking, including a full rubric-graded extended written piece
 and a rubric-graded presentation/negotiation simulation; identify
@@ -76,7 +76,7 @@ through precision of persuasion (leadership, complex systems — Modules
 pragmatics, media analysis — Modules 5-6), precision under scrutiny
 (research defence, advocacy under challenge — Modules 7-8), to
 precision of voice (editing and executive concision — Module 9) — a
-deliberately WEC-LC-authored intellectual arc, not an imitation of any
+deliberately AIPC-authored intellectual arc, not an imitation of any
 single existing programme, moving learners from language competence
 into genuine intellectual communication. Module 10 tests all of it
 together, in authentic, integrated performance.

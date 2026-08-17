@@ -1,4 +1,4 @@
-# WEC-LC — Level VI, Module 3: Global Business Strategy
+# AIPC — Level VI, Module 3: Global Business Strategy
 
 *Part of `docs/curriculum-level-6-mastery.md`'s Level VI build-out.*
 
