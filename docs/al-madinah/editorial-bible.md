@@ -430,9 +430,21 @@ Radius is a proportion of the shortest edge (~6–10%), so it climbs with the co
 
 **Polished cream on cream** and **sapphire glass on navy.** Everything on the site is one or the other. A third material — a grey card, a flat white panel, a borrowed UI surface — is what makes a site look assembled from parts.
 
-**The body of the College is the cream one.** Navy is now the jewel box: the masthead at the top of a page and the footer at the foot of it. Everything between them is a polished cream surface with real light on it. This is the Founder's ruling (`§13.6`) and it replaces the alternating light/dark rhythm the site inherited — across every page, not only the home page: 94 sections on 22 files.
+**There are five materials, and a page is composed from them.** The Founder's correction, and it overrules the first reading of the ruling above: *“I've never said that every single body must have a cream all over. Some places may have cream, some may have ivory, some may have very prestigious blue, and then some cards may have gold — just as to the highest elegance.”*
 
-The three cream grounds (`--light`, `--warm`, `--paper`) rotate down a page in document order, so no two adjoining panels are identical and a reader still feels a page turn between chapters. The gold hairline at each panel's top and bottom does the rest of that work. Dark is reserved: the masthead, the footer, and a deliberate **night plate** — a tipped-in figure set into the cream (`.r-diagram-wrap--night`).
+| Material | What it is | What it carries |
+|---|---|---|
+| **Cream** (`--light`) | polished: gloss sweep, champagne bloom, full specular | a statement, an argument, a grid of cards meant to be looked at |
+| **Ivory** (`--warm`) | quiet, cooler, no gloss | reading matter and ledgers — a table set on a polished surface fights the surface, and the figures must be read |
+| **Paper** (`--paper`) | warmest, one low bloom, a faint gold wash | a closing passage, a plate of conditions |
+| **Royal** (`--royal`) | sapphire out of oxford, gold bloom upper right, deep well at the foot, gold hairlines | the passage that must carry weight: the claim being staked, the register, the undertaking. One or two to a page |
+| **Gilt** (`.card--gilt`, `.r-plate--gilt`) | an opaque gold face | the single thing on a page that outranks everything around it. Four across sixteen pages |
+
+The composition is by *meaning*, not by rotation. My first attempt cycled the three cream grounds mechanically down each page and gave all three the identical background stack, which is how a site with three grounds reads as one surface: uniformity is not elegance, and alternation is not variety.
+
+**The royal ground is written `class="section--dark section--royal"`, and that is the whole design.** It *is* a dark ground — it carries the class — so every colour decision already made for dark headings, ledgers, plates, cards, chips, clause numbers and diagram captions applies to it untouched; `.section--royal` overrides the material and nothing else. Two wrong roads were taken before that one. Writing the pairing **by hand** looked complete and had holes exactly where the cards were. **Generating** it — a script deriving a royal twin for all forty `.section--dark` rules — was worse: a CSS parser built on a regex gets the simple rules right and the compound ones wrong, and the page came out with light text on light and dark on dark in different places at once. The answer was not a better generator. It was to stop making a second ground that needs the same decisions.
+
+Gold gets one further rule, because gold is a ground on a gilt card: **nothing on it may be gold.** Its text is oxford, its small caps are a dark bronze, and its travelling light runs white — a gold arc on a gold face is invisible, which is `§9.4` in the other direction.
 
 **A component that changes ground changes its colours, or it goes quiet.** This is the single most productive rule in this Part and it was learned four times: the faculty names that were white on warm-white, the stage headings at 1.10 on navy, the night diagram whose champagne labels ended up on cream at 1.06, and `.card--dark` — a *translucent* face, which is how it reads as glass on navy and which on cream produces a pale grey panel still wearing every colour it chose for the dark. The class stays in the markup, because it is the author's statement that a card is emphatic and emphasis is a real editorial distinction; what changes is what emphatic *means* on paper. Nothing in any of the four cases errored, warned, or looked wrong in the source.
 

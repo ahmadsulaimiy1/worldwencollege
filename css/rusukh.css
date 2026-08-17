@@ -2572,15 +2572,48 @@ main :is(p, li, dd, td, th, figcaption, caption) a:not(.btn):focus-visible {
    scroll boundary. */
 body { background: var(--cream); }
 
+/* THREE LIGHT GROUNDS, AND THEY ARE THREE DIFFERENT MATERIALS.
+   The first version of this gave --light, --warm and --paper the identical
+   background stack, which is how a site with three grounds ends up reading
+   as one surface. Variety is not a rule about alternating; it is three
+   materials that are actually different, each chosen for what the section
+   it carries is doing. */
+
 .section--light,
 .section--warm,
 .section--paper {
-  background-image: var(--cream-ground);
-  background-color: var(--cream);
-  box-shadow: var(--cream-edges);
   color: var(--ink);
   position: relative;
   isolation: isolate;
+  box-shadow: var(--cream-edges);
+}
+
+/* CREAM — the polished one. Gloss sweep, champagne bloom, full specular.
+   For a section that makes a statement: a lead, an argument, a set of
+   cards a reader is meant to look at rather than read past. */
+.section--light {
+  background-image: var(--cream-ground);
+  background-color: var(--cream);
+}
+
+/* IVORY — quiet, cooler, no gloss sweep. For reading matter and for
+   ledgers: a table set on a polished surface fights the surface, and the
+   figures are the thing that must be read. */
+.section--warm {
+  background-image:
+    radial-gradient(1100px 560px at 18% -6%, rgba(255, 255, 255, .72) 0%, rgba(255, 255, 255, 0) 58%),
+    linear-gradient(178deg, var(--warm-white) 0%, var(--ivory) 62%, var(--pearl) 100%);
+  background-color: var(--ivory);
+}
+
+/* PAPER — warmest and softest, a single low bloom and a faint gold wash.
+   For a closing passage, a plate of conditions, a colophon-like end. */
+.section--paper {
+  background-image:
+    radial-gradient(900px 480px at 78% 8%, rgba(242, 227, 192, .34) 0%, rgba(242, 227, 192, 0) 64%),
+    radial-gradient(1000px 520px at 30% 104%, rgba(228, 222, 208, .42) 0%, rgba(228, 222, 208, 0) 68%),
+    linear-gradient(172deg, #FFFCF4 0%, var(--cream) 100%);
+  background-color: var(--cream);
 }
 
 /* Headings on cream take the deep navy rather than near-black. Ink on
@@ -3129,3 +3162,186 @@ body { background: var(--cream); }
   background: rgba(201, 138, 22, .13); color: #7A5410;
   border-color: rgba(201, 138, 22, .32);
 }
+
+
+/* ═════════════════════════════════════════════════════════════════════
+   THE ROYAL GROUND — the prestigious blue
+   ---------------------------------------------------------------------
+   Not the old flat `section--dark`, which was a colour. This is a
+   material: sapphire rising out of oxford, a gold bloom off the upper
+   right where the light in this palette comes from, a deep well at the
+   foot, and gold hairlines closing it top and bottom — the same
+   construction as the cream ground, in the other key.
+
+   It exists because a page of one material is not elegant, it is
+   uniform. Blue is what a page uses when a passage must be given weight:
+   the claim the College is staking, the register that carries its
+   awards, the undertaking a reader is meant to remember. One or two to a
+   page. Used more often than that it stops meaning weight and starts
+   meaning nothing. */
+
+.section--dark.section--royal {
+  position: relative;
+  /* NO `isolation: isolate` here, and it is worth saying why, because it is
+     on the cream grounds two hundred lines above and looks like an omission.
+     Isolation opens a new stacking context, and the cards on a dark ground
+     are glass: `backdrop-filter` samples the backdrop of the context it is
+     in. Inside an isolated section that backdrop is empty, so every glass
+     card on this ground rendered near-white while keeping its white
+     headings — 1.60:1 on the College's page of claims. Cream grounds carry
+     no glass, so isolation is free there and load-bearing here. */
+  background-color: var(--oxford);
+  background-image:
+    radial-gradient(1100px 620px at 84% -12%, rgba(199, 162, 74, .20) 0%, rgba(199, 162, 74, 0) 58%),
+    radial-gradient(1000px 560px at 14% 4%,  rgba(39, 80, 143, .58) 0%, rgba(39, 80, 143, 0) 62%),
+    radial-gradient(1200px 620px at 50% 112%, rgba(4, 10, 24, .72) 0%, rgba(4, 10, 24, 0) 66%),
+    linear-gradient(172deg, var(--royal-blue) 0%, var(--navy) 44%, var(--oxford) 100%);
+  box-shadow:
+    inset 0  1px 0 rgba(199, 162, 74, .46),
+    inset 0 -1px 0 rgba(199, 162, 74, .30);
+}
+
+/* The module marker on this ground: --gold-royal measured 3.94 against the
+   sapphire, which is lighter than the flat navy it was chosen for. */
+.section--royal .module-marker { color: var(--gold-soft); }
+
+/* THE PAIRING IS INHERITED, NOT DERIVED AND NOT WRITTEN.
+   ---------------------------------------------------------------------
+   The royal ground is written `class="section--dark section--royal"`. It IS
+   a dark ground — it carries the class — so every colour decision already
+   made for dark headings, ledgers, plates, cards, chips, clause numbers and
+   diagram captions applies to it untouched. `.section--royal` overrides one
+   thing: the material.
+
+   Two wrong roads were taken before this one, and both are worth recording
+   because they are the two obvious ones.
+
+   Writing the pairing BY HAND looked complete and was not: `.card` keeps a
+   light `background-color` beneath a translucent dark face, so a card on the
+   new ground rendered pale grey while wearing champagne headings — 1.27:1,
+   on the College's own page of claims. A ground introduced by hand is a
+   ground with holes in it.
+
+   GENERATING the pairing — a script deriving a `.section--royal` twin for
+   every `.section--dark` rule across four stylesheets — was worse. It
+   produced 40 rules, and a generator that parses CSS with a regex gets the
+   easy rules right and the compound ones wrong, so the result was a page
+   with light text on light and dark on dark in different places at once.
+
+   The answer was not a better generator. It was to stop making a second
+   ground that needs the same decisions, and make a dark ground that looks
+   different — which is one class in the markup and one rule here. */
+
+/* ═════════════════════════════════════════════════════════════════════
+   THE GILT CARD — gold, and rationed to almost nothing
+   ---------------------------------------------------------------------
+   A card whose face is gold rather than cream or glass. It is for the one
+   thing on a page that outranks everything around it — the *ijāzah* and
+   its conditions, the Retention Rule, the register that survives the
+   College's worst year. At most one to a page, and on most pages none.
+
+   Gold is a ground here, so nothing on it may be gold: the text is oxford,
+   which measures 8.9:1 on this face, and the small caps are bronze. */
+
+.card--gilt,
+.r-plate--gilt {
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  border-radius: var(--r-lg);
+  color: var(--oxford);
+  background-image:
+    linear-gradient(104deg, rgba(255,255,255,0) 28%, rgba(255,255,255,.42) 46%, rgba(255,255,255,0) 62%),
+    linear-gradient(158deg, var(--gold-champagne) 0%, #F6E7C4 40%, var(--gold-soft) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .95),
+    inset 0 0 0 1px rgba(140, 106, 63, .55),
+    0 3px 6px -2px rgba(94, 74, 40, .28),
+    0 24px 52px -20px rgba(94, 74, 40, .44);
+}
+.card--gilt h3, .r-plate--gilt h3 { color: var(--oxford); }
+.card--gilt p, .r-plate--gilt p { color: #3A2E18; }
+.card--gilt strong, .r-plate--gilt strong { color: var(--oxford); }
+.card--gilt .r-plate__label,
+.r-plate--gilt .r-plate__label { color: #6B4E22; }
+.card--gilt a:not(.btn), .r-plate--gilt a:not(.btn) {
+  color: var(--oxford); text-decoration-color: rgba(58, 46, 24, .6);
+}
+/* Its travelling light runs white rather than gold: a gold arc on a gold
+   face is invisible, which is the same mistake as gold text on cream. */
+.card--gilt::after,
+.r-plate--gilt::after {
+  background: conic-gradient(from var(--aurum-angle),
+    transparent 0deg, transparent 34deg,
+    rgba(255, 255, 255, .55) 48deg,
+    rgba(255, 255, 255, 1) 60deg,
+    rgba(255, 252, 240, .60) 72deg,
+    transparent 92deg, transparent 360deg);
+  filter: drop-shadow(0 0 var(--orbit-glow) rgba(255, 255, 255, .8));
+}
+
+/* The gilt plate outranks the ground it sits on — that is the whole point of
+   it — so it must beat `.section--dark .r-plate`, which is written later in
+   this file and would otherwise repaint its gold face as glass. */
+.section--dark .r-plate--gilt,
+.section--royal .r-plate--gilt,
+.section--light .r-plate--gilt,
+.section--warm .r-plate--gilt,
+.section--paper .r-plate--gilt {
+  background-image:
+    linear-gradient(104deg, rgba(255,255,255,0) 28%, rgba(255,255,255,.42) 46%, rgba(255,255,255,0) 62%),
+    linear-gradient(158deg, var(--gold-champagne) 0%, #F6E7C4 40%, var(--gold-soft) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .95),
+    inset 0 0 0 1px rgba(140, 106, 63, .55),
+    0 3px 6px -2px rgba(94, 74, 40, .28),
+    0 24px 52px -20px rgba(94, 74, 40, .44);
+  -webkit-backdrop-filter: none;
+          backdrop-filter: none;
+}
+.section--dark .r-plate--gilt p,
+.section--royal .r-plate--gilt p { color: #3A2E18; }
+.section--dark .r-plate--gilt .r-plate__label,
+.section--royal .r-plate--gilt .r-plate__label { color: #6B4E22; }
+.section--dark .r-plate--gilt strong,
+.section--royal .r-plate--gilt strong { color: var(--oxford); }
+.section--dark .r-plate--gilt a:not(.btn),
+.section--royal .r-plate--gilt a:not(.btn) {
+  color: var(--oxford); text-decoration-color: rgba(58, 46, 24, .6);
+}
+
+/* A regulation's clause body on a dark ground. The clauses were only ever on
+   cream until the governing standard was given the royal ground, and --slate
+   on sapphire measured 2.20. */
+.section--dark .r-clause p,
+.section--dark .r-clause h3 { color: var(--cerulean); }
+.section--dark .r-clause h3 { color: var(--gold-champagne); }
+
+
+/* A glass card on a dark ground needs its COLOUR cleared, not just its image.
+   ---------------------------------------------------------------------
+   `.card` carries an opaque cream `background-color`. Every dark-ground rule
+   in this project overrides `background-image` with a translucent face and
+   leaves the colour alone — so the cream sat underneath the glass, and the
+   card rendered rgb(252,250,244) with white headings on it. 1.60:1.
+
+   It survived this long because the pages that used dark sections happened
+   not to put plain `.card`s in them; the College's page of claims did, the
+   moment that section was given the royal ground. A latent fault is one that
+   is waiting for a section class to change.
+
+   Cleared for every dark ground at once, and the gilt plate is exempt
+   because its face is opaque gold by design. */
+.section--dark .card:not(.card--gilt),
+.section--dark .r-plate:not(.r-plate--gilt),
+.section--dark .r-stage,
+.section--dark .r-tier-card,
+.section--dark .r-fac-card {
+  background-color: rgba(10, 20, 40, .34);
+}
+
+/* A table's caption is its title, not its metadata: ink on light and
+   champagne on dark. It was set in bronze and measured 4.27 where it
+   overlaps the table's own top rule. */
+.r-ladder caption { color: var(--ink); }
+.section--dark .r-ladder caption { color: var(--gold-champagne); }
