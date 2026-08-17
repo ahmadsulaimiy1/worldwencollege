@@ -116,7 +116,11 @@
   var ARABIC_DIGITS = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
   function figures(s) {
     if (!isArabic()) return s;
-    return String(s).replace(/[0-9]/g, function (d) { return ARABIC_DIGITS[+d]; });
+    return String(s)
+      .replace(/[0-9]/g, function (d) { return ARABIC_DIGITS[+d]; })
+      // and back the other way: the separators belong to the script too.
+      .replace(/,/g, '\u066C')
+      .replace(/\.(?=\d)/g, '\u066B');
   }
 
   function hhmm(h) {
@@ -439,9 +443,15 @@
      Parity is not optional (EB §5.2), so the digits are normalised before
      parsing and rendered back in the page's own system after. */
   function westernise(s) {
-    return String(s).replace(/[٠-٩]/g, function (d) {
-      return String(d.charCodeAt(0) - 0x0660);
-    });
+    return String(s)
+      .replace(/[٠-٩]/g, function (d) { return String(d.charCodeAt(0) - 0x0660); })
+      // Arabic does not group with a comma. U+066C is the thousands
+      // separator and U+066B the decimal mark, and leaving them alone meant
+      // ₦٧٨٬٠٠٠ parsed as the number 78 with "٬000" as a SUFFIX: the price
+      // counted 0 → 78 and then snapped to the authored string, rendering
+      // ₦٠٬000 on the way — Arabic-Indic and Western digits in one figure.
+      .replace(/\u066C/g, ',')
+      .replace(/\u066B/g, '.');
   }
 
   function parseFigure(text) {

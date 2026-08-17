@@ -332,6 +332,20 @@ Our table is IJMES-derived, with three house departures stated in Appendix B. Th
 - **Structure mirrors; content does not.** Layout, rails and progress fill mirror. A chain of transmission, a Qur'ānic line, a musical or numerical sequence and a code sample never mirror.
 - Arabic sets larger than Latin at the same nominal size; the Arabic layer carries its own scale rather than inheriting the Latin one.
 
+## §5.8 A figure is a coordinate space, not a text flow
+
+Every diagram exists in both trees or in neither — `§5.2` is about routes, and it means the figures on them too. The Arabic tree was missing two of the four, which is a page arguing its case with a chart to one reader and without it to another.
+
+Porting one taught three rules, and each was learned by getting it wrong on the page:
+
+1. **A magnitude chart mirrors.** `§5.6` says a *numerical sequence* never mirrors, and that is about the axis keeping its order — not about the layout. An Arabic reader reads a bar from the right, so the bars grow leftward from the right edge and every label is anchored outside its own bar. An unmirrored chart put the programme names off the left edge and the hour labels across the bars they annotate.
+2. **`direction: rtl` inherits into SVG, where it redefines `text-anchor`.** Under RTL, `end` anchors the *logical* end, so a label at the right edge extends rightward off the canvas and a label placed just clear of its bar is drawn straight across it — measured at 2.02:1 against the gold. `[dir="rtl"] .r-diagram { direction: ltr }`: the coordinates are physical, the mirroring is done once in the authoring, and bidi orders the Arabic inside each label, which is what bidi is for.
+3. **Never set `direction="rtl"` on an individual `<text>`** to "make it Arabic". It is already Arabic. All that attribute does is decide which way the run grows from its anchor.
+
+## §5.9 The separators belong to the script
+
+Arabic does not group with a comma. `U+066C` is the thousands separator and `U+066B` the decimal mark, and code that normalises Arabic-Indic *digits* while leaving the separators alone will parse `₦٧٨٬٠٠٠` as the number **78** with `٬٠٠٠` as a suffix — so a price counted from zero to seventy-eight and then snapped to its authored value, rendering `₦٠٬000` on the way, in two digit systems at once. Normalise both marks on the way in and restore both on the way out.
+
 ## §5.7 Citation form
 
 - **Qur'ān**: sūrah name in transliteration, then chapter:verse — *Āl ʿImrān 3:7*. Not *Q3:7*, not *Surah 3, Ayah 7*.

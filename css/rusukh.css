@@ -3345,3 +3345,22 @@ body { background: var(--cream); }
    overlaps the table's own top rule. */
 .r-ladder caption { color: var(--ink); }
 .section--dark .r-ladder caption { color: var(--gold-champagne); }
+
+
+/* A diagram is a COORDINATE SPACE, not a text flow.
+   ---------------------------------------------------------------------
+   `direction: rtl` inherits into SVG, where it does not merely reorder
+   runs — it redefines what `text-anchor` means. Under RTL, `end` anchors
+   the LOGICAL end, so a label placed at x=1000 with `text-anchor="end"`
+   extends RIGHTWARDS off the canvas, and a value label placed just clear
+   of its bar is drawn straight across it. Both happened: the programme
+   names clipped at the right edge and the hour labels sat on the gold at
+   2.02:1.
+
+   The fix is not to swap every anchor. The coordinates in these figures
+   are physical — they were computed against a mirrored layout in the
+   authoring, which is where the mirroring belongs (EB §5.6: structure
+   mirrors, and it mirrors ONCE). So the SVG keeps a physical direction
+   and the Arabic inside each label is ordered by bidi, which is what bidi
+   is for. */
+[dir="rtl"] .r-diagram { direction: ltr; }
