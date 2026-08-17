@@ -662,8 +662,9 @@ left.
 
 - **The "London Campus" vs. "100% Online" tension.** The site currently
   states, in the same breath, that AIPC is a "**100% Online Digital
-  Campus**" (home page hero stat) and is named "**WorldWide English
-  College — *London Campus***," with a physical London address flagged as
+  Campus**" (home page hero stat) and is named "**Albalagh
+  International Premium College — *London Campus***," with a physical
+  London address flagged as
   "to be confirmed" — i.e., currently pending, not currently false, but
   actively ambiguous about which is true. Under the ASA's CAP Code,
   marketing claims must be accurate and not misleading; "Campus" carries a
