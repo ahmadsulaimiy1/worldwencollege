@@ -51,6 +51,14 @@
 <meta property="og:description" content="Get in touch with Albalagh International Premium College, London Campus — admissions enquiries, general contact, and our current London Campus status.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.worldwencollege.co.uk/contact/">
+<!-- TODO(domain): worldwencollege.co.uk is the domain the College used
+     under its former name, and it is still the origin it is served
+     from, so it stays until a real one replaces it — a canonical or
+     og:url pointing at a domain nobody owns is worse than an honest
+     inherited one. When an Albalagh domain is registered, this origin
+     changes here, in the JSON-LD below, in sitemap.xml, _redirects,
+     .env.example and the deploy workflow. docs/domain-setup.md
+     § Pending holds the checklist. -->
 <meta property="og:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
@@ -299,6 +307,7 @@
 <div class="topbar">
   <div class="topbar__inner">
     <div class="topbar__contacts">
+      <!-- TODO(domain): the College's former-name address, kept working until an Albalagh domain exists. Replace everywhere at once — docs/domain-setup.md § Pending. -->
       <a href="mailto:info@worldwencollege.co.uk" class="topbar__item">
         <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
         info@worldwencollege.co.uk
@@ -779,6 +788,18 @@
         <h3>Admissions</h3>
         <p><a href="mailto:info@worldwencollege.co.uk" style="color:var(--red);font-weight:600">info@worldwencollege.co.uk</a></p>
       </div>
+      <!--
+        TODO(domain): this address is on the College's former domain. It
+        is left working rather than blanked because it is the only route
+        a reader has to us, and an honest note beside a working address
+        serves them better than a dead one. Replace it, and the callout
+        below, the moment an Albalagh domain is registered — see
+        docs/domain-setup.md § Pending for the full list of places.
+      -->
+      <div class="callout">
+        <span class="callout__label">About this address</span>
+        <p>This address is on <span dir="ltr">worldwencollege.co.uk</span>, the domain the College used under its former name. It reaches us today and is read by the same people. An <span dir="ltr">albalagh</span> domain has not been registered yet, so we would rather say that here than print an address that does not exist &mdash; see <a href="/about/#status">About &middot; Institutional Status</a>.</p>
+      </div>
       <div class="callout" id="status">
         <span class="callout__label">London Campus — Current Status</span>
         <p>AIPC delivers the IEFC entirely online, worldwide; "London Campus" identifies our administrative and management headquarters, not a teaching campus. That registered address and a direct phone line are being finalised. Until then, email is the fastest way to reach us, and every enquiry is answered by a real member of the founding team — not an automated queue.</p>
@@ -1015,6 +1036,7 @@
       Get in Touch
     </h2>
     <p class="footergrid__intro">
+      <!-- TODO(domain): the College's former-name address, kept working until an Albalagh domain exists. Replace everywhere at once — docs/domain-setup.md § Pending. -->
       <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a><br>
       Online worldwide &middot; London admin HQ — address to be confirmed, see Contact below.
     </p>

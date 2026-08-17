@@ -524,6 +524,11 @@ jobs:
 
           # The CDN is asked to skip its cache, so a stale answer here
           # means a stale ORIGIN rather than a stale edge.
+          #
+          # TODO(domain): the live host below is the College's former
+          # name. It is the domain actually serving the site, so this
+          # check is still the real one — but it moves when an Albalagh
+          # domain is registered. docs/domain-setup.md § Pending.
           got_deploy=$(stamp_of "$DEPLOY_URL/?cb=$want")
           got_live=$(stamp_of "https://www.worldwencollege.co.uk/?cb=$want")
           # The apex and www are separate DNS records, and either can be
