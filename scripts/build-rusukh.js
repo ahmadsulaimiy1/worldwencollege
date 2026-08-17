@@ -153,6 +153,14 @@ function contentsEntries(html) {
 }
 
 function withContentsRail(html, entry) {
+  /* WITHDRAWN. This produced a sticky strip pinned under the header that
+     rode down the screen on every long page — a table of contents that
+     refused to stay at the front of the book. The manifest's `contents`
+     flags are left in place rather than stripped from sixteen entries,
+     because the decision is about presentation and may be revisited; the
+     rail is simply not built. See the note in css/rusukh.css. */
+  return html;
+  // eslint-disable-next-line no-unreachable
   if (!entry.contents) return html;
   const items = contentsEntries(html);
   // Under four sections a rail costs a band of chrome to save a scroll.
@@ -332,11 +340,13 @@ ${markCurrentNav(fill(partialFor('header', lang).trimEnd(), { ALT_HREF: altHref 
 ${content}
 </main>
 ${fill(partialFor('footer', lang).trimEnd(), { ALT_HREF: altHref })}
+${partialFor('dock', lang).trimEnd()}
 <script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
 <script src="/js/rusukh-clock.js" defer></script>
-<script src="/js/rusukh-atelier.js" defer></script>${(entry.scripts || []).map(function (src) { return '\n<script src="' + src + '" defer></script>'; }).join('')}
+<script src="/js/rusukh-atelier.js" defer></script>
+<script src="/js/rusukh-dock.js" defer></script>${(entry.scripts || []).map(function (src) { return '\n<script src="' + src + '" defer></script>'; }).join('')}
 </body>
 </html>
 `;

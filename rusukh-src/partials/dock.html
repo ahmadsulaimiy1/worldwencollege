@@ -1,0 +1,57 @@
+<!--
+  THE DOCK.
+
+  Four things a reader reaches for at any point on any page, taken out of
+  the strip that used to sit above the College's name and given a place of
+  their own: the Riwāq, admission, WhatsApp, and the personalisation
+  centre.
+
+  It is a DOCK rather than a chat bubble. A round green bubble in the
+  corner is the idiom of a shop; this is a column of engraved plates on
+  the sapphire ground, closed to a single seal until it is touched. The
+  seal is the College's own octagram, not a speech balloon.
+
+  Behaviour: closed it is one 56px mark. On hover, focus or tap it opens
+  upward and the four plates arrive in sequence. It never covers the
+  footer's own actions — js/rusukh-dock.js retires it when the footer
+  enters view, because a floating control over a page's own closing
+  buttons is a control competing with the thing it is meant to serve.
+-->
+<div class="dock" data-dock aria-label="Quick actions">
+  <div class="dock__stack" data-dock-stack hidden>
+
+    <a class="dock__plate" href="/rusukh/riwaq/" data-dock-i="0">
+      <span class="dock__label">The Riwāq<em>Sign in to the portal</em></span>
+      <span class="dock__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+    </a>
+
+    <a class="dock__plate dock__plate--gold" href="/rusukh/admissions/#apply" data-dock-i="1">
+      <span class="dock__label">Register<em>Apply to the Registry — no charge</em></span>
+      <span class="dock__badge"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+    </a>
+
+    <a class="dock__plate dock__plate--green" href="https://wa.me/2348000000000"
+       target="_blank" rel="noopener" data-dock-i="2">
+      <span class="dock__label">WhatsApp<em>The Registry, 09:00–17:00 WAT</em></span>
+      <span class="dock__badge"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></span>
+    </a>
+
+    <button type="button" class="dock__plate" data-personalise-toggle
+            aria-expanded="false" aria-controls="personalise" data-dock-i="3">
+      <span class="dock__label">Personalise<em>Livery, ornament, text size</em></span>
+      <span class="dock__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+    </button>
+
+  </div>
+
+  <button type="button" class="dock__seal" data-dock-toggle
+          aria-expanded="false" aria-label="Open quick actions">
+    <svg class="dock__crest" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+      <path d="M10.5 10.5h27v27h-27Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M10.5 10.5h27v27h-27Z" fill="none" stroke="currentColor" stroke-width="1.4" transform="rotate(45 24 24)"/>
+      <circle cx="24" cy="24" r="6" fill="currentColor" opacity=".22"/>
+    </svg>
+    <span class="dock__seal-x" aria-hidden="true">&times;</span>
+  </button>
+</div>

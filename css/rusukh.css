@@ -1801,3 +1801,447 @@ body[data-section] {
   direction: ltr;
   unicode-bidi: isolate;
 }
+
+/* ============================================================== THE DOCK
+   A column of engraved plates on the corner, closed to a single seal.
+
+   NOT a chat bubble. A round green circle in the corner is the idiom of a
+   shop, and this College is not one; the seal is its own octagram, and
+   the plates are the same polished cream as its cards. WhatsApp keeps its
+   own green — it is somebody else's mark and recolouring it would make it
+   harder to recognise, which is the one thing it must not be. */
+
+.dock {
+  position: fixed;
+  z-index: 70;
+  inset-inline-end: clamp(14px, 2vw, 28px);
+  bottom: clamp(14px, 2vw, 28px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  transition: opacity .4s var(--ease-premium), transform .4s var(--ease-premium);
+}
+
+/* Retired over the footer — see js/rusukh-dock.js for why. */
+.dock.is-retired {
+  opacity: 0;
+  transform: translateY(16px) scale(.94);
+  pointer-events: none;
+}
+
+.dock__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.dock__plate {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 10px 9px 18px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--pol-face-l);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l),
+    var(--pol-cast-l);
+  text-decoration: none;
+  font-family: inherit;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px) scale(.96);
+  transition:
+    opacity .34s var(--ease-premium),
+    transform .34s var(--ease-premium),
+    box-shadow var(--pol-out) var(--ease-premium);
+  transition-delay: calc(var(--dock-i, 0) * 0ms);
+}
+
+[dir="rtl"] .dock__plate { padding: 9px 18px 9px 10px; }
+
+.dock.is-open .dock__plate {
+  opacity: 1;
+  transform: none;
+  /* Arriving in sequence, nearest the seal first, so the column unfolds
+     rather than appearing. */
+  transition-delay: calc((3 - var(--dock-i, 0)) * 52ms);
+}
+
+.dock__plate:hover {
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l-2),
+    var(--pol-cast-l2),
+    var(--pol-bloom);
+  transition-duration: var(--pol-in);
+}
+
+.dock__plate[data-dock-i="0"] { --dock-i: 0; }
+.dock__plate[data-dock-i="1"] { --dock-i: 1; }
+.dock__plate[data-dock-i="2"] { --dock-i: 2; }
+.dock__plate[data-dock-i="3"] { --dock-i: 3; }
+
+.dock__label {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  text-align: end;
+  font-family: 'Cinzel', serif;
+  font-size: .74rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--royal-blue);
+  white-space: nowrap;
+}
+
+.dock__label em {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-style: normal;
+  font-size: .68rem;
+  letter-spacing: .01em;
+  text-transform: none;
+  color: var(--slate);
+}
+
+.dock__badge {
+  flex: 0 0 auto;
+  width: 38px; height: 38px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(150deg, var(--royal-blue), var(--oxford));
+  color: var(--gold-champagne);
+  box-shadow: inset 0 1px 0 rgba(255, 252, 240, .18);
+}
+.dock__badge .icon { width: 18px; height: 18px; }
+
+.dock__plate--gold .dock__badge { background: var(--gold-gradient); color: var(--oxford); }
+.dock__plate--green .dock__badge { background: linear-gradient(150deg, #25D366, #128C7E); color: #fff; }
+
+/* ------------------------------------------------------------ the seal */
+
+.dock__seal {
+  position: relative;
+  width: 56px; height: 56px;
+  border: 0; border-radius: 50%;
+  cursor: pointer;
+  display: grid; place-items: center;
+  background:
+    radial-gradient(80% 80% at 30% 22%, rgba(39, 80, 143, .9), rgba(10, 20, 40, .96));
+  color: var(--gold-rich);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 252, 240, .18),
+    inset 0 0 0 1px rgba(199, 162, 74, .42),
+    0 18px 38px -16px rgba(2, 6, 16, .85),
+    0 0 32px -12px rgba(199, 162, 74, .5);
+  transition: transform .4s var(--ease-premium), box-shadow .4s var(--ease-premium);
+}
+
+.dock__seal:hover { transform: translateY(-2px); }
+.dock__seal:focus-visible { outline: 2px solid var(--gold-rich); outline-offset: 3px; }
+
+.dock__crest {
+  width: 30px; height: 30px;
+  transition: opacity .26s var(--ease-premium), transform .4s var(--ease-premium);
+}
+.dock.is-open .dock__crest { opacity: 0; transform: rotate(45deg) scale(.7); }
+
+.dock__seal-x {
+  position: absolute;
+  font-size: 1.7rem; line-height: 1;
+  color: var(--gold-champagne);
+  opacity: 0; transform: rotate(-45deg) scale(.7);
+  transition: opacity .26s var(--ease-premium), transform .4s var(--ease-premium);
+}
+.dock.is-open .dock__seal-x { opacity: 1; transform: none; }
+
+/* The seal keeps a slow gold pulse so a reader knows it is a control and
+   not an ornament — a single breath every seven seconds, not a blink. */
+@keyframes dock-breathe {
+  0%, 100% { box-shadow:
+    inset 0 1px 0 rgba(255,252,240,.18), inset 0 0 0 1px rgba(199,162,74,.42),
+    0 18px 38px -16px rgba(2,6,16,.85), 0 0 32px -12px rgba(199,162,74,.5); }
+  50% { box-shadow:
+    inset 0 1px 0 rgba(255,252,240,.18), inset 0 0 0 1px rgba(199,162,74,.7),
+    0 18px 38px -16px rgba(2,6,16,.85), 0 0 46px -8px rgba(199,162,74,.75); }
+}
+.dock:not(.is-open) .dock__seal { animation: dock-breathe 7s var(--ease-premium) infinite; }
+
+@media (max-width: 620px) {
+  /* On a phone the descriptor is a luxury the width cannot afford; the
+     name and the mark carry it. */
+  .dock__label em { display: none; }
+  .dock__label { font-size: .68rem; }
+  .dock__seal { width: 50px; height: 50px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock, .dock__plate, .dock__crest, .dock__seal-x, .dock__seal { transition: none; animation: none; }
+  .dock.is-open .dock__plate { transition-delay: 0s; }
+}
+
+:root[data-ornament="none"] .dock:not(.is-open) .dock__seal { animation: none; }
+
+/* ============================================== THE RAIL, WITHDRAWN
+   css/pages.css makes .contents a STICKY strip pinned under the header,
+   so on every long page a second bar rode down the screen with the
+   reader. On a page of ten regulations it was on screen more often than
+   it was not.
+
+   It is removed rather than restyled. The pages it served are the ones
+   with a masthead, a lede and numbered sections — a reader who wants
+   Regulation 7 reads the numbers, and a floating index is a table of
+   contents that refuses to stay in the front of the book. The build no
+   longer emits it; this hides any that survives in a cached page. */
+.contents { display: none !important; }
+
+/* ============================================ THE DRAWER, GIVEN THE ROOM
+   The clock and the quicknav strip used to sit inside .site-header, and
+   js/motion.js measures that element into --header-h. On a 390px phone
+   the measurement was 275px — the drawer opens BELOW --header-h, so a
+   third of the screen was spent before "Full Menu" had anywhere to go.
+   Both are now inside the drawer, and the header is the crest, the name,
+   the menu and the actions. Nothing else. */
+
+.navdraw__clock {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 14px 2px 16px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid rgba(199, 162, 74, .22);
+}
+
+.navdraw__clock-times {
+  font-variant-numeric: tabular-nums;
+  font-size: 1.06rem;
+  color: var(--gold-champagne);
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.navdraw__tz {
+  font-size: .58rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--steel);
+}
+
+.navdraw__sep { color: rgba(199, 162, 74, .5); }
+
+.navdraw__date {
+  font-size: .72rem;
+  letter-spacing: .08em;
+  color: var(--cerulean);
+}
+
+/* The drawer is the whole screen below a short header now, so its items
+   can breathe. */
+.nav-mobile { padding-top: 14px; }
+.nav-mobile .accordion__q { min-height: 54px; }
+.nav-mobile__group--utility { row-gap: 6px; }
+.nav-mobile__group--utility a { font-size: .86rem; }
+
+/* ==================================================== THE COLLECTION CARD
+   The catalogue on the charges page. A priced card has one job a priced
+   TABLE cannot do: it shows the reader the whole of what they would
+   receive and what it comes to, in one glance, without adding up a
+   column. So the itemised list and the total are part of the card, and
+   the total is the largest thing on it after the name. */
+
+.r-tier-card__list {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  flex: 1;
+}
+
+.r-tier-card__list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px dotted var(--stone);
+  font-size: .88rem;
+  color: var(--slate);
+  line-height: 1.45;
+}
+.r-tier-card__list li:last-child { border-bottom: 0; }
+.r-tier-card__list span {
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+  color: var(--charcoal);
+  font-size: .84rem;
+}
+
+.r-tier-card__sum {
+  border-top: 1px solid var(--gold-royal);
+  padding-top: 14px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.r-tier-card__was {
+  font-size: .78rem;
+  color: var(--slate);
+  text-decoration: line-through;
+  text-decoration-color: rgba(199, 162, 74, .6);
+}
+
+.r-tier-card__now {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.9rem;
+  line-height: 1.05;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  /* Struck in gold like every other figure that means something here. */
+  background-image: linear-gradient(150deg,
+    var(--gold-antique) 0%, var(--gold-rich) 40%, var(--bronze) 100%);
+  filter: drop-shadow(0 0 14px rgba(199, 162, 74, .22));
+}
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .r-tier-card__now {
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.r-tier-card__alt { font-size: .8rem; color: var(--slate); }
+
+.r-tiers { grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); }
+
+/* ============================================ THE FOOTER, RAISED A REGISTER
+   The four tile grids were ivory panels with a small-caps heading — plain,
+   and the plainest thing on a page whose cards had by then become objects.
+   They are now plates: a warm ground with a lit rim, a heading rule that
+   carries the badge, and tiles that lift. Same components, given the same
+   material as everything above them. */
+
+.footergrid {
+  border-radius: var(--r-lg);
+  margin-inline: max(16px, calc((100% - 1240px) / 2));
+  padding: 34px clamp(20px, 3vw, 40px) 30px;
+  background: var(--pol-face-l);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-l),
+    inset 0 0 0 1px var(--pol-rim-l),
+    0 18px 46px -30px rgba(2, 6, 16, .7);
+  position: relative;
+  overflow: hidden;
+}
+
+/* A gold hairline across the head of each register, drawn from the badge
+   outward — the same gesture the section heads use in the body, so the
+   footer reads as the end of the document rather than a different one. */
+.footergrid__heading {
+  position: relative;
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+}
+.footergrid__heading::after {
+  content: '';
+  position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: linear-gradient(90deg,
+    var(--gold-rich) 0%, rgba(199, 162, 74, .35) 30%, rgba(199, 162, 74, .06) 100%);
+}
+[dir="rtl"] .footergrid__heading::after {
+  background: linear-gradient(270deg,
+    var(--gold-rich) 0%, rgba(199, 162, 74, .35) 30%, rgba(199, 162, 74, .06) 100%);
+}
+
+.footergrid + .footergrid { margin-top: 18px; }
+
+/* ------------------------------------------------------- THE COLOPHON
+   Under the registers, before the small print. A colophon is where a
+   manuscript records who made it, where, when and by whose authority —
+   the correct ending for a college, and a truer one than a row of badges
+   nobody can check. */
+
+.colophon {
+  margin: 40px max(16px, calc((100% - 1240px) / 2)) 0;
+  padding: 40px clamp(22px, 3.4vw, 46px) 30px;
+  border-radius: var(--r-lg);
+  background:
+    radial-gradient(90% 130% at 18% 0%, rgba(39, 80, 143, .5) 0%, rgba(39, 80, 143, 0) 62%),
+    linear-gradient(158deg, var(--midnight) 0%, var(--oxford) 100%);
+  box-shadow:
+    inset 0 1px 0 var(--pol-bevel-d),
+    inset 0 0 0 1px rgba(199, 162, 74, .3),
+    0 22px 54px -32px rgba(2, 6, 16, .9);
+  position: relative;
+  overflow: hidden;
+}
+
+.colophon__inner {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: clamp(24px, 4vw, 54px);
+  align-items: start;
+}
+
+.colophon__mark { text-align: center; }
+.colophon__mark svg {
+  width: 86px; height: 86px;
+  color: var(--gold-rich);
+  opacity: .9;
+}
+.colophon__motto {
+  margin: 14px 0 0;
+  font-size: 1.16rem;
+  color: var(--gold-champagne);
+  line-height: 1.9;
+}
+
+.colophon__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 26px 34px;
+}
+
+.colophon__label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: .62rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  margin-bottom: 8px;
+}
+
+.colophon__col p {
+  margin: 0;
+  font-size: .84rem;
+  line-height: 1.66;
+  color: var(--cerulean);
+}
+.colophon__col a { color: var(--gold-soft); }
+.colophon__col a:hover { color: var(--gold-champagne); }
+
+.colophon__rule {
+  height: 1px;
+  margin: 32px 0 18px;
+  background: linear-gradient(90deg,
+    transparent, rgba(199, 162, 74, .45) 20%, rgba(199, 162, 74, .45) 80%, transparent);
+}
+
+.colophon__seal {
+  margin: 0;
+  text-align: center;
+  font-size: .72rem;
+  letter-spacing: .08em;
+  color: var(--steel);
+}
+
+@media (max-width: 780px) {
+  .colophon__inner { grid-template-columns: 1fr; }
+  .colophon__mark svg { width: 66px; height: 66px; }
+}

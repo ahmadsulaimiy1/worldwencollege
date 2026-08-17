@@ -270,43 +270,23 @@
   </symbol>
 
 </defs></svg>
-<div class="topbar">
-  <div class="topbar__inner">
-    <div class="topbar__contacts">
-      <a href="mailto:registry@daralrusukh.com" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
-        registry@daralrusukh.com
-      </a>
-      <span class="topbar__item topbar__item--muted">
-        <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-        Registry in Lagos &middot; taught wholly at a distance &middot; admission continuous
-      </span>
-    </div>
-    <div class="topbar__right">
-      <a href="/rusukh/calendar/" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>
-        Calendar
-      </a>
-      <a href="/rusukh/verify/" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
-        Verify
-      </a>
-      <a href="/rusukh/riwaq/" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg>
-        Sign in
-      </a>
-      <button type="button" class="topbar__item topbar__pref" data-personalise-toggle
-              aria-expanded="false" aria-controls="personalise">
-        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
-        Personalise
-      </button>
-      <a href="/rusukh/ar/admissions/charges/" class="topbar__lang r-ar" lang="ar" dir="rtl" hreflang="ar">
-        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
-        دار الرسوخ
-      </a>
-    </div>
-  </div>
-</div>
+<!--  THE STRIP THAT USED TO BE HERE IS GONE.
+
+      It carried an address, a standing line, Calendar, Verify, Sign in,
+      Personalise and the language switch — seven items of seven different
+      lengths, stacked ABOVE the College's own name. A masthead is the
+      first thing a reader sees and it was being preceded by a row of
+      utilities, which is the opposite of how a serious institution
+      presents itself.
+
+      Every one of them still exists. Calendar, Verify and Contact live in
+      the mega-menus and the footer; Sign in, Apply, WhatsApp and
+      Personalise moved to the floating dock (partials/dock.html); the
+      language switch sits in the header's own action group; and the whole
+      set is in the mobile drawer under Full Menu.
+
+      What remains above the name is the prayer band alone — the one thing
+      a college of Qur'ānic sciences has a reason to put there.  -->
 
 <!-- THE PRAYER BAND.
      The one thing a college of Qur'ānic sciences should carry above its
@@ -565,58 +545,33 @@
     </div>
   </div>
 
-  <!-- THE HEADER CLOCK. Mobile only. Lagos is the registry's clock and
-       does not shift through the year; the reader's own is beside it, and
-       the date carries the Hijrī year because that is the calendar the
-       session is kept against. js/rusukh-clock.js fills all four values;
-       the numerals below are only the pre-script state. -->
-  <div class="headerclock grain" data-rusukh-clock>
-    <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-    <span class="headerclock__times">
-      <span data-clock-lagos>09:00</span><span class="headerclock__tz">WAT</span>
-      <span class="headerclock__sep">&middot;</span>
-      <span data-clock-local>09:00</span><span class="headerclock__tz">YOU</span>
-    </span>
-    <span class="headerclock__date" data-clock-hijri>&mdash;</span>
-  </div>
+  <!--  THE CLOCK AND THE QUICKNAV STRIP HAVE MOVED INTO THE DRAWER.
 
-  <!-- THE QUICKNAV STRIP. Mobile only — above 861px the five pillars are
-       already in the visible rail, and a second copy there is chrome, not
-       navigation. Native scroll-snap on an overflow-x row; no carousel. -->
-  <div class="quicknav grain" aria-label="Quick navigation">
-    <div class="quicknav__track">
-      <a href="/rusukh/about/" class="quicknav__tile">
-        <span class="vessel" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span></span>
-        <span class="quicknav__label">The College</span>
-      </a>
-      <a href="/rusukh/faculties/" class="quicknav__tile">
-        <span class="vessel" style="--halo-delay: .6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-mushaf"/></svg></span></span>
-        <span class="quicknav__label">Faculties</span>
-      </a>
-      <a href="/rusukh/awards/" class="quicknav__tile">
-        <span class="vessel" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span></span>
-        <span class="quicknav__label">Awards</span>
-      </a>
-      <a href="/rusukh/short-courses/" class="quicknav__tile">
-        <span class="vessel" style="--halo-delay: 1.8s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span></span>
-        <span class="quicknav__label">Short Courses</span>
-      </a>
-      <a href="/rusukh/admissions/" class="quicknav__tile">
-        <span class="vessel" style="--halo-delay: 2.4s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span></span>
-        <span class="quicknav__label">Admission</span>
-      </a>
-      <a href="/rusukh/riwaq/" class="quicknav__tile">
-        <span class="vessel" style="--halo-delay: 3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span></span>
-        <span class="quicknav__label">The Riwāq</span>
-      </a>
-      <button type="button" class="quicknav__tile quicknav__tile--full" data-quicknav-full aria-controls="nav-mobile">
-        <span class="vessel" style="--halo-delay: 3.6s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span></span>
-        <span class="quicknav__label">Full Menu</span>
-      </button>
-    </div>
-  </div>
+        They lived here, inside .site-header, and js/motion.js measures
+        that element into --header-h. On a phone the measurement was
+        275px: the College's masthead had a clock and a seven-tile strip
+        stacked under it, and the drawer — which opens BELOW --header-h —
+        was left whatever remained of the screen.
+
+        The header is now the crest, the name, the menu and the actions.
+        Nothing else. Everything removed is in the drawer below, which is
+        what "Full Menu" should have meant all along.  -->
 
   <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile">
+    <!-- THE CLOCK, moved in from the rail.
+         It was sitting inside .site-header, which on a phone made the
+         header 275px tall — a quarter of the screen spent on chrome
+         before a word of the College appeared, and a drawer that opened
+         into whatever was left. Here it is the drawer's own header. -->
+    <div class="navdraw__clock" data-rusukh-clock>
+      <span class="navdraw__clock-times">
+        <span data-clock-lagos>09:00</span><span class="navdraw__tz">Lagos</span>
+        <span class="navdraw__sep">&middot;</span>
+        <span data-clock-local>09:00</span><span class="navdraw__tz">You</span>
+      </span>
+      <span class="navdraw__date" data-clock-hijri>&mdash;</span>
+    </div>
+
     <div class="accordion">
       <div class="accordion__item">
         <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span><span>The College</span></span><span class="plus" aria-hidden="true">+</span></button>
@@ -680,10 +635,16 @@
         </div></div>
       </div>
     </div>
+    <!-- THE UTILITIES, moved in from the strip above the masthead.
+         Every item that used to precede the College's own name is here,
+         in one place, at one size. -->
     <div class="nav-mobile__group--utility">
       <a href="/rusukh/calendar/">Academic Calendar</a>
       <a href="/rusukh/verify/">Verification</a>
-      <a href="/rusukh/contact/">Contact</a>
+      <a href="/rusukh/contact/">Contact the Registry</a>
+      <a href="/rusukh/riwaq/">Sign in to the Riwāq</a>
+      <a href="https://wa.me/2348000000000" target="_blank" rel="noopener">WhatsApp the Registry</a>
+      <a href="mailto:registry@daralrusukh.com">registry@daralrusukh.com</a>
     </div>
     <div class="nav-mobile__lang">
       <a href="/rusukh/ar/admissions/charges/" class="topbar__lang r-ar" lang="ar" dir="rtl" hreflang="ar">
@@ -714,20 +675,6 @@
     </div>
   </div>
 </section>
-
-<nav class="contents" aria-label="On this page">
-  <div class="contents__inner">
-    <span class="contents__label">On this page</span>
-    <ul class="contents__list">
-      <li><a href="#principle">The principle</a></li>
-      <li><a href="#free">Carrying no charge</a></li>
-      <li><a href="#schedule">Schedule of charges</a></li>
-      <li><a href="#terms">Payment</a></li>
-      <li><a href="#funding">How it is funded</a></li>
-    </ul>
-  </div>
-</nav>
-
 
 
 <section class="section--light section-pad grain" id="principle" data-contents="The principle">
@@ -841,20 +788,30 @@
         <thead><tr><th scope="col">Instrument or artefact</th><th scope="col">Nigeria</th>
           <th scope="col">Outside Nigeria</th></tr></thead>
         <tbody>
-          <tr><td class="r-tier">Student identity card<small>Printed and laminated, with photograph and reference number. Valid for the session.</small></td>
-            <td>&#8358;3,500</td><td>$6</td></tr>
-          <tr><td class="r-tier">Report sheet, engrossed<small>Per semester. The plain letter of results is free; this is the designed and sealed sheet.</small></td>
-            <td>&#8358;2,500</td><td>$5</td></tr>
-          <tr><td class="r-tier">Certificate, engrossed and sealed<small>Rag paper, hand-finished, under the seal of the Academic Council.</small></td>
-            <td>&#8358;12,000</td><td>$22</td></tr>
-          <tr><td class="r-tier">Academic transcript, engrossed and sealed<small>The full record. The digital transcript is free.</small></td>
-            <td>&#8358;9,000</td><td>$16</td></tr>
+          <tr><td class="r-tier">Student identity card<small>Printed on laminated stock with photograph, reference number and the College seal. Valid for the session.</small></td>
+            <td>&#8358;10,000</td><td>$18</td></tr>
+          <tr><td class="r-tier">Report sheet, engrossed<small>Per semester, on watermarked stock and sealed. The plain letter of results is free.</small></td>
+            <td>&#8358;7,500</td><td>$15</td></tr>
+          <tr><td class="r-tier">Certificate, engrossed and sealed<small>Cotton rag paper, hand-finished, under the seal of the Academic Council and the hand of the Rector.</small></td>
+            <td>&#8358;36,000</td><td>$65</td></tr>
+          <tr><td class="r-tier">Academic transcript, engrossed and sealed<small>The full record, with the grading scale printed on the document. The digital transcript is free.</small></td>
+            <td>&#8358;27,000</td><td>$48</td></tr>
+          <tr><td class="r-tier">Second engrossed copy<small>Of any instrument, ordered at the same time as the first.</small></td>
+            <td>&#8358;18,000</td><td>$32</td></tr>
           <tr><td class="r-tier">Transcript despatched under seal<small>Sent by the Registry directly to a named institution, per despatch.</small></td>
-            <td>&#8358;6,000</td><td>$12</td></tr>
-          <tr><td class="r-tier">Instrument of <em>ijāzah</em><small>Engrossed, sealed and hand-finished, stating the chain of transmission in full.</small></td>
+            <td>&#8358;15,000</td><td>$30</td></tr>
+          <tr><td class="r-tier">Instrument of <em>ijāzah</em><small>Engrossed, sealed and hand-finished on prepared stock, stating the chain of transmission in full, in the hand of the conferring teacher.</small></td>
+            <td>&#8358;90,000</td><td>$165</td></tr>
+          <tr><td class="r-tier">Extract from the Register of Asānīd<small>A sealed statement of the chain as it stands in the register on the date of issue.</small></td>
+            <td>&#8358;20,000</td><td>$36</td></tr>
+          <tr><td class="r-tier">Presentation case<small>Cloth-bound, blind-stamped with the octagram, sized to the instrument.</small></td>
+            <td>&#8358;22,000</td><td>$40</td></tr>
+          <tr><td class="r-tier">Framing<small>Conservation glass and a hardwood frame, prepared by the College&rsquo;s binder.</small></td>
             <td>&#8358;30,000</td><td>$55</td></tr>
           <tr><td class="r-tier">Replacement of a lost instrument<small>Issued once, marked as a replacement, against the original register entry.</small></td>
-            <td>&#8358;8,000</td><td>$14</td></tr>
+            <td>&#8358;20,000</td><td>$36</td></tr>
+          <tr><td class="r-tier">Legalisation and apostille<small>The College&rsquo;s handling where a foreign ministry or embassy requires it. Government charges are additional and are passed on at cost.</small></td>
+            <td>&#8358;25,000 + cost</td><td>$45 + cost</td></tr>
           <tr><td class="r-tier">Carriage<small>Courier or registered post, where an engrossed instrument is to be sent.</small></td>
             <td>At cost</td><td>At cost</td></tr>
         </tbody>
@@ -871,6 +828,111 @@
   </div>
 </section>
 
+
+<section class="section--dark section-pad motes" id="catalogue" data-contents="The collections">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">The collections</span>
+      <h2 class="rake">Ordered together, and priced together.</h2>
+      <p class="lede">Most graduates want the same three or four objects. Each collection
+        below is those objects, made as one commission by the same binder on the same day,
+        which is cheaper to do and better to receive than four separate orders. Every item
+        in every collection can still be bought on its own from the schedule above.</p>
+    </div>
+
+    <div class="r-tiers">
+
+      <div class="r-tier-card">
+        <span class="r-tier-card__ar r-ar" lang="ar" dir="rtl">حقيبة الخريج</span>
+        <span class="r-tier-card__name">The Graduate&rsquo;s Folio</span>
+        <p class="r-tier-card__what">What a graduate is asked for by an employer, a registrar
+          or a mosque committee, in one commission.</p>
+        <ul class="r-tier-card__list">
+          <li>Certificate, engrossed and sealed<span>&#8358;36,000</span></li>
+          <li>Academic transcript, engrossed<span>&#8358;27,000</span></li>
+          <li>Student identity card<span>&#8358;10,000</span></li>
+          <li>Presentation case<span>&#8358;22,000</span></li>
+        </ul>
+        <div class="r-tier-card__sum">
+          <span class="r-tier-card__was">Separately &#8358;95,000</span>
+          <strong class="r-tier-card__now">&#8358;78,000</strong>
+          <span class="r-tier-card__alt">$140 outside Nigeria</span>
+        </div>
+        <span class="r-tier-card__cap">Saves &#8358;17,000 &middot; one despatch</span>
+      </div>
+
+      <div class="r-tier-card r-tier-card--feature">
+        <span class="r-tier-card__ar r-ar" lang="ar" dir="rtl">حقيبة الإجازة</span>
+        <span class="r-tier-card__name">The Ijāzah Folio</span>
+        <p class="r-tier-card__what">The instrument of <em>ijāzah</em> as it is meant to be
+          kept: written out, sealed, evidenced against the register, and framed to be hung.</p>
+        <ul class="r-tier-card__list">
+          <li>Instrument of <em>ijāzah</em>, engrossed<span>&#8358;90,000</span></li>
+          <li>Extract from the Register of Asānīd<span>&#8358;20,000</span></li>
+          <li>Presentation case<span>&#8358;22,000</span></li>
+          <li>Framing, conservation glass<span>&#8358;30,000</span></li>
+        </ul>
+        <div class="r-tier-card__sum">
+          <span class="r-tier-card__was">Separately &#8358;162,000</span>
+          <strong class="r-tier-card__now">&#8358;135,000</strong>
+          <span class="r-tier-card__alt">$245 outside Nigeria</span>
+        </div>
+        <span class="r-tier-card__cap">Saves &#8358;27,000 &middot; prepared as one commission</span>
+      </div>
+
+      <div class="r-tier-card">
+        <span class="r-tier-card__ar r-ar" lang="ar" dir="rtl">حقيبة السنة</span>
+        <span class="r-tier-card__name">The Session Folio</span>
+        <p class="r-tier-card__what">For a student in the middle of a programme, or for a
+          guardian who wants the year&rsquo;s record on paper rather than on a screen.</p>
+        <ul class="r-tier-card__list">
+          <li>Report sheet, engrossed &times;3<span>&#8358;22,500</span></li>
+          <li>Student identity card<span>&#8358;10,000</span></li>
+          <li>Carriage within Nigeria<span>At cost</span></li>
+        </ul>
+        <div class="r-tier-card__sum">
+          <span class="r-tier-card__was">Separately &#8358;32,500</span>
+          <strong class="r-tier-card__now">&#8358;26,000</strong>
+          <span class="r-tier-card__alt">$48 outside Nigeria</span>
+        </div>
+        <span class="r-tier-card__cap">Saves &#8358;6,500 &middot; one despatch a session</span>
+      </div>
+
+      <div class="r-tier-card">
+        <span class="r-tier-card__ar r-ar" lang="ar" dir="rtl">ملف المؤسسة</span>
+        <span class="r-tier-card__name">The Institutional File</span>
+        <p class="r-tier-card__what">Where an award has to satisfy a foreign ministry, an
+          embassy or a university admissions office rather than a reader.</p>
+        <ul class="r-tier-card__list">
+          <li>Transcript despatched under seal &times;2<span>&#8358;30,000</span></li>
+          <li>Second engrossed copy of the certificate<span>&#8358;18,000</span></li>
+          <li>Legalisation and apostille handling<span>&#8358;25,000</span></li>
+          <li>Government charges<span>At cost</span></li>
+        </ul>
+        <div class="r-tier-card__sum">
+          <span class="r-tier-card__was">Separately &#8358;73,000</span>
+          <strong class="r-tier-card__now">&#8358;62,000</strong>
+          <span class="r-tier-card__alt">$112 outside Nigeria</span>
+        </div>
+        <span class="r-tier-card__cap">Saves &#8358;11,000 &middot; handled by the Registry throughout</span>
+      </div>
+
+    </div>
+
+    <div class="r-plate">
+      <span class="r-plate__label">What a collection is, and what it is not</span>
+      <p>A collection is a discount for ordering together, and nothing else. It confers no
+        standing, no priority, no attention and no academic advantage whatever. A graduate who
+        buys none of them holds the same award, appears in the same register, and is verified
+        on the same terms as a graduate who buys all four
+        (<a href="/rusukh/regulations/#independence">Reg.&nbsp;9</a>).</p>
+      <p>Prices outside Nigeria are quoted at the collection level rather than item by item,
+        and are set above the naira equivalent for the reason given below. Any collection may
+        be paid in three monthly instalments, and the <em>zakāh</em> fund meets the charges of
+        eligible students in full &mdash; collections included.</p>
+    </div>
+  </div>
+</section>
 
 <section class="section--dark section-pad motes" id="terms" data-contents="Payment">
   <div class="container reveal">
@@ -1342,6 +1404,62 @@
     </div>
   </div>
 
+
+  <!-- THE COLOPHON.
+       Under the registers, before the small print: the closing plate of
+       the book. A colophon is where a manuscript records who made it,
+       where, when and by whose authority — which is exactly what a
+       college's footer should end with, and is a more truthful ending
+       than a row of badges. -->
+  <div class="colophon">
+    <div class="colophon__inner">
+      <div class="colophon__mark">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width=".8" opacity=".45"/>
+          <circle cx="32" cy="32" r="25" fill="none" stroke="currentColor" stroke-width=".8" opacity=".3"/>
+          <path d="M14 14h36v36H14Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M14 14h36v36H14Z" fill="none" stroke="currentColor" stroke-width="1.2" transform="rotate(45 32 32)"/>
+          <circle cx="32" cy="32" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+        </svg>
+        <p class="colophon__motto r-ar" lang="ar" dir="rtl">وَالرَّاسِخُونَ فِي الْعِلْمِ</p>
+      </div>
+
+      <div class="colophon__cols">
+        <div class="colophon__col">
+          <span class="colophon__label">Constituted</span>
+          <p>Founded 1441&nbsp;/&nbsp;2020 as a programme of instruction in the Qur&rsquo;ān
+            and the Arabic language; constituted as a College in 1448&nbsp;/&nbsp;2026 with a
+            faculty structure, an Academic Council and a published scheme of awards.</p>
+        </div>
+        <div class="colophon__col">
+          <span class="colophon__label">Authority</span>
+          <p>Governed by a Board of Trustees. Academic authority is vested in the Academic
+            Council, which approves the syllabi, appoints the examiners and confirms every
+            result. No commercial officer may alter an academic outcome.</p>
+        </div>
+        <div class="colophon__col">
+          <span class="colophon__label">Standing</span>
+          <p>Awards are conferred on the College&rsquo;s own authority. It confers no degree
+            and holds no external accreditation, and says so wherever it describes itself
+            &mdash; <a href="/rusukh/standing/">Standing, Recognition and Disclosure</a>.</p>
+        </div>
+        <div class="colophon__col">
+          <span class="colophon__label">Undertakings</span>
+          <p>No tuition fee and no examination fee. Verification free to every enquirer, for
+            ever. The register of instruments is the last thing that would be switched off
+            &mdash; <a href="/rusukh/admissions/charges/">Charges</a>.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="colophon__rule" aria-hidden="true"></p>
+
+    <p class="colophon__seal">
+      Set in Bodoni Moda, Cinzel, Inter and Amiri &middot; kept against the Hijrī calendar
+      &middot; written in English and in Arabic, each authored rather than translated
+    </p>
+  </div>
+
   <div class="site-footer__bottom">
     <p>&copy; <span data-year>2026</span> Dār al-Rusūkh College of Qur&rsquo;ānic and Islamic Sciences.
       Established 1441&nbsp;/&nbsp;2020 &middot; Lagos, Nigeria. Governed by a Board of
@@ -1370,10 +1488,68 @@
   </div>
   <div class="trim-metal" aria-hidden="true"></div>
 </footer>
+<!--
+  THE DOCK.
+
+  Four things a reader reaches for at any point on any page, taken out of
+  the strip that used to sit above the College's name and given a place of
+  their own: the Riwāq, admission, WhatsApp, and the personalisation
+  centre.
+
+  It is a DOCK rather than a chat bubble. A round green bubble in the
+  corner is the idiom of a shop; this is a column of engraved plates on
+  the sapphire ground, closed to a single seal until it is touched. The
+  seal is the College's own octagram, not a speech balloon.
+
+  Behaviour: closed it is one 56px mark. On hover, focus or tap it opens
+  upward and the four plates arrive in sequence. It never covers the
+  footer's own actions — js/rusukh-dock.js retires it when the footer
+  enters view, because a floating control over a page's own closing
+  buttons is a control competing with the thing it is meant to serve.
+-->
+<div class="dock" data-dock aria-label="Quick actions">
+  <div class="dock__stack" data-dock-stack hidden>
+
+    <a class="dock__plate" href="/rusukh/riwaq/" data-dock-i="0">
+      <span class="dock__label">The Riwāq<em>Sign in to the portal</em></span>
+      <span class="dock__badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+    </a>
+
+    <a class="dock__plate dock__plate--gold" href="/rusukh/admissions/#apply" data-dock-i="1">
+      <span class="dock__label">Register<em>Apply to the Registry — no charge</em></span>
+      <span class="dock__badge"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+    </a>
+
+    <a class="dock__plate dock__plate--green" href="https://wa.me/2348000000000"
+       target="_blank" rel="noopener" data-dock-i="2">
+      <span class="dock__label">WhatsApp<em>The Registry, 09:00–17:00 WAT</em></span>
+      <span class="dock__badge"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></span>
+    </a>
+
+    <button type="button" class="dock__plate" data-personalise-toggle
+            aria-expanded="false" aria-controls="personalise" data-dock-i="3">
+      <span class="dock__label">Personalise<em>Livery, ornament, text size</em></span>
+      <span class="dock__badge"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+    </button>
+
+  </div>
+
+  <button type="button" class="dock__seal" data-dock-toggle
+          aria-expanded="false" aria-label="Open quick actions">
+    <svg class="dock__crest" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+      <path d="M10.5 10.5h27v27h-27Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M10.5 10.5h27v27h-27Z" fill="none" stroke="currentColor" stroke-width="1.4" transform="rotate(45 24 24)"/>
+      <circle cx="24" cy="24" r="6" fill="currentColor" opacity=".22"/>
+    </svg>
+    <span class="dock__seal-x" aria-hidden="true">&times;</span>
+  </button>
+</div>
 <script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
 <script src="/js/rusukh-clock.js" defer></script>
 <script src="/js/rusukh-atelier.js" defer></script>
+<script src="/js/rusukh-dock.js" defer></script>
 </body>
 </html>
