@@ -379,8 +379,8 @@ function institutionalConfidence() {
     /\bhas not (?:been|obtained|appointed|opened|met|adopted|applied|produced)\b/gi,
     /\bwill be (?:added|produced|published|written) (?:later|in due course|when)\b/gi,
     /\bstill (?:to be|being) (?:written|produced|decided|built)\b/gi,
-    /\bلم\s+(?:يُ|تُ|ي|ت)\w*\s+بعد\b/g,
-    /\bليس\s+بعد\b/g,
+    /(?<![؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿])لم\s+(?:يُ|تُ|ي|ت)\w*\s+بعد(?![؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿])/g,
+    /(?<![؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿])ليس\s+بعد(?![؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿])/g,
   ];
   for (const [f, body] of src) {
     const text = prose(body);

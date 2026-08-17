@@ -1,12 +1,12 @@
 {
-  "generated": 17,
+  "generated": 18,
   "counts": {
     "SEVERE": 2,
     "MAJOR": 5,
-    "MINOR": 10
+    "MINOR": 11
   },
   "byCommittee": {
-    "Institutional Confidence": 14,
+    "Institutional Confidence": 15,
     "Visual Storytelling": 3
   },
   "findings": [
@@ -112,6 +112,14 @@
       "page": "governance-evidence.html",
       "what": "2 construction(s) narrating what has not happened",
       "evidence": "“nobody has”, “has not been”",
+      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
+    },
+    {
+      "committee": "Institutional Confidence",
+      "severity": "MINOR",
+      "page": "governance.ar.html",
+      "what": "1 construction(s) narrating what has not happened",
+      "evidence": "“ليس بعد”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
