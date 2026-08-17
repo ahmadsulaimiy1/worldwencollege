@@ -700,6 +700,16 @@ materials: authoring a curriculum is a fixed cost the enrolled fees
 carry, and charging a marginal reader the average cost is how an
 institution prices itself out of its own mission.
 
+*The materials step, and a conflict caught on the day it shipped.* The
+first draft sold "every authored lesson of the level, downloadable" —
+which the Library already gives away free to anyone, in print-ready
+volumes. That would have been the College charging $150 for a book on
+one page and giving it away on another. The step is **access to the
+level inside the platform**: staged and timed lessons, the Listening
+Lab, the recording workspace that keeps a candidate's own attempts, and
+the self-checks with their answers. **The books stay free**, and the
+page says so exactly where the fee is charged.
+
 *The conferral fee, and the promise it appears to break.* An enrolled
 student pays nothing to be awarded because certification is line eight
 of their level fee, already paid. An independent candidate has not paid

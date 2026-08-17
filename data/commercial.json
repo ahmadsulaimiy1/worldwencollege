@@ -58,7 +58,8 @@
         "supply the material, assess the work, confer and record the award.",
         "Each is bought separately and each stands alone — a candidate may",
         "buy the materials and never sit, or sit and never take the award,",
-        "and the College does not require the next step to sell the last."
+        "and the College does not require the next step to sell the last.",
+        "A CONFLICT CAUGHT ON THE DAY THIS SHIPPED. The first draft of the materials step sold 'every authored lesson of the level, downloadable' — which the Library already gives away free to anyone, in print-ready volumes. That would have been the College charging $150 for a book on one page and giving it away on another. The step is access to the level INSIDE THE PLATFORM: staged lessons, the Listening Lab, the recording workspace, the self-checks. The books stay free, and the page says so where the fee is charged."
       ],
       "steps": [
         {
@@ -66,12 +67,12 @@
           "cents": 15000,
           "icon": "i-book",
           "en": {
-            "name": "The level's materials",
-            "buys": "Every authored lesson of the level, its workbook, its listening scripts, its pronunciation targets and its self-checks &mdash; downloadable, permanent, and yours to print. The same material an enrolled student studies."
+            "name": "Access to the level",
+            "buys": "The level inside the platform: its lessons staged and timed, the Listening Lab, the recording workspace that keeps your own attempts, and the self-checks with their answers. <strong>The books stay free</strong> &mdash; every volume of the curriculum is in the <a href=\"/press/library/\">Library</a>, for you and for anyone, enrolled or not. This step buys the level as a place to work in, not as a document to read."
           },
           "ar": {
-            "name": "مواد المستوى",
-            "buys": "كل درس مؤلَّف في المستوى، وكتاب تدريباته، ونصوص استماعه، وأهداف نطقه، ومراجعاته الذاتية &mdash; قابلة للتنزيل، دائمة، ولك أن تطبعها. وهي المادة نفسها التي يدرسها الملتحق."
+            "name": "الوصول إلى المستوى",
+            "buys": "المستوى داخل المنصة: دروسه مرتَّبة موقوتة، ومعمل الاستماع، ومساحة التسجيل التي تحفظ محاولاتك، والمراجعات الذاتية بأجوبتها. <strong>أما الكتب فتبقى مجانية</strong> &mdash; فكل مجلد من المنهج في <a href=\"/ar/press/library/\">المكتبة</a>، لك ولغيرك، التحقت أو لم تلتحق. وهذه الخطوة تشتري المستوى مكانًا تعمل فيه، لا مستندًا تقرؤه."
           }
         },
         {

@@ -91,6 +91,33 @@ check('Arabic: the same',
 const LESSER = /(lesser|reduced|simplified|lighter) (award|certificate|qualification|examination)/i;
 check('No page describes the independent award as a lesser one', !LESSER.test(en));
 
+// ── 3b · THE PAID STEP MUST NOT SELL WHAT THE LIBRARY GIVES AWAY ─────
+//
+// Caught on the day the model shipped, and worth a permanent guard. The
+// first draft of the materials step sold "every authored lesson of the
+// level, downloadable" — which data/library.json already publishes free
+// to anyone in print-ready volumes. That is the College charging $150
+// for a book on one page and giving it away on another, and no reader
+// who found both would trust either.
+//
+// The step buys the level INSIDE THE PLATFORM. The books stay free, and
+// the page has to say so exactly where the fee is charged.
+{
+  const materials = C.routes.independent.steps.find((x) => x.key === 'materials');
+  check('The materials step does not claim to sell downloadable books',
+    !/downloadable/i.test(materials.en.buys),
+    'the Library gives those away free — sell access to the platform, not the PDF');
+  check('...and says, where the fee is charged, that the books stay free',
+    /books stay free/i.test(materials.en.buys) && /Library/.test(materials.en.buys));
+  check('...in Arabic too',
+    /الكتب فتبقى مجانية/.test(materials.ar.buys) && /المكتبة/.test(materials.ar.buys));
+
+  // And on the rendered pages, not only in the data.
+  check('English: the page carries the free-books statement beside the fee',
+    /books stay free/i.test(en));
+  check('Arabic: the same', /الكتب فتبقى مجانية/.test(ar));
+}
+
 // ── 4 · A REMISSION, NOT A COMMISSION ────────────────────────────────
 check('The referral scheme declares that it never pays cash',
   C.referral.never_paid_as_cash === true && C.referral.carries_forward === true);
