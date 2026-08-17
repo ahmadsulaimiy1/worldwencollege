@@ -344,8 +344,8 @@ ${card('Graduate profile', 'What the holder can do', esc(a.graduate_profile), 'i
       <span class="callout__label">How this award is moderated</span>
       <p>Every award at this level is set, marked and second-marked inside the College, against
         the criteria published above and before the work is attempted. That moderation is
-        internal: the College has not appointed an External Examiner, the independent post that
-        would confirm from outside that this level sits where the College says it sits. See
+        internal: no External Examiner is appointed, and that is the post which would confirm
+        from outside that this level sits where the College says it sits. See
         <a href="/about/#status">About &middot; Institutional Status</a>.</p>
     </div>
   </div>

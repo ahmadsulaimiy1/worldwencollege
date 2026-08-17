@@ -276,16 +276,39 @@ function institutionalConfidence() {
   committee = 'Institutional Confidence';
 
   // ── ACCREDITATION, WHERE NOTHING TURNS ON IT ──────────────────────
-  // Two pages have to carry it: the status section a reader is sent to,
-  // and the page where fees are paid. Everywhere else it is the College
-  // volunteering its weakest fact in a context that did not ask.
+  // Three pages carry it at length: the status section a reader is sent
+  // to, the page where fees are paid, and the governance instrument.
+  //
+  // ONE MENTION IS NOT A FINDING, anywhere. A reader who asks the FAQ
+  // "is it accredited?", a candidate reading the faculty register, a
+  // student weighing what an award is worth — each is owed one plain
+  // sentence and a link, and deleting it would be concealment rather
+  // than confidence. The owner's instruction is to stop RAISING
+  // accreditation where nothing turns on it, and a single answer to a
+  // question the reader actually asked is not raising it. What this
+  // committee is for is the page that returns to the subject two, four,
+  // seven times — which is the institution volunteering its weakest
+  // fact in a context that did not ask.
   const MAY_DISCUSS = new Set(['about.html', 'about.ar.html',
     'admissions-tuition.html', 'admissions-tuition.ar.html',
     'governance.html', 'governance.ar.html']);
+  const ALLOWANCE = (f) => (MAY_DISCUSS.has(f) ? 4 : 1);
   for (const [f, body] of src) {
-    const hits = prose(body).match(/accredit\w*|اعتماد|معتمد\w*/gi);
-    if (!hits) continue;
-    if (MAY_DISCUSS.has(f) && hits.length <= 4) continue;
+    // معتمد alone is not accreditation. It is the ordinary Arabic word
+    // for "adopted" or "supported", and the bare stem made this
+    // committee report seven accreditation mentions on the Arabic
+    // tuition page where every one of them was a SUPPORTED CURRENCY —
+    // "عملة واحدة معتمدة، وست غير معتمدة". A register that cries wolf
+    // stops being read, which is the one failure an audit cannot
+    // survive. So the Arabic side matches the academic collocations
+    // only, and the English `accredit\w*` stem is unambiguous as it is.
+    const AR_ACCREDITATION = /اعتماد\s*أكاديمي|الاعتماد\s*الأكاديمي|اعتماد[ًا]?\s*أكاديمي[ًا]?|جهة\s*اعتماد|لجنة\s*اعتماد|هيئة\s*اعتماد|شهادة\s*معتمدة|شهادات\s*معتمدة|غير\s*معتمدة\s*أكاديمي[ًا]?|لا\s*تحمل\s*(?:الكلية\s*)?(?:أي\s*)?اعتماد|بلا\s*اعتماد/g;
+    const hits = [
+      ...(prose(body).match(/accredit\w*/gi) || []),
+      ...(prose(body).match(AR_ACCREDITATION) || []),
+    ];
+    if (!hits.length) continue;
+    if (hits.length <= ALLOWANCE(f)) continue;
     flag(MAY_DISCUSS.has(f) ? 'MAJOR' : 'SEVERE', f,
       `Accreditation raised ${hits.length}× on a page that is not the status page`,
       `${[...new Set(hits)].slice(0, 4).join(', ')}`,

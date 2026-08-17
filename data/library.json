@@ -10,7 +10,7 @@
   "max_bytes": 26214400,
   "total": 16,
   "downloadable": 14,
-  "total_bytes": 79382247,
+  "total_bytes": 79382234,
   "collections": [
     "The Curriculum",
     "Teaching and Assessment",
@@ -97,7 +97,7 @@
       "audience": "Teachers",
       "note": "For each lesson of Level I: what commonly goes wrong, why, a second way to explain it, and what to do for the learner who is behind and the one who finished early. Its front matter states that it contains no classroom observation.",
       "note_ar": "لكل درس من دروس المستوى الأول: ما يُخطئ فيه المتعلمون عادةً، ولماذا، وطريقة ثانية للشرح، وما يُفعَل مع من تأخّر ومع من أنهى مبكرًا. وصدر الكتاب يذكر أنه لا يحتوي ملاحظة صفّية.",
-      "bytes": 785382,
+      "bytes": 785369,
       "mb": "0.7",
       "oversize": false,
       "href": "/library/teachers-companion-level-1.pdf",

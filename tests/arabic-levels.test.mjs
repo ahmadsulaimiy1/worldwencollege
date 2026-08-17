@@ -187,7 +187,13 @@ const ARABIC = /[؀-ۿ]/;
 
   // The examiner vacancy itself has to stay on the page: it is the
   // reason the sentence above is true.
-  const noVacancy = LEVELS.filter((n) => !/لم تُعيّن ممتحنًا خارجيًا/.test(flat(ar[n])));
+  // Matched on the FACT, not on one phrasing of it. The page moved from
+  // "the College has not appointed an examiner" to "no external examiner
+  // is appointed" — the same vacancy, stated without narrating what the
+  // College has failed to do — and a check pinned to the old wording
+  // would have forced the sentence back.
+  const VACANCY = /لم تُعيّن ممتحنًا خارجيًا|لا ممتحن خارجي معيَّن|ممتحن خارجي.{0,12}(?:شاغر|غير معيَّن)/;
+  const noVacancy = LEVELS.filter((n) => !VACANCY.test(flat(ar[n])));
   check('...and that the External Examiner post is named as unfilled',
     noVacancy.length === 0, noVacancy.map((n) => `level-${n}`).join(', '));
 }

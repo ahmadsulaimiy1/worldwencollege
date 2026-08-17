@@ -1,17 +1,16 @@
 {
-  "generated": 207,
+  "generated": 166,
   "counts": {
-    "SEVERE": 82,
-    "MAJOR": 60,
+    "SEVERE": 45,
+    "MAJOR": 56,
     "MINOR": 65
   },
   "byCommittee": {
-    "Editorial Excellence": 54,
-    "Institutional Confidence": 63,
-    "Visual Storytelling": 16,
+    "Editorial Excellence": 53,
+    "Institutional Confidence": 23,
+    "Visual Storytelling": 17,
     "Information Architecture": 24,
     "Material Law": 48,
-    "Motion": 1,
     "Typography": 1
   },
   "findings": [
@@ -19,15 +18,15 @@
       "committee": "Editorial Excellence",
       "severity": "SEVERE",
       "page": "admissions.html",
-      "what": "5223 words on one page",
-      "evidence": "24 minutes of reading before the reader reaches the foot",
+      "what": "4657 words on one page",
+      "evidence": "21 minutes of reading before the reader reaches the foot",
       "remedy": "Move a chapter to its own page, or reduce the prose to what only prose can carry and let a register, a table or a diagram hold the rest."
     },
     {
       "committee": "Editorial Excellence",
       "severity": "SEVERE",
       "page": "governance.html",
-      "what": "5034 words on one page",
+      "what": "5128 words on one page",
       "evidence": "23 minutes of reading before the reader reaches the foot",
       "remedy": "Move a chapter to its own page, or reduce the prose to what only prose can carry and let a register, a table or a diagram hold the rest."
     },
@@ -53,14 +52,6 @@
       "page": "study-level-1.ar.html, study-level-2.ar.html, study-level-3.ar.html, study-level-4.ar.html, study-level-5.ar.html, study-level-6.ar.html",
       "what": "One paragraph repeated verbatim on 6 pages",
       "evidence": "“مجموعة استماع مكتوبة النص في كل وحدة، مع إشارات المتحدثين وأسئلة فهم مبنية على النص نفسه لا مضافة إليه بعد إعداده.…”",
-      "remedy": "Say it once where it belongs and link to it, or write it afresh for each page it appears on."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "SEVERE",
-      "page": "study-level-1.ar.html, study-level-2.ar.html, study-level-3.ar.html, study-level-4.ar.html, study-level-5.ar.html, study-level-6.ar.html",
-      "what": "One paragraph repeated verbatim on 6 pages",
-      "evidence": "“التسلسل مقصود: كل وحدة تفترض ما علّمته الوحدة التي قبلها، والوحدة الأخيرة ترسّخ ولا تقدّم جديدًا. يُنشر العنوان الإنجليز…”",
       "remedy": "Say it once where it belongs and link to it, or write it afresh for each page it appears on."
     },
     {
@@ -156,7 +147,7 @@
       "severity": "SEVERE",
       "page": "study-level-1.ar.html, study-level-2.ar.html, study-level-3.ar.html, study-level-4.ar.html, study-level-5.ar.html, study-level-6.ar.html",
       "what": "One paragraph repeated verbatim on 6 pages",
-      "evidence": "“الكلية لا تحمل أي اعتماد أكاديمي، ولم تُعيّن ممتحنًا خارجيًا — وهو المنصب المستقل الذي وظيفته كلها أن يؤكد، من الخارج، أ…”",
+      "evidence": "“كل شهادة في هذا المستوى تُوضَع وتُصحَّح وتُراجَع مرتين داخل الكلية، وفق المعايير المنشورة أعلاه وقبل أن يُشرَع في العمل.…”",
       "remedy": "Say it once where it belongs and link to it, or write it afresh for each page it appears on."
     },
     {
@@ -213,14 +204,6 @@
       "page": "study-level-1.html, study-level-2.html, study-level-3.html, study-level-4.html, study-level-5.html, study-level-6.html",
       "what": "One paragraph repeated verbatim on 6 pages",
       "evidence": "“A pronunciation laboratory per module, targeting the sounds, stress patterns and rhythm the module’s own language actual…”",
-      "remedy": "Say it once where it belongs and link to it, or write it afresh for each page it appears on."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "SEVERE",
-      "page": "study-level-1.html, study-level-2.html, study-level-3.html, study-level-4.html, study-level-5.html, study-level-6.html",
-      "what": "One paragraph repeated verbatim on 6 pages",
-      "evidence": "“The sequence is deliberate: each module assumes what the one before it taught, and the final module consolidates rather …”",
       "remedy": "Say it once where it belongs and link to it, or write it afresh for each page it appears on."
     },
     {
@@ -324,7 +307,7 @@
       "severity": "SEVERE",
       "page": "study-level-1.html, study-level-2.html, study-level-3.html, study-level-4.html, study-level-5.html, study-level-6.html",
       "what": "One paragraph repeated verbatim on 6 pages",
-      "evidence": "“WEC-LC holds no accreditation, and the College has not appointed an External Examiner — the independent post whose whole…”",
+      "evidence": "“Every award at this level is set, marked and second-marked inside the College, against the criteria published above and …”",
       "remedy": "Say it once where it belongs and link to it, or write it afresh for each page it appears on."
     },
     {
@@ -344,107 +327,19 @@
       "remedy": "Say it once where it belongs and link to it, or write it afresh for each page it appears on."
     },
     {
-      "committee": "Editorial Excellence",
-      "severity": "SEVERE",
-      "page": "study-level-1.html, study-level-2.html, study-level-3.html, study-level-4.html, study-level-5.html, study-level-6.html",
-      "what": "One paragraph repeated verbatim on 6 pages",
-      "evidence": "“The award is defined and its criteria published, but WEC-LC holds no accreditation and has appointed no External Examine…”",
-      "remedy": "Say it once where it belongs and link to it, or write it afresh for each page it appears on."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "about-careers.ar.html",
-      "what": "Accreditation raised 1× on a page that is not the status page",
-      "evidence": "اعتماد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "about-careers.html",
-      "what": "Accreditation raised 1× on a page that is not the status page",
-      "evidence": "Accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "about.html",
-      "what": "9 construction(s) narrating what has not happened",
-      "evidence": "“is not yet”, “nobody has”, “has not been”, “still being built”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
       "committee": "Institutional Confidence",
       "severity": "SEVERE",
       "page": "academics.ar.html",
-      "what": "Accreditation raised 3× on a page that is not the status page",
-      "evidence": "اعتماد",
+      "what": "Accreditation raised 2× on a page that is not the status page",
+      "evidence": "الاعتماد الأكاديمي, لا تحمل اعتماد",
       "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
     },
     {
       "committee": "Institutional Confidence",
       "severity": "SEVERE",
       "page": "academics.html",
-      "what": "Accreditation raised 1× on a page that is not the status page",
-      "evidence": "Accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "admissions-policy.ar.html",
-      "what": "Accreditation raised 1× on a page that is not the status page",
-      "evidence": "معتمد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "admissions.ar.html",
-      "what": "Accreditation raised 5× on a page that is not the status page",
-      "evidence": "اعتماد, معتمد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "admissions.html",
-      "what": "Accreditation raised 4× on a page that is not the status page",
-      "evidence": "Accreditation, accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "admissions.html",
-      "what": "12 construction(s) narrating what has not happened",
-      "evidence": "“has not yet”, “does not yet”, “not yet adopted”, “not yet run”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "faculty.ar.html",
       "what": "Accreditation raised 2× on a page that is not the status page",
-      "evidence": "معتمد, اعتماد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "faculty.html",
-      "what": "Accreditation raised 1× on a page that is not the status page",
-      "evidence": "accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "faq.ar.html",
-      "what": "Accreditation raised 3× on a page that is not the status page",
-      "evidence": "معتمد, اعتماد",
+      "evidence": "Accreditation, accreditation",
       "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
     },
     {
@@ -453,22 +348,6 @@
       "page": "faq.html",
       "what": "Accreditation raised 2× on a page that is not the status page",
       "evidence": "accredited, accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "governance-decisions.ar.html",
-      "what": "Accreditation raised 7× on a page that is not the status page",
-      "evidence": "معتمد, اعتماد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "governance-evidence.ar.html",
-      "what": "Accreditation raised 3× on a page that is not the status page",
-      "evidence": "اعتماد",
       "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
     },
     {
@@ -483,185 +362,9 @@
       "committee": "Institutional Confidence",
       "severity": "SEVERE",
       "page": "governance.html",
-      "what": "12 construction(s) narrating what has not happened",
-      "evidence": "“has not yet”, “not yet met”, “Not Yet Run”, “has not met”",
+      "what": "11 construction(s) narrating what has not happened",
+      "evidence": "“has not yet”, “not yet met”, “has not met”, “has not been”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "home.ar.html",
-      "what": "Accreditation raised 8× on a page that is not the status page",
-      "evidence": "اعتماد, Accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "home.html",
-      "what": "Accreditation raised 6× on a page that is not the status page",
-      "evidence": "Accreditation, accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "press-library.html",
-      "what": "The College's own editorial process is on a public page",
-      "evidence": "1×: “has been reviewed by anyone”",
-      "remedy": "Move to docs/. A reader deciding where to study is not the audience for how the page was made."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "press-library.html",
-      "what": "The College's own editorial process is on a public page",
-      "evidence": "1×: “Nothing here has been reviewed”",
-      "remedy": "Move to docs/. A reader deciding where to study is not the audience for how the page was made."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "press.ar.html",
-      "what": "Accreditation raised 1× on a page that is not the status page",
-      "evidence": "اعتماد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "press.html",
-      "what": "Accreditation raised 1× on a page that is not the status page",
-      "evidence": "accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "students-awards.ar.html",
-      "what": "Accreditation raised 1× on a page that is not the status page",
-      "evidence": "معتمد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "students-integrity.ar.html",
-      "what": "Accreditation raised 2× on a page that is not the status page",
-      "evidence": "معتمد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "students.ar.html",
-      "what": "Accreditation raised 1× on a page that is not the status page",
-      "evidence": "اعتماد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "students.html",
-      "what": "Accreditation raised 1× on a page that is not the status page",
-      "evidence": "accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "study-level-1.ar.html",
-      "what": "Accreditation raised 7× on a page that is not the status page",
-      "evidence": "معتمد, اعتماد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "study-level-1.html",
-      "what": "Accreditation raised 2× on a page that is not the status page",
-      "evidence": "accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "study-level-2.ar.html",
-      "what": "Accreditation raised 3× on a page that is not the status page",
-      "evidence": "معتمد, اعتماد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "study-level-2.html",
-      "what": "Accreditation raised 2× on a page that is not the status page",
-      "evidence": "accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "study-level-3.ar.html",
-      "what": "Accreditation raised 3× on a page that is not the status page",
-      "evidence": "معتمد, اعتماد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "study-level-3.html",
-      "what": "Accreditation raised 2× on a page that is not the status page",
-      "evidence": "accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "study-level-4.ar.html",
-      "what": "Accreditation raised 3× on a page that is not the status page",
-      "evidence": "معتمد, اعتماد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "study-level-4.html",
-      "what": "Accreditation raised 2× on a page that is not the status page",
-      "evidence": "accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "study-level-5.ar.html",
-      "what": "Accreditation raised 3× on a page that is not the status page",
-      "evidence": "معتمد, اعتماد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "study-level-5.html",
-      "what": "Accreditation raised 2× on a page that is not the status page",
-      "evidence": "accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "study-level-6.ar.html",
-      "what": "Accreditation raised 3× on a page that is not the status page",
-      "evidence": "معتمد, اعتماد",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "SEVERE",
-      "page": "study-level-6.html",
-      "what": "Accreditation raised 2× on a page that is not the status page",
-      "evidence": "accreditation",
-      "remedy": "Remove. Link to /about/#status where a reader needs it; say nothing where they do not."
     },
     {
       "committee": "Visual Storytelling",
@@ -675,7 +378,7 @@
       "committee": "Editorial Excellence",
       "severity": "MAJOR",
       "page": "about.html",
-      "what": "3230 words on one page",
+      "what": "3212 words on one page",
       "evidence": "15 minutes of reading before the reader reaches the foot",
       "remedy": "Move a chapter to its own page, or reduce the prose to what only prose can carry and let a register, a table or a diagram hold the rest."
     },
@@ -700,24 +403,40 @@
       "severity": "MAJOR",
       "page": "academics.html",
       "what": "1 paragraph(s) over 110 words",
-      "evidence": "longest 115 words",
+      "evidence": "longest 117 words",
       "remedy": "Break into two, or convert the enumeration inside it into a real list or a register."
     },
     {
       "committee": "Editorial Excellence",
       "severity": "MAJOR",
       "page": "academics.html",
-      "what": "3653 words on one page",
+      "what": "3674 words on one page",
       "evidence": "17 minutes of reading before the reader reaches the foot",
       "remedy": "Move a chapter to its own page, or reduce the prose to what only prose can carry and let a register, a table or a diagram hold the rest."
     },
     {
       "committee": "Editorial Excellence",
       "severity": "MAJOR",
+      "page": "admissions-tuition.html",
+      "what": "1 sentence(s) over 45 words",
+      "evidence": "longest is 52: “A request concerning a payment made before that date is decided under this policy as if it had already been in force, unless doing so would leave the …”",
+      "remedy": "Split at the first conjunction that carries a new subject."
+    },
+    {
+      "committee": "Editorial Excellence",
+      "severity": "MAJOR",
+      "page": "admissions-tuition.html",
+      "what": "3368 words on one page",
+      "evidence": "15 minutes of reading before the reader reaches the foot",
+      "remedy": "Move a chapter to its own page, or reduce the prose to what only prose can carry and let a register, a table or a diagram hold the rest."
+    },
+    {
+      "committee": "Editorial Excellence",
+      "severity": "MAJOR",
       "page": "admissions.html",
-      "what": "1 paragraph(s) over 110 words",
-      "evidence": "longest 130 words",
-      "remedy": "Break into two, or convert the enumeration inside it into a real list or a register."
+      "what": "1 sentence(s) over 45 words",
+      "evidence": "longest is 56: “What the College tells you before it takes your money Every award conferred so far — the Level I and Level II awards among them — was set, marked and …”",
+      "remedy": "Split at the first conjunction that carries a new subject."
     },
     {
       "committee": "Editorial Excellence",
@@ -738,14 +457,6 @@
     {
       "committee": "Editorial Excellence",
       "severity": "MAJOR",
-      "page": "home.html",
-      "what": "3213 words on one page",
-      "evidence": "15 minutes of reading before the reader reaches the foot",
-      "remedy": "Move a chapter to its own page, or reduce the prose to what only prose can carry and let a register, a table or a diagram hold the rest."
-    },
-    {
-      "committee": "Editorial Excellence",
-      "severity": "MAJOR",
       "page": "students-integrity.html",
       "what": "1 sentence(s) over 45 words",
       "evidence": "longest is 48: “The College records that as what it is — a count of cases opened, not a claim that nothing has ever occurred — and the procedure was written ahead of …”",
@@ -758,6 +469,14 @@
       "what": "1 paragraph(s) over 110 words",
       "evidence": "longest 115 words",
       "remedy": "Break into two, or convert the enumeration inside it into a real list or a register."
+    },
+    {
+      "committee": "Editorial Excellence",
+      "severity": "MAJOR",
+      "page": "students-regulations.html",
+      "what": "1 sentence(s) over 45 words",
+      "evidence": "longest is 48: “What the procedure guarantees, and what it does not It guarantees that a decision affecting you is reconsidered by people who did not make it, that ev…”",
+      "remedy": "Split at the first conjunction that carries a new subject."
     },
     {
       "committee": "Editorial Excellence",
@@ -803,7 +522,7 @@
       "committee": "Information Architecture",
       "severity": "MAJOR",
       "page": "admissions.ar.html",
-      "what": "16 of 22 leaves absent from the contents rail",
+      "what": "15 of 21 leaves absent from the contents rail",
       "evidence": "section.leaf without data-contents",
       "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
     },
@@ -811,7 +530,7 @@
       "committee": "Information Architecture",
       "severity": "MAJOR",
       "page": "admissions.html",
-      "what": "17 of 23 leaves absent from the contents rail",
+      "what": "16 of 22 leaves absent from the contents rail",
       "evidence": "section.leaf without data-contents",
       "remedy": "Give every leaf a data-contents label, or demote it below leaf rank."
     },
@@ -962,73 +681,17 @@
     {
       "committee": "Institutional Confidence",
       "severity": "MAJOR",
+      "page": "about.html",
+      "what": "6 construction(s) narrating what has not happened",
+      "evidence": "“nobody has”, “has not been”, “has not met”, “still being built”",
+      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
+    },
+    {
+      "committee": "Institutional Confidence",
+      "severity": "MAJOR",
       "page": "academics.html",
       "what": "4 construction(s) narrating what has not happened",
-      "evidence": "“has not yet”, “has not been”, “still being written”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MAJOR",
-      "page": "admissions-tuition.ar.html",
-      "what": "Accreditation raised 6× on a page that is not the status page",
-      "evidence": "معتمد",
-      "remedy": "Reduce to one statement and link to the status section."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MAJOR",
-      "page": "admissions-tuition.html",
-      "what": "5 construction(s) narrating what has not happened",
-      "evidence": "“has not yet”, “do not yet”, “is not yet”, “has not been”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MAJOR",
-      "page": "faq.html",
-      "what": "5 construction(s) narrating what has not happened",
-      "evidence": "“is not yet”, “not yet running”, “has not adopted”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MAJOR",
-      "page": "governance.ar.html",
-      "what": "Accreditation raised 7× on a page that is not the status page",
-      "evidence": "اعتماد, معتمد",
-      "remedy": "Reduce to one statement and link to the status section."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MAJOR",
-      "page": "home.html",
-      "what": "4 construction(s) narrating what has not happened",
-      "evidence": "“have not yet”, “is not yet”, “not yet produced”, “has not been”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MAJOR",
-      "page": "student-portal.html",
-      "what": "3 construction(s) narrating what has not happened",
-      "evidence": "“not yet running”, “has not opened”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MAJOR",
-      "page": "students-awards.html",
-      "what": "6 construction(s) narrating what has not happened",
-      "evidence": "“Not yet applied”, “nobody has”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MAJOR",
-      "page": "students.html",
-      "what": "4 construction(s) narrating what has not happened",
-      "evidence": "“has not yet”, “not yet been”, “Not Yet Produced”, “has not been”",
+      "evidence": "“not yet adopted”, “has not been”, “still being written”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
@@ -1043,7 +706,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "faq.ar.html",
-      "what": "1149 words and no photograph",
+      "what": "1124 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 0 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -1051,15 +714,23 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "faq.html",
-      "what": "1517 words and no photograph",
+      "what": "1476 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 0 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
     {
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
+      "page": "governance-decisions.html",
+      "what": "748 words and no photograph",
+      "evidence": "0 plates, 0 drawn devices, 10 domes — nothing photographic",
+      "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
+    },
+    {
+      "committee": "Visual Storytelling",
+      "severity": "MAJOR",
       "page": "study-level-1.ar.html",
-      "what": "1656 words and no photograph",
+      "what": "1685 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -1067,7 +738,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-1.html",
-      "what": "1790 words and no photograph",
+      "what": "1812 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -1075,7 +746,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-2.ar.html",
-      "what": "1276 words and no photograph",
+      "what": "1306 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -1083,7 +754,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-2.html",
-      "what": "1485 words and no photograph",
+      "what": "1507 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -1091,7 +762,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-3.ar.html",
-      "what": "1318 words and no photograph",
+      "what": "1350 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -1099,7 +770,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-3.html",
-      "what": "1536 words and no photograph",
+      "what": "1561 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -1107,7 +778,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-4.ar.html",
-      "what": "1315 words and no photograph",
+      "what": "1347 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -1115,7 +786,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-4.html",
-      "what": "1530 words and no photograph",
+      "what": "1555 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -1123,7 +794,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-5.ar.html",
-      "what": "1302 words and no photograph",
+      "what": "1334 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -1131,7 +802,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-5.html",
-      "what": "1525 words and no photograph",
+      "what": "1548 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -1139,7 +810,7 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-6.ar.html",
-      "what": "1276 words and no photograph",
+      "what": "1313 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
     },
@@ -1147,9 +818,17 @@
       "committee": "Visual Storytelling",
       "severity": "MAJOR",
       "page": "study-level-6.html",
-      "what": "1527 words and no photograph",
+      "what": "1556 words and no photograph",
       "evidence": "0 plates, 0 drawn devices, 66 domes — nothing photographic",
       "remedy": "Introduce one commissioned or licensed plate per major chapter. A reader scrolling a wall of type has nothing to rest on."
+    },
+    {
+      "committee": "Institutional Confidence",
+      "severity": "MINOR",
+      "page": "about-careers.html",
+      "what": "1 construction(s) narrating what has not happened",
+      "evidence": "“has not yet”",
+      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
       "committee": "Institutional Confidence",
@@ -1162,25 +841,25 @@
     {
       "committee": "Institutional Confidence",
       "severity": "MINOR",
-      "page": "admissions-policy.html",
-      "what": "2 construction(s) narrating what has not happened",
-      "evidence": "“does not yet”, “Not Yet Adopted”",
-      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
-    },
-    {
-      "committee": "Institutional Confidence",
-      "severity": "MINOR",
-      "page": "contact.html",
+      "page": "admissions-tuition.html",
       "what": "1 construction(s) narrating what has not happened",
-      "evidence": "“does not yet”",
+      "evidence": "“have not yet”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
       "committee": "Institutional Confidence",
       "severity": "MINOR",
-      "page": "faculty.html",
-      "what": "2 construction(s) narrating what has not happened",
-      "evidence": "“has not yet”, “not yet appointed”",
+      "page": "admissions.html",
+      "what": "1 construction(s) narrating what has not happened",
+      "evidence": "“nobody has”",
+      "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
+    },
+    {
+      "committee": "Institutional Confidence",
+      "severity": "MINOR",
+      "page": "faq.html",
+      "what": "1 construction(s) narrating what has not happened",
+      "evidence": "“is not yet”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
@@ -1194,73 +873,73 @@
     {
       "committee": "Institutional Confidence",
       "severity": "MINOR",
-      "page": "press-library.ar.html",
-      "what": "1 construction(s) narrating what has not happened",
-      "evidence": "“has not been”",
+      "page": "home.html",
+      "what": "2 construction(s) narrating what has not happened",
+      "evidence": "“have not yet”, “not yet produced”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
       "committee": "Institutional Confidence",
       "severity": "MINOR",
       "page": "press-library.html",
-      "what": "1 construction(s) narrating what has not happened",
-      "evidence": "“has not been”",
+      "what": "2 construction(s) narrating what has not happened",
+      "evidence": "“has not yet”, “not yet been”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
       "committee": "Institutional Confidence",
       "severity": "MINOR",
-      "page": "press.html",
+      "page": "students-awards.html",
       "what": "1 construction(s) narrating what has not happened",
-      "evidence": "“has not been”",
+      "evidence": "“nobody has”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
       "committee": "Institutional Confidence",
       "severity": "MINOR",
       "page": "study-level-1.html",
-      "what": "2 construction(s) narrating what has not happened",
-      "evidence": "“has not appointed”, “has not obtained”",
+      "what": "1 construction(s) narrating what has not happened",
+      "evidence": "“has not appointed”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
       "committee": "Institutional Confidence",
       "severity": "MINOR",
       "page": "study-level-2.html",
-      "what": "2 construction(s) narrating what has not happened",
-      "evidence": "“has not appointed”, “has not obtained”",
+      "what": "1 construction(s) narrating what has not happened",
+      "evidence": "“has not appointed”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
       "committee": "Institutional Confidence",
       "severity": "MINOR",
       "page": "study-level-3.html",
-      "what": "2 construction(s) narrating what has not happened",
-      "evidence": "“has not appointed”, “has not obtained”",
+      "what": "1 construction(s) narrating what has not happened",
+      "evidence": "“has not appointed”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
       "committee": "Institutional Confidence",
       "severity": "MINOR",
       "page": "study-level-4.html",
-      "what": "2 construction(s) narrating what has not happened",
-      "evidence": "“has not appointed”, “has not obtained”",
+      "what": "1 construction(s) narrating what has not happened",
+      "evidence": "“has not appointed”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
       "committee": "Institutional Confidence",
       "severity": "MINOR",
       "page": "study-level-5.html",
-      "what": "2 construction(s) narrating what has not happened",
-      "evidence": "“has not appointed”, “has not obtained”",
+      "what": "1 construction(s) narrating what has not happened",
+      "evidence": "“has not appointed”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
       "committee": "Institutional Confidence",
       "severity": "MINOR",
       "page": "study-level-6.html",
-      "what": "2 construction(s) narrating what has not happened",
-      "evidence": "“has not appointed”, “has not obtained”",
+      "what": "1 construction(s) narrating what has not happened",
+      "evidence": "“has not appointed”",
       "remedy": "State what the College does. Where a fact bears on a decision, put it once in the status register and link to it."
     },
     {
@@ -1307,7 +986,7 @@
       "committee": "Material Law",
       "severity": "MINOR",
       "page": "admissions-policy.ar.html",
-      "what": "11 of 20 domes are the small size",
+      "what": "9 of 16 domes are the small size",
       "evidence": "badge-dome without --lg",
       "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
     },
@@ -1315,7 +994,7 @@
       "committee": "Material Law",
       "severity": "MINOR",
       "page": "admissions-policy.html",
-      "what": "11 of 20 domes are the small size",
+      "what": "9 of 16 domes are the small size",
       "evidence": "badge-dome without --lg",
       "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
     },
@@ -1323,7 +1002,7 @@
       "committee": "Material Law",
       "severity": "MINOR",
       "page": "admissions-tuition.ar.html",
-      "what": "29 of 53 domes are the small size",
+      "what": "31 of 57 domes are the small size",
       "evidence": "badge-dome without --lg",
       "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
     },
@@ -1331,7 +1010,7 @@
       "committee": "Material Law",
       "severity": "MINOR",
       "page": "admissions-tuition.html",
-      "what": "29 of 53 domes are the small size",
+      "what": "31 of 57 domes are the small size",
       "evidence": "badge-dome without --lg",
       "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
     },
@@ -1339,7 +1018,7 @@
       "committee": "Material Law",
       "severity": "MINOR",
       "page": "admissions.ar.html",
-      "what": "61 of 105 domes are the small size",
+      "what": "56 of 95 domes are the small size",
       "evidence": "badge-dome without --lg",
       "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
     },
@@ -1347,7 +1026,7 @@
       "committee": "Material Law",
       "severity": "MINOR",
       "page": "admissions.html",
-      "what": "61 of 105 domes are the small size",
+      "what": "56 of 95 domes are the small size",
       "evidence": "badge-dome without --lg",
       "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
     },
@@ -1654,14 +1333,6 @@
       "what": "8 of 13 domes are the small size",
       "evidence": "badge-dome without --lg",
       "remedy": "A dome anchoring a card is 106px. Small icons read as an admin panel — CLAUDE.md §2."
-    },
-    {
-      "committee": "Motion",
-      "severity": "MINOR",
-      "page": "js/sonics.js",
-      "what": "1 struck component(s) absent from the sonics register",
-      "evidence": "hero__eyebrow",
-      "remedy": "Add to the TAP or SEAL selector list — a silent struck surface reads as a fault. §3."
     },
     {
       "committee": "Typography",
