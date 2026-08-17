@@ -581,14 +581,92 @@ is much easier to change while the register is empty.
 
 ---
 
-## E. Deferred — insufficient basis to recommend
+## E. Adopted 17 August 2026 — two items that were deferred
+
+Both of the items below sat in the deferred table for the reason that
+table exists: each needed something the College did not have. Both are
+now adopted, and each entry records what supplied the missing basis,
+because a decision that leaves the deferral unexplained invites the next
+reader to assume it was simply willed away.
+
+### E1. Refund policy
+**Recommendation:** any payment is refunded in full, no reason required,
+if requested within **14 days of the payment** AND before the buyer has
+opened any assessed work in the level that payment covers. After either
+limit, the fee for that level is earned. Each instalment carries the test
+separately. Documented exceptional circumstances — serious illness,
+bereavement, or an error by the College — are considered by the Executive
+on their own facts outside the window. Every request receives a written
+decision within five working days; an approved refund is returned to the
+original payment method within ten working days of the decision, with
+nothing deducted.
+
+**What supplied the missing basis.** The deferral asked for "the
+consumer-protection rules of the jurisdiction of sale". The rule adopted
+here is deliberately set AT the widely-adopted distance-selling standard
+for services — a 14-day cancellation window which is lost once
+performance begins with the buyer's agreement — rather than at whatever
+minimum a particular jurisdiction might permit. That resolves the
+deferral without needing a jurisdiction-by-jurisdiction analysis first,
+because a policy pitched at the common standard is unlikely to fall below
+a local floor, and where it does the statutory-rights clause below makes
+the local floor win automatically.
+
+**Statutory rights are not displaced.** The policy states, on the public
+page, that it never reduces a right the buyer holds under the law of
+their own country, and that where the two differ the law prevails. This
+clause is not decoration: without it, a published policy tends to be read
+by a consumer as the whole of their protection, which would make the
+College's own document the instrument that misled them.
+
+**Not claimed:** that this policy has been reviewed by counsel, or that
+it has been assessed for compliance in any named jurisdiction. It is the
+College's own commitment, pitched at the common standard, and it is
+subject to precisely the refinement the Board's advisers direct.
+
+**Decision:** ☑ **ADOPTED 17 August 2026 (Executive).**
+
+### E2. Complaints and appeals procedure
+**Recommendation:** three stages, each heard by somebody not party to the
+one before it. Stage one, within 20 working days of the decision
+appealed: review by a member of academic staff senior to and other than
+the original decision-maker, answered in writing within 10 working days.
+Stage two: review by the Academic Senate, which sets standards and does
+not mark work, answered within 20 working days; it may uphold, substitute
+its own decision, or return the matter for fresh assessment by a
+different marker. Stage three, final: the Board of Governors — the
+Governor for Academic Affairs for academic matters, the Governor for
+Ethics and Institutional Values for conduct, welfare or fair treatment.
+No stage may be skipped by the College to reach a faster conclusion.
+
+**What supplied the missing basis.** This was previously unpublishable
+for a stated and correct reason: both academic bodies stood at zero
+appointed members, so an "independent" stage would have been the same
+people reconsidering, and publishing it would have been publishing a
+formality. **The appointments of 14 August 2026 changed that** — the
+Academic Senate and the Board of Governors are constituted, and no member
+of the Executive may sit on the Board. The independence the procedure
+rests on is now structural rather than aspirational.
+
+**What is still not claimed.** The Board of Governors is independent of
+the Executive; it is not independent of the institution. There is no
+external ombudsman in the chain and the procedure says so on the page.
+An appellant who exhausts stage three and remains dissatisfied is
+recorded as entitled to say so publicly, and doing so is expressly not a
+conduct matter — a complaints procedure whose final stage can be used
+against the complainant is a trap, not a remedy.
+
+**Decision:** ☑ **ADOPTED 17 August 2026 (Executive).** Academic aspects
+subject to Senate ratification at its first properly constituted meeting,
+on the same footing as the 14 August batch.
+
+## E-deferred. Still insufficient basis to recommend
 
 I am not proposing values for these. Each needs information I do not
 have, and a plausible-looking number would be worse than an open item.
 
 | Item | What it needs |
 |---|---|
-| Refund policy | The consumer-protection rules of the jurisdiction of sale |
 | Tuition currency policy beyond USD | A real FX source and a commercial decision on who carries rate risk |
 | Corporate/bulk terms | An actual commercial model |
 | Instructor:learner ratios, class sizes, contact hours | Operational reality, not a target |

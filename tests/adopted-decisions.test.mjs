@@ -30,9 +30,36 @@ const awaiting = (gov.match(/\*\*Decision:\*\*\s*☐\s*awaiting/g) || []).length
 const adoptedNow = (gov.match(new RegExp(`ADOPTED ${ADOPTION_DATE}`, 'g')) || []).length;
 const adoptedEarly = (gov.match(/\*\(adopted [^)]+\)\*/g) || []).length;
 
+// DECISIONS ADOPTED AFTER THE FOUNDING BATCH.
+//
+// Counted by pattern rather than by a second hard-coded date, because
+// the first version of this file knew about exactly one adoption date
+// and therefore computed a total that could only ever be right until the
+// College decided something else. It stopped being right the day the
+// refund policy and the appeals procedure were adopted: the register
+// held 32 decisions, this test still computed 30, and it failed the PAGE
+// for publishing the true number. A guardrail that has to be edited
+// every time the institution acts is a guardrail pointed the wrong way.
+//
+// The set difference is deliberate — an entry adopted on the founding
+// date is already counted above, and must not be counted twice.
+const ALL_ADOPTIONS = gov.match(/ADOPTED \d{1,2} [A-Z][a-z]+ \d{4}/g) || [];
+const adoptedLater = ALL_ADOPTIONS.filter((m) => !m.includes(ADOPTION_DATE)).length;
+
 check(`No decision is outstanding — ${awaiting} awaiting`, awaiting === 0);
 check(`${adoptedNow} decisions carry the ${ADOPTION_DATE} adoption line`, adoptedNow === 25, adoptedNow);
 check(`${adoptedEarly} decisions were adopted earlier`, adoptedEarly >= 5, adoptedEarly);
+check(`${adoptedLater} decision(s) were adopted after the founding batch`,
+  adoptedLater >= 0, adoptedLater);
+// Every later adoption must name its own authority in the same breath,
+// which is the property that stops a decision acquiring force by having
+// been typed into a document.
+for (const stamp of ALL_ADOPTIONS.filter((m) => !m.includes(ADOPTION_DATE))) {
+  const i = gov.indexOf(stamp);
+  check(`"${stamp}" names the adopting authority`,
+    /\((?:Executive|Senate|Board|BASCE)\)/.test(gov.slice(i, i + 120)),
+    gov.slice(i, i + 60));
+}
 check('The register names the adopting authority rather than leaving it implied',
   /Adopting authority:\*\*\s*the Executive/i.test(gov));
 
@@ -76,7 +103,7 @@ for (const s of STALE) {
 // The register moved with the Governance pillar — same content
 // contract, new address under /governance/.
 const decisionsPage = readFileSync(path.join(ROOT, 'pages/governance-decisions.html'), 'utf8');
-const total = adoptedNow + adoptedEarly;
+const total = adoptedNow + adoptedEarly + adoptedLater;
 check(`The decisions page publishes the true total — ${total}`,
   decisionsPage.includes(String(total)), 'the page and the register disagree on the count');
 check('...and names the date the twenty-five were taken',
