@@ -854,8 +854,47 @@ section { position: relative; }
    transparency was never the part doing the work. */
 .nav__menu.crystal { background: #0E1B33; }
 [dir="rtl"] .nav__menu { left: auto; right: 0; transform-origin: top right; }
+/* THREE WAYS IN, NOT ONE.
+   :hover and :focus-within alone made the whole primary navigation a
+   mouse-only object — on any touch device above the 1180px breakpoint a
+   tap followed the link instead of opening the panel, and the six mega
+   menus were unreachable. `.is-open` is set by js/site.js from the
+   pointer type, which is what makes a press on a tablet mean disclose
+   and a click on a mouse mean go. See the long note at the primary
+   navigation block in that file.
+
+   :hover is kept as a selector rather than replaced by the class so the
+   desktop panel still opens with JavaScript unavailable. The touch path
+   cannot be made to work without script; the mouse path never needed
+   it and does not lose it. */
 .nav__item--has-menu:hover .nav__menu,
-.nav__item--has-menu:focus-within .nav__menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+.nav__item--has-menu:focus-within .nav__menu,
+.nav__item--has-menu.is-open .nav__menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+
+/* On a coarse pointer, hover is a lie the browser tells once per tap.
+   Suppressing the hover selector there means the panel is shown by the
+   class alone, so it cannot flash open for the length of a synthetic
+   hover and then vanish as the page navigates. */
+@media (hover: none) {
+  .nav__item--has-menu:hover .nav__menu { opacity: 0; visibility: hidden; transform: translateY(6px) scale(.98); }
+  .nav__item--has-menu.is-open .nav__menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+}
+
+/* The disclosure caret. A label that opens a panel has to look unlike a
+   label that does not — on a mouse the difference is discoverable by
+   hovering, and on touch there is nothing to hover, so it must be
+   visible at rest. It rotates when the panel is open. */
+.nav__item--has-menu > a[aria-haspopup]::before {
+  content: ''; display: inline-block; width: .42em; height: .42em;
+  margin-inline-end: .52em; vertical-align: .08em;
+  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-.06em); opacity: .5;
+  transition: transform var(--dur-med) var(--ease-premium), opacity var(--dur-med) ease;
+}
+.nav__item--has-menu:hover > a[aria-haspopup]::before,
+.nav__item--has-menu.is-open > a[aria-haspopup]::before {
+  transform: rotate(225deg) translateY(-.06em); opacity: .95;
+}
 .nav__menu a { display: block; padding: 10px 12px; border-radius: 4px; color: var(--ink); font-size: .86rem; font-weight: 600; transition: background var(--dur-fast) ease, color var(--dur-fast) ease, padding-left var(--dur-fast) var(--ease-premium); }
 .nav__menu a:hover { background: var(--ivory); color: var(--red); padding-left: 16px; }
 [dir="rtl"] .nav__menu a:hover { padding-left: 12px; padding-right: 16px; }
