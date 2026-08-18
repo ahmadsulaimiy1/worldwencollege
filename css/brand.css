@@ -1532,6 +1532,23 @@ section { position: relative; }
    slack to distribute.
    --------------------------------------------------------------------- */
 .grid .card { justify-content: space-between; }
+
+/* EXCEPT WHERE THE CARD'S BODY IS A LIST, WHICH IS A DIFFERENT SHAPE.
+   Diffusing slack is right for prose: a paragraph does not mind where
+   the air goes. A numbered list does. The Observation framework puts
+   eight areas beside five outputs, and space-between spent the
+   three-row difference in ONE gap between the second card's heading and
+   its first row — so the two headings, which name two halves of the
+   same instrument, sat 160px apart and the columns stopped reading as
+   parallel.
+
+   A list-bodied card therefore keeps its head tight and hands the slack
+   to the list, which shares it out across its own rows. The heads line
+   up, the rules stay contiguous, and the shorter column simply breathes
+   more per row. */
+.grid .card:has(> .dot-list) { justify-content: flex-start; }
+.grid .card > .dot-list { flex: 1 1 auto; display: flex; flex-direction: column; }
+.grid .card > .dot-list > li { flex: 1 1 auto; align-content: center; }
 .card:hover {
   background-size:
     100% 3px,
