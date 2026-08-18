@@ -179,5 +179,64 @@ check('humanError classifies 401, 403, 404 and 429 by status',
 check('humanError never surfaces HTTP statusText',
   !/return[^;]*statusText/.test(seamSrc.slice(seamSrc.indexOf('function humanError('))));
 
+// ---------------------------------------------------------------------
+// AND IT MUST NOT FLATTEN A REASON SOMEBODY WROTE ON PURPOSE.
+//
+// The comment above humanError() promises three things: a status the
+// College recognises gets the College's own wording, a message the API
+// deliberately wrote gets used as written, and statusText is never
+// shown. Only the first and third were asserted, and the second was
+// quietly untrue for 403 — so a staff member refused for trying to
+// change THEIR OWN enrolment was told "This is not available on your
+// account", which reads as "you lack access" and would send them to ask
+// an administrator for access they already hold.
+//
+// The admin page had been fixed for that exact defect once already, and
+// carried a comment saying so; routing its errors through this helper
+// undid the fix without touching the page or its comment. Checking the
+// wording of the generic sentences would not have caught it. What
+// catches it is running the function.
+//
+// It is self-contained — it reads `err` and `fallback` and nothing
+// else — so it can be lifted out of the IIFE and called for real,
+// rather than pattern-matched.
+const fnSrc = seamSrc.slice(seamSrc.indexOf('function humanError('));
+const humanError = new Function(`${fnSrc.slice(0, matchingBrace(fnSrc))}\nreturn humanError;`)();
+
+function matchingBrace(src) {
+  let depth = 0;
+  for (let i = src.indexOf('{'); i < src.length; i += 1) {
+    if (src[i] === '{') depth += 1;
+    else if (src[i] === '}') { depth -= 1; if (!depth) return i + 1; }
+  }
+  throw new Error('humanError() has no closing brace — the extraction is wrong, not the code');
+}
+
+const REFUSAL = 'You cannot change your own enrolments. Ask another staff member.';
+check('A 403 that carries the endpoint\u2019s own reason shows that reason',
+  humanError({ status: 403, apiMessage: REFUSAL }) === REFUSAL,
+  humanError({ status: 403, apiMessage: REFUSAL }));
+check('...and a 403 with no reason still gets the College\u2019s wording',
+  /not available on your account/.test(humanError({ status: 403 })));
+check('...and the same holds for 404',
+  humanError({ status: 404, apiMessage: 'No such application.' }) === 'No such application.');
+
+// The statuses where the server's own text is about tokens, rate
+// limiters and stack traces stay generic, on purpose. If this ever
+// starts passing them through, the leak humanError() exists to close is
+// open again.
+for (const [status, why] of [[401, 'session'], [429, 'rate limiter'], [500, 'stack trace']]) {
+  check(`A ${status} still gets the College\u2019s wording, not the ${why}\u2019s`,
+    humanError({ status, apiMessage: 'jwt malformed at verifyToken:41' })
+      !== 'jwt malformed at verifyToken:41');
+}
+
+// And the page must hand it something to preserve. The admin page has
+// its own transport, and it threw away the endpoint's sentence one line
+// before calling the function that would have shown it.
+const admSrc = readFileSync(path.join(JS, 'admin-enrolments.js'), 'utf8');
+check('The admin page attaches apiMessage, so the reason survives the throw',
+  /apiMessage:\s*apiMessage/.test(admSrc));
+
 console.log(`\n${passed} passed, ${failed} failed.`);
 if (failed) process.exitCode = 1;

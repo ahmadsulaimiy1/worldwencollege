@@ -38,7 +38,16 @@
       return fetch(path, Object.assign({}, opts || {}, { headers: headers }));
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (b) {
-        if (!r.ok) throw Object.assign(new Error(b.message || r.statusText), { status: r.status });
+        if (!r.ok) {
+          // apiMessage, not just message: humanError() will only
+          // surface a sentence it can tell an endpoint wrote on
+          // purpose, and without this the refusal reason is thrown
+          // away one line before the function that would have shown
+          // it. Same rule as the shared transport in portal-data.js.
+          var apiMessage = b && typeof b.message === 'string' && b.message ? b.message : null;
+          throw Object.assign(new Error(apiMessage || r.statusText),
+            { status: r.status, body: b, apiMessage: apiMessage });
+        }
         return b;
       });
     });
