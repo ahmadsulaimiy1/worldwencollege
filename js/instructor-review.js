@@ -126,7 +126,7 @@
         scores[i.dataset.dim] = Number(i.value) / 100;
       });
       send.disabled = true; status.textContent = 'sending…';
-      window.AIPC_data.recordingReview({
+      window.WEC_LC_data.recordingReview({
         recordingId: rec.id, comment: ta.value || null, scores: scores
       }).then(function () {
         el.style.transition = 'opacity .3s var(--ease-premium), transform .3s var(--ease-premium)';
@@ -134,7 +134,7 @@
         setTimeout(function () { el.remove(); tick(-1); }, 320);
       }).catch(function (e) {
         send.disabled = false;
-        status.textContent = window.AIPC_data.humanError(e, 'That review could not be sent.');
+        status.textContent = window.WEC_LC_data.humanError(e, 'That review could not be sent.');
       });
     });
 
@@ -162,7 +162,7 @@
   function load() {
     var lv = $('#levelFilter').value;
     $('#queue').innerHTML = skeleton(3);
-    window.AIPC_data.reviewQueue(lv)
+    window.WEC_LC_data.reviewQueue(lv)
       .then(function (rows) {
         $('#queue').innerHTML = '';
         remaining = 0;
@@ -173,7 +173,7 @@
         $('#queue').innerHTML = '';
         $('#qError').textContent = e.status === 403
           ? 'This workspace is for teaching staff. Your account does not have access.'
-          : window.AIPC_data.humanError(e, 'The review queue could not be loaded.');
+          : window.WEC_LC_data.humanError(e, 'The review queue could not be loaded.');
       });
   }
 

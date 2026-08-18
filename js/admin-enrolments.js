@@ -70,7 +70,7 @@
   function fail(err) {
     $('#admError').textContent = err.status === 401
       ? 'Sign in to manage enrolments.'
-      : window.AIPC_data.humanError(err, 'Could not complete that. Please try again.');
+      : window.WEC_LC_data.humanError(err, 'Could not complete that. Please try again.');
   }
 
   // ---- Search ----------------------------------------------------------
@@ -189,7 +189,7 @@
       });
     }).catch(function (err) {
       box.style.color = 'var(--ink-soft)';
-      box.textContent = window.AIPC_data.humanError(err, 'Could not load the appointment record.');
+      box.textContent = window.WEC_LC_data.humanError(err, 'Could not load the appointment record.');
     });
   }
 

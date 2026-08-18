@@ -196,8 +196,8 @@ PAGES.pillar = {
   contents: true,
   title: 'Governance &mdash; Worldwide English College',
   // Under 160 characters — see the note in scripts/build-teaching.js.
-  description: 'How Worldwide English College is governed: its Board, Senate and Executive, the academic bodies and '
-    + 'their remits, how quality is assured, and which posts remain unfilled.',
+  description: 'How WEC-LC is governed: its Board, Senate and Executive, the academic bodies and their '
+    + 'remits, how quality is assured, and which posts remain unfilled.',
   body: `${hero('Governance', 'Who decides what, and on what authority.',
     'The College separates academic judgement from institutional governance, from quality '
     + 'assurance, from finance, and from day-to-day administration. This page names who holds '

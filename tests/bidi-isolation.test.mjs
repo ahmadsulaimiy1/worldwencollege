@@ -72,7 +72,7 @@ check(`No dir="ltr" span inside an attribute value — ${files.length} files`,
 // cannot hold markup at all, and the isolate characters are precisely
 // what Unicode provides for those places.
 const LRI = '\u2066', PDI = '\u2069';
-const TOKENS = new RegExp(`(?<!${LRI})\\b(IEFC|CEFR|BASCE|AIPC)\\b(?!${PDI})`);
+const TOKENS = new RegExp(`(?<!${LRI})\\b(IEFC|CEFR|BASCE|WEC)\\b(?!${PDI})`);
 const ARABIC = /[؀-ۿ]/;
 const bare = [];
 const arabicFiles = files.filter((f) => {

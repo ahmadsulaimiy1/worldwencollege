@@ -32,7 +32,7 @@
   function fail(err) {
     $('#planError').textContent = err.status === 401
       ? 'Sign in to see your programme.'
-      : window.AIPC_data.humanError(err, 'Could not load your programme. Please try again.');
+      : window.WEC_LC_data.humanError(err, 'Could not load your programme. Please try again.');
   }
 
   // Each state is a different situation and gets a different sentence.
@@ -245,7 +245,7 @@
   }
 
   function load() {
-    return window.AIPC_data.studyPlan().then(render).catch(fail);
+    return window.WEC_LC_data.studyPlan().then(render).catch(fail);
   }
 
   document.addEventListener('DOMContentLoaded', function () {

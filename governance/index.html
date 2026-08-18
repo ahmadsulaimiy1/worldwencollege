@@ -9,11 +9,11 @@
      it just built. Four rounds of "it deployed" / "I cannot see it"
      were spent because nothing on the served page said which build it
      was. Now every page says. -->
-<meta name="aipc-build" content="">
+<meta name="wec-build" content="">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Governance &mdash; Albalagh International Premium College</title>
-<meta name="description" content="How AIPC is governed: its Board, Senate and Executive, the academic bodies and their remits, how quality is assured, and which posts remain unfilled.">
+<title>Governance &mdash; Worldwide English College</title>
+<meta name="description" content="How WEC-LC is governed: its Board, Senate and Executive, the academic bodies and their remits, how quality is assured, and which posts remain unfilled.">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -45,10 +45,10 @@
 .gilt { --gilt: 1; }
 .plate--drift img, .plate--drift svg { animation: none !important; }
 </style></noscript>
-<meta property="og:site_name" content="Albalagh International Premium College">
+<meta property="og:site_name" content="WorldWide English College">
 <meta property="og:locale" content="en_GB">
-<meta property="og:title" content="Governance &mdash; Albalagh International Premium College">
-<meta property="og:description" content="How AIPC is governed: its Board, Senate and Executive, the academic bodies and their remits, how quality is assured, and which posts remain unfilled.">
+<meta property="og:title" content="Governance &mdash; Worldwide English College">
+<meta property="og:description" content="How WEC-LC is governed: its Board, Senate and Executive, the academic bodies and their remits, how quality is assured, and which posts remain unfilled.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.worldwencollege.co.uk/governance/">
 <meta property="og:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
@@ -56,8 +56,8 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Governance &mdash; Albalagh International Premium College">
-<meta name="twitter:description" content="How AIPC is governed: its Board, Senate and Executive, the academic bodies and their remits, how quality is assured, and which posts remain unfilled.">
+<meta name="twitter:title" content="Governance &mdash; Worldwide English College">
+<meta name="twitter:description" content="How WEC-LC is governed: its Board, Senate and Executive, the academic bodies and their remits, how quality is assured, and which posts remain unfilled.">
 <meta name="twitter:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
 <link rel="canonical" href="https://www.worldwencollege.co.uk/governance/">
 <!-- Assembled in scripts/build.js rather than written out here: a page
@@ -71,8 +71,8 @@
 {
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
-  "name": "Albalagh International Premium College — London Campus",
-  "alternateName": "AIPC",
+  "name": "WorldWide English College — London Campus",
+  "alternateName": "WEC-LC",
   "url": "https://www.worldwencollege.co.uk/",
   "email": "info@worldwencollege.co.uk",
   "slogan": "Empowering the World Through English Excellence.",
@@ -436,7 +436,7 @@
   <div class="lattice__bed" aria-hidden="true"></div>
 
   <div class="site-header__inner">
-    <a href="/" class="brand tilt" aria-label="Albalagh International Premium College, home">
+    <a href="/" class="brand tilt" aria-label="WorldWide English College, home">
       <span class="tilt__sheen" aria-hidden="true"></span>
       <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
         <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
@@ -444,33 +444,11 @@
         <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
         <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
         <path class="crest__book" d="M24 28.5 V37.4"/>
-        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">AIPC</text>
+        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
       </svg>
-      <!--
-        THE NAME IS SPLIT ACROSS THE LOCKUP'S TWO EXISTING LINES, and it is
-        not a stylistic preference. Measured in Chromium at 1440px — the
-        width where the navigation is widest and the rail tightest — the
-        brand has a 186px budget before the header overflows. The full
-        name sets at 265px, and still at 205px reduced to .72rem, which
-        is too small to read as an institution's wordmark. The previous
-        name fitted in 180px, so the rail never had slack to give.
-
-        Wrapping .brand__name itself is what the note above forbids. This
-        does not wrap: .brand__word is already a two-line column, so the
-        name occupies the lines the lockup always had, and the lockup's
-        height is unchanged at 31.5px. Measured at 149.2px against a
-        185.9px budget.
-
-        Note .brand__word is a stretch column, so the WIDER line governs:
-        the first attempt kept the campus line as "Premium College ·
-        London Campus" and still overflowed at 241.9px. "London Campus"
-        is therefore off the rail — it is still carried by the topbar,
-        the footer and /about/, and the full institution name remains in
-        the link's aria-label, <title>, the JSON-LD and the footer.
-      -->
       <span class="brand__word">
-        <span class="brand__name">Albalagh International</span>
-        <span class="brand__campus">Premium College</span>
+        <span class="brand__name">WorldWide English College</span>
+        <span class="brand__campus">London Campus</span>
       </span>
     </a>
 
@@ -646,7 +624,7 @@
           <div class="mega__cols">
             <div class="mega__col">
               <p class="mega__label">The Imprint</p>
-              <a href="/press/">AIPC Press</a>
+              <a href="/press/">WEC Press</a>
               <a href="/press/catalogue/">The Catalogue</a>
               <a href="/press/#standards">House Standards</a>
               <a href="/press/#library">The Library</a>
@@ -867,7 +845,7 @@
       <div class="accordion__item">
         <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span><span>Press &amp; Library</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
-          <a href="/press/">AIPC Press</a>
+          <a href="/press/">WEC Press</a>
           <a href="/press/catalogue/">The Catalogue</a>
           <a href="/press/#standards">House Standards</a>
           <a href="/press/#library">The Library</a>
@@ -1590,7 +1568,7 @@
     <div class="section-head">
       <span class="module-marker">Verification</span>
       <h2>Anyone can check a credential. Nothing has been issued to check.</h2>
-      <p class="lede">Anyone holding a AIPC credential code can verify it without an account, a
+      <p class="lede">Anyone holding a WEC-LC credential code can verify it without an account, a
         relationship with the College or its permission. The route is built and open, and it was
         built ahead of the first award deliberately: retrofitting a signature onto an
         already-issued credential proves nothing about when it was issued.</p>
@@ -1604,7 +1582,7 @@
       <div class="card">
         <span class="card__num">The checker</span>
         <h3>Needs nothing from the College</h3>
-        <p>An employer or an institution verifying a claim should not have to write to AIPC and wait. The check resolves for anyone holding the code, immediately.</p>
+        <p>An employer or an institution verifying a claim should not have to write to WEC-LC and wait. The check resolves for anyone holding the code, immediately.</p>
       </div>
       <div class="card">
         <span class="card__num">The issuer</span>
@@ -1637,7 +1615,7 @@
     <div class="section-head">
       <span class="module-marker">Research</span>
       <h2>No findings. Four answerable questions.</h2>
-      <p class="lede">Albalagh International Premium College conducts no research: no papers, no conference
+      <p class="lede">Worldwide English College conducts no research: no papers, no conference
         contributions, no funded projects, no research staff, no findings. A new
         institution&rsquo;s research position is an agenda, not an output &mdash; these four
         questions came out of building the programme, and each is answerable with evidence a
@@ -1807,10 +1785,10 @@
           <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
           <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
           <path class="crest__book" d="M24 28.5 V37.4"/>
-          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">AIPC</text>
+          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
         </svg>
       </div>
-      <p class="footer__name foil reveal">Albalagh International Premium College<br><span>London Campus</span></p>
+      <p class="footer__name foil reveal">WorldWide English College<br><span>London Campus</span></p>
       <p class="footer__motto">&ldquo;Empowering the World Through English Excellence.&rdquo;</p>
     </div>
   </div>
@@ -1970,7 +1948,7 @@
     <div class="footergrid__row">
       <a href="/about/" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span></span>
-        <span class="footergrid__label">About AIPC</span>
+        <span class="footergrid__label">About WEC-LC</span>
       </a>
       <a href="/governance/" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: .3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
@@ -1986,7 +1964,7 @@
       </a>
       <a href="/press/" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span></span>
-        <span class="footergrid__label">AIPC Press</span>
+        <span class="footergrid__label">WEC Press</span>
       </a>
       <a href="/faculty/" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span></span>
@@ -2069,15 +2047,15 @@
   </div>
 
   <div class="site-footer__bottom">
-    <p>&copy; <span data-year>2026</span> Albalagh International Premium College — London Campus. All rights reserved.</p>
+    <p>&copy; <span data-year>2026</span> WorldWide English College — London Campus. All rights reserved.</p>
     <!-- A trust mark, not a badge: the icon signals "this is checkable",
-         not "this is certified" — AIPC holds no accreditation, and a
+         not "this is certified" — WEC-LC holds no accreditation, and a
          seal implying one would be exactly the false confidence the
          Evidence Record exists to rule out. Same shield-check icon the
          Governance mega-menu already uses for the same idea. -->
     <div class="footer__trust">
       <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
-      <p class="footer__legal">AIPC is an institution in active development. Accreditation, governance and enrolment status are described honestly throughout this site — see <a href="/about/#status">Institutional Status</a>.</p>
+      <p class="footer__legal">WEC-LC is an institution in active development. Accreditation, governance and enrolment status are described honestly throughout this site — see <a href="/about/#status">Institutional Status</a>.</p>
     </div>
     <div class="footer__utility">
       <a class="topbar__lang" href="/ar/governance/" lang="ar" hreflang="ar">

@@ -300,7 +300,7 @@
     // and it is fetched rather than assumed, so a failure leaves the
     // typed URL above rather than a broken image beside a promise.
     var box = $('#qrBox');
-    window.AIPC_data.credentialQr(a.verificationCode)
+    window.WEC_LC_data.credentialQr(a.verificationCode)
       .then(function (svg) {
         var host = $('#qr');
         host.textContent = '';

@@ -552,7 +552,7 @@ levels.forEach((lv, i) => {
     slug,
     output,
     title: `المستوى ${AR_ROMAN[lv.roman]}: ${AR_NAME[lv.id]} (${lv.cefr}) — الكلية العالمية للغة الإنجليزية`,
-    description: `المستوى ${AR_ROMAN[lv.roman]} من برنامج <span dir="ltr">IEFC</span>: ${lv.modules.length} وحدات، و${lv.units} درسًا مصمَّمًا `
+    description: `المستوى ${AR_ROMAN[lv.roman]} من برنامج ⁦IEFC⁩: ${lv.modules.length} وحدات، و${lv.units} درسًا مصمَّمًا `
       + `على مدى ${lv.duration_months} أشهر، وفق مستوى ${lv.cefr} في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.`,
     contentFile: file, lang: 'ar', dir: 'rtl',
     contents: true,

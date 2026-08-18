@@ -2,8 +2,8 @@
   {
     "slug": "home",
     "output": "index.html",
-    "title": "Albalagh International Premium College — London Campus | AIPC",
-    "description": "AIPC delivers the International English Fluency Course (IEFC) — six CEFR-aligned levels from A1 to C2, 1,200 designed hours, taught entirely online.",
+    "title": "WorldWide English College — London Campus | WEC-LC",
+    "description": "WEC-LC delivers the International English Fluency Course (IEFC) — six CEFR-aligned levels from A1 to C2, 1,200 designed hours, taught entirely online.",
     "contentFile": "home.html",
     "extraCss": [
       "/css/home.css"
@@ -15,8 +15,8 @@
   {
     "slug": "about",
     "output": "about/index.html",
-    "title": "About the College &mdash; Albalagh International Premium College",
-    "description": "Who Albalagh International Premium College is: its vision, mission and educational philosophy, how it is organised, and its institutional status stated plainly.",
+    "title": "About the College &mdash; Worldwide English College",
+    "description": "Who Worldwide English College is: its vision, mission and educational philosophy, how it is organised, and its institutional status stated plainly.",
     "contentFile": "about.html",
     "lang": "en",
     "dir": "ltr",
@@ -26,7 +26,7 @@
   {
     "slug": "academics",
     "output": "academics/index.html",
-    "title": "Academics &mdash; Albalagh International Premium College",
+    "title": "Academics &mdash; Worldwide English College",
     "description": "The IEFC in six CEFR-aligned levels: what each contains, how learning works, the digital campus it runs on, and the standard the whole programme is taught to.",
     "contentFile": "academics.html",
     "lang": "en",
@@ -37,7 +37,7 @@
   {
     "slug": "admissions",
     "output": "admissions/index.html",
-    "title": "Admissions &mdash; Albalagh International Premium College",
+    "title": "Admissions &mdash; Worldwide English College",
     "description": "The whole admissions decision in one place: whether you qualify, how to apply, when you can start, and what applies to international applicants.",
     "contentFile": "admissions.html",
     "lang": "en",
@@ -48,7 +48,7 @@
   {
     "slug": "admissions-tuition",
     "output": "admissions/tuition/index.html",
-    "title": "Tuition, Fees &amp; Funding &mdash; Albalagh International Premium College",
+    "title": "Tuition, Fees &amp; Funding &mdash; Worldwide English College",
     "description": "IEFC tuition and per-level pricing, how paying actually works — currency, methods, refunds — and the scholarships and funding routes that exist today.",
     "contentFile": "admissions-tuition.html",
     "lang": "en",
@@ -59,8 +59,8 @@
   {
     "slug": "faculty",
     "output": "faculty/index.html",
-    "title": "Faculty &amp; Teaching Approach — Albalagh International Premium College",
-    "description": "The academic staff and tutors who deliver the IEFC programme at AIPC, and the teaching standards they are appointed against.",
+    "title": "Faculty &amp; Teaching Approach — WorldWide English College",
+    "description": "The academic staff and tutors who deliver the IEFC programme at WEC-LC, and the teaching standards they are appointed against.",
     "contentFile": "faculty.html",
     "lang": "en",
     "dir": "ltr",
@@ -69,8 +69,8 @@
   {
     "slug": "student-portal",
     "output": "student-portal/index.html",
-    "title": "Student Portal — Albalagh International Premium College",
-    "description": "A preview of the AIPC Student Portal: dashboard, live classes, assignments, digital library, transcripts and certificates.",
+    "title": "Student Portal — WorldWide English College",
+    "description": "A preview of the WEC-LC Student Portal: dashboard, live classes, assignments, digital library, transcripts and certificates.",
     "contentFile": "student-portal.html",
     "lang": "en",
     "dir": "ltr",
@@ -84,8 +84,8 @@
   {
     "slug": "faq",
     "output": "faq/index.html",
-    "title": "FAQ &mdash; Albalagh International Premium College",
-    "description": "Frequently asked questions about the IEFC, admissions, fees, and studying with AIPC — including the questions applicants actually ask during admissions.",
+    "title": "FAQ &mdash; Worldwide English College",
+    "description": "Frequently asked questions about the IEFC, admissions, fees, and studying with WEC-LC — including the questions applicants actually ask during admissions.",
     "contentFile": "faq.html",
     "lang": "en",
     "dir": "ltr",
@@ -94,8 +94,8 @@
   {
     "slug": "contact",
     "output": "contact/index.html",
-    "title": "Contact — Albalagh International Premium College, London Campus",
-    "description": "Get in touch with Albalagh International Premium College, London Campus — admissions enquiries, general contact, and our current London Campus status.",
+    "title": "Contact — WorldWide English College, London Campus",
+    "description": "Get in touch with WorldWide English College, London Campus — admissions enquiries, general contact, and our current London Campus status.",
     "contentFile": "contact.html",
     "lang": "en",
     "dir": "ltr",
@@ -104,8 +104,8 @@
   {
     "slug": "home-ar",
     "output": "ar/index.html",
-    "title": "كلية البلاغ الدولية المتميّزة — الحرم الجامعي في لندن",
-    "description": "كلية البلاغ الدولية المتميّزة تقدّم برنامج الطلاقة الدولي (⁦IEFC⁩) — ستة مستويات متوافقة مع ⁦CEFR⁩ من A1 إلى C2، و1,200 ساعة مصمَّمة، عبر الإنترنت بالكامل.",
+    "title": "الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن",
+    "description": "الكلية العالمية للغة الإنجليزية تقدّم برنامج الطلاقة الدولي (⁦IEFC⁩) — ستة مستويات متوافقة مع ⁦CEFR⁩ من A1 إلى C2، و1,200 ساعة مصمَّمة، عبر الإنترنت بالكامل.",
     "contentFile": "home.ar.html",
     "extraCss": [
       "/css/home.css"
@@ -128,7 +128,7 @@
   {
     "slug": "academics-ar",
     "output": "ar/academics/index.html",
-    "title": "البرامج الأكاديمية — كلية البلاغ الدولية المتميّزة",
+    "title": "البرامج الأكاديمية — الكلية العالمية للغة الإنجليزية",
     "description": "برنامج ⁦IEFC⁩ في ستة مستويات متوافقة مع الإطار الأوروبي: ما يحتويه كل مستوى، وكيف يجري التعلّم، والحرم الرقمي الذي يعمل عليه.",
     "contentFile": "academics.ar.html",
     "lang": "ar",
@@ -139,7 +139,7 @@
   {
     "slug": "admissions-ar",
     "output": "ar/admissions/index.html",
-    "title": "القبول — كلية البلاغ الدولية المتميّزة",
+    "title": "القبول — الكلية العالمية للغة الإنجليزية",
     "description": "قرار الالتحاق كاملًا في صفحة واحدة: هل تنطبق الشروط عليك، وكيف تقدّم، ومتى تبدأ، وما يخص المتقدمين الدوليين والتأشيرات.",
     "contentFile": "admissions.ar.html",
     "lang": "ar",
@@ -150,7 +150,7 @@
   {
     "slug": "admissions-tuition-ar",
     "output": "ar/admissions/tuition/index.html",
-    "title": "الرسوم والسداد والدعم — كلية البلاغ الدولية المتميّزة",
+    "title": "الرسوم والسداد والدعم — الكلية العالمية للغة الإنجليزية",
     "description": "رسوم برنامج ⁦IEFC⁩ وأسعار المستويات، وكيف يجري السداد فعلًا — العملة والوسائل والاسترداد — والمنح ومسارات الدعم القائمة اليوم.",
     "contentFile": "admissions-tuition.ar.html",
     "lang": "ar",
@@ -161,7 +161,7 @@
   {
     "slug": "faculty-ar",
     "output": "ar/faculty/index.html",
-    "title": "هيئة التدريس ومعايير التوظيف — ⁦AIPC⁩",
+    "title": "هيئة التدريس ومعايير التوظيف — ⁦WEC-LC⁩",
     "description": "أعضاء هيئة التدريس والمدرّسون الذين يقدّمون برنامج ⁦IEFC⁩ في الكلية، والمعايير التدريسية التي عُيّنوا وفقها.",
     "contentFile": "faculty.ar.html",
     "lang": "ar",
@@ -171,8 +171,8 @@
   {
     "slug": "student-portal-ar",
     "output": "ar/student-portal/index.html",
-    "title": "بوابة الطالب — كلية البلاغ الدولية المتميّزة",
-    "description": "نظرة عامة على بوابة طالب ⁦AIPC⁩: لوحة التحكم، الحصص المباشرة، الواجبات، المكتبة الرقمية، الكشوف والشهادات.",
+    "title": "بوابة الطالب — الكلية العالمية للغة الإنجليزية",
+    "description": "نظرة عامة على بوابة طالب ⁦WEC-LC⁩: لوحة التحكم، الحصص المباشرة، الواجبات، المكتبة الرقمية، الكشوف والشهادات.",
     "contentFile": "student-portal.ar.html",
     "lang": "ar",
     "dir": "rtl",
@@ -186,7 +186,7 @@
   {
     "slug": "faq-ar",
     "output": "ar/faq/index.html",
-    "title": "الأسئلة الشائعة — كلية البلاغ الدولية المتميّزة",
+    "title": "الأسئلة الشائعة — الكلية العالمية للغة الإنجليزية",
     "description": "الأسئلة الشائعة عن برنامج ⁦IEFC⁩ والقبول والرسوم والدراسة في الكلية، ومعها أسئلة القبول التي يسألها المتقدمون فعلًا.",
     "contentFile": "faq.ar.html",
     "lang": "ar",
@@ -196,8 +196,8 @@
   {
     "slug": "contact-ar",
     "output": "ar/contact/index.html",
-    "title": "تواصل معنا — كلية البلاغ الدولية المتميّزة",
-    "description": "تواصل مع كلية البلاغ الدولية المتميّزة، الحرم الجامعي في لندن — استفسارات القبول، التواصل العام، والوضع الحالي للحرم الجامعي.",
+    "title": "تواصل معنا — الكلية العالمية للغة الإنجليزية",
+    "description": "تواصل مع الكلية العالمية للغة الإنجليزية، الحرم الجامعي في لندن — استفسارات القبول، التواصل العام، والوضع الحالي للحرم الجامعي.",
     "contentFile": "contact.ar.html",
     "lang": "ar",
     "dir": "rtl",
@@ -206,7 +206,7 @@
   {
     "slug": "404",
     "output": "404.html",
-    "title": "Page Not Found — Albalagh International Premium College",
+    "title": "Page Not Found — WorldWide English College",
     "description": "The page you're looking for doesn't exist or has moved.",
     "contentFile": "404.html",
     "lang": "en",
@@ -216,7 +216,7 @@
   {
     "slug": "404-ar",
     "output": "ar/404.html",
-    "title": "الصفحة غير موجودة — كلية البلاغ الدولية المتميّزة",
+    "title": "الصفحة غير موجودة — الكلية العالمية للغة الإنجليزية",
     "description": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
     "contentFile": "404.ar.html",
     "lang": "ar",
@@ -226,7 +226,7 @@
   {
     "slug": "study-level-1",
     "output": "study/level-1/index.html",
-    "title": "Level I: Foundation Programme (A1) &mdash; Albalagh International",
+    "title": "Level I: Foundation Programme (A1) &mdash; Worldwide English College",
     "description": "Level I of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR A1. Modules, learning outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-1.html",
     "lang": "en",
@@ -237,7 +237,7 @@
   {
     "slug": "study-level-2",
     "output": "study/level-2/index.html",
-    "title": "Level II: Elementary Programme (A2) &mdash; Albalagh International",
+    "title": "Level II: Elementary Programme (A2) &mdash; Worldwide English College",
     "description": "Level II of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR A2 — outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-2.html",
     "lang": "en",
@@ -248,7 +248,7 @@
   {
     "slug": "study-level-3",
     "output": "study/level-3/index.html",
-    "title": "Level III: Intermediate Programme (B1) &mdash; Albalagh International",
+    "title": "Level III: Intermediate Programme (B1) &mdash; Worldwide English College",
     "description": "Level III of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR B1 — outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-3.html",
     "lang": "en",
@@ -259,7 +259,7 @@
   {
     "slug": "study-level-4",
     "output": "study/level-4/index.html",
-    "title": "Level IV: Upper Intermediate Programme (B2) &mdash; Albalagh International",
+    "title": "Level IV: Upper Intermediate Programme (B2) &mdash; Worldwide English College",
     "description": "Level IV of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR B2 — outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-4.html",
     "lang": "en",
@@ -270,7 +270,7 @@
   {
     "slug": "study-level-5",
     "output": "study/level-5/index.html",
-    "title": "Level V: Advanced Programme (C1) &mdash; Albalagh International",
+    "title": "Level V: Advanced Programme (C1) &mdash; Worldwide English College",
     "description": "Level V of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR C1. Modules, learning outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-5.html",
     "lang": "en",
@@ -281,7 +281,7 @@
   {
     "slug": "study-level-6",
     "output": "study/level-6/index.html",
-    "title": "Level VI: English Mastery Programme (C2) &mdash; Albalagh International",
+    "title": "Level VI: English Mastery Programme (C2) &mdash; Worldwide English College",
     "description": "Level VI of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR C2 — outcomes, assessment, teaching methods and the award.",
     "contentFile": "study-level-6.html",
     "lang": "en",
@@ -292,8 +292,8 @@
   {
     "slug": "about-careers",
     "output": "about/careers/index.html",
-    "title": "Careers &mdash; Albalagh International Premium College",
-    "description": "Working at Albalagh International Premium College: the posts the College is seeking to fill, what each one unblocks, and how to express interest.",
+    "title": "Careers &mdash; Worldwide English College",
+    "description": "Working at Worldwide English College: the posts the College is seeking to fill, what each one unblocks, and how to express interest.",
     "contentFile": "about-careers.html",
     "lang": "en",
     "dir": "ltr",
@@ -302,8 +302,8 @@
   {
     "slug": "admissions-policy",
     "output": "admissions/policy/index.html",
-    "title": "Admissions Policy &mdash; Albalagh International Premium College",
-    "description": "The rules AIPC applies to admissions decisions, the data it collects from applicants, and the policies that have not yet been adopted.",
+    "title": "Admissions Policy &mdash; Worldwide English College",
+    "description": "The rules WEC-LC applies to admissions decisions, the data it collects from applicants, and the policies that have not yet been adopted.",
     "contentFile": "admissions-policy.html",
     "lang": "en",
     "dir": "ltr",
@@ -312,8 +312,8 @@
   {
     "slug": "students",
     "output": "students/index.html",
-    "title": "Students &mdash; Albalagh International Premium College",
-    "description": "What a AIPC student meets: the platform, the assessment scheme, the academic record, and the rules that govern all three.",
+    "title": "Students &mdash; Worldwide English College",
+    "description": "What a WEC-LC student meets: the platform, the assessment scheme, the academic record, and the rules that govern all three.",
     "contentFile": "students.html",
     "lang": "en",
     "dir": "ltr",
@@ -323,8 +323,8 @@
   {
     "slug": "students-assessment",
     "output": "students/assessment/index.html",
-    "title": "How You Are Assessed &mdash; Albalagh International Premium College",
-    "description": "The four language skills, the six competencies, published rubrics, and the threshold the AIPC platform enforces today.",
+    "title": "How You Are Assessed &mdash; Worldwide English College",
+    "description": "The four language skills, the six competencies, published rubrics, and the threshold the WEC-LC platform enforces today.",
     "contentFile": "students-assessment.html",
     "lang": "en",
     "dir": "ltr",
@@ -333,8 +333,8 @@
   {
     "slug": "students-record",
     "output": "students/academic-record/index.html",
-    "title": "Your Academic Record &mdash; Albalagh International Premium College",
-    "description": "What AIPC records about a student, who can see it, what the student controls, and how a third party verifies it.",
+    "title": "Your Academic Record &mdash; Worldwide English College",
+    "description": "What WEC-LC records about a student, who can see it, what the student controls, and how a third party verifies it.",
     "contentFile": "students-record.html",
     "lang": "en",
     "dir": "ltr",
@@ -343,8 +343,8 @@
   {
     "slug": "students-awards",
     "output": "students/awards/index.html",
-    "title": "Awards &amp; Honours &mdash; Albalagh International Premium College",
-    "description": "The six AIPC awards, their post-nominals, the adopted honours scheme, and why no award has yet been conferred on anyone.",
+    "title": "Awards &amp; Honours &mdash; Worldwide English College",
+    "description": "The six WEC-LC awards, their post-nominals, the adopted honours scheme, and why no award has yet been conferred on anyone.",
     "contentFile": "students-awards.html",
     "lang": "en",
     "dir": "ltr",
@@ -353,8 +353,8 @@
   {
     "slug": "students-integrity",
     "output": "students/integrity/index.html",
-    "title": "Academic Integrity &mdash; Albalagh International Premium College",
-    "description": "The AIPC position on work that is not the learner’s own: assessment design rather than detection software, and the adopted procedure for a suspected breach.",
+    "title": "Academic Integrity &mdash; Worldwide English College",
+    "description": "The WEC-LC position on work that is not the learner’s own: assessment design rather than detection software, and the adopted procedure for a suspected breach.",
     "contentFile": "students-integrity.html",
     "lang": "en",
     "dir": "ltr",
@@ -363,8 +363,8 @@
   {
     "slug": "students-regulations",
     "output": "students/regulations/index.html",
-    "title": "Academic Regulations &mdash; Albalagh International Premium College",
-    "description": "Progression, resits, academic standing and appeals at AIPC, separated into when each rule took effect and on whose authority.",
+    "title": "Academic Regulations &mdash; Worldwide English College",
+    "description": "Progression, resits, academic standing and appeals at WEC-LC, separated into when each rule took effect and on whose authority.",
     "contentFile": "students-regulations.html",
     "lang": "en",
     "dir": "ltr",
@@ -373,8 +373,8 @@
   {
     "slug": "press",
     "output": "press/index.html",
-    "title": "AIPC Press &mdash; Albalagh International Premium College",
-    "description": "The publishing arm of Albalagh International Premium College: what it has produced, the rule it publishes under, and the review it has not yet had.",
+    "title": "WEC Press &mdash; Worldwide English College",
+    "description": "The publishing arm of Worldwide English College: what it has produced, the rule it publishes under, and the review it has not yet had.",
     "contentFile": "press.html",
     "lang": "en",
     "dir": "ltr",
@@ -383,8 +383,8 @@
   {
     "slug": "press-catalogue",
     "output": "press/catalogue/index.html",
-    "title": "Catalogue &mdash; AIPC Press",
-    "description": "The 10 volumes AIPC Press has produced, who each is for, and how to obtain one.",
+    "title": "Catalogue &mdash; WEC Press",
+    "description": "The 10 volumes WEC Press has produced, who each is for, and how to obtain one.",
     "contentFile": "press-catalogue.html",
     "lang": "en",
     "dir": "ltr"
@@ -392,8 +392,8 @@
   {
     "slug": "support-accessibility",
     "output": "support/accessibility/index.html",
-    "title": "Accessibility &mdash; Albalagh International Premium College",
-    "description": "What AIPC has built for accessibility, what has not been audited, and what the College will do on request.",
+    "title": "Accessibility &mdash; Worldwide English College",
+    "description": "What WEC-LC has built for accessibility, what has not been audited, and what the College will do on request.",
     "contentFile": "support-accessibility.html",
     "lang": "en",
     "dir": "ltr",
@@ -402,8 +402,8 @@
   {
     "slug": "support-privacy",
     "output": "support/privacy/index.html",
-    "title": "Privacy &amp; Your Data &mdash; Albalagh International Premium College",
-    "description": "What this site collects, what it does not, who else is involved, and the accountability AIPC has not yet appointed.",
+    "title": "Privacy &amp; Your Data &mdash; Worldwide English College",
+    "description": "What this site collects, what it does not, who else is involved, and the accountability WEC-LC has not yet appointed.",
     "contentFile": "support-privacy.html",
     "lang": "en",
     "dir": "ltr",
@@ -412,7 +412,7 @@
   {
     "slug": "students-assessment-ar",
     "output": "ar/students/assessment/index.html",
-    "title": "كيف يتم تقييمك — كلية البلاغ الدولية المتميّزة",
+    "title": "كيف يتم تقييمك — الكلية العالمية للغة الإنجليزية",
     "description": "المهارات اللغوية الأربع، والمعايير المنشورة قبل التقييم، والعتبة التي تطبقها المنصة اليوم.",
     "contentFile": "students-assessment.ar.html",
     "lang": "ar",
@@ -422,7 +422,7 @@
   {
     "slug": "students-awards-ar",
     "output": "ar/students/awards/index.html",
-    "title": "الشهادات والمراتب — كلية البلاغ الدولية المتميّزة",
+    "title": "الشهادات والمراتب — الكلية العالمية للغة الإنجليزية",
     "description": "شهادات المستويات الستة ورموزها، والمراتب المعتمدة، ولماذا لم تُمنح شهادة لأحد بعد.",
     "contentFile": "students-awards.ar.html",
     "lang": "ar",
@@ -432,7 +432,7 @@
   {
     "slug": "support-privacy-ar",
     "output": "ar/support/privacy/index.html",
-    "title": "الخصوصية وبياناتك — كلية البلاغ الدولية المتميّزة",
+    "title": "الخصوصية وبياناتك — الكلية العالمية للغة الإنجليزية",
     "description": "ما يجمعه هذا الموقع وما لا يجمعه، ومن الأطراف الثالثة، والمسؤولية التي لم تُعيَّن بعد.",
     "contentFile": "support-privacy.ar.html",
     "lang": "ar",
@@ -442,7 +442,7 @@
   {
     "slug": "study-level-1-ar",
     "output": "ar/study/level-1/index.html",
-    "title": "المستوى الأول: برنامج التأسيس (A1) — كلية البلاغ الدولية المتميّزة",
+    "title": "المستوى الأول: برنامج التأسيس (A1) — الكلية العالمية للغة الإنجليزية",
     "description": "المستوى الأول من برنامج ⁦IEFC⁩: 10 وحدات، و120 درسًا مصمَّمًا على مدى 4 أشهر، وفق مستوى A1 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
     "contentFile": "study-level-1.ar.html",
     "lang": "ar",
@@ -453,7 +453,7 @@
   {
     "slug": "study-level-2-ar",
     "output": "ar/study/level-2/index.html",
-    "title": "المستوى الثاني: البرنامج الابتدائي (A2) — كلية البلاغ الدولية",
+    "title": "المستوى الثاني: البرنامج الابتدائي (A2) — الكلية العالمية للغة الإنجليزية",
     "description": "المستوى الثاني من برنامج ⁦IEFC⁩: 10 وحدات، و120 درسًا مصمَّمًا على مدى 4 أشهر، وفق مستوى A2 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
     "contentFile": "study-level-2.ar.html",
     "lang": "ar",
@@ -464,7 +464,7 @@
   {
     "slug": "study-level-3-ar",
     "output": "ar/study/level-3/index.html",
-    "title": "المستوى الثالث: البرنامج المتوسط (B1) — كلية البلاغ الدولية المتميّزة",
+    "title": "المستوى الثالث: البرنامج المتوسط (B1) — الكلية العالمية للغة الإنجليزية",
     "description": "المستوى الثالث من برنامج ⁦IEFC⁩: 10 وحدات، و120 درسًا مصمَّمًا على مدى 4 أشهر، وفق مستوى B1 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
     "contentFile": "study-level-3.ar.html",
     "lang": "ar",
@@ -475,7 +475,7 @@
   {
     "slug": "study-level-4-ar",
     "output": "ar/study/level-4/index.html",
-    "title": "المستوى الرابع: المتوسط المتقدم (B2) — كلية البلاغ الدولية المتميّزة",
+    "title": "المستوى الرابع: المتوسط المتقدم (B2) — الكلية العالمية للغة الإنجليزية",
     "description": "المستوى الرابع من برنامج ⁦IEFC⁩: 10 وحدات، و120 درسًا مصمَّمًا على مدى 4 أشهر، وفق مستوى B2 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
     "contentFile": "study-level-4.ar.html",
     "lang": "ar",
@@ -486,7 +486,7 @@
   {
     "slug": "study-level-5-ar",
     "output": "ar/study/level-5/index.html",
-    "title": "المستوى الخامس: البرنامج المتقدم (C1) — كلية البلاغ الدولية المتميّزة",
+    "title": "المستوى الخامس: البرنامج المتقدم (C1) — الكلية العالمية للغة الإنجليزية",
     "description": "المستوى الخامس من برنامج ⁦IEFC⁩: 10 وحدات، و120 درسًا مصمَّمًا على مدى 4 أشهر، وفق مستوى C1 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
     "contentFile": "study-level-5.ar.html",
     "lang": "ar",
@@ -497,7 +497,7 @@
   {
     "slug": "study-level-6-ar",
     "output": "ar/study/level-6/index.html",
-    "title": "المستوى السادس: برنامج الإتقان (C2) — كلية البلاغ الدولية المتميّزة",
+    "title": "المستوى السادس: برنامج الإتقان (C2) — الكلية العالمية للغة الإنجليزية",
     "description": "المستوى السادس من برنامج ⁦IEFC⁩: 10 وحدات، و120 درسًا مصمَّمًا على مدى 4 أشهر، وفق مستوى C2 في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.",
     "contentFile": "study-level-6.ar.html",
     "lang": "ar",
@@ -508,8 +508,8 @@
   {
     "slug": "governance",
     "output": "governance/index.html",
-    "title": "Governance &mdash; Albalagh International Premium College",
-    "description": "How AIPC is governed: its Board, Senate and Executive, the academic bodies and their remits, how quality is assured, and which posts remain unfilled.",
+    "title": "Governance &mdash; Worldwide English College",
+    "description": "How WEC-LC is governed: its Board, Senate and Executive, the academic bodies and their remits, how quality is assured, and which posts remain unfilled.",
     "contentFile": "governance.html",
     "lang": "en",
     "dir": "ltr",
@@ -519,8 +519,8 @@
   {
     "slug": "governance-evidence",
     "output": "governance/evidence/index.html",
-    "title": "The Evidence Record &mdash; Albalagh International Premium College",
-    "description": "AIPC's register of quality-assurance evidence: 37 items, what state each is in, and why none has been approved.",
+    "title": "The Evidence Record &mdash; Worldwide English College",
+    "description": "WEC-LC's register of quality-assurance evidence: 37 items, what state each is in, and why none has been approved.",
     "contentFile": "governance-evidence.html",
     "lang": "en",
     "dir": "ltr",
@@ -529,7 +529,7 @@
   {
     "slug": "governance-decisions",
     "output": "governance/decisions/index.html",
-    "title": "The Decisions Register &mdash; Albalagh International Premium College",
+    "title": "The Decisions Register &mdash; Worldwide English College",
     "description": "All 30 of the College's institutional decisions, in force, with the date and the authority that took each one.",
     "contentFile": "governance-decisions.html",
     "lang": "en",
@@ -539,7 +539,7 @@
   {
     "slug": "governance-ar",
     "output": "ar/governance/index.html",
-    "title": "الحوكمة | من يقرر وبأي صلاحية — كلية البلاغ الدولية المتميّزة",
+    "title": "الحوكمة | من يقرر وبأي صلاحية — الكلية العالمية للغة الإنجليزية",
     "description": "الهيئتان الأكاديميتان للكلية، وصلاحية كل منهما، وحقيقة أنه لم يُعيَّن فيهما عضو واحد بعد.",
     "contentFile": "governance.ar.html",
     "lang": "ar",
@@ -550,8 +550,8 @@
   {
     "slug": "academics-teaching",
     "output": "academics/teaching/index.html",
-    "title": "Teaching Practice &mdash; Albalagh International Premium College",
-    "description": "How AIPC teaches: the method, how a lesson is designed, the support record a teacher works from, and the Teacher's Companion, free to download.",
+    "title": "Teaching Practice &mdash; Worldwide English College",
+    "description": "How WEC-LC teaches: the method, how a lesson is designed, the support record a teacher works from, and the Teacher's Companion, free to download.",
     "contentFile": "academics-teaching.html",
     "lang": "en",
     "dir": "ltr",
@@ -561,7 +561,7 @@
   {
     "slug": "students-ar",
     "output": "ar/students/index.html",
-    "title": "الحياة الطلابية — كلية البلاغ الدولية المتميّزة",
+    "title": "الحياة الطلابية — الكلية العالمية للغة الإنجليزية",
     "description": "ما تعنيه الدراسة في الكلية: كيف تُقيَّم، وسجلك الأكاديمي، ومعمل الاستماع، والدعم المتاح وما لا تقدمه الكلية.",
     "contentFile": "students.ar.html",
     "lang": "ar",
@@ -572,7 +572,7 @@
   {
     "slug": "academics-teaching-ar",
     "output": "ar/academics/teaching/index.html",
-    "title": "ممارسة التدريس — كلية البلاغ الدولية المتميّزة",
+    "title": "ممارسة التدريس — الكلية العالمية للغة الإنجليزية",
     "description": "كيف تدرّس الكلية: المنهجية، وكيف يُصمَّم الدرس، وسجل الدعم الذي يعمل منه المعلم، والدليل المرافق، وكيف يُفترض أن يعمل التطوير والمشاهدة.",
     "contentFile": "academics-teaching.ar.html",
     "lang": "ar",
@@ -583,7 +583,7 @@
   {
     "slug": "students-record-ar",
     "output": "ar/students/academic-record/index.html",
-    "title": "سجلك الأكاديمي — كلية البلاغ الدولية المتميّزة",
+    "title": "سجلك الأكاديمي — الكلية العالمية للغة الإنجليزية",
     "description": "ما تسجّله الكلية عن الطالب، ومن يستطيع رؤيته، وما الذي يتحكم فيه الطالب، وكيف تتحقق جهة ثالثة منه.",
     "contentFile": "students-record.ar.html",
     "lang": "ar",
@@ -593,7 +593,7 @@
   {
     "slug": "students-integrity-ar",
     "output": "ar/students/integrity/index.html",
-    "title": "النزاهة الأكاديمية — كلية البلاغ الدولية المتميّزة",
+    "title": "النزاهة الأكاديمية — الكلية العالمية للغة الإنجليزية",
     "description": "موقف الكلية من العمل الذي ليس من إنتاج المتعلم: تصميم التقييم بدل برمجيات الكشف، والإجراء المعتمد عند الاشتباه في مخالفة.",
     "contentFile": "students-integrity.ar.html",
     "lang": "ar",
@@ -603,7 +603,7 @@
   {
     "slug": "students-regulations-ar",
     "output": "ar/students/regulations/index.html",
-    "title": "اللوائح الأكاديمية — كلية البلاغ الدولية المتميّزة",
+    "title": "اللوائح الأكاديمية — الكلية العالمية للغة الإنجليزية",
     "description": "الترقّي وإعادة التقييم والوضع الأكاديمي والاستئناف في الكلية، مفصولة بحسب متى دخلت كل قاعدة حيز النفاذ وبأي سلطة.",
     "contentFile": "students-regulations.ar.html",
     "lang": "ar",
@@ -613,7 +613,7 @@
   {
     "slug": "admissions-policy-ar",
     "output": "ar/admissions/policy/index.html",
-    "title": "سياسة القبول — كلية البلاغ الدولية المتميّزة",
+    "title": "سياسة القبول — الكلية العالمية للغة الإنجليزية",
     "description": "القواعد التي تطبقها الكلية عند البتّ في طلب: مبادئ القرار، وأسباب الرفض المسمّاة، وبياناتك، والسياسات التي لم تُعتمد بعد.",
     "contentFile": "admissions-policy.ar.html",
     "lang": "ar",
@@ -623,7 +623,7 @@
   {
     "slug": "about-careers-ar",
     "output": "ar/about/careers/index.html",
-    "title": "العمل في الكلية — كلية البلاغ الدولية المتميّزة",
+    "title": "العمل في الكلية — الكلية العالمية للغة الإنجليزية",
     "description": "المناصب الثلاثة التي تحتاجها الكلية فعلًا، وما الذي يفتحه كل منها، وما الذي ينضم إليه المرشح بالضبط.",
     "contentFile": "about-careers.ar.html",
     "lang": "ar",
@@ -633,7 +633,7 @@
   {
     "slug": "support-accessibility-ar",
     "output": "ar/support/accessibility/index.html",
-    "title": "الإتاحة — كلية البلاغ الدولية المتميّزة",
+    "title": "الإتاحة — الكلية العالمية للغة الإنجليزية",
     "description": "ما بنته الكلية للإتاحة عمدًا، وما لم يُختبر، وما الذي تفعله الكلية عند الطلب — دون ادعاء مطابقة لم يدقق فيها أحد.",
     "contentFile": "support-accessibility.ar.html",
     "lang": "ar",
@@ -643,7 +643,7 @@
   {
     "slug": "press-ar",
     "output": "ar/press/index.html",
-    "title": "مطبعة الكلية — كلية البلاغ الدولية المتميّزة",
+    "title": "مطبعة الكلية — الكلية العالمية للغة الإنجليزية",
     "description": "10 مجلدًا منتَجًا، ومعايير الدار، وحقيقة المراجعة، وبرنامج النشر، والمكتبة — بصدقٍ كامل.",
     "contentFile": "press.ar.html",
     "lang": "ar",
@@ -664,7 +664,7 @@
   {
     "slug": "governance-evidence-ar",
     "output": "ar/governance/evidence/index.html",
-    "title": "سجل الأدلة — كلية البلاغ الدولية المتميّزة",
+    "title": "سجل الأدلة — الكلية العالمية للغة الإنجليزية",
     "description": "سجل أدلة ضمان الجودة في الكلية: 37 قيدًا، وحالة كل منها، ولماذا لم يُعتمد أي منها.",
     "contentFile": "governance-evidence.ar.html",
     "lang": "ar",
@@ -674,7 +674,7 @@
   {
     "slug": "governance-decisions-ar",
     "output": "ar/governance/decisions/index.html",
-    "title": "سجل القرارات — كلية البلاغ الدولية المتميّزة",
+    "title": "سجل القرارات — الكلية العالمية للغة الإنجليزية",
     "description": "قرارات الكلية المؤسسية كلها — 30 قرارًا نافذًا — بتاريخ كل منها والسلطة التي اتخذته.",
     "contentFile": "governance-decisions.ar.html",
     "lang": "ar",
