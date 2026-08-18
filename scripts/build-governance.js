@@ -195,9 +195,9 @@ PAGES.pillar = {
   slug: 'governance', output: 'governance/index.html', file: 'governance.html',
   contents: true,
   title: 'Governance &mdash; Albalagh International Premium College',
-  description: 'How Albalagh International Premium College is governed: its Board, Senate and Executive, the '
-    + 'academic bodies and their remits, how quality is assured, how the standard is held, and '
-    + 'which posts remain unfilled.',
+  // Under 160 characters — see the note in scripts/build-teaching.js.
+  description: 'How AIPC is governed: its Board, Senate and Executive, the academic bodies and '
+    + 'their remits, how quality is assured, and which posts remain unfilled.',
   body: `${hero('Governance', 'Who decides what, and on what authority.',
     'The College separates academic judgement from institutional governance, from quality '
     + 'assurance, from finance, and from day-to-day administration. This page names who holds '
