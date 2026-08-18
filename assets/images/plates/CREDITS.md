@@ -17,7 +17,7 @@ The policy every image is checked against is Part 0 of
 | File | Stock ID | Subject | Where used | Compliance note |
 |---|---|---|---|---|
 | `library.jpg` | 592071461 | University reading hall — long tables, green-shaded lamps, shelved stacks. No people. | Home, ch. III (The Curriculum) | No people, so no question arises. |
-| `study.jpg` | 486211924 | Young Arab man in a collared shirt, headphones, working at a laptop with files beside him. | Home, ch. IV (The Digital Campus); Level II (both editions) | Modest, professional, focused on the work rather than the lens. |
+| `study.jpg` | 486211924 | Young Arab man in a collared shirt, headphones, working at a laptop with files beside him. | Home, ch. IV (The Digital Campus); Level II (both editions); Admissions, leaf III (The Passage) | Modest, professional, focused on the work rather than the lens. |
 | `seminar.jpg` | 489036417 | Two students in conversation over a laptop in a library, one wearing hijab; a third reads behind them. | Home, ch. V (Who It Is For); Level III (both editions) | Modest throughout, natural light, nobody addressing the camera. |
 | `westminster.jpg` | 910478583 | The Palace of Westminster, Big Ben and Westminster Bridge across the Thames. No people. | Home, The Residency | No people, so no compatibility question arises. Chosen because Westminster is a named residency location: it illustrates a place the College actually sends learners, and asserts nothing about premises the College owns. |
 
@@ -86,8 +86,8 @@ derivatives, which would forbid the plate crop).
 | `charter.jpg` | CC0 1.0 | — | [rawpixel](https://www.rawpixel.com/image/8718128/photo-image-vintage-public-domain) | Governance, leaf I (The Instrument); The Decisions Register (both editions) | Not required |
 | `letterpress.jpg` | CC0 1.0 | — | [rawpixel](https://www.rawpixel.com/image/3296480/free-photo-image-printing-press-advertising-block) | Press, leaf XVII (The Shelf); Teaching Practice (both editions) | Not required |
 | `worldmap.jpg` | CC0 1.0 | themet | [rawpixel](https://www.rawpixel.com/image/2038222/vintage-world-map) | The College — Equity & Welcome; FAQ (both editions) | Not required |
-| `astrolabe.jpg` | BY-SA 3.0 | Ragesoss | [wikimedia](https://commons.wikimedia.org/w/index.php?curid=2717737) | Academics, leaf VI (Teaching Practice) | **Required** — rendered in the plate caption |
-| `colonnade.jpg` | BY-SA 2.0 | stevecadman | [flickr](https://www.flickr.com/photos/98115025@N00/496743569) | Admissions, leaf III (The Passage); Level VI (both editions) | **Required** — rendered in the plate caption |
+| `astrolabe.jpg` | BY-SA 3.0 | Ragesoss | [wikimedia](https://commons.wikimedia.org/w/index.php?curid=2717737) | Academics, leaf VI (Teaching Practice); Level VI (both editions) | **Required** — rendered in the plate caption |
+| `colonnade.jpg` | BY-SA 2.0 | stevecadman | [flickr](https://www.flickr.com/photos/98115025@N00/496743569) | **Withdrawn 18 August 2026** — see the note at the foot of this file | n/a |
 | `stacks.jpg` | CC0 1.0 | Open Grid Scheduler / Grid Engine | [flickr](https://www.flickr.com/photos/29155878@N03/16915765068) | Press, leaf XV (What It Holds); Level V (both editions) | Not required |
 | `manuscript.jpg` | CC0 1.0 | Walters Art Museum Illuminated Manuscripts | [flickr](https://www.flickr.com/photos/39699193@N03/3840429977) | Press, leaf I (The Imprint); Level I (both editions) | Not required |
 
@@ -114,3 +114,26 @@ so those three carry a visible credit line in the plate caption rather
 than a row in this file alone. Where a public-domain alternative of
 equal quality existed, it was taken instead; that is why five of the
 eight are CC0.
+
+## Withdrawn — a photograph that named another university
+
+`colonnade.jpg` was withdrawn on 18 August 2026, from the Admissions
+pillar and from Level VI, in both editions.
+
+It is Senate House, and the building carries **UNIVERSITY OF LONDON**
+carved across the lintel, legible at the size the plate is served. On a
+page about this College's admissions — beside the sentence explaining
+that "London Campus" is an administrative address and that nobody
+attends it — a photograph of another London university's senate house
+reads as an association that does not exist. The alt text made it worse
+by describing it as "a college building".
+
+Nothing was wrong with the licence or the photograph. What was wrong was
+publishing another institution's name on our own pages, which is the
+same rule that governs accreditation, partnerships and endorsements
+everywhere else on this site. It was found by rendering the page, which
+is the only way it could have been found: the filename says colonnade
+and the alt text said college.
+
+Replaced by `study.jpg` on Admissions and `astrolabe.jpg` on Level VI.
+`tests/plate-identity.test.mjs` holds the rule.

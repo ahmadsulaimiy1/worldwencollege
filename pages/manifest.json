@@ -898,5 +898,36 @@
       "/css/press.css"
     ],
     "contents": true
+  },
+  {
+    "slug": "governance-quality",
+    "output": "governance/quality/index.html",
+    "title": "The Quality Architecture &mdash; Worldwide English College",
+    "description": "Every standing body of Worldwide English College, what each decides, who it reports to, and whether it has ever met &mdash; with the annual review cycle, the teaching observation framework and the teaching excellence measures.",
+    "contentFile": "governance-quality.html",
+    "lang": "en",
+    "dir": "ltr",
+    "contents": true,
+    "altHref": "/ar/governance/quality/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/governance.css"
+    ]
+  },
+  {
+    "slug": "governance-quality-ar",
+    "output": "ar/governance/quality/index.html",
+    "title": "بنية الجودة &mdash; الكلية العالمية للغة الإنجليزية",
+    "description": "كل هيئة دائمة في الكلية العالمية للغة الإنجليزية، وما تقرّره، ولمن ترفع، وهل اجتمعت قط — ومعها دورة المراجعة السنوية، وإطار مشاهدة التدريس، ومقاييس التميّز في التدريس.",
+    "contentFile": "governance-quality.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "contents": true,
+    "altHref": "/governance/quality/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/governance.css",
+      "/css/arabic.css"
+    ]
   }
 ]

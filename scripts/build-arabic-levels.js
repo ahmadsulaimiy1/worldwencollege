@@ -452,10 +452,10 @@ const PLATE = {
   V:   { file: 'stacks.jpg', icon: 'i-columns',
          alt: 'رفوف مكتبة تتوالى في العمق، رفٌّ بعد رفٍّ من المجلدات المجلَّدة تحت ضوء متساوٍ.',
          caption: 'الاتساع والمقام: المستوى الذي تكفّ فيه الإنجليزية عن أن تكون صوتًا واحدًا.' },
-  VI:  { file: 'colonnade.jpg', icon: 'i-crest',
-         alt: 'رواق حجري بأعمدة في ضوء مائل، تتوالى أقواسه نحو صحن مفتوح.',
-         caption: 'الوصول — إلى اللغة، وإلى المؤسسة المبنية عليها.',
-         credit: 'تصوير <a href="https://www.flickr.com/photos/98115025@N00/496743569">stevecadman</a>، <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>' },
+  VI:  { file: 'astrolabe.jpg', icon: 'i-crest',
+         alt: 'إسطرلاب نحاسي، حلقاته ومسطرته منقوشة بالمقاييس ومؤشرات النجوم.',
+         caption: 'الوصول — إلى اللغة، وإلى الدقة التي تتيحها.',
+         credit: 'تصوير <a href="https://commons.wikimedia.org/w/index.php?curid=2717737">Ragesoss</a>، <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>' },
 };
 
 function plate(roman) {

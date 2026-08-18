@@ -290,10 +290,10 @@ const PLATE = {
   V:   { file: 'stacks.jpg', icon: 'i-columns',
          alt: 'Library stacks receding into depth, shelf after shelf of bound volumes under even light.',
          caption: 'Range and register: the level where English stops being one voice.' },
-  VI:  { file: 'colonnade.jpg', icon: 'i-crest',
-         alt: 'A stone colonnade in raking light, its arches receding toward an open court.',
-         caption: 'Arrival — at the language, and at the institution built on it.',
-         credit: 'Photograph <a href="https://www.flickr.com/photos/98115025@N00/496743569">stevecadman</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>' },
+  VI:  { file: 'astrolabe.jpg', icon: 'i-crest',
+         alt: 'A brass astrolabe, its rings and rule engraved with scales and star pointers.',
+         caption: 'Arrival — at the language, and at the precision it makes possible.',
+         credit: 'Photograph <a href="https://commons.wikimedia.org/w/index.php?curid=2717737">Ragesoss</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>' },
 };
 
 function plate(roman) {

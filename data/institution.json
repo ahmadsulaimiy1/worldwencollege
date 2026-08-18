@@ -1,0 +1,343 @@
+{
+  "_": [
+    "THE INSTITUTIONAL QUALITY ARCHITECTURE — every standing body, every",
+    "framework, and the true state of each.",
+    "",
+    "WHY THIS FILE EXISTS. A college's quality architecture is the part",
+    "most often written as a diagram nobody can act on: seven committees",
+    "named on an About page, with no remit, no reporting line, and no way",
+    "for a reader to tell which of them has ever met. This file holds the",
+    "remit and the STATUS of every body in one place, and the pages are",
+    "generated from it, so an office cannot be described as working on one",
+    "page and vacant on another.",
+    "",
+    "THE RULE THAT GOVERNS `status`. It is the honest state, not the",
+    "intention:",
+    "",
+    "  established  the instrument exists and the body is constituted in",
+    "               it. Nobody has been appointed.",
+    "  constituted  members are appointed. It has not met.",
+    "  operating    it has met and its decisions are minuted.",
+    "",
+    "Nothing here may be set to `operating` because a page would read",
+    "better. tests/institution.test.mjs holds every body to the same",
+    "distinction the rest of the site draws between a power that exists",
+    "and a power that has been exercised, and CLAUDE.md §5 governs it:",
+    "settled work takes a struck mark, outstanding work takes an open",
+    "ring. A body that has never met takes the ring.",
+    "",
+    "TRANSLATION. Every body and every framework carries both editions,",
+    "because a governance instrument a reader cannot read is not a",
+    "published instrument. The generator refuses to build if either is",
+    "missing."
+  ],
+
+  "adopted_on": "2026-08-18",
+
+  "commission": {
+    "code": "IQC",
+    "en": {
+      "name": "Institutional Quality Commission",
+      "short": "the Commission",
+      "remit": "A permanent commission rather than a standing committee, because the work it owns does not stop between meetings. It holds academic quality, institutional effectiveness, educational innovation, policy review, curriculum monitoring, learner outcomes and strategic benchmarking, and it is the body every subcommittee below reports through.",
+      "why": "A committee is convened for a question and dissolved when the question is answered. Quality is not a question; it is a condition that decays the moment nobody is responsible for it. The Commission is permanent so that responsibility has somewhere to sit in the months when nothing is being reviewed."
+    },
+    "ar": {
+      "name": "هيئة الجودة المؤسسية",
+      "short": "الهيئة",
+      "remit": "هيئة دائمة لا لجنة مؤقتة، لأن ما تتولاه لا يتوقف بين اجتماع واجتماع. تملك الجودة الأكاديمية، والفاعلية المؤسسية، والابتكار التعليمي، ومراجعة السياسات، ورصد المناهج، ونواتج المتعلمين، والمقارنة المرجعية الاستراتيجية، وإليها ترفع كل لجنة فرعية أدناه.",
+      "why": "اللجنة تُشكَّل لسؤال وتُحلّ إذا أُجيب عنه. والجودة ليست سؤالًا بل حالٌ تنحلّ ساعةَ لا يكون أحد مسؤولًا عنها. فجُعلت الهيئة دائمة ليكون للمسؤولية مقرٌّ في الشهور التي لا تُراجَع فيها شيء."
+    },
+    "status": "established",
+    "reports_to": "Board of Governors"
+  },
+
+  "subcommittees": [
+    {
+      "code": "IQC-CURRICULUM",
+      "en": {
+        "name": "Curriculum Standards Committee",
+        "remit": "Holds the curriculum against its own published structure: that every module states its prerequisites, that every lesson carries an outcome, and that the sequence of a level is an argument rather than an ordering."
+      },
+      "ar": {
+        "name": "لجنة معايير المناهج",
+        "remit": "تُمسك المنهج بما نشره عن نفسه: أن تذكر كل وحدة متطلباتها السابقة، وأن يحمل كل درس ناتجه، وأن يكون ترتيب المستوى حجّةً لا مجرد تنظيم."
+      }
+    },
+    {
+      "code": "IQC-ASSESSMENT",
+      "en": {
+        "name": "Assessment Integrity Committee",
+        "remit": "Owns the distance between a rubric and a mark. It reviews marking consistency, second-marking, the operation of the skill floors, and every case where a published criterion and an awarded grade could be read as disagreeing."
+      },
+      "ar": {
+        "name": "لجنة نزاهة التقييم",
+        "remit": "تتولى المسافة بين معيار التصحيح والدرجة. تراجع اتساق التصحيح، والتصحيح الثاني، وعمل الحدود الدنيا للمهارات، وكل حالة يمكن أن يُقرأ فيها الشرط المنشور والدرجة الممنوحة على أنهما مختلفان."
+      }
+    },
+    {
+      "code": "IQC-EXPERIENCE",
+      "en": {
+        "name": "Student Experience Committee",
+        "remit": "Reads the programme from the learner's side: what a student actually meets, in what order, with what support, and where the programme as published and the programme as met come apart."
+      },
+      "ar": {
+        "name": "لجنة تجربة الطالب",
+        "remit": "تقرأ البرنامج من جهة المتعلم: ما الذي يلقاه الطالب فعلًا، وبأي ترتيب، وبأي دعم، وأين يفترق المسار المنشور عن المسار المُعاش."
+      }
+    },
+    {
+      "code": "IQC-DIGITAL",
+      "en": {
+        "name": "Digital Learning Committee",
+        "remit": "Owns the platform as an academic instrument rather than as software: whether the staging of a lesson teaches, whether the Listening Lab measures what it claims, and whether a learner's record is legible to the learner."
+      },
+      "ar": {
+        "name": "لجنة التعلم الرقمي",
+        "remit": "تتولى المنصة بوصفها أداةً أكاديمية لا برنامجًا: هل يعلّم تدرّج الدرس، وهل يقيس معمل الاستماع ما يدّعي قياسه، وهل سجل المتعلم مقروء للمتعلم نفسه."
+      }
+    },
+    {
+      "code": "IQC-TEACHING",
+      "en": {
+        "name": "Teaching Excellence Committee",
+        "remit": "Runs the observation cycle and the development scheme that follows from it, and holds the Teaching Excellence Framework's measures against what teaching actually produced."
+      },
+      "ar": {
+        "name": "لجنة التميّز في التدريس",
+        "remit": "تُجري دورة المشاهدة وما يتبعها من خطة تطوير، وتُمسك مقاييس إطار التميّز في التدريس بما أنتجه التدريس فعلًا."
+      }
+    },
+    {
+      "code": "IQC-PUBLICATIONS",
+      "en": {
+        "name": "Academic Publications Committee",
+        "remit": "The review gate in front of WEC Press. No volume is described as reviewed until a qualified reader who did not write it has read it and said so on the record."
+      },
+      "ar": {
+        "name": "لجنة المنشورات الأكاديمية",
+        "remit": "بوابة المراجعة أمام مطبعة الكلية. لا يوصف مجلد بأنه مُراجَع حتى يقرأه قارئ مؤهل لم يكتبه ويُثبت ذلك في السجل."
+      }
+    },
+    {
+      "code": "IQC-INNOVATION",
+      "en": {
+        "name": "Strategic Innovation Committee",
+        "remit": "Decides which proposed change to the programme is worth the disruption it costs, and records the ones it declines with the reason — so a rejected idea is a decision rather than a silence."
+      },
+      "ar": {
+        "name": "لجنة الابتكار الاستراتيجي",
+        "remit": "تقرّر أي تغيير مقترح على البرنامج يستحق ما يكلّفه من اضطراب، وتُدوّن ما ترفضه مع سببه — فيكون المرفوض قرارًا لا صمتًا."
+      }
+    }
+  ],
+
+  "bodies": [
+    {
+      "code": "IAC",
+      "en": {
+        "name": "International Advisory Council",
+        "remit": "Advises on global education trends, curriculum development, employability, technology, international partnerships, research and educational innovation. It advises; it does not approve. Nothing it says becomes policy without a decision of the Senate or the Commission, and the record names which.",
+        "why": "An advisory council with approval powers is a second senate nobody voted for. Keeping the line sharp is what makes outside advice worth taking."
+      },
+      "ar": {
+        "name": "المجلس الاستشاري الدولي",
+        "remit": "يشير في اتجاهات التعليم عالميًا، وتطوير المناهج، وقابلية التوظيف، والتقنية، والشراكات الدولية، والبحث، والابتكار التعليمي. يشير ولا يُقرّ. ولا يصير شيء مما يقوله سياسةً إلا بقرار من المجلس الأكاديمي أو الهيئة، والسجل يسمّي أيّهما.",
+        "why": "مجلس استشاري يملك الإقرار مجلسٌ أكاديمي ثانٍ لم ينتخبه أحد. وحدّة هذا الخط هي ما يجعل المشورة من الخارج تستحق الأخذ بها."
+      },
+      "status": "established",
+      "reports_to": "Board of Governors"
+    },
+    {
+      "code": "EIB",
+      "en": {
+        "name": "Educational Innovation Board",
+        "remit": "Owns AI integration, immersive learning, virtual classrooms, digital laboratories, learning analytics, adaptive assessment and future pedagogy — and owns the obligation to say which of them the College has actually built and which it has only considered.",
+        "why": "Innovation is the easiest thing in a prospectus to describe and the hardest to evidence. The Board's first duty is the distinction."
+      },
+      "ar": {
+        "name": "مجلس الابتكار التعليمي",
+        "remit": "يتولى دمج الذكاء الاصطناعي، والتعلم الغامر، والفصول الافتراضية، والمعامل الرقمية، وتحليلات التعلم، والتقييم التكيّفي، وبيداغوجيا المستقبل — ويتولى معها واجب البيان: أيُّها بنته الكلية فعلًا وأيُّها نظرت فيه فحسب.",
+        "why": "الابتكار أيسر ما يُوصف في نشرة وأعسر ما يُبرهن. وأول واجبات المجلس هو هذا الفرق."
+      },
+      "status": "established",
+      "reports_to": "Institutional Quality Commission"
+    },
+    {
+      "code": "SSO",
+      "en": {
+        "name": "Student Success Office",
+        "remit": "Coordinates academic advising, learning support, wellbeing, mentoring, careers guidance and alumni support. An office rather than a committee, because a student in difficulty needs a door, not a quorum.",
+        "why": "Every function it holds already existed somewhere on this site and nowhere in particular. Naming the office is what makes them reachable."
+      },
+      "ar": {
+        "name": "مكتب نجاح الطالب",
+        "remit": "ينسّق الإرشاد الأكاديمي، ودعم التعلم، والعافية، والإرشاد الشخصي، والتوجيه المهني، ودعم الخريجين. مكتبٌ لا لجنة، لأن الطالب المتعثّر يحتاج بابًا لا نصابًا.",
+        "why": "كل وظيفة يتولاها كانت موجودة في مكان ما من هذا الموقع وفي غير موضع بعينه. وتسمية المكتب هي ما يجعلها في المتناول."
+      },
+      "status": "established",
+      "reports_to": "College Executive"
+    },
+    {
+      "code": "GEC",
+      "en": {
+        "name": "Graduate Employability Council",
+        "remit": "Reviews graduate competencies, employer expectations, workforce trends, industry partnerships, professional skills and curriculum relevance. It publishes no employment statistic until there are careers old enough to have said something.",
+        "why": "An employability council that reports a figure in its first year is reporting an aspiration. The restraint is the point of having one."
+      },
+      "ar": {
+        "name": "مجلس توظيف الخريجين",
+        "remit": "يراجع كفايات الخريجين، وتوقعات أصحاب العمل، واتجاهات سوق العمل، والشراكات المهنية، والمهارات المهنية، وصلة المنهج بها. ولا ينشر إحصاء توظيف حتى تبلغ المسارات المهنية عمرًا يقول شيئًا.",
+        "why": "مجلس توظيف يعلن رقمًا في عامه الأول يعلن أمنية. والتحفّظ هو المقصود من وجوده."
+      },
+      "status": "established",
+      "reports_to": "Institutional Quality Commission"
+    },
+    {
+      "code": "FLL",
+      "en": {
+        "name": "Future Learning Laboratory",
+        "remit": "An institutional innovation centre for AI-assisted learning, multilingual education, digital assessment, educational technology, immersive learning, virtual reality and next-generation language pedagogy. Its output is evidence about teaching, not features.",
+        "why": "A laboratory is a place where things are tried and the results are written down, including the ones that did not work. That second half is what distinguishes it from a product roadmap."
+      },
+      "ar": {
+        "name": "مختبر التعلم المستقبلي",
+        "remit": "مركز ابتكار مؤسسي للتعلم بمعونة الذكاء الاصطناعي، والتعليم متعدد اللغات، والتقييم الرقمي، وتقنيات التعليم، والتعلم الغامر، والواقع الافتراضي، وبيداغوجيا اللغة من الجيل القادم. ونتاجه أدلةٌ عن التدريس لا خصائصُ برمجية.",
+        "why": "المختبر مكانٌ تُجرَّب فيه الأشياء وتُدوَّن نتائجها، بما فيها ما لم ينجح. وهذا الشطر الثاني هو ما يفرّقه عن خارطة طريق منتج."
+      },
+      "status": "established",
+      "reports_to": "Educational Innovation Board"
+    }
+  ],
+
+  "external_examiner": {
+    "code": "EXAMINER",
+    "en": {
+      "name": "Independent External Examiner",
+      "remit": "Provides independent oversight of academic standards, moderation procedures, assessment quality and award integrity.",
+      "reviews": [
+        "Assessment frameworks",
+        "Examination standards",
+        "Moderation processes",
+        "Award classifications",
+        "Curriculum alignment",
+        "Academic regulations",
+        "Student achievement evidence"
+      ],
+      "reporting": "Reports annually to the Board of Governors and to the Academic Senate. Recommendations are published through the College's quality assurance cycle rather than held internally, because a recommendation nobody outside the College can read is not oversight.",
+      "why": "This is the one office in the whole instrument that cannot be filled from inside. Every other body here is the College checking its own work; this one is the only thing that can establish that a level sits where the College says it sits."
+    },
+    "ar": {
+      "name": "الممتحن الخارجي المستقل",
+      "remit": "يتولى الإشراف المستقل على المعايير الأكاديمية، وإجراءات التعديل، وجودة التقييم، ونزاهة الشهادات.",
+      "reviews": [
+        "أطر التقييم",
+        "معايير الامتحانات",
+        "إجراءات التعديل",
+        "تصنيفات الشهادات",
+        "مواءمة المناهج",
+        "اللوائح الأكاديمية",
+        "أدلة تحصيل الطلاب"
+      ],
+      "reporting": "يرفع تقريرًا سنويًا إلى مجلس الأمناء وإلى المجلس الأكاديمي. وتُنشر التوصيات عبر دورة ضمان الجودة في الكلية لا تُحفظ في الداخل، لأن توصيةً لا يقرؤها أحد من خارج الكلية ليست إشرافًا.",
+      "why": "هذا هو المنصب الوحيد في الوثيقة كلها الذي لا يُشغَل من الداخل. وكل هيئة أخرى هنا هي الكلية تفحص عملها؛ وهذا وحده ما يستطيع أن يُثبت أن المستوى واقعٌ حيث تقول الكلية إنه واقع."
+    },
+    "_appointed": [
+      "false until a named examiner has accepted the appointment AND the",
+      "appointment is minuted with a date. A name in an email is not an",
+      "appointment, and publishing a person as holding an office they have",
+      "not accepted is a claim about THEM, not about the College.",
+      "",
+      "Set `appointed` to the date, add `holder`, and re-run the build."
+    ],
+    "appointed": null,
+    "holder": null
+  },
+
+  "quality_review": {
+    "en": {
+      "name": "Academic Quality Review Framework",
+      "lede": "The College operates a continuous quality assurance model. Every academic year runs the seven reviews below, and each one produces the same four things, in the same order, on the record.",
+      "outputs": ["Findings", "Recommendations", "Implementation plan", "Follow-up review"],
+      "outputs_note": "A review that produces findings and stops is an opinion. The fourth output is what makes the first three binding: the follow-up asks whether the implementation plan was implemented, and its answer is minuted whether or not it flatters anyone.",
+      "reviews": [
+        ["Curriculum Review", "Whether the programme still teaches what it says it teaches, in the order it says."],
+        ["Assessment Review", "Whether the assessments still measure the outcomes they were written to test."],
+        ["Student Experience Review", "What a learner actually met, against what the pages promised they would meet."],
+        ["Graduate Outcome Review", "What holders of the award went on to do — reported when there is something to report."],
+        ["Academic Standards Review", "Whether the standard applied in marking is the standard published in the rubric."],
+        ["External Moderation", "The one station that requires somebody the College cannot appoint to itself."],
+        ["Governance Review", "Whether the bodies on this page did what this page says they do."]
+      ]
+    },
+    "ar": {
+      "name": "إطار مراجعة الجودة الأكاديمية",
+      "lede": "تعمل الكلية بنموذج ضمان جودة متصل. وفي كل سنة أكاديمية تُجرى المراجعات السبع أدناه، وتُنتج كل واحدة منها الأمور الأربعة نفسها، بالترتيب نفسه، في السجل.",
+      "outputs": ["النتائج", "التوصيات", "خطة التنفيذ", "مراجعة المتابعة"],
+      "outputs_note": "مراجعةٌ تُنتج نتائج ثم تقف رأيٌ لا غير. والناتج الرابع هو ما يجعل الثلاثة الأولى ملزمة: المتابعة تسأل هل نُفِّذت خطة التنفيذ، ويُدوَّن جوابها أرضى ذلك أحدًا أم لم يُرضِه.",
+      "reviews": [
+        ["مراجعة المنهج", "هل ما زال البرنامج يعلّم ما يقول إنه يعلّمه، بالترتيب الذي يقوله."],
+        ["مراجعة التقييم", "هل ما زالت التقييمات تقيس النواتج التي كُتبت لاختبارها."],
+        ["مراجعة تجربة الطالب", "ما الذي لقيه المتعلم فعلًا، في مقابل ما وعد به المسار المنشور."],
+        ["مراجعة نواتج الخريجين", "ما الذي صار إليه حاملو الشهادة — يُذكر حين يكون هناك ما يُذكر."],
+        ["مراجعة المعايير الأكاديمية", "هل المعيار المطبَّق في التصحيح هو المعيار المنشور في وثيقة التصحيح."],
+        ["التعديل الخارجي", "المحطة الوحيدة التي تستلزم من لا تستطيع الكلية تعيينه لنفسها."],
+        ["مراجعة الحوكمة", "هل فعلت الهيئات المذكورة في هذه الصفحة ما تقول الصفحة إنها تفعله."]
+      ]
+    },
+    "turns_completed": 0
+  },
+
+  "observation": {
+    "en": {
+      "name": "Teaching Observation Framework",
+      "lede": "Teaching quality is reviewed in structured observation cycles rather than by impression. An observation covers the eight areas below and produces the five outputs beside them.",
+      "areas": [
+        "Lesson planning", "Classroom management", "Language accuracy", "Student engagement",
+        "Assessment practice", "Inclusive teaching", "Digital teaching", "Professional conduct"
+      ],
+      "outputs": ["Strengths", "Recommendations", "Action points", "Mentoring schedule", "Follow-up observation"],
+      "why": "The support record behind the Teacher's Companion has four kinds of knowledge and the fourth — what actually happened in a room with real learners — is empty. This framework is the only instrument that can fill it. Until an observation is written up under it, the column stays empty and the site says so."
+    },
+    "ar": {
+      "name": "إطار مشاهدة التدريس",
+      "lede": "تُراجَع جودة التدريس في دورات مشاهدة منظَّمة لا بالانطباع. وتغطي المشاهدة المجالات الثمانية أدناه وتُنتج المخرجات الخمسة التي بجوارها.",
+      "areas": [
+        "تخطيط الدرس", "إدارة الصف", "دقة اللغة", "تفاعل الطالب",
+        "ممارسة التقييم", "التدريس الشامل", "التدريس الرقمي", "السلوك المهني"
+      ],
+      "outputs": ["مواطن القوة", "التوصيات", "نقاط العمل", "جدول الإرشاد", "مشاهدة المتابعة"],
+      "why": "في سجل الإسناد الذي يقوم عليه دليل المعلم أربعة أنواع من المعرفة، ورابعها — ما جرى فعلًا في غرفة فيها متعلمون — فارغ. وهذا الإطار هو الأداة الوحيدة التي تستطيع ملأه. وإلى أن تُدوَّن مشاهدة وفقه، يبقى العمود فارغًا ويقول الموقع ذلك."
+    },
+    "observations_recorded": 0
+  },
+
+  "excellence": {
+    "en": {
+      "name": "Teaching Excellence Framework",
+      "lede": "Every module is evaluated against the measures below. Each is either measured or it is marked as not yet measured; none is estimated.",
+      "measures": [
+        ["Learner achievement", "Marks against the published rubric, per outcome."],
+        ["Learner satisfaction", "Collected from students, reported unedited."],
+        ["Assessment reliability", "Agreement between first and second marker."],
+        ["Completion rate", "Published when a cohort is large enough for the figure to mean something."],
+        ["Engagement", "Time on task and return rate, from the platform record."],
+        ["Instructional quality", "From the observation cycle, once observations exist."],
+        ["Continuous improvement", "What the last review changed, and whether it worked."]
+      ]
+    },
+    "ar": {
+      "name": "إطار التميّز في التدريس",
+      "lede": "تُقوَّم كل وحدة بالمقاييس أدناه. وكل مقياس إمّا مقيسٌ وإمّا موسومٌ بأنه لم يُقَس بعد؛ ولا يُقدَّر منها شيء تقديرًا.",
+      "measures": [
+        ["تحصيل المتعلم", "الدرجات وفق وثيقة التصحيح المنشورة، لكل ناتج."],
+        ["رضا المتعلم", "يُجمع من الطلاب ويُنشر بلا تحرير."],
+        ["ثبات التقييم", "اتفاق المصحّح الأول والثاني."],
+        ["نسبة الإتمام", "تُنشر حين تبلغ الدفعة حجمًا يجعل للرقم معنى."],
+        ["الانخراط", "زمن العمل ومعدل العودة، من سجل المنصة."],
+        ["جودة التدريس", "من دورة المشاهدة، متى وُجدت مشاهدات."],
+        ["التحسين المستمر", "ما غيّرته المراجعة الأخيرة، وهل نجح."]
+      ]
+    }
+  }
+}
