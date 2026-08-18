@@ -1924,6 +1924,22 @@ body { margin:0; -webkit-print-color-adjust:exact; print-color-adjust:exact;
  */
 const TYPE_SCALE = Number(process.env.IEFC_TYPE_SCALE || 1);
 const LARGE = TYPE_SCALE !== 1;
+
+/**
+ * HTML only: stop after the typeset text block, before any PDF.
+ *
+ * The edition test measures the three editions against one another, and
+ * everything it measures is in the HTML. Rendering the books as well
+ * cost it about seventy seconds and — for the institutional edition,
+ * whose PDF and cover are committed — rewrote two tracked files on
+ * every run, so a test suite left the working tree dirty.
+ *
+ * This is not a lesser render. The imposition, the plate insertion and
+ * the page measurement all happen above, because the HTML is what they
+ * produce; what is skipped is printing it, rasterising the figures, and
+ * wrapping a cover round a page count.
+ */
+const HTML_ONLY = process.env.IEFC_HTML_ONLY === '1';
 const scaleType = (css) => (LARGE
   ? css.replace(/font-size:\s*([\d.]+)pt/g, (_, v) =>
     `font-size:${Math.round(Number(v) * TYPE_SCALE * 100) / 100}pt`)
@@ -2019,6 +2035,16 @@ const html = document_(parts);
 const htmlPath = path.join(ROOT, 'publication',
   `.${EDITION.key === 'teacher' ? 'flagship' : EDITION.key}${LARGE ? '-large' : ''}.html`);
 writeFileSync(htmlPath, html);
+
+if (HTML_ONLY) {
+  await browser.close();
+  console.log(`${EDITION.name.toUpperCase()} — text block only\n  ${htmlPath}`);
+  console.log(`  ${C.totals.lessons} items · ${C.totals.modules} modules · `
+    + `${C.totals.questions} questions · `
+    + `${C.totals.bodyWords.toLocaleString('en-GB')} words of lesson content`);
+  console.log(`  imposition: ${inserted} recto leaf/leaves inserted`);
+  process.exit(0);
+}
 
 // Navigated rather than injected: setContent() has no base URL, so the
 // plates' relative image paths would resolve to nothing and six pages

@@ -21,7 +21,7 @@
 //
 // WHAT THIS FILE DOES NOT MEASURE: whether the institutional edition is
 // persuasive to a ministry. That is a judgement, not an assertion.
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { ROOT, loadUrl } from './helpers.mjs';
 
@@ -36,6 +36,29 @@ const check = (label, cond, detail) => {
 
 // The editions are rendered on demand rather than kept in the tree, so
 // this builds the two that are not the default before measuring them.
+//
+// It rebuilds them every run, and the reason is a defect this file
+// actually had. The loop below used to read `if (existsSync(...))
+// continue;` — reuse whatever is on disk. On CI, where the tree is
+// clean, that always rendered fresh and the file passed. On a working
+// machine it compared a fortnight-old student edition against a
+// teacher's edition rendered minutes ago, and duly reported that five
+// curriculum passages had gone missing from the student's book. Nothing
+// had gone missing; the College had been renamed in between, and the
+// stale artefact still carried the old name.
+//
+// The failure was harmless. What it revealed was not: this file claims
+// to measure whether the three editions are built from one source, and
+// it was measuring whatever happened to be lying in the directory. A
+// renderer could have been broken for a fortnight without this noticing,
+// so long as nobody deleted the output. Measuring the renderer is the
+// entire point of the file.
+//
+// Both are rendered IEFC_HTML_ONLY, which stops after the text block.
+// Everything this file measures is in the HTML, and printing the books
+// as well would both cost seventy seconds and rewrite the institutional
+// edition's committed PDF and cover on every run — a test suite that
+// dirties the working tree.
 const SRC = {
   teacher: `${ROOT}/publication/.flagship.html`,
   student: `${ROOT}/publication/.student.html`,
@@ -46,9 +69,13 @@ if (!existsSync(SRC.teacher)) {
   process.exit(1);
 }
 for (const key of ['student', 'institutional']) {
-  if (existsSync(SRC[key])) continue;
+  rmSync(SRC[key], { force: true });
   execFileSync('node', ['--experimental-sqlite', 'scripts/publication/render-flagship.mjs'],
-    { cwd: ROOT, env: { ...process.env, IEFC_EDITION: key }, stdio: 'ignore' });
+    { cwd: ROOT, env: { ...process.env, IEFC_EDITION: key, IEFC_HTML_ONLY: '1' }, stdio: 'ignore' });
+  if (!existsSync(SRC[key])) {
+    console.log(`FAIL The ${key} edition did not render`);
+    process.exit(1);
+  }
 }
 
 const text = (f) => readFileSync(f, 'utf8')
