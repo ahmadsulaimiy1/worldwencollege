@@ -79,6 +79,13 @@ counsels restraint where excellence is achievable.*
 | **32** | [Multi-Model Intelligence](32-multi-model-intelligence.md) | The engineering council · sixteen consultation tools · how a recommendation is weighed · **what is never sent** |
 | **33** | [Media, Assets and Provenance](33-media-and-provenance.md) | No automated gate · the provenance register · quality standards · the legal review point |
 | **34** | [The StromeX Design System](34-design-system.md) | The component contract · materials and the glass ration · plates · ledgers · forms · search · navigation · dashboards · six instruments · reports and print · the nine states · AI interactions · five device classes · eight signature patterns · every surface class |
+
+> **Volumes 30 and 34 have a normative form: [`stromex/design-system/`](../design-system/).**
+> Tokens, components, motion, the print form, a rendered specimen and four
+> executable gates. Building it amended the language in seven places —
+> recorded at `SEB §30.19` and `SEB-D 23`–`27`, not quietly corrected in
+> the code. A specification nobody implemented is a wish.
+
 | **35** | [The Design Language Initiative](35-design-language-initiative.md) | The living programme: how a pattern is admitted, how one is retired, the research strands, the review cycle, what is measured, how the language is versioned |
 | **36** | [The Intelligence Platform](36-intelligence-platform.md) | The correction: executive · governance · execution · council · **memory**. The knowledge graph, the deployment brain, and what the platform guarantees whatever it grows into |
 

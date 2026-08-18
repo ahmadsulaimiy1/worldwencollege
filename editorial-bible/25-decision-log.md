@@ -359,6 +359,70 @@ it — the first implementation is never the final one.
 
 **Confidence High.**
 
+### `SEB-D 23` — Signal colour is a role, not a pigment
+
+**Decided 2026-08-18.** Measured, not chosen. On obsidian the three
+signal pigments compute to 3.35:1, 2.43:1 and 2.29:1 — the last being the
+focus ring, on every page, in the presented register.
+
+| Option | |
+|---|---|
+| Keep the pigments and use them carefully | Rejected: "carefully" is unenforceable, and it had already failed four readings |
+| Lighten the pigments globally | Rejected: they are then wrong on paper, where the base values are the legible ones (4.72–6.92:1) |
+| **Register-resolved signal ROLES** | **Adopted.** The role resolves per register; the pigment does not. `gates/contrast.mjs` checks both registers; `gates/tokens.mjs` refuses a raw pigment in a colour position |
+
+Lifted in lightness with hue and chroma held. Mixing toward the paper
+white was easier and turned all three to mud.
+
+**Confidence High** — the numbers are computed, not judged.
+
+### `SEB-D 24` — `--sx-rule` and `--sx-boundary` are two tokens
+
+**Decided 2026-08-18.** A hairline between ledger rows is decoration and
+owes nothing; the rim of a text field is a user-interface component
+boundary and owes 3:1. They were one token at 1.44:1. Splitting them was
+the only option that did not either fail SC 1.4.11 or thicken every
+hairline in the estate.
+
+**Confidence High.**
+
+### `SEB-D 25` — The Meridian is placed by the Quire, not by a percentage
+
+**Decided 2026-08-18.** See `SEB §30.19.1`. The alternative — moving the
+measure to sit after 38.2% — was rejected because it makes the grid
+depend on the ornament rather than the ornament on the grid, and because
+it cannot hold at every breakpoint without a second set of numbers to
+keep in step by hand.
+
+**Confidence High.**
+
+### `SEB-D 26` — Gate exemptions are per line, reasoned, and printed
+
+**Decided 2026-08-18.** A gate with no escape hatch gets deleted the
+first time it is wrong; a gate with a silent one becomes decorative.
+
+| Option | |
+|---|---|
+| No exemptions | Rejected: `linear` is genuinely correct for a value that updates every frame, and a gate that cannot express that will be removed |
+| A config file of exemptions | Rejected: it separates the decision from the code, and nobody reads it |
+| **Per-line annotation, printed every run with its reason** | **Adopted.** The decision lives where it was made, and every run shows what was let through |
+
+**Confidence High.**
+
+### `SEB-D 27` — No gate exists until it has been watched to fail
+
+**Decided 2026-08-18.** `test/gates.test.mjs` injects each defect a gate
+exists to catch and asserts the gate finds it. On its first run it
+established that the declaration scanner was silently skipping every
+single-line rule in the system while reporting a four-figure check count
+and a green tick.
+
+A green tick on a check that cannot fail is worse than no check, because
+it stops people looking. **Standing requirement across the estate**, not
+only in the design system.
+
+**Confidence High.**
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
