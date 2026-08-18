@@ -5,12 +5,12 @@ hand.** `npm run catalogue:check` fails when this file and the source
 disagree — which is how the entire OpenAI provider came to be missing from
 it for a release (`SEB-D 29`).
 
-**179 tools** across **9 providers**:
-**84 read**, **78 write**, **17 protected**.
+**180 tools** across **9 providers**:
+**84 read**, **79 write**, **17 protected**.
 
 | Provider | Tools | read | write | protected |
 |---|---|---|---|---|
-| `cloudflare` | 45 | 22 | 15 | 8 |
+| `cloudflare` | 46 | 22 | 16 | 8 |
 | `github` | 24 | 13 | 10 | 1 |
 | `clerk` | 19 | 7 | 10 | 2 |
 | `brevo` | 17 | 9 | 7 | 1 |
@@ -19,7 +19,7 @@ it for a release (`SEB-D 29`).
 | `vercel` | 17 | 8 | 7 | 2 |
 | `stromex` | 12 | 11 | 1 | 0 |
 | `resend` | 11 | 4 | 5 | 2 |
-| **total** | **179** | **84** | **78** | **17** |
+| **total** | **180** | **84** | **79** | **17** |
 
 ## The protected operations
 
@@ -119,6 +119,7 @@ Prefer `valueFromHandle` in every case (`SEB-D 31`).
 | `cloudflare.d1.export` | read | Cloudflare — export a D1 database |
 | `cloudflare.d1.list` | read | Cloudflare — list D1 databases |
 | `cloudflare.d1.query` | write | Cloudflare — run SQL against D1 |
+| `cloudflare.dns.apply` | write | Cloudflare — apply a set of DNS records |
 | `cloudflare.dns.create` | write | Cloudflare — create a DNS record |
 | `cloudflare.dns.delete` | protected | Cloudflare — delete a DNS record |
 | `cloudflare.dns.list` | read | Cloudflare — list DNS records |
