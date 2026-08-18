@@ -22,7 +22,7 @@ export async function buildReconciliationReport(env) {
 
     // Verified webhooks that named a payment id we don't have —
     // possible only if the payment record was deleted after the fact,
-    // or the gateway sent a reference for a payment AIPC never
+    // or the gateway sent a reference for a payment WEC-LC never
     // created. Either is worth a human look.
     db(env).prepare(`SELECT w.id, w.provider, w.event_type, w.payment_id, w.received_at
       FROM payment_webhook_events w

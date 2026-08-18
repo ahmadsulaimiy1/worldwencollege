@@ -1,4 +1,4 @@
-# AIPC — Level II: Elementary Programme (A2) — Full Curriculum
+# WEC-LC — Level II: Elementary Programme (A2) — Full Curriculum
 
 *Companion to `docs/curriculum-framework.md` and
 `docs/curriculum-level-1-foundation.md` (Level I, the process this
@@ -25,14 +25,14 @@ built accordingly:
   assumed.** Every module includes a short "BrE / AmE" note wherever a
   genuine, useful difference exists (vocabulary, spelling, or a
   grammar preference) — flagged, never presented as one being
-  "correct" and the other "wrong." AIPC teaches International
+  "correct" and the other "wrong." WEC-LC teaches International
   English; recognising both major varieties is part of that, not an
   edge case.
 - **Contexts are authentic and contemporary, not just grammatically
   convenient.** Tasks are framed around real situations a global
   learner actually has — booking travel through an app, messaging a
   colleague, comparing subscription services — described generically
-  (no real named company is used or implied to endorse AIPC; see
+  (no real named company is used or implied to endorse WEC-LC; see
   `docs/editorial-bible.md`'s standing discipline against fabricating
   institutional facts, applied here to mean: authentic *scenario*
   framing, never a fabricated *partnership* or *real brand* claim).
@@ -125,7 +125,7 @@ more.
 
 **BrE / AmE note (introductory, general):** from this level onward,
 spelling differences appear across vocabulary (British *favourite,
-colour, travelled*; American *favorite, color, traveled*). AIPC
+colour, travelled*; American *favorite, color, traveled*). WEC-LC
 materials use British spelling as the house style (matching the
 `.co.uk` domain and UK-headquartered brand), but both are entirely
 correct, standard English, and learners should be able to recognise

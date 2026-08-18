@@ -1,4 +1,4 @@
-# AIPC — Level III, Module 6: Technology & Media
+# WEC-LC — Level III, Module 6: Technology & Media
 
 *Part of `docs/curriculum-level-3-intermediate.md`'s Level III build-out.*
 

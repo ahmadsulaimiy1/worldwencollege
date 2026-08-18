@@ -1,4 +1,4 @@
-# AIPC — Level V, Module 7: Research & Presentation
+# WEC-LC — Level V, Module 7: Research & Presentation
 
 *Part of `docs/curriculum-level-5-advanced.md`'s Level V build-out.*
 

@@ -1,4 +1,4 @@
-# AIPC — Level I, Module 5: Around Town
+# WEC-LC — Level I, Module 5: Around Town
 
 *Part of `docs/curriculum-level-1-foundation.md`'s Level I build-out.*
 

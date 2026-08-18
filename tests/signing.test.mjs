@@ -35,7 +35,7 @@ function freshEnv() {
 
 const CLAIMS = {
   holderName: 'Demonstration Graduate',
-  awardTitle: 'English Associate of Albalagh International Premium College',
+  awardTitle: 'English Associate of Worldwide English College',
   honour: 'distinction', credits: 20, tqtHours: 200, conferredOn: '2027-09-01',
 };
 
@@ -60,7 +60,7 @@ const CLAIMS = {
   check('...as is the subject id, so it cannot be moved between graduates',
     S.canonicalPayload('award', 'x', { a: 1 }) !== S.canonicalPayload('award', 'y', { a: 1 }));
   check('The canonicalisation carries a version, so a future change is not read as tampering',
-    /^AIPC-CRED-v1/.test(a));
+    /^WEC-CRED-v1/.test(a));
   check('Null and absent are canonicalised the same way',
     S.canonicalPayload('award', 'x', { a: null }) === S.canonicalPayload('award', 'x', { a: undefined }));
 }
@@ -74,7 +74,7 @@ const CLAIMS = {
     subjectType: 'award', subjectId: 'awd_1', claims: CLAIMS, actorId: 'usr_reg', now: T0,
   });
   check('A credential is signed', typeof sig.signature === 'string' && sig.signature.length > 40);
-  check('...naming the key that signed it', /^aipc-\d{8}-/.test(sig.kid), sig.kid);
+  check('...naming the key that signed it', /^wec-\d{8}-/.test(sig.kid), sig.kid);
   check('...and the algorithm', sig.algorithm === 'ES256');
 
   // The assertion this whole module exists to keep honest.
@@ -142,7 +142,7 @@ const CLAIMS = {
   check('...nor onto a different kind of document', wrongDoc.valid === false);
 
   const unknown = await S.verifyCredential(env, {
-    subjectType: 'award', subjectId: 'awd_1', claims: CLAIMS, signature: sig.signature, kid: 'aipc-19700101-deadbeef',
+    subjectType: 'award', subjectId: 'awd_1', claims: CLAIMS, signature: sig.signature, kid: 'wec-19700101-deadbeef',
   });
   check('A credential citing a key the College never published is refused',
     unknown.valid === false && unknown.reason === 'unknown_key');
@@ -263,9 +263,9 @@ const CLAIMS = {
   const jwks = await S.publicJwks(env);
   const revoked = jwks.keys.find((k) => k.kid === sig.kid);
   check('The revoked key stays in the published set, marked revoked',
-    revoked && revoked.aipc_status === 'revoked');
+    revoked && revoked.wec_status === 'revoked');
   check('...so an outside verifier learns why rather than only that it failed',
-    /misconfigured backup/i.test(revoked.aipc_revoked_reason || ''));
+    /misconfigured backup/i.test(revoked.wec_revoked_reason || ''));
 }
 
 // ---------------------------------------------------------------------

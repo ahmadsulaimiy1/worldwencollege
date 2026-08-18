@@ -1,5 +1,5 @@
 /**
- * AIPC PRESS — THE PUBLISHING CONSTITUTION, rendered.
+ * WEC PRESS — THE PUBLISHING CONSTITUTION, rendered.
  *
  * Three parts, and the order is an argument:
  *
@@ -147,7 +147,7 @@ const pairs = (rows) => `<table class="pairs"><tbody>${rows.map(([k, v]) =>
   `<tr><td class="pairs__k">${esc(k)}</td><td>${esc(v)}</td></tr>`).join('')}</tbody></table>`;
 
 const html = `<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
-<title>Albalagh International Premium College Press — The Publishing Constitution</title>
+<title>Worldwide English College Press — The Publishing Constitution</title>
 <style>
 @page { size:A4; margin:22mm 20mm 18mm; }
 @page :left  { margin-left:20mm; margin-right:24mm; }
@@ -288,8 +288,8 @@ table.pairs th, table.pairs td { border-bottom:.4pt solid #EDEFF4; }
 
 <section class="cover">
   <div class="cover__crest">${crest({ size: 74, gold: PAL.royalGold, ink: 'none', mono: true })}</div>
-  <p class="eyebrow">Albalagh International Premium College · London Campus</p>
-  <h1>Albalagh International Premium College Press</h1>
+  <p class="eyebrow">Worldwide English College · London Campus</p>
+  <h1>Worldwide English College Press</h1>
   <div class="cover__rule"></div>
   <p class="cover__sub">The Publishing Constitution, the Ten-Year Publication Architecture,
     and the House Visual Identity.</p>
@@ -308,7 +308,7 @@ table.pairs th, table.pairs td { border-bottom:.4pt solid #EDEFF4; }
 <section>
   <p class="eyebrow">Preface</p>
   <h2>What this volume is, and what it is not</h2>
-  <p class="lead">Albalagh International Premium College Press is an imprint, not a company.</p>
+  <p class="lead">Worldwide English College Press is an imprint, not a company.</p>
   <p>It has no separate legal personality, no appointed staff, no ISBN publisher prefix and no
     distribution agreement. It has published ${ROWS.filter((r) => r.status === STATUS.PUBLISHED).length}
     artefacts, all of them derived from one academic programme. This volume states that in its
@@ -700,14 +700,14 @@ ${planHtml}
     publishing house that cannot say which of its plans are its own to execute will eventually
     execute one that was not.</p>
   <p class="small" style="margin-top:14pt">${esc(ID.publicationId)} · Document ID
-    ${esc(ID.documentId)} · Generated ${esc(ID.generated)} · Albalagh International Premium College Press,
-    an imprint of Albalagh International Premium College, London Campus · London,
+    ${esc(ID.documentId)} · Generated ${esc(ID.generated)} · Worldwide English College Press,
+    an imprint of Worldwide English College, London Campus · London,
     ${new Date().getFullYear()}</p>
 </section>
 
 ${legacyBlock({
   id: ID,
-  title: 'Albalagh International Premium College Press',
+  title: 'Worldwide English College Press',
   subtitle: 'The Publishing Constitution',
   family: OWN.family.key,
   audience: OWN.audience,
@@ -729,7 +729,7 @@ const exe = process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-li
 const browser = await chromium.launch(existsSync(exe) ? { executablePath: exe } : {});
 const page = await browser.newPage();
 await page.setContent(html, { waitUntil: 'load' });
-const out = path.join(ROOT, 'publication', 'AIPC Press — The Publishing Constitution.pdf');
+const out = path.join(ROOT, 'publication', 'WEC Press — The Publishing Constitution.pdf');
 await page.pdf({
   path: out,
   format: 'A4',
@@ -739,7 +739,7 @@ await page.pdf({
   headerTemplate: '<div></div>',
   footerTemplate: `<div style="font:400 7.5pt Calibri,Arial,sans-serif;color:${PAL.slateGrey};`
     + 'width:100%;padding:0 20mm;display:flex;justify-content:space-between;">'
-    + '<span>Albalagh International Premium College Press</span><span class="pageNumber"></span></div>',
+    + '<span>Worldwide English College Press</span><span class="pageNumber"></span></div>',
   margin: { top: '18mm', bottom: '15mm', left: '20mm', right: '20mm' },
   tagged: true,
   outline: true,

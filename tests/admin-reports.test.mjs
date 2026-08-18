@@ -44,8 +44,8 @@ for (const [id, userId, levelId, amountCents, currency, amountUsdCents, provider
 
 // Receipts: pay_1 and pay_2 got one, pay_3 (succeeded) deliberately did
 // NOT — simulates issueReceipt() having silently failed for it.
-db.prepare(`INSERT INTO receipts (id, payment_id, receipt_number) VALUES ('rcpt_1', 'pay_1', 'AIPC-R-000001')`).run();
-db.prepare(`INSERT INTO receipts (id, payment_id, receipt_number) VALUES ('rcpt_2', 'pay_2', 'AIPC-R-000002')`).run();
+db.prepare(`INSERT INTO receipts (id, payment_id, receipt_number) VALUES ('rcpt_1', 'pay_1', 'WEC-R-000001')`).run();
+db.prepare(`INSERT INTO receipts (id, payment_id, receipt_number) VALUES ('rcpt_2', 'pay_2', 'WEC-R-000002')`).run();
 
 // A processed refund against pay_2.
 db.prepare(`INSERT INTO refunds (id, payment_id, amount_cents, reason, status) VALUES ('ref_1', 'pay_2', 100000, 'Withdrawal before Level III started', 'processed')`).run();

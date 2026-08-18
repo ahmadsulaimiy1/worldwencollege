@@ -1,6 +1,6 @@
 # Appointment briefs — ready to send
 
-Three posts stand between Albalagh International Premium College and its first taught
+Three posts stand between Worldwide English College and its first taught
 cohort. Each brief below is written to be sent as it stands, to a
 candidate, an agency or a colleague at another institution. Nothing in
 them needs drafting first.
@@ -17,13 +17,13 @@ issuing until this post is filled.**
 ### What to send a candidate
 
 > **External Examiner — International English Fluency Certificate (IEFC)**
-> Albalagh International Premium College, London Campus
+> Worldwide English College, London Campus
 >
-> Albalagh International Premium College is seeking an External Examiner for the
+> Worldwide English College is seeking an External Examiner for the
 > International English Fluency Certificate, a six-level CEFR-aligned
 > English programme delivered online.
 >
-> **The College's position, stated plainly.** AIPC is newly
+> **The College's position, stated plainly.** WEC-LC is newly
 > established. It holds no accreditation. It has taught no cohort and
 > conferred no award. The full curriculum, assessment scheme, rubrics
 > and marking criteria are written and can be sent to you before you
@@ -51,7 +51,7 @@ issuing until this post is filled.**
 > **What we are looking for.** MA or PhD in TESOL, Applied Linguistics
 > or a cognate field, with assessment experience in English language
 > teaching. Prior external examining experience is welcome and not
-> required. You must have no other role at AIPC and no financial
+> required. You must have no other role at WEC-LC and no financial
 > interest in it — that independence is the entire point of the post.
 >
 > **Terms.** Engaged per assessment cycle, not salaried. Fee negotiable
@@ -92,10 +92,10 @@ upgraded once anyone looked.
 
 ### What to send a candidate
 
-> **Academic Reviewer — AIPC Press**
-> Albalagh International Premium College, London Campus
+> **Academic Reviewer — WEC Press**
+> Worldwide English College, London Campus
 >
-> Albalagh International Premium College has produced twelve volumes covering its
+> Worldwide English College has produced twelve volumes covering its
 > curriculum, assessment scheme, programme architecture and teaching
 > support. Every one of them was reviewed, if at all, by the people who
 > wrote it — which is to say not reviewed.
@@ -137,9 +137,9 @@ material trustworthy. Collapsing them would save a fee and destroy both.
 ### What to send a candidate
 
 > **Teacher — International English Fluency Certificate**
-> Albalagh International Premium College, London Campus
+> Worldwide English College, London Campus
 >
-> Albalagh International Premium College has written a complete six-level English
+> Worldwide English College has written a complete six-level English
 > programme: sixty modules, every lesson planned stage by stage with
 > declared timings, every assessment written with published criteria,
 > and a teaching support record of 530 entries covering the mistakes

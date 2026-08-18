@@ -1,4 +1,4 @@
-# AIPC — Audio Platform Architecture & Extension Points
+# WEC-LC — Audio Platform Architecture & Extension Points
 
 *How the Listening Lab is built, and how each named future capability
 attaches to it without redesign. Companion to
@@ -157,7 +157,7 @@ Stated so these are visible gaps rather than assumed capabilities.
 
 ## 4a. Learner recording storage
 
-`functions/_lib/lms/recording-storage.js`, R2 bucket `aipc-recordings`
+`functions/_lib/lms/recording-storage.js`, R2 bucket `wec-lc-recordings`
 bound as `RECORDINGS`. Schema in `sql/migrations/001-recording-storage.sql`.
 
 | Requirement | How it is met | What is *not* claimed |

@@ -54,28 +54,28 @@ const TEMPLATES = {
   application_received: (rawData) => {
     const data = esc(rawData);
     return {
-      subject: 'We\'ve received your AIPC application',
+      subject: 'We\'ve received your WEC-LC application',
       html: `<p>Hi ${data.name},</p><p>Thank you for applying to the International English Fluency Course. Our Admissions team will confirm your placement level and next steps shortly.</p>`,
     };
   },
   payment_confirmed: (rawData) => {
     const data = esc(rawData);
     return {
-      subject: 'Payment received — AIPC',
+      subject: 'Payment received — WEC-LC',
       html: `<p>Hi ${data.name},</p><p>We've received your payment of ${data.amountDisplay} for ${data.levelName}. A receipt is attached to your account.</p>`,
     };
   },
   payment_failed: (rawData) => {
     const data = esc(rawData);
     return {
-      subject: 'Payment unsuccessful — AIPC',
+      subject: 'Payment unsuccessful — WEC-LC',
       html: `<p>Hi ${data.name},</p><p>Your payment for ${data.levelName} wasn't successful. No charge was made — you can try again from your dashboard.</p>`,
     };
   },
   enrolment_confirmed: (rawData) => {
     const data = esc(rawData);
     return {
-      subject: 'You\'re enrolled — welcome to AIPC',
+      subject: 'You\'re enrolled — welcome to WEC-LC',
       html: `<p>Hi ${data.name},</p><p>You're enrolled in ${data.levelName}. Your Student Portal access details follow separately.</p>`,
     };
   },
@@ -90,7 +90,7 @@ const TEMPLATES = {
       // Subject uses the raw (not HTML-escaped) name, stripped of
       // control characters/newlines — an HTML-escaped name would show
       // literal "&amp;"-style entities in a plain-text subject line.
-      subject: `New AIPC application — ${sanitizeHeaderText(rawData.name)}`,
+      subject: `New WEC-LC application — ${sanitizeHeaderText(rawData.name)}`,
       html: `<p>A new admissions application was submitted.</p>
       <ul>
         <li>Name: ${data.name}</li>
@@ -102,7 +102,7 @@ const TEMPLATES = {
   },
 };
 
-// For events AIPC staff need to see (a new application, say) rather
+// For events WEC-LC staff need to see (a new application, say) rather
 // than the applicant. Recipient is env.NOTIFICATION_EMAIL — a single
 // deploy-time config value, not a hardcoded address — so the working
 // inbox used during early operations can be swapped for an official

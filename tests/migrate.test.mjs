@@ -149,7 +149,7 @@ for (const f of files) {
 // "what happens when a genuinely new file appears", and faking it by
 // editing the ledger would test the fake.
 {
-  const dir = mkdtempSync(path.join(tmpdir(), 'aipc-mig-'));
+  const dir = mkdtempSync(path.join(tmpdir(), 'wec-mig-'));
   for (const f of files) copyFileSync(path.join(MIG_DIR, f), path.join(dir, f));
 
   const db = new DatabaseSync(':memory:');
@@ -185,7 +185,7 @@ for (const f of files) {
 // intended behaviour: a stopped deploy somebody must look at, rather
 // than a silent "done" over a half-migrated production database.
 {
-  const dir = mkdtempSync(path.join(tmpdir(), 'aipc-mig-partial-'));
+  const dir = mkdtempSync(path.join(tmpdir(), 'wec-mig-partial-'));
   writeFileSync(path.join(dir, '001-partial.sql'), [
     '-- Migration 001 — half of this already exists.',
     "-- probe: SELECT 1 FROM sqlite_master WHERE type='index' AND name='idx_half_done'",

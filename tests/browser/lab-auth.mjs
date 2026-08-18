@@ -56,9 +56,9 @@ const FONTS = /fonts\.(googleapis|gstatic)\.com/;
 function stubAuth(page, who) {
   const js = (body) => (route) => route.fulfill({ contentType: 'text/javascript', body });
   return Promise.all([
-    page.route('**/js/auth-config.js', js('window.AIPC_AUTH={clerkPublishableKey:"pk_test_stub"};')),
+    page.route('**/js/auth-config.js', js('window.WEC_LC_AUTH={clerkPublishableKey:"pk_test_stub"};')),
     page.route('**/js/clerk-loader.js', js(`
-      window.AIPC_loadClerk = function (pk, done) {
+      window.WEC_LC_loadClerk = function (pk, done) {
         var n = 0;
         done(null, {
           user: { id: 'user_${who}', firstName: 'Stub', lastName: 'User',
@@ -224,7 +224,7 @@ function watchApi(page) {
   // vacuously true and the assertion would survive the scoping being
   // removed entirely.
   const hadUserCache = curriculum.some((k) => k.endsWith('-curriculum-user_demo'));
-  await page.evaluate(() => window.AIPC_apiAuth.attach(null));
+  await page.evaluate(() => window.WEC_LC_apiAuth.attach(null));
   await page.waitForTimeout(900);
   const after = await page.evaluate(() => caches.keys());
   check('Signing out drops the learner caches from the device',

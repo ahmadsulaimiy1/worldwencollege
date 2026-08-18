@@ -1,4 +1,4 @@
-# AIPC — API Reference
+# WEC-LC — API Reference
 
 *Companion to `technical-architecture.md`, `payments-architecture.md`,
 `auth-architecture.md`. Every endpoint below is real code in
@@ -10,7 +10,7 @@
 
 ### `POST /api/admissions/apply`
 Public, no auth. Step 2 of the public admissions journey. On success,
-sends the applicant a confirmation email and — separately — alerts AIPC
+sends the applicant a confirmation email and — separately — alerts WEC-LC
 staff at `env.NOTIFICATION_EMAIL` (`notifyStaff()` in
 `functions/_lib/notifications/events.js`; see `.env.example`). That
 address is deploy-time config, not hardcoded, specifically so it can
@@ -88,7 +88,7 @@ Clerk-only (Svix-signature-verified). Syncs `user.created`/
 ### `GET /api/auth/me`
 **Requires auth.** Returns `{ id, email, preferredName, preferredLanguage, role }`
 — called from `js/portal-auth.js` (see `docs/auth-architecture.md` §
-Client-side integration) to layer AIPC's own record on top of Clerk's
+Client-side integration) to layer WEC-LC's own record on top of Clerk's
 `user` object once a real Clerk key is configured. Today, with no key
 configured, it's never called — the Student Portal preview stays static.
 
@@ -159,7 +159,7 @@ up another student's enrolment or payment history.
 ```jsonc
 {
   "enrolments": [{ "id": "enr_...", "levelId": 3, "levelName": "Intermediate Programme", "roman": "III", "cefr": "B1", "status": "active", "startedAt": "...", "completedAt": null }],
-  "payments": [{ "id": "pay_...", "levelId": 3, "levelName": "Intermediate Programme", "amountCents": 316667, "currency": "USD", "status": "succeeded", "provider": "stripe", "createdAt": "...", "confirmedAt": "...", "receiptNumber": "AIPC-R-000001" }],
+  "payments": [{ "id": "pay_...", "levelId": 3, "levelName": "Intermediate Programme", "amountCents": 316667, "currency": "USD", "status": "succeeded", "provider": "stripe", "createdAt": "...", "confirmedAt": "...", "receiptNumber": "WEC-R-000001" }],
   "activeLevelId": 3,
   "completedLevelIds": [1, 2]
 }
@@ -239,7 +239,7 @@ payment, automatically creates the next level's `enrolments` row as
 
 The public admissions form (`pages/admissions.html`, `pages/admissions.ar.html`,
 wired in `js/site.js`'s `[data-admissions-form]` handler) is the reference
-implementation for how *every* public-facing form on AIPC should talk to
+implementation for how *every* public-facing form on WEC-LC should talk to
 the backend. It exists specifically so the "seamless transition" requirement
 holds: once Cloudflare Pages, D1, and provider credentials are live, this
 same markup and script start using the real backend with **zero further
@@ -278,7 +278,7 @@ the form starts working end-to-end.
    kind) never loses the applicant's typed data, including across a page
    reload.
 5. Cross-component wiring stays event-based, not tightly coupled: the
-   self-assessment quiz dispatches a `aipc:level-suggested` CustomEvent
+   self-assessment quiz dispatches a `wec:level-suggested` CustomEvent
    (and persists the suggestion to `sessionStorage`) that the admissions
    form listens for independently — either component can be removed or
    replaced without the other needing code changes.

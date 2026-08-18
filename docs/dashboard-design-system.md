@@ -1,4 +1,4 @@
-# AIPC Dashboard Design System
+# WEC-LC Dashboard Design System
 
 *Companion to `editorial-bible.md` (marketing-site brand system) and
 `site-architecture.md`. This is the component layer for authenticated,
@@ -109,7 +109,7 @@ neither surface drifts from the other):**
   laurel wreath, shield with book/monogram/Union Jack, banner tagline)
   and confirmed — after an explicit check on the crown/flag symbolism,
   given this project's standing discipline against implying credentials
-  AIPC doesn't hold — that it should be used as designed. The full
+  WEC-LC doesn't hold — that it should be used as designed. The full
   artwork (`assets/images/crest-seal.jpg`) now drives the favicon-
   adjacent icons (`apple-touch-icon.png`, `icon-512.png`), the social
   share image (`og-image.jpg`, composited onto the site's own
@@ -138,14 +138,14 @@ was verified for regression (existing breakpoints untouched, reveal/
 motion changes respect them) but not separately re-audited beyond
 that.
 
-## Executive Design Directive v2 — "The AIPC Flagship Experience" (supersedes the v1.0 lock)
+## Executive Design Directive v2 — "The WEC-LC Flagship Experience" (supersedes the v1.0 lock)
 
 After the v1.0 pass above shipped, you explicitly locked the design
 system ("Design System v1.0... do not continue making repeated
 cosmetic refinements... only revisit later if a genuine usability,
 accessibility, performance, or consistency issue is discovered") and
 redirected effort to curriculum. Alongside the Level V curriculum
-directive, you issued a new, broader directive — "THE AIPC FLAGSHIP
+directive, you issued a new, broader directive — "THE WEC-LC FLAGSHIP
 EXPERIENCE" — explicitly covering every current and future surface
 (website, LMS, student/faculty/admin/executive portals, mobile,
 curriculum screens) and explicitly framed as standing, continuous
@@ -189,9 +189,9 @@ design bar for all future UI work**, not a resumed one-off project.
 Issued alongside the Level VI curriculum directive, and explicitly
 framed by you as final: *"This directive supersedes every previous
 design instruction and becomes the permanent design philosophy for the
-entire AIPC ecosystem… This level of quality is now the minimum
+entire WEC-LC ecosystem… This level of quality is now the minimum
 acceptable standard for every future page, feature, animation,
-dashboard, and interaction built for AIPC."*
+dashboard, and interaction built for WEC-LC."*
 
 It is recorded here as the governing standard. The v1.0 lock and the
 v2 flagship directive above are retained as history — they explain how
@@ -221,7 +221,7 @@ qualified in the directive itself — *subtle*, *restrained*,
 padding.
 
 **Motion and interaction — a signature interaction language.** Motion
-should be identifiably AIPC's: consistent easing, consistent
+should be identifiably WEC-LC's: consistent easing, consistent
 durations, consistent entrance behaviour, so that a transition on a
 lesson page and a transition on a finance dashboard read as the same
 institution. Motion must remain fully functional under

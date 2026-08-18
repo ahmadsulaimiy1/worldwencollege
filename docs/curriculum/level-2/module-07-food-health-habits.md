@@ -1,4 +1,4 @@
-# AIPC — Level II, Module 7: Food, Health & Habits
+# WEC-LC — Level II, Module 7: Food, Health & Habits
 
 *Part of `docs/curriculum-level-2-elementary.md`'s Level II build-out.*
 
@@ -158,7 +158,7 @@ someone gives you advice you didn't ask for? When is unsolicited
 advice welcome, and when isn't it?" — a genuinely mature discussion
 question, appropriate to this level's growing communicative and
 intercultural awareness (directness/advice-giving norms vary
-significantly across cultures, relevant to AIPC's international
+significantly across cultures, relevant to WEC-LC's international
 learner base).
 
 **Listening activity (5 min).** Listen to 3 short advice exchanges and

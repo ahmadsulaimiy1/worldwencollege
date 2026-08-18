@@ -197,8 +197,8 @@ CI is the signature of a fault that lives in the environment.
 ## The original sequence, for the next domain
 
 The domain is registered at **Naira Hosting**. The site is a
-**Cloudflare Pages** project called `aipc`, also reachable at
-`aipc.pages.dev`.
+**Cloudflare Pages** project called `wec-lc`, also reachable at
+`wec-lc.pages.dev`.
 
 Nothing in this repository can make the connection. It is two
 dashboards: Cloudflare (add the custom domain) and Naira Hosting
@@ -221,8 +221,8 @@ locks the site to the owner's email address, on two destinations:
 
 | Destination | Covers |
 |---|---|
-| `aipc.pages.dev` | the production URL |
-| `*.aipc.pages.dev` | the preview alias and every per-deployment URL |
+| `wec-lc.pages.dev` | the production URL |
+| `*.wec-lc.pages.dev` | the preview alias and every per-deployment URL |
 
 **A custom domain is a different hostname, so Access will not cover
 it.** The moment `www.worldwencollege.co.uk` resolves, the site is
@@ -240,12 +240,12 @@ no appointed staff, and carries a competency framework marked
 now readable by anyone, including search engines. That was the choice,
 not an oversight.
 
-`aipc.pages.dev` and `*.aipc.pages.dev` STAY behind Access. That
+`wec-lc.pages.dev` and `*.wec-lc.pages.dev` STAY behind Access. That
 combination is intentional and useful: the public reads the real
 domain, and the deployment URLs — including every permanent
 per-deployment hash URL — remain closed.
 
-**To reverse it later:** open the Zero Trust application **AIPC
+**To reverse it later:** open the Zero Trust application **WEC-LC
 preview** and add two destinations, `worldwencollege.co.uk` and
 `www.worldwencollege.co.uk`. The existing `Owner only` policy then
 covers them and the site closes again. Anything already indexed by a
@@ -274,7 +274,7 @@ with Naira Hosting and you keep paying them for it.
    occasionally take up to 24. Cloudflare emails you when the zone
    goes **Active**; nothing below works until it does.
 
-4. **Cloudflare → Workers & Pages → `aipc` → Custom domains → Set up
+4. **Cloudflare → Workers & Pages → `wec-lc` → Custom domains → Set up
    a custom domain.** Add:
 
    - `www.worldwencollege.co.uk` — **this is the canonical host.** The
@@ -301,10 +301,10 @@ with Naira Hosting and you keep paying them for it.
 
 Workable, slower, and the apex is awkward.
 
-- `www` → **CNAME** → `aipc.pages.dev`
+- `www` → **CNAME** → `wec-lc.pages.dev`
 - The apex (`@`) cannot be a CNAME under the DNS standard. If Naira
   Hosting supports **ALIAS** or **CNAME flattening**, point it at
-  `aipc.pages.dev`. If it does not, use their URL-forwarding feature
+  `wec-lc.pages.dev`. If it does not, use their URL-forwarding feature
   to send `worldwencollege.co.uk` → `https://www.worldwencollege.co.uk`.
 
 You still add both hostnames under **Pages → Custom domains** so
@@ -322,13 +322,13 @@ verification record to create.
    nothing.
 
 2. **Payment webhooks.** Stripe, Paystack, Flutterwave and Opay each
-   hold an endpoint URL pointing at `aipc.pages.dev`. They keep
+   hold an endpoint URL pointing at `wec-lc.pages.dev`. They keep
    working, but the live endpoints should move to the real domain so
    the deployment URL can eventually be retired.
 
 3. **The Access webhook bypass.** `docs/cloudflare-lockdown.md` § 1
    records a bypass policy for the single path
-   `aipc.pages.dev/api/auth/webhook-clerk`. If you keep Access on and
+   `wec-lc.pages.dev/api/auth/webhook-clerk`. If you keep Access on and
    add the custom domain to it, that bypass needs the domain's path
    adding too, or Clerk's webhook starts failing silently.
 

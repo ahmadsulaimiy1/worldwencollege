@@ -10,7 +10,7 @@ clicking.
 
 ### The problem it solves
 
-`https://preview.aipc.pages.dev` is reachable by anyone who has the
+`https://preview.wec-lc.pages.dev` is reachable by anyone who has the
 URL. Nothing is linked to it, but "unlisted" is not "private": preview
 URLs turn up in browser history, in messages, in analytics referrers,
 and in anything anyone pastes anywhere. The site currently holds a real
@@ -47,21 +47,21 @@ application, one field.
 
 Zero Trust team domain: `raspy-cloud-4feb.cloudflareaccess.com`.
 
-Application **AIPC preview**, created under **Access controls →
+Application **WEC-LC preview**, created under **Access controls →
 Applications → Add an application → Self-hosted and private → Public
 DNS**, with **two** destinations:
 
 | Destination | Covers |
 |---|---|
-| `aipc.pages.dev` | the production URL |
-| `*.aipc.pages.dev` | the `preview.` alias **and every per-deployment URL** |
+| `wec-lc.pages.dev` | the production URL |
+| `*.wec-lc.pages.dev` | the `preview.` alias **and every per-deployment URL** |
 
 Policy `Owner only`: Action **Allow**, Include → **Emails** → the
 owner's address. Session duration 24 hours.
 
 Verified from a phone on mobile data — a genuinely separate device
 rather than a private window on the same machine. Both
-`aipc.pages.dev` and `preview.aipc.pages.dev` returned the
+`wec-lc.pages.dev` and `preview.wec-lc.pages.dev` returned the
 Cloudflare Access login screen instead of the site.
 
 ### Two things worth knowing for next time
@@ -70,15 +70,15 @@ Cloudflare Access login screen instead of the site.
 in the account, and `pages.dev` is Cloudflare's own. The way through is
 the **Switch to custom input** link directly beneath the Subdomain box —
 easy to miss, and not in the dropdown itself. Once the first destination
-exists, `aipc.pages.dev` *does* appear in the dropdown for later rows,
+exists, `wec-lc.pages.dev` *does* appear in the dropdown for later rows,
 so the wildcard row can be entered as Subdomain `*` + Domain
-`aipc.pages.dev` using the ordinary formatted fields.
+`wec-lc.pages.dev` using the ordinary formatted fields.
 
 **Two destinations, not one — this is the part that would have looked
 finished while leaving the site open.** Pages gives every deployment a
-permanent public URL of the form `<hash>.aipc.pages.dev`. Those never
+permanent public URL of the form `<hash>.wec-lc.pages.dev`. Those never
 expire, several already exist from earlier deploy runs, and they serve
-the same site. Protecting `preview.aipc.pages.dev` alone would have
+the same site. Protecting `preview.wec-lc.pages.dev` alone would have
 left all of them reachable. The wildcard is what closes them, including
 ones that do not exist yet.
 
@@ -127,7 +127,7 @@ stops working is the sync of email changes and account deletions from
 Clerk.
 
 The fix is a **second Access application** whose destination is the
-single path `aipc.pages.dev/api/auth/webhook-clerk`, carrying a
+single path `wec-lc.pages.dev/api/auth/webhook-clerk`, carrying a
 **Bypass** policy with Everyone. Access evaluates the most specific
 destination first, so the narrow bypass sits underneath the site-wide
 Allow without opening anything else.
@@ -138,7 +138,7 @@ or replayed. Access was never what was protecting it.
 
 **A near miss worth recording.** The first attempt at the bypass
 application submitted with the Path field empty, so its destination was
-the bare `aipc.pages.dev` — the same hostname the site-wide Allow
+the bare `wec-lc.pages.dev` — the same hostname the site-wide Allow
 application already claims. Cloudflare refused it with
 `access.api.error.application_already_exists`, which reads like a
 nuisance and is in fact the thing that stopped the site going public.
@@ -183,7 +183,7 @@ the account.
    under a megabyte, so this will not be approached for a long time.
 
 2. That is the whole manual part. **Do not create the bucket by hand** —
-   the deploy workflow creates `aipc-recordings` if it is missing, and
+   the deploy workflow creates `wec-lc-recordings` if it is missing, and
    a hand-made bucket with a different name will not be found.
 
 3. **Check the API token has R2 permission.** The token in the

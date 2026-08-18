@@ -194,9 +194,9 @@ const senateExtra = `
 PAGES.pillar = {
   slug: 'governance', output: 'governance/index.html', file: 'governance.html',
   contents: true,
-  title: 'Governance &mdash; Albalagh International Premium College',
+  title: 'Governance &mdash; Worldwide English College',
   // Under 160 characters — see the note in scripts/build-teaching.js.
-  description: 'How AIPC is governed: its Board, Senate and Executive, the academic bodies and '
+  description: 'How Worldwide English College is governed: its Board, Senate and Executive, the academic bodies and '
     + 'their remits, how quality is assured, and which posts remain unfilled.',
   body: `${hero('Governance', 'Who decides what, and on what authority.',
     'The College separates academic judgement from institutional governance, from quality '
@@ -429,14 +429,14 @@ ${card('Absent', 'Everything requiring an outside party', `No accreditation, no 
     <div class="section-head">
       <span class="module-marker">Verification</span>
       <h2>Anyone can check a credential. Nothing has been issued to check.</h2>
-      <p class="lede">Anyone holding a AIPC credential code can verify it without an account, a
+      <p class="lede">Anyone holding a WEC-LC credential code can verify it without an account, a
         relationship with the College or its permission. The route is built and open, and it was
         built ahead of the first award deliberately: retrofitting a signature onto an
         already-issued credential proves nothing about when it was issued.</p>
     </div>
     <div class="grid grid--3">
 ${card('The holder', 'Controls what is disclosed', 'A graduate decides what a share exposes and whether they appear in the public register at all. A credential the issuer publishes without consent is a disclosure, not a credential.')}
-${card('The checker', 'Needs nothing from the College', 'An employer or an institution verifying a claim should not have to write to AIPC and wait. The check resolves for anyone holding the code, immediately.')}
+${card('The checker', 'Needs nothing from the College', 'An employer or an institution verifying a claim should not have to write to WEC-LC and wait. The check resolves for anyone holding the code, immediately.')}
 ${card('The issuer', 'Must be able to be wrong in public', 'Withdrawal shows as withdrawal rather than deletion. A register that silently loses entries cannot be trusted about the entries it keeps.')}
     </div>
     <div class="grid grid--3" style="margin-top:26px">
@@ -452,7 +452,7 @@ ${card('The register', 'Browsable, and opt-in', 'A public roll of award-holders 
     <div class="section-head">
       <span class="module-marker">Research</span>
       <h2>No findings. Four answerable questions.</h2>
-      <p class="lede">Albalagh International Premium College conducts no research: no papers, no conference
+      <p class="lede">Worldwide English College conducts no research: no papers, no conference
         contributions, no funded projects, no research staff, no findings. A new
         institution&rsquo;s research position is an agenda, not an output &mdash; these four
         questions came out of building the programme, and each is answerable with evidence a
@@ -519,8 +519,8 @@ ${cta('Read the full institutional position.', 'Institutional Status', '/about/#
 PAGES.evidence = {
   slug: 'governance-evidence', output: 'governance/evidence/index.html', file: 'governance-evidence.html',
   altHref: '/ar/governance/evidence/',
-  title: 'The Evidence Record &mdash; Albalagh International Premium College',
-  description: `AIPC's register of quality-assurance evidence: ${E.total} items, what state `
+  title: 'The Evidence Record &mdash; Worldwide English College',
+  description: `WEC-LC's register of quality-assurance evidence: ${E.total} items, what state `
     + 'each is in, and why none has been approved.',
   body: `${hero('Governance', 'The evidence record.',
     `${E.total} items an external reviewer would ask for, each recorded in one of four states. `
@@ -625,7 +625,7 @@ ${cta('See what is waiting on a decision.', 'The Decisions Register', '/governan
 PAGES.decisions = {
   slug: 'governance-decisions', output: 'governance/decisions/index.html', file: 'governance-decisions.html',
   altHref: '/ar/governance/decisions/',
-  title: 'The Decisions Register &mdash; Albalagh International Premium College',
+  title: 'The Decisions Register &mdash; Worldwide English College',
   description: `All ${totalAdopted} of the College's institutional decisions, in force, with the `
     + 'date and the authority that took each one.',
   body: `${hero('Governance', 'The decisions register.',
@@ -754,7 +754,7 @@ const arRegisterNote = `<div class="callout">
 PAGES.evidenceAr = {
   slug: 'governance-evidence-ar', output: 'ar/governance/evidence/index.html', file: 'governance-evidence.ar.html',
   lang: 'ar', dir: 'rtl', altHref: '/governance/evidence/',
-  title: 'سجل الأدلة — كلية البلاغ الدولية المتميّزة',
+  title: 'سجل الأدلة — الكلية العالمية للغة الإنجليزية',
   description: `سجل أدلة ضمان الجودة في الكلية: ${E.total} قيدًا، وحالة كل منها، ولماذا لم يُعتمد أي منها.`,
   body: `<section class="section--dark section-pad">
   <div class="container">
@@ -857,7 +857,7 @@ ${cta('انظر ما الذي كان ينتظر قرارًا.', 'سجل القر
 PAGES.decisionsAr = {
   slug: 'governance-decisions-ar', output: 'ar/governance/decisions/index.html', file: 'governance-decisions.ar.html',
   lang: 'ar', dir: 'rtl', altHref: '/governance/decisions/',
-  title: 'سجل القرارات — كلية البلاغ الدولية المتميّزة',
+  title: 'سجل القرارات — الكلية العالمية للغة الإنجليزية',
   description: `قرارات الكلية المؤسسية كلها — ${totalAdopted} قرارًا نافذًا — بتاريخ كل منها والسلطة التي اتخذته.`,
   body: `<section class="section--dark section-pad">
   <div class="container">

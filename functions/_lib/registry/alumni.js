@@ -1,5 +1,5 @@
 /**
- * The Albalagh International Premium College Alumni Society, and its six chapters.
+ * The Worldwide English College Alumni Society, and its six chapters.
  *
  * ────────────────────────────────────────────────────────────────────
  * MEMBERSHIP IS DERIVED, NEVER STORED
@@ -25,8 +25,8 @@
 const db = (env) => env.DB;
 
 export const SOCIETY = {
-  code: 'AIPCAS',
-  name: 'Albalagh International Premium College Alumni Society',
+  code: 'WECAS',
+  name: 'Worldwide English College Alumni Society',
   // Said plainly, because a society page that did not say this would
   // imply an active organisation with a programme of events.
   status: 'Established. Chapters are constituted by award; officers are '

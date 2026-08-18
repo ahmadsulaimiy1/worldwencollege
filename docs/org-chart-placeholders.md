@@ -2,7 +2,7 @@
 
 > **None of these people exist.** Every name, qualification and line of
 > experience on this page is invented. Nobody listed here works for
-> AIPC, holds the degree or membership attributed to them, or has
+> WEC-LC, holds the degree or membership attributed to them, or has
 > consented to anything — because there is nobody to consent. This page
 > is a design reference and a data dictionary for
 > `sql/seed-demo-people.sql`, and it is the only place in the repository
@@ -10,7 +10,7 @@
 >
 > **These names may not be published.** Not on the marketing site, not
 > on `/faculty/`, not in a press release, not in a prospectus, not on
-> the preview deployment. `https://preview.aipc.pages.dev` is reachable
+> the preview deployment. `https://preview.wec-lc.pages.dev` is reachable
 > by anyone with the URL; "it's only the preview" is not a defence.
 > `tests/demo-people.test.mjs` fails the build if any of these names
 > reaches a page the public can load.
@@ -158,7 +158,7 @@ makes a fabrication look like a fact.
 Local development database only:
 
 ```bash
-npx wrangler d1 execute aipc --local --file=sql/seed-demo-people.sql
+npx wrangler d1 execute wec-lc --local --file=sql/seed-demo-people.sql
 ```
 
 Remove every trace:

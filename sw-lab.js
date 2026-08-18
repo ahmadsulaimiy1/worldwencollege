@@ -1,4 +1,4 @@
-/* AIPC — Listening Lab service worker.
+/* WEC-LC — Listening Lab service worker.
 
    Offline-first for the things a learner needs to keep studying on a
    train, in a hall of residence with poor wifi, or on a metered
@@ -37,10 +37,10 @@
 
 // Bumped to v2: the shell now includes the auth chain, and the
 // curriculum cache is named per learner. activate() drops every
-// aipc-lab-* cache that isn't this version, so v1's shared curriculum
+// wec-lab-* cache that isn't this version, so v1's shared curriculum
 // cache — written before responses were user-scoped — is deleted on
 // upgrade rather than left behind.
-const VERSION = 'aipc-lab-v2';
+const VERSION = 'wec-lab-v2';
 const SHELL = `${VERSION}-shell`;
 const CURRICULUM = `${VERSION}-curriculum`;
 const AUDIO = `${VERSION}-audio`;
@@ -66,7 +66,7 @@ const SHELL_ASSETS = [
   '/css/listening-lab.css',
   // The auth chain is part of the shell: without these the page loads
   // offline but never boots, because listening-lab.js starts behind
-  // AIPC_guardPortal. Order matches the script tags in the HTML.
+  // WEC_LC_guardPortal. Order matches the script tags in the HTML.
   '/js/auth-config.js',
   '/js/clerk-loader.js',
   '/js/portal-guard.js',
@@ -88,7 +88,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
       .then((keys) => Promise.all(
-        keys.filter((k) => k.startsWith('aipc-lab-') && !k.startsWith(VERSION)).map((k) => caches.delete(k))
+        keys.filter((k) => k.startsWith('wec-lab-') && !k.startsWith(VERSION)).map((k) => caches.delete(k))
       ))
       .then(() => self.clients.claim())
   );

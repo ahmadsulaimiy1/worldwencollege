@@ -55,13 +55,13 @@ export const FRONT = [
   B.halfTitle('The International English Fluency Certificate'),
   B.pageBreak(),
   B.title({
-    institution: 'Albalagh International Premium College',
+    institution: 'Worldwide English College',
     campus: 'London Campus',
     lines: ['The International', 'English Fluency', 'Certificate'],
     subtitle: 'The Curriculum, Award Architecture and Academic Framework',
     edition: 'First Edition',
     editionNote: 'Reference Edition',
-    press: 'Albalagh International Premium College Press',
+    press: 'Worldwide English College Press',
   }),
   B.pageBreak(),
 
@@ -70,8 +70,8 @@ export const FRONT = [
   B.p('The International English Fluency Certificate', { bold: true }),
   B.p('The Curriculum, Award Architecture and Academic Framework', { italic: true }),
   B.p('First edition, reference edition.'),
-  B.p('Published by Albalagh International Premium College Press, London Campus.'),
-  B.p('© Albalagh International Premium College. All rights reserved.'),
+  B.p('Published by Worldwide English College Press, London Campus.'),
+  B.p('© Worldwide English College. All rights reserved.'),
   B.small('ISBN [to be assigned]  ·  DOI [not registered]'),
   B.panel('A note on this edition', [
     'This edition is generated directly from the College\'s academic database and its approved '
@@ -133,9 +133,9 @@ export const FRONT = [
 
 // ======================================================================
 export const BODY = [
-  B.h1('About Albalagh International Premium College'),
+  B.h1('About Worldwide English College'),
   B.rule(),
-  B.lead('Albalagh International Premium College, London Campus, is an online institution teaching English as an '
+  B.lead('Worldwide English College, London Campus, is an online institution teaching English as an '
     + 'international language. It confers its own awards, maintains its own Graduate Register, and '
     + 'publishes the architecture of its qualification so that the awards can be read and checked by '
     + 'people who have never met the College.'),
@@ -184,7 +184,7 @@ export const BODY = [
   B.lead('The IEFC is a six-level ascent, mapped to the Common European Framework of Reference from '
     + 'A1 to C2. Each level confers its own award, and each award is complete in itself: a learner '
     + 'who stops at Level III has not failed to become something. They are an English Associate of '
-    + 'Albalagh International Premium College, permanently, and the College says so in those words.'),
+    + 'Worldwide English College, permanently, and the College says so in those words.'),
   B.p('That is the load-bearing decision of the architecture. An award that only means something as '
     + 'a step toward the next is not an award; it is a receipt.'),
   B.table(['Level', 'CEFR', 'Award', 'Post-nominal'],
@@ -322,7 +322,7 @@ export const BODY = [
 
   B.h1('The Alumni Society'),
   B.rule(),
-  B.lead('Every graduate belongs to the Albalagh International Premium College Alumni Society, and within it to '
+  B.lead('Every graduate belongs to the Worldwide English College Alumni Society, and within it to '
     + 'the chapter of their highest award. Membership is not applied for and is not recorded '
     + 'separately: it follows from the award, and it moves when the award does.'),
   B.table(['Chapter', 'Award', 'Officers'],
@@ -337,7 +337,7 @@ export const BODY = [
   B.table(['Term', 'Definition'], [
     ['IEFC', 'The International English Fluency Certificate, the College\'s qualification.'],
     ['CEFR', 'The Common European Framework of Reference for Languages, the international scale from A1 to C2 against which the six levels are mapped.'],
-    ['AIPC Credit', 'The College\'s unit of academic credit, recorded on each award at conferral.'],
+    ['WEC Credit', 'The College\'s unit of academic credit, recorded on each award at conferral.'],
     ['Total Qualification Time', 'The College\'s design figure for the hours a level represents. It is the same for every holder and is not a measure of any individual\'s effort.'],
     ['Guided Learning Hours', 'The portion of Total Qualification Time delivered under instruction.'],
     ['Post-nominal', 'The abbreviation a holder may place after their name, conferred with the award.'],
@@ -360,7 +360,7 @@ export const BODY = [
     + 'choice than a plainer one that renders as set.'),
   B.small(`Counts in this edition: ${d.totals.levels} levels · ${d.totals.modules} modules · `
     + `${d.totals.learningItems} learning items · ${d.totals.quizQuestions} quiz questions.`),
-  B.small('Albalagh International Premium College Press · London Campus'),
+  B.small('Worldwide English College Press · London Campus'),
 ];
 
 export const DATA = d;

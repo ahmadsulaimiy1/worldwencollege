@@ -1,4 +1,4 @@
--- AIPC — Audio curriculum seed: Level VI (English Mastery, C2).
+-- WEC-LC — Audio curriculum seed: Level VI (English Mastery, C2).
 --
 -- See sql/seed-audio-level-1.sql and docs/lms-architecture.md
 -- § The audio layer. Scripts, cues, questions and targets are complete
@@ -458,7 +458,7 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body, audio_asse
 ('itm_l6_m10_listening', 'unt_l6_m10', 4, 'listening', 'Listening 10 -- The Oral Defence',
 'LISTENING OBJECTIVES: Integrate every listening skill in the programme; follow a capstone defence with challenge to premise, honest non-answer and reasoned concession.
 
-BEFORE YOU LISTEN: This is the final listening of the AIPC programme: a candidate defends a capstone portfolio before examiners, drawing on all six levels. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
+BEFORE YOU LISTEN: This is the final listening of the WEC-LC programme: a candidate defends a capstone portfolio before examiners, drawing on all six levels. Read the four questions first. Knowing what you are listening for is itself the skill being taught, and it is the difference between hearing words and understanding a conversation.
 
 LISTEN TWICE: First for the general situation only -- who is speaking, where, and what they want. Do not stop to decode an unknown word; stopping is what makes learners miss the next sentence. Second time, answer the questions.
 

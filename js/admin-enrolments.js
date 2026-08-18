@@ -1,4 +1,4 @@
-/* AIPC — staff enrolment administration.
+/* WEC-LC — staff enrolment administration.
 
    Replaces the only way this previously worked: hand-writing SQL into
    the Cloudflare D1 console. That is how the platform's first learner
@@ -34,7 +34,7 @@
   var state = { learner: null, viewer: null, registerLoaded: false };
 
   function api(path, opts) {
-    return window.AIPC_apiAuth.headers().then(function (headers) {
+    return window.WEC_LC_apiAuth.headers().then(function (headers) {
       return fetch(path, Object.assign({}, opts || {}, { headers: headers }));
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (b) {
@@ -440,11 +440,11 @@
   document.addEventListener('DOMContentLoaded', function () {
     offline();
     $('#searchForm').addEventListener('submit', function (e) { e.preventDefault(); search(); });
-    var guarded = window.AIPC_guardPortal({
+    var guarded = window.WEC_LC_guardPortal({
       signOutRedirect: '/',
       shellSelector: '.lab-body',
       onAuthenticated: function (clerk, done) {
-        window.AIPC_apiAuth.attach(clerk);
+        window.WEC_LC_apiAuth.attach(clerk);
         done();
         search();
       },

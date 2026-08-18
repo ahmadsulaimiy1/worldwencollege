@@ -158,7 +158,7 @@ function render(b) {
     case 'rule': return [rule()];
     case 'bullets':
       return b.items.map((x) => new Paragraph({
-        numbering: { reference: 'aipc-bullets', level: 0 },
+        numbering: { reference: 'wec-bullets', level: 0 },
         spacing: { after: 100, line: 290 },
         children: [new TextRun({ text: x, font: SERIF, size: 21 })],
       }));
@@ -179,14 +179,14 @@ const PAGE = {
 };
 
 const doc = new Document({
-  creator: 'Albalagh International Premium College',
+  creator: 'Worldwide English College',
   title: 'The International English Fluency Certificate — Curriculum, Award Architecture and Academic Framework',
   description: 'The reference edition of the IEFC curriculum and academic framework, generated from the College\'s academic database.',
   subject: 'English language qualification; curriculum; academic framework',
-  keywords: 'IEFC, Albalagh International Premium College, CEFR, English, curriculum, qualification',
+  keywords: 'IEFC, Worldwide English College, CEFR, English, curriculum, qualification',
   numbering: {
     config: [{
-      reference: 'aipc-bullets',
+      reference: 'wec-bullets',
       levels: [{
         level: 0, format: LevelFormat.BULLET, text: '–', alignment: AlignmentType.LEFT,
         style: { paragraph: { indent: { left: 440, hanging: 250 } } },

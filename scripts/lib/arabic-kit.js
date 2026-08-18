@@ -111,7 +111,7 @@ const enOnly = `<div class="callout">
 /** Carried wherever the College's standing bears on a reader's decision. */
 const noAccreditation = `<div class="callout">
       <span class="callout__label">وضع الكلية</span>
-      <p>كلية البلاغ الدولية المتميّزة لا تحمل أي اعتماد أكاديمي، ولم تُعيّن ممتحنًا خارجيًا،
+      <p>الكلية العالمية للغة الإنجليزية لا تحمل أي اعتماد أكاديمي، ولم تُعيّن ممتحنًا خارجيًا،
         ولم تمنح أي شهادة لأي شخص حتى اليوم، ولم تُدرّس أي دفعة بعد، ولم تُعتمد
         <a href="/ar/admissions/tuition/#refunds">سياسة استرداد</a>. تُذكر هذه الحقائق في كل
         صفحة تؤثر فيها على قرارك، لا مرة واحدة في هامش.</p>

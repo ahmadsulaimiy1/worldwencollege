@@ -1,6 +1,6 @@
--- AIPC platform schema — Cloudflare D1 (SQLite dialect).
+-- WEC-LC platform schema — Cloudflare D1 (SQLite dialect).
 -- Not yet applied to any real database. Run via:
---   wrangler d1 execute aipc --file=sql/schema.sql
+--   wrangler d1 execute wec-lc --file=sql/schema.sql
 -- once a real D1 database is provisioned (Decision #1, hosting).
 --
 -- Design goal: every payment feature named in the payments architecture
@@ -480,7 +480,7 @@ CREATE TABLE notification_log (
 
 -- ---------------------------------------------------------------------
 -- Learning Management System (LMS) — Milestone 1, per the Executive
--- Directive that AIPC builds and owns its LMS as a proprietary asset
+-- Directive that WEC-LC builds and owns its LMS as a proprietary asset
 -- rather than integrating a third-party product (see
 -- docs/lms-architecture.md). Content hierarchy is
 -- Course → Unit → LearningItem, matching the "one course per level,
@@ -770,8 +770,8 @@ CREATE TABLE awards (
   -- read as it did in 2027 even if the College later renames an award or
   -- restructures a level. An academic record that changes retrospectively
   -- because a lookup table changed is not a record.
-  award_title       TEXT NOT NULL,      -- 'English Associate of Albalagh International Premium College'
-  post_nominal      TEXT NOT NULL,      -- 'AsAIPC'
+  award_title       TEXT NOT NULL,      -- 'English Associate of Worldwide English College'
+  post_nominal      TEXT NOT NULL,      -- 'AsWEC'
   cefr              TEXT NOT NULL,
   honour            TEXT NOT NULL DEFAULT 'pass'
                     CHECK (honour IN ('pass','merit','distinction','high_distinction','college_distinction')),
@@ -949,7 +949,7 @@ INSERT INTO platform_config (key, value) VALUES
   ('lms_pass_threshold', '0.7'),
   -- Fraction (0..1) a quiz score or assignment grade must meet to mark
   -- a unit "completed" (functions/_lib/lms/content.js). A mechanism
-  -- default, not a published AIPC academic standard — real
+  -- default, not a published WEC-LC academic standard — real
   -- competency thresholds are an Academic Director decision (see
   -- docs/master-roadmap.md § Decisions Needed, item 9), to be set here
   -- once one exists.
@@ -1748,7 +1748,7 @@ CREATE INDEX IF NOT EXISTS idx_distinctions_user ON academic_distinctions(user_i
 -- 2. ALUMNI CHAPTERS (approved)
 -- ============================================================
 --
--- One real organisation — the Albalagh International Premium College Alumni Society
+-- One real organisation — the Worldwide English College Alumni Society
 -- — with six chapters, one per IEFC award.
 --
 -- The chapters are reference data because they are real and named. But
@@ -1775,17 +1775,17 @@ CREATE TABLE IF NOT EXISTS alumni_chapters (
 );
 
 INSERT OR IGNORE INTO alumni_chapters (id, level_id, name, award_title, post_nominal, description) VALUES
-  ('chp_aspirant',  1, 'Aspirant Chapter',  'English Aspirant of Albalagh International Premium College',  'ApAIPC',
+  ('chp_aspirant',  1, 'Aspirant Chapter',  'English Aspirant of Worldwide English College',  'ApWEC',
    'Holders of the Level I award, who entered the tradition.'),
-  ('chp_candidate', 2, 'Candidate Chapter', 'English Candidate of Albalagh International Premium College', 'CnAIPC',
+  ('chp_candidate', 2, 'Candidate Chapter', 'English Candidate of Worldwide English College', 'CnWEC',
    'Holders of the Level II award.'),
-  ('chp_associate', 3, 'Associate Chapter', 'English Associate of Albalagh International Premium College', 'AsAIPC',
+  ('chp_associate', 3, 'Associate Chapter', 'English Associate of Worldwide English College', 'AsWEC',
    'Holders of the Level III award.'),
-  ('chp_envoy',     4, 'Envoy Chapter',     'English Envoy of Albalagh International Premium College',     'EnAIPC',
+  ('chp_envoy',     4, 'Envoy Chapter',     'English Envoy of Worldwide English College',     'EnWEC',
    'Holders of the Level IV award — trusted representatives and communicators.'),
-  ('chp_orator',    5, 'Orator Chapter',    'English Orator of Albalagh International Premium College',    'OrAIPC',
+  ('chp_orator',    5, 'Orator Chapter',    'English Orator of Worldwide English College',    'OrWEC',
    'Holders of the Level V award — high-level intellectual and professional communicators.'),
-  ('chp_laureate',  6, 'Laureate Chapter',  'English Laureate of Albalagh International Premium College',  'LrAIPC',
+  ('chp_laureate',  6, 'Laureate Chapter',  'English Laureate of Worldwide English College',  'LrWEC',
    'Holders of the Level VI award — distinguished masters of the programme.');
 
 -- ============================================================
@@ -1926,27 +1926,27 @@ CREATE TABLE IF NOT EXISTS award_definitions (
 INSERT OR IGNORE INTO award_definitions
   (level_id, id, official_title, post_nominal, cefr, standing,
    academic_purpose, graduate_profile, learning_outcomes) VALUES
-  (1, 'awd_def_aspirant', 'English Aspirant of Albalagh International Premium College', 'ApAIPC', 'A1', 'Entry into the tradition',
+  (1, 'awd_def_aspirant', 'English Aspirant of Worldwide English College', 'ApWEC', 'A1', 'Entry into the tradition',
    'honours the decision, which at A1 is the achievement. Beginning a language in adulthood is harder than any later step and is where most people stop. Overclaims nothing.',
    'The learner arrives with little or no English. By the end of Foundation, they can introduce themselves, handle short everyday exchanges (shopping, ordering food, asking directions, basic scheduling), read and write short simple texts, and understand slow, clear speech on familiar topics.',
    'By the end of Level I, the learner can: introduce themselves and others; ask/answer simple personal questions; describe their home, family, and daily routine in simple sentences; make simple purchases and requests; tell the time and discuss simple schedules; ask for and give basic directions; write a short personal message or form; understand short, simple spoken instructions given slowly and clearly.'),
-  (2, 'awd_def_candidate', 'English Candidate of Albalagh International Premium College', 'CnAIPC', 'A2', 'Recognised learner of the College',
+  (2, 'awd_def_candidate', 'English Candidate of Worldwide English College', 'CnWEC', 'A2', 'Recognised learner of the College',
    'formal admission to candidature. The moment the College recognises someone as its own.',
    'The learner builds from survival phrases to handling routine tasks and simple social exchange — describing experiences, expressing simple opinions, and managing everyday situations with more independence.',
    'By the end of Level II, the learner can: describe past experiences and events in simple terms; express likes, dislikes, and simple opinions; make and respond to invitations, suggestions, and apologies; describe future plans and intentions; compare people, places, and things; give simple reasons and explanations; handle simple phone/service conversations; write short connected texts (a short email, a simple description, a short story).'),
-  (3, 'awd_def_associate', 'English Associate of Albalagh International Premium College', 'AsAIPC', 'B1', 'Established member of the academic community',
+  (3, 'awd_def_associate', 'English Associate of Worldwide English College', 'AsWEC', 'B1', 'Established member of the academic community',
    'membership. Not "can do B1 things"; belongs. This is the point on the Ascent where a learner stops being someone taking a course and becomes a member of an academic community, and the word says exactly that.',
    'The learner becomes a genuinely independent user — coping with most travel/work/study situations, expressing and defending opinions, and beginning structured, purposeful writing. This is also where academic English begins, introduced deliberately early rather than left until Advanced.',
    'By the end of Level III, the learner can: describe experiences, hopes, and ambitions with reasons; give a structured opinion and respond to a counter-opinion; write a structured paragraph/short essay with a clear topic sentence; handle unscripted, moderately complex conversations on familiar and some unfamiliar topics; understand the main points of clear standard input on work, school, or leisure; produce simple connected text on familiar topics; ask clarifying questions to manage a conversation.'),
-  (4, 'awd_def_envoy', 'English Envoy of Albalagh International Premium College', 'EnAIPC', 'B2', 'Trusted representative and communicator',
+  (4, 'awd_def_envoy', 'English Envoy of Worldwide English College', 'EnWEC', 'B2', 'Trusted representative and communicator',
    'one who can be sent: to the meeting, the client, the interview, to speak for someone other than themselves. B2 is precisely the representation threshold, and representation is what an employer is buying.',
    'The learner becomes fluent enough to follow extended discourse, argue a position in depth, and produce genuinely structured academic and professional writing. This level carries the heaviest step-up in register and complexity in the programme.',
    'By the end of Level IV, the learner can: understand extended speech and complex argumentation on familiar and abstract topics; interact with a degree of fluency that makes regular interaction with native speakers possible without strain on either party; produce clear, detailed text on a wide range of subjects; explain a viewpoint, weighing advantages/disadvantages; write a structured 4-5 paragraph essay with a clear thesis and evidence; participate in a structured meeting/seminar-style discussion; write a professional email/report in an appropriate register.'),
-  (5, 'awd_def_orator', 'English Orator of Albalagh International Premium College', 'OrAIPC', 'C1', 'High-level intellectual and professional communicator',
+  (5, 'awd_def_orator', 'English Orator of Worldwide English College', 'OrWEC', 'C1', 'High-level intellectual and professional communicator',
    'composition and delivery: clear, structured argument on complex subjects, delivered fluently. That is oratory in the classical sense, and C1 is where the leadership and executive-communication strands become the substance of the award rather than an addition to it. Chosen over Scholar, which implies research and carries a funding connotation ("a scholar" is often someone with a scholarship).',
    'The learner refines fluency into precision — flexible, effective language use for social, academic, and professional purposes, including implicit meaning, nuance, and stylistic control.',
    'By the end of Level V, the learner can: understand a wide range of demanding, longer texts and recognise implicit meaning; express ideas fluently and spontaneously without much obvious searching for expression; use language flexibly and effectively for social, academic, and professional purposes; produce clear, well-structured, detailed text on complex subjects, controlling organisational patterns and cohesive devices; understand and produce nuanced, idiomatic, register-appropriate language; lead a discussion or negotiation to a productive outcome.'),
-  (6, 'awd_def_laureate', 'English Laureate of Albalagh International Premium College', 'LrAIPC', 'C2', 'Distinguished master of the programme',
+  (6, 'awd_def_laureate', 'English Laureate of Worldwide English College', 'LrWEC', 'C2', 'Distinguished master of the programme',
    'the crown. Conferred rather than accumulated, associated with distinction rather than administration, and — critically — not confusable with a degree. Master was rejected outright: a reasonable person reads it as a master''s degree, and an architecture whose summit is a misunderstanding is not an architecture.',
    'The capstone level. The learner refines toward near-native command: spontaneous, precise, and persuasive across virtually any register or context, capable of leading, teaching, and representing an organisation in English at the highest level.',
    'By the end of Level VI, the learner can: understand with ease virtually everything heard or read; summarise information from different spoken and written sources, reconstructing arguments and accounts coherently; express themselves spontaneously, very fluently, and precisely, differentiating finer shades of meaning even in complex situations; produce publication- quality written work; represent a position or organisation persuasively at a senior/leadership level; mentor or coach another learner''s English development, demonstrating command of the language as a system, not just as a skill.');
@@ -2101,7 +2101,7 @@ INSERT OR IGNORE INTO programme_claims
    'Extended through authentic assessment',
    'evidenced',
    'Sixty assignments, one per module, each marked by a person against a published rubric '
-   || 'normalised to the AIPC rubric policy — not auto-scored. Spoken work is captured as '
+   || 'normalised to the WEC-LC rubric policy — not auto-scored. Spoken work is captured as '
    || 'learner recordings and reviewed in the instructor workspace.',
    NULL),
 
@@ -2152,7 +2152,7 @@ CREATE TABLE IF NOT EXISTS exercise_sets (
   kind              TEXT NOT NULL,
   approval_state    TEXT NOT NULL DEFAULT 'press_drafted'
                       CHECK (approval_state IN ('press_drafted','academically_approved')),
-  drafted_by        TEXT NOT NULL DEFAULT 'AIPC Press',
+  drafted_by        TEXT NOT NULL DEFAULT 'WEC Press',
   approved_by       TEXT,
   approved_on       TEXT,
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
@@ -2193,7 +2193,7 @@ CREATE TABLE IF NOT EXISTS self_checks (
   intro             TEXT NOT NULL,
   approval_state    TEXT NOT NULL DEFAULT 'press_drafted'
                       CHECK (approval_state IN ('press_drafted','academically_approved')),
-  drafted_by        TEXT NOT NULL DEFAULT 'AIPC Press',
+  drafted_by        TEXT NOT NULL DEFAULT 'WEC Press',
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 

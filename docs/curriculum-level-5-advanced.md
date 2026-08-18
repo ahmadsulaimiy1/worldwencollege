@@ -1,4 +1,4 @@
-# AIPC — Level V: Advanced Programme (C1) — Full Curriculum
+# WEC-LC — Level V: Advanced Programme (C1) — Full Curriculum
 
 *Companion to `docs/curriculum-framework.md` (see its Level V section
 for the module map, grammar/vocabulary progression, and the Executive
@@ -61,12 +61,12 @@ level's explicit, defining shift. Concretely:
   framing per `docs/editorial-bible.md`'s standing discipline (no
   fabricated real organisation, partnership, or statistic is ever
   implied).
-- **A distinctive AIPC progression, not an imitation.** The module
+- **A distinctive WEC-LC progression, not an imitation.** The module
   sequence — precision of language (Modules 1-2) → precision of
   persuasion (Modules 3-4) → precision across cultures and contexts
   (Modules 5-6) → precision under scrutiny (Modules 7-8) → precision of
-  voice (Module 9) — is authored as AIPC's own intellectual arc, per
-  your directive that this level "establish AIPC as a premium
+  voice (Module 9) — is authored as WEC-LC's own intellectual arc, per
+  your directive that this level "establish WEC-LC as a premium
   international English institution," not a copy of any single
   existing programme.
 

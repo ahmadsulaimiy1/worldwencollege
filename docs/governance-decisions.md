@@ -1,8 +1,8 @@
-# AIPC — Governance Decisions
+# WEC-LC — Governance Decisions
 
 **Status as of 14 August 2026: ALL TWENTY-FIVE OUTSTANDING ITEMS ARE
 ADOPTED**, each on the recommendation drafted below, by decision of the
-Executive of Albalagh International Premium College. Five earlier decisions (G1, G2,
+Executive of Worldwide English College. Five earlier decisions (G1, G2,
 G3, G5, G6) were adopted on 4 August 2026 and are unchanged. Thirty
 decisions now stand adopted and none is outstanding.
 
@@ -10,7 +10,7 @@ decisions now stand adopted and none is outstanding.
 
 ## ADOPTION RECORD — 14 August 2026
 
-**Adopting authority:** the Executive of Albalagh International Premium College.
+**Adopting authority:** the Executive of Worldwide English College.
 
 **What that means precisely, and what it does not.** The Executive is
 the College's constituted decision-making authority and these are its
@@ -191,7 +191,7 @@ one currently has *no* value anywhere in the platform.
 
 ### B1. Pass threshold
 **Currently:** `lms_pass_threshold = 0.7`, labelled in the schema as a
-mechanism default and explicitly **not** a AIPC academic standard.
+mechanism default and explicitly **not** a WEC-LC academic standard.
 
 **Recommendation:** confirm 70% for module quizzes, and set the
 end-of-level examination separately (B2) rather than inheriting it.
@@ -255,14 +255,14 @@ itself a new thing to learn at Level IV.
 
 **Explicitly NOT recommended:** any wording implying accreditation,
 regulatory recognition, or equivalence to a qualification awarded by an
-accredited body. AIPC holds no accreditation, and a certificate that
+accredited body. WEC-LC holds no accreditation, and a certificate that
 implies otherwise is a misrepresentation regardless of intent.
 
 **Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### C2. What a certificate may state
 **Recommendation:** learner name, level, CEFR band, completion date,
-issuing body (AIPC London Campus), and a verification code resolving
+issuing body (WEC-LC London Campus), and a verification code resolving
 to a page confirming issuance. Nothing else.
 
 **Rationale:** every additional claim on a certificate is a claim
@@ -274,7 +274,7 @@ somebody may later have to substantiate.
 **Recommendation:** adopt `docs/iefc-award-architecture.md` (second
 reading) in full — six named awards of **standing** (Aspirant,
 Candidate, Associate, Envoy, Orator, Laureate), post-nominals
-ApAIPC–LrAIPC, five honours, one Alumni Society with six Chapters, the
+ApWEC–LrWEC, five honours, one Alumni Society with six Chapters, the
 Register of the Ascent, and four College traditions.
 
 **What changed at second reading.** The first draft proposed a ladder of
@@ -289,7 +289,7 @@ the correct test and it decided the ladder.
 naming questions:**
 
 - **C4a — the office of Chancellor.** The Executive asked for a
-  "Chancellor's Distinction". AIPC has no Chancellor and, by the
+  "Chancellor's Distinction". WEC-LC has no Chancellor and, by the
   standing rule against fabricated leadership, cannot print one on a
   certificate. Either constitute the office as a real appointment, or
   adopt **"the Distinction of the College"** until one exists.
@@ -305,7 +305,7 @@ naming questions:**
 **What it changes about C1:** C1 proposes a Certificate of Completion
 per level. C4 supersedes that with a *named award* per level, because a
 "Certificate of Completion in Level III" is a receipt and an "English
-Communicator of Albalagh International Premium College" is an achievement, and the
+Communicator of Worldwide English College" is an achievement, and the
 difference decides whether a learner continues to Level IV. **Approving
 C4 approves C1 as amended.**
 
@@ -624,7 +624,7 @@ portrait status.**
 
 ### G2 — Alumni Chapters *(adopted 4 Aug 2026)*
 
-One real organisation — the **Albalagh International Premium College Alumni Society**
+One real organisation — the **Worldwide English College Alumni Society**
 — with six chapters, one per IEFC award: Aspirant, Candidate, Associate,
 Envoy, Orator, Laureate. A graduate belongs to the chapter of their
 highest award, automatically.

@@ -1,5 +1,5 @@
 /**
- * GET /api/credentials/qr?code=AIPC-XXXX-XXXX-XXXXX
+ * GET /api/credentials/qr?code=WEC-XXXX-XXXX-XXXXX
  *
  * The QR code for a verification code, as SVG.
  *

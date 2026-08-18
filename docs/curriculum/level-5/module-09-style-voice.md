@@ -1,4 +1,4 @@
-# AIPC — Level V, Module 9: Style & Voice
+# WEC-LC — Level V, Module 9: Style & Voice
 
 *Part of `docs/curriculum-level-5-advanced.md`'s Level V build-out.*
 

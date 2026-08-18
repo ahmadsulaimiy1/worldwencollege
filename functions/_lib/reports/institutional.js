@@ -370,7 +370,7 @@ async function accreditationReadiness(env) {
   return {
     // Stated first and unmissably, because this is the document most
     // likely to be quoted out of context.
-    statement: 'Albalagh International Premium College holds no accreditation, recognition or affiliation from any external body, and has not applied for any. This is an INTERNAL self-evaluation instrument. It records what the College can and cannot currently evidence about its own practice. Nothing here constitutes, implies or anticipates external recognition.',
+    statement: 'Worldwide English College holds no accreditation, recognition or affiliation from any external body, and has not applied for any. This is an INTERNAL self-evaluation instrument. It records what the College can and cannot currently evidence about its own practice. Nothing here constitutes, implies or anticipates external recognition.',
     evidenced: rows.filter((r) => r.evidenced).length,
     total: rows.length,
     areas: rows,

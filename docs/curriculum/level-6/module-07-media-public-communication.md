@@ -1,4 +1,4 @@
-# AIPC — Level VI, Module 7: Media & Public Communication
+# WEC-LC — Level VI, Module 7: Media & Public Communication
 
 *Part of `docs/curriculum-level-6-mastery.md`'s Level VI build-out.*
 

@@ -1,5 +1,5 @@
 /**
- * AIPC PRESS — THE HOUSE VISUAL IDENTITY.
+ * WEC PRESS — THE HOUSE VISUAL IDENTITY.
  *
  * ────────────────────────────────────────────────────────────────────
  * WHAT A HOUSE IDENTITY IS FOR, AND WHY IT IS NOT THE SPECIFICATION
@@ -21,7 +21,7 @@
  *   THE CONSTANTS never vary between publications. The crest, the two
  *   type families, the deep navy, the gold, the spine architecture,
  *   the folio position. These are the signature. A publication that
- *   departs from them is not a AIPC Press publication.
+ *   departs from them is not a WEC Press publication.
  *
  *   THE VARIABLES vary by publication family and only by family, along
  *   ONE axis each: format tells you the kind of book, the family colour
@@ -277,12 +277,12 @@ const FAMILY_HUES = {
   'IEFC Teacher Series': 'bronze',
   'IEFC Assessment Series': 'deepCrimson',
   'IEFC Reference Library': 'richBurgundy',
-  'AIPC Academic Framework Series': 'royalBlue',
-  'AIPC Governance Series': 'warmCharcoal',
-  'AIPC Research Series': 'slateGrey',
-  'AIPC Professional Development Series': 'platinum',
-  'AIPC New Programmes Series': 'champagneGold',
-  'AIPC Institutional Series': 'royalGold',
+  'WEC Academic Framework Series': 'royalBlue',
+  'WEC Governance Series': 'warmCharcoal',
+  'WEC Research Series': 'slateGrey',
+  'WEC Professional Development Series': 'platinum',
+  'WEC New Programmes Series': 'champagneGold',
+  'WEC Institutional Series': 'royalGold',
 };
 
 /**

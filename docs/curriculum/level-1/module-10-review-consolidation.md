@@ -1,4 +1,4 @@
-# AIPC — Level I, Module 10: Review & Consolidation
+# WEC-LC — Level I, Module 10: Review & Consolidation
 
 *Part of `docs/curriculum-level-1-foundation.md`'s Level I build-out.
 Per `docs/curriculum-framework.md`'s assessment strategy, this module
@@ -7,7 +7,7 @@ not introduce new grammar or vocabulary.*
 
 **Module learning objectives.** By the end of Module 10, the learner
 can: demonstrate cumulative command of every grammar point and
-vocabulary set from Modules 1-9; complete AIPC's Foundation-level
+vocabulary set from Modules 1-9; complete WEC-LC's Foundation-level
 (A1) end-of-level examination across grammar/vocabulary, listening,
 reading, writing, and speaking; identify their own remaining weak
 areas ahead of Level II.

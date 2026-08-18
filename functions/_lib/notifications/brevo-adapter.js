@@ -36,7 +36,7 @@
 import { GatewayNotConfiguredError } from '../payments/provider-interface.js';
 
 const ENDPOINT = 'https://api.brevo.com/v3/smtp/email';
-const DEFAULT_FROM_NAME = 'Albalagh International Premium College';
+const DEFAULT_FROM_NAME = 'WorldWide English College';
 
 export const brevoAdapter = {
   async send({ to, subject, html }, env) {

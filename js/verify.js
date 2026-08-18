@@ -1,4 +1,4 @@
-/* AIPC — Award Verification.
+/* WEC-LC — Award Verification.
 
    Opened most often by a stranger: an employer, an admissions officer, a
    registrar, arriving from a QR code on a printed certificate. They have
@@ -35,7 +35,7 @@
       cls: 'is-revoked',
       label: 'Withdrawn — this award is no longer held',
       alert: function (a) {
-        return 'This award was withdrawn by Albalagh International Premium College on '
+        return 'This award was withdrawn by Worldwide English College on '
           + fmtDate(a.revokedAt) + '.'
           + (a.revokedReason ? ' Reason recorded: ' + a.revokedReason : '')
           + ' It should not be relied upon.';

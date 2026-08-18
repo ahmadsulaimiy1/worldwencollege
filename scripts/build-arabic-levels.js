@@ -39,7 +39,7 @@
  *
  * Award titles and post-nominals stay in Latin script entirely. An
  * award is a defined object with an official title; translating
- * "English Associate of Albalagh International Premium College" would create a
+ * "English Associate of Worldwide English College" would create a
  * second award that nobody has defined and nobody can confer. The
  * Arabic prose says what the award is for, beside the title itself.
  *
@@ -53,7 +53,7 @@
  * ────────────────────────────────────────────────────────────────────
  * The Arabic for "module" is وحدة, which is also the word the RETIRED
  * measurement scheme used for a "learning unit" — the one the College
- * replaced with <span dir="ltr">AIPC</span> Credits, and the one it priced at $26.39 apiece
+ * replaced with <span dir="ltr">WEC</span> Credits, and the one it priced at $26.39 apiece
  * before deciding that pricing content 41% of which is unwritten was
  * indefensible. tests/published-claims.test.mjs bans the phrase لكل وحدة
  * outright across every Arabic page for that reason.
@@ -551,7 +551,7 @@ levels.forEach((lv, i) => {
   const entry = {
     slug,
     output,
-    title: `المستوى ${AR_ROMAN[lv.roman]}: ${AR_NAME[lv.id]} (${lv.cefr}) — كلية البلاغ الدولية المتميّزة`,
+    title: `المستوى ${AR_ROMAN[lv.roman]}: ${AR_NAME[lv.id]} (${lv.cefr}) — الكلية العالمية للغة الإنجليزية`,
     description: `المستوى ${AR_ROMAN[lv.roman]} من برنامج <span dir="ltr">IEFC</span>: ${lv.modules.length} وحدات، و${lv.units} درسًا مصمَّمًا `
       + `على مدى ${lv.duration_months} أشهر، وفق مستوى ${lv.cefr} في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.`,
     contentFile: file, lang: 'ar', dir: 'rtl',

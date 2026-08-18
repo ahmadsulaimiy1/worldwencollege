@@ -13,7 +13,7 @@ Fifty-four pages were written. This document records the ones that were
 not, why, and what would make each writable. It exists so that the gap
 is a decision on the record rather than an omission nobody noticed.
 
-**The single cause behind almost all of it:** AIPC has taught nobody.
+**The single cause behind almost all of it:** WEC-LC has taught nobody.
 No cohort, no student, no assessment sat, no award conferred, no
 graduate. Every page below is a page that describes what happens after
 that, and there is no honest version of it before.
@@ -50,7 +50,7 @@ event that happened to somebody other than the founders.
 ### 2. News / Press Releases / Events
 There is no news. Nothing has occurred that a third party would report,
 no event has been held, and no press release has been issued to anyone.
-A news section seeded with "AIPC launches website" is the clearest
+A news section seeded with "WEC-LC launches website" is the clearest
 possible signal that an institution has nothing to report.
 **Writable when:** something happens. The first appointment, the first
 cohort and the first conferral are each genuinely newsworthy.

@@ -1,4 +1,4 @@
-# AIPC backend tests
+# WEC-LC backend tests
 
 Functional tests for `functions/**` against a **real SQLite engine**
 (Node's built-in `node:sqlite`, wrapped in `d1-shim.mjs` to present the

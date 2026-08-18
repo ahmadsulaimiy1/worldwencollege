@@ -1,4 +1,4 @@
--- AIPC — Real curriculum content seed: Level II ("Elementary
+-- WEC-LC — Real curriculum content seed: Level II ("Elementary
 -- Programme," A2). Authored per the Executive Directive "Curriculum
 -- First," continued per your instruction that curriculum should
 -- "evolve in depth and sophistication rather than simply repeating
@@ -13,8 +13,8 @@
 -- why curriculum content is never baked into schema.sql. Apply after
 -- schema.sql (and, if used, seed-curriculum-level-1.sql — the two
 -- level seed files are independent of each other):
---   wrangler d1 execute aipc --file=sql/schema.sql
---   wrangler d1 execute aipc --file=sql/seed-curriculum-level-2.sql
+--   wrangler d1 execute wec-lc --file=sql/schema.sql
+--   wrangler d1 execute wec-lc --file=sql/seed-curriculum-level-2.sql
 --
 -- Scope, stated honestly: Modules 1-3 of Level II's ten modules are
 -- built this pass, to a deliberately higher standard than Level I's
@@ -35,7 +35,7 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l2_m1_overview', 'unt_l2_m1', 1, 'reading', 'Module Overview & Key Phrases',
 'Key phrases introduced this module: I was ...-ing when... -- While I was..., I... -- I used to.../I didn''t use to... -- What was your life like when you were a child? -- That''s really interesting -- tell me more.
 
-BrE / AmE note (introductory, general): from this level onward, spelling differences appear across vocabulary (British favourite, colour, travelled; American favorite, color, traveled). AIPC materials use British spelling as the house style, but both are entirely correct, standard English, and learners should be able to recognise either. This module models British spelling/pronunciation; later modules flag specific vocabulary differences as they arise.
+BrE / AmE note (introductory, general): from this level onward, spelling differences appear across vocabulary (British favourite, colour, travelled; American favorite, color, traveled). WEC-LC materials use British spelling as the house style, but both are entirely correct, standard English, and learners should be able to recognise either. This module models British spelling/pronunciation; later modules flag specific vocabulary differences as they arise.
 
 Key vocabulary previewed: life-event nouns (childhood, career, marriage, graduation), sequencing/narrative connectors (when, while, during, at that time), used-to-relevant lifestyle-change vocabulary (move, change, grow up).
 
@@ -139,7 +139,7 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l2_m2_overview', 'unt_l2_m2', 1, 'reading', 'Module Overview & Key Phrases',
 'Key phrases introduced this module: ___ is faster/cheaper/more comfortable than ___. -- Which is the best way to get to...? -- I''d prefer to... because... -- How long does it take? -- I''d like to book a...
 
-BrE / AmE note: holiday (BrE) / vacation (AmE); coach (BrE, a long-distance bus) / motorcoach or bus (AmE); return ticket (BrE) / round-trip ticket (AmE); petrol (BrE) / gas (AmE). AIPC materials use British terms as the house style; learners should recognise both.
+BrE / AmE note: holiday (BrE) / vacation (AmE); coach (BrE, a long-distance bus) / motorcoach or bus (AmE); return ticket (BrE) / round-trip ticket (AmE); petrol (BrE) / gas (AmE). WEC-LC materials use British terms as the house style; learners should recognise both.
 
 Key vocabulary previewed: transport modes (plane, train, coach/bus, ferry, underground/subway), travel actions (book, check in, board, depart, arrive, transfer), comparison adjectives (fast/faster/fastest, expensive/more expensive/most expensive, good/better/best).
 
@@ -347,7 +347,7 @@ INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l2_m4_overview', 'unt_l2_m4', 1, 'reading', 'Module Overview & Key Phrases',
 'Key phrases introduced this module: I love/like/enjoy/don''t mind/dislike/hate + -ing -- In my opinion,.../I think.../I don''t think... -- I agree/I disagree, because... -- I''d prefer... to.../I''d rather... -- That''s a good point, but...
 
-BrE / AmE note: British speakers often soften an opinion with "I''d say..."/"I suppose..."; American speakers more often use "I feel like...", notably informal in written British academic register. AIPC teaches "In my opinion.../I think..." as the neutral, register-safe form in both varieties.
+BrE / AmE note: British speakers often soften an opinion with "I''d say..."/"I suppose..."; American speakers more often use "I feel like...", notably informal in written British academic register. WEC-LC teaches "In my opinion.../I think..." as the neutral, register-safe form in both varieties.
 
 Key vocabulary previewed: opinion verbs (love, like, enjoy, don''t mind, dislike, hate, prefer), agreement/disagreement language (I agree, I see your point, I''m not so sure, I disagree), comparison connectors (whereas, on the other hand).
 

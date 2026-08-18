@@ -63,7 +63,7 @@ const { handleWebhook } = await import(loadUrl('functions/_lib/payments/webhook-
   check('success path: payment marked succeeded', payment.status === 'succeeded');
   const receipts = await env.DB.prepare('SELECT * FROM receipts WHERE payment_id = ?').bind('pay_1').all();
   check('success path: exactly one receipt issued', receipts.results.length === 1);
-  check('success path: receipt number format', /^AIPC-R-\d{6}$/.test(receipts.results[0].receipt_number));
+  check('success path: receipt number format', /^WEC-R-\d{6}$/.test(receipts.results[0].receipt_number));
 
   const evRow = await env.DB.prepare('SELECT handled_at FROM payment_webhook_events WHERE provider=? AND event_id=?').bind('stripe', 'evt_1').first();
   check('success path: event marked handled_at', evRow.handled_at != null);

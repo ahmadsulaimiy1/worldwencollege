@@ -3,7 +3,7 @@
 -- =====================================================================
 --
 --  Every name in this file is invented. None of these people exist,
---  none of them work for AIPC, and none of the qualifications listed
+--  none of them work for WEC-LC, and none of the qualifications listed
 --  in docs/org-chart-placeholders.md were awarded to anyone. They are
 --  here for one reason: an administration screen designed against
 --  three rows called "demo@example.com" looks nothing like the same
@@ -15,7 +15,7 @@
 --  by tests/demo-people.test.mjs, which fails the build if either is
 --  broken. The rules are not a formality — a fabricated staff list on
 --  an education provider's site is a misrepresentation whether or not
---  anyone intended it as one, and https://preview.aipc.pages.dev is
+--  anyone intended it as one, and https://preview.wec-lc.pages.dev is
 --  publicly reachable.
 --
 --  Three properties make an accident survivable:
@@ -50,7 +50,7 @@
 --  item is NOT adopted. If the Executive amends it, this file changes.
 --
 --  Apply locally with:
---    npx wrangler d1 execute aipc --local --file=sql/seed-demo-people.sql
+--    npx wrangler d1 execute wec-lc --local --file=sql/seed-demo-people.sql
 --  Never with --remote.
 -- =====================================================================
 

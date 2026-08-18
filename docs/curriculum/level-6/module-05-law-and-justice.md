@@ -1,4 +1,4 @@
-# AIPC — Level VI, Module 5: Law & Justice
+# WEC-LC — Level VI, Module 5: Law & Justice
 
 *Part of `docs/curriculum-level-6-mastery.md`'s Level VI build-out.*
 

@@ -1,4 +1,4 @@
-// AIPC — Student Portal client-side auth guard.
+// WEC-LC — Student Portal client-side auth guard.
 //
 // Included only on portal pages (student-portal/preview/ and its
 // sub-pages). Page-specific layer on top of the shared
@@ -18,7 +18,7 @@
 // real Clerk instance — see docs/auth-architecture.md — What's
 // genuinely untested.
 (function () {
-  window.AIPC_guardPortal({
+  window.WEC_LC_guardPortal({
     signOutRedirect: '/student-portal/',
     onAuthenticated: function (clerk, done) {
       wireSecurityLinks(clerk);
@@ -28,7 +28,7 @@
 
   function wireSecurityLinks(clerk) {
     // Clerk hosts password, 2FA and active-session management itself —
-    // AIPC doesn't rebuild that UI. These buttons deep-link into
+    // WEC-LC doesn't rebuild that UI. These buttons deep-link into
     // Clerk's own account-management UI once a session exists.
     document.querySelectorAll('[data-open-account-security]').forEach(function (el) {
       el.disabled = false;
@@ -54,7 +54,7 @@
       });
     }
 
-    // /api/auth/me carries AIPC's own record (role, preferred language,
+    // /api/auth/me carries WEC-LC's own record (role, preferred language,
     // programme fields) beyond what Clerk's user object knows about, and
     // /api/student/dashboard carries this student's own enrolment and
     // payment history (see functions/_lib/student/dashboard.js). Neither

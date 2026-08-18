@@ -1,6 +1,6 @@
 # Governance register
 
-The record of who governs AIPC. This file is the **single source of
+The record of who governs WEC-LC. This file is the **single source of
 truth** for the Board of Governors, the Academic Senate and the College
 Executive: `/about/governance/` and `/ar/about/governance/` are
 published from it, and `tests/governance-register.test.mjs` fails the

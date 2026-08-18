@@ -1,4 +1,4 @@
-# AIPC — Level II, Module 2: Travel & Transport
+# WEC-LC — Level II, Module 2: Travel & Transport
 
 *Part of `docs/curriculum-level-2-elementary.md`'s Level II build-out.*
 
@@ -26,7 +26,7 @@ a...
 (BrE) / **vacation** (AmE); **coach** (BrE, a long-distance bus) /
 **motorcoach** or simply **bus** (AmE); **return ticket** (BrE) /
 **round-trip ticket** (AmE); **petrol** (BrE) / **gas** (AmE, short for
-gasoline). AIPC materials use British terms as the house style;
+gasoline). WEC-LC materials use British terms as the house style;
 learners should recognise both, since authentic contemporary content
 (articles, apps, films) mixes them constantly.
 

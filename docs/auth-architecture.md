@@ -1,4 +1,4 @@
-# AIPC — Authentication Architecture
+# WEC-LC — Authentication Architecture
 
 *Companion to `technical-architecture.md`. Clerk is the provisional
 choice (per your instruction); this document is what makes "another
@@ -69,12 +69,12 @@ build on rather than reimplement:
    shipped empty. The single line that needs a real value at
    deployment; see the file's own comment for why it's safe to ship
    publicly.
-2. **`js/clerk-loader.js`** — `window.AIPC_loadClerk(publishableKey, done)`.
+2. **`js/clerk-loader.js`** — `window.WEC_LC_loadClerk(publishableKey, done)`.
    Decodes the key to find Clerk's Frontend API host, loads
    `clerk.browser.js` from it, calls `Clerk.load()`, and hands back the
    ready `Clerk` instance. The one place this project's Clerk
    CDN-loading approach lives.
-3. **`js/portal-guard.js`** — `window.AIPC_guardPortal({ signOutRedirect, onAuthenticated })`.
+3. **`js/portal-guard.js`** — `window.WEC_LC_guardPortal({ signOutRedirect, onAuthenticated })`.
    The reusable shell: with no key configured, it's a no-op (returns
    `false`) and the page stays whatever static preview it already is.
    With a key configured, it shows a full-page `.auth-gate` loading
@@ -123,7 +123,7 @@ Pattern):
 1. A full-page `.auth-gate` overlay (`css/dashboard.css`) appears while
    the Clerk client SDK loads and checks for a session.
 2. No session → `Clerk.redirectToSignIn({ redirectUrl: <this page> })`.
-   AIPC does not build or maintain a custom sign-in form — Clerk's own
+   WEC-LC does not build or maintain a custom sign-in form — Clerk's own
    hosted Account Portal handles sign-in/sign-up, and returns the
    browser here once authenticated.
 3. A session exists → `[data-user-name]` / `[data-user-initials]` /
@@ -133,14 +133,14 @@ Pattern):
    (`[data-demo-tag]`) are hidden, and the Sign Out link becomes live
    (`clerk.signOut()`).
 4. `GET /api/auth/me` is then called with the session token to layer in
-   AIPC's own record (today: `preferredName`) beyond what Clerk's
+   WEC-LC's own record (today: `preferredName`) beyond what Clerk's
    `user` object knows. This call is best-effort: if it isn't reachable
    yet, Clerk auth has still genuinely succeeded, so the page keeps
    working with Clerk-only identity data rather than showing an error
    over a secondary fetch failing.
 5. The Security panel's "Change" (password) and "View" (active
    sessions) buttons deep-link into Clerk's own hosted account UI via
-   `clerk.openUserProfile()` — AIPC doesn't rebuild password/2FA/
+   `clerk.openUserProfile()` — WEC-LC doesn't rebuild password/2FA/
    session-management screens Clerk already provides.
 
 **What this now does, beyond identity:** `GET /api/student/dashboard`
@@ -189,7 +189,7 @@ NULL and an email address must never be invented, so without this claim
 a learner whose webhook has not yet landed gets a 401 explaining
 exactly that. See "First-request provisioning" below.
 
-**3. Pages secrets** (Workers & Pages → aipc → Settings → Variables
+**3. Pages secrets** (Workers & Pages → wec-lc → Settings → Variables
 and Secrets, encrypted):
 
 | Name | Value |
@@ -249,7 +249,7 @@ quietly replaced.
 Browser (now carries js/portal-auth.js on Student Portal pages — see
 above)
   → gets a session JWT from Clerk
-  → sends it as `Authorization: Bearer <jwt>` to any AIPC API endpoint
+  → sends it as `Authorization: Bearer <jwt>` to any WEC-LC API endpoint
 
 functions/api/.../whatever.js
   → requireUser(request, env)

@@ -1,4 +1,4 @@
-/* AIPC — Listening Lab
+/* WEC-LC — Listening Lab
    The audio learning environment's behaviour. Real working software:
    playback, transcript synchronisation, A-B repeat, speed control,
    bookmarks, notes, voice recording via MediaRecorder, comprehension
@@ -45,7 +45,7 @@
   // localStorage rather than the server because a half-written note is
   // the learner's private working material, not submitted work. It also
   // means the lab keeps functioning with no network at all.
-  function key(suffix) { return 'aipc.lab.' + (state.item ? state.item.id : 'unknown') + '.' + suffix; }
+  function key(suffix) { return 'wec.lab.' + (state.item ? state.item.id : 'unknown') + '.' + suffix; }
   function load(suffix, fallback) {
     try { var v = localStorage.getItem(key(suffix)); return v === null ? fallback : JSON.parse(v); }
     catch (e) { return fallback; }
@@ -68,7 +68,7 @@
   // catch in boot(), which turns it into "Sign in to open the
   // Listening Lab" rather than a broken page.
   function api(path, opts) {
-    return window.AIPC_apiAuth.headers().then(function (headers) {
+    return window.WEC_LC_apiAuth.headers().then(function (headers) {
       return fetch(path, Object.assign({}, opts || {}, { headers: headers }));
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (body) {
@@ -611,7 +611,7 @@
           chain = chain.then(function () {
             if (already[part]) return null;
             var slice = blob.slice((part - 1) * partSize, part * partSize);
-            return window.AIPC_apiAuth.headers({ 'Content-Type': 'application/octet-stream' })
+            return window.WEC_LC_apiAuth.headers({ 'Content-Type': 'application/octet-stream' })
               .then(function (headers) {
                 return fetch('/api/lms/recording/part?id=' + encodeURIComponent(recordingId) + '&part=' + part, {
                   method: 'PUT', headers: headers, body: slice,
@@ -828,7 +828,7 @@
     // moment a learner opens a module, and every session that happens
     // before it is instrumented is one the measurement can never
     // recover.
-    if (window.AIPC_timeOnTask) window.AIPC_timeOnTask.start(unitId);
+    if (window.WEC_LC_timeOnTask) window.WEC_LC_timeOnTask.start(unitId);
 
     api('/api/lms/unit?id=' + encodeURIComponent(unitId)).then(function (unit) {
       var item = itemId
@@ -933,11 +933,11 @@
   // guard does nothing and the page boots straight away.
   function start() {
     wireOffline();
-    var guarded = window.AIPC_guardPortal({
+    var guarded = window.WEC_LC_guardPortal({
       signOutRedirect: '/student-portal/',
       shellSelector: '.lab-body',
       onAuthenticated: function (clerk, done) {
-        window.AIPC_apiAuth.attach(clerk);
+        window.WEC_LC_apiAuth.attach(clerk);
         done();
         boot();
       },

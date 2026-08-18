@@ -1,4 +1,4 @@
-# AIPC — Level IV, Module 9: Academic Writing II
+# WEC-LC — Level IV, Module 9: Academic Writing II
 
 *Part of `docs/curriculum-level-4-upper-intermediate.md`'s Level IV build-out.*
 

@@ -129,7 +129,7 @@ const qa = (q, a) => `      <div class="accordion__item">
 
 const beforeYouPay = `<div class="callout">
       <span class="callout__label">Before you pay, four things you are entitled to know</span>
-      <p>AIPC holds no accreditation. No External Examiner has been appointed, so no award has
+      <p>WEC-LC holds no accreditation. No External Examiner has been appointed, so no award has
         been conferred on anyone. No cohort has yet been taught. And no refund policy has been
         adopted &mdash; see <a href="/admissions/tuition/#refunds">Refunds</a>, which says so
         plainly rather than leaving you to discover it. The full institutional position is at
@@ -143,7 +143,7 @@ const PAGES = {};
 PAGES.pillar = {
   slug: 'admissions', output: 'admissions/index.html', file: 'admissions.html',
   contents: true,
-  title: 'Admissions &mdash; Albalagh International Premium College',
+  title: 'Admissions &mdash; Worldwide English College',
   // Under 160 characters — see the note in scripts/build-teaching.js.
   description: 'The whole admissions decision in one place: whether you qualify, how to apply, '
     + 'when you can start, and what applies to international applicants.',
@@ -158,7 +158,7 @@ PAGES.pillar = {
 <section class="section--light section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">Who AIPC Is For</span>
+      <span class="module-marker">Who WEC-LC Is For</span>
       <h2>Designed for ambitious learners, at every stage.</h2>
     </div>
     <div class="tag-row">
@@ -240,7 +240,7 @@ PAGES.pillar = {
     <form class="form-grid" data-admissions-form
       data-endpoint="/api/admissions/apply"
       data-fallback-email="info@worldwencollege.co.uk"
-      data-storage-key="aipc-admissions-draft"
+      data-storage-key="wec-lc-admissions-draft"
       data-loading-text="Submitting…"
       data-error-text="Please fix the highlighted fields below."
       data-success-text="Application received — we'll be in touch soon."
@@ -352,7 +352,7 @@ PAGES.pillar = {
     <div class="section-head">
       <span class="module-marker">Timing</span>
       <h2>How long each stage takes, honestly stated.</h2>
-      <p class="lede">AIPC has processed no applications at volume, so these are commitments
+      <p class="lede">WEC-LC has processed no applications at volume, so these are commitments
         rather than measured averages, and they are described that way.</p>
     </div>
     <div class="grid grid--3">
@@ -443,7 +443,7 @@ ${darkCard('Email', 'An address you read', 'Placement, offer and enrolment all m
     </div>
     <div class="callout">
       <span class="callout__label">Stated rather than answered</span>
-      <p>AIPC has published a target audience that includes school pupils. It has not yet
+      <p>WEC-LC has published a target audience that includes school pupils. It has not yet
         adopted a safeguarding policy or appointed a named Safeguarding Lead, and both are
         prerequisites for teaching anyone under 18 responsibly. Until they exist, an application
         from someone under 18 is handled individually by the founding team in correspondence
@@ -519,7 +519,7 @@ ${darkCard('1,200', 'Across all six levels', 'The sum of the six. How long that 
     </div>
     <div class="grid grid--3">
 ${card('Is', 'An administrative address', 'London identifies where the College is administered and managed from. The registered address is being finalised and will be published here when it is settled &mdash; not before.')}
-${card('Is not', 'A teaching campus', 'There are no classrooms, no lecture theatres and no student accommodation. Nobody attends AIPC in London or anywhere else, and no student has ever been asked to.')}
+${card('Is not', 'A teaching campus', 'There are no classrooms, no lecture theatres and no student accommodation. Nobody attends WEC-LC in London or anywhere else, and no student has ever been asked to.')}
 ${card('Therefore', 'No relocation, no visa', 'You study from where you live. See <a href="/admissions/#visas">Visas and study permits</a>, which exists to say clearly that the College issues no immigration documents.')}
     </div>
   </div>
@@ -564,7 +564,7 @@ ${darkCard('The website', 'Available in Arabic', 'The public site is published i
       <h2>Stated without qualification.</h2>
     </div>
     <div class="callout">
-      <span class="callout__label">What AIPC does not do</span>
+      <span class="callout__label">What WEC-LC does not do</span>
       <p>The College is not a licensed student sponsor. It issues no Confirmation of Acceptance
         for Studies, no visa letter, no immigration attestation and no document that any
         immigration authority accepts as the basis of a study visa. It does not offer, and will
@@ -583,10 +583,10 @@ ${card('Exception', 'There is none', 'Not for any level, any fee arrangement, an
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">A Warning Worth Printing</span>
-      <h2>If someone offers you a AIPC visa, they are defrauding you.</h2>
+      <h2>If someone offers you a WEC-LC visa, they are defrauding you.</h2>
     </div>
     <div class="grid grid--2">
-${card('No agent has this authority', 'Because the College does not have it', 'AIPC cannot delegate a power it does not hold. Any person or agency offering a AIPC study visa, admission letter for immigration purposes, or &ldquo;guaranteed&rdquo; entry to the United Kingdom through this College is making an offer the College could not fulfil itself.')}
+${card('No agent has this authority', 'Because the College does not have it', 'WEC-LC cannot delegate a power it does not hold. Any person or agency offering a WEC-LC study visa, admission letter for immigration purposes, or &ldquo;guaranteed&rdquo; entry to the United Kingdom through this College is making an offer the College could not fulfil itself.')}
 ${card('What to do', 'Write to us and tell us', `Send it to <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a>. Publishing this warning is worth little if reports of it go nowhere, and a College that hears about a fraud in its name and stays quiet is participating in it.`)}
     </div>
   </div>
@@ -621,14 +621,14 @@ ${darkCard('Cannot', 'Substitute for a recognised qualification', 'No External E
 
 PAGES.faq = {
   slug: 'faq', output: 'faq/index.html', file: 'faq.html',
-  title: 'FAQ &mdash; Albalagh International Premium College',
+  title: 'FAQ &mdash; Worldwide English College',
   description: 'Frequently asked questions about the IEFC, admissions, fees, and studying with '
-    + 'AIPC — including the questions applicants actually ask during admissions.',
+    + 'WEC-LC — including the questions applicants actually ask during admissions.',
   body: `<section class="section--dark section-pad">
   <div class="container">
     <span class="eyebrow">FAQ</span>
     <h1>Frequently Asked Questions</h1>
-    <p class="lede">Everything you need to know about the IEFC programme, admissions, and studying with AIPC.</p>
+    <p class="lede">Everything you need to know about the IEFC programme, admissions, and studying with WEC-LC.</p>
   </div>
 </section>
 
@@ -638,12 +638,12 @@ PAGES.faq = {
 
       <div class="accordion__item">
         <button class="accordion__q"><span>What is the International English Fluency Course (IEFC)?</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">The IEFC is AIPC's English programme &mdash; its only one &mdash; structured as six CEFR-aligned levels (A1 through C2), each carrying 10 modules, 20 AIPC Credits and a Total Qualification Time of 200 hours. The full programme is 120 AIPC Credits and 1,200 hours. Total qualification time is a design figure, not a measurement — it is the workload the curriculum was built to, and how many months it takes depends on the hours you can give it each week.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">The IEFC is WEC-LC's English programme &mdash; its only one &mdash; structured as six CEFR-aligned levels (A1 through C2), each carrying 10 modules, 20 WEC Credits and a Total Qualification Time of 200 hours. The full programme is 120 WEC Credits and 1,200 hours. Total qualification time is a design figure, not a measurement — it is the workload the curriculum was built to, and how many months it takes depends on the hours you can give it each week.</div></div>
       </div>
 
       <div class="accordion__item">
         <button class="accordion__q"><span>Is the entire programme delivered online?</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">Yes, entirely. AIPC delivers the IEFC through a digital campus — staged lessons, the Listening Lab, assignments marked by a person, and your own academic record — so students anywhere in the world can enrol without relocating. Live classes are designed and have not yet run, because no cohort has been taught, and the recorded audio for the listening work has not been produced. Both are stated rather than implied.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">Yes, entirely. WEC-LC delivers the IEFC through a digital campus — staged lessons, the Listening Lab, assignments marked by a person, and your own academic record — so students anywhere in the world can enrol without relocating. Live classes are designed and have not yet run, because no cohort has been taught, and the recorded audio for the listening work has not been produced. Both are stated rather than implied.</div></div>
       </div>
 
       <div class="accordion__item">
@@ -672,7 +672,7 @@ PAGES.faq = {
       </div>
 
       <div class="accordion__item">
-        <button class="accordion__q"><span>Is AIPC formally accredited?</span><span class="plus" aria-hidden="true">+</span></button>
+        <button class="accordion__q"><span>Is WEC-LC formally accredited?</span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">No. The College holds no accreditation and no external quality-assurance affiliation today. The <a href="/about/#status">Institutional Status</a> page states what exists and what does not, and it will say something different only when something is genuinely different.</div></div>
       </div>
 
@@ -706,7 +706,7 @@ PAGES.faq = {
 ${qa('Do I need a qualification to apply?', 'No. There is no academic entry requirement of any kind. Level I begins at A1 and assumes no usable English. See <a href="/admissions/#requirements">Entry requirements</a>.')}
 ${qa('Do I have to start at Level I?', 'No. A placement assessment after you apply confirms which of the six levels you enter. The self-assessment on the Admissions page is your own estimate and binds nobody.')}
 ${qa('Is there an application fee?', 'No. Applying costs nothing and requires no documents.')}
-${qa('How long until I hear back?', 'The College commits to making contact about placement within three working days. That is a commitment rather than a measured average &mdash; AIPC has not processed applications at volume, and saying otherwise would be inventing a statistic.')}
+${qa('How long until I hear back?', 'The College commits to making contact about placement within three working days. That is a commitment rather than a measured average &mdash; WEC-LC has not processed applications at volume, and saying otherwise would be inventing a statistic.')}
 ${qa('Can I apply if I am under 18?', 'Write to Admissions rather than using the form. The College has not adopted a safeguarding policy or appointed a Safeguarding Lead, and until it has, applications from under-18s are handled individually with a parent or guardian rather than processed as routine.')}
     </div>
   </div>
@@ -751,7 +751,7 @@ ${qa('Will I get a certificate?', 'A transcript is issued after each level. The 
       <h2>The questions with uncomfortable answers.</h2>
     </div>
     <div class="accordion">
-${qa('Is AIPC accredited?', 'No. The College holds no accreditation and no external quality-assurance affiliation. It is stated on every page where it is relevant rather than once in a footnote, and it will be stated differently only when it is genuinely different.')}
+${qa('Is WEC-LC accredited?', 'No. The College holds no accreditation and no external quality-assurance affiliation. It is stated on every page where it is relevant rather than once in a footnote, and it will be stated differently only when it is genuinely different.')}
 ${qa('How many students have graduated?', 'None. No cohort has been taught and no award has been conferred. The College publishes no student numbers, completion rates or graduate outcomes because it has none to publish.')}
 ${qa('Can the IEFC certificate get me into a university or through immigration?', 'No, and you should not plan on it. What is currently recognised for those purposes is IELTS, TOEFL or Cambridge &mdash; all of which the upper levels prepare for directly. The College would rather tell you that than take your money on a misunderstanding.')}
 ${qa('Then what am I paying for?', 'A complete, inspectable programme: six levels, sixty modules, every lesson planned stage by stage, every assessment written with published criteria, and a published set of volumes covering the curriculum, the assessment scheme and the teaching. All of it can be examined before you pay a penny, which is more than most language providers offer.')}
@@ -776,12 +776,12 @@ ${qa('Then what am I paying for?', 'A complete, inspectable programme: six level
     {
       "@type": "Question",
       "name": "What is the International English Fluency Course (IEFC)?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The IEFC is AIPC's English programme — its only one — structured as six CEFR-aligned levels (A1 through C2), each carrying 10 modules, 20 AIPC Credits and a Total Qualification Time of 200 hours. The full programme is 120 AIPC Credits and 1,200 hours. Total qualification time is a design figure, not a measurement — it is the workload the curriculum was built to, and how many months it takes depends on the hours you can give it each week." }
+      "acceptedAnswer": { "@type": "Answer", "text": "The IEFC is WEC-LC's English programme — its only one — structured as six CEFR-aligned levels (A1 through C2), each carrying 10 modules, 20 WEC Credits and a Total Qualification Time of 200 hours. The full programme is 120 WEC Credits and 1,200 hours. Total qualification time is a design figure, not a measurement — it is the workload the curriculum was built to, and how many months it takes depends on the hours you can give it each week." }
     },
     {
       "@type": "Question",
       "name": "Is the entire programme delivered online?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes, entirely. AIPC delivers the IEFC through a digital campus — staged lessons, the Listening Lab, assignments marked by a person, and your own academic record — so students anywhere in the world can enrol without relocating. Live classes are designed and have not yet run, because no cohort has been taught, and the recorded audio for the listening work has not been produced. Both are stated rather than implied." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, entirely. WEC-LC delivers the IEFC through a digital campus — staged lessons, the Listening Lab, assignments marked by a person, and your own academic record — so students anywhere in the world can enrol without relocating. Live classes are designed and have not yet run, because no cohort has been taught, and the recorded audio for the listening work has not been produced. Both are stated rather than implied." }
     },
     {
       "@type": "Question",
@@ -810,7 +810,7 @@ ${qa('Then what am I paying for?', 'A complete, inspectable programme: six level
     },
     {
       "@type": "Question",
-      "name": "Is AIPC formally accredited?",
+      "name": "Is WEC-LC formally accredited?",
       "acceptedAnswer": { "@type": "Answer", "text": "No. The College holds no accreditation and no external quality-assurance affiliation today. The Institutional Status page states what exists and what does not, and it will say something different only when something is genuinely different." }
     },
     {
@@ -828,7 +828,7 @@ PAGES.tuition = {
   slug: 'admissions-tuition', output: 'admissions/tuition/index.html', file: 'admissions-tuition.html',
   contents: true,
   altHref: '/ar/admissions/tuition/',
-  title: 'Tuition, Fees &amp; Funding &mdash; Albalagh International Premium College',
+  title: 'Tuition, Fees &amp; Funding &mdash; Worldwide English College',
   description: 'IEFC tuition and per-level pricing, how paying actually works — currency, '
     + 'methods, refunds — and the scholarships and funding routes that exist today.',
   body: `<section class="section--dark section-pad">
@@ -839,8 +839,8 @@ PAGES.tuition = {
     <div class="stat-row" style="margin-top:40px">
       <div class="stat-row__item"><strong>$19,000</strong><span>Full Programme</span></div>
       <div class="stat-row__item"><strong>$3,166.67</strong><span>Per Level</span></div>
-      <div class="stat-row__item"><strong>20</strong><span>AIPC Credits Per Level</span></div>
-      <div class="stat-row__item"><strong>120</strong><span>AIPC Credits Total</span></div>
+      <div class="stat-row__item"><strong>20</strong><span>WEC Credits Per Level</span></div>
+      <div class="stat-row__item"><strong>120</strong><span>WEC Credits Total</span></div>
     </div>
   </div>
 </section>
@@ -868,7 +868,7 @@ PAGES.tuition = {
     <p class="form-note">Total qualification time is a design figure, not a measurement: it is the
       workload the curriculum was built to, and it has not been measured against real learners
       because there have not been any. How many months a level takes depends on the hours you can
-      give it each week. The AIPC Credit is an internal measure and is not an ECTS or CATS credit.</p>
+      give it each week. The WEC Credit is an internal measure and is not an ECTS or CATS credit.</p>
   </div>
 </section>
 
@@ -914,7 +914,7 @@ PAGES.tuition = {
           <tr><td><strong>USD &mdash; US dollar</strong></td><td>Settled</td>
               <td>Every fee is set and charged in dollars. ${FULL_PRICE} means ${FULL_PRICE}.</td></tr>
 ${inactiveCurrencies.map((c) => `          <tr><td><strong>${esc(c.code)} &mdash; ${esc(currencyName(c.code))}</strong></td><td>Recognised, not settled</td>
-              <td>Your bank or card issuer converts at its own rate on the day. AIPC does not publish a ${esc(c.code)} price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>`).join('\n')}
+              <td>Your bank or card issuer converts at its own rate on the day. WEC-LC does not publish a ${esc(c.code)} price, because publishing one without a fixed rate behind it would be publishing a number that changes without notice.</td></tr>`).join('\n')}
         </tbody>
       </table>
     </div>
@@ -1063,8 +1063,8 @@ ${darkCard('Not built', 'Organisational invoicing and seats', 'A corporate accou
 
 PAGES.policy = {
   slug: 'admissions-policy', output: 'admissions/policy/index.html', file: 'admissions-policy.html',
-  title: 'Admissions Policy &mdash; Albalagh International Premium College',
-  description: 'The rules AIPC applies to admissions decisions, the data it collects from '
+  title: 'Admissions Policy &mdash; Worldwide English College',
+  description: 'The rules WEC-LC applies to admissions decisions, the data it collects from '
     + 'applicants, and the policies that have not yet been adopted.',
   body: `${hero('Admissions', 'Admissions policy.',
     'The rules the College applies when deciding an application, written so that a decision can '

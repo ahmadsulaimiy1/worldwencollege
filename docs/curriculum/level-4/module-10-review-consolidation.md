@@ -1,4 +1,4 @@
-# AIPC — Level IV, Module 10: Review & Consolidation
+# WEC-LC — Level IV, Module 10: Review & Consolidation
 
 *Part of `docs/curriculum-level-4-upper-intermediate.md`'s Level IV build-out.
 Per `docs/curriculum-framework.md`'s assessment strategy, this module
@@ -9,7 +9,7 @@ not introduce new grammar or vocabulary.*
 can: demonstrate cumulative command of every grammar point and
 functional-language set from Modules 1-9; deploy the level's full
 cohesion toolkit and eight writing genres with genuine fluency;
-complete AIPC's Upper Intermediate-level (B2) end-of-level
+complete WEC-LC's Upper Intermediate-level (B2) end-of-level
 examination across grammar/vocabulary, listening, reading, writing,
 and speaking, including a full rubric-graded essay and a rubric-graded
 formal presentation with live/recorded Q&A; identify their own

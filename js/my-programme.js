@@ -1,4 +1,4 @@
-/* AIPC — My Programme.
+/* WEC-LC — My Programme.
 
    The page that did not exist. The Listening Lab opens at
    /listening-lab.html?unit=<id> and, without that parameter, says "No
@@ -250,11 +250,11 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     offline();
-    var guarded = window.AIPC_guardPortal({
+    var guarded = window.WEC_LC_guardPortal({
       signOutRedirect: '/',
       shellSelector: '.lab-body',
       onAuthenticated: function (clerk, done) {
-        window.AIPC_apiAuth.attach(clerk);
+        window.WEC_LC_apiAuth.attach(clerk);
         done();
         load();
       },

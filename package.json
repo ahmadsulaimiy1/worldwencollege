@@ -1,7 +1,7 @@
 {
-  "name": "aipc",
+  "name": "wec-lc",
   "private": true,
-  "description": "Albalagh International Premium College, London Campus — public site (static, no framework) + backend (Cloudflare Pages Functions, no npm runtime dependencies).",
+  "description": "WorldWide English College, London Campus — public site (static, no framework) + backend (Cloudflare Pages Functions, no npm runtime dependencies).",
   "comment_on_modules": "No root-level \"type\" field, deliberately: scripts/build.js (the existing static-site generator) is CommonJS, while functions/**/*.js (Pages Functions) use ES module import/export. Node 22's built-in CJS/ESM syntax auto-detection handles both correctly from one tree without a type field — verified by running both. Do not add \"type\": \"module\" here without also converting scripts/build.js, or it breaks the static build.",
   "comment_on_engines": "scripts/build.js alone would run on much older Node, but `npm test` needs 22+ for node:sqlite (see tests/README.md) — the honest minimum for full local development, not just the static build.",
   "scripts": {
@@ -10,9 +10,9 @@
     "arabic": "node scripts/build-arabic.js && node scripts/build-arabic-levels.js && node scripts/build.js",
     "test": "node --experimental-sqlite tests/run.mjs",
     "dev": "wrangler pages dev . --d1=DB",
-    "db:create": "wrangler d1 create aipc",
-    "db:schema": "wrangler d1 execute aipc --remote --file=sql/schema.sql",
-    "db:schema:local": "wrangler d1 execute aipc --local --file=sql/schema.sql",
+    "db:create": "wrangler d1 create wec-lc",
+    "db:schema": "wrangler d1 execute wec-lc --remote --file=sql/schema.sql",
+    "db:schema:local": "wrangler d1 execute wec-lc --local --file=sql/schema.sql",
     "deploy": "wrangler pages deploy .",
     "publication": "node --experimental-sqlite scripts/publication/render-docx.mjs && node --experimental-sqlite scripts/publication/render-pdf.mjs",
     "curriculum": "node --experimental-sqlite scripts/publication/render-flagship.mjs && node --experimental-sqlite scripts/publication/render-curriculum-docx.mjs && node --experimental-sqlite scripts/publication/render-specs.mjs && node --experimental-sqlite scripts/publication/render-bible.mjs",

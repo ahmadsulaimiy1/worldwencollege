@@ -1,4 +1,4 @@
-# AIPC — Technical Architecture
+# WEC-LC — Technical Architecture
 
 *Companion to `master-roadmap.md` Phase 11 and the Stage C entry in its
 Recommended Sequencing table. Written the same session Stage C began —
@@ -42,7 +42,7 @@ Why this fits without over-committing:
 ### Setup sequence (not yet run — needs Decision #1 + #7)
 
 ```
-wrangler d1 create aipc                                  # get a real database_id
+wrangler d1 create wec-lc                                  # get a real database_id
 # paste that id into wrangler.toml's database_id field
 npm run db:schema                                          # applies sql/schema.sql
 wrangler pages secret put STRIPE_SECRET_KEY                # repeat per .env.example
@@ -170,7 +170,7 @@ gateway touches one line in `router.js`'s `GATEWAYS` map.
 
 ## What this document is not
 
-It is not a claim that AIPC has a working payment system. It's a
+It is not a claim that WEC-LC has a working payment system. It's a
 claim that the *shape* of the payment system — where currency
 conversion happens, how a gateway's webhook maps back to our own
 record, what happens when two webhooks for the same event arrive — has

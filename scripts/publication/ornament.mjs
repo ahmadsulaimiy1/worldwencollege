@@ -254,7 +254,7 @@ export function girihField({ w = 600, h = 840, cell = 84, stroke = '#FFFFFF', op
  * which is × 0.75 in points. Solving for 5.5 pt gives the two floors
  * below.
  */
-export const AIPC_MIN = Math.ceil((5.5 / 0.75) * (120 / 15));      // ≈ 59 px
+export const WEC_MIN = Math.ceil((5.5 / 0.75) * (120 / 15));      // ≈ 59 px
 export const LONDON_MIN = Math.ceil((5.5 / 0.75) * (120 / 6.4));  // ≈ 138 px
 
 export function crest({ size = 120, gold = '#B4933E', ink = '#0F1D38', mono = false } = {}) {
@@ -277,7 +277,7 @@ export function crest({ size = 120, gold = '#B4933E', ink = '#0F1D38', mono = fa
   // units the path coordinates already use.
   const s = (v) => v;
   return `<svg viewBox="0 0 120 140" width="${size}" height="${n(size * 140 / 120)}"
-    role="img" aria-label="Albalagh International Premium College crest"
+    role="img" aria-label="Worldwide English College crest"
     xmlns="http://www.w3.org/2000/svg">
     <path d="M8 6 H112 V78 C112 104 92 122 60 134 C28 122 8 104 8 78 Z"
       fill="${mono ? 'none' : ink}" stroke="${g}" stroke-width="${s(2)}"/>
@@ -292,9 +292,9 @@ export function crest({ size = 120, gold = '#B4933E', ink = '#0F1D38', mono = fa
     ${Array.from({ length: 6 }, (_, i) =>
     `<rect x="${n(34 + i * 9)}" y="${n(46 - i * 3)}" width="${s(5)}" height="${n(3 + i * 3)}"
        fill="${g}" opacity="${n(0.45 + i * 0.11)}"/>`).join('')}
-    ${size >= AIPC_MIN ? `<text x="60" y="103" text-anchor="middle" fill="${g}"
+    ${size >= WEC_MIN ? `<text x="60" y="103" text-anchor="middle" fill="${g}"
       font-family="Georgia, 'Times New Roman', serif" font-size="${s(15)}"
-      letter-spacing="${s(2)}" font-weight="700">AIPC</text>` : ''}
+      letter-spacing="${s(2)}" font-weight="700">WEC</text>` : ''}
     ${size >= LONDON_MIN ? `<text x="60" y="115" text-anchor="middle" fill="${g}" opacity="0.8"
       font-family="Calibri, Arial, sans-serif" font-size="${s(6.4)}"
       letter-spacing="${s(2.4)}">LONDON</text>` : ''}

@@ -30,7 +30,7 @@ db.prepare(`INSERT INTO payments (id, user_id, kind, level_id, amount_cents, cur
 // current level still processing.
 db.prepare(`INSERT INTO payments (id, user_id, kind, level_id, amount_cents, currency, amount_usd_cents, provider, status, created_at, confirmed_at)
   VALUES ('pay_a1', 'usr_a', 'single_level', 1, 316667, 'USD', 316667, 'stripe', 'succeeded', '2026-01-01T00:00:00.000Z', '2026-01-01T00:05:00.000Z')`).run();
-db.prepare(`INSERT INTO receipts (id, payment_id, receipt_number) VALUES ('rcpt_a1', 'pay_a1', 'AIPC-R-000001')`).run();
+db.prepare(`INSERT INTO receipts (id, payment_id, receipt_number) VALUES ('rcpt_a1', 'pay_a1', 'WEC-R-000001')`).run();
 db.prepare(`INSERT INTO payments (id, user_id, kind, level_id, amount_cents, currency, amount_usd_cents, provider, status, created_at)
   VALUES ('pay_a2', 'usr_a', 'single_level', 3, 316667, 'USD', 316667, 'paystack', 'processing', '2026-07-15T00:00:00.000Z')`).run();
 
@@ -40,7 +40,7 @@ check('student A: 3 enrolments returned', dashA.enrolments.length === 3);
 check('student A: activeLevelId = 3', dashA.activeLevelId === 3);
 check('student A: completedLevelIds = [1, 2]', JSON.stringify(dashA.completedLevelIds) === JSON.stringify([1, 2]));
 check('student A: 2 payments, most recent first', dashA.payments.length === 2 && dashA.payments[0].id === 'pay_a2');
-check('student A: succeeded payment carries its receipt number', dashA.payments.find(p => p.id === 'pay_a1').receiptNumber === 'AIPC-R-000001');
+check('student A: succeeded payment carries its receipt number', dashA.payments.find(p => p.id === 'pay_a1').receiptNumber === 'WEC-R-000001');
 check('student A: processing payment has no receipt yet', dashA.payments.find(p => p.id === 'pay_a2').receiptNumber == null);
 check('student A: levelName/roman/cefr resolved via join', dashA.enrolments[2].roman === 'III' && dashA.enrolments[2].cefr === 'B1');
 

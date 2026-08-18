@@ -15,7 +15,7 @@
   bearing the motto. `currentColor` is not used here — the crest is the
   one mark on the site that keeps its own metal regardless of context.
 -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 400" width="320" height="400" role="img" aria-label="Crest of Albalagh International Premium College, London Campus">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 400" width="320" height="400" role="img" aria-label="Crest of WorldWide English College, London Campus">
   <defs>
     <linearGradient id="c-metal" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0"   stop-color="#A8863C"/>

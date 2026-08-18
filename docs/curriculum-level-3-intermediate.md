@@ -1,4 +1,4 @@
-# AIPC — Level III: Intermediate Programme (B1) — Full Curriculum
+# WEC-LC — Level III: Intermediate Programme (B1) — Full Curriculum
 
 *Companion to `docs/curriculum-framework.md` (see its Level III
 section for the module map, grammar/vocabulary progression, and the
