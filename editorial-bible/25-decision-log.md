@@ -595,6 +595,43 @@ $0-exposure provider into a five-figure one.
 **Confidence High** on the record. The risk is the Founder's, is
 quantified rather than gestured at, and is accepted in terms.
 
+### `SEB-D 33` — The operator file was a snapshot, and a comment said otherwise
+
+**Found 2026-08-18**, while grounding `SEB §28.4` Q10.
+
+`SEB §9.2` names three permitted homes for a credential and requires
+every one of them to be "rotatable without a code change and without
+downtime". The operator file was read **once**, at startup, and handed to
+the resolver as a plain object. Editing it did nothing until a restart,
+and a file `chmod`-ed to 0644 *after* startup was never noticed at all —
+because the mode was checked exactly once, on a file that no longer
+existed in the form it was checked in.
+
+**Worse: the comment introduced with the previous fix (`SEB-D 31`) said
+the file WAS re-read per call.** It was written in the same change that
+correctly fixed the environment path, and it was simply wrong about the
+file. A wrong comment on a security control is worse than no comment: the
+next person to audit rotation reads it, believes it, and stops looking.
+
+**Ruled.** The file is a live source on the same 60s TTL as the command
+resolver, its mode is re-checked on every reload, and a transient read
+failure keeps the last good values rather than taking the server down —
+an editor saving atomically briefly makes the file absent.
+
+**And a truth the fix surfaced rather than created:** of the three homes,
+the **process environment is the least rotatable**, not the most. A
+process cannot have its environment changed from outside after it is
+spawned, so an env-borne credential is rotatable only by restarting the
+server. `SEB §9.2` ranks it second on other grounds; on rotation alone it
+is last, and Volume 9 should say so.
+
+**Also added:** a startup warning when a secret command is configured
+*and* a credential is also present in the environment. The environment
+wins, so the secret manager is never consulted for that name — rotating
+it there has no effect, silently and forever. Same shape as `SEB-D 31`.
+
+**Confidence High.**
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
