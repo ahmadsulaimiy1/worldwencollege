@@ -1416,6 +1416,18 @@ section { position: relative; }
 @media (max-width: 900px) { .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 620px) { .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; } }
 
+/* AN ODD LAST CARD CLOSES THE ROW RATHER THAN SITTING BESIDE A VOID.
+   Five councils and seven subcommittees are both odd numbers, and in a
+   two-column grid an odd number ends with one card alone against an
+   empty half — on the dark Councils ground that empty half is the
+   largest single area in the section, and the eye reads it as a card
+   that failed to render rather than as a grid that ran out.
+   `.grid--close` lets the last card take the full measure and finish
+   the block. It is opt-in: a grid of tiles where every cell must stay
+   the same size does not want this. */
+.grid--close > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+@media (max-width: 620px) { .grid--close > :last-child:nth-child(odd) { grid-column: auto; } }
+
 /* A CARD IN A GRID STRETCHES TO ITS TALLEST SIBLING, and with the
    content top-aligned that left up to 39px of measured void at the
    foot of every short card — the "blank space" that made the
@@ -2197,6 +2209,37 @@ ul.check-list li::before {
 }
 [dir="rtl"] ul.check-list li::before { left: auto; right: 0; }
 .section--light ul.check-list li::before, .section--paper ul.check-list li::before { color: var(--red); }
+
+/* TWO MARKERS ON ONE LINE IS A RENDERING FAULT, AND THIS RULE ENDS IT.
+   `.check-list` draws its tick in CSS. Several lists also carry an
+   inline `<svg class="icon">` per item — because the mark has to be
+   chosen per item, `#i-struck` for settled and `#i-ring` for
+   outstanding (CLAUDE.md §5) — and where both met, the item rendered a
+   crimson ✓ AND a mark beside it. It was live on the tuition ladder in
+   three places and on the External Examiner's remit, and it is
+   invisible in the source: each half is correct on its own.
+   An item that brings its own mark does not get a second one. */
+ul.check-list li:has(> svg.icon)::before { content: none; }
+/* And the mark keeps the hanging indent the ::before tick had: a
+   two-line item whose second line returns to the margin reads as two
+   items, and half the tuition guarantees run to two lines. */
+ul.check-list li:has(> svg.icon) {
+  padding-inline-start: 0; display: flex; gap: .55em; align-items: baseline;
+}
+ul.check-list li > svg.icon { width: 1em; height: 1em; flex: 0 0 auto;
+  position: relative; top: .09em; color: var(--gold); }
+.section--light ul.check-list li > svg.icon,
+.section--paper ul.check-list li > svg.icon { color: var(--bronze); }
+
+/* AND A LIST OF WHAT IS NOT DONE YET DOES NOT WEAR TICKS AT ALL.
+   `.check-list` was carrying the outstanding half of the About page's
+   two-column state of the College — "In progress, to be published here
+   as confirmed" — under a column of ticks, which is the same defect
+   §5 names, committed in a stylesheet rather than in markup. The open
+   ring is the site's mark for outstanding work everywhere else. */
+ul.check-list--open li::before { content: '○'; font-weight: 400; color: rgba(231, 201, 122, .62); }
+.section--light ul.check-list--open li::before,
+.section--paper ul.check-list--open li::before { color: var(--ink-soft); }
 
 .tag-row { display: flex; flex-wrap: wrap; gap: 10px; }
 .tag { border: 1px solid var(--line); border-radius: 999px; padding: .5em 1.1em; font-size: .82rem; font-weight: 600; }

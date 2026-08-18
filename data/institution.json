@@ -36,6 +36,7 @@
 
   "commission": {
     "code": "IQC",
+    "icon": "i-scales",
     "en": {
       "name": "Institutional Quality Commission",
       "short": "the Commission",
@@ -55,6 +56,7 @@
   "subcommittees": [
     {
       "code": "IQC-CURRICULUM",
+      "icon": "i-layers",
       "en": {
         "name": "Curriculum Standards Committee",
         "remit": "Holds the curriculum against its own published structure: that every module states its prerequisites, that every lesson carries an outcome, and that the sequence of a level is an argument rather than an ordering."
@@ -66,6 +68,7 @@
     },
     {
       "code": "IQC-ASSESSMENT",
+      "icon": "i-countermark",
       "en": {
         "name": "Assessment Integrity Committee",
         "remit": "Owns the distance between a rubric and a mark. It reviews marking consistency, second-marking, the operation of the skill floors, and every case where a published criterion and an awarded grade could be read as disagreeing."
@@ -77,6 +80,7 @@
     },
     {
       "code": "IQC-EXPERIENCE",
+      "icon": "i-compass",
       "en": {
         "name": "Student Experience Committee",
         "remit": "Reads the programme from the learner's side: what a student actually meets, in what order, with what support, and where the programme as published and the programme as met come apart."
@@ -88,6 +92,7 @@
     },
     {
       "code": "IQC-DIGITAL",
+      "icon": "i-waveform",
       "en": {
         "name": "Digital Learning Committee",
         "remit": "Owns the platform as an academic instrument rather than as software: whether the staging of a lesson teaches, whether the Listening Lab measures what it claims, and whether a learner's record is legible to the learner."
@@ -99,6 +104,7 @@
     },
     {
       "code": "IQC-TEACHING",
+      "icon": "i-laurel",
       "en": {
         "name": "Teaching Excellence Committee",
         "remit": "Runs the observation cycle and the development scheme that follows from it, and holds the Teaching Excellence Framework's measures against what teaching actually produced."
@@ -110,6 +116,7 @@
     },
     {
       "code": "IQC-PUBLICATIONS",
+      "icon": "i-nib",
       "en": {
         "name": "Academic Publications Committee",
         "remit": "The review gate in front of WEC Press. No volume is described as reviewed until a qualified reader who did not write it has read it and said so on the record."
@@ -121,6 +128,7 @@
     },
     {
       "code": "IQC-INNOVATION",
+      "icon": "i-astrolabe",
       "en": {
         "name": "Strategic Innovation Committee",
         "remit": "Decides which proposed change to the programme is worth the disruption it costs, and records the ones it declines with the reason — so a rejected idea is a decision rather than a silence."
@@ -135,6 +143,7 @@
   "bodies": [
     {
       "code": "IAC",
+      "icon": "i-globe",
       "en": {
         "name": "International Advisory Council",
         "remit": "Advises on global education trends, curriculum development, employability, technology, international partnerships, research and educational innovation. It advises; it does not approve. Nothing it says becomes policy without a decision of the Senate or the Commission, and the record names which.",
@@ -150,6 +159,7 @@
     },
     {
       "code": "EIB",
+      "icon": "i-target",
       "en": {
         "name": "Educational Innovation Board",
         "remit": "Owns AI integration, immersive learning, virtual classrooms, digital laboratories, learning analytics, adaptive assessment and future pedagogy — and owns the obligation to say which of them the College has actually built and which it has only considered.",
@@ -165,6 +175,7 @@
     },
     {
       "code": "SSO",
+      "icon": "i-portico",
       "en": {
         "name": "Student Success Office",
         "remit": "Coordinates academic advising, learning support, wellbeing, mentoring, careers guidance and alumni support. An office rather than a committee, because a student in difficulty needs a door, not a quorum.",
@@ -180,6 +191,7 @@
     },
     {
       "code": "GEC",
+      "icon": "i-mortarboard",
       "en": {
         "name": "Graduate Employability Council",
         "remit": "Reviews graduate competencies, employer expectations, workforce trends, industry partnerships, professional skills and curriculum relevance. It publishes no employment statistic until there are careers old enough to have said something.",
@@ -195,6 +207,7 @@
     },
     {
       "code": "FLL",
+      "icon": "i-hourglass",
       "en": {
         "name": "Future Learning Laboratory",
         "remit": "An institutional innovation centre for AI-assisted learning, multilingual education, digital assessment, educational technology, immersive learning, virtual reality and next-generation language pedagogy. Its output is evidence about teaching, not features.",

@@ -83,6 +83,44 @@ const num = (lang, n) => (ar(lang) ? String(n).replace(/\d/g, (d) => '٠١٢٣٤
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
 const AR_NUM = ['١', '٢', '٣', '٤', '٥', '٦', '٧'];
 
+// ── THE MARK EACH BODY WEARS ─────────────────────────────────────────
+// EVERY BODY GETS ITS OWN GLYPH, AND THE BUILD REFUSES IF TWO SHARE ONE.
+//
+// The first cut of this page put `#i-accord` on all thirteen domes,
+// because one icon reads fine while you are writing the generator and
+// nobody looks at thirteen of them at once. Rendered, it was the worst
+// thing on the page: twelve 106px medallions carrying the same generic
+// document mark, which reads as a fallback that failed rather than as a
+// choice — exactly the "generic outline icon" CLAUDE.md §1 forbids.
+//
+// So the glyph is a property of the body, declared beside its code in
+// data/institution.json, and three things are checked here rather than
+// left to be noticed on screen: that every body declares one, that no
+// two declare the same one, and that the one declared exists in the
+// sprite. A missing mark is a build failure, not a blank dome.
+const SPRITE = new Set([...readFileSync(path.join(ROOT, 'partials/icons.html'), 'utf8')
+  .matchAll(/id="(i-[\w-]+)"/g)].map((m) => m[1]));
+
+const CLAIMED = new Map();
+function glyph(b) {
+  const id = b.icon;
+  if (!id) {
+    throw new Error(`${b.code} declares no icon. Every body on this page wears its own mark; `
+      + 'add an `icon` beside its `code` in data/institution.json.');
+  }
+  if (!SPRITE.has(id)) {
+    throw new Error(`${b.code} asks for #${id}, which is not in partials/icons.html. A <use> `
+      + 'pointing at nothing renders an empty dome, and an empty dome is invisible in the source.');
+  }
+  const taken = CLAIMED.get(id);
+  if (taken && taken !== b.code) {
+    throw new Error(`${b.code} and ${taken} both wear #${id}. Thirteen medallions carrying the `
+      + 'same mark read as a rendering fault; give each body its own.');
+  }
+  CLAIMED.set(id, b.code);
+  return id;
+}
+
 const COPY = {
   en: {
     heroEyebrow: 'Governance',
@@ -185,7 +223,7 @@ function bodyCard(lang, b, dark) {
     : null;
   return `      <div class="card${dark ? ' card--dark' : ''} reveal tilt edge-lit${dark ? '' : ' edge-lit--light'} aurum">
         <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome${dark ? ' badge-dome--dark' : ''} badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#i-accord"/></svg></span>
+        <span class="badge-dome${dark ? ' badge-dome--dark' : ''} badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#${glyph(b)}"/></svg></span>
         <span class="card__num">${b.code}</span>
         <h3>${b[lang].name}</h3>
         <p>${b[lang].remit}</p>
@@ -251,7 +289,7 @@ ${bodyCard(lang, { ...D.commission, kind: 'commission' }, false)}
         <h2>${L.subLabel}</h2>
         <p class="lede">${L.subRubric}</p>
       </div>
-      <div class="grid grid--2">
+      <div class="grid grid--2 grid--close">
 ${D.subcommittees.map((s) => bodyCard(lang, { ...s, status: 'established', reports_to: 'Institutional Quality Commission' }, false)).join('\n')}
       </div>`,
   });
@@ -262,7 +300,7 @@ ${D.subcommittees.map((s) => bodyCard(lang, { ...s, status: 'established', repor
     body: `      <div class="section-head">
         <h2>${L.bodiesLabel}</h2>
       </div>
-      <div class="grid grid--2">
+      <div class="grid grid--2 grid--close">
 ${D.bodies.map((b) => bodyCard(lang, b, true)).join('\n')}
       </div>`,
   });
@@ -306,7 +344,7 @@ ${QR.reviews.map(([name, what]) => `            <tr><td><strong>${name}</strong>
       </div>
       <h3 style="font-size:1.1rem;margin-top:2.4em">${L.outputsHead}</h3>
       <ol class="dot-list">
-${QR.outputs.map((o) => `        <li><span class="num"></span><span>${o}</span></li>`).join('\n')}
+${QR.outputs.map((o, i) => `        <li><span class="num">${num(lang, i + 1)}</span><span>${o}</span></li>`).join('\n')}
       </ol>
       <p class="form-note">${QR.outputs_note}</p>
       <div class="callout">
@@ -329,7 +367,7 @@ ${QR.outputs.map((o) => `        <li><span class="num"></span><span>${o}</span><
           <span class="card__num">${num(lang, OB.areas.length)}</span>
           <h3>${L.areasHead}</h3>
           <ul class="dot-list">
-${OB.areas.map((a) => `            <li><span class="num"></span><span>${a}</span></li>`).join('\n')}
+${OB.areas.map((a, i) => `            <li><span class="num">${num(lang, i + 1)}</span><span>${a}</span></li>`).join('\n')}
           </ul>
         </div>
         <div class="card card--dark reveal tilt edge-lit aurum">
@@ -338,7 +376,7 @@ ${OB.areas.map((a) => `            <li><span class="num"></span><span>${a}</span
           <span class="card__num">${num(lang, OB.outputs.length)}</span>
           <h3>${L.obsOutputsHead}</h3>
           <ul class="dot-list">
-${OB.outputs.map((o) => `            <li><span class="num"></span><span>${o}</span></li>`).join('\n')}
+${OB.outputs.map((o, i) => `            <li><span class="num">${num(lang, i + 1)}</span><span>${o}</span></li>`).join('\n')}
           </ul>
         </div>
       </div>
