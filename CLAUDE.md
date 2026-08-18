@@ -132,8 +132,15 @@ and console errors — every time.
 ## 7 · WORKING ALONGSIDE OTHER SESSIONS
 
 Several Claude sessions work this repo at once. Before starting:
-`git fetch`, then merge the integration branch
-(`claude/worldwide-english-college-site-ezy1zo`). **Upgrade, never
+`git fetch`, then merge the integration branch. **Upgrade, never
 overwrite** — when a merge conflicts, keep both sides: their structure,
 your marks. End every push as a clean superset of the integration
 branch.
+
+**`claude/worldwide-english-college-site-ezy1zo` is no longer that
+branch.** It has been rebranded to Albalagh International Premium
+College — a separate institution and a separate project that happens to
+share this repository's history. It is **not** to be merged into
+WorldWide English College work, in whole or in part, and its rename
+(WEC-LC → AIPC) is not to be adopted here. Ruled by the owner,
+18 August 2026. Do not re-raise it.
