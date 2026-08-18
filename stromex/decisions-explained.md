@@ -14,7 +14,7 @@ if that turns out wrong.** Any of them can be changed. Say which.
 | Word | What it means |
 |---|---|
 | **Provider** | An outside company whose service the system uses. You have eight: Cloudflare, GitHub, Neon, Vercel, Clerk, Resend, Brevo, OpenAI |
-| **Credential** | A long password that lets a program act as you on one of those services. Also called a "key" or a "token" — same thing |
+| **Credential / API key / token** | **Not your login password.** A separate string that each company generates *for a program to use*. You copy it once from their website; you never type it in anywhere. Your login password proves *you* are you and opens everything; an API key does one job and can be deleted on its own without locking you out. **A program must never hold your login password** — if it did, every rule in this document could be bypassed by simply logging in to the website |
 | **Scoping a credential** | Limiting what the password can do. Like a hotel key card that opens only your room, versus a master key that opens every room |
 | **Expiry** | Some services let you stamp a date on a key, after which it stops working automatically. Others don't — those keys work forever until a human deletes them |
 | **The MCP** | The program I built. It sits between me and the eight providers, and it is the thing that actually clicks the buttons |
