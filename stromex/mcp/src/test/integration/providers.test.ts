@@ -360,6 +360,65 @@ describe('Neon adapter', () => {
 });
 
 describe('Vercel adapter', () => {
+  /*
+   * Verified against Vercel's live registrar 2026-08-18: `.co.uk` answers
+   * `available: false` with NO error, exactly as a taken `.com` does —
+   * while `.uk` answers with an explicit "not currently supported". Same
+   * cause, two different signals, and only one is legible.
+   *
+   * The estate's own primary domain is a `.co.uk`, so conflating "we do
+   * not sell this TLD" with "somebody owns it" would send the registrar
+   * hunting for a name nobody needed to replace.
+   */
+  it('separates a TLD Vercel does not carry from a name somebody owns', async () => {
+    const provider = scriptedProvider({
+      requireHeader: 'authorization',
+      routes: [
+        { method: 'GET', path: '/v1/registrar/domains/example.co.uk/availability', body: { available: false } },
+        { method: 'GET', path: '/v1/registrar/domains/example.co.uk/price', body: {} },
+      ],
+    });
+    const h = harness().withClient('vercel', new VercelClient({ token: secret('VERCEL_TOKEN', 'vercel-token-1234'), fetchImpl: provider.fetch }));
+
+    const envelope = await invokeTool(tool(vercelTools(), 'vercel.domain.check'), { domain: 'example.co.uk' }, h.context());
+
+    assert.equal(envelope.ok, true);
+    assert.match(envelope.summary!, /not carried by Vercel's registrar/);
+    assert.equal((envelope.data as { carriedByVercel: boolean }).carriedByVercel, false);
+    assert.equal((envelope.data as { available: unknown }).available, null, 'availability is UNKNOWN here, not false');
+    assert.match(envelope.warnings!.join(' '), /NOT evidence that the domain is registered/);
+  });
+
+  it('reports a carried TLD that is genuinely taken as taken', async () => {
+    const provider = scriptedProvider({
+      requireHeader: 'authorization',
+      routes: [
+        { method: 'GET', path: '/v1/registrar/domains/example.com/availability', body: { available: false } },
+        { method: 'GET', path: '/v1/registrar/domains/example.com/price', body: { price: 11.25, currency: 'USD', period: 1 } },
+      ],
+    });
+    const h = harness().withClient('vercel', new VercelClient({ token: secret('VERCEL_TOKEN', 'vercel-token-1234'), fetchImpl: provider.fetch }));
+
+    const envelope = await invokeTool(tool(vercelTools(), 'vercel.domain.check'), { domain: 'example.com' }, h.context());
+    assert.match(envelope.summary!, /registered to somebody/);
+    assert.equal((envelope.data as { carriedByVercel: boolean }).carriedByVercel, true);
+  });
+
+  it('says when a quoted price covers more than one year', async () => {
+    const provider = scriptedProvider({
+      requireHeader: 'authorization',
+      routes: [
+        { method: 'GET', path: '/v1/registrar/domains/example.com.au/availability', body: { available: true } },
+        { method: 'GET', path: '/v1/registrar/domains/example.com.au/price', body: { price: 40, currency: 'USD', period: 2 } },
+      ],
+    });
+    const h = harness().withClient('vercel', new VercelClient({ token: secret('VERCEL_TOKEN', 'vercel-token-1234'), fetchImpl: provider.fetch }));
+
+    const envelope = await invokeTool(tool(vercelTools(), 'vercel.domain.check'), { domain: 'example.com.au' }, h.context());
+    assert.match(envelope.summary!, /for 2 years/);
+    assert.match(envelope.warnings!.join(' '), /2-year minimum/);
+  });
+
   it('threads the team id onto every request', async () => {
     const provider = scriptedProvider({
       requireHeader: 'authorization',

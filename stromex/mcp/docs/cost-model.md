@@ -71,7 +71,7 @@ rather than a slope: Clerk B2B Authentication (+$100/mo), Vercel add-ons
 straight through any cap** — and Nigerian VAT plus the card issuer's FX
 spread, neither of which is a published figure.
 
-**⚠ `.ng` and `.com.ng` are not priceable here.** Vercel does not sell
+**⚠ Superseded — see §6.** `.ng` and `.com.ng` are not required; the estate's TLDs are `.com`, `.org` and `.co.uk`. Vercel does not sell
 them (confirmed: empty registrar API result, absent from the published TLD
 table). They must come from a NiRA-accredited registrar, and they are
 **unbudgeted**.
@@ -176,3 +176,96 @@ anywhere — USD is inferred from `$` pricing and the absence of any
 alternative. Clerk's documented USD-only statement is about *Clerk
 Billing* (the product you use to charge your users), not strictly about
 how Clerk invoices you.
+
+
+---
+
+## 6. Domains — what the registrar can and cannot do
+
+**Corrected 2026-08-18.** The estate does not need `.ng` or `.com.ng`; the
+TLDs in use are `.com`, `.org` and `.co.uk`.
+
+### The finding that matters
+
+**Vercel's registrar does not carry `.co.uk` — and `.co.uk` is the
+estate's primary domain.**
+
+Read from Vercel's own supported-TLD table (`/docs/domains/supported-domains`,
+last updated 2026-06-23) and confirmed against the live registrar API on
+2026-08-18:
+
+| TLD | Carried by Vercel | Live price |
+|---|---|---|
+| `.com` | ✅ | **$11.25** / year |
+| `.org` | ✅ | **$8.49** / year |
+| `.school` | ✅ | **$9.99** / year |
+| `.academy` | ✅ | **$21.99** / year |
+| `.education` | ✅ | **$29.50** / year |
+| `.college` | ✅ | **$29.99** / year |
+| **`.co.uk`** | ❌ **not in the table** | — |
+| **`.uk`** | ❌ | API: *"The TLD .uk is not currently supported."* |
+
+Not in the table either: `.ac.uk`, `.sch.uk`. What *is* there and is a
+trap — **`.uk.com` and `.uk.net`**, which are CentralNic commercial
+second-level domains, not UK ccTLDs. They look British and are not.
+
+**Consequence:** `vercel.domain.buy` can register `.com`, `.org` and the
+education TLDs, and **can never touch the estate's primary domain**.
+`.co.uk` registration, renewal and transfer live at a Nominet-accredited
+registrar, outside this server. The MCP's domain tooling is for defensive
+`.com`/`.org` registrations, not for the domain the institution runs on.
+
+**Two of those prices exceed the US$25 single-purchase limit** —
+`.education` at $29.50 and `.college` at $29.99. Those will stop and ask
+for approval, which is the limit working as designed rather than a
+problem.
+
+### A trap in the availability check, now fixed
+
+Vercel answers `available: false` **both** for a name somebody owns and
+for a TLD it does not sell. Verified: `.co.uk` returns `available: false`
+with no error at all, exactly as a taken `.com` does, while `.uk` returns
+an explicit *"not currently supported"*. Same cause, two signals, one of
+them illegible.
+
+`vercel.domain.check` now reports three outcomes rather than two, and says
+plainly that an uncarried TLD is **not evidence the domain is registered
+to anybody**.
+
+## 7. What the estate's DNS actually says
+
+Resolved 2026-08-18. This is evidence, not assertion, and it answers most
+of `SEB §28.4` Q7 for the one domain that is live.
+
+**`worldwencollege.co.uk` — registered, live, entirely on Cloudflare.**
+
+| Record | Value | Reading |
+|---|---|---|
+| `A` | `172.67.171.27`, `104.21.55.109` | Cloudflare proxy |
+| `NS` | `zariyah.ns.cloudflare.com`, `merlin.ns.cloudflare.com` | DNS is on Cloudflare, so `cloudflare.dns.*` tools can manage it |
+| `MX` | `route1/2/3.mx.cloudflare.net` | **Cloudflare Email Routing** — forwarding only |
+| `TXT` | `v=spf1 include:_spf.mx.cloudflare.net ~all` | SPF authorises Cloudflare Email Routing **and nothing else** |
+| `_dmarc` | **absent** | No DMARC policy at all |
+| DKIM | no `resend.` or `brevo.` selector | Neither sending provider is set up |
+
+### What follows from that
+
+1. **The domain can receive mail and cannot send it.** Cloudflare Email
+   Routing forwards; it is not a sending provider.
+2. **Mail sent from this domain via Resend or Brevo would fail SPF
+   today.** The record authorises only Cloudflare. `~all` is a softfail,
+   so it would likely be accepted-and-marked rather than rejected — which
+   is worse in one respect: it degrades deliverability quietly instead of
+   failing loudly.
+3. **There is no DMARC record**, so there is no policy, no aggregate
+   reporting, and nothing telling receivers what to do with mail that
+   fails. The domain is spoofable.
+4. **Before any email workflow runs**, the sending domain must be verified
+   at the provider and its DKIM and SPF records published — which the MCP
+   can do, because DNS is on Cloudflare and `cloudflare.dns.*` is
+   available. `resend.domain.*` and the Cloudflare DNS tools together
+   cover the whole path.
+
+**Still open in Q7:** whether any other domain is owned, who holds the
+`.co.uk` registration, when it renews, and whether the registrar account
+is under estate control. None of that is answerable from DNS.

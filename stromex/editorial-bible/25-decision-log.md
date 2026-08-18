@@ -680,6 +680,53 @@ is now recorded and surfaced by `doctor` and
 
 **Confidence High.**
 
+### `SEB-D 35` — The primary domain is outside this server's reach
+
+**Established 2026-08-18**, partly answering `SEB §28.4` Q7 after the
+Founder narrowed it: the estate's TLDs are `.com`, `.org` and `.co.uk`;
+`.ng` and `.com.ng` are not required and the earlier "unbudgeted" flag is
+withdrawn.
+
+**The finding.** Vercel's registrar does not carry `.co.uk` — read from
+its own supported-TLD table and confirmed against the live registrar API,
+which returns *"The TLD .uk is not currently supported"* for `.uk` and a
+bare `available: false` for `.co.uk`. **`worldwencollege.co.uk` is the
+estate's primary domain.** So `vercel.domain.buy` — the one tool in this
+server that spends money, and the reason `SEB-D 28` names Vercel as an
+approved spending provider — **can never act on the domain the institution
+actually runs on.** It is useful for defensive `.com`/`.org`
+registrations and for the education TLDs, and that is its whole scope.
+
+**What DNS establishes**, as evidence rather than assertion: the domain is
+live and entirely on Cloudflare — proxy A records, Cloudflare nameservers,
+and Cloudflare Email Routing on MX. Because DNS is on Cloudflare, the
+`cloudflare.dns.*` tools can manage it, which is the part of the domain
+lifecycle this server *can* reach.
+
+**The operational consequence, which is the reason this is a ruling and
+not a note.** SPF authorises Cloudflare Email Routing **and nothing
+else**; there is no DMARC record at all; and no Resend or Brevo DKIM
+selector exists. So the domain **can receive mail and cannot send it**,
+and any Resend or Brevo send from it today would fail SPF — softly, on
+`~all`, which degrades deliverability quietly rather than failing loudly.
+
+**Ruled.** No email workflow runs against `worldwencollege.co.uk` until
+its sending domain is verified at the provider and its SPF and DKIM
+records are published. This is a precondition, not a recommendation, and
+`SEB-D 28`'s approval of Resend and Brevo as spending providers does not
+override it — an authorised budget for sending mail is not authorisation
+to send unauthenticated mail.
+
+**A defect fixed alongside.** `vercel.domain.check` reported an uncarried
+TLD identically to a name somebody owns. Both were `available: false`, so
+"we do not sell this" read as "somebody has it" — which would send a
+registrar hunting for a replacement name nobody needed. It now reports
+three outcomes and says plainly that an uncarried TLD is no evidence
+about who owns the domain.
+
+**Confidence High** — every claim is a DNS record or a documented TLD
+table, both re-checkable in seconds.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
