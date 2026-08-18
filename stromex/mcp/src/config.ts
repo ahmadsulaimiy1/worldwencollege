@@ -159,17 +159,46 @@ export function loadConfig(options: LoadConfigOptions = {}): StromexConfig {
   const warnings: string[] = [];
 
   const envFilePath = options.envFile ?? env['STROMEX_MCP_ENV_FILE'];
-  let fileValues: Record<string, string> = {};
+  const enforceMode = !options.allowInsecureEnvFile;
   if (envFilePath) {
-    const loaded = loadEnvFile(envFilePath, { enforceMode: !options.allowInsecureEnvFile });
-    fileValues = loaded.values;
-    warnings.push(...loaded.warnings);
+    // Read once here so a bad path or a bad mode is a STARTUP failure
+    // rather than a surprise on the first tool call.
+    warnings.push(...loadEnvFile(envFilePath, { enforceMode }).warnings);
+  }
+
+  const command = env['STROMEX_MCP_SECRET_COMMAND'];
+
+  /*
+   * `SEB §9.2` ranks the homes: secret manager, then environment, then
+   * operator file. That is where credentials SHOULD live. Resolution
+   * order is a different question — most specific wins — and env is
+   * checked first so a one-off override works.
+   *
+   * The two only disagree in one case, and it is worth a warning: an
+   * operator who has set up a secret manager AND left a stale value in
+   * the environment gets the stale one, silently and forever, because
+   * the manager is never consulted for that name. That is the same shape
+   * as the rotation bug in SEB-D 31 and it deserves to be said out loud.
+   */
+  if (command) {
+    const credentialNames = Object.values(PROVIDER_CREDENTIALS).flatMap((p) => [...p.required, ...p.optional]);
+    const shadowed = credentialNames.filter((name) => env[name]?.trim());
+    if (shadowed.length) {
+      warnings.push(
+        `STROMEX_MCP_SECRET_COMMAND is configured, but ${shadowed.join(', ')} ${shadowed.length === 1 ? 'is' : 'are'} also set in the environment ` +
+          'and the environment wins. The secret manager will never be consulted for those names, so rotating them there will have no effect. ' +
+          'Unset them, or drop the secret command.',
+      );
+    }
   }
 
   const secrets = new SecretResolver({
     env,
-    fileValues,
-    command: env['STROMEX_MCP_SECRET_COMMAND'],
+    // A LOADER, not a snapshot: editing the operator file rotates the
+    // credential without a restart, and the mode is re-checked on every
+    // reload rather than only at startup (`SEB §9.2`).
+    loadFile: envFilePath ? () => loadEnvFile(envFilePath, { enforceMode }).values : undefined,
+    command,
   });
 
   const stateDir =

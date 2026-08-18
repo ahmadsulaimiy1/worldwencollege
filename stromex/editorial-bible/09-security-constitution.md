@@ -29,10 +29,18 @@ Never in a comment, an issue or a pull-request body.** (`SEB §26.7`.)
    This is the supported path to a real vault without binding the estate
    to one vendor's SDK.
 2. The process environment, injected by the host at start.
-3. An operator-owned file whose **mode is checked** — group- or
-   world-readable is a configuration error, not a warning. A credentials
-   file at 0644 on a shared machine is a leak no amount of care inside the
-   process can undo.
+3. An operator-owned file whose **mode is checked on every read**, not
+   only at startup — group- or world-readable is a configuration error,
+   not a warning. A credentials file at 0644 on a shared machine is a leak
+   no amount of care inside the process can undo, and one that becomes
+   0644 an hour after the server booted is the same leak.
+
+**On rotation, that order inverts.** A process cannot have its environment
+changed from outside after it is spawned, so an env-borne credential is
+rotatable only by restarting the server — making the environment the
+*least* rotatable of the three, not the second-best. Where a credential
+must be rotatable under load, home 1 is the only real answer and home 3 is
+the fallback (`SEB-D 33`).
 
 **Redaction is by value, not by key name** (`SEB §26.7`). Key-name
 redaction fails the moment a secret travels under a name nobody predicted

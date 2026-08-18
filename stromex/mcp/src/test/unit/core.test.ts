@@ -563,3 +563,88 @@ describe('credential rotation', () => {
     );
   });
 });
+
+/*
+ * SEB-D 33. The operator file was a SNAPSHOT taken at startup.
+ *
+ * `SEB §9.2` names it as one of three permitted homes and requires every
+ * credential to be "rotatable without a code change and without
+ * downtime". Editing the file did nothing until a restart — and a file
+ * chmod'ed to 0644 after startup was never noticed at all, because the
+ * mode was checked exactly once.
+ *
+ * The comment claiming the file was re-read per call was written in the
+ * same change that fixed the env path, and was simply wrong about the
+ * file. It is recorded here because a wrong comment about a security
+ * control is worse than no comment.
+ */
+describe('the operator file as a live source', () => {
+  it('picks up an edit without a restart', () => {
+    let contents: Record<string, string> = { TEST_TOKEN: 'first-value-long-enough' };
+    let clock = 0;
+    const resolver = new SecretResolver({ env: {}, loadFile: () => contents, now: () => clock });
+
+    assert.equal(resolver.resolve('TEST_TOKEN')!.reveal(), 'first-value-long-enough');
+    contents = { TEST_TOKEN: 'second-value-long-enough' };
+
+    assert.equal(resolver.resolve('TEST_TOKEN')!.reveal(), 'first-value-long-enough', 'inside the TTL, cached');
+    clock += 60_001;
+    assert.equal(
+      resolver.resolve('TEST_TOKEN')!.reveal(),
+      'second-value-long-enough',
+      'the edited file was never re-read — rotation would need a restart',
+    );
+  });
+
+  it('re-checks the mode on every reload, not only at startup', () => {
+    let clock = 0;
+    let reads = 0;
+    const resolver = new SecretResolver({
+      env: {},
+      loadFile: () => {
+        reads += 1;
+        // A file chmod'ed to 0644 after the server booted.
+        if (reads > 1) throw new StromexError({ code: 'CONFIG_INVALID', message: 'group-readable', remediation: 'chmod 600' });
+        return { TEST_TOKEN: 'first-value-long-enough' };
+      },
+      now: () => clock,
+    });
+
+    assert.ok(resolver.resolve('TEST_TOKEN'));
+    clock += 60_001;
+    // The last good values are kept rather than taking the server down,
+    // but the loader ran again — which is what makes the mode check live.
+    assert.ok(resolver.resolve('TEST_TOKEN'));
+    assert.equal(reads, 2, 'the file was never re-read, so its mode was never re-checked');
+  });
+
+  it('keeps the last good values when the file is briefly unreadable', () => {
+    let clock = 0;
+    let broken = false;
+    const resolver = new SecretResolver({
+      env: {},
+      loadFile: () => {
+        if (broken) throw new Error('ENOENT — an editor renaming over it');
+        return { TEST_TOKEN: 'first-value-long-enough' };
+      },
+      now: () => clock,
+    });
+
+    assert.ok(resolver.resolve('TEST_TOKEN'));
+    broken = true;
+    clock += 60_001;
+    assert.equal(
+      resolver.resolve('TEST_TOKEN')!.reveal(),
+      'first-value-long-enough',
+      'an atomic save briefly makes the file absent; that must not take the server down',
+    );
+  });
+
+  it('the environment still wins over the file, and that is deliberate', () => {
+    const resolver = new SecretResolver({
+      env: { TEST_TOKEN: 'from-the-environment-value' },
+      loadFile: () => ({ TEST_TOKEN: 'from-the-file-value-here' }),
+    });
+    assert.equal(resolver.resolve('TEST_TOKEN')!.source, 'env');
+  });
+});

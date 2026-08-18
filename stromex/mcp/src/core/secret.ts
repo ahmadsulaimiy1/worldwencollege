@@ -56,8 +56,14 @@ export class SecretRef {
 export type SecretSource = 'env' | 'env-file' | 'command';
 
 export interface SecretResolverOptions {
-  /** Parsed `.env`-style values, already loaded from a mode-checked file. */
+  /** A snapshot of `.env`-style values. Accepted for tests; prefer `loadFile`. */
   fileValues?: Record<string, string>;
+  /**
+   * Re-reads the operator file, mode check included. Production passes
+   * this rather than a snapshot, so editing the file rotates the
+   * credential without a restart (`SEB §9.2`).
+   */
+  loadFile?: () => Record<string, string>;
   /**
    * Command template used to fetch a secret from an external store —
    * 1Password, `pass`, Vault, gcloud secrets, anything with a CLI.
@@ -93,16 +99,28 @@ export interface SecretResolverOptions {
  * App installation token lives ONE HOUR. Memoised for the process
  * lifetime, it expires and never refreshes.
  *
- * So: the environment and the operator file are re-read on EVERY call —
- * they are already in memory and cost nothing — and only the command
- * resolver is cached, for a short TTL, because that one spawns a process.
- * A rotation is therefore live immediately for env and file, and within
- * `COMMAND_TTL_MS` for a secret manager.
+ * What is actually true of each source, which is not what the first
+ * version of this comment claimed:
+ *
+ *   ENV     Re-read per call, and that buys nothing. A process cannot have
+ *           its environment changed from outside after it is spawned, so
+ *           an env-borne credential is rotatable only by restarting the
+ *           server. This is the least rotatable of the three homes and
+ *           `SEB §9.2` ranks it second for other reasons; on rotation
+ *           alone it is last.
+ *   FILE    Re-read on a TTL, WITH THE MODE RE-CHECKED each time. The
+ *           first version snapshotted the file at startup, so editing it
+ *           did nothing until a restart — and a file chmod'ed to 0644
+ *           after startup was never noticed at all.
+ *   COMMAND Re-read on a TTL. The only home that is genuinely rotatable
+ *           by someone other than whoever started the process, which is
+ *           why `SEB §9.2` prefers it.
  */
 const COMMAND_TTL_MS = 60_000;
 
 export class SecretResolver {
-  private readonly fileValues: Record<string, string>;
+  private readonly loadFile?: () => Record<string, string>;
+  private fileCache?: { values: Record<string, string>; expiresAtMs: number };
   private readonly command?: string;
   private readonly env: NodeJS.ProcessEnv;
   /** Command-resolved secrets only. Env and file are never cached. */
@@ -110,7 +128,9 @@ export class SecretResolver {
   private readonly now: () => number;
 
   constructor(options: SecretResolverOptions = {}) {
-    this.fileValues = options.fileValues ?? {};
+    // A snapshot is accepted for tests; a loader is what production passes,
+    // because a snapshot cannot be rotated.
+    this.loadFile = options.loadFile ?? (options.fileValues ? () => options.fileValues! : undefined);
     this.command = options.command;
     this.env = options.env ?? process.env;
     this.now = options.now ?? (() => Date.now());
@@ -123,7 +143,7 @@ export class SecretResolver {
     const fromEnv = this.env[name];
     if (fromEnv && fromEnv.trim()) return new SecretRef(name, fromEnv.trim(), 'env');
 
-    const fromFile = this.fileValues[name];
+    const fromFile = this.fileValues()[name];
     if (fromFile && fromFile.trim()) return new SecretRef(name, fromFile.trim(), 'env-file');
 
     if (this.command) {
@@ -141,6 +161,32 @@ export class SecretResolver {
   /** Drops every cached secret, so the next call re-resolves. */
   invalidate(): void {
     this.cache.clear();
+    this.fileCache = undefined;
+  }
+
+  /**
+   * The operator file's current contents, re-read on a TTL.
+   *
+   * The mode is re-checked on every reload, not only at startup: a file
+   * that was 0600 when the server booted and is 0644 now is a leak, and
+   * noticing it a week later at the next restart is not noticing it.
+   *
+   * A read failure returns the last good values rather than throwing —
+   * an editor writing the file atomically will briefly make it absent,
+   * and a credential store that goes blank mid-save would take the
+   * server down for a rename.
+   */
+  private fileValues(): Record<string, string> {
+    if (!this.loadFile) return {};
+    if (this.fileCache && this.fileCache.expiresAtMs > this.now()) return this.fileCache.values;
+    try {
+      const values = this.loadFile();
+      this.fileCache = { values, expiresAtMs: this.now() + COMMAND_TTL_MS };
+      return values;
+    } catch (thrown) {
+      if (this.fileCache) return this.fileCache.values;
+      throw thrown;
+    }
   }
 
   /** Same as `resolve`, but a missing secret is a hard, well-explained failure. */
