@@ -5,6 +5,20 @@ Nothing in this guide grants the server permission to change anything.*
 
 ---
 
+
+> **Credentials live in `pass`** (`SEB-D 34`). The full setup, the
+> unattended-auth trade-off, and the rehearsed rotation procedure are in
+> **[`credentials.md`](credentials.md)**. In short:
+>
+> ```sh
+> STROMEX_MCP_SECRET_COMMAND='pass show stromex/{name}'
+> ```
+>
+> Do **not** also set a provider credential in the environment: the
+> environment wins, so `pass` would never be consulted for that name and
+> rotating it there would have no effect. The server warns about this at
+> startup.
+
 ## 1. Requirements
 
 - **Node 22.6 or later.** Verify with `node --version`.

@@ -632,6 +632,54 @@ it there has no effect, silently and forever. Same shape as `SEB-D 31`.
 
 **Confidence High.**
 
+### `SEB-D 34` — Credentials live in `pass`; rotation is rehearsed first
+
+**Decided 2026-08-18 by the Founder**, answering `SEB §28.4` Q10.
+
+| Ruled | |
+|---|---|
+| **Home** | **`pass`** — the GPG-backed store — reached through the MCP's command-resolver seam: `STROMEX_MCP_SECRET_COMMAND='pass show stromex/{name}'` |
+| **First rotation** | **Rehearsed end-to-end on a real credential before anything reaches production**, per `SEB §11.7` |
+
+**Why this question was load-bearing, and not a matter of taste.** Four of
+the eight providers issue credentials that **cannot expire** — Neon,
+Resend, Clerk and Brevo all say so in their own documentation — and those
+are the same four that **cannot be scoped** (`SEB-D 30`). A credential
+with no expiry has no automatic off-switch: a copy that escapes keeps
+working until a human deletes it. So for those four, **rotation is the
+entire control**, and how easily a credential can be rotated is a property
+of where it lives, not of anyone's intentions.
+
+**What `pass` buys over the alternatives.** No subscription and no vendor
+who could lose the store — and none who could help recover it either,
+which is the trade taken knowingly. One file per credential. And
+`pass git log`, which is a rotation history for the four providers that
+will never tell you themselves when a key last changed.
+
+**The honest caveat, recorded rather than buried.** `pass` needs an
+unlocked GPG key, and a server has nobody to type a passphrase. With a
+passphrase-less key the store is **roughly equivalent in strength to the
+mode-checked operator file** — the key file *is* the secret. What survives
+that reduction is the per-credential separation and the rotation history,
+which is still worth having. With `gpg-agent` and a long cache it is
+genuinely stronger, at the cost of a human present at every restart. The
+choice between the two is deliberate and is recorded at
+`mcp/docs/credentials.md §3`.
+
+**Implemented alongside the ruling**, because choosing the command path
+made its failure modes load-bearing: a secret-command **timeout is now a
+hard, explained failure** instead of silently reading as "that credential
+is not configured". Every real secret manager fails the same way on a
+server — `pass` with a locked key, `op` with an expired session, `vault`
+with an expired token all block on a prompt nobody will answer — and the
+previous behaviour presented a locked keyring as eight providers quietly
+missing, with nothing anywhere saying why. A non-zero exit still is not
+fatal, since an optional credential really may be absent, but the reason
+is now recorded and surfaced by `doctor` and
+`stromex.credentials.status`.
+
+**Confidence High.**
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
@@ -648,7 +696,7 @@ None is answered on your behalf.
 | **Q7** | Which domains are actually owned and renewed | 🟡 | Volume 10; every mail-sending workflow |
 | **Q8** | Is award nomenclature (`AMC-D D-03`) closed? | 🟡 | Volume 12's award ladder |
 | **Q9** | Should the MCP hold write credentials for every repository? | 🟢 **answered, `SEB-D 30`** | Credential scoping |
-| **Q10** | Where should secrets live? | 🟡 | Installation |
+| **Q10** | Where should secrets live? | 🟢 **answered, `SEB-D 34`** — `pass` | Installation |
 
 ---
 

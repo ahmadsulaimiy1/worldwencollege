@@ -648,3 +648,80 @@ describe('the operator file as a live source', () => {
     assert.equal(resolver.resolve('TEST_TOKEN')!.source, 'env');
   });
 });
+
+/*
+ * SEB-D 34. Q10 chose `pass`, which means the command resolver is now the
+ * primary path — and its failure modes had to become legible.
+ *
+ * Every real secret manager fails the same way on a server: `pass` with a
+ * locked GPG key, `op` with an expired session, `vault` with an expired
+ * token. All three block on an interactive prompt nobody will answer.
+ */
+describe('the secret command', () => {
+  it('treats a timeout as a hard, explained failure — never as "not configured"', () => {
+    // A REAL blocking command against a real spawnSync. `pass` with a
+    // locked GPG key, `op` with an expired session and `vault` with an
+    // expired token all do exactly this: block on a prompt nobody will
+    // answer.
+    const resolver = new SecretResolver({ env: {}, command: 'sleep 5', commandTimeoutMs: 150 });
+
+    assert.throws(
+      () => resolver.resolve('TEST_TOKEN'),
+      (e: StromexError) => e.code === 'CONFIG_INVALID' && /timed out/.test(e.message),
+      'a locked keyring would present as eight providers quietly missing, with nothing saying why',
+    );
+  });
+
+  it('records WHY a command failed, so "not configured" is not the whole story', () => {
+    // A real non-zero exit with real stderr — what `pass` does when the
+    // GPG key is absent.
+    const resolver = new SecretResolver({
+      env: {},
+      command: 'echo "gpg: decryption failed: No secret key" >&2; exit 1',
+    });
+
+    assert.equal(resolver.resolve('TEST_TOKEN'), undefined, 'a missing optional credential is still not fatal');
+    const [entry] = resolver.status(['TEST_TOKEN']);
+    assert.equal(entry!.configured, false);
+    assert.match(entry!.failure ?? '', /No secret key/, 'the operator is left guessing');
+  });
+
+  it('resolves a real value from a real command', () => {
+    const resolver = new SecretResolver({ env: {}, command: 'echo resolved-value-for-{name}' });
+    const ref = resolver.resolve('TEST_TOKEN');
+    assert.equal(ref!.reveal(), 'resolved-value-for-TEST_TOKEN');
+    assert.equal(ref!.source, 'command');
+  });
+
+  it('clears the recorded failure once the command starts working', () => {
+    let broken = true;
+    const resolver = new SecretResolver({
+      env: {},
+      command: 'sh -c \'if [ -n "$SX_OK" ]; then echo a-good-value-here; else echo broken >&2; exit 1; fi\'',
+    });
+    // First call fails; the reason is recorded.
+    assert.equal(resolver.resolve('TEST_TOKEN'), undefined);
+    assert.ok(resolver.commandFailure('TEST_TOKEN'));
+
+    // Now make it succeed, and confirm the stale reason does not linger.
+    broken = false;
+    process.env['SX_OK'] = '1';
+    try {
+      resolver.invalidate();
+      assert.ok(resolver.resolve('TEST_TOKEN'));
+      assert.equal(resolver.commandFailure('TEST_TOKEN'), undefined, 'a stale failure reason outlived the failure');
+    } finally {
+      delete process.env['SX_OK'];
+    }
+    assert.equal(broken, false);
+  });
+
+  it('refuses to interpolate a name outside /^[A-Z0-9_]+$/ rather than escaping it', () => {
+    const resolver = new SecretResolver({ env: {}, command: 'pass show stromex/{name}' });
+    assert.throws(
+      () => resolver.resolve('TOKEN; rm -rf /'),
+      (e: StromexError) => e.code === 'CONFIG_INVALID' && /Refusing to interpolate/.test(e.message),
+      'refusing is verifiable; escaping is a class of bug',
+    );
+  });
+});
