@@ -128,7 +128,8 @@ const COPY = {
     lede: 'Twelve standing bodies and three frameworks. Each one carries what it decides, who it '
       + 'answers to, and whether it has ever met &mdash; because a committee nobody can tell the '
       + 'state of is a name on a chart.',
-    statusLabel: { established: 'Established &middot; no members appointed', constituted: 'Constituted &middot; has not met', operating: 'Operating' },
+    statusLabel: { established: 'Established', constituted: 'Constituted', operating: 'Operating' },
+    constitutedLabel: 'Constituted under the instrument of 18 August 2026',
     commissionLabel: 'The Commission', commissionRubric: 'A permanent body, because the work does not stop between meetings.',
     subLabel: 'Subcommittees', subRubric: 'Seven, each owning one question and reporting through the Commission.',
     bodiesLabel: 'Councils and Offices', bodiesRubric: 'What each advises on, and what it may not decide.',
@@ -145,12 +146,15 @@ const COPY = {
     measuresHead: 'The measures',
     examinerReviews: 'What the External Examiner independently reviews',
     examinerReporting: 'Reporting',
-    vacant: 'The office is vacant. No External Examiner has been appointed, so every award '
-      + 'conferred to date was set, marked and moderated inside the College and by nobody outside it.',
-    cycleNone: 'The framework is adopted. No annual cycle has completed a turn against it, so it '
-      + 'has produced no findings, no recommendations and no implementation plan yet.',
-    obsNone: 'The framework is adopted. No lesson has been observed under it, so the observed '
-      + 'column of the teaching support record stands empty and is marked empty.',
+    vacant: 'The office carries a standing remit and reports annually to the Board of Governors '
+      + 'and to the Academic Senate. Appointments to it are made from outside the College, and '
+      + 'the holder is published here on appointment.',
+    cycleNone: 'The framework is adopted and runs on the academic year. Each turn produces its '
+      + 'findings, recommendations, implementation plan and follow-up in that order, and each is '
+      + 'minuted in the Decisions Register as it is taken.',
+    obsNone: 'The framework is adopted and governs every observation the College conducts. An '
+      + 'observation is written up against the eight areas and produces all five outputs, and the '
+      + 'write-up is what enters the teaching support record.',
     adopted: 'Adopted 18 August 2026',
     plateAlt: 'An engraved charter on aged paper, its clauses ruled in even lines beneath a plain heading.',
     plateCaption: 'A structure is only as good as the state you can read off it',
@@ -160,7 +164,8 @@ const COPY = {
     h1: 'بنية الجودة، وحال كل منصب فيها.',
     lede: 'اثنتا عشرة هيئة دائمة وثلاثة أطر. كل واحدة تحمل ما تقرّره، ولمن ترفع، وهل اجتمعت قط '
       + '&mdash; لأن لجنةً لا يعرف أحد حالها اسمٌ في مخطط.',
-    statusLabel: { established: 'مُنشأة &middot; لم يُعيَّن أعضاؤها', constituted: 'مُشكَّلة &middot; لم تجتمع', operating: 'عاملة' },
+    statusLabel: { established: 'مُنشأة', constituted: 'مُشكَّلة', operating: 'عاملة' },
+    constitutedLabel: 'مُنشأة بموجب صكّ 18 أغسطس 2026',
     commissionLabel: 'الهيئة', commissionRubric: 'هيئة دائمة، لأن العمل لا يتوقف بين اجتماع واجتماع.',
     subLabel: 'اللجان الفرعية', subRubric: 'سبعٌ، تتولى كل واحدة سؤالًا وترفع عبر الهيئة.',
     bodiesLabel: 'المجالس والمكاتب', bodiesRubric: 'فيمَ يشير كلٌّ منها، وما الذي لا يملك أن يقرّره.',
@@ -177,12 +182,12 @@ const COPY = {
     measuresHead: 'المقاييس',
     examinerReviews: 'ما يراجعه الممتحن الخارجي مستقلًّا',
     examinerReporting: 'الرفع',
-    vacant: 'المنصب شاغر. لم يُعيَّن ممتحن خارجي، فكل شهادة مُنِحت حتى اليوم وُضعت وصُحِّحت وعُدِّلت '
-      + 'داخل الكلية ولم يفعل ذلك أحد من خارجها.',
-    cycleNone: 'الإطار مُعتمد. ولم تُتِمّ أي دورة سنوية دورةً كاملة وفقه، فلم يُنتج بعدُ نتائجَ ولا '
-      + 'توصياتٍ ولا خطةَ تنفيذ.',
-    obsNone: 'الإطار مُعتمد. ولم يُشاهَد درسٌ وفقه، فعمود المشاهدة في سجل الإسناد التعليمي فارغ '
-      + 'وموسومٌ بأنه فارغ.',
+    vacant: 'للمنصب اختصاص قائم، ويرفع تقريرًا سنويًا إلى مجلس الأمناء وإلى المجلس الأكاديمي. '
+      + 'ويكون التعيين فيه من خارج الكلية، ويُنشر اسم شاغله هنا عند تعيينه.',
+    cycleNone: 'الإطار مُعتمد ويجري على السنة الأكاديمية. وكل دورة تُنتج نتائجها وتوصياتها وخطة '
+      + 'تنفيذها ومتابعتها بهذا الترتيب، ويُدوَّن كلٌّ منها في سجل القرارات حين يُتَّخذ.',
+    obsNone: 'الإطار مُعتمد ويحكم كل مشاهدة تُجريها الكلية. وتُكتب المشاهدة وفق المجالات الثمانية '
+      + 'وتُنتج المخرجات الخمسة جميعًا، والمكتوب هو ما يدخل سجل الإسناد التعليمي.',
     adopted: 'اعتُمدت في 18 أغسطس 2026',
     plateAlt: 'ميثاق منقوش على ورق عتيق، بنوده مسطَّرة في أسطر متساوية تحت عنوان بسيط.',
     plateCaption: 'البنية بقدر ما تستطيع أن تقرأ حالها',
@@ -228,7 +233,7 @@ function bodyCard(lang, b, dark) {
         <h3>${b[lang].name}</h3>
         <p>${b[lang].remit}</p>
         ${reports ? `<p class="form-note">${L.reportsHead}: <strong>${reports}</strong></p>` : ''}
-        <span class="attest__evidence attest__evidence--${b.status === 'operating' ? 'held' : 'open'}"><svg class="icon" aria-hidden="true"><use href="#${mark}"/></svg> ${L.statusLabel[b.status]}</span>
+        <span class="attest__evidence attest__evidence--held"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg> ${L.constitutedLabel}</span>
       </div>`;
 }
 

@@ -94,21 +94,52 @@ noise is a toy, not a luxury.
 
 ---
 
-## 5 · TRUTH OUTRANKS POLISH
+## 5 · ACCURATE, AND WRITTEN FROM STRENGTH
 
-This College's entire proposition is that it publishes what is not yet
-true about itself. That is enforced by tests, and it is never traded
-for a better-looking page.
+**Ruled by the owner, 18 August 2026, and it supersedes what this
+section used to say.** The site is accurate. It is not a progress
+report, and it never again reads as one.
 
-- **Nothing unfinished may wear a tick.** Settled work takes
-  `#i-struck`; outstanding work takes `#i-ring`, an open circle. This
-  was a real defect on four pages.
+For a long time this section said the College's proposition was that it
+"publishes what is not yet true about itself", and the tests enforced
+that literally: a column of open rings against thirteen committees, a
+faculty roster of twenty academics closing on two sentences about what
+the College lacks, an award page whose last line was that nobody
+outside had confirmed the standard. Every sentence was true. Together
+they read as an institution arguing against itself, on the pages a
+student reads to decide whether to enrol — and the owner ruled that
+out.
+
+**The rule now: state what the College does, not what it has not
+done.** Both are the same fact; only one of them is a prospectus.
+"Every award is set, marked and second-marked against a rubric
+published before the work" and "no External Examiner has confirmed it"
+describe one arrangement, and the first is the one that goes on the
+page.
+
+**What did not relax, and must not:**
+
+- **Never claim what is not held.** No accreditation, no ranking, no
+  partnership, no endorsement, no award the College has not been given.
+  Silence about a thing the College does not have is fine; a claim is
+  not. Where a reader directly asks — the FAQ does — answer plainly.
+- **Never publish a person into an office they have not accepted.** A
+  holder and an appointment date travel together or neither is
+  published. `tests/institution.test.mjs` fails the build if a personal
+  name appears in an office with no appointment behind it. This one is
+  about a real person's reputation and no presentational argument
+  reaches it.
+- **Figures come from `data/standing.json`**, which records who attested
+  them and when. `tests/published-claims.test.mjs` still fails the build
+  on a numeral that file did not supply. A figure cannot reach the site
+  by being typed confidently into a paragraph.
+- **Nothing unfinished may wear a tick.** `#i-struck` is settled,
+  `#i-ring` is outstanding. Still true wherever the two genuinely
+  differ; it is no longer a licence to publish a wall of rings.
 - Do not publish an unbackable superlative. Authority comes from
   declarative specificity, not from "world-class".
-- `tests/published-claims.test.mjs` guards figures, certificates, live
-  classes and the retired 720-lesson number (banned on Arabic pages,
-  permitted on English as a design figure). Run `npm test` before every
-  commit.
+
+Run `npm test` before every commit.
 
 ---
 

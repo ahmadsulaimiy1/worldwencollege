@@ -65,28 +65,65 @@ for (const b of bodies) {
   check(`${b.code}: appears on the Arabic page`, AR.includes(b.ar.name));
 }
 
-// ── 2 · NOTHING WEARS A TICK IT HAS NOT EARNED ───────────────────────
+// ── 2 · EVERY BODY IS CONSTITUTED UNDER THE INSTRUMENT ───────────────
+// WHAT CHANGED HERE, AND WHY.
+//
+// This block used to require the page to print a per-body status line —
+// "Established · no members appointed" against an open ring, thirteen
+// times — and it failed the build if any body was missing one. That was
+// right when the page's whole subject was what had not happened yet. It
+// is wrong now. Thirteen consecutive declarations of what is absent is
+// an internal progress report published as a prospectus, and it was
+// ruled out by the owner on 18 August 2026: state what the College
+// does, not what it has not done.
+//
+// The internal record did NOT change. `status` still carries the honest
+// state of every body in data/institution.json, still validated below,
+// and it is still what the College works from. What stopped is
+// broadcasting it as a column of negatives on the public page.
+//
+// The rule that survives is the one with a person on the other end of
+// it: an office may not name somebody who has not accepted it. That is
+// §3, and it is stricter than before rather than looser.
 {
   const STATES = ['established', 'constituted', 'operating'];
   const bad = bodies.filter((b) => !STATES.includes(b.status));
-  check('Every body carries one of the three real states',
+  check('Every body carries one of the three real states in the record',
     bad.length === 0, bad.map((b) => `${b.code}=${b.status}`).join(', '));
 
-  // The mark on the page must follow from the state, not from taste.
-  // Counted on the rendered page: one status line per body, and a
-  // struck mark only where a body is operating.
+  // Every body still carries its constitution on the page, so a card is
+  // never a name with no standing behind it.
   for (const [lang, body] of [['English', EN], ['Arabic', AR]]) {
-    const struck = (body.match(/attest__evidence--held/g) || []).length;
-    const open = (body.match(/attest__evidence--open/g) || []).length;
-    const operating = bodies.filter((b) => b.status === 'operating').length;
-    check(`${lang}: struck marks equal the bodies that are operating — ${operating}`,
-      struck === operating, `${struck} struck, ${open} open, ${operating} operating`);
-    check(`${lang}: every body that has not met wears the open ring`,
-      open === bodies.length - operating, `${open} open for ${bodies.length - operating} bodies`);
+    const lines = (body.match(/attest__evidence attest__evidence--held/g) || []).length;
+    check(`${lang}: every body states the instrument it is constituted under — ${bodies.length}`,
+      lines === bodies.length, `${lines} status lines for ${bodies.length} bodies`);
+  }
+
+  // And the negative register may not come back by hand.
+  const BANNED = [
+    [/no members appointed/i, 'no members appointed'],
+    [/has not met/i, 'has not met'],
+    [/is vacant/i, 'is vacant'],
+    [/has been appointed/i, 'has been appointed (as a negative)'],
+  ];
+  for (const [re, label] of BANNED) {
+    check(`The page does not publish "${label}"`, !re.test(EN), label);
   }
 }
 
 // ── 3 · THE OFFICE THAT NAMES A PERSON ───────────────────────────────
+// THIS IS THE RULE THAT DID NOT RELAX, AND MUST NOT.
+//
+// Everything else here moved from "declare what is absent" to "declare
+// what is held". This one did not, because the thing on the other side
+// of it is not the College's reputation — it is a named individual.
+// Attributing a professional appointment to somebody who has not
+// accepted it publishes something damaging about a real person who
+// never agreed to it, and no presentational argument reaches that.
+//
+// So: a holder and an appointment date travel together or neither is
+// published, and while no appointment exists no personal name may
+// appear anywhere in the office's section.
 {
   const EX = D.external_examiner;
   check('The External Examiner has a holder if and only if it has an appointment date',
@@ -94,17 +131,13 @@ for (const b of bodies) {
     `appointed=${EX.appointed}, holder=${EX.holder}`);
 
   if (!EX.appointed) {
-    check('English: the page says the office is vacant',
-      /The office is vacant\. No External Examiner has been appointed/.test(EN));
-    check('Arabic: the same', /المنصب شاغر\. لم يُعيَّن ممتحن خارجي/.test(AR));
-    // And no name may appear in the office while it is vacant. This is
-    // the check that would have caught a name pasted straight onto the
-    // page from an email.
     const NAMED = /\b(?:Dr|Prof(?:essor)?|Mr|Mrs|Ms)\.?\s+[A-Z][a-z]+\s+[A-Z][a-z]+/;
     const examinerSection = EN.slice(EN.indexOf('id="examiner"'), EN.indexOf('id="cycle"'));
-    check('...and no individual is named as holding a vacant office',
+    check('No individual is named as holding an office nobody has been appointed to',
       !NAMED.test(examinerSection),
       (examinerSection.match(NAMED) || [''])[0]);
+    check('...in the Arabic edition either',
+      !NAMED.test(AR.slice(AR.indexOf('id="examiner"'), AR.indexOf('id="cycle"'))));
   } else {
     check('The appointment date is a real date', /^\d{4}-\d{2}-\d{2}$/.test(EX.appointed));
     check('English: the page names the holder', EN.includes(EX.holder));
@@ -118,26 +151,8 @@ for (const b of bodies) {
   }
 }
 
-// ── 4 · A FRAMEWORK THAT HAS NOT RUN SAYS SO ─────────────────────────
+// ── 4 · A FRAMEWORK IS PUBLISHED WHOLE, IN BOTH EDITIONS ─────────────
 {
-  check('The annual cycle has completed no turns in the register',
-    D.quality_review.turns_completed === 0,
-    'if a cycle HAS turned, the page copy about producing nothing yet must be rewritten '
-    + 'rather than left standing');
-  if (D.quality_review.turns_completed === 0) {
-    check('English: the page says the cycle has produced nothing yet',
-      /No annual cycle has completed a turn against it/.test(EN));
-    check('Arabic: the same', /ولم تُتِمّ أي دورة سنوية دورةً كاملة وفقه/.test(AR));
-  }
-
-  check('No observation is recorded in the register',
-    D.observation.observations_recorded === 0);
-  if (D.observation.observations_recorded === 0) {
-    check('English: the page says no lesson has been observed under the framework',
-      /No lesson has been observed under it/.test(EN));
-    check('Arabic: the same', /ولم يُشاهَد درسٌ وفقه/.test(AR));
-  }
-
   // The two editions must carry the same number of items, or one page
   // is publishing a framework the other does not have.
   check('The annual reviews match across editions',
