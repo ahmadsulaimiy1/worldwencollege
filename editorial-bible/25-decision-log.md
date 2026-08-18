@@ -787,6 +787,45 @@ the default.
 **Confidence High** on the ruling; **the $240 hosting observation is
 Medium** and rests on the site being genuinely static, which its build is.
 
+### `SEB-D 37` — A decision explained in jargon was not really taken
+
+**Ruled 2026-08-18** by the Founder, and it applies to every decision this
+estate puts to a human.
+
+**The problem, stated plainly.** Decisions `SEB-D 28` through `SEB-D 36`
+were put to the Founder using terms that were never defined in the asking:
+*scoped*, *blast radius*, *rolling cap*, *fingerprint*, *hash-chained*,
+*SPF*, *DKIM*, *TLD*, *instance*, *at cost*. Several of those decisions
+commit real money and real user records. **A decision taken on an
+explanation the decider could not fully follow is not a decision they
+made** — it is one they were walked into, and the authority `SEB §0.5`
+reserves to the Founder is hollow if the question itself is unreadable.
+
+**Ruled.** Every decision put to a human is written to this standard:
+
+1. **Define each term in the sentence it first appears in.** Not a
+   glossary, not a footnote, not a link.
+2. **Explain the MECHANISM, not the label.** Not "SPF authorises only
+   Cloudflare" but "SPF is a public list of which servers may send email
+   using your domain; yours lists only Cloudflare, so mail sent through
+   anyone else is treated as suspicious."
+3. **State the real consequence of getting it wrong** — what breaks, who
+   notices, what it costs, and whether it can be undone.
+4. **Cut everything that is not load-bearing.** Necessary and sufficient:
+   no architecture tours, and no omissions either.
+
+**This is not a request to simplify the decisions.** The Founder's
+instruction was explicit — *"everything necessary should be told and the
+full meaning and then how it works"*. The content stays; the vocabulary
+becomes shared.
+
+**Retrospective effect.** Any prior decision may be re-put in plain terms
+on request and re-taken. A decision does not become binding by having
+been misunderstood once.
+
+**Confidence High.** It is a standing instruction from the only authority
+that could give it.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
