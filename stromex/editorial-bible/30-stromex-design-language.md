@@ -473,3 +473,112 @@ It is not a mood board and it is not a preference. Every value in it is a
 number, a token or a rule that a build can check, and the ones that can be
 checked **are** checked. A design system whose rules live only in a
 document is a document.
+
+---
+
+## §30.19 The implementation, and what building it changed
+
+**Normative form: `stromex/design-system/`.** Built 2026-08-18. Four
+gates green, forty-one unit tests passing, every component in §30.10
+rendered in `showcase/index.html`.
+
+Building it changed the language in seven places. Each is recorded here
+rather than quietly corrected in the code, because a constitution that
+diverges from its implementation is a constitution nobody consults.
+
+### §30.19.1 The Meridian is a grid line, not a percentage
+
+**§30.2 said the minor golden section. It now says the fold.**
+
+Placed at `38.2%` of the viewport, on a 1440px display the spine falls at
+550px while the measure runs 333–877. The signature ran through the
+running text and the chapter rail hung on it landed on every heading on
+the page.
+
+The spine of a folded sheet is not a fraction of the reader's window — it
+is the line where the margin ends and the text begins. The Meridian is
+now placed on the Quire's own `marginal / measure` boundary, shared with
+the grid through a single custom property, so the two cannot drift.
+
+This also retires §30.2's separate rule for phones. Below the spread the
+marginal track is 0px wide, so the same line *is* the leading margin —
+1.618 × the gutter, derived rather than chosen.
+
+### §30.19.2 Signal colour is a role, not a pigment
+
+**§30.7 gains a fourth binding rule.**
+
+Measured on obsidian, the three signal pigments compute to:
+
+| | | |
+|---|---|---|
+| `--sx-verdigris` | 3.35:1 | *confirmed* was not readable |
+| `--sx-carnelian` | 2.43:1 | **error messages** were not readable |
+| `--sx-lapis` | 2.29:1 | **the focus ring** was nearly invisible |
+
+The third is the serious one: a focus indicator at 2.29:1 is one a
+keyboard reader cannot find, on every page of the product, in the register
+the product is presented in. It survived four readings of the palette and
+failed `gates/contrast.mjs` on its first run.
+
+**Rule 4:** a signal colour is referenced through its **role** —
+`--sx-signal-verified`, `--sx-signal-attention`,
+`--sx-signal-interactive` — which resolves per register. The pigments
+remain the institution's colours and are never used as a foreground. The
+same rule §30.7 already applied to gold now applies to all three.
+
+### §30.19.3 A rule that separates and a rule that identifies are two things
+
+A hairline between two ledger rows is decoration: the rows are identified
+by their content, and WCAG SC 1.4.11 does not reach it. **The rim of a
+text field is the only thing that says "this is where you type"** — a
+user-interface component boundary, which owes 3:1 and did not have it.
+
+`--sx-rule` separates. `--sx-boundary` identifies. Anything that
+identifies a control, a state, or a graphical object required to read an
+instrument uses the second.
+
+### §30.19.4 RTL: centring is physical
+
+§30.3 says RTL is structural, not a flipped stylesheet, and the
+implementation found the sharpest version of that: `inset-inline-start:
+50%` anchors an element's *leading* edge at the centre, and
+`translate: -50%` always moves it left. In LTR the two compose into a
+centred element; in RTL they compose into an element hanging half its
+width off the page.
+
+It also found the opposite error. CSS Grid already lays its tracks along
+the inline axis, so a hand-reversed RTL track list **flips a grid the
+writing mode has already flipped**. The geometry is written once, in
+logical order, and the writing mode turns it.
+
+### §30.19.5 The ornament is sampled per lobe
+
+§30.11's guilloché closes after `lcm(R, r) / R` turns. Sampling per turn
+is the obvious implementation and it is wrong twice: a figure closing in
+seven turns gets seven times the points of one closing in one, and the
+resolution a reader perceives is set by the lobe, not the revolution. The
+first generator emitted a **2.1MB** background ornament. Per lobe, at
+forty-eight samples, the same figure is 82kB.
+
+### §30.19.6 The gates gained a fourth, and an escape hatch
+
+§30.17's G7 is implemented as four executable gates — `tokens`, `beat`,
+`contrast`, `responsive` — and `responsive` runs in a real browser at
+seven widths and in both directions.
+
+A line carrying `/* sx-gate-allow: <gate> — reason */` is skipped by that
+gate **and printed, with its reason, on every run**. An exemption nobody
+sees is a rule nobody keeps: the first is argued, the tenth is copied, and
+after that nobody can find them.
+
+### §30.19.7 A gate is not trustworthy until it has been watched to fail
+
+`test/gates.test.mjs` injects each defect a gate exists to catch and
+asserts the gate exits non-zero and names it. It immediately found that
+the declaration scanner was **silently skipping every single-line rule** —
+most of `components.css` — while reporting a four-figure check count and a
+green tick.
+
+**This is now a standing requirement.** No gate in the StromeX estate is
+considered to exist until something has watched it fail on purpose.

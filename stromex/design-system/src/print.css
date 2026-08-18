@@ -1,0 +1,103 @@
+/*
+ * THE STROMEX DESIGN LANGUAGE — THE PRINT FORM
+ * SEB §34.10. Print is DESIGNED, not `@media print { * { color: black } }`.
+ *
+ * The component contract requires a print form for every component, or an
+ * explicit statement that it does not print (SEB §34.1 item 8). Both are
+ * below: what prints, how, and what is declared non-printing and why.
+ */
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 20mm;
+}
+
+@media print {
+  /* THE LIGHT REGISTER, ALWAYS, whatever the reader chose on screen. An
+     obsidian page sent to a printer is 40ml of toner and an unreadable
+     document. The register is forced by resolving the tokens, not by
+     overriding a thousand rules. */
+  :root, [data-register] {
+    --sx-fg:         #1A1B20;
+    --sx-fg-quiet:   #565A63;
+    --sx-bg:         #FFFFFF;
+    --sx-bg-raised:  #FFFFFF;
+    --sx-bg-plinth:  #F6F4EF;
+    --sx-rule:       #B9B4A8;
+    --sx-metal-text: #6E5726;   /* brass, darkened for toner on paper */
+    --sx-contact:       none;
+    --sx-ambient-plate: none;
+    --sx-ambient-crown: none;
+  }
+
+  html, body { background: var(--sx-bg); color: var(--sx-fg); }
+
+  /* Paper is closer to the eye than a screen, so the display sizes come
+     down. The figure is set at 60% of its screen size. */
+  :root {
+    --sx-proclamation: 28pt;
+    --sx-chapter:      20pt;
+    --sx-article:      13pt;
+    --sx-clause:       10.5pt;
+    --sx-figure:       21pt;
+    --sx-cartouche:    8pt;
+    --sx-marginalia:   8pt;
+    --sx-colophon:     7pt;
+  }
+
+  /* NO ORPHANS, NO WIDOWS. */
+  p, li, blockquote { orphans: 3; widows: 3; }
+  .sx-proclamation, .sx-chapter, .sx-article { break-after: avoid; }
+  .sx-plate, .sx-letter, .sx-figures__item, .sx-instrument, .sx-astrolabe { break-inside: avoid; }
+  .sx-ledger tbody tr { break-inside: avoid; }
+  .sx-ledger thead { display: table-header-group; }   /* the head repeats */
+  .sx-ledger tfoot { display: table-footer-group; }
+  [data-chapter] { break-before: page; }
+  [data-chapter]:first-of-type { break-before: auto; }
+
+  /* The Meridian becomes a PRINTED RULE — it is the document's spine on
+     paper exactly as it is on screen. */
+  .sx-meridian { background: var(--sx-rule); }
+  .sx-meridian__node { display: none; }    /* it tracked a reader who is not there */
+
+  /* The marginal track becomes real margin notes. */
+  .sx-quire { display: block; }
+  .sx-answer { display: block; float: inline-start; width: 30%; margin-inline-end: 4%; font-size: var(--sx-marginalia); }
+
+  /* Every URL that matters is printed as text beside its link. A printed
+     page whose links are invisible has lost half its content. */
+  a[href^='http']::after { content: ' <' attr(href) '>'; font-size: var(--sx-colophon); color: var(--sx-fg-quiet); word-break: break-all; }
+  a[href^='#']::after, a[href^='mailto']::after, .sx-lintel a::after, .sx-rail a::after { content: none; }
+
+  /* Rules survive. Shadows do not — a printer cannot print a shadow, and
+     what it prints instead is a grey smear. */
+  .sx-plate, .sx-crown, .sx-quad, .sx-note--attention {
+    box-shadow: none !important;
+    border: 0.5pt solid var(--sx-rule);
+    border-radius: 0;
+  }
+  .sx-plate::before, .sx-crown::before, .sx-meniscus::after, .sx-guilloche, .sx-watermark { display: none; }
+
+  /* DECLARED NON-PRINTING, each because it is an affordance rather than
+     content: nothing here carries information a reader of paper can use. */
+  .sx-lintel, .sx-keystone, .sx-rail, .sx-register-menu, .sx-index,
+  .sx-control, .sx-press, .sx-note--interrupt, .sx-error--system,
+  .sx-no-print { display: none !important; }
+
+  /* THE ACCESSIBLE TWIN PRINTS, and the instrument does not. On paper the
+     table IS the better rendering, and it is the same data. */
+  .sx-instrument__twin { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; }
+  .sx-instrument__plot, .sx-astrolabe__dial { display: none; }
+
+  /* The folio, on every page. Printed via a running element so it does
+     not have to be repeated in the markup. */
+  .sx-folio { position: fixed; inset-block-end: -14mm; inset-inline: 0; font-size: 7pt; color: var(--sx-fg-quiet); display: flex; justify-content: space-between; }
+
+  /* The colophon carries the QR to the live version, so a printed page is
+     never the last word. */
+  .sx-colophon-block { break-before: avoid; border-block-start: 0.5pt solid var(--sx-rule); }
+  .sx-colophon-block__qr { display: block; width: 22mm; height: 22mm; }
+
+  /* Motion has no print form. */
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

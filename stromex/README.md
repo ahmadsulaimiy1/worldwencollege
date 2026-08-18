@@ -6,6 +6,7 @@ This subtree holds the company's permanent assets:
 |---|---|
 | **[`MASTER-CONSTITUTION.md`](MASTER-CONSTITUTION.md)** | **The supreme governing document.** Every constitution, bible, standard and project derives from it. **Every new project begins here**, with the protocol at `MC §6`. Cited as `MC §n`. |
 | **[`editorial-bible/`](editorial-bible/)** | **The StromeX Editorial Bible** — thirty-seven volumes of institutional constitution, design language, standards and permanent rulings, derived from the whole existing estate. Cited as `SEB §volume.article`. |
+| **[`design-system/`](design-system/)** | **The StromeX Design Language, implemented** — the normative form of Volumes 30 and 34. Tokens, the Quire, the Meridian, Stratum, the Chronograph, the Register, the twenty canon components, six instruments, the print form, a rendered specimen, and four executable gates. See `SEB §30.19`. |
 | **[`mcp/`](mcp/)** | **The StromeX Intelligence Platform** — executive, governance, execution, council and memory. Today: the gate, eight provider adapters (seven infrastructure plus the OpenAI council), the workflow engine and the audit trail. See `SEB §36`. |
 
 Read the **Master Constitution** first, then the Bible. The platform is
@@ -33,8 +34,9 @@ git subtree split --prefix=stromex -b stromex-foundation
 ```
 
 Nothing in this subtree imports from, or is imported by, the college site
-around it. `stromex/mcp` carries its own `package.json`, its own
-`node_modules`, its own build and its own test suite. That separation is
+around it. `stromex/mcp` and `stromex/design-system` each carry their own
+`package.json`, their own `node_modules`, their own build and their own
+test suite. That separation is
 deliberate and should be preserved — see `SEB §4.9`.
 
 **Verified, not assumed:** with this subtree in place, the college's own

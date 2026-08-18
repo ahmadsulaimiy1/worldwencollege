@@ -486,3 +486,31 @@ Named, not implied (`SEB §2.3`):
 - **No surface in this volume has been tested with a screen-reader user.**
   Automated checks are not that, and this is the largest open item in the
   accessibility contract.
+
+---
+
+## §34.19 Implementation notes
+
+**Normative form: `stromex/design-system/`.** What this volume specifies
+in prose, that directory specifies in CSS, and the amendments building it
+produced are recorded at `SEB §30.19`.
+
+Three additions this volume did not anticipate:
+
+- **`repeat(auto-fit, minmax(<length>, 1fr))` is banned** (`SEB §30.15`).
+  The most-copied grid line on the web is wider than a 320px phone column
+  and scrolls the page sideways. `minmax(min(<length>, 100%), 1fr)`
+  collapses instead. `gates/tokens.mjs` refuses the bare form.
+- **A zero-width grid track still charges its gutters.** `column-gap`
+  applies between every pair of tracks, including the two either side of
+  a track that is absent — 54 of 320 pixels on a phone. The Quire's gap
+  is therefore a property of the *spread*, not of the grid.
+- **An absolutely-positioned child of a grid is positioned against its
+  grid area**, not the grid. A decorative ground placed in the default
+  `measure` column paints only across the measure; every ornament spans
+  `full`, explicitly.
+
+And one correction to §34.1's contract: the accessible twin of an
+instrument is hidden by a **clip**, never by `[hidden]` or
+`display: none`. Both remove it from the accessibility tree, which
+defeats the entire point of having one.
