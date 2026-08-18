@@ -132,7 +132,31 @@ that its limits are acceptable for your machine.
 | `STROMEX_SPEND_ENABLED` | `false` | Turns on automatic purchasing. Requires both limits below, or the server refuses to start |
 | `STROMEX_SPEND_CURRENCY` | `USD` | The policy's denomination. Purchases in another currency are refused, never converted |
 | `STROMEX_SPEND_MAX_SINGLE` | `0` | Maximum single purchase |
-| `STROMEX_SPEND_MONTHLY_CAP` | `0` | Rolling 30-day cap. **See `SEB-D 29`** — this was parsed and never enforced until the fix landed |
+| `STROMEX_SPEND_MONTHLY_CAP` | `0` | Rolling 30-day cap, computed from the audit log. **Counts only what passes through this server** — domain purchases and the OpenAI council. It cannot see Vercel bandwidth, GitHub Actions minutes, Neon compute or Cloudflare requests (`docs/cost-model.md §3`) |
+
+### The ruled configuration
+
+`SEB-D 28` names the policy. To run with it in force:
+
+```sh
+STROMEX_SPEND_ENABLED=true
+STROMEX_SPEND_CURRENCY=USD          # seven of the eight providers cannot bill in anything else
+STROMEX_SPEND_MAX_SINGLE=25
+STROMEX_SPEND_MONTHLY_CAP=150
+```
+
+**And, because OpenAI is an approved spending provider, the council's
+rates are no longer optional:** with a policy in force, a consultation
+that cannot be priced is refused rather than made and left uncounted.
+
+```sh
+OPENAI_PRICE_INPUT_PER_MTOK=2.00
+OPENAI_PRICE_OUTPUT_PER_MTOK=12.00
+OPENAI_PRICE_CURRENCY=USD
+```
+
+Set them to the rates on *your* plan — the values above are the published
+rates for one model as of 2026-08-18 and will drift.
 | `STROMEX_MCP_HTTP` | `false` | **Inert.** The HTTP transport is not implemented — the config is built and never read. Setting this changes nothing (`docs/security.md §7`) |
 | `STROMEX_MCP_HTTP_HOST` | `127.0.0.1` | Loopback by default, deliberately |
 | `STROMEX_MCP_HTTP_PORT` | `8437` | |

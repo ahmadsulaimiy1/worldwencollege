@@ -124,6 +124,7 @@ export function buildServer(options: BuildServerOptions): BuiltServer {
         remediation: 'This is a defect: every charge must go through the registry, which binds it to the spending policy and the audit record.',
       });
     },
+    spendingEnabled: policy.spendingEnabled,
     assertSpendHeadroom: () => {
       throw new StromexError({
         code: 'INTERNAL',

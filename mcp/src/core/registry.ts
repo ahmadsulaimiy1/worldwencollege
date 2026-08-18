@@ -127,6 +127,14 @@ export interface ToolContext {
    * spend.
    */
   assertSpendHeadroom: (currency: string) => void;
+  /**
+   * Whether a spending policy is in force at all.
+   *
+   * A handler needs this to tell "we are not accounting for money" from
+   * "we are accounting for money and cannot price this call" — the second
+   * must refuse, the first may proceed with a warning.
+   */
+  spendingEnabled: boolean;
 }
 
 export interface ToolDefinition<S extends RawShape = RawShape> {
@@ -361,7 +369,7 @@ export async function invokeTool(
     ctx.policy.assertSpendHeadroom(currency, spentInWindow(), definition.name);
   };
 
-  ctx = { ...ctx, commitSpend, assertSpendHeadroom };
+  ctx = { ...ctx, commitSpend, assertSpendHeadroom, spendingEnabled: ctx.policy.spendingEnabled };
 
   // ── 0. Declared secrets ────────────────────────────────────────────
   // Before validation, because a validation FAILURE is audited too and the
