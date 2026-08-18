@@ -305,7 +305,7 @@ not been put to the Founder.
 
 | | |
 |---|---|
-| **`.co.uk`** | Refused by the API with `extension_not_supported_via_api`. It is the estate's **primary domain**, so the most important domain in the estate remains outside every automated path. Whether Cloudflare carries it in the *dashboard* is **unverified** — `domains.cloudflare.com/tlds` refuses automated fetches |
+| **`.co.uk`** | Refused by the API with `extension_not_supported_via_api`. **This is no longer a constraint on new registrations** — the estate takes whatever extension is available (`SEB-D 36`, amended). It remains true of `worldwencollege.co.uk`, which is already registered and already serving: renewal and DNS for it stay manual |
 | **Renewals** | Not in the API beta. Every renewal is manual, at every registrar, for every domain |
 | **Transfers** | Not in the API beta. Moving `worldwencollege.co.uk` in is a manual job |
 

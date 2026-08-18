@@ -755,14 +755,23 @@ the registrar change's sixty cents.** Recorded as an option, not a
 ruling; it is a hosting decision with its own trade-offs and it has not
 been put to the Founder.
 
-**What this does NOT solve.** `.co.uk` — the estate's primary domain — is
-refused by Cloudflare's Registrar API with `extension_not_supported_via_api`.
+**Amended the same day: the extension is not a constraint.** The Founder
+ruled that the estate takes whatever extension is available, so the
+question of which TLDs the Registrar API carries is **closed, not open**.
+New domains are registered from whatever `cloudflare.registrar.check`
+reports as available; no TLD is a requirement and none is worth chasing.
+
+**What this does NOT solve, and the part that survives the amendment.**
+`.co.uk` — the estate's primary domain — is refused by Cloudflare's
+Registrar API with `extension_not_supported_via_api`.
 The API beta also has **no renewals and no transfers**. So the primary
 domain remains outside every automated path this server has, exactly as
 `SEB-D 35` recorded; only the registrar it is outside of has changed.
 Whether Cloudflare carries `.co.uk` in its dashboard at all is
-**unverified** — `domains.cloudflare.com/tlds` refuses automated fetches,
-and guessing was declined.
+**unverified and no longer worth establishing** — the amendment makes it
+irrelevant to any *new* registration. It stays true of the domain the
+institution is already serving from, which is a renewal and DNS concern
+rather than a purchasing one (`SEB-D 35`).
 
 **Two properties of Cloudflare registration that shape the tool.**
 Registrations are **non-refundable** once complete, so the handler prices
