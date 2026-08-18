@@ -16,7 +16,7 @@ import { HandleVault, resolveSecretArgument } from '../../core/vault.js';
 import { PolicyEngine, globMatch } from '../../core/policy.js';
 import { Logger } from '../../core/logger.js';
 import { REDACTION_PLACEHOLDER, __resetSecretRegistryForTests, redactText, redactValue, registerSecretValue } from '../../core/redact.js';
-import { SecretRef, parseEnv } from '../../core/secret.js';
+import { SecretRef, SecretResolver, parseEnv } from '../../core/secret.js';
 import { StromexError, codeForHttpStatus, toStromexError } from '../../core/errors.js';
 import { DEFAULT_RETRY_POLICY, delayFor, parseRetryAfter, shouldRetry } from '../../core/retry.js';
 import { CircuitBreaker, TokenBucket } from '../../core/ratelimit.js';
@@ -490,5 +490,76 @@ describe('errors', () => {
   it('serialises to a shape carrying code, message and remediation', () => {
     const json = new StromexError({ code: 'INPUT_INVALID', message: 'm', remediation: 'r' }).toJSON();
     assert.deepEqual(Object.keys(json).sort(), ['code', 'message', 'remediation', 'retryable']);
+  });
+});
+
+/*
+ * SEB-D 31. Rotation must take effect without a restart.
+ *
+ * The resolver memoised every secret for the lifetime of the process, so a
+ * credential rotated in the vault kept resolving to the old value until
+ * somebody restarted the server — while `doctor` cheerfully reported the
+ * new fingerprint. `installation.md §4a` and `SEB §9.2` both promised the
+ * opposite. It also made a one-hour GitHub App installation token
+ * unusable, which is the single best credential available to this estate.
+ */
+describe('credential rotation', () => {
+  it('an environment rotation is live on the very next call', () => {
+    const env: NodeJS.ProcessEnv = { TEST_TOKEN: 'first-value-long-enough' };
+    const resolver = new SecretResolver({ env });
+
+    assert.equal(resolver.resolve('TEST_TOKEN')!.reveal(), 'first-value-long-enough');
+    env['TEST_TOKEN'] = 'second-value-long-enough';
+    assert.equal(
+      resolver.resolve('TEST_TOKEN')!.reveal(),
+      'second-value-long-enough',
+      'the rotated value was not picked up — a restart would be needed, which is the defect',
+    );
+  });
+
+  it('the fingerprint moves with the value, so an operator can see the rotation', () => {
+    const env: NodeJS.ProcessEnv = { TEST_TOKEN: 'first-value-long-enough' };
+    const resolver = new SecretResolver({ env });
+    const before = resolver.resolve('TEST_TOKEN')!.fingerprint();
+    env['TEST_TOKEN'] = 'second-value-long-enough';
+    assert.notEqual(resolver.resolve('TEST_TOKEN')!.fingerprint(), before);
+  });
+
+  it('a command-resolved secret is cached briefly, then re-resolved', () => {
+    let calls = 0;
+    let clock = 0;
+    // The command resolver spawns a process, so it is the one source worth
+    // caching. The TTL is what bounds how stale a rotation can be.
+    const resolver = new SecretResolver({
+      env: {},
+      command: 'echo {name}',
+      now: () => clock,
+    });
+    const runCommand = Reflect.get(resolver, 'runCommand') as (n: string) => string | undefined;
+    Reflect.set(resolver, 'runCommand', (name: string) => {
+      calls += 1;
+      return `resolved-${name}-${calls}`;
+    });
+
+    assert.equal(resolver.resolve('TEST_TOKEN')!.reveal(), 'resolved-TEST_TOKEN-1');
+    assert.equal(resolver.resolve('TEST_TOKEN')!.reveal(), 'resolved-TEST_TOKEN-1', 'inside the TTL, cached');
+    assert.equal(calls, 1, 'the command should not be spawned twice inside the TTL');
+
+    clock += 60_001;
+    assert.equal(resolver.resolve('TEST_TOKEN')!.reveal(), 'resolved-TEST_TOKEN-2', 'past the TTL, re-resolved');
+    assert.ok(typeof runCommand === 'function');
+  });
+
+  it('a resolve failure is never cached as absence', () => {
+    let available = false;
+    const resolver = new SecretResolver({ env: {}, command: 'echo {name}' });
+    Reflect.set(resolver, 'runCommand', () => (available ? 'now-available-value' : undefined));
+
+    assert.equal(resolver.resolve('TEST_TOKEN'), undefined);
+    available = true;
+    assert.ok(
+      resolver.resolve('TEST_TOKEN'),
+      'a secret manager that was briefly unreachable was remembered as absent',
+    );
   });
 });

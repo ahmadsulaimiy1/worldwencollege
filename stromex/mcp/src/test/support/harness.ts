@@ -73,6 +73,14 @@ export function harness(options: HarnessOptions = {}): Harness {
     logLines,
     context(overrides = {}) {
       return {
+        // Replaced by the registry per invocation; a test that reaches
+        // this one is calling a handler outside the gate.
+        commitSpend: () => {
+          throw new Error('commitSpend was called outside a tool invocation');
+        },
+        assertSpendHeadroom: () => {
+          throw new Error('assertSpendHeadroom was called outside a tool invocation');
+        },
         logger,
         policy,
         audit,

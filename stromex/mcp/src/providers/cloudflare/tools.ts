@@ -136,6 +136,9 @@ export function cloudflareTools(): ToolDefinition[] {
       description: 'Creates or updates a Worker secret. The value is never logged, never audited and never returned.',
       provider: 'cloudflare',
       operationClass: 'write',
+      // The caller may pass the secret literally; the registry masks it
+      // out of the audit record because of this line (SEB-D 31).
+      secretArgs: ['value'],
       inputSchema: {
         name: z.string().min(1),
         key: z.string().min(1),

@@ -66,6 +66,8 @@ export interface SecretResolverOptions {
    */
   command?: string;
   env?: NodeJS.ProcessEnv;
+  /** Injectable clock, so the command cache's TTL is testable. */
+  now?: () => number;
 }
 
 /**
@@ -75,37 +77,70 @@ export interface SecretResolverOptions {
  *   2. an operator-owned env file   (mode-checked; see `loadEnvFile`)
  *   3. an external secret command   (the supported path to a real vault)
  *
- * Nothing is cached across a resolve failure, so rotating a credential in
- * the vault takes effect on the next call rather than the next restart.
+ * ROTATION TAKES EFFECT WITHOUT A RESTART, and the shape of the cache is
+ * what makes that true.
+ *
+ * The first version memoised every resolved SecretRef for the lifetime of
+ * the process. That is the obvious thing to write — resolution can spawn a
+ * subprocess, and doing it per request is wasteful — and it silently broke
+ * the one operational property that matters most about a credential: you
+ * could rotate it in the vault, `stromex-mcp doctor` would report the new
+ * fingerprint, and the running server would keep presenting the old value
+ * until somebody restarted it. `installation.md §4a` and `SEB §9.2` both
+ * promised otherwise.
+ *
+ * It also blocks the one genuinely good credential in the estate: a GitHub
+ * App installation token lives ONE HOUR. Memoised for the process
+ * lifetime, it expires and never refreshes.
+ *
+ * So: the environment and the operator file are re-read on EVERY call —
+ * they are already in memory and cost nothing — and only the command
+ * resolver is cached, for a short TTL, because that one spawns a process.
+ * A rotation is therefore live immediately for env and file, and within
+ * `COMMAND_TTL_MS` for a secret manager.
  */
+const COMMAND_TTL_MS = 60_000;
+
 export class SecretResolver {
   private readonly fileValues: Record<string, string>;
   private readonly command?: string;
   private readonly env: NodeJS.ProcessEnv;
-  private readonly cache = new Map<string, SecretRef>();
+  /** Command-resolved secrets only. Env and file are never cached. */
+  private readonly cache = new Map<string, { ref: SecretRef; expiresAtMs: number }>();
+  private readonly now: () => number;
 
   constructor(options: SecretResolverOptions = {}) {
     this.fileValues = options.fileValues ?? {};
     this.command = options.command;
     this.env = options.env ?? process.env;
+    this.now = options.now ?? (() => Date.now());
   }
 
   /** Returns undefined when the secret is simply not configured. */
   resolve(name: string): SecretRef | undefined {
-    const cached = this.cache.get(name);
-    if (cached) return cached;
-
+    // Env first, and re-read every time: this is where a rotated value
+    // appears, and it is a property lookup.
     const fromEnv = this.env[name];
-    if (fromEnv && fromEnv.trim()) return this.remember(new SecretRef(name, fromEnv.trim(), 'env'));
+    if (fromEnv && fromEnv.trim()) return new SecretRef(name, fromEnv.trim(), 'env');
 
     const fromFile = this.fileValues[name];
-    if (fromFile && fromFile.trim()) return this.remember(new SecretRef(name, fromFile.trim(), 'env-file'));
+    if (fromFile && fromFile.trim()) return new SecretRef(name, fromFile.trim(), 'env-file');
 
     if (this.command) {
+      const cached = this.cache.get(name);
+      if (cached && cached.expiresAtMs > this.now()) return cached.ref;
       const value = this.runCommand(name);
       if (value) return this.remember(new SecretRef(name, value, 'command'));
+      // A resolve FAILURE is never cached: a secret manager that was
+      // briefly unreachable must not be remembered as "absent".
+      this.cache.delete(name);
     }
     return undefined;
+  }
+
+  /** Drops every cached secret, so the next call re-resolves. */
+  invalidate(): void {
+    this.cache.clear();
   }
 
   /** Same as `resolve`, but a missing secret is a hard, well-explained failure. */
@@ -130,7 +165,7 @@ export class SecretResolver {
   }
 
   private remember(ref: SecretRef): SecretRef {
-    this.cache.set(ref.name, ref);
+    this.cache.set(ref.name, { ref, expiresAtMs: this.now() + COMMAND_TTL_MS });
     return ref;
   }
 

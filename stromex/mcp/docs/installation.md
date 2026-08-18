@@ -132,8 +132,8 @@ that its limits are acceptable for your machine.
 | `STROMEX_SPEND_ENABLED` | `false` | Turns on automatic purchasing. Requires both limits below, or the server refuses to start |
 | `STROMEX_SPEND_CURRENCY` | `USD` | The policy's denomination. Purchases in another currency are refused, never converted |
 | `STROMEX_SPEND_MAX_SINGLE` | `0` | Maximum single purchase |
-| `STROMEX_SPEND_MONTHLY_CAP` | `0` | Rolling 30-day cap |
-| `STROMEX_MCP_HTTP` | `false` | Enable the Streamable HTTP transport |
+| `STROMEX_SPEND_MONTHLY_CAP` | `0` | Rolling 30-day cap. **See `SEB-D 29`** — this was parsed and never enforced until the fix landed |
+| `STROMEX_MCP_HTTP` | `false` | **Inert.** The HTTP transport is not implemented — the config is built and never read. Setting this changes nothing (`docs/security.md §7`) |
 | `STROMEX_MCP_HTTP_HOST` | `127.0.0.1` | Loopback by default, deliberately |
 | `STROMEX_MCP_HTTP_PORT` | `8437` | |
 | `STROMEX_MCP_HTTP_ORIGINS` | — | Permitted `Origin` values |

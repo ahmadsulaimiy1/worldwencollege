@@ -87,7 +87,13 @@ export class OpenAiClient {
   readonly http: HttpClient;
   private readonly apiKey: SecretRef;
   private readonly defaultModel: string;
-  private readonly pricing: OpenAiClientOptions['pricing'];
+  /**
+   * Public, because the spending gate needs to know which currency this
+   * client bills in before it makes a metered call — and because a
+   * consultation that cannot be priced cannot be counted against the cap,
+   * which is a fact a caller is entitled to see.
+   */
+  readonly pricing: OpenAiClientOptions['pricing'];
 
   constructor(options: OpenAiClientOptions) {
     this.apiKey = options.apiKey;

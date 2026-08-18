@@ -128,6 +128,11 @@ Because an automation layer holding seven providers' credentials is the
 most valuable target in the estate, its boundary is stated explicitly:
 
 - **stdio by default.** No network listener unless one is asked for.
+- **`[NOT IMPLEMENTED — corrected 2026-08-18]`** The clause below describes
+  a transport the MCP does not have. `config.ts` builds the config and
+  nothing reads it; the server speaks stdio and only stdio. The rule stands
+  as a requirement on any future transport, not as a description of one
+  that exists (`mcp/docs/security.md §7`, `SEB-D 31`).
 - **Where an HTTP transport is enabled**, it binds to loopback by default,
   requires a bearer token, and validates the `Origin` header — the
   documented mitigation for DNS-rebinding attacks against local MCP

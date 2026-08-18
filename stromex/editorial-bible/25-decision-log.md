@@ -423,6 +423,136 @@ only in the design system.
 
 **Confidence High.**
 
+### `SEB-D 28` — The spending policy, named
+
+**Decided 2026-08-18 by the Founder**, under `SEB §26.6`, which requires an
+explicit recorded decision naming four things. Three are settled; the
+fourth is open pending a costing.
+
+| §26.6 requires | Ruled |
+|---|---|
+| **The currency** | **USD.** Not because the institution's money is USD — it is not — but because that is what the providers invoice in, and the policy refuses a mismatch rather than converting (`policy.ts:236`). See the Naira note below |
+| **The maximum single purchase** | **US$25.** Deliberately tight: a standard `.com` or `.org` registration passes without interrupting anyone, and essentially everything else stops and asks. The Founder chose tighter than the US$100 recommended, and was right to |
+| **The rolling monthly cap** | **OPEN.** Ruled "price it first" — the figure is to be derived from published provider list prices across three costed scenarios, not chosen. Until it is set, spending stays disabled |
+| **The approved providers** | **Vercel (registrar), OpenAI (the council), Resend and Brevo (email sending).** Infrastructure provisioning — Neon, Cloudflare, Vercel projects — is deliberately **excluded** |
+
+**The Naira note.** The institution's operating currency is NGN and the
+Founder's authority is denominated in it. The *policy* is denominated in
+USD because that is the currency of the actual charge. The server never
+converts; the conversion is the Founder's, made deliberately and on the
+record. The NGN figure and its review trigger are recorded when the cap
+is set.
+
+**Two riders the Founder's answer did not ask for and gets anyway.**
+
+1. `brevo.campaign.send` takes only a `campaignId`, so neither the tool
+   nor the gate can know how many recipients it is about to bill for. It
+   enters the spending scope with a declared recipient ceiling, or the
+   limit is decorative.
+2. Infrastructure provisioning is excluded from the spending scope and
+   **still incurs cost** — `neon.project.create`, `cloudflare.d1.create`,
+   `vercel.project.create` and six others create recurring charges as
+   ordinary `write` operations. Excluded is not the same as harmless, and
+   the register says so rather than letting the omission read as coverage.
+
+**Confidence High** on the ruling. **This decision does not take effect
+until `SEB-D 29` is discharged.**
+
+### `SEB-D 29` — The spending controls were claimed and not enforced
+
+**Found 2026-08-18** by a grounding pass run before putting Q3 to the
+Founder; 44 of 44 claims confirmed against source, six further risks
+found. §26.6 requires four things to be named; **three of the four were
+not enforced, and the server reported that they were.**
+
+| | Defect |
+|---|---|
+| 🔴 | `monthlyCap` is parsed, **required to be positive before spending can be enabled**, printed in the CLI banner and returned by `stromex.policy.describe` — and read by no decision anywhere. Three surfaces told an operator a cumulative budget existed |
+| 🔴 | A successful purchase returns `warnings: ['Recorded in the audit log with its cost and reason…']`. `AuditRecordInput` has no cost field. The assurance was false in operator-visible output |
+| 🔴 | Auto-renew defaulted to **true**, so a gated one-time purchase became an ungated perpetual annual charge — never approved, never audited, never counted |
+| 🟠 | The gated amount was `args.maxPrice`, a ceiling the **caller** declares, not the price the registrar quotes |
+| 🟠 | The currency check compared the caller's declared currency, never the provider's returned `price.currency` — the one control §26.6's own enforcement paragraph claims |
+| 🟠 | Sixteen OpenAI council tools spend real money, declare no purchase, and are plain `write` |
+| 🟠 | The audit log cannot serve as a compensating control: "bought" and "not bought, quoted above ceiling" both return `ok` and audit identically |
+
+This is `SEB §2.6` exactly — *a control that is claimed and not enforced
+is worse than one that is absent*. It is recorded here rather than
+quietly corrected, because the estate's own honesty protocol binds
+hardest when the finding is embarrassing.
+
+**Ruled.** `SEB-D 28` does not take effect until every row above is
+implemented, tested with a test that fails first, and the documentation
+corrected. **Confidence High.**
+
+### `SEB-D 30` — Credential scope, and a risk knowingly accepted
+
+**Decided 2026-08-18 by the Founder**, answering `SEB §28.4` Q9. The
+question is recorded as three rulings because the providers differ in
+what they can express, and two of them can express nothing.
+
+| | Ruled | Recommended |
+|---|---|---|
+| **GitHub** | **All repositories in the account** | Only repositories under active work |
+| **The other seven** | **Read and write together**, scoped as tightly as each provider allows | Read-only first, to close `not-verified.md §1` at almost no blast radius |
+| **Clerk and Brevo** | **Production credentials, accepting the risk** | A `sk_test_` instance and a dedicated sub-account |
+
+**The recommendation is recorded beside the ruling, not instead of it.**
+`SEB §0.6` requires that the next person to propose the rejected option
+can see it was considered; that cuts both ways, and the Founder's
+authority to overrule is not diminished by writing down what was
+overruled.
+
+**What is knowingly accepted.** Established from the providers' own
+current documentation on 2026-08-18:
+
+- **Clerk cannot be scoped at all.** There is no read-only key, no
+  per-endpoint scope, no per-resource restriction, no expiry and no IP
+  allowlist. Any `sk_live_` key is full administrative control of the
+  instance, including irreversible deletion of users and organisations.
+- **Brevo cannot be scoped at all** on a plain `api-key`. Full account:
+  send campaigns, export the entire contact database, delete contacts and
+  lists, spend SMS credits. OAuth 2.0 offers real scopes and is not the
+  path the adapter currently takes.
+- **A classic GitHub PAT has no repository dimension whatsoever** — `repo`
+  grants write to every repository in every organisation the holder can
+  reach. If the all-repository ruling is implemented with a classic PAT,
+  the blast radius is the whole account. A **fine-grained PAT set to "All
+  repositories"** achieves the same reach with per-permission control and
+  an expiry, and is therefore the form this ruling takes.
+- **Cloudflare "Edit" is full CRUDL including delete**, with no
+  per-Worker or per-namespace selector outside R2.
+
+**The remaining guard is the protected-operation class.** With production
+Clerk and Brevo credentials installed, `clerk.user.delete`,
+`clerk.organization.delete` and `brevo.contact.delete` are the only
+things standing between an automated call and irreversible loss of real
+institutional records. That class must therefore be re-verified against
+the live surface before those credentials are installed, not after.
+
+**Reversal.** Narrow any of the three at any time; nothing depends on the
+width. **Confidence High** on the record; the risk is the Founder's and
+is accepted in terms.
+
+### `SEB-D 31` — Fixes precede credentials
+
+**Ruled 2026-08-18** under the executive-autonomy protocol (`SEB §0.5`),
+as security patching rather than as a decision put to the Founder.
+
+A caller-supplied literal `value:` argument to `github.secret.put`,
+`cloudflare.worker.secret.put` or `vercel.env.set` is written **in
+plaintext** to the hash-chained audit file, contradicting those tools'
+own descriptions ("never written to the audit log", "never logged, never
+audited and never returned"). The log is append-only, so a leaked value
+cannot be removed without breaking the chain from that point forward.
+
+Installing production credentials on a component that can spill them into
+a file it cannot un-spill is not a trade-off worth making for the days it
+would save. **The fixes land first.** This is not a gate on the Founder's
+authority; it is the ordering any competent operator would choose, and it
+is recorded so that the delay is attributable.
+
+**Confidence High.**
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
@@ -432,13 +562,13 @@ None is answered on your behalf.
 |---|---|---|---|
 | **Q1** | StromeX Technologies' relationship to Sulaimiy Education Group | 🔴 | `SEB §0.7`, Volume 8, Volume 22 |
 | **Q2** | Data controller and residency position per system | 🔴 | Any real personal data in production |
-| **Q3** | Spending authority — per project, per month, which providers | 🟡 | `SEB §26.6` |
+| **Q3** | Spending authority — per project, per month, which providers | 🟢 **answered, `SEB-D 28`** — cap still open | `SEB §26.6` |
 | **Q4** | Are the retention periods Board-confirmed? | 🟡 | Volume 22; any destruction capability |
 | **Q5** | Second approver for the Nursery and Primary School | 🟡 | Volume 12's joint control |
 | **Q6** | Ministry of Education approval number | 🟢 | A compliance surface |
 | **Q7** | Which domains are actually owned and renewed | 🟡 | Volume 10; every mail-sending workflow |
 | **Q8** | Is award nomenclature (`AMC-D D-03`) closed? | 🟡 | Volume 12's award ladder |
-| **Q9** | Should the MCP hold write credentials for every repository? | 🟡 | Credential scoping |
+| **Q9** | Should the MCP hold write credentials for every repository? | 🟢 **answered, `SEB-D 30`** | Credential scoping |
 | **Q10** | Where should secrets live? | 🟡 | Installation |
 
 ---

@@ -222,6 +222,115 @@ export class PolicyEngine {
     return undefined;
   }
 
+  /**
+   * The commit-time check: the price the PROVIDER actually quoted, checked
+   * against the policy immediately before the irreversible step.
+   *
+   * This exists because the gate cannot do it. The policy runs before the
+   * handler, and only the handler knows the real price — so what the gate
+   * saw was `args.maxPrice`, a ceiling the CALLER declares. A caller
+   * asking for `maxPrice: 5` passed a US$25 limit and then bought
+   * whatever the registrar actually charged.
+   *
+   * The gate's pre-check is still worth having: it refuses a caller who
+   * ANNOUNCES an intent to spend more than the limit, before a single
+   * provider call is made. But the money is bound here.
+   *
+   * Throws rather than returning a decision, because there is no
+   * "approval_required" at commit time: the handler is already mid-flight
+   * and the honest answer to "this costs more than you allowed" is to stop.
+   *
+   * (`SEB-D 29`.)
+   */
+  assertSpendPermitted(
+    charge: { amount: number; currency: string; description: string },
+    spentInWindow: number,
+  ): void {
+    const spending = this.config.spending;
+
+    if (!spending.enabled) {
+      throw new StromexError({
+        code: 'POLICY_SPEND_LIMIT',
+        message: `${charge.description} would cost ${charge.amount} ${charge.currency}, and automatic purchasing is disabled.`,
+        remediation: 'Turn on the spending policy deliberately (STROMEX_SPEND_ENABLED with both limits), or make the purchase manually.',
+      });
+    }
+
+    // The currency of the ACTUAL charge, not the one the caller declared.
+    // This is the check §26.6's own enforcement paragraph claims, and it
+    // was inert against the real transaction.
+    if (charge.currency.toUpperCase() !== spending.currency.toUpperCase()) {
+      throw new StromexError({
+        code: 'POLICY_SPEND_LIMIT',
+        message: `The provider quoted ${charge.amount} ${charge.currency} but the spending policy is denominated in ${spending.currency}.`,
+        remediation: 'This server does not convert currencies to decide whether a limit is met. Denominate the policy in the currency the provider bills in, or make the purchase manually.',
+      });
+    }
+
+    if (charge.amount > spending.maxSinglePurchase) {
+      throw new StromexError({
+        code: 'POLICY_SPEND_LIMIT',
+        message: `${charge.description} costs ${charge.amount} ${charge.currency}, above the ${spending.maxSinglePurchase} ${spending.currency} single-purchase limit.`,
+        remediation: 'Raise STROMEX_SPEND_MAX_SINGLE deliberately, or make this purchase manually.',
+      });
+    }
+
+    // THE ROLLING CAP. Parsed, required to be positive before spending
+    // could be enabled, printed in the banner, returned by
+    // stromex.policy.describe — and read by no decision anywhere, for
+    // three releases. §26.6 says "the cap is never exceeded
+    // automatically"; this is the line that makes that true.
+    const wouldTotal = spentInWindow + charge.amount;
+    if (wouldTotal > spending.monthlyCap) {
+      throw new StromexError({
+        code: 'POLICY_SPEND_LIMIT',
+        message:
+          `${charge.description} costs ${charge.amount} ${charge.currency}, which would take the rolling 30-day total to ` +
+          `${round2(wouldTotal)} ${spending.currency}, above the ${spending.monthlyCap} ${spending.currency} cap ` +
+          `(${round2(spentInWindow)} already committed in the window).`,
+        remediation: 'Wait for the window to roll, raise STROMEX_SPEND_MONTHLY_CAP deliberately, or make this purchase manually.',
+      });
+    }
+  }
+
+  /**
+   * May a METERED call be made at all?
+   *
+   * Distinct from `assertSpendPermitted` because the question is
+   * different. A metered call has no price yet, so "would this amount
+   * exceed the cap" is unanswerable; the answerable question is "is there
+   * any headroom left". The window is therefore checked with `>=`, not
+   * `>`: sitting exactly ON the cap means the next call — which will cost
+   * something — exceeds it, and there is no such thing as a free
+   * consultation.
+   */
+  assertSpendHeadroom(currency: string, spentInWindow: number, description: string): void {
+    const spending = this.config.spending;
+
+    if (!spending.enabled) {
+      throw new StromexError({
+        code: 'POLICY_SPEND_LIMIT',
+        message: `${description} calls a metered provider that bills in ${currency}, and the spending policy is off.`,
+        remediation:
+          'A metered call cannot be priced in advance, so it is refused rather than made and counted afterwards. Set STROMEX_SPEND_ENABLED with both limits to allow it, or leave the provider\'s pricing variables unset to use it without cost accounting.',
+      });
+    }
+    if (currency.toUpperCase() !== spending.currency.toUpperCase()) {
+      throw new StromexError({
+        code: 'POLICY_SPEND_LIMIT',
+        message: `${description} bills in ${currency} but the spending policy is denominated in ${spending.currency}.`,
+        remediation: 'This server does not convert currencies. Denominate the policy in the currency the provider bills in, or leave that provider unpriced.',
+      });
+    }
+    if (spentInWindow >= spending.monthlyCap) {
+      throw new StromexError({
+        code: 'POLICY_SPEND_LIMIT',
+        message: `The rolling 30-day window is at ${round2(spentInWindow)} of ${spending.monthlyCap} ${spending.currency}. A metered call has no price until it has been made, so it is refused rather than allowed to cross the cap.`,
+        remediation: 'Wait for the window to roll, or raise STROMEX_SPEND_MONTHLY_CAP deliberately.',
+      });
+    }
+  }
+
   private evaluatePurchase(purchase: NonNullable<PolicyRequest['purchase']>): PolicyDecision | undefined {
     const spending = this.config.spending;
     if (!spending.enabled) {
@@ -244,11 +353,18 @@ export class PolicyEngine {
       return {
         decision: 'approval_required',
         requiresBackup: false,
-        reason: `${purchase.description} costs ${purchase.amount} ${purchase.currency}, above the ${spending.maxSinglePurchase} ${spending.currency} single-purchase limit.`,
+        reason: `${purchase.description} costs up to ${purchase.amount} ${purchase.currency}, above the ${spending.maxSinglePurchase} ${spending.currency} single-purchase limit.`,
       };
     }
+    // NOTE what this gate does NOT decide: whether the real price is
+    // within the limits. It cannot — the provider has not been asked yet.
+    // `assertSpendPermitted` binds the actual charge.
     return undefined;
   }
+}
+
+function round2(n: number): number {
+  return Math.round(n * 100) / 100;
 }
 
 /**
