@@ -128,3 +128,39 @@ The last two are the ones that make a report worth reading again.
 `SEB §2.1`: seven days from event to record. For engineering, the window
 is the same commit. A change that alters behaviour and leaves its
 documentation stale has not been completed (`SEB §5.9`).
+
+
+---
+
+## §18.14 Writing a decision for the person who must take it
+
+**Added 2026-08-18 (`SEB-D 37`).** This estate's documentation standard
+already governs what is written down. This article governs what is
+**asked**.
+
+A decision put to a human is a different artefact from a document written
+for engineers, and it fails differently. An engineering document that
+assumes vocabulary costs the reader a search. A *decision* that assumes
+vocabulary costs the reader their authority — they answer a question they
+could not fully read, and the answer is recorded as theirs.
+
+**The four rules:**
+
+| | |
+|---|---|
+| **1** | **Define each term where it first appears**, in the sentence, in ordinary words. Not a glossary and not a link |
+| **2** | **Give the mechanism, not the label.** The reader should be able to predict what happens next, not merely recognise the word |
+| **3** | **State the real consequence of being wrong** — what breaks, who notices, what it costs, whether it is reversible |
+| **4** | **Necessary and sufficient.** Everything load-bearing; nothing else. Brevity that omits a consequence is not brevity, it is a defect |
+
+**An analogy is permitted and often required.** A hotel key card that opens
+one room versus a master key that opens the building explains credential
+scoping in one line to a reader for whom "scope" is an unfamiliar verb.
+
+**This does not license simplifying the decision itself.** The content is
+unchanged; only the vocabulary is made shared. Where a decision is
+genuinely irreducible, say so and explain it fully rather than reducing it
+to something answerable but different.
+
+**A decision may always be re-put.** Being misunderstood once does not make
+a ruling binding.
