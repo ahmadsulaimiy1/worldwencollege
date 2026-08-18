@@ -189,8 +189,8 @@ repeating here because they are structural, not decorative:
 
 - **Each level is a complete academic achievement**, separately awarded,
   with its own outcomes, competency profile and graduate identity. A
-  learner who stops at Level III *is* an English Associate of Albalagh
-  International Premium College, permanently.
+  learner who stops at Level III *is* an English Associate of Worldwide
+  English College, permanently.
 - **The IEFC itself is conferred at Level VI.** The certificate is the
   capstone qualification of the whole programme; the six awards are the
   standing conferred at each stage of it.

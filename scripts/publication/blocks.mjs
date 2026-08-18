@@ -100,9 +100,8 @@ export const FRONT = [
 
   B.label('One — Sections that would require inventing people'),
   B.p('A publication of this kind conventionally opens with a Foreword, a Presidential Message and a '
-    + 'message from the Academic Senate. Those are signed statements by named officers. Albalagh '
-    + 'International Premium College has no appointed President, and its Academic Senate and its '
-    + 'Board of Academic '
+    + 'message from the Academic Senate. Those are signed statements by named officers. Worldwide '
+    + 'English College has no appointed President, and its Academic Senate and its Board of Academic '
     + 'Standards and Curriculum Excellence are established but not yet constituted — no members have '
     + 'been appointed to either. Composing those sections would mean writing the words of officers '
     + 'who do not exist. They are omitted. The institutional voice in this edition is the College\'s '
