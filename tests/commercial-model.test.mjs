@@ -107,15 +107,26 @@ check('No page describes the independent award as a lesser one', !LESSER.test(en
   check('The materials step does not claim to sell downloadable books',
     !/downloadable/i.test(materials.en.buys),
     'the Library gives those away free — sell access to the platform, not the PDF');
-  check('...and says, where the fee is charged, that the books stay free',
-    /books stay free/i.test(materials.en.buys) && /Library/.test(materials.en.buys));
+  // MATCHED ON THE SUBSTANCE, not one phrasing of it. The wording moved
+  // from "the books stay free" to naming Level I as the open level and
+  // linking the access policy, which is more precise — it no longer
+  // promises that volumes the Press has not produced will be free. A
+  // guard pinned to the old sentence would have forced the vaguer one
+  // back.
+  //
+  // What must survive: the paid step says, where the fee is charged,
+  // that Level I is open to anyone, and links to the Library.
+  const OPEN_LEVEL = /Level I stays open to everyone/i;
+  const OPEN_LEVEL_AR = /يبقى المستوى الأول مفتوحًا للجميع/;
+  check('...and says, where the fee is charged, that Level I is open to anyone',
+    OPEN_LEVEL.test(materials.en.buys) && /press\/library/.test(materials.en.buys));
   check('...in Arabic too',
-    /الكتب فتبقى مجانية/.test(materials.ar.buys) && /المكتبة/.test(materials.ar.buys));
+    OPEN_LEVEL_AR.test(materials.ar.buys) && /press\/library/.test(materials.ar.buys));
 
   // And on the rendered pages, not only in the data.
-  check('English: the page carries the free-books statement beside the fee',
-    /books stay free/i.test(en));
-  check('Arabic: the same', /الكتب فتبقى مجانية/.test(ar));
+  check('English: the page carries the open-level statement beside the fee',
+    OPEN_LEVEL.test(en));
+  check('Arabic: the same', OPEN_LEVEL_AR.test(ar));
 }
 
 // ── 4 · A REMISSION, NOT A COMMISSION ────────────────────────────────

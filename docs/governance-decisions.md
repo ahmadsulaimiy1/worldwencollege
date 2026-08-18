@@ -797,6 +797,44 @@ the admissions record, or on a seat bought under a partner band.
 
 **Decision:** ☑ **ADOPTED 17 August 2026 (Executive).**
 
+### F5. The open level, and access to the ones above it
+The owner's instruction, in two parts: **Level I is the open level** and
+downloads freely, because the College's proof is that a reader can take
+in a whole level before paying anything; and **Levels II to VI ship with
+enrolment or with the independent route's access step** as the Press
+produces their teaching volumes.
+
+**Recommendation:** adopt both, with three constraints that decide
+whether the policy is a standard or a gate.
+
+1. **Nothing already published is withdrawn.** All sixteen volumes in
+   the Library today are open and stay open. The rule binds volumes the
+   Press has not yet produced. It is written before them for the same
+   reason the curriculum was written before it was taught: a policy
+   announced after the fact is indistinguishable from one invented to
+   justify it.
+2. **The criteria stay open to everyone.** The Assessment Handbook, the
+   Flagship Curriculum, the Programme Architecture and the Pronunciation
+   Handbook are what a candidate is entitled to read before deciding to
+   pay, and gating any of them would make the rest of the Library
+   decorative.
+3. **No security theatre.** The page says access comes with enrolment.
+   It does not say the files are locked, and the College does not
+   pretend a published PDF can be recalled.
+
+*Mechanism.* Every volume in `data/library.json` carries an `access`
+tier. `served` — the set that gets a public `/library/…` URL and a
+download button — is computed as open-and-not-oversize, so a gated
+volume is absent from the redirects and from the page by construction
+rather than by a check somebody has to remember.
+`tests/library-access.test.mjs` holds the tier on every volume, fails if
+a gated volume keeps a URL, proves that sweep against a volume that
+really is served, and pins the open count at sixteen so that a
+withdrawal has to be a decision rather than a passing build.
+
+**Decision:** ☑ **ADOPTED 17 August 2026 (Executive).** The independent
+route's access step (F1) is the purchase route this policy refers to.
+
 ## E-deferred. Still insufficient basis to recommend
 
 I am not proposing values for these. Each needs information I do not
