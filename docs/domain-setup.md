@@ -336,54 +336,8 @@ verification record to create.
 
 ## What is already correct in this repository
 
-Nothing needs changing for `worldwencollege.co.uk` **itself** to work.
-Every page's canonical tag, `og:url` and `og:image` use
-`https://www.worldwencollege.co.uk`, and `robots.txt` points the
-sitemap there. The repository has been written for this domain since
-the site was built.
-
----
-
-## Pending — the Albalagh domain
-
-The College was renamed to **Albalagh International Premium College**
-and `worldwencollege.co.uk` is the previous name's domain. It is still
-the origin the site is served from, so it has been left in place rather
-than swapped for a domain nobody has registered: a canonical URL, an
-`og:url` or a `From:` address pointing at an unowned domain does not
-degrade gracefully, it simply breaks. The site says so plainly on
-`/contact/` in both languages rather than printing an address that
-looks current and is not.
-
-Every place the origin or an address is *defined* carries a
-`TODO(domain)` marker. Grep for it — `grep -rn "TODO(domain)"` — or
-work this list:
-
-| Where | What it holds |
-|---|---|
-| `scripts/build.js` — `SITE_URL` | The single origin behind every canonical, hreflang and `sitemap.xml` entry. Changing it regenerates all of them. |
-| `partials/head.html` | `og:image`, and the JSON-LD `url` and `email`. Not derived from `SITE_URL`. |
-| `partials/topbar.html`, `topbar.ar.html` | The contact address in the utility bar. |
-| `partials/footer.html`, `footer.ar.html` | The contact address in the footer. |
-| `pages/contact.html`, `contact.ar.html` | The address, the `data-mailto-to` form target, and the callout explaining all of this — which should be **deleted**, not reworded, once the domain is real. |
-| `_redirects` | The apex → www rule. |
-| `.env.example` | `BREVO_FROM_ADDRESS`, `RESEND_FROM_ADDRESS`, `NOTIFICATION_EMAIL`, `CLERK_AUTHORIZED_PARTIES`. |
-| `.github/workflows/deploy-cloudflare.yml` | The post-deploy verification step, which fetches the live host to confirm the build stamp. |
-| `robots.txt`, `sitemap.xml` | `sitemap.xml` is generated from `SITE_URL`; `robots.txt` is not. |
-
-Order matters in two places:
-
-1. **Mail.** `BREVO_FROM_ADDRESS` / `RESEND_FROM_ADDRESS` must change at
-   the same moment the new domain is authenticated with the provider.
-   Sending from a domain you have not proved control of fails SPF and
-   DKIM, so mail does not bounce visibly — it is silently spam-filed.
-2. **Redirects.** Keep `worldwencollege.co.uk` registered and
-   301-redirecting to the new domain rather than letting it lapse.
-   Every credential, printed volume and verification URL issued before
-   the move names the old host, and `/standards/verification/` is the
-   one route that must not break.
-
-Note also that infrastructure names were rebranded with the College
-(`aipc` Pages project, `aipc` D1 database, `aipc-recordings` and
-`aipc-kyc-documents` buckets) — so the deployment URL is
-`aipc.pages.dev`, which is what the sections above refer to.
+Nothing needs changing here for the domain to work. Every page's
+canonical tag, `og:url` and `og:image` already use
+`https://www.worldwencollege.co.uk`, and `robots.txt` already points
+the sitemap there. The repository has been written for this domain
+since the site was built; it has simply never had DNS behind it.
