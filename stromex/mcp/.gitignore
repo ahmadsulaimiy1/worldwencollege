@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Local operator state. Never committed: the first holds credentials,
+# the second and third are the audit and recovery record of a real
+# estate and are machine-local by design (see docs/security.md § 4).
+.env
+.env.local
+var/
