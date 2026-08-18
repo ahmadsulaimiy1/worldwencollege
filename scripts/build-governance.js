@@ -536,7 +536,7 @@ PAGES.evidence = {
     </div>
     <div class="grid grid--4">
 ${card('Exists', `${E.states.exists || 0} items`, 'Written, in the College&rsquo;s possession, and producible on request. The programme specifications, the curriculum maps, the assessment regulations, the governance register itself.')}
-${card('Governance pending', `${E.states.governance_pending || 0} items`, 'Drafted, and waiting on a decision that has not been taken. These are not missing documents; they are documents nobody has yet been appointed to approve.')}
+${card('Governance pending', `${E.states.governance_pending || 0} items`, 'Not written. For five of them the decision has now been taken &mdash; the Executive adopted all twenty-five outstanding decisions on 14 August 2026 &mdash; and what is missing is the regulation somebody must draft from it. For the rest, including the College&rsquo;s own constitution, no document exists and no body with the standing to approve one has been constituted.')}
 ${card('Not instrumented', `${E.states.not_instrumented || 0} items`, 'Nothing collects the data at all. Live-session attendance, student feedback and academic misconduct are the clearest cases. Recorded as not instrumented rather than as zero, because &ldquo;no cases recorded&rdquo; and &ldquo;no cases occurred&rdquo; are different statements and only the first is true.')}
 ${card('Scheduled', `${E.states.scheduled || 0} items`, 'Cannot exist yet by their own nature &mdash; an annual monitoring report before a first year, a graduate outcomes record before a first graduate. Dated rather than pretended.')}
     </div>
