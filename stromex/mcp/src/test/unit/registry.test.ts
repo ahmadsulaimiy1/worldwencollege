@@ -664,3 +664,43 @@ describe('the spending policy, enforced', () => {
     assert.match(envelope.error!.message, /metered provider/);
   });
 });
+
+/*
+ * SEB-D 29, closing a hole the first fix left.
+ *
+ * The metered headroom check was guarded on pricing being configured, so
+ * an unpriced consultation was neither checked before nor counted after —
+ * the rolling cap silently did not apply to the provider most likely to
+ * loop. Unpriced is fine while nobody is accounting for money; it is not
+ * fine once somebody is.
+ */
+describe('an unpriceable metered call', () => {
+  const unpriceable = defineTool({
+    name: 'test.metered.unpriced',
+    title: 'Unpriced',
+    description: 'A metered call with no rates configured.',
+    provider: 'test',
+    operationClass: 'write',
+    inputSchema: {},
+    handler: async (_args: unknown, ctx: ToolContext) => {
+      if (!ctx.spendingEnabled) return { summary: 'called, unpriced', data: {}, warnings: ['unpriced'] };
+      throw new StromexError({
+        code: 'CONFIG_INVALID',
+        message: 'A spending policy is in force but this call cannot be priced.',
+        remediation: 'Configure the per-token rates.',
+      });
+    },
+  } as never);
+
+  it('proceeds while no spending policy is in force', async () => {
+    const envelope = await invokeTool(unpriceable, {}, harness().context());
+    assert.equal(envelope.ok, true, 'unpriced is acceptable when nobody is accounting for money');
+  });
+
+  it('is refused once a spending policy IS in force', async () => {
+    const h = harness({ policy: { spending: { enabled: true, currency: 'USD', maxSinglePurchase: 25, monthlyCap: 150 } } });
+    const envelope = await invokeTool(unpriceable, {}, h.context());
+    assert.equal(envelope.ok, false, 'an uncountable charge slipped past a cap that is supposed to bound it');
+    assert.equal(envelope.error?.code, 'CONFIG_INVALID');
+  });
+});

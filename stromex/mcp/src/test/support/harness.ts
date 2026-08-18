@@ -78,6 +78,7 @@ export function harness(options: HarnessOptions = {}): Harness {
         commitSpend: () => {
           throw new Error('commitSpend was called outside a tool invocation');
         },
+        spendingEnabled: policy.spendingEnabled,
         assertSpendHeadroom: () => {
           throw new Error('assertSpendHeadroom was called outside a tool invocation');
         },

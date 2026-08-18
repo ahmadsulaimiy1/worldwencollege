@@ -222,6 +222,12 @@ export class PolicyEngine {
     return undefined;
   }
 
+  /** Whether a spending policy is in force. Read by handlers that must
+   *  distinguish "not accounting for money" from "cannot price this". */
+  get spendingEnabled(): boolean {
+    return this.config.spending.enabled;
+  }
+
   /**
    * The commit-time check: the price the PROVIDER actually quoted, checked
    * against the policy immediately before the irreversible step.

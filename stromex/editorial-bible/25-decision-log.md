@@ -433,7 +433,7 @@ fourth is open pending a costing.
 |---|---|
 | **The currency** | **USD.** Not because the institution's money is USD — it is not — but because that is what the providers invoice in, and the policy refuses a mismatch rather than converting (`policy.ts:236`). See the Naira note below |
 | **The maximum single purchase** | **US$25.** Deliberately tight: a standard `.com` or `.org` registration passes without interrupting anyone, and essentially everything else stops and asks. The Founder chose tighter than the US$100 recommended, and was right to |
-| **The rolling monthly cap** | **OPEN.** Ruled "price it first" — the figure is to be derived from published provider list prices across three costed scenarios, not chosen. Until it is set, spending stays disabled |
+| **The rolling monthly cap** | **US$150.** Derived, not chosen: the costing is at `mcp/docs/cost-model.md`. It is ~3× the OpenAI council's expected monthly use with room for a few domain registrations — comfortably above scenario B's $50 council line so it never fires during legitimate work, and low enough that a council loop is caught within days. **It bounds what passes through this server and nothing else** |
 | **The approved providers** | **Vercel (registrar), OpenAI (the council), Resend and Brevo (email sending).** Infrastructure provisioning — Neon, Cloudflare, Vercel projects — is deliberately **excluded** |
 
 **The Naira note.** The institution's operating currency is NGN and the
@@ -455,8 +455,14 @@ is set.
    ordinary `write` operations. Excluded is not the same as harmless, and
    the register says so rather than letting the omission read as coverage.
 
-**Confidence High** on the ruling. **This decision does not take effect
-until `SEB-D 29` is discharged.**
+**The Naira ceiling is DEFERRED** until there is a real invoice to
+reconcile against. Recorded as open rather than derived from a rate
+neither party has verified.
+
+**Confidence High** on the ruling. **`SEB-D 29` was discharged
+2026-08-18 in commit `cf603ef`, so this decision is now in effect** — the
+server enforces every limit it names, and a test proves each one fails
+without its fix.
 
 ### `SEB-D 29` — The spending controls were claimed and not enforced
 
@@ -553,6 +559,42 @@ is recorded so that the delay is attributable.
 
 **Confidence High.**
 
+### `SEB-D 32` — Provider-side caps deferred; the estate accepts the gap
+
+**Decided 2026-08-18 by the Founder**, having been shown the costing.
+
+| Ruled | Recommended |
+|---|---|
+| **The server's cap only, for now.** No provider-side budget, quota or kill switch is set | A per-provider runbook actioned before credentials are installed |
+
+**What the gap is, stated exactly.** `STROMEX_SPEND_MONTHLY_CAP` counts
+only what passes through `ctx.commitSpend` — domain purchases and the
+OpenAI council. It cannot see Vercel bandwidth, GitHub Actions minutes,
+Neon compute-hours or Cloudflare requests, because none of those are tool
+calls. **The server's cap therefore covers roughly $50 of a $43,200
+thirty-day runaway exposure** (`mcp/docs/cost-model.md §2`), and nothing
+at all of the three preconditions that take that figure to
+$250,000–$1,000,000.
+
+**Why the ruling is more defensible than it first reads.** Nothing is in
+production. There is no traffic to loop on, no CI running at volume, and
+no real personal data — so scenario C is not reachable today. The exposure
+becomes real at the first production deployment, not at the first
+credential.
+
+**What this ruling therefore binds.** The runbook at
+`mcp/docs/cost-model.md §4` is a **precondition on the first production
+deployment**, not on the first credential. Three of its items cost nothing
+and are pure omission rather than configuration — leave Resend's
+Transactional Overages off, leave Clerk SMS disabled, never load an SMS
+credit balance onto Brevo — and each is the only lever that converts a
+$0-exposure provider into a five-figure one.
+
+**Reversal.** Action the runbook at any time; nothing depends on the gap.
+
+**Confidence High** on the record. The risk is the Founder's, is
+quantified rather than gestured at, and is accepted in terms.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
@@ -562,7 +604,7 @@ None is answered on your behalf.
 |---|---|---|---|
 | **Q1** | StromeX Technologies' relationship to Sulaimiy Education Group | 🔴 | `SEB §0.7`, Volume 8, Volume 22 |
 | **Q2** | Data controller and residency position per system | 🔴 | Any real personal data in production |
-| **Q3** | Spending authority — per project, per month, which providers | 🟢 **answered, `SEB-D 28`** — cap still open | `SEB §26.6` |
+| **Q3** | Spending authority — per project, per month, which providers | 🟢 **answered and in effect, `SEB-D 28`** | `SEB §26.6` |
 | **Q4** | Are the retention periods Board-confirmed? | 🟡 | Volume 22; any destruction capability |
 | **Q5** | Second approver for the Nursery and Primary School | 🟡 | Volume 12's joint control |
 | **Q6** | Ministry of Education approval number | 🟢 | A compliance surface |

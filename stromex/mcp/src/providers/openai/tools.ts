@@ -22,6 +22,7 @@
 
 import { z } from 'zod';
 import { defineTool, type ToolDefinition } from '../../core/registry.js';
+import { StromexError } from '../../core/errors.js';
 import { clientFor, plan } from '../support.js';
 import type { OpenAiClient } from './client.js';
 
@@ -319,7 +320,30 @@ export function openaiTools(): ToolDefinition[] {
          * with no spending gate at all — bounded only by a token bucket,
          * which limits the RATE of spending and not its total (SEB-D 29).
          */
-        if (client.pricing?.currency) ctx.assertSpendHeadroom(client.pricing.currency);
+        /*
+         * An UNPRICED council is a council outside the cap.
+         *
+         * The headroom check is guarded on pricing being configured — so
+         * without OPENAI_PRICE_INPUT_PER_MTOK and OPENAI_PRICE_OUTPUT_PER_MTOK
+         * the consultation is neither checked before nor counted after, and
+         * the rolling cap silently does not apply to the one provider most
+         * likely to loop. That is precisely the shape of defect SEB-D 29
+         * exists to record, so it is closed here rather than left as a
+         * footnote: with a spending policy in force, an unpriceable
+         * metered call is refused.
+         */
+        if (client.pricing?.currency) {
+          ctx.assertSpendHeadroom(client.pricing.currency);
+        } else if (ctx.spendingEnabled) {
+          throw new StromexError({
+            code: 'CONFIG_INVALID',
+            message:
+              'A spending policy is in force, but this consultation cannot be priced: no per-token rates are configured, so it could neither be checked against the rolling cap nor counted towards it.',
+            remediation:
+              'Set OPENAI_PRICE_INPUT_PER_MTOK, OPENAI_PRICE_OUTPUT_PER_MTOK and OPENAI_PRICE_CURRENCY to the rates on your OpenAI plan. Leaving them unset is only acceptable while the spending policy is off.',
+            provider: 'openai',
+          });
+        }
 
         const result = await client.consult(request);
         const warnings: string[] = [];
