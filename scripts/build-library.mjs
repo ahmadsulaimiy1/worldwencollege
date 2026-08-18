@@ -307,7 +307,7 @@ const LANG = {
     accessLabel: 'Access',
     accessRubric: 'One level open to anyone, and what enrolment adds to it.',
     accessH2: 'Level I is the open level.',
-    accessLede: 'The College\u2019s proof is that you can read a whole level before paying anything. Level I is open in full \u2014 its curriculum, its workbook, its teaching companion \u2014 to anyone, with no account and no enrolment, alongside the reference volumes any candidate is entitled to read before deciding: the Flagship Curriculum, the Programme Architecture, the Assessment Handbook and the Pronunciation Handbook.',
+    accessLede: 'The College\u2019s proof is that you can read a whole level before paying anything. Level I is open in full \u2014 its curriculum, its workbook, its teaching companion \u2014 to anyone, with no account and no enrolment. So are the reference volumes any candidate is entitled to read before deciding: the Flagship Curriculum, the Programme Architecture, the Assessment Handbook and the Pronunciation Handbook.',
     accessRule: 'The rule, stated before it binds anything',
     accessRuleP: 'The per-level teaching volumes for Levels\u00a0II to\u00a0VI ship with <strong>enrolment or the independent route\u2019s access step</strong> as the Press produces them. That is a publishing decision, not a lock: the levels are shown, explained and previewed here in full, and the criteria they are assessed against stay open to everyone in the Assessment Handbook.',
     accessKept: 'What this does not do',
