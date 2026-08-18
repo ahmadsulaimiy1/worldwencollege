@@ -596,6 +596,33 @@ export function cloudflareTools(): ToolDefinition[] {
       },
     }),
 
+    defineTool({
+      name: 'cloudflare.pages.project.delete',
+      title: 'Cloudflare — delete a Pages project',
+      description:
+        'Destroys a Pages project, every deployment in its history, and every custom domain attached to it. Protected: the site goes offline immediately and the deployment history — including whatever you would have rolled back to — is gone.',
+      provider: 'cloudflare',
+      operationClass: 'protected',
+      inputSchema: { project: z.string().min(1) },
+      resource: (args) => args.project,
+      preImage: async (args, ctx) => ({
+        preImage: {
+          project: await cf(ctx).getPagesProject(args.project),
+          domains: await cf(ctx).listPagesDomains(args.project).catch(() => undefined),
+        },
+        restoreHint:
+          'The build configuration, environment variable NAMES and custom domains are recorded. Recreate the project in the dashboard, re-attach the domains, and re-set every environment variable from its original source — Cloudflare does not return secret values. The deployment history cannot be restored.',
+      }),
+      handler: async (args, ctx) => {
+        if (ctx.dryRun) return plan(`Would delete Pages project ${args.project}`, args);
+        await cf(ctx).deletePagesProject(args.project);
+        return {
+          summary: `Deleted Pages project ${args.project}`,
+          warnings: ['The site is offline and its deployment history — including every rollback target — is gone.'],
+        };
+      },
+    }),
+
     // ── Zones and DNS ───────────────────────────────────────────────
     defineTool({
       name: 'cloudflare.zone.list',
