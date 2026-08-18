@@ -826,6 +826,68 @@ been misunderstood once.
 **Confidence High.** It is a standing instruction from the only authority
 that could give it.
 
+### `SEB-D 38` — The email workflow never created a DNS record
+
+**Found 2026-08-18** while preparing the email fix `SEB-D 35` requires.
+
+**The defect.** `email.configure-domain` has always described itself as
+*"adds the sending domain to Resend, **creates the DNS records it requires
+in Cloudflare**, then asks Resend to verify"*, and it declared Cloudflare
+as a required provider. **No step created a DNS record.** It captured the
+record list into run state, did nothing with it, and then asked Resend to
+verify records that did not exist — so verification could only ever fail,
+on every run, for every domain.
+
+Third instance of the same class this session, after `SEB-D 29` (a cap
+that was displayed and never checked) and `SEB-D 31` (a description
+promising a secret was never audited). **A description is not an
+implementation, and this estate keeps discovering that the expensive way.**
+
+**Fixed** by adding `cloudflare.dns.apply` — a tool that applies a whole
+record set idempotently — and a workflow step that calls it.
+
+### `SEB-D 39` — SPF records are merged, never duplicated
+
+**Ruled 2026-08-18**, and it is a correctness rule rather than a
+preference.
+
+**The mechanism.** SPF is the public list of which servers may send mail
+using a domain. RFC 7208 permits **exactly one** SPF record per name. Two
+records is not "both apply" — receivers must treat it as a permanent
+error, and every message from the domain begins failing SPF, including
+mail that was working perfectly beforehand.
+
+**Why this is not hypothetical.** `worldwencollege.co.uk` already carries
+`v=spf1 include:_spf.mx.cloudflare.net ~all`, because it forwards mail
+through Cloudflare. The obvious implementation — take the record the email
+provider hands you and create it — would have given the estate's live
+domain two SPF records and broken its mail. Nothing in the provider's
+instructions warns about this; they assume a domain that does not already
+send.
+
+**Ruled.** `cloudflare.dns.apply` merges into the existing record. The
+merge is deliberately conservative and each constraint has a failure it
+prevents:
+
+| Rule | What it prevents |
+|---|---|
+| Never change the all-qualifier | Silently hardening `~all` to `-all` starts BOUNCING mail from senders nobody has enumerated |
+| Never remove a mechanism | Removing an `include:` cuts off a sender the institution forgot it had |
+| Never reorder | SPF evaluation is order-sensitive and capped at ten DNS lookups |
+| Insert before the qualifier, case-insensitively | A mechanism already present in different case is not added twice |
+
+**Also ruled: DMARC is published in monitor mode (`p=none`).** DMARC tells
+receiving servers what to do with mail that fails SPF and DKIM, and where
+to send reports. The estate has **no DMARC record at all**, so today
+anyone can send mail pretending to be the school and nothing reports it.
+Starting at `p=reject` on a domain whose senders have never been
+enumerated is how an institution discovers, by having it stop, which
+system was quietly sending its parent emails. Monitor first, tighten on
+evidence.
+
+**Confidence High** — the one-record rule is RFC 7208, and the estate's
+existing record was read from live DNS.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.

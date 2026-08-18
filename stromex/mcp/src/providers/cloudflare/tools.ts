@@ -864,5 +864,157 @@ export function cloudflareTools(): ToolDefinition[] {
         data: { domain: args.domain, status: await cf(ctx).registrationStatus(args.domain) },
       }),
     }),
+
+    defineTool({
+      name: 'cloudflare.dns.apply',
+      title: 'Cloudflare — apply a set of DNS records',
+      description:
+        'Creates or updates a whole set of DNS records at once, idempotently: a record that already exists with the same value is left alone, one that differs is updated, one that is missing is created. Built for email setup, where a provider hands you three or four records that must all exist before verification will pass. IT MERGES SPF RECORDS RATHER THAN ADDING A SECOND ONE — see below; getting that wrong breaks all mail from the domain, including mail that was working.',
+      provider: 'cloudflare',
+      operationClass: 'write',
+      annotations: { idempotentHint: true, destructiveHint: false },
+      inputSchema: {
+        zoneId: z.string().min(1),
+        records: z
+          .array(
+            z.object({
+              type: z.string().min(1).describe('TXT, MX, CNAME, A…'),
+              name: z.string().min(1),
+              value: z.string().min(1),
+              ttl: z.number().int().positive().optional(),
+              priority: z.number().int().nonnegative().optional(),
+            }),
+          )
+          .min(1)
+          .max(25),
+      },
+      resource: (args) => args.zoneId,
+      handler: async (args, ctx) => {
+        const client = cf(ctx);
+        const actions: Array<{ name: string; type: string; action: string; note?: string }> = [];
+
+        for (const wanted of args.records) {
+          const existing = (await client.listDnsRecords(args.zoneId, { type: wanted.type, name: wanted.name })) as Array<{
+            id?: string;
+            content?: string;
+          }>;
+
+          /*
+           * THE SPF RULE, AND WHY IT IS NOT A NICETY.
+           *
+           * SPF is the public list of which servers may send mail using a
+           * domain. RFC 7208 permits EXACTLY ONE SPF record per name. Two
+           * of them is not "both apply" — receivers must treat it as a
+           * permanent error, and the practical result is that ALL mail
+           * from the domain starts failing SPF, including mail that was
+           * working perfectly before.
+           *
+           * So the obvious implementation — "add the record the email
+           * provider gave me" — silently breaks a domain that already
+           * sends mail. The correct move is to merge the new `include:`
+           * into the record that is already there.
+           */
+          const isSpf = wanted.type.toUpperCase() === 'TXT' && /^"?v=spf1\b/i.test(wanted.value.trim());
+          const existingSpf = isSpf
+            ? existing.find((r) => typeof r.content === 'string' && /^"?v=spf1\b/i.test(r.content.trim()))
+            : undefined;
+
+          if (existingSpf?.id && typeof existingSpf.content === 'string') {
+            const merged = mergeSpf(existingSpf.content, wanted.value);
+            if (merged === existingSpf.content.trim()) {
+              actions.push({ name: wanted.name, type: wanted.type, action: 'unchanged', note: 'the SPF record already authorises this sender' });
+              continue;
+            }
+            if (ctx.dryRun) {
+              actions.push({ name: wanted.name, type: wanted.type, action: 'would-merge-spf', note: merged });
+              continue;
+            }
+            await client.updateDnsRecord(args.zoneId, existingSpf.id, { type: 'TXT', name: wanted.name, content: merged });
+            actions.push({ name: wanted.name, type: wanted.type, action: 'merged-spf', note: merged });
+            continue;
+          }
+
+          const identical = existing.find((r) => r.content === wanted.value);
+          if (identical) {
+            actions.push({ name: wanted.name, type: wanted.type, action: 'unchanged' });
+            continue;
+          }
+
+          // A differing record of the same type and name is UPDATED rather
+          // than duplicated — except for record types where several may
+          // legitimately coexist on one name.
+          const multiValued = new Set(['MX', 'NS', 'A', 'AAAA', 'CAA', 'SRV']);
+          const replaceable = !multiValued.has(wanted.type.toUpperCase()) ? existing.find((r) => r.id) : undefined;
+
+          if (ctx.dryRun) {
+            actions.push({ name: wanted.name, type: wanted.type, action: replaceable ? 'would-update' : 'would-create' });
+            continue;
+          }
+          if (replaceable?.id) {
+            await client.updateDnsRecord(args.zoneId, replaceable.id, {
+              type: wanted.type,
+              name: wanted.name,
+              content: wanted.value,
+              ...(wanted.ttl ? { ttl: wanted.ttl } : {}),
+              ...(wanted.priority !== undefined ? { priority: wanted.priority } : {}),
+            });
+            actions.push({ name: wanted.name, type: wanted.type, action: 'updated' });
+          } else {
+            await client.createDnsRecord(args.zoneId, {
+              type: wanted.type,
+              name: wanted.name,
+              content: wanted.value,
+              ...(wanted.ttl ? { ttl: wanted.ttl } : {}),
+              ...(wanted.priority !== undefined ? { priority: wanted.priority } : {}),
+            });
+            actions.push({ name: wanted.name, type: wanted.type, action: 'created' });
+          }
+        }
+
+        const changed = actions.filter((a) => a.action !== 'unchanged').length;
+        return {
+          summary: ctx.dryRun
+            ? `Would apply ${args.records.length} record(s): ${actions.map((a) => a.action).join(', ')}`
+            : `Applied ${args.records.length} record(s); ${changed} changed, ${args.records.length - changed} already correct`,
+          data: { zoneId: args.zoneId, actions },
+          warnings: actions.some((a) => a.action.includes('spf'))
+            ? ['An existing SPF record was MERGED rather than duplicated. Two SPF records on one name is a permanent error under RFC 7208 and would have broken all mail from this domain.']
+            : [],
+        };
+      },
+    }),
   ];
 }
+
+/**
+ * Merges a new SPF record's mechanisms into an existing one.
+ *
+ * Keeps the existing record's ordering and its "all" qualifier — the
+ * trailing `~all` or `-all` that says what to do with everything not
+ * listed — and inserts any mechanism the new record adds and the old one
+ * lacks, immediately before it.
+ *
+ * Deliberately conservative: it never changes the all-qualifier, never
+ * removes a mechanism, and never reorders. SPF evaluation is order
+ * sensitive and capped at ten DNS lookups, so rewriting somebody's
+ * record beyond adding to it is a good way to break mail in a manner
+ * nobody can trace back to this tool.
+ */
+export function mergeSpf(existing: string, incoming: string): string {
+  const strip = (s: string) => s.trim().replace(/^"|"$/g, '').trim();
+  const oldTerms = strip(existing).split(/\s+/);
+  const newTerms = strip(incoming).split(/\s+/);
+
+  const isAll = (t: string) => /^[+\-~?]?all$/i.test(t);
+  const allIndex = oldTerms.findIndex(isAll);
+  const head = allIndex >= 0 ? oldTerms.slice(0, allIndex) : oldTerms;
+  const tail = allIndex >= 0 ? oldTerms.slice(allIndex) : [];
+
+  const present = new Set(head.map((t) => t.toLowerCase()));
+  const additions = newTerms.filter(
+    (t) => !isAll(t) && !/^v=spf1$/i.test(t) && !present.has(t.toLowerCase()),
+  );
+
+  return [...head, ...additions, ...tail].join(' ');
+}
+

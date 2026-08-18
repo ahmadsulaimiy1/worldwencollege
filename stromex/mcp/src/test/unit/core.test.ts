@@ -15,6 +15,7 @@ import { ApprovalStore, digestArguments, memoryIo } from '../../core/approval.js
 import { HandleVault, resolveSecretArgument } from '../../core/vault.js';
 import { PolicyEngine, globMatch } from '../../core/policy.js';
 import { Logger } from '../../core/logger.js';
+import { mergeSpf } from '../../providers/cloudflare/tools.js';
 import { REDACTION_PLACEHOLDER, __resetSecretRegistryForTests, redactText, redactValue, registerSecretValue } from '../../core/redact.js';
 import { SecretRef, SecretResolver, parseEnv } from '../../core/secret.js';
 import { StromexError, codeForHttpStatus, toStromexError } from '../../core/errors.js';
@@ -723,5 +724,70 @@ describe('the secret command', () => {
       (e: StromexError) => e.code === 'CONFIG_INVALID' && /Refusing to interpolate/.test(e.message),
       'refusing is verifiable; escaping is a class of bug',
     );
+  });
+});
+
+/*
+ * SEB-D 38. The SPF merge.
+ *
+ * SPF is the public list of which servers may send mail using a domain.
+ * RFC 7208 permits EXACTLY ONE SPF record per name — two is not "both
+ * apply", it is a permanent error, and receivers must treat every message
+ * from the domain as failing. So the obvious implementation of "add the
+ * record the email provider gave me" silently breaks a domain that
+ * already sends mail.
+ *
+ * The estate's own domain has an SPF record already. This is not a
+ * hypothetical.
+ */
+describe('merging SPF records', () => {
+  const CLOUDFLARE = 'v=spf1 include:_spf.mx.cloudflare.net ~all';
+
+  it('adds the new sender before the all-qualifier, keeping the qualifier', () => {
+    const merged = mergeSpf(CLOUDFLARE, 'v=spf1 include:amazonses.com ~all');
+    assert.equal(merged, 'v=spf1 include:_spf.mx.cloudflare.net include:amazonses.com ~all');
+  });
+
+  it('produces exactly one record, never two', () => {
+    const merged = mergeSpf(CLOUDFLARE, 'v=spf1 include:amazonses.com ~all');
+    assert.equal(merged.match(/v=spf1/gi)?.length, 1, 'two SPF records on one name break all mail from the domain');
+    assert.equal(merged.match(/\ball\b/gi)?.length, 1, 'two all-qualifiers is a malformed record');
+  });
+
+  it('never changes the existing all-qualifier', () => {
+    // The existing record says ~all (soft fail). The incoming one says
+    // -all (hard fail). Silently hardening somebody's policy would start
+    // bouncing mail from senders nobody has enumerated yet.
+    const merged = mergeSpf(CLOUDFLARE, 'v=spf1 include:amazonses.com -all');
+    assert.ok(merged.endsWith('~all'), 'the existing policy was overwritten');
+    assert.ok(!merged.includes('-all'));
+  });
+
+  it('is idempotent — running it twice adds nothing', () => {
+    const once = mergeSpf(CLOUDFLARE, 'v=spf1 include:amazonses.com ~all');
+    const twice = mergeSpf(once, 'v=spf1 include:amazonses.com ~all');
+    assert.equal(twice, once);
+  });
+
+  it('never removes or reorders what was already there', () => {
+    const busy = 'v=spf1 ip4:203.0.113.0/24 include:_spf.google.com include:_spf.mx.cloudflare.net -all';
+    const merged = mergeSpf(busy, 'v=spf1 include:amazonses.com ~all');
+    assert.ok(merged.startsWith('v=spf1 ip4:203.0.113.0/24 include:_spf.google.com include:_spf.mx.cloudflare.net'));
+    assert.ok(merged.endsWith('-all'));
+  });
+
+  it('handles a record with no all-qualifier at all', () => {
+    const merged = mergeSpf('v=spf1 include:_spf.mx.cloudflare.net', 'v=spf1 include:amazonses.com ~all');
+    assert.equal(merged, 'v=spf1 include:_spf.mx.cloudflare.net include:amazonses.com');
+  });
+
+  it('tolerates the surrounding quotes DNS providers often return', () => {
+    const merged = mergeSpf('"v=spf1 include:_spf.mx.cloudflare.net ~all"', 'v=spf1 include:amazonses.com ~all');
+    assert.equal(merged, 'v=spf1 include:_spf.mx.cloudflare.net include:amazonses.com ~all');
+  });
+
+  it('does not duplicate a mechanism that differs only in case', () => {
+    const merged = mergeSpf(CLOUDFLARE, 'v=spf1 INCLUDE:_SPF.MX.CLOUDFLARE.NET ~all');
+    assert.equal(merged, CLOUDFLARE);
   });
 });

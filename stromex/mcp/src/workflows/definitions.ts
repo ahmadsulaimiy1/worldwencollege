@@ -357,11 +357,16 @@ export const WORKFLOWS: WorkflowDefinition[] = [
     name: 'email.configure-domain',
     title: 'Configure a sending domain end to end',
     description:
-      'Adds the sending domain to Resend, creates the DNS records it requires in Cloudflare, then asks Resend to verify. The ordering is the point: creating records after switching a sending address means every message in between fails SPF and DKIM.',
+      'Adds the sending domain to Resend, CREATES the DNS records it requires in Cloudflare, publishes a DMARC record if none exists, then asks Resend to verify. The ordering is the point: creating records after switching a sending address means every message in between fails SPF and DKIM.',
     requires: ['resend', 'cloudflare'],
     inputSchema: {
       domain: z.string().min(1),
       zoneId: z.string().min(1).describe('Cloudflare zone id for this domain.'),
+      dmarcReportTo: z
+        .string()
+        .email()
+        .optional()
+        .describe('Address to receive DMARC reports. Omit to skip publishing a DMARC record.'),
     },
     steps: (input) => [
       {
@@ -374,13 +379,70 @@ export const WORKFLOWS: WorkflowDefinition[] = [
           state['resendDomainId'] = data?.id;
           state['dnsRecords'] = data?.records ?? [];
         },
+        compensate: (state) =>
+          typeof state['resendDomainId'] === 'string'
+            ? { tool: 'resend.domain.delete', args: { id: state['resendDomainId'] } }
+            : undefined,
       },
       {
-        id: 'report-records',
-        title: 'Report the DNS records that must exist',
-        tool: 'resend.domain.get',
-        when: (state) => typeof state['resendDomainId'] === 'string',
-        args: (state) => ({ id: str(state, 'resendDomainId') }),
+        /*
+         * THE STEP THAT WAS MISSING.
+         *
+         * This workflow's description has always said it "creates the DNS
+         * records it requires in Cloudflare", and it declared Cloudflare
+         * as a required provider — and no step created a record. It
+         * captured the record list into state and then asked Resend to
+         * verify records that did not exist, so verification could only
+         * ever fail.
+         *
+         * `cloudflare.dns.apply` merges an existing SPF record rather
+         * than adding a second one, which matters here: a domain that
+         * already sends or forwards mail HAS an SPF record, and two of
+         * them is a permanent error that breaks all of its mail.
+         */
+        id: 'publish-records',
+        title: 'Create the DNS records Resend requires',
+        tool: 'cloudflare.dns.apply',
+        when: (state) => Array.isArray(state['dnsRecords']) && (state['dnsRecords'] as unknown[]).length > 0,
+        args: (state) => ({
+          zoneId: input['zoneId'],
+          records: (state['dnsRecords'] as Array<Record<string, unknown>>).map((r) => ({
+            type: String(r['type'] ?? r['record'] ?? 'TXT'),
+            name: String(r['name'] ?? input['domain']),
+            value: String(r['value'] ?? r['content'] ?? ''),
+            ...(typeof r['ttl'] === 'number' ? { ttl: r['ttl'] } : {}),
+            ...(typeof r['priority'] === 'number' ? { priority: r['priority'] } : {}),
+          })),
+        }),
+      },
+      {
+        /*
+         * DMARC tells receiving mail servers what to do with a message
+         * that fails SPF and DKIM, and where to send reports about it.
+         * Without one there is no policy and no reporting — anyone can
+         * send mail pretending to be this domain and nothing says so.
+         *
+         * `p=none` is deliberate: it asks receivers to REPORT failures
+         * and reject nothing. Starting at `p=reject` on a domain whose
+         * senders have not been enumerated is how an institution
+         * discovers, by having it stop, which system was quietly sending
+         * its parent emails.
+         */
+        id: 'publish-dmarc',
+        title: 'Publish a DMARC record in monitor mode',
+        tool: 'cloudflare.dns.apply',
+        when: () => typeof input['dmarcReportTo'] === 'string',
+        args: () => ({
+          zoneId: input['zoneId'],
+          records: [
+            {
+              type: 'TXT',
+              name: `_dmarc.${String(input['domain'])}`,
+              value: `v=DMARC1; p=none; rua=mailto:${String(input['dmarcReportTo'])}; fo=1`,
+            },
+          ],
+        }),
+        optional: true,
       },
       {
         id: 'verify',
@@ -391,6 +453,13 @@ export const WORKFLOWS: WorkflowDefinition[] = [
         // DNS propagation means the first attempt often fails; that is
         // information, not a reason to abandon the whole workflow.
         optional: true,
+      },
+      {
+        id: 'report',
+        title: 'Report the domain\'s final state',
+        tool: 'resend.domain.get',
+        when: (state) => typeof state['resendDomainId'] === 'string',
+        args: (state) => ({ id: str(state, 'resendDomainId') }),
       },
     ],
   },

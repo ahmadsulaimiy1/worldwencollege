@@ -183,6 +183,112 @@ describe('GitHub adapter', () => {
 
 describe('Cloudflare adapter', () => {
   /*
+   * SEB-D 38. The estate's own domain already has an SPF record —
+   * `v=spf1 include:_spf.mx.cloudflare.net ~all` — because it forwards
+   * mail through Cloudflare. Adding Resend's SPF record ALONGSIDE it
+   * would give the domain two, which RFC 7208 makes a permanent error:
+   * every message from the domain starts failing, including the
+   * forwarding that works today.
+   */
+  it('MERGES an existing SPF record instead of creating a second one', async () => {
+    const provider = scriptedProvider({
+      requireHeader: 'authorization',
+      routes: [
+        {
+          method: 'GET',
+          path: '/client/v4/zones/zone-1/dns_records',
+          body: { success: true, errors: [], messages: [], result: [{ id: 'rec-spf', content: 'v=spf1 include:_spf.mx.cloudflare.net ~all' }] },
+        },
+        {
+          method: 'PATCH',
+          path: '/client/v4/zones/zone-1/dns_records/rec-spf',
+          body: { success: true, errors: [], messages: [], result: { id: 'rec-spf' } },
+        },
+      ],
+    });
+    const h = harness().withClient('cloudflare', new CloudflareClient({ token: secret('CLOUDFLARE_API_TOKEN', 'cf-token-1234567'), accountId: 'acc-1', fetchImpl: provider.fetch }));
+
+    const envelope = await invokeTool(
+      tool(cloudflareTools(), 'cloudflare.dns.apply'),
+      { zoneId: 'zone-1', records: [{ type: 'TXT', name: 'example.com', value: 'v=spf1 include:amazonses.com ~all' }] },
+      h.context(),
+    );
+
+    assert.equal(envelope.ok, true);
+    // It UPDATED the existing record — it did not POST a new one.
+    assert.equal(provider.for('/client/v4/zones/zone-1/dns_records').filter((r) => r.method === 'POST').length, 0, 'a second SPF record was created');
+    const patched = provider.for('/client/v4/zones/zone-1/dns_records/rec-spf')[0]!.body as { content: string };
+    assert.equal(patched.content, 'v=spf1 include:_spf.mx.cloudflare.net include:amazonses.com ~all');
+    assert.match(envelope.warnings!.join(' '), /would have broken all mail/);
+  });
+
+  it('creates a record that is genuinely absent', async () => {
+    const provider = scriptedProvider({
+      requireHeader: 'authorization',
+      routes: [
+        { method: 'GET', path: '/client/v4/zones/zone-1/dns_records', body: { success: true, errors: [], messages: [], result: [] } },
+        { method: 'POST', path: '/client/v4/zones/zone-1/dns_records', body: { success: true, errors: [], messages: [], result: { id: 'new' } } },
+      ],
+    });
+    const h = harness().withClient('cloudflare', new CloudflareClient({ token: secret('CLOUDFLARE_API_TOKEN', 'cf-token-1234567'), accountId: 'acc-1', fetchImpl: provider.fetch }));
+
+    const envelope = await invokeTool(
+      tool(cloudflareTools(), 'cloudflare.dns.apply'),
+      { zoneId: 'zone-1', records: [{ type: 'TXT', name: '_dmarc.example.com', value: 'v=DMARC1; p=none; rua=mailto:a@b.com; fo=1' }] },
+      h.context(),
+    );
+
+    assert.equal(envelope.ok, true);
+    assert.equal((envelope.data as { actions: Array<{ action: string }> }).actions[0]!.action, 'created');
+  });
+
+  it('leaves an already-correct record completely alone', async () => {
+    const value = 'v=DMARC1; p=none; rua=mailto:a@b.com; fo=1';
+    const provider = scriptedProvider({
+      requireHeader: 'authorization',
+      routes: [
+        { method: 'GET', path: '/client/v4/zones/zone-1/dns_records', body: { success: true, errors: [], messages: [], result: [{ id: 'rec-1', content: value }] } },
+      ],
+    });
+    const h = harness().withClient('cloudflare', new CloudflareClient({ token: secret('CLOUDFLARE_API_TOKEN', 'cf-token-1234567'), accountId: 'acc-1', fetchImpl: provider.fetch }));
+
+    const envelope = await invokeTool(
+      tool(cloudflareTools(), 'cloudflare.dns.apply'),
+      { zoneId: 'zone-1', records: [{ type: 'TXT', name: '_dmarc.example.com', value }] },
+      h.context(),
+    );
+
+    assert.equal((envelope.data as { actions: Array<{ action: string }> }).actions[0]!.action, 'unchanged');
+    assert.equal(provider.requests.filter((r) => r.method !== 'GET').length, 0, 'an idempotent apply wrote something');
+  });
+
+  it('never collapses several MX records into one', async () => {
+    // MX, NS, A and CAA legitimately have several values on one name.
+    // Treating those like a TXT record would delete mail routing.
+    const provider = scriptedProvider({
+      requireHeader: 'authorization',
+      routes: [
+        {
+          method: 'GET',
+          path: '/client/v4/zones/zone-1/dns_records',
+          body: { success: true, errors: [], messages: [], result: [{ id: 'mx-1', content: 'route1.mx.cloudflare.net' }] },
+        },
+        { method: 'POST', path: '/client/v4/zones/zone-1/dns_records', body: { success: true, errors: [], messages: [], result: { id: 'mx-2' } } },
+      ],
+    });
+    const h = harness().withClient('cloudflare', new CloudflareClient({ token: secret('CLOUDFLARE_API_TOKEN', 'cf-token-1234567'), accountId: 'acc-1', fetchImpl: provider.fetch }));
+
+    await invokeTool(
+      tool(cloudflareTools(), 'cloudflare.dns.apply'),
+      { zoneId: 'zone-1', records: [{ type: 'MX', name: 'example.com', value: 'route2.mx.cloudflare.net', priority: 10 }] },
+      h.context(),
+    );
+
+    assert.equal(provider.for('/client/v4/zones/zone-1/dns_records').filter((r) => r.method === 'POST').length, 1, 'the second MX should be ADDED');
+    assert.equal(provider.for('/client/v4/zones/zone-1/dns_records/mx-1').length, 0, 'the existing MX was overwritten — mail routing would be lost');
+  });
+
+  /*
    * SEB-D 36. The estate registers domains at Cloudflare because
    * Cloudflare Registrar sells AT COST — its own words, "without any
    * markups or add-on fees". A registration is NON-REFUNDABLE, so the
