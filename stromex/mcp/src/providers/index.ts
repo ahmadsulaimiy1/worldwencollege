@@ -25,6 +25,8 @@ import { ResendClient } from './resend/client.js';
 import { resendTools } from './resend/tools.js';
 import { BrevoClient } from './brevo/client.js';
 import { brevoTools } from './brevo/tools.js';
+import { OpenAiClient } from './openai/client.js';
+import { openaiTools } from './openai/tools.js';
 
 export interface ProviderBundle {
   clients: Record<string, unknown>;
@@ -86,6 +88,29 @@ export function buildProviders(options: BuildProvidersOptions): ProviderBundle {
         clients[name] = new BrevoClient({ ...shared, apiKey: config.secrets.require('BREVO_API_KEY', 'operate Brevo') });
         tools.push(...brevoTools());
         break;
+      case 'openai': {
+        const inputPrice = Number(config.secrets.resolve('OPENAI_PRICE_INPUT_PER_MTOK')?.reveal());
+        const outputPrice = Number(config.secrets.resolve('OPENAI_PRICE_OUTPUT_PER_MTOK')?.reveal());
+        clients[name] = new OpenAiClient({
+          ...shared,
+          apiKey: config.secrets.require('OPENAI_API_KEY', 'consult the engineering council'),
+          model: config.secrets.resolve('OPENAI_MODEL')?.reveal(),
+          organisation: config.secrets.resolve('OPENAI_ORG_ID')?.reveal(),
+          project: config.secrets.resolve('OPENAI_PROJECT_ID')?.reveal(),
+          // Left unset, a result reports tokens and says the cost is
+          // unpriced. Inventing a price would be publishing a figure
+          // nobody measured (SEB §2.4).
+          pricing: Number.isFinite(inputPrice) && Number.isFinite(outputPrice)
+            ? {
+                inputPerMTok: inputPrice,
+                outputPerMTok: outputPrice,
+                currency: config.secrets.resolve('OPENAI_PRICE_CURRENCY')?.reveal() ?? 'USD',
+              }
+            : undefined,
+        });
+        tools.push(...openaiTools());
+        break;
+      }
     }
   }
 
@@ -127,6 +152,10 @@ export const HEALTH_PROBES: Record<ProviderName, (client: unknown) => Promise<{ 
   brevo: async (client) => {
     const account = (await (client as BrevoClient).getAccount()) as { email?: string; plan?: unknown };
     return { detail: `account ${account.email ?? '(unnamed)'}` };
+  },
+  openai: async (client) => {
+    const models = await (client as OpenAiClient).listModels();
+    return { detail: `${models.length} model(s) visible; default ${(client as OpenAiClient).model()}` };
   },
 };
 
