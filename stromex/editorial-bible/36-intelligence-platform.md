@@ -171,9 +171,9 @@ Plus two the platform adds:
 |---|---|---|
 | 1 | Core runtime, the gate, seven providers, workflows, tests, docs | **Developed / Tested Locally** |
 | 2 | The council: OpenAI connector, sixteen consultations | **Tested Locally** |
-| 3 | The design system as real code | *In progress* |
+| 3 | The design system as real code | **Developed / Tested Locally** — `stromex/design-system/`, four gates green |
 | 4 | **The knowledge graph** — schema, population from primary sources, `stromex.graph.*` tools | Designed |
-| 5 | First real credential per provider; `doctor` green; the `Not Started` rows in `SEB §28.5` begin to close | **Blocked on `SEB §28.4` Q3 and Q9** |
+| 5 | First real credential per provider; `doctor` green; the `Not Started` rows in `SEB §28.5` begin to close | **Unblocked 2026-08-18** — Q3, Q9 and Q10 answered (`SEB-D 28`, `30`, `34`). Waiting on the credentials being created |
 | 6 | The deployment brain against a real preview environment | Blocked on 5 |
 | 7 | Payments, analytics and monitoring adapters | Not started |
 

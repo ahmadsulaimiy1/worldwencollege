@@ -70,10 +70,22 @@ user · the generated tool catalogue.
 one provider, run `doctor`, and understand what the server will refuse to
 do and why.
 
-## Phase 7 — First real credential `Not Started — gated on you`
+## Phase 7 — First real credential `Not Started — waiting on the credentials themselves`
 
-**Blocked on `SEB §28.4` Q3 and Q9.** One read-only credential per
-provider; `doctor` run against all seven; the results recorded.
+**No longer blocked on governance.** `SEB §28.4` Q3 (spending) and Q9
+(credential scope) were both answered 2026-08-18 — `SEB-D 28` and
+`SEB-D 30` — and Q10 (where secrets live) with them, at `SEB-D 34`. The
+spending policy is named and enforced, the scope is ruled, and the store
+is chosen (`pass`).
+
+What remains is not a decision. It is the physical act of creating a
+credential at each provider and putting it in the store.
+
+Per `SEB-D 30`, the ruled scope is read AND write, as tightly limited as
+each provider allows, with production Clerk and Brevo keys accepted as a
+recorded risk. Per `SEB-D 30`'s own condition, **the protected-operation
+class is re-verified against the live surface before those two keys are
+installed, not after.**
 
 **Exit:** the first row in `SEB §17.10` that says *Staging Verified*.
 
