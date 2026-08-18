@@ -224,6 +224,141 @@ privilege applies to *capability surface*, not only to credentials
 
 **Confidence Medium.**
 
+### SEB-D 15 ✅ The Supreme Creative Constitution is ratified and takes precedence
+
+**Ruled by the Founder.** Volume 29 overrides any earlier article that
+counsels restraint where excellence is achievable; Volume 31 sets the
+general order of precedence; Volume 26 remains inviolable above both.
+
+**Confidence High** — this is a Founder ruling, not an inference.
+**Reversal:** one sentence.
+
+### SEB-D 16 ✅ Instrument-grade futurism, not neon futurism
+
+**Question.** "Futuristic" and "luxurious" pull in opposite directions in
+almost every product that attempts both. Which reading governs?
+
+**Options.** (a) Neon/cyberpunk/HUD futurism. (b) Glass-and-gradient
+"modern SaaS" futurism. (c) **Instrument-grade futurism** — machined
+metal, optical glass, engraved ground, volumetric light, precision to a
+tolerance a person can feel but not name.
+
+**Ruled: (c)** (`SEB §29.4`).
+
+**Reasoning.** Luxury is extraordinary attention to detail made
+perceptible; futurism is capability not yet seen executed at this level.
+Both are satisfied by an object manifestly engineered to a tolerance
+nobody else bothers with. (a) and (b) are both dated the moment they
+ship — (a) to 1982 and (b) to 2021 — and both are in the Anti-Generic
+Register. (c) has no expiry, because precision does not go out of style.
+
+**Confidence High.** **What would change it:** a Founder preference for a
+different register. The *system* would survive it; only the material
+vocabulary would change.
+
+### SEB-D 17 ✅ The Meridian, the Quire and the Chronograph
+
+**Question.** What makes a StromeX product recognisable with the mark
+removed (`SEB §29.3`, gate G4)? Adjectives do not survive a build.
+
+**Ruled:** three structural devices no other product uses, specified to
+the value at `SEB §30.2`, `§30.3`, `§30.9`:
+
+- **The Meridian** — a hairline spine at the minor golden section, running
+  the full document height, carrying section marks and a scroll-tracked
+  light node, with every heading hung from it rather than from the margin.
+- **The Quire** — a folded-sheet grid with a fore-edge margin 1.618× the
+  gutter, mirrored structurally in RTL, and a marginal track whose
+  emptiness is the page's air.
+- **The Chronograph** — every animation in every product timed on one
+  240ms movement, with four authored curves and no spring, no bounce, no
+  overshoot.
+
+**Reasoning.** Each is (i) instantly distinctive, (ii) functionally
+better than the convention it replaces, and (iii) checkable in a build.
+A design language whose rules cannot be checked is a document.
+
+**Confidence High.** **Reversal:** possible, but expensive — these are
+load-bearing across every surface.
+
+### SEB-D 18 ✅ Gaps are composed, not confessed
+
+**Ruled by the Founder:** no editorial wording on any public surface. The
+Institutional Status callout is withdrawn from marketing surfaces.
+
+**How the honesty protocol survives intact** (`SEB §29.9`): the rule was
+never "publish a callout"; it was "publish no fact you do not hold." A
+gap is now handled by **not building the page** rather than by building a
+page and apologising in it. Silence is permitted; assertion is not. Where
+disclosure is legally required it is stated, in the register and wherever
+the regulator requires. The status register moved from the marketing
+surface to the governance register.
+
+**Confidence High.** **Watch:** an accreditation or qualification-
+recognition claim carries real legal exposure in several jurisdictions.
+Composition never overrides a disclosure obligation, and the legal review
+at `SEB §33.5` — not the design review — is where that is decided.
+
+### SEB-D 19 ✅ Invention where the specification is silent
+
+**Ruled by the Founder:** where a specification leaves a gap, produce the
+complete professional instrument rather than flagging and stopping. What
+is produced is adopted under standing instruction until the Founder says
+"change so-and-so."
+
+**What it narrows** (`SEB §29.10`): the prohibition on "inventing policy"
+is narrowed to its real target — **fabricating a fact about the
+institution** — and lifted from **drafting an instrument**. A policy, a
+regulation, a workflow, a schema, a proposed retention period: draft it,
+completely, with its reasoning and a version table.
+
+**Confidence High.**
+
+### SEB-D 20 ✅ Media: register provenance, do not gate
+
+**Ruled by the Founder:** the institution asserts and holds its media
+licences; unlimited uploads; **no automated flagging, blocking or
+withholding**; legal review is the final filter.
+
+**Implemented as** (`SEB §33`): no gate anywhere in the estate, and a
+**provenance register** — accession number, source, rights basis as the
+institution states it, who supplied it, hash, placement. The register
+costs nothing at the point of use and turns a week of counsel's time into
+a minute of it.
+
+**What this Bible declines to do**, stated once and not repeated: it
+records what the institution asserts and does not adjudicate it. That
+determination is counsel's, which is where the Founder placed it.
+
+**Confidence High.**
+
+### SEB-D 21 ✅ The engineering council, through official APIs only
+
+**Ruled:** the MCP gains an OpenAI connector exposing sixteen structured
+consultation tools, with others attaching through the same adapter seam
+(`SEB §32`).
+
+**Three constraints that make it an engineering platform rather than a
+convenience:** official APIs only — never browser automation, never a
+scraped endpoint; every consultation audited with model, tokens, duration
+and cost; **Restricted data never enters any model's context**, enforced
+at the tool boundary by taking a *subject and a question* rather than a
+data handle.
+
+**Confidence High.** **Watch:** cost. Token usage is reported in every
+result, because a council that quietly spends is a council nobody keeps.
+
+### SEB-D 22 ✅ Excellence includes shipping
+
+**Question.** The No-Ceiling Principle risks becoming no ceiling on time.
+
+**Ruled** (`SEB §31.2`): when refinement and delivery conflict, **reduce
+scope, never quality.** Ship fewer things, finished. Anything built but
+not yet real is *held*, visibly, with its release trigger. Then improve
+it — the first implementation is never the final one.
+
+**Confidence High.**
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.

@@ -85,10 +85,20 @@ founding dates, sanad and ijāzah chains, pass rates, durations, awards,
 media coverage and photographs. It binds engineering equally: uptime,
 test coverage, "production ready," "deployed," "verified" (`SEB §17.2`).
 
-**The mechanism is a component, not an omission.** Where a fact does not
-exist yet, that is published — in the same visual language as everything
-else, in the same voice, at the same size. Not a smaller font, not a
-footnote, not a silence.
+**The mechanism was amended by the Founder at `SEB §29.9`.** The rule
+above is untouched and absolute; what changed is how a gap is handled.
+
+Callouts announcing what an institution does not yet have are **withdrawn
+from public marketing surfaces**. A gap is now handled by **composition**:
+a page whose subject the institution does not yet hold is **not built**,
+and the absence of a page is not a claim. Silence is permitted; assertion
+is not. Where disclosure is legally or regulatorily required it is stated,
+in the register and wherever the regulator requires — composition never
+overrides a disclosure obligation.
+
+The status register itself still exists. It moved from the marketing
+surface to the governance register, where the Board and counsel read it.
+It was not deleted; it was filed where it belongs.
 
 **Why this is a commercial asset rather than a confession** (`AMC-EB
 §46.2`): in a category saturated with unverifiable claims, the institution

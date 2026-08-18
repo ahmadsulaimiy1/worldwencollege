@@ -55,6 +55,19 @@ developed statement of them in the estate.
    *reasoned*: a future reader must be able to reconstruct the argument,
    not merely see that the text changed.
 
+## §0.3a Precedence, and the Supreme Creative Constitution
+
+**Volume 29 — the Supreme Creative Constitution — was ratified by the
+Founder and overrides any earlier article that counsels restraint where
+excellence is achievable.** Volume 30 gives StromeX its own design
+language and governs over Volume 7's shared grammar for StromeX products.
+Volume 31 is the general order of precedence and is how *any* conflict in
+this Bible is resolved.
+
+Read together: **Volume 26 is inviolable** (safety, records, spending,
+credentials, verification); **Volume 29 sets the standard everything else
+is held to**; **Volume 31 decides the rest**.
+
 ## §0.4 The two kinds of article, and how to tell them apart
 
 Every article in this Bible is one of two things, and each is marked:
@@ -113,8 +126,9 @@ the agent is (`SEB §26.1`).
 ## §0.6 Amendment and versioning
 
 - **Version scheme** `MAJOR.MINOR`. MAJOR for changes to Volumes 1, 2, 9,
-  22 or 26 — identity, philosophy, security, data governance, and the
-  permanent rulings. MINOR for everything else.
+  22, 26, 29 or 31 — identity, philosophy, security, data governance, the
+  permanent rulings, the Supreme Creative Constitution and the order of
+  precedence. MINOR for everything else.
 - **Every amendment records** date, volume and article, what changed, who
   approved it, and **why**. The reasoning matters more than the change.
 - **Full annual review**, minuted, whether or not anything changes.
@@ -129,10 +143,10 @@ the estate's own permission vocabulary (`SEB §21.2`).
 
 | Authority | Owns | May approve |
 |---|---|---|
-| **Founder** (Head of Schools / Administrator; Chairman of the Board of Governors) | Vision, mission, values; all `D-`numbered decisions; spending authority | Amendments to any volume |
+| **Founder** (Head of Schools / Administrator; Chairman of the Board of Governors) | Vision, mission, values; all `D-`numbered decisions; spending authority; **the Supreme Creative Constitution (Volume 29)** | Amendments to any volume |
 | **Board of Governors** *(where an institution has one)* | Institutional governance, retention periods, destruction authority | Amendments to Volumes 12, 14, 15, 22, 26 |
 | **Academic Board** *(where constituted)* | Curriculum, assessment, mastery standards, Islamic identity standards | Amendments to Volumes 13, 14, 15 |
-| **Design Authority** | The design language and all identity assets | Amendments to Volumes 7, 8 |
+| **Design Authority** | The design language and all identity assets | Amendments to Volumes 7, 8, 30 |
 | **Editorial Authority** | Voice, editorial standards, published content | Amendments to Volumes 2, 18 |
 | **Engineering Authority** | Engineering, architecture, security, infrastructure, DevOps, testing | Amendments to Volumes 3, 4, 9, 10, 11, 17, 19, 20, 23 |
 | **The AI Operator** (any agent under `SEB §16`) | Nothing. Executes within delegated authority; records everything; escalates the escalation list. | Nothing. May *propose* an amendment with reasoning; may not adopt one. |
