@@ -719,5 +719,150 @@ export function cloudflareTools(): ToolDefinition[] {
         return { summary: `Deleted DNS record ${args.recordId}`, warnings: ['DNS changes propagate; clients may keep the old answer until the TTL expires.'] };
       },
     }),
+
+    /* ══ REGISTRAR ══════════════════════════════════════════════════
+     * Cloudflare Registrar sells AT COST — no markup on registration or
+     * renewal — which is why the estate buys here rather than through a
+     * reseller (`SEB-D 36`). The API is in beta and covers a subset of
+     * the 300+ extensions Cloudflare carries.
+     */
+
+    defineTool({
+      name: 'cloudflare.registrar.search',
+      title: 'Cloudflare — search for domain names',
+      description:
+        'Suggests available domain names for a query, at Cloudflare Registrar\'s at-cost prices. Read-only: nothing is bought and nothing is reserved. Results cover only the extensions the Registrar API beta supports, which is a subset of the 300+ Cloudflare carries — an extension missing from the results is not necessarily unavailable.',
+      provider: 'cloudflare',
+      operationClass: 'read',
+      inputSchema: { query: z.string().min(1).describe('A word, phrase or candidate domain.') },
+      handler: async (args, ctx) => {
+        const results = await cf(ctx).searchDomains(args.query);
+        return {
+          summary: `Domain suggestions for ${args.query}`,
+          data: { query: args.query, results },
+          warnings: ['Search covers only the extensions supported by the Registrar API beta. A country-code extension such as .co.uk will not appear here even where Cloudflare carries it.'],
+        };
+      },
+    }),
+
+    defineTool({
+      name: 'cloudflare.registrar.check',
+      title: 'Cloudflare — check domain availability and at-cost price',
+      description:
+        'Checks whether specific domains can be registered through Cloudflare and what they cost. Read-only: nothing is bought and nothing is reserved. Cloudflare prices at cost, so this is the price you pay at registration AND at renewal.',
+      provider: 'cloudflare',
+      operationClass: 'read',
+      inputSchema: { domains: z.array(z.string().min(1)).min(1).max(10) },
+      handler: async (args, ctx) => {
+        const results = await cf(ctx).checkDomains(args.domains);
+        return {
+          summary: `Checked ${args.domains.length} domain(s) against Cloudflare Registrar`,
+          data: { domains: args.domains, results },
+          warnings: ['An extension the API beta does not carry is reported as `extension_not_supported_via_api`. That is NOT a statement about whether the domain is registered — .co.uk is refused this way, and it is the estate\'s own primary domain.'],
+        };
+      },
+    }),
+
+    defineTool({
+      name: 'cloudflare.registrar.register',
+      title: 'Cloudflare — register a domain',
+      description:
+        'Registers a domain through Cloudflare Registrar. THIS SPENDS MONEY, and it is NON-REFUNDABLE once it completes. The at-cost price Cloudflare quotes — not a ceiling you declare — is checked against the single-purchase limit, the policy currency and the rolling 30-day cap immediately before registration. AUTO-RENEW IS OFF unless you ask for it: a renewal is levied by the registrar with no call to this server, so it can never be gated, approved or counted. Registration may complete asynchronously; poll cloudflare.registrar.status when it does.',
+      provider: 'cloudflare',
+      operationClass: 'write',
+      annotations: { idempotentHint: false, destructiveHint: false },
+      inputSchema: {
+        domain: z.string().min(1),
+        maxPrice: z.number().positive().describe('The most you are willing to pay, in the spending policy currency. A higher quoted price aborts. This is a pre-check only — the real quote is what the policy binds.'),
+        currency: z.string().length(3).describe('ISO currency of maxPrice. Must match the spending policy currency; this server does not convert.'),
+        years: z.number().int().min(1).max(10).optional().describe('Registration term. Defaults to 1.'),
+        autoRenew: z.boolean().optional().describe('Auto-renew. DEFAULTS TO FALSE. Turning it on creates a recurring charge this server will never see and therefore can never gate.'),
+      },
+      resource: (args) => args.domain,
+      purchase: (args) => ({ amount: args.maxPrice, currency: args.currency, description: `Register the domain ${args.domain}` }),
+      handler: async (args, ctx) => {
+        const client = cf(ctx);
+        const years = args.years ?? 1;
+
+        // Price it FIRST. A registration is non-refundable, so the one
+        // thing this handler must never do is buy before it knows the
+        // number.
+        const check = (await client.checkDomains([args.domain])) as
+          | { domains?: Array<{ name?: string; available?: boolean; price?: number; currency?: string; error?: string }> }
+          | undefined;
+        const entry = check?.domains?.find((d) => d.name === args.domain) ?? check?.domains?.[0];
+
+        if (entry?.error) {
+          return {
+            summary: `Not registered: Cloudflare's Registrar API refused ${args.domain} — ${entry.error}.`,
+            data: { domain: args.domain, registered: false, reason: entry.error },
+            warnings: [
+              'This is a statement about the API beta\'s extension coverage, NOT about whether the domain is available. Cloudflare may still carry the extension in its dashboard.',
+            ],
+          };
+        }
+        if (entry?.available !== true) {
+          return {
+            summary: `Not registered: ${args.domain} is not available.`,
+            data: { domain: args.domain, registered: false, availability: entry },
+          };
+        }
+        const quoted = entry.price;
+        if (typeof quoted !== 'number') {
+          return {
+            summary: `Not registered: Cloudflare returned no price for ${args.domain}.`,
+            data: { domain: args.domain, registered: false, availability: entry },
+            warnings: ['A registration is never attempted without a quoted price.'],
+          };
+        }
+        const quotedCurrency = entry.currency ?? args.currency;
+        if (quoted > args.maxPrice) {
+          return {
+            summary: `Not registered: ${args.domain} is quoted at ${quoted} ${quotedCurrency}, above the ${args.maxPrice} ${args.currency} limit you set.`,
+            data: { domain: args.domain, registered: false, quoted, currency: quotedCurrency, maxPrice: args.maxPrice },
+          };
+        }
+        if (ctx.dryRun) {
+          return plan(`Would register ${args.domain} for ${years} year(s) at ${quoted} ${quotedCurrency}`, { ...args, quoted, currency: quotedCurrency, years });
+        }
+
+        // THE MONEY GATE. Throws POLICY_SPEND_LIMIT before anything is
+        // bought, against the price Cloudflare actually quoted.
+        ctx.commitSpend({
+          amount: quoted,
+          currency: quotedCurrency,
+          description: `Register ${args.domain}${years > 1 ? ` for ${years} years` : ''} (Cloudflare, at cost)`,
+        });
+
+        const autoRenew = args.autoRenew ?? false;
+        const { status, body } = await client.registerDomain(args.domain, { years, autoRenew });
+        const pending = status === 202;
+
+        return {
+          summary: pending
+            ? `Registration of ${args.domain} started at ${quoted} ${quotedCurrency} — Cloudflare is still working on it.`
+            : `Registered ${args.domain} for ${quoted} ${quotedCurrency}${years > 1 ? ` (${years} years)` : ''}${autoRenew ? ', auto-renew ON' : ''}`,
+          data: { domain: args.domain, registered: !pending, pending, quoted, currency: quotedCurrency, years, autoRenew, result: body },
+          warnings: [
+            ...(pending ? ['Poll cloudflare.registrar.status to find out whether it completed. The charge stands either way — registrations are non-refundable once they complete.'] : []),
+            ...(autoRenew ? ['Auto-renew is ON. Every renewal is levied by the registrar with no call to this server, so it is never gated, never approved and never counted against the rolling cap.'] : []),
+            'A Cloudflare Registrar domain must use Cloudflare nameservers; alternative DNS providers are not permitted on it.',
+          ],
+        };
+      },
+    }),
+
+    defineTool({
+      name: 'cloudflare.registrar.status',
+      title: 'Cloudflare — registration status',
+      description: 'Reports where an in-flight domain registration got to. Read-only.',
+      provider: 'cloudflare',
+      operationClass: 'read',
+      inputSchema: { domain: z.string().min(1) },
+      handler: async (args, ctx) => ({
+        summary: `Registration status for ${args.domain}`,
+        data: { domain: args.domain, status: await cf(ctx).registrationStatus(args.domain) },
+      }),
+    }),
   ];
 }

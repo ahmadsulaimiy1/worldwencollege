@@ -378,6 +378,63 @@ export class CloudflareClient {
     });
   }
 
+  /* ── REGISTRAR ────────────────────────────────────────────────────
+   * Cloudflare Registrar sells AT COST — its own words: "Register and
+   * renew these domains at cost without any markups or add-on fees."
+   * That is the reason the estate registers here rather than through a
+   * reseller (`SEB-D 36`).
+   *
+   * The API is in BETA and covers only a subset of the 300+ extensions
+   * Cloudflare carries: search, check, register, poll. It does NOT cover
+   * renewals or transfers, and a `.co.uk` is refused by it explicitly —
+   * `extension_not_supported_via_api` — which matters, because that is
+   * the estate's own primary domain.
+   */
+
+  async searchDomains(query: string): Promise<unknown> {
+    const response = await this.http.request<CloudflareEnvelope<unknown>>({
+      method: 'GET',
+      path: `/accounts/${await this.accountId()}/registrar/domain-search`,
+      query: { q: query },
+      operation: 'registrar.search',
+    });
+    return unwrap(response.body, 'registrar.search');
+  }
+
+  async checkDomains(domains: readonly string[]): Promise<unknown> {
+    const response = await this.http.request<CloudflareEnvelope<unknown>>({
+      method: 'POST',
+      path: `/accounts/${await this.accountId()}/registrar/domain-check`,
+      body: { kind: 'json', value: { domains } },
+      operation: 'registrar.check',
+    });
+    return unwrap(response.body, 'registrar.check');
+  }
+
+  /**
+   * Registers a domain. **Non-refundable once it completes**, and it may
+   * complete asynchronously — 201 means done, 202 means started and the
+   * caller must poll `registrationStatus`.
+   */
+  async registerDomain(domain: string, params: { years?: number; autoRenew?: boolean }): Promise<{ status: number; body: unknown }> {
+    const response = await this.http.request<CloudflareEnvelope<unknown>>({
+      method: 'POST',
+      path: `/accounts/${await this.accountId()}/registrar/registrations`,
+      body: { kind: 'json', value: { domain, years: params.years ?? 1, auto_renew: params.autoRenew ?? false } },
+      operation: 'registrar.register',
+    });
+    return { status: response.status, body: unwrap(response.body, 'registrar.register') };
+  }
+
+  async registrationStatus(domain: string): Promise<unknown> {
+    const response = await this.http.request<CloudflareEnvelope<unknown>>({
+      method: 'GET',
+      path: `/accounts/${await this.accountId()}/registrar/registrations/${enc(domain)}/registration-status`,
+      operation: 'registrar.status',
+    });
+    return unwrap(response.body, 'registrar.status');
+  }
+
   async listPagesDomains(project: string): Promise<unknown[]> {
     return this.call({
       method: 'GET',

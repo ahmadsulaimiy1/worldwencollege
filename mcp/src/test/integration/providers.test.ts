@@ -182,6 +182,167 @@ describe('GitHub adapter', () => {
 });
 
 describe('Cloudflare adapter', () => {
+  /*
+   * SEB-D 36. The estate registers domains at Cloudflare because
+   * Cloudflare Registrar sells AT COST — its own words, "without any
+   * markups or add-on fees". A registration is NON-REFUNDABLE, so the
+   * one thing this handler must never do is buy before it knows the
+   * price.
+   */
+  it('prices a registration before buying, and binds the price Cloudflare quoted', async () => {
+    const provider = scriptedProvider({
+      requireHeader: 'authorization',
+      routes: [
+        {
+          method: 'POST',
+          path: '/client/v4/accounts/acc-1/registrar/domain-check',
+          body: { success: true, errors: [], messages: [], result: { domains: [{ name: 'example.com', available: true, price: 10.44, currency: 'USD' }] } },
+        },
+        {
+          method: 'POST',
+          path: '/client/v4/accounts/acc-1/registrar/registrations',
+          body: { success: true, errors: [], messages: [], result: { domain: 'example.com', status: 'active' } },
+        },
+      ],
+    });
+    const h = harness({ policy: { spending: { enabled: true, currency: 'USD', maxSinglePurchase: 25, monthlyCap: 150 } } })
+      .withClient('cloudflare', new CloudflareClient({ token: secret('CLOUDFLARE_API_TOKEN', 'cf-token-1234567'), accountId: 'acc-1', fetchImpl: provider.fetch }));
+
+    const envelope = await invokeTool(
+      tool(cloudflareTools(), 'cloudflare.registrar.register'),
+      { domain: 'example.com', maxPrice: 25, currency: 'USD' },
+      h.context(),
+    );
+
+    assert.equal(envelope.ok, true);
+    assert.match(envelope.summary!, /Registered example\.com for 10\.44 USD/);
+    // The COST that reaches the audit record is the one Cloudflare quoted,
+    // not the ceiling the caller declared.
+    assert.equal(h.audit.query()[0]!.cost?.amount, 10.44);
+    assert.match(envelope.warnings!.join(' '), /must use Cloudflare nameservers/);
+  });
+
+  it('refuses a non-refundable registration when the rolling cap has no room, BEFORE buying', async () => {
+    /*
+     * Note which gate this exercises. A quote above the CALLER's declared
+     * ceiling is caught by the handler's own check and never reaches the
+     * policy — that is correct, and it is why the first version of this
+     * test asserted the wrong mechanism.
+     *
+     * The gate that genuinely fires here is the ROLLING CAP: a price
+     * inside both the caller's ceiling and the single-purchase limit, on
+     * a window that is already full. A registration is non-refundable, so
+     * the refusal has to land before the provider is called at all.
+     */
+    const provider = scriptedProvider({
+      requireHeader: 'authorization',
+      routes: [
+        {
+          method: 'POST',
+          path: '/client/v4/accounts/acc-1/registrar/domain-check',
+          body: { success: true, errors: [], messages: [], result: { domains: [{ name: 'example.com', available: true, price: 10.44, currency: 'USD' }] } },
+        },
+        {
+          method: 'POST',
+          path: '/client/v4/accounts/acc-1/registrar/registrations',
+          body: { success: true, errors: [], messages: [], result: {} },
+        },
+      ],
+    });
+    // A cap of 15 leaves room for exactly one 10.44 registration.
+    const h = harness({ policy: { spending: { enabled: true, currency: 'USD', maxSinglePurchase: 25, monthlyCap: 15 } } })
+      .withClient('cloudflare', new CloudflareClient({ token: secret('CLOUDFLARE_API_TOKEN', 'cf-token-1234567'), accountId: 'acc-1', fetchImpl: provider.fetch }));
+
+    const first = await invokeTool(tool(cloudflareTools(), 'cloudflare.registrar.register'), { domain: 'example.com', maxPrice: 25, currency: 'USD' }, h.context());
+    assert.equal(first.ok, true, 'the first registration is inside the cap');
+    const boughtOnce = provider.for('/client/v4/accounts/acc-1/registrar/registrations').length;
+    assert.equal(boughtOnce, 1);
+
+    const second = await invokeTool(tool(cloudflareTools(), 'cloudflare.registrar.register'), { domain: 'example.com', maxPrice: 25, currency: 'USD' }, h.context());
+    assert.equal(second.ok, false, 'the rolling cap did not stop a non-refundable purchase');
+    assert.equal(second.error?.code, 'POLICY_SPEND_LIMIT');
+    assert.match(second.error!.message, /rolling 30-day total/);
+    assert.equal(
+      provider.for('/client/v4/accounts/acc-1/registrar/registrations').length,
+      boughtOnce,
+      'a non-refundable registration was sent after the cap refused it',
+    );
+  });
+
+  it('reports a quote above the caller\'s own ceiling as a decision, not an error', async () => {
+    const provider = scriptedProvider({
+      requireHeader: 'authorization',
+      routes: [
+        {
+          method: 'POST',
+          path: '/client/v4/accounts/acc-1/registrar/domain-check',
+          body: { success: true, errors: [], messages: [], result: { domains: [{ name: 'premium.com', available: true, price: 4000, currency: 'USD' }] } },
+        },
+      ],
+    });
+    const h = harness({ policy: { spending: { enabled: true, currency: 'USD', maxSinglePurchase: 25, monthlyCap: 150 } } })
+      .withClient('cloudflare', new CloudflareClient({ token: secret('CLOUDFLARE_API_TOKEN', 'cf-token-1234567'), accountId: 'acc-1', fetchImpl: provider.fetch }));
+
+    const envelope = await invokeTool(tool(cloudflareTools(), 'cloudflare.registrar.register'), { domain: 'premium.com', maxPrice: 25, currency: 'USD' }, h.context());
+
+    assert.equal(envelope.ok, true, 'declining to buy something too expensive is a decision, not a failure');
+    assert.match(envelope.summary!, /above the 25 USD limit you set/);
+    assert.equal(provider.for('/client/v4/accounts/acc-1/registrar/registrations').length, 0);
+    assert.equal(h.audit.query()[0]!.cost, undefined, 'nothing was charged');
+  });
+
+  it('says plainly that an API-unsupported extension is not a statement about availability', async () => {
+    const provider = scriptedProvider({
+      requireHeader: 'authorization',
+      routes: [
+        {
+          method: 'POST',
+          path: '/client/v4/accounts/acc-1/registrar/domain-check',
+          body: { success: true, errors: [], messages: [], result: { domains: [{ name: 'example.co.uk', error: 'extension_not_supported_via_api' }] } },
+        },
+      ],
+    });
+    const h = harness({ policy: { spending: { enabled: true, currency: 'USD', maxSinglePurchase: 25, monthlyCap: 150 } } })
+      .withClient('cloudflare', new CloudflareClient({ token: secret('CLOUDFLARE_API_TOKEN', 'cf-token-1234567'), accountId: 'acc-1', fetchImpl: provider.fetch }));
+
+    const envelope = await invokeTool(
+      tool(cloudflareTools(), 'cloudflare.registrar.register'),
+      { domain: 'example.co.uk', maxPrice: 25, currency: 'USD' },
+      h.context(),
+    );
+
+    assert.equal(envelope.ok, true, 'an unsupported extension is a decision, not an error');
+    assert.match(envelope.summary!, /extension_not_supported_via_api/);
+    assert.match(envelope.warnings!.join(' '), /NOT about whether the domain is available/);
+    assert.equal(h.audit.query()[0]!.cost, undefined, 'nothing was charged');
+  });
+
+  it('auto-renew is OFF unless asked for, because a renewal is never gated', async () => {
+    const provider = scriptedProvider({
+      requireHeader: 'authorization',
+      routes: [
+        {
+          method: 'POST',
+          path: '/client/v4/accounts/acc-1/registrar/domain-check',
+          body: { success: true, errors: [], messages: [], result: { domains: [{ name: 'example.com', available: true, price: 10.44, currency: 'USD' }] } },
+        },
+        {
+          method: 'POST',
+          path: '/client/v4/accounts/acc-1/registrar/registrations',
+          body: { success: true, errors: [], messages: [], result: {} },
+        },
+      ],
+    });
+    const h = harness({ policy: { spending: { enabled: true, currency: 'USD', maxSinglePurchase: 25, monthlyCap: 150 } } })
+      .withClient('cloudflare', new CloudflareClient({ token: secret('CLOUDFLARE_API_TOKEN', 'cf-token-1234567'), accountId: 'acc-1', fetchImpl: provider.fetch }));
+
+    await invokeTool(tool(cloudflareTools(), 'cloudflare.registrar.register'), { domain: 'example.com', maxPrice: 25, currency: 'USD' }, h.context());
+
+    const sent = provider.for('/client/v4/accounts/acc-1/registrar/registrations')[0]!.body as { auto_renew: boolean; years: number };
+    assert.equal(sent.auto_renew, false, 'auto-renew defaulted ON — a perpetual charge nobody approved');
+    assert.equal(sent.years, 1);
+  });
+
   const cfClient = (fetchImpl: ReturnType<typeof scriptedProvider>['fetch'], accountId = 'acct-1') =>
     new CloudflareClient({ token: secret('CLOUDFLARE_API_TOKEN', 'cf-token-value-1234'), accountId, fetchImpl });
 
