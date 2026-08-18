@@ -52,6 +52,42 @@ without downtime, because credentials are resolved per request rather than
 captured at start. A rotation procedure that has never been executed is
 not a rotation procedure (`SEB §11.7`).
 
+## §9.2b Never say "password" when you mean "API key" `[RULED 2026-08-18]`
+
+**A vocabulary rule, recorded because it caused a real exposure.**
+
+On 2026-08-18 the Founder pasted an account login password into a chat,
+in direct response to being told that every remaining phase was "waiting
+on the eight passwords". The request was answered exactly as it was
+worded. The word was wrong.
+
+**The two are not the same thing and must never share a name:**
+
+| | A login password | An API key |
+|---|---|---|
+| Proves | That a **person** is who they say | That a **program** is permitted to do one job |
+| Blast radius if leaked | The whole account — billing, settings, deletion, and every API key inside it | Only what that key was scoped to |
+| Revocable alone | No. Changing it locks the owner out too | Yes, in one click, with nothing else affected |
+| Held by software | **Never** | Always |
+
+**Why the distinction is load-bearing rather than pedantic.** Every
+control this estate has built — the spending policy, the
+protected-operation class, the approval grants, the audit trail — sits
+*inside* the provider's API. An account login password bypasses all of it
+by going to the website instead. A system holding one has no controls at
+all, whatever its code says.
+
+**Ruled.** In any instruction, document or question put to a human, the
+thing a program holds is an **API key** or a **token** — never a
+"password". `decisions-explained.md` is corrected accordingly.
+
+**And the incident handling, which is the same for any exposure:** treat
+the value as known to others from the moment it enters a chat, a
+transcript, a screenshot or a ticket. Change it everywhere it is used,
+enable multi-factor authentication, and do not attempt to assess whether
+it was "actually seen" — that judgement is not available to anyone and
+guessing at it favours doing nothing.
+
 ## §9.3 Scope every credential to the least it can do `[OBSERVED]`
 
 `SHRS`'s own audit is the cautionary example, recorded honestly in its
