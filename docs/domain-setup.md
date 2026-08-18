@@ -41,24 +41,34 @@ Premium College is a **different college from Worldwide English
 College**, with different programmes, and does not belong in this
 repository at all. See § Albalagh is not this College, below.
 
-**So the fix is not to move the domain.** The Pages project, the D1
+**So the fix was not to move the domain.** The Pages project, the D1
 database and both R2 buckets are named `wec-lc` again, which is where
-the domain has been pointing the whole time. The next deploy publishes
-to `wec-lc.pages.dev` and the domain should follow on its own.
+the domain had been pointing the whole time.
 
-Two things to confirm on that deploy rather than assume:
+**RECOVERED, confirmed 18 August 2026,** run 85, commit `c721408`:
 
-1. **The proof step must go quiet.** It prints the build stamp it reads
-   from the live domain; a match is the whole confirmation. If it still
-   warns, the domain needs re-attaching at **Workers & Pages → wec-lc →
-   Custom domains**, and the production branch under **Settings → Builds
-   & deployments** must be `main` — anything else makes every run a
-   preview that never reaches the domain.
-2. **The stray `aipc` project should be deleted** once the domain is
-   confirmed, along with any `aipc` D1 database and `aipc-*` R2 buckets
-   created on 17–18 August. They belong to a different institution and
-   holding a College's learner recordings in a bucket named for another
-   college is not a tidiness question.
+    Expecting build stamp: c7214087b858
+      apex worldwencollege.co.uk       -> c7214087b858
+      deployment f6eea172.wec-lc…      -> <none>
+      live domain www.worldwencollege… -> c7214087b858
+    notice: The live domain is serving this build (c7214087b858).
+
+Both hostnames carry the exact commit. Nothing had to be reattached in
+the dashboard; restoring the project name was the whole of it.
+
+One line there is worth not glossing: the per-deployment `pages.dev`
+URL read `<none>` while the domain matched — the inverse of the failure
+above. The most likely reading is that a fresh deployment hostname had
+not propagated in the nine seconds before it was fetched, while the
+custom domain, already warm on the project's production alias, served
+at once. It is recorded rather than ignored, because a check that
+reports a blank on the surface it is most sure about is worth watching.
+
+**Still outstanding, and it needs the dashboard:** delete the stray
+`aipc` Pages project, along with any `aipc` D1 database and `aipc-*` R2
+buckets created on 17–18 August. They belong to a different institution,
+and holding this College's learner recordings in a bucket named for
+another college is not a tidiness question.
 
 No data was at risk in either direction. The D1 binding is by
 `database_id` from a repository secret, not by the name in
