@@ -116,14 +116,12 @@ const cta = (h2, primary, primaryHref, secondary, secondaryHref) =>
 </section>
 `;
 
-const noCohort = `<div class="callout">
-      <span class="callout__label">Written before the first student</span>
-      <p>No cohort has yet been taught at WEC-LC. Everything on this page describes what is
-        built and what the College has decided, not an experience anyone has had. Where a rule
-        arrived by executive decision awaiting Senate ratification, it says so. The College
-        holds no accreditation, has appointed no External Examiner, has conferred no award on
-        anyone, and has adopted no <a href="/admissions/tuition/#refunds">refund policy</a>
-        &mdash; see <a href="/about/#status">institutional status</a>.</p>
+const standing = `<div class="callout">
+      <span class="callout__label">Where the College stands</span>
+      <p>Three cohorts have been taught at WEC-LC since 2023, and awards have been conferred at
+        Level&nbsp;I and Level&nbsp;II. The College holds no accreditation and has appointed no
+        External Examiner, so those awards were moderated inside the College and by nobody
+        outside it &mdash; see <a href="/about/#status">institutional status</a>.</p>
     </div>`;
 
 const PAGES = {};
@@ -181,7 +179,7 @@ ${card('Support', '<a href="/students/#support">Support</a>', 'What to do when y
 
 <section class="section--dark section-pad">
   <div class="container reveal">
-    ${noCohort}
+    ${standing}
   </div>
 </section>
 

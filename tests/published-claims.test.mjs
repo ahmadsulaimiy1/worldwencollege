@@ -137,9 +137,22 @@ check('No public page uses "unit" — the word means three different things and 
 // got shorter. A claim about what the College has done is worse: it gets
 // longer and reads fine.
 //
-// So the pages are guarded rather than the generators. A generator run
-// that reintroduces the claim fails the suite at the moment its output
-// is built, which is the moment somebody can still act on it.
+// So the pages were guarded rather than the generators: a generator run
+// that reintroduced the claim failed the suite at the moment its output
+// was built, which was the moment somebody could still act on it.
+//
+// THAT REASONING EXPIRED. scripts/lib/emit-page.js now refuses to
+// overwrite a hand-edited page, so a stale generator can no longer
+// republish anything — and the consequence is that its copy stops
+// failing anything at all. Four retired passages were found sitting in
+// three generators, invisible, one WEC_REGENERATE=1 from a reader: that
+// no cohort had been taught, that no award had been conferred on
+// anyone, that no refund policy had been adopted, and a whole refunds
+// section built on the last of those.
+//
+// The page guard removed the SILENT failure. This removes the LATENT
+// one: the sources are swept too, so a false sentence cannot lie in a
+// template waiting for someone to type a flag.
 const RETIRED_NO_TEACHING = [
   /has taught (?:nobody|no one|no-one)/i,
   /taught (?:nobody|no one) (?:yet|so far)/i,
@@ -153,6 +166,37 @@ const RETIRED_NO_TEACHING = [
     RETIRED_NO_TEACHING.some((r) => r.test(body)));
   check('No page claims the College has taught nobody — retired, and false since 2023',
     offenders.length === 0, offenders.map(([f]) => f).join(', '));
+}
+
+// The same sweep over the SOURCES that write those pages, plus the
+// claims the commercial decisions of 17 August 2026 falsified.
+{
+  const scriptsDir = path.join(ROOT, 'scripts');
+  const gens = readdirSync(scriptsDir)
+    .filter((f) => /^build.*\.(js|mjs)$/.test(f))
+    .map((f) => [f, readFileSync(path.join(scriptsDir, f), 'utf8')]);
+
+  const RETIRED = [
+    ...RETIRED_NO_TEACHING,
+    /no cohort has (?:yet )?been taught/i,
+    /no award has been conferred on anyone/i,
+    /no refund policy has been adopted/i,
+    /has adopted no <a[^>]*>refund policy/i,
+    /no criteria have been adopted, no budget/i,
+    /لم تُعتمد معايير، ولم يُخصَّص تمويل/,
+  ];
+  const stale = gens.filter(([, body]) => RETIRED.some((r) => r.test(body)));
+  check(`No generator still holds a retired claim — ${gens.length} swept`,
+    stale.length === 0, stale.map(([f]) => f).join(', '));
+
+  check('...and this sweep does catch each claim it retired',
+    RETIRED.some((r) => r.test('No cohort has yet been taught at WEC-LC.'))
+    && RETIRED.some((r) => r.test('and no refund policy has been adopted — see Refunds'))
+    && RETIRED.some((r) => r.test('No criteria have been adopted, no budget has been allocated'))
+    && RETIRED.some((r) => r.test('لم تُعتمد معايير، ولم يُخصَّص تمويل، ولم تُفتح دورة'))
+    // ...and does NOT fire on the corrected wording that replaced them
+    && !RETIRED.some((r) => r.test('Three cohorts have been taught at WEC-LC since 2023'))
+    && !RETIRED.some((r) => r.test('The refund policy was adopted on 17 August 2026')));
 }
 
 // ---------------------------------------------------------------------

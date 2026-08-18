@@ -130,10 +130,11 @@ const qa = (q, a) => `      <div class="accordion__item">
 
 const beforeYouPay = `<div class="callout">
       <span class="callout__label">Before you pay, four things you are entitled to know</span>
-      <p>WEC-LC holds no accreditation. No External Examiner has been appointed, so no award has
-        been conferred on anyone. No cohort has yet been taught. And no refund policy has been
-        adopted &mdash; see <a href="/admissions/tuition/#refunds">Refunds</a>, which says so
-        plainly rather than leaving you to discover it. The full institutional position is at
+      <p>WEC-LC holds no accreditation, and no External Examiner is appointed &mdash; so every
+        award it has conferred was moderated inside the College and by nobody outside it. Three
+        cohorts have been taught since 2023, and awards have been conferred at Level&nbsp;I and
+        Level&nbsp;II. The <a href="/admissions/tuition/#refunds">refund policy</a> was adopted on
+        17&nbsp;August&nbsp;2026 and is published in full. The whole institutional position is at
         <a href="/about/#status">About &middot; Institutional Status</a>.</p>
     </div>`;
 
@@ -537,9 +538,9 @@ ${card('Dependent on the clock', 'Live sessions', 'Conversation practice and tut
     </div>
     <div class="callout">
       <span class="callout__label">The honest caveat</span>
-      <p>No cohort has yet been taught, so no live timetable has been proven against real student
-        locations. What is described here is the design. The first cohort&rsquo;s experience will
-        change it, and the change will be published.</p>
+      <p>No live session has run, so no timetable has been proven against where students
+        actually are. What is described here is the design. The first sessions will change it,
+        and the change will be published.</p>
     </div>
   </div>
 </section>
@@ -643,7 +644,7 @@ PAGES.faq = {
 
       <div class="accordion__item">
         <button class="accordion__q"><span>Is the entire programme delivered online?</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">Yes, entirely. WEC-LC delivers the IEFC through a digital campus — staged lessons, the Listening Lab, assignments marked by a person, and your own academic record — so students anywhere in the world can enrol without relocating. Live classes are designed and have not yet run, because no cohort has been taught, and the recorded audio for the listening work has not been produced. Both are stated rather than implied.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">Yes, entirely. WEC-LC delivers the IEFC through a digital campus — staged lessons, the Listening Lab, assignments marked by a person, and your own academic record — so students anywhere in the world can enrol without relocating. {{S:COHORTS_TAUGHT}} There is no teaching campus at all: &ldquo;London Campus&rdquo; identifies the administrative headquarters, and nobody attends it. The programme is taught self-paced rather than to a live timetable, and the listening work is published as full scripts rather than as recordings.</div></div>
       </div>
 
       <div class="accordion__item">
@@ -752,7 +753,7 @@ ${qa('Will I get a certificate?', 'A transcript is issued after each level. The 
     </div>
     <div class="accordion">
 ${qa('Is WEC-LC accredited?', 'No. The College holds no accreditation and no external quality-assurance affiliation. It is stated on every page where it is relevant rather than once in a footnote, and it will be stated differently only when it is genuinely different.')}
-${qa('How many students have graduated?', 'None. No cohort has been taught and no award has been conferred. The College publishes no student numbers, completion rates or graduate outcomes because it has none to publish.')}
+${qa('How many students have graduated?', '{{S:COHORTS_TAUGHT}} {{S:CONFERRED}} {{S:CURRENT}} What the College will not give you is a completion rate or a graduate outcome statistic: across three cohorts those are numbers pretending to be trends, and a figure quoted early is quoted forever. What it will give you, because it holds it for every one of them, is a dated enrolment record, a full set of assessment results and a transcript. The one thing to weigh before you enrol: those awards were moderated inside the College, and no External Examiner has confirmed the standard from outside.')}
 ${qa('Can the IEFC certificate get me into a university or through immigration?', 'No, and you should not plan on it. What is currently recognised for those purposes is IELTS, TOEFL or Cambridge &mdash; all of which the upper levels prepare for directly. The College would rather tell you that than take your money on a misunderstanding.')}
 ${qa('Then what am I paying for?', 'A complete, inspectable programme: six levels, sixty modules, every lesson planned stage by stage, every assessment written with published criteria, and a published set of volumes covering the curriculum, the assessment scheme and the teaching. All of it can be examined before you pay a penny, which is more than most language providers offer.')}
     </div>
@@ -781,7 +782,7 @@ ${qa('Then what am I paying for?', 'A complete, inspectable programme: six level
     {
       "@type": "Question",
       "name": "Is the entire programme delivered online?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes, entirely. WEC-LC delivers the IEFC through a digital campus — staged lessons, the Listening Lab, assignments marked by a person, and your own academic record — so students anywhere in the world can enrol without relocating. Live classes are designed and have not yet run, because no cohort has been taught, and the recorded audio for the listening work has not been produced. Both are stated rather than implied." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, entirely. WEC-LC delivers the IEFC through a digital campus — staged lessons, the Listening Lab, assignments marked by a person, and your own academic record — so students anywhere in the world can enrol without relocating. {{S:COHORTS_TAUGHT}} The programme is taught self-paced rather than to a live timetable, and the listening work is published as full scripts rather than as recordings." }
     },
     {
       "@type": "Question",
@@ -878,7 +879,7 @@ PAGES.tuition = {
       <span class="module-marker">Tuition Includes</span>
       <ul class="check-list">
         <li>All modules and lessons for the level</li>
-        <li>Live classes and tutorials once they begin running &mdash; none has run yet, because no cohort has been taught</li>
+        <li>Live classes and tutorials once they begin running &mdash; the three cohorts taught so far studied self-paced, and no live session has run</li>
         <li>Learning resources and digital library access</li>
         <li>Assessments and examinations</li>
         <li>Progress reports and academic advising</li>
@@ -966,27 +967,17 @@ ${darkCard('Instalments', `${INSTALMENTS} payments per level`, `A level&rsquo;s 
   </div>
 </section>
 
-<section class="section--light section-pad" id="refunds">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">Refunds</span>
-      <h2>There is no refund policy yet, and you should know that before you pay.</h2>
-    </div>
-    <div class="callout">
-      <span class="callout__label">What is true</span>
-      <p>The College can process a refund technically &mdash; the mechanism is built and tested
-        against the payment gateways. What does not exist is a <em>policy</em>: who authorises a
-        refund, on what grounds, within what window, and at what proportion. Those are executive
-        decisions and none of them has been taken. Until they are, a refund request is decided
-        case by case by the founding team, in writing, and the decision is recorded against the
-        payment. That is a weaker guarantee than a published policy and it is stated as one.</p>
-    </div>
-    <div class="grid grid--2">
-${card('If you want certainty first', 'Pay by level, not in full', `The exposure of a per-level payment is ${PER_LEVEL}; the exposure of a full-programme payment is ${FULL_PRICE}. Until a refund policy exists, that difference is the practical protection available to you, and the College would rather tell you that than sell the larger package.`)}
-${card('What the College commits to now', 'A written answer, and a record of it', 'Every refund request is answered in writing with a reason. Whatever policy is eventually adopted, decisions taken before it will remain on the record and will not be quietly reinterpreted afterwards.')}
-    </div>
-  </div>
-</section>
+<!-- THE REFUNDS SECTION THAT USED TO SIT HERE IS RETIRED.
+     It said "there is no refund policy yet" — true when written, and
+     false since the policy was adopted on 17 August 2026 (E1 in
+     docs/governance-decisions.md). The live page carries the adopted
+     policy: fourteen days, refunded in full, before assessed work is
+     opened, with the statutory-rights carve-out beside it.
+
+     Cut rather than rewritten, for the same reason as the scholarship
+     section above: two answers to one question is how a fee schedule
+     stops being believed, and the surviving answer is the one a reader
+     can act on. -->
 
 <section class="section--paper section-pad">
   <div class="container reveal">
@@ -1001,27 +992,21 @@ ${card('Not issued yet', 'A downloadable PDF receipt', 'The receipt exists as a 
   </div>
 </section>
 
-<section class="section--light section-pad" id="funding" data-contents="Scholarships &amp; Funding">
-  <div class="container reveal">
-    <div class="section-head">
-      <span class="module-marker">The Position</span>
-      <h2>A mechanism exists. A scheme does not.</h2>
-      <p class="lede">The distinction matters, so it is drawn plainly rather than blurred.</p>
-    </div>
-    <div class="grid grid--2">
-${card('Exists', 'The award mechanism', 'The College can record a scholarship against a named person, as a percentage, a fixed sum or a full remission, with the approving officer recorded alongside it. It applies automatically at checkout for the person it was awarded to, and for nobody else. This is built and tested.')}
-${card('Does not exist', 'Eligibility, criteria, a fund, a deadline', 'No criteria have been adopted, no budget has been allocated, no round has opened and no scholarship has been awarded to anyone. Publishing criteria the College could not fund would be worse than publishing nothing.')}
-    </div>
-    <div class="callout">
-      <span class="callout__label">Why this is not simply written and published</span>
-      <p>A scholarship scheme is a spending commitment and an equity commitment at once. Deciding
-        it requires a fund, a set of criteria that can be applied consistently to strangers, and
-        someone accountable for applying them &mdash; the same three things that are missing from
-        every other unfilled post at the College. It is an executive decision, and it has not
-        been taken.</p>
-    </div>
-  </div>
-</section>
+<!-- THE SCHOLARSHIP SECTION THAT USED TO SIT HERE IS RETIRED.
+     It said "a mechanism exists, a scheme does not" — true until the
+     Foundation Remission was adopted on 17 August 2026 (F3 in
+     docs/governance-decisions.md). scripts/build-commercial.mjs now owns
+     the #funding leaf and renders the adopted scheme from
+     data/commercial.json, so the copy below would be a second, stale
+     answer to the same question.
+
+     Removed rather than rewritten. scripts/lib/emit-page.js already
+     stops this generator overwriting the live page, so the old copy
+     could never have reached a reader — but a false sentence sitting in
+     a source file is one WEC_REGENERATE=1 away from being published,
+     and this repository has been bitten by exactly that. See the note at
+     the top of emit-page.js. -->
+
 
 <section class="section--paper section-pad">
   <div class="container reveal">
