@@ -33,6 +33,19 @@
 // (CLAUDE.md §7). One green run there would have published another
 // college to this one's domain. That branch must never appear in this
 // list again, and the check says so by name.
+//
+// AND HERE IS WHAT THAT CHECK CANNOT DO, stated plainly so nobody
+// mistakes it for more than it is. A workflow run uses the copy of the
+// workflow on the branch being pushed. Removing Albalagh from the list
+// on THIS branch governs this branch; that branch still carries its own
+// copy, with itself in the trigger, and can still publish to
+// worldwencollege.co.uk. Nothing in this repository can stop it,
+// because the file that would stop it is not the file that runs.
+//
+// Closing it needs an action outside the code: delete or rename that
+// branch, restrict the Cloudflare credentials, or put branch protection
+// on the workflow. Until one of those happens the exposure is real, and
+// it is written here rather than in a summary nobody re-reads.
 
 import { readFileSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -101,34 +114,42 @@ if (!current || current === 'HEAD') {
 // `main` was listed for weeks and did not exist, which left exactly one
 // live trigger and nobody realised it.
 {
-  // ONLY WHERE THE CLONE CAN SEE THEM. GitHub Actions checks out with a
-  // single-branch refspec, so on the runner `git branch --all` knows
-  // about the branch being built and nothing else — and this check
-  // failed the deploy by reporting the feature branch as a phantom
-  // while running on `main`. It was right about the rule and wrong
-  // about the evidence, which is the same fault it exists to catch.
+  // ONLY WHERE THE CLONE CAN SEE THEM.
   //
-  // A wildcard fetch refspec means the clone can enumerate branches; a
-  // single-branch one means it cannot, and a check that cannot see is
-  // not entitled to a verdict.
-  let refspec = '';
+  // This check stopped the deploy twice, both times by being right about
+  // the rule and wrong about the evidence — which is the very fault it
+  // exists to catch, committed by the file that catches it.
+  //
+  // First it read the fetch refspec, reasoning that a wildcard means the
+  // clone can enumerate branches. It does not: actions/checkout leaves
+  // the wildcard in place while fetching a single ref at depth one.
+  // Then it counted refs, and a detached checkout emits a pseudo-entry —
+  // "(HEAD detached at 9339d9b)" — which is not a branch and made the
+  // clone look better informed than it was.
+  //
+  // What settles it is whether git can name a branch OTHER than the one
+  // being built. A clone that cannot has nothing to say about the
+  // others, whatever its configuration claims, and a check with no
+  // evidence is not entitled to a verdict.
+  let known = [];
   try {
-    refspec = execFileSync('git', ['config', '--get-all', 'remote.origin.fetch'],
-      { cwd: ROOT, encoding: 'utf8' });
-  } catch { refspec = ''; }
-  const canSeeAll = /refs\/heads\/\*/.test(refspec);
+    known = execFileSync('git', ['branch', '--format=%(refname:short)', '--all'],
+      { cwd: ROOT, encoding: 'utf8' })
+      // Both spellings: a full clone lists remotes/origin/x and a shallow
+      // one lists origin/x, and leaving the second un-normalised makes
+      // the branch being built look like a second, different branch.
+      .split('\n').map((s) => s.trim().replace(/^(?:remotes\/)?origin\//, '')).filter(Boolean);
+  } catch { known = []; }
+  const distinct = new Set(known);
 
-  if (!canSeeAll) {
-    console.log('NOTE  This clone fetches one branch, so it cannot enumerate the others; '
-      + 'the branch-existence check is skipped here and runs on a full clone.');
+  const others = [...distinct].filter((b) => b !== current
+    && !/(^|\/)HEAD$/.test(b)
+    && !b.startsWith('('));
+  if (others.length === 0) {
+    console.log('NOTE  This clone can see no branch but the one it is building, so it cannot '
+      + 'testify about the others; the branch-existence check stands down here.');
   } else {
-    let known = [];
-    try {
-      known = execFileSync('git', ['branch', '--format=%(refname:short)', '--all'],
-        { cwd: ROOT, encoding: 'utf8' })
-        .split('\n').map((s) => s.trim().replace(/^remotes\/origin\//, '')).filter(Boolean);
-    } catch { known = []; }
-    const phantom = branches.filter((b) => !known.includes(b));
+    const phantom = branches.filter((b) => !distinct.has(b));
     check('Every branch the deploy names exists',
       phantom.length === 0,
       `${phantom.join(', ')} named in the trigger but not in this repository — `
