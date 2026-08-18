@@ -66,6 +66,19 @@ const CENTRE = {
   en: ['FIRST', 'WORD'],
   ar: ['الكلمة', 'الأولى'],
 };
+// LEADING IS NOT A CONSTANT ACROSS SCRIPTS, and treating it as one is
+// how the Arabic centre shipped with its two lines touching. Both
+// editions were set 13 units apart, which clears comfortably for 9.5px
+// Latin capitals and does not for 11px Cairo: Arabic ascenders and
+// descenders make the rendered box roughly seventeen units tall, so the
+// two words overlapped by four. Invisible in the file, invisible in
+// review, and caught only by tests/browser/diagram-fit.mjs measuring the
+// boxes in the page that ships them.
+const CENTRE_LEAD = RTL ? 18 : 13;
+// The optical centre of the pair, tuned against the ring on the English
+// plate and kept identical so widening the Arabic leading moves nothing
+// on the edition that was already right.
+const CENTRE_OFFSET = 4.5;
 const TITLE = {
   en: 'The IEFC curriculum spiral',
   ar: 'حلزون منهج برنامج الطلاقة الدولي',
@@ -176,10 +189,10 @@ ${turns}
   <g data-pop="">
     <circle cx="${CX}" cy="${CY}" r="34" fill="none" stroke="#C7A24A" stroke-opacity=".35" stroke-width="1"/>
     <circle cx="${CX}" cy="${CY}" r="25" fill="#0A1428" stroke="#D4AF37" stroke-width="1.4"/>
-    <text x="${CX}" y="${CY - 2}" text-anchor="middle"
+    <text x="${CX}" y="${CY - CENTRE_LEAD / 2 + CENTRE_OFFSET}" text-anchor="middle"
           font-family="${SANS}" font-size="${RTL ? 11 : 9.5}" font-weight="700" letter-spacing="${RTL ? 0 : 1.8}"
           fill="#C7A24A">${bidi((CENTRE[LANG] || CENTRE.en)[0])}</text>
-    <text x="${CX}" y="${CY + 11}" text-anchor="middle"
+    <text x="${CX}" y="${CY + CENTRE_LEAD / 2 + CENTRE_OFFSET}" text-anchor="middle"
           font-family="${SANS}" font-size="${RTL ? 11 : 9.5}" font-weight="700" letter-spacing="${RTL ? 0 : 1.8}"
           fill="#C7A24A">${bidi((CENTRE[LANG] || CENTRE.en)[1])}</text>
   </g>

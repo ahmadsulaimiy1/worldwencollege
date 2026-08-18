@@ -119,6 +119,7 @@ const L = {
   en: {
     routesLabel: 'Two Routes', routesRubric: 'The same award, reached two ways, priced for what each one asks of the College.',
     routesH2: 'Two routes to the same award.',
+    routesCaption: 'Everything that differs is above the seal',
     routesLede: `Most people enrol, and should. The independent route exists for the candidate who wants the qualification without the teaching &mdash; and it confers the same award, examined the same way, entered in the same register. What separates the prices is not the credential. It is whether a person teaches you.`,
     enrolledName: 'Enrolled', independentName: 'Independent',
     perLevel: 'per level', programme: 'the whole programme',
@@ -157,6 +158,7 @@ const L = {
   ar: {
     routesLabel: 'مساران', routesRubric: 'الشهادة نفسها، يُبلغ إليها من طريقين، وسعر كلٍّ بقدر ما يطلبه من الكلية.',
     routesH2: 'مساران إلى الشهادة نفسها.',
+    routesCaption: 'كل ما يفترق فوق الختم',
     routesLede: 'أكثر الناس يلتحقون، وهذا هو الأولى. أما المسار المستقل فلمن أراد المؤهل بلا تدريس &mdash; وهو يمنح الشهادة نفسها، تُمتحن بالطريقة نفسها، وتُقيَّد في السجل نفسه. والذي يفرّق بين السعرين ليس الوثيقة، بل هل يعلّمك إنسان أم لا.',
     enrolledName: 'ملتحق', independentName: 'مستقل',
     perLevel: 'للمستوى', programme: 'البرنامج كله',
@@ -235,6 +237,27 @@ function routesLeaf(lang) {
         <h2>${t.routesH2}</h2>
         <p class="lede">${t.routesLede}</p>
       </div>
+
+      <!-- THE DRAWING, before the two cards. Two prices for one award
+           invite two wrong readings: that the cheaper figure buys less
+           of a credential, or that the dearer one is padded. The plate
+           runs both columns into a single seal — the same examination,
+           the same award, the same entry in the register — so
+           everything that differs is visibly above it and nothing that
+           differs is below. It also shows where conferral is paid for
+           on each route, which is what lets the promise of no
+           graduation fee and a priced conferral step both be true.
+           Figures are read from data/commercial.json and
+           data/tuition.json by scripts/art/generate-two-routes.mjs,
+           which refuses to render if the two ledgers disagree. -->
+      <figure class="diagram diagram--wide">
+        {{SVG:assets/art/two-routes${lang === 'ar' ? '.ar' : ''}.svg}}
+        <figcaption class="diagram__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg>
+          ${t.routesCaption}
+        </figcaption>
+      </figure>
+
       <div class="grid grid--2">
 ${card({ icon: 'i-lectern', num: t.enrolledName, h3: `${num(lang, money(levelFee))} &middot; ${t.perLevel}`, p: t.enrolledWhat })}
 ${card({ icon: 'i-compass', num: t.independentName, h3: `${num(lang, flat(stepTotal))} &middot; ${t.perLevel}`, p: t.independentWhat })}

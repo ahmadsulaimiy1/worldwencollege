@@ -472,9 +472,23 @@ function visualStorytelling() {
     if (n < 200) continue;
     const photos = (body.match(/<img\b/gi) || []).length;
     const plates = (body.match(/class="[^"]*\bplate\b/gi) || []).length;
-    const diagrams = (body.match(/leaf__ornament|--leaf-plate|class="[^"]*\b(?:ascent|horarium|gauge|dial|chart)\b/gi) || []).length;
+    // THE LIVING DIAGRAMS. A page includes one as {{SVG:assets/art/…}}
+    // inside a figure.diagram, and until 18 August 2026 this committee
+    // could not see them at all — so the most substantial visual anchor
+    // on the site, drawn, animated and carrying its own description for
+    // a reader who cannot see it, counted as nothing. Two pages were
+    // flagged as walls of type on the day a diagram was placed on them.
+    const diagrams = (body.match(/\{\{SVG:assets\/art\//g) || []).length
+      + (body.match(/class="[^"]*\b(?:ascent|horarium|gauge|dial|chart)\b/gi) || []).length;
+    // THE WATERMARKS, counted once each. `leaf__ornament` and
+    // `--leaf-plate` are the same span expressed two ways — the class
+    // and the custom property that fills it — so the old pattern
+    // credited every watermark twice. It is also a background at 5 per
+    // cent opacity, which is a texture and not something a reader rests
+    // on, so it now counts as half of one anchor rather than as two.
+    const ornaments = (body.match(/leaf__ornament/g) || []).length;
     const domes = (body.match(/badge-dome/gi) || []).length;
-    const visual = photos + plates + diagrams;
+    const visual = photos + plates + diagrams + ornaments / 2;
 
     if (photos === 0 && n > 700) {
       flag(n > 2000 ? 'SEVERE' : 'MAJOR', f,
