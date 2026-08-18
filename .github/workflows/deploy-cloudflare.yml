@@ -60,7 +60,25 @@ on:
   push:
     branches:
       - main
-      - claude/worldwide-english-college-site-ezy1zo
+      # ── WHY THIS LIST CHANGED ON 18 AUGUST 2026 ──────────────────────
+      # It named `claude/worldwide-english-college-site-ezy1zo`, which
+      # has since been rebranded to Albalagh International Premium
+      # College — a separate institution that happens to share this
+      # repository's history (CLAUDE.md §7, ruled by the owner). Leaving
+      # it here meant one green test run on that branch would publish
+      # another college to worldwencollege.co.uk. Its last three deploys
+      # failed on their own verify job, which is the only reason that
+      # did not already happen.
+      #
+      # The consequence of nobody noticing was the other half: this
+      # College's work went to a branch that deploys nothing, and the
+      # live site stayed at 940c5e30 from 16 August while ninety-six
+      # commits accumulated behind it — the Library, the tuition ladder,
+      # the commercial model, the Record of Standing, nine drawn plates.
+      # That is the failure the header above warned about, in the exact
+      # words it used: work described as live when nothing had been
+      # published.
+      - claude/world-wen-college-audit-ft3mls
     # A change that cannot affect what is served should not spend a
     # deploy. Everything else should.
     paths-ignore:
