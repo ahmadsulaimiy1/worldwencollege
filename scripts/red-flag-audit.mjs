@@ -40,7 +40,15 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const PAGES = path.join(ROOT, 'pages');
+// Overridable so the rules can be tested against fixtures rather than
+// against the site. A register whose exemptions have grown until it
+// reports nothing looks exactly like a clean site, and the only way to
+// tell them apart is to prove each rule still fires on a page that
+// deserves it — which is what tests/audit-behaviour.test.mjs does by
+// pointing this at a copy with a fault planted in it. Nothing else in
+// the file changes: the register is still written only with --write,
+// and only to the repository.
+const PAGES = process.env.WEC_AUDIT_PAGES || path.join(ROOT, 'pages');
 
 // ─────────────────────────────────────────────────────────────────────
 // THE REGISTER
@@ -351,14 +359,31 @@ function institutionalConfidence() {
     // survive. So the Arabic side matches the academic collocations
     // only, and the English `accredit\w*` stem is unambiguous as it is.
     const AR_ACCREDITATION = /اعتماد\s*أكاديمي|الاعتماد\s*الأكاديمي|اعتماد[ًا]?\s*أكاديمي[ًا]?|جهة\s*اعتماد|لجنة\s*اعتماد|هيئة\s*اعتماد|شهادة\s*معتمدة|شهادات\s*معتمدة|غير\s*معتمدة\s*أكاديمي[ًا]?|لا\s*تحمل\s*(?:الكلية\s*)?(?:أي\s*)?اعتماد|بلا\s*اعتماد/g;
-    const hits = [
-      ...(prose(body).match(/accredit\w*/gi) || []),
-      ...(prose(body).match(AR_ACCREDITATION) || []),
-    ];
+    // COUNT THE PLACES, NOT THE WORDS. This rule's own paragraph above
+    // says one mention is never a finding, and then the counter broke
+    // that promise: the FAQ asks "Is the College formally accredited?"
+    // and answers "it holds no accreditation" — one question, answered
+    // once, in one accordion item, scored as two raisings and reported
+    // SEVERE. Word tokens are not the unit the instruction is about.
+    // The unit is a passage that brings the subject up, so the body is
+    // cut at block boundaries and the passages carrying a hit are what
+    // gets counted. This is the same defect as the auditor counting
+    // `badge-dome` substrings, which produced forty-eight findings that
+    // were not there.
+    const passages = body.split(new RegExp(`</(?:${BLOCK})>`, 'i'));
+    const hits = [];
+    for (const chunk of passages) {
+      const text = prose(chunk);
+      const found = [
+        ...(text.match(/accredit\w*/gi) || []),
+        ...(text.match(AR_ACCREDITATION) || []),
+      ];
+      if (found.length) hits.push(found[0]);
+    }
     if (!hits.length) continue;
     if (hits.length <= ALLOWANCE(f)) continue;
     flag(MAY_DISCUSS.has(f) ? 'MAJOR' : 'SEVERE', f,
-      `Accreditation raised ${hits.length}× on a page that is not the status page`,
+      `Accreditation raised in ${hits.length} separate passages on a page that is not the status page`,
       `${[...new Set(hits)].slice(0, 4).join(', ')}`,
       MAY_DISCUSS.has(f)
         ? 'Reduce to one statement and link to the status section.'
@@ -382,14 +407,89 @@ function institutionalConfidence() {
     /(?<![؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿])لم\s+(?:يُ|تُ|ي|ت)\w*\s+بعد(?![؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿])/g,
     /(?<![؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿])ليس\s+بعد(?![؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿])/g,
   ];
+  // THE REGISTER IS WHERE THIS BELONGS — which is exactly what the
+  // remedy on every one of these findings says: "put it once in the
+  // status register and link to it." Then the rule flagged the register
+  // itself, hardest of all, and told the Governance instrument to stop
+  // saying what its own bodies have and have not done. That is not a
+  // finding anyone can act on: deleting it would leave a page about
+  // authority that declines to say whether the authority has been
+  // exercised, and the fix the register recommends has nowhere to put
+  // what it removes.
+  //
+  // So the pages that ARE the destination are held to a ceiling rather
+  // than to nothing. Naming an unexercised power is their subject. A
+  // page that did it thirty times would still be a wall of hedging, and
+  // still flags.
+  const STATUS_REGISTER = new Map([
+    ['about.html', 14], ['about.ar.html', 14],
+    ['governance.html', 14], ['governance.ar.html', 14],
+    ['governance-evidence.html', 14], ['governance-evidence.ar.html', 14],
+  ]);
+  // TWO THINGS THE PATTERN CANNOT SEE ON ITS OWN, both of which put
+  // findings in this register that nobody could act on.
+  //
+  // FIRST, THE SUBJECT. "A level you have not yet paid for is never at
+  // risk" and "never to a stretch of your life you have not yet lived"
+  // are among the best sentences on the site, and both were reported as
+  // the College narrating its own unfinished business. They are about
+  // the reader. So a match whose own sentence addresses the reader is
+  // not this committee's business.
+  const READER_DIRECTED = /\b(?:you|your|yours|yourself)\b/i;
+  //
+  // SECOND, DISCLOSURE A DECISION TURNS ON — which this committee's own
+  // charter protects and its pattern cannot recognise. Each entry below
+  // is a recorded decision with its reason, not a silenced finding, and
+  // the count is the number of passages the decision covers: a page
+  // that acquires a NEW one still flags.
+  const DECISION_TURNS_ON = new Map([
+    // An accessibility statement that does not say what is untested
+    // tells a disabled user a confident nothing. This is the one page
+    // where naming the gap IS the accessible act.
+    ['support-accessibility.html', 2], ['support-accessibility.ar.html', 2],
+    // A reader weighing a volume's authority needs to know it has not
+    // been read outside the College. It is on the imprint page of every
+    // volume for the same reason.
+    ['press-library.html', 2], ['press-library.ar.html', 2],
+    // An award holder is owed the one confirmation nobody has given it.
+    ['students-awards.html', 1], ['students-awards.ar.html', 1],
+    // A candidate for a post should learn what the post unblocks before
+    // the first conversation, not after it.
+    ['about-careers.html', 1], ['about-careers.ar.html', 1],
+    // Both of these describe the field rather than the College: a lesson
+    // plan nobody has run through, and the production hours no
+    // examination has ever required of a candidate.
+    ['academics-teaching.html', 1], ['academics-teaching.ar.html', 1],
+    ['admissions.html', 1], ['admissions.ar.html', 1],
+    // "The lessons inside them are still being written." A buyer is
+    // deciding whether to pay $3,166.67 for a level, and that sentence
+    // is the difference between the designed size of the curriculum and
+    // what is in the platform today. It was rewritten once to lead with
+    // the delivery promise instead, and tests/published-claims.test.mjs
+    // caught it: the plainer sentence is the one a reader's money turns
+    // on, and §5 puts truth above polish. It stays as it is.
+    ['academics.html', 1], ['academics.ar.html', 1],
+  ]);
   for (const [f, body] of src) {
     const text = prose(body);
     let n = 0; const samples = [];
     for (const re of NARRATING_INCOMPLETENESS) {
-      const hits = text.match(re);
-      if (hits) { n += hits.length; samples.push(...hits.slice(0, 2)); }
+      const r = new RegExp(re.source, re.flags.includes('g') ? re.flags : `${re.flags}g`);
+      let m;
+      while ((m = r.exec(text)) !== null) {
+        // The sentence the match sits in, bounded by the nearest full
+        // stops either side.
+        const before = text.slice(Math.max(0, m.index - 240), m.index);
+        const after = text.slice(m.index, m.index + 240);
+        const sentence = before.slice(before.lastIndexOf('.') + 1)
+          + after.slice(0, (after.indexOf('.') + 1) || after.length);
+        if (READER_DIRECTED.test(sentence)) continue;
+        n += 1;
+        if (samples.length < 4) samples.push(m[0]);
+      }
     }
     if (!n) continue;
+    if (n <= (STATUS_REGISTER.get(f) || DECISION_TURNS_ON.get(f) || 0)) continue;
     flag(n > 6 ? 'SEVERE' : n > 2 ? 'MAJOR' : 'MINOR', f,
       `${n} construction(s) narrating what has not happened`,
       [...new Set(samples)].slice(0, 4).map((s) => `“${s.trim()}”`).join(', '),
