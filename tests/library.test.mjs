@@ -30,10 +30,47 @@ check(`The register holds volumes — ${reg.total} listed, ${reg.downloadable} d
   reg.total >= 14 && reg.downloadable >= 12, `total ${reg.total}, downloadable ${reg.downloadable}`);
 
 // ── 1 · EVERY LISTED VOLUME IS A FILE THAT EXISTS ────────────────────
+//
+// EXCEPT THE ONES THE REPOSITORY HAS DELIBERATELY NOT COMMITTED, and
+// that exception is read from .gitignore rather than listed here.
+//
+// The Student Edition is a 25 MB near-duplicate of a book already in
+// the history — the Teacher's Edition minus the answer keys — so it is
+// ignored, and .gitignore says so with the command that rebuilds it.
+// This check passed on every machine that had run that command and
+// failed on the deploy runner, which is a clean checkout. It failed
+// correctly: the file genuinely is not there. What was wrong was the
+// question, which asked "is this file present" when the policy is "is
+// this file either committed or deliberately excluded".
+//
+// So an absent volume is still a failure unless .gitignore names it AND
+// the build command .gitignore promises actually exists. A volume that
+// is merely missing fails; a volume that is missing because somebody
+// silently added it to .gitignore without a way to rebuild it fails too.
 {
-  const gone = reg.volumes.filter((v) => !existsSync(path.join(ROOT, 'publication', v.file)));
-  check('Every registered volume is a file in publication/',
+  const gitignore = readFileSync(path.join(ROOT, '.gitignore'), 'utf8');
+  const pkg = JSON.parse(readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+  const scripts = Object.keys(pkg.scripts || {});
+
+  const absent = reg.volumes.filter((v) => !existsSync(path.join(ROOT, 'publication', v.file)));
+  const excluded = absent.filter((v) => gitignore.includes(`publication/${v.file}`));
+  const gone = absent.filter((v) => !excluded.includes(v));
+
+  check('Every registered volume is a file in publication/, or is one .gitignore excludes',
     gone.length === 0, gone.map((v) => v.file).join(', '));
+
+  // The promise .gitignore makes on behalf of an excluded volume.
+  const promised = [...gitignore.matchAll(/npm run ([\w:-]+)/g)].map((m) => m[1]);
+  check(`...and each exclusion names a build command that exists — ${excluded.length} excluded`,
+    excluded.length === 0 || promised.some((s) => scripts.includes(s)),
+    `.gitignore promises ${promised.join(', ') || 'nothing'}; package.json has `
+    + `${scripts.filter((s) => promised.includes(s)).join(', ') || 'none of them'}`);
+
+  // An excluded volume must not be offered as a download, because the
+  // deploy cannot serve a file the repository does not hold.
+  const offered = excluded.filter((v) => v.href && redirects.includes(v.href));
+  check('...and no excluded volume is served a download URL it cannot honour',
+    offered.length === 0, offered.map((v) => v.slug).join(', '));
 }
 
 // ── 2 · EVERY PUBLISHED SIZE IS THE FILE'S ACTUAL SIZE ───────────────
@@ -72,7 +109,13 @@ check(`The register holds volumes — ${reg.total} listed, ${reg.downloadable} d
 
 // ── 3 · EVERY DOWNLOADABLE VOLUME HAS A SERVING RULE ─────────────────
 {
-  const served = reg.volumes.filter((v) => !v.oversize);
+  // "Downloadable" is what the deploy can actually serve, which is not
+  // the same as "small enough". A volume the repository deliberately
+  // does not carry has no bytes to route to, however small it is — and
+  // this check, reading only the size, demanded a serving rule for a
+  // file no deployment has ever contained. It got one, and the Library
+  // published a link that 404s.
+  const served = reg.volumes.filter((v) => !v.oversize && !v.excluded);
   const unrouted = served.filter((v) => !redirects.includes(v.href));
   check(`Every downloadable volume has a rule in _redirects — ${served.length} expected`,
     unrouted.length === 0, unrouted.map((v) => v.href).join(', '));

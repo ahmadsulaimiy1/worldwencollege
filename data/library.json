@@ -15,7 +15,7 @@
   "generated_from": "publication/",
   "max_bytes": 26214400,
   "total": 16,
-  "downloadable": 14,
+  "downloadable": 13,
   "open": 16,
   "enrolled": 0,
   "total_bytes": 79381053,
@@ -38,6 +38,7 @@
       "bytes": 28041113,
       "mb": "26.7",
       "oversize": true,
+      "excluded": false,
       "access": "open",
       "href": "/library/complete-curriculum.pdf",
       "source": "/publication/IEFC%20Complete%20Curriculum.pdf"
@@ -53,6 +54,7 @@
       "bytes": 26847354,
       "mb": "25.6",
       "oversize": true,
+      "excluded": true,
       "access": "open",
       "href": "/library/complete-curriculum-student.pdf",
       "source": "/publication/IEFC%20Complete%20Curriculum%20(Student%20Edition).pdf"
@@ -68,6 +70,7 @@
       "bytes": 490318,
       "mb": "0.5",
       "oversize": false,
+      "excluded": false,
       "access": "open",
       "href": "/library/flagship-curriculum.pdf",
       "source": "/publication/IEFC%20Flagship%20Curriculum.pdf"
@@ -83,6 +86,7 @@
       "bytes": 12480700,
       "mb": "11.9",
       "oversize": false,
+      "excluded": false,
       "access": "open",
       "href": "/library/programme-architecture.pdf",
       "source": "/publication/IEFC%20Programme%20Architecture%20(Institutional%20Edition).pdf"
@@ -98,6 +102,7 @@
       "bytes": 2733660,
       "mb": "2.6",
       "oversize": false,
+      "excluded": false,
       "access": "open",
       "href": "/library/assessment-handbook.pdf",
       "source": "/publication/IEFC%20Assessment%20Handbook.pdf"
@@ -113,6 +118,7 @@
       "bytes": 784188,
       "mb": "0.7",
       "oversize": false,
+      "excluded": false,
       "access": "open",
       "href": "/library/teachers-companion-level-1.pdf",
       "source": "/publication/IEFC%20Level%20I%20Teacher's%20Companion.pdf"
@@ -128,6 +134,7 @@
       "bytes": 1068332,
       "mb": "1.0",
       "oversize": false,
+      "excluded": false,
       "access": "open",
       "href": "/library/pronunciation-handbook.pdf",
       "source": "/publication/IEFC%20Pronunciation%20Handbook.pdf"
@@ -143,6 +150,7 @@
       "bytes": 948202,
       "mb": "0.9",
       "oversize": false,
+      "excluded": false,
       "access": "open",
       "href": "/library/listening-scripts.pdf",
       "source": "/publication/IEFC%20Listening%20Scripts.pdf"
@@ -158,6 +166,7 @@
       "bytes": 1071386,
       "mb": "1.0",
       "oversize": false,
+      "excluded": false,
       "access": "open",
       "href": "/library/student-workbook-level-1.pdf",
       "source": "/publication/IEFC%20Level%20I%20Student%20Workbook.pdf"
@@ -173,6 +182,7 @@
       "bytes": 1101857,
       "mb": "1.1",
       "oversize": false,
+      "excluded": false,
       "access": "open",
       "href": "/library/publishing-constitution.pdf",
       "source": "/publication/WEC%20Press%20%E2%80%94%20The%20Publishing%20Constitution.pdf"
@@ -188,6 +198,7 @@
       "bytes": 1029614,
       "mb": "1.0",
       "oversize": false,
+      "excluded": false,
       "access": "open",
       "href": "/library/canon-index.pdf",
       "source": "/publication/WEC%20Canon%20Index.pdf"
@@ -203,6 +214,7 @@
       "bytes": 522831,
       "mb": "0.5",
       "oversize": false,
+      "excluded": false,
       "access": "open",
       "href": "/library/editorial-bible.pdf",
       "source": "/publication/IEFC%20Internal%20Editorial%20Bible.pdf"
@@ -218,6 +230,7 @@
       "bytes": 625800,
       "mb": "0.6",
       "oversize": false,
+      "excluded": false,
       "access": "open",
       "href": "/library/production-specifications.pdf",
       "source": "/publication/IEFC%20Production%20Specifications.pdf"
@@ -233,6 +246,7 @@
       "bytes": 545250,
       "mb": "0.5",
       "oversize": false,
+      "excluded": false,
       "access": "open",
       "href": "/library/cover-artwork-curriculum.pdf",
       "source": "/publication/IEFC%20Cover%20Artwork.pdf"
@@ -248,6 +262,7 @@
       "bytes": 545233,
       "mb": "0.5",
       "oversize": false,
+      "excluded": true,
       "access": "open",
       "href": "/library/cover-artwork-curriculum-student.pdf",
       "source": "/publication/IEFC%20Complete%20Curriculum%20(Student%20Edition)%20%E2%80%94%20Cover%20Artwork.pdf"
@@ -263,6 +278,7 @@
       "bytes": 545215,
       "mb": "0.5",
       "oversize": false,
+      "excluded": false,
       "access": "open",
       "href": "/library/cover-artwork-architecture.pdf",
       "source": "/publication/IEFC%20Programme%20Architecture%20(Institutional%20Edition)%20%E2%80%94%20Cover%20Artwork.pdf"
