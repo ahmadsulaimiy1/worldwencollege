@@ -72,8 +72,27 @@ levels are participation, not spectacle.
   200 rewrite, must NOT be on the deploy surface, and its card must
   carry the access statement in both languages.
 
-## Sequencing
+## Built — 17 August 2026
 
-Blocked until the confidence sweep lands (press + tuition + level pages
-are agent-owned in that wave). Implement as its own commit series with
-the owner's fee confirmation flagged for review in the report.
+Adopted as F1 and F5 in `docs/governance-decisions.md`, and shipped.
+What landed, and the one item deliberately not built:
+
+| Planned | Built |
+|---|---|
+| The route as four priced steps | Three steps, on the tuition page at `#routes`. Materials became **access to the level inside the platform** — the fourth "study" step was not a step the College sells |
+| A leaf on the tuition page | The whole commercial model, five leaves, generated from `data/commercial.json` |
+| Each level page names its routes | All twelve, through their generators |
+| The Library states the access tier | Its own leaf, `#access`, in both editions |
+| **A dedicated `/study/independent/` page** | **Not built, deliberately** |
+
+The dedicated page was the plan's weakest item. Everything it would
+carry is already on the tuition page under `#routes`, cross-linked from
+Admissions, all twelve level pages and Awards — and a fifth surface
+restating the same fees is the duplication this repository has paid for
+four times. What the route actually lacked was not a page but a way in,
+so it has a place in the primary navigation instead, in both languages.
+
+The owner's indicative fees — $150 / $250 / $200 — ship as published
+figures. F1 records the reasoning for each against the enrolled
+cost-share, and marks the fee levels as subject to Board ratification at
+the annual fee review.
