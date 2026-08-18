@@ -101,13 +101,33 @@ if (!current || current === 'HEAD') {
 // `main` was listed for weeks and did not exist, which left exactly one
 // live trigger and nobody realised it.
 {
-  let known = [];
+  // ONLY WHERE THE CLONE CAN SEE THEM. GitHub Actions checks out with a
+  // single-branch refspec, so on the runner `git branch --all` knows
+  // about the branch being built and nothing else — and this check
+  // failed the deploy by reporting the feature branch as a phantom
+  // while running on `main`. It was right about the rule and wrong
+  // about the evidence, which is the same fault it exists to catch.
+  //
+  // A wildcard fetch refspec means the clone can enumerate branches; a
+  // single-branch one means it cannot, and a check that cannot see is
+  // not entitled to a verdict.
+  let refspec = '';
   try {
-    known = execFileSync('git', ['branch', '--format=%(refname:short)', '--all'],
-      { cwd: ROOT, encoding: 'utf8' })
-      .split('\n').map((s) => s.trim().replace(/^remotes\/origin\//, '')).filter(Boolean);
-  } catch { known = []; }
-  if (known.length) {
+    refspec = execFileSync('git', ['config', '--get-all', 'remote.origin.fetch'],
+      { cwd: ROOT, encoding: 'utf8' });
+  } catch { refspec = ''; }
+  const canSeeAll = /refs\/heads\/\*/.test(refspec);
+
+  if (!canSeeAll) {
+    console.log('NOTE  This clone fetches one branch, so it cannot enumerate the others; '
+      + 'the branch-existence check is skipped here and runs on a full clone.');
+  } else {
+    let known = [];
+    try {
+      known = execFileSync('git', ['branch', '--format=%(refname:short)', '--all'],
+        { cwd: ROOT, encoding: 'utf8' })
+        .split('\n').map((s) => s.trim().replace(/^remotes\/origin\//, '')).filter(Boolean);
+    } catch { known = []; }
     const phantom = branches.filter((b) => !known.includes(b));
     check('Every branch the deploy names exists',
       phantom.length === 0,
