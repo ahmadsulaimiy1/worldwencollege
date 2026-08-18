@@ -330,7 +330,7 @@ function levelPage(lv, i) {
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Learning Outcomes</span>
-      <h2>What you will be able to do.</h2>
+      <h2>What you can do on completion.</h2>
       <p class="lede">Stated before the teaching is designed, not after. Each outcome is a
         claim the assessments are built to test, which is why there are ${lv.outcomes.length}
         of them and not twenty.</p>
@@ -601,7 +601,7 @@ ${card('Entry', prev ? `Do I need Level ${prev.roman} first?` : 'Do I need any E
     ? `Not necessarily. You need the language ${esc(prev.name)} teaches, however you acquired it. A placement assessment establishes that.`
     : 'No. Foundation assumes none, and the first lesson teaches the alphabet and how to say your own name.', 'i-passport')}
 ${card('Assessment', 'What happens if I fail an assessment?', 'Assessments can be resat. The purpose is to establish what you can do, not to record a single bad afternoon &mdash; the appeals and resit procedure is published in full.', 'i-scales')}
-${card('Commitment', 'Can I study this alongside a job?', `Yes, and it is designed to be. Level ${lv.roman} is ${TQT_HOURS} designed hours across ${lv.duration_months} months &mdash; about ${weeklyHours(lv)} hours a week, spent when you choose to spend them. Nothing opens on a fixed date and nothing closes if a week goes badly.`, 'i-hourglass')}
+${card('Commitment', 'Can I study this alongside a job?', `Yes. That is the shape it was built to. Level ${lv.roman} is ${TQT_HOURS} designed hours across ${lv.duration_months} months &mdash; about ${weeklyHours(lv)} hours a week, spent when you choose to spend them. Nothing opens on a fixed date and nothing closes if a week goes badly.`, 'i-hourglass')}
     </div>
   </div>
 </section>

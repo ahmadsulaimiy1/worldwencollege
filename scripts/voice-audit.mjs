@@ -52,6 +52,13 @@ const LOAD = [
   /\bhas (not|never) (been|yet)/i, /\bhave (not|never) (been|yet)/i,
   /\bnot (yet )?(adopted|appointed|approved|conferred|ratified|produced|run|taught|measured|filled|constituted|instrumented|evidenced)/i,
   /\bdesign figure\b/i, /\binterim\b/i, /\bunexercised\b/i,
+  // DESIGNED, NOT MEASURED — the same distinction `design figure` above
+  // protects, in its other grammatical form. The College may not say a
+  // level REACHES a CEFR band: nothing internal can establish where a
+  // level is pitched, and no External Examiner has been appointed. So
+  // "the band it is designed to reach" is the honest verb, and cutting
+  // the hedge would manufacture the exact claim the site refuses to make.
+  /\bdesigned to (?:reach|build toward)\b/i,
   /\bdoes not (hold|claim|guarantee|entitle)/i,
   /\bnobody has\b/i, /\bnone (has|have|of them)\b/i,
   /\bwill (be|say|change) .{0,24}when\b/i,
@@ -64,7 +71,11 @@ const LOAD = [
 const DEAD = [
   [/\bis designed to\b/gi,        'is / does'],
   [/\bare designed to\b/gi,       'are / do'],
-  [/\b(aims?|seeks?|strives?|works?) to\b/gi, 'does'],
+  // NOT bare `work`. "The College expects the work to be yours" is a
+  // noun followed by an infinitive, and it was reported as the College
+  // hedging about its own effort. Only the conjugated verb hedges.
+  [/\b(aims?|seeks?|strives?|works) to\b/gi, 'does'],
+  [/\bwe work to\b/gi,            'does'],
   [/\bwe (hope|believe|feel|think)\b/gi, 'state it, or cut it'],
   [/\bshould be able to\b/gi,     'can'],
   [/\bmay be able to\b/gi,        'can'],
@@ -135,14 +146,22 @@ const strip = (h) => h
 const sentences = (text) => text.split(/(?<=[.!?؟])\s+|\n/).filter((s) => s.trim());
 
 const files = readdirSync(PAGES).filter((f) => f.endsWith('.html')).sort();
-let totals = { dead: 0, machine: 0, load: 0 };
+// A HEADLINE THAT CONFLATES TWO VERDICTS IS A HEADLINE NOBODY ACTS ON.
+// This file already distinguishes "cut this" from "look at this" — the
+// remedy column has said REVIEW IN CONTEXT since the day `simply` was
+// added, because "nothing is recorded as simply true" means MERELY true
+// and losing the word loses the point. The count did not distinguish
+// them, so the summary reported nineteen dead hedges on a site where
+// every one of the nineteen had been read and kept. A register that
+// overstates is read once.
+let totals = { dead: 0, review: 0, machine: 0, load: 0 };
 const rows = [];
 
 for (const f of files) {
   const raw = strip(readFileSync(path.join(PAGES, f), 'utf8'));
   // Only the visible copy: text between tags.
   const visible = raw.replace(/<[^>]+>/g, '\n');
-  let dead = 0, machine = 0, load = 0;
+  let dead = 0, review = 0, machine = 0, load = 0;
   const hits = [];
 
   for (const s of sentences(visible)) {
@@ -150,24 +169,29 @@ for (const f of files) {
     if (isLoad) { load++; continue; }
     for (const [re, fix] of DEAD) {
       const m = s.match(re);
-      if (m) { dead += m.length; hits.push(['DEAD', m[0].trim(), fix, s.trim().slice(0, 96)]); }
+      if (!m) continue;
+      // The remedy names the verdict: anything the table itself sends
+      // for a reading is counted as a reading, not as a cut.
+      if (/^REVIEW/.test(fix)) { review += m.length; hits.push(['REVIEW', m[0].trim(), fix, s.trim().slice(0, 96)]); }
+      else { dead += m.length; hits.push(['DEAD', m[0].trim(), fix, s.trim().slice(0, 96)]); }
     }
     for (const [re, fix] of MACHINE) {
       const m = s.match(re);
       if (m) { machine += m.length; hits.push(['MACHINE', m[0].trim(), fix, s.trim().slice(0, 96)]); }
     }
   }
-  totals.dead += dead; totals.machine += machine; totals.load += load;
-  if (dead || machine) rows.push({ f, dead, machine, load, hits });
+  totals.dead += dead; totals.review += review;
+  totals.machine += machine; totals.load += load;
+  if (dead || review || machine) rows.push({ f, dead, review, machine, load, hits });
 }
 
-rows.sort((a, b) => (b.dead + b.machine) - (a.dead + a.machine));
-console.log(`${'page'.padEnd(30)}${'dead'.padStart(6)}${'machine'.padStart(9)}${'protected'.padStart(11)}`);
+rows.sort((a, b) => (b.dead + b.machine) - (a.dead + a.machine) || b.review - a.review);
+console.log(`${'page'.padEnd(30)}${'dead'.padStart(6)}${'review'.padStart(8)}${'machine'.padStart(9)}${'protected'.padStart(11)}`);
 for (const r of rows) {
-  console.log(`${r.f.padEnd(30)}${String(r.dead).padStart(6)}${String(r.machine).padStart(9)}${String(r.load).padStart(11)}`);
+  console.log(`${r.f.padEnd(30)}${String(r.dead).padStart(6)}${String(r.review).padStart(8)}${String(r.machine).padStart(9)}${String(r.load).padStart(11)}`);
   if (SHOW_LINES) for (const [kind, hit, fix, ctx] of r.hits) {
     console.log(`   ${kind.padEnd(8)} "${hit}"${fix ? ` → ${fix}` : ''}\n      ${ctx}`);
   }
 }
-console.log(`\n${totals.dead} dead hedges · ${totals.machine} machine phrases`);
+console.log(`\n${totals.dead} dead hedges to cut · ${totals.review} to read in context · ${totals.machine} machine phrases`);
 console.log(`${totals.load} sentences carry a real disclosure and are LEFT ALONE.`);
