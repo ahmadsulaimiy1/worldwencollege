@@ -211,6 +211,8 @@ second-level domains, not UK ccTLDs. They look British and are not.
 
 **Consequence:** `vercel.domain.buy` can register `.com`, `.org` and the
 education TLDs, and **can never touch the estate's primary domain**.
+**Superseded as the default by `SEB-D 36`** — see §8; Vercel is now the
+fallback registrar, not the first choice.
 `.co.uk` registration, renewal and transfer live at a Nominet-accredited
 registrar, outside this server. The MCP's domain tooling is for defensive
 `.com`/`.org` registrations, not for the domain the institution runs on.
@@ -269,3 +271,50 @@ of `SEB §28.4` Q7 for the one domain that is live.
 **Still open in Q7:** whether any other domain is owned, who holds the
 `.co.uk` registration, when it renews, and whether the registrar account
 is under estate control. None of that is answerable from DNS.
+
+
+---
+
+## 8. Registrar — Cloudflare, at cost (`SEB-D 36`)
+
+**Cloudflare Registrar sells at cost.** Its own words: *"Register and
+renew these domains at cost without any markups or add-on fees"*, across
+300+ extensions. The **Registrar API went to beta in April** and covers
+search, availability-and-price, register, and status — so this is
+automatable, and `cloudflare.registrar.*` implements it.
+
+### What it saves, honestly
+
+| | Vercel | Cloudflare |
+|---|---|---|
+| `.com`, first year and renewal | $11.25 | ~$10.60 at cost |
+
+**Under a dollar per domain per year.** The change is still right — at-cost
+*renewal* compounds, and it puts the domain lifecycle where DNS already
+lives — but the "$20" that motivated it is Vercel's **Pro plan fee**, not
+a domain markup.
+
+**The $20/month is worth attacking separately, and is worth 400× more.**
+The college site is a static build — 64 pages from `node scripts/build.js`
+— and its DNS is already entirely on Cloudflare. **Cloudflare Pages serves
+static sites free, with unlimited bandwidth.** Dropping Vercel saves
+**$240/year**. Recorded as an option; it is a hosting decision that has
+not been put to the Founder.
+
+### What Cloudflare's registrar does NOT solve
+
+| | |
+|---|---|
+| **`.co.uk`** | Refused by the API with `extension_not_supported_via_api`. It is the estate's **primary domain**, so the most important domain in the estate remains outside every automated path. Whether Cloudflare carries it in the *dashboard* is **unverified** — `domains.cloudflare.com/tlds` refuses automated fetches |
+| **Renewals** | Not in the API beta. Every renewal is manual, at every registrar, for every domain |
+| **Transfers** | Not in the API beta. Moving `worldwencollege.co.uk` in is a manual job |
+
+### Two properties that shaped the tool
+
+- **Registrations are non-refundable once complete.** So
+  `cloudflare.registrar.register` prices *first*, and the money gate fires
+  before the provider is called. A test asserts that a refused
+  registration sends nothing.
+- **A Cloudflare Registrar domain must use Cloudflare nameservers.**
+  Harmless here — the estate already does — but disqualifying for any
+  domain that has to live elsewhere.

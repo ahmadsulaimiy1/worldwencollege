@@ -727,6 +727,57 @@ about who owns the domain.
 **Confidence High** — every claim is a DNS record or a documented TLD
 table, both re-checkable in seconds.
 
+### `SEB-D 36` — Domains are registered at Cloudflare, at cost
+
+**Decided 2026-08-18 by the Founder**, amending `SEB-D 28`'s approved
+spending providers.
+
+**Ruled.** Domain registration moves from Vercel to **Cloudflare
+Registrar**, which sells at cost — its own words: *"Register and renew
+these domains at cost without any markups or add-on fees"*, across 300+
+extensions. `cloudflare.registrar.*` is implemented: search, check,
+register, poll.
+
+**A correction to the reasoning, recorded because the ruling stands
+without it.** The Founder's stated motive was Vercel's "extra twenty
+dollars". That $20 is Vercel's **Pro plan fee**, not a domain markup — on
+domains Vercel is already close to cost ($11.25 for a `.com` against
+Cloudflare's ~$10.60). **The registrar change saves under a dollar per
+domain per year.** It is still the right change — at-cost renewal
+compounds, and it consolidates the domain lifecycle where DNS already
+lives — but it is not where the money is.
+
+**Where the money is.** The college site is a static build (64 pages from
+`node scripts/build.js`) and its DNS is already entirely on Cloudflare.
+**Cloudflare Pages serves static sites free, with unlimited bandwidth.**
+Dropping Vercel would save the $20/month outright — **$240 a year against
+the registrar change's sixty cents.** Recorded as an option, not a
+ruling; it is a hosting decision with its own trade-offs and it has not
+been put to the Founder.
+
+**What this does NOT solve.** `.co.uk` — the estate's primary domain — is
+refused by Cloudflare's Registrar API with `extension_not_supported_via_api`.
+The API beta also has **no renewals and no transfers**. So the primary
+domain remains outside every automated path this server has, exactly as
+`SEB-D 35` recorded; only the registrar it is outside of has changed.
+Whether Cloudflare carries `.co.uk` in its dashboard at all is
+**unverified** — `domains.cloudflare.com/tlds` refuses automated fetches,
+and guessing was declined.
+
+**Two properties of Cloudflare registration that shape the tool.**
+Registrations are **non-refundable** once complete, so the handler prices
+before it buys and the money gate fires before the provider is called.
+And a Cloudflare Registrar domain **must** use Cloudflare nameservers —
+harmless here, since the estate already does, but disqualifying for any
+domain that must live elsewhere.
+
+**Vercel's registrar approval is not withdrawn**, because it still carries
+extensions Cloudflare's API does not. It is now the fallback rather than
+the default.
+
+**Confidence High** on the ruling; **the $240 hosting observation is
+Medium** and rests on the site being genuinely static, which its build is.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.

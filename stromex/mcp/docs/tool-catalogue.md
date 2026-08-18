@@ -5,12 +5,12 @@ hand.** `npm run catalogue:check` fails when this file and the source
 disagree — which is how the entire OpenAI provider came to be missing from
 it for a release (`SEB-D 29`).
 
-**175 tools** across **9 providers**:
-**81 read**, **77 write**, **17 protected**.
+**179 tools** across **9 providers**:
+**84 read**, **78 write**, **17 protected**.
 
 | Provider | Tools | read | write | protected |
 |---|---|---|---|---|
-| `cloudflare` | 41 | 19 | 14 | 8 |
+| `cloudflare` | 45 | 22 | 15 | 8 |
 | `github` | 24 | 13 | 10 | 1 |
 | `clerk` | 19 | 7 | 10 | 2 |
 | `brevo` | 17 | 9 | 7 | 1 |
@@ -19,7 +19,7 @@ it for a release (`SEB-D 29`).
 | `vercel` | 17 | 8 | 7 | 2 |
 | `stromex` | 12 | 11 | 1 | 0 |
 | `resend` | 11 | 4 | 5 | 2 |
-| **total** | **175** | **81** | **77** | **17** |
+| **total** | **179** | **84** | **78** | **17** |
 
 ## The protected operations
 
@@ -47,7 +47,7 @@ captures a pre-image first. There are **17**.
 ## The tools that spend money
 
 Declared purchases, gated by the spending policy before the provider is
-called: `vercel.domain.buy`.
+called: `cloudflare.registrar.register`, `vercel.domain.buy`.
 
 **Metered spend is not in this list and is not a declared purchase.** The
 sixteen `openai.*` consultations bill by the token and are bound by
@@ -145,6 +145,10 @@ Prefer `valueFromHandle` in every case (`SEB-D 31`).
 | `cloudflare.r2.create` | write | Cloudflare — create an R2 bucket |
 | `cloudflare.r2.delete` | protected | Cloudflare — delete an R2 bucket |
 | `cloudflare.r2.list` | read | Cloudflare — list R2 buckets |
+| `cloudflare.registrar.check` | read | Cloudflare — check domain availability and at-cost price |
+| `cloudflare.registrar.register` | write | Cloudflare — register a domain |
+| `cloudflare.registrar.search` | read | Cloudflare — search for domain names |
+| `cloudflare.registrar.status` | read | Cloudflare — registration status |
 | `cloudflare.worker.delete` | protected | Cloudflare — delete a Worker |
 | `cloudflare.worker.deploy` | write | Cloudflare — deploy a Worker |
 | `cloudflare.worker.get` | read | Cloudflare — get Worker settings |
