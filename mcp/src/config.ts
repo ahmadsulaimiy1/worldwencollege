@@ -32,6 +32,7 @@ export const PROVIDER_NAMES = [
   'clerk',
   'resend',
   'brevo',
+  'openai',
 ] as const;
 
 export type ProviderName = (typeof PROVIDER_NAMES)[number];
@@ -76,6 +77,18 @@ export const PROVIDER_CREDENTIALS: Record<
     optional: ['BREVO_FROM_ADDRESS', 'BREVO_FROM_NAME'],
     purpose: 'manage contacts, lists, campaigns and transactional email',
   },
+  openai: {
+    required: ['OPENAI_API_KEY'],
+    optional: [
+      'OPENAI_MODEL',
+      'OPENAI_ORG_ID',
+      'OPENAI_PROJECT_ID',
+      'OPENAI_PRICE_INPUT_PER_MTOK',
+      'OPENAI_PRICE_OUTPUT_PER_MTOK',
+      'OPENAI_PRICE_CURRENCY',
+    ],
+    purpose: 'consult the engineering council — independent review, alternatives, drafting and validation',
+  },
 };
 
 export interface ProviderTuning {
@@ -98,6 +111,10 @@ export const PROVIDER_TUNING: Record<ProviderName, ProviderTuning> = {
   clerk: { timeoutMs: 30_000, rateLimit: { refillPerSecond: 5, capacity: 15 } },
   resend: { timeoutMs: 20_000, rateLimit: { refillPerSecond: 2, capacity: 10 } },
   brevo: { timeoutMs: 30_000, rateLimit: { refillPerSecond: 5, capacity: 15 } },
+  // A reasoning consultation is slow by design and expensive by the
+  // token. The bucket is deliberately mean: a council consulted forty
+  // times a minute is not a council, it is a bill.
+  openai: { timeoutMs: 180_000, rateLimit: { refillPerSecond: 0.5, capacity: 3 } },
 };
 
 export interface HttpTransportConfig {

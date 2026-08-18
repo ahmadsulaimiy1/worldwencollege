@@ -1,6 +1,9 @@
 # The StromeX Editorial Bible
 
-**Draft v1.0 — not ratified.** Cited as `SEB §volume.article`.
+**Draft v1.1.** Cited as `SEB §volume.article`.
+
+> **Above this Bible sits the [Master Constitution](../MASTER-CONSTITUTION.md).**
+> Every new project begins there, with the protocol at `MC §6`.
 
 The constitution of StromeX Technologies and of every institution it
 builds and operates for. Derived from ~67,000 lines of institutional
@@ -19,8 +22,8 @@ in conflict is decided), and
 [`28-knowledge-graph-and-sources.md`](28-knowledge-graph-and-sources.md)
 (what was studied, and the ten questions that are yours).**
 
-**Precedence, in one line:** Volume 26 is inviolable · Volume 29 sets the
-standard · Volume 31 decides the rest.
+**Precedence, in one line:** `MC §2` and Volume 26 are inviolable ·
+Volume 29 sets the standard · Volume 31 decides the rest.
 
 ---
 
@@ -75,6 +78,9 @@ counsels restraint where excellence is achievable.*
 | **31** | [Conflict Resolution and Precedence](31-conflict-resolution.md) | The eight-test order of precedence · excellence includes shipping · when to stop and ask |
 | **32** | [Multi-Model Intelligence](32-multi-model-intelligence.md) | The engineering council · sixteen consultation tools · how a recommendation is weighed · **what is never sent** |
 | **33** | [Media, Assets and Provenance](33-media-and-provenance.md) | No automated gate · the provenance register · quality standards · the legal review point |
+| **34** | [The StromeX Design System](34-design-system.md) | The component contract · materials and the glass ration · plates · ledgers · forms · search · navigation · dashboards · six instruments · reports and print · the nine states · AI interactions · five device classes · eight signature patterns · every surface class |
+| **35** | [The Design Language Initiative](35-design-language-initiative.md) | The living programme: how a pattern is admitted, how one is retired, the research strands, the review cycle, what is measured, how the language is versioned |
+| **36** | [The Intelligence Platform](36-intelligence-platform.md) | The correction: executive · governance · execution · council · **memory**. The knowledge graph, the deployment brain, and what the platform guarantees whatever it grows into |
 
 ## Part IV — Continuity
 

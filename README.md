@@ -1,16 +1,18 @@
 # StromeX — Institutional Foundation
 
-This subtree holds two permanent assets:
+This subtree holds the company's permanent assets:
 
 | | |
 |---|---|
-| **[`editorial-bible/`](editorial-bible/)** | **The StromeX Editorial Bible** — twenty-nine volumes of institutional constitution, standards and permanent rulings, derived from the whole existing estate. It governs every current and future StromeX project. Cited as `SEB §volume.article`. |
-| **[`mcp/`](mcp/)** | **The StromeX Enterprise Infrastructure MCP** — the operational layer that executes the Bible: one authenticated, audited, policy-governed automation surface over Cloudflare, GitHub, Neon, Vercel, Clerk, Resend and Brevo. |
+| **[`MASTER-CONSTITUTION.md`](MASTER-CONSTITUTION.md)** | **The supreme governing document.** Every constitution, bible, standard and project derives from it. **Every new project begins here**, with the protocol at `MC §6`. Cited as `MC §n`. |
+| **[`editorial-bible/`](editorial-bible/)** | **The StromeX Editorial Bible** — thirty-seven volumes of institutional constitution, design language, standards and permanent rulings, derived from the whole existing estate. Cited as `SEB §volume.article`. |
+| **[`mcp/`](mcp/)** | **The StromeX Intelligence Platform** — executive, governance, execution, council and memory. Today: the gate, eight provider adapters (seven infrastructure plus the OpenAI council), the workflow engine and the audit trail. See `SEB §36`. |
 
-Read the Bible first. The MCP is downstream of it: every authority class,
-every protected-operation rule and every audit obligation in the server's
-code traces to an article here, and where the two disagree, the Bible wins
-until it is amended (`SEB §0.3`).
+Read the **Master Constitution** first, then the Bible. The platform is
+downstream of both: every authority class, every protected-operation rule
+and every audit obligation in the server's code traces to an article, and
+where they disagree the constitution wins until it is amended
+(`MC §4`, `SEB §31`).
 
 ---
 
