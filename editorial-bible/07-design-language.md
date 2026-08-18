@@ -5,6 +5,15 @@ belong to institutions (Volume 8); the grammar belongs to the estate, and
 it is the reason four different-looking projects read as the work of one
 hand.*
 
+> **For StromeX products, Volume 30 governs.** This volume remains the
+> shared grammar every institution in the estate inherits — the component
+> canon, the measured colour proportion, the three type roles, the
+> geometry and light model. **Volume 30 is StromeX's own hand**: the
+> Meridian, the Quire, Stratum, the Chronograph, the Register and the
+> twenty signature components, specified to the value and implemented in
+> `stromex/design-system/`. Where they differ for a StromeX product,
+> Volume 30 wins (`SEB §31.1`).
+
 ---
 
 ## §7.1 The governing idea `[OBSERVED]`

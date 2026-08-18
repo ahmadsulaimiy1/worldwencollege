@@ -34,7 +34,7 @@ the future-considerations discipline at `AMC-EB` / `docs/06-future-consideration
 | | Anti-pattern | Why |
 |---|---|---|
 | **∅** | **A policy invented for SEO, or for the appearance of governance** | `SHRS authority-strategy §2b`: "A policy invented for SEO is a liability wearing a trust signal's clothes." Pages that state commitments are published *from documents the institution has adopted*, never from drafted copy. |
-| **∅** | **Inventing a retention period, an approval chain, or a policy number** | The estate's consistent practice: flag it for the Board, do not default it silently (`SHRS data-ownership-register`, final section). |
+| **∅** | **Fabricating a fact about the institution** — a student number, an accreditation, a partnership, a named person, a registration number, a measured outcome | The rule that survives; `SEB §2.4` is absolute. **Note:** *drafting an instrument* — a policy, a regulation, a workflow, a proposed retention period — is now **required**, not forbidden, under `SEB §29.10`. The distinction is between inventing a fact and drafting a document |
 | **∅** | **Two offices recorded under two spellings of one person's name** | It converted a real internal control into a fiction for an entire institution (`SHRS role-permission-matrix §3`). Identity is resolved to an id, never to a name a human typed. |
 | **∅** | **An optional "approved by" field that nothing checks** | Found three times in one codebase. It reads as a control and is decoration (`SHRS approval-workflow-architecture §1`). |
 | **∅** | **Deleting a rejected, withdrawn or declined record** | A family's history stays traceable. Status-change instead. |
@@ -61,7 +61,20 @@ the future-considerations discipline at `AMC-EB` / `docs/06-future-consideration
 ## §27.4 Design anti-patterns
 
 Taken from `AMC-DX §15` and `WEC-EB Part III`, both of which exist as
-deliberate alternatives to template convention. **None has a trigger.**
+deliberate alternatives to template convention, and extended by the
+**Anti-Generic Register** at `SEB §29.6`, which adds: Bootstrap and its
+descendants · Material Dashboard and every admin template · off-the-shelf
+UI kits used as-is · the generic SaaS landing page · glassmorphism ·
+neumorphism · neon accents · purple-to-blue gradients · isometric
+illustration sets · the abstract blob · the 3D floating card · corporate
+memphis figures · rounded-everything · the AI-product aesthetic of
+2024–26 in every particular.
+
+**And the register's own rule:** a convention becomes an anti-pattern the
+moment it is recognisable as a convention. If a reader can name the
+framework, the work has failed.
+
+**None has a trigger.**
 
 Icon-and-heading card grids · circular avatar team pages · photo-tile
 galleries · "why choose us" tick lists · testimonial carousels · logo
@@ -82,6 +95,18 @@ Four more, from the estate's own recorded defects:
 | **∅** | **A perimeter light that never stops moving** | "A perimeter that is always moving is a casino; one that lights when you arrive at it is a threshold" (`WEC-EB Part III`). |
 | **∅** | **A reduced-motion carve-out that resolves to the hidden state** | An entrance animation merely disabled leaves the element at `opacity: 0` — for a reader with vestibular sensitivity that is not a calmer page but a blank one (`WEC-EB Part III·b`). |
 | **∅** | **Gold as small text on a light ground** | ≈2.3:1, well under AA. Substitute the bronze token (`WEC-EB Part III·b`). |
+
+## §27.4a The AI register — rejected in all copy
+
+The specific fingerprint, enforced by the vetting gate at `SEB §30.14`.
+**None has a trigger.**
+
+"delve" · "leverage" · "robust" · "seamless" · "cutting-edge" · "unlock" ·
+"elevate" · "game-changing" · "in today's fast-paced world" · "navigate
+the complexities of" · **"It's not just X — it's Y"** · tricolon in every
+paragraph · a closing paragraph that restates the opening · an em-dash in
+every third sentence · "Whether you're a X or a Y…" · bulleted lists where
+prose would carry the argument · superlatives without a number.
 
 ## §27.5 Process anti-patterns
 

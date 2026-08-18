@@ -10,9 +10,17 @@ its sources), `[RULED]` (decided under the executive-autonomy protocol,
 with a confidence level and a reversal note), or `[OPEN]` (a question this
 Bible refuses to answer on your behalf).
 
-**Start with [`00-charter.md`](00-charter.md), then
-[`28-knowledge-graph-and-sources.md`](28-knowledge-graph-and-sources.md),
-then [`26-permanent-institutional-rulings.md`](26-permanent-institutional-rulings.md).**
+**Start with [`29-supreme-creative-constitution.md`](29-supreme-creative-constitution.md)
+— the standard everything is held to. Then
+[`26-permanent-institutional-rulings.md`](26-permanent-institutional-rulings.md)
+(inviolable),
+[`31-conflict-resolution.md`](31-conflict-resolution.md) (how anything
+in conflict is decided), and
+[`28-knowledge-graph-and-sources.md`](28-knowledge-graph-and-sources.md)
+(what was studied, and the ten questions that are yours).**
+
+**Precedence, in one line:** Volume 26 is inviolable · Volume 29 sets the
+standard · Volume 31 decides the rest.
 
 ---
 
@@ -54,6 +62,19 @@ then [`26-permanent-institutional-rulings.md`](26-permanent-institutional-ruling
 | **21** | [Audit Standards](21-audit-standards.md) | What is audited, the permission vocabulary, the authority classes, the chain, the accession register |
 | **22** | [Data Governance](22-data-governance.md) | Ownership and lifecycle registers, archival vs destruction, retention, classification, AI context |
 | **23** | [Testing Standards](23-testing-standards.md) | The real producer, permissive stand-ins, the layers, the rendered gate, safeguards tested where they fire |
+
+## Part V — The Supreme Creative Constitution
+
+*Ratified by the Founder. Volume 29 overrides any earlier article that
+counsels restraint where excellence is achievable.*
+
+| | Volume | What it settles |
+|---|---|---|
+| **29** | [Supreme Creative Constitution](29-supreme-creative-constitution.md) | The mandate · the No-Ceiling Principle · the Originality Doctrine · instrument-grade futurism · the Anti-Generic Register · gaps composed not confessed · invention where the specification is silent |
+| **30** | [The StromeX Design Language](30-stromex-design-language.md) | The Meridian · the Quire · Stratum · one light source · the Register · Obsidian/Platinum/Aurum · the chamfer · the Chronograph · **twenty signature components** · the live guilloché · the Burin · the Strike · the anti-AI vetting gate · the seven gates |
+| **31** | [Conflict Resolution and Precedence](31-conflict-resolution.md) | The eight-test order of precedence · excellence includes shipping · when to stop and ask |
+| **32** | [Multi-Model Intelligence](32-multi-model-intelligence.md) | The engineering council · sixteen consultation tools · how a recommendation is weighed · **what is never sent** |
+| **33** | [Media, Assets and Provenance](33-media-and-provenance.md) | No automated gate · the provenance register · quality standards · the legal review point |
 
 ## Part IV — Continuity
 
