@@ -74,6 +74,12 @@ export interface SecretResolverOptions {
   env?: NodeJS.ProcessEnv;
   /** Injectable clock, so the command cache's TTL is testable. */
   now?: () => number;
+  /**
+   * Injectable timeout. Exists so the timeout branch can be exercised by
+   * a REAL blocking command in a fast test — a test that stubs the
+   * function under test proves only that the stub works (`SEB-D 27`).
+   */
+  commandTimeoutMs?: number;
 }
 
 /**
@@ -118,14 +124,24 @@ export interface SecretResolverOptions {
  */
 const COMMAND_TTL_MS = 60_000;
 
+/**
+ * How long a secret command may take.
+ *
+ * Long enough for a vault round-trip on a slow link, short enough that a
+ * server blocked on a passphrase prompt fails visibly rather than hanging.
+ */
+const COMMAND_TIMEOUT_MS = 20_000;
+
 export class SecretResolver {
   private readonly loadFile?: () => Record<string, string>;
   private fileCache?: { values: Record<string, string>; expiresAtMs: number };
+  private readonly commandFailures = new Map<string, string>();
   private readonly command?: string;
   private readonly env: NodeJS.ProcessEnv;
   /** Command-resolved secrets only. Env and file are never cached. */
   private readonly cache = new Map<string, { ref: SecretRef; expiresAtMs: number }>();
   private readonly now: () => number;
+  private readonly commandTimeoutMs: number;
 
   constructor(options: SecretResolverOptions = {}) {
     // A snapshot is accepted for tests; a loader is what production passes,
@@ -134,6 +150,7 @@ export class SecretResolver {
     this.command = options.command;
     this.env = options.env ?? process.env;
     this.now = options.now ?? (() => Date.now());
+    this.commandTimeoutMs = options.commandTimeoutMs ?? COMMAND_TIMEOUT_MS;
   }
 
   /** Returns undefined when the secret is simply not configured. */
@@ -201,12 +218,16 @@ export class SecretResolver {
   }
 
   /** Which of the given names are configured — used by the doctor command. */
-  status(names: readonly string[]): Array<{ name: string; configured: boolean; source?: SecretSource; fingerprint?: string }> {
+  status(
+    names: readonly string[],
+  ): Array<{ name: string; configured: boolean; source?: SecretSource; fingerprint?: string; failure?: string }> {
     return names.map((name) => {
       const ref = this.resolve(name);
-      return ref
-        ? { name, configured: true, source: ref.source, fingerprint: ref.fingerprint() }
-        : { name, configured: false };
+      if (ref) return { name, configured: true, source: ref.source, fingerprint: ref.fingerprint() };
+      // "Not configured" and "the keyring is locked" look identical to a
+      // caller unless the second one says so.
+      const failure = this.commandFailure(name);
+      return failure ? { name, configured: false, failure } : { name, configured: false };
     });
   }
 
@@ -228,10 +249,65 @@ export class SecretResolver {
       });
     }
     const rendered = this.command.replaceAll('{name}', name);
-    const result = spawnSync(rendered, { shell: true, encoding: 'utf8', timeout: 20_000 });
-    if (result.status !== 0) return undefined;
+    const result = spawnSync(rendered, { shell: true, encoding: 'utf8', timeout: this.commandTimeoutMs });
+
+    /*
+     * A TIMEOUT IS NEVER "not configured".
+     *
+     * It is the signature failure of every real secret manager: `pass`
+     * with a locked GPG key, `op` with an expired session, `vault` with
+     * an expired token. All three block on an interactive prompt that
+     * will never be answered on a server, and the command sits there
+     * until it is killed.
+     *
+     * The first version returned `undefined` for this, which the caller
+     * reads as "that credential is not configured" — so a locked keyring
+     * presented as eight providers quietly missing, with nothing anywhere
+     * saying why. It is a hard, explained failure instead.
+     */
+    if (result.error && 'code' in result.error && result.error.code === 'ETIMEDOUT') {
+      throw new StromexError({
+        code: 'CONFIG_INVALID',
+        message: `The secret command timed out after ${this.commandTimeoutMs / 1000}s while resolving ${name}.`,
+        remediation:
+          'A secret command must never block on a prompt. For `pass`, unlock the GPG key first (gpg-agent with a long max-cache-ttl, or a passphrase-less key with 0600 permissions); for `op`, sign in with a service account; for `vault`, ensure the token is valid.',
+      });
+    }
+    if (result.signal) {
+      throw new StromexError({
+        code: 'CONFIG_INVALID',
+        message: `The secret command was killed by ${result.signal} while resolving ${name}.`,
+        remediation: 'Run the command by hand with the name substituted and see what it does.',
+      });
+    }
+
+    if (result.status !== 0) {
+      /*
+       * A non-zero exit is genuinely ambiguous: `pass` exits 1 both for
+       * "no such secret" and for "the store is broken". So it is not
+       * fatal — an optional credential really may be absent — but the
+       * reason is recorded rather than swallowed, because "provider not
+       * configured" with no explanation is the least debuggable state
+       * this server can be in.
+       */
+      this.commandFailures.set(name, (result.stderr ?? '').trim().slice(0, 300) || `exit status ${result.status}`);
+      return undefined;
+    }
+
+    this.commandFailures.delete(name);
     const value = (result.stdout ?? '').trim();
     return value.length > 0 ? value : undefined;
+  }
+
+  /**
+   * Why the secret command last failed, per name.
+   *
+   * Surfaced by `doctor` and by `stromex.credentials.status`, so an
+   * operator staring at "not configured" can see that the real answer was
+   * "gpg: decryption failed: No secret key".
+   */
+  commandFailure(name: string): string | undefined {
+    return this.commandFailures.get(name);
   }
 }
 
