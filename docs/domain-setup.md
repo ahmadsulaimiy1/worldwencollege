@@ -16,6 +16,72 @@ things that had to be fixed on the way.
 
 ---
 
+## BROKEN AGAIN — 18 August 2026. The domain is on the old Pages project.
+
+**The domain has been serving a stale build since 16 August, and the
+pipeline reported success throughout.**
+
+The College was renamed, and with it the Cloudflare Pages project: the
+workflow and `wrangler.toml` now say `aipc` where they said `wec-lc`.
+The workflow's "Ensure the Pages project exists" step does exactly what
+it says — it found no project called `aipc` and created one. Cloudflare
+gave the new project its own subdomain. Nothing moved the custom domain
+across, because nothing was asked to.
+
+The evidence is in the deploy logs, one line each:
+
+    run 67, 16 Aug   published to https://a9449aaa.wec-lc.pages.dev
+                     live-domain proof: silent, i.e. the domain matched
+
+    run 82, 18 Aug   published to https://86c0c461.aipc-7cb.pages.dev
+                     apex worldwencollege.co.uk       -> <none>
+                     deployment 86c0c461.aipc-7cb…    -> 96510daf50d7
+                     live domain www.worldwencollege… -> <none>
+
+So the build is published and correct; the address a visitor types is
+pointed somewhere else. Everything committed from 17 August onward is
+live at the `aipc-7cb.pages.dev` deployment and at no other address.
+
+`<none>` rather than the old commit is worth noticing. If the domain
+were simply still attached to a surviving `wec-lc` project, it would
+return that project's last build and its stamp — `940c5e30fc2f`. An
+empty stamp means the runner got no readable page at all, which points
+at the old project having gone with the rename, leaving the custom
+domain attached to nothing. Either way the fix is the same; the
+difference is only whether the domain is currently stale or currently
+down. It cannot be told apart from inside the build environment, whose
+egress proxy refuses the College's own domain.
+
+### The fix, which needs the dashboard and cannot be done from CI
+
+1. **Workers & Pages → `aipc` → Custom domains.** Add
+   `worldwencollege.co.uk` and `www.worldwencollege.co.uk`. If either
+   is still claimed by a `wec-lc` project, remove it there first —
+   Cloudflare will not attach one hostname to two projects.
+2. **`aipc` → Settings → Builds & deployments → Production branch.**
+   It must be `main`. The workflow publishes to `main`; if the project
+   says anything else, every run is a preview and the domain never
+   updates. This is the second of the three causes the proof step
+   names, and it is invisible from outside.
+3. **Caching → Purge Everything**, once, after both.
+
+The next push then proves it: the deploy step prints the stamp read
+from the live domain, and a matching one is the whole confirmation.
+
+### Why the pipeline stayed green through it
+
+The proof step is deliberately non-fatal — "a publish that genuinely
+succeeded should not be reported as a failure because DNS is
+elsewhere", which is a defensible position and is why it has not been
+changed here. The cost is on record twice now: 13 August, when a
+faculty roster was announced as live over a build from weeks earlier,
+and 18 August, when three days of work were described as live while the
+domain served none of it. A warning in a step summary is not a signal
+anybody sees. Whoever revisits this should decide between failing the
+job and routing the warning somewhere a person actually reads.
+
+---
+
 ## RESOLVED: pushing now deploys
 
 **This section previously said the opposite, and the reversal is the
