@@ -40,7 +40,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const PAGES = path.join(ROOT, 'pages');
+// Overridable for the same reason the red-flag auditor's is: an
+// exemption list can only be trusted if something proves it exempts
+// what it names and nothing else. See tests/audit-behaviour.test.mjs.
+const PAGES = process.env.WEC_AUDIT_PAGES || path.join(ROOT, 'pages');
 const SHOW_LINES = process.argv.includes('--lines');
 
 // ── LOAD-BEARING: a sentence carrying one of these is left alone ──────
@@ -48,6 +51,19 @@ const SHOW_LINES = process.argv.includes('--lines');
 // tests/published-claims.test.mjs; all of them are the reason anyone
 // should believe the rest of the site.
 const LOAD = [
+  // THE MOTTO, RULED ON AND CLOSED. "Empowering the World Through
+  // English Excellence" is the institution's own line — footer of every
+  // page, the schema.org slogan, and the masthead of /about/ — and this
+  // audit reported `Empowering` as machine register, correctly by its
+  // own rule and wrongly as a matter of authority. It was put to the
+  // owner on 18 August 2026 with two alternatives drafted in the site's
+  // register, and the owner ruled that the motto stays.
+  //
+  // It is protected here rather than removed from MACHINE, so the
+  // pattern still catches `Empowering` anywhere else it appears. Do not
+  // re-raise this.
+  /Empowering the World Through English Excellence/i,
+  /(?<![؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿])تمكين العالم من خلال التميّز/u,
   /\bno (award|cohort|student|graduate|accreditation|external examiner)/i,
   /\bhas (not|never) (been|yet)/i, /\bhave (not|never) (been|yet)/i,
   /\bnot (yet )?(adopted|appointed|approved|conferred|ratified|produced|run|taught|measured|filled|constituted|instrumented|evidenced)/i,

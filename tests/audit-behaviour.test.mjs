@@ -150,5 +150,43 @@ check('The site as it stands carries no findings',
     'the accreditation rule no longer fires on repetition');
 }
 
+// ── 5 · THE VOICE AUDIT'S ONE RULING ─────────────────────────────────
+// The owner ruled on 18 August 2026 that the motto stays. It is
+// protected by name rather than by removing `Empowering` from the
+// machine-register list, and the difference between those two is
+// exactly what this pair of checks measures.
+const VOICE = path.join(ROOT, 'scripts/voice-audit.mjs');
+function voiceWith(mutate) {
+  const dir = mkdtempSync(path.join(tmpdir(), 'wec-voice-'));
+  try {
+    cpSync(path.join(ROOT, 'pages'), dir, { recursive: true });
+    mutate({
+      read: (f) => readFileSync(path.join(dir, f), 'utf8'),
+      write: (f, s) => writeFileSync(path.join(dir, f), s),
+    });
+    return execFileSync(process.execPath, [VOICE], {
+      env: { ...process.env, WEC_AUDIT_PAGES: dir }, encoding: 'utf8', maxBuffer: 1 << 26,
+    });
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
+{
+  const r = voiceWith(() => {});
+  check('The motto no longer reports as machine register',
+    /0 machine phrases/.test(r), r.split('\n').slice(-2)[0]);
+  check('...and nothing on the site reports as a hedge to cut',
+    /0 dead hedges to cut/.test(r));
+}
+{
+  const r = voiceWith(({ read, write }) => {
+    const f = 'contact.html';
+    write(f, `${read(f)}\n<p>Empowering learners with robust solutions.</p>\n`);
+  });
+  check('The exemption is the motto by name, not the word — `Empowering` elsewhere still fires',
+    !/0 machine phrases/.test(r),
+    'protecting the motto has disabled the machine-register rule');
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

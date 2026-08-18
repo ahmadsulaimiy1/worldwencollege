@@ -993,3 +993,31 @@ language-skill mapping and its descriptor thresholds.
 - This supersedes governance item A6d as the route to a competency
   framework: the blocker is no longer "somebody should map the
   curriculum" but "BASCE should be constituted and should map it".
+
+### G7 — The motto stands *(ruled 18 August 2026)*
+
+**"Empowering the World Through English Excellence."**
+
+`scripts/voice-audit.mjs` reported `Empowering` as machine register —
+correctly by its own rule. Every other sentence on this site states what
+the College does; the motto states an aspiration, and it is the single
+most-repeated line the institution has: the footer of all sixty-six
+pages, the schema.org `slogan`, and the masthead of `/about/`.
+
+It was put to the owner with two alternatives drafted in the site's own
+register — "Published before it is taught" and "English, taught to a
+published standard" — and **the owner ruled that the motto stays**.
+
+- Protected by name in the `LOAD` list of `scripts/voice-audit.mjs`,
+  not by removing `Empowering` from the machine-register patterns. The
+  distinction matters: the word still fires anywhere else it appears.
+- `tests/audit-behaviour.test.mjs` holds both halves — that the motto no
+  longer reports, and that planting `Empowering` on another page still
+  does. An exemption nobody can prove is narrow is an exemption that has
+  become a blanket.
+- The Arabic edition was inconsistent with itself when this was
+  examined: the footer carried straight typewriter quotes and the verbal
+  form نُمكّن, the `/ar/about/` masthead carried guillemets and the
+  nominal form تمكين. Both now read
+  «تمكين العالم من خلال التميّز في اللغة الإنجليزية.»
+- **Do not re-raise this.** It is settled.
