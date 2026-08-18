@@ -29,7 +29,7 @@ import { StromexError, toStromexError } from './errors.js';
 import type { RecoveryJournal } from './journal.js';
 import type { Logger } from './logger.js';
 import type { OperationClass, PolicyEngine } from './policy.js';
-import { redactValue } from './redact.js';
+import { REDACTION_PLACEHOLDER, redactValue, registerSecretValue } from './redact.js';
 import type { HandleVault } from './vault.js';
 import { type Envelope, envelopeShape, errorEnvelope, toCallToolResult } from './result.js';
 
@@ -80,6 +80,53 @@ export interface ToolContext {
   providers: Record<string, unknown>;
   /** In-process store for credentials moving between providers. */
   vault: HandleVault;
+  /**
+   * Report a REAL charge, immediately before the irreversible step, and
+   * have it checked against the spending policy.
+   *
+   * Every tool that causes money to move must call this with the price the
+   * PROVIDER quoted — not the ceiling the caller declared. It throws
+   * `POLICY_SPEND_LIMIT` if the charge breaches the single-purchase limit,
+   * the currency, or the rolling 30-day cap; the handler must then not
+   * proceed.
+   *
+   * It is also what puts the cost into the audit record, which is what
+   * `SEB §26.6` means by "audited with its reason and its cost".
+   *
+   * Injected by the registry, so a handler cannot spend without the gate
+   * seeing it, and so the rolling total is computed from the estate's own
+   * record of record rather than from a second ledger that could drift
+   * (`SEB §26.4`).
+   */
+  commitSpend: (
+    charge: { amount: number; currency: string; description: string },
+    options?: {
+      /**
+       * True for a METERED provider, where the cost is only knowable after
+       * the money has already moved.
+       *
+       * A post-hoc charge is RECORDED UNCONDITIONALLY and reports a breach
+       * instead of throwing. Refusing to record a charge because it broke
+       * the limit would leave real money spent and unaccounted — the worst
+       * of both, and precisely what an audit trail exists to prevent. Use
+       * `assertSpendHeadroom` BEFORE the call to stop the next one.
+       */
+      alreadyIncurred?: boolean;
+    },
+  ) => { breach?: string };
+  /**
+   * Refuse before calling a metered provider whose price is not knowable
+   * in advance.
+   *
+   * Checks that spending is on, that the policy is denominated in the
+   * currency the provider bills in, and that the rolling window has
+   * headroom. It cannot bound the individual call — nothing can, for a
+   * metered API — but it stops the call AFTER the one that crossed the
+   * cap, which is the whole of what is achievable here and is what
+   * `SEB §26.6`'s "never exceeded automatically" reduces to for metered
+   * spend.
+   */
+  assertSpendHeadroom: (currency: string) => void;
 }
 
 export interface ToolDefinition<S extends RawShape = RawShape> {
@@ -99,6 +146,27 @@ export interface ToolDefinition<S extends RawShape = RawShape> {
   resource?: (args: ArgsOf<S>) => string | undefined;
   /** Declared by tools that spend money. */
   purchase?: (args: ArgsOf<S>) => { amount: number; currency: string; description: string } | undefined;
+  /**
+   * Argument names whose values are SECRETS.
+   *
+   * Declared, not guessed. Value-based redaction (`redact.ts`) catches a
+   * credential the SERVER resolved, because resolving it registered it —
+   * but a secret the CALLER passes in has never been registered, so the
+   * scan has nothing to look for and the value lands verbatim in the
+   * hash-chained audit file. The log is append-only: it cannot be
+   * un-leaked.
+   *
+   * Naming the argument closes it on every path — validation failure,
+   * policy denial, awaiting approval, dry run, handler throw, success —
+   * because the registry masks it structurally before the record is
+   * built, rather than searching the text for it afterwards. That also
+   * covers secrets shorter than the 8-character floor that value-based
+   * redaction deliberately ignores.
+   *
+   * (`SEB-D 31`; the defect this closes contradicted the tools' own
+   * descriptions for three releases.)
+   */
+  secretArgs?: readonly string[];
   /**
    * Captures what the resource looked like before an irreversible step.
    * Required on protected tools; the registry refuses to proceed without
@@ -216,13 +284,15 @@ export async function invokeTool(
       operationClass: definition.operationClass,
       outcome,
       durationMs,
-      arguments: redactValue(stripControlArgs(rawArgs)),
+      arguments: redactValue(maskSecretArgs(stripControlArgs(rawArgs), definition.secretArgs)),
       resource,
       errorCode: error?.code,
       errorMessage: error?.message,
       approvalId,
       workflowRunId: ctx.workflowRunId,
       requestId: ctx.requestId,
+      credentialFingerprint: fingerprintFor(ctx, definition.provider),
+      cost: committed,
     });
     // Redact HERE, not only where the envelope becomes an MCP result.
     // The workflow engine consumes envelopes directly, so redacting at the
@@ -230,6 +300,77 @@ export async function invokeTool(
     // reach a workflow report. Found by a test, which is the point of it.
     return redactValue({ ...envelope, durationMs, auditSeq: record.seq });
   };
+
+  /*
+   * The rolling window, computed from the audit log.
+   *
+   * Derived rather than kept in a second ledger: a separate spend file
+   * would be a second source of truth about money, and the two would
+   * disagree the first time one of them was rotated or restored. The audit
+   * log is hash-chained and is the estate's record of record, so a cost in
+   * it is as trustworthy as anything here gets — and if it is tampered
+   * with, verification says so (`SEB §26.4`).
+   */
+  let committed: { amount: number; currency: string; description: string } | undefined;
+
+  const spentInWindow = (): number => {
+    const windowStart = new Date(ctx.now().getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+    return ctx.audit.query({ since: windowStart }).reduce((total, record) => total + (record.cost?.amount ?? 0), 0);
+  };
+
+  const commitSpend = (
+    charge: { amount: number; currency: string; description: string },
+    options?: { alreadyIncurred?: boolean },
+  ): { breach?: string } => {
+    const spent = spentInWindow();
+
+    if (options?.alreadyIncurred) {
+      // The money has already moved. Record it whatever it breached; a
+      // charge refused into oblivion is a charge nobody can reconcile.
+      committed = charge;
+      let breach: string | undefined;
+      try {
+        ctx.policy.assertSpendPermitted(charge, spent);
+      } catch (thrown) {
+        breach = thrown instanceof Error ? thrown.message : String(thrown);
+        ctx.logger.warn('a metered charge breached the spending policy AFTER it was incurred', {
+          tool: definition.name,
+          amount: charge.amount,
+          currency: charge.currency,
+          spentInWindow: spent,
+          breach,
+        });
+      }
+      return { breach };
+    }
+
+    // Pre-authorised: the price is known and the irreversible step has not
+    // happened yet, so a breach is a refusal.
+    ctx.policy.assertSpendPermitted(charge, spent);
+    committed = charge;
+    ctx.logger.info('spend committed', {
+      tool: definition.name,
+      amount: charge.amount,
+      currency: charge.currency,
+      spentInWindow: spent,
+    });
+    return {};
+  };
+
+  const assertSpendHeadroom = (currency: string): void => {
+    ctx.policy.assertSpendHeadroom(currency, spentInWindow(), definition.name);
+  };
+
+  ctx = { ...ctx, commitSpend, assertSpendHeadroom };
+
+  // ── 0. Declared secrets ────────────────────────────────────────────
+  // Before validation, because a validation FAILURE is audited too and the
+  // arguments go into the record either way. Registering here additionally
+  // catches the value coming back out of a provider error body.
+  for (const key of definition.secretArgs ?? []) {
+    const supplied = rawArgs[key];
+    if (typeof supplied === 'string') registerSecretValue(supplied);
+  }
 
   // ── 1. Validate ────────────────────────────────────────────────────
   let args: Record<string, unknown>;
@@ -465,6 +606,51 @@ async function tryElicit(
     });
     return false;
   }
+}
+
+/**
+ * The fingerprint of the credential this call used — never the credential.
+ *
+ * `security.md §4`, `operations.md §7` and `blueprint.md R1` all stated
+ * that audit records carried this. None did: the field was declared on
+ * `AuditRecordInput` and never populated, so the rotation procedure in
+ * `operations.md §7` step 7 ("note the rotation against it") pointed at a
+ * column that was always empty.
+ *
+ * Duck-typed rather than imported from `providers/index.ts`: `core` does
+ * not depend on `providers`, and inverting that for one accessor would be
+ * a worse trade than four lines here.
+ */
+function fingerprintFor(ctx: ToolContext, provider: string): string | undefined {
+  const client = (ctx.providers as Record<string, unknown> | undefined)?.[provider] as
+    | { credentialFingerprint?: () => string }
+    | undefined;
+  try {
+    return typeof client?.credentialFingerprint === 'function' ? client.credentialFingerprint() : undefined;
+  } catch {
+    // A fingerprint is diagnostic. It must never be the reason an audit
+    // record fails to be written.
+    return undefined;
+  }
+}
+
+/**
+ * Replaces every declared secret argument with the placeholder.
+ *
+ * Structural, not a text search: the value is masked because of WHERE it
+ * is, not because of what it looks like. That is what makes it work for a
+ * four-character PIN as well as for a connection string.
+ */
+function maskSecretArgs(
+  args: Record<string, unknown>,
+  secretArgs: readonly string[] | undefined,
+): Record<string, unknown> {
+  if (!secretArgs?.length) return args;
+  const masked = { ...args };
+  for (const key of secretArgs) {
+    if (masked[key] !== undefined && masked[key] !== null) masked[key] = REDACTION_PLACEHOLDER;
+  }
+  return masked;
 }
 
 /** The registry's own arguments are not part of a tool's schema. */

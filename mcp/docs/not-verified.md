@@ -46,7 +46,7 @@ written from published API documentation. That means:
 
 | Area | Why | What would close it |
 |---|---|---|
-| **The Streamable HTTP transport** | Only stdio is exercised end to end | An e2e test binding loopback, asserting the bearer check and the `Origin` check |
+| **The Streamable HTTP transport** | **ABSENT, not merely untested.** This row previously said "only stdio is exercised end to end", which implied the transport existed and lacked coverage. It does not exist: `config.ts` builds the config object and nothing reads it (`security.md §7`) | Implementing it — loopback bind, bearer check, `Origin` validation — and then an e2e test |
 | **Elicitation against a real client** | The e2e client declares no elicitation capability; the path is unit-tested with an injected function | A client that implements elicitation, driven end to end |
 | **The `doctor` command's live path** | It makes real network calls by design | Running it against real read-only credentials |
 | **Concurrency under load** | Rate limiter and breaker are unit-tested with an injected clock, not under real parallel traffic | A soak test issuing many concurrent calls at a scripted provider that enforces a real 429 |

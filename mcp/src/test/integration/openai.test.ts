@@ -22,6 +22,13 @@ import { openaiTools } from '../../providers/openai/tools.js';
 const key = () => new SecretRef('OPENAI_API_KEY', 'sk-test-value-0123456789', 'env');
 
 /** A minimal, correctly-shaped Responses API reply. */
+const PRICING = { inputPerMTok: 2.5, outputPerMTok: 10, currency: 'USD' };
+const respond = () => ({
+  method: 'POST' as const,
+  path: '/v1/responses',
+  body: reply('A finding.', { input_tokens: 1200, output_tokens: 400, total_tokens: 1600 }),
+});
+
 const reply = (text: string, usage?: Record<string, unknown>) => ({
   id: 'resp_abc123',
   model: 'gpt-5',
@@ -118,19 +125,50 @@ describe('OpenAI connector', () => {
     assert.match(envelope.warnings!.join(' '), /Cost is unpriced/);
   });
 
-  it('prices the call when rates are configured', async () => {
-    const provider = scriptedProvider({
-      requireHeader: 'authorization',
-      routes: [{ method: 'POST', path: '/v1/responses', body: reply('fine', { input_tokens: 1_000_000, output_tokens: 500_000, total_tokens: 1_500_000 }) }],
-    });
-    const h = harness().withClient(
+  it('prices the call when rates are configured — and is then bound by the spending policy', async () => {
+    /*
+     * SEB-D 29. A priced consultation is METERED SPEND: real money, on a
+     * provider the estate named as approved. Sixteen of these tools spent
+     * it for three releases with no spending gate at all.
+     *
+     * The cost is not knowable before the call, so the gate cannot bound
+     * the individual consultation. What it can do — and now does — is
+     * refuse the call while the policy is off, and refuse the NEXT one
+     * once the rolling window is out of headroom.
+     */
+    const spendingOff = harness().withClient(
       'openai',
-      new OpenAiClient({ apiKey: key(), fetchImpl: provider.fetch, pricing: { inputPerMTok: 2, outputPerMTok: 8, currency: 'USD' } }),
+      new OpenAiClient({ apiKey: key(), fetchImpl: scriptedProvider({ requireHeader: 'authorization', routes: [respond()] }).fetch, pricing: PRICING }),
     );
-    const envelope = await invokeTool(tool(openaiTools(), 'openai.validate.independent'), { subject: 'A claim.' }, h.context());
-    const cost = (envelope.data as { cost: { amount: number; currency: string } }).cost;
-    assert.equal(cost.amount, 6, '1M input at 2 plus 0.5M output at 8');
+    const refused = await invokeTool(
+      tool(openaiTools(), 'openai.content.vet'),
+      { subject: 'A subject to vet.' },
+      spendingOff.context(),
+    );
+    assert.equal(refused.ok, false, 'a priced, metered call must not proceed while the spending policy is off');
+    assert.equal(refused.error?.code, 'POLICY_SPEND_LIMIT');
+    assert.match(refused.error!.message, /metered/);
+
+    // With a policy in force, it proceeds — and the cost lands in the
+    // audit record, which is what §26.6 means by "audited with its cost".
+    const h = harness({ policy: { spending: { enabled: true, currency: 'USD', maxSinglePurchase: 25, monthlyCap: 500 } } }).withClient(
+      'openai',
+      new OpenAiClient({ apiKey: key(), fetchImpl: scriptedProvider({ requireHeader: 'authorization', routes: [respond()] }).fetch, pricing: PRICING }),
+    );
+    const envelope = await invokeTool(
+      tool(openaiTools(), 'openai.content.vet'),
+      { subject: 'A subject to vet.' },
+      h.context(),
+    );
+
+    assert.equal(envelope.ok, true);
+    const cost = (envelope.data as { cost?: { amount: number; currency: string } }).cost;
+    assert.ok(cost, 'a priced call reports its cost');
     assert.equal(cost.currency, 'USD');
+
+    const record = h.audit.query()[0]!;
+    assert.equal(record.cost?.currency, 'USD');
+    assert.equal(record.cost?.amount, cost.amount, 'the audited cost must be the cost actually charged');
   });
 
   it('always warns that a consultation is not a decision', async () => {

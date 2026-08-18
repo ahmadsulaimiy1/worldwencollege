@@ -2,7 +2,7 @@
   "name": "@stromex/enterprise-mcp",
   "version": "1.0.0",
   "private": true,
-  "description": "StromeX Enterprise Infrastructure MCP — one authenticated, audited, policy-governed automation layer over Cloudflare, GitHub, Neon, Vercel, Clerk, Resend and Brevo.",
+  "description": "StromeX Enterprise Infrastructure MCP \u2014 one authenticated, audited, policy-governed automation layer over Cloudflare, GitHub, Neon, Vercel, Clerk, Resend and Brevo.",
   "license": "UNLICENSED",
   "type": "module",
   "engines": {
@@ -24,13 +24,14 @@
     "build": "tsc -p tsconfig.json",
     "clean": "rm -rf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "npm run build && node --test --test-reporter=spec \"dist/test/**/*.test.js\"",
+    "test": "npm run build && node --test --test-reporter=spec \"dist/test/**/*.test.js\" && npm run catalogue:check",
     "test:unit": "npm run build && node --test \"dist/test/unit/**/*.test.js\"",
     "test:integration": "npm run build && node --test \"dist/test/integration/**/*.test.js\"",
     "test:e2e": "npm run build && node --test \"dist/test/e2e/**/*.test.js\"",
     "start": "node dist/index.js",
     "doctor": "node dist/index.js doctor",
-    "catalogue": "node dist/index.js catalogue --format=markdown"
+    "catalogue": "node scripts/catalogue.mjs",
+    "catalogue:check": "node scripts/catalogue.mjs --check"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",

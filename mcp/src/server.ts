@@ -14,6 +14,7 @@ import { ApprovalStore } from './core/approval.js';
 import { RecoveryJournal } from './core/journal.js';
 import { HandleVault } from './core/vault.js';
 import { Logger } from './core/logger.js';
+import { StromexError } from './core/errors.js';
 import { PolicyEngine } from './core/policy.js';
 import {
   newRequestId,
@@ -112,6 +113,24 @@ export function buildServer(options: BuildServerOptions): BuiltServer {
     dryRun: false,
     now,
     providers: providers.clients,
+    // Replaced by the registry on every invocation, which is the only
+    // place that can close over the audit log for the rolling window. A
+    // handler that somehow reached this one would be spending outside the
+    // gate, so it refuses rather than no-ops.
+    commitSpend: () => {
+      throw new StromexError({
+        code: 'INTERNAL',
+        message: 'commitSpend was called outside a tool invocation.',
+        remediation: 'This is a defect: every charge must go through the registry, which binds it to the spending policy and the audit record.',
+      });
+    },
+    assertSpendHeadroom: () => {
+      throw new StromexError({
+        code: 'INTERNAL',
+        message: 'assertSpendHeadroom was called outside a tool invocation.',
+        remediation: 'This is a defect: the spending policy is bound by the registry, not by a handler.',
+      });
+    },
   });
 
   const platform = platformTools({ config, active: providers.active, version: SERVER_VERSION });

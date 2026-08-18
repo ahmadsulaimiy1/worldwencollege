@@ -368,6 +368,9 @@ export function githubTools(): ToolDefinition[] {
         'Creates or updates a repository Actions secret. The value is encrypted client-side with the repository public key using a libsodium sealed box before it leaves this process, and is never written to the audit log or returned in the result.',
       provider: 'github',
       operationClass: 'write',
+      // The caller may pass the secret literally; the registry masks it
+      // out of the audit record because of this line (SEB-D 31).
+      secretArgs: ['value'],
       inputSchema: {
         ...repoArgs,
         name: z.string().regex(/^[A-Z_][A-Z0-9_]*$/, 'Secret names must match /^[A-Z_][A-Z0-9_]*$/.'),

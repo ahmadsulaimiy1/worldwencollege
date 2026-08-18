@@ -310,13 +310,34 @@ export function openaiTools(): ToolDefinition[] {
           });
         }
 
+        /*
+         * A metered provider. The cost is not knowable before the call, so
+         * this is the only bound available: refuse the NEXT call once the
+         * rolling window is out of headroom.
+         *
+         * Sixteen consultation tools spent real money for three releases
+         * with no spending gate at all — bounded only by a token bucket,
+         * which limits the RATE of spending and not its total (SEB-D 29).
+         */
+        if (client.pricing?.currency) ctx.assertSpendHeadroom(client.pricing.currency);
+
         const result = await client.consult(request);
         const warnings: string[] = [];
+
+        // Recorded whatever it breached: the money has moved, and a charge
+        // refused into oblivion is a charge nobody can reconcile.
+        if (result.cost) {
+          const { breach } = ctx.commitSpend(
+            { amount: result.cost.amount, currency: result.cost.currency, description: `${consultation.title} (${result.model})` },
+            { alreadyIncurred: true },
+          );
+          if (breach) warnings.push(`This consultation was charged and it breached the spending policy: ${breach}`);
+        }
         if (result.incomplete) {
           warnings.push(`The response was incomplete (${result.incomplete}). Treat it as partial.`);
         }
         if (!result.cost) {
-          warnings.push('Cost is unpriced: no per-token rates are configured, so tokens are reported and money is not. Set OPENAI_PRICE_INPUT_PER_MTOK and OPENAI_PRICE_OUTPUT_PER_MTOK to price it.');
+          warnings.push('Cost is unpriced: no per-token rates are configured, so tokens are reported, money is not, and THIS CALL DOES NOT COUNT AGAINST THE ROLLING CAP. Set OPENAI_PRICE_INPUT_PER_MTOK and OPENAI_PRICE_OUTPUT_PER_MTOK to price it.');
         }
         warnings.push('This is a consultation, not a decision. Weigh it, explain the trade-off in your own words, and record what you adopt (SEB §32.4).');
 

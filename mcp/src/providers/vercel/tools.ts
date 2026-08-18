@@ -177,6 +177,9 @@ export function vercelTools(): ToolDefinition[] {
         'Creates or updates a project environment variable, encrypted by default. Idempotent: re-running a configuration step does not fail on "already exists". Accepts a vault handle so a database credential can be installed without passing through the transcript.',
       provider: 'vercel',
       operationClass: 'write',
+      // The caller may pass the secret literally; the registry masks it
+      // out of the audit record because of this line (SEB-D 31).
+      secretArgs: ['value'],
       annotations: { idempotentHint: true },
       inputSchema: {
         project: z.string().min(1),
@@ -291,17 +294,23 @@ export function vercelTools(): ToolDefinition[] {
       name: 'vercel.domain.buy',
       title: 'Vercel — buy a domain',
       description:
-        'Registers a domain through Vercel. THIS SPENDS MONEY. It is refused unless a spending policy has been turned on deliberately, and a purchase above the single-purchase limit needs an approval grant. The price is read from Vercel immediately before purchase and passed as expectedPrice, so a price that moved is rejected by Vercel rather than silently charged.',
+        'Registers a domain through Vercel. THIS SPENDS MONEY. It is refused unless a spending policy has been turned on deliberately. The price Vercel actually quotes — not the ceiling you declare — is checked against the single-purchase limit, the policy currency and the rolling 30-day cap immediately before the registrar is called, and the amount charged is written to the audit record. AUTO-RENEW IS OFF unless you ask for it: a renewal is levied by the registrar with no call to this server, so it can never be approved, audited or counted against the cap.',
       provider: 'vercel',
       operationClass: 'write',
       annotations: { idempotentHint: false, destructiveHint: false },
       inputSchema: {
         domain: z.string().min(1),
-        maxPrice: z.number().positive().describe('The most you are willing to pay, in the spending policy currency. A higher quoted price aborts.'),
+        maxPrice: z.number().positive().describe('The most you are willing to pay, in the spending policy currency. A higher quoted price aborts. This is a pre-check only — the real quote is what the policy binds.'),
         currency: z.string().length(3).describe('ISO currency of maxPrice. Must match the spending policy currency; this server does not convert.'),
-        renew: z.boolean().optional().describe('Auto-renew. Defaults to true.'),
+        renew: z
+          .boolean()
+          .optional()
+          .describe('Auto-renew. DEFAULTS TO FALSE. Turning it on creates a recurring annual charge this server will never see and therefore can never gate.'),
       },
       resource: (args) => args.domain,
+      // A pre-check on the ceiling the caller ANNOUNCES: it refuses an
+      // intent to overspend before a single provider call is made. It is
+      // not the money gate — ctx.commitSpend is (SEB-D 29).
       purchase: (args) => ({ amount: args.maxPrice, currency: args.currency, description: `Register the domain ${args.domain}` }),
       handler: async (args, ctx) => {
         const client = vercel(ctx);
@@ -310,22 +319,51 @@ export function vercelTools(): ToolDefinition[] {
         if (typeof quoted !== 'number') {
           return {
             summary: `Vercel returned no price for ${args.domain}, so nothing was bought.`,
-            data: { domain: args.domain, price },
+            data: { domain: args.domain, bought: false, price },
             warnings: ['A purchase is never attempted without a quoted price.'],
           };
         }
+
+        // The registry's own currency guard compares what the CALLER
+        // declared. This compares what the PROVIDER quoted, which is the
+        // only comparison that constrains the real charge.
+        const quotedCurrency = price.currency ?? args.currency;
+
+        // `period` is how many YEARS the quote covers. Ignoring it means a
+        // TLD with a multi-year minimum has its total compared against a
+        // per-year ceiling, and `expectedPrice` matches either way — so the
+        // provider backstop does not catch it.
+        const period = typeof price.period === 'number' ? price.period : 1;
+
         if (quoted > args.maxPrice) {
           return {
-            summary: `Not bought: ${args.domain} is quoted at ${quoted} ${price.currency ?? ''}, above the ${args.maxPrice} ${args.currency} limit you set.`,
-            data: { domain: args.domain, quoted, currency: price.currency, maxPrice: args.maxPrice },
+            summary: `Not bought: ${args.domain} is quoted at ${quoted} ${quotedCurrency}${period > 1 ? ` for ${period} years` : ''}, above the ${args.maxPrice} ${args.currency} limit you set.`,
+            data: { domain: args.domain, bought: false, quoted, currency: quotedCurrency, period, maxPrice: args.maxPrice },
           };
         }
-        if (ctx.dryRun) return plan(`Would buy ${args.domain} at ${quoted} ${price.currency ?? args.currency}`, { ...args, quoted });
-        const order = await client.buyDomain(args.domain, { expectedPrice: quoted, renew: args.renew });
+        if (ctx.dryRun) {
+          return plan(`Would buy ${args.domain} at ${quoted} ${quotedCurrency}${period > 1 ? ` for ${period} years` : ''}`, { ...args, quoted, currency: quotedCurrency, period });
+        }
+
+        // THE MONEY GATE. Throws POLICY_SPEND_LIMIT if the real quote
+        // breaches the single-purchase limit, the policy currency or the
+        // rolling cap — before the registrar is called, and after the
+        // price is known. This is also what writes the cost to the audit
+        // record, which is what §26.6 means by "audited with its cost".
+        ctx.commitSpend({
+          amount: quoted,
+          currency: quotedCurrency,
+          description: `Register ${args.domain}${period > 1 ? ` for ${period} years` : ''}`,
+        });
+
+        const renew = args.renew ?? false;
+        const order = await client.buyDomain(args.domain, { expectedPrice: quoted, renew });
         return {
-          summary: `Bought ${args.domain} for ${quoted} ${price.currency ?? args.currency}`,
-          data: { domain: args.domain, quoted, currency: price.currency, order },
-          warnings: ['Recorded in the audit log with its cost and reason, per the spending policy.'],
+          summary: `Bought ${args.domain} for ${quoted} ${quotedCurrency}${period > 1 ? ` (${period} years)` : ''}${renew ? ', auto-renew ON' : ''}`,
+          data: { domain: args.domain, bought: true, quoted, currency: quotedCurrency, period, renew, order },
+          warnings: renew
+            ? ['Auto-renew is ON. Every renewal is levied by the registrar with no call to this server, so it is never gated, never approved and never counted against the rolling cap.']
+            : undefined,
         };
       },
     }),

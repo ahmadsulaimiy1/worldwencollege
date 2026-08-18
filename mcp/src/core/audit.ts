@@ -40,6 +40,21 @@ export interface AuditRecordInput {
   workflowRunId?: string;
   /** Fingerprint of the credential used, never the credential. */
   credentialFingerprint?: string;
+  /**
+   * What this call ACTUALLY cost, in the currency the provider charged.
+   *
+   * `SEB §26.6` requires every purchase to be "audited with its reason and
+   * its cost", and for three releases the record had no field for money at
+   * all — the only monetary datum was the ceiling the CALLER declared,
+   * inside the redacted arguments. An auditor reading the log could not
+   * tell which calls resulted in a charge, nor for how much.
+   *
+   * Set by `ToolContext.commitSpend`, which is the only thing that may
+   * report a real charge, so a cost in this field always corresponds to
+   * money that actually moved. (`SEB-D 29`, and `SEB §21.4` is amended to
+   * match.)
+   */
+  cost?: { amount: number; currency: string; description: string };
   requestId: string;
 }
 
