@@ -1290,6 +1290,33 @@ section { position: relative; }
    measures overflow at 1440 and at 390, and 1024 is neither, so a
    header that broke on every laptop passed every check. It now
    measures 1280, 1180 and 1024 as well. */
+/* THE BAND WHERE THE RAIL FITS ONLY IF IT IS ASKED TO.
+   ===================================================
+   The nav collapses at 1180 and the full rail needs 1328px to lay out
+   at its comfortable spacing. Between those two numbers — which is 1280,
+   the single most common laptop width there is — the header ran off the
+   right edge of the viewport and the whole page scrolled sideways. It
+   passed every check that looked at 1440, 1024 and 390, because the
+   fault lives in the gap between two of them.
+
+   Measured rather than guessed: at 1280 the English rail is brand 246 +
+   nav 680 + actions 243, and lands 24px past the edge; at 1200 it lands
+   53px past. Tightening the two gaps — the one between the three groups
+   and the one between nav items — recovers 77px at 1280 and 66px at
+   1200, so the rail fits with room in hand at both ends of the band.
+
+   Type size is deliberately untouched. Shrinking the nav text would buy
+   the same pixels by making the navigation harder to read on the exact
+   machines most visitors use, which is a worse answer than closing up
+   spacing that was generous to begin with.
+
+   The Arabic rail already fits — 567 against 680 — and takes the same
+   spacing so the two editions do not diverge in a band nobody looks at. */
+@media (min-width: 1181px) and (max-width: 1359px) {
+  .site-header__inner { gap: 16px; }
+  .nav { gap: 14px; }
+}
+
 @media (max-width: 1180px) {
   .nav { display: none; }
   /* See the note at .site-header__inner: the slack has to move to
@@ -1527,6 +1554,24 @@ section { position: relative; }
 .card--dark { background-color: rgba(255,255,255,.04); border-color: var(--line-dark); }
 .card--dark:hover { border-color: var(--line-dark); }
 .card h3 { font-size: 1.1rem; }
+/* A CARD TITLE THAT IS A LINK IS A TARGET, NOT A SENTENCE.
+   ========================================================
+   The six level cards on /academics/ title themselves with a link —
+   `<h3><a>Foundation Programme</a></h3>` — and at 390px that anchor was
+   21px tall. WCAG's minimum is 44, and the inline exception does not
+   apply: nothing surrounds it, so it is not a link in a sentence, it is
+   the thing a thumb aims at.
+
+   The padding is absorbed by an equal negative margin, so the hit area
+   grows to a full target and not one pixel of the layout moves. Applied
+   only where the whole heading is the link — a heading with a link
+   inside a longer phrase keeps its line height, because stretching an
+   inline link in running text is what breaks a paragraph's rhythm. */
+.card h3 > a:only-child {
+  display: inline-block;
+  padding-block: 12px;
+  margin-block: -12px;
+}
 .card__num { font-family: var(--font-display); font-size: .82rem; color: var(--gold); font-weight: 700; margin-bottom: 10px; display: block; }
 /* Gold-on-paper computes to ~2.3:1, well under WCAG AA's 4.5:1 for
    text this size — switching to --red on light grounds matches the
