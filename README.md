@@ -32,9 +32,12 @@ git subtree split --prefix=stromex -b stromex-foundation
 
 Nothing in this subtree imports from, or is imported by, the college site
 around it. `stromex/mcp` carries its own `package.json`, its own
-`node_modules`, its own build and its own test suite; the college's
-`npm run build` and `npm test` neither see it nor are affected by it. That
-separation is deliberate and should be preserved — see `SEB §4.9`.
+`node_modules`, its own build and its own test suite. That separation is
+deliberate and should be preserved — see `SEB §4.9`.
+
+**Verified, not assumed:** with this subtree in place, the college's own
+`npm run build` produces its 64 pages and its full `npm test` suite passes
+end to end. Neither sees `stromex/`.
 
 ## How to read the Bible
 
@@ -51,6 +54,19 @@ Start with:
    — the short list of rules that outrank convenience everywhere.
 
 Then whichever constitution governs the work in front of you.
+
+## How to read the MCP
+
+**[`mcp/README.md`](mcp/README.md)** first — the five guarantees and the
+authority model in one page. Then, by what you are doing:
+
+| | |
+|---|---|
+| Setting it up | [`mcp/docs/installation.md`](mcp/docs/installation.md) |
+| Deciding whether to trust it | [`mcp/docs/security.md`](mcp/docs/security.md) — especially §3, on what approval does *not* defend against |
+| Running it | [`mcp/docs/operations.md`](mcp/docs/operations.md) · [`mcp/docs/recovery.md`](mcp/docs/recovery.md) |
+| Extending it | [`mcp/docs/developer-guide.md`](mcp/docs/developer-guide.md) · [`mcp/docs/blueprint.md`](mcp/docs/blueprint.md) |
+| Checking what it has *not* proved | [`mcp/docs/not-verified.md`](mcp/docs/not-verified.md) |
 
 ## Status
 
