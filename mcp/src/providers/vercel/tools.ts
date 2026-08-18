@@ -272,7 +272,8 @@ export function vercelTools(): ToolDefinition[] {
     defineTool({
       name: 'vercel.domain.check',
       title: 'Vercel — check domain availability and price',
-      description: 'Checks whether a domain is available to register through Vercel and what it costs. Read-only: nothing is bought and nothing is reserved.',
+      description:
+        'Checks whether a domain can be registered through Vercel and what it costs. Read-only: nothing is bought and nothing is reserved. NOTE that Vercel reports a TLD it does not carry as simply "not available", which is indistinguishable from "somebody already owns it" — this tool separates the two.',
       provider: 'vercel',
       operationClass: 'read',
       inputSchema: { domain: z.string().min(1) },
@@ -282,14 +283,49 @@ export function vercelTools(): ToolDefinition[] {
           client.domainAvailability(args.domain),
           client.domainPrice(args.domain).catch(() => undefined),
         ]);
+
+        /*
+         * THREE OUTCOMES, NOT TWO.
+         *
+         * Vercel's registrar answers `available: false` both for a domain
+         * somebody owns and for a TLD it simply does not sell. Those mean
+         * completely different things — "pick another name" versus "buy it
+         * somewhere else entirely" — and conflating them sends people
+         * hunting for an alternative name they never needed.
+         *
+         * Verified 2026-08-18: `.co.uk` returns `available: false` with no
+         * error at all, while `.uk` returns an explicit "The TLD .uk is not
+         * currently supported." Same cause, two different signals, and only
+         * one of them is legible. The estate's own primary domain is a
+         * `.co.uk`, so this is not a hypothetical.
+         */
+        const available = (availability as { available?: boolean } | undefined)?.available === true;
+        const quoted = typeof price?.price === 'number' ? price.price : undefined;
+        const carried = quoted !== undefined;
+
+        if (!carried) {
+          return {
+            summary: `${args.domain} cannot be bought through Vercel: its TLD is not carried by Vercel's registrar.`,
+            data: { domain: args.domain, carriedByVercel: false, available: null, availability, price },
+            warnings: [
+              'This is NOT evidence that the domain is registered to anybody. Vercel reports a TLD it does not sell the same way it reports a name that is taken.',
+              'Register it with a registrar that carries the TLD, then point it at Vercel by DNS. vercel.domain.buy cannot help here.',
+            ],
+          };
+        }
+
+        const period = typeof price?.period === 'number' ? price.period : 1;
         return {
-          summary: `Availability and price for ${args.domain}`,
-          data: { domain: args.domain, availability, price },
-          warnings: price ? [] : ['Vercel returned no price, which usually means the TLD is not sold through Vercel.'],
+          summary: available
+            ? `${args.domain} is available at ${quoted} ${price?.currency ?? ''}${period > 1 ? ` for ${period} years` : ' for 1 year'}.`
+            : `${args.domain} is carried by Vercel but is not available — it is registered to somebody.`,
+          data: { domain: args.domain, carriedByVercel: true, available, quoted, currency: price?.currency, period, availability },
+          warnings: period > 1
+            ? [`This TLD has a ${period}-year minimum registration, so the quoted price covers ${period} years, not one.`]
+            : [],
         };
       },
     }),
-
     defineTool({
       name: 'vercel.domain.buy',
       title: 'Vercel — buy a domain',
