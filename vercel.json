@@ -7,18 +7,18 @@
   "trailingSlash": true,
   "redirects": [
     {
-      "source": "/madinah/ar/:path*",
-      "destination": "/ar/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/madinah/:path*",
-      "destination": "/:path*",
-      "permanent": true
-    },
-    {
       "source": "/madinah/",
       "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/madinah/ar/:path*/",
+      "destination": "/ar/:path*/",
+      "permanent": true
+    },
+    {
+      "source": "/madinah/:path*/",
+      "destination": "/:path*/",
       "permanent": true
     },
     {
