@@ -1200,3 +1200,27 @@
 }
 @media (max-width: 1080px) { .domains { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 620px)  { .domains { grid-template-columns: 1fr; } }
+
+/* ── THE TYPEWRITER ──────────────────────────────────────────────────
+   The caret is a painted pseudo-element on the ink span rather than a
+   character in the text, so it never reaches the clipboard and never
+   reaches a screen reader. It stops blinking when the line finishes:
+   a caret that blinks forever on a finished sentence is a cursor
+   waiting for input, which is a promise the page is not making. */
+.typeset { display: block; }
+.typeset__ink::after {
+  content: ''; display: inline-block;
+  width: .06em; height: .92em; margin-inline-start: .08em;
+  vertical-align: -.12em;
+  background: currentColor; opacity: .85;
+  animation: typeset-caret 1s steps(1, end) infinite;
+}
+.typeset.is-typed .typeset__ink::after { animation: none; opacity: 0; }
+@keyframes typeset-caret { 0%, 55% { opacity: .85; } 56%, 100% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Resolved to the FINISHED state: the full sentence, no caret.
+     js/motion.js returns before it empties the element, so the text is
+     already the real text — this only removes the ornament. */
+  .typeset__ink::after { display: none; }
+}

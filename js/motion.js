@@ -262,6 +262,85 @@
   })();
 
   /* -------------------------------------------------------------------
+     2b · THE TYPEWRITER
+     -------------------------------------------------------------------
+     A line that types itself, for the two or three places on this site
+     where the sentence IS the event — the homepage's opening claim, the
+     covenant, a chapter that turns on one assertion.
+
+     IT IS NOT A DECORATION AND IT IS RATIONED. A page where several
+     headings type themselves is a page nobody can skim, and skimming is
+     what a reader does first. `.typeset` is applied by hand, never by a
+     rule, and tests/motion-budget.test.mjs holds the count.
+
+     THREE THINGS THAT MAKE IT SAFE, and each of them is the difference
+     between an effect and a fault:
+
+     1 · THE TEXT IS ALWAYS IN THE DOM. The element keeps its full text
+         in an aria-label and the typing happens in an aria-hidden span,
+         so a screen reader reads the finished sentence at once and
+         never hears it assembled one character at a time.
+
+     2 · THE BOX NEVER MOVES. The finished text is measured first and
+         held as a min-height, so the paragraph below does not walk up
+         the page while the line types. Layout shift caused by an
+         entrance effect is the most expensive kind: it happens exactly
+         when the reader is deciding whether to stay.
+
+     3 · REDUCED MOTION RESOLVES TO THE FINISHED STATE, not to a hidden
+         one and not to a half-typed one (CLAUDE.md §2).
+     ------------------------------------------------------------------- */
+  (function typewriter() {
+    var els = toArray('.typeset');
+    if (!els.length) return;
+
+    els.forEach(function (el) {
+      var text = (el.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!text) return;
+
+      el.setAttribute('aria-label', text);
+
+      // Measured before anything is emptied: the height the finished
+      // line occupies is the height the box keeps for the whole effect.
+      var box = el.getBoundingClientRect();
+      if (box.height) el.style.minHeight = Math.ceil(box.height) + 'px';
+
+      if (prefersReduced()) return;   // the text is already correct
+
+      var ink = document.createElement('span');
+      ink.setAttribute('aria-hidden', 'true');
+      ink.className = 'typeset__ink';
+      el.textContent = '';
+      el.appendChild(ink);
+
+      var i = 0;
+      var timer = null;
+
+      function type() {
+        // A little faster than a person and a little uneven, because a
+        // metronome reads as a loading bar. The jitter is deterministic
+        // per index rather than random, so the same line types the same
+        // way twice — a caption that stutters differently on every
+        // reload reads as a fault.
+        ink.textContent = text.slice(0, i);
+        i += 1;
+        if (i > text.length) {
+          el.classList.add('is-typed');
+          window.clearTimeout(timer);
+          return;
+        }
+        var ch = text.charAt(i - 1);
+        var pause = ch === '.' || ch === '?' || ch === '!' ? 220
+          : ch === ',' || ch === ';' ? 120
+            : 18 + ((i * 7) % 22);
+        timer = window.setTimeout(type, pause);
+      }
+
+      observeOnce([el], function () { type(); }, 0.4);
+    });
+  })();
+
+  /* -------------------------------------------------------------------
      3 · DRAWN RULES AND 8 · FOIL / WAX SEAL
      -------------------------------------------------------------------
      All three are the same mechanism — add .is-visible on entry — and

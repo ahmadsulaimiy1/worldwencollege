@@ -96,6 +96,21 @@
     open:  () => { voice(392, { to: 588, dur: 0.16, gain: 0.6, type: 'triangle' }); },
     seal:  () => { voice(196, { dur: 0.9, gain: 1 }); voice(392, { dur: 0.7, gain: 0.4, delay: 0.01 });
                    voice(587, { dur: 0.45, gain: 0.22, delay: 0.02 }); },
+    /* GLASS — the fifth voice, and the one the owner asked for by name.
+       A crystal rim struck with a fingernail: a high, short, almost
+       pure partial with a second an octave and a fifth above it, both
+       decaying fast. `sine` rather than `triangle` because glass has
+       almost no harmonic content above its first few partials, and a
+       triangle here sounds like a bell, which is `seal`'s job.
+
+       It is the voice for the CHROME — the utility rail, the editions
+       picker, the intake rows — as against the page's own struck
+       surfaces, which keep `tap`. A reader moving through navigation
+       should hear something lighter than a reader striking a card: the
+       ranking is by ceremony, and navigating is the least ceremonial
+       thing anybody does here. */
+    glass: () => { voice(2093, { dur: 0.09, gain: 0.34, type: 'sine' });
+                   voice(3136, { dur: 0.055, gain: 0.14, type: 'sine', delay: 0.004 }); },
   };
 
   const play = (name) => { if (enabled && VOICES[name]) { try { VOICES[name](); } catch { /* no device */ } } };
@@ -144,6 +159,15 @@
                struck surface gets. Ceremony is ranked, not uniform. */
             + '.warrant, .article__seal, .imprint, .imprint__device';
   var OPEN  = 'details > summary, .accordion__q, .nav__toggle, [aria-expanded]';
+  /* THE CHROME, and it is ranked BELOW open and ABOVE tap deliberately.
+     The utility rail's Verify group and the editions picker both carry
+     [aria-expanded], so they are `open` when they open and `glass` when
+     they are merely a row inside; the ordering in voiceFor is what
+     decides that, and it decides it correctly because a disclosure
+     button IS an opening act and a language row is not. */
+  var GLASS = '.utilrail__item, .utilrail__btn, .utilrail__menu a, '
+            + '.lang__row, .langswitch__btn, .intake__row, '
+            + '.topbar__item, .topbar__social a, .contents__list a';
   var TAP   = 'a, button, .card, .audience, .region, .case, .principle, .badge-dome, '
             + '.quad__skill, .quad__gauge, .sep__role, .sep__disc, .creed__item, .creed__mark, '
             + '.clause, .tenet, .register__col, .vacancy, .footergrid__tile, .quicknav__tile, '
@@ -155,7 +179,7 @@
                the silent objects in a chrome where everything else
                answers — which reads as a fault rather than as
                restraint (CLAUDE.md §3). */
-            + '.intake__row, .utilrail__item, .utilrail__btn, .lang__row, .domain, '
+            + '.domain, '
             + '.plate__frame, .ledger--flagship tbody tr, '
             /* The Academics pillar — css/academics.css. */
             + '.ascent__step, .ascent__band, .horarium__band, .discipline, '
@@ -174,6 +198,7 @@
     if (el.closest(CHIME)) return 'chime';
     if (el.closest(SEAL)) return 'seal';
     if (el.closest(OPEN)) return 'open';
+    if (el.closest(GLASS)) return 'glass';
     if (el.closest(TAP)) return 'tap';
     return null;
   }
