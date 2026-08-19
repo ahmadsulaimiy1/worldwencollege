@@ -5,6 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const ROOT = path.resolve(__dirname, '..');
 const PAGES = path.join(ROOT, 'pages');
@@ -482,6 +483,115 @@ function resourcesShelf(lang) {
   return `<div class="shelf grid grid--3">\n${cards}\n      </div>`;
 }
 
+// ── FINGERPRINTS, AND THE FOUR HOURS THEY REMOVE ─────────────────────
+//
+// THE FAULT. On 19 August 2026 a deploy landed, the served HTML carried
+// the new build stamp, and worldwencollege.co.uk went on serving the
+// PREVIOUS css/brand.css for another forty-eight minutes:
+//
+//     cf-cache-status: HIT   age: 2868   max-age: 14400
+//
+// The HTML is `max-age=0, must-revalidate` and updates at once; the
+// stylesheet had four hours to run. So for up to four hours after every
+// deploy, a returning visitor could be served NEW MARKUP AGAINST OLD
+// CSS — which is not a slow update, it is a broken page, and it is
+// invisible to everyone who happens to hard-refresh.
+//
+// _headers already described this exact trade-off and named the exit:
+// "Move to long-lived immutable caching only once/if the build gains
+// content-hashed filenames." This is the build gaining them.
+//
+// HOW. Every stylesheet and script the build emits carries `?v=` and
+// eight hex of the SHA-256 of its own bytes. A file that changed gets a
+// new URL and therefore cannot be served from a cache keyed on the old
+// one; a file that did NOT change keeps its URL and stays cached, which
+// is why the hash is of the content rather than of the build.
+//
+// A query string rather than a renamed file, deliberately: the path
+// stays /css/brand.css, so _redirects, the CSP, the preload hints and
+// every hand-written reference in the repository keep working, and
+// there is no build artefact directory to keep swept. Cloudflare's
+// cache key includes the query string, which is the only property this
+// depends on.
+const FINGERPRINTS = new Map();
+function fingerprint(href) {
+  // Only local, root-relative assets. An absolute URL belongs to
+  // somebody else's cache policy and must not be rewritten.
+  if (!href.startsWith('/') || href.startsWith('//')) return href;
+  const clean = href.split('?')[0].split('#')[0];
+  if (FINGERPRINTS.has(clean)) return FINGERPRINTS.get(clean);
+  const file = path.join(ROOT, clean.replace(/^\//, ''));
+  let out = href;
+  if (fs.existsSync(file)) {
+    const hash = crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex').slice(0, 8);
+    out = `${clean}?v=${hash}`;
+  } else {
+    // Not a warning to swallow: a page linking an asset that is not in
+    // the tree is a 404 the moment it is served, and the build should
+    // say so while somebody is still looking at it.
+    console.warn(`  ! ${clean} is linked but not in the tree — shipped unfingerprinted`);
+  }
+  FINGERPRINTS.set(clean, out);
+  return out;
+}
+
+// Rewrites every <link rel=stylesheet href="/…"> and <script src="/…">
+// in a block of assembled HTML. Applied to the head and the script
+// block rather than to the whole page, so nothing in page CONTENT — a
+// download link, a plate, an anchor — is touched.
+function fingerprintAssets(html) {
+  // `(\?v=[0-9a-f]+)?` is load-bearing. Without it the pattern skips a
+  // reference that ALREADY carries a stamp, which is fine for a page
+  // assembled fresh every build and catastrophic for a hand-authored
+  // one: it would keep the first hash it was ever given, for a year,
+  // against a file that had changed underneath it.
+  return html
+    .replace(/(<link[^>]+href=")(\/[^"?#]+\.css)(\?v=[0-9a-f]+)?(")/g,
+      (_, a, href, _v, b) => a + fingerprint(href) + b)
+    .replace(/(<script[^>]+src=")(\/[^"?#]+\.js)(\?v=[0-9a-f]+)?(")/g,
+      (_, a, src, _v, b) => a + fingerprint(src) + b);
+}
+
+// ── THE PAGES THIS BUILD DOES NOT OWN ────────────────────────────────
+// The portal, the Listening Lab, the verification page, the instructor
+// workspace and the admin screens are hand-authored HTML outside
+// pages/manifest.json. They link the same stylesheets and scripts, and
+// _headers now tells the edge to hold those for a YEAR.
+//
+// Fingerprinting only the pages the manifest owns would therefore be
+// worse than not fingerprinting at all: the marketing site would update
+// correctly while the application a student actually signs in to kept a
+// stale brand.css pinned in their browser until next August.
+//
+// So the sweep is over every served page, whoever wrote it. It is
+// idempotent — a stamp that is already correct is rewritten to itself —
+// and it reports what it touched rather than editing files silently.
+function fingerprintUnownedPages(ownedOutputs) {
+  const owned = new Set(ownedOutputs);
+  const touched = [];
+  // `partials` is in this list because the first run swept it and
+  // stamped partials/head.html — a SOURCE template, which the build
+  // fills and stamps on every page anyway. Baking a hash into a
+  // template leaves the source claiming a version it does not control,
+  // and the next person reading it has to work out which stamp wins.
+  const skip = new Set(['node_modules', 'pages', 'partials', 'tests', 'docs', 'publication', 'sql']);
+  (function walk(dir) {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (e.name.startsWith('.') || skip.has(e.name)) continue;
+      const full = path.join(dir, e.name);
+      if (e.isDirectory()) { walk(full); continue; }
+      if (!e.name.endsWith('.html')) continue;
+      const rel = path.relative(ROOT, full);
+      if (owned.has(rel)) continue;
+      const before = fs.readFileSync(full, 'utf8');
+      const after = fingerprintAssets(before);
+      if (after !== before) { fs.writeFileSync(full, after); touched.push(rel); }
+    }
+  })(ROOT);
+  return touched;
+}
+
+
 function partialFor(name, lang) {
   const arPath = path.join(PARTIALS, `${name}.ar.html`);
   if (lang === 'ar' && fs.existsSync(arPath)) return read(arPath);
@@ -653,7 +763,7 @@ function build() {
       .map((href) => `\n<link rel="stylesheet" href="${href}">`)
       .join('');
 
-    const head = fill(partialFor('head', lang), {
+    const head = fingerprintAssets(fill(partialFor('head', lang), {
       TITLE: entry.title,
       DESCRIPTION: entry.description,
       CANONICAL: canonical,
@@ -664,7 +774,7 @@ function build() {
       EXTRA_CSS: extraCss,
       OG_LOCALE: lang === 'ar' ? 'ar_AR' : 'en_GB',
       OG_SITE_NAME: lang === 'ar' ? 'الكلية العالمية للغة الإنجليزية' : 'WorldWide English College',
-    });
+    }));
     const picker = languagePicker(lang, altHref);
     const topbar = fill(partialFor('topbar', lang), { ALT_HREF: altHref, LANG_PICKER: picker });
     // The mobile drawer and the footer each carry their own language
@@ -725,12 +835,12 @@ ${header}
 ${content}
 </main>
 ${footer}
-<script src="/js/site.js"></script>
+${fingerprintAssets(`<script src="/js/site.js"></script>
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
 <script src="/js/worldclock.js" defer></script>
 <script src="/js/intake.js" defer></script>
-<script src="/js/sonics.js" defer></script>${extraScripts}
+<script src="/js/sonics.js" defer></script>${extraScripts}`)}
 </body>
 </html>
 `;
@@ -743,6 +853,17 @@ ${footer}
 
   writeSitemap(manifest);
   console.log(`Built ${count} pages from pages/manifest.json`);
+
+  // Every page the manifest does NOT own gets the same treatment, for
+  // the reason set out above fingerprintUnownedPages: the portal is the
+  // page a student signs in to, and a year-long cache on an unstamped
+  // stylesheet would pin it there.
+  const swept = fingerprintUnownedPages(
+    (Array.isArray(manifest) ? manifest : manifest.pages).map((e) => e.output));
+  if (swept.length) {
+    console.log(`Re-stamped assets on ${swept.length} hand-authored page(s):`);
+    for (const f of swept) console.log(`  ${f}`);
+  }
 }
 
 // ---------------------------------------------------------------------

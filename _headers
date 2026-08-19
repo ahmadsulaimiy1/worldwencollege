@@ -1,22 +1,35 @@
 # Cloudflare Pages cache-control config.
 #
-# Deliberately conservative: scripts/build.js does not content-hash
-# CSS/JS/asset filenames (they're always /css/brand.css, /js/site.js,
-# etc.), so an aggressive `immutable, max-age=1y` here would mean a
-# browser that cached a file before a deploy keeps serving the OLD
-# version for up to a year after the real file changes — a
-# correctness bug, not just a missed optimization. These durations are
-# short enough that a stale asset self-heals within the hour/day
-# rather than requiring a hard-refresh, and `must-revalidate` means an
-# expired-but-unchanged file still costs only a cheap conditional
-# request (304), not a full re-download. Move to long-lived immutable
-# caching only once/if the build gains content-hashed filenames.
+# THE CONDITION THIS FILE SET FOR ITSELF HAS BEEN MET.
+#
+# It used to say: "Move to long-lived immutable caching only once/if the
+# build gains content-hashed filenames." scripts/build.js now gains
+# them — every stylesheet and script it emits carries `?v=` and eight
+# hex of the SHA-256 of its own bytes.
+#
+# WHY THAT MATTERED MORE THAN SPEED. The conservative setting was not
+# merely slow, it was wrong in a way nobody had measured. On 19 August
+# 2026 a deploy landed and the live domain went on serving the previous
+# css/brand.css for forty-eight minutes — cf-cache-status HIT, age
+# 2868, against an edge max-age of four hours. The HTML is
+# `max-age=0, must-revalidate` and updates at once. So for up to four
+# hours after every deploy a returning visitor could receive NEW MARKUP
+# AGAINST OLD CSS, which is not a slow update but a broken page, and it
+# is invisible to everybody who happens to hard-refresh.
+#
+# A fingerprinted URL cannot be stale by construction: a file that
+# changed has a new URL, and a file that did not keeps the old one and
+# stays cached. So the year is now safe AND correct, where an hour was
+# neither.
+#
+# The paths here are unhashed on purpose — the fingerprint is a query
+# string, so /css/brand.css still matches this rule with or without it.
 
 /css/*
-  Cache-Control: public, max-age=3600, must-revalidate
+  Cache-Control: public, max-age=31536000, immutable
 
 /js/*
-  Cache-Control: public, max-age=3600, must-revalidate
+  Cache-Control: public, max-age=31536000, immutable
 
 /assets/*
   Cache-Control: public, max-age=86400, must-revalidate
