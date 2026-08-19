@@ -321,6 +321,67 @@ ${rows}
   </div>`;
 }
 
+// ── THE INTAKE PANEL ─────────────────────────────────────────────────
+// Three intakes and the seats open in the next one, generated from
+// data/intakes.json wherever a page writes `{{INTAKE_PANEL}}`.
+//
+// It is generated rather than written into each page for the reason
+// every other figure on this site is: the homepage, the Admissions
+// pillar and both Arabic editions would otherwise each hold their own
+// copy of three dates and a seat count, and the first correction would
+// leave three of them behind.
+//
+// The COUNTDOWN is not here. The markup carries each intake's month and
+// day; js/intake.js resolves which closes next against the reader's own
+// clock. A build-time countdown would be a number that was true when the
+// page was generated, which is the one thing a countdown must never be.
+const INTAKES = JSON.parse(read(path.join(ROOT, 'data', 'intakes.json')));
+
+function intakePanel(lang) {
+  const ar = lang === 'ar';
+  const L = INTAKES.labels[ar ? 'ar' : 'en'];
+  const seats = STANDING.reach.seats_open;
+  if (!Number.isInteger(seats) || seats <= 0) {
+    throw new Error('standing.reach.seats_open must be a positive integer; the panel publishes '
+      + 'it as the number of places open and a panel that publishes nothing is chrome.');
+  }
+  const rows = INTAKES.intakes.map((i) => `        <li class="intake__row"
+            data-intake-close="${i.closes}" data-intake-begins="${i.begins}"
+            data-intake-name="${i[ar ? 'ar' : 'en'].name}">
+          <span class="intake__mark" aria-hidden="true"><svg class="icon"><use href="#i-seal"/></svg></span>
+          <span class="intake__name">${i[ar ? 'ar' : 'en'].name}</span>
+          <span class="intake__term">${i[ar ? 'ar' : 'en'].term}</span>
+        </li>`).join('\n');
+
+  return `<div class="intake edge-lit aurum reveal" data-intake>
+    <span class="intake__glow" aria-hidden="true"></span>
+    <div class="intake__head">
+      <span class="intake__eyebrow">${L.eyebrow}</span>
+      <p class="intake__seats"><strong>${seats}</strong> ${L.seats}</p>
+    </div>
+
+    <div class="intake__clock">
+      <span class="intake__closes">${L.closesIn}</span>
+      <div class="intake__digits">
+        <span class="intake__unit"><b data-count-days>—</b><i>${L.days}</i></span>
+        <span class="intake__colon" aria-hidden="true">:</span>
+        <span class="intake__unit"><b data-count-hours>—</b><i>${L.hours}</i></span>
+        <span class="intake__colon" aria-hidden="true">:</span>
+        <span class="intake__unit"><b data-count-mins>—</b><i>${L.minutes}</i></span>
+      </div>
+      <p class="intake__next">${L.nextIntake}: <strong data-next-name></strong>
+        &middot; ${L.teachingBegins} <strong data-next-begins></strong></p>
+    </div>
+
+    <ul class="intake__list">
+${rows}
+    </ul>
+
+    <p class="intake__note">${L.rolling}</p>
+    <a class="btn btn--gold magnetic gold-live" href="${ar ? '/ar' : ''}/admissions/apply/">${L.applyNow}</a>
+  </div>`;
+}
+
 function partialFor(name, lang) {
   const arPath = path.join(PARTIALS, `${name}.ar.html`);
   if (lang === 'ar' && fs.existsSync(arPath)) return read(arPath);
@@ -512,10 +573,11 @@ function build() {
     // to the other language's front door.
     const header = fill(partialFor('header', lang), { ALT_HREF: altHref, LANG_PICKER: picker });
     const footer = fill(partialFor('footer', lang), { ALT_HREF: altHref });
+    const withIntake = (html) => html.split('{{INTAKE_PANEL}}').join(intakePanel(lang));
     const content = withContentsRail(
       raiseMasthead(
         fillStanding(
-          inlineSvgIncludes(read(path.join(PAGES, entry.contentFile)), entry.contentFile),
+          withIntake(inlineSvgIncludes(read(path.join(PAGES, entry.contentFile)), entry.contentFile)),
           lang, entry.contentFile
         )
       ),
@@ -565,6 +627,7 @@ ${footer}
 <script src="/js/motion.js"></script>
 <script src="/js/atelier.js" defer></script>
 <script src="/js/worldclock.js" defer></script>
+<script src="/js/intake.js" defer></script>
 <script src="/js/sonics.js" defer></script>${extraScripts}
 </body>
 </html>

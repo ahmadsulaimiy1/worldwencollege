@@ -150,6 +150,12 @@
             /* The hero's struck eyebrow pill — it wears .aurum, so it
                must not be the one silent object on the homepage. */
             + '.hero__eyebrow, '
+            /* The intake panel and the utility rail. Both are struck
+               surfaces carrying a lit rim, so both would otherwise be
+               the silent objects in a chrome where everything else
+               answers — which reads as a fault rather than as
+               restraint (CLAUDE.md §3). */
+            + '.intake__row, .utilrail__item, .utilrail__btn, .lang__row, '
             + '.plate__frame, .ledger--flagship tbody tr, '
             /* The Academics pillar — css/academics.css. */
             + '.ascent__step, .ascent__band, .horarium__band, .discipline, '

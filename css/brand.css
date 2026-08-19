@@ -3075,3 +3075,115 @@ ul.check-list--open li::before { content: '○'; font-weight: 400; color: rgba(2
   display: block; height: 0; overflow: hidden;
   scroll-margin-top: calc(var(--header-h, 84px) + 24px);
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE INTAKE PANEL
+   ═══════════════════════════════════════════════════════════════════
+   A live object on a site that was, in the owner's words, looking
+   stagnant. It is the one element on these pages whose content is
+   different every time it is read, and it is the one a reader deciding
+   whether to apply actually needs: three intakes a year, the places
+   open in the next one, and how long they have.
+
+   Built on the same material law as every other struck surface — a lit
+   rim, a travelling point, real relief — rather than as a marketing
+   banner, because it is making an institutional statement and not an
+   offer. There is no urgency styling here on purpose: no red, no
+   flashing, no "hurry". A college states its calendar; a shop counts
+   down at you.
+   ══════════════════════════════════════════════════════════════════ */
+.intake {
+  position: relative; overflow: hidden;
+  padding: 34px 34px 30px; border-radius: var(--r-lg, 18px);
+  background:
+    radial-gradient(120% 90% at 12% 0%, rgba(199,162,74,.14), transparent 58%),
+    linear-gradient(165deg, var(--royal-deep, #0E1B38), var(--oxford, #0A1428));
+  border: 1px solid rgba(199,162,74,.34);
+  box-shadow: 0 30px 70px -34px rgba(3,8,20,.9), inset 0 1px 0 rgba(255,255,255,.07);
+  color: rgba(247,244,236,.9);
+}
+.intake__glow {
+  position: absolute; inset-inline-end: -80px; top: -90px;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(231,201,122,.22), transparent 68%);
+  pointer-events: none;
+}
+.intake__head {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  justify-content: space-between; gap: 12px;
+  padding-bottom: 16px; border-bottom: 1px solid rgba(199,162,74,.24);
+}
+.intake__eyebrow {
+  font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+  font-weight: 700; color: var(--gold-royal);
+}
+[dir="rtl"] .intake__eyebrow { letter-spacing: 0; }
+.intake__seats { margin: 0; font-size: .92rem; color: rgba(247,244,236,.72); }
+.intake__seats strong {
+  font-family: var(--font-display); font-size: 1.45rem;
+  color: var(--gold-bright, #E7C97A); margin-inline-end: .28em;
+}
+
+.intake__clock { padding: 22px 0 18px; text-align: center; }
+.intake__closes {
+  display: block; font-size: .7rem; letter-spacing: .16em;
+  text-transform: uppercase; color: rgba(247,244,236,.5); font-weight: 700;
+}
+[dir="rtl"] .intake__closes { letter-spacing: 0; }
+.intake__digits {
+  display: flex; align-items: baseline; justify-content: center; gap: 6px;
+  margin-top: 10px;
+  /* LTR even in the Arabic edition. A duration counts down left to
+     right in both scripts — Arabic numerals run left to right inside an
+     RTL line, and mirroring the group would put the days where the
+     minutes belong. */
+  direction: ltr;
+}
+.intake__unit { display: inline-flex; flex-direction: column; align-items: center; min-width: 72px; }
+.intake__unit b {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(2.4rem, 1.6rem + 2.6vw, 3.4rem); line-height: 1;
+  color: var(--gold-bright, #E7C97A);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 0 rgba(0,0,0,.35), 0 0 26px rgba(231,201,122,.28);
+}
+.intake__unit i {
+  font-style: normal; margin-top: 6px;
+  font-size: .64rem; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(247,244,236,.44); font-weight: 700;
+}
+[dir="rtl"] .intake__unit i { letter-spacing: 0; }
+.intake__colon {
+  font-family: var(--font-display); font-size: 2rem; line-height: 1;
+  color: rgba(199,162,74,.5); transform: translateY(-.28em);
+}
+.intake__next { margin: 14px 0 0; font-size: .86rem; color: rgba(247,244,236,.62); }
+.intake__next strong { color: rgba(247,244,236,.92); }
+
+.intake__list { list-style: none; margin: 6px 0 0; padding: 0; }
+.intake__row {
+  display: grid; grid-template-columns: 22px 1fr auto;
+  align-items: center; gap: 12px;
+  padding: 13px 0; border-top: 1px solid rgba(199,162,74,.16);
+  transition: color var(--dur-fast) ease;
+}
+.intake__mark .icon { width: 15px; height: 15px; color: rgba(199,162,74,.45); }
+.intake__name { font-weight: 600; color: rgba(247,244,236,.78); }
+.intake__term { font-size: .8rem; color: rgba(247,244,236,.45); }
+/* The intake the countdown is counting to. js/intake.js sets this, so
+   the list and the digits can never name two different intakes. */
+.intake__row.is-next .intake__name { color: var(--gold-bright, #E7C97A); }
+.intake__row.is-next .intake__mark .icon { color: var(--gold-bright, #E7C97A); }
+.intake__row.is-next .intake__term { color: rgba(247,244,236,.7); }
+.intake__note {
+  margin: 16px 0 20px; font-size: .8rem; line-height: 1.6;
+  color: rgba(247,244,236,.5);
+}
+.intake .btn { width: 100%; justify-content: center; }
+
+@media (max-width: 620px) {
+  .intake { padding: 26px 20px 24px; }
+  .intake__unit { min-width: 58px; }
+  .intake__row { grid-template-columns: 20px 1fr; }
+  .intake__term { grid-column: 2; font-size: .74rem; }
+}
