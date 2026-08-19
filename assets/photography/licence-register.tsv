@@ -1,2 +1,3 @@
-file	source	licence	rights_holder	obtained	notes
-# Every image on the site has a line here before it ships.
+file	photographer	people_in_frame	consent_given	date	notes
+# One line per photograph, entered BEFORE it ships (EB §3.1).
+# consent_given: who confirmed it, and how. "Founder, in writing" is enough.

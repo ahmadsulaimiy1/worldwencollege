@@ -1,56 +1,80 @@
-# Photography — where the files go, and which ones belong here
+# Photography
 
-The College's photography layer is **built and waiting**. Drop files in this
-directory with the filenames below and they appear, art-directed, treated and
-lazy-loaded, with no further code.
+The photographs are **consented**. The Founder has confirmed that the people
+in them are his friends, that they are aware, and that they wish to appear.
+That settles the question that mattered — nothing here is published about
+anyone who did not agree to it.
 
-## Why the files are not already here
+Two things still hold, and they are about accuracy rather than permission:
 
-Images shown in a chat message are pixels in a conversation, not files on this
-machine. I cannot read them, so I cannot commit them. They have to be added to
-the repository — by you, by drag-and-drop in GitHub, or by `git add` from a
-machine that has them.
+1. **A caption never makes a claim the College cannot support.** A photograph
+   of a majlis is captioned as a majlis. It is not captioned as *the College's
+   Academic Council*, or as a class, or as a graduation, unless it is one.
+   `EB §3.1` — a recorded fact, a published rule, or a stated estimate, and
+   nothing published as a class it does not belong to.
+2. **Every file is entered in `licence-register.tsv` before it ships** —
+   filename, who took it, who is in it, and the date consent was given. That
+   register is the College's own record; it is what makes "they agreed"
+   answerable a year from now when nobody remembers the conversation.
 
-## The slots the site is built for
+---
 
-| Filename | Ratio | Where it appears | What it must show |
+## How a photograph gets onto the site
+
+Photographs cannot be added from a chat message: an image in a conversation is
+pixels, not a file, and this machine's network policy blocks fetching one from
+a link. It has to arrive **in the repository**. Two ways:
+
+**From a browser, no tools needed —**
+`github.com/ahmadsulaimiy1/worldwencollege` → `assets/photography/` →
+**Add file → Upload files** → drop the images in → make sure the branch is
+`claude/abisulaimiycollege-data-extraction-6b66sm` → Commit.
+
+Vercel redeploys on that commit, and they are live in about a minute.
+
+**From a machine with the repository —** `git add`, commit, push.
+
+Either way, **the filename is the only instruction**. Rename each photograph to
+the slot it belongs in, from the table below, and it appears — art-directed,
+tinted into the palette, lazy-loaded, in both the English and the Arabic tree,
+with the caption already written. No page is edited. No code is touched.
+
+`.jpg`, `.jpeg`, `.png`, `.webp` and `.avif` are all recognised.
+
+---
+
+## The slots, and which of your photographs each is for
+
+| Filename | Ratio | Appears on | Which one |
 |---|---|---|---|
-| `study-01.jpg` | 4:5 | Home, The College | A student at shelves or a desk. Anonymous — from behind, or hands and a book. |
-| `study-02.jpg` | 3:2 | Faculties | A reading room. People incidental, not posed. |
-| `dress-01.jpg` | 4:5 | About, The Name | The kandura or thobe as a detail — cuff, placket, tarboosh cord. No face. |
-| `things-01.jpg` | 4:5 | Admission | A student's own things laid out: thobe, ghutrah, misbaḥah, ʿūd, a pen. |
-| `writing-01.jpg` | 3:2 | Awards, Regulations | A hand writing, a muṣḥaf open, a certificate being sealed. |
+| `majlis-01` | 3:2 | About → Method of instruction | The formal majlis, the seated circle |
+| `gathering-01` | 3:2 | About → Governance | The large reception |
+| `study-01` | 4:5 | Home → The College | At the library shelves |
+| `study-02` | 3:2 | Faculties | Between the stacks |
+| `dress-01` | 4:5 | About → The Name | The kandura, the cuff and the trim |
+| `things-01` | 4:5 | Admission → Applying | The flat-lay: thobe, ghutrah, misbaḥah, ʿūd |
 
-Any file may be absent. A slot with no file renders nothing at all — no broken
-image, no grey box, no gap (`.r-photo:not(:has(img))` collapses).
+A slot with no file **renders nothing at all** — no broken image, no grey box,
+no reserved gap, no 404 in the console. `scripts/build-madinah.js` checks the
+filesystem before it writes the tag, and reports at the end of every build
+which photographs it is still waiting for. That is why the slots could be
+written into the pages before a single photograph existed.
 
-## What must not go in this directory
+## Adding a slot that is not in the table
 
-Two categories, and the first is not about licensing.
+Write a token where you want it, in both trees:
 
-**Photographs of identifiable people at official occasions.** The majlis and
-royal-court images — a UAE government majlis beneath a ruler's portrait, the
-Saudi court receptions — show real, named people at state functions. Whatever
-their licence, putting them on this College's pages makes a claim the College
-cannot support: that it convenes these gatherings, attends them, or is
-associated with the people in them. That is `EB §3.1` — an aspiration
-published as a recorded fact — and it is the one thing the whole Disclosure
-Doctrine exists to prevent. A College that has published "no member of faculty
-is listed before appointment" cannot illustrate itself with somebody else's
-dignitaries.
+```
+{{PHOTO:name|3x2|The caption, which is also the alt text.}}
+```
 
-**Luxury as a subject.** The car interiors are beautifully shot and they are
-about personal wealth. This College charges no tuition, is funded by giving,
-and states on its Charges page that the record is free and only the artefact is
-bought. A Maybach interior on those pages contradicts the page it sits on.
+Ratios: `4x5`, `3x2`, `sq`.
 
-The images that *do* belong — the library, the dress details, the flat-lay of a
-student's own things — are the ones with no person identifiable in them and no
-claim attached. They are about study and about the people the College serves,
-which is what a College's photography is for.
+## The treatment
 
-## The licence register
-
-Every file entered here is entered in `licence-register.tsv` before it ships:
-filename, source, licence, rights-holder, date obtained. A photograph with no
-line in that register does not go on the site (`EB §3.1`).
+Every photograph is gradient-mapped toward the palette — navy into the
+shadows, champagne into the highlights, saturation eased back — with a gold
+rim and the house radius. Under the pointer it recovers its own colour: the
+reader gets the photograph, the page keeps the palette. That treatment is why
+pictures taken by six different people on six different phones will read as
+one commission rather than as a collection.

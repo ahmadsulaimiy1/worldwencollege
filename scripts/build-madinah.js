@@ -112,6 +112,55 @@ const RAIL_LABEL = { en: 'On this page', ar: 'في هذه الصفحة' };
 // ---------------------------------------------------------------------
 const MASTHEAD_OPENING = /^(\s*)<section class="section--dark section-pad"/;
 
+// ---------------------------------------------------------------------
+// PHOTOGRAPHS
+//
+// A page asks for a photograph with a token:
+//
+//     {{PHOTO:study-01|4x5|A reading room in Lagos, 1447.}}
+//              file     ratio  caption
+//
+// and the build emits the full figure ONLY IF THE FILE EXISTS on disk. If
+// it does not, the token resolves to nothing at all — no <img>, no broken
+// icon, no reserved gap, no console 404.
+//
+// That check is the whole point of doing this at build time rather than in
+// CSS. `:has()` can collapse a figure with no <img> inside it, but it
+// cannot help once an <img> is present with a src that 404s: the browser
+// has already requested it, logged it, and drawn the broken-image glyph.
+// The generator knows what is on disk; the stylesheet never can.
+//
+// So the slots can be written into the pages NOW, before a single
+// photograph exists, and the pages stay correct in the meantime. Drop a
+// file into assets/photography/ with the right name, run the build, and it
+// appears — treated, art-directed and lazy-loaded — with no edit to any
+// page.
+// ---------------------------------------------------------------------
+const PHOTO_DIR = path.join(ROOT, 'assets', 'photography');
+const PHOTO_EXT = ['.jpg', '.jpeg', '.webp', '.avif', '.png'];
+
+function photoFile(name) {
+  for (const ext of PHOTO_EXT) {
+    if (fs.existsSync(path.join(PHOTO_DIR, name + ext))) return '/assets/photography/' + name + ext;
+  }
+  return null;
+}
+
+let photoMissing = new Set();
+
+function fillPhotos(html) {
+  return html.replace(/\{\{PHOTO:([a-z0-9-]+)\|([a-z0-9]+)\|([^}]*)\}\}/g, (m, name, ratio, caption) => {
+    const src = photoFile(name);
+    if (!src) { photoMissing.add(name); return ''; }
+    const cap = caption.trim();
+    return '<figure class="r-photo r-photo--' + ratio + '">' +
+      '<img src="' + src + '" alt="' + cap.replace(/"/g, '&quot;') + '" ' +
+      'loading="lazy" decoding="async">' +
+      (cap ? '<figcaption class="r-photo__cap">' + cap + '</figcaption>' : '') +
+      '</figure>';
+  });
+}
+
 function raiseMasthead(html) {
   if (!MASTHEAD_OPENING.test(html)) return html;
   return html.replace(
@@ -357,10 +406,10 @@ function build() {
         .join('') + (lang === 'ar' ? '\n<link rel="stylesheet" href="/css/arabic.css">' : ''),
     });
 
-    let content = withContentsRail(
+    let content = fillPhotos(withContentsRail(
       ornament(raiseMasthead(read(contentPath))),
       entry
-    );
+    ));
 
     if (lang === 'ar') content = arLinks(content);
 
@@ -398,6 +447,10 @@ ${chrome('dock')}
 
   writeSitemap(routes);
   console.log(`Al-Madinah International College — built ${count} pages at the root.`);
+  if (photoMissing.size) {
+    console.log(`  photographs awaited (slots are live, nothing is rendered until the file exists):`);
+    [...photoMissing].sort().forEach((n) => console.log(`    assets/photography/${n}.jpg`));
+  }
 }
 
 function writeSitemap(routes) {
