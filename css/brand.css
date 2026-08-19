@@ -2292,13 +2292,42 @@ a.lang__row:hover { background: rgba(199,162,74,.13); color: var(--gold-bright);
    it reads as a distinct register: browse the grids above it, or grab
    one of these six directly. Same scroll-snap mechanism as the
    header's quicknav — no carousel library here either. */
-.footerlinks { max-width: var(--wrap); margin: 0 auto 44px; padding: 0 24px; }
-.footerlinks__heading {
-  display: flex; align-items: center; gap: .7em;
-  font-family: var(--font-body); font-weight: 700;
-  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--gold-royal); padding-bottom: 18px;
+/* A CUT EDGE WITH NO MASK READS AS A FAULT, NOT AS A SCROLLER.
+   Six 240px cards need about 1,520px and the measure is 1,392, so the
+   last card and a half are clipped at the right edge of a footer that
+   otherwise looks finished. The scrolling is correct; the absence of an
+   affordance was not. The same gold fade the utility rail uses tells a
+   reader there is more this way instead of leaving them to wonder what
+   went wrong — and it is the one thing that separates a deliberate
+   overflow from a broken layout at a glance. */
+.footerlinks { position: relative; max-width: var(--wrap); margin: 0 auto 44px; padding: 0 24px; }
+.footerlinks::after {
+  content: ''; position: absolute; inset-inline-end: 24px; bottom: 8px;
+  width: 64px; top: 58px; pointer-events: none; z-index: 2;
+  background: linear-gradient(to left, var(--royal-deep, #0E1B38), transparent);
 }
+[dir="rtl"] .footerlinks::after {
+  background: linear-gradient(to right, var(--royal-deep, #0E1B38), transparent);
+}
+/* The same fault, the same repair: an <h2> under `[dir="ltr"] h2`, so
+   this asked for .68rem and rendered at 41.6px of Inter in caps. One
+   classification, one setting — the footer's five group titles are
+   siblings and must look like siblings. */
+.site-footer .footerlinks__heading {
+  display: flex; align-items: center; gap: .8em;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 1.34rem; line-height: 1.1;
+  letter-spacing: .015em; text-transform: none;
+  color: var(--gold-royal); padding-bottom: 18px; margin: 0;
+}
+.site-footer .footerlinks__heading::after {
+  content: ''; flex: 1 1 auto; height: 1px; min-width: 24px;
+  background: linear-gradient(to right, rgba(199,162,74,.5), rgba(199,162,74,0));
+}
+[dir="rtl"] .site-footer .footerlinks__heading::after {
+  background: linear-gradient(to left, rgba(199,162,74,.5), rgba(199,162,74,0));
+}
+@media (max-width: 620px) { .site-footer .footerlinks__heading { font-size: 1.18rem; } }
 .footerlinks__track {
   display: flex; gap: 16px;
   overflow-x: auto; scroll-snap-type: x proximity;
@@ -2358,11 +2387,40 @@ a.lang__row:hover { background: rgba(199,162,74,.13); color: var(--gold-bright);
   border: 1px solid rgba(199,162,74,.45);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 30px 70px -34px rgba(3,8,20,.9);
 }
-.footergrid__heading {
-  display: flex; align-items: center; gap: .7em;
-  font-family: var(--font-body); font-weight: 700;
-  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--bronze); padding: 30px 30px 22px;
+/* THE CLASSIFICATION, AND A RULE THAT NEVER APPLIED.
+   This block asked for .68rem in the body face and never got it: the
+   heading is an <h2>, and `[dir="ltr"] h2` further up carries an
+   attribute AND an element, which outranks a single class. So every
+   footer on the site set its group titles at 41.6px of Inter — a
+   shouted sans-serif label where an engraved classification belonged,
+   and it had been that way on every page in both directions.
+
+   It is scoped to the footer now so it wins on specificity rather than
+   on hope, and while the rule was being repaired the design was
+   settled properly: the display face, small caps tracking, gold, and a
+   hairline that runs from the words to the edge of the group — which
+   is what makes a heading read as the head of a register rather than
+   as the first line of a list. */
+.site-footer .footergrid__heading {
+  display: flex; align-items: center; gap: .8em;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 1.34rem; line-height: 1.1;
+  letter-spacing: .015em; text-transform: none;
+  color: var(--gold-royal); padding: 34px 30px 20px; margin: 0;
+}
+/* The rule takes the remaining measure. `flex: 1` on a pseudo-element
+   needs the pseudo-element to be a flex item, which it is here because
+   the heading itself is the flex container — the badge, the words and
+   the rule are three siblings on one line. */
+.site-footer .footergrid__heading::after {
+  content: ''; flex: 1 1 auto; height: 1px; min-width: 24px;
+  background: linear-gradient(to right, rgba(199,162,74,.5), rgba(199,162,74,0));
+}
+[dir="rtl"] .site-footer .footergrid__heading::after {
+  background: linear-gradient(to left, rgba(199,162,74,.5), rgba(199,162,74,0));
+}
+@media (max-width: 620px) {
+  .site-footer .footergrid__heading { font-size: 1.18rem; padding: 26px 20px 16px; }
 }
 /* Get in Touch carries a real address line and an email above its tile
    row — neither belongs in a tile, an email is read, not clicked as an
@@ -3193,3 +3251,48 @@ ul.check-list--open li::before { content: '○'; font-weight: 400; color: rgba(2
    act, and styling it as a call to act would put two competing gold
    buttons in one chapter. */
 .case__more { display: flex; justify-content: center; margin-top: 2.4em; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE INSTITUTIONAL BAND
+   ═══════════════════════════════════════════════════════════════════
+   Four facts at the foot of every page: where the College sits, what
+   it works in, how far it reaches, and when it admits. Not a fifth
+   grid of links — a footer that answers every question with another
+   link answers none of them, and these are answers.
+
+   Set as a register rather than as cards: a hairline above each item,
+   a small-caps label, the fact in the display face, and the sentence
+   that qualifies it underneath. It is the last thing a reader sees and
+   it should read like the foot of a prospectus.
+   ══════════════════════════════════════════════════════════════════ */
+.footerband {
+  border-top: 1px solid rgba(199,162,74,.2);
+  border-bottom: 1px solid rgba(199,162,74,.2);
+  margin: 0 0 36px;
+  background:
+    radial-gradient(120% 140% at 50% 0%, rgba(199,162,74,.07), transparent 62%);
+}
+.footerband__inner {
+  max-width: var(--wrap); margin: 0 auto; padding: 34px 24px 30px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
+}
+.footerband__item { min-width: 0; }
+.footerband__label {
+  display: block; font-size: .64rem; letter-spacing: .18em;
+  text-transform: uppercase; font-weight: 700; color: var(--gold-royal);
+  padding-bottom: 10px; margin-bottom: 12px;
+  border-bottom: 1px solid rgba(199,162,74,.22);
+}
+[dir="rtl"] .footerband__label { letter-spacing: 0; }
+.footerband__fact {
+  margin: 0 0 8px; font-family: var(--font-display);
+  font-size: 1.06rem; font-weight: 600; line-height: 1.28;
+  color: rgba(247,244,236,.94);
+}
+.footerband__flag { font-size: 1.02em; margin-inline-end: .3em; }
+.footerband__note {
+  margin: 0; font-size: .8rem; line-height: 1.62;
+  color: rgba(247,244,236,.5);
+}
+@media (max-width: 1000px) { .footerband__inner { grid-template-columns: repeat(2, 1fr); gap: 26px; } }
+@media (max-width: 560px)  { .footerband__inner { grid-template-columns: 1fr; padding: 26px 20px 24px; } }
