@@ -382,6 +382,106 @@ ${rows}
   </div>`;
 }
 
+// ── THE ACADEMIC RESOURCES SHELF ─────────────────────────────────────
+// Sixteen volumes have been published and downloadable for weeks, at
+// /press/library/, and the owner reported looking for the books and
+// finding nothing. Both were true: the files serve, and the only route
+// to them was a pillar named after the imprint that made them rather
+// than the subject they are about. A reader looking for the curriculum
+// does not think "Press".
+//
+// So the shelf is rendered wherever a page writes `{{RESOURCES}}`, and
+// it is generated from data/library.json — the same register the
+// Library page reads — so a volume cannot appear here with a size or a
+// title the Library disagrees with, and a volume withdrawn there cannot
+// go on being offered here.
+//
+// WHAT IS ON IT. Only volumes the register marks `open` and does not
+// exclude, in a fixed order set by what a prospective student wants
+// first rather than by what the Press published first. An oversize
+// volume is shown with its size, because a 26MB download over a phone
+// connection in Lagos is a decision and not a click.
+const LIBRARY = JSON.parse(read(path.join(ROOT, 'data', 'library.json')));
+
+const SHELF = [
+  { slug: 'flagship-curriculum', icon: 'i-layers',
+    en: 'What is taught, level by level, with every module named and every outcome stated.',
+    ar: 'ما يُدرَّس، مستوًى مستوًى، وكل وحدة مسمّاة وكل ناتج مذكور.' },
+  { slug: 'programme-architecture', icon: 'i-columns',
+    en: 'The mapping from every lesson to its outcome and to the assessment that tests it.',
+    ar: 'ربطُ كل درس بناتجه وبالتقييم الذي يقيسه.' },
+  { slug: 'assessment-handbook', icon: 'i-scales',
+    en: 'The rubrics, the pass criteria and the skill floors — published before the work they mark.',
+    ar: 'معايير التصحيح وشروط النجاح والحدود الدنيا للمهارات — تُنشر قبل العمل الذي تقيسه.' },
+  { slug: 'student-workbook-level-1', icon: 'i-book',
+    en: 'Level I in the learner\u2019s hands: the exercises, in the order they are set.',
+    ar: 'المستوى الأول بين يدي المتعلّم: التمارين بترتيب تكليفها.' },
+  { slug: 'teachers-companion-level-1', icon: 'i-lectern',
+    en: 'For each Level I lesson: what commonly goes wrong, and a second way to explain it.',
+    ar: 'لكل درس في المستوى الأول: ما يُخطئ فيه المتعلمون عادةً، وطريقة ثانية للشرح.' },
+  { slug: 'pronunciation-handbook', icon: 'i-waveform',
+    en: 'The sound system taught explicitly rather than picked up — every phoneme, with drills.',
+    ar: 'النظام الصوتي يُدرَّس صراحةً لا التقاطًا — كل صوت، ومعه تمارينه.' },
+  { slug: 'listening-scripts', icon: 'i-quote',
+    en: 'Every listening passage as a full script, so nothing is assessed that cannot be read.',
+    ar: 'كل نص استماع مكتوبًا كاملًا، فلا يُقاس ما لا يمكن قراءته.' },
+];
+
+function resourcesShelf(lang) {
+  const ar = lang === 'ar';
+  const rows = (LIBRARY.volumes || LIBRARY.rows || []);
+  const byslug = new Map(rows.map((r) => [r.slug, r]));
+
+  const cards = SHELF.map((item) => {
+    const v = byslug.get(item.slug);
+    if (!v) {
+      throw new Error(`The resources shelf names "${item.slug}", which data/library.json does not `
+        + 'carry. A shelf offering a volume the register does not hold is a broken download '
+        + 'waiting for a reader to find it.');
+    }
+    // OVERSIZE BELONGS IN THIS TEST AND WAS MISSING FROM IT.
+    // The first cut checked `access` and `excluded` and shipped a card
+    // offering the Complete Curriculum, which is 26.7MB — past
+    // Cloudflare's per-asset ceiling, so scripts/build-library.mjs
+    // writes it no redirect rule and the URL 404s. The register knew;
+    // the guard did not ask. A guard that checks two of the three
+    // reasons a volume is unservable is a guard that ships the third.
+    if (v.access !== 'open' || v.excluded || v.oversize) {
+      const why = [v.access !== 'open' && `access=${v.access}`, v.excluded && 'excluded',
+        v.oversize && `oversize at ${v.mb}MB`].filter(Boolean).join(', ');
+      throw new Error(`"${item.slug}" is on the resources shelf but the register marks it ${why}. `
+        + 'The deployment serves no URL for it, so the card would be a download that 404s. '
+        + 'Withdraw it from SHELF in scripts/build.js, or say in prose that it is available on '
+        + 'request — which is what the Library page already does.');
+    }
+    const heavy = Boolean(v.oversize);
+    const size = `${v.mb}&nbsp;MB`;
+    const label = heavy
+      ? (ar ? 'كبير &mdash; نزّله على اتصال ثابت' : 'Large &mdash; download on a steady connection')
+      : (ar ? 'تنزيل' : 'Download');
+    // `card--dark`, AND IT IS NOT OPTIONAL HERE.
+    // `.card` defaults to the paper ground, and this shelf sits on a
+    // dark leaf where the surrounding text colour is near-white. The
+    // first render put cream cards under white type: the titles and the
+    // descriptions were, on screen, almost completely invisible, while
+    // the source read as a perfectly ordinary card. CLAUDE.md §6 exists
+    // for exactly this — it was legible in the markup and unreadable on
+    // the page.
+    return `        <a class="shelf__item card card--dark reveal tilt edge-lit aurum" href="${v.href}"
+           download data-volume="${v.slug}">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live"><svg class="icon" aria-hidden="true"><use href="#${item.icon}"/></svg></span>
+          <span class="shelf__size">PDF &middot; ${size}</span>
+          <h3>${ar ? (v.title_ar || v.title) : v.title}</h3>
+          <p>${item[ar ? 'ar' : 'en']}</p>
+          <span class="shelf__get${heavy ? ' shelf__get--heavy' : ''}">${label}
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>`;
+  }).join('\n');
+
+  return `<div class="shelf grid grid--3">\n${cards}\n      </div>`;
+}
+
 function partialFor(name, lang) {
   const arPath = path.join(PARTIALS, `${name}.ar.html`);
   if (lang === 'ar' && fs.existsSync(arPath)) return read(arPath);
@@ -573,7 +673,9 @@ function build() {
     // to the other language's front door.
     const header = fill(partialFor('header', lang), { ALT_HREF: altHref, LANG_PICKER: picker });
     const footer = fill(partialFor('footer', lang), { ALT_HREF: altHref });
-    const withIntake = (html) => html.split('{{INTAKE_PANEL}}').join(intakePanel(lang));
+    const withIntake = (html) => html
+      .split('{{INTAKE_PANEL}}').join(intakePanel(lang))
+      .split('{{RESOURCES}}').join(resourcesShelf(lang));
     const content = withContentsRail(
       raiseMasthead(
         fillStanding(

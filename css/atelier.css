@@ -1224,3 +1224,46 @@
      already the real text — this only removes the ornament. */
   .typeset__ink::after { display: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE SHELF — downloads that look like books
+   ═══════════════════════════════════════════════════════════════════
+   Eight volumes on the Academics pillar, each a struck card that is
+   also a link. `.card` supplies the material; these rules supply the
+   two things a download needs that a card does not have: its weight
+   before you commit to it, and a foot that says what will happen.
+
+   The size is at the TOP, not the bottom. A 26MB download over a phone
+   connection is a decision, and a reader who discovers the weight after
+   the tap has already spent it.
+   ══════════════════════════════════════════════════════════════════ */
+.shelf { margin-top: 1.6em; }
+.shelf__item { text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+.shelf__size {
+  display: block; margin-bottom: 10px;
+  font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+  font-weight: 700; color: var(--gold-royal);
+}
+[dir="rtl"] .shelf__size { letter-spacing: 0; }
+.shelf__item h3 { margin: 0 0 10px; font-size: 1.14rem; line-height: 1.24; }
+.shelf__item p { margin: 0 0 18px; font-size: .9rem; line-height: 1.62; }
+.shelf__get {
+  margin-top: auto; display: inline-flex; align-items: center; gap: .5em;
+  font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--gold-bright, #E7C97A);
+  padding-top: 14px; border-top: 1px solid rgba(199,162,74,.24);
+}
+[dir="rtl"] .shelf__get { letter-spacing: 0; }
+.shelf__get .icon {
+  width: 13px; height: 13px;
+  transition: transform var(--dur-med) var(--ease-premium);
+}
+[dir="rtl"] .shelf__get .icon { transform: scaleX(-1); }
+.shelf__item:hover .shelf__get .icon { transform: translateX(4px); }
+[dir="rtl"] .shelf__item:hover .shelf__get .icon { transform: scaleX(-1) translateX(4px); }
+/* A volume heavy enough that the reader should choose the moment. Not
+   styled as a warning — it is a fact about the file, not a problem
+   with it — so it takes the muted rule rather than a colour. */
+.shelf__get--heavy { color: rgba(247,244,236,.6); font-size: .72rem; letter-spacing: .05em; }
+@media (max-width: 900px) { .shelf { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .shelf { grid-template-columns: 1fr; } }

@@ -196,7 +196,44 @@ const { makeR2 } = await import(pathToFileURL(`${ROOT}/tests/r2-shim.mjs`));
 // drives the REAL upload logic end to end rather than a mock of it.
 env.RECORDINGS = makeR2();
 
-const MIME = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.json': 'application/json' };
+const MIME = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.json': 'application/json',
+  '.pdf': 'application/pdf', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp', '.woff2': 'font/woff2', '.webmanifest': 'application/manifest+json' };
+
+// ── _redirects, BECAUSE THE HARNESS COULD NOT SEE A WHOLE CLASS OF FAULT
+//
+// Cloudflare Pages serves every downloadable volume in the Library
+// through a rewrite: /library/<slug>.pdf → /publication/<Real Name>.pdf
+// with a 200, written into _redirects by scripts/build-library.mjs.
+// This server did not read that file, so all sixteen downloads 404'd
+// here while serving correctly in production.
+//
+// That is worse than a missing feature. It meant the browser suite —
+// the one instrument that opens every page and follows what is on it —
+// was structurally unable to notice a broken download link, and a
+// broken download had in fact already shipped once: a redirect pointing
+// at a cover-artwork file no deployment carried. It was found by hand.
+//
+// Only the two rules that matter are implemented: a 200 rewrite (serve
+// the target, keep the URL) and a 301/302 (send the reader). Splats and
+// placeholders are not, and an unsupported rule is reported at boot
+// rather than silently ignored, because a harness that quietly does
+// less than production is how production faults become invisible.
+const REDIRECTS = (() => {
+  const file = `${ROOT}/_redirects`;
+  if (!existsSync(file)) return [];
+  const out = [];
+  for (const line of readFileSync(file, 'utf8').split('\n')) {
+    const t = line.trim();
+    if (!t || t.startsWith('#')) continue;
+    const parts = t.split(/\s+/);
+    if (parts.length < 2) continue;
+    const [from, to, code] = parts;
+    if (from.includes('*') || from.includes(':')) continue;   // splat/placeholder: not modelled
+    out.push({ from, to: decodeURIComponent(to), code: Number(code || 302) });
+  }
+  return out;
+})();
 
 // Auth mode. Off by default, so the existing suite keeps exercising the
 // no-Clerk-key preview state the site actually ships in today.
@@ -454,8 +491,21 @@ createServer(async (req, res) => {
     // directory-index step every built route like /about/ 404s here
     // while working correctly in production — which is exactly the kind
     // of harness/production divergence that produces false failures.
+    // A rewrite is applied BEFORE static resolution and a redirect
+    // instead of it, which is the order Pages uses.
+    const rule = REDIRECTS.find((r) => r.from === url.pathname);
+    let servePath = url.pathname;
+    if (rule) {
+      if (rule.code === 200) {
+        servePath = rule.to;
+      } else {
+        res.writeHead(rule.code, { Location: rule.to });
+        return res.end();
+      }
+    }
+
     const candidates = [];
-    const p = url.pathname;
+    const p = servePath;
     if (p === '/') candidates.push('/index.html');
     else {
       candidates.push(p);
