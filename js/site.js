@@ -641,4 +641,65 @@
       }
     });
   }
+
+  /* =====================================================================
+     THE TWO DISCLOSURE MENUS IN THE CHROME
+     ---------------------------------------------------------------------
+     The editions picker and the Verify group in the utility rail are the
+     same control twice, so they are wired once. Both open on click rather
+     than on hover, deliberately: a hover menu in a 46px band is a menu
+     that opens when a reader is on their way somewhere else, and on a
+     touch device it does not open at all without a phantom first tap.
+
+     Escape closes, a click outside closes, and focus leaving the group
+     closes — the third is the one usually missed, and it is what makes
+     the menu usable from a keyboard rather than merely reachable.
+     ================================================================== */
+  var disclosures = [].slice.call(document.querySelectorAll('.langswitch, .utilrail__item--has-menu'));
+  disclosures.forEach(function (group) {
+    var btn = group.querySelector('button[aria-expanded]');
+    if (!btn) return;
+
+    function setOpen(open) {
+      group.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var willOpen = btn.getAttribute('aria-expanded') !== 'true';
+      disclosures.forEach(function (other) {
+        if (other !== group) {
+          other.classList.remove('is-open');
+          var b = other.querySelector('button[aria-expanded]');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        }
+      });
+      setOpen(willOpen);
+    });
+
+    group.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { setOpen(false); btn.focus(); }
+    });
+
+    group.addEventListener('focusout', function (e) {
+      if (!group.contains(e.relatedTarget)) setOpen(false);
+    });
+  });
+
+  if (disclosures.length) {
+    document.addEventListener('click', function () {
+      disclosures.forEach(function (group) {
+        group.classList.remove('is-open');
+        var b = group.querySelector('button[aria-expanded]');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      });
+    });
+    // A click inside a menu is a click on a link; it must not be
+    // swallowed by the document handler above before it navigates.
+    [].slice.call(document.querySelectorAll('.langswitch__menu, .utilrail__menu'))
+      .forEach(function (menu) {
+        menu.addEventListener('click', function (e) { e.stopPropagation(); });
+      });
+  }
 })();

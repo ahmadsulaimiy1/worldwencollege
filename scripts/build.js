@@ -274,6 +274,53 @@ function fillStanding(html, lang, contentFile) {
     });
 }
 
+// ── THE EDITIONS PICKER ──────────────────────────────────────────────
+// Ten editions are planned and two are published, and data/languages.json
+// is the only place that distinction lives. The picker is generated from
+// it rather than typed into two partials, because a language list typed
+// twice is a language list that disagrees with itself on the first edit —
+// which is exactly what happened to the College's own figures before
+// data/standing.json existed.
+//
+// An unpublished edition is rendered as text, not as a link. A menu that
+// links to a page nobody can serve is worse than a menu that does not
+// link it: the reader clicks, gets a 404, and now doubts the rest of the
+// site rather than just that row.
+const LANGUAGES = JSON.parse(read(path.join(ROOT, 'data', 'languages.json')));
+
+function languagePicker(lang, altHref) {
+  const L = LANGUAGES.labels[lang === 'ar' ? 'ar' : 'en'];
+  const rows = LANGUAGES.languages.map((l) => {
+    const current = l.code === lang;
+    const label = `<span class="lang__flag" aria-hidden="true">${l.flag}</span>`
+      + `<span class="lang__endonym"${l.dir === 'rtl' ? ` dir="rtl" lang="${l.code}"` : ` lang="${l.code}"`}>${l.endonym}</span>`
+      + `<span class="lang__english">${l.english}</span>`;
+    if (current) {
+      return `        <span class="lang__row lang__row--current" aria-current="true">${label}`
+        + `<span class="lang__state"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span></span>`;
+    }
+    if (l.published) {
+      // Two published editions, so "the other one" is unambiguous and
+      // altHref is the page-specific twin rather than the front door.
+      return `        <a class="lang__row" href="${altHref}" hreflang="${l.code}" lang="${l.code}">${label}</a>`;
+    }
+    return `        <span class="lang__row lang__row--soon">${label}`
+      + `<span class="lang__state">${L.forthcoming}</span></span>`;
+  }).join('\n');
+
+  return `<div class="langswitch">
+    <button type="button" class="langswitch__btn" aria-expanded="false" aria-haspopup="true">
+      <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+      <span class="langswitch__now">${LANGUAGES.languages.find((l) => l.code === lang).endonym}</span>
+      <svg class="icon langswitch__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
+    </button>
+    <div class="langswitch__menu crystal" role="menu">
+      <p class="langswitch__head">${L.heading}</p>
+${rows}
+    </div>
+  </div>`;
+}
+
 function partialFor(name, lang) {
   const arPath = path.join(PARTIALS, `${name}.ar.html`);
   if (lang === 'ar' && fs.existsSync(arPath)) return read(arPath);
@@ -457,12 +504,13 @@ function build() {
       OG_LOCALE: lang === 'ar' ? 'ar_AR' : 'en_GB',
       OG_SITE_NAME: lang === 'ar' ? 'الكلية العالمية للغة الإنجليزية' : 'WorldWide English College',
     });
-    const topbar = fill(partialFor('topbar', lang), { ALT_HREF: altHref });
+    const picker = languagePicker(lang, altHref);
+    const topbar = fill(partialFor('topbar', lang), { ALT_HREF: altHref, LANG_PICKER: picker });
     // The mobile drawer and the footer each carry their own language
     // switch now, so they need the same per-page ALT_HREF the topbar's
     // gets — the page-specific Arabic/English twin, not a blanket link
     // to the other language's front door.
-    const header = fill(partialFor('header', lang), { ALT_HREF: altHref });
+    const header = fill(partialFor('header', lang), { ALT_HREF: altHref, LANG_PICKER: picker });
     const footer = fill(partialFor('footer', lang), { ALT_HREF: altHref });
     const content = withContentsRail(
       raiseMasthead(

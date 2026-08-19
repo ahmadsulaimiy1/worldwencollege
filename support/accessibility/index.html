@@ -591,27 +591,75 @@
   </symbol>
 
 </defs></svg>
-<div class="topbar">
+<!-- THE UTILITY BAR IS AN INSTRUMENT, NOT A CONTACT STRIP.
+
+     It used to carry an email address, a strapline and three social
+     rings. That is what a small business puts above its logo. What an
+     international college puts there is the thing its readers actually
+     need at a glance and cannot get anywhere else on the page: where
+     the institution is, what time it is there, and what time that is
+     where THEY are.
+
+     So the bar reads, left to right: the seat of the College in full —
+     London, United Kingdom — with London's own time in twelve-hour
+     form; then the reader's own country and their own time, written
+     once by js/worldclock.js from the time zone their device already
+     reports, with no request made to anybody; then the editions picker,
+     which carries all ten languages the College is building toward and
+     links the two that are published.
+
+     Twelve-hour, not twenty-four. The College's readership is in
+     Riyadh, Lagos, Karachi and Jakarta rather than in Brussels, and
+     11:42 PM is what an invitation says. -->
+<div class="topbar" data-worldclock>
   <div class="topbar__inner">
-    <div class="topbar__contacts">
-      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
-        info@worldwencollege.co.uk
-      </a>
-      <span class="topbar__item topbar__item--muted">
+
+    <div class="seat">
+      <span class="seat__flag" aria-hidden="true">🇬🇧</span>
+      <span class="seat__place">
+        <span class="seat__city">London</span><span class="seat__country">, United&nbsp;Kingdom</span>
+      </span>
+      <span class="seat__rule" aria-hidden="true"></span>
+      <span class="seat__clock">
         <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-        London Campus · Applications open worldwide
+        <span data-clock-london>&mdash;</span>
+        <span class="seat__tz">London</span>
       </span>
     </div>
+
+    <div class="here" data-here hidden>
+      <span class="here__label">Browsing from</span>
+      <span class="here__flag" data-here-flag aria-hidden="true"></span>
+      <span class="here__name" data-here-name></span>
+      <span class="seat__rule" aria-hidden="true"></span>
+      <span class="here__time" data-clock-local></span>
+    </div>
+
     <div class="topbar__right">
-      <a href="/contact/" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+      <a href="/contact/" class="topbar__item topbar__item--contact">
+        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
         Contact
       </a>
-      <a class="topbar__lang" href="/ar/support/accessibility/" lang="ar" hreflang="ar">
-        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
-        العربية
-      </a>
+      <div class="langswitch">
+    <button type="button" class="langswitch__btn" aria-expanded="false" aria-haspopup="true">
+      <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
+      <span class="langswitch__now">English</span>
+      <svg class="icon langswitch__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
+    </button>
+    <div class="langswitch__menu crystal" role="menu">
+      <p class="langswitch__head">Editions</p>
+        <span class="lang__row lang__row--current" aria-current="true"><span class="lang__flag" aria-hidden="true">🇬🇧</span><span class="lang__endonym" lang="en">English</span><span class="lang__english">English</span><span class="lang__state"><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg></span></span>
+        <a class="lang__row" href="/ar/support/accessibility/" hreflang="ar" lang="ar"><span class="lang__flag" aria-hidden="true">🇸🇦</span><span class="lang__endonym" dir="rtl" lang="ar">العربية</span><span class="lang__english">Arabic</span></a>
+        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇫🇷</span><span class="lang__endonym" lang="fr">Français</span><span class="lang__english">French</span><span class="lang__state">In preparation</span></span>
+        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇵🇰</span><span class="lang__endonym" dir="rtl" lang="ur">اردو</span><span class="lang__english">Urdu</span><span class="lang__state">In preparation</span></span>
+        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇮🇳</span><span class="lang__endonym" lang="hi">हिन्दी</span><span class="lang__english">Hindi</span><span class="lang__state">In preparation</span></span>
+        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇹🇷</span><span class="lang__endonym" lang="tr">Türkçe</span><span class="lang__english">Turkish</span><span class="lang__state">In preparation</span></span>
+        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇮🇩</span><span class="lang__endonym" lang="id">Indonesia</span><span class="lang__english">Indonesian</span><span class="lang__state">In preparation</span></span>
+        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇰🇪</span><span class="lang__endonym" lang="sw">Kiswahili</span><span class="lang__english">Swahili</span><span class="lang__state">In preparation</span></span>
+        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇪🇸</span><span class="lang__endonym" lang="es">Español</span><span class="lang__english">Spanish</span><span class="lang__state">In preparation</span></span>
+        <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇨🇳</span><span class="lang__endonym" lang="zh">中文</span><span class="lang__english">Chinese</span><span class="lang__state">In preparation</span></span>
+    </div>
+  </div>
       <div class="topbar__social" aria-label="Social links">
         <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
         <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
@@ -708,9 +756,9 @@
           </div>
           <a class="mega__feature" href="/about/#status">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-columns"/></svg>
-            <span class="mega__feature-label">Institutional status</span>
-            <span class="mega__feature-text">What the College is today — and what it is not yet. Stated plainly, kept current.</span>
-            <span class="mega__feature-go">Read the status <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+            <span class="mega__feature-label">Eight cohorts, sixty countries</span>
+            <span class="mega__feature-text">More than 22,000 learners have studied here since 2023. The record behind that figure is published.</span>
+            <span class="mega__feature-go">Read the record <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
       </div>
@@ -758,8 +806,8 @@
           </div>
           <a class="mega__feature" href="/admissions/apply/">
             <svg class="icon icon--lg" aria-hidden="true"><use href="#i-seal"/></svg>
-            <span class="mega__feature-label">Admission is continuous</span>
-            <span class="mega__feature-text">No intake to wait for. You begin the day you enrol.</span>
+            <span class="mega__feature-label">Three intakes a year</span>
+            <span class="mega__feature-text">Spring, Summer and Autumn. Two hundred places are open worldwide for the current intake.</span>
             <span class="mega__feature-go">Begin your application <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </a>
         </div>
@@ -798,7 +846,6 @@
               <a href="/governance/#quality">Quality Assurance</a>
               <a href="/governance/evidence/">The Evidence Record</a>
               <a href="/governance/decisions/">The Decisions Register</a>
-          <a href="/governance/quality/">The Quality Architecture</a>
               <a href="/governance/quality/">The Quality Architecture</a>
             </div>
           </div>
@@ -843,6 +890,57 @@
       <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
         <span></span><span></span><span></span>
       </button>
+    </div>
+  </div>
+
+
+  <!-- THE UTILITY RAIL.
+       A second, quieter band under the primary navigation, carrying the
+       nine things a reader arrives already wanting to do — as opposed to
+       the six pillars above, which are what the institution IS.
+
+       They are different kinds of object and they were competing for one
+       row. "Apply Now" and "The College" are not peers: one is an act and
+       the other is a subject, and putting them on the same rail made the
+       header read as a list of links rather than as an instrument.
+
+       It scrolls rather than wraps. Nine items do not fit a phone and
+       they do not fit a narrow laptop either; a rail that wraps to two
+       rows costs 44 more pixels of chrome on every page for the sake of
+       an item nobody was looking for. Native overflow-x with scroll-snap,
+       gold fade masks at both ends so the cut edge reads as "there is
+       more this way" rather than as a clipped element. -->
+  <div class="utilrail" aria-label="Quick actions">
+    <div class="utilrail__track">
+      <a class="utilrail__item utilrail__item--gold" href="/student-portal/">
+        <svg class="icon" aria-hidden="true"><use href="#i-key"/></svg><span>Student Portal</span></a>
+      <a class="utilrail__item utilrail__item--gold" href="/admissions/apply/">
+        <svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg><span>Apply Now</span></a>
+      <a class="utilrail__item" href="/contact/#consultation">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg><span>Book a Consultation</span></a>
+      <a class="utilrail__item" href="/admissions/tuition/">
+        <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg><span>Tuition &amp; Fees</span></a>
+      <a class="utilrail__item" href="/admissions/tuition/#scholarships">
+        <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg><span>Scholarships</span></a>
+      <div class="utilrail__item utilrail__item--has-menu">
+        <button type="button" class="utilrail__btn" aria-expanded="false" aria-haspopup="true">
+          <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg><span>Verify</span>
+          <svg class="icon utilrail__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </button>
+        <div class="utilrail__menu crystal" role="menu">
+          <a href="/verify.html?type=certificate"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg>Verify a Certificate</a>
+          <a href="/verify.html?type=transcript"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>Verify a Transcript</a>
+          <a href="/verify.html?type=identity"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>Verify a Student Identity</a>
+          <a href="/verify.html?type=receipt"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg>Verify a Receipt</a>
+          <a href="/verify.html"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>Verify Any Document</a>
+        </div>
+      </div>
+      <a class="utilrail__item" href="/press/library/">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>Downloads</span></a>
+      <a class="utilrail__item" href="/academics/#curriculum">
+        <svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><span>Curriculum</span></a>
+      <a class="utilrail__item" href="/contact/">
+        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg><span>Contact</span></a>
     </div>
   </div>
 

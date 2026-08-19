@@ -1,24 +1,53 @@
-<div class="topbar">
+<!-- THE UTILITY BAR IS AN INSTRUMENT, NOT A CONTACT STRIP.
+
+     It used to carry an email address, a strapline and three social
+     rings. That is what a small business puts above its logo. What an
+     international college puts there is the thing its readers actually
+     need at a glance and cannot get anywhere else on the page: where
+     the institution is, what time it is there, and what time that is
+     where THEY are.
+
+     So the bar reads, left to right: the seat of the College in full —
+     London, United Kingdom — with London's own time in twelve-hour
+     form; then the reader's own country and their own time, written
+     once by js/worldclock.js from the time zone their device already
+     reports, with no request made to anybody; then the editions picker,
+     which carries all ten languages the College is building toward and
+     links the two that are published.
+
+     Twelve-hour, not twenty-four. The College's readership is in
+     Riyadh, Lagos, Karachi and Jakarta rather than in Brussels, and
+     11:42 PM is what an invitation says. -->
+<div class="topbar" data-worldclock>
   <div class="topbar__inner">
-    <div class="topbar__contacts">
-      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
-        info@worldwencollege.co.uk
-      </a>
-      <span class="topbar__item topbar__item--muted">
+
+    <div class="seat">
+      <span class="seat__flag" aria-hidden="true">🇬🇧</span>
+      <span class="seat__place">
+        <span class="seat__city">London</span><span class="seat__country">, United&nbsp;Kingdom</span>
+      </span>
+      <span class="seat__rule" aria-hidden="true"></span>
+      <span class="seat__clock">
         <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-        London Campus · Applications open worldwide
+        <span data-clock-london>&mdash;</span>
+        <span class="seat__tz">London</span>
       </span>
     </div>
+
+    <div class="here" data-here hidden>
+      <span class="here__label">Browsing from</span>
+      <span class="here__flag" data-here-flag aria-hidden="true"></span>
+      <span class="here__name" data-here-name></span>
+      <span class="seat__rule" aria-hidden="true"></span>
+      <span class="here__time" data-clock-local></span>
+    </div>
+
     <div class="topbar__right">
-      <a href="/contact/" class="topbar__item">
-        <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg>
+      <a href="/contact/" class="topbar__item topbar__item--contact">
+        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
         Contact
       </a>
-      <a class="topbar__lang" href="{{ALT_HREF}}" lang="ar" hreflang="ar">
-        <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
-        العربية
-      </a>
+      {{LANG_PICKER}}
       <div class="topbar__social" aria-label="Social links">
         <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
         <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
