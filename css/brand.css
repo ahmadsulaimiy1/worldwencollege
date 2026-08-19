@@ -218,6 +218,32 @@
      Arabic backstop — see css/arabic.css, which is what actually holds
      the line for Arabic. */
   --font-display:    'Bodoni Moda', 'Didot', 'Bodoni MT', Georgia, 'Amiri', serif;
+
+  /* THE FIGURE FACE.
+     A published number is not body copy set larger — it is the one glyph run
+     on a page a reader photographs, quotes and remembers, and it is set
+     accordingly. Same Didone, but declared as its own token because figures
+     need three things headings do not:
+
+       a weight INSIDE the axis. The variable font is requested at
+       wght 500..800. Ten rules asked for Bodoni Moda with no weight at all,
+       so the browser resolved 400 — below the axis — and clamped it
+       unpredictably. That is the "not elegant" the Founder saw.
+
+       PROPORTIONAL LINING figures, not tabular. Tabular exists so columns
+       align, and it pays for that with even, mechanical spacing. A hero
+       figure is read as a word, not as a column, and proportional spacing is
+       what makes 17 and 1441 look drawn rather than typed.
+
+       an OPTICAL SIZE. A Didone at 2.6rem wants the display cut — hairlines
+       thin, contrast open. At 0.8rem it wants the text cut or it shatters. */
+  --font-figure: 'Bodoni Moda', 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif;
+
+  /* Arabic-Indic numerals are not in a Didone. ٤ ١٧ ١٤٤١ were being set in
+     Bodoni Moda, which carries no Arabic block at all, so every counting
+     figure in the Arabic tree fell through to whatever the device happened
+     to have. Amiri draws them properly, and it is already loaded. */
+  --font-figure-ar: 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
   --font-ceremonial: 'Cinzel', 'Trajan Pro', 'Bodoni Moda', Georgia, 'Amiri', serif;
   --font-body:       'Inter', -apple-system, 'Cairo', sans-serif;
 

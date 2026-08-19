@@ -127,7 +127,7 @@ body[data-section] {
 
 .r-standing__fig {
   display: block;
-  font-family: 'Bodoni Moda', serif;
+  font-family: var(--font-display);
   font-size: 2.5rem;
   line-height: 1;
   color: var(--gold-champagne);
@@ -175,7 +175,7 @@ body[data-section] {
 }
 
 .r-standard__word {
-  font-family: 'Bodoni Moda', serif;
+  font-family: var(--font-display);
   font-size: 1.24rem;
   color: var(--royal-blue);
   font-weight: 700;
@@ -302,7 +302,7 @@ body[data-section] {
 .r-tier-card--feature { border-top-color: var(--gold-rich); background: var(--cream); box-shadow: 0 2px 24px rgba(20,38,74,.07); }
 
 .r-tier-card__ar { font-family: 'Amiri', serif; font-size: 1.3rem; color: var(--bronze); display: block; }
-.r-tier-card__name { font-family: 'Bodoni Moda', serif; font-size: 1.42rem; color: var(--royal-blue); margin: 4px 0 14px; font-weight: 700; }
+.r-tier-card__name { font-family: var(--font-display); font-size: 1.42rem; color: var(--royal-blue); margin: 4px 0 14px; font-weight: 700; }
 .r-tier-card__what { font-size: 0.92rem; color: var(--slate); line-height: 1.6; margin: 0 0 18px; flex: 1; }
 .r-tier-card__cap { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bronze); border-top: 1px solid var(--stone); padding-top: 14px; }
 
@@ -368,7 +368,7 @@ body[data-section] {
 }
 
 .r-fac-card__ar { font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--bronze); display: block; margin-bottom: 4px; }
-.r-fac-card__name { font-family: 'Bodoni Moda', serif; font-size: 1.6rem; color: var(--royal-blue); margin: 0 0 14px; font-weight: 700; line-height: 1.15; }
+.r-fac-card__name { font-family: var(--font-display); font-size: 1.6rem; color: var(--royal-blue); margin: 0 0 14px; font-weight: 700; line-height: 1.15; }
 .r-fac-card__desc { font-size: 0.94rem; color: var(--slate); line-height: 1.62; margin: 0 0 18px; flex: 1; }
 
 .r-fac-card__meta {
@@ -511,7 +511,7 @@ body[data-section] {
 .section--dark .r-note { color: var(--steel); border-top-color: rgba(110,147,196,.2); }
 
 .r-lead-in {
-  font-family: 'Bodoni Moda', serif;
+  font-family: var(--font-display);
   font-size: clamp(1.3rem, 2.4vw, 1.85rem);
   line-height: 1.45;
   color: var(--royal-blue);
@@ -857,7 +857,7 @@ body[data-section] {
 .wird__head { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 30px; }
 
 .wird__title {
-  font-family: 'Bodoni Moda', serif; font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.1rem);
   color: var(--gold-champagne); margin: 0 0 4px; line-height: 1.1;
 }
 
@@ -933,7 +933,7 @@ body[data-section] {
 }
 
 .rightnow__clock {
-  font-family: 'Bodoni Moda', serif; font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  font-family: var(--font-display); font-size: clamp(1.7rem, 3.4vw, 2.4rem);
   color: var(--gold-champagne); margin: 0 0 6px;
   font-variant-numeric: tabular-nums; line-height: 1;
 }
@@ -1734,7 +1734,7 @@ body[data-section] {
 }
 
 .r-diagram__lab {
-  font-family: 'Bodoni Moda', serif;
+  font-family: var(--font-display);
   font-size: 20px;
   letter-spacing: -0.01em;
 }
@@ -1747,7 +1747,7 @@ body[data-section] {
 }
 
 .r-diagram__fig {
-  font-family: 'Bodoni Moda', serif;
+  font-family: var(--font-display);
   font-size: 30px;
   font-weight: 700;
 }
@@ -2138,7 +2138,7 @@ body[data-section] {
 }
 
 .r-tier-card__now {
-  font-family: 'Bodoni Moda', serif;
+  font-family: var(--font-display);
   font-size: 1.9rem;
   line-height: 1.05;
   font-weight: 700;
@@ -3364,3 +3364,317 @@ body { background: var(--cream); }
    and the Arabic inside each label is ordered by bidi, which is what bidi
    is for. */
 [dir="rtl"] .r-diagram { direction: ltr; }
+
+
+/* ═════════════════════════════════════════════════════════════════════
+   THE FIGURE SYSTEM                                [FOUNDER'S RULING]
+   ---------------------------------------------------------------------
+   "Some bad fonts used for statistics numbers in the card are not welcome,
+   they are not elegant and prestigious."
+
+   He is right, and there were four separate faults behind it — none of
+   them a matter of taste, all of them findable:
+
+   1. TEN rules hardcoded `font-family: var(--font-display)`, bypassing
+      the fallback stack entirely. On any device without Bodoni that
+      resolves to generic `serif` — Times New Roman — which is precisely
+      what an inelegant figure looks like.
+
+   2. NO WEIGHT was declared, so the browser asked for 400 from a variable
+      font requested at `wght 500..800`. Out of axis, clamped, and clamped
+      differently in different browsers.
+
+   3. TABULAR figures on display numerals. Tabular exists so that columns
+      align, and it buys that with even, mechanical spacing. A hero figure
+      is read as a word, not as a column. Proportional lining is what makes
+      17 and 1,441 look drawn rather than typed. Tabular is kept for the
+      ledger, where numbers genuinely stack.
+
+   4. ARABIC-INDIC NUMERALS SET IN A DIDONE. ٤ ١٧ ٢٠٠ ١٤٤١ were assigned
+      Bodoni Moda, which contains no Arabic block whatsoever, so every
+      counting figure in the Arabic tree fell through to a system font.
+      Half the site's numerals were not in the College's typeface at all.
+
+   The Didone is also given its optical size explicitly at display sizes and
+   tightened: a Didone opens up as it grows, and 2.6rem of it needs the
+   tracking pulled back or the figure reads as three separate numerals. */
+
+.r-standing__fig,
+.r-tier-card__now,
+.r-tier-card__was,
+.r-fig,
+.r-diagram__fig,
+.stat-tile__value,
+.hero__stat strong {
+  font-family: var(--font-figure);
+  font-weight: 600;
+  font-optical-sizing: auto;
+  font-variant-numeric: lining-nums proportional-nums;
+  font-feature-settings: 'lnum' 1, 'pnum' 1;
+  letter-spacing: -0.012em;
+  font-synthesis-weight: none;
+}
+
+/* The hero plinths. Larger, so tighter still, and given the display cut of
+   the optical axis explicitly rather than left to the browser's guess. */
+.r-standing__fig {
+  font-size: clamp(2.3rem, 4.4vw, 3rem);
+  font-variation-settings: 'opsz' 72;
+  letter-spacing: -0.022em;
+  line-height: .92;
+}
+
+/* Arabic-Indic numerals take Amiri, which draws them. They also sit
+   differently on the line — Arabic figures are shorter and rounder than
+   Didone lining figures — so the tracking correction is removed and the
+   size lifted a touch to match the optical weight of the Latin tree. */
+[lang="ar"] .r-standing__fig,
+[lang="ar"] .r-tier-card__now,
+[lang="ar"] .r-tier-card__was,
+[lang="ar"] .r-fig,
+[lang="ar"] .stat-tile__value,
+[dir="rtl"] .r-standing__fig,
+[dir="rtl"] .r-tier-card__now {
+  font-family: var(--font-figure-ar);
+  font-weight: 700;
+  letter-spacing: 0;
+  font-variation-settings: normal;
+  font-size: clamp(2.4rem, 4.6vw, 3.15rem);
+}
+
+/* The ledger keeps tabular figures, because that is what tabular is for:
+   a column of hours or prices a reader compares down the page. */
+.r-ladder td,
+.r-ladder .r-when,
+.r-charges td {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+}
+
+/* The ten hardcoded families, given the stack back. A face named without
+   its fallbacks is a face that works on the machine it was written on. */
+.r-tier-card__name,
+.r-fac-card__name,
+.r-lead-in,
+.r-diagram-wrap__title,
+.r-plate--gilt h3,
+.r-stage__num { font-family: var(--font-display); }
+
+
+/* ═════════════════════════════════════════════════════════════════════
+   THE PHOTOGRAPHY LAYER
+   ---------------------------------------------------------------------
+   Built before the photographs, so that adding one is dropping a file in
+   assets/photography/ and nothing else.
+
+   THE GOVERNING RULE: a slot with no file renders NOTHING. Not a grey box,
+   not a broken-image glyph, not a reserved gap. `:has()` collapses the
+   whole figure. A site that shows where a photograph was going to be is
+   worse than a site with no photographs, and this College has spent a
+   great deal of care on not publishing absence (EB §3.1).
+
+   THE TREATMENT is why licensed stock from five photographers reads as one
+   commission. Every image is gradient-mapped toward the palette: pulled
+   slightly cool in the shadows, warm in the highlights, desaturated a
+   touch, and finished with a fine grain and a gold rim. Under the pointer
+   it recovers its own colour — the reader gets the photograph, the page
+   keeps the palette. */
+
+.r-photo {
+  position: relative;
+  isolation: isolate;
+  margin: 0;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--pearl);
+  box-shadow:
+    inset 0 0 0 1px var(--pol-rim-l),
+    var(--pol-cast-l);
+}
+.r-photo:not(:has(img)) { display: none; }
+
+.r-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(.82) contrast(1.04);
+  transform: scale(1.012);
+  transition:
+    filter var(--pol-out) var(--ease-premium),
+    transform 1.4s var(--ease-premium);
+}
+.r-photo:hover img { filter: saturate(1) contrast(1); transform: scale(1.045); }
+
+/* The tint. A multiply of the navy in the shadows and a screen of champagne
+   in the highlights — one layer, two ends of the ramp. */
+.r-photo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(168deg, rgba(20, 38, 74, .30) 0%, rgba(20, 38, 74, 0) 52%),
+    linear-gradient(348deg, rgba(242, 227, 192, .22) 0%, rgba(242, 227, 192, 0) 46%);
+  mix-blend-mode: multiply;
+  opacity: .9;
+  transition: opacity var(--pol-out) var(--ease-premium);
+}
+.r-photo:hover::before { opacity: .35; }
+
+.r-photo--4x5 { aspect-ratio: 4 / 5; }
+.r-photo--3x2 { aspect-ratio: 3 / 2; }
+.r-photo--sq  { aspect-ratio: 1 / 1; }
+
+/* A caption is a caption: it names what the photograph is, and it never
+   claims the people in it belong to the College (EB §3.1). */
+.r-photo__cap {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 3;
+  padding: 30px 22px 16px;
+  font-size: .74rem;
+  letter-spacing: .06em;
+  color: var(--gold-champagne);
+  background: linear-gradient(0deg, rgba(10, 20, 40, .78), rgba(10, 20, 40, 0));
+}
+
+/* A photograph inside a two-column block, so a page can set an image against
+   its own prose without a new grid. */
+.two-col .r-photo { height: 100%; min-height: 320px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .r-photo img { transition: none; transform: none; }
+  .r-photo:hover img { transform: none; }
+}
+:root[data-ornament="none"] .r-photo::before { display: none; }
+:root[data-ornament="none"] .r-photo img { filter: none; transform: none; }
+
+
+/* ═════════════════════════════════════════════════════════════════════
+   DEPTH — the cards as objects                     [FOUNDER'S RULING]
+   ---------------------------------------------------------------------
+   "prestigious 3d cards".
+
+   A card tilts at most FIVE degrees toward the pointer. That number is
+   the design: far enough that the eye reads a plane turning under a
+   light, near enough that the text on it never gets harder to read.
+   Past about eight, a prospectus becomes a toy.
+
+   Three things move, at three depths, which is what makes it read as an
+   object rather than as a rotated picture of one:
+     the card turns;
+     its heading and figure lift toward the reader on translateZ;
+     a specular highlight tracks the pointer across the face.
+
+   The perspective lives on the GRID, not on the card. Perspective set on
+   each card gives every one its own vanishing point, so a row of them
+   turns like a row of unrelated things; set on the parent, they share
+   one, and the row reads as a surface. */
+
+.r-faculty,
+.r-tiers,
+.grid,
+.footergrid {
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+}
+
+.r-fac-card,
+.r-tier-card,
+.card,
+.r-plate--gilt,
+.footergrid__tile {
+  transform-style: preserve-3d;
+  transform:
+    perspective(1400px)
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg));
+  transition: transform var(--pol-out) var(--ease-premium);
+  will-change: auto;
+}
+.is-tilted { transition-duration: .08s; will-change: transform; }
+
+/* The contents come forward. Only the two elements that carry the card's
+   meaning — a reader tracks those, and parallaxing everything produces a
+   card whose parts slide against each other. */
+.r-fac-card__name,
+.r-fac-card__num,
+.r-tier-card__name,
+.r-tier-card__now,
+.card h3,
+.r-plate--gilt .r-plate__label { transform: translateZ(22px); }
+.r-fac-card__desc,
+.r-tier-card__list,
+.card p { transform: translateZ(10px); }
+
+/* The specular. A soft radial that follows the pointer, on the background
+   layer — ::before is the bar and ::after is the travelling light, and the
+   budget is the budget (EB §8.6). */
+.is-tilted {
+  background-image:
+    radial-gradient(340px circle at var(--gloss-x, 50%) var(--gloss-y, 50%),
+      rgba(255, 255, 255, .30) 0%, rgba(255, 255, 255, 0) 62%),
+    var(--pol-sheen-l), var(--pol-face-l);
+}
+.section--dark .is-tilted,
+.section--royal .is-tilted {
+  background-image:
+    radial-gradient(340px circle at var(--gloss-x, 50%) var(--gloss-y, 50%),
+      rgba(199, 162, 74, .26) 0%, rgba(199, 162, 74, 0) 62%),
+    var(--pol-sheen-d), var(--pol-face-d);
+}
+.r-plate--gilt.is-tilted {
+  background-image:
+    radial-gradient(340px circle at var(--gloss-x, 50%) var(--gloss-y, 50%),
+      rgba(255, 255, 255, .55) 0%, rgba(255, 255, 255, 0) 58%),
+    linear-gradient(158deg, var(--gold-champagne) 0%, #F6E7C4 40%, var(--gold-soft) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .r-fac-card, .r-tier-card, .card, .r-plate--gilt, .footergrid__tile {
+    transform: none; transition: none;
+  }
+  .r-fac-card__name, .r-fac-card__num, .r-tier-card__name, .r-tier-card__now,
+  .card h3, .r-fac-card__desc, .r-tier-card__list, .card p,
+  .r-plate--gilt .r-plate__label { transform: none; }
+}
+:root[data-ornament="none"] .r-fac-card,
+:root[data-ornament="none"] .r-tier-card,
+:root[data-ornament="none"] .card,
+:root[data-ornament="none"] .r-plate--gilt { transform: none; }
+
+
+/* ═════════════════════════════════════════════════════════════════════
+   THE TYPEWRITER
+   ---------------------------------------------------------------------
+   A caret that rests while the hand does, and goes out when the line is
+   finished — a blinking caret left under a completed sentence is a cursor,
+   not a signature. */
+
+[data-typewriter] { min-height: 1.4em; }
+.is-typing::after {
+  content: '';
+  display: inline-block;
+  width: 1px;
+  height: 1.05em;
+  margin-inline-start: .12em;
+  vertical-align: -.14em;
+  background: currentColor;
+  animation: tw-caret 1.05s steps(1) infinite;
+}
+@keyframes tw-caret { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+.is-written::after { content: none; }
+@media (prefers-reduced-motion: reduce) { .is-typing::after { animation: none; } }
+
+/* A one-line note under a control that needs one. Sound is the only control
+   in the panel whose effect a reader cannot predict from its name, and for
+   this College it is also the only one with a reason worth stating. */
+.personalise__hint {
+  margin: 8px 0 0;
+  font-size: .74rem;
+  line-height: 1.5;
+  color: var(--cerulean);
+}

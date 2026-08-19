@@ -384,7 +384,8 @@ ${chrome('dock')}
 <script src="/js/atelier.js" defer></script>
 <script src="/js/madinah-clock.js" defer></script>
 <script src="/js/madinah-atelier.js" defer></script>
-<script src="/js/madinah-dock.js" defer></script>${(entry.scripts || []).map(function (src) { return '\n<script src="' + src + '" defer></script>'; }).join('')}
+<script src="/js/madinah-dock.js" defer></script>
+<script src="/js/madinah-tactile.js" defer></script>${(entry.scripts || []).map(function (src) { return '\n<script src="' + src + '" defer></script>'; }).join('')}
 </body>
 </html>
 `;

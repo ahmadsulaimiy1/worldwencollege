@@ -329,7 +329,13 @@
   var PREFS = [
     { key: 'livery', attr: 'data-livery', def: 'sapphire' },
     { key: 'ornament', attr: 'data-ornament', def: 'full' },
-    { key: 'textsize', attr: 'data-textsize', def: 'medium' }
+    { key: 'textsize', attr: 'data-textsize', def: 'medium' },
+    /* Sound defaults to OFF and is the only preference here that does. A
+       page which makes a noise at a reader who did not ask for one is
+       presuming on them, and this is a College of the Qur'ānic sciences.
+       The attribute is written for CSS's benefit; the audio layer in
+       js/madinah-tactile.js reads the stored value itself. */
+    { key: 'sound', attr: 'data-sound', def: 'off' }
   ];
 
   function applyPrefs() {
@@ -366,6 +372,14 @@
     $$('[data-pref]').forEach(function (b) {
       b.addEventListener('click', function () {
         try { localStorage.setItem('dar.' + b.dataset.pref, b.dataset.value); } catch (e) {}
+        // The tactile layer keeps its own switch, and turning sound ON plays
+        // one contact immediately — a control whose whole subject is a sound
+        // should demonstrate the sound at the moment it is enabled, or the
+        // reader has to go and find something to press to learn what they
+        // just agreed to.
+        if (b.dataset.pref === 'sound' && window.__madinahSound) {
+          window.__madinahSound.set(b.dataset.value === 'on');
+        }
         applyPrefs();
       });
     });
