@@ -679,6 +679,17 @@
   }
   .diagram > svg { min-width: 560px; }
   .diagram--wide > svg { min-width: 700px; }
+  /* EXCEPT A PLATE THAT CARRIES ITS OWN TYPE SCALE.
+     The min-width above is what forces a 980-wide drawing into a
+     sideways scroller on a phone, and the owner reported it as exactly
+     what it looks like: a graph cut off at the right edge.
+
+     A plate marked `--fluid` has an internal <style> that grows its
+     labels at narrow widths (scripts/art/lib/relief.mjs, reliefType),
+     so it stays legible at the container's own width and needs no
+     floor. It shrinks to fit; it is never dragged. */
+  .diagram--fluid > svg { min-width: 0; }
+  .diagram--fluid { overflow-x: visible; }
   /* The caption must not scroll away from the figure it captions. */
   .diagram__caption { position: sticky; left: 0; }
 }
