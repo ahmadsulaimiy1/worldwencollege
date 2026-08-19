@@ -173,22 +173,59 @@ jobs:
       # The system libraries are NOT cached — they are apt packages
       # installed outside the home directory, and they are cheap. Only
       # the browser download is skipped on a hit.
+      # The system libraries, separately and allowed to fail.
+      #
+      # `--with-deps` bundles an apt install into the browser download,
+      # so a stall in either looks identical from outside and neither can
+      # be timed on its own. Split, each is diagnosable. And on
+      # ubuntu-latest the libraries Chrome needs are already present —
+      # this step is belt and braces, so it must not be able to fail the
+      # build on its own.
+      - name: Install the browser's system libraries
+        timeout-minutes: 5
+        continue-on-error: true
+        run: npx playwright install-deps chromium
+
+      # THE BROWSER, AND A REAL FALLBACK WHEN IT CANNOT BE FETCHED.
+      #
+      # On 19 August 2026 this stalled on three consecutive runs. The
+      # first hung for over an hour before the timeout above existed; the
+      # next two failed at eight minutes, retry included. The download is
+      # an external dependency on somebody else's CDN and it is the only
+      # thing in this job that can stop a verified commit from reaching
+      # the domain.
+      #
+      # ubuntu-latest ships Google Chrome. Every browser suite in this
+      # repository already resolves its executable through PW_CHROMIUM
+      # (tests/browser/*.mjs, scripts/publication/render-*.mjs), so
+      # pointing that at the preinstalled binary runs the SAME tests
+      # against a real Chrome rather than skipping them.
+      #
+      # Skipping was considered and refused. A verify job that quietly
+      # drops its browser suites when a download fails is a verify job
+      # that publishes unverified work on exactly the days something is
+      # wrong with the network — and the whole reason `deploy` needs
+      # `verify` is to make that impossible.
       - name: Install Chromium — needed by the PDF suites as well as the browser ones
-        # Eight minutes against a healthy eighty seconds. A download that
-        # has not finished in six times its normal duration is not slow,
-        # it is stalled, and the difference matters: a stall that fails
-        # is a re-run, while a stall that hangs is a deployment that
-        # silently never happens.
+        id: browser
         timeout-minutes: 8
+        continue-on-error: true
+        run: npx playwright install chromium
+
+      - name: Fall back to the runner's Chrome if the download failed
+        if: steps.browser.outcome != 'success'
         run: |
           set -e
-          # One retry. A stalled CDN fetch is the single most common
-          # reason this step fails, and it is also the one that a second
-          # attempt reliably fixes — so it is retried once here rather
-          # than left for a person to notice and re-run by hand.
-          npx playwright install --with-deps chromium \
-            || (echo "First attempt failed or stalled; retrying once." && \
-                npx playwright install --with-deps chromium)
+          for candidate in /usr/bin/google-chrome /usr/bin/google-chrome-stable /usr/bin/chromium-browser /usr/bin/chromium; do
+            if [ -x "$candidate" ]; then
+              echo "Playwright's download failed; using $candidate instead."
+              echo "PW_CHROMIUM=$candidate" >> "$GITHUB_ENV"
+              exit 0
+            fi
+          done
+          echo "::error::Playwright could not fetch Chromium and this runner has no Chrome to fall back on."
+          echo "The browser suites cannot run, so nothing is verified and nothing may be published."
+          exit 1
       - name: Backend suite
         run: npm test
       - name: Programme-wide curriculum consistency
