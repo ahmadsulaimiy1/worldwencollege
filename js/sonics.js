@@ -155,7 +155,7 @@
                the silent objects in a chrome where everything else
                answers — which reads as a fault rather than as
                restraint (CLAUDE.md §3). */
-            + '.intake__row, .utilrail__item, .utilrail__btn, .lang__row, '
+            + '.intake__row, .utilrail__item, .utilrail__btn, .lang__row, .domain, '
             + '.plate__frame, .ledger--flagship tbody tr, '
             /* The Academics pillar — css/academics.css. */
             + '.ascent__step, .ascent__band, .horarium__band, .discipline, '

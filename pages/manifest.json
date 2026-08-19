@@ -929,5 +929,25 @@
       "/css/governance.css",
       "/css/arabic.css"
     ]
+  },
+  {
+    "slug": "why-english",
+    "output": "why-english/index.html",
+    "title": "Why English &mdash; Worldwide English College",
+    "description": "Where the decision is actually taken in English: diplomacy, aviation, international law, science, higher education, commerce, technology and government — with the rule in each case that makes it so.",
+    "contentFile": "why-english.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/why-english/"
+  },
+  {
+    "slug": "why-english-ar",
+    "output": "ar/why-english/index.html",
+    "title": "حجّة الإنجليزية &mdash; الكلية العالمية للغة الإنجليزية",
+    "description": "أين يُتَّخذ القرار بالإنجليزية فعلًا: الدبلوماسية والطيران والقانون الدولي والعلم والتعليم العالي والتجارة والتقنية والحكم — ومع كل حالةٍ قاعدتها.",
+    "contentFile": "why-english.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/why-english/"
   }
 ]

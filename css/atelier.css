@@ -1150,3 +1150,53 @@
 .section--oxford .plate__credit,
 .section--midnight .plate__credit { color: var(--gold-soft); opacity: .62; }
 .plate__credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE DOMAINS — where the decision is actually taken in English
+   ═══════════════════════════════════════════════════════════════════
+   Eight tiles carrying eight institutional facts, on the dark ground of
+   the opening chapter. They are cards in every respect the material law
+   cares about — a 106px dome, a lit rim, a travelling point, a tilt
+   sheen — and they are NOT `.card`, because `.card` is sized for a
+   heading and two sentences of prose and these carry a heading and one
+   dense one.
+
+   The glass here is heavier than elsewhere on the site by design. This
+   is the chapter that has to persuade before a reader has any reason to
+   trust the College, and it is the one place the site is permitted to
+   look expensive before it has finished arguing.
+   ══════════════════════════════════════════════════════════════════ */
+.domains { margin-top: 2em; }
+.domain {
+  position: relative; overflow: hidden;
+  padding: 30px 26px 28px; border-radius: var(--r-md);
+  background:
+    radial-gradient(130% 100% at 18% 0%, rgba(199,162,74,.13), transparent 56%),
+    linear-gradient(168deg, rgba(20,38,74,.92), rgba(10,20,40,.96));
+  border: 1px solid rgba(199,162,74,.26);
+  box-shadow:
+    0 26px 60px -34px rgba(3,8,20,.92),
+    inset 0 1px 0 rgba(255,255,255,.07);
+  transition: transform var(--dur-med) var(--ease-premium),
+              box-shadow var(--dur-med) var(--ease-premium),
+              border-color var(--dur-med) ease;
+}
+.domain:hover {
+  transform: translateY(-4px);
+  border-color: rgba(199,162,74,.5);
+  box-shadow:
+    0 40px 80px -34px rgba(3,8,20,.95),
+    inset 0 1px 0 rgba(255,255,255,.11);
+}
+.domain .badge-dome { margin-bottom: 18px; }
+.domain h3 {
+  margin: 0 0 10px; font-family: var(--font-display);
+  font-size: 1.24rem; font-weight: 600; line-height: 1.2;
+  color: var(--gold-bright, #E7C97A);
+}
+.domain p {
+  margin: 0; font-size: .93rem; line-height: 1.66;
+  color: rgba(247,244,236,.74);
+}
+@media (max-width: 1080px) { .domains { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px)  { .domains { grid-template-columns: 1fr; } }

@@ -3187,3 +3187,9 @@ ul.check-list--open li::before { content: '○'; font-weight: 400; color: rgba(2
   .intake__row { grid-template-columns: 20px 1fr; }
   .intake__term { grid-column: 2; font-size: .74rem; }
 }
+
+/* The gateway from the homepage's opening chapter to the full case.
+   Centred and quiet: it is an invitation to read further, not a call to
+   act, and styling it as a call to act would put two competing gold
+   buttons in one chapter. */
+.case__more { display: flex; justify-content: center; margin-top: 2.4em; }
