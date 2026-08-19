@@ -106,5 +106,61 @@ const sources = [
     bad.length === 0, bad.join(' | '));
 }
 
+// ── 4 · A PLATE THAT REQUIRES ATTRIBUTION CARRIES IT, EVERYWHERE ─────
+// CREDITS.md marks two plates **Required** — reading-hall.jpg is CC BY
+// 2.0 and astrolabe.jpg is CC BY-SA 3.0 — and the requirement is not
+// "the repository records the photographer". It is that the credit
+// appears BESIDE THE WORK, on every page the work appears on.
+//
+// This was written after breaking it. reading-hall.jpg was placed on
+// the Faculty pillar in both editions with a caption and no credit; the
+// register was correct, the licence was valid, and the two served pages
+// were out of compliance. Nothing failed, because nothing was looking.
+//
+// The check is per PAGE rather than per repository for that exact
+// reason: a credit rendered once on Academics does nothing for a reader
+// on Faculty, and it is the reader's copy of the work that the licence
+// governs.
+{
+  const required = [...CREDITS.matchAll(
+    /\|\s*`([\w.-]+\.jpe?g)`\s*\|([^\n]*?)\*\*Required\*\*/g)].map((m) => m[1]);
+  check(`The register marks plates that must carry a credit — ${required.length}`,
+    required.length >= 1,
+    'no plate in CREDITS.md is marked **Required**; if none needs attribution this check '
+    + 'is guarding nothing and should be re-cut rather than left passing');
+
+  // Read the SERVED pages: what a visitor receives is what the licence
+  // is measured against, not what the source intended.
+  const served = [];
+  const walk = (dir) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      if (e.name.startsWith('.') || e.name === 'node_modules' || e.name === 'pages'
+        || e.name === 'tests' || e.name === 'docs') continue;
+      const full = path.join(dir, e.name);
+      if (e.isDirectory()) walk(full);
+      else if (e.name.endsWith('.html')) served.push([path.relative(ROOT, full), readFileSync(full, 'utf8')]);
+    }
+  };
+  walk(ROOT);
+
+  for (const file of required) {
+    const pages = served.filter(([, body]) => body.includes(`plates/${file}`));
+    check(`${file}: appears on ${pages.length} served page(s)`, pages.length >= 1);
+
+    // The credit must be inside the same <figure> as the image, which is
+    // what "beside the work" means in markup.
+    const uncredited = pages.filter(([, body]) => {
+      const figures = [...body.matchAll(/<figure[\s\S]*?<\/figure>/g)].map((m) => m[0]);
+      const mine = figures.filter((f) => f.includes(`plates/${file}`));
+      return mine.length === 0 || mine.some((f) => !/plate__credit/.test(f));
+    }).map(([f]) => f);
+
+    check(`${file}: every page that shows it renders the credit beside it`,
+      uncredited.length === 0,
+      `${uncredited.join(', ')} — the licence requires attribution with the work, and a credit `
+      + 'on a different page of the same site does not discharge it');
+  }
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);
