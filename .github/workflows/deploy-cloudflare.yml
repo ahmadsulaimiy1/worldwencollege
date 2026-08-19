@@ -120,6 +120,20 @@ jobs:
   # here stops the deploy.
   verify:
     runs-on: ubuntu-latest
+    # A CEILING, BECAUSE A HUNG STEP IS INVISIBLE WITHOUT ONE.
+    #
+    # On 19 August 2026 the Chromium install stalled and the job sat
+    # `in_progress` for over an hour. GitHub's default is SIX HOURS, so
+    # nothing failed, nothing alerted, and the only symptom was a live
+    # domain quietly serving the previous commit — which is the exact
+    # class of fault tests/deploy-reach.test.mjs exists for, arriving
+    # from the one direction that test cannot see.
+    #
+    # 30 minutes is roughly three times the eight-minute run this job
+    # takes when it is healthy. A verify that needs longer than that has
+    # something wrong with it, and finding out in half an hour is worth
+    # more than finishing in five.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -143,8 +157,38 @@ jobs:
       # It went unseen because it cannot reproduce locally: a developer
       # machine already has the browser, so the ordering only matters on
       # a clean runner.
+      # THE BROWSER, CACHED — AND BOUNDED WHEN IT IS NOT.
+      #
+      # This step takes about eighty seconds on a healthy runner and it
+      # is pure download: the same browser build, fetched again, on
+      # every push. Keyed on the Playwright version, so a version bump
+      # invalidates it and nothing else does.
+      - name: Cache the Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      # The system libraries are NOT cached — they are apt packages
+      # installed outside the home directory, and they are cheap. Only
+      # the browser download is skipped on a hit.
       - name: Install Chromium — needed by the PDF suites as well as the browser ones
-        run: npx playwright install --with-deps chromium
+        # Eight minutes against a healthy eighty seconds. A download that
+        # has not finished in six times its normal duration is not slow,
+        # it is stalled, and the difference matters: a stall that fails
+        # is a re-run, while a stall that hangs is a deployment that
+        # silently never happens.
+        timeout-minutes: 8
+        run: |
+          set -e
+          # One retry. A stalled CDN fetch is the single most common
+          # reason this step fails, and it is also the one that a second
+          # attempt reliably fixes — so it is retried once here rather
+          # than left for a person to notice and re-run by hand.
+          npx playwright install --with-deps chromium \
+            || (echo "First attempt failed or stalled; retrying once." && \
+                npx playwright install --with-deps chromium)
       - name: Backend suite
         run: npm test
       - name: Programme-wide curriculum consistency
