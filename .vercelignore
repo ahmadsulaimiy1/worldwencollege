@@ -1,0 +1,18 @@
+# The preview serves the College, and only the College.
+#
+# Vercel deploys everything it is given, so the repository's working material
+# would otherwise be fetchable on the preview domain: the founding plan, the
+# appointment briefs, the governance register, the editorial bible, and the
+# whole archived WorldWide English College build. None of that is secret, and
+# none of it belongs on the College's own address either.
+#
+# The build still runs — scripts/ and madinah-src/ are needed by
+# `node scripts/build-madinah.js` — so they are NOT ignored. Everything below
+# is material the build does not read.
+archive/
+docs/
+tests/
+sql/
+.claude/
+*.md
+!README.md

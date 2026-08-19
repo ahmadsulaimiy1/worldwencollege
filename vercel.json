@@ -1,0 +1,33 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "node scripts/build-madinah.js",
+  "outputDirectory": ".",
+  "framework": null,
+  "cleanUrls": false,
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/madinah/ar/:path*", "destination": "/ar/:path*", "permanent": true },
+    { "source": "/madinah/:path*", "destination": "/:path*", "permanent": true },
+    { "source": "/apply", "destination": "/admissions/#apply", "permanent": true },
+    { "source": "/charges", "destination": "/admissions/charges/", "permanent": true },
+    { "source": "/fees", "destination": "/admissions/charges/", "permanent": true },
+    { "source": "/tuition", "destination": "/admissions/charges/", "permanent": true },
+    { "source": "/programmes", "destination": "/faculties/", "permanent": true },
+    { "source": "/quran", "destination": "/faculties/quran/", "permanent": true },
+    { "source": "/rules", "destination": "/regulations/", "permanent": true },
+    { "source": "/disclosure", "destination": "/standing/", "permanent": true },
+    { "source": "/chains", "destination": "/awards/register-of-chains/", "permanent": true },
+    { "source": "/asanid", "destination": "/awards/register-of-chains/", "permanent": true },
+    { "source": "/ijazah", "destination": "/awards/#ijazah", "permanent": true }
+  ],
+  "headers": [
+    { "source": "/css/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }] },
+    { "source": "/js/(.*)",  "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }] },
+    { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }] },
+    { "source": "/(.*)", "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+    ]}
+  ]
+}
