@@ -1686,25 +1686,58 @@ a.lang__row:hover { background: rgba(199,162,74,.13); color: var(--gold-bright);
      Every one of them used to be a pseudo-element and every one of
      them collided with another. Painted layers cannot collide: they
      compose. */
+  /* A FIFTH AND SIXTH LAYER: THE GLOSS.
+     Four ornaments were enough to make the card an object. They did not
+     make it a MATERIAL, and a flat fill under a hairline is the "still
+     looks basic" the owner named.
+
+     Two more painted layers, both light rather than ink:
+
+       5 · the specular sweep — a broad, soft diagonal catching the
+           upper-left corner, which is where every other struck surface
+           on this site is lit from. It is a radial patch and not a
+           linear band on purpose: a highlight on a curved body is a
+           patch, and the linear version is the single most reliable
+           tell of a flat thing pretending to have depth.
+       6 · the ground haze — a faint warm pool at the foot, the light
+           the gold rule bounces back up into the paper.
+
+     Painted, not pseudo-elements. `::before` belongs to `.edge-lit` and
+     `::after` to `.aurum`, deliberately, so one surface can wear both —
+     and every ornament this component has ever gained by taking a
+     pseudo-element has collided with another within a week. */
   background-image:
     linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%),
     linear-gradient(90deg, var(--card-rule) 0%, var(--card-rule-mid) 38%, transparent 72%),
     linear-gradient(var(--line), var(--line)),
-    linear-gradient(var(--line), var(--line));
+    linear-gradient(var(--line), var(--line)),
+    radial-gradient(75% 58% at 18% 0%, rgba(255,255,255,.85), rgba(255,255,255,0) 62%),
+    radial-gradient(120% 72% at 50% 118%, rgba(199,162,74,.13), rgba(199,162,74,0) 70%);
   background-repeat: no-repeat;
   background-position:
     left top,
     var(--card-pad) calc(100% - 22px),
     right 12px bottom 12px,
-    right 12px bottom 12px;
+    right 12px bottom 12px,
+    left top,
+    left bottom;
   background-size:
     0 3px,
     calc(100% - var(--card-pad) * 2) 1px,
     1px 0,
-    0 1px;
+    0 1px,
+    100% 100%,
+    100% 100%;
   border: 1px solid var(--line); border-radius: var(--r-md);
   padding: var(--card-pad); position: relative; overflow: hidden;
-  box-shadow: var(--shadow-sm);
+  /* Relief rather than a drop shadow: a lit rim on the top edge, the
+     body shadow beneath, and a long soft cast further down. Three
+     stops is what separates a raised object from a rectangle with a
+     shadow under it. */
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 1px 2px rgba(10,20,40,.06),
+    0 18px 38px -22px rgba(10,20,40,.34);
   display: flex; flex-direction: column;
   transition: transform var(--dur-med) var(--ease-premium),
               box-shadow var(--dur-med) var(--ease-premium),
@@ -1777,13 +1810,45 @@ a.lang__row:hover { background: rgba(199,162,74,.13); color: var(--gold-bright);
   --card-rule: rgba(242, 227, 192, .5);
   --card-rule-mid: rgba(199, 162, 74, .14);
 }
-.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(199,162,74,.55); }
+/* The duplicate `.card:hover` that used to sit here set the old flat
+   `--shadow-md` and, purely by being further down the file, overrode
+   the three-stop relief defined with the rest of the hover state. Two
+   rules for one state is how a considered shadow silently becomes the
+   default one. The ::before below belongs to .edge-lit and stays. */
 .card:hover::before { transform: scaleX(1); }
 /* background-COLOR, not the shorthand: `background` would reset the two
    painted layers the card sets above and take the top hairline and the
    foot rule off every dark card on the site. */
 .card--dark { background-color: rgba(255,255,255,.04); border-color: var(--line-dark); }
-.card--dark:hover { border-color: var(--line-dark); }
+.card--dark:hover { border-color: rgba(199,162,74,.5); }
+/* THE GLOSS, DIMMED FOR THE DARK GROUND.
+   The specular above is set for paper, where an 85% white patch reads
+   as light falling on a matte surface. On oxford blue the same patch
+   reads as fog: it lifts the corner off the palette and the card stops
+   belonging to the section it sits in. A tenth of it is enough — on a
+   dark ground the eye reads a highlight from very little, which is the
+   same reason the domes carry a thin rim rather than a wide one. The
+   warm pool at the foot stays, because gold bouncing into navy is the
+   effect this palette is actually built on. */
+.card--dark {
+  background-image:
+    linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%),
+    linear-gradient(90deg, var(--card-rule) 0%, var(--card-rule-mid) 38%, transparent 72%),
+    linear-gradient(var(--line-dark), var(--line-dark)),
+    linear-gradient(var(--line-dark), var(--line-dark)),
+    radial-gradient(78% 60% at 18% 0%, rgba(255,255,255,.09), rgba(255,255,255,0) 64%),
+    radial-gradient(120% 72% at 50% 118%, rgba(199,162,74,.16), rgba(199,162,74,0) 70%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.09),
+    0 1px 2px rgba(3,8,20,.4),
+    0 22px 46px -24px rgba(3,8,20,.72);
+}
+.card--dark:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.16),
+    0 2px 4px rgba(3,8,20,.36),
+    0 38px 68px -28px rgba(3,8,20,.8);
+}
 .card h3 { font-size: 1.1rem; }
 /* A CARD TITLE THAT IS A LINK IS A TARGET, NOT A SENTENCE.
    ========================================================
