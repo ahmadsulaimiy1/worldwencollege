@@ -188,12 +188,29 @@ jobs:
 
       # THE BROWSER, AND A REAL FALLBACK WHEN IT CANNOT BE FETCHED.
       #
-      # On 19 August 2026 this stalled on three consecutive runs. The
-      # first hung for over an hour before the timeout above existed; the
-      # next two failed at eight minutes, retry included. The download is
-      # an external dependency on somebody else's CDN and it is the only
-      # thing in this job that can stop a verified commit from reaching
-      # the domain.
+      # WHAT SPLITTING THE STEP REVEALED, AND IT WAS NOT WHAT I EXPECTED.
+      # Three runs on 19 August 2026 died in `playwright install
+      # --with-deps chromium` — the first hung for over an hour before
+      # the timeout above existed, the next two failed at eight minutes
+      # with a retry. Every comment written during that hunt blamed the
+      # browser CDN, because that is the half of `--with-deps` anybody
+      # thinks about.
+      #
+      # The first run after the split settled it: the apt step took
+      # 5m13s and hit its own cap, and the browser download took TEN
+      # SECONDS. The stall was entirely in the system libraries. The CDN
+      # was never slow.
+      #
+      # That is why the two are separate and why the apt half is the one
+      # marked continue-on-error: ubuntu-latest already carries what
+      # Chrome needs, so it is belt and braces, and belt and braces must
+      # never be able to stop a verified commit from reaching the domain.
+      #
+      # The fallback below stays regardless. The download is still an
+      # external dependency, it is still the last thing in this job that
+      # can block a deploy, and a diagnosis that turned out wrong once is
+      # a good reason to keep the safety net rather than to trust the
+      # new one completely.
       #
       # ubuntu-latest ships Google Chrome. Every browser suite in this
       # repository already resolves its executable through PW_CHROMIUM
