@@ -56,8 +56,21 @@ const FONTS = /fonts\.(googleapis|gstatic)\.com/;
 function stubAuth(page, who) {
   const js = (body) => (route) => route.fulfill({ contentType: 'text/javascript', body });
   return Promise.all([
-    page.route('**/js/auth-config.js', js('window.WEC_LC_AUTH={clerkPublishableKey:"pk_test_stub"};')),
-    page.route('**/js/clerk-loader.js', js(`
+    // THE TRAILING `*` IS LOAD-BEARING.
+    //
+    // scripts/build.js content-fingerprints every asset it emits, so
+    // the page now asks for `/js/auth-config.js?v=55a73de7`. A
+    // Playwright route glob matches the whole URL, and `**/js/auth-config.js`
+    // does not match a URL with a query — so the stub silently stopped
+    // applying, the page loaded the REAL auth-config, which carries no
+    // key, and eleven of this file's fourteen checks failed at once.
+    //
+    // Nothing was wrong with the page. The harness was pinned to a URL
+    // that is versioned by design, which is exactly the mistake a
+    // fingerprinting scheme is supposed to make impossible for a
+    // browser and had not yet been made impossible for a test.
+    page.route('**/js/auth-config.js*', js('window.WEC_LC_AUTH={clerkPublishableKey:"pk_test_stub"};')),
+    page.route('**/js/clerk-loader.js*', js(`
       window.WEC_LC_loadClerk = function (pk, done) {
         var n = 0;
         done(null, {
