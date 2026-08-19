@@ -1,18 +1,20 @@
 # The preview serves the College, and only the College.
 #
-# Vercel deploys everything it is given, so the repository's working material
-# would otherwise be fetchable on the preview domain: the founding plan, the
-# appointment briefs, the governance register, the editorial bible, and the
-# whole archived WorldWide English College build. None of that is secret, and
-# none of it belongs on the College's own address either.
+# There is no build step on Vercel: scripts/build-madinah.js has already run
+# and its output — the 32 index.html files, the sitemap — is committed. So
+# Vercel is a static host here, and everything it does not need to SERVE is
+# withheld rather than uploaded and then left reachable.
 #
-# The build still runs — scripts/ and madinah-src/ are needed by
-# `node scripts/build-madinah.js` — so they are NOT ignored. Everything below
-# is material the build does not read.
+# The first deployment kept scripts/ and madinah-src/ because I assumed the
+# build would run on Vercel. It did not need to, and the result was that the
+# page templates and the generator were both fetchable on the preview domain:
+# /madinah-src/manifest.json and /scripts/build-madinah.js each returned 200.
 archive/
 docs/
 tests/
 sql/
+scripts/
+madinah-src/
 .claude/
 *.md
 !README.md
