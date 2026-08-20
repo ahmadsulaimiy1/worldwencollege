@@ -23,6 +23,7 @@ import {
   type SpendingPolicy,
 } from './core/policy.js';
 import { SecretResolver, loadEnvFile } from './core/secret.js';
+import { DEFAULT_ROTATION_INTERVAL_DAYS } from './core/rotation.js';
 
 export const PROVIDER_NAMES = [
   'cloudflare',
@@ -135,6 +136,10 @@ export interface StromexConfig {
   auditPath: string;
   approvalsPath: string;
   journalPath: string;
+  /** Where the rotation-due register persists first-observation timestamps. */
+  rotationPath: string;
+  /** Rotation interval in days for the register's due dates (`SEB-D 45`). */
+  rotationIntervalDays: number;
   approvalTtlSeconds: number;
   policy: PolicyConfig;
   /** Provider tool groups to expose. Empty means every configured provider. */
@@ -238,6 +243,13 @@ export function loadConfig(options: LoadConfigOptions = {}): StromexConfig {
     auditPath: env['STROMEX_MCP_AUDIT_PATH'] ?? join(stateDir, 'audit.jsonl'),
     approvalsPath: env['STROMEX_MCP_APPROVALS_PATH'] ?? join(stateDir, 'approvals.json'),
     journalPath: env['STROMEX_MCP_JOURNAL_PATH'] ?? join(stateDir, 'recovery-journal.jsonl'),
+    rotationPath: env['STROMEX_MCP_ROTATION_PATH'] ?? join(stateDir, 'rotation.json'),
+    rotationIntervalDays: parseInteger(
+      env['STROMEX_ROTATION_INTERVAL_DAYS'],
+      DEFAULT_ROTATION_INTERVAL_DAYS,
+      warnings,
+      'STROMEX_ROTATION_INTERVAL_DAYS',
+    ),
     approvalTtlSeconds: parseInteger(env['STROMEX_MCP_APPROVAL_TTL'], 900, warnings, 'STROMEX_MCP_APPROVAL_TTL'),
     policy,
     profiles,

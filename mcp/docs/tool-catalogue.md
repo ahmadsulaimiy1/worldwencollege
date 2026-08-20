@@ -256,7 +256,7 @@ Prefer `valueFromHandle` in every case (`SEB-D 31`).
 | `stromex.approval.list` | read | StromeX — list approval requests |
 | `stromex.audit.query` | read | StromeX — query the audit trail |
 | `stromex.audit.verify` | read | StromeX — verify the audit chain |
-| `stromex.credentials.status` | read | StromeX — credential status |
+| `stromex.credentials.status` | read | StromeX — credential status and rotation register |
 | `stromex.handles.list` | read | StromeX — list credential handles |
 | `stromex.health.check` | read | StromeX — health check |
 | `stromex.policy.describe` | read | StromeX — describe the authority policy |

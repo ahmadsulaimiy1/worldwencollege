@@ -21,6 +21,7 @@ import { SecretRef, SecretResolver, parseEnv } from '../../core/secret.js';
 import { StromexError, codeForHttpStatus, toStromexError } from '../../core/errors.js';
 import { DEFAULT_RETRY_POLICY, delayFor, parseRetryAfter, shouldRetry } from '../../core/retry.js';
 import { CircuitBreaker, TokenBucket } from '../../core/ratelimit.js';
+import { RotationRegister, memoryRotationIo } from '../../core/rotation.js';
 
 const at = (iso: string) => () => new Date(iso);
 
@@ -789,5 +790,68 @@ describe('merging SPF records', () => {
   it('does not duplicate a mechanism that differs only in case', () => {
     const merged = mergeSpf(CLOUDFLARE, 'v=spf1 INCLUDE:_SPF.MX.CLOUDFLARE.NET ~all');
     assert.equal(merged, CLOUDFLARE);
+  });
+});
+
+describe('rotation-due register (SEB-D 45)', () => {
+  const FP = 'abc123def456';
+  const OTHER = '0011223344ff';
+
+  it('starts a key\'s clock the first time it is seen, and marks it a first sighting', () => {
+    const reg = new RotationRegister({ path: '(memory)', io: memoryRotationIo(), intervalDays: 365, now: at('2026-08-20T00:00:00.000Z') });
+    const status = reg.assess('CLOUDFLARE_API_TOKEN', FP);
+    assert.equal(status.ageDays, 0);
+    assert.equal(status.firstSighting, true);
+    assert.equal(status.overdue, false);
+    assert.equal(status.dueAt, '2027-08-20T00:00:00.000Z');
+    assert.equal(status.daysUntilDue, 365);
+  });
+
+  it('ages an unchanged key from its first sighting, and reports it overdue past the interval', () => {
+    let clock = new Date('2026-08-20T00:00:00.000Z');
+    const reg = new RotationRegister({ path: '(memory)', io: memoryRotationIo(), intervalDays: 30, now: () => clock });
+    reg.assess('NEON_API_KEY', FP); // first sighting starts the clock
+    clock = new Date('2026-09-25T00:00:00.000Z'); // 36 days later
+    const status = reg.assess('NEON_API_KEY', FP);
+    assert.equal(status.firstSighting, false, 'a second sighting is not a first sighting');
+    assert.equal(status.ageDays, 36);
+    assert.equal(status.overdue, true);
+    assert.equal(status.daysUntilDue, -6);
+  });
+
+  it('resets the clock when the fingerprint changes — a rotation is witnessed', () => {
+    let clock = new Date('2026-08-20T00:00:00.000Z');
+    const reg = new RotationRegister({ path: '(memory)', io: memoryRotationIo(), intervalDays: 365, now: () => clock });
+    const obs1 = reg.observe('GITHUB_TOKEN', FP);
+    assert.equal(obs1.rotated, false, 'first sighting is not a rotation');
+    clock = new Date('2027-02-20T00:00:00.000Z'); // ~184 days later
+    const obs2 = reg.observe('GITHUB_TOKEN', OTHER); // the operator rotated the key
+    assert.equal(obs2.rotated, true, 'a changed fingerprint is a witnessed rotation');
+    const status = reg.assess('GITHUB_TOKEN', OTHER);
+    assert.equal(status.ageDays, 0, 'the new value ages from the rotation, not the original install');
+    assert.equal(status.dueAt, '2028-02-20T00:00:00.000Z');
+  });
+
+  it('does not write to disk when observing an unchanged credential', () => {
+    let writes = 0;
+    const io = memoryRotationIo();
+    const wrapped = { read: io.read, write: (c: string) => { writes += 1; io.write(c); } };
+    const reg = new RotationRegister({ path: '(memory)', io: wrapped, now: at('2026-08-20T00:00:00.000Z') });
+    reg.observe('RESEND_API_KEY', FP); // one write: the first sighting
+    reg.observe('RESEND_API_KEY', FP); // unchanged: no write
+    reg.observe('RESEND_API_KEY', FP);
+    assert.equal(writes, 1, 'a read-class status check must not churn the register on every call');
+  });
+
+  it('refuses a corrupt register rather than silently resetting every clock', () => {
+    const reg = new RotationRegister({ path: '(memory)', io: memoryRotationIo('{ not json'), now: at('2026-08-20T00:00:00.000Z') });
+    assert.throws(() => reg.assess('BREVO_API_KEY', FP), (error: StromexError) => error.code === 'IO_ERROR');
+  });
+
+  it('falls back to the default interval when none or an invalid one is given', () => {
+    const reg = new RotationRegister({ path: '(memory)', io: memoryRotationIo() });
+    assert.equal(reg.intervalDays, 365);
+    const zero = new RotationRegister({ path: '(memory)', io: memoryRotationIo(), intervalDays: 0 });
+    assert.equal(zero.intervalDays, 365);
   });
 });

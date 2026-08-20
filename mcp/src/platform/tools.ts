@@ -19,15 +19,20 @@ import {
 import { defineTool, type ToolDefinition } from '../core/registry.js';
 import { HEALTH_PROBES, circuitState, credentialFingerprint } from '../providers/index.js';
 import { toStromexError } from '../core/errors.js';
+import type { RotationRegister, RotationStatus } from '../core/rotation.js';
 
 export interface PlatformToolOptions {
   config: StromexConfig;
   active: ProviderName[];
   version: string;
+  /** The rotation-due register, so credential status can report key ages. */
+  rotation: RotationRegister;
+  /** Providers whose configured key can change or destroy a resource. */
+  writeCapableProviders: Set<ProviderName>;
 }
 
 export function platformTools(options: PlatformToolOptions): ToolDefinition[] {
-  const { config, active, version } = options;
+  const { config, active, version, rotation, writeCapableProviders } = options;
 
   return [
     defineTool({
@@ -126,29 +131,62 @@ export function platformTools(options: PlatformToolOptions): ToolDefinition[] {
 
     defineTool({
       name: 'stromex.credentials.status',
-      title: 'StromeX — credential status',
+      title: 'StromeX — credential status and rotation register',
       description:
-        'Reports which provider credentials are configured, where each came from, and a non-reversible fingerprint of each. Never reports a credential value; the fingerprint is there so you can tell whether a key changed without learning what it is.',
+        'Reports which provider credentials are configured, where each came from, a non-reversible fingerprint of each, and — because the estate\'s keys never expire (SEB-D 45) — how long this server has been seeing each value and when it is next due for rotation. Never reports a credential value. Write-capable providers are listed first, and any overdue key is called out, because a full-write key that silently goes un-rotated is the exposure the never-expire decision accepted in exchange for no timer outages. Age is measured from the first time this server saw the current value, not from when the key was minted, which no provider API reveals.',
       provider: 'stromex',
       operationClass: 'read',
       inputSchema: {},
       handler: async (_args, _ctx) => {
+        const enrich = (entry: { name: string; configured: boolean; fingerprint?: string }): typeof entry & {
+          rotation?: RotationStatus;
+        } => (entry.configured && entry.fingerprint ? { ...entry, rotation: rotation.assess(entry.name, entry.fingerprint) } : entry);
+
         const rows = PROVIDER_NAMES.map((name) => {
           const spec = PROVIDER_CREDENTIALS[name];
-          const required = config.secrets.status(spec.required);
-          const optional = config.secrets.status(spec.optional);
+          const required = config.secrets.status(spec.required).map(enrich);
+          const optional = config.secrets.status(spec.optional).map(enrich);
+          const rotations = [...required, ...optional]
+            .map((entry) => entry.rotation)
+            .filter((r): r is RotationStatus => r !== undefined);
           return {
             provider: name,
             configured: required.every((entry) => entry.configured),
+            writeCapable: writeCapableProviders.has(name),
             purpose: spec.purpose,
             required,
             optional,
+            // The soonest a key in this provider falls due — what the sort
+            // and the summary key off. Undefined when nothing is configured.
+            soonestDaysUntilDue: rotations.length
+              ? Math.min(...rotations.map((r) => r.daysUntilDue))
+              : undefined,
+            overdue: rotations.some((r) => r.overdue),
           };
         });
+
+        // Write-capable providers first (their keys carry the most authority),
+        // then by urgency (soonest-due ahead of later, un-configured last),
+        // then name for a stable order.
+        rows.sort((a, b) => {
+          if (a.writeCapable !== b.writeCapable) return a.writeCapable ? -1 : 1;
+          const av = a.soonestDaysUntilDue ?? Number.POSITIVE_INFINITY;
+          const bv = b.soonestDaysUntilDue ?? Number.POSITIVE_INFINITY;
+          if (av !== bv) return av - bv;
+          return a.provider.localeCompare(b.provider);
+        });
+
         const ready = rows.filter((row) => row.configured);
+        const overdue = rows.filter((row) => row.overdue).map((row) => row.provider);
+        const summary =
+          `${ready.length} of ${rows.length} providers configured; rotation interval ${rotation.intervalDays} day(s)` +
+          (overdue.length ? `; OVERDUE for rotation: ${overdue.join(', ')}` : '; none overdue for rotation');
         return {
-          summary: `${ready.length} of ${rows.length} providers configured`,
-          data: { providers: rows, exposed: active },
+          summary,
+          data: { providers: rows, exposed: active, rotationIntervalDays: rotation.intervalDays },
+          ...(overdue.length
+            ? { warnings: [`Rotate now: ${overdue.join(', ')}. See mcp/docs/credentials.md § Rotation.`] }
+            : {}),
         };
       },
     }),

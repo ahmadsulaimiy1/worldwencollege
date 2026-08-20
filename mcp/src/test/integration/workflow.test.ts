@@ -14,6 +14,7 @@ import { defineTool, type ToolDefinition } from '../../core/registry.js';
 import { runWorkflow, type WorkflowDefinition } from '../../workflows/engine.js';
 import { WORKFLOWS } from '../../workflows/definitions.js';
 import { StromexError } from '../../core/errors.js';
+import { RotationRegister, memoryRotationIo } from '../../core/rotation.js';
 import { harness } from '../support/harness.js';
 
 const FIXED_NOW = () => new Date('2026-08-18T09:00:00.000Z');
@@ -285,7 +286,13 @@ describe('the shipped workflow definitions', () => {
         ...clerkTools(),
         ...resendTools(),
         ...brevoTools(),
-        ...platformTools({ config: h.config, active: [], version: '1.0.0' }),
+        ...platformTools({
+          config: h.config,
+          active: [],
+          version: '1.0.0',
+          rotation: new RotationRegister({ path: 'unused', io: memoryRotationIo() }),
+          writeCapableProviders: new Set(),
+        }),
       ].map((tool) => tool.name),
     );
 

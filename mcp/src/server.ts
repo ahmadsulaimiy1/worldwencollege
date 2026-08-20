@@ -13,6 +13,7 @@ import { AuditLog } from './core/audit.js';
 import { ApprovalStore } from './core/approval.js';
 import { RecoveryJournal } from './core/journal.js';
 import { HandleVault } from './core/vault.js';
+import { RotationRegister } from './core/rotation.js';
 import { Logger } from './core/logger.js';
 import { StromexError } from './core/errors.js';
 import { PolicyEngine } from './core/policy.js';
@@ -24,7 +25,7 @@ import {
   type ToolDefinition,
 } from './core/registry.js';
 import type { FetchLike } from './core/http.js';
-import { type ProviderName, type StromexConfig } from './config.js';
+import { PROVIDER_NAMES, type ProviderName, type StromexConfig } from './config.js';
 import { buildProviders } from './providers/index.js';
 import { platformTools } from './platform/tools.js';
 import { workflowTools } from './workflows/tools.js';
@@ -44,6 +45,7 @@ export interface BuildServerOptions {
     approvals?: ApprovalStore;
     journal?: RecoveryJournal;
     vault?: HandleVault;
+    rotation?: RotationRegister;
   };
 }
 
@@ -56,6 +58,7 @@ export interface BuiltServer {
   approvals: ApprovalStore;
   journal: RecoveryJournal;
   vault: HandleVault;
+  rotation: RotationRegister;
   policy: PolicyEngine;
   logger: Logger;
 }
@@ -70,9 +73,26 @@ export function buildServer(options: BuildServerOptions): BuiltServer {
     options.stores?.approvals ?? new ApprovalStore({ path: config.approvalsPath, ttlSeconds: config.approvalTtlSeconds, now });
   const journal = options.stores?.journal ?? new RecoveryJournal({ path: config.journalPath, now });
   const vault = options.stores?.vault ?? new HandleVault({ now });
+  const rotation =
+    options.stores?.rotation ??
+    new RotationRegister({ path: config.rotationPath, intervalDays: config.rotationIntervalDays, now });
   const policy = new PolicyEngine(config.policy);
 
   const providers = buildProviders({ config, logger, fetchImpl: options.fetchImpl });
+
+  // A provider is "write-capable" if its real tool surface exposes any tool
+  // that changes or destroys a resource. This is derived from the tools
+  // themselves rather than declared, so it can never drift out of step with
+  // what the server can actually do — the same self-verifying principle the
+  // generated tool catalogue follows. The rotation register surfaces these
+  // first, because a full-write key that has silently gone un-rotated is the
+  // exact exposure `SEB-D 45` accepted in exchange for never expiring.
+  const writeCapableProviders = new Set<ProviderName>(
+    providers.tools
+      .filter((tool) => tool.operationClass !== 'read')
+      .map((tool) => tool.provider)
+      .filter((name): name is ProviderName => (PROVIDER_NAMES as readonly string[]).includes(name)),
+  );
 
   const server = new McpServer(
     { name: SERVER_NAME, version: SERVER_VERSION },
@@ -134,7 +154,13 @@ export function buildServer(options: BuildServerOptions): BuiltServer {
     },
   });
 
-  const platform = platformTools({ config, active: providers.active, version: SERVER_VERSION });
+  const platform = platformTools({
+    config,
+    active: providers.active,
+    version: SERVER_VERSION,
+    rotation,
+    writeCapableProviders,
+  });
   const workflows = workflowTools({
     tools: toolsByName,
     contextFor: () => contextFor(),
@@ -157,7 +183,7 @@ export function buildServer(options: BuildServerOptions): BuiltServer {
   });
   for (const warning of config.warnings) logger.warn('configuration warning', { warning });
 
-  return { server, tools, toolsByName, active: providers.active, audit, approvals, journal, vault, policy, logger };
+  return { server, tools, toolsByName, active: providers.active, audit, approvals, journal, vault, rotation, policy, logger };
 }
 
 /**

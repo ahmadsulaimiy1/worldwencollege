@@ -124,6 +124,56 @@ it has a specific failure.
 never tell you themselves when a key was last changed, it is the only
 record that exists.
 
+## 4a. The rotation-due register — the replacement for expiry
+
+`SEB-D 45` reversed the earlier decision to expire the estate's keys after
+a year: **working keys never expire**, because a full-write infrastructure
+key that lapses at an unattended moment takes the whole automation layer
+down. That ruling came with one obligation, and this register discharges
+it: *"never expire" must not become "never rotate."*
+
+`stromex.credentials.status` is that register. For every configured
+credential it reports:
+
+- **`ageDays`** — how long *this server* has been seeing the current value.
+- **`dueAt`** and **`daysUntilDue`** — one rotation interval from first
+  sight (default **365 days**; set `STROMEX_ROTATION_INTERVAL_DAYS` to
+  change it).
+- **`overdue`** — true once the interval has passed. Overdue providers are
+  named in the tool's summary and raised as a warning.
+- **`firstSighting`** — true the first time this server ever saw the key,
+  when the age is a *floor*, not a fact (see the honest gaps below).
+
+**Write-capable providers are listed first**, because a full-write key that
+has silently gone un-rotated is the exact exposure the never-expire
+decision accepted. "Write-capable" is derived from the real tool surface —
+a provider is write-capable when any of its tools changes or destroys a
+resource — so it can never drift out of step with what the server can do.
+
+**How the clock works.** The register keys off the credential's
+**fingerprint** — the same 12-hex, non-reversible SHA-256 prefix the audit
+log already stores. When the fingerprint changes, that *is* a rotation from
+the server's point of view, so the clock resets to zero and the new
+`dueAt` is one interval out. Recording a first-observation timestamp is the
+only write `stromex.credentials.status` performs, it touches no provider,
+and an unchanged credential is not re-written on every call.
+
+**The honest gaps**, stated because a register that overstates its
+certainty is the failure `SEB-D 27` exists to prevent:
+
+- No provider API reveals when a key was *minted*. Age is measured from
+  first sight here, so on a brand-new install every key reads "age 0" on
+  day one even if the key itself is old. For a genuinely old key that is
+  optimistic, and `firstSighting` flags exactly those rows.
+- A key rotated in the vault but not yet resolved by the server shows its
+  old age until the next resolution refreshes the fingerprint — a lag of at
+  most one observation.
+
+The register lives at `~/.stromex-mcp/rotation.json` (override with
+`STROMEX_MCP_ROTATION_PATH`), mode `0600`, and rebuilds itself from the
+next observation if removed. It holds only names, fingerprints and dates —
+never a value.
+
 ## 5. What the server guarantees, and what it does not
 
 **Guaranteed, and tested:**
