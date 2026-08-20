@@ -18,9 +18,27 @@ and Volume 12 §12.12.
 | Module | Purpose |
 |---|---|
 | `src/issuer.js` | The **issuer profile** — every institution-specific value (legal name, code prefix, verify origin, seal mark, `pass` namespace). `defineIssuer()` builds and validates one; the engine hardcodes none. |
-| `src/certificate-render.js` | Pure, deterministic renderers: `renderAwardCertificate`, `renderTestimonial`, `renderIssuedDocument`. Same record + issuer in → byte-identical HTML out. This is the "recoverable from its record" guarantee. |
+| `src/certificate-render.js` | Pure, deterministic renderers: `renderAwardCertificate`, `renderTestimonial`, `renderIssuedDocument`, `renderIdCard`. Same record + issuer in → byte-identical HTML out. This is the "recoverable from its record" guarantee. |
+| `src/document-types.js` | The **type registry** — the extension point. Each verifiable-document type is one declarative entry (`title`, `subject`, `render`); `registerDocumentType()` adds a new kind as data, `renderDocument(type, record, {issuer})` dispatches generically. New document kinds are configuration, not engine edits. |
 | `src/issuance-register.js` | `renderIssuanceRegister` (the beautiful, non-secret register) and `certificateSecretLabel` (the `pass` label convention — a store path, never a value). |
 | `src/qr.js` | The verification QR encoder (ISO/IEC 18004), independently decoder-tested. |
+
+## Adding a new document kind (the headroom)
+
+```js
+import { registerDocumentType, renderDocument } from '@stromex/verifiable-documents/document-types';
+
+registerDocumentType('reference-letter', {
+  title: 'Reference Letter',
+  subject: 'person',                       // 'person' or 'artifact'
+  render: (record, { issuer }) => `<!doctype html>…`,
+});
+
+const html = renderDocument('reference-letter', record, { issuer: AIPC });
+```
+
+Built-in types cannot be shadowed by accident; malformed keys and subjects
+are refused. The future is data here, not a rewrite.
 
 ## Two subjects, two mechanisms, one doctrine
 
@@ -66,5 +84,7 @@ not drifted from the site's copy (`functions/_lib/registry/qr.js`).
 
 - The site (`functions/`) still has its own `certificate-render`-free verify
   portal; wiring each project's portal to this engine is the next step.
-- ID cards and publication (artifact-document) verification are ordered work.
+- Publication (artifact-document) verification is ordered work — the site
+  already computes content-hash Document IDs (`scripts/publication/identity.mjs`)
+  but the portal does not yet resolve them.
 - Production KMS signing lives in the site's `signing.js`, still development-mode.

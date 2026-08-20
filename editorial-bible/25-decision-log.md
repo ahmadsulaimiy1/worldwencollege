@@ -1357,6 +1357,27 @@ asserts the two are byte-identical, so they cannot drift silently; the
 convergence (site imports the shared copy) is named future work, not
 pretended done.
 
+**Extensibility and the next kind, built `[2026-08-20]`.** Two additions
+that give the doctrine room to grow, per the Founder's direction to leave
+headroom for everything to come:
+
+- **`src/document-types.js` — the type registry.** Every verifiable-document
+  type is one declarative entry (`title`, `subject` = person/artifact,
+  `render`). `registerDocumentType()` adds a NEW kind as data and
+  `renderDocument()` dispatches generically, so a future document type is
+  configuration, not an engine edit. Built-ins cannot be shadowed by
+  accident; malformed keys and subjects are refused.
+- **`renderIdCard()` — the first non-paper form.** A prestige identity card
+  at ISO/IEC 7810 ID-1 size (the real bank-card standard), front and back,
+  obsidian-and-gold with a guilloché seal and a live verification QR;
+  regenerable byte-identically, no secret on its face, and renders for any
+  issuer. It is a verifiable document in its own right — the card authorises
+  nothing; its record does.
+
+Fifteen checks pass (`node --test`), covering ID-card determinism, the
+photo/monogram fallback and remote-URL refusal, cross-institution render,
+and the registry's dispatch, extension, shadow-refusal and validation.
+
 **What would reverse it.** A class where public verification would itself
 leak personal data faster than it protects (a safeguarding record, a medical
 note) — those are *not* verifiable documents and must never be issued as

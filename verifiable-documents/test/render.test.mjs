@@ -146,3 +146,66 @@ test('the shared QR encoder has not drifted from the site copy (converge, do not
   const site = readFileSync(fileURLToPath(new URL('../../../functions/_lib/registry/qr.js', import.meta.url)), 'utf8');
   assert.equal(here, site, 'stromex/verifiable-documents/src/qr.js has drifted from functions/_lib/registry/qr.js');
 });
+
+import * as DT from '../src/document-types.js';
+
+test('an ID card regenerates byte-identically, is a verifiable document, keeps no secret', () => {
+  const CARD = {
+    holderName: 'Aisha binte Rahman', role: 'Student', membershipId: 'AIPC-STU-004812',
+    validFrom: '2026-09', validThru: '2027-08', verificationCode: 'AIPC-4K7P-9WQ2-MXR8T', status: 'active',
+  };
+  const a = R.renderIdCard(CARD);
+  assert.equal(a, R.renderIdCard(CARD));
+  assert.ok(a.startsWith('<!doctype html>') && a.includes('Identity Card'));
+  assert.ok(a.includes('Aisha binte Rahman') && a.includes('Student') && a.includes('AIPC-STU-004812'));
+  assert.ok(a.includes('AIPC-4K7P-9WQ2-MXR8T'), 'the verification code the QR resolves is on the card');
+  assert.ok(!R.renderIdCard({ ...CARD, pdfUnlock: 'LEAK-42' }).includes('LEAK-42'));
+});
+
+test('an ID card renders a monogram when no photo, and a supplied data-URI photo otherwise', () => {
+  const base = { holderName: 'Yusuf al-Amin', role: 'Faculty', verificationCode: 'AIPC-8T3M-2XK9-P4WQ7' };
+  assert.ok(R.renderIdCard(base).includes('idc__mono'), 'no photo → monogram placeholder');
+  const withPhoto = R.renderIdCard({ ...base, photoDataUri: 'data:image/png;base64,AAAA' });
+  assert.ok(withPhoto.includes('idc__photo-img') && withPhoto.includes('data:image/png;base64,AAAA'));
+  // A remote URL is refused as a photo — it would break determinism and offline recovery.
+  assert.ok(!R.renderIdCard({ ...base, photoDataUri: 'https://evil.example/x.png' }).includes('evil.example'));
+});
+
+test('an ID card for a different institution renders with no engine edits', () => {
+  const AMICAS = ISS.defineIssuer({
+    key: 'amicas', legalName: 'Al-Madeenah International College for Arabic & Islamic Studies',
+    codePrefix: 'AMIC', verifyOrigin: 'https://almadeenah.example', sealMark: 'AMIC',
+  });
+  const card = R.renderIdCard({ holderName: 'Sumayyah Q', role: 'Alumnus', verificationCode: 'AMIC-4K7P-9WQ2-MXR8T' }, { issuer: AMICAS });
+  assert.ok(card.includes('Al-Madeenah International College') && card.includes('almadeenah.example'));
+  assert.ok(!card.includes('Albalagh International Premium College'));
+});
+
+test('the document-type registry catalogues the built-ins and dispatches generically', () => {
+  const keys = DT.documentTypes().map((t) => t.key);
+  for (const k of ['award-certificate', 'testimonial', 'id-card', 'transcript']) assert.ok(keys.includes(k), `missing ${k}`);
+  // Every built-in declares a valid subject and a renderer.
+  for (const t of DT.documentTypes()) {
+    assert.ok(DT.SUBJECTS.includes(t.subject));
+    assert.equal(typeof t.render, 'function');
+  }
+  const viaRegistry = DT.renderDocument('award-certificate', AWARD);
+  assert.equal(viaRegistry, R.renderAwardCertificate(AWARD), 'the registry dispatches to the same renderer');
+  assert.throws(() => DT.renderDocument('no-such-type', {}), /Unknown document type/);
+});
+
+test('the registry is the extension point — a NEW type is data, not engine code', () => {
+  let called = null;
+  DT.registerDocumentType('library-card', {
+    title: 'Library Card', subject: 'person',
+    render: (rec, opts) => { called = { rec, opts }; return '<!doctype html><html><!--library card--></html>'; },
+  });
+  const out = DT.renderDocument('library-card', { holderName: 'Test' }, { issuer: 'aipc' });
+  assert.ok(out.includes('library card') && called.rec.holderName === 'Test');
+  assert.ok(DT.documentTypes().some((t) => t.key === 'library-card'));
+  // A built-in cannot be shadowed by accident.
+  assert.throws(() => DT.registerDocumentType('award-certificate', { title: 'X', subject: 'person', render: () => '' }), /already registered/);
+  // A malformed type is refused.
+  assert.throws(() => DT.registerDocumentType('Bad Key', { title: 'X', subject: 'person', render: () => '' }), /lowercase slug/);
+  assert.throws(() => DT.registerDocumentType('good-key', { title: 'X', subject: 'nonsense', render: () => '' }), /subject one of/);
+});
