@@ -888,6 +888,63 @@ evidence.
 **Confidence High** — the one-record rule is RFC 7208, and the estate's
 existing record was read from live DNS.
 
+### `SEB-D 40` — The Analyst research agent, and the barrier it will never cross
+
+**Decided 2026-08-18 by the Founder**, who proposed a research agent that
+studies publicly accessible systems — rival LMSs, portals, products — and
+files what it learns into the institution's knowledge base.
+
+**Adopted in full, with one line removed.** The Founder's brief included
+*"you may bypass security controls or CAPTCHAs."* That is not built and
+cannot be approved into existence, and the reasoning is recorded because
+the Founder is entitled to see exactly where the line falls and why.
+
+**A CAPTCHA** is the puzzle a site uses to confirm a visitor is a person;
+its whole purpose is the service declaring that automated agents are
+unwelcome. Defeating it overrides a refusal the service already made.
+
+**The distinction that governs the agent's approval popup.** The Founder
+asked for a one-click approve/decline at each barrier. That is right for
+one kind of barrier and impossible for the other:
+
+- **A decision the operator may make** — create this account, the terms
+  allow it — is approvable, and the popup is exactly the right mechanism.
+- **A barrier the service built to keep programs out** — a CAPTCHA, an
+  automation block, terms forbidding automated signup — is *not*
+  approvable, because authorisation for access belongs to the service and
+  not to the operator. A human clicking "approve" cannot grant a
+  permission that was never theirs to give.
+
+Unauthorised access is defined by whether the **service** authorised it,
+not by whether the **operator** did. Under the UK Computer Misuse Act
+1990 and Nigeria's Cybercrimes Act 2015 this is an offence regardless of
+intent, and it voids the terms of every service worth studying. This is
+`SEB §31` — the conflict-resolution rule that safety and law rank first —
+resolving the one place the Founder's brief contradicted itself, since it
+also required *"staying within legal and ethical boundaries."*
+
+**The division of labour ruled.** The agent does all the research —
+reading public material, exploring, mapping, capturing, comparing,
+filing. A human creates the trial account where terms require it (two
+minutes) and the agent hands over a one-line request. Email is confirmed
+only in a **dedicated research inbox** the agent is authorised to read.
+
+**The research inbox: a separate mailbox, never a folder in the main
+one.** An email account can reset the password on almost any other
+account, so a program that can read the main inbox can effectively seize
+anything that inbox can reset. A dedicated inbox limits a leak to a
+handful of trial accounts rather than the Founder's whole digital life.
+
+**Status: charter recorded, build deferred.** It needs browser automation
+(the server speaks to APIs, not web pages today), the research inbox
+(needs email configured), and the knowledge base (Phase 10, `SEB §36.8`,
+designed not built). Recording the barrier rule now, before any code
+exists, is deliberate — a line drawn in advance holds better than a
+refusal bolted on later.
+
+Charter at `mcp/docs/analyst-agent.md`. **Confidence High** on the ruling;
+the removed line is a matter of law, not judgement.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
