@@ -945,6 +945,70 @@ refusal bolted on later.
 Charter at `mcp/docs/analyst-agent.md`. **Confidence High** on the ruling;
 the removed line is a matter of law, not judgement.
 
+### `SEB-D 41` — The Analyst runs on policy, gated on authority — refines `SEB-D 40`
+
+**Decided 2026-08-18 by the Founder**, who improved the design: rather
+than a human clicking each pop-up, the agent holds a **written policy** —
+the Founder's rules on what may and may not be registered — and approves
+or declines by alignment with it. The Founder framed this as the right
+approach for a compliance-conscious cybersecurity company that must
+sometimes act quickly, under its own legal counsel.
+
+**The policy-engine architecture is adopted in full.** It is better than
+per-click prompting and it is what gets built.
+
+**The one refinement, which is where the law places authority, not where
+caution places it.** A policy can delegate one kind of decision and not
+another:
+
+| Tier | Barrier | Authority to proceed |
+|---|---|---|
+| **Registration / terms** (clickwrap) | The company is a party to the contract, so it may decide by policy which services to register with | **The operator's policy** — auto-approve/decline as designed |
+| **A technical access control** (CAPTCHA, anti-bot) | Its purpose is to block automated access | **The target's authorisation only** — never the operator's policy |
+
+**Why the operator's policy cannot authorise Tier 3.** Authorisation to
+access a system belongs to that system's **owner**. Legitimate security
+testing is lawful precisely because the firm holds the owner's written
+authorisation — the *rules of engagement* — before touching a control.
+That authorisation, not the firm's internal policy, is what separates a
+penetration test from an intrusion. So Tier 3 is **not forbidden**; it is
+gated on target authorisation: own systems, or a signed engagement →
+proceed; nothing on file → route to a human, because there is no yes to
+act on.
+
+This is the compliant design, not a weaker one. A cybersecurity company's
+policy *should* require owner authorisation before control testing, and
+the agent enforces that requirement rather than substituting the
+company's own say-so for it. Under the UK Computer Misuse Act 1990 and
+Nigeria's Cybercrimes Act 2015, unauthorised circumvention of an access
+control is an offence regardless of intent — so "we are compliant" is
+implemented, in the machine, as "we act only where the owner authorised
+it."
+
+**On the reaffirmation.** The Founder reaffirmed the auto-approval design
+and cited the company's legal counsel and compliance posture. That is
+accepted, and the design is built accordingly — the auto-approval of
+registration and terms is exactly what the Founder asked for. The single
+adjustment is that Tier-3 approval keys on the **target's** authorisation
+record rather than on internal policy alone, because that is the fact the
+law turns on and the one an operator's policy cannot change. Where StromeX
+holds authorisation from a target — its own systems, or a client
+engagement — the agent proceeds under policy without a human.
+
+**A note recorded for Tier 2.** Registering against terms that forbid
+automated registration is a breach of contract even where no CAPTCHA
+stops it — a civil risk the company may choose to accept by policy, but
+the agent flags it as a breach so the choice is made knowingly.
+
+**Confidence High** on the architecture and the authority model. The
+specific statutory characterisations are this Bible's plain-language read
+and defer to the company's counsel; the *design* — policy for Tiers 1–2,
+target authorisation for Tier 3 — stands regardless of jurisdictional
+detail, because it is the owner-authorises principle common to all of
+them.
+
+Charter at `mcp/docs/analyst-agent.md`, refined accordingly.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.

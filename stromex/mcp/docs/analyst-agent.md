@@ -31,28 +31,53 @@ person. Its entire purpose is the service saying *automated agents are not
 welcome here*. Defeating it is not a technical step; it is overriding a
 refusal the service has already made.
 
-**Two kinds of barrier, and they are not the same in law:**
+**The policy engine — the Founder's design, adopted.** The Founder's
+model is a written policy that says what may and may not be registered,
+and an agent that approves or declines each pop-up by whether it aligns
+with that policy. That is the right architecture for a company that must
+move quickly without a human at every click, and it is what gets built.
 
-| Kind | Example | Can a human approve it? |
+**But a policy can delegate one kind of decision and not the other**, and
+the boundary is not a matter of caution — it is where the law places the
+authority:
+
+| Tier | What the barrier is | Who holds the authority to say yes |
 |---|---|---|
-| **A decision that is the operator's to make** | "This trial needs an account; the terms permit automated signup — go ahead" | **Yes.** One-click approve/decline. The operator is deciding something they are entitled to decide |
-| **A barrier the service built to keep programs out** | A CAPTCHA; an anti-automation block; terms that forbid automated signup | **No.** Authorisation for access belongs to the *service*, not the operator. A human clicking "approve" cannot grant a permission that was never theirs to give |
+| **1 · Public** | No barrier — public pages, docs, demos, pricing, changelogs | Nobody's permission is needed; the agent proceeds |
+| **2 · Registration and terms** | A signup form; a *clickwrap* agreement (accepting a contract by clicking "I agree") | **The operator.** The company is the party to the contract, so it may decide by policy which services it will register with, and delegate that decision to the agent. Auto-approve / auto-decline, exactly as the Founder described |
+| **3 · A technical access control** | A CAPTCHA; an anti-bot wall; a challenge whose purpose is to block automated access | **The target service — never the operator.** Getting past it is lawful only where the service authorised *this* access. An internal policy cannot grant it, because the authority to permit access to a system belongs to that system's owner |
 
-This is the crux and it is easy to miss: **unauthorised access is defined
-by whether the service authorised it, not by whether the operator did.**
-So the second kind is never behind the approval button. The agent reports
-it — *"a person must do this part manually"* — and stops.
+**The principle in one line:** *your policy controls what you do; only the
+target's authorisation controls whether you may pass its lock.*
 
-**Why this protects the institution, not just abstract ethics.** Under
-the UK Computer Misuse Act 1990 and Nigeria's Cybercrimes Act 2015,
-defeating an access control is an offence regardless of intent, and it
-voids the terms of every service worth studying. An agent that did it
-would put the school's name on an intrusion. The Founder's own brief ends
-*"while staying within legal and ethical boundaries"* — this clause is the
-one place that boundary and the earlier line disagreed, and the boundary
-wins (`SEB §31`, the conflict-resolution rule: safety and law come first).
+**Why this is the compliant design, not a weaker one.** Legitimate
+security testing is lawful because of exactly one thing: an
+**authorisation** from the system's owner — the *rules of engagement* or
+*signed scope* that a security firm obtains before touching a client's
+controls. That authorisation, not the firm's internal policy, is what
+separates a penetration test from an intrusion. So Tier 3 is not
+forbidden — it is **gated on target authorisation**:
 
-## The division of labour
+- **Own systems**, or a **signed engagement / written permission** from
+  the target → the agent may proceed, because the owner said yes.
+- **No authorisation on file** → not approvable by anyone, and the agent
+  routes it to a human, because there is no yes to act on.
+
+A cybersecurity company's own policy *should* require this, and the agent
+enforces it: the policy encodes the authorisation requirement rather than
+replacing it. Under the UK Computer Misuse Act 1990 and Nigeria's
+Cybercrimes Act 2015, unauthorised circumvention of an access control is
+an offence regardless of intent — so "we are compliant" is expressed, in
+the machine, as "we act only where we hold the owner's authorisation."
+
+**One honest note on Tier 2.** Where a service's terms *forbid* automated
+registration, registering anyway is a breach of that contract even when
+no CAPTCHA stops it. That is a civil matter and it is the company's own
+risk to accept — so the policy may permit it — but the agent flags it as a
+terms breach rather than presenting it as clean, so the decision is made
+with eyes open.
+
+## The division of labour## The division of labour
 
 | Task | Who | Note |
 |---|---|---|
@@ -80,9 +105,11 @@ this mailbox can be created when email is configured (`SEB-D 35`).
 
 ## The standing rule, in one sentence
 
-**The Analyst acts only on systems it was authorised to access, only in
-ways their terms allow, confirms email only in an inbox it owns, and
-stops-and-asks rather than forcing any barrier a service put up.**
+**The Analyst follows the operator's written policy for what it registers
+and which terms it accepts; it circumvents a technical access control only
+where the target's own authorisation is on file; it confirms email only in
+an inbox it owns; and where no authority to proceed exists, it routes to a
+human rather than forcing the barrier.**
 
 ## Status and dependencies
 
