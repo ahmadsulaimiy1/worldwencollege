@@ -1256,6 +1256,70 @@ Volume 12's certificate system must make every certificate regenerable from
 its record. **Confidence High** that this is the Founder's call and that it
 strictly increases safety over the SHRS design it replaces.
 
+### `SEB-D 47` — The Verifiable Document Doctrine — generalises `SEB-D 46`
+
+**Decided 2026-08-20 by the Founder.** The Founder's words: the certificate
+treatment is *"not just about certificates or testimonials, including
+transcripts and many other ID cards … we'll be coming to be treated the
+same alike."* The scope of the recoverability-and-verification rules is
+therefore not the certificate — it is **every document the estate issues
+that a third party may need to trust.**
+
+**The doctrine.** *If the estate issues it and a stranger may need to trust
+it, it is a **verifiable document**, and it carries all four guarantees:*
+
+1. **Verifiable by a stranger, with no account** — a reference number and a
+   QR code that resolve to the real record (`SEB §12.2`).
+2. **Regenerable from its record** — never dependent on a remembered code
+   (`SEB §12.12`, the SHRS failure).
+3. **Three honest states** — genuine · withdrawn/superseded (dated,
+   reasoned) · not-found. Never a fabricated or ambiguous answer.
+4. **Secrets to the store, non-secrets to the register** — unlock codes and
+   keys to `pass`; reference numbers, verify links and standing to the
+   Issuance Register (`SEB §12.12`).
+
+**Two subjects, two mechanisms, one doctrine.** The distinction is
+load-bearing, so it is ruled here, not left to be discovered:
+
+| Subject | The record is *about*… | Verify means | Mechanism |
+|---|---|---|---|
+| **Person-document** | a person | "the College issued this, to this person" | the award / issued-document register, holder-named (`awards.js`, `documents.js`) |
+| **Artifact-document** | the document itself | "this is the genuine edition, unaltered" — a **content hash** (a digest of the bytes; change one character and it changes) plus the College's signature | the provenance model (`scripts/publication/identity.mjs`, Volume 33) |
+
+**The classes, ruled in scope.** Named by the Founder: certificates, awards,
+testimonials, transcripts, ID cards. **Recommended additions**, each a
+document the estate already produces or plainly will, and each fitting one
+mechanism above:
+
+- *Person-documents:* references / recommendation letters · enrolment &
+  bona-fide-student letters (visas, banks) · statements of results ·
+  attendance / completion (CPD) certificates · conduct/character
+  certificates · student, staff and alumni **ID cards** · alumni-chapter
+  membership cards.
+- *Artifact-documents:* books and curriculum volumes · press editions ·
+  official letters on letterhead (a hybrid — verify both the named party and
+  that the bytes are unaltered) · fee statements, invoices and receipts ·
+  governance and policy records (versioned).
+
+**Honesty bound, carried from the existing code.** `identity.mjs` already
+refuses to print an invented ISBN or DOI — those are issued by external
+authorities, and fabricating one forges a third party's registry. The
+doctrine inherits that rule: a verifiable document asserts **only what the
+College can itself stand behind**, and names the external authority for
+anything it cannot.
+
+**Adopted.** The estate already holds both mechanisms — it simply had not
+named the doctrine that unifies them or wired every class to one verify
+portal. **Confidence High** on the doctrine; the build is incremental
+(`renderTestimonial` shipped alongside this entry; ID cards, publication
+verify-portal wiring, and the rest are ordered work, not yet claimed done).
+
+**What would reverse it.** A class where public verification would itself
+leak personal data faster than it protects (a safeguarding record, a medical
+note) — those are *not* verifiable documents and must never be issued as
+one. The doctrine covers what the College publishes to be trusted, never
+what it holds to be protected.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
