@@ -3546,3 +3546,18 @@ ul.check-list--open li::before { content: '○'; font-weight: 400; color: rgba(2
   padding-inline-start: 22px;
 }
 .portal-entry--down .portal-entry__welcome { color: var(--gold-soft, #D9C48A); }
+
+/* THE LAB BAND.
+   The Listening Lab and My Programme are instruments a learner works
+   IN. They take the site's header, rail and footer like every other
+   page, but not the 600px ceremonial masthead: chrome above a waveform
+   is charged to the person doing the work, and a learner who opens the
+   lab four times a week pays it four times a week. A compact navy band
+   carries the unit, the title and the way back, and the instrument
+   starts within one screen. */
+.labband { padding: 30px 0 26px; border-bottom: 1px solid rgba(199,162,74,.22); }
+.labband .lab-title { margin: 6px 0 4px; }
+.labband .lab-sub { color: rgba(247,244,236,.72); margin: 0; }
+.labband .lab-eyebrow { color: rgba(247,244,236,.55); }
+.labband .lab-back { margin: 12px 0 0; }
+.labband .lab-back a { color: var(--gold-soft); }

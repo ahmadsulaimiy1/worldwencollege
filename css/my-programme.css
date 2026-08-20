@@ -63,7 +63,7 @@
   .mp-bar__fill { transition: none; }
 }
 
-.mp-units { display: flex; flex-direction: column; }
+.mp-modules { display: flex; flex-direction: column; }
 
 .mp-unit {
   display: flex;

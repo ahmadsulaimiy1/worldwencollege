@@ -1571,7 +1571,8 @@
     "altHref": "/ar/register.html",
     "extraCss": [
       "/css/pillar.css",
-      "/css/verify.css"
+      "/css/verify.css",
+      "/css/register.css"
     ],
     "scripts": [
       "/js/register.js"
@@ -1588,10 +1589,179 @@
     "altHref": "/register.html",
     "extraCss": [
       "/css/pillar.css",
-      "/css/verify.css"
+      "/css/verify.css",
+      "/css/register.css"
     ],
     "scripts": [
       "/js/register.js"
+    ]
+  },
+  {
+    "slug": "my-programme",
+    "output": "my-programme.html",
+    "title": "My Programme &mdash; Worldwide English College",
+    "description": "Your place in the International English Fluency Course: the next thing to open, your progress through the current level, and the levels you have completed.",
+    "contentFile": "my-programme.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/my-programme.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/listening-lab.css",
+      "/css/my-programme.css",
+      "/css/my-record.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-programme.js"
+    ]
+  },
+  {
+    "slug": "my-programme-ar",
+    "output": "ar/my-programme.html",
+    "title": "برنامجي — الكلية العالمية للغة الإنجليزية",
+    "description": "موضعك في دورة الطلاقة الإنجليزية الدولية: ما تفتحه بعد ذلك، وتقدّمك في مستواك الحالي، والمستويات التي أتممتها.",
+    "contentFile": "my-programme.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/my-programme.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/listening-lab.css",
+      "/css/my-programme.css",
+      "/css/my-record.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-programme.js"
+    ]
+  },
+  {
+    "slug": "my-record",
+    "output": "my-record.html",
+    "title": "My Academic Record &mdash; Worldwide English College",
+    "description": "Everything the College holds about your studies, who else can see it, the links you have shared, and the documents you have had issued.",
+    "contentFile": "my-record.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/my-record.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/graduate.css",
+      "/css/my-record.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/my-record.js"
+    ]
+  },
+  {
+    "slug": "my-record-ar",
+    "output": "ar/my-record.html",
+    "title": "سجلّي الأكاديمي — الكلية العالمية للغة الإنجليزية",
+    "description": "كل ما تحفظه الكلية عن دراستك، ومن يراه غيرك، والروابط التي شاركتها، والوثائق التي أصدرتها.",
+    "contentFile": "my-record.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/my-record.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/graduate.css",
+      "/css/my-record.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/my-record.js"
+    ]
+  },
+  {
+    "slug": "graduate",
+    "output": "graduate.html",
+    "title": "Graduate Record &mdash; Worldwide English College",
+    "description": "A graduate's own record, published by them: awards conferred, transcript, competencies and the verification that lets a reader check any of it.",
+    "contentFile": "graduate.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/graduate.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/graduate.css"
+    ],
+    "scripts": [
+      "/js/graduate.js"
+    ]
+  },
+  {
+    "slug": "graduate-ar",
+    "output": "ar/graduate.html",
+    "title": "سجل خرّيج — الكلية العالمية للغة الإنجليزية",
+    "description": "سجلّ الخرّيج كما نشره بنفسه: الشهادات الممنوحة وكشف الدرجات والكفايات، والتحقّق الذي يتيح للقارئ فحص أيٍّ من ذلك.",
+    "contentFile": "graduate.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/graduate.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/graduate.css"
+    ],
+    "scripts": [
+      "/js/graduate.js"
+    ]
+  },
+  {
+    "slug": "listening-lab",
+    "output": "listening-lab.html",
+    "title": "Listening Lab &mdash; Worldwide English College",
+    "description": "The IEFC listening instrument: a waveform you can loop, a synchronised transcript, comprehension marked on the server, and a recorder that keeps every take.",
+    "contentFile": "listening-lab.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/listening-lab.html",
+    "extraCss": [
+      "/css/listening-lab.css",
+      "/css/my-programme.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/time-on-task.js",
+      "/js/listening-lab.js"
+    ]
+  },
+  {
+    "slug": "listening-lab-ar",
+    "output": "ar/listening-lab.html",
+    "title": "معمل الاستماع — الكلية العالمية للغة الإنجليزية",
+    "description": "أداة الاستماع في الدورة: موجة صوتية تُكرَّر، ونصّ متزامن، واستيعاب يُصحَّح على الخادم، ومسجِّل يحفظ كل محاولة.",
+    "contentFile": "listening-lab.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/listening-lab.html",
+    "extraCss": [
+      "/css/listening-lab.css",
+      "/css/my-programme.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/time-on-task.js",
+      "/js/listening-lab.js"
     ]
   }
 ]

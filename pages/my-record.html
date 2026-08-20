@@ -1,0 +1,188 @@
+<!--
+  MY ACADEMIC RECORD — what the College holds, and who else may see it.
+
+  Ported out of a standalone file at the repository root, which carried
+  its own crest and footer and none of the site's chrome.
+
+  Every id below is addressed by js/my-record.js and must keep its name.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></p>
+    <p class="masthead__eyebrow">Your record</p>
+    <h1>My Academic Record</h1>
+    <p class="lede">Everything the College holds about your studies, and control over who else can see it.</p>
+    <nav class="rec-nav" aria-label="Learner">
+      <a href="/my-programme.html">My Programme</a>
+      <a href="/my-record.html" aria-current="page">My Record</a>
+      <a href="/listening-lab.html">Listening Lab</a>
+      <a href="/verify.html">Verify an award</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="vfy-wrap">
+
+      <p class="rec-state" id="state" aria-live="polite">Loading your record&hellip;</p>
+
+      <!-- WHAT THE COLLEGE HOLDS ------------------------------------- -->
+      <section class="grad-section" id="secRecord" hidden>
+        <h2>What the College holds</h2>
+        <div class="grad-totals" id="totals"></div>
+        <div class="grad-tablewrap">
+          <table class="grad-table">
+            <caption class="sr-only">Levels of the International English Fluency Course you have entered, and their outcome</caption>
+            <thead>
+              <tr>
+                <th scope="col">Level</th><th scope="col">CEFR</th>
+                <th scope="col">Entered</th><th scope="col">Modules</th><th scope="col">Outcome</th>
+              </tr>
+            </thead>
+            <tbody id="transcript"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- PRIVACY ----------------------------------------------------- -->
+      <section class="grad-section" id="secPrivacy" hidden>
+        <h2>What others can see</h2>
+        <p class="grad-note">
+          Every part of your record starts private. Nothing below is published until you switch it on,
+          and switching one off removes it from every link you have already shared.
+        </p>
+
+        <form id="privacyForm" class="rec-privacy">
+          <div class="rec-toggle">
+            <label for="isPublic">
+              <span class="rec-toggle__name">Publish my profile</span>
+              <span class="rec-toggle__what">Anyone with your profile address can see it. Without this, nothing below is public.</span>
+            </label>
+            <input type="checkbox" id="isPublic" name="isPublic">
+          </div>
+
+          <div class="rec-handle">
+            <label class="vfy-label" for="handle">Your profile address</label>
+            <div class="rec-handle__row">
+              <span class="rec-handle__prefix">/graduate.html?handle=</span>
+              <input id="handle" name="handle" type="text" autocomplete="off" spellcheck="false"
+                     placeholder="your-name" aria-describedby="handleHelp handleError">
+            </div>
+            <p class="grad-note" id="handleHelp">Lower-case letters, numbers and hyphens. 4 to 32 characters. <a href="/graduate.html">See what a published record looks like</a>.</p>
+            <p class="vfy-error" id="handleError" role="alert"></p>
+          </div>
+
+          <div class="rec-toggle">
+            <label for="showTranscript">
+              <span class="rec-toggle__name">Academic transcript</span>
+              <span class="rec-toggle__what">Every level you entered, including any still in progress.</span>
+            </label>
+            <input type="checkbox" id="showTranscript" name="transcript">
+          </div>
+          <div class="rec-toggle">
+            <label for="showCompetencies">
+              <span class="rec-toggle__name">Competency profile</span>
+              <span class="rec-toggle__what">Your attainment against the College&rsquo;s six competencies.</span>
+            </label>
+            <input type="checkbox" id="showCompetencies" name="competencies">
+          </div>
+          <div class="rec-toggle">
+            <label for="showCpd">
+              <span class="rec-toggle__name">Professional development</span>
+              <span class="rec-toggle__what">Courses, workshops and conferences you have recorded.</span>
+            </label>
+            <input type="checkbox" id="showCpd" name="cpd">
+          </div>
+          <div class="rec-toggle">
+            <label for="showStudyTime">
+              <span class="rec-toggle__name">Measured study time</span>
+              <!-- Said at the point of decision, not in a policy nobody
+                   opens. This is the most personal figure in the record. -->
+              <span class="rec-toggle__what">How long you actually spent working. This is not part of your qualification, and most graduates keep it private.</span>
+            </label>
+            <input type="checkbox" id="showStudyTime" name="studyTime">
+          </div>
+
+          <button class="vfy-submit" type="submit">Save these settings</button>
+          <p class="rec-saved" id="saved" role="status"></p>
+        </form>
+      </section>
+
+      <!-- SHARING ----------------------------------------------------- -->
+      <section class="grad-section" id="secShares" hidden>
+        <h2>Links you have shared</h2>
+        <p class="grad-note">
+          A share link shows an agreed part of your record to someone who has no account &mdash; an employer,
+          a university admissions office. Every link expires, and you can withdraw one at any time.
+          A link never shows more than your settings above allow, even if you agreed to more when you made it.
+        </p>
+
+        <details class="rec-newshare">
+          <summary>Create a share link</summary>
+          <form id="shareForm">
+            <fieldset class="rec-fieldset">
+              <legend>What this link may show</legend>
+              <label><input type="checkbox" name="sections" value="awards" checked> Awards</label>
+              <label><input type="checkbox" name="sections" value="transcript"> Transcript</label>
+              <label><input type="checkbox" name="sections" value="competencies"> Competencies</label>
+              <label><input type="checkbox" name="sections" value="cpd"> Professional development</label>
+              <label><input type="checkbox" name="sections" value="studyTime"> Measured study time</label>
+            </fieldset>
+            <div class="rec-sharemeta">
+              <div>
+                <label class="vfy-label" for="shareLabel">Your note</label>
+                <input id="shareLabel" type="text" placeholder="Application to &hellip;" maxlength="80">
+              </div>
+              <div>
+                <label class="vfy-label" for="shareDays">Expires after</label>
+                <select id="shareDays">
+                  <option value="7">7 days</option>
+                  <option value="30" selected>30 days</option>
+                  <option value="90">90 days</option>
+                  <option value="365">1 year</option>
+                </select>
+              </div>
+            </div>
+            <button class="vfy-submit" type="submit">Create the link</button>
+          </form>
+          <!-- Shown once. The College stores only a hash and cannot
+               reproduce it, which is what stops a database disclosure from
+               becoming a disclosure of live access to every record. -->
+          <div class="rec-newlink" id="newLink" hidden></div>
+        </details>
+
+        <ul class="rec-shares" id="shares"></ul>
+      </section>
+
+      <!-- DOCUMENTS --------------------------------------------------- -->
+      <section class="grad-section" id="secDocuments" hidden>
+        <h2>Issued documents</h2>
+        <p class="grad-note">
+          A transcript or diploma supplement is a snapshot, signed and permanent. It keeps saying what it said
+          on the day it was issued, so a university can check it years later. Issuing a new one supersedes the
+          previous &mdash; the older document still verifies, and says it has been superseded.
+        </p>
+        <div class="rec-issue">
+          <button class="vfy-submit" type="button" data-issue="transcript">Issue a transcript</button>
+          <button class="vfy-submit" type="button" data-issue="diploma_supplement">Issue a diploma supplement</button>
+        </div>
+        <p class="vfy-error" id="docError" role="alert"></p>
+        <ul class="rec-docs" id="documents"></ul>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>Your record is yours to show.</h2>
+    <div class="btn-row u-center">
+      <a href="/my-programme.html" class="btn btn--gold magnetic aurum aurum--twin">Back to my programme</a>
+      <a href="/students/academic-record/" class="btn btn--outline magnetic">How the record is kept</a>
+    </div>
+  </div>
+</section>

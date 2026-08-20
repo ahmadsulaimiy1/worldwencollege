@@ -57,12 +57,12 @@
     },
     awaiting_content: {
       title: 'This level is being prepared',
-      body: 'You are enrolled and your place is held. The units for this level are not loaded yet, so there is nothing to open — this is a fault on our side, not a limit on your account.',
+      body: 'You are enrolled and your place is held. The modules for this level are not loaded yet, so there is nothing to open — this is a fault on our side, not a limit on your account.',
       action: null,
     },
     units_complete: {
       // Deliberately does NOT say "you have passed" or "the next level
-      // is unlocked". Whether finishing the units completes the level is
+      // is unlocked". Whether finishing the modules completes the level is
       // an academic decision the institution has not taken.
       title: 'You have finished every unit at this level',
       body: 'Nothing further is waiting for you here. Your level is marked complete by academic staff, not automatically, so this page will keep showing your work until they do.',
@@ -123,14 +123,14 @@
   }
 
   function renderUnits(plan) {
-    var box = $('#units');
+    var box = $('#modules');
     box.innerHTML = '';
     if (!plan.units || !plan.units.length) { $('#progressCard').hidden = true; return; }
     $('#progressCard').hidden = false;
 
-    // A fraction, not a percentage: "4 of 10 units" names the work left,
+    // A fraction, not a percentage: "4 of 10 modules" names the work left,
     // which is what a learner is actually asking.
-    var count = plan.completedCount + ' of ' + plan.totalCount + ' units completed';
+    var count = plan.completedCount + ' of ' + plan.totalCount + ' modules completed';
     $('#progressCount').textContent = count;
     var pct = plan.totalCount ? Math.round((plan.completedCount / plan.totalCount) * 100) : 0;
     $('#progressFill').style.width = pct + '%';
@@ -150,7 +150,7 @@
 
       var seq = document.createElement('span');
       seq.className = 'mp-unit__seq';
-      // A tick for finished units reads faster than a number, and the
+      // A tick for finished modules reads faster than a number, and the
       // number has already done its job by then.
       seq.textContent = u.status === 'completed' ? '✓' : String(u.sequence);
       seq.setAttribute('aria-hidden', 'true');

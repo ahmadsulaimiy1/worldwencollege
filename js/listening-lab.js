@@ -841,7 +841,7 @@
       state.marks = load('marks', []);
       state.takes = (item.myRecordings || []).map(function (r) { return r; });
 
-      $('#labUnit').textContent = unit.title;
+      $('#labModule').textContent = unit.title;
       $('#labTitle').textContent = item.title;
       $('#labVariety').textContent = state.audio.variety === 'BrE' ? 'British English'
         : state.audio.variety === 'AmE' ? 'American English' : (state.audio.variety || '');
