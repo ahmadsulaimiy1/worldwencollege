@@ -1202,6 +1202,49 @@ outages*, backed by deliberate rotation instead of automatic expiry.
 to make the rotation register real so "never expire" does not become
 "never rotate" — is recorded and is now a build item.
 
+### `SEB-D 46` — Certificate codes: recoverability over memorability
+
+**Decided 2026-08-20 by the Founder**, from a lived failure: on the
+*Sultan Hanafi Royal Schools* registrar portal, generating a certificate
+produced a code needed to reopen it, the code was never saved, and the
+certificate could no longer be opened. The Founder's direction: codes must
+never be stored in the git repository, and where a code must be kept it
+belongs in a safely retrievable secret store — while non-secret,
+findable information belongs in a beautifully designed document.
+
+**Options considered.**
+
+| Option | What it means | Verdict |
+|---|---|---|
+| Put codes in a pretty document | One designed page lists every certificate's unlock/sign code | **Rejected** — that page is a master key; whoever holds it can open and forge every certificate |
+| Put codes in the repository | Committed to source control | **Rejected** — the repo is readable by many tools and keeps history forever; a committed secret is a leaked secret, and deletion does not un-leak it |
+| Recover from record + secrets in `pass` + non-secrets in a register | Certificates regenerate from their issuance record; secret codes live labelled in the encrypted store; non-secret IDs/links/dates live in a designed issuance register | **Adopted** |
+
+**Adopted, as `SEB §12.12`.** Four parts: (1) a certificate is recoverable
+from its record, never from memory — the record `cert № X → student Y, date
+Z, transcript T` is enough to regenerate the document, so no lost string can
+ever lock a certificate shut; (2) codes are never committed to the
+repository; (3) secret codes go into the `pass` GPG-encrypted store under
+clear per-certificate labels, deliberately scattered rather than gathered
+into one master document; (4) non-secret information — reference number,
+public verify link, issue date, recipient — goes into the beautifully
+designed issuance register that *is* meant to be opened and read.
+
+**The one exception — break-glass.** A single sealed, offline, paper backup
+of the top signing key (the private key that makes certificates genuine) may
+be held in a physical safe, opened only in emergency and resealed after. It
+is never digital, never in the repository, never in a shared document — the
+sole case where a secret is written down at all, precisely so the estate can
+survive the loss of everything electronic.
+
+**Why this is within bounds.** It reuses controls already ruled: the `pass`
+store (`SEB-D 34`), the ban on secrets in source, and Volume 12's rule that
+registrar data cannot be destroyed by automation (`SEB §12.11`). It adds one
+principle — *recoverability over memorability* — and one build obligation:
+Volume 12's certificate system must make every certificate regenerable from
+its record. **Confidence High** that this is the Founder's call and that it
+strictly increases safety over the SHRS design it replaces.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
