@@ -1009,6 +1009,57 @@ them.
 
 Charter at `mcp/docs/analyst-agent.md`, refined accordingly.
 
+### `SEB-D 42` — A human solving a CAPTCHA is not a bypass — refines `SEB-D 41`
+
+**Decided 2026-08-18 by the Founder**, who asked that when a service shows
+a CAPTCHA the agent consult the company's policy, and register directly
+where there is none.
+
+**Adopted, with the CAPTCHA case sharpened by a distinction not drawn
+before.** A CAPTCHA checks one thing: that a human is present. There are
+two responses to it, and they are not the same act:
+
+- **A machine defeats it** — an automated solver, a solving service, a
+  model that reads the puzzle — which asserts a human is present when none
+  is. This is the target's control overridden, and no policy can authorise
+  it, because the authority is the target's.
+- **A human solves it and the agent continues** — the agent does all the
+  research, pauses at the box, a person spends ten seconds proving they
+  are human, and the agent carries on. This is not a bypass. It is exactly
+  the human presence the site asked for, and it is lawful on any site.
+
+**So the ruling, precisely:**
+
+| Situation | Action |
+|---|---|
+| No CAPTCHA; policy and terms permit | Agent registers automatically |
+| CAPTCHA present; target **not** authorised | Agent pauses; a human solves that one box; agent continues. It never solves it by machine. If no human is available, the target is skipped, not forced |
+| CAPTCHA present; target **is** on the authorisation register | Agent proceeds automatically under policy — the owner authorised us |
+
+This gives the company nearly all of the speed it asked for: the hours of
+research are automated, and only the ten-second human-presence check is
+handed to a person. The Founder's "we need swift time" concern is met
+without the one act — a machine defeating a stranger's control — that no
+policy or counsel can make lawful.
+
+**The policy still governs everything it should** — which services, which
+categories, what data may be supplied, whether to accept terms that forbid
+automation. It simply does not decide the CAPTCHA, because the CAPTCHA is
+not a policy question; it is the site requesting a human, and a human is
+cheap to supply.
+
+**Also decided: the policy-engine design is drafted now**, ahead of the
+build, at `mcp/docs/analyst-policy-engine.md` — the policy schema, the
+authorisation register (which the agent reads but cannot add to, because
+adding an entry asserts a real authorisation exists), the three-tier
+decision procedure, and the audit trail that lets the company show any
+target was touched within policy and within authorisation.
+
+**Confidence High.** The human-solves-versus-machine-defeats distinction
+is not jurisdiction-dependent: supplying a human when a human is asked for
+is compliance, and simulating one is the circumvention every relevant
+statute names.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
