@@ -1202,6 +1202,17 @@ outages*, backed by deliberate rotation instead of automatic expiry.
 to make the rotation register real so "never expire" does not become
 "never rotate" — is recorded and is now a build item.
 
+**Build status — discharged 2026-08-20.** The rotation-due register is
+built: `stromex.credentials.status` now reports each key's age, its due
+date (default 365 days, `STROMEX_ROTATION_INTERVAL_DAYS`) and whether it is
+overdue, with write-capable providers surfaced first. Age is measured from
+the first time the server sees a value and resets when the fingerprint
+changes; the register persists at `~/.stromex-mcp/rotation.json` and holds
+only names, fingerprints and dates. Six unit tests cover the clock,
+rotation reset, no-churn writes and corrupt-file refusal. See
+`mcp/docs/credentials.md §4a`. So "never expire" is now bounded by a
+visible, human-driven "rotate by."
+
 ### `SEB-D 46` — Certificate codes: recoverability over memorability
 
 **Decided 2026-08-20 by the Founder**, from a lived failure: on the

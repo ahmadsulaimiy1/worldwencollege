@@ -137,8 +137,9 @@ that its limits are acceptable for your machine.
 | `STROMEX_MCP_PROFILES` | all | Comma list of providers to expose |
 | `STROMEX_MCP_PROTECTED_RESOURCES` | — | Extra glob patterns, **added to** the built-in list. The built-ins cannot be removed by configuration (`SEB §26.1`) |
 | `STROMEX_MCP_STATE_DIR` | `~/.stromex-mcp` | Audit log, approvals, recovery journal |
-| `STROMEX_MCP_AUDIT_PATH` / `_APPROVALS_PATH` / `_JOURNAL_PATH` | under the state dir | Individual overrides |
+| `STROMEX_MCP_AUDIT_PATH` / `_APPROVALS_PATH` / `_JOURNAL_PATH` / `_ROTATION_PATH` | under the state dir | Individual overrides |
 | `STROMEX_MCP_APPROVAL_TTL` | `900` | Seconds an approval grant stays usable |
+| `STROMEX_ROTATION_INTERVAL_DAYS` | `365` | Rotation interval the register uses for due dates. `SEB-D 45`: the keys never expire, so this is the deliberate replacement for the timer. `stromex.credentials.status` reports each key's age and flags any that are overdue |
 | `STROMEX_MCP_ACTOR` | `stromex-mcp` | Recorded on every audit entry |
 | `STROMEX_MCP_LOG_LEVEL` | `info` | `debug` · `info` · `warn` · `error` — stderr only |
 | `STROMEX_MCP_ENV_FILE` | — | Same as `--env-file` |
