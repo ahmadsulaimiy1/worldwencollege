@@ -132,6 +132,38 @@ documentation stale has not been completed (`SEB §5.9`).
 
 ---
 
+## §18.15 A citation is not an explanation `[RULED 2026-08-18]`
+
+**Extends `SEB-D 37` after the Founder found it insufficient**, and the
+correction was right: `§18.14` fixed the vocabulary of *decisions* and
+left the estate's own reference codes untouched, as though `SEB §9.2b`
+were self-evident. It is not. It is shorthand this Bible invented.
+
+**The rule.** Whenever a reference is written for a human, the reference
+is followed — in the same sentence — by **what it says**, not merely what
+it is called.
+
+| Not this | This |
+|---|---|
+| "…per `SEB §9.2b`." | "…because `SEB §9.2b` — Volume 9 of the rulebook, the security volume — says a program must never hold a login password, since a login password bypasses every control by using the website instead." |
+| "…recorded at `SEB-D 30`." | "…recorded as decision 30: you chose live keys for Clerk and Brevo, knowing neither can be limited or expired." |
+
+**Why the code alone is worse than useless.** A reference exists so a rule
+can be traced, checked and argued with (`SEB §0.8`). A reader who cannot
+decode it can do none of those things — so the citation, which was meant
+to make the rule *contestable*, makes it *unanswerable* instead. It
+converts a claim that could have been challenged into one that can only
+be obeyed. That is the exact inversion `§0.8` warns against, produced by
+following it carelessly.
+
+**The reference is still written.** Precision is not the problem and
+dropping it would be a worse fix — someone must be able to find the
+article. The code and the meaning travel together.
+
+**The estate's own vocabulary, decoded once**, is at
+`stromex/decisions-explained.md`. That document is maintained as the
+plain-language index to this one.
+
 ## §18.14 Writing a decision for the person who must take it
 
 **Added 2026-08-18 (`SEB-D 37`).** This estate's documentation standard

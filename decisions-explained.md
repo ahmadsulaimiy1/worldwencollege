@@ -9,6 +9,48 @@ if that turns out wrong.** Any of them can be changed. Say which.
 
 ---
 
+## How to read the references
+
+Everything decided here is written into a rulebook, so it can be looked
+up, argued with and changed. The reference codes point at one specific
+rule instead of "we agreed something about that once."
+
+**`SEB` is the StromeX Editorial Bible** — thirty-seven documents
+(volumes) holding every rule the institution runs on. `stromex/editorial-bible/`.
+
+**`§` is the section symbol.** Standard in law and academic writing. It
+means "article" and is read aloud as "section".
+
+| Written | Means | Found in |
+|---|---|---|
+| `SEB §9.2b` | The Bible, **volume 9** (Security), **article 2b** | `editorial-bible/09-security-constitution.md` |
+| `SEB-D 30` | **Decision 30** — a dated ruling, with what was chosen, what was rejected, and what would reverse it | Volume 25, the Decision Log |
+| `MC §7` | **Master Constitution**, article 7 — a short document that sits *above* the Bible and settles conflicts | `MASTER-CONSTITUTION.md` |
+| `SHRS IT-04`, `AMC-D`, `WEC-EP` | **Other people's documents** — the four earlier projects the Bible was built from. Sultan Hanafi Royal Schools, Al-Madeenah, Worldwide English College | Not in this repository; cited so a claim can be traced |
+
+**The volumes cited most often:** 0 Charter · 9 Security · 18
+Documentation Standards · 21 Audit · 22 Data Governance · 25 Decision Log
+· 26 Permanent Rulings · 28 Open Questions · 30 Design Language · 34
+Design System.
+
+### Three markers, and this is the part that matters
+
+Every rule says where its authority comes from:
+
+- **`[OBSERVED]`** — **you already do this.** The Bible is only writing
+  down something already true across your projects. It claims no authority
+  of its own.
+- **`[RULED]`** — **I decided it**, because your existing work was silent
+  or contradicted itself and the work could not proceed. Each carries a
+  confidence level and a note on what would reverse it. **These are the
+  ones to challenge.**
+- **`[OPEN]`** — **I refused to decide it for you**, with the reason and
+  what it blocks. All ten are in Volume 28 — Q1 to Q10.
+
+**Why bother.** So a rule can be traced to whoever set it, and argued
+with. Volume 0 puts it plainly: *an institution that cites its own sources
+can be argued with; one that does not can only be obeyed or ignored.*
+
 ## First, the words I kept using
 
 | Word | What it means |
