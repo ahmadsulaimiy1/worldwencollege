@@ -1103,6 +1103,57 @@ is not mistaken for the finished pipeline.
 **Confidence High** that this is the Founder's call to make; the estate's
 role is to bound and record it, which it has.
 
+### `SEB-D 44` — Credential lifetime: one year, and a rotation register for the keys that cannot expire
+
+**Decided 2026-08-18 by the Founder**, who set a working-key lifetime of
+one year, reasoning that the company controls access and the keys are
+never deliberately exposed.
+
+**Adopted, with one factual correction that reshapes it.** Of the six
+providers the Founder named, **only GitHub and Vercel support an expiry
+date at all.** Neon, Resend, Clerk and Brevo offer no expiry field: their
+keys live until a human deletes them (established from the providers' own
+documentation, `SEB-D 30`). So "one year maximum" is a *setting* on two of
+the six and a *habit* on the other four.
+
+**Ruled:**
+
+- **GitHub, Vercel, Cloudflare** — set a **one-year** expiry. (Cloudflare
+  is not in the Founder's list of six but takes the same rule; its first
+  working token, `SEB-D 43`, is a one-year write token rather than the
+  thirty-day throwaway the read-only test would have used.)
+- **Neon, Resend, Clerk, Brevo** — no expiry exists, so the key is
+  **rotated by a human at twelve months**: mint a replacement, cut over,
+  revoke the old (`mcp/docs/credentials.md §4`).
+- **A rotation-due register is built** — `stromex.credentials.status`
+  already reports each key's fingerprint; it gains the key's **age and a
+  due date**, so the four unexpirable keys cannot silently become
+  permanent. This is the machine keeping the twelve-month habit that the
+  providers will not keep for the estate.
+
+**The reasoning recorded, because the Founder's premise deserves an
+answer, not a nod.** "The keys are never exposed to anybody" is a hope,
+not a control: expiry and rotation exist for the *accidental* leak — a
+lost device, a mis-synced backup, a screenshot — not the deliberate one.
+An accidental exposure occurred in this very session (a login password
+pasted into chat, `SEB §9.2b`), to a careful operator, which is the
+standing proof that "we are careful" cannot substitute for a bounded key
+lifetime. A serious company rotates on a clock *because* it is serious.
+
+**Why a one-year window is nonetheless reasonable for a working key.** The
+exposure window a one-year lifetime leaves open is bounded by three things
+already ruled: keys live only in the Founder's `pass` store (`SEB-D 34`),
+rotation is a sub-minute operation with no restart (`SEB-D 33`), and the
+protected-operation gate still stops destructive actions taken through the
+server (`SEB §26.5`). One year is industry-normal for a working
+credential, and the friction the Founder feared — rotation taking days —
+is the specific defect the store choice removed, so a bounded lifetime no
+longer costs velocity.
+
+**Confidence High.** The lifetime is the Founder's call; the correction
+(four of six cannot express it as an expiry) and the rotation register are
+the estate's job, now recorded.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
