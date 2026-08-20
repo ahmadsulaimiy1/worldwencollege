@@ -74,7 +74,22 @@ export async function onRequestPost({ request, env }) {
 
     if (user) await markDraftSubmitted(env, user.id, id);
 
-    await notify(env, 'application_received', { to: body.email, name: body.fullName.trim() });
+    // THE RESULT OF THIS IS PART OF THE ANSWER, NOT A SIDE EFFECT.
+    //
+    // notify() logs a failure and returns { sent: false } rather than
+    // throwing, which is right: a mail gateway being unconfigured must
+    // never lose an application. But the return value was discarded, so
+    // the 201 said nothing about it — and three published sentences
+    // told the applicant "you are emailed a confirmation" while the
+    // gateway threw GatewayNotConfiguredError on every single request.
+    // The College was telling a buyer something untrue at the exact
+    // moment they had just handed over their name.
+    //
+    // The flag travels with the response now, and the page renders the
+    // two cases differently. When the key lands, nothing here changes
+    // and the sentence starts being the other one.
+    const confirmation = await notify(env, 'application_received',
+      { to: body.email, name: body.fullName.trim() });
     // The staff alert carries the whole application, not a name and a
     // country. The point of an alert is that somebody can act on it from
     // the notification — deciding what to reply needs the purpose, the
@@ -90,7 +105,7 @@ export async function onRequestPost({ request, env }) {
       heardVia: t(body.heardVia), notes: t(body.notes),
     });
 
-    return jsonResponse({ applicationId: id, status: 'submitted' }, { status: 201 });
+    return jsonResponse({ applicationId: id, status: 'submitted', confirmationSent: Boolean(confirmation && confirmation.sent) }, { status: 201 });
   } catch (err) {
     return errorResponse(err);
   }

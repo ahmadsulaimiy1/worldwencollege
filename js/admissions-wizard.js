@@ -267,6 +267,20 @@
     $$('[data-status-only]', statusShell).forEach(function (el) {
       el.hidden = el.getAttribute('data-status-only') !== application.status;
     });
+    // The confirmation email is a claim, so it is shown only when the
+    // API says the message actually left. `confirmationSent` is absent
+    // on a status re-read (the draft endpoint answers about the
+    // application, not about a send that happened days ago), and an
+    // absent flag renders nothing — which is the honest default.
+    var sentEl = $('[data-confirmation-sent]', statusShell);
+    if (sentEl) sentEl.hidden = application.confirmationSent !== true;
+  }
+
+  /** The one-page application, for every state in which the wizard cannot run. */
+  function revealAnonymous() {
+    var notice = $('[data-wizard-unavailable]');
+    if (notice) notice.hidden = false;
+    if (wizardShell) wizardShell.hidden = true;
   }
 
   function init() {
@@ -316,7 +330,7 @@
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(payload),
       }).then(function (result) {
-        renderStatus({ id: result.applicationId, status: result.status });
+        renderStatus({ id: result.applicationId, status: result.status, confirmationSent: result.confirmationSent });
       }).catch(function (err) {
         if (err.status === 422 && err.body && err.body.fields) {
           var firstStepWithError = steps.find(function (el) {
@@ -345,18 +359,25 @@
         done();
         init();
       },
-      // Clerk's own SDK could not be reached at all (offline, blocked
-      // script) — the gate is already gone by the time this fires, so
-      // without a handler the page is just blank behind the header.
-      onAuthUnavailable: function () {
-        if (loadErrorShell) loadErrorShell.hidden = false;
-      },
+      // Clerk's own SDK could not be reached at all — offline, blocked,
+      // or, as on this deployment, a Frontend API host whose DNS record
+      // has never been added.
+      //
+      // This used to reveal the LOAD-ERROR panel, whose first words are
+      // "You signed in, but the application itself did not load". The
+      // visitor had not signed in; they could not. So the one page the
+      // whole site's Apply Now button points at told every applicant
+      // something that had not happened, and offered them a Try again
+      // button that could only fail the same way.
+      //
+      // What it shows instead is the anonymous application, which needs
+      // no account and posts to an endpoint that has always accepted
+      // one. A person who came here to apply can apply.
+      onAuthUnavailable: function () { revealAnonymous(); },
     });
-    // No Clerk key configured: the page cannot check a session at
-    // all, so it says so rather than pretending the wizard works.
-    if (!guarded) {
-      var notice = $('[data-wizard-unavailable]');
-      if (notice) notice.hidden = false;
-    }
+    // No Clerk key configured at all: same answer, same form. The
+    // wizard's advantage is that it remembers you between visits, and
+    // that is worth exactly nothing to someone who cannot start it.
+    if (!guarded) revealAnonymous();
   });
 })();

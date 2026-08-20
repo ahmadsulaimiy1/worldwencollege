@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="/css/brand.css?v=43acc0c1">
 <link rel="stylesheet" href="/css/listening-lab.css?v=e42925a0">
 <link rel="stylesheet" href="/css/dashboard.css?v=fe257965">
-<link rel="stylesheet" href="/css/admissions-wizard.css?v=6fef18fb">
+<link rel="stylesheet" href="/css/admissions-wizard.css?v=943e59fc">
 </head>
 <body class="lab">
 
@@ -36,9 +36,93 @@
 <main class="lab-body" id="main" style="grid-template-columns:minmax(0,1fr)">
 
   <div data-wizard-unavailable hidden>
-    <h2>Sign-in is not switched on yet</h2>
-    <p class="lede">The step-by-step application needs a signed-in account, and that account system is built but not yet connected on this deployment. Nothing is broken on your end &mdash; write to Admissions directly and we will take it from there.</p>
-    <p><a class="btn btn--gold" href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">Write to Admissions</a></p>
+    <!-- THE APPLICATION ITSELF, NOT A MAILTO.
+         This slot used to say "sign-in is not switched on yet" and hand
+         the visitor a mailto — on the one page the whole site's Apply
+         Now button points at. But POST /api/admissions/apply has always
+         accepted an ANONYMOUS application by design (see the note above
+         optionalUser() in that file), and js/site.js already carries a
+         handler that posts to it and falls back to exactly that mailto
+         if the endpoint cannot be reached. So the form below is strictly
+         better than what it replaces in both worlds: it creates a real,
+         validated record where D1 is bound, and degrades to the same
+         email where it is not.
+         The three selects are lifted from the wizard's own steps, so the
+         two routes cannot come to offer different countries. -->
+    <h2>Apply for a place</h2>
+    <p class="lede">The step-by-step application saves your progress between visits and needs an account. That account system is built and not yet connected on this deployment — so this is the whole application on one page instead. It reaches Admissions the same way and creates the same record.</p>
+
+    <form class="apply-anon" data-admissions-form
+          data-endpoint="/api/admissions/apply"
+          data-fallback-email="info@worldwencollege.co.uk"
+          data-storage-key="wec-lc-apply-anon"
+          data-loading-text="Sending…"
+          data-error-text="Please fix the highlighted fields below."
+          data-success-text="Your application is in. Admissions will reply to the address above."
+          data-fallback-text="The online form could not be reached, so your details have been handed to your email application ready to send — press send and nothing is lost."
+          data-retry-label="Try again" novalidate>
+      <div class="field">
+        <label for="a-name">Your full name</label>
+        <input id="a-name" name="fullName" type="text" autocomplete="name" required>
+        <p class="field__hint">As it appears on your passport or national identity document.</p>
+      </div>
+      <div class="field">
+        <label for="a-email">Email address</label>
+        <input id="a-email" name="email" type="email" autocomplete="email" required>
+        <p class="field__hint">The College writes to this address and nowhere else.</p>
+      </div>
+      <div class="field">
+        <label for="a-phone">Telephone (optional)</label>
+        <input id="a-phone" name="phone" type="tel" autocomplete="tel">
+      </div>
+      <div class="field">
+        <label for="a-country">Country of residence</label>
+        <select id="a-country" name="country">
+                <option value="">Select your country</option>
+                <option value="AE">United Arab Emirates</option><option value="SA">Saudi Arabia</option>
+                <option value="QA">Qatar</option><option value="KW">Kuwait</option><option value="BH">Bahrain</option>
+                <option value="OM">Oman</option><option value="EG">Egypt</option><option value="JO">Jordan</option>
+                <option value="NG">Nigeria</option><option value="GH">Ghana</option><option value="KE">Kenya</option>
+                <option value="ZA">South Africa</option><option value="PK">Pakistan</option><option value="IN">India</option>
+                <option value="BD">Bangladesh</option><option value="ID">Indonesia</option><option value="MY">Malaysia</option>
+                <option value="PH">Philippines</option><option value="CN">China</option><option value="TR">Turkey</option>
+                <option value="GB">United Kingdom</option><option value="US">United States</option>
+                <option value="FR">France</option><option value="DE">Germany</option><option value="OTHER">Other</option>
+              </select>
+      </div>
+      <div class="field">
+        <label for="a-purpose">What you want the English for</label>
+        <select id="a-purpose" name="purpose">
+                <option value="">Select a reason</option>
+                <option value="university">A university place</option>
+                <option value="career">Career and professional work</option>
+                <option value="government">Government or diplomatic service</option>
+                <option value="examination">IELTS, TOEFL or Cambridge</option>
+                <option value="business">Business and commerce</option>
+                <option value="personal">Personal mastery</option>
+              </select>
+      </div>
+      <div class="field">
+        <label for="a-start">When you would like to start</label>
+        <select id="a-start" name="startPreference">
+                <option value="">Select a timing</option>
+                <option value="immediately">Immediately</option>
+                <option value="within_3_months">Within three months</option>
+                <option value="within_6_months">Within six months</option>
+                <option value="undecided">Not yet decided</option>
+              </select>
+      </div>
+      <div class="field">
+        <label for="a-notes">Anything else Admissions should know (optional)</label>
+        <textarea id="a-notes" name="notes" rows="3"></textarea>
+      </div>
+      <p class="field__hint" data-level-summary hidden><span data-level-summary-text></span></p>
+      <div class="declaration">
+        <label class="declaration__line"><input type="checkbox" name="isAdult" required> <span>I am eighteen or over.</span></label>
+        <label class="declaration__line"><input type="checkbox" name="privacyAgreed" required> <span>I have read the <a href="/support/privacy/">privacy notice</a> and agree that the College may hold these details in order to process my application.</span></label>
+      </div>
+      <p><button class="btn btn--gold" type="submit" data-submit-btn><span data-btn-label>Send my application</span></button></p>
+    </form>
   </div>
 
   <div data-wizard-load-error hidden>
@@ -408,7 +492,11 @@
     <h2>Your application is in.</h2>
     <p class="lede">Reference id, if you need to write to Admissions about it:</p>
     <div class="application-status__id" data-status-id>&mdash;</div>
-    <p data-status-only="submitted">A confirmation has been sent to your email. Admissions reviews applications in the order received &mdash; there is no queue position to check, only the reply.</p>
+    <p data-status-only="submitted">Keep the reference above &mdash; it is the only key to this application, and the College will not disclose an application&rsquo;s state to anyone who does not hold it. Admissions reviews applications in the order received; there is no queue position to check, only the reply.</p>
+    <!-- Rendered only when the API reports that the confirmation
+         actually left. It used to be flat prose asserting an email that
+         no gateway had been configured to send. -->
+    <p data-confirmation-sent hidden>A confirmation has also been sent to your email address.</p>
     <p data-status-only="placement_pending" hidden>Your placement assessment is being arranged. Admissions will be in touch by email to schedule it.</p>
     <p data-status-only="offer_sent" hidden>An offer has been sent to your email. Reply there to accept it and receive your invoice.</p>
     <p data-status-only="accepted" hidden>Your offer is accepted. Enrolment completes once payment is received &mdash; see your email for the invoice.</p>
@@ -422,6 +510,10 @@
 <script src="/js/clerk-loader.js?v=0d9cae5a"></script>
 <script src="/js/portal-guard.js?v=6ae6fb6c"></script>
 <script src="/js/api-auth.js?v=a45735fc"></script>
-<script src="/js/admissions-wizard.js?v=23280654"></script>
+<!-- js/site.js carries the [data-admissions-form] handler that posts
+     the anonymous application and falls back to mailto. Without it
+     the form above is a form nothing listens to. -->
+<script src="/js/site.js?v=4332eab8" defer></script>
+<script src="/js/admissions-wizard.js?v=d49f3bbc"></script>
 </body>
 </html>
