@@ -28,7 +28,7 @@
 <link rel="preload" href="/assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&text=%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css?v=e2db2ede">
+<link rel="stylesheet" href="/css/brand.css?v=3ec4cf61">
 <link rel="stylesheet" href="/css/atelier.css?v=4f3abf82">
 <link rel="stylesheet" href="/css/pages.css?v=0e3b128d">
 <link rel="stylesheet" href="/css/pillar.css?v=661126ed">
@@ -897,22 +897,33 @@
   </div>
 
 
-  <!-- THE UTILITY RAIL.
-       A second, quieter band under the primary navigation, carrying the
-       nine things a reader arrives already wanting to do — as opposed to
-       the six pillars above, which are what the institution IS.
+  <!-- THE UTILITY RAIL — SEVEN BAYS, AND THE COUNT IS THE DESIGN.
+       A second, quieter band under the primary navigation, carrying what
+       a reader arrives already wanting to DO — as opposed to the six
+       pillars above, which are what the institution IS. They are
+       different kinds of object and they were competing for one row:
+       "Apply Now" and "The College" are not peers, one is an act and the
+       other is a subject.
 
-       They are different kinds of object and they were competing for one
-       row. "Apply Now" and "The College" are not peers: one is an act and
-       the other is a subject, and putting them on the same rail made the
-       header read as a list of links rather than as an instrument.
+       It carried nine, and nine was one more than the rail could hold
+       even on a 1440px monitor — measured, not guessed: the track ran
+       55px past the 1180px measure at full desktop width and 772px past
+       it at 360px. A rail that overflows at the width it was designed
+       for is not a scroller, it is a mistake with a scrollbar.
 
-       It scrolls rather than wraps. Nine items do not fit a phone and
-       they do not fit a narrow laptop either; a rail that wraps to two
-       rows costs 44 more pixels of chrome on every page for the sake of
-       an item nobody was looking for. Native overflow-x with scroll-snap,
-       gold fade masks at both ends so the cut edge reads as "there is
-       more this way" rather than as a clipped element. -->
+       So it was curated rather than compressed. Curriculum went because
+       the Academics mega menu above already carries it by name; Contact
+       went because it is in the utility bar above, the drawer, and the
+       footer. What is left is two acts, one appointment, two questions
+       about money, the College's own publications, and the one service
+       an outside party comes here for. Seven — the same count as the
+       lattice nodes this header is strung on.
+
+       Seven fit the measure exactly, so from 1100px up the rail stops
+       scrolling and becomes a colonnade: equal bays, hairline piers
+       between them, each label centred in its own bay. Below that it is
+       a scroller again, with gold fade masks at both ends so a cut edge
+       reads as "more this way" rather than as a rendering fault. -->
   <div class="utilrail" aria-label="Quick actions">
     <div class="utilrail__track">
       <a class="utilrail__item utilrail__item--gold" href="/student-portal/">
@@ -925,43 +936,22 @@
         <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg><span>Tuition &amp; Fees</span></a>
       <a class="utilrail__item" href="/admissions/tuition/#scholarships">
         <svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg><span>Scholarships</span></a>
+      <a class="utilrail__item" href="/press/library/">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>Publications</span></a>
       <div class="utilrail__item utilrail__item--has-menu">
         <button type="button" class="utilrail__btn" aria-expanded="false" aria-haspopup="true">
           <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg><span>Verify</span>
           <svg class="icon utilrail__chev" aria-hidden="true"><use href="#i-arrow"/></svg>
         </button>
         <div class="utilrail__menu crystal" role="menu">
-          <a href="/verify.html?type=certificate"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg>Verify a Certificate</a>
-          <a href="/verify.html?type=transcript"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>Verify a Transcript</a>
-          <a href="/verify.html?type=identity"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>Verify a Student Identity</a>
-          <a href="/verify.html?type=receipt"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg>Verify a Receipt</a>
-          <a href="/verify.html"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>Verify Any Document</a>
+          <a href="/verify/?type=certificate"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg>Verify a Certificate</a>
+          <a href="/verify/?type=transcript"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>Verify a Transcript</a>
+          <a href="/verify/?type=identity"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg>Verify a Student Identity</a>
+          <a href="/verify/?type=receipt"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg>Verify a Receipt</a>
+          <a href="/verify/"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg>Verify Any Document</a>
         </div>
       </div>
-      <a class="utilrail__item" href="/press/library/">
-        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>Downloads</span></a>
-      <a class="utilrail__item" href="/academics/#curriculum">
-        <svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><span>Curriculum</span></a>
-      <a class="utilrail__item" href="/contact/">
-        <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg><span>Contact</span></a>
     </div>
-  </div>
-
-  <!-- THE HEADER CLOCK.
-       Mobile only, sitting directly above the quicknav strip — where
-       the reference screenshot carries its own date/time line, at the
-       very top of the app rather than buried in page content. Compact
-       by design: one line, no analogue face, so it costs the header
-       almost nothing in height. js/worldclock.js fills all three
-       values; the numerals shown here are only the pre-script state. -->
-  <div class="headerclock grain" data-worldclock>
-    <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-    <span class="headerclock__times">
-      <span data-clock-london>13:36</span><span class="headerclock__tz">LON</span>
-      <span class="headerclock__sep">&middot;</span>
-      <span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span>
-    </span>
-    <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
   </div>
 
   <!-- THE QUICKNAV STRIP.
@@ -2635,8 +2625,8 @@
 <script src="/js/site.js?v=4332eab8"></script>
 <script src="/js/motion.js?v=fbe1640a"></script>
 <script src="/js/atelier.js?v=989e1ca8" defer></script>
-<script src="/js/worldclock.js?v=dc32fbb1" defer></script>
+<script src="/js/worldclock.js?v=99a644de" defer></script>
 <script src="/js/intake.js?v=5238c58f" defer></script>
-<script src="/js/sonics.js?v=f926fe22" defer></script>
+<script src="/js/sonics.js?v=09477b8f" defer></script>
 </body>
 </html>

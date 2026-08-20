@@ -36,13 +36,24 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 /levels    /academics/#levels                     301
 /privacy   /support/privacy/           301
 
-# /verify is deliberately NOT redirected. The real verification URL is
-# /verify.html?code=<code> (js/verify.js), and a wildcard rule pointing
-# /verify/* at /verify.html would drop whatever followed the slash — so
-# a credential link that someone had mistyped or a QR code that had
-# been re-encoded would resolve to an empty verification page rather
-# than an error. An empty verification page is the one failure mode
-# this route must never produce: it looks like a check that ran.
+# /verify: an EXACT rewrite, and never a wildcard one.
+#
+# The real verification URL is /verify.html?code=<code> (js/verify.js).
+# A wildcard rule pointing /verify/* at /verify.html would drop whatever
+# followed the slash — so a credential link that someone had mistyped or
+# a QR code that had been re-encoded would resolve to an empty
+# verification page rather than an error. An empty verification page is
+# the one failure mode this route must never produce: it looks like a
+# check that ran.
+#
+# The two rules below are exact paths, not patterns. Nothing can follow
+# the slash for them to swallow, and a 200 rewrite carries the query
+# string through unchanged, so /verify/?code=WEC-… arrives at the page
+# with its code intact. What they buy is a clean URL for the header's
+# Verify menu: a college that prints /verify.html in its own navigation
+# is showing the reader its filenames.
+/verify/   /verify.html   200
+/verify    /verify.html   200
 
 # >>> GENERATED FROM scripts/lib/route-map.js — DO NOT EDIT BY HAND
 #

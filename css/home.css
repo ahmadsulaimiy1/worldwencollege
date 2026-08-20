@@ -759,8 +759,10 @@
 
 /* THE GLANCE section and THE WORLD CLOCK panel that used to live here
    were both removed — the grid repeated the header's quicknav strip,
-   and the clock moved into the header above it (.headerclock,
-   css/brand.css). The tile component itself (.glance__tile and its
+   and the clock moved into the header above it. It has since moved
+   again, into the utility bar at the very top of the page, which is
+   where both clocks now live sitewide; the intermediate .headerclock
+   panel is gone. The tile component itself (.glance__tile and its
    two-layer badge) survives, relocated to css/brand.css so the
    footer's own tile grid can share it. */
 

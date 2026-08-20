@@ -246,6 +246,12 @@
       btn.setAttribute('aria-label', enabled
         ? 'Interface sound is on. Turn it off.'
         : 'Interface sound is off. Turn it on.');
+      // The visible word was costing the utility bar the 65px that the
+      // visitor's clock needed to sit on the page's own axis, so the
+      // control is the three bars and nothing else. A title says it in
+      // words to anyone who hovers; the aria-label above already said
+      // it to anyone listening.
+      btn.title = enabled ? 'Interface sound is on' : 'Interface sound is off';
     };
 
     btn.addEventListener('click', () => {
