@@ -189,3 +189,71 @@ ships with `*certificate*`, `*transcript*`, `*registrar*`,
 in its protected-resource patterns, and a match is a **terminal refusal
 with no approval path**. Archiving, revoking and superseding remain
 ordinary write operations.
+
+## §12.12 Recoverability over memorability `[RULED — confidence High]`
+
+This section exists because of a real failure the Founder lived through. On
+the *Sultan Hanafi Royal Schools* (SHRS) registrar portal, generating a
+certificate produced a **code that was needed to open the certificate
+later** — and it was never saved. The certificate then could not be
+reopened, because the only thing that could unlock it was a string of
+characters no longer in anyone's memory. That is a system that was **broken
+by design**, and this estate must never reproduce it.
+
+The rule has four parts. Read *secret* below as: a value whose whole purpose
+is that only the holder has it — a password, a PDF unlock code, a signing
+key, a private key. Read *non-secret* as: information that identifies or
+locates a thing but grants no power on its own — a certificate's reference
+number, its public verification URL, the date it was issued.
+
+1. **A certificate must be recoverable from its record, never from
+   memory.** The authoritative fact is "certificate № *X* was issued to
+   student *Y* on date *Z* against transcript *T*." From that record the
+   document is **regenerable** — reprinted, re-sealed, re-served. No human
+   ever has to remember a code to get a certificate back. If losing one
+   string can lock a certificate shut forever, the design is wrong and is
+   rejected here.
+
+2. **Codes are never written into the git repository.** The repository is
+   version-controlled source that many tools and people can read and that
+   keeps history forever; a secret placed there is a secret leaked, and
+   deleting it later does not un-leak it (the old commit still holds it).
+   No unlock code, PDF password, signing key or private key is ever
+   committed — not in a file, not in a config, not in a comment.
+
+3. **Secret codes live in the encrypted store, labelled.** Every secret
+   goes into the `pass` store — the GPG-encrypted (GNU Privacy Guard, public-key
+   cryptography; only the holder's private key can decrypt it) secret store the
+   estate already uses for provider credentials — under a clear, human-readable
+   label such as `stromex/certificates/shrs/2026/cert-04812/pdf-unlock`. It is
+   retrievable the instant it is needed and readable by the holder alone.
+   It is deliberately **not** gathered into one pretty document, because a
+   single document listing every certificate's unlock/sign code is a master
+   key: whoever holds that page can open — and forge — every certificate.
+   Scattering the secrets in an encrypted store, each under its own label,
+   removes that single point of catastrophe.
+
+4. **Non-secret information goes in the beautifully designed issuance
+   register.** The certificate reference number, the public verify link, the
+   issue date, the recipient, and the register of what was issued when — none
+   of these is a secret — belong in a designed, findable **issuance register**
+   (Volume 12's certificate system). This is the document that *is* meant to be
+   opened and read at a glance. It carries no code that could unlock or forge a
+   certificate; it points at records, it does not embody power.
+
+**The one deliberate exception — break-glass.** The single most important
+secret in the estate is the **top signing key** (the private key that makes
+a certificate genuine — the digital equivalent of the school seal). Because
+losing it would make every future certificate un-signable, exactly one
+physical, sealed, offline backup of that key may exist — printed on paper,
+sealed, and held in a physical safe, opened only in a true emergency and
+resealed after. This is not a convenience copy and it is never digital, never
+in the repository, and never in a shared document. It is the sole case where a
+secret is written down at all, and it is written down precisely so the estate
+can survive the loss of everything electronic.
+
+**Why this matters.** The SHRS portal optimised for *memorability under
+pressure at generation time* and lost the certificate when memory failed.
+This estate optimises for *recoverability from a durable record*, which
+never fails, while keeping the secrets that must stay secret out of both the
+repository and any single master document. Recoverability over memorability.
