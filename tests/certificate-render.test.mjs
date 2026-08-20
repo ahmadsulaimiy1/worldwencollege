@@ -18,6 +18,7 @@ import { loadUrl } from './helpers.mjs';
 
 const R = await import(loadUrl('functions/_lib/registry/certificate-render.js'));
 const REG = await import(loadUrl('functions/_lib/registry/issuance-register.js'));
+const ISS = await import(loadUrl('functions/_lib/registry/issuer.js'));
 
 let pass = 0, fail = 0;
 const check = (label, cond, detail) => {
@@ -130,8 +131,36 @@ const AWARD = {
   check('A non-year is refused', threw(() => REG.certificateSecretLabel({ code: 'AIPC-4K7P-9WQ2-MXR8T', kind: 'pdf-unlock', year: '26' }), /four-digit/) === null);
   check('A malformed code is refused rather than sanitised',
     threw(() => REG.certificateSecretLabel({ code: '../etc/passwd', kind: 'pdf-unlock', year: '2026' }), /valid AIPC/) === null);
-  check('An institution slug with a slash is refused',
-    threw(() => REG.certificateSecretLabel({ code: 'AIPC-4K7P-9WQ2-MXR8T', kind: 'pdf-unlock', year: '2026', institution: 'a/b' }), /short slug/) === null);
+}
+
+// ── 5b. The engine is COLLECTIVE, not one institution's (SEB-D 47) ───
+{
+  // A second institution, defined at call time — the engine owns no
+  // institution, it is told who the issuer is.
+  const AMICAS = ISS.defineIssuer({
+    key: 'amicas',
+    legalName: 'Al-Madeenah International College for Arabic & Islamic Studies',
+    codePrefix: 'AMIC',
+    verifyOrigin: 'https://almadeenah.example',
+    sealMark: 'AMIC',
+  });
+  const cert = R.renderAwardCertificate(AWARD, { issuer: AMICAS });
+  check('A certificate renders for a DIFFERENT institution with no engine edits',
+    cert.includes('Al-Madeenah International College') && cert.includes('almadeenah.example'));
+  check('...and does not leak the default institution into it',
+    !cert.includes('Albalagh International Premium College'));
+
+  // The pass label is namespaced by issuer, and a code is validated
+  // against THAT issuer's prefix.
+  const label = REG.certificateSecretLabel({ code: 'AMIC-4K7P-9WQ2-MXR8T', kind: 'signing-key', year: '2026', issuer: AMICAS });
+  check('A secret label is namespaced by the issuer key',
+    label === 'stromex/certificates/amicas/2026/AMIC-4K7P-9WQ2-MXR8T/signing-key', label);
+  check('An AIPC code is refused under a different issuer\'s namespace',
+    threw(() => REG.certificateSecretLabel({ code: 'AIPC-4K7P-9WQ2-MXR8T', kind: 'signing-key', year: '2026', issuer: AMICAS }), /valid AMIC/) === null);
+  check('An unknown issuer slug is refused, not guessed',
+    threw(() => REG.certificateSecretLabel({ code: 'AMIC-4K7P-9WQ2-MXR8T', kind: 'signing-key', year: '2026', issuer: 'nope' }), /Unknown issuer/) === null);
+  check('A profile with a non-https verify origin is refused',
+    threw(() => ISS.defineIssuer({ key: 'demo', legalName: 'Demo College', codePrefix: 'DEMO', verifyOrigin: 'http://insecure' }), /https origin/) === null);
 }
 
 // ── 6. The Issuance Register document ───────────────────────────────

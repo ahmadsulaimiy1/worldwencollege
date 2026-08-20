@@ -42,9 +42,15 @@
  */
 
 import { toSvg } from './qr.js';
+import { resolveIssuer, DEFAULT_ISSUER } from './issuer.js';
 
-/** The public verification origin. A non-secret constant, so rendering stays deterministic. */
-export const VERIFY_ORIGIN = 'https://worldwencollege.com';
+/**
+ * The default verify origin, kept as a named export for callers that only
+ * want the string. The engine itself no longer assumes it — every renderer
+ * takes an `issuer` profile (issuer.js) and reads the origin from there, so
+ * the same code renders for any estate institution.
+ */
+export const VERIFY_ORIGIN = DEFAULT_ISSUER.verifyOrigin;
 
 const HONOUR_LABEL = {
   pass: 'Pass',
@@ -181,7 +187,9 @@ function normaliseAward(record) {
  * signature says so on the face of the document rather than presenting a
  * padlock it has not earned (mirrors signing.js's own rule).
  */
-export function renderAwardCertificate(record, { origin = VERIFY_ORIGIN, signature = null } = {}) {
+export function renderAwardCertificate(record, { issuer, signature = null } = {}) {
+  const iss = resolveIssuer(issuer);
+  const origin = iss.verifyOrigin;
   const a = normaliseAward(record);
   const url = verificationUrl(a.verificationCode, origin);
   const qr = a.verificationCode ? toSvg(url, { level: 'Q', size: 98, label: null }) : '';
@@ -210,7 +218,7 @@ export function renderAwardCertificate(record, { origin = VERIFY_ORIGIN, signatu
 <style>${documentStyle()}</style></head>
 <body><main class="sheet"><div class="frame"></div>
   <header class="masthead">
-    <div class="institution">Albalagh International Premium College — London Campus</div>
+    <div class="institution">${escapeHtml(iss.legalName)}</div>
     <h1 class="kind">Certificate of Award</h1>
     <div class="rule"></div>
   </header>
@@ -223,7 +231,7 @@ export function renderAwardCertificate(record, { origin = VERIFY_ORIGIN, signatu
   ${revoked ? '<p class="citation" style="color:#9A7B3A">This award has been withdrawn. Verify the code for its current standing.</p>' : ''}
   <div class="foot">
     <div class="verify">
-      ${seal('AIPC')}
+      ${seal(iss.sealMark)}
       <div class="cartouche">${escapeHtml(a.verificationCode)}</div>
       Verify at ${escapeHtml(origin)}/verify.html — no account required. This certificate is
       recoverable at any time from the Graduate Register; the code above authorises nothing.
@@ -247,7 +255,9 @@ export function renderAwardCertificate(record, { origin = VERIFY_ORIGIN, signatu
  * `verificationCode`, `status`. Nothing else is read; a secret attached
  * to the record never reaches the page.
  */
-export function renderTestimonial(record, { origin = VERIFY_ORIGIN } = {}) {
+export function renderTestimonial(record, { issuer } = {}) {
+  const iss = resolveIssuer(issuer);
+  const origin = iss.verifyOrigin;
   const r = record || {};
   const subjectName = r.subjectName ?? r.holderName ?? r.holder_name ?? '';
   const body = r.body ?? r.statement ?? '';
@@ -272,7 +282,7 @@ export function renderTestimonial(record, { origin = VERIFY_ORIGIN } = {}) {
 </style></head>
 <body><main class="sheet"><div class="frame"></div>
   <header class="masthead">
-    <div class="institution">Albalagh International Premium College — London Campus</div>
+    <div class="institution">${escapeHtml(iss.legalName)}</div>
     <h1 class="kind">Testimonial</h1>
     <div class="rule"></div>
   </header>
@@ -287,7 +297,7 @@ export function renderTestimonial(record, { origin = VERIFY_ORIGIN } = {}) {
   ${withdrawn ? '<p class="citation" style="color:#9A7B3A">This testimonial has been withdrawn. Verify the code for its current standing.</p>' : ''}
   <div class="foot">
     <div class="verify">
-      ${seal('AIPC')}
+      ${seal(iss.sealMark)}
       <div class="cartouche">${escapeHtml(code)}</div>
       Verify at ${escapeHtml(origin)}/verify.html — no account required. This testimonial is
       recoverable at any time from its record; the code above authorises nothing.
@@ -304,7 +314,9 @@ export function renderTestimonial(record, { origin = VERIFY_ORIGIN } = {}) {
  * document the College sealed, it does not regenerate it from live data
  * (which is exactly the failure documents.js was built to avoid).
  */
-export function renderIssuedDocument(record, { origin = VERIFY_ORIGIN } = {}) {
+export function renderIssuedDocument(record, { issuer } = {}) {
+  const iss = resolveIssuer(issuer);
+  const origin = iss.verifyOrigin;
   const p = record || {};
   const code = p.verificationCode ?? p.verification_code ?? '';
   const url = verificationUrl(code, origin);
@@ -350,7 +362,7 @@ export function renderIssuedDocument(record, { origin = VERIFY_ORIGIN } = {}) {
 </style></head>
 <body><main class="sheet"><div class="frame"></div>
   <header class="masthead">
-    <div class="institution">Albalagh International Premium College — London Campus</div>
+    <div class="institution">${escapeHtml(iss.legalName)}</div>
     <h1 class="kind">${escapeHtml(titleMap[type] ?? 'Document')}</h1>
     <div class="rule"></div>
   </header>
@@ -360,7 +372,7 @@ export function renderIssuedDocument(record, { origin = VERIFY_ORIGIN } = {}) {
   ${body}
   <div class="foot">
     <div class="verify">
-      ${seal('AIPC')}
+      ${seal(iss.sealMark)}
       <div class="cartouche">${escapeHtml(code)}</div>
       Verify at ${escapeHtml(origin)}/verify.html — no account required. This is the document as
       the College sealed it; a newer one may exist without making this one false.

@@ -1314,6 +1314,33 @@ portal. **Confidence High** on the doctrine; the build is incremental
 (`renderTestimonial` shipped alongside this entry; ID cards, publication
 verify-portal wiring, and the rest are ordered work, not yet claimed done).
 
+**The engine is COLLECTIVE, ruled explicitly `[2026-08-20]`.** The Founder's
+correction: *"apart from this is something collective and containing almost
+all others amongst those projects … treat them generically, not just about
+personal."* The verifiable-document engine is a **shared estate capability
+that belongs to no single institution**, and generic across kinds, not just
+person-documents. This is now enforced in code, not merely stated:
+
+- **`functions/_lib/registry/issuer.js`** — an *issuer profile* holds every
+  institution-specific value (legal name, verification-code prefix, verify
+  origin, seal mark, `pass` namespace). `defineIssuer()` builds one;
+  `resolveIssuer()` validates whatever a caller passes.
+- Every renderer and the secret-label convention take an `issuer` and
+  **hardcode no institution**. Albalagh (AIPC) is the *default only* so
+  existing callers keep working; it holds no privileged status. A test
+  proves a certificate renders for a second institution (Al-Madeenah) with
+  no engine edits and no leakage of the default's name, and that an AIPC
+  code is refused under another issuer's namespace.
+- The **honesty bound** is enforced: `defineIssuer` refuses a non-https
+  origin or a malformed prefix, and only issuers whose facts are settled
+  are defined — no invented legal names or domains.
+
+**Still open, and it is the Founder's to decide** (`SEB §28.4`-class): the
+engine now runs generically but physically lives inside one institution's
+site (`functions/`). Whether it should move to the shared `stromex/`
+platform, and whether every institution shares **one** verify portal or
+each runs its own, is an architecture decision recorded here as pending.
+
 **What would reverse it.** A class where public verification would itself
 leak personal data faster than it protects (a safeguarding record, a medical
 note) — those are *not* verifiable documents and must never be issued as

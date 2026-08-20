@@ -25,7 +25,8 @@
  * recovery, not merely as a snapshot.
  */
 
-import { escapeHtml, verificationUrl, VERIFY_ORIGIN } from './certificate-render.js';
+import { escapeHtml, verificationUrl } from './certificate-render.js';
+import { resolveIssuer, codePattern } from './issuer.js';
 
 /** The kinds of certificate secret the estate stores. Each is a `pass` leaf. */
 export const SECRET_KINDS = ['pdf-unlock', 'signing-key', 'private-key'];
@@ -36,18 +37,20 @@ export const SECRET_KINDS = ['pdf-unlock', 'signing-key', 'private-key'];
  * Returns a STORE PATH, never a value — e.g.
  *   stromex/certificates/aipc/2026/AIPC-4K7P-9WQ2-MXR8T/pdf-unlock
  *
- * The label is derived only from non-secret identifiers (institution,
- * year, the public verification code, the kind of secret). Every segment
- * is validated against a strict alphabet rather than escaped, because a
- * label is interpolated into a `pass` command line and refusing a bad
- * segment is verifiable where escaping is a class of bug (the same rule
- * secret.ts applies to secret names).
+ * The label is derived only from non-secret identifiers (the ISSUER, the
+ * year, the public verification code, the kind of secret) — never from a
+ * hardcoded institution, so the convention is collective across every
+ * estate project. Every segment is validated against a strict alphabet
+ * rather than escaped, because a label is interpolated into a `pass`
+ * command line and refusing a bad segment is verifiable where escaping is
+ * a class of bug (the same rule secret.ts applies to secret names).
+ *
+ * `issuer` may be a profile, a known slug, or omitted (defaults to the
+ * default issuer). The code is validated against THAT issuer's prefix, so
+ * an AIPC code cannot be filed under Al-Madeenah's namespace by accident.
  */
-export function certificateSecretLabel({ code, kind, year, institution = 'aipc' } = {}) {
-  const inst = String(institution || '').toLowerCase();
-  if (!/^[a-z0-9-]{2,32}$/.test(inst)) {
-    throw new Error('institution must be a short slug of a–z, 0–9 and hyphens.');
-  }
+export function certificateSecretLabel({ code, kind, year, issuer } = {}) {
+  const iss = resolveIssuer(issuer);
   if (!SECRET_KINDS.includes(kind)) {
     throw new Error(`kind must be one of: ${SECRET_KINDS.join(', ')}.`);
   }
@@ -55,15 +58,15 @@ export function certificateSecretLabel({ code, kind, year, institution = 'aipc' 
   if (!/^[0-9]{4}$/.test(y)) {
     throw new Error('year must be a four-digit calendar year.');
   }
-  // The verification code is the public certificate identifier. It uses a
-  // fixed alphabet (AIPC- plus 2/3/4-9/A-Z minus ambiguous glyphs), so a
-  // code that does not match that shape is not a real certificate and is
-  // refused rather than sanitised into a plausible-looking path.
+  // The verification code is the public identifier. It uses the issuer's
+  // fixed alphabet (its prefix plus 2/3/4-9/A-Z minus ambiguous glyphs), so
+  // a code that does not match that shape is not one of this issuer's
+  // documents and is refused rather than sanitised into a plausible path.
   const c = String(code || '').toUpperCase();
-  if (!/^AIPC-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{5}$/.test(c)) {
-    throw new Error('code must be a valid AIPC verification code, e.g. AIPC-XXXX-XXXX-XXXXX.');
+  if (!codePattern(iss.codePrefix).test(c)) {
+    throw new Error(`code must be a valid ${iss.codePrefix} verification code, e.g. ${iss.codePrefix}-XXXX-XXXX-XXXXX.`);
   }
-  return `stromex/certificates/${inst}/${y}/${c}/${kind}`;
+  return `stromex/certificates/${iss.key}/${y}/${c}/${kind}`;
 }
 
 /**
@@ -109,9 +112,12 @@ const STATUS_LABEL = {
  * are both legitimate and this function should not silently pick one).
  */
 export function renderIssuanceRegister(
-  { title = 'Certificate Issuance Register', subtitle = 'Albalagh International Premium College — London Campus', entries = [] } = {},
-  { origin = VERIFY_ORIGIN } = {},
+  { title = 'Issuance Register', subtitle = null, entries = [] } = {},
+  { issuer } = {},
 ) {
+  const iss = resolveIssuer(issuer);
+  const origin = iss.verifyOrigin;
+  const heading = subtitle ?? iss.legalName;
   const rows = entries.map(safeEntry).map((e) => `<tr>
       <td class="cartouche">${escapeHtml(e.code)}</td>
       <td>${escapeHtml(e.holderName)}</td>
@@ -163,7 +169,7 @@ export function renderIssuanceRegister(
 <body><div class="wrap">
   <header>
     <h1>${escapeHtml(title)}</h1>
-    <div class="sub">${escapeHtml(subtitle)}</div>
+    <div class="sub">${escapeHtml(heading)}</div>
   </header>
   <p class="note">This register holds only what is safe to read: the public reference number, the
     holder, the award, the date, the current standing and a verification link. It contains no
