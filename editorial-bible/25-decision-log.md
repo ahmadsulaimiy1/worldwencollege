@@ -1103,7 +1103,7 @@ is not mistaken for the finished pipeline.
 **Confidence High** that this is the Founder's call to make; the estate's
 role is to bound and record it, which it has.
 
-### `SEB-D 44` — Credential lifetime: one year, and a rotation register for the keys that cannot expire
+### `SEB-D 44` — Credential lifetime *(expiry choice SUPERSEDED by `SEB-D 45`; the rotation register it introduced stands and is now the primary control)*
 
 **Decided 2026-08-18 by the Founder**, who set a working-key lifetime of
 one year, reasoning that the company controls access and the keys are
@@ -1153,6 +1153,54 @@ longer costs velocity.
 **Confidence High.** The lifetime is the Founder's call; the correction
 (four of six cannot express it as an expiry) and the rotation register are
 the estate's job, now recorded.
+
+### `SEB-D 45` — Working keys never expire; the rotation register becomes the control — supersedes the expiry choice in `SEB-D 44`
+
+**Decided 2026-08-18 by the Founder**, one message after `SEB-D 44`,
+choosing that all working keys carry **no expiry**.
+
+**Adopted. The expiry portion of `SEB-D 44` is superseded; its rotation
+register survives and is promoted from safeguard to primary control.**
+
+**The legitimate upside, recorded because it is real and not a
+concession.** A never-expiring key cannot fail *unexpectedly* — an
+auto-expiring key that dies mid-deploy or mid-task is its own class of
+outage, and avoiding it is a defensible operational preference. Long-lived
+credentials are common in production.
+
+**The one cost, named once (`SEB §2.6`).** With no expiry there is no
+automatic backstop: a leaked key works until a human notices and deletes
+it. Expiry was the control that worked *even when nobody knew a key had
+leaked*. Removing it means the estate itself must supply the backstop —
+which is the rotation register.
+
+**So the rotation register is now load-bearing, not optional.**
+`stromex.credentials.status` reports each key's fingerprint, age and a due
+date, and the estate **rotates deliberately on its own schedule** rather
+than relying on a provider timer. Recommended cadence twelve months, and
+the **write-capable keys rotate first** — the Cloudflare write token
+(`SEB-D 43`) most of all, since a never-expiring full-write infrastructure
+key is the sharpest single edge in the estate and the register exists to
+keep it from becoming a silent permanence.
+
+**What actually changes, per provider.** Only three of the eight could
+express an expiry at all — GitHub, Vercel, Cloudflare — so "never expire"
+is a real change only there; the other five never expired regardless
+(`SEB-D 30`). Vercel's ability to mint a never-expiring token is
+documented as *unverified* (`mcp/docs/not-verified.md`) and is confirmed
+at the time that key is created.
+
+**Why this remains within bounds.** The exposure a permanent key leaves
+open is still held by three earlier rulings: keys live only in the
+Founder's `pass` store (`SEB-D 34`), rotation is sub-minute with no
+restart (`SEB-D 33`), and the protected-operation gate still stops
+destructive actions taken through the server (`SEB §26.5`). The trade the
+Founder is accepting is a larger *leak window* in exchange for no *timer
+outages*, backed by deliberate rotation instead of automatic expiry.
+
+**Confidence High** that this is the Founder's call; the estate's duty —
+to make the rotation register real so "never expire" does not become
+"never rotate" — is recorded and is now a build item.
 
 ## Part C — Open, and owned by you
 
