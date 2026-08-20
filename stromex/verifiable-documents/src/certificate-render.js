@@ -381,3 +381,139 @@ export function renderIssuedDocument(record, { issuer } = {}) {
   </div>
 </main></body></html>`;
 }
+
+/**
+ * A monogram tile — the deterministic placeholder for a holder photo.
+ *
+ * An ID card names a person and usually bears their photograph, but a
+ * photograph is data the caller supplies (as a data: URI on the record).
+ * When none is given the card must still render — and a recovery document
+ * must render with no network — so it shows the holder's initials struck
+ * in gold on obsidian rather than a broken image. Deterministic: the same
+ * name yields the same monogram.
+ */
+function monogram(name) {
+  const initials = String(name || '')
+    .split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join('');
+  return `<div class="idc__mono">${escapeHtml(initials || '·')}</div>`;
+}
+
+/**
+ * Render an identity card — a person-document, and the first generalisation
+ * to a NON-paper form (SEB-D 47). Two faces at ISO/IEC 7810 ID-1 size
+ * (85.6 × 54 mm, the real bank-card standard — a prestige detail that is
+ * also simply correct), regenerable byte-identically from the record.
+ *
+ * The card is a verifiable document in its own right: it carries a
+ * verification code and a QR that resolve at the issuer's portal, so a
+ * gate officer or a librarian can confirm it without trusting the plastic.
+ *
+ * Record: `holderName`, `role` (Student / Faculty / Alumnus / Staff),
+ * `membershipId` (the printed member number; defaults to the code),
+ * `validFrom`, `validThru`, `verificationCode`, `status`, and an optional
+ * `photoDataUri` (a self-contained data: URI — never a remote URL, which
+ * would break both determinism and offline recovery).
+ */
+export function renderIdCard(record, { issuer } = {}) {
+  const iss = resolveIssuer(issuer);
+  const origin = iss.verifyOrigin;
+  const r = record || {};
+  const holderName = r.holderName ?? r.holder_name ?? '';
+  const role = r.role ?? 'Member';
+  const code = r.verificationCode ?? r.verification_code ?? '';
+  const membershipId = r.membershipId ?? r.membership_id ?? code;
+  const validFrom = r.validFrom ?? r.valid_from ?? '';
+  const validThru = r.validThru ?? r.valid_thru ?? '';
+  const status = r.status ?? 'active';
+  const photo = typeof r.photoDataUri === 'string' && r.photoDataUri.startsWith('data:')
+    ? `<img class="idc__photo-img" alt="" src="${escapeHtml(r.photoDataUri)}">`
+    : monogram(holderName);
+  const url = verificationUrl(code, origin);
+  const qr = code ? toSvg(url, { level: 'Q', size: 84, label: null }) : '';
+  const revoked = status === 'revoked' || status === 'withdrawn' || status === 'expired';
+
+  return `<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Identity Card — ${escapeHtml(holderName)}</title>
+<style>
+  :root{
+    --sx-obsidian:#0B0C10;--sx-ink:#12141B;--sx-graphite:#1B1E27;--sx-alabaster:#F6F4EF;
+    --sx-pewter:#D6D2C8;--sx-aurum:#C8A24C;--sx-aurum-lit:#E8CE8C;--sx-brass:#9A7B3A;
+    --sx-display:'Fraunces Variable','Fraunces',Georgia,serif;
+    --sx-text:'Archivo Variable','Archivo','Helvetica Neue',Arial,sans-serif;
+    --sx-cartouche:'Cinzel Variable','Cinzel','Trajan Pro',Georgia,serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--sx-pewter);font-family:var(--sx-text);padding:12mm;display:flex;
+    flex-wrap:wrap;gap:10mm;justify-content:center;align-items:flex-start}
+  .idc{position:relative;width:85.6mm;height:54mm;border-radius:3.2mm;overflow:hidden;
+    color:var(--sx-alabaster);
+    background:
+      radial-gradient(120% 140% at 12% -10%, rgba(232,206,140,.16), transparent 42%),
+      linear-gradient(150deg, var(--sx-graphite), var(--sx-obsidian) 62%);
+    box-shadow:0 1mm 3mm rgba(11,12,16,.35);
+    outline:0.25mm solid var(--sx-aurum);outline-offset:-1.4mm}
+  .idc__guilloche{position:absolute;inset:0;opacity:.10;pointer-events:none}
+  .idc__hair{position:absolute;inset:2.2mm;border:0.2mm solid rgba(200,162,76,.5);border-radius:2mm;pointer-events:none}
+  .idc__inst{position:absolute;top:3.4mm;left:5mm;right:5mm;font-family:var(--sx-cartouche);
+    text-transform:uppercase;letter-spacing:.16em;font-size:6pt;color:var(--sx-aurum-lit)}
+  .idc__kind{position:absolute;top:3.4mm;right:5mm;font-family:var(--sx-cartouche);
+    letter-spacing:.24em;font-size:5.5pt;color:var(--sx-brass)}
+  .idc__photo{position:absolute;left:5mm;top:11mm;width:22mm;height:28mm;border-radius:1.6mm;
+    overflow:hidden;border:0.3mm solid var(--sx-aurum);
+    background:linear-gradient(160deg,var(--sx-graphite),var(--sx-obsidian));
+    display:flex;align-items:center;justify-content:center}
+  .idc__photo-img{width:100%;height:100%;object-fit:cover}
+  .idc__mono{font-family:var(--sx-display);font-size:20pt;color:var(--sx-aurum);letter-spacing:.02em}
+  .idc__body{position:absolute;left:30mm;right:5mm;top:12mm}
+  .idc__name{font-family:var(--sx-display);font-size:12pt;line-height:1.05;color:#fff}
+  .idc__role{font-family:var(--sx-cartouche);text-transform:uppercase;letter-spacing:.16em;
+    font-size:6.5pt;color:var(--sx-aurum-lit);margin-top:1.2mm}
+  .idc__field{margin-top:2.6mm;font-size:6.5pt;color:var(--sx-pewter)}
+  .idc__field b{display:block;font-family:var(--sx-cartouche);text-transform:uppercase;
+    letter-spacing:.12em;font-size:5pt;color:var(--sx-brass);margin-bottom:.4mm}
+  .idc__id{font-family:var(--sx-cartouche);letter-spacing:.10em;font-size:8pt;color:#fff}
+  .idc__qr{position:absolute;right:4.4mm;bottom:4mm;width:15mm;height:15mm;background:#fff;
+    padding:.6mm;border-radius:1mm}
+  .idc__seal{position:absolute;left:5mm;bottom:3mm;width:14mm;height:14mm;opacity:.9}
+  .idc--revoked::after{content:'WITHDRAWN';position:absolute;inset:0;display:flex;align-items:center;
+    justify-content:center;font-family:var(--sx-cartouche);letter-spacing:.3em;font-size:12pt;
+    color:rgba(184,80,80,.85);transform:rotate(-16deg)}
+  /* Back face */
+  .idc--back{background:linear-gradient(150deg,var(--sx-obsidian),var(--sx-graphite))}
+  .idc__band{position:absolute;left:0;right:0;top:8mm;height:9mm;background:var(--sx-obsidian);
+    border-top:0.2mm solid var(--sx-brass);border-bottom:0.2mm solid var(--sx-brass)}
+  .idc__note{position:absolute;left:5mm;right:5mm;bottom:4mm;font-size:5.6pt;line-height:1.5;color:var(--sx-pewter)}
+  .idc__note .v{color:var(--sx-aurum-lit)}
+  @media print{body{background:#fff;padding:0}.idc{box-shadow:none}}
+</style></head>
+<body>
+  <section class="idc${revoked ? ' idc--revoked' : ''}" aria-label="Identity card, front">
+    <div class="idc__guilloche">${seal(iss.sealMark)}</div>
+    <div class="idc__hair"></div>
+    <div class="idc__inst">${escapeHtml(iss.legalName)}</div>
+    <div class="idc__kind">Identity</div>
+    <div class="idc__photo">${photo}</div>
+    <div class="idc__body">
+      <div class="idc__name">${escapeHtml(holderName)}</div>
+      <div class="idc__role">${escapeHtml(role)}</div>
+      <div class="idc__field"><b>Member №</b><span class="idc__id">${escapeHtml(membershipId)}</span></div>
+      <div class="idc__field"><b>Valid</b>${escapeHtml(validFrom)}${validFrom && validThru ? ' — ' : ''}${escapeHtml(validThru)}</div>
+    </div>
+    <div class="idc__qr">${qr}</div>
+  </section>
+  <section class="idc idc--back" aria-label="Identity card, back">
+    <div class="idc__guilloche">${seal(iss.sealMark)}</div>
+    <div class="idc__hair"></div>
+    <div class="idc__band"></div>
+    <div class="idc__seal">${seal(iss.sealMark)}</div>
+    <div class="idc__note">
+      This card remains the property of ${escapeHtml(iss.legalName)} and must be surrendered on request.
+      It is a verifiable document: confirm it at <span class="v">${escapeHtml(origin)}/verify.html</span>
+      with the code <span class="v">${escapeHtml(code)}</span> — no account required. The card
+      authorises nothing on its own; the record it points to is the authority, and is recoverable at any time.
+    </div>
+  </section>
+</body></html>`;
+}
