@@ -1060,6 +1060,49 @@ is not jurisdiction-dependent: supplying a human when a human is asked for
 is compliance, and simulating one is the circumvention every relevant
 statute names.
 
+### `SEB-D 43` — The first Cloudflare token is write-scoped, by the Founder's direction
+
+**Decided 2026-08-18 by the Founder**, overriding the read-only-first
+recommendation for the first real credential.
+
+**The recommendation was mine, and it was soft.** Read-only-first
+(`mcp/docs/first-credential.md`) de-risks the very first contact in case
+the code has a bug — a good engineering instinct, but not a limit on the
+Founder's authority. The Founder wants velocity: real work — changing
+secrets, adding DNS, deploying — done under supervision rather than
+watched from behind glass. That is a legitimate call and it is theirs.
+
+**Ruled: the first Cloudflare token carries write (edit) scope**, so the
+agent can act, not only read. Cloudflare's "edit" is full
+create-read-update-delete with no create-but-not-delete tier, so this is
+genuine write across the Cloudflare account.
+
+**The trade, named so it is accepted knowingly (`SEB §2.6`).** A
+write-capable raw token has a larger blast radius than a read-only one: a
+leak means someone could *change* Cloudflare resources, not merely view
+them. Three things bound it — a **30-day expiry**, storage **only in the
+Founder's `pass` store** (`SEB-D 34`), and the token being held by nobody
+else. Scope is one provider, not eight.
+
+**What still holds even with full write.** The MCP's protected-operation
+class (`SEB §26.5`) stops and asks before any destructive Cloudflare
+action taken *through the server* — delete DNS, delete Worker, delete
+secret, delete D1/R2/KV/queue. The audit trail records everything else.
+So "the Founder supervises; the agent reports; destruction waits for a
+yes" is enforced by the gate, not promised. **The one gap, stated
+plainly:** the gate governs actions taken *through the MCP*; a leaked raw
+token calling Cloudflare's API directly is not gated — which is the whole
+reason for the 30-day expiry and the encrypted store.
+
+**A dependency the token does not remove.** A write token grants the
+capability; it does not stand up the execution path. The MCP must run on a
+machine the Founder controls, with the token resolved from `pass`, before
+any of this runs — a one-time setup, not yet done. Recorded so the token
+is not mistaken for the finished pipeline.
+
+**Confidence High** that this is the Founder's call to make; the estate's
+role is to bound and record it, which it has.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
