@@ -126,6 +126,16 @@ function contentsEntries(html) {
     if (!id) continue;
     // The masthead is where the reader already is; listing it is noise.
     if (/\bpage-hero\b/.test(attrs)) continue;
+    // A HIDDEN SECTION IS NOT ON THE PAGE.
+    //
+    // The verification instrument holds three sections that exist only
+    // once a code has resolved — the result, the three layers and what
+    // the qualification certifies — and they carry <h2>&mdash;</h2>
+    // placeholders that a script fills. The rail read those headings
+    // and offered the reader two entries both labelled "—", pointing at
+    // nothing they could see. A rail advertising a destination that is
+    // display:none is worse than a short rail.
+    if (/\shidden(?=[\s>=])/.test(attrs)) continue;
     const explicit = (attrs.match(/\bdata-contents="([^"]+)"/) || [])[1];
     const rest = html.slice(m.index, html.indexOf('</section>', m.index));
     // THE MODULE MARKER IS ALREADY THE SECTION'S SHORT NAME.

@@ -1,0 +1,186 @@
+<!--
+  التحقّق من الشهادات — النسخة العربية.
+
+  كل مُعرِّف (id) أدناه محمولٌ عليه العمل: js/verify.js يخاطبها بأسمائها،
+  فما بداخل .vfy-* لا يُترجَم اسمه، وإنما يُترجَم نصُّه فقط.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></p>
+    <p class="masthead__eyebrow">سجل الخريجين</p>
+    <h1>التحقّق من شهادة</h1>
+    <p class="masthead__stake">كل شهادة تمنحها الكلية العالمية للغة الإنجليزية تحمل رمز تحقّق. <strong>أدخِله أدناه</strong> لتأكيد الشهادة وحاملها ووضعها الحالي.</p>
+    <!-- يُذكر في الأعلى لا في تذييل لا يقرؤه أحد. هذه هي الخاصية التي
+         تجعل السجل صالحًا للاستعمال، وذكرُها صراحةً يمنع أيضًا أن يظن
+         أحدٌ أننا نسجّل من يتحقّق. -->
+    <p class="lede">بلا حساب. بلا تسجيل دخول. ولا تسجّل الكلية من يُجري التحقّق.</p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="vfy-wrap">
+
+      <form class="vfy-form reveal" id="verifyForm" novalidate>
+        <label class="vfy-label" for="code">رمز التحقّق</label>
+        <div class="vfy-field">
+          <input id="code" name="code" type="text" inputmode="latin" autocomplete="off"
+                 spellcheck="false" autocapitalize="characters" dir="ltr"
+                 placeholder="WEC-XXXX-XXXX-XXXXX"
+                 aria-describedby="codeHelp codeError">
+          <button class="vfy-submit" type="submit">تحقّق</button>
+        </div>
+        <p class="vfy-help" id="codeHelp">مطبوع على الشهادة. ولا يهمّ الحرف الكبير ولا الشرطات ولا المسافات.</p>
+        <p class="vfy-error" id="codeError" role="alert"></p>
+      </form>
+
+      <!-- النتيجة. بطاقة واحدة وثلاثة أوضاع ممكنة، والوضع لا يُفهَم قط من
+           غياب شيء — فالشهادة المسحوبة تقول «مسحوبة» بالكلمات وبتاريخها. -->
+      <section class="vfy-result" id="result" hidden aria-live="polite">
+        <div class="vfy-card" id="card">
+          <div class="vfy-card__band" id="band">
+            <span class="vfy-card__status" id="status">&mdash;</span>
+          </div>
+
+          <div class="vfy-card__body">
+            <p class="vfy-card__eyebrow">مُنحت هذه الشهادة إلى</p>
+            <p class="vfy-card__holder" id="holder">&mdash;</p>
+
+            <p class="vfy-card__award" id="awardTitle">&mdash;</p>
+            <p class="vfy-card__post" id="postNominal"></p>
+
+            <dl class="vfy-facts">
+              <div><dt>المستوى</dt><dd id="fLevel">&mdash;</dd></div>
+              <div><dt>الإطار الأوروبي</dt><dd id="fCefr">&mdash;</dd></div>
+              <div><dt>مرتبة الشرف</dt><dd id="fHonour">&mdash;</dd></div>
+              <div><dt>أرصدة الكلية</dt><dd id="fCredits">&mdash;</dd></div>
+              <div><dt>الزمن الكلي للمؤهّل</dt><dd id="fTqt">&mdash;</dd></div>
+              <div><dt>تاريخ المنح</dt><dd id="fDate">&mdash;</dd></div>
+            </dl>
+
+            <blockquote class="vfy-citation" id="citation" hidden></blockquote>
+
+            <div class="vfy-alert" id="alert" hidden></div>
+
+            <div class="vfy-seal">
+              <div class="vfy-seal__qr" id="qr" aria-hidden="true" hidden></div>
+              <div class="vfy-seal__meta">
+                <p class="vfy-seal__code" id="codeOut">&mdash;</p>
+                <p class="vfy-seal__digest">بصمة السجل <span id="digest">&mdash;</span></p>
+                <p class="vfy-seal__link"><a id="permalink" href="#">رابط تحقّق دائم</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- مبدأ التحقّق المؤسسي: ثلاث طبقات مستقلة، يُجاب عن كلٍّ منها على
+             حدة، لأنها تختلف فعلًا. فقد تكون الشهادة صحيحة تمامًا، وتخصّ
+             الشخص المسمّى فيها بعينه، ولا تمنح مع ذلك شيئًا لأن الشهادة
+             سُحبت. حكمٌ واحد لا يستطيع قول ذلك. -->
+        <section class="vfy-layers" id="layers" hidden>
+          <div class="vfy-layers__head">
+            <h2 id="summaryHeadline">&mdash;</h2>
+            <p id="summaryStatement"></p>
+          </div>
+
+          <div class="vfy-layer" id="layerIdentity">
+            <h3>صحّة الهوية <small>هل هذا هو الشخص الذي منحته الكلية؟</small></h3>
+            <ul class="vfy-checks" id="checksIdentity"></ul>
+          </div>
+          <div class="vfy-layer" id="layerIntegrity">
+            <h3>سلامة الوثيقة <small>هل عُدِّلت هذه الوثيقة؟</small></h3>
+            <ul class="vfy-checks" id="checksIntegrity"></ul>
+          </div>
+          <div class="vfy-layer" id="layerStanding">
+            <h3>الوضع المؤسسي <small>ما وضع هذه الشهادة اليوم؟</small></h3>
+            <ul class="vfy-checks" id="checksStanding"></ul>
+          </div>
+        </section>
+
+        <!-- ما تشهد به هذه الدرجة فعلًا، من النموذج المؤسسي نفسه — وهو
+             النص ذاته الذي تستعمله الشهادة والملف والواجهة البرمجية. -->
+        <section class="vfy-meaning" id="meaning" hidden>
+          <h2>بماذا تشهد هذه الدرجة</h2>
+          <p class="vfy-meaning__title" id="mTitle">&mdash;</p>
+          <dl class="vfy-meaning__body">
+            <dt>الوضع الممنوح</dt><dd id="mStanding">&mdash;</dd>
+            <dt>الغرض الأكاديمي</dt><dd id="mPurpose">&mdash;</dd>
+            <dt>حال الحامل عند المنح</dt><dd id="mProfile">&mdash;</dd>
+            <dt>ما يستطيعه</dt><dd id="mOutcomes">&mdash;</dd>
+          </dl>
+        </section>
+
+        <p class="vfy-scope">
+          تؤكّد هذه الصفحة ما يسجّله سجل الخريجين في الكلية. تذكر الشهادة، وحاملها كما هو مسمّى فيها، ووضعها الحالي &mdash; ولا شيء غير ذلك. أما الدرجات والتقدّم وبيانات التواصل فلا تُنشر هنا.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="about" data-contents="عن السجل">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">السجل</span>
+      <p class="leaf__rubric">ما الذي يحفظه، وما الذي يُعتمَد على التحقّق في إخبارك به.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>أربع خصائص، والتحقّق يقوم عليها جميعًا.</h2>
+      </div>
+      <figure class="diagram diagram--wide diagram--fluid reveal">
+        {{SVG:assets/art/authority-chain.ar.svg}}
+        <figcaption class="diagram__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg>
+          كل قيدٍ مختوم على الذي قبله، فلا يجد التعديل بعد المنح مكانًا يختبئ فيه
+        </figcaption>
+      </figure>
+
+      <div class="grid grid--2 grid--close">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
+          <h3>كل شهادة، لا العليا وحدها</h3>
+          <p>يسجّل السجل كل شهادة من شهادات دورة الطلاقة الإنجليزية الدولية، من «طالب الإنجليزية» إلى «حائز الغار». وكل مستوى إنجاز أكاديمي كامل للكلية، ويُتحقَّق منه بذاته.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></span>
+          <h3>الشهادات المسحوبة تبقى ظاهرة</h3>
+          <p>الشهادة المسحوبة أو المستبدَلة لا تُحذف من السجل أبدًا. بل تقول صفحتها ذلك، وبتاريخه. أما تحقّقٌ يفشل فحسب فلا يخبرك بشيء.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-countermark"/></svg></span>
+          <h3>سجلّات تكشف العبث</h3>
+          <p>يحمل كل قيد بصمةً معمّاة محسوبة على محتواه وعلى القيد الذي قبله. فتغيير سجلٍّ بعد المنح يكسر هذا التسلسل ويمكن كشفه. هذه سلسلة بصمات داخل سجل الكلية؛ وليست «بلوك تشين»، ولا تصفها الكلية بذلك.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+          <h3>التحقّق قائم قبل أول شهادة</h3>
+          <p>بُني هذا السجل وفُتح قبل المنح، حتى يستطيع أول حاملٍ لشهادة من الكلية أن يُتحقَّق منها يوم صدورها لا بعد أشهر. وصاحب العمل الذي يصل إلى هنا برمزٍ يأخذ جوابه من السجل لا من بريد.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="callout__label">إن لم يُسفر التحقّق عن نتيجة</span>
+        <p>أعد قراءة الرمز من الشهادة &mdash; فلا يهمّ الحرف الكبير ولا الشرطات ولا المسافات، والسجل يتسامح مع الثلاثة. فإن لم يُسفر بعدُ، <a href="/ar/contact/">فاكتب إلى الكلية</a> بالرمز وبالاسم المذكور في الشهادة. أما الرمز الذي لا يسمّي شهادة فيُجاب عنه بذلك صراحةً، لا بصفحة فارغة.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>كل شهادة، في سجل واحد.</h2>
+    <div class="btn-row u-center">
+      <a href="/ar/register.html" class="btn btn--gold magnetic aurum aurum--twin">تصفَّح سجل الخريجين</a>
+      <a href="/ar/students/awards/" class="btn btn--outline magnetic">معنى كل شهادة</a>
+    </div>
+  </div>
+</section>

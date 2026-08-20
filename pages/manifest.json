@@ -1525,5 +1525,73 @@
       "/js/bookcase.js"
     ],
     "contents": true
+  },
+  {
+    "slug": "verify",
+    "output": "verify.html",
+    "title": "Verify an Award &mdash; Worldwide English College",
+    "description": "Verify a Worldwide English College award. Enter the verification code from any WEC-LC certificate to confirm the award, the holder, the level and its current standing.",
+    "contentFile": "verify.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/verify.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css"
+    ],
+    "scripts": [
+      "/js/verify.js"
+    ]
+  },
+  {
+    "slug": "verify-ar",
+    "output": "ar/verify.html",
+    "title": "التحقّق من شهادة — الكلية العالمية للغة الإنجليزية",
+    "description": "تحقَّق من شهادة صادرة عن الكلية العالمية للغة الإنجليزية. أدخل رمز التحقّق المطبوع على الشهادة لتأكيد الشهادة وحاملها ومستواها ووضعها الحالي.",
+    "contentFile": "verify.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/verify.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css"
+    ],
+    "scripts": [
+      "/js/verify.js"
+    ]
+  },
+  {
+    "slug": "register",
+    "output": "register.html",
+    "title": "The Graduate Register &mdash; Worldwide English College",
+    "description": "The College's roll of award holders. Search the Graduate Register by name or by award, from English Aspirant to English Laureate.",
+    "contentFile": "register.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/register.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css"
+    ],
+    "scripts": [
+      "/js/register.js"
+    ]
+  },
+  {
+    "slug": "register-ar",
+    "output": "ar/register.html",
+    "title": "سجل الخريجين — الكلية العالمية للغة الإنجليزية",
+    "description": "قائمة الكلية بحاملي الشهادات. ابحث في سجل الخريجين بالاسم أو بالشهادة، من طالب الإنجليزية إلى حائز الغار.",
+    "contentFile": "register.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/register.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css"
+    ],
+    "scripts": [
+      "/js/register.js"
+    ]
   }
 ]

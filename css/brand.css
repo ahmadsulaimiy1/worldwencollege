@@ -3535,3 +3535,14 @@ ul.check-list--open li::before { content: '○'; font-weight: 400; color: rgba(2
 }
 @media (max-width: 1000px) { .footerband__inner { grid-template-columns: repeat(2, 1fr); gap: 26px; } }
 @media (max-width: 560px)  { .footerband__inner { grid-template-columns: 1fr; padding: 26px 20px 24px; } }
+
+/* THE PORTAL ENTRY, WHEN SIGN-IN IS DOWN.
+   js/portal-entry.js has three states and only one of them is good
+   news. The down state is set apart by its rule rather than by colour:
+   an amber panel would read as a warning about the READER's standing,
+   which is exactly what the copy is at pains to say it is not. */
+.portal-entry--down {
+  border-inline-start: 3px solid var(--gold-antique, #9A7B33);
+  padding-inline-start: 22px;
+}
+.portal-entry--down .portal-entry__welcome { color: var(--gold-soft, #D9C48A); }
