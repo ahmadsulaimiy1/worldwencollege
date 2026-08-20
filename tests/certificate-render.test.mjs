@@ -98,6 +98,29 @@ const AWARD = {
   check('...showing the level ledger', t1.includes('Upper Intermediate') && t1.includes('B2'));
 }
 
+// ── 4b. Testimonial: the doctrine generalises (SEB-D 47) ────────────
+{
+  const TESTIMONIAL = {
+    subjectName: 'Aisha binte Rahman',
+    body: 'The College knows this student to be diligent, articulate and of excellent character.\nWe recommend her without reservation.',
+    signatoryName: 'Dr Imran Hafiz',
+    signatoryTitle: 'Principal, London Campus',
+    issuedOn: '2026-08-10',
+    verificationCode: 'AIPC-QW52-7NKP-3RM8V',
+    status: 'issued',
+  };
+  const a = R.renderTestimonial(TESTIMONIAL);
+  const b = R.renderTestimonial(TESTIMONIAL);
+  check('A testimonial regenerates byte-identically from its record', a === b);
+  check('...naming the subject, the words and the signatory',
+    a.includes('Aisha binte Rahman') && a.includes('without reservation') && a.includes('Dr Imran Hafiz'));
+  check('...carrying its public verification code', a.includes('AIPC-QW52-7NKP-3RM8V'));
+  check('A stray secret on a testimonial record never reaches the page',
+    !R.renderTestimonial({ ...TESTIMONIAL, pdfUnlock: 'LEAK-9931' }).includes('LEAK-9931'));
+  check('A testimonial body is escaped, not injected',
+    !R.renderTestimonial({ ...TESTIMONIAL, body: '<img src=x onerror=alert(1)>' }).includes('<img src=x'));
+}
+
 // ── 5. The pass-label convention ────────────────────────────────────
 {
   const label = REG.certificateSecretLabel({ code: 'AIPC-4K7P-9WQ2-MXR8T', kind: 'pdf-unlock', year: '2026' });

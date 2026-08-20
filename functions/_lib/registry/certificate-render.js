@@ -235,6 +235,69 @@ export function renderAwardCertificate(record, { origin = VERIFY_ORIGIN, signatu
 }
 
 /**
+ * Render a testimonial — the first generalisation of the doctrine
+ * (SEB-D 47): a document whose subject is a person, in which the College
+ * vouches for them. It is a person-document, so it uses the same
+ * machinery as a certificate — a record, a public code, a QR, and the
+ * same regeneration guarantee. Deterministic: same record in, byte-
+ * identical letter out.
+ *
+ * The record carries: `subjectName` (who it is about), `body` (the
+ * testimonial text), `signatoryName` and `signatoryTitle`, `issuedOn`,
+ * `verificationCode`, `status`. Nothing else is read; a secret attached
+ * to the record never reaches the page.
+ */
+export function renderTestimonial(record, { origin = VERIFY_ORIGIN } = {}) {
+  const r = record || {};
+  const subjectName = r.subjectName ?? r.holderName ?? r.holder_name ?? '';
+  const body = r.body ?? r.statement ?? '';
+  const signatoryName = r.signatoryName ?? r.signatory_name ?? '';
+  const signatoryTitle = r.signatoryTitle ?? r.signatory_title ?? '';
+  const issuedOn = r.issuedOn ?? r.issued_on ?? r.conferredOn ?? r.conferred_on ?? '';
+  const code = r.verificationCode ?? r.verification_code ?? '';
+  const status = r.status ?? 'issued';
+  const url = verificationUrl(code, origin);
+  const qr = code ? toSvg(url, { level: 'Q', size: 98, label: null }) : '';
+  const withdrawn = status === 'revoked' || status === 'withdrawn';
+
+  return `<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Testimonial — ${escapeHtml(subjectName)}</title>
+<style>${documentStyle()}
+  .body{max-width:172mm;margin:6mm auto;font-size:11.5pt;line-height:1.7;text-align:left;white-space:pre-wrap}
+  .sign{max-width:172mm;margin:8mm auto 0;text-align:left}
+  .sign .name{font-family:var(--sx-display);font-size:13pt;color:var(--sx-obsidian)}
+  .sign .title{font-size:9.5pt;color:var(--sx-brass)}
+</style></head>
+<body><main class="sheet"><div class="frame"></div>
+  <header class="masthead">
+    <div class="institution">Albalagh International Premium College — London Campus</div>
+    <h1 class="kind">Testimonial</h1>
+    <div class="rule"></div>
+  </header>
+  <p class="conferral">In respect of</p>
+  <p class="holder">${escapeHtml(subjectName)}</p>
+  ${issuedOn ? `<p class="conferral">${escapeHtml(issuedOn)}</p>` : ''}
+  <div class="body">${escapeHtml(body)}</div>
+  <div class="sign">
+    <div class="name">${escapeHtml(signatoryName)}</div>
+    <div class="title">${escapeHtml(signatoryTitle)}</div>
+  </div>
+  ${withdrawn ? '<p class="citation" style="color:#9A7B3A">This testimonial has been withdrawn. Verify the code for its current standing.</p>' : ''}
+  <div class="foot">
+    <div class="verify">
+      ${seal('AIPC')}
+      <div class="cartouche">${escapeHtml(code)}</div>
+      Verify at ${escapeHtml(origin)}/verify.html — no account required. This testimonial is
+      recoverable at any time from its record; the code above authorises nothing.
+    </div>
+    <div class="qr">${qr}</div>
+  </div>
+</main></body></html>`;
+}
+
+/**
  * Render an issued document (transcript, diploma supplement, verification
  * statement) from its FROZEN payload — the `payload_json` stored at issue
  * (documents.js). Deterministic in the same way: this reproduces the
