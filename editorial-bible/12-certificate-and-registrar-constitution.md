@@ -159,7 +159,7 @@ system is the exact failure mode it exists to prevent:
   verifies that a certificate is genuine; it does not produce the printed
   document. Institutions still produce certificates their existing way and
   write the reference number and QR code onto them.
-  `[UPDATE 2026-08-20]` Partly closed. `functions/_lib/registry/certificate-render.js`
+  `[UPDATE 2026-08-20]` Partly closed. `stromex/verifiable-documents/src/certificate-render.js`
   now **regenerates** an award certificate and an issued document as a
   self-contained, print-ready HTML document, purely and deterministically
   from the frozen record — the `[OBSERVED]` gap named here. A PDF is that
@@ -265,14 +265,14 @@ never fails, while keeping the secrets that must stay secret out of both the
 repository and any single master document. Recoverability over memorability.
 
 **Build status `[2026-08-20]`.** The two artefacts this section calls for
-now exist and are tested (`tests/certificate-render.test.mjs`, 21 checks):
+now exist and are tested (`stromex/verifiable-documents/test/render.test.mjs`):
 
-- **§12.12(1) — recoverability.** `functions/_lib/registry/certificate-render.js`
+- **§12.12(1) — recoverability.** `stromex/verifiable-documents/src/certificate-render.js`
   regenerates a certificate or issued document byte-identically from its
   frozen Register record. Determinism is asserted, not asserted-about: the
   same record renders the same document on every run, so a recovery is a
   true reconstruction rather than a lookalike.
-- **§12.12(4) — the issuance register.** `functions/_lib/registry/issuance-register.js`
+- **§12.12(4) — the issuance register.** `stromex/verifiable-documents/src/issuance-register.js`
   renders the beautifully designed, non-secret register — reference number,
   holder, award, date, standing, verify link — and carries no unlock code,
   key or store label even when one is attached to an entry (tested).

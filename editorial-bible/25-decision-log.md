@@ -1335,11 +1335,27 @@ person-documents. This is now enforced in code, not merely stated:
   origin or a malformed prefix, and only issuers whose facts are settled
   are defined — no invented legal names or domains.
 
-**Still open, and it is the Founder's to decide** (`SEB §28.4`-class): the
-engine now runs generically but physically lives inside one institution's
-site (`functions/`). Whether it should move to the shared `stromex/`
-platform, and whether every institution shares **one** verify portal or
-each runs its own, is an architecture decision recorded here as pending.
+**Home and portal shape — decided 2026-08-20 by the Founder.** Two rulings:
+
+1. **The engine lives in the shared `stromex/` platform.** Relocated to
+   `stromex/verifiable-documents/` (`@stromex/verifiable-documents`),
+   packaged like `stromex/design-system/` — `src/{issuer,certificate-render,
+   issuance-register,qr}.js`, `test/render.test.mjs` (10 checks, `node
+   --test`). It is now beside the MCP and the design system, where a
+   collective capability belongs, and no longer inside one institution's
+   site.
+2. **Every project runs its own verify portal, on its own domain, including
+   future ones.** Not one shared portal — each institution owns its trust
+   surface at its own `verifyOrigin` (already how the codes print), all
+   backed by this one shared engine. A new project stands up its portal and
+   supplies an issuer profile; it writes no engine code.
+
+**One honest carry-over.** The QR encoder now exists twice — the shared
+`src/qr.js` and the site's `functions/_lib/registry/qr.js` — because moving
+the site's copy would touch the live deployment's import graph. A test
+asserts the two are byte-identical, so they cannot drift silently; the
+convergence (site imports the shared copy) is named future work, not
+pretended done.
 
 **What would reverse it.** A class where public verification would itself
 leak personal data faster than it protects (a safeguarding record, a medical
