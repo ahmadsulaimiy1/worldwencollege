@@ -949,5 +949,581 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/why-english/"
+  },
+  {
+    "slug": "publication-complete-curriculum",
+    "output": "press/complete-curriculum/index.html",
+    "title": "The Complete Curriculum — Reference Edition — WEC Press",
+    "description": "Every lesson of all six levels, with objectives, prerequisites, staged timings and the assessment each one is built toward. The reference edition.",
+    "contentFile": "publication-complete-curriculum.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/complete-curriculum/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-complete-curriculum-ar",
+    "output": "ar/press/complete-curriculum/index.html",
+    "title": "المنهج الكامل — النسخة المرجعية — مطبعة الكلية",
+    "description": "كل درس في المستويات الستة، بأهدافه ومتطلباته السابقة وتوقيت مراحله والتقييم الذي بُني نحوه. النسخة المرجعية.",
+    "contentFile": "publication-complete-curriculum.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/complete-curriculum/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-complete-curriculum-student",
+    "output": "press/complete-curriculum-student/index.html",
+    "title": "The Complete Curriculum — Student Edition — WEC Press",
+    "description": "The same curriculum, set for a reader working through it rather than auditing it: the internal apparatus removed, the learning path kept.",
+    "contentFile": "publication-complete-curriculum-student.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/complete-curriculum-student/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-complete-curriculum-student-ar",
+    "output": "ar/press/complete-curriculum-student/index.html",
+    "title": "المنهج الكامل — نسخة الطالب — مطبعة الكلية",
+    "description": "المنهج نفسه، مصفوف لقارئ يعمل فيه لا لمراجع يدقّقه: الأدوات الداخلية محذوفة، ومسار التعلّم كامل.",
+    "contentFile": "publication-complete-curriculum-student.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/complete-curriculum-student/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-flagship-curriculum",
+    "output": "press/flagship-curriculum/index.html",
+    "title": "The Programme in Brief — The Flagship Curriculum — WEC Press",
+    "description": "The programme in brief — the six levels, their CEFR alignment, credits, hours and awards. The volume to read first, and the smallest.",
+    "contentFile": "publication-flagship-curriculum.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/flagship-curriculum/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-flagship-curriculum-ar",
+    "output": "ar/press/flagship-curriculum/index.html",
+    "title": "البرنامج موجزًا — المنهج الرئيس — مطبعة الكلية",
+    "description": "البرنامج موجزًا — المستويات الستة، ومقابلها في الإطار الأوروبي، والأرصدة والساعات والشهادات. المجلد الذي يُقرأ أولًا، وأصغرها.",
+    "contentFile": "publication-flagship-curriculum.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/flagship-curriculum/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-programme-architecture",
+    "output": "press/programme-architecture/index.html",
+    "title": "Programme Architecture — Institutional Edition — WEC Press",
+    "description": "How the programme is constructed: the credit framework, the competency framework, the mapping from lesson to outcome to assessment, and where the mapping is still interim.",
+    "contentFile": "publication-programme-architecture.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/programme-architecture/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-programme-architecture-ar",
+    "output": "ar/press/programme-architecture/index.html",
+    "title": "بنية البرنامج — النسخة المؤسسية — مطبعة الكلية",
+    "description": "كيف بُني البرنامج: إطار الأرصدة، وإطار الكفايات، والربط من الدرس إلى الناتج إلى التقييم، وحيث يكون الربط مؤقتًا فهو مُعلَن كذلك.",
+    "contentFile": "publication-programme-architecture.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/programme-architecture/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-assessment-handbook",
+    "output": "press/assessment-handbook/index.html",
+    "title": "The Assessment Handbook — Rubrics, criteria and marking standards — WEC Press",
+    "description": "Every rubric, every pass criterion, every skill floor, and the marking standard each is applied to. Published in full, because a criterion a candidate cannot read is not a criterion.",
+    "contentFile": "publication-assessment-handbook.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/assessment-handbook/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-assessment-handbook-ar",
+    "output": "ar/press/assessment-handbook/index.html",
+    "title": "دليل التقييم — معايير التصحيح وشروط النجاح — مطبعة الكلية",
+    "description": "كل معيار تصحيح، وكل شرط نجاح، وكل حدٍّ أدنى للمهارة، والمستوى الذي يُطبَّق عليه كلٌّ منها. منشورة كاملة، لأن شرطًا لا يستطيع المرشح قراءته ليس شرطًا.",
+    "contentFile": "publication-assessment-handbook.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/assessment-handbook/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-teachers-companion-level-1",
+    "output": "press/teachers-companion-level-1/index.html",
+    "title": "Teacher's Companion — Level I · Foundations — WEC Press",
+    "description": "For each lesson of Level I: what commonly goes wrong, why, a second way to explain it, and what to do for the learner who is behind and the one who finished early. Its front matter states that it contains no classroom observation.",
+    "contentFile": "publication-teachers-companion-level-1.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/teachers-companion-level-1/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-teachers-companion-level-1-ar",
+    "output": "ar/press/teachers-companion-level-1/index.html",
+    "title": "رفيق المعلّم — المستوى الأول · الأساسات — مطبعة الكلية",
+    "description": "لكل درس من دروس المستوى الأول: ما يُخطئ فيه المتعلمون عادةً، ولماذا، وطريقة ثانية للشرح، وما يُفعَل مع من تأخّر ومع من أنهى مبكرًا. وصدر الكتاب يذكر أنه لا يحتوي ملاحظة صفّية.",
+    "contentFile": "publication-teachers-companion-level-1.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/teachers-companion-level-1/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-pronunciation-handbook",
+    "output": "press/pronunciation-handbook/index.html",
+    "title": "The Pronunciation Handbook — Targets, level by level — WEC Press",
+    "description": "The pronunciation targets by name, level by level, with what each one is and how it is marked. The reference behind every recording in the Listening Lab.",
+    "contentFile": "publication-pronunciation-handbook.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/pronunciation-handbook/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-pronunciation-handbook-ar",
+    "output": "ar/press/pronunciation-handbook/index.html",
+    "title": "دليل النطق — الأهداف، مستوًى بمستوى — مطبعة الكلية",
+    "description": "أهداف النطق بأسمائها، مستوًى بعد مستوى، مع بيان كل هدف وكيف يُصحَّح. المرجع الذي تقوم عليه كل تسجيلة في معمل الاستماع.",
+    "contentFile": "publication-pronunciation-handbook.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/pronunciation-handbook/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-listening-scripts",
+    "output": "press/listening-scripts/index.html",
+    "title": "The Listening Scripts — Every set, in full script — WEC Press",
+    "description": "All 120 listening sets in full script, with the speakers marked and the features each set targets. Published as scripts; the recorded audio requires voices and a studio.",
+    "contentFile": "publication-listening-scripts.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/listening-scripts/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-listening-scripts-ar",
+    "output": "ar/press/listening-scripts/index.html",
+    "title": "نصوص الاستماع — كل مجموعة بنصّها الكامل — مطبعة الكلية",
+    "description": "مجموعات الاستماع المئة والعشرون بنصوصها الكاملة، مع تحديد المتحدثين والسمات التي تستهدفها كل مجموعة. تُنشر نصوصًا؛ أما الصوت المسجَّل فيحتاج أصواتًا واستوديو.",
+    "contentFile": "publication-listening-scripts.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/listening-scripts/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-student-workbook-level-1",
+    "output": "press/student-workbook-level-1/index.html",
+    "title": "Student Workbook — Level I · Foundations — WEC Press",
+    "description": "The Level I exercises as a printable book, for a learner who wants the work away from a screen. Free to download, print and photocopy.",
+    "contentFile": "publication-student-workbook-level-1.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/student-workbook-level-1/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-student-workbook-level-1-ar",
+    "output": "ar/press/student-workbook-level-1/index.html",
+    "title": "كرّاسة الطالب — المستوى الأول · الأساسات — مطبعة الكلية",
+    "description": "تمارين المستوى الأول كتابًا قابلًا للطباعة، لمن يريد العمل بعيدًا عن الشاشة. حرّ التنزيل والطباعة والنسخ.",
+    "contentFile": "publication-student-workbook-level-1.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/student-workbook-level-1/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-publishing-constitution",
+    "output": "press/publishing-constitution/index.html",
+    "title": "The Publishing Constitution — The instrument the imprint is bound by — WEC Press",
+    "description": "What the Press may publish, who may review it, and the separations it holds — author is never reviewer. The instrument the imprint is bound by.",
+    "contentFile": "publication-publishing-constitution.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/publishing-constitution/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-publishing-constitution-ar",
+    "output": "ar/press/publishing-constitution/index.html",
+    "title": "دستور النشر — الصكّ الذي تُلزَم به الدار — مطبعة الكلية",
+    "description": "ما يجوز للمطبعة نشره، ومن يجوز له مراجعته، والفصل الذي تحفظه — فالمؤلف لا يكون المراجع أبدًا. وهي الصك الذي تُلزَم به الدار.",
+    "contentFile": "publication-publishing-constitution.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/publishing-constitution/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-canon-index",
+    "output": "press/canon-index/index.html",
+    "title": "The Canon Index — Every volume produced or planned — WEC Press",
+    "description": "Every volume the Press has produced or planned, with what each one requires and whether the material for it exists. Computed against the academic record rather than typed.",
+    "contentFile": "publication-canon-index.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/canon-index/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-canon-index-ar",
+    "output": "ar/press/canon-index/index.html",
+    "title": "فهرس المدوّنة — كل مجلد أُنتج أو خُطِّط له — مطبعة الكلية",
+    "description": "كل مجلد أنتجته المطبعة أو خطّطت له، وما يتطلبه كل واحد، وهل توجد مادته. محسوب من السجل الأكاديمي لا مكتوب باليد.",
+    "contentFile": "publication-canon-index.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/canon-index/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-editorial-bible",
+    "output": "press/editorial-bible/index.html",
+    "title": "The Editorial Bible — The house standard, in full — WEC Press",
+    "description": "The house standard every volume is set to: orthography, terminology, citation, and the rules that keep twelve books reading as one press.",
+    "contentFile": "publication-editorial-bible.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/editorial-bible/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-editorial-bible-ar",
+    "output": "ar/press/editorial-bible/index.html",
+    "title": "المرجع التحريري — معيار الدار، كاملًا — مطبعة الكلية",
+    "description": "المعيار الذي يُصفّ عليه كل مجلد: الإملاء والمصطلح والإحالة، والقواعد التي تجعل اثني عشر كتابًا تُقرأ كمطبعة واحدة.",
+    "contentFile": "publication-editorial-bible.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/editorial-bible/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-production-specifications",
+    "output": "press/production-specifications/index.html",
+    "title": "Production Specifications — Trim, margin, type, paper, binding — WEC Press",
+    "description": "Trim sizes, margins, type sizes, paper and binding for each format. Published so that anyone can reproduce a volume to the same specification.",
+    "contentFile": "publication-production-specifications.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/production-specifications/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-production-specifications-ar",
+    "output": "ar/press/production-specifications/index.html",
+    "title": "مواصفات الإنتاج — القطع والهامش والحرف والورق والتجليد — مطبعة الكلية",
+    "description": "مقاسات القطع والهوامش وأحجام الحروف والورق والتجليد لكل صيغة. منشورة كي يستطيع أي أحد أن يُنتج مجلدًا بالمواصفة نفسها.",
+    "contentFile": "publication-production-specifications.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/production-specifications/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-cover-artwork-curriculum",
+    "output": "press/cover-artwork-curriculum/index.html",
+    "title": "Cover Artwork — The Complete Curriculum — WEC Press",
+    "description": "Print-ready cover, supplied so a licensed reprint carries the correct one.",
+    "contentFile": "publication-cover-artwork-curriculum.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/cover-artwork-curriculum/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-cover-artwork-curriculum-ar",
+    "output": "ar/press/cover-artwork-curriculum/index.html",
+    "title": "غلاف للطبع — المنهج الكامل — مطبعة الكلية",
+    "description": "غلاف جاهز للطبع، مُتاح كي تحمل أي إعادة طبع مرخَّصة الغلاف الصحيح.",
+    "contentFile": "publication-cover-artwork-curriculum.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/cover-artwork-curriculum/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-cover-artwork-curriculum-student",
+    "output": "press/cover-artwork-curriculum-student/index.html",
+    "title": "Cover Artwork — The Complete Curriculum · Student Edition — WEC Press",
+    "description": "Print-ready cover for the Student Edition.",
+    "contentFile": "publication-cover-artwork-curriculum-student.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/cover-artwork-curriculum-student/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-cover-artwork-curriculum-student-ar",
+    "output": "ar/press/cover-artwork-curriculum-student/index.html",
+    "title": "غلاف للطبع — المنهج الكامل · نسخة الطالب — مطبعة الكلية",
+    "description": "غلاف جاهز للطبع لنسخة الطالب.",
+    "contentFile": "publication-cover-artwork-curriculum-student.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/cover-artwork-curriculum-student/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-cover-artwork-architecture",
+    "output": "press/cover-artwork-architecture/index.html",
+    "title": "Cover Artwork — Programme Architecture — WEC Press",
+    "description": "Print-ready cover for the Institutional Edition.",
+    "contentFile": "publication-cover-artwork-architecture.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/press/cover-artwork-architecture/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
+  },
+  {
+    "slug": "publication-cover-artwork-architecture-ar",
+    "output": "ar/press/cover-artwork-architecture/index.html",
+    "title": "غلاف للطبع — بنية البرنامج — مطبعة الكلية",
+    "description": "غلاف جاهز للطبع للنسخة المؤسسية.",
+    "contentFile": "publication-cover-artwork-architecture.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/press/cover-artwork-architecture/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/press.css"
+    ],
+    "scripts": [
+      "/js/bookcase.js"
+    ],
+    "contents": true
   }
 ]

@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 594"
+  width="420" height="594" role="img"
+  aria-label="اللوح الخلفي للغلاف"
+  preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bpronunciationhandbook-foil" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0%" stop-color="#8A6A3B"/>
+      <stop offset="20%" stop-color="#C7A24A"/>
+      <stop offset="44%" stop-color="#F3E3B3"/>
+      <stop offset="58%" stop-color="#C7A24A"/>
+      <stop offset="80%" stop-color="#F3E3B3"/>
+      <stop offset="100%" stop-color="#8A6A3B"/>
+    </linearGradient>
+    <linearGradient id="bpronunciationhandbook-ground" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#154237"/>
+      <stop offset="62%" stop-color="#0C2A24"/>
+      <stop offset="100%" stop-color="#061A16"/>
+    </linearGradient>
+    <radialGradient id="bpronunciationhandbook-light" cx="24%" cy="8%" r="86%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".16"/>
+      <stop offset="55%" stop-color="#FFFFFF" stop-opacity=".03"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity=".26"/>
+    </radialGradient>
+    <linearGradient id="bpronunciationhandbook-hinge" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#000000" stop-opacity=".42"/>
+      <stop offset="7%" stop-color="#000000" stop-opacity=".14"/>
+      <stop offset="13%" stop-color="#FFFFFF" stop-opacity=".05"/>
+      <stop offset="20%" stop-color="#000000" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="bpronunciationhandbook-girih" width="210" height="210" patternUnits="userSpaceOnUse"
+      patternTransform="translate(-105 -105)">
+      <g>
+    <g fill="none" stroke="#FFFFFF" stroke-width="0.5" opacity="1"
+       stroke-linejoin="round">
+      <circle cx="105" cy="105" r="96.6"/>
+      <circle cx="105" cy="105" r="69.552" opacity="0.6"/>
+      <path d="M105 8.4L173.307 36.693L201.6 105L173.307 173.307L105 201.6L36.693 173.307L8.4 105L36.693 36.693Z"/>
+      <path d="M131.616 40.742L169.258 78.384L169.258 131.616L131.616 169.258L78.384 169.258L40.742 131.616L40.742 78.384L78.384 40.742Z" opacity="0.7"/>
+      <path d="M105 8.4L120.526 67.516L173.307 36.693L142.484 89.474L201.6 105L142.484 120.526L173.307 173.307L120.526 142.484L105 201.6L89.474 142.484L36.693 173.307L67.516 120.526L8.4 105L67.516 89.474L36.693 36.693L89.474 67.516Z" stroke-width="0.7"/>
+      <path d="M120.526 67.516L139.749 21.108M142.484 89.474L188.892 70.251M142.484 120.526L188.892 139.749M120.526 142.484L139.749 188.892M89.474 142.484L70.251 188.892M67.516 120.526L21.108 139.749M67.516 89.474L21.108 70.251M89.474 67.516L70.251 21.108" opacity="0.5"/>
+      <circle cx="105" cy="105" r="15.456"/>
+    </g></g>
+    </pattern>
+  </defs>
+  <rect width="420" height="594" fill="url(#bpronunciationhandbook-ground)"/>
+    <rect width="420" height="594" fill="url(#bpronunciationhandbook-girih)" opacity=".055"/>
+    <rect width="420" height="594" fill="url(#bpronunciationhandbook-light)"/>
+    
+  <defs><g id="bpronunciationhandbook-fan"><path d="M0 0 L25.679 8.343"
+      stroke="#E4D5A8" stroke-width="0.35" opacity="0.17"/><path d="M0 0 L21.843 15.87"
+      stroke="#E4D5A8" stroke-width="0.35" opacity="0.17"/><path d="M0 0 L15.87 21.843"
+      stroke="#E4D5A8" stroke-width="0.35" opacity="0.17"/><path d="M0 0 L8.343 25.679"
+      stroke="#E4D5A8" stroke-width="0.35" opacity="0.17"/><path d="M0 8.4 A8.4 8.4 0 0 0 8.4 0" fill="none"
+      stroke="#E4D5A8" stroke-width="0.98"
+      opacity="0.34"/><path d="M0 13.5 A13.5 13.5 0 0 0 13.5 0" fill="none"
+      stroke="#E4D5A8" stroke-width="0.86"
+      opacity="0.296"/><path d="M0 18.6 A18.6 18.6 0 0 0 18.6 0" fill="none"
+      stroke="#E4D5A8" stroke-width="0.74"
+      opacity="0.252"/><path d="M0 23.7 A23.7 23.7 0 0 0 23.7 0" fill="none"
+      stroke="#E4D5A8" stroke-width="0.62"
+      opacity="0.207"/><path d="M0 28.8 A28.8 28.8 0 0 0 28.8 0" fill="none"
+      stroke="#E4D5A8" stroke-width="0.5"
+      opacity="0.163"/></g></defs><svg viewBox="0 0 420 594" width="420" height="594" preserveAspectRatio="none"
+    aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <rect x="22" y="22" width="376" height="550"
+      fill="none" stroke="#E4D5A8" stroke-width="1.3" opacity="1"/><rect x="27" y="27" width="366" height="540"
+      fill="none" stroke="#E4D5A8" stroke-width="0.45" opacity="0.75"/>
+    <path d="M59 33 L33 33 L33 59"
+      fill="none" stroke="#E4D5A8" stroke-width="1.3" opacity="0.95"/><path d="M361 33 L387 33 L387 59"
+      fill="none" stroke="#E4D5A8" stroke-width="1.3" opacity="0.95"/>
+    <path d="M59 561 L33 561 L33 535"
+      fill="none" stroke="#E4D5A8" stroke-width="1.3" opacity="0.95"/><path d="M361 561 L387 561 L387 535"
+      fill="none" stroke="#E4D5A8" stroke-width="1.3" opacity="0.95"/>
+  </svg>
+    <use href="#bpronunciationhandbook-fan" transform="translate(33.0 33.0) scale(1 1)"/><use href="#bpronunciationhandbook-fan" transform="translate(387.0 33.0) scale(-1 1)"/><use href="#bpronunciationhandbook-fan" transform="translate(33.0 561.0) scale(1 -1)"/><use href="#bpronunciationhandbook-fan" transform="translate(387.0 561.0) scale(-1 -1)"/>
+
+  <text x="210.0" y="62.0" text-anchor="middle" font-family="Inter, 'Helvetica Neue', sans-serif" font-size="8.0" font-weight="600" letter-spacing="1.9" fill="#E4D5A8" opacity="0.6">مطبعة الكلية العالمية للغة الإنجليزية</text>
+  <g opacity="0.6"><svg x="162.0" y="76.0" viewBox="0 0 96 18" width="96" height="18" aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 9 H26" stroke="#E4D5A8" stroke-width="0.6"/>
+    <path d="M70 9 H96" stroke="#E4D5A8" stroke-width="0.6"/>
+    <path d="M34 9 L48 3 L62 9
+             L48 15 Z" fill="none" stroke="#E4D5A8" stroke-width="0.9"/>
+    <circle cx="48" cy="9" r="1.8" fill="#E4D5A8"/>
+  </svg></g>
+
+  <text x="366.0" y="132.0" text-anchor="end" font-family="'EB Garamond', Georgia, serif" font-size="12.0" fill="rgba(247,244,236,.84)">أهداف النطق بأسمائها، مستوًى بعد مستوى، مع بيان كل هدف</text><text x="366.0" y="150.6" text-anchor="end" font-family="'EB Garamond', Georgia, serif" font-size="12.0" fill="rgba(247,244,236,.84)">وكيف يُصحَّح. المرجع الذي تقوم عليه كل تسجيلة في معمل</text><text x="366.0" y="169.2" text-anchor="end" font-family="'EB Garamond', Georgia, serif" font-size="12.0" fill="rgba(247,244,236,.84)">الاستماع.</text>
+
+  <text x="366.0" y="252.0" text-anchor="end" font-family="Inter, 'Helvetica Neue', sans-serif" font-size="7.6" font-weight="600" letter-spacing="1.7" fill="#E4D5A8" opacity="0.55">ما في هذا المجلد</text>
+  <path d="M366.0 270.0 h-9.0"
+        stroke="#E4D5A8" stroke-width="1" opacity=".7"/>
+      <text x="350.0" y="274.0" text-anchor="end" font-family="'EB Garamond', Georgia, serif" font-size="10.6" fill="rgba(247,244,236,.68)">كل هدف نطقي باسمه، مستوًى بمستوى</text>
+  <path d="M366.0 304.0 h-9.0"
+        stroke="#E4D5A8" stroke-width="1" opacity=".7"/>
+      <text x="350.0" y="308.0" text-anchor="end" font-family="'EB Garamond', Georgia, serif" font-size="10.6" fill="rgba(247,244,236,.68)">ما هو كل هدف، بعبارة يستطيع المتعلّم العمل بها</text>
+  <path d="M366.0 338.0 h-9.0"
+        stroke="#E4D5A8" stroke-width="1" opacity=".7"/>
+      <text x="350.0" y="342.0" text-anchor="end" font-family="'EB Garamond', Georgia, serif" font-size="10.6" fill="rgba(247,244,236,.68)">كيف يُصحَّح كل هدف، وما الذي يُعدّ متحقّقًا</text>
+  <path d="M366.0 372.0 h-9.0"
+        stroke="#E4D5A8" stroke-width="1" opacity=".7"/>
+      <text x="350.0" y="376.0" text-anchor="end" font-family="'EB Garamond', Georgia, serif" font-size="10.6" fill="rgba(247,244,236,.68)">المرجع الذي تقوم عليه كل تسجيلة في معمل الاستماع</text>
+
+  <path d="M54 430 H366" stroke="#E4D5A8" stroke-width=".5" opacity=".35"/>
+  <text x="114.0" y="470.0" text-anchor="middle" font-family="Inter, 'Helvetica Neue', sans-serif" font-size="7.0" font-weight="600" letter-spacing="1.4" fill="#E4D5A8" opacity="0.5">صفحة</text>
+    <g opacity="1"><text x="114.0" y="456.0" text-anchor="middle" font-family="Cinzel, 'EB Garamond', Georgia, serif" font-size="19.0" font-weight="600" letter-spacing="0.4" transform="translate(-0.7 -0.7)" fill="#F3E3B3" opacity=".38">72</text><text x="114.0" y="456.0" text-anchor="middle" font-family="Cinzel, 'EB Garamond', Georgia, serif" font-size="19.0" font-weight="600" letter-spacing="0.4" transform="translate(0.9 1.1)" fill="#1B1206" opacity=".6">72</text><text x="114.0" y="456.0" text-anchor="middle" font-family="Cinzel, 'EB Garamond', Georgia, serif" font-size="19.0" font-weight="600" letter-spacing="0.4" fill="url(#bpronunciationhandbook-foil)">72</text></g>
+  <text x="210.0" y="470.0" text-anchor="middle" font-family="Inter, 'Helvetica Neue', sans-serif" font-size="7.0" font-weight="600" letter-spacing="1.4" fill="#E4D5A8" opacity="0.5">المستويات</text>
+    <g opacity="1"><text x="210.0" y="456.0" text-anchor="middle" font-family="Cinzel, 'EB Garamond', Georgia, serif" font-size="19.0" font-weight="600" letter-spacing="0.4" transform="translate(-0.7 -0.7)" fill="#F3E3B3" opacity=".38">6</text><text x="210.0" y="456.0" text-anchor="middle" font-family="Cinzel, 'EB Garamond', Georgia, serif" font-size="19.0" font-weight="600" letter-spacing="0.4" transform="translate(0.9 1.1)" fill="#1B1206" opacity=".6">6</text><text x="210.0" y="456.0" text-anchor="middle" font-family="Cinzel, 'EB Garamond', Georgia, serif" font-size="19.0" font-weight="600" letter-spacing="0.4" fill="url(#bpronunciationhandbook-foil)">6</text></g>
+  <text x="306.0" y="470.0" text-anchor="middle" font-family="Inter, 'Helvetica Neue', sans-serif" font-size="7.0" font-weight="600" letter-spacing="1.4" fill="#E4D5A8" opacity="0.5">الطبعة</text>
+    <g opacity="1"><text x="306.0" y="456.0" text-anchor="middle" font-family="Cinzel, 'EB Garamond', Georgia, serif" font-size="19.0" font-weight="600" letter-spacing="0.4" transform="translate(-0.7 -0.7)" fill="#F3E3B3" opacity=".38">١</text><text x="306.0" y="456.0" text-anchor="middle" font-family="Cinzel, 'EB Garamond', Georgia, serif" font-size="19.0" font-weight="600" letter-spacing="0.4" transform="translate(0.9 1.1)" fill="#1B1206" opacity=".6">١</text><text x="306.0" y="456.0" text-anchor="middle" font-family="Cinzel, 'EB Garamond', Georgia, serif" font-size="19.0" font-weight="600" letter-spacing="0.4" fill="url(#bpronunciationhandbook-foil)">١</text></g>
+
+  <g transform="translate(56.0 508.0)"><path d="M0 6L7.7 9.5L15.4 6.7L23.1 5.4L30.8 6.7L38.5 4L46.2 2.9L53.9 7.8L61.6 9.1L69.3 5.7L77 6L84.7 6.3L92.4 2.9L100.1 4.2L107.8 9.1L115.5 8L123.2 5.3L130.9 6.6L138.6 5.3L146.3 2.5L154 6L161.7 9.5L169.4 6.7L177.1 5.4L184.8 6.7L192.5 4L200.2 2.9L207.9 7.8L215.6 9.1L223.3 5.7L231 6L238.7 6.3L246.4 2.9L254.1 4.2L261.8 9.1L269.5 8L277.2 5.3L284.9 6.6L292.6 5.3L300.3 2.5L308 6" fill="none" stroke="#E4D5A8" stroke-width=".35" opacity="0.4"/><path d="M0 6L7.7 2.5L15.4 5.3L23.1 6.6L30.8 5.3L38.5 8L46.2 9.1L53.9 4.2L61.6 2.9L69.3 6.3L77 6L84.7 5.7L92.4 9.1L100.1 7.8L107.8 2.9L115.5 4L123.2 6.7L130.9 5.4L138.6 6.7L146.3 9.5L154 6L161.7 2.5L169.4 5.3L177.1 6.6L184.8 5.3L192.5 8L200.2 9.1L207.9 4.2L215.6 2.9L223.3 6.3L231 6L238.7 5.7L246.4 9.1L254.1 7.8L261.8 2.9L269.5 4L277.2 6.7L284.9 5.4L292.6 6.7L300.3 9.5L308 6" fill="none" stroke="#E4D5A8" stroke-width=".35" opacity="0.4"/><path d="M0 6L7.7 7.8L15.4 7L23.1 2.5L30.8 3.8L38.5 8L46.2 7L53.9 6.3L61.6 8.2L69.3 5.4L77 2L84.7 5.4L92.4 8.2L100.1 6.3L107.8 7L115.5 8L123.2 3.8L130.9 2.5L138.6 7L146.3 7.8L154 6L161.7 7.8L169.4 7L177.1 2.5L184.8 3.8L192.5 8L200.2 7L207.9 6.3L215.6 8.2L223.3 5.4L231 2L238.7 5.4L246.4 8.2L254.1 6.3L261.8 7L269.5 8L277.2 3.8L284.9 2.5L292.6 7L300.3 7.8L308 6" fill="none" stroke="#E4D5A8" stroke-width=".35" opacity="0.3"/><path d="M0 6L7.7 4.2L15.4 5L23.1 9.5L30.8 8.2L38.5 4L46.2 5L53.9 5.7L61.6 3.8L69.3 6.6L77 10L84.7 6.6L92.4 3.8L100.1 5.7L107.8 5L115.5 4L123.2 8.2L130.9 9.5L138.6 5L146.3 4.2L154 6L161.7 4.2L169.4 5L177.1 9.5L184.8 8.2L192.5 4L200.2 5L207.9 5.7L215.6 3.8L223.3 6.6L231 10L238.7 6.6L246.4 3.8L254.1 5.7L261.8 5L269.5 4L277.2 8.2L284.9 9.5L292.6 5L300.3 4.2L308 6" fill="none" stroke="#E4D5A8" stroke-width=".35" opacity="0.3"/></g>
+  <text x="210.0" y="552.0" text-anchor="middle" font-family="Inter, 'Helvetica Neue', sans-serif" font-size="8.4" font-weight="600" letter-spacing="2.9" fill="#E4D5A8" opacity="0.62">لندن</text>
+</svg>

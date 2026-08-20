@@ -152,7 +152,12 @@
      four lists that matches nothing in the built site, and on any major
      struck component that is missing from them. */
   var CHIME = '.btn--gold';
-  var SEAL  = '.wax-seal, .cta__seal, .vessel, .medallion, .honour, .honour__wreath, '
+  var SEAL  = '.vol__save, '
+            /* Adding a volume to a reader's own shelf is a conferral —
+               small, but the same kind of act as a medallion being
+               struck, and js/bookcase.js plays `seal` on the way on and
+               `tap` on the way off for exactly that reason. */
+            + '.wax-seal, .cta__seal, .vessel, .medallion, .honour, .honour__wreath, '
             + '.matricula, .case__medallion, .brand__crest, .masthead__rule, .colophon__rule, '
             /* The warrant is a ruling with a seal on it, so it takes
                the conferral voice rather than the tap every other
@@ -180,6 +185,17 @@
                answers — which reads as a fault rather than as
                restraint (CLAUDE.md §3). */
             + '.domain, .shelf__item, '
+            /* WEC Press — the publication pages. The tome is a struck
+               object with six lit faces and the leaves of the flip are
+               paper; both would be the only silent things on a page
+               where the marks that turn them already answer. The tome's
+               own attitude buttons take TAP through `button` above; the
+               faces are given a voice here so that dragging the volume
+               round lands with a sound rather than in silence. */
+            + '.tome__stage, .flip__leaf, .flip__nav, .relcard, .vol__panel, '
+            /* The reader's own shelf panel on the Library — a struck
+               card with a lit rim like every other. */
+            + '.yours, '
             + '.plate__frame, .ledger--flagship tbody tr, '
             /* The Academics pillar — css/academics.css. */
             + '.ascent__step, .ascent__band, .horarium__band, .discipline, '

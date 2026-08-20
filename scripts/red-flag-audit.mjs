@@ -101,6 +101,21 @@ const BLOCK = 'p|div|section|li|h[1-6]|td|th|tr|dt|dd|figcaption|blockquote|capt
 function prose(html) {
   return html
     .replace(/<!--[\s\S]*?-->/g, ' ')
+    // A BUILD TOKEN IS NOT PROSE.
+    //
+    // pages/*.html are sources, so an inlined drawing is still
+    // `{{SVG:assets/covers/publishing-constitution-front.svg}}` when
+    // this reads the file — and the length committee counted every
+    // slash-separated fragment of that path as a word. The bookcase on
+    // the Library page therefore reported a 61-word sentence made
+    // entirely of file names, and sent an editor after prose that does
+    // not exist. Nobody reads a token; nothing here should measure one.
+    //
+    // The sixth parsing fault found in this file, and the same lesson
+    // as the other five: an audit that reports work nobody needs to do
+    // costs more than no audit.
+    .replace(/\{\{(?:SVG|S|N|V):[^}]*\}\}/g, ' ')
+    .replace(/\{\{[A-Z_]+\}\}/g, ' ')
     .replace(/<(script|style|svg)\b[\s\S]*?<\/\1>/gi, ' ')
     .replace(new RegExp(`</(?:${BLOCK})>`, 'gi'), '')
     // A LABEL IS A HEADING WEARING A SPAN. `.callout__label`,
