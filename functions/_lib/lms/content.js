@@ -13,9 +13,40 @@
 // staff-view path) since they legitimately need to see any student's
 // work to grade it.
 
+// WHO DECIDES A MODULE IS FINISHED, since 20 August 2026: marks.js, and
+// nothing in this file.
+//
+// This file used to decide it here, with its own rule: a unit was marked
+// `completed` when EITHER the quiz score OR the assignment grade reached
+// `platform_config.lms_pass_threshold`, independently, with no
+// composite. data/academic-regulations.json records that as
+// `conformance.module_composite` and states the consequence in one
+// sentence — "a learner who passes the quiz at seventy and never submits
+// the assignment has the module recorded as complete".
+//
+// That was not a private LMS opinion. `unit_progress.status` is read by
+// the graduate profile's units-completed figure, by the Institutional
+// Metric Register's `progression.moduleCompletion`, and by the § XI
+// engagement evidence list — so the platform published a module
+// completion the adopted regulations do not define, three ways.
+//
+// The adopted rule is `module.formula`: 30 per cent machine-marked, 70
+// per cent person-marked, rounded once, and `module.both_required` —
+// there is no partial module mark and a module never completes on one
+// component. moduleMarkForUnit() is the single place that computes it,
+// shared with the standing engine, so the two cannot disagree.
+//
+// The pass threshold left with it. There is no second threshold read
+// here any more: `SCALE.passMark` in marks.js is pinned to the
+// instrument by tests/academic-standing.test.mjs, and
+// `platform_config.lms_pass_threshold` now mirrors it rather than
+// competing with it (tests/academic-standing.test.mjs § holds the two
+// identical). A number that governs an award should not be settable in
+// two places to two values.
 import { db, newId, nowIso, NotFoundError, ValidationError } from '../db.js';
 import { AuthorizationError } from '../auth/session.js';
-import { getConfigJson } from '../config.js';
+import { moduleMarkForUnit } from '../academic/standing.js';
+import { meetsThreshold, percentageFromFraction, SCALE } from '../academic/marks.js';
 
 export async function assertLevelAccess(env, userId, levelId) {
   const enrolment = await db(env)
@@ -111,6 +142,33 @@ export async function getUnitDetail(env, { userId, unitId }) {
   };
 }
 
+/**
+ * Re-read the module under `module.formula` and write what it says.
+ *
+ * Called after every act that can move a module's mark — an attempt
+ * submitted, an assignment submitted, an assignment graded — rather
+ * than each of those deciding for itself. A module that is not `marked`
+ * and complete is `in_progress`: it is not a fail, and it is not a
+ * completion the College can put on a transcript.
+ *
+ * A unit the curriculum never gave both a quiz and an assignment comes
+ * back `not_assessable`, and stays `in_progress` here. All sixty
+ * authored modules carry both; a unit that does not is authoring work
+ * outstanding, and recording it as a learner's completed module would
+ * report the College's gap as the learner's achievement.
+ */
+async function recordModuleProgress(env, { userId, unitId, at }) {
+  const module = await moduleMarkForUnit(env, { userId, unitId });
+  const complete = Boolean(module && module.state === 'marked' && module.complete);
+  await upsertUnitProgress(env, {
+    userId,
+    unitId,
+    status: complete ? 'completed' : 'in_progress',
+    completedAt: complete ? at : null,
+  });
+  return module;
+}
+
 // Never downgrades a unit already marked 'completed' — a lower-scoring
 // quiz retake or a re-submitted assignment doesn't erase a prior pass.
 export async function upsertUnitProgress(env, { userId, unitId, status, completedAt = null }) {
@@ -155,14 +213,24 @@ export async function submitQuizAttempt(env, { userId, learningItemId, answers }
     .bind(attemptId, learningItemId, userId, JSON.stringify(answers), score, submittedAt)
     .run();
 
-  const passThreshold = await getConfigJson(env, 'lms_pass_threshold', { required: false }) ?? 0.7;
-  if (score >= passThreshold) {
-    await upsertUnitProgress(env, { userId, unitId: item.unit_id, status: 'completed', completedAt: submittedAt });
-  } else {
-    await upsertUnitProgress(env, { userId, unitId: item.unit_id, status: 'in_progress' });
-  }
+  await recordModuleProgress(env, { userId, unitId: item.unit_id, at: submittedAt });
 
-  return { id: attemptId, score, correctCount, totalQuestions: questions.length, passed: score >= passThreshold, submittedAt };
+  // `passed` is a statement about THIS ATTEMPT and never about the
+  // module: `module.component_floor` is null in the instrument, so a
+  // quiz below seventy still contributes its thirty per cent. It is
+  // reported because a learner who has just answered ten questions is
+  // owed the mark they got, and it is measured against the same
+  // `SCALE.passMark` every other mark on the platform is measured
+  // against rather than against a second threshold of its own.
+  const percentage = percentageFromFraction(score);
+  return {
+    id: attemptId,
+    score,
+    correctCount,
+    totalQuestions: questions.length,
+    passed: meetsThreshold(percentage, SCALE.passMark),
+    submittedAt,
+  };
 }
 
 export async function submitAssignment(env, { userId, learningItemId, content }) {
@@ -179,7 +247,7 @@ export async function submitAssignment(env, { userId, learningItemId, content })
     .bind(submissionId, learningItemId, userId, content, 'submitted', submittedAt)
     .run();
 
-  await upsertUnitProgress(env, { userId, unitId: item.unit_id, status: 'in_progress' });
+  await recordModuleProgress(env, { userId, unitId: item.unit_id, at: submittedAt });
   return { id: submissionId, status: 'submitted', submittedAt };
 }
 
@@ -198,10 +266,7 @@ export async function gradeAssignment(env, { gradedBy, submissionId, grade, feed
     .run();
 
   const item = await db(env).prepare('SELECT unit_id FROM learning_items WHERE id = ?').bind(submission.learning_item_id).first();
-  const passThreshold = await getConfigJson(env, 'lms_pass_threshold', { required: false }) ?? 0.7;
-  if (item && grade >= passThreshold) {
-    await upsertUnitProgress(env, { userId: submission.user_id, unitId: item.unit_id, status: 'completed', completedAt: gradedAt });
-  }
+  if (item) await recordModuleProgress(env, { userId: submission.user_id, unitId: item.unit_id, at: gradedAt });
 
   return { id: submissionId, status: 'graded', grade, feedback: feedback || null, gradedAt };
 }

@@ -29,8 +29,18 @@ submission.
 ```
 
 ### `GET /api/admissions/status?id=app_xxx`
-Public, no auth — deliberately keyed by id (an applicant has no
-account yet). Returns `{ id, status, created_at }` only.
+No session — an applicant has no account, and cannot be given one. The
+application reference IS the credential: it is compared in constant
+time, an unknown and a malformed reference get one identical 401, and
+every attempt spends from a per-address lookup allowance. Returns
+`{ id, status, createdAt }` and nothing else — no name, no email, no
+decision detail.
+
+`GET /api/admissions/track?ref=app_xxx` is the same credential opening
+the full record. Both resolve the reference through
+`applicationByReference()` in
+`functions/_lib/admissions/lifecycle.js`, which is the only place a
+reference becomes a row.
 
 ---
 
@@ -218,9 +228,15 @@ Marks the unit `in_progress`, not `completed` — grading is what can complete i
 ### `POST /api/lms/grade-assignment`
 **Staff/admin only.** Body: `{ submissionId, grade, feedback? }` —
 `grade` is a fraction 0..1. Returns `{ id, status:'graded', grade,
-feedback, gradedAt }`. A grade at or above
-`platform_config.lms_pass_threshold` (default 0.7) marks the unit
-`completed`.
+feedback, gradedAt }`. Grading re-reads the module under the adopted
+`module.formula` — 30 per cent quiz, 70 per cent assignment, rounded
+once — and marks the unit `completed` only if BOTH components are
+marked and the composite reaches the pass mark. A graded assignment on
+its own never completes a module; nor does a passed quiz. Until
+20 August 2026 either one did, independently, against
+`platform_config.lms_pass_threshold`; see
+`functions/_lib/lms/content.js` for what that published and why it
+changed.
 
 ### `GET /api/lms/live-sessions?levelId=<n>`
 Returns `{ levelId, sessions: [{ id, title, startsAt, durationMinutes, joinUrl, unitId }] }`.

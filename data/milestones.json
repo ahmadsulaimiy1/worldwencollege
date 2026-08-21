@@ -1,0 +1,770 @@
+{
+  "_": [
+    "THE MILESTONE REGISTER — what this College honours, and the exact",
+    "fact behind each one.",
+    "",
+    "WHAT FAULT THIS FILE CORRECTS. The Board asked for 'badges or",
+    "milestones where appropriate', and the qualifier is the whole of the",
+    "instruction. Left unqualified, the request has one obvious",
+    "implementation and it is the wrong one: a streak counter, a login",
+    "badge, a progress ring that fills for time spent on a page. Every one",
+    "of those honours activity, and an institution that puts activity on a",
+    "learner's record has to defend it the first time somebody asks what it",
+    "certifies.",
+    "",
+    "sql/schema.sql refused that shape before this file existed.",
+    "`milestone_definitions.academic_fact` is NOT NULL — 'a definition must",
+    "say what academic thing is true of a learner who holds it' — and",
+    "`evidence_source` is a closed list of eight tables that hold assessed",
+    "or attested academic evidence. There is no table in that list that",
+    "records a login, a session, a visit or a streak, so nothing here could",
+    "be earned from one even if somebody wrote the definition.",
+    "",
+    "WHAT THIS FILE IS. The fifteen definitions the register proposes, each",
+    "carrying: the academic fact it marks, its label in both editions, the",
+    "table its evidence is read from, and a CONDITION stated exactly enough",
+    "that a program evaluates it and a learner can be told what remains.",
+    "No definition is here whose condition cannot be evaluated from data",
+    "the platform actually holds. The three that were wanted and could not",
+    "be checked are in `not_defined` below, with the reason each one is",
+    "not a definition instead.",
+    "",
+    "EVERY DEFINITION SHIPS AS `proposed`, AND THAT IS NOT A PLACEHOLDER.",
+    "`milestone_definitions` carries a CHECK that an approved definition",
+    "names its approver and the date they approved it, for the same reason",
+    "every other institutional claim in that schema does. Which milestones",
+    "the College honours is the College's decision, taken by a person on a",
+    "date; it is not a decision an engineer takes by writing a JSON file.",
+    "functions/_lib/academic/achievements.js therefore awards from approved",
+    "definitions only, and a proposed one is reported to the learner as not",
+    "in force rather than shown as a locked prize.",
+    "",
+    "HOW CODE READS IT. It does not, at run time. A Pages Function has no",
+    "filesystem, so achievements.js restates this register as a frozen",
+    "constant and tests/achievements.test.mjs reads this file off disk and",
+    "fails the build the moment a code, a sequence, an evidence source, a",
+    "condition parameter or either edition of a label stops matching. The",
+    "same arrangement, and the same reasoning, as ENGAGEMENT in",
+    "functions/_lib/academic/attendance.js against",
+    "data/academic-regulations.json.",
+    "",
+    "WHAT THE DATABASE CANNOT HOLD OF THIS FILE. `milestone_definitions`",
+    "has one TEXT column for `name` and one for `academic_fact`, and no",
+    "column for a condition or its parameters. So the seeded row carries",
+    "the English edition and the rule lives in code keyed by `code`. The",
+    "Arabic edition of every label reaches the learner from the payload,",
+    "which carries both, and not from the row."
+  ],
+
+  "instrument": {
+    "id": "wec.milestone_register",
+    "version": "1.0.0",
+    "title": {
+      "en": "The Milestone Register of Worldwide English College",
+      "ar": "سجلّ المحطّات في كلية العالم للغة الإنجليزية"
+    },
+    "status": "proposed",
+    "adopted": false,
+    "adoption_note": "Proposed to the Executive and not yet adopted. Nothing in this register is awarded to any learner until a definition is approved with the name of its approver and the date of approval, which is what sql/schema.sql requires of every approved row and what functions/_lib/academic/achievements.js checks before it awards anything.",
+    "approved_externally": false,
+    "external_approval_note": "No external body has approved, endorsed or accredited this register, and none has been asked to. A milestone here marks a fact recorded by this College about work assessed by this College, and it is described that way wherever it appears.",
+    "reads_from": "data/academic-regulations.json@1.0.0",
+    "restated_in": "functions/_lib/academic/achievements.js",
+    "checked_by": "tests/achievements.test.mjs"
+  },
+
+  "principles": [
+    {
+      "id": "mil.fact_not_activity",
+      "label": {
+        "en": "Every milestone marks an assessed or attested academic fact",
+        "ar": "كل محطّة تشير إلى واقعة أكاديمية مُقيَّمة أو مُوثَّقة"
+      },
+      "source": "sql/schema.sql § milestone_definitions",
+      "rationale": "A milestone that marks nothing is a decoration the College would then have to defend on a transcript. `academic_fact` is NOT NULL because of it."
+    },
+    {
+      "id": "mil.no_activity_measure",
+      "label": {
+        "en": "Nothing can be earned from a login, a streak or time on a page",
+        "ar": "لا تُنال محطّة بتسجيل دخول ولا بمواظبة ولا بزمن أمام الشاشة"
+      },
+      "source": "sql/schema.sql § milestone_definitions.evidence_source",
+      "rationale": "Not a policy this file enforces but a shape the schema already has: no table recording any of those is in the closed list an achievement may be read from."
+    },
+    {
+      "id": "mil.evidence_travels",
+      "label": {
+        "en": "The row that earned it is carried on the record, not recomputed",
+        "ar": "يُحمل على السجلّ الصفُّ الذي استُحقّت به، ولا يُعاد حسابه"
+      },
+      "source": "sql/schema.sql § learner_milestones",
+      "rationale": "The first time a learner asks 'why do I have this', the answer must be a row somebody can open."
+    },
+    {
+      "id": "mil.earned_on_the_day_the_fact_was_true",
+      "label": {
+        "en": "A milestone is dated to its evidence, not to the day the platform noticed",
+        "ar": "تُؤرَّخ المحطّة بتاريخ دليلها لا بيوم انتباه النظام إليها"
+      },
+      "source": "decided_here",
+      "rationale": "`earned_on` is a date because earning one is a day. If a sweep runs a fortnight late, the record must still say the day the work was marked; otherwise the register dates the College's diligence rather than the learner's achievement."
+    },
+    {
+      "id": "mil.never_silently_revoked",
+      "label": {
+        "en": "The platform awards and never withdraws",
+        "ar": "يمنح النظام ولا يسحب"
+      },
+      "source": "decided_here",
+      "rationale": "A milestone is a statement the College made on a day about evidence it held. Evidence can later be revoked, replaced or superseded, and a sweep that quietly withdrew the milestone would be the software revising the College's record without a reason on it. `revoked_at` requires `revoked_reason`; only a person supplies one."
+    },
+    {
+      "id": "mil.route_is_published",
+      "label": {
+        "en": "An unearned milestone always states exactly what remains",
+        "ar": "كل محطّة لم تُنل تُبيّن ما بقي لنيلها بالضبط"
+      },
+      "source": "decided_here",
+      "rationale": "An achievement a learner cannot see the route to is decoration. Every definition below carries the sentence a learner is shown while it is outstanding, in both editions."
+    },
+    {
+      "id": "mil.no_penalty",
+      "label": {
+        "en": "A milestone not held is not a mark against anybody",
+        "ar": "المحطّة غير المنالة ليست مأخذًا على أحد"
+      },
+      "source": "decided_here",
+      "rationale": "Nothing here is a condition of any award, a component of any mark, or an input to academic standing. It is a reading of the record, and the record is the authority."
+    }
+  ],
+
+  "evidence_sources": [
+    { "table": "assignment_submissions", "holds": "Person-marked coursework, with the mark and the marker." },
+    { "table": "competency_marks", "holds": "A mark against one of the College's competencies, first-marked or moderated." },
+    { "table": "learner_recordings", "holds": "A spoken submission, with the instructor's assessment of it in pronunciation_feedback." },
+    { "table": "attendance_records", "holds": "Whether work on a module reached the College inside a seven-day engagement window." },
+    { "table": "awards", "holds": "A conferred level award, with its honour, its credits and its verification code." },
+    { "table": "unit_progress", "holds": "Lesson completion. Held by no definition below: a module completes on its marks, not on lessons ticked.", "used_by_any_definition": false },
+    { "table": "quiz_attempts", "holds": "A machine-marked attempt. Never the sole evidence of a definition below — module.null_until_both_marked means a module is never complete on the quiz alone.", "used_by_any_definition": false },
+    { "table": "academic_distinctions", "holds": "Leadership, presentation, research, service and prize, each approved by a person. Held by no definition below; see not_defined.milestone.distinction_conferred.", "used_by_any_definition": false }
+  ],
+
+  "definitions": [
+    {
+      "code": "first_work_marked",
+      "sequence": 1,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": null,
+      "evidence_source": "assignment_submissions",
+      "name": {
+        "en": "First Work Marked",
+        "ar": "أول عمل مُصحَّح"
+      },
+      "academic_fact": {
+        "en": "A piece of submitted coursework has been marked and returned by a member of academic staff.",
+        "ar": "صُحِّح عملٌ مُسلَّم من أعمال المقرر وأُعيد إلى الطالب على يد أحد أعضاء هيئة التدريس."
+      },
+      "condition": {
+        "id": "mil.cond.first_work_marked",
+        "rule": "assignment_marked",
+        "parameters": { "required": 1 },
+        "reads": ["assignment_submissions.status", "assignment_submissions.grade"],
+        "statement": {
+          "en": "One assignment submission stands at status 'graded' or 'returned' with a mark recorded on it.",
+          "ar": "وجود واجب مُسلَّم حالته «مُصحَّح» أو «مُعاد» وعليه درجة مسجّلة."
+        },
+        "evidence_row": "The earliest such submission, by the moment it was marked."
+      },
+      "remaining": {
+        "default": {
+          "en": "Submit one assignment and have it marked. None of your submissions carries a mark yet.",
+          "ar": "سلّم واجبًا واحدًا ودعه يُصحَّح. لا يحمل أيٌّ من تسليماتك درجةً بعد."
+        },
+        "awaiting_marking": {
+          "en": "Work is with the College and awaiting a mark. Nothing is outstanding on your side.",
+          "ar": "عملك لدى الكلية بانتظار التصحيح، ولا شيء متبقٍّ عليك."
+        }
+      }
+    },
+
+    {
+      "code": "module_passed",
+      "sequence": 2,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": null,
+      "evidence_source": "assignment_submissions",
+      "name": {
+        "en": "First Module Passed",
+        "ar": "أول وحدة مجتازة"
+      },
+      "academic_fact": {
+        "en": "One module is complete on the published composite of its quiz and its assignment, at or above the pass mark of 70.00 per cent.",
+        "ar": "أُتمّت وحدة دراسية على التركيبة المنشورة من اختبارها وواجبها، بدرجة النجاح 70.00 بالمئة أو أعلى."
+      },
+      "condition": {
+        "id": "mil.cond.module_passed",
+        "rule": "module_complete",
+        "parameters": { "required": 1 },
+        "reads": ["module.formula", "module.both_required", "scale.pass_mark"],
+        "statement": {
+          "en": "At least one module reaches state 'marked' and complete under module.formula — both components marked, the 30/70 composite at or above 70.00.",
+          "ar": "بلوغ وحدة واحدة على الأقل حالة «مُصحَّحة» ومكتملة وفق صيغة الوحدة: تصحيح الركنين معًا، والتركيبة 30/70 عند 70.00 أو فوقها."
+        },
+        "evidence_row": "The assignment submission whose mark counted toward the first module completed."
+      },
+      "remaining": {
+        "default": {
+          "en": "Complete one module: both its quiz and its assignment marked, and the combined mark at 70.00 or above. A module is never complete on the quiz alone.",
+          "ar": "أتمّ وحدة واحدة: تصحيح اختبارها وواجبها معًا، والدرجة المجتمعة 70.00 أو أعلى. لا تكتمل وحدة بالاختبار وحده."
+        },
+        "awaiting_marking": {
+          "en": "Both components of a module are with the College and one is still to be marked. The module completes when the second mark is recorded.",
+          "ar": "ركنا إحدى الوحدات لدى الكلية وأحدهما لم يُصحَّح بعد. تكتمل الوحدة حين تُسجَّل الدرجة الثانية."
+        }
+      }
+    },
+
+    {
+      "code": "level_modules_complete",
+      "sequence": 3,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": null,
+      "evidence_source": "assignment_submissions",
+      "name": {
+        "en": "Every Module of a Level",
+        "ar": "وحدات مستوى كاملة"
+      },
+      "academic_fact": {
+        "en": "All ten modules of one programme level are complete — the first of the gates a level award is conferred on.",
+        "ar": "اكتملت وحدات مستوى دراسي كامل، وعددها عشر، وهي أول شروط منح شهادة المستوى."
+      },
+      "condition": {
+        "id": "mil.cond.level_modules_complete",
+        "rule": "level_modules_complete",
+        "parameters": { "modules_per_level": 10 },
+        "reads": ["level.gate.modules_complete", "module.formula"],
+        "statement": {
+          "en": "One level carries ten authored modules and every one of them is complete, which is level.gate.modules_complete exactly.",
+          "ar": "أن يحمل مستوى واحد عشر وحدات مؤلَّفة وأن تكتمل كل واحدة منها، وهو نص شرط اكتمال وحدات المستوى."
+        },
+        "evidence_row": "The counted assignment submission of the module that completed the level, by the moment that module completed."
+      },
+      "remaining": {
+        "default": {
+          "en": "Complete all {required} modules of one level. {observed} complete at your furthest level; {shortfall} to go.",
+          "ar": "أتمّ وحدات مستوى واحد كاملة وعددها {required}. اكتملت {observed} في أبعد مستوياتك، وبقيت {shortfall}."
+        },
+        "no_modules_authored": {
+          "en": "No level you are enrolled at has its modules published yet. This one is outstanding on the College, not on you.",
+          "ar": "لم تُنشر بعد وحدات أيّ مستوى أنت مسجَّل فيه. هذا متبقٍّ على الكلية لا عليك."
+        }
+      }
+    },
+
+    {
+      "code": "competencies_all_marked",
+      "sequence": 4,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": null,
+      "evidence_source": "competency_marks",
+      "name": {
+        "en": "Marked Against Every Competency",
+        "ar": "التصحيح في الكفايات جميعها"
+      },
+      "academic_fact": {
+        "en": "The learner's work has been marked against every competency the College holds — Clarity, Command, Judgement, Reason, Bearing and Reach.",
+        "ar": "صُحِّح عمل الطالب في كل كفاية تعتمدها الكلية: الوضوح والتمكّن والتقدير والحجّة والحضور والامتداد."
+      },
+      "condition": {
+        "id": "mil.cond.competencies_all_marked",
+        "rule": "competencies_all_marked",
+        "parameters": { "required": "every row in competencies" },
+        "reads": ["competency_marks.competency_id", "competencies"],
+        "statement": {
+          "en": "A competency mark exists on the learner's work for every competency in the competencies table. The requirement is read from that table and never fixed at six, so adding a competency raises the bar rather than leaving the milestone quietly wrong.",
+          "ar": "وجود درجة كفاية على عمل الطالب في كل كفاية مسجّلة في جدول الكفايات. يُقرأ المطلوب من الجدول نفسه ولا يُثبَّت عند ستّ، حتى تُرفع العتبة إذا أُضيفت كفاية بدل أن تبقى المحطّة خاطئة في صمت."
+        },
+        "evidence_row": "The mark that completed the set: the latest of the earliest mark in each competency."
+      },
+      "remaining": {
+        "default": {
+          "en": "Be marked against every competency. {observed} of {required} carry a mark; {shortfall} outstanding.",
+          "ar": "أن تُصحَّح في كل كفاية. تحمل {observed} من {required} درجةً، وبقيت {shortfall}."
+        },
+        "no_competencies": {
+          "en": "The College holds no competencies to be marked against.",
+          "ar": "لا تحمل الكلية كفايات يُصحَّح عليها."
+        }
+      }
+    },
+
+    {
+      "code": "competency_moderated",
+      "sequence": 5,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": null,
+      "evidence_source": "competency_marks",
+      "name": {
+        "en": "Confirmed by a Second Marker",
+        "ar": "تأكيد المصحّح الثاني"
+      },
+      "academic_fact": {
+        "en": "A competency mark on the learner's work has been confirmed by a moderator, marking it a second time and independently of the first marker.",
+        "ar": "أكّد مُراجعٌ درجةَ كفايةٍ في عمل الطالب، فصحّحه مرّة ثانية مستقلًّا عن المصحّح الأول."
+      },
+      "condition": {
+        "id": "mil.cond.competency_moderated",
+        "rule": "moderated_mark",
+        "parameters": { "source": "moderator", "required": 1 },
+        "reads": ["competency_marks.source"],
+        "statement": {
+          "en": "One competency mark on the learner's work carries source 'moderator'. The schema keeps a moderated mark and a first-marker mark apart precisely so this is answerable.",
+          "ar": "أن تحمل درجةُ كفايةٍ واحدة على عمل الطالب مصدرَ «مراجع». يفصل المخطَّط بين درجة المراجع ودرجة المصحّح الأول تحديدًا ليكون هذا السؤال قابلًا للإجابة."
+        },
+        "evidence_row": "The earliest moderated mark on the learner's work."
+      },
+      "remaining": {
+        "default": {
+          "en": "Second marking is the College's act, not yours: it happens when a moderator reviews marked work of yours. Nothing here is outstanding on you.",
+          "ar": "التصحيح الثاني فعل الكلية لا فعلك: يقع حين يراجع مُراجعٌ عملًا لك مُصحَّحًا. لا شيء هنا متبقٍّ عليك."
+        }
+      }
+    },
+
+    {
+      "code": "pronunciation_reassessed_higher",
+      "sequence": 6,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": null,
+      "evidence_source": "learner_recordings",
+      "name": {
+        "en": "Pronunciation Reassessed Higher",
+        "ar": "نطقٌ أُعيد تقييمه فارتفع"
+      },
+      "academic_fact": {
+        "en": "An instructor assessed a pronunciation task twice, and the later recording was marked higher on every criterion assessed both times.",
+        "ar": "قيَّم المعلّمُ مهمّةَ نطقٍ مرّتين، فجاء التسجيل اللاحق أعلى درجةً في كل معيار قُيِّم في المرّتين."
+      },
+      "condition": {
+        "id": "mil.cond.pronunciation_reassessed_higher",
+        "rule": "pronunciation_improved",
+        "parameters": { "assessed_attempts_required": 2, "assessor_source": "instructor", "improvement": "strictly_higher_on_every_shared_criterion" },
+        "reads": ["learner_recordings.attempt", "pronunciation_feedback.source", "pronunciation_feedback.intelligibility", "pronunciation_feedback.word_stress", "pronunciation_feedback.sentence_stress", "pronunciation_feedback.individual_sounds", "pronunciation_feedback.fluency"],
+        "statement": {
+          "en": "Two recordings of one pronunciation item are assessed by an instructor, at least one criterion is marked on both, and the later attempt is strictly higher on every criterion marked on both. The comparison is against the learner's own first attempt and not against any threshold, because the College publishes no pronunciation target — see not_defined.milestone.pronunciation_target.",
+          "ar": "أن يُقيِّم المعلّم تسجيلين لمهمّة نطق واحدة، وأن يُصحَّح معيار واحد على الأقل فيهما معًا، وأن تكون المحاولة اللاحقة أعلى قطعًا في كل معيار صُحِّح فيهما. المقارنة بمحاولة الطالب الأولى لا بعتبة، إذ لا تنشر الكلية هدفًا للنطق."
+        },
+        "evidence_row": "The later recording, the one that was marked higher."
+      },
+      "remaining": {
+        "default": {
+          "en": "Record one pronunciation task, have it assessed, then record it again. Assessed attempts on your strongest item so far: {observed} of {required}.",
+          "ar": "سجّل مهمّة نطق واحدة، ودعها تُقيَّم، ثم سجّلها ثانية. المحاولات المقيَّمة في أقوى مهمّاتك حتى الآن: {observed} من {required}."
+        },
+        "awaiting_second_assessment": {
+          "en": "A second recording is with the College and awaiting assessment.",
+          "ar": "تسجيل ثانٍ لدى الكلية بانتظار التقييم."
+        },
+        "not_yet_higher": {
+          "en": "A task has been assessed twice and the later marks are not yet higher on every criterion marked both times. Record it again.",
+          "ar": "قُيِّمت إحدى المهمّات مرّتين ولم ترتفع درجات اللاحقة بعدُ في كل معيار صُحِّح فيهما. سجّلها من جديد."
+        }
+      }
+    },
+
+    {
+      "code": "sustained_engagement",
+      "sequence": 7,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": null,
+      "evidence_source": "attendance_records",
+      "name": {
+        "en": "Four Windows Unbroken",
+        "ar": "أربع نوافذ متتالية"
+      },
+      "academic_fact": {
+        "en": "Work on the programme reached the College in four consecutive seven-day engagement windows.",
+        "ar": "بلغ الكليةَ عملٌ في البرنامج في أربع نوافذ مشاركة متتالية، مدّة كل منها سبعة أيام."
+      },
+      "condition": {
+        "id": "mil.cond.sustained_engagement",
+        "rule": "consecutive_engagement_windows",
+        "parameters": { "consecutive_windows": 4, "window_days": 7, "state": "attended", "basis": "module_engagement" },
+        "reads": ["attendance_records.window_start", "attendance_records.state", "attendance_records.basis", "engage.window"],
+        "statement": {
+          "en": "Four engagement windows whose starts are exactly seven days apart each carry at least one record in state 'attended'. The window is the instrument's own — seven days, anchored to the learner's start date — and it is engagement, never attendance: the College teaches asynchronously and takes no register.",
+          "ar": "أربع نوافذ مشاركة تفصل بين بداياتها سبعة أيام تمامًا، تحمل كل واحدة منها سجلًّا واحدًا على الأقل بحالة «حضور عمل». والنافذة نافذة اللائحة نفسها: سبعة أيام مبدؤها تاريخ بدء الطالب. وهي مشاركة لا حضور؛ فالكلية تُدرّس تعلّمًا غير متزامن ولا تأخذ كشف حضور."
+        },
+        "evidence_row": "The first record, in order, of the fourth window of the run."
+      },
+      "remaining": {
+        "default": {
+          "en": "Have work reach the College in {required} consecutive seven-day windows. Your longest unbroken run so far is {observed}.",
+          "ar": "أن يبلغ الكليةَ عملٌ لك في {required} نوافذ متتالية من سبعة أيام. أطول تتابع لك حتى الآن {observed}."
+        },
+        "not_started": {
+          "en": "No engagement window has closed yet, so there is no run to count. A window opens on the day your enrolment starts.",
+          "ar": "لم تُغلق بعد أي نافذة مشاركة، فلا تتابع يُحسب. تُفتح النافذة يوم بدء تسجيلك."
+        }
+      }
+    },
+
+    {
+      "code": "level_award_1",
+      "sequence": 8,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": 1,
+      "evidence_source": "awards",
+      "name": { "en": "English Aspirant", "ar": "طالب اللغة الإنجليزية" },
+      "academic_fact": {
+        "en": "The Level I award — English Aspirant of Worldwide English College, ApWEC, CEFR A1, 20 credits — has been conferred and stands on the register.",
+        "ar": "مُنحت شهادة المستوى الأول — طالب اللغة الإنجليزية بكلية العالم للغة الإنجليزية، ApWEC، الإطار الأوروبي A1، عشرون اعتمادًا — وهي قائمة في السجلّ."
+      },
+      "condition": {
+        "id": "mil.cond.level_award_1",
+        "rule": "level_award_conferred",
+        "parameters": { "level_id": 1 },
+        "reads": ["awards.level_id", "awards.status"],
+        "statement": {
+          "en": "An award at Level I stands at status 'conferred'. Conferral is the Graduate Register's act; this milestone reads it and never performs it.",
+          "ar": "وجود شهادة في المستوى الأول حالتها «ممنوحة». المنح فعل سجلّ الخرّيجين، وهذه المحطّة تقرؤه ولا تقوم به."
+        },
+        "evidence_row": "The conferred award itself."
+      },
+      "remaining": {
+        "default": {
+          "en": "The Level I award is conferred when every condition of the level is met. {outstandingCount} remain, each named beside this with whose work it is.",
+          "ar": "تُمنح شهادة المستوى الأول عند تحقق كل شروط المستوى. بقي منها {outstandingCount}، وكل شرط مذكور بجانبه ومعه صاحب العمل فيه."
+        },
+        "awaiting_conferral": {
+          "en": "Every condition of Level I is met. The award is conferred when the Graduate Register writes it.",
+          "ar": "تحقّقت شروط المستوى الأول كلها. وتُمنح الشهادة حين يكتبها سجلّ الخرّيجين."
+        },
+        "not_reached": {
+          "en": "Level I is not open on your record yet.",
+          "ar": "لم يُفتح المستوى الأول في سجلّك بعد."
+        }
+      }
+    },
+
+    {
+      "code": "level_award_2",
+      "sequence": 9,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": 2,
+      "evidence_source": "awards",
+      "name": { "en": "English Candidate", "ar": "مرشّح اللغة الإنجليزية" },
+      "academic_fact": {
+        "en": "The Level II award — English Candidate of Worldwide English College, CnWEC, CEFR A2, 20 credits — has been conferred and stands on the register.",
+        "ar": "مُنحت شهادة المستوى الثاني — مرشّح اللغة الإنجليزية بكلية العالم للغة الإنجليزية، CnWEC، الإطار الأوروبي A2، عشرون اعتمادًا — وهي قائمة في السجلّ."
+      },
+      "condition": {
+        "id": "mil.cond.level_award_2",
+        "rule": "level_award_conferred",
+        "parameters": { "level_id": 2 },
+        "reads": ["awards.level_id", "awards.status"],
+        "statement": {
+          "en": "An award at Level II stands at status 'conferred'.",
+          "ar": "وجود شهادة في المستوى الثاني حالتها «ممنوحة»."
+        },
+        "evidence_row": "The conferred award itself."
+      },
+      "remaining": {
+        "default": {
+          "en": "The Level II award is conferred when every condition of the level is met. {outstandingCount} remain, each named beside this with whose work it is.",
+          "ar": "تُمنح شهادة المستوى الثاني عند تحقق كل شروط المستوى. بقي منها {outstandingCount}، وكل شرط مذكور بجانبه ومعه صاحب العمل فيه."
+        },
+        "awaiting_conferral": {
+          "en": "Every condition of Level II is met. The award is conferred when the Graduate Register writes it.",
+          "ar": "تحقّقت شروط المستوى الثاني كلها. وتُمنح الشهادة حين يكتبها سجلّ الخرّيجين."
+        },
+        "not_reached": {
+          "en": "Level II is not open on your record yet. A level opens when the level before it is completed.",
+          "ar": "لم يُفتح المستوى الثاني في سجلّك بعد. يُفتح المستوى عند إتمام المستوى الذي قبله."
+        }
+      }
+    },
+
+    {
+      "code": "level_award_3",
+      "sequence": 10,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": 3,
+      "evidence_source": "awards",
+      "name": { "en": "English Associate", "ar": "زميل اللغة الإنجليزية" },
+      "academic_fact": {
+        "en": "The Level III award — English Associate of Worldwide English College, AsWEC, CEFR B1, 20 credits — has been conferred and stands on the register.",
+        "ar": "مُنحت شهادة المستوى الثالث — زميل اللغة الإنجليزية بكلية العالم للغة الإنجليزية، AsWEC، الإطار الأوروبي B1، عشرون اعتمادًا — وهي قائمة في السجلّ."
+      },
+      "condition": {
+        "id": "mil.cond.level_award_3",
+        "rule": "level_award_conferred",
+        "parameters": { "level_id": 3 },
+        "reads": ["awards.level_id", "awards.status"],
+        "statement": {
+          "en": "An award at Level III stands at status 'conferred'.",
+          "ar": "وجود شهادة في المستوى الثالث حالتها «ممنوحة»."
+        },
+        "evidence_row": "The conferred award itself."
+      },
+      "remaining": {
+        "default": {
+          "en": "The Level III award is conferred when every condition of the level is met. {outstandingCount} remain, each named beside this with whose work it is.",
+          "ar": "تُمنح شهادة المستوى الثالث عند تحقق كل شروط المستوى. بقي منها {outstandingCount}، وكل شرط مذكور بجانبه ومعه صاحب العمل فيه."
+        },
+        "awaiting_conferral": {
+          "en": "Every condition of Level III is met. The award is conferred when the Graduate Register writes it.",
+          "ar": "تحقّقت شروط المستوى الثالث كلها. وتُمنح الشهادة حين يكتبها سجلّ الخرّيجين."
+        },
+        "not_reached": {
+          "en": "Level III is not open on your record yet. A level opens when the level before it is completed.",
+          "ar": "لم يُفتح المستوى الثالث في سجلّك بعد. يُفتح المستوى عند إتمام المستوى الذي قبله."
+        }
+      }
+    },
+
+    {
+      "code": "level_award_4",
+      "sequence": 11,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": 4,
+      "evidence_source": "awards",
+      "name": { "en": "English Envoy", "ar": "موفد اللغة الإنجليزية" },
+      "academic_fact": {
+        "en": "The Level IV award — English Envoy of Worldwide English College, EnWEC, CEFR B2, 20 credits — has been conferred and stands on the register.",
+        "ar": "مُنحت شهادة المستوى الرابع — موفد اللغة الإنجليزية بكلية العالم للغة الإنجليزية، EnWEC، الإطار الأوروبي B2، عشرون اعتمادًا — وهي قائمة في السجلّ."
+      },
+      "condition": {
+        "id": "mil.cond.level_award_4",
+        "rule": "level_award_conferred",
+        "parameters": { "level_id": 4 },
+        "reads": ["awards.level_id", "awards.status"],
+        "statement": {
+          "en": "An award at Level IV stands at status 'conferred'.",
+          "ar": "وجود شهادة في المستوى الرابع حالتها «ممنوحة»."
+        },
+        "evidence_row": "The conferred award itself."
+      },
+      "remaining": {
+        "default": {
+          "en": "The Level IV award is conferred when every condition of the level is met. {outstandingCount} remain, each named beside this with whose work it is.",
+          "ar": "تُمنح شهادة المستوى الرابع عند تحقق كل شروط المستوى. بقي منها {outstandingCount}، وكل شرط مذكور بجانبه ومعه صاحب العمل فيه."
+        },
+        "awaiting_conferral": {
+          "en": "Every condition of Level IV is met. The award is conferred when the Graduate Register writes it.",
+          "ar": "تحقّقت شروط المستوى الرابع كلها. وتُمنح الشهادة حين يكتبها سجلّ الخرّيجين."
+        },
+        "not_reached": {
+          "en": "Level IV is not open on your record yet. A level opens when the level before it is completed.",
+          "ar": "لم يُفتح المستوى الرابع في سجلّك بعد. يُفتح المستوى عند إتمام المستوى الذي قبله."
+        }
+      }
+    },
+
+    {
+      "code": "level_award_5",
+      "sequence": 12,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": 5,
+      "evidence_source": "awards",
+      "name": { "en": "English Orator", "ar": "خطيب اللغة الإنجليزية" },
+      "academic_fact": {
+        "en": "The Level V award — English Orator of Worldwide English College, OrWEC, CEFR C1, 20 credits — has been conferred and stands on the register.",
+        "ar": "مُنحت شهادة المستوى الخامس — خطيب اللغة الإنجليزية بكلية العالم للغة الإنجليزية، OrWEC، الإطار الأوروبي C1، عشرون اعتمادًا — وهي قائمة في السجلّ."
+      },
+      "condition": {
+        "id": "mil.cond.level_award_5",
+        "rule": "level_award_conferred",
+        "parameters": { "level_id": 5 },
+        "reads": ["awards.level_id", "awards.status"],
+        "statement": {
+          "en": "An award at Level V stands at status 'conferred'.",
+          "ar": "وجود شهادة في المستوى الخامس حالتها «ممنوحة»."
+        },
+        "evidence_row": "The conferred award itself."
+      },
+      "remaining": {
+        "default": {
+          "en": "The Level V award is conferred when every condition of the level is met. {outstandingCount} remain, each named beside this with whose work it is.",
+          "ar": "تُمنح شهادة المستوى الخامس عند تحقق كل شروط المستوى. بقي منها {outstandingCount}، وكل شرط مذكور بجانبه ومعه صاحب العمل فيه."
+        },
+        "awaiting_conferral": {
+          "en": "Every condition of Level V is met. The award is conferred when the Graduate Register writes it.",
+          "ar": "تحقّقت شروط المستوى الخامس كلها. وتُمنح الشهادة حين يكتبها سجلّ الخرّيجين."
+        },
+        "not_reached": {
+          "en": "Level V is not open on your record yet. A level opens when the level before it is completed.",
+          "ar": "لم يُفتح المستوى الخامس في سجلّك بعد. يُفتح المستوى عند إتمام المستوى الذي قبله."
+        }
+      }
+    },
+
+    {
+      "code": "level_award_6",
+      "sequence": 13,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": 6,
+      "evidence_source": "awards",
+      "name": { "en": "English Laureate", "ar": "متوَّج اللغة الإنجليزية" },
+      "academic_fact": {
+        "en": "The Level VI award — English Laureate of Worldwide English College, LrWEC, CEFR C2, 20 credits — has been conferred and stands on the register.",
+        "ar": "مُنحت شهادة المستوى السادس — متوَّج اللغة الإنجليزية بكلية العالم للغة الإنجليزية، LrWEC، الإطار الأوروبي C2، عشرون اعتمادًا — وهي قائمة في السجلّ."
+      },
+      "condition": {
+        "id": "mil.cond.level_award_6",
+        "rule": "level_award_conferred",
+        "parameters": { "level_id": 6 },
+        "reads": ["awards.level_id", "awards.status"],
+        "statement": {
+          "en": "An award at Level VI stands at status 'conferred'.",
+          "ar": "وجود شهادة في المستوى السادس حالتها «ممنوحة»."
+        },
+        "evidence_row": "The conferred award itself."
+      },
+      "remaining": {
+        "default": {
+          "en": "The Level VI award is conferred when every condition of the level is met. {outstandingCount} remain, each named beside this with whose work it is.",
+          "ar": "تُمنح شهادة المستوى السادس عند تحقق كل شروط المستوى. بقي منها {outstandingCount}، وكل شرط مذكور بجانبه ومعه صاحب العمل فيه."
+        },
+        "awaiting_conferral": {
+          "en": "Every condition of Level VI is met. The award is conferred when the Graduate Register writes it.",
+          "ar": "تحقّقت شروط المستوى السادس كلها. وتُمنح الشهادة حين يكتبها سجلّ الخرّيجين."
+        },
+        "not_reached": {
+          "en": "Level VI is not open on your record yet. A level opens when the level before it is completed.",
+          "ar": "لم يُفتح المستوى السادس في سجلّك بعد. يُفتح المستوى عند إتمام المستوى الذي قبله."
+        }
+      }
+    },
+
+    {
+      "code": "first_distinction",
+      "sequence": 14,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": null,
+      "evidence_source": "awards",
+      "name": {
+        "en": "First Distinction",
+        "ar": "أول تميّز"
+      },
+      "academic_fact": {
+        "en": "A level award has been conferred at Distinction or High Distinction — a level mark of 88.00 or above with no skill below 80.00.",
+        "ar": "مُنحت شهادة مستوى بمرتبة التميّز أو التميّز العالي: درجة مستوى 88.00 فما فوق دون أن تنزل مهارة عن 80.00."
+      },
+      "condition": {
+        "id": "mil.cond.first_distinction",
+        "rule": "distinction_conferred",
+        "parameters": { "honours": ["distinction", "high_distinction"] },
+        "reads": ["awards.honour", "awards.status", "honour.distinction", "honour.high_distinction"],
+        "statement": {
+          "en": "A conferred award carries honour 'distinction' or 'high_distinction'. The College Distinction is deliberately not in the list: it is conferred by decision and carries no grade point, and a decision of the College is honoured by the decision, not by a platform sweep reading a column.",
+          "ar": "أن تحمل شهادة ممنوحة مرتبة «تميّز» أو «تميّز عالٍ». وتميّز الكلية خارج القائمة عمدًا: يُمنح بقرار ولا يحمل نقطة تقدير، وقرار الكلية يُكرَّم بالقرار لا بمسح آليّ يقرأ عمودًا."
+        },
+        "evidence_row": "The earliest such award, by the day it was conferred."
+      },
+      "remaining": {
+        "default": {
+          "en": "Be conferred a level award at Distinction: a level mark of {threshold} or above, with no skill below {skill_floor}.",
+          "ar": "أن تُمنح شهادة مستوى بمرتبة التميّز: درجة مستوى {threshold} فأعلى، دون أن تنزل مهارة عن {skill_floor}."
+        }
+      }
+    },
+
+    {
+      "code": "programme_complete",
+      "sequence": 15,
+      "status": "proposed",
+      "repeatable": false,
+      "level_id": null,
+      "evidence_source": "awards",
+      "name": {
+        "en": "The Programme in Full",
+        "ar": "البرنامج كاملًا"
+      },
+      "academic_fact": {
+        "en": "All six level awards of the International English Fluency Certificate are held — 120 credits, Level I through Level VI.",
+        "ar": "حِيزت شهادات المستويات الستة كلها في شهادة الطلاقة في اللغة الإنجليزية الدولية: مئة وعشرون اعتمادًا، من المستوى الأول إلى السادس."
+      },
+      "condition": {
+        "id": "mil.cond.programme_complete",
+        "rule": "programme_complete",
+        "parameters": { "levels": [1, 2, 3, 4, 5, 6] },
+        "reads": ["awards.level_id", "awards.status", "grad.programme"],
+        "statement": {
+          "en": "A conferred award stands at every one of the six levels. This is grad.programme itself: completion of the IEFC is the six awards and nothing beside them.",
+          "ar": "وجود شهادة ممنوحة في كل مستوى من المستويات الستة. وهو نصّ إتمام البرنامج: إتمام الشهادة هو الشهادات الست ولا شيء غيرها."
+        },
+        "evidence_row": "The last of the six to be conferred."
+      },
+      "remaining": {
+        "default": {
+          "en": "Hold all {required} level awards. {observed} conferred; outstanding: {outstanding}.",
+          "ar": "أن تحوز شهادات المستويات {required} كلها. مُنحت {observed}، وبقيت {shortfall}."
+        }
+      }
+    }
+  ],
+
+  "not_defined": [
+    {
+      "id": "not_defined.milestone.competency_at_a_stated_level",
+      "wanted": {
+        "en": "A competency evidenced at a stated level — 'Command, evidenced at Level III'.",
+        "ar": "كفاية مُثبتة عند مستوى معيّن، مثل: «التمكّن، مُثبتًا في المستوى الثالث»."
+      },
+      "why_not": "There is no threshold to state it against. `competency_marks.mark` is a 0..1 proportion and its own column comment records why no number is attached to it: 'the translation from competency marks to a level result is governance B1/B2 and is not decided'. A milestone reading 'evidenced at Level III' would be this file inventing the standard the Executive has reserved to itself. What IS checkable is that the work was marked against every competency, and that a moderator confirmed a mark, so those are definitions 4 and 5 instead.",
+      "unblocks_when": "Governance B1/B2 decides what a competency mark means, and data/academic-regulations.json carries the threshold."
+    },
+    {
+      "id": "not_defined.milestone.pronunciation_target",
+      "wanted": {
+        "en": "A pronunciation target met — a stated standard on the five pronunciation criteria.",
+        "ar": "بلوغ هدف في النطق: معيار معلن على معايير النطق الخمسة."
+      },
+      "why_not": "The College publishes no pronunciation target. `pronunciation_feedback` carries five 0..1 sub-scores — intelligibility, word stress, sentence stress, individual sounds, fluency — and neither data/academic-regulations.json nor docs/ names a figure any of them must reach. The published pass mark of 70.00 governs three named quantities (a module, the level examination, the Pass honour) and a pronunciation sub-score is not among them; borrowing it would be a fourth rule nobody adopted. Definition 6 measures improvement against the learner's own first attempt instead, which needs no threshold and states plainly what it is.",
+      "unblocks_when": "A pronunciation standard is adopted and carries a figure and a comparator."
+    },
+    {
+      "id": "not_defined.milestone.live_tutorial_attended",
+      "wanted": {
+        "en": "A first live tutorial or oral defence attended.",
+        "ar": "أول حصّة حيّة أو مناقشة شفوية حضرها الطالب."
+      },
+      "why_not": "Two independent reasons, and both would have to clear. Nothing observes who joins a live session — data/academic-regulations.json records engage.counts.live_session as `instrumented: false, requires_host_confirmation: true` — so 'attended' would rest on an issued join link, which the same instrument forbids reading as engagement. And `tutorial_slots` and `slot_bookings` are not in the closed list of tables an achievement may be read from, deliberately: a booking is a diary entry, not an assessed fact.",
+      "unblocks_when": "A host confirms registers as a matter of course, and the Executive decides whether a confirmed register is academic evidence."
+    },
+    {
+      "id": "not_defined.milestone.distinction_conferred",
+      "wanted": {
+        "en": "A milestone for an academic distinction — leadership, presentation, research, service or a prize.",
+        "ar": "محطّة للتميّز الأكاديمي: قيادة أو عرض أو بحث أو خدمة أو جائزة."
+      },
+      "why_not": "`academic_distinctions` is in the evidence list and an approved row there is a genuine attested fact, so this one is checkable. It is left out for a different reason: an approved distinction is ALREADY an honour the College conferred by name, with an approver and a date on it. Minting a second, platform-generated honour on top of a person's decision adds nothing to the record and puts the platform's name beside theirs.",
+      "unblocks_when": "It does not. This is a decision, not a blockage."
+    },
+    {
+      "id": "not_defined.milestone.streak",
+      "wanted": {
+        "en": "A study streak, a login run, or time spent on the platform.",
+        "ar": "سلسلة مذاكرة أو تتابع دخول أو زمن أمام المنصّة."
+      },
+      "why_not": "Refused at the schema, not here. `milestone_definitions.evidence_source` is a closed list of eight tables and no table recording a login, a visit or a session is among them, so there is nothing for such a definition to read. Definition 7 comes closest and is deliberately not that: it counts windows in which assessed or server-measured WORK reached the College, it is engagement and never attendance, and it is never a penalty.",
+      "unblocks_when": "It does not, and it should not."
+    }
+  ]
+}

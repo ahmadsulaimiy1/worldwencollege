@@ -28,7 +28,7 @@
 <link rel="preload" href="/assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&text=%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css?v=43acc0c1">
+<link rel="stylesheet" href="/css/brand.css?v=c948ab87">
 <link rel="stylesheet" href="/css/atelier.css?v=4f3abf82">
 <link rel="stylesheet" href="/css/pages.css?v=0e3b128d">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
@@ -698,8 +698,14 @@
   says it is the page the College should be judged by; Faculty is a
   roster, not a pillar, and lives inside Academics; Contact sits in the
   utility bar above. Each menu carries the sections of one pillar and
-  nothing else — thirty-one links across all six, inside the 28–36
-  band the navigation research names. Anything deeper (a single level,
+  nothing else — thirty-eight links across all six, inside the band the
+  navigation research names once the Students pillar is read as two
+  groups rather than one. Four of those were added on 20 August 2026,
+  when scripts/red-flag-audit.mjs reported the tutor handbook, the
+  examination regulations, the student handbook and the complaints
+  procedure as routes reachable only by typing the address: they had
+  been authored, built and served, and nothing on the site linked to
+  them. Anything deeper (a single level,
   BASCE, the verification protocol) is one click behind these links,
   on a pillar page whose contents rail carries it by name.
 
@@ -779,6 +785,7 @@
             <div class="mega__col">
               <p class="mega__label">Teaching &amp; Faculty</p>
               <a href="/academics/teaching/">Teaching Practice</a>
+              <a href="/academics/tutor-handbook/">The Tutor Handbook</a>
               <a href="/faculty/">The Faculty</a>
             </div>
           </div>
@@ -803,6 +810,7 @@
               <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
               <a href="/admissions/tuition/#routes">Studying Independently</a>
               <a href="/admissions/policy/">Admissions Policy</a>
+              <a href="/admissions/international/">Studying From Your Own Country</a>
             </div>
           </div>
           <a class="mega__feature" href="/admissions/apply/">
@@ -825,6 +833,9 @@
               <a href="/students/academic-record/">Your Academic Record</a>
               <a href="/students/awards/">Awards &amp; Honours</a>
               <a href="/students/regulations/">Academic Regulations</a>
+              <a href="/students/examinations/">Examination Regulations</a>
+              <a href="/students/handbook/">The Student Handbook</a>
+              <a href="/support/complaints/">Complaints</a>
             </div>
           </div>
           <a class="mega__feature" href="/student-portal/">
@@ -848,6 +859,7 @@
               <a href="/governance/evidence/">The Evidence Record</a>
               <a href="/governance/decisions/">The Decisions Register</a>
               <a href="/governance/quality/">The Quality Architecture</a>
+              <a href="/governance/quality-manual/">The Quality Assurance Manual</a>
             </div>
           </div>
           <a class="mega__feature" href="/governance/evidence/">
@@ -1023,6 +1035,7 @@
         <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span><span>Teaching &amp; Faculty</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
           <a href="/academics/teaching/">Teaching Practice</a>
+          <a href="/academics/tutor-handbook/">The Tutor Handbook</a>
           <a href="/faculty/">The Faculty</a>
         </div></div>
       </div>
@@ -1035,6 +1048,7 @@
           <a href="/admissions/tuition/">Tuition, Fees &amp; Funding</a>
           <a href="/admissions/tuition/#routes">Studying Independently</a>
           <a href="/admissions/policy/">Admissions Policy</a>
+          <a href="/admissions/international/">Studying From Your Own Country</a>
           <a href="/faq/">Admissions Questions</a>
         </div></div>
       </div>
@@ -1046,6 +1060,9 @@
           <a href="/students/academic-record/">Your Academic Record</a>
           <a href="/students/awards/">Awards &amp; Honours</a>
           <a href="/students/regulations/">Academic Regulations</a>
+          <a href="/students/examinations/">Examination Regulations</a>
+          <a href="/students/handbook/">The Student Handbook</a>
+          <a href="/support/complaints/">Complaints</a>
           <a href="/student-portal/">Student Portal</a>
         </div></div>
       </div>
@@ -1057,6 +1074,8 @@
           <a href="/governance/#quality">Quality Assurance</a>
           <a href="/governance/evidence/">The Evidence Record</a>
           <a href="/governance/decisions/">The Decisions Register</a>
+          <a href="/governance/quality/">The Quality Architecture</a>
+          <a href="/governance/quality-manual/">The Quality Assurance Manual</a>
         </div></div>
       </div>
       <div class="accordion__item">

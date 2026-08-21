@@ -1,0 +1,1810 @@
+{
+  "_": [
+    "THE ACADEMIC REGULATIONS — the arithmetic of the award, in one file,",
+    "so that no two parts of the platform can disagree about a mark.",
+    "",
+    "WHAT FAULT THIS FILE CORRECTS. The College's quantitative rules were",
+    "published as prose across four pages and one configuration key, and",
+    "the prose had already drifted. /academics/ says a level award needs",
+    "'no single skill below 50%'; /students/awards/ says the Pass honour",
+    "needs 'no skill below 60%'. /academics/ says an assessment may be",
+    "resat 'as many times as it takes'; /students/regulations/ says two",
+    "resits and then the level is repeated. Neither pair is a lie — each",
+    "sentence is true of a different quantity — but nothing written down",
+    "said which quantity, so the two could only be reconciled by someone",
+    "who had read all four pages in the same afternoon. Meanwhile the",
+    "platform's only numeric academic rule was a single scalar,",
+    "`lms_pass_threshold = 0.7`, whose own comment concedes it is 'a",
+    "mechanism default, not a published WEC-LC academic standard'.",
+    "",
+    "A grade is the most consequential number an institution produces",
+    "about a person. It cannot rest on four pages that have to be read",
+    "together and one scalar that admits it is a placeholder.",
+    "",
+    "WHAT THIS FILE IS. Every quantitative rule the platform computes",
+    "from: the marking scale, the composition of a module mark and a",
+    "level mark, the grade-point average, academic standing, progression,",
+    "graduation, classification, engagement, reassessment, and the",
+    "rounding rule that governs all of them. Each rule carries a stable",
+    "`id`, a label in both editions, its `source` — the published page it",
+    "was adopted from, or `decided_here` — and a one-line rationale.",
+    "",
+    "HOW CODE READS IT. By id and by field, never by string-matching a",
+    "label. Ids are the contract and do not change; labels are display",
+    "and may be revised. Every threshold declares its own `comparator`,",
+    "so no caller has to guess whether a boundary is inclusive.",
+    "",
+    "THE RULE THAT MAKES IT SAFE. A null is not a zero. A level that was",
+    "attempted and not conferred contributes no grade point; it is not",
+    "averaged in as 0.00. A skill with no approved assessment mapping",
+    "yields null, and a floor cannot be tested against an absence, so",
+    "conferral refuses rather than passes by default.",
+    "",
+    "WHAT THIS FILE IS NOT. It is not an accreditation, and nothing in it",
+    "has been approved by any body outside this College. These are the",
+    "College's own regulations, adopted by its Executive, and the prose",
+    "edition at docs/academic-regulations.md says so in its first",
+    "paragraph rather than at the end.",
+    "",
+    "TO CHANGE A RULE: edit it here, move `instrument.version` and",
+    "`instrument.adopted_on`, and record the decision in",
+    "docs/governance-decisions.md. A rule changed in code and not here",
+    "is a rule the College cannot show anyone."
+  ],
+  "instrument": {
+    "id": "wec.academic_regulations",
+    "version": "1.0.0",
+    "title": {
+      "en": "The Academic Regulations of Worldwide English College",
+      "ar": "اللوائح الأكاديمية لكلية العالم للغة الإنجليزية"
+    },
+    "programme": {
+      "code": "IEFC",
+      "en": "International English Fluency Certificate",
+      "ar": "شهادة الطلاقة في اللغة الإنجليزية الدولية"
+    },
+    "adopted_by": "The Executive of Worldwide English College",
+    "adopted_on": "2026-08-20",
+    "ratification": {
+      "body": "Academic Senate",
+      "status": "pending",
+      "note": "Academic instruments of this College are adopted by the Executive and are subject to ratification by the Academic Senate once that body has appointed members. The regulations are in force meanwhile; the College says which of the two states each rule is in rather than letting a reader assume the stronger one."
+    },
+    "approved_externally": false,
+    "external_approval_note": "No external body has approved, endorsed, accredited or ratified these regulations, and none has been asked to. They are the College's own regulations and are described that way everywhere they appear.",
+    "applies_from": "2026-08-20",
+    "retrospective": false,
+    "retrospectivity_note": "Nothing here is applied backwards. An award already conferred stands on the standard in force when it was sat, and no honour under this instrument is applied to a holder retrospectively. A grade awarded backwards is a grade nobody earned.",
+    "prose_edition": "docs/academic-regulations.md",
+    "governs": [
+      "functions/_lib/lms/content.js",
+      "functions/_lib/student/progression.js",
+      "functions/_lib/reports/institutional.js"
+    ]
+  },
+  "conventions": {
+    "id": "conv",
+    "label": {
+      "en": "Conventions this instrument is read under",
+      "ar": "الاصطلاحات التي تُقرأ بها هذه اللائحة"
+    },
+    "mark_representation": {
+      "id": "conv.mark_representation",
+      "label": {
+        "en": "Marks are stored as a fraction and expressed as a percentage",
+        "ar": "تُخزَّن الدرجات كسرًا وتُعرض نسبةً مئوية"
+      },
+      "stored_as": "fraction_0_1",
+      "stored_range": [
+        0,
+        1
+      ],
+      "expressed_as": "percentage_0_100",
+      "expressed_range": [
+        0,
+        100
+      ],
+      "conversion": "percentage = fraction * 100",
+      "conversion_applied": "once, on read, before any rounding",
+      "stored_in": [
+        "quiz_attempts.score",
+        "assignment_submissions.grade",
+        "competency_marks.mark",
+        "platform_config.lms_pass_threshold"
+      ],
+      "source": "decided_here",
+      "rationale": "The database already holds every mark as a 0..1 fraction and every published threshold is a percentage. Naming the single conversion point is what stops one module comparing 0.7 against 70."
+    },
+    "comparators": {
+      "id": "conv.comparators",
+      "label": {
+        "en": "How a threshold is compared",
+        "ar": "كيف يُقارن الحدّ"
+      },
+      "definitions": {
+        "gte": "value >= threshold, both rounded per `rounding` first",
+        "gt": "value > threshold, both rounded per `rounding` first",
+        "lte": "value <= threshold, both rounded per `rounding` first",
+        "lt": "value < threshold, both rounded per `rounding` first",
+        "eq": "value == threshold after rounding"
+      },
+      "source": "decided_here",
+      "rationale": "Every threshold in this file declares its own comparator so that no caller has to decide whether a boundary is inclusive. An undeclared boundary is where two implementations of the same rule diverge."
+    },
+    "absent_is_not_zero": {
+      "id": "conv.absent_is_not_zero",
+      "label": {
+        "en": "An absent mark is null, never zero",
+        "ar": "الدرجة الغائبة قيمتها معدومة لا صفر"
+      },
+      "value": null,
+      "source": "/students/assessment/",
+      "rationale": "A zero is a value and it averages; an absence is not a value and must not. A level attempted and not conferred, an unmarked assignment and an unmapped skill are all null, and every formula in this file propagates null rather than substituting 0.00."
+    },
+    "identifiers": {
+      "id": "conv.identifiers",
+      "label": {
+        "en": "Ids are the contract; labels are display",
+        "ar": "المعرِّفات هي العقد، والعناوين للعرض"
+      },
+      "stable": true,
+      "source": "decided_here",
+      "rationale": "Code reads this file by id and by field. A label may be re-translated or re-worded without a migration; an id may not change without one, because a transcript issued in 2027 cites it."
+    },
+    "language_editions": {
+      "id": "conv.language_editions",
+      "label": {
+        "en": "Both editions are authoritative",
+        "ar": "النصّان كلاهما معتمد"
+      },
+      "editions": [
+        "en",
+        "ar"
+      ],
+      "source": "decided_here",
+      "rationale": "A regulation a learner cannot read is not a published regulation, and most of this College's learners read Arabic first. Where the two editions could be read differently, the numeric value in this file governs both — which is the reason the numbers live here and not in the prose."
+    }
+  },
+  "rounding": {
+    "id": "round",
+    "label": {
+      "en": "Rounding, stated once",
+      "ar": "التقريب، يُذكر مرة واحدة"
+    },
+    "method": {
+      "id": "round.method",
+      "label": {
+        "en": "Half up, away from zero",
+        "ar": "تقريب النصف إلى الأعلى"
+      },
+      "value": "half_up",
+      "source": "decided_here",
+      "rationale": "Banker's rounding is correct for money and wrong for a grade: a learner is entitled to the benefit of the half, and to a rule they can apply themselves. 69.995 rounds to 70.00 and passes."
+    },
+    "mark_decimal_places": {
+      "id": "round.mark_dp",
+      "label": {
+        "en": "Marks are rounded to two decimal places",
+        "ar": "تُقرَّب الدرجات إلى منزلتين عشريتين"
+      },
+      "value": 2,
+      "source": "decided_here",
+      "rationale": "Two places is finer than any threshold in this instrument, so rounding can never move a mark across a band boundary by itself."
+    },
+    "gpa_decimal_places": {
+      "id": "round.gpa_dp",
+      "label": {
+        "en": "The grade point average is reported to two decimal places",
+        "ar": "يُعلن المعدل التراكمي بمنزلتين عشريتين"
+      },
+      "value": 2,
+      "source": "/students/assessment/",
+      "rationale": "Already published: the CGPA is printed on the transcript to two decimal places beside the honours themselves."
+    },
+    "display_decimal_places": {
+      "id": "round.display_dp",
+      "label": {
+        "en": "A mark is displayed to one decimal place",
+        "ar": "تُعرض الدرجة بمنزلة عشرية واحدة"
+      },
+      "value": 1,
+      "source": "decided_here",
+      "rationale": "A mark shown to two places invites a learner to read precision the assessment does not carry. The stored value keeps two; the screen shows one."
+    },
+    "applied_once": {
+      "id": "round.once",
+      "label": {
+        "en": "Round once, at the end",
+        "ar": "يُقرَّب مرة واحدة في النهاية"
+      },
+      "value": true,
+      "source": "decided_here",
+      "rationale": "A component is never rounded before it is weighted. Rounding a quiz, then a module, then a level compounds three roundings into a mark that no single rule produced — which is exactly how two screens come to show different numbers for the same learner."
+    },
+    "compare_on_rounded": {
+      "id": "round.compare_on_rounded",
+      "label": {
+        "en": "A threshold is compared against the rounded value",
+        "ar": "يُقارن الحدّ بالقيمة بعد التقريب"
+      },
+      "value": true,
+      "source": "decided_here",
+      "rationale": "Comparing an unrounded mark against a threshold while displaying the rounded one produces a learner who can see 70.0 on the screen and a fail in the record. The comparison and the display must be the same number."
+    },
+    "no_discretionary_uplift": {
+      "id": "round.no_uplift",
+      "label": {
+        "en": "A lift to a threshold is not rounding",
+        "ar": "رفع الدرجة إلى الحدّ ليس تقريبًا"
+      },
+      "value": true,
+      "source": "decided_here",
+      "rationale": "69.4 is not 70. No marker, no board and no code path may move a mark to a threshold on the ground that it is close; a mark is changed only by remarking, by appeal, or by reassessment, and each of those leaves a record."
+    }
+  },
+  "credit": {
+    "id": "credit",
+    "label": {
+      "en": "The WEC Credit",
+      "ar": "وحدة الاعتماد في الكلية"
+    },
+    "notional_hours_per_credit": {
+      "id": "credit.notional_hours",
+      "label": {
+        "en": "One credit is ten notional learning hours",
+        "ar": "الاعتماد الواحد عشر ساعات تعلّم تقديرية"
+      },
+      "value": 10,
+      "source": "/academics/#credit-framework",
+      "rationale": "Published. Two credits a module, ten modules a level, 200 hours a level: the arithmetic closes in every direction."
+    },
+    "credits_per_module": {
+      "id": "credit.per_module",
+      "label": {
+        "en": "Credits per module",
+        "ar": "الاعتمادات لكل وحدة"
+      },
+      "value": 2,
+      "source": "/academics/#credit-framework",
+      "rationale": "Published."
+    },
+    "credits_per_level": {
+      "id": "credit.per_level",
+      "label": {
+        "en": "Credits per level",
+        "ar": "الاعتمادات لكل مستوى"
+      },
+      "value": 20,
+      "source": "/academics/#credit-framework",
+      "rationale": "Published. Ten modules of two credits."
+    },
+    "credits_per_programme": {
+      "id": "credit.per_programme",
+      "label": {
+        "en": "Credits for the whole programme",
+        "ar": "اعتمادات البرنامج كاملًا"
+      },
+      "value": 120,
+      "source": "/academics/#credit-framework",
+      "rationale": "Published. Six levels of twenty."
+    },
+    "tqt_hours_per_level": {
+      "id": "credit.tqt_level",
+      "label": {
+        "en": "Total Qualification Time per level",
+        "ar": "الزمن الكلي للمؤهل لكل مستوى"
+      },
+      "value": 200,
+      "unit": "hours",
+      "measured": false,
+      "source": "/academics/#credit-framework",
+      "rationale": "A design figure, published as one. Eighty guided hours and one hundred and twenty independent hours. It becomes a measured figure the day time-on-task covers a real cohort, and not before."
+    },
+    "transferable": {
+      "id": "credit.transferable",
+      "label": {
+        "en": "The WEC Credit carries no transfer entitlement",
+        "ar": "لا يمنح اعتماد الكلية حقّ معادلة لدى غيرها"
+      },
+      "value": false,
+      "source": "/academics/#credit-framework",
+      "rationale": "Published. It is an internal measure of academic weight. No university is obliged to accept it, none has agreed to, and the College has asked none."
+    },
+    "credit_source_of_truth": {
+      "id": "credit.source_of_truth",
+      "label": {
+        "en": "A conferred award's credit is read from the award itself",
+        "ar": "تُقرأ اعتمادات الشهادة من الشهادة نفسها"
+      },
+      "value": "awards.credits",
+      "source": "sql/schema.sql",
+      "rationale": "Denormalised at conferral on purpose. A certificate issued in 2027 must still read as it did in 2027 even if the College later restructures a level, so the grade point average is weighted by the credit the award carries, never by the credit the level carries today."
+    }
+  },
+  "marking_scale": {
+    "id": "scale",
+    "label": {
+      "en": "The marking scale",
+      "ar": "سُلَّم الدرجات"
+    },
+    "maximum_grade_point": {
+      "id": "scale.max_grade_point",
+      "label": {
+        "en": "The scale maximum",
+        "ar": "أعلى السُّلَّم"
+      },
+      "value": 4.0,
+      "source": "/students/assessment/",
+      "rationale": "Four point zero is the grade currency understood without conversion in the Gulf, in West and East Africa and across South Asia, which is where this College's learners are. The four grade points already published — 3.00, 3.30, 3.70, 4.00 — are precisely B, B+, A− and A on that scale, so the letters below are not a second system laid over the honours but the same one, written in the notation an admissions office reads first."
+    },
+    "maximum_mark": {
+      "id": "scale.max_mark",
+      "label": {
+        "en": "The maximum mark",
+        "ar": "الدرجة العليا"
+      },
+      "value": 100.0,
+      "unit": "percentage",
+      "source": "decided_here",
+      "rationale": "No mark above one hundred exists. There is no bonus, no extra credit and no component that can carry a mark past the top of its own scale."
+    },
+    "pass_mark": {
+      "id": "scale.pass_mark",
+      "label": {
+        "en": "The pass mark",
+        "ar": "درجة النجاح"
+      },
+      "value": 70.0,
+      "unit": "percentage",
+      "comparator": "gte",
+      "source": "/students/regulations/",
+      "rationale": "Published, and in force: seventy to complete a module, seventy overall on the level examination, seventy for the Pass honour. One number governs all three, which is why it is stated once."
+    },
+    "distinction_threshold": {
+      "id": "scale.distinction_threshold",
+      "label": {
+        "en": "The distinction threshold",
+        "ar": "حدّ التميّز"
+      },
+      "value": 88.0,
+      "unit": "percentage",
+      "comparator": "gte",
+      "source": "/students/awards/",
+      "rationale": "Published. Distinction is eighteen points above the pass mark and carries a skill floor ten points above Pass's, so it cannot be reached by one strong skill carrying three."
+    },
+    "bands": [
+      {
+        "id": "scale.band.a",
+        "letter": "A",
+        "label": {
+          "en": "A",
+          "ar": "أ"
+        },
+        "from": 94.0,
+        "to_exclusive": null,
+        "grade_point": 4.0,
+        "honour_id": "honour.high_distinction",
+        "source": "/students/assessment/",
+        "rationale": "The top band and the top grade point coincide with High Distinction, so a transcript's letter, its grade point and its honour are three notations of one fact rather than three facts to reconcile."
+      },
+      {
+        "id": "scale.band.a_minus",
+        "letter": "A−",
+        "label": {
+          "en": "A minus",
+          "ar": "أ ناقص"
+        },
+        "from": 88.0,
+        "to_exclusive": 94.0,
+        "grade_point": 3.7,
+        "honour_id": "honour.distinction",
+        "source": "/students/assessment/",
+        "rationale": "3.70 is the published grade point for Distinction and is A− on the four-point scale. The College adopts the notation rather than inventing one."
+      },
+      {
+        "id": "scale.band.b_plus",
+        "letter": "B+",
+        "label": {
+          "en": "B plus",
+          "ar": "ب زائد"
+        },
+        "from": 80.0,
+        "to_exclusive": 88.0,
+        "grade_point": 3.3,
+        "honour_id": "honour.merit",
+        "source": "/students/assessment/",
+        "rationale": "3.30 is the published grade point for Merit and is B+ on the four-point scale."
+      },
+      {
+        "id": "scale.band.b",
+        "letter": "B",
+        "label": {
+          "en": "B",
+          "ar": "ب"
+        },
+        "from": 70.0,
+        "to_exclusive": 80.0,
+        "grade_point": 3.0,
+        "honour_id": "honour.pass",
+        "source": "/students/assessment/",
+        "rationale": "3.00 is the published grade point for Pass and is B on the four-point scale. The College's pass mark is seventy, not fifty, so its lowest conferred grade point is a B and not a C — a consequence worth stating plainly rather than leaving an admissions office to infer it."
+      },
+      {
+        "id": "scale.band.f",
+        "letter": "F",
+        "label": {
+          "en": "F",
+          "ar": "راسب"
+        },
+        "from": 0.0,
+        "to_exclusive": 70.0,
+        "grade_point": null,
+        "honour_id": null,
+        "source": "decided_here",
+        "rationale": "One band below the pass mark, not three. A mark under seventy has exactly one consequence — the assessment is taken again — and grading failure into D, E and F would publish a distinction the regulations never act on. The learner's diagnosis comes from the four skill marks, which is where it is actually useful."
+      }
+    ],
+    "sub_pass_grade_point": {
+      "id": "scale.sub_pass_grade_point",
+      "label": {
+        "en": "A mark below the pass mark carries no grade point",
+        "ar": "ما دون درجة النجاح لا يحمل نقطة تقدير"
+      },
+      "value": null,
+      "source": "/students/assessment/",
+      "rationale": "Published: a level not conferred contributes no grade point and is not averaged in as a zero. Null rather than 0.00 is the whole of the rule — a zero would drag an average that is supposed to report only what the College certified."
+    }
+  },
+  "module_mark": {
+    "id": "module",
+    "label": {
+      "en": "How a module mark is composed",
+      "ar": "كيف تُركَّب درجة الوحدة"
+    },
+    "formula": "module_mark = (quiz_percentage * 0.30) + (assignment_percentage * 0.70)",
+    "components": [
+      {
+        "id": "module.component.quiz",
+        "label": {
+          "en": "The module quiz",
+          "ar": "الاختبار القصير للوحدة"
+        },
+        "weight": 0.3,
+        "required": true,
+        "marked_by": "machine",
+        "stored_in": "quiz_attempts.score",
+        "source": "decided_here",
+        "rationale": "The College publishes that the quiz is low-stakes by design and that its job is to tell a learner what to go back to, not to judge them. A weight that let a machine-marked quiz carry half a module mark would contradict that sentence, and would put thirty per cent more of the award in the hands of the one instrument no person reads."
+      },
+      {
+        "id": "module.component.assignment",
+        "label": {
+          "en": "The module assignment",
+          "ar": "تكليف الوحدة"
+        },
+        "weight": 0.7,
+        "required": true,
+        "marked_by": "person",
+        "stored_in": "assignment_submissions.grade",
+        "source": "decided_here",
+        "rationale": "The assignment produces something and is marked by a person against a rubric published before the work. It is the part of a module that carries judgement, so it carries the weight."
+      }
+    ],
+    "weights_sum_to": 1.0,
+    "both_components_required": {
+      "id": "module.both_required",
+      "label": {
+        "en": "A module does not complete on one component",
+        "ar": "لا تكتمل الوحدة بمكوّن واحد"
+      },
+      "value": true,
+      "source": "decided_here",
+      "rationale": "A module whose assignment was never submitted has no module mark at all — the mark is null, not a partial. Completing a module on the quiz alone would let a learner finish a level having produced nothing a person read, which is the opposite of what the College says its assessment is."
+    },
+    "completion_threshold": {
+      "id": "module.completion",
+      "label": {
+        "en": "Seventy per cent to complete a module",
+        "ar": "70٪ لإكمال الوحدة"
+      },
+      "value": 70.0,
+      "unit": "percentage",
+      "comparator": "gte",
+      "source": "/students/regulations/",
+      "rationale": "Published and in force, and held in configuration rather than in code so that changing it is a recorded decision rather than a deployment."
+    },
+    "component_floor": {
+      "id": "module.component_floor",
+      "label": {
+        "en": "No separate floor on a module component",
+        "ar": "لا حدّ أدنى منفصل لمكوّن الوحدة"
+      },
+      "value": null,
+      "source": "decided_here",
+      "rationale": "A floor was considered and refused as dead machinery: the weighting already enforces one. With a perfect quiz, the assignment must still reach 57.14 for the module to complete, so an assignment floor below that could never fire and a floor above it would be a second rule saying what the first already says."
+    },
+    "derived": {
+      "id": "module.derived.assignment_effective_floor",
+      "label": {
+        "en": "The lowest assignment mark that can complete a module",
+        "ar": "أدنى درجة تكليف تُكمل الوحدة"
+      },
+      "value": 57.14,
+      "unit": "percentage",
+      "computed_from": "(70.00 - (100.00 * 0.30)) / 0.70, then rounded per `rounding` at the point the module mark is compared",
+      "source": "decided_here",
+      "rationale": "Stated so that nobody has to rediscover it, and stated as 57.14 rather than 57.15 because the rounding rule decides the boundary: 57.14 produces a module mark of 69.998, which rounds half-up to 70.00 and completes. It is a consequence of the weights and the rounding, not a rule of its own, and it moves if either moves."
+    },
+    "no_mark_yet": {
+      "id": "module.null_until_both_marked",
+      "label": {
+        "en": "A module mark exists only when both components are marked",
+        "ar": "لا توجد درجة للوحدة حتى يُصحَّح المكوّنان"
+      },
+      "value": null,
+      "source": "decided_here",
+      "rationale": "An assignment submitted and not yet graded leaves the module mark null. Showing a provisional module mark built from the quiz alone would be showing a number the regulations do not define."
+    }
+  },
+  "level_mark": {
+    "id": "level",
+    "label": {
+      "en": "How a level mark is composed",
+      "ar": "كيف تُركَّب درجة المستوى"
+    },
+    "formula": "level_mark = (examination_percentage * 0.60) + (coursework_percentage * 0.40)",
+    "components": [
+      {
+        "id": "level.component.examination",
+        "label": {
+          "en": "The level examination",
+          "ar": "امتحان المستوى"
+        },
+        "weight": 0.6,
+        "required": true,
+        "source": "decided_here",
+        "rationale": "The examination is the summative instrument and must dominate, because it is the one assessment sat under the College's own conditions against a rubric the candidate saw first. It is not permitted to be the whole of the mark, because four months of marked work would then be decorative."
+      },
+      {
+        "id": "level.component.coursework",
+        "label": {
+          "en": "The ten module marks",
+          "ar": "درجات الوحدات العشر"
+        },
+        "weight": 0.4,
+        "required": true,
+        "formula": "coursework_percentage = arithmetic mean of the ten module marks",
+        "module_count": 10,
+        "source": "decided_here",
+        "rationale": "Each module carries two credits, so the ten are equally weighted and a credit-weighted mean and an arithmetic mean are the same number. It is written as a mean of ten and not as a credit weighting because that is what it is today; if a module of a different weight is ever authored, this rule is the one that changes and it changes in one place."
+      }
+    ],
+    "weights_sum_to": 1.0,
+    "gates": [
+      {
+        "id": "level.gate.modules_complete",
+        "label": {
+          "en": "All ten modules completed",
+          "ar": "إكمال الوحدات العشر جميعًا"
+        },
+        "value": 10,
+        "comparator": "eq",
+        "source": "/academics/#graduation",
+        "rationale": "Published. Every module quiz taken and every assignment submitted and marked. Completion means the work exists and was assessed, not that time passed."
+      },
+      {
+        "id": "level.gate.examination_overall",
+        "label": {
+          "en": "Seventy per cent overall on the level examination",
+          "ar": "70٪ في امتحان المستوى إجمالًا"
+        },
+        "value": 70.0,
+        "unit": "percentage",
+        "comparator": "gte",
+        "applies_to": "examination_percentage",
+        "source": "/academics/#graduation",
+        "rationale": "Published, and a gate rather than a contribution: the composite level mark can never carry a failed examination past this."
+      },
+      {
+        "id": "level.gate.examination_criterion_floor",
+        "label": {
+          "en": "No examination criterion below fifty per cent",
+          "ar": "ألا ينزل أي معيار في الامتحان عن 50٪"
+        },
+        "value": 50.0,
+        "unit": "percentage",
+        "comparator": "gte",
+        "applies_to": "each rubric criterion within the examination",
+        "source": "/students/assessment/",
+        "rationale": "Published as governance B2 and in force. A single aggregate lets a learner pass while failing outright on one dimension, and the rubrics already score criteria separately, so the floor costs nothing to enforce."
+      },
+      {
+        "id": "level.gate.examination_skill_floor",
+        "label": {
+          "en": "No examination skill below fifty per cent",
+          "ar": "ألا تنزل أي مهارة في الامتحان عن 50٪"
+        },
+        "value": 50.0,
+        "unit": "percentage",
+        "comparator": "gte",
+        "applies_to": "each of the four skill sub-marks within the examination",
+        "source": "/academics/#graduation",
+        "rationale": "Published as a graduation condition. It is a floor on the examination's own skill sub-marks, which is a different quantity from the level skill mark the honour floors are read against — the two published fifties and sixties are not in conflict once the quantity each governs is named."
+      },
+      {
+        "id": "level.gate.spoken_paper",
+        "label": {
+          "en": "The spoken paper recorded and passed",
+          "ar": "أداء الورقة الشفوية وتسجيلها واجتيازها"
+        },
+        "value": true,
+        "source": "/academics/#graduation",
+        "rationale": "Published. Speaking is assessed by recording a candidate speaking, marked by a person. A programme that marks speaking from written work is not marking speaking."
+      },
+      {
+        "id": "level.gate.staff_confirmation",
+        "label": {
+          "en": "A person confirms the level is finished",
+          "ar": "إنسان يؤكد إتمام المستوى"
+        },
+        "value": true,
+        "source": "/students/regulations/",
+        "rationale": "Published. There is no automated grading engine and the College does not imply one; a member of academic staff confirms completion, and that confirmation is what opens the next level."
+      }
+    ],
+    "gate_precedence": {
+      "id": "level.gate_precedence",
+      "label": {
+        "en": "A classification never overrides a gate",
+        "ar": "التصنيف لا يعلو على الشرط"
+      },
+      "value": true,
+      "source": "decided_here",
+      "rationale": "Every gate is necessary. A level mark of 92 with an examination at 68 is not a Distinction and is not an award; it is a failed examination with strong coursework, and the record says so."
+    },
+    "classification_can_fall": {
+      "id": "level.classification_can_fall",
+      "label": {
+        "en": "Coursework can lower a classification as well as raise it",
+        "ar": "أعمال الفصل قد تخفض التصنيف كما ترفعه"
+      },
+      "value": true,
+      "source": "decided_here",
+      "rationale": "An examination at 90 with a coursework mean of 78 produces a level mark of 85.20 and a Merit, not a Distinction. The award reports the standard of the level's whole work, and a framework that let one sitting overrule ten marked modules would be reporting the sitting."
+    }
+  },
+  "skill_marks": {
+    "id": "skill",
+    "label": {
+      "en": "The four skills, marked apart and kept apart",
+      "ar": "المهارات الأربع، تُصحَّح منفصلة وتبقى منفصلة"
+    },
+    "formula": "skill_mark = (examination_skill_submark * 0.60) + (coursework_skill_mean * 0.40)",
+    "weighting_note": "The same 60/40 split as the level mark, applied within each skill, so that a skill mark and the level mark are built the same way and cannot disagree about what a level's work was worth.",
+    "skills": [
+      {
+        "id": "skl_listening",
+        "code": "LISTENING",
+        "mode": "receptive",
+        "label": {
+          "en": "Listening",
+          "ar": "الاستماع"
+        },
+        "source": "sql/schema.sql"
+      },
+      {
+        "id": "skl_reading",
+        "code": "READING",
+        "mode": "receptive",
+        "label": {
+          "en": "Reading",
+          "ar": "القراءة"
+        },
+        "source": "sql/schema.sql"
+      },
+      {
+        "id": "skl_speaking",
+        "code": "SPEAKING",
+        "mode": "productive",
+        "label": {
+          "en": "Speaking",
+          "ar": "التحدّث"
+        },
+        "source": "sql/schema.sql"
+      },
+      {
+        "id": "skl_writing",
+        "code": "WRITING",
+        "mode": "productive",
+        "label": {
+          "en": "Writing",
+          "ar": "الكتابة"
+        },
+        "source": "sql/schema.sql"
+      }
+    ],
+    "coursework_skill_mean": {
+      "id": "skill.coursework_mean",
+      "label": {
+        "en": "The coursework contribution to a skill",
+        "ar": "إسهام أعمال الفصل في المهارة"
+      },
+      "formula": "sum(assessment_mark * assessment_skills.weight) / sum(assessment_skills.weight), over items in the level with an approved mapping to this skill",
+      "mapping_table": "assessment_skills",
+      "mapping_status_required": "approved",
+      "source": "decided_here",
+      "rationale": "A speaking task assessed partly for the quality of its argument is not one hundred per cent Speaking, and the mapping table already records how much of each assessment bears on each skill. Reading the weight from the mapping is what keeps the skill profile a claim the College can show its working for."
+    },
+    "unmapped_assessment": {
+      "id": "skill.unmapped_assessment",
+      "label": {
+        "en": "An unmapped assessment counts toward the module, not toward a skill",
+        "ar": "التقييم غير المربوط يُحتسب للوحدة لا للمهارة"
+      },
+      "value": null,
+      "source": "decided_here",
+      "rationale": "An assessment with no approved skill mapping still evidences the module it sits in. It cannot evidence a skill, because nobody with the authority to say which skill it evidences has said so."
+    },
+    "null_skill_blocks_conferral": {
+      "id": "skill.null_blocks_conferral",
+      "label": {
+        "en": "A skill with no mark blocks conferral",
+        "ar": "المهارة بلا درجة تمنع منح الشهادة"
+      },
+      "value": true,
+      "source": "decided_here",
+      "rationale": "Every honour in this instrument carries a per-skill floor, and a floor cannot be tested against an absence. Where a level has no approved mapping for a skill, the skill mark is null and conferral refuses — it does not pass by default, and it does not silently drop the floor. This is the rule that makes the mapping work a precondition of the award rather than an aspiration beside it."
+    },
+    "reported_separately": {
+      "id": "skill.reported_separately",
+      "label": {
+        "en": "The four skills are never averaged into one figure",
+        "ar": "لا تُدمج المهارات الأربع في رقم واحد"
+      },
+      "value": true,
+      "source": "/students/assessment/",
+      "rationale": "Published. A learner who reads well and cannot be understood aloud has a specific, serious problem, and an averaged mark of 74 conceals it perfectly. The four are on the transcript apart, always."
+    }
+  },
+  "classification": {
+    "id": "honour",
+    "label": {
+      "en": "Award classification",
+      "ar": "مراتب الشهادة"
+    },
+    "applies_to": "level_mark",
+    "selection_rule": {
+      "id": "honour.selection",
+      "label": {
+        "en": "The highest honour whose overall threshold and skill floor are both met",
+        "ar": "أعلى مرتبة يتحقق فيها الحدّ الإجمالي والحدّ الأدنى للمهارات معًا"
+      },
+      "value": "highest_satisfied",
+      "source": "/students/awards/",
+      "rationale": "Both conditions, not either. A level mark of 90 with a skill at 75 is a Merit: the floor demotes the classification rather than failing the candidate, because the work reached the Merit standard on every measure and the Distinction standard on only one of them."
+    },
+    "honours": [
+      {
+        "id": "honour.pass",
+        "code": "pass",
+        "sequence": 1,
+        "label": {
+          "en": "Pass",
+          "ar": "ناجح"
+        },
+        "overall_threshold": 70.0,
+        "skill_floor": 60.0,
+        "comparator": "gte",
+        "grade_point": 3.0,
+        "letter": "B",
+        "source": "/students/awards/",
+        "rationale": "Published, adopted 14 August 2026. The lowest conferred honour, and therefore the effective standard of the award: an attempt below it is not conferred at all."
+      },
+      {
+        "id": "honour.merit",
+        "code": "merit",
+        "sequence": 2,
+        "label": {
+          "en": "Merit",
+          "ar": "امتياز"
+        },
+        "overall_threshold": 80.0,
+        "skill_floor": 70.0,
+        "comparator": "gte",
+        "grade_point": 3.3,
+        "letter": "B+",
+        "source": "/students/awards/",
+        "rationale": "Published. Ten points above Pass on both measures, so the gap between the overall mark and the floor stays at ten and the compensation allowed does not widen as the band rises."
+      },
+      {
+        "id": "honour.distinction",
+        "code": "distinction",
+        "sequence": 3,
+        "label": {
+          "en": "Distinction",
+          "ar": "تميّز"
+        },
+        "overall_threshold": 88.0,
+        "skill_floor": 80.0,
+        "comparator": "gte",
+        "grade_point": 3.7,
+        "letter": "A−",
+        "source": "/students/awards/",
+        "rationale": "Published. Eight points of compensation rather than ten: the higher the band, the less a strong skill may carry a weak one."
+      },
+      {
+        "id": "honour.high_distinction",
+        "code": "high_distinction",
+        "sequence": 4,
+        "label": {
+          "en": "High Distinction",
+          "ar": "تميّز عالٍ"
+        },
+        "overall_threshold": 94.0,
+        "skill_floor": 88.0,
+        "comparator": "gte",
+        "grade_point": 4.0,
+        "letter": "A",
+        "source": "/students/awards/",
+        "rationale": "Published. Six points of compensation, the narrowest on the ladder. At the top of this scale a candidate is close to the standard on all four skills or is not at the top of the scale."
+      }
+    ],
+    "college_distinction": {
+      "id": "honour.college_distinction",
+      "code": "college_distinction",
+      "label": {
+        "en": "Distinction of the College",
+        "ar": "تميّز الكلية"
+      },
+      "computable": false,
+      "overall_threshold": null,
+      "skill_floor": null,
+      "grade_point": null,
+      "letter": null,
+      "conferred_by": "decision of the Executive",
+      "may_be_conferred_in_no_cycle": true,
+      "source": "/students/awards/",
+      "rationale": "Published: conferred by decision, never calculated, and may be conferred in no cycle at all. It carries no grade point and enters no average, because a distinction that could be computed into a figure would stop being a decision."
+    },
+    "floors_are_on_skills": {
+      "id": "honour.floors_quantity",
+      "label": {
+        "en": "The honour floors are read against the level skill mark",
+        "ar": "تُقرأ حدود المهارات على درجة المهارة في المستوى"
+      },
+      "value": "skill_mark",
+      "source": "decided_here",
+      "rationale": "Named explicitly because the College publishes two different floors — fifty and sixty — and they govern two different quantities. Fifty is the floor on a skill sub-mark inside the examination; sixty is the floor on the level skill mark, which is the examination and the coursework together. Both are in force and neither is the other."
+    }
+  },
+  "gpa": {
+    "id": "gpa",
+    "label": {
+      "en": "The cumulative grade point average",
+      "ar": "المعدل التراكمي لنقاط التقدير"
+    },
+    "formula": "cgpa = sum(award.credits * honour.grade_point) / sum(award.credits), over included awards",
+    "maximum": 4.0,
+    "decimal_places": 2,
+    "credit_weighted": {
+      "id": "gpa.credit_weighted",
+      "label": {
+        "en": "Credit-weighted, on the credits the award itself carries",
+        "ar": "مرجَّح بالاعتمادات المدوَّنة في الشهادة نفسها"
+      },
+      "value": "awards.credits",
+      "source": "decided_here",
+      "rationale": "Every level is twenty credits today, so the weighting is arithmetically a simple mean and will be for as long as that holds. It is written as a credit weighting anyway, because the day the College confers an award of a different weight the formula must not need rewriting, and because a transcript should be able to show the working."
+    },
+    "derived_not_marked": {
+      "id": "gpa.derived",
+      "label": {
+        "en": "Derived, never marked",
+        "ar": "مشتقّ لا مُصحَّح"
+      },
+      "value": true,
+      "source": "/students/assessment/",
+      "rationale": "Published. Nothing is assessed to produce a grade point average and no examiner sees one. It exists because a single figure is what an admissions office asks for first, and the College would rather publish the arithmetic than have somebody invent it from a transcript."
+    },
+    "minimum_possible": {
+      "id": "gpa.minimum_possible",
+      "label": {
+        "en": "The lowest grade point average that can exist is 3.00",
+        "ar": "أدنى معدل تراكمي ممكن هو 3.00"
+      },
+      "value": 3.0,
+      "source": "decided_here",
+      "rationale": "The lowest conferred honour carries 3.00 and nothing below the pass standard is averaged in at all, so a learner holding any award holds at least a 3.00. This has a consequence the standing rules depend on: a grade point average cannot distinguish a struggling learner from a strong one at this College, and it is therefore not used as a standing trigger anywhere in this instrument."
+    },
+    "before_first_award": {
+      "id": "gpa.before_first_award",
+      "label": {
+        "en": "Before the first conferral there is no average",
+        "ar": "لا معدل قبل أول منح"
+      },
+      "value": null,
+      "source": "decided_here",
+      "rationale": "Null, and never 0.00. A learner mid-way through Level I has not been certified in anything, and a zero on a transcript would say the opposite."
+    },
+    "included": [
+      {
+        "id": "gpa.include.conferred",
+        "label": {
+          "en": "Awards conferred and standing",
+          "ar": "الشهادات الممنوحة والقائمة"
+        },
+        "condition": "awards.status = 'conferred'",
+        "source": "decided_here",
+        "rationale": "The average reports the standard of the work the College has actually certified. A conferral is that certification and nothing else is."
+      }
+    ],
+    "excluded": [
+      {
+        "id": "gpa.exclude.not_conferred",
+        "label": {
+          "en": "A level attempted and not conferred",
+          "ar": "مستوى حوول ولم تُمنح شهادته"
+        },
+        "as_zero": false,
+        "source": "/students/assessment/",
+        "rationale": "Published. An attempt that did not reach the standard produced no certification to report, so it contributes no grade point and is not averaged in as a zero."
+      },
+      {
+        "id": "gpa.exclude.withdrawn",
+        "label": {
+          "en": "A withdrawn enrolment",
+          "ar": "تسجيل منسحَب منه"
+        },
+        "condition": "enrolments.status = 'withdrawn'",
+        "as_zero": false,
+        "source": "decided_here",
+        "rationale": "A withdrawal is the end of an attempt, not the result of one. It carries no credit, no grade point and no mark, and it is visible on the record as a withdrawal rather than hidden as an absence."
+      },
+      {
+        "id": "gpa.exclude.revoked",
+        "label": {
+          "en": "A revoked award, from the date of revocation",
+          "ar": "شهادة مسحوبة، من تاريخ سحبها"
+        },
+        "condition": "awards.status = 'revoked'",
+        "as_zero": false,
+        "source": "decided_here",
+        "rationale": "A revoked award is marked and never deleted, so the record still shows it; the average stops counting it on the day it was revoked. A revocation is not a fail and is not scored as one."
+      },
+      {
+        "id": "gpa.exclude.replaced",
+        "label": {
+          "en": "A replaced award — the replacement counts, once",
+          "ar": "الشهادة المستبدَلة — تُحتسب البديلة مرة واحدة"
+        },
+        "condition": "awards.status = 'replaced'",
+        "as_zero": false,
+        "source": "decided_here",
+        "rationale": "A correction to a certificate must not appear in an average twice. The superseded row stays in the register for audit and leaves the arithmetic."
+      },
+      {
+        "id": "gpa.exclude.college_distinction",
+        "label": {
+          "en": "The Distinction of the College",
+          "ar": "تميّز الكلية"
+        },
+        "as_zero": false,
+        "source": "/students/awards/",
+        "rationale": "It carries no grade point because it is conferred by decision rather than calculated. Averaging a decision into a computed figure would misrepresent both."
+      },
+      {
+        "id": "gpa.exclude.transferred_credit",
+        "label": {
+          "en": "Credit from another institution",
+          "ar": "اعتمادات من مؤسسة أخرى"
+        },
+        "as_zero": false,
+        "accepted": false,
+        "source": "decided_here",
+        "rationale": "The College accepts no transferred credit and has no recognition-of-prior-learning scheme, so no external mark can enter this average. A learner placed into a higher level by the placement assessment is placed, not credited: the levels not taken confer no credit, no award and no grade point, and the transcript shows the levels actually held."
+      },
+      {
+        "id": "gpa.exclude.resit_second_entry",
+        "label": {
+          "en": "A resit does not add a second entry",
+          "ar": "الإعادة لا تضيف قيدًا ثانيًا"
+        },
+        "as_zero": false,
+        "source": "/students/assessment/",
+        "rationale": "Published: re-sits replace rather than accumulate. One level, one conferral, one grade point — the mark that stands is the mark that counts, which is the rule the transcript already keeps."
+      }
+    ],
+    "programme_total": {
+      "id": "gpa.programme_credits_held",
+      "label": {
+        "en": "Credits held is the sum of credits actually conferred",
+        "ar": "الاعتمادات المحرَزة هي مجموع ما مُنح فعلًا"
+      },
+      "formula": "sum(award.credits) over included awards",
+      "source": "decided_here",
+      "rationale": "So that a holder of three level awards is recorded at sixty credits and not at the programme's hundred and twenty. The figure a graduate quotes has to be one the register can reproduce."
+    }
+  },
+  "progression": {
+    "id": "prog",
+    "label": {
+      "en": "Progression between levels",
+      "ar": "الترقّي بين المستويات"
+    },
+    "one_level_at_a_time": {
+      "id": "prog.one_at_a_time",
+      "label": {
+        "en": "One level at a time",
+        "ar": "مستوى بمستوى"
+      },
+      "value": true,
+      "source": "/students/regulations/",
+      "rationale": "Published. A level opens when the level before it is completed, whether the learner paid per level or for the whole programme. Nothing is withheld; a level simply opens when the learner is ready for it."
+    },
+    "requirements_to_enter_next_level": {
+      "id": "prog.requirements",
+      "label": {
+        "en": "What must be held to enter the next level",
+        "ar": "ما يجب تحققه لدخول المستوى التالي"
+      },
+      "all_of": [
+        "level.gate.modules_complete",
+        "level.gate.examination_overall",
+        "level.gate.examination_criterion_floor",
+        "level.gate.examination_skill_floor",
+        "level.gate.spoken_paper",
+        "level.gate.staff_confirmation",
+        "honour.pass"
+      ],
+      "source": "decided_here",
+      "rationale": "The same set that confers the award, including the Pass floor of sixty on every skill. Progression and conferral are one event with two records: the next level opens and the register is written. Two different standards for 'finished' would eventually put a learner in Level IV without a Level III award."
+    },
+    "entry_at_level_one": {
+      "id": "prog.entry_level_1",
+      "label": {
+        "en": "Entry at Level I requires no prior standing",
+        "ar": "لا يشترط لدخول المستوى الأول سابقة"
+      },
+      "value": 1,
+      "source": "/academics/",
+      "rationale": "Published. The Foundation Programme assumes little or no English, and beginning a language in adulthood is where most people stop."
+    },
+    "entry_by_placement": {
+      "id": "prog.entry_by_placement",
+      "label": {
+        "en": "Entry above Level I is by placement assessment",
+        "ar": "الدخول فوق المستوى الأول يكون باختبار تحديد المستوى"
+      },
+      "confers_credit": false,
+      "confers_award": false,
+      "source": "/academics/",
+      "rationale": "Published: a placement assessment establishes the level, and a learner does not need to start at Level I. It establishes where a learner begins and nothing else — the levels skipped confer no credit, no award and no grade point, and the record shows exactly which levels are held."
+    },
+    "paused_while_suspended": {
+      "id": "prog.paused_while_suspended",
+      "label": {
+        "en": "Progression pauses under suspended progression; access does not",
+        "ar": "يتوقف الترقّي في حال التعليق، ولا يتوقف الوصول"
+      },
+      "value": true,
+      "source": "/students/regulations/",
+      "rationale": "Published. It is the narrowest measure that resolves the situation, and learning is never the thing withdrawn."
+    },
+    "repeat_after_third_failure": {
+      "id": "prog.repeat_level",
+      "label": {
+        "en": "A third failure at one assessment means the level is repeated",
+        "ar": "الرسوب الثالث في تقييم واحد يعني إعادة المستوى"
+      },
+      "value": 3,
+      "comparator": "gte",
+      "source": "/students/regulations/",
+      "rationale": "Published, adopted 14 August 2026. Repeating is a route forward, not a sanction: the modules reopen, the assessments are set afresh, and nothing about the learner's access changes."
+    }
+  },
+  "graduation": {
+    "id": "grad",
+    "label": {
+      "en": "Graduation and conferral",
+      "ar": "التخرّج ومنح الشهادة"
+    },
+    "level_award": {
+      "id": "grad.level_award",
+      "label": {
+        "en": "What must be true before a level award is conferred",
+        "ar": "ما يجب تحققه قبل منح شهادة المستوى"
+      },
+      "all_of": [
+        "level.gate.modules_complete",
+        "level.gate.examination_overall",
+        "level.gate.examination_criterion_floor",
+        "level.gate.examination_skill_floor",
+        "level.gate.spoken_paper",
+        "level.gate.staff_confirmation",
+        "honour.pass",
+        "skill.null_blocks_conferral"
+      ],
+      "discretionary_conditions": 0,
+      "source": "/academics/#graduation",
+      "rationale": "All of these and nothing beyond them. There is no attendance requirement, no participation mark, no final discretion and no condition that appears at the end."
+    },
+    "awards": [
+      {
+        "level_id": 1,
+        "cefr": "A1",
+        "post_nominal": "ApWEC",
+        "credits": 20,
+        "label": {
+          "en": "English Aspirant of Worldwide English College",
+          "ar": "طالب اللغة الإنجليزية بكلية العالم للغة الإنجليزية"
+        },
+        "source": "sql/schema.sql"
+      },
+      {
+        "level_id": 2,
+        "cefr": "A2",
+        "post_nominal": "CnWEC",
+        "credits": 20,
+        "label": {
+          "en": "English Candidate of Worldwide English College",
+          "ar": "مرشّح اللغة الإنجليزية بكلية العالم للغة الإنجليزية"
+        },
+        "source": "sql/schema.sql"
+      },
+      {
+        "level_id": 3,
+        "cefr": "B1",
+        "post_nominal": "AsWEC",
+        "credits": 20,
+        "label": {
+          "en": "English Associate of Worldwide English College",
+          "ar": "زميل اللغة الإنجليزية بكلية العالم للغة الإنجليزية"
+        },
+        "source": "sql/schema.sql"
+      },
+      {
+        "level_id": 4,
+        "cefr": "B2",
+        "post_nominal": "EnWEC",
+        "credits": 20,
+        "label": {
+          "en": "English Envoy of Worldwide English College",
+          "ar": "موفد اللغة الإنجليزية بكلية العالم للغة الإنجليزية"
+        },
+        "source": "sql/schema.sql"
+      },
+      {
+        "level_id": 5,
+        "cefr": "C1",
+        "post_nominal": "OrWEC",
+        "credits": 20,
+        "label": {
+          "en": "English Orator of Worldwide English College",
+          "ar": "خطيب اللغة الإنجليزية بكلية العالم للغة الإنجليزية"
+        },
+        "source": "sql/schema.sql"
+      },
+      {
+        "level_id": 6,
+        "cefr": "C2",
+        "post_nominal": "LrWEC",
+        "credits": 20,
+        "label": {
+          "en": "English Laureate of Worldwide English College",
+          "ar": "متوَّج اللغة الإنجليزية بكلية العالم للغة الإنجليزية"
+        },
+        "source": "sql/schema.sql"
+      }
+    ],
+    "programme_completion": {
+      "id": "grad.programme",
+      "label": {
+        "en": "Completion of the IEFC in full",
+        "ar": "إتمام البرنامج كاملًا"
+      },
+      "requires_awards": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "requires_credits": 120,
+      "final_examination": false,
+      "thesis": false,
+      "source": "/academics/#graduation",
+      "rationale": "Published. There is no separate final examination and no thesis: the sixth level award is the completion of the programme, and a holder of all six is recorded as having completed the IEFC in full."
+    },
+    "conferral_is_a_registry_act": {
+      "id": "grad.registry_act",
+      "label": {
+        "en": "Conferral is an entry in the register, not a calculation",
+        "ar": "المنح قيدٌ في السجل لا حساب"
+      },
+      "value": true,
+      "source": "sql/schema.sql",
+      "rationale": "The arithmetic in this file establishes eligibility. The award exists when it is written into the hash-chained register with a holder, a date and a verification code — which is what makes it checkable by somebody who does not trust the College."
+    },
+    "not_conferred_on": {
+      "id": "grad.not_conferred_on",
+      "label": {
+        "en": "What an award is never conferred on",
+        "ar": "ما لا تُمنح عليه الشهادة أبدًا"
+      },
+      "value": [
+        "attendance",
+        "payment",
+        "time served",
+        "engagement"
+      ],
+      "source": "/students/awards/",
+      "rationale": "Published. The College never built a mechanism that could confer on any of these and does not intend to build one, and this instrument defines no path by which any of them reaches a mark."
+    }
+  },
+  "standing": {
+    "id": "standing",
+    "label": {
+      "en": "Academic standing",
+      "ar": "الوضع الأكاديمي"
+    },
+    "decided_on_gpa": {
+      "id": "standing.not_gpa",
+      "label": {
+        "en": "Standing is not decided on the grade point average",
+        "ar": "لا يُقرَّر الوضع الأكاديمي بالمعدل التراكمي"
+      },
+      "value": false,
+      "source": "decided_here",
+      "rationale": "It cannot be. Only conferred levels carry a grade point and the lowest of those is 3.00, so no learner at this College can hold an average below 3.00 and a threshold on it would never fire. Standing is decided on assessment outcomes, which is the evidence that actually distinguishes a learner in difficulty."
+    },
+    "bands": [
+      {
+        "id": "standing.good",
+        "code": "good_standing",
+        "sequence": 1,
+        "label": {
+          "en": "In Good Standing",
+          "ar": "وضع سليم"
+        },
+        "triggers": [],
+        "is_default": true,
+        "completion_threshold": null,
+        "gpa_threshold": null,
+        "obliges_the_college": [
+          "Nothing beyond the ordinary teaching relationship. This is the state nobody needs to think about, and the College does not manufacture contact to prove it is paying attention."
+        ],
+        "affects_access": false,
+        "source": "/students/regulations/",
+        "rationale": "Published. The ordinary state: requirements met, nothing outstanding."
+      },
+      {
+        "id": "standing.under_review",
+        "code": "under_review",
+        "sequence": 2,
+        "label": {
+          "en": "Under Review",
+          "ar": "قيد المراجعة"
+        },
+        "triggers": [
+          {
+            "id": "standing.trigger.two_failed_summatives",
+            "label": {
+              "en": "Two failed summative attempts within one level",
+              "ar": "رسوبان ختاميان في مستوى واحد"
+            },
+            "value": 2,
+            "comparator": "gte",
+            "scope": "one enrolment",
+            "source": "/students/regulations/"
+          },
+          {
+            "id": "standing.trigger.failed_examination",
+            "label": {
+              "en": "A failed level examination",
+              "ar": "الرسوب في امتحان المستوى"
+            },
+            "value": 1,
+            "comparator": "gte",
+            "scope": "one enrolment",
+            "source": "decided_here"
+          },
+          {
+            "id": "standing.trigger.staff_flag",
+            "label": {
+              "en": "A review flagged by academic staff, with a recorded reason",
+              "ar": "مراجعة يؤشِّرها عضو هيئة التدريس بسبب مدوَّن"
+            },
+            "value": true,
+            "requires_reason": true,
+            "source": "/students/regulations/"
+          }
+        ],
+        "completion_threshold": null,
+        "gpa_threshold": null,
+        "obliges_the_college": [
+          "Offer a tutorial with a member of academic staff, in writing, within 10 working days of the trigger.",
+          "State in that offer what triggered the review and what would clear it.",
+          "Record the offer whether or not the learner takes it, so that a learner who was never reached cannot later be described as one who declined help.",
+          "Clear the standing when the outstanding assessment is passed or the flag is lifted with a recorded reason."
+        ],
+        "is_a_sanction": false,
+        "affects_access": false,
+        "affects_classification": false,
+        "source": "/students/regulations/",
+        "rationale": "Published: it triggers a tutorial, not a sanction. The purpose of noticing that somebody is struggling is to reach them, and a penalty reaches nobody. It has no effect on a mark, an honour or an award."
+      },
+      {
+        "id": "standing.suspended_progression",
+        "code": "suspended_progression",
+        "sequence": 3,
+        "label": {
+          "en": "Suspended Progression",
+          "ar": "ترقٍّ معلَّق"
+        },
+        "triggers": [
+          {
+            "id": "standing.trigger.integrity_matter",
+            "label": {
+              "en": "An integrity matter opened under the misconduct procedure",
+              "ar": "فتح مسألة نزاهة وفق إجراء سوء السلوك"
+            },
+            "value": true,
+            "requires_procedure": true,
+            "source": "/students/regulations/"
+          }
+        ],
+        "completion_threshold": null,
+        "gpa_threshold": null,
+        "obliges_the_college": [
+          "Put the allegation to the learner in writing before any finding, and hear the reply.",
+          "Reach a first-instance decision within 20 working days of opening the matter; the suspension lapses automatically if it does not.",
+          "Leave every route to appeal open, each stage decided by somebody who was not part of the last one.",
+          "Continue access to teaching, the library and support throughout."
+        ],
+        "pauses_progression": true,
+        "affects_access": false,
+        "source": "/students/regulations/",
+        "rationale": "Published: progression pauses, access does not stop, and it is the narrowest measure that resolves the situation. The twenty-day limit is added here so that a suspension cannot become indefinite by nobody deciding anything — an unresolved allegation costs the learner and must therefore cost the College a deadline."
+      }
+    ],
+    "no_probation_band": {
+      "id": "standing.no_probation",
+      "label": {
+        "en": "There is no probation band",
+        "ar": "لا وجود لحالة إنذار"
+      },
+      "exists": false,
+      "source": "decided_here",
+      "rationale": "Probation is a state whose only content is the threat of exclusion. This College excludes nobody, so probation would be a word with nothing behind it, applied to learners already in difficulty."
+    },
+    "no_exclusion_band": {
+      "id": "standing.no_exclusion",
+      "label": {
+        "en": "There is no exclusion band",
+        "ar": "لا وجود لحالة فصل"
+      },
+      "exists": false,
+      "source": "/students/regulations/",
+      "rationale": "Published, and it is the rule that overrides the other three: no standing removes a learner's access to learning; nothing expires, locks or is withdrawn. That is partly principle and partly plain sense, since each of those would carry contractual and consumer-protection weight the College has not taken on."
+    },
+    "overriding_rule": {
+      "id": "standing.overriding_rule",
+      "label": {
+        "en": "No standing removes access to learning",
+        "ar": "لا حالة تُسقط حق الوصول إلى التعلّم"
+      },
+      "value": true,
+      "source": "/students/regulations/",
+      "rationale": "Published, and it overrides every band above. Any future rule that would suspend, expire or withdraw access contradicts this one and cannot be adopted without amending it here first."
+    },
+    "contact_obligations": [
+      {
+        "id": "standing.contact.sixty_days",
+        "label": {
+          "en": "Sixty days without engagement — the College writes",
+          "ar": "ستون يومًا بلا نشاط — تكتب الكلية"
+        },
+        "value": 60,
+        "unit": "days",
+        "comparator": "gte",
+        "applies_to": "a live enrolment",
+        "is_a_standing": false,
+        "is_a_penalty": false,
+        "source": "/students/",
+        "rationale": "Published as the intention: a learner who has gone quiet is contacted in month two rather than discovered in month eleven. It is an obligation on the College and not a standing on the learner, because there is no deadline here to miss and no penalty for a slower route."
+      },
+      {
+        "id": "standing.contact.hundred_twenty_days",
+        "label": {
+          "en": "A hundred and twenty days — a person, not a template",
+          "ar": "مئة وعشرون يومًا — إنسان لا رسالة آلية"
+        },
+        "value": 120,
+        "unit": "days",
+        "comparator": "gte",
+        "applies_to": "a live enrolment",
+        "is_a_standing": false,
+        "is_a_penalty": false,
+        "source": "decided_here",
+        "rationale": "A second automated message is not a second attempt. At four months a member of staff makes contact themselves, and the record says who."
+      }
+    ]
+  },
+  "reassessment": {
+    "id": "resit",
+    "label": {
+      "en": "Resits and reassessment",
+      "ar": "الإعادة وإعادة التقييم"
+    },
+    "attempts_per_assessment": {
+      "id": "resit.attempts",
+      "label": {
+        "en": "Two resits per summative assessment",
+        "ar": "إعادتان لكل تقييم ختامي"
+      },
+      "value": 2,
+      "total_attempts": 3,
+      "comparator": "lte",
+      "source": "/students/regulations/",
+      "rationale": "Published, adopted 14 August 2026. Three sittings of one assessment; after that the level is repeated and the assessment is set afresh rather than sat a fourth time."
+    },
+    "minimum_interval_days": {
+      "id": "resit.interval",
+      "label": {
+        "en": "No resit sooner than fourteen days",
+        "ar": "لا إعادة قبل أربعة عشر يومًا"
+      },
+      "value": 14,
+      "unit": "days",
+      "comparator": "gte",
+      "source": "/students/regulations/",
+      "rationale": "Published. A resit two days later measures memory of the paper rather than command of the language, and the interval is what makes the second attempt evidence."
+    },
+    "mark_cap": {
+      "id": "resit.cap",
+      "label": {
+        "en": "A resit mark counts at the pass mark",
+        "ar": "تُحتسب درجة الإعادة عند درجة النجاح"
+      },
+      "value": 70.0,
+      "unit": "percentage",
+      "applies_to": "the counting mark of the resat assessment",
+      "records_actual": true,
+      "source": "/students/regulations/",
+      "rationale": "Published: capped at Pass, because an honour should reflect performance at the standard the first time it was met. The mark actually achieved is recorded in full — the record tells the truth about the work — and the mark that enters the module or level arithmetic is the capped one."
+    },
+    "cap_scope": {
+      "id": "resit.cap_scope",
+      "label": {
+        "en": "The cap is on the assessment, except for the level examination",
+        "ar": "الحدّ على التقييم، إلا امتحان المستوى"
+      },
+      "value": "component",
+      "exception": {
+        "id": "resit.cap_scope.examination",
+        "label": {
+          "en": "A level examination passed on a resit classifies the level at Pass",
+          "ar": "امتحان المستوى المجتاز بالإعادة يُصنَّف المستوى عنده ناجحًا"
+        },
+        "applies_to": "level.component.examination",
+        "effect": "a level examination passed on a resit classifies the level at honour.pass",
+        "grade_point": 3.0,
+        "source": "decided_here",
+        "rationale": "The examination is the instrument the honour is about, so a resit of it caps the honour rather than only the component. This is the half of the published cap that reaches the whole level."
+      },
+      "source": "decided_here",
+      "rationale": "Two readings of the published rule were available and this instrument takes the proportionate one. Capping a single resat module quiz should not forfeit a Distinction across a whole level; capping the level examination should, because the examination is the instrument the honour is about."
+    },
+    "new_task_required": {
+      "id": "resit.new_task",
+      "label": {
+        "en": "A capstone resit is a new task, not a resubmission",
+        "ar": "إعادة العمل الختامي مهمة جديدة لا إعادة تسليم"
+      },
+      "value": true,
+      "applies_to": [
+        "level examination",
+        "capstone assignment"
+      ],
+      "source": "/students/regulations/",
+      "rationale": "Published. Resubmitting a marked capstone with the marker's own feedback applied assesses the feedback, not the candidate."
+    },
+    "window": {
+      "id": "resit.window",
+      "label": {
+        "en": "A resit may be sat at any time while the enrolment is live",
+        "ar": "تجوز الإعادة في أي وقت ما دام التسجيل قائمًا"
+      },
+      "value": null,
+      "bounded_by": "resit.interval",
+      "source": "decided_here",
+      "rationale": "There is no deadline here to miss. The College publishes that a learner may take six months or two, and a resit window that expired would be the one deadline in a programme built to have none."
+    },
+    "task_refresh_days": {
+      "id": "resit.task_refresh",
+      "label": {
+        "en": "After a year the assessment is set afresh",
+        "ar": "بعد سنة يُوضع التقييم من جديد"
+      },
+      "value": 365,
+      "unit": "days",
+      "comparator": "gte",
+      "measured_from": "the first attempt at that assessment",
+      "source": "decided_here",
+      "rationale": "Not a limit on the learner: a limit on the paper. A task whose answers have been in circulation for a year is no longer the same assessment, so the resit is set on a fresh task. The learner loses no attempt and pays nothing."
+    },
+    "fee": {
+      "id": "resit.fee",
+      "label": {
+        "en": "There is no resit fee",
+        "ar": "لا رسوم على الإعادة"
+      },
+      "value": 0,
+      "currency": "USD",
+      "source": "/admissions/tuition/",
+      "rationale": "Published. Charging for a second attempt turns an assessment into a toll."
+    },
+    "repeat_charge": {
+      "id": "resit.repeat_charge",
+      "label": {
+        "en": "Repeating a level attracts no additional charge",
+        "ar": "إعادة المستوى لا تستوجب رسمًا إضافيًا"
+      },
+      "value": 0,
+      "currency": "USD",
+      "source": "/admissions/tuition/",
+      "rationale": "Not a new commitment: a consequence of one already published. The tuition page closes the list of charges an enrolled student meets — if a cost is not on that list it does not exist — and no repeat charge is on it."
+    },
+    "counts_toward_standing": {
+      "id": "resit.counts_toward_standing",
+      "label": {
+        "en": "A failed attempt counts once toward Under Review",
+        "ar": "تُحتسب المحاولة الراسبة مرة واحدة في قيد المراجعة"
+      },
+      "value": true,
+      "source": "decided_here",
+      "rationale": "Named so the count is unambiguous: two failed summative attempts within one level trigger a review, whether they are two different assessments or two attempts at the same one. In both cases a learner is having difficulty and in both cases the College owes them a tutorial."
+    }
+  },
+  "engagement": {
+    "id": "engage",
+    "label": {
+      "en": "Attendance and engagement",
+      "ar": "الحضور والانخراط"
+    },
+    "attendance_requirement": {
+      "id": "engage.no_requirement",
+      "label": {
+        "en": "There is no attendance requirement",
+        "ar": "لا يوجد شرط حضور"
+      },
+      "exists": false,
+      "value": null,
+      "affects_any_award": false,
+      "affects_any_mark": false,
+      "affects_any_standing": false,
+      "source": "/academics/#graduation",
+      "rationale": "Published, and absolute. The programme is asynchronous, so attendance in its ordinary sense measures a learner's time zone and shift pattern rather than their English. Nothing in this instrument routes engagement to a mark, an honour, a standing or an award."
+    },
+    "what_is_measured": {
+      "id": "engage.measured",
+      "label": {
+        "en": "Engagement with a module, within a defined window",
+        "ar": "الانخراط بالوحدة ضمن نافذة محددة"
+      },
+      "value": "module_engagement_window",
+      "source": "decided_here",
+      "rationale": "The honest definition for an asynchronous college. It answers one question — has this learner worked on this module lately — and it answers it from evidence the server produced rather than from a claim the browser made."
+    },
+    "window": {
+      "id": "engage.window",
+      "label": {
+        "en": "A seven-day window, anchored to the learner's own start date",
+        "ar": "نافذة من سبعة أيام مبدؤها تاريخ بدء المتعلم"
+      },
+      "value": 7,
+      "unit": "days",
+      "anchor": "enrolments.started_at",
+      "source": "decided_here",
+      "rationale": "Anchored to the enrolment and not to a Monday. A Monday-to-Sunday week is a Western working week, and most of this College's learners are in places where the week does not begin on Monday. Anchoring to the learner's own start date imports nobody's calendar."
+    },
+    "counts_as_engaged": {
+      "id": "engage.counts",
+      "label": {
+        "en": "What counts as engagement with a module",
+        "ar": "ما يُعدّ انخراطًا بالوحدة"
+      },
+      "any_of": [
+        {
+          "id": "engage.counts.time_on_task",
+          "label": {
+            "en": "Twenty minutes of server-measured study on that module in the window",
+            "ar": "عشرون دقيقة دراسة تقيسها الخوادم على تلك الوحدة في النافذة"
+          },
+          "value": 20,
+          "unit": "minutes",
+          "comparator": "gte",
+          "measured_by": "functions/_lib/lms/time-on-task.js",
+          "client_supplied": false,
+          "source": "decided_here",
+          "rationale": "Twenty minutes is short enough that a genuine study session always clears it and long enough that opening a page does not. The measurement rule itself — the beat interval and its ceiling — belongs to time-on-task.js and is deliberately not restated here, because a constant written in two places is a constant that will drift."
+        },
+        {
+          "id": "engage.counts.assessment",
+          "label": {
+            "en": "A quiz attempt or an assignment submission recorded in the window",
+            "ar": "محاولة اختبار أو تسليم تكليف مسجَّل في النافذة"
+          },
+          "value": 1,
+          "comparator": "gte",
+          "source": "decided_here",
+          "rationale": "A learner who sat the quiz was present, whatever the clock recorded. An engagement rule that could mark a submitting learner absent would be measuring the instrument rather than the learner."
+        },
+        {
+          "id": "engage.counts.live_session",
+          "label": {
+            "en": "A live session for that module or level, joined and confirmed by the host",
+            "ar": "جلسة مباشرة للوحدة أو المستوى، حضرها المتعلم وأكّدها المضيف"
+          },
+          "value": 1,
+          "comparator": "gte",
+          "requires_host_confirmation": true,
+          "instrumented": false,
+          "source": "decided_here",
+          "rationale": "Defined here and not yet measurable: `live_sessions` records that a session existed and nothing records who attended it. Until an attendance record exists this clause fires for nobody, and the platform reports live-session attendance as not instrumented rather than as zero — 'no attendance recorded' and 'nobody attended' are different statements and only the first is true."
+        }
+      ],
+      "source": "decided_here",
+      "rationale": "Any one of the three, not all three. Each is independent evidence that the learner was working on the module, and requiring more than one would exclude the ordinary case of a learner who studies offline and returns to submit."
+    },
+    "what_it_is_not": [
+      {
+        "id": "engage.not.a_condition",
+        "label": {
+          "en": "Not a condition of any award",
+          "ar": "ليس شرطًا لأي شهادة"
+        },
+        "source": "/academics/#graduation"
+      },
+      {
+        "id": "engage.not.a_mark",
+        "label": {
+          "en": "Not a mark, and not a participation grade",
+          "ar": "ليس درجة ولا تقديرًا للمشاركة"
+        },
+        "source": "/academics/#graduation"
+      },
+      {
+        "id": "engage.not.a_measure_of_learning",
+        "label": {
+          "en": "Not a measure of learning",
+          "ar": "ليس مقياسًا للتعلّم"
+        },
+        "source": "decided_here"
+      },
+      {
+        "id": "engage.not.inferred",
+        "label": {
+          "en": "Never inferred from an open tab or an issued join link",
+          "ar": "لا يُستنتج من صفحة مفتوحة أو رابط انضمام صادر"
+        },
+        "source": "decided_here"
+      },
+      {
+        "id": "engage.not.published_yet",
+        "label": {
+          "en": "Not published as an institutional figure until measured across a real cohort",
+          "ar": "لا يُنشر رقمًا مؤسسيًا قبل قياسه على دفعة حقيقية"
+        },
+        "source": "functions/_lib/lms/time-on-task.js"
+      },
+      {
+        "id": "engage.not.a_penalty",
+        "label": {
+          "en": "Never a penalty",
+          "ar": "ليس عقوبة أبدًا"
+        },
+        "source": "/students/"
+      }
+    ],
+    "uses": [
+      {
+        "id": "engage.use.contact",
+        "label": {
+          "en": "To trigger the College's contact obligations",
+          "ar": "لتفعيل واجبات التواصل على الكلية"
+        },
+        "targets": [
+          "standing.contact.sixty_days",
+          "standing.contact.hundred_twenty_days"
+        ],
+        "source": "/students/",
+        "rationale": "The only reason worth building it: reaching a learner in month two instead of finding them in month eleven."
+      },
+      {
+        "id": "engage.use.sponsor_report",
+        "label": {
+          "en": "To report to a sponsor exactly what was measured",
+          "ar": "لإفادة الجهة الراعية بما قيس بالضبط"
+        },
+        "source": "decided_here",
+        "rationale": "An employer or ministry funding a seat is entitled to know whether the seat is being used. It is entitled to that measurement described in the words of its definition — engagement with a module in a window — and not to an attendance figure the College does not hold."
+      },
+      {
+        "id": "engage.use.measured_hours",
+        "label": {
+          "en": "To replace a design hours figure with a measured one",
+          "ar": "لاستبدال ساعات مقيسة بساعات مقدَّرة"
+        },
+        "source": "docs/academic-framework.md",
+        "rationale": "The College publishes Total Qualification Time as a design figure and says so. Time on task is the instrument that will one day let it publish a measured figure instead and say that it has."
+      }
+    ]
+  },
+  "conformance": {
+    "id": "conformance",
+    "label": {
+      "en": "Where the platform does not yet compute this instrument",
+      "ar": "حيث لا يحسب النظام هذه اللائحة بعد"
+    },
+    "note": "Recorded rather than quietly assumed. Each item names the file that must change and the rule it does not implement. Nothing here is a fault in the regulations; all of it is distance between what is adopted and what is built, and it is written down so that distance is visible.",
+    "divergences": [
+      {
+        "id": "conformance.module_composite",
+        "file": "functions/_lib/lms/content.js",
+        "rule": "module.both_required",
+        "observed": "CLOSED 20 August 2026. Every act that can move a module's mark — a quiz attempt, an assignment submitted, an assignment graded — now re-reads the module through moduleMarkForUnit() in functions/_lib/academic/standing.js and writes what module.formula says. content.js applies no pass rule of its own and reads no threshold of its own.",
+        "required": "A module completes on the 30/70 composite of both components, and not before both are marked.",
+        "consequence": "While it was open, a learner who passed the quiz at seventy and never submitted the assignment had the module recorded as complete — and that row is read by the graduate profile, by the Institutional Metric Register's module-completion figure and by the engagement evidence list, so one wrong rule was published three ways. Recorded here rather than deleted, because the register of divergences is also the record of what the platform once did.",
+        "closed_on": "2026-08-20"
+      },
+      {
+        "id": "conformance.level_mark",
+        "file": "functions/_lib/student/progression.js",
+        "rule": "level.gates",
+        "observed": "CLOSED 21 August 2026. completeLevel() in that file now reads the level's conditions from functions/_lib/academic/standing.js — the same engine that computes them for the learner's own record and the Registrar's screens — and refuses to mark an enrolment completed while any condition the LEARNER owes is unmet, naming each one. levelGateReport() exports the same reading so a member of staff can see the gate before acting on it rather than through a refusal. There is no override: `level.gate_precedence` admits none.",
+        "required": "The six gates in `level_mark.gates` must all hold before a level is completed or an award conferred.",
+        "consequence": "While it was open, a staff confirmation was the only check of any kind, so a level could be recorded as finished for a learner with unmarked modules — and `enrolments.status` is what opens the next level and what the staff-confirmation gate itself is read from. Recorded here rather than deleted, because the register of divergences is also the record of what the platform once did. What remains OPEN and is recorded separately is that four of the six gates are examination records the schema does not hold at all (`conformance.skill_mapping`, and the examination gates named in levelConditions()); those are the College's own unmade records, they are reported as such rather than charged to the learner, and they do not refuse a completion the learner has earned.",
+        "closed_on": "2026-08-21"
+      },
+      {
+        "id": "conformance.pass_threshold_config",
+        "file": "platform_config.lms_pass_threshold",
+        "rule": "scale.pass_mark",
+        "observed": "CLOSED 20 August 2026. The schema comment has been re-stated: the key is now described as a mirror of the adopted pass mark rather than as a mechanism default, it decides nothing on its own (content.js no longer reads it), and tests/academic-standing.test.mjs fails the build if its value and the instrument's ever disagree. It is still read by scripts/build-students.js, which prints the figure on /students/assessment/.",
+        "required": "The same value, now an adopted academic standard rather than a placeholder. The key stays in configuration so that changing it remains a recorded decision.",
+        "consequence": "None numerically, then or now.",
+        "closed_on": "2026-08-20"
+      },
+      {
+        "id": "conformance.skill_mapping",
+        "file": "assessment_skills",
+        "rule": "skill.null_blocks_conferral",
+        "observed": "No assessment carries an approved mapping to a language skill.",
+        "required": "Every assessment that evidences a skill must carry an approved mapping, with a proposer, an approver and a date.",
+        "consequence": "Until the mapping exists, level skill marks are null and conferral under this instrument refuses. That is the intended behaviour and not a bug."
+      },
+      {
+        "id": "conformance.live_session_attendance",
+        "file": "live_sessions",
+        "rule": "engage.counts.live_session",
+        "observed": "The table records that a session existed. Nothing records who attended it.",
+        "required": "A per-learner attendance record confirmed by the host.",
+        "consequence": "The live-session clause of the engagement rule fires for nobody, and the metric register reports live-session attendance as not instrumented rather than as zero."
+      }
+    ],
+    "schema_changes_requested": [
+      {
+        "id": "conformance.schema.live_session_attendance",
+        "table": "live_session_attendance",
+        "why": "One row per learner per session, written on a host-confirmed join, so that the third clause of `engage.counts` has something to read. Requested, not made — this instrument does not own sql/schema.sql."
+      },
+      {
+        "id": "conformance.schema.assessment_attempts",
+        "table": "quiz_attempts / assignment_submissions",
+        "why": "Neither table records an attempt ordinal or which attempt is the counting one, so `resit.attempts`, `resit.interval` and `resit.cap` cannot be enforced or audited from the data as it stands. Requested, not made."
+      }
+    ]
+  }
+}

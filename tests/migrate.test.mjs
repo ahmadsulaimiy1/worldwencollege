@@ -334,6 +334,36 @@ for (const f of files) {
   // whole `kyc_documents` table.
   db.exec(`DROP INDEX IF EXISTS idx_kyc_documents_user;
     DROP TABLE IF EXISTS kyc_documents;`);
+  // 020 adds twenty-two tables and no columns, so dropping the tables is
+  // the whole reversal — SQLite takes each table's indexes with it.
+  // CHILDREN FIRST, and the order below is the foreign-key order rather
+  // than the order the migration declares them: orientation_progress
+  // points at offers, graduation_list at graduation_eligibility, and
+  // reconstructing a pre-020 database in declaration order fails on a
+  // constraint instead of on anything interesting — the same trap 016
+  // and 013 documented above.
+  db.exec(`DROP TABLE IF EXISTS notification_preferences;
+    DROP TABLE IF EXISTS student_settings;
+    DROP TABLE IF EXISTS graduation_list;
+    DROP TABLE IF EXISTS graduation_eligibility;
+    DROP TABLE IF EXISTS graduation_ceremonies;
+    DROP TABLE IF EXISTS academic_standing_reviews;
+    DROP TABLE IF EXISTS learner_milestones;
+    DROP TABLE IF EXISTS milestone_definitions;
+    DROP TABLE IF EXISTS registrar_case_events;
+    DROP TABLE IF EXISTS registrar_cases;
+    DROP TABLE IF EXISTS orientation_progress;
+    DROP TABLE IF EXISTS orientation_steps;
+    DROP TABLE IF EXISTS offers;
+    DROP TABLE IF EXISTS application_events;
+    DROP TABLE IF EXISTS slot_bookings;
+    DROP TABLE IF EXISTS tutorial_slots;
+    DROP TABLE IF EXISTS messages;
+    DROP TABLE IF EXISTS message_participants;
+    DROP TABLE IF EXISTS message_threads;
+    DROP TABLE IF EXISTS announcement_receipts;
+    DROP TABLE IF EXISTS announcements;
+    DROP TABLE IF EXISTS attendance_records;`);
 
   db.exec('DROP TABLE schema_migrations');
 

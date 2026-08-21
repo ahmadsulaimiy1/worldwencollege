@@ -1170,6 +1170,34 @@ a.lang__row:hover { background: rgba(199,162,74,.13); color: var(--gold-bright);
   display: flex; align-items: center; gap: clamp(16px, 2.4vw, 40px);
   transition: padding var(--dur-med) var(--ease-premium);
 }
+/* THE OPEN MEGA PANEL HAD ITS FIRST 47 PIXELS PAINTED OVER, on all six
+   menus, in both languages, on every page of the site.
+   ---------------------------------------------------------------------
+   Found by screenshotting the navigation after adding four links to it
+   on 20 August 2026 — invisible in the source, and exactly the class of
+   fault CLAUDE.md § 6 exists for.
+
+   The mechanism, because it is not obvious from either rule alone.
+   `.lattice > *:not(.lattice__bed)` in css/atelier.css gives every
+   direct child of the header `position: relative; z-index: 2`. That is
+   what lifts the header's contents off the lattice bed, and it is
+   correct. Its side effect is that BOTH `.site-header__inner` and
+   `.utilrail` become stacking contexts at the same level — so the
+   panel's own `z-index: 10` can only order it inside its parent, and
+   between the two parents nothing but DOM order decides. The utility
+   rail comes second in partials/header.html and therefore won, over a
+   panel that hangs 47px down into it.
+
+   What was lost was the `.mega__label` on every panel: "Student Life",
+   "The Programme", "How the College Is Run" — the line that tells a
+   reader which pillar they have opened.
+
+   One number fixes it, and it must be spelled at (0,2,1) or better to
+   beat the `.lattice > *` rule that caused it. An open panel now
+   overlays the utility rail, which is what an overlay is for; nothing
+   else moves, because the two bands do not otherwise overlap and the
+   panel is `visibility: hidden` when closed. */
+.site-header.lattice > .site-header__inner { z-index: 3; }
 /* The navigation takes the slack, so the actions sit hard against the
    end margin and the brand hard against the start one — rather than
    three groups drifting apart with space-between.

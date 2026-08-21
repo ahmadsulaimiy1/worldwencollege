@@ -76,18 +76,16 @@ https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 #
 # The architecture in docs/information-architecture.html retires these
 # URLs. Each one is indexed, may be printed in a published volume, and
-# must never return 404. 72 of 72 planned routes have moved
+# must never return 404. 70 of 70 planned routes have moved
 # so far; the rest keep serving their own page until their phase lands.
 #
 /ar/admissions/entry-requirements/  /ar/admissions/#requirements  301
 /admissions/entry-requirements/     /admissions/#requirements  301
-/ar/admissions/international/       /ar/admissions/#international  301
 /ar/about/quality-assurance/        /ar/governance/#quality  301
 /ar/admissions/scholarships/        /ar/admissions/tuition/#funding  301
 /ar/standards/verification/         /ar/governance/#verification  301
 /ar/teaching/lesson-design/         /ar/academics/teaching/  301
 /ar/students/listening-lab/         /ar/students/#lab  301
-/admissions/international/          /admissions/#international  301
 /ar/about/academic-senate/          /ar/governance/#senate  301
 /about/quality-assurance/           /governance/#quality  301
 /admissions/scholarships/           /admissions/tuition/#funding  301

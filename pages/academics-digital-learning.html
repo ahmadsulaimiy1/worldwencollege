@@ -1,0 +1,501 @@
+<!--
+  THE DIGITAL LEARNING POLICY.
+
+  WHAT THIS DOCUMENT IS FOR.
+  ---------------------------------------------------------------------
+  /academics/#campus describes the eight things a person signs into.
+  This is the instrument underneath it: what the College GUARANTEES
+  about that platform, and what a learner is owed when the guarantee is
+  not met. A college delivered entirely online whose platform promises
+  are unwritten has left its most consequential commitment as folklore.
+
+  WRITTEN AGAINST THE CODE, NOT AGAINST AN IDEA OF IT.
+  Every figure below was read out of the platform before it was
+  published here:
+    · functions/_lib/lms/time-on-task.js — the 150-second beat ceiling,
+      the 40-hour module cap, the 30-completion floor before a level's
+      measured hours are published, and the decision to report a median.
+    · functions/_lib/lms/recording-storage.js — 100 MB per take, 5 MiB
+      resumable parts, SHA-256 on the assembled object, a stamped
+      retention that a later policy change cannot shorten, and purge()
+      keeping the assessment row after the audio goes.
+    · js/listening-lab.js — notes and bookmarks in localStorage and
+      never sent, audio cached only on an explicit request, script mode
+      as the designed state rather than a fallback.
+
+  THE DECISIONS THIS DOCUMENT MAKES, which were open before it:
+    1. Availability is 99.5% of each quarter, measured on the learner
+       -facing platform, excluding announced maintenance.
+    2. Retention: assessed recordings six years from conferral, practice
+       takes twelve months, the assessment record permanent.
+    3. A copy of everything held, within 20 working days, at no charge.
+    4. Lost access is returned as access, day for day.
+  support/privacy/ records retention as an open governance decision. It
+  is closed here, which is where an instrument of this kind belongs.
+-->
+
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <img class="masthead__plate" src="/assets/art/crest-plate.svg" alt="" aria-hidden="true" width="320" height="400" data-depth="0.05">
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg></p>
+
+    <p class="masthead__eyebrow">Academics &middot; Policy</p>
+    <h1>The digital learning environment.</h1>
+    <p class="masthead__stake">The College teaches entirely online, so the platform is the building. <strong>This document states what the building is guaranteed to do, and what you are owed on a day it does not.</strong></p>
+    <p class="lede">Availability, and the remedy for losing it. What the platform records about
+      your study, and what that record is for. How long a recording of your voice is kept. How
+      to get a copy of everything held about you. The device you need, what works offline, and
+      access for a learner who cannot hear.</p>
+
+    <dl class="masthead__facts">
+      <div class="masthead__fact"><dt>Availability</dt><dd>99.5% a quarter</dd></div>
+      <div class="masthead__fact"><dt>Planned work</dt><dd>Seven days&rsquo; notice</dd></div>
+      <div class="masthead__fact"><dt>Your data, out</dt><dd>20 working days</dd></div>
+      <div class="masthead__fact"><dt>Recordings</dt><dd>Six years</dd></div>
+    </dl>
+
+    <p class="masthead__motto">&ldquo;Lost access is returned as access, day for day.&rdquo;</p>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+
+    <div class="btn-row u-center" style="margin-top:30px">
+      <a href="/academics/#campus" class="btn btn--gold">The Digital Campus</a>
+      <a href="/students/academic-record/" class="btn btn--outline">Your Academic Record</a>
+    </div>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 21 / 9">
+      <div class="plate__frame tilt gold-live edge-lit edge-lit--light aurum">
+        <span class="tilt__sheen" aria-hidden="true"></span>
+        <img src="/assets/images/plates/study.jpg" alt="A young man in a collared shirt working at a laptop in headphones, papers set out beside him." loading="lazy" decoding="async">
+        <span class="plate__tone" aria-hidden="true"></span>
+        <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+      </div>
+      <figcaption class="plate__caption">
+        <svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg>
+        For a college taught entirely online, this is the lecture hall and the library at once.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="standard" data-contents="The Standard">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/portico.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">I</span>
+      <span class="leaf__label">The Standard</span>
+      <p class="leaf__rubric">Four commitments about the platform, each one measured rather than asserted.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>What the platform is guaranteed to do.</h2>
+      <p class="lede">A promise with no figure attached cannot be broken, which is why most of
+        them carry none. These four carry figures.</p>
+
+      <div class="grid grid--2">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+          <span class="card__num">Availability</span>
+          <h3>99.5% of every quarter</h3>
+          <p>Measured on the parts a learner signs into: lessons, the Listening Lab, submission and the academic record. The allowance is about eleven hours a quarter. Announced maintenance sits outside the measure; everything else counts, including a fault affecting one country.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+          <span class="card__num">Planned work</span>
+          <h3>Seven days&rsquo; notice, and never before an examination</h3>
+          <p>Maintenance that takes the platform down is announced at least seven days ahead, scheduled between 01:00 and 05:00 UTC, and never inside the 72 hours before a scheduled examination. Work that costs no downtime is not announced, because it is not felt.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
+          <span class="card__num">Unplanned loss</span>
+          <h3>A notice in 30 minutes, an account in five days</h3>
+          <p>An outage lasting more than half an hour is posted on the sign-in page while it is happening. Within five working days the College writes to affected learners with what failed, how long it lasted, and what was done. A fault nobody explains happens twice.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg></span>
+          <span class="card__num">Judgement</span>
+          <h3>Nothing on the platform decides anything about you</h3>
+          <p>Software records attempts, opens the next step and stores your files. A person confirms a level is finished, marks the work and writes the feedback &mdash; see <a href="/students/regulations/">the academic regulations</a> and <a href="/academics/ai-policy/">the policy on artificial intelligence</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--light grain" id="outage" data-contents="If It Goes Down">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">II</span>
+      <span class="leaf__label">If It Goes Down</span>
+      <p class="leaf__rubric">What happens to a deadline, an attempt in progress, and a level you have paid for.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>Lost access is returned as access.</h2>
+      <p class="lede">Every remedy below applies without an application. A learner should not
+        have to write in and argue for something the College already knows happened.</p>
+
+      <div class="grid grid--3">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <span class="card__num">Deadlines</span>
+          <h3>Any deadline in the window moves a working day</h3>
+          <p>A deadline falling during an outage, or in the twelve hours after it ends, moves by one full working day for each day the fault ran. It moves for everybody affected, at once, without anybody asking.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+          <span class="card__num">An attempt in progress</span>
+          <h3>An interrupted attempt is void</h3>
+          <p>An assessment cut short by a fault does not stand, does not count as an attempt, and does not count against your two resits. You sit it again on a fresh task where the assessment requires one, and the interrupted attempt leaves no mark on the record.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+          <span class="card__num">Access</span>
+          <h3>Time lost is added back</h3>
+          <p>Where access is lost for more than three consecutive days, the level&rsquo;s access period extends by the days lost. Beyond twenty consecutive days you may withdraw from the level under <a href="/admissions/tuition/#refunds">the refund terms</a> instead, and the choice is yours.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <span class="callout__label">What an outage never does</span>
+        <p>It never removes work already submitted, because a submission is written to storage
+          before you are told it succeeded. It never shortens a level, and it never becomes a
+          reason to mark you down. Time lost is replaced with time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--dark grain aurora" id="measured" data-contents="What Is Measured">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/provenance-columns.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">III</span>
+      <span class="leaf__label">What Is Measured</span>
+      <p class="leaf__rubric">The whole of what the platform records about how you study, and the single question it exists to answer.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>One total per module, and no history behind it.</h2>
+      <p class="lede">Most learning platforms record everything and decide later what it was
+        for. This one holds the least that answers a single question: how long does a module
+        actually take?</p>
+
+      <div class="grid grid--2">
+        <div class="card card--dark tilt gold-live edge-lit aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <span class="card__num">Time on task</span>
+          <h3>One row for you and a module, holding a total</h3>
+          <p>While you are working, the page says only that you are still there. The server decides what that is worth from its own clock, crediting at most 150 seconds per interval and stopping at 40 hours for a module. A tab left open overnight earns one interval.</p>
+        </div>
+        <div class="card card--dark tilt gold-live edge-lit aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></span>
+          <span class="card__num">Deliberately absent</span>
+          <h3>No clickstream, no page log, no session history</h3>
+          <p>The platform does not keep a record of what you opened, in what order, or on which evening. Nothing is retained that could reconstruct a study session, because nothing about the question being asked requires it.</p>
+        </div>
+        <div class="card card--dark tilt gold-live edge-lit aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <span class="card__num">What it is used for</span>
+          <h3>Publishing how long a level really takes</h3>
+          <p>The College publishes the median hours a level takes, and only once at least thirty learners have completed it. The median is reported rather than the mean, because one learner who left a page open for a week moves a mean and does not move a median.</p>
+        </div>
+        <div class="card card--dark tilt gold-live edge-lit aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
+          <span class="card__num">What it is never used for</span>
+          <h3>It is not a mark and no marker sees it</h3>
+          <p>Study time carries no academic weight. It is not shown to the person marking your work, it is not evidence in any decision about you, and a learner who reaches the standard in half the hours has reached the standard.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:2.6em">Everything the platform holds about you</h3>
+      <div class="table-scroll edge-lit">
+        <table class="ledger">
+          <thead><tr><th scope="col">Held</th><th scope="col">Where it lives</th><th scope="col">Who can read it</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Enrolment, level and progress</strong></td><td>The College&rsquo;s own database</td><td>You and College staff</td></tr>
+            <tr><td><strong>Attempts, marks and feedback</strong></td><td>The College&rsquo;s own database</td><td>You and College staff</td></tr>
+            <tr><td><strong>Voice recordings</strong></td><td>The College&rsquo;s own file storage, encrypted at rest</td><td>You and College staff, through an authorised request every time</td></tr>
+            <tr><td><strong>Time on task</strong></td><td>The College&rsquo;s own database</td><td>You; and staff as an anonymous total per level</td></tr>
+            <tr><td><strong>Notes and bookmarks</strong></td><td>Your own device</td><td>You alone &mdash; these are never sent to the College</td></tr>
+            <tr><td><strong>Sign-in credentials</strong></td><td>The authentication service named on <a href="/support/privacy/">the privacy page</a></td><td>You</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="form-note">There is no advertising identifier, no third-party analytics and no
+        session-recording script anywhere in the learning environment, exactly as on the public
+        site &mdash; see <a href="/support/privacy/">Privacy and your data</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="recordings" data-contents="Recordings">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/award-standard.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">IV</span>
+      <span class="leaf__label">Recordings</span>
+      <p class="leaf__rubric">Your recorded voice is coursework, assessment evidence and personal data at once. Three retention terms, set here.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>How long a recording of your voice is kept.</h2>
+      <p class="lede">Speaking is assessed by recording you speaking, so this College holds more of its
+        learners&rsquo; voices than most institutions ever would. The terms are stated rather
+        than left to practice.</p>
+
+      <div class="table-scroll edge-lit edge-lit--light">
+        <table class="ledger">
+          <thead><tr><th scope="col">What</th><th scope="col">Kept for</th><th scope="col">Why that period</th></tr></thead>
+          <tbody>
+            <tr><td><strong>A recording assessed for an award</strong></td><td>Six years from the date the award is conferred</td>
+                <td>A certificate resting on assessed speech has to show that the audio marked is the audio held. Six years covers the period in which an employer or a university is likely to check.</td></tr>
+            <tr><td><strong>A recording assessed with no award following</strong></td><td>Six years from the assessment</td>
+                <td>The same evidential reason, counted from the only date there is.</td></tr>
+            <tr><td><strong>A practice take</strong></td><td>Twelve months from the day you made it</td>
+                <td>It is your working material. Long enough to hear your own progress across a level, short enough that the College is not holding your voice for no purpose.</td></tr>
+            <tr><td><strong>The assessment record itself</strong></td><td>Permanently</td>
+                <td>The mark, the feedback and a checksum of the audio survive the audio. A register that loses entries cannot be trusted about the ones it keeps.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid grid--2 grid--close">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+          <span class="card__num">The rule that protects you</span>
+          <h3>A recording keeps the terms it was made under</h3>
+          <p>The retention period is stamped on each recording at the moment it completes. Changing this policy applies to recordings made afterwards, so a later decision can never reach back and shorten &mdash; or extend &mdash; the terms you already recorded under.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+          <span class="card__num">What you control</span>
+          <h3>Delete a practice take whenever you like</h3>
+          <p>Practice takes are yours to remove at any time, and removing one affects nothing else. A recording already submitted for assessment stays until its term expires, for the same reason a submitted script does.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
+          <span class="card__num">How it is held</span>
+          <h3>Never on a public address</h3>
+          <p>Storage is encrypted at rest, and no recording has a link that works without a session. Every playback is authorised at the moment it is requested, so access ends when a person&rsquo;s relationship with the College ends.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--light grain" id="export" data-contents="Your Data, Out">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/provenance-columns.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">V</span>
+      <span class="leaf__label">Your Data, Out</span>
+      <p class="leaf__rubric">How to get a copy of everything the College holds about you, and what a copy contains.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>Ask, and it is sent to you.</h2>
+      <p class="lede">Data you cannot get out of a system is data you have lent rather than
+        owned. One request, one address, one deadline.</p>
+
+      <div class="grid grid--3">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg></span>
+          <span class="card__num">How</span>
+          <h3>One email, no form and no reason required</h3>
+          <p>Write to the College asking for a copy of your record. You are never asked why you want it, and asking has no effect on your standing, your marks or anything else.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+          <span class="card__num">When</span>
+          <h3>Within 20 working days, at no charge</h3>
+          <p>As often as you ask. Where a request is unusually large the College writes inside those 20 days to say what is coming and when.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+          <span class="card__num">What arrives</span>
+          <h3>Readable by you and by a machine</h3>
+          <p>A structured data file for everything held as records, your recordings as the original audio files, and your transcript as a document you can hand to somebody. Three forms, because the three are wanted for different reasons.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:2.6em">What a copy contains</h3>
+      <ul class="check-list check-list--open">
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Your enrolment record, the levels you hold, and the dates of each.</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Every attempt, every mark by skill, and every piece of feedback written to you.</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Every recording still within its retention term, as the file you made.</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Your measured study time, by module.</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-struck"/></svg><span>Your transcript, with the honours and the average printed on it.</span></li>
+      </ul>
+      <p class="form-note">One thing a request cannot remove: an award conferred on you stays on
+        the academic register, because a register that quietly loses entries cannot be trusted
+        about the ones it keeps. What a student controls is set out under
+        <a href="/students/academic-record/">Your academic record</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--dark grain aurora" id="requirements" data-contents="Device &amp; Offline">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/reach.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VI</span>
+      <span class="leaf__label">Device &amp; Offline</span>
+      <p class="leaf__rubric">The minimum you need, and the parts of the Lab that keep working when the connection stops.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>What you need, and what survives a dropped connection.</h2>
+      <p class="lede">The College admits learners in dozens of countries, many of them on
+        metered or intermittent connections. The platform was built for that reader rather than
+        adapted to them afterwards.</p>
+
+      <div class="grid grid--2">
+        <div class="card card--dark tilt gold-live edge-lit aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
+          <span class="card__num">The device</span>
+          <h3>A phone is enough, and so is an old laptop</h3>
+          <p>Any computer, tablet or phone with a browser you keep updated. The interface is composed down to 360 pixels of width, so a small phone gets the whole programme rather than a reduced version of it. A built-in microphone is all the Listening Lab asks for.</p>
+        </div>
+        <div class="card card--dark tilt gold-live edge-lit aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
+          <span class="card__num">The connection</span>
+          <h3>No video is served, so audio is the heaviest thing here</h3>
+          <p>The programme is taught self-paced and serves no video at any point, which removes the requirement that excludes most learners on a slow line. Audio is the only heavy asset, and it is never fetched until you ask for it.</p>
+        </div>
+        <div class="card card--dark tilt gold-live edge-lit aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
+          <span class="card__num">Offline</span>
+          <h3>Reading, marking up and recording all work with no connection</h3>
+          <p>Transcripts, cue navigation, bookmarks, private notes and the voice recorder keep working when the network stops, and the page says plainly that you are offline. Notes stay on your device and are never sent to the College at all.</p>
+        </div>
+        <div class="card card--dark tilt gold-live edge-lit aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+          <span class="card__num">Uploads</span>
+          <h3>A dropped upload resumes rather than restarts</h3>
+          <p>A recording is sent in parts, and the parts already received are kept. When the connection returns the upload carries on from where it stopped. A take may run to 100 MB, which is far beyond any spoken answer the programme asks for.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <span class="callout__label">Audio is downloaded only when you say so</span>
+        <p>Nothing is cached onto your device behind your back. Each listening carries a control
+          that keeps it offline and one that removes it again, so a learner paying for data by
+          the megabyte decides what to spend it on. Signing in, submitting and reading marks are
+          the parts that need the network.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--light grain" id="access" data-contents="Access">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/competency-wheel.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">VII</span>
+      <span class="leaf__label">Access</span>
+      <p class="leaf__rubric">What was built for a learner who cannot hear the audio, cannot see the screen, or cannot use a mouse.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <h2>The learning environment itself.</h2>
+      <p class="lede">An accessible website in front of an inaccessible classroom helps nobody.
+        What follows is about the classroom.</p>
+
+      <figure class="plate plate--drift plate--photo reveal" style="--plate-ratio: 16 / 9">
+        <div class="plate__frame tilt gold-live edge-lit edge-lit--light aurum">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <img src="/assets/images/plates/manuscript.jpg" alt="A handwritten manuscript page, closely ruled and annotated down the margin." loading="lazy" decoding="async">
+          <span class="plate__tone" aria-hidden="true"></span>
+          <span class="plate__tone plate__tone--warm" aria-hidden="true"></span>
+        </div>
+        <figcaption class="plate__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
+          Every listening exists as a full written script, and the script is the primary text.
+        </figcaption>
+      </figure>
+
+      <div class="grid grid--3">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
+          <span class="card__num">Hearing</span>
+          <h3>The script is the text, not a substitute for it</h3>
+          <p>Every listening in the programme is published as a complete script, and the Lab is designed around the script rather than around the audio. A learner who cannot hear the recording has the whole of the material, the comprehension questions and the notes, in text.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+          <span class="card__num">Sight and motion</span>
+          <h3>The position in the transcript is announced</h3>
+          <p>As playback moves from line to line, the line reached is announced to assistive technology, so a learner using a screen reader can follow where the audio has got to. Where a device asks for reduced motion, the animation stops and the finished state is what remains.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg gold-live" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+          <span class="card__num">Keyboard</span>
+          <h3>The transport runs from the keyboard</h3>
+          <p>Play and pause on the space bar, and five seconds back or forward on the arrow keys, with no pointer involved. Every control carries a real label rather than an icon alone, in English and in Arabic.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <span class="callout__label">If something here is unusable for you</span>
+        <p>Write to the College describing what you were doing and what happened. Adjustments
+          &mdash; extra time, a different format, an audio-only arrangement &mdash; are made by
+          agreement, and what the College can and cannot support is described under
+          <a href="/support/accessibility/">Accessibility</a>. A report of a real barrier moves
+          faster here than any policy sentence.</p>
+      </div>
+
+      <h3 style="margin-top:2.8em">Questions this policy is asked</h3>
+      <div class="accordion">
+        <div class="accordion__item">
+          <button class="accordion__q"><span>Who counts an outage, and can I see the figure?</span><span class="plus" aria-hidden="true">+</span></button>
+          <div class="accordion__a"><div class="accordion__a-inner">The College counts it, from its own monitoring, and publishes the quarterly figure with the outages that made it up. An availability figure nobody can inspect is one nobody should believe, so the incidents behind it are listed beside it.</div></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__q"><span>Does the platform work in Arabic?</span><span class="plus" aria-hidden="true">+</span></button>
+          <div class="accordion__a"><div class="accordion__a-inner">Yes, throughout, and right-to-left rather than English pages with Arabic words dropped into them. The site and the learning environment ship in both languages together.</div></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__q"><span>If I leave the College, what happens to my files?</span><span class="plus" aria-hidden="true">+</span></button>
+          <div class="accordion__a"><div class="accordion__a-inner">Recordings run out their retention terms and are then removed. Your academic record and any award conferred on you remain, because a transcript that vanished when a student left would be worthless to the student. Ask for a copy of everything before you go, and it arrives inside 20 working days.</div></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__q"><span>Can I study entirely from a phone?</span><span class="plus" aria-hidden="true">+</span></button>
+          <div class="accordion__a"><div class="accordion__a-inner">Yes. Lessons, listenings, recording and submission all work at phone width, and the microphone in a phone is enough for every spoken assessment in the programme. Long written assignments are more comfortable on a keyboard, which is a matter of comfort rather than of capability.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--dark cta-band">
+  <div class="container reveal">
+    <h2>The two instruments that govern what happens on this platform.</h2>
+    <div class="btn-row u-center">
+      <a href="/academics/ai-policy/" class="btn btn--gold magnetic aurum aurum--twin">Artificial Intelligence</a>
+      <a href="/students/regulations/" class="btn btn--outline magnetic">Academic Regulations</a>
+    </div>
+  </div>
+</section>

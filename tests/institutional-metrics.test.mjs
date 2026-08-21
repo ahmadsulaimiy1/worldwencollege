@@ -79,7 +79,21 @@ function freshEnv(learners = 0) {
 {
   const r = await M.institutionalMetrics(freshEnv(0));
 
-  for (const id of ['integrity.misconduct', 'engagement.attendance',
+  // ENGAGEMENT.ATTENDANCE LEFT THIS LIST ON 20 AUGUST 2026, and it is
+  // worth saying why here rather than only in the file it left.
+  //
+  // It sat here because `live_sessions` existed and nothing recorded who
+  // was there. Migration 020 created `attendance_records`,
+  // functions/api/staff/attendance.js writes registers into it and
+  // functions/_lib/academic/attendance.js derives states from a
+  // learner's own study evidence — so the register was reporting a gap
+  // the College had closed, which is a false statement about itself in
+  // the flattering-by-modesty direction. The metric is computed now, and
+  // its two halves are asserted separately below: that it reports
+  // insufficient_data rather than not_instrumented on an empty database,
+  // and that it still says plainly that nobody observes who JOINS a live
+  // session.
+  for (const id of ['integrity.misconduct',
     'experience.studentFeedback', 'outcomes.graduateDestinations']) {
     const m = byId(r, id);
     check(`${id} is declared rather than omitted`, !!m, 'missing from the register entirely');
@@ -96,9 +110,45 @@ function freshEnv(learners = 0) {
   const mis = byId(r, 'integrity.misconduct') || {};
   check('Misconduct explicitly distinguishes "none recorded" from "none occurred"',
     /different statements/i.test(mis.closes || ''), (mis.closes || '(absent)').slice(0, 90));
+  check('Misconduct says the procedure is adopted and the register is what is missing',
+    /adopted 14 August 2026/.test(mis.requires || '') && /excludes misconduct/i.test(mis.requires || ''),
+    (mis.requires || '(absent)').slice(0, 120));
+
+  // Attendance: instrumented, unused, and honest about which half of
+  // itself is which.
   const att = byId(r, 'engagement.attendance') || {};
-  check('Attendance says the sessions table exists but records no attendees',
-    /nothing records who was there/i.test(att.requires || ''), att.requires || '(absent)');
+  check('Attendance is declared', !!att.id);
+  check('...as insufficient_data on an empty database, not as uninstrumented',
+    att.state === 'insufficient_data' && att.value === null, att.state);
+  check('...reading the table that now exists', att.requires === 'attendance_records', att.requires);
+  check('...and still says that nobody observes who joins a live session',
+    /live-session attendance is not/i.test(att.note || '')
+    && /written by a member of staff/i.test(att.note || ''),
+    (att.note || '(absent)').slice(0, 120));
+  check('...and publishes no proportion-of-cohort figure while that is true',
+    /No proportion-of-cohort figure is published/i.test(att.note || ''));
+}
+
+// Attendance, once there is something to count: suppressed under the
+// cohort floor exactly as every other rate is, never rounded and never
+// published over a handful of people.
+{
+  const env = freshEnv(0);
+  env.DB.prepare(`INSERT INTO units (id, course_id, sequence, title)
+    VALUES ('unt_att','crs_level_1',1,'Module 1')`).bind().run();
+  for (let i = 1; i <= 3; i++) {
+    env.DB.prepare(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role)
+      VALUES ('usr_at${i}','clerk','c_at${i}','at${i}@example.com','student')`).bind().run();
+    env.DB.prepare(`INSERT INTO attendance_records
+        (id, user_id, basis, unit_id, window_start, window_end, state, evidence_kind, recorded_via, recorded_by)
+      VALUES ('att_${i}','usr_at${i}','module_engagement','unt_att','2026-08-01T00:00:00.000Z','2026-08-08T00:00:00.000Z',
+              'attended','staff_register','staff_register','usr_at1')`).bind().run();
+  }
+  const att = byId(await M.institutionalMetrics(env), 'engagement.attendance') || {};
+  check('Attendance over three learners is suppressed, not published',
+    att.state === 'suppressed' && att.value === null && att.cohort === 3, att.state);
+  check('...and says how many more learners would close it',
+    /more learners/.test(att.closes || ''), att.closes);
 }
 
 // ---------------------------------------------------------------------

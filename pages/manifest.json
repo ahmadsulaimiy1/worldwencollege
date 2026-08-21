@@ -1763,5 +1763,425 @@
       "/js/time-on-task.js",
       "/js/listening-lab.js"
     ]
+  },
+  {
+    "slug": "academics-ai-policy",
+    "output": "academics/ai-policy/index.html",
+    "title": "Artificial Intelligence Policy &mdash; Worldwide English College",
+    "description": "The four permission bands, which assessment sits on each, what a learner must declare, how an allegation is answered, and the rules the College holds itself to.",
+    "contentFile": "academics-ai-policy.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/academics/ai-policy/"
+  },
+  {
+    "slug": "academics-ai-policy-ar",
+    "output": "ar/academics/ai-policy/index.html",
+    "title": "سياسة الذكاء الاصطناعي — الكلية العالمية للغة الإنجليزية",
+    "description": "الأذون الأربعة، وموضع كل تقييم منها، وما يجب على المتعلم أن يُقرّ به، وكيف يُجاب الادّعاء، والقواعد التي تلزم بها الكلية نفسها.",
+    "contentFile": "academics-ai-policy.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/academics/ai-policy/"
+  },
+  {
+    "slug": "academics-digital-learning",
+    "output": "academics/digital-learning/index.html",
+    "title": "The Digital Learning Environment &mdash; Worldwide English College",
+    "description": "What the College guarantees about the platform, what it records about a learner’s study and why, how long a recording is kept, and the remedy when availability is not met.",
+    "contentFile": "academics-digital-learning.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/academics/digital-learning/"
+  },
+  {
+    "slug": "academics-digital-learning-ar",
+    "output": "ar/academics/digital-learning/index.html",
+    "title": "بيئة التعلم الرقمية — الكلية العالمية للغة الإنجليزية",
+    "description": "ما تضمنه الكلية عن المنصة، وما تسجّله عن دراسة المتعلم ولماذا، وكم تُحفظ التسجيلة، وما يُعوّض به انقطاع الخدمة.",
+    "contentFile": "academics-digital-learning.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/academics/digital-learning/"
+  },
+  {
+    "slug": "academics-tutor-handbook",
+    "output": "academics/tutor-handbook/index.html",
+    "title": "The Tutor Handbook &mdash; Worldwide English College",
+    "description": "The operating instrument behind the teaching and assessment standards: the post, the lesson, the marking clock, and the route for every case a tutor meets in a working week.",
+    "contentFile": "academics-tutor-handbook.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/academics/tutor-handbook/"
+  },
+  {
+    "slug": "academics-tutor-handbook-ar",
+    "output": "ar/academics/tutor-handbook/index.html",
+    "title": "دليل المدرّس — الكلية العالمية للغة الإنجليزية",
+    "description": "الصك التشغيلي خلف معياري التدريس والتقييم: التعيين، والحصة، وساعة التصحيح، ومسلك كل حالة يلقاها المدرّس في أسبوعه.",
+    "contentFile": "academics-tutor-handbook.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/academics.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/academics/tutor-handbook/"
+  },
+  {
+    "slug": "governance-intellectual-property",
+    "output": "governance/intellectual-property/index.html",
+    "title": "Intellectual Property &mdash; Worldwide English College",
+    "description": "Four estates of material and who holds each: the College’s volumes, a learner’s own work, the material a tutor produces, and the College’s name and marks.",
+    "contentFile": "governance-intellectual-property.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/governance.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/governance/intellectual-property/"
+  },
+  {
+    "slug": "governance-intellectual-property-ar",
+    "output": "ar/governance/intellectual-property/index.html",
+    "title": "الملكية الفكرية — الكلية العالمية للغة الإنجليزية",
+    "description": "أربعة أصناف من المواد ومالك كل منها: مجلدات الكلية، وعمل المتعلم، ومادة المعلّم، واسم الكلية وعلاماتها.",
+    "contentFile": "governance-intellectual-property.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/governance.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/governance/intellectual-property/"
+  },
+  {
+    "slug": "governance-research",
+    "output": "governance/research/index.html",
+    "title": "Research &amp; Publication &mdash; Worldwide English College",
+    "description": "What counts as evidence at this College, who may evaluate work they did not run, how a learner’s data enters a study and on what consent, and when a result is published.",
+    "contentFile": "governance-research.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/governance.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/governance/research/"
+  },
+  {
+    "slug": "governance-research-ar",
+    "output": "ar/governance/research/index.html",
+    "title": "البحث والنشر — الكلية العالمية للغة الإنجليزية",
+    "description": "ما يُعدّ دليلاً في هذه الكلية، ومن يجوز له تقويم عمل لم يقم به، وكيف تدخل بيانات المتعلم في دراسة وبأي موافقة، ومتى تُنشر النتيجة.",
+    "contentFile": "governance-research.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/governance.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/governance/research/"
+  },
+  {
+    "slug": "students-alumni",
+    "output": "students/alumni/index.html",
+    "title": "Alumni Standing &mdash; Worldwide English College",
+    "description": "What the College owes a graduate after conferral: what alumni standing is, what it carries for life, what a chapter is, and how one is constituted.",
+    "contentFile": "students-alumni.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/students/alumni/"
+  },
+  {
+    "slug": "students-alumni-ar",
+    "output": "ar/students/alumni/index.html",
+    "title": "صفة الخريج — الكلية العالمية للغة الإنجليزية",
+    "description": "ما تدين به الكلية للخريج بعد المنح: ما صفة الخريج، وما تحمله مدى الحياة، وما الفرع، وكيف يُشكّل.",
+    "contentFile": "students-alumni.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/alumni/"
+  },
+  {
+    "slug": "students-careers",
+    "output": "students/careers/index.html",
+    "title": "What the Qualification Is For &mdash; Worldwide English College",
+    "description": "What the College does with the use a learner names, what an employer can verify and how, the terms on which an organisation sponsors learners, and the published method for graduate outcomes.",
+    "contentFile": "students-careers.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/students/careers/"
+  },
+  {
+    "slug": "students-careers-ar",
+    "output": "ar/students/careers/index.html",
+    "title": "لأي شيء هذا المؤهل — الكلية العالمية للغة الإنجليزية",
+    "description": "ما تفعله الكلية بالغرض الذي يذكره المتعلّم، وما يستطيع صاحب العمل التحقق منه وكيف، وشروط رعاية المؤسسات، ومنهج نتائج الخريجين المنشور.",
+    "contentFile": "students-careers.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/careers/"
+  },
+  {
+    "slug": "students-conduct",
+    "output": "students/conduct/index.html",
+    "title": "Conduct &amp; Learner Rights &mdash; Worldwide English College",
+    "description": "One instrument in three parts: what the College owes the learner, what the learner owes the College, and what happens when either half is broken — every obligation with a deadline on it.",
+    "contentFile": "students-conduct.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/students/conduct/"
+  },
+  {
+    "slug": "students-conduct-ar",
+    "output": "ar/students/conduct/index.html",
+    "title": "السلوك وحقوق المتعلم — الكلية العالمية للغة الإنجليزية",
+    "description": "صكّ واحد في ثلاثة أجزاء: ما تدين به الكلية للمتعلم، وما يدين به المتعلم للكلية، وما يجري حين يُخلّ بأحد الشقّين — ولكل التزام موعد.",
+    "contentFile": "students-conduct.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/conduct/"
+  },
+  {
+    "slug": "students-examinations",
+    "output": "students/examinations/index.html",
+    "title": "Examination &amp; Assessment Regulations &mdash; Worldwide English College",
+    "description": "How an assessment is conducted: entry, identity, a dropped connection, lateness, mitigation, release, resit, challenge and retention. No threshold is restated here.",
+    "contentFile": "students-examinations.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/students/examinations/"
+  },
+  {
+    "slug": "students-examinations-ar",
+    "output": "ar/students/examinations/index.html",
+    "title": "لوائح الامتحان والتقييم — الكلية العالمية للغة الإنجليزية",
+    "description": "كيف يُجرى التقييم: القيد، والهوية، وانقطاع الاتصال، والتأخير، والظروف القاهرة، والإعلان، والإعادة، والطعن، والحفظ.",
+    "contentFile": "students-examinations.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/examinations/"
+  },
+  {
+    "slug": "students-handbook",
+    "output": "students/handbook/index.html",
+    "title": "The Student Handbook &mdash; Worldwide English College",
+    "description": "The compact of enrolment, the shape of a week, the office that answers each kind of problem, what a pause is worth, and what equipment is genuinely required.",
+    "contentFile": "students-handbook.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/students/handbook/"
+  },
+  {
+    "slug": "students-handbook-ar",
+    "output": "ar/students/handbook/index.html",
+    "title": "دليل الطالب — الكلية العالمية للغة الإنجليزية",
+    "description": "عهد القيد، وشكل الأسبوع، والجهة التي تجيب عن كل نوع من المشكلات، وما يساويه التوقّف، وما يلزم حقّاً من عتاد.",
+    "contentFile": "students-handbook.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/students/handbook/"
+  },
+  {
+    "slug": "support-complaints",
+    "output": "support/complaints/index.html",
+    "title": "Complaints &mdash; Worldwide English College",
+    "description": "What may be complained about, who investigates, how long each step takes, what an upheld complaint gets you — and the clause that makes the rest credible: complaining costs nothing.",
+    "contentFile": "support-complaints.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/support/complaints/"
+  },
+  {
+    "slug": "support-complaints-ar",
+    "output": "ar/support/complaints/index.html",
+    "title": "الشكاوى — الكلية العالمية للغة الإنجليزية",
+    "description": "ما الذي يُشتكى منه، ومن يتولى التحقيق، وكم يستغرق كل طور، وما تناله شكوى ثبتت — والبند الذي يجعل ما قبله ذا معنى: أن الشكوى لا تكلّف شيئاً.",
+    "contentFile": "support-complaints.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/support/complaints/"
+  },
+  {
+    "slug": "support-inclusion",
+    "output": "support/inclusion/index.html",
+    "title": "Equality, Diversity &amp; Inclusion &mdash; Worldwide English College",
+    "description": "Equality written as things the College does, each with an office that owns it and a deadline it runs on — including why the College does not monitor by identity.",
+    "contentFile": "support-inclusion.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/support/inclusion/"
+  },
+  {
+    "slug": "support-inclusion-ar",
+    "output": "ar/support/inclusion/index.html",
+    "title": "المساواة والتنوّع والشمول — الكلية العالمية للغة الإنجليزية",
+    "description": "مساواة مكتوبة أفعالاً تفعلها الكلية، لكل فعل جهة تملكه وموعد يجري عليه — ومعها سبب امتناع الكلية عن الرصد بحسب الهوية.",
+    "contentFile": "support-inclusion.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/support/inclusion/"
+  },
+  {
+    "slug": "support-safeguarding",
+    "output": "support/safeguarding/index.html",
+    "title": "Safeguarding &amp; Learner Wellbeing &mdash; Worldwide English College",
+    "description": "Written for a College without a building: who is protected, the boundaries every instructor works inside, what the College can reach across a border, and what it cannot.",
+    "contentFile": "support-safeguarding.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/support/safeguarding/"
+  },
+  {
+    "slug": "support-safeguarding-ar",
+    "output": "ar/support/safeguarding/index.html",
+    "title": "الحماية ورعاية المتعلم — الكلية العالمية للغة الإنجليزية",
+    "description": "مكتوبة لكلية بلا مبنى: من تشمله الحماية، والحدود التي يعمل داخلها كل مدرّس، وما تستطيع الكلية بلوغه عبر الحدود، وما لا تستطيع.",
+    "contentFile": "support-safeguarding.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/students.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/support/safeguarding/"
+  },
+  {
+    "slug": "admissions-international",
+    "output": "admissions/international/index.html",
+    "title": "Studying From Your Own Country &mdash; Worldwide English College",
+    "description": "Guidance for applicants outside the United Kingdom: what the award does at a border, what genuinely differs between countries, and what the College can and cannot do about each.",
+    "contentFile": "admissions-international.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/admissions.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/admissions/international/"
+  },
+  {
+    "slug": "admissions-international-ar",
+    "output": "ar/admissions/international/index.html",
+    "title": "الدراسة من بلدك — الكلية العالمية للغة الإنجليزية",
+    "description": "إرشادات للمتقدّمين من خارج المملكة المتحدة: ما الذي تفعله الشهادة عند الحدود، وما الذي يختلف فعلًا بين الدول، وما تستطيعه الكلية وما لا تستطيعه في كل ذلك.",
+    "contentFile": "admissions-international.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/admissions.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/admissions/international/"
+  },
+  {
+    "slug": "governance-quality-manual",
+    "output": "governance/quality-manual/index.html",
+    "title": "The Quality Assurance Manual &mdash; Worldwide English College",
+    "description": "Adopted by the Executive on the recommendation of the Institutional Quality Commission: ten leaves in which every station carries a month, an owner and a deadline.",
+    "contentFile": "governance-quality-manual.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/governance.css"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/governance/quality-manual/"
+  },
+  {
+    "slug": "governance-quality-manual-ar",
+    "output": "ar/governance/quality-manual/index.html",
+    "title": "دليل ضمان الجودة — الكلية العالمية للغة الإنجليزية",
+    "description": "تعتمده الإدارة التنفيذية بتوصية من هيئة الجودة المؤسسية: عشر ورقات، وكل محطة فيها تحمل شهرًا ومسؤولًا وموعدًا.",
+    "contentFile": "governance-quality-manual.ar.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/governance.css"
+    ],
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/governance/quality-manual/"
   }
 ]

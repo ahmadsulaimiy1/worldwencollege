@@ -79,6 +79,38 @@ export function nowIso() {
   return new Date().toISOString().replace(/\.\d+Z$/, (m) => m.slice(0, 4) + 'Z');
 }
 
+/**
+ * A bounded whole number off the query string — `?limit=`, `?days=`,
+ * `?weeks=` — refused rather than clamped when it is out of range.
+ *
+ * IT LIVES HERE BECAUSE IT LIVED IN FOUR PLACES. The foundation pass
+ * landed nine domains in parallel, and four of them independently wrote
+ * this same eleven-line function: registrar/cases.js, lms/timetable.js,
+ * comms/announcements.js and comms/threads.js. The four agreed exactly,
+ * which is the dangerous kind of duplication — nothing was broken, so
+ * nothing would report the day one of them was corrected and the other
+ * three were not. The refusal MESSAGES are part of the contract a
+ * client's field highlighting is built on, and four copies of a
+ * contract is four contracts.
+ *
+ * REFUSED, NOT CLAMPED, and that is the whole design. A `?limit=5000`
+ * silently served as 200 tells a client it received everything, and a
+ * client that believes it has the whole list stops paging. The bounds
+ * stay with each caller, because a message feed and a case queue have
+ * different reasons for theirs; only the rule is shared.
+ */
+export function parseLimit(raw, { field = 'limit', fallback, max } = {}) {
+  if (raw === null || raw === undefined || raw === '') return fallback;
+  if (!/^\d+$/.test(String(raw))) {
+    throw new ValidationError(`${field} must be a whole number.`, { [field]: 'A whole number' });
+  }
+  const n = Number(raw);
+  if (n < 1 || n > max) {
+    throw new ValidationError(`${field} must be between 1 and ${max}.`, { [field]: `Between 1 and ${max}` });
+  }
+  return n;
+}
+
 export function jsonResponse(data, init = {}) {
   return new Response(JSON.stringify(data), {
     ...init,
