@@ -15,6 +15,22 @@ import { digestArguments } from '../../core/approval.js';
 import { defineTool, invokeTool, type ToolContext, type ToolDefinition } from '../../core/registry.js';
 import { StromexError } from '../../core/errors.js';
 import { harness } from '../support/harness.js';
+import { platformTools } from '../../platform/tools.js';
+import { RotationRegister, memoryRotationIo } from '../../core/rotation.js';
+
+/** One platform tool by name, built against the harness's own config. */
+function platformToolNamed(h: { config: Parameters<typeof platformTools>[0]['config'] }, name: string): ToolDefinition {
+  const tools = platformTools({
+    config: h.config,
+    active: [],
+    version: '1.0.0',
+    rotation: new RotationRegister({ path: '(memory)', io: memoryRotationIo() }),
+    writeCapableProviders: new Set(),
+  });
+  const found = tools.find((t) => t.name === name);
+  if (!found) throw new Error(`no platform tool ${name}`);
+  return found;
+}
 
 /** Builds a tool whose handler records that it ran. */
 function spyTool(overrides: Partial<ToolDefinition> = {}): { definition: ToolDefinition; calls: Array<Record<string, unknown>> } {
@@ -745,5 +761,62 @@ describe('project attribution — the collective server records who work was for
     const result = await invokeTool(tool, { project: 'vercel-site', forProject: 'not-registered' }, h.context());
     assert.equal(result.ok, false);
     assert.equal(result.error?.code, 'CONFIG_INVALID');
+  });
+});
+
+describe('the project register is inspectable, and reports what was really done', () => {
+  const write = defineTool({
+    name: 'demo.spend',
+    title: 'Demo',
+    description: 'A write that charges.',
+    provider: 'demo',
+    operationClass: 'write',
+    inputSchema: {},
+    handler: async (_args, ctx) => {
+      ctx.commitSpend({ amount: 12, currency: 'USD', description: 'a domain' });
+      return { summary: 'bought', data: {} };
+    },
+  });
+
+  const env = {
+    STROMEX_MCP_PROJECTS: '[{"key":"aipc","name":"Albalagh","protectedResources":["aipc-production*"]},{"key":"shrs","name":"Sultan Hanafi Royal Schools"}]',
+    STROMEX_SPEND_ENABLED: 'true',
+    STROMEX_SPEND_MAX_SINGLE: '25',
+    STROMEX_SPEND_MONTHLY_CAP: '150',
+  };
+
+  it('attributes spend and actions to the project that incurred them', async () => {
+    const h = harness({ env });
+    await invokeTool(write, { forProject: 'aipc' }, h.context());
+    await invokeTool(write, { forProject: 'aipc' }, h.context());
+    await invokeTool(write, { forProject: 'shrs' }, h.context());
+
+    const tool = platformToolNamed(h, 'stromex.projects.list');
+    const result = await invokeTool(tool, {}, h.context());
+    const data = result.data as { projects: Array<{ key: string; activity: { actions: number; spend: number } }> };
+    const aipc = data.projects.find((p) => p.key === 'aipc')!;
+    const shrs = data.projects.find((p) => p.key === 'shrs')!;
+    assert.equal(aipc.activity.actions, 2);
+    assert.equal(aipc.activity.spend, 24, 'one project\'s spend must not absorb another\'s');
+    assert.equal(shrs.activity.spend, 12);
+  });
+
+  it('REPORTS unattributed work rather than hiding it', async () => {
+    const h = harness({ env });
+    await invokeTool(write, { forProject: 'aipc' }, h.context());
+    await invokeTool(write, {}, h.context());
+
+    const tool = platformToolNamed(h, 'stromex.projects.list');
+    const result = await invokeTool(tool, {}, h.context());
+    assert.equal((result.data as { unattributedActions: number }).unattributedActions, 1);
+    assert.match(result.warnings?.join(' ') ?? '', /named no project/);
+  });
+
+  it('says plainly when nothing is being attributed, rather than looking healthy', async () => {
+    const h = harness({ env: {} });
+    const tool = platformToolNamed(h, 'stromex.projects.list');
+    const result = await invokeTool(tool, {}, h.context());
+    assert.equal((result.data as { count: number }).count, 0);
+    assert.match(result.summary, /nothing is being attributed/);
   });
 });

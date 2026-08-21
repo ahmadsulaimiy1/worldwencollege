@@ -181,6 +181,7 @@ export class AuditLog {
     if (filter.outcome) records = records.filter((r) => r.outcome === filter.outcome);
     if (filter.operationClass) records = records.filter((r) => r.operationClass === filter.operationClass);
     if (filter.workflowRunId) records = records.filter((r) => r.workflowRunId === filter.workflowRunId);
+    if (filter.project) records = records.filter((r) => r.project === filter.project);
     // Newest first: the question asked of an audit log is nearly always
     // "what just happened", not "what happened first".
     records.reverse();
@@ -224,6 +225,15 @@ export interface AuditQuery {
   outcome?: AuditOutcome;
   operationClass?: string;
   workflowRunId?: string;
+  /**
+   * Which estate project the action served (`src/core/project.ts`).
+   *
+   * Without this filter the attribution written onto each record could not
+   * be read back, which would make it decoration rather than a control —
+   * "what did we do for Al-Madeenah last month" is the question the field
+   * exists to answer.
+   */
+  project?: string;
   limit?: number;
 }
 
