@@ -1688,6 +1688,31 @@
     ]
   },
   {
+    "slug": "my-standing",
+    "output": "my-standing.html",
+    "title": "Where I Stand &mdash; Worldwide English College",
+    "description": "Your module marks, level mark and skill marks, your academic standing and what the College owes you under it, every condition of the award with whose work each one is, and the milestones the College has honoured.",
+    "contentFile": "my-standing.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/my-standing.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-standing.js"
+    ]
+  },
+  {
     "slug": "my-record-ar",
     "output": "ar/my-record.html",
     "title": "سجلّي الأكاديمي — الكلية العالمية للغة الإنجليزية",
@@ -1730,6 +1755,31 @@
       "/js/portal-guard.js",
       "/js/api-auth.js",
       "/js/my-account.js"
+    ]
+  },
+  {
+    "slug": "my-standing-ar",
+    "output": "ar/my-standing.html",
+    "title": "أين أقف — الكلية العالمية للغة الإنجليزية",
+    "description": "درجات وحداتك ودرجة مستواك ومهاراتك، ووضعك الأكاديمي وما تدين به لك الكلية فيه، وكل شرط من شروط الشهادة ولمن هو، والمحطّات التي كرّمتها الكلية.",
+    "contentFile": "my-standing.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/my-standing.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-standing.js"
     ]
   },
   {

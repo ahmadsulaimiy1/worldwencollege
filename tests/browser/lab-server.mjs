@@ -199,6 +199,8 @@ const DEMO = {};
 // tidy payment, and the page is driven by the REAL finance module
 // reading the REAL rows.
 const finance = await import(pathToFileURL(`${ROOT}/functions/_lib/student/finance.js`));
+const standingLib = await import(pathToFileURL(`${ROOT}/functions/_lib/academic/standing.js`));
+const achievementsLib = await import(pathToFileURL(`${ROOT}/functions/_lib/academic/achievements.js`));
 {
   // A second live currency, so the two-currency rule has something to
   // be true about. USD is the ledger; GBP is switched on with a rate
@@ -422,6 +424,12 @@ createServer(async (req, res) => {
         res.writeHead(401, { 'Content-Type': 'application/json' });
         return res.end(JSON.stringify({ error: 'AuthError', message: 'Sign in to continue.' }));
       }
+    }
+    if (url.pathname === '/api/student/standing' && req.method === 'GET') {
+      return json(res, await standingLib.computeLearnerStanding(env, 'usr_demo'));
+    }
+    if (url.pathname === '/api/student/achievements' && req.method === 'GET') {
+      return json(res, await achievementsLib.learnerAchievements(env, 'usr_demo'));
     }
     if (url.pathname === '/api/student/finance' && req.method === 'GET') {
       return json(res, await finance.buildStudentFinance(env, 'usr_demo'));

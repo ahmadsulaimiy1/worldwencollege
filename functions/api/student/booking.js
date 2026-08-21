@@ -1,5 +1,15 @@
-// POST / DELETE /api/student/booking — a learner takes a place in a
-// tutor's published hour, and gives it back.
+// GET / POST / DELETE /api/student/booking — a learner sees what hours
+// are open to them, takes a place in one, and gives it back.
+//
+// THE GET WAS ADDED 21 AUGUST 2026, and its absence was the reason the
+// other two verbs could not be reached. bookSlot() takes a `slotId` and
+// nothing in the platform would tell a learner one: tutorSlots() is the
+// tutor's own diary behind a staff session, and learnerTimetable()
+// reports hours already booked. So the platform could accept a booking
+// and could not be asked what there was to book. See
+// openSlotsForLearner() for why its filters mirror bookSlot()'s
+// refusals clause for clause, and why a FULL hour is listed and marked
+// full rather than hidden.
 //
 // THE FAULT THIS FILE EXISTS TO CORRECT is the one every booking form
 // commits: a single refusal. "That booking could not be made" sends the
@@ -31,7 +41,7 @@
 
 import { jsonResponse, errorResponse, readJsonBody, ValidationError } from '../../_lib/db.js';
 import { requireUser } from '../../_lib/auth/session.js';
-import { bookSlot, cancelBooking } from '../../_lib/lms/timetable.js';
+import { bookSlot, cancelBooking, openSlotsForLearner } from '../../_lib/lms/timetable.js';
 
 export async function onRequestPost({ request, env }) {
   try {
@@ -75,4 +85,42 @@ function assertObject(body) {
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
     throw new ValidationError('A JSON object is required.', {});
   }
+}
+
+export async function onRequestGet({ request, env }) {
+  try {
+    const user = await requireUser(request, env);
+    const url = new URL(request.url);
+    // No userId, in the query or anywhere else — the same rule the other
+    // two verbs follow, and for the sharper reason: a list of the hours
+    // open to somebody names the levels they are enrolled at.
+    for (const forbidden of ['userId', 'user_id', 'studentId']) {
+      if (url.searchParams.has(forbidden)) {
+        throw new ValidationError(
+          'This endpoint answers for the signed-in learner and takes no learner id.',
+          { [forbidden]: 'Not accepted' },
+        );
+      }
+    }
+    const days = url.searchParams.get('days');
+    const result = await openSlotsForLearner(env, {
+      userId: user.id,
+      ...(days ? { horizonDays: parseWholeNumber(days) } : {}),
+    });
+    return jsonResponse(result);
+  } catch (err) {
+    return errorResponse(err);
+  }
+}
+
+/** Refused, never coerced — the house rule, so "7 days" is a 422 and not a 0. */
+function parseWholeNumber(raw) {
+  if (!/^\d+$/.test(String(raw))) {
+    throw new ValidationError('days must be a whole number of days.', { days: 'A whole number' });
+  }
+  const n = Number(raw);
+  if (n < 1 || n > 180) {
+    throw new ValidationError('days must be between 1 and 180.', { days: 'Between 1 and 180' });
+  }
+  return n;
 }

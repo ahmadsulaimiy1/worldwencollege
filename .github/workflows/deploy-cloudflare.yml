@@ -271,6 +271,8 @@ jobs:
         run: node tests/browser/admissions-track.mjs
       - name: My Account — the statement of account, and the arithmetic under it
         run: node tests/browser/my-account.mjs
+      - name: Where I Stand — and that no condition of the College's is charged to the learner
+        run: node tests/browser/my-standing.mjs
 
   deploy:
     needs: verify

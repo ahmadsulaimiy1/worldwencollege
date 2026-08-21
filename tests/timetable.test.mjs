@@ -791,5 +791,94 @@ for (const src of ['functions/api/student/timetable.js', 'functions/api/student/
   check('and the tutor\'s diary comes back through the route', diary.status === 200 && (await diary.json()).basis === 'own');
 }
 
+// ---------------------------------------------------------------------
+// THE HOURS A LEARNER COULD NOT FIND — openSlotsForLearner(), 21 Aug 2026
+// ---------------------------------------------------------------------
+// bookSlot() has always taken a `slotId`, and nothing in the platform
+// would tell a learner one: tutorSlots() is behind a staff session and
+// learnerTimetable() reports hours already booked. The list and the
+// booking route must agree clause for clause — an hour offered and then
+// refused reads as a platform that changed its mind between two clicks —
+// so the assertions below are mostly about that agreement.
+{
+  const { openSlotsForLearner } = await import(loadUrl('functions/_lib/lms/timetable.js'));
+
+  // An hour nobody has taken, at the learner's own level and inside the
+  // window. Off the hour for the reason recorded above the round-trip
+  // block: a round offset from the real clock eventually lands on a
+  // fixture written at a round time.
+  const soon = new Date(Date.now() + 9 * 86400000 + 41 * 60000 + 5 * 3600000)
+    .toISOString().replace(/\.\d{3}Z$/, 'Z');
+  slot('slt_open_free', { startsAt: soon, capacity: 2, levelId: 3 });
+  const laterFull = new Date(Date.now() + 10 * 86400000 + 41 * 60000 + 5 * 3600000)
+    .toISOString().replace(/\.\d{3}Z$/, 'Z');
+  slot('slt_open_full', { startsAt: laterFull, capacity: 1, levelId: 3 });
+  booking('bkg_fills_it', 'slt_open_full', 'usr_other');
+  const otherLevel = new Date(Date.now() + 11 * 86400000 + 41 * 60000 + 5 * 3600000)
+    .toISOString().replace(/\.\d{3}Z$/, 'Z');
+  slot('slt_open_wrong_level', { startsAt: otherLevel, levelId: 5 });
+  slot('slt_open_office', { startsAt: new Date(Date.now() + 12 * 86400000 + 41 * 60000 + 5 * 3600000).toISOString().replace(/\.\d{3}Z$/, 'Z'), levelId: null, kind: 'office_hour' });
+  slot('slt_open_mine', { startsAt: new Date(Date.now() + 13 * 86400000 + 41 * 60000 + 5 * 3600000).toISOString().replace(/\.\d{3}Z$/, 'Z'), tutorId: 'usr_learner', levelId: 3 });
+
+  const open = await openSlotsForLearner(env, { userId: 'usr_learner' });
+  const byId = new Map(open.slots.map((s) => [s.slotId, s]));
+
+  check('an open hour at the learner\'s own level is offered', byId.has('slt_open_free'));
+  check('...and says how many places are left rather than only that it is open',
+    byId.get('slt_open_free').placesLeft === 2 && byId.get('slt_open_free').bookable === true);
+  check('an open office hour scoped to no level is offered to everybody', byId.has('slt_open_office'));
+  check('an hour scoped to a level the learner does not hold is not offered',
+    !byId.has('slt_open_wrong_level'));
+  check('the learner\'s own published hour is not offered back to them',
+    !byId.has('slt_open_mine'));
+
+  // The one refusal that is about other people, and the reason it is
+  // shown rather than hidden.
+  check('a FULL hour is listed and marked full, not silently dropped',
+    byId.has('slt_open_full') && byId.get('slt_open_full').full === true
+    && byId.get('slt_open_full').bookable === false);
+  check('...and its places-left is zero rather than negative',
+    byId.get('slt_open_full').placesLeft === 0);
+
+  check('no hour that has already started is offered',
+    open.slots.every((s) => Date.parse(s.startsAt.utc) > Date.now()));
+  check('every offered hour carries UTC, the learner\'s local time and the zone',
+    open.slots.every((s) => s.startsAt.utc && s.startsAt.local && s.startsAt.timeZone));
+  check('the tutor is named by the name they chose, never by an email',
+    open.slots.every((s) => !s.tutor || !s.tutor.includes('@')));
+
+  // THE AGREEMENT. Everything the list calls bookable must actually book,
+  // and this is the assertion that keeps the two from drifting apart.
+  const offered = open.slots.filter((s) => s.bookable);
+  const results = [];
+  for (const s of offered) {
+    try { await bookSlot(env, { userId: 'usr_learner', slotId: s.slotId }); results.push('ok'); }
+    catch (e) { results.push(`${s.slotId}: ${e.message}`); }
+  }
+  check('every hour the list calls bookable is one the booking route accepts',
+    results.every((r) => r === 'ok'), results.filter((r) => r !== 'ok').join(' | '));
+
+  // And having booked them, the list says so rather than offering them again.
+  const after = await openSlotsForLearner(env, { userId: 'usr_learner' });
+  const afterById = new Map(after.slots.map((s) => [s.slotId, s]));
+  check('an hour the learner now holds is marked as theirs and is no longer bookable',
+    offered.every((s) => afterById.get(s.slotId)
+      && afterById.get(s.slotId).alreadyBooked === true
+      && afterById.get(s.slotId).bookable === false));
+
+  check('the count of what is bookable is reported, not left to be counted',
+    after.counts.bookable === after.slots.filter((s) => s.bookable).length);
+
+  // The route, and the boundary on it.
+  check('GET /api/student/booking refuses an unauthenticated caller',
+    (await bookingRoute.onRequestGet({ request: get(`${BASE}/student/booking`), env })).status === 401);
+  const mine = await bookingRoute.onRequestGet({ request: get(`${BASE}/student/booking`, TOK.learner), env });
+  check('...and answers a learner with their own open hours', mine.status === 200);
+  check('a learner id in the query is REFUSED rather than ignored',
+    (await bookingRoute.onRequestGet({ request: get(`${BASE}/student/booking?userId=usr_other`, TOK.learner), env })).status === 422);
+  check('a days parameter that is not a whole number is a 422, never coerced to zero',
+    (await bookingRoute.onRequestGet({ request: get(`${BASE}/student/booking?days=seven`, TOK.learner), env })).status === 422);
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

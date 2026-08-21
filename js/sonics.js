@@ -218,6 +218,8 @@
                instalment steps are struck surfaces with lit rims; the
                invoice plate is the sealed instrument and takes SEAL. */
             + '.acc-balance, .acc-relief li, .acc-plan, .acc-steps li, '
+            /* Where I Stand — css/standing.css. */
+            + '.std-head, .std-skills li, .std-conditions li, .std-milestones li, '
             /* The Governance pillar — css/governance.css. The article
                is sealed, so it takes SEAL and is in the list above. */
             + '.docket__entry, .attest, '

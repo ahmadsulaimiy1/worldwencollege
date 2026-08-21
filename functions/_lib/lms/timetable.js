@@ -689,6 +689,118 @@ function foldIcsLine(line) {
  * to the same support inbox with the same useless sentence. There are six
  * refusals below and no two share a message.
  */
+/**
+ * The hours a learner may actually take a place in.
+ *
+ * ─────────────────────────────────────────────────────────────────────
+ * WHY THIS HAD TO EXIST BEFORE THE BOOKING PAGE COULD
+ * ─────────────────────────────────────────────────────────────────────
+ * bookSlot() takes a `slotId`, and until now nothing in the platform
+ * would tell a learner one. tutorSlots() is the tutor's own diary and
+ * requires a staff session; learnerTimetable() reports hours already
+ * BOOKED. So the platform could accept a booking and could not be asked
+ * what there was to book — an endpoint reachable only by somebody who
+ * already knew the answer.
+ *
+ * ─────────────────────────────────────────────────────────────────────
+ * IT FILTERS BY EXACTLY WHAT bookSlot() REFUSES, AND NOTHING MORE
+ * ─────────────────────────────────────────────────────────────────────
+ * Every clause here mirrors one of bookSlot()'s refusals: the tutor's
+ * own hour, a cancelled or closed slot, a slot already begun, a slot
+ * scoped to a level the learner does not hold, and one they already have
+ * a place in. Two lists that disagree would be worse than no list: a
+ * learner offered an hour the booking route then refuses reads as a
+ * platform that changed its mind between two clicks.
+ *
+ * A FULL SLOT IS LISTED AND MARKED FULL, not hidden. It is the one
+ * refusal that is about other people rather than about this learner, it
+ * can free up when somebody cancels, and an hour that vanished silently
+ * would have a learner asking why their tutor published nothing.
+ */
+export async function openSlotsForLearner(env, { userId, now = Date.now(), horizonDays = TIMETABLE.defaultHorizonDays, limit = TIMETABLE.defaultLimit } = {}) {
+  const zone = await zoneFor(env, userId);
+  const tz = zone.timeZone;
+  const loBound = new Date(now - 1000).toISOString();
+  const hiBound = new Date(now + horizonDays * 86400000 + 1000).toISOString();
+
+  const { results } = await db(env).prepare(
+    `SELECT s.id, s.title, s.kind, s.starts_at AS startsAt, s.duration_minutes AS durationMinutes,
+            s.capacity, s.level_id AS levelId, s.unit_id AS unitId, s.join_url AS joinUrl,
+            t.preferred_name AS tutorName,
+            l.roman AS levelRoman, l.name AS levelName,
+            u.title AS unitTitle,
+            (SELECT COUNT(*) FROM slot_bookings b WHERE b.slot_id = s.id AND ${LIVE_BOOKING_SQL}) AS taken,
+            (SELECT COUNT(*) FROM slot_bookings b WHERE b.slot_id = s.id AND b.user_id = ? AND ${LIVE_BOOKING_SQL}) AS mine
+       FROM tutorial_slots s
+       JOIN users t ON t.id = s.tutor_id
+       LEFT JOIN programme_levels l ON l.id = s.level_id
+       LEFT JOIN units u ON u.id = s.unit_id
+      WHERE s.status = 'open'
+        AND s.tutor_id != ?
+        AND s.starts_at >= ? AND s.starts_at <= ?
+        AND (s.level_id IS NULL OR s.level_id IN (
+              SELECT e.level_id FROM enrolments e
+               WHERE e.user_id = ? AND e.status != 'withdrawn'))
+      ORDER BY s.starts_at ASC
+      LIMIT ?`,
+  ).bind(userId, userId, loBound, hiBound, userId, Math.min(TIMETABLE.maxLimit, limit)).all();
+
+  const slots = results
+    .filter((r) => {
+      const at = toInstant(r.startsAt);
+      return at !== null && at > now;
+    })
+    .map((r) => {
+      // Rendered ONCE and reused. endInstant() takes a rendered instant
+      // rather than a raw string — it reads `.epochMs` off it — and
+      // handing it the raw column threw `Invalid time value` on the
+      // first slot with a duration. The signature is the one
+      // learnerTimetable() already uses; this is it followed.
+      const at = renderInstant(r.startsAt, tz);
+      return {
+      slotId: r.id,
+      title: r.title,
+      kind: r.kind,
+      kindLabel: KIND_LABEL[r.kind] || r.kind,
+      startsAt: at,
+      endsAt: endInstant(at, r.durationMinutes, tz),
+      durationMinutes: r.durationMinutes,
+      // Named by the name they chose to be known by, never an email —
+      // the rule learnerTimetable() states about a class list.
+      tutor: r.tutorName || null,
+      levelId: r.levelId,
+      levelRoman: r.levelRoman,
+      detail: r.unitTitle ? `Module: ${r.unitTitle}` : (r.levelName || KIND_LABEL[r.kind] || 'Tutorial'),
+      capacity: r.capacity,
+      taken: r.taken,
+      placesLeft: Math.max(0, r.capacity - r.taken),
+      full: r.taken >= r.capacity,
+      alreadyBooked: r.mine > 0,
+      // The one word the page needs and must not compute for itself: a
+      // slot is bookable when it is neither full nor already held.
+      bookable: r.taken < r.capacity && r.mine === 0,
+      };
+    });
+
+  return {
+    subject: { userId },
+    zone,
+    horizonDays,
+    counts: {
+      returned: slots.length,
+      bookable: slots.filter((s) => s.bookable).length,
+      full: slots.filter((s) => s.full).length,
+      alreadyBooked: slots.filter((s) => s.alreadyBooked).length,
+    },
+    slots,
+    // Why the list is empty is a different fact from the list being
+    // empty, and the first is the one a learner can act on.
+    notice: slots.length
+      ? null
+      : 'No tutor has published an hour open to you inside this window. Hours are published by tutors as they set them, so a list that is empty today may not be tomorrow.',
+  };
+}
+
 export async function bookSlot(env, { userId, slotId, learnerNote = null, now = Date.now() }) {
   if (typeof slotId !== 'string' || !slotId.trim()) {
     throw new ValidationError('slotId is required.', { slotId: 'Required' });

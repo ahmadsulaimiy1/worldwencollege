@@ -135,11 +135,11 @@ wrong rule was published three ways.
 
 | Capability | Endpoint | Who | Reads / writes | Interface |
 |---|---|---|---|---|
-| **The whole academic standing** — module marks with resits and counting marks, level marks, the four skill marks, the honour, academic standing with its obligations and triggers, graduation conditions each marked met / not met / not instrumented, progression, and a credit-weighted GPA that is null (never 0.00) when nothing has been conferred | `GET /api/student/standing` | learner | `enrolments`, `awards`, `units`, `learning_items`, `quiz_attempts`, `assignment_submissions`, `assessment_skills`, `academic_standing_reviews`, `graduation_eligibility` — r; `academic_standing_reviews`, `graduation_eligibility` w | **No interface** |
+| **The whole academic standing** — module marks with resits and counting marks, level marks, the four skill marks, the honour, academic standing with its obligations and triggers, graduation conditions each marked met / not met / not instrumented, progression, and a credit-weighted GPA that is null (never 0.00) when nothing has been conferred | `GET /api/student/standing` | learner | `enrolments`, `awards`, `units`, `learning_items`, `quiz_attempts`, `assignment_submissions`, `assessment_skills`, `academic_standing_reviews`, `graduation_eligibility` — r; `academic_standing_reviews`, `graduation_eligibility` w | **Yes** — `/my-standing.html` (`js/my-standing.js`) |
 | **The learner's own engagement record** — a week-by-week grid per module, every state carrying the evidence it was read from and the clause it satisfies, with the platform's own recomputed reading beside any staff override | `GET /api/student/attendance` | learner | `attendance_records`, `time_on_task`, `quiz_attempts`, `assignment_submissions`, `learner_recordings`, `unit_progress` r | **No interface** |
 | A tutor's roster, or one learner's record in full | `GET /api/staff/attendance` | staff + teaching relation | same, r | **No interface** |
 | Take a register | `POST /api/staff/attendance` | staff + teaching relation | `attendance_records` w | **No interface** |
-| **Achievements** — the milestone register, what is earned with its evidence, what is not with the shortfall stated, what has been withdrawn, and what is not in force | `GET /api/student/achievements` | learner | `milestone_definitions`, `learner_milestones` rw | **No interface** |
+| **Achievements** — the milestone register, what is earned with its evidence, what is not with the shortfall stated, what has been withdrawn, and what is not in force | `GET /api/student/achievements` | learner | `milestone_definitions`, `learner_milestones` rw | **Yes** — the same page |
 | The academic record, competencies, skills | `GET /api/student/profile`, `PATCH` | learner | `graduate_profiles`, `competency_marks`, `profile_sections` rw | **Yes** — `/my-record.html` |
 | Issued documents — transcript, supplement | `GET`,`POST /api/student/documents` | learner | `issued_documents` rw | **Yes** — `/my-record.html` |
 | Share a record slice with an employer | `GET`,`POST`,`DELETE /api/student/profile-shares` | learner | `profile_shares` rw | **Yes** — `/my-record.html` |
@@ -196,6 +196,7 @@ records who holds the office.
 |---|---|---|---|---|
 | One merged, time-sorted feed of what is next — classes at levels held, tutorials booked, and dated obligations that are the learner's own — every time carrying UTC, local, offset and zone | `GET /api/student/timetable` | learner | `live_sessions`, `tutorial_slots`, `slot_bookings`, `enrolments`, `offers`, `student_settings` r | **No interface** |
 | The same feed as a calendar file (RFC 5545, folded to 75 octets, UID keyed to the source row so a re-export updates rather than duplicates) | `GET /api/student/timetable?format=ics` | learner | same, r | **No interface** |
+| **The hours open to this learner** — every published slot they may actually take, filtered by exactly what `bookSlot()` refuses, with a full one listed and marked full rather than hidden | `GET /api/student/booking` | learner | `tutorial_slots`, `slot_bookings`, `enrolments` r | **No interface** |
 | Book a tutorial — six distinct refusals, each with its own message and its own field | `POST /api/student/booking` | learner | `slot_bookings` w, `tutorial_slots` r | **No interface** |
 | Cancel a booking, with a reason (mandatory) | `DELETE /api/student/booking` | learner | `slot_bookings` w | **No interface** |
 | Publish an hour — validated to an explicit offset, a real level, a module of that level, an https join URL, and no overlap with time already offered | `POST /api/staff/slots` | staff | `tutorial_slots` w, `live_sessions` r | **No interface** |
@@ -301,11 +302,11 @@ This is the map the next pass builds from.
 
 1. ~~**Their statement of account.**~~ **CLOSED 21 August 2026** — `/my-account.html`, both editions. Every figure is the endpoint's own string, the identity is printed term by term, `reconciliation.balances` is surfaced rather than swallowed, and `basis` is rendered as a provenance citation rather than as prose. Asserted end to end in a real browser by `tests/browser/my-account.mjs`.
 2. ~~**An invoice.**~~ **CLOSED 21 August 2026** — opened in place on the same page, keyboard-reachable, closing on Escape.
-3. **Where they stand academically.** Module marks, resits and counting marks, the level mark, four skill marks, the honour, academic standing and its obligations, and the list of what remains before graduation. `GET /api/student/standing`.
+3. ~~**Where they stand academically.**~~ **CLOSED 21 August 2026** — `/my-standing.html`, both editions. The conditions of the award are drawn in TWO groups by `condition.owner`, so a learner is never told they fell short of a record the College has not made; `tests/browser/my-standing.mjs` asserts that nothing College-owned reaches the learner's list.
 4. **Their engagement record.** The week-by-week grid, the evidence behind every state, and the platform's own reading beside any staff correction. `GET /api/student/attendance`.
-5. **Their achievements.** What is earned with its evidence, what is not with the shortfall named. `GET /api/student/achievements`.
+5. ~~**Their achievements.**~~ **CLOSED 21 August 2026** — on the same page, with the evidence on what is held, the measured shortfall on what is not, and the reason on anything withdrawn.
 6. **What is next.** The merged timetable — classes, tutorials, dated obligations. `GET /api/student/timetable`.
-7. **A tutorial to book, or a booking to cancel.** `POST` / `DELETE /api/student/booking`.
+7. **A tutorial to book, or a booking to cancel.** `POST` / `DELETE /api/student/booking`. *(The GET that lists what there is to book was added 21 August 2026 — until then the platform could accept a booking and could not be asked what there was to book.)*
 8. **Notices addressed to them, and the unread count.** `GET`,`POST /api/announcements`.
 9. **A thread to their tutors or to the Registrar's desk, and the replies.** `GET`,`POST /api/messages`, `GET`,`POST /api/messages/{thread}`.
 10. **An appeal, complaint, withdrawal, deferral or transfer** — opening one, reading its stage and its clock, escalating it, withdrawing it. `GET`,`POST /api/student/cases`.
