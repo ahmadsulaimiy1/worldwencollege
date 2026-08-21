@@ -709,10 +709,20 @@ CREATE TABLE quiz_attempts (
   user_id           TEXT NOT NULL REFERENCES users(id),
   answers_json      TEXT NOT NULL,      -- JSON array of selected indices, aligned to question sequence
   score             REAL NOT NULL,      -- fraction correct, 0..1, computed server-side at submission
+  -- The sitting's ORDINAL — 1, 2, 3 — assigned once at submission and
+  -- never recomputed. `resit.attempts` allows three sittings and
+  -- `resit.interval` requires fourteen days between them, and both are
+  -- questions about a numbered attempt; ORDER BY submitted_at answers
+  -- them only while every row survives, so a sitting voided for
+  -- misconduct or struck out on appeal would silently renumber the rest
+  -- and hand the learner a fourth attempt. See migration 021 and
+  -- functions/_lib/academic/reassessment.js.
+  attempt           INTEGER,
   submitted_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 CREATE INDEX idx_quiz_attempts_user ON quiz_attempts(user_id);
 CREATE INDEX idx_quiz_attempts_item ON quiz_attempts(learning_item_id);
+CREATE UNIQUE INDEX idx_quiz_attempts_attempt ON quiz_attempts(user_id, learning_item_id, attempt);
 
 CREATE TABLE assignment_submissions (
   id                TEXT PRIMARY KEY,   -- 'asub_' + uuid
@@ -722,12 +732,15 @@ CREATE TABLE assignment_submissions (
   status            TEXT NOT NULL DEFAULT 'submitted' CHECK (status IN ('submitted','graded','returned')),
   grade             REAL,
   feedback          TEXT,
+  -- The sitting's ordinal, by the same rule as quiz_attempts.attempt.
+  attempt           INTEGER,
   submitted_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   graded_at         TEXT,
   graded_by         TEXT REFERENCES users(id)
 );
 CREATE INDEX idx_assignment_submissions_user ON assignment_submissions(user_id);
 CREATE INDEX idx_assignment_submissions_item ON assignment_submissions(learning_item_id);
+CREATE UNIQUE INDEX idx_assignment_submissions_attempt ON assignment_submissions(user_id, learning_item_id, attempt);
 
 -- Materialized per-student completion, one row per (user, unit) —
 -- avoids recomputing "is this unit done" from quiz/assignment rows on

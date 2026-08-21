@@ -1789,21 +1789,26 @@
         "id": "conformance.live_session_attendance",
         "file": "live_sessions",
         "rule": "engage.counts.live_session",
-        "observed": "The table records that a session existed. Nothing records who attended it.",
+        "observed": "CLOSED 20 August 2026. `attendance_records` records one row per learner per session on a host-confirmed register, and liveSessionRecord() in functions/_lib/academic/attendance.js reads it. A session for which no register was taken is reported as not recorded rather than as an absence, because those are different facts and only one of them is about the learner.",
         "required": "A per-learner attendance record confirmed by the host.",
-        "consequence": "The live-session clause of the engagement rule fires for nobody, and the metric register reports live-session attendance as not instrumented rather than as zero."
+        "consequence": "The live-session clause of the engagement rule fires for nobody, and the metric register reports live-session attendance as not instrumented rather than as zero.",
+        "closed_on": "2026-08-20"
       }
     ],
     "schema_changes_requested": [
       {
         "id": "conformance.schema.live_session_attendance",
         "table": "live_session_attendance",
-        "why": "One row per learner per session, written on a host-confirmed join, so that the third clause of `engage.counts` has something to read. Requested, not made — this instrument does not own sql/schema.sql."
+        "why": "One row per learner per session, written on a host-confirmed join, so that the third clause of `engage.counts` has something to read. Requested, not made — this instrument does not own sql/schema.sql.",
+        "made_on": "2026-08-20",
+        "made": "MADE, and wider than requested. `attendance_records` (migration 020) carries BOTH bases decision A7 left open — 'live_session' and 'module_engagement' — with the window it describes, the evidence it was read from, and whether a person supplied the fact or the platform observed it. functions/_lib/academic/attendance.js reads it for `engage.counts.live_session` and reports a session with no register as not recorded, never as an absence."
       },
       {
         "id": "conformance.schema.assessment_attempts",
         "table": "quiz_attempts / assignment_submissions",
-        "why": "Neither table records an attempt ordinal or which attempt is the counting one, so `resit.attempts`, `resit.interval` and `resit.cap` cannot be enforced or audited from the data as it stands. Requested, not made."
+        "why": "Neither table records an attempt ordinal or which attempt is the counting one, so `resit.attempts`, `resit.interval` and `resit.cap` cannot be enforced or audited from the data as it stands. Requested, not made.",
+        "made_on": "2026-08-21",
+        "made": "MADE. sql/migrations/021-attempt-ordinals.sql adds `attempt` to both tables with a unique index over (user_id, learning_item_id, attempt), and backfills existing rows by submission order. The ordinal is assigned once at submission and never recomputed, so a sitting voided for misconduct cannot renumber the ones after it and hand a learner a fourth attempt. functions/_lib/academic/reassessment.js enforces `resit.attempts` and `resit.interval` on the path a learner actually takes — submitQuizAttempt() and submitAssignment() — and reports `resit.task_refresh` to the assessor. Every refusal carries the route out of it, because `resit.attempts` does not end at no: the level is repeated, the assessments are set afresh, and `resit.repeat_charge` is zero."
       }
     ]
   }

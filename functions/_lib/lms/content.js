@@ -46,6 +46,7 @@
 import { db, newId, nowIso, NotFoundError, ValidationError } from '../db.js';
 import { AuthorizationError } from '../auth/session.js';
 import { moduleMarkForUnit } from '../academic/standing.js';
+import { assertAttemptPermitted, reassessmentPosition } from '../academic/reassessment.js';
 import { meetsThreshold, percentageFromFraction, SCALE } from '../academic/marks.js';
 
 export async function assertLevelAccess(env, userId, levelId) {
@@ -108,6 +109,12 @@ export async function getUnitDetail(env, { userId, unitId }) {
         .bind(item.id)
         .all();
       item.questions = questions.map(({ choicesJson, ...q }) => ({ ...q, choices: JSON.parse(choicesJson) }));
+      // The allowance, BEFORE the learner spends any of it. Discovering
+      // that a resit needs a fortnight's wait by being refused one is
+      // the version of this rule that reads as an obstruction; reading
+      // it on the page beside the paper is the version that reads as a
+      // College that has thought about how people learn.
+      item.reassessment = await reassessmentPosition(env, { userId, learningItemId: item.id, kind: 'quiz' });
     }
 
     if (item.kind === 'pronunciation') {
@@ -125,9 +132,10 @@ export async function getUnitDetail(env, { userId, unitId }) {
 
     if (item.kind === 'assignment') {
       item.mySubmission = await db(env)
-        .prepare('SELECT id, status, grade, feedback, submitted_at as submittedAt, graded_at as gradedAt FROM assignment_submissions WHERE learning_item_id = ? AND user_id = ? ORDER BY submitted_at DESC LIMIT 1')
+        .prepare('SELECT id, status, grade, feedback, attempt, submitted_at as submittedAt, graded_at as gradedAt FROM assignment_submissions WHERE learning_item_id = ? AND user_id = ? ORDER BY submitted_at DESC LIMIT 1')
         .bind(item.id, userId)
         .first();
+      item.reassessment = await reassessmentPosition(env, { userId, learningItemId: item.id, kind: 'assignment' });
     }
   }
 
@@ -204,13 +212,19 @@ export async function submitQuizAttempt(env, { userId, learningItemId, answers }
     throw new ValidationError(`Expected ${questions.length} answers.`, { answers: 'Length mismatch' });
   }
 
+  // `resit.attempts` and `resit.interval`, applied BEFORE the paper is
+  // marked. Marking it first and then refusing to record it would tell
+  // a learner their score and then decline to count it, which is worse
+  // than either answer on its own.
+  const position = await assertAttemptPermitted(env, { userId, learningItemId, kind: 'quiz' });
+
   const correctCount = questions.reduce((n, q, i) => n + (answers[i] === q.correctIndex ? 1 : 0), 0);
   const score = correctCount / questions.length;
   const submittedAt = nowIso();
   const attemptId = newId('qat');
   await db(env)
-    .prepare('INSERT INTO quiz_attempts (id, learning_item_id, user_id, answers_json, score, submitted_at) VALUES (?, ?, ?, ?, ?, ?)')
-    .bind(attemptId, learningItemId, userId, JSON.stringify(answers), score, submittedAt)
+    .prepare('INSERT INTO quiz_attempts (id, learning_item_id, user_id, answers_json, score, attempt, submitted_at) VALUES (?, ?, ?, ?, ?, ?, ?)')
+    .bind(attemptId, learningItemId, userId, JSON.stringify(answers), score, position.nextAttemptOrdinal, submittedAt)
     .run();
 
   await recordModuleProgress(env, { userId, unitId: item.unit_id, at: submittedAt });
@@ -229,6 +243,11 @@ export async function submitQuizAttempt(env, { userId, learningItemId, answers }
     correctCount,
     totalQuestions: questions.length,
     passed: meetsThreshold(percentage, SCALE.passMark),
+    // Returned so the screen that shows the mark can say what is left
+    // in the same breath, rather than leaving a learner to discover the
+    // allowance by exhausting it. Re-read AFTER the insert: the figures
+    // are about where they now stand, not where they stood a moment ago.
+    reassessment: await reassessmentPosition(env, { userId, learningItemId, kind: 'quiz' }),
     submittedAt,
   };
 }
@@ -240,15 +259,30 @@ export async function submitAssignment(env, { userId, learningItemId, content })
   const levelId = await getLevelIdForUnit(env, item.unit_id);
   await assertLevelAccess(env, userId, levelId);
 
+  // The same gate as a quiz attempt, and one clause more that applies
+  // only here: `resit.new_task` — "a capstone resit is a new task, not a
+  // resubmission", because resubmitting a marked capstone with the
+  // marker's own feedback applied assesses the feedback and not the
+  // candidate. This file cannot tell whether the assessor set a fresh
+  // task, so it does not pretend to; `taskRefreshDue` and the ordinal go
+  // back with the submission and the assessor's queue shows both.
+  const position = await assertAttemptPermitted(env, { userId, learningItemId, kind: 'assignment' });
+
   const submissionId = newId('asub');
   const submittedAt = nowIso();
   await db(env)
-    .prepare('INSERT INTO assignment_submissions (id, learning_item_id, user_id, content, status, submitted_at) VALUES (?, ?, ?, ?, ?, ?)')
-    .bind(submissionId, learningItemId, userId, content, 'submitted', submittedAt)
+    .prepare('INSERT INTO assignment_submissions (id, learning_item_id, user_id, content, status, attempt, submitted_at) VALUES (?, ?, ?, ?, ?, ?, ?)')
+    .bind(submissionId, learningItemId, userId, content, 'submitted', position.nextAttemptOrdinal, submittedAt)
     .run();
 
   await recordModuleProgress(env, { userId, unitId: item.unit_id, at: submittedAt });
-  return { id: submissionId, status: 'submitted', submittedAt };
+  return {
+    id: submissionId,
+    status: 'submitted',
+    attempt: position.nextAttemptOrdinal,
+    reassessment: await reassessmentPosition(env, { userId, learningItemId, kind: 'assignment' }),
+    submittedAt,
+  };
 }
 
 // Staff-only — see functions/api/lms/grade-assignment.js.

@@ -364,6 +364,15 @@ for (const f of files) {
     DROP TABLE IF EXISTS announcement_receipts;
     DROP TABLE IF EXISTS announcements;
     DROP TABLE IF EXISTS attendance_records;`);
+  // 021 adds an attempt ordinal to the two summative tables and a unique
+  // index over it. Reversing it is a column drop rather than a table
+  // drop — the first migration in this file that touches a column
+  // SQLite can remove outright, which it has been able to do since
+  // 3.35 and which is why 021 could be written as an ALTER at all.
+  db.exec(`DROP INDEX IF EXISTS idx_quiz_attempts_attempt;
+    DROP INDEX IF EXISTS idx_assignment_submissions_attempt;
+    ALTER TABLE quiz_attempts DROP COLUMN attempt;
+    ALTER TABLE assignment_submissions DROP COLUMN attempt;`);
 
   db.exec('DROP TABLE schema_migrations');
 

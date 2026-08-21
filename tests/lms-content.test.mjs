@@ -102,10 +102,30 @@ check('getUnitDetail: unknown unit id throws NotFoundError', await (async () => 
   check('the module completes once BOTH components are marked and the composite passes',
     bothMarked.status === 'completed' && bothMarked.completed_at != null, bothMarked.status);
 
+  // `resit.interval` — no resit sooner than fourteen days after the
+  // attempt before it. Asserted here rather than only in
+  // tests/reassessment.test.mjs because THIS is the path a learner
+  // actually takes: the refusal has to happen at submitQuizAttempt, not
+  // merely inside the rule module.
+  check('submitQuizAttempt: a resit the same day is refused, and the refusal names the date it opens', await (async () => {
+    try { await submitQuizAttempt(env, { userId: 'usr_enrolled', learningItemId: 'itm_quiz', answers: [0, 1] }); return false; }
+    catch (e) { return e.rule === 'resit.interval' && typeof e.nextPermittedAt === 'string'; }
+  })());
+
+  // Back-date the sitting on file so the fortnight has passed. The
+  // interval is measured from the row, so moving the row is the honest
+  // way to age it — there is no clock to inject and no rule to relax.
+  const fifteenDaysAgo = new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString();
+  db.prepare(`UPDATE quiz_attempts SET submitted_at = ? WHERE learning_item_id = 'itm_quiz' AND user_id = 'usr_enrolled'`).bind(fifteenDaysAgo).run();
+
   // A later, failing retake must NOT downgrade the already-completed
   // unit — and under `resit.cap` it cannot even lower the mark, because
   // the first attempt already reached the standard.
-  await submitQuizAttempt(env, { userId: 'usr_enrolled', learningItemId: 'itm_quiz', answers: [0, 1] }); // both wrong
+  const retake = await submitQuizAttempt(env, { userId: 'usr_enrolled', learningItemId: 'itm_quiz', answers: [0, 1] }); // both wrong
+  check('submitQuizAttempt: the retake is recorded as attempt 2, by ordinal and not by counting rows',
+    db.prepare(`SELECT attempt FROM quiz_attempts WHERE id = ?`).bind(retake.id).first().attempt === 2);
+  check('submitQuizAttempt: the learner is told what is left of the allowance in the same answer',
+    retake.reassessment.attemptsTaken === 2 && retake.reassessment.attemptsRemaining === 1);
   const attemptCount = db.prepare(`SELECT COUNT(*) as n FROM quiz_attempts WHERE learning_item_id = 'itm_quiz' AND user_id = 'usr_enrolled'`).first().n;
   check('submitQuizAttempt: retakes are appended, not overwritten (2 attempts on file)', attemptCount === 2);
   const progressAfterRetake = await db.prepare(`SELECT * FROM unit_progress WHERE user_id = 'usr_enrolled' AND unit_id = 'unt_1'`).first();
