@@ -1664,6 +1664,30 @@
     ]
   },
   {
+    "slug": "my-account",
+    "output": "my-account.html",
+    "title": "My Account &mdash; Worldwide English College",
+    "description": "Your statement of account: what the College has assessed, what it has remitted and on whose authority, every payment, receipt and refund, your instalment schedule, and the balance with the arithmetic that produced it.",
+    "contentFile": "my-account.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/my-account.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-account.js"
+    ]
+  },
+  {
     "slug": "my-record-ar",
     "output": "ar/my-record.html",
     "title": "سجلّي الأكاديمي — الكلية العالمية للغة الإنجليزية",
@@ -1682,6 +1706,30 @@
       "/js/auth-config.js",
       "/js/clerk-loader.js",
       "/js/my-record.js"
+    ]
+  },
+  {
+    "slug": "my-account-ar",
+    "output": "ar/my-account.html",
+    "title": "حسابي — الكلية العالمية للغة الإنجليزية",
+    "description": "كشف حسابك: ما قدّرته الكلية، وما أعفتك منه وبأي سلطة، وكل دفعة وإيصال واسترداد، وجدول أقساطك، والرصيد مع الحساب الذي أخرجه.",
+    "contentFile": "my-account.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/my-account.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-account.js"
     ]
   },
   {
@@ -2143,6 +2191,24 @@
     "altHref": "/ar/admissions/international/"
   },
   {
+    "slug": "admissions-track",
+    "output": "admissions/track/index.html",
+    "title": "Track your application &mdash; Worldwide English College",
+    "description": "Enter your application reference for the whole of what the College holds: which of the five stages you are at, the audited record of every move, what is outstanding and whose it is, and your offer if one has been written.",
+    "contentFile": "admissions-track.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/admissions/track/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css"
+    ],
+    "scripts": [
+      "/js/admissions-track.js"
+    ]
+  },
+  {
     "slug": "admissions-international-ar",
     "output": "ar/admissions/international/index.html",
     "title": "الدراسة من بلدك — الكلية العالمية للغة الإنجليزية",
@@ -2155,6 +2221,24 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/admissions/international/"
+  },
+  {
+    "slug": "admissions-track-ar",
+    "output": "ar/admissions/track/index.html",
+    "title": "تتبّع طلبك — الكلية العالمية للغة الإنجليزية",
+    "description": "أدخِل رقم طلبك لترى كل ما لدى الكلية: في أي المراحل الخمس أنت، وسجل كل حركة، وما بقي ولمن هو، وعرضك إن كُتب لك عرض.",
+    "contentFile": "admissions-track.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/admissions/track/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css"
+    ],
+    "scripts": [
+      "/js/admissions-track.js"
+    ]
   },
   {
     "slug": "governance-quality-manual",

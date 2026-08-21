@@ -721,7 +721,15 @@ for (const src of ['functions/api/student/timetable.js', 'functions/api/student/
 // learner books it through the route, and gives it back through the
 // route. Real clock, because that is what the routes use.
 {
-  const soon = new Date(Date.now() + 14 * 86400000).toISOString().replace(/\.\d{3}Z$/, 'Z');
+  // Off the hour, deliberately. This was `now + 14 days` on the dot,
+  // which is a fixed time of day — and every fixture slot above sits at
+  // 15:00Z. On 21 August 2026 the arithmetic landed exactly on
+  // `slt_theirs`, the overlap rule fired as designed, and a test that
+  // had passed for weeks failed on a date rather than on a change. A
+  // round offset from the real clock will always eventually collide
+  // with a fixture written at a round time; :37 past cannot.
+  const soon = new Date(Date.now() + 14 * 86400000 + 37 * 60000 + 3 * 3600000)
+    .toISOString().replace(/\.\d{3}Z$/, 'Z');
   const published = await slotsRoute.onRequestPost({
     request: send('POST', `${BASE}/staff/slots`, TOK.tutor, {
       title: 'Speaking practice', kind: 'tutorial', startsAt: soon, durationMinutes: 30, capacity: 1, levelId: 3,

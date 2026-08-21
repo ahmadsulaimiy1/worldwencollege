@@ -62,9 +62,9 @@ explains each at length; in short:
 | Save and resume a part-finished application | `GET`,`PUT /api/admissions/draft` | public | `application_drafts` rw | **Yes** — the same wizard |
 | Attach and remove an identity document | `GET`,`POST`,`DELETE /api/admissions/document` | public | `application_documents` rw, R2 | **Yes** — the same wizard |
 | Look up an application's state, short form | `GET /api/admissions/status?id=` | reference | `applications` r | **No interface** |
-| Track an application in full — five published stages, audited timeline, what is outstanding and whose it is, the live offer and its expiry | `GET /api/admissions/track?ref=` | reference | `applications` r, `application_events` r, `offers` r | **No interface** |
+| Track an application in full — five published stages, audited timeline, what is outstanding and whose it is, the live offer and its expiry | `GET /api/admissions/track?ref=` | reference | `applications` r, `application_events` r, `offers` r | **Yes** — `/admissions/track/` (`js/admissions-track.js`) |
 | Issue an offer, conditional or unconditional, with an expiry | `POST /api/admissions/offer` | staff | `offers` w, `application_events` w, `applications` w | **No interface** |
-| Accept, decline or withdraw — by the applicant, holding only their reference | `POST /api/admissions/offer?action=` | reference | `offers` w, `application_events` w, `enrolments` w | **No interface** |
+| Accept, decline or withdraw — by the applicant, holding only their reference | `POST /api/admissions/offer?action=` | reference | `offers` w, `application_events` w, `enrolments` w | **Yes** — the same page |
 | The admissions queue: filter by status, source, country, level or free text; oldest first; counts by status that the filter does not narrow | `GET /api/staff/applications` | staff | `applications` r, `offers` r, `application_events` r | **No interface** |
 | Move an application through the published journey, with the reason recorded | `PATCH /api/staff/applications` | staff | `applications` w, `application_events` w, `enrolments` w | **No interface** |
 
@@ -85,8 +85,8 @@ one decorative.
 | Check a payment's state | `GET /api/payments/verify` | learner | `payments` r | **No interface** |
 | Take a gateway's word for it — Stripe, Paystack, Flutterwave, OPay | `POST /api/payments/webhook-*` | signature | `payments` w, `receipts` w, `webhook_events` w | n/a — machine to machine |
 | Confirm an enrolment after payment | `POST /api/enrolment/confirm` | learner | `enrolments` w | **No interface** |
-| **A learner's own statement of account** — tuition assessed and on what basis, relief with the authority that granted it, every payment and receipt and refund, the instalment schedule, and the balance with the arithmetic that produced it | `GET /api/student/finance` | learner | `payments`, `receipts`, `refunds`, `instalment_plans`, `scholarships`, `promo_codes`, `currencies`, `enrolments`, `programme_levels` — all r | **No interface** |
-| One invoice as structured data, with its lines and its reconciliation | `GET /api/student/invoice?id=pay_…` | learner | same, r | **No interface** |
+| **A learner's own statement of account** — tuition assessed and on what basis, relief with the authority that granted it, every payment and receipt and refund, the instalment schedule, and the balance with the arithmetic that produced it | `GET /api/student/finance` | learner | `payments`, `receipts`, `refunds`, `instalment_plans`, `scholarships`, `promo_codes`, `currencies`, `enrolments`, `programme_levels` — all r | **Yes** — `/my-account.html` (`js/my-account.js`) |
+| One invoice as structured data, with its lines and its reconciliation | `GET /api/student/invoice?id=pay_…` | learner | same, r | **Yes** — opened in place on the same page |
 | Revenue report | `GET /api/admin/reports/revenue` | admin | `payments` r, `refunds` r | **Yes** — `/finance/preview/` (`js/finance-dashboard.js`) |
 | Reconciliation report | `GET /api/admin/reports/reconciliation` | admin | `payments`, `receipts`, `refunds` r | **Yes** — the same page |
 | Set or refresh an exchange rate | `POST /api/admin/currency/set-rate`, `/refresh-rates` | admin | `currencies` w | **No interface** |
@@ -299,8 +299,8 @@ This is the map the next pass builds from.
 
 ### The learner cannot see
 
-1. **Their statement of account.** Tuition assessed, relief granted, every payment, receipt and refund, the instalment schedule and the outstanding balance with its arithmetic. `GET /api/student/finance`.
-2. **An invoice.** `GET /api/student/invoice?id=`.
+1. ~~**Their statement of account.**~~ **CLOSED 21 August 2026** — `/my-account.html`, both editions. Every figure is the endpoint's own string, the identity is printed term by term, `reconciliation.balances` is surfaced rather than swallowed, and `basis` is rendered as a provenance citation rather than as prose. Asserted end to end in a real browser by `tests/browser/my-account.mjs`.
+2. ~~**An invoice.**~~ **CLOSED 21 August 2026** — opened in place on the same page, keyboard-reachable, closing on Escape.
 3. **Where they stand academically.** Module marks, resits and counting marks, the level mark, four skill marks, the honour, academic standing and its obligations, and the list of what remains before graduation. `GET /api/student/standing`.
 4. **Their engagement record.** The week-by-week grid, the evidence behind every state, and the platform's own reading beside any staff correction. `GET /api/student/attendance`.
 5. **Their achievements.** What is earned with its evidence, what is not with the shortfall named. `GET /api/student/achievements`.
@@ -309,8 +309,8 @@ This is the map the next pass builds from.
 8. **Notices addressed to them, and the unread count.** `GET`,`POST /api/announcements`.
 9. **A thread to their tutors or to the Registrar's desk, and the replies.** `GET`,`POST /api/messages`, `GET`,`POST /api/messages/{thread}`.
 10. **An appeal, complaint, withdrawal, deferral or transfer** — opening one, reading its stage and its clock, escalating it, withdrawing it. `GET`,`POST /api/student/cases`.
-11. **The state of their application**, before they are a learner at all. `GET /api/admissions/track`.
-12. **An offer to accept or decline.** `POST /api/admissions/offer?action=`.
+11. ~~**The state of their application**, before they are a learner at all.~~ **CLOSED 21 August 2026** — `/admissions/track/`, both editions, driven by `GET /api/admissions/track` and asserted end to end in a real browser by `tests/browser/admissions-track.mjs`.
+12. ~~**An offer to accept or decline.**~~ **CLOSED 21 August 2026** — answered from the same page, by `POST /api/admissions/offer?action=` and the same reference.
 13. **A checkout, an instalment plan, and confirmation of payment.** `POST /api/payments/create-checkout`, `/instalment-plan`, `/api/enrolment/confirm`, `GET /api/payments/verify`.
 14. **An assignment to submit.** `POST /api/lms/assignment-submission`.
 15. **The live sessions of their level.** `GET /api/lms/live-sessions`.

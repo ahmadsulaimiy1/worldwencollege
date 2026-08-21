@@ -162,7 +162,13 @@
             /* The warrant is a ruling with a seal on it, so it takes
                the conferral voice rather than the tap every other
                struck surface gets. Ceremony is ranked, not uniform. */
-            + '.warrant, .article__seal, .imprint, .imprint__device';
+            + '.warrant, .article__seal, .imprint, .imprint__device, '
+            /* An offer of a place is a conferral — the College writing
+               somebody in — and the plate carries a wax seal. It lands
+               with the conferral voice rather than the tap the rest of
+               the tracking page gets, which is the whole point of
+               ranking ceremony instead of making everything alike. */
+            + '.trk-offer, .acc-invoice';
   var OPEN  = 'details > summary, .accordion__q, .nav__toggle, [aria-expanded]';
   /* THE CHROME, and it is ranked BELOW open and ABOVE tap deliberately.
      The utility rail's Verify group and the editions picker both carry
@@ -203,6 +209,15 @@
                is a sealed instrument and takes SEAL, not TAP; it is in
                the list above. */
             + '.passage__stage, .passage__mark, .tariff__line, '
+            /* Track your application — css/track.css. The head plate and
+               each stage disc on the rail are struck surfaces with lit
+               rims; the offer plate above them is a conferral and takes
+               SEAL. */
+            + '.trk-head, .trk-stage__disc, .trk-owed li, '
+            /* My Account — css/account.css. The balance plate and the
+               instalment steps are struck surfaces with lit rims; the
+               invoice plate is the sealed instrument and takes SEAL. */
+            + '.acc-balance, .acc-relief li, .acc-plan, .acc-steps li, '
             /* The Governance pillar — css/governance.css. The article
                is sealed, so it takes SEAL and is in the list above. */
             + '.docket__entry, .attest, '

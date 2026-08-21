@@ -1,0 +1,348 @@
+/* ═══════════════════════════════════════════════════════════════════
+   MY ACCOUNT — the statement of account.
+
+   Loaded after css/track.css, which it borrows two things from
+   deliberately rather than restating: `.trk-facts` for the invoice's
+   fact row, and the argument recorded there about a dark plate on a
+   light page. The invoice here is that plate again, and it paints its
+   own ground for the same reason — `.card--dark` assumes a dark section
+   under it and this one sits on paper.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.acc-balance,
+.acc-block,
+.acc-invoice { margin-top: 1.9rem; }
+
+/* ── THE BALANCE ─────────────────────────────────────────────────────
+   One figure, large, with the arithmetic under it. The figure is set in
+   tabular numerals throughout: a balance that shifts its digits between
+   two renders reads as a number that is still being decided.
+   ──────────────────────────────────────────────────────────────────── */
+.acc-balance { text-align: center; padding-block: 2.3rem; }
+.acc-balance__eyebrow {
+  font: 600 .74rem/1 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--ink, #10203A) 52%, transparent);
+  margin: 0 0 .7rem;
+}
+.acc-balance__figure {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink, #10203A);
+}
+/* Its own currency, under the ledger figure and never instead of it —
+   and carrying the date the rate was true, because a figure lifted into
+   a screenshot loses the header that would otherwise have said. */
+.acc-balance__local {
+  margin: .45rem 0 0;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in oklab, var(--ink, #10203A) 62%, transparent);
+}
+.acc-balance__note {
+  margin: .9rem auto 0;
+  max-width: 46ch;
+  color: color-mix(in oklab, var(--ink, #10203A) 74%, transparent);
+}
+
+/* ── THE WORKINGS ────────────────────────────────────────────────── */
+.acc-sum {
+  list-style: none;
+  margin: 1.9rem 0 0;
+  padding: 1.4rem 0 0;
+  border-top: 1px solid color-mix(in oklab, var(--ink, #10203A) 10%, transparent);
+  display: grid;
+  gap: .1rem;
+  text-align: start;
+  max-width: 34rem;
+  margin-inline: auto;
+}
+.acc-sum li {
+  display: grid;
+  grid-template-columns: 1.4rem 1fr auto;
+  align-items: baseline;
+  gap: .6rem;
+  padding: .42rem 0;
+}
+.acc-sum li + li { border-top: 1px dotted color-mix(in oklab, var(--ink, #10203A) 12%, transparent); }
+.acc-sum__op {
+  font-weight: 700;
+  text-align: center;
+  color: var(--gold, #C6A15B);
+  font-variant-numeric: tabular-nums;
+}
+/* Start-aligned explicitly. `.acc-balance` centres its plate, and a
+   term inherited that centring into a 1fr column — so five labels of
+   different lengths floated to five different indents and the workings
+   read as a poster rather than as a sum. */
+.acc-sum__term { color: color-mix(in oklab, var(--ink, #10203A) 74%, transparent); text-align: start; }
+.acc-sum__value { font-weight: 600; font-variant-numeric: tabular-nums; }
+.acc-sum li[data-total] {
+  margin-top: .3rem;
+  padding-top: .7rem;
+  border-top: 2px solid color-mix(in oklab, var(--ink, #10203A) 26%, transparent);
+}
+.acc-sum li[data-total] .acc-sum__term,
+.acc-sum li[data-total] .acc-sum__value { font-weight: 700; color: var(--ink, #10203A); }
+
+.acc-sum__identity {
+  max-width: 34rem;
+  margin: .8rem auto 0;
+  text-align: center;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
+  font-size: .78rem;
+  letter-spacing: .01em;
+  color: color-mix(in oklab, var(--ink, #10203A) 48%, transparent);
+}
+/* Loud, and it should be. The endpoint reports whether the identity
+   balances; if it ever does not, the price the College charged and the
+   price it can account for have parted company, and the learner is
+   entitled to see that said out loud rather than have one figure
+   quietly win. */
+.acc-sum__warning {
+  margin: 1rem auto 0;
+  max-width: 44rem;
+  padding: .85rem 1.1rem;
+  border-radius: 8px;
+  border-inline-start: 3px solid #8E2B36;
+  background: color-mix(in oklab, #8E2B36 10%, transparent);
+  color: #6B1F28;
+  font-weight: 600;
+}
+
+/* ── BLOCKS AND TABLES ───────────────────────────────────────────── */
+.acc-block h2 {
+  display: flex; align-items: center; gap: .6rem;
+  font-size: 1.15rem;
+  margin: 0 0 .7rem;
+}
+.acc-block h2 .icon { width: 1.1em; height: 1.1em; color: var(--gold, #C6A15B); }
+.acc-block__lede,
+.acc-block__note {
+  margin: 0 0 1rem;
+  color: color-mix(in oklab, var(--ink, #10203A) 68%, transparent);
+}
+
+/* A money table must scroll inside itself rather than push the page
+   sideways: five columns of figures at 390px is wider than a phone, and
+   a document that scrolls horizontally reads as broken. */
+.acc-tablewrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 10px;
+  border: 1px solid color-mix(in oklab, var(--ink, #10203A) 12%, transparent);
+}
+.acc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .92rem;
+  min-width: 34rem;
+}
+.acc-table th,
+.acc-table td {
+  padding: .72rem .9rem;
+  text-align: start;
+  border-bottom: 1px solid color-mix(in oklab, var(--ink, #10203A) 8%, transparent);
+  vertical-align: top;
+}
+.acc-table thead th {
+  font: 600 .68rem/1.4 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--ink, #10203A) 50%, transparent);
+  background: color-mix(in oklab, var(--paper, #FBF8F2) 84%, var(--ink, #10203A) 16%);
+  white-space: nowrap;
+}
+.acc-table tbody tr:last-child td { border-bottom: 0; }
+.acc-num { text-align: end; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.acc-table td.acc-num { font-weight: 600; }
+
+/* A row that opens its own invoice. A whole row is the target, so the
+   pointer never has to find a link inside a table cell. */
+.acc-table tr[data-invoice] { cursor: pointer; }
+.acc-table tr[data-invoice]:hover td { background: color-mix(in oklab, var(--gold, #C6A15B) 9%, transparent); }
+.acc-table tr[data-invoice]:focus-within td { background: color-mix(in oklab, var(--gold, #C6A15B) 13%, transparent); }
+.acc-open {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  font: inherit; color: inherit; text-align: start;
+  text-decoration: underline; text-underline-offset: 3px;
+  text-decoration-color: color-mix(in oklab, var(--gold, #C6A15B) 60%, transparent);
+}
+.acc-open:focus-visible { outline: 2px solid var(--gold, #C6A15B); outline-offset: 3px; }
+
+/* THE STANDING PILL. Never colour alone — the word is inside it, for
+   the reason js/verify.js states about a card that gets photocopied. */
+.acc-pill {
+  display: inline-block;
+  padding: .12rem .58rem;
+  border-radius: 999px;
+  font: 600 .68rem/1.7 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .06em;
+  white-space: nowrap;
+  background: color-mix(in oklab, var(--ink, #10203A) 8%, transparent);
+  color: color-mix(in oklab, var(--ink, #10203A) 64%, transparent);
+}
+.acc-pill--received { background: color-mix(in oklab, #1E6A4F 15%, transparent); color: #124A37; }
+.acc-pill--pending  { background: color-mix(in oklab, var(--gold, #C6A15B) 22%, transparent); color: #5A4113; }
+.acc-pill--failed   { background: color-mix(in oklab, #8E2B36 13%, transparent); color: #6B1F28; }
+
+/* ── RELIEF ──────────────────────────────────────────────────────── */
+.acc-relief { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+.acc-relief li {
+  padding: .95rem 1.1rem;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--paper, #FBF8F2) 88%, var(--ink, #10203A) 12%);
+  border-inline-start: 3px solid var(--gold, #C6A15B);
+}
+/* Held but never applied: drawn as an outline rather than a fill,
+   because nothing has been remitted and a solid gold bar would read as
+   money the learner has already had. */
+.acc-relief li[data-applied="false"] {
+  border-inline-start-style: dashed;
+  border-inline-start-color: color-mix(in oklab, var(--ink, #10203A) 26%, transparent);
+}
+.acc-relief__head { display: flex; flex-wrap: wrap; gap: .6rem; align-items: baseline; }
+.acc-relief__name { font-weight: 700; }
+.acc-relief__value { margin-inline-start: auto; font-weight: 700; font-variant-numeric: tabular-nums; }
+.acc-relief__note {
+  margin: .35rem 0 0;
+  font-size: .88rem;
+  color: color-mix(in oklab, var(--ink, #10203A) 62%, transparent);
+}
+
+/* ── INSTALMENTS ─────────────────────────────────────────────────── */
+.acc-plan {
+  padding: 1.2rem 1.3rem;
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--ink, #10203A) 12%, transparent);
+  background: color-mix(in oklab, var(--paper, #FBF8F2) 92%, var(--ink, #10203A) 8%);
+}
+.acc-plan + .acc-plan { margin-top: 1rem; }
+.acc-plan__head { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: baseline; margin-bottom: .9rem; }
+.acc-plan__name { font-weight: 700; }
+.acc-plan__count {
+  font: 600 .72rem/1.6 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .08em; text-transform: uppercase;
+  color: color-mix(in oklab, var(--ink, #10203A) 52%, transparent);
+}
+.acc-plan__total { margin-inline-start: auto; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.acc-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+.acc-steps li {
+  flex: 1 1 7.5rem;
+  min-width: 0;
+  padding: .7rem .8rem;
+  border-radius: 9px;
+  border: 1px solid color-mix(in oklab, var(--ink, #10203A) 14%, transparent);
+  background: var(--paper, #FBF8F2);
+}
+.acc-steps li[data-state="paid"] {
+  border-color: color-mix(in oklab, #1E6A4F 40%, transparent);
+  background: color-mix(in oklab, #1E6A4F 8%, transparent);
+}
+.acc-steps li[data-state="next"] {
+  border-color: var(--gold, #C6A15B);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--gold, #C6A15B) 18%, transparent);
+}
+.acc-steps__n {
+  display: block;
+  font: 600 .66rem/1.6 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .1em; text-transform: uppercase;
+  color: color-mix(in oklab, var(--ink, #10203A) 50%, transparent);
+}
+.acc-steps__amt { display: block; font-weight: 700; font-variant-numeric: tabular-nums; }
+.acc-steps__when {
+  display: block; margin-top: .15rem;
+  font-size: .76rem;
+  color: color-mix(in oklab, var(--ink, #10203A) 55%, transparent);
+}
+
+/* ── THE INVOICE PLATE ───────────────────────────────────────────────
+   Paints its own dark ground — see the note at the head of the offer
+   plate in css/track.css for the fault this avoids. */
+.acc-invoice {
+  position: relative;
+  padding: 2rem 1.7rem;
+  color: #F6EFE0;
+  background:
+    radial-gradient(ellipse 90% 80% at 20% 0%, rgba(31, 61, 122, .5), transparent 70%),
+    linear-gradient(158deg, var(--midnight, #0E1B33), var(--oxford, #0A1428));
+  border: 1px solid rgba(199, 162, 74, .42);
+  border-radius: 12px;
+  box-shadow: inset 0 0 80px -26px rgba(0, 0, 0, .8), var(--relief-metal, 0 10px 30px -12px rgba(10, 20, 40, .5));
+  scroll-margin-top: 6rem;
+}
+.acc-invoice h2 { color: #F6EFE0; margin: 0 0 1.1rem; }
+.acc-invoice__eyebrow {
+  font: 600 .72rem/1 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--gold-soft, #E7C97A);
+  margin: 0 0 .4rem;
+}
+.acc-invoice__close {
+  position: absolute; inset-block-start: .9rem; inset-inline-end: .9rem;
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(199, 162, 74, .4);
+  background: rgba(10, 20, 38, .5);
+  color: var(--gold-soft, #E7C97A);
+  cursor: pointer;
+}
+.acc-invoice__close:hover { background: rgba(199, 162, 74, .16); }
+.acc-invoice__close:focus-visible { outline: 2px solid var(--gold, #C6A15B); outline-offset: 2px; }
+.acc-invoice__close .icon { width: 1rem; height: 1rem; }
+.acc-invoice .acc-tablewrap { border-color: rgba(244, 231, 198, .18); margin-top: 1.3rem; }
+.acc-table--dark th, .acc-table--dark td { border-bottom-color: rgba(244, 231, 198, .14); color: #F6EFE0; }
+.acc-table--dark thead th { background: rgba(255, 255, 255, .05); color: rgba(244, 231, 198, .66); }
+.acc-invoice__charged {
+  margin: 1.1rem 0 0;
+  color: rgba(244, 231, 198, .8);
+  font-variant-numeric: tabular-nums;
+}
+.acc-invoice .acc-sum__warning {
+  background: rgba(142, 43, 54, .28);
+  border-inline-start-color: #E08A94;
+  color: #FFD9DD;
+}
+
+@media (max-width: 620px) {
+  .acc-balance { padding-block: 1.8rem; }
+  .acc-sum li { grid-template-columns: 1.2rem 1fr; }
+  /* The value drops under its term rather than being squeezed beside it
+     — a money column compressed to four characters wraps mid-figure. */
+  .acc-sum__value { grid-column: 2; text-align: end; }
+}
+
+/* A note inside the invoice plate. `.acc-relief__note` is an ink colour
+   chosen for paper; reused on the dark plate it rendered a line's own
+   basis — the sentence that says WHY a charge is what it is — at about
+   1.5:1 and effectively invisible. Found by looking at the plate, not by
+   reading the class list. */
+.acc-invoice .acc-relief__note { color: rgba(244, 231, 198, .66); }
+
+/* ── PROVENANCE ──────────────────────────────────────────────────────
+   Where a figure came from, cited rather than narrated. See the note in
+   js/my-account.js: `basis` is a column name or a file path, and the
+   only honest way to show it to a reader is as a citation. */
+.acc-source { margin: .3rem 0 0; line-height: 1.5; }
+.acc-source__label {
+  display: inline-block;
+  margin-inline-end: .45rem;
+  font: 600 .6rem/1.6 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--ink, #10203A) 42%, transparent);
+}
+.acc-source__ref {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
+  font-size: .72rem;
+  color: color-mix(in oklab, var(--ink, #10203A) 56%, transparent);
+  overflow-wrap: anywhere;
+}
+.acc-invoice .acc-source__label { color: rgba(244, 231, 198, .5); }
+.acc-invoice .acc-source__ref { color: rgba(244, 231, 198, .62); }

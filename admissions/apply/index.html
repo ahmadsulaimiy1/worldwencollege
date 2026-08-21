@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600&family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/brand.css?v=c948ab87">
+<link rel="stylesheet" href="/css/brand.css?v=c3cbeaa6">
 <link rel="stylesheet" href="/css/listening-lab.css?v=e42925a0">
 <link rel="stylesheet" href="/css/dashboard.css?v=fe257965">
 <link rel="stylesheet" href="/css/admissions-wizard.css?v=943e59fc">
@@ -492,16 +492,26 @@
     <h2>Your application is in.</h2>
     <p class="lede">Reference id, if you need to write to Admissions about it:</p>
     <div class="application-status__id" data-status-id>&mdash;</div>
-    <p data-status-only="submitted">Keep the reference above &mdash; it is the only key to this application, and the College will not disclose an application&rsquo;s state to anyone who does not hold it. Admissions reviews applications in the order received; there is no queue position to check, only the reply.</p>
+    <p data-status-only="submitted">Keep the reference above &mdash; it is the only key to this application, and the College will not disclose an application&rsquo;s state to anyone who does not hold it. Admissions reviews applications in the order received, and you can read the whole of yours whenever you like at <a href="/admissions/track/">Track your application</a>: the stage it is at, every move made on it, and what is outstanding.</p>
     <!-- Rendered only when the API reports that the confirmation
          actually left. It used to be flat prose asserting an email that
          no gateway had been configured to send. -->
     <p data-confirmation-sent hidden>A confirmation has also been sent to your email address.</p>
     <p data-status-only="placement_pending" hidden>Your placement assessment is being arranged. Admissions will be in touch by email to schedule it.</p>
-    <p data-status-only="offer_sent" hidden>An offer has been sent to your email. Reply there to accept it and receive your invoice.</p>
+    <p data-status-only="offer_sent" hidden>An offer has been written for you. Read its terms and answer it &mdash; accept or decline &mdash; at <a href="/admissions/track/">Track your application</a>, with the reference above.</p>
     <p data-status-only="accepted" hidden>Your offer is accepted. Enrolment completes once payment is received &mdash; see your email for the invoice.</p>
     <p data-status-only="enrolled" hidden>You are enrolled. <a href="/my-programme.html">Go to My Programme &rarr;</a></p>
-    <p class="form-note" style="margin-top:24px"><a href="mailto:info@worldwencollege.co.uk?subject=Application%20Query">Write to Admissions</a> with any question, quoting the reference id above.</p>
+    <!-- The tracker takes the reference typed in rather than passed in a
+         link: the reference is a bearer credential, it is on screen one
+         field away, and a URL carrying one lands in a browser history
+         and in every screenshot of it. The ?ref= form exists for the
+         confirmation email, where there is no alternative, and
+         js/admissions-track.js strips it from the address bar on
+         arrival. -->
+    <div class="btn-row" style="margin-top:24px">
+      <a href="/admissions/track/" class="btn btn--gold magnetic aurum aurum--twin">Track this application</a>
+    </div>
+    <p class="form-note" style="margin-top:18px"><a href="mailto:info@worldwencollege.co.uk?subject=Application%20Query">Write to Admissions</a> with any question, quoting the reference id above.</p>
   </div>
 
 </main>

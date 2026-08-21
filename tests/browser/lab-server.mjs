@@ -190,6 +190,137 @@ const DEMO = {};
     awardTitle: 'English Scholar of Worldwide English College', postNominal: 'ScWEC', cefr: 'C1',
   });
 }
+// ── MONEY, for /my-account/ ───────────────────────────────────────────
+// The statement of account is the first item of the interface backlog
+// and the hardest thing to fixture honestly: a balance is only
+// interesting when it is made of several charges struck at different
+// times, one of them discounted, one of them refunded and one of them
+// still owed. So the harness builds exactly that rather than a single
+// tidy payment, and the page is driven by the REAL finance module
+// reading the REAL rows.
+const finance = await import(pathToFileURL(`${ROOT}/functions/_lib/student/finance.js`));
+{
+  // A second live currency, so the two-currency rule has something to
+  // be true about. USD is the ledger; GBP is switched on with a rate
+  // and a date, which is what `presentAmount()` needs before it will
+  // report a learner figure at all.
+  sqlite.exec(`UPDATE currencies SET is_active = 1, fx_rate_to_usd = 0.79,
+    fx_rate_source = 'harness', fx_rate_as_of = '2026-08-01T00:00:00.000Z' WHERE code = 'GBP'`);
+
+  const pay = (id, opts) => {
+    const cols = Object.assign({
+      user_id: 'usr_demo', kind: 'single_level', level_id: null, amount_cents: null,
+      currency: 'USD', amount_usd_cents: null, provider: 'stripe', status: 'succeeded',
+      created_at: '2026-03-01T10:00:00.000Z', confirmed_at: '2026-03-01T10:02:00.000Z',
+      promo_code: null, scholarship_id: null, instalment_plan_id: null, failure_reason: null,
+    }, opts);
+    if (cols.amount_cents === null) cols.amount_cents = cols.amount_usd_cents;
+    const keys = Object.keys(cols);
+    sqlite.prepare(
+      `INSERT INTO payments (id, ${keys.join(', ')}) VALUES (?, ${keys.map(() => '?').join(', ')})`,
+    ).run(id, ...keys.map((k) => cols[k]));
+  };
+
+  // Level I, paid in full and receipted.
+  pay('pay_demo_l1', { level_id: 1, amount_usd_cents: 316667 });
+  sqlite.exec(`INSERT INTO receipts (id, payment_id, receipt_number, issued_at)
+    VALUES ('rcp_demo_l1', 'pay_demo_l1', 'WEC-R-000001', '2026-03-01T10:03:00.000Z')`);
+
+  // Level II, paid under a scholarship, so relief is MEASURED — the
+  // difference between the price struck and the amount charged — rather
+  // than asserted anywhere.
+  sqlite.exec(`INSERT INTO scholarships (id, user_id, kind, value, approved_by, notes, created_at)
+    VALUES ('sch_demo', 'usr_demo', 'percent', 25, 'usr_admin',
+            'Demonstration award, granted by the harness.', '2026-03-10T00:00:00.000Z')`);
+  // TAKEN IN STERLING, deliberately. The module derives the learner's
+  // own currency from the charges on their account, so with every row
+  // in USD `presentAmount()` reports no learner figure at all and the
+  // two-currency rule the page is built on would never be exercised.
+  // £1,876.25 at the harness rate of 0.79 is the $2,375.00 struck.
+  pay('pay_demo_l2', {
+    level_id: 2, amount_usd_cents: 237500, amount_cents: 187625, currency: 'GBP',
+    scholarship_id: 'sch_demo',
+    created_at: '2026-04-01T10:00:00.000Z', confirmed_at: '2026-04-01T10:02:00.000Z',
+  });
+  sqlite.exec(`INSERT INTO receipts (id, payment_id, receipt_number, issued_at)
+    VALUES ('rcp_demo_l2', 'pay_demo_l2', 'WEC-R-000002', '2026-04-01T10:03:00.000Z')`);
+
+  // Level III, attempted and declined. A failure with its reason on it,
+  // because "it failed" and "the card was declined" are different facts
+  // and only the second tells a learner whether to try the same card.
+  pay('pay_demo_l3', {
+    level_id: 3, amount_usd_cents: 316667, status: 'failed', confirmed_at: null,
+    failure_reason: 'The card issuer declined the charge.',
+    created_at: '2026-05-01T10:00:00.000Z',
+  });
+
+  // And a refund that has actually moved money, so the fourth term of
+  // the identity is not always zero.
+  sqlite.exec(`INSERT INTO refunds (id, payment_id, amount_cents, reason, status, created_at)
+    VALUES ('ref_demo', 'pay_demo_l1', 5000, 'Demonstration refund, to exercise the fourth term.',
+            'processed', '2026-06-01T00:00:00.000Z')`);
+
+  // An instalment plan mid-flight, so the schedule shows paid, next and
+  // scheduled together.
+  sqlite.exec(`INSERT INTO instalment_plans (id, user_id, level_id, total_amount_usd_cents, instalment_count, status)
+    VALUES ('ipl_demo', 'usr_demo', 4, 316667, 4, 'active')`);
+  pay('pay_demo_i1', {
+    kind: 'instalment', level_id: 4, amount_usd_cents: 79167, instalment_plan_id: 'ipl_demo',
+    created_at: '2026-07-01T10:00:00.000Z', confirmed_at: '2026-07-01T10:02:00.000Z',
+  });
+}
+
+// ── ADMISSIONS, for /admissions/track/ ────────────────────────────────
+// The tracking page is the one surface a person reaches BEFORE they are
+// a learner, so the harness has to be able to be an applicant as well as
+// a student. Driven by the real lifecycle module against real rows: a
+// fixture payload would prove the page renders JSON and nothing about
+// whether the endpoint produces that JSON.
+const lifecycle = await import(pathToFileURL(`${ROOT}/functions/_lib/admissions/lifecycle.js`));
+const DEMO_APPS = {};
+{
+  const mk = async (key, name) => {
+    // REFERENCE_SHAPE demands app_ plus sixteen characters at least, so
+    // these are padded to it rather than being the shortest thing that
+    // reads well. A fixture that cannot pass the platform's own bearer
+    // check would test the refusal path and call it the happy one.
+    const id = ('app_' + key + 'demonstration').padEnd(24, '0');
+    sqlite.exec(`INSERT INTO applications (id, full_name, email, country, source, status, created_at, updated_at)
+      VALUES ('${id}', '${name}', '${key}@example.com', 'GB', 'website', 'submitted',
+              '2026-08-01T09:00:00.000Z', '2026-08-01T09:00:00.000Z')`);
+    return sqlite.prepare('SELECT * FROM applications WHERE id = ?').get(id);
+  };
+
+  // One at each state a reader can actually land on. Three, because the
+  // page renders three genuinely different things — an application with
+  // nothing to answer, one with a live offer, and one that is closed —
+  // and a single fixture could not tell a working page from a broken one.
+  DEMO_APPS.submitted = await mk('sub', 'Demonstration Applicant');
+
+  const placement = await mk('plc', 'Placement Demonstration');
+  await lifecycle.transitionApplication(env, {
+    application: placement, to: 'placement_pending', party: 'staff', actor: ADMIN_ACTOR,
+    channel: 'queue', reason: 'Placement conversation being arranged.',
+  });
+  DEMO_APPS.placement = placement;
+
+  const offered = await mk('ofr', 'Offer Demonstration');
+  await lifecycle.transitionApplication(env, {
+    application: offered, to: 'placement_pending', party: 'staff', actor: ADMIN_ACTOR,
+    channel: 'queue', reason: 'Placement conversation held.',
+  });
+  await lifecycle.issueOffer(env, {
+    actor: ADMIN_ACTOR, applicationId: offered.id, levelId: 2, kind: 'conditional',
+    conditions: 'Demonstration condition: confirm the spelling of your name as it should appear on the award.',
+    // Inside `MAX_OFFER_DAYS`, computed rather than pinned: a fixture
+    // with a hard-coded date is a fixture that fails on a Tuesday in a
+    // year nobody was thinking about, and this one already did.
+    expiresAt: new Date(Date.now() + 300 * 86400 * 1000).toISOString(),
+    reason: 'Demonstration offer, issued by the browser harness.',
+  });
+  DEMO_APPS.offered = offered;
+}
+
 const recordings = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/recording-storage.js`));
 const { makeR2 } = await import(pathToFileURL(`${ROOT}/tests/r2-shim.mjs`));
 // The same in-memory R2 stand-in the unit tests use, so the browser
@@ -280,12 +411,63 @@ createServer(async (req, res) => {
     if (REQUIRE_AUTH && url.pathname.startsWith('/api/')
         && !url.pathname.startsWith('/api/verify/') && url.pathname !== '/api/register'
         && url.pathname !== '/api/credentials/qr'
-        && !url.pathname.startsWith('/api/graduate/') && !url.pathname.startsWith('/api/share/')) {
+        && !url.pathname.startsWith('/api/graduate/') && !url.pathname.startsWith('/api/share/')
+        // /api/admissions/track and the applicant's half of /offer take
+        // an application reference rather than a session, because an
+        // applicant has no account to sign into. Guarding them here
+        // would test a product the College deliberately did not build.
+        && url.pathname !== '/api/admissions/track' && url.pathname !== '/api/admissions/offer') {
       const { userId } = identify(req);
       if (!userId) {
         res.writeHead(401, { 'Content-Type': 'application/json' });
         return res.end(JSON.stringify({ error: 'AuthError', message: 'Sign in to continue.' }));
       }
+    }
+    if (url.pathname === '/api/student/finance' && req.method === 'GET') {
+      return json(res, await finance.buildStudentFinance(env, 'usr_demo'));
+    }
+    if (url.pathname === '/api/student/invoice' && req.method === 'GET') {
+      try {
+        return json(res, await finance.buildStudentInvoice(env, {
+          userId: 'usr_demo', invoiceId: url.searchParams.get('id'),
+        }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 404, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/api/admissions/track' && req.method === 'GET') {
+      const ref = url.searchParams.get('ref');
+      try {
+        return json(res, await lifecycle.trackApplication(env, { reference: ref, clientKey: 'harness' }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 404, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message }));
+      }
+    }
+    if (url.pathname === '/api/admissions/offer' && req.method === 'POST') {
+      const body = JSON.parse(await read(req) || '{}');
+      const action = url.searchParams.get('action') || body.action;
+      try {
+        const r = await lifecycle.respondToOffer(env, {
+          reference: body.reference, action, reason: body.reason || null, clientKey: 'harness',
+        });
+        return json(res, {
+          reference: r.application.id, status: r.application.status,
+          offer: r.offer ?? null, event: r.event, notifications: r.notifications,
+        });
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    // The harness publishes its own demonstration references, so a
+    // browser test never has to hard-code an id this file invented.
+    // Under /__ rather than /api/, like /__demo-awards: it is harness
+    // furniture, and putting it under /api/ would have it 401 in the
+    // auth-required mode the tracking suite has to run in.
+    if (url.pathname === '/__demo-applications' && req.method === 'GET') {
+      return json(res, Object.fromEntries(Object.entries(DEMO_APPS).map(([k, v]) => [k, v.id])));
     }
     if (url.pathname === '/api/lms/unit') {
       const u = await content.getUnitDetail(env, { userId: 'usr_demo', unitId: url.searchParams.get('id') });
