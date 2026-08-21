@@ -251,6 +251,10 @@
                document rather than a struck surface and stays
                silent, which is the distinction §3 asks for. */
             + '.eng-cell, .eng-correction, .eng-cell-detail, .eng-live__item, '
+            /* My Module — css/module.css. Each item of a module, each
+               choice on a paper, the picker at the head, what was
+               submitted, and each live hour of the level. */
+            + '.mod-item, .mod-choice, .mod-picker, .mod-sub, .mod-live__item, '
             /* The Governance pillar — css/governance.css. The article
                is sealed, so it takes SEAL and is in the list above. */
             + '.docket__entry, .attest, '

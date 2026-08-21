@@ -28,11 +28,15 @@
 
 import { db } from '../db.js';
 
-// Kept in one place: the Lab is the only lesson surface today, but a
-// unit could later open into something else, and every caller building
-// this URL by hand is how a route change becomes a broken dashboard.
+// Kept in one place, and the reason for keeping it there has now been
+// collected on. This used to open the Listening Lab, which was the only
+// lesson surface there was; /my-module.html is the surface a module
+// actually opens into — its lessons, its quiz, its assignment and the
+// allowance the regulations leave on each — and it links onward to the
+// Lab for the items that need a microphone. One edit here moved every
+// caller, which is what this function exists for.
 export function unitHref(unitId) {
-  return `/listening-lab.html?unit=${encodeURIComponent(unitId)}`;
+  return `/my-module.html?unit=${encodeURIComponent(unitId)}`;
 }
 
 /**

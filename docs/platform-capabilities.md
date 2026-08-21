@@ -313,8 +313,8 @@ This is the map the next pass builds from.
 11. ~~**The state of their application**, before they are a learner at all.~~ **CLOSED 21 August 2026** — `/admissions/track/`, both editions, driven by `GET /api/admissions/track` and asserted end to end in a real browser by `tests/browser/admissions-track.mjs`.
 12. ~~**An offer to accept or decline.**~~ **CLOSED 21 August 2026** — answered from the same page, by `POST /api/admissions/offer?action=` and the same reference.
 13. **A checkout, an instalment plan, and confirmation of payment.** `POST /api/payments/create-checkout`, `/instalment-plan`, `/api/enrolment/confirm`, `GET /api/payments/verify`.
-14. **An assignment to submit.** `POST /api/lms/assignment-submission`.
-15. **The live sessions of their level.** `GET /api/lms/live-sessions`.
+14. ~~**An assignment to submit.**~~ **CLOSED 21 August 2026** — `/my-module.html`, both editions, which is also the study surface the platform did not have: `GET /api/lms/unit` had existed since the foundation pass with exactly one caller. The allowance rides above the paper rather than under the button, and where it is spent the page prints what the regulations do next instead of greying a control.
+15. ~~**The live sessions of their level.**~~ **CLOSED 21 August 2026** — on the same page, beneath the module, saying plainly where none are scheduled that a live hour is an addition to the module and never a condition of it.
 
 ### A tutor cannot
 

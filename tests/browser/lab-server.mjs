@@ -1124,7 +1124,36 @@ createServer(async (req, res) => {
     }
     if (url.pathname === '/api/lms/quiz-attempt' && req.method === 'POST') {
       const body = JSON.parse(await read(req));
-      return json(res, await content.submitQuizAttempt(env, { userId: 'usr_demo', ...body }));
+      try {
+        return json(res, await content.submitQuizAttempt(env, { userId: 'usr_demo', ...body }), 201);
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    // ── THE STUDY SURFACE ───────────────────────────────────────────
+    if (url.pathname === '/api/lms/units' && req.method === 'GET') {
+      const lv = Number(url.searchParams.get('levelId'));
+      return json(res, {
+        levelId: lv,
+        units: await content.listUnits(env, { userId: 'usr_demo', levelId: lv }),
+      });
+    }
+    if (url.pathname === '/api/lms/live-sessions' && req.method === 'GET') {
+      const lv = Number(url.searchParams.get('levelId'));
+      return json(res, {
+        levelId: lv,
+        sessions: await content.listLiveSessions(env, { userId: 'usr_demo', levelId: lv }),
+      });
+    }
+    if (url.pathname === '/api/lms/assignment-submission' && req.method === 'POST') {
+      const body = JSON.parse(await read(req));
+      try {
+        return json(res, await content.submitAssignment(env, { userId: 'usr_demo', ...body }), 201);
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
     }
     // Static resolution mirroring Cloudflare Pages: a bare path tries
     // the file, then <path>/index.html, then <path>.html. Without the

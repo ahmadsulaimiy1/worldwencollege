@@ -44,7 +44,7 @@
 // THE 25 MiB WALL, STATED RATHER THAN WORKED AROUND
 // ─────────────────────────────────────────────────────────────────────
 // Cloudflare Pages refuses any single file over 25 MiB. Two volumes
-// exceed it — the Complete Curriculum at 26.7 MB and its Student
+// exceed it — the Complete Curriculum at 26.6 MB and its Student
 // Edition at 25.5 MB — because both carry every plate of a six-level
 // curriculum in one binding.
 //

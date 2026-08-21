@@ -80,6 +80,13 @@
             </div>
             <p class="mp-pace" id="paceNote" hidden></p>
             <div id="modules" class="mp-modules"></div>
+            <!-- A STATIC WAY IN. Every module in the list above is a
+                 link this page builds at runtime, which is exactly the
+                 kind of route a census of the built HTML cannot see —
+                 and a route nothing static points at is a route nobody
+                 finds. This one opens the module page on its own
+                 first module. -->
+            <p class="mp-open"><a href="/my-module.html">Open a module</a></p>
           </div>
         </section>
 

@@ -1609,7 +1609,8 @@
       "/css/pillar.css",
       "/css/listening-lab.css",
       "/css/my-programme.css",
-      "/css/my-record.css"
+      "/css/my-record.css",
+      "/css/module.css"
     ],
     "scripts": [
       "/js/auth-config.js",
@@ -1632,7 +1633,8 @@
       "/css/pillar.css",
       "/css/listening-lab.css",
       "/css/my-programme.css",
-      "/css/my-record.css"
+      "/css/my-record.css",
+      "/css/module.css"
     ],
     "scripts": [
       "/js/auth-config.js",
@@ -1823,6 +1825,36 @@
     ]
   },
   {
+    "slug": "my-module",
+    "output": "my-module.html",
+    "title": "My Module &mdash; Worldwide English College",
+    "description": "One module of your level: its lessons, its assessments, what you have submitted, what the regulations leave you, and the College's live hours for the level.",
+    "contentFile": "my-module.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/my-module.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/week.css",
+      "/css/desk.css",
+      "/css/cases.css",
+      "/css/engagement.css",
+      "/css/module.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-module.js"
+    ]
+  },
+  {
     "slug": "my-record-ar",
     "output": "ar/my-record.html",
     "title": "سجلّي الأكاديمي — الكلية العالمية للغة الإنجليزية",
@@ -2000,6 +2032,36 @@
       "/js/portal-guard.js",
       "/js/api-auth.js",
       "/js/my-engagement.js"
+    ]
+  },
+  {
+    "slug": "my-module-ar",
+    "output": "ar/my-module.html",
+    "title": "وحدتي — الكلية العالمية للغة الإنجليزية",
+    "description": "وحدة واحدة من مستواك: دروسها وتقييماتها، وما سلّمته، وما تُبقيه لك اللائحة، وساعات الكلية الحيّة لهذا المستوى.",
+    "contentFile": "my-module.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/my-module.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/week.css",
+      "/css/desk.css",
+      "/css/cases.css",
+      "/css/engagement.css",
+      "/css/module.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-module.js"
     ]
   },
   {

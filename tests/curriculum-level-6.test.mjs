@@ -39,7 +39,7 @@ const expectedTitles = {
   7: 'Module 7: Media & Public Communication',
   8: 'Module 8: Research & Scholarship',
   9: 'Module 9: Ethics & Responsible Leadership',
-  10: 'Module 10: Capstone -- Global Challenges & Mastery Examination',
+  10: 'Module 10: Capstone — Global Challenges & Mastery Examination',
 };
 for (const unit of units) {
   check(`Module ${unit.sequence} title is correct`, unit.title === expectedTitles[unit.sequence]);

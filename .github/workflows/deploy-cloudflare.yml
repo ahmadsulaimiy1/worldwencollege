@@ -281,6 +281,8 @@ jobs:
         run: node tests/browser/my-cases.mjs
       - name: My Engagement — that an empty window is never drawn as a failure
         run: node tests/browser/my-engagement.mjs
+      - name: My Module — the study surface, and that the allowance is read before it is spent
+        run: node tests/browser/my-module.mjs
 
   deploy:
     needs: verify
