@@ -139,6 +139,7 @@ that its limits are acceptable for your machine.
 | `STROMEX_MCP_STATE_DIR` | `~/.stromex-mcp` | Audit log, approvals, recovery journal |
 | `STROMEX_MCP_AUDIT_PATH` / `_APPROVALS_PATH` / `_JOURNAL_PATH` / `_ROTATION_PATH` | under the state dir | Individual overrides |
 | `STROMEX_MCP_APPROVAL_TTL` | `900` | Seconds an approval grant stays usable |
+| `STROMEX_MCP_PROJECTS` | — | JSON array of the estate projects this instance may act for, e.g. `[{"key":"aipc","name":"Albalagh International Premium College","protectedResources":["aipc-production*"],"resources":{"neon":"orange-dawn-…"}}]`. This server is a **collective** capability: pass `forProject` on any call to attribute it, read it back with `stromex.projects.list`, and a project's patterns are **added** to the estate's — never substituted. Malformed JSON fails startup rather than silently running unattributed (`SEB-D 49`) |
 | `STROMEX_ROTATION_INTERVAL_DAYS` | `365` | Rotation interval the register uses for due dates. `SEB-D 45`: the keys never expire, so this is the deliberate replacement for the timer. `stromex.credentials.status` reports each key's age and flags any that are overdue |
 | `STROMEX_MCP_ACTOR` | `stromex-mcp` | Recorded on every audit entry |
 | `STROMEX_MCP_LOG_LEVEL` | `info` | `debug` · `info` · `warn` · `error` — stderr only |

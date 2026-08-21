@@ -5,8 +5,8 @@ hand.** `npm run catalogue:check` fails when this file and the source
 disagree — which is how the entire OpenAI provider came to be missing from
 it for a release (`SEB-D 29`).
 
-**180 tools** across **9 providers**:
-**84 read**, **79 write**, **17 protected**.
+**181 tools** across **9 providers**:
+**85 read**, **79 write**, **17 protected**.
 
 | Provider | Tools | read | write | protected |
 |---|---|---|---|---|
@@ -17,9 +17,9 @@ it for a release (`SEB-D 29`).
 | `neon` | 17 | 9 | 7 | 1 |
 | `openai` | 17 | 1 | 16 | 0 |
 | `vercel` | 17 | 8 | 7 | 2 |
-| `stromex` | 12 | 11 | 1 | 0 |
+| `stromex` | 13 | 12 | 1 | 0 |
 | `resend` | 11 | 4 | 5 | 2 |
-| **total** | **180** | **84** | **79** | **17** |
+| **total** | **181** | **85** | **79** | **17** |
 
 ## The protected operations
 
@@ -260,6 +260,7 @@ Prefer `valueFromHandle` in every case (`SEB-D 31`).
 | `stromex.handles.list` | read | StromeX — list credential handles |
 | `stromex.health.check` | read | StromeX — health check |
 | `stromex.policy.describe` | read | StromeX — describe the authority policy |
+| `stromex.projects.list` | read | StromeX — the project register |
 | `stromex.recovery.get` | read | StromeX — read a recovery journal entry |
 | `stromex.recovery.list` | read | StromeX — list recovery journal entries |
 | `stromex.version` | read | StromeX — server version and limits |

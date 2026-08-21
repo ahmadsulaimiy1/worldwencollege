@@ -192,6 +192,70 @@ export function platformTools(options: PlatformToolOptions): ToolDefinition[] {
     }),
 
     defineTool({
+      name: 'stromex.projects.list',
+      title: 'StromeX — the project register',
+      description:
+        'Lists the estate projects this instance may act for, with each one\'s extra protected-resource patterns, its recorded resource inventory, and what has actually been done for it — attributed action counts and 30-day spend, read back from the audit trail. This server is a COLLECTIVE capability rather than one institution\'s tool: pass forProject on any call to attribute it, and read it back here. An empty register means nothing is being attributed, which is honest rather than broken — declare projects with STROMEX_MCP_PROJECTS.',
+      provider: 'stromex',
+      operationClass: 'read',
+      inputSchema: {},
+      handler: async (_args, ctx) => {
+        const projects = config.projects.list();
+        // The same rolling window the spending policy uses, so a project's
+        // reported spend and the estate cap are talking about one period.
+        const windowStart = new Date(ctx.now().getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const recent = ctx.audit.query({ since: windowStart, limit: 100_000 });
+
+        const rows = projects.map((project) => {
+          const mine = recent.filter((record) => record.project === project.key);
+          const spend = mine.reduce((total, record) => total + (record.cost?.amount ?? 0), 0);
+          const currencies = [...new Set(mine.filter((r) => r.cost).map((r) => r.cost!.currency))];
+          return {
+            key: project.key,
+            name: project.name,
+            protectedResources: project.protectedResources,
+            resources: project.resources,
+            activity: {
+              windowDays: 30,
+              actions: mine.length,
+              // Refusals are counted separately: a run of them is either an
+              // attack or a broken workflow, and both are worth seeing
+              // against the project they were aimed at.
+              refused: mine.filter((r) => r.outcome === 'denied').length,
+              spend: Number(spend.toFixed(4)),
+              // Plural only when the log really holds more than one, rather
+              // than assuming the policy's currency and quietly summing
+              // across denominations.
+              currencies,
+            },
+          };
+        });
+
+        // Work done with no project named. Reported rather than hidden:
+        // an estate that thinks it attributes everything, and does not, is
+        // worse off than one that can see the gap.
+        const unattributed = recent.filter((record) => !record.project).length;
+
+        return {
+          summary: projects.length
+            ? `${projects.length} project(s) registered; ${recent.length} action(s) in the last 30 days, ${unattributed} unattributed`
+            : 'No projects registered on this instance — nothing is being attributed.',
+          data: {
+            count: projects.length,
+            projects: rows,
+            unattributedActions: unattributed,
+            estateProtectedResources: config.policy.protectedResources,
+          },
+          ...(projects.length === 0
+            ? { warnings: ['Declare projects with STROMEX_MCP_PROJECTS so actions can be attributed. See mcp/docs/installation.md.'] }
+            : unattributed
+              ? { warnings: [`${unattributed} action(s) in the window named no project. Pass forProject to attribute them.`] }
+              : {}),
+        };
+      },
+    }),
+
+    defineTool({
       name: 'stromex.audit.query',
       title: 'StromeX — query the audit trail',
       description:
@@ -206,6 +270,7 @@ export function platformTools(options: PlatformToolOptions): ToolDefinition[] {
         outcome: z.enum(['ok', 'error', 'denied', 'approval_required', 'dry_run']).optional(),
         operationClass: z.enum(['read', 'write', 'protected']).optional(),
         workflowRunId: z.string().optional(),
+        project: z.string().optional().describe('Which estate project the action served.'),
         limit: z.number().int().min(1).max(500).optional(),
       },
       handler: async (args, ctx) => {

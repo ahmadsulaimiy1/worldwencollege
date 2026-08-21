@@ -1504,6 +1504,25 @@ which project it acts for, refusing to guess.
 it makes collective ownership a property of the architecture rather than of
 my restraint in what I point the server at.
 
+**Made readable `[2026-08-21]`.** Attribution nobody can read back is
+decoration, not a control — the same standard `stromex.policy.describe` and
+`stromex.audit.verify` were built to meet. Two additions close that:
+
+- **`AuditQuery.project`**, so the field written onto every record can
+  actually be queried — *"what did we do for Al-Madeenah last month"* is the
+  question it exists to answer — and exposed on `stromex.audit.query`.
+- **`stromex.projects.list`**, the register itself: each project's extra
+  protected patterns, its resource inventory, and what was really done for
+  it — attributed action counts, refusals counted separately, and 30-day
+  spend read back from the audit trail over the same window the spending
+  policy uses. Currencies are listed rather than summed blindly across
+  denominations.
+
+It also **reports unattributed work rather than hiding it**, and says
+plainly when no projects are registered. An estate that believes it
+attributes everything, and does not, is worse off than one that can see the
+gap. 216 checks pass; the catalogue stands at 181 tools.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
