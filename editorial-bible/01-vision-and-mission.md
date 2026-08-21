@@ -99,7 +99,7 @@ one of them can be checked against it:
 |---|---|---|
 | **Sultan Hanafi Royal Schools** | To become one of the most trusted educational brands in Nigeria — through authentic achievement, transparency and consistent documentation | `SHRS authority-strategy §0` |
 | **Al-Madeenah International College** | Arabic and Islamic studies at a standard that is accreditable, mastery-based and honestly bounded | `AMC-EB §1–§3` |
-| **Worldwide English College / AIPC** | World-class English language education, CEFR-mapped, delivered to learners worldwide | `WEC-EB Part I` |
+| **Worldwide English College / WEC** | World-class English language education, CEFR-mapped, delivered to learners worldwide | `WEC-EB Part I` |
 
 `[OPEN]` The Al-Madeenah name was re-ruled at `AMC-D D-13` to *Al-Madeenah
 International College for Arabic & Islamic Studies*, superseding an

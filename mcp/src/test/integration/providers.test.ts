@@ -540,7 +540,7 @@ describe('Cloudflare adapter', () => {
   it('refuses to delete a D1 database whose name is an institutional record', async () => {
     const provider = scriptedProvider({ requireHeader: 'authorization', routes: [] });
     const h = harness().withClient('cloudflare', cfClient(provider.fetch));
-    const envelope = await invokeTool(tool(cloudflareTools(), 'cloudflare.d1.delete'), { databaseId: 'db-1', name: 'aipc' }, h.context());
+    const envelope = await invokeTool(tool(cloudflareTools(), 'cloudflare.d1.delete'), { databaseId: 'db-1', name: 'wec' }, h.context());
     assert.equal(envelope.ok, false);
     assert.equal(envelope.error?.code, 'POLICY_PROTECTED_RESOURCE');
     assert.equal(provider.requests.length, 0, 'nothing was sent to Cloudflare at all');

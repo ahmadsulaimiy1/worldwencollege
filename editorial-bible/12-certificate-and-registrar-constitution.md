@@ -278,7 +278,7 @@ now exist and are tested (`stromex/verifiable-documents/test/render.test.mjs`):
   key or store label even when one is attached to an entry (tested).
 - **§12.12(3) — the secret labels.** The same module's
   `certificateSecretLabel()` computes the canonical `pass` path for a
-  certificate secret (`stromex/certificates/aipc/<year>/<code>/<kind>`)
+  certificate secret (`stromex/certificates/wec/<year>/<code>/<kind>`)
   from non-secret identifiers only, validating every segment and never
   touching a value.
 

@@ -85,8 +85,8 @@ export const DEFAULT_PROTECTED_RESOURCES: readonly string[] = [
   '*enrollment*',
   '*academic-history*',
   // The estate's production stores.
-  'aipc',
-  'aipc-*',
+  'wec',
+  'wec-*',
   '*-production',
   'prod',
   'production',

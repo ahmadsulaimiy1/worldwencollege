@@ -140,7 +140,7 @@ describe('end to end over stdio', () => {
   it('REFUSES to delete an institutional record, over the wire, without contacting the provider', async () => {
     const result = (await client.callTool({
       name: 'cloudflare.d1.delete',
-      arguments: { databaseId: 'whatever', name: 'aipc' },
+      arguments: { databaseId: 'whatever', name: 'wec' },
     })) as ToolResultShape;
 
     assert.equal(result.isError, true);

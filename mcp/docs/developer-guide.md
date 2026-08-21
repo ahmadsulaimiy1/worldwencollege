@@ -72,7 +72,7 @@ Two tests minimum, and the second is the one that matters:
 ```ts
 it('does the thing', async () => { /* … */ });
 it('refuses on an institutional record, and sends nothing', async () => {
-  const envelope = await invokeTool(definition, { name: 'aipc-recordings' }, h.context());
+  const envelope = await invokeTool(definition, { name: 'wec-lc-recordings' }, h.context());
   assert.equal(envelope.error?.code, 'POLICY_PROTECTED_RESOURCE');
   assert.equal(provider.requests.length, 0);   // ← nothing happened
 });

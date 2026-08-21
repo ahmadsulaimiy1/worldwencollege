@@ -25,7 +25,7 @@ as up — that distinction is the whole reason the check exists
 
 ```
 2026-08-18T09:14:22.481Z  #  128  ok                write     cloudflare.dns.create  A api.example.com
-2026-08-18T09:14:31.902Z  #  129  denied            protected cloudflare.d1.delete   aipc  POLICY_PROTECTED_RESOURCE
+2026-08-18T09:14:31.902Z  #  129  denied            protected cloudflare.d1.delete   wec  POLICY_PROTECTED_RESOURCE
 2026-08-18T09:15:02.117Z  #  130  approval_required protected cloudflare.r2.delete   scratch-bucket
 ```
 

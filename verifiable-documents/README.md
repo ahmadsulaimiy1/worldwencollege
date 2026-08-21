@@ -35,7 +35,7 @@ registerDocumentType('reference-letter', {
   render: (record, { issuer }) => `<!doctype html>…`,
 });
 
-const html = renderDocument('reference-letter', record, { issuer: AIPC });
+const html = renderDocument('reference-letter', record, { issuer: WEC });
 ```
 
 Built-in types cannot be shadowed by accident; malformed keys and subjects
@@ -56,15 +56,15 @@ are refused. The future is data here, not a rewrite.
 import { defineIssuer } from '@stromex/verifiable-documents/issuer';
 import { renderAwardCertificate } from '@stromex/verifiable-documents/certificate-render';
 
-const AIPC = defineIssuer({
-  key: 'aipc',
-  legalName: 'Albalagh International Premium College — London Campus',
-  codePrefix: 'AIPC',
+const WEC = defineIssuer({
+  key: 'wec',
+  legalName: 'Worldwide English College — London Campus',
+  codePrefix: 'WEC',
   verifyOrigin: 'https://www.worldwencollege.co.uk',
-  sealMark: 'AIPC',
+  sealMark: 'WEC',
 });
 
-const html = renderAwardCertificate(awardRecord, { issuer: AIPC });
+const html = renderAwardCertificate(awardRecord, { issuer: WEC });
 ```
 
 Each project runs **its own verify portal on its own domain** (the issuer's

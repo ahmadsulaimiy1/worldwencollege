@@ -1575,6 +1575,84 @@ automation and excellence."*
 
 221 checks pass.
 
+### `SEB-D 50` — There was no rename. Worldwide English College was never Albalagh — corrects `SEB-D 47` and `SEB-D 48`
+
+**Decided 2026-08-21, by the Founder's direct statement to the College.**
+The Founder confirmed, plainly and directly: Worldwide English College —
+London Campus, at the domain `worldwencollege.co.uk`, real live D1 database
+`wec-lc` and real live R2 buckets `wec-lc-recordings` and
+`wec-lc-kyc-documents`, is this institution's **one true, current and
+permanent identity**. It was never renamed. "Al-Balagh"/"Albalagh" is a
+**completely separate, unrelated Islamic school project** — the same one
+correctly named alongside Al-Madeenah and Sultan Hanafi Royal Schools
+wherever this estate's shared platforms (`stromex/mcp`,
+`stromex/verifiable-documents`) list example or sibling projects — and has
+no connection whatsoever to Worldwide English College or its domain.
+
+**What actually happened.** An earlier session (commit `385d57a`, "Rebrand
+the institution to Albalagh International Premium College," 17 August
+2026) invented a narrative that the College had been renamed, and a
+follow-on commit (`40d692d`) built an entire premise on it: that
+`worldwencollege.co.uk` was a "legacy domain of the renamed institution,"
+kept only "pending" a new Albalagh domain. Neither commit was preceded by
+a decision recorded here — the rename was never adopted as policy in this
+log, it was simply asserted in code, comments and prose across roughly 190
+files, including `package.json`, every partial and generated page, the
+Arabic brand name, `wrangler.toml`, the Cloudflare deploy workflow,
+`functions/_lib/registry/*` (verification-code prefixes, the Alumni
+Society code, the credential `kid` and JWKS field names, the `WEC_LC_*`
+runtime globals, storage keys and the service-worker cache version), the
+test suites, and this Bible itself.
+
+**Two entries in this very log stated the false premise as settled fact,
+and are corrected here rather than silently rewritten:**
+
+- **`SEB-D 47`** said *"Albalagh (AIPC) is the *default only*"* for the
+  verifiable-document engine's issuer profile. Read `WEC`
+  (`stromex/verifiable-documents/src/issuer.js`'s `WEC` issuer, legal name
+  **Worldwide English College — London Campus**, code prefix `WEC`) for
+  `Albalagh (AIPC)` throughout that entry — the doctrine, the engine
+  design and the 221 passing checks it describes are unaffected; only the
+  institution's name was ever wrong.
+- **`SEB-D 48`** noted, correctly at the time, that `build.js` "records the
+  same tension for the site canonical (the College's name changed; the
+  Albalagh address has not been bought)." The College's name never
+  changed, and `worldwencollege.co.uk` is not a placeholder for an unbought
+  Albalagh domain — it is the College's real, permanent domain, and no
+  domain migration of any kind is pending.
+
+**What is corrected.** Every instance of "Albalagh International Premium
+College" (and the Arabic `كلية البلاغ الدولية المتميّزة`) is restored to
+**Worldwide English College — London Campus**; every narrative "AIPC"/
+`aipc` abbreviation to **WEC**; every infrastructure and identifier
+reference (D1 database name, both R2 bucket names, the Pages project, the
+`WEC_LC_*` globals, verification-code and receipt prefixes, the Alumni
+Society code, the service-worker cache and event namespace) to **`wec-lc`**
+or **`WEC`**, matching the real, live values. `docs/domain-setup.md`'s
+"Pending — the Albalagh domain" section — built entirely on the false
+premise — is removed and replaced with a plain statement that no
+migration is needed.
+
+**What this does NOT touch.** `SEB-D 48`'s real, separate, still-open
+finding — that some printed volumes' QR codes resolve to
+`worldwideenglishcollege.com`, an unregistered, fully-spelled-out domain
+distinct from the real `worldwencollege.co.uk` — is unrelated to the false
+rename and stays open, exactly as `SEB-D 48` left it, in
+`scripts/publication/identity.mjs`. Fixing it remains the Founder's
+governance act, not a code tidy, for the reason `SEB-D 48` already gives.
+
+**`sql/migrations/*.sql` were not touched.** Several already-applied
+migrations carry the wrong name as literal seed data (e.g. an inserted
+row's institution string), listed in this correction's own audit rather
+than edited in place — rewriting an applied migration is not how this
+estate corrects data, per `SEB §18.14`'s rule on how decisions and their
+consequences are put to a human. Where the wrong name is live data in the
+real `wec-lc` database, it needs a new forward migration, not a rewrite of
+history here or in `sql/`.
+
+**Confidence High.** This is a factual correction, not a judgement call —
+the Founder identified their own institution directly.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.

@@ -38,8 +38,8 @@ Above them, two absolutes:
 
 The protected-resource patterns ship naming this estate's real assets —
 `*audit*`, `*transcript*`, `*certificate*`, `*registrar*`,
-`*student-record*`, `*enrolment*`, `*academic-history*`, `aipc`,
-`aipc-*`, `*-production` and others. Operator patterns are **added** to
+`*student-record*`, `*enrolment*`, `*academic-history*`, `wec`,
+`wec-*`, `*-production` and others. Operator patterns are **added** to
 that list; the built-ins cannot be removed by configuration.
 
 ## 3. What approval does and does not defend against

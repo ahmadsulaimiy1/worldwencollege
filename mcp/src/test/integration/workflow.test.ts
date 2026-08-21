@@ -353,7 +353,7 @@ describe('workflow attribution — a run and its steps belong to one project', (
     handler: async () => ({ summary: 'undone', data: {} }),
   });
 
-  const env = { STROMEX_MCP_PROJECTS: '[{"key":"aipc","name":"Albalagh"}]' };
+  const env = { STROMEX_MCP_PROJECTS: '[{"key":"wec","name":"Worldwide English College"}]' };
 
   it('attributes EVERY step of a run, not just the run itself', async () => {
     const h = harness({ env });
@@ -368,13 +368,13 @@ describe('workflow attribution — a run and its steps belong to one project', (
       tools,
       contextFor: () => h.context(),
       dryRun: false,
-      forProject: 'aipc',
+      forProject: 'wec',
       now: () => new Date('2026-08-21T09:00:00.000Z'),
     });
     assert.equal(report.steps.filter((s) => s.status === 'ok').length, 2);
     // Every step's audit record carries the project — a multi-step run that
     // attributed only its first step would under-count the rest.
-    const records = h.audit.query({ project: 'aipc', limit: 50 });
+    const records = h.audit.query({ project: 'wec', limit: 50 });
     assert.equal(records.length, 2, 'both steps attributed');
     // And the handler still received its own arguments untouched.
     assert.deepEqual(recorded.map((r) => r['value']), ['one', 'two']);
@@ -396,14 +396,14 @@ describe('workflow attribution — a run and its steps belong to one project', (
       tools,
       contextFor: () => h.context(),
       dryRun: false,
-      forProject: 'aipc',
+      forProject: 'wec',
       now: () => new Date('2026-08-21T09:00:00.000Z'),
     });
     // A rollback is the one record an auditor most wants attached to
     // something; it must not land unattributed.
     const undo = h.audit.query({ tool: 'demo.undo', limit: 10 })[0];
     assert.ok(undo, 'the compensation ran');
-    assert.equal(undo!.project, 'aipc');
+    assert.equal(undo!.project, 'wec');
   });
 
   it('leaves steps unattributed when the run names no project — never invented', async () => {

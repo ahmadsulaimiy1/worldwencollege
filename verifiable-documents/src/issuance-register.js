@@ -35,7 +35,7 @@ export const SECRET_KINDS = ['pdf-unlock', 'signing-key', 'private-key'];
  * The canonical `pass` label for one certificate secret.
  *
  * Returns a STORE PATH, never a value — e.g.
- *   stromex/certificates/aipc/2026/AIPC-4K7P-9WQ2-MXR8T/pdf-unlock
+ *   stromex/certificates/wec/2026/WEC-4K7P-9WQ2-MXR8T/pdf-unlock
  *
  * The label is derived only from non-secret identifiers (the ISSUER, the
  * year, the public verification code, the kind of secret) — never from a
@@ -47,7 +47,7 @@ export const SECRET_KINDS = ['pdf-unlock', 'signing-key', 'private-key'];
  *
  * `issuer` may be a profile, a known slug, or omitted (defaults to the
  * default issuer). The code is validated against THAT issuer's prefix, so
- * an AIPC code cannot be filed under Al-Madeenah's namespace by accident.
+ * an WEC code cannot be filed under Al-Madeenah's namespace by accident.
  */
 export function certificateSecretLabel({ code, kind, year, issuer } = {}) {
   const iss = resolveIssuer(issuer);
