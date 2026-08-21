@@ -133,6 +133,7 @@ export function buildServer(options: BuildServerOptions): BuiltServer {
     dryRun: false,
     now,
     providers: providers.clients,
+    projects: config.projects,
     // Replaced by the registry on every invocation, which is the only
     // place that can close over the audit log for the rolling window. A
     // handler that somehow reached this one would be spending outside the

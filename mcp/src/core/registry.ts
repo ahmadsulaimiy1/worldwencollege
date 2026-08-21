@@ -28,6 +28,7 @@ import type { AuditLog, AuditOutcome } from './audit.js';
 import { StromexError, toStromexError } from './errors.js';
 import type { RecoveryJournal } from './journal.js';
 import type { Logger } from './logger.js';
+import type { ProjectProfile, ProjectRegistry } from './project.js';
 import type { OperationClass, PolicyEngine } from './policy.js';
 import { REDACTION_PLACEHOLDER, redactValue, registerSecretValue } from './redact.js';
 import type { HandleVault } from './vault.js';
@@ -80,6 +81,12 @@ export interface ToolContext {
   providers: Record<string, unknown>;
   /** In-process store for credentials moving between providers. */
   vault: HandleVault;
+  /**
+   * The estate projects this server may act for. Used to resolve the
+   * `project` control argument, so an action can be attributed and a
+   * project's own protected patterns applied (`src/core/project.ts`).
+   */
+  projects: ProjectRegistry;
   /**
    * Report a REAL charge, immediately before the irreversible step, and
    * have it checked against the spending policy.
@@ -189,6 +196,32 @@ export function defineTool<S extends RawShape>(definition: ToolDefinition<S>): T
   return definition as unknown as ToolDefinition;
 }
 
+/**
+ * The argument the registry adds to EVERY tool, read operations included.
+ *
+ * On reads too, because attribution is an accounting question rather than a
+ * mutation one: "who looked at this project's data" is exactly the kind of
+ * thing an audit trail is asked afterwards, and a field present on only
+ * some records cannot answer it.
+ */
+const projectShape = {
+  /*
+   * NAMED `forProject`, NOT `project`, and the distinction is load-bearing.
+   *
+   * `project` is already a real argument on sixteen provider tools — a
+   * Vercel project id, a Cloudflare Pages project name. A control argument
+   * of that name shadows every one of them: the registry would strip the
+   * caller's Vercel project before the handler ever saw it, and the tool
+   * would fail on a field the caller did supply. That is exactly what
+   * happened when this was first written, and the integration suite caught
+   * it. A control argument must be unmistakable for a domain one.
+   */
+  forProject: z
+    .string()
+    .optional()
+    .describe('Which ESTATE PROJECT this call is made for (not a provider project id). Recorded on the audit record, and the project\'s own protected-resource patterns are added to the estate\'s. Omit only when the call genuinely serves no single project.'),
+} satisfies RawShape;
+
 /** Arguments the registry adds to every mutating tool. */
 const dryRunShape = {
   dryRun: z
@@ -224,6 +257,7 @@ export function registerTools(options: RegisterOptions): void {
   for (const definition of ordered) {
     const inputSchema: RawShape = {
       ...definition.inputSchema,
+      ...projectShape,
       ...(definition.operationClass === 'read' ? {} : dryRunShape),
       ...(definition.operationClass === 'protected' ? approvalShape : {}),
     };
@@ -269,6 +303,27 @@ export async function invokeTool(
   const dryRun = rawArgs['dryRun'] === true;
   ctx = { ...ctx, dryRun };
   const approvalId = typeof rawArgs['approvalId'] === 'string' ? rawArgs['approvalId'] : undefined;
+  /*
+   * WHICH PROJECT this call serves. An unknown key is a hard failure rather
+   * than a silent fallback to "unattributed": somebody took the trouble to
+   * say who the work was for, and filing it under nothing — or under a
+   * project the server guessed — is the failure the register exists to
+   * prevent (`src/core/project.ts`).
+   */
+  const projectKey = typeof rawArgs['forProject'] === 'string' && rawArgs['forProject'].trim()
+    ? rawArgs['forProject'].trim()
+    : undefined;
+  /*
+   * Resolved BELOW rather than here, once `finish` exists.
+   *
+   * The first version called `require()` at this point, so an unknown
+   * project threw straight out of `invokeTool` — no envelope, and no audit
+   * record. That contradicts the one rule this gate keeps everywhere else:
+   * a refusal is recorded as carefully as an action (`SEB §21.8`). A
+   * mis-attributed call is precisely the kind of thing an auditor later
+   * asks about, so the refusal must leave a trace rather than an exception.
+   */
+  let project: ProjectProfile | undefined;
   const confirmationPhrase =
     typeof rawArgs['confirmationPhrase'] === 'string' ? rawArgs['confirmationPhrase'] : undefined;
 
@@ -300,6 +355,7 @@ export async function invokeTool(
       workflowRunId: ctx.workflowRunId,
       requestId: ctx.requestId,
       credentialFingerprint: fingerprintFor(ctx, definition.provider),
+      project: project?.key,
       cost: committed,
     });
     // Redact HERE, not only where the envelope becomes an MCP result.
@@ -320,6 +376,21 @@ export async function invokeTool(
    * with, verification says so (`SEB §26.4`).
    */
   let committed: { amount: number; currency: string; description: string } | undefined;
+
+  /*
+   * Attribution, resolved here — after `committed`, which `finish` closes
+   * over — so that an unknown project is a RECORDED refusal rather than an
+   * exception thrown out of the gate. A mis-attributed call is exactly what
+   * an auditor asks about later, so it must leave a trace (`SEB §21.8`).
+   */
+  if (projectKey) {
+    try {
+      project = ctx.projects.require(projectKey);
+    } catch (thrown) {
+      const error = toStromexError(thrown, { provider: definition.provider, operation: base.operation });
+      return finish(errorEnvelope(base, error), 'denied', undefined, error);
+    }
+  }
 
   const spentInWindow = (): number => {
     const windowStart = new Date(ctx.now().getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
@@ -429,6 +500,9 @@ export async function invokeTool(
     purchase,
     dryRun,
     approvalId,
+    // The project's own patterns, on top of the estate's. A union: a
+    // project may add protection, never remove the estate's.
+    extraProtectedResources: project?.protectedResources,
   });
 
   if (decision.decision === 'deny') {
@@ -663,7 +737,7 @@ function maskSecretArgs(
 
 /** The registry's own arguments are not part of a tool's schema. */
 function stripControlArgs(args: Record<string, unknown>): Record<string, unknown> {
-  const { dryRun: _dryRun, approvalId: _approvalId, confirmationPhrase: _phrase, ...rest } = args;
+  const { dryRun: _dryRun, approvalId: _approvalId, confirmationPhrase: _phrase, forProject: _forProject, ...rest } = args;
   return rest;
 }
 

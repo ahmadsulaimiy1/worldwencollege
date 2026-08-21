@@ -24,6 +24,7 @@ import {
 } from './core/policy.js';
 import { SecretResolver, loadEnvFile } from './core/secret.js';
 import { DEFAULT_ROTATION_INTERVAL_DAYS } from './core/rotation.js';
+import { ProjectRegistry, parseProjects } from './core/project.js';
 
 export const PROVIDER_NAMES = [
   'cloudflare',
@@ -140,6 +141,15 @@ export interface StromexConfig {
   rotationPath: string;
   /** Rotation interval in days for the register's due dates (`SEB-D 45`). */
   rotationIntervalDays: number;
+  /**
+   * The estate projects this instance may act for.
+   *
+   * The server is a COLLECTIVE capability, not one institution's tool. Every
+   * audited action carries the project it served, and a project may add its
+   * own protected-resource patterns. Empty means nothing is attributed —
+   * which is honest, and better than inventing an owner.
+   */
+  projects: ProjectRegistry;
   approvalTtlSeconds: number;
   policy: PolicyConfig;
   /** Provider tool groups to expose. Empty means every configured provider. */
@@ -244,6 +254,7 @@ export function loadConfig(options: LoadConfigOptions = {}): StromexConfig {
     approvalsPath: env['STROMEX_MCP_APPROVALS_PATH'] ?? join(stateDir, 'approvals.json'),
     journalPath: env['STROMEX_MCP_JOURNAL_PATH'] ?? join(stateDir, 'recovery-journal.jsonl'),
     rotationPath: env['STROMEX_MCP_ROTATION_PATH'] ?? join(stateDir, 'rotation.json'),
+    projects: new ProjectRegistry(parseProjects(env['STROMEX_MCP_PROJECTS'])),
     rotationIntervalDays: parseInteger(
       env['STROMEX_ROTATION_INTERVAL_DAYS'],
       DEFAULT_ROTATION_INTERVAL_DAYS,

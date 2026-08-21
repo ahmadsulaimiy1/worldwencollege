@@ -704,3 +704,46 @@ describe('an unpriceable metered call', () => {
     assert.equal(envelope.error?.code, 'CONFIG_INVALID');
   });
 });
+
+describe('project attribution — the collective server records who work was for', () => {
+  const tool = defineTool({
+    name: 'demo.act',
+    title: 'Demo',
+    description: 'A write that names a provider-side project of its own.',
+    provider: 'demo',
+    operationClass: 'write',
+    // A REAL `project` argument, exactly as sixteen Cloudflare and Vercel
+    // tools have. The control argument must not shadow it.
+    inputSchema: { project: z.string() },
+    handler: async (args) => ({ summary: 'ok', data: { sawProject: args['project'] } }),
+  });
+
+  it('records WHICH ESTATE PROJECT an action served, on the audit record', async () => {
+    const h = harness({ env: { STROMEX_MCP_PROJECTS: '[{"key":"aipc","name":"Albalagh"}]' } });
+    const result = await invokeTool(tool, { project: 'vercel-site', forProject: 'aipc' }, h.context());
+    assert.equal(result.ok, true);
+    const record = h.audit.query({ limit: 1 })[0]!;
+    assert.equal(record.project, 'aipc', 'the audit trail must be able to answer "for whom"');
+  });
+
+  it('does NOT shadow a provider tool\'s own `project` argument', async () => {
+    const h = harness({ env: { STROMEX_MCP_PROJECTS: '[{"key":"aipc","name":"Albalagh"}]' } });
+    const result = await invokeTool(tool, { project: 'vercel-site', forProject: 'aipc' }, h.context());
+    // The handler still received the caller's provider-side project.
+    assert.equal((result.data as { sawProject: string }).sawProject, 'vercel-site');
+  });
+
+  it('leaves the attribution absent — never invented — when no project is named', async () => {
+    const h = harness({ env: { STROMEX_MCP_PROJECTS: '[{"key":"aipc","name":"Albalagh"}]' } });
+    await invokeTool(tool, { project: 'vercel-site' }, h.context());
+    const record = h.audit.query({ limit: 1 })[0]!;
+    assert.equal(record.project, undefined, 'an unattributed action is recorded as unattributed');
+  });
+
+  it('REFUSES an unknown estate project, and nothing happens', async () => {
+    const h = harness({ env: { STROMEX_MCP_PROJECTS: '[{"key":"aipc","name":"Albalagh"}]' } });
+    const result = await invokeTool(tool, { project: 'vercel-site', forProject: 'not-registered' }, h.context());
+    assert.equal(result.ok, false);
+    assert.equal(result.error?.code, 'CONFIG_INVALID');
+  });
+});
