@@ -274,7 +274,9 @@
   border: 1px solid rgba(199, 162, 74, .42);
   border-radius: 12px;
   box-shadow: inset 0 0 80px -26px rgba(0, 0, 0, .8), var(--relief-metal, 0 10px 30px -12px rgba(10, 20, 40, .5));
-  scroll-margin-top: 6rem;
+  /* Owned site-wide by `:target, section[id]` in css/brand.css, which
+     measures the real chrome. A local value here is dead: that rule is
+     two tokens and beats this one wherever the plate is a section. */
 }
 .acc-invoice h2 { color: #F6EFE0; margin: 0 0 1.1rem; }
 .acc-invoice__eyebrow {

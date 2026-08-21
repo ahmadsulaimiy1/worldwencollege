@@ -496,6 +496,72 @@ const DEMO_DESK = {};
   DEMO_DESK.closed = closedId;
 }
 
+// ── THE CASES, for /my-cases/ ─────────────────────────────────────────
+// Four cases, because the page renders four genuinely different things
+// and a single fixture could not tell a working page from a broken one:
+// one just received and waiting on the acknowledgement clock, one at
+// stage one, one answered and therefore escalable, and one already
+// closed. Driven through the real module — a case inserted as a row
+// would carry no trail, and the trail is the part of this page that
+// makes E2 checkable rather than merely stated.
+const casesLib = await import(pathToFileURL(`${ROOT}/functions/_lib/registrar/cases.js`));
+const DEMO_CASES = {};
+{
+  const LEARNER = { id: 'usr_demo', role: 'student' };
+
+  DEMO_CASES.received = (await casesLib.openCase(env, {
+    actor: LEARNER, kind: 'deferral', matter: 'welfare',
+    summary: 'A pause of six months while I am caring for a relative',
+    detail: 'I need to stop for about six months and come back to the same level with the marks I have.\n\nI am not asking for anything to be re-marked and nothing has gone wrong; I simply cannot keep the hours at present.',
+    levelId: 2,
+  })).reference;
+
+  const atStageOne = await casesLib.openCase(env, {
+    actor: LEARNER, kind: 'appeal', matter: 'academic',
+    summary: 'The Unit 7 speaking mark against the published rubric',
+    detail: 'The rubric published before the task lists fluency, range, accuracy and interaction. My feedback discusses only accuracy, and the mark given is below the band my recording sits in on the other three.\n\nI am asking for the mark to be looked at against the rubric that was published.',
+    levelId: 2,
+  });
+  await casesLib.advanceStage(env, {
+    actor: ADMIN_ACTOR, caseId: atStageOne.id, toStage: 'stage_one',
+    note: 'Acknowledged and passed to a member of academic staff senior to, and other than, the marker.',
+  });
+  DEMO_CASES.stageOne = atStageOne.reference;
+
+  // Answered at stage one, so the page has an outcome to render, the
+  // consequences that outcome sets in motion, and — the point of this
+  // fixture — a live offer of escalation the learner alone may take.
+  const answered = await casesLib.openCase(env, {
+    actor: LEARNER, kind: 'complaint', matter: 'administrative',
+    summary: 'A tutorial hour cancelled twice with no notice',
+    detail: 'The tutorial was withdrawn twice in three weeks and on neither occasion was I told before the hour itself.',
+    levelId: 1,
+  });
+  await casesLib.advanceStage(env, {
+    actor: ADMIN_ACTOR, caseId: answered.id, toStage: 'stage_one',
+    note: 'Acknowledged and passed for review.',
+  });
+  await casesLib.recordDecision(env, {
+    actor: ADMIN_ACTOR, actorRole: casesLib.POSTS.stage_one, caseId: answered.id,
+    outcome: 'partly_upheld',
+    decision: 'The two withdrawals happened and no notice was given, which should not have happened and is upheld.\n\nThe hours were withdrawn by the tutor rather than lost, and both were re-offered inside the same fortnight, so the part of the complaint that says the teaching was not delivered is not upheld.',
+    note: 'Reviewed against the tutorial records and the tutor’s own account.',
+  });
+  DEMO_CASES.answered = answered.reference;
+
+  const closed = await casesLib.openCase(env, {
+    actor: LEARNER, kind: 'transfer', matter: 'academic',
+    summary: 'Moving from Level I to Level II before the assessment window',
+    detail: 'I would like to be placed at Level II instead, on the strength of the placement conversation.',
+    levelId: 1,
+  });
+  await casesLib.withdrawCase(env, {
+    actor: LEARNER, caseId: closed.id,
+    reason: 'Answered in a tutorial: the placement already put me at Level II, so there is nothing to transfer.',
+  });
+  DEMO_CASES.closed = closed.reference;
+}
+
 const recordings = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/recording-storage.js`));
 const { makeR2 } = await import(pathToFileURL(`${ROOT}/tests/r2-shim.mjs`));
 // The same in-memory R2 stand-in the unit tests use, so the browser
@@ -702,6 +768,46 @@ createServer(async (req, res) => {
     // thread. Under /__ by the house convention that keeps a harness
     // affordance out of the /api/ namespace the site actually ships.
     if (url.pathname === '/__demo-desk' && req.method === 'GET') return json(res, DEMO_DESK);
+    // ── THE CASES ───────────────────────────────────────────────────
+    if (url.pathname === '/api/student/cases' && req.method === 'GET') {
+      const me = sqlite.prepare('SELECT * FROM users WHERE id = ?').get('usr_demo');
+      const one = url.searchParams.get('case') || url.searchParams.get('reference');
+      try {
+        const language = url.searchParams.get('language');
+        return json(res, one
+          ? await casesLib.learnerCase(env, { user: me, idOrReference: one, language })
+          : await casesLib.learnerCases(env, { user: me, language }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 404, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/api/student/cases' && req.method === 'POST') {
+      const me = sqlite.prepare('SELECT * FROM users WHERE id = ?').get('usr_demo');
+      const body = JSON.parse(await read(req) || '{}');
+      const action = body.action === undefined ? 'open' : body.action;
+      try {
+        if (action === 'open') {
+          return json(res, await casesLib.openCase(env, {
+            actor: me, kind: body.kind, matter: body.matter, summary: body.summary,
+            detail: body.detail ?? null, levelId: body.levelId ?? null,
+          }), 201);
+        }
+        const target = body.case || body.reference || body.caseId;
+        if (action === 'escalate') {
+          return json(res, await casesLib.escalateCase(env, {
+            actor: me, caseId: target, note: body.note,
+          }));
+        }
+        return json(res, await casesLib.withdrawCase(env, {
+          actor: me, caseId: target, reason: body.reason,
+        }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/__demo-cases' && req.method === 'GET') return json(res, DEMO_CASES);
     if (url.pathname === '/api/student/standing' && req.method === 'GET') {
       return json(res, await standingLib.computeLearnerStanding(env, 'usr_demo'));
     }

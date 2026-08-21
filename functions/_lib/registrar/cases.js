@@ -341,6 +341,104 @@ export const PUBLISHED = {
  * across the four places that need a due date.
  * ─────────────────────────────────────────────────────────────── */
 
+/**
+ * THE ARABIC EDITION OF THE PUBLISHED SENTENCES.
+ *
+ * Not a translation made here. Every sentence below is lifted from
+ * /ar/students/regulations/, which is where the College published
+ * Decision E2 in Arabic — so the page a learner reads, the regulation
+ * they can check it against, and the payload the server sends are one
+ * text in each language rather than three attempts at one.
+ *
+ * The vocabulary is the site's own and is not to be re-coined here:
+ * `المجلس الأكاديمي` for the Academic Senate and `مجلس الأمناء` for the
+ * Board of Governors, which is what eleven and nine Arabic pages
+ * respectively already say. A second word for a standing body is a
+ * reader wondering whether it is a second body.
+ */
+const PUBLISHED_AR = {
+  instrument: 'القرار E2، المعتمد في 17 أغسطس 2026.',
+  principle: 'الاستئنافُ الذي يعيد النظر فيه مَن قرّره أوّلًا ليس استئنافًا، ولذلك بُني الإجراء على قاعدة واحدة: في كلّ مرحلة ينتقل القرار إلى مَن لم يكن طرفًا في التي قبلها.',
+  no_skipping: 'ولا يجوز للكلية أن تتخطّى مرحلةً للوصول إلى خاتمة أسرع.',
+  stage_one: 'اكتب إلى الكلية خلال عشرين يوم عمل من القرار. ينظر فيه عضو هيئة أكاديمية أعلى من متخذه وغيره. وتتلقى نتيجةً مكتوبة مسبَّبة. وأكثر الاستئنافات تنتهي هنا، وانتهاؤها هنا ليس نتيجةً أدنى.',
+  stage_two: 'إن لم تُحسَم في الأولى، نظر المجلس في القرار وفي طريقة الوصول إليه. والمجلس يضع المعايير ولا يصحّح الأعمال، فليس لأحد ينظر في هذه المرحلة مصلحة في النتيجة الأصلية. وله أن يُقرّ، أو يُحِلّ قراره محلّه، أو يعيد المسألة لتقييم جديد من مصحِّح آخر.',
+  stage_three: 'المسائل الأكاديمية إلى أمين الشؤون الأكاديمية؛ ومسائل السلوك والرعاية والمعاملة العادلة إلى أمين الأخلاقيات والقيم المؤسسية. والمجلس يملك المعيار الأكاديمي ولا يجوز لعضو من الإدارة التنفيذية أن يجلس فيه، وهذا ما يجعل هذه المرحلة مستقلة عن إدارة الكلية. وقراره يُغلق المسألة.',
+  acknowledgement: 'ردٌّ من الكلية خلال ثلاثة أيام عمل من كتابتك إليها.',
+  not_external: 'ومجلس الأمناء مستقل عن الإدارة التنفيذية، لا عن المؤسسة، وليس في السلسلة أحدٌ من خارج الكلية. ومن استنفد المرحلة الثالثة وبقي غير راضٍ فله أن يقول ذلك علنًا، ولن تعدّ الكلية قولَه ذلك مسألةَ سلوك.',
+};
+
+/** The posts, in the same published Arabic. */
+const HEARD_BY_AR = {
+  received: 'المسجِّل',
+  stage_one: 'عضو هيئة أكاديمية أعلى من متخذ القرار وغيره',
+  stage_two: 'المجلس الأكاديمي',
+  stage_three_academic: 'أمين الشؤون الأكاديمية',
+  stage_three_other: 'أمين الأخلاقيات والقيم المؤسسية',
+};
+
+/**
+ * The language to serve a learner.
+ *
+ * What the request asked for if it is one the College publishes in,
+ * otherwise the account's own setting, otherwise English. The same
+ * order functions/_lib/comms/announcements.js uses, and for the same
+ * reason: a reader following a link in the other language should be
+ * able to read it without changing an account setting.
+ */
+const LANGUAGES = ['en', 'ar'];
+export function readerLanguage(user, requested) {
+  if (LANGUAGES.includes(requested)) return requested;
+  return LANGUAGES.includes(user && user.preferred_language) ? user.preferred_language : 'en';
+}
+
+/** The published text in the language asked for, English otherwise. */
+const say = (key, language) => (language === 'ar' && PUBLISHED_AR[key]
+  ? PUBLISHED_AR[key]
+  : PUBLISHED[key]);
+
+/* ───────────────────────────────────────────────────────────────
+ * WHAT A NOTE MAY CONTAIN
+ *
+ * `registrar_case_events.note` is read by a learner, on their own case
+ * file, in the page that renders the trail. Everything written into one
+ * is therefore ENGLISH PROSE, and these two helpers exist because it
+ * had stopped being that: a stage change was recording "An answer is
+ * owed by 2026-09-04T23:59:59.999Z" and a determination was recording
+ * "Answered at stage one: partly_upheld". Both are correct and both
+ * read as a database talking to itself in front of the person whose
+ * case it is. Found by rendering the trail; invisible in the module.
+ * ─────────────────────────────────────────────────────────────── */
+
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'];
+
+/**
+ * An instant, as the College writes a date.
+ *
+ * Deliberately not `toLocaleDateString`: these strings are STORED, and a
+ * stored note whose wording depends on the locale of whichever worker
+ * happened to write it is a record that reads differently depending on
+ * where it was made. The time of day is dropped because the deadline is
+ * a day — every answer_due is the end of one.
+ */
+export function plainDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return String(iso);
+  return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+}
+
+/** An outcome code, as a sentence says it. */
+export function outcomeInWords(outcome) {
+  const long = {
+    substituted: 'the Senate substituted its own decision',
+    returned_for_fresh_assessment: 'returned for fresh assessment by a different marker',
+    withdrawn_by_learner: 'withdrawn by the learner',
+  };
+  if (long[outcome]) return long[outcome];
+  return String(outcome || '').replace(/_/g, ' ');
+}
+
 /** Saturday and Sunday, in UTC. See § 2 on what this cannot know. */
 export function isWorkingDay(iso) {
   const day = new Date(dayOf(iso) + 'T12:00:00.000Z').getUTCDay();
@@ -882,13 +980,18 @@ export function stageLabel(stage) {
 }
 
 /** The post E2 names for a stage, given what the case is about. */
-export function heardByFor(stage, matter) {
-  if (stage === 'stage_one') return HEARD_BY.stage_one;
-  if (stage === 'stage_two') return HEARD_BY.stage_two;
+export function heardByFor(stage, matter, language = 'en') {
+  // The stored column stays English — it is an audit value written once
+  // and never rewritten. What varies by language is what a learner is
+  // SHOWN, computed from the stage and the matter rather than by
+  // translating a string out of the database.
+  const POST = language === 'ar' ? HEARD_BY_AR : HEARD_BY;
+  if (stage === 'stage_one') return POST.stage_one;
+  if (stage === 'stage_two') return POST.stage_two;
   if (stage === 'stage_three') {
-    if (matter === 'academic') return HEARD_BY.stage_three_academic;
+    if (matter === 'academic') return POST.stage_three_academic;
     if (matter === 'conduct' || matter === 'welfare' || matter === 'fair_treatment') {
-      return HEARD_BY.stage_three_other;
+      return POST.stage_three_other;
     }
     // E2 routes stage three on two named groups of matters and says
     // nothing about an administrative one. Returning null rather than
@@ -897,7 +1000,7 @@ export function heardByFor(stage, matter) {
     // inside a helper function.
     return null;
   }
-  return HEARD_BY.received;
+  return POST.received;
 }
 
 /** The post whose holder is expected to answer a stage. */
@@ -1098,7 +1201,7 @@ async function enterStage(env, { row, toStage, actor, actorRole, note, answerDue
     toStage,
     actorId: actor.id,
     actorRole,
-    note: `${note}\n\nHeard by: ${heardBy}. An answer is owed by ${due}.${basisNote}`,
+    note: `${note}\n\nHeard by: ${heardBy}. An answer is owed by ${plainDate(due)}.${basisNote}`,
     answerDueAfter: due,
     at,
   });
@@ -1133,7 +1236,7 @@ export async function resetAnswerDue(env, { actor, actorRole = POSTS.registrar, 
   await writeEvent(env, {
     caseId: row.id, fromStage: row.stage, toStage: row.stage,
     actorId: actor.id, actorRole,
-    note: `${theNote}\n\nThe answer date was moved from ${row.answer_due} to ${due}.`,
+    note: `${theNote}\n\nThe answer date was moved from ${plainDate(row.answer_due)} to ${plainDate(due)}.`,
     answerDueAfter: due, at,
   });
   return caseView(env, await findCase(env, row.id), { audience: 'staff', now: at });
@@ -1223,8 +1326,8 @@ export async function recordDecision(env, {
   const late = row.answer_due && at > row.answer_due;
   const lines = [
     theNote ? `${theNote}\n` : '',
-    `Answered at ${stageLabel(row.stage)}: ${theOutcome}.`,
-    late ? `The answer was given after the date it was owed by (${row.answer_due}).` : '',
+    `Answered at ${stageLabel(row.stage)}: ${outcomeInWords(theOutcome)}.`,
+    late ? `The answer was given after the date it was owed by (${plainDate(row.answer_due)}).` : '',
     closesHere ? 'Stage three is final and its decision closes the matter.' : '',
     consequences.length
       ? `Consequences emitted and NOT applied: ${consequences.map((c) => `${c.domain}/${c.intent}`).join(', ')}. Each requires a deliberate act recorded elsewhere; see the case payload.`
@@ -1331,7 +1434,7 @@ export async function escalateCase(env, { actor, caseId, note, now = null } = {}
     toStage: next,
     actorId: actor.id,
     actorRole: POSTS.learner,
-    note: `${theNote}\n\nEscalated by the learner from ${stageLabel(answeredAt)} to ${stageLabel(next)}. Heard by: ${heardBy}. An answer is owed by ${clock.answerDue}.${clock.basis === 'college_self_binding' ? ` ${clock.authority}` : ''}`,
+    note: `${theNote}\n\nEscalated by the learner from ${stageLabel(answeredAt)} to ${stageLabel(next)}. Heard by: ${heardBy}. An answer is owed by ${plainDate(clock.answerDue)}.${clock.basis === 'college_self_binding' ? ` ${clock.authority}` : ''}`,
     answerDueAfter: clock.answerDue,
     at,
   });
@@ -1493,6 +1596,57 @@ export function consequencesOf(caseRow, outcome) {
  * ─────────────────────────────────────────────────────────────── */
 
 /**
+ * THE PUBLISHED LADDER, IN ONE PLACE.
+ *
+ * The three stages, who hears each one, and the interval the College
+ * publishes for it. Written once because it now travels on TWO payloads
+ * and a second copy would be a second thing to keep in step with
+ * /students/regulations/.
+ *
+ * `matter` routes stage three and is optional: a LIST of cases spans
+ * several matters and cannot name one post, so with no matter given it
+ * publishes both routings rather than picking one. A learner reading the
+ * procedure before they have opened anything is owed the whole ladder,
+ * which is the reason this stopped being local to caseView().
+ */
+export function publishedProcedure({ matter = null, language = 'en' } = {}) {
+  return {
+    language: language === 'ar' ? 'ar' : 'en',
+    instrument: say('instrument', language),
+    principle: say('principle', language),
+    noSkipping: say('no_skipping', language),
+    acknowledgement: say('acknowledgement', language),
+    lodgingWorkingDays: LODGING_WORKING_DAYS,
+    selfBindingWorkingDays: SELF_BINDING_WORKING_DAYS,
+    stages: [
+      {
+        stage: 'stage_one',
+        workingDays: ANSWER_WORKING_DAYS.stage_one,
+        heardBy: heardByFor('stage_one', null, language),
+        published: say('stage_one', language),
+      },
+      {
+        stage: 'stage_two',
+        workingDays: ANSWER_WORKING_DAYS.stage_two,
+        heardBy: heardByFor('stage_two', null, language),
+        published: say('stage_two', language),
+      },
+      {
+        stage: 'stage_three',
+        // Null, and it stays null. The Board of Governors has adopted no
+        // interval and a number here would be this file adopting one.
+        workingDays: ANSWER_WORKING_DAYS.stage_three,
+        heardBy: matter ? heardByFor('stage_three', matter, language) : null,
+        heardByAcademic: language === 'ar' ? HEARD_BY_AR.stage_three_academic : HEARD_BY.stage_three_academic,
+        heardByOther: language === 'ar' ? HEARD_BY_AR.stage_three_other : HEARD_BY.stage_three_other,
+        published: say('stage_three', language),
+      },
+    ],
+    externalReview: say('not_external', language),
+  };
+}
+
+/**
  * One case, as the learner sees it or as the Registrar does.
  *
  * The two audiences differ in exactly two things and the difference is
@@ -1502,7 +1656,7 @@ export function consequencesOf(caseRow, outcome) {
  * it" — and a learner reading their own file has no need of a staff
  * member's account id to know their case was heard by the right desk.
  */
-export async function caseView(env, row, { audience = 'learner', now = null } = {}) {
+export async function caseView(env, row, { audience = 'learner', language = 'en', now = null } = {}) {
   const at = now || nowIso();
   const trail = await caseTrail(env, row.id);
   const answered = lastDetermination(trail);
@@ -1537,7 +1691,11 @@ export async function caseView(env, row, { audience = 'learner', now = null } = 
     detail: row.detail,
     stage: row.stage,
     stageLabel: stageLabel(row.stage),
+    // The stored audit value, unchanged, and beside it the same post in
+    // the language the reader asked for — computed from the stage and
+    // the matter rather than translated out of the column.
     heardByRole: row.heard_by_role,
+    heardBy: heardByFor(row.stage, row.matter, language) || row.heard_by_role,
     openedAt: row.opened_at,
     closedAt: row.closed_at,
     clock,
@@ -1561,17 +1719,7 @@ export async function caseView(env, row, { audience = 'learner', now = null } = 
     consequences: row.outcome && (row.stage === 'determined' || row.stage === 'closed')
       ? consequencesOf(row, row.outcome)
       : [],
-    procedure: {
-      instrument: PUBLISHED.instrument,
-      principle: PUBLISHED.principle,
-      lodgingWorkingDays: LODGING_WORKING_DAYS,
-      stages: [
-        { stage: 'stage_one', workingDays: ANSWER_WORKING_DAYS.stage_one, heardBy: HEARD_BY.stage_one, published: PUBLISHED.stage_one },
-        { stage: 'stage_two', workingDays: ANSWER_WORKING_DAYS.stage_two, heardBy: HEARD_BY.stage_two, published: PUBLISHED.stage_two },
-        { stage: 'stage_three', workingDays: ANSWER_WORKING_DAYS.stage_three, heardBy: heardByFor('stage_three', row.matter), published: PUBLISHED.stage_three },
-      ],
-      externalReview: PUBLISHED.not_external,
-    },
+    procedure: publishedProcedure({ matter: row.matter, language }),
     trail: trail.map((e) => ({
       fromStage: e.from_stage,
       toStage: e.to_stage,
@@ -1599,7 +1747,7 @@ export async function caseView(env, row, { audience = 'learner', now = null } = 
 }
 
 /** A row on a list: enough to triage, never the whole file. */
-function summaryView(row, at, extra = {}) {
+function summaryView(row, at, extra = {}, language = 'en') {
   return {
     id: row.id,
     reference: row.reference,
@@ -1609,7 +1757,11 @@ function summaryView(row, at, extra = {}) {
     summary: row.summary,
     stage: row.stage,
     stageLabel: stageLabel(row.stage),
+    // The stored audit value, unchanged, and beside it the same post in
+    // the language the reader asked for — computed from the stage and
+    // the matter rather than translated out of the column.
     heardByRole: row.heard_by_role,
+    heardBy: heardByFor(row.stage, row.matter, language) || row.heard_by_role,
     answerDue: row.answer_due,
     overdue: Boolean(row.answer_due && at > row.answer_due),
     outcome: row.outcome,
@@ -1624,9 +1776,10 @@ function summaryView(row, at, extra = {}) {
  * filtered afterwards — there is no query shape here that can return
  * somebody else's case.
  */
-export async function learnerCases(env, { user, limit = DEFAULT_LIST, now = null } = {}) {
+export async function learnerCases(env, { user, limit = DEFAULT_LIST, language = null, now = null } = {}) {
   if (!user || !user.id) throw new AuthorizationError();
   const at = now || nowIso();
+  const lang = readerLanguage(user, language);
   const { results } = await db(env)
     .prepare(`SELECT ${CASE_COLUMNS} FROM registrar_cases WHERE user_id = ?
                ORDER BY (CASE WHEN stage IN ('determined','closed') THEN 1 ELSE 0 END), opened_at DESC
@@ -1635,14 +1788,13 @@ export async function learnerCases(env, { user, limit = DEFAULT_LIST, now = null
     .all();
   const rows = results || [];
   return {
-    cases: rows.map((r) => summaryView(r, at)),
+    cases: rows.map((r) => summaryView(r, at, {}, lang)),
     open: rows.filter((r) => r.stage !== 'closed' && r.stage !== 'determined').length,
-    procedure: {
-      instrument: PUBLISHED.instrument,
-      principle: PUBLISHED.principle,
-      acknowledgement: PUBLISHED.acknowledgement,
-      externalReview: PUBLISHED.not_external,
-    },
+    // The whole ladder, not four sentences about it. A learner with no
+    // case open is exactly the reader who most needs to see what
+    // writing to the College sets in motion, and until this carried
+    // `stages` the only way to read them was to open a case first.
+    procedure: publishedProcedure({ language: lang }),
     kinds: KINDS,
     matters: MATTERS,
     format: 'text/plain',
@@ -1650,11 +1802,11 @@ export async function learnerCases(env, { user, limit = DEFAULT_LIST, now = null
 }
 
 /** One of the learner's own cases, in full. */
-export async function learnerCase(env, { user, idOrReference, now = null } = {}) {
+export async function learnerCase(env, { user, idOrReference, language = null, now = null } = {}) {
   if (!user || !user.id) throw new AuthorizationError();
   const row = await findCase(env, idOrReference);
   if (row.user_id !== user.id) throw new NotFoundError('No case with that reference.');
-  return caseView(env, row, { audience: 'learner', now });
+  return caseView(env, row, { audience: 'learner', language: readerLanguage(user, language), now });
 }
 
 /**

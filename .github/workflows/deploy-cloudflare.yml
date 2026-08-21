@@ -277,6 +277,8 @@ jobs:
         run: node tests/browser/my-week.mjs
       - name: My Desk — that a notice addressed to somebody else never reaches the document
         run: node tests/browser/my-desk.mjs
+      - name: My Cases — the appeal ladder, its clock, and the two acts that are the learner's
+        run: node tests/browser/my-cases.mjs
 
   deploy:
     needs: verify

@@ -302,8 +302,19 @@ html { scroll-behavior: smooth; }
    section or an element carrying an id, and both need clearance equal
    to the condensed header plus a little breathing room. Set here once
    rather than per-anchor, because the failure is silent: the page does
-   scroll, it just scrolls to the wrong place, and nothing reports it. */
-:target, section[id], [data-chapter] { scroll-margin-top: 96px; }
+   scroll, it just scrolls to the wrong place, and nothing reports it.
+
+   MEASURED, NOT GUESSED. This carried a literal 96px, which was the
+   condensed header's height when it was written. The chrome has since
+   gained its utility rail and measures 122px, so every anchor on the
+   site had been landing 26px underneath it — and, because this rule is
+   `section[id]` at two-token specificity, it silently beat the taller
+   `scroll-margin-top` each portal plate had set for itself. js/motion.js
+   measures the header's real rendered height into --header-h on load
+   and on resize; the fallback is only for the frame before it runs. */
+:target, section[id], [data-chapter] {
+  scroll-margin-top: calc(var(--header-h, 122px) + 24px);
+}
 body {
   margin: 0;
   font-family: var(--font-body);

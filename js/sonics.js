@@ -173,7 +173,11 @@
                not a search box. It takes the conferral voice for
                the same reason the booking form does: what leaves
                the plate is entered on a record somebody answers. */
-            + '.desk-form';
+            + '.desk-form, '
+            /* Writing to the Registrar opens a case with a
+               reference, a clock and a record. If anything on
+               this site is a sealed act, that is. */
+            + '.cse-form';
   var OPEN  = 'details > summary, .accordion__q, .nav__toggle, [aria-expanded]';
   /* THE CHROME, and it is ranked BELOW open and ABOVE tap deliberately.
      The utility rail's Verify group and the editions picker both carry
@@ -232,6 +236,15 @@
                in a thread. The compose plate is the sealed act and
                takes SEAL; it is in the list above. */
             + '.desk-count, .desk-notice, .desk-thread-row, .desk-message, '
+            /* My Cases — css/cases.css. The rungs of the published
+               ladder, each case on the list, the clock on a case, each
+               consequence an answer sets in motion, and the case plate
+               itself. The plate carries a lit rim and a travelling
+               light like every other struck surface here, so it takes
+               a voice: silence on a shape with relief on it reads as a
+               fault, not as restraint. Opening a NEW case is the sealed
+               act and takes SEAL; it is in the list above. */
+            + '.cse-rung, .cse-row, .cse-consequence, .cse-clock, .cse-file, '
             /* The Governance pillar — css/governance.css. The article
                is sealed, so it takes SEAL and is in the list above. */
             + '.docket__entry, .attest, '

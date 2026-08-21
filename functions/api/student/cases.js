@@ -56,13 +56,21 @@ export async function onRequestGet({ request, env }) {
     // One case, by the reference the learner was given or by its id. A
     // case belonging to somebody else answers exactly as a reference
     // that was never issued does — see the module.
+    // The reader's own account setting is the default and `?language=`
+    // overrides it for this request only — the same rule, and the same
+    // reason, as functions/api/announcements/index.js. What varies is
+    // the PUBLISHED text of the instrument, which the College publishes
+    // in both languages; the audit trail stays in the words each entry
+    // was written in.
+    const language = url.searchParams.get('language');
+
     const one = url.searchParams.get('case') || url.searchParams.get('reference');
     if (one) {
-      return jsonResponse(await learnerCase(env, { user, idOrReference: one }));
+      return jsonResponse(await learnerCase(env, { user, idOrReference: one, language }));
     }
 
     const limit = parseLimit(url.searchParams.get('limit'));
-    return jsonResponse(await learnerCases(env, { user, limit }));
+    return jsonResponse(await learnerCases(env, { user, limit, language }));
   } catch (err) {
     return errorResponse(err);
   }

@@ -1766,6 +1766,34 @@
     ]
   },
   {
+    "slug": "my-cases",
+    "output": "my-cases.html",
+    "title": "My Cases &mdash; Worldwide English College",
+    "description": "Your appeals, complaints and requests to the Registrar: the stage each has reached, the day an answer is owed, and the published procedure that governs all of it.",
+    "contentFile": "my-cases.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/my-cases.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/week.css",
+      "/css/desk.css",
+      "/css/cases.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-cases.js"
+    ]
+  },
+  {
     "slug": "my-record-ar",
     "output": "ar/my-record.html",
     "title": "سجلّي الأكاديمي — الكلية العالمية للغة الإنجليزية",
@@ -1886,6 +1914,34 @@
       "/js/portal-guard.js",
       "/js/api-auth.js",
       "/js/my-desk.js"
+    ]
+  },
+  {
+    "slug": "my-cases-ar",
+    "output": "ar/my-cases.html",
+    "title": "قضاياي — الكلية العالمية للغة الإنجليزية",
+    "description": "تظلّماتك وشكاواك وطلباتك لدى المسجّل: المرحلة التي بلغها كلٌّ منها، واليوم الذي يُستحق فيه الجواب، والإجراء المنشور الذي يحكم ذلك كلّه.",
+    "contentFile": "my-cases.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/my-cases.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/week.css",
+      "/css/desk.css",
+      "/css/cases.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-cases.js"
     ]
   },
   {
