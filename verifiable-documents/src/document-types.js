@@ -26,6 +26,7 @@ import {
   renderIssuedDocument,
   renderIdCard,
 } from './certificate-render.js';
+import { renderPublicationRecord } from './publication-record.js';
 
 /** The two subjects a verifiable document can have (SEB-D 47). */
 export const SUBJECTS = ['person', 'artifact'];
@@ -65,6 +66,10 @@ seed('id-card', { title: 'Identity Card', subject: 'person', render: renderIdCar
 seed('transcript', { title: 'Academic Transcript', subject: 'person', render: renderIssuedDocument });
 seed('diploma-supplement', { title: 'Diploma Supplement', subject: 'person', render: renderIssuedDocument });
 seed('verification-statement', { title: 'Verification Statement', subject: 'person', render: renderIssuedDocument });
+// The first ARTIFACT-subject type: the subject is the edition itself, and
+// verification means "this content is unaltered" rather than "issued to
+// this person" (SEB-D 47).
+seed('publication', { title: 'Edition of Record', subject: 'artifact', render: renderPublicationRecord });
 
 /**
  * Register a NEW verifiable-document type — the extension point. Refuses to

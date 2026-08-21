@@ -57,14 +57,15 @@ export function defineIssuer({ key, legalName, codePrefix, verifyOrigin, sealMar
 /**
  * The one profile whose facts are settled today: Albalagh International
  * Premium College, whose live register issues `AIPC-` codes and whose
- * portal is worldwencollege.com. It is the DEFAULT only so that existing
+ * portal is www.worldwencollege.co.uk — the origin the site is actually
+ * served from. It is the DEFAULT only so that existing
  * callers keep working; it holds no privileged status in the engine.
  */
 export const AIPC = defineIssuer({
   key: 'aipc',
   legalName: 'Albalagh International Premium College — London Campus',
   codePrefix: 'AIPC',
-  verifyOrigin: 'https://worldwencollege.com',
+  verifyOrigin: 'https://www.worldwencollege.co.uk',
   sealMark: 'AIPC',
 });
 
