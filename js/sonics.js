@@ -245,6 +245,12 @@
                fault, not as restraint. Opening a NEW case is the sealed
                act and takes SEAL; it is in the list above. */
             + '.cse-rung, .cse-row, .cse-consequence, .cse-clock, .cse-file, '
+            /* My Engagement — css/engagement.css. Each cell of the
+               grid, each correction plate, and the detail plate a
+               cell opens onto. The notice above the grid is a
+               document rather than a struck surface and stays
+               silent, which is the distinction §3 asks for. */
+            + '.eng-cell, .eng-correction, .eng-cell-detail, .eng-live__item, '
             /* The Governance pillar — css/governance.css. The article
                is sealed, so it takes SEAL and is in the list above. */
             + '.docket__entry, .attest, '

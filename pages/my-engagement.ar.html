@@ -1,0 +1,172 @@
+<!--
+  مشاركتي — النسخة العربية. البنية مطابقة لـ pages/my-engagement.html:
+  كل معرّف وكل سمة data- هنا يخاطبها js/my-engagement.js نفسه.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></p>
+    <p class="masthead__eyebrow">ما بلغ الكلّية</p>
+    <h1>مشاركتي</h1>
+    <p class="lede">أسبوعًا أسبوعًا، ووحدةً وحدة، ما قاسته الكلّية &mdash; والدليل وراء كلّ حال، وقراءتها هي إلى جانب كلّ ما صحّحه إنسان، وما لا تراه هي أصلًا.</p>
+    <nav class="rec-nav" aria-label="المتعلّم">
+      <a href="/ar/my-programme.html">برنامجي</a>
+      <a href="/ar/my-week.html">أسبوعي</a>
+      <a href="/ar/my-desk.html">مكتبي</a>
+      <a href="/ar/my-cases.html">قضاياي</a>
+      <a href="/ar/my-standing.html">أين أقف</a>
+      <a href="/ar/my-engagement.html" aria-current="page">مشاركتي</a>
+      <a href="/ar/my-record.html">سجلّي</a>
+      <a href="/ar/my-account.html">حسابي</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="vfy-wrap app-shell">
+
+      <p class="rec-state" id="state" aria-live="polite">جارٍ تحميل سجلّ مشاركتك…</p>
+
+      <div class="eng-notice" id="secNotice" hidden>
+        <!-- A HEADING, not a styled paragraph. The two lists below it
+             are h3s, and without an h2 here the document jumped
+             h1 → h3, which is a real fault for anyone reading by
+             structure rather than by sight. -->
+        <h2 class="eng-notice__label" data-notice-label></h2>
+        <p class="eng-notice__statement" data-notice-statement></p>
+        <div class="eng-notice__cols">
+          <div>
+            <h3 data-measured-head></h3>
+            <ul class="eng-notice__list" data-measured></ul>
+          </div>
+          <div>
+            <h3 data-isnot-head></h3>
+            <ul class="eng-notice__list eng-notice__list--not" data-isnot></ul>
+          </div>
+        </div>
+      </div>
+
+      <section class="acc-block" id="secGrid" hidden>
+        <div class="eng-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg> أسبوعًا أسبوعًا</h2>
+          <div class="eng-head__tools">
+            <label class="eng-weeks" for="weeks">المدى الماضي</label>
+            <select id="weeks" data-weeks>
+              <option value="4">4 أسابيع</option>
+              <option value="8" selected>8 أسابيع</option>
+              <option value="12">12 أسبوعًا</option>
+              <option value="26">26 أسبوعًا</option>
+            </select>
+          </div>
+        </div>
+        <p class="acc-block__lede" data-window-note></p>
+        <ul class="eng-key" data-key></ul>
+        <div class="eng-gridwrap">
+          <ol class="eng-grid" data-grid></ol>
+        </div>
+        <p class="acc-block__note" data-grid-empty hidden></p>
+      </section>
+
+      <section class="eng-cell-detail card plate-dark card--dark edge-lit aurum" id="secCell" hidden aria-live="polite">
+        <button type="button" class="acc-invoice__close" data-cell-close aria-label="إغلاق">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+        <p class="acc-invoice__eyebrow" data-cell-window>&mdash;</p>
+        <h2 data-cell-module>&mdash;</h2>
+        <p class="eng-cell-detail__state" data-cell-state></p>
+        <p class="eng-cell-detail__meaning" data-cell-meaning></p>
+        <p class="eng-cell-detail__provisional" data-cell-provisional hidden></p>
+
+        <div class="eng-override" data-cell-override hidden>
+          <h3 data-override-head></h3>
+          <p class="eng-override__line" data-override-line></p>
+          <p class="eng-override__reason" data-override-reason></p>
+          <p class="eng-override__derived" data-override-derived></p>
+        </div>
+
+        <h3 class="eng-cell-detail__evhead" data-evidence-head></h3>
+        <ul class="eng-evidence" data-evidence></ul>
+        <p class="acc-block__note" data-evidence-empty hidden></p>
+      </section>
+
+      <section class="acc-block" id="secCorrections" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg> حيث كتبت الكلّيةُ حالًا بيدها</h2>
+        <p class="acc-block__lede" data-corrections-lede></p>
+        <p class="acc-block__note" data-corrections-note></p>
+        <ul class="eng-corrections" data-corrections></ul>
+      </section>
+
+      <section class="acc-block" id="secLive" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg> الحصص الحيّة</h2>
+        <p class="acc-block__lede" data-live-note></p>
+        <ul class="eng-live" data-live></ul>
+      </section>
+
+      <section class="acc-block" id="secLimits" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg> ما لا يراه هذا القياس</h2>
+        <ul class="eng-limits" data-limits></ul>
+      </section>
+
+      <p class="vfy-scope" id="scope" hidden>
+        هذا السجلُّ لك ومربوطٌ بجلستك. وهو يصف ما بلغ الكلّية؛ وليس درجةً، ولا شرطًا لأيّ شهادة، ولا عقوبةً بحال.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="about" data-contents="كيف يأخذ الأسبوع حاله">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/one-cell.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">القياس</span>
+      <p class="leaf__rubric">أربعة قراراتٍ في قياس متعلّم، كلٌّ منها قيدٌ وضعته الكلّية على نفسها.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>التصحيحُ الذي يخفي ما صحّحه ليس سجلًّا.</h2>
+      </div>
+      <figure class="diagram diagram--wide diagram--fluid reveal">
+        {{SVG:assets/art/one-cell.ar.svg}}
+        <figcaption class="diagram__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg>
+          دليلٌ، ثمّ قراءة، ثمّ تصحيحٌ يُبقي القراءة ظاهرةً تحته
+        </figcaption>
+      </figure>
+
+      <div class="grid grid--2 grid--close">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <h3>الأسبوع أسبوعُك لا أسبوعُ التقويم</h3>
+          <p>النافذة سبعةُ أيّامٍ مربوطةٌ بيوم بدء تسجيلك أنت، فمَن بدأ في الأربعاء يُقاس من أربعاء إلى أربعاء. وأسابيعُ تبدأ الاثنين للجميع تظلم مَن سجّل يوم الجمعة.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+          <h3>ولا يُستنتَج شيءٌ من تبويبٍ مفتوح</h3>
+          <p>كلُّ حالٍ تسمّي الدليل الذي قُرئت منه: دقائقُ قاسها الخادم، أو تقييمٌ حُووِل، أو تدريبُ معملٍ سُلِّم، أو درسٌ أُكمِل، أو حصّةٌ حيّةٌ أكّدها مضيفها. ورابطُ دخولٍ صادرٌ ليس إنسانًا في قاعة.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <h3>والأسبوع الهادئ وصفٌ لا حكم</h3>
+          <p>المشاركة ليست درجةً، ولا درجةَ حضور، ولا قياسًا للتعلّم، ولا شرطًا لأيّ شهادة. والنافذة الخالية تقول ما بلغ الكلّية، وتقوله الكلّيةُ صراحةً بدل أن تلوّنه لونَ الإخفاق.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+          <h3>وللإنسان أن يكتب حالًا، ويُرى وهو يكتبها</h3>
+          <p>للمدرّس أن يسجّل ما لم تره المنصّة، وتبقى قراءةُ المنصّة لتلك النافذة نفسها في السجلّ إلى جانبه مع السبب الذي أبداه. وذلك ما يجعل التصحيح قابلًا للمراجعة لا نهائيًّا فحسب.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="callout__label">وحدودُ القياس منشورةٌ مع القياس</span>
+        <p>زمنُ الدراسة محفوظٌ مجموعًا جاريًا لكلّ وحدةٍ لا دفترَ قيدٍ، ولا يرصد شيءٌ مَن يدخل حصّةً حيّة، والعملُ خارج المنصّة غيرُ مرئيٍّ لها. والثلاثةُ مطبوعةٌ في هذه الصفحة إلى جانب سجلّك، لأنّ قياسًا حدودُه مكتومةٌ قياسٌ لا تستطيع مجادلته.</p>
+      </div>
+    </div>
+  </div>
+</section>

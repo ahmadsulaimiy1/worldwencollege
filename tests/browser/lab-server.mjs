@@ -562,6 +562,65 @@ const DEMO_CASES = {};
   DEMO_CASES.closed = closed.reference;
 }
 
+// ── THE ENGAGEMENT RECORD, for /my-engagement/ ────────────────────────
+// The demonstration learner's enrolment starts in January, which gives
+// the grid a long anchor to count windows from — but with no evidence
+// in it every cell would be `absent` and the page would prove only that
+// it can draw one state. So three windows are given something to read:
+// time on task, an assessment attempt, and a staff correction with the
+// platform's own reading of the same window left standing beside it.
+const attendanceLib = await import(pathToFileURL(`${ROOT}/functions/_lib/academic/attendance.js`));
+{
+  const units = sqlite.prepare(
+    `SELECT u.id AS id FROM units u JOIN courses c ON c.id = u.course_id
+      WHERE c.level_id = 1 ORDER BY u.sequence ASC LIMIT 4`,
+  ).all();
+  // The windows are anchored to enrolments.started_at AND the endpoint
+  // returns the LAST `weeks` of them, so a fixture dated from the
+  // anchor lands in window 1 of thirty-three and the page draws a grid
+  // of nothing. These are counted BACK from the current window instead:
+  // `back(1)` is the window before this one, which is inside every page
+  // size the interface offers.
+  const anchor = Date.parse('2026-01-01T00:00:00.000Z');
+  const DAY = 86400000;
+  const WEEK = 7 * DAY;
+  const current = Math.floor((Date.now() - anchor) / WEEK);
+  const inWindow = (back, dayOffset) =>
+    new Date(anchor + (current - back) * WEEK + dayOffset * DAY).toISOString();
+
+  if (units[0]) {
+    // Study the server measured, wholly inside window 1 — so it is
+    // attributable, which is the only way minutes count.
+    sqlite.exec(`INSERT INTO time_on_task (id, user_id, unit_id, seconds, first_seen_at, last_seen_at)
+      VALUES ('tot_eng1','usr_demo','${units[0].id}', 2100, '${inWindow(1, 1)}', '${inWindow(1, 3)}')`);
+  }
+  if (units[3]) {
+    // Study measured and BELOW the threshold — the fourth state, and the
+    // one that proves the key is not three colours and a caption. Twelve
+    // minutes against the twenty the regulations define as engagement.
+    sqlite.exec(`INSERT INTO time_on_task (id, user_id, unit_id, seconds, first_seen_at, last_seen_at)
+      VALUES ('tot_eng2','usr_demo','${units[3].id}', 720, '${inWindow(1, 2)}', '${inWindow(1, 4)}')`);
+  }
+  if (units[1]) {
+    sqlite.exec(`INSERT INTO quiz_attempts (id, user_id, learning_item_id, answers_json, score, submitted_at, attempt)
+      SELECT 'qa_eng1','usr_demo', li.id, '[0,1,2]', 0.8, '${inWindow(2, 2)}', 1
+        FROM learning_items li WHERE li.unit_id = '${units[1].id}' LIMIT 1`);
+  }
+  if (units[2]) {
+    // A STATE A PERSON WROTE. The platform's own reading of this window
+    // is `absent` — nothing else happened in it — and the page must
+    // show both, which is the fixture's whole purpose.
+    sqlite.exec(`INSERT INTO attendance_records
+      (id, user_id, basis, unit_id, window_start, window_end, state,
+       evidence_kind, recorded_by, recorded_via, reason, created_at)
+      VALUES ('att_eng1','usr_demo','module_engagement','${units[2].id}',
+              '${inWindow(3, 0)}', '${inWindow(2, 0)}', 'excused',
+              'staff_register','usr_tutor','staff_register',
+              'Set aside on the tutor''s register: the learner was in hospital for this week and told the College at the time.',
+              '${inWindow(2, 1)}')`);
+  }
+}
+
 const recordings = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/recording-storage.js`));
 const { makeR2 } = await import(pathToFileURL(`${ROOT}/tests/r2-shim.mjs`));
 // The same in-memory R2 stand-in the unit tests use, so the browser
@@ -808,6 +867,14 @@ createServer(async (req, res) => {
       }
     }
     if (url.pathname === '/__demo-cases' && req.method === 'GET') return json(res, DEMO_CASES);
+    if (url.pathname === '/api/student/attendance' && req.method === 'GET') {
+      return json(res, await attendanceLib.learnerEngagement(env, {
+        userId: 'usr_demo',
+        weeks: attendanceLib.parseWeeks(url.searchParams.get('weeks')),
+        language: url.searchParams.get('language') === 'ar' ? 'ar' : 'en',
+        ...(url.searchParams.get('level') ? { levelId: Number(url.searchParams.get('level')) } : {}),
+      }));
+    }
     if (url.pathname === '/api/student/standing' && req.method === 'GET') {
       return json(res, await standingLib.computeLearnerStanding(env, 'usr_demo'));
     }

@@ -1794,6 +1794,35 @@
     ]
   },
   {
+    "slug": "my-engagement",
+    "output": "my-engagement.html",
+    "title": "My Engagement &mdash; Worldwide English College",
+    "description": "Week by week and module by module, what reached the College: the evidence behind every state, its own reading beside anything a person has corrected, and what it cannot see at all.",
+    "contentFile": "my-engagement.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/my-engagement.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/week.css",
+      "/css/desk.css",
+      "/css/cases.css",
+      "/css/engagement.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-engagement.js"
+    ]
+  },
+  {
     "slug": "my-record-ar",
     "output": "ar/my-record.html",
     "title": "سجلّي الأكاديمي — الكلية العالمية للغة الإنجليزية",
@@ -1942,6 +1971,35 @@
       "/js/portal-guard.js",
       "/js/api-auth.js",
       "/js/my-cases.js"
+    ]
+  },
+  {
+    "slug": "my-engagement-ar",
+    "output": "ar/my-engagement.html",
+    "title": "مشاركتي — الكلية العالمية للغة الإنجليزية",
+    "description": "أسبوعًا أسبوعًا ووحدةً وحدة، ما بلغ الكلية: الدليل وراء كل حال، وقراءتها هي إلى جانب كل ما صححه إنسان، وما لا تراه أصلًا.",
+    "contentFile": "my-engagement.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/my-engagement.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/week.css",
+      "/css/desk.css",
+      "/css/cases.css",
+      "/css/engagement.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-engagement.js"
     ]
   },
   {

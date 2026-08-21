@@ -279,6 +279,8 @@ jobs:
         run: node tests/browser/my-desk.mjs
       - name: My Cases — the appeal ladder, its clock, and the two acts that are the learner's
         run: node tests/browser/my-cases.mjs
+      - name: My Engagement — that an empty window is never drawn as a failure
+        run: node tests/browser/my-engagement.mjs
 
   deploy:
     needs: verify

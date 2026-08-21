@@ -183,22 +183,104 @@ const NOTICE_STATEMENT =
   + 'laboratory practice submitted, a lesson completed, or a live session a host confirmed. '
   + 'It is descriptive. It is not a mark, it is not a condition of any award, and it is never a penalty.';
 
+/* ───────────────────────────────────────────────────────────────
+ * THE ARABIC EDITION OF EVERY PUBLISHED SENTENCE IN THIS MODULE
+ *
+ * The notice is "a required field of every learner-facing payload this
+ * module produces", and for as long as it existed only in English an
+ * Arabic learner was shown a grid of states with the sentence that
+ * makes the grid readable — that this is engagement and not attendance,
+ * that it is not a mark, that an empty window is never a penalty —
+ * printed in a language they had not asked for. Every claim below is
+ * the same claim the English makes; none of it is new policy, and the
+ * two must be edited together.
+ * ─────────────────────────────────────────────────────────────── */
+
+const NOTICE_STATEMENT_AR =
+  'تُدرِّس الكلّية تدريسًا غير متزامن، فهي لا تقيس الحضور. '
+  + 'والمسجَّل هنا هو المشاركة: هل بلغ الكلّيةَ عملٌ على كلّ وحدة داخل نافذةٍ من سبعة أيّام '
+  + 'مربوطةٍ بتاريخ بدئك أنت. وكلُّ حالٍ أدناه تسمّي الدليل الذي قُرئت منه — زمنُ دراسةٍ قاسه '
+  + 'الخادم، أو تقييمٌ حُووِل، أو تدريبُ معملٍ سُلِّم، أو درسٌ أُكمِل، أو حصّةٌ حيّةٌ أكّدها مضيفها. '
+  + 'وهو وصفٌ لا حكم. وليس درجةً، وليس شرطًا لأيّ شهادة، وليس عقوبةً بحال.';
+
+const AR_TEXT = {
+  label: 'هذه مشاركة، وتُقاس على هذا النحو',
+  windowLabel: 'نافذةٌ من سبعة أيّام، مربوطةٌ بتاريخ بدء المتعلّم نفسه',
+  clauses: {
+    'engage.counts.time_on_task': 'عشرون دقيقةً من الدراسة على تلك الوحدة يقيسها الخادم داخل النافذة',
+    'engage.counts.assessment': 'محاولةُ اختبارٍ أو تسليمُ واجبٍ مسجَّلٌ داخل النافذة',
+    'engage.counts.live_session': 'حصّةٌ حيّةٌ لتلك الوحدة أو ذلك المستوى، دخلتَها وأكّدها مضيفها',
+    'framework.xi.lesson_completion': 'دروسٌ أُكملت وفق الوتيرة المنشورة',
+    'framework.xi.laboratory_practice': 'تدريبُ معملٍ سُلِّم',
+  },
+  isNot: {
+    'engage.not.a_condition': 'ليست شرطًا لأيّ شهادة',
+    'engage.not.a_mark': 'وليست درجةً، ولا درجةَ مشاركة',
+    'engage.not.a_measure_of_learning': 'وليست قياسًا للتعلّم',
+    'engage.not.inferred': 'ولا تُستنتَج قطُّ من تبويبٍ مفتوحٍ أو رابط دخولٍ صادر',
+    'engage.not.published_yet': 'ولا تُنشَر رقمًا مؤسّسيًّا قبل قياسها على دفعةٍ حقيقيّة',
+    'engage.not.a_penalty': 'وليست عقوبةً بحال',
+  },
+  states: {
+    attended: 'بلغ الكلّيةَ عملٌ على هذه الوحدة في هذه النافذة.',
+    partial: `قِيست دراسةٌ على هذه الوحدة في هذه النافذة، دون ${ENGAGEMENT.studyMinutes} دقيقةً تعدّها اللائحة مشاركة.`,
+    absent: 'لم يبلغ الكلّيةَ عملٌ على هذه الوحدة في هذه النافذة. وهذا وصفٌ لا عقوبة.',
+    excused: 'رفعته الكلّية بعذرٍ، والسببُ مسجَّل.',
+  },
+  limits: {
+    'limit.study_time_not_per_window': 'زمنُ الدراسة محفوظٌ مجموعًا جاريًا واحدًا لكلّ وحدة، لا دفترَ قيد. ولا تُنسَب الدقائق إلى نافذةٍ إلّا إذا تراكم ذلك المجموع كلُّه داخلها؛ وإلّا ذُكرت الدراسةُ ولم تُحتسَب.',
+    'limit.live_session_not_instrumented': 'لا يرصد شيءٌ مَن يدخل حصّةً حيّة. ولا تظهر الحصّة هنا إلّا بعد أن يؤكّد مضيفُها كشفًا، والحصّةُ بلا كشفٍ تُذكَر غيرَ مسجَّلةٍ لا غيابًا.',
+    'limit.offline_study_invisible': 'والعملُ خارج المنصّة غيرُ مرئيٍّ لها. والنافذةُ التي لا دليل فيها تصف ما بلغ الكلّية، لا ما فعله المتعلّم.',
+  },
+  live: {
+    instrumented: 'لا تُسجَّل المشاركة في الحصص الحيّة إلّا حيث أكّد مضيفٌ كشفًا. والحصّةُ بلا كشفٍ تُذكَر غيرَ مسجَّلةٍ لا غيابًا.',
+    not: 'لم يُؤخَذ لهذا المستوى كشفُ حصصٍ حيّة. ولا يرصد شيءٌ مَن يدخل حصّة، فتذكر الكلّيةُ ذلك غيرَ مسجَّلٍ لا أنّ أحدًا لم يحضر.',
+  },
+  reasonNote: 'والسببُ الذي كتبه عضو الهيئة محفوظٌ بالألفاظ التي كُتب بها.',
+};
+
+/**
+ * The published limits, in the language asked for.
+ *
+ * `source` is a file path and stays as it is in both: a citation is not
+ * prose, and translating one would make it unfindable.
+ */
+export function publishedLimitations(language = 'en') {
+  const A = ar(language);
+  if (!A) return LIMITATIONS;
+  return LIMITATIONS.map((l) => (A.limits[l.id] ? { ...l, statement: A.limits[l.id] } : l));
+}
+
+/** The note the page prints beside a reason a member of staff wrote. */
+export function authoredTextNote(language = 'en') {
+  const A = ar(language);
+  return A ? A.reasonNote
+    : 'The reason a member of staff gave is kept in the words it was written in.';
+}
+
+/** English unless Arabic was asked for and Arabic exists. */
+const ar = (language) => (language === 'ar' ? AR_TEXT : null);
+
 /**
  * The labelled field the UI cannot omit. Returned at the top of every
  * learner-facing payload, in full, on every request — not behind a flag,
  * not summarised, and not left to a template to remember.
  */
-export function engagementNotice() {
+export function engagementNotice(language = 'en') {
+  const A = ar(language);
   return {
     id: 'engage.measured',
-    label: 'This is engagement, measured as follows',
-    statement: NOTICE_STATEMENT,
-    measuredBy: [...REGULATION_CLAUSES, ...FRAMEWORK_MEASURES],
-    isNot: WHAT_IT_IS_NOT,
+    language: A ? 'ar' : 'en',
+    label: A ? A.label : 'This is engagement, measured as follows',
+    statement: A ? NOTICE_STATEMENT_AR : NOTICE_STATEMENT,
+    measuredBy: [...REGULATION_CLAUSES, ...FRAMEWORK_MEASURES]
+      .map((c) => (A && A.clauses[c.id] ? { ...c, label: A.clauses[c.id] } : c)),
+    isNot: WHAT_IT_IS_NOT
+      .map((c) => (A && A.isNot[c.id] ? { ...c, label: A.isNot[c.id] } : c)),
     window: {
       days: ENGAGEMENT.windowDays,
       anchor: ENGAGEMENT.windowAnchor,
-      label: 'A seven-day window, anchored to the learner\'s own start date',
+      label: A ? A.windowLabel : 'A seven-day window, anchored to the learner\'s own start date',
     },
     regulation: {
       instrument: ENGAGEMENT.instrument,
@@ -207,6 +289,27 @@ export function engagementNotice() {
       prose: 'docs/academic-regulations.md',
     },
   };
+}
+
+/**
+ * An instant, as a sentence written for a learner says a date.
+ *
+ * Every `statement` below is prose the learner reads on their own
+ * engagement record, and each of them used to interpolate a raw ISO
+ * instant: "A quiz on this module was attempted on
+ * 2026-08-14T10:22:03.123Z". Correct, and a database talking to itself
+ * in front of the person being measured. Not `toLocaleDateString`,
+ * because these strings are composed on the server and a sentence whose
+ * wording depended on the worker's locale would read differently
+ * depending on where it was produced.
+ */
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'];
+export function plainDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return String(iso);
+  return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
 }
 
 /** What each stored state means, in the words a learner should read. */
@@ -378,7 +481,7 @@ export function evidenceFor(evidence, unitId, win) {
         source: 'data/academic-regulations.json',
         minutes,
         counts: minutes >= ENGAGEMENT.studyMinutes,
-        statement: `${minutes} minute${minutes === 1 ? '' : 's'} of study on this module, measured by the server between ${tot.firstSeenAt} and ${tot.lastSeenAt}.`,
+        statement: `${minutes} minute${minutes === 1 ? '' : 's'} of study on this module, measured by the server between ${plainDate(tot.firstSeenAt)} and ${plainDate(tot.lastSeenAt)}.`,
       });
     } else if (touched) {
       out.push({
@@ -400,7 +503,7 @@ export function evidenceFor(evidence, unitId, win) {
     out.push({
       kind: 'lesson_completion', signal: 'unit_progress', ref: row.id, at: row.at,
       clause: 'framework.xi.lesson_completion', source: 'docs/academic-framework.md § XI',
-      counts: true, statement: `This module was completed on ${row.at}.`,
+      counts: true, statement: `This module was completed on ${plainDate(row.at)}.`,
     });
   }
   for (const row of evidence.quizzes) {
@@ -408,7 +511,7 @@ export function evidenceFor(evidence, unitId, win) {
     out.push({
       kind: 'assessment_attempt', signal: 'quiz_attempts', ref: row.id, at: row.at,
       clause: 'engage.counts.assessment', source: 'data/academic-regulations.json',
-      counts: true, statement: `A quiz on this module was attempted on ${row.at}.`,
+      counts: true, statement: `A quiz on this module was attempted on ${plainDate(row.at)}.`,
     });
   }
   for (const row of evidence.assignments) {
@@ -416,7 +519,7 @@ export function evidenceFor(evidence, unitId, win) {
     out.push({
       kind: 'assessment_attempt', signal: 'assignment_submissions', ref: row.id, at: row.at,
       clause: 'engage.counts.assessment', source: 'data/academic-regulations.json',
-      counts: true, statement: `An assignment on this module was submitted on ${row.at}.`,
+      counts: true, statement: `An assignment on this module was submitted on ${plainDate(row.at)}.`,
     });
   }
   for (const row of evidence.recordings) {
@@ -424,7 +527,7 @@ export function evidenceFor(evidence, unitId, win) {
     out.push({
       kind: 'laboratory_practice', signal: 'learner_recordings', ref: row.id, at: row.at,
       clause: 'framework.xi.laboratory_practice', source: 'docs/academic-framework.md § XI',
-      counts: true, statement: `Laboratory practice on this module was submitted on ${row.at}.`,
+      counts: true, statement: `Laboratory practice on this module was submitted on ${plainDate(row.at)}.`,
     });
   }
 
@@ -540,8 +643,10 @@ async function subjectEnrolment(env, userId, levelId) {
  * takes it only after checking the teaching relation — see
  * assertMayReadLearner().
  */
-export async function learnerEngagement(env, { userId, levelId = null, weeks = 8, now = Date.now(), persist = true }) {
-  const notice = engagementNotice();
+export async function learnerEngagement(env, {
+  userId, levelId = null, weeks = 8, language = 'en', now = Date.now(), persist = true,
+}) {
+  const notice = engagementNotice(language);
   const enrolment = await subjectEnrolment(env, userId, levelId);
 
   if (!enrolment) {
@@ -549,8 +654,8 @@ export async function learnerEngagement(env, { userId, levelId = null, weeks = 8
       engagementNotice: notice,
       learner: { userId, levelId: null },
       windows: [], modules: [],
-      liveSessions: { instrumented: false, sessions: [], note: liveSessionNote(false) },
-      limitations: LIMITATIONS,
+      liveSessions: { instrumented: false, sessions: [], note: liveSessionNote(false, language) },
+      limitations: publishedLimitations(language),
       reason: 'No enrolment yet, so there is no start date to anchor a window to.',
     };
   }
@@ -559,7 +664,7 @@ export async function learnerEngagement(env, { userId, levelId = null, weeks = 8
       engagementNotice: notice,
       learner: enrolmentSummary(userId, enrolment),
       windows: [], modules: [],
-      liveSessions: { instrumented: false, sessions: [], note: liveSessionNote(false) },
+      liveSessions: { instrumented: false, sessions: [], note: liveSessionNote(false, language) },
       limitations: LIMITATIONS,
       // The anchor is a column, not a convenience. Without it the window
       // would have to be anchored to something the instrument did not
@@ -589,7 +694,7 @@ export async function learnerEngagement(env, { userId, levelId = null, weeks = 8
       const found = evidenceFor(evidence, module.unitId, win);
       const derived = deriveState(found);
       const row = stored.get(`${module.unitId}|${win.start}`) || null;
-      return cell({ module, win, found, derived, row });
+      return cell({ module, win, found, derived, row, language });
     });
     grid.push({ ...win, modules: cells, summary: tally(cells) });
   }
@@ -602,7 +707,9 @@ export async function learnerEngagement(env, { userId, levelId = null, weeks = 8
     return { ...module, windows: cells, summary: tally(cells) };
   });
 
-  const liveSessions = await liveSessionRecord(env, { userId, levelId: enrolment.level_id, windows });
+  const liveSessions = await liveSessionRecord(env, {
+    userId, levelId: enrolment.level_id, windows, language,
+  });
 
   return {
     engagementNotice: notice,
@@ -616,7 +723,12 @@ export async function learnerEngagement(env, { userId, levelId = null, weeks = 8
     windows: grid,
     modules: byModule,
     liveSessions,
-    limitations: LIMITATIONS,
+    limitations: publishedLimitations(language),
+    // Why a reason written by a member of staff is in the language it
+    // is in. The College publishes its own sentences in both; what a
+    // person wrote stays as they wrote it, and a record that
+    // translated somebody's words would be a worse record.
+    authoredTextNotice: authoredTextNote(language),
   };
 }
 
@@ -639,8 +751,9 @@ function enrolmentSummary(userId, e) {
  * under `derived`, always, so a correction never conceals what it
  * corrected.
  */
-function cell({ module, win, found, derived, row }) {
+function cell({ module, win, found, derived, row, language = 'en' }) {
   const state = row ? row.state : derived.state;
+  const A = ar(language);
   return {
     unitId: module.unitId,
     sequence: module.sequence,
@@ -649,7 +762,7 @@ function cell({ module, win, found, derived, row }) {
     windowStart: win.start,
     windowEnd: win.end,
     state,
-    meaning: STATE_MEANING[state],
+    meaning: A ? A.states[state] : STATE_MEANING[state],
     minutesPresent: row ? row.minutes_present : derived.minutesPresent,
     recordedVia: row ? row.recorded_via : 'platform_signal',
     recordedBy: row ? row.recorded_by : null,
@@ -679,15 +792,18 @@ async function loadStoredModuleRecords(env, userId, levelId) {
   return map;
 }
 
-function liveSessionNote(instrumented) {
+function liveSessionNote(instrumented, language = 'en') {
+  const A = ar(language);
+  if (A) return instrumented ? A.live.instrumented : A.live.not;
   return instrumented
     ? 'Live-session participation is recorded only where a host confirmed a register. A session with no register is reported as not recorded, never as an absence.'
     : 'No live-session register has been taken for this level. Nothing observes who joins a session, so the College reports this as not recorded rather than as nobody having attended.';
 }
 
 /** Live sessions at this level over the reported span, and their registers. */
-async function liveSessionRecord(env, { userId, levelId, windows }) {
-  if (!windows.length) return { instrumented: false, sessions: [], note: liveSessionNote(false) };
+async function liveSessionRecord(env, { userId, levelId, windows, language = 'en' }) {
+  const A = ar(language);
+  if (!windows.length) return { instrumented: false, sessions: [], note: liveSessionNote(false, language) };
   const from = windows[0].start;
   const to = windows[windows.length - 1].end;
 
@@ -719,7 +835,7 @@ async function liveSessionRecord(env, { userId, levelId, windows }) {
       unitId: r.unitId,
       recorded: Boolean(r.recordId),
       state: r.recordId ? r.state : null,
-      meaning: r.recordId ? STATE_MEANING[r.state] : null,
+      meaning: r.recordId ? (A ? A.states[r.state] : STATE_MEANING[r.state]) : null,
       minutesPresent: r.recordId ? r.minutesPresent : null,
       recordedVia: r.recordId ? r.recordedVia : null,
       recordedBy: r.recordId ? r.recordedBy : null,
@@ -729,7 +845,7 @@ async function liveSessionRecord(env, { userId, levelId, windows }) {
     }));
 
   const instrumented = sessions.some((s) => s.recorded);
-  return { instrumented, sessions, note: liveSessionNote(instrumented) };
+  return { instrumented, sessions, note: liveSessionNote(instrumented, language) };
 }
 
 /* ───────────────────────────────────────────────────────────────

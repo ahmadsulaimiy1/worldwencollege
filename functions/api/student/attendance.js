@@ -29,8 +29,17 @@ export async function onRequestGet({ request, env }) {
     const url = new URL(request.url);
     const weeks = parseWeeks(url.searchParams.get('weeks'));
     const levelId = parseLevelId(url.searchParams.get('levelId'));
+    // The account's setting is the default and `?language=` overrides it
+    // for this request only — the rule functions/api/announcements and
+    // functions/api/student/cases both follow. What varies is the
+    // College's own PUBLISHED text; a reason a member of staff wrote
+    // stays in the words it was written in.
+    const asked = url.searchParams.get('language');
+    const language = asked === 'ar' || asked === 'en'
+      ? asked
+      : (user.preferred_language === 'ar' ? 'ar' : 'en');
 
-    const record = await learnerEngagement(env, { userId: user.id, levelId, weeks });
+    const record = await learnerEngagement(env, { userId: user.id, levelId, weeks, language });
     return jsonResponse(record);
   } catch (err) {
     return errorResponse(err);
