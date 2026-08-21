@@ -1,0 +1,195 @@
+<!--
+  MY WEEK — one feed of what is next, and the hours you can take.
+
+  SIXTH AND SEVENTH IN THE INTERFACE BACKLOG. "What is next. The merged
+  timetable — classes, tutorials, dated obligations", and "A tutorial to
+  book, or a booking to cancel." The feed endpoint has existed since the
+  foundation pass with nothing calling it, and the booking endpoints
+  could not be reached at all until GET /api/student/booking was added,
+  because nothing would tell a learner a slot id.
+
+  ─────────────────────────────────────────────────────────────────────
+  EVERY TIME CARRIES ITS ZONE, ALWAYS
+  ─────────────────────────────────────────────────────────────────────
+  The College teaches into sixty countries and its own clock is London's.
+  A class time rendered in one zone and read in another is a learner who
+  misses it, so `renderInstant()` returns UTC, the learner's local time,
+  the offset and the zone name on every instant — and this page shows
+  the local time with the zone beside it rather than assuming the
+  browser's. Where the platform is falling back to UTC because it holds
+  no zone for the learner, the page says so and offers the setting.
+
+  ─────────────────────────────────────────────────────────────────────
+  AN EMPTY FEED IS AN ANSWER
+  ─────────────────────────────────────────────────────────────────────
+  `emptinessNotice()` distinguishes an enrolment awaiting payment from a
+  window with nothing in it from a learner with no enrolment at all. A
+  learner who has paid and sees an empty week deserves the first, not a
+  blank panel, and this page renders whichever applies.
+
+  Every id and data- attribute below is addressed by js/my-week.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></p>
+    <p class="masthead__eyebrow">Your week</p>
+    <h1>My Week</h1>
+    <p class="lede">Every class, tutorial and dated obligation in one feed, in your own time zone &mdash; and the hours your tutors have opened that you can take.</p>
+    <nav class="rec-nav" aria-label="Learner">
+      <a href="/my-programme.html">My Programme</a>
+      <a href="/my-week.html" aria-current="page">My Week</a>
+      <a href="/my-standing.html">Where I Stand</a>
+      <a href="/my-record.html">My Record</a>
+      <a href="/my-account.html">My Account</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="vfy-wrap app-shell">
+
+      <p class="rec-state" id="state" aria-live="polite">Loading your week&hellip;</p>
+
+      <!-- THE ZONE ---------------------------------------------------- -->
+      <!-- Named on the page, not assumed from the browser. A learner who
+           set a zone and is being shown another needs to see which. -->
+      <div class="wk-zone" id="secZone" hidden>
+        <p class="wk-zone__line">
+          <svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>
+          <span data-zone-line></span>
+        </p>
+        <p class="wk-zone__note" data-zone-note hidden></p>
+      </div>
+
+      <!-- THE FEED ---------------------------------------------------- -->
+      <section class="acc-block" id="secFeed" hidden>
+        <div class="wk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg> What is next</h2>
+          <div class="wk-head__tools">
+            <label class="wk-days" for="days">Looking ahead</label>
+            <select id="days" data-days>
+              <option value="7">7 days</option>
+              <option value="14" selected>14 days</option>
+              <option value="30">30 days</option>
+              <option value="90">90 days</option>
+            </select>
+            <!-- A DOWNLOAD, NOT A SUBSCRIPTION, and the page says so.
+                 A calendar client sends no Authorization header and no
+                 table holds a revocable feed token, so a webcal URL
+                 would be either public or broken. -->
+            <button type="button" class="btn btn--outline magnetic" data-ics>Add to my calendar</button>
+          </div>
+        </div>
+        <p class="acc-block__note" data-ics-note></p>
+        <ol class="wk-feed" data-feed></ol>
+        <p class="acc-block__note" data-feed-empty hidden></p>
+      </section>
+
+      <!-- HOURS OPEN TO YOU ------------------------------------------- -->
+      <section class="acc-block" id="secOpen" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg> Hours open to you</h2>
+        <p class="acc-block__lede" data-open-lede></p>
+        <ul class="wk-slots" data-slots></ul>
+        <p class="acc-block__note" data-slots-empty hidden></p>
+      </section>
+
+      <!-- BOOKING, IN PLACE ------------------------------------------- -->
+      <!-- Not a modal and not a second page: a learner deciding whether
+           to take an hour is comparing it with the hours around it, and
+           a dialogue that covers them makes that comparison impossible. -->
+      <section class="wk-form card card--dark edge-lit aurum" id="secBook" hidden aria-live="polite">
+        <button type="button" class="acc-invoice__close" data-book-close aria-label="Close">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+        <p class="acc-invoice__eyebrow" data-book-kind>&mdash;</p>
+        <h2 data-book-title>&mdash;</h2>
+        <p class="wk-form__when" data-book-when></p>
+        <label class="vfy-label" for="bookNote">Anything your tutor should know before the hour (optional)</label>
+        <textarea id="bookNote" rows="3" data-book-note></textarea>
+        <div class="btn-row">
+          <button type="button" class="btn btn--gold magnetic aurum aurum--twin" data-book-confirm>Take this place</button>
+        </div>
+        <p class="vfy-error" data-book-error role="alert"></p>
+      </section>
+
+      <!-- CANCELLING, WITH A REASON THAT IS NOT OPTIONAL --------------- -->
+      <section class="wk-form card card--dark edge-lit aurum" id="secCancel" hidden aria-live="polite">
+        <button type="button" class="acc-invoice__close" data-cancel-close aria-label="Close">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+        <p class="acc-invoice__eyebrow">Giving back a place</p>
+        <h2 data-cancel-title>&mdash;</h2>
+        <p class="wk-form__when" data-cancel-when></p>
+        <p class="wk-form__why">A reason is required, and it is recorded as yours. Your tutor sees it, and the record keeps your cancellation distinct from one they made &mdash; which is what stops a tutor&rsquo;s withdrawal ever reading as yours on your own record.</p>
+        <label class="vfy-label" for="cancelReason">Why you are giving the place back</label>
+        <textarea id="cancelReason" rows="3" data-cancel-reason></textarea>
+        <div class="btn-row">
+          <button type="button" class="btn btn--outline magnetic" data-cancel-confirm>Give the place back</button>
+        </div>
+        <p class="vfy-error" data-cancel-error role="alert"></p>
+      </section>
+
+      <p class="vfy-scope" id="scope" hidden>
+        This feed shows what is scheduled for you, in the window you chose. It reports every source it read, and where a source cannot be read it names it rather than leaving a gap you would have to notice.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="about" data-contents="How the week is kept">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">I</span>
+      <span class="leaf__label">The clock</span>
+      <p class="leaf__rubric">Four rules about time, each of them a decision the College made rather than a default it inherited.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>A time is only a time if you know whose clock it is on.</h2>
+      </div>
+      <figure class="diagram diagram--wide diagram--fluid reveal">
+        {{SVG:assets/art/one-instant.svg}}
+        <figcaption class="diagram__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
+          One thread through five faces &mdash; they are not five times
+        </figcaption>
+      </figure>
+
+      <div class="grid grid--2 grid--close">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
+          <h3>Every instant carries four things</h3>
+          <p>The moment in UTC, the same moment in your zone, the offset between them, and the zone&rsquo;s name. A class time rendered in one zone and read in another is a learner who misses the class, and this College teaches across sixty of them.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <h3>An empty week is an answer</h3>
+          <p>Nothing scheduled, an enrolment waiting on payment, and no enrolment at all are three different facts. The feed says which one applies rather than showing you the same blank panel for all three.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+          <h3>A file, and the College says it is a file</h3>
+          <p>Your calendar keeps a copy of the feed as it stands when you download it. A live subscription would need a calendar client to sign in, which none of them do, so the College gives you the file and tells you what it is rather than offering a link that quietly stops updating.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+          <h3>A cancellation is attributed</h3>
+          <p>Giving back a place takes a reason, and the reason is recorded as yours. That is what keeps a tutor&rsquo;s withdrawal from ever reading as your cancellation on your own record, which is the whole point of writing it down.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="callout__label">Times are shown in the zone on your account</span>
+        <p>Change it and every time on this page moves with it. If the College holds no zone for you the feed falls back to UTC and says so &mdash; it is the one zone that cannot be wrong about itself, and it is a fallback rather than a guess.</p>
+      </div>
+    </div>
+  </div>
+</section>

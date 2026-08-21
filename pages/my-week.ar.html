@@ -1,0 +1,163 @@
+<!--
+  أسبوعي — تدفّق واحد لما هو آتٍ، والساعات التي لك أن تأخذها.
+
+  كل مُعرِّف (id) وكل سمة data- أدناه محمولٌ عليها العمل: js/my-week.js
+  يخاطبها بأسمائها، فلا تُترجَم الأسماء وإنما يُترجَم النص وحده.
+  والحجّة الكاملة في النسخة الإنجليزية.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></p>
+    <p class="masthead__eyebrow">أسبوعك</p>
+    <h1>أسبوعي</h1>
+    <p class="lede">كل حصة ودرس خاص والتزام مؤرَّخ في تدفّق واحد، بتوقيتك أنت &mdash; والساعات التي فتحها مدرّسوك ولك أن تأخذها.</p>
+    <nav class="rec-nav" aria-label="المتعلّم">
+      <a href="/ar/my-programme.html">برنامجي</a>
+      <a href="/ar/my-week.html" aria-current="page">أسبوعي</a>
+      <a href="/ar/my-standing.html">أين أقف</a>
+      <a href="/ar/my-record.html">سجلّي</a>
+      <a href="/ar/my-account.html">حسابي</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="vfy-wrap app-shell">
+
+      <p class="rec-state" id="state" aria-live="polite">جارٍ تحميل أسبوعك&hellip;</p>
+
+      <!-- المنطقة الزمنية، مسمّاةً في الصفحة لا مأخوذةً من المتصفّح. -->
+      <div class="wk-zone" id="secZone" hidden>
+        <p class="wk-zone__line">
+          <svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>
+          <span data-zone-line></span>
+        </p>
+        <p class="wk-zone__note" data-zone-note hidden></p>
+      </div>
+
+      <!-- التدفّق -->
+      <section class="acc-block" id="secFeed" hidden>
+        <div class="wk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg> ما هو آتٍ</h2>
+          <div class="wk-head__tools">
+            <label class="wk-days" for="days">مدى النظر</label>
+            <select id="days" data-days>
+              <option value="7">٧ أيام</option>
+              <option value="14" selected>١٤ يومًا</option>
+              <option value="30">٣٠ يومًا</option>
+              <option value="90">٩٠ يومًا</option>
+            </select>
+            <!-- ملفٌّ لا اشتراك، والصفحة تقول ذلك — انظر النسخة الإنجليزية. -->
+            <button type="button" class="btn btn--outline magnetic" data-ics>أضِفه إلى تقويمي</button>
+          </div>
+        </div>
+        <p class="acc-block__note" data-ics-note></p>
+        <ol class="wk-feed" data-feed></ol>
+        <p class="acc-block__note" data-feed-empty hidden></p>
+      </section>
+
+      <!-- الساعات المفتوحة لك -->
+      <section class="acc-block" id="secOpen" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg> ساعات مفتوحة لك</h2>
+        <p class="acc-block__lede" data-open-lede></p>
+        <ul class="wk-slots" data-slots></ul>
+        <p class="acc-block__note" data-slots-empty hidden></p>
+      </section>
+
+      <!-- الحجز في مكانه لا في نافذة تغطّي ما حوله -->
+      <section class="wk-form card card--dark edge-lit aurum" id="secBook" hidden aria-live="polite">
+        <button type="button" class="acc-invoice__close" data-book-close aria-label="إغلاق">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+        <p class="acc-invoice__eyebrow" data-book-kind>&mdash;</p>
+        <h2 data-book-title>&mdash;</h2>
+        <p class="wk-form__when" data-book-when></p>
+        <label class="vfy-label" for="bookNote">ما ينبغي لمدرّسك أن يعرفه قبل الساعة (اختياري)</label>
+        <textarea id="bookNote" rows="3" data-book-note></textarea>
+        <div class="btn-row">
+          <button type="button" class="btn btn--gold magnetic aurum aurum--twin" data-book-confirm>خذ هذا المقعد</button>
+        </div>
+        <p class="vfy-error" data-book-error role="alert"></p>
+      </section>
+
+      <!-- الإلغاء، وسببه ليس اختياريًّا -->
+      <section class="wk-form card card--dark edge-lit aurum" id="secCancel" hidden aria-live="polite">
+        <button type="button" class="acc-invoice__close" data-cancel-close aria-label="إغلاق">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+        <p class="acc-invoice__eyebrow">ردُّ المقعد</p>
+        <h2 data-cancel-title>&mdash;</h2>
+        <p class="wk-form__when" data-cancel-when></p>
+        <p class="wk-form__why">السبب مطلوب، ويُسجَّل باسمك. يراه مدرّسك، ويبقي السجلُّ إلغاءك متميّزًا عن إلغاءٍ منه &mdash; وهذا ما يمنع أن يُقرأ سحبُ المدرّس إلغاءً منك في سجلّك أنت.</p>
+        <label class="vfy-label" for="cancelReason">لماذا تردّ المقعد</label>
+        <textarea id="cancelReason" rows="3" data-cancel-reason></textarea>
+        <div class="btn-row">
+          <button type="button" class="btn btn--outline magnetic" data-cancel-confirm>ردَّ المقعد</button>
+        </div>
+        <p class="vfy-error" data-cancel-error role="alert"></p>
+      </section>
+
+      <p class="vfy-scope" id="scope" hidden>
+        يعرض هذا التدفّق ما هو مجدولٌ لك في المدى الذي اخترته. ويذكر كل مصدر قرأه، وحيث يتعذّر قراءة مصدر سمّاه بدل أن يترك فجوةً عليك أن تنتبه إليها.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<section class="leaf section--paper grain" id="about" data-contents="كيف يُحفظ الأسبوع">
+  <span class="leaf__ornament" aria-hidden="true" style="--leaf-plate:url(/assets/art/quality-cycle.ar.svg)"></span>
+  <div class="container leaf__grid">
+    <div class="leaf__margin">
+      <span class="leaf__num foil">١</span>
+      <span class="leaf__label">الساعة</span>
+      <p class="leaf__rubric">أربع قواعد في الوقت، كلٌّ منها قرارٌ اتخذته الكلية لا افتراضٌ ورثته.</p>
+    </div>
+    <div class="leaf__body reveal">
+      <div class="section-head">
+        <h2>لا يكون الوقت وقتًا حتى تعرف ساعةَ مَن هو.</h2>
+      </div>
+      <figure class="diagram diagram--wide diagram--fluid reveal">
+        {{SVG:assets/art/one-instant.ar.svg}}
+        <figcaption class="diagram__caption">
+          <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
+          خيطٌ واحد يمرّ بخمسة أوجه &mdash; وليست خمسة أوقات
+        </figcaption>
+      </figure>
+
+      <div class="grid grid--2 grid--close">
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
+          <h3>كل لحظة تحمل أربعة</h3>
+          <p>اللحظة بتوقيت غرينتش، وهي نفسها بتوقيتك، والفرق بينهما، واسم منطقتك. فوقتُ حصةٍ يُعرض بتوقيت ويُقرأ بآخر متعلّمٌ تفوته الحصة، وهذه كلية تعلّم في ستين بلدًا.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <h3>الأسبوع الفارغ جواب</h3>
+          <p>ألّا يكون شيء مجدولًا، وأن ينتظر قيدُك سدادًا، وألّا يكون لك قيد أصلًا — ثلاث وقائع مختلفة. والتدفّق يقول أيُّها الحاصل بدل أن يعرض عليك اللوحة الفارغة نفسها في الثلاث.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+          <h3>ملفٌّ، والكلية تقول إنه ملف</h3>
+          <p>يحفظ تقويمك نسخةً من التدفّق كما هو ساعة تنزيله. أما الاشتراك الحيّ فيحتاج أن يسجّل برنامج التقويم دخوله، ولا يفعل ذلك أحدها، فتعطيك الكلية الملفّ وتقول لك ما هو بدل أن تعرض رابطًا يكفّ عن التحديث بصمت.</p>
+        </div>
+        <div class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+          <h3>الإلغاء يُنسَب إلى صاحبه</h3>
+          <p>ردُّ المقعد يستوجب سببًا، ويُسجَّل السبب باسمك. وهذا ما يمنع أن يُقرأ سحبُ المدرّس إلغاءً منك في سجلّك، وهو مقصود كتابته أصلًا.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="callout__label">تُعرض الأوقات بالمنطقة المسجّلة في حسابك</span>
+        <p>غيّرها ينتقل معها كل وقت في هذه الصفحة. وإن لم تكن لدى الكلية منطقةٌ لك رجع التدفّق إلى توقيت غرينتش وقال ذلك &mdash; فهو المنطقة الوحيدة التي لا تُخطئ في نفسها، وهو رجوعٌ لا تخمين.</p>
+      </div>
+    </div>
+  </div>
+</section>

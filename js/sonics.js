@@ -168,7 +168,7 @@
                with the conferral voice rather than the tap the rest of
                the tracking page gets, which is the whole point of
                ranking ceremony instead of making everything alike. */
-            + '.trk-offer, .acc-invoice';
+            + '.trk-offer, .acc-invoice, .wk-form';
   var OPEN  = 'details > summary, .accordion__q, .nav__toggle, [aria-expanded]';
   /* THE CHROME, and it is ranked BELOW open and ABOVE tap deliberately.
      The utility rail's Verify group and the editions picker both carry
@@ -220,6 +220,8 @@
             + '.acc-balance, .acc-relief li, .acc-plan, .acc-steps li, '
             /* Where I Stand — css/standing.css. */
             + '.std-head, .std-skills li, .std-conditions li, .std-milestones li, '
+            /* My Week — css/week.css. */
+            + '.wk-zone, .wk-event, .wk-slot, '
             /* The Governance pillar — css/governance.css. The article
                is sealed, so it takes SEAL and is in the list above. */
             + '.docket__entry, .attest, '

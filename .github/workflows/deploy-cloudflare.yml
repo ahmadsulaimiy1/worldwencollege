@@ -273,6 +273,8 @@ jobs:
         run: node tests/browser/my-account.mjs
       - name: Where I Stand — and that no condition of the College's is charged to the learner
         run: node tests/browser/my-standing.mjs
+      - name: My Week — times on the account's clock, and a list that agrees with the booking route
+        run: node tests/browser/my-week.mjs
 
   deploy:
     needs: verify

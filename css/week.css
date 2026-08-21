@@ -1,0 +1,179 @@
+/* ═══════════════════════════════════════════════════════════════════
+   MY WEEK.
+
+   Loaded after css/account.css and css/standing.css, whose block
+   headings, pills and dark-plate convention it reuses. What is new is
+   the feed itself: a two-column reading where the time sits in its own
+   margin, so a learner scanning for "when" never reads a title first.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── THE ZONE, STATED ────────────────────────────────────────────────
+   Small, and above everything. A page of times whose zone is not named
+   is a page of times somebody will read on the wrong clock. */
+.wk-zone {
+  margin-top: 1.6rem;
+  padding: .85rem 1.1rem;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--paper, #FBF8F2) 88%, var(--ink, #10203A) 12%);
+  border-inline-start: 3px solid var(--gold, #C6A15B);
+}
+.wk-zone__line {
+  display: flex; align-items: center; gap: .55rem;
+  margin: 0;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.wk-zone__line .icon { width: 1.05em; height: 1.05em; color: var(--gold, #C6A15B); }
+.wk-zone__note {
+  margin: .3rem 0 0;
+  font-size: .88rem;
+  color: color-mix(in oklab, var(--ink, #10203A) 62%, transparent);
+}
+
+.wk-head {
+  display: flex; flex-wrap: wrap; gap: .8rem 1.2rem;
+  align-items: center;
+  margin-bottom: .8rem;
+}
+.wk-head h2 { margin: 0; }
+.wk-head__tools {
+  margin-inline-start: auto;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .6rem;
+}
+.wk-days {
+  font: 600 .7rem/1 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .1em; text-transform: uppercase;
+  color: color-mix(in oklab, var(--ink, #10203A) 50%, transparent);
+}
+.wk-head__tools select {
+  padding: .5rem .7rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in oklab, var(--ink, #10203A) 20%, transparent);
+  background: var(--paper, #FBF8F2);
+  font: inherit;
+  font-size: .88rem;
+}
+.wk-head__tools select:focus-visible { outline: 2px solid var(--gold, #C6A15B); outline-offset: 2px; }
+/* The chrome buttons here are controls in a toolbar, not calls to
+   action, so they take a smaller measure than a .btn on a page. */
+.btn--sm { padding: .5em 1.1em; font-size: .78rem; }
+.wk-head__tools .btn { padding: .55em 1.2em; font-size: .8rem; }
+
+/* ── THE FEED ────────────────────────────────────────────────────────
+   Time in its own margin. A learner scanning a week is scanning for
+   WHEN, and a layout that puts the title first makes them read every
+   title to find the one time they were looking for.
+   ──────────────────────────────────────────────────────────────────── */
+.wk-feed,
+.wk-slots { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+
+.wk-event,
+.wk-slot {
+  display: grid;
+  grid-template-columns: minmax(11rem, 14rem) 1fr;
+  gap: .3rem 1.3rem;
+  padding: 1rem 1.15rem;
+  border-radius: 11px;
+  background: color-mix(in oklab, var(--paper, #FBF8F2) 90%, var(--ink, #10203A) 10%);
+  border-inline-start: 3px solid color-mix(in oklab, var(--ink, #10203A) 22%, transparent);
+}
+/* The three kinds of thing a week holds, told apart by colour AND by
+   the pill inside each one — never by colour alone. */
+.wk-event[data-kind="class"]    { border-inline-start-color: var(--gold, #C6A15B); }
+.wk-event[data-kind="tutorial"] { border-inline-start-color: #1E6A4F; }
+.wk-event[data-kind="deadline"] { border-inline-start-color: #8E2B36; }
+
+.wk-slot[data-state="open"]  { border-inline-start-color: var(--gold, #C6A15B); }
+.wk-slot[data-state="yours"] { border-inline-start-color: #1E6A4F; }
+/* Full: drawn as an outline. It is still an hour, and it can free up,
+   so it is not greyed into looking like a mistake. */
+.wk-slot[data-state="full"] {
+  border-inline-start-style: dashed;
+  border-inline-start-color: color-mix(in oklab, var(--ink, #10203A) 26%, transparent);
+}
+
+.wk-event__when { display: flex; flex-direction: column; gap: .12rem; }
+.wk-event__day {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .01em;
+}
+/* The clock, kept whole. It follows the date in the same element so the
+   two wrap as a phrase, and `white-space: nowrap` stops "· 21:52" from
+   becoming a line that opens with a separator. */
+.wk-event__clock { white-space: nowrap; }
+.wk-event__zone {
+  font: 400 .74rem/1.4 var(--font-ui, system-ui, sans-serif);
+  color: color-mix(in oklab, var(--ink, #10203A) 52%, transparent);
+  font-variant-numeric: tabular-nums;
+}
+.wk-event__head { display: flex; flex-wrap: wrap; gap: .55rem; align-items: baseline; }
+.wk-event__title { font-weight: 700; }
+.wk-event__detail {
+  margin: .28rem 0 0;
+  font-size: .89rem;
+  color: color-mix(in oklab, var(--ink, #10203A) 64%, transparent);
+}
+.wk-event__actions {
+  display: flex; flex-wrap: wrap; gap: .6rem; align-items: center;
+  margin-top: .75rem;
+}
+.wk-slot__places {
+  font: 600 .74rem/1 var(--font-ui, system-ui, sans-serif);
+  color: color-mix(in oklab, var(--ink, #10203A) 56%, transparent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── THE TWO FORMS ───────────────────────────────────────────────────
+   Both paint their own dark ground, for the reason recorded at the head
+   of the offer plate in css/track.css: `.card--dark` is a 4% white wash
+   that assumes a dark section under it, and these sit on paper. */
+.wk-form {
+  position: relative;
+  margin-top: 1.6rem;
+  padding: 2rem 1.7rem;
+  border-radius: 12px;
+  color: #F6EFE0;
+  background:
+    radial-gradient(ellipse 90% 80% at 20% 0%, rgba(31, 61, 122, .5), transparent 70%),
+    linear-gradient(158deg, var(--midnight, #0E1B33), var(--oxford, #0A1428));
+  border: 1px solid rgba(199, 162, 74, .42);
+  box-shadow: inset 0 0 80px -26px rgba(0, 0, 0, .8), var(--relief-metal, 0 10px 30px -12px rgba(10, 20, 40, .5));
+  scroll-margin-top: 6rem;
+}
+.wk-form h2 { color: #F6EFE0; margin: 0 0 .4rem; }
+.wk-form__when {
+  margin: 0 0 1.2rem;
+  color: rgba(244, 231, 198, .82);
+  font-variant-numeric: tabular-nums;
+}
+.wk-form__why {
+  margin: 0 0 1.2rem;
+  max-width: 60ch;
+  font-size: .92rem;
+  color: rgba(244, 231, 198, .74);
+}
+.wk-form .vfy-label { color: rgba(244, 231, 198, .8); }
+.wk-form textarea {
+  width: 100%;
+  margin-top: .35rem;
+  padding: .75rem .9rem;
+  border-radius: 8px;
+  border: 1px solid rgba(244, 231, 198, .28);
+  background: rgba(10, 20, 38, .5);
+  color: #F6EFE0;
+  font: inherit;
+  resize: vertical;
+}
+.wk-form textarea:focus-visible { outline: 2px solid var(--gold, #C6A15B); outline-offset: 2px; }
+.wk-form .btn-row { margin-top: 1.1rem; }
+.wk-form .vfy-error { color: #FFD9DD; margin-top: .8rem; }
+
+@media (max-width: 720px) {
+  /* The time stops being a margin and becomes a first line. Below about
+     720px a 14rem column leaves the title four words wide. */
+  .wk-event,
+  .wk-slot { grid-template-columns: 1fr; gap: .5rem; }
+  .wk-event__when { flex-direction: row; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+  .wk-head__tools { margin-inline-start: 0; width: 100%; }
+}

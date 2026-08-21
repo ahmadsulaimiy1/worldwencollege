@@ -190,6 +190,52 @@ const DEMO = {};
     awardTitle: 'English Scholar of Worldwide English College', postNominal: 'ScWEC', cefr: 'C1',
   });
 }
+// ── THE WEEK, for /my-week/ ───────────────────────────────────────────
+// A feed is only interesting when it holds more than one KIND of thing
+// at more than one time, and a booking list is only interesting when it
+// holds an hour that is open, one that is full and one already held.
+// The harness builds exactly that, so the page is exercised against the
+// real timetable module rather than against a single tidy row.
+{
+  // A zone, so the two-clock rule has something to be true about. With
+  // no row the module falls back to UTC and says so — a real state, but
+  // the one that hides the conversion.
+  sqlite.exec(`INSERT INTO student_settings (user_id, time_zone) VALUES ('usr_demo', 'Asia/Dubai')`);
+
+  const soon = (days, hours, mins) => new Date(
+    Date.now() + days * 86400000 + hours * 3600000 + mins * 60000,
+  ).toISOString().replace(/\.\d{3}Z$/, 'Z');
+
+  // Two classes at levels usr_demo is enrolled at.
+  sqlite.prepare(
+    `INSERT INTO live_sessions (id, level_id, unit_id, title, starts_at, duration_minutes, join_url, host_user_id)
+     VALUES (?, ?, NULL, ?, ?, ?, ?, ?)`,
+  ).run('lvs_demo_1', 1, 'Speaking clinic — the demonstration hour', soon(2, 3, 17), 60,
+    'https://example.com/join/demo1', 'usr_tutor');
+  sqlite.prepare(
+    `INSERT INTO live_sessions (id, level_id, unit_id, title, starts_at, duration_minutes, join_url, host_user_id)
+     VALUES (?, ?, NULL, ?, ?, ?, ?, ?)`,
+  ).run('lvs_demo_2', 3, 'Listening workshop — the demonstration hour', soon(5, 1, 43), 45,
+    'https://example.com/join/demo2', 'usr_tutor');
+
+  const slot = (id, opts) => sqlite.prepare(
+    `INSERT INTO tutorial_slots (id, tutor_id, live_session_id, level_id, unit_id, title, kind,
+       starts_at, duration_minutes, capacity, join_url, status)
+     VALUES (?, 'usr_tutor', NULL, ?, NULL, ?, ?, ?, 30, ?, NULL, 'open')`,
+  ).run(id, opts.levelId, opts.title, opts.kind || 'tutorial', opts.startsAt, opts.capacity || 1);
+
+  slot('slt_demo_open', { levelId: 1, title: 'Pronunciation tutorial', startsAt: soon(3, 2, 23), capacity: 2 });
+  slot('slt_demo_full', { levelId: 1, title: 'Oral defence rehearsal', startsAt: soon(4, 4, 11), capacity: 1 });
+  sqlite.exec(`INSERT INTO slot_bookings (id, slot_id, user_id, status, booked_at)
+    VALUES ('bkg_demo_other', 'slt_demo_full', 'usr_prog', 'booked', '2026-08-01T00:00:00.000Z')`);
+  slot('slt_demo_office', { levelId: null, title: 'Open office hour', kind: 'office_hour', startsAt: soon(6, 5, 31), capacity: 4 });
+  // One the learner already holds, so the feed has a tutorial in it and
+  // the list has an hour marked as theirs.
+  slot('slt_demo_mine', { levelId: 1, title: 'Writing tutorial', startsAt: soon(7, 3, 47), capacity: 1 });
+  sqlite.exec(`INSERT INTO slot_bookings (id, slot_id, user_id, status, booked_at)
+    VALUES ('bkg_demo_mine', 'slt_demo_mine', 'usr_demo', 'booked', '2026-08-01T00:00:00.000Z')`);
+}
+
 // ── MONEY, for /my-account/ ───────────────────────────────────────────
 // The statement of account is the first item of the interface backlog
 // and the hardest thing to fixture honestly: a balance is only
@@ -200,6 +246,7 @@ const DEMO = {};
 // reading the REAL rows.
 const finance = await import(pathToFileURL(`${ROOT}/functions/_lib/student/finance.js`));
 const standingLib = await import(pathToFileURL(`${ROOT}/functions/_lib/academic/standing.js`));
+const timetableLib = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/timetable.js`));
 const achievementsLib = await import(pathToFileURL(`${ROOT}/functions/_lib/academic/achievements.js`));
 {
   // A second live currency, so the two-currency rule has something to
@@ -423,6 +470,48 @@ createServer(async (req, res) => {
       if (!userId) {
         res.writeHead(401, { 'Content-Type': 'application/json' });
         return res.end(JSON.stringify({ error: 'AuthError', message: 'Sign in to continue.' }));
+      }
+    }
+    if (url.pathname === '/api/student/timetable' && req.method === 'GET') {
+      const feed = await timetableLib.learnerTimetable(env, {
+        userId: 'usr_demo',
+        ...(url.searchParams.get('days') ? { horizonDays: Number(url.searchParams.get('days')) } : {}),
+      });
+      if (url.searchParams.get('format') === 'ics') {
+        res.writeHead(200, {
+          'Content-Type': 'text/calendar; charset=utf-8',
+          'Content-Disposition': 'attachment; filename="worldwide-english-college-timetable.ics"',
+        });
+        return res.end(timetableLib.toIcs(feed));
+      }
+      return json(res, feed);
+    }
+    if (url.pathname === '/api/student/booking' && req.method === 'GET') {
+      return json(res, await timetableLib.openSlotsForLearner(env, {
+        userId: 'usr_demo',
+        ...(url.searchParams.get('days') ? { horizonDays: Number(url.searchParams.get('days')) } : {}),
+      }));
+    }
+    if (url.pathname === '/api/student/booking' && req.method === 'POST') {
+      const body = JSON.parse(await read(req) || '{}');
+      try {
+        return json(res, await timetableLib.bookSlot(env, {
+          userId: 'usr_demo', slotId: body.slotId, learnerNote: body.learnerNote || null,
+        }), 201);
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/api/student/booking' && req.method === 'DELETE') {
+      const body = JSON.parse(await read(req) || '{}');
+      try {
+        return json(res, await timetableLib.cancelBooking(env, {
+          userId: 'usr_demo', bookingId: body.bookingId, reason: body.reason,
+        }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
       }
     }
     if (url.pathname === '/api/student/standing' && req.method === 'GET') {

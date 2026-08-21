@@ -194,11 +194,11 @@ records who holds the office.
 
 | Capability | Endpoint | Who | Reads / writes | Interface |
 |---|---|---|---|---|
-| One merged, time-sorted feed of what is next — classes at levels held, tutorials booked, and dated obligations that are the learner's own — every time carrying UTC, local, offset and zone | `GET /api/student/timetable` | learner | `live_sessions`, `tutorial_slots`, `slot_bookings`, `enrolments`, `offers`, `student_settings` r | **No interface** |
-| The same feed as a calendar file (RFC 5545, folded to 75 octets, UID keyed to the source row so a re-export updates rather than duplicates) | `GET /api/student/timetable?format=ics` | learner | same, r | **No interface** |
-| **The hours open to this learner** — every published slot they may actually take, filtered by exactly what `bookSlot()` refuses, with a full one listed and marked full rather than hidden | `GET /api/student/booking` | learner | `tutorial_slots`, `slot_bookings`, `enrolments` r | **No interface** |
-| Book a tutorial — six distinct refusals, each with its own message and its own field | `POST /api/student/booking` | learner | `slot_bookings` w, `tutorial_slots` r | **No interface** |
-| Cancel a booking, with a reason (mandatory) | `DELETE /api/student/booking` | learner | `slot_bookings` w | **No interface** |
+| One merged, time-sorted feed of what is next — classes at levels held, tutorials booked, and dated obligations that are the learner's own — every time carrying UTC, local, offset and zone | `GET /api/student/timetable` | learner | `live_sessions`, `tutorial_slots`, `slot_bookings`, `enrolments`, `offers`, `student_settings` r | **Yes** — `/my-week.html` (`js/my-week.js`) |
+| The same feed as a calendar file (RFC 5545, folded to 75 octets, UID keyed to the source row so a re-export updates rather than duplicates) | `GET /api/student/timetable?format=ics` | learner | same, r | **Yes** — fetched with the session header and saved as a blob, because an `<a href>` cannot carry one |
+| **The hours open to this learner** — every published slot they may actually take, filtered by exactly what `bookSlot()` refuses, with a full one listed and marked full rather than hidden | `GET /api/student/booking` | learner | `tutorial_slots`, `slot_bookings`, `enrolments` r | **Yes** — the same page |
+| Book a tutorial — six distinct refusals, each with its own message and its own field | `POST /api/student/booking` | learner | `slot_bookings` w, `tutorial_slots` r | **Yes** — the same page |
+| Cancel a booking, with a reason (mandatory) | `DELETE /api/student/booking` | learner | `slot_bookings` w | **Yes** — the same page, refusing an empty reason on the page so the learner reads why it is required |
 | Publish an hour — validated to an explicit offset, a real level, a module of that level, an https join URL, and no overlap with time already offered | `POST /api/staff/slots` | staff | `tutorial_slots` w, `live_sessions` r | **No interface** |
 | Withdraw an hour, releasing every learner in it with the tutor's reason on their record | `POST /api/staff/slots` (`withdraw`) | staff | `tutorial_slots` w, `slot_bookings` w | **No interface** |
 | A tutor's own published hours with who is booked into each | `GET /api/staff/slots` | staff (own) / admin (any) | same, r | **No interface** |
@@ -305,8 +305,8 @@ This is the map the next pass builds from.
 3. ~~**Where they stand academically.**~~ **CLOSED 21 August 2026** — `/my-standing.html`, both editions. The conditions of the award are drawn in TWO groups by `condition.owner`, so a learner is never told they fell short of a record the College has not made; `tests/browser/my-standing.mjs` asserts that nothing College-owned reaches the learner's list.
 4. **Their engagement record.** The week-by-week grid, the evidence behind every state, and the platform's own reading beside any staff correction. `GET /api/student/attendance`.
 5. ~~**Their achievements.**~~ **CLOSED 21 August 2026** — on the same page, with the evidence on what is held, the measured shortfall on what is not, and the reason on anything withdrawn.
-6. **What is next.** The merged timetable — classes, tutorials, dated obligations. `GET /api/student/timetable`.
-7. **A tutorial to book, or a booking to cancel.** `POST` / `DELETE /api/student/booking`. *(The GET that lists what there is to book was added 21 August 2026 — until then the platform could accept a booking and could not be asked what there was to book.)*
+6. ~~**What is next.**~~ **CLOSED 21 August 2026** — `/my-week.html`, both editions. Times are printed from the server's local string in the ACCOUNT's zone, never converted in the browser; `tests/browser/my-week.mjs` runs the browser in America/Los_Angeles against an Asia/Dubai account so a page doing its own conversion would fail visibly.
+7. ~~**A tutorial to book, or a booking to cancel.**~~ **CLOSED 21 August 2026** — on the same page, with the GET that lists what there is to book added the same day.
 8. **Notices addressed to them, and the unread count.** `GET`,`POST /api/announcements`.
 9. **A thread to their tutors or to the Registrar's desk, and the replies.** `GET`,`POST /api/messages`, `GET`,`POST /api/messages/{thread}`.
 10. **An appeal, complaint, withdrawal, deferral or transfer** — opening one, reading its stage and its clock, escalating it, withdrawing it. `GET`,`POST /api/student/cases`.

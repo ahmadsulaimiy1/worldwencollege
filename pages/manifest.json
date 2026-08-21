@@ -1713,6 +1713,32 @@
     ]
   },
   {
+    "slug": "my-week",
+    "output": "my-week.html",
+    "title": "My Week &mdash; Worldwide English College",
+    "description": "One merged feed of every class, tutorial and dated obligation, in your own time zone — the hours your tutors have opened that you can take, and the calendar file to keep a copy of it all.",
+    "contentFile": "my-week.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/my-week.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/week.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-week.js"
+    ]
+  },
+  {
     "slug": "my-record-ar",
     "output": "ar/my-record.html",
     "title": "سجلّي الأكاديمي — الكلية العالمية للغة الإنجليزية",
@@ -1780,6 +1806,32 @@
       "/js/portal-guard.js",
       "/js/api-auth.js",
       "/js/my-standing.js"
+    ]
+  },
+  {
+    "slug": "my-week-ar",
+    "output": "ar/my-week.html",
+    "title": "أسبوعي — الكلية العالمية للغة الإنجليزية",
+    "description": "تدفّق واحد لكل حصة ودرس خاص والتزام مؤرَّخ، بتوقيتك أنت — والساعات التي فتحها مدرّسوك ولك أن تأخذها، وملفّ التقويم لتحتفظ بنسخة من ذلك كلّه.",
+    "contentFile": "my-week.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/my-week.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/week.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-week.js"
     ]
   },
   {
