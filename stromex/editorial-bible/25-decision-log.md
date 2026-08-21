@@ -1390,6 +1390,26 @@ the issuing authority named, and the record states plainly that a content
 digest proves content identity — **not** authorship, and **not** that a
 given physical copy came from the College. Twenty checks pass.
 
+**The register that makes it resolvable, built `[2026-08-20]`.** Rendering a
+provenance page is only half the promise; the other half is having a record
+to render it *from*. There was none: a Document ID was computed at print
+time and forgotten, so the QR in a bound book resolved to nothing.
+
+- **`sql/migrations/020-editions-register.sql`** (and `schema.sql`) — the
+  `editions` table. `content_digest` is UNIQUE because the digest *is* the
+  edition's identity; two rows sharing one would mean the register held two
+  answers for one edition.
+- **`functions/_lib/registry/editions.js`** — `registerEdition` (idempotent
+  on identical content: a rebuild of an unchanged edition returns the
+  existing record rather than duplicating it), `verifyEdition` (honest
+  outcomes, with the content check reported *separately* from status, so a
+  superseded edition is never called invalid), `supersedeEdition` and
+  `withdrawEdition` — both marked, dated and reasoned, **never deletion**,
+  per `SEB §12.5` and `SEB §12.11`.
+
+Twenty-five checks pass, including that a superseded edition still verifies
+and still points the reader at the current one.
+
 ### `SEB-D 48` — The verify origin must be an address the estate actually holds
 
 **Found 2026-08-20 while building artifact verification, and it is a
