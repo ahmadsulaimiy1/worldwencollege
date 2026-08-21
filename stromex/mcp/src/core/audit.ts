@@ -41,6 +41,19 @@ export interface AuditRecordInput {
   /** Fingerprint of the credential used, never the credential. */
   credentialFingerprint?: string;
   /**
+   * WHICH ESTATE PROJECT this action was taken for.
+   *
+   * The server is a collective capability, not one institution's tool
+   * (`src/core/project.ts`). Without this field every project's work looked
+   * alike in the log, so the trail could not answer "what was done, for
+   * whom" — and `SEB §21` requires a trail somebody can actually read.
+   *
+   * Absent when a call names no project: that is a true statement about an
+   * unattributed action, and it is better than filing it under a project
+   * the server picked on its own.
+   */
+  project?: string;
+  /**
    * What this call ACTUALLY cost, in the currency the provider charged.
    *
    * `SEB §26.6` requires every purchase to be "audited with its reason and

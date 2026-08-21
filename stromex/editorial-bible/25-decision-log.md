@@ -1447,6 +1447,63 @@ note) — those are *not* verifiable documents and must never be issued as
 one. The doctrine covers what the College publishes to be trusted, never
 what it holds to be protected.
 
+### `SEB-D 49` — The MCP is a collective capability, and the audit trail must say for whom
+
+**Decided 2026-08-21 by the Founder**, correcting a drift I had introduced
+twice. The Founder's words: *"we are not yet working for a specific project
+here. we are building a collective general mcp. you are trying to monopolise
+it."* The correction was right both times, and the second time it exposed a
+gap in the architecture rather than merely in my choice of task.
+
+**The gap.** The MCP had one flat configuration, one credential set and one
+undifferentiated audit log. Nothing on a record said WHICH estate project an
+action was taken for. Three real consequences:
+
+1. **The trail could not answer "what was done, for whom."** A deploy, a
+   database branch and a domain purchase looked alike. `SEB §21` requires a
+   trail somebody can read; one that cannot attribute an action is not one.
+2. **Protected-resource patterns were global**, so one project's production
+   store had to be guarded by a pattern binding every other project — the
+   list becoming the union of everyone's fears, matching things nobody meant.
+3. **Spending could not be attributed.** `SEB §26.6` caps the estate's
+   spend; with no project on the record, nobody could say who spent it.
+
+**Adopted — `src/core/project.ts`, the Project Registry.** Deliberately the
+same shape as the verifiable-document engine's *issuer profile*
+(`SEB-D 47`): the general engine owns nothing project-specific and is TOLD
+which project it acts for, refusing to guess.
+
+- Every tool gains a **`forProject`** control argument, reads included —
+  attribution is an accounting question, not a mutation one, and a field
+  present on only some records cannot answer "who read this."
+- The audit record carries `project`. **Absent when none is named**, which
+  is a true statement about an unattributed action and better than filing it
+  under a project the server invented.
+- An **unknown project is refused**, never silently treated as
+  "unattributed": somebody took the trouble to say who the work was for.
+- A project's protected patterns are **unioned** with the estate's. A
+  project may add protection; none may shed the estate's (`SEB §26.1`).
+- Declared via `STROMEX_MCP_PROJECTS` (JSON). A malformed declaration fails
+  startup rather than silently restoring unattributed behaviour.
+
+**Two defects this work surfaced, both found by tests rather than review:**
+
+- **A control-argument collision.** The argument was first named `project` —
+  which is already a real argument on sixteen Cloudflare and Vercel tools (a
+  Vercel project id, a Pages project name). The registry stripped the
+  caller's provider project before the handler saw it, breaking those tools.
+  Renamed **`forProject`**: a control argument must be unmistakable for a
+  domain one. The integration suite caught it; a regression test now pins it.
+- **A refusal that threw instead of recording.** The unknown-project check
+  first threw straight out of `invokeTool` — no envelope, no audit record —
+  contradicting the rule this gate keeps everywhere else, that a refusal is
+  recorded as carefully as an action (`SEB §21.8`). Now resolved after the
+  audit machinery exists, so it is a recorded `denied` like any other.
+
+213 checks pass. **Confidence High** that this is the correct generalisation;
+it makes collective ownership a property of the architecture rather than of
+my restraint in what I point the server at.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.

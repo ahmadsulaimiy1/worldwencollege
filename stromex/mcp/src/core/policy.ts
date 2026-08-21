@@ -121,6 +121,15 @@ export interface PolicyRequest {
   dryRun?: boolean;
   /** An approval grant the caller has already obtained. */
   approvalId?: string;
+  /**
+   * Patterns contributed by the PROJECT this call is for, on top of the
+   * estate-wide list (`src/core/project.ts`).
+   *
+   * A union, never a replacement. One project may add protection; no
+   * project may take away the estate's — shrinking protection is a
+   * recorded decision, not a per-call argument (`SEB §26.1`).
+   */
+  extraProtectedResources?: readonly string[];
 }
 
 export type PolicyDecision =
@@ -178,7 +187,7 @@ export class PolicyEngine {
     }
 
     // Protected from here down.
-    const matched = this.matchProtectedResource(request.resource);
+    const matched = this.matchProtectedResource(request.resource, request.extraProtectedResources ?? []);
     if (matched) {
       return {
         decision: 'deny',
@@ -212,11 +221,17 @@ export class PolicyEngine {
     };
   }
 
-  /** Returns the pattern that matched, or undefined. */
-  matchProtectedResource(resource: string | undefined): string | undefined {
+  /**
+   * Returns the pattern that matched, or undefined.
+   *
+   * `extra` carries the project's own patterns. They are checked AFTER the
+   * estate's, so an estate-wide rule is the one reported when both match —
+   * the stronger claim is the more useful thing to tell an operator.
+   */
+  matchProtectedResource(resource: string | undefined, extra: readonly string[] = []): string | undefined {
     if (!resource) return undefined;
     const subject = resource.toLowerCase();
-    for (const pattern of this.config.protectedResources) {
+    for (const pattern of [...this.config.protectedResources, ...extra]) {
       if (globMatch(pattern.toLowerCase(), subject)) return pattern;
     }
     return undefined;

@@ -73,6 +73,9 @@ export function harness(options: HarnessOptions = {}): Harness {
     logLines,
     context(overrides = {}) {
       return {
+        // The project register the config resolved. A test that names a
+        // project exercises the same attribution path production does.
+        projects: config.projects,
         // Replaced by the registry per invocation; a test that reaches
         // this one is calling a handler outside the gate.
         commitSpend: () => {

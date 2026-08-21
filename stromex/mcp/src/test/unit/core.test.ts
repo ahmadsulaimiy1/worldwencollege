@@ -22,6 +22,7 @@ import { StromexError, codeForHttpStatus, toStromexError } from '../../core/erro
 import { DEFAULT_RETRY_POLICY, delayFor, parseRetryAfter, shouldRetry } from '../../core/retry.js';
 import { CircuitBreaker, TokenBucket } from '../../core/ratelimit.js';
 import { RotationRegister, memoryRotationIo } from '../../core/rotation.js';
+import { ProjectRegistry, defineProject, parseProjects } from '../../core/project.js';
 
 const at = (iso: string) => () => new Date(iso);
 
@@ -853,5 +854,67 @@ describe('rotation-due register (SEB-D 45)', () => {
     assert.equal(reg.intervalDays, 365);
     const zero = new RotationRegister({ path: '(memory)', io: memoryRotationIo(), intervalDays: 0 });
     assert.equal(zero.intervalDays, 365);
+  });
+});
+
+describe('the project registry — the server is collective, not one project\'s tool', () => {
+  it('validates a project key, because the key is what attributes the work', () => {
+    const p = defineProject({ key: 'al-madeenah', name: 'Al-Madeenah International College' });
+    assert.equal(p.key, 'al-madeenah');
+    assert.throws(() => defineProject({ key: 'Bad Key', name: 'X' }), (e: StromexError) => e.code === 'CONFIG_INVALID');
+    assert.throws(() => defineProject({ key: 'ok', name: '' }), (e: StromexError) => e.code === 'CONFIG_INVALID');
+    assert.throws(
+      () => defineProject({ key: 'ok', name: 'Fine', protectedResources: ['  '] }),
+      (e: StromexError) => e.code === 'CONFIG_INVALID',
+      'an empty pattern protects nothing and hides the fact',
+    );
+  });
+
+  it('REFUSES an unknown project rather than filing the work under none', () => {
+    // The failure this prevents: somebody says who the work is for, the
+    // server does not recognise it, and the action is silently recorded as
+    // unattributed — or worse, under a project the server picked.
+    const reg = new ProjectRegistry([{ key: 'aipc', name: 'Albalagh International Premium College' }]);
+    assert.equal(reg.require('aipc').name, 'Albalagh International Premium College');
+    assert.throws(() => reg.require('shrs'), (e: StromexError) => e.code === 'CONFIG_INVALID');
+    // And it names what IS registered, so the operator can fix it.
+    try { reg.require('shrs'); } catch (e) { assert.match((e as StromexError).remediation ?? '', /aipc/); }
+  });
+
+  it('refuses a duplicate key, which would make attribution ambiguous', () => {
+    const reg = new ProjectRegistry([{ key: 'aipc', name: 'One' }]);
+    assert.throws(() => reg.register({ key: 'aipc', name: 'Two' }), (e: StromexError) => e.code === 'CONFIG_INVALID');
+  });
+
+  it('UNIONS a project\'s protected patterns with the estate\'s — never replaces them', () => {
+    const reg = new ProjectRegistry([
+      { key: 'aipc', name: 'Albalagh', protectedResources: ['aipc-production*'] },
+      { key: 'shrs', name: 'Sultan Hanafi Royal Schools', protectedResources: ['shrs-live*'] },
+    ]);
+    const base = ['*-audit'];
+    const forAipc = reg.protectedResourcesFor('aipc', base);
+    assert.deepEqual(forAipc, ['*-audit', 'aipc-production*']);
+    // One project cannot see, or shed, another's protection.
+    assert.ok(!forAipc.includes('shrs-live*'));
+    // The estate's own list survives a project that declares none.
+    assert.deepEqual(reg.protectedResourcesFor(undefined, base), base);
+  });
+
+  it('applies a project\'s patterns at the policy gate, and estate rules still win the report', () => {
+    const engine = new PolicyEngine({ protectedResources: ['*-audit'] });
+    const request = { tool: 'x.delete', provider: 'p', operationClass: 'protected' as const, resource: 'aipc-production-db' };
+    // Without the project, it is an ordinary protected operation.
+    assert.equal(engine.evaluate(request).decision, 'approval_required');
+    // With it, the project's own pattern makes it a terminal refusal.
+    const denied = engine.evaluate({ ...request, extraProtectedResources: ['aipc-production*'] });
+    assert.equal(denied.decision, 'deny');
+    assert.equal(denied.decision === 'deny' && denied.code, 'POLICY_PROTECTED_RESOURCE');
+  });
+
+  it('parses a declaration, and a malformed one fails startup rather than running unattributed', () => {
+    assert.deepEqual(parseProjects(undefined), []);
+    assert.equal(parseProjects('[{"key":"aipc","name":"Albalagh"}]').length, 1);
+    assert.throws(() => parseProjects('{not json'), (e: StromexError) => e.code === 'CONFIG_INVALID');
+    assert.throws(() => parseProjects('{"key":"aipc"}'), (e: StromexError) => e.code === 'CONFIG_INVALID');
   });
 });
