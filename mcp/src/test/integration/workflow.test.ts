@@ -319,3 +319,104 @@ describe('the shipped workflow definitions', () => {
     assert.equal(steps[0]!.compensate?.({}), undefined, 'a repository is an institutional record; an undo does not destroy one');
   });
 });
+
+describe('workflow attribution — a run and its steps belong to one project', () => {
+  const recorded: Array<Record<string, unknown>> = [];
+
+  const step = defineTool({
+    name: 'demo.step',
+    title: 'Demo step',
+    description: 'Records the arguments it was handed.',
+    provider: 'demo',
+    operationClass: 'write',
+    inputSchema: { value: z.string() },
+    handler: async (args) => { recorded.push(args); return { summary: 'done', data: {} }; },
+  });
+
+  const failing = defineTool({
+    name: 'demo.fail',
+    title: 'Demo failure',
+    description: 'Always fails, so compensation runs.',
+    provider: 'demo',
+    operationClass: 'write',
+    inputSchema: {},
+    handler: async () => { throw new StromexError({ code: 'INTERNAL', message: 'nope', remediation: 'this step exists to fail' }); },
+  });
+
+  const compensator = defineTool({
+    name: 'demo.undo',
+    title: 'Demo compensation',
+    description: 'Undoes the first step.',
+    provider: 'demo',
+    operationClass: 'write',
+    inputSchema: {},
+    handler: async () => ({ summary: 'undone', data: {} }),
+  });
+
+  const env = { STROMEX_MCP_PROJECTS: '[{"key":"aipc","name":"Albalagh"}]' };
+
+  it('attributes EVERY step of a run, not just the run itself', async () => {
+    const h = harness({ env });
+    recorded.length = 0;
+    const tools = new Map<string, ToolDefinition>([[step.name, step]]);
+    const report = await runWorkflow({
+      definition: definition(() => [
+        { id: 'a', title: 'A', tool: 'demo.step', args: () => ({ value: 'one' }) },
+        { id: 'b', title: 'B', tool: 'demo.step', args: () => ({ value: 'two' }) },
+      ]),
+      input: {},
+      tools,
+      contextFor: () => h.context(),
+      dryRun: false,
+      forProject: 'aipc',
+      now: () => new Date('2026-08-21T09:00:00.000Z'),
+    });
+    assert.equal(report.steps.filter((s) => s.status === 'ok').length, 2);
+    // Every step's audit record carries the project — a multi-step run that
+    // attributed only its first step would under-count the rest.
+    const records = h.audit.query({ project: 'aipc', limit: 50 });
+    assert.equal(records.length, 2, 'both steps attributed');
+    // And the handler still received its own arguments untouched.
+    assert.deepEqual(recorded.map((r) => r['value']), ['one', 'two']);
+    assert.ok(!('forProject' in recorded[0]!), 'the control argument never reaches the handler');
+  });
+
+  it('attributes a COMPENSATION to the same project as the action it undoes', async () => {
+    const h = harness({ env });
+    const tools = new Map<string, ToolDefinition>([
+      [step.name, step], [failing.name, failing], [compensator.name, compensator],
+    ]);
+    await runWorkflow({
+      definition: definition(() => [
+        { id: 'a', title: 'A', tool: 'demo.step', args: () => ({ value: 'one' }),
+          compensate: () => ({ tool: 'demo.undo', args: {} }) },
+        { id: 'b', title: 'B', tool: 'demo.fail', args: () => ({}) },
+      ]),
+      input: {},
+      tools,
+      contextFor: () => h.context(),
+      dryRun: false,
+      forProject: 'aipc',
+      now: () => new Date('2026-08-21T09:00:00.000Z'),
+    });
+    // A rollback is the one record an auditor most wants attached to
+    // something; it must not land unattributed.
+    const undo = h.audit.query({ tool: 'demo.undo', limit: 10 })[0];
+    assert.ok(undo, 'the compensation ran');
+    assert.equal(undo!.project, 'aipc');
+  });
+
+  it('leaves steps unattributed when the run names no project — never invented', async () => {
+    const h = harness({ env });
+    const tools = new Map<string, ToolDefinition>([[step.name, step]]);
+    await runWorkflow({
+      definition: definition(() => [{ id: 'a', title: 'A', tool: 'demo.step', args: () => ({ value: 'one' }) }]),
+      input: {},
+      tools,
+      contextFor: () => h.context(),
+      dryRun: false,
+      now: () => new Date('2026-08-21T09:00:00.000Z'),
+    });
+    assert.equal(h.audit.query({ limit: 10 })[0]!.project, undefined);
+  });
+});

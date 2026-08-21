@@ -85,6 +85,11 @@ export function workflowTools(options: WorkflowToolOptions): ToolDefinition[] {
           tools: options.tools,
           contextFor: options.contextFor,
           dryRun: ctx.dryRun,
+          // The run's attribution, taken from the gate rather than from the
+          // caller's arguments: `forProject` is a control argument and is
+          // stripped before a handler sees it. Every step and every
+          // compensation inherits it.
+          forProject: ctx.project?.key,
           now: options.now,
         });
 

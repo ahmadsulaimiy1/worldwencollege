@@ -83,6 +83,22 @@ export interface RunWorkflowOptions {
   tools: Map<string, ToolDefinition>;
   contextFor: (tool: ToolDefinition, runId: string) => ToolContext;
   dryRun: boolean;
+  /**
+   * The estate project the whole run serves (`src/core/project.ts`).
+   *
+   * Threaded onto EVERY step and every compensation rather than left to
+   * each step's own arguments. A workflow is the unit a person actually
+   * authorises — "configure email for Al-Madeenah" — so its steps cannot
+   * belong to different projects, and a run whose steps attributed
+   * inconsistently would under-count exactly the multi-step work the
+   * register most needs to see.
+   *
+   * Compensations carry it too. A compensation is the cleanup of a failed
+   * action, so it belongs to the same project as the action it undoes;
+   * an unattributed rollback is the one record an auditor would most want
+   * attached to something.
+   */
+  forProject?: string;
   now: () => Date;
 }
 
@@ -122,7 +138,12 @@ export async function runWorkflow(options: RunWorkflowOptions): Promise<Workflow
 
     const definition = options.tools.get(step.tool)!;
     const ctx = { ...options.contextFor(definition, runId), workflowRunId: runId, requestId: newRequestId() };
-    const args = { ...step.args(state), ...(options.dryRun ? { dryRun: true } : {}) };
+    const args = {
+      ...step.args(state),
+      ...(options.dryRun ? { dryRun: true } : {}),
+      // Threaded last so a step cannot quietly reattribute the run.
+      ...(options.forProject ? { forProject: options.forProject } : {}),
+    };
 
     let envelope: Envelope;
     try {
@@ -197,7 +218,11 @@ export async function runWorkflow(options: RunWorkflowOptions): Promise<Workflow
 
       const ctx = { ...options.contextFor(definition, runId), workflowRunId: runId, requestId: newRequestId() };
       try {
-        const result = await invokeTool(definition, compensation.args, ctx);
+        const result = await invokeTool(
+          definition,
+          { ...compensation.args, ...(options.forProject ? { forProject: options.forProject } : {}) },
+          ctx,
+        );
         const report = reports.find((entry) => entry.id === step.id);
         if (report) {
           report.status = result.ok ? 'compensated' : 'compensation-failed';

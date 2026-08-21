@@ -1523,6 +1523,29 @@ plainly when no projects are registered. An estate that believes it
 attributes everything, and does not, is worse off than one that can see the
 gap. 216 checks pass; the catalogue stands at 181 tools.
 
+**Carried through workflows, and open to what does not exist yet
+`[2026-08-21]`.** Two closing pieces, the second at the Founder's explicit
+direction — *"it should accommodate even new projects/brands on the same
+automation and excellence."*
+
+- **Workflow attribution.** A run is the unit a person actually authorises
+  (*"configure email for Al-Madeenah"*), so its steps cannot belong to
+  different projects. `forProject` is threaded onto **every step and every
+  compensation**, taken from the gate rather than from arguments — the
+  control argument is stripped before a handler sees it, so `ToolContext`
+  now carries the resolved project for handlers that fan out. Compensations
+  carry it because a rollback is the record an auditor most wants attached
+  to something; an unattributed one is the worst kind to have.
+- **New projects and brands are configuration, not code.** A test onboards
+  an invented brand (*Zahra Press*) and asserts it receives the full
+  capability from its first call: accepted, attributed, reported in the
+  register, and **immediately protected by its own patterns** — which do not
+  leak onto another project, and do not weaken the estate's, which still
+  bind it. Nothing in the engine is edited to add a brand. That is the
+  requirement made testable rather than promised.
+
+221 checks pass.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.

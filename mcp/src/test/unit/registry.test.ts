@@ -820,3 +820,74 @@ describe('the project register is inspectable, and reports what was really done'
     assert.match(result.summary, /nothing is being attributed/);
   });
 });
+
+describe('a NEW project or brand onboards with no engine change', () => {
+  // The Founder's requirement: the automation must accommodate projects and
+  // brands that do not exist yet, at the same standard as the first one.
+  // This is the test that keeps that true — it onboards an invented brand
+  // and asserts it receives every capability, with no code edited for it.
+  const anyTool = defineTool({
+    name: 'demo.act',
+    title: 'Demo',
+    description: 'Any ordinary write.',
+    provider: 'demo',
+    operationClass: 'write',
+    inputSchema: {},
+    handler: async () => ({ summary: 'ok', data: {} }),
+  });
+
+  const destructive = defineTool({
+    name: 'demo.destroy',
+    title: 'Demo destroy',
+    description: 'A protected operation.',
+    provider: 'demo',
+    operationClass: 'protected',
+    inputSchema: { target: z.string() },
+    resource: (args: { target: string }) => args.target,
+    preImage: async () => ({ preImage: {}, restoreHint: 'h' }),
+    handler: async () => ({ summary: 'gone', data: {} }),
+  });
+
+  // A brand the estate has never seen, declared purely as configuration.
+  const NEW_BRAND = JSON.stringify([
+    { key: 'aipc', name: 'Albalagh' },
+    {
+      key: 'zahra-press',
+      name: 'Zahra Press',
+      protectedResources: ['zahra-archive*'],
+      resources: { neon: 'some-neon-project', vercel: 'team_xyz' },
+    },
+  ]);
+
+  it('is accepted, attributed and reported like any other — configuration only', async () => {
+    const h = harness({ env: { STROMEX_MCP_PROJECTS: NEW_BRAND } });
+    const result = await invokeTool(anyTool, { forProject: 'zahra-press' }, h.context());
+    assert.equal(result.ok, true);
+    assert.equal(h.audit.query({ limit: 1 })[0]!.project, 'zahra-press');
+
+    const register = platformToolNamed(h, 'stromex.projects.list');
+    const listed = await invokeTool(register, {}, h.context());
+    const data = listed.data as { projects: Array<{ key: string; name: string; activity: { actions: number } }> };
+    const brand = data.projects.find((p) => p.key === 'zahra-press')!;
+    assert.equal(brand.name, 'Zahra Press');
+    assert.equal(brand.activity.actions, 1, 'a new brand is reported on from its first action');
+  });
+
+  it('gets its OWN protection immediately, without weakening anyone else\'s', async () => {
+    const h = harness({ env: { STROMEX_MCP_PROJECTS: NEW_BRAND } });
+    // The new brand's own pattern is enforced on its very first call.
+    const refused = await invokeTool(destructive, { target: 'zahra-archive-2026', forProject: 'zahra-press' }, h.context());
+    assert.equal(refused.ok, false);
+    assert.equal(refused.error?.code, 'POLICY_PROTECTED_RESOURCE');
+
+    // And it does not leak onto another project: the same resource name
+    // under a different project is not bound by Zahra Press's rule.
+    const other = await invokeTool(destructive, { target: 'zahra-archive-2026', forProject: 'aipc' }, h.context());
+    assert.notEqual(other.error?.code, 'POLICY_PROTECTED_RESOURCE');
+
+    // The estate's own protections still bind the new brand — a project
+    // may add protection, never shed the estate's.
+    const estate = await invokeTool(destructive, { target: 'shrs-transcripts', forProject: 'zahra-press' }, h.context());
+    assert.equal(estate.error?.code, 'POLICY_PROTECTED_RESOURCE');
+  });
+});

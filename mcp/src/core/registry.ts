@@ -83,10 +83,20 @@ export interface ToolContext {
   vault: HandleVault;
   /**
    * The estate projects this server may act for. Used to resolve the
-   * `project` control argument, so an action can be attributed and a
+   * `forProject` control argument, so an action can be attributed and a
    * project's own protected patterns applied (`src/core/project.ts`).
    */
   projects: ProjectRegistry;
+  /**
+   * The project THIS call was attributed to, once resolved.
+   *
+   * Set by the gate, never by a caller. It exists so a handler that fans
+   * out — the workflow runner above all — can propagate the attribution to
+   * the calls it makes. Without it a multi-step run would record its steps
+   * as unattributed while the run itself was attributed, which is a worse
+   * record than either being consistent.
+   */
+  project?: ProjectProfile;
   /**
    * Report a REAL charge, immediately before the irreversible step, and
    * have it checked against the spending policy.
@@ -386,6 +396,8 @@ export async function invokeTool(
   if (projectKey) {
     try {
       project = ctx.projects.require(projectKey);
+      // Handlers that fan out read the attribution from here.
+      ctx = { ...ctx, project };
     } catch (thrown) {
       const error = toStromexError(thrown, { provider: definition.provider, operation: base.operation });
       return finish(errorEnvelope(base, error), 'denied', undefined, error);
