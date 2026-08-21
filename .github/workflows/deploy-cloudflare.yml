@@ -275,6 +275,8 @@ jobs:
         run: node tests/browser/my-standing.mjs
       - name: My Week — times on the account's clock, and a list that agrees with the booking route
         run: node tests/browser/my-week.mjs
+      - name: My Desk — that a notice addressed to somebody else never reaches the document
+        run: node tests/browser/my-desk.mjs
 
   deploy:
     needs: verify

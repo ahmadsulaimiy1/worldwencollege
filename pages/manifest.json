@@ -1739,6 +1739,33 @@
     ]
   },
   {
+    "slug": "my-desk",
+    "output": "my-desk.html",
+    "title": "My Desk &mdash; Worldwide English College",
+    "description": "Every notice the College has addressed to you and every conversation you have open with your tutors or the Registrar's desk, with nothing marked read that you have not been shown.",
+    "contentFile": "my-desk.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/my-desk.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/week.css",
+      "/css/desk.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-desk.js"
+    ]
+  },
+  {
     "slug": "my-record-ar",
     "output": "ar/my-record.html",
     "title": "سجلّي الأكاديمي — الكلية العالمية للغة الإنجليزية",
@@ -1832,6 +1859,33 @@
       "/js/portal-guard.js",
       "/js/api-auth.js",
       "/js/my-week.js"
+    ]
+  },
+  {
+    "slug": "my-desk-ar",
+    "output": "ar/my-desk.html",
+    "title": "مكتبي — الكلية العالمية للغة الإنجليزية",
+    "description": "كل إعلان وجّهته إليك الكلية وكل محادثة مفتوحة بينك وبين مدرّسيك أو مكتب المسجّل، ولا يُوسَم مقروءًا شيء لم يُعرَض عليك.",
+    "contentFile": "my-desk.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/my-desk.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/week.css",
+      "/css/desk.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/my-desk.js"
     ]
   },
   {

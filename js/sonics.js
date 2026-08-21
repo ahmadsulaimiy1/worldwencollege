@@ -168,7 +168,12 @@
                with the conferral voice rather than the tap the rest of
                the tracking page gets, which is the whole point of
                ranking ceremony instead of making everything alike. */
-            + '.trk-offer, .acc-invoice, .wk-form';
+            + '.trk-offer, .acc-invoice, .wk-form, '
+            /* Writing to the College is an act with a name on it,
+               not a search box. It takes the conferral voice for
+               the same reason the booking form does: what leaves
+               the plate is entered on a record somebody answers. */
+            + '.desk-form';
   var OPEN  = 'details > summary, .accordion__q, .nav__toggle, [aria-expanded]';
   /* THE CHROME, and it is ranked BELOW open and ABOVE tap deliberately.
      The utility rail's Verify group and the editions picker both carry
@@ -222,6 +227,11 @@
             + '.std-head, .std-skills li, .std-conditions li, .std-milestones li, '
             /* My Week — css/week.css. */
             + '.wk-zone, .wk-event, .wk-slot, '
+            /* My Desk — css/desk.css. The two counts, each notice
+               plate, each line of correspondence and each message
+               in a thread. The compose plate is the sealed act and
+               takes SEAL; it is in the list above. */
+            + '.desk-count, .desk-notice, .desk-thread-row, .desk-message, '
             /* The Governance pillar — css/governance.css. The article
                is sealed, so it takes SEAL and is in the list above. */
             + '.docket__entry, .attest, '

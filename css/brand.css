@@ -2000,6 +2000,40 @@ a.lang__row:hover { background: rgba(199,162,74,.13); color: var(--gold-bright);
     left 12px bottom 12px,
     left 12px bottom 12px;
 }
+
+/* ── A CARD THAT BRINGS ITS OWN GROUND ───────────────────────────────
+   Four surfaces on this site are cards that paint a dark plate instead
+   of paper — the offer on the tracking page, the invoice on My Account,
+   the two forms on My Week, and the plates on My Desk. Each of them
+   used to declare that ground itself, and every one of them was WRONG
+   IN ARABIC and right in English.
+
+   The reason is two lines above. `[dir="rtl"] .card` re-declares
+   `background-image` at two-class specificity, so it outranked a plain
+   `.acc-invoice` in a stylesheet loaded afterwards — and the plate then
+   wore the CARD's gold hairline at full size instead of its own dark
+   ground. The result was champagne text on gold at about 1.3:1, on the
+   Arabic edition only, on four surfaces, for as long as they have
+   existed. It was invisible in every source file and obvious the moment
+   the page was rendered — CLAUDE.md §6, exactly.
+
+   So the ground is declared ONCE, here, next to the rule that was
+   overriding it, and in BOTH directions. A plate that wants it says so
+   in the markup and declares no ground of its own; a fifth one added
+   next year inherits the correction rather than repeating the fault. */
+.card.plate-dark,
+[dir="rtl"] .card.plate-dark {
+  color: #F6EFE0;
+  background-image:
+    radial-gradient(ellipse 90% 80% at 20% 0%, rgba(31, 61, 122, .5), transparent 70%),
+    linear-gradient(158deg, var(--midnight), var(--oxford));
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-color: rgba(199, 162, 74, .42);
+  box-shadow: inset 0 0 80px -26px rgba(0, 0, 0, .8),
+              var(--relief-metal, 0 10px 30px -12px rgba(10, 20, 40, .5));
+}
 .card--dark {
   --card-rule: rgba(242, 227, 192, .5);
   --card-rule-mid: rgba(199, 162, 74, .14);

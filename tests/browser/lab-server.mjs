@@ -370,6 +370,132 @@ const DEMO_APPS = {};
   DEMO_APPS.offered = offered;
 }
 
+// ── THE DESK, for /my-desk/ ───────────────────────────────────────────
+// Notices and correspondence, written through the REAL modules rather
+// than inserted as rows: createAnnouncement() packs the two editions
+// into two columns in a format only that function knows, and a fixture
+// that wrote the columns by hand would prove the page can render a
+// string this repository never actually stores.
+//
+// Names are set here because both payloads deliberately withhold email
+// addresses and carry `preferred_name` instead — with none set, every
+// party on the page would fall back to its office and the test could
+// not tell "the tutor" from "no name at all".
+const announcementsLib = await import(pathToFileURL(`${ROOT}/functions/_lib/comms/announcements.js`));
+const threadsLib = await import(pathToFileURL(`${ROOT}/functions/_lib/comms/threads.js`));
+const DEMO_DESK = {};
+{
+  sqlite.exec(`UPDATE users SET preferred_name = 'Demonstration Learner' WHERE id = 'usr_demo'`);
+  sqlite.exec(`UPDATE users SET preferred_name = 'Demonstration Tutor'   WHERE id = 'usr_tutor'`);
+  sqlite.exec(`UPDATE users SET preferred_name = 'Demonstration Registrar' WHERE id = 'usr_admin'`);
+
+  const say = (body) => announcementsLib.createAnnouncement(env, { actor: ADMIN_ACTOR, body });
+
+  // Institution-wide, pinned, and published in both languages — the
+  // notice that proves an edition can be chosen rather than fallen back
+  // to.
+  DEMO_DESK.pinned = await say({
+    audienceScope: 'institution', status: 'published', pinned: true,
+    language: 'en',
+    title: 'Michaelmas examination timetable',
+    body: 'The examination timetable for the coming session is settled and each level sits on its own day.\n\nYour own dates appear on My Week as soon as they are entered against your enrolment.',
+    translation: {
+      language: 'ar',
+      title: 'جدول امتحانات الفصل',
+      body: 'استقرّ جدول امتحانات الجلسة القادمة، ويجلس كلُّ مستوًى في يومه.\n\nوتظهر مواعيدك أنت في «أسبوعي» بمجرّد قيدها على تسجيلك.',
+    },
+  });
+
+  // Level II, English only. The Arabic reading of this page must say so
+  // rather than showing an English notice under an Arabic heading.
+  DEMO_DESK.level = await say({
+    audienceScope: 'level', levelId: 2, status: 'published',
+    language: 'en',
+    title: 'Level II — the spoken paper moves to the second week',
+    body: 'The spoken paper for Level II is now sat in the second week of the assessment window rather than the first.',
+  });
+
+  // To one learner, and to this one. The narrowest gate on the plate.
+  DEMO_DESK.mine = await say({
+    audienceScope: 'learner', audienceUserId: 'usr_demo', status: 'published',
+    language: 'en',
+    title: 'Your transcript request has been actioned',
+    body: 'The transcript you asked for has been prepared and is on My Record.',
+    translation: {
+      language: 'ar',
+      title: 'نُفِّذ طلبُك للسجلّ الأكاديمي',
+      body: 'أُعِدّ السجلُّ الذي طلبتَه، وهو في «سجلّي».',
+    },
+  });
+
+  // One already read and put away, so the page has something to hide
+  // and a toggle to show it with.
+  DEMO_DESK.away = await say({
+    audienceScope: 'institution', status: 'published',
+    language: 'en',
+    title: 'Library opening hours over the vacation',
+    body: 'The reading rooms keep shortened hours through the vacation. The digital library is unaffected.',
+  });
+  await announcementsLib.markRead(env, {
+    user: { id: 'usr_demo' }, announcementId: DEMO_DESK.away.id, dismissed: true,
+  });
+
+  // THE NEGATIVE FIXTURES, and they are the point of the plate. One
+  // notice addressed to a different learner and one still in draft. If
+  // either ever appears on this page the audience test has stopped
+  // being part of the query.
+  DEMO_DESK.notMine = await say({
+    audienceScope: 'learner', audienceUserId: 'usr_prog', status: 'published',
+    language: 'en',
+    title: 'A notice addressed to somebody else',
+    body: 'If this sentence is ever visible on the demonstration learner’s desk, ADDRESSED_TO has been rewritten as a filter.',
+  });
+  DEMO_DESK.draft = await say({
+    audienceScope: 'institution', status: 'draft',
+    language: 'en',
+    title: 'An unpublished draft',
+    body: 'A draft is not a notice. If this is visible, status has stopped being read.',
+  });
+
+  const LEARNER = { id: 'usr_demo', role: 'student' };
+  const TUTOR = { id: 'usr_tutor', role: 'staff' };
+
+  // A conversation with a reply in it, so the thread plate has two
+  // sides and the learner has something unread.
+  const asked = await threadsLib.openThread(env, {
+    user: LEARNER,
+    body: {
+      recipient: 'tutors', scope: 'level', levelId: 2,
+      subject: 'The second conditional in Unit 7',
+      body: 'I can hear the difference between the two forms but I cannot produce the second one under time pressure. Is there a drill you would recommend before the spoken paper?',
+    },
+  });
+  await threadsLib.replyToThread(env, {
+    user: TUTOR,
+    threadId: asked.thread.id,
+    body: { body: 'There is — the substitution drill in the Unit 7 laboratory, three passes at half speed before you attempt it at pace. Bring the recording to the tutorial and we will listen to it together.' },
+  });
+  DEMO_DESK.thread = asked.thread.id;
+
+  // A closed one, so the page has a refusal to render rather than a
+  // reply box that fails on submission.
+  const closed = await threadsLib.openThread(env, {
+    user: LEARNER,
+    body: {
+      recipient: 'registrar', scope: 'level', levelId: 1,
+      subject: 'Confirming the spelling of my name on the award',
+      body: 'Please confirm the spelling that will be printed, as two of my documents disagree.',
+    },
+  });
+  const closedId = closed.thread.id;
+  sqlite.exec(`UPDATE message_threads
+                  SET status = 'closed', closed_by = 'usr_admin',
+                      closed_at = '2026-08-15T09:00:00.000Z',
+                      closed_reason = 'Answered on the record and the spelling is confirmed.'
+                WHERE id = '${closedId}'`);
+  DEMO_DESK.closed = closedId;
+}
+
 const recordings = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/recording-storage.js`));
 const { makeR2 } = await import(pathToFileURL(`${ROOT}/tests/r2-shim.mjs`));
 // The same in-memory R2 stand-in the unit tests use, so the browser
@@ -514,6 +640,68 @@ createServer(async (req, res) => {
         return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
       }
     }
+    // ── THE DESK ────────────────────────────────────────────────────
+    // The session is always the demonstration learner, exactly as the
+    // real endpoints are always the signed-in one: neither of these
+    // takes a user parameter, and the harness must not invent one.
+    if (url.pathname === '/api/announcements' && req.method === 'GET') {
+      const me = sqlite.prepare('SELECT * FROM users WHERE id = ?').get('usr_demo');
+      return json(res, await announcementsLib.learnerFeed(env, {
+        user: me,
+        language: announcementsLib.parseLanguage(url.searchParams.get('language'), me),
+        limit: announcementsLib.parseLimit(url.searchParams.get('limit')),
+      }));
+    }
+    if (url.pathname === '/api/announcements' && req.method === 'POST') {
+      const body = JSON.parse(await read(req) || '{}');
+      try {
+        return json(res, await announcementsLib.markRead(env, {
+          user: { id: 'usr_demo' },
+          announcementId: body.announcementId,
+          dismissed: body.dismissed === undefined ? false : body.dismissed,
+        }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/api/messages' && req.method === 'GET') {
+      return json(res, await threadsLib.listThreads(env, {
+        user: sqlite.prepare('SELECT * FROM users WHERE id = ?').get('usr_demo'),
+        limit: threadsLib.parseLimit(url.searchParams.get('limit')),
+      }));
+    }
+    if (url.pathname === '/api/messages' && req.method === 'POST') {
+      const body = JSON.parse(await read(req) || '{}');
+      try {
+        return json(res, await threadsLib.openThread(env, {
+          user: sqlite.prepare('SELECT * FROM users WHERE id = ?').get('usr_demo'), body,
+        }), 201);
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({
+          error: err.name, message: err.message, fields: err.fields, allowance: err.allowance,
+        }));
+      }
+    }
+    if (url.pathname.startsWith('/api/messages/')) {
+      const threadId = decodeURIComponent(url.pathname.slice('/api/messages/'.length));
+      const me = sqlite.prepare('SELECT * FROM users WHERE id = ?').get('usr_demo');
+      try {
+        if (req.method === 'GET') {
+          return json(res, await threadsLib.readThread(env, { user: me, threadId }));
+        }
+        const body = JSON.parse(await read(req) || '{}');
+        return json(res, await threadsLib.replyToThread(env, { user: me, threadId, body }), 201);
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    // The ids the browser test needs in order to ask for a specific
+    // thread. Under /__ by the house convention that keeps a harness
+    // affordance out of the /api/ namespace the site actually ships.
+    if (url.pathname === '/__demo-desk' && req.method === 'GET') return json(res, DEMO_DESK);
     if (url.pathname === '/api/student/standing' && req.method === 'GET') {
       return json(res, await standingLib.computeLearnerStanding(env, 'usr_demo'));
     }

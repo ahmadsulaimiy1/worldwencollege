@@ -241,9 +241,9 @@
 .trk-offer {
   padding-block: 2.2rem;
   color: #F6EFE0;
-  background:
-    radial-gradient(ellipse 90% 80% at 20% 0%, rgba(31, 61, 122, .5), transparent 70%),
-    linear-gradient(158deg, var(--midnight, #0E1B33), var(--oxford, #0A1428));
+  /* No ground of its own: `.plate-dark` in css/brand.css paints it, in
+     both directions. See the note there — this ground declared locally
+     was overridden by `[dir="rtl"] .card` and rendered gold in Arabic. */
   border: 1px solid rgba(199, 162, 74, .42);
   box-shadow: inset 0 0 80px -26px rgba(0, 0, 0, .8), var(--relief-metal, 0 10px 30px -12px rgba(10, 20, 40, .5));
 }
