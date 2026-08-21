@@ -1410,6 +1410,35 @@ time and forgotten, so the QR in a bound book resolved to nothing.
 Twenty-five checks pass, including that a superseded edition still verifies
 and still points the reader at the current one.
 
+**Applied to the live database, and the QR now resolves `[2026-08-21]`.**
+The first infrastructure the estate has changed through this work rather
+than described:
+
+- **Migration 020 applied to the live D1 database `wec-lc`** (Cloudflare,
+  WEUR/LHR). Table first, index last, ledger updated — the migration's own
+  convention, honoured by hand. The database moved from 19 recorded
+  migrations to 20.
+- **A correction worth recording.** Cloudflare's database *listing* reported
+  `num_tables: 0`. That was false: the database held **64 tables, 414
+  curriculum items, 6 enrolments and a real application**. Acting on a
+  summary rather than verifying would have meant running a full schema over
+  live institutional data. **Verify the thing itself, never the index of
+  it** — the same lesson `SEB-D 27` teaches about gates, applied to
+  infrastructure.
+- **Both constraints proven against the live table before it was trusted**:
+  a digest of the wrong length is refused (`CHECK`), and a second edition
+  claiming an existing digest is refused (`UNIQUE`) — which is what makes
+  the digest the edition's identity rather than a column beside it. The
+  probe row was removed; the table is empty and the surrounding data
+  untouched.
+- **`GET /api/verify/edition/<documentId>`** now resolves what every printed
+  volume's QR points at, with an optional `?digest=` reporting whether the
+  copy in hand is unaltered — reported separately from the edition's status,
+  so a superseded edition is never called invalid. Public by design, and the
+  route-guard census made that a *declared* exemption with a written reason
+  rather than an accident: it defaults every new route to guarded until
+  somebody justifies otherwise, and it caught this one.
+
 ### `SEB-D 48` — The verify origin must be an address the estate actually holds
 
 **Found 2026-08-20 while building artifact verification, and it is a
