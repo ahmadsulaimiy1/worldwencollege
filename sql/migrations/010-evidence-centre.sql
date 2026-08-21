@@ -10,7 +10,7 @@
 -- AN INTERNAL QUALITY SYSTEM. NEVER A CLAIM OF ACCREDITATION.
 -- ============================================================
 --
--- Albalagh International Premium College holds no accreditation, recognition or
+-- Worldwide English College holds no accreditation, recognition or
 -- affiliation, and has applied for none. This is the instrument by which
 -- the College evaluates ITSELF. Nothing in it constitutes, implies or
 -- anticipates external recognition, and no view built on it may present

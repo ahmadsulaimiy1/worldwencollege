@@ -42,7 +42,7 @@ ALTER TABLE graduate_profiles ADD COLUMN portrait_note TEXT;
 -- 2. ALUMNI CHAPTERS (approved)
 -- ============================================================
 --
--- One real organisation — the Albalagh International Premium College Alumni Society
+-- One real organisation — the Worldwide English College Alumni Society
 -- — with six chapters, one per IEFC award.
 --
 -- The chapters are reference data because they are real and named. But
@@ -69,17 +69,17 @@ CREATE TABLE IF NOT EXISTS alumni_chapters (
 );
 
 INSERT OR IGNORE INTO alumni_chapters (id, level_id, name, award_title, post_nominal, description) VALUES
-  ('chp_aspirant',  1, 'Aspirant Chapter',  'English Aspirant of Albalagh International Premium College',  'ApAIPC',
+  ('chp_aspirant',  1, 'Aspirant Chapter',  'English Aspirant of Worldwide English College',  'ApWEC',
    'Holders of the Level I award, who entered the tradition.'),
-  ('chp_candidate', 2, 'Candidate Chapter', 'English Candidate of Albalagh International Premium College', 'CnAIPC',
+  ('chp_candidate', 2, 'Candidate Chapter', 'English Candidate of Worldwide English College', 'CnWEC',
    'Holders of the Level II award.'),
-  ('chp_associate', 3, 'Associate Chapter', 'English Associate of Albalagh International Premium College', 'AsAIPC',
+  ('chp_associate', 3, 'Associate Chapter', 'English Associate of Worldwide English College', 'AsWEC',
    'Holders of the Level III award.'),
-  ('chp_envoy',     4, 'Envoy Chapter',     'English Envoy of Albalagh International Premium College',     'EnAIPC',
+  ('chp_envoy',     4, 'Envoy Chapter',     'English Envoy of Worldwide English College',     'EnWEC',
    'Holders of the Level IV award — trusted representatives and communicators.'),
-  ('chp_orator',    5, 'Orator Chapter',    'English Orator of Albalagh International Premium College',    'OrAIPC',
+  ('chp_orator',    5, 'Orator Chapter',    'English Orator of Worldwide English College',    'OrWEC',
    'Holders of the Level V award — high-level intellectual and professional communicators.'),
-  ('chp_laureate',  6, 'Laureate Chapter',  'English Laureate of Albalagh International Premium College',  'LrAIPC',
+  ('chp_laureate',  6, 'Laureate Chapter',  'English Laureate of Worldwide English College',  'LrWEC',
    'Holders of the Level VI award — distinguished masters of the programme.');
 
 -- ============================================================

@@ -68,7 +68,7 @@ CREATE TABLE editions (
   -- Edition · revision · impression, as printed: 'E01.R00.01'.
   issue_code      TEXT NOT NULL,
   edition_name    TEXT,               -- 'First', 'Second', …
-  publication_id  TEXT,               -- 'AIPC/IEFC/CUR/2026/E01'
+  publication_id  TEXT,               -- 'WEC/IEFC/CUR/2026/E01'
   print_identifier TEXT,              -- issue code plus digest characters
   year            INTEGER,
 
