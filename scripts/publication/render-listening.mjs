@@ -294,7 +294,7 @@ tr { break-inside:avoid; }
 
 <section class="title">
   <div>${crest({ size: 66, gold: PAL.royalGold, ink: 'none', mono: true })}</div>
-  <p class="eyebrow" style="margin-top:14pt">Albalagh International Premium College · London Campus</p>
+  <p class="eyebrow" style="margin-top:14pt">Worldwide English College · London Campus</p>
   <h1>The IEFC Listening Scripts</h1>
   <div class="title__rule"></div>
   <p class="title__sub">Every listening and model script in the programme, set to be read

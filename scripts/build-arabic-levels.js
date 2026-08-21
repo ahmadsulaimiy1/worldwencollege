@@ -39,7 +39,7 @@
  *
  * Award titles and post-nominals stay in Latin script entirely. An
  * award is a defined object with an official title; translating
- * "English Associate of Albalagh International Premium College" would create a
+ * "English Associate of Worldwide English College" would create a
  * second award that nobody has defined and nobody can confer. The
  * Arabic prose says what the award is for, beside the title itself.
  *
@@ -53,7 +53,7 @@
  * ────────────────────────────────────────────────────────────────────
  * The Arabic for "module" is وحدة, which is also the word the RETIRED
  * measurement scheme used for a "learning unit" — the one the College
- * replaced with <span dir="ltr">AIPC</span> Credits, and the one it priced at $26.39 apiece
+ * replaced with <span dir="ltr">WEC</span> Credits, and the one it priced at $26.39 apiece
  * before deciding that pricing content 41% of which is unwritten was
  * indefensible. tests/published-claims.test.mjs bans the phrase لكل وحدة
  * outright across every Arabic page for that reason.
@@ -391,12 +391,12 @@ ${lv.outcomes.map((o) => {
 
   return `<section class="section--dark section-pad">
   <div class="container">
-    <span class="eyebrow">${ltr('<span dir="ltr">IEFC</span>')} &middot; المستوى ${ord}</span>
+    <span class="eyebrow"><span dir="ltr">IEFC</span> &middot; المستوى ${ord}</span>
     <h1>${arName}</h1>
     <p class="lede">${AR_CHARACTER[lv.roman]}</p>
     <div class="btn-row">
       <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم للمستوى ${ord}</a>
-      <a href="/ar/academics/#iefc" class="btn btn--outline">برنامج ${ltr('<span dir="ltr">IEFC</span>')} كاملًا</a>
+      <a href="/ar/academics/#iefc" class="btn btn--outline">برنامج <span dir="ltr">IEFC</span> كاملًا</a>
     </div>
   </div>
 </section>
@@ -510,7 +510,7 @@ ${darkCard('قبله', prev ? `المستوى ${AR_ROMAN[prev.roman]} — ${AR_N
 ${darkCard('بعده', next ? `المستوى ${AR_ROMAN[next.roman]} — ${AR_NAME[next.id]}` : 'نهاية البرنامج',
     next
       ? `عند الإتمام ينتقل المتعلم إلى ${AR_NAME[next.id]} (${ltr(esc(next.cefr))})، وهو يفترض كل ما عُلّم هنا.`
-      : `${AR_NAME[lv.id]} آخر مستويات برنامج ${ltr('<span dir="ltr">IEFC</span>')}. لا مستوى فوقه في هذا البرنامج.`)}
+      : `${AR_NAME[lv.id]} آخر مستويات برنامج <span dir="ltr">IEFC</span>. لا مستوى فوقه في هذا البرنامج.`)}
     </div>
     ${next ? `<div class="btn-row">
       <a href="/ar/study/${SLUG[next.roman]}/" class="btn btn--gold">المستوى ${AR_ROMAN[next.roman]} — ${AR_NAME[next.id]}</a>
@@ -551,8 +551,8 @@ levels.forEach((lv, i) => {
   const entry = {
     slug,
     output,
-    title: `المستوى ${AR_ROMAN[lv.roman]}: ${AR_NAME[lv.id]} (${lv.cefr}) — كلية البلاغ الدولية المتميّزة`,
-    description: `المستوى ${AR_ROMAN[lv.roman]} من برنامج <span dir="ltr">IEFC</span>: ${lv.modules.length} وحدات، و${lv.units} درسًا مصمَّمًا `
+    title: `المستوى ${AR_ROMAN[lv.roman]}: ${AR_NAME[lv.id]} (${lv.cefr}) — الكلية العالمية للغة الإنجليزية`,
+    description: `المستوى ${AR_ROMAN[lv.roman]} من برنامج ⁦IEFC⁩: ${lv.modules.length} وحدات، و${lv.units} درسًا مصمَّمًا `
       + `على مدى ${lv.duration_months} أشهر، وفق مستوى ${lv.cefr} في الإطار الأوروبي. الوحدات والتقييم وطرائق التدريس والشهادة.`,
     contentFile: file, lang: 'ar', dir: 'rtl',
     contents: true,

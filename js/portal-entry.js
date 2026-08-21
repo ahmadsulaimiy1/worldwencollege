@@ -1,4 +1,4 @@
-/* AIPC — the route from the Student Portal page into the portal.
+/* WEC — the route from the Student Portal page into the portal.
  *
  * ────────────────────────────────────────────────────────────────
  * THE PROBLEM THIS EXISTS FOR
@@ -34,12 +34,12 @@
 (function () {
   'use strict';
 
-  var cfg = window.AIPC_AUTH || {};
+  var cfg = window.WEC_LC_AUTH || {};
   if (!cfg.clerkPublishableKey) return;      // design-preview state: unchanged
 
-  if (typeof window.AIPC_loadClerk !== 'function') return;
+  if (typeof window.WEC_LC_loadClerk !== 'function') return;
 
-  window.AIPC_loadClerk(cfg.clerkPublishableKey, function (err, clerk) {
+  window.WEC_LC_loadClerk(cfg.clerkPublishableKey, function (err, clerk) {
     // An unreachable auth provider must not degrade the page. A visitor
     // who is offline still gets the description and the apply route;
     // they simply do not get the shortcut.

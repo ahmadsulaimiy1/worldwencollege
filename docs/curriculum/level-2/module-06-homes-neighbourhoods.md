@@ -1,4 +1,4 @@
-# AIPC — Level II, Module 6: Homes & Neighbourhoods
+# WEC — Level II, Module 6: Homes & Neighbourhoods
 
 *Part of `docs/curriculum-level-2-elementary.md`'s Level II build-out.*
 

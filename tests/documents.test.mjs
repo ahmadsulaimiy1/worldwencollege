@@ -43,8 +43,8 @@ function freshEnv() {
 }
 
 const AWARD = {
-  levelId: 1, awardTitle: 'English Aspirant of Albalagh International Premium College',
-  postNominal: 'ApAIPC', cefr: 'A1', credits: 20, tqtHours: 200,
+  levelId: 1, awardTitle: 'English Aspirant of Worldwide English College',
+  postNominal: 'ApWEC', cefr: 'A1', credits: 20, tqtHours: 200,
   holderName: 'Demonstration Graduate',
 };
 
@@ -59,7 +59,7 @@ const AWARD = {
     documentType: 'transcript', userId: 'usr_grad', issuedBy: 'usr_reg', now: T0 + DAY,
   });
   check('A transcript is issued with its own verification code',
-    /^AIPC-/.test(doc.verificationCode), doc.verificationCode);
+    /^WEC-/.test(doc.verificationCode), doc.verificationCode);
   check('...signed', !!doc.signature && !!doc.kid);
   check('...marked development while no KMS is provisioned', doc.mode === 'development');
   check('...recording one award and twenty credits',
@@ -74,7 +74,7 @@ const AWARD = {
     VALUES ('enr_2','usr_grad',2,'active','2027-11-01T00:00:00.000Z')`).bind().run();
   await reg.conferAward(env, {
     userId: 'usr_grad', ...AWARD, levelId: 2,
-    awardTitle: 'English Candidate of Albalagh International Premium College', postNominal: 'CnAIPC', cefr: 'A2',
+    awardTitle: 'English Candidate of Worldwide English College', postNominal: 'CnWEC', cefr: 'A2',
     now: T0 + 300 * DAY,
   });
 
@@ -167,7 +167,7 @@ const AWARD = {
 
   const nonsense = await D.verifyDocument(env, { code: 'not-a-code', now: T0 });
   check('A malformed code is refused cleanly', nonsense.outcome === 'malformed' && nonsense.document === null);
-  // Generated rather than hand-written. A literal like AIPC-AAAA-BBBB-CCCCC
+  // Generated rather than hand-written. A literal like WEC-AAAA-BBBB-CCCCC
   // does not survive the check character, so it comes back 'malformed'
   // and this assertion would silently stop testing "not found" at all —
   // which is what happened when the check character was strengthened.
@@ -188,7 +188,7 @@ const AWARD = {
   // absence would be read as an answer.
   check('The supplement states the College is not accredited or affiliated',
     /not accredited by, or affiliated with, any external accreditation body/i.test(sup.payload.recognitionStatement));
-  check('...and that the AIPC Credit is an internal unit, not ECTS',
+  check('...and that the WEC Credit is an internal unit, not ECTS',
     /not ECTS/.test(sup.payload.creditModel) && /no equivalence/i.test(sup.payload.creditModel));
   // The competency state has to travel, or a supplement showing nothing
   // reads as a graduate who failed every competency.
@@ -233,7 +233,7 @@ const AWARD = {
     name: 'A Demonstration University', kind: 'university',
     dailyLimit: 3, approvedBy: 'usr_reg', now: T0,
   });
-  check('An institution is registered with a key', /^aipcv_/.test(inst.apiKey));
+  check('An institution is registered with a key', /^wecv_/.test(inst.apiKey));
   // A leaked table of live keys would be a leaked ability to read the
   // register at scale under someone else's name.
   const stored = env.DB.prepare('SELECT api_key_hash FROM verifying_institutions WHERE id = ?').bind(inst.id).first();
@@ -258,7 +258,7 @@ const AWARD = {
     !JSON.stringify(ok).includes(stored.api_key_hash) && !JSON.stringify(ok).includes(inst.apiKey),
     Object.keys(ok.institution).join(','));
 
-  const bad = await D.institutionalVerify(env, { apiKey: 'aipcv_wrong', code: a.verification_code, now: T0 + 4000 });
+  const bad = await D.institutionalVerify(env, { apiKey: 'wecv_wrong', code: a.verification_code, now: T0 + 4000 });
   check('An unknown key is refused', bad.ok === false && bad.reason === 'unauthorised');
 
   // The limit is what turns "somebody is enumerating the register" from

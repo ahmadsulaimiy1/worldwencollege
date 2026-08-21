@@ -4,7 +4,7 @@
  * ────────────────────────────────────────────────────────────────
  * WHAT THIS IS NOT
  * ────────────────────────────────────────────────────────────────
- * Albalagh International Premium College holds no accreditation, recognition or
+ * Worldwide English College holds no accreditation, recognition or
  * affiliation, and has applied for none. This is the instrument by which
  * the College evaluates ITSELF. Every view built on it carries that
  * statement, and `DISCLAIMER` below is the single source of it so no
@@ -35,7 +35,7 @@
  */
 import { db, ValidationError, NotFoundError } from '../db.js';
 
-export const DISCLAIMER = 'Albalagh International Premium College holds no accreditation, recognition or affiliation from any external body, and has applied for none. The Accreditation Evidence Centre is an INTERNAL quality-assurance instrument by which the College evaluates its own practice. Nothing in it constitutes, implies or anticipates external recognition.';
+export const DISCLAIMER = 'Worldwide English College holds no accreditation, recognition or affiliation from any external body, and has applied for none. The Accreditation Evidence Centre is an INTERNAL quality-assurance instrument by which the College evaluates its own practice. Nothing in it constitutes, implies or anticipates external recognition.';
 
 export const STATES = ['exists', 'scheduled', 'governance_pending', 'not_instrumented', 'not_applicable'];
 

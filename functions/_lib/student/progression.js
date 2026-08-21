@@ -5,7 +5,7 @@
 //
 // completeLevel() is the single place that decision is implemented.
 // Today it's called only from functions/api/lms/complete-level.js,
-// which is staff-only — AIPC has no automated grading/completion
+// which is staff-only — WEC has no automated grading/completion
 // engine yet, so a human confirms a level is finished. Once the LMS's
 // own assessment engine exists (quiz pass thresholds, assignment
 // grading — see docs/lms-architecture.md, Milestone 2+), that engine

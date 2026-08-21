@@ -67,7 +67,7 @@ async function open(url, viewport) {
   check('...with every level they entered', (await page.locator('#transcript tr').count()) >= 6,
     await page.locator('#transcript tr').count());
   check('...including ones still in progress', /In progress/.test(await textOf(page, '#transcript')));
-  check('...and their credits totalled', /AIPC Credits/.test(await textOf(page, '#totals')));
+  check('...and their credits totalled', /WEC Credits/.test(await textOf(page, '#totals')));
 
   check('The privacy controls are shown', (await page.locator('#secPrivacy').isVisible()) === true);
   check('The sharing section is shown', (await page.locator('#secShares').isVisible()) === true);
@@ -206,8 +206,8 @@ async function open(url, viewport) {
 
   check('A transcript can be issued', (await page.locator('.rec-doc').count()) >= 1,
     await textOf(page, '#docError'));
-  check('...carrying a verification code', /code AIPC-/.test(await textOf(page, '#documents')));
-  check('...and a link to check it', /verify\.html\?code=AIPC-/.test(
+  check('...carrying a verification code', /code WEC-/.test(await textOf(page, '#documents')));
+  check('...and a link to check it', /verify\.html\?code=WEC-/.test(
     await page.getAttribute('.rec-doc a', 'href') || ''));
 
   await page.locator('[data-issue="transcript"]').click();

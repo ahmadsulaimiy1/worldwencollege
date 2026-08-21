@@ -1,4 +1,4 @@
-# AIPC — Site Architecture
+# WEC — Site Architecture
 
 *See `editorial-bible.md` for the brand system this architecture carries
 through every page.*
@@ -81,7 +81,7 @@ seventeen as thin, mostly-empty pages, several were deliberately folded or
 deferred:
 
 - **Course Catalogue** → folded into `/academics` and `/academics/iefc`.
-  AIPC has one flagship programme (the IEFC) with six levels, not a
+  WEC has one flagship programme (the IEFC) with six levels, not a
   catalogue of many courses — a separate catalogue page would either
   duplicate the IEFC page or sit empty until more programmes exist.
 - **Tuition & Fees** → kept as its own page (`/admissions/tuition`) rather
@@ -98,17 +98,17 @@ deferred:
   learning environment. A standalone "resources" page would be empty
   without real enrolled students to serve.
 - **Blog / News & Events** → not built in this pass. A blog or news feed
-  with fabricated articles would misrepresent AIPC as an operating
+  with fabricated articles would misrepresent WEC as an operating
   institution with a publishing history it doesn't have yet. Recommended:
   add this once there's real institutional news to report.
-- **Student Testimonials** → not built. AIPC has no enrolled students, so
+- **Student Testimonials** → not built. WEC has no enrolled students, so
   named or quoted testimonials would be fabricated. Documented explicitly
   in `editorial-bible.md` rather than left as a silent gap.
 - **Live Chat** → not built. A chat widget with no one staffing it is worse
   than no chat widget; the `mailto:`-based Contact and Admissions flows are
   answered by a real person instead.
 
-If/when AIPC needs any of the deferred sections for real (a live blog,
+If/when WEC needs any of the deferred sections for real (a live blog,
 staffed chat, a multi-programme catalogue), they slot into this same
 partials/manifest system as new pages — see `README.md` § Adding an English
 page.
@@ -123,7 +123,7 @@ language switcher, social links.
 **Primary nav:**
 
 ```
-[Crest] Albalagh International Premium College        About   Academics ▾   Admissions ▾   Faculty   Student Portal   Contact   [Apply Now]
+[Crest] Worldwide English College        About   Academics ▾   Admissions ▾   Faculty   Student Portal   Contact   [Apply Now]
 ```
 
 - **Academics ▾** → Programme Overview (`/academics`), The IEFC Programme
@@ -148,11 +148,11 @@ IEFC Programme → Tuition & Fees → Admissions → Apply (email).
 (CEFR ledger) → FAQ ("Do I have to start at Level I?") → Admissions.
 
 **Someone evaluating credibility before committing:** any entry point →
-About § Institutional Status or FAQ ("Is AIPC formally accredited?") —
+About § Institutional Status or FAQ ("Is WEC formally accredited?") —
 answered honestly rather than funnelled past.
 
 **Instructor interested in teaching:** Home → Faculty → "Enquire About
-Teaching at AIPC" (email).
+Teaching at WEC" (email).
 
 ---
 

@@ -1,4 +1,4 @@
-# Albalagh International Premium College — London Campus (AIPC)
+# Worldwide English College — London Campus (WEC)
 
 Static, no-framework, bilingual (English / Arabic RTL) build. See
 `docs/editorial-bible.md` for the brand system and `docs/site-architecture.md`
@@ -83,7 +83,7 @@ It is **not** a working Learning Management System, student/staff/admin
 portals with real authentication, a payments backend, or a mobile app —
 those need real infrastructure, credentials, and operational decisions
 (hosting, a database, a payment processor, real staff accounts) that belong
-to AIPC's actual operators, not something to fabricate into a repo. The
+to WEC's actual operators, not something to fabricate into a repo. The
 Student Portal page previews what that experience will contain and gives a
 route to request early access; `/student-portal/preview/` is a high-fidelity,
 front-end-only *design* preview of the dashboard (built on `css/dashboard.css`,
@@ -97,7 +97,7 @@ Facts not yet confirmed (registered London HQ address, named leadership/
 faculty, formal accreditation, first-cohort start date) are shown as clearly
 labelled "Institutional Status" callouts rather than invented — see
 `docs/editorial-bible.md` for why. "London Campus" itself is resolved: it
-names AIPC's administrative headquarters — delivery is online-first
+names WEC's administrative headquarters — delivery is online-first
 worldwide by design, not a placeholder for premises that don't exist (see
 About → Our Operating Model).
 

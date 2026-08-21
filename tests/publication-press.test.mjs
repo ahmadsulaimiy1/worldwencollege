@@ -1,4 +1,4 @@
-// AIPC Press — the constitution, the catalogue and the house identity.
+// WEC Press — the constitution, the catalogue and the house identity.
 //
 // THE ASSERTION THIS FILE EXISTS FOR:
 //
@@ -381,11 +381,11 @@ check('a publication with no artefact reports why rather than an empty history',
 // The citation and cataloguing apparatus.
 const cite = citation({ title: 'T', edition: 'First', year: 2026, documentId: 'ABCD' });
 check('the citation names the corporate author, edition, place, publisher and document',
-  /Albalagh International Premium College\./.test(cite.note) && /First edition/.test(cite.note)
-  && /London: Albalagh International Premium College Press, 2026/.test(cite.note)
+  /Worldwide English College\./.test(cite.note) && /First edition/.test(cite.note)
+  && /London: Worldwide English College Press, 2026/.test(cite.note)
   && /Document ID ABCD/.test(cite.note), cite.note);
 
-const cip = cataloguing({ title: 'T', family: 'AIPC Governance Series', edition: 'First',
+const cip = cataloguing({ title: 'T', family: 'WEC Governance Series', edition: 'First',
   year: 2026, pages: 40, audience: 'A', subjects: ['S'],
   registrations: [{ field: 'ISBN', value: 'Not assigned', authority: 'International ISBN Agency' }] });
 check('the cataloguing data names an unheld identifier and the authority that issues it',
@@ -835,7 +835,7 @@ check('the completeness figure never exceeds the lessons with a self-check',
 
 // ── 13 · The volume itself ───────────────────────────────────────────
 
-const VOLUME = `${ROOT}/publication/AIPC Press — The Publishing Constitution.pdf`;
+const VOLUME = `${ROOT}/publication/WEC Press — The Publishing Constitution.pdf`;
 if (existsSync(VOLUME)) {
   const raw = readFileSync(VOLUME).toString('latin1');
   const pageCount = (raw.match(/\/Type\s*\/Page(?![s])/g) || []).length;

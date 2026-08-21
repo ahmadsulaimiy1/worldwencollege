@@ -13,7 +13,7 @@ institutions distinct while sharing one grammar.*
 | **Sultan Hanafi Royal Schools** | Four institutions plus a Qur'an College, Ikorodu, Lagos | `SHRS GV-01` |
 | **Abī Sulaimiy College** | Named as a group member; **not examined by this Bible or by AMC's** | `AMC-D D-01` |
 | **Al-Madeenah International College for Arabic & Islamic Studies** | The group's tertiary and international arm | `AMC-D D-13` |
-| **Worldwide English College / AIPC** | English-language college; concept built out as its own institution | `WEC-EB Preface` |
+| **Worldwide English College / WEC** | English-language college; concept built out as its own institution | `WEC-EB Preface` |
 | **StromeX** | The AI Operating System product | `SX-EB` |
 | **StromeX Technologies** | The operating company | The brief; `SEB §1.1` |
 

@@ -1,4 +1,4 @@
-# AIPC — deploy to Cloudflare Pages.
+# WEC — deploy to Cloudflare Pages.
 #
 # Manual only (workflow_dispatch). It is deliberately not wired to
 # `push`: until the repository holds real Cloudflare credentials this
@@ -17,7 +17,7 @@
 #     CLOUDFLARE_ACCOUNT_ID   from the Cloudflare dashboard sidebar
 #     D1_DATABASE_ID          shown on the database's page in the
 #                             dashboard, and printed by
-#                             `wrangler d1 create aipc`. Substituted
+#                             `wrangler d1 create wec-lc`. Substituted
 #                             into wrangler.toml at deploy time so the
 #                             placeholder never ships.
 #
@@ -204,7 +204,7 @@ jobs:
           if [ -z "$PK" ]; then
             echo "::warning::No CLERK_PUBLISHABLE_KEY variable set. The site will deploy as a design preview — the Student Portal, Listening Lab and instructor workspace will render, but every authenticated API call returns 401. See docs/preview-deployment.md § 4."
           else
-            printf 'window.AIPC_AUTH = {\n  clerkPublishableKey: %s\n};\n' "'$PK'" > js/auth-config.js
+            printf 'window.WEC_LC_AUTH = {\n  clerkPublishableKey: %s\n};\n' "'$PK'" > js/auth-config.js
             echo "Clerk publishable key applied to js/auth-config.js"
           fi
 
@@ -217,16 +217,16 @@ jobs:
           # exist, and creating one is interactive by default — so on a
           # first run this is the step between "configured correctly" and
           # an opaque error. Idempotent: create only if absent.
-          if npx wrangler pages project list 2>/dev/null | grep -qw 'aipc'; then
-            echo "Pages project aipc already exists."
+          if npx wrangler pages project list 2>/dev/null | grep -qw 'wec-lc'; then
+            echo "Pages project wec-lc already exists."
           else
-            echo "Creating Pages project aipc…"
+            echo "Creating Pages project wec-lc…"
             # Production branch is deliberately a branch that does not
             # exist in this repository. Every deploy from a real branch
             # is then a PREVIEW deploy with its own URL, which is what an
             # internal preview should be. Change this once the site is
             # meant to be publicly launched.
-            npx wrangler pages project create aipc --production-branch=main
+            npx wrangler pages project create wec-lc --production-branch=main
           fi
 
       - name: Ensure the recordings bucket exists
@@ -241,13 +241,13 @@ jobs:
           # Requires "Workers R2 Storage: Edit" on the API token. If that
           # permission is absent this step says so plainly instead of
           # letting the deploy fail later with a binding error.
-          if npx wrangler r2 bucket list 2>/dev/null | grep -qw 'aipc-recordings'; then
-            echo "R2 bucket aipc-recordings already exists."
+          if npx wrangler r2 bucket list 2>/dev/null | grep -qw 'wec-lc-recordings'; then
+            echo "R2 bucket wec-lc-recordings already exists."
             exit 0
           fi
-          if npx wrangler r2 bucket create aipc-recordings 2>r2-error.log; then
+          if npx wrangler r2 bucket create wec-lc-recordings 2>r2-error.log; then
             cat r2-error.log || true
-            echo "Created R2 bucket aipc-recordings (private by default — never expose it publicly)."
+            echo "Created R2 bucket wec-lc-recordings (private by default — never expose it publicly)."
             exit 0
           fi
 
@@ -289,17 +289,17 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           # Same reasoning and idempotency as the recordings bucket step
-          # above, for the separate aipc-kyc-documents bucket. Kept as
+          # above, for the separate wec-lc-kyc-documents bucket. Kept as
           # its own step rather than folded into that one so a failure
           # here reports against KYC document upload specifically, not
           # against recordings.
-          if npx wrangler r2 bucket list 2>/dev/null | grep -qw 'aipc-kyc-documents'; then
-            echo "R2 bucket aipc-kyc-documents already exists."
+          if npx wrangler r2 bucket list 2>/dev/null | grep -qw 'wec-lc-kyc-documents'; then
+            echo "R2 bucket wec-lc-kyc-documents already exists."
             exit 0
           fi
-          if npx wrangler r2 bucket create aipc-kyc-documents 2>r2-kyc-error.log; then
+          if npx wrangler r2 bucket create wec-lc-kyc-documents 2>r2-kyc-error.log; then
             cat r2-kyc-error.log || true
-            echo "Created R2 bucket aipc-kyc-documents (private by default — never expose it publicly)."
+            echo "Created R2 bucket wec-lc-kyc-documents (private by default — never expose it publicly)."
             exit 0
           fi
 
@@ -322,7 +322,7 @@ jobs:
           python3 - <<'PY'
           import re
           src = open('wrangler.toml').read()
-          block = '\n[[r2_buckets]]\nbinding = "KYC_DOCUMENTS"\nbucket_name = "aipc-kyc-documents"\n'
+          block = '\n[[r2_buckets]]\nbinding = "KYC_DOCUMENTS"\nbucket_name = "wec-lc-kyc-documents"\n'
           assert block in src, 'wrangler.toml does not contain the expected KYC_DOCUMENTS block verbatim'
           out = src.replace(block, '\n')
           assert 'KYC_DOCUMENTS' not in out and '[[d1_databases]]' in out, 'wrangler.toml edit went wrong'
@@ -342,12 +342,12 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           set -e
-          npx wrangler d1 execute aipc --remote --yes --file=sql/schema.sql
+          npx wrangler d1 execute wec-lc --remote --yes --file=sql/schema.sql
           # Curriculum before audio at each level: the audio rows carry
           # foreign keys onto that level's learning items.
           for n in 1 2 3 4 5 6; do
-            npx wrangler d1 execute aipc --remote --yes --file=sql/seed-curriculum-level-$n.sql
-            npx wrangler d1 execute aipc --remote --yes --file=sql/seed-audio-level-$n.sql
+            npx wrangler d1 execute wec-lc --remote --yes --file=sql/seed-curriculum-level-$n.sql
+            npx wrangler d1 execute wec-lc --remote --yes --file=sql/seed-audio-level-$n.sql
           done
 
       - name: Bring the remote D1 database up to date
@@ -447,7 +447,7 @@ jobs:
           # green tick means "tee ran", which is worth nothing.
           set -o pipefail
           npx wrangler pages deploy .deploy \
-            --project-name=aipc \
+            --project-name=wec-lc \
             --branch="${{ inputs.branch || 'main' }}" \
             --commit-dirty=true | tee deploy.log
           url=$(grep -oE 'https://[a-z0-9.-]+\.pages\.dev' deploy.log | tail -1)
@@ -493,7 +493,7 @@ jobs:
       # every run a preview that never reaches the domain; or the CDN is
       # serving a cached copy.
       #
-      # Every page now carries <meta name="aipc-build"> with the commit it
+      # Every page now carries <meta name="wec-build"> with the commit it
       # was generated from, so all three are distinguishable from the
       # outside. This step fetches BOTH the pages.dev deployment and the
       # live domain, compares their stamps to the commit being deployed,
@@ -518,17 +518,15 @@ jobs:
 
           stamp_of () {
             curl -fsSL --max-time 25 "$1" 2>/dev/null \
-              | grep -o 'name="aipc-build" content="[0-9a-f]*"' \
+              | grep -o 'name="wec-build" content="[0-9a-f]*"' \
               | head -1 | sed 's/.*content="//; s/"//'
           }
 
           # The CDN is asked to skip its cache, so a stale answer here
           # means a stale ORIGIN rather than a stale edge.
           #
-          # TODO(domain): the live host below is the College's former
-          # name. It is the domain actually serving the site, so this
-          # check is still the real one — but it moves when an Albalagh
-          # domain is registered. docs/domain-setup.md § Pending.
+          # The live host below is worldwencollege.co.uk, the College's
+          # real, permanent domain — the one actually serving the site.
           got_deploy=$(stamp_of "$DEPLOY_URL/?cb=$want")
           got_live=$(stamp_of "https://www.worldwencollege.co.uk/?cb=$want")
           # The apex and www are separate DNS records, and either can be
@@ -568,12 +566,12 @@ jobs:
             echo "::warning::Could not read a build stamp from the live domain. Either it is unreachable from the runner, or it is serving a build made before the stamp existed."
           fi
           if [ "$got_deploy" = "$want" ] && [ "$got_live" != "$want" ]; then
-            echo "::warning::THE PUBLISH WORKED AND THE DOMAIN DID NOT FOLLOW. The files are live at $DEPLOY_URL but www.worldwencollege.co.uk is serving ${got_live:-something else}. Check, in this order: (1) Cloudflare Dashboard -> Workers & Pages -> aipc -> Custom domains: is worldwencollege.co.uk attached to THIS project? (2) Settings -> Builds & deployments -> Production branch: it must be 'main', which is the branch this workflow deploys to — if it is anything else every run here is a PREVIEW and the domain will never update. (3) Caching -> Purge Everything."
+            echo "::warning::THE PUBLISH WORKED AND THE DOMAIN DID NOT FOLLOW. The files are live at $DEPLOY_URL but www.worldwencollege.co.uk is serving ${got_live:-something else}. Check, in this order: (1) Cloudflare Dashboard -> Workers & Pages -> wec-lc -> Custom domains: is worldwencollege.co.uk attached to THIS project? (2) Settings -> Builds & deployments -> Production branch: it must be 'main', which is the branch this workflow deploys to — if it is anything else every run here is a PREVIEW and the domain will never update. (3) Caching -> Purge Everything."
             {
               echo "**The publish worked and the domain did not follow.** Files are live at \`$DEPLOY_URL\`."
               echo ""
               echo "Check in this order:"
-              echo "1. **Workers & Pages -> aipc -> Custom domains** — is \`worldwencollege.co.uk\` attached to *this* project?"
+              echo "1. **Workers & Pages -> wec-lc -> Custom domains** — is \`worldwencollege.co.uk\` attached to *this* project?"
               echo "2. **Settings -> Builds & deployments -> Production branch** — must be \`main\`. If it is anything else, every run here is a *preview* and the domain never updates."
               echo "3. **Caching -> Purge Everything.**"
             } >> "$GITHUB_STEP_SUMMARY"

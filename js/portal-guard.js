@@ -1,4 +1,4 @@
-// AIPC — shared portal auth-guard shell.
+// WEC — shared portal auth-guard shell.
 //
 // This is the reusable "flagship pattern" — every portal built after
 // the Student Portal (Faculty, Administration, Executive, Corporate,
@@ -7,7 +7,7 @@
 // A new portal's own script becomes just the part that's actually
 // specific to it: what data to load and how to render it.
 //
-// window.AIPC_guardPortal({
+// window.WEC_LC_guardPortal({
 //   signOutRedirect: '/',                 // where Sign Out sends the browser
 //   shellSelector: '.app-shell',          // optional — the page content to
 //                                          // make inert behind the gate;
@@ -27,8 +27,8 @@
 // use this to skip page-specific setup that only makes sense once live.
 //
 // Requires js/auth-config.js and js/clerk-loader.js loaded first.
-window.AIPC_guardPortal = function (opts) {
-  var cfg = window.AIPC_AUTH || {};
+window.WEC_LC_guardPortal = function (opts) {
+  var cfg = window.WEC_LC_AUTH || {};
   var pk = cfg.clerkPublishableKey;
   if (!pk) return false;
 
@@ -45,7 +45,7 @@ window.AIPC_guardPortal = function (opts) {
   document.body.appendChild(gate);
   gate.focus();
 
-  window.AIPC_loadClerk(pk, function (err, clerk) {
+  window.WEC_LC_loadClerk(pk, function (err, clerk) {
     if (err) {
       // Clerk's SDK is served from Clerk's own domain, so this is what
       // being offline looks like. A page with an offline mode (the
@@ -78,7 +78,7 @@ window.AIPC_guardPortal = function (opts) {
         // Drop this learner's offline cache before the session goes —
         // signing out on a shared machine has to take the cached work
         // with it. No-op on pages that don't use the offline worker.
-        if (window.AIPC_apiAuth) window.AIPC_apiAuth.attach(null);
+        if (window.WEC_LC_apiAuth) window.WEC_LC_apiAuth.attach(null);
         clerk.signOut(function () { window.location.href = redirectTo; });
       });
     });

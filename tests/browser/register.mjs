@@ -91,7 +91,7 @@ async function open(url, viewport) {
     (await page.locator('.reg-entry__honour').count()) >= 2,
     await page.locator('.reg-entry__honour').count());
   check('...and a link that verifies that specific award',
-    /verify\.html\?code=AIPC-/.test(await page.getAttribute('.reg-entry__check a', 'href')));
+    /verify\.html\?code=WEC-/.test(await page.getAttribute('.reg-entry__check a', 'href')));
 
   const count = await textOf(page, '#count');
   check('The count is stated in words, not left to be counted', /\d+ awards? listed/.test(count), count);
@@ -186,7 +186,7 @@ async function open(url, viewport) {
       count: 1, limit: 100, truncated: false,
       entries: [{ holderName: '<img src=x onerror="window.__pwned=1">', awardTitle: 'A', postNominal: 'X',
         honour: 'pass', honourLabel: 'Pass', conferredOn: '2027-03-01',
-        verificationCode: 'AIPC-AAAA-BBBB-CCCCC', levelId: 1, roman: 'I', levelName: 'L', cefr: 'A1' }] }) }));
+        verificationCode: 'WEC-AAAA-BBBB-CCCCC', levelId: 1, roman: 'I', levelName: 'L', cefr: 'A1' }] }) }));
   page.on('pageerror', (e) => errs.push(e.message));
   await page.goto(`${BASE}/register.html`, { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(700);
@@ -207,7 +207,7 @@ async function open(url, viewport) {
       count: 2, limit: 2, truncated: true,
       entries: [1, 2].map((n) => ({ holderName: `Graduate ${n}`, awardTitle: 'A', postNominal: 'X',
         honour: 'pass', honourLabel: 'Pass', conferredOn: '2027-03-01',
-        verificationCode: `AIPC-AAAA-BBBB-CCCC${n}`, levelId: 1, roman: 'I', levelName: 'L', cefr: 'A1' })) }) }));
+        verificationCode: `WEC-AAAA-BBBB-CCCC${n}`, levelId: 1, roman: 'I', levelName: 'L', cefr: 'A1' })) }) }));
   await page.goto(`${BASE}/register.html`, { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(700);
   // A silently truncated roll invites a false conclusion — "they only

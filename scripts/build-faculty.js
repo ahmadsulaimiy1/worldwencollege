@@ -107,10 +107,10 @@ ${enRows}
     </div>
     <div class="callout">
       <span class="callout__label">About This Roster</span>
-      <p>Positions and qualifications are held on record by the College. <span dir="ltr">AIPC</span> has not yet appointed an External Examiner &mdash; the independent post required before any award is conferred &mdash; and the College holds no accreditation. Both are stated in full on <a href="/about/#status">About &middot; Institutional Status</a>.</p>
+      <p>Positions and qualifications are held on record by the College. <span dir="ltr">WEC</span> has not yet appointed an External Examiner &mdash; the independent post required before any award is conferred &mdash; and the College holds no accreditation. Both are stated in full on <a href="/about/#status">About &middot; Institutional Status</a>.</p>
     </div>
     <div class="btn-row">
-      <a href="mailto:info@worldwencollege.co.uk?subject=Faculty%20Enquiry" class="btn btn--red">Enquire About Teaching at AIPC</a>
+      <a href="mailto:info@worldwencollege.co.uk?subject=Faculty%20Enquiry" class="btn btn--red">Enquire About Teaching at WEC</a>
     </div>
   </div>
 </section>`;
@@ -194,8 +194,8 @@ const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const DESCRIPTIONS = {
-  faculty: 'The academic staff and tutors who deliver the <span dir="ltr">IEFC</span> programme at <span dir="ltr">AIPC</span>, and the teaching standards they are appointed against.',
-  'faculty-ar': 'أعضاء هيئة التدريس والمدرّسون الذين يقدّمون برنامج <span dir="ltr">IEFC</span> في الكلية، والمعايير التدريسية التي عُيّنوا وفقها.',
+  faculty: 'The academic staff and tutors who deliver the IEFC programme at WEC, and the teaching standards they are appointed against.',
+  'faculty-ar': 'أعضاء هيئة التدريس والمدرّسون الذين يقدّمون برنامج ⁦IEFC⁩ في الكلية، والمعايير التدريسية التي عُيّنوا وفقها.',
 };
 let manifestChanged = false;
 for (const e of entries) {

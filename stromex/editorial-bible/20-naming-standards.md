@@ -29,7 +29,7 @@ alone**, without a lookup:
 ```
 
 - `shrs-portal-db-production` · `shrs-portal-db-preview`
-- `aipc-recordings` · `aipc-kyc-documents`
+- `wec-lc-recordings` · `wec-lc-kyc-documents`
 - `stromex-mcp-audit`
 
 Rules:

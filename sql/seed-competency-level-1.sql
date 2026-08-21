@@ -1,7 +1,7 @@
 -- ─────────────────────────────────────────────────────────────────────
 -- THE LEVEL I COMPETENCY MAPPING AND LEARNING OUTCOMES
 --
--- Made under authority delegated to AIPC Press in the absence of
+-- Made under authority delegated to WEC Press in the absence of
 -- appointed members of the Board of Academic Standards and Curriculum
 -- Excellence. Every row carries status 'interim', not 'approved':
 -- BASCE exists as a body with members_appointed = 0, and a mapping

@@ -1,4 +1,4 @@
-# AIPC — Level II, Module 9: Telling Stories
+# WEC — Level II, Module 9: Telling Stories
 
 *Part of `docs/curriculum-level-2-elementary.md`'s Level II build-out.*
 

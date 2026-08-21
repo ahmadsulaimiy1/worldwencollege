@@ -1,4 +1,4 @@
-# AIPC — Level II, Module 3: Work & Study
+# WEC — Level II, Module 3: Work & Study
 
 *Part of `docs/curriculum-level-2-elementary.md`'s Level II build-out.*
 

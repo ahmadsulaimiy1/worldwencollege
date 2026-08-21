@@ -121,7 +121,7 @@ check('...and that the competency mapping is commissioned, not finished',
 // "the College's graduates", "127 graduates", "graduates have gone on
 // to". So the check matches those, and only those.
 const CLAIMS_GRADUATES =
-  /\b(?:our|the College'?s|AIPC'?s)\s+graduates?\b|\b\d[\d,]*\s+graduates?\b|\bgraduates?\s+(?:have|has)\s+(?:gone|found|secured|been placed)/i;
+  /\b(?:our|the College'?s|WEC'?s)\s+graduates?\b|\b\d[\d,]*\s+graduates?\b|\bgraduates?\s+(?:have|has)\s+(?:gone|found|secured|been placed)/i;
 const NO_GRADUATES = /no award has been conferred|nothing has been conferred|no cohort has been taught|conferred on (?:anyone|no one|nobody)|no graduates?\b|no graduate exists/i;
 const claiming = pages.filter(([f, b]) => !f.endsWith('.ar.html') && CLAIMS_GRADUATES.test(b));
 const unqualified = claiming.filter(([, b]) => !NO_GRADUATES.test(b));

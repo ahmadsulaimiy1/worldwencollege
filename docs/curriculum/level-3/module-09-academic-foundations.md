@@ -1,4 +1,4 @@
-# AIPC — Level III, Module 9: Academic Foundations
+# WEC — Level III, Module 9: Academic Foundations
 
 *Part of `docs/curriculum-level-3-intermediate.md`'s Level III build-out.*
 
@@ -56,7 +56,7 @@ consolidating academic vocabulary from Module 2 (lecture, seminar,
 coursework). Intercultural note: expectations around how directly a
 thesis or main point should be stated up front, versus built up to
 gradually, can differ across academic and rhetorical traditions; this
-module teaches AIPC's direct, topic-sentence-first structure as one
+module teaches WEC's direct, topic-sentence-first structure as one
 widely useful international-academic-English convention, not the only
 valid way to structure an argument.
 

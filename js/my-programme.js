@@ -1,4 +1,4 @@
-/* AIPC — My Programme.
+/* WEC — My Programme.
 
    The page that did not exist. The Listening Lab opens at
    /listening-lab.html?unit=<id> and, without that parameter, says "No
@@ -32,7 +32,7 @@
   function fail(err) {
     $('#planError').textContent = err.status === 401
       ? 'Sign in to see your programme.'
-      : window.AIPC_data.humanError(err, 'Could not load your programme. Please try again.');
+      : window.WEC_LC_data.humanError(err, 'Could not load your programme. Please try again.');
   }
 
   // Each state is a different situation and gets a different sentence.
@@ -245,16 +245,16 @@
   }
 
   function load() {
-    return window.AIPC_data.studyPlan().then(render).catch(fail);
+    return window.WEC_LC_data.studyPlan().then(render).catch(fail);
   }
 
   document.addEventListener('DOMContentLoaded', function () {
     offline();
-    var guarded = window.AIPC_guardPortal({
+    var guarded = window.WEC_LC_guardPortal({
       signOutRedirect: '/',
       shellSelector: '.lab-body',
       onAuthenticated: function (clerk, done) {
-        window.AIPC_apiAuth.attach(clerk);
+        window.WEC_LC_apiAuth.attach(clerk);
         done();
         load();
       },

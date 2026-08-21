@@ -1,4 +1,4 @@
-// AIPC — the portal's data seam.
+// WEC — the portal's data seam.
 //
 // WHY THIS EXISTS
 // ---------------
@@ -32,7 +32,7 @@
 //
 // Requires js/auth-config.js and js/api-auth.js loaded first.
 
-window.AIPC_data = (function () {
+window.WEC_LC_data = (function () {
   'use strict';
 
   var providers = {};
@@ -82,7 +82,7 @@ window.AIPC_data = (function () {
   // -------------------------------------------------------------------
   function request(path, opts) {
     var o = opts || {};
-    return window.AIPC_apiAuth.headers().then(function (headers) {
+    return window.WEC_LC_apiAuth.headers().then(function (headers) {
       var init = { method: o.method || 'GET', headers: headers };
       if (o.body !== undefined) init.body = JSON.stringify(o.body);
       if (o.signal) init.signal = o.signal;
@@ -142,7 +142,7 @@ window.AIPC_data = (function () {
     // failure would surface as a corrupt recording, not an error. So this
     // operation takes the chunk and passes it untouched.
     recordingPart: function (id, part, chunk) {
-      return window.AIPC_apiAuth.headers().then(function (headers) {
+      return window.WEC_LC_apiAuth.headers().then(function (headers) {
         var h = Object.assign({}, headers);
         delete h['Content-Type'];
         return fetch('/api/lms/recording/part?id=' + seg(id) + '&part=' + seg(part),
@@ -239,13 +239,13 @@ window.AIPC_data = (function () {
   }
 
   function register(name, impl) {
-    if (!name || !impl) throw new Error('AIPC_data.register needs a name and an implementation');
+    if (!name || !impl) throw new Error('WEC_LC_data.register needs a name and an implementation');
     providers[name] = impl;
   }
 
   function use(name) {
     if (!providers[name]) {
-      throw new Error('AIPC_data: no provider registered as "' + name + '"');
+      throw new Error('WEC_LC_data: no provider registered as "' + name + '"');
     }
     activeName = name;
   }
@@ -275,7 +275,7 @@ window.AIPC_data = (function () {
     api[op] = function () {
       var p = active();
       if (typeof p[op] !== 'function') {
-        throw new Error('AIPC_data: provider "' + activeName + '" does not implement ' + op + '()');
+        throw new Error('WEC_LC_data: provider "' + activeName + '" does not implement ' + op + '()');
       }
       return p[op].apply(p, arguments);
     };

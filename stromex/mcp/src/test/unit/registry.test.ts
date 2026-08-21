@@ -227,7 +227,7 @@ describe('the tool registry gate', () => {
     it('refuses outright on an institutional record, with NO approval path', async () => {
       const { definition, calls } = protectedTool();
       const h = harness();
-      const envelope = await invokeTool(definition, { name: 'aipc-recordings' }, h.context());
+      const envelope = await invokeTool(definition, { name: 'wec-lc-recordings' }, h.context());
 
       assert.equal(envelope.ok, false);
       assert.equal(envelope.error?.code, 'POLICY_PROTECTED_RESOURCE');
@@ -735,29 +735,29 @@ describe('project attribution — the collective server records who work was for
   });
 
   it('records WHICH ESTATE PROJECT an action served, on the audit record', async () => {
-    const h = harness({ env: { STROMEX_MCP_PROJECTS: '[{"key":"aipc","name":"Albalagh"}]' } });
-    const result = await invokeTool(tool, { project: 'vercel-site', forProject: 'aipc' }, h.context());
+    const h = harness({ env: { STROMEX_MCP_PROJECTS: '[{"key":"wec","name":"Worldwide English College"}]' } });
+    const result = await invokeTool(tool, { project: 'vercel-site', forProject: 'wec' }, h.context());
     assert.equal(result.ok, true);
     const record = h.audit.query({ limit: 1 })[0]!;
-    assert.equal(record.project, 'aipc', 'the audit trail must be able to answer "for whom"');
+    assert.equal(record.project, 'wec', 'the audit trail must be able to answer "for whom"');
   });
 
   it('does NOT shadow a provider tool\'s own `project` argument', async () => {
-    const h = harness({ env: { STROMEX_MCP_PROJECTS: '[{"key":"aipc","name":"Albalagh"}]' } });
-    const result = await invokeTool(tool, { project: 'vercel-site', forProject: 'aipc' }, h.context());
+    const h = harness({ env: { STROMEX_MCP_PROJECTS: '[{"key":"wec","name":"Worldwide English College"}]' } });
+    const result = await invokeTool(tool, { project: 'vercel-site', forProject: 'wec' }, h.context());
     // The handler still received the caller's provider-side project.
     assert.equal((result.data as { sawProject: string }).sawProject, 'vercel-site');
   });
 
   it('leaves the attribution absent — never invented — when no project is named', async () => {
-    const h = harness({ env: { STROMEX_MCP_PROJECTS: '[{"key":"aipc","name":"Albalagh"}]' } });
+    const h = harness({ env: { STROMEX_MCP_PROJECTS: '[{"key":"wec","name":"Worldwide English College"}]' } });
     await invokeTool(tool, { project: 'vercel-site' }, h.context());
     const record = h.audit.query({ limit: 1 })[0]!;
     assert.equal(record.project, undefined, 'an unattributed action is recorded as unattributed');
   });
 
   it('REFUSES an unknown estate project, and nothing happens', async () => {
-    const h = harness({ env: { STROMEX_MCP_PROJECTS: '[{"key":"aipc","name":"Albalagh"}]' } });
+    const h = harness({ env: { STROMEX_MCP_PROJECTS: '[{"key":"wec","name":"Worldwide English College"}]' } });
     const result = await invokeTool(tool, { project: 'vercel-site', forProject: 'not-registered' }, h.context());
     assert.equal(result.ok, false);
     assert.equal(result.error?.code, 'CONFIG_INVALID');
@@ -779,7 +779,7 @@ describe('the project register is inspectable, and reports what was really done'
   });
 
   const env = {
-    STROMEX_MCP_PROJECTS: '[{"key":"aipc","name":"Albalagh","protectedResources":["aipc-production*"]},{"key":"shrs","name":"Sultan Hanafi Royal Schools"}]',
+    STROMEX_MCP_PROJECTS: '[{"key":"wec","name":"Worldwide English College","protectedResources":["wec-production*"]},{"key":"shrs","name":"Sultan Hanafi Royal Schools"}]',
     STROMEX_SPEND_ENABLED: 'true',
     STROMEX_SPEND_MAX_SINGLE: '25',
     STROMEX_SPEND_MONTHLY_CAP: '150',
@@ -787,23 +787,23 @@ describe('the project register is inspectable, and reports what was really done'
 
   it('attributes spend and actions to the project that incurred them', async () => {
     const h = harness({ env });
-    await invokeTool(write, { forProject: 'aipc' }, h.context());
-    await invokeTool(write, { forProject: 'aipc' }, h.context());
+    await invokeTool(write, { forProject: 'wec' }, h.context());
+    await invokeTool(write, { forProject: 'wec' }, h.context());
     await invokeTool(write, { forProject: 'shrs' }, h.context());
 
     const tool = platformToolNamed(h, 'stromex.projects.list');
     const result = await invokeTool(tool, {}, h.context());
     const data = result.data as { projects: Array<{ key: string; activity: { actions: number; spend: number } }> };
-    const aipc = data.projects.find((p) => p.key === 'aipc')!;
+    const wec = data.projects.find((p) => p.key === 'wec')!;
     const shrs = data.projects.find((p) => p.key === 'shrs')!;
-    assert.equal(aipc.activity.actions, 2);
-    assert.equal(aipc.activity.spend, 24, 'one project\'s spend must not absorb another\'s');
+    assert.equal(wec.activity.actions, 2);
+    assert.equal(wec.activity.spend, 24, 'one project\'s spend must not absorb another\'s');
     assert.equal(shrs.activity.spend, 12);
   });
 
   it('REPORTS unattributed work rather than hiding it', async () => {
     const h = harness({ env });
-    await invokeTool(write, { forProject: 'aipc' }, h.context());
+    await invokeTool(write, { forProject: 'wec' }, h.context());
     await invokeTool(write, {}, h.context());
 
     const tool = platformToolNamed(h, 'stromex.projects.list');
@@ -850,7 +850,7 @@ describe('a NEW project or brand onboards with no engine change', () => {
 
   // A brand the estate has never seen, declared purely as configuration.
   const NEW_BRAND = JSON.stringify([
-    { key: 'aipc', name: 'Albalagh' },
+    { key: 'wec', name: 'Worldwide English College' },
     {
       key: 'zahra-press',
       name: 'Zahra Press',
@@ -882,7 +882,7 @@ describe('a NEW project or brand onboards with no engine change', () => {
 
     // And it does not leak onto another project: the same resource name
     // under a different project is not bound by Zahra Press's rule.
-    const other = await invokeTool(destructive, { target: 'zahra-archive-2026', forProject: 'aipc' }, h.context());
+    const other = await invokeTool(destructive, { target: 'zahra-archive-2026', forProject: 'wec' }, h.context());
     assert.notEqual(other.error?.code, 'POLICY_PROTECTED_RESOURCE');
 
     // The estate's own protections still bind the new brand — a project

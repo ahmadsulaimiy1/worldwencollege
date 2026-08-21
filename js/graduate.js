@@ -1,4 +1,4 @@
-/* AIPC — the graduate record.
+/* WEC — the graduate record.
  *
  * One page, two ways in:
  *
@@ -81,7 +81,7 @@
       }
       meta.appendChild(document.createTextNode(
         'Level ' + a.roman + ' · CEFR ' + a.cefr
-        + ' · ' + a.credits + ' AIPC Credits · ' + a.tqtHours + ' hours TQT'
+        + ' · ' + a.credits + ' WEC Credits · ' + a.tqtHours + ' hours TQT'
         + (a.conferredOn ? ' · Conferred ' + fmtDate(a.conferredOn) : '') + ' · '));
       // Every award on this page is checkable against the Register. A
       // profile is the graduate's own account of themselves; the link is
@@ -99,7 +99,7 @@
   function renderTranscript(t) {
     var totals = $('#totals');
     totals.textContent = '';
-    [['AIPC Credits', t.creditsAwarded],
+    [['WEC Credits', t.creditsAwarded],
       ['Qualification time', t.tqtHoursAwarded + ' h'],
       ['Levels entered', t.levelsEntered],
       ['Levels awarded', t.levelsAwarded]].forEach(function (pair) {
@@ -300,7 +300,7 @@
     // and it is fetched rather than assumed, so a failure leaves the
     // typed URL above rather than a broken image beside a promise.
     var box = $('#qrBox');
-    window.AIPC_data.credentialQr(a.verificationCode)
+    window.WEC_LC_data.credentialQr(a.verificationCode)
       .then(function (svg) {
         var host = $('#qr');
         host.textContent = '';
@@ -326,7 +326,7 @@
   function render(p) {
     $('#name').textContent = p.displayName || p.handle || 'Graduate record';
     if (p.headline) { $('#headline').textContent = p.headline; }
-    document.title = (p.displayName || 'Graduate record') + ' | Albalagh International Premium College';
+    document.title = (p.displayName || 'Graduate record') + ' | Worldwide English College';
 
     if (p.biography) { $('#biography').textContent = p.biography; show('#secBiography'); }
     if (p.awards) renderAwards(p.awards);

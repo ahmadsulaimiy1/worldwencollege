@@ -1,4 +1,4 @@
-# AIPC — Level VI, Module 8: Research & Scholarship
+# WEC — Level VI, Module 8: Research & Scholarship
 
 *Part of `docs/curriculum-level-6-mastery.md`'s Level VI build-out.*
 

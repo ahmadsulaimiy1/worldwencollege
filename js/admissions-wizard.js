@@ -1,4 +1,4 @@
-/* AIPC — the admissions application wizard.
+/* WEC — the admissions application wizard.
 
    Replaces the old single-page #apply form with a real multi-step,
    account-backed process: sign in (Clerk, via js/portal-guard.js —
@@ -47,7 +47,7 @@
   var completedSteps = [];
 
   function api(path, opts) {
-    return window.AIPC_apiAuth.headers().then(function (headers) {
+    return window.WEC_LC_apiAuth.headers().then(function (headers) {
       var init = opts || {};
       init.headers = Object.assign({}, headers, init.headers || {});
       return fetch(path, init);
@@ -171,7 +171,7 @@
       if (errorEl) errorEl.textContent = '';
       if (!file) { if (errorEl) errorEl.textContent = 'Choose a file first.'; return; }
       btn.disabled = true;
-      window.AIPC_apiAuth.headers().then(function (headers) {
+      window.WEC_LC_apiAuth.headers().then(function (headers) {
         return file.arrayBuffer().then(function (bytes) {
           return fetch('/api/admissions/document', {
             method: 'POST',
@@ -337,11 +337,11 @@
     var reloadBtn = $('[data-wizard-reload]');
     if (reloadBtn) reloadBtn.addEventListener('click', function () { window.location.reload(); });
 
-    var guarded = window.AIPC_guardPortal({
+    var guarded = window.WEC_LC_guardPortal({
       signOutRedirect: '/admissions/',
       shellSelector: '.lab-body',
       onAuthenticated: function (clerk, done) {
-        window.AIPC_apiAuth.attach(clerk);
+        window.WEC_LC_apiAuth.attach(clerk);
         done();
         init();
       },

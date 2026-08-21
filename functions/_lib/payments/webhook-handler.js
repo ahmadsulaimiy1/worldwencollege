@@ -188,7 +188,7 @@ async function issueReceiptIfMissing(env, paymentId) {
   const counter = await db(env)
     .prepare(`UPDATE counters SET value = value + 1 WHERE name = 'receipt_number' RETURNING value`)
     .first();
-  const receiptNumber = `AIPC-R-${String(counter.value).padStart(6, '0')}`;
+  const receiptNumber = `WEC-R-${String(counter.value).padStart(6, '0')}`;
 
   try {
     await db(env)

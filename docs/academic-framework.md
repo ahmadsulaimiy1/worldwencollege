@@ -1,4 +1,4 @@
-# The Academic Framework of Albalagh International Premium College
+# The Academic Framework of Worldwide English College
 
 **A proposal of the Academic Senate to the Executive.**
 
@@ -34,7 +34,7 @@ distinctive position:**
 > **Guided Learning Hours are measured, not asserted.**
 
 Every institution publishes an hours figure. Almost none can say where it
-came from. AIPC will publish a *design* figure, clearly labelled,
+came from. WEC will publish a *design* figure, clearly labelled,
 until it can publish a *measured* one — derived from real time-on-task
 across real learners — and will then replace it and say that it has.
 
@@ -77,14 +77,14 @@ uses the framework's word.*
 | **Guided Learning Hours (GLH)** | Time studying under the direction of the College — structured lessons, laboratories, live sessions, supervised assessment |
 | **Independent Learning Hours (ILH)** | Time the learner is expected to spend unsupervised — practice, reading, drafting, rehearsal, revision |
 | **Total Qualification Time (TQT)** | GLH + ILH. The honest answer to "how long does this take" |
-| **AIPC Credit** | The College's internal credit unit. **1 credit = 10 notional learning hours** |
+| **WEC Credit** | The College's internal credit unit. **1 credit = 10 notional learning hours** |
 
-**On the credit unit, stated plainly:** the AIPC Credit is an internal
+**On the credit unit, stated plainly:** the WEC Credit is an internal
 measure. It is **not** ECTS, **not** CATS, and carries **no transfer
 entitlement** to any institution. The 10-hour convention is adopted
 because it is the most widely used notional-hour value internationally
 and therefore the most legible to a reader — not because any body has
-recognised it here. Any institution deciding what to do with a AIPC
+recognised it here. Any institution deciding what to do with a WEC
 Credit does so on its own judgement.
 
 ### The design model — Level I to VI
@@ -101,7 +101,7 @@ under §XIV.
 | Guided Learning Hours | 80 |
 | Independent Learning Hours | 120 |
 | **Total Qualification Time** | **200 hours** |
-| **AIPC Credits** | **20** |
+| **WEC Credits** | **20** |
 | Expected weekly commitment | ≈ 12 hours |
 
 | Full programme | Design |
@@ -113,7 +113,7 @@ under §XIV.
 | Guided Learning Hours | 480 |
 | Independent Learning Hours | 720 |
 | **Total Qualification Time** | **1,200 hours** |
-| **AIPC Credits** | **120** |
+| **WEC Credits** | **120** |
 
 **Why the 40:60 guided-to-independent ratio.** Language is acquired
 through use, and use is largely unsupervised. A programme claiming most
@@ -176,12 +176,12 @@ assessed once is an aspiration.
 
 | Level | CEFR | Programme | Award on completion |
 |---|---|---|---|
-| I | A1 | Foundation Programme | **English Aspirant of Albalagh International Premium College** (ApAIPC) |
-| II | A2 | Elementary Programme | **English Candidate** (CnAIPC) |
-| III | B1 | Intermediate Programme | **English Associate** (AsAIPC) |
-| IV | B2 | Upper Intermediate Programme | **English Envoy** (EnAIPC) |
-| V | C1 | Advanced Programme | **English Orator** (OrAIPC) |
-| VI | C2 | English Mastery Programme | **English Laureate** (LrAIPC) + the **International English Fluency Certificate** |
+| I | A1 | Foundation Programme | **English Aspirant of Worldwide English College** (ApWEC) |
+| II | A2 | Elementary Programme | **English Candidate** (CnWEC) |
+| III | B1 | Intermediate Programme | **English Associate** (AsWEC) |
+| IV | B2 | Upper Intermediate Programme | **English Envoy** (EnWEC) |
+| V | C1 | Advanced Programme | **English Orator** (OrWEC) |
+| VI | C2 | English Mastery Programme | **English Laureate** (LrWEC) + the **International English Fluency Certificate** |
 
 The award architecture, its reasoning and its rejected alternatives are
 in `docs/iefc-award-architecture.md` (governance C4). Two points bear
@@ -189,8 +189,8 @@ repeating here because they are structural, not decorative:
 
 - **Each level is a complete academic achievement**, separately awarded,
   with its own outcomes, competency profile and graduate identity. A
-  learner who stops at Level III *is* an English Associate of Albalagh
-  International Premium College, permanently.
+  learner who stops at Level III *is* an English Associate of Worldwide
+  English College, permanently.
 - **The IEFC itself is conferred at Level VI.** The certificate is the
   capstone qualification of the whole programme; the six awards are the
   standing conferred at each stage of it.
@@ -590,7 +590,7 @@ certificate, API, documentation.
 | Guided Learning Hours | Contact hours, class hours |
 | Independent Learning Hours | Homework, self-study |
 | Total Qualification Time | Course length, duration of study |
-| AIPC Credit | Credit hours, points, ECTS |
+| WEC Credit | Credit hours, points, ECTS |
 | Capstone Assessment | Final project, end-of-level project |
 | Level Address | Oral exam, speaking test |
 | Oral Defence | Viva, interview |

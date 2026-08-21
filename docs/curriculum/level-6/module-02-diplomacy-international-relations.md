@@ -1,4 +1,4 @@
-# AIPC — Level VI, Module 2: Diplomacy & International Relations
+# WEC — Level VI, Module 2: Diplomacy & International Relations
 
 *Part of `docs/curriculum-level-6-mastery.md`'s Level VI build-out.*
 

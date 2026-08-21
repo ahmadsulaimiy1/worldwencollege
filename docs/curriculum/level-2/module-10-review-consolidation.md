@@ -1,4 +1,4 @@
-# AIPC — Level II, Module 10: Review & Consolidation
+# WEC — Level II, Module 10: Review & Consolidation
 
 *Part of `docs/curriculum-level-2-elementary.md`'s Level II build-out.
 Per `docs/curriculum-framework.md`'s assessment strategy, this module
@@ -9,7 +9,7 @@ not introduce new grammar or vocabulary.*
 can: demonstrate cumulative command of every grammar point and
 vocabulary set from Modules 1-9; recognise and correctly use the
 British/American English differences introduced across the level;
-complete AIPC's Elementary-level (A2) end-of-level examination
+complete WEC's Elementary-level (A2) end-of-level examination
 across grammar/vocabulary, listening, reading, writing, and speaking;
 identify their own remaining weak areas ahead of Level III.
 

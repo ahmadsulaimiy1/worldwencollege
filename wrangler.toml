@@ -1,15 +1,15 @@
-name = "aipc"
+name = "wec-lc"
 compatibility_date = "2024-09-23"
 pages_build_output_dir = "."
 
 # D1 database binding. `database_id` is a placeholder — replace it
 # with a real id after running:
-#   wrangler d1 create aipc
-#   wrangler d1 execute aipc --remote --file=sql/schema.sql
+#   wrangler d1 create wec-lc
+#   wrangler d1 execute wec-lc --remote --file=sql/schema.sql
 # Nothing in this repo has been run against a real D1 database yet.
 [[d1_databases]]
 binding = "DB"
-database_name = "aipc"
+database_name = "wec-lc"
 database_id = "REPLACE_WITH_REAL_D1_DATABASE_ID"
 
 # Object storage for learner voice recordings. The bucket is PRIVATE and
@@ -21,11 +21,11 @@ database_id = "REPLACE_WITH_REAL_D1_DATABASE_ID"
 # docs/audio-platform-architecture.md § 4.
 #
 # Create it once with:
-#   wrangler r2 bucket create aipc-recordings
+#   wrangler r2 bucket create wec-lc-recordings
 # (the deploy workflow does this automatically if it is missing)
 [[r2_buckets]]
 binding = "RECORDINGS"
-bucket_name = "aipc-recordings"
+bucket_name = "wec-lc-recordings"
 
 # Object storage for applicant-uploaded identity documents (passport or
 # national ID scans), collected as an OPTIONAL step in the admissions
@@ -37,11 +37,11 @@ bucket_name = "aipc-recordings"
 # provider, and the application says so wherever this is offered.
 #
 # Create it once with:
-#   wrangler r2 bucket create aipc-kyc-documents
+#   wrangler r2 bucket create wec-lc-kyc-documents
 # (the deploy workflow does this automatically if it is missing)
 [[r2_buckets]]
 binding = "KYC_DOCUMENTS"
-bucket_name = "aipc-kyc-documents"
+bucket_name = "wec-lc-kyc-documents"
 
 # Secrets (Stripe/Paystack/Flutterwave/Opay keys, Clerk keys, Resend
 # key) are deliberately NOT set here — wrangler.toml is committed to

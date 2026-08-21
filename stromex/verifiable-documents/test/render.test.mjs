@@ -34,7 +34,7 @@ const AWARD = {
   tqtHours: 300,
   citation: 'For sustained excellence across the level.',
   conferredOn: '2026-07-01',
-  verificationCode: 'AIPC-4K7P-9WQ2-MXR8T',
+  verificationCode: 'WEC-4K7P-9WQ2-MXR8T',
   status: 'conferred',
 };
 
@@ -44,7 +44,7 @@ test('an award certificate regenerates byte-identically and is complete', () => 
   assert.equal(a, b, 'two renders of the same record differ');
   assert.ok(a.startsWith('<!doctype html>') && a.includes('</html>'));
   assert.ok(a.includes('Aisha binte Rahman') && a.includes('Level IV'));
-  assert.ok(a.includes('AIPC-4K7P-9WQ2-MXR8T'));
+  assert.ok(a.includes('WEC-4K7P-9WQ2-MXR8T'));
 });
 
 test('a snake_case row renders identically to camelCase claims', () => {
@@ -54,7 +54,7 @@ test('a snake_case row renders identically to camelCase claims', () => {
     award_title: 'International English Fluency Certificate — Level IV',
     post_nominal: 'IEFC IV', cefr: 'B2', honour: 'distinction', credits: 30,
     tqt_hours: 300, citation: 'For sustained excellence across the level.',
-    conferred_on: '2026-07-01', verification_code: 'AIPC-4K7P-9WQ2-MXR8T', status: 'conferred',
+    conferred_on: '2026-07-01', verification_code: 'WEC-4K7P-9WQ2-MXR8T', status: 'conferred',
   });
   assert.equal(snake, a);
 });
@@ -62,7 +62,7 @@ test('a snake_case row renders identically to camelCase claims', () => {
 test('no stray secret on the record reaches the certificate', () => {
   const html = R.renderAwardCertificate({ ...AWARD,
     pdfUnlock: 'TOPSECRET-UNLOCK-9931', privateKey: 'PRIV-KEY-DEADBEEF',
-    passLabel: 'stromex/certificates/aipc/2026/AIPC-4K7P-9WQ2-MXR8T/pdf-unlock' });
+    passLabel: 'stromex/certificates/wec/2026/WEC-4K7P-9WQ2-MXR8T/pdf-unlock' });
   assert.ok(!html.includes('TOPSECRET-UNLOCK-9931'));
   assert.ok(!html.includes('DEADBEEF'));
   assert.ok(!html.includes('/pdf-unlock'));
@@ -76,7 +76,7 @@ test('a holder name is escaped, not injected', () => {
 test('a transcript regenerates byte-identically from its frozen payload', () => {
   const payload = {
     documentType: 'transcript', holderName: 'Aisha binte Rahman', issuedOn: '2026-08-01',
-    verificationCode: 'AIPC-4K7P-9WQ2-MXR8T',
+    verificationCode: 'WEC-4K7P-9WQ2-MXR8T',
     entries: [{ roman: 'IV', levelName: 'Upper Intermediate', cefr: 'B2', status: 'awarded', award: { title: 'IEFC IV' } }],
     creditsAwarded: 30, tqtHoursAwarded: 300,
   };
@@ -90,23 +90,23 @@ test('a testimonial regenerates byte-identically and generalises the doctrine', 
     subjectName: 'Aisha binte Rahman',
     body: 'The College knows this student to be diligent, articulate and of excellent character.\nWe recommend her without reservation.',
     signatoryName: 'Dr Imran Hafiz', signatoryTitle: 'Principal, London Campus',
-    issuedOn: '2026-08-10', verificationCode: 'AIPC-QW52-7NKP-3RM8V', status: 'issued',
+    issuedOn: '2026-08-10', verificationCode: 'WEC-QW52-7NKP-3RM8V', status: 'issued',
   };
   const a = R.renderTestimonial(T);
   assert.equal(a, R.renderTestimonial(T));
   assert.ok(a.includes('Aisha binte Rahman') && a.includes('without reservation') && a.includes('Dr Imran Hafiz'));
-  assert.ok(a.includes('AIPC-QW52-7NKP-3RM8V'));
+  assert.ok(a.includes('WEC-QW52-7NKP-3RM8V'));
   assert.ok(!R.renderTestimonial({ ...T, pdfUnlock: 'LEAK-9931' }).includes('LEAK-9931'));
   assert.ok(!R.renderTestimonial({ ...T, body: '<img src=x onerror=alert(1)>' }).includes('<img src=x'));
 });
 
 test('the pass-label convention is a store path, validated, never a value', () => {
   assert.equal(
-    REG.certificateSecretLabel({ code: 'AIPC-4K7P-9WQ2-MXR8T', kind: 'pdf-unlock', year: '2026' }),
-    'stromex/certificates/aipc/2026/AIPC-4K7P-9WQ2-MXR8T/pdf-unlock');
-  assert.throws(() => REG.certificateSecretLabel({ code: 'AIPC-4K7P-9WQ2-MXR8T', kind: 'password', year: '2026' }), /kind must be one of/);
-  assert.throws(() => REG.certificateSecretLabel({ code: 'AIPC-4K7P-9WQ2-MXR8T', kind: 'pdf-unlock', year: '26' }), /four-digit/);
-  assert.throws(() => REG.certificateSecretLabel({ code: '../etc/passwd', kind: 'pdf-unlock', year: '2026' }), /valid AIPC/);
+    REG.certificateSecretLabel({ code: 'WEC-4K7P-9WQ2-MXR8T', kind: 'pdf-unlock', year: '2026' }),
+    'stromex/certificates/wec/2026/WEC-4K7P-9WQ2-MXR8T/pdf-unlock');
+  assert.throws(() => REG.certificateSecretLabel({ code: 'WEC-4K7P-9WQ2-MXR8T', kind: 'password', year: '2026' }), /kind must be one of/);
+  assert.throws(() => REG.certificateSecretLabel({ code: 'WEC-4K7P-9WQ2-MXR8T', kind: 'pdf-unlock', year: '26' }), /four-digit/);
+  assert.throws(() => REG.certificateSecretLabel({ code: '../etc/passwd', kind: 'pdf-unlock', year: '2026' }), /valid WEC/);
 });
 
 test('the engine is COLLECTIVE — a second institution renders with no engine edits', () => {
@@ -116,21 +116,21 @@ test('the engine is COLLECTIVE — a second institution renders with no engine e
   });
   const cert = R.renderAwardCertificate(AWARD, { issuer: AMICAS });
   assert.ok(cert.includes('Al-Madeenah International College') && cert.includes('almadeenah.example'));
-  assert.ok(!cert.includes('Albalagh International Premium College'), 'default institution leaked in');
+  assert.ok(!cert.includes('Worldwide English College'), 'default institution leaked in');
 
   assert.equal(
     REG.certificateSecretLabel({ code: 'AMIC-4K7P-9WQ2-MXR8T', kind: 'signing-key', year: '2026', issuer: AMICAS }),
     'stromex/certificates/amicas/2026/AMIC-4K7P-9WQ2-MXR8T/signing-key');
-  assert.throws(() => REG.certificateSecretLabel({ code: 'AIPC-4K7P-9WQ2-MXR8T', kind: 'signing-key', year: '2026', issuer: AMICAS }), /valid AMIC/);
+  assert.throws(() => REG.certificateSecretLabel({ code: 'WEC-4K7P-9WQ2-MXR8T', kind: 'signing-key', year: '2026', issuer: AMICAS }), /valid AMIC/);
   assert.throws(() => REG.certificateSecretLabel({ code: 'AMIC-4K7P-9WQ2-MXR8T', kind: 'signing-key', year: '2026', issuer: 'nope' }), /Unknown issuer/);
   assert.throws(() => ISS.defineIssuer({ key: 'demo', legalName: 'Demo College', codePrefix: 'DEMO', verifyOrigin: 'http://insecure' }), /https origin/);
 });
 
 test('the issuance register is beautiful, non-secret, and regenerates identically', () => {
-  const entries = [AWARD, { ...AWARD, status: 'revoked', verificationCode: 'AIPC-8T3M-2XK9-P4WQ7' }];
+  const entries = [AWARD, { ...AWARD, status: 'revoked', verificationCode: 'WEC-8T3M-2XK9-P4WQ7' }];
   const doc = REG.renderIssuanceRegister({ entries });
   assert.equal(doc, REG.renderIssuanceRegister({ entries }));
-  assert.ok(doc.includes('AIPC-4K7P-9WQ2-MXR8T') && doc.includes('Aisha binte Rahman'));
+  assert.ok(doc.includes('WEC-4K7P-9WQ2-MXR8T') && doc.includes('Aisha binte Rahman'));
   assert.ok(doc.includes('Active') && doc.includes('Withdrawn'));
   assert.ok(!REG.renderIssuanceRegister({ entries: [{ ...AWARD, pdfUnlock: 'SECRET-XYZ' }] }).includes('SECRET-XYZ'));
   assert.ok(REG.renderIssuanceRegister({ entries: [] }).includes('No entries'));
@@ -151,19 +151,19 @@ import * as DT from '../src/document-types.js';
 
 test('an ID card regenerates byte-identically, is a verifiable document, keeps no secret', () => {
   const CARD = {
-    holderName: 'Aisha binte Rahman', role: 'Student', membershipId: 'AIPC-STU-004812',
-    validFrom: '2026-09', validThru: '2027-08', verificationCode: 'AIPC-4K7P-9WQ2-MXR8T', status: 'active',
+    holderName: 'Aisha binte Rahman', role: 'Student', membershipId: 'WEC-STU-004812',
+    validFrom: '2026-09', validThru: '2027-08', verificationCode: 'WEC-4K7P-9WQ2-MXR8T', status: 'active',
   };
   const a = R.renderIdCard(CARD);
   assert.equal(a, R.renderIdCard(CARD));
   assert.ok(a.startsWith('<!doctype html>') && a.includes('Identity Card'));
-  assert.ok(a.includes('Aisha binte Rahman') && a.includes('Student') && a.includes('AIPC-STU-004812'));
-  assert.ok(a.includes('AIPC-4K7P-9WQ2-MXR8T'), 'the verification code the QR resolves is on the card');
+  assert.ok(a.includes('Aisha binte Rahman') && a.includes('Student') && a.includes('WEC-STU-004812'));
+  assert.ok(a.includes('WEC-4K7P-9WQ2-MXR8T'), 'the verification code the QR resolves is on the card');
   assert.ok(!R.renderIdCard({ ...CARD, pdfUnlock: 'LEAK-42' }).includes('LEAK-42'));
 });
 
 test('an ID card renders a monogram when no photo, and a supplied data-URI photo otherwise', () => {
-  const base = { holderName: 'Yusuf al-Amin', role: 'Faculty', verificationCode: 'AIPC-8T3M-2XK9-P4WQ7' };
+  const base = { holderName: 'Yusuf al-Amin', role: 'Faculty', verificationCode: 'WEC-8T3M-2XK9-P4WQ7' };
   assert.ok(R.renderIdCard(base).includes('idc__mono'), 'no photo → monogram placeholder');
   const withPhoto = R.renderIdCard({ ...base, photoDataUri: 'data:image/png;base64,AAAA' });
   assert.ok(withPhoto.includes('idc__photo-img') && withPhoto.includes('data:image/png;base64,AAAA'));
@@ -178,7 +178,7 @@ test('an ID card for a different institution renders with no engine edits', () =
   });
   const card = R.renderIdCard({ holderName: 'Sumayyah Q', role: 'Alumnus', verificationCode: 'AMIC-4K7P-9WQ2-MXR8T' }, { issuer: AMICAS });
   assert.ok(card.includes('Al-Madeenah International College') && card.includes('almadeenah.example'));
-  assert.ok(!card.includes('Albalagh International Premium College'));
+  assert.ok(!card.includes('Worldwide English College'));
 });
 
 test('the document-type registry catalogues the built-ins and dispatches generically', () => {
@@ -200,7 +200,7 @@ test('the registry is the extension point — a NEW type is data, not engine cod
     title: 'Library Card', subject: 'person',
     render: (rec, opts) => { called = { rec, opts }; return '<!doctype html><html><!--library card--></html>'; },
   });
-  const out = DT.renderDocument('library-card', { holderName: 'Test' }, { issuer: 'aipc' });
+  const out = DT.renderDocument('library-card', { holderName: 'Test' }, { issuer: 'wec' });
   assert.ok(out.includes('library card') && called.rec.holderName === 'Test');
   assert.ok(DT.documentTypes().some((t) => t.key === 'library-card'));
   // A built-in cannot be shadowed by accident.
@@ -218,7 +218,7 @@ const EDITION = {
   contentDigest: 'a'.repeat(64),
   issueCode: 'E01.R00.01',
   editionName: 'First',
-  publicationId: 'AIPC/IEFC/CUR/2026/E01',
+  publicationId: 'WEC/IEFC/CUR/2026/E01',
   printIdentifier: 'E01.R00.01-7K2M',
   year: 2026,
   counts: { levels: 6, modules: 60, lessons: 720 },
@@ -274,5 +274,5 @@ test('the default issuer points at the origin the site is ACTUALLY served from',
   // A verify URL printed into a physical book must resolve. The live site is
   // served from worldwencollege.co.uk; an unregistered .com would be a
   // promise the College cannot keep.
-  assert.equal(ISS.AIPC.verifyOrigin, 'https://www.worldwencollege.co.uk');
+  assert.equal(ISS.WEC.verifyOrigin, 'https://www.worldwencollege.co.uk');
 });

@@ -181,21 +181,9 @@ function partialFor(name, lang) {
   return read(path.join(PARTIALS, `${name}.html`));
 }
 
-// TODO(domain): the single origin every canonical, hreflang and
-// sitemap entry is built from — change it here and the whole generated
-// site follows on the next build.
-//
-// It still reads worldwencollege.co.uk, which is the domain the College
-// held under its former name. That is deliberate rather than overlooked:
-// it is the origin the site is actually served from, and pointing a
-// canonical at an Albalagh domain nobody has registered would break
-// every one of those URLs to gain nothing. The name changed; the
-// address has not been bought yet, and the site says so on /contact/.
-//
-// docs/domain-setup.md § Pending lists the places outside this constant
-// that also carry the origin (the JSON-LD and og:image in
-// partials/head.html, _redirects, .env.example, the deploy workflow's
-// verification step, and the contact addresses in the partials).
+// THE SINGLE ORIGIN every canonical, hreflang and sitemap entry is built
+// from. worldwencollege.co.uk is the College's real, permanent domain —
+// registered, live, and the origin the site is actually served from.
 const SITE_URL = 'https://www.worldwencollege.co.uk';
 
 // THE TYPE SYSTEM, AS REQUESTED FROM THE FOUNDRY.
@@ -354,7 +342,7 @@ function build() {
       BUILD_ID,
       EXTRA_CSS: extraCss,
       OG_LOCALE: lang === 'ar' ? 'ar_AR' : 'en_GB',
-      OG_SITE_NAME: lang === 'ar' ? 'كلية البلاغ الدولية المتميّزة' : 'Albalagh International Premium College',
+      OG_SITE_NAME: lang === 'ar' ? 'الكلية العالمية للغة الإنجليزية' : 'Worldwide English College',
     });
     const topbar = fill(partialFor('topbar', lang), { ALT_HREF: altHref });
     // The mobile drawer and the footer each carry their own language

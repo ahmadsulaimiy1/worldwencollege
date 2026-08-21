@@ -9,7 +9,7 @@
 <section class="section--light section-pad">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">Who AIPC Is For</span>
+      <span class="module-marker">Who WEC Is For</span>
       <h2>Designed for ambitious learners, at every stage.</h2>
     </div>
     <div class="tag-row">
@@ -84,27 +84,82 @@
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">Start Your Application</span>
-      <h2>Step 2: your application, in nine short steps.</h2>
-      <p class="lede">Sign in, and the application saves as you go — leave at any point and pick up exactly where you stopped. Nothing is required beyond what Admissions genuinely needs to reply to you, and no card or bank detail is ever requested here. One step — an identity document — is entirely optional: skip it and add it later, or upload it now if you would rather submit a complete application from day one.</p>
+      <h2>Step 2: submit your application.</h2>
+      <p class="lede">This connects directly to Admissions. If our online application system is briefly unreachable, your details open in your email app instead — either way, nothing you've entered is lost.</p>
     </div>
 
-    <div class="grid grid--4" style="margin-bottom:32px">
-      <div class="card card--dark"><span class="card__num">1&ndash;4</span><h3>Who you are</h3><p>Identity, an optional identity document, contact and an emergency contact &mdash; the basics Admissions needs to reach you.</p></div>
-      <div class="card card--dark"><span class="card__num">5&ndash;6</span><h3>Your programme</h3><p>What the English is for, where you'd begin, and your education background.</p></div>
-      <div class="card card--dark"><span class="card__num">7&ndash;8</span><h3>Tuition &amp; declaration</h3><p>Who pays and how, then the two confirmations the College needs from you.</p></div>
-      <div class="card card--dark"><span class="card__num">9</span><h3>Review &amp; submit</h3><p>Everything you entered, in one place, before it goes anywhere.</p></div>
-    </div>
+    <form class="form-grid" data-admissions-form
+      data-endpoint="/api/admissions/apply"
+      data-fallback-email="info@worldwencollege.co.uk"
+      data-storage-key="wec-lc-admissions-draft"
+      data-loading-text="Submitting…"
+      data-error-text="Please fix the highlighted fields below."
+      data-success-text="Application received — we'll be in touch soon."
+      data-fallback-text="We couldn't reach our online application system, so we've opened your email app with your details ready to send — please hit send to complete your application."
+      data-retry-label="Try the Online Form Again"
+      data-level-summary-template="Suggested starting level: {text}"
+      novalidate>
 
-    <div class="application-plate edge-lit" style="text-align:center;padding:clamp(32px,4vw,48px)">
-      <svg class="icon icon--xl" aria-hidden="true" style="margin-bottom:16px"><use href="#i-crest"/></svg>
-      <p class="application-plate__title" style="margin-bottom:8px">Application for Admission</p>
-      <p class="application-plate__sub" style="margin-bottom:28px">The International English Fluency Course &middot; Albalagh International Premium College, London Campus</p>
-      <a href="/admissions/apply/" class="btn btn--gold aurum aurum--twin">Start Your Application</a>
-      <p class="form-note" style="margin-top:20px">Requires signing in, so your progress can be saved between visits. Prefer email? <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">Write to Admissions directly</a>.</p>
-    </div>
+      <div class="field field--full"><div class="form-status" data-form-status role="status" aria-live="polite"></div></div>
+
+      <div class="field field--full" data-level-summary hidden style="background:rgba(199,162,74,.08);border:1px solid var(--line-dark);border-radius:6px;padding:12px 16px;">
+        <span style="font-size:.82rem;color:var(--gold-bright)" data-level-summary-text></span>
+        <a href="#self-assessment" style="font-size:.78rem;text-decoration:underline;margin-left:.8em;color:rgba(247,244,236,.7)">Retake the assessment</a>
+      </div>
+
+      <div class="field">
+        <label for="app-name">Full Name</label>
+        <input id="app-name" name="fullName" type="text" required aria-describedby="app-name-error">
+        <span class="field__error" id="app-name-error" role="alert">Please enter your full name.</span>
+      </div>
+      <div class="field">
+        <label for="app-email">Email Address</label>
+        <input id="app-email" name="email" type="email" required aria-describedby="app-email-error">
+        <span class="field__error" id="app-email-error" role="alert">Please enter a valid email address.</span>
+      </div>
+      <div class="field field--full">
+        <label for="app-country">Country of Residence</label>
+        <select id="app-country" name="country" required aria-describedby="app-country-error">
+          <option value="">Select your country</option>
+          <option value="AF">Afghanistan</option><option value="DZ">Algeria</option><option value="AR">Argentina</option>
+          <option value="AU">Australia</option><option value="AT">Austria</option><option value="BH">Bahrain</option>
+          <option value="BD">Bangladesh</option><option value="BE">Belgium</option><option value="BR">Brazil</option>
+          <option value="CM">Cameroon</option><option value="CA">Canada</option><option value="TD">Chad</option>
+          <option value="CL">Chile</option><option value="CN">China</option><option value="CO">Colombia</option>
+          <option value="CD">Congo (DRC)</option><option value="EG">Egypt</option><option value="ET">Ethiopia</option>
+          <option value="FR">France</option><option value="GM">Gambia</option><option value="DE">Germany</option>
+          <option value="GH">Ghana</option><option value="GR">Greece</option><option value="GN">Guinea</option>
+          <option value="IN">India</option><option value="ID">Indonesia</option><option value="IQ">Iraq</option>
+          <option value="IE">Ireland</option><option value="IT">Italy</option><option value="CI">Ivory Coast</option>
+          <option value="JP">Japan</option><option value="JO">Jordan</option><option value="KE">Kenya</option>
+          <option value="KW">Kuwait</option><option value="LB">Lebanon</option><option value="LR">Liberia</option>
+          <option value="LY">Libya</option><option value="MY">Malaysia</option><option value="ML">Mali</option>
+          <option value="MX">Mexico</option><option value="MA">Morocco</option><option value="NL">Netherlands</option>
+          <option value="NZ">New Zealand</option><option value="NE">Niger</option><option value="NG">Nigeria</option>
+          <option value="OM">Oman</option><option value="PK">Pakistan</option><option value="PH">Philippines</option>
+          <option value="PL">Poland</option><option value="PT">Portugal</option><option value="QA">Qatar</option>
+          <option value="RU">Russia</option><option value="RW">Rwanda</option><option value="SA">Saudi Arabia</option>
+          <option value="SN">Senegal</option><option value="SL">Sierra Leone</option><option value="SG">Singapore</option>
+          <option value="SO">Somalia</option><option value="ZA">South Africa</option><option value="KR">South Korea</option>
+          <option value="ES">Spain</option><option value="LK">Sri Lanka</option><option value="SD">Sudan</option>
+          <option value="SE">Sweden</option><option value="CH">Switzerland</option><option value="SY">Syria</option>
+          <option value="TZ">Tanzania</option><option value="TH">Thailand</option><option value="TG">Togo</option>
+          <option value="TN">Tunisia</option><option value="TR">Turkey</option><option value="UG">Uganda</option>
+          <option value="UA">Ukraine</option><option value="AE">United Arab Emirates</option>
+          <option value="GB">United Kingdom</option><option value="US">United States</option>
+          <option value="VN">Vietnam</option><option value="YE">Yemen</option><option value="ZM">Zambia</option>
+          <option value="ZW">Zimbabwe</option><option value="OTHER">Other</option>
+        </select>
+        <span class="field__error" id="app-country-error" role="alert">Please select your country.</span>
+      </div>
+
+      <div class="field field--full">
+        <button type="submit" class="btn btn--gold" data-submit-btn><span data-btn-label>Submit Application</span></button>
+        <p class="form-note">Prefer email? <a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20Enquiry" style="color:var(--gold-bright);text-decoration:underline">Write to Admissions directly</a>.</p>
+      </div>
+    </form>
   </div>
 </section>
-
 
 <section class="section--light section-pad">
   <div class="container reveal">
@@ -148,7 +203,7 @@
     <div class="section-head">
       <span class="module-marker">Timing</span>
       <h2>How long each stage takes, honestly stated.</h2>
-      <p class="lede">AIPC has processed no applications at volume, so these are commitments
+      <p class="lede">WEC has processed no applications at volume, so these are commitments
         rather than measured averages, and they are described that way.</p>
     </div>
     <div class="grid grid--3">
@@ -195,17 +250,12 @@
 <section class="section--light section-pad">
   <div class="container reveal">
     <div class="callout">
-      <span class="callout__label">Four things the College tells you before it takes your money</span>
-      <p>Accreditation candidacy is underway and no accreditation is yet held. The External
-        Examiner appointment sits with the Senate, and until it is made no award is conferred on
-        anyone &mdash; which is the point of the commitment, not an exception to it. The founding
-        cohort has not yet been taught. The refund policy is with the board and is published the
-        day it is adopted &mdash; see <a href="/admissions/tuition/#refunds">Refunds</a>. Most
-        providers let an applicant discover all four after paying; this College puts them on the
-        page where the decision is made, because an institution that volunteers what it has not
-        yet done can be believed about what it has. The full position, and every
-        stage ahead of it, is published in the
-        <a href="/#pathway">accreditation pathway</a>.</p>
+      <span class="callout__label">Before you pay, four things you are entitled to know</span>
+      <p>WEC holds no accreditation. No External Examiner has been appointed, so no award has
+        been conferred on anyone. No cohort has yet been taught. And no refund policy has been
+        adopted &mdash; see <a href="/admissions/tuition/#refunds">Refunds</a>, which says so
+        plainly rather than leaving you to discover it. The full institutional position is at
+        <a href="/about/#status">About &middot; Institutional Status</a>.</p>
     </div>
   </div>
 </section>
@@ -299,7 +349,7 @@
     </div>
     <div class="callout">
       <span class="callout__label">Stated rather than answered</span>
-      <p>AIPC has published a target audience that includes school pupils. It has not yet
+      <p>WEC has published a target audience that includes school pupils. It has not yet
         adopted a safeguarding policy or appointed a named Safeguarding Lead, and both are
         prerequisites for teaching anyone under 18 responsibly. Until they exist, an application
         from someone under 18 is handled individually by the founding team in correspondence
@@ -394,7 +444,7 @@
       <div class="card card--dark">
         <span class="card__num">200</span>
         <h3>Total qualification hours per level</h3>
-        <p>The designed workload for one level, covering taught material, independent study, practice and assessment. It is the figure the curriculum was built to &mdash; a design figure, not a measurement, which the College will replace with hours measured from real time-on-task once the founding cohort has generated them.</p>
+        <p>The designed workload for one level, covering taught material, independent study, practice and assessment. It is the figure the curriculum was built to, and it has not yet been measured against real learners because there have not been any.</p>
       </div>
       <div class="card card--dark">
         <span class="card__num">1,200</span>
@@ -422,7 +472,7 @@
       <div class="card">
         <span class="card__num">Is not</span>
         <h3>A teaching campus</h3>
-        <p>There are no classrooms, no lecture theatres and no student accommodation. Nobody attends AIPC in London or anywhere else, and no student has ever been asked to.</p>
+        <p>There are no classrooms, no lecture theatres and no student accommodation. Nobody attends WEC in London or anywhere else, and no student has ever been asked to.</p>
       </div>
       <div class="card">
         <span class="card__num">Therefore</span>
@@ -488,7 +538,7 @@
       <h2>Stated without qualification.</h2>
     </div>
     <div class="callout">
-      <span class="callout__label">What AIPC does not do</span>
+      <span class="callout__label">What WEC does not do</span>
       <p>The College is not a licensed student sponsor. It issues no Confirmation of Acceptance
         for Studies, no visa letter, no immigration attestation and no document that any
         immigration authority accepts as the basis of a study visa. It does not offer, and will
@@ -519,13 +569,13 @@
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">A Warning Worth Printing</span>
-      <h2>If someone offers you a AIPC visa, they are defrauding you.</h2>
+      <h2>If someone offers you a WEC visa, they are defrauding you.</h2>
     </div>
     <div class="grid grid--2">
       <div class="card">
         <span class="card__num">No agent has this authority</span>
         <h3>Because the College does not have it</h3>
-        <p>AIPC cannot delegate a power it does not hold. Any person or agency offering a AIPC study visa, admission letter for immigration purposes, or &ldquo;guaranteed&rdquo; entry to the United Kingdom through this College is making an offer the College could not fulfil itself.</p>
+        <p>WEC cannot delegate a power it does not hold. Any person or agency offering a WEC study visa, admission letter for immigration purposes, or &ldquo;guaranteed&rdquo; entry to the United Kingdom through this College is making an offer the College could not fulfil itself.</p>
       </div>
       <div class="card">
         <span class="card__num">What to do</span>

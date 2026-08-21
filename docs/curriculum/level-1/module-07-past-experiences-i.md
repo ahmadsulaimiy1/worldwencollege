@@ -1,4 +1,4 @@
-# AIPC — Level I, Module 7: Past Experiences I
+# WEC — Level I, Module 7: Past Experiences I
 
 *Part of `docs/curriculum-level-1-foundation.md`'s Level I build-out.*
 

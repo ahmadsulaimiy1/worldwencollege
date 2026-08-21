@@ -119,7 +119,7 @@ first true entry can be dated:
 
 | System | Status | Evidence |
 |---|---|---|
-| WEC-LC / AIPC site and backend | **Merged**; portions **Tested Locally** | Repository; test suite |
+| WEC-LC / WEC site and backend | **Merged**; portions **Tested Locally** | Repository; test suite |
 | SHRS digital campus | **Merged**; **Tested Locally** against a local Postgres | Its own directive's Phase 1 audit |
 | Al-Madeenah site | **Developed / Merged**; a preview URL is named in its README | Not verified in this session (`SEB §28.2`) |
 | StromeX MVP | **Merged**; audited | Its own independent audit |

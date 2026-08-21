@@ -115,7 +115,7 @@ check('The print edition carries substantial text', hTokens.length > 4000, hToke
   // print edition the chapter heading follows its own contents entry,
   // and aligning on the first occurrence compared a contents list
   // against a chapter.
-  const anchor = 'About Albalagh International Premium College';
+  const anchor = 'About Worldwide English College';
   const di = dJoined.lastIndexOf(anchor);
   const hi = hJoined.lastIndexOf(anchor);
   check('Both editions contain the body', di !== -1 && hi !== -1, `${di} / ${hi}`);

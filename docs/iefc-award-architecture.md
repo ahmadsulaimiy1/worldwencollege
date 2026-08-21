@@ -19,7 +19,7 @@ graduate what they can do — which the qualification descriptors already
 say, at length, in the place designed for it. A standing ladder tells
 them **what they are within the College**, and that is what a person
 still identifies with twenty years later. "I am an Associate of
-Albalagh International Premium College" is an identity. "I am an English
+Worldwide English College" is an identity. "I am an English
 Communicator" is a skill assessment wearing a title.
 
 The test the Executive set — *what will still sound credible in fifty
@@ -43,7 +43,7 @@ officer or a competitor.
 
 ### 1. These are institutional awards, not qualifications
 
-AIPC confers these. They are not degrees, not regulated
+WEC confers these. They are not degrees, not regulated
 qualifications, not professional-body grades, and not equivalent to any
 of those. Any institution may confer its own awards. What it may not do
 is dress them as something a regulator issued.
@@ -82,7 +82,7 @@ fellowship** (§XII), not an invented rung.
 
 Nothing here is accredited, recognised, validated, or equivalent to
 anything. Where standing must be described, the sentence is: *an award of
-Albalagh International Premium College.* That is complete and honourable.
+Worldwide English College.* That is complete and honourable.
 
 ---
 
@@ -90,16 +90,16 @@ Albalagh International Premium College.* That is complete and honourable.
 
 | # | CEFR | Award | Post-nominal | Standing conferred |
 |---|---|---|---|---|
-| I | A1 | **English Aspirant of Albalagh International Premium College** | ApAIPC | Entry into the tradition |
-| II | A2 | **English Candidate of Albalagh International Premium College** | CnAIPC | Recognised learner of the College |
-| III | B1 | **English Associate of Albalagh International Premium College** | AsAIPC | Established member of the academic community |
-| IV | B2 | **English Envoy of Albalagh International Premium College** | EnAIPC | Trusted representative and communicator |
-| V | C1 | **English Orator of Albalagh International Premium College** | OrAIPC | High-level intellectual and professional communicator |
-| VI | C2 | **English Laureate of Albalagh International Premium College** | LrAIPC | Distinguished master of the programme |
+| I | A1 | **English Aspirant of Worldwide English College** | ApWEC | Entry into the tradition |
+| II | A2 | **English Candidate of Worldwide English College** | CnWEC | Recognised learner of the College |
+| III | B1 | **English Associate of Worldwide English College** | AsWEC | Established member of the academic community |
+| IV | B2 | **English Envoy of Worldwide English College** | EnWEC | Trusted representative and communicator |
+| V | C1 | **English Orator of Worldwide English College** | OrWEC | High-level intellectual and professional communicator |
+| VI | C2 | **English Laureate of Worldwide English College** | LrWEC | Distinguished master of the programme |
 
 **Each award is complete in itself.** A learner who stops at Level III
 has not failed to become something — they **are** an English Associate
-of Albalagh International Premium College, permanently, and the College says so in
+of Worldwide English College, permanently, and the College says so in
 those words. An award that only means something as a step toward the
 next is not an award; it is a receipt. This remains the load-bearing
 decision of the architecture.
@@ -108,7 +108,7 @@ decision of the architecture.
 
 **Fellow is not available for Level IV.** In a college, a Fellow is
 ordinarily *academic staff* — the governing academic body. "Fellow of
-Albalagh International Premium College" would tell a reader the holder teaches here.
+Worldwide English College" would tell a reader the holder teaches here.
 It also borrows the senior grade of professional bodies, and placing it
 at Level IV inverts every external expectation, since a Fellow elsewhere
 outranks almost everything. The Executive's Option B already resolves
@@ -133,7 +133,7 @@ that is the opposite of what the award is for.
 line always appears beneath the award and always reads in the perfect
 tense —
 
-> **English Candidate of Albalagh International Premium College**
+> **English Candidate of Worldwide English College**
 > *International English Fluency Certificate — Level II (CEFR A2),
 > conferred 14 March 2027*
 
@@ -197,28 +197,28 @@ post-nominals would give two different awards the same letters, which in
 a credential system is not a stylistic problem but a defect — a verifier
 could not tell them apart.
 
-**House form: a two-letter award code, joined to AIPC.**
+**House form: a two-letter award code, joined to WEC.**
 
 | Award | Post-nominal |
 |---|---|
-| Aspirant | **ApAIPC** |
-| Candidate | **CnAIPC** |
-| Associate | **AsAIPC** |
-| Envoy | **EnAIPC** |
-| Orator | **OrAIPC** |
-| Laureate | **LrAIPC** |
+| Aspirant | **ApWEC** |
+| Candidate | **CnWEC** |
+| Associate | **AsWEC** |
+| Envoy | **EnWEC** |
+| Orator | **OrWEC** |
+| Laureate | **LrWEC** |
 
 Two letters for the award, three for the College, six characters every
 time. The consistent width is what makes it read as a system rather than
 six abbreviations, and by the second time a reader meets one the pattern
-is unmistakably AIPC's. All six are distinct.
+is unmistakably WEC's. All six are distinct.
 
 **Display forms, descending formality:**
 
 ```
-Aisha Rahman, English Orator of Albalagh International Premium College
-Aisha Rahman, OrAIPC (Albalagh International Premium College)
-Aisha Rahman, OrAIPC
+Aisha Rahman, English Orator of Worldwide English College
+Aisha Rahman, OrWEC (Worldwide English College)
+Aisha Rahman, OrWEC
 ```
 
 **Required of the College in every template it issues:** first use in
@@ -257,7 +257,7 @@ would eventually have to defend. The rubrics already score criteria
 separately, so the floors cost nothing to enforce.
 
 **On Chancellor's Distinction — one thing must be settled first.**
-Albalagh International Premium College has no Chancellor. It has, deliberately, no
+Worldwide English College has no Chancellor. It has, deliberately, no
 named academic leadership at all, and the standing rule against
 fabricating leadership is not suspended for a good idea.
 
@@ -305,7 +305,7 @@ the other five.
 
 ---
 
-## VI. The traditions of Albalagh International Premium College
+## VI. The traditions of Worldwide English College
 
 ### 1. The First Word
 
@@ -401,27 +401,27 @@ recognisably the same tradition.
 Written to be quotable by an employer or admissions officer, and
 defensible if quoted back.
 
-**Aspirant (ApAIPC)** — Understands and uses familiar everyday
+**Aspirant (ApWEC)** — Understands and uses familiar everyday
 expressions and basic phrases; introduces themselves and others; asks and
 answers questions about personal detail; interacts simply where the other
 speaker talks slowly. *Beyond CEFR A1:* has demonstrated the study
 discipline of the programme and works independently in the College's
 digital environment.
 
-**Candidate (CnAIPC)** — Understands sentences and frequent expressions in
+**Candidate (CnWEC)** — Understands sentences and frequent expressions in
 areas of immediate relevance; communicates in routine tasks requiring
 direct exchange of information; describes their background and immediate
 environment. *Beyond CEFR A2:* handles routine written digital
 correspondence to a professional standard of courtesy and clarity.
 
-**Associate (AsAIPC)** — Understands the main points of clear standard
+**Associate (AsWEC)** — Understands the main points of clear standard
 input on familiar matters; deals with most situations arising while
 travelling; produces connected text; gives brief reasons for opinions and
 plans. *Beyond CEFR B1:* structures and defends a position, and
 recognises when a message has not been understood and repairs it — the
 skill that separates the independent user from the confident one.
 
-**Envoy (EnAIPC)** — Understands the main ideas of complex text on
+**Envoy (EnWEC)** — Understands the main ideas of complex text on
 concrete and abstract topics, including technical discussion in their
 field; interacts with fluency and spontaneity such that conversation with
 a proficient speaker is comfortable for both; produces clear, detailed
@@ -430,7 +430,7 @@ CEFR B2:* represents an organisation or a case in meetings and
 correspondence; adapts register to audience and culture; chairs a
 discussion to an outcome.
 
-**Orator (OrAIPC)** — Understands demanding, longer text and recognises
+**Orator (OrWEC)** — Understands demanding, longer text and recognises
 implicit meaning; expresses ideas fluently and spontaneously without
 obvious searching; uses English flexibly for social, academic and
 professional purposes; produces clear, well-structured, detailed text on
@@ -439,7 +439,7 @@ argument to a sceptical audience; leads a team in English; reasons
 publicly under challenge; gives and receives difficult feedback across
 cultures.
 
-**Laureate (LrAIPC)** — Understands with ease virtually everything heard
+**Laureate (LrWEC)** — Understands with ease virtually everything heard
 or read; summarises information from different sources, reconstructing
 arguments coherently; expresses themselves spontaneously, very fluently
 and precisely, differentiating finer shades of meaning. *Beyond CEFR C2:*
@@ -523,7 +523,7 @@ certification against them.
 ## X. Alumni: one Society, six Chapters
 
 The Executive asked for six societies. The Board recommends **one Alumni
-Society of Albalagh International Premium College with six Chapters**, one per award,
+Society of Worldwide English College with six Chapters**, one per award,
 and the Laureates Society as a distinct body within it.
 
 **Why not six independent societies.** Six societies means six
@@ -538,12 +538,12 @@ own officers as numbers justify it rather than in advance of them.
 | Body | Membership | Carries |
 |---|---|---|
 | **The Alumni Society** | Any conferred award | Register entry; alumni communications; retained access to completed levels |
-| **The Aspirant Chapter** | ApAIPC | The above, and the Chapter's own gatherings |
-| **The Candidate Chapter** | CnAIPC | ” |
-| **The Associate Chapter** | AsAIPC | ” |
-| **The Envoy Chapter** | EnAIPC | ” |
-| **The Orator Chapter** | OrAIPC | ” |
-| **The Laureates Society** | LrAIPC | The above, the Laureates Roll, invitation to the Laureation, and eligibility to be invited to give the Address |
+| **The Aspirant Chapter** | ApWEC | The above, and the Chapter's own gatherings |
+| **The Candidate Chapter** | CnWEC | ” |
+| **The Associate Chapter** | AsWEC | ” |
+| **The Envoy Chapter** | EnWEC | ” |
+| **The Orator Chapter** | OrWEC | ” |
+| **The Laureates Society** | LrWEC | The above, the Laureates Roll, invitation to the Laureation, and eligibility to be invited to give the Address |
 
 **Alumni standing begins at Level I.** A college whose alumni body
 excludes the people who found it hardest has misunderstood what an alumni
@@ -565,21 +565,21 @@ hosting cost.)*
 Every conferral carries a citation naming what *this* graduate did — not
 a template with a name dropped in.
 
-> *Albalagh International Premium College confers upon **[Name]** the award of
+> *Worldwide English College confers upon **[Name]** the award of
 > **[Title]**, with [honour], in recognition of [the specific
 > achievement], demonstrated in [the assessed work], on [date].*
 
 **Illustrative only — the names and details below are invented to show
 the form and are not real graduates:**
 
-> *Albalagh International Premium College confers upon Aisha Rahman the award of
-> English Orator of Albalagh International Premium College, with High Distinction, in
+> *Worldwide English College confers upon Aisha Rahman the award of
+> English Orator of Worldwide English College, with High Distinction, in
 > recognition of an address on urban water policy delivered without notes
 > and defended under questioning, and of written work of consistent
 > precision across the level. 14 March 2027.*
 
-> *Albalagh International Premium College confers upon Daniel Okonkwo the award of
-> English Aspirant of Albalagh International Premium College, in recognition of ten
+> *Worldwide English College confers upon Daniel Okonkwo the award of
+> English Aspirant of Worldwide English College, in recognition of ten
 > modules completed from no prior English, and of a first spoken address
 > delivered in a language he did not speak eleven months ago.
 > 14 March 2027.*
@@ -603,7 +603,7 @@ parallel structure entered *after* the Ascent, not a continuation of it.
 
 | Fellowship | Entry | Standing |
 |---|---|---|
-| **Fellowship in Executive Communication** | Laureate | Fellow of Albalagh International Premium College in Executive Communication |
+| **Fellowship in Executive Communication** | Laureate | Fellow of Worldwide English College in Executive Communication |
 | **Fellowship in Academic Writing** | Laureate | Fellow … in Academic Writing |
 | **Fellowship in Business Communication** | Laureate | Fellow … in Business Communication |
 
@@ -612,7 +612,7 @@ explicit about why.** Interpreting is a field with established
 certification regimes, and the consequences of under-qualified
 interpreting are borne by third parties — a patient in a consultation, a
 defendant in a hearing — who never chose the College and cannot assess
-it. AIPC should not offer an interpreter credential until it has
+it. WEC should not offer an interpreter credential until it has
 qualified interpreter trainers, an assessment model built with them, and
 a considered view on liability. It is the one item in this entire
 document capable of causing harm to someone who is not a student, and it
@@ -631,7 +631,7 @@ Ordered by what blocks the most.
 
 | # | Decision | Blocks |
 |---|---|---|
-| 1 | **Adopt the six awards and post-nominals** (ApAIPC–LrAIPC) | Everything |
+| 1 | **Adopt the six awards and post-nominals** (ApWEC–LrWEC) | Everything |
 | 2 | **Resolve C3** — speaking must count, or the Level Address cannot be the spine | The whole conferral model |
 | 3 | **Adopt the five honours and their thresholds** (B1/B2) | Any conferral |
 | 4 | **Chancellor's Distinction: constitute the office, or adopt "Distinction of the College"** | The top honour |

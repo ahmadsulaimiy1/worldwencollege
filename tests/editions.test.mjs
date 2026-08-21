@@ -36,7 +36,7 @@ const EDITION = {
   contentDigest: DIGEST_A,
   issueCode: 'E01.R00.01',
   editionName: 'First',
-  publicationId: 'AIPC/IEFC/CUR/2026/E01',
+  publicationId: 'WEC/IEFC/CUR/2026/E01',
   printIdentifier: 'E01.R00.01-7K2M',
   year: 2026,
   counts: { levels: 6, modules: 60 },

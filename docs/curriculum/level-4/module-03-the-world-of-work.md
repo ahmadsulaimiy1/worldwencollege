@@ -1,4 +1,4 @@
-# AIPC — Level IV, Module 3: The World of Work
+# WEC — Level IV, Module 3: The World of Work
 
 *Part of `docs/curriculum-level-4-upper-intermediate.md`'s Level IV build-out.*
 

@@ -1,4 +1,4 @@
-# AIPC — Engineering Principles
+# WEC — Engineering Principles
 
 Short, and binding. Everything else in `docs/` describes what was
 built; this describes how it is allowed to be built.

@@ -106,7 +106,7 @@ const role = (o) => ({ holder: null, ...o });
 export const ROLES = [
   role({ key: 'author', name: 'Author',
     remit: 'Writes the academic content of a publication and is answerable for its accuracy.',
-    discharge: 'AIPC Press, under delegated authority. Everything authored is marked '
+    discharge: 'WEC Press, under delegated authority. Everything authored is marked '
       + 'press_drafted rather than approved.' }),
   role({ key: 'reviewer', name: 'Academic reviewer',
     remit: 'Reads a publication against the curriculum it claims to serve and against practice '
@@ -121,7 +121,7 @@ export const ROLES = [
   role({ key: 'maintainer', name: 'Maintaining editor',
     remit: 'Keeps a published title consistent with the curriculum as the curriculum changes, '
       + 'and re-renders it when its source moves.',
-    discharge: 'AIPC Press. Mechanised: every volume is derived from the academic record rather '
+    discharge: 'WEC Press. Mechanised: every volume is derived from the academic record rather '
       + 'than transcribed, so a curriculum change reaches the page on the next build.' }),
   role({ key: 'examiner', name: 'External examiner',
     remit: 'Reads assessments and marked work from outside the institution and reports whether '
@@ -192,13 +192,13 @@ export const CADENCE = [
     means: 'Reviewed once a year against the programme as taught that year. Assessment leads '
       + 'this group: an instrument that never changes stops discriminating once its items are '
       + 'known.',
-    families: ['IEFC Assessment Series', 'AIPC Institutional Series',
-      'AIPC Professional Development Series', 'AIPC New Programmes Series'] },
+    families: ['IEFC Assessment Series', 'WEC Institutional Series',
+      'WEC Professional Development Series', 'WEC New Programmes Series'] },
   { cycle: 'Editorial cycle', months: 36,
     means: 'Revisited when the standard it describes is itself revised. Faster than that is '
       + 'churn: a constitution that changes every year is not a constitution.',
-    families: ['AIPC Academic Framework Series', 'AIPC Governance Series',
-      'AIPC Research Series'] },
+    families: ['WEC Academic Framework Series', 'WEC Governance Series',
+      'WEC Research Series'] },
 ];
 
 export function cadenceFor(family) {

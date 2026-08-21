@@ -1,4 +1,4 @@
-# AIPC — Level III, Module 10: Review & Consolidation
+# WEC — Level III, Module 10: Review & Consolidation
 
 *Part of `docs/curriculum-level-3-intermediate.md`'s Level III build-out.
 Per `docs/curriculum-framework.md`'s assessment strategy, this module
@@ -9,7 +9,7 @@ not introduce new grammar or vocabulary.*
 can: demonstrate cumulative command of every grammar point and
 functional-language set from Modules 1-9; deploy the level's full
 discourse-marker toolkit fluently within one connected talk or piece
-of writing; complete AIPC's Intermediate-level (B1) end-of-level
+of writing; complete WEC's Intermediate-level (B1) end-of-level
 examination across grammar/vocabulary, listening, reading, writing,
 and speaking, including a graded structured-essay component and a
 structured spoken-opinion component; identify their own remaining

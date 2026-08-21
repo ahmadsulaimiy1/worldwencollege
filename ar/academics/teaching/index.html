@@ -9,10 +9,10 @@
      it just built. Four rounds of "it deployed" / "I cannot see it"
      were spent because nothing on the served page said which build it
      was. Now every page says. -->
-<meta name="aipc-build" content="">
+<meta name="wec-build" content="">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ممارسة التدريس — كلية البلاغ الدولية المتميّزة</title>
+<title>ممارسة التدريس — الكلية العالمية للغة الإنجليزية</title>
 <meta name="description" content="كيف تدرّس الكلية: المنهجية، وكيف يُصمَّم الدرس، وسجل الدعم الذي يعمل منه المعلم، والدليل المرافق، وكيف يُفترض أن يعمل التطوير والمشاهدة.">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
@@ -44,26 +44,21 @@
 .gilt { --gilt: 1; }
 .plate--drift img, .plate--drift svg { animation: none !important; }
 </style></noscript>
-<meta property="og:site_name" content="كلية البلاغ الدولية المتميّزة">
+<meta property="og:site_name" content="الكلية العالمية للغة الإنجليزية">
 <meta property="og:locale" content="ar_AR">
-<meta property="og:title" content="ممارسة التدريس — كلية البلاغ الدولية المتميّزة">
+<meta property="og:title" content="ممارسة التدريس — الكلية العالمية للغة الإنجليزية">
 <meta property="og:description" content="كيف تدرّس الكلية: المنهجية، وكيف يُصمَّم الدرس، وسجل الدعم الذي يعمل منه المعلم، والدليل المرافق، وكيف يُفترض أن يعمل التطوير والمشاهدة.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.worldwencollege.co.uk/ar/academics/teaching/">
-<!-- TODO(domain): worldwencollege.co.uk is the domain the College used
-     under its former name, and it is still the origin it is served
-     from, so it stays until a real one replaces it — a canonical or
-     og:url pointing at a domain nobody owns is worse than an honest
-     inherited one. When an Albalagh domain is registered, this origin
-     changes here, in the JSON-LD below, in sitemap.xml, _redirects,
-     .env.example and the deploy workflow. docs/domain-setup.md
-     § Pending holds the checklist. -->
+<!-- worldwencollege.co.uk is the College's real, permanent domain — the
+     one this site is actually served from, and the one every
+     canonical, hreflang and og:url entry is deliberately built on. -->
 <meta property="og:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ممارسة التدريس — كلية البلاغ الدولية المتميّزة">
+<meta name="twitter:title" content="ممارسة التدريس — الكلية العالمية للغة الإنجليزية">
 <meta name="twitter:description" content="كيف تدرّس الكلية: المنهجية، وكيف يُصمَّم الدرس، وسجل الدعم الذي يعمل منه المعلم، والدليل المرافق، وكيف يُفترض أن يعمل التطوير والمشاهدة.">
 <meta name="twitter:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
 <link rel="canonical" href="https://www.worldwencollege.co.uk/ar/academics/teaching/">
@@ -78,8 +73,8 @@
 {
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
-  "name": "Albalagh International Premium College — London Campus",
-  "alternateName": "AIPC",
+  "name": "Worldwide English College — London Campus",
+  "alternateName": "WEC",
   "url": "https://www.worldwencollege.co.uk/",
   "email": "info@worldwencollege.co.uk",
   "slogan": "Empowering the World Through English Excellence.",
@@ -346,8 +341,7 @@
 <div class="topbar">
   <div class="topbar__inner">
     <div class="topbar__contacts">
-      <!-- TODO(domain): the College's former-name address, kept working until an Albalagh domain exists. Replace everywhere at once — docs/domain-setup.md § Pending. -->
-      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item" dir="ltr">
+            <a href="mailto:info@worldwencollege.co.uk" class="topbar__item" dir="ltr">
         <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
         info@worldwencollege.co.uk
       </a>
@@ -419,7 +413,7 @@
   <div class="lattice__bed" aria-hidden="true"></div>
 
   <div class="site-header__inner">
-    <a href="/ar/" class="brand tilt" aria-label="كلية البلاغ الدولية المتميّزة، الصفحة الرئيسية">
+    <a href="/ar/" class="brand tilt" aria-label="الكلية العالمية للغة الإنجليزية، الصفحة الرئيسية">
       <span class="tilt__sheen" aria-hidden="true"></span>
       <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
         <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
@@ -427,10 +421,10 @@
         <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
         <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
         <path class="crest__book" d="M24 28.5 V37.4"/>
-        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">AIPC</text>
+        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
       </svg>
       <span class="brand__word">
-        <span class="brand__name">كلية البلاغ الدولية المتميّزة</span>
+        <span class="brand__name">الكلية العالمية للغة الإنجليزية</span>
         <span class="brand__campus">الحرم الجامعي — لندن</span>
       </span>
     </a>
@@ -876,26 +870,22 @@
         على نحو مرئي، شكل الدرس في الكلية.</p>
     </div>
     <div class="grid grid--4">
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
+      <div class="card">
         <span class="card__num">الأول</span>
         <h3>يُدرَّس بالإنجليزية من المستوى الأول</h3>
         <p>حتى عند <span dir="ltr">A1</span>، حيث يجري ذلك بلغة مقيدة وتكرار ودعم بصري ومعلم يُبطئ بدل أن يترجم. تعليم اللغة باللغة منهجيةٌ، والمستوى الأول كُتب على هذا الافتراض لا عُدِّل إليه لاحقًا.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
+      <div class="card">
         <span class="card__num">الثاني</span>
         <h3>التقييم يُكتب أولًا</h3>
         <p>كل تقييم يوجد قبل التدريس الذي يختبره، فيُبنى الدرس نحو معيار بدل أن يُجمَّع المعيار لاحقًا مما دُرِّس.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
+      <div class="card">
         <span class="card__num">الثالث</span>
         <h3>التحدث يُقيَّم بالتحدث</h3>
         <p>تسجيلًا يصححه إنسان، بملاحظات مكتوبة مقابل هدف نطق مسمّى. لا توجد درجة نطق آلية، ولا تُدّعى.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
+      <div class="card">
         <span class="card__num">الرابع</span>
         <h3>كل درس يخطط للمتعلم الذي لا يتابع</h3>
         <p>شرح ثانٍ، والأخطاء التي تثيرها هذه النقطة، وأسبابها — كلها مكتوبة في الخطة سلفًا، لا مرتجلة حين يبدو أحدهم تائهًا.</p>
@@ -933,14 +923,12 @@
       <p class="lede">هذه أهم جملة في هذا القسم، ولهذا ليست في هامش.</p>
     </div>
     <div class="grid grid--2">
-      <div class="card reveal tilt card--dark">
-        <span class="tilt__sheen" aria-hidden="true"></span>
+      <div class="card card--dark">
         <span class="card__num">لماذا هو فارغ</span>
         <h3>الكلية لم تدرّس أحدًا</h3>
         <p>كل مدخلة في سجل الدعم تعلن مصدر معرفتها، وأحد المصادر الأربعة الممكنة هو صف حقيقي. هذا العمود يقف عند الصفر وسيبقى عند الصفر حتى يدرّس معلمٌ دفعةً ويكتب ما حدث.</p>
       </div>
-      <div class="card reveal tilt card--dark">
-        <span class="tilt__sheen" aria-hidden="true"></span>
+      <div class="card card--dark">
         <span class="card__num">ولماذا هو عمود أصلًا</span>
         <h3>كي لا يُملأ خلسةً بشيء آخر</h3>
         <p>النسخة السهلة من هذا السجل كانت ستصف كل شيء بعبارة «خبرتنا التدريسية». إبقاء المشاهدة منفصلةً يعني أن الكلية تستطيع أن تقول بدقة أي ادعاءاتها سيؤكده فصلٌ أول من التدريس أو يصححه أو يقلبه — ولا تستطيع أن تقدّم التصميم على أنه دليل.</p>
@@ -956,23 +944,17 @@
       <h2>ما يحمله كل درس.</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+      <div class="card">
         <span class="card__num">قبل</span>
         <h3>متطلب سابق مسمّى</h3>
         <p>ما يجب أن يحمله المتعلم سلفًا ليعمل هذا الدرس. تسميته تجعل التسلسل قابلًا للفحص: درسٌ متطلبه لا يُدرَّس في أي موضع أسبق عيبٌ، ويمكن العثور عليه آليًا بدل أن يكتشفه صفٌّ حائر.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+      <div class="card">
         <span class="card__num">أثناء</span>
         <h3>مراحل بدقائق معلنة</h3>
         <p>لكل مرحلة غرض ومدة. والمدد تُجمَع إلى زمن الدرس، والمجموع يُفحَص. خطة درس لا تجتمع مراحلها خطةٌ لم يجرّبها أحد فعلًا.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+      <div class="card">
         <span class="card__num">بعد</span>
         <h3>مخرج مسمّى وتقييمه</h3>
         <p>ما صار المتعلم قادرًا عليه، والتقييم الذي يُظهره. كلاهما يُكتب قبل تقديم الدرس، وهو الترتيب الوحيد الذي يمكن به بناء الدرس نحو المعيار.</p>
@@ -990,30 +972,22 @@
         سلفًا، لأن هناك يحدث التدريس فعلًا.</p>
     </div>
     <div class="grid grid--4">
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+      <div class="card">
         <span class="card__num">مكتوب سلفًا</span>
         <h3>شرح ثانٍ</h3>
         <p>طريق مختلف إلى النقطة ذاتها، للمتعلم الذي لم يصله الطريق الأول. ارتجال هذا لحظة الحيرة هو ما يفعله المعلم الخبير؛ وكتابته هي ما يتيح لمعلم أقل خبرة أن يفعله أيضًا.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+      <div class="card">
         <span class="card__num">مكتوب سلفًا</span>
         <h3>الأخطاء التي تثيرها هذه النقطة</h3>
         <p>مسمّاة تحديدًا، لهذا الدرس، لا نصيحةً عامة. الخطأ الذي كنت تتوقعه فرصة تعليمية؛ والخطأ ذاته غير متوقَّع مقاطعة.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+      <div class="card">
         <span class="card__num">مكتوب سلفًا</span>
         <h3>ولماذا تحدث تلك الأخطاء</h3>
         <p>السبب لا العرَض وحده — تداخل من اللغة الأم، أو قاعدة مفرطة التطبيق، أو سمة اعتباطية في الإنجليزية لا بد من حفظها. المعلم الذي يعرف السبب يعالجه؛ ومن يعرف الخطأ وحده لا يملك إلا تصحيحه.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+      <div class="card">
         <span class="card__num">مكتوب سلفًا</span>
         <h3>وماذا تفعل بمن ينتهي مبكرًا</h3>
         <p>امتداد أصعب حقًا لا أطول فحسب. وإلا قضى أقوى متعلم في الصف درسه منتظرًا.</p>
@@ -1031,23 +1005,17 @@
         ويفشل البناء إن انكسرت.</p>
     </div>
     <div class="grid grid--3">
-      <div class="card reveal tilt card--dark">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">التسلسل</span>
         <h3>كل متطلب يُدرَّس أسبق</h3>
         <p>درسٌ يعتمد على شيء لا يدرّسه البرنامج أبدًا، أو يدرّسه لاحقًا، عيبٌ لا يجده التدقيق البشري على نحو موثوق.</p>
       </div>
-      <div class="card reveal tilt card--dark">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">التوقيت</span>
         <h3>دقائق المراحل تجتمع إلى الدرس</h3>
         <p>يُفحَص حسابيًا. وهو أرخص إشارة ممكنة إلى أن الخطة فُكِّر فيها لا جُمِّعت.</p>
       </div>
-      <div class="card reveal tilt card--dark">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">التغطية</span>
         <h3>كل وحدة تحمل تقييماتها</h3>
         <p>اختبار قصير وواجب ومعيار تصحيح، وفق سياسة واحدة منشورة، عبر الوحدات الستين كلها. الاتساق بهذا الحجم يُفرَض أو لا يوجد.</p>
@@ -1065,30 +1033,22 @@
         مدخلة في السجل موسومة بنوع واحد بالضبط.</p>
     </div>
     <div class="grid grid--4">
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+      <div class="card">
         <span class="card__num">مشتق</span>
         <h3>&lt;span dir="ltr"&gt;359&lt;/span&gt; مدخلة</h3>
         <p>مقروء من البرنامج نفسه: المتطلب الذي يسمّيه الدرس، والدقائق التي تعلنها مراحله، والالتباس الذي كُتب فحصه الذاتي ليصطاده. ليس رأيًا — حقيقة عن المنهج، وقابلة للفحص ضده.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+      <div class="card">
         <span class="card__num">مُثبَت</span>
         <h3>&lt;span dir="ltr"&gt;19&lt;/span&gt; مدخلة</h3>
         <p>مشهود له في التدريس الدولي للإنجليزية وليس خاصًا بهذه الكلية — أن سين الغائب من أعند الأخطاء لدى متعلمي كل لغة أم، وأن العدّ في الإنجليزية اعتباطي ولا بد من حفظه. تركيبٌ، وموسوم أنه تركيب.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+      <div class="card">
         <span class="card__num">مصمَّم</span>
         <h3>&lt;span dir="ltr"&gt;152&lt;/span&gt; مدخلة</h3>
         <p>اجتهاد مؤلف من الذين كتبوا المنهج: كيف يُشرح هذا بطريقة أخرى، وأي تشبيه يصمد، وكيف يُمدّ من أنهى مبكرًا. قابل للدفاع عنه، وقابل للتحسين ممن يدرّسه فيجد أفضل.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
+      <div class="card">
         <span class="card__num">مُشاهَد</span>
         <h3>&lt;span dir="ltr"&gt;0&lt;/span&gt; مدخلة</h3>
         <p>ما حدث فعلًا في غرفة فيها متعلمون حقيقيون. هذا فارغ، وفارغ لأن الكلية لم تدرّس أحدًا. ولا يُملأ بالأنواع الثلاثة الأخرى.</p>
@@ -1112,23 +1072,17 @@
       <h2>مكتملة للمستوى الأول، وصادقة عن البقية.</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card reveal tilt card--dark">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">المستوى الأول</span>
         <h3>&lt;span dir="ltr"&gt;19&lt;/span&gt; درسًا تعليميًا مدعومًا بعمق</h3>
         <p>حقول الدعم المؤلفة الثمانية مكتوبة لكل درس تعليمي في المستوى الأول — المستوى الذي يلقاه المبتدئ أولًا والذي يملك المعلم فيه أضيق مساحة للارتجال. ثلاثة من حقول السجل السبعة عشر لا تحمل مدخلات بعد، والسجل يدرجها على أنها غير مُثبَتة بعد بدل أن يخفيها.</p>
       </div>
-      <div class="card reveal tilt card--dark">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">المستويات الثاني–السادس</span>
         <h3>مكتوبة جزئيًا</h3>
         <p>الحقول المقروءة من المنهج معبأة عبر البرنامج؛ والحقول المؤلفة تُكتب مستوى بمستوى. ما هو قائم هو ما هو منشور؛ ولا شيء يُستشرَف.</p>
       </div>
-      <div class="card reveal tilt card--dark">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">السجل كله</span>
         <h3>قابل للعدّ علنًا</h3>
         <p><span dir="ltr">530</span> مدخلة مؤلفة اليوم. الرقم يتحرك مع تقدم العمل ويُولَّد من السجل لا يُكتب في هذه الصفحة.</p>
@@ -1144,23 +1098,17 @@
       <h2>ما يحتويه دليل المعلم المرافق.</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+      <div class="card">
         <span class="card__num">كل درس</span>
         <h3>كل الدروس التعليمية الـ&lt;span dir="ltr"&gt;19&lt;/span&gt; للمستوى الأول</h3>
         <p>كلٌّ بمراحله ودقائقها المعلنة في رأس الصفحة الجاري، ليرى المعلم شكل الدرس دون أن يعود إلى الخطة.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+      <div class="card">
         <span class="card__num">كل لوحة</span>
         <h3>موسومة بمصدرها</h3>
         <p>مشتق أو مُثبَت أو مصمَّم، مطبوعًا على اللوحة ذاتها لا مشروحًا مرة في مقدمة. المعلم الذي يخالف لوحةً يرى فورًا أيخالف المنهج أم الميدان أم المؤلفين.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+      <div class="card">
         <span class="card__num">وسمٌ واحد غائب</span>
         <h3>المُشاهَد</h3>
         <p>الوسم الرابع لا يظهر في أي موضع من الكتاب، والتصدير يقول لماذا. دليلٌ يُسقط الفئة بصمت يدّعي نوعًا من السلطة لا يملكه.</p>
@@ -1190,23 +1138,17 @@
         صفحة تصف تطوير المعلمين هنا برنامجًا جاريًا تصف شيئًا غير موجود.</p>
     </div>
     <div class="grid grid--3" style="margin-top:26px">
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+      <div class="card">
         <span class="card__num">ما أنتجته الكتابة</span>
         <h3>برنامج كامل قابل للفحص</h3>
         <p><span dir="ltr">60</span> وحدة، و<span dir="ltr">414</span> عنصرًا مخططًا، وكل تقييم مكتوب بمعايير منشورة، و<span dir="ltr">530</span> مدخلة دعم تعليمي. وكل ذلك يستطيع أي أحد فحصه.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+      <div class="card">
         <span class="card__num">ما لا تنتجه الكتابة</span>
         <h3>أيًّا من النوع الرابع من المعرفة</h3>
         <p>ما يفعله صف حقيقي بالدرس، وأين تنكسر الخطة، وأي شرح يعمل مع أي متعلم، وكم تستغرق المرحلة فعلًا. لا شيء من هذا يُستنتَج. إنما يُشاهَد.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+      <div class="card">
         <span class="card__num">والنتيجة</span>
         <h3>أثمن تعيين هو معلم ممارس</h3>
         <p>معلم واحد ودفعة واحدة وفصل واحد ينتج دليلًا لا تستطيع الكلية الحصول عليه بطريقة أخرى — وسيحسّن فورًا مادةً هي اليوم مصمَّمة لا مجرَّبة. وهو مسمًّى أولويةً في <a href="/ar/about/#structure">هيكل الكلية</a>.</p>
@@ -1257,10 +1199,10 @@
           <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
           <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
           <path class="crest__book" d="M24 28.5 V37.4"/>
-          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">AIPC</text>
+          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
         </svg>
       </div>
-      <p class="footer__name foil reveal">كلية البلاغ الدولية المتميّزة<br><span>الحرم الجامعي — لندن</span></p>
+      <p class="footer__name foil reveal">الكلية العالمية للغة الإنجليزية<br><span>الحرم الجامعي — لندن</span></p>
       <p class="footer__motto">"نُمكّن العالم من خلال التميّز في اللغة الإنجليزية"</p>
     </div>
   </div>
@@ -1449,8 +1391,7 @@
       تواصل معنا
     </h2>
     <p class="footergrid__intro">
-      <!-- TODO(domain): the College's former-name address, kept working until an Albalagh domain exists. Replace everywhere at once — docs/domain-setup.md § Pending. -->
-      <span dir="ltr">info@worldwencollege.co.uk</span><br>
+            <span dir="ltr">info@worldwencollege.co.uk</span><br>
       تعليم رقمي حول العالم &middot; المقر الإداري في لندن — عنوان المقر قيد التأكيد، راجع التواصل أدناه.
     </p>
     <div class="footergrid__row">
@@ -1517,7 +1458,7 @@
   </div>
 
   <div class="site-footer__bottom">
-    <p>&copy; <span data-year>2026</span> كلية البلاغ الدولية المتميّزة — الحرم الجامعي في لندن. جميع الحقوق محفوظة.</p>
+    <p>&copy; <span data-year>2026</span> الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن. جميع الحقوق محفوظة.</p>
     <!-- علامة ثقة، لا شارة: الأيقونة تدل على «هذا قابل للتحقق»، لا
          «هذا معتمد» — الكلية لا تحمل اعتمادًا، والختم الذي يوحي بخلاف
          ذلك هو بالضبط الثقة الزائفة التي وُجد سجل الأدلة لمنعها.

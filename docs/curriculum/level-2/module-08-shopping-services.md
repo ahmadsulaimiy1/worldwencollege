@@ -1,4 +1,4 @@
-# AIPC — Level II, Module 8: Shopping & Services
+# WEC — Level II, Module 8: Shopping & Services
 
 *Part of `docs/curriculum-level-2-elementary.md`'s Level II build-out.*
 
@@ -146,7 +146,7 @@ presentation.
 Highlight the two-sided skill: complaining politely (state the
 problem, no blame language) and handling a complaint professionally
 (acknowledge, apologise, offer a specific solution) — both roles are
-explicitly practised, since a AIPC graduate may need either in real
+explicitly practised, since a WEC graduate may need either in real
 professional life.
 
 **Guided practice (10 min).** Pair work with roleplay cards: Learner A
@@ -167,7 +167,7 @@ between being assertive (clearly stating what you want) and being
 rude, when you're making a complaint? Can you give an example of
 each?" — a genuinely useful intercultural-competence discussion, since
 directness norms around complaining vary significantly across
-cultures, directly relevant to AIPC's international learners
+cultures, directly relevant to WEC's international learners
 preparing for study/work abroad.
 
 **Listening activity (5 min).** Listen to 2 complaint-handling

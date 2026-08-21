@@ -9,11 +9,11 @@
      it just built. Four rounds of "it deployed" / "I cannot see it"
      were spent because nothing on the served page said which build it
      was. Now every page says. -->
-<meta name="aipc-build" content="">
+<meta name="wec-build" content="">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Level II: Elementary Programme (A2) &mdash; Albalagh International</title>
-<meta name="description" content="Level II of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR A2. Modules, learning outcomes, assessment, teaching methods and the…">
+<title>Level II: Elementary Programme (A2) &mdash; Worldwide English College</title>
+<meta name="description" content="Level II of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR A2. Modules, learning outcomes, assessment, teaching methods and the award.">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -45,27 +45,22 @@
 .gilt { --gilt: 1; }
 .plate--drift img, .plate--drift svg { animation: none !important; }
 </style></noscript>
-<meta property="og:site_name" content="Albalagh International Premium College">
+<meta property="og:site_name" content="Worldwide English College">
 <meta property="og:locale" content="en_GB">
-<meta property="og:title" content="Level II: Elementary Programme (A2) &mdash; Albalagh International">
-<meta property="og:description" content="Level II of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR A2. Modules, learning outcomes, assessment, teaching methods and the…">
+<meta property="og:title" content="Level II: Elementary Programme (A2) &mdash; Worldwide English College">
+<meta property="og:description" content="Level II of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR A2. Modules, learning outcomes, assessment, teaching methods and the award.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.worldwencollege.co.uk/study/level-2/">
-<!-- TODO(domain): worldwencollege.co.uk is the domain the College used
-     under its former name, and it is still the origin it is served
-     from, so it stays until a real one replaces it — a canonical or
-     og:url pointing at a domain nobody owns is worse than an honest
-     inherited one. When an Albalagh domain is registered, this origin
-     changes here, in the JSON-LD below, in sitemap.xml, _redirects,
-     .env.example and the deploy workflow. docs/domain-setup.md
-     § Pending holds the checklist. -->
+<!-- worldwencollege.co.uk is the College's real, permanent domain — the
+     one this site is actually served from, and the one every
+     canonical, hreflang and og:url entry is deliberately built on. -->
 <meta property="og:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Level II: Elementary Programme (A2) &mdash; Albalagh International">
-<meta name="twitter:description" content="Level II of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR A2. Modules, learning outcomes, assessment, teaching methods and the…">
+<meta name="twitter:title" content="Level II: Elementary Programme (A2) &mdash; Worldwide English College">
+<meta name="twitter:description" content="Level II of the IEFC: 10 modules, 120 designed lessons over 4 months, aligned to CEFR A2. Modules, learning outcomes, assessment, teaching methods and the award.">
 <meta name="twitter:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
 <link rel="canonical" href="https://www.worldwencollege.co.uk/study/level-2/">
 <!-- Assembled in scripts/build.js rather than written out here: a page
@@ -79,8 +74,8 @@
 {
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
-  "name": "Albalagh International Premium College — London Campus",
-  "alternateName": "AIPC",
+  "name": "Worldwide English College — London Campus",
+  "alternateName": "WEC",
   "url": "https://www.worldwencollege.co.uk/",
   "email": "info@worldwencollege.co.uk",
   "slogan": "Empowering the World Through English Excellence.",
@@ -347,8 +342,7 @@
 <div class="topbar">
   <div class="topbar__inner">
     <div class="topbar__contacts">
-      <!-- TODO(domain): the College's former-name address, kept working until an Albalagh domain exists. Replace everywhere at once — docs/domain-setup.md § Pending. -->
-      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item">
+            <a href="mailto:info@worldwencollege.co.uk" class="topbar__item">
         <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
         info@worldwencollege.co.uk
       </a>
@@ -445,7 +439,7 @@
   <div class="lattice__bed" aria-hidden="true"></div>
 
   <div class="site-header__inner">
-    <a href="/" class="brand tilt" aria-label="Albalagh International Premium College, home">
+    <a href="/" class="brand tilt" aria-label="Worldwide English College, home">
       <span class="tilt__sheen" aria-hidden="true"></span>
       <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
         <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
@@ -453,33 +447,11 @@
         <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
         <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
         <path class="crest__book" d="M24 28.5 V37.4"/>
-        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">AIPC</text>
+        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
       </svg>
-      <!--
-        THE NAME IS SPLIT ACROSS THE LOCKUP'S TWO EXISTING LINES, and it is
-        not a stylistic preference. Measured in Chromium at 1440px — the
-        width where the navigation is widest and the rail tightest — the
-        brand has a 186px budget before the header overflows. The full
-        name sets at 265px, and still at 205px reduced to .72rem, which
-        is too small to read as an institution's wordmark. The previous
-        name fitted in 180px, so the rail never had slack to give.
-
-        Wrapping .brand__name itself is what the note above forbids. This
-        does not wrap: .brand__word is already a two-line column, so the
-        name occupies the lines the lockup always had, and the lockup's
-        height is unchanged at 31.5px. Measured at 149.2px against a
-        185.9px budget.
-
-        Note .brand__word is a stretch column, so the WIDER line governs:
-        the first attempt kept the campus line as "Premium College ·
-        London Campus" and still overflowed at 241.9px. "London Campus"
-        is therefore off the rail — it is still carried by the topbar,
-        the footer and /about/, and the full institution name remains in
-        the link's aria-label, <title>, the JSON-LD and the footer.
-      -->
       <span class="brand__word">
-        <span class="brand__name">Albalagh International</span>
-        <span class="brand__campus">Premium College</span>
+        <span class="brand__name">Worldwide English College</span>
+        <span class="brand__campus">London Campus</span>
       </span>
     </a>
 
@@ -655,7 +627,7 @@
           <div class="mega__cols">
             <div class="mega__col">
               <p class="mega__label">The Imprint</p>
-              <a href="/press/">AIPC Press</a>
+              <a href="/press/">WEC Press</a>
               <a href="/press/catalogue/">The Catalogue</a>
               <a href="/press/#standards">House Standards</a>
               <a href="/press/#library">The Library</a>
@@ -876,7 +848,7 @@
       <div class="accordion__item">
         <button class="accordion__q"><span class="accordion__q-label"><span class="vessel__badge vessel__badge--sm"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span><span>Press &amp; Library</span></span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">
-          <a href="/press/">AIPC Press</a>
+          <a href="/press/">WEC Press</a>
           <a href="/press/catalogue/">The Catalogue</a>
           <a href="/press/#standards">House Standards</a>
           <a href="/press/#library">The Library</a>
@@ -955,23 +927,17 @@
       <h2>What this level contains.</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+      <div class="card">
         <span class="card__num">Teaching</span>
         <h3>29 lessons</h3>
         <p>Each lesson runs a full sequence &mdash; warm-up, presentation, guided practice, independent practice, writing and homework &mdash; with the timing stated in the plan rather than left to the room.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+      <div class="card">
         <span class="card__num">Listening</span>
         <h3>10 listening sets</h3>
         <p>A scripted listening set for every module, with speaker cues and comprehension work built against the script rather than added afterwards.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
+      <div class="card">
         <span class="card__num">Pronunciation</span>
         <h3>10 laboratories</h3>
         <p>A pronunciation laboratory per module, targeting the sounds, stress patterns and rhythm the module&rsquo;s own language actually needs.</p>
@@ -1017,30 +983,22 @@
         both, and a single overall grade hides that. Each skill is tracked on its own.</p>
     </div>
     <div class="grid grid--2">
-      <div class="card reveal tilt card--dark">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">Receptive</span>
         <h3>Listening</h3>
         <p>Understands speech at natural pace, including unfamiliar accents and imperfect conditions</p>
       </div>
-      <div class="card reveal tilt card--dark">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">Receptive</span>
         <h3>Reading</h3>
         <p>Reads for argument and detail, not only for gist, across registers</p>
       </div>
-      <div class="card reveal tilt card--dark">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">Productive</span>
         <h3>Speaking</h3>
         <p>Speaks with control of grammar, pronunciation and register, in real time</p>
       </div>
-      <div class="card reveal tilt card--dark">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">Productive</span>
         <h3>Writing</h3>
         <p>Writes to a purpose and an audience, and revises</p>
@@ -1058,23 +1016,17 @@
         criteria are published to the learner in advance.</p>
     </div>
     <div class="grid grid--3">
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg></span>
+      <div class="card">
         <span class="card__num">Continuous</span>
         <h3>10 module quizzes</h3>
         <p>One at the end of each module, testing the language that module taught and nothing else. Marked automatically, with the correct answer and the reason shown.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+      <div class="card">
         <span class="card__num">Productive</span>
         <h3>10 assignments</h3>
         <p>Speaking and writing tasks marked by an instructor against a published rubric. These are where the productive skills are actually assessed &mdash; a quiz cannot judge whether someone can hold a conversation.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+      <div class="card">
         <span class="card__num">Self-check</span>
         <h3>Before every assessment</h3>
         <p>Each lesson carries a self-check with traps aimed at the mistakes learners at this level really make, so a learner discovers a gap before an examiner does.</p>
@@ -1093,30 +1045,22 @@
       <h2>How it is taught.</h2>
     </div>
     <div class="grid grid--2">
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-language"/></svg></span>
+      <div class="card">
         <span class="card__num">Speaking-first</span>
         <h3>Practice before polish</h3>
         <p>Guided speaking is built into every lesson, not offered as an extra. Learners speak from the first lesson, before their grammar is ready, because waiting for accuracy is how people stay silent for years.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg></span>
+      <div class="card">
         <span class="card__num">Structured</span>
         <h3>A shared standard, not a personal style</h3>
         <p>Every instructor teaches to the same mapped curriculum, so a learner who changes class or cohort does not lose their place, and two learners at the same level have covered the same ground.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+      <div class="card">
         <span class="card__num">Supported</span>
         <h3>A teacher who knows what goes wrong</h3>
         <p>Instructors work from the Teacher's Companion, which sets out for each lesson what commonly goes wrong, a second way to explain it, and what to do for the learner who is behind and the one who is ahead.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+      <div class="card">
         <span class="card__num">Measured</span>
         <h3>Adjusted to the cohort</h3>
         <p>Quiz and assignment results are visible to the instructor as the level runs, so teaching responds to how this group is actually performing rather than to how the plan assumed they would.</p>
@@ -1132,30 +1076,24 @@
       <h2>What you are given.</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+      <div class="card">
         <span class="card__num">Platform</span>
         <h3>The learning platform</h3>
         <p>Lessons, quizzes, self-checks and progress tracking, with your marks and feedback in one record you keep.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+      <div class="card">
         <span class="card__num">Listening Lab</span>
         <h3>Recorded practice</h3>
         <p>The Listening Lab holds the level&rsquo;s recorded material with the script, and records your own speaking for pronunciation feedback.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+      <div class="card">
         <span class="card__num">Press volumes</span>
         <h3>Printed and digital</h3>
-        <p>The curriculum is published as a set of volumes by AIPC Press &mdash; the Complete Curriculum, the Assessment Handbook, and for Level I a Student Workbook and Teacher&rsquo;s Companion.</p>
+        <p>The curriculum is published as a set of volumes by WEC Press &mdash; the Complete Curriculum, the Assessment Handbook, and for Level I a Student Workbook and Teacher&rsquo;s Companion.</p>
       </div>
     </div>
     <div class="btn-row">
-      <a href="/press/" class="btn btn--outline">AIPC Press Catalogue</a>
+      <a href="/press/" class="btn btn--outline">WEC Press Catalogue</a>
     </div>
   </div>
 </section>
@@ -1167,16 +1105,12 @@
       <h2>Where this level sits.</h2>
     </div>
     <div class="grid grid--2">
-      <div class="card reveal tilt card--dark">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">Before</span>
         <h3>Level I — Foundation Programme</h3>
         <p>Level II assumes the language taught in Foundation Programme (A1). Learners who have not studied with the College take a placement assessment rather than being asked to self-declare.</p>
       </div>
-      <div class="card reveal tilt card--dark">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--dark badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span>
+      <div class="card card--dark">
         <span class="card__num">After</span>
         <h3>Level III — Intermediate Programme</h3>
         <p>On completion, learners progress to Intermediate Programme (B1), which assumes everything taught here.</p>
@@ -1192,20 +1126,16 @@
   <div class="container reveal">
     <div class="section-head">
       <span class="module-marker">The Award</span>
-      <h2>English Candidate of Albalagh International Premium College</h2>
-      <p class="lede">Recognised learner of the College &middot; Post-nominal <b>CnAIPC</b></p>
+      <h2>English Candidate of Worldwide English College</h2>
+      <p class="lede">Recognised learner of the College &middot; Post-nominal <b>CnWEC</b></p>
     </div>
     <div class="grid grid--2">
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
+      <div class="card">
         <span class="card__num">What it honours</span>
         <h3>Why this award exists</h3>
         <p>formal admission to candidature. The moment the College recognises someone as its own.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span>
+      <div class="card">
         <span class="card__num">Graduate profile</span>
         <h3>What the holder can do</h3>
         <p>The learner builds from survival phrases to handling routine tasks and simple social exchange — describing experiences, expressing simple opinions, and managing everyday situations with more independence.</p>
@@ -1213,7 +1143,7 @@
     </div>
     <div class="callout">
       <span class="callout__label">What this award is not</span>
-      <p>AIPC holds no accreditation, and the College has not appointed an External Examiner
+      <p>WEC holds no accreditation, and the College has not appointed an External Examiner
         &mdash; the independent post required before any award can properly be conferred. This
         award is defined, its criteria are published, and it has been conferred on nobody. See
         <a href="/about/#status">About &middot; Institutional Status</a>.</p>
@@ -1227,33 +1157,25 @@
       <h2>What people ask about this level.</h2>
     </div>
     <div class="grid grid--2">
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+      <div class="card">
         <span class="card__num">Duration</span>
         <h3>How long does Level II take?</h3>
         <p>4 months of study by design, covering 120 designed lessons across 10 modules. Learners who need longer are not penalised; the level is a body of work, not a race.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg></span>
+      <div class="card">
         <span class="card__num">Entry</span>
         <h3>Do I need Level I first?</h3>
         <p>Not necessarily. You need the language Foundation Programme teaches, however you acquired it. A placement assessment establishes that.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+      <div class="card">
         <span class="card__num">Assessment</span>
         <h3>What happens if I fail an assessment?</h3>
         <p>Assessments can be resat. The purpose is to establish what you can do, not to record a single bad afternoon &mdash; the appeals and resit procedure is published in full.</p>
       </div>
-      <div class="card reveal tilt">
-        <span class="tilt__sheen" aria-hidden="true"></span>
-        <span class="badge-dome badge-dome--lg"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+      <div class="card">
         <span class="card__num">Recognition</span>
         <h3>Is the award recognised?</h3>
-        <p>The award is defined and its criteria published, but AIPC holds no accreditation and has appointed no External Examiner. We state this plainly rather than implying recognition the College has not obtained.</p>
+        <p>The award is defined and its criteria published, but WEC holds no accreditation and has appointed no External Examiner. We state this plainly rather than implying recognition the College has not obtained.</p>
       </div>
     </div>
   </div>
@@ -1295,10 +1217,10 @@
           <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
           <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
           <path class="crest__book" d="M24 28.5 V37.4"/>
-          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">AIPC</text>
+          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
         </svg>
       </div>
-      <p class="footer__name foil reveal">Albalagh International Premium College<br><span>London Campus</span></p>
+      <p class="footer__name foil reveal">Worldwide English College<br><span>London Campus</span></p>
       <p class="footer__motto">&ldquo;Empowering the World Through English Excellence.&rdquo;</p>
     </div>
   </div>
@@ -1458,7 +1380,7 @@
     <div class="footergrid__row">
       <a href="/about/" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: 0s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg></span></span>
-        <span class="footergrid__label">About AIPC</span>
+        <span class="footergrid__label">About WEC</span>
       </a>
       <a href="/governance/" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: .3s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span></span>
@@ -1474,7 +1396,7 @@
       </a>
       <a href="/press/" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: 1.2s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span></span>
-        <span class="footergrid__label">AIPC Press</span>
+        <span class="footergrid__label">WEC Press</span>
       </a>
       <a href="/faculty/" class="footergrid__tile">
         <span class="vessel vessel--sm" style="--halo-delay: 1.5s"><span class="vessel__badge"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg></span></span>
@@ -1489,8 +1411,7 @@
       Get in Touch
     </h2>
     <p class="footergrid__intro">
-      <!-- TODO(domain): the College's former-name address, kept working until an Albalagh domain exists. Replace everywhere at once — docs/domain-setup.md § Pending. -->
-      <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a><br>
+            <a href="mailto:info@worldwencollege.co.uk">info@worldwencollege.co.uk</a><br>
       Online worldwide &middot; London admin HQ — address to be confirmed, see Contact below.
     </p>
     <div class="footergrid__row">
@@ -1558,15 +1479,15 @@
   </div>
 
   <div class="site-footer__bottom">
-    <p>&copy; <span data-year>2026</span> Albalagh International Premium College — London Campus. All rights reserved.</p>
+    <p>&copy; <span data-year>2026</span> Worldwide English College — London Campus. All rights reserved.</p>
     <!-- A trust mark, not a badge: the icon signals "this is checkable",
-         not "this is certified" — AIPC holds no accreditation, and a
+         not "this is certified" — WEC holds no accreditation, and a
          seal implying one would be exactly the false confidence the
          Evidence Record exists to rule out. Same shield-check icon the
          Governance mega-menu already uses for the same idea. -->
     <div class="footer__trust">
       <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
-      <p class="footer__legal">AIPC is an institution in active development. Accreditation, governance and enrolment status are described honestly throughout this site — see <a href="/about/#status">Institutional Status</a>.</p>
+      <p class="footer__legal">WEC is an institution in active development. Accreditation, governance and enrolment status are described honestly throughout this site — see <a href="/about/#status">Institutional Status</a>.</p>
     </div>
     <div class="footer__utility">
       <a class="topbar__lang" href="/ar/study/level-2/" lang="ar" hreflang="ar">

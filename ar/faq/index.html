@@ -9,10 +9,10 @@
      it just built. Four rounds of "it deployed" / "I cannot see it"
      were spent because nothing on the served page said which build it
      was. Now every page says. -->
-<meta name="aipc-build" content="">
+<meta name="wec-build" content="">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>الأسئلة الشائعة — كلية البلاغ الدولية المتميّزة</title>
+<title>الأسئلة الشائعة — الكلية العالمية للغة الإنجليزية</title>
 <meta name="description" content="الأسئلة الشائعة عن برنامج ⁦IEFC⁩ والقبول والرسوم والدراسة في الكلية، ومعها أسئلة القبول التي يسألها المتقدمون فعلًا.">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
@@ -44,26 +44,21 @@
 .gilt { --gilt: 1; }
 .plate--drift img, .plate--drift svg { animation: none !important; }
 </style></noscript>
-<meta property="og:site_name" content="كلية البلاغ الدولية المتميّزة">
+<meta property="og:site_name" content="الكلية العالمية للغة الإنجليزية">
 <meta property="og:locale" content="ar_AR">
-<meta property="og:title" content="الأسئلة الشائعة — كلية البلاغ الدولية المتميّزة">
+<meta property="og:title" content="الأسئلة الشائعة — الكلية العالمية للغة الإنجليزية">
 <meta property="og:description" content="الأسئلة الشائعة عن برنامج ⁦IEFC⁩ والقبول والرسوم والدراسة في الكلية، ومعها أسئلة القبول التي يسألها المتقدمون فعلًا.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.worldwencollege.co.uk/ar/faq/">
-<!-- TODO(domain): worldwencollege.co.uk is the domain the College used
-     under its former name, and it is still the origin it is served
-     from, so it stays until a real one replaces it — a canonical or
-     og:url pointing at a domain nobody owns is worse than an honest
-     inherited one. When an Albalagh domain is registered, this origin
-     changes here, in the JSON-LD below, in sitemap.xml, _redirects,
-     .env.example and the deploy workflow. docs/domain-setup.md
-     § Pending holds the checklist. -->
+<!-- worldwencollege.co.uk is the College's real, permanent domain — the
+     one this site is actually served from, and the one every
+     canonical, hreflang and og:url entry is deliberately built on. -->
 <meta property="og:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="الأسئلة الشائعة — كلية البلاغ الدولية المتميّزة">
+<meta name="twitter:title" content="الأسئلة الشائعة — الكلية العالمية للغة الإنجليزية">
 <meta name="twitter:description" content="الأسئلة الشائعة عن برنامج ⁦IEFC⁩ والقبول والرسوم والدراسة في الكلية، ومعها أسئلة القبول التي يسألها المتقدمون فعلًا.">
 <meta name="twitter:image" content="https://www.worldwencollege.co.uk/assets/images/og-image.jpg">
 <link rel="canonical" href="https://www.worldwencollege.co.uk/ar/faq/">
@@ -78,8 +73,8 @@
 {
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
-  "name": "Albalagh International Premium College — London Campus",
-  "alternateName": "AIPC",
+  "name": "Worldwide English College — London Campus",
+  "alternateName": "WEC",
   "url": "https://www.worldwencollege.co.uk/",
   "email": "info@worldwencollege.co.uk",
   "slogan": "Empowering the World Through English Excellence.",
@@ -346,8 +341,7 @@
 <div class="topbar">
   <div class="topbar__inner">
     <div class="topbar__contacts">
-      <!-- TODO(domain): the College's former-name address, kept working until an Albalagh domain exists. Replace everywhere at once — docs/domain-setup.md § Pending. -->
-      <a href="mailto:info@worldwencollege.co.uk" class="topbar__item" dir="ltr">
+            <a href="mailto:info@worldwencollege.co.uk" class="topbar__item" dir="ltr">
         <svg class="icon" aria-hidden="true"><use href="#i-envelope"/></svg>
         info@worldwencollege.co.uk
       </a>
@@ -419,7 +413,7 @@
   <div class="lattice__bed" aria-hidden="true"></div>
 
   <div class="site-header__inner">
-    <a href="/ar/" class="brand tilt" aria-label="كلية البلاغ الدولية المتميّزة، الصفحة الرئيسية">
+    <a href="/ar/" class="brand tilt" aria-label="الكلية العالمية للغة الإنجليزية، الصفحة الرئيسية">
       <span class="tilt__sheen" aria-hidden="true"></span>
       <svg class="brand__crest" viewBox="0 0 48 56" aria-hidden="true">
         <path class="crest__crown" d="M14 9 L15.6 3.4 19.6 7 24 1.6 28.4 7 32.4 3.4 34 9 Z"/>
@@ -427,10 +421,10 @@
         <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
         <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
         <path class="crest__book" d="M24 28.5 V37.4"/>
-        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">AIPC</text>
+        <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
       </svg>
       <span class="brand__word">
-        <span class="brand__name">كلية البلاغ الدولية المتميّزة</span>
+        <span class="brand__name">الكلية العالمية للغة الإنجليزية</span>
         <span class="brand__campus">الحرم الجامعي — لندن</span>
       </span>
     </a>
@@ -843,7 +837,7 @@
   <div class="container">
     <span class="eyebrow">الأسئلة الشائعة</span>
     <h1 data-split>الأسئلة الأكثر شيوعًا</h1>
-    <p class="lede">كل ما تحتاج معرفته عن برنامج <span dir="ltr">IEFC</span>، والقبول، والدراسة في الكلية.</p>
+    <p class="lede">كل ما تحتاج معرفته عن برنامج ⁦IEFC⁩، والقبول، والدراسة في الكلية.</p>
   </div>
 </section>
 
@@ -852,13 +846,13 @@
     <div class="accordion">
 
       <div class="accordion__item">
-        <button class="accordion__q"><span>ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية <span dir="ltr">(IEFC)</span>؟</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">برنامج <span dir="ltr">IEFC</span> هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع <span dir="ltr">CEFR</span> (من <span dir="ltr">A1</span> إلى <span dir="ltr">C2</span>)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة <span dir="ltr">AIPC</span> وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس، وكم يستغرق بالأشهر يعتمد على الساعات التي تستطيع منحها أسبوعيًا.</div></div>
+        <button class="accordion__q"><span>ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية <span dir="ltr">(<span dir="ltr">IEFC</span>)</span>؟</span><span class="plus" aria-hidden="true">+</span></button>
+        <div class="accordion__a"><div class="accordion__a-inner">برنامج ⁦IEFC⁩ هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع <span dir="ltr">CEFR</span> (من <span dir="ltr">A1</span> إلى <span dir="ltr">C2</span>)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة <span dir="ltr">WEC</span> وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس، وكم يستغرق بالأشهر يعتمد على الساعات التي تستطيع منحها أسبوعيًا.</div></div>
       </div>
 
       <div class="accordion__item">
         <button class="accordion__q"><span>هل البرنامج كامل عبر الإنترنت؟</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">نعم، بالكامل. تقدّم الكلية برنامج <span dir="ltr">IEFC</span> عبر حرم رقمي — دروس مُدرَّجة، ومختبر الاستماع، وتكاليف يصححها شخص، وسجلك الأكاديمي — بحيث يمكن لأي طالب حول العالم الالتحاق دون الحاجة للانتقال. أما الحصص المباشرة فمصمَّمة ولم تُعقد بعد لأن أي دفعة لم تُدرَّس، والتسجيلات الصوتية لعمل الاستماع لم تُنتج. يُذكر الأمران لا يُوهَمان.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">نعم، بالكامل. تقدّم الكلية برنامج ⁦IEFC⁩ عبر حرم رقمي — دروس مُدرَّجة، ومختبر الاستماع، وتكاليف يصححها شخص، وسجلك الأكاديمي — بحيث يمكن لأي طالب حول العالم الالتحاق دون الحاجة للانتقال. أما الحصص المباشرة فمصمَّمة ولم تُعقد بعد لأن أي دفعة لم تُدرَّس، والتسجيلات الصوتية لعمل الاستماع لم تُنتج. يُذكر الأمران لا يُوهَمان.</div></div>
       </div>
 
       <div class="accordion__item">
@@ -877,13 +871,13 @@
       </div>
 
       <div class="accordion__item">
-        <button class="accordion__q"><span>لمن صُمم برنامج <span dir="ltr">IEFC</span>؟</span><span class="plus" aria-hidden="true">+</span></button>
+        <button class="accordion__q"><span>لمن صُمم برنامج ⁦IEFC⁩؟</span><span class="plus" aria-hidden="true">+</span></button>
         <div class="accordion__a"><div class="accordion__a-inner">تلاميذ المدارس، وطلاب المرحلة الثانوية والجامعية، والمهنيون العاملون، وموظفو القطاع الحكومي، وقادة الأعمال، والطلاب الدوليون المستعدّون للدراسة بالخارج أو الباحثون عن كفاءة لغوية متقدّمة.</div></div>
       </div>
 
       <div class="accordion__item">
         <button class="accordion__q"><span>ماذا سأحصل عليه عند إتمام البرنامج؟</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">يُصدَر كشف درجات رقمي بعد كل مستوى. أما شهادة <span dir="ltr">IEFC</span> نفسها فلا يمكن منحها بعد: منح الشهادة يتطلب ممتحنًا خارجيًا، ولم يُعيَّن أحد. حين يبدأ المنح، تُصدَر شهادة رقمية عند إتمام البرنامج كاملًا بنجاح، مع النسخة المطبوعة والتحقق كخدمتين اختياريتين.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">يُصدَر كشف درجات رقمي بعد كل مستوى. أما شهادة ⁦IEFC⁩ نفسها فلا يمكن منحها بعد: منح الشهادة يتطلب ممتحنًا خارجيًا، ولم يُعيَّن أحد. حين يبدأ المنح، تُصدَر شهادة رقمية عند إتمام البرنامج كاملًا بنجاح، مع النسخة المطبوعة والتحقق كخدمتين اختياريتين.</div></div>
       </div>
 
       <div class="accordion__item">
@@ -1021,7 +1015,7 @@
       <div class="card">
         <span class="card__num">س</span>
         <h3>هل سأحصل على شهادة؟</h3>
-        <p>يُصدَر كشف درجات بعد كل مستوى. أما شهادة <span dir="ltr">IEFC</span> نفسها فلا يمكن منحها بعد: لم يُعيَّن ممتحن خارجي، ومنح شهادة دون فحص خارجي يجعلها أقل قيمة لا أكثر. راجع <a href="/ar/governance/#quality">ضمان الجودة</a>.</p>
+        <p>يُصدَر كشف درجات بعد كل مستوى. أما شهادة ⁦IEFC⁩ نفسها فلا يمكن منحها بعد: لم يُعيَّن ممتحن خارجي، ومنح شهادة دون فحص خارجي يجعلها أقل قيمة لا أكثر. راجع <a href="/ar/governance/#quality">ضمان الجودة</a>.</p>
       </div>
     </div>
   </div>
@@ -1074,13 +1068,13 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية (<span dir="ltr">IEFC</span>)؟",
-      "acceptedAnswer": { "@type": "Answer", "text": "برنامج <span dir="ltr">IEFC</span> هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع <span dir="ltr">CEFR</span> (من A1 إلى C2)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة <span dir="ltr">AIPC</span> وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس." }
+      "name": "ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية (⁦IEFC⁩)؟",
+      "acceptedAnswer": { "@type": "Answer", "text": "برنامج ⁦IEFC⁩ هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع <span dir="ltr">CEFR</span> (من A1 إلى C2)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة <span dir="ltr">WEC</span> وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس." }
     },
     {
       "@type": "Question",
       "name": "هل البرنامج كامل عبر الإنترنت؟",
-      "acceptedAnswer": { "@type": "Answer", "text": "نعم، بالكامل. تقدّم الكلية برنامج <span dir="ltr">IEFC</span> عبر حرم رقمي — دروس مُدرَّجة، ومختبر الاستماع، وتكاليف يصححها شخص، وسجلك الأكاديمي. أما الحصص المباشرة فمصمَّمة ولم تُعقد بعد، والتسجيلات الصوتية لم تُنتج." }
+      "acceptedAnswer": { "@type": "Answer", "text": "نعم، بالكامل. تقدّم الكلية برنامج ⁦IEFC⁩ عبر حرم رقمي — دروس مُدرَّجة، ومختبر الاستماع، وتكاليف يصححها شخص، وسجلك الأكاديمي. أما الحصص المباشرة فمصمَّمة ولم تُعقد بعد، والتسجيلات الصوتية لم تُنتج." }
     },
     {
       "@type": "Question",
@@ -1099,13 +1093,13 @@
     },
     {
       "@type": "Question",
-      "name": "لمن صُمم برنامج <span dir="ltr">IEFC</span>؟",
+      "name": "لمن صُمم برنامج ⁦IEFC⁩؟",
       "acceptedAnswer": { "@type": "Answer", "text": "تلاميذ المدارس، وطلاب المرحلة الثانوية والجامعية، والمهنيون العاملون، وموظفو القطاع الحكومي، وقادة الأعمال، والطلاب الدوليون المستعدّون للدراسة بالخارج أو الباحثون عن كفاءة لغوية متقدّمة." }
     },
     {
       "@type": "Question",
       "name": "ماذا سأحصل عليه عند إتمام البرنامج؟",
-      "acceptedAnswer": { "@type": "Answer", "text": "يُصدَر كشف درجات رقمي بعد كل مستوى. أما شهادة <span dir="ltr">IEFC</span> نفسها فلا يمكن منحها بعد: منح الشهادة يتطلب ممتحنًا خارجيًا، ولم يُعيَّن أحد. حين يبدأ المنح، تُصدَر شهادة رقمية عند إتمام البرنامج كاملًا بنجاح، مع النسخة المطبوعة والتحقق كخدمتين اختياريتين." }
+      "acceptedAnswer": { "@type": "Answer", "text": "يُصدَر كشف درجات رقمي بعد كل مستوى. أما شهادة ⁦IEFC⁩ نفسها فلا يمكن منحها بعد: منح الشهادة يتطلب ممتحنًا خارجيًا، ولم يُعيَّن أحد. حين يبدأ المنح، تُصدَر شهادة رقمية عند إتمام البرنامج كاملًا بنجاح، مع النسخة المطبوعة والتحقق كخدمتين اختياريتين." }
     },
     {
       "@type": "Question",
@@ -1148,10 +1142,10 @@
           <path class="crest__inner" d="M24 15 L38.4 19.8 V30 C38.4 39 32.6 45.8 24 48.8 C15.4 45.8 9.6 39 9.6 30 V19.8 Z"/>
           <path class="crest__book" d="M24 28.5 C21.6 26.9 18.9 26.4 16.2 27.1 V36 C18.9 35.3 21.6 35.8 24 37.4 C26.4 35.8 29.1 35.3 31.8 36 V27.1 C29.1 26.4 26.4 26.9 24 28.5 Z"/>
           <path class="crest__book" d="M24 28.5 V37.4"/>
-          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">AIPC</text>
+          <text x="24" y="24.4" text-anchor="middle" class="crest__mono">WEC</text>
         </svg>
       </div>
-      <p class="footer__name foil reveal">كلية البلاغ الدولية المتميّزة<br><span>الحرم الجامعي — لندن</span></p>
+      <p class="footer__name foil reveal">الكلية العالمية للغة الإنجليزية<br><span>الحرم الجامعي — لندن</span></p>
       <p class="footer__motto">"نُمكّن العالم من خلال التميّز في اللغة الإنجليزية"</p>
     </div>
   </div>
@@ -1340,8 +1334,7 @@
       تواصل معنا
     </h2>
     <p class="footergrid__intro">
-      <!-- TODO(domain): the College's former-name address, kept working until an Albalagh domain exists. Replace everywhere at once — docs/domain-setup.md § Pending. -->
-      <span dir="ltr">info@worldwencollege.co.uk</span><br>
+            <span dir="ltr">info@worldwencollege.co.uk</span><br>
       تعليم رقمي حول العالم &middot; المقر الإداري في لندن — عنوان المقر قيد التأكيد، راجع التواصل أدناه.
     </p>
     <div class="footergrid__row">
@@ -1408,7 +1401,7 @@
   </div>
 
   <div class="site-footer__bottom">
-    <p>&copy; <span data-year>2026</span> كلية البلاغ الدولية المتميّزة — الحرم الجامعي في لندن. جميع الحقوق محفوظة.</p>
+    <p>&copy; <span data-year>2026</span> الكلية العالمية للغة الإنجليزية — الحرم الجامعي في لندن. جميع الحقوق محفوظة.</p>
     <!-- علامة ثقة، لا شارة: الأيقونة تدل على «هذا قابل للتحقق»، لا
          «هذا معتمد» — الكلية لا تحمل اعتمادًا، والختم الذي يوحي بخلاف
          ذلك هو بالضبط الثقة الزائفة التي وُجد سجل الأدلة لمنعها.

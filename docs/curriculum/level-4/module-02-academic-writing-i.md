@@ -1,4 +1,4 @@
-# AIPC — Level IV, Module 2: Academic Writing I
+# WEC — Level IV, Module 2: Academic Writing I
 
 *Part of `docs/curriculum-level-4-upper-intermediate.md`'s Level IV build-out.*
 
@@ -55,7 +55,7 @@ introduction, body paragraph, evidence, counter-argument, conclusion),
 paraphrasing vocabulary (source, plagiarism, original wording,
 restate). Intercultural note: the direct, thesis-first essay structure
 taught here is one widely used international-academic-English
-convention (and the one AIPC teaches for consistency and clarity),
+convention (and the one WEC teaches for consistency and clarity),
 not the only valid way to organise a persuasive argument across
 academic traditions worldwide.
 

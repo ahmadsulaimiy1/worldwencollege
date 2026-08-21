@@ -1,4 +1,4 @@
-/* AIPC — My Academic Record.
+/* WEC — My Academic Record.
  *
  * The learner's own view of what the College holds, and the controls
  * over who else may see it. The APIs behind this — profile, shares,
@@ -74,7 +74,7 @@
     var t = p.transcript;
     var totals = $('#totals');
     totals.textContent = '';
-    [['AIPC Credits', t.creditsAwarded], ['Qualification time', t.tqtHoursAwarded + ' h'],
+    [['WEC Credits', t.creditsAwarded], ['Qualification time', t.tqtHoursAwarded + ' h'],
       ['Levels entered', t.levelsEntered], ['Levels awarded', t.levelsAwarded]].forEach(function (pair) {
       var dl = el('dl', 'grad-total');
       dl.appendChild(el('dt', null, pair[0]));
@@ -307,13 +307,13 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    var cfg = window.AIPC_AUTH || {};
+    var cfg = window.WEC_LC_AUTH || {};
     // With a key configured, attach the session token so the API
     // recognises the learner. Without one, the call still runs and
     // returns 401, and the page says so — which is the honest state of a
     // deployment with no auth provider rather than a blank screen.
-    if (cfg.clerkPublishableKey && typeof window.AIPC_loadClerk === 'function') {
-      window.AIPC_loadClerk(cfg.clerkPublishableKey, function (err, clerk) {
+    if (cfg.clerkPublishableKey && typeof window.WEC_LC_loadClerk === 'function') {
+      window.WEC_LC_loadClerk(cfg.clerkPublishableKey, function (err, clerk) {
         if (!err && clerk && clerk.session) {
           clerk.session.getToken().then(function (tok) {
             if (tok) authHeaders.Authorization = 'Bearer ' + tok;

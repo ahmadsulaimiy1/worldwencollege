@@ -1,7 +1,7 @@
 // ONE REGISTER, TWO LANGUAGES, ONE SET OF FACTS.
 //
 // docs/governance-register.md is the source of truth for who governs
-// AIPC. This module parses it once and renders the leadership sections
+// WEC. This module parses it once and renders the leadership sections
 // for both /about/governance/ and /ar/about/governance/.
 //
 // It exists as a shared module rather than as a third generator because

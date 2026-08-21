@@ -1,4 +1,4 @@
-# AIPC — Level III, Module 2: Education & Learning
+# WEC — Level III, Module 2: Education & Learning
 
 *Part of `docs/curriculum-level-3-intermediate.md`'s Level III build-out.*
 

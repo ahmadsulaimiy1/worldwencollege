@@ -1,4 +1,4 @@
-# AIPC — Academic Review of the Completed Six-Level Curriculum
+# WEC — Academic Review of the Completed Six-Level Curriculum
 
 *Programme-wide evaluation, conducted on completion of Level VI. The
 figures throughout sections 1-6 are those measured AT THE TIME OF THE

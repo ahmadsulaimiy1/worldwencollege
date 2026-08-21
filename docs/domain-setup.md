@@ -131,8 +131,8 @@ CI is the signature of a fault that lives in the environment.
 ## The original sequence, for the next domain
 
 The domain is registered at **Naira Hosting**. The site is a
-**Cloudflare Pages** project called `aipc`, also reachable at
-`aipc.pages.dev`.
+**Cloudflare Pages** project called `wec-lc`, also reachable at
+`wec-lc.pages.dev`.
 
 Nothing in this repository can make the connection. It is two
 dashboards: Cloudflare (add the custom domain) and Naira Hosting
@@ -155,8 +155,8 @@ locks the site to the owner's email address, on two destinations:
 
 | Destination | Covers |
 |---|---|
-| `aipc.pages.dev` | the production URL |
-| `*.aipc.pages.dev` | the preview alias and every per-deployment URL |
+| `wec-lc.pages.dev` | the production URL |
+| `*.wec-lc.pages.dev` | the preview alias and every per-deployment URL |
 
 **A custom domain is a different hostname, so Access will not cover
 it.** The moment `www.worldwencollege.co.uk` resolves, the site is
@@ -174,12 +174,12 @@ no appointed staff, and carries a competency framework marked
 now readable by anyone, including search engines. That was the choice,
 not an oversight.
 
-`aipc.pages.dev` and `*.aipc.pages.dev` STAY behind Access. That
+`wec-lc.pages.dev` and `*.wec-lc.pages.dev` STAY behind Access. That
 combination is intentional and useful: the public reads the real
 domain, and the deployment URLs — including every permanent
 per-deployment hash URL — remain closed.
 
-**To reverse it later:** open the Zero Trust application **AIPC
+**To reverse it later:** open the Zero Trust application **WEC-LC
 preview** and add two destinations, `worldwencollege.co.uk` and
 `www.worldwencollege.co.uk`. The existing `Owner only` policy then
 covers them and the site closes again. Anything already indexed by a
@@ -208,7 +208,7 @@ with Naira Hosting and you keep paying them for it.
    occasionally take up to 24. Cloudflare emails you when the zone
    goes **Active**; nothing below works until it does.
 
-4. **Cloudflare → Workers & Pages → `aipc` → Custom domains → Set up
+4. **Cloudflare → Workers & Pages → `wec-lc` → Custom domains → Set up
    a custom domain.** Add:
 
    - `www.worldwencollege.co.uk` — **this is the canonical host.** The
@@ -235,10 +235,10 @@ with Naira Hosting and you keep paying them for it.
 
 Workable, slower, and the apex is awkward.
 
-- `www` → **CNAME** → `aipc.pages.dev`
+- `www` → **CNAME** → `wec-lc.pages.dev`
 - The apex (`@`) cannot be a CNAME under the DNS standard. If Naira
   Hosting supports **ALIAS** or **CNAME flattening**, point it at
-  `aipc.pages.dev`. If it does not, use their URL-forwarding feature
+  `wec-lc.pages.dev`. If it does not, use their URL-forwarding feature
   to send `worldwencollege.co.uk` → `https://www.worldwencollege.co.uk`.
 
 You still add both hostnames under **Pages → Custom domains** so
@@ -256,13 +256,13 @@ verification record to create.
    nothing.
 
 2. **Payment webhooks.** Stripe, Paystack, Flutterwave and Opay each
-   hold an endpoint URL pointing at `aipc.pages.dev`. They keep
+   hold an endpoint URL pointing at `wec-lc.pages.dev`. They keep
    working, but the live endpoints should move to the real domain so
    the deployment URL can eventually be retired.
 
 3. **The Access webhook bypass.** `docs/cloudflare-lockdown.md` § 1
    records a bypass policy for the single path
-   `aipc.pages.dev/api/auth/webhook-clerk`. If you keep Access on and
+   `wec-lc.pages.dev/api/auth/webhook-clerk`. If you keep Access on and
    add the custom domain to it, that bypass needs the domain's path
    adding too, or Clerk's webhook starts failing silently.
 
@@ -270,54 +270,24 @@ verification record to create.
 
 ## What is already correct in this repository
 
-Nothing needs changing for `worldwencollege.co.uk` **itself** to work.
-Every page's canonical tag, `og:url` and `og:image` use
-`https://www.worldwencollege.co.uk`, and `robots.txt` points the
-sitemap there. The repository has been written for this domain since
-the site was built.
+Nothing needs changing for `worldwencollege.co.uk` **itself** to work,
+and no domain migration is pending. `worldwencollege.co.uk` is
+Worldwide English College — London Campus's real, permanent domain: it
+is the institution's only name and its only domain, registered and
+live, and it is the one and only origin every canonical tag, `og:url`,
+`og:image`, JSON-LD entry, contact address and `sitemap.xml` entry is
+deliberately built on. There is no "former name," no separate
+institution, and nothing here to replace.
 
----
+Infrastructure follows the same real, live names: the Cloudflare Pages
+project, the D1 database and both R2 buckets are all `wec-lc`
+(`wec-lc-recordings` and `wec-lc-kyc-documents` for the buckets), which
+is what the deployment URL `wec-lc.pages.dev` refers to throughout this
+document.
 
-## Pending — the Albalagh domain
-
-The College was renamed to **Albalagh International Premium College**
-and `worldwencollege.co.uk` is the previous name's domain. It is still
-the origin the site is served from, so it has been left in place rather
-than swapped for a domain nobody has registered: a canonical URL, an
-`og:url` or a `From:` address pointing at an unowned domain does not
-degrade gracefully, it simply breaks. The site says so plainly on
-`/contact/` in both languages rather than printing an address that
-looks current and is not.
-
-Every place the origin or an address is *defined* carries a
-`TODO(domain)` marker. Grep for it — `grep -rn "TODO(domain)"` — or
-work this list:
-
-| Where | What it holds |
-|---|---|
-| `scripts/build.js` — `SITE_URL` | The single origin behind every canonical, hreflang and `sitemap.xml` entry. Changing it regenerates all of them. |
-| `partials/head.html` | `og:image`, and the JSON-LD `url` and `email`. Not derived from `SITE_URL`. |
-| `partials/topbar.html`, `topbar.ar.html` | The contact address in the utility bar. |
-| `partials/footer.html`, `footer.ar.html` | The contact address in the footer. |
-| `pages/contact.html`, `contact.ar.html` | The address, the `data-mailto-to` form target, and the callout explaining all of this — which should be **deleted**, not reworded, once the domain is real. |
-| `_redirects` | The apex → www rule. |
-| `.env.example` | `BREVO_FROM_ADDRESS`, `RESEND_FROM_ADDRESS`, `NOTIFICATION_EMAIL`, `CLERK_AUTHORIZED_PARTIES`. |
-| `.github/workflows/deploy-cloudflare.yml` | The post-deploy verification step, which fetches the live host to confirm the build stamp. |
-| `robots.txt`, `sitemap.xml` | `sitemap.xml` is generated from `SITE_URL`; `robots.txt` is not. |
-
-Order matters in two places:
-
-1. **Mail.** `BREVO_FROM_ADDRESS` / `RESEND_FROM_ADDRESS` must change at
-   the same moment the new domain is authenticated with the provider.
-   Sending from a domain you have not proved control of fails SPF and
-   DKIM, so mail does not bounce visibly — it is silently spam-filed.
-2. **Redirects.** Keep `worldwencollege.co.uk` registered and
-   301-redirecting to the new domain rather than letting it lapse.
-   Every credential, printed volume and verification URL issued before
-   the move names the old host, and `/standards/verification/` is the
-   one route that must not break.
-
-Note also that infrastructure names were rebranded with the College
-(`aipc` Pages project, `aipc` D1 database, `aipc-recordings` and
-`aipc-kyc-documents` buckets) — so the deployment URL is
-`aipc.pages.dev`, which is what the sections above refer to.
+A different, genuinely open issue exists with a *different* domain:
+some printed volumes' QR codes point at `worldwideenglishcollege.com` —
+an unregistered, fully-spelled-out domain distinct from the real
+`worldwencollege.co.uk` — which is a printed-materials defect tracked
+separately (see `SEB-D 48` in the Editorial Bible decision log and
+`scripts/publication/identity.mjs`), not a domain-migration question.

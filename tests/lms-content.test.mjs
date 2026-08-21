@@ -1,9 +1,9 @@
 // Run with: node --experimental-sqlite tests/lms-content.test.mjs
-// Covers Milestone 1 of the proprietary AIPC LMS (Executive Decision
+// Covers Milestone 1 of the proprietary WEC LMS (Executive Decision
 // #4) — functions/_lib/lms/content.js's access control, quiz scoring,
 // assignment submission/grading, and progressive unit_progress. Test
 // fixture units/questions below are placeholder mechanism-testing
-// content ("Unit 1", "2 + 2 = ?"), not real AIPC curriculum — no
+// content ("Unit 1", "2 + 2 = ?"), not real WEC curriculum — no
 // curriculum content is seeded anywhere in sql/schema.sql itself.
 import { readFileSync } from 'node:fs';
 import { makeD1 } from './d1-shim.mjs';

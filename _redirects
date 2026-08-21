@@ -13,10 +13,6 @@
 # — it costs nothing and starts working the moment the domain is added.
 # Nothing here can break the www host, which is what serves the site
 # today.
-# TODO(domain): the College's former-name apex. When an Albalagh domain
-# is registered this rule moves to it — and this one STAYS, redirecting
-# the old host rather than retiring it, because every credential and
-# printed volume issued so far names it. docs/domain-setup.md § Pending.
 https://worldwencollege.co.uk/*  https://www.worldwencollege.co.uk/:splat  301!
 
 # ── HTML EXTENSIONS ──────────────────────────────────────────────────

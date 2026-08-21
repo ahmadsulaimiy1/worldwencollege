@@ -1,4 +1,4 @@
-// AIPC — authenticated API request headers.
+// WEC — authenticated API request headers.
 //
 // Every LMS endpoint under functions/api/lms/* calls requireUser(),
 // which reads `Authorization: Bearer <clerk session token>`. Any page
@@ -23,7 +23,7 @@
 //     silently 401 for the rest of the session.
 //
 // Requires js/auth-config.js loaded first.
-window.AIPC_apiAuth = (function () {
+window.WEC_LC_apiAuth = (function () {
   var clerk = null;
 
   // The worker may not be controlling this page yet on a first visit;
@@ -46,7 +46,7 @@ window.AIPC_apiAuth = (function () {
     // True when a Clerk publishable key is configured, i.e. when this
     // page is expected to run against real authenticated endpoints.
     isLive: function () {
-      var cfg = window.AIPC_AUTH || {};
+      var cfg = window.WEC_LC_AUTH || {};
       return !!cfg.clerkPublishableKey;
     },
 

@@ -237,8 +237,8 @@
       // application form even if the visitor leaves and comes back —
       // see the [data-admissions-form] handler.
       var suggestion = { levelId: index + 1, roman: level.roman, name: level.name, cefr: level.cefr, text: text };
-      try { sessionStorage.setItem('aipc-suggested-level', JSON.stringify(suggestion)); } catch (err) { /* storage unavailable — degrade silently */ }
-      document.dispatchEvent(new CustomEvent('aipc:level-suggested', { detail: suggestion }));
+      try { sessionStorage.setItem('wec-suggested-level', JSON.stringify(suggestion)); } catch (err) { /* storage unavailable — degrade silently */ }
+      document.dispatchEvent(new CustomEvent('wec:level-suggested', { detail: suggestion }));
     });
   });
 
@@ -252,7 +252,7 @@
   document.querySelectorAll('[data-admissions-form]').forEach(function (form) {
     var endpoint = form.getAttribute('data-endpoint') || '/api/admissions/apply';
     var fallbackEmail = form.getAttribute('data-fallback-email') || 'info@worldwencollege.co.uk';
-    var storageKey = form.getAttribute('data-storage-key') || 'aipc-admissions-draft';
+    var storageKey = form.getAttribute('data-storage-key') || 'wec-lc-admissions-draft';
     var nameField = form.querySelector('[name="fullName"]');
     var emailField = form.querySelector('[name="email"]');
     var countryField = form.querySelector('[name="country"]');
@@ -315,9 +315,9 @@
         : ('Suggested starting level: ' + detail.text);
       if (levelSummary) levelSummary.hidden = false;
     }
-    document.addEventListener('aipc:level-suggested', function (e) { applySuggestion(e.detail); });
+    document.addEventListener('wec:level-suggested', function (e) { applySuggestion(e.detail); });
     try {
-      var stored = sessionStorage.getItem('aipc-suggested-level');
+      var stored = sessionStorage.getItem('wec-suggested-level');
       if (stored) applySuggestion(JSON.parse(stored));
     } catch (err) { /* no stored suggestion — the quiz is optional, form works without it */ }
 

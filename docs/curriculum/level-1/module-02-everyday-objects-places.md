@@ -1,4 +1,4 @@
-# AIPC — Level I, Module 2: Everyday Objects & Places
+# WEC — Level I, Module 2: Everyday Objects & Places
 
 *Part of `docs/curriculum-level-1-foundation.md`'s Level I build-out.
 See that document's module map for this module's can-do focus,

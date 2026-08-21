@@ -1,7 +1,7 @@
 -- The Accreditation Evidence Centre — the College's own register of
 -- what it can and cannot evidence about its own practice.
 --
--- INTERNAL QUALITY INSTRUMENT. Albalagh International Premium College holds no
+-- INTERNAL QUALITY INSTRUMENT. Worldwide English College holds no
 -- accreditation, recognition or affiliation and has applied for none.
 --
 -- ============================================================
@@ -44,7 +44,7 @@ INSERT INTO evidence_items (id, reference, collection, title, state, statement, 
 -- ---------------------------------------------------------------------
 INSERT INTO evidence_items (id, reference, collection, title, state, statement, source_path, classification, owner_role, review_interval_months) VALUES
 ('ev_areg_001','AREG-001','Academic Regulations','Academic Framework','exists',
- 'The constitutional academic document: level structure, credit model (1 AIPC Credit = 10 notional hours), GLH/ILH/TQT definitions, the six-competency framework, and the terminology the College uses instead of marketing language.',
+ 'The constitutional academic document: level structure, credit model (1 WEC Credit = 10 notional hours), GLH/ILH/TQT definitions, the six-competency framework, and the terminology the College uses instead of marketing language.',
  'docs/academic-framework.md','public','Academic Senate',12),
 ('ev_areg_002','AREG-002','Academic Regulations','Progression rules','governance_pending',
  'What a learner must achieve to progress from one level to the next. Recommended in governance B1 and B2; not adopted. The platform enforces a mechanism default explicitly labelled as not an academic standard.',

@@ -80,8 +80,8 @@ async function verify(page, code) {
   check('...and the standing is stated in words, never colour alone',
     /verified/i.test(status), status);
   check('...naming the holder', (await page.textContent('#holder')) === 'Demonstration Graduate');
-  check('...and the award in full', /English Associate of Albalagh International Premium College/.test(await page.textContent('#awardTitle')));
-  check('...with the post-nominal', (await page.textContent('#postNominal')) === 'AsAIPC');
+  check('...and the award in full', /English Associate of Worldwide English College/.test(await page.textContent('#awardTitle')));
+  check('...with the post-nominal', (await page.textContent('#postNominal')) === 'AsWEC');
   check('...the level, CEFR band, honour, credits and qualification time',
     /Level III/.test(await page.textContent('#fLevel'))
     && (await page.textContent('#fCefr')) === 'B1'
@@ -120,7 +120,7 @@ async function verify(page, code) {
     !body.includes('usr_demo'), 'internal user id reached the page');
 
   check('A permanent link is offered for the record',
-    /verify\.html\?code=AIPC-/.test(await page.getAttribute('#permalink', 'href')));
+    /verify\.html\?code=WEC-/.test(await page.getAttribute('#permalink', 'href')));
   // The QR was a stub for months, and the page said so rather than
   // showing an empty box. It is real now — proven against an
   // independent decoder — so the assertion is that it renders AND
@@ -173,7 +173,7 @@ async function verify(page, code) {
     (await page.locator('#meaning').isVisible()) === true);
   const meaning = await textOf(page, '#meaning');
   check('...its official title and post-nominal',
-    /English Associate of Albalagh International Premium College/.test(meaning) && /AsAIPC/.test(meaning),
+    /English Associate of Worldwide English College/.test(meaning) && /AsWEC/.test(meaning),
     meaning.slice(0, 90));
   check('...the standing it confers', /Established member of the academic community/.test(meaning));
   check('...and what the holder can do', /Learning objectives|can:/.test(meaning) || meaning.length > 600,
@@ -252,7 +252,7 @@ async function verify(page, code) {
 // --- Wrong codes fail cleanly ----------------------------------------
 {
   const page = await open(`${BASE}/verify.html`);
-  await verify(page, 'AIPC-AAAA-BBBB-CCCCC');
+  await verify(page, 'WEC-AAAA-BBBB-CCCCC');
   check('An unknown code shows no record card at all',
     (await page.locator('#result').isVisible()) === false);
   const err = (await page.textContent('#codeError') || '').trim();

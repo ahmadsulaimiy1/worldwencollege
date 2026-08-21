@@ -1,7 +1,7 @@
-# AIPC — Level VI, Module 10: Capstone — Global Challenges & Sustainable Development, and the Mastery Examination
+# WEC — Level VI, Module 10: Capstone — Global Challenges & Sustainable Development, and the Mastery Examination
 
 *Part of `docs/curriculum-level-6-mastery.md`'s Level VI build-out. This
-is the final module of the final level: the end of the six-level AIPC
+is the final module of the final level: the end of the six-level WEC
 academic journey.*
 
 **Module learning objectives.** By the end of Module 10, the learner
@@ -302,7 +302,7 @@ Drawing on Modules 1-9. Two questions per module.
 
 ## Mastery Examination — The Capstone (comprehensive, rubric-graded)
 
-This is the final assessment of the AIPC programme. It has four
+This is the final assessment of the WEC programme. It has four
 parts, all on a single global challenge chosen by the learner from the
 domain of **global challenges and sustainable development** — a
 challenge with genuine trade-offs, on which informed people disagree.
@@ -361,4 +361,4 @@ read as five genuinely different genres addressed to five different
 readers, rather than one register retitled?
 
 A grade at or above the platform's pass threshold marks Module 10,
-Level VI, and the AIPC programme complete.
+Level VI, and the WEC programme complete.

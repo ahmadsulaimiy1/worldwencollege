@@ -133,7 +133,7 @@ describe('policy — the authority model', () => {
 
   it('REFUSES a protected operation on an institutional record, with no approval path', () => {
     for (const resource of [
-      'aipc-recordings',
+      'wec-lc-recordings',
       'student-records-2026',
       'shrs-transcripts',
       'certificates-archive',
@@ -149,7 +149,7 @@ describe('policy — the authority model', () => {
 
   it('refuses a protected resource even when protected operations are set to allow', () => {
     const permissive = new PolicyEngine({ protectedOperations: 'allow' });
-    const decision = permissive.evaluate({ tool: 'x.delete', provider: 'p', operationClass: 'protected', resource: 'aipc-recordings' });
+    const decision = permissive.evaluate({ tool: 'x.delete', provider: 'p', operationClass: 'protected', resource: 'wec-lc-recordings' });
     assert.equal(decision.decision, 'deny');
   });
 
@@ -211,7 +211,7 @@ describe('policy — the authority model', () => {
   });
 
   it('matches globs without treating regex metacharacters as syntax', () => {
-    assert.ok(globMatch('aipc-*', 'aipc-recordings'));
+    assert.ok(globMatch('wec-*', 'wec-lc-recordings'));
     assert.ok(globMatch('*audit*', 'stromex-audit-log'));
     assert.ok(globMatch('a?c', 'abc'));
     assert.ok(!globMatch('a.c', 'abc'), 'a dot must be literal, not "any character"');
@@ -874,47 +874,47 @@ describe('the project registry — the server is collective, not one project\'s 
     // The failure this prevents: somebody says who the work is for, the
     // server does not recognise it, and the action is silently recorded as
     // unattributed — or worse, under a project the server picked.
-    const reg = new ProjectRegistry([{ key: 'aipc', name: 'Albalagh International Premium College' }]);
-    assert.equal(reg.require('aipc').name, 'Albalagh International Premium College');
+    const reg = new ProjectRegistry([{ key: 'wec', name: 'Worldwide English College' }]);
+    assert.equal(reg.require('wec').name, 'Worldwide English College');
     assert.throws(() => reg.require('shrs'), (e: StromexError) => e.code === 'CONFIG_INVALID');
     // And it names what IS registered, so the operator can fix it.
-    try { reg.require('shrs'); } catch (e) { assert.match((e as StromexError).remediation ?? '', /aipc/); }
+    try { reg.require('shrs'); } catch (e) { assert.match((e as StromexError).remediation ?? '', /wec/); }
   });
 
   it('refuses a duplicate key, which would make attribution ambiguous', () => {
-    const reg = new ProjectRegistry([{ key: 'aipc', name: 'One' }]);
-    assert.throws(() => reg.register({ key: 'aipc', name: 'Two' }), (e: StromexError) => e.code === 'CONFIG_INVALID');
+    const reg = new ProjectRegistry([{ key: 'wec', name: 'One' }]);
+    assert.throws(() => reg.register({ key: 'wec', name: 'Two' }), (e: StromexError) => e.code === 'CONFIG_INVALID');
   });
 
   it('UNIONS a project\'s protected patterns with the estate\'s — never replaces them', () => {
     const reg = new ProjectRegistry([
-      { key: 'aipc', name: 'Albalagh', protectedResources: ['aipc-production*'] },
+      { key: 'wec', name: 'Worldwide English College', protectedResources: ['wec-production*'] },
       { key: 'shrs', name: 'Sultan Hanafi Royal Schools', protectedResources: ['shrs-live*'] },
     ]);
     const base = ['*-audit'];
-    const forAipc = reg.protectedResourcesFor('aipc', base);
-    assert.deepEqual(forAipc, ['*-audit', 'aipc-production*']);
+    const forWec = reg.protectedResourcesFor('wec', base);
+    assert.deepEqual(forWec, ['*-audit', 'wec-production*']);
     // One project cannot see, or shed, another's protection.
-    assert.ok(!forAipc.includes('shrs-live*'));
+    assert.ok(!forWec.includes('shrs-live*'));
     // The estate's own list survives a project that declares none.
     assert.deepEqual(reg.protectedResourcesFor(undefined, base), base);
   });
 
   it('applies a project\'s patterns at the policy gate, and estate rules still win the report', () => {
     const engine = new PolicyEngine({ protectedResources: ['*-audit'] });
-    const request = { tool: 'x.delete', provider: 'p', operationClass: 'protected' as const, resource: 'aipc-production-db' };
+    const request = { tool: 'x.delete', provider: 'p', operationClass: 'protected' as const, resource: 'wec-production-db' };
     // Without the project, it is an ordinary protected operation.
     assert.equal(engine.evaluate(request).decision, 'approval_required');
     // With it, the project's own pattern makes it a terminal refusal.
-    const denied = engine.evaluate({ ...request, extraProtectedResources: ['aipc-production*'] });
+    const denied = engine.evaluate({ ...request, extraProtectedResources: ['wec-production*'] });
     assert.equal(denied.decision, 'deny');
     assert.equal(denied.decision === 'deny' && denied.code, 'POLICY_PROTECTED_RESOURCE');
   });
 
   it('parses a declaration, and a malformed one fails startup rather than running unattributed', () => {
     assert.deepEqual(parseProjects(undefined), []);
-    assert.equal(parseProjects('[{"key":"aipc","name":"Albalagh"}]').length, 1);
+    assert.equal(parseProjects('[{"key":"wec","name":"Worldwide English College"}]').length, 1);
     assert.throws(() => parseProjects('{not json'), (e: StromexError) => e.code === 'CONFIG_INVALID');
-    assert.throws(() => parseProjects('{"key":"aipc"}'), (e: StromexError) => e.code === 'CONFIG_INVALID');
+    assert.throws(() => parseProjects('{"key":"wec"}'), (e: StromexError) => e.code === 'CONFIG_INVALID');
   });
 });

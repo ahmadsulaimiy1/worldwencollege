@@ -8,7 +8,7 @@
  * ────────────────────────────────────────────────────────────────────
  * A "Teaching" section on an institution's website usually rests on
  * classroom experience: what our teachers have found, how our lessons
- * go, what works with our students. AIPC has taught nobody. Every
+ * go, what works with our students. WEC has taught nobody. Every
  * sentence of that kind would be fabricated.
  *
  * What it does have is unusual and genuinely publishable: a teaching
@@ -155,12 +155,12 @@ const cta = (h2, primary, primaryHref, secondary, secondaryHref) =>
 
 const PAGES = {};
 
-// 1 · TEACHING AT AIPC ──────────────────────────────────────────────
+// 1 · TEACHING AT WEC ──────────────────────────────────────────────
 PAGES.hub = {
   slug: 'academics-teaching', output: 'academics/teaching/index.html', file: 'academics-teaching.html',
   contents: true, altHref: '/ar/academics/teaching/',
-  title: 'Teaching Practice &mdash; Albalagh International Premium College',
-  description: 'How AIPC teaches: the method, how a lesson is designed, the support record a '
+  title: 'Teaching Practice &mdash; Worldwide English College',
+  description: 'How WEC teaches: the method, how a lesson is designed, the support record a '
     + 'teacher works from, the Companion, and how development and observation are meant to work.',
   body: `${hero('Academics', 'How the College teaches.',
     'Every lesson in the programme is planned before it is taught, and every planned lesson '
@@ -177,7 +177,7 @@ PAGES.hub = {
       <span class="module-marker">The Method</span>
       <h2>Four commitments that shape every lesson.</h2>
       <p class="lede">Not a philosophy of language teaching in the abstract &mdash; these are the
-        four decisions that visibly determine what a AIPC lesson looks like.</p>
+        four decisions that visibly determine what a WEC lesson looks like.</p>
     </div>
     <div class="grid grid--4">
 ${card('One', 'Taught in English, from Level I', 'Including at A1, where it is done through restricted language, repetition, visual support and a teacher who slows down instead of translating. Teaching a language through the language is a method, and Level I was written on that assumption rather than adapted to it afterwards.')}
@@ -365,7 +365,7 @@ ${card('Counted, not asserted', 'The figures in the front matter are measured', 
     </div>
     <div class="callout">
       <span class="callout__label">Not a download on this site</span>
-      <p>The Companion is a typeset volume produced by AIPC Press and is not published for
+      <p>The Companion is a typeset volume produced by WEC Press and is not published for
         download here. Teachers, reviewers and anyone assessing the College&rsquo;s academic work
         can request a copy from
         <a href="mailto:info@worldwencollege.co.uk?subject=Teacher%27s%20Companion">info@worldwencollege.co.uk</a>.
@@ -385,7 +385,7 @@ ${card('Counted, not asserted', 'The figures in the front matter are measured', 
       <span class="callout__label">What is true today</span>
       <p>No lesson has been observed. No continuing professional development has been recorded
         for anyone &mdash; the record that would hold it contains ${D.cpd} entries. No teacher
-        has taught a AIPC cohort, because there has been no cohort. Any page describing teacher
+        has taught a WEC cohort, because there has been no cohort. Any page describing teacher
         development at this College as a running programme would be describing something that
         does not exist.</p>
     </div>
@@ -432,7 +432,7 @@ ${cta('Who teaches to this standard.', 'The Faculty', '/faculty/', 'Academics', 
 };
 
 
-// 2 · TEACHING AT AIPC — THE ARABIC EDITION ─────────────────────────
+// 2 · TEACHING AT WEC — THE ARABIC EDITION ─────────────────────────
 // Same record, same figures, same honesty. The seventeen field names
 // are English record identifiers, so the Arabic edition describes the
 // two field groups in prose with the live counts instead of rendering
@@ -440,7 +440,7 @@ ${cta('Who teaches to this standard.', 'The Faculty', '/faculty/', 'Academics', 
 PAGES.hubAr = {
   slug: 'academics-teaching-ar', output: 'ar/academics/teaching/index.html', file: 'academics-teaching.ar.html',
   contents: true, lang: 'ar', dir: 'rtl', altHref: '/academics/teaching/',
-  title: 'ممارسة التدريس — كلية البلاغ الدولية المتميّزة',
+  title: 'ممارسة التدريس — الكلية العالمية للغة الإنجليزية',
   description: 'كيف تدرّس الكلية: المنهجية، وكيف يُصمَّم الدرس، وسجل الدعم الذي يعمل منه المعلم، '
     + 'والدليل المرافق، وكيف يُفترض أن يعمل التطوير والمشاهدة.',
   body: `<section class="section--dark section-pad">

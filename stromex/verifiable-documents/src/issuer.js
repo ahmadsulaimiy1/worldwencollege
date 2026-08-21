@@ -38,7 +38,7 @@ export function defineIssuer({ key, legalName, codePrefix, verifyOrigin, sealMar
     throw new Error('issuer.key must be a short slug of a–z, 0–9 and hyphens.');
   }
   if (!/^[A-Z][A-Z0-9]{1,11}$/.test(String(codePrefix || ''))) {
-    throw new Error('issuer.codePrefix must be 2–12 uppercase letters/digits, e.g. AIPC.');
+    throw new Error('issuer.codePrefix must be 2–12 uppercase letters/digits, e.g. WEC.');
   }
   if (!/^https:\/\/[^\s/]+$/.test(String(verifyOrigin || ''))) {
     throw new Error('issuer.verifyOrigin must be an https origin with no trailing path.');
@@ -55,18 +55,18 @@ export function defineIssuer({ key, legalName, codePrefix, verifyOrigin, sealMar
 }
 
 /**
- * The one profile whose facts are settled today: Albalagh International
- * Premium College, whose live register issues `AIPC-` codes and whose
+ * The one profile whose facts are settled today: Worldwide English
+ * College, whose live register issues `WEC-` codes and whose
  * portal is www.worldwencollege.co.uk — the origin the site is actually
  * served from. It is the DEFAULT only so that existing
  * callers keep working; it holds no privileged status in the engine.
  */
-export const AIPC = defineIssuer({
-  key: 'aipc',
-  legalName: 'Albalagh International Premium College — London Campus',
-  codePrefix: 'AIPC',
+export const WEC = defineIssuer({
+  key: 'wec',
+  legalName: 'Worldwide English College — London Campus',
+  codePrefix: 'WEC',
   verifyOrigin: 'https://www.worldwencollege.co.uk',
-  sealMark: 'AIPC',
+  sealMark: 'WEC',
 });
 
 /**
@@ -75,10 +75,10 @@ export const AIPC = defineIssuer({
  * `defineIssuer` once their legal name and domain are settled — not
  * before, per the honesty bound.
  */
-export const ISSUERS = { aipc: AIPC };
+export const ISSUERS = { wec: WEC };
 
 /** The default issuer used when a caller supplies none. */
-export const DEFAULT_ISSUER = AIPC;
+export const DEFAULT_ISSUER = WEC;
 
 /**
  * Resolve whatever a caller passed — a profile object, a known slug, or
@@ -98,7 +98,7 @@ export function resolveIssuer(issuer) {
   return Object.isFrozen(issuer) && issuer.key ? issuer : defineIssuer(issuer);
 }
 
-/** The verification-code shape for one issuer, e.g. /^AIPC-…$/ for Albalagh. */
+/** The verification-code shape for one issuer, e.g. /^WEC-…$/ for Worldwide English College. */
 export function codePattern(codePrefix) {
   return new RegExp(`^${codePrefix}-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{5}$`);
 }
