@@ -60,7 +60,7 @@ const AIPC = defineIssuer({
   key: 'aipc',
   legalName: 'Albalagh International Premium College — London Campus',
   codePrefix: 'AIPC',
-  verifyOrigin: 'https://worldwencollege.com',
+  verifyOrigin: 'https://www.worldwencollege.co.uk',
   sealMark: 'AIPC',
 });
 
