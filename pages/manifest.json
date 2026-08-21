@@ -1652,6 +1652,7 @@
     "contentFile": "my-record.html",
     "lang": "en",
     "dir": "ltr",
+    "private": true,
     "altHref": "/ar/my-record.html",
     "extraCss": [
       "/css/pillar.css",
@@ -1887,6 +1888,7 @@
     "contentFile": "my-record.ar.html",
     "lang": "ar",
     "dir": "rtl",
+    "private": true,
     "altHref": "/my-record.html",
     "extraCss": [
       "/css/pillar.css",

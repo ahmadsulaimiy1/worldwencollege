@@ -36,7 +36,7 @@
 import { writeFileSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { INK, SERIF, sansFor, isRtl, n, text, paragraph, drawn, rule, node, plate } from './lib/plate.mjs';
+import { INK, SERIF, sansFor, isRtl, n, text, paragraph, drawn, rule, node, plate, lineGap } from './lib/plate.mjs';
 import { AUDIENCE_SCOPES } from '../../functions/_lib/comms/announcements.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -177,7 +177,7 @@ AUDIENCE_SCOPES.forEach((scope, i) => {
   const anchor = RTL ? 'start' : 'end';
   linesOf(scope).forEach((line, k) => {
     bits.push(text(line, {
-      x: lx, y: y - 26 + k * 15, anchor, size: k === 0 ? 11 : 10,
+      x: lx, y: y - 26 + k * lineGap(LANG), anchor, size: k === 0 ? 11 : 10,
       weight: k === 0 ? 700 : 400,
       fill: k === 0 ? INK.goldChampagne : INK.slateText, family: SANS, pop: true,
     }));

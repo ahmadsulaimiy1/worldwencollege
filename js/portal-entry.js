@@ -24,8 +24,9 @@
  * ────────────────────────────────────────────────────────────────
  * With no Clerk key configured — the shipped default in this
  * repository — this does NOTHING. The page stays exactly as authored:
- * an honest description of a portal opening with the founding cohort.
- * No signed-out visitor is shown a door they cannot open.
+ * a description of what the portal holds and of how a learner comes by
+ * the credentials for it. No signed-out visitor is shown a door they
+ * cannot open.
  *
  * ────────────────────────────────────────────────────────────────
  * THREE STATES, AND SILENCE IS NOT ONE OF THEM

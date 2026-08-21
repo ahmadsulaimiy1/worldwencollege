@@ -14,6 +14,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>بوابة الطالب — الكلية العالمية للغة الإنجليزية</title>
 <meta name="description" content="نظرة عامة على بوابة طالب WEC-LC: لوحة التحكم، الحصص المباشرة، الواجبات، المكتبة الرقمية، الكشوف والشهادات.">
+<!-- INDEXABLE, OR THE LEARNER'S OWN. A page that mounts
+     js/portal-guard.js is a page behind a sign-in — a statement of
+     account, a set of marks, a payment confirmation — and it belonged
+     in neither a search index nor the sitemap. Eleven of them were in
+     both. scripts/build.js decides this from the guard rather than from
+     a flag somebody has to remember to set: a page that guards itself
+     is private, and there is no case where it is not. -->
+<meta name="robots" content="index, follow">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -640,11 +648,7 @@
         <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇨🇳</span><span class="lang__endonym" lang="zh">中文</span><span class="lang__english">Chinese</span><span class="lang__state">قيد الإعداد</span></span>
     </div>
   </div>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
   </div>
 </div>
@@ -1034,11 +1038,7 @@
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         English
       </a>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
     <a href="/ar/admissions/apply/" class="btn btn--gold">قدّم الآن</a>
   </nav>
@@ -1103,14 +1103,14 @@
 <section class="section--dark section-pad" id="access">
   <div class="container reveal">
     <div class="portal-shell">
-      <span class="module-marker" style="display:block;text-align:center;margin:0 auto 16px">قريبًا</span>
-      <h2>البوابة تُفتح بدعوة.</h2>
-      <p class="lede">سيتلقّى الطلاب المسجّلون بيانات دخول البوابة مباشرة من فريق القبول والتسجيل أثناء التهيئة. إن كنت ترغب بوصول مبكر فور توفره، أخبرنا.</p>
+      <span class="module-marker" style="display:block;text-align:center;margin:0 auto 16px">طريقُك إليها</span>
+      <h2>تُفتح البوابة بقيدك.</h2>
+      <p class="lede">يتلقّى الطلاب المسجّلون بيانات دخولهم من فريق القبول والتسجيل أثناء التهيئة. وكلُّ ما تقدّم وراء ذلك الدخول الواحد &mdash; برنامجك، وأسبوعك، ودرجاتك، وسجلّك، وكشف حسابك.</p>
       <div class="btn-row u-center">
-        <a href="mailto:info@worldwencollege.co.uk?subject=Student%20Portal%20Early%20Access" class="btn btn--gold">اطلب وصولًا مبكرًا</a>
-        <a href="/student-portal/preview/" class="btn btn--ghost">معاينة تصميم البوابة (بالإنجليزية)</a>
+        <a href="/student-portal/preview/" class="btn btn--gold">تجوّل في معاينةٍ للبوابة (بالإنجليزية)</a>
+        <a href="/ar/admissions/" class="btn btn--outline">كيف يتمّ القيد</a>
       </div>
-      <p class="form-note" style="text-align:center">مسجّل بالفعل؟ رسالة الترحيب الخاصة بك تتضمّن تعليمات الدخول المباشرة إلى البوابة. معاينة التصميم تعرض بيانات توضيحية فقط، وليست حسابًا فعليًا.</p>
+      <p class="form-note" style="text-align:center">مسجّل بالفعل؟ رسالة الترحيب تحمل تعليمات دخولك. والمعاينة تعرض بيانات توضيحية، وليست حسابًا فعليًا.</p>
     </div>
   </div>
 </section>
@@ -1465,11 +1465,7 @@
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         English
       </a>
-      <div class="topbar__social" aria-label="روابط التواصل الاجتماعي">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
   </div>
   <div class="trim-metal" aria-hidden="true"></div>
@@ -1483,6 +1479,6 @@
 <script src="/js/sonics.js?v=38146983" defer></script>
 <script src="/js/auth-config.js?v=55a73de7"></script>
 <script src="/js/clerk-loader.js?v=0d9cae5a"></script>
-<script src="/js/portal-entry.js?v=66f75799"></script>
+<script src="/js/portal-entry.js?v=5ac77059"></script>
 </body>
 </html>

@@ -74,6 +74,16 @@
 # most distinctive part of the programme. Camera and geolocation are
 # denied outright: nothing here uses either, and a permission nothing
 # uses should not be available to ask for.
+#
+#   payment=() is correct TODAY and is worth a note, because the day it
+#   stops being correct nothing will say so. The checkout built on
+#   /my-account.html hands the learner to the gateway's own domain —
+#   POST /api/payments/create-checkout returns a URL and the browser
+#   navigates to it — so the Payment Request API is never called on this
+#   origin and denying it costs nothing. If a gateway is ever embedded
+#   instead (an Apple Pay or Google Pay sheet in an iframe, which is how
+#   Stripe Elements offers them), this denial will block it silently, in
+#   production, on the one screen where silence is most expensive.
 # ---------------------------------------------------------------------
 /*
   X-Content-Type-Options: nosniff

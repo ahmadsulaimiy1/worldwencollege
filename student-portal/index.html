@@ -14,6 +14,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Student Portal — WorldWide English College</title>
 <meta name="description" content="A preview of the WEC-LC Student Portal: dashboard, live classes, assignments, digital library, transcripts and certificates.">
+<!-- INDEXABLE, OR THE LEARNER'S OWN. A page that mounts
+     js/portal-guard.js is a page behind a sign-in — a statement of
+     account, a set of marks, a payment confirmation — and it belonged
+     in neither a search index nor the sitemap. Eleven of them were in
+     both. scripts/build.js decides this from the guard rather than from
+     a flag somebody has to remember to set: a page that guards itself
+     is private, and there is no case where it is not. -->
+<meta name="robots" content="index, follow">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/images/icon-512.png" sizes="512x512" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -660,11 +668,7 @@
         <span class="lang__row lang__row--soon"><span class="lang__flag" aria-hidden="true">🇨🇳</span><span class="lang__endonym" lang="zh">中文</span><span class="lang__english">Chinese</span><span class="lang__state">In preparation</span></span>
     </div>
   </div>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
   </div>
 </div>
@@ -1098,11 +1102,7 @@
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         العربية
       </a>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
     <a href="/admissions/apply/" class="btn btn--gold">Apply Now</a>
   </nav>
@@ -1112,8 +1112,13 @@
 <!-- The signed-in learner's route into their own programme.
      Hidden by default and populated only by js/portal-entry.js when a
      real session exists. With no Clerk key configured — the shipped
-     default — this renders nothing, and the page stays the honest
-     description of a portal that has not opened. -->
+     default — this renders nothing, and the page stays what it is
+     below: a description of a portal that IS BUILT, and of how a
+     learner comes by the credentials for it.
+
+     It used to say "Coming Soon" and offer early access. Eleven learner
+     surfaces exist and are asserted end to end in a real browser, so
+     that badge had stopped being modest and started being untrue. -->
 <!-- The wording lives here, not in the script, so the Arabic page can
      carry its own without portal-entry.js knowing any language.
      {name} is replaced with the learner's first name where one is
@@ -1138,7 +1143,7 @@
   <div class="container">
     <span class="eyebrow">Student Portal</span>
     <h1>One place for your classes, your work and your record.</h1>
-    <p class="lede">The WEC-LC Student Portal will hold every IEFC learner’s classes, assignments, progress and certification in one place. It opens on invitation from Admissions, and what follows is what it holds.</p>
+    <p class="lede">The Student Portal holds every IEFC learner’s classes, assignments, progress and record in one place. Your credentials come from Admissions with your enrolment, and what follows is what is behind them.</p>
   </div>
 </section>
 
@@ -1172,14 +1177,14 @@
 <section class="section--dark section-pad" id="access">
   <div class="container reveal">
     <div class="portal-shell">
-      <span class="module-marker" style="display:block;text-align:center;margin:0 auto 16px">Coming Soon</span>
-      <h2>The Portal opens on invitation.</h2>
-      <p class="lede">Enrolled students will receive portal credentials directly from Admissions during onboarding. If you'd like early access as it becomes available, let us know.</p>
+      <span class="module-marker" style="display:block;text-align:center;margin:0 auto 16px">Your way in</span>
+      <h2>The Portal opens with your enrolment.</h2>
+      <p class="lede">Enrolled students receive their credentials from Admissions during onboarding. Everything above is behind that one sign-in &mdash; your programme, your week, your marks, your record and your statement of account.</p>
       <div class="btn-row u-center">
-        <a href="mailto:info@worldwencollege.co.uk?subject=Student%20Portal%20Early%20Access" class="btn btn--gold">Request Early Access</a>
-        <a href="/student-portal/preview/" class="btn btn--ghost">See a Design Preview</a>
+        <a href="/student-portal/preview/" class="btn btn--gold">Walk through a preview</a>
+        <a href="/admissions/" class="btn btn--outline">How enrolment works</a>
       </div>
-      <p class="form-note" style="text-align:center">Already enrolled? Your welcome email includes direct portal instructions. The design preview shows illustrative demo data — it isn't a live account.</p>
+      <p class="form-note" style="text-align:center">Already enrolled? Your welcome email carries your sign-in instructions. The preview shows illustrative data and is not a live account.</p>
     </div>
   </div>
 </section>
@@ -1550,11 +1555,7 @@
         <svg class="icon" aria-hidden="true"><use href="#i-language"/></svg>
         العربية
       </a>
-      <div class="topbar__social" aria-label="Social links">
-        <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="#" aria-label="X / Twitter"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></a>
-      </div>
+      
     </div>
   </div>
   <div class="trim-metal" aria-hidden="true"></div>
@@ -1568,6 +1569,6 @@
 <script src="/js/sonics.js?v=38146983" defer></script>
 <script src="/js/auth-config.js?v=55a73de7"></script>
 <script src="/js/clerk-loader.js?v=0d9cae5a"></script>
-<script src="/js/portal-entry.js?v=66f75799"></script>
+<script src="/js/portal-entry.js?v=5ac77059"></script>
 </body>
 </html>

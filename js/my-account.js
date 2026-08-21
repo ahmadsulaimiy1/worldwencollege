@@ -144,6 +144,9 @@
       payNext: function (n) { return 'ادفع القسط ' + n; },
       opening: 'جارٍ فتح صفحة الدفع…',
       failed: 'تعذّر بدء الدفع.',
+      currencyRefused: function (code) {
+        return 'لا تستطيع الكلّية قبول ' + code + ' اليوم، والأسعار باقيةٌ كما هي.';
+      },
     },
   } : {
     loading: 'Loading your account…',
@@ -243,6 +246,9 @@
       payNext: function (n) { return 'Pay instalment ' + n; },
       opening: 'Opening the payment page…',
       failed: 'The payment could not be started.',
+      currencyRefused: function (code) {
+        return 'The College cannot take ' + code + ' today, so the prices are unchanged.';
+      },
     },
   };
 
@@ -636,6 +642,13 @@
     OPTS = o;
     var sec = $('#secBuy');
     sec.hidden = false;
+    // Whatever the last act left in the status line does not belong to
+    // this one. A refusal from a checkout, still standing over a fresh
+    // set of prices, reads as a refusal of these.
+    var err = $('[data-buy-error]');
+    err.hidden = true;
+    err.textContent = '';
+    err.classList.remove('is-busy');
     var B = T.buy;
     var lede = $('[data-buy-lede]');
     lede.textContent = B.lede + ' ' + B.lede2;
@@ -863,7 +876,19 @@
   function loadOptions(code) {
     return api('/api/payments/options' + (code ? '?currency=' + encodeURIComponent(code) : ''))
       .then(function (r) {
-        if (!r.ok) return;
+        if (!r.ok) {
+          // A REFUSED CURRENCY MUST NOT LEAVE THE PICKER LYING. The
+          // choices offered are the ones the endpoint said it could
+          // take, so this needs a rate to have been withdrawn between
+          // the page loading and the change — rare, and the wrong
+          // answer to it is a select reading GBP above prices in
+          // dollars. Put the control back to what is actually in force
+          // and say why.
+          var pick = $('[data-currency-pick]');
+          if (code && pick) pick.value = (OPTS && OPTS.currency.code) || 'USD';
+          if (code) buyState(T.buy.currencyRefused(code), false);
+          return;
+        }
         CUR = code || null;
         renderBuy(r.data);
         // Redrawn now that the gateways are known: the schedule can

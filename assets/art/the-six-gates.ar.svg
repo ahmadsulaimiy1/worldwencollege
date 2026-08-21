@@ -19,7 +19,7 @@
   <path d="M776.5 160.0L776.5 290.0" stroke="#6E93C4" stroke-width="0.7" stroke-opacity="0.35" fill="none"/>
   <text data-pop="" x="763.3" y="176.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="12" font-weight="700" fill="#F2E3C0" direction="ltr">1</text>
   <text data-pop="" x="763.3" y="336.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" font-weight="700" fill="#F2E3C0">⁧عشر وحدات⁩</text>
-  <text data-pop="" x="763.3" y="351.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#8FA3C4">⁧مكتملة⁩</text>
+  <text data-pop="" x="763.3" y="355.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#8FA3C4">⁧مكتملة⁩</text>
   <rect data-pop="" x="605.0" y="150.0" width="66.0" height="150.0" fill="#C7A24A" fill-opacity="0.24"/>
   <path data-draw="910" d="M605.0 300.0L605.0 150.0M671.0 300.0L671.0 150.0" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="butt" fill="none"/>
   <path d="M624.8 160.0L624.8 290.0" stroke="#D4AF37" stroke-width="0.7" stroke-opacity="0.35" fill="none"/>
@@ -27,7 +27,7 @@
   <path d="M651.2 160.0L651.2 290.0" stroke="#D4AF37" stroke-width="0.7" stroke-opacity="0.35" fill="none"/>
   <text data-pop="" x="638.0" y="176.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="12" font-weight="700" fill="#E7C97A" direction="ltr">2</text>
   <text data-pop="" x="638.0" y="336.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" font-weight="700" fill="#F2E3C0">⁧70٪ في⁩</text>
-  <text data-pop="" x="638.0" y="351.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#8FA3C4">⁧الامتحان⁩</text>
+  <text data-pop="" x="638.0" y="355.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#8FA3C4">⁧الامتحان⁩</text>
   <rect data-pop="" x="479.7" y="150.0" width="66.0" height="150.0" fill="#C7A24A" fill-opacity="0.24"/>
   <path data-draw="1020" d="M479.7 300.0L479.7 150.0M545.7 300.0L545.7 150.0" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="butt" fill="none"/>
   <path d="M499.5 160.0L499.5 290.0" stroke="#D4AF37" stroke-width="0.7" stroke-opacity="0.35" fill="none"/>
@@ -35,7 +35,7 @@
   <path d="M525.9 160.0L525.9 290.0" stroke="#D4AF37" stroke-width="0.7" stroke-opacity="0.35" fill="none"/>
   <text data-pop="" x="512.7" y="176.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="12" font-weight="700" fill="#E7C97A" direction="ltr">3</text>
   <text data-pop="" x="512.7" y="336.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" font-weight="700" fill="#F2E3C0">⁧ولا معيار⁩</text>
-  <text data-pop="" x="512.7" y="351.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#8FA3C4">⁧دون 50٪⁩</text>
+  <text data-pop="" x="512.7" y="355.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#8FA3C4">⁧دون 50٪⁩</text>
   <rect data-pop="" x="354.3" y="150.0" width="66.0" height="150.0" fill="#C7A24A" fill-opacity="0.24"/>
   <path data-draw="1130" d="M354.3 300.0L354.3 150.0M420.3 300.0L420.3 150.0" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="butt" fill="none"/>
   <path d="M374.1 160.0L374.1 290.0" stroke="#D4AF37" stroke-width="0.7" stroke-opacity="0.35" fill="none"/>
@@ -43,7 +43,7 @@
   <path d="M400.5 160.0L400.5 290.0" stroke="#D4AF37" stroke-width="0.7" stroke-opacity="0.35" fill="none"/>
   <text data-pop="" x="387.3" y="176.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="12" font-weight="700" fill="#E7C97A" direction="ltr">4</text>
   <text data-pop="" x="387.3" y="336.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" font-weight="700" fill="#F2E3C0">⁧ولا مهارة⁩</text>
-  <text data-pop="" x="387.3" y="351.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#8FA3C4">⁧دون 50٪⁩</text>
+  <text data-pop="" x="387.3" y="355.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#8FA3C4">⁧دون 50٪⁩</text>
   <rect data-pop="" x="229.0" y="150.0" width="66.0" height="150.0" fill="#C7A24A" fill-opacity="0.24"/>
   <path data-draw="1240" d="M229.0 300.0L229.0 150.0M295.0 300.0L295.0 150.0" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="butt" fill="none"/>
   <path d="M248.8 160.0L248.8 290.0" stroke="#D4AF37" stroke-width="0.7" stroke-opacity="0.35" fill="none"/>
@@ -51,7 +51,7 @@
   <path d="M275.2 160.0L275.2 290.0" stroke="#D4AF37" stroke-width="0.7" stroke-opacity="0.35" fill="none"/>
   <text data-pop="" x="262.0" y="176.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="12" font-weight="700" fill="#E7C97A" direction="ltr">5</text>
   <text data-pop="" x="262.0" y="336.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" font-weight="700" fill="#F2E3C0">⁧الورقة الشفوية⁩</text>
-  <text data-pop="" x="262.0" y="351.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#8FA3C4">⁧مجتازة⁩</text>
+  <text data-pop="" x="262.0" y="355.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#8FA3C4">⁧مجتازة⁩</text>
   <rect data-pop="" x="103.7" y="150.0" width="66.0" height="150.0" fill="#C7A24A" fill-opacity="0.24"/>
   <path data-draw="1350" d="M103.7 300.0L103.7 150.0M169.7 300.0L169.7 150.0" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="butt" fill="none"/>
   <path d="M123.5 160.0L123.5 290.0" stroke="#D4AF37" stroke-width="0.7" stroke-opacity="0.35" fill="none"/>
@@ -59,7 +59,7 @@
   <path d="M149.9 160.0L149.9 290.0" stroke="#D4AF37" stroke-width="0.7" stroke-opacity="0.35" fill="none"/>
   <text data-pop="" x="136.7" y="176.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="12" font-weight="700" fill="#E7C97A" direction="ltr">6</text>
   <text data-pop="" x="136.7" y="336.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" font-weight="700" fill="#F2E3C0">⁧إنسان⁩</text>
-  <text data-pop="" x="136.7" y="351.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#8FA3C4">⁧يؤكّدها⁩</text>
+  <text data-pop="" x="136.7" y="355.0" text-anchor="middle" font-family="Cairo, Inter, sans-serif" font-size="10.5" fill="#8FA3C4">⁧يؤكّدها⁩</text>
   <rect data-pop="" x="816.0" y="101.0" width="10" height="10" fill="#27508F" fill-opacity="0.5" stroke="#27508F" stroke-width="1"/>
   <text x="808.0" y="110.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="10" font-weight="700" fill="#6E93C4">⁧يتحقّق بعملك⁩</text>
   <rect data-pop="" x="692.8" y="101.0" width="10" height="10" fill="#D4AF37" fill-opacity="0.5" stroke="#D4AF37" stroke-width="1"/>

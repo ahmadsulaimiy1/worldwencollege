@@ -120,20 +120,33 @@ check('...and is told the real reason, not "you are not staff"',
   !/does not have staff access/i.test(guardMsg || ''), (guardMsg || '').trim());
 
 // --- Grant, then withdraw, a real learner -----------------------------
-// usr_demo holds all six from the seed, so withdraw one and re-grant it:
-// the full lifecycle, through the page.
+// Withdraw a level the learner holds and re-grant it: the full
+// lifecycle, through the page.
 await page.fill('#q', 'demo@');
 await page.locator('#searchForm button[type=submit]').click();
 await page.waitForTimeout(500);
 await page.locator('#results button').first().click();
 await page.waitForTimeout(500);
 
+// THE LAST LEVEL THEY ACTUALLY HOLD, found rather than counted to. This
+// was nth(5) — the sixth — on the assumption that the harness's learner
+// is enrolled on all six. They are not, and should not be: under
+// progressive unlocking (Executive Decision #1) nobody holds six levels
+// at once, and the checkout on /my-account.html needs one level left to
+// buy or it has no offer to render at all. An assertion that mirrors a
+// fixture is the one that breaks when the fixture is corrected.
+const held = await page.locator('#levels > div').evaluateAll((rows) => rows
+  .map((r, i) => ([...r.querySelectorAll('button')].some((b) => /Withdraw/.test(b.textContent)) ? i : -1))
+  .filter((i) => i >= 0));
+check('The learner holds at least one level to withdraw', held.length > 0, String(held.length));
+const rowIdx = held[held.length - 1];
+
 promptAnswer = 'Learner deferred to the spring intake';
-const row6 = page.locator('#levels > div').nth(5);
+const row6 = page.locator('#levels > div').nth(rowIdx);
 const withdrawBtn = row6.locator('button', { hasText: 'Withdraw' });
 await withdrawBtn.click();
 await page.waitForTimeout(900);
-const after6 = await page.locator('#levels > div').nth(5).textContent();
+const after6 = await page.locator('#levels > div').nth(rowIdx).textContent();
 check('Withdrawing a level updates the page immediately',
   /Not enrolled/.test(after6 || ''), (after6 || '').trim().slice(0, 70));
 
@@ -155,9 +168,9 @@ check('...with the reason they gave',
   /deferred to the spring intake/.test(history[0] || ''), (history[0] || '').slice(0, 120));
 
 promptAnswer = 'Returned for the spring intake as planned';
-await page.locator('#levels > div').nth(5).locator('button', { hasText: 'Enrol' }).click();
+await page.locator('#levels > div').nth(rowIdx).locator('button', { hasText: 'Enrol' }).click();
 await page.waitForTimeout(900);
-const back6 = await page.locator('#levels > div').nth(5).textContent();
+const back6 = await page.locator('#levels > div').nth(rowIdx).textContent();
 check('A withdrawn learner can be re-enrolled from the page', /Active/.test(back6 || ''), (back6 || '').trim().slice(0, 70));
 const history2 = await page.locator('#history > div').allTextContents();
 check('...and both events are kept, not overwritten', history2.length >= 2, history2.length);
@@ -166,9 +179,9 @@ check('...and both events are kept, not overwritten', history2.length >= 2, hist
 let cancelled = false;
 page.removeAllListeners('dialog');
 page.on('dialog', async (d) => { cancelled = true; await d.dismiss(); });
-await page.locator('#levels > div').nth(5).locator('button', { hasText: 'Withdraw' }).click();
+await page.locator('#levels > div').nth(rowIdx).locator('button', { hasText: 'Withdraw' }).click();
 await page.waitForTimeout(700);
-const stillActive = await page.locator('#levels > div').nth(5).textContent();
+const stillActive = await page.locator('#levels > div').nth(rowIdx).textContent();
 check('Dismissing the reason prompt changes nothing', cancelled && /Active/.test(stillActive || ''), (stillActive || '').slice(0, 50));
 const history3 = await page.locator('#history > div').allTextContents();
 check('...and writes no event', history3.length === history2.length, `${history2.length} -> ${history3.length}`);

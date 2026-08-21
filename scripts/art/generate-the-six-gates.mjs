@@ -36,7 +36,7 @@
 import { writeFileSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { INK, SERIF, sansFor, isRtl, n, text, paragraph, drawn, rule, plate } from './lib/plate.mjs';
+import { INK, SERIF, sansFor, isRtl, n, text, paragraph, drawn, rule, plate, lineGap } from './lib/plate.mjs';
 import { LEVEL_GATES } from '../../functions/_lib/academic/marks.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -187,7 +187,7 @@ LEVEL_GATES.forEach((gate, i) => {
 
   shortOf(gate).forEach((line, k) => {
     bits.push(text(line, {
-      x: cx, y: BASE_Y + 36 + k * 15, anchor: 'middle', size: 10.5,
+      x: cx, y: BASE_Y + 36 + k * lineGap(LANG), anchor: 'middle', size: 10.5,
       weight: k === 0 ? 700 : 400,
       fill: k === 0 ? INK.goldChampagne : INK.slateText, family: SANS, pop: true,
     }));

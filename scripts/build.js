@@ -256,6 +256,52 @@ function inlineSvgIncludes(html, contentFile) {
 // ---------------------------------------------------------------------
 const STANDING = JSON.parse(read(path.join(ROOT, 'data', 'standing.json')));
 
+// ---------------------------------------------------------------------
+// WHERE THE COLLEGE PUBLICLY IS, AND NOWHERE IT IS NOT
+// ---------------------------------------------------------------------
+// Three social icons sat in the topbar, the mobile drawer and the
+// footer of every page, in both languages, each linking to `#`. Six
+// dead controls across 169 routes, invisible to the link census —
+// `#` resolves to the page you are already on — and invisible in the
+// source, because they looked exactly like the real thing.
+//
+// A dead social icon is an implied claim that the College keeps an
+// account there, placed in the chrome of every page. CLAUDE.md § 5:
+// silence about a thing the College does not have is fine; a claim is
+// not. So the row is rendered from data/contact.json and from nowhere
+// else, an empty object renders NOTHING, and a value that is empty or
+// `#` is REFUSED rather than drawn — that being the exact fault this
+// replaced.
+const CONTACT = JSON.parse(read(path.join(ROOT, 'data', 'contact.json')));
+
+const SOCIAL_MARKS = {
+  linkedin: { icon: 'i-linkedin', label: 'LinkedIn' },
+  instagram: { icon: 'i-instagram', label: 'Instagram' },
+  x: { icon: 'i-x', label: 'X / Twitter' },
+};
+
+function socialRow(lang) {
+  const entries = Object.entries(CONTACT.social || {});
+  for (const [key, url] of entries) {
+    if (!SOCIAL_MARKS[key]) {
+      throw new Error(`data/contact.json names "${key}", which has no mark in partials/icons.html. `
+        + 'An icon-less link in a row of icons is a worse answer than no link.');
+    }
+    if (!url || url === '#' || !/^https?:\/\//.test(url)) {
+      throw new Error(`data/contact.json gives "${key}" the address ${JSON.stringify(url)}. `
+        + 'A social icon that leads nowhere is the fault this file was written to close.');
+    }
+  }
+  if (!entries.length) return '';
+  const label = lang === 'ar' ? 'روابط التواصل الاجتماعي' : 'Social links';
+  const links = entries.map(([key, url]) => {
+    const mark = SOCIAL_MARKS[key];
+    return `<a href="${url}" aria-label="${mark.label}" rel="me noopener" target="_blank">`
+      + `<svg class="icon" aria-hidden="true"><use href="#${mark.icon}"/></svg></a>`;
+  }).join('\n        ');
+  return `<div class="topbar__social" aria-label="${label}">\n        ${links}\n      </div>`;
+}
+
 function standingValue(dotted) {
   return dotted.split('.').reduce((o, k) => (o == null ? o : o[k]), STANDING);
 }
@@ -784,15 +830,23 @@ function build() {
       EXTRA_CSS: extraCss,
       OG_LOCALE: lang === 'ar' ? 'ar_AR' : 'en_GB',
       OG_SITE_NAME: lang === 'ar' ? 'الكلية العالمية للغة الإنجليزية' : 'WorldWide English College',
+      // Emitted on every page so the tag is never simply absent, and
+      // the private ones say so in the head as well as by their absence
+      // from the sitemap — a crawler that reaches one by a link, a
+      // referrer or a pasted address must be told there too.
+      ROBOTS: isPrivate(entry)
+        ? '<meta name="robots" content="noindex, nofollow">'
+        : '<meta name="robots" content="index, follow">',
     }));
     const picker = languagePicker(lang, altHref);
-    const topbar = fill(partialFor('topbar', lang), { ALT_HREF: altHref, LANG_PICKER: picker });
+    const social = socialRow(lang);
+    const topbar = fill(partialFor('topbar', lang), { ALT_HREF: altHref, LANG_PICKER: picker, SOCIAL: social });
     // The mobile drawer and the footer each carry their own language
     // switch now, so they need the same per-page ALT_HREF the topbar's
     // gets — the page-specific Arabic/English twin, not a blanket link
     // to the other language's front door.
-    const header = fill(partialFor('header', lang), { ALT_HREF: altHref, LANG_PICKER: picker });
-    const footer = fill(partialFor('footer', lang), { ALT_HREF: altHref });
+    const header = fill(partialFor('header', lang), { ALT_HREF: altHref, LANG_PICKER: picker, SOCIAL: social });
+    const footer = fill(partialFor('footer', lang), { ALT_HREF: altHref, SOCIAL: social });
     const withIntake = (html) => html
       .split('{{INTAKE_PANEL}}').join(intakePanel(lang))
       .split('{{RESOURCES}}').join(resourcesShelf(lang));
@@ -893,8 +947,33 @@ ${fingerprintAssets(`<script src="/js/site.js"></script>
 // 404 is excluded because a sitemap is a list of pages worth indexing
 // and an error page is not one.
 // ---------------------------------------------------------------------
+/**
+ * A page behind a sign-in.
+ *
+ * Decided from the guard the page actually mounts, not from a flag in
+ * the manifest that somebody has to remember to set. A page carrying
+ * js/portal-guard.js is a learner's own — their marks, their statement
+ * of account, their payment confirmation — and there is no case where
+ * such a page should be indexed or listed in a public sitemap. Eleven
+ * of them were in both.
+ */
+function isPrivate(entry) {
+  // The guard implies it, so a page that gates itself can never be
+  // forgotten. `private: true` covers the one learner surface that does
+  // not gate — /my-record.html, which renders a transcript and a set of
+  // sharing controls behind an authenticated API rather than behind the
+  // shell guard — and any future page in the same position.
+  return entry.private === true || (entry.scripts || []).includes('/js/portal-guard.js');
+}
+
 function writeSitemap(manifest) {
-  const indexable = manifest.filter((e) => !/(^|\/)404\.html$/.test(e.output));
+  // 404 is excluded because a sitemap is a list of pages worth indexing
+  // and an error page is not one. A learner's own pages are excluded for
+  // the same reason from the other direction: they are worth reading,
+  // and they are nobody's to index.
+  const indexable = manifest
+    .filter((e) => !/(^|\/)404\.html$/.test(e.output))
+    .filter((e) => !isPrivate(e));
   const urls = indexable
     .map((e) => SITE_URL + urlPathFor(e.output))
     // Longest-lived convention on this site: the English page and its
