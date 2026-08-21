@@ -209,3 +209,70 @@ test('the registry is the extension point — a NEW type is data, not engine cod
   assert.throws(() => DT.registerDocumentType('Bad Key', { title: 'X', subject: 'person', render: () => '' }), /lowercase slug/);
   assert.throws(() => DT.registerDocumentType('good-key', { title: 'X', subject: 'nonsense', render: () => '' }), /subject one of/);
 });
+
+import * as PUB from '../src/publication-record.js';
+
+const EDITION = {
+  title: 'The IEFC Curriculum — Flagship Edition',
+  documentId: 'GQ08-FZ9Q-DQHB-6X8D',
+  contentDigest: 'a'.repeat(64),
+  issueCode: 'E01.R00.01',
+  editionName: 'First',
+  publicationId: 'AIPC/IEFC/CUR/2026/E01',
+  printIdentifier: 'E01.R00.01-7K2M',
+  year: 2026,
+  counts: { levels: 6, modules: 60, lessons: 720 },
+  registrations: [
+    { field: 'ISBN', value: 'Not assigned', authority: 'International ISBN Agency' },
+    { field: 'DOI', value: 'Not registered', authority: 'A DOI registration agency' },
+  ],
+  status: 'in-print',
+};
+
+test('an edition of record regenerates byte-identically and states its identity', () => {
+  const a = PUB.renderPublicationRecord(EDITION);
+  assert.equal(a, PUB.renderPublicationRecord(EDITION));
+  assert.ok(a.includes('GQ08-FZ9Q-DQHB-6X8D') && a.includes('E01.R00.01'));
+  assert.ok(a.includes('The IEFC Curriculum'));
+  assert.ok(a.includes('Edition of Record'));
+});
+
+test('an edition record carries the honesty bound — what the College does NOT hold', () => {
+  const a = PUB.renderPublicationRecord(EDITION);
+  assert.ok(a.includes('Not assigned') && a.includes('International ISBN Agency'),
+    'an unheld registration is named with its authority, never invented');
+  assert.ok(a.includes('it is not a signature') && a.includes('does not certify authorship'),
+    'the digest notice states what the digest does NOT prove');
+});
+
+test('digest comparison gives four honest outcomes and never a fabricated verdict', () => {
+  const good = 'a'.repeat(64);
+  const other = 'b'.repeat(64);
+  assert.equal(PUB.compareDigest({ recordDigest: good, candidateDigest: good }).outcome, 'identical');
+  assert.equal(PUB.compareDigest({ recordDigest: good, candidateDigest: other }).outcome, 'altered');
+  assert.equal(PUB.compareDigest({ recordDigest: null, candidateDigest: good }).outcome, 'not_found');
+  assert.equal(PUB.compareDigest({ recordDigest: good, candidateDigest: 'not-a-digest' }).outcome, 'malformed');
+  // Case and whitespace are normalised — a digest pasted from a PDF still matches.
+  assert.equal(PUB.compareDigest({ recordDigest: good, candidateDigest: `  ${good.toUpperCase()} ` }).outcome, 'identical');
+});
+
+test('an edition record is an ARTIFACT-subject type in the registry and renders per issuer', () => {
+  const t = DT.documentType('publication');
+  assert.equal(t.subject, 'artifact', 'the subject is the document itself, not a person');
+  assert.equal(DT.renderDocument('publication', EDITION), PUB.renderPublicationRecord(EDITION));
+
+  const AMICAS = ISS.defineIssuer({
+    key: 'amicas2', legalName: 'Al-Madeenah International College for Arabic & Islamic Studies',
+    codePrefix: 'AMIC', verifyOrigin: 'https://almadeenah.example', sealMark: 'AMIC',
+  });
+  const forOther = PUB.renderPublicationRecord(EDITION, { issuer: AMICAS });
+  assert.ok(forOther.includes('almadeenah.example'));
+  assert.ok(!forOther.includes('worldwencollege'), 'default origin leaked into another issuer\'s record');
+});
+
+test('the default issuer points at the origin the site is ACTUALLY served from', () => {
+  // A verify URL printed into a physical book must resolve. The live site is
+  // served from worldwencollege.co.uk; an unregistered .com would be a
+  // promise the College cannot keep.
+  assert.equal(ISS.AIPC.verifyOrigin, 'https://www.worldwencollege.co.uk');
+});

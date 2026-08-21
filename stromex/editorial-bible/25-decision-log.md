@@ -1378,6 +1378,49 @@ Fifteen checks pass (`node --test`), covering ID-card determinism, the
 photo/monogram fallback and remote-URL refusal, cross-institution render,
 and the registry's dispatch, extension, shadow-refusal and validation.
 
+**The artifact half, built `[2026-08-20]`.** `src/publication-record.js`
+closes the second subject: `renderPublicationRecord()` renders an edition's
+provenance record — the page a reader reaches by the QR printed in a book —
+and `compareDigest()` answers the artifact question with four honest
+outcomes (`identical` · `altered` · `not_found` · `malformed`), never a
+fabricated verdict. Registered as the first `artifact`-subject type. The
+honesty bound is carried through verbatim from `identity.mjs`: unheld
+registrations (ISBN, DOI, legal deposit) are printed as *not assigned* with
+the issuing authority named, and the record states plainly that a content
+digest proves content identity — **not** authorship, and **not** that a
+given physical copy came from the College. Twenty checks pass.
+
+### `SEB-D 48` — The verify origin must be an address the estate actually holds
+
+**Found 2026-08-20 while building artifact verification, and it is a
+real-world defect, not a theoretical one.** Three different origins were in
+play across the estate:
+
+| Where | Origin | Reality |
+|---|---|---|
+| `scripts/build.js` (`SITE_URL`) | `https://www.worldwencollege.co.uk` | **The live one.** The origin the site is genuinely served from |
+| `scripts/publication/identity.mjs` (`verifyUrl`) | `https://worldwideenglishcollege.com` | Not the estate's address — and it is **encoded into the QR printed in physical books** |
+| `stromex/verifiable-documents/src/issuer.js` | `https://worldwencollege.com` | Mine, wrong: an unregistered `.com` rather than the live `.co.uk` |
+
+**Ruled: a verify origin printed onto a document must be an address the
+estate actually controls.** A QR on a certificate or in a bound book is a
+promise to a stranger, and it is redeemed years later by someone the College
+will never meet. An origin that does not resolve — or worse, that someone
+else registers — converts the estate's strongest trust signal into its
+weakest. The digest and the seal are worthless if the address is not ours.
+
+**Fixed here:** `issuer.js` now defaults to `https://www.worldwencollege.co.uk`,
+with a test asserting it, so the engine cannot silently drift back.
+
+**NOT fixed here, and it is the Founder's to close:**
+`scripts/publication/identity.mjs` still prints `worldwideenglishcollege.com`
+into every rendered edition. Changing it alters the Document ID surface of
+books already in print, so it is a *governance* act, not a code tidy —
+`build.js` records the same tension for the site canonical (the College's
+name changed; the Albalagh address has not been bought). The estate must
+either register the printed domain or reissue with the held one. Recorded,
+named, and deliberately not decided unilaterally.
+
 **What would reverse it.** A class where public verification would itself
 leak personal data faster than it protects (a safeguarding record, a medical
 note) — those are *not* verifiable documents and must never be issued as

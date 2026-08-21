@@ -21,6 +21,7 @@ and Volume 12 §12.12.
 | `src/certificate-render.js` | Pure, deterministic renderers: `renderAwardCertificate`, `renderTestimonial`, `renderIssuedDocument`, `renderIdCard`. Same record + issuer in → byte-identical HTML out. This is the "recoverable from its record" guarantee. |
 | `src/document-types.js` | The **type registry** — the extension point. Each verifiable-document type is one declarative entry (`title`, `subject`, `render`); `registerDocumentType()` adds a new kind as data, `renderDocument(type, record, {issuer})` dispatches generically. New document kinds are configuration, not engine edits. |
 | `src/issuance-register.js` | `renderIssuanceRegister` (the beautiful, non-secret register) and `certificateSecretLabel` (the `pass` label convention — a store path, never a value). |
+| `src/publication-record.js` | The **artifact-document** half: `renderPublicationRecord` (an edition's provenance page — what a book's QR resolves to) and `compareDigest` (four honest outcomes: identical · altered · not_found · malformed). |
 | `src/qr.js` | The verification QR encoder (ISO/IEC 18004), independently decoder-tested. |
 
 ## Adding a new document kind (the headroom)
@@ -84,7 +85,7 @@ not drifted from the site's copy (`functions/_lib/registry/qr.js`).
 
 - The site (`functions/`) still has its own `certificate-render`-free verify
   portal; wiring each project's portal to this engine is the next step.
-- Publication (artifact-document) verification is ordered work — the site
-  already computes content-hash Document IDs (`scripts/publication/identity.mjs`)
-  but the portal does not yet resolve them.
+- The publication *renderer* now exists, but the site's portal still does not
+  resolve a Document ID to it — and `scripts/publication/identity.mjs` prints a
+  verify URL on a domain the estate does not hold (`SEB-D 48`, open).
 - Production KMS signing lives in the site's `signing.js`, still development-mode.
