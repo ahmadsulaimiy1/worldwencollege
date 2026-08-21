@@ -64,8 +64,14 @@ async function open(url, viewport) {
   const page = await open(`${BASE}/my-record.html`);
 
   check('A learner can see their own record', (await page.locator('#secRecord').isVisible()) === true);
-  check('...with every level they entered', (await page.locator('#transcript tr').count()) >= 6,
-    await page.locator('#transcript tr').count());
+  // Against the record itself, not against a number typed here. The
+  // harness's learner was enrolled on all six levels until a checkout
+  // needed one left to buy; an assertion mirroring a fixture is the one
+  // that breaks when the fixture changes for a good reason.
+  const enrolled = (await (await fetch(`${BASE}/api/student/standing`)).json())
+    .levels.filter((l) => l.enrolment).length;
+  check('...with every level they entered', (await page.locator('#transcript tr').count()) >= enrolled,
+    `${await page.locator('#transcript tr').count()} rows against ${enrolled} enrolments`);
   check('...including ones still in progress', /In progress/.test(await textOf(page, '#transcript')));
   check('...and their credits totalled', /WEC Credits/.test(await textOf(page, '#totals')));
 
@@ -283,7 +289,10 @@ async function open(url, viewport) {
   // from nowhere, and reached nothing.
   check('The programme links back to the record',
     (await prog.locator('.rec-nav a[href="/my-record.html"]').count()) === 1);
-  check('...and to the College', (await prog.locator('.app-crest[href="/"]').count()) === 1);
+  // The crest this looked for was the standalone-page pattern, and
+  // /my-programme.html is no longer one: it was given the site's own
+  // chrome, so the way back to the College is the header's own mark.
+  check('...and to the College', (await prog.locator('header a.brand[href="/"]').count()) === 1);
   await prog.close();
   await page.close();
 }
@@ -304,10 +313,24 @@ async function open(url, viewport) {
   const small = await page.evaluate(() => {
     const labelFor = (e) => e.closest('label')
       || (e.id ? document.querySelector(`label[for="${CSS.escape(e.id)}"]`) : null);
+    // Inline in running text: the anchor has a sibling text node with
+    // words in it. A link that is the whole of its parent is a control
+    // and stays in scope.
+    const inline = (e) => [...(e.parentElement ? e.parentElement.childNodes : [])]
+      .some((n) => n !== e && n.nodeType === Node.TEXT_NODE && /\S/.test(n.textContent));
     return [...document.querySelectorAll('a, button, input, select, summary')]
       .map((e) => {
         const r = e.getBoundingClientRect();
         if (r.height === 0) return null;             // not rendered
+        // WCAG 2.5.8 exempts a link inline in a sentence, and it is
+        // right to: a 14px link inside a paragraph of running text
+        // cannot be given a 44px box without pushing the lines around
+        // it apart, and the sentence is what a reader aims at. This
+        // rule is for CONTROLS. Without the exemption it reported the
+        // footer's legal sentence and a help note's "see an example"
+        // link as defects — a rule nobody can satisfy, and therefore a
+        // rule that gets ignored.
+        if (e.tagName === 'A' && inline(e)) return null;
         let h = r.height;
         const lab = labelFor(e);
         if (lab) {

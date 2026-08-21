@@ -24,7 +24,11 @@ for (let n = 1; n <= 6; n++) { const p = `${ROOT}/sql/seed-audio-level-${n}.sql`
 sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_demo','clerk','sub_demo','demo@example.com','student')`);
 sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_tutor','clerk','sub_tutor','tutor@example.com','staff')`);
 sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_admin','clerk','sub_admin','admin@example.com','admin')`);
-for (let n = 1; n <= 6; n++) sqlite.exec(`INSERT INTO enrolments (id,user_id,level_id,status,started_at) VALUES ('enr_${n}','usr_demo',${n},'active','2026-01-01T00:00:00.000Z')`);
+// FIVE, not six, and the sixth is the point. A learner enrolled on
+// every level has nothing to buy, so the checkout on /my-account.html
+// would have no offer to render and the browser suite would assert
+// against an empty grid. Level VI is left unbought deliberately.
+for (let n = 1; n <= 5; n++) sqlite.exec(`INSERT INTO enrolments (id,user_id,level_id,status,started_at) VALUES ('enr_${n}','usr_demo',${n},'active','2026-01-01T00:00:00.000Z')`);
 // Mirror the LIVE database, not the convenient one: enrolment_events was
 // ADDED to an existing database (migration 002, 3 Aug 2026), so the
 // audit record begins mid-story and the page has to say so. A harness
@@ -49,6 +53,14 @@ sqlite.exec(`INSERT INTO enrolments (id,user_id,level_id,status,started_at) VALU
 
 const { makeD1 } = await import(pathToFileURL(`${ROOT}/tests/d1-shim.mjs`));
 const env = { DB: makeD1FromExisting() };
+// NO GATEWAY BY DEFAULT, because that is the platform's actual state:
+// no STRIPE_SECRET_KEY is provisioned anywhere, `configuredGateways()`
+// answers an empty list, and /my-account.html is supposed to say the
+// College is not taking cards rather than draw a button that 503s.
+// LAB_GATEWAY=1 provisions a fake key so the paying journey can also be
+// driven end to end — see /__demo-gateway below, which stands in for
+// the bank and for the webhook that follows it.
+if (process.env.LAB_GATEWAY) env.STRIPE_SECRET_KEY = 'sk_test_harness';
 function makeD1FromExisting() {
   // reuse the shim's wrapper over our already-seeded database
   const shim = makeD1('');           // empty schema; we swap the handle
@@ -245,6 +257,10 @@ const DEMO = {};
 // tidy payment, and the page is driven by the REAL finance module
 // reading the REAL rows.
 const finance = await import(pathToFileURL(`${ROOT}/functions/_lib/student/finance.js`));
+const payOptions = await import(pathToFileURL(`${ROOT}/functions/_lib/payments/options.js`));
+const payConfirm = await import(pathToFileURL(`${ROOT}/functions/_lib/payments/confirmation.js`));
+const instalments = await import(pathToFileURL(`${ROOT}/functions/_lib/payments/instalments.js`));
+const checkoutLib = await import(pathToFileURL(`${ROOT}/functions/_lib/payments/checkout.js`));
 const standingLib = await import(pathToFileURL(`${ROOT}/functions/_lib/academic/standing.js`));
 const timetableLib = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/timetable.js`));
 const achievementsLib = await import(pathToFileURL(`${ROOT}/functions/_lib/academic/achievements.js`));
@@ -894,6 +910,111 @@ createServer(async (req, res) => {
         return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
       }
     }
+    // ── MONEY GOING THE OTHER WAY ──────────────────────────────────
+    // Everything a learner can DO about a fee, driven by the real
+    // modules against the real rows. The one thing simulated here is
+    // the bank: /__demo-gateway below stands in for a card network and
+    // the webhook that follows it, because there is no gateway to talk
+    // to and pointing a browser test at a live one would be a test of
+    // Stripe's uptime.
+    const LEARNER_USER = { id: 'usr_demo', email: 'demo@example.com', role: 'student' };
+    const failWith = (err, fallback) => {
+      res.writeHead(err.httpStatus || fallback, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+    };
+
+    if (url.pathname === '/api/payments/options' && req.method === 'GET') {
+      try {
+        return json(res, await payOptions.checkoutOptions(env, {
+          user: LEARNER_USER,
+          country: url.searchParams.get('country'),
+          currency: (url.searchParams.get('currency') || '').toUpperCase() || null,
+        }));
+      } catch (err) { return failWith(err, 404); }
+    }
+
+    if (url.pathname === '/api/payments/verify' && req.method === 'GET') {
+      try {
+        return json(res, await payConfirm.paymentStanding(env, {
+          user: LEARNER_USER, paymentId: url.searchParams.get('id'),
+        }));
+      } catch (err) { return failWith(err, 404); }
+    }
+
+    if (url.pathname === '/api/enrolment/confirm' && req.method === 'POST') {
+      const body = JSON.parse((await read(req)) || '{}');
+      try {
+        const out = await payConfirm.confirmEnrolment(env, {
+          user: LEARNER_USER, paymentId: body.paymentId,
+        });
+        return json(res, out.enrolment, out.created ? 201 : 200);
+      } catch (err) { return failWith(err, 422); }
+    }
+
+    if (url.pathname === '/api/payments/instalment-plan' && req.method === 'POST') {
+      const body = JSON.parse((await read(req)) || '{}');
+      try {
+        return json(res, await instalments.createInstalmentPlan(env, {
+          userId: LEARNER_USER.id, levelId: body.levelId, fullProgramme: Boolean(body.fullProgramme),
+        }), 201);
+      } catch (err) { return failWith(err, 422); }
+    }
+
+    // THE REAL PRICING, and only the bank stubbed. priceCheckout() and
+    // openPayment() are the production functions the route calls: the
+    // discount, the currency conversion, the gateway choice and the
+    // pending row are all decided by the same code that decides them on
+    // Cloudflare. This block used to restate that arithmetic and got it
+    // wrong within a day — it charged the published fee to a learner
+    // holding a scholarship while the offer card beside it quoted the
+    // discounted one, which is exactly why the pricing was lifted into
+    // functions/_lib/payments/checkout.js.
+    if (url.pathname === '/api/payments/create-checkout' && req.method === 'POST') {
+      const body = JSON.parse((await read(req)) || '{}');
+      try {
+        if (!env.STRIPE_SECRET_KEY) {
+          const err = new Error('No payment gateway is configured.');
+          err.name = 'GatewayNotConfiguredError'; err.httpStatus = 503;
+          throw err;
+        }
+        const quote = await checkoutLib.priceCheckout(env, { user: LEARNER_USER, body });
+        const paymentId = await checkoutLib.openPayment(env, { user: LEARNER_USER, quote });
+        await checkoutLib.markPaymentProcessing(env, paymentId, 'harness_' + paymentId);
+        return json(res, {
+          paymentId,
+          // Where createCheckout() would have sent them. The bank below
+          // stands in for the card network AND for the webhook that
+          // follows it.
+          checkoutUrl: `/__demo-gateway?payment=${paymentId}&lang=${body.language === 'ar' ? 'ar' : 'en'}`,
+          gateway: quote.gatewayName,
+          currency: quote.currencyCode,
+          amountMinor: quote.amountMinor,
+        });
+      } catch (err) { return failWith(err, 422); }
+    }
+
+    // THE BANK, AND THE WEBHOOK AFTER IT. Under /__ rather than /api/
+    // by the same convention as /__demo-awards: harness furniture that
+    // must not be mistaken for a route the site ships. It clears the
+    // charge, issues the receipt the real webhook handler issues, and
+    // returns the browser exactly where a gateway would.
+    if (url.pathname === '/__demo-gateway') {
+      const id = url.searchParams.get('payment');
+      const prefix = url.searchParams.get('lang') === 'ar' ? '/ar' : '';
+      if (url.searchParams.get('outcome') === 'decline') {
+        sqlite.prepare(`UPDATE payments SET status = 'failed', failure_reason = ? WHERE id = ?`)
+          .run('The card issuer declined the charge.', id);
+      } else {
+        sqlite.prepare(`UPDATE payments SET status = 'succeeded', confirmed_at = ? WHERE id = ?`)
+          .run(new Date().toISOString(), id);
+        const n = sqlite.prepare('SELECT COUNT(*) AS n FROM receipts').get().n + 1;
+        sqlite.prepare(`INSERT INTO receipts (id, payment_id, receipt_number, issued_at) VALUES (?, ?, ?, ?)`)
+          .run('rcp_' + id, id, 'WEC-R-' + String(900000 + n), new Date().toISOString());
+      }
+      res.writeHead(302, { Location: `${prefix}/student-portal/payment-complete/?payment=${id}` });
+      return res.end();
+    }
+
     if (url.pathname === '/api/admissions/track' && req.method === 'GET') {
       const ref = url.searchParams.get('ref');
       try {

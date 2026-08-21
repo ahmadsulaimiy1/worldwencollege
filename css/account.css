@@ -348,3 +348,173 @@
 }
 .acc-invoice .acc-source__label { color: rgba(244, 231, 198, .5); }
 .acc-invoice .acc-source__ref { color: rgba(244, 231, 198, .62); }
+
+/* ── WHAT YOU MAY PAY FOR NOW ────────────────────────────────────────
+   Seven struck cards, and every one of them carries the full material
+   law — a lit rim, a travelling point, a tilt sheen, a 106px dome —
+   because a price is a major shape on a page about money and a flat
+   panel beside the balance plate would read as a different site.
+
+   THE CLOSING RULE. `.card` in css/brand.css paints a hairline 22px
+   above its own bottom edge, positioned from `--card-pad`. A card whose
+   buttons sit in that band draws the rule THROUGH them, which is the
+   fault that shipped once on the module page. The padding below is the
+   fix: the acts finish above the rule and the rule closes the card.
+   ──────────────────────────────────────────────────────────────────── */
+.acc-offers {
+  list-style: none;
+  margin: 1.6rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1.1rem;
+}
+.acc-offer {
+  --card-pad: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1.5rem 2.5rem;
+  text-align: start;
+}
+.acc-offer__eyebrow {
+  font: 600 .68rem/1 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--ink, #10203A) 52%, transparent);
+  margin: 0 0 .4rem;
+}
+.acc-offer__name {
+  margin: 0 0 .55rem;
+  font-size: 1.08rem;
+  line-height: 1.25;
+}
+.acc-offer__price {
+  margin: 0;
+  font-family: var(--font-display, Georgia, serif);
+  font-size: 1.72rem;
+  font-weight: 700;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink, #10203A);
+}
+.acc-offer__under {
+  margin: .5rem 0 0;
+  font-size: .88rem;
+  line-height: 1.55;
+  color: color-mix(in oklab, var(--ink, #10203A) 70%, transparent);
+}
+/* The acts sit at the foot of the card whatever the copy above them
+   runs to, so seven cards of different lengths still line their buttons
+   up. `auto` on the top margin is what does it; the flex column is what
+   makes `auto` mean anything. */
+.acc-offer__acts {
+  margin-top: auto;
+  padding-top: 1.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+}
+.acc-offer__acts .btn {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .84rem;
+  padding-inline: 1rem;
+}
+/* A level already held, or a plan already open on it: a statement,
+   never a greyed-out button. A control that cannot be used and is
+   drawn anyway is a control a person tries. */
+.acc-offer__note {
+  margin: auto 0 0;
+  padding-top: 1.1rem;
+  font-size: .86rem;
+  line-height: 1.55;
+  color: color-mix(in oklab, var(--ink, #10203A) 62%, transparent);
+}
+
+/* ── THE CURRENCY, AND THE RATE UNDER IT ─────────────────────────── */
+.acc-buy__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem .8rem;
+  margin: 1.3rem 0 0;
+}
+.acc-buy__label {
+  font: 600 .7rem/1 var(--font-ui, system-ui, sans-serif);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--ink, #10203A) 52%, transparent);
+}
+.acc-buy__bar select {
+  min-height: 44px;
+  padding: .4rem .7rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in oklab, var(--ink, #10203A) 22%, transparent);
+  background: var(--paper, #FBF8F2);
+  color: var(--ink, #10203A);
+  font: inherit;
+}
+.acc-buy__bar select:focus-visible { outline: 2px solid var(--gold, #C6A15B); outline-offset: 2px; }
+.acc-buy__rate {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: .84rem;
+  color: color-mix(in oklab, var(--ink, #10203A) 58%, transparent);
+}
+
+.acc-buy__closed { margin-top: 1.3rem; }
+.acc-buy__terms {
+  margin: 1.4rem 0 0;
+  max-width: 68ch;
+  font-size: .9rem;
+  line-height: 1.65;
+  color: color-mix(in oklab, var(--ink, #10203A) 70%, transparent);
+}
+
+/* ── PAYING THE NEXT INSTALMENT, FROM THE SCHEDULE THAT NAMES IT ── */
+.acc-plan__acts { margin-top: 1.1rem; }
+.acc-plan__acts .btn {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── THE MOST RECENT PAYMENT ─────────────────────────────────────── */
+.acc-latest {
+  margin: 1.6rem 0 0;
+  font-size: .92rem;
+}
+.acc-latest a { font-weight: 600; }
+
+/* Relief already granted, quoted into the price above it. Gold,
+   because it is the College giving something back and it should not
+   read like fine print. */
+.acc-offer__relief {
+  margin: .35rem 0 0;
+  font-size: .86rem;
+  line-height: 1.5;
+  font-weight: 600;
+  color: color-mix(in oklab, var(--gold, #C6A15B) 82%, var(--ink, #10203A));
+}
+/* And the one place two prices sit on one card: instalments are struck
+   on the published fee because the payment route will not discount one.
+   Said outright rather than left to be inferred from the arithmetic. */
+.acc-offer__caveat {
+  margin: .35rem 0 0;
+  font-size: .82rem;
+  line-height: 1.55;
+  color: color-mix(in oklab, var(--ink, #10203A) 58%, transparent);
+}
+
+/* The checkout's own status line. It is `.vfy-error` by default —
+   red, urgent, correct for a refusal — and neutral while a payment
+   page is opening. "Opening the payment page…" set in red, at the
+   moment somebody commits money, reads as a failure. */
+.vfy-error.is-busy {
+  color: color-mix(in oklab, var(--ink, #10203A) 72%, transparent);
+  border-color: color-mix(in oklab, var(--gold, #C6A15B) 55%, transparent);
+  background: color-mix(in oklab, var(--gold, #C6A15B) 8%, transparent);
+}

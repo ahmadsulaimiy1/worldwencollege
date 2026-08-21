@@ -186,5 +186,24 @@ check('The resolved deferral is struck from the deferred table',
   !/\| Corporate\/bulk terms \|/.test(gov),
   'the commercial model exists now; the deferral naming its absence must go');
 
+// ── 9 · THE REFUND WINDOW IS HELD IN ONE PLACE ───────────────────────
+// Decision E1 is now stated on three surfaces: the fee schedule's own
+// prose, the plate drawn for the payment-confirmation page, and that
+// page's copy. Two of the three read data/tuition.json. This is what
+// stops the third — the prose — drifting away from them.
+{
+  const days = T.refund_window_days;
+  check('data/tuition.json holds the refund window as a number', Number.isInteger(days) && days > 0, String(days));
+  check('...and the fee schedule publishes that same window in English',
+    new RegExp(`within <strong>${days} days of making`, 'i').test(en), String(days));
+  // Spelled out in words in Arabic, as the register requires — so the
+  // assertion is on the words, not on a numeral that would never
+  // appear. Fourteen is the only value this sentence can carry, and if
+  // the window is ever changed the numeral above and this line must be
+  // brought into agreement deliberately rather than by luck.
+  check('...and in Arabic, where the window is spelled out in words',
+    days === 14 && /أربعة عشر يومًا من سداده/.test(ar), String(days));
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

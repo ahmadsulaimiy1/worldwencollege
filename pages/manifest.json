@@ -1690,6 +1690,31 @@
     ]
   },
   {
+    "slug": "payment-complete",
+    "output": "student-portal/payment-complete/index.html",
+    "title": "Payment &mdash; Worldwide English College",
+    "description": "What the College has received, the receipt issued against it, the level it opens, and the fourteen-day window that runs from the charge.",
+    "contentFile": "student-portal-payment-complete.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/student-portal/payment-complete/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/paycomp.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/payment-complete.js"
+    ]
+  },
+  {
     "slug": "my-standing",
     "output": "my-standing.html",
     "title": "Where I Stand &mdash; Worldwide English College",
@@ -1897,6 +1922,31 @@
       "/js/portal-guard.js",
       "/js/api-auth.js",
       "/js/my-account.js"
+    ]
+  },
+  {
+    "slug": "payment-complete-ar",
+    "output": "ar/student-portal/payment-complete/index.html",
+    "title": "الدفع — الكلية العالمية للغة الإنجليزية",
+    "description": "ما استلمته الكلية، والإيصال الصادر به، والمستوى الذي يفتحه، والأربعة عشر يومًا الجارية من الخصم.",
+    "contentFile": "student-portal-payment-complete.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/student-portal/payment-complete/",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/paycomp.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/payment-complete.js"
     ]
   },
   {

@@ -225,9 +225,16 @@ const body = await page.locator('#secLadder').textContent();
   // The levels offered are the learner's own, read from the standing
   // endpoint — a form offering a level nobody is enrolled on discovers
   // by refusal what it should have known.
-  check('The levels offered are the learner’s own enrolments',
-    (await page.locator('[data-level] option').count()) === 7,
-    `${await page.locator('[data-level] option').count()} options`);
+  // Counted from the standing endpoint rather than typed here — the
+  // harness's learner was enrolled on all six levels until a checkout
+  // needed one left to buy, and an assertion mirroring a fixture is the
+  // one that breaks when the fixture changes for a good reason. The
+  // extra option is "not about a level", which every case may be.
+  const held = (await (await fetch(`${BASE}/api/student/standing`)).json())
+    .levels.filter((l) => l.enrolment).length;
+  check('The levels offered are the learner’s own enrolments, and nothing else',
+    (await page.locator('[data-level] option').count()) === held + 1,
+    `${await page.locator('[data-level] option').count()} options against ${held} enrolments`);
 
   await page.selectOption('[data-kind]', 'complaint');
   await page.waitForTimeout(200);

@@ -52,7 +52,7 @@
   var STATES = {
     no_enrolment: {
       title: 'You are not enrolled on a level yet',
-      body: 'Once your enrolment is confirmed, your first unit will appear here. If you have paid and this still shows after a few minutes, contact Admissions and quote your receipt number.',
+      body: 'Once your enrolment is confirmed, your first module will appear here. If you have paid and this still shows after a few minutes, contact Admissions and quote your receipt number.',
       action: { label: 'Admissions', href: '/admissions/' },
     },
     awaiting_content: {
@@ -64,7 +64,7 @@
       // Deliberately does NOT say "you have passed" or "the next level
       // is unlocked". Whether finishing the modules completes the level is
       // an academic decision the institution has not taken.
-      title: 'You have finished every unit at this level',
+      title: 'You have finished every module at this level',
       body: 'Nothing further is waiting for you here. Your level is marked complete by academic staff, not automatically, so this page will keep showing your work until they do.',
       action: null,
     },
@@ -91,13 +91,19 @@
       // "Continue" and "Begin" are not decoration — they tell a learner
       // whether they are about to lose their place or not.
       $('#nextEyebrow').textContent = next.resuming ? 'Continue where you left off' : 'Next';
-      $('#nextTitle').textContent = 'Unit ' + next.sequence + ' — ' + next.title;
+      // THE TITLE ALREADY CARRIES ITS NUMBER. `units.title` is
+      // "Module 2: Asking for Things" straight out of the curriculum,
+      // so prefixing it printed "Unit 2 — Module 2: Asking for Things"
+      // — the same number twice, under two different words for the
+      // same thing. The College publishes MODULES; this page was the
+      // last surface still calling them units.
+      $('#nextTitle').textContent = next.title;
       $('#nextMeta').textContent = plan.level
-        ? 'Level ' + plan.level.roman + ' · unit ' + next.sequence + ' of ' + plan.totalCount
+        ? 'Level ' + plan.level.roman + ' · module ' + next.sequence + ' of ' + plan.totalCount
         : '';
       var cta = $('#nextCta');
       cta.href = next.href;
-      cta.textContent = next.resuming ? 'Resume this unit' : (plan.completedCount ? 'Open this unit' : 'Begin your first unit');
+      cta.textContent = next.resuming ? 'Resume this module' : (plan.completedCount ? 'Open this module' : 'Begin your first module');
     } else {
       $('#nextCard').hidden = true;
       var s = STATES[plan.state];
@@ -157,7 +163,7 @@
 
       var title = document.createElement('span');
       title.className = 'mp-unit__title';
-      title.textContent = 'Unit ' + u.sequence + ' — ' + u.title;
+      title.textContent = u.title;
 
       var status = document.createElement('span');
       status.className = 'mp-unit__status';

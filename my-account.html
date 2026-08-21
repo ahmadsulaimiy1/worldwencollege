@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="/css/verify.css?v=70dc3ae4">
 <link rel="stylesheet" href="/css/track.css?v=63fc9116">
 <link rel="stylesheet" href="/css/my-record.css?v=b46b2194">
-<link rel="stylesheet" href="/css/account.css?v=f5757e28">
+<link rel="stylesheet" href="/css/account.css?v=0fa02059">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
@@ -1187,6 +1187,48 @@
         <p class="acc-sum__warning" data-imbalance hidden></p>
       </section>
 
+      <!-- WHAT YOU MAY PAY FOR NOW ------------------------------------ -->
+      <!-- READ FIRST, SPEND SECOND. Until GET /api/payments/options
+           existed, the only way to learn what a level costs in your own
+           currency, what four instalments come to, or whether the
+           College can take a card at all was to begin a checkout — and
+           beginning one inserts a payment row before it answers any of
+           it. Everything in this section is answered without spending
+           one.
+
+           THE ARRANGEMENTS ARE THE PUBLISHED ARRANGEMENTS. Four
+           instalments of a level's fee, one level at a time, or the
+           whole programme at once — the three set out at
+           /admissions/tuition/ under "Three arrangements, smallest
+           first", in that order. Nothing here invents a fourth, and
+           nothing here presents the largest as the best.
+
+           WHERE THE COLLEGE CANNOT TAKE A CARD, IT SAYS SO. The
+           endpoint reports the gateways that are actually configured,
+           with no hopeful fallback in the list, and an empty list draws
+           no button at all. A button that answers 503 is worse than an
+           address to write to. -->
+      <section class="acc-block acc-buy" id="secBuy" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg> What you may pay for now</h2>
+        <p class="acc-block__lede" data-buy-lede></p>
+
+        <div class="acc-buy__bar" data-buy-bar hidden>
+          <label class="acc-buy__label" for="buyCurrency">Show these prices in</label>
+          <select id="buyCurrency" data-currency-pick></select>
+          <p class="acc-buy__rate" data-currency-rate></p>
+        </div>
+
+        <div class="callout acc-buy__closed" data-buy-closed hidden>
+          <span class="callout__label" data-buy-closed-label></span>
+          <p data-buy-closed-text></p>
+        </div>
+
+        <ul class="acc-offers" data-offers></ul>
+
+        <p class="acc-buy__terms" data-buy-terms></p>
+        <p class="vfy-error" data-buy-error hidden role="alert"></p>
+      </section>
+
       <!-- WHAT WAS ASSESSED ------------------------------------------ -->
       <section class="acc-block" id="secTuition" hidden>
         <h2><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg> What you were assessed, and on what basis</h2>
@@ -1261,6 +1303,10 @@
         <p class="acc-invoice__charged" data-invoice-charged></p>
         <p class="acc-sum__warning" data-invoice-mismatch hidden></p>
       </section>
+
+      <p class="acc-latest" id="latest" hidden>
+        <a href="/student-portal/payment-complete/" data-latest-link>Your most recent payment, and what it opened</a>
+      </p>
 
       <p class="vfy-scope" id="scope" hidden>
         This statement covers your account and nobody else&rsquo;s. It is produced from the ledger itself &mdash; the same rows the College&rsquo;s own revenue report reads &mdash; so a figure here and a figure there cannot disagree. Where the platform does not hold a fact, it says so rather than estimating one.
@@ -1735,11 +1781,11 @@
 <script src="/js/atelier.js?v=989e1ca8" defer></script>
 <script src="/js/worldclock.js?v=99a644de" defer></script>
 <script src="/js/intake.js?v=5238c58f" defer></script>
-<script src="/js/sonics.js?v=3e68cc75" defer></script>
+<script src="/js/sonics.js?v=38146983" defer></script>
 <script src="/js/auth-config.js?v=55a73de7"></script>
 <script src="/js/clerk-loader.js?v=0d9cae5a"></script>
 <script src="/js/portal-guard.js?v=6ae6fb6c"></script>
 <script src="/js/api-auth.js?v=a45735fc"></script>
-<script src="/js/my-account.js?v=39840034"></script>
+<script src="/js/my-account.js?v=8430f981"></script>
 </body>
 </html>

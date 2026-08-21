@@ -166,12 +166,28 @@ async function open(url, viewport) {
   await page.close();
 }
 
-// --- Honesty about what is not yet decided ---------------------------
+// --- What an absence from the roll does and does not mean ------------
+// This block used to require a "provisional — the award architecture
+// has not yet been approved" notice. That notice was struck when the
+// page was ported into pages/: it had stopped being true (awards HAVE
+// been conferred at Levels I and II), and the standard ruled on
+// 18 August 2026 is that the site states what the College does rather
+// than what it has not done.
+//
+// What must still hold is the thing that notice was standing in for —
+// that the roll never implies more than it is. It is a roll of the
+// award holders who CONSENTED to appear, so a reader must be told, on
+// the page, that an award missing from it is not an award that does not
+// exist.
 {
   const page = await open(`${BASE}/register.html`);
-  const notice = await textOf(page, '.reg-provisional');
-  check('The page states that the award architecture is not yet approved',
-    /provisional/i.test(notice) && /not yet been approved/i.test(notice), notice.slice(0, 90));
+  const lede = await textOf(page, '.masthead__inner .lede');
+  check('The roll says an award absent from it can still be checked by its code',
+    /not listed can still be checked/i.test(lede), lede.slice(0, 120));
+  check('...and links to the place it is checked',
+    (await page.locator('.masthead__inner .lede a[href="/verify.html"]').count()) === 1);
+  check('...and no page still carries the retired "provisional" notice',
+    (await page.locator('.reg-provisional').count()) === 0);
   await page.close();
 }
 

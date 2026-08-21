@@ -46,6 +46,47 @@ reference becomes a row.
 
 ## Payments
 
+### `GET /api/payments/options`
+**Requires auth**, and answers for the signed-in learner only — a
+`userId`/`user_id`/`studentId`/`learnerId` parameter is refused with a
+422 rather than ignored. Query: `country` (two letters, a suggestion
+only) and `currency` (three letters; a currency the College cannot take
+answers 404 by name rather than being quietly re-quoted in dollars).
+
+READ FIRST, SPEND SECOND. `create-checkout` below decides the price,
+the discount, the currency and the gateway by INSERTING a payments row
+and handing the learner to a gateway; until this route existed there
+was no way to ask any of those questions without spending that row.
+
+Returns `{ asAt, currency, levels[], fullProgramme, instalments,
+scholarship, discountPolicy, payment }`.
+
+- Every figure is `presentAmount()` from `_lib/student/finance.js` —
+  the same `{usdCents, ledger:{…text}, learner:{…text, rateAsOf}}`
+  shape `/api/student/finance` uses, so a surface renders one money
+  format and formats nothing itself.
+- `levels[]` carries `price` (what paying in full costs TODAY, after
+  any relief), `published`/`relief` (both null where there is none),
+  `instalment.amounts` computed by the same `computeInstalmentAmounts()`
+  the create route charges from, `instalment.reliefApplies` (always
+  false — a plan is struck on the published fee and the create route
+  refuses to discount an instalment), `enrolment.held`, `nameAr` and
+  `ordinalAr` beside `name`.
+- `fullProgramme.comparison` is `same` where the difference from
+  `sumOfLevels` is under one whole currency unit: six levels sum to
+  $19,000.02 against an aggregate of $19,000, and that waiver is not a
+  discount — see `data/tuition.json` § _rounding.
+- `instalments.appliesTo` is `level`, which is what the fee schedule
+  publishes.
+- **`payment.configured` is the honest list, with no fallback in it.**
+  `suggestGateway()` answers `['stripe']` when nothing is configured
+  because the create route needs a name to attempt; an interface given
+  an empty list here is expected to say the College cannot take a card
+  today rather than draw a button that answers 503.
+
+Nothing is written. Asking what something costs creates no payment row
+and no instalment plan.
+
 ### `POST /api/payments/create-checkout`
 **Requires auth.** Body — exactly one of `levelId`, `fullProgramme`, or
 `instalmentPlanId`, plus optional `currency`/`gateway`:
@@ -64,10 +105,24 @@ only) apply a discount via `functions/_lib/payments/discounts.js` —
 both together are rejected with a 422 unless
 `platform_config.discount_stacking_policy` explicitly allows it.
 
+`language` (`'en'`/`'ar'`) is the ONLY thing a caller may say about
+where the gateway returns them: the success and cancel addresses are
+built by `returnAddresses()` in `_lib/payments/checkout.js`, and a
+caller-supplied URL would be an open redirect on a page people arrive
+at from their bank. Success returns to
+`/student-portal/payment-complete/?payment=…`; cancel returns to
+`/my-account.html`, where every checkout on this site begins.
+
 Returns `{ paymentId, checkoutUrl, gateway, currency, amountMinor }`.
 `currency`/`gateway` are optional — omitted, they're inferred from the
 account's country via `_lib/currency.js`'s routing suggestion, per
 `payments-architecture.md` § UX.
+
+The price, the discount, the currency, the gateway choice and the
+pending row are all decided in `_lib/payments/checkout.js`
+(`priceCheckout()`, `openPayment()`), so the same arithmetic can be
+exercised without a live gateway. The route itself is only the gateway
+call and the failure-marking around it.
 
 ### `POST /api/payments/instalment-plan`
 **Requires auth.** Body: `{ levelId }` or `{ fullProgramme: true }`.
@@ -78,10 +133,36 @@ instalmentCount, status, amounts }`. Pay each instalment in turn via
 `POST /api/payments/create-checkout` with `{ instalmentPlanId: id }`.
 
 ### `GET /api/payments/verify?id=pay_xxx`
-**Requires auth**, and the payment must belong to the caller. Returns
-`{ id, status, currency, amountCents, levelId }` — polled by the
-checkout success page while waiting for the webhook. `levelId` is
-`null` for a full-programme payment.
+**Requires auth.** The payment is bound to the account in the query
+itself, so a reference belonging to somebody else is answered exactly
+as one that does not exist. **`id` is optional**: with no reference the
+most recent payment on the account is answered, which is what makes
+`/student-portal/payment-complete/` reachable from a statement of
+account rather than only by holding an address a gateway generated.
+
+Read by that page, and polled by it while the webhook lands. The four
+keys this route has always answered with — `id`, `status`, `currency`,
+`amountCents`, `levelId` — are unchanged and still first in the
+payload. Beside them, from `_lib/payments/confirmation.js`:
+
+- `standing` — one of `awaiting_gateway`, `received`, `enrolled`,
+  `failed`, `returned`. Six statuses, an optional receipt and an
+  optional enrolment collapse into the five things a person can be
+  told, and that is decided ONCE, here, rather than in two editions of
+  a page that could then disagree about whether somebody had paid.
+- `mayConfirmEnrolment` — true only where `POST /api/enrolment/confirm`
+  would actually grant it, so an interface never draws a button that
+  answers 422.
+- `charged` — what actually reached the card, in the currency it was
+  taken in, formatted; never re-converted at today's rate.
+  `ledgerAmount` is the same sum in the ledger currency.
+- `level` / `opens` — both `{id, roman, cefr, name, nameAr,
+  ordinalAr}`. `opens` is Level I for a full-programme payment, per
+  Executive Decision #1.
+- `instalment` — `{planId, number, of, paidCount, remainingCount}`;
+  `number` is null while the charge is still in flight, because the
+  number is its position among the ones that succeeded.
+- `receipt`, `enrolment`, `failureReason`.
 
 ### `POST /api/payments/webhook-{stripe,paystack,flutterwave,opay}`
 Gateway-only (signature-verified, not user-callable). Each is five

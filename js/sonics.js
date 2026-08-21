@@ -177,7 +177,15 @@
             /* Writing to the Registrar opens a case with a
                reference, a clock and a record. If anything on
                this site is a sealed act, that is. */
-            + '.cse-form';
+            + '.cse-form, '
+            /* A payment confirmed is the College undertaking
+               something: a numbered receipt, a place on the
+               programme, and fourteen days in which the whole
+               sum comes back. The plate carries a wax seal for
+               the same reason the offer plate does, and it
+               takes the conferral voice rather than the tap the
+               rest of that page gets. */
+            + '.paycomp__plate';
   var OPEN  = 'details > summary, .accordion__q, .nav__toggle, [aria-expanded]';
   /* THE CHROME, and it is ranked BELOW open and ABOVE tap deliberately.
      The utility rail's Verify group and the editions picker both carry

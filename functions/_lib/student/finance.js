@@ -47,6 +47,7 @@ import { db, NotFoundError, ValidationError } from '../db.js';
 import { getConfigJson } from '../config.js';
 import { formatMinorUnits, usdCentsToMinorUnits } from '../currency.js';
 import { computeInstalmentAmounts } from '../payments/instalments.js';
+import { LEVEL_NAMES_AR } from '../academic/level-names.js';
 
 // `payments.amount_usd_cents` is the platform's normalised figure and
 // its name says which currency it is in. The College's ledger is
@@ -273,6 +274,11 @@ export async function buildStudentInvoice(env, { userId, invoiceId }) {
       failureReason: payment.failure_reason || null,
       levelId: payment.level_id || null,
       levelName: level ? level.name : null,
+      // Beside it, never instead of it — the page chooses by its own
+      // language. `programme_levels` holds one English string, which is
+      // why an Arabic statement of account read "Upper Intermediate
+      // Programme" in the middle of an Arabic sentence.
+      levelNameAr: level ? (LEVEL_NAMES_AR[level.id] || null) : null,
       instalmentPlanId: payment.instalment_plan_id || null,
       receiptNumber: receipt ? receipt.receipt_number : null,
       // The learner's own account details, and nothing about anybody
@@ -760,6 +766,11 @@ function summariseSettlement(ctx) {
       kind: payment.kind,
       levelId: payment.level_id || null,
       levelName: level ? level.name : null,
+      // Beside it, never instead of it — the page chooses by its own
+      // language. `programme_levels` holds one English string, which is
+      // why an Arabic statement of account read "Upper Intermediate
+      // Programme" in the middle of an Arabic sentence.
+      levelNameAr: level ? (LEVEL_NAMES_AR[level.id] || null) : null,
       status: payment.status,
       received,
       provider: payment.provider,
@@ -880,6 +891,11 @@ function buildInstalments(ctx, money) {
       scope: plan.level_id == null ? 'full_programme' : 'level',
       levelId: plan.level_id,
       levelName: level ? level.name : null,
+      // Beside it, never instead of it — the page chooses by its own
+      // language. `programme_levels` holds one English string, which is
+      // why an Arabic statement of account read "Upper Intermediate
+      // Programme" in the middle of an Arabic sentence.
+      levelNameAr: level ? (LEVEL_NAMES_AR[level.id] || null) : null,
       status: plan.status,
       instalmentCount: plan.instalment_count,
       paidCount: paid.length,

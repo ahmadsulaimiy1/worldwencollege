@@ -91,9 +91,19 @@ async function open(url, viewport) {
     (await page.locator('#secTranscript').isVisible()) === true);
   check('...as a real table, which is what a registrar expects and a screen reader can read',
     (await page.locator('.grad-table thead th').count()) === 5);
+  // Counted from the record rather than typed here. The harness's
+  // learner was enrolled on all six levels until a checkout needed one
+  // left to buy, and an assertion mirroring a fixture is the one that
+  // breaks when the fixture changes for a good reason.
+  // From the public payload the page itself renders — this harness runs
+  // with LAB_REQUIRE_AUTH, so a learner endpoint is not readable here,
+  // and reading the record the page reads is the better assertion
+  // anyway.
+  const record = await (await fetch(`${BASE}/api/graduate/demonstration-graduate`)).json();
+  const entered = record.transcript.entries.length;
   check('...listing every level entered, not only the ones that produced an award',
-    (await page.locator('#transcript tr').count()) >= 6,
-    await page.locator('#transcript tr').count());
+    (await page.locator('#transcript tr').count()) >= entered,
+    `${await page.locator('#transcript tr').count()} rows against ${entered} levels entered`);
   check('...including levels still in progress',
     /In progress/.test(await textOf(page, '#transcript')));
   check('Credits and qualification time are totalled', /WEC Credits/.test(await textOf(page, '#totals')));

@@ -50,6 +50,32 @@
         <p class="acc-sum__warning" data-imbalance hidden></p>
       </section>
 
+      <!-- ما يمكنك دفعُه الآن -->
+      <!-- اقرأ أوّلًا، وادفع ثانيًا. والحجّة كاملةً في النسخة
+           الإنجليزية: الترتيبات الثلاثة هي المنشورة في
+           /ar/admissions/tuition/، ولا يُرسم زرٌّ حيث لا تقدر الكلية
+           على قبول البطاقة. -->
+      <section class="acc-block acc-buy" id="secBuy" hidden>
+        <h2><svg class="icon" aria-hidden="true"><use href="#i-crest"/></svg> ما يمكنك دفعُه الآن</h2>
+        <p class="acc-block__lede" data-buy-lede></p>
+
+        <div class="acc-buy__bar" data-buy-bar hidden>
+          <label class="acc-buy__label" for="buyCurrency">اعرض هذه الأسعار بـ</label>
+          <select id="buyCurrency" data-currency-pick></select>
+          <p class="acc-buy__rate" data-currency-rate></p>
+        </div>
+
+        <div class="callout acc-buy__closed" data-buy-closed hidden>
+          <span class="callout__label" data-buy-closed-label></span>
+          <p data-buy-closed-text></p>
+        </div>
+
+        <ul class="acc-offers" data-offers></ul>
+
+        <p class="acc-buy__terms" data-buy-terms></p>
+        <p class="vfy-error" data-buy-error hidden role="alert"></p>
+      </section>
+
       <!-- ما قُدِّر عليك -->
       <section class="acc-block" id="secTuition" hidden>
         <h2><svg class="icon" aria-hidden="true"><use href="#i-lectern"/></svg> ما قُدِّر عليك، وعلى أي أساس</h2>
@@ -117,6 +143,10 @@
         <p class="acc-invoice__charged" data-invoice-charged></p>
         <p class="acc-sum__warning" data-invoice-mismatch hidden></p>
       </section>
+
+      <p class="acc-latest" id="latest" hidden>
+        <a href="/ar/student-portal/payment-complete/" data-latest-link>آخرُ دفعةٍ لك، وما فتحته</a>
+      </p>
 
       <p class="vfy-scope" id="scope" hidden>
         يشمل هذا الكشف حسابك وحده لا حساب غيرك. وهو مأخوذ من السجل نفسه &mdash; السجلّات ذاتها التي يقرؤها تقرير إيرادات الكلية &mdash; فلا يمكن أن يختلف رقمٌ هنا ورقمٌ هناك. وحيث لا يملك النظام معلومةً يقول ذلك، ولا يقدّرها تقديرًا.

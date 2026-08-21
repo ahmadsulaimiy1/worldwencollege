@@ -283,6 +283,8 @@ jobs:
         run: node tests/browser/my-engagement.mjs
       - name: My Module — the study surface, and that the allowance is read before it is spent
         run: node tests/browser/my-module.mjs
+      - name: Paying — the journey from an offer to an open level, and the screen a bank returns to
+        run: node tests/browser/payment-complete.mjs
 
   deploy:
     needs: verify
