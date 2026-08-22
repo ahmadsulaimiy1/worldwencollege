@@ -27,7 +27,7 @@ const check = (label, cond, detail) => {
 };
 
 const schema = readFileSync(`${ROOT}/sql/schema.sql`, 'utf8');
-const arch = readFileSync(`${ROOT}/docs/iefc-award-architecture.md`, 'utf8');
+const arch = readFileSync(`${ROOT}/docs/weq-framework.md`, 'utf8');
 const framework = readFileSync(`${ROOT}/docs/curriculum-framework.md`, 'utf8');
 
 // Both documents use markdown emphasis and hard-wrap their prose; the
@@ -87,8 +87,42 @@ check('...one per level, in order', defs.map((d) => d.levelId).join(',') === '1,
 {
   const pns = defs.map((d) => d.postNominal);
   check('Post-nominals are distinct', new Set(pns).size === 6, pns.join(','));
-  check('...and each is a real post-nominal, not a placeholder',
-    pns.every((p) => /^[A-Z][a-z][A-Z]{3}$/.test(p)), pns.join(','));
+  // The shape changed with the framework, and the reason is worth
+  // keeping. Under the superseded architecture these were post-nominals
+  // on the house pattern ECIC..WEPC — two letters of the award joined
+  // to the College's abbreviation. The Worldwide English Qualifications
+  // are certificates, and a certificate carries designatory letters
+  // drawn from its own title: ECIC, HCIC, CAEC, HCAEC, ACEC, WEPC.
+  //
+  // Still a shape check rather than a list, so it catches a placeholder
+  // or a truncation without hard-coding the six values a second time —
+  // the definitions are the list.
+  check('...and each is a real award code, not a placeholder',
+    pns.every((p) => /^[A-Z]{4,5}$/.test(p)), pns.join(','));
+  // Drawn from its own title, in order — but NOT by a single rule, and
+  // the first version of this check asserted one that does not hold.
+  // ECIC and HCIC take the "i" of "in" and skip "English"; CAEC, HCAEC
+  // and ACEC skip "in" and keep "English". Both readings are defensible
+  // and the Board set the codes; what is not defensible is a test
+  // asserting a derivation the codes do not follow.
+  //
+  // So the invariant is the true one: every letter of the code appears,
+  // in order, among the initials of its title's words. That still fails
+  // a typo, a truncation, or a code copied from the wrong row, without
+  // inventing a rule to be wrong about.
+  const initials = (t) => t.split(/\s+/).filter(Boolean).map((w) => w[0].toUpperCase());
+  const isSubsequence = (code, seq) => {
+    let i = 0;
+    for (const ch of seq) if (i < code.length && code[i] === ch) i += 1;
+    return i === code.length;
+  };
+  check('...and every code is drawn, in order, from its own title',
+    defs.every((d) => isSubsequence(d.postNominal, initials(d.officialTitle))),
+    defs.filter((d) => !isSubsequence(d.postNominal, initials(d.officialTitle)))
+      .map((d) => `${d.postNominal}:${d.officialTitle}`).join(' | '));
+  check('...and that check does reject a code from the wrong title',
+    !isSubsequence('WEPC', initials('Essential Certificate in English Communication'))
+    && isSubsequence('ECIC', initials('Essential Certificate in English Communication')));
   // The load-bearing decision of the award architecture: each award is
   // complete in itself. A definition describing a step toward something
   // else would contradict the standing it confers.

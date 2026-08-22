@@ -8,6 +8,76 @@ decisions now stand adopted and none is outstanding.
 
 ---
 
+---
+
+## E — Executive Board Resolutions after 14 August 2026
+
+Decisions taken after the adoption of the original twenty-five. Recorded
+in the same register, in the same form, because a decision taken later
+is not a decision taken more quietly.
+
+### E1. The Worldwide English Qualifications framework
+
+**Supersedes:** C4, *The IEFC award architecture*, adopted 14 August 2026.
+
+**Resolved:** the College's six awards become six **qualifications**
+under one named framework, **Worldwide English Qualifications (WEQ)**:
+
+| Stage | Qualification | Award | CEFR |
+|---|---|---|---|
+| Foundation | Essential Certificate in English Communication | ECIC | A1 |
+| Development | Higher Certificate in English Communication | HCIC | A2 |
+| Application | Certificate in Applied English Communication | CAEC | B1 |
+| Professional | Higher Certificate in Applied English Communication | HCAEC | B2 |
+| Advanced | Advanced Certificate in English Communication | ACEC | C1 |
+| Mastery | Worldwide English Proficiency Certificate | WEPC | C2 |
+
+The public pathway is expressed in stages — **Foundation → Development →
+Application → Professional → Advanced → Mastery** — not in level numbers
+and not by repeating the qualification names.
+
+**Rationale.** C4 chose a ladder of standing over a ladder of capability
+and gave a good reason: standing language does not date. That reason
+still holds and is not what changed. What changed is the question. A
+ladder of standing describes where a learner stands *inside* the
+College, and it does not travel: a learner who completes the second
+stage and stops held, under C4, the standing of an English Candidate of
+Worldwide English College — legible, honourable, and of no use to an
+employer who has never heard of the College. The Board's judgement is
+that adults paying their own money are owed something they can carry out
+of the building.
+
+**What this does not change.** The three rules the award architecture was
+built under survive, and the first survives with its vocabulary altered
+and its prohibition intact: these are the College's *own* qualifications,
+not regulated ones, not degrees, not professional-body grades, and not
+equivalent to any of those. The CEFR ceiling at C2 stands and nothing is
+presented above it. No claim of accreditation or recognition is made
+anywhere, which is why the framework does not use the phrase
+"internationally recognised" — no other institution has recognised
+anything — and says instead what is true: aligned to an international
+reference framework, describing internationally intelligible ability.
+
+**What the Board was asked to note.** In some national vocabularies a
+*Higher Certificate* outranks a plain *Certificate*, which would place
+the Development Stage above the Application Stage. It does not here. The
+order is the order of the stages, and every page that names a
+qualification names its stage beside it. The Board chose these titles
+with the ambiguity in view. Separately, the award codes do not follow a
+single derivation — ECIC and HCIC take the "i" of *in* and drop
+*English*, while CAEC, HCAEC and ACEC drop *in* and keep *English* — and
+this is recorded so that a later reader does not "correct" one set to
+match the other.
+
+**Still true, and unchanged by this resolution:** no qualification in
+this framework has been conferred on anyone, and none will be until an
+External Examiner is appointed.
+
+**Decision:** ☑ **ADOPTED 18 August 2026 (Executive Board).** Academic
+items are subject to Senate ratification — see the Adoption Record.
+Implemented in `sql/migrations/020-weq-framework.sql` and documented in
+`docs/weq-framework.md`.
+
 ## ADOPTION RECORD — 14 August 2026
 
 **Adopting authority:** the Executive of Worldwide English College.
@@ -271,10 +341,15 @@ somebody may later have to substantiate.
 **Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### C4. The IEFC award architecture
+
+> **SUPERSEDED 18 August 2026 by decision E1, below.** The reasoning
+> here is kept rather than deleted. It was not wrong; it answered a
+> question the Board has since decided was the wrong one.
+
 **Recommendation:** adopt `docs/iefc-award-architecture.md` (second
 reading) in full — six named awards of **standing** (Aspirant,
 Candidate, Associate, Envoy, Orator, Laureate), post-nominals
-ApWEC–LrWEC, five honours, one Alumni Society with six Chapters, the
+ECIC–WEPC, five honours, one Alumni Society with six Chapters, the
 Register of the Ascent, and four College traditions.
 
 **What changed at second reading.** The first draft proposed a ladder of

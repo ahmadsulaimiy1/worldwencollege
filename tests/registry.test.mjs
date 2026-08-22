@@ -34,8 +34,8 @@ function freshEnv(n = 3) {
 
 const AWARD = {
   levelId: 3,
-  awardTitle: 'English Associate of Worldwide English College',
-  postNominal: 'AsWEC',
+  awardTitle: 'Certificate in Applied English Communication',
+  postNominal: 'CAEC',
   cefr: 'B1',
   credits: 20,
   tqtHours: 200,
@@ -220,7 +220,8 @@ const AWARD = {
   check('A valid code verifies', good.outcome === 'valid', good.outcome);
   check('...naming the holder and the award',
     good.award.holderName === 'Demonstration Graduate'
-    && /English Associate/.test(good.award.awardTitle), JSON.stringify(good.award).slice(0, 80));
+    && /Certificate in Applied English Communication/.test(good.award.awardTitle),
+    JSON.stringify(good.award).slice(0, 80));
   check('...with the honour in words a reader understands',
     good.award.honourLabel === 'Distinction', good.award.honourLabel);
   check('...the CEFR band, credits and qualification time',
@@ -329,14 +330,14 @@ const AWARD = {
 // worth recording.
 {
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 1, awardTitle: 'English Aspirant of Worldwide English College', postNominal: 'ApWEC', cefr: 'A1', now: T0 });
-  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 2, awardTitle: 'English Candidate of Worldwide English College', postNominal: 'CnWEC', cefr: 'A2', now: T0 + 1000 });
+  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 1, awardTitle: 'Essential Certificate in English Communication', postNominal: 'ECIC', cefr: 'A1', now: T0 });
+  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 2, awardTitle: 'Higher Certificate in English Communication', postNominal: 'HCIC', cefr: 'A2', now: T0 + 1000 });
   await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 3, honour: 'merit', now: T0 + 2000 });
 
   const hist = await reg.awardHistory(env, { userId: 'usr_1' });
   check('A graduate\'s history holds every award, not only the highest', hist.awards.length === 3, hist.awards.length);
   check('...in level order', hist.awards.map((a) => a.level.id).join(',') === '1,2,3');
-  check('...naming the highest currently held', hist.highest.postNominal === 'AsWEC', hist.highest.postNominal);
+  check('...naming the highest currently held', hist.highest.postNominal === 'CAEC', hist.highest.postNominal);
   check('...with credits totalled across the Ascent', hist.creditsTotal === 60, hist.creditsTotal);
   check('...and qualification time totalled', hist.tqtHoursTotal === 600, hist.tqtHoursTotal);
 }
@@ -498,12 +499,12 @@ const AWARD = {
       VALUES ('usr_${i}','clerk','c_${i}','g${i}@example.com','student')`).bind().run();
   }
   const LEVELS = [
-    [1, 'English Aspirant of Worldwide English College', 'ApWEC', 'A1'],
-    [2, 'English Candidate of Worldwide English College', 'CnWEC', 'A2'],
-    [3, 'English Associate of Worldwide English College', 'AsWEC', 'B1'],
-    [4, 'English Fellow of Worldwide English College', 'FlWEC', 'B2'],
-    [5, 'English Scholar of Worldwide English College', 'ScWEC', 'C1'],
-    [6, 'English Laureate of Worldwide English College', 'LrWEC', 'C2'],
+    [1, 'Essential Certificate in English Communication', 'ECIC', 'A1'],
+    [2, 'Higher Certificate in English Communication', 'HCIC', 'A2'],
+    [3, 'Certificate in Applied English Communication', 'CAEC', 'B1'],
+    [4, 'Higher Certificate in Applied English Communication', 'HCAEC', 'B2'],
+    [5, 'Advanced Certificate in English Communication', 'ACEC', 'C1'],
+    [6, 'Worldwide English Proficiency Certificate', 'WEPC', 'C2'],
   ];
   for (let i = 0; i < LEVELS.length; i++) {
     const [levelId, awardTitle, postNominal, cefr] = LEVELS[i];
@@ -520,8 +521,19 @@ const AWARD = {
   const levelsShown = new Set(all.entries.map((e) => e.levelId));
   check('The register lists award holders at every level, not only the highest',
     levelsShown.size === 6, [...levelsShown].join(','));
+  // Was a suffix match on "of Worldwide English College", which stopped
+  // meaning anything when the qualifications became certificates rather
+  // than awards of standing. The intent was always "the full official
+  // title, not a code" — so it now checks against the definitions
+  // themselves, which is what the old pattern was approximating and is
+  // one fewer place for a title to be written down.
+  const { results: official } = await env.DB.prepare(
+    'SELECT level_id AS levelId, official_title AS officialTitle FROM award_definitions').all();
+  const titleFor = new Map(official.map((d) => [d.levelId, d.officialTitle]));
   check('...naming the award in full for each of them',
-    all.entries.every((e) => /of Worldwide English College$/.test(e.awardTitle)));
+    all.entries.every((e) => e.awardTitle === titleFor.get(e.levelId)),
+    all.entries.filter((e) => e.awardTitle !== titleFor.get(e.levelId))
+      .map((e) => `L${e.levelId}: ${e.awardTitle}`).join(', '));
   check('...and carrying the honour in words the reader understands',
     all.entries.every((e) => typeof e.honourLabel === 'string' && e.honourLabel.length > 0));
 

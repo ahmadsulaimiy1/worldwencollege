@@ -176,12 +176,12 @@ assessed once is an aspiration.
 
 | Level | CEFR | Programme | Award on completion |
 |---|---|---|---|
-| I | A1 | Foundation Programme | **English Aspirant of Worldwide English College** (ApWEC) |
-| II | A2 | Elementary Programme | **English Candidate** (CnWEC) |
-| III | B1 | Intermediate Programme | **English Associate** (AsWEC) |
-| IV | B2 | Upper Intermediate Programme | **English Envoy** (EnWEC) |
-| V | C1 | Advanced Programme | **English Orator** (OrWEC) |
-| VI | C2 | English Mastery Programme | **English Laureate** (LrWEC) + the **International English Fluency Certificate** |
+| I | A1 | Foundation Programme | **Essential Certificate in English Communication** (ECIC) |
+| II | A2 | Elementary Programme | **English Candidate** (HCIC) |
+| III | B1 | Intermediate Programme | **English Associate** (CAEC) |
+| IV | B2 | Upper Intermediate Programme | **English Envoy** (HCAEC) |
+| V | C1 | Advanced Programme | **English Orator** (ACEC) |
+| VI | C2 | English Mastery Programme | **English Laureate** (WEPC) + the **International English Fluency Certificate** |
 
 The award architecture, its reasoning and its rejected alternatives are
 in `docs/iefc-award-architecture.md` (governance C4). Two points bear

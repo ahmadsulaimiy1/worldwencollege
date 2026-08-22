@@ -41,8 +41,8 @@ function freshEnv() {
 }
 
 const AWARD = {
-  levelId: 1, awardTitle: 'English Aspirant of Worldwide English College',
-  postNominal: 'ApWEC', cefr: 'A1', credits: 20, tqtHours: 200,
+  levelId: 1, awardTitle: 'Essential Certificate in English Communication',
+  postNominal: 'ECIC', cefr: 'A1', credits: 20, tqtHours: 200,
   holderName: 'Demonstration Graduate',
 };
 
@@ -101,7 +101,7 @@ const AWARD = {
   // document.
   check('...including one still in progress, not only the ones that produced an award',
     t.entries.some((e) => e.status === 'active' && e.award === null));
-  check('...naming the award where there is one', t.entries[0].award.postNominal === 'ApWEC');
+  check('...naming the award where there is one', t.entries[0].award.postNominal === 'ECIC');
   check('...with the honour recorded', t.entries[0].award.honourLabel === 'Merit');
   check('...and the code that verifies it', /^WEC-/.test(t.entries[0].award.verificationCode));
   check('Credits and qualification time are totalled from awards held',

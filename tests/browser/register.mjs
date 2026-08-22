@@ -78,8 +78,8 @@ async function open(url, viewport) {
   // Laureates tells five graduates in six that their award was not worth
   // recording.
   check('...including the lowest award, not only the highest',
-    /Aspirant Demonstration/.test(body));
-  check('...and the highest', /Laureate Demonstration/.test(body));
+    /Foundation Demonstration/.test(body));
+  check('...and the highest', /Mastery Demonstration/.test(body));
 
   // The consent assertion, checked against a graduate who genuinely
   // exists in the register and genuinely declined. Without that fixture
@@ -106,14 +106,14 @@ async function open(url, viewport) {
   check('Choosing an award narrows the roll without a second click',
     (await page.locator('.reg-entry').count()) === 1,
     await page.locator('.reg-entry').count());
-  check('...to that award', /Laureate Demonstration/.test(await textOf(page, '#list')));
+  check('...to that award', /Mastery Demonstration/.test(await textOf(page, '#list')));
 
   await page.selectOption('#level', '');
-  await page.fill('#q', 'aspirant');
+  await page.fill('#q', 'foundation');
   await page.locator('.reg-go').click();
   await page.waitForTimeout(700);
   check('A lower-case name search matches',
-    (await page.locator('.reg-entry').count()) === 1 && /Aspirant Demonstration/.test(await textOf(page, '#list')));
+    (await page.locator('.reg-entry').count()) === 1 && /Foundation Demonstration/.test(await textOf(page, '#list')));
 
   await page.fill('#q', 'Nobody Of That Name');
   await page.locator('.reg-go').click();

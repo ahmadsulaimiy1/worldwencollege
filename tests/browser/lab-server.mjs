@@ -100,18 +100,18 @@ const DEMO = {};
   });
   DEMO.valid = await conf({
     userId: 'usr_demo', levelId: 3, holderName: 'Demonstration Graduate',
-    awardTitle: 'English Associate of Worldwide English College', postNominal: 'AsWEC',
+    awardTitle: 'Certificate in Applied English Communication', postNominal: 'CAEC',
     cefr: 'B1', honour: 'distinction', publicConsent: true,
     citation: 'In recognition of a structured presentation delivered and defended under questioning.',
   });
   DEMO.revokedSrc = await conf({
     userId: 'usr_prog', levelId: 2, holderName: 'Withdrawn Demonstration',
-    awardTitle: 'English Candidate of Worldwide English College', postNominal: 'CnWEC', cefr: 'A2',
+    awardTitle: 'Higher Certificate in English Communication', postNominal: 'HCIC', cefr: 'A2',
   });
   await registry.revokeAward(env, { awardId: DEMO.revokedSrc.id, reason: 'Conferred in error during a demonstration.' });
   DEMO.replacedSrc = await conf({
     userId: 'usr_none', levelId: 1, holderName: 'Corrected Demonstratoin',
-    awardTitle: 'English Aspirant of Worldwide English College', postNominal: 'ApWEC', cefr: 'A1',
+    awardTitle: 'Essential Certificate in English Communication', postNominal: 'ECIC', cefr: 'A1',
   });
   DEMO.replacement = (await registry.replaceAward(env, {
     awardId: DEMO.replacedSrc.id, reason: 'Holder name corrected.',
@@ -128,9 +128,9 @@ const DEMO = {};
   // level is enforced by a partial unique index, not by convention.
   DEMO.listed = [];
   const ROLL = [
-    ['usr_none', 6, 'English Laureate of Worldwide English College', 'LrWEC', 'C2', 'Laureate Demonstration', 'college_distinction'],
+    ['usr_none', 6, 'Worldwide English Proficiency Certificate', 'WEPC', 'C2', 'Mastery Demonstration', 'college_distinction'],
     ['usr_prog', 4, 'English Fellow of Worldwide English College', 'FlWEC', 'B2', 'Fellow Demonstration', 'merit'],
-    ['usr_tutor', 1, 'English Aspirant of Worldwide English College', 'ApWEC', 'A1', 'Aspirant Demonstration', 'pass'],
+    ['usr_tutor', 1, 'Essential Certificate in English Communication', 'ECIC', 'A1', 'Foundation Demonstration', 'pass'],
   ];
   for (let i = 0; i < ROLL.length; i++) {
     const [userId, levelId, awardTitle, postNominal, cefr, holderName, honour] = ROLL[i];

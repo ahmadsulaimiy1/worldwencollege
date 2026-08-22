@@ -678,9 +678,16 @@ levels.forEach((lv, i) => {
     slug: `study-${SLUG[lv.roman]}`,
     output: `study/${SLUG[lv.roman]}/index.html`,
     title: `Level ${lv.roman}: ${lv.name} (${lv.cefr}) &mdash; Worldwide English College`,
+    // Under 160 characters at every level, which is roughly where a
+    // search result cuts. The longest roman numeral is III and the
+    // longest CEFR label is two characters, so the worst case is bounded
+    // and tests/build-output.test.mjs holds the limit. This description
+    // was hand-shortened in pages/manifest.json twice and regenerated
+    // long twice, because the slug is built dynamically and a grep for
+    // "study-level-2" does not find this line.
     description: `Level ${lv.roman} of the IEFC: ${lv.modules.length} modules, ${lv.units} `
-      + `designed lessons over ${lv.duration_months} months, aligned to CEFR ${lv.cefr}. Modules, `
-      + 'learning outcomes, assessment, teaching methods and the award.',
+      + `designed lessons over ${lv.duration_months} months, aligned to CEFR ${lv.cefr} `
+      + '&mdash; outcomes, assessment, teaching methods and the qualification.',
     contentFile: `study-${SLUG[lv.roman]}.html`,
     lang: 'en', dir: 'ltr',
     // Ten sections and 1,300 words. scripts/build.js turns this into a

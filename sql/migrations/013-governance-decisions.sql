@@ -69,18 +69,18 @@ CREATE TABLE IF NOT EXISTS alumni_chapters (
 );
 
 INSERT OR IGNORE INTO alumni_chapters (id, level_id, name, award_title, post_nominal, description) VALUES
-  ('chp_aspirant',  1, 'Aspirant Chapter',  'English Aspirant of Worldwide English College',  'ApWEC',
-   'Holders of the Level I award, who entered the tradition.'),
-  ('chp_candidate', 2, 'Candidate Chapter', 'English Candidate of Worldwide English College', 'CnWEC',
-   'Holders of the Level II award.'),
-  ('chp_associate', 3, 'Associate Chapter', 'English Associate of Worldwide English College', 'AsWEC',
-   'Holders of the Level III award.'),
-  ('chp_envoy',     4, 'Envoy Chapter',     'English Envoy of Worldwide English College',     'EnWEC',
-   'Holders of the Level IV award — trusted representatives and communicators.'),
-  ('chp_orator',    5, 'Orator Chapter',    'English Orator of Worldwide English College',    'OrWEC',
-   'Holders of the Level V award — high-level intellectual and professional communicators.'),
-  ('chp_laureate',  6, 'Laureate Chapter',  'English Laureate of Worldwide English College',  'LrWEC',
-   'Holders of the Level VI award — distinguished masters of the programme.');
+  ('chp_aspirant',  1, 'Foundation Chapter',   'Essential Certificate in English Communication',        'ECIC',
+   'Holders of the Foundation Stage qualification, who began a language in adulthood and did not stop.'),
+  ('chp_candidate', 2, 'Development Chapter',  'Higher Certificate in English Communication',           'HCIC',
+   'Holders of the Development Stage qualification, independent in the English of ordinary life.'),
+  ('chp_associate', 3, 'Application Chapter',  'Certificate in Applied English Communication',          'CAEC',
+   'Holders of the Application Stage qualification, who use English for work and study rather than only in it.'),
+  ('chp_envoy',     4, 'Professional Chapter', 'Higher Certificate in Applied English Communication',   'HCAEC',
+   'Holders of the Professional Stage qualification, who can be sent to speak for someone other than themselves.'),
+  ('chp_orator',    5, 'Advanced Chapter',     'Advanced Certificate in English Communication',         'ACEC',
+   'Holders of the Advanced Stage qualification, who control nuance, register and implication.'),
+  ('chp_laureate',  6, 'Mastery Chapter',      'Worldwide English Proficiency Certificate',             'WEPC',
+   'Holders of the College''s highest qualification, who have completed the Worldwide English Qualifications framework in full.');
 
 -- ============================================================
 -- 3. SKILL DESCRIPTORS, NOT PERCENTAGES (Academic Senate)

@@ -249,7 +249,11 @@
     if (d.definition) {
       $('#mTitle').textContent = d.definition.officialTitle
         + ' (' + d.definition.postNominal + ' \u00B7 CEFR ' + d.definition.cefr + ')';
+      $('#mStage').textContent = d.definition.stage
+        ? d.definition.stage + ' Stage of the Worldwide English Qualifications framework'
+        : '\u2014';
       $('#mStanding').textContent = d.definition.standing;
+      $('#mExit').textContent = d.definition.exitStatement || '\u2014';
       $('#mPurpose').textContent = d.definition.academicPurpose;
       $('#mProfile').textContent = d.definition.graduateProfile;
       $('#mOutcomes').textContent = d.definition.learningOutcomes;

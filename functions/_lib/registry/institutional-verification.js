@@ -160,7 +160,22 @@ export async function institutionalVerification(env, { code, channel = 'public',
   const definition = await db(env).prepare(
     `SELECT official_title AS officialTitle, post_nominal AS postNominal, cefr, standing,
             academic_purpose AS academicPurpose, graduate_profile AS graduateProfile,
-            learning_outcomes AS learningOutcomes
+            learning_outcomes AS learningOutcomes,
+            -- Added with the Worldwide English Qualifications framework.
+            -- A stranger checking a credential is the reader who most
+            -- needs to know that the qualification in front of them is
+            -- complete in itself rather than a fragment of a programme
+            -- the holder abandoned. exitStatement is that sentence, and
+            -- withholding it here would leave the verification page
+            -- technically accurate and practically misleading.
+            stage, award_code AS awardCode, exit_statement AS exitStatement,
+            competencies, academic_readiness AS academicReadiness,
+            workplace_readiness AS workplaceReadiness,
+            international_use AS internationalUse,
+            practical_applications AS practicalApplications,
+            progression_requirement AS progressionRequirement,
+            assessment_framework AS assessmentFramework,
+            graduation_requirement AS graduationRequirement
        FROM award_definitions WHERE level_id = ?`).bind(award.level.id).first();
 
   const layers = { identity, integrity, standing };

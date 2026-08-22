@@ -42,7 +42,7 @@ function freshEnv() {
   return env;
 }
 const AWARD = {
-  awardTitle: 'English Associate of Worldwide English College', postNominal: 'AsWEC',
+  awardTitle: 'Certificate in Applied English Communication', postNominal: 'CAEC',
   cefr: 'B1', credits: 20, tqtHours: 200,
 };
 
@@ -198,7 +198,7 @@ const AWARD = {
   check('Six chapters exist, one per award', list.length === 6, list.length);
   check('...named as the Executive named them',
     list.map((c) => c.name).join(', ')
-      === 'Aspirant Chapter, Candidate Chapter, Associate Chapter, Envoy Chapter, Orator Chapter, Laureate Chapter',
+      === 'Foundation Chapter, Development Chapter, Application Chapter, Professional Chapter, Advanced Chapter, Mastery Chapter',
     list.map((c) => c.name).join(', '));
   // No President was appointed by a migration.
   check('...and none has elected officers yet', list.every((c) => c.officersElected === false));
@@ -211,14 +211,14 @@ const AWARD = {
 
   await reg.conferAward(env, { userId: 'usr_a', levelId: 3, holderName: 'A Graduate', ...AWARD });
   const one = await A.chapterFor(env, { userId: 'usr_a' });
-  check('Conferral places a graduate in the matching chapter', one.name === 'Associate Chapter', one.name);
+  check('Conferral places a graduate in the matching chapter', one.name === 'Application Chapter', one.name);
   check('...saying how, rather than asserting membership as a bare fact',
     /Automatic, by conferral/.test(one.basis), one.basis);
 
   await reg.conferAward(env, { userId: 'usr_a', levelId: 5, holderName: 'A Graduate', ...AWARD });
   const two = await A.chapterFor(env, { userId: 'usr_a' });
   check('A higher award moves them up, without membership being rewritten anywhere',
-    two.name === 'Orator Chapter', two.name);
+    two.name === 'Advanced Chapter', two.name);
 }
 
 {
@@ -232,7 +232,7 @@ const AWARD = {
 
   const back = await A.chapterFor(env, { userId: 'usr_a' });
   check('Revoking the higher award returns them to the lower chapter',
-    back.name === 'Associate Chapter', back && back.name);
+    back.name === 'Application Chapter', back && back.name);
 }
 
 {
@@ -246,12 +246,12 @@ const AWARD = {
   // per-level counts would report three members where there are two.
   check('The Society counts each graduate once, at their highest award',
     r.members === 2, r.members);
-  const associate = r.chapters.find((c) => c.name === 'Associate Chapter');
-  check('...so the Associate Chapter holds one member', associate.members === 1, associate.members);
+  const associate = r.chapters.find((c) => c.name === 'Application Chapter');
+  check('...so the Application Chapter holds one member', associate.members === 1, associate.members);
   check('...while still reporting that two people hold that award',
     associate.awardHolders === 2, associate.awardHolders);
-  const orator = r.chapters.find((c) => c.name === 'Orator Chapter');
-  check('...and the Orator Chapter holds the other', orator.members === 1, orator.members);
+  const orator = r.chapters.find((c) => c.name === 'Advanced Chapter');
+  check('...and the Advanced Chapter holds the other', orator.members === 1, orator.members);
   // A chapter with nobody in it is not hidden: the Society is new, and
   // showing only populated chapters would imply the rest do not exist.
   check('Empty chapters are still listed', r.chapters.length === 6);

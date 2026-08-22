@@ -29,7 +29,7 @@ const check = (label, cond, detail) => {
 
 const schema = readFileSync(`${ROOT}/sql/schema.sql`, 'utf8');
 const AWARD = {
-  awardTitle: 'English Envoy of Worldwide English College', postNominal: 'EnWEC',
+  awardTitle: 'Higher Certificate in Applied English Communication', postNominal: 'HCAEC',
   cefr: 'B2', credits: 20, tqtHours: 200,
 };
 
@@ -167,12 +167,23 @@ const state = (layer, id) => (layer.find((c) => c.id === id) || {}).state;
   const r = await V.institutionalVerification(env, { code: a.verification_code });
 
   check('The verification carries the award\'s official definition', !!r.definition);
-  check('...its official title', r.definition.officialTitle === 'English Envoy of Worldwide English College',
+  check('...its official title', r.definition.officialTitle === 'Higher Certificate in Applied English Communication',
     r.definition.officialTitle);
-  check('...the standing it confers', r.definition.standing === 'Trusted representative and communicator',
+  check('...the standing it confers',
+    r.definition.standing === 'A complete qualification in professional and academic English',
     r.definition.standing);
-  check('...why the College uses this word', /one who can be sent/.test(r.definition.academicPurpose),
+  // "can be sent" survives the framework change because it is the idea,
+  // not the old name: the Professional Stage certifies someone who can
+  // be sent to the meeting, the client, the interview. The word it used
+  // to justify — Envoy — is gone; the standard it describes is not.
+  check('...why the qualification is named as it is', /can be sent/.test(r.definition.academicPurpose),
     (r.definition.academicPurpose || '').slice(0, 80));
+  // The verification is the page a stranger opens, so it must carry the
+  // limit as well as the claim.
+  check('...and the stage it sits at', r.definition.stage === 'Professional', r.definition.stage);
+  check('...and that it is complete in itself, not a step to the next',
+    /may stop here/i.test(r.definition.exitStatement || ''),
+    (r.definition.exitStatement || '').slice(0, 60));
   check('...who the holder is', (r.definition.graduateProfile || '').length > 80);
   check('...and what they can do', (r.definition.learningOutcomes || '').length > 80);
 }

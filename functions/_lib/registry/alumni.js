@@ -88,7 +88,7 @@ export async function roll(env) {
   const counts = new Map(results.map((r) => [r.levelId, r.n]));
 
   // A graduate holding Level V and Level III belongs to ONE chapter —
-  // Orator — so summing the per-level counts would overstate the
+  // Advanced Chapter — so summing the per-level counts would overstate the
   // Society. Each graduate is counted at their highest award only.
   const { results: highest } = await db(env).prepare(
     `SELECT MAX(level_id) AS levelId, user_id
