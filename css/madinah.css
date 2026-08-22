@@ -343,15 +343,74 @@ body[data-section] {
   margin-top: 32px;
 }
 
+/* ============================================== THE FACULTY CARDS
+
+   The Founder's review: several cards feel AI-generated — they want
+   stronger hierarchy, larger imagery, more breathing room, cleaner
+   typography, better iconography and stronger calls to action.
+
+   These four were the best cards on the site and still had the fault.
+   Four text blocks of near-identical weight; the only figure on each
+   ("6 programmes") set at .74rem in tracked caps at the very bottom,
+   quieter than the body copy above it; and no visible way in at all —
+   the whole card was a link, and nothing said so.
+
+   What is added is NOT imagery. A photograph of a faculty that teaches
+   at a distance would be a photograph of something else, and stock would
+   be worse than nothing. What a printed prospectus uses in exactly this
+   position is a CHAPTER MARK, and that is what these get: the faculty's
+   roman numeral, engraved large and pale in the corner, drawn from
+   data-rom so the accessible text still reads "Faculty I".
+
+   The count becomes a real figure in the figure face rather than a
+   caption, because it is the one quantity on the card and it is what a
+   reader is actually comparing between the four.
+
+   And the way in is stated: a line of type with a rule that draws in on
+   hover — the same gesture as an entry in the index panel, so the site
+   has one grammar for "this takes you somewhere" instead of three. */
 .r-fac-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   border: 1px solid var(--stone);
   background: var(--warm-white);
-  padding: 30px 28px 26px;
+  padding: clamp(30px, 3vw, 40px) clamp(26px, 2.6vw, 36px) clamp(26px, 2.6vw, 32px);
   display: flex;
   flex-direction: column;
   text-decoration: none;
-  transition: border-color .2s, transform .2s, box-shadow .2s;
+  transition: border-color var(--pol-out) ease,
+              transform var(--pol-out) var(--ease-premium),
+              box-shadow var(--pol-out) var(--ease-premium);
 }
+
+/* The chapter mark. Engraved, not filled: a stroked numeral at this size
+   reads as an impression in the paper rather than a graphic on top of it.
+
+   It is a real element rather than ::after, and that is not a style
+   choice. `.r-fac-card::after` is already the travelling light — the
+   orbit that runs the card's edge on hover, at z-index 4 — and taking
+   it over would have traded one ornament for another. The first attempt
+   did exactly that and lost silently: the rule was overridden, the
+   numeral never painted, and the card looked merely unchanged rather
+   than broken. Measured, not looked at. */
+.r-fac-card__rom {
+  position: absolute; z-index: 0;
+  top: 0; inset-inline-end: .08em;
+  font-family: var(--font-ceremonial);
+  font-size: clamp(4.6rem, 7.4vw, 7rem);
+  font-weight: 600; line-height: 1;
+  letter-spacing: .02em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(199, 162, 74, .40);
+  pointer-events: none; user-select: none;
+  transition: -webkit-text-stroke-color var(--pol-out) ease;
+}
+.r-fac-card:hover .r-fac-card__rom { -webkit-text-stroke-color: rgba(199, 162, 74, .7); }
+
+/* Everything the reader reads sits above the mark. */
+.r-fac-card__num, .r-fac-card__ar, .r-fac-card__name,
+.r-fac-card__desc, .r-fac-card__meta, .r-fac-card__go { position: relative; z-index: 1; }
 
 .r-fac-card:hover {
   border-color: var(--gold-royal);
@@ -360,25 +419,84 @@ body[data-section] {
 }
 
 .r-fac-card__num {
-  font-family: 'Cinzel', serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  color: var(--gold-antique);
-  margin-bottom: 14px;
-}
-
-.r-fac-card__ar { font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--bronze); display: block; margin-bottom: 4px; }
-.r-fac-card__name { font-family: var(--font-display); font-size: 1.6rem; color: var(--royal-blue); margin: 0 0 14px; font-weight: 700; line-height: 1.15; }
-.r-fac-card__desc { font-size: 0.94rem; color: var(--slate); line-height: 1.62; margin: 0 0 18px; flex: 1; }
-
-.r-fac-card__meta {
-  font-size: 0.74rem;
-  letter-spacing: 0.08em;
+  font-family: var(--font-ceremonial);
+  font-size: .655rem;
+  font-weight: 600;
+  letter-spacing: 0.21em;
   text-transform: uppercase;
   color: var(--bronze);
-  border-top: 1px solid var(--stone);
-  padding-top: 14px;
+  margin-bottom: 18px;
 }
+
+/* The two names are one lockup, so they are set tight against each
+   other and share the card's leading edge — the Arabic no longer drifts
+   to the opposite margin from the English it names. */
+/* THE PAIRING LINE.
+   Each card names its faculty twice: once in the tree's own language, as
+   the heading, and once quietly in the other. It was `__ar` and carried
+   Arabic in BOTH trees — so the Arabic card printed its own name twice,
+   once small and once large, which is what "translated rather than
+   designed in Arabic" looks like in a single element.
+
+   It is `__alt` now: the OTHER language, whichever tree you are in. An
+   English reader gets the Arabic name of the faculty; an Arabic reader
+   gets the English one, which is the name they will meet on a transcript
+   or in a foreign registrar's letter. */
+.r-fac-card__alt {
+  font-size: 1.05rem; line-height: 1.5;
+  color: var(--bronze);
+  display: block; margin-bottom: 3px;
+  /* Explicit, not `start`: the span carries its own dir for correct bidi
+     ordering, and `start` resolves against THAT — which threw the pairing
+     line to the opposite margin from the heading it names. The glyph
+     order is untouched; only the box is aligned to the card. */
+  text-align: left;
+}
+[dir="rtl"] .r-fac-card__alt { text-align: right; }
+/* Arabic in the English tree takes the Arabic figure face and a little
+   more size, because Amiri sets smaller than the Latin at the same em. */
+.r-fac-card__alt[lang="ar"] { font-family: var(--font-figure-ar); font-size: 1.26rem; }
+.r-fac-card__alt[lang="en"] { font-family: var(--font-display); font-style: italic; }
+.r-fac-card__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.42rem, 1.9vw, 1.68rem);
+  color: var(--royal-blue);
+  margin: 0 0 16px; font-weight: 700; line-height: 1.14;
+}
+.r-fac-card__desc {
+  font-size: 0.94rem; color: var(--slate);
+  line-height: 1.64; margin: 0 0 20px; flex: 1;
+}
+
+.r-fac-card__meta {
+  font-family: var(--font-figure);
+  font-size: 1.02rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+  font-variant-numeric: lining-nums proportional-nums;
+  font-optical-sizing: auto;
+  border-top: 1px solid rgba(199, 162, 74, .45);
+  padding-top: 15px;
+}
+
+.r-fac-card__go {
+  position: relative;
+  align-self: flex-start;
+  margin-top: 9px;
+  font-family: var(--font-display);
+  font-size: .875rem; font-weight: 500;
+  color: var(--bronze);
+}
+.r-fac-card__go::after {
+  content: ''; position: absolute;
+  inset-inline-start: 0; bottom: -3px;
+  width: 0; height: 1px; background: var(--bronze);
+  transition: width var(--pol-out) var(--ease-premium);
+}
+.r-fac-card:hover .r-fac-card__go::after,
+.r-fac-card:focus-visible .r-fac-card__go::after { width: 100%; }
 
 /* ============================================================ the stages */
 
