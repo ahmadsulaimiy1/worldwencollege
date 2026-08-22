@@ -27,6 +27,7 @@
 // believe it.
 
 import { db } from '../db.js';
+import { LEVEL_NAMES_AR, LEVEL_ORDINALS_AR } from '../academic/level-names.js';
 
 // Kept in one place, and the reason for keeping it there has now been
 // collected on. This used to open the Listening Lab, which was the only
@@ -42,11 +43,13 @@ export function unitHref(unitId) {
 /**
  * @returns {Promise<{
  *   state: 'no_enrolment'|'awaiting_content'|'not_started'|'in_progress'|'units_complete',
- *   level: null | {id:number, roman:string, name:string, cefr:string},
+ *   level: null | {id:number, roman:string, ordinalAr:string|null,
+ *                   name:string, nameAr:string|null, cefr:string},
  *   units: Array<{id:string, sequence:number, title:string, status:string, href:string}>,
  *   nextUnit: null | {id:string, sequence:number, title:string, href:string, resuming:boolean},
  *   completedCount: number, totalCount: number,
- *   completedLevels: Array<{id:number, roman:string, name:string}>,
+ *   completedLevels: Array<{id:number, roman:string, ordinalAr:string|null,
+ *                            name:string, nameAr:string|null}>,
  * }>}
  */
 // How the learner's own rate compares with the designed one.
@@ -131,7 +134,10 @@ export async function buildStudyPlan(env, userId, { now = Date.now() } = {}) {
 
   const completedLevels = enrolments
     .filter((e) => e.status === 'completed')
-    .map((e) => ({ id: e.levelId, roman: e.roman, name: e.name }));
+    .map((e) => ({
+      id: e.levelId, roman: e.roman, ordinalAr: LEVEL_ORDINALS_AR[e.levelId] || null,
+      name: e.name, nameAr: LEVEL_NAMES_AR[e.levelId] || null,
+    }));
 
   // The level to work on is the LOWEST active one, not the highest.
   // Executive Decision #1 enrols a full-programme payer into Level I
@@ -152,7 +158,14 @@ export async function buildStudyPlan(env, userId, { now = Date.now() } = {}) {
     return { ...base, state: completedLevels.length ? 'programme_complete' : 'no_enrolment' };
   }
 
-  const level = { id: current.levelId, roman: current.roman, name: current.name, cefr: current.cefr };
+  // Both namings travel, so /ar/my-programme.html can name the level a
+  // learner is working on in the language the page is written in.
+  const level = {
+    id: current.levelId, roman: current.roman,
+    ordinalAr: LEVEL_ORDINALS_AR[current.levelId] || null,
+    name: current.name, nameAr: LEVEL_NAMES_AR[current.levelId] || null,
+    cefr: current.cefr,
+  };
 
   const { results: units } = await db(env)
     .prepare(`SELECT u.id, u.sequence, u.title,

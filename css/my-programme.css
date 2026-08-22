@@ -59,6 +59,13 @@
   background: linear-gradient(90deg, var(--royal, #14264A), var(--gold, #C6A15B));
   transition: width .5s ease;
 }
+/* The bar fills from the reading edge, so on the Arabic edition it grows
+   leftwards — and a gradient pinned to 90deg would run royal-to-gold
+   against the direction of travel, putting the bright end at the origin
+   and the dark end at the learner's actual position. */
+[dir="rtl"] .mp-bar__fill {
+  background: linear-gradient(270deg, var(--royal, #14264A), var(--gold, #C6A15B));
+}
 @media (prefers-reduced-motion: reduce) {
   .mp-bar__fill { transition: none; }
 }
