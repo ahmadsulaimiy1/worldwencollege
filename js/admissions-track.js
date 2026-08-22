@@ -47,6 +47,14 @@
   var AR = document.documentElement.lang === 'ar';
   var LOCALE = AR ? 'ar' : 'en-GB';
 
+  /* The lifecycle composes its sentences in both languages and hands
+     both back — the stage titles, what is outstanding, what happens
+     next. This page selects; it does not translate. Before that, an
+     Arabic applicant read an Arabic page whose progress rail said
+     "Estimate your level / Submit the form / Placement / Offer /
+     Enrolment" and whose outstanding list was English throughout. */
+  function pick(en, ar) { return (AR && ar) ? ar : en; }
+
   var T = AR ? {
     tracking: 'جارٍ التتبّع…',
     track: 'تتبّع',
@@ -260,8 +268,9 @@
     renderTimeline(data.timeline || []);
 
     var next = data.next || {};
-    $('#nextWhat').textContent = next.what
-      ? (next.what + (next.who ? ' (' + party(next.who) + ')' : ''))
+    var nextWhat = pick(next.what, next.whatAr);
+    $('#nextWhat').textContent = nextWhat
+      ? (nextWhat + (next.who ? ' (' + party(next.who) + ')' : ''))
       : '';
 
     els.result.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -282,12 +291,12 @@
       var wrap = document.createElement('span');
       var name = document.createElement('span');
       name.className = 'trk-stage__name';
-      name.textContent = stage.title;
+      name.textContent = pick(stage.title, stage.titleAr);
       wrap.appendChild(name);
 
       var who = document.createElement('span');
       who.className = 'trk-stage__who';
-      who.textContent = stage.who || '';
+      who.textContent = pick(stage.who, stage.whoAr) || '';
       wrap.appendChild(who);
       li.appendChild(wrap);
 
@@ -303,10 +312,10 @@
     $('#stageLabel').textContent = stage
       ? T.stageOf(stage.number, stage.of)
       : T.closedStage;
-    $('#stageTitle').textContent = stage ? stage.title : T.closedTitle;
+    $('#stageTitle').textContent = stage ? pick(stage.title, stage.titleAr) : T.closedTitle;
 
     var full = (data.journey || []).find(function (s) { return s.state === 'current'; });
-    $('#stageWhat').textContent = full ? (full.what || '') : '';
+    $('#stageWhat').textContent = full ? (pick(full.what, full.whatAr) || '') : '';
 
     $('#fRef').textContent = data.reference || '—';
     $('#fSubmitted').textContent = fmtDate(data.submittedAt);
@@ -336,7 +345,7 @@
       var body = document.createElement('div');
       var what = document.createElement('p');
       what.className = 'trk-owed__what';
-      what.textContent = item.what;
+      what.textContent = pick(item.what, item.whatAr);
       body.appendChild(what);
 
       if (item.by) {
@@ -348,7 +357,7 @@
       if (item.note) {
         var note = document.createElement('p');
         note.className = 'trk-owed__note';
-        note.textContent = item.note;
+        note.textContent = pick(item.note, item.noteAr);
         body.appendChild(note);
       }
       li.appendChild(body);

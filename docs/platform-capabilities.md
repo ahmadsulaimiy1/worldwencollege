@@ -445,16 +445,62 @@ the address — which is a third state between "has an interface" and
     stylesheets that is physical is deliberately so and already carries
     a `[dir="rtl"]` companion.
 
-    **Still open, in the order they matter.** Each is a scripted surface
-    whose Arabic edition is served in English today:
+    **Every scripted surface is now closed.** In order of how a person
+    reaches them:
 
-    | Surface | Script | What an Arabic reader is shown in English |
+    | Surface | What it used to say in Arabic | Closed by |
     |---|---|---|
-    | `/ar/my-record.html` | `js/my-record.js` | the learner's own record |
-    | `/ar/my-programme.html` | `js/my-programme.js` | the study plan |
-    | `/ar/admissions/apply/` | `js/admissions-wizard.js` | the application wizard's own prompts |
-    | `/ar/listening-lab.html` | `js/listening-lab.js` | the listening laboratory, the largest of them |
-    | `/ar/student-portal/` | `js/portal-entry.js` | the portal's entry states |
+    | `/ar/graduate.html` | nothing — every line was English | `js/graduate.js`, migration 022, `HONOUR_LABEL_AR`, `KIND_LABEL_AR` |
+    | `/ar/verify.html` | the standing band and the three layers | `js/verify.js`, `institutional-verification.js` in both languages |
+    | `/ar/register.html` | Arabic names against English programmes | `js/register.js`, `levelNameAr` on the roll |
+    | `/ar/my-record.html` | the record, the privacy switches, the share links | `js/my-record.js` |
+    | `/ar/my-programme.html` | the study plan and the pace sentence | `js/my-programme.js`, `study-plan.js` |
+    | `/ar/admissions/apply/` | eleven error sentences, and a raw status enum on BOTH editions | `js/admissions-wizard.js` |
+    | `/ar/admissions/track/` | the five stages, what is outstanding, what happens next | `lifecycle.js` in both languages, `js/admissions-track.js` picks |
+    | `/ar/listening-lab.html` | forty sentences of controls and states | `js/listening-lab.js` |
+    | `/ar/student-portal/` | already correct — it holds no English of its own, and every string comes from the page's dataset. Its two doors pointed at the English editions and said so in the button text; both now point at `/ar/`. |  |
+
+    **The Arabic header pointed five links at the English verification
+    page, on all ninety-three Arabic routes.** `partials/header.ar.html`
+    — the Verify menu in the utility rail. Every other red-flag check
+    reads `pages/*.html`, which cannot see a partial; found by grepping
+    every Arabic route for a link that leaves the edition.
+
+    **What is deliberately still English on both editions**, each with a
+    published reason:
+
+    - **An award's official title and post-nominal.** Ruled on by the
+      College on every Arabic level page: *"ترجمة العنوان تُنشئ شهادةً
+      ثانية لم يعرّفها أحد ولا يستطيع أحد منحها."*
+    - **An award's definition** — `award_definitions`, transcribed
+      verbatim from `docs/iefc-award-architecture.md` and held there by
+      `tests/award-definitions.test.mjs`. `/ar/verify.html` marks it
+      `lang="en"`, says why, and links to the Arabic account of the
+      level.
+    - **The curriculum itself** — module titles, transcripts,
+      pronunciation targets, comprehension questions. It is an English
+      course; the material being learned is the material. Every one of
+      them now carries `dir="auto"` so an Arabic page lays it out as
+      English rather than reversing its punctuation.
+
+37. **A validation message in the reader's own language.** The one piece
+    of this that is NOT closed, and it is a platform contract rather
+    than a page. `ValidationError` carries `message` and
+    `fields: {name: message}`, both English, and every page prints
+    them — so an Arabic applicant who mistypes an email address is told
+    *"Enter a valid email address."* in the middle of an Arabic form.
+    Roughly fifteen sentences across
+    `functions/_lib/admissions/fields.js` and
+    `functions/api/admissions/apply.js`, and the same shape on every
+    other endpoint that throws one.
+
+    The design is the one the rest of this sweep uses: both languages
+    travel, the page selects. `ValidationError(message, fields,
+    fieldsAr)` and `errorResponse` emitting `messageAr`/`fieldsAr`,
+    additively, so no existing reader breaks. It is recorded here rather
+    than half-done: converting two validators and leaving forty
+    endpoints English would leave the site inconsistent in a way that is
+    harder to reason about than the present state.
 
 
 ---

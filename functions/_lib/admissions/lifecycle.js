@@ -170,26 +170,41 @@ export const PUBLISHED_JOURNEY = [
     number: 1, title: 'Estimate your level', states: [],
     who: 'You, in about thirty seconds',
     what: 'A one-question self-assessment suggests a starting level. It is not the placement decision and it binds nobody, including you.',
+    titleAr: 'قدّر مستواك',
+    whoAr: 'أنت، في نحو ثلاثين ثانية',
+    whatAr: 'سؤال واحد على صفحة القبول يقترح مستوى بداية. ليس قرار تحديد المستوى، ولا يُلزم أحدًا، بمن فيهم أنت.',
   },
   {
     number: 2, title: 'Submit the form', states: ['submitted'],
     who: 'You',
     what: 'The record is created immediately and the application reference is shown to you on the page.',
+    titleAr: 'أرسل النموذج',
+    whoAr: 'أنت',
+    whatAr: 'يُنشأ السجل فورًا ويُعرض عليك معرّف طلبك على الصفحة.',
   },
   {
     number: 3, title: 'Placement', states: ['placement_pending'],
     who: 'A person, not the platform',
     what: 'A conversation and a short assessment to confirm which of the six levels you should enter.',
+    titleAr: 'تحديد المستوى',
+    whoAr: 'شخص، لا منصة',
+    whatAr: 'محادثة وتقييم قصير لتأكيد أي المستويات الستة تدخل.',
   },
   {
     number: 4, title: 'Offer', states: ['offer_sent', 'accepted'],
     who: 'Admissions, then you',
     what: 'A written offer naming your confirmed entry level, the fee for it, and the payment options open to you.',
+    titleAr: 'العرض',
+    whoAr: 'إدارة القبول، ثم أنت',
+    whatAr: 'عرض مكتوب يحدد مستوى الالتحاق المؤكد، ورسومه، وخيارات السداد المتاحة لك.',
   },
   {
     number: 5, title: 'Enrolment', states: ['enrolled'],
     who: 'You and the platform together',
     what: 'Payment is confirmed, an account is created, and your enrolment for that level begins.',
+    titleAr: 'التسجيل',
+    whoAr: 'أنت والمنصة معًا',
+    whatAr: 'يُؤكَّد السداد، ويُنشأ حسابك، ويبدأ تسجيلك في ذلك المستوى.',
   },
 ];
 
@@ -203,6 +218,10 @@ export const PUBLISHED_JOURNEY = [
  */
 export const PLACEMENT_COMMITMENT =
   'The College commits to making placement contact within three working days. If that is missed, write to Admissions and say so.';
+
+// The same commitment in the words /ar/admissions/ publishes it in.
+export const PLACEMENT_COMMITMENT_AR =
+  'تلتزم الكلية بالتواصل لتحديد المستوى خلال ثلاثة أيام عمل. فإن لم يُوفَ به فاكتب إلى إدارة القبول وقل ذلك.';
 
 /* ───────────────────────────────────────────────────────────────
  * THE GRAPH
@@ -1057,29 +1076,58 @@ function shapeOffer(row, at) {
  * chase.
  */
 async function outstandingFor(env, application, offer) {
+  // Every sentence carries its Arabic beside it. An applicant who is
+  // told what is outstanding in a language they did not choose has been
+  // told nothing, and this is the list that tells them which steps are
+  // theirs and which are the College's — the second being the ones they
+  // are entitled to chase.
   const items = [];
   switch (application.status) {
     case 'submitted':
-      items.push({ who: 'the College', what: 'Arrange your placement conversation and short assessment.', note: PLACEMENT_COMMITMENT });
+      items.push({
+        who: 'the College', whoAr: 'الكلية',
+        what: 'Arrange your placement conversation and short assessment.',
+        whatAr: 'ترتيب محادثة تحديد مستواك والتقييم القصير.',
+        note: PLACEMENT_COMMITMENT, noteAr: PLACEMENT_COMMITMENT_AR,
+      });
       break;
     case 'placement_pending':
-      items.push({ who: 'you', what: 'Attend the placement conversation and short assessment. It is not an entrance exam and cannot be failed.' });
-      items.push({ who: 'the College', what: 'Confirm your entry level and write your offer.' });
+      items.push({
+        who: 'you', whoAr: 'أنت',
+        what: 'Attend the placement conversation and short assessment. It is not an entrance exam and cannot be failed.',
+        whatAr: 'حضور محادثة تحديد المستوى والتقييم القصير. وليس امتحان قبول ولا يُرسَب فيه.',
+      });
+      items.push({
+        who: 'the College', whoAr: 'الكلية',
+        what: 'Confirm your entry level and write your offer.',
+        whatAr: 'تأكيد مستوى التحاقك وكتابة عرضك.',
+      });
       break;
     case 'offer_sent':
       items.push({
-        who: 'you',
+        who: 'you', whoAr: 'أنت',
         what: offer && offer.kind === 'conditional'
           ? 'Read the conditions of your offer and answer it.'
           : 'Answer your offer.',
+        whatAr: offer && offer.kind === 'conditional'
+          ? 'قراءة شروط عرضك والإجابة عنه.'
+          : 'الإجابة عن عرضك.',
         by: offer ? offer.expires_at : null,
       });
       break;
     case 'accepted': {
       if (!application.user_id) {
-        items.push({ who: 'the College', what: 'Create your student account. An account is created at enrolment, not at application.' });
+        items.push({
+          who: 'the College', whoAr: 'الكلية',
+          what: 'Create your student account. An account is created at enrolment, not at application.',
+          whatAr: 'إنشاء حساب الطالب. ويُنشأ الحساب عند التسجيل لا عند التقديم.',
+        });
       }
-      items.push({ who: 'you', what: 'Confirm your payment plan and pay, which is what begins your enrolment.' });
+      items.push({
+        who: 'you', whoAr: 'أنت',
+        what: 'Confirm your payment plan and pay, which is what begins your enrolment.',
+        whatAr: 'تأكيد خطة سدادك والدفع، وبه يبدأ تسجيلك.',
+      });
       break;
     }
     default:
@@ -1091,21 +1139,51 @@ async function outstandingFor(env, application, offer) {
 function nextStep(application) {
   switch (application.status) {
     case 'submitted':
-      return { who: 'the College', what: 'A member of the founding team contacts you to arrange placement.' };
+      return {
+        who: 'the College', whoAr: 'الكلية',
+        what: 'A member of the founding team contacts you to arrange placement.',
+        whatAr: 'يتواصل معك أحد أعضاء الفريق المؤسس لترتيب تحديد المستوى.',
+      };
     case 'placement_pending':
-      return { who: 'the College', what: 'Your entry level is confirmed and a written offer follows.' };
+      return {
+        who: 'the College', whoAr: 'الكلية',
+        what: 'Your entry level is confirmed and a written offer follows.',
+        whatAr: 'يُؤكَّد مستوى التحاقك ثم يتبعه عرض مكتوب.',
+      };
     case 'offer_sent':
-      return { who: 'you', what: 'Accept or decline your offer.' };
+      return {
+        who: 'you', whoAr: 'أنت',
+        what: 'Accept or decline your offer.',
+        whatAr: 'قبول عرضك أو رفضه.',
+      };
     case 'accepted':
-      return { who: 'you and the platform together', what: 'Payment is confirmed and your enrolment for that level begins.' };
+      return {
+        who: 'you and the platform together', whoAr: 'أنت والمنصة معًا',
+        what: 'Payment is confirmed and your enrolment for that level begins.',
+        whatAr: 'يُؤكَّد السداد ويبدأ تسجيلك في ذلك المستوى.',
+      };
     case 'enrolled':
-      return { who: 'you', what: 'Your first lesson is available. Orientation opens the digital campus.' };
+      return {
+        who: 'you', whoAr: 'أنت',
+        what: 'Your first lesson is available. Orientation opens the digital campus.',
+        whatAr: 'درسك الأول متاح. والتعريف يفتح لك الحرم الرقمي.',
+      };
     case 'withdrawn':
-      return { who: 'nobody', what: 'This application is closed. Applying again is open to you at any time.' };
+      return {
+        who: 'nobody', whoAr: 'لا أحد',
+        what: 'This application is closed. Applying again is open to you at any time.',
+        whatAr: 'هذا الطلب مغلق. ولك أن تتقدّم من جديد متى شئت.',
+      };
     case 'rejected':
-      return { who: 'nobody', what: 'This application is closed. The College keeps the decision rather than deleting it.' };
+      return {
+        who: 'nobody', what: 'This application is closed. The College keeps the decision rather than deleting it.',
+        whoAr: 'لا أحد', whatAr: 'هذا الطلب مغلق. وتحتفظ الكلية بالقرار ولا تحذفه.',
+      };
     default:
-      return { who: 'nobody', what: 'This application is closed.' };
+      return {
+        who: 'nobody', what: 'This application is closed.',
+        whoAr: 'لا أحد', whatAr: 'هذا الطلب مغلق.',
+      };
   }
 }
 
@@ -1151,7 +1229,11 @@ export async function trackApplication(env, { reference, clientKey = null, now =
     submittedAt: current.created_at,
     updatedAt: current.updated_at,
     closed: CLOSED_STATUSES.includes(current.status),
-    stage: stage ? { number: stage.number, of: PUBLISHED_JOURNEY.length, title: stage.title, who: stage.who } : null,
+    stage: stage ? {
+      number: stage.number, of: PUBLISHED_JOURNEY.length,
+      title: stage.title, titleAr: stage.titleAr,
+      who: stage.who, whoAr: stage.whoAr,
+    } : null,
     journey: journeyFor(current.status),
     // The submission itself predates this machinery and writes no event,
     // so the timeline opens with it rather than starting mid-story.

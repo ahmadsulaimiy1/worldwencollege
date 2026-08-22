@@ -46,6 +46,70 @@
   var current = 0;
   var completedSteps = [];
 
+  /* ── THE ENGINE WRITES NO PROSE, EXCEPT WHERE IT DOES ───────────────
+   *
+   * This file's own header says it "reads structure and never writes a
+   * sentence", and that was nearly true: every label and every step's
+   * copy lives in the page's HTML, in the page's own language. Eleven
+   * sentences did not. They were the ones a person sees when something
+   * goes wrong — "Please check the highlighted fields.", "Choose a file
+   * first.", "Submission did not go through." — and an Arabic applicant
+   * met all eleven in English, on the one page the whole site's Apply
+   * Now button points at.
+   *
+   * The status pill was worse than untranslated: it printed the raw
+   * machine value, so BOTH editions showed an applicant the word
+   * "placement_pending".
+   */
+  var AR = document.documentElement.lang === 'ar';
+  var HOME = AR ? '/ar' : '';
+
+  var T = AR ? {
+    checkFields: 'راجع الحقول المعلَّمة.',
+    stepOf: function (n, of) { return 'الخطوة ' + n + ' من ' + of; },
+    checkingUpload: 'جارٍ التحقّق من رفعٍ سابق…',
+    nothingUploaded: 'لم تُرفع أي وثيقة بعد — ولك أن تترك هذه الخطوة فارغة.',
+    uploadedNotVerified: 'مرفوعة، لم تُوثَّق بعد',
+    remove: 'احذف',
+    couldNotCheck: 'تعذّر التحقّق من رفعٍ سابق.',
+    chooseFile: 'اختر ملفًا أولًا.',
+    uploadFailed: 'لم يتمّ الرفع — أعد المحاولة.',
+    stepNotSaved: 'تعذّر حفظ هذه الخطوة الآن. إجاباتك ما زالت في النموذج — اضغط «متابعة» مرّة أخرى.',
+    submitFailed: 'لم يصل الطلب. ولم يضع شيء — إجاباتك محفوظة؛ اضغط «إرسال» مرّة أخرى، أو اكتب إلى إدارة القبول مباشرة.',
+    reviewYes: 'نعم', reviewNo: 'لا', reviewEmpty: '—',
+    statuses: {
+      submitted: 'أُرسل',
+      placement_pending: 'بانتظار تحديد المستوى',
+      offer_sent: 'صدر عرض',
+      accepted: 'قُبل العرض',
+      enrolled: 'مسجَّل',
+      withdrawn: 'مسحوب',
+      rejected: 'مرفوض',
+    },
+  } : {
+    checkFields: 'Please check the highlighted fields.',
+    stepOf: function (n, of) { return 'Step ' + n + ' of ' + of; },
+    checkingUpload: 'Checking for an existing upload…',
+    nothingUploaded: 'Nothing uploaded yet — this step can stay empty.',
+    uploadedNotVerified: 'uploaded, not verified',
+    remove: 'Remove',
+    couldNotCheck: 'Could not check for an existing upload.',
+    chooseFile: 'Choose a file first.',
+    uploadFailed: 'Upload did not go through — try again.',
+    stepNotSaved: 'That step could not be saved just now. Your answers are still in the form — try Continue again.',
+    submitFailed: 'Submission did not go through. Nothing has been lost — your answers are saved; try Submit again, or write to Admissions directly.',
+    reviewYes: 'Yes', reviewNo: 'No', reviewEmpty: '—',
+    statuses: {
+      submitted: 'Submitted',
+      placement_pending: 'Placement pending',
+      offer_sent: 'Offer sent',
+      accepted: 'Offer accepted',
+      enrolled: 'Enrolled',
+      withdrawn: 'Withdrawn',
+      rejected: 'Not offered a place',
+    },
+  };
+
   function api(path, opts) {
     return window.WEC_LC_apiAuth.headers().then(function (headers) {
       var init = opts || {};
@@ -93,7 +157,7 @@
       var input = $('[name="' + firstBad + '"]', el);
       if (input) input.focus();
     } else if (stepError) {
-      stepError.textContent = 'Please check the highlighted fields.';
+      stepError.textContent = T.checkFields;
     }
   }
 
@@ -103,7 +167,7 @@
       node.classList.toggle('is-current', i === current);
     });
     if (progressLabel) {
-      progressLabel.textContent = 'Step ' + (current + 1) + ' of ' + steps.length;
+      progressLabel.textContent = T.stepOf(current + 1, steps.length);
     }
   }
 
@@ -129,22 +193,35 @@
   function renderKycDocs() {
     var list = $('[data-kyc-doc-list]');
     if (!list) return;
-    list.innerHTML = '<li class="kyc-doc-list__loading">Checking for an existing upload…</li>';
+    list.textContent = '';
+    var loading = document.createElement('li');
+    loading.className = 'kyc-doc-list__loading';
+    loading.textContent = T.checkingUpload;
+    list.appendChild(loading);
     api('/api/admissions/document').then(function (result) {
-      list.innerHTML = '';
+      list.textContent = '';
       if (!result.documents.length) {
-        list.innerHTML = '<li class="kyc-doc-list__empty">Nothing uploaded yet — this step can stay empty.</li>';
+        var none = document.createElement('li');
+        none.className = 'kyc-doc-list__empty';
+        none.textContent = T.nothingUploaded;
+        list.appendChild(none);
         return;
       }
       result.documents.forEach(function (doc) {
         var li = document.createElement('li');
         li.className = 'kyc-doc-list__item';
+        // The filename is whatever the applicant's own device called
+        // it, in whatever script: isolated so it cannot reorder the
+        // sentence around it.
         var name = document.createElement('span');
-        name.textContent = (doc.filename || doc.documentType) + ' — uploaded, not verified';
+        var fn = document.createElement('bdi');
+        fn.textContent = doc.filename || doc.documentType;
+        name.appendChild(fn);
+        name.appendChild(document.createTextNode(' — ' + T.uploadedNotVerified));
         var del = document.createElement('button');
         del.type = 'button';
         del.className = 'kyc-doc-list__remove';
-        del.textContent = 'Remove';
+        del.textContent = T.remove;
         del.addEventListener('click', function () {
           del.disabled = true;
           api('/api/admissions/document?id=' + encodeURIComponent(doc.id), { method: 'DELETE' })
@@ -156,7 +233,11 @@
         list.appendChild(li);
       });
     }).catch(function () {
-      list.innerHTML = '<li class="kyc-doc-list__empty">Could not check for an existing upload.</li>';
+      list.textContent = '';
+      var oops = document.createElement('li');
+      oops.className = 'kyc-doc-list__empty';
+      oops.textContent = T.couldNotCheck;
+      list.appendChild(oops);
     });
   }
 
@@ -169,7 +250,7 @@
     btn.addEventListener('click', function () {
       var file = fileInput.files && fileInput.files[0];
       if (errorEl) errorEl.textContent = '';
-      if (!file) { if (errorEl) errorEl.textContent = 'Choose a file first.'; return; }
+      if (!file) { if (errorEl) errorEl.textContent = T.chooseFile; return; }
       btn.disabled = true;
       window.WEC_LC_apiAuth.headers().then(function (headers) {
         return file.arrayBuffer().then(function (bytes) {
@@ -192,7 +273,7 @@
         fileInput.value = '';
         renderKycDocs();
       }).catch(function (err) {
-        if (errorEl) errorEl.textContent = (err.body && err.body.message) || 'Upload did not go through — try again.';
+        if (errorEl) errorEl.textContent = (err.body && err.body.message) || T.uploadFailed;
       }).then(function () { btn.disabled = false; });
     });
   }
@@ -210,12 +291,16 @@
         dt.textContent = label.getAttribute('data-review-label');
         var dd = document.createElement('dd');
         if (input.type === 'checkbox') {
-          dd.textContent = input.checked ? (input.getAttribute('data-review-yes') || 'Yes') : (input.getAttribute('data-review-no') || 'No');
+          dd.textContent = input.checked
+            ? (input.getAttribute('data-review-yes') || T.reviewYes)
+            : (input.getAttribute('data-review-no') || T.reviewNo);
         } else if (input.tagName === 'SELECT') {
           var opt = input.options[input.selectedIndex];
-          dd.textContent = opt && opt.value ? opt.textContent : (input.getAttribute('data-review-empty') || '—');
+          dd.textContent = opt && opt.value ? opt.textContent : (input.getAttribute('data-review-empty') || T.reviewEmpty);
         } else {
-          dd.textContent = input.value.trim() || (input.getAttribute('data-review-empty') || '—');
+          // What the applicant typed, in their own script.
+          dd.textContent = input.value.trim() || (input.getAttribute('data-review-empty') || T.reviewEmpty);
+          dd.setAttribute('dir', 'auto');
         }
         dl.appendChild(dt);
         dl.appendChild(dd);
@@ -239,7 +324,7 @@
       if (err.status === 422 && err.body && err.body.fields) {
         showStepErrors(el, err.body.fields);
       } else if (stepError) {
-        stepError.textContent = 'That step could not be saved just now. Your answers are still in the form — try Continue again.';
+        stepError.textContent = T.stepNotSaved;
       }
       throw err;
     });
@@ -263,7 +348,10 @@
     var idEl = $('[data-status-id]', statusShell);
     var stateEl = $('[data-status-state]', statusShell);
     if (idEl) idEl.textContent = application.id;
-    if (stateEl) stateEl.textContent = application.status;
+    // Named, not printed raw. Both editions used to show an applicant
+    // the machine value — "placement_pending" — on the page that tells
+    // them their application exists.
+    if (stateEl) stateEl.textContent = T.statuses[application.status] || application.status;
     $$('[data-status-only]', statusShell).forEach(function (el) {
       el.hidden = el.getAttribute('data-status-only') !== application.status;
     });
@@ -341,7 +429,7 @@
             showStepErrors(firstStepWithError, err.body.fields);
           }
         } else if (stepError) {
-          stepError.textContent = 'Submission did not go through. Nothing has been lost — your answers are saved; try Submit again, or write to Admissions directly.';
+          stepError.textContent = T.submitFailed;
         }
       }).catch(function () {}).then(function () { submitBtn.disabled = false; });
     });
@@ -352,7 +440,7 @@
     if (reloadBtn) reloadBtn.addEventListener('click', function () { window.location.reload(); });
 
     var guarded = window.WEC_LC_guardPortal({
-      signOutRedirect: '/admissions/',
+      signOutRedirect: HOME + '/admissions/',
       shellSelector: '.lab-body',
       onAuthenticated: function (clerk, done) {
         window.WEC_LC_apiAuth.attach(clerk);

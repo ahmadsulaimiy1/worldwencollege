@@ -369,6 +369,94 @@ try {
   check(`No script errors in the marking console${staffErrors.length ? ' — ' + staffErrors[0] : ''}`, staffErrors.length === 0);
   await staff.screenshot({ path: join(OUT, '08-instructor-cleared.png') });
 
+  // --- THE ARABIC EDITION ---------------------------------------------
+  //
+  // The surface a learner spends the most time inside. /ar/listening-lab
+  // .html served an Arabic page and ran an English laboratory in it:
+  // "Script mode.", "No bookmarks yet.", "Recording unsupported",
+  // "Uploading your take…", "Keep offline", "not attempted" — forty
+  // sentences of controls and states.
+  //
+  // The transcript, the pronunciation targets and the comprehension
+  // questions stay English on BOTH editions, deliberately: this is an
+  // English course and the material being learned is the material. Each
+  // now carries dir="auto" so an Arabic page lays it out as English
+  // rather than reversing its punctuation.
+  {
+    const ar = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+    const arErrors = [];
+    ar.on('pageerror', (e) => arErrors.push(e.message));
+    await ar.goto(`${BASE}/ar/listening-lab.html?unit=unt_l1_m1&level=1`, { waitUntil: 'networkidle' });
+    await ar.waitForSelector('.cue', { timeout: 8000 });
+    await ar.waitForTimeout(600);
+
+    check('The Arabic laboratory loads the same listening',
+      (await ar.locator('.cue').count()) >= 1);
+    check('...and says in Arabic that there is no studio recording yet',
+      /وضع النصّ/.test((await ar.textContent('#labStatusText')) || ''),
+      ((await ar.textContent('#labStatusText')) || '').slice(0, 40));
+
+    // The scoped sweep. Anything isolated — the transcript, a question,
+    // a pronunciation target, a tutor's comment — is curriculum or a
+    // person's own words and is excluded by the same rule the graduate
+    // record and the verification page use.
+    const stray = await ar.evaluate(() => {
+      const host = document.querySelector('main') || document.body;
+      const own = new Set();
+      host.querySelectorAll('bdi, [dir="auto"], [lang="en"]').forEach((n) => own.add(n));
+      const out = [];
+      const walk = document.createTreeWalker(host, NodeFilter.SHOW_TEXT);
+      let n;
+      while ((n = walk.nextNode())) {
+        let p = n.parentElement, mine = false;
+        while (p && p !== host) { if (own.has(p)) { mine = true; break; } p = p.parentElement; }
+        if (mine) continue;
+        if (!n.parentElement.offsetParent && n.parentElement.tagName !== 'BODY') continue;
+        const t = n.nodeValue
+          .replace(/\b[ABC][12]\b/g, ' ')
+          .replace(/WEC-[A-Z0-9-]+/g, ' ')
+          .replace(/⁨[^⁩]*⁩/g, ' ');
+        (t.match(/[A-Za-z]{3,}/g) || []).forEach((w) => out.push(w));
+      }
+      return [...new Set(out)];
+    });
+    check('Nothing the laboratory itself says is left in English on the Arabic edition',
+      stray.length === 0, stray.slice(0, 8).join(', '));
+
+    check('...the bookmark list explains itself in Arabic',
+      /لا علامات بعد/.test((await ar.textContent('#marks')) || ''));
+    check('...the notes field says in Arabic where the notes live',
+      /هذا الجهاز/.test((await ar.textContent('#notesSaved')) || ''),
+      (await ar.textContent('#notesSaved')) || '');
+    // The five dimensions are named in Arabic whether or not this
+    // learner has been assessed on them — and by this point in the
+    // suite an instructor HAS reviewed a take, so some of them carry a
+    // percentage. Asserting the Arabic name holds in both states; the
+    // "not yet assessed" wording is asserted by the stray sweep above,
+    // which runs over whichever of the two the page is showing.
+    const dims = (await ar.textContent('#dims')) || '';
+    check('...the five pronunciation dimensions are named in Arabic',
+      /وضوح الفهم/.test(dims) && /الطلاقة/.test(dims), dims.slice(0, 60));
+
+    // The transcript is the English being learned. It must be present
+    // AND marked, so the bidirectional algorithm lays it out as English.
+    const cueDir = await ar.getAttribute('.cue__text', 'dir');
+    check('...the transcript is still the English being learned, and takes its own direction',
+      cueDir === 'auto', String(cueDir));
+    const qDir = await ar.getAttribute('.q__p', 'dir');
+    check('...as does each numbered question, so its number stays beside it',
+      qDir === 'auto', String(qDir));
+
+    const overflow = await ar.evaluate(() =>
+      document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    check('...and the Arabic laboratory does not overflow its page', overflow <= 0, String(overflow));
+    check(`No script errors on the Arabic edition${arErrors.length ? ' — ' + arErrors[0] : ''}`,
+      arErrors.length === 0);
+
+    await ar.screenshot({ path: join(OUT, '09-arabic.png'), fullPage: true });
+    await ar.close();
+  }
+
   console.log(`\nScreenshots written to ${OUT}`);
 } finally {
   await browser.close();
