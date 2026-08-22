@@ -69,7 +69,10 @@
   font: 700 .8rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   letter-spacing: .06em;
   color: var(--gold-deep, #9A7A38);
-  margin-left: .5rem;
+  /* Logical, not left: on the Arabic roll the post-nominal follows the
+     name and lands to its LEFT, where margin-left put the gap on the
+     wrong side and set "ApWEC" flush against the graduate's name. */
+  margin-inline-start: .5rem;
 }
 .reg-entry__award { margin: .2rem 0 0; font-size: .92rem; color: var(--ink-soft, #5A6479); line-height: 1.5; }
 .reg-entry__meta {

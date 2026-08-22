@@ -116,7 +116,7 @@
   .mp-unit.is-current .mp-unit__status {
     display: block;
     flex-basis: 100%;
-    padding-left: 2.85rem;
+    padding-inline-start: 2.85rem;
   }
   .mp-unit { flex-wrap: wrap; }
 }

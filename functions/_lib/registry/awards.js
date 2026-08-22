@@ -606,6 +606,11 @@ export async function publicRegister(env, { levelId = null, q = null, limit = 10
       ...r,
       honourLabel: HONOUR_LABEL[r.honour] || r.honour,
       honourLabelAr: HONOUR_LABEL_AR[r.honour] || null,
+      // The roll is published in both editions and the level's name
+      // travels in both, so /ar/register.html is not a list of Arabic
+      // names against English programmes.
+      ordinalAr: LEVEL_ORDINALS_AR[r.levelId] || null,
+      levelNameAr: LEVEL_NAMES_AR[r.levelId] || null,
     })),
   };
 }

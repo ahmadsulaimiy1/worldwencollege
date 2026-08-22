@@ -39,7 +39,7 @@
 <link rel="stylesheet" href="/css/atelier.css?v=4f3abf82">
 <link rel="stylesheet" href="/css/pages.css?v=0e3b128d">
 <link rel="stylesheet" href="/css/pillar.css?v=661126ed">
-<link rel="stylesheet" href="/css/verify.css?v=70dc3ae4">
+<link rel="stylesheet" href="/css/verify.css?v=8e384d90">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
@@ -1145,6 +1145,9 @@
         <section class="vfy-meaning" id="meaning" hidden>
           <h2>بماذا تشهد هذه الدرجة</h2>
           <p class="vfy-meaning__title" id="mTitle">&mdash;</p>
+          <!-- لماذا هذا القسم بالإنجليزية. يُملأ من js/verify.js لأنّ
+               الرابط أدناه يشير إلى صفحة مستوى الشهادة المعروضة. -->
+          <p class="vfy-meaning__note" id="meaningNote" hidden></p>
           <dl class="vfy-meaning__body">
             <dt>الوضع الممنوح</dt><dd id="mStanding">&mdash;</dd>
             <dt>الغرض الأكاديمي</dt><dd id="mPurpose">&mdash;</dd>
@@ -1636,6 +1639,6 @@
 <script src="/js/worldclock.js?v=99a644de" defer></script>
 <script src="/js/intake.js?v=5238c58f" defer></script>
 <script src="/js/sonics.js?v=13e51d64" defer></script>
-<script src="/js/verify.js?v=ab3e229c"></script>
+<script src="/js/verify.js?v=2f301ff8"></script>
 </body>
 </html>

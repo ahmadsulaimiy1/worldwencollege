@@ -22,11 +22,65 @@
   'use strict';
   var $ = function (s) { return document.querySelector(s); };
 
+  /* ── THE ROLL IS PUBLISHED IN BOTH EDITIONS ─────────────────────────
+   *
+   * It was not. /ar/register.html served an Arabic page and then filled
+   * it with "Level III · CEFR B1 · Conferred 22 August 2026" and
+   * "Verify this award", under Arabic headings — a roll of Arabic names
+   * against English programmes.
+   *
+   * Same two rules as the rest of the site: what the PAGE says is here
+   * in both languages; what the REGISTER says arrives in both and
+   * pick() selects. */
+  var AR = document.documentElement.lang === 'ar';
+  var LOCALE = AR ? 'ar' : 'en-GB';
+  var VERIFY_PATH = AR ? '/ar/verify.html?code=' : '/verify.html?code=';
+
+  function pick(en, ar) { return (AR && ar) ? ar : en; }
+
+  var T = AR ? {
+    theRegister: 'السجل',
+    listed: function (n) {
+      return n === 1 ? 'شهادة واحدة مقيَّدة' : n + ' شهادة مقيَّدة';
+    },
+    level: function (a) { return 'المستوى ' + a; },
+    cefr: function (c) { return 'الإطار الأوروبي ' + c; },
+    conferred: function (d) { return 'مُنحت في ' + d; },
+    verifyThis: 'تحقّق من هذه الشهادة',
+    showingFirst: function (n) {
+      return 'يُعرض أول ' + n + '. ضيّق البحث بالاسم أو بالشهادة لترى ما بعدها.';
+    },
+    noMatch: 'لا شهادة مقيَّدة تطابق هذا البحث.',
+    noMatchRest: 'وليس كلُّ خرّيج يأذن بالظهور هنا. والشهادة غير المقيَّدة يمكن التحقّق منها برمزها في صفحة التحقّق من الشهادات.',
+    noneYet: 'لم تُمنح شهادات بعد.',
+    noneYetRest: 'يُنشر السجل قبل أول منحٍ ليكون التحقّق قائمًا من الشهادة الأولى لا بعدها. وسيمتلئ بمنح الشهادات.',
+    unreachable: 'تعذّر بلوغ السجل.',
+    unreachableRest: 'هذا خلل عندنا، لا قولٌ في أيّ شهادة. أعد المحاولة بعد قليل، أو تحقّق من شهادة بعينها برمزها.',
+  } : {
+    theRegister: 'The register',
+    listed: function (n) { return n === 1 ? '1 award listed' : n + ' awards listed'; },
+    level: function (a) { return 'Level ' + a; },
+    cefr: function (c) { return 'CEFR ' + c; },
+    conferred: function (d) { return 'Conferred ' + d; },
+    verifyThis: 'Verify this award',
+    showingFirst: function (n) {
+      return 'Showing the first ' + n + '. Narrow the search by name or by award to see further entries.';
+    },
+    noMatch: 'No listed award matches that search.',
+    noMatchRest: 'Not every graduate consents to appear here. An award that is not listed can still be checked by its code at Award Verification.',
+    noneYet: 'No awards have yet been conferred.',
+    noneYetRest: 'The Register is published in advance of the first conferral so that verification exists from the first award rather than after it. It will fill as awards are made.',
+    unreachable: 'The Register could not be reached.',
+    unreachableRest: 'This is a fault on our side, not a statement about any award. Please try again shortly, or check a specific award by its code.',
+  };
+
   function fmtDate(iso) {
     if (!iso) return '';
     var d = new Date(iso.length === 10 ? iso + 'T00:00:00Z' : iso);
     if (isNaN(d.getTime())) return iso;
-    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+    try {
+      return d.toLocaleDateString(LOCALE, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+    } catch (e) { return iso.slice(0, 10); }
   }
 
   function el(tag, cls, text) {
@@ -36,34 +90,59 @@
     return n;
   }
 
+  /* A run of Latin inside an Arabic line — a name, an award's official
+     title, a register code — isolated so the algorithm cannot drag a
+     hyphen or a full stop to the wrong end of it. */
+  function bdi(text) {
+    var n = document.createElement('bdi');
+    n.textContent = String(text);
+    return n;
+  }
+
+  /** A block whose contents are one isolated run. */
+  function named(tag, cls, text) {
+    var n = el(tag, cls);
+    if (text !== undefined && text !== null && text !== '') n.appendChild(bdi(text));
+    return n;
+  }
+
   function entryNode(e) {
     var li = el('li', 'reg-entry');
 
     var main = el('div');
-    var name = el('p', 'reg-entry__name', e.holderName);
-    if (e.postNominal) name.appendChild(el('span', 'reg-entry__post', e.postNominal));
+    // A graduate's name is their own and is in whatever script they
+    // wrote it in; the award's official title is published in English
+    // on both editions by the College's own ruling. Both isolated.
+    var name = named('p', 'reg-entry__name', e.holderName);
+    if (e.postNominal) name.appendChild(named('span', 'reg-entry__post', e.postNominal));
     main.appendChild(name);
-    main.appendChild(el('p', 'reg-entry__award', e.awardTitle));
+    main.appendChild(named('p', 'reg-entry__award', e.awardTitle));
 
     var meta = el('p', 'reg-entry__meta');
     // Honour first: it is the distinction the graduate earned, and
     // burying it after the date would make the roll read as a list of
     // dates that happen to have people attached.
     if (e.honourLabel && e.honour !== 'pass') {
-      meta.appendChild(el('span', 'reg-entry__honour', e.honourLabel));
+      meta.appendChild(el('span', 'reg-entry__honour', pick(e.honourLabel, e.honourLabelAr)));
       meta.appendChild(document.createTextNode(' '));
     }
-    meta.appendChild(document.createTextNode(
-      'Level ' + e.roman + (e.cefr ? ' · CEFR ' + e.cefr : '')
-      + (e.conferredOn ? ' · Conferred ' + fmtDate(e.conferredOn) : '')));
+    // Each fact isolated from its neighbours, so "الإطار الأوروبي B1"
+    // and the date beside it cannot be read as one run.
+    [T.level(pick(e.roman, e.ordinalAr)),
+      e.cefr ? T.cefr(e.cefr) : null,
+      e.conferredOn ? T.conferred(fmtDate(e.conferredOn)) : null,
+    ].filter(Boolean).forEach(function (f, i) {
+      if (i) meta.appendChild(document.createTextNode(' \u00B7 '));
+      meta.appendChild(bdi(f));
+    });
     main.appendChild(meta);
     li.appendChild(main);
 
     var check = el('div', 'reg-entry__check');
-    var a = el('a', null, 'Verify this award');
-    a.href = '/verify.html?code=' + encodeURIComponent(e.verificationCode);
+    var a = el('a', null, T.verifyThis);
+    a.href = VERIFY_PATH + encodeURIComponent(e.verificationCode);
     check.appendChild(a);
-    check.appendChild(el('span', 'reg-entry__code', e.verificationCode));
+    check.appendChild(named('span', 'reg-entry__code', e.verificationCode));
     li.appendChild(check);
 
     return li;
@@ -71,11 +150,8 @@
 
   function emptyNode(filtered) {
     var p = el('p', 'reg-empty');
-    p.appendChild(el('strong', null,
-      filtered ? 'No listed award matches that search.' : 'No awards have yet been conferred.'));
-    p.appendChild(document.createTextNode(filtered
-      ? 'Not every graduate consents to appear here. An award that is not listed can still be checked by its code at Award Verification.'
-      : 'The Register is published in advance of the first conferral so that verification exists from the first award rather than after it. It will fill as awards are made.'));
+    p.appendChild(el('strong', null, filtered ? T.noMatch : T.noneYet));
+    p.appendChild(document.createTextNode(filtered ? T.noMatchRest : T.noneYetRest));
     return p;
   }
 
@@ -85,15 +161,13 @@
     var entries = (data && data.entries) || [];
 
     if (!entries.length) {
-      $('#count').textContent = 'The register';
+      $('#count').textContent = T.theRegister;
       list.appendChild(emptyNode(filtered));
       $('#more').hidden = true;
       return;
     }
 
-    $('#count').textContent = entries.length === 1
-      ? '1 award listed'
-      : entries.length + ' awards listed';
+    $('#count').textContent = T.listed(entries.length);
     entries.forEach(function (e) { list.appendChild(entryNode(e)); });
 
     // Said plainly rather than left to be discovered. A silently
@@ -101,8 +175,7 @@
     // — "they only have 200 graduates" — and never learns otherwise.
     $('#more').hidden = !data.truncated;
     if (data.truncated) {
-      $('#more').textContent = 'Showing the first ' + data.limit
-        + '. Narrow the search by name or by award to see further entries.';
+      $('#more').textContent = T.showingFirst(data.limit);
     }
   }
 
@@ -123,11 +196,10 @@
       .then(function (d) { render(d, filtered); })
       .catch(function () {
         $('#list').textContent = '';
-        $('#count').textContent = 'The register';
+        $('#count').textContent = T.theRegister;
         var p = el('p', 'reg-empty');
-        p.appendChild(el('strong', null, 'The Register could not be reached.'));
-        p.appendChild(document.createTextNode(
-          'This is a fault on our side, not a statement about any award. Please try again shortly, or check a specific award by its code.'));
+        p.appendChild(el('strong', null, T.unreachable));
+        p.appendChild(document.createTextNode(T.unreachableRest));
         $('#list').appendChild(p);
       })
       .then(function () { $('#results').setAttribute('aria-busy', 'false'); });

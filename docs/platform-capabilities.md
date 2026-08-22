@@ -402,23 +402,59 @@ the address — which is a third state between "has an interface" and
     `tests/browser/graduate.mjs` now opens BOTH editions and fails on any
     English word the page itself is responsible for.
 
+    **Also closed, the same day: the other two public credential
+    surfaces.**
+
+    - **`/ar/verify.html`.** The page an Arabic employer reaches from a
+      QR code on a printed certificate. It answered in English down to
+      the standing band and seven paragraphs about hash chains.
+      `functions/_lib/registry/institutional-verification.js` now
+      composes every check in both languages — `labelAr`,
+      `statementAr`, `detailAr` — and the summary carries `headlineAr`
+      and `statementAr`. It also carries a new `verdict` field, because
+      the page used to colour itself by comparing the headline against
+      the literal string `"Verified"`: translating that sentence would
+      have painted every passing Arabic verification as a warning.
+      The award's own DEFINITION stays English on both editions, on
+      purpose — it is transcribed verbatim from
+      `docs/iefc-award-architecture.md` and held there by
+      `tests/award-definitions.test.mjs`, so a translation would be a
+      second authoritative text no document governs. This is the same
+      reasoning `/ar/study/level-3/` already publishes about the award
+      TITLE. The Arabic edition marks that panel `lang="en"`, says in
+      Arabic why it is in English, and links to the Arabic account of
+      the level, which the College does publish.
+    - **`/ar/register.html`.** The roll listed Arabic names against
+      English programmes. `js/register.js` speaks both languages and the
+      listing endpoint hands back `levelNameAr`, `ordinalAr` and
+      `honourLabelAr` beside their English counterparts.
+
+    Both suites now open both editions —
+    `tests/browser/verify.mjs` (72) and `tests/browser/register.mjs`
+    (40) — and each fails on any English word the page itself is
+    responsible for.
+
+    **Also, on the way past: four stylesheets used physical margins
+    where they meant logical ones**, so on the Arabic editions a
+    post-nominal sat flush against a graduate's name, a cue's indent
+    fell on the wrong side and the sidebar's hover indent pushed the
+    wrong way. `css/register.css`, `css/verify.css`, `css/graduate.css`,
+    `css/listening-lab.css`, `css/dashboard.css`, `css/my-record.css`
+    and `css/my-programme.css` now use `margin-inline-*`,
+    `padding-inline-*` and `inset-inline-*`. Everything else in the
+    stylesheets that is physical is deliberately so and already carries
+    a `[dir="rtl"]` companion.
+
     **Still open, in the order they matter.** Each is a scripted surface
     whose Arabic edition is served in English today:
 
     | Surface | Script | What an Arabic reader is shown in English |
     |---|---|---|
-    | `/ar/verify.html` | `js/verify.js` | the standing band, the three verification layers, the summary, and the award definition — most of it composed server-side in `functions/_lib/registry/institutional.js` |
-    | `/ar/register.html` | `js/register.js` | the Graduate Register search and its results |
     | `/ar/my-record.html` | `js/my-record.js` | the learner's own record |
     | `/ar/my-programme.html` | `js/my-programme.js` | the study plan |
     | `/ar/admissions/apply/` | `js/admissions-wizard.js` | the application wizard's own prompts |
     | `/ar/listening-lab.html` | `js/listening-lab.js` | the listening laboratory, the largest of them |
     | `/ar/student-portal/` | `js/portal-entry.js` | the portal's entry states |
-
-    The registry work above already reaches the first two: an Arabic
-    verification response now carries the Arabic rank and the Arabic
-    level name, so those pages need their own dictionary and nothing
-    more from the platform.
 
 
 ---

@@ -101,7 +101,7 @@
 .grad-badge {
   display: inline-block; padding: .12rem .55rem; border-radius: 999px;
   font: 700 .7rem/1.6 var(--font-body, Inter, sans-serif);
-  letter-spacing: .05em; margin-right: .4rem;
+  letter-spacing: .05em; margin-inline-end: .4rem;
 }
 .grad-badge--honour { background: rgba(199, 162, 74, .18); color: #8A6B2E; }
 .grad-badge--revoked { background: rgba(163, 38, 56, .12); color: #8C1F2F; }
