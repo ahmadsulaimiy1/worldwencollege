@@ -1523,12 +1523,34 @@
   </nav>
 </header>
 <main id="main">
+<!--  THE TWO RIWĀQ PAGES HAD DRIFTED APART.
+
+      They were built at different times and never reconciled, and the grid
+      audit found it: of sixteen pages, fifteen matched their Arabic twin
+      section for section and this one did not. Four differences, one of them
+      a defect rather than a variance:
+
+        · the English page carried a `riwaq-intro` class the Arabic did not;
+          the Arabic carried `section--flush-b` the English did not;
+        · the Arabic eyebrow and the Arabic h1 were the same word — الرواق
+          above الرواق — while the English eyebrow named the page and the h1
+          said what it was;
+        · the two ledes told the reader DIFFERENT THINGS. The English
+          explained the name; the Arabic explained the limitation. Each tree
+          was missing half of what the other said.
+        · and the Arabic had no <noscript> at all, so a reader with
+          JavaScript disabled met a blank page where an English reader met an
+          explanation.
+
+      Both pages now say both things and carry the same fallback.  -->
 <section class="riwaq-intro section--dark section-pad">
   <div class="container">
     <span class="eyebrow">The Riwāq</span>
     <h1>The College&rsquo;s learning portal</h1>
-    <p class="lede">Named for the colonnade in which a ḥalaqah sits. Students recite, teachers
-      correct, and the ledger keeps what is actually held rather than what has been covered.</p>
+    <p class="lede">Named for the colonnade in which a ḥalaqah sits. Students recite,
+      teachers correct, and the ledger keeps what is actually held rather than what has
+      been covered. It runs in your browser alone: what you record stays on your own
+      device and is sent nowhere &mdash; a limit the College states rather than hides.</p>
   </div>
 </section>
 
