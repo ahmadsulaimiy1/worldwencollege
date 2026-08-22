@@ -3932,3 +3932,130 @@ body { background: var(--cream); }
    nought is drawn, not condensed. See css/arabic.css for the rule that
    governs the face. */
 [dir="rtl"] .r-nil__amount { letter-spacing: 0; }
+
+/* ======================================================== THE APPLICATION
+
+   The site's largest single gap: applying was a list of six things to
+   write in an email and a mailto: link. An international applicant
+   meeting that does not apply — they close the page.
+
+   The form is set as a DOCUMENT being drawn up, not a web form being
+   filled: ruled sections with legends in the ceremonial face, and beside
+   it the composed application on paper, updating as it is written. An
+   applicant sees the whole of what the Registry will receive before any
+   of it is sent, which is the same doctrine the Standing page keeps for
+   claims and the photography register keeps for consent. */
+.r-apply {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(28px, 3.6vw, 56px);
+  align-items: start;
+}
+@media (max-width: 980px) { .r-apply { grid-template-columns: 1fr; } }
+
+.r-apply__set { border: 0; padding: 0; margin: 0 0 clamp(24px, 2.6vw, 34px); }
+.r-apply__set:last-of-type { margin-bottom: 22px; }
+
+.r-apply__legend {
+  display: block; width: 100%;
+  font-family: var(--font-ceremonial);
+  font-size: .665rem; font-weight: 600; letter-spacing: .21em;
+  text-transform: uppercase; color: var(--bronze);
+  margin: 0 0 16px; padding-bottom: 11px;
+  border-bottom: 1px solid rgba(111, 80, 40, .3);
+}
+
+.r-apply__req { color: var(--bronze); font-weight: 700; margin-inline-start: 2px; }
+.r-apply__opt {
+  font-family: var(--font-body); font-size: .62rem; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-soft); opacity: .8; margin-inline-start: 6px;
+}
+
+.r-apply__check label {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: .95rem; letter-spacing: 0; text-transform: none;
+  font-weight: 500; color: var(--ink); cursor: pointer;
+}
+.r-apply__check input { width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; accent-color: var(--bronze); }
+
+.r-apply__actions { margin-top: 4px; flex-wrap: wrap; gap: 12px; }
+
+/* The sheet. A monospaced face on purpose — this is the text that will
+   be sent, character for character, and a proportional face would make
+   it look like a rendering of the application rather than the thing
+   itself. */
+.r-apply__preview {
+  position: sticky; top: calc(var(--header-h, 120px) + 20px);
+  background: var(--paper);
+  border: 1px solid rgba(111, 80, 40, .22);
+  border-top: 2px solid var(--gold-royal);
+  padding: clamp(20px, 2.2vw, 28px);
+}
+@media (max-width: 980px) { .r-apply__preview { position: static; } }
+
+.r-apply__preview-label {
+  font-family: var(--font-ceremonial);
+  font-size: .625rem; font-weight: 600; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--bronze);
+  margin: 0 0 14px; padding-bottom: 10px;
+  border-bottom: 1px solid rgba(111, 80, 40, .22);
+}
+
+.r-apply__sheet {
+  margin: 0; max-height: 46vh; overflow: auto;
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: .775rem; line-height: 1.62; color: var(--ink);
+  white-space: pre-wrap; word-break: break-word;
+  /* The sheet is a document, and a document reads left to right in both
+     trees: an application composed in Arabic still carries Latin field
+     labels to a registrar and must not be re-ordered by the container. */
+  direction: ltr; text-align: start;
+}
+[dir="rtl"] .r-apply__sheet { direction: rtl; }
+
+.r-apply__privacy {
+  margin: 16px 0 0; padding-top: 14px;
+  border-top: 1px solid rgba(111, 80, 40, .18);
+  font-size: .77rem; line-height: 1.6; color: var(--ink-soft);
+}
+
+/* Printing an application should give a clean sheet, not a web page. */
+@media print {
+  .r-apply__form, .site-header, .meridian, .r-dock, .site-footer,
+  .r-apply__privacy, .r-apply__preview-label { display: none !important; }
+  .r-apply { display: block; }
+  .r-apply__preview { border: 0; padding: 0; position: static; }
+  .r-apply__sheet { max-height: none; overflow: visible; font-size: 11pt; color: #000; }
+}
+
+/* The field labels came from the inherited form layer: body sans, 700
+   weight, uppercase, .76rem — a web form's labels. In a document being
+   drawn up they should be the same quiet ceremonial small caps the
+   legends and column heads use, so the form reads as one typographic
+   system with the rest of the site rather than as a widget dropped into
+   it. The inputs keep their boxes: a ruled underline is prettier and
+   measurably worse to fill in on a telephone. */
+.r-apply .field label {
+  font-family: var(--font-ceremonial);
+  font-size: .655rem; font-weight: 600; letter-spacing: .16em;
+  color: var(--ink-soft);
+}
+.r-apply .field input,
+.r-apply .field select,
+.r-apply .field textarea {
+  border-radius: 2px;
+  border-color: rgba(111, 80, 40, .3);
+  background: var(--warm-white);
+}
+.r-apply .field input:focus-visible,
+.r-apply .field select:focus-visible,
+.r-apply .field textarea:focus-visible {
+  border-color: var(--bronze);
+  outline: 2px solid rgba(199, 162, 74, .45);
+  outline-offset: 1px;
+}
+.r-apply .form-note {
+  font-size: .765rem; line-height: 1.55; color: var(--ink-soft);
+  margin-top: 2px;
+}
