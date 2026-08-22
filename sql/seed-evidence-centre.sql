@@ -27,7 +27,7 @@
 -- ---------------------------------------------------------------------
 INSERT INTO evidence_items (id, reference, collection, title, state, statement, source_path, classification, owner_role, review_interval_months) VALUES
 ('ev_gov_001','GOV-001','Governance','Register of governance decisions awaiting approval','exists',
- 'The complete list of academic and operational decisions the Executive has been asked to take, each with a recommendation and the consequences of not taking it. All twenty-five outstanding decisions in it were adopted by the Executive on 14 August 2026, and its adoption record states plainly that the academic items await ratification by an Academic Senate that has no members, and that adoption confers no award.',
+ 'The complete list of academic and operational decisions the Executive has been asked to take, each with a recommendation and the consequences of not taking it. All twenty-five outstanding decisions in it were adopted by the Executive on 14 August 2026, and its adoption record states plainly that the academic items await ratification by the Academic Senate, which was constituted on 14 August 2026 with three members and has not yet ratified them, and that adoption confers no award.',
  'docs/governance-decisions.md','internal','Governing Council',6),
 ('ev_gov_002','GOV-002','Governance','Constitution of the Governing Council','governance_pending',
  'The College has no written constitution defining who governs it, how members are appointed, what powers they hold and how decisions are recorded. Until one exists, "the Executive approved this" has no defined meaning. This is the most fundamental gap in the register.',
@@ -47,7 +47,7 @@ INSERT INTO evidence_items (id, reference, collection, title, state, statement, 
  'The constitutional academic document: level structure, credit model (1 WEC Credit = 10 notional hours), GLH/ILH/TQT definitions, the six-competency framework, and the terminology the College uses instead of marketing language.',
  'docs/academic-framework.md','public','Academic Senate',12),
 ('ev_areg_002','AREG-002','Academic Regulations','Progression rules','governance_pending',
- 'What a learner must achieve to progress from one level to the next. Governance B1 and B2, adopted by the Executive on 14 August 2026 and awaiting ratification by an Academic Senate that has no members. Until it does, the platform enforces a mechanism default explicitly labelled as not an academic standard.',
+ 'What a learner must achieve to progress from one level to the next. Governance B1 and B2, adopted by the Executive on 14 August 2026 and awaiting ratification by the Academic Senate, which was constituted on 14 August 2026 with three members and has not yet ratified them. Until it does, the platform enforces a mechanism default explicitly labelled as not an academic standard.',
  NULL,'internal','Academic Senate',NULL),
 ('ev_areg_003','AREG-003','Academic Regulations','Admissions and entry requirements','governance_pending',
  'The College accepts applications and places learners at a level. No published entry requirement, placement policy or appeal against placement exists.',
@@ -61,7 +61,7 @@ INSERT INTO evidence_items (id, reference, collection, title, state, statement, 
  'The College''s policy on assessment rubrics, applied to and enforced across all 60 authored assignments by tests/curriculum-consistency.test.mjs.',
  'docs/curriculum-framework.md','internal','Director of Academic Quality',12),
 ('ev_asr_002','ASR-002','Assessment Regulations','Pass marks and classification','governance_pending',
- 'Module pass threshold, end-of-level examination pass mark, and the thresholds separating Pass, Merit, Distinction, High Distinction and Distinction of the College. Governance B1, B2 and C4b, adopted by the Executive on 14 August 2026 and awaiting ratification by an Academic Senate that has no members; no regulation has been written from them. No award can be conferred until they are.',
+ 'Module pass threshold, end-of-level examination pass mark, and the thresholds separating Pass, Merit, Distinction, High Distinction and Distinction of the College. Governance B1, B2 and C4b, adopted by the Executive on 14 August 2026 and awaiting ratification by the Academic Senate, which was constituted on 14 August 2026 with three members and has not yet ratified them; no regulation has been written from them. No award can be conferred until they are.',
  NULL,'internal','Academic Senate',NULL),
 ('ev_asr_003','ASR-003','Assessment Regulations','Resit and reassessment policy','governance_pending',
  'How many resits a learner may take, whether a resit mark is capped, and what happens when resits are exhausted. Governance B3, adopted by the Executive on 14 August 2026 &mdash; two resits, fourteen days apart, a third failure repeating the level. The decision exists; the policy has not been written and the platform does not yet enforce it.',
@@ -153,9 +153,9 @@ INSERT INTO evidence_items (id, reference, collection, title, state, statement, 
 ('ev_ap_001','AP-001','Appeals','Academic appeals procedure','governance_pending',
  'No procedure exists by which a learner may challenge a mark, a progression decision or a withdrawal. The platform can already record all three; nothing records a challenge to any of them.',
  NULL,'internal','Registrar',NULL),
-('ev_ai_001','AI-001','Academic Integrity','Academic misconduct procedure','governance_pending',
- 'No procedure and no case register. The platform stores voice recordings and written submissions, which makes detection possible and therefore makes the absence of a procedure a live risk rather than a theoretical one. A finding made without a documented process — including right of reply and appeal — is not defensible. Governance C9.',
- NULL,'internal','Registrar',NULL);
+('ev_ai_001','AI-001','Academic Integrity','Academic misconduct procedure','exists',
+ 'The procedure adopted under governance C9 exists and is enforced. Six categories of misconduct are defined with the evidence the College would have to show for each; the case register exists and is empty, because nothing has been taught and nobody has been assessed. The safeguards C9 required are CHECK constraints rather than guidance: a finding without notice, a finding before the learner could answer, a finding without reasons, a determination by the person who opened the case, an appeal heard by the person appealed against, and closure with an appeal outstanding are each impossible to record. Two matters remain for Senate: the standard response window, and the body that hears a referred case.',
+ 'docs/academic-integrity-procedure.md','internal','Registrar',12);
 
 -- ---------------------------------------------------------------------
 -- 18-19. STAFF
@@ -231,7 +231,7 @@ INSERT INTO academic_relations (id, subject_type, subject_id, predicate, object_
 -- Evidence to the metric that measures it.
 ('rel_cm2_kpi','evidence','CM-002','measured_by','kpi','assessment.competencyCoverage','approved','2026-08-04T00:00:00.000Z','Coverage reports 0 of 360 mapped.'),
 ('rel_mod1_kpi','evidence','MOD-001','measured_by','kpi','assessment.moderation','approved','2026-08-04T00:00:00.000Z','Reported as not_instrumented.'),
-('rel_ai1_kpi','evidence','AI-001','measured_by','kpi','integrity.misconduct','approved','2026-08-04T00:00:00.000Z','Reported as not_instrumented, never as zero.'),
+('rel_ai1_kpi','evidence','AI-001','measured_by','kpi','integrity.misconduct','approved','2026-08-04T00:00:00.000Z','The register exists and is empty; reported as insufficient_data, never as zero.'),
 ('rel_sf1_kpi','evidence','SF-001','measured_by','kpi','experience.studentFeedback','approved','2026-08-04T00:00:00.000Z','No instrument exists.'),
 ('rel_go1_kpi','evidence','GO-001','measured_by','kpi','outcomes.graduateDestinations','approved','2026-08-04T00:00:00.000Z','No survey and no graduates.'),
 

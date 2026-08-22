@@ -79,7 +79,7 @@ function freshEnv(learners = 0) {
 {
   const r = await M.institutionalMetrics(freshEnv(0));
 
-  for (const id of ['integrity.misconduct', 'engagement.attendance',
+  for (const id of ['engagement.attendance',
     'experience.studentFeedback', 'outcomes.graduateDestinations']) {
     const m = byId(r, id);
     check(`${id} is declared rather than omitted`, !!m, 'missing from the register entirely');
@@ -89,11 +89,17 @@ function freshEnv(learners = 0) {
     }
   }
 
-  // The distinction that matters most on this particular metric.
+  // Academic integrity moved out of that list when migration 023 built
+  // the misconduct register: the College now collects this, so
+  // not_instrumented would be a false statement about itself. What must
+  // NOT change is the value — an empty register is null, never zero.
   // Read defensively: when a sabotage removes the metric entirely these
   // must FAIL, not throw. A suite that dies on a finding reports one
   // line of stack instead of the results that locate it.
   const mis = byId(r, 'integrity.misconduct') || {};
+  check('Misconduct is declared rather than omitted', !!byId(r, 'integrity.misconduct'));
+  check('...and reports the instrument as existing but unused', mis.state === 'insufficient_data', mis.state);
+  check('...and still publishes no zero over an empty register', mis.value === null, JSON.stringify(mis.value));
   check('Misconduct explicitly distinguishes "none recorded" from "none occurred"',
     /different statements/i.test(mis.closes || ''), (mis.closes || '(absent)').slice(0, 90));
   const att = byId(r, 'engagement.attendance') || {};
@@ -273,6 +279,43 @@ function freshEnv(learners = 0) {
   }
   check('The suppression rule is stated to the reader, not just applied',
     /individual's record with a percentage sign/i.test(r.caveat), r.caveat);
+}
+
+// ---------------------------------------------------------------------
+// Misconduct, once there are cases, is suppressed before it is published
+// ---------------------------------------------------------------------
+// The most identifying figure in the whole register. "One case this
+// year" over a cohort of four is not a statistic about the College; it
+// is one learner's disciplinary record, published. So the threshold is
+// applied to the number of LEARNERS involved, not the number of cases.
+{
+  const seedCases = (env, learners) => {
+    env.DB.prepare(`INSERT INTO units (id, course_id, sequence, title)
+      VALUES ('unt_m','crs_level_1',901,'Metric fixture')`).bind().run();
+    env.DB.prepare(`INSERT INTO learning_items (id, unit_id, sequence, kind, title)
+      VALUES ('itm_m','unt_m',1,'assignment','Fixture task')`).bind().run();
+    for (let i = 1; i <= learners; i++) {
+      env.DB.prepare(`INSERT INTO misconduct_cases
+        (id, reference, user_id, category, learning_item_id, opened_by, opened_at, allegation)
+        VALUES ('mis_m${i}','AI-2027-${i}','usr_${i}','NOT_OWN_WORK','itm_m','usr_1','2027-01-01T00:00:00Z','Fixture allegation')`)
+        .bind().run();
+    }
+  };
+
+  const few = freshEnv(4);
+  seedCases(few, 4);
+  const m1 = byId(await M.institutionalMetrics(few), 'integrity.misconduct') || {};
+  check('Four learners with cases: suppressed, not published', m1.state === 'suppressed', m1.state);
+  check('...with no value attached to leak the count', m1.value === null, JSON.stringify(m1.value));
+  check('...saying why it was withheld', /identifies the individual/i.test(m1.closes || ''), m1.closes);
+
+  const many = freshEnv(12);
+  seedCases(many, 12);
+  const m2 = byId(await M.institutionalMetrics(many), 'integrity.misconduct') || {};
+  check('Twelve learners with cases: measured', m2.state === 'measured', m2.state);
+  check('...counting the cases opened', m2.value && m2.value.opened === 12, JSON.stringify(m2.value));
+  check('...and reporting how many are still undetermined, which is the number that matters',
+    m2.value && m2.value.awaitingDetermination === 12, JSON.stringify(m2.value));
 }
 
 console.log(`\n${pass} passed, ${fail} failed.`);

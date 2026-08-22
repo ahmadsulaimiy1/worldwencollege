@@ -640,11 +640,14 @@ enrolment does. This is the single largest financial difference between
 the options, and it is a risk the Board takes on deliberately or not at
 all.
 
-**Two academic appointments become urgent rather than important.** The
-External Examiner, still unappointed, and the Academic Senate, which has
-no members. Option B is an institution making academic judgements about
-individuals at scale, and neither option should confer anything until the
-Examiner exists — but Option B makes the absence conspicuous.
+**One academic appointment becomes urgent rather than important.** The
+External Examiner, still unappointed. The Academic Senate was
+constituted on 14 August 2026 with three members and can therefore sit;
+what it has not done is ratify the academic decisions adopted by the
+Executive. The Board of Academic Standards and Curriculum Excellence
+still has none. Option B is an institution making academic judgements
+about individuals at scale, and neither option should confer anything
+until the Examiner exists — but Option B makes the absence conspicuous.
 
 ### Why applicants would willingly pay more
 

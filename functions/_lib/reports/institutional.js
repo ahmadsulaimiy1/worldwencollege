@@ -13,8 +13,11 @@
  *   not_instrumented  — the College does not collect this at all
  *
  * `not_instrumented` is the reason this file is shaped like a register.
- * Three of the metrics the Executive named — attendance, academic
- * integrity, student feedback — have no table anywhere in the platform.
+ * Several of the metrics the Executive named — attendance, student
+ * feedback, graduate destinations — have no table anywhere in the
+ * platform. Academic integrity was among them until migration 023 built
+ * the register; it now reports `insufficient_data` instead, which is a
+ * different and better answer.
  * A dashboard would simply not show them, and their absence would read
  * as "nothing to report". Here they appear with the same weight as
  * everything else, saying plainly what is missing and what would close
@@ -259,12 +262,6 @@ async function assessmentMetrics(env) {
 function uninstrumentedMetrics() {
   return [
     gap(
-      'integrity.misconduct', 'Academic misconduct',
-      'How many academic-integrity cases has the College opened, and how were they resolved?',
-      'A misconduct case record: allegation, evidence, process, outcome, appeal.',
-      'A misconduct register and a documented procedure. The College currently has neither, so it cannot answer this and must not imply a zero — "no cases recorded" and "no cases occurred" are different statements, and only the first is true.',
-    ),
-    gap(
       'engagement.attendance', 'Live session attendance',
       'Who attended which live sessions, and what proportion of the cohort attends?',
       'An attendance record per learner per session. `live_sessions` exists; nothing records who was there.',
@@ -378,12 +375,76 @@ async function accreditationReadiness(env) {
 }
 
 /** The whole register. */
+// ---------------------------------------------------------------------
+// Academic integrity
+// ---------------------------------------------------------------------
+// This metric used to sit in uninstrumentedMetrics() because the College
+// had no misconduct register and no procedure. Migration 023 built both,
+// so it moves here — but note carefully what that changes and what it
+// does not.
+//
+// It changes the STATE: `not_instrumented` meant "we do not collect
+// this", which is no longer true. It becomes `insufficient_data`, which
+// means "the instrument exists and nothing has used it".
+//
+// It does NOT change the VALUE. An empty register still reports null,
+// never zero. "No cases recorded" and "no cases occurred" are different
+// statements, and while nothing has been taught and nobody assessed,
+// only the first is true. A College that published a zero here would be
+// publishing a fact about its own inactivity dressed as a fact about
+// its learners' conduct.
+async function integrityMetrics(env) {
+  const cases = await db(env).prepare(
+    `SELECT COUNT(*) AS n,
+            SUM(CASE WHEN determined_at IS NULL THEN 1 ELSE 0 END) AS undetermined,
+            SUM(CASE WHEN outcome = 'no_case_to_answer' THEN 1 ELSE 0 END) AS cleared,
+            SUM(CASE WHEN appeal_lodged_at IS NOT NULL THEN 1 ELSE 0 END) AS appealed,
+            COUNT(DISTINCT user_id) AS learners
+       FROM misconduct_cases`).first();
+
+  const n = (cases && cases.n) || 0;
+  const base = {
+    id: 'integrity.misconduct', name: 'Academic misconduct',
+    question: 'How many academic-integrity cases has the College opened, and how were they resolved?',
+    requires: 'misconduct_cases',
+  };
+
+  if (n === 0) {
+    return [{
+      ...base, state: 'insufficient_data', value: null,
+      closes: 'The first case, if there is ever one. The register exists and is empty because nothing has been taught and nobody has been assessed — "no cases recorded" and "no cases occurred" are different statements, and only the first is true today.',
+    }];
+  }
+
+  // Misconduct is the most identifying figure in the register: a case
+  // count over a small cohort names the person it counts. Suppressed by
+  // the number of LEARNERS involved, not the number of cases, because
+  // three cases against one learner is still one learner.
+  if (cases.learners < MIN_COHORT) {
+    return [{
+      ...base, state: 'suppressed', value: null, cohort: cases.learners,
+      closes: `Withheld: ${cases.learners} learner(s) are involved, below the reporting threshold of ${MIN_COHORT}. A case count over a cohort this small identifies the individual rather than describing the College.`,
+    }];
+  }
+
+  return [{
+    ...base, state: 'measured', closes: null,
+    value: {
+      opened: n,
+      awaitingDetermination: cases.undetermined,
+      noCaseToAnswer: cases.cleared,
+      appealed: cases.appealed,
+      learners: cases.learners,
+    },
+  }];
+}
+
 export async function institutionalMetrics(env) {
-  const [progression, engagement, assessment, financial, readiness] = await Promise.all([
+  const [progression, engagement, assessment, integrity, financial, readiness] = await Promise.all([
     progressionMetrics(env), engagementMetrics(env), assessmentMetrics(env),
-    financialMetrics(env), accreditationReadiness(env),
+    integrityMetrics(env), financialMetrics(env), accreditationReadiness(env),
   ]);
-  const metrics = [...progression, ...engagement, ...assessment, ...uninstrumentedMetrics(), ...financial];
+  const metrics = [...progression, ...engagement, ...assessment, ...integrity, ...uninstrumentedMetrics(), ...financial];
 
   const byState = metrics.reduce((acc, m) => { acc[m.state] = (acc[m.state] || 0) + 1; return acc; }, {});
 

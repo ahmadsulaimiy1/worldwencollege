@@ -228,6 +228,12 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 023 — the academic integrity procedure. Dropped before everything
+  // else recent, because misconduct_cases holds foreign keys into
+  // learning_items, learner_recordings, awards and users — all of which
+  // earlier migrations created and this chain drops below.
+  db.exec('DROP INDEX idx_misconduct_cases_user; DROP INDEX idx_misconduct_events_case;');
+  db.exec('DROP TABLE misconduct_case_events; DROP TABLE misconduct_cases; DROP TABLE misconduct_categories;');
   // 022 — the speaking assessment framework. Dropped FIRST of the recent
   // migrations, and the reason is the same one the 016 note below gives:
   // speaking_criteria holds a foreign key into skill_descriptors, which
