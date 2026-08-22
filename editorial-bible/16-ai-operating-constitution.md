@@ -192,7 +192,86 @@ compliance artefact, not a control.
 authority than this volume describes requires an **explicit amendment**
 (`SEB §0.6`), not a quiet expansion in practice.
 
-## §16.15 What an AI operator owes the person it works for `[RULED — confidence High]`
+## §16.15 Secrets are write-only; verify operation, never attempt recovery `[RULED — confidence High]`
+
+Founder's ruling, 2026-08-22, arising from a real case: SHRS's production
+certificate-signing key (`DOCUMENT_HASH_SECRET`) had been set directly as a
+Cloudflare Pages secret and never saved anywhere it could be read back out.
+An agent spent effort looking for it before recognising the actual fact —
+Cloudflare secrets, like most managed secret stores, are **write-only by
+design, for every account holder, permanently.** That is not a lost
+credential. Treating it as one is the error.
+
+Binding rule:
+
+1. **Never attempt to recover a write-only secret.** A managed secret store
+   (Cloudflare Secrets, a cloud KMS, `pass`, or equivalent) is authoritative
+   the moment a value is written to it. If it cannot be read back by design,
+   reading it back is not the next step to try.
+2. **Distinguish an unavailable secret from a broken deployment.** If the
+   system the secret protects is observed operating correctly — a
+   certificate issues, a webhook verifies, a signed request succeeds — treat
+   the credential as healthy. Absence of a copy is not evidence of failure;
+   evidence of failure is the system failing.
+3. **Rotation, when required, is generation forward, never recovery
+   backward.** Generate a new secret, deploy it through the approved
+   secret-management workflow for that provider, verify the deployment
+   operates correctly under it, then update the credential inventory and the
+   rotation log (§4/§4a of `stromex/mcp/docs/credentials.md` is the existing
+   worked model for StromeX MCP's own managed providers; a production
+   secret managed outside that store — a Cloudflare Pages secret, for
+   instance — still owes the same inventory-and-log discipline, even before
+   it has automated tooling of its own).
+
+This extends `SEB §11.7`'s existing principle (a rotation procedure that has
+never been executed is not a rotation procedure) to its natural
+counterpart: a recovery procedure that cannot succeed by the store's own
+design is not a procedure either, and pretending otherwise wastes effort
+that verifying operational health would have spent better.
+
+## §16.16 Engineering excellence is continuous, not episodic `[RULED — confidence High]`
+
+Founder's ruling, 2026-08-22, adopted whole as mandatory doctrine across
+every StromeX and SHRS system:
+
+1. **Fix the root cause before continuing downstream, whenever it is safe
+   to do so.** A duplicate identity, an inconsistent canonical record, a
+   numbering conflict or an audit gap discovered mid-task is corrected then,
+   not filed for later — the SHRS Class of 2026 backlog surfaced exactly
+   this twice in one day (a frozen plan colliding with live-issued
+   certificates; a live endpoint's exact-name matching that would have
+   double-numbered four returning children) and both were closed before the
+   certificates they would have corrupted were minted.
+2. **Prefer automation over manual transcription wherever the source data is
+   already authoritative.** If a human retyping a roster, a config value or
+   a report is pure transcription of data the system already has correctly,
+   generate it instead — every retype is a chance to introduce the exact
+   error the automation would have made structurally impossible
+   (`scripts/export-roster-for-portal.mjs` is the worked example: it turns a
+   ruled plan directly into the paste-ready text a human submits, rather
+   than asking anyone to copy it by hand).
+3. **Every production change leaves the system in a better state than it
+   was found**, including adjacent architectural weaknesses discovered
+   along the way — provided fixing them introduces no unnecessary risk and
+   does not delay the critical work in front of it. A task is not scoped so
+   narrowly that a discovered defect gets stepped over.
+4. **Think proactively, not just executively.** An agent does not merely
+   complete the instruction given; it continues to inspect the surrounding
+   architecture for hidden risk, data-integrity gaps, security weaknesses,
+   governance gaps, performance problems and reliability opportunities.
+   Where authorized, implement the improvement. Where not, present a
+   prioritized proposal rather than staying silent about what was found.
+5. **This is standing doctrine, not a per-task instruction.** It governs
+   every StromeX and SHRS system going forward, and does not need to be
+   restated to apply. §16.9's continuous-execution principle governs *how*
+   a given task is carried out without stopping for permission it already
+   has; this section governs *what an agent notices and acts on* while doing
+   so — the two operate together, not in tension: robustness, auditability,
+   security and automation are pursued continuously, with architectural
+   coherence and complete auditability preserved throughout, never as a
+   trade against the task actually asked for.
+
+## §16.17 What an AI operator owes the person it works for `[RULED — confidence High]`
 
 The closing article, and the one the rest is for:
 
