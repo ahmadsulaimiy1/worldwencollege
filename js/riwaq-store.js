@@ -130,9 +130,9 @@
   ];
 
   function seedSubmissions(email) {
-    if (email !== 'yusuf@daralrusukh.com') return [];
+    if (email !== 'yusuf@demo.al-madinahcollege.com') return [];
     return [
-      { id: 's-3', student: 'yusuf@daralrusukh.com', studentName: 'Yūsuf Ibrāhīm',
+      { id: 's-3', student: 'yusuf@demo.al-madinahcollege.com', studentName: 'Yūsuf Ibrāhīm',
         kind: 'Sabqi', from: 162, to: 165, note: 'Second attempt at the page turn.',
         at: Date.now() - 2 * 86400000, status: 'marked', itqan: 78,
         teacherNote: 'Cleaner. The seam at 163–164 still costs you a beat.',
@@ -140,12 +140,12 @@
           { ayah: 'Al-Tawbah 9:36', page: 164, kind: 'madd', note: 'Madd lāzim held for four counts — it takes six.' },
           { ayah: 'Al-Tawbah 9:41', page: 165, kind: 'hesitation', note: 'Recall broke at the page turn. Join the two pages.' }
         ] },
-      { id: 's-2', student: 'yusuf@daralrusukh.com', studentName: 'Yūsuf Ibrāhīm',
+      { id: 's-2', student: 'yusuf@demo.al-madinahcollege.com', studentName: 'Yūsuf Ibrāhīm',
         kind: 'Manzil', from: 42, to: 44, note: '',
         at: Date.now() - 5 * 86400000, status: 'marked', itqan: 91,
         teacherNote: 'Held well. Move this to the three-week interval.',
         errors: [{ ayah: 'Al-Baqarah 2:255', page: 42, kind: 'harakah', note: 'Ḥarakah on the final word shortened.' }] },
-      { id: 's-1', student: 'yusuf@daralrusukh.com', studentName: 'Yūsuf Ibrāhīm',
+      { id: 's-1', student: 'yusuf@demo.al-madinahcollege.com', studentName: 'Yūsuf Ibrāhīm',
         kind: 'Sabaq', from: 165, to: 165, note: '',
         at: Date.now() - 7 * 86400000, status: 'marked', itqan: 66,
         teacherNote: 'A first pass. Repeat before Fajr.', errors: [] }
@@ -153,7 +153,7 @@
   }
 
   function seedMessages(email) {
-    if (email === 'guardian@daralrusukh.com') {
+    if (email === 'guardian@demo.al-madinahcollege.com') {
       return [{ id: 'm-g1', from: 'Registry', to: email, at: Date.now() - 3 * 86400000,
         body: 'Yūsuf’s termly report is available in his record. His attendance stands at 41 consecutive days.', read: false }];
     }

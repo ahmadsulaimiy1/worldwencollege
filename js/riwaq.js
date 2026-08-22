@@ -35,41 +35,41 @@
   };
 
   var ACCOUNTS = {
-    'yusuf@daralrusukh.com': {
+    'yusuf@demo.al-madinahcollege.com': {
       pass: 'riwaq', role: 'student', name: 'Yūsuf Ibrāhīm', initials: 'YI',
-      ref: 'DAR-S-1448-0412', country: 'Nigeria',
+      ref: 'AMC-S-1448-0412', country: 'Nigeria',
       programme: 'Diploma in Qurʾānic Memorisation', mode: 'Supervised',
       halaqah: 'Ḥalaqah al-Fajr · 07:00 WAT',
       teacher: 'Shaykh ʿAbd al-Raḥmān Ṣāliḥ', enrolled: '1447 / 2025'
     },
-    'teacher@daralrusukh.com': {
+    'teacher@demo.al-madinahcollege.com': {
       pass: 'riwaq', role: 'teacher', name: 'Shaykh ʿAbd al-Raḥmān Ṣāliḥ', initials: 'AS',
-      ref: 'DAR-F-1445-0037', country: 'Nigeria',
+      ref: 'AMC-F-1445-0037', country: 'Nigeria',
       programme: 'Faculty of the Qurʾān', mode: 'Chain-holder',
       halaqah: 'Ḥalaqah al-Fajr · Ḥalaqah al-ʿAṣr', teacher: '—', enrolled: '1445 / 2023'
     },
-    'guardian@daralrusukh.com': {
+    'guardian@demo.al-madinahcollege.com': {
       pass: 'riwaq', role: 'guardian', name: 'Ibrāhīm Adeyemi', initials: 'IA',
-      ref: 'DAR-G-1448-0119', country: 'Nigeria',
+      ref: 'AMC-G-1448-0119', country: 'Nigeria',
       programme: 'Guardian of Yūsuf Ibrāhīm', mode: 'Read-only',
       halaqah: '—', teacher: '—', enrolled: '1447 / 2025'
     },
-    'registry@daralrusukh.com': {
+    'registry@demo.al-madinahcollege.com': {
       pass: 'riwaq', role: 'registrar', name: 'The Registry', initials: 'RG',
-      ref: 'DAR-R-0001', country: 'Nigeria',
+      ref: 'AMC-R-0001', country: 'Nigeria',
       programme: 'Registry & Examinations', mode: 'Administrative',
       halaqah: '—', teacher: '—', enrolled: '1441 / 2020'
     }
   };
 
-  var WARD = 'yusuf@daralrusukh.com';
+  var WARD = 'yusuf@demo.al-madinahcollege.com';
 
   var STATE_LABEL = {
     sabaq: 'Sabaq', sabqi: 'Sabqi', manzil: 'Manzil', itqan: 'Itqān', new: 'Not begun'
   };
 
   var HALAQAH = [
-    { email: 'yusuf@daralrusukh.com', name: 'Yūsuf Ibrāhīm', country: 'Nigeria', juz: 9, itqan: 86, streak: 41 },
+    { email: 'yusuf@demo.al-madinahcollege.com', name: 'Yūsuf Ibrāhīm', country: 'Nigeria', juz: 9, itqan: 86, streak: 41 },
     { email: null, name: 'Ādam Nwachukwu', country: 'Nigeria', juz: 6, itqan: 81, streak: 23 },
     { email: null, name: 'Fāṭimah al-Zahrāʾ', country: 'United Kingdom', juz: 14, itqan: 92, streak: 118 },
     { email: null, name: 'Bilāl Adeyemi', country: 'Nigeria', juz: 4, itqan: 74, streak: 5 },
@@ -568,7 +568,7 @@
       tile('Awards conferred', '86', 'This session') +
       '</div>' +
       '<div class="panel"><div class="panel__head"><h2>Registry view — sample record</h2>' +
-        '<span class="riwaq-quiet">DAR-S-1448-0412</span></div>' +
+        '<span class="riwaq-quiet">AMC-S-1448-0412</span></div>' +
         '<p class="riwaq-lede">The registry holds no ledger of its own; it reads the student’s. ' +
           'Shown here is the live record of Yūsuf Ibrāhīm — ' + st.pagesHeld + ' pages held, ' +
           'average itqān ' + st.avgItqan + '%.</p>' + chart(d.history) + '</div>' +
@@ -638,10 +638,10 @@
 
   function signInScreen() {
     var demo = [
-      ['yusuf@daralrusukh.com', 'Student', 'Full ledger, scheduler, recitation'],
-      ['teacher@daralrusukh.com', 'Member of faculty', 'Ḥalaqah roster and marking'],
-      ['guardian@daralrusukh.com', 'Guardian', 'Read-only view of a ward'],
-      ['registry@daralrusukh.com', 'Registry', 'Cohort and records']
+      ['yusuf@demo.al-madinahcollege.com', 'Student', 'Full ledger, scheduler, recitation'],
+      ['teacher@demo.al-madinahcollege.com', 'Member of faculty', 'Ḥalaqah roster and marking'],
+      ['guardian@demo.al-madinahcollege.com', 'Guardian', 'Read-only view of a ward'],
+      ['registry@demo.al-madinahcollege.com', 'Registry', 'Cohort and records']
     ];
     return '<div class="signin"><div class="signin__panel crystal">' +
       '<svg class="signin__crest" viewBox="0 0 64 64" aria-hidden="true">' +
@@ -702,7 +702,7 @@
     var d = load();
     if (current === 'messages') S.actions.readMessages(d);
     host.innerHTML = appScreen(a, d);
-    if (window.__rusukhDates) window.__rusukhDates();
+    if (window.__madinahDates) window.__madinahDates();
     if (window.__madinahFigures) window.__madinahFigures(host);
     if (window.__madinahOrbits) window.__madinahOrbits(host);
   }

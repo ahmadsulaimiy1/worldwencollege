@@ -1,6 +1,6 @@
 # Cloudflare Pages cache-control config.
 #
-# Deliberately conservative: scripts/build-rusukh.js does not content-hash
+# Deliberately conservative: scripts/build-madinah.js does not content-hash
 # CSS/JS/asset filenames (they're always /css/brand.css, /js/site.js,
 # etc.), so an aggressive `immutable, max-age=1y` here would mean a
 # browser that cached a file before a deploy keeps serving the OLD
