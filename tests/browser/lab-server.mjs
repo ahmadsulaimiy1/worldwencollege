@@ -24,11 +24,24 @@ for (let n = 1; n <= 6; n++) { const p = `${ROOT}/sql/seed-audio-level-${n}.sql`
 sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_demo','clerk','sub_demo','demo@example.com','student')`);
 sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_tutor','clerk','sub_tutor','tutor@example.com','staff')`);
 sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_admin','clerk','sub_admin','admin@example.com','admin')`);
-// FIVE, not six, and the sixth is the point. A learner enrolled on
-// every level has nothing to buy, so the checkout on /my-account.html
-// would have no offer to render and the browser suite would assert
-// against an empty grid. Level VI is left unbought deliberately.
-for (let n = 1; n <= 5; n++) sqlite.exec(`INSERT INTO enrolments (id,user_id,level_id,status,started_at) VALUES ('enr_${n}','usr_demo',${n},'active','2026-01-01T00:00:00.000Z')`);
+// FIVE OF THE SIX, AND WHICH ONE IS LEFT OUT IS LOAD-BEARING.
+//
+// A learner enrolled on every level has nothing to buy, so the checkout
+// on /my-account.html would have no offer to render and the browser
+// suite would assert against an empty grid. One level therefore stays
+// unbought.
+//
+// It is LEVEL V and not Level VI. functions/_lib/lms/content.js opens a
+// module only for a level the learner holds, and the Listening Lab's
+// hardest assertion is the C2 capstone — unt_l6_m10, ten cues, the most
+// demanding thing the lab renders. Leaving Level VI unbought silently
+// emptied that page and the lab suite timed out waiting for a cue that
+// could never arrive. Nothing said why; it simply hung.
+const UNBOUGHT_LEVEL = 5;
+for (let n = 1; n <= 6; n++) {
+  if (n === UNBOUGHT_LEVEL) continue;
+  sqlite.exec(`INSERT INTO enrolments (id,user_id,level_id,status,started_at) VALUES ('enr_${n}','usr_demo',${n},'active','2026-01-01T00:00:00.000Z')`);
+}
 // Mirror the LIVE database, not the convenient one: enrolment_events was
 // ADDED to an existing database (migration 002, 3 Aug 2026), so the
 // audit record begins mid-story and the page has to say so. A harness

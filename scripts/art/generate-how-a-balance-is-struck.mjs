@@ -183,6 +183,20 @@ const bits = [];
   }));
 }
 
+/**
+ * Keep a centred, wrapped note inside the canvas.
+ *
+ * `paragraph()` centres its lines on the x it is given and wraps at the
+ * width it is given, so a note whose centre sits near an edge runs off
+ * it — which is what the refunded block does in Arabic, where the bar
+ * is mirrored and the appended term lands at the far left. Clamping the
+ * CENTRE is the fix: the note stays under its own segment wherever
+ * there is room, and stops at the margin where there is not.
+ * Measured by tests/browser/diagram-fit.mjs.
+ */
+const inside = (x, width, pad = 16) =>
+  Math.min(Math.max(x, width / 2 + pad), W - width / 2 - pad);
+
 // --- The segment labels, under the bar --------------------------------
 {
   const labels = [
@@ -197,8 +211,9 @@ const bits = [];
       x: mid, y: BAR_Y + BAR_H + 34, anchor: 'middle', size: 11, weight: 700,
       tracking: RTL ? 0 : 1.6, fill: i === 2 ? INK.goldSoft : INK.goldChampagne, family: SANS, pop: true,
     }));
+    const noteW = Math.abs(at(to) - at(from)) + 40;
     bits.push(paragraph(note, {
-      x: mid, y: BAR_Y + BAR_H + 51, width: Math.abs(at(to) - at(from)) + 40,
+      x: inside(mid, noteW), y: BAR_Y + BAR_H + 51, width: noteW,
       anchor: 'middle', size: 10, fill: INK.slateText, family: SANS, lang: LANG,
     }));
   });
@@ -234,7 +249,7 @@ const bits = [];
     tracking: RTL ? 0 : 1.6, fill: INK.goldSoft, family: SANS, pop: true,
   }));
   bits.push(paragraph(t.refundedNote, {
-    x: mid, y: BAR_Y + BAR_H + 51, width: 150, anchor: 'middle',
+    x: inside(mid, 150), y: BAR_Y + BAR_H + 51, width: 150, anchor: 'middle',
     size: 10, fill: INK.slateText, family: SANS, lang: LANG,
   }));
 }

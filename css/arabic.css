@@ -130,6 +130,30 @@
 [dir="rtl"] .eyebrow, [dir="rtl"] .module-marker, [dir="rtl"] .card__num,
 [dir="rtl"] .callout__label, [dir="rtl"] .form-note { line-height: 1.7; }
 
+/* A PROSE CONTAINER THAT WAS NOT ON THE PROSE LIST.
+   The list above names p, li, .lede, dd, td and th and gives them 1.9.
+   An accordion's answer is prose by any measure — whole sentences, some
+   of them long — and it was left on the 1.55 floor, which Cairo clears
+   at 1.41 and vocalised Naskh does not: tests/browser/typography-audit.mjs
+   measured the painted ink of these runs at 1.60 and 1.66, above the
+   leading holding them. A run carrying tashkeel falls through to Amiri
+   glyph by glyph, and Amiri wants 1.69. */
+[dir="rtl"] .accordion__a-inner, :lang(ar) .accordion__a-inner,
+[dir="rtl"] .accordion__a, :lang(ar) .accordion__a { line-height: 1.9; }
+
+/* A BOLD RUN SITS ON ITS PARAGRAPH'S BASELINE, NOT ON ITS OWN.
+   `:lang(ar) *` is a floor, and it matched <strong> DIRECTLY — so a
+   bold phrase inside a 1.9 paragraph was pulled back to 1.55 and its
+   line collided with the ones around it while the rest of the paragraph
+   sat clear. The floor is right for an element nobody has decided
+   about; an emphasis span is not that element. It takes the leading of
+   the text it is emphasising, which is what `inherit` means and what
+   the typography of a paragraph requires. */
+[dir="rtl"] strong, [dir="rtl"] b, [dir="rtl"] em, [dir="rtl"] i,
+[dir="rtl"] mark, [dir="rtl"] small, [dir="rtl"] a,
+:lang(ar) strong, :lang(ar) b, :lang(ar) em, :lang(ar) i,
+:lang(ar) mark, :lang(ar) small { line-height: inherit; }
+
 /* The wordmark is two stacked lines inside a fixed-height band, so 1.55
    makes it taller than the band that holds it. It gets its own value —
    still well clear of the 1.10 that had its two lines touching. */

@@ -269,6 +269,18 @@
   --font-display:    'Fraunces', Georgia, 'Times New Roman', 'Amiri', serif;
   --font-ceremonial: 'Cinzel', 'Trajan Pro', Georgia, 'Amiri', serif;
   --font-body:       'Inter', -apple-system, 'Cairo', sans-serif;
+  /* THE LABEL FACE, AND IT WAS NEVER DEFINED.
+     Nine stylesheets set `var(--font-ui, system-ui, sans-serif)` on
+     fifty-four eyebrows, table headings and small-caps labels. The token
+     did not exist, so every one of them took the fallback: the reader's
+     OS font in English — plausible enough that nobody looked — and in
+     Arabic a stack with no Arabic-capable family in it at all, which
+     tests/browser/typography-audit.mjs reported as twenty-three runs of
+     Arabic set in system-ui.
+     The same stack as --font-body, deliberately. It is a separate token
+     because a label face may one day diverge from a reading face, not
+     because it already has. */
+  --font-ui:         'Inter', -apple-system, 'Cairo', sans-serif;
 
   --wrap: 1180px;
 }

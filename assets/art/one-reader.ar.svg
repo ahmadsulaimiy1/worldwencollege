@@ -7,24 +7,24 @@
   <desc id="one-reader-desc">ثلاثة عقودٍ قائمةٌ على اليمين بثلاثة عروض. أوسعها يأذن لإعلانٍ موجَّهٍ إلى الكلّية كلّها فيبلغ كلَّ متعلّمٍ مسجَّل. وأوسطها يأذن لإعلانٍ إلى مستوًى واحدٍ فيبلغ المسجَّلين فيه. وأضيقها بعرض إنسانٍ واحدٍ ويأذن لإعلانٍ موجَّهٍ إلى متعلّمٍ مسمًّى. وكلُّ طريقٍ من الثلاثة يمرّ بنافذةٍ واحدةٍ موسومةٍ بأنّه منشورٌ وقد فُتح ولم يُغلَق، وهي ساعة النشر. وخلف النافذة قارئٌ واحد. وليس في الرسم طريقٌ يبلغ القارئ ثمّ يُردّ، لأنّ الباب والنافذة عبارةٌ واحدةٌ في قاعدة البيانات لا مِصفاةٌ تُطبَّق بعد جلب الإعلانات.</desc>
 <text x="838.0" y="46.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="10.5" font-weight="700" fill="#6E93C4">⁧كيف يبلغ الإعلان قارئًا واحدًا⁩</text>
   <text x="838.0" y="74.0" text-anchor="end" font-family="Cairo, Inter, sans-serif" font-size="15" fill="#F2E3C0">⁧ثلاثة أبوابٍ ونافذةٌ واحدة. والإعلان الذي لا يحقّ لك لا يُقرأ أصلًا.⁩</text>
-  <path data-draw="900" d="M635.0 138.0L635.0 120.0A75.0 28.0 0 0 1 785.0 120.0L785.0 138.0" stroke="#27508F" stroke-width="1.6" stroke-linecap="butt" fill="none"/>
-  <path data-pop="" d="M635.0 138.0L635.0 120.0A75.0 28.0 0 0 1 785.0 120.0L785.0 138.0Z" fill="#1F3D7A" fill-opacity="0.17"/>
-  <path d="M627.0 138.0L793.0 138.0" stroke="#4A6491" stroke-width="1.2" stroke-opacity="0.5" fill="none"/>
-  <text data-pop="" x="801.0" y="112.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="11" font-weight="700" fill="#F2E3C0">⁧إلى الكلّية كلّها⁩</text>
-  <text data-pop="" x="801.0" y="131.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="10" fill="#8FA3C4">⁧كلُّ متعلّمٍ مسجَّل⁩</text>
-  <path data-draw="1200" d="M635.0 118.0C507.5 118.0 507.5 232.0 414.0 232.0" stroke="#C7A24A" stroke-width="1.2" stroke-opacity="0.85" stroke-linecap="round" fill="none"/>
-  <path data-draw="1040" d="M658.0 232.0L658.0 214.0A52.0 28.0 0 0 1 762.0 214.0L762.0 232.0" stroke="#27508F" stroke-width="1.6" stroke-linecap="butt" fill="none"/>
-  <path data-pop="" d="M658.0 232.0L658.0 214.0A52.0 28.0 0 0 1 762.0 214.0L762.0 232.0Z" fill="#1F3D7A" fill-opacity="0.17"/>
-  <path d="M650.0 232.0L770.0 232.0" stroke="#4A6491" stroke-width="1.2" stroke-opacity="0.5" fill="none"/>
-  <text data-pop="" x="778.0" y="206.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="11" font-weight="700" fill="#F2E3C0">⁧إلى مستوًى واحد⁩</text>
-  <text data-pop="" x="778.0" y="225.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="10" fill="#8FA3C4">⁧المسجَّلون فيه⁩</text>
-  <path data-draw="1360" d="M658.0 212.0C519.0 212.0 519.0 232.0 414.0 232.0" stroke="#C7A24A" stroke-width="1.2" stroke-opacity="0.85" stroke-linecap="round" fill="none"/>
-  <path data-draw="1180" d="M681.0 326.0L681.0 308.0A29.0 28.0 0 0 1 739.0 308.0L739.0 326.0" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="butt" fill="none"/>
-  <path data-pop="" d="M681.0 326.0L681.0 308.0A29.0 28.0 0 0 1 739.0 308.0L739.0 326.0Z" fill="#C7A24A" fill-opacity="0.17"/>
-  <path d="M673.0 326.0L747.0 326.0" stroke="#4A6491" stroke-width="1.2" stroke-opacity="0.5" fill="none"/>
-  <text data-pop="" x="755.0" y="300.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="11" font-weight="700" fill="#F2E3C0">⁧إلى متعلّمٍ واحد⁩</text>
-  <text data-pop="" x="755.0" y="319.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="10" fill="#8FA3C4">⁧مسمًّى، ولا سواه⁩</text>
-  <path data-draw="1520" d="M681.0 306.0C530.5 306.0 530.5 232.0 414.0 232.0" stroke="#C7A24A" stroke-width="1.2" stroke-opacity="0.85" stroke-linecap="round" fill="none"/>
+  <path data-draw="900" d="M610.0 138.0L610.0 120.0A75.0 28.0 0 0 1 760.0 120.0L760.0 138.0" stroke="#27508F" stroke-width="1.6" stroke-linecap="butt" fill="none"/>
+  <path data-pop="" d="M610.0 138.0L610.0 120.0A75.0 28.0 0 0 1 760.0 120.0L760.0 138.0Z" fill="#1F3D7A" fill-opacity="0.17"/>
+  <path d="M602.0 138.0L768.0 138.0" stroke="#4A6491" stroke-width="1.2" stroke-opacity="0.5" fill="none"/>
+  <text data-pop="" x="776.0" y="112.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="11" font-weight="700" fill="#F2E3C0">⁧إلى الكلّية كلّها⁩</text>
+  <text data-pop="" x="776.0" y="131.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="10" fill="#8FA3C4">⁧كلُّ متعلّمٍ مسجَّل⁩</text>
+  <path data-draw="1200" d="M610.0 118.0C495.0 118.0 495.0 232.0 414.0 232.0" stroke="#C7A24A" stroke-width="1.2" stroke-opacity="0.85" stroke-linecap="round" fill="none"/>
+  <path data-draw="1040" d="M633.0 232.0L633.0 214.0A52.0 28.0 0 0 1 737.0 214.0L737.0 232.0" stroke="#27508F" stroke-width="1.6" stroke-linecap="butt" fill="none"/>
+  <path data-pop="" d="M633.0 232.0L633.0 214.0A52.0 28.0 0 0 1 737.0 214.0L737.0 232.0Z" fill="#1F3D7A" fill-opacity="0.17"/>
+  <path d="M625.0 232.0L745.0 232.0" stroke="#4A6491" stroke-width="1.2" stroke-opacity="0.5" fill="none"/>
+  <text data-pop="" x="753.0" y="206.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="11" font-weight="700" fill="#F2E3C0">⁧إلى مستوًى واحد⁩</text>
+  <text data-pop="" x="753.0" y="225.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="10" fill="#8FA3C4">⁧المسجَّلون فيه⁩</text>
+  <path data-draw="1360" d="M633.0 212.0C506.5 212.0 506.5 232.0 414.0 232.0" stroke="#C7A24A" stroke-width="1.2" stroke-opacity="0.85" stroke-linecap="round" fill="none"/>
+  <path data-draw="1180" d="M656.0 326.0L656.0 308.0A29.0 28.0 0 0 1 714.0 308.0L714.0 326.0" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="butt" fill="none"/>
+  <path data-pop="" d="M656.0 326.0L656.0 308.0A29.0 28.0 0 0 1 714.0 308.0L714.0 326.0Z" fill="#C7A24A" fill-opacity="0.17"/>
+  <path d="M648.0 326.0L722.0 326.0" stroke="#4A6491" stroke-width="1.2" stroke-opacity="0.5" fill="none"/>
+  <text data-pop="" x="730.0" y="300.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="11" font-weight="700" fill="#F2E3C0">⁧إلى متعلّمٍ واحد⁩</text>
+  <text data-pop="" x="730.0" y="319.0" text-anchor="start" font-family="Cairo, Inter, sans-serif" font-size="10" fill="#8FA3C4">⁧مسمًّى، ولا سواه⁩</text>
+  <path data-draw="1520" d="M656.0 306.0C518.0 306.0 518.0 232.0 414.0 232.0" stroke="#C7A24A" stroke-width="1.2" stroke-opacity="0.85" stroke-linecap="round" fill="none"/>
   <rect data-pop="" x="346.0" y="150.0" width="68.0" height="164.0" rx="10" fill="#C7A24A" fill-opacity="0.14" stroke="#D4AF37" stroke-width="1.4"/>
   <path data-draw="1500" d="M346.0 150.0L346.0 314.0" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="round" fill="none"/>
   <path data-draw="1500" d="M414.0 150.0L414.0 314.0" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="round" fill="none"/>

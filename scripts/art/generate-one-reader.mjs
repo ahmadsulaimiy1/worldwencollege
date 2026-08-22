@@ -122,7 +122,12 @@ const linesOf = (scope) => (RTL ? GATES[scope].ar : GATES[scope].en);
 // the window in the middle, the reader at the end. Mirrored for Arabic
 // by coordinate, never by text-anchor — see lib/plate.mjs.
 const W = 900, H = 440;
-const GATE_X = 190;                // centre of the gate colonnade
+// 215, NOT 190. The colonnade's widest arch is 150 across, so its label
+// sits 91 units left of GATE_X — and "To the whole College" is wider
+// than the 99 units that left, so it ran off the canvas edge. Measured
+// by tests/browser/diagram-fit.mjs, which reads the rendered geometry
+// rather than the source.
+const GATE_X = 215;                // centre of the gate colonnade
 const WIN_X = 520;                 // centre of the publication window
 const READER_X = 780;              // the reader
 const ROWS = [138, 232, 326];      // the three gate baselines

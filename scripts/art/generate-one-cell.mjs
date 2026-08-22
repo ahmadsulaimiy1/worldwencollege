@@ -75,7 +75,7 @@ const COPY = {
     layers: {
       evidence: ['THE EVIDENCE', 'what the server produced'],
       reading: ['THE READING', 'what the platform derived'],
-      written: ['A STATE WRITTEN BY A PERSON', 'and the reading, still underneath'],
+      written: ['WRITTEN BY A PERSON', 'and the reading, still underneath'],
     },
     window: `A ${ENGAGEMENT.windowDays}-day window, anchored to the learner’s own start date`,
     foot: 'A correction never conceals what it corrected. Both readings stay on the record, and the reason is recorded with them.',
@@ -121,9 +121,14 @@ const markOf = (m) => (RTL ? SHORT[m.id].ar : SHORT[m.id].en);
 // the stack reads as one object seen slightly from the front.
 const W = 900, H = 470;
 const CX = W / 2;
-const BASE_W = 620, BASE_Y = 330;
-const READ_W = 520, READ_Y = 246;
-const TOP_W = 420, TOP_Y = 166;
+// NARROWED BY SIXTY, ALL THREE, so the nesting rhythm is unchanged and
+// the margin that holds the layer names is not 122 units but 152. The
+// names are set in the margin deliberately — see label() below — and at
+// 620 the margin could not hold "and the reading, still underneath",
+// which ran off the canvas edge on every render.
+const BASE_W = 560, BASE_Y = 330;
+const READ_W = 460, READ_Y = 246;
+const TOP_W = 360, TOP_Y = 166;
 
 const bits = [];
 
@@ -142,14 +147,19 @@ const bits = [];
 
 const label = (lines, y, ink) => {
   // The layer's name sits in the margin, on the reading side, so the
-  // stack itself is never written over.
+  // stack itself is never written over. The margin is 140 units wide —
+  // (900 − 620) ÷ 2 − 18 — and the English heading was set at 1.4 units
+  // of tracking, which carried "A STATE WRITTEN BY A PERSON" to 197 and
+  // straight off the canvas. Shortened, and the tracking brought back
+  // to a figure the margin can hold. Measured by
+  // tests/browser/diagram-fit.mjs, not estimated.
   const lx = RTL ? CX + BASE_W / 2 + 18 : CX - BASE_W / 2 - 18;
   const anchor = RTL ? 'start' : 'end';
   lines.forEach((line, k) => {
     bits.push(text(line, {
       x: lx, y: y + k * 15, anchor, size: k === 0 ? 10 : 9.5,
       weight: k === 0 ? 700 : 400,
-      tracking: k === 0 && !RTL ? 1.4 : 0,
+      tracking: k === 0 && !RTL ? 0.8 : 0,
       fill: k === 0 ? ink : INK.slateText, family: SANS, pop: true,
     }));
   });
