@@ -107,9 +107,36 @@ function freshEnv({ seeded = true } = {}) {
   check('Gaps are counted as prominently as holdings',
     typeof r.summary.notEvidenced === 'number' && r.summary.notEvidenced > 0,
     `${r.summary.evidenced} evidenced / ${r.summary.notEvidenced} not`);
-  check('...and the College currently cannot evidence most of the register',
-    r.summary.notEvidenced > r.summary.evidenced,
-    `${r.summary.evidenced} vs ${r.summary.notEvidenced}`);
+  // This used to assert that the College could not evidence MOST of the
+  // register, which was true and has stopped being true: a run of
+  // institutional systems moved eight items from gap to exists.
+  //
+  // That assertion was really guarding against something else — the
+  // register turning into a marketing document as the tally improved —
+  // and a count was a poor proxy for it. The guard that does the job is
+  // below: AN EMPTY REGISTER IS NOT EVIDENCE OF ANYTHING.
+  //
+  // Most of the newly-evidenced items are systems that exist and hold
+  // no data, because nothing has been taught. Each one must say so.
+  // Without this, "the misconduct procedure exists" reads to a reviewer
+  // as "the College handles misconduct", and the distance between those
+  // two sentences is the whole institution.
+  // Phrased as "says what has NOT happened" rather than an enumeration
+  // of nouns: the first version listed the nouns and missed GA-001,
+  // which says "nothing can be conferred" and "no External Examiner is
+  // appointed" — the same admission with an adjective in the way.
+  const HONEST = /(is empty|nothing (has|can|is)|\bno\b[^.]{0,40}\b(appointed|conferred|assessed|taught|recorded|answered|run|held|studying|marked)\b|has not|have not|cannot|until|no one|nobody|not yet)/i;
+  const fromAMigration = r.items.filter((i) => i.state === 'exists'
+    && /sql\/migrations\//.test(i.sourcePath || i.source_path || ''));
+  check(`Systems built but unused are declared as such — ${fromAMigration.length} checked`,
+    fromAMigration.length >= 6, fromAMigration.length);
+  const overclaimed = fromAMigration.filter((i) => !HONEST.test(i.statement || ''));
+  check('...and every one says what it does NOT yet hold',
+    overclaimed.length === 0, overclaimed.map((i) => i.reference).join(', '));
+
+  // The tally still has to show its gaps, whatever the ratio becomes.
+  check('The register still reports real gaps rather than rounding them away',
+    r.summary.notEvidenced >= 10, `${r.summary.evidenced} evidenced / ${r.summary.notEvidenced} not`);
 
   // Every row has to say something. "Not applicable" with no reason is
   // how a checklist gets quietly emptied.

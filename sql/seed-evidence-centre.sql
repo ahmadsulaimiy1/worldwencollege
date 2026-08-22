@@ -154,9 +154,6 @@ INSERT INTO evidence_items (id, reference, collection, title, state, statement, 
 ('ev_ee_001','EE-001','External Examining','External Examiner register and reports','exists',
  'The register exists and is empty. Nothing here appoints anybody — an appointment is an institutional act. What has changed is that the graduation audit no longer answers "cannot check" from a hard-coded sentence: it reads this register, finds it empty, and reports not_met. The day somebody is appointed and reports, the same audit passes with no code change, and a test proves exactly that by appointing an examiner inside the test and watching a learner who has completed everything move from not_met to met. Constraints: an examiner declares conflicts at appointment (silence is refused; "none" is a declaration), and a report judging standards not met, or met with conditions, cannot be recorded without the College''s written response — because a report received and filed is a report ignored.',
  'sql/migrations/029-examining-and-moderation.sql','internal','Academic Director',12),
-('ev_mod_001','MOD-001','Assessment','Internal moderation record','exists',
- 'The register exists and is empty, because nothing has been marked. A moderator cannot be the first marker, and a divergence that changed the mark cannot be recorded without saying how it was settled. The metric reports mean divergence rather than a moderation count, because a moderation process where the second marker always agrees is a rubber stamp with a timestamp. NOTE: the accreditation readiness report used to test whether the moderation TABLE existed; creating it flipped that area to evidenced over an empty register, and the report an accreditation reviewer reads would have claimed consistent marking on the strength of a CREATE TABLE. It now counts records.',
- 'sql/migrations/029-examining-and-moderation.sql','internal','Academic Director',12),
 ('ev_pl_001','PL-001','Academic Registry','Approved and countersigned pass list','exists',
  'The register exists and is empty. A pass list countersigned by the person who approved it is refused: one signature is an assertion, two is a control. The graduation audit reads this register for its PASS_LIST requirement, and distinguishes three failures a learner would experience differently — not on any list, on a list that was never countersigned, and on a list recording something other than a pass.',
  'sql/migrations/029-examining-and-moderation.sql','internal','Registrar',12),
@@ -168,9 +165,9 @@ INSERT INTO evidence_items (id, reference, collection, title, state, statement, 
 -- 15-17. MODERATION, APPEALS, INTEGRITY
 -- ---------------------------------------------------------------------
 INSERT INTO evidence_items (id, reference, collection, title, state, statement, source_path, classification, owner_role, review_interval_months) VALUES
-('ev_mod_001','MOD-001','Assessment Moderation','Internal moderation records','not_instrumented',
- 'No second marking, no moderation records, no measure of divergence between markers. The College cannot evidence that its marking is consistent, which means it cannot currently defend the comparability of two learners'' results.',
- NULL,'internal','Director of Academic Quality',NULL),
+('ev_mod_001','MOD-001','Assessment Moderation','Internal moderation records','exists',
+ 'The register exists (migration 029) and is empty, because nothing has been marked. A moderator cannot be the first marker, and a divergence that changed the mark cannot be recorded without saying how it was settled. The metric reports MEAN DIVERGENCE rather than a moderation count, because a moderation process where the second marker always agrees is a rubber stamp with a timestamp. Until there are records the College still cannot evidence that its marking is consistent, and the readiness report says so — it counts records, not tables, after creating this one flipped that area to evidenced over an empty register.',
+ 'sql/migrations/029-examining-and-moderation.sql','internal','Director of Academic Quality',12),
 ('ev_ap_001','AP-001','Appeals','Academic appeals procedure','governance_pending',
  'No procedure exists by which a learner may challenge a mark, a progression decision or a withdrawal. The platform can already record all three; nothing records a challenge to any of them.',
  NULL,'internal','Registrar',NULL),
@@ -251,7 +248,7 @@ INSERT INTO academic_relations (id, subject_type, subject_id, predicate, object_
 
 -- Evidence to the metric that measures it.
 ('rel_cm2_kpi','evidence','CM-002','measured_by','kpi','assessment.competencyCoverage','approved','2026-08-04T00:00:00.000Z','Coverage reports 0 of 360 mapped.'),
-('rel_mod1_kpi','evidence','MOD-001','measured_by','kpi','assessment.moderation','approved','2026-08-04T00:00:00.000Z','Reported as not_instrumented.'),
+('rel_mod1_kpi','evidence','MOD-001','measured_by','kpi','assessment.moderation','approved','2026-08-04T00:00:00.000Z','The register exists and is empty; reported as insufficient_data, never as full moderation.'),
 ('rel_ai1_kpi','evidence','AI-001','measured_by','kpi','integrity.misconduct','approved','2026-08-04T00:00:00.000Z','The register exists and is empty; reported as insufficient_data, never as zero.'),
 ('rel_sf1_kpi','evidence','SF-001','measured_by','kpi','experience.studentFeedback','approved','2026-08-04T00:00:00.000Z','No instrument exists.'),
 ('rel_go1_kpi','evidence','GO-001','measured_by','kpi','outcomes.graduateDestinations','approved','2026-08-04T00:00:00.000Z','No survey and no graduates.'),
