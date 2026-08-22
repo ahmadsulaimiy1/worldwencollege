@@ -228,6 +228,9 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 030 — academic appeals. Independent of the rest; dropped first.
+  db.exec('DROP INDEX idx_appeals_learner; DROP INDEX idx_appeals_open; DROP TABLE appeals;');
+  db.exec('DROP TABLE appeal_grounds; DROP TABLE appeal_procedure;');
   // 029 — external examining, moderation and the pass list. Dropped
   // before 028 because the graduation checks read these registers, and
   // children before parents within the file.

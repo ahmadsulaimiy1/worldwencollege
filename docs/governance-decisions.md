@@ -641,6 +641,84 @@ learner or to a future reviewer.
 
 **Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
+### C10. Academic appeals procedure — RECOMMENDED, NOT ADOPTED
+
+**This is a recommendation. No decision has been taken on it.** It is
+recorded here in the form the Board would need to adopt, and the
+machinery is built (`sql/migrations/030-academic-appeals.sql`) with its
+status set to `proposed`. The schema refuses to let it become `adopted`
+without a body and a date, so nothing here becomes policy by default.
+
+**Currently:** evidence AP-001 — "No procedure exists by which a learner
+may challenge a mark, a progression decision or a withdrawal. The
+platform can already record all three; nothing records a challenge to
+any of them."
+
+**Why this is more urgent than C9, which was adopted.** Misconduct
+affects the few who are accused. Appeals affect every learner, because
+every learner receives marks, progression decisions and — if it goes
+badly — a withdrawal. A College that can grade somebody and cannot be
+argued with about it is not administering academic judgement; it is
+administering unappealable power. It is also the first thing a
+prospective sponsor, regulator or ombudsman asks to see.
+
+**Recommendation:** the Board adopts a procedure covering:
+
+1. **The grounds.** Four: a published procedure not followed; a
+   decision-maker with an undeclared interest; evidence submitted
+   through the proper channel and not considered; a plain error of fact.
+
+2. **What is NOT a ground.** Disagreement with academic judgement.
+   This is the load-bearing exclusion. Without it, "I deserved a higher
+   mark" is an appeal, every mark becomes provisional, and the process
+   becomes a re-marking service that rewards persistence over merit —
+   which is unfair to every learner who accepts their mark. It is
+   published as a row alongside the grounds, in words a learner can read
+   *before* lodging rather than discovering afterwards.
+
+3. **Who decides.** Not the person who took the original decision. The
+   schema refuses to record it otherwise.
+
+4. **Reasons, and a remedy.** No outcome without reasons the learner
+   could take further, and no appeal *upheld* without a statement of
+   what actually changed — an upheld appeal that changed nothing is an
+   apology, not a remedy.
+
+5. **An end.** One internal appeal per decision, then a **Completion of
+   Procedures** statement. That document is what lets a learner take the
+   matter outside the College, and an institution that never issues one
+   can keep a complainant inside its own process indefinitely, for which
+   "we are still considering it" is a complete defence for ever. The
+   schema refuses to close an appeal without it.
+
+**For the Board to decide, because these are judgements and not the
+author's to make:**
+
+- **The time limits.** Twenty working days to lodge and thirty to
+  respond are the common sector figures and are entered as a proposal
+  only. Both are recorded as NOT ADOPTED.
+- **Who hears an appeal**, and whether that differs by subject — a
+  contested mark and a contested withdrawal are not obviously the same
+  kind of decision.
+- **Whether an appeal suspends the decision** while it is heard. A
+  withdrawal that takes effect during its own appeal is difficult to
+  undo.
+
+**Rationale:** the platform can already record a mark, a progression
+decision and a withdrawal. Each of those is an exercise of power over
+somebody's education, and none of them currently has a route of
+challenge. Building the register before the first cohort means the
+first learner to disagree with the College meets a procedure rather than
+a silence — and means the procedure was written before anybody had a
+particular case in mind, which is the only time it can be written
+fairly.
+
+**Decision:** ☐ awaiting a decision of the Academic Senate. Nothing here
+is in force, and the schema refuses to let the procedure record itself
+as adopted without a body and a date.
+
+---
+
 ---
 
 ## D. Data and retention

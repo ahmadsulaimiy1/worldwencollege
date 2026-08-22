@@ -185,8 +185,17 @@ function freshEnv({ seeded = true } = {}) {
   check('A revision without a real explanation is refused', noNote && noNote.name === 'ValidationError');
 
   // The rule that keeps assertion 1 true over time.
+  //
+  // The subject is chosen by looking for an item that HAS no source
+  // path, rather than naming one. This used to say 'AP-001', and broke
+  // the day AP-001 gained a path for an unrelated reason — an assertion
+  // about a rule should not depend on which row happens to illustrate
+  // it this month.
+  const pathless = (await E.evidenceRegister(env, { now: T0 })).items
+    .find((i) => !(i.sourcePath || i.source_path));
+  check('At least one item has no source path, to test the rule against', !!pathless);
   const noPath = await throws(() => E.reviseEvidence(env, {
-    reference: 'AP-001', changes: { state: 'exists' },
+    reference: pathless ? pathless.reference : 'AP-001', changes: { state: 'exists' },
     changeNote: 'Claiming this exists without saying where.',
   }));
   check('An item cannot become "exists" without a source path',

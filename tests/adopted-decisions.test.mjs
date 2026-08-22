@@ -30,7 +30,36 @@ const awaiting = (gov.match(/\*\*Decision:\*\*\s*☐\s*awaiting/g) || []).length
 const adoptedNow = (gov.match(new RegExp(`ADOPTED ${ADOPTION_DATE}`, 'g')) || []).length;
 const adoptedEarly = (gov.match(/\*\(adopted [^)]+\)\*/g) || []).length;
 
-check(`No decision is outstanding — ${awaiting} awaiting`, awaiting === 0);
+// This used to assert `awaiting === 0`, which was true on 15 August and
+// was never an invariant. It recorded a MOMENT — everything on the
+// register had just been decided — and a College that never adds a new
+// recommendation is not a College with settled governance, it is one
+// that has stopped thinking.
+//
+// What the assertion was really protecting is that a decision cannot go
+// SILENTLY pending. So that is what is checked now: every outstanding
+// item must name the body it is waiting on and say plainly that it is
+// not in force, and the count is printed either way so nobody has to go
+// looking for it.
+// Read a window after the marker rather than trying to model paragraph
+// shape: the first version stopped at the first newline and reported a
+// sentence cut in half, which made a passing block look like a failing
+// one.
+const awaitingBlocks = [...gov.matchAll(/\*\*Decision:\*\*\s*☐\s*awaiting/g)]
+  // Whitespace-normalised: the register wraps its prose, so "Nothing
+  // here\nis in force" is one sentence to a reader and two lines to a
+  // regex. Matching the raw text failed on a block that says exactly
+  // what it should.
+  .map((m) => gov.slice(m.index, m.index + 400).split(/\n(?:---|### )/)[0].replace(/\s+/g, ' '));
+check(`Outstanding decisions are declared, not hidden — ${awaiting} awaiting`,
+  awaiting === awaitingBlocks.length, `${awaiting} markers, ${awaitingBlocks.length} readable`);
+check('...each naming the body that has to take it',
+  awaitingBlocks.every((b) => /Senate|Board|Executive/i.test(b)),
+  awaitingBlocks.filter((b) => !/Senate|Board|Executive/i.test(b)).join(' | ').slice(0, 80));
+check('...and each saying plainly that nothing in it is in force',
+  awaitingBlocks.every((b) => /not in force|nothing here is in force|not adopted|not taken/i.test(b)),
+  awaitingBlocks.filter((b) => !/not in force|nothing here is in force|not adopted|not taken/i.test(b))
+    .join(' | ').slice(0, 80));
 check(`${adoptedNow} decisions carry the ${ADOPTION_DATE} adoption line`, adoptedNow === 25, adoptedNow);
 check(`${adoptedEarly} decisions were adopted earlier`, adoptedEarly >= 5, adoptedEarly);
 check('The register names the adopting authority rather than leaving it implied',
