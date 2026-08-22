@@ -1,4 +1,4 @@
--- WEC-LC — Real curriculum content seed: Level IV ("Upper
+-- WEC — Real curriculum content seed: Level IV ("Upper
 -- Intermediate Programme," B2). Authored per your Level IV directive
 -- — "a significant transition from independent communication to
 -- confident academic and professional English" — see

@@ -1,4 +1,4 @@
-/* WEC-LC — the admissions application wizard.
+/* WEC — the admissions application wizard.
 
    Replaces the old single-page #apply form with a real multi-step,
    account-backed process: sign in (Clerk, via js/portal-guard.js —

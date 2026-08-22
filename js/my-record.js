@@ -1,4 +1,4 @@
-/* WEC-LC — My Academic Record.
+/* WEC — My Academic Record.
  *
  * The learner's own view of what the College holds, and the controls
  * over who else may see it. The APIs behind this — profile, shares,

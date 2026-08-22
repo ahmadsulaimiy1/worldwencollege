@@ -52,7 +52,7 @@ reading, listening or in conversation.
 ### The line that matters most
 
 **No image may be captioned so that it asserts something untrue about
-the College.** No photograph may be presented as WEC-LC's campus, its
+the College.** No photograph may be presented as WEC's campus, its
 faculty, its students, its classrooms or its graduates. The College has
 an administrative address in London, not a teaching campus, and has not
 yet taught a cohort. A stock photograph captioned "our students" would

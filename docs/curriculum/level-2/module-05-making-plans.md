@@ -1,4 +1,4 @@
-# WEC-LC — Level II, Module 5: Making Plans
+# WEC — Level II, Module 5: Making Plans
 
 *Part of `docs/curriculum-level-2-elementary.md`'s Level II build-out.*
 
@@ -165,7 +165,7 @@ lesson's core task and the direct basis for Module 5's assignment.
 give a reason when you decline an invitation, rather than just saying
 'no'?" — a short discussion connecting grammar-level politeness
 strategies to real social/intercultural awareness, especially relevant
-for WEC-LC's internationally diverse learner base.
+for WEC's internationally diverse learner base.
 
 **Listening activity (5 min).** Listen to 3 invitation exchanges and
 note whether each is accepted, declined, or rescheduled, and to when.

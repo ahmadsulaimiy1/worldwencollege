@@ -53,6 +53,7 @@ const PUBLIC = {
   'graduate/[handle].js': 'A published graduate profile. Only reaches profiles the graduate chose to publish; an unpublished one is NotFound, because "exists but hidden" confirms the person is a graduate.',
   'share/[token].js': 'A record slice a graduate shared with an employer or registrar who has no account. The token IS the authorisation — high-entropy, expiring, revocable, stored only as a hash.',
   'verify/document/[code].js': 'Verification of an issued transcript or supplement, by the same rule as award verification: a document a checker must register to verify is a document nobody checks.',
+  'verify/edition/[documentId].js': 'Verification of a published edition by the Document ID printed inside it. The artifact half of the same rule (SEB-D 47): the QR is printed into a physical book handed to strangers, and a volume whose reader must register to check it is a volume nobody checks. Returns only what the edition already prints about itself — no personal data is reachable through it.',
   'credentials/jwks.js': 'The College\'s published signing keys. Verification that requires the issuer to participate is not verification. Public halves only — asserted in tests/signing.test.mjs.',
   'register/index.js': 'The Graduate Register. A roll of award holders published behind a login is not published. Consent-scoped and capped in the query.',
   'verify/institutional/[code].js': 'The Employer and University Verification Portal, by the same rule as award verification: a verification service a checker must register to use is a service nobody uses. It records the check WITHOUT recording who asked. The registered-institution endpoint (institutional/verify.js) is a different product for a different caller — identified, API-keyed and rate-limited — and both existing is deliberate.',
@@ -160,7 +161,7 @@ for (const file of files) {
 
   for (const m of handlers) {
     const method = (m || 'Get').toUpperCase();
-    const url = `https://wec-lc.test/api/${file.replace(/\.js$/, '').replace(/index$/, '')}`;
+    const url = `https://wec.test/api/${file.replace(/\.js$/, '').replace(/index$/, '')}`;
     let status = null, threw = null;
     try {
       const res = await mod[`onRequest${m}`]({
@@ -213,7 +214,7 @@ check('Every key-authenticated route is exercised', keyed >= 1, keyed);
     VALUES ('usr_a','clerk','c_a','a@example.com','admin')`).bind().run();
   const inst = await registerInstitution(env, { name: 'Census Test University', kind: 'university' });
   const res = await mod.onRequestGet({
-    request: new Request('https://wec-lc.test/api/institutional/verify?code=WEC-AAAA-BBBB-CCCCC', {
+    request: new Request('https://wec.test/api/institutional/verify?code=WEC-AAAA-BBBB-CCCCC', {
       headers: { Authorization: `Bearer ${inst.apiKey}` },
     }),
     env, waitUntil: () => {},
@@ -238,7 +239,7 @@ async function postUnsigned(file, env) {
   const mod = await import(loadUrl(path.join('functions/api', file)));
   try {
     const res = await mod.onRequestPost({
-      request: new Request('https://wec-lc.test/hook', {
+      request: new Request('https://wec.test/hook', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ event: 'anything', type: 'payment.succeeded', data: { id: 'x', reference: 'x' } }),
       }),

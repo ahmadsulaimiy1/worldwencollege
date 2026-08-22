@@ -1,4 +1,4 @@
--- Migration 020 — Worldwide English Qualifications (WEQ).
+-- Migration 021 — Worldwide English Qualifications (WEQ).
 --
 -- probe: SELECT 1 FROM sqlite_master WHERE type='index' AND name='idx_award_definitions_stage'
 --

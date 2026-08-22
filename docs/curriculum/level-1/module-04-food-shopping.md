@@ -1,4 +1,4 @@
-# WEC-LC — Level I, Module 4: Food & Shopping
+# WEC — Level I, Module 4: Food & Shopping
 
 *Part of `docs/curriculum-level-1-foundation.md`'s Level I build-out.*
 

@@ -168,7 +168,7 @@ ${lv.outcomes.map((o) => `          <tr><td>${esc(o.code)}</td><td>${esc(o.state
     </div>
     <div class="callout">
       <span class="callout__label">What this award is not</span>
-      <p>WEC-LC holds no accreditation, and the College has not appointed an External Examiner
+      <p>WEC holds no accreditation, and the College has not appointed an External Examiner
         &mdash; the independent post required before any award can properly be conferred. This
         award is defined, its criteria are published, and it has been conferred on nobody. See
         <a href="/about/#status">About &middot; Institutional Status</a>.</p>
@@ -337,7 +337,7 @@ ${card('Entry', prev ? `Do I need Level ${prev.roman} first?` : 'Do I need any E
     ? `Not necessarily. You need the language ${esc(prev.name)} teaches, however you acquired it. A placement assessment establishes that.`
     : 'No. Foundation assumes none, and the first lesson teaches the alphabet and how to say your own name.')}
 ${card('Assessment', 'What happens if I fail an assessment?', 'Assessments can be resat. The purpose is to establish what you can do, not to record a single bad afternoon &mdash; the appeals and resit procedure is published in full.')}
-${card('Recognition', 'Is the award recognised?', 'The award is defined and its criteria published, but WEC-LC holds no accreditation and has appointed no External Examiner. We state this plainly rather than implying recognition the College has not obtained.')}
+${card('Recognition', 'Is the award recognised?', 'The award is defined and its criteria published, but WEC holds no accreditation and has appointed no External Examiner. We state this plainly rather than implying recognition the College has not obtained.')}
     </div>
   </div>
 </section>
@@ -515,7 +515,7 @@ ${card('At the end', 'The level assessment', 'The summative point, against crite
     <div class="callout">
       <span class="callout__label">Self-paced study has a known failure mode</span>
       <p>Wholly self-paced language study finishes badly, and the reason is well understood: no
-        fixed points, no peers at the same stage, nothing to be late for. WEC-LC currently runs
+        fixed points, no peers at the same stage, nothing to be late for. WEC currently runs
         self-paced, because that is what is built. A recommendation to add a fixed rhythm of
         live sessions, examination windows and orientation has been drafted and not adopted
         &mdash; see <a href="/admissions/#dates">Dates</a>. Until it is, the structure has to
@@ -576,7 +576,7 @@ ${darkCard('Drafts stay local', 'A half-written note is not sent anywhere', 'Wor
   <div class="container reveal">
     <div class="callout">
       <span class="callout__label">Institutional Status</span>
-      <p>WEC-LC holds no accreditation and has appointed no External Examiner. The curriculum,
+      <p>WEC holds no accreditation and has appointed no External Examiner. The curriculum,
         assessments and awards described here are fully defined and published; no award has yet
         been conferred on anyone. The College states this on every page where it is relevant
         rather than in a footnote &mdash; see <a href="/about/#status">About &middot;
@@ -600,10 +600,10 @@ ${darkCard('Drafts stay local', 'A half-written note is not sent anywhere', 'Wor
   "@context": "https://schema.org",
   "@type": "Course",
   "name": "International English Fluency Course (IEFC)",
-  "description": "A six-level, 1,200-hour English language programme aligned to CEFR A1-C2, delivered entirely online by WorldWide English College, London Campus.",
+  "description": "A six-level, 1,200-hour English language programme aligned to CEFR A1-C2, delivered entirely online by Worldwide English College — London Campus.",
   "provider": {
     "@type": "EducationalOrganization",
-    "name": "WorldWide English College - London Campus",
+    "name": "Worldwide English College - London Campus",
     "sameAs": "https://www.worldwencollege.co.uk/"
   },
   "educationalLevel": "A1 to C2 (CEFR)",
@@ -679,12 +679,20 @@ levels.forEach((lv, i) => {
     output: `study/${SLUG[lv.roman]}/index.html`,
     title: `Level ${lv.roman}: ${lv.name} (${lv.cefr}) &mdash; Worldwide English College`,
     // Under 160 characters at every level, which is roughly where a
-    // search result cuts. The longest roman numeral is III and the
-    // longest CEFR label is two characters, so the worst case is bounded
-    // and tests/build-output.test.mjs holds the limit. This description
-    // was hand-shortened in pages/manifest.json twice and regenerated
-    // long twice, because the slug is built dynamically and a grep for
-    // "study-level-2" does not find this line.
+    // search result cuts. "II"/"III"/"IV"/"VI" are wider than "I"/"V",
+    // so the longer form this used to carry ("Modules, learning
+    // outcomes, ...") pushed four of the six over the limit;
+    // tests/build-output.test.mjs holds it now.
+    //
+    // Worth recording because it happened twice: this was hand-shortened
+    // in pages/manifest.json and regenerated long, both times, because
+    // the slug is built dynamically and a grep for "study-level-2" does
+    // not find this line. Two sessions found the same defect from
+    // opposite ends within an hour of each other.
+    //
+    // "the qualification", not "the award" — Executive Board resolution
+    // E1, which made the six awards six qualifications under the
+    // Worldwide English Qualifications framework.
     description: `Level ${lv.roman} of the IEFC: ${lv.modules.length} modules, ${lv.units} `
       + `designed lessons over ${lv.duration_months} months, aligned to CEFR ${lv.cefr} `
       + '&mdash; outcomes, assessment, teaching methods and the qualification.',

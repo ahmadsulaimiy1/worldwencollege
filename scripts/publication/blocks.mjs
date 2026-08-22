@@ -101,7 +101,8 @@ export const FRONT = [
   B.label('One — Sections that would require inventing people'),
   B.p('A publication of this kind conventionally opens with a Foreword, a Presidential Message and a '
     + 'message from the Academic Senate. Those are signed statements by named officers. Worldwide '
-    + 'English College has no appointed President, and its Academic Senate and its Board of Academic '
+    + 'English College has no appointed President, and its Academic Senate and its '
+    + 'Board of Academic '
     + 'Standards and Curriculum Excellence are established but not yet constituted — no members have '
     + 'been appointed to either. Composing those sections would mean writing the words of officers '
     + 'who do not exist. They are omitted. The institutional voice in this edition is the College\'s '
@@ -135,7 +136,7 @@ export const FRONT = [
 export const BODY = [
   B.h1('About Worldwide English College'),
   B.rule(),
-  B.lead('Worldwide English College, London Campus, is an online institution teaching English as an '
+  B.lead('Worldwide English College — London Campus, is an online institution teaching English as an '
     + 'international language. It confers its own awards, maintains its own Graduate Register, and '
     + 'publishes the architecture of its qualification so that the awards can be read and checked by '
     + 'people who have never met the College.'),

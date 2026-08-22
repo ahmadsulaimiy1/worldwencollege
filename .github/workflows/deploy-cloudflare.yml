@@ -1,4 +1,4 @@
-# WEC-LC — deploy to Cloudflare Pages.
+# WEC — deploy to Cloudflare Pages.
 #
 # Manual only (workflow_dispatch). It is deliberately not wired to
 # `push`: until the repository holds real Cloudflare credentials this
@@ -524,6 +524,9 @@ jobs:
 
           # The CDN is asked to skip its cache, so a stale answer here
           # means a stale ORIGIN rather than a stale edge.
+          #
+          # The live host below is worldwencollege.co.uk, the College's
+          # real, permanent domain — the one actually serving the site.
           got_deploy=$(stamp_of "$DEPLOY_URL/?cb=$want")
           got_live=$(stamp_of "https://www.worldwencollege.co.uk/?cb=$want")
           # The apex and www are separate DNS records, and either can be

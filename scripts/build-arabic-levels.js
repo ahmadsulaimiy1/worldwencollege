@@ -391,12 +391,12 @@ ${lv.outcomes.map((o) => {
 
   return `<section class="section--dark section-pad">
   <div class="container">
-    <span class="eyebrow">${ltr('<span dir="ltr">IEFC</span>')} &middot; المستوى ${ord}</span>
+    <span class="eyebrow"><span dir="ltr">IEFC</span> &middot; المستوى ${ord}</span>
     <h1>${arName}</h1>
     <p class="lede">${AR_CHARACTER[lv.roman]}</p>
     <div class="btn-row">
       <a href="/ar/admissions/#apply" class="btn btn--gold">قدّم للمستوى ${ord}</a>
-      <a href="/ar/academics/#iefc" class="btn btn--outline">برنامج ${ltr('<span dir="ltr">IEFC</span>')} كاملًا</a>
+      <a href="/ar/academics/#iefc" class="btn btn--outline">برنامج <span dir="ltr">IEFC</span> كاملًا</a>
     </div>
   </div>
 </section>
@@ -510,7 +510,7 @@ ${darkCard('قبله', prev ? `المستوى ${AR_ROMAN[prev.roman]} — ${AR_N
 ${darkCard('بعده', next ? `المستوى ${AR_ROMAN[next.roman]} — ${AR_NAME[next.id]}` : 'نهاية البرنامج',
     next
       ? `عند الإتمام ينتقل المتعلم إلى ${AR_NAME[next.id]} (${ltr(esc(next.cefr))})، وهو يفترض كل ما عُلّم هنا.`
-      : `${AR_NAME[lv.id]} آخر مستويات برنامج ${ltr('<span dir="ltr">IEFC</span>')}. لا مستوى فوقه في هذا البرنامج.`)}
+      : `${AR_NAME[lv.id]} آخر مستويات برنامج <span dir="ltr">IEFC</span>. لا مستوى فوقه في هذا البرنامج.`)}
     </div>
     ${next ? `<div class="btn-row">
       <a href="/ar/study/${SLUG[next.roman]}/" class="btn btn--gold">المستوى ${AR_ROMAN[next.roman]} — ${AR_NAME[next.id]}</a>

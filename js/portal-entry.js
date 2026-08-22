@@ -1,4 +1,4 @@
-/* WEC-LC — the route from the Student Portal page into the portal.
+/* WEC — the route from the Student Portal page into the portal.
  *
  * ────────────────────────────────────────────────────────────────
  * THE PROBLEM THIS EXISTS FOR

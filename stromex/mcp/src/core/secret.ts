@@ -1,0 +1,382 @@
+/**
+ * Secret handling.
+ *
+ * A `SecretRef` is a string you cannot accidentally print. Its
+ * `toString`, `toJSON` and Node inspection hooks all return the
+ * redaction placeholder; the plaintext comes out only through
+ * `reveal()`, which is greppable — `grep -rn '\.reveal()'` is an
+ * auditable list of every place a credential is used.
+ */
+
+import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { readFileSync, statSync } from 'node:fs';
+import { StromexError } from './errors.js';
+import { REDACTION_PLACEHOLDER, registerSecretValue } from './redact.js';
+
+const PLAINTEXT = Symbol('stromex.secret.plaintext');
+
+export class SecretRef {
+  private readonly [PLAINTEXT]: string;
+  readonly name: string;
+  readonly source: SecretSource;
+
+  constructor(name: string, plaintext: string, source: SecretSource) {
+    this.name = name;
+    this.source = source;
+    this[PLAINTEXT] = plaintext;
+    registerSecretValue(plaintext);
+  }
+
+  /** The only way to obtain the plaintext. Intentionally conspicuous. */
+  reveal(): string {
+    return this[PLAINTEXT];
+  }
+
+  /**
+   * Stable, non-reversible identity for audit records: it tells you
+   * *which* credential was used, and whether it changed, without telling
+   * anyone what it is.
+   */
+  fingerprint(): string {
+    return createHash('sha256').update(this[PLAINTEXT]).digest('hex').slice(0, 12);
+  }
+
+  toString(): string {
+    return REDACTION_PLACEHOLDER;
+  }
+  toJSON(): string {
+    return REDACTION_PLACEHOLDER;
+  }
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
+    return `SecretRef(${this.name}) ${REDACTION_PLACEHOLDER}`;
+  }
+}
+
+export type SecretSource = 'env' | 'env-file' | 'command';
+
+export interface SecretResolverOptions {
+  /** A snapshot of `.env`-style values. Accepted for tests; prefer `loadFile`. */
+  fileValues?: Record<string, string>;
+  /**
+   * Re-reads the operator file, mode check included. Production passes
+   * this rather than a snapshot, so editing the file rotates the
+   * credential without a restart (`SEB §9.2`).
+   */
+  loadFile?: () => Record<string, string>;
+  /**
+   * Command template used to fetch a secret from an external store —
+   * 1Password, `pass`, Vault, gcloud secrets, anything with a CLI.
+   * `{name}` is replaced with the secret name. Example:
+   *   op read op://StromeX/{name}/credential
+   */
+  command?: string;
+  env?: NodeJS.ProcessEnv;
+  /** Injectable clock, so the command cache's TTL is testable. */
+  now?: () => number;
+  /**
+   * Injectable timeout. Exists so the timeout branch can be exercised by
+   * a REAL blocking command in a fast test — a test that stubs the
+   * function under test proves only that the stub works (`SEB-D 27`).
+   */
+  commandTimeoutMs?: number;
+}
+
+/**
+ * Resolves named secrets, in a fixed order of precedence:
+ *
+ *   1. process environment          (what a host such as Claude Code injects)
+ *   2. an operator-owned env file   (mode-checked; see `loadEnvFile`)
+ *   3. an external secret command   (the supported path to a real vault)
+ *
+ * ROTATION TAKES EFFECT WITHOUT A RESTART, and the shape of the cache is
+ * what makes that true.
+ *
+ * The first version memoised every resolved SecretRef for the lifetime of
+ * the process. That is the obvious thing to write — resolution can spawn a
+ * subprocess, and doing it per request is wasteful — and it silently broke
+ * the one operational property that matters most about a credential: you
+ * could rotate it in the vault, `stromex-mcp doctor` would report the new
+ * fingerprint, and the running server would keep presenting the old value
+ * until somebody restarted it. `installation.md §4a` and `SEB §9.2` both
+ * promised otherwise.
+ *
+ * It also blocks the one genuinely good credential in the estate: a GitHub
+ * App installation token lives ONE HOUR. Memoised for the process
+ * lifetime, it expires and never refreshes.
+ *
+ * What is actually true of each source, which is not what the first
+ * version of this comment claimed:
+ *
+ *   ENV     Re-read per call, and that buys nothing. A process cannot have
+ *           its environment changed from outside after it is spawned, so
+ *           an env-borne credential is rotatable only by restarting the
+ *           server. This is the least rotatable of the three homes and
+ *           `SEB §9.2` ranks it second for other reasons; on rotation
+ *           alone it is last.
+ *   FILE    Re-read on a TTL, WITH THE MODE RE-CHECKED each time. The
+ *           first version snapshotted the file at startup, so editing it
+ *           did nothing until a restart — and a file chmod'ed to 0644
+ *           after startup was never noticed at all.
+ *   COMMAND Re-read on a TTL. The only home that is genuinely rotatable
+ *           by someone other than whoever started the process, which is
+ *           why `SEB §9.2` prefers it.
+ */
+const COMMAND_TTL_MS = 60_000;
+
+/**
+ * How long a secret command may take.
+ *
+ * Long enough for a vault round-trip on a slow link, short enough that a
+ * server blocked on a passphrase prompt fails visibly rather than hanging.
+ */
+const COMMAND_TIMEOUT_MS = 20_000;
+
+export class SecretResolver {
+  private readonly loadFile?: () => Record<string, string>;
+  private fileCache?: { values: Record<string, string>; expiresAtMs: number };
+  private readonly commandFailures = new Map<string, string>();
+  private readonly command?: string;
+  private readonly env: NodeJS.ProcessEnv;
+  /** Command-resolved secrets only. Env and file are never cached. */
+  private readonly cache = new Map<string, { ref: SecretRef; expiresAtMs: number }>();
+  private readonly now: () => number;
+  private readonly commandTimeoutMs: number;
+
+  constructor(options: SecretResolverOptions = {}) {
+    // A snapshot is accepted for tests; a loader is what production passes,
+    // because a snapshot cannot be rotated.
+    this.loadFile = options.loadFile ?? (options.fileValues ? () => options.fileValues! : undefined);
+    this.command = options.command;
+    this.env = options.env ?? process.env;
+    this.now = options.now ?? (() => Date.now());
+    this.commandTimeoutMs = options.commandTimeoutMs ?? COMMAND_TIMEOUT_MS;
+  }
+
+  /** Returns undefined when the secret is simply not configured. */
+  resolve(name: string): SecretRef | undefined {
+    // Env first, and re-read every time: this is where a rotated value
+    // appears, and it is a property lookup.
+    const fromEnv = this.env[name];
+    if (fromEnv && fromEnv.trim()) return new SecretRef(name, fromEnv.trim(), 'env');
+
+    const fromFile = this.fileValues()[name];
+    if (fromFile && fromFile.trim()) return new SecretRef(name, fromFile.trim(), 'env-file');
+
+    if (this.command) {
+      const cached = this.cache.get(name);
+      if (cached && cached.expiresAtMs > this.now()) return cached.ref;
+      const value = this.runCommand(name);
+      if (value) return this.remember(new SecretRef(name, value, 'command'));
+      // A resolve FAILURE is never cached: a secret manager that was
+      // briefly unreachable must not be remembered as "absent".
+      this.cache.delete(name);
+    }
+    return undefined;
+  }
+
+  /** Drops every cached secret, so the next call re-resolves. */
+  invalidate(): void {
+    this.cache.clear();
+    this.fileCache = undefined;
+  }
+
+  /**
+   * The operator file's current contents, re-read on a TTL.
+   *
+   * The mode is re-checked on every reload, not only at startup: a file
+   * that was 0600 when the server booted and is 0644 now is a leak, and
+   * noticing it a week later at the next restart is not noticing it.
+   *
+   * A read failure returns the last good values rather than throwing —
+   * an editor writing the file atomically will briefly make it absent,
+   * and a credential store that goes blank mid-save would take the
+   * server down for a rename.
+   */
+  private fileValues(): Record<string, string> {
+    if (!this.loadFile) return {};
+    if (this.fileCache && this.fileCache.expiresAtMs > this.now()) return this.fileCache.values;
+    try {
+      const values = this.loadFile();
+      this.fileCache = { values, expiresAtMs: this.now() + COMMAND_TTL_MS };
+      return values;
+    } catch (thrown) {
+      if (this.fileCache) return this.fileCache.values;
+      throw thrown;
+    }
+  }
+
+  /** Same as `resolve`, but a missing secret is a hard, well-explained failure. */
+  require(name: string, purpose: string): SecretRef {
+    const found = this.resolve(name);
+    if (found) return found;
+    throw new StromexError({
+      code: 'CREDENTIAL_MISSING',
+      message: `${name} is not configured, and it is required to ${purpose}.`,
+      remediation: `Set ${name} in the environment, in the operator env file, or behind the configured secret command, then restart the server. See mcp/docs/installation.md.`,
+    });
+  }
+
+  /** Which of the given names are configured — used by the doctor command. */
+  status(
+    names: readonly string[],
+  ): Array<{ name: string; configured: boolean; source?: SecretSource; fingerprint?: string; failure?: string }> {
+    return names.map((name) => {
+      const ref = this.resolve(name);
+      if (ref) return { name, configured: true, source: ref.source, fingerprint: ref.fingerprint() };
+      // "Not configured" and "the keyring is locked" look identical to a
+      // caller unless the second one says so.
+      const failure = this.commandFailure(name);
+      return failure ? { name, configured: false, failure } : { name, configured: false };
+    });
+  }
+
+  private remember(ref: SecretRef): SecretRef {
+    this.cache.set(ref.name, { ref, expiresAtMs: this.now() + COMMAND_TTL_MS });
+    return ref;
+  }
+
+  private runCommand(name: string): string | undefined {
+    if (!this.command) return undefined;
+    if (!/^[A-Z0-9_]+$/.test(name)) {
+      // The name is interpolated into a command line. Anything outside this
+      // alphabet is refused rather than escaped, because refusing is
+      // verifiable and escaping is a class of bug.
+      throw new StromexError({
+        code: 'CONFIG_INVALID',
+        message: `Refusing to interpolate the secret name ${JSON.stringify(name)} into the secret command.`,
+        remediation: 'Secret names used with a secret command must match /^[A-Z0-9_]+$/.',
+      });
+    }
+    const rendered = this.command.replaceAll('{name}', name);
+    const result = spawnSync(rendered, { shell: true, encoding: 'utf8', timeout: this.commandTimeoutMs });
+
+    /*
+     * A TIMEOUT IS NEVER "not configured".
+     *
+     * It is the signature failure of every real secret manager: `pass`
+     * with a locked GPG key, `op` with an expired session, `vault` with
+     * an expired token. All three block on an interactive prompt that
+     * will never be answered on a server, and the command sits there
+     * until it is killed.
+     *
+     * The first version returned `undefined` for this, which the caller
+     * reads as "that credential is not configured" — so a locked keyring
+     * presented as eight providers quietly missing, with nothing anywhere
+     * saying why. It is a hard, explained failure instead.
+     */
+    if (result.error && 'code' in result.error && result.error.code === 'ETIMEDOUT') {
+      throw new StromexError({
+        code: 'CONFIG_INVALID',
+        message: `The secret command timed out after ${this.commandTimeoutMs / 1000}s while resolving ${name}.`,
+        remediation:
+          'A secret command must never block on a prompt. For `pass`, unlock the GPG key first (gpg-agent with a long max-cache-ttl, or a passphrase-less key with 0600 permissions); for `op`, sign in with a service account; for `vault`, ensure the token is valid.',
+      });
+    }
+    if (result.signal) {
+      throw new StromexError({
+        code: 'CONFIG_INVALID',
+        message: `The secret command was killed by ${result.signal} while resolving ${name}.`,
+        remediation: 'Run the command by hand with the name substituted and see what it does.',
+      });
+    }
+
+    if (result.status !== 0) {
+      /*
+       * A non-zero exit is genuinely ambiguous: `pass` exits 1 both for
+       * "no such secret" and for "the store is broken". So it is not
+       * fatal — an optional credential really may be absent — but the
+       * reason is recorded rather than swallowed, because "provider not
+       * configured" with no explanation is the least debuggable state
+       * this server can be in.
+       */
+      this.commandFailures.set(name, (result.stderr ?? '').trim().slice(0, 300) || `exit status ${result.status}`);
+      return undefined;
+    }
+
+    this.commandFailures.delete(name);
+    const value = (result.stdout ?? '').trim();
+    return value.length > 0 ? value : undefined;
+  }
+
+  /**
+   * Why the secret command last failed, per name.
+   *
+   * Surfaced by `doctor` and by `stromex.credentials.status`, so an
+   * operator staring at "not configured" can see that the real answer was
+   * "gpg: decryption failed: No secret key".
+   */
+  commandFailure(name: string): string | undefined {
+    return this.commandFailures.get(name);
+  }
+}
+
+export interface EnvFileLoadResult {
+  values: Record<string, string>;
+  path: string;
+  warnings: string[];
+}
+
+/**
+ * Loads a `.env`-style file, refusing one that other users can read.
+ *
+ * The mode check is the point of the function. A credentials file at 0644
+ * on a shared machine is a credential leak that no amount of care inside
+ * this process can undo, so it is treated as a configuration error rather
+ * than a warning.
+ */
+export function loadEnvFile(path: string, options: { enforceMode?: boolean } = {}): EnvFileLoadResult {
+  const enforceMode = options.enforceMode ?? true;
+  const warnings: string[] = [];
+
+  let stat;
+  try {
+    stat = statSync(path);
+  } catch (cause) {
+    throw new StromexError({
+      code: 'IO_ERROR',
+      message: `Cannot read the env file at ${path}.`,
+      remediation: 'Check the path, or omit --env-file to read credentials from the environment only.',
+      cause,
+    });
+  }
+
+  const groupOrWorldReadable = (stat.mode & 0o077) !== 0;
+  if (groupOrWorldReadable) {
+    if (enforceMode) {
+      throw new StromexError({
+        code: 'CONFIG_INVALID',
+        message: `The env file at ${path} is readable by other users (mode ${(stat.mode & 0o777).toString(8)}).`,
+        remediation: `Run: chmod 600 ${path}`,
+      });
+    }
+    warnings.push(`${path} is readable by other users (mode ${(stat.mode & 0o777).toString(8)}).`);
+  }
+
+  return { values: parseEnv(readFileSync(path, 'utf8')), path, warnings };
+}
+
+/**
+ * A deliberately small `.env` parser: `KEY=value`, `export KEY=value`,
+ * `#` comments, and single- or double-quoted values. It does not do
+ * variable interpolation — a credentials file that computes its own values
+ * is a credentials file nobody can audit by reading it.
+ */
+export function parseEnv(source: string): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const rawLine of source.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith('#')) continue;
+    const withoutExport = line.startsWith('export ') ? line.slice('export '.length).trim() : line;
+    const eq = withoutExport.indexOf('=');
+    if (eq <= 0) continue;
+    const key = withoutExport.slice(0, eq).trim();
+    let value = withoutExport.slice(eq + 1).trim();
+    if ((value.startsWith('"') && value.endsWith('"') && value.length >= 2) ||
+        (value.startsWith("'") && value.endsWith("'") && value.length >= 2)) {
+      value = value.slice(1, -1);
+    }
+    out[key] = value;
+  }
+  return out;
+}

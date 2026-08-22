@@ -1,4 +1,4 @@
-# WEC-LC — Level I, Module 9: Health & Feelings
+# WEC — Level I, Module 9: Health & Feelings
 
 *Part of `docs/curriculum-level-1-foundation.md`'s Level I build-out.*
 

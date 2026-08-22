@@ -1,4 +1,4 @@
--- WEC-LC — Audio curriculum seed: Level II (Elementary, A2).
+-- WEC — Audio curriculum seed: Level II (Elementary, A2).
 --
 -- See sql/seed-audio-level-1.sql for the design rationale and
 -- docs/lms-architecture.md § The audio layer for the schema.

@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en" data-register="ceremonial">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The StromeX Design Language — specimen</title>
+<link rel="stylesheet" href="../src/index.css">
+<!--
+  THE SPECIMEN.
+
+  Every component in the canon (SEB §30.10), every instrument (SEB §34.9)
+  and every state in the family (SEB §34.11), rendered, so the system can
+  be LOOKED AT rather than read about. gates/responsive.mjs loads this
+  file in a real browser at five widths and in both directions.
+
+  The numbers on this page are SPECIMEN DATA and are labelled as such.
+  A design specimen that borrows plausible institutional figures becomes
+  a source somebody cites (SEB §2 — the Institutional Honesty Protocol).
+-->
+</head>
+<body>
+
+<!-- 1 · THE LINTEL ─────────────────────────────────────────────────── -->
+<header class="sx-lintel">
+  <span class="sx-lintel__capital" aria-hidden="true"></span>
+  <span class="sx-lintel__mark sx-cartouche">StromeX</span>
+  <nav class="sx-lintel__register" aria-label="Register">
+    <button type="button" class="sx-control sx-control--quiet" data-opens="register-menu" aria-expanded="false">Register</button>
+    <a class="sx-control sx-control--quiet" href="#canon">Canon</a>
+    <a class="sx-control sx-control--quiet" href="#instruments">Instruments</a>
+    <a class="sx-control sx-control--quiet" href="#states">States</a>
+  </nav>
+  <div class="sx-lintel__action">
+    <button type="button" class="sx-control sx-control--ground" data-opens="index">Index <kbd>⌘K</kbd></button>
+  </div>
+</header>
+
+<!-- 2 · THE KEYSTONE ───────────────────────────────────────────────── -->
+<button type="button" class="sx-keystone" data-opens="register-menu" aria-label="Register">
+  <span class="sx-cartouche">SX</span>
+</button>
+
+<main class="sx-meridian-host">
+  <div class="sx-meridian" aria-hidden="true"><span class="sx-meridian__node"></span></div>
+  <!-- 8 · THE RAIL — generated from [data-chapter], placed by the grid -->
+  <nav class="sx-rail" aria-label="Chapters"></nav>
+  <div class="sx-meridian-host__flow">
+
+  <!-- 16 · THE ILLUM ───────────────────────────────────────────────── -->
+  <section class="sx-illum sx-quire sx-ground" data-chapter="The language" data-register="ceremonial">
+    <span class="sx-illum__frame" aria-hidden="true"></span>
+    <svg class="sx-guilloche" viewBox="-500 -500 1000 1000" aria-hidden="true"><use href="../src/art/guilloche.svg#none"/></svg>
+    <div>
+      <p class="sx-cartouche">The StromeX Design Language</p>
+      <h1 class="sx-proclamation">A system, set as an instrument</h1>
+      <span class="sx-illum__rule" aria-hidden="true"></span>
+      <p class="sx-clause">The Meridian, the Quire, Stratum, the Chronograph and the Register, with the twenty components built on them and the four gates that check them.</p>
+    </div>
+  </section>
+
+  <!-- THE REGISTER — typography ─────────────────────────────────────── -->
+  <section class="sx-quire" data-chapter="The Register" id="register">
+    <h2 class="sx-chapter"><span class="sx-chapter-mark">The Register</span></h2>
+    <p class="sx-clause">Named institutional roles, not <code>h1</code>–<code>h6</code>. A role says what a line <em>is</em> in a document, so two engineers reach for the same one.</p>
+    <p class="sx-article">Article — the sub-heading role, set on the display face at optical size 36.</p>
+    <p class="sx-clause">Clause — running prose, capped at a 34em measure at every viewport width, because a line the eye cannot return from is not a line it will read twice.</p>
+    <p class="sx-cartouche">Cartouche · the inscriptional face, rationed</p>
+    <p class="sx-marginalia">Marginalia — the marginal track, condensed to <code>wdth 96</code>.</p>
+    <p class="sx-colophon">Colophon — the smallest role in the system.</p>
+    <p class="sx-figure">1,618</p>
+    <aside class="sx-marginal sx-answer" data-shown="true">The marginal answer appears at the reader's line, in the track, rather than in a tooltip that covers what they were reading.</aside>
+  </section>
+
+  <!-- THE CANON ─────────────────────────────────────────────────────── -->
+  <section class="sx-quire" data-chapter="The canon" id="canon">
+    <h2 class="sx-chapter"><span class="sx-chapter-mark">The canon</span></h2>
+
+    <!-- 4 · PLATE, and 20 · DOCKET -->
+    <div class="sx-wide sx-plate-field" style="display:grid;gap:var(--sx-space-md);grid-template-columns:repeat(auto-fit,minmax(min(16em,100%),1fr))">
+      <article class="sx-plate sx-meniscus">
+        <p class="sx-plate__eyebrow">01 · Plate</p>
+        <div class="sx-plate__body"><p>An intaglio plate: deep ground, engraved border, content tipped in, concentric bevel.</p></div>
+        <p class="sx-plate__figure">240<span class="sx-marginalia">ms</span></p>
+        <footer class="sx-plate__foot"><span>the beat</span><span class="sx-cartouche sx-cartouche--framed sx-cartouche--verified">Canon</span></footer>
+      </article>
+
+      <article class="sx-plate sx-plate--document sx-meniscus">
+        <dl class="sx-docket__meta">
+          <dt>Version</dt><dd>1.0.0</dd>
+          <dt>Status</dt><dd><span class="sx-docket__status" data-status="verified">Verified</span></dd>
+          <dt>Authority</dt><dd>SEB §30</dd>
+          <dt>Date</dt><dd>2026-08-18</dd>
+        </dl>
+      </article>
+
+      <article class="sx-plate" aria-disabled="true">
+        <p class="sx-plate__eyebrow">03 · Plate</p>
+        <div class="sx-plate__body"><p>Disabled. Legible, not vanished — a 38% card is a card nobody can read well enough to understand why it is off.</p></div>
+      </article>
+    </div>
+
+    <!-- 9 · DOTLIST -->
+    <h3 class="sx-article">Dotlist</h3>
+    <ol class="sx-dotlist">
+      <li class="sx-dotlist__row"><span class="sx-dotlist__index">01</span><span>Base beat</span><span class="sx-dotlist__leader" aria-hidden="true"></span><span class="sx-dotlist__value">240ms</span></li>
+      <li class="sx-dotlist__row"><span class="sx-dotlist__index">02</span><span>Measure</span><span class="sx-dotlist__leader" aria-hidden="true"></span><span class="sx-dotlist__value">34em</span></li>
+      <li class="sx-dotlist__row"><span class="sx-dotlist__index">03</span><span>Fore-edge : gutter</span><span class="sx-dotlist__leader" aria-hidden="true"></span><span class="sx-dotlist__value">1.618 : 1</span></li>
+      <li class="sx-dotlist__row"><span class="sx-dotlist__index">04</span><span>Canon components</span><span class="sx-dotlist__leader" aria-hidden="true"></span><span class="sx-dotlist__value">20</span></li>
+    </ol>
+
+    <!-- 10 · FIGURE RAIL -->
+    <h3 class="sx-article">Figure rail</h3>
+    <div class="sx-wide sx-figures">
+      <div class="sx-figures__item"><span class="sx-figures__value">87</span><span class="sx-figures__unit">tokens</span><span class="sx-figures__asof">as of 2026-08-18</span></div>
+      <div class="sx-figures__item"><span class="sx-figures__value">20</span><span class="sx-figures__unit">canon components</span><span class="sx-figures__asof">as of 2026-08-18</span></div>
+      <div class="sx-figures__item"><span class="sx-figures__value">6</span><span class="sx-figures__unit">instruments</span><span class="sx-figures__asof">as of 2026-08-18</span></div>
+      <div class="sx-figures__item" data-state="empty"><span class="sx-figures__value">not measured</span><span class="sx-figures__unit">adoption</span><span class="sx-figures__asof">no reading taken</span></div>
+    </div>
+
+    <!-- 11 · QUAD -->
+    <h3 class="sx-article">Quad</h3>
+    <div class="sx-wide sx-quad">
+      <div class="sx-quad__cell"><p class="sx-cartouche">Paper</p><p class="sx-marginalia">The warm light ground.</p></div>
+      <div class="sx-quad__cell" aria-selected="true"><p class="sx-cartouche">Obsidian</p><p class="sx-marginalia">Depth, not absence.</p></div>
+      <div class="sx-quad__cell"><p class="sx-cartouche">Machined metal</p><p class="sx-marginalia">Every edge in the system.</p></div>
+      <div class="sx-quad__cell" aria-disabled="true"><p class="sx-cartouche">Optical glass</p><p class="sx-marginalia">Rationed — one per viewport.</p></div>
+    </div>
+
+    <!-- 12 · PLEDGE -->
+    <h3 class="sx-article">Pledge</h3>
+    <ol class="sx-pledge">
+      <li class="sx-pledge__item"><div><p>Every component carries all nine states.</p><p class="sx-pledge__clause">Falsifiable: a component with a state missing fails the contract at review, and the review names which one.</p></div></li>
+      <li class="sx-pledge__item"><div><p>No page in a StromeX product scrolls horizontally at 320px.</p><p class="sx-pledge__clause">Falsifiable: <code>gates/responsive.mjs</code> loads the page at 320px and measures the scroll width.</p></div></li>
+    </ol>
+
+    <!-- 13 · PATH -->
+    <h3 class="sx-article">Path</h3>
+    <ol class="sx-path">
+      <li class="sx-path__station" data-state="complete"><p class="sx-path__label">Tokens</p><p class="sx-marginalia">Colour, light, space, geometry, the beat.</p></li>
+      <li class="sx-path__station" aria-current="step"><p class="sx-path__label">Components</p><p class="sx-marginalia">The canon, with every state.</p></li>
+      <li class="sx-path__station"><p class="sx-path__label">Gates</p><p class="sx-marginalia">Tokens, beat, contrast, responsive.</p></li>
+    </ol>
+
+    <!-- 7 · SEAL, and 17 · WATERMARK -->
+    <h3 class="sx-article">Seal</h3>
+    <p><span class="sx-seal sx-seal--verified" data-pressed="true" role="img" aria-label="Verified"><span class="sx-cartouche">SX</span></span></p>
+
+    <!-- 18 · LETTER — ships built and EMPTY until a real person signs it -->
+    <div class="sx-letter" data-state="empty">
+      <blockquote class="sx-letter__body"></blockquote>
+      <div class="sx-letter__signature"><span class="sx-letter__name"></span><span class="sx-letter__office"></span></div>
+    </div>
+    <p class="sx-marginalia">The Letter is built and is not rendered: it carries no statement, because nobody has signed one. A testimonial slot filled to look complete is the thing this component exists to prevent.</p>
+  </section>
+
+  <!-- 5 · THE LEDGER ────────────────────────────────────────────────── -->
+  <section class="sx-quire" data-chapter="The Ledger" id="ledger">
+    <h2 class="sx-chapter"><span class="sx-chapter-mark">The Ledger</span></h2>
+    <div class="sx-wide sx-ledger-scroll">
+      <table class="sx-ledger sx-ledger--stacks">
+        <caption>Specimen data — the Chronograph's permitted durations. Source: <code>src/tokens.css</code>, as of 2026-08-18.</caption>
+        <thead><tr><th aria-sort="none" data-column="token">Token</th><th aria-sort="none" data-column="name">Name</th><th data-numeric aria-sort="descending" data-column="ms">Milliseconds</th></tr></thead>
+        <tbody>
+          <tr><td><code>--sx-tick</code></td><td>Tick</td><td data-numeric>30</td></tr>
+          <tr><td><code>--sx-beat-4</code></td><td>Quarter</td><td data-numeric>60</td></tr>
+          <tr aria-selected="true"><td><code>--sx-beat</code></td><td>The beat</td><td data-numeric>240</td></tr>
+          <tr><td><code>--sx-beat-x2</code></td><td>Double</td><td data-numeric>480</td></tr>
+          <tr><td><code>--sx-beat-x8</code></td><td>Octuple</td><td data-numeric>1920</td></tr>
+        </tbody>
+        <tfoot><tr class="sx-ledger__total"><td>Total</td><td></td><td data-numeric>2730</td></tr></tfoot>
+      </table>
+    </div>
+    <p class="sx-marginalia">A double rule closes a total, exactly as a ledger does. Below 720px this table becomes a stack of dockets rather than a horizontally scrolling grid.</p>
+  </section>
+
+  <!-- THE INSTRUMENTS ───────────────────────────────────────────────── -->
+  <section class="sx-quire" data-chapter="The instruments" id="instruments">
+    <h2 class="sx-chapter"><span class="sx-chapter-mark">The instruments</span></h2>
+
+    <div class="sx-wide sx-instruments">
+      <figure class="sx-instrument">
+        <figcaption class="sx-instrument__question">What proportion of the canon is implemented?</figcaption>
+        <div class="sx-astrolabe" data-ratio="1">
+          <svg class="sx-astrolabe__dial" viewBox="0 0 100 100" role="img" aria-label="Astrolabe: 20 of 20">
+            <circle class="sx-astrolabe__track" cx="50" cy="50" r="42"/>
+            <circle class="sx-astrolabe__arc" cx="50" cy="50" r="42"/>
+            <line class="sx-astrolabe__tick" x1="50" y1="4" x2="50" y2="10"/>
+            <line class="sx-astrolabe__tick" x1="96" y1="50" x2="90" y2="50"/>
+            <line class="sx-astrolabe__tick" x1="50" y1="96" x2="50" y2="90"/>
+            <line class="sx-astrolabe__tick" x1="4" y1="50" x2="10" y2="50"/>
+          </svg>
+          <p class="sx-astrolabe__value">20/20</p>
+          <p class="sx-astrolabe__source">Source: src/components.css, as of 2026-08-18.</p>
+        </div>
+        <button type="button" class="sx-control sx-control--quiet" data-shows-twin="twin-canon" aria-expanded="false">Show the table</button>
+        <div class="sx-instrument__twin" id="twin-canon">
+          <table class="sx-ledger"><caption>Canon components implemented</caption>
+            <thead><tr><th>Measure</th><th data-numeric>Value</th></tr></thead>
+            <tbody><tr><td>Implemented</td><td data-numeric data-value="20">20</td></tr><tr><td>In the canon</td><td data-numeric data-value="20">20</td></tr></tbody>
+          </table>
+        </div>
+      </figure>
+
+      <figure class="sx-instrument">
+        <figcaption class="sx-instrument__question">How long is each permitted duration, against the longest?</figcaption>
+        <div class="sx-bars">
+          <div class="sx-bars__row" data-value="30"><span class="sx-bars__label">Tick</span><span class="sx-bars__track"><span class="sx-bars__rule"></span></span><span class="sx-bars__value">30</span></div>
+          <div class="sx-bars__row" data-value="240"><span class="sx-bars__label">Beat</span><span class="sx-bars__track"><span class="sx-bars__rule"></span></span><span class="sx-bars__value">240</span></div>
+          <div class="sx-bars__row" data-value="960" data-meaning="verified"><span class="sx-bars__label">Beat ×4</span><span class="sx-bars__track"><span class="sx-bars__rule"></span></span><span class="sx-bars__value">960</span></div>
+          <div class="sx-bars__row" data-value="1920"><span class="sx-bars__label">Beat ×8</span><span class="sx-bars__track"><span class="sx-bars__rule"></span></span><span class="sx-bars__value">1920</span></div>
+        </div>
+        <p class="sx-instrument__source">Source: src/tokens.css, as of 2026-08-18. Length-encoded, so the axis starts at zero.</p>
+      </figure>
+
+      <figure class="sx-instrument">
+        <figcaption class="sx-instrument__question">Is the contrast gate's floor met in both registers?</figcaption>
+        <div class="sx-gauge" data-meaning="met" style="--sx-gauge-value:82%;--sx-gauge-threshold:66%">
+          <span class="sx-gauge__scale"><span class="sx-gauge__value"></span><span class="sx-gauge__threshold" data-label="4.5:1 (AA)"></span></span>
+          <span class="sx-marginalia">Lowest measured pair: 4.51:1</span>
+        </div>
+        <p class="sx-instrument__source">Source: gates/contrast.mjs, as of 2026-08-18.</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- FORMS · THE INSTRUMENT ────────────────────────────────────────── -->
+  <section class="sx-quire" data-chapter="Forms" id="forms">
+    <h2 class="sx-chapter"><span class="sx-chapter-mark">Forms</span></h2>
+    <form class="sx-form" novalidate>
+      <div class="sx-field">
+        <label class="sx-field__label" data-required for="f-name">Resource name</label>
+        <input class="sx-field__input" id="f-name" name="name" aria-describedby="f-name-hint">
+        <p class="sx-field__hint" id="f-name-hint">The field is a plinth: cut into the ground, inverted rim, dark top edge.</p>
+        <p class="sx-field__error"></p>
+      </div>
+      <div class="sx-field" data-state="error">
+        <label class="sx-field__label" data-required for="f-domain">Domain</label>
+        <input class="sx-field__input" id="f-domain" value="not a domain" aria-invalid="true" aria-describedby="f-domain-err">
+        <p class="sx-field__hint">The hint this error replaced.</p>
+        <p class="sx-field__error" id="f-domain-err">A domain must contain a dot and no spaces. The value you typed is kept.</p>
+      </div>
+      <div class="sx-field">
+        <label class="sx-field__label" for="f-note">Note</label>
+        <textarea class="sx-field__textarea" id="f-note"></textarea>
+        <p class="sx-field__autosave" data-state="saved">saved</p>
+      </div>
+      <div class="sx-field">
+        <label class="sx-field__label" for="f-off">Disabled field</label>
+        <input class="sx-field__input" id="f-off" value="off, and legible" disabled>
+      </div>
+      <button type="submit" class="sx-control sx-control--crown sx-meniscus">Submit</button>
+    </form>
+
+    <h3 class="sx-article">Destructive confirmation</h3>
+    <div class="sx-confirm">
+      <p>Deleting this resource is permanent. Type its name to confirm.</p>
+      <p class="sx-confirm__resource">stromex-registrar-production</p>
+      <div class="sx-field"><label class="sx-field__label" for="f-confirm">Resource name</label><input class="sx-field__input" id="f-confirm"></div>
+      <p class="sx-marginalia">The same rule the infrastructure enforces, at the interface. Not a red button and a modal.</p>
+    </div>
+  </section>
+
+  <!-- THE STATE FAMILY ─────────────────────────────────────────────── -->
+  <section class="sx-quire" data-chapter="The states" id="states">
+    <h2 class="sx-chapter"><span class="sx-chapter-mark">The states</span></h2>
+
+    <h3 class="sx-article">Loading — the Press</h3>
+    <div class="sx-press" data-state="loading">
+      <span class="sx-press__plate" aria-hidden="true"></span>
+      <div class="sx-press__content"><p class="sx-clause">Content is printed into place at the moment of contact, not faded in.</p></div>
+      <p class="sx-press__operation">Reading the register</p>
+      <p class="sx-press__recourse sx-marginalia"></p>
+    </div>
+
+    <h3 class="sx-article">Empty — and the empty that is the good state</h3>
+    <div class="sx-empty">
+      <p class="sx-empty__what">The audit chain for this resource.</p>
+      <p>No operation has been recorded against it yet.</p>
+      <button type="button" class="sx-control sx-control--ground">Run a read-only check</button>
+    </div>
+    <div class="sx-attention" data-state="empty">
+      <span class="sx-seal sx-seal--verified" style="--sx-seal-size:44px" role="img" aria-label="Nothing needs you"></span>
+      <p class="sx-cartouche">Nothing needs you</p>
+    </div>
+
+    <h3 class="sx-article">Success</h3>
+    <div class="sx-plate sx-succeeded"><p class="sx-plate__eyebrow">Deployment</p><p>Verified in production.</p></div>
+
+    <h3 class="sx-article">Error</h3>
+    <div class="sx-error sx-error--page" role="alert">
+      <p class="sx-error__rule">Refused by the protected-resource rule</p>
+      <p>This resource matches <code>*registrar*</code>, which the policy holds as institutional record.</p>
+      <p class="sx-error__recourse">Archive it instead, or ask an authorising officer to lift the hold for this operation.</p>
+    </div>
+    <p class="sx-marginalia">The rule that refused is named — not the status code. Two refusals sharing a code mean two different things, and only the page knows which.</p>
+
+    <h3 class="sx-article">Notifications</h3>
+    <p class="sx-note--ambient">Ambient · last read 4 minutes ago.</p>
+    <p class="sx-note--attention">Attention · a certificate is awaiting a signature.</p>
+
+    <h3 class="sx-article">AI — the Oracle</h3>
+    <div class="sx-oracle">
+      <p class="sx-oracle__disclosure">Answered by an AI system</p>
+      <p>The base beat is 240ms, and every permitted duration is a multiple of it.</p>
+      <p><a class="sx-oracle__citation" href="#register">SEB §30.9</a> <span class="sx-oracle__confidence" data-confidence="retrieved">retrieved</span></p>
+      <p class="sx-oracle__state" data-state="done"></p>
+    </div>
+  </section>
+
+  <!-- THE READING REGISTER ─────────────────────────────────────────── -->
+  <section class="sx-quire" data-chapter="The reading register" data-register="reading" id="reading" style="background:var(--sx-bg);color:var(--sx-fg);padding-block:var(--sx-space-3xl)">
+    <h2 class="sx-chapter"><span class="sx-chapter-mark" style="background:var(--sx-bg)">The reading register</span></h2>
+    <p class="sx-clause">The light register is not a theme switch. The register a product commits to <em>is</em> its presentation; the other is an accommodation the reader chooses. Metal text resolves to brass-deep here, and the three signal roles resolve to their base pigments.</p>
+    <div class="sx-plate"><p class="sx-plate__eyebrow">Plate · reading</p><p>The same component, the same tokens, a different register.</p><p class="sx-plate__figure">1.618</p></div>
+    <p><span class="sx-cartouche sx-cartouche--framed sx-cartouche--verified">Verified</span> <span class="sx-cartouche sx-cartouche--framed sx-cartouche--attention">Attention</span></p>
+  </section>
+
+  <!-- RTL — structural, not a flipped stylesheet ────────────────────── -->
+  <section class="sx-quire" data-chapter="Right to left" dir="rtl" lang="ar" id="rtl">
+    <h2 class="sx-chapter"><span class="sx-chapter-mark">من اليمين إلى اليسار</span></h2>
+    <p class="sx-clause">الحافة الخارجية للصفحة تبقى دائماً في الخارج. هذا تغيير في البنية، لا في ورقة الأنماط.</p>
+    <ol class="sx-path">
+      <li class="sx-path__station" data-state="complete"><p class="sx-path__label">الرموز</p></li>
+      <li class="sx-path__station" aria-current="step"><p class="sx-path__label">المكوّنات</p></li>
+    </ol>
+  </section>
+  </div>
+</main>
+
+<!-- 19 · THE REGISTER MENU ──────────────────────────────────────────── -->
+<div class="sx-register-menu">
+  <div class="sx-register-menu__plinth"></div>
+  <div class="sx-register-menu__sheet">
+    <div class="sx-register-menu__group">
+      <p class="sx-cartouche">The language</p>
+      <a class="sx-register-menu__item sx-control sx-control--quiet" href="#register"><span>The Register</span><span class="sx-marginalia">§30.6</span></a>
+      <a class="sx-register-menu__item sx-control sx-control--quiet" href="#canon"><span>The canon</span><span class="sx-marginalia">§30.10</span></a>
+    </div>
+    <div class="sx-register-menu__group">
+      <p class="sx-cartouche">The system</p>
+      <a class="sx-register-menu__item sx-control sx-control--quiet" href="#instruments"><span>The instruments</span><span class="sx-marginalia">§34.9</span></a>
+      <a class="sx-register-menu__item sx-control sx-control--quiet" href="#states"><span>The states</span><span class="sx-marginalia">§34.11</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH · THE INDEX ─────────────────────────────────────────────── -->
+<div class="sx-index" role="dialog" aria-modal="true" aria-label="Index">
+  <div class="sx-index__plinth"></div>
+  <div class="sx-index__plate">
+    <input class="sx-index__query" type="search" placeholder="/" aria-label="Search the system">
+    <div class="sx-index__results" role="listbox" data-empty-copy="Try: a token name, a component from the canon, or a Bible article such as §30.9."></div>
+  </div>
+</div>
+
+<!-- 3 · THE COLOPHON ───────────────────────────────────────────────── -->
+<footer class="sx-quire">
+  <div class="sx-wide sx-colophon-block">
+    <span class="sx-colophon-block__mark sx-cartouche">StromeX</span>
+    <dl class="sx-colophon-block__provenance">
+      <div><dt>Document</dt><dd>The StromeX Design Language — specimen</dd></div>
+      <div><dt>Authority</dt><dd>SEB §30, §34</dd></div>
+      <div><dt>Normative form</dt><dd>stromex/design-system/</dd></div>
+      <div><dt>Generated</dt><dd>2026-08-18</dd></div>
+    </dl>
+  </div>
+</footer>
+
+<script type="module">
+  import { bindAll } from '../src/js/index.js';
+
+  bindAll(document, {
+    // A specimen search over the page's own chapters. Real products pass
+    // a real index; the contract is the same shape either way.
+    search: async (q) => {
+      if (!q) return [];
+      const term = q.toLowerCase();
+      return [...document.querySelectorAll('[data-chapter]')]
+        .filter((s) => s.dataset.chapter.toLowerCase().includes(term))
+        .map((s) => ({ kind: 'Chapter', title: s.dataset.chapter, context: `#${s.id}` }));
+    },
+  });
+
+  document.querySelector('[data-opens="index"]')?.addEventListener('click', () => {
+    document.querySelector('.sx-index').dataset.open = 'true';
+    document.querySelector('.sx-index__query').focus();
+  });
+</script>
+</body>
+</html>

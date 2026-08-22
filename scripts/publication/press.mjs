@@ -31,7 +31,8 @@
  * WHAT THIS DOCUMENT IS NOT
  * ────────────────────────────────────────────────────────────────────
  * It is not a claim that a publishing house exists. Worldwide English
- * College Press is an imprint name carried on one publication. It has
+ * College Press is an imprint name carried on one
+ * publication. It has
  * no staff, no ISBN prefix, no legal registration and no distribution
  * agreement, and § 1 says so in the first clause rather than the last.
  */
@@ -325,7 +326,8 @@ export const CONSTITUTIONS = [
     purpose: 'Who owns what, stated once.',
     clauses: [
       c(F.ADOPTED, 'Copyright in the curriculum and in the publication design vests in Worldwide '
-        + 'English College. The imprint line, the year and the reservation of rights appear on '
+        + 'English College. The imprint line, the year and the reservation of '
+        + 'rights appear on '
         + 'the imprint page of every publication.'),
       c(F.ADOPTED, 'Licensed photography is licensed, not owned. It is credited by reference, and '
         + 'a licence permitting editorial use does not permit use as a record of the institution.'),

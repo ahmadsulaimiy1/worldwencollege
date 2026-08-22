@@ -1,4 +1,4 @@
--- WEC-LC — Real curriculum content seed: Level I ("Foundation
+-- WEC — Real curriculum content seed: Level I ("Foundation
 -- Programme," A1) — ALL 10 MODULES, complete. Authored per the
 -- Executive Directive "Curriculum First" — see
 -- docs/curriculum-framework.md (the six-level architecture),
@@ -28,7 +28,7 @@ INSERT INTO units (id, course_id, sequence, title) VALUES
 
 INSERT INTO learning_items (id, unit_id, sequence, kind, title, body) VALUES
 ('itm_l1_m1_overview', 'unt_l1_m1', 1, 'reading', 'Module Overview & Key Phrases',
-'Module 1 is your first contact with WEC-LC''s Foundation Programme. By the end of this module you will be able to greet someone appropriately, introduce yourself, ask someone else''s name and country, and spell your own name aloud using the English alphabet.
+'Module 1 is your first contact with WEC''s Foundation Programme. By the end of this module you will be able to greet someone appropriately, introduce yourself, ask someone else''s name and country, and spell your own name aloud using the English alphabet.
 
 Key phrases introduced this module:
 Hello / Hi / Good morning / Good afternoon / Good evening / Goodbye / See you later

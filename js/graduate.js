@@ -1,4 +1,4 @@
-/* WEC-LC — the graduate record.
+/* WEC — the graduate record.
  *
  * One page, two ways in:
  *

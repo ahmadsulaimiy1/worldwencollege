@@ -1,4 +1,4 @@
-/* WEC-LC — The Graduate Register, browsable.
+/* WEC — The Graduate Register, browsable.
 
    Public, no sign-in, same as verification. The register is the College's
    roll of award holders and there is no version of it that is worth

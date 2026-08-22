@@ -1,4 +1,4 @@
-/* WEC-LC — Instructor pronunciation review workspace.
+/* WEC — Instructor pronunciation review workspace.
 
    Scores a learner recording against the SPECIFIC drill targets they
    were working on, which the queue supplies with each item. Reviewing

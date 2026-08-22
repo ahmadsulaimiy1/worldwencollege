@@ -107,10 +107,10 @@ ${enRows}
     </div>
     <div class="callout">
       <span class="callout__label">About This Roster</span>
-      <p>Positions and qualifications are held on record by the College. <span dir="ltr">WEC-LC</span> has not yet appointed an External Examiner &mdash; the independent post required before any award is conferred &mdash; and the College holds no accreditation. Both are stated in full on <a href="/about/#status">About &middot; Institutional Status</a>.</p>
+      <p>Positions and qualifications are held on record by the College. <span dir="ltr">WEC</span> has not yet appointed an External Examiner &mdash; the independent post required before any award is conferred &mdash; and the College holds no accreditation. Both are stated in full on <a href="/about/#status">About &middot; Institutional Status</a>.</p>
     </div>
     <div class="btn-row">
-      <a href="mailto:info@worldwencollege.co.uk?subject=Faculty%20Enquiry" class="btn btn--red">Enquire About Teaching at WEC-LC</a>
+      <a href="mailto:info@worldwencollege.co.uk?subject=Faculty%20Enquiry" class="btn btn--red">Enquire About Teaching at WEC</a>
     </div>
   </div>
 </section>`;
@@ -198,7 +198,7 @@ const DESCRIPTIONS = {
   // it. In the English one the wrapper was inert anyway; in the Arabic
   // one the direction still has to be stated, and the Unicode isolates
   // U+2066/U+2069 do it without markup.
-  faculty: 'The academic staff and tutors who deliver the IEFC programme at WEC-LC, and the teaching standards they are appointed against.',
+  faculty: 'The academic staff and tutors who deliver the IEFC programme at WEC, and the teaching standards they are appointed against.',
   'faculty-ar': 'أعضاء هيئة التدريس والمدرّسون الذين يقدّمون برنامج ⁦IEFC⁩ في الكلية، والمعايير التدريسية التي عُيّنوا وفقها.',
 };
 let manifestChanged = false;

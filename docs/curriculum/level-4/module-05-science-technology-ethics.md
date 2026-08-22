@@ -1,4 +1,4 @@
-# WEC-LC — Level IV, Module 5: Science, Technology & Ethics
+# WEC — Level IV, Module 5: Science, Technology & Ethics
 
 *Part of `docs/curriculum-level-4-upper-intermediate.md`'s Level IV build-out.*
 

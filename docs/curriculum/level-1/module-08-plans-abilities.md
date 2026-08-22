@@ -1,4 +1,4 @@
-# WEC-LC — Level I, Module 8: Plans & Abilities
+# WEC — Level I, Module 8: Plans & Abilities
 
 *Part of `docs/curriculum-level-1-foundation.md`'s Level I build-out.*
 

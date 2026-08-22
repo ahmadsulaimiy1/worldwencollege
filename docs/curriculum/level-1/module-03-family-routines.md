@@ -1,4 +1,4 @@
-# WEC-LC — Level I, Module 3: Family & Routines
+# WEC — Level I, Module 3: Family & Routines
 
 *Part of `docs/curriculum-level-1-foundation.md`'s Level I build-out.*
 

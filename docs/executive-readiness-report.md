@@ -1,4 +1,4 @@
-# WEC-LC — Executive Readiness Report
+# WEC — Executive Readiness Report
 
 *Supersedes the prior version of this file. Companion to
 `master-roadmap.md` (governing plan), `technical-architecture.md`/
@@ -20,7 +20,7 @@ more code.
 ## This milestone, in one paragraph
 
 You approved 8 Executive Decisions as the platform's working
-assumptions — most significantly, that WEC-LC builds and owns its LMS
+assumptions — most significantly, that WEC builds and owns its LMS
 rather than integrating a third-party product. This report covers the
 work since: full-programme payments now progressively unlock as each
 level is completed (Decision #1); a real, config-driven multi-currency
@@ -84,7 +84,7 @@ loaded with the actual schema.
   Seven new endpoints. **No curriculum content exists anywhere in the
   shipped schema** — only structural, already-published facts (one
   `courses` row per level, titled with that level's real name) — real
-  units/quizzes/assignments are WEC-LC academic staff's work (M2).
+  units/quizzes/assignments are WEC academic staff's work (M2).
 - **Executive Decision #5 (partial) — configurable financial policy.**
   Promo codes and scholarships are now real, working checkout-time
   discounts (`functions/_lib/payments/discounts.js`), stacking gated
@@ -202,7 +202,7 @@ assumptions with mechanisms built:
    remains the single highest-priority open item across the entire
    project.
 4. **LMS content authoring** — not a decision so much as a resourcing
-   question: who on WEC-LC's academic staff authors the real Level
+   question: who on WEC's academic staff authors the real Level
    I-VI curriculum once Milestone 2's authoring tooling exists.
 5. Minor, low-impact, already-addressed-as-deliberate-non-decisions:
    social-share image system, font self-hosting (see decision brief

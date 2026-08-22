@@ -1,4 +1,4 @@
--- WEC-LC — Real curriculum content seed: Level III ("Intermediate
+-- WEC — Real curriculum content seed: Level III ("Intermediate
 -- Programme," B1). Authored per your Level III directive — "an
 -- important academic transition... students are no longer simply
 -- learning English, they are becoming independent users of the

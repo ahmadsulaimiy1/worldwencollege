@@ -1,6 +1,6 @@
 # The Digital Institution — Master Plan
 
-*Lead architect's programme for WorldWide English College. Supersedes
+*Lead architect's programme for Worldwide English College. Supersedes
 nothing; governs everything built after it. Companion to
 `editorial-bible.md` (what the brand is) and `photography-brief.md`
 (what the images must be). This document is **what gets built, in what

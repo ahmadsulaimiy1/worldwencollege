@@ -1,4 +1,4 @@
-# WEC-LC — Audio Platform Architecture & Extension Points
+# WEC — Audio Platform Architecture & Extension Points
 
 *How the Listening Lab is built, and how each named future capability
 attaches to it without redesign. Companion to

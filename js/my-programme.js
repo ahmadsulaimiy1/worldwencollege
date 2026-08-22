@@ -1,4 +1,4 @@
-/* WEC-LC — My Programme.
+/* WEC — My Programme.
 
    The page that did not exist. The Listening Lab opens at
    /listening-lab.html?unit=<id> and, without that parameter, says "No

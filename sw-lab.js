@@ -1,4 +1,4 @@
-/* WEC-LC — Listening Lab service worker.
+/* WEC — Listening Lab service worker.
 
    Offline-first for the things a learner needs to keep studying on a
    train, in a hall of residence with poor wifi, or on a metered

@@ -1,0 +1,1338 @@
+/*
+ * THE STROMEX DESIGN LANGUAGE — COMPONENTS
+ * The closed vocabulary of SEB §30.10, built to the component contract of
+ * SEB §34.1: a name from the canon, an anatomy, a stratum, nine states,
+ * motion on the beat, an accessible contract, structural RTL, a print form.
+ *
+ * Requires tokens.css and foundation.css, in that order.
+ *
+ * TWO NAMES DO DOUBLE DUTY, ON PURPOSE:
+ *   .sx-plate     is both the raised stratum and the card. A StromeX card
+ *                 IS the plate material; giving them separate names would
+ *                 imply a card could be made of something else. It cannot.
+ *   .sx-cartouche is the inscriptional TYPE ROLE (foundation.css). The
+ *                 canon component — a framed enclosure — is the modifier
+ *                 .sx-cartouche--framed. An eyebrow is a cartouche without
+ *                 a frame; a credential reference is one with.
+ * One name is deliberately NOT reused: the footer is .sx-colophon-block,
+ * because .sx-colophon is already the smallest type role and a footer is
+ * not a font size.
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CONTROLS
+   Not a canon component — the canon governs SECTIONS (Gate G1). A control
+   is the machined part every component shares, so it is specified once
+   and inherited, rather than restyled twenty times.
+   Nine states, all of them: rest · hover · focus-visible · active ·
+   selected · disabled · loading · empty · error.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-control {
+  --sx-control-h: 44px;              /* the touch floor, everywhere */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sx-space-xs);
+  min-height: var(--sx-control-h);
+  min-width: var(--sx-control-h);
+  padding-inline: var(--sx-space-md);
+  border: 0;
+  border-radius: var(--sx-r-sm);
+  background: transparent;
+  color: var(--sx-fg);
+  font-family: var(--sx-text);
+  font-size: var(--sx-clause);
+  font-weight: 520;
+  line-height: 1;
+  letter-spacing: 0.005em;
+  text-decoration: none;
+  cursor: pointer;
+  isolation: isolate;
+  transition:
+    background-color var(--sx-beat-4) var(--sx-sovereign),
+    color           var(--sx-beat-4) var(--sx-sovereign),
+    box-shadow      var(--sx-beat-4) var(--sx-sovereign),
+    transform       var(--sx-beat-4) var(--sx-escapement);
+}
+
+/* Ground — the ordinary control. Cut into the page. */
+.sx-control--ground {
+  background: var(--sx-bg-plinth);
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.30),
+    inset 0 -1px 0 rgb(255 255 255 / 0.05);
+}
+.sx-control--ground:hover { background: color-mix(in oklab, var(--sx-bg-plinth) 82%, var(--sx-slate)); }
+
+/* Crown — the consequential control. SEB §34.5: at most one per page. */
+.sx-control--crown {
+  background: var(--sx-bg-raised);
+  color: var(--sx-metal-text);
+  font-family: var(--sx-cut);
+  font-size: var(--sx-cartouche);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding-inline: var(--sx-space-lg);
+  border-radius: var(--sx-r-md);
+  box-shadow:
+    var(--sx-contact),
+    var(--sx-ambient-plate),
+    inset 0 var(--sx-chamfer) 0 rgb(255 255 255 / 0.10),
+    inset 0 calc(var(--sx-chamfer) * -1) 0 rgb(0 0 0 / 0.24);
+}
+.sx-control--crown:hover { box-shadow: var(--sx-contact), var(--sx-ambient-crown), inset 0 var(--sx-chamfer) 0 rgb(255 255 255 / 0.16), inset 0 calc(var(--sx-chamfer) * -1) 0 rgb(0 0 0 / 0.28); }
+
+/* Quiet — a real control that does not compete. Never a bare link. */
+.sx-control--quiet { color: var(--sx-fg-quiet); }
+.sx-control--quiet:hover { color: var(--sx-fg); background: color-mix(in oklab, var(--sx-fg) 6%, transparent); }
+
+/* ACTIVE. It descends — the escapement curve, the shortest permitted
+   duration. A control that scales UP under the finger is a toy. */
+.sx-control:active { transform: translateY(1px); transition-duration: var(--sx-tick); }
+
+/* SELECTED. Weight and stratum before hue (SEB §34.14 pattern 6): the
+   leading rule thickens. The colour is confirmation, not the signal. */
+.sx-control[aria-pressed='true'],
+.sx-control[aria-current],
+.sx-control.is-selected {
+  color: var(--sx-fg);
+  box-shadow: inset 2px 0 0 var(--sx-signal-interactive), var(--sx-contact);
+}
+
+/* DISABLED. Legible, not vanished — a 38% control is a control nobody can
+   read well enough to understand why it is off. */
+.sx-control:disabled,
+.sx-control[aria-disabled='true'] {
+  cursor: not-allowed;
+  color: var(--sx-fg-quiet);
+  box-shadow: inset 0 0 0 var(--sx-rule-w) var(--sx-boundary);
+  background: transparent;
+  transform: none;
+}
+
+/* LOADING. The label STAYS — it is the operation's name, and replacing it
+   with a spinner destroys the one piece of information the reader needs. */
+.sx-control[data-state='loading'] { cursor: progress; }
+.sx-control[data-state='loading']::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  height: 2px;
+  background: var(--sx-aurum);
+  transform-origin: left center;
+  animation: sx-press-sweep var(--sx-beat-x4) var(--sx-escapement) infinite;
+}
+[dir='rtl'] .sx-control[data-state='loading']::after { transform-origin: right center; }
+
+/* ERROR. On the control itself, never only in a message somewhere else. */
+.sx-control[data-state='error'] { box-shadow: inset 0 0 0 var(--sx-rule-w) var(--sx-signal-attention), var(--sx-contact); }
+
+/* EMPTY — a control with nothing to act on is absent, not present-and-dead. */
+.sx-control[hidden] { display: none; }
+
+@keyframes sx-press-sweep {
+  0%   { transform: scaleX(0); }
+  60%  { transform: scaleX(1); }
+  100% { transform: scaleX(1); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   1 · THE LINTEL   —   replaces the sticky nav bar   (SEB §34.7)
+   Anatomy: lintel › capital · mark · index · register · action
+   Stratum: table, rising to crown only once condensed.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-lintel {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--sx-z-lintel);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--sx-space-md);
+  padding-block: var(--sx-space-md);
+  padding-inline: var(--sx-fore-edge) var(--sx-gutter);
+  background: var(--sx-bg);
+  /* It is a structural member: it carries a rule beneath it, not a
+     shadow. A header that casts a shadow onto the page it belongs to is
+     claiming to float above its own building. */
+  box-shadow: inset 0 -1px 0 var(--sx-rule);
+  transition:
+    translate var(--sx-beat) var(--sx-escapement),
+    opacity   var(--sx-beat) var(--sx-escapement);
+}
+.sx-lintel > * { grid-row: 1; }
+
+/*
+ * The capital: the Meridian's head, drawn THROUGH the Lintel so the
+ * spine visibly begins at the top of the document rather than below the
+ * header.
+ *
+ * It is placed by the same geometry as the Meridian itself. It was
+ * placed at `38.2%` of the header while the Meridian was placed on a
+ * grid line, and the two sat 245px apart — a header with a gold tick
+ * over nothing, and a spine appearing from under it.
+ */
+.sx-lintel__capital {
+  grid-column: 1 / -1;
+  justify-self: start;
+  align-self: stretch;
+  /* Back out the fore-edge padding: the capital belongs on the grid
+     line, not inside the header's own inset. */
+  margin-inline-start: calc(var(--sx-fore-edge) * -1);
+  width: var(--sx-hairline);
+  background: var(--sx-aurum);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.sx-lintel__mark { display: inline-flex; align-items: center; gap: var(--sx-space-sm); }
+.sx-lintel__register { display: flex; align-items: center; gap: var(--sx-space-2xs); justify-self: center; }
+.sx-lintel__action { justify-self: end; display: flex; align-items: center; gap: var(--sx-space-xs); }
+
+/*
+ * At the spread the Lintel adopts the Quire itself: the mark hangs in
+ * the margin against the spine, the register aligns with the measure,
+ * and the action sits out at the fore-edge. The header stops being a bar
+ * with things in it and becomes the head of the same sheet.
+ */
+@media (min-width: 1180px) {
+  .sx-lintel {
+    grid-template-columns: var(--sx-quire-columns);
+    column-gap: var(--sx-track-gap);
+    padding-inline: 0;
+  }
+  .sx-lintel__capital  { grid-column: marginal; justify-self: end; margin-inline-start: 0; }
+  .sx-lintel__mark     { grid-column: marginal; justify-self: end; padding-inline-end: var(--sx-space-lg); }
+  .sx-lintel__register { grid-column: measure; justify-self: start; }
+  .sx-lintel__action   { grid-column: measure-end / full-end; justify-self: end; padding-inline-end: var(--sx-gutter); }
+}
+
+/* CONDENSED. Driven by js/lintel.js with 40px of hysteresis, so a
+   trackpad overscroll at the boundary cannot make it flicker
+   (SEB §34.14 pattern 8). The Lintel does not shrink — it is replaced. */
+/*
+ * Condensed, the Lintel is REPLACED — not shrunk, and not left behind
+ * with a smaller version of itself on top of it. SEB §30.10 #1: "on
+ * scroll it does not shrink — it condenses into a Keystone". Leaving the
+ * mark in the bar while the Keystone also carries it puts the
+ * institution's name on the screen twice, six pixels apart, which is
+ * what the first version did.
+ */
+.sx-lintel[data-condensed='true'] {
+  translate: 0 -100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 1023.98px) { .sx-lintel__register { display: none; } }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   2 · THE KEYSTONE   —   replaces the hamburger
+   The mark alone in a chamfered trapezoid, at the Meridian. Also the
+   mobile menu trigger, so a phone reader gets a labelled institution
+   rather than three anonymous lines.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-keystone {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline-start: var(--sx-meridian-at);
+  translate: -50% 0;
+  z-index: var(--sx-z-lintel);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sx-space-xs);
+  min-height: var(--sx-control-h, 44px);
+  padding: var(--sx-space-xs) var(--sx-space-lg);
+  background: var(--sx-bg-raised);
+  color: var(--sx-metal-text);
+  border: 0;
+  cursor: pointer;
+  /* The trapezoid: the keystone of an arch, cut back on both faces. */
+  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 100%, 0 100%);
+  box-shadow: var(--sx-contact), var(--sx-ambient-plate);
+  /* It DESCENDS into place — a keystone is set from above. */
+  transform: translateY(-100%);
+  transition: transform var(--sx-beat) var(--sx-escapement);
+}
+.sx-keystone[data-shown='true'] { transform: none; }
+[dir='rtl'] .sx-keystone { translate: 50% 0; }
+@media (max-width: 719.98px) { .sx-keystone { inset-inline-start: 24px; translate: 0 0; } }
+@media (max-width: 719.98px) { [dir='rtl'] .sx-keystone { translate: 0 0; } }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   19 · THE REGISTER MENU   —   replaces the mega-menu   (SEB §34.7)
+   A crown plate on a plinth, ONE level deep. Not parked off-canvas:
+   display:none until opened, because an element at translateX(100%) is
+   still laid out, still contributes width, and in RTL shifts the scroll
+   origin so Arabic clips at its start.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-register-menu { display: none; }
+.sx-register-menu[data-open='true'] {
+  display: grid;
+  position: fixed;
+  inset: 0;
+  z-index: var(--sx-z-crown);
+  grid-template-rows: auto 1fr;
+}
+.sx-register-menu__plinth {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in oklab, var(--sx-obsidian) 72%, transparent);
+  animation: sx-fade-in var(--sx-beat) var(--sx-release) both;
+}
+.sx-register-menu__sheet {
+  position: relative;
+  margin-block-start: auto;
+  max-height: 88vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--sx-space-xl) var(--sx-fore-edge) var(--sx-space-2xl);
+  background: var(--sx-bg-raised);
+  border-start-start-radius: var(--sx-r-xl);
+  border-start-end-radius: var(--sx-r-xl);
+  box-shadow: var(--sx-ambient-crown);
+  /* Rising on `descent` — it arrives from below and settles. */
+  animation: sx-sheet-rise var(--sx-beat) var(--sx-descent) both;
+}
+@media (min-width: 1024px) {
+  .sx-register-menu__sheet {
+    margin: var(--sx-space-3xl) auto auto;
+    max-width: 62em;
+    border-radius: var(--sx-r-xl);
+  }
+}
+.sx-register-menu__group + .sx-register-menu__group { margin-block-start: var(--sx-space-lg); padding-block-start: var(--sx-space-lg); border-block-start: var(--sx-hairline) solid var(--sx-rule); }
+.sx-register-menu__item { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sx-space-md); width: 100%; padding-block: var(--sx-space-sm); text-align: start; }
+
+@keyframes sx-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sx-sheet-rise { from { transform: translateY(3%); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   8 · THE RAIL   —   replaces the sidebar nav
+   Generated from [data-chapter] by js/rail.js, so it cannot fall out of
+   step with the page. Hung ON the Meridian, inverting over light chapters.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/*
+ * The Rail is placed BY THE GRID, in the marginal track, hard against
+ * the spine — see foundation.css. It was `position: fixed` at a viewport
+ * percentage and landed on top of the running text at every width; a
+ * chapter index that covers the chapters is not an index.
+ *
+ * `sticky` rather than `fixed`, so it belongs to the document it indexes
+ * and scrolls out with it rather than following the reader off the end.
+ */
+.sx-rail {
+  position: sticky;
+  inset-block-start: 50vh;
+  align-self: start;
+  translate: 0 -50%;
+  z-index: var(--sx-z-rail);
+  display: none;
+  flex-direction: column;
+  gap: var(--sx-space-2xs);
+  align-items: flex-end;
+  text-align: end;
+  padding-inline-end: var(--sx-space-lg);
+}
+@media (min-width: 1180px) { .sx-rail { display: flex; } }
+[dir='rtl'] .sx-rail { align-items: flex-start; text-align: start; }
+
+.sx-rail__station {
+  display: flex;
+  align-items: center;
+  /* 44px, like every other target in the system. A chapter rail is the
+     one place a designer is tempted to make the target the size of the
+     tick mark rather than the size of a finger — the tick stays 1px tall
+     and the target around it does not. */
+  min-height: 44px;
+  gap: var(--sx-space-xs);
+  padding-block: var(--sx-space-3xs);
+  font-size: var(--sx-marginalia);
+  letter-spacing: 0.04em;
+  color: var(--sx-fg-quiet);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity var(--sx-beat-4) var(--sx-sovereign), color var(--sx-beat-4) var(--sx-sovereign);
+}
+.sx-rail__station:hover { opacity: 1; color: var(--sx-fg); }
+/* The tick: a rule that LENGTHENS for the current chapter. Weight and
+   position carry the state; the gold confirms it. */
+.sx-rail__station::after {
+  content: '';
+  width: 12px;
+  height: var(--sx-hairline);
+  background: currentColor;
+  transition: width var(--sx-beat-2) var(--sx-sovereign), background-color var(--sx-beat-2) var(--sx-sovereign);
+}
+[dir='rtl'] .sx-rail__station::after { order: -1; }
+.sx-rail__station[aria-current='true'] { opacity: 1; color: var(--sx-metal-text); }
+.sx-rail__station[aria-current='true']::after { width: 28px; background: var(--sx-aurum); }
+/* Over a light chapter the rail inverts — set by js/rail.js from the
+   section's own data-register. */
+.sx-rail[data-over='reading'] .sx-rail__station { color: var(--sx-ink); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   3 · THE COLOPHON   —   replaces the link-farm footer
+   A printed book's colophon: the mark, the document's provenance, the
+   build id, the date, the institution's own calendar. Set small, set well.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-colophon-block {
+  margin-block-start: var(--sx-space-4xl);
+  padding-block: var(--sx-space-2xl) var(--sx-space-xl);
+  border-block-start: var(--sx-hairline) solid var(--sx-rule);
+  font-size: var(--sx-colophon);
+  letter-spacing: 0.06em;
+  color: var(--sx-fg-quiet);
+}
+.sx-colophon-block__mark { display: block; margin-block-end: var(--sx-space-lg); color: var(--sx-metal-text); }
+.sx-colophon-block__provenance { display: grid; gap: var(--sx-space-2xs) var(--sx-space-xl); grid-template-columns: repeat(auto-fit, minmax(min(14em, 100%), 1fr)); }
+.sx-colophon-block__provenance dt { font-family: var(--sx-cut); text-transform: uppercase; letter-spacing: 0.16em; }
+.sx-colophon-block__provenance dd { font-variant-numeric: tabular-nums; margin: 0; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   4 · THE PLATE   —   replaces the card   (SEB §34.3)
+   Anatomy: plate › bevel › ground › eyebrow · body · figure · foot ·
+            seal-slot
+   Stratum: plate, rising to crown on hover.
+   Three variants and no more: default · --figure · --document (the Docket).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-plate {
+  /* Concentric bevel: inner radius = outer − gap, so the arcs run
+     parallel around the turn. Two radii chosen independently is the
+     commonest way a "premium" card gives itself away. */
+  --sx-plate-gap: var(--sx-space-sm);
+  padding: var(--sx-space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sx-space-sm);
+  transition:
+    box-shadow var(--sx-beat-4) var(--sx-sovereign),
+    transform  var(--sx-beat-4) var(--sx-sovereign);
+}
+.sx-plate__bevel {
+  border-radius: calc(var(--sx-r-lg) - var(--sx-plate-gap));
+  padding: var(--sx-plate-gap);
+  background: var(--sx-bg);
+  box-shadow: inset 0 0 0 var(--sx-hairline) var(--sx-rule);
+}
+.sx-plate__eyebrow {
+  /* A module marker — `02 · Programme` — not a category chip. */
+  font-family: var(--sx-cut);
+  font-size: var(--sx-marginalia);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sx-fg-quiet);
+  font-variant-numeric: tabular-nums;
+}
+.sx-plate__body { color: var(--sx-fg); }
+.sx-plate__figure {
+  /* Where present, the figure is the visual anchor. A card whose largest
+     element is its heading has buried its point. */
+  font-family: var(--sx-display);
+  font-size: var(--sx-figure);
+  line-height: var(--sx-lh-tight);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--sx-metal-text);
+}
+.sx-plate__foot {
+  margin-block-start: auto;
+  padding-block-start: var(--sx-space-sm);
+  border-block-start: var(--sx-hairline) solid var(--sx-rule);
+  font-size: var(--sx-marginalia);
+  color: var(--sx-fg-quiet);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sx-space-sm);
+}
+.sx-plate__seal-slot { position: absolute; inset-block-start: var(--sx-space-md); inset-inline-end: var(--sx-space-md); }
+
+/* HOVER raises to crown over beat/4 on sovereign, and the meniscus
+   travels the perimeter ONCE and stops (SEB §34.14 pattern 2). A
+   perimeter that keeps moving is a casino; one that lights when you
+   arrive is a threshold. Add .sx-meniscus to get the pass. */
+.sx-plate:hover,
+.sx-plate:focus-within {
+  box-shadow:
+    var(--sx-contact),
+    var(--sx-ambient-crown),
+    inset 0 var(--sx-chamfer) 0 rgb(255 255 255 / 0.10);
+  transform: translateY(-2px);
+}
+
+/* SELECTED — a stratum change and a leading rule, before any hue. */
+.sx-plate[aria-selected='true'],
+.sx-plate.is-selected { box-shadow: inset 3px 0 0 var(--sx-signal-interactive), var(--sx-contact), var(--sx-ambient-crown); }
+
+/* DISABLED · LOADING · ERROR · EMPTY */
+.sx-plate[aria-disabled='true'] { opacity: 0.72; box-shadow: inset 0 0 0 var(--sx-rule-w) var(--sx-boundary); transform: none; }
+.sx-plate[aria-disabled='true']:hover { transform: none; }
+.sx-plate[data-state='error'] { box-shadow: inset 0 0 0 var(--sx-rule-w) var(--sx-signal-attention), var(--sx-contact); }
+.sx-plate[data-state='empty'] { justify-content: center; text-align: center; color: var(--sx-fg-quiet); }
+
+/* Never two plates adjacent (SEB §30.4) — put one on a plinth or change
+   the ground. The rule is enforceable, so it is enforced. */
+.sx-plate + .sx-plate { margin-block-start: var(--sx-space-md); }
+.sx-plate-field > .sx-plate + .sx-plate { margin-block-start: 0; }
+
+/* ── 20 · THE DOCKET (plate--document) — replaces the PDF link ────────
+   Version, status, authority, date. The four things a person needs to
+   know before opening a document, none of which a filename carries. */
+.sx-plate--document {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sx-space-sm) var(--sx-space-md);
+  align-items: start;
+}
+.sx-docket__meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sx-space-3xs) var(--sx-space-sm);
+  font-size: var(--sx-marginalia);
+  color: var(--sx-fg-quiet);
+}
+.sx-docket__meta dt { font-family: var(--sx-cut); text-transform: uppercase; letter-spacing: 0.14em; }
+.sx-docket__meta dd { margin: 0; font-variant-numeric: tabular-nums; color: var(--sx-fg); }
+
+/* Status is a word and a weight, never a coloured dot alone. */
+.sx-docket__status { font-family: var(--sx-cut); text-transform: uppercase; letter-spacing: 0.14em; font-size: var(--sx-marginalia); }
+.sx-docket__status[data-status='verified'] { color: var(--sx-signal-verified); }
+.sx-docket__status[data-status='draft']    { color: var(--sx-fg-quiet); }
+.sx-docket__status[data-status='expired']  { color: var(--sx-signal-attention); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   5 · THE LEDGER   —   replaces the striped data table   (SEB §34.4)
+   The estate's oldest signature. Three rule weights, and they mean
+   things. A double rule closes a total, exactly as a ledger does —
+   nobody else does the third one, and it is instantly recognisable.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-ledger-scroll {
+  /* Overflow scrolls INSIDE its own container, never the page. */
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  max-width: 100%;
+}
+.sx-ledger {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums lining-nums;
+  text-align: start;
+}
+.sx-ledger caption {
+  caption-side: top;
+  text-align: start;
+  padding-block-end: var(--sx-space-sm);
+  font-size: var(--sx-marginalia);
+  color: var(--sx-fg-quiet);
+}
+.sx-ledger th,
+.sx-ledger td {
+  /* Row height is 1.5 × line-height and the hairline does the work.
+     Zebra striping is a crutch for rows that are too tall. */
+  padding: var(--sx-space-sm) var(--sx-space-md);
+  border-block-end: var(--sx-hairline) solid var(--sx-rule);
+  text-align: start;
+  vertical-align: baseline;
+}
+.sx-ledger thead th {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  background: var(--sx-bg);
+  /* Condensed, NOT smaller. Shrinking a heading to fit is what a
+     spreadsheet does. */
+  font-family: var(--sx-text);
+  font-size: var(--sx-clause);
+  font-weight: 560;
+  font-variation-settings: 'wdth' 82;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sx-fg-quiet);
+  border-block-end: var(--sx-rule-w) solid var(--sx-fg-quiet);
+  white-space: nowrap;
+}
+/* Numerals right-aligned (end-aligned), text start-aligned. The decimal
+   aligns on the decimal. */
+.sx-ledger [data-numeric] { text-align: end; font-variant-numeric: tabular-nums; }
+
+/* A DOUBLE RULE CLOSES A TOTAL. */
+.sx-ledger tfoot td,
+.sx-ledger .sx-ledger__total td {
+  border-block-start: var(--sx-rule-w) solid var(--sx-fg);
+  border-block-end: var(--sx-hairline) double var(--sx-fg);
+  box-shadow: 0 3px 0 -2px var(--sx-fg);
+  font-weight: 620;
+}
+
+/* Sort is a STATE ON THE COLUMN, not an icon that appears on hover. The
+   active column's head carries the meniscus. */
+.sx-ledger th[aria-sort] { cursor: pointer; }
+.sx-ledger th[aria-sort='ascending'],
+.sx-ledger th[aria-sort='descending'] { color: var(--sx-metal-text); box-shadow: inset 0 -2px 0 var(--sx-aurum); }
+.sx-ledger th[aria-sort='ascending']::after  { content: ' ↑'; }
+.sx-ledger th[aria-sort='descending']::after { content: ' ↓'; }
+
+/* Row selection raises the row and carries a 2px leading marker. */
+.sx-ledger tbody tr { transition: background-color var(--sx-beat-4) var(--sx-sovereign), box-shadow var(--sx-beat-4) var(--sx-sovereign); }
+.sx-ledger tbody tr:hover { background: color-mix(in oklab, var(--sx-fg) 4%, transparent); }
+.sx-ledger tbody tr[aria-selected='true'] {
+  background: color-mix(in oklab, var(--sx-signal-interactive) 12%, transparent);
+  box-shadow: inset 2px 0 0 var(--sx-signal-interactive);
+}
+.sx-ledger tbody tr[aria-disabled='true'] { color: var(--sx-fg-quiet); }
+.sx-ledger tbody tr[data-state='error'] td { box-shadow: inset 2px 0 0 var(--sx-signal-attention); }
+
+/* Empty, loading and error are LEDGER-SHAPED — a head and one
+   explanatory row, not a centred message in an empty box. */
+.sx-ledger__note td {
+  padding-block: var(--sx-space-xl);
+  color: var(--sx-fg-quiet);
+  text-align: center;
+}
+.sx-ledger__note--good td { color: var(--sx-signal-verified); }
+
+/* BELOW 720px A LEDGER BECOMES A STACK OF DOCKETS, one per row, with the
+   head's labels inline. It does not become a horizontally scrolling
+   table, which is unusable on a phone with one hand. Requires
+   `data-label` on each cell — js/ledger.js copies them from the head. */
+@media (max-width: 719.98px) {
+  .sx-ledger--stacks thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .sx-ledger--stacks tbody tr {
+    display: block;
+    margin-block-end: var(--sx-space-md);
+    padding: var(--sx-space-md);
+    background: var(--sx-bg-raised);
+    border-radius: var(--sx-r-lg);
+    box-shadow: var(--sx-contact), var(--sx-ambient-plate);
+  }
+  .sx-ledger--stacks tbody td {
+    display: grid;
+    grid-template-columns: minmax(0, 7em) 1fr;
+    gap: var(--sx-space-md);
+    padding-inline: 0;
+    text-align: start;
+  }
+  .sx-ledger--stacks tbody td[data-numeric] { text-align: start; }
+  .sx-ledger--stacks tbody td::before {
+    content: attr(data-label);
+    font-family: var(--sx-cut);
+    font-size: var(--sx-marginalia);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--sx-fg-quiet);
+  }
+  .sx-ledger--stacks tbody tr td:last-child { border-block-end: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   6 · THE CARTOUCHE (framed)   —   replaces the badge and the pill
+   A framed enclosure for a number, a reference, a credential. The frame
+   is cut, not filled: a filled pill is a label; a cut frame is a mark.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-cartouche--framed {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sx-space-2xs);
+  padding: var(--sx-space-3xs) var(--sx-space-sm);
+  /* Not a pill. The corners are chamfered on the leading and trailing
+     faces, the way a cartouche is cut. */
+  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+  box-shadow: inset 0 0 0 var(--sx-hairline) currentColor;
+  font-variant-numeric: tabular-nums;
+}
+[dir='rtl'] .sx-cartouche--framed { clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 100%, 6px 100%); }
+.sx-cartouche--verified { color: var(--sx-signal-verified); }
+.sx-cartouche--attention { color: var(--sx-signal-attention); }
+.sx-cartouche--quiet { color: var(--sx-fg-quiet); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   7 · THE SEAL   —   replaces the logo, repeated
+   A ceremonial mark, PRESSED ONCE, at a threshold. Never decoration.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-seal {
+  --sx-seal-size: 88px;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--sx-seal-size);
+  aspect-ratio: 1;
+  border-radius: var(--sx-r-pill);
+  color: var(--sx-metal-text);
+  background: var(--sx-bg-plinth);
+  box-shadow:
+    inset 0 0 0 var(--sx-hairline) var(--sx-aurum),
+    inset 0 2px 4px rgb(0 0 0 / 0.35),
+    var(--sx-contact);
+}
+/* The press: it descends, contacts, and stops. Once. */
+.sx-seal[data-pressed='true'] { animation: sx-seal-press var(--sx-beat-x2) var(--sx-escapement) both; }
+@keyframes sx-seal-press {
+  0%   { transform: scale(1.14) translateY(-6px); opacity: 0; }
+  62%  { transform: scale(0.98) translateY(0);    opacity: 1; }
+  100% { transform: none; opacity: 1; }
+}
+.sx-seal--verified { color: var(--sx-signal-verified); box-shadow: inset 0 0 0 var(--sx-rule-w) var(--sx-signal-verified), inset 0 2px 4px rgb(0 0 0 / 0.35); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   9 · THE DOTLIST   —   replaces the icon-and-heading feature grid
+   `01 Item ······ value`. An index, set as an index. The dot leader is
+   generated, so it is correct at every width and in both directions.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-dotlist { display: grid; gap: var(--sx-space-sm); }
+.sx-dotlist__row {
+  display: grid;
+  /* index · label · leader · value — FOUR tracks, because there are four
+     parts. Three tracks wrapped the value onto its own row and left the
+     leader pointing at nothing, which is a dot leader doing the exact
+     opposite of its job. */
+  grid-template-columns: auto auto minmax(var(--sx-space-lg), 1fr) auto;
+  align-items: baseline;
+  gap: var(--sx-space-sm);
+}
+.sx-dotlist__index {
+  font-family: var(--sx-cut);
+  font-size: var(--sx-marginalia);
+  letter-spacing: 0.14em;
+  color: var(--sx-fg-quiet);
+  font-variant-numeric: tabular-nums;
+}
+/* The leader. A repeating radial dot at the baseline, masked to the gap —
+   not a row of typed full stops, which do not align between rows. */
+.sx-dotlist__leader {
+  height: 1em;
+  border-block-end: var(--sx-hairline) dotted var(--sx-rule);
+  transform: translateY(-0.3em);
+}
+.sx-dotlist__value { font-variant-numeric: tabular-nums; color: var(--sx-metal-text); }
+.sx-dotlist__row[data-state='empty'] .sx-dotlist__value { color: var(--sx-fg-quiet); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   10 · THE FIGURE RAIL   —   replaces the marketing badge row
+   Statistics on hairline dividers, set as MEASUREMENTS: the figure, its
+   unit, and its as-of date. A number without a date is a rumour
+   (SEB §34.8).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(11em, 100%), 1fr));
+  gap: var(--sx-space-lg);
+  padding-block: var(--sx-space-xl);
+  border-block: var(--sx-hairline) solid var(--sx-rule);
+}
+.sx-figures__item { display: grid; gap: var(--sx-space-3xs); padding-inline-start: var(--sx-space-md); border-inline-start: var(--sx-hairline) solid var(--sx-rule); }
+.sx-figures__item:first-child { border-inline-start: 0; padding-inline-start: 0; }
+.sx-figures__value {
+  font-family: var(--sx-display);
+  font-size: var(--sx-figure);
+  line-height: var(--sx-lh-tight);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--sx-metal-text);
+}
+.sx-figures__unit { font-size: var(--sx-marginalia); letter-spacing: 0.04em; color: var(--sx-fg); }
+.sx-figures__asof { font-size: var(--sx-colophon); letter-spacing: 0.06em; color: var(--sx-fg-quiet); font-variant-numeric: tabular-nums; }
+/* EMPTY: the figure is absent, and the rail SAYS the measurement has not
+   been taken. It does not print a zero, which is a claim. */
+.sx-figures__item[data-state='empty'] .sx-figures__value { color: var(--sx-fg-quiet); font-family: var(--sx-text); font-size: var(--sx-article); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   11 · THE QUAD   —   replaces four cards in a row
+   ONE field divided, not four objects placed. The divisions are cuts in a
+   single surface, so the eye reads one thing with four parts rather than
+   four things with a shared width.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-quad {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  background: var(--sx-bg-raised);
+  border-radius: var(--sx-r-lg);
+  overflow: clip;
+  box-shadow: var(--sx-contact), var(--sx-ambient-plate);
+}
+.sx-quad__cell {
+  padding: var(--sx-space-lg);
+  /* The cuts: hairlines drawn INTO the single surface. */
+  box-shadow:
+    inset -0.5px 0 0 var(--sx-rule),
+    inset 0 -0.5px 0 var(--sx-rule);
+  transition: background-color var(--sx-beat-4) var(--sx-sovereign);
+}
+.sx-quad__cell:hover { background: color-mix(in oklab, var(--sx-fg) 4%, transparent); }
+.sx-quad__cell[aria-selected='true'] { background: color-mix(in oklab, var(--sx-signal-interactive) 10%, transparent); box-shadow: inset 2px 0 0 var(--sx-signal-interactive), inset -0.5px 0 0 var(--sx-rule), inset 0 -0.5px 0 var(--sx-rule); }
+.sx-quad__cell[aria-disabled='true'] { color: var(--sx-fg-quiet); }
+@media (max-width: 719.98px) { .sx-quad { grid-template-columns: minmax(0, 1fr); } }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   12 · THE PLEDGE   —   replaces the "why choose us" tick list
+   A commitment block. Each pledge carries its FALSIFIABILITY CLAUSE — the
+   condition under which the institution would have failed to keep it.
+   A promise nobody could ever check is decoration (SEB §2).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-pledge { display: grid; gap: var(--sx-space-lg); counter-reset: sx-pledge; }
+.sx-pledge__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sx-space-md);
+  padding-block-end: var(--sx-space-lg);
+  border-block-end: var(--sx-hairline) solid var(--sx-rule);
+  counter-increment: sx-pledge;
+}
+.sx-pledge__item::before {
+  content: counter(sx-pledge, decimal-leading-zero);
+  font-family: var(--sx-cut);
+  font-size: var(--sx-marginalia);
+  letter-spacing: 0.14em;
+  color: var(--sx-aurum);
+  font-variant-numeric: tabular-nums;
+}
+.sx-pledge__clause {
+  margin-block-start: var(--sx-space-xs);
+  padding-inline-start: var(--sx-space-md);
+  border-inline-start: var(--sx-rule-w) solid var(--sx-signal-verified);
+  font-size: var(--sx-marginalia);
+  color: var(--sx-fg-quiet);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   13 · THE PATH   —   replaces the numbered-circle process graphic
+   A journey drawn as a ROUTE with stations, and the route is a real line
+   the stations sit on. Also the progress indicator for any multi-step
+   form (SEB §34.5) — never a bar.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-path { position: relative; display: grid; gap: var(--sx-space-lg); padding-inline-start: var(--sx-space-xl); }
+.sx-path::before {
+  content: '';
+  position: absolute;
+  inset-block: 0.6em 0.6em;
+  inset-inline-start: 5px;
+  width: var(--sx-hairline);
+  background: var(--sx-rule);
+}
+.sx-path__station { position: relative; }
+.sx-path__station::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: calc(var(--sx-space-xl) * -1);
+  inset-block-start: 0.5em;
+  width: 11px;
+  height: 11px;
+  border-radius: var(--sx-r-pill);
+  background: var(--sx-bg);
+  box-shadow: inset 0 0 0 var(--sx-hairline) var(--sx-boundary);
+  transition: box-shadow var(--sx-beat-2) var(--sx-sovereign), background-color var(--sx-beat-2) var(--sx-sovereign);
+}
+.sx-path__station[data-state='complete']::before { background: var(--sx-signal-verified); box-shadow: inset 0 0 0 var(--sx-hairline) var(--sx-signal-verified); }
+.sx-path__station[aria-current='step']::before { background: var(--sx-aurum-lit); box-shadow: 0 0 0 3px color-mix(in oklab, var(--sx-aurum) 30%, transparent); }
+.sx-path__station[data-state='error']::before { background: var(--sx-signal-attention); box-shadow: inset 0 0 0 var(--sx-hairline) var(--sx-signal-attention); }
+.sx-path__station[aria-disabled='true'] { color: var(--sx-fg-quiet); }
+.sx-path__label { font-family: var(--sx-cut); font-size: var(--sx-marginalia); letter-spacing: 0.14em; text-transform: uppercase; color: var(--sx-fg-quiet); }
+.sx-path__station[aria-current='step'] .sx-path__label { color: var(--sx-metal-text); }
+
+/* Horizontal on a wide viewport — the same route, turned. */
+@media (min-width: 1024px) {
+  .sx-path--wide { grid-auto-flow: column; grid-auto-columns: 1fr; padding-inline-start: 0; padding-block-start: var(--sx-space-lg); }
+  .sx-path--wide::before { inset-block: auto; inset-block-start: 5px; inset-inline: 0.6em; width: auto; height: var(--sx-hairline); }
+  .sx-path--wide .sx-path__station::before { inset-inline-start: 0; inset-block-start: calc(var(--sx-space-lg) * -1); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   14 · THE PRESS   —   replaces the spinner and the skeleton (SEB §34.11)
+   A plate descends on `descent`, contacts at beat×2, and the content is
+   PRINTED into place. Total beat×4.
+   Under 240ms: show nothing — a flash of loading state is worse than a
+   pause. Over 2s the operation is NAMED. Past 8s, what to do about it.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-press { position: relative; min-height: var(--sx-space-3xl); }
+.sx-press__plate {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--sx-r-lg);
+  background: var(--sx-bg-raised);
+  box-shadow: var(--sx-contact), var(--sx-ambient-plate);
+  transform-origin: center top;
+  animation: sx-press-descend var(--sx-beat-x4) var(--sx-descent) both;
+  pointer-events: none;
+}
+@keyframes sx-press-descend {
+  0%   { transform: translateY(-8px) scaleY(1.02); opacity: 0; }
+  50%  { transform: none; opacity: 1; }            /* contact, at beat×2 */
+  100% { transform: none; opacity: 0; }            /* lift — content is printed */
+}
+/* Content resolves AT THE MOMENT OF CONTACT, which is why the reveal is
+   delayed by exactly half the press. */
+.sx-press__content { animation: sx-press-print var(--sx-beat-x4) var(--sx-sovereign) both; }
+@keyframes sx-press-print {
+  0%, 50% { opacity: 0; }
+  100%    { opacity: 1; }
+}
+/* The named operation: "Reading the register", not "Loading…". */
+/*
+ * CENTRING IS PHYSICAL, AND `translate: -50%` IS NOT.
+ *
+ * `inset-inline-start: 50%` anchors the element's LEADING edge at the
+ * centre — which in RTL is its right edge — and `translate: -50% 0`
+ * always moves it left. In LTR the two compose into a centred element;
+ * in RTL they compose into an element hanging half its width off the
+ * page, and the page scrolls sideways. It appears three times in this
+ * file and each one is corrected below rather than by a flipped
+ * stylesheet (SEB §30.3: RTL is structural).
+ */
+.sx-press__operation {
+  position: absolute;
+  inset-block-end: var(--sx-space-md);
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  font-family: var(--sx-cut);
+  font-size: var(--sx-marginalia);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--sx-fg-quiet);
+}
+[dir='rtl'] .sx-press__operation { translate: 50% 0; }
+.sx-press__recourse { display: none; }
+.sx-press[data-elapsed='long'] .sx-press__recourse { display: block; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   15 · THE ASTROLABE   —   replaces the pie and donut chart (SEB §34.9)
+   Radial instrumentation for proportion and progress. Drawn as a stroked
+   arc on an SVG circle so the geometry is real, not a conic gradient
+   painted without a ring mask (SEB §30.11).
+   The accessible twin is mandatory: a <table> that IS the data.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-astrolabe { display: grid; place-items: center; gap: var(--sx-space-sm); }
+.sx-astrolabe__dial { display: block; width: min(220px, 60vw); aspect-ratio: 1; }
+.sx-astrolabe__track { fill: none; stroke: var(--sx-boundary); stroke-width: 1; }
+.sx-astrolabe__arc {
+  fill: none;
+  stroke: var(--sx-aurum);
+  stroke-width: 2.5;
+  stroke-linecap: butt;              /* an instrument reads to a mark */
+  transform: rotate(-90deg);
+  transform-origin: center;
+  /* Draws once, on first reveal, over real sourced numbers. Never on
+     re-render (SEB §34.9). js/instruments.js sets --sx-arc. */
+  stroke-dasharray: var(--sx-arc-len, 0) 999;
+  transition: stroke-dasharray var(--sx-beat-x2) var(--sx-sovereign);
+}
+.sx-astrolabe__arc--verified { stroke: var(--sx-signal-verified); }
+.sx-astrolabe__arc--attention { stroke: var(--sx-signal-attention); }
+/* Graduations: real tick marks, not gridlines. */
+.sx-astrolabe__tick { stroke: var(--sx-boundary); stroke-width: 1; }
+.sx-astrolabe__value { font-family: var(--sx-display); font-size: var(--sx-figure); font-variant-numeric: tabular-nums; color: var(--sx-metal-text); }
+.sx-astrolabe__source { font-size: var(--sx-colophon); letter-spacing: 0.06em; color: var(--sx-fg-quiet); }
+/* The twin. Available to screen readers ALWAYS, and to everyone by a
+   control — the chart is a RENDERING of the table, not a substitute.
+   Visually hidden by a clip, never by [hidden] or display:none, both of
+   which remove it from the accessibility tree and defeat the point. */
+.sx-instrument__twin {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.sx-instrument__twin[data-shown='true'] {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip-path: none;
+  white-space: normal;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   16 · THE ILLUM   —   replaces the gradient hero
+   A ceremonial frame for a threshold moment. An illuminated opening: the
+   ground is cut, the guilloché sits behind, the proclamation is set in
+   the measure and the meridian runs through it.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-illum {
+  position: relative;
+  display: grid;
+  align-content: center;
+  min-height: min(88vh, 900px);
+  padding-block: var(--sx-space-3xl);
+  isolation: isolate;
+  overflow: clip;
+}
+/* The frame is CUT, not drawn: a deep inset ground with a machined rim,
+   inset from the fore-edge so the page reads as a plate tipped in. */
+.sx-illum__frame {
+  position: absolute;
+  inset: var(--sx-space-md);
+  border-radius: var(--sx-r-2xl);
+  background: var(--sx-bg-plinth);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.30), inset 0 0 0 var(--sx-hairline) var(--sx-rule);
+  z-index: var(--sx-z-substrate);
+  pointer-events: none;
+}
+.sx-illum__rule { width: var(--sx-space-3xl); height: var(--sx-rule-w); background: var(--sx-aurum); margin-block: var(--sx-space-lg); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   17 · THE WATERMARK   —   replaces the background image
+   The mark, ONCE per page, at low opacity, on the single dark band. Not a
+   photograph behind text, which is how text becomes unreadable at a width
+   nobody tested.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-watermark {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: var(--sx-gutter);
+  translate: 0 -50%;   /* vertical only — no inline component, so RTL-safe */
+  width: min(46vw, 520px);
+  opacity: 0.05;
+  color: var(--sx-aurum);
+  pointer-events: none;
+  user-select: none;
+  z-index: var(--sx-z-ground);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   18 · THE LETTER   —   replaces the testimonial
+   A signed statement. SHIPS BUILT AND EMPTY until a real person signs it
+   (SEB §29.9): the component exists, the page does not carry it, and
+   nobody has to invent a quotation to fill a slot.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-letter { display: grid; gap: var(--sx-space-md); max-width: var(--sx-measure); }
+.sx-letter__body {
+  font-family: var(--sx-display);
+  font-size: var(--sx-article);
+  line-height: var(--sx-lh-close);
+  font-variation-settings: 'opsz' 36, 'SOFT' 6, 'WONK' 0;
+  text-wrap: pretty;
+}
+/* No decorative quotation glyph. The letter is set as a letter; the mark
+   is the signature, not a 120px comma. */
+.sx-letter__signature { display: grid; gap: var(--sx-space-3xs); padding-block-start: var(--sx-space-sm); border-block-start: var(--sx-hairline) solid var(--sx-rule); }
+.sx-letter__name { font-family: var(--sx-cut); font-size: var(--sx-cartouche); letter-spacing: 0.16em; text-transform: uppercase; color: var(--sx-metal-text); }
+.sx-letter__office { font-size: var(--sx-marginalia); color: var(--sx-fg-quiet); }
+/* EMPTY is the shipped state, and it is not rendered publicly. */
+.sx-letter[data-state='empty'] { display: none; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FORMS · THE INSTRUMENT   (SEB §34.5)
+   Labelled, calibrated, predictable. One column. Ever.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-form { display: grid; gap: var(--sx-space-lg); max-width: var(--sx-measure); }
+.sx-field { display: grid; gap: var(--sx-space-2xs); }
+
+/* Labels sit ABOVE, always. Placeholder-as-label fails the moment a value
+   is entered, and fails screen readers permanently. */
+.sx-field__label {
+  font-family: var(--sx-cut);
+  font-size: var(--sx-marginalia);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sx-fg);
+}
+/* Required is marked; optional is NOT. Marking optional fields implies
+   the rest are compulsory even where they are not. */
+.sx-field__label[data-required]::after { content: ' ·'; color: var(--sx-aurum); }
+
+.sx-field__input,
+.sx-field__select,
+.sx-field__textarea {
+  /* The field is a PLINTH — cut into the ground, inverted rim, dark top
+     edge. This is why a StromeX field reads as machined rather than as
+     a box drawn around some space. */
+  min-height: 44px;
+  padding: var(--sx-space-sm) var(--sx-space-md);
+  width: 100%;
+  border: 0;
+  border-radius: var(--sx-r-sm);
+  background: var(--sx-bg-plinth);
+  color: var(--sx-fg);
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.30),
+    inset 0 -1px 0 rgb(255 255 255 / 0.05),
+    inset 0 0 0 var(--sx-hairline) var(--sx-boundary);
+  transition: box-shadow var(--sx-beat-4) var(--sx-sovereign);
+}
+.sx-field__textarea { min-height: calc(44px * 3); resize: vertical; line-height: var(--sx-lh-read); }
+
+.sx-field__input:hover,
+.sx-field__select:hover,
+.sx-field__textarea:hover { box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.30), inset 0 0 0 var(--sx-hairline) var(--sx-fg-quiet); }
+
+/* Focus is DESIGNED — one of the best-looking states in the system, on
+   purpose: the lapis ring plus the gilt meniscus on the light quadrant. */
+.sx-field__input:focus-visible,
+.sx-field__select:focus-visible,
+.sx-field__textarea:focus-visible {
+  outline: 2px solid var(--sx-signal-interactive);
+  outline-offset: 3px;
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.30),
+    inset 0 var(--sx-chamfer) 0 color-mix(in oklab, var(--sx-aurum-lit) 55%, transparent),
+    inset 0 0 0 var(--sx-hairline) var(--sx-fg-quiet);
+}
+
+/* Disabled reads as OFF, not as absent. */
+.sx-field__input:disabled,
+.sx-field__select:disabled,
+.sx-field__textarea:disabled { color: var(--sx-fg-quiet); cursor: not-allowed; box-shadow: inset 0 0 0 var(--sx-hairline) var(--sx-boundary); background: transparent; }
+
+.sx-field__hint { font-size: var(--sx-marginalia); color: var(--sx-fg-quiet); }
+
+/* THE ERROR MESSAGE REPLACES THE HINT, in place, in carnelian, with the
+   field rim inverted. Never above the form. Never a toast. Validation is
+   on BLUR, never on keystroke — validating while a person types tells
+   them they are wrong before they have finished being right. */
+.sx-field__error { display: none; font-size: var(--sx-marginalia); color: var(--sx-signal-attention); }
+.sx-field[data-state='error'] .sx-field__hint { display: none; }
+.sx-field[data-state='error'] .sx-field__error { display: block; }
+.sx-field[data-state='error'] .sx-field__input,
+.sx-field[data-state='error'] .sx-field__select,
+.sx-field[data-state='error'] .sx-field__textarea {
+  box-shadow:
+    inset 0 -1px 2px rgb(0 0 0 / 0.30),
+    inset 0 0 0 var(--sx-rule-w) var(--sx-signal-attention);
+}
+
+/* Autosave states are VISIBLE, in the marginal track, set in marginalia. */
+.sx-field__autosave { font-size: var(--sx-marginalia); color: var(--sx-fg-quiet); }
+.sx-field__autosave[data-state='saved']    { color: var(--sx-signal-verified); }
+.sx-field__autosave[data-state='failed']   { color: var(--sx-signal-attention); }
+
+/* DESTRUCTIVE CONFIRMATION never uses a red button and a modal alone. It
+   requires the resource's NAME TYPED BACK, exactly as the estate's own
+   approval model does (SEB §26.5, SEB §34.5). The interface and the
+   infrastructure enforce the same rule, which is the point. */
+.sx-confirm { display: grid; gap: var(--sx-space-md); padding: var(--sx-space-lg); border-radius: var(--sx-r-lg); box-shadow: inset 0 0 0 var(--sx-rule-w) var(--sx-signal-attention); }
+.sx-confirm__resource { font-family: var(--sx-mono); font-size: var(--sx-clause); color: var(--sx-metal-text); user-select: all; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SEARCH · THE INDEX   (SEB §34.6)
+   Not a magnifying-glass box in a header. A crown plate on a dimmed
+   plinth, at the Meridian, occupying the measure.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-index { display: none; }
+.sx-index[data-open='true'] { display: block; position: fixed; inset: 0; z-index: var(--sx-z-crown); }
+.sx-index__plinth { position: absolute; inset: 0; background: color-mix(in oklab, var(--sx-obsidian) 76%, transparent); animation: sx-fade-in var(--sx-beat-2) var(--sx-release) both; }
+.sx-index__plate {
+  position: relative;
+  margin: min(14vh, 140px) auto 0;
+  width: min(var(--sx-measure), calc(100vw - var(--sx-space-xl)));
+  max-height: 70vh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  background: var(--sx-bg-raised);
+  border-radius: var(--sx-r-xl);
+  box-shadow: var(--sx-contact), var(--sx-ambient-crown), inset 0 var(--sx-chamfer) 0 rgb(255 255 255 / 0.10);
+  animation: sx-index-open var(--sx-beat-2) var(--sx-sovereign) both;
+  overflow: clip;
+}
+@keyframes sx-index-open { from { transform: translateY(-6px); opacity: 0; } to { transform: none; opacity: 1; } }
+.sx-index__query { padding: var(--sx-space-md) var(--sx-space-lg); background: transparent; border: 0; font-size: var(--sx-article); font-family: var(--sx-display); box-shadow: inset 0 -1px 0 var(--sx-rule); }
+.sx-index__results { overflow-y: auto; overscroll-behavior: contain; }
+/* Results are a LEDGER, not a list of cards. */
+.sx-index__group { font-family: var(--sx-cut); font-size: var(--sx-marginalia); letter-spacing: 0.16em; text-transform: uppercase; color: var(--sx-fg-quiet); padding: var(--sx-space-md) var(--sx-space-lg) var(--sx-space-2xs); }
+.sx-index__result { display: grid; grid-template-columns: auto 1fr auto; gap: var(--sx-space-md); align-items: baseline; width: 100%; padding: var(--sx-space-sm) var(--sx-space-lg); text-align: start; border-block-end: var(--sx-hairline) solid var(--sx-rule); }
+.sx-index__result[aria-selected='true'] { background: color-mix(in oklab, var(--sx-signal-interactive) 14%, transparent); box-shadow: inset 2px 0 0 var(--sx-signal-interactive); }
+.sx-index__match { color: var(--sx-aurum-lit); }
+/* The empty state carries the three most useful things you could ask
+   for, not "no results". */
+.sx-index__empty { padding: var(--sx-space-lg); color: var(--sx-fg-quiet); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   THE CONSOLE · dashboards   (SEB §34.8)
+   Four zones, in this order down the page, and no widget grid.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-console { display: grid; gap: var(--sx-space-2xl); }
+.sx-console__zone { display: grid; gap: var(--sx-space-md); }
+.sx-console__zone-title { font-family: var(--sx-cut); font-size: var(--sx-marginalia); letter-spacing: 0.18em; text-transform: uppercase; color: var(--sx-fg-quiet); }
+
+/* 1 · The Assay — three to five figures, no more. Each on a plinth, each
+   with its as-of timestamp.
+
+   NOTE THE `min(…, 100%)` IN EVERY auto-fit TRACK IN THIS FILE.
+   `repeat(auto-fit, minmax(18em, 1fr))` is the most-copied grid line on
+   the web and it overflows every container narrower than its own
+   minimum — at 320px an 18em track is 288px inside a 268px column, and
+   the page scrolls sideways. `minmax(min(18em, 100%), 1fr)` collapses
+   instead. gates/tokens.mjs refuses the bare form. */
+.sx-assay { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(13em, 100%), 1fr)); gap: var(--sx-space-md); }
+.sx-assay__figure { padding: var(--sx-space-md); border-radius: var(--sx-r-md); background: var(--sx-bg-plinth); box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.30); display: grid; gap: var(--sx-space-3xs); }
+
+/* 2 · The Attention — EMPTY IS THE GOOD STATE and it is designed to look
+   like success, not like a blank. It should feel like an achievement,
+   because it is one. */
+.sx-attention[data-state='empty'] { display: grid; place-items: center; gap: var(--sx-space-sm); padding-block: var(--sx-space-xl); text-align: center; color: var(--sx-signal-verified); }
+
+/* 3 · The Instruments — at most three, each answering one NAMED QUESTION
+   written above it. A chart without a question is decoration. */
+.sx-instruments { display: grid; gap: var(--sx-space-xl); grid-template-columns: repeat(auto-fit, minmax(min(18em, 100%), 1fr)); }
+.sx-instrument__question { font-size: var(--sx-clause); color: var(--sx-fg); margin-block-end: var(--sx-space-sm); }
+
+/* Density is a SETTING, not a default argument. Two, and both designed. */
+[data-density='compact'] .sx-ledger th,
+[data-density='compact'] .sx-ledger td { padding-block: var(--sx-space-2xs); }
+[data-density='compact'] .sx-plate { padding: var(--sx-space-md); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   THE STATE FAMILY   (SEB §34.11)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* EMPTY — designed, never bare. Three parts: what would be here · why it
+   is not · the one action that would fill it. */
+.sx-empty { display: grid; gap: var(--sx-space-sm); padding-block: var(--sx-space-xl); color: var(--sx-fg-quiet); }
+.sx-empty__what { color: var(--sx-fg); }
+.sx-empty--good { color: var(--sx-signal-verified); }
+
+/* SUCCESS — inline and ADJACENT to the thing that succeeded, never a
+   toast that moves away from where the person is looking, and never a
+   modal: a modal to say "done" makes the person do work to acknowledge
+   that their work is done. The verdigris meniscus travels the affected
+   element once, on `beat`. */
+.sx-succeeded { position: relative; }
+.sx-succeeded::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(148deg, var(--sx-signal-verified) 0%, transparent 46%);
+  -webkit-mask: var(--sx-stencil) content-box, var(--sx-stencil);
+  mask: var(--sx-stencil) content-box, var(--sx-stencil);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: sx-meniscus-pass var(--sx-beat) var(--sx-sovereign) both;
+  pointer-events: none;
+}
+@keyframes sx-meniscus-pass { 0% { opacity: 0; rotate: 0deg; } 40% { opacity: 1; } 100% { opacity: 0; rotate: 180deg; } }
+
+/* ERROR — the estate has already paid for getting this wrong: an admin
+   page mapped every 403 to "you do not have staff access", so a staff
+   member refused for a different reason was told they were not staff and
+   went asking for access they already had. Name the RULE that refused,
+   never the status code. Never red-on-red. */
+.sx-error {
+  display: grid;
+  gap: var(--sx-space-xs);
+  padding: var(--sx-space-md) var(--sx-space-lg);
+  border-radius: var(--sx-r-md);
+  box-shadow: inset 3px 0 0 var(--sx-signal-attention), inset 0 0 0 var(--sx-hairline) var(--sx-rule);
+  background: transparent;
+}
+.sx-error__rule { font-family: var(--sx-cut); font-size: var(--sx-marginalia); letter-spacing: 0.14em; text-transform: uppercase; color: var(--sx-signal-attention); }
+/* Every error carries WHAT TO DO NEXT. An error that cannot say what to
+   do next is not finished being written. */
+.sx-error__recourse { color: var(--sx-fg); }
+/* Page errors sit at the Meridian above the content; system errors are a
+   crown; field errors stay at the field (above). */
+.sx-error--page { max-width: var(--sx-measure); margin-block-end: var(--sx-space-lg); }
+.sx-error--system { position: fixed; inset-block-start: var(--sx-space-lg); inset-inline-start: 50%; translate: -50% 0; width: min(var(--sx-measure), calc(100vw - var(--sx-space-xl))); z-index: var(--sx-z-crown); background: var(--sx-bg-raised); box-shadow: inset 3px 0 0 var(--sx-signal-attention), var(--sx-ambient-crown); }
+
+[dir='rtl'] .sx-error--system { translate: 50% 0; }
+
+/* NOTIFICATIONS — three tiers. Nothing auto-dismisses that carried
+   information; a toast that vanishes is information the person may have
+   needed. No badge counts on anything a person cannot clear. */
+.sx-note--ambient { font-size: var(--sx-marginalia); color: var(--sx-fg-quiet); }
+.sx-note--attention { padding: var(--sx-space-sm) var(--sx-space-md); border-radius: var(--sx-r-sm); box-shadow: inset 2px 0 0 var(--sx-aurum), inset 0 0 0 var(--sx-hairline) var(--sx-rule); }
+.sx-note--interrupt { position: fixed; inset: auto var(--sx-gutter) var(--sx-gutter); z-index: var(--sx-z-crown); padding: var(--sx-space-lg); border-radius: var(--sx-r-xl); background: var(--sx-bg-raised); box-shadow: var(--sx-contact), var(--sx-ambient-crown), inset 0 var(--sx-chamfer) 0 rgb(255 255 255 / 0.10); animation: sx-sheet-rise var(--sx-beat) var(--sx-descent) both; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   AI · THE ORACLE   (SEB §34.12)
+   Disclosed on first interaction, always. It never impersonates a member
+   of staff or an office. It sits IN the page — a plinth, not a plate.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-oracle {
+  display: grid;
+  gap: var(--sx-space-sm);
+  padding: var(--sx-space-lg);
+  border-radius: var(--sx-r-md);
+  background: var(--sx-bg-plinth);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.30), inset 3px 0 0 var(--sx-signal-verified);
+}
+.sx-oracle__disclosure { font-family: var(--sx-cut); font-size: var(--sx-marginalia); letter-spacing: 0.16em; text-transform: uppercase; color: var(--sx-signal-verified); }
+/* Streaming state is NAMED — thinking · retrieving · answering · done.
+   Never bouncing dots, which tell the reader nothing for as long as they
+   run. */
+.sx-oracle__state { font-size: var(--sx-marginalia); color: var(--sx-fg-quiet); }
+.sx-oracle__state::before { content: attr(data-state); font-family: var(--sx-cut); letter-spacing: 0.14em; text-transform: uppercase; }
+/* Citations are inline, in cartouche, and resolve to a real source. A
+   fabricated citation is worse than none. */
+.sx-oracle__citation { font-family: var(--sx-cut); font-size: var(--sx-marginalia); letter-spacing: 0.12em; color: var(--sx-metal-text); text-decoration: none; box-shadow: 0 1px 0 currentColor; }
+/* Confidence is marked, not hedged in prose. */
+.sx-oracle__confidence[data-confidence='retrieved'] { color: var(--sx-signal-verified); }
+.sx-oracle__confidence[data-confidence='inferred']  { color: var(--sx-fg-quiet); }
+.sx-oracle__confidence[data-confidence='uncertain'] { color: var(--sx-signal-attention); }
+/* A refusal is a DESIGNED STATE that routes to a named human. */
+.sx-oracle[data-state='refused'] { box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.30), inset 3px 0 0 var(--sx-signal-attention); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   THE BURIN · iconography   (SEB §30.12)
+   One grid (24×24), one stroke (1.25px), square terminals, mitred joins,
+   no fills. Inlined rather than linked, because `currentColor` does not
+   inherit across an external <use> in several browsers.
+   An icon is never decoration.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-burin {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.25;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  vector-effect: non-scaling-stroke;
+}
+.sx-burin--sm { width: 16px; height: 16px; }
+.sx-burin--lg { width: 32px; height: 32px; }
+/* Mirrored only where the glyph encodes direction. A clock does not flip. */
+[dir='rtl'] .sx-burin--directional { scale: -1 1; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   THE MARGINAL ANSWER   (SEB §34.14 pattern 5)
+   Detail appears in the marginal track AT THE READER'S LINE, rather than
+   in a tooltip that covers what they were reading. Below the spread the
+   track does not exist, so it becomes a real disclosure inline — never a
+   hover-only affordance, which does not exist on a touch device.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.sx-answer { font-size: var(--sx-marginalia); color: var(--sx-fg-quiet); line-height: var(--sx-lh-read); }
+@media (min-width: 1180px) {
+  .sx-answer { grid-column: marginal; align-self: start; opacity: 0; transition: opacity var(--sx-beat-2) var(--sx-sovereign); }
+  .sx-answer[data-shown='true'] { opacity: 1; }
+}
+@media (max-width: 1179.98px) {
+  .sx-answer { display: none; padding-inline-start: var(--sx-space-md); border-inline-start: var(--sx-hairline) solid var(--sx-rule); margin-block-start: var(--sx-space-xs); }
+  .sx-answer[data-shown='true'] { display: block; }
+}

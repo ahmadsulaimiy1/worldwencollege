@@ -1,4 +1,4 @@
-// WEC-LC — the portal's data seam.
+// WEC — the portal's data seam.
 //
 // WHY THIS EXISTS
 // ---------------

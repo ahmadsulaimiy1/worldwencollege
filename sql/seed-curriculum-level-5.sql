@@ -1,6 +1,6 @@
--- WEC-LC — Real curriculum content seed: Level V ("Advanced
+-- WEC — Real curriculum content seed: Level V ("Advanced
 -- Programme," C1). Authored per your Level V directive — establishing
--- WEC-LC as a premium international English institution, moving
+-- WEC as a premium international English institution, moving
 -- learners "beyond language competence into intellectual
 -- communication" — see docs/curriculum-framework.md (the six-level
 -- architecture, including this level's Executive Academic Objective
@@ -1015,7 +1015,7 @@ MODULE 8 -- PROFESSIONAL ADVOCACY: advanced passive for confident case-building;
 
 MODULE 9 -- STYLE & VOICE: rigorous concision editing; bottom-line-up-front structure; an executive briefing under time pressure; the executive report (writing genre 10, capstone).
 
-STRUCTURAL THREAD ACROSS THE LEVEL: Level V moved learners from precision of language through precision of persuasion, precision across cultures and contexts, precision under scrutiny, to precision of voice -- a deliberately WEC-LC-authored intellectual arc, moving learners from language competence into genuine intellectual communication. Module 10 tests all of it together, in authentic, integrated performance.
+STRUCTURAL THREAD ACROSS THE LEVEL: Level V moved learners from precision of language through precision of persuasion, precision across cultures and contexts, precision under scrutiny, to precision of voice -- a deliberately WEC-authored intellectual arc, moving learners from language competence into genuine intellectual communication. Module 10 tests all of it together, in authentic, integrated performance.
 
 THE TEN ADVANCED WRITING GENRES: professional documentation (M1), a literature review (M2), a position paper (M3), a policy brief (M4), an analytical paper (M5), a persuasive article (M6), a conference abstract and a research essay (M7), a strategic proposal (M8), and an executive report (M9, capstone).
 

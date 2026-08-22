@@ -1,4 +1,4 @@
-# WEC-LC — Level V, Module 8: Professional Advocacy
+# WEC — Level V, Module 8: Professional Advocacy
 
 *Part of `docs/curriculum-level-5-advanced.md`'s Level V build-out.*
 
@@ -57,7 +57,7 @@ trust, reputational risk). Intercultural note: expectations around how
 directly an organisation should acknowledge fault during a crisis, and
 how much legal caution should shape public communication, vary by
 country, industry, and legal system; this module teaches transparent,
-honest crisis communication as WEC-LC's own recommended standard, not
+honest crisis communication as WEC's own recommended standard, not
 a claim about universal practice.
 
 ---

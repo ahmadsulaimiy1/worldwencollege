@@ -1,4 +1,4 @@
-# WEC-LC — Internal Preview Deployment
+# WEC — Internal Preview Deployment
 
 *How to deploy the current build to a preview environment, what will
 work, and what will not. Written because the build is verified and
@@ -12,8 +12,8 @@ environment** — see § 1.*
 **Live at https://preview.wec-lc.pages.dev** (3 August 2026, via
 `.github/workflows/deploy-cloudflare.yml`, run #2).
 
-- Pages project `wec-lc`, branch `preview`, 207 files + Functions bundle
-- D1 `wec-lc` (`531b5b52-…`) created and seeded: 31 tables, 1.74 MB
+- Pages project `wec`, branch `preview`, 207 files + Functions bundle
+- D1 `wec` (`531b5b52-…`) created and seeded: 31 tables, 1.74 MB
 - Verification ran before the deploy and passed: static build, backend
   suite, curriculum consistency, route audit, Listening Lab, auth
   contract
@@ -141,7 +141,7 @@ API token. Done once in the dashboard:
      `claude/worldwide-english-college-site-ezy1zo` publishes as a
      **preview** deployment with its own URL, which is what an internal
      preview should be.
-3. **Settings → Bindings → D1 database**: create `wec-lc`
+3. **Settings → Bindings → D1 database**: create `wec`
    (Storage & Databases → D1), then bind it with the variable name
    **`DB`**. The binding name is not cosmetic — every Function reads
    `env.DB`.

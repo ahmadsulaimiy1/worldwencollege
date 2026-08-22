@@ -106,7 +106,7 @@ const PAGES = {};
 PAGES.accessibility = {
   slug: 'support-accessibility', output: 'support/accessibility/index.html', file: 'support-accessibility.html',
   title: 'Accessibility &mdash; Worldwide English College',
-  description: 'What WEC-LC has built for accessibility, what has not been audited, and what the '
+  description: 'What WEC has built for accessibility, what has not been audited, and what the '
     + 'College will do on request.',
   body: `${hero('Support', 'Accessibility.',
     'This page claims no conformance level, because no audit has been carried out. What follows '
@@ -172,7 +172,7 @@ PAGES.privacy = {
   slug: 'support-privacy', output: 'support/privacy/index.html', file: 'support-privacy.html',
   title: 'Privacy &amp; Your Data &mdash; Worldwide English College',
   description: 'What this site collects, what it does not, who else is involved, and the '
-    + 'accountability WEC-LC has not yet appointed.',
+    + 'accountability WEC has not yet appointed.',
   body: `${hero('Support', 'Privacy and your data.',
     'What this website collects, which third parties are involved, and the one gap in '
     + 'accountability the College has to declare rather than gloss.')}
@@ -226,7 +226,7 @@ PAGES.privacy = {
     <div class="grid grid--3">
 ${darkCard('Hosting', 'Cloudflare', 'This site, the College&rsquo;s database and its file storage all run on Cloudflare&rsquo;s infrastructure. Anything stored is stored there.')}
 ${darkCard('Sign-in', 'Clerk', 'Student and staff accounts are handled by an authentication service, so your password is held by them rather than by the College. This applies only once you have an account &mdash; browsing this site involves no sign-in at all.')}
-${darkCard('Payment', 'The gateway you choose', 'Card and local payment details are entered with the payment provider, never with the College. WEC-LC records that a payment succeeded, its amount and its reference; it never sees or stores a card number.')}
+${darkCard('Payment', 'The gateway you choose', 'Card and local payment details are entered with the payment provider, never with the College. WEC records that a payment succeeded, its amount and its reference; it never sees or stores a card number.')}
     </div>
   </div>
 </section>

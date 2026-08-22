@@ -378,8 +378,24 @@ verification record to create.
 
 ## What is already correct in this repository
 
-Nothing needs changing here for the domain to work. Every page's
-canonical tag, `og:url` and `og:image` already use
-`https://www.worldwencollege.co.uk`, and `robots.txt` already points
-the sitemap there. The repository has been written for this domain
-since the site was built; it has simply never had DNS behind it.
+Nothing needs changing for `worldwencollege.co.uk` **itself** to work,
+and no domain migration is pending. `worldwencollege.co.uk` is
+Worldwide English College — London Campus's real, permanent domain: it
+is the institution's only name and its only domain, registered and
+live, and it is the one and only origin every canonical tag, `og:url`,
+`og:image`, JSON-LD entry, contact address and `sitemap.xml` entry is
+deliberately built on. There is no "former name," no separate
+institution, and nothing here to replace.
+
+Infrastructure follows the same real, live names: the Cloudflare Pages
+project, the D1 database and both R2 buckets are all `wec-lc`
+(`wec-lc-recordings` and `wec-lc-kyc-documents` for the buckets), which
+is what the deployment URL `wec-lc.pages.dev` refers to throughout this
+document.
+
+A different, genuinely open issue exists with a *different* domain:
+some printed volumes' QR codes point at `worldwideenglishcollege.com` —
+an unregistered, fully-spelled-out domain distinct from the real
+`worldwencollege.co.uk` — which is a printed-materials defect tracked
+separately (see `SEB-D 48` in the Editorial Bible decision log and
+`scripts/publication/identity.mjs`), not a domain-migration question.
