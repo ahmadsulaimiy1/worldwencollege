@@ -35,9 +35,13 @@ So every capability is listed once, with:
 - **the interface**, if there is one, named by file — and where there
   is none, that cell says so in as many words.
 
-**"No interface" is a statement about the platform, not a criticism of
-it.** It is the backlog the next pass builds from, and it is reproduced
-in full at the end.
+**"No interface" was a statement about the platform, not a criticism of
+it** — it was the backlog each pass built from, and it is reproduced in
+full at the end with what closed each line and when. As of 22 August
+2026 two entries remain, and both say **no interface, by design**
+rather than merely "none": one is a short-form endpoint whose question
+is already answered in full elsewhere, and the other is called by
+another institution's software rather than by a person.
 
 ### How to read the authorisation column
 
@@ -61,12 +65,12 @@ explains each at length; in short:
 | Submit an application | `POST /api/admissions/apply` | public | `applications` w, `application_documents` r | **Yes** — `/admissions/apply/` (`js/admissions-wizard.js`) |
 | Save and resume a part-finished application | `GET`,`PUT /api/admissions/draft` | public | `application_drafts` rw | **Yes** — the same wizard |
 | Attach and remove an identity document | `GET`,`POST`,`DELETE /api/admissions/document` | public | `application_documents` rw, R2 | **Yes** — the same wizard |
-| Look up an application's state, short form | `GET /api/admissions/status?id=` | reference | `applications` r | **No interface** |
+| Look up an application's state, short form | `GET /api/admissions/status?id=` | reference | `applications` r | **No interface, by design** — `/admissions/track/` answers the same question in full, and a second surface over a shorter payload would be a second thing to keep true |
 | Track an application in full — five published stages, audited timeline, what is outstanding and whose it is, the live offer and its expiry | `GET /api/admissions/track?ref=` | reference | `applications` r, `application_events` r, `offers` r | **Yes** — `/admissions/track/` (`js/admissions-track.js`) |
-| Issue an offer, conditional or unconditional, with an expiry | `POST /api/admissions/offer` | staff | `offers` w, `application_events` w, `applications` w | **No interface** |
+| Issue an offer, conditional or unconditional, with an expiry | `POST /api/admissions/offer` | staff | `offers` w, `application_events` w, `applications` w | **Yes** — `/staff-admissions.html` |
 | Accept, decline or withdraw — by the applicant, holding only their reference | `POST /api/admissions/offer?action=` | reference | `offers` w, `application_events` w, `enrolments` w | **Yes** — the same page |
-| The admissions queue: filter by status, source, country, level or free text; oldest first; counts by status that the filter does not narrow | `GET /api/staff/applications` | staff | `applications` r, `offers` r, `application_events` r | **No interface** |
-| Move an application through the published journey, with the reason recorded | `PATCH /api/staff/applications` | staff | `applications` w, `application_events` w, `enrolments` w | **No interface** |
+| The admissions queue: filter by status, source, country, level or free text; oldest first; counts by status that the filter does not narrow | `GET /api/staff/applications` | staff | `applications` r, `offers` r, `application_events` r | **Yes** — `/staff-admissions.html` |
+| Move an application through the published journey, with the reason recorded | `PATCH /api/staff/applications` | staff | `applications` w, `application_events` w, `enrolments` w | **Yes** — `/staff-admissions.html` |
 
 **One fact, one owner.** `status.js` and `track.js` answer the same
 question at two lengths and now resolve the reference through the same
@@ -80,16 +84,16 @@ one decorative.
 
 | Capability | Endpoint | Who | Reads / writes | Interface |
 |---|---|---|---|---|
-| Start a checkout — one level, the full programme, or the next instalment | `POST /api/payments/create-checkout` | learner | `payments` w, `programme_levels` r, `promo_codes` r, `scholarships` r, `currencies` r | **No interface** |
-| Create an instalment plan | `POST /api/payments/instalment-plan` | learner | `instalment_plans` w | **No interface** |
-| Check a payment's state | `GET /api/payments/verify` | learner | `payments` r | **No interface** |
+| Start a checkout — one level, the full programme, or the next instalment | `POST /api/payments/create-checkout` | learner | `payments` w, `programme_levels` r, `promo_codes` r, `scholarships` r, `currencies` r | **Yes** — `/my-account.html` |
+| Create an instalment plan | `POST /api/payments/instalment-plan` | learner | `instalment_plans` w | **Yes** — `/my-account.html` |
+| Check a payment's state | `GET /api/payments/verify` | learner | `payments` r | **Yes** — `/student-portal/payment-complete/` |
 | Take a gateway's word for it — Stripe, Paystack, Flutterwave, OPay | `POST /api/payments/webhook-*` | signature | `payments` w, `receipts` w, `webhook_events` w | n/a — machine to machine |
-| Confirm an enrolment after payment | `POST /api/enrolment/confirm` | learner | `enrolments` w | **No interface** |
+| Confirm an enrolment after payment | `POST /api/enrolment/confirm` | learner | `enrolments` w | **Yes** — `/student-portal/payment-complete/` |
 | **A learner's own statement of account** — tuition assessed and on what basis, relief with the authority that granted it, every payment and receipt and refund, the instalment schedule, and the balance with the arithmetic that produced it | `GET /api/student/finance` | learner | `payments`, `receipts`, `refunds`, `instalment_plans`, `scholarships`, `promo_codes`, `currencies`, `enrolments`, `programme_levels` — all r | **Yes** — `/my-account.html` (`js/my-account.js`) |
 | One invoice as structured data, with its lines and its reconciliation | `GET /api/student/invoice?id=pay_…` | learner | same, r | **Yes** — opened in place on the same page |
 | Revenue report | `GET /api/admin/reports/revenue` | admin | `payments` r, `refunds` r | **Yes** — `/staff-finance.html` (`js/staff-finance.js`) |
 | Reconciliation report | `GET /api/admin/reports/reconciliation` | admin | `payments`, `receipts`, `refunds` r | **Yes** — the same page |
-| Set or refresh an exchange rate | `POST /api/admin/currency/set-rate`, `/refresh-rates` | admin | `currencies` w | **No interface** |
+| Set or refresh an exchange rate | `POST /api/admin/currency/set-rate`, `/refresh-rates` | admin | `currencies` w | **Yes** — `/staff-administration.html` |
 
 **Money is integer minor units everywhere**, and `presentAmount()`
 throws rather than render a fractional cent. One conversion function
@@ -107,15 +111,16 @@ error waiting for the day KWD was activated.
 | List a level's modules with the learner's own progress | `GET /api/lms/units` | learner | `units`, `courses`, `unit_progress` r | **Yes** — `/my-programme.html` |
 | One module in full — lessons, listening, pronunciation lab, quiz without its answer key, assignment | `GET /api/lms/unit` | learner | `learning_items`, `quiz_questions` r | **Yes** — `/listening-lab.html` |
 | Sit a quiz | `POST /api/lms/quiz-attempt` | learner | `quiz_attempts` w, `unit_progress` w | **Yes** — the lab |
-| Submit an assignment | `POST /api/lms/assignment-submission` | learner | `assignment_submissions` w, `unit_progress` w | **No interface** |
-| Mark an assignment | `POST /api/lms/grade-assignment` | staff | `assignment_submissions` w, `unit_progress` w | **No interface** |
+| Submit an assignment | `POST /api/lms/assignment-submission` | learner | `assignment_submissions` w, `unit_progress` w | **Yes** — `/my-module.html` |
+| **The work waiting to be marked** — oldest first, each piece carrying the rubric it was set against, the wait in days, and the mark it is a resit of | `GET /api/lms/marking-queue` | staff | `assignment_submissions`, `users`, `learning_items` r | **Yes** — `/staff-marking.html` |
+| Mark an assignment | `POST /api/lms/grade-assignment` | staff | `assignment_submissions` w, `unit_progress` w | **Yes** — `/staff-marking.html` |
 | Record and store a spoken submission, in parts | `POST /api/lms/recording/init`, `PUT …/part`, `POST …/complete` | learner | `learner_recordings` w, `recording_upload_parts` w, R2 | **Yes** — the lab |
 | Play a stored recording back | `GET /api/lms/recording/audio` | learner | `learner_recordings` r, R2 | **Yes** — the lab |
 | The instructor's review queue, and a review | `GET /api/lms/review-queue`, `POST /api/lms/recording-review` | staff | `learner_recordings` rw, `pronunciation_feedback` w | **Yes** — `/staff-marking.html` |
 | Listening analytics and a pronunciation profile | `GET /api/lms/listening-analytics`, `/pronunciation-profile` | learner | `listening_events`, `pronunciation_feedback` r | **Yes** — the lab |
 | Accrue and read measured study time | `POST`,`GET /api/lms/time-on-task` | learner | `time_on_task` rw | **Yes** — `js/time-on-task.js`, in the lab |
-| A level's live sessions | `GET /api/lms/live-sessions` | learner | `live_sessions` r | **No interface** |
-| Mark a level complete | `POST /api/lms/complete-level` | staff | `enrolments` w | **No interface** |
+| A level's live sessions | `GET /api/lms/live-sessions` | learner | `live_sessions` r | **Yes** — `/my-module.html` |
+| Mark a level complete | `POST /api/lms/complete-level` | staff | `enrolments` w | **Yes** — `/staff-learners.html` |
 | The study plan — where to resume, what is next | `GET /api/student/study-plan` | learner | `units`, `unit_progress`, `enrolments` r | **Yes** — `/my-programme.html` |
 | The learner dashboard | `GET /api/student/dashboard` | learner | `enrolments`, `payments`, `awards` r | **Yes** — `/student-portal/preview/` |
 
@@ -136,9 +141,9 @@ wrong rule was published three ways.
 | Capability | Endpoint | Who | Reads / writes | Interface |
 |---|---|---|---|---|
 | **The whole academic standing** — module marks with resits and counting marks, level marks, the four skill marks, the honour, academic standing with its obligations and triggers, graduation conditions each marked met / not met / not instrumented, progression, and a credit-weighted GPA that is null (never 0.00) when nothing has been conferred | `GET /api/student/standing` | learner | `enrolments`, `awards`, `units`, `learning_items`, `quiz_attempts`, `assignment_submissions`, `assessment_skills`, `academic_standing_reviews`, `graduation_eligibility` — r; `academic_standing_reviews`, `graduation_eligibility` w | **Yes** — `/my-standing.html` (`js/my-standing.js`) |
-| **The learner's own engagement record** — a week-by-week grid per module, every state carrying the evidence it was read from and the clause it satisfies, with the platform's own recomputed reading beside any staff override | `GET /api/student/attendance` | learner | `attendance_records`, `time_on_task`, `quiz_attempts`, `assignment_submissions`, `learner_recordings`, `unit_progress` r | **No interface** |
-| A tutor's roster, or one learner's record in full | `GET /api/staff/attendance` | staff + teaching relation | same, r | **No interface** |
-| Take a register | `POST /api/staff/attendance` | staff + teaching relation | `attendance_records` w | **No interface** |
+| **The learner's own engagement record** — a week-by-week grid per module, every state carrying the evidence it was read from and the clause it satisfies, with the platform's own recomputed reading beside any staff override | `GET /api/student/attendance` | learner | `attendance_records`, `time_on_task`, `quiz_attempts`, `assignment_submissions`, `learner_recordings`, `unit_progress` r | **Yes** — `/my-engagement.html` |
+| A tutor's roster, or one learner's record in full | `GET /api/staff/attendance` | staff + teaching relation | same, r | **Yes** — `/staff-learners.html` |
+| Take a register | `POST /api/staff/attendance` | staff + teaching relation | `attendance_records` w | **Yes** — `/staff-learners.html` |
 | **Achievements** — the milestone register, what is earned with its evidence, what is not with the shortfall stated, what has been withdrawn, and what is not in force | `GET /api/student/achievements` | learner | `milestone_definitions`, `learner_milestones` rw | **Yes** — the same page |
 | The academic record, competencies, skills | `GET /api/student/profile`, `PATCH` | learner | `graduate_profiles`, `competency_marks`, `profile_sections` rw | **Yes** — `/my-record.html` |
 | Issued documents — transcript, supplement | `GET`,`POST /api/student/documents` | learner | `issued_documents` rw | **Yes** — `/my-record.html` |
@@ -158,12 +163,12 @@ are schema requests, listed in § 10.
 
 | Capability | Endpoint | Who | Reads / writes | Interface |
 |---|---|---|---|---|
-| Open an appeal, complaint, withdrawal, deferral or transfer, with a quotable reference and the published three-working-day acknowledgement clock already running | `POST /api/student/cases` | learner | `registrar_cases` w, `registrar_case_events` w | **No interface** |
-| Escalate an answered case one rung; withdraw a case as the learner's own act | `POST /api/student/cases` (`action`) | learner | same, w | **No interface** |
-| Read one's own cases, or one in full with its trail and no staff account ids | `GET /api/student/cases` | learner | same, r | **No interface** |
-| The Registrar's queue, ordered by the date each answer falls due | `GET /api/staff/cases` | staff | same, r | **No interface** |
-| Record a written answer — refused outright if the decider is conflicted, checked before any other validation | `PATCH /api/staff/cases` (`decide`) | staff | same, w | **No interface** |
-| Route, park, resume, set an answer date, close | `PATCH /api/staff/cases` | admin | same, w | **No interface** |
+| Open an appeal, complaint, withdrawal, deferral or transfer, with a quotable reference and the published three-working-day acknowledgement clock already running | `POST /api/student/cases` | learner | `registrar_cases` w, `registrar_case_events` w | **Yes** — `/my-cases.html` |
+| Escalate an answered case one rung; withdraw a case as the learner's own act | `POST /api/student/cases` (`action`) | learner | same, w | **Yes** — `/my-cases.html` |
+| Read one's own cases, or one in full with its trail and no staff account ids | `GET /api/student/cases` | learner | same, r | **Yes** — `/my-cases.html` |
+| The Registrar's queue, ordered by the date each answer falls due | `GET /api/staff/cases` | staff | same, r | **Yes** — `/staff-cases.html` |
+| Record a written answer — refused outright if the decider is conflicted, checked before any other validation | `PATCH /api/staff/cases` (`decide`) | staff | same, w | **Yes** — `/staff-cases.html` |
+| Route, park, resume, set an answer date, close | `PATCH /api/staff/cases` | admin | same, w | **Yes** — `/staff-cases.html` |
 
 **No stage may be skipped by the College**, and closing an unanswered
 case is refused. Both are 403s quoting the instrument, not validation
@@ -175,14 +180,14 @@ errors — they are the procedure, not the form.
 
 | Capability | Endpoint | Who | Reads / writes | Interface |
 |---|---|---|---|---|
-| The learner's own notice feed, pinned first then newest, with an unread count that the page size cannot cap | `GET /api/announcements` | learner | `announcements` r, `announcement_receipts` r | **No interface** |
-| Mark a notice read (and, separately, dismissed) — written once, never moved | `POST /api/announcements` | learner | `announcement_receipts` w | **No interface** |
-| Draft, publish, amend and withdraw a notice; institution, level or one learner | `GET`,`POST`,`PATCH`,`DELETE /api/staff/announcements` | staff (author or admin) | `announcements` rw, `announcement_receipts` r | **No interface** |
-| Open a thread to the tutors of a level, to the tutors of a module, or to the Registrar's desk | `POST /api/messages` | learner | `message_threads` w, `message_participants` w, `messages` w | **No interface** |
-| The thread list, with an uncapped unread count and who may be written to — a reachable count, never a roster | `GET /api/messages` | learner | same, r | **No interface** |
-| Read a thread — which moves the read watermark to the newest message actually returned, never to the clock and never backwards | `GET /api/messages/{thread}` | learner | same, rw | **No interface** |
-| Reply — a word from the desk marks the thread answered, a word back re-opens it | `POST /api/messages/{thread}` | learner or staff | same, w | **No interface** |
-| Write to a learner one teaches | `POST /api/messages` (staff) | staff + teaching relation | same, w | **No interface** |
+| The learner's own notice feed, pinned first then newest, with an unread count that the page size cannot cap | `GET /api/announcements` | learner | `announcements` r, `announcement_receipts` r | **Yes** — `/my-desk.html` |
+| Mark a notice read (and, separately, dismissed) — written once, never moved | `POST /api/announcements` | learner | `announcement_receipts` w | **Yes** — `/my-desk.html` |
+| Draft, publish, amend and withdraw a notice; institution, level or one learner | `GET`,`POST`,`PATCH`,`DELETE /api/staff/announcements` | staff (author or admin) | `announcements` rw, `announcement_receipts` r | **Yes** — `/staff-notices.html` |
+| Open a thread to the tutors of a level, to the tutors of a module, or to the Registrar's desk | `POST /api/messages` | learner | `message_threads` w, `message_participants` w, `messages` w | **Yes** — `/my-desk.html` |
+| The thread list, with an uncapped unread count and who may be written to — a reachable count, never a roster | `GET /api/messages` | learner | same, r | **Yes** — `/my-desk.html` |
+| Read a thread — which moves the read watermark to the newest message actually returned, never to the clock and never backwards | `GET /api/messages/{thread}` | learner | same, rw | **Yes** — `/my-desk.html` |
+| Reply — a word from the desk marks the thread answered, a word back re-opens it | `POST /api/messages/{thread}` | learner or staff | same, w | **Yes** — `/my-desk.html` and `/staff-notices.html` |
+| Write to a learner one teaches | `POST /api/messages` (staff) | staff + teaching relation | same, w | **Yes** — `/staff-notices.html` |
 
 **Nobody's email address appears on any messaging payload**, and the
 Registrar is named as a desk rather than as a person, because no table
@@ -199,9 +204,9 @@ records who holds the office.
 | **The hours open to this learner** — every published slot they may actually take, filtered by exactly what `bookSlot()` refuses, with a full one listed and marked full rather than hidden | `GET /api/student/booking` | learner | `tutorial_slots`, `slot_bookings`, `enrolments` r | **Yes** — the same page |
 | Book a tutorial — six distinct refusals, each with its own message and its own field | `POST /api/student/booking` | learner | `slot_bookings` w, `tutorial_slots` r | **Yes** — the same page |
 | Cancel a booking, with a reason (mandatory) | `DELETE /api/student/booking` | learner | `slot_bookings` w | **Yes** — the same page, refusing an empty reason on the page so the learner reads why it is required |
-| Publish an hour — validated to an explicit offset, a real level, a module of that level, an https join URL, and no overlap with time already offered | `POST /api/staff/slots` | staff | `tutorial_slots` w, `live_sessions` r | **No interface** |
-| Withdraw an hour, releasing every learner in it with the tutor's reason on their record | `POST /api/staff/slots` (`withdraw`) | staff | `tutorial_slots` w, `slot_bookings` w | **No interface** |
-| A tutor's own published hours with who is booked into each | `GET /api/staff/slots` | staff (own) / admin (any) | same, r | **No interface** |
+| Publish an hour — validated to an explicit offset, a real level, a module of that level, an https join URL, and no overlap with time already offered | `POST /api/staff/slots` | staff | `tutorial_slots` w, `live_sessions` r | **Yes** — `/staff-hours.html` |
+| Withdraw an hour, releasing every learner in it with the tutor's reason on their record | `POST /api/staff/slots` (`withdraw`) | staff | `tutorial_slots` w, `slot_bookings` w | **Yes** — `/staff-hours.html` |
+| A tutor's own published hours with who is booked into each | `GET /api/staff/slots` | staff (own) / admin (any) | same, r | **Yes** — `/staff-hours.html` |
 
 **A calendar subscription is not possible yet** and the endpoint says
 so rather than pretending: a calendar client sends no Authorization
@@ -217,11 +222,11 @@ a session-guarded download.
 | Verify an award from its code | `GET /api/verify/{code}` | public | `awards`, `award_verifications` rw | **Yes** — `/verify.html` |
 | Verify an issued transcript or supplement | `GET /api/verify/document/{code}` | public | `issued_documents` r | **Yes** — `/verify.html` |
 | The Employer and University Portal — records the check without recording who asked | `GET /api/verify/institutional/{code}` | public | `awards` r, `institutional_verifications` w | **Yes** — `/verify.html` |
-| The same check for a registered institution, identified and rate-limited | `GET /api/institutional/verify` | key | same, and `verifying_institutions` r | **No interface** |
-| Register an institution / list them | `GET`,`POST /api/admin/institutions` | admin | `verifying_institutions` rw | **No interface** |
+| The same check for a registered institution, identified and rate-limited | `GET /api/institutional/verify` | key | same, and `verifying_institutions` r | **No interface, by design** — the caller is another institution's software, not a person. The College's side of it is on `/staff-administration.html`, where a key is issued and what has been queried is read |
+| Register an institution / list them | `GET`,`POST /api/admin/institutions` | admin | `verifying_institutions` rw | **Yes** — `/staff-administration.html` |
 | The QR image for a verification URL — looks nothing up, deliberately, so it cannot become an enumeration oracle | `GET /api/credentials/qr` | public | none | **Yes** — `/verify.html`, `/graduate.html` |
 | The College's published signing keys | `GET /api/credentials/jwks` | public | `signing_keys` r (public halves only) | n/a — machine to machine |
-| Rotate and inspect signing keys | `GET /api/admin/signing-keys` | admin | `signing_keys` r | **No interface** |
+| Rotate and inspect signing keys | `GET /api/admin/signing-keys` | admin | `signing_keys` r | **Yes** — `/staff-administration.html` |
 | A published graduate profile | `GET /api/graduate/{handle}` | public | `graduate_profiles` r | **Yes** — `/graduate.html` |
 | A shared record slice, opened by a token an employer holds | `GET /api/share/{token}` | public (token) | `profile_shares` r | **Yes** — `/graduate.html` |
 | The Graduate Register | `GET /api/register` | public | `awards` r | **Yes** — `/register.html` |
@@ -236,10 +241,10 @@ a session-guarded download.
 | Provision an account from the identity provider | `POST /api/auth/webhook-clerk` | signature | `users` w | n/a |
 | List learners; open, amend or withdraw an enrolment | `GET /api/admin/learners`, `POST /api/admin/enrolment` | staff | `enrolments` rw, `enrolment_events` w | **Yes** — `/staff-enrolments.html` |
 | Grant and remove a role, with the act recorded | `GET`,`POST /api/admin/role` | admin | `users` w, `role_events` w, `staff_appointments` r | **Yes** — `/staff-enrolments.html` |
-| The Institutional Metric Register — every metric the Executive undertook to watch, declared whether or not it can be computed, with small cohorts suppressed rather than rounded | `GET /api/admin/institutional-metrics` | staff | many, r | **No interface** |
-| The quality-assurance evidence register | `GET /api/admin/evidence` | staff | `evidence_items`, `evidence_versions` r | **No interface** |
-| Competency coverage against the Academic Framework's own rule | `GET /api/admin/quality/competency-coverage` | staff | `assessment_competencies` r | **No interface** |
-| Purge a recording past its retention date | `POST /api/admin/recordings/purge` | admin | `learner_recordings` w, R2 | **No interface** |
+| The Institutional Metric Register — every metric the Executive undertook to watch, declared whether or not it can be computed, with small cohorts suppressed rather than rounded | `GET /api/admin/institutional-metrics` | staff | many, r | **Yes** — `/staff-administration.html` |
+| The quality-assurance evidence register | `GET /api/admin/evidence` | staff | `evidence_items`, `evidence_versions` r | **Yes** — `/staff-administration.html` |
+| Competency coverage against the Academic Framework's own rule | `GET /api/admin/quality/competency-coverage` | staff | `assessment_competencies` r | **Yes** — `/staff-administration.html` |
+| Purge a recording past its retention date | `POST /api/admin/recordings/purge` | admin | `learner_recordings` w, R2 | **Yes** — `/staff-administration.html` |
 
 ---
 
@@ -318,31 +323,49 @@ This is the map the next pass builds from.
 
 ### A tutor cannot
 
-16. **Mark an assignment.** `POST /api/lms/grade-assignment`.
-17. **See their roster, or one learner's engagement record.** `GET /api/staff/attendance`.
-18. **Take a register.** `POST /api/staff/attendance`.
-19. **Publish an hour, or withdraw one.** `POST /api/staff/slots`.
-20. **See who is booked into their hours.** `GET /api/staff/slots`.
-21. **Write to a learner they teach, or answer one.** `POST /api/messages`, `POST /api/messages/{thread}`.
-22. **Draft, publish, amend or withdraw a notice.** `GET`,`POST`,`PATCH`,`DELETE /api/staff/announcements`.
-23. **Answer a case they are not conflicted on.** `PATCH /api/staff/cases`.
-24. **Mark a level complete.** `POST /api/lms/complete-level`.
+16. ~~**Mark an assignment.**~~ **CLOSED 22 August 2026** — `/staff-marking.html`, both editions. `gradeAssignment()` took a `submissionId` and nothing anywhere produced one, so the queue had to be built first: `GET /api/lms/marking-queue`, oldest first, with the wait in days computed on the server, the rubric travelling in the task the learner was set, and the mark a resit is a resit of carried beside the new attempt. The queue is the College's rather than one tutor's and the payload says why — the teaching relation is composed from teaching acts, so bounding it that way would make every learner's FIRST submission invisible to everybody. The pass line on screen is `functions/_lib/academic/marks.js` and not a number typed into a page.
+17. ~~**See their roster, or one learner's engagement record.**~~ **CLOSED 22 August 2026** — `/staff-learners.html`, both editions, with no search box, deliberately: a search over learners is exactly the surface the composed relation exists to prevent. `staffRoster()` was returning its own join, so a learner with five live enrolments was five people on the roster; corrected the day the first screen over it was rendered.
+18. ~~**Take a register.**~~ **CLOSED 22 August 2026** — on the same page, refusing an unexplained mark before it is sent and printing the platform's own reading of the same window beside every correction.
+19. ~~**Publish an hour, or withdraw one.**~~ **CLOSED 22 August 2026** — `/staff-hours.html`, both editions. A wall-clock reading is converted to an instant through the browser's own zone, and the field names the zone it used; withdrawal states how many learners will read the reason before it is written.
+20. ~~**See who is booked into their hours.**~~ **CLOSED 22 August 2026** — the same page, and the next four hours on `/staff-desk.html`.
+21. ~~**Write to a learner they teach, or answer one.**~~ **CLOSED 22 August 2026** — `/staff-notices.html`. A thread is fetched when it is opened and never on load, because reading one moves the watermark and a console left open on a screen would mark every conversation read.
+22. ~~**Draft, publish, amend or withdraw a notice.**~~ **CLOSED 22 August 2026** — the same page, taking both editions on one form so writing the second is the ordinary act rather than the diligent one; a published notice's audience is not offered for amendment, because the endpoint refuses to re-scope one and a control that cannot succeed is a control that teaches distrust.
+23. ~~**Answer a case they are not conflicted on.**~~ **CLOSED 22 August 2026** — `/staff-cases.html`, which reads its own account id first and offers no answer form at all where that account is on the case's conflict list. The vocabulary offered is the one that kind of case has: a deferral is granted or refused, never "upheld".
+24. ~~**Mark a level complete.**~~ **CLOSED 22 August 2026** — on `/staff-learners.html`, with `levelGateReport()` read BEFORE the act so a condition arrives as a sentence rather than as a refusal.
 
 ### The Registrar and Admissions cannot
 
-25. **Work the admissions queue** — filter it, move an application, record the reason. `GET`,`PATCH /api/staff/applications`.
-26. **Issue an offer.** `POST /api/admissions/offer`.
-27. **Work the case queue** — ordered by when each answer falls due, with the overdue ones first. `GET /api/staff/cases`.
-28. **Route, park, resume, re-date or close a case.** `PATCH /api/staff/cases`.
+25. ~~**Work the admissions queue** — filter it, move an application, record the reason.~~ **CLOSED 22 August 2026** — `/staff-admissions.html`, both editions. Every control is built from the row's own `legalNext`, so the console holds no copy of the machine to drift from it; the stage tallies do not narrow when the list does; and the form says above the field that the reason is read by the applicant, because there is no internal-note column to write a private one into.
+26. ~~**Issue an offer.**~~ **CLOSED 22 August 2026** — the same page. `offer_sent` is deliberately not a button: an application reaches it only by an offer being written, so the offer form stands where the refusal points.
+27. ~~**Work the case queue** — ordered by when each answer falls due.~~ **CLOSED 22 August 2026** — `/staff-cases.html`, with the conflict list travelling beside every case so it reaches the right person the first time.
+28. ~~**Route, park, resume, re-date or close a case.**~~ **CLOSED 22 August 2026** — the same page, offered only to an account holding the Registrar's authority and kept visibly apart from the answer, which is a different authority. Escalation and withdrawal are on neither, because they are the appellant's acts.
 
 ### An administrator cannot
 
-29. **Read the Institutional Metric Register** — the register an accreditation reviewer would be shown. `GET /api/admin/institutional-metrics`.
-30. **Read the evidence register, or competency coverage.** `GET /api/admin/evidence`, `/api/admin/quality/competency-coverage`.
-31. **Register a verifying institution, or issue it a key.** `GET`,`POST /api/admin/institutions`.
-32. **Inspect or rotate the signing keys.** `GET /api/admin/signing-keys`.
-33. **Set or refresh an exchange rate.** `POST /api/admin/currency/set-rate`, `/refresh-rates`.
-34. **Purge a recording past its retention date.** `POST /api/admin/recordings/purge`.
+29. ~~**Read the Institutional Metric Register** — the register an accreditation reviewer would be shown.~~ **CLOSED 22 August 2026** — `/staff-administration.html`, both editions, printing the register's own suppression caveat above it and marking a withheld figure as withheld rather than as missing.
+30. ~~**Read the evidence register, or competency coverage.**~~ **CLOSED 22 August 2026** — the same page. The evidence register ships with twenty-three collections and no items, so the console names the collections holding nothing: an empty collection is a question the College has not answered yet, and a blank does not say that.
+31. ~~**Register a verifying institution, or issue it a key.**~~ **CLOSED 22 August 2026** — the same page, with the key shown once and the sentence saying so beside it, and what each registered institution has queried listed underneath.
+32. ~~**Inspect the signing keys.**~~ **CLOSED 22 August 2026** — the same page. **Rotation and revocation are deliberately NOT here and are not reachable over HTTP at all**: revoking a key invalidates every credential it ever signed. The page says that rather than offering a control that would 404.
+33. ~~**Set or refresh an exchange rate.**~~ **CLOSED 22 August 2026** — the same page, keeping pricing a currency and opening it at checkout as two separate acts, and printing what a live feed did NOT cover rather than a fabricated rate.
+34. ~~**Purge a recording past its retention date.**~~ **CLOSED 22 August 2026** — the same page, dry run first and always: the destroying button does not exist in the document until the dry run has been read.
+
+### And two the register had not listed
+
+Both were orphan routes — built, served, and reachable only by typing
+the address — which is a third state between "has an interface" and
+"has none" that this document had no column for.
+
+- **Enrolment administration and the access register.** Absorbed into
+  `/staff-enrolments.html`, both editions, which carries everything the
+  orphan did: all six levels listed enrolled or not, the refusal to
+  appoint yourself, and the appointment trail kept apart from the
+  enrolment history — they are different registers about different
+  things and merging them makes "who appointed this person"
+  unreadable.
+- **The finance reports.** Absorbed into `/staff-finance.html`, both
+  editions. Each reconciliation finding is rendered as itself; there is
+  no health score, because a number that averages a discrepancy away is
+  a number that hides it.
 
 ### Every edition, everywhere
 
