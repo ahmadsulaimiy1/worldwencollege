@@ -16,7 +16,7 @@
 // Everything else here is in service of that one sentence being true.
 import { readFileSync } from 'node:fs';
 import { makeD1 } from './d1-shim.mjs';
-import { ROOT, loadUrl } from './helpers.mjs';
+import { ROOT, loadUrl, conferForTest } from './helpers.mjs';
 
 const V = await import(loadUrl('functions/_lib/registry/institutional-verification.js'));
 const reg = await import(loadUrl('functions/_lib/registry/awards.js'));
@@ -46,7 +46,7 @@ const state = (layer, id) => (layer.find((c) => c.id === id) || {}).state;
 // --- A live award -----------------------------------------------------
 {
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_a', levelId: 4, holderName: 'A Graduate', ...AWARD });
+  const a = await conferForTest(reg, env, { userId: 'usr_a', levelId: 4, holderName: 'A Graduate', ...AWARD });
   const r = await V.institutionalVerification(env, { code: a.verification_code });
 
   check('A live award is found', r.found === true, JSON.stringify(r).slice(0, 120));
@@ -68,7 +68,7 @@ const state = (layer, id) => (layer.find((c) => c.id === id) || {}).state;
 // --- The signature is not allowed to overclaim ------------------------
 {
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_a', levelId: 4, holderName: 'A Graduate', ...AWARD });
+  const a = await conferForTest(reg, env, { userId: 'usr_a', levelId: 4, holderName: 'A Graduate', ...AWARD });
   const r = await V.institutionalVerification(env, { code: a.verification_code });
 
   const sig = r.layers.integrity.find((c) => c.id === 'signature');
@@ -95,7 +95,7 @@ const state = (layer, id) => (layer.find((c) => c.id === id) || {}).state;
   // failure: a fact about the credential, and it must never read as
   // tampering to somebody holding a real certificate.
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_a', levelId: 4, holderName: 'A Graduate', ...AWARD });
+  const a = await conferForTest(reg, env, { userId: 'usr_a', levelId: 4, holderName: 'A Graduate', ...AWARD });
   env.DB.prepare("DELETE FROM credential_signatures WHERE subject_id = ?").bind(a.id).run();
 
   const r = await V.institutionalVerification(env, { code: a.verification_code });
@@ -111,7 +111,7 @@ const state = (layer, id) => (layer.find((c) => c.id === id) || {}).state;
 // ======================================================================
 {
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_a', levelId: 4, holderName: 'A Graduate', ...AWARD });
+  const a = await conferForTest(reg, env, { userId: 'usr_a', levelId: 4, holderName: 'A Graduate', ...AWARD });
   await reg.revokeAward(env, { awardId: a.id, reason: 'Conferred in error after a marking review.' });
   const r = await V.institutionalVerification(env, { code: a.verification_code });
 
@@ -145,7 +145,7 @@ const state = (layer, id) => (layer.find((c) => c.id === id) || {}).state;
   // A superseded award — genuine, correctly held, and not the one that
   // stands.
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_a', levelId: 4, holderName: 'A Gradaute', ...AWARD });
+  const a = await conferForTest(reg, env, { userId: 'usr_a', levelId: 4, holderName: 'A Gradaute', ...AWARD });
   await reg.replaceAward(env, { awardId: a.id, reason: 'Holder name corrected.',
     changes: { holderName: 'A Graduate' } });
   const r = await V.institutionalVerification(env, { code: a.verification_code });
@@ -163,7 +163,7 @@ const state = (layer, id) => (layer.find((c) => c.id === id) || {}).state;
 // --- What the qualification means -------------------------------------
 {
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_a', levelId: 4, holderName: 'A Graduate', ...AWARD });
+  const a = await conferForTest(reg, env, { userId: 'usr_a', levelId: 4, holderName: 'A Graduate', ...AWARD });
   const r = await V.institutionalVerification(env, { code: a.verification_code });
 
   check('The verification carries the award\'s official definition', !!r.definition);
@@ -209,7 +209,7 @@ const state = (layer, id) => (layer.find((c) => c.id === id) || {}).state;
 // --- A broken register is the College's fault, said so ----------------
 {
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_a', levelId: 4, holderName: 'A Graduate', ...AWARD });
+  const a = await conferForTest(reg, env, { userId: 'usr_a', levelId: 4, holderName: 'A Graduate', ...AWARD });
   // Tamper with the register directly — the attack a document signature
   // cannot detect, and the reason the chain is checked at all.
   env.DB.prepare("UPDATE awards SET holder_name = 'Someone Else' WHERE id = ?").bind(a.id).run();

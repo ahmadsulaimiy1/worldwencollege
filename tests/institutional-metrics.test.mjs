@@ -505,5 +505,36 @@ function freshEnv(learners = 0) {
     q2.value && q2.value.longestCarryForward === 3, JSON.stringify(q2.value));
 }
 
+// ---------------------------------------------------------------------
+// Conferral integrity: the number that must always be zero
+// ---------------------------------------------------------------------
+// An award with no conferral record is a qualification the College
+// cannot show was earned. The composite foreign key makes it impossible
+// to attach an award to an audit that FAILED; only this reports an
+// award with no audit at all.
+{
+  const env = freshEnv(1);
+  const r0 = byId(await M.institutionalMetrics(env), 'registry.conferralIntegrity') || {};
+  check('Conferral integrity is always measured, even with nothing conferred',
+    r0.state === 'measured', r0.state);
+  check('...and reads zero orphans over an empty Register',
+    r0.value && r0.value.awardsInRegister === 0 && r0.value.awardsWithoutAConferralRecord === 0,
+    JSON.stringify(r0.value));
+
+  // An award smuggled in without a conferral — which conferAward()
+  // cannot produce, so it is written directly, as a tamperer would.
+  env.DB.prepare(`INSERT INTO awards
+    (id, user_id, level_id, award_title, post_nominal, cefr, credits, tqt_hours,
+     holder_name, conferred_on, verification_code, prev_digest, digest, seq, created_at)
+    VALUES ('awd_orphan','usr_1',6,'Worldwide English Proficiency Certificate','WEPC','C2',20,200,
+            'Nobody In Particular','2027-07-01','WEC-AAAA-BBBB-CCCCC','WEC-REGISTER-GENESIS',
+            'd0','1','2027-07-01T00:00:00Z')`).bind().run();
+  const r1 = byId(await M.institutionalMetrics(env), 'registry.conferralIntegrity') || {};
+  check('An award with no conferral record is reported, not hidden',
+    r1.value && r1.value.awardsWithoutAConferralRecord === 1, JSON.stringify(r1.value));
+  check('...as something to investigate before it is relied upon',
+    /cannot show was earned/.test(r1.closes || ''), (r1.closes || '(absent)').slice(0, 90));
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

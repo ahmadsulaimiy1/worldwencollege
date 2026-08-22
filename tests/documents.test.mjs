@@ -15,7 +15,7 @@
 // than argued for in a comment.
 import { readFileSync } from 'node:fs';
 import { makeD1 } from './d1-shim.mjs';
-import { ROOT, loadUrl } from './helpers.mjs';
+import { ROOT, loadUrl, conferForTest } from './helpers.mjs';
 
 const D = await import(loadUrl('functions/_lib/registry/documents.js'));
 const reg = await import(loadUrl('functions/_lib/registry/awards.js'));
@@ -53,7 +53,7 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_grad', ...AWARD, now: T0 });
+  await conferForTest(reg, env, { userId: 'usr_grad', ...AWARD, now: T0 });
 
   const doc = await D.issueDocument(env, {
     documentType: 'transcript', userId: 'usr_grad', issuedBy: 'usr_reg', now: T0 + DAY,
@@ -72,7 +72,7 @@ const AWARD = {
   // change its answer.
   env.DB.prepare(`INSERT INTO enrolments (id,user_id,level_id,status,started_at)
     VALUES ('enr_2','usr_grad',2,'active','2027-11-01T00:00:00.000Z')`).bind().run();
-  await reg.conferAward(env, {
+  await conferForTest(reg, env, {
     userId: 'usr_grad', ...AWARD, levelId: 2,
     awardTitle: 'Higher Certificate in English Communication', postNominal: 'HCIC', cefr: 'A2',
     now: T0 + 300 * DAY,
@@ -93,7 +93,7 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_grad', ...AWARD, now: T0 });
+  await conferForTest(reg, env, { userId: 'usr_grad', ...AWARD, now: T0 });
   const first = await D.issueDocument(env, { documentType: 'transcript', userId: 'usr_grad', now: T0 + DAY });
   const second = await D.issueDocument(env, { documentType: 'transcript', userId: 'usr_grad', now: T0 + 100 * DAY });
   check('Issuing a second transcript supersedes the first', second.supersededCount === 1);
@@ -118,7 +118,7 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_grad', ...AWARD, now: T0 });
+  await conferForTest(reg, env, { userId: 'usr_grad', ...AWARD, now: T0 });
   const doc = await D.issueDocument(env, {
     documentType: 'transcript', userId: 'usr_grad', expiresDays: 180, now: T0 + DAY,
   });
@@ -150,7 +150,7 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_grad', ...AWARD, now: T0 });
+  await conferForTest(reg, env, { userId: 'usr_grad', ...AWARD, now: T0 });
   const doc = await D.issueDocument(env, { documentType: 'transcript', userId: 'usr_grad', now: T0 + DAY });
 
   // Somebody edits the frozen payload directly — 20 credits becomes 120.
@@ -181,7 +181,7 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_grad', ...AWARD, now: T0 });
+  await conferForTest(reg, env, { userId: 'usr_grad', ...AWARD, now: T0 });
   const sup = await D.issueDocument(env, { documentType: 'diploma_supplement', userId: 'usr_grad', now: T0 + DAY });
 
   // A supplement is exactly where a registrar looks for this, and its
@@ -206,7 +206,7 @@ const AWARD = {
   check('A document cannot be issued for someone with no name of record',
     noName && noName.name === 'ValidationError', noName && noName.message.slice(0, 60));
 
-  await reg.conferAward(env, { userId: 'usr_grad', ...AWARD, now: T0 });
+  await conferForTest(reg, env, { userId: 'usr_grad', ...AWARD, now: T0 });
   // The profile name is editable by the graduate; the award name is the
   // College's record. An issued document must not be editable by its
   // subject.
@@ -227,7 +227,7 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_grad', ...AWARD, now: T0 });
+  const a = await conferForTest(reg, env, { userId: 'usr_grad', ...AWARD, now: T0 });
 
   const inst = await D.registerInstitution(env, {
     name: 'A Demonstration University', kind: 'university',
@@ -293,7 +293,7 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_grad', ...AWARD, now: T0 });
+  await conferForTest(reg, env, { userId: 'usr_grad', ...AWARD, now: T0 });
   await D.issueDocument(env, { documentType: 'transcript', userId: 'usr_grad', now: T0 + DAY });
   await D.issueDocument(env, { documentType: 'diploma_supplement', userId: 'usr_grad', now: T0 + 2 * DAY });
 

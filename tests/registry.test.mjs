@@ -9,7 +9,7 @@
 // than the certificate it verifies.
 import { readFileSync } from 'node:fs';
 import { makeD1 } from './d1-shim.mjs';
-import { ROOT, loadUrl } from './helpers.mjs';
+import { ROOT, loadUrl, passedAuditFixture } from './helpers.mjs';
 
 const reg = await import(loadUrl('functions/_lib/registry/awards.js'));
 
@@ -28,9 +28,18 @@ function freshEnv(n = 3) {
   for (let i = 1; i <= n; i++) {
     env.DB.prepare(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role)
       VALUES ('usr_${i}','clerk','c_${i}','g${i}@example.com','student')`).bind().run();
+    // Conferral now requires a passed graduation audit. See the note on
+    // passedAuditFixture: it cannot be produced by running a real audit,
+    // because no External Examiner is appointed.
+    for (const levelId of [1, 2, 3, 4, 5, 6]) {
+      passedAuditFixture(env, { userId: `usr_${i}`, levelId });
+    }
   }
   return env;
 }
+
+/** The audit id conferAward() must be given for this learner and level. */
+const auditFor = (userId, levelId) => `gaud_fixture_${userId}_${levelId}`;
 
 const AWARD = {
   levelId: 3,
@@ -136,13 +145,13 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  const a1 = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, now: T0 });
+  const a1 = await reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, now: T0 });
   check('An award is conferred with a verification code', /^WEC-/.test(a1.verification_code), a1.verification_code);
   check('...chained from the genesis marker as the first record',
     a1.prevDigest === reg.GENESIS, a1.prevDigest);
   check('...carrying a digest', /^[0-9a-f]{64}$/.test(a1.digest), a1.digest);
 
-  const a2 = await reg.conferAward(env, { userId: 'usr_2', ...AWARD, now: T0 + 1000 });
+  const a2 = await reg.conferAward(env, { userId: 'usr_2', auditId: auditFor('usr_2', AWARD.levelId), ...AWARD, now: T0 + 1000 });
   check('The next award chains from the previous one', a2.prevDigest === a1.digest);
 
   const chain = await reg.verifyChain(env);
@@ -158,9 +167,9 @@ const AWARD = {
 // must find it, and name the row.
 {
   const env = freshEnv();
-  const a1 = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, now: T0 });
-  await reg.conferAward(env, { userId: 'usr_2', ...AWARD, now: T0 + 1000 });
-  await reg.conferAward(env, { userId: 'usr_3', ...AWARD, now: T0 + 2000 });
+  const a1 = await reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, now: T0 });
+  await reg.conferAward(env, { userId: 'usr_2', auditId: auditFor('usr_2', AWARD.levelId), ...AWARD, now: T0 + 1000 });
+  await reg.conferAward(env, { userId: 'usr_3', auditId: auditFor('usr_3', AWARD.levelId), ...AWARD, now: T0 + 2000 });
   check('Precondition: three awards, chain intact', (await reg.verifyChain(env)).intact === true);
 
   // Somebody upgrades a Pass to a Distinction, directly in the table.
@@ -177,9 +186,20 @@ const AWARD = {
   // Deleting a record from the middle is the other way a register is
   // quietly rewritten, and it must be just as visible.
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, now: T0 });
-  const a2 = await reg.conferAward(env, { userId: 'usr_2', ...AWARD, now: T0 + 1000 });
-  const a3 = await reg.conferAward(env, { userId: 'usr_3', ...AWARD, now: T0 + 2000 });
+  await reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, now: T0 });
+  const a2 = await reg.conferAward(env, { userId: 'usr_2', auditId: auditFor('usr_2', AWARD.levelId), ...AWARD, now: T0 + 1000 });
+  const a3 = await reg.conferAward(env, { userId: 'usr_3', auditId: auditFor('usr_3', AWARD.levelId), ...AWARD, now: T0 + 2000 });
+  // Migration 028 made this harder, which is worth asserting on its own:
+  // the conferral binding a record to its graduation audit references
+  // the award, so the row cannot simply be deleted. A tamperer has to
+  // remove the evidence that it was earned as well — and the chain
+  // still catches what is left.
+  let refused = false;
+  try { env.DB.prepare(`DELETE FROM awards WHERE id = '${a2.id}'`).bind().run(); }
+  catch { refused = true; }
+  check('A conferred record cannot be deleted while its conferral stands', refused);
+
+  env.DB.prepare(`DELETE FROM conferrals WHERE award_id = '${a2.id}'`).bind().run();
   env.DB.prepare(`DELETE FROM awards WHERE id = '${a2.id}'`).bind().run();
 
   const broken = await reg.verifyChain(env);
@@ -195,7 +215,7 @@ const AWARD = {
   // the same head — the database refuses the second, so integrity rests
   // on a constraint rather than on requests not overlapping.
   const env = freshEnv();
-  const a1 = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, now: T0 });
+  const a1 = await reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, now: T0 });
   const e = await throws(() => env.DB.prepare(
     `INSERT INTO awards (id,user_id,level_id,award_title,post_nominal,cefr,honour,credits,tqt_hours,
        holder_name,conferred_on,verification_code,status,public_consent,prev_digest,digest,created_at)
@@ -211,7 +231,7 @@ const AWARD = {
 {
   const env = freshEnv();
   const a = await reg.conferAward(env, {
-    userId: 'usr_1', ...AWARD, honour: 'distinction',
+    userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, honour: 'distinction',
     citation: 'In recognition of a structured presentation defended under questioning.',
     now: T0,
   });
@@ -245,7 +265,7 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, now: T0 });
+  const a = await reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, now: T0 });
   await reg.revokeAward(env, { awardId: a.id, reason: 'Conferred in error following an integrity finding.', now: T0 + 86400000 });
 
   const res = await reg.verifyCode(env, { code: a.verification_code, now: T0 + 90000000 });
@@ -259,7 +279,7 @@ const AWARD = {
 
 {
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, now: T0 });
+  const a = await reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, now: T0 });
   const { replacement } = await reg.replaceAward(env, {
     awardId: a.id, reason: 'Holder name corrected at the graduate\'s request.',
     changes: { holderName: 'Demonstration Graduate-Smith' }, now: T0 + 86400000,
@@ -283,7 +303,7 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, now: T0 });
+  const a = await reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, now: T0 });
   await reg.verifyCode(env, { code: a.verification_code, now: T0 + 1000 });
   await reg.verifyCode(env, { code: a.verification_code, channel: 'qr', now: T0 + 2000 });
   await reg.verifyCode(env, { code: 'WEC-ZZZZ-ZZZZ-ZZZZZ', now: T0 + 3000 });
@@ -307,8 +327,8 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  const priv = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, holderName: 'Private Graduate', now: T0 });
-  await reg.conferAward(env, { userId: 'usr_2', ...AWARD, holderName: 'Listed Graduate', publicConsent: true, now: T0 + 1000 });
+  const priv = await reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, holderName: 'Private Graduate', now: T0 });
+  await reg.conferAward(env, { userId: 'usr_2', auditId: auditFor('usr_2', AWARD.levelId), ...AWARD, holderName: 'Listed Graduate', publicConsent: true, now: T0 + 1000 });
 
   const list = await reg.publicRegister(env);
   check('The browsable register lists only graduates who consented',
@@ -330,9 +350,9 @@ const AWARD = {
 // worth recording.
 {
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 1, awardTitle: 'Essential Certificate in English Communication', postNominal: 'ECIC', cefr: 'A1', now: T0 });
-  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 2, awardTitle: 'Higher Certificate in English Communication', postNominal: 'HCIC', cefr: 'A2', now: T0 + 1000 });
-  await reg.conferAward(env, { userId: 'usr_1', ...AWARD, levelId: 3, honour: 'merit', now: T0 + 2000 });
+  await reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', 1), ...AWARD, levelId: 1, awardTitle: 'Essential Certificate in English Communication', postNominal: 'ECIC', cefr: 'A1', now: T0 });
+  await reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', 2), ...AWARD, levelId: 2, awardTitle: 'Higher Certificate in English Communication', postNominal: 'HCIC', cefr: 'A2', now: T0 + 1000 });
+  await reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, levelId: 3, honour: 'merit', now: T0 + 2000 });
 
   const hist = await reg.awardHistory(env, { userId: 'usr_1' });
   check('A graduate\'s history holds every award, not only the highest', hist.awards.length === 3, hist.awards.length);
@@ -347,15 +367,43 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  const noName = await throws(() => reg.conferAward(env, { userId: 'usr_1', ...AWARD, holderName: '' }));
+  const noName = await throws(() => reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, holderName: '' }));
   check('An award with no holder name is refused — a certificate names a person',
     noName && noName.name === 'ValidationError', noName && noName.name);
 
-  const badHonour = await throws(() => reg.conferAward(env, { userId: 'usr_1', ...AWARD, honour: 'summa' }));
+  const badHonour = await throws(() => reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, honour: 'summa' }));
   check('An invented honour is refused', badHonour && badHonour.name === 'ValidationError');
 
-  const ghost = await throws(() => reg.conferAward(env, { userId: 'usr_nobody', ...AWARD }));
-  check('An award to a person who does not exist is refused', ghost && ghost.name === 'NotFoundError');
+  const ghost = await throws(() => reg.conferAward(env, {
+    userId: 'usr_nobody', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD }));
+  check('An award to a person who does not exist is refused', ghost && ghost.name === 'ValidationError',
+    ghost && ghost.message);
+
+  // New, and the point of migration 028. Everything below is a conferral
+  // that LOOKS right and is not earned.
+  const noAudit = await throws(() => reg.conferAward(env, { userId: 'usr_1', ...AWARD }));
+  check('A conferral with no graduation audit at all is refused',
+    noAudit && /passed graduation audit is required/i.test(noAudit.message), noAudit && noAudit.message);
+
+  const borrowed = await throws(() => reg.conferAward(env, {
+    userId: 'usr_1', auditId: auditFor('usr_2', AWARD.levelId), ...AWARD }));
+  check('...and so is one carrying another learner\'s audit',
+    borrowed && /different learner or a different level/i.test(borrowed.message), borrowed && borrowed.message);
+
+  const wrongLevel = await throws(() => reg.conferAward(env, {
+    userId: 'usr_1', auditId: auditFor('usr_1', 1), ...AWARD }));
+  check('...and one carrying this learner\'s audit for a different level',
+    wrongLevel && /different learner or a different level/i.test(wrongLevel.message), wrongLevel && wrongLevel.message);
+
+  env.DB.prepare(`INSERT INTO graduation_audits
+    (id, user_id, level_id, award_code, run_at, outcome, closed_at, summary)
+    VALUES ('gaud_failed','usr_1',3,'CAEC','2027-03-01T00:00:00.000Z','not_met','2027-03-01T00:00:00.000Z',
+            '1 of 5 requirements are not met: EXTERNAL_EXAMINER (cannot_check).')`).bind().run();
+  const failed = await throws(() => reg.conferAward(env, {
+    userId: 'usr_1', auditId: 'gaud_failed', ...AWARD }));
+  check('...and one whose audit did not pass, quoting why',
+    failed && /did not pass/i.test(failed.message) && /EXTERNAL_EXAMINER/.test(failed.message),
+    failed && failed.message);
 }
 
 // ---------------------------------------------------------------------
@@ -368,7 +416,7 @@ const AWARD = {
 // after it left. A forged printout never touches the chain.
 {
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, honour: 'merit', now: T0 });
+  const a = await reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, honour: 'merit', now: T0 });
   check('A conferral produces a signature', !!a.signature && !!a.signature.signature);
   check('...marked development while no KMS is provisioned', a.signature.mode === 'development');
 
@@ -396,7 +444,7 @@ const AWARD = {
   // signature is not an invalid one, and saying "failed" would
   // retrospectively cast doubt on records that are perfectly sound.
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, now: T0 });
+  const a = await reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, now: T0 });
   env.DB.prepare('DELETE FROM credential_signatures').bind().run();
   const v = await reg.verifyCode(env, { code: a.verification_code, now: T0 + 1000 });
   check('An unsigned older award verifies as an award, with no signature',
@@ -424,6 +472,7 @@ const AWARD = {
   for (let i = 1; i <= 12; i++) {
     env.DB.prepare(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role)
       VALUES ('usr_${i}','clerk','c_${i}','g${i}@example.com','student')`).bind().run();
+    passedAuditFixture(env, { userId: `usr_${i}`, levelId: AWARD.levelId });
   }
   // No `now` — every award takes the clock, exactly as a caller would,
   // and they collide.
@@ -431,7 +480,8 @@ const AWARD = {
   let err = null;
   for (let i = 1; i <= 12; i++) {
     try {
-      await reg.conferAward(env, { ...AWARD, userId: `usr_${i}`, holderName: `Ceremony Graduate ${i}` });
+      await reg.conferAward(env, { ...AWARD, userId: `usr_${i}`,
+        auditId: auditFor(`usr_${i}`, AWARD.levelId), holderName: `Ceremony Graduate ${i}` });
       conferred++;
     } catch (e) { err = err || e; }
   }
@@ -461,9 +511,9 @@ const AWARD = {
 // source of truth waiting to disagree with the first.
 {
   const env = freshEnv();
-  const a1 = await reg.conferAward(env, { userId: 'usr_1', ...AWARD, now: T0 });
-  const a2 = await reg.conferAward(env, { userId: 'usr_2', ...AWARD, now: T0 + 1000 });
-  const a3 = await reg.conferAward(env, { userId: 'usr_3', ...AWARD, now: T0 + 2000 });
+  const a1 = await reg.conferAward(env, { userId: 'usr_1', auditId: auditFor('usr_1', AWARD.levelId), ...AWARD, now: T0 });
+  const a2 = await reg.conferAward(env, { userId: 'usr_2', auditId: auditFor('usr_2', AWARD.levelId), ...AWARD, now: T0 + 1000 });
+  const a3 = await reg.conferAward(env, { userId: 'usr_3', auditId: auditFor('usr_3', AWARD.levelId), ...AWARD, now: T0 + 2000 });
 
   check('Each award records its position in the chain',
     a1.seq === 1 && a2.seq === 2 && a3.seq === 3, [a1.seq, a2.seq, a3.seq].join(','));
@@ -497,6 +547,7 @@ const AWARD = {
   for (let i = 1; i <= 8; i++) {
     env.DB.prepare(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role)
       VALUES ('usr_${i}','clerk','c_${i}','g${i}@example.com','student')`).bind().run();
+    for (const levelId of [1, 2, 3, 4, 5, 6]) passedAuditFixture(env, { userId: `usr_${i}`, levelId });
   }
   const LEVELS = [
     [1, 'Essential Certificate in English Communication', 'ECIC', 'A1'],
@@ -509,7 +560,8 @@ const AWARD = {
   for (let i = 0; i < LEVELS.length; i++) {
     const [levelId, awardTitle, postNominal, cefr] = LEVELS[i];
     await reg.conferAward(env, {
-      ...AWARD, userId: `usr_${i + 1}`, levelId, awardTitle, postNominal, cefr,
+      ...AWARD, userId: `usr_${i + 1}`, levelId, auditId: auditFor(`usr_${i + 1}`, levelId),
+      awardTitle, postNominal, cefr,
       holderName: `Graduate Number ${i + 1}`, publicConsent: true, now: T0 + i * 1000,
     });
   }

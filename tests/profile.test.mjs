@@ -12,7 +12,7 @@
 // left it out" and "there is none" must never look the same.
 import { readFileSync } from 'node:fs';
 import { makeD1 } from './d1-shim.mjs';
-import { ROOT, loadUrl } from './helpers.mjs';
+import { ROOT, loadUrl, conferForTest } from './helpers.mjs';
 
 const P = await import(loadUrl('functions/_lib/registry/profile.js'));
 const reg = await import(loadUrl('functions/_lib/registry/awards.js'));
@@ -92,7 +92,7 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_grad', ...AWARD, honour: 'merit', now: T0 });
+  await conferForTest(reg, env, { userId: 'usr_grad', ...AWARD, honour: 'merit', now: T0 });
 
   const t = await P.transcript(env, { userId: 'usr_grad' });
   check('The transcript lists every level entered', t.entries.length === 2, t.entries.length);
@@ -115,7 +115,7 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_grad', ...AWARD, now: T0 });
+  const a = await conferForTest(reg, env, { userId: 'usr_grad', ...AWARD, now: T0 });
   await reg.revokeAward(env, { awardId: a.id, reason: 'Withdrawn after an integrity finding.', now: T0 + 86400000 });
 
   const t = await P.transcript(env, { userId: 'usr_grad' });
@@ -194,7 +194,7 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_grad', ...AWARD, now: T0 });
+  await conferForTest(reg, env, { userId: 'usr_grad', ...AWARD, now: T0 });
   env.DB.prepare(`INSERT INTO cpd_records (id,user_id,title,kind,hours,completed_on)
     VALUES ('cpd_1','usr_grad','A conference talk','conference',6,'2027-07-01')`).bind().run();
 
@@ -274,7 +274,7 @@ const AWARD = {
 // ---------------------------------------------------------------------
 {
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_grad', ...AWARD, now: T0 });
+  await conferForTest(reg, env, { userId: 'usr_grad', ...AWARD, now: T0 });
   const anyUnit = env.DB.prepare('SELECT id FROM units LIMIT 1').bind().first();
   if (anyUnit) {
     env.DB.prepare(`INSERT INTO time_on_task (id,user_id,unit_id,seconds,first_seen_at,last_seen_at)

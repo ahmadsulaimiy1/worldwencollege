@@ -1374,6 +1374,136 @@ CREATE INDEX idx_review_actions_open
   ON review_actions(due_at) WHERE completed_at IS NULL;
 CREATE INDEX idx_review_actions_finding ON review_actions(finding_id);
 
+
+-- ---------------------------------------------------------------------
+-- Migration 028 — the graduation audit.
+--
+-- conferAward() calls itself "the only way a row enters the Register",
+-- and it is careful: tamper-evident chain, no two conferrals extending
+-- the same link, signed at the moment of conferral. And it never asked
+-- whether the learner earned anything — it took the award title, the
+-- CEFR level, the credits and the hours from its caller. A Mastery
+-- qualification could have been conferred on somebody who completed
+-- nothing: correctly chained, correctly signed, permanently verifiable,
+-- and false.
+--
+-- Every requirement below is taken from text ALREADY ADOPTED in
+-- award_definitions.graduation_requirement (migration 021), and each
+-- carries `basis` quoting the clause. Nothing new is decided here.
+--
+-- `verifiable_from_record` separates what the platform can confirm from
+-- human acts — the countersigned pass list, and the External Examiner's
+-- sign-off. A check therefore has THREE results: met, not_met, and
+-- cannot_check, because recording "met" for something the College had
+-- no way to confirm would be a lie in its own files.
+--
+-- CONSEQUENCE TODAY: no External Examiner is appointed, so
+-- EXTERNAL_EXAMINER cannot be met by anybody, so every audit ends
+-- not_met and nothing can be conferred. The WEQ framework already said
+-- so in terms; it is now enforced rather than merely published.
+--
+-- `conferrals` binds an award to an audit by a composite key onto
+-- (id, user_id, level_id, outcome) with the outcome pinned to 'met', so
+-- an award cannot be attached to an audit that failed, or one belonging
+-- to another learner or level. What a foreign key cannot do is force
+-- every award to HAVE one; conferAward() does that, tests prove it, and
+-- registry.unauditedConferrals reports any award lacking one. See the
+-- migration file for why a trigger was not used.
+-- ---------------------------------------------------------------------
+CREATE TABLE graduation_requirements (
+  code          TEXT PRIMARY KEY,
+  name          TEXT NOT NULL,
+  sequence      INTEGER NOT NULL,
+  -- 'all', or a single award_code where a stage differs.
+  applies_to    TEXT NOT NULL DEFAULT 'all',
+  description   TEXT NOT NULL,
+  -- The adopted clause this comes from. NOT NULL: a requirement nobody
+  -- adopted is a requirement somebody invented.
+  basis         TEXT NOT NULL,
+  -- 1 = the platform can confirm it from its own records.
+  -- 0 = a human act, which the audit records rather than checks.
+  verifiable_from_record INTEGER NOT NULL CHECK (verifiable_from_record IN (0, 1)),
+
+  CHECK (TRIM(basis) <> ''),
+  CHECK (TRIM(description) <> '')
+);
+
+INSERT INTO graduation_requirements
+  (code, name, sequence, description, basis, verifiable_from_record) VALUES
+  ('MODULES_COMPLETE', 'All ten modules completed', 1,
+   'Every module of the stage has been completed by the learner.',
+   'WEQ graduation requirement, adopted migration 021: "All ten modules completed".', 1),
+  ('ASSIGNMENTS_GRADED', 'All ten assignments submitted and graded', 2,
+   'Every assignment of the stage has been submitted and carries a mark. A submission without a mark is not a graded assignment.',
+   'WEQ graduation requirement, adopted migration 021: "all ten assignments submitted and graded".', 1),
+  ('EXAM_PASSED', 'The stage examination passed', 3,
+   'The end-of-stage examination has been passed under the stage assessment framework, which includes the speaking component at its stated weight.',
+   'WEQ graduation requirement, adopted migration 021: "the end-of-stage examination passed"; assessment framework and speaking weights, migration 022.', 1),
+  ('PASS_LIST', 'An approved and countersigned pass list', 4,
+   'The learner appears on a pass list approved by the Registrar and countersigned. This is a human act; the audit records whether it happened, and cannot itself perform it.',
+   'WEQ graduation requirement, adopted migration 021: "Conferral is on the authority of the Registrar acting under an approved pass list, countersigned".', 0),
+  ('EXTERNAL_EXAMINER', 'Independent External Examiner sign-off', 5,
+   'An appointed External Examiner has independently signed off the standard of the assessment. No External Examiner is appointed, so this requirement cannot be met by anybody, and no qualification can be conferred.',
+   'WEQ graduation requirement, adopted migration 021: "the College has not yet appointed the External Examiner whose independent sign-off it requires before it will confer anything".', 0);
+
+CREATE TABLE graduation_audits (
+  id            TEXT PRIMARY KEY,     -- 'gaud_' + uuid
+  user_id       TEXT NOT NULL REFERENCES users(id),
+  level_id      INTEGER NOT NULL REFERENCES programme_levels(id),
+  award_code    TEXT NOT NULL,        -- ECIC, HCIC, CAEC, HCAEC, ACEC, WEPC
+
+  run_at        TEXT NOT NULL,
+  run_by        TEXT REFERENCES users(id),   -- NULL where the audit ran unattended
+
+  -- NULL while the audit is open. Set once, on closing.
+  outcome       TEXT CHECK (outcome IS NULL OR outcome IN ('met','not_met')),
+  closed_at     TEXT,
+  -- Why, in words. Required on any closed audit, including a passed
+  -- one: "met" with no statement of what was seen is not an audit.
+  summary       TEXT,
+
+  CHECK ((outcome IS NULL) = (closed_at IS NULL)),
+  CHECK (outcome IS NULL OR (summary IS NOT NULL AND TRIM(summary) <> '')),
+
+  -- Target of the composite key on `conferrals`. This is what makes a
+  -- conferral against a failed, borrowed, or wrong-level audit
+  -- impossible rather than merely discouraged.
+  UNIQUE (id, user_id, level_id, outcome)
+);
+CREATE INDEX idx_graduation_audits_learner ON graduation_audits(user_id, level_id);
+
+CREATE TABLE graduation_audit_checks (
+  id            TEXT PRIMARY KEY,
+  audit_id      TEXT NOT NULL REFERENCES graduation_audits(id),
+  requirement_code TEXT NOT NULL REFERENCES graduation_requirements(code),
+
+  -- Three results, not two. See the note above: recording "met" for
+  -- something the College had no way to confirm would be a lie in its
+  -- own files.
+  result        TEXT NOT NULL CHECK (result IN ('met','not_met','cannot_check')),
+  -- What the record actually showed. NOT NULL on every result.
+  observed      TEXT NOT NULL,
+
+  UNIQUE (audit_id, requirement_code),
+  CHECK (TRIM(observed) <> '')
+);
+
+CREATE TABLE conferrals (
+  award_id      TEXT PRIMARY KEY REFERENCES awards(id),
+  audit_id      TEXT NOT NULL,
+  user_id       TEXT NOT NULL,
+  level_id      INTEGER NOT NULL,
+  -- Pinned. The composite key below then makes it structurally
+  -- impossible to attach an award to an audit that did not pass.
+  audit_outcome TEXT NOT NULL DEFAULT 'met' CHECK (audit_outcome = 'met'),
+  conferred_at  TEXT NOT NULL,
+
+  FOREIGN KEY (audit_id, user_id, level_id, audit_outcome)
+    REFERENCES graduation_audits(id, user_id, level_id, outcome)
+);
+CREATE INDEX idx_conferrals_audit ON conferrals(audit_id);
+CREATE INDEX idx_graduation_checks_audit ON graduation_audit_checks(audit_id);
+
 -- ---------------------------------------------------------------------
 -- Seed data — the one part of this file safe to run against a real DB
 -- immediately, since these are already-confirmed public facts, not

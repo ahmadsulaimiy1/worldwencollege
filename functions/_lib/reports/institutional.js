@@ -666,6 +666,51 @@ async function qualityCycleMetrics(env) {
 }
 
 // ---------------------------------------------------------------------
+// Conferral integrity
+// ---------------------------------------------------------------------
+// This metric should always read zero, and the day it does not is the
+// most serious thing in the register.
+//
+// `conferrals` binds each award to the graduation audit it was earned
+// under, by a composite foreign key with the outcome pinned to 'met'.
+// That makes it impossible to attach an award to an audit that failed,
+// or to one belonging to another learner or level. What a foreign key
+// cannot do is force every award to HAVE one — see migration 028 on why
+// a trigger was not used — so this is the reporting half of that
+// guarantee, and it is stated as a number rather than assumed.
+async function conferralIntegrityMetrics(env) {
+  const d = db(env);
+  const awards = await d.prepare("SELECT COUNT(*) AS n FROM awards WHERE status <> 'replaced'").first();
+  const unaudited = await d.prepare(
+    `SELECT COUNT(*) AS n FROM awards a LEFT JOIN conferrals c ON c.award_id = a.id
+      WHERE c.award_id IS NULL`).first();
+  const audits = await d.prepare(
+    `SELECT COUNT(*) AS n, SUM(CASE WHEN outcome = 'met' THEN 1 ELSE 0 END) AS passed
+       FROM graduation_audits`).first();
+
+  const n = (awards && awards.n) || 0;
+  const orphans = (unaudited && unaudited.n) || 0;
+
+  return [{
+    id: 'registry.conferralIntegrity', name: 'Conferral integrity',
+    question: 'Can the College show, for every qualification it has conferred, the audit that says it was earned?',
+    requires: 'conferrals, graduation_audits',
+    // Always measured, even at zero awards, and never suppressed. This
+    // is a fact about the Register, not about any graduate, and the
+    // answer "we have conferred nothing" is itself worth stating.
+    state: 'measured',
+    value: {
+      awardsInRegister: n,
+      awardsWithoutAConferralRecord: orphans,
+      auditsRun: (audits && audits.n) || 0,
+      auditsPassed: (audits && audits.passed) || 0,
+    },
+    closes: orphans === 0 ? null
+      : `${orphans} award(s) in the Register have no conferral record behind them. Each is a qualification the College cannot show was earned, and each must be investigated before it is reissued or relied upon.`,
+  }];
+}
+
+// ---------------------------------------------------------------------
 // Academic integrity
 // ---------------------------------------------------------------------
 // This metric used to sit in uninstrumentedMetrics() because the College
@@ -730,13 +775,13 @@ async function integrityMetrics(env) {
 }
 
 export async function institutionalMetrics(env) {
-  const [progression, engagement, attendance, assessment, integrity, voice, success, quality, financial, readiness] = await Promise.all([
+  const [progression, engagement, attendance, assessment, integrity, voice, success, quality, conferral, financial, readiness] = await Promise.all([
     progressionMetrics(env), engagementMetrics(env), attendanceMetrics(env),
     assessmentMetrics(env), integrityMetrics(env), studentVoiceMetrics(env),
-    successMetrics(env), qualityCycleMetrics(env), financialMetrics(env),
-    accreditationReadiness(env),
+    successMetrics(env), qualityCycleMetrics(env), conferralIntegrityMetrics(env),
+    financialMetrics(env), accreditationReadiness(env),
   ]);
-  const metrics = [...progression, ...engagement, ...attendance, ...assessment, ...integrity, ...voice, ...success, ...quality, ...uninstrumentedMetrics(), ...financial];
+  const metrics = [...progression, ...engagement, ...attendance, ...assessment, ...integrity, ...voice, ...success, ...quality, ...conferral, ...uninstrumentedMetrics(), ...financial];
 
   const byState = metrics.reduce((acc, m) => { acc[m.state] = (acc[m.state] || 0) + 1; return acc; }, {});
 

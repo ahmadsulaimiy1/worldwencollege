@@ -45,6 +45,7 @@
 
 import { db, newId, nowIso, ValidationError, NotFoundError } from '../db.js';
 import { signCredential, verifyCredential } from './signing.js';
+import { assertConferrable } from './graduation.js';
 
 // Crockford-style: no 0/O, no 1/I/L, no U (it turns words into
 // accidents). 30 symbols, 12 of them per code, so ~59 bits — not
@@ -215,18 +216,34 @@ async function chainHead(env) {
 /**
  * Confer an award. The only way a row enters the Register.
  *
+ * REQUIRES A PASSED GRADUATION AUDIT (migration 028). Everything else
+ * in this function is careful about the FORM of a conferral — the
+ * chain, the signature, the race — and until the audit existed nothing
+ * asked whether it was TRUE. The title, the CEFR level, the credits and
+ * the hours all arrive from the caller; a Mastery qualification could
+ * have been conferred on somebody who had completed nothing, and every
+ * safeguard here would have recorded it faithfully and permanently.
+ *
+ * `auditId` is therefore not optional. assertConferrable() refuses an
+ * audit that failed, one belonging to another learner, and one for
+ * another level, and `conferrals` then records the binding under a
+ * composite foreign key so it cannot be edited into a lie afterwards.
+ *
  * NOTE ON GOVERNANCE: no award may actually be conferred until the
  * Executive adopts docs/iefc-award-architecture.md (C4) and the honours
- * thresholds (B1/B2). This function is the mechanism; the authority to
- * use it is not yet granted, and callers in production are expected to
- * be gated accordingly.
+ * thresholds (B1/B2). And as things stand no audit CAN pass, because
+ * the External Examiner the WEQ framework requires is not appointed —
+ * which is the framework's own stated position, now enforced rather
+ * than published.
  */
 export async function conferAward(env, {
-  userId, levelId, awardTitle, postNominal, cefr, honour = 'pass',
+  userId, levelId, auditId = null, awardTitle, postNominal, cefr, honour = 'pass',
   credits, tqtHours, holderName, citation = null, conferredOn = null,
   publicConsent = false, actorId = null, now = Date.now(),
 }) {
   if (!userId || !levelId) throw new ValidationError('userId and levelId are required.');
+  // Before anything else, and before any row is written: was it earned?
+  const audit = await assertConferrable(env, { auditId, userId, levelId });
   if (!HONOURS.includes(honour)) {
     throw new ValidationError(`honour must be one of: ${HONOURS.join(', ')}.`, { honour: 'Invalid' });
   }
@@ -276,6 +293,16 @@ export async function conferAward(env, {
           award.conferred_on, award.verification_code, publicConsent ? 1 : 0, head.digest, digest,
           head.seq, new Date(now).toISOString())
         .run();
+      // The binding to the audit, written in the same breath as the
+      // award. A composite foreign key onto (id, user_id, level_id,
+      // outcome) with the outcome pinned to 'met' means this row cannot
+      // later be edited to point at a failed or borrowed audit.
+      await db(env)
+        .prepare(`INSERT INTO conferrals (award_id, audit_id, user_id, level_id, audit_outcome, conferred_at)
+          VALUES (?, ?, ?, ?, 'met', ?)`)
+        .bind(award.id, audit.id, userId, levelId, new Date(now).toISOString())
+        .run();
+
       // Signed at the moment of conferral, not retrofitted. A credential
       // signed later is a credential that existed unsigned, and there is
       // no way afterwards to tell which of those a given certificate was.
@@ -342,9 +369,23 @@ export async function replaceAward(env, { awardId, reason, changes = {}, now = D
     .bind(new Date(now).toISOString(), why, awardId)
     .run();
 
+  // The replacement carries the ORIGINAL audit. A corrected certificate
+  // — a name change, a typo, a re-issue — is the same qualification, and
+  // requiring it to be re-earned would be absurd. Requiring it to name
+  // the audit it was earned under is not.
+  const originalConferral = await db(env)
+    .prepare('SELECT audit_id FROM conferrals WHERE award_id = ?').bind(awardId).first();
+  if (!originalConferral) {
+    throw new ValidationError(
+      'That award has no conferral record, so there is no audit to carry into its replacement. It predates the graduation audit and must be investigated rather than reissued.',
+      { awardId: 'Unaudited' },
+    );
+  }
+
   const replacement = await conferAward(env, {
     userId: old.user_id,
     levelId: old.level_id,
+    auditId: originalConferral.audit_id,
     awardTitle: changes.awardTitle ?? old.award_title,
     postNominal: changes.postNominal ?? old.post_nominal,
     cefr: changes.cefr ?? old.cefr,

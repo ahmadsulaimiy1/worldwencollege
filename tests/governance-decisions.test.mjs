@@ -13,7 +13,7 @@
 // byte for byte.
 import { readFileSync } from 'node:fs';
 import { makeD1 } from './d1-shim.mjs';
-import { ROOT, loadUrl } from './helpers.mjs';
+import { ROOT, loadUrl, conferForTest } from './helpers.mjs';
 
 const P = await import(loadUrl('functions/_lib/registry/portraits.js'));
 const A = await import(loadUrl('functions/_lib/registry/alumni.js'));
@@ -120,7 +120,7 @@ const AWARD = {
 // ---- The clause with teeth -------------------------------------------
 {
   const env = freshEnv();
-  const award = await reg.conferAward(env, { userId: 'usr_a', levelId: 3, holderName: 'A Graduate', ...AWARD });
+  const award = await conferForTest(reg, env, { userId: 'usr_a', levelId: 3, holderName: 'A Graduate', ...AWARD });
   await prof.getOrCreateProfile(env, { userId: 'usr_a' });
   await P.submit(env, { userId: 'usr_a', key: 'k.jpg' });
   await P.approve(env, { userId: 'usr_a', reviewedBy: 'usr_rev' });
@@ -151,8 +151,8 @@ const AWARD = {
 {
   // "Removed immediately if an award is withdrawn."
   const env = freshEnv();
-  const a = await reg.conferAward(env, { userId: 'usr_a', levelId: 3, holderName: 'A Graduate', ...AWARD });
-  const b = await reg.conferAward(env, { userId: 'usr_b', levelId: 3, holderName: 'B Graduate', ...AWARD });
+  const a = await conferForTest(reg, env, { userId: 'usr_a', levelId: 3, holderName: 'A Graduate', ...AWARD });
+  const b = await conferForTest(reg, env, { userId: 'usr_b', levelId: 3, holderName: 'B Graduate', ...AWARD });
   for (const u of ['usr_a', 'usr_b']) {
     await prof.getOrCreateProfile(env, { userId: u });
     await P.submit(env, { userId: u, key: `${u}.jpg` });
@@ -176,8 +176,8 @@ const AWARD = {
   // Sweeping them would apply the policy to somebody it does not
   // describe.
   const env = freshEnv();
-  const lower = await reg.conferAward(env, { userId: 'usr_a', levelId: 2, holderName: 'A Graduate', ...AWARD });
-  await reg.conferAward(env, { userId: 'usr_a', levelId: 4, holderName: 'A Graduate', ...AWARD });
+  const lower = await conferForTest(reg, env, { userId: 'usr_a', levelId: 2, holderName: 'A Graduate', ...AWARD });
+  await conferForTest(reg, env, { userId: 'usr_a', levelId: 4, holderName: 'A Graduate', ...AWARD });
   await prof.getOrCreateProfile(env, { userId: 'usr_a' });
   await P.submit(env, { userId: 'usr_a', key: 'k.jpg' });
   await P.approve(env, { userId: 'usr_a', reviewedBy: 'usr_rev' });
@@ -209,13 +209,13 @@ const AWARD = {
   check('A graduate with no award belongs to no chapter',
     (await A.chapterFor(env, { userId: 'usr_a' })) === null);
 
-  await reg.conferAward(env, { userId: 'usr_a', levelId: 3, holderName: 'A Graduate', ...AWARD });
+  await conferForTest(reg, env, { userId: 'usr_a', levelId: 3, holderName: 'A Graduate', ...AWARD });
   const one = await A.chapterFor(env, { userId: 'usr_a' });
   check('Conferral places a graduate in the matching chapter', one.name === 'Application Chapter', one.name);
   check('...saying how, rather than asserting membership as a bare fact',
     /Automatic, by conferral/.test(one.basis), one.basis);
 
-  await reg.conferAward(env, { userId: 'usr_a', levelId: 5, holderName: 'A Graduate', ...AWARD });
+  await conferForTest(reg, env, { userId: 'usr_a', levelId: 5, holderName: 'A Graduate', ...AWARD });
   const two = await A.chapterFor(env, { userId: 'usr_a' });
   check('A higher award moves them up, without membership being rewritten anywhere',
     two.name === 'Advanced Chapter', two.name);
@@ -226,8 +226,8 @@ const AWARD = {
   // with no second place needing to be updated — which is the whole
   // argument for not storing it.
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_a', levelId: 3, holderName: 'A Graduate', ...AWARD });
-  const high = await reg.conferAward(env, { userId: 'usr_a', levelId: 5, holderName: 'A Graduate', ...AWARD });
+  await conferForTest(reg, env, { userId: 'usr_a', levelId: 3, holderName: 'A Graduate', ...AWARD });
+  const high = await conferForTest(reg, env, { userId: 'usr_a', levelId: 5, holderName: 'A Graduate', ...AWARD });
   await reg.revokeAward(env, { awardId: high.id, reason: 'Conferred in error.' });
 
   const back = await A.chapterFor(env, { userId: 'usr_a' });
@@ -237,9 +237,9 @@ const AWARD = {
 
 {
   const env = freshEnv();
-  await reg.conferAward(env, { userId: 'usr_a', levelId: 3, holderName: 'A Graduate', ...AWARD });
-  await reg.conferAward(env, { userId: 'usr_a', levelId: 5, holderName: 'A Graduate', ...AWARD });
-  await reg.conferAward(env, { userId: 'usr_b', levelId: 3, holderName: 'B Graduate', ...AWARD });
+  await conferForTest(reg, env, { userId: 'usr_a', levelId: 3, holderName: 'A Graduate', ...AWARD });
+  await conferForTest(reg, env, { userId: 'usr_a', levelId: 5, holderName: 'A Graduate', ...AWARD });
+  await conferForTest(reg, env, { userId: 'usr_b', levelId: 3, holderName: 'B Graduate', ...AWARD });
 
   const r = await A.roll(env);
   // usr_a holds two awards but belongs to ONE chapter. Summing the
