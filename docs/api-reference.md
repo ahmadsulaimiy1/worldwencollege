@@ -426,7 +426,7 @@ not what happens past `requireUser()`'s full JWT-verification path,
 which needs a real Clerk-signed token to reach.
 
 **What's verified but not committed:** the frontend (`js/portal-auth.js`,
-`js/finance-dashboard.js`, `js/portal-guard.js`, and the admissions
+`js/staff-finance.js`, `js/portal-guard.js`, and the admissions
 form's try-API-then-fallback flow) was checked this session with
 Playwright — real browser automation, not eyeballed — confirming zero
 behavior change with no Clerk key configured, correct gate/redirect

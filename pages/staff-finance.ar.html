@@ -1,0 +1,77 @@
+<!--
+  المالية — النسخة العربية.
+
+  المقابل العربيّ لـ pages/staff-finance.html. وقرارُ الحوكمة A5
+  المعتمَد في 14 أغسطس 2026: ليس لمدرّس لغةٍ أن يقرأ إيرادَ المؤسّسة؛
+  والتقريران كلاهما محروسان بذلك، ومَن فتحها من هيئة التدريس يُقال له
+  أيُّ الأمرين جرى — أنّه غيرُ مسجَّل الدخول، أو أنّه مسجَّلٌ وليس من
+  أهله — لا أن يُترك أمام بياض.
+
+  وتقريرُ المطابقة سؤالٌ لا لوحةُ مؤشّرات: يُعرَض كلُّ خلافٍ بعينه ولا
+  يُجمَع في درجةِ صحّةٍ واحدة، فالرقمُ الذي يُذيب الخلافَ في متوسّطٍ رقمٌ
+  يخفيه.
+
+  وكلُّ مُعرِّفٍ وسمةِ data هنا هي التي يخاطبها js/staff-finance.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></p>
+    <p class="masthead__eyebrow">الإدارة</p>
+    <h1>المالية</h1>
+    <p class="lede">ما قبضته الكلّية في أيّ مدّةٍ تسمّيها &mdash; والسؤالُ القائم: هل ما زالت دفعاتُها وإيصالاتُها وتسجيلاتُها متوافقةً بعضُها مع بعض.</p>
+    <nav class="rec-nav" aria-label="الهيئة الأكاديمية">
+      <a href="/ar/staff-desk.html">المكتب</a>
+      <a href="/ar/staff-marking.html">التصحيح</a>
+      <a href="/ar/staff-learners.html">متعلّموك</a>
+      <a href="/ar/staff-hours.html">ساعاتك</a>
+      <a href="/ar/staff-notices.html">الإعلانات</a>
+      <a href="/ar/staff-cases.html">القضايا</a>
+      <a href="/ar/staff-admissions.html">القبول</a>
+      <a href="/ar/staff-enrolments.html">التسجيلات</a>
+      <a href="/ar/staff-finance.html" aria-current="page">المالية</a>
+      <a href="/ar/staff-administration.html">الإدارة</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state" id="state" aria-live="polite">جارٍ تحميل الدفتر&hellip;</p>
+
+      <div class="stf-counts" id="secCounts" hidden></div>
+
+      <section class="acc-block reveal" id="secRevenue" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg> <span data-revenue-head></span></h2>
+          <div class="desk-head__tools stf-filters">
+            <label for="fFrom" data-from-label></label>
+            <input id="fFrom" type="date" data-from>
+            <label for="fTo" data-to-label></label>
+            <input id="fTo" type="date" data-to>
+            <button class="btn btn--outline" type="button" data-apply></button>
+          </div>
+        </div>
+        <p class="stf-basis" data-revenue-note></p>
+        <ul class="stf-queue" data-revenue></ul>
+      </section>
+
+      <section class="acc-block reveal" id="secRecon" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg> <span data-recon-head></span></h2>
+        </div>
+        <p class="stf-basis" data-recon-note></p>
+        <ul class="stf-queue" data-recon></ul>
+        <div class="stf-clear" data-recon-clear hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <p class="stf-clear__head" data-recon-clear-head></p>
+          <p class="stf-clear__note" data-recon-clear-note></p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

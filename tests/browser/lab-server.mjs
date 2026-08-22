@@ -640,6 +640,12 @@ const DEMO_CASES = {};
 // platform's own reading of the same window left standing beside it.
 const attendanceLib = await import(pathToFileURL(`${ROOT}/functions/_lib/academic/attendance.js`));
 const progressionLib = await import(pathToFileURL(`${ROOT}/functions/_lib/student/progression.js`));
+const institutionalLib = await import(pathToFileURL(`${ROOT}/functions/_lib/reports/institutional.js`));
+const evidenceLib = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/evidence.js`));
+const signingLib = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/signing.js`));
+const fxService = await import(pathToFileURL(`${ROOT}/functions/_lib/currency/fx-service.js`));
+const revenueLib = await import(pathToFileURL(`${ROOT}/functions/_lib/reports/revenue.js`));
+const reconciliationLib = await import(pathToFileURL(`${ROOT}/functions/_lib/reports/reconciliation.js`));
 {
   const units = sqlite.prepare(
     `SELECT u.id AS id FROM units u JOIN courses c ON c.id = u.course_id
@@ -1482,6 +1488,97 @@ createServer(async (req, res) => {
         res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
         return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
       }
+    }
+    // ── THE ADMINISTRATION ──────────────────────────────────────────
+    // The College's own instruments. Every one of them was an endpoint
+    // with no surface until /staff-administration.html and
+    // /staff-finance.html existed, so none of them had ever been served
+    // here either — and an instrument that cannot be opened in a
+    // browser cannot be verified by rendering it, which is the one
+    // thing this repository's standard does not allow.
+    if (url.pathname === '/api/admin/institutional-metrics' && req.method === 'GET') {
+      return json(res, await institutionalLib.institutionalMetrics(env));
+    }
+    if (url.pathname === '/api/admin/evidence' && req.method === 'GET') {
+      const reference = url.searchParams.get('reference');
+      if (reference) return json(res, await evidenceLib.evidenceItem(env, { reference }));
+      return json(res, await evidenceLib.evidenceRegister(env, {
+        collection: url.searchParams.get('collection'),
+        state: url.searchParams.get('state'),
+      }));
+    }
+    if (url.pathname === '/api/admin/quality/competency-coverage' && req.method === 'GET') {
+      return json(res, await profile.competencyCoverage(env));
+    }
+    if (url.pathname === '/api/admin/signing-keys' && req.method === 'GET') {
+      const [keys, history] = await Promise.all([
+        signingLib.publicJwks(env),
+        signingLib.signingHistory(env, { limit: url.searchParams.get('limit') }),
+      ]);
+      return json(res, { keys: keys.keys, mode: keys.mode, notice: keys.notice, ...history });
+    }
+    if (url.pathname === '/api/admin/institutions') {
+      try {
+        if (req.method === 'GET') {
+          return json(res, await documents.institutionActivity(env, {
+            institutionId: url.searchParams.get('id'),
+            limit: url.searchParams.get('limit'),
+          }));
+        }
+        const body = JSON.parse(await read(req) || '{}');
+        return json(res, await documents.registerInstitution(env, {
+          ...body, approvedBy: ADMIN_ACTOR.id,
+        }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/api/admin/currency/set-rate' && req.method === 'POST') {
+      const body = JSON.parse(await read(req) || '{}');
+      try {
+        return json(res, await fxService.setPolicyFixedRate(env, {
+          code: String(body.code || '').toUpperCase(),
+          rateToUsd: body.rateToUsd,
+          updatedBy: ADMIN_ACTOR.id,
+          activate: body.activate === true,
+        }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/api/admin/currency/refresh-rates' && req.method === 'POST') {
+      const body = JSON.parse(await read(req) || '{}');
+      try {
+        return json(res, await fxService.refreshFromLiveFeed(env, {
+          codes: (body.codes || []).map((c) => String(c).toUpperCase()),
+          updatedBy: ADMIN_ACTOR.id,
+        }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/api/admin/recordings/purge' && req.method === 'POST') {
+      const body = JSON.parse(await read(req) || '{}');
+      try {
+        return json(res, await recordings.purgeExpiredRecordings(env, {
+          dryRun: body.confirm !== true,
+          limit: Number.isInteger(body.limit) ? body.limit : 200,
+        }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/api/admin/reports/revenue' && req.method === 'GET') {
+      return json(res, await revenueLib.buildRevenueReport(env, {
+        from: url.searchParams.get('from'), to: url.searchParams.get('to'),
+      }));
+    }
+    if (url.pathname === '/api/admin/reports/reconciliation' && req.method === 'GET') {
+      return json(res, await reconciliationLib.buildReconciliationReport(env));
     }
     if (url.pathname === '/api/staff/applications') {
       const me = staff();

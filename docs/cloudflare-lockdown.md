@@ -27,7 +27,7 @@ does not get a 403 from our code — they never reach our code.
 the marketing pages, the portal, the Listening Lab, the administration
 screen — requires an approved email address before it loads.
 
-The alternative was to protect only `/admin-enrolments.html`,
+The alternative was to protect only `/staff-enrolments.html`,
 `/staff-*.html` and `/api/admin/*`, leaving the learner site
 public. That is the right shape **at launch**. It is the wrong shape
 now, because the thing most in need of protection today is not the

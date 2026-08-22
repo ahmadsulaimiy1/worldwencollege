@@ -3001,5 +3001,155 @@
       "/js/staff-kit.js",
       "/js/staff-admissions.js"
     ]
+  },
+  {
+    "slug": "staff-enrolments",
+    "output": "staff-enrolments.html",
+    "title": "Enrolments &mdash; Worldwide English College",
+    "description": "Placing a learner on a level where no card payment did it — a scholarship, a bank transfer, a corporate seat — and the register of everyone who may reach a student record.",
+    "contentFile": "staff-enrolments.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-enrolments.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-enrolments.js"
+    ]
+  },
+  {
+    "slug": "staff-enrolments-ar",
+    "output": "ar/staff-enrolments.html",
+    "title": "التسجيلات &mdash; كلّية ورلدوايد إنجلش",
+    "description": "وضعُ المتعلّم على مستوًى حيث لم تفعل ذلك دفعةٌ ببطاقة، وسِجلُّ كلِّ من يبلغ سجلَّ طالب.",
+    "contentFile": "staff-enrolments.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-enrolments.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-enrolments.js"
+    ]
+  },
+  {
+    "slug": "staff-finance",
+    "output": "staff-finance.html",
+    "title": "Finance &mdash; Worldwide English College",
+    "description": "What the College has taken over any period, and the standing question of whether its payments, receipts and enrolments still agree with one another.",
+    "contentFile": "staff-finance.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-finance.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-finance.js"
+    ]
+  },
+  {
+    "slug": "staff-finance-ar",
+    "output": "ar/staff-finance.html",
+    "title": "المالية &mdash; كلّية ورلدوايد إنجلش",
+    "description": "ما قبضته الكلّية في أيّ مدّة، والسؤالُ القائم: هل ما زالت دفعاتُها وإيصالاتُها وتسجيلاتُها متوافقة.",
+    "contentFile": "staff-finance.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-finance.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-finance.js"
+    ]
+  },
+  {
+    "slug": "staff-administration",
+    "output": "staff-administration.html",
+    "title": "Administration &mdash; Worldwide English College",
+    "description": "What the College measures about itself, what it can evidence, the keys it signs an award with, who may query the Register, what a currency is worth here, and what it destroys when retention runs out.",
+    "contentFile": "staff-administration.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-administration.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-administration.js"
+    ]
+  },
+  {
+    "slug": "staff-administration-ar",
+    "output": "ar/staff-administration.html",
+    "title": "الإدارة &mdash; كلّية ورلدوايد إنجلش",
+    "description": "ما تقيسه الكلّيةُ على نفسها، وما تستطيع إثباته، والمفاتيحُ التي توقّع بها، ومَن يستعلم السجلّ، وقيمةُ العملة، وما يُتلَف متى انقضت مدّةُ الحفظ.",
+    "contentFile": "staff-administration.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-administration.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-administration.js"
+    ]
   }
 ]

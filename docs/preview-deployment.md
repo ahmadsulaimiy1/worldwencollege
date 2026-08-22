@@ -348,7 +348,7 @@ preview URL exists.)
 
 ## 7. Enrolling a learner who did not pay by card
 
-`/admin-enrolments.html` — staff only. Search a learner, see all six
+`/staff-enrolments.html` — staff only. Search a learner, see all six
 levels, grant or withdraw one, and give a reason that is recorded
 against your name. This replaces writing SQL into the D1 console, which
 is how the platform's first learner was enrolled and is not a process.

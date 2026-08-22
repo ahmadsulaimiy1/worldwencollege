@@ -1,0 +1,101 @@
+<!--
+  FINANCE — what the College has taken, and whether the ledger agrees
+  with itself.
+
+  ─────────────────────────────────────────────────────────────────────
+  ADMINISTRATOR, NOT STAFF, AND THAT IS A RULING RATHER THAN A HABIT
+  ─────────────────────────────────────────────────────────────────────
+  Governance decision A5, adopted 14 August 2026: a language tutor
+  should not be able to read the institution's revenue. Both reports on
+  this page are guarded accordingly, and a member of teaching staff who
+  opens it is told which of the two things went wrong — not signed in,
+  or signed in and not entitled — rather than meeting a blank.
+
+  ─────────────────────────────────────────────────────────────────────
+  RECONCILIATION IS A QUESTION, NOT A DASHBOARD
+  ─────────────────────────────────────────────────────────────────────
+  The reconciliation report exists to find the places where the
+  College's own records disagree — a payment marked succeeded with no
+  receipt, an enrolment with no payment behind it, a refund against
+  nothing. A finding here is a thing to go and look at, so each one is
+  rendered with what it is and how many, and never rolled into a single
+  health score. A number that averages a discrepancy away is a number
+  that hides it.
+
+  ─────────────────────────────────────────────────────────────────────
+  AND MONEY IS PRINTED AS THE PLATFORM RENDERS IT
+  ─────────────────────────────────────────────────────────────────────
+  Every amount on this page is the ledger's own presentation of a whole
+  number of cents. Nothing here divides by a hundred and hopes.
+
+  (The word the currency layer uses for that is retired from published
+  pages — docs/academic-framework.md § XVII — because it means three
+  different things elsewhere in this institution. The concept is the
+  same; the word is not one this site says.)
+
+  Every id and data- attribute below is addressed by js/staff-finance.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></p>
+    <p class="masthead__eyebrow">The Administration</p>
+    <h1>Finance</h1>
+    <p class="lede">What the College has taken, over any period you name &mdash; and the standing question of whether its payments, receipts and enrolments still agree with one another.</p>
+    <nav class="rec-nav" aria-label="Academic staff">
+      <a href="/staff-desk.html">The Desk</a>
+      <a href="/staff-marking.html">Marking</a>
+      <a href="/staff-learners.html">My Learners</a>
+      <a href="/staff-hours.html">My Hours</a>
+      <a href="/staff-notices.html">Notices</a>
+      <a href="/staff-cases.html">Cases</a>
+      <a href="/staff-admissions.html">Admissions</a>
+      <a href="/staff-enrolments.html">Enrolments</a>
+      <a href="/staff-finance.html" aria-current="page">Finance</a>
+      <a href="/staff-administration.html">Administration</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state" id="state" aria-live="polite">Loading the ledger&hellip;</p>
+
+      <div class="stf-counts" id="secCounts" hidden></div>
+
+      <!-- REVENUE ------------------------------------------------------- -->
+      <section class="acc-block reveal" id="secRevenue" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg> <span data-revenue-head></span></h2>
+          <div class="desk-head__tools stf-filters">
+            <label for="fFrom" data-from-label></label>
+            <input id="fFrom" type="date" data-from>
+            <label for="fTo" data-to-label></label>
+            <input id="fTo" type="date" data-to>
+            <button class="btn btn--outline" type="button" data-apply></button>
+          </div>
+        </div>
+        <p class="stf-basis" data-revenue-note></p>
+        <ul class="stf-queue" data-revenue></ul>
+      </section>
+
+      <!-- RECONCILIATION ------------------------------------------------ -->
+      <section class="acc-block reveal" id="secRecon" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg> <span data-recon-head></span></h2>
+        </div>
+        <p class="stf-basis" data-recon-note></p>
+        <ul class="stf-queue" data-recon></ul>
+        <div class="stf-clear" data-recon-clear hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <p class="stf-clear__head" data-recon-clear-head></p>
+          <p class="stf-clear__note" data-recon-clear-note></p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

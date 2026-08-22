@@ -67,7 +67,7 @@ project.
 - It does not name a Principal, a professor, a board or a council. Those
   are real people at a real institution, and inventing them — even as
   placeholders — puts fabricated leadership on an education provider's
-  record. Appointments are made through `/admin-enrolments.html` by a
+  record. Appointments are made through `/staff-enrolments.html` by a
   real administrator, and recorded with who made them and under what
   authority.
 - It does not claim accreditation, recognition, partnership or

@@ -255,8 +255,8 @@ jobs:
         run: node tests/browser/lab-auth.mjs
       - name: Recording upload, end to end
         run: node tests/browser/recording-upload.mjs
-      - name: Enrolment administration
-        run: node tests/browser/admin-enrolments.mjs
+      - name: The staff consoles — the desk, the Registry, the Administration
+        run: node tests/browser/staff-consoles.mjs
       - name: My Programme — the route from signing in to a lesson
         run: node tests/browser/my-programme.mjs
       - name: Award verification — the portal a stranger opens

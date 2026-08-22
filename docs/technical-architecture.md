@@ -85,7 +85,7 @@ Student Portal (js/portal-auth.js — with a real Clerk key configured,
                 with this student's real data; with no key, the
                 preview pages stay exactly the static demo they ship as)
 
-Admin Reports (separately, administrator only — js/finance-dashboard.js
+Admin Reports (separately, administrator only — js/staff-finance.js
                + requireStaff() ──► GET /api/admin/reports/{revenue,reconciliation}
                ──► D1: payments, payment_webhook_events, receipts — see
                payments-architecture.md § Financial reporting & reconciliation)

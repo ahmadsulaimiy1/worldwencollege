@@ -1,0 +1,164 @@
+<!--
+  الإدارة — النسخة العربية.
+
+  المقابل العربيّ لـ pages/staff-administration.html. ستّةُ آلاتٍ في
+  صفحةٍ واحدة، وكلُّ واحدةٍ منها كانت بابًا في المنصّة بلا شاشة. وما
+  يُحجَب يُقال حجبُه: النسبةُ على عددٍ صغيرٍ تُحجَب ولا تُقرَّب، فالنسبةُ
+  على أفرادٍ قلائلَ سجلُّ فردٍ عليه علامةُ مئويّة.
+
+  وتدويرُ مفتاح التوقيع وإبطالُه ليسا في هذه الصفحة ولا في المنصّة أصلًا:
+  إبطالُ مفتاحٍ يُبطل كلَّ شهادةٍ وقّعها، وذاك لا يُجعل بلوغُه بطلبٍ من
+  متصفّح.
+
+  وكلُّ مُعرِّفٍ وسمةِ data هنا هي التي يخاطبها js/staff-administration.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg></p>
+    <p class="masthead__eyebrow">الإدارة</p>
+    <h1>الإدارة</h1>
+    <p class="lede">ما تقيسه الكلّيةُ على نفسها، وما تستطيع إثباته، والمفاتيحُ التي توقّع بها الشهادة، ومَن يجوز له استعلامُ السجلّ، وقيمةُ العملة هنا، وما يُتلَف متى انقضت مدّةُ الحفظ.</p>
+    <nav class="rec-nav" aria-label="الهيئة الأكاديمية">
+      <a href="/ar/staff-desk.html">المكتب</a>
+      <a href="/ar/staff-marking.html">التصحيح</a>
+      <a href="/ar/staff-learners.html">متعلّموك</a>
+      <a href="/ar/staff-hours.html">ساعاتك</a>
+      <a href="/ar/staff-notices.html">الإعلانات</a>
+      <a href="/ar/staff-cases.html">القضايا</a>
+      <a href="/ar/staff-admissions.html">القبول</a>
+      <a href="/ar/staff-enrolments.html">التسجيلات</a>
+      <a href="/ar/staff-finance.html">المالية</a>
+      <a href="/ar/staff-administration.html" aria-current="page">الإدارة</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state" id="state" aria-live="polite">جارٍ تحميل الآلات&hellip;</p>
+
+      <section class="acc-block reveal" id="secMetrics" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-astrolabe"/></svg> <span data-metrics-head></span></h2>
+        </div>
+        <p class="stf-basis" data-metrics-caveat></p>
+        <div class="stf-counts" data-metrics-summary></div>
+        <ul class="stf-queue" data-metrics></ul>
+      </section>
+
+      <section class="acc-block reveal" id="secEvidence" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg> <span data-evidence-head></span></h2>
+          <div class="desk-head__tools stf-filters">
+            <label for="evState" data-evidence-state-label></label>
+            <select id="evState" data-evidence-state></select>
+          </div>
+        </div>
+        <p class="stf-basis" data-evidence-disclaimer></p>
+        <ul class="stf-queue" data-evidence></ul>
+      </section>
+
+      <section class="acc-block reveal" id="secCoverage" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg> <span data-coverage-head></span></h2>
+        </div>
+        <p class="stf-basis" data-coverage-rule></p>
+        <ul class="stf-queue" data-coverage></ul>
+      </section>
+
+      <section class="acc-block reveal" id="secKeys" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg> <span data-keys-head></span></h2>
+        </div>
+        <p class="stf-basis" data-keys-note></p>
+        <ul class="stf-queue" data-keys></ul>
+      </section>
+
+      <section class="acc-block reveal" id="secInstitutions" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg> <span data-inst-head></span></h2>
+        </div>
+
+        <div class="stf-act">
+          <h3 data-inst-add-head></h3>
+          <p class="stf-field__note" data-inst-add-why></p>
+          <div class="stf-field">
+            <label for="iName" data-inst-name-label></label>
+            <input id="iName" type="text" maxlength="160" data-inst-name>
+          </div>
+          <div class="stf-field">
+            <label for="iKind" data-inst-kind-label></label>
+            <select id="iKind" data-inst-kind></select>
+          </div>
+          <div class="stf-field">
+            <label for="iLimit" data-inst-limit-label></label>
+            <input id="iLimit" type="number" min="1" max="100000" step="1" value="500" data-inst-limit>
+            <p class="stf-field__note" data-inst-limit-note></p>
+          </div>
+          <div class="stf-buttons">
+            <button class="btn btn--gold" type="button" data-inst-send></button>
+            <span class="stf-said" data-inst-said aria-live="polite"></span>
+          </div>
+          <div class="stf-prior" data-inst-key hidden>
+            <p class="stf-panel__label" data-inst-key-label></p>
+            <p data-inst-key-value></p>
+            <p data-inst-key-warning></p>
+          </div>
+        </div>
+
+        <p class="stf-basis" data-inst-activity-note></p>
+        <ul class="stf-queue" data-inst-activity></ul>
+      </section>
+
+      <section class="acc-block reveal" id="secRates" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg> <span data-rates-head></span></h2>
+        </div>
+
+        <div class="stf-act">
+          <p class="stf-field__note" data-rates-why></p>
+          <div class="stf-field">
+            <label for="rCode" data-rates-code-label></label>
+            <input id="rCode" type="text" maxlength="3" autocomplete="off" data-rates-code>
+          </div>
+          <div class="stf-field">
+            <label for="rRate" data-rates-rate-label></label>
+            <input id="rRate" type="number" min="0" step="0.000001" data-rates-rate>
+            <p class="stf-field__note" data-rates-rate-note></p>
+          </div>
+          <div class="stf-field">
+            <label for="rActivate" data-rates-activate-label></label>
+            <select id="rActivate" data-rates-activate></select>
+            <p class="stf-field__note" data-rates-activate-note></p>
+          </div>
+          <div class="stf-buttons">
+            <button class="btn btn--gold" type="button" data-rates-set></button>
+            <button class="btn btn--outline" type="button" data-rates-refresh></button>
+            <span class="stf-said" data-rates-said aria-live="polite"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="acc-block reveal" id="secRetention" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg> <span data-purge-head></span></h2>
+        </div>
+
+        <div class="stf-act">
+          <p class="stf-field__note" data-purge-why></p>
+          <div class="stf-buttons">
+            <button class="btn btn--outline" type="button" data-purge-dry></button>
+            <button class="btn btn--red" type="button" data-purge-confirm hidden></button>
+            <span class="stf-said" data-purge-said aria-live="polite"></span>
+          </div>
+          <ul class="stf-queue" data-purge-result></ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

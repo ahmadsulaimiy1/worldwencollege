@@ -87,7 +87,7 @@ one decorative.
 | Confirm an enrolment after payment | `POST /api/enrolment/confirm` | learner | `enrolments` w | **No interface** |
 | **A learner's own statement of account** — tuition assessed and on what basis, relief with the authority that granted it, every payment and receipt and refund, the instalment schedule, and the balance with the arithmetic that produced it | `GET /api/student/finance` | learner | `payments`, `receipts`, `refunds`, `instalment_plans`, `scholarships`, `promo_codes`, `currencies`, `enrolments`, `programme_levels` — all r | **Yes** — `/my-account.html` (`js/my-account.js`) |
 | One invoice as structured data, with its lines and its reconciliation | `GET /api/student/invoice?id=pay_…` | learner | same, r | **Yes** — opened in place on the same page |
-| Revenue report | `GET /api/admin/reports/revenue` | admin | `payments` r, `refunds` r | **Yes** — `/finance/preview/` (`js/finance-dashboard.js`) |
+| Revenue report | `GET /api/admin/reports/revenue` | admin | `payments` r, `refunds` r | **Yes** — `/staff-finance.html` (`js/staff-finance.js`) |
 | Reconciliation report | `GET /api/admin/reports/reconciliation` | admin | `payments`, `receipts`, `refunds` r | **Yes** — the same page |
 | Set or refresh an exchange rate | `POST /api/admin/currency/set-rate`, `/refresh-rates` | admin | `currencies` w | **No interface** |
 
@@ -234,8 +234,8 @@ a session-guarded download.
 |---|---|---|---|---|
 | Who am I, and what may I do | `GET /api/auth/me` | learner | `users` r | **Yes** — every portal page |
 | Provision an account from the identity provider | `POST /api/auth/webhook-clerk` | signature | `users` w | n/a |
-| List learners; open, amend or withdraw an enrolment | `GET /api/admin/learners`, `POST /api/admin/enrolment` | staff | `enrolments` rw, `enrolment_events` w | **Yes** — `/admin-enrolments.html` |
-| Grant and remove a role, with the act recorded | `GET`,`POST /api/admin/role` | admin | `users` w, `role_events` w, `staff_appointments` r | **Yes** — `/admin-enrolments.html` |
+| List learners; open, amend or withdraw an enrolment | `GET /api/admin/learners`, `POST /api/admin/enrolment` | staff | `enrolments` rw, `enrolment_events` w | **Yes** — `/staff-enrolments.html` |
+| Grant and remove a role, with the act recorded | `GET`,`POST /api/admin/role` | admin | `users` w, `role_events` w, `staff_appointments` r | **Yes** — `/staff-enrolments.html` |
 | The Institutional Metric Register — every metric the Executive undertook to watch, declared whether or not it can be computed, with small cohorts suppressed rather than rounded | `GET /api/admin/institutional-metrics` | staff | many, r | **No interface** |
 | The quality-assurance evidence register | `GET /api/admin/evidence` | staff | `evidence_items`, `evidence_versions` r | **No interface** |
 | Competency coverage against the Academic Framework's own rule | `GET /api/admin/quality/competency-coverage` | staff | `assessment_competencies` r | **No interface** |
