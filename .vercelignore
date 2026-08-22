@@ -18,3 +18,6 @@ madinah-src/
 .claude/
 *.md
 !README.md
+
+# Stray screenshot output from a verification harness. Never part of the site.
+undefined/
