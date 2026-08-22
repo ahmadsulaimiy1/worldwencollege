@@ -228,6 +228,9 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 032 — the record of processing activities.
+  db.exec('DROP INDEX idx_processing_tables; DROP INDEX idx_processing_risk;');
+  db.exec('DROP TABLE processing_exclusions; DROP TABLE processing_activities;');
   // 031 — puts governance D1 into force. It UPDATEs a config row rather
   // than creating anything, so the pre-migration database must carry
   // the value the decision replaced or the migration would be a no-op

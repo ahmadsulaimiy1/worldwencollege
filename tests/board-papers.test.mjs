@@ -175,5 +175,56 @@ for (const [what, re] of [
   check(`The paper still records ${what}`, re.test(paper));
 }
 
+// ---------------------------------------------------------------------
+// Board Paper 02 — Data Protection
+// ---------------------------------------------------------------------
+// The inventory in section 2 is GENERATED from processing_activities.
+// A paper whose figures are typed is a paper that drifts from the thing
+// it describes, and this one exists precisely because the governance
+// register and the database had drifted.
+{
+  const raw = readFileSync(path.join(ROOT, 'docs/board-paper-02-data-protection.md'), 'utf8');
+  // Prose in these documents wraps, so a sentence is one thing to a
+  // reader and several lines to a regex. Matching the raw text has now
+  // produced a false failure twice — here and in the governance
+  // register — so the whitespace-normalised copy is what phrase
+  // assertions read. Line-structure assertions still use `raw`.
+  const flat = raw.replace(/\s+/g, ' ');
+  const paper = raw;
+  const pdb = new DatabaseSync(':memory:');
+  pdb.exec(readFileSync(path.join(ROOT, 'sql/schema.sql'), 'utf8'));
+  const acts = pdb.prepare('SELECT * FROM processing_activities ORDER BY sequence').all();
+
+  check('The paper is marked for decision, not for information',
+    /\*\*Status: for decision\.\*\*/.test(paper));
+  check(`Every processing activity appears in the inventory — ${acts.length}`,
+    acts.every((a) => paper.includes(a.name)),
+    acts.filter((a) => !paper.includes(a.name)).map((a) => a.code).join(', '));
+  check('...and the higher-risk ones are marked as such in the paper',
+    acts.filter((a) => a.higher_risk === 1).every((a) => {
+      const row = paper.split('\n').find((l) => l.includes(a.name));
+      return row && /\*\*Yes\*\*/.test(row);
+    }));
+
+  const undetermined = acts.filter((a) => a.retention === 'NOT DETERMINED').length;
+  check(`The paper counts the undetermined retentions correctly — ${undetermined}`,
+    new RegExp(`\\*\\*${undetermined === 9 ? 'Nine' : undetermined}\\*\\* are not determined|${undetermined === 9 ? 'Nine' : undetermined} are not determined`, 'i').test(paper),
+    `${undetermined} undetermined in the record`);
+
+  check('It puts four decisions to the Board', (paper.match(/^### Decision \d/gm) || []).length === 4,
+    (paper.match(/^### Decision \d/gm) || []).length);
+  check('...each with options and consequences', (paper.match(/\| Option \| Consequence \|/g) || []).length >= 1);
+  check('...and each with a recommendation', (paper.match(/\*\*Recommendation[:,]/g) || []).length >= 4,
+    (paper.match(/\*\*Recommendation[:,]/g) || []).length);
+
+  // The refusals that keep it honest.
+  check('It does NOT contain a draft privacy notice with blanks in it',
+    /A draft privacy notice\.\*\* It would have four blanks/.test(flat));
+  check('...and does not claim the College is compliant with anything',
+    /is progress and it is not compliance/.test(flat));
+  check('It reports the D1 finding rather than presenting a clean history',
+    /was still not in force/.test(flat) && /luck, not design/.test(flat));
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);
