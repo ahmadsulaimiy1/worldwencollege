@@ -1,0 +1,122 @@
+<!--
+  التصحيح — النسخة العربية.
+
+  المقابل العربيّ لـ pages/staff-marking.html. العللُ التي بُنيت هذه
+  الصفحةُ لتصحيحها مذكورةٌ هناك، وهي قائمةٌ هنا بعينها: طابورٌ لم يكن
+  له وجود، ومعيارٌ لا يُطوى، وإعادةٌ لا تُصحَّح كأنّها أوّل محاولة.
+
+  وكلُّ مُعرِّفٍ وسمةِ data هنا هي التي يخاطبها js/staff-marking.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-nib"/></svg></p>
+    <p class="masthead__eyebrow">الهيئة الأكاديمية</p>
+    <h1>التصحيح</h1>
+    <p class="lede">ما سُلِّم ولم يُصحَّح بعد &mdash; مكتوبًا ومسموعًا، الأقدمُ أوّلًا، وكلُّ عملٍ يحمل معه المعيارَ الذي كُلِّف به والدرجةَ التي هو إعادةٌ لها.</p>
+    <nav class="rec-nav" aria-label="الهيئة الأكاديمية">
+      <a href="/ar/staff-desk.html">المكتب</a>
+      <a href="/ar/staff-marking.html" aria-current="page">التصحيح</a>
+      <a href="/ar/staff-learners.html">متعلّموك</a>
+      <a href="/ar/staff-hours.html">ساعاتك</a>
+      <a href="/ar/staff-notices.html">الإعلانات</a>
+      <a href="/ar/staff-cases.html">القضايا</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state" id="state" aria-live="polite">جارٍ تحميل الطابور&hellip;</p>
+
+      <div class="stf-counts" id="secCounts" hidden>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="written">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>عملٌ مكتوبٌ ينتظر</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="spoken">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>تسجيلٌ ينتظر</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+      </div>
+
+      <section class="acc-block reveal" id="secWritten" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg> <span data-written-head>العمل المكتوب</span></h2>
+          <div class="desk-head__tools stf-filters">
+            <label for="wLevel" data-written-level-label>المستوى</label>
+            <select id="wLevel" data-written-level></select>
+            <label for="wStatus" data-written-status-label>المعروض</label>
+            <select id="wStatus" data-written-status></select>
+          </div>
+        </div>
+
+        <p class="stf-basis" data-written-basis></p>
+
+        <ul class="stf-queue" data-written-queue></ul>
+
+        <div class="stf-clear" data-written-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <p class="stf-clear__head" data-written-empty-head></p>
+          <p class="stf-clear__note" data-written-empty-note></p>
+        </div>
+      </section>
+
+      <section class="acc-block reveal" id="secSpoken" hidden>
+        <div class="desk-head">
+          <h2 id="recordings"><svg class="icon" aria-hidden="true"><use href="#i-waveform"/></svg> <span data-spoken-head>التسجيلات</span></h2>
+          <div class="desk-head__tools stf-filters">
+            <label for="rLevel" data-spoken-level-label>المستوى</label>
+            <select id="rLevel" data-spoken-level></select>
+          </div>
+        </div>
+
+        <p class="stf-basis" data-spoken-basis></p>
+
+        <ul class="stf-queue" data-spoken-queue></ul>
+
+        <div class="stf-clear" data-spoken-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <p class="stf-clear__head" data-spoken-empty-head></p>
+          <p class="stf-clear__note" data-spoken-empty-note></p>
+        </div>
+      </section>
+
+      <section class="acc-block reveal" id="secRule">
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg> كيف تُصنَع الدرجة هنا</h2>
+        </div>
+        <div class="grid grid--3">
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+            <h3>على معيارٍ منشورٍ قبل العمل</h3>
+            <p>وُضعت المعايير قبل أن يُكتب العمل، وهي في نصِّ التكليف الذي رآه المتعلّم. وتُطبَع فوق كلِّ درجةٍ في هذه الصفحة، ليكون المقياسُ المطبَّق هو المقياسَ الذي أُخبِر به.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-quote"/></svg></span>
+            <h3>ومعها سببٌ يقرؤه صاحبُها</h3>
+            <p>تصل الملاحظةُ إلى سجلّ المتعلّم بجوار الدرجة. اكتب الشيء الواحد الذي ينبغي أن يغيّره؛ فالدرجةُ التي لا سببَ خلفها لا يُعمَل بها ولا يُتظلَّم منها.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+            <h3>ويُعاد النظرُ فيها</h3>
+            <p>تُقيَّد كلُّ درجةٍ باسم الحساب الذي أعطاها وباللحظة التي أُعطيت فيها. ولمن رأى درجتَه خطأً طريقٌ منشورٌ يقول به ذلك، وهذا السجلُّ هو ما يُقرأ فيه. <a href="/ar/students/regulations/">اللوائح الأكاديمية</a>.</p>
+          </article>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

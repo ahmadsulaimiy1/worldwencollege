@@ -190,15 +190,27 @@ function watchApi(page) {
   await page.route('**://fonts.gstatic.com/**', (r) => r.abort());
   await stubAuth(page, 'tutor');
   const api = watchApi(page);
-  await page.goto(`${BASE}/instructor-review.html`, { waitUntil: 'domcontentloaded' });
-  await page.waitForTimeout(1200);
+  // /staff-marking.html, which absorbed the standalone instructor
+  // workspace: the pronunciation queue and the written-work queue are
+  // one screen now, because a tutor sitting down to mark is marking,
+  // and two addresses for one act is how one of them stops being used.
+  await page.goto(`${BASE}/staff-marking.html`, { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(1600);
 
   const queueCalls = api.filter((r) => r.path === '/api/lms/review-queue');
-  check('The instructor workspace authenticates its queue request',
+  const markCalls = api.filter((r) => r.path === '/api/lms/marking-queue');
+  check('The marking console authenticates its recording queue request',
     queueCalls.length > 0 && queueCalls.every((r) => /^Bearer stub-tutor#\d+$/.test(r.auth || '')),
     `${queueCalls.length} queue request(s), auth ${queueCalls[0] && queueCalls[0].auth}`);
-  const err = (await page.textContent('#qError')) || '';
-  check('…and gets a queue rather than an auth error', err.trim() === '', err.trim());
+  check('…and its written-work queue request too',
+    markCalls.length > 0 && markCalls.every((r) => /^Bearer stub-tutor#\d+$/.test(r.auth || '')),
+    `${markCalls.length} request(s), auth ${markCalls[0] && markCalls[0].auth}`);
+  // 401 and 403 read differently to the person at the screen, and the
+  // console says which it met. Either sentence here means the header
+  // contract failed.
+  const said = (await page.textContent('#state')) || '';
+  check('…and gets a queue rather than an auth refusal',
+    !/not signed in|not a member of staff/i.test(said), said.trim().slice(0, 70));
   await ctx.close();
 }
 

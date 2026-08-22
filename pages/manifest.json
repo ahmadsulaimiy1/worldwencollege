@@ -2651,5 +2651,305 @@
     "lang": "ar",
     "dir": "rtl",
     "altHref": "/governance/quality-manual/"
+  },
+  {
+    "slug": "staff-desk",
+    "output": "staff-desk.html",
+    "title": "The Tutor&rsquo;s Desk &mdash; Worldwide English College",
+    "description": "Everything the College is waiting on a member of staff for — work to mark, a register to take, a learner who has written in, a case that falls due — in one place, in the order it arrived.",
+    "contentFile": "staff-desk.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-desk.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-desk.js"
+    ]
+  },
+  {
+    "slug": "staff-desk-ar",
+    "output": "ar/staff-desk.html",
+    "title": "مكتب المعلّم &mdash; كلّية ورلدوايد إنجلش",
+    "description": "كلُّ ما تنتظره الكلّيةُ من عضو الهيئة: عملٌ يُصحَّح، وحضورٌ يُقيَّد، ومتعلّمٌ كتب إليه، وقضيّةٌ يُستحقّ جوابُها — في مكانٍ واحدٍ بترتيب ورودها.",
+    "contentFile": "staff-desk.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-desk.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-desk.js"
+    ]
+  },
+  {
+    "slug": "staff-marking",
+    "output": "staff-marking.html",
+    "title": "Marking &mdash; Worldwide English College",
+    "description": "The written work and the spoken work waiting to be marked, oldest first, each piece carrying the rubric it was set against and the mark it is a resit of.",
+    "contentFile": "staff-marking.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-marking.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-marking.js"
+    ]
+  },
+  {
+    "slug": "staff-marking-ar",
+    "output": "ar/staff-marking.html",
+    "title": "التصحيح &mdash; كلّية ورلدوايد إنجلش",
+    "description": "العملُ المكتوب والمسموع ممّا ينتظر التصحيح، الأقدمُ أوّلًا، وكلُّ عملٍ يحمل معه المعيارَ الذي كُلِّف به والدرجةَ التي هو إعادةٌ لها.",
+    "contentFile": "staff-marking.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-marking.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-marking.js"
+    ]
+  },
+  {
+    "slug": "staff-learners",
+    "output": "staff-learners.html",
+    "title": "My Learners &mdash; Worldwide English College",
+    "description": "The learners in a tutor's care, how each has engaged beside the platform's own reading of it, the register a tutor may take, and the confirmation that a level is finished.",
+    "contentFile": "staff-learners.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-learners.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-learners.js"
+    ]
+  },
+  {
+    "slug": "staff-learners-ar",
+    "output": "ar/staff-learners.html",
+    "title": "متعلّموك &mdash; كلّية ورلدوايد إنجلش",
+    "description": "مَن في رعاية عضو الهيئة، وانخراطُ كلِّ واحدٍ منهم بجوار ما قرأته المنصّة، والحضورُ الذي له أن يقيّده، وتأكيدُ إتمامِ المستوى.",
+    "contentFile": "staff-learners.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-learners.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-learners.js"
+    ]
+  },
+  {
+    "slug": "staff-hours",
+    "output": "staff-hours.html",
+    "title": "My Hours &mdash; Worldwide English College",
+    "description": "The hours a member of staff has opened for learners to book, who is in each one, and the withdrawal of an hour that cannot happen — with the reason travelling to everybody it affects.",
+    "contentFile": "staff-hours.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-hours.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-hours.js"
+    ]
+  },
+  {
+    "slug": "staff-hours-ar",
+    "output": "ar/staff-hours.html",
+    "title": "ساعاتك &mdash; كلّية ورلدوايد إنجلش",
+    "description": "ما فتحه عضو الهيئة من ساعاتٍ للحجز، ومَن في كلِّ ساعة، وسحبُ ما لا يمكن انعقادُه بسببٍ يبلغ كلَّ مَن يمسُّه.",
+    "contentFile": "staff-hours.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-hours.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-hours.js"
+    ]
+  },
+  {
+    "slug": "staff-notices",
+    "output": "staff-notices.html",
+    "title": "Notices &mdash; Worldwide English College",
+    "description": "The notice board a member of staff writes from — drafted, published, amended or withdrawn with the reason on the record — and every thread their learners have open with them.",
+    "contentFile": "staff-notices.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-notices.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-notices.js"
+    ]
+  },
+  {
+    "slug": "staff-notices-ar",
+    "output": "ar/staff-notices.html",
+    "title": "الإعلانات &mdash; كلّية ورلدوايد إنجلش",
+    "description": "لوحةُ الإعلانات التي يكتب منها عضو الهيئة — تُسوَّد وتُنشَر وتُعدَّل وتُسحَب بسببٍ يبقى على السجلّ — وكلُّ خيطٍ فتحه متعلّموه معه.",
+    "contentFile": "staff-notices.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-notices.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-notices.js"
+    ]
+  },
+  {
+    "slug": "staff-cases",
+    "output": "staff-cases.html",
+    "title": "Cases &mdash; Worldwide English College",
+    "description": "Every appeal, complaint, withdrawal, deferral and transfer the College has open, in the order each answer falls due, with the accounts that may not hear each one named beside it.",
+    "contentFile": "staff-cases.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-cases.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-cases.js"
+    ]
+  },
+  {
+    "slug": "staff-cases-ar",
+    "output": "ar/staff-cases.html",
+    "title": "القضايا &mdash; كلّية ورلدوايد إنجلش",
+    "description": "كلُّ تظلُّمٍ وشكوى وانسحابٍ وتأجيلٍ وانتقالٍ فتحته الكلّية، بترتيب استحقاق الجواب، ومع كلِّ واحدةٍ الحساباتُ التي لا تسمعها.",
+    "contentFile": "staff-cases.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-cases.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-cases.js"
+    ]
   }
 ]

@@ -185,7 +185,17 @@
                the same reason the offer plate does, and it
                takes the conferral voice rather than the tap the
                rest of that page gets. */
-            + '.paycomp__plate';
+            + '.paycomp__plate, '
+            /* THE STAFF CONSOLES — css/console.css. `.stf-act` is
+               every plate on which a member of staff writes something
+               onto somebody else's record: a mark, a register, the
+               confirmation that a level is finished, a notice
+               published, an hour opened, a case answered. All six are
+               conferrals — the College doing something to a person —
+               and they take the conferral voice rather than the tap
+               the queues around them get. That is the ranking §3 asks
+               for: the queue is furniture, the act is ceremony. */
+            + '.stf-act';
   var OPEN  = 'details > summary, .accordion__q, .nav__toggle, [aria-expanded]';
   /* THE CHROME, and it is ranked BELOW open and ABOVE tap deliberately.
      The utility rail's Verify group and the editions picker both carry
@@ -268,7 +278,15 @@
             + '.docket__entry, .attest, '
             /* The Press pillar — css/press.css. The imprint is the
                press's own signature and takes SEAL; it is above. */
-            + '.folio, .shelf__title';
+            + '.folio, .shelf__title, '
+            /* The staff consoles — css/console.css. The medallion row
+               at the head of each desk, and every piece of work in a
+               queue: a submission, a recording, a learner on a roster,
+               a module, a gate, a notice, a thread, an hour, a case.
+               All of them are struck plates with a lit rim and a
+               travelling light, so all of them answer the ear. The
+               act inside them is sealed and is in the list above. */
+            + '.stf-count, .stf-item';
 
   function voiceFor(el) {
     if (el.closest(CHIME)) return 'chime';

@@ -111,7 +111,7 @@ error waiting for the day KWD was activated.
 | Mark an assignment | `POST /api/lms/grade-assignment` | staff | `assignment_submissions` w, `unit_progress` w | **No interface** |
 | Record and store a spoken submission, in parts | `POST /api/lms/recording/init`, `PUT …/part`, `POST …/complete` | learner | `learner_recordings` w, `recording_upload_parts` w, R2 | **Yes** — the lab |
 | Play a stored recording back | `GET /api/lms/recording/audio` | learner | `learner_recordings` r, R2 | **Yes** — the lab |
-| The instructor's review queue, and a review | `GET /api/lms/review-queue`, `POST /api/lms/recording-review` | staff | `learner_recordings` rw, `pronunciation_feedback` w | **Yes** — `/instructor-review.html` |
+| The instructor's review queue, and a review | `GET /api/lms/review-queue`, `POST /api/lms/recording-review` | staff | `learner_recordings` rw, `pronunciation_feedback` w | **Yes** — `/staff-marking.html` |
 | Listening analytics and a pronunciation profile | `GET /api/lms/listening-analytics`, `/pronunciation-profile` | learner | `listening_events`, `pronunciation_feedback` r | **Yes** — the lab |
 | Accrue and read measured study time | `POST`,`GET /api/lms/time-on-task` | learner | `time_on_task` rw | **Yes** — `js/time-on-task.js`, in the lab |
 | A level's live sessions | `GET /api/lms/live-sessions` | learner | `live_sessions` r | **No interface** |

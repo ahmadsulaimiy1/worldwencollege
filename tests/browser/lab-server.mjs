@@ -261,6 +261,46 @@ const DEMO = {};
     VALUES ('bkg_demo_mine', 'slt_demo_mine', 'usr_demo', 'booked', '2026-08-01T00:00:00.000Z')`);
 }
 
+// ── WORK WAITING TO BE MARKED, for /staff-marking/ ────────────────────
+// Three submissions, and each one is there to make a different failure
+// visible if it ever comes back:
+//
+//   · Two learners, submitted eighteen days apart and inserted
+//     NEWEST FIRST, so a queue that forgot to sort returns them in the
+//     wrong order and the suite sees it.
+//   · A resit — a second attempt on a task the same learner was already
+//     marked on — so the console has to carry the earlier mark and its
+//     feedback rather than presenting the work as a first attempt.
+//   · A submission already marked, which must not appear in the queue
+//     of work awaiting a mark and must appear when the marker asks for
+//     what has been marked.
+{
+  const sub = (id, item, user, at, opts = {}) => sqlite.prepare(
+    `INSERT INTO assignment_submissions (id, learning_item_id, user_id, content, status, attempt,
+       submitted_at, grade, feedback, graded_at, graded_by)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  ).run(id, item, user, opts.content || 'A demonstration submission written by the learner.',
+    opts.status || 'submitted', opts.attempt || 1, at,
+    opts.grade ?? null, opts.feedback ?? null, opts.gradedAt ?? null, opts.gradedBy ?? null);
+
+  sub('asub_recent', 'itm_l1_m2_assignment', 'usr_prog', '2026-08-19T09:00:00.000Z', {
+    content: 'My room is small and there is one window in it. The bed is under the window and my desk is beside the door.\n\nI like it in the morning because the light comes in early, and it is quiet.',
+  });
+  sub('asub_oldest', 'itm_l1_m1_assignment', 'usr_demo', '2026-08-01T09:00:00.000Z', {
+    content: 'My name is A. Student and I am from Kuala Lumpur. I work in a hotel and I speak Malay and some English.\n\nI am learning English because I want to talk to the guests without being afraid of it.',
+  });
+  // The resit, and the attempt it is a resit of.
+  sub('asub_first_go', 'itm_l1_m3_assignment', 'usr_demo', '2026-07-10T09:00:00.000Z', {
+    attempt: 1, status: 'graded', grade: 0.58, gradedAt: '2026-07-14T10:00:00.000Z', gradedBy: 'usr_tutor',
+    feedback: 'The sequence of the day is clear and the vocabulary is right. What is holding the mark down is the past tense: eleven verbs in the second half are in the present.',
+    content: 'Every day I wake up at six and I go to work at seven.',
+  });
+  sub('asub_resit', 'itm_l1_m3_assignment', 'usr_demo', '2026-08-16T09:00:00.000Z', {
+    attempt: 2,
+    content: 'Yesterday I woke at six and went to work at seven. I finished at four and walked home along the river because the weather was good.\n\nIn the evening I studied for one hour and then I cooked.',
+  });
+}
+
 // ── MONEY, for /my-account/ ───────────────────────────────────────────
 // The statement of account is the first item of the interface backlog
 // and the hardest thing to fixture honestly: a balance is only
@@ -599,6 +639,7 @@ const DEMO_CASES = {};
 // time on task, an assessment attempt, and a staff correction with the
 // platform's own reading of the same window left standing beside it.
 const attendanceLib = await import(pathToFileURL(`${ROOT}/functions/_lib/academic/attendance.js`));
+const progressionLib = await import(pathToFileURL(`${ROOT}/functions/_lib/student/progression.js`));
 {
   const units = sqlite.prepare(
     `SELECT u.id AS id FROM units u JOIN courses c ON c.id = u.course_id
@@ -724,6 +765,26 @@ function identify(req) {
   return { token, userId: id };
 }
 
+/**
+ * WHO THE HARNESS IS ACTING AS.
+ *
+ * The learner routes below hard-code `usr_demo` and always did, which
+ * was harmless while every surface belonged to a learner. The staff
+ * consoles broke that: /api/messages is read by a tutor as well as by a
+ * learner, and a harness that answers both with the learner's threads
+ * would have the tutor's console pass here and show the wrong person's
+ * correspondence in production.
+ *
+ * So where the request carries a stub token, it decides. Where it does
+ * not — the no-Clerk-key preview state the site ships in — the caller
+ * named by `fallback` stands in, which keeps every existing suite
+ * answering exactly as it did.
+ */
+function actor(req, fallback = 'usr_demo') {
+  const { userId } = identify(req);
+  return sqlite.prepare('SELECT * FROM users WHERE id = ?').get(userId || fallback);
+}
+
 createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
   try {
@@ -821,7 +882,7 @@ createServer(async (req, res) => {
     }
     if (url.pathname === '/api/messages' && req.method === 'GET') {
       return json(res, await threadsLib.listThreads(env, {
-        user: sqlite.prepare('SELECT * FROM users WHERE id = ?').get('usr_demo'),
+        user: actor(req),
         limit: threadsLib.parseLimit(url.searchParams.get('limit')),
       }));
     }
@@ -829,7 +890,7 @@ createServer(async (req, res) => {
       const body = JSON.parse(await read(req) || '{}');
       try {
         return json(res, await threadsLib.openThread(env, {
-          user: sqlite.prepare('SELECT * FROM users WHERE id = ?').get('usr_demo'), body,
+          user: actor(req), body,
         }), 201);
       } catch (err) {
         res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
@@ -840,7 +901,7 @@ createServer(async (req, res) => {
     }
     if (url.pathname.startsWith('/api/messages/')) {
       const threadId = decodeURIComponent(url.pathname.slice('/api/messages/'.length));
-      const me = sqlite.prepare('SELECT * FROM users WHERE id = ?').get('usr_demo');
+      const me = actor(req);
       try {
         if (req.method === 'GET') {
           return json(res, await threadsLib.readThread(env, { user: me, threadId }));
@@ -1247,6 +1308,182 @@ createServer(async (req, res) => {
     }
     if (url.pathname === '/api/lms/listening-analytics') {
       return json(res, await content.getListeningAnalytics(env, { userId: 'usr_demo', levelId: Number(url.searchParams.get('levelId')) }));
+    }
+    // ── THE STAFF CONSOLES ──────────────────────────────────────────
+    //
+    // Six pages under /staff-*.html, and until they existed the harness
+    // served none of the endpoints behind them: every staff capability
+    // on this platform was an API with no surface, and adding the
+    // surfaces without adding these would have made them unverifiable
+    // in a browser — which is the one thing CLAUDE.md §6 forbids.
+    //
+    // The actor is `usr_tutor` rather than an administrator on purpose.
+    // Almost every refusal these consoles are built around — whose
+    // learners you may read, whose diary you may publish into, which
+    // cases you may hear — is invisible from an administrator account,
+    // because an administrator is exempt from most of them.
+    const staff = () => actor(req, 'usr_tutor');
+
+    if (url.pathname === '/api/auth/me' && req.method === 'GET') {
+      const me = staff();
+      return json(res, {
+        id: me.id, email: me.email, preferredName: me.preferred_name,
+        preferredLanguage: me.preferred_language, role: me.role,
+      });
+    }
+    if (url.pathname === '/api/lms/marking-queue' && req.method === 'GET') {
+      const lv = url.searchParams.get('levelId');
+      return json(res, await content.listSubmissionsForMarking(env, {
+        levelId: lv ? Number(lv) : null,
+        status: url.searchParams.get('status') || 'submitted',
+        limit: Number(url.searchParams.get('limit')) || 50,
+      }));
+    }
+    if (url.pathname === '/api/lms/grade-assignment' && req.method === 'POST') {
+      const body = JSON.parse(await read(req) || '{}');
+      try {
+        return json(res, await content.gradeAssignment(env, { gradedBy: staff().id, ...body }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/api/staff/attendance') {
+      const me = staff();
+      try {
+        if (req.method === 'GET') {
+          const userId = url.searchParams.get('userId');
+          if (!userId) {
+            return json(res, await attendanceLib.staffRoster(env, me, {
+              limit: Number(url.searchParams.get('limit')) || 50,
+            }));
+          }
+          const authorisation = await attendanceLib.assertMayReadLearner(env, me, userId);
+          const record = await attendanceLib.learnerEngagement(env, {
+            userId,
+            levelId: attendanceLib.parseLevelId(url.searchParams.get('levelId')),
+            weeks: attendanceLib.parseWeeks(url.searchParams.get('weeks')),
+          });
+          return json(res, { ...record, authorisation });
+        }
+        const body = JSON.parse(await read(req) || '{}');
+        await attendanceLib.assertMayReadLearner(env, me, body.userId);
+        return json(res, await attendanceLib.recordStaffRegister(env, { actor: me, ...body }), 201);
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/api/staff/slots') {
+      const me = staff();
+      try {
+        if (req.method === 'GET') {
+          return json(res, await timetableLib.tutorSlots(env, {
+            tutor: me,
+            tutorId: url.searchParams.get('tutorId'),
+            limit: timetableLib.parseLimit(url.searchParams.get('limit')),
+            includePast: url.searchParams.get('includePast') === 'true',
+          }));
+        }
+        const body = JSON.parse(await read(req) || '{}');
+        if (body.action === 'withdraw') {
+          return json(res, await timetableLib.withdrawSlot(env, {
+            tutor: me, slotId: body.slotId, reason: body.reason,
+          }));
+        }
+        return json(res, await timetableLib.publishSlot(env, { tutor: me, ...body }), 201);
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/api/staff/announcements') {
+      const me = staff();
+      try {
+        if (req.method === 'GET') {
+          const id = url.searchParams.get('id');
+          if (id) return json(res, await announcementsLib.staffAnnouncement(env, me, id));
+          const lv = url.searchParams.get('levelId');
+          return json(res, await announcementsLib.staffList(env, me, {
+            status: url.searchParams.get('status') || null,
+            scope: url.searchParams.get('audienceScope') || null,
+            levelId: lv ? Number(lv) : null,
+            limit: announcementsLib.parseLimit(url.searchParams.get('limit'), 50),
+          }));
+        }
+        const body = JSON.parse(await read(req) || '{}');
+        if (req.method === 'POST') {
+          return json(res, await announcementsLib.createAnnouncement(env, { actor: me, body }), 201);
+        }
+        const id = url.searchParams.get('id') || body.id;
+        if (req.method === 'PATCH') {
+          return json(res, await announcementsLib.updateAnnouncement(env, { actor: me, id, body }));
+        }
+        if (req.method === 'DELETE') {
+          return json(res, await announcementsLib.withdrawAnnouncement(env, {
+            actor: me, id, reason: body.reason,
+          }));
+        }
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/api/staff/cases') {
+      const me = staff();
+      try {
+        if (req.method === 'GET') {
+          const one = url.searchParams.get('case') || url.searchParams.get('reference');
+          if (one) return json(res, await casesLib.registrarCase(env, { actor: me, idOrReference: one }));
+          return json(res, await casesLib.registrarQueue(env, {
+            actor: me,
+            stage: url.searchParams.get('stage') || null,
+            kind: url.searchParams.get('kind') || null,
+            matter: url.searchParams.get('matter') || null,
+            overdueOnly: url.searchParams.get('overdue') === 'true',
+            limit: casesLib.parseLimit(url.searchParams.get('limit')),
+          }));
+        }
+        const body = JSON.parse(await read(req) || '{}');
+        if (body.action === 'decide') {
+          return json(res, await casesLib.recordDecision(env, {
+            actor: me,
+            actorRole: body.actorRole ?? null,
+            caseId: body.case || body.reference || body.caseId,
+            outcome: body.outcome,
+            decision: body.decision,
+            note: body.note ?? null,
+          }));
+        }
+        const toStage = { route: 'stage_one', await_information: 'awaiting_information', close: 'closed' }[body.action]
+          ?? body.toStage;
+        return json(res, await casesLib.advanceStage(env, {
+          actor: me,
+          caseId: body.case || body.reference || body.caseId,
+          toStage,
+          note: body.note,
+        }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/api/lms/complete-level') {
+      try {
+        if (req.method === 'GET') {
+          return json(res, await progressionLib.levelGateReport(env, {
+            userId: url.searchParams.get('userId'),
+            levelId: Number(url.searchParams.get('levelId')),
+          }));
+        }
+        const body = JSON.parse(await read(req) || '{}');
+        return json(res, await progressionLib.completeLevel(env, {
+          userId: body.userId, levelId: body.levelId,
+        }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
     }
     if (url.pathname === '/api/lms/review-queue') {
       const lv = url.searchParams.get('levelId');

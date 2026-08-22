@@ -107,6 +107,13 @@ const MAJOR = [
   'article__seal', 'docket__entry', 'attest',
   // css/press.css — the imprint
   'folio', 'imprint', 'shelf__title',
+  // css/console.css — the staff consoles. The medallion at the head of
+  // a desk, the plate a piece of work sits on, and the plate a member
+  // of staff writes an act on. The empty-desk notice (.stf-clear) is
+  // deliberately absent: it is a message, not a struck object, and it
+  // carries no relief — the distinction §3 draws between a surface with
+  // a voice and one without.
+  'stf-count', 'stf-item', 'stf-act',
 ];
 const silent = MAJOR.filter((c) => present(c) && !registered.has('.' + c));
 check(`No struck shape is silent — ${MAJOR.length} major components checked`,

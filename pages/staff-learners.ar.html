@@ -1,0 +1,113 @@
+<!--
+  متعلّموك — النسخة العربية.
+
+  المقابل العربيّ لـ pages/staff-learners.html، والعللُ والقواعد
+  مذكورةٌ هناك: القائمةُ تُركَّب من أفعال التعليم لا من جدول تعيين،
+  ولذلك لا صندوقَ بحثٍ في هذه الصفحة — وذلك هو المقصود لا النقص.
+  والتصحيحُ لا يخفي ما صحّحه: قراءةُ المنصّة تُعرَض بجوار قول الإنسان
+  دائمًا.
+
+  وكلُّ مُعرِّفٍ وسمةِ data هنا هي التي يخاطبها js/staff-learners.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></p>
+    <p class="masthead__eyebrow">الهيئة الأكاديمية</p>
+    <h1>متعلّموك</h1>
+    <p class="lede">مَن في رعايتك، وكيف انخرط كلُّ واحدٍ منهم، والحضورُ الذي لك أن تقيّده بنفسك &mdash; وتأكيدُ إتمامِ المستوى متى استُوفيت شروطُه.</p>
+    <nav class="rec-nav" aria-label="الهيئة الأكاديمية">
+      <a href="/ar/staff-desk.html">المكتب</a>
+      <a href="/ar/staff-marking.html">التصحيح</a>
+      <a href="/ar/staff-learners.html" aria-current="page">متعلّموك</a>
+      <a href="/ar/staff-hours.html">ساعاتك</a>
+      <a href="/ar/staff-notices.html">الإعلانات</a>
+      <a href="/ar/staff-cases.html">القضايا</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state" id="state" aria-live="polite">جارٍ تحميل قائمتك&hellip;</p>
+
+      <section class="acc-block reveal" id="secRoster" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-columns"/></svg> <span data-roster-head>قائمتك</span></h2>
+        </div>
+
+        <p class="stf-basis" data-roster-basis></p>
+
+        <ul class="stf-queue" data-roster></ul>
+
+        <div class="stf-clear" data-roster-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-portico"/></svg></span>
+          <p class="stf-clear__head" data-roster-empty-head></p>
+          <p class="stf-clear__note" data-roster-empty-note></p>
+        </div>
+      </section>
+
+      <section class="acc-block reveal" id="secLearner" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-progress"/></svg> <span data-learner-head></span></h2>
+          <div class="desk-head__tools">
+            <button class="btn btn--outline" type="button" data-learner-close></button>
+          </div>
+        </div>
+
+        <p class="stf-basis" data-engagement-notice></p>
+
+        <div class="stf-counts" data-learner-tally></div>
+
+        <div class="stf-panel">
+          <p class="stf-panel__label" data-modules-label></p>
+          <ul class="stf-queue" data-modules></ul>
+        </div>
+
+        <p class="stf-basis" data-authored-notice></p>
+
+        <div class="stf-act" data-register hidden>
+          <h3 data-register-head></h3>
+          <p class="stf-field__note" data-register-why></p>
+
+          <div class="stf-field">
+            <label for="regModule" data-register-module-label></label>
+            <select id="regModule" data-register-module></select>
+          </div>
+          <div class="stf-field">
+            <label for="regState" data-register-state-label></label>
+            <select id="regState" data-register-state></select>
+            <p class="stf-field__note" data-register-state-note></p>
+          </div>
+          <div class="stf-field" data-register-minutes-field hidden>
+            <label for="regMinutes" data-register-minutes-label></label>
+            <input id="regMinutes" type="number" min="0" step="1" data-register-minutes>
+          </div>
+          <div class="stf-field">
+            <label for="regReason" data-register-reason-label></label>
+            <textarea id="regReason" data-register-reason></textarea>
+            <p class="stf-field__note" data-register-reason-note></p>
+          </div>
+          <div class="stf-buttons">
+            <button class="btn btn--gold" type="button" data-register-send></button>
+            <span class="stf-said" data-register-said aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="stf-act" data-complete hidden>
+          <h3 data-complete-head></h3>
+          <p class="stf-field__note" data-complete-why></p>
+          <ul class="stf-queue" data-gates></ul>
+          <div class="stf-buttons">
+            <button class="btn btn--gold" type="button" data-complete-send></button>
+            <span class="stf-said" data-complete-said aria-live="polite"></span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

@@ -333,26 +333,40 @@ try {
     body: JSON.stringify({ learningItemId: 'itm_l1_m2_pronunciation', mediaUrl: 'blob:demo-take-1', durationMs: 9200 }),
   }).then((r) => r.json()));
 
-  await staff.goto(`${BASE}/instructor-review.html`, { waitUntil: 'networkidle' });
-  await staff.waitForSelector('article.lab-card', { timeout: 8000 });
+  // The standalone instructor workspace is gone; /staff-marking.html
+  // absorbed it. The recording queue is the second half of the marking
+  // console, on the College's own chrome and inside the staff
+  // navigation, rather than an address a tutor had to be told.
+  await staff.goto(`${BASE}/staff-marking.html`, { waitUntil: 'networkidle' });
+  await staff.waitForSelector('[data-spoken-queue] .stf-item', { timeout: 8000 });
   const q = await staff.evaluate(() => ({
-    cards: document.querySelectorAll('article.lab-card').length,
-    sliders: document.querySelectorAll('article input[type=range]').length,
-    targets: document.querySelectorAll('article .target').length,
-    count: document.getElementById('qCount').textContent,
+    cards: document.querySelectorAll('[data-spoken-queue] .stf-item').length,
+    sliders: document.querySelectorAll('[data-spoken-queue] .stf-item input[type=range]').length,
+    targets: (document.querySelector('[data-spoken-queue] .stf-rubric') || {}).textContent || '',
+    count: (document.querySelector('[data-tile="spoken"] [data-count]') || {}).textContent,
   }));
   check(`The review queue renders a real pending submission (${q.cards})`, q.cards === 1);
   check('Each submission is scored on the five profile dimensions', q.sliders === 5);
-  check('The drill targets the learner worked against are shown to the reviewer', q.targets >= 2);
-  check(`The queue reports its depth (${q.count})`, /awaiting review/.test(q.count));
+  check('The drill targets the learner worked against are shown to the reviewer',
+    q.targets.trim().length > 10, q.targets.slice(0, 60));
+  check(`The queue reports its depth (${q.count})`, q.count === '1');
   await staff.screenshot({ path: join(OUT, '07-instructor-queue.png'), fullPage: true });
 
-  // submit a real review and confirm it clears
-  await staff.click('article .tbtn--primary');
-  await staff.waitForFunction(() => document.querySelectorAll('article.lab-card').length === 0, { timeout: 6000 });
-  const cleared = await staff.evaluate(() => document.getElementById('qCount').textContent);
-  check(`Sending feedback clears the item from the queue (${cleared})`, /queue clear/.test(cleared));
-  check(`No script errors in the instructor workspace${staffErrors.length ? ' — ' + staffErrors[0] : ''}`, staffErrors.length === 0);
+  // Submit a real review and confirm it clears. The console requires a
+  // reason with every review, which the standalone workspace did not —
+  // a score with nothing behind it is a score a learner cannot act on.
+  await staff.fill('[data-spoken-queue] .stf-item textarea',
+    'Clear and audible. The country name is stressed on the wrong syllable — that is the one thing to change.');
+  await staff.click('[data-spoken-queue] .stf-item button.btn--gold');
+  await staff.waitForFunction(
+    () => document.querySelectorAll('[data-spoken-queue] .stf-item').length === 0,
+    { timeout: 8000 },
+  );
+  const cleared = await staff.evaluate(
+    () => (document.querySelector('[data-tile="spoken"] [data-count]') || {}).textContent,
+  );
+  check(`Sending feedback clears the item from the queue (${cleared})`, cleared === '0');
+  check(`No script errors in the marking console${staffErrors.length ? ' — ' + staffErrors[0] : ''}`, staffErrors.length === 0);
   await staff.screenshot({ path: join(OUT, '08-instructor-cleared.png') });
 
   console.log(`\nScreenshots written to ${OUT}`);

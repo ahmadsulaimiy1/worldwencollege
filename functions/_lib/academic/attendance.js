@@ -925,7 +925,24 @@ export async function assertMayReadLearner(env, staff, subjectId) {
   return { basis: 'teaching_relation' };
 }
 
-/** The tutor's own learners, named, for a roster that is not a search. */
+/**
+ * The tutor's own learners, named, for a roster that is not a search.
+ *
+ * ONE ROW PER LEARNER, AND THAT IS A CORRECTION.
+ * ─────────────────────────────────────────────────────────────────────
+ * This joined `enrolments` and returned the join, so a learner with
+ * five live enrolments was five people on the roster — five plates, one
+ * name repeated, and the `limit` spent on duplicates rather than on
+ * learners. It went unnoticed because there was no roster surface to
+ * see it on; the first screen ever built over this query rendered the
+ * same person five times and made it obvious in a second.
+ *
+ * So the enrolments are gathered onto the learner instead. `levelId`
+ * stays on the row — the LOWEST live level, which is the one a tutor
+ * meeting somebody is most likely to be teaching them at — and `levels`
+ * carries all of them, so a surface can show a learner sitting two
+ * levels at once rather than choosing one and being wrong.
+ */
 export async function staffRoster(env, staff, { limit = 50 } = {}) {
   const admin = staff.role === 'admin';
   const ids = admin ? null : await tutorLearnerIds(env, staff.id);
@@ -934,25 +951,37 @@ export async function staffRoster(env, staff, { limit = 50 } = {}) {
     return { basis: 'teaching_relation', learners: [], note: 'No learner is currently in your care.' };
   }
 
-  const rows = admin
+  // The LIMIT applies to learners, so it is applied to the learner query
+  // and never to the join — the fault this correction exists for.
+  const people = admin
     ? (await db(env).prepare(
-      `SELECT u.id AS userId, u.preferred_name AS preferredName, u.email AS email,
-              e.level_id AS levelId, e.status AS enrolmentStatus, e.started_at AS startedAt
-         FROM users u
-         LEFT JOIN enrolments e ON e.user_id = u.id AND e.status = 'active'
-        WHERE u.role = 'student'
+      `SELECT u.id AS userId, u.preferred_name AS preferredName, u.email AS email
+         FROM users u WHERE u.role = 'student'
         ORDER BY u.created_at DESC LIMIT ?`).bind(limit).all()).results
     : (await db(env).prepare(
-      `SELECT u.id AS userId, u.preferred_name AS preferredName, u.email AS email,
-              e.level_id AS levelId, e.status AS enrolmentStatus, e.started_at AS startedAt
-         FROM users u
-         LEFT JOIN enrolments e ON e.user_id = u.id AND e.status = 'active'
-        WHERE u.id IN (${ids.map(() => '?').join(',')})
+      `SELECT u.id AS userId, u.preferred_name AS preferredName, u.email AS email
+         FROM users u WHERE u.id IN (${ids.map(() => '?').join(',')})
         ORDER BY u.created_at DESC LIMIT ?`).bind(...ids, limit).all()).results;
+
+  const learners = [];
+  for (const person of people) {
+    const { results: enrolments } = await db(env).prepare(
+      `SELECT level_id AS levelId, status AS enrolmentStatus, started_at AS startedAt
+         FROM enrolments WHERE user_id = ? AND status = 'active'
+        ORDER BY level_id ASC`).bind(person.userId).all();
+    const first = enrolments[0] || null;
+    learners.push({
+      ...person,
+      levelId: first ? first.levelId : null,
+      enrolmentStatus: first ? first.enrolmentStatus : null,
+      startedAt: first ? first.startedAt : null,
+      levels: enrolments,
+    });
+  }
 
   return {
     basis: admin ? 'admin' : 'teaching_relation',
-    learners: rows,
+    learners,
     note: admin
       ? 'Administrators read the whole register. A tutor reads only the learners they teach.'
       : 'These are the learners you share a thread with, who booked your time, whose work you marked, or whose register you took.',

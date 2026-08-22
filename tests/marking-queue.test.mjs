@@ -108,6 +108,18 @@ await submit('asub_other', 'itm_2', 'usr_b', '2026-08-10T09:00:00.000Z');
     first.content === 'Work from usr_a, attempt 1.');
   check('the basis the queue is drawn on is stated, not left for a page to assert',
     q.basis === 'college' && /not one tutor/i.test(q.note), q.note.slice(0, 60));
+
+  // THE PASS LINE TRAVELS WITH THE QUEUE. A marking screen carrying its
+  // own copy of the pass mark is a second source of truth about the
+  // most consequential number this institution produces about a person.
+  const { SCALE, GRADE_SCALE } = await import(loadUrl('functions/_lib/academic/marks.js'));
+  check('the scale the mark will be read on is sent with the work',
+    q.scale && q.scale.passMark === SCALE.passMark && q.scale.name === GRADE_SCALE,
+    JSON.stringify(q.scale && { name: q.scale.name, passMark: q.scale.passMark }));
+  check('...with the bands, so a marker sees where a mark lands and not only whether it passes',
+    Array.isArray(q.scale.bands) && q.scale.bands.length === SCALE.bands.length
+    && q.scale.bands.every((b) => typeof b.letter === 'string' && Number.isFinite(b.from)),
+    String(q.scale.bands && q.scale.bands.length));
 }
 
 // ── A quiz is not written work ──────────────────────────────────────

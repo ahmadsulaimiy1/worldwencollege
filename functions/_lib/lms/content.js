@@ -47,7 +47,7 @@ import { db, newId, nowIso, NotFoundError, ValidationError } from '../db.js';
 import { AuthorizationError } from '../auth/session.js';
 import { moduleMarkForUnit } from '../academic/standing.js';
 import { assertAttemptPermitted, reassessmentPosition } from '../academic/reassessment.js';
-import { meetsThreshold, percentageFromFraction, SCALE } from '../academic/marks.js';
+import { meetsThreshold, percentageFromFraction, SCALE, GRADE_SCALE } from '../academic/marks.js';
 
 export async function assertLevelAccess(env, userId, levelId) {
   const enrolment = await db(env)
@@ -532,7 +532,7 @@ export async function listRecordingsForReview(env, { levelId = null, status = 's
  * OLDEST FIRST, AND THAT IS THE WHOLE POINT OF A QUEUE
  * ─────────────────────────────────────────────────────────────────────
  * A queue sorted newest-first starves the learners who have waited
- * longest — instructor-review.html says exactly this about recordings,
+ * longest — the recording queue says exactly this about recordings,
  * and it is no less true of an essay. The wait is returned with every
  * row so a marker can see it rather than infer it.
  *
@@ -610,6 +610,20 @@ export async function listSubmissionsForMarking(env, {
       + 'whose to mark. Every mark records who gave it.',
     status,
     levelId,
+    // THE SCALE THE MARK WILL BE READ ON, sent with the queue rather
+    // than restated by whatever screen renders it. A marker who cannot
+    // see the pass line is a marker guessing where it is, and a marking
+    // screen carrying its own copy of the number is a second source of
+    // truth about the most consequential figure this institution
+    // produces about a person. Both come from
+    // functions/_lib/academic/marks.js, the one implementation.
+    scale: {
+      name: GRADE_SCALE,
+      passMark: SCALE.passMark,
+      bands: SCALE.bands.map((b) => ({
+        letter: b.letter, from: b.from, toExclusive: b.toExclusive, gradePoint: b.gradePoint,
+      })),
+    },
     submissions: results,
   };
 }
