@@ -1,0 +1,111 @@
+<!--
+  ADMISSIONS — the queue of people asking to be admitted, and the offer
+  that answers one of them.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE FAULT THIS PAGE EXISTS TO CORRECT
+  ─────────────────────────────────────────────────────────────────────
+  An application was written to the database and nobody was told. The
+  only signal admissions ever received was an alert to an address that
+  is not configured, on a gateway that is not configured — so in
+  practice a person filled in the College's form, was given a
+  reference, and waited on a queue nobody could see. There was no
+  list, no count, and no way to act on one.
+
+  ─────────────────────────────────────────────────────────────────────
+  OLDEST FIRST, WHICH IS THE WHOLE POINT OF CALLING IT A QUEUE
+  ─────────────────────────────────────────────────────────────────────
+  An admissions list sorted newest-first is exactly how the application
+  that has waited longest becomes the one nobody sees. The wait rides
+  on every row, drawn as well as stated.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE COUNTS DO NOT NARROW WITH THE FILTER
+  ─────────────────────────────────────────────────────────────────────
+  Filtering the list to one stage must not also narrow the tallies to
+  it, or an officer working one stage loses sight of the rest. The
+  endpoint measures them over the same filters minus the status one,
+  and this page prints what it measured.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE BUTTONS ARE THE SERVER'S, NOT THIS PAGE'S
+  ─────────────────────────────────────────────────────────────────────
+  Every row carries `legalNext` — the moves the lifecycle actually
+  permits from where that application stands — and the controls are
+  built from it. A console that decides for itself which buttons to
+  show eventually disagrees with the server, and the disagreement
+  always surfaces as a refusal in front of an admissions officer with
+  an applicant waiting.
+
+  ─────────────────────────────────────────────────────────────────────
+  AND EVERY REASON WRITTEN HERE IS READ BY THE APPLICANT
+  ─────────────────────────────────────────────────────────────────────
+  There is no internal-note column to write a private one into. The
+  form says so above the field rather than leaving it to be discovered
+  by somebody who wrote something they would not have said aloud.
+
+  Every id and data- attribute below is addressed by js/staff-admissions.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-portcullis"/></svg></p>
+    <p class="masthead__eyebrow">The Registry</p>
+    <h1>Admissions</h1>
+    <p class="lede">Everyone who has asked to be admitted, in the order they asked &mdash; what each application is waiting on, what may lawfully happen to it next, and the written offer that answers it.</p>
+    <nav class="rec-nav" aria-label="Academic staff">
+      <a href="/staff-desk.html">The Desk</a>
+      <a href="/staff-marking.html">Marking</a>
+      <a href="/staff-learners.html">My Learners</a>
+      <a href="/staff-hours.html">My Hours</a>
+      <a href="/staff-notices.html">Notices</a>
+      <a href="/staff-cases.html">Cases</a>
+      <a href="/staff-admissions.html" aria-current="page">Admissions</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state" id="state" aria-live="polite">Loading the admissions queue&hellip;</p>
+
+      <!-- WHAT IS WAITING, BY STAGE ------------------------------------ -->
+      <div class="stf-counts" id="secCounts" hidden></div>
+
+      <!-- THE PUBLISHED JOURNEY ---------------------------------------- -->
+      <!-- The College's own account of how somebody becomes a student,
+           rendered from the payload so the officer working the queue and
+           the applicant reading /admissions/ are looking at one text. -->
+      <section class="acc-block reveal" id="secJourney" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-passport"/></svg> <span data-journey-head></span></h2>
+        </div>
+        <p class="stf-basis" data-journey-note></p>
+        <ul class="stf-queue" data-journey></ul>
+      </section>
+
+      <!-- THE QUEUE ----------------------------------------------------- -->
+      <section class="acc-block reveal" id="secQueue" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg> <span data-queue-head></span></h2>
+          <div class="desk-head__tools stf-filters">
+            <label for="aStatus" data-queue-status-label></label>
+            <select id="aStatus" data-queue-status></select>
+          </div>
+        </div>
+
+        <ul class="stf-queue" data-queue></ul>
+
+        <div class="stf-clear" data-queue-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <p class="stf-clear__head" data-queue-empty-head></p>
+          <p class="stf-clear__note" data-queue-empty-note></p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

@@ -753,7 +753,11 @@ const REDIRECTS = (() => {
 // signature needs a real Clerk instance and is disclosed as untested
 // in tests/README.md.
 const REQUIRE_AUTH = process.env.LAB_REQUIRE_AUTH === '1';
-const STUB_TOKENS = { 'stub-demo': 'usr_demo', 'stub-tutor': 'usr_tutor' };
+// `stub-admin` was added with the staff consoles: several refusals on
+// them — the Registrar's moves on a case, reading a colleague's diary —
+// are visible only from an administrator account, and a harness that
+// could only be a tutor could not exercise either side of them.
+const STUB_TOKENS = { 'stub-demo': 'usr_demo', 'stub-tutor': 'usr_tutor', 'stub-admin': 'usr_admin' };
 
 function identify(req) {
   const header = req.headers.authorization || '';
@@ -1098,10 +1102,21 @@ createServer(async (req, res) => {
         return res.end(JSON.stringify({ error: err.name, message: err.message }));
       }
     }
+    // ONE ROUTE, TWO DOORS — the arrangement production has, kept here
+    // rather than approximated. `?action=` (or an `action` field) is the
+    // applicant answering their own offer with their reference as the
+    // credential; NO action is the staff door, which issues one. The
+    // harness served only the applicant's half until the admissions
+    // console needed the other, and a request with no action was being
+    // answered "action must be one of: accept, decline, withdraw" —
+    // a refusal aimed at the wrong caller entirely.
     if (url.pathname === '/api/admissions/offer' && req.method === 'POST') {
       const body = JSON.parse(await read(req) || '{}');
       const action = url.searchParams.get('action') || body.action;
       try {
+        if (!action) {
+          return json(res, await lifecycle.issueOffer(env, { actor: actor(req, 'usr_tutor'), ...body }), 201);
+        }
         const r = await lifecycle.respondToOffer(env, {
           reference: body.reference, action, reason: body.reason || null, clientKey: 'harness',
         });
@@ -1463,6 +1478,49 @@ createServer(async (req, res) => {
           toStage,
           note: body.note,
         }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+    if (url.pathname === '/api/staff/applications') {
+      const me = staff();
+      try {
+        if (req.method === 'GET') {
+          const queue = await lifecycle.applicationQueue(env, {
+            status: url.searchParams.get('status'),
+            source: url.searchParams.get('source'),
+            country: url.searchParams.get('country'),
+            levelId: url.searchParams.get('levelId'),
+            q: url.searchParams.get('q'),
+            limit: url.searchParams.get('limit'),
+            offset: url.searchParams.get('offset'),
+          });
+          return json(res, {
+            ...queue,
+            machine: {
+              statuses: lifecycle.APPLICATION_STATUSES,
+              journey: lifecycle.PUBLISHED_JOURNEY,
+              transitions: lifecycle.TRANSITIONS.map((t) => ({
+                from: t.from, to: t.to, by: t.by, means: t.means,
+              })),
+            },
+          });
+        }
+        const body = JSON.parse(await read(req) || '{}');
+        const moved = await lifecycle.staffTransition(env, {
+          actor: me,
+          applicationId: body.applicationId,
+          to: body.to,
+          reason: body.reason ?? null,
+          placementLevelId: body.placementLevelId,
+        });
+        return json(res, {
+          reference: moved.application.id,
+          status: moved.application.status,
+          placementLevelId: moved.application.placement_level_id,
+          offer: moved.offer ?? null,
+        });
       } catch (err) {
         res.writeHead(err.httpStatus || 422, { 'Content-Type': 'application/json' });
         return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));

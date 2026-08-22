@@ -2951,5 +2951,55 @@
       "/js/staff-kit.js",
       "/js/staff-cases.js"
     ]
+  },
+  {
+    "slug": "staff-admissions",
+    "output": "staff-admissions.html",
+    "title": "Admissions &mdash; Worldwide English College",
+    "description": "Everyone who has asked to be admitted, in the order they asked, with what each application is waiting on, what may lawfully happen to it next, and the written offer that answers it.",
+    "contentFile": "staff-admissions.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-admissions.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-admissions.js"
+    ]
+  },
+  {
+    "slug": "staff-admissions-ar",
+    "output": "ar/staff-admissions.html",
+    "title": "القبول &mdash; كلّية ورلدوايد إنجلش",
+    "description": "كلُّ مَن طلب الالتحاق بترتيب طلبه، وما ينتظره كلُّ طلب، وما يجوز أن يجري عليه بعدُ، والعرضُ المكتوب الذي يجيبه.",
+    "contentFile": "staff-admissions.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-admissions.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-admissions.js"
+    ]
   }
 ]

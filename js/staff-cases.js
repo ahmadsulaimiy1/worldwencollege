@@ -111,6 +111,27 @@
     barredWhy: 'حسابُك من الحسابات التي لا تسمع هذه القضيّة، لأنّها تمسّ قرارًا كنتَ طرفًا فيه. والقاعدةُ منشورة: في كلّ مرحلةٍ ينتقل القرارُ إلى مَن لم يكن طرفًا في التي قبلها.',
     notHearing: 'ليست في مرحلةِ سماع',
     answeredAlready: 'أُجيبت',
+    registrarHead: 'أفعال مكتب المسجِّل',
+    registrarWhy: 'هذه أفعالُ مكتب المسجِّل، لا الجواب. والجوابُ يسمعه عضوُ هيئةٍ لم يكن طرفًا في المرحلة السابقة؛ أمّا التوجيهُ والوقفُ والاستئنافُ وإعادةُ التأريخ والإغلاق فتصريفُ ملفّ، وتُقيَّد كلُّها باسم الحساب الذي أنت فيه.',
+    registrarOnly: 'أفعالُ مكتب المسجِّل مفتوحةٌ لحسابٍ إداريّ، وحسابُك ليس منها.',
+    actionLabel: 'الفعل',
+    actions: [
+      ['route', 'وجِّهها إلى المرحلة الأولى'],
+      ['await_information', 'أوقِف الساعة بانتظار بيان'],
+      ['resume', 'استأنِفها'],
+      ['set_answer_due', 'أعِد تأريخ الجواب'],
+      ['close', 'أغلِقها'],
+    ],
+    resumeLabel: 'تعود إلى مرحلة',
+    resumeNote: 'تعود القضيّةُ إلى المرحلة التي أُوقفت عنها لا إلى غيرها؛ فالعودةُ إلى درجةٍ أخرى تغييرٌ للإجراء لا استئنافٌ له.',
+    dueLabel: 'تاريخ الجواب الجديد',
+    noteLabel: 'البيان',
+    noteNote: 'يبقى ما تكتبه على سجلّ القضيّة بلفظه. وتحريكُ ملفٍّ بلا بيانٍ هو ما وُضع الإجراءُ لمنعه.',
+    doIt: 'نفِّذ',
+    doing: 'جارٍ التنفيذ…',
+    done: 'نُفِّذ.',
+    needNote: 'البيان مطلوب.',
+    needDue: 'التاريخ مطلوب.',
   } : {
     loading: 'Loading the caseload…',
     ready: 'The College’s cases.',
@@ -169,6 +190,27 @@
     barredWhy: 'Your account is among those that may not hear this case, because it touches a decision you were part of. The rule is published: at every stage the decision passes to somebody who was not part of the last one.',
     notHearing: 'Not at a hearing stage',
     answeredAlready: 'Answered',
+    registrarHead: 'The Registrar’s desk',
+    registrarWhy: 'These are the Registrar’s moves rather than the answer. The answer is heard by a member of academic staff who was not part of the stage before it; routing, stopping the clock, resuming, re-dating and closing are the handling of a file, and every one of them is recorded under the account you are signed in as.',
+    registrarOnly: 'The Registrar’s moves are open to an administrator account, and yours is not one.',
+    actionLabel: 'What to do',
+    actions: [
+      ['route', 'Route it to stage one'],
+      ['await_information', 'Stop the clock, awaiting information'],
+      ['resume', 'Resume it'],
+      ['set_answer_due', 'Re-date the answer'],
+      ['close', 'Close it'],
+    ],
+    resumeLabel: 'Resumes at',
+    resumeNote: 'A case comes back at the stage it was parked from and at no other. Resuming at a different rung is a change to the procedure rather than a resumption of it.',
+    dueLabel: 'The new answer date',
+    noteLabel: 'Note',
+    noteNote: 'What you write stays on the case in your own words. Moving a file with no note is what the procedure exists to prevent.',
+    doIt: 'Do it',
+    doing: 'Working…',
+    done: 'Done.',
+    needNote: 'A note is required.',
+    needDue: 'A date is required.',
   };
 
   var me = null;
@@ -211,7 +253,135 @@
     if (clockLine.textContent) li.appendChild(clockLine);
 
     li.appendChild(answerFor(c, li));
+    // The Registrar's own moves, which are a different authority from
+    // the answer and are shown as one. An account without that
+    // authority is told so rather than shown controls the server will
+    // refuse.
+    if (me && me.role === 'admin') li.appendChild(registrarAct(c, li));
     return li;
+  }
+
+  /**
+   * ROUTING, PARKING, RESUMING, RE-DATING, CLOSING.
+   *
+   * Two authorities on one page, deliberately kept apart. Answering a
+   * case belongs to a member of academic staff senior to, and other
+   * than, whoever took the decision under review; the handling of the
+   * file belongs to the Registrar's desk, which the platform reads as
+   * administrator access for want of an office-holder table.
+   *
+   * ESCALATION AND WITHDRAWAL ARE NOT HERE, and their absence is the
+   * point: both are the appellant's acts. An escalation entered by the
+   * College is the College appealing to itself, and the trail would
+   * not show that the learner ever asked.
+   */
+  function registrarAct(c, li) {
+    var act = K.el('div', 'stf-act');
+    act.appendChild(K.el('h3', null, T.registrarHead));
+    act.appendChild(K.el('p', 'stf-field__note', T.registrarWhy));
+
+    var af = K.el('div', 'stf-field');
+    var al = K.el('label', null, T.actionLabel);
+    al.setAttribute('for', 'rg_' + c.id);
+    af.appendChild(al);
+    var action = K.el('select');
+    action.id = 'rg_' + c.id;
+    K.fillOptions(action, T.actions);
+    af.appendChild(action);
+    act.appendChild(af);
+
+    // Where the case resumes, offered only for the act that needs it.
+    var sf = K.el('div', 'stf-field');
+    var sl = K.el('label', null, T.resumeLabel);
+    sl.setAttribute('for', 'rs_' + c.id);
+    sf.appendChild(sl);
+    var stage = K.el('select');
+    stage.id = 'rs_' + c.id;
+    K.fillOptions(stage, T.stages.filter(function (p) {
+      return ['stage_one', 'stage_two', 'stage_three'].indexOf(p[0]) !== -1;
+    }));
+    sf.appendChild(stage);
+    sf.appendChild(K.el('p', 'stf-field__note', T.resumeNote));
+    act.appendChild(sf);
+
+    var df = K.el('div', 'stf-field');
+    var dl = K.el('label', null, T.dueLabel);
+    dl.setAttribute('for', 'rd_' + c.id);
+    df.appendChild(dl);
+    var due = K.el('input');
+    due.type = 'date';
+    due.id = 'rd_' + c.id;
+    df.appendChild(due);
+    act.appendChild(df);
+
+    var nf = K.el('div', 'stf-field');
+    var nl = K.el('label', null, T.noteLabel);
+    nl.setAttribute('for', 'rn_' + c.id);
+    nf.appendChild(nl);
+    var note = K.el('textarea');
+    note.id = 'rn_' + c.id;
+    note.setAttribute('dir', 'auto');
+    nf.appendChild(note);
+    nf.appendChild(K.el('p', 'stf-field__note', T.noteNote));
+    act.appendChild(nf);
+
+    function shape() {
+      sf.hidden = action.value !== 'resume';
+      df.hidden = action.value !== 'set_answer_due';
+    }
+    action.addEventListener('change', shape);
+    shape();
+
+    var buttons = K.el('div', 'stf-buttons');
+    var btn = K.el('button', 'btn btn--outline', T.doIt);
+    btn.type = 'button';
+    var said = K.el('span', 'stf-said');
+    said.setAttribute('aria-live', 'polite');
+    buttons.appendChild(btn);
+    buttons.appendChild(said);
+    act.appendChild(buttons);
+
+    btn.addEventListener('click', function () {
+      if (!note.value.trim()) {
+        said.setAttribute('data-tone', 'bad');
+        said.textContent = T.needNote;
+        note.focus();
+        return;
+      }
+      if (action.value === 'set_answer_due' && !due.value) {
+        said.setAttribute('data-tone', 'bad');
+        said.textContent = T.needDue;
+        due.focus();
+        return;
+      }
+      var body = { action: action.value, case: c.id, note: note.value.trim() };
+      if (action.value === 'resume') body.toStage = stage.value;
+      // The end of the chosen day. An answer due "on the 4th" that fell
+      // due at midnight the night before would be a day short of what
+      // the College told the appellant.
+      if (action.value === 'set_answer_due') body.answerDue = due.value + 'T23:59:59.999Z';
+
+      btn.disabled = true;
+      said.removeAttribute('data-tone');
+      said.textContent = T.doing;
+      K.api('/api/staff/cases', { method: 'PATCH', body: JSON.stringify(body) })
+        .then(function () {
+          said.setAttribute('data-tone', 'good');
+          said.textContent = T.done;
+          K.withdraw(li, loadQueue);
+        })
+        .catch(function (e) {
+          btn.disabled = false;
+          said.setAttribute('data-tone', 'bad');
+          said.textContent = e.fields
+            ? K.trouble(e) + ' — ' + Object.keys(e.fields).map(function (k) {
+              return k + ': ' + e.fields[k];
+            }).join('; ')
+            : K.trouble(e);
+        });
+    });
+
+    return act;
   }
 
   /**

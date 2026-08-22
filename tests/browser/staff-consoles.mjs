@@ -90,8 +90,35 @@ async function open_(path, viewport) {
 
 const PAGES = [
   'staff-desk', 'staff-marking', 'staff-learners',
-  'staff-hours', 'staff-notices', 'staff-cases',
+  'staff-hours', 'staff-notices', 'staff-cases', 'staff-admissions',
 ];
+
+/**
+ * The stub Clerk chain the auth suite uses, so a page can be loaded as
+ * somebody in particular. Without it every console here runs in the
+ * no-key preview state and is whoever the harness defaults to — which
+ * cannot exercise the one thing the Registrar's half of the caseload
+ * turns on, namely being an administrator rather than a tutor.
+ */
+function stubAuth(page, who) {
+  const js = (body) => (route) => route.fulfill({ contentType: 'text/javascript', body });
+  return Promise.all([
+    page.route('**/js/auth-config.js*', js('window.WEC_LC_AUTH={clerkPublishableKey:"pk_test_stub"};')),
+    page.route('**/js/clerk-loader.js*', js(`
+      window.WEC_LC_loadClerk = function (pk, done) {
+        var n = 0;
+        done(null, {
+          user: { id: 'user_${who}', firstName: 'Stub', lastName: 'User',
+                  primaryEmailAddress: { emailAddress: '${who}@example.com' } },
+          session: { getToken: function () { n += 1; return Promise.resolve('stub-${who}#' + n); } },
+          signOut: function (cb) { cb && cb(); },
+          openUserProfile: function () {},
+          redirectToSignIn: function () {}
+        });
+      };
+    `)),
+  ]);
+}
 
 try {
   // ── 1 · Both editions of all six, and the entrance resolves ────────
@@ -377,6 +404,145 @@ try {
 
     await page.screenshot({ path: join(OUT, 'staff-05-cases.png'), fullPage: true });
     await page.close();
+  }
+
+  // ── 6b · The admissions queue, and an offer ────────────────────────
+  {
+    const page = await open_('/staff-admissions.html');
+    const queue = await page.evaluate(() => Array.from(document.querySelectorAll('[data-queue] .stf-item'))
+      .map((li) => ({
+        id: li.getAttribute('data-id'),
+        chips: Array.from(li.querySelectorAll('.desk-chip')).map((c) => c.textContent),
+        wait: (li.querySelector('.stf-wait__read') || {}).textContent || '',
+        moves: Array.from(li.querySelectorAll('[data-move-to] option')).map((o) => o.value),
+        heads: Array.from(li.querySelectorAll('.stf-act h3')).map((h) => h.textContent),
+        means: Array.from(li.querySelectorAll('.stf-act .stf-field__note')).map((n) => n.textContent),
+      })));
+    check(`The admissions queue carries the applications (${queue.length})`, queue.length === 3,
+      queue.map((q) => q.id).join(', '));
+    check('…oldest first', queue.every((q) => /\d/.test(q.wait)),
+      queue.map((q) => q.wait).join(' | '));
+
+    // `legalNext` is a list of MOVES carrying who may make each one. A
+    // console that read it as a list of status names put "[object
+    // Object]" in front of an admissions officer.
+    const named = queue.every((q) => q.moves.every((m) => /^[a-z_]*$/.test(m)));
+    check('The moves offered are named, not stringified objects', named,
+      queue.map((q) => q.moves.join('/')).join(' | '));
+    check('…and each says what it means in the platform\'s own words',
+      queue.some((q) => q.means.some((m) => /applicant/i.test(m))),
+      queue.map((q) => q.means.join(' ')).join(' | ').slice(0, 90));
+
+    // The offer form appears exactly where an offer is the act the
+    // lifecycle is waiting for.
+    const offerable = queue.filter((q) => q.heads.some((h) => /Issue an offer/i.test(h)));
+    check(`The offer form is offered only at the placement stage (${offerable.length})`,
+      offerable.length === 1, queue.map((q) => q.heads.join('+')).join(' | '));
+
+    const journey = await page.locator('[data-journey] .stf-item').count();
+    check(`The published journey is rendered from the payload (${journey} steps)`, journey >= 5);
+
+    const counts = await page.evaluate(() => Array.from(document.querySelectorAll('#secCounts .stf-count'))
+      .map((t) => t.getAttribute('data-tile') + ':' + (t.querySelector('.stf-count__num') || {}).textContent));
+    check('The stage tallies are on the desk', counts.length === 4, counts.join(' '));
+
+    // Narrowing the list must NOT narrow the tallies, or an officer
+    // working one stage loses sight of the rest of the queue.
+    await page.selectOption('[data-queue-status]', 'submitted');
+    await page.waitForTimeout(1200);
+    const after = await page.evaluate(() => ({
+      rows: document.querySelectorAll('[data-queue] .stf-item').length,
+      counts: Array.from(document.querySelectorAll('#secCounts .stf-count'))
+        .map((t) => t.getAttribute('data-tile') + ':' + (t.querySelector('.stf-count__num') || {}).textContent),
+    }));
+    check('Filtering to one stage narrows the list', after.rows === 1, String(after.rows));
+    check('…and does not narrow the tallies with it',
+      after.counts.join(' ') === counts.join(' '), after.counts.join(' '));
+
+    await page.screenshot({ path: join(OUT, 'staff-07-admissions.png'), fullPage: true });
+    await page.close();
+  }
+
+  // ── 6c · Issuing an offer, end to end ──────────────────────────────
+  {
+    const page = await open_('/staff-admissions.html');
+    const target = page.locator('[data-queue] .stf-item')
+      .filter({ hasText: 'Placement Demonstration' }).first();
+    check('The application awaiting placement is on the queue', await target.count() > 0);
+
+    await target.locator('[data-offer-reason]')
+      .fill('Placement confirmed at Level II in conversation on the 20th.');
+    await target.locator('[data-offer-send]').click();
+    await page.waitForTimeout(2200);
+
+    const list = await (await fetch(`${BASE}/api/staff/applications?limit=50`)).json();
+    const issued = (list.applications || []).find((a) => a.fullName === 'Placement Demonstration');
+    check('An offer issued from the console reaches the application',
+      Boolean(issued) && issued.status === 'offer_sent', issued && issued.status);
+    check('…carrying the level, the kind and the date it expires',
+      Boolean(issued) && issued.offer && issued.offer.levelId > 0
+      && /^(conditional|unconditional)$/.test(issued.offer.kind)
+      && Boolean(issued.offer.expiresAt),
+      issued && issued.offer && `${issued.offer.levelId} · ${issued.offer.kind} · ${issued.offer.expiresAt}`);
+    await page.close();
+  }
+
+  // ── 6d · The Registrar's moves belong to the Registrar ─────────────
+  {
+    // As a tutor: the answer form where a case is at a hearing stage,
+    // and no Registrar block at all.
+    const tutor = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+    await tutor.route('**://fonts.googleapis.com/**', (r) => r.abort());
+    await tutor.route('**://fonts.gstatic.com/**', (r) => r.abort());
+    await stubAuth(tutor, 'tutor');
+    await tutor.goto(`${BASE}/staff-cases.html`, { waitUntil: 'domcontentloaded' });
+    await tutor.waitForTimeout(2000);
+    const asTutor = await tutor.evaluate(() => ({
+      registrar: Array.from(document.querySelectorAll('.stf-act h3'))
+        .filter((h) => /Registrar/i.test(h.textContent)).length,
+      answers: Array.from(document.querySelectorAll('.stf-act h3'))
+        .filter((h) => /Answer this case/i.test(h.textContent)).length,
+    }));
+    check('A tutor is offered the answer and not the Registrar\'s moves',
+      asTutor.registrar === 0 && asTutor.answers >= 1,
+      `registrar ${asTutor.registrar}, answers ${asTutor.answers}`);
+    await tutor.close();
+
+    // As an administrator: both.
+    const admin = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+    await admin.route('**://fonts.googleapis.com/**', (r) => r.abort());
+    await admin.route('**://fonts.gstatic.com/**', (r) => r.abort());
+    await stubAuth(admin, 'admin');
+    await admin.goto(`${BASE}/staff-cases.html`, { waitUntil: 'domcontentloaded' });
+    await admin.waitForTimeout(2000);
+    const asAdmin = await admin.evaluate(() => ({
+      registrar: Array.from(document.querySelectorAll('.stf-act h3'))
+        .filter((h) => /Registrar/i.test(h.textContent)).length,
+      // Escalation and withdrawal are the appellant's acts and must not
+      // be reachable from any staff console.
+      appellant: Array.from(document.querySelectorAll('option'))
+        .filter((o) => /^(escalate|withdraw)$/.test(o.value)).length,
+    }));
+    check(`An administrator is offered the Registrar's moves (${asAdmin.registrar})`,
+      asAdmin.registrar >= 1);
+    check('Escalation and withdrawal are nowhere on a staff console — they are the appellant\'s',
+      asAdmin.appellant === 0, String(asAdmin.appellant));
+
+    // And one of those moves actually works.
+    const received = admin.locator('.stf-item').filter({ hasText: 'Received' }).first();
+    if (await received.count()) {
+      const act = received.locator('.stf-act').last();
+      await act.locator('textarea').fill('Acknowledged and passed to a member of academic staff.');
+      await act.locator('button.btn--outline').click();
+      await admin.waitForTimeout(2200);
+      const queue = await (await fetch(`${BASE}/api/staff/cases?limit=100`)).json();
+      const routed = (queue.cases || []).some((c) => c.stage === 'stage_one'
+        && /caring for a relative/.test(c.summary || ''));
+      check('Routing a case to stage one from the console moves it', routed,
+        (queue.cases || []).map((c) => c.stage).join(', '));
+    }
+    await admin.screenshot({ path: join(OUT, 'staff-08-registrar.png'), fullPage: true });
+    await admin.close();
   }
 
   // ── 7 · The desk adds up ───────────────────────────────────────────
