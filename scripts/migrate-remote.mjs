@@ -17,7 +17,17 @@ import { fileURLToPath } from 'node:url';
 import { runMigrations } from './migrate.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const DB = process.env.D1_DATABASE_NAME || 'wec';
+// The LIVE database is named 'wec-lc', and this default must match
+// wrangler.toml's database_name — wrangler resolves the name against
+// the config first and against the account second, so a name that is
+// in neither fails outright. It was 'wec' for a day: the rebrand that
+// was later reverted mapped 'wec-lc' → 'aipc', and the reverse map
+// turned 'aipc' back into 'wec', silently dropping the suffix. Every
+// deploy since failed on "Couldn't find DB with name 'wec'" at this
+// exact line, and nothing in the verify job could see it because the
+// deploy job is where it runs. tests/deploy-config.test.mjs now checks
+// the two agree.
+const DB = process.env.D1_DATABASE_NAME || 'wec-lc';
 const target = process.argv.includes('--local') ? '--local' : '--remote';
 const dryRun = process.argv.includes('--dry-run');
 const scratch = mkdtempSync(path.join(tmpdir(), 'wec-migrate-'));

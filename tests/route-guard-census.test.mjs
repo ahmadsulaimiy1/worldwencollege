@@ -161,7 +161,7 @@ for (const file of files) {
 
   for (const m of handlers) {
     const method = (m || 'Get').toUpperCase();
-    const url = `https://wec.test/api/${file.replace(/\.js$/, '').replace(/index$/, '')}`;
+    const url = `https://wec-lc.test/api/${file.replace(/\.js$/, '').replace(/index$/, '')}`;
     let status = null, threw = null;
     try {
       const res = await mod[`onRequest${m}`]({
@@ -214,7 +214,7 @@ check('Every key-authenticated route is exercised', keyed >= 1, keyed);
     VALUES ('usr_a','clerk','c_a','a@example.com','admin')`).bind().run();
   const inst = await registerInstitution(env, { name: 'Census Test University', kind: 'university' });
   const res = await mod.onRequestGet({
-    request: new Request('https://wec.test/api/institutional/verify?code=WEC-AAAA-BBBB-CCCCC', {
+    request: new Request('https://wec-lc.test/api/institutional/verify?code=WEC-AAAA-BBBB-CCCCC', {
       headers: { Authorization: `Bearer ${inst.apiKey}` },
     }),
     env, waitUntil: () => {},
@@ -239,7 +239,7 @@ async function postUnsigned(file, env) {
   const mod = await import(loadUrl(path.join('functions/api', file)));
   try {
     const res = await mod.onRequestPost({
-      request: new Request('https://wec.test/hook', {
+      request: new Request('https://wec-lc.test/hook', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ event: 'anything', type: 'payment.succeeded', data: { id: 'x', reference: 'x' } }),
       }),

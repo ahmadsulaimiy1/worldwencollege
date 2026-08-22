@@ -237,7 +237,7 @@
       // application form even if the visitor leaves and comes back —
       // see the [data-admissions-form] handler.
       var suggestion = { levelId: index + 1, roman: level.roman, name: level.name, cefr: level.cefr, text: text };
-      try { sessionStorage.setItem('wec-suggested-level', JSON.stringify(suggestion)); } catch (err) { /* storage unavailable — degrade silently */ }
+      try { sessionStorage.setItem('wec-lc-suggested-level', JSON.stringify(suggestion)); } catch (err) { /* storage unavailable — degrade silently */ }
       document.dispatchEvent(new CustomEvent('wec:level-suggested', { detail: suggestion }));
     });
   });
@@ -317,7 +317,7 @@
     }
     document.addEventListener('wec:level-suggested', function (e) { applySuggestion(e.detail); });
     try {
-      var stored = sessionStorage.getItem('wec-suggested-level');
+      var stored = sessionStorage.getItem('wec-lc-suggested-level');
       if (stored) applySuggestion(JSON.parse(stored));
     } catch (err) { /* no stored suggestion — the quiz is optional, form works without it */ }
 
