@@ -113,10 +113,10 @@ export async function onRequestPost({ request, env }) {
       .run();
 
     const description = body.fullProgramme
-      ? 'WEC-LC — Full Programme (all six levels)'
+      ? 'WEC — Full Programme (all six levels)'
       : instalmentPlanId
-        ? `WEC-LC — Instalment${level ? ` (${level.name})` : ' (Full Programme)'}`
-        : `WEC-LC — ${level.name}`;
+        ? `WEC — Instalment${level ? ` (${level.name})` : ' (Full Programme)'}`
+        : `WEC — ${level.name}`;
     const origin = new URL(request.url).origin;
     let checkoutUrl, providerRef;
     try {

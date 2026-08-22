@@ -106,7 +106,7 @@ const hero = (eyebrow, h1, lede, buttons = '') => `<section class="section--dark
 
 const statusCallout = `<div class="callout">
       <span class="callout__label">Institutional Status</span>
-      <p>WEC-LC holds no accreditation and has appointed no External Examiner. Its Academic
+      <p>WEC holds no accreditation and has appointed no External Examiner. Its Academic
         Senate is constituted and has not yet convened; BASCE has no appointed members. The
         College states this wherever it is relevant rather than once in a footnote &mdash; see
         <a href="/about/#status">About &middot; Institutional Status</a>.</p>
@@ -150,9 +150,9 @@ PAGES.pillar = {
     + 'philosophy, how it is organised, and its institutional status stated plainly.',
   body: `<section class="section--dark section-pad">
   <div class="container">
-    <span class="eyebrow">About WEC-LC</span>
+    <span class="eyebrow">About WEC</span>
     <h1>An institution built on one conviction: English fluency changes what's possible.</h1>
-    <p class="lede">WorldWide English College, London Campus is being built as an international English-language institution: one programme, six CEFR-aligned levels, taught and assessed online, for students wherever they are in the world.</p>
+    <p class="lede">Worldwide English College — London Campus is being built as an international English-language institution: one programme, six CEFR-aligned levels, taught and assessed online, for students wherever they are in the world.</p>
   </div>
 </section>
 
@@ -192,10 +192,10 @@ PAGES.pillar = {
     <div class="section-head">
       <span class="module-marker">Our Operating Model</span>
       <h2>Online-first by design. London-based by administration.</h2>
-      <p class="lede">"London Campus" identifies WEC-LC's administrative and management headquarters — it is not a claim of a physical teaching campus, and it never referred to more than one. Our educational delivery is intentionally online-first: every level of the IEFC is taught through live and recorded instruction inside our digital campus, so a student in Lagos, Riyadh, or Manila studies on equal footing with one in London. This is a deliberate strategic choice for global accessibility and flexibility, not a stand-in for premises we don't yet have.</p>
+      <p class="lede">"London Campus" identifies WEC's administrative and management headquarters — it is not a claim of a physical teaching campus, and it never referred to more than one. Our educational delivery is intentionally online-first: every level of the IEFC is taught through live and recorded instruction inside our digital campus, so a student in Lagos, Riyadh, or Manila studies on equal footing with one in London. This is a deliberate strategic choice for global accessibility and flexibility, not a stand-in for premises we don't yet have.</p>
     </div>
     <div class="grid grid--2">
-      <div class="card"><h3>What "London Campus" means</h3><p>The institution's administrative and management headquarters, and the seat of its governance — the brand and legal home of WEC-LC.</p></div>
+      <div class="card"><h3>What "London Campus" means</h3><p>The institution's administrative and management headquarters, and the seat of its governance — the brand and legal home of WEC.</p></div>
       <div class="card"><h3>What "London Campus" doesn't mean</h3><p>A physical building where classes are taught, or a network of regional campuses. Every student, everywhere, studies through the same online digital campus.</p></div>
     </div>
   </div>
@@ -206,7 +206,7 @@ PAGES.pillar = {
     <div class="section-head">
       <span class="module-marker">Institutional Status</span>
       <h2>What's confirmed, and what's still being built.</h2>
-      <p class="lede">Trust is earned through precision, not promises. Here is the current state of WEC-LC.</p>
+      <p class="lede">Trust is earned through precision, not promises. Here is the current state of WEC.</p>
     </div>
     <div class="grid grid--2">
       <div class="card">
@@ -242,7 +242,7 @@ PAGES.pillar = {
     <div class="section-head">
       <span class="module-marker">The Vision</span>
       <h2>An ambition, stated as an ambition.</h2>
-      <p class="lede">That sentence is a destination, not a description. WEC-LC is a new
+      <p class="lede">That sentence is a destination, not a description. WEC is a new
         institution: it holds no accreditation, has conferred no award, and has taught no
         cohort. Publishing a vision does not change any of that, and this page does not pretend
         otherwise.</p>
@@ -264,7 +264,7 @@ ${card('Honest', 'The vision includes how it is pursued', 'An institution that o
     <div class="grid grid--3">
 ${card('One', 'Publish the standard before the result', 'Rubrics, pass criteria and learning outcomes are published to learners before assessment, not explained afterwards. A standard revealed after the fact is not a standard.')}
 ${card('Two', 'Record the gap rather than fill it', 'Where the College lacks something &mdash; an external examiner, appointed board members, classroom evidence &mdash; the record says so. Every published volume states what it does not yet rest on.')}
-${card('Three', 'Let the curriculum carry the claim', 'The strongest thing WEC-LC can show a prospective student is the programme itself: six levels, sixty modules, every lesson planned and every assessment mapped. That is inspectable today.')}
+${card('Three', 'Let the curriculum carry the claim', 'The strongest thing WEC can show a prospective student is the programme itself: six levels, sixty modules, every lesson planned and every assessment mapped. That is inspectable today.')}
     </div>
     ${statusCallout}
   </div>
@@ -308,7 +308,7 @@ ${['Academic Excellence', 'Integrity', 'Innovation', 'Professionalism',
       <span class="module-marker">Integrity, Specifically</span>
       <h2>The value that costs something.</h2>
       <p class="lede">Integrity is the easiest value to list and the hardest to demonstrate. At
-        WEC-LC it has a concrete meaning, and it has repeatedly cost the College the right to
+        WEC it has a concrete meaning, and it has repeatedly cost the College the right to
         say flattering things.</p>
     </div>
     <div class="grid grid--3">
@@ -449,7 +449,7 @@ PAGES.careers = {
     + 'is more useful than an invitation that implies an established department. What follows '
     + 'is what is genuinely needed and what each post would unblock.',
     `<div class="btn-row">
-      <a href="mailto:info@worldwencollege.co.uk?subject=Interest%20in%20a%20post%20at%20WEC-LC" class="btn btn--gold">Express Interest</a>
+      <a href="mailto:info@worldwencollege.co.uk?subject=Interest%20in%20a%20post%20at%20WEC" class="btn btn--gold">Express Interest</a>
     </div>`)}
 
 <section class="section--light section-pad">

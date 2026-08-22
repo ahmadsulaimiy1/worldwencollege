@@ -1,4 +1,4 @@
-# WEC-LC — Technical Architecture
+# WEC — Technical Architecture
 
 *Companion to `master-roadmap.md` Phase 11 and the Stage C entry in its
 Recommended Sequencing table. Written the same session Stage C began —
@@ -170,7 +170,7 @@ gateway touches one line in `router.js`'s `GATEWAYS` map.
 
 ## What this document is not
 
-It is not a claim that WEC-LC has a working payment system. It's a
+It is not a claim that WEC has a working payment system. It's a
 claim that the *shape* of the payment system — where currency
 conversion happens, how a gateway's webhook maps back to our own
 record, what happens when two webhooks for the same event arrive — has

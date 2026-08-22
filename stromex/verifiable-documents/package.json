@@ -1,0 +1,19 @@
+{
+  "name": "@stromex/verifiable-documents",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The collective verifiable-document engine. Regenerates certificates, testimonials, transcripts and issued documents byte-identically from their record, renders the issuance register, and computes pass-store labels — for any estate institution, via an issuer profile. SEB-D 47.",
+  "engines": {
+    "node": ">=22"
+  },
+  "exports": {
+    "./issuer": "./src/issuer.js",
+    "./certificate-render": "./src/certificate-render.js",
+    "./issuance-register": "./src/issuance-register.js",
+    "./qr": "./src/qr.js"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.mjs\""
+  }
+}

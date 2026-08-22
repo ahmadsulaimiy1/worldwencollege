@@ -1,4 +1,4 @@
-# WEC-LC — Level V, Module 4: Complex Systems (Science, Economics, Policy)
+# WEC — Level V, Module 4: Complex Systems (Science, Economics, Policy)
 
 *Part of `docs/curriculum-level-5-advanced.md`'s Level V build-out.*
 

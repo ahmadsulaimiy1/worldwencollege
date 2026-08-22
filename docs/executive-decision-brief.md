@@ -1,4 +1,4 @@
-# WEC-LC — Executive Decision Brief
+# WEC — Executive Decision Brief
 
 *Companion to `docs/executive-readiness-report.md`. This is the
 detailed version of that report's "Remaining Executive Decisions"
@@ -29,7 +29,7 @@ implementation status of each, updated as work lands:
    second provider. See `docs/payments-architecture.md` § Multi-currency.
 3. **Gateway rollout: Stripe → Paystack/Flutterwave → Opay.** Already
    true by construction — see §8 (cross-reference) below.
-4. **Proprietary WEC-LC LMS, not a third-party product.** In active
+4. **Proprietary WEC LMS, not a third-party product.** In active
    development, Milestone 1. See `docs/lms-architecture.md`.
 5. **Configurable financial policy modules.** Mostly built — promo
    codes, scholarships, and instalment plans are now working
@@ -64,7 +64,7 @@ implementation status of each, updated as work lands:
 creates one — `create-checkout.js` only ever creates single-level
 payments. This isn't a coding gap; it's that the *behavior* is
 genuinely undecided. If a student pays for the whole six-level
-programme up front, does WEC-LC:
+programme up front, does WEC:
 
 - **(a)** create all six `enrolments` rows immediately (student can, in
   principle, access every level's content from day one), or

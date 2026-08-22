@@ -196,7 +196,7 @@ PAGES.pillar = {
   contents: true,
   title: 'Governance &mdash; Worldwide English College',
   // Under 160 characters — see the note in scripts/build-teaching.js.
-  description: 'How WEC-LC is governed: its Board, Senate and Executive, the academic bodies and their '
+  description: 'How WEC is governed: its Board, Senate and Executive, the academic bodies and their '
     + 'remits, how quality is assured, and which posts remain unfilled.',
   body: `${hero('Governance', 'Who decides what, and on what authority.',
     'The College separates academic judgement from institutional governance, from quality '
@@ -429,14 +429,14 @@ ${card('Absent', 'Everything requiring an outside party', `No accreditation, no 
     <div class="section-head">
       <span class="module-marker">Verification</span>
       <h2>Anyone can check a credential. Nothing has been issued to check.</h2>
-      <p class="lede">Anyone holding a WEC-LC credential code can verify it without an account, a
+      <p class="lede">Anyone holding a WEC credential code can verify it without an account, a
         relationship with the College or its permission. The route is built and open, and it was
         built ahead of the first award deliberately: retrofitting a signature onto an
         already-issued credential proves nothing about when it was issued.</p>
     </div>
     <div class="grid grid--3">
 ${card('The holder', 'Controls what is disclosed', 'A graduate decides what a share exposes and whether they appear in the public register at all. A credential the issuer publishes without consent is a disclosure, not a credential.')}
-${card('The checker', 'Needs nothing from the College', 'An employer or an institution verifying a claim should not have to write to WEC-LC and wait. The check resolves for anyone holding the code, immediately.')}
+${card('The checker', 'Needs nothing from the College', 'An employer or an institution verifying a claim should not have to write to WEC and wait. The check resolves for anyone holding the code, immediately.')}
 ${card('The issuer', 'Must be able to be wrong in public', 'Withdrawal shows as withdrawal rather than deletion. A register that silently loses entries cannot be trusted about the entries it keeps.')}
     </div>
     <div class="grid grid--3" style="margin-top:26px">
@@ -520,7 +520,7 @@ PAGES.evidence = {
   slug: 'governance-evidence', output: 'governance/evidence/index.html', file: 'governance-evidence.html',
   altHref: '/ar/governance/evidence/',
   title: 'The Evidence Record &mdash; Worldwide English College',
-  description: `WEC-LC's register of quality-assurance evidence: ${E.total} items, what state `
+  description: `WEC's register of quality-assurance evidence: ${E.total} items, what state `
     + 'each is in, and why none has been approved.',
   body: `${hero('Governance', 'The evidence record.',
     `${E.total} items an external reviewer would ask for, each recorded in one of four states. `

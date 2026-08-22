@@ -1,4 +1,4 @@
-# WEC-LC — Payments Architecture
+# WEC — Payments Architecture
 
 *Companion to `technical-architecture.md`. Answers, specifically: which
 of the requested payment features exist as working code today, which
@@ -46,7 +46,7 @@ NGN, SAR, AED, QAR, or KWD means one of:
 
 1. A real FX data feed gets connected, updating `fx_rate_to_usd` /
    `fx_rate_source` / `fx_rate_as_of` on a schedule, or
-2. WEC-LC sets a **policy-fixed** rate (common for tuition — many
+2. WEC sets a **policy-fixed** rate (common for tuition — many
    institutions intentionally don't float tuition with daily FX) and
    an admin sets it once, with `fx_rate_source = 'policy_fixed'`.
 
@@ -70,7 +70,7 @@ Both paths are now real, working code — `functions/_lib/currency/`:
   applies whatever rates it actually returns — a currency the feed
   doesn't cover is reported back, never guessed) and
   `setPolicyFixedRate()` (the staff-driven path for the five Gulf/
-  Nigeria currencies, and an alternative for GBP too if WEC-LC prefers
+  Nigeria currencies, and an alternative for GBP too if WEC prefers
   a fixed tuition-equivalent rate over a floating one). Neither
   function ever flips `is_active` implicitly — activation is always a
   separate, explicit `activate: true`, so a rate can be staged before
@@ -119,7 +119,7 @@ structure keeps its own table instead — `promo_codes`, `scholarships`,
 | Feature | Status | Where |
 |---|---|---|
 | Level-by-level (one-time, single-level) payment | **Working** | `create-checkout.js` (`kind='single_level'`, tested against the seeded 6 levels) |
-| Full-programme (one-time, all six levels) payment | **Working** — progressive unlock (Executive Decision #1) | `create-checkout.js` accepts `{ fullProgramme: true }` in place of `levelId`, priced from `platform_config.full_programme_price_usd_cents` (see below) rather than a hardcoded constant. `enrolment/confirm.js` creates Level I's enrolment on first confirmation. Levels II-VI are **not** created up front — each unlocks automatically only once the level before it is marked completed, via `functions/_lib/student/progression.js`'s `completeLevel()`. Today `completeLevel()` is called only from the staff-only `POST /api/lms/complete-level` — WEC-LC has no automated grading engine yet, so a human confirms a level is finished; once the LMS's own assessment engine exists (see `docs/lms-architecture.md`), it can call the same function programmatically. 19 fixture-based assertions in `tests/progression-and-config.test.mjs` cover the auto-unlock, its idempotency (no duplicate enrolment on a replayed completion), and that a single-level-only student never gets an unrequested auto-unlock. |
+| Full-programme (one-time, all six levels) payment | **Working** — progressive unlock (Executive Decision #1) | `create-checkout.js` accepts `{ fullProgramme: true }` in place of `levelId`, priced from `platform_config.full_programme_price_usd_cents` (see below) rather than a hardcoded constant. `enrolment/confirm.js` creates Level I's enrolment on first confirmation. Levels II-VI are **not** created up front — each unlocks automatically only once the level before it is marked completed, via `functions/_lib/student/progression.js`'s `completeLevel()`. Today `completeLevel()` is called only from the staff-only `POST /api/lms/complete-level` — WEC has no automated grading engine yet, so a human confirms a level is finished; once the LMS's own assessment engine exists (see `docs/lms-architecture.md`), it can call the same function programmatically. 19 fixture-based assertions in `tests/progression-and-config.test.mjs` cover the auto-unlock, its idempotency (no duplicate enrolment on a replayed completion), and that a single-level-only student never gets an unrequested auto-unlock. |
 | Instalment plans | **Working** (Executive Decision #5) | `POST /api/payments/instalment-plan` creates a plan (`platform_config.instalment_default_count`, default 4, equal-split cadence — real per-level/currency cadence policy still undecided); `POST /api/payments/create-checkout` accepts `{ instalmentPlanId }` to pay the next instalment; `webhook-handler.js` marks the plan `completed` once every instalment has succeeded. See `functions/_lib/payments/instalments.js`. |
 | Scholarships | **Working** (Executive Decision #5) | `scholarships` table; `create-checkout.js` accepts `{ scholarshipId }` (ownership-checked — only the awarded student can use it) and applies it via `functions/_lib/payments/discounts.js`. Real eligibility/award policy is still an institutional decision — this is the *mechanism*, not a policy. |
 | Promo codes | **Working** (Executive Decision #5) | `promo_codes` table; `create-checkout.js` accepts `{ promoCode }` and applies it the same way. Stacking a promo code with a scholarship on one payment is governed by `platform_config.discount_stacking_policy` — off by default (conservative), until a real institutional stacking policy is set. |
@@ -230,7 +230,7 @@ claim about an unbuilt system.
 
 Two staff/admin-only endpoints, both role-gated by
 `requireStaff()` (`functions/_lib/auth/session.js` — checks
-`users.role IN ('staff','admin')`, a WEC-LC-owned field, not anything
+`users.role IN ('staff','admin')`, a WEC-owned field, not anything
 Clerk-asserted). Their query logic lives in `functions/_lib/reports/`,
 deliberately separated from the HTTP/auth wrapper so it can be
 functionally tested directly against fixture data (21 assertions
@@ -266,7 +266,7 @@ query params.
   runs unconditionally on every successful webhook today, so a gap here
   means that step silently failed.
 
-**What this deliberately does not do:** compare WEC-LC's own records
+**What this deliberately does not do:** compare WEC's own records
 against a payment gateway's own dashboard (Stripe/Paystack/Flutterwave/
 Opay). No such integration exists — building one means calling each
 gateway's read API to pull their transaction list, which is a real,

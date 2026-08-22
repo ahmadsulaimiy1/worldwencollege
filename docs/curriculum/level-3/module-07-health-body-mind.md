@@ -1,4 +1,4 @@
-# WEC-LC — Level III, Module 7: Health, Body & Mind
+# WEC — Level III, Module 7: Health, Body & Mind
 
 *Part of `docs/curriculum-level-3-intermediate.md`'s Level III build-out.*
 

@@ -1,4 +1,4 @@
-/* WEC-LC — Listening Lab
+/* WEC — Listening Lab
    The audio learning environment's behaviour. Real working software:
    playback, transcript synchronisation, A-B repeat, speed control,
    bookmarks, notes, voice recording via MediaRecorder, comprehension

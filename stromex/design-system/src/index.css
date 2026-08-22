@@ -1,0 +1,16 @@
+/*
+ * THE STROMEX DESIGN LANGUAGE
+ * One entry point. Order matters: tokens define the vocabulary,
+ * foundation defines the page, components define the canon, instruments
+ * define the closed chart set, print defines the paper form.
+ *
+ * Volumes 30 and 34 of the StromeX Editorial Bible are the prose; this
+ * directory is the normative form of them. Where the two disagree, the
+ * Bible is amended or the code is fixed — never both left standing.
+ */
+@import url('./fonts.css');
+@import url('./tokens.css');
+@import url('./foundation.css');
+@import url('./components.css');
+@import url('./instruments.css');
+@import url('./print.css');

@@ -1,0 +1,484 @@
+/*
+ * THE STROMEX DESIGN LANGUAGE — FOUNDATION
+ * The Register, the Quire, the Meridian, Stratum and the Chronograph.
+ * SEB §30.2–§30.9. Requires tokens.css.
+ */
+
+/* ── RESET ───────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+html {
+  /* The page never scrolls horizontally. Absolute (SEB §30.15).
+     `clip` rather than `hidden` so position:sticky still works. */
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  background: var(--sx-bg);
+  color: var(--sx-fg);
+  font-family: var(--sx-text);
+  font-size: var(--sx-clause);
+  line-height: var(--sx-lh-read);
+  /* The optical-size axis is what makes a Didone magnificent at 64px
+     and legible at 15px. Requesting a static instance silently
+     disables this and the page renders in the right family and is
+     wrong everywhere. (SEB §30.6) */
+  font-optical-sizing: auto;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+img, svg, video, canvas { display: block; max-width: 100%; height: auto; }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* No unbreakable string may exceed its container. A 28-character token
+   in a table cell is enough to break a page at 320px. (SEB §30.15) */
+a[href], code, kbd, samp, .sx-break { overflow-wrap: anywhere; }
+
+/* ── FOCUS · a designed state, on purpose (SEB §34.5) ─────────────── */
+:focus-visible {
+  outline: 2px solid var(--sx-signal-interactive);
+  outline-offset: 3px;
+  border-radius: var(--sx-r-2xs);
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* ── THE REGISTER · typography (SEB §30.6) ────────────────────────── */
+.sx-proclamation,
+.sx-chapter,
+.sx-article,
+.sx-figure {
+  font-family: var(--sx-display);
+  font-weight: 640;
+  line-height: var(--sx-lh-tight);
+  text-wrap: balance;
+}
+
+.sx-proclamation {
+  font-size: var(--sx-proclamation);
+  letter-spacing: -0.022em;
+  /* WONK is set at the masthead ONLY. One idiosyncratic detail nobody
+     else's masthead has; everywhere else it is off. */
+  font-variation-settings: 'opsz' 120, 'SOFT' 12, 'WONK' 1;
+}
+.sx-chapter {
+  font-size: var(--sx-chapter);
+  letter-spacing: -0.018em;
+  font-variation-settings: 'opsz' 72, 'SOFT' 8, 'WONK' 0;
+}
+.sx-article {
+  font-size: var(--sx-article);
+  letter-spacing: -0.012em;
+  line-height: var(--sx-lh-close);
+  font-variation-settings: 'opsz' 36, 'SOFT' 4, 'WONK' 0;
+}
+.sx-figure {
+  font-size: var(--sx-figure);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-variation-settings: 'opsz' 96, 'SOFT' 0, 'WONK' 0;
+  color: var(--sx-metal-text);
+}
+
+.sx-clause { font-size: var(--sx-clause); max-width: var(--sx-measure); }
+.sx-clause + .sx-clause { margin-top: var(--sx-space-md); }
+
+/* The inscriptional face. Rationed absolutely: numerals, level marks,
+   reference numbers, crest lockups, button labels. No body copy, no
+   sub-headings, no navigation, no run longer than four words, and no
+   more than about forty characters on a page. (SEB §30.6) */
+.sx-cartouche {
+  font-family: var(--sx-cut);
+  font-size: var(--sx-cartouche);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: var(--sx-metal-text);
+}
+
+.sx-marginalia {
+  font-size: var(--sx-marginalia);
+  letter-spacing: 0.04em;
+  color: var(--sx-fg-quiet);
+  font-variation-settings: 'wdth' 96;
+}
+.sx-colophon {
+  font-size: var(--sx-colophon);
+  letter-spacing: 0.06em;
+  color: var(--sx-fg-quiet);
+  font-variation-settings: 'wdth' 94;
+}
+
+/* Reverse type is set lighter. Light glyphs on a dark ground
+   irradiate; identical weight looks under-inked on obsidian and
+   correct on paper. Half a weight step back, by the token. */
+:root:not([data-register='reading']) .sx-proclamation,
+:root:not([data-register='reading']) .sx-chapter,
+:root:not([data-register='reading']) .sx-article {
+  font-weight: calc(640 + var(--sx-reverse-step));
+}
+
+/* ── THE QUIRE · the grid (SEB §30.3) ─────────────────────────────── */
+/*
+ * The track list lives in a custom property, not in a rule.
+ *
+ * It is used by TWO things — the Quire itself and the Meridian's host —
+ * and they must agree exactly, at every breakpoint and in both
+ * directions. Written twice they would agree until the day somebody
+ * changed one: the Meridian would drift off the spine by the width of a
+ * gutter, and the defect would look like a rendering artefact rather
+ * than like a duplicated constant.
+ *
+ * This is not a token. It is the geometry itself.
+ */
+:root {
+  --sx-track-marginal: 0px;
+  /* The gap is a property of the SPREAD, not of the grid.
+     `column-gap` applies between every pair of tracks, including the two
+     either side of a track that is 0px wide — so below the spread, an
+     ABSENT marginal track was still charging the page two gutters. At
+     320px that is 54 of 320 pixels spent on a column that is not there,
+     and it pushed every plate on the page past the viewport.
+     gates/responsive.mjs measured it; four readings of this file had
+     not. */
+  --sx-track-gap: 0px;
+
+  /*
+   * NOTE `[marginal-end measure-start]`. A line may carry two names, and
+   * this one must: `grid-column: marginal` resolves its end line by
+   * looking for `marginal-end`, and when no line has that name the spec
+   * says every IMPLICIT line is assumed to have it — so the item lands in
+   * an implicit column past the end of the grid, at the far edge of the
+   * page. The Meridian was placed 1177px into a 1180px viewport and the
+   * page scrolled sideways by exactly the width of the node. It reads as
+   * a rendering artefact and it is a missing line name.
+   */
+  --sx-quire-columns:
+    [full-start] var(--sx-fore-edge)
+    [marginal-start] var(--sx-track-marginal)
+    [marginal-end measure-start] minmax(0, var(--sx-measure))
+    [measure-end wide-start] 1fr
+    [wide-end] var(--sx-gutter)
+    [full-end];
+}
+
+/* The spread: the marginal track becomes live at 1180px. Below that it
+   is not shrunk — it is absent, and its content flows inline. */
+@media (min-width: 1180px) {
+  :root { --sx-track-marginal: var(--sx-marginal); --sx-track-gap: var(--sx-space-lg); }
+}
+
+/* At a large display the MEASURE does not grow; the fore-edge does.
+   A 34em measure at 2560px with vast margins is what a well-set book
+   does and what almost no website does. */
+@media (min-width: 1600px) {
+  :root {
+    --sx-quire-columns:
+      [full-start] minmax(var(--sx-space-4xl), 1fr)
+      [marginal-start] var(--sx-marginal)
+      [marginal-end measure-start] minmax(0, var(--sx-measure))
+      [measure-end wide-start] minmax(0, 22em)
+      [wide-end] minmax(var(--sx-space-2xl), 1fr)
+      [full-end];
+  }
+}
+
+/*
+ * RTL: the fore-edge is always the OUTER edge — and there is NO second
+ * track list here, deliberately.
+ *
+ * CSS Grid already lays its tracks along the inline axis, so under
+ * `direction: rtl` the first track in the list is the rightmost one and
+ * the fore-edge is on the right without anything being restated. The
+ * first version of this file carried a hand-reversed template as well,
+ * which flipped a grid the writing mode had already flipped and put the
+ * gutter back on the outside.
+ *
+ * This is what SEB §30.3 means by structural rather than a flipped
+ * stylesheet: the geometry is written once, in logical order, and the
+ * writing mode is what turns it.
+ */
+
+.sx-quire {
+  display: grid;
+  grid-template-columns: var(--sx-quire-columns);
+  column-gap: var(--sx-track-gap);
+  position: relative;
+}
+.sx-quire > *            { grid-column: measure; }
+.sx-quire > .sx-wide     { grid-column: measure-start / wide-end; }
+.sx-quire > .sx-full     { grid-column: full; }
+.sx-quire > .sx-marginal { grid-column: marginal; }
+
+/* An absolutely-positioned child of a grid is positioned against its
+   GRID AREA, not against the grid — so a decorative ground placed in the
+   default `measure` column paints only across the measure. Every
+   ornament spans `full`, explicitly. */
+.sx-quire > .sx-illum__frame,
+.sx-quire > .sx-guilloche,
+.sx-quire > .sx-watermark { grid-column: full; }
+
+@media (max-width: 1179.98px) {
+  .sx-quire > .sx-marginal { grid-column: measure; }
+}
+
+/* ── THE MERIDIAN (SEB §30.2) ─────────────────────────────────────── */
+/*
+ * THE SPINE IS A GRID LINE, NOT A PERCENTAGE.
+ *
+ * The Meridian was first placed at `inset-inline-start: 38.2%` of its
+ * host — the minor golden section of the VIEWPORT. On a 1440px display
+ * that is 550px, and the measure runs from 333px to 877px: the spine ran
+ * straight through the running text, and the chapter rail hung on it
+ * landed on top of every heading on the page. It looked, in a
+ * screenshot, exactly like a rendering bug.
+ *
+ * The spine of a folded sheet is not a fraction of the reader's window.
+ * It is the fold — the line where the margin ends and the text begins.
+ * So the host shares the Quire's own track list and the Meridian is
+ * placed ON that line, at every breakpoint and in both directions, with
+ * nothing to keep in step by hand.
+ */
+.sx-meridian-host {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--sx-quire-columns);
+  column-gap: var(--sx-track-gap);
+  /* One row. The flow defines its height; the Meridian stretches to it. */
+  grid-template-rows: 1fr;
+}
+.sx-meridian-host > *                 { grid-row: 1; grid-column: full; }
+.sx-meridian-host > .sx-meridian,
+.sx-meridian-host > .sx-rail          { grid-column: marginal; justify-self: end; }
+.sx-meridian-host__flow               { min-width: 0; }
+
+.sx-meridian {
+  position: relative;
+  width: var(--sx-hairline);
+  /* --sx-boundary, not --sx-rule. The Meridian is not a separator
+     between two things — it is the structural signature of the whole
+     system (SEB §30.2), and at the separator's 1.44:1 it was a line
+     nobody could see on a screenshot. A spine that has to be pointed out
+     is not a signature. */
+  background: linear-gradient(
+    to bottom,
+    var(--sx-aurum) 0,
+    var(--sx-boundary) 3rem,
+    var(--sx-boundary) calc(100% - 3rem),
+    var(--sx-aurum) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+/* It thickens at the document's head and foot: a 3px anchor. */
+.sx-meridian::before,
+.sx-meridian::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: -1.25px;
+  width: 3px;
+  height: 1.5rem;
+  background: var(--sx-aurum);
+}
+.sx-meridian::before { top: 0; }
+.sx-meridian::after  { bottom: 0; }
+
+/* The node: a specular point at the reader's vertical centre, moving
+   at exactly scroll rate. The only element on the page bound to scroll
+   position, and the reason a StromeX page reads as an instrument being
+   read rather than a page being scrolled. */
+.sx-meridian__node {
+  position: absolute;
+  inset-inline-start: -2.75px;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--sx-r-pill);
+  background: var(--sx-aurum-lit);
+  box-shadow: 0 0 10px 1px color-mix(in oklab, var(--sx-aurum-lit) 55%, transparent);
+  top: var(--sx-node-top, 0);
+  will-change: top;
+}
+
+/*
+ * Below the spread the Meridian does not need moving: the marginal track
+ * is 0px wide, so the same grid line IS the leading margin — about 32px
+ * at the 320px floor. SEB §30.2 asks for 24px there; binding it to the
+ * Quire gives 1.618 × the gutter instead, which is the same idea derived
+ * rather than chosen, and it can never drift from the text it sits
+ * beside.
+ */
+
+/* A chapter marker is CUT INTO the spine — the rule breaks around the
+   glyph the way an engraver would. */
+.sx-chapter-mark {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sx-space-sm);
+  padding-inline: var(--sx-space-sm);
+  background: var(--sx-bg);
+}
+
+/* ── STRATUM · depth (SEB §30.4) ──────────────────────────────────── */
+.sx-plinth,
+.sx-table,
+.sx-plate,
+.sx-crown { position: relative; }
+
+/* Cut INTO the ground: the rim inverts — dark at the top, bright below. */
+.sx-plinth {
+  background: var(--sx-bg-plinth);
+  border-radius: var(--sx-r-md);
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.30),
+    inset 0 -1px 0 rgb(255 255 255 / 0.05);
+}
+
+.sx-table { background: transparent; }
+
+/* Raised: the primary object of a section. */
+.sx-plate {
+  background: var(--sx-bg-raised);
+  border-radius: var(--sx-r-lg);
+  box-shadow: var(--sx-contact), var(--sx-ambient-plate);
+}
+/* The rim, drawn as a masked 1px ring so it is a gradient rather than
+   a colour. A conic or linear gradient painted WITHOUT this mask fills
+   its box from the centre and renders a hard slice across the object's
+   face — the defect that once shipped on every page of a project. */
+.sx-plate::before,
+.sx-crown::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--sx-rim);
+  -webkit-mask: var(--sx-stencil) content-box, var(--sx-stencil);
+  mask: var(--sx-stencil) content-box, var(--sx-stencil);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Floating, ceremonial. Carries the chamfer: the single detail that
+   makes a panel read as machined rather than drawn. */
+.sx-crown {
+  background: var(--sx-bg-raised);
+  border-radius: var(--sx-r-xl);
+  box-shadow:
+    var(--sx-contact),
+    var(--sx-ambient-crown),
+    inset 0 var(--sx-chamfer) 0 rgb(255 255 255 / 0.10),
+    inset 0 calc(var(--sx-chamfer) * -1) 0 rgb(0 0 0 / 0.24);
+}
+
+/* The gilt meniscus: gold ONLY on the light quadrant of a curved edge. */
+.sx-meniscus::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--sx-meniscus);
+  -webkit-mask: var(--sx-stencil) content-box, var(--sx-stencil);
+  mask: var(--sx-stencil) content-box, var(--sx-stencil);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity var(--sx-beat-4) var(--sx-sovereign);
+  pointer-events: none;
+}
+.sx-meniscus:hover::after,
+.sx-meniscus:focus-within::after { opacity: 1; }
+
+/* ── OPTICAL GLASS · rationed (SEB §34.2) ─────────────────────────── */
+/* Permitted on crown only, one per viewport. Refraction and a caustic —
+   not blur alone, which reads as frosted plastic. */
+.sx-glass {
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
+  background: color-mix(in oklab, var(--sx-bg-raised) 78%, transparent);
+}
+.sx-glass::after {
+  content: '';
+  position: absolute;
+  inset-inline: 12%;
+  inset-block-start: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.5), transparent);
+  pointer-events: none;
+}
+
+/* ── THE CHRONOGRAPH · motion (SEB §30.9) ─────────────────────────── */
+.sx-rise {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--sx-beat-x2) var(--sx-sovereign),
+    transform var(--sx-beat-x2) var(--sx-sovereign);
+}
+.sx-rise.is-revealed { opacity: 1; transform: none; }
+
+.sx-draw {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--sx-beat-x2) var(--sx-sovereign);
+}
+[dir='rtl'] .sx-draw { transform-origin: right center; }
+.sx-draw.is-revealed { transform: scaleX(1); }
+
+/* Parallax: imperceptible per element, cumulative per page. Parallax a
+   reader can SEE is a gimmick; parallax they can only feel is craft. */
+.sx-parallax { transform: translate3d(0, var(--sx-shift, 0), 0); will-change: transform; }
+
+/*
+ * prefers-reduced-motion is TOTAL, and every carve-out resolves to the
+ * FINISHED state, never the hidden one. An entrance animation merely
+ * disabled leaves the element at opacity:0, which for a reader with
+ * vestibular sensitivity is not a calmer page but a blank one.
+ * (SEB §30.9)
+ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+  .sx-rise      { opacity: 1 !important; transform: none !important; }
+  .sx-draw      { transform: scaleX(1) !important; }
+  .sx-parallax  { transform: none !important; }
+  .sx-meridian__node { display: none; }
+  .sx-guilloche { animation: none !important; }
+}
+
+/* ── THE GROUND · the live guilloché (SEB §30.11) ─────────────────── */
+/* Placed ONCE per section, centred, masked. Never tiled — a repeating
+   field of identical discs reads as wallpaper. */
+.sx-ground { position: relative; isolation: isolate; overflow: clip; }
+.sx-guilloche {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  width: min(120vw, 1400px);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  opacity: 0.10;
+  z-index: var(--sx-z-ground);
+  pointer-events: none;
+  /* 0.5% amplitude: no reader consciously sees it; the page is
+     imperceptibly alive and nothing on it is visibly moving. */
+  rotate: calc(var(--sx-ground-phase, 0) * 0.5deg);
+  /* sx-gate-allow: beat — the phase tracks the pointer continuously; an
+     eased transition on a value that updates every frame rubber-bands,
+     which is the one thing a 0.5% amplitude may not do. */
+  transition: rotate var(--sx-beat-x8) linear;
+}

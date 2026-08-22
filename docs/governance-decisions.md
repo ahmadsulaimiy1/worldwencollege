@@ -1,4 +1,4 @@
-# WEC-LC — Governance Decisions
+# WEC — Governance Decisions
 
 **Status as of 14 August 2026: ALL TWENTY-FIVE OUTSTANDING ITEMS ARE
 ADOPTED**, each on the recommendation drafted below, by decision of the
@@ -191,7 +191,7 @@ one currently has *no* value anywhere in the platform.
 
 ### B1. Pass threshold
 **Currently:** `lms_pass_threshold = 0.7`, labelled in the schema as a
-mechanism default and explicitly **not** a WEC-LC academic standard.
+mechanism default and explicitly **not** a WEC academic standard.
 
 **Recommendation:** confirm 70% for module quizzes, and set the
 end-of-level examination separately (B2) rather than inheriting it.
@@ -255,14 +255,14 @@ itself a new thing to learn at Level IV.
 
 **Explicitly NOT recommended:** any wording implying accreditation,
 regulatory recognition, or equivalence to a qualification awarded by an
-accredited body. WEC-LC holds no accreditation, and a certificate that
+accredited body. WEC holds no accreditation, and a certificate that
 implies otherwise is a misrepresentation regardless of intent.
 
 **Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
 ### C2. What a certificate may state
 **Recommendation:** learner name, level, CEFR band, completion date,
-issuing body (WEC-LC London Campus), and a verification code resolving
+issuing body (WEC London Campus), and a verification code resolving
 to a page confirming issuance. Nothing else.
 
 **Rationale:** every additional claim on a certificate is a claim
@@ -289,7 +289,7 @@ the correct test and it decided the ladder.
 naming questions:**
 
 - **C4a — the office of Chancellor.** The Executive asked for a
-  "Chancellor's Distinction". WEC-LC has no Chancellor and, by the
+  "Chancellor's Distinction". WEC has no Chancellor and, by the
   standing rule against fabricated leadership, cannot print one on a
   certificate. Either constitute the office as a real appointment, or
   adopt **"the Distinction of the College"** until one exists.

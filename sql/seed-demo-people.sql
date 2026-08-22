@@ -3,7 +3,7 @@
 -- =====================================================================
 --
 --  Every name in this file is invented. None of these people exist,
---  none of them work for WEC-LC, and none of the qualifications listed
+--  none of them work for WEC, and none of the qualifications listed
 --  in docs/org-chart-placeholders.md were awarded to anyone. They are
 --  here for one reason: an administration screen designed against
 --  three rows called "demo@example.com" looks nothing like the same

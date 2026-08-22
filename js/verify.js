@@ -1,4 +1,4 @@
-/* WEC-LC — Award Verification.
+/* WEC — Award Verification.
 
    Opened most often by a stranger: an employer, an admissions officer, a
    registrar, arriving from a QR code on a printed certificate. They have

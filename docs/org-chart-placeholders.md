@@ -2,7 +2,7 @@
 
 > **None of these people exist.** Every name, qualification and line of
 > experience on this page is invented. Nobody listed here works for
-> WEC-LC, holds the degree or membership attributed to them, or has
+> WEC, holds the degree or membership attributed to them, or has
 > consented to anything — because there is nobody to consent. This page
 > is a design reference and a data dictionary for
 > `sql/seed-demo-people.sql`, and it is the only place in the repository

@@ -17,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 import { runMigrations } from './migrate.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const DB = process.env.D1_DATABASE_NAME || 'wec-lc';
+const DB = process.env.D1_DATABASE_NAME || 'wec';
 const target = process.argv.includes('--local') ? '--local' : '--remote';
 const dryRun = process.argv.includes('--dry-run');
 const scratch = mkdtempSync(path.join(tmpdir(), 'wec-migrate-'));

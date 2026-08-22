@@ -1,4 +1,4 @@
--- WEC-LC — Audio curriculum seed: Level I (Foundation, A1).
+-- WEC — Audio curriculum seed: Level I (Foundation, A1).
 --
 -- Adds the listening and pronunciation strands the authored lessons
 -- have always specified but the platform previously had nowhere to
@@ -71,7 +71,7 @@ INSERT INTO quiz_questions (id, learning_item_id, sequence, prompt, choices_json
 ('qq_l1_m1_ls2', 'itm_l1_m1_listening', 2, 'Where is Sofia from?', '["Spain","Portugal","France","Italy"]', 3, 'cue_l1_m1_4'),
 ('qq_l1_m1_ls3', 'itm_l1_m1_listening', 3, 'Which city does Sofia live in?', '["Milan","Naples","Rome","Turin"]', 2, 'cue_l1_m1_4'),
 ('qq_l1_m1_ls4', 'itm_l1_m1_listening', 4, 'Which room is her class in?', '["Room four","Room two","Room three","Room fourteen"]', 0, 'cue_l1_m1_7');
--- WEC-LC — Audio curriculum seed: Level I (Foundation, A1), Modules 2-10.
+-- WEC — Audio curriculum seed: Level I (Foundation, A1), Modules 2-10.
 --
 -- Companion to the Module 1 block in this file's sibling section; see
 -- docs/lms-architecture.md § The audio layer for the design, and

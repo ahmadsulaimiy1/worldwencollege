@@ -701,7 +701,7 @@ ${planHtml}
     execute one that was not.</p>
   <p class="small" style="margin-top:14pt">${esc(ID.publicationId)} · Document ID
     ${esc(ID.documentId)} · Generated ${esc(ID.generated)} · Worldwide English College Press,
-    an imprint of Worldwide English College, London Campus · London,
+    an imprint of Worldwide English College — London Campus · London,
     ${new Date().getFullYear()}</p>
 </section>
 

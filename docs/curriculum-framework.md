@@ -1,21 +1,21 @@
-# WEC-LC — English Curriculum Framework
+# WEC — English Curriculum Framework
 
 *Authored per your Executive Directive: "Curriculum First." Companion
 to `docs/lms-architecture.md` (the platform that delivers this
 curriculum) and `docs/curriculum-level-1-foundation.md` (the first
 level built out to full lesson-by-lesson depth, per this document's
-framework). This is WEC-LC's own curriculum design — informed by the
+framework). This is WEC's own curriculum design — informed by the
 Common European Framework of Reference for Languages (CEFR), a public
 reference standard, but not a reproduction of any publisher's
 proprietary syllabus, and not a claim of formal CEFR certification or
-accreditation (WEC-LC holds none — see `docs/editorial-bible.md`'s
+accreditation (WEC holds none — see `docs/editorial-bible.md`'s
 standing discipline on this).*
 
 ---
 
 ## Executive Decision: six-level structure confirmed
 
-Resolved. You confirmed WEC-LC retains its existing, published
+Resolved. You confirmed WEC retains its existing, published
 six-level structure — Foundation (I, A1) → Elementary (II, A2) →
 Intermediate (III, B1) → Upper Intermediate (IV, B2) → Advanced
 (V, C1) → English Mastery (VI, C2) — with **no separate
@@ -33,7 +33,7 @@ already are — no schema or pricing change resulted from this decision.
 
 ## Curriculum philosophy
 
-WEC-LC's programme is not a grammar-topic checklist. Four principles
+WEC's programme is not a grammar-topic checklist. Four principles
 run through every level:
 
 1. **Integrated four skills, not siloed ones.** Every thematic module
@@ -314,7 +314,7 @@ new material.
 
 **Mastery outcomes.** A Level I graduate can survive and communicate
 minimally in an English-speaking environment for essential daily needs
-— the CEFR A1 "breakthrough" descriptor, applied to WEC-LC's own
+— the CEFR A1 "breakthrough" descriptor, applied to WEC's own
 scope and sequence.
 
 ---
@@ -392,7 +392,7 @@ listening comprehension.
 
 **Mastery outcomes.** A Level II graduate manages routine social and
 practical tasks independently and can narrate simple past experience —
-the CEFR A2 "waystage" descriptor, applied to WEC-LC's scope.
+the CEFR A2 "waystage" descriptor, applied to WEC's scope.
 
 ---
 
@@ -519,7 +519,7 @@ exam.
 **Mastery outcomes.** A Level III graduate is an independent user who
 can maintain interaction, express and justify opinions, and produce
 simple structured text — the CEFR B1 "threshold" descriptor, applied
-to WEC-LC's scope.
+to WEC's scope.
 
 ---
 
@@ -605,7 +605,7 @@ exam.
 **Mastery outcomes.** A Level IV graduate operates with fluency and
 spontaneity in most academic/professional/social contexts and produces
 well-structured extended text — the CEFR B2 "vantage" descriptor,
-applied to WEC-LC's scope.
+applied to WEC's scope.
 
 **Executive Academic Objective (elevated standard):** per your Level
 IV directive, this level marks the transition from independent
@@ -735,7 +735,7 @@ exam.
 **Mastery outcomes.** A Level V graduate uses English flexibly,
 precisely, and effectively across academic, professional, and social
 registers, recognising implicit meaning and nuance — the CEFR C1
-"effective operational proficiency" descriptor, applied to WEC-LC's
+"effective operational proficiency" descriptor, applied to WEC's
 scope.
 
 **Executive Academic Objective (elevated standard):** per your Level V
@@ -791,12 +791,12 @@ this curriculum pass; see `docs/lms-architecture.md`'s "curriculum
 drives platform" principle for when such a feature would actually get
 built.
 
-**Distinctive WEC-LC identity:** per your directive, Level V does not
+**Distinctive WEC identity:** per your directive, Level V does not
 imitate any single existing English programme. Its module sequence
 (idiom/register → academic synthesis → leadership/persuasion →
 technical/policy register → cross-cultural pragmatics → media/
 discourse analysis → research presentation → professional advocacy →
-style/voice mastery → consolidation) is a deliberately WEC-LC-authored
+style/voice mastery → consolidation) is a deliberately WEC-authored
 progression from precision of language to precision of thought,
 designed so every module leaves learners better prepared for
 universities, executive careers, entrepreneurship, and international
@@ -836,7 +836,7 @@ as a system, not just as a skill.
 10. Capstone: Global Challenges & Sustainable Development, and the Mastery Examination — integrated capstone project, professional portfolio, oral defence, six-level reflective analysis
 
 **Executive Academic Objective (capstone standard).** Per your Level
-VI directive, this level is *the capstone of the WEC-LC academic
+VI directive, this level is *the capstone of the WEC academic
 journey* — mastery, not merely proficiency. Graduates should use
 English naturally and effectively in the highest academic,
 professional, executive, governmental, legal, diplomatic, media,
@@ -897,7 +897,7 @@ purpose, not sequenced by frequency.)
 **Pronunciation focus.** Full native-like command of connected speech,
 stress, and intonation; refining any residual first-language accent
 features that affect intelligibility or register perception (not
-eliminating accent — WEC-LC does not treat "sounding native" as the
+eliminating accent — WEC does not treat "sounding native" as the
 goal, only full intelligibility and register control).
 
 **Skills foci.** All four skills operate at a near-native ceiling by
@@ -935,8 +935,8 @@ the mastery examination itself.
 **Mastery outcomes.** A Level VI graduate operates in English at a
 level indistinguishable in practice from an educated native speaker
 for academic, professional, diplomatic, and leadership purposes — the
-CEFR C2 "mastery" descriptor, applied to WEC-LC's scope, and the
-programme's terminal, publishable outcome: a WEC-LC IEFC certificate
+CEFR C2 "mastery" descriptor, applied to WEC's scope, and the
+programme's terminal, publishable outcome: a WEC IEFC certificate
 of completion (see `docs/lms-architecture.md`'s Milestone roadmap for
 the certificate/transcript workflow this will eventually issue
 against).
@@ -950,7 +950,7 @@ CEFR alignment, thematic module sequencing, grammar/vocabulary
 progression, skills foci, and assessment strategy for every level of
 the already-published IEFC programme. Every claim in it is either an
 already-confirmed public fact (level count, CEFR labels, pricing,
-duration) or WEC-LC's own original curriculum design, written for this
+duration) or WEC's own original curriculum design, written for this
 programme specifically — not copied from, or claimed to be certified
 by, any external examination board or publisher.
 

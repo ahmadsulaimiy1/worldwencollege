@@ -1,4 +1,4 @@
-// WEC-LC — shared Clerk client-SDK bootstrap, used by any portal page
+// WEC — shared Clerk client-SDK bootstrap, used by any portal page
 // that needs a real session (js/portal-auth.js for the Student Portal,
 // js/finance-dashboard.js for the Finance preview). One copy of the
 // "decode the publishable key, load clerk.browser.js, wait for

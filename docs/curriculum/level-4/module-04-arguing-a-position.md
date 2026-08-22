@@ -1,4 +1,4 @@
-# WEC-LC — Level IV, Module 4: Arguing a Position
+# WEC — Level IV, Module 4: Arguing a Position
 
 *Part of `docs/curriculum-level-4-upper-intermediate.md`'s Level IV build-out.*
 

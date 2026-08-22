@@ -334,6 +334,10 @@ for (const f of files) {
   // whole `kyc_documents` table.
   db.exec(`DROP INDEX IF EXISTS idx_kyc_documents_user;
     DROP TABLE IF EXISTS kyc_documents;`);
+  // 020 adds the whole `editions` table — the Editions Register, so a
+  // book's printed Document ID resolves to something.
+  db.exec(`DROP INDEX IF EXISTS idx_editions_digest;
+    DROP TABLE IF EXISTS editions;`);
 
   db.exec('DROP TABLE schema_migrations');
 

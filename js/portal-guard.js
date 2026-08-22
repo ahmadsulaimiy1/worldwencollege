@@ -1,4 +1,4 @@
-// WEC-LC — shared portal auth-guard shell.
+// WEC — shared portal auth-guard shell.
 //
 // This is the reusable "flagship pattern" — every portal built after
 // the Student Portal (Faculty, Administration, Executive, Corporate,

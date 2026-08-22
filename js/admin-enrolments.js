@@ -1,4 +1,4 @@
-/* WEC-LC — staff enrolment administration.
+/* WEC — staff enrolment administration.
 
    Replaces the only way this previously worked: hand-writing SQL into
    the Cloudflare D1 console. That is how the platform's first learner

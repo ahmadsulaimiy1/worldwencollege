@@ -1,4 +1,4 @@
-# WEC-LC — Level V, Module 2: Academic Writing III
+# WEC — Level V, Module 2: Academic Writing III
 
 *Part of `docs/curriculum-level-5-advanced.md`'s Level V build-out.*
 

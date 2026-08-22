@@ -34,7 +34,7 @@ distinctive position:**
 > **Guided Learning Hours are measured, not asserted.**
 
 Every institution publishes an hours figure. Almost none can say where it
-came from. WEC-LC will publish a *design* figure, clearly labelled,
+came from. WEC will publish a *design* figure, clearly labelled,
 until it can publish a *measured* one — derived from real time-on-task
 across real learners — and will then replace it and say that it has.
 

@@ -1,0 +1,293 @@
+/*
+ * THE STROMEX DESIGN LANGUAGE — TOKENS
+ * Normative form of SEB §30.4–§30.9. Every value here is a decision with
+ * a reason; the reason is in the Bible, and the article is cited inline.
+ *
+ * Nothing in a StromeX product may use an ad-hoc colour, spacing, radius,
+ * duration or easing value. `gates/tokens.mjs` fails the build on one.
+ */
+
+:root {
+  /* ── COLOUR · SEB §30.7 ──────────────────────────────────────────
+     Obsidian, Platinum, Aurum. Continuous with the ink/brass/verdigris
+     system already in the StromeX product, extended to an instrument
+     palette. A colour earns its place by carrying a meaning.          */
+
+  /* Grounds — dark. A faint violet cast, so it reads as depth rather
+     than as absence. Pure #000 is a hole in a page, not a surface. */
+  --sx-obsidian:      #0B0C10;
+  --sx-ink:           #12141B;
+  --sx-graphite:      #1B1E27;
+  --sx-slate:         #2A2E3A;
+
+  /* Grounds — light. Warm throughout. A cool grey beside this metal
+     reads as a dashboard; a warm one reads as paper. */
+  --sx-alabaster:     #F6F4EF;
+  --sx-platinum:      #EAE7DF;
+  --sx-pewter:        #D6D2C8;
+
+  /* Metal. One metal, three states. */
+  --sx-aurum:         #C8A24C;   /* hairlines, meniscus, seals            */
+  --sx-aurum-lit:     #E8CE8C;   /* the highlight, and headings on dark   */
+  --sx-brass:         #9A7B3A;   /* pressed, and large metal type on paper */
+
+  /* Signal. Each bound to exactly one meaning — and each present TWICE,
+     because a single signal colour cannot be legible on both obsidian
+     and paper. The pigment is the institution's; the ROLE below is what
+     anything outside this file may use.
+
+     These three were measured, not chosen: on obsidian the base pigments
+     compute to 3.35, 2.43 and 2.29:1. The last of those is the FOCUS
+     RING — a focus indicator at 2.29:1 is a focus indicator a keyboard
+     reader cannot find, and it passed design review three times before
+     gates/contrast.mjs was written and failed it on the first run. */
+  --sx-verdigris:     #2E6F6A;   /* confirmed · verified · genuine        */
+  --sx-carnelian:     #8E2F35;   /* attention — never a fill, never alone */
+  --sx-lapis:         #2A4A8C;   /* interactive · link · focus            */
+
+  /* The same three, lifted in lightness with hue and chroma held, so they
+     clear 4.5:1 on every dark ground. Mixing toward the paper white
+     would have been easier and turns all three to mud. */
+  --sx-verdigris-lit: #388C85;
+  --sx-carnelian-lit: #CF565E;
+  --sx-lapis-lit:     #517CD3;
+  --sx-brass-deep:    #7C632F;   /* brass, for small text on paper        */
+
+  /* THE SIGNAL ROLES. Everything outside tokens.css uses these, never the
+     pigments above: the role resolves per register, and the pigment does
+     not. gates/contrast.mjs checks both registers; gates/tokens.mjs
+     refuses a raw pigment in a colour position. */
+  --sx-signal-verified:    var(--sx-verdigris-lit);
+  --sx-signal-attention:   var(--sx-carnelian-lit);
+  --sx-signal-interactive: var(--sx-lapis-lit);
+
+  /* Type colours, resolved per register by [data-register] below. */
+  --sx-fg:            var(--sx-alabaster);
+  --sx-fg-quiet:      #A8A69F;
+  --sx-bg:            var(--sx-obsidian);
+  --sx-bg-raised:     var(--sx-ink);
+  --sx-bg-plinth:     #090A0D;
+  --sx-rule:          var(--sx-slate);
+  /* --sx-rule SEPARATES; --sx-boundary IDENTIFIES. They were one token
+     until gates/contrast.mjs asked which of the two jobs owed 3:1, and
+     the answer turned out to be "one of them".
+
+     A hairline between two ledger rows is decoration: the rows are
+     identified by their content, and WCAG SC 1.4.11 does not reach it.
+     The rim of a text field is the ONLY thing that says "this is where
+     you type" — that is a user-interface component boundary, it owes
+     3:1, and at 1.44:1 it did not have it. Anything that identifies a
+     control, a state, or a graphical object required to read an
+     instrument uses --sx-boundary. */
+  --sx-boundary:      #59617B;
+  /* The gold substitution SEB §30.7 rule 1 requires, expressed as a
+     token so no designer has to remember it. */
+  --sx-metal-text:    var(--sx-aurum-lit);
+
+  /* ── LIGHT · SEB §30.5 ───────────────────────────────────────────
+     One source: above, 15° forward. Everything below is computed from
+     it and nothing in the system is lit from anywhere else.          */
+  --sx-light-x: -0.26;   /* cos(105°) — the source quadrant */
+  --sx-light-y: -0.97;
+
+  /* Every shadow is two shadows: contact says it touches, ambient
+     gives it mass. A single blurred offset always reads as a sticker. */
+  --sx-contact:        0 1px 2px rgb(0 0 0 / 0.22);
+  --sx-ambient-plate:  0 12px 32px rgb(0 0 0 / 0.10);
+  --sx-ambient-crown:  0 22px 56px rgb(0 0 0 / 0.16);
+
+  /* The rim is a gradient, never a colour. A 1px solid border asserts
+     that every edge receives identical light, which is true of nothing. */
+  --sx-rim: linear-gradient(
+    148deg,
+    rgb(255 255 255 / 0.16) 0%,
+    rgb(255 255 255 / 0.04) 34%,
+    rgb(0 0 0 / 0.10) 78%,
+    rgb(0 0 0 / 0.22) 100%
+  );
+  /* The gilt meniscus: gold ONLY where a surface curves toward the
+     light. Gold as a fill is costume jewellery. */
+  --sx-meniscus: linear-gradient(
+    148deg,
+    var(--sx-aurum-lit) 0%,
+    var(--sx-aurum) 16%,
+    transparent 42%,
+    transparent 100%
+  );
+
+  /* ── THE QUIRE · SEB §30.3 ───────────────────────────────────────
+     A folded sheet. Fore-edge : gutter = 1.618 : 1.                  */
+  --sx-measure:       34em;      /* running prose, capped, at any width */
+  --sx-gutter:        clamp(1.25rem, 3.2vw, 3rem);
+  --sx-fore-edge:     calc(var(--sx-gutter) * 1.618);
+  --sx-marginal:      12em;      /* the marginal track, spread only     */
+  --sx-meridian-at:   38.2%;     /* the minor golden section            */
+
+  /* ── SPACE ───────────────────────────────────────────────────────
+     A modular scale on 1.5, so vertical rhythm is a ratio rather than
+     a sequence of round numbers somebody liked.                      */
+  --sx-space-3xs: 0.25rem;
+  --sx-space-2xs: 0.375rem;
+  --sx-space-xs:  0.5rem;
+  --sx-space-sm:  0.75rem;
+  --sx-space-md:  1.125rem;
+  --sx-space-lg:  1.6875rem;
+  --sx-space-xl:  2.5rem;
+  --sx-space-2xl: 3.75rem;
+  --sx-space-3xl: 5.625rem;
+  --sx-space-4xl: 8.4375rem;
+  --sx-space-5xl: 12.5rem;
+
+  /* ── GEOMETRY · SEB §30.8 ────────────────────────────────────────
+     Radius is a function of size (≈6–10% of the shortest edge), so one
+     material holds across every scale. Architecture stays square.     */
+  --sx-r-2xs:  2px;
+  --sx-r-xs:   3px;
+  --sx-r-sm:   5px;
+  --sx-r-md:   8px;
+  --sx-r-lg:   13px;
+  --sx-r-xl:   21px;
+  --sx-r-2xl:  34px;
+  --sx-r-pill: 999px;
+  --sx-hairline: 0.5px;
+  --sx-rule-w:   1px;
+  --sx-chamfer:  1.5px;          /* the machined edge on `crown` */
+
+  /* ── THE CHRONOGRAPH · SEB §30.9 ─────────────────────────────────
+     One movement. Base beat 240ms; permitted durations are its
+     multiples only. gates/beat.mjs fails the build on anything else. */
+  --sx-tick:    30ms;
+  --sx-beat-4:  60ms;
+  --sx-beat-2:  120ms;
+  --sx-beat:    240ms;
+  --sx-beat-x2: 480ms;
+  --sx-beat-x4: 960ms;
+  --sx-beat-x8: 1920ms;
+
+  /* Four authored curves. No spring, no bounce, no overshoot — a
+     precision instrument does not overshoot; that is how a toy signals
+     that it is a toy. */
+  --sx-sovereign:  cubic-bezier(0.16, 1, 0.3, 1);
+  --sx-escapement: cubic-bezier(0.83, 0, 0.17, 1);
+  --sx-descent:    cubic-bezier(0.32, 0, 0.67, 0);
+  --sx-release:    cubic-bezier(0.33, 1, 0.68, 1);
+
+  /* ── THE REGISTER · SEB §30.6 ────────────────────────────────────
+     Named institutional roles, not h1–h6.                            */
+  --sx-display: 'Fraunces Variable', 'Fraunces', Didot, 'Bodoni MT', Georgia, serif;
+  --sx-text:    'Archivo Variable', 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --sx-cut:     'Cinzel Variable', 'Cinzel', 'Trajan Pro', Palatino, serif;
+  --sx-mono:    ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, monospace;
+
+  --sx-proclamation:   clamp(3rem, 7vw, 7.5rem);
+  --sx-chapter:        clamp(2rem, 4vw, 3.5rem);
+  --sx-article:        1.75rem;
+  --sx-clause:         1.0625rem;
+  --sx-cartouche:      0.8125rem;
+  --sx-marginalia:     0.75rem;
+  --sx-colophon:       0.6875rem;
+  --sx-figure:         clamp(2.5rem, 5vw, 4.5rem);
+
+  --sx-lh-tight:  1.06;
+  --sx-lh-close:  1.24;
+  --sx-lh-read:   1.66;
+
+  /* Reverse type is set lighter: light glyphs on a dark ground
+     irradiate, so identical weight looks under-inked on obsidian and
+     correct on paper. Applied by the token, never by hand. */
+  --sx-reverse-step: -60;
+
+  /* ── ELEVATION · SEB §30.4 ───────────────────────────────────────
+     Parallax rates. Imperceptible per element, cumulative per page.  */
+  --sx-parallax-plinth: -0.02;
+  --sx-parallax-plate:   0.04;
+  --sx-parallax-crown:   0.09;
+
+  --sx-z-substrate: -2;   /* beneath the ground — the Illum's cut frame  */
+  --sx-z-ground:    -1;   /* the guilloché, the watermark                */
+  --sx-z-rail:      10;
+  --sx-z-lintel:    100;
+  --sx-z-crown:     1000;
+
+  /* ── THE STENCIL ─────────────────────────────────────────────────
+     The ring mask. `#000` here is not a colour — it is full alpha in a
+     mask channel, and it is the single most error-prone idiom in the
+     system: a gradient rim painted WITHOUT this mask fills its box from
+     the centre and renders a hard slice across the object's face
+     (SEB §30.11). Named once, so it cannot be mistyped in the fourth
+     place it is needed.                                             */
+  --sx-stencil: linear-gradient(#000 0 0);
+}
+
+/* ── RUNTIME INPUTS ──────────────────────────────────────────────────
+   Custom properties the BEHAVIOUR LAYER sets, not the stylesheet. They
+   are not tokens — they carry no decision, they carry a measurement —
+   but they are declared here because an undeclared one is
+   indistinguishable from a typo, and a typo in a custom property is the
+   quietest bug CSS can produce: the declaration is silently dropped and
+   nothing anywhere reports it.
+
+   Every one of them MUST be referenced with a fallback, so the component
+   renders correctly before any script has run and on any page where the
+   script never runs at all. gates/tokens.mjs checks both halves: that a
+   runtime input is listed here, and that its every use carries a
+   fallback.
+
+   @runtime --sx-node-top        src/js/meridian.js     the Meridian node
+   @runtime --sx-shift           src/js/meridian.js     parallax offset
+   @runtime --sx-ground-phase    src/js/ground.js       guilloché phase
+   @runtime --sx-arc-len         src/js/instruments.js  Astrolabe arc
+   @runtime --sx-path-len        src/js/instruments.js  series draw-on
+   @runtime --sx-bar             src/js/instruments.js  Ledger bar extent
+   @runtime --sx-gauge-value     markup or script       Gauge reading
+   @runtime --sx-gauge-threshold markup or script       Gauge target
+
+   Not listed here, and deliberately: --sx-control-h, --sx-plate-gap,
+   --sx-seal-size, --sx-track-marginal and --sx-track-gap. Those are
+   COMPONENT-LOCAL properties — each is declared in its own component's
+   rule with a real default, and markup may override it. They need no
+   fallback because they always have a value, and they are not tokens
+   because they mean nothing outside the one component that owns them.
+*/
+
+/* ── THE READING REGISTER ────────────────────────────────────────────
+   The light register. `prefers-color-scheme` does NOT switch the theme
+   (SEB §30.7 rule 3): the register a product commits to IS its
+   presentation, and the other is an accommodation the reader chooses.
+   This also guarantees that what is reviewed is what is served.      */
+[data-register='reading'] {
+  --sx-fg:         #1A1B20;
+  --sx-fg-quiet:   #565A63;
+  --sx-bg:         var(--sx-alabaster);
+  --sx-bg-raised:  #FBFAF6;
+  --sx-bg-plinth:  var(--sx-platinum);
+  /* NOT var(--sx-pewter): pewter on the platinum plinth computes to
+     1.22:1, which is a hairline nobody can see on the one ground it is
+     most used against. Half a step down, and it separates on all three.
+     (gates/contrast.mjs holds the floor at 1.3:1.) */
+  --sx-rule:       #C7C1B4;
+  --sx-boundary:   #8E836A;
+  /* Gold computes to 2.19:1 on paper — well under AA, and aurum-lit is
+     1.40:1, which is not type, it is a watermark. On every light ground
+     metal text becomes brass, and small metal text becomes brass-deep at
+     5.19:1. The token does this so nobody has to remember it.
+     (SEB §30.7 rule 1) */
+  --sx-metal-text: var(--sx-brass-deep);
+
+  /* The signal roles invert: on paper the base pigments are the legible
+     ones (4.72–6.92:1 on the worst light ground) and the lifted variants
+     are not. */
+  --sx-signal-verified:    var(--sx-verdigris);
+  --sx-signal-attention:   var(--sx-carnelian);
+  --sx-signal-interactive: var(--sx-lapis);
+  --sx-contact:       0 1px 2px rgb(26 27 32 / 0.10);
+  --sx-ambient-plate: 0 12px 32px rgb(26 27 32 / 0.07);
+  --sx-ambient-crown: 0 22px 56px rgb(26 27 32 / 0.10);
+  --sx-rim: linear-gradient(
+    148deg,
+    rgb(255 255 255 / 0.9) 0%,
+    rgb(255 255 255 / 0.35) 34%,
+    rgb(26 27 32 / 0.06) 78%,
+    rgb(26 27 32 / 0.14) 100%
+  );
+}

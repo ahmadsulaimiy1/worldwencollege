@@ -1,4 +1,4 @@
-# WEC-LC — Level V, Module 3: Leadership & Persuasion
+# WEC — Level V, Module 3: Leadership & Persuasion
 
 *Part of `docs/curriculum-level-5-advanced.md`'s Level V build-out.*
 

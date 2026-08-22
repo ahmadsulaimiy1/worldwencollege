@@ -1,4 +1,4 @@
-// WEC-LC — authenticated API request headers.
+// WEC — authenticated API request headers.
 //
 // Every LMS endpoint under functions/api/lms/* calls requireUser(),
 // which reads `Authorization: Bearer <clerk session token>`. Any page

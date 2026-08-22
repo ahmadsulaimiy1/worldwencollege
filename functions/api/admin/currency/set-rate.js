@@ -1,7 +1,7 @@
 // POST /api/admin/currency/set-rate
 // Body: { code, rateToUsd, activate? }
 // Staff/admin only. Sets a policy-fixed exchange rate for an existing
-// currency — WEC-LC choosing not to float that currency's tuition
+// currency — WEC choosing not to float that currency's tuition
 // price with daily FX, a legitimate and common institutional choice
 // (see docs/payments-architecture.md § Multi-currency). `activate`
 // (default false) additionally flips is_active — kept as an explicit,

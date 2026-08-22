@@ -43,7 +43,7 @@ officer or a competitor.
 
 ### 1. These are institutional awards, not qualifications
 
-WEC-LC confers these. They are not degrees, not regulated
+WEC confers these. They are not degrees, not regulated
 qualifications, not professional-body grades, and not equivalent to any
 of those. Any institution may confer its own awards. What it may not do
 is dress them as something a regulator issued.
@@ -612,7 +612,7 @@ explicit about why.** Interpreting is a field with established
 certification regimes, and the consequences of under-qualified
 interpreting are borne by third parties — a patient in a consultation, a
 defendant in a hearing — who never chose the College and cannot assess
-it. WEC-LC should not offer an interpreter credential until it has
+it. WEC should not offer an interpreter credential until it has
 qualified interpreter trainers, an assessment model built with them, and
 a considered view on liability. It is the one item in this entire
 document capable of causing harm to someone who is not a student, and it

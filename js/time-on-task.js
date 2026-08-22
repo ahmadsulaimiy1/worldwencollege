@@ -1,4 +1,4 @@
-/* WEC-LC — time-on-task beacon.
+/* WEC — time-on-task beacon.
 
    The client half of the College's measured-hours commitment
    (docs/academic-framework.md § I). It sends one thing, on a timer:

@@ -47,7 +47,7 @@ application, one field.
 
 Zero Trust team domain: `raspy-cloud-4feb.cloudflareaccess.com`.
 
-Application **WEC-LC preview**, created under **Access controls →
+Application **WEC preview**, created under **Access controls →
 Applications → Add an application → Self-hosted and private → Public
 DNS**, with **two** destinations:
 

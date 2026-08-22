@@ -461,7 +461,7 @@ ${darkCard('Unsupported', 'Three the curriculum does not justify', 'Where a prop
     </div>
     <div class="callout">
       <span class="callout__label">No licensed collection</span>
-      <p>WEC-LC holds no subscriptions to academic databases, no licensed journal access, no
+      <p>WEC holds no subscriptions to academic databases, no licensed journal access, no
         e-book collection and no interlibrary arrangement. A student enrolling here does not gain
         access to a research library. &ldquo;Digital library access&rdquo; on this site means the
         College&rsquo;s own materials, and it is worth being exact about that rather than letting

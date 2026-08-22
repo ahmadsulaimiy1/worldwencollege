@@ -1,4 +1,4 @@
--- WEC-LC platform schema — Cloudflare D1 (SQLite dialect).
+-- WEC platform schema — Cloudflare D1 (SQLite dialect).
 -- Not yet applied to any real database. Run via:
 --   wrangler d1 execute wec-lc --file=sql/schema.sql
 -- once a real D1 database is provisioned (Decision #1, hosting).
@@ -480,7 +480,7 @@ CREATE TABLE notification_log (
 
 -- ---------------------------------------------------------------------
 -- Learning Management System (LMS) — Milestone 1, per the Executive
--- Directive that WEC-LC builds and owns its LMS as a proprietary asset
+-- Directive that WEC builds and owns its LMS as a proprietary asset
 -- rather than integrating a third-party product (see
 -- docs/lms-architecture.md). Content hierarchy is
 -- Course → Unit → LearningItem, matching the "one course per level,
@@ -949,7 +949,7 @@ INSERT INTO platform_config (key, value) VALUES
   ('lms_pass_threshold', '0.7'),
   -- Fraction (0..1) a quiz score or assignment grade must meet to mark
   -- a unit "completed" (functions/_lib/lms/content.js). A mechanism
-  -- default, not a published WEC-LC academic standard — real
+  -- default, not a published WEC academic standard — real
   -- competency thresholds are an Academic Director decision (see
   -- docs/master-roadmap.md § Decisions Needed, item 9), to be set here
   -- once one exists.
@@ -2101,7 +2101,7 @@ INSERT OR IGNORE INTO programme_claims
    'Extended through authentic assessment',
    'evidenced',
    'Sixty assignments, one per module, each marked by a person against a published rubric '
-   || 'normalised to the WEC-LC rubric policy — not auto-scored. Spoken work is captured as '
+   || 'normalised to the WEC rubric policy — not auto-scored. Spoken work is captured as '
    || 'learner recordings and reviewed in the instructor workspace.',
    NULL),
 
@@ -2507,3 +2507,49 @@ UPDATE academic_bodies
 
 CREATE INDEX IF NOT EXISTS idx_academic_body_events
   ON academic_body_events(body_code, event);
+
+-- ---------------------------------------------------------------------
+-- THE EDITIONS REGISTER (migration 020)
+--
+-- The artifact-document half of the Verifiable Document Doctrine
+-- (`SEB-D 47`). A person-document asks "did the College issue this, to
+-- this person"; an edition asks "is this the genuine content, unaltered".
+--
+-- Every rendered edition already computes a Document ID — a digest over
+-- the complete curriculum content — and prints it, with a QR, into the
+-- physical book. Nothing recorded it, so that QR resolved to nothing:
+-- a promise printed into a permanent object that the College could not
+-- keep. This table is what makes it keepable.
+--
+-- `content_digest` is UNIQUE because the digest is what the edition IS;
+-- two rows sharing one would mean the register held two answers for one
+-- edition. A superseded edition STILL VERIFIES — a reader holding the
+-- 2026 printing needs to know the College published it, not merely that
+-- a later printing exists.
+--
+-- It proves content identity and nothing more: not authorship, and not
+-- that a given physical copy came from the College.
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS editions (
+  id              TEXT PRIMARY KEY,
+  title           TEXT NOT NULL,
+  document_id     TEXT NOT NULL UNIQUE,
+  content_digest  TEXT NOT NULL UNIQUE
+                  CHECK (length(content_digest) = 64),
+  issue_code      TEXT NOT NULL,
+  edition_name    TEXT,
+  publication_id  TEXT,
+  print_identifier TEXT,
+  year            INTEGER,
+  counts_json     TEXT,
+  registrations_json TEXT,
+  status          TEXT NOT NULL DEFAULT 'in-print'
+                  CHECK (status IN ('in-print','superseded','withdrawn')),
+  superseded_by   TEXT REFERENCES editions(id),
+  withdrawn_at    TEXT,
+  withdrawn_reason TEXT,
+  registered_by   TEXT REFERENCES users(id),
+  registered_at   TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_editions_digest ON editions(content_digest);

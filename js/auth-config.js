@@ -1,4 +1,4 @@
-// WEC-LC — client-side auth configuration.
+// WEC — client-side auth configuration.
 //
 // This is the ONE line that needs a real value at deployment. It is safe
 // to ship publicly: Clerk publishable keys are not secret (they are

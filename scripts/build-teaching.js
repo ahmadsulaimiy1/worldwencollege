@@ -8,7 +8,7 @@
  * ────────────────────────────────────────────────────────────────────
  * A "Teaching" section on an institution's website usually rests on
  * classroom experience: what our teachers have found, how our lessons
- * go, what works with our students. WEC-LC has taught nobody. Every
+ * go, what works with our students. WEC has taught nobody. Every
  * sentence of that kind would be fabricated.
  *
  * What it does have is unusual and genuinely publishable: a teaching
@@ -180,7 +180,7 @@ const cta = (h2, primary, primaryHref, secondary, secondaryHref) =>
 
 const PAGES = {};
 
-// 1 · TEACHING AT WEC-LC ──────────────────────────────────────────────
+// 1 · TEACHING AT WEC ──────────────────────────────────────────────
 PAGES.hub = {
   slug: 'academics-teaching', output: 'academics/teaching/index.html', file: 'academics-teaching.html',
   contents: true, altHref: '/ar/academics/teaching/',
@@ -189,7 +189,7 @@ PAGES.hub = {
   // cuts the sentence off mid-clause, and the manifest was being
   // hand-truncated after the fact — an edit the next build silently
   // undid. Written short at the source, it cannot drift.
-  description: 'How WEC-LC teaches: the method, how a lesson is designed, the support record a '
+  description: 'How WEC teaches: the method, how a lesson is designed, the support record a '
     + "teacher works from, and the Teacher's Companion, free to download.",
   body: `${hero('Academics', 'How the College teaches.',
     'Every lesson in the programme is planned before it is taught, and every planned lesson '
@@ -206,7 +206,7 @@ PAGES.hub = {
       <span class="module-marker">The Method</span>
       <h2>Four commitments that shape every lesson.</h2>
       <p class="lede">Not a philosophy of language teaching in the abstract &mdash; these are the
-        four decisions that visibly determine what a WEC-LC lesson looks like.</p>
+        four decisions that visibly determine what a WEC lesson looks like.</p>
     </div>
     <div class="grid grid--4">
 ${card('One', 'Taught in English, from Level I', 'Including at A1, where it is done through restricted language, repetition, visual support and a teacher who slows down instead of translating. Teaching a language through the language is a method, and Level I was written on that assumption rather than adapted to it afterwards.')}
@@ -417,7 +417,7 @@ ${card('Counted, not asserted', 'The figures in the front matter are measured', 
       <span class="callout__label">What is true today</span>
       <p>No lesson has been observed. No continuing professional development has been recorded
         for anyone &mdash; the record that would hold it contains ${D.cpd} entries. No teacher
-        has taught a WEC-LC cohort, because there has been no cohort. Any page describing teacher
+        has taught a WEC cohort, because there has been no cohort. Any page describing teacher
         development at this College as a running programme would be describing something that
         does not exist.</p>
     </div>
@@ -464,7 +464,7 @@ ${cta('Who teaches to this standard.', 'The Faculty', '/faculty/', 'Academics', 
 };
 
 
-// 2 · TEACHING AT WEC-LC — THE ARABIC EDITION ─────────────────────────
+// 2 · TEACHING AT WEC — THE ARABIC EDITION ─────────────────────────
 // Same record, same figures, same honesty. The seventeen field names
 // are English record identifiers, so the Arabic edition describes the
 // two field groups in prose with the live counts instead of rendering
