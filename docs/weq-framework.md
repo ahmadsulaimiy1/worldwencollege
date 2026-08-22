@@ -301,7 +301,7 @@ a task in English and produce something usable.
 
 **What it is designed to develop.**
 Designed to develop: structured argument — a claim, a reason, an
-example, a conclusion; the paragraph as a unit of thought; managing a
+example, a conclusion; the paragraph as a single movement of thought; managing a
 conversation, including the clarifying question, which is the skill that
 separates a learner who copes from one who is stuck; reading for main
 idea against reading for detail; and the beginnings of register control

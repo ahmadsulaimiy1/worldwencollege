@@ -235,7 +235,7 @@ UPDATE award_definitions SET
   exit_statement =
     'A learner may stop here, and many should. The Certificate in Applied English Communication certifies the standard most often asked for by employers hiring for English-using roles and by institutions admitting to foundation and pre-degree study: an independent user who can be given a task in English and produce something usable.',
   competencies =
-    'Designed to develop: structured argument — a claim, a reason, an example, a conclusion; the paragraph as a unit of thought; managing a conversation, including the clarifying question, which is the skill that separates a learner who copes from one who is stuck; reading for main idea against reading for detail; and the beginnings of register control between the spoken and the written.',
+    'Designed to develop: structured argument — a claim, a reason, an example, a conclusion; the paragraph as a single movement of thought; managing a conversation, including the clarifying question, which is the skill that separates a learner who copes from one who is stuck; reading for main idea against reading for detail; and the beginnings of register control between the spoken and the written.',
   academic_readiness =
     'Ready for foundation and pre-degree study taught in English, and for the reading load that comes with it. A holder can write a structured short essay, take usable notes from a lecture delivered in clear standard English, and ask a question in a seminar. Full undergraduate study normally expects the Professional Stage standard.',
   workplace_readiness =

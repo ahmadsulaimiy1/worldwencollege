@@ -55,6 +55,12 @@ function read() {
   }
   const all = (s, ...a) => db.prepare(s).all(...a);
 
+  const framework = all('SELECT * FROM qualification_framework')[0];
+  if (!framework) {
+    throw new Error('No qualification framework is recorded. These pages present six '
+      + 'qualifications under a named framework; without it they would publish six '
+      + 'unrelated certificates. See sql/migrations/021-weq-framework.sql.');
+  }
   const levels = all('SELECT * FROM programme_levels ORDER BY id');
   const skills = all('SELECT * FROM language_skills ORDER BY sequence');
   const data = levels.map((lv) => ({
@@ -72,11 +78,27 @@ function read() {
     award: all('SELECT * FROM award_definitions WHERE level_id = ?', lv.id)[0] || null,
   }));
   db.close();
-  return { levels: data, skills };
+  return { levels: data, skills, framework };
 }
 
-const { levels, skills } = read();
+const { levels, skills, framework } = read();
 if (levels.length !== 6) throw new Error(`Expected 6 levels, read ${levels.length}`);
+
+// Executive Board resolution E1: these are six qualifications, not six
+// levels. Every page below is built around a stage, a title and an award
+// code, and a row missing any of them would render a page describing a
+// qualification the College cannot name — which is worse than a page
+// that fails to build.
+for (const lv of levels) {
+  const a = lv.award;
+  const missing = !a ? ['the whole definition']
+    : ['stage', 'award_code', 'official_title', 'exit_statement', 'graduation_requirement']
+      .filter((k) => !a[k]);
+  if (missing.length) {
+    throw new Error(`Level ${lv.roman} has no ${missing.join(', ')} in award_definitions. `
+      + 'The Worldwide English Qualifications framework is not fully applied to this database.');
+  }
+}
 
 const money = (c) => `$${(c / 100).toLocaleString('en-GB', { maximumFractionDigits: 0 })}`;
 const SLUG = { I: 'level-1', II: 'level-2', III: 'level-3', IV: 'level-4', V: 'level-5', VI: 'level-6' };
@@ -150,40 +172,70 @@ ${lv.outcomes.map((o) => `          <tr><td>${esc(o.code)}</td><td>${esc(o.state
 <section class="section--paper section-pad" id="award">
   <div class="container reveal">
     <div class="section-head">
-      <span class="module-marker">The Award</span>
+      <span class="module-marker">The Qualification</span>
       <h2>${esc(a.official_title)}</h2>
-      <p class="lede">${esc(a.standing)}${a.post_nominal ? ` &middot; Post-nominal <b>${esc(a.post_nominal)}</b>` : ''}</p>
+      <p class="lede">${esc(a.stage)} Stage of the ${esc(framework.name)} framework
+        &middot; award code <b>${esc(a.award_code)}</b> &middot; aligned to CEFR ${esc(a.cefr)}</p>
     </div>
     <div class="grid grid--2">
       <div class="card">
-        <span class="card__num">What it honours</span>
-        <h3>Why this award exists</h3>
-        <p>${esc(a.academic_purpose)}</p>
+        <span class="card__num">Why it is named as it is</span>
+        <h3>Academic purpose</h3>
+        <p>The ${esc(a.official_title)} ${esc(a.academic_purpose)}</p>
       </div>
       <div class="card">
         <span class="card__num">Graduate profile</span>
-        <h3>What the holder can do</h3>
+        <h3>Who the holder is</h3>
         <p>${esc(a.graduate_profile)}</p>
       </div>
     </div>
+    <div class="grid grid--3">
+${card('Designed to develop', 'Competencies', esc(a.competencies))}
+${card('Academic readiness', 'What it prepares you to study', esc(a.academic_readiness))}
+${card('Workplace readiness', 'What it prepares you to do at work', esc(a.workplace_readiness))}
+${card('International use', 'How it reads abroad', esc(a.international_use))}
+${card('Where it is used', 'Practical applications', esc(a.practical_applications))}
+${card('Entry and progression', 'Before and after', esc(a.progression_requirement))}
+    </div>
+    <div class="grid grid--2">
+${darkCard('Assessment', 'How it is examined', esc(a.assessment_framework))}
+${darkCard('Graduation', 'What completion requires', esc(a.graduation_requirement))}
+    </div>
     <div class="callout">
-      <span class="callout__label">What this award is not</span>
-      <p>WEC holds no accreditation, and the College has not appointed an External Examiner
-        &mdash; the independent post required before any award can properly be conferred. This
-        award is defined, its criteria are published, and it has been conferred on nobody. See
+      <span class="callout__label">What this qualification is, and is not</span>
+      <p>It is a qualification of Worldwide English College. It is not a regulated
+        qualification, not a degree, not a professional-body grade, and not equivalent to any
+        of those &mdash; and no external body has assessed it. The College holds no
+        accreditation and has not appointed the External Examiner whose independent sign-off
+        it requires before it will confer anything. This qualification is defined, its
+        criteria are published, and it has been conferred on nobody. See
         <a href="/about/#status">About &middot; Institutional Status</a>.</p>
     </div>
   </div>
 </section>` : '';
 
+  // THE HERO NAMES A QUALIFICATION, NOT A LEVEL.
+  //
+  // Resolution E2: a visitor should understand within one screen that
+  // this is a complete qualification which also sits inside a
+  // progression — in that order. So the eyebrow carries the framework
+  // and the stage, the h1 carries the qualification's own title, and
+  // the line under it is the exit statement: the sentence that says a
+  // learner may stop here and hold something whole.
+  //
+  // The CEFR band and the award code sit in the hero rather than in a
+  // table further down, because they are the two facts a reader
+  // compares against another institution's offer.
   return `<section class="section--dark section-pad">
   <div class="container">
-    <span class="eyebrow">IEFC &middot; Level ${esc(lv.roman)}</span>
-    <h1>${esc(lv.name)}</h1>
-    <p class="lede">${esc(CHARACTER[lv.roman])}</p>
+    <span class="eyebrow">${esc(framework.abbreviation)} &middot; ${esc(a.stage)} Stage &middot; CEFR ${esc(lv.cefr)}</span>
+    <h1>${esc(a.official_title)}</h1>
+    <p class="qual-code"><abbr title="${esc(a.official_title)}">${esc(a.award_code)}</abbr>
+      &middot; ${esc(a.standing)}</p>
+    <p class="lede">${esc(a.exit_statement)}</p>
     <div class="btn-row">
-      <a href="/admissions/#apply" class="btn btn--gold">Apply for Level ${esc(lv.roman)}</a>
-      <a href="/academics/#iefc" class="btn btn--outline">The Full IEFC Programme</a>
+      <a href="/admissions/#apply" class="btn btn--gold">Apply for the ${esc(a.award_code)}</a>
+      <a href="/academics/#iefc" class="btn btn--outline">The ${esc(framework.name)} framework</a>
     </div>
   </div>
 </section>

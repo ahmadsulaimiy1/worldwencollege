@@ -551,5 +551,58 @@ for (const [label, file] of [['English', 'admissions-tuition.html'],
     && !OTHER.test('إن ذهبت البلاغات سدى'));
 }
 
+// ---------------------------------------------------------------------
+// THE SIX ARE QUALIFICATIONS, AND THE PAGES MUST SAY SO.
+//
+// Executive Board resolution E1 made them six qualifications under the
+// Worldwide English Qualifications framework; E2 requires that the site
+// present them that way rather than as six levels of one course. The
+// risk is not that someone reverts it deliberately. It is that a page
+// gets edited a year from now by someone who reads "Level IV" in a
+// neighbouring file and matches it.
+//
+// The word "level" is NOT banned. It is the correct word for a CEFR
+// level, it is in the URLs, and the record still calls the table
+// programme_levels. What is checked is that each of the six pages
+// leads with its own qualification: the title, the award code and the
+// stage all present, and the sentence that says a learner may stop
+// there.
+{
+  // Read from the record rather than listed here, so the six titles are
+  // written down once. The first version of this check hard-coded them
+  // AND required every page to say "may stop here" — which is wrong for
+  // the Mastery Stage, whose exit statement says the framework ends
+  // rather than that a learner may leave. Asserting the page carries
+  // its OWN exit statement is both more general and more true.
+  const QUALS = db.prepare(
+    `SELECT level_id AS levelId, official_title AS title, award_code AS code,
+            stage, exit_statement AS exitStatement
+       FROM award_definitions ORDER BY level_id`).all();
+  const missing = [];
+  for (const q of QUALS) {
+    const slug = `study-level-${q.levelId}`;
+    let body;
+    try { body = readFileSync(path.join(ROOT, 'pages', `${slug}.html`), 'utf8'); }
+    catch { missing.push(`${slug}: no page`); continue; }
+    // The page escapes its entities; compare on the shared plain text.
+    const flat = body.replace(/&mdash;/g, '\u2014').replace(/&rsquo;/g, '\u2019')
+      .replace(/&amp;/g, '&').replace(/\s+/g, ' ');
+    const want = (t) => String(t).replace(/\s+/g, ' ');
+    if (!flat.includes(want(q.title))) missing.push(`${slug}: title`);
+    if (!flat.includes(q.code)) missing.push(`${slug}: code ${q.code}`);
+    if (!flat.includes(`${q.stage} Stage`)) missing.push(`${slug}: ${q.stage} Stage`);
+    if (!flat.includes(want(q.exitStatement))) missing.push(`${slug}: exit statement`);
+  }
+  check(`Each qualification page names its own qualification — ${QUALS.length} pages`,
+    missing.length === 0, missing.join(', '));
+
+  // And the framework itself is named somewhere a visitor will meet it,
+  // or the six read as six unrelated certificates — which is the exact
+  // failure the framework was created to fix.
+  const nav = readFileSync(path.join(ROOT, 'partials/header.html'), 'utf8');
+  check('...and the navigation presents them as qualifications, not levels',
+    /Six Qualifications/i.test(nav) && /Foundation Stage/.test(nav) && /WEPC/.test(nav));
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

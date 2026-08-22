@@ -399,6 +399,33 @@ section { position: relative; }
 .lede { font-size: 1.15rem; color: var(--ink-soft); max-width: 62ch; }
 .section--dark .lede { color: rgba(247,244,236,.78); }
 
+/* -------------------- The qualification line --------------------
+   Sits between the qualification's title and its exit statement on the
+   six qualification pages: the award code, then the standing it
+   confers. It is deliberately NOT a lede — it is closer to a
+   subtitle, and setting it at lede size made the h1 and the sentence
+   under it compete. Small caps on the code because it is designatory
+   letters rather than a word, and a dotted underline on the abbr so a
+   reader who does not know "HCAEC" can hover and find out. */
+.qual-code {
+  font-family: var(--font-body);
+  font-size: .95rem;
+  letter-spacing: .04em;
+  color: var(--ink-soft);
+  margin: .35rem 0 1rem;
+  max-width: 62ch;
+}
+.section--dark .qual-code { color: rgba(247,244,236,.72); }
+.qual-code abbr {
+  font-weight: 800;
+  letter-spacing: .12em;
+  color: var(--gold);
+  text-decoration: underline dotted rgba(200,169,92,.55);
+  text-underline-offset: .25em;
+  cursor: help;
+}
+.section--light .qual-code abbr { color: var(--red); text-decoration-color: rgba(155,30,42,.4); }
+
 /* -------------------- Sections -------------------- */
 .section--dark { background: var(--royal); color: var(--ivory); }
 .section--deep { background: var(--royal-deep); color: var(--ivory); }

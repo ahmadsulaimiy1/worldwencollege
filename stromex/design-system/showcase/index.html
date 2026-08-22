@@ -23,7 +23,11 @@
 <!-- 1 · THE LINTEL ─────────────────────────────────────────────────── -->
 <header class="sx-lintel">
   <span class="sx-lintel__capital" aria-hidden="true"></span>
-  <span class="sx-lintel__mark sx-cartouche">StromeX</span>
+  <!-- Links home, because tests/browser/route-audit.mjs requires every
+       built route to offer a way back to the College: a reader who
+       crosses from the site into a platform page should not lose the
+       institution. The wordmark is the natural carrier. -->
+  <a class="sx-lintel__mark sx-cartouche" href="/">StromeX</a>
   <nav class="sx-lintel__register" aria-label="Register">
     <button type="button" class="sx-control sx-control--quiet" data-opens="register-menu" aria-expanded="false">Register</button>
     <a class="sx-control sx-control--quiet" href="#canon">Canon</a>
