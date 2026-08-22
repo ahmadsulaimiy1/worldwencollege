@@ -13,14 +13,36 @@ within the same quarter.
 
 ## 1. Why this paper exists
 
-The College holds a substantial amount of personal data and has
-published nothing about it.
+**Correction, and it is mine.** An earlier draft of this paper opened by
+saying the College had published nothing about the personal data it
+holds. That was wrong. A privacy page has been published at
+`/support/privacy/` throughout, and it is better than the sector norm:
+it opens by stating that the site runs no analytics and no third-party
+measurement of any kind — enforced by a build check — names the three
+actual processors instead of saying "service providers", distinguishes
+the enquiry form that sends nothing from the application form that does,
+and declares its accountability gap rather than glossing it. I missed it
+because my survey looked one directory deep and the page sits two.
 
-That is not an oversight of documentation. It is a gap between what the
-institution does and what the people it does it to have been told. A
-learner cannot exercise a right they have never been told they have, and
-an institution that cannot list what it holds cannot honestly answer a
-subject access request, a regulator, or a sponsor's due diligence
+The real gap is narrower and more specific, and the page itself named
+most of it before I did.
+
+**What is genuinely missing:** no named data controller, no lawful basis
+for any processing activity, no Data Protection owner, and no
+international transfer position.
+
+**And one thing that was worse than missing.** The page told learners
+that retention and erasure were "open governance decisions". They had
+been adopted on 14 August as D1, D2 and D3 — and the retention period
+was not switched on in the software until 22 August, so for eight days
+the College held voice data indefinitely while its own register said two
+years. The page now publishes what was decided, and says plainly that it
+previously said otherwise. Nobody was affected, because nobody has
+recorded anything. That is luck, not design.
+
+A learner cannot exercise a right they have never been told they have,
+and an institution that cannot list what it holds cannot honestly answer
+a subject access request, a regulator, or a sponsor's due diligence
 questionnaire — which is the first document a corporate client sends.
 
 There is also a specific finding. Governance **D1** — delete a learner's
@@ -132,19 +154,24 @@ It is a configuration decision now and a migration later.
 
 ## 4. What is deliberately not in this paper
 
-**A draft privacy notice.** It would have four blanks in the places that
-matter, and a notice with blanks is worse than none: it looks like a
-commitment and is not one. The notice should be written once decisions 1
-and 2 are taken, from the inventory in section 2, and published — not
-before.
+**A rewritten privacy notice.** The published page at
+`/support/privacy/` already carries everything that can honestly be
+said, and it has been corrected to publish the retention and erasure
+decisions it previously described as open. What it cannot carry is a
+controller, a lawful basis or a transfer position, because those are
+decisions 1, 2 and 4 of this paper. Filling those blanks with plausible
+text would produce something that looks like a commitment and is not
+one. The page should be completed once the decisions are taken — from
+the inventory in section 2 — and not before.
 
 **A cookie policy.** Out of scope here and genuinely smaller; the site
 sets no advertising or analytics cookies today.
 
 **A claim that the College is compliant with anything.** It holds
 personal data, has adopted three decisions about it, has now implemented
-all three, and has an inventory. That is progress and it is not
-compliance, and this paper should not be quoted as saying otherwise.
+all three, publishes a privacy page, and has an inventory. That is
+progress and it is not compliance, and this paper should not be quoted
+as saying otherwise.
 
 ---
 

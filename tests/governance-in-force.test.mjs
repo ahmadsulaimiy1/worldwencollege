@@ -27,9 +27,10 @@
 // force — and a decision that names no consequence is reported rather
 // than silently skipped, because "no line" and "no consequence" are
 // different statements.
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 import path from 'node:path';
+const pathJoin = path.join;
 import { ROOT } from './helpers.mjs';
 
 let pass = 0, fail = 0;
@@ -108,6 +109,72 @@ check('Every adopted decision that names a setting is in force in the schema',
   check(`${withNoLine} adopted decisions declare no single setting, and ${claims.length} do`,
     withNoLine + claims.length >= adopted.length,
     `${withNoLine} + ${claims.length} vs ${adopted.length}`);
+}
+
+// --- And no PUBLISHED page calls a taken decision open -----------------
+//
+// The schema said the retention decision "has NOT been made" eight days
+// after it was made. So did /support/privacy/ — the page a learner
+// reads to find out what happens to their voice — which listed
+// retention and erasure under "Not decided" while D1, D2 and D3 were
+// adopted policy.
+//
+// That is the same defect in a worse place. A stale comment misleads a
+// developer; a stale privacy page misleads the person whose data it is,
+// and it does so in the one document they are most entitled to rely on.
+//
+// So the register is read against the published pages: for every
+// adopted decision, no served page may describe its subject as
+// undecided.
+{
+  const SKIP = new Set(['node_modules', '.git', 'stromex', 'pages', 'partials',
+    'publication', 'docs', 'tests', 'scripts', 'sql', 'functions', '.github']);
+  const walk = (dir, out = []) => {
+    for (const e of readdirSync(dir)) {
+      if (e.startsWith('.') || SKIP.has(e)) continue;
+      const full = pathJoin(dir, e);
+      if (statSync(full).isDirectory()) walk(full, out);
+      else if (e.endsWith('.html')) out.push(full);
+    }
+    return out;
+  };
+  const pages = walk(ROOT).map((f) => ({
+    rel: f.slice(ROOT.length + 1),
+    text: readFileSync(f, 'utf8')
+      .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+      .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+      .replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '),
+  }));
+  check(`Served pages are read for stale governance — ${pages.length}`, pages.length >= 50);
+
+  // The specific subject that was wrong, and the phrasing that made it
+  // wrong. Kept concrete rather than clever: a general "is this
+  // sentence about an adopted decision" check would be a language
+  // model, not a test.
+  const STALE = [
+    { subject: 'retention', decision: 'D1',
+      bad: /(retention|how long[^.]{0,60}(kept|recordings))[^.]{0,140}(not (yet )?(been )?(decided|taken|made)|open governance decision|undecided)/i },
+    { subject: 'erasure', decision: 'D2/D3',
+      bad: /erasure[^.]{0,140}(not (yet )?(been )?(decided|taken|made)|open governance decision)/i },
+  ];
+  for (const s of STALE) {
+    const guilty = pages.filter((p) => s.bad.test(p.text));
+    check(`No page calls ${s.subject} undecided — ${s.decision} was adopted`,
+      guilty.length === 0, guilty.map((p) => p.rel).join(', '));
+  }
+
+  // And the page that got it wrong now says the right thing, including
+  // the figure the software enforces.
+  const privacy = pages.find((p) => p.rel.replace(/\\/g, '/') === 'support/privacy/index.html');
+  check('The privacy page exists', !!privacy, 'support/privacy/index.html');
+  if (privacy) {
+    check('...and publishes the retention period that is in force',
+      /730 days/.test(privacy.text), privacy.text.slice(0, 60));
+    check('...and the erasure position, including what is NOT deleted',
+      /erased at any time/i.test(privacy.text) && /not deleted on request/i.test(privacy.text));
+    check('...and records that it previously said these were undecided',
+      /previously said these were open/i.test(privacy.text));
+  }
 }
 
 console.log(`\n${pass} passed, ${fail} failed.`);

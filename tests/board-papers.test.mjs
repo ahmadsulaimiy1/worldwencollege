@@ -218,8 +218,18 @@ for (const [what, re] of [
     (paper.match(/\*\*Recommendation[:,]/g) || []).length);
 
   // The refusals that keep it honest.
-  check('It does NOT contain a draft privacy notice with blanks in it',
-    /A draft privacy notice\.\*\* It would have four blanks/.test(flat));
+  // The paper's refusal, restated after a correction. An earlier draft
+  // said the College had published no privacy notice at all; it has,
+  // at /support/privacy/, and I missed it by surveying one directory
+  // deep. The refusal that survives is the one that matters: the page
+  // is not to be completed with plausible text where a decision
+  // belongs.
+  check('It refuses to fill the notice\'s gaps with text where decisions belong',
+    /Filling those blanks with plausible text/.test(flat));
+  check('...and owns the error rather than quietly rewriting the paper',
+    /\*\*Correction, and it is mine\.\*\*/.test(flat));
+  check('...and reports that the page understated what had been decided',
+    /previously described as open|previously said otherwise/.test(flat));
   check('...and does not claim the College is compliant with anything',
     /is progress and it is not compliance/.test(flat));
   check('It reports the D1 finding rather than presenting a clean history',
