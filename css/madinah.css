@@ -741,43 +741,138 @@ body[data-section] {
 
 /* ==================================================== THE PRAYER BAND */
 
-.prayerband {
-  background: linear-gradient(90deg, var(--oxford), var(--midnight) 55%, var(--oxford));
-  border-bottom: 1px solid rgba(199, 162, 74, .26);
-  font-size: .8rem;
-  color: var(--cerulean);
+/* ==================================================== THE MERIDIAN BAND
+
+   Replaces the prayer strip. The strip put four unrelated items across the
+   full width at one weight — a place, a countdown, a Hijrī date and a
+   Gregorian one — with every figure in the body sans. Four things at equal
+   weight is not a hierarchy, it is a toolbar, and it sat above the
+   College's own name.
+
+   The band now does one job: it says where this College keeps time. Three
+   named cities and, once, the date. Two rules govern it:
+
+   1. EVERY FIGURE IS SET IN THE FIGURE FACE. A clock is the most-read
+      number on a page and it was in Inter. It is now the Didone, at
+      proportional lining figures — 12:51 reads as drawn rather than
+      typed — except the hour itself, which is TABULAR, because a
+      proportional 1 makes a live clock jitter sideways every minute.
+      That is the one place on this site where tabular is the elegant
+      choice and not the mechanical one.
+
+   2. THE CITY IS THE LOUD PART, NOT THE HOUR. An institution says where
+      it is; a dashboard says what time it is. So the city name carries
+      the ceremonial face and the letterspacing, and the hour sits under
+      it, quieter than you would expect. */
+
+.meridian {
+  background:
+    linear-gradient(180deg, rgba(199,162,74,.05), rgba(199,162,74,0) 60%),
+    linear-gradient(90deg, var(--oxford), var(--midnight) 55%, var(--oxford));
+  border-bottom: 1px solid rgba(199, 162, 74, .22);
 }
 
-.prayerband__inner {
-  max-width: 1280px; margin: 0 auto;
-  padding: 8px clamp(16px, 3vw, 34px);
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 18px; flex-wrap: wrap;
+.meridian__inner {
+  max-width: var(--wrap); margin: 0 auto;
+  padding: 14px clamp(16px, 3vw, 34px) 13px;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: clamp(20px, 4vw, 64px);
 }
 
-.prayerband__place { display: inline-flex; align-items: center; gap: 8px; color: var(--steel); }
-.prayerband__place .icon { width: 15px; height: 15px; color: var(--gold-royal); }
-
-.prayerband__next { display: inline-flex; align-items: baseline; gap: 9px; }
-
-.prayerband__label {
-  font-family: 'Cinzel', serif; font-size: .6rem;
-  letter-spacing: .2em; text-transform: uppercase; color: var(--bronze);
-  filter: brightness(1.75);
+.meridian__clocks {
+  display: flex; align-items: flex-start;
+  gap: clamp(22px, 4.4vw, 72px);
 }
 
-.prayerband__next strong { color: var(--gold-champagne); font-weight: 600; letter-spacing: .04em; }
-.prayerband__time { color: var(--ivory); font-variant-numeric: tabular-nums; }
-.prayerband__cd { color: var(--gold-soft); font-variant-numeric: tabular-nums; }
+.meridian__clock { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 
-.prayerband__date { color: var(--steel); font-variant-numeric: tabular-nums; }
-.prayerband__sep { margin: 0 6px; opacity: .6; }
-
-@media (max-width: 860px) {
-  .prayerband__place { display: none; }
-  .prayerband__inner { justify-content: space-between; padding-block: 7px; }
+.meridian__city {
+  font-family: var(--font-ceremonial);
+  font-size: .69rem; font-weight: 600; letter-spacing: .19em;
+  text-transform: uppercase; color: var(--gold-champagne);
+  white-space: nowrap;
 }
-@media (max-width: 560px) { .prayerband__date { display: none; } }
+
+.meridian__country {
+  font-size: .625rem; letter-spacing: .09em;
+  color: rgba(195, 214, 238, .62); white-space: nowrap;
+}
+.meridian__seat { color: var(--gold-royal); opacity: .85; }
+
+.meridian__time {
+  margin-top: 4px;
+  font-family: var(--font-figure);
+  font-size: 1.06rem; font-weight: 500; line-height: 1;
+  color: var(--ivory);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-optical-sizing: auto;
+  white-space: nowrap;
+}
+
+.meridian__zone {
+  margin-inline-start: 7px;
+  font-family: var(--font-body);
+  font-size: .58rem; font-weight: 600; letter-spacing: .13em;
+  text-transform: uppercase; color: rgba(195, 214, 238, .5);
+  vertical-align: .18em;
+}
+
+/* The prayer line hangs under Lagos, because Lagos is the city the solver
+   computes for. Printing it under any other city would be a small lie. */
+.meridian__prayer {
+  margin-top: 5px; display: flex; align-items: baseline; gap: 6px;
+  font-size: .655rem; white-space: nowrap;
+}
+.meridian__prayer-label {
+  font-family: var(--font-ceremonial); font-size: .56rem;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--bronze); filter: brightness(1.9);
+}
+.meridian__prayer strong { color: var(--gold-champagne); font-weight: 600; letter-spacing: .03em; }
+.meridian__prayer [data-prayer-time],
+.meridian__cd {
+  font-family: var(--font-figure);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.meridian__prayer [data-prayer-time] { color: rgba(247,244,236,.8); }
+.meridian__cd { color: var(--gold-soft); }
+
+/* The date, stated once and with authority. Hijrī first: it is the
+   calendar the academic year is actually kept against. */
+.meridian__date {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
+  text-align: end; flex-shrink: 0;
+}
+.meridian__hijri {
+  font-family: var(--font-figure);
+  font-size: .875rem; font-weight: 500; color: var(--gold-champagne);
+  font-variant-numeric: proportional-nums lining-nums;
+  font-optical-sizing: auto; white-space: nowrap;
+}
+.meridian__greg {
+  font-family: var(--font-figure);
+  font-size: .72rem; color: rgba(195, 214, 238, .62);
+  font-variant-numeric: proportional-nums lining-nums;
+  white-space: nowrap;
+}
+
+/* NARROW. The band gives up cities before it gives up legibility, and it
+   gives up the one furthest from the reader's likely position first.
+   Al Madinah is never dropped: it is what the College is named for. */
+@media (max-width: 1080px) {
+  .meridian__clocks { gap: 30px; }
+  .meridian__clock[data-clock="Europe/London"] { display: none; }
+}
+@media (max-width: 760px) {
+  .meridian__inner { padding-block: 11px 10px; }
+  .meridian__greg { display: none; }
+  .meridian__country { display: none; }
+  .meridian__clocks { gap: 22px; }
+}
+@media (max-width: 520px) {
+  .meridian__date { display: none; }
+  .meridian__clock[data-clock="Asia/Riyadh"] .meridian__country { display: none; }
+}
 
 /* ============================================ THE PERSONALISATION CENTRE */
 

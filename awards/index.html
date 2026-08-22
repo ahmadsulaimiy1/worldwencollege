@@ -1097,30 +1097,72 @@
       What remains above the name is the prayer band alone — the one thing
       a college of Qur'ānic sciences has a reason to put there.  -->
 
-<!-- THE PRAYER BAND.
-     The one thing a college of Qur'ānic sciences should carry above its
-     own name. Times are computed on the reader's device from the solar
-     position at Lagos — Muslim World League angles, shadow factor one —
-     and the band says so, because reasonable tables differ and a school
-     that prints a prayer time without naming its convention is asserting
-     more than it knows. -->
-<div class="prayerband" data-prayer-band>
-  <div class="prayerband__inner">
-    <span class="prayerband__place">
-      <svg class="icon" aria-hidden="true"><use href="#i-minaret"/></svg>
-      Lagos &middot; West Africa Time
-    </span>
-    <span class="prayerband__next">
-      <span class="prayerband__label">Next</span>
-      <strong data-prayer-name>—</strong>
-      <span class="prayerband__time" data-prayer-time>—:—</span>
-      <span class="prayerband__cd" data-prayer-countdown></span>
-    </span>
-    <span class="prayerband__date">
-      <span data-hijri-long>—</span>
-      <span class="prayerband__sep" aria-hidden="true">&middot;</span>
-      <span data-gregorian>—</span>
-    </span>
+<!--  THE MERIDIAN BAND.
+
+      What was here before was a strip carrying four unrelated things at one
+      weight: a place, a countdown to the next prayer, a Hijrī date and a
+      Gregorian one, spread across the full width. Four items, no hierarchy,
+      and every figure set in the body sans. It read as a dashboard rail —
+      the thing an application puts above its content — stacked on top of
+      the College's own name.
+
+      It is now a meridian band, and it does ONE thing: it says where this
+      College keeps time. Three cities, named in full, each with the hour,
+      the zone and nothing else; then the date, once, in both calendars.
+
+      WHY THE DATE IS NOT REPEATED PER CITY. The Founder asked for date and
+      zone under each. Three dates side by side are the same string three
+      times for all but a few minutes around midnight, and repetition at
+      equal weight is exactly what made the old strip feel crowded. The
+      date is therefore stated once, with authority, in its own cell — and
+      because it is stated once it can be given the Hijrī reckoning first,
+      which is the calendar this College actually keeps.
+
+      WHY THESE THREE. London is where a great many of the readers this
+      College is written for are sitting; Lagos is where the College is;
+      Al Madinah is what it is named for. The prayer line stays under
+      Lagos, because that is the city the solver computes for and a time
+      printed under the wrong city would be a small lie.
+
+      Every figure in this band is set in the figure face, not the body
+      sans — see the note in css/brand.css.  -->
+<div class="meridian" data-prayer-band>
+  <div class="meridian__inner">
+
+    <div class="meridian__clocks">
+      <div class="meridian__clock" data-clock="Europe/London">
+        <span class="meridian__city">London</span>
+        <span class="meridian__country">United Kingdom</span>
+        <span class="meridian__time"><span data-clock-time>&mdash;&mdash;:&mdash;&mdash;</span>
+          <span class="meridian__zone" data-clock-zone></span></span>
+      </div>
+
+      <div class="meridian__clock meridian__clock--seat" data-clock="Africa/Lagos">
+        <span class="meridian__city">Lagos</span>
+        <span class="meridian__country">Nigeria <span class="meridian__seat">&middot; the College</span></span>
+        <span class="meridian__time"><span data-clock-time>&mdash;&mdash;:&mdash;&mdash;</span>
+          <span class="meridian__zone" data-clock-zone></span></span>
+        <span class="meridian__prayer">
+          <span class="meridian__prayer-label">Next</span>
+          <strong data-prayer-name>&mdash;</strong>
+          <span data-prayer-time>&mdash;</span>
+          <span class="meridian__cd" data-prayer-countdown></span>
+        </span>
+      </div>
+
+      <div class="meridian__clock" data-clock="Asia/Riyadh">
+        <span class="meridian__city">Al Madinah</span>
+        <span class="meridian__country">Saudi Arabia</span>
+        <span class="meridian__time"><span data-clock-time>&mdash;&mdash;:&mdash;&mdash;</span>
+          <span class="meridian__zone" data-clock-zone></span></span>
+      </div>
+    </div>
+
+    <div class="meridian__date">
+      <span class="meridian__hijri" data-hijri-long>&mdash;</span>
+      <span class="meridian__greg" data-gregorian>&mdash;</span>
+    </div>
+
   </div>
 </div>
 

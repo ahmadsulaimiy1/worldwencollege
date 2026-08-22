@@ -154,6 +154,82 @@
     return { name: 'Fajr', at: (times.Fajr || 5) + 24 }; // tomorrow's
   }
 
+  /* ===================================================================
+     THE MERIDIAN BAND — three cities, live.
+
+     Each clock names its own IANA zone in `data-clock`, so the zone
+     abbreviation is asked of Intl rather than hardcoded. That matters:
+     London is BST for half the year and GMT for the other half, and a
+     header that printed one of them all year would be wrong for six
+     months without anyone noticing. Riyadh keeps Al Madinah's time and
+     observes no summer shift, but it is still read from Intl rather than
+     assumed, for the same reason.
+
+     Figures go through figures() so the Arabic tree gets Arabic-Indic
+     numerals, as everywhere else on this site.
+     =================================================================== */
+  /* Intl's short zone name is whatever the reader's ICU build happens to
+     carry, and it is not consistent: the same browser returned "BST" for
+     London and "GMT+1" for Lagos in the same band — one an abbreviation,
+     one an offset, side by side, which is exactly the kind of small
+     inconsistency that makes a page look assembled rather than typeset.
+
+     Three cities is a set small enough to name properly. The offset is
+     still READ rather than assumed, because London is BST for half the
+     year and GMT for the other half, and a header that printed one of
+     them all year would be quietly wrong for six months. */
+  var ZONE_LABEL = {
+    'Europe/London': function (min) {
+      return isArabic() ? (min === 0 ? 'غرينتش' : 'بتوقيت الصيف')
+                        : (min === 0 ? 'GMT' : 'BST');
+    },
+    'Africa/Lagos':  function () { return isArabic() ? 'غرب إفريقيا' : 'WAT'; },
+    'Asia/Riyadh':   function () { return isArabic() ? 'التوقيت العربي' : 'AST'; }
+  };
+
+  // Minutes east of UTC for a zone, right now.
+  function offsetMinutes(tz, now) {
+    try {
+      var p = new Intl.DateTimeFormat('en-GB', {
+        timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false,
+        year: 'numeric', month: '2-digit', day: '2-digit'
+      }).formatToParts(now).reduce(function (a, x) { a[x.type] = x.value; return a; }, {});
+      var asUTC = Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute);
+      return Math.round((asUTC - Math.floor(now.getTime() / 60000) * 60000) / 60000);
+    } catch (e) { return null; }
+  }
+
+  function zoneName(tz, now) {
+    var min = offsetMinutes(tz, now);
+    var fn = ZONE_LABEL[tz];
+    if (fn && min !== null) return fn(min);
+    if (min === null) return '';
+    var sign = min < 0 ? '\u2212' : '+';
+    var a = Math.abs(min);
+    return 'UTC' + sign + Math.floor(a / 60) + (a % 60 ? ':' + ('0' + (a % 60)).slice(-2) : '');
+  }
+
+  function renderClocks() {
+    var cells = $$('[data-clock]');
+    if (!cells.length) return;
+    var now = new Date();
+    cells.forEach(function (cell) {
+      var tz = cell.getAttribute('data-clock');
+      var timeEl = $('[data-clock-time]', cell);
+      var zoneEl = $('[data-clock-zone]', cell);
+      if (timeEl) {
+        var hm = '';
+        try {
+          hm = new Intl.DateTimeFormat('en-GB', {
+            timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false
+          }).format(now);
+        } catch (e) { hm = ''; }
+        timeEl.textContent = hm ? figures(hm) : '';
+      }
+      if (zoneEl) zoneEl.textContent = zoneName(tz, now);
+    });
+  }
+
   function renderPrayer() {
     var band = $('[data-prayer-band]');
     if (!band) return;
@@ -214,12 +290,44 @@
     return o;
   }
 
-  function hijri(now, opts) {
+  /* Intl renders the Hijrī months in English as "Rabiʻ I", "Jumada II",
+     "Rabiʻ II" — ordinal shorthand, and an apostrophe standing in for the
+     ʿayn. On a college of Qur'ānic sciences that is not a small thing:
+     the month is Rabīʿ al-Awwal, it has a name rather than a number, and
+     the mark over the ī and the ʿayn are the difference between a
+     transliteration and an approximation of one. Substituted by month
+     index, which Intl reports reliably even where its NAMES are poor. */
+  var HIJRI_MONTHS_EN = [
+    'Muḥarram', 'Ṣafar', 'Rabīʿ al-Awwal', 'Rabīʿ al-Thānī',
+    'Jumādā al-Ūlā', 'Jumādā al-Ākhirah', 'Rajab', 'Shaʿbān',
+    'Ramaḍān', 'Shawwāl', 'Dhū al-Qaʿdah', 'Dhū al-Ḥijjah'
+  ];
+
+  function hijriParts(now) {
     try {
-      var o = dateOpts(opts);
-      o.calendar = 'islamic-umalqura';
-      return new Intl.DateTimeFormat(locale(), o).format(now);
-    } catch (e) { return ''; }
+      var p = new Intl.DateTimeFormat('en-US-u-ca-islamic-umalqura', {
+        day: 'numeric', month: 'numeric', year: 'numeric'
+      }).formatToParts(now).reduce(function (a, x) { a[x.type] = x.value; return a; }, {});
+      if (!p.day || !p.month || !p.year) return null;
+      return { day: +p.day, month: +p.month, year: parseInt(p.year, 10) };
+    } catch (e) { return null; }
+  }
+
+  function hijri(now, opts) {
+    // The Arabic tree already gets proper month names from Intl, in the
+    // script they belong to; only the English rendering needs correcting.
+    if (isArabic()) {
+      try {
+        var o = dateOpts(opts);
+        o.calendar = 'islamic-umalqura';
+        return new Intl.DateTimeFormat(locale(), o).format(now);
+      } catch (e) { return ''; }
+    }
+    var h = hijriParts(now);
+    if (!h) return '';
+    var name = HIJRI_MONTHS_EN[h.month - 1] || '';
+    if (opts.month === 'short') return h.day + ' ' + name;
+    return h.day + ' ' + name + ' ' + h.year;
   }
 
   function renderDates() {
@@ -621,7 +729,7 @@
   // it ask for the date again rather than duplicating the conversion.
   window.__madinahDates = renderDates;
 
-  function tick() { renderPrayer(); renderNow(); }
+  function tick() { renderPrayer(); renderNow(); renderClocks(); }
 
   function start() {
     initPersonalise();

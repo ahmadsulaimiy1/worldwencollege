@@ -858,10 +858,43 @@ section { position: relative; }
    the band carries more, and a taller line stops it reading as a
    toolbar. It still comes to roughly a third of what the three stacked
    bands cost. */
+/* TWO ROWS, NOT ONE.
+
+   The single row was asked to hold the arms, the name, the campus line,
+   the establishment line, five menus and two buttons. Everything on it
+   was therefore small, and a masthead where every element is small has
+   no hierarchy at all — which is precisely what reads as "template".
+
+   It is now a grid of two rows sharing one column:
+
+     row 1   the arms and the name, with the actions at the far end
+     row 2   the navigation, on its own hairline rule
+
+   The header gets taller. That is the point: height at rest, spent on
+   air rather than on content, is what separates an institution's
+   masthead from an application's toolbar. It is bought back on scroll —
+   .is-condensed collapses the two rows into one and drops the
+   establishment line, so the reading experience keeps the compact rail
+   and only the arrival gets the ceremony. */
 .site-header__inner {
-  max-width: var(--wrap); margin: 0 auto; padding: 18px 24px;
-  display: flex; align-items: center; gap: clamp(16px, 2.4vw, 40px);
+  max-width: var(--wrap); margin: 0 auto; padding: 26px 24px 0;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas:
+    'brand .   actions'
+    'nav   nav nav';
+  align-items: center;
+  column-gap: clamp(16px, 2.4vw, 40px);
   transition: padding var(--dur-med) var(--ease-premium);
+}
+.site-header__inner > .brand { grid-area: brand; }
+.site-header__inner > .header__actions { grid-area: actions; }
+.site-header__inner > .nav {
+  grid-area: nav;
+  margin-top: 22px;
+  padding-top: 13px; padding-bottom: 11px;
+  border-top: 1px solid rgba(199, 162, 74, .17);
+  justify-content: flex-start;
 }
 /* The navigation takes the slack, so the actions sit hard against the
    end margin and the brand hard against the start one — rather than
@@ -875,12 +908,19 @@ section { position: relative; }
    right half of the rail empty. Whichever element leads the trailing
    group has to own the slack, and which element that is changes with
    the viewport. */
-.site-header__inner > .nav { margin-inline-start: auto; }
-.site-header__inner > .header__actions { margin-inline-start: 0; }
-.site-header.is-condensed .site-header__inner { padding-top: 9px; padding-bottom: 9px; }
-.brand { display: flex; align-items: center; gap: 12px; color: #fff; min-height: 44px; }
+.site-header.is-condensed .site-header__inner {
+  padding-top: 10px; padding-bottom: 10px;
+  grid-template-areas: 'brand nav actions';
+  align-items: center;
+}
+.site-header.is-condensed .site-header__inner > .nav {
+  margin-top: 0; padding-top: 0; padding-bottom: 0;
+  border-top: 0; justify-content: flex-end;
+}
+.site-header.is-condensed .brand__name { font-size: 1rem; }
+.brand { display: flex; align-items: center; gap: 16px; color: #fff; min-height: 44px; }
 .brand__crest {
-  width: 34px; height: 40px; flex-shrink: 0;
+  width: 46px; height: 54px; flex-shrink: 0;
   transition: width var(--dur-med) var(--ease-premium), height var(--dur-med) var(--ease-premium);
 }
 .site-header.is-condensed .brand__crest { width: 27px; height: 32px; }
@@ -904,23 +944,49 @@ section { position: relative; }
    lines, wrapped "The College" and "Press & Library", broke "Apply Now"
    in half, and grew the header back to the height it had just lost. A
    rail either fits or collapses to the menu — it never wraps. */
+/* THE LOCKUP, SECOND GENERATION.
+
+   It was .93rem — fifteen pixels — beside a 34px crest, with the campus
+   line and the establishment line stacked under it. Three lines of type
+   at three sizes, none of them large, all of them competing with five
+   nav items and two buttons on the same 92px row. The Founder's word for
+   it was "jam packed", and the measurement agrees: the name of the
+   institution was the smallest confident thing in its own masthead.
+
+   The name now leads. It is set in the ceremonial face rather than the
+   display one — Cinzel is a Trajan, which is to say it is the letter
+   Roman institutions have cut into stone for two thousand years, and it
+   is the single strongest signal available that this is a college and
+   not a product. The campus line becomes a quiet rule-mate beneath it
+   rather than a second shout. */
 .brand__name {
-  font-family: var(--font-display); font-weight: 600;
-  font-size: .93rem; letter-spacing: .01em; white-space: nowrap;
+  font-family: var(--font-ceremonial); font-weight: 600;
+  font-size: clamp(1.06rem, 1.35vw, 1.32rem);
+  letter-spacing: .055em; line-height: 1.05;
+  color: var(--gold-champagne);
+  white-space: nowrap;
 }
 .brand__campus {
-  font-size: .62rem; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--gold-bright); margin-top: 3px; white-space: nowrap;
+  font-size: .615rem; letter-spacing: .3em; text-transform: uppercase;
+  color: rgba(195, 214, 238, .72); margin-top: 6px; white-space: nowrap;
 }
 
 /* The gap flexes with the viewport so the rail gives up space
    gracefully between 1100 and 1440 rather than failing at one width. */
-.nav { display: flex; align-items: center; gap: clamp(14px, 1.85vw, 30px); }
+.nav { display: flex; align-items: center; gap: clamp(18px, 2.6vw, 44px); }
 .nav__item > a, .header__actions .btn { white-space: nowrap; }
 .nav__item { position: relative; }
+/* The menu labels were the body sans at .855rem/600 — the same type a
+   web application uses for its toolbar, which is where the "generic"
+   came from. They are now small capitals in the ceremonial face, widely
+   tracked and lighter in weight: further from the eye, further from a
+   product, and closer to a printed contents page. */
 .nav__item > a {
   position: relative;
-  color: rgba(247,244,236,.86); font-size: .855rem; font-weight: 600; letter-spacing: .015em;
+  color: rgba(247, 244, 236, .88);
+  font-family: var(--font-ceremonial);
+  font-size: .735rem; font-weight: 500; letter-spacing: .17em;
+  text-transform: uppercase;
   padding: 8px 0; display: inline-block;
 }
 .nav__item > a:hover { color: var(--gold-bright); }

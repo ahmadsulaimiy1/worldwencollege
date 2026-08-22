@@ -23,23 +23,45 @@
      and the band says so, because reasonable tables differ and a school
      that prints a prayer time without naming its convention is asserting
      more than it knows. -->
-<div class="prayerband" data-prayer-band>
-  <div class="prayerband__inner">
-    <span class="prayerband__place">
-      <svg class="icon" aria-hidden="true"><use href="#i-minaret"/></svg>
-      لاغوس &middot; توقيت غرب أفريقيا
-    </span>
-    <span class="prayerband__next">
-      <span class="prayerband__label">التالية</span>
-      <strong data-prayer-name>—</strong>
-      <span class="prayerband__time" data-prayer-time>—:—</span>
-      <span class="prayerband__cd" data-prayer-countdown></span>
-    </span>
-    <span class="prayerband__date">
-      <span data-hijri-long>—</span>
-      <span class="prayerband__sep" aria-hidden="true">&middot;</span>
-      <span data-gregorian>—</span>
-    </span>
+<!--  الشريط الزمني — انظر التعليق في partials/topbar.html.
+      ثلاث مدن بأسمائها كاملة، والتاريخ مرة واحدة، والهجري أولًا. -->
+<div class="meridian" data-prayer-band>
+  <div class="meridian__inner">
+
+    <div class="meridian__clocks">
+      <div class="meridian__clock" data-clock="Europe/London">
+        <span class="meridian__city">لندن</span>
+        <span class="meridian__country">المملكة المتحدة</span>
+        <span class="meridian__time"><span data-clock-time>&mdash;&mdash;:&mdash;&mdash;</span>
+          <span class="meridian__zone" data-clock-zone></span></span>
+      </div>
+
+      <div class="meridian__clock meridian__clock--seat" data-clock="Africa/Lagos">
+        <span class="meridian__city">لاغوس</span>
+        <span class="meridian__country">نيجيريا <span class="meridian__seat">&middot; مقرّ الكلية</span></span>
+        <span class="meridian__time"><span data-clock-time>&mdash;&mdash;:&mdash;&mdash;</span>
+          <span class="meridian__zone" data-clock-zone></span></span>
+        <span class="meridian__prayer">
+          <span class="meridian__prayer-label">التالية</span>
+          <strong data-prayer-name>&mdash;</strong>
+          <span data-prayer-time>&mdash;</span>
+          <span class="meridian__cd" data-prayer-countdown></span>
+        </span>
+      </div>
+
+      <div class="meridian__clock" data-clock="Asia/Riyadh">
+        <span class="meridian__city">المدينة المنوّرة</span>
+        <span class="meridian__country">المملكة العربية السعودية</span>
+        <span class="meridian__time"><span data-clock-time>&mdash;&mdash;:&mdash;&mdash;</span>
+          <span class="meridian__zone" data-clock-zone></span></span>
+      </div>
+    </div>
+
+    <div class="meridian__date">
+      <span class="meridian__hijri" data-hijri-long>&mdash;</span>
+      <span class="meridian__greg" data-gregorian>&mdash;</span>
+    </div>
+
   </div>
 </div>
 
