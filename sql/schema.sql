@@ -950,6 +950,162 @@ CREATE TABLE session_attendance (
 CREATE INDEX idx_session_attendance_user ON session_attendance(user_id);
 CREATE INDEX idx_session_attendance_session ON session_attendance(session_id);
 
+
+-- ---------------------------------------------------------------------
+-- Migration 025 — the student voice.
+--
+-- Governance A7 ranked student feedback second among the three metrics
+-- the College could not compute at all: "no instrument collects learner
+-- opinion". Nothing here had ever asked a learner what they thought.
+-- The platform can say what a learner did and nothing about whether any
+-- of it was any good.
+--
+-- A7 named the decision: anonymity. It is not one decision but one per
+-- survey — a course evaluation should be anonymous, a report of a
+-- broken video should not, because nobody can fix it without asking
+-- which video. So anonymity is a property of the SURVEY, and it is
+-- structurally enforced: feedback_responses carries the survey's
+-- anonymity bound to it by a composite foreign key, so a response to an
+-- anonymous survey CANNOT hold a user_id, and one to an attributable
+-- survey cannot omit it. A College that promises anonymity and stores
+-- identity anyway has done something worse than not asking; here the
+-- row will not insert.
+--
+-- feedback_actions is the difference between a feedback instrument and
+-- a quality enhancement system: what changed because of what learners
+-- said, or what did not and why. Silence is what kills the second
+-- survey's response rate.
+-- ---------------------------------------------------------------------
+CREATE TABLE feedback_surveys (
+  id            TEXT PRIMARY KEY,     -- 'svy_' + uuid
+  code          TEXT NOT NULL UNIQUE, -- 'L1-M03-EVAL'
+  title         TEXT NOT NULL,
+
+  -- What is being asked about.
+  scope         TEXT NOT NULL CHECK (scope IN ('module','level','programme','support','tutor')),
+  level_id      INTEGER REFERENCES programme_levels(id),
+  unit_id       TEXT REFERENCES units(id),
+
+  -- What will be done with the answers. See the note above.
+  purpose       TEXT NOT NULL,
+
+  -- Chosen per survey, and binding on every response to it.
+  anonymous     INTEGER NOT NULL CHECK (anonymous IN (0, 1)),
+
+  opens_at      TEXT NOT NULL,
+  closes_at     TEXT NOT NULL,
+
+  created_by    TEXT NOT NULL REFERENCES users(id),
+  created_at    TEXT NOT NULL,
+
+  -- A module survey is about a module; naming one is not optional.
+  CHECK (scope <> 'module' OR unit_id IS NOT NULL),
+  CHECK (scope <> 'level'  OR level_id IS NOT NULL),
+  -- A window that closes before it opens collects nothing and looks
+  -- like it collected nothing because nobody cared.
+  CHECK (closes_at > opens_at),
+  CHECK (TRIM(purpose) <> ''),
+
+  -- The target of the composite foreign key below. This is what makes
+  -- the anonymity promise structural rather than aspirational.
+  UNIQUE (id, anonymous)
+);
+
+CREATE TABLE feedback_questions (
+  id            TEXT PRIMARY KEY,     -- 'fq_' + uuid
+  survey_id     TEXT NOT NULL REFERENCES feedback_surveys(id),
+  sequence      INTEGER NOT NULL,
+  prompt        TEXT NOT NULL,
+  kind          TEXT NOT NULL CHECK (kind IN ('scale','text','choice')),
+
+  -- Scale only, and both ends or neither.
+  scale_min     INTEGER,
+  scale_max     INTEGER,
+  -- Choice only.
+  choices_json  TEXT,
+
+  required      INTEGER NOT NULL DEFAULT 0 CHECK (required IN (0, 1)),
+
+  UNIQUE (survey_id, sequence),
+  CHECK (kind <> 'scale' OR (scale_min IS NOT NULL AND scale_max IS NOT NULL AND scale_max > scale_min)),
+  CHECK (kind = 'scale' OR (scale_min IS NULL AND scale_max IS NULL)),
+  CHECK (kind <> 'choice' OR choices_json IS NOT NULL),
+  CHECK (kind = 'choice' OR choices_json IS NULL),
+
+  -- The target of the composite foreign key on feedback_answers: an
+  -- answer must be shaped like the question it answers.
+  UNIQUE (id, kind)
+);
+CREATE INDEX idx_feedback_questions_survey ON feedback_questions(survey_id);
+
+CREATE TABLE feedback_responses (
+  id            TEXT PRIMARY KEY,     -- 'fr_' + uuid
+  survey_id     TEXT NOT NULL,
+
+  -- Carried from the survey and bound to it. Not a copy that could
+  -- drift: the composite foreign key makes the pair unforgeable.
+  anonymous     INTEGER NOT NULL CHECK (anonymous IN (0, 1)),
+
+  user_id       TEXT REFERENCES users(id),
+  submitted_at  TEXT NOT NULL,
+
+  FOREIGN KEY (survey_id, anonymous) REFERENCES feedback_surveys(id, anonymous),
+
+  -- An anonymous survey cannot know who answered.
+  CHECK (anonymous = 0 OR user_id IS NULL),
+  -- An attributable one must.
+  CHECK (anonymous = 1 OR user_id IS NOT NULL)
+);
+CREATE INDEX idx_feedback_responses_survey ON feedback_responses(survey_id);
+-- One response per learner per survey — but only where there is a
+-- learner to count. A partial index, because an anonymous survey has
+-- no identity to deduplicate on and pretending otherwise would be the
+-- de-anonymisation this file exists to prevent.
+CREATE UNIQUE INDEX idx_feedback_one_per_learner
+  ON feedback_responses(survey_id, user_id) WHERE user_id IS NOT NULL;
+
+CREATE TABLE feedback_answers (
+  id            TEXT PRIMARY KEY,
+  response_id   TEXT NOT NULL REFERENCES feedback_responses(id),
+  question_id   TEXT NOT NULL,
+  question_kind TEXT NOT NULL,
+
+  scale_value   INTEGER,
+  text_value    TEXT,
+  choice_index  INTEGER,
+
+  FOREIGN KEY (question_id, question_kind) REFERENCES feedback_questions(id, kind),
+
+  UNIQUE (response_id, question_id),
+
+  -- Exactly one answer, of the shape the question asked for.
+  CHECK ((scale_value IS NOT NULL) + (text_value IS NOT NULL) + (choice_index IS NOT NULL) = 1),
+  CHECK (question_kind <> 'scale'  OR scale_value  IS NOT NULL),
+  CHECK (question_kind <> 'text'   OR text_value   IS NOT NULL),
+  CHECK (question_kind <> 'choice' OR choice_index IS NOT NULL)
+);
+CREATE INDEX idx_feedback_answers_response ON feedback_answers(response_id);
+
+-- What the College did about it. See the note above: the second kind of
+-- row — heard and not acted on, with a reason — matters as much as the
+-- first.
+CREATE TABLE feedback_actions (
+  id            TEXT PRIMARY KEY,
+  survey_id     TEXT NOT NULL REFERENCES feedback_surveys(id),
+  finding       TEXT NOT NULL,   -- what learners said, in summary
+  outcome       TEXT NOT NULL CHECK (outcome IN ('changed','planned','declined','referred')),
+  detail        TEXT NOT NULL,   -- what was changed, or why it was not
+  decided_by    TEXT NOT NULL REFERENCES users(id),
+  decided_at    TEXT NOT NULL,
+  -- Where learners can read the answer. A decision nobody told them
+  -- about is a decision they will report as being ignored.
+  reported_to_learners_at TEXT,
+
+  CHECK (TRIM(detail) <> '')
+);
+CREATE INDEX idx_feedback_actions_survey ON feedback_actions(survey_id);
+CREATE INDEX idx_feedback_answers_question ON feedback_answers(question_id);
+
 -- ---------------------------------------------------------------------
 -- Seed data — the one part of this file safe to run against a real DB
 -- immediately, since these are already-confirmed public facts, not

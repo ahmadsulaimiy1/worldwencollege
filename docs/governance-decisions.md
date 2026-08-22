@@ -591,8 +591,36 @@ reports `not_instrumented`, because the College now collects this and
 saying otherwise would be a false statement about itself. It reports
 `insufficient_data` — the instrument exists, nothing has used it. **The
 substance of the rule is unchanged and remains binding: the value is
-`null`, never zero.** Attendance and student feedback are still
-`not_instrumented`, correctly, and items 1 and 2 remain outstanding.
+`null`, never zero.**
+
+**Implementation note — items 1 and 2, 22 August 2026.** Both are now
+built, and both report `insufficient_data` for the same reason
+misconduct does: an instrument exists and nothing has used it.
+
+*Item 1, attendance* (`024-attendance.sql`). The record stores who was
+present and how the College knows — a provider join log, a named host's
+register, or the learner's own word, counted separately because they are
+not equivalent evidence. **The decision this decision named is not
+taken**: whether attendance means presence at a live session or
+engagement with the module remains for the Board, and the register
+carries `engagement.attendanceRate` as `not_instrumented` with the
+question written out, so an unsettled question cannot be mistaken for a
+pending engineering task.
+
+*Item 2, student feedback* (`025-student-voice.sql`). The anonymity
+decision this decision named turned out not to be one decision but one
+per survey — a course evaluation should be anonymous, a fault report
+cannot be, because nobody can fix a thing without being told which thing
+it was. So anonymity is a property of the survey and is **structurally
+enforced**: a response to an anonymous survey cannot hold an identity,
+and cannot be made to by mislabelling the survey. A second register
+records what the College did about what it heard, and whether learners
+were told; that one is never suppressed for small numbers, because it is
+a fact about the College's conduct rather than about any learner.
+
+All three of this decision's metrics are therefore instrumented.
+Graduate destinations remains genuinely uninstrumented, and will until
+there are graduates.
 
 ### C9. Academic misconduct procedure
 **Prerequisite for A7 item 3, and recorded separately because it is a

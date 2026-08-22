@@ -228,6 +228,14 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 025 — the student voice. Dropped first of all, because
+  // feedback_surveys hangs off programme_levels and units and its
+  // children hang off it.
+  db.exec('DROP INDEX idx_feedback_answers_question; DROP INDEX idx_feedback_answers_response; DROP TABLE feedback_answers;');
+  db.exec('DROP INDEX idx_feedback_actions_survey; DROP TABLE feedback_actions;');
+  db.exec('DROP INDEX idx_feedback_one_per_learner; DROP INDEX idx_feedback_responses_survey; DROP TABLE feedback_responses;');
+  db.exec('DROP INDEX idx_feedback_questions_survey; DROP TABLE feedback_questions;');
+  db.exec('DROP TABLE feedback_surveys;');
   // 024 — the attendance record. Dropped before 023 because both hang
   // off users and live_sessions, and before the live_sessions rebuild
   // below: the column this migration ADDS to that table has to come off

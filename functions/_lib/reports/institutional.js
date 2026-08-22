@@ -13,12 +13,12 @@
  *   not_instrumented  — the College does not collect this at all
  *
  * `not_instrumented` is the reason this file is shaped like a register.
- * Some of the metrics the Executive named — student feedback, graduate
- * destinations — have no table anywhere in the platform. Academic
- * integrity was among them until migration 023 built the case register,
- * and attendance until migration 024 built the attendance record; both
- * now report `insufficient_data` instead, which is a different and
- * better answer.
+ * Governance A7 named three metrics with no table anywhere in the
+ * platform — attendance, academic integrity, student feedback — and all
+ * three now have one: migrations 024, 023 and 025 respectively. They
+ * report `insufficient_data` instead, which is a different and better
+ * answer. Graduate destinations remains genuinely uninstrumented, and
+ * will until there are graduates.
  *
  * One entry is `not_instrumented` for a different reason worth noticing:
  * `engagement.attendanceRate` has all the data it needs and no agreed
@@ -270,12 +270,6 @@ async function assessmentMetrics(env) {
 function uninstrumentedMetrics() {
   return [
     gap(
-      'experience.studentFeedback', 'Student feedback',
-      'What do learners say about the teaching, the materials and the platform?',
-      'A structured feedback instrument and its responses.',
-      'A feedback mechanism. Nothing in the platform collects learner opinion today, so any statement about learner satisfaction would be unfounded.',
-    ),
-    gap(
       'outcomes.graduateDestinations', 'Graduate outcomes',
       'What do graduates go on to do, and did the award help?',
       'A destinations survey, some months after conferral.',
@@ -462,6 +456,94 @@ async function attendanceMetrics(env) {
 }
 
 // ---------------------------------------------------------------------
+// The student voice
+// ---------------------------------------------------------------------
+// Two metrics again, and again the second is the interesting one.
+//
+// `experience.studentFeedback` is what learners said. Suppressed hard:
+// three responses to an anonymous survey about one module are not three
+// anonymous opinions, because a cohort that small is readable. The
+// promise made when the survey was published is kept in the reporting
+// as well as in the storage.
+//
+// `experience.feedbackClosedLoop` is what the College DID about it —
+// the proportion of surveys that produced a recorded decision, acted on
+// or declined with a reason. It is the metric that decides whether the
+// instrument survives. A College that collects opinion and answers none
+// of it gets a worse response rate every round until the survey is
+// measuring nothing but the patience of the few who still fill it in.
+async function studentVoiceMetrics(env) {
+  const d = db(env);
+  const surveys = await d.prepare(
+    `SELECT COUNT(*) AS n,
+            SUM(CASE WHEN anonymous = 1 THEN 1 ELSE 0 END) AS anonymous
+       FROM feedback_surveys`).first();
+  const responses = await d.prepare(
+    `SELECT COUNT(*) AS n, COUNT(DISTINCT survey_id) AS surveys
+       FROM feedback_responses`).first();
+  const acted = await d.prepare(
+    `SELECT COUNT(DISTINCT survey_id) AS surveys, COUNT(*) AS actions,
+            SUM(CASE WHEN reported_to_learners_at IS NOT NULL THEN 1 ELSE 0 END) AS reported
+       FROM feedback_actions`).first();
+
+  const nSurveys = (surveys && surveys.n) || 0;
+  const nResponses = (responses && responses.n) || 0;
+  const out = [];
+
+  out.push({
+    id: 'experience.studentFeedback', name: 'Student feedback',
+    question: 'What do learners say about the teaching, the materials and the platform?',
+    requires: 'feedback_surveys, feedback_responses',
+    ...(nResponses === 0
+      ? {
+        state: 'insufficient_data', value: null,
+        closes: nSurveys === 0
+          ? 'The first survey. None has been published, because nothing has been taught and nobody has an opinion of it yet.'
+          : `${nSurveys} survey(s) are published and none has been answered. A survey nobody answers is a finding about the survey.`,
+      }
+      : (nResponses < MIN_COHORT
+        ? {
+          state: 'suppressed', value: null, cohort: nResponses,
+          closes: `Withheld: ${nResponses} response(s), below the reporting threshold of ${MIN_COHORT}. A cohort this small is readable — reporting it would break the anonymity the survey promised, whatever the storage does.`,
+        }
+        : {
+          state: 'measured', closes: null,
+          value: {
+            surveysPublished: nSurveys,
+            anonymousSurveys: surveys.anonymous,
+            responses: nResponses,
+            surveysAnswered: responses.surveys,
+          },
+        })),
+  });
+
+  out.push({
+    id: 'experience.feedbackClosedLoop', name: 'Feedback acted upon',
+    question: 'What did the College change because of what learners said, and were they told?',
+    requires: 'feedback_actions',
+    ...(nSurveys === 0
+      ? { state: 'insufficient_data', value: null, closes: 'The first survey. Nothing has been asked, so nothing is outstanding.' }
+      : {
+        // Always measured once surveys exist, and deliberately so. This
+        // one is not suppressed by cohort size: it is a fact about the
+        // College's own conduct, not about any learner, and a College
+        // that answered none of its surveys should not be able to hide
+        // that behind a small-n rule.
+        state: 'measured', closes: null,
+        value: {
+          surveysPublished: nSurveys,
+          surveysWithARecordedDecision: (acted && acted.surveys) || 0,
+          decisionsRecorded: (acted && acted.actions) || 0,
+          decisionsReportedBackToLearners: (acted && acted.reported) || 0,
+          percentClosed: pct((acted && acted.surveys) || 0, nSurveys),
+        },
+      }),
+  });
+
+  return out;
+}
+
+// ---------------------------------------------------------------------
 // Academic integrity
 // ---------------------------------------------------------------------
 // This metric used to sit in uninstrumentedMetrics() because the College
@@ -526,12 +608,12 @@ async function integrityMetrics(env) {
 }
 
 export async function institutionalMetrics(env) {
-  const [progression, engagement, attendance, assessment, integrity, financial, readiness] = await Promise.all([
+  const [progression, engagement, attendance, assessment, integrity, voice, financial, readiness] = await Promise.all([
     progressionMetrics(env), engagementMetrics(env), attendanceMetrics(env),
-    assessmentMetrics(env), integrityMetrics(env), financialMetrics(env),
-    accreditationReadiness(env),
+    assessmentMetrics(env), integrityMetrics(env), studentVoiceMetrics(env),
+    financialMetrics(env), accreditationReadiness(env),
   ]);
-  const metrics = [...progression, ...engagement, ...attendance, ...assessment, ...integrity, ...uninstrumentedMetrics(), ...financial];
+  const metrics = [...progression, ...engagement, ...attendance, ...assessment, ...integrity, ...voice, ...uninstrumentedMetrics(), ...financial];
 
   const byState = metrics.reduce((acc, m) => { acc[m.state] = (acc[m.state] || 0) + 1; return acc; }, {});
 

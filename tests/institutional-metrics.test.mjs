@@ -79,7 +79,12 @@ function freshEnv(learners = 0) {
 {
   const r = await M.institutionalMetrics(freshEnv(0));
 
-  for (const id of ['experience.studentFeedback', 'outcomes.graduateDestinations']) {
+  // Graduate destinations is the last of these left. Governance A7's
+  // three — attendance, academic integrity, student feedback — all have
+  // instruments now (migrations 024, 023, 025), so not_instrumented
+  // would be a false statement about the College in every one of those
+  // cases. This one is honest: there are no graduates.
+  for (const id of ['outcomes.graduateDestinations']) {
     const m = byId(r, id);
     check(`${id} is declared rather than omitted`, !!m, 'missing from the register entirely');
     if (m) {
@@ -87,6 +92,19 @@ function freshEnv(learners = 0) {
       check(`...naming what data it would need`, !!m.requires && m.requires.length > 20);
     }
   }
+
+  // The student voice, once migration 025 gave it an instrument.
+  const fb = byId(r, 'experience.studentFeedback') || {};
+  check('Student feedback is instrumented and reports no responses',
+    fb.state === 'insufficient_data' && fb.value === null, fb.state);
+  check('...because no survey has been published, not because nothing collects opinion',
+    /None has been published/i.test(fb.closes || ''), (fb.closes || '(absent)').slice(0, 80));
+
+  // The metric that decides whether the instrument survives.
+  const loop = byId(r, 'experience.feedbackClosedLoop') || {};
+  check('What the College DID about feedback is a metric of its own', !!loop.id);
+  check('...and reports nothing outstanding while nothing has been asked',
+    loop.state === 'insufficient_data' && loop.value === null, loop.state);
 
   // Academic integrity moved out of that list when migration 023 built
   // the misconduct register: the College now collects this, so
@@ -332,6 +350,65 @@ function freshEnv(learners = 0) {
   check('...counting the cases opened', m2.value && m2.value.opened === 12, JSON.stringify(m2.value));
   check('...and reporting how many are still undetermined, which is the number that matters',
     m2.value && m2.value.awaitingDetermination === 12, JSON.stringify(m2.value));
+}
+
+// ---------------------------------------------------------------------
+// The student voice: suppressed where it names people, not where it
+// names the College
+// ---------------------------------------------------------------------
+// The asymmetry here is deliberate and is the point of the pair. What
+// learners SAID is suppressed below the threshold, because a cohort
+// that small is readable and reporting it would break the anonymity the
+// survey promised. What the College DID about it is never suppressed,
+// because it is a fact about the institution's own conduct — a College
+// that answered none of its surveys must not be able to hide that
+// behind a rule written to protect learners.
+{
+  const seed = (env, responses) => {
+    env.DB.prepare(`INSERT INTO feedback_surveys
+      (id, code, title, scope, purpose, anonymous, opens_at, closes_at, created_by, created_at)
+      VALUES ('svy_1','EVAL-1','Programme evaluation','programme',
+              'To decide what changes before the next intake.',1,
+              '2027-01-01T00:00:00Z','2027-01-31T00:00:00Z','usr_1','2026-12-01T00:00:00Z')`).bind().run();
+    for (let i = 1; i <= responses; i++) {
+      env.DB.prepare(`INSERT INTO feedback_responses (id, survey_id, anonymous, user_id, submitted_at)
+        VALUES ('fr_${i}','svy_1',1,NULL,'2027-01-1${i % 10}T00:00:00Z')`).bind().run();
+    }
+  };
+
+  const few = freshEnv(1);
+  seed(few, 3);
+  const r1 = await M.institutionalMetrics(few);
+  const fb1 = byId(r1, 'experience.studentFeedback') || {};
+  check('Three responses: suppressed, whatever the storage allows', fb1.state === 'suppressed', fb1.state);
+  check('...saying the promise is kept in the reporting too',
+    /anonymity the survey promised/i.test(fb1.closes || ''), fb1.closes);
+
+  // ...and the College's own conduct is reported anyway, over the same
+  // three responses. This is the assertion that would break if someone
+  // "tidied up" by suppressing both.
+  const loop1 = byId(r1, 'experience.feedbackClosedLoop') || {};
+  check('The College\'s own answer rate is reported over that same small cohort',
+    loop1.state === 'measured', loop1.state);
+  check('...and says plainly that not one survey has been answered',
+    loop1.value && loop1.value.surveysWithARecordedDecision === 0 && loop1.value.percentClosed === 0,
+    JSON.stringify(loop1.value));
+
+  const many = freshEnv(1);
+  seed(many, 14);
+  many.DB.prepare(`INSERT INTO feedback_actions
+    (id, survey_id, finding, outcome, detail, decided_by, decided_at, reported_to_learners_at)
+    VALUES ('act_1','svy_1','The assessment brief was unclear.','changed',
+            'Rewritten, with a worked example added.','usr_1','2027-02-01T00:00:00Z','2027-02-02T00:00:00Z')`).bind().run();
+  const r2 = await M.institutionalMetrics(many);
+  const fb2 = byId(r2, 'experience.studentFeedback') || {};
+  check('Fourteen responses: measured', fb2.state === 'measured', fb2.state);
+  check('...counting them, and how many surveys were answered',
+    fb2.value && fb2.value.responses === 14 && fb2.value.surveysAnswered === 1, JSON.stringify(fb2.value));
+  const loop2 = byId(r2, 'experience.feedbackClosedLoop') || {};
+  check('And the loop closes, including whether learners were told',
+    loop2.value && loop2.value.percentClosed === 100 && loop2.value.decisionsReportedBackToLearners === 1,
+    JSON.stringify(loop2.value));
 }
 
 console.log(`\n${pass} passed, ${fail} failed.`);
