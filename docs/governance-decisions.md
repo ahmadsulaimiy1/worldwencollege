@@ -739,6 +739,25 @@ which I cannot supply.
 
 **Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
+**In force:** `recording_retention_days = 730`
+
+**Implementation note, 22 August 2026.** This was adopted on 14 August
+and was not implemented until now. `recording_retention_days` remained
+`null` — which the software reads as *keep indefinitely, purge nothing*
+— and the comment beside it in `sql/schema.sql` stated that the decision
+"has NOT been made". The record contradicted itself for eight days, and
+the side that was wrong was the side the software obeys: the College's
+live position was indefinite retention of voice data while its own
+governance register said two years. No learner was affected only because
+nobody has recorded anything.
+
+`sql/migrations/031-retention-in-force.sql` puts it into force, and
+`tests/governance-in-force.test.mjs` now reads this register and fails
+if any decision marked adopted with an **In force:** line is not
+actually in force in `sql/schema.sql`. That is the guardrail: the
+failure was not that somebody forgot, it was that forgetting was
+invisible.
+
 ### D2. Erasure on request
 **Recommendation:** a learner may request erasure of their recordings
 at any time; the audio is destroyed, the assessment record is kept. The

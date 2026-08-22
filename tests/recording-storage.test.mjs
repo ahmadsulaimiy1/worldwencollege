@@ -221,7 +221,18 @@ async function uploadTake(env, { userId, itemId = 'itm_p', chunks = [bytesOf(204
 // Retention — the mechanism exists; the policy is not invented
 // ---------------------------------------------------------------------
 {
+  // THE SAFETY PROPERTY: if the retention policy is ever unset, nothing
+  // is deleted. Still true, still worth asserting — but the premise is
+  // now established by the test rather than inherited from the shipped
+  // default, because that default changed.
+  //
+  // Governance D1 adopted 730 days on 14 August 2026 and it sat
+  // unimplemented until migration 031 put it in force. These three
+  // assertions read as "with no policy set" and were silently testing
+  // "with the policy the College ships", which is a different and much
+  // weaker thing. They now set it to null themselves.
   const env = freshEnv();
+  await setConfigJson(env, 'recording_retention_days', null);
   const until = await storage.computeRetentionUntil(env);
   check('With no policy set, a recording gets no expiry date', until === null, until);
 
@@ -232,6 +243,18 @@ async function uploadTake(env, { userId, itemId = 'itm_p', chunks = [bytesOf(204
   const swept = await storage.purgeExpiredRecordings(env, { now: '2099-01-01T00:00:00.000Z' });
   check('An unset policy is never read as "delete everything"', swept.purged === 0, JSON.stringify(swept));
   check('...and the audio is still there', env.RECORDINGS.__objectCount() === 1);
+}
+
+// The policy the College actually ships, as distinct from the mechanism
+// above. Governance D1, in force since migration 031.
+{
+  const env = freshEnv();
+  const until = await storage.computeRetentionUntil(env);
+  check('The shipped policy stamps an expiry, because D1 is in force',
+    typeof until === 'string' && until.endsWith('Z'), until);
+  const days = until ? Math.round((Date.parse(until) - Date.now()) / 86400000) : null;
+  check('...730 days out, which is the figure the Executive adopted',
+    days !== null && Math.abs(days - 730) <= 1, `${days} days`);
 }
 
 {

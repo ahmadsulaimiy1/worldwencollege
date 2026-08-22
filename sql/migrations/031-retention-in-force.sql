@@ -1,0 +1,54 @@
+-- Migration 031 — put an adopted decision into force.
+--
+-- probe: SELECT 1 FROM platform_config WHERE key = 'recording_retention_days' AND value = '730'
+--
+-- ============================================================
+-- AN ADOPTED POLICY THAT WAS NEVER SWITCHED ON
+-- ============================================================
+--
+-- Governance D1 — learner voice recording retention — was ADOPTED on
+-- 14 August 2026 at 730 days: after two years the audio is deleted and
+-- the assessment record and its SHA-256 fingerprint are kept.
+--
+-- It was never implemented. `recording_retention_days` has remained
+-- 'null', which the code reads as "keep indefinitely, purge nothing",
+-- and the comment beside it in sql/schema.sql said, in terms, that this
+-- was "a governance decision with data-protection consequences that has
+-- NOT been made".
+--
+-- The decision had been made eight days earlier. The record
+-- contradicted itself, and the side that was wrong was the side the
+-- software actually obeys — so the College's live position was
+-- indefinite retention of voice data while its own governance register
+-- said two years.
+--
+-- Nobody has recorded anything, so no learner was affected. That is
+-- luck rather than design, and it is the reason this is being fixed
+-- now rather than after the first cohort.
+--
+-- ============================================================
+-- WHY THIS IS IMPLEMENTATION, NOT A NEW DECISION
+-- ============================================================
+--
+-- The number is not chosen here. It is 730 because the Executive
+-- adopted 730, on a recommendation that gave its reasoning: long enough
+-- to cover a full programme and any appeal against a mark, short enough
+-- not to hold voice data indefinitely.
+--
+-- D1's rationale also said the decision "should be taken with whatever
+-- advice applies in the operating jurisdiction — which I cannot
+-- supply". That caveat was in front of the Executive when it adopted
+-- the recommendation, and adopting it was the Executive's to do. What
+-- follows from an adopted decision is implementation.
+--
+-- ============================================================
+-- WHAT THIS DOES NOT DO
+-- ============================================================
+--
+-- It does not delete anything. Only recordings completed while a real
+-- value is set are ever given a `retention_until` date, and only dated
+-- rows are ever eligible for purge — so this changes the terms for
+-- recordings made from now on and cannot retroactively shorten the
+-- terms a learner already recorded under. There are none.
+
+UPDATE platform_config SET value = '730' WHERE key = 'recording_retention_days';

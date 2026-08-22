@@ -1868,15 +1868,25 @@ INSERT INTO platform_config (key, value) VALUES
   -- competency thresholds are an Academic Director decision (see
   -- docs/master-roadmap.md § Decisions Needed, item 9), to be set here
   -- once one exists.
-  ('recording_retention_days', 'null');
-  -- How long a learner's voice recording may be kept. `null` means
-  -- keep indefinitely and purge nothing, and it is null because this
-  -- is a governance decision with data-protection consequences that
-  -- has NOT been made — inventing a number here would be inventing
-  -- policy. Only recordings completed while a real value is set are
-  -- ever given a retention_until date, and only dated rows are ever
-  -- eligible for deletion. Changing it does not retroactively shorten
-  -- the terms a learner already recorded under.
+  ('recording_retention_days', '730');
+  -- How long a learner's voice recording may be kept: 730 days, after
+  -- which the audio is deleted and the assessment record and its
+  -- SHA-256 fingerprint are kept.
+  --
+  -- THE NUMBER IS NOT CHOSEN HERE. Governance D1 adopted it on
+  -- 14 August 2026. This comment previously said the decision "has NOT
+  -- been made", which was true when it was written and was wrong for
+  -- eight days afterwards — and the side of the record that was wrong
+  -- was the side the software obeys, so the College's live position was
+  -- indefinite retention of voice data while its governance register
+  -- said two years. Migration 031 put the adopted decision into force,
+  -- and tests/governance-in-force.test.mjs now reads the decision
+  -- register and fails if an adopted decision is not implemented here.
+  --
+  -- Only recordings completed while a real value is set are ever given
+  -- a retention_until date, and only dated rows are ever eligible for
+  -- deletion. Changing it does not retroactively shorten the terms a
+  -- learner already recorded under.
 
 -- One course per programme level for Milestone 1 — purely structural
 -- (titled with the level's own real, already-published name), not
