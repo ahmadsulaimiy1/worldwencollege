@@ -1441,10 +1441,10 @@ INSERT INTO graduation_requirements
    'WEQ graduation requirement, adopted migration 021: "the end-of-stage examination passed"; assessment framework and speaking weights, migration 022.', 1),
   ('PASS_LIST', 'An approved and countersigned pass list', 4,
    'The learner appears on a pass list approved by the Registrar and countersigned. This is a human act; the audit records whether it happened, and cannot itself perform it.',
-   'WEQ graduation requirement, adopted migration 021: "Conferral is on the authority of the Registrar acting under an approved pass list, countersigned".', 0),
+   'WEQ graduation requirement, adopted migration 021: "Conferral is on the authority of the Registrar acting under an approved pass list, countersigned".', 1),
   ('EXTERNAL_EXAMINER', 'Independent External Examiner sign-off', 5,
-   'An appointed External Examiner has independently signed off the standard of the assessment. No External Examiner is appointed, so this requirement cannot be met by anybody, and no qualification can be conferred.',
-   'WEQ graduation requirement, adopted migration 021: "the College has not yet appointed the External Examiner whose independent sign-off it requires before it will confer anything".', 0);
+   'An appointed External Examiner has independently signed off the standard of the assessment. This is a human act; the audit records whether it happened and cannot itself perform it. No External Examiner is appointed, so this requirement cannot be met by anybody, and no qualification can be conferred.',
+   'WEQ graduation requirement, adopted migration 021: "the College has not yet appointed the External Examiner whose independent sign-off it requires before it will confer anything".', 1);
 
 CREATE TABLE graduation_audits (
   id            TEXT PRIMARY KEY,     -- 'gaud_' + uuid
@@ -1503,6 +1503,157 @@ CREATE TABLE conferrals (
 );
 CREATE INDEX idx_conferrals_audit ON conferrals(audit_id);
 CREATE INDEX idx_graduation_checks_audit ON graduation_audit_checks(audit_id);
+
+
+-- ---------------------------------------------------------------------
+-- Migration 029 — external examining, moderation, and the pass list.
+--
+-- Migration 028 made a passed graduation audit the precondition for any
+-- conferral, and two of its five requirements were hard-coded to
+-- `cannot_check` because the platform had nowhere to look. "Cannot
+-- check" was honest and it was a dead end: the External Examiner is the
+-- single thing standing between this College and its first
+-- qualification, and there was no register in which an appointment
+-- could even be recorded. These are the three registers those checks
+-- now read.
+--
+-- Nothing here appoints anybody. All of it ships empty, so the audit
+-- still fails, still for the same reason, and now says so FROM THE
+-- RECORD rather than from a hard-coded sentence.
+--
+-- Moderation is in the same file because it is the same question asked
+-- one level down: an External Examiner's first request is the
+-- moderation record, and a College that cannot produce one is asking
+-- its examiner to take marking on trust.
+--
+-- The rules that are not negotiable are therefore constraints: an
+-- examiner declares conflicts at appointment (silence is what is
+-- refused, not "none"); a report carrying conditions needs the
+-- College's written response before it can be recorded, because a
+-- report received and filed is a report ignored; a moderator is not the
+-- first marker; and a pass list is countersigned by somebody other than
+-- the person who approved it, because one signature is an assertion and
+-- two is a control.
+-- ---------------------------------------------------------------------
+CREATE TABLE external_examiners (
+  id            TEXT PRIMARY KEY,     -- 'exex_' + uuid
+  full_name     TEXT NOT NULL,
+  -- Where their standing comes from. An external examiner with no
+  -- stated institution or standing is not external to anything.
+  affiliation   TEXT NOT NULL,
+
+  -- NULL = the whole programme.
+  level_id      INTEGER REFERENCES programme_levels(id),
+
+  appointed_by  TEXT NOT NULL,        -- the body that made the appointment
+  appointed_at  TEXT NOT NULL,
+  term_ends     TEXT NOT NULL,
+
+  -- Declared at appointment, not later. NOT NULL, and a statement of
+  -- "none" is itself a declaration — what is refused is silence.
+  conflicts_declared TEXT NOT NULL,
+
+  status        TEXT NOT NULL DEFAULT 'appointed'
+                CHECK (status IN ('appointed','ended','withdrawn')),
+  ended_at      TEXT,
+  ended_reason  TEXT,
+
+  CHECK (term_ends > appointed_at),
+  CHECK (TRIM(conflicts_declared) <> ''),
+  CHECK (TRIM(affiliation) <> ''),
+  CHECK (status = 'appointed' OR (ended_at IS NOT NULL AND ended_reason IS NOT NULL))
+);
+CREATE INDEX idx_external_examiners_level ON external_examiners(level_id);
+
+CREATE TABLE external_examiner_reports (
+  id            TEXT PRIMARY KEY,     -- 'exrep_' + uuid
+  examiner_id   TEXT NOT NULL REFERENCES external_examiners(id),
+  level_id      INTEGER REFERENCES programme_levels(id),
+
+  period_start  TEXT NOT NULL,
+  period_end    TEXT NOT NULL,
+  received_at   TEXT NOT NULL,
+
+  -- The judgement the whole office exists to deliver.
+  judgement     TEXT NOT NULL CHECK (judgement IN
+                  ('standards_met','standards_met_with_conditions','standards_not_met')),
+  -- What they actually said.
+  findings      TEXT NOT NULL,
+  report_path   TEXT,
+
+  -- The College's written reply. See the note above: a report received
+  -- and filed is a report ignored.
+  response      TEXT,
+  responded_by  TEXT,
+  responded_at  TEXT,
+
+  CHECK (period_end > period_start),
+  CHECK (TRIM(findings) <> ''),
+  -- A response is a response only if somebody signed it and dated it.
+  CHECK ((response IS NULL) = (responded_at IS NULL)),
+  CHECK (response IS NULL OR (responded_by IS NOT NULL AND TRIM(response) <> '')),
+  -- Conditions attached to a judgement demand an answer. This is the
+  -- one the College cannot be allowed to skip quietly.
+  CHECK (judgement = 'standards_met' OR response IS NOT NULL)
+);
+CREATE INDEX idx_examiner_reports_examiner ON external_examiner_reports(examiner_id);
+
+CREATE TABLE moderation_records (
+  id            TEXT PRIMARY KEY,     -- 'mod_' + uuid
+  submission_id TEXT NOT NULL REFERENCES assignment_submissions(id),
+
+  first_marker  TEXT NOT NULL REFERENCES users(id),
+  first_mark    REAL NOT NULL,
+
+  moderator     TEXT NOT NULL REFERENCES users(id),
+  moderator_mark REAL NOT NULL,
+  moderated_at  TEXT NOT NULL,
+
+  -- Where the two differ, the mark that stands and who settled it.
+  agreed_mark   REAL NOT NULL,
+  resolution    TEXT,
+
+  UNIQUE (submission_id),
+  -- Second-marking your own work is not second-marking.
+  CHECK (moderator <> first_marker),
+  CHECK (first_mark BETWEEN 0 AND 1 AND moderator_mark BETWEEN 0 AND 1 AND agreed_mark BETWEEN 0 AND 1),
+  -- A divergence that changed the mark has to say how it was settled.
+  CHECK (ABS(first_mark - moderator_mark) < 0.0001 OR (resolution IS NOT NULL AND TRIM(resolution) <> ''))
+);
+
+CREATE TABLE pass_lists (
+  id            TEXT PRIMARY KEY,     -- 'pl_' + uuid
+  reference     TEXT NOT NULL UNIQUE,
+  level_id      INTEGER NOT NULL REFERENCES programme_levels(id),
+  period_start  TEXT NOT NULL,
+  period_end    TEXT NOT NULL,
+
+  approved_by   TEXT NOT NULL REFERENCES users(id),
+  approved_at   TEXT NOT NULL,
+  -- One signature is an assertion; two is a control.
+  countersigned_by TEXT REFERENCES users(id),
+  countersigned_at TEXT,
+
+  CHECK (period_end > period_start),
+  CHECK ((countersigned_by IS NULL) = (countersigned_at IS NULL)),
+  CHECK (countersigned_by IS NULL OR countersigned_by <> approved_by),
+
+  -- Target of the composite key on entries: an entry cannot claim to sit
+  -- on a countersigned list that is not countersigned.
+  UNIQUE (id, countersigned_at)
+);
+
+CREATE TABLE pass_list_entries (
+  id            TEXT PRIMARY KEY,
+  pass_list_id  TEXT NOT NULL REFERENCES pass_lists(id),
+  user_id       TEXT NOT NULL REFERENCES users(id),
+  outcome       TEXT NOT NULL CHECK (outcome IN ('pass','fail','deferred','referred')),
+  note          TEXT,
+
+  UNIQUE (pass_list_id, user_id)
+);
+CREATE INDEX idx_pass_list_entries_user ON pass_list_entries(user_id);
+CREATE INDEX idx_moderation_submission ON moderation_records(submission_id);
 
 -- ---------------------------------------------------------------------
 -- Seed data — the one part of this file safe to run against a real DB

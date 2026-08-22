@@ -60,14 +60,73 @@ async function checkOne(env, req, { userId, levelId, passThreshold }) {
   const d = db(env);
   const courseId = `crs_level_${levelId}`;
 
+  // The two requirements that are human ACTS. The platform cannot
+  // perform them; since migration 029 it can look at whether they
+  // happened, which is a different and better thing than the hard-coded
+  // "cannot_check" these returned before.
+  if (req.code === 'EXTERNAL_EXAMINER') {
+    const examiner = await d.prepare(
+      `SELECT id, full_name, term_ends FROM external_examiners
+        WHERE status = 'appointed' AND (level_id IS NULL OR level_id = ?)
+        ORDER BY appointed_at DESC LIMIT 1`).bind(levelId).first();
+    if (!examiner) {
+      return {
+        result: 'not_met',
+        observed: 'No External Examiner is appointed for this stage or for the programme. The College does not confer without one.',
+      };
+    }
+    const report = await d.prepare(
+      `SELECT judgement, period_end FROM external_examiner_reports
+        WHERE examiner_id = ? AND (level_id IS NULL OR level_id = ?)
+        ORDER BY period_end DESC LIMIT 1`).bind(examiner.id, levelId).first();
+    if (!report) {
+      return {
+        result: 'not_met',
+        observed: `${examiner.full_name} is appointed, and has submitted no report on this stage. An appointment without a report signs nothing off.`,
+      };
+    }
+    if (report.judgement === 'standards_not_met') {
+      return {
+        result: 'not_met',
+        observed: `The External Examiner's most recent report on this stage (to ${report.period_end}) judged that standards were NOT met.`,
+      };
+    }
+    return {
+      result: 'met',
+      observed: `External Examiner ${examiner.full_name} reported "${report.judgement}" for the period ending ${report.period_end}.`,
+    };
+  }
+
+  if (req.code === 'PASS_LIST') {
+    const entry = await d.prepare(
+      `SELECT e.outcome, l.reference, l.countersigned_at
+         FROM pass_list_entries e JOIN pass_lists l ON l.id = e.pass_list_id
+        WHERE e.user_id = ? AND l.level_id = ?
+        ORDER BY l.approved_at DESC LIMIT 1`).bind(userId, levelId).first();
+    if (!entry) {
+      return { result: 'not_met', observed: 'This learner does not appear on any pass list for this stage.' };
+    }
+    if (!entry.countersigned_at) {
+      return {
+        result: 'not_met',
+        observed: `Pass list ${entry.reference} is approved but not countersigned. One signature is an assertion; the requirement is two.`,
+      };
+    }
+    if (entry.outcome !== 'pass') {
+      return {
+        result: 'not_met',
+        observed: `Pass list ${entry.reference} records this learner as "${entry.outcome}", not a pass.`,
+      };
+    }
+    return { result: 'met', observed: `Recorded as a pass on countersigned pass list ${entry.reference}.` };
+  }
+
   if (!req.verifiable_from_record) {
-    // A human act. The platform records that it could not confirm it,
-    // and says which act it is waiting on.
+    // Any OTHER human act the College adopts later, with no register
+    // behind it yet. Reported rather than assumed.
     return {
       result: 'cannot_check',
-      observed: req.code === 'EXTERNAL_EXAMINER'
-        ? 'No External Examiner is appointed, so no independent sign-off exists to check. The College does not confer without one.'
-        : 'This is a human act outside the platform. The record holds no evidence of it either way, so it is not treated as met.',
+      observed: 'This is a human act and the platform holds no register of it, so it is not treated as met.',
     };
   }
 

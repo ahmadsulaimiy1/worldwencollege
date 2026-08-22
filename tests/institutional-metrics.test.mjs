@@ -536,5 +536,45 @@ function freshEnv(learners = 0) {
     /cannot show was earned/.test(r1.closes || ''), (r1.closes || '(absent)').slice(0, 90));
 }
 
+// ---------------------------------------------------------------------
+// Readiness is evidenced by RECORDS, never by the existence of a table
+// ---------------------------------------------------------------------
+// This assertion exists because the report failed it. Four readiness
+// areas asked sqlite_master whether a table existed, which was a fine
+// proxy while none of them did — and stopped being one the moment
+// migration 029 created moderation_records. An EMPTY table flipped
+// "Internal moderation" to evidenced, and the document an accreditation
+// reviewer reads would have claimed the College could evidence
+// consistent marking on the strength of a CREATE TABLE.
+{
+  const empty = freshEnv(1);
+  const r = await M.institutionalMetrics(empty);
+  const areas = Object.fromEntries(r.accreditationReadiness.areas.map((a) => [a.area, a]));
+  for (const name of ['Internal moderation', 'External examining',
+    'Academic misconduct procedure', 'Student voice']) {
+    check(`"${name}" is not evidenced by an empty register`,
+      areas[name] && areas[name].evidenced === false, JSON.stringify(areas[name]));
+    check(`...and its gap says the register exists and is empty, rather than that nothing exists`,
+      /exists|appointed/i.test((areas[name] || {}).gap || ''), (areas[name] || {}).gap);
+  }
+
+  // And it flips on a RECORD, not on a schema change.
+  empty.DB.prepare(`INSERT INTO units (id, course_id, sequence, title) VALUES ('unt_r','crs_level_1',97,'M')`).bind().run();
+  empty.DB.prepare(`INSERT INTO learning_items (id, unit_id, sequence, kind, title) VALUES ('itm_r','unt_r',1,'assignment','A')`).bind().run();
+  empty.DB.prepare(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_m1','clerk','m1','m1@example.com','staff')`).bind().run();
+  empty.DB.prepare(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_m2','clerk','m2','m2@example.com','staff')`).bind().run();
+  empty.DB.prepare(`INSERT INTO assignment_submissions (id, learning_item_id, user_id, status, grade, graded_at, graded_by, submitted_at)
+    VALUES ('asub_r','itm_r','usr_1','graded',0.7,'2027-05-01T00:00:00Z','usr_m1','2027-04-01T00:00:00Z')`).bind().run();
+  empty.DB.prepare(`INSERT INTO moderation_records (id, submission_id, first_marker, first_mark, moderator, moderator_mark, moderated_at, agreed_mark)
+    VALUES ('mod_r','asub_r','usr_m1',0.7,'usr_m2',0.7,'2027-05-02T00:00:00Z',0.7)`).bind().run();
+  const r2 = await M.institutionalMetrics(empty);
+  const mod = r2.accreditationReadiness.areas.find((a) => a.area === 'Internal moderation');
+  check('One real moderation record does evidence it', mod.evidenced === true, JSON.stringify(mod));
+  const modMetric = byId(r2, 'assessment.moderation') || {};
+  check('...and the metric measures the divergence, not merely the count',
+    modMetric.state === 'measured' && 'meanDivergence' in (modMetric.value || {}),
+    JSON.stringify(modMetric.value));
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

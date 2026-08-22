@@ -228,6 +228,22 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 029 — external examining, moderation and the pass list. Dropped
+  // before 028 because the graduation checks read these registers, and
+  // children before parents within the file.
+  db.exec('DROP INDEX idx_moderation_submission; DROP TABLE moderation_records;');
+  db.exec('DROP INDEX idx_pass_list_entries_user; DROP TABLE pass_list_entries; DROP TABLE pass_lists;');
+  db.exec('DROP INDEX idx_examiner_reports_examiner; DROP TABLE external_examiner_reports;');
+  db.exec('DROP INDEX idx_external_examiners_level; DROP TABLE external_examiners;');
+  // 029 also UPDATEs two graduation_requirements rows. schema.sql
+  // carries their end state, so the pre-migration database must carry
+  // the state 028 left them in or 029 would be a no-op that still
+  // reported success.
+  db.exec(`UPDATE graduation_requirements SET verifiable_from_record = 0
+            WHERE code IN ('PASS_LIST', 'EXTERNAL_EXAMINER')`);
+  db.exec(`UPDATE graduation_requirements
+              SET description = 'An appointed External Examiner has independently signed off the standard of the assessment. No External Examiner is appointed, so this requirement cannot be met by anybody, and no qualification can be conferred.'
+            WHERE code = 'EXTERNAL_EXAMINER'`);
   // 028 — the graduation audit. conferrals references awards, so it
   // comes off before the Register does, and the checks before the
   // audits they belong to.

@@ -247,19 +247,75 @@ async function assessmentMetrics(env) {
       : 'Governance A6d — mapping the 360 authored assessments to the six competencies. Academic work for the Academic Director; the platform will not generate it.',
   });
 
-  out.push(gap(
-    'assessment.moderation', 'Internal moderation',
-    'What proportion of marked work is second-marked or moderated, and how far do markers diverge?',
-    'A moderation record: a second mark against the same submission, attributed and dated.',
-    'A moderation table and a moderation step in the marking workflow. Until then the College cannot evidence that its marking is consistent — which is among the first things an accreditation reviewer asks.',
-  ));
+  // Moderation (migration 029). The instrument exists; the figure that
+  // matters is not "how many were moderated" but how far the two
+  // markers were apart, because a moderation process where the second
+  // marker always agrees is a rubber stamp with a timestamp.
+  const marked = await db(env).prepare(
+    "SELECT COUNT(*) AS n FROM assignment_submissions WHERE grade IS NOT NULL").first();
+  const moderated = await db(env).prepare(
+    `SELECT COUNT(*) AS n,
+            SUM(CASE WHEN ABS(first_mark - moderator_mark) >= 0.1 THEN 1 ELSE 0 END) AS diverged,
+            AVG(ABS(first_mark - moderator_mark)) AS meanGap
+       FROM moderation_records`).first();
+  const nMarked = (marked && marked.n) || 0;
+  const nMod = (moderated && moderated.n) || 0;
+  out.push({
+    id: 'assessment.moderation', name: 'Internal moderation',
+    question: 'What proportion of marked work is second-marked, and how far do markers diverge?',
+    requires: 'moderation_records',
+    ...(nMod === 0
+      ? {
+        state: 'insufficient_data', value: null,
+        closes: nMarked === 0
+          ? 'The first marked submission. Nothing has been taught, so nothing has been marked and nothing needs moderating.'
+          : `${nMarked} submission(s) carry a mark and none has been moderated. The College cannot yet evidence that its marking is consistent, which is among the first things an accreditation reviewer asks.`,
+      }
+      : {
+        state: 'measured', closes: null,
+        value: {
+          markedSubmissions: nMarked,
+          moderated: nMod,
+          percentModerated: pct(nMod, nMarked),
+          divergedByTenPointsOrMore: moderated.diverged,
+          meanDivergence: Math.round((moderated.meanGap || 0) * 1000) / 10,
+        },
+      }),
+  });
 
-  out.push(gap(
-    'assessment.externalExaminer', 'External examiner reporting',
-    'What has an independent external examiner said about the standard of the College\'s assessment?',
-    'An external examiner appointment, and their reports.',
-    'Appointing an external examiner. This is an institutional act, not a software feature; the platform can hold the reports once there are any.',
-  ));
+  // External examining (migration 029). The metric that decides whether
+  // any qualification can be conferred at all — see the graduation
+  // audit — so it reports the appointment, not merely the reports.
+  const examiners = await db(env).prepare(
+    `SELECT COUNT(*) AS n FROM external_examiners WHERE status = 'appointed'`).first();
+  const reports = await db(env).prepare(
+    `SELECT COUNT(*) AS n,
+            SUM(CASE WHEN judgement = 'standards_not_met' THEN 1 ELSE 0 END) AS adverse,
+            SUM(CASE WHEN judgement <> 'standards_met' AND response IS NULL THEN 1 ELSE 0 END) AS unanswered
+       FROM external_examiner_reports`).first();
+  const nEx = (examiners && examiners.n) || 0;
+  out.push({
+    id: 'assessment.externalExaminer', name: 'External examiner reporting',
+    question: 'What has an independent External Examiner said about the standard of the College\'s assessment?',
+    requires: 'external_examiners, external_examiner_reports',
+    ...(nEx === 0
+      ? {
+        state: 'insufficient_data', value: null,
+        closes: 'Appointing an External Examiner. This is an institutional act, not a software feature — the register exists and is empty. Until it is not, every graduation audit fails on this requirement and the College confers nothing, which is its own published position.',
+      }
+      : {
+        state: 'measured', closes: null,
+        value: {
+          examinersAppointed: nEx,
+          reportsReceived: (reports && reports.n) || 0,
+          reportsJudgingStandardsNotMet: (reports && reports.adverse) || 0,
+          // Should always be zero: the schema refuses a conditional or
+          // adverse report with no written response. Reported anyway,
+          // because a guarantee worth having is worth measuring.
+          reportsAwaitingACollegeResponse: (reports && reports.unanswered) || 0,
+        },
+      }),
+  });
 
   return out;
 }
@@ -325,12 +381,29 @@ async function financialMetrics(env) {
  * of whether the evidence exists.
  */
 async function accreditationReadiness(env) {
+  // COUNT THE RECORDS, NOT THE TABLES.
+  //
+  // These four used to ask sqlite_master whether a table existed, which
+  // was a reasonable proxy while none of them did. It stopped being one
+  // the moment migration 029 created moderation_records: an EMPTY table
+  // flipped "Internal moderation" to evidenced, and this report — the
+  // one an accreditation reviewer reads — would have claimed the College
+  // could evidence consistent marking on the strength of a CREATE TABLE.
+  //
+  // That is the exact failure the College's editorial rule forbids, made
+  // by the report whose job is to prevent it. A capability is evidenced
+  // by records, never by the existence of somewhere to put them.
+  //
+  // Student voice reads feedback_responses rather than the misnamed
+  // `student_feedback`, which never existed under that name — so that
+  // row was permanently, accidentally correct, and is now correct on
+  // purpose.
   const [coverage, moderation, examiner, misconduct, feedback, awards] = await Promise.all([
     competencyCoverage(env),
-    db(env).prepare("SELECT COUNT(*) AS n FROM sqlite_master WHERE type='table' AND name='moderation_records'").first(),
-    db(env).prepare("SELECT COUNT(*) AS n FROM sqlite_master WHERE type='table' AND name='external_examiner_reports'").first(),
-    db(env).prepare("SELECT COUNT(*) AS n FROM sqlite_master WHERE type='table' AND name='misconduct_cases'").first(),
-    db(env).prepare("SELECT COUNT(*) AS n FROM sqlite_master WHERE type='table' AND name='student_feedback'").first(),
+    db(env).prepare('SELECT COUNT(*) AS n FROM moderation_records').first(),
+    db(env).prepare('SELECT COUNT(*) AS n FROM external_examiner_reports').first(),
+    db(env).prepare('SELECT COUNT(*) AS n FROM misconduct_cases').first(),
+    db(env).prepare('SELECT COUNT(*) AS n FROM feedback_responses').first(),
     db(env).prepare("SELECT COUNT(*) AS n FROM awards WHERE status='conferred'").first(),
   ]);
 
@@ -345,13 +418,21 @@ async function accreditationReadiness(env) {
       evidence: coverage.compliant ? 'Every assessment mapped; the framework rule is satisfied.' : null,
       gap: coverage.compliant ? null : `${coverage.totalMapped} of ${coverage.totalAssessments} assessments mapped. Governance A6d.` },
     { area: 'Internal moderation', evidenced: moderation.n > 0,
-      evidence: null, gap: 'No moderation records are kept. The College cannot evidence that its marking is consistent.' },
+      evidence: moderation.n > 0 ? `${moderation.n} moderation record(s), each second-marked by somebody other than the first marker.` : null,
+      gap: moderation.n > 0 ? null
+        : 'The moderation register exists (migration 029) and is empty, because nothing has been marked. The College cannot yet evidence that its marking is consistent.' },
     { area: 'External examining', evidenced: examiner.n > 0,
-      evidence: null, gap: 'No external examiner has been appointed.' },
+      evidence: examiner.n > 0 ? `${examiner.n} External Examiner report(s) received.` : null,
+      gap: examiner.n > 0 ? null
+        : 'No External Examiner has been appointed. The register exists (migration 029) and is empty, and until it is not, every graduation audit fails on this requirement and nothing is conferred.' },
     { area: 'Academic misconduct procedure', evidenced: misconduct.n > 0,
-      evidence: null, gap: 'No misconduct register and no documented procedure.' },
+      evidence: misconduct.n > 0 ? `${misconduct.n} case(s) handled under the adopted procedure.` : null,
+      gap: misconduct.n > 0 ? null
+        : 'The procedure exists and is enforced in the schema (governance C9, migration 023). The case register is empty because nothing has been assessed — which is the honest state, not a gap to close by inventing cases.' },
     { area: 'Student voice', evidenced: feedback.n > 0,
-      evidence: null, gap: 'No feedback instrument exists.' },
+      evidence: feedback.n > 0 ? `${feedback.n} survey response(s) collected.` : null,
+      gap: feedback.n > 0 ? null
+        : 'The feedback instrument exists (migration 025) and no survey has been answered, because nobody has been taught.' },
     { area: 'Academic records and certification', evidenced: true,
       evidence: 'Hash-chained Graduate Register, signed credentials, public verification portal, issued documents with frozen payloads.' },
     { area: 'Data protection', evidenced: false,
