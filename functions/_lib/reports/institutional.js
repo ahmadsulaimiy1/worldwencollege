@@ -544,6 +544,64 @@ async function studentVoiceMetrics(env) {
 }
 
 // ---------------------------------------------------------------------
+// Student success and early intervention
+// ---------------------------------------------------------------------
+// The point of this pair is that the second one is embarrassing on
+// purpose.
+//
+// `success.concerns` says how many learners the College noticed might
+// be in trouble. `success.concernsUnreached` says how many of them it
+// never actually spoke to. A College can look diligent on the first and
+// be doing nothing at all; only the second distinguishes an early
+// warning system from a filing habit.
+//
+// Neither is suppressed by cohort size. Both are counts of the
+// institution's own conduct, and the numbers are deliberately never
+// broken down by learner.
+async function successMetrics(env) {
+  const d = db(env);
+  const t = await d.prepare(
+    `SELECT COUNT(*) AS n, SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) AS approved
+       FROM intervention_triggers`).first();
+  const c = await d.prepare(
+    `SELECT COUNT(*) AS n,
+            SUM(CASE WHEN closed_at IS NULL THEN 1 ELSE 0 END) AS open,
+            SUM(CASE WHEN contacted_at IS NULL THEN 1 ELSE 0 END) AS unreached,
+            SUM(CASE WHEN closed_at IS NULL AND contacted_at IS NULL THEN 1 ELSE 0 END) AS openAndUnreached,
+            COUNT(DISTINCT user_id) AS learners
+       FROM learner_concerns`).first();
+
+  const triggers = (t && t.n) || 0;
+  const approved = (t && t.approved) || 0;
+  const n = (c && c.n) || 0;
+
+  return [{
+    id: 'success.concerns', name: 'Learners the College noticed',
+    question: 'How many learners has the College identified as possibly in difficulty, and what happened?',
+    requires: 'learner_concerns, intervention_triggers',
+    ...(n === 0
+      ? {
+        state: 'insufficient_data', value: null,
+        closes: approved === 0
+          ? `The register is empty and none of its ${triggers} triggers is approved, so nothing can fire. Every threshold is recorded as NOT SET, because the College has taught nobody and has no evidence from which to choose one — setting a number now would be inventing it. Academic Senate approval, informed by a real cohort, is what closes this.`
+          : 'The first concern. Triggers are approved and the register is empty.',
+      }
+      : {
+        state: 'measured', closes: null,
+        value: {
+          triggersApproved: approved,
+          concernsRaised: n,
+          learners: c.learners,
+          stillOpen: c.open,
+          // The number that matters. See the note above.
+          neverContacted: c.unreached,
+          openAndNeverContacted: c.openAndUnreached,
+        },
+      }),
+  }];
+}
+
+// ---------------------------------------------------------------------
 // Academic integrity
 // ---------------------------------------------------------------------
 // This metric used to sit in uninstrumentedMetrics() because the College
@@ -608,12 +666,12 @@ async function integrityMetrics(env) {
 }
 
 export async function institutionalMetrics(env) {
-  const [progression, engagement, attendance, assessment, integrity, voice, financial, readiness] = await Promise.all([
+  const [progression, engagement, attendance, assessment, integrity, voice, success, financial, readiness] = await Promise.all([
     progressionMetrics(env), engagementMetrics(env), attendanceMetrics(env),
     assessmentMetrics(env), integrityMetrics(env), studentVoiceMetrics(env),
-    financialMetrics(env), accreditationReadiness(env),
+    successMetrics(env), financialMetrics(env), accreditationReadiness(env),
   ]);
-  const metrics = [...progression, ...engagement, ...attendance, ...assessment, ...integrity, ...voice, ...uninstrumentedMetrics(), ...financial];
+  const metrics = [...progression, ...engagement, ...attendance, ...assessment, ...integrity, ...voice, ...success, ...uninstrumentedMetrics(), ...financial];
 
   const byState = metrics.reduce((acc, m) => { acc[m.state] = (acc[m.state] || 0) + 1; return acc; }, {});
 

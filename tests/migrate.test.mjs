@@ -228,6 +228,11 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 026 — early intervention. learner_concerns hangs off users,
+  // enrolments and intervention_triggers, so it comes off before any of
+  // them.
+  db.exec('DROP INDEX idx_concerns_learner; DROP INDEX idx_concerns_open; DROP TABLE learner_concerns;');
+  db.exec('DROP TABLE intervention_triggers;');
   // 025 — the student voice. Dropped first of all, because
   // feedback_surveys hangs off programme_levels and units and its
   // children hang off it.

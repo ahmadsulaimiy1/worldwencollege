@@ -1106,6 +1106,127 @@ CREATE TABLE feedback_actions (
 CREATE INDEX idx_feedback_actions_survey ON feedback_actions(survey_id);
 CREATE INDEX idx_feedback_answers_question ON feedback_answers(question_id);
 
+
+-- ---------------------------------------------------------------------
+-- Migration 026 — student success monitoring and early intervention.
+--
+-- On a distance programme a learner does not announce that they are
+-- struggling; they stop, and the College finds out at the end of the
+-- level. Everything needed to notice was already recorded and nothing
+-- read any of it with the intention of helping somebody.
+--
+-- There is deliberately NO RISK SCORE here. The College has never
+-- taught anybody, so it has no evidence about what predicts failure on
+-- its own programmes, and a weighted model built today would be
+-- invented numbers wearing the costume of educational research —
+-- which somebody would then act on. Instead there are TRIGGERS: plainly
+-- stated rules, each carrying `basis` (on what authority its threshold
+-- was set) and `status`, which is 'proposed' until an academic body
+-- approves it. All five seeded triggers are 'proposed' with basis
+-- 'NOT SET', because nobody has decided what the numbers should be.
+--
+-- And a concern cannot be CLOSED unless the learner was contacted, or
+-- it is closed as needing no contact with a stated reason. That
+-- constraint is the difference between support and a file kept about
+-- somebody.
+-- ---------------------------------------------------------------------
+CREATE TABLE intervention_triggers (
+  code        TEXT PRIMARY KEY,
+  name        TEXT NOT NULL,
+  sequence    INTEGER NOT NULL,
+
+  -- The rule, in words. Readable by the learner it concerns, because
+  -- one day it will have to be explained to them.
+  rule        TEXT NOT NULL,
+
+  -- What the College already records that this reads.
+  reads       TEXT NOT NULL,
+
+  -- On what authority the threshold was set. NOT NULL, and the seeded
+  -- rows say honestly that it has not been set on any authority yet.
+  basis       TEXT NOT NULL,
+
+  status      TEXT NOT NULL DEFAULT 'proposed'
+              CHECK (status IN ('proposed','approved','retired')),
+  -- An approved trigger has an approving body and a date. A proposed
+  -- one must have neither, so that "approved" cannot happen by
+  -- forgetting to change a default.
+  approved_by TEXT,
+  approved_at TEXT,
+
+  CHECK (status <> 'approved' OR (approved_by IS NOT NULL AND approved_at IS NOT NULL)),
+  CHECK (status =  'approved' OR (approved_by IS NULL AND approved_at IS NULL)),
+  CHECK (TRIM(basis) <> '')
+);
+
+INSERT INTO intervention_triggers (code, name, sequence, rule, reads, basis) VALUES
+  ('DORMANT', 'No study activity', 1,
+   'An active enrolment with no recorded study time for a set number of consecutive days.',
+   'time_on_task.last_seen_at against the enrolment''s status.',
+   'NOT SET. The number of days is an academic judgement and the College has no cohort data from which to choose it. For Academic Senate.'),
+  ('NEVER_STARTED', 'Enrolled but never started', 2,
+   'An enrolment that became active and has no recorded study time at all after a set number of days.',
+   'enrolments.started_at against the absence of any time_on_task row.',
+   'NOT SET. Distinct from DORMANT because the causes differ — a learner who never began often never received their access details, which is a support failure rather than a study one. For Academic Senate.'),
+  ('ASSESSMENT_MISSED', 'Assessment not attempted', 3,
+   'A module''s assessment not attempted by a learner who has studied the module.',
+   'quiz_attempts and submissions against the module''s learning items.',
+   'NOT SET. Whether one missed assessment warrants contact, or two, is an academic judgement. For Academic Senate.'),
+  ('MARKS_FALLING', 'A sustained fall in marks', 4,
+   'A learner''s marks declining across consecutive assessed pieces.',
+   'The marks already recorded against submissions.',
+   'NOT SET. How many pieces constitute a trend rather than a bad week is precisely the kind of question that should be answered from real cohort data, and the College has none. Recommended for study once a cohort has completed a level.'),
+  ('ABSENT_WHEN_EXPECTED', 'Absent from required teaching', 5,
+   'Absence from live sessions the College required attendance at.',
+   'session_attendance against live_sessions.attendance_expected (migration 024).',
+   'NOT SET. Depends on the unsettled question governance A7 raised — what attendance means on an asynchronous programme. Blocked behind that decision, and honestly so.');
+
+CREATE TABLE learner_concerns (
+  id            TEXT PRIMARY KEY,     -- 'con_' + uuid
+  user_id       TEXT NOT NULL REFERENCES users(id),
+  enrolment_id  TEXT REFERENCES enrolments(id),
+
+  -- Exactly one origin: a person noticed, or a named trigger fired.
+  -- Never neither. See the note above.
+  raised_by     TEXT REFERENCES users(id),
+  trigger_code  TEXT REFERENCES intervention_triggers(code),
+  raised_at     TEXT NOT NULL,
+
+  -- What was actually observed. Not an inference, not a score.
+  observation   TEXT NOT NULL,
+
+  -- Reaching the learner.
+  contacted_at  TEXT,
+  contacted_by  TEXT REFERENCES users(id),
+  contact_note  TEXT,
+  -- What the learner said back, when they did. Recorded because the
+  -- most useful thing in the whole file is usually this sentence.
+  learner_response TEXT,
+
+  outcome       TEXT CHECK (outcome IS NULL OR outcome IN
+                  ('resumed','support_arranged','deferred','withdrew',
+                   'no_contact_possible','no_action_needed')),
+  outcome_note  TEXT,
+  closed_at     TEXT,
+
+  CHECK ((raised_by IS NOT NULL) + (trigger_code IS NOT NULL) >= 1),
+  CHECK (TRIM(observation) <> ''),
+  -- A contact has a time and a person.
+  CHECK ((contacted_at IS NULL) = (contacted_by IS NULL)),
+  -- A closed concern reached the learner, or says in writing why it did
+  -- not need to. This is the whole difference between support and a
+  -- file kept about somebody.
+  CHECK (closed_at IS NULL OR contacted_at IS NOT NULL
+         OR (outcome IN ('no_action_needed','no_contact_possible')
+             AND outcome_note IS NOT NULL AND TRIM(outcome_note) <> '')),
+  -- Closing needs an outcome; an outcome means it is closed.
+  CHECK ((closed_at IS NULL) = (outcome IS NULL))
+);
+
+CREATE INDEX idx_concerns_open
+  ON learner_concerns(raised_at) WHERE closed_at IS NULL;
+CREATE INDEX idx_concerns_learner ON learner_concerns(user_id);
+
 -- ---------------------------------------------------------------------
 -- Seed data — the one part of this file safe to run against a real DB
 -- immediately, since these are already-confirmed public facts, not

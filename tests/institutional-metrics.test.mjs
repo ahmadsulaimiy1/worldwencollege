@@ -411,5 +411,46 @@ function freshEnv(learners = 0) {
     JSON.stringify(loop2.value));
 }
 
+// ---------------------------------------------------------------------
+// Early intervention: the metric that is embarrassing on purpose
+// ---------------------------------------------------------------------
+// A College can raise concerns diligently and speak to none of the
+// people it raised them about. Only `neverContacted` distinguishes an
+// early warning system from a filing habit, so it is reported, is not
+// suppressed, and is asserted here.
+{
+  const empty = await M.institutionalMetrics(freshEnv(0));
+  const s0 = byId(empty, 'success.concerns') || {};
+  check('Early intervention is declared', !!s0.id);
+  check('...reporting no concerns, because nobody is studying',
+    s0.state === 'insufficient_data' && s0.value === null, s0.state);
+  check('...and saying that no trigger can fire because no threshold has been set',
+    /NOT SET/.test(s0.closes || '') && /inventing it/.test(s0.closes || ''),
+    (s0.closes || '(absent)').slice(0, 100));
+
+  const env = freshEnv(3);
+  env.DB.prepare(`INSERT INTO enrolments (id, user_id, level_id, status, started_at)
+    VALUES ('enr_a','usr_1',1,'active','2027-01-01T00:00:00Z')`).bind().run();
+  // Three concerns. One reached the learner and closed; two did not.
+  env.DB.prepare(`INSERT INTO learner_concerns
+    (id, user_id, enrolment_id, raised_by, raised_at, observation, contacted_at, contacted_by, outcome, outcome_note, closed_at)
+    VALUES ('con_a','usr_1','enr_a','usr_2','2027-02-01T00:00:00Z','No activity for three weeks.',
+            '2027-02-02T00:00:00Z','usr_2','resumed','They restarted the module.','2027-02-10T00:00:00Z')`).bind().run();
+  env.DB.prepare(`INSERT INTO learner_concerns (id, user_id, raised_by, raised_at, observation)
+    VALUES ('con_b','usr_2','usr_3','2027-02-03T00:00:00Z','Assessment unattempted.')`).bind().run();
+  env.DB.prepare(`INSERT INTO learner_concerns (id, user_id, raised_by, raised_at, observation)
+    VALUES ('con_c','usr_3','usr_3','2027-02-04T00:00:00Z','Marks falling across three pieces.')`).bind().run();
+
+  const s1 = byId(await M.institutionalMetrics(env), 'success.concerns') || {};
+  check('Three concerns over three learners: measured, not suppressed', s1.state === 'measured', s1.state);
+  check('...counting what was raised', s1.value && s1.value.concernsRaised === 3, JSON.stringify(s1.value));
+  check('...and, separately, how many learners were never actually spoken to',
+    s1.value && s1.value.neverContacted === 2 && s1.value.openAndNeverContacted === 2,
+    JSON.stringify(s1.value));
+  check('The figures are never broken down by learner',
+    s1.value && !Object.keys(s1.value).some((k) => /user|name|email|id$/i.test(k)),
+    Object.keys(s1.value || {}).join(', '));
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);
