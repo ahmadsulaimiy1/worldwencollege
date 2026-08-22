@@ -228,6 +228,20 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 022 — the speaking assessment framework. Dropped FIRST of the recent
+  // migrations, and the reason is the same one the 016 note below gives:
+  // speaking_criteria holds a foreign key into skill_descriptors, which
+  // 013 created. Reconstructing a pre-migration database that still has
+  // the child table while dropping the parent fails on the constraint
+  // rather than on anything interesting — which is exactly what happened
+  // when 022 landed and this chain had not been extended.
+  db.exec('DROP INDEX idx_speaking_criteria_level; DROP TABLE speaking_criteria; DROP TABLE speaking_assessments;');
+  // 021 — the Worldwide English Qualifications framework. The stage
+  // index and the added columns go with award_definitions below; only
+  // the framework table itself is separate.
+  db.exec('DROP TABLE qualification_framework;');
+  // 020 — the Editions Register.
+  db.exec('DROP INDEX idx_editions_digest; DROP TABLE editions;');
   // 016 — the Senate's constitution. Dropped before 013's
   // academic_bodies because it holds a foreign key into it, and
   // reconstructing a pre-migration database in the wrong order fails on

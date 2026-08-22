@@ -164,6 +164,13 @@ for (const [what, re] of [
   ['that a tutor rate must be set alongside the marker rate', /tutor rate/i],
   ['that the College never hears a learner speak', /never once hears the learner speak|never hears the learner/i],
   ['that the qualification does not differ between tiers', /It does not sell different amounts of qualification/],
+  ['both options, as the Board directed', /Option A .{0,10}Premium Digital College/ ],
+  ['...and the second of them', /Option B .{0,10}Premium Global English College/],
+  ['what Option B requires before it may be sold', /What must be built/],
+  ['that Option B brings a payroll, which Option A does not', /acquires a payroll/],
+  ['that growth under Option B is bounded by hiring', /bounded by hiring/],
+  ['that speaking assessment is delivered under Option A too', /a learner should not\s*\n?\s*have to buy a tier to be heard/],
+  ['that recorded interaction is capped rather than pretended', /Proficient.{0,40}no further|async_ceiling/i],
 ]) {
   check(`The paper still records ${what}`, re.test(paper));
 }

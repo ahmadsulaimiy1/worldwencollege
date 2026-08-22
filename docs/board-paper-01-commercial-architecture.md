@@ -1,13 +1,43 @@
 # Board Paper 01 — The Commercial Architecture
 
-**Second submission. For decision.** Prepared for the Executive Board by
-the Finance Committee, the Commercial Strategy Committee and the
-Registrar. First submitted 18 August 2026; returned by the Board for
-refinement; resubmitted 18 August 2026.
+**Third submission. For decision between two options.** Prepared for the
+Executive Board by the Finance Committee, the Commercial Strategy
+Committee, the Academic Council and the Registrar. First submitted 18
+August 2026; returned twice; resubmitted 18 August 2026.
 
 **Status: NOT ADOPTED. NOT PUBLISHED.** The live site continues to show
 the existing tuition. Nothing here has been written to any public page,
 and `programme_levels.price_usd_cents` is unchanged.
+
+---
+
+## The decision before the Board
+
+The Board directed that this paper stop thinking in terms of low price
+against high price, and think instead about institutional positioning —
+and that it present two coherent trajectories rather than one
+recommendation.
+
+It does. **Option A** prices the College that exists. **Option B**
+designs the College the Board intends, states what must be built to
+become it, and prices that. They are not a cheap option and an expensive
+one; they are two different institutions, and the Board is choosing which
+to be.
+
+The Committee has deliberately not chosen for the Board. It has,
+however, done one thing the Board's direction implied and did not
+require: **it has begun building the capability both options need**, so
+that the choice is between two futures rather than between two documents.
+Section 5 records what was built while this paper was being written.
+
+| | Option A — Premium Digital College | Option B — Premium Global English College |
+|---|---|---|
+| What it is | The College as it stands, done excellently | An institution with people in it |
+| Human contact per qualification | Assessment only | ~14 contact hours, a named tutor, an adviser |
+| Pathway tuition | **$7,400** | **$14,800** |
+| Must be built first | Speaking assessment *(begun)*, adviser contact | Everything in A, plus tutors, scheduling, cohorts, employer engagement, alumni services |
+| Time to deliver | This term | Four to six terms |
+| The risk | The College stays smaller than its ambition | The College sells what it has not yet built |
 
 ---
 
@@ -506,6 +536,131 @@ marketing one does.
 
 ---
 
+## 5A. What was built while this paper was written
+
+The Board asked for a robust speaking assessment framework operating at
+every qualification stage, and supported it strongly. It exists.
+`sql/migrations/022-speaking-assessment.sql` is in the record, mirrored
+into the schema, and held by twenty-five assertions.
+
+**Why this, first, and not a pricing revision.** Every qualification
+descriptor in the Worldwide English Qualifications framework claims
+spoken capability. None of them evidenced it. A candidate could hold the
+WEPC — a qualification in English *communication* — without any person
+having heard them say a sentence. That is not a commercial gap; it is an
+academic one, and it happens to be the same gap that made a premium
+price indefensible.
+
+**What the framework contains.** Two assessments per qualification: a
+midpoint carrying no weight, so a learner can use it rather than fear it,
+and a summative final carrying twenty per cent. Five criteria constant
+across all six qualifications — intelligibility, fluency, range,
+interaction, appropriacy — so a Foundation candidate and a Mastery
+candidate are judged on the same dimensions. Thirty descriptors, one per
+criterion per stage, rising from *"understood by a sympathetic listener
+used to non-native speech"* to *"judges what a situation requires before
+speaking, including when not to."* Speaking time rises from four minutes
+to fifteen; preparation from none at Foundation, where the assessment is
+of speech rather than of memory, to twenty at Mastery.
+
+**One standard, two methods — which is the Board's own principle.**
+Asynchronous capture, where the candidate records against a released
+prompt and a marker assesses the recording, is buildable today:
+`learner_recordings` already carries media, duration, attempt, retention
+and a content hash, and the upload path is tested end to end. Live
+capture is richer.
+
+**And the framework records where recording cannot honestly reach.** A
+candidate speaking to a prompt is not taking a turn, cannot be
+interrupted, and has nothing to respond to that they did not already
+read. The College had three options — pretend otherwise, drop the
+criterion, or say so. The `async_ceiling` column says so: interaction
+assessed by recording reaches *Proficient* and no further, the candidate
+is told before they begin, and the other four criteria are uncapped.
+
+**This is the sharpest illustration of the paper's argument.** Option A
+can assess speaking honestly, and four of five criteria fully. Only
+Option B can assess a candidate's interaction at the highest band,
+because only Option B has a person in the room. The difference between
+the two options is not marketing. It is what the College is able to
+know about its own graduates.
+
+---
+
+## 5B. Option B — the institution to be built
+
+Option A is described by sections 6.1 and 7. This is what Option B adds,
+and what it requires.
+
+### The learner's experience, changed
+
+A learner on Option B is not a user of a platform. At enrolment they are
+assigned a **named academic adviser** who stays with them across every
+qualification they take, and a **tutor** for each. They have twelve
+scheduled one-to-one tutorials per qualification, a live speaking
+assessment at the midpoint and the end, and written feedback they can
+answer rather than only receive. They join a **cohort** that begins
+together and meets fortnightly. On completion they enter an **alumni
+body** with continued access, two speaking clinics a year, and an annual
+lecture. If their employer sponsors them, that employer receives cohort
+reporting and a named academic contact.
+
+The difference a learner would describe is not "more content". It is that
+somebody at the College knows who they are.
+
+### What must be built
+
+| Capability | Why the price depends on it | Scale |
+|---|---|---|
+| **Tutors appointed** | The premium is contact hours; without tutors there are none | One tutor carries ~10 learners per cycle |
+| **Scheduling** | A tutorial that cannot be booked does not exist | Booking, rescheduling, attendance, no-show policy |
+| **Live speaking assessment** | Designed *(5A)*; needs delivery, moderation and a second marker | Two per learner per qualification |
+| **Academic advisers** | The relationship that makes it a college rather than a course | One adviser to ~60 learners |
+| **Cohorts** | Fortnightly meeting, shared start dates, a peer group | Requires an academic calendar with real intakes |
+| **Employer engagement** | Cohort reporting, completion rebates, named contact | Account management, not marketing |
+| **Alumni services** | Membership, clinics, the annual lecture | Continuous, small, and never allowed to lapse |
+
+### Operational implications the Board should weigh
+
+**Growth becomes bounded by hiring, not by demand.** A tutor carries
+about ten learners per qualification cycle. Every hundred Option B
+learners is ten tutors and roughly two advisers. The College cannot
+scale Option B faster than it can appoint and moderate teachers, and
+appointing teachers faster than it can moderate them is how the
+qualification quietly stops meaning the same thing.
+
+**Moderation becomes the central academic task.** Six markers judging
+speaking will not agree unless someone makes them agree. Option B
+requires standardisation meetings, double-marking of a sample, and a
+moderation record — none of which exists today.
+
+**The College acquires a payroll.** Option A's costs are marking and
+platform. Option B's are salaries, and salaries do not fall when
+enrolment does. This is the single largest financial difference between
+the options, and it is a risk the Board takes on deliberately or not at
+all.
+
+**Two academic appointments become urgent rather than important.** The
+External Examiner, still unappointed, and the Academic Senate, which has
+no members. Option B is an institution making academic judgements about
+individuals at scale, and neither option should confer anything until the
+Examiner exists — but Option B makes the absence conspicuous.
+
+### Why applicants would willingly pay more
+
+Not because the certificate is worth more. It is the same certificate,
+and the Board has been clear that it must remain so.
+
+They would pay because **the thing they are buying is different**: ninety
+hours of a qualified person's attention across the framework, a named
+adviser who knows their history, a cohort that expects them on Tuesday,
+and an assessment that hears them speak and answers back. That is what
+$50–$120 an hour buys everywhere else in this market, and it is the only
+honest reason to charge more.
+
+
+---
+
 ## 9. Positioning, and what the learner feels
 
 **Where the College sits after adoption.** Above every mass-market
@@ -616,26 +771,73 @@ invites a comparison with live tuition it would lose.
 
 ---
 
-## 12. Recommendation
+## 12. The two options, and what the Committee advises
 
-The Committee recommends the Board adopt **sections 6 and 7 in full**,
-subject to five conditions:
+The Board asked for two coherent options rather than one recommendation.
+Here they are, and then — because the Board is entitled to the
+Committee's judgement as well as its analysis — what the Committee would
+do.
 
-1. **Publish the Directed tier only.** It is the sole tier the College can
-   currently deliver.
-2. **Set the marker rate and the tutor rate in the same resolution.**
-   The prices are not safe to adopt without them (section 8).
-3. **Do not offer the Tutored or Executive tiers** until all five
-   conditions at section 6.4 are met, tutors included.
+### Option A — Premium Digital College
+
+Publish section 6.1 and section 7. Pathway **$7,400**; twenty-four
+monthly payments of **$310**, final $270.
+
+**Adopt if** the Board wants the College earning and teaching this term,
+with no payroll risk, growth bounded only by demand, and an honest offer
+that is genuinely excellent at what it does.
+
+**Accept, if adopting it,** that the College will be a very good
+directed-study institution, that its interaction assessment will reach
+*Proficient* and not beyond, and that the premium end of this market
+will remain occupied by others.
+
+### Option B — Premium Global English College
+
+Publish section 6.1 now and section 6.2 when section 5B is built.
+Pathway **$14,800**; twenty-four monthly payments of **$620**, final
+$540.
+
+**Adopt if** the Board intends the College to be an institution with
+people in it, and is prepared to carry a payroll, appoint and moderate
+teachers, and grow at the speed of hiring rather than of marketing.
+
+**Accept, if adopting it,** that nothing in 6.2 may be sold until it
+exists, and that the interval between resolving and delivering is the
+most dangerous period in the College's history — because the commercial
+temptation to sell it early will be strongest exactly when the capability
+is weakest.
+
+### What the Committee advises
+
+**Adopt Option A now and Option B as the trajectory** — one resolution,
+two horizons.
+
+Publish the Directed tier this term at $7,400. Build section 5B against
+a stated timetable. Open the Tutored tier only when the five conditions
+at 6.4 are met, and price it at $14,800 when it is real.
+
+The reasoning is that the two options are not alternatives in time. A
+College cannot become Option B without first being Option A — it needs
+learners before it needs cohorts, and revenue before it needs payroll.
+Choosing A *instead of* B caps the institution. Choosing B *instead of*
+A means selling something that does not exist. Choosing A *towards* B is
+the only sequence in which every price is true on the day it is charged.
+
+### Conditions, under either option
+
+1. **Set the marker rate.** Under both. The prices are not safe without it.
+2. **Set the tutor rate** before any Option B commitment is made.
+3. **Deliver the speaking assessment under Option A too**, asynchronously
+   — it is designed, the infrastructure exists, and a learner should not
+   have to buy a tier to be heard.
 4. **Keep the independent learner route closed** until an External
    Examiner is appointed.
-5. **Commission the live speaking assessment for every tier**, not only
-   the tutored one. The College currently examines writing and
-   comprehension and never once hears the learner speak, which is the
-   largest academic gap this exercise uncovered — and it was uncovered by
-   a commercial paper, which is itself worth the Board's attention.
+5. **Appoint the External Examiner.** Under both options this is now the
+   binding constraint on the College's entire purpose: it can teach,
+   assess, and hear its learners speak, and it still cannot confer.
 
-**Summary of what would be published on adoption:**
+### What would be published on adoption
 
 | | Single | Pathway |
 |---|---|---|
@@ -648,10 +850,6 @@ subject to five conditions:
 | **Six taken singly** | **$9,500** | |
 | **Directed pathway, committed** | | **$7,400** |
 | **Twenty-four monthly payments** | | **$310** (final $270) |
-
-Against $19,000.02 today: a reduction of roughly sixty per cent, and a
-structure that can carry the College upward to $14,800 the moment it can
-honestly deliver what that price buys.
 
 **On adoption, and not before,** these figures replace
 `programme_levels.price_usd_cents`, the tuition page, the admissions
