@@ -95,9 +95,24 @@ const ADMIN_ACTOR = { id: 'usr_admin', role: 'admin', email: 'admin@example.com'
 // there.
 const DEMO = {};
 {
-  const conf = (opts) => registry.conferAward(env, {
-    credits: 20, tqtHours: 200, ...opts,
-  });
+  // Conferral now requires a PASSED graduation audit (migration 028),
+  // and a real audit cannot pass: the WEQ framework requires an External
+  // Examiner's sign-off and none is appointed. That refusal is the
+  // point, and it is asserted in tests/graduation-audit.test.mjs.
+  //
+  // This harness exists to put pixels on a screen for the route audit,
+  // so it writes the audit row directly, exactly as it already invents
+  // the graduates' names. It must never be read as evidence that
+  // anything was earned.
+  const conf = (opts) => {
+    const auditId = `gaud_demo_${opts.userId}_${opts.levelId}`;
+    env.DB.prepare(`INSERT OR IGNORE INTO graduation_audits
+      (id, user_id, level_id, award_code, run_at, outcome, closed_at, summary)
+      VALUES (?, ?, ?, 'DEMO', '2027-01-01T00:00:00.000Z', 'met', '2027-01-01T00:00:00.000Z',
+              'Demonstration fixture. Stands in for an audit that cannot pass until an External Examiner is appointed.')`)
+      .bind(auditId, opts.userId, opts.levelId).run();
+    return registry.conferAward(env, { credits: 20, tqtHours: 200, auditId, ...opts });
+  };
   DEMO.valid = await conf({
     userId: 'usr_demo', levelId: 3, holderName: 'Demonstration Graduate',
     awardTitle: 'Certificate in Applied English Communication', postNominal: 'CAEC',
