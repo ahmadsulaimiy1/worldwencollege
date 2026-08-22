@@ -416,11 +416,27 @@ for (const [label, file] of [['English', 'admissions-tuition.html'],
 
   const nums = (tr) => [...tr.matchAll(/<td[^>]*>(?:<strong>)?([\d,]+)/g)]
     .map((m) => Number(m[1].replace(/,/g, '')));
-  const bodyRows = rows.slice(1, -1);
-  const totalRow = rows[rows.length - 1];
+
+  // Total rows are identified by LABEL, not by position. This assumed
+  // "N level rows, then exactly one total row", and broke the day the
+  // table gained a second total — one for paying level by level and one
+  // for paying in full, because six levels at $3,166.67 come to
+  // $19,000.02 and the single total said $19,000. The table got more
+  // honest and the assertion called that a defect.
+  // Row 0 is the header, and its "Total Qualification Time" column
+  // heading matches the word — so the scan starts after it.
+  const isTotal = (tr) => /Total|الإجمالي/.test(tr);
+  const dataRows = rows.slice(1);
+  const bodyRows = dataRows.filter((r) => !isTotal(r));
+  const totalRows = dataRows.filter(isTotal);
+  // The credits total is printed once, on whichever total row carries
+  // the column at all.
+  const totalRow = totalRows.find((r) => Number.isFinite(nums(r)[0])) || totalRows[0];
   const credits = bodyRows.map((r) => nums(r)[0]).filter(Number.isFinite);
   const summed = credits.reduce((a, b) => a + b, 0);
   const printed = nums(totalRow)[0];
+  check(`The ${label} fee table separates paying in full from paying level by level`,
+    totalRows.length === 2, `${totalRows.length} total row(s)`);
   check(`...and the ${label} credit total equals the sum of its rows`, printed === summed,
     `printed ${printed}, rows sum to ${summed}`);
 }

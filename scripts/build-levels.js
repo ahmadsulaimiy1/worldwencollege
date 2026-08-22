@@ -100,7 +100,18 @@ for (const lv of levels) {
   }
 }
 
-const money = (c) => `$${(c / 100).toLocaleString('en-GB', { maximumFractionDigits: 0 })}`;
+// Prices are formatted to the CENT, not rounded to the pound.
+//
+// This read `maximumFractionDigits: 0`, which turned $3,166.67 into
+// $3,167 on all twelve level pages — thirty-three cents more than the
+// figure in programme_levels, and a different number from the one the
+// tuition page publishes for the same level. Two prices for one thing,
+// and the higher one shown to the person deciding whether to enrol.
+//
+// Rounding is fine for a headline like $19,000, which IS the price.
+// It is not fine for a derived figure, because a derived figure that
+// has been rounded is no longer the price — it is a description of it.
+const money = (c) => `$${(c / 100).toLocaleString('en-GB', { minimumFractionDigits: c % 100 === 0 ? 0 : 2, maximumFractionDigits: 2 })}`;
 const SLUG = { I: 'level-1', II: 'level-2', III: 'level-3', IV: 'level-4', V: 'level-5', VI: 'level-6' };
 
 // ── the one paragraph per level that is authored, not read ───────────
