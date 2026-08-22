@@ -849,7 +849,15 @@ section { position: relative; }
   text-transform: uppercase; color: var(--gold-royal); font-weight: 700;
 }
 .lang__row {
-  display: grid; grid-template-columns: 1.4rem 1fr auto;
+  display: grid;
+  /* FOUR columns, not three: flag, endonym, the English name, and the
+     mark on the current edition. With three, the current row's fourth
+     child wrapped onto an implicit second row and the tick sat on its
+     own line under the language it belonged to — invisible while eight
+     rows crowded the menu, obvious the moment the menu held two. The
+     fourth column is `auto` and collapses to nothing on the rows that
+     carry no mark. */
+  grid-template-columns: 1.4rem 1fr auto auto;
   align-items: center; gap: 10px;
   padding: 9px 10px; border-radius: 8px; min-height: 44px;
   color: rgba(247,244,236,.88); text-decoration: none;
@@ -864,12 +872,10 @@ a.lang__row:hover { background: rgba(199,162,74,.13); color: var(--gold-bright);
 }
 .lang__row--current { background: rgba(199,162,74,.1); }
 .lang__row--current .lang__state .icon { width: 14px; height: 14px; color: var(--gold-bright); }
-.lang__row--soon { opacity: .55; }
-.lang__row--soon .lang__state {
-  font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
-  color: rgba(247,244,236,.4); grid-column: 3;
-}
-.lang__row--soon .lang__english { display: none; }
+/* `.lang__row--soon` was here. The picker no longer renders an
+   unpublished edition at all — see data/languages.json — so the rules
+   that dimmed one are gone rather than left to be found by somebody
+   wondering which markup they style. */
 
 /* ═══════════════════════════════════════════════════════════════════
    THE UTILITY RAIL — a second band, and a different kind of object

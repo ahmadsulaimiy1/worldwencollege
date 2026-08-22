@@ -332,22 +332,36 @@ function fillStanding(html, lang, contentFile) {
 }
 
 // ── THE EDITIONS PICKER ──────────────────────────────────────────────
-// Ten editions are planned and two are published, and data/languages.json
-// is the only place that distinction lives. The picker is generated from
-// it rather than typed into two partials, because a language list typed
-// twice is a language list that disagrees with itself on the first edit —
-// which is exactly what happened to the College's own figures before
-// data/standing.json existed.
+// data/languages.json records the editions the College plans and the
+// editions it publishes, and it is the only place that distinction
+// lives. The picker is generated from it rather than typed into two
+// partials, because a language list typed twice is a language list that
+// disagrees with itself on the first edit — which is exactly what
+// happened to the College's own figures before data/standing.json
+// existed.
 //
-// An unpublished edition is rendered as text, not as a link. A menu that
-// links to a page nobody can serve is worse than a menu that does not
-// link it: the reader clicks, gets a 404, and now doubts the rest of the
-// site rather than just that row.
+// THE PICKER OFFERS THE EDITIONS THAT EXIST, AND NOTHING ELSE.
+//
+// It used to render all ten, the eight unpublished ones as text marked
+// "In preparation" — deliberately not as links, so that nobody clicked
+// through to a 404. That reasoning was right about links and wrong
+// about claims: eight rows announcing work the College has not
+// finished, in the chrome of all 186 pages and in both editions, is the
+// site telling every reader what it has not managed to do. The house
+// standard rules that out in as many words — state what the College
+// does, not what it has not done — and the same ruling took "eight
+// further editions are in preparation" out of the footer band.
+//
+// The plan stays in the data file, where it belongs: it is how the
+// College knows what it intends, and `published` is still the one flag
+// that decides. Setting it true renders the row, links it, and announces
+// it in the alternate tags. Nothing here has to be edited to publish an
+// edition — which is the property the file was built for.
 const LANGUAGES = JSON.parse(read(path.join(ROOT, 'data', 'languages.json')));
 
 function languagePicker(lang, altHref) {
   const L = LANGUAGES.labels[lang === 'ar' ? 'ar' : 'en'];
-  const rows = LANGUAGES.languages.map((l) => {
+  const rows = LANGUAGES.languages.filter((l) => l.published).map((l) => {
     const current = l.code === lang;
     const label = `<span class="lang__flag" aria-hidden="true">${l.flag}</span>`
       + `<span class="lang__endonym"${l.dir === 'rtl' ? ` dir="rtl" lang="${l.code}"` : ` lang="${l.code}"`}>${l.endonym}</span>`
@@ -361,8 +375,11 @@ function languagePicker(lang, altHref) {
       // altHref is the page-specific twin rather than the front door.
       return `        <a class="lang__row" href="${altHref}" hreflang="${l.code}" lang="${l.code}">${label}</a>`;
     }
-    return `        <span class="lang__row lang__row--soon">${label}`
-      + `<span class="lang__state">${L.forthcoming}</span></span>`;
+    // Unreachable: the list is filtered to published editions above.
+    // Kept as a refusal rather than deleted, so that a future edition
+    // marked published without a prefix fails the build loudly instead
+    // of rendering a row that links to the site's own front door.
+    throw new Error(`data/languages.json marks ${l.code} published with no prefix.`);
   }).join('\n');
 
   return `<div class="langswitch">
