@@ -78,13 +78,20 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
  * here rather than remembered: a test asserts that exactly one stage is
  * active and that no stage after it has been started.
  */
+// The names below are a copy of programme_levels.name and are asserted
+// against it. They drifted once: this list carried "Pre-Intermediate
+// Programme" at III and "Intermediate Programme" at IV, one level out of
+// step with the record, from a six-versus-seven-level revision that was
+// settled everywhere except here. Nothing published the names, so nothing
+// noticed — which is the whole hazard of an unpublished copy: it is
+// correct only until somebody renders it.
 export const STAGES = [
   { n: 1, roman: 'I', name: 'Foundation Programme', state: 'active' },
   { n: 2, roman: 'II', name: 'Elementary Programme', state: 'not started' },
-  { n: 3, roman: 'III', name: 'Pre-Intermediate Programme', state: 'not started' },
-  { n: 4, roman: 'IV', name: 'Intermediate Programme', state: 'not started' },
+  { n: 3, roman: 'III', name: 'Intermediate Programme', state: 'not started' },
+  { n: 4, roman: 'IV', name: 'Upper Intermediate Programme', state: 'not started' },
   { n: 5, roman: 'V', name: 'Advanced Programme', state: 'not started' },
-  { n: 6, roman: 'VI', name: 'Mastery Programme', state: 'not started' },
+  { n: 6, roman: 'VI', name: 'English Mastery Programme', state: 'not started' },
 ];
 
 export const ACTIVE = STAGES.find((s) => s.state === 'active');

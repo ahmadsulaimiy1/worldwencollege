@@ -236,5 +236,64 @@ for (const [what, re] of [
     /was still not in force/.test(flat) && /luck, not design/.test(flat));
 }
 
+// ---------------------------------------------------------------------
+// Board Paper 03 — level nomenclature.
+//
+// The College publishes two names for each of its six levels: the stage
+// names the Worldwide English Qualifications framework is written in,
+// and the ELT ladder held in programme_levels.name. Which one it keeps
+// is a governance judgement, so the paper puts it to the Board and
+// nothing has been applied to the record.
+//
+// What this asserts is the discipline, not the outcome: the paper
+// carries BOTH names for every level as they actually stand today, it
+// recommends without deciding, and — the load-bearing one — the record
+// still holds the names the paper describes. If somebody adopts the
+// recommendation by editing the database and forgets the paper, the
+// paper becomes a description of a College that no longer exists, and
+// this catches that.
+{
+  const raw = readFileSync(path.join(ROOT, 'docs/board-paper-03-level-nomenclature.md'), 'utf8');
+  const flat = raw.replace(/\s+/g, ' ');
+  const ndb = new DatabaseSync(':memory:');
+  ndb.exec(readFileSync(path.join(ROOT, 'sql/schema.sql'), 'utf8'));
+  const levels = ndb.prepare('SELECT id, name FROM programme_levels ORDER BY id').all();
+  const chapters = ndb.prepare(
+    'SELECT level_id, name FROM alumni_chapters ORDER BY level_id').all();
+  ndb.close();
+
+  check('The paper is for decision, and says nothing has been adopted',
+    /\*\*Status:\*\* for decision/.test(flat) && /nothing in it has been acted on/.test(flat));
+
+  check(`Every level's record name appears in the paper — ${levels.length}`,
+    levels.every((lv) => flat.includes(lv.name)),
+    levels.filter((lv) => !flat.includes(lv.name)).map((lv) => lv.name).join(', '));
+
+  // The stage names are derived from the alumni chapters, which are the
+  // record's copy of the same vocabulary — "Foundation Chapter" for the
+  // "Foundation Stage". Reading them rather than typing them means this
+  // check cannot outlive a rename either.
+  const stages = chapters.map((c) => `${c.name.replace(/ Chapter$/, '')} Stage`);
+  check(`Every level's stage name appears in the paper — ${stages.length}`,
+    stages.every((st) => flat.includes(st)),
+    stages.filter((st) => !flat.includes(st)).join(', '));
+
+  check('It sets out options with consequences', (raw.match(/^### Option \d/gm) || []).length >= 3,
+    (raw.match(/^### Option \d/gm) || []).length);
+  check('...and recommends one', /^## 5 · Recommendation/m.test(raw));
+  check('...and names an option it does not recommend',
+    /does not recommend this/i.test(flat));
+
+  check('It separates what was corrected from what is the Board\'s',
+    /Done\*\*, because it is error rather than judgement/.test(flat)
+      && /Not done\*\*, because it is the Board\u2019s|Not done\*\*, because it is the Board's/.test(flat));
+
+  // The paper says the rename has not been begun. That claim is only
+  // true while the record still holds the names it describes.
+  check('...and the record still holds the names the paper says it holds',
+    levels.every((lv) => !stages.includes(lv.name)),
+    'programme_levels has been renamed — Board Paper 03 now describes a state that no longer exists');
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

@@ -117,9 +117,28 @@ if (!adoptedNow.length || !adoptedEarly.length) {
     + 'decisions — refusing to publish a governance page whose figures could not be read from '
     + 'the register.');
 }
-if (awaiting) {
-  throw new Error(`${awaiting} decision(s) are outstanding again. The decisions page states that `
-    + 'none is — rewrite the page rather than letting it publish a number it did not read.');
+// Which decisions are outstanding, and what body each waits on. The page
+// used to state "none outstanding" in typed prose, and a guard here threw
+// the moment that stopped being true — correctly, because a register that
+// under-reports what is undecided is worse than no register. The prose now
+// reads its figures from the document, so the page cannot state a number
+// it did not count; what the guard still defends is that every outstanding
+// decision is actually NAMED, not merely totalled.
+const awaitingDecisions = [...govDoc.matchAll(/^### ([A-Z]\d+[a-z]?)\.\s*(.+)$/gm)]
+  .map((m) => ({ ref: m[1], title: m[2].replace(/\*+/g, '').replace(/\s*—.*$/, '').trim() }))
+  .filter((d) => {
+    const i = govDoc.indexOf(`### ${d.ref}.`);
+    const next = govDoc.indexOf('\n### ', i + 1);
+    const body = govDoc.slice(i, next === -1 ? undefined : next);
+    const m = body.match(/\*\*Decision:\*\*\s*☐\s*awaiting\s+(?:a\s+)?decision\s+of\s+(?:the\s+)?([^.]+?)\./);
+    if (!m) return false;
+    d.body = m[1].trim();
+    return true;
+  });
+if (awaitingDecisions.length !== awaiting) {
+  throw new Error(`${awaiting} decision(s) are marked awaiting in the register but `
+    + `${awaitingDecisions.length} could be named. The page would publish a count without the `
+    + 'items behind it — fix the register entry rather than publishing a bare number.');
 }
 
 // ── shared components ────────────────────────────────────────────────
@@ -524,7 +543,7 @@ PAGES.evidence = {
     + 'each is in, and why none has been approved.',
   body: `${hero('Governance', 'The evidence record.',
     `${E.total} items an external reviewer would ask for, each recorded in one of four states. `
-    + 'This page publishes the register as it stands, including the parts of it that are empty.')}
+    + 'This page publishes the register as it stands, including the parts of it that are empty. IEFC, where it appears below, is the International English Fluency Course &mdash; the College&rsquo;s six-level English programme.')}
 
 <section class="section--light section-pad">
   <div class="container reveal">
@@ -626,13 +645,17 @@ PAGES.decisions = {
   slug: 'governance-decisions', output: 'governance/decisions/index.html', file: 'governance-decisions.html',
   altHref: '/ar/governance/decisions/',
   title: 'The Decisions Register &mdash; Worldwide English College',
-  description: `All ${totalAdopted} of the College's institutional decisions, in force, with the `
-    + 'date and the authority that took each one.',
+  description: `${totalAdopted} of the College's institutional decisions, in force, with the `
+    + `date and the authority that took each one, and ${awaiting} still awaiting a decision.`,
   body: `${hero('Governance', 'The decisions register.',
-    `${totalAdopted} decisions, all of them in force, none outstanding. This page previously `
-    + 'listed twenty-five as awaiting somebody with authority to say yes. It is kept in two '
-    + 'groups because they took effect at different times, and a reader is entitled to see '
-    + 'which rule arrived when.')}
+    `${totalAdopted} decisions in force. ${awaiting === 0 ? 'None is outstanding.'
+      : awaiting === 1 ? 'One is outstanding and is named below, unadopted.'
+      : `${awaiting} are outstanding and are named below, unadopted.`} This page previously `
+    + 'listed twenty-five as awaiting somebody with authority to say yes. The decisions in '
+    + 'force are kept in two groups because they took effect at different times, and a reader '
+    + 'is entitled to see which rule arrived when. IEFC, where it appears below, is the '
+    + 'International English Fluency Course &mdash; the College&rsquo;s six-level English '
+    + 'programme.')}
 
 <section class="section--light section-pad">
   <div class="container reveal">
@@ -681,6 +704,28 @@ ${adoptedEarly.map((d) => `          <tr><td><strong>${esc(d.ref)}</strong></td>
   </div>
 </section>
 
+${awaitingDecisions.length === 0 ? '' : `<section class="section--paper section-pad">
+  <div class="container reveal">
+    <div class="section-head">
+      <span class="module-marker">Not Adopted</span>
+      <h2>${awaitingDecisions.length === 1 ? 'One decision is still outstanding.'
+        : `${awaitingDecisions.length} decisions are still outstanding.`}</h2>
+      <p class="lede">Drafted with a recommendation, and not decided. Nothing below is College
+        policy, and nothing below is treated as policy by the platform: where machinery exists
+        for one of these, it is recorded with its status set to proposed and the record refuses
+        to promote it without a body and a date.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="ledger">
+        <thead><tr><th>Ref</th><th>Awaiting a decision on</th><th>From</th></tr></thead>
+        <tbody>
+${awaitingDecisions.map((d) => `          <tr><td><strong>${esc(d.ref)}</strong></td><td>${esc(d.title)}</td><td>${esc(d.body)}</td></tr>`).join('\n')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>`}
+
 <section class="section--dark section-pad">
   <div class="container reveal">
     <div class="section-head">
@@ -723,6 +768,9 @@ ${cta('See the bodies that will ratify these.', 'Governance', '/governance/', 'T
 // declared as such on the page.
 const AR_COLLECTION = {
   'Academic Integrity': 'النزاهة الأكاديمية', 'Academic Regulations': 'اللوائح الأكاديمية',
+  'Academic Registry': 'السجل الأكاديمي', 'Attendance': 'الحضور',
+  'Data Protection': 'حماية البيانات', 'External Examining': 'الامتحان الخارجي',
+  'Graduate Register': 'سجل الخريجين', 'Student Success': 'نجاح الطلاب',
   'Annual Monitoring': 'الرصد السنوي', 'Appeals': 'الاستئنافات',
   'Assessment Moderation': 'معايرة التقييم', 'Assessment Regulations': 'لوائح التقييم',
   'Competency Framework': 'إطار الكفايات', 'Continuous Improvement Register': 'سجل التحسين المستمر',

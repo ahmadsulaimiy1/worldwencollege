@@ -432,7 +432,7 @@ ${darkCard('A convened Senate', 'Blocks approval', `The Senate has ${GOV.SENATE_
   <div class="container reveal">
     <h2>See the programme this vision is built around.</h2>
     <div class="btn-row u-center">
-      <a href="/academics/#iefc" class="btn btn--gold">Explore the IEFC Programme</a>
+      <a href="/academics/#iefc" class="btn btn--gold">Explore the English programme</a>
     </div>
   </div>
 </section>
@@ -487,7 +487,7 @@ ${card('Does not exist', 'Everything that needs people', 'No accreditation, no e
   </div>
 </section>
 
-${cta('Read what you would be reviewing.', 'The IEFC Programme', '/academics/#levels', 'Our Standards', '/governance/#quality')}`,
+${cta('Read what you would be reviewing.', 'The English programme', '/academics/#levels', 'Our Standards', '/governance/#quality')}`,
 };
 
 // ── write ────────────────────────────────────────────────────────────

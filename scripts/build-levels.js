@@ -158,7 +158,8 @@ function levelPage(lv, i) {
       <h2>What you will be able to do.</h2>
       <p class="lede">Stated before the teaching is designed, not after. Each outcome is a
         claim the assessments are built to test, which is why there are ${lv.outcomes.length}
-        of them and not twenty.</p>
+        of them and not twenty. Each code below begins IEFC because it belongs to the International English Fluency Course,
+        the College&rsquo;s six-level English programme.</p>
     </div>
     <div class="table-scroll">
       <table class="ledger">
@@ -379,7 +380,7 @@ ${card('Press volumes', 'Printed and digital', 'The curriculum is published as a
         <h3>${next ? esc(`Level ${next.roman} — ${next.name}`) : 'The end of the programme'}</h3>
         <p>${next
     ? `On completion, learners progress to ${esc(next.name)} (${esc(next.cefr)}), which assumes everything taught here.`
-    : 'Mastery is the final level of the IEFC. There is no level above it in this programme.'}</p>
+    : 'Mastery is the final level of the International English Fluency Course (IEFC). There is no level above it in this programme.'}</p>
       </div>
     </div>
     ${next ? `<div class="btn-row">
@@ -545,11 +546,20 @@ ${levels.map((lv) => `          <tr>
             <td>${esc(lv.cefr)}</td>
             <td>${lv.modules.length}</td>
             <td>${lv.units}</td>
-            <td>${lv.award ? esc(lv.award.post_nominal || lv.award.official_title) : '&mdash;'}</td>
+            <td>${lv.award ? (lv.award.post_nominal
+              ? `<abbr title="${esc(lv.award.official_title)}">${esc(lv.award.post_nominal)}</abbr>`
+              : esc(lv.award.official_title)) : '&mdash;'}</td>
           </tr>`).join('\n')}
         </tbody>
       </table>
     </div>
+      <p class="form-note"><strong>The six awards, in full.</strong>
+${levels.filter((lv) => lv.award && lv.award.post_nominal).map((lv) =>
+  `        ${esc(lv.award.post_nominal)} &mdash; ${esc(lv.award.official_title)}`).join(' &middot;\n')}.
+        Each is a complete qualification in its own right, awarded by Worldwide English College
+        under the Worldwide English Qualifications framework. They are the College&rsquo;s own
+        awards: they are aligned to the Common European Framework of Reference, and they are not
+        regulated qualifications and carry no accreditation.</p>
     <div class="grid grid--3" style="margin-top:26px">
 ${card('Structure', 'A mapped curriculum', 'Every lesson states its objectives, its prerequisites and the timing of each stage. Instructors teach to a shared standard rather than a personal syllabus.')}
 ${card('Assessment', 'Criteria published first', 'Rubrics and pass criteria are published to the learner before the assessment, not explained afterwards.')}

@@ -512,7 +512,8 @@ PAGES.catalogue = {
   body: `${hero('WEC Press', 'The catalogue.',
     'Every title below is a volume that has been produced. Nothing planned, in preparation or '
     + 'forthcoming appears here &mdash; a catalogue that lists intentions is a prospectus '
-    + 'wearing a catalogue&rsquo;s clothes.')}
+    + 'wearing a catalogue&rsquo;s clothes. Titles beginning IEFC belong to the '
+    + 'International English Fluency Course, the College&rsquo;s six-level English programme.')}
 
 <section class="section--light section-pad">
   <div class="container reveal">

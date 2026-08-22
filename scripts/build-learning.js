@@ -63,6 +63,27 @@ for (const dir of ['js', 'partials', 'css']) {
 }
 if (scanned.length < 5) throw new Error(`Only scanned ${scanned.length} files — the tracker check would pass vacuously.`);
 
+// The retention period the privacy page publishes is read from the
+// record, not typed. Decision D1 was adopted on 14 August 2026 and was
+// not switched on in the software until 22 August; for those eight days
+// the page said one thing and the platform did another. A page that
+// types a governance figure can drift from it silently, which is how
+// that happened.
+const { DatabaseSync } = require('node:sqlite');
+function retentionDays() {
+  const db = new DatabaseSync(':memory:');
+  db.exec(fs.readFileSync(`${ROOT}/sql/schema.sql`, 'utf8'));
+  const row = db.prepare("SELECT value FROM platform_config WHERE key = 'recording_retention_days'").get();
+  db.close();
+  if (!row || !/^\d+$/.test(String(row.value))) {
+    throw new Error('recording_retention_days is not a number in platform_config — the privacy '
+      + 'page would publish a retention period the software does not hold.');
+  }
+  return Number(row.value);
+}
+const RETENTION_DAYS = retentionDays();
+if (RETENTION_DAYS <= 0) throw new Error('The retention period in force is not positive.');
+
 const card = (num, title, body) => `      <div class="card">
         <span class="card__num">${esc(num)}</span>
         <h3>${esc(title)}</h3>
@@ -239,7 +260,21 @@ ${darkCard('Payment', 'The gateway you choose', 'Card and local payment details 
     </div>
     <div class="grid grid--2">
 ${card('Not appointed', 'A Data Protection owner', 'The College cannot yet name a person accountable for how personal data is handled, retained or erased. The post is on its appointments schedule, and until it is filled these questions are answered by the founding team.')}
-${card('Not decided', 'Retention and erasure', 'How long a learner&rsquo;s voice recordings are kept, and what erasure means against an academic register intended to be permanent, are both open governance decisions &mdash; see <a href="/governance/decisions/">the decisions register</a>. Publishing a retention period the College had not decided would be inventing a policy on a website.')}
+${card('Decided', 'Retention and erasure', `<strong>Voice recordings are deleted ${RETENTION_DAYS} days after they are made.</strong> The audio goes;
+          the assessment record and its fingerprint stay, so the College can still say what was
+          assessed without holding your voice. <strong>You may ask for your recordings to be erased
+          at any time</strong>, without giving a reason, and the audio is destroyed while the
+          assessment record remains. <strong>A conferred qualification is not deleted on request</strong>
+          &mdash; it is a record other people rely on &mdash; but you can be removed from the
+          browsable register immediately and unconditionally, and your name suppressed from the
+          verification response. All three are governance decisions D1, D2 and D3, adopted
+          14&nbsp;August&nbsp;2026; see <a href="/governance/decisions/">the decisions register</a>.</p>
+        <p class="form-note">This page previously said these were open decisions. They had been
+          taken eight days earlier, and the retention period was not switched on in the software
+          until 22&nbsp;August &mdash; so for those days the College held voice data indefinitely
+          while its own register said two years. Nobody was affected, because nobody has recorded
+          anything. It is written here rather than quietly corrected because a privacy page that
+          edits its own history is not one you should trust.`)}
     </div>
     <div class="callout">
       <span class="callout__label">To ask about your data</span>

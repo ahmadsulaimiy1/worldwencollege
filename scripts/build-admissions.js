@@ -204,7 +204,7 @@ PAGES.pillar = {
         <span class="callout__label" style="color:var(--gold-bright)">Suggested Starting Point</span>
         <p data-level-quiz-text></p>
         <div class="btn-row">
-          <a href="/academics/#iefc" class="btn btn--ghost">See This Level on the IEFC Programme</a>
+          <a href="/academics/#iefc" class="btn btn--ghost">See This Level on the English Programme</a>
           <a href="#apply" class="btn btn--gold">Start Your Application</a>
         </div>
       </div>
@@ -835,7 +835,7 @@ PAGES.tuition = {
   <div class="container">
     <span class="eyebrow">Tuition &amp; Fees</span>
     <h1>Transparent pricing for the full IEFC pathway.</h1>
-    <p class="lede">One programme fee, spread evenly across six levels — pay in full, by level, or in instalments within a level, on request.</p>
+    <p class="lede">The IEFC is the International English Fluency Course, the College&rsquo;s six-level English programme. One programme fee, spread evenly across its six levels — pay in full, by level, or in instalments within a level, on request.</p>
     <div class="stat-row" style="margin-top:40px">
       <div class="stat-row__item"><strong>$19,000</strong><span>Full Programme</span></div>
       <div class="stat-row__item"><strong>$3,166.67</strong><span>Per Level</span></div>
@@ -861,10 +861,18 @@ PAGES.tuition = {
           <tr><td><strong>IV · Upper Intermediate Programme</strong></td><td>B2</td><td>20</td><td>200 hrs</td><td>$3,166.67</td></tr>
           <tr><td><strong>V · Advanced Programme</strong></td><td>C1</td><td>20</td><td>200 hrs</td><td>$3,166.67</td></tr>
           <tr><td><strong>VI · English Mastery Programme</strong></td><td>C2</td><td>20</td><td>200 hrs</td><td>$3,166.67</td></tr>
-          <tr><td colspan="2"><strong>Total</strong></td><td>120</td><td>1,200 hrs</td><td><strong>$19,000</strong></td></tr>
+          <tr><td colspan="2"><strong>Total, paid level by level</strong></td><td>120</td><td>1,200 hrs</td><td><strong>$19,000.02</strong></td></tr>
+          <tr><td colspan="4"><strong>Total, paid in full</strong></td><td><strong>$19,000</strong></td></tr>
         </tbody>
       </table>
     </div>
+    <p class="form-note"><strong>The two cents are real, and this table used to hide them.</strong>
+      $19,000 does not divide evenly by six: a sixth is 316,666&frac23; cents, published as
+      $3,166.67 because a price has to be payable in whole cents. Six of those come to $19,000.02, so paying
+      level by level costs two cents more than paying in full. Until now the column showed six rows
+      of $3,166.67 above a total of $19,000, which does not add up &mdash; a small thing, and the sort of
+      small thing that tells a careful reader how much else to check. The College would rather show
+      you the arithmetic than round it out of sight.</p>
     <p class="form-note">Total qualification time is a design figure, not a measurement: it is the
       workload the curriculum was built to, and it has not been measured against real learners
       because there have not been any. How many months a level takes depends on the hours you can
@@ -1078,7 +1086,7 @@ PAGES.policy = {
       <h2>Four rules that govern every decision.</h2>
     </div>
     <div class="grid grid--2">
-${card('One', 'Admission is on placement, not on merit', 'The IEFC is not selective. The question at admission is which of the six levels you belong in, not whether you are good enough to be admitted. There is no ranking, no quota and no competitive round.')}
+${card('One', 'Admission is on placement, not on merit', 'The International English Fluency Course &mdash; the IEFC, the College&rsquo;s six-level English programme &mdash; is not selective. The question at admission is which of the six levels you belong in, not whether you are good enough to be admitted. There is no ranking, no quota and no competitive round.')}
 ${card('Two', 'The same fee for everyone', `${PER_LEVEL} per level and ${FULL_PRICE} for the programme, regardless of nationality, residence or how the application arrived. There is no international rate and no negotiated rate.`)}
 ${card('Three', 'A decision is recorded with a reason', 'Applications that are declined or withdrawn stay on the record with their state, so that a decision can be looked up by whoever made it. Nothing is deleted to tidy the numbers.')}
 ${card('Four', 'Nothing is required that is not used', 'The application asks for a name, an email address and a country. It asks for no documents, no photographs, no identity papers and no fee, because none of those is needed to place a learner in a language level.')}

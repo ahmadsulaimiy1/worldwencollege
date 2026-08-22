@@ -615,9 +615,24 @@ for (const [label, file] of [['English', 'admissions-tuition.html'],
   // And the framework itself is named somewhere a visitor will meet it,
   // or the six read as six unrelated certificates — which is the exact
   // failure the framework was created to fix.
+  //
+  // This once also required a post-nominal (WEPC) in the navigation. The
+  // Naming Audit removed the codes from the nav and this assertion was
+  // rewritten rather than deleted, because the invariant it protects is
+  // not "the codes appear in the menu" — it is "a visitor meets the six
+  // as a named framework of qualifications rather than as six numbered
+  // levels". A menu label a first-time international reader cannot
+  // decode does not serve that invariant; it is a barrier wearing its
+  // clothes. The codes are published where they can be read: on the
+  // academics overview, each in an <abbr> and again in a plain-text key,
+  // which tests/naming.test.mjs holds in place.
   const nav = readFileSync(path.join(ROOT, 'partials/header.html'), 'utf8');
+  const STAGES = ['Foundation', 'Development', 'Application', 'Professional', 'Advanced', 'Mastery'];
+  const navMissing = STAGES.filter((st) => !new RegExp(`${st} Stage`).test(nav));
   check('...and the navigation presents them as qualifications, not levels',
-    /Six Qualifications/i.test(nav) && /Foundation Stage/.test(nav) && /WEPC/.test(nav));
+    /Six Qualifications/i.test(nav) && navMissing.length === 0
+      && /Foundation Stage\s*&middot;\s*A1/.test(nav) && /Mastery Stage\s*&middot;\s*C2/.test(nav),
+    navMissing.length ? `stages absent from the nav: ${navMissing.join(', ')}` : undefined);
 }
 
 console.log(`\n${pass} passed, ${fail} failed.`);

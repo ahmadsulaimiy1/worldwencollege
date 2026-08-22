@@ -719,6 +719,54 @@ as adopted without a body and a date.
 
 ---
 
+### C11. Which of the two level naming systems the College uses — RECOMMENDED, NOT ADOPTED
+
+**This is a recommendation. No decision has been taken on it.** The full
+paper is `docs/board-paper-03-level-nomenclature.md`.
+
+**Currently:** each of the six levels has two published names. The
+website, the alumni chapters and the award architecture use the stage
+names — Foundation Stage through Mastery Stage. `programme_levels.name`,
+and therefore every generated publication and the level table on the
+academics overview, uses the ELT ladder: Foundation Programme,
+Elementary Programme, Intermediate Programme, Upper Intermediate
+Programme, Advanced Programme, English Mastery Programme. Both appear on
+the same page. Nothing tells the reader they are the same six things.
+
+**Why it matters.** Two names is two things to keep in step, and one of
+them has already drifted: `scripts/publication/stage.mjs` carried the ELT
+names one level out of step, left over from a six-versus-seven-level
+revision settled everywhere else. Nothing published that list, so nothing
+caught it. Beyond the maintenance cost, the two vocabularies say
+different things: a *Professional Stage* is a stage of an award, an
+*Upper Intermediate Programme* is a course, and the College's whole
+position is that each level confers a complete qualification.
+
+**Recommendation:** adopt the stage names as the level names and retire
+the ELT ladder. The recognition the ELT names buy is already bought by
+the CEFR band, which is published beside every level and travels further
+internationally than "Intermediate" does. The acceptable fallback is to
+keep both with a binding rule — always adjacent, never alone — adopted
+with a test rather than as an intention.
+
+**What has already been done, because it is error rather than
+judgement:** the stale copy in `stage.mjs` reconciled to the record; four
+retired award titles removed from the Graduate Register; a retired award
+title removed from the flagship curriculum's lead paragraph, which named
+it three lines above a table naming its replacement.
+
+**What has not been done:** the rename itself. Nothing has been applied
+to `programme_levels`, to any publication, or to any page.
+
+**Decision:** ☐ awaiting a decision of the Executive. Nothing here is in
+force: neither naming system has been adopted as the one the College
+uses, nothing has been renamed, and a test asserts that the record still
+holds the names Board Paper 03 describes — so if the recommendation is adopted by editing the
+database, the paper cannot quietly become a description of a College that
+no longer exists.
+
+---
+
 ---
 
 ## D. Data and retention

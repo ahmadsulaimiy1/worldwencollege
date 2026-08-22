@@ -182,10 +182,16 @@ export const BODY = [
 
   B.h1('The Qualification Framework'),
   B.rule(),
-  B.lead('The IEFC is a six-level ascent, mapped to the Common European Framework of Reference from '
-    + 'A1 to C2. Each level confers its own award, and each award is complete in itself: a learner '
-    + 'who stops at Level III has not failed to become something. They are an English Associate of '
-    + 'Worldwide English College, permanently, and the College says so in those words.'),
+  // The award named in this sentence is read from the record rather than
+  // typed, because it was typed once and went stale: this paragraph named
+  // "English Associate of Worldwide English College" — a title the College
+  // retired when it adopted the Worldwide English Qualifications framework —
+  // in a document whose own table, three lines below, named the replacement.
+  B.lead('The International English Fluency Course (IEFC) is a six-level ascent, mapped to the '
+    + 'Common European Framework of Reference from A1 to C2. Each level confers its own award, '
+    + 'and each award is complete in itself: a learner who stops at Level III has not failed to '
+    + `become something. They hold the ${d.levels[2].awardTitle} of Worldwide English College, `
+    + 'permanently, and the College says so in those words.'),
   B.p('That is the load-bearing decision of the architecture. An award that only means something as '
     + 'a step toward the next is not an award; it is a receipt.'),
   B.table(['Level', 'CEFR', 'Award', 'Post-nominal'],
