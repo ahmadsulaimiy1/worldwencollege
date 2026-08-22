@@ -1,102 +1,116 @@
-# WorldWide English College — London Campus (WEC-LC)
+# Al-Madinah International College
 
-Static, no-framework, bilingual (English / Arabic RTL) build. See
-`docs/editorial-bible.md` for the brand system and `docs/site-architecture.md`
-for the full site map.
+The public site of a distance-learning college of the Qur'ānic and Islamic
+sciences — Lagos, Nigeria, established 1441 / 2020.
 
-## Structure
+Static, no framework, bilingual English / Arabic. Thirty-two pages: sixteen in
+English at the root, sixteen in Arabic under `/ar/`, each a mirror of the other
+with its own content file, its own chrome and its own web app manifest.
 
-```
-index.html, about/, academics/, ...   Built English pages — do not hand-edit, regenerate instead
-ar/                                    Built Arabic (RTL) mirror of every English page
-css/brand.css          Design system (palette, type, RTL overrides, all page CSS)
-js/site.js              Shared behaviour (nav, accordion, scroll-reveal, mailto forms)
-assets/images/         Crest/favicon art
-partials/               Shared chrome, reused by every page
-  head.html              <head> contents, with {{TITLE}} / {{DESCRIPTION}} tokens
-  topbar.html / .ar.html Top contact bar, with {{ALT_HREF}} language-switcher token
-  header.html / .ar.html Logo + primary nav, per language
-  footer.html / .ar.html Site footer, per language
-pages/                  One content file per page (page body only, no chrome)
-  home.html, about.html, ...          English content
-  home.ar.html, about.ar.html, ...    Arabic content (same slug + .ar suffix)
-  manifest.json           Registers every page: slug, output path, title,
-                           description, content file, lang/dir/altHref
-scripts/build.js        Assembles partials + a page's content into a full
-                        HTML document for every entry in pages/manifest.json
-```
+**Live:** <https://www.al-madinahcollege.com>
 
-## Adding an English page
+---
 
-1. Write the page's unique content (no `<head>`, topbar, header, or footer —
-   those come from `partials/`) into a new file under `pages/`.
-2. Add an entry to `pages/manifest.json` with a `slug`, the `output` path
-   (e.g. `academics/iefc/index.html` for a clean URL), a `title`, a
-   `description`, and the `contentFile` you just wrote. Set `altHref` to
-   that page's Arabic counterpart path (e.g. `/ar/academics/iefc/`).
-3. Run the build.
+## How it is built
 
-## Adding its Arabic counterpart
-
-1. Translate the content into a sibling file with a `.ar` suffix (e.g.
-   `pages/academics-iefc.ar.html` next to `pages/academics-iefc.html`) —
-   full sentences, not machine-translated filler. Keep the institution
-   name, `IEFC`, and CEFR codes (`A1`–`C2`) in Latin script wrapped in
-   `dir="ltr"` spans (the Unicode bidi algorithm doesn't reliably keep
-   embedded Latin/numeric runs in reading order inside RTL text).
-2. Add a manifest entry: same shape as the English one, plus `"lang": "ar"`,
-   `"dir": "rtl"`, and `altHref` pointing back at the English page.
-3. Run the build. Amiri/Cairo are appended as fallbacks in `css/brand.css`,
-   so Arabic glyphs render correctly automatically. If a new page introduces
-   a component with a physical `border-left`/`text-align:left`/etc. that
-   doesn't already have an RTL counterpart in the `[dir="rtl"]` rules at the
-   end of `css/brand.css`, add one there.
-
-## Building
+One generator, one manifest, two trees:
 
 ```
-node scripts/build.js
+node scripts/build-madinah.js
 ```
 
-Regenerates every page listed in `pages/manifest.json`. No dependencies to
-install — the script only uses Node's built-in `fs`/`path` modules.
-
-## Local preview
+It reads `madinah-src/manifest.json`, assembles each page from a content file
+plus the shared partials, and writes finished `index.html` files into the
+repository root. **The output is committed.** Nothing builds on the host — the
+deployment is a static file server — so the generator must be run and its
+output committed in the same change as any edit to `madinah-src/`.
 
 ```
-python3 -m http.server 8000
+madinah-src/
+  manifest.json          Every page: slug, output path, title, description,
+                         content file, and an `ar` block giving the Arabic
+                         title, description and content file. One entry
+                         produces both routes. A missing `ar` block is a
+                         build-time warning naming the page.
+  pages/                 Page bodies only, no chrome.
+                           about.html      English
+                           about.ar.html   Arabic
+  partials/              head, topbar, header, footer, dock, icons —
+                         `.ar.html` variants where the two differ.
+
+scripts/build-madinah.js Assembles the above. Self-contained: fs and path.
 ```
 
-then open `http://localhost:8000/` (or `/ar/` for the Arabic homepage).
-Asset and stylesheet references are root-relative (e.g. `/css/brand.css`),
-so the site must be served — it will not render correctly opened directly
-as a `file://` URL.
+Arabic links are rewritten by **exact route lookup**, not by prefixing a
+regular expression — every English route is mapped to its Arabic counterpart
+and anything unmapped is left alone. Two earlier attempts at this used a
+pattern, and both silently linked the whole Arabic tree back into English.
 
-## What this is (and isn't) yet
+Photographs are placed through a build token, `{{PHOTO:name|ratio|caption}}`,
+which emits a figure **only if the file exists on disk**. A slot with no
+photograph produces nothing rather than a broken frame.
 
-This is the full public institutional website — home, about, academics
-(programme hub + the IEFC programme in detail), admissions (including a
-client-side level self-assessment tool), tuition, faculty, a student portal
-preview, FAQ, contact, and a branded 404 — in English and Arabic.
+## The written record
 
-It is **not** a working Learning Management System, student/staff/admin
-portals with real authentication, a payments backend, or a mobile app —
-those need real infrastructure, credentials, and operational decisions
-(hosting, a database, a payment processor, real staff accounts) that belong
-to WEC-LC's actual operators, not something to fabricate into a repo. The
-Student Portal page previews what that experience will contain and gives a
-route to request early access; `/student-portal/preview/` is a high-fidelity,
-front-end-only *design* preview of the dashboard (built on `css/dashboard.css`,
-a new dashboard-oriented component layer) — noindex'd, excluded from
-`sitemap.xml`/`robots.txt`, unlinked from primary navigation, and permanently
-banner-labelled as illustrative, not a real account. The "Apply"/"Contact"
-flows are honest `mailto:` links, not fake AJAX submissions, until a real
-backend exists.
+```
+docs/al-madinah/
+  editorial-bible.md          The design and editorial law of this site.
+                              Cited in commits and comments as `EB §n`.
+                              Includes a register of defects found and a
+                              register of the Founder's rulings.
+  founding-plan.md            What the College is and what it publishes.
+  material-note.md            The five grounds and how they are composed.
+  transfer-from-al-madeenah.md  A closed register: what was taken from the
+                              predecessor repository, and what was refused.
+  preview-deployment.md       How this is deployed, and what to watch.
+```
 
-Facts not yet confirmed (registered London HQ address, named leadership/
-faculty, formal accreditation, first-cohort start date) are shown as clearly
-labelled "Institutional Status" callouts rather than invented — see
-`docs/editorial-bible.md` for why. "London Campus" itself is resolved: it
-names WEC-LC's administrative headquarters — delivery is online-first
-worldwide by design, not a placeholder for premises that don't exist (see
-About → Our Operating Model).
+The editorial bible is the College's own. An earlier one was inherited and is
+no longer followed; `EB §0` sets out what it imposed and why it was dropped.
+It is archived at `archive/wec-lc/docs/editorial-bible.md`.
+
+## Layout
+
+```
+index.html, about/, faculties/, awards/, admissions/, …   Built English pages
+ar/…                                                      Built Arabic mirror
+css/    brand.css      Tokens: palette, type, the transliteration repair
+        pages.css      Page furniture
+        atelier.css    Components
+        madinah.css    The house layer — grounds, plates, gilt, the orbit
+        riwaq.css      The student ledger
+        arabic.css     Type layer for the script. Loaded LAST in /ar/.
+js/     madinah-atelier.js   Prayer times, Hijrī date, counters
+        madinah-tactile.js   Depth, material sound (opt-in), typewriter
+assets/ madinah/       Crest, favicon, share cards, app icons
+        fonts/         Four subset faces. See assets/fonts/LICENCE.md
+        photography/   Photographs, with a consent register beside them
+                       that is withheld from the deployment
+archive/wec-lc/        The previous occupant of this repository, intact and
+                       inert: WorldWide English College — London Campus, its
+                       pages, its toolchain, its editorial bible. Nothing
+                       here is served, and nothing here is consulted.
+```
+
+## Typography, briefly
+
+The display face is Bodoni Moda, and it cannot spell this College's subject:
+it carries no macrons and no underdots, so thirteen of the thirty-one
+non-ASCII characters the site actually sets were falling through to whatever
+the reader's machine had. `Qur'ānic` was reaching the screen as `Qur'anic`.
+
+`css/brand.css` opens with the repair — a second family, bound by
+`unicode-range` to exactly the blocks Bodoni lacks, named first in the stacks
+that need it, and self-hosted so a failed request cannot misspell a heading.
+The reasoning is written out in full at the head of that file.
+
+## Deployment
+
+Vercel, as a static host. `vercel.json` stubs the build and install commands
+because the output is already committed; `.vercelignore` withholds everything
+the site does not need to *serve* — the generator, the page sources, the
+archive, the documentation, and the photography consent register.
+
+Vercel publishes **production from the repository's default branch**. If the
+default branch is not this site's branch, the production URL will serve
+whatever is.

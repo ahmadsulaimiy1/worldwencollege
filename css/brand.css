@@ -1,7 +1,105 @@
 /* =========================================================
-   WorldWide English College — London Campus
+   Al-Madinah International College
    Brand System — Royal Blue / Gold / Oxblood Red
    ========================================================= */
+
+/* =====================================================================
+   THE TRANSLITERATION REPAIR
+   ---------------------------------------------------------------------
+   Bodoni Moda cannot spell this College's subject. Not a subsetting or a
+   loading fault — the face itself has no Latin Extended-A and no Latin
+   Extended Additional, so thirteen of the thirty-one non-ASCII characters
+   this site actually sets were being drawn by whatever the device had
+   lying about. Measured, per character, with CSS.getPlatformFontsForNode
+   against the real font stack:
+
+       Ā ā Ī ī Ū ū        the mark was dropped outright
+       ʿ Ḍ ḍ Ḥ ḥ Ṣ ṣ      fell through to Liberation Serif — a Times clone
+       Ṭ ṭ ẓ                 sitting inside a Didone headline
+       ₦                    the College's own currency, on the fees page
+
+   The macrons were the worse half, because they fail silently. Unicode's
+   soft-dotted rule strips the dot from `i` before a combining mark, so
+   when the macron is lost the dot does not come back:
+
+       Qur'ānic → Qur'anic        Sharī'ah → Sharı'ah
+       Ḥadīth   → Ḥadıth         asānīd   → asanıd
+       ijāzah   → ijazah         Ramaḍān  → Ramaḍan
+
+   Six headline words, six errors, and nothing on screen to say so.
+
+   THE REPAIR IS DELIBERATELY NARROW. Replacing the display face outright
+   would have cost the `opsz` axis, which is doing real work here (see the
+   figure-face note below), so instead a second family is declared, bound
+   by unicode-range to exactly the blocks Bodoni Moda lacks, and named
+   FIRST in the stacks that need it. Font matching runs per character:
+   these thirteen resolve to Libre Bodoni, every other glyph still comes
+   from Bodoni Moda with its variable axis untouched.
+
+   It has to be a separate family name. The first attempt extended
+   'Bodoni Moda' itself with a second @font-face; Chrome preferred the
+   original face wherever both claimed the range, and the macrons stayed
+   broken in roman while working in italic — worse than not fixing it,
+   because it looked fixed.
+
+   Libre Bodoni is the nearest Didone that carries the letters, so the
+   substitution does not read as a substitution. It is SELF-HOSTED, not
+   fetched from Google, because these are load-bearing characters: if the
+   request fails the heading must still be spelled correctly. Two files,
+   39 KB together, latin-ext subset only.
+
+   Not repaired here, and known: → (U+2192) has no Didone glyph in either
+   face, and ﷺ (U+FDFA) is served by Amiri from the Arabic backstop at
+   the end of every stack. Both are correct as they stand.
+
+   Libre Bodoni — SIL Open Font License 1.1. See assets/fonts/LICENCE.md.
+   ===================================================================== */
+@font-face {
+  font-family: 'Madinah Transliteration';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/assets/fonts/librebodoni-latinext.woff2') format('woff2');
+  unicode-range: U+0100-017F, U+1E00-1E9F, U+20A6;
+}
+@font-face {
+  font-family: 'Madinah Transliteration';
+  font-style: italic;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/assets/fonts/librebodoni-latinext-italic.woff2') format('woff2');
+  unicode-range: U+0100-017F, U+1E00-1E9F, U+20A6;
+}
+
+/* ʿayn and hamza. Of eight faces measured — Bodoni Moda, Libre Bodoni,
+   Cinzel, Amiri, Cairo, Cormorant, Noto Serif, EB Garamond — only two
+   carry U+02BF, and ʿ is set twenty-one times on this site. Libre Bodoni
+   ADVERTISES the block in its latin-ext subset and has no glyph in it,
+   which is worse than not claiming it: the character is swallowed rather
+   than passed down the stack, so that range is withheld from it above.
+
+   EB Garamond has both marks. Shipping its latin-ext subset for them
+   would have cost 203 KB, so Google was asked to cut a two-glyph subset
+   instead: 1.2 KB a face. A half-ring is close to genus-neutral at text
+   size, so the Garamond origin does not read against the Didone.
+
+   EB Garamond — SIL Open Font License 1.1. See assets/fonts/LICENCE.md. */
+@font-face {
+  font-family: 'Madinah Transliteration';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/assets/fonts/ayn-hamza.woff2') format('woff2');
+  unicode-range: U+02BE-02BF;
+}
+@font-face {
+  font-family: 'Madinah Transliteration';
+  font-style: italic;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/assets/fonts/ayn-hamza-italic.woff2') format('woff2');
+  unicode-range: U+02BE-02BF;
+}
 
 :root {
   /* =====================================================================
@@ -217,7 +315,7 @@
      rather than jumping to a slab. 'Amiri' stays in every stack as the
      Arabic backstop — see css/arabic.css, which is what actually holds
      the line for Arabic. */
-  --font-display:    'Bodoni Moda', 'Didot', 'Bodoni MT', Georgia, 'Amiri', serif;
+  --font-display:    'Madinah Transliteration', 'Bodoni Moda', 'Didot', 'Bodoni MT', Georgia, 'Amiri', serif;
 
   /* THE FIGURE FACE.
      A published number is not body copy set larger — it is the one glyph run
@@ -237,14 +335,14 @@
 
        an OPTICAL SIZE. A Didone at 2.6rem wants the display cut — hairlines
        thin, contrast open. At 0.8rem it wants the text cut or it shatters. */
-  --font-figure: 'Bodoni Moda', 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif;
+  --font-figure: 'Madinah Transliteration', 'Bodoni Moda', 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, 'Amiri', serif;
 
   /* Arabic-Indic numerals are not in a Didone. ٤ ١٧ ١٤٤١ were being set in
      Bodoni Moda, which carries no Arabic block at all, so every counting
      figure in the Arabic tree fell through to whatever the device happened
      to have. Amiri draws them properly, and it is already loaded. */
   --font-figure-ar: 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
-  --font-ceremonial: 'Cinzel', 'Trajan Pro', 'Bodoni Moda', Georgia, 'Amiri', serif;
+  --font-ceremonial: 'Cinzel', 'Madinah Transliteration', 'Trajan Pro', 'Bodoni Moda', Georgia, 'Amiri', serif;
   --font-body:       'Inter', -apple-system, 'Cairo', sans-serif;
 
   --wrap: 1180px;

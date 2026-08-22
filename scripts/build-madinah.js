@@ -397,6 +397,19 @@ function build() {
       FONTS_URL,
       BUILD_ID,
       OG_LOCALE: lang === 'ar' ? 'ar_AR' : 'en_GB',
+      // The share card is the first thing most people will ever see of this
+      // College — a link pasted into WhatsApp is how a prospectus travels
+      // now. It must be an absolute URL: every scraper resolves og:image
+      // against nothing. One card per tree, each set in its own script.
+      OG_IMAGE: SITE_URL + (lang === 'ar'
+        ? '/assets/madinah/og-card.ar.jpg'
+        : '/assets/madinah/og-card.jpg'),
+      OG_IMAGE_ALT: lang === 'ar'
+        ? 'كلية المدينة العالمية — علوم القرآن والدراسات الإسلامية'
+        : 'Al-Madinah International College — Qur\u2019\u0101nic and Islamic Sciences',
+      // Two manifests, because a manifest carries lang, dir and start_url,
+      // and an Arabic reader installing the site should get the Arabic tree.
+      MANIFEST: lang === 'ar' ? '/ar/site.webmanifest' : '/site.webmanifest',
       ALTERNATES: alternates,
       // css/arabic.css is the type layer for the script — it undoes the
       // Latin tracking and leading that every earlier stylesheet sets, so

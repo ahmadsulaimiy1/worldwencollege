@@ -298,7 +298,7 @@
   border: 1px solid var(--stone); border-radius: 6px; padding: 16px;
   background: var(--pearl); border-top: 3px solid var(--gold-royal);
 }
-.riwaq-kind strong { display: block; font-family: 'Bodoni Moda', serif; font-size: 1.7rem; color: var(--royal-blue); line-height: 1; }
+.riwaq-kind strong { display: block; font-family: var(--font-display); font-size: 1.7rem; color: var(--royal-blue); line-height: 1; }
 .riwaq-kind span { display: block; font-weight: 700; font-size: .84rem; margin: 6px 0 3px; color: var(--ink); }
 .riwaq-kind small { font-size: .76rem; color: var(--slate); line-height: 1.45; }
 
@@ -412,7 +412,7 @@
 }
 .drawer__close:hover { color: var(--gold-soft); }
 .drawer__kicker { font-size: .64rem; letter-spacing: .2em; text-transform: uppercase; color: var(--bronze); filter: brightness(1.8); }
-.drawer__title { font-family: 'Bodoni Moda', serif; font-size: 1.8rem; color: var(--gold-champagne); margin: 4px 0 20px; }
+.drawer__title { font-family: var(--font-display); font-size: 1.8rem; color: var(--gold-champagne); margin: 4px 0 20px; }
 
 .drawer__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; margin-bottom: 22px; }
 .drawer__stats > div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(110,147,196,.2); }

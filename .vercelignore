@@ -17,7 +17,16 @@ scripts/
 madinah-src/
 .claude/
 *.md
-!README.md
 
 # Stray screenshot output from a verification harness. Never part of the site.
 undefined/
+
+# The consent register names real people and records what they said. It is a
+# governance record, not a page. It was reachable at
+# /assets/photography/licence-register.tsv on the first deployment; it is not
+# to be served again. The same goes for the slot table beside it.
+assets/photography/licence-register.tsv
+assets/photography/README.md
+
+# The OFL asks that the licence travel with the font. It does.
+!assets/fonts/LICENCE.md
