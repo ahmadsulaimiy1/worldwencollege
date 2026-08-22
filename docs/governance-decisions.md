@@ -578,6 +578,22 @@ statements and only the first is true.
 
 **Decision:** ☑ **ADOPTED 14 August 2026 (Executive)** on the recommendation above. Academic items are subject to Senate ratification — see the Adoption Record.
 
+**Implementation note — item 3, 22 August 2026.** Misconduct was taken
+out of order, ahead of attendance and feedback, for a reason this
+decision could not have anticipated: the speaking assessment framework
+(migration 022) created the impersonation risk C9 was adopted to manage,
+and the two should not be a week apart. The approved procedure came
+first, as this decision required — see `docs/academic-integrity-procedure.md`
+and migration `023-academic-integrity.sql`.
+
+One consequence for the wording above: `integrity.misconduct` no longer
+reports `not_instrumented`, because the College now collects this and
+saying otherwise would be a false statement about itself. It reports
+`insufficient_data` — the instrument exists, nothing has used it. **The
+substance of the rule is unchanged and remains binding: the value is
+`null`, never zero.** Attendance and student feedback are still
+`not_instrumented`, correctly, and items 1 and 2 remain outstanding.
+
 ### C9. Academic misconduct procedure
 **Prerequisite for A7 item 3, and recorded separately because it is a
 governance document, not a feature.**

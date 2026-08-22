@@ -79,8 +79,7 @@ function freshEnv(learners = 0) {
 {
   const r = await M.institutionalMetrics(freshEnv(0));
 
-  for (const id of ['engagement.attendance',
-    'experience.studentFeedback', 'outcomes.graduateDestinations']) {
+  for (const id of ['experience.studentFeedback', 'outcomes.graduateDestinations']) {
     const m = byId(r, id);
     check(`${id} is declared rather than omitted`, !!m, 'missing from the register entirely');
     if (m) {
@@ -102,9 +101,26 @@ function freshEnv(learners = 0) {
   check('...and still publishes no zero over an empty register', mis.value === null, JSON.stringify(mis.value));
   check('Misconduct explicitly distinguishes "none recorded" from "none occurred"',
     /different statements/i.test(mis.closes || ''), (mis.closes || '(absent)').slice(0, 90));
+  // Attendance moved out of that list when migration 024 built the
+  // register. Two entries now, and the split between them is the point.
   const att = byId(r, 'engagement.attendance') || {};
-  check('Attendance says the sessions table exists but records no attendees',
-    /nothing records who was there/i.test(att.requires || ''), att.requires || '(absent)');
+  check('Attendance is instrumented and reports no sessions held',
+    att.state === 'insufficient_data' && att.value === null, att.state);
+  check('...saying so because nothing has been taught, not because the table is missing',
+    /nothing has been taught/i.test(att.closes || ''), att.closes || '(absent)');
+
+  // The rate is a DEFINITION the Board has not settled, not data the
+  // platform lacks. A register that conflated the two would let an
+  // unsettled question look like a pending engineering task.
+  const rate = byId(r, 'engagement.attendanceRate') || {};
+  check('The attendance RATE is declared separately and left uncomputed',
+    rate.state === 'not_instrumented' && rate.value === null, rate.state);
+  check('...naming A7\'s open decision as what is missing',
+    /presence at a live session, or engagement with the module/i.test(rate.closes || ''),
+    (rate.closes || '(absent)').slice(0, 90));
+  check('...and saying plainly that it is a question, not missing information',
+    /unsettled question, not missing information/i.test(rate.closes || ''),
+    (rate.closes || '(absent)').slice(-70));
 }
 
 // ---------------------------------------------------------------------

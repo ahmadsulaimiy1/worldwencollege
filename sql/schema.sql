@@ -885,9 +885,70 @@ CREATE TABLE live_sessions (
   starts_at         TEXT NOT NULL,
   duration_minutes  INTEGER NOT NULL DEFAULT 60,
   join_url          TEXT,
+  -- Migration 024. Whether being there was required, or offered. This is
+  -- an asynchronous programme: most live sessions are an offer, and
+  -- marking a learner absent from something they were never required to
+  -- attend manufactures a problem out of the programme working as
+  -- designed. Absence only means anything where this is 1.
+  attendance_expected INTEGER NOT NULL DEFAULT 0
+                    CHECK (attendance_expected IN (0, 1)),
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 CREATE INDEX idx_live_sessions_level ON live_sessions(level_id);
+
+-- Migration 024 — who was actually there.
+--
+-- Governance A7 put attendance first among the three metrics the
+-- College had undertaken to report and could not compute at all:
+-- "live_sessions exists; nothing records who attended."
+--
+-- A7 also named the one decision attendance needs — whether attendance
+-- means presence at a live session or engagement with the module — and
+-- that decision is not taken here. This table records the FACT and
+-- leaves the DEFINITION open. The metric register reports presence
+-- counts and says plainly that the rate is undefined pending the Board.
+--
+-- `source` is not metadata. An attendance record that cannot say how it
+-- was made cannot be used for anything that matters. The three sources
+-- are not equivalent: `platform` is a join log and therefore evidence;
+-- `host` is attributable contemporaneous testimony; `self` is the
+-- learner's word, recorded because it is sometimes all there is and
+-- flagged because a College that treats it as equivalent to a join log
+-- is not really keeping a register.
+CREATE TABLE session_attendance (
+  id            TEXT PRIMARY KEY,   -- 'att_' + uuid
+  session_id    TEXT NOT NULL REFERENCES live_sessions(id),
+  user_id       TEXT NOT NULL REFERENCES users(id),
+
+  state         TEXT NOT NULL CHECK (state IN ('present','absent','excused')),
+  source        TEXT NOT NULL CHECK (source IN ('platform','host','self')),
+
+  -- Present only. A join time is what makes 'present' a fact rather
+  -- than an opinion.
+  joined_at     TEXT,
+  left_at       TEXT,
+
+  -- Excused only: why. An excusal nobody has to justify is an excusal
+  -- that will be handed out to whoever asks most persistently.
+  reason        TEXT,
+
+  recorded_by   TEXT NOT NULL REFERENCES users(id),
+  recorded_at   TEXT NOT NULL,
+
+  -- One record per learner per session. Two contradictory rows is the
+  -- state a register exists to prevent.
+  UNIQUE (session_id, user_id),
+
+  CHECK (state <> 'present' OR joined_at IS NOT NULL),
+  CHECK (state = 'present' OR joined_at IS NULL),
+  CHECK (left_at IS NULL OR (joined_at IS NOT NULL AND left_at >= joined_at)),
+  CHECK (state <> 'excused' OR (reason IS NOT NULL AND TRIM(reason) <> '')),
+  -- A platform record is a join log; a person cannot enter one by hand
+  -- and call it evidence, so it must carry the times the log produced.
+  CHECK (source <> 'platform' OR (joined_at IS NOT NULL AND left_at IS NOT NULL))
+);
+CREATE INDEX idx_session_attendance_user ON session_attendance(user_id);
+CREATE INDEX idx_session_attendance_session ON session_attendance(session_id);
 
 -- ---------------------------------------------------------------------
 -- Seed data — the one part of this file safe to run against a real DB

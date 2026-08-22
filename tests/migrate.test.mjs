@@ -228,6 +228,24 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 024 — the attendance record. Dropped before 023 because both hang
+  // off users and live_sessions, and before the live_sessions rebuild
+  // below: the column this migration ADDS to that table has to come off
+  // with it, and SQLite has no DROP COLUMN in every version the College
+  // may be running against, so the table is rebuilt without it.
+  db.exec('DROP INDEX idx_session_attendance_session; DROP INDEX idx_session_attendance_user; DROP TABLE session_attendance;');
+  db.exec(`CREATE TABLE live_sessions_pre024 (
+    id TEXT PRIMARY KEY, level_id INTEGER NOT NULL REFERENCES programme_levels(id),
+    unit_id TEXT REFERENCES units(id), host_user_id TEXT REFERENCES users(id),
+    title TEXT NOT NULL, starts_at TEXT NOT NULL,
+    duration_minutes INTEGER NOT NULL DEFAULT 60, join_url TEXT,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')));`);
+  db.exec(`INSERT INTO live_sessions_pre024
+    SELECT id, level_id, unit_id, host_user_id, title, starts_at,
+           duration_minutes, join_url, created_at FROM live_sessions;`);
+  db.exec('DROP INDEX idx_live_sessions_level; DROP TABLE live_sessions;');
+  db.exec('ALTER TABLE live_sessions_pre024 RENAME TO live_sessions;');
+  db.exec('CREATE INDEX idx_live_sessions_level ON live_sessions(level_id);');
   // 023 — the academic integrity procedure. Dropped before everything
   // else recent, because misconduct_cases holds foreign keys into
   // learning_items, learner_recordings, awards and users — all of which

@@ -13,11 +13,19 @@
  *   not_instrumented  — the College does not collect this at all
  *
  * `not_instrumented` is the reason this file is shaped like a register.
- * Several of the metrics the Executive named — attendance, student
- * feedback, graduate destinations — have no table anywhere in the
- * platform. Academic integrity was among them until migration 023 built
- * the register; it now reports `insufficient_data` instead, which is a
- * different and better answer.
+ * Some of the metrics the Executive named — student feedback, graduate
+ * destinations — have no table anywhere in the platform. Academic
+ * integrity was among them until migration 023 built the case register,
+ * and attendance until migration 024 built the attendance record; both
+ * now report `insufficient_data` instead, which is a different and
+ * better answer.
+ *
+ * One entry is `not_instrumented` for a different reason worth noticing:
+ * `engagement.attendanceRate` has all the data it needs and no agreed
+ * DEFINITION, because governance A7's question — presence at a session,
+ * or engagement with the module? — is unsettled. The register says so
+ * rather than picking one and letting the number be quoted as though the
+ * College had decided.
  * A dashboard would simply not show them, and their absence would read
  * as "nothing to report". Here they appear with the same weight as
  * everything else, saying plainly what is missing and what would close
@@ -262,12 +270,6 @@ async function assessmentMetrics(env) {
 function uninstrumentedMetrics() {
   return [
     gap(
-      'engagement.attendance', 'Live session attendance',
-      'Who attended which live sessions, and what proportion of the cohort attends?',
-      'An attendance record per learner per session. `live_sessions` exists; nothing records who was there.',
-      'An attendance table written by the live-session workflow. Until then attendance is unmeasured, and an attendance figure would have to be invented.',
-    ),
-    gap(
       'experience.studentFeedback', 'Student feedback',
       'What do learners say about the teaching, the materials and the platform?',
       'A structured feedback instrument and its responses.',
@@ -376,6 +378,90 @@ async function accreditationReadiness(env) {
 
 /** The whole register. */
 // ---------------------------------------------------------------------
+// Live session attendance
+// ---------------------------------------------------------------------
+// Two metrics, and the split between them is the whole point.
+//
+// `engagement.attendance` is the FACT: how many sessions were held that
+// required attendance, and how many learners were recorded present.
+// Migration 024 made that recordable, so it is reported.
+//
+// `engagement.attendanceRate` is the DEFINITION, and it is deliberately
+// left uncomputed. Governance A7 named the decision — does attendance
+// mean presence at a live session, or engagement with the module? — and
+// it has not been taken. A rate published before that decision would be
+// answering a question the College has not agreed on, and the answer
+// would then be quoted back as though it had.
+//
+// A dashboard would show one number and let the reader assume it meant
+// whatever they wanted. This shows the count and names the missing
+// decision.
+async function attendanceMetrics(env) {
+  const d = db(env);
+  const sessions = await d.prepare(
+    `SELECT COUNT(*) AS held,
+            SUM(CASE WHEN attendance_expected = 1 THEN 1 ELSE 0 END) AS required
+       FROM live_sessions`).first();
+  const marks = await d.prepare(
+    `SELECT COUNT(*) AS n,
+            SUM(CASE WHEN state = 'present' THEN 1 ELSE 0 END) AS present,
+            SUM(CASE WHEN state = 'excused' THEN 1 ELSE 0 END) AS excused,
+            SUM(CASE WHEN source = 'self' THEN 1 ELSE 0 END) AS selfReported,
+            COUNT(DISTINCT user_id) AS learners
+       FROM session_attendance`).first();
+
+  const held = (sessions && sessions.held) || 0;
+  const n = (marks && marks.n) || 0;
+
+  const out = [];
+  out.push({
+    id: 'engagement.attendance', name: 'Live session attendance',
+    question: 'How many live sessions has the College held, and who was recorded present?',
+    requires: 'session_attendance',
+    ...(n === 0
+      ? {
+        state: 'insufficient_data', value: null,
+        closes: held === 0
+          ? 'The first live session. None has been held, because nothing has been taught.'
+          : `${held} session(s) have been held and none has a register. The live-session workflow must write attendance, or the sessions are unevidenced.`,
+      }
+      : (marks.learners < MIN_COHORT
+        ? {
+          state: 'suppressed', value: null, cohort: marks.learners,
+          closes: `Withheld: ${marks.learners} learner(s) are recorded, below the reporting threshold of ${MIN_COHORT}.`,
+        }
+        : {
+          state: 'measured', closes: null,
+          value: {
+            sessionsHeld: held,
+            sessionsRequiringAttendance: sessions.required,
+            marksRecorded: n,
+            present: marks.present,
+            excused: marks.excused,
+            // Surfaced, not buried. A register mostly built from
+            // learners' own say-so is a weaker instrument than its row
+            // count suggests, and the reader is entitled to know.
+            selfReported: marks.selfReported,
+            learners: marks.learners,
+          },
+        })),
+  });
+
+  // The decision, declared as a metric so that it cannot be quietly
+  // skipped. It reports not_instrumented not because the data is
+  // missing but because the QUESTION is unsettled — and the register
+  // says which of the two it is.
+  out.push(gap(
+    'engagement.attendanceRate', 'Attendance rate',
+    'What proportion of the cohort attends the teaching the College offers?',
+    'Not data — a definition. The records exist; what a rate means does not.',
+    'Governance A7\'s open decision: does attendance mean presence at a live session, or engagement with the module? The platform can measure both, and will publish neither as "the attendance rate" until the Board says which one that is. This is an unsettled question, not missing information.',
+  ));
+
+  return out;
+}
+
+// ---------------------------------------------------------------------
 // Academic integrity
 // ---------------------------------------------------------------------
 // This metric used to sit in uninstrumentedMetrics() because the College
@@ -440,11 +526,12 @@ async function integrityMetrics(env) {
 }
 
 export async function institutionalMetrics(env) {
-  const [progression, engagement, assessment, integrity, financial, readiness] = await Promise.all([
-    progressionMetrics(env), engagementMetrics(env), assessmentMetrics(env),
-    integrityMetrics(env), financialMetrics(env), accreditationReadiness(env),
+  const [progression, engagement, attendance, assessment, integrity, financial, readiness] = await Promise.all([
+    progressionMetrics(env), engagementMetrics(env), attendanceMetrics(env),
+    assessmentMetrics(env), integrityMetrics(env), financialMetrics(env),
+    accreditationReadiness(env),
   ]);
-  const metrics = [...progression, ...engagement, ...assessment, ...integrity, ...uninstrumentedMetrics(), ...financial];
+  const metrics = [...progression, ...engagement, ...attendance, ...assessment, ...integrity, ...uninstrumentedMetrics(), ...financial];
 
   const byState = metrics.reduce((acc, m) => { acc[m.state] = (acc[m.state] || 0) + 1; return acc; }, {});
 
