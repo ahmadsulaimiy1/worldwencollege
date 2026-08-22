@@ -285,6 +285,32 @@ jobs:
         run: node tests/browser/my-module.mjs
       - name: Paying — the journey from an offer to an open level, and the screen a bank returns to
         run: node tests/browser/payment-complete.mjs
+      # THREE AUDITS THAT WERE NOT RUNNING ANYWHERE.
+      #
+      # diagram-fit measures the rendered geometry of every plate in the
+      # page that ships it — the only place a label drawn off its own
+      # canvas is visible. It was excluded because it took fourteen
+      # minutes: a fresh page per route, each waiting on a font host
+      # that does not resolve on a build machine. Both fixed, and it
+      # found four escaped labels the first time it ran.
+      #
+      # typography-audit measures the real faces over every text-bearing
+      # element on every route. It was reporting twenty-three runs of
+      # Arabic set in a stack with no Arabic-capable family in it, and a
+      # font token used fifty-four times and declared nowhere, to
+      # nobody.
+      #
+      # An audit that is not in CI is not an audit.
+      #
+      # tests/browser/gallery.mjs is deliberately NOT here. It asserts
+      # nothing — it captures sixty-six screenshots at three widths and
+      # exits 0 whatever they show. It is a tool for looking, and a
+      # ten-minute step that cannot fail is a step that only slows the
+      # pipeline down.
+      - name: Every label inside its own canvas, and no two overlapping
+        run: node tests/browser/diagram-fit.mjs
+      - name: Every run set in a face that can carry it, with leading that clears its ink
+        run: node tests/browser/typography-audit.mjs
 
   deploy:
     needs: verify
