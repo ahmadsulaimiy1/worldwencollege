@@ -148,13 +148,41 @@ function photoFile(name) {
 
 let photoMissing = new Set();
 
+// A photograph is cropped to the page's ratio, and `object-fit: cover` crops
+// from the CENTRE. That is the wrong default for most of these: a majlis has
+// its people along the top and half a room of carpet below, and a portrait of
+// someone winding a ghutrah has the whole subject in the upper third. Cropped
+// centrally, both lost their subject and kept the floor.
+//
+// So the ratio field takes an optional focal point after an `@`:
+//
+//     {{PHOTO:majlis-02|3x2@top|…}}      keep the top edge
+//     {{PHOTO:x|4x5@30-20|…}}            or a precise point, x-y in percent
+//
+// Without one the behaviour is exactly as before, so every slot written
+// before this stays valid and unchanged.
+const FOCAL = {
+  top: '50% 0%', bottom: '50% 100%', left: '0% 50%', right: '100% 50%',
+  'top-left': '0% 0%', 'top-right': '100% 0%',
+  'bottom-left': '0% 100%', 'bottom-right': '100% 100%', center: '50% 50%',
+};
+function focalFor(spec) {
+  if (!spec) return null;
+  if (FOCAL[spec]) return FOCAL[spec];
+  const pair = /^(\d{1,3})-(\d{1,3})$/.exec(spec);
+  if (pair && +pair[1] <= 100 && +pair[2] <= 100) return pair[1] + '% ' + pair[2] + '%';
+  throw new Error('PHOTO: unknown focal point "' + spec + '"');
+}
 function fillPhotos(html) {
-  return html.replace(/\{\{PHOTO:([a-z0-9-]+)\|([a-z0-9]+)\|([^}]*)\}\}/g, (m, name, ratio, caption) => {
+  return html.replace(/\{\{PHOTO:([a-z0-9-]+)\|([a-z0-9]+)(?:@([a-z0-9-]+))?\|([^}]*)\}\}/g,
+    (m, name, ratio, focal, caption) => {
     const src = photoFile(name);
     if (!src) { photoMissing.add(name); return ''; }
     const cap = caption.trim();
+    const pos = focalFor(focal);
     return '<figure class="r-photo r-photo--' + ratio + '">' +
       '<img src="' + src + '" alt="' + cap.replace(/"/g, '&quot;') + '" ' +
+      (pos ? 'style="object-position:' + pos + '" ' : '') +
       'loading="lazy" decoding="async">' +
       (cap ? '<figcaption class="r-photo__cap">' + cap + '</figcaption>' : '') +
       '</figure>';
