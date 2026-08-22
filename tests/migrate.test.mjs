@@ -228,6 +228,12 @@ for (const f of files) {
   // 007 — the graduate identity spine. Dropping the tables takes their
   // indexes with them; the profile index is partial and named, so it is
   // dropped explicitly for the same reason as the others above.
+  // 027 — the quality cycle. Children before parents: actions hang off
+  // findings, findings off cycles, cycles off the schedule.
+  db.exec('DROP INDEX idx_review_actions_finding; DROP INDEX idx_review_actions_open; DROP INDEX idx_review_actions_cycle; DROP TABLE review_actions;');
+  db.exec('DROP INDEX idx_review_findings_cycle; DROP TABLE review_findings;');
+  db.exec('DROP INDEX idx_review_cycles_due; DROP TABLE review_cycles;');
+  db.exec('DROP TABLE review_schedule;');
   // 026 — early intervention. learner_concerns hangs off users,
   // enrolments and intervention_triggers, so it comes off before any of
   // them.

@@ -602,6 +602,70 @@ async function successMetrics(env) {
 }
 
 // ---------------------------------------------------------------------
+// The quality cycle
+// ---------------------------------------------------------------------
+// Three numbers, and the third is the one that tells the truth.
+//
+// Cycles held is easy to look good on. Actions agreed is easier still.
+// `longestCarryForward` — how many consecutive cycles the same undone
+// thing has been carried into — is the number that cannot be dressed
+// up, because it counts the distance between what the College resolved
+// and what it did.
+//
+// Computed with a recursive walk of the `continues` chain rather than
+// stored, so it cannot be edited to look better without editing the
+// actions themselves.
+async function qualityCycleMetrics(env) {
+  const d = db(env);
+  const cycles = await d.prepare(
+    `SELECT COUNT(*) AS n,
+            SUM(CASE WHEN status IN ('considered','closed') THEN 1 ELSE 0 END) AS considered,
+            SUM(CASE WHEN status IN ('scheduled','in_progress') THEN 1 ELSE 0 END) AS outstanding
+       FROM review_cycles`).first();
+  const actions = await d.prepare(
+    `SELECT COUNT(*) AS n,
+            SUM(CASE WHEN completed_at IS NOT NULL THEN 1 ELSE 0 END) AS completed,
+            SUM(CASE WHEN completed_at IS NULL AND continues IS NULL THEN 1 ELSE 0 END) AS openNotCarried
+       FROM review_actions`).first();
+  const chain = await d.prepare(
+    `WITH RECURSIVE chain(id, n) AS (
+       SELECT id, 1 FROM review_actions WHERE continues IS NULL
+       UNION ALL
+       SELECT a.id, c.n + 1 FROM review_actions a JOIN chain c ON a.continues = c.id
+     )
+     SELECT MAX(n) AS deepest FROM chain`).first();
+  const approved = await d.prepare(
+    `SELECT COUNT(*) AS n FROM review_schedule WHERE status = 'approved'`).first();
+
+  const n = (cycles && cycles.n) || 0;
+  return [{
+    id: 'quality.reviewCycle', name: 'Programme review and annual monitoring',
+    question: 'Does the College review its own programmes on a cycle, and what became of what it agreed?',
+    requires: 'review_cycles, review_findings, review_actions',
+    ...(n === 0
+      ? {
+        state: 'insufficient_data', value: null,
+        closes: ((approved && approved.n) || 0) === 0
+          ? 'An approved cadence, and a cohort to review. All three review kinds are defined and every cadence is recorded as NOT SET — twelve and sixty months are entered as proposals, not decisions. Academic Senate approval is what closes this.'
+          : 'The first cycle. The cadence is approved and no cycle has yet run.',
+      }
+      : {
+        state: 'measured', closes: null,
+        value: {
+          cyclesHeld: n,
+          consideredByABody: cycles.considered,
+          stillOutstanding: cycles.outstanding,
+          actionsAgreed: (actions && actions.n) || 0,
+          actionsCompleted: (actions && actions.completed) || 0,
+          actionsOpenAndNotCarriedForward: (actions && actions.openNotCarried) || 0,
+          // The number that cannot be dressed up.
+          longestCarryForward: (chain && chain.deepest) || 0,
+        },
+      }),
+  }];
+}
+
+// ---------------------------------------------------------------------
 // Academic integrity
 // ---------------------------------------------------------------------
 // This metric used to sit in uninstrumentedMetrics() because the College
@@ -666,12 +730,13 @@ async function integrityMetrics(env) {
 }
 
 export async function institutionalMetrics(env) {
-  const [progression, engagement, attendance, assessment, integrity, voice, success, financial, readiness] = await Promise.all([
+  const [progression, engagement, attendance, assessment, integrity, voice, success, quality, financial, readiness] = await Promise.all([
     progressionMetrics(env), engagementMetrics(env), attendanceMetrics(env),
     assessmentMetrics(env), integrityMetrics(env), studentVoiceMetrics(env),
-    successMetrics(env), financialMetrics(env), accreditationReadiness(env),
+    successMetrics(env), qualityCycleMetrics(env), financialMetrics(env),
+    accreditationReadiness(env),
   ]);
-  const metrics = [...progression, ...engagement, ...attendance, ...assessment, ...integrity, ...voice, ...success, ...uninstrumentedMetrics(), ...financial];
+  const metrics = [...progression, ...engagement, ...attendance, ...assessment, ...integrity, ...voice, ...success, ...quality, ...uninstrumentedMetrics(), ...financial];
 
   const byState = metrics.reduce((acc, m) => { acc[m.state] = (acc[m.state] || 0) + 1; return acc; }, {});
 

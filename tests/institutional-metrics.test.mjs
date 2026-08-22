@@ -452,5 +452,58 @@ function freshEnv(learners = 0) {
     Object.keys(s1.value || {}).join(', '));
 }
 
+// ---------------------------------------------------------------------
+// The quality cycle: the number that cannot be dressed up
+// ---------------------------------------------------------------------
+// Cycles held and actions agreed both flatter. longestCarryForward
+// counts the distance between what the College resolved and what it
+// did, and it is computed by walking the `continues` chain rather than
+// stored, so it cannot be improved without changing the actions.
+{
+  const empty = await M.institutionalMetrics(freshEnv(0));
+  const q0 = byId(empty, 'quality.reviewCycle') || {};
+  check('The review cycle is declared', !!q0.id);
+  check('...reporting no cycles held', q0.state === 'insufficient_data' && q0.value === null, q0.state);
+  check('...and saying the cadence is a proposal, not a decision',
+    /NOT SET/.test(q0.closes || '') && /proposals, not decisions/.test(q0.closes || ''),
+    (q0.closes || '(absent)').slice(0, 100));
+
+  const env = freshEnv(1);
+  const run = (sql) => env.DB.prepare(sql).bind().run();
+  run(`INSERT INTO review_cycles (id, reference, kind, title, period_start, period_end, due_at, status, considered_by, considered_at)
+    VALUES ('c1','AM-2027','annual_monitoring','Annual monitoring 2027','2027-01-01T00:00:00Z','2027-12-31T00:00:00Z','2028-02-01T00:00:00Z','closed','Academic Senate','2028-01-20T00:00:00Z')`);
+  run(`INSERT INTO review_cycles (id, reference, kind, title, period_start, period_end, due_at)
+    VALUES ('c2','AM-2028','annual_monitoring','Annual monitoring 2028','2028-01-01T00:00:00Z','2028-12-31T00:00:00Z','2029-02-01T00:00:00Z')`);
+  run(`INSERT INTO review_findings (id, cycle_id, sequence, finding, source, evidence)
+    VALUES ('f1','c1',1,'Competency mapping unstarted.','staff','0 of 360 mapped; governance A6d.')`);
+  run(`INSERT INTO review_findings (id, cycle_id, sequence, finding, source, evidence)
+    VALUES ('f2','c2',1,'Competency mapping still unstarted.','staff','0 of 360 mapped, a year on.')`);
+  run(`INSERT INTO review_actions (id, finding_id, cycle_id, action, owner_role, due_at, completed_at, outcome_note)
+    VALUES ('a0','f1','c1','Publish the rubric policy.','Academic Director','2028-03-01T00:00:00Z','2028-02-10T00:00:00Z','Published and enforced by a test.')`);
+  run(`INSERT INTO review_actions (id, finding_id, cycle_id, action, owner_role, due_at)
+    VALUES ('a1','f1','c1','Map the 360 assessments.','Academic Director','2028-03-01T00:00:00Z')`);
+  run(`INSERT INTO review_actions (id, finding_id, cycle_id, action, owner_role, due_at, continues)
+    VALUES ('a2','f2','c2','Map the 360 assessments.','Academic Director','2029-03-01T00:00:00Z','a1')`);
+
+  const q1 = byId(await M.institutionalMetrics(env), 'quality.reviewCycle') || {};
+  check('Two cycles: measured', q1.state === 'measured', q1.state);
+  check('...one of them considered by a body, one still outstanding',
+    q1.value && q1.value.consideredByABody === 1 && q1.value.stillOutstanding === 1, JSON.stringify(q1.value));
+  check('...and the same undone action, carried once, is reported as a chain of two',
+    q1.value && q1.value.longestCarryForward === 2, JSON.stringify(q1.value));
+
+  // Carrying it a second time makes the number worse, which is the
+  // entire behaviour being asserted.
+  run(`INSERT INTO review_cycles (id, reference, kind, title, period_start, period_end, due_at)
+    VALUES ('c3','AM-2029','annual_monitoring','Annual monitoring 2029','2029-01-01T00:00:00Z','2029-12-31T00:00:00Z','2030-02-01T00:00:00Z')`);
+  run(`INSERT INTO review_findings (id, cycle_id, sequence, finding, source, evidence)
+    VALUES ('f3','c3',1,'Competency mapping still unstarted.','staff','0 of 360 mapped, two years on.')`);
+  run(`INSERT INTO review_actions (id, finding_id, cycle_id, action, owner_role, due_at, continues)
+    VALUES ('a3','f3','c3','Map the 360 assessments.','Academic Director','2030-03-01T00:00:00Z','a2')`);
+  const q2 = byId(await M.institutionalMetrics(env), 'quality.reviewCycle') || {};
+  check('Carrying it again makes the number worse, not the same',
+    q2.value && q2.value.longestCarryForward === 3, JSON.stringify(q2.value));
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

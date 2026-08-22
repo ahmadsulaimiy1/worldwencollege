@@ -141,7 +141,16 @@ INSERT INTO evidence_items (id, reference, collection, title, state, statement, 
  'sql/migrations/025-student-voice.sql','internal','Director of Student Affairs',12),
 ('ev_go_001','GO-001','Graduate Outcomes','Graduate destinations survey','not_instrumented',
  'No survey exists, and there are no graduates to send one to. Blocked behind the first conferral and behind consent to be contacted after leaving. Governance A7.',
- NULL,'internal','Registrar',NULL);
+ NULL,'internal','Registrar',NULL),
+('ev_at_001','AT-001','Attendance','Live session attendance record','exists',
+ 'The record exists. Every row states how the College knows a learner was present — a provider join log, a named host''s register, or the learner''s own word — and those are counted separately, because they are not equivalent evidence. A platform record without the log''s times cannot be entered by hand. Sessions carry whether attendance was required, defaulting to not required, because this is an asynchronous programme. No session has been held. Governance A7 item 1. THE OPEN DECISION: what attendance MEANS — presence at a session, or engagement with the module — is not taken, and no attendance rate is published until it is.',
+ 'sql/migrations/024-attendance.sql','internal','Academic Director',12),
+('ev_ei_001','EI-001','Student Success','Early intervention register','exists',
+ 'The register exists and contains no risk score. The College has taught nobody and therefore has no evidence about what predicts failure on its own programmes; a weighted model built now would be invented numbers that somebody would act on. Instead five named triggers state their rules in words, and every one records its threshold as NOT SET pending Academic Senate. A concern cannot be closed unless the learner was contacted, or unless a written reason says why no contact was needed — the distinction between support and a file kept about somebody. RECOMMENDED: set the thresholds from what actually happens to the first cohort.',
+ 'sql/migrations/026-student-success.sql','internal','Director of Student Affairs',12),
+('ev_qc_001','QC-001','Quality Assurance','Programme review and annual monitoring cycle','exists',
+ 'The cycle exists. docs/curriculum-programme-review.md was a thorough one-off; nothing obliged it to recur or recorded what became of its findings. Findings now name the register they came from and carry evidence that cannot be blank, and an action is either completed with a note saying what changed or carried forward into a successor that says so — never silently dropped. The chain makes "outstanding for three cycles" computable. No cycle has run. THE OPEN DECISION: the cadence. Twelve and sixty months are entered as proposals with basis NOT SET, pending Academic Senate.',
+ 'sql/migrations/027-quality-cycle.sql','internal','Academic Director',12);
 
 -- ---------------------------------------------------------------------
 -- 15-17. MODERATION, APPEALS, INTEGRITY

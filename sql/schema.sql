@@ -1227,6 +1227,153 @@ CREATE INDEX idx_concerns_open
   ON learner_concerns(raised_at) WHERE closed_at IS NULL;
 CREATE INDEX idx_concerns_learner ON learner_concerns(user_id);
 
+
+-- ---------------------------------------------------------------------
+-- Migration 027 — programme review and annual monitoring.
+--
+-- docs/curriculum-programme-review.md is a real review of the whole
+-- six-level curriculum, and it is a ONE-OFF: nothing obliged it to
+-- happen, records what became of its findings, or notices when an
+-- action agreed two years ago has quietly never been done. The first
+-- question an accreditation reviewer asks is not "have you reviewed the
+-- programme" but "show me the cycle, and show me an action you carried
+-- forward".
+--
+-- This is also what the registers built alongside it are FOR. Student
+-- feedback (025), attendance (024), misconduct (023) and early
+-- intervention (026) each collect evidence about the programme; a
+-- finding here names the register it came from, and `evidence` is
+-- NOT NULL, because a review whose findings are impressions reaches
+-- whatever conclusion the room already held and carries a review's
+-- authority while doing it.
+--
+-- The carry-forward is the point. Anyone can agree an action; the
+-- diagnostic question is what happened to the ones nobody did. An
+-- action is either completed with a note saying what changed, or
+-- carried forward into a successor that says so — `continues` chains
+-- them, which makes "outstanding for three cycles" a computable fact
+-- rather than an institutional memory.
+--
+-- The cadence is NOT decided here. review_schedule ships proposed, with
+-- `basis` saying plainly that nobody has approved it, on the same
+-- discipline as migration 026's triggers.
+-- ---------------------------------------------------------------------
+CREATE TABLE review_schedule (
+  kind          TEXT PRIMARY KEY CHECK (kind IN ('annual_monitoring','periodic_review','thematic')),
+  name          TEXT NOT NULL,
+  purpose       TEXT NOT NULL,
+  -- Proposed cadence in months. NULL where the kind is by definition
+  -- occasional rather than scheduled.
+  every_months  INTEGER CHECK (every_months IS NULL OR every_months > 0),
+  basis         TEXT NOT NULL,
+  status        TEXT NOT NULL DEFAULT 'proposed' CHECK (status IN ('proposed','approved','retired')),
+  approved_by   TEXT,
+  approved_at   TEXT,
+
+  CHECK (status <> 'approved' OR (approved_by IS NOT NULL AND approved_at IS NOT NULL)),
+  CHECK (status =  'approved' OR (approved_by IS NULL AND approved_at IS NULL)),
+  CHECK (TRIM(basis) <> '')
+);
+
+INSERT INTO review_schedule (kind, name, purpose, every_months, basis) VALUES
+  ('annual_monitoring', 'Annual monitoring',
+   'A short yearly account of how each level actually ran: what the registers show, what changed, and what remains outstanding from last year.',
+   12,
+   'NOT SET. Twelve months is the common sector cadence and is entered here as a proposal only. For Academic Senate.'),
+  ('periodic_review', 'Periodic programme review',
+   'A full re-examination of a programme against its own qualification framework: whether the outcomes are still the right outcomes and whether the assessment still evidences them.',
+   60,
+   'NOT SET. Five years is the common sector cadence and is entered here as a proposal only. For Academic Senate.'),
+  ('thematic', 'Thematic review',
+   'A review of one issue across the whole College — assessment load, speaking assessment, accessibility — commissioned when something needs looking at.',
+   NULL,
+   'NOT SET, and by nature not scheduled: a thematic review is commissioned. What the College must decide is who may commission one. For Academic Senate.');
+
+CREATE TABLE review_cycles (
+  id            TEXT PRIMARY KEY,     -- 'rev_' + uuid
+  reference     TEXT NOT NULL UNIQUE, -- 'AM-2027-L1'
+  kind          TEXT NOT NULL REFERENCES review_schedule(kind),
+  title         TEXT NOT NULL,
+
+  level_id      INTEGER REFERENCES programme_levels(id),   -- NULL = whole programme
+  period_start  TEXT NOT NULL,
+  period_end    TEXT NOT NULL,
+  due_at        TEXT NOT NULL,
+
+  status        TEXT NOT NULL DEFAULT 'scheduled'
+                CHECK (status IN ('scheduled','in_progress','considered','closed')),
+
+  -- Who considered it. A review nobody senior read is a document.
+  considered_by TEXT,
+  considered_at TEXT,
+  report_path   TEXT,
+
+  CHECK (period_end > period_start),
+  CHECK (status NOT IN ('considered','closed')
+         OR (considered_by IS NOT NULL AND considered_at IS NOT NULL)),
+  CHECK (status IN ('considered','closed')
+         OR (considered_by IS NULL AND considered_at IS NULL))
+);
+CREATE INDEX idx_review_cycles_due
+  ON review_cycles(due_at) WHERE status IN ('scheduled','in_progress');
+
+CREATE TABLE review_findings (
+  id            TEXT PRIMARY KEY,     -- 'rf_' + uuid
+  cycle_id      TEXT NOT NULL,
+  sequence      INTEGER NOT NULL,
+  finding       TEXT NOT NULL,
+
+  -- Which register or body this came from. The reason the College
+  -- collects anything.
+  source        TEXT NOT NULL CHECK (source IN
+                  ('student_feedback','attendance','assessment_data','integrity_cases',
+                   'early_intervention','external_examiner','staff','learner_representation','other')),
+  -- What it rests on. See the note above: a finding without this is an
+  -- opinion wearing a review's authority.
+  evidence      TEXT NOT NULL,
+
+  UNIQUE (cycle_id, sequence),
+  UNIQUE (id, cycle_id),          -- target of the composite key below
+  FOREIGN KEY (cycle_id) REFERENCES review_cycles(id),
+  CHECK (TRIM(evidence) <> ''),
+  CHECK (TRIM(finding) <> '')
+);
+CREATE INDEX idx_review_findings_cycle ON review_findings(cycle_id);
+
+CREATE TABLE review_actions (
+  id            TEXT PRIMARY KEY,     -- 'ra_' + uuid
+  finding_id    TEXT NOT NULL,
+  -- Carried alongside so an action can be counted against its cycle
+  -- without a join, and bound to the finding's cycle by the composite
+  -- key below so the two cannot disagree.
+  cycle_id      TEXT NOT NULL,
+
+  action        TEXT NOT NULL,
+  owner_role    TEXT NOT NULL,   -- a ROLE, not a person: people leave
+  due_at        TEXT NOT NULL,
+
+  completed_at  TEXT,
+  outcome_note  TEXT,            -- what actually changed
+
+  -- The successor action, when this one was carried forward instead of
+  -- done. See the note above.
+  continues     TEXT REFERENCES review_actions(id),
+
+  FOREIGN KEY (finding_id, cycle_id) REFERENCES review_findings(id, cycle_id),
+
+  -- Completing means saying what changed.
+  CHECK (completed_at IS NULL OR (outcome_note IS NOT NULL AND TRIM(outcome_note) <> '')),
+  -- An action cannot be both done and carried forward.
+  CHECK (completed_at IS NULL OR continues IS NULL),
+  -- An action does not continue itself.
+  CHECK (continues IS NULL OR continues <> id),
+  CHECK (TRIM(owner_role) <> '')
+);
+CREATE INDEX idx_review_actions_cycle ON review_actions(cycle_id);
+CREATE INDEX idx_review_actions_open
+  ON review_actions(due_at) WHERE completed_at IS NULL;
+CREATE INDEX idx_review_actions_finding ON review_actions(finding_id);
+
 -- ---------------------------------------------------------------------
 -- Seed data — the one part of this file safe to run against a real DB
 -- immediately, since these are already-confirmed public facts, not
