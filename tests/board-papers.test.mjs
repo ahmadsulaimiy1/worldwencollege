@@ -40,7 +40,11 @@ check('...and says on its face that it is not adopted',
 // ---------------------------------------------------------------------
 // Matched with a currency symbol and a word boundary so "690" inside a
 // lesson count or a pixel value cannot trip it.
-const RECOMMENDED = [690, 740, 880, 1140, 1380, 1650, 4980, 415, 430, 3900, 3600];
+const RECOMMENDED = [
+  840, 920, 1240, 1760, 2140, 2600, 9500, 7400,   // Directed
+  2180, 2290, 2760, 3480, 4060, 4780, 19550, 14800, // Tutored
+  6900, 5600, 5200, 10400, 2400, 540, 180, 260, 95, // ecosystem
+];
 const money = (n) => new RegExp(`\\$${n.toLocaleString('en-US')}\\b|\\$${n}\\b`);
 
 const publicDirs = ['pages', 'partials'];
@@ -80,27 +84,32 @@ check('programme_levels still carries the Board-approved price, not the proposal
 // claims the recommendation actually rests on.
 // PARSED FROM THE PAPER, NOT COPIED FROM IT.
 //
-// The first version of this block hard-coded the six figures. Changing
-// $1,650 to $1,600 in the paper's own table left the test green — it was
-// checking that its own copy of the numbers added up, which it always
-// will. That is the same defect as a sitemap that agrees with the site
-// by coincidence, and it is the defect this whole suite exists to catch.
+// The first version of this block hard-coded the figures. Changing a
+// price in the paper's own table left the test green — it was checking
+// that its own copy of the numbers added up, which it always will. Same
+// shape as a sitemap agreeing with a site by coincidence, which is the
+// defect this whole suite exists to catch.
 //
-// Read from the recommendation table, so the arithmetic checked is the
+// Read from the recommendation tables, so the arithmetic checked is the
 // arithmetic the Board will actually be shown.
-const SINGLE = [...paper.matchAll(/^\| (?:Foundation|Development|Application|Professional|Advanced|Mastery) \| [A-Z]+ \| \*\*\$([\d,]+)\*\* \|/gm)]
+const STAGES = 'Foundation|Development|Application|Professional|Advanced|Mastery';
+const SINGLE = [...paper.matchAll(new RegExp(
+  `^\\| (?:${STAGES}) \\| [A-Z]+ \\| \\*\\*\\$([\\d,]+)\\*\\* \\|`, 'gm'))]
   .map((m) => Number(m[1].replace(/,/g, '')));
-check(`The recommendation table lists six prices — ${SINGLE.length}`, SINGLE.length === 6,
-  SINGLE.join(' '));
-const pathwayMatch = paper.match(/All six, committed at entry: \$([\d,]+)/);
-check('...and names the committed pathway price', !!pathwayMatch,
-  pathwayMatch ? pathwayMatch[1] : 'not found');
-const PATHWAY = pathwayMatch ? Number(pathwayMatch[1].replace(/,/g, '')) : NaN;
+check(`The Directed table lists six prices — ${SINGLE.length}`, SINGLE.length === 6, SINGLE.join(' '));
 
-// The stated totals, also read rather than assumed.
-const statedSum = Number((paper.match(/\*\*Six taken singly\*\* \| \*\*\$([\d,]+)\*\*/) || [])[1]
-  ?.replace(/,/g, ''));
-const statedSaving = Number((paper.match(/The saving is \$([\d,]+)/) || [])[1]?.replace(/,/g, ''));
+const TUTORED = [...paper.matchAll(new RegExp(
+  `^\\| (?:${STAGES}) \u00b7 [A-Z]+ \\| \\*\\*\\$([\\d,]+)\\*\\* \\| \\$([\\d,]+) \\|`, 'gm'))]
+  .map((m) => Number(m[1].replace(/,/g, '')));
+check(`The Tutored table lists six prices — ${TUTORED.length}`, TUTORED.length === 6, TUTORED.join(' '));
+
+const num = (re) => Number((paper.match(re) || [])[1]?.replace(/,/g, ''));
+const PATHWAY = num(/\| \| \*\*Pathway, committed at entry\*\* \| \*\*\$([\d,]+)\*\* \| \|/);
+const TUT_PATHWAY = num(/^\| \*\*Pathway, committed at entry\*\* \| \*\*\$([\d,]+)\*\* \| \|$/m);
+check('...and the Directed pathway price', Number.isFinite(PATHWAY), PATHWAY);
+
+const statedSum = num(/\| \*\*Six taken singly\*\* \| \*\*\$([\d,]+)\*\* \|/);
+const statedSaving = num(/The commitment saving is \*\*\$([\d,]+)\*\*/);
 check('The paper states a total for the six', Number.isFinite(statedSum), statedSum);
 check('...and states the saving', Number.isFinite(statedSaving), statedSaving);
 const sum = SINGLE.reduce((a, b) => a + b, 0);
@@ -110,17 +119,36 @@ check(`The pathway saving is what the paper states — $${(sum - PATHWAY).toLoca
   sum - PATHWAY === statedSaving);
 check('...and it does exceed the first two qualifications combined, as the paper claims',
   sum - PATHWAY > SINGLE[0] + SINGLE[1], `${sum - PATHWAY} vs ${SINGLE[0] + SINGLE[1]}`);
-const twelve = Number((paper.match(/\*\*\$([\d,]+) a month\*\* for twelve months/) || [])[1]?.replace(/,/g, ''));
-check(`The twelve-month plan divides exactly — $${twelve} x 12`, PATHWAY / 12 === twelve, PATHWAY / 12);
-const monthly18 = Number((paper.match(/\| Pathway, eighteen instalments \| \*\*\$([\d,]+) a month\*\*/) || [])[1]
-  ?.replace(/,/g, ''));
-const final18 = Number((paper.match(/with the last payment \$([\d,]+)/) || [])[1]?.replace(/,/g, ''));
-check(`The eighteen-month plan reaches the total — $${monthly18} x 17 + $${final18}`,
-  monthly18 * 17 + final18 === PATHWAY, monthly18 * 17 + final18);
+// Instalments: rounded payment plus a stated final payment, and the two
+// must reach the total. The paper says explicitly that it does not
+// choose totals because they divide neatly, so the test must not assume
+// they do.
+const plans = [...paper.matchAll(
+  /\| ([A-Za-z ]+pathway, [a-z-]+ months?) \| \*\*\$([\d,]+) a month\*\*, final payment \$([\d,]+)/g)]
+  .map((m) => ({ name: m[1], monthly: Number(m[2].replace(/,/g, '')), final: Number(m[3].replace(/,/g, '')) }));
+check(`Every payment plan states a monthly and a final payment — ${plans.length}`,
+  plans.length === 3, plans.map((p) => p.name).join(', '));
+const months = { 'twelve months': 12, 'twenty-four months': 24 };
+const planErrors = plans.filter((p) => {
+  const n = months[Object.keys(months).find((k) => p.name.endsWith(k))];
+  const total = p.name.startsWith('Tutored') ? TUT_PATHWAY : PATHWAY;
+  return !n || p.monthly * (n - 1) + p.final !== total;
+});
+check('...and each reaches its pathway total exactly', planErrors.length === 0,
+  planErrors.map((p) => `${p.name}: ${p.monthly}+${p.final}`).join(', '));
+
 check('Tuition rises at every stage, as the architecture claims',
   SINGLE.every((v, i) => i === 0 || v > SINGLE[i - 1]), SINGLE.join(' '));
 // The Board directed: no retail pricing.
 check('No figure is set at a retail price point', SINGLE.every((v) => v % 100 !== 99));
+
+check('Every Tutored price exceeds its Directed price',
+  TUTORED.every((t, i) => t > SINGLE[i]), TUTORED.join(' '));
+// The premium is contact hours, so it must widen as the qualification
+// demands a more senior tutor. A flat premium would be a margin.
+const premiums = TUTORED.map((t, i) => t - SINGLE[i]);
+check('...and the tutored premium widens at every stage',
+  premiums.every((v, i) => i === 0 || v > premiums[i - 1]), premiums.join(' '));
 
 // ---------------------------------------------------------------------
 // 4 · THE PAPER STILL CARRIES ITS OWN LIMITS
@@ -129,9 +157,13 @@ check('No figure is set at a retail price point', SINGLE.every((v) => v % 100 !=
 // the document before a meeting, and each is load-bearing.
 for (const [what, re] of [
   ['that the independent learner route stays closed', /RECOMMENDED, DEFERRED|Keep the independent learner route closed/],
-  ['that a marker rate must be set in the same resolution', /set a marker rate/i],
+  ['that a marker rate must be set in the same resolution', /marker rate/i],
   ['that no revenue forecast is offered, and why', /no applicants|fabrication with a chart/i],
-  ['that two premium benchmarks could not be retrieved', /could not be retrieved|refused those hosts/i],
+  ['that two premium benchmarks could not be retrieved', /could not be retrieved|refused the network/i],
+  ['that the tutored tier may not be sold before tutors exist', /before it is sold|Tutors are appointed/i],
+  ['that a tutor rate must be set alongside the marker rate', /tutor rate/i],
+  ['that the College never hears a learner speak', /never once hears the learner speak|never hears the learner/i],
+  ['that the qualification does not differ between tiers', /It does not sell different amounts of qualification/],
 ]) {
   check(`The paper still records ${what}`, re.test(paper));
 }
