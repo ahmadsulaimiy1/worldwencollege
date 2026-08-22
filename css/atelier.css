@@ -909,6 +909,15 @@
 .btn--quiet {
   color: rgba(247, 244, 236, .8);
   border-color: rgba(247, 244, 236, .2);
+  /* Transparent, EXPLICITLY. This is a dark-ground button whose text is
+     ivory at .8, and where it is written as a <button> rather than an
+     <a> the user agent paints buttonface behind it — #EFEFEF in
+     Chromium. Ivory on that computes to 1.04:1, which is not low
+     contrast so much as invisible ink. Found on the Assessment
+     Handbook, where "add it to my library" is the only way to add it to
+     a library. `.btn--outline` has carried this same line for the same
+     reason since it was written. */
+  background-color: transparent;
   padding: .78em 1.2em; font-size: .8rem;
 }
 .btn--quiet .icon { width: 15px; height: 15px; color: var(--gold-royal); }

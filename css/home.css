@@ -424,7 +424,12 @@
 .vista__scrim {
   position: absolute; inset: 0; pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(10,20,40,.05) 0%, transparent 34%, transparent 60%, rgba(10,20,40,.62) 100%),
+    /* The last stop was .62, and the caption sits in it. Over a bright
+       photograph — Westminster under a white sky is exactly that — the
+       plate under an 11px small-cap came out at 2.4:1. .82 keeps the
+       photograph and guarantees the line on any frame the College ever
+       puts here. */
+    linear-gradient(180deg, rgba(10,20,40,.05) 0%, transparent 34%, transparent 58%, rgba(10,20,40,.82) 100%),
     linear-gradient(100deg, rgba(10,20,40,.30) 0%, transparent 42%);
 }
 .vista__caption {
@@ -968,7 +973,10 @@
   display: block;
   font-family: var(--font-body); font-size: .58rem; font-weight: 700;
   letter-spacing: .16em; text-transform: uppercase;
-  color: rgba(247, 244, 236, .38);
+  /* .38 computed to 3.33:1 on this band's ground at 9px — the smallest
+     type on the homepage, at the weakest alpha on it. .62 clears AA
+     without turning a label into a heading. */
+  color: rgba(247, 244, 236, .62);
   margin-bottom: .5em;
 }
 .contrast__tag--gold { color: var(--gold); }

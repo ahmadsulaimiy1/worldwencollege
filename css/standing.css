@@ -151,8 +151,11 @@
 }
 .std-conditions li[data-met="yes"] .std-conditions__mark { color: #1E6A4F; }
 .std-conditions li[data-met="no"] .std-conditions__mark { color: #8E2B36; }
-.std-conditions li[data-met="unknown"] .std-conditions__mark { color: var(--gold, #C6A15B); }
-.std-conditions li[data-owner="college"] .std-conditions__mark { color: var(--gold, #C6A15B); }
+/* Gold on this card's cream ground computes to 2.2:1, and this mark is
+   the only thing distinguishing a condition the College owes from one
+   the learner does. Bronze is the palette's measured gold-for-light. */
+.std-conditions li[data-met="unknown"] .std-conditions__mark { color: var(--bronze, #795A32); }
+.std-conditions li[data-owner="college"] .std-conditions__mark { color: var(--bronze, #795A32); }
 .std-conditions__label { margin: 0; font-weight: 700; }
 .std-conditions__detail {
   margin: .25rem 0 0;

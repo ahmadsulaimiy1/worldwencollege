@@ -63,6 +63,11 @@ body.app { background: var(--ivory); }
 /* ---------------- Main column ---------------- */
 .app-main { flex: 1; min-width: 0; padding: 36px 40px 80px; }
 .app-topline { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
+/* The console is a light ground and is not a `.section--*`, so it never
+   picked up the light-ground eyebrow rule: gold at 12px computed to
+   2.2:1 here. Bronze is the palette's measured gold-for-light. */
+.app-shell .eyebrow { color: var(--bronze, #795A32); }
+.app-shell .eyebrow::before { background: var(--bronze, #795A32); }
 .app-topline h1 { font-size: 1.6rem; margin-bottom: .2em; }
 .app-topline .lede { margin: 0; color: var(--ink-soft); }
 .app-student { display: flex; align-items: center; gap: 12px; }

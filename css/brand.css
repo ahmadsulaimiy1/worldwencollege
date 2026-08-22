@@ -111,6 +111,16 @@
   --gold-bright:  var(--gold-soft);
   --paper:        #FCFAF4;   /* card surface on ivory */
   --red:          var(--oxblood);
+  /* GOLD FOR TEXT ON A LIGHT GROUND, and it is bronze rather than gold
+     because measurement says so. `--gold-deep` was used in seven
+     stylesheets and DEFINED IN NONE of them: every use was
+     `var(--gold-deep, #9A7A38)`, so the fallback was the value, and the
+     fallback computes to 3.44–4.03:1 on the light grounds it was used
+     on. A rank on the Graduate Register read at 4.03, a heading on the
+     engagement record at 3.64. Pointing the token at --bronze, which
+     the palette above already fixed by measurement, clears 4.5:1
+     everywhere in one line. */
+  --gold-deep:    var(--bronze);
   --red-bright:   #C23A4E;
   --ink-soft:     var(--slate);
 
@@ -445,6 +455,15 @@ section { position: relative; }
 }
 .section--light .eyebrow { color: var(--red); }
 .section--light .eyebrow::before { background: var(--red); }
+/* THE OTHER FOUR LIGHT GROUNDS NEED IT TOO. Gold at 12px computes to
+   2.2:1 on ivory and 2.31:1 on paper — the eyebrow on the portal
+   preview and the marker on /academics/teaching/ were both measured
+   there. `--red` clears 6.2:1 or better on every light ground in the
+   palette. */
+.section--paper .eyebrow, .section--warm .eyebrow,
+.section--cream .eyebrow, .section--pearl .eyebrow { color: var(--red); }
+.section--paper .eyebrow::before, .section--warm .eyebrow::before,
+.section--cream .eyebrow::before, .section--pearl .eyebrow::before { background: var(--red); }
 
 .module-marker {
   display: inline-block;
@@ -459,6 +478,10 @@ section { position: relative; }
   margin-bottom: 1em;
 }
 .section--light .module-marker { color: var(--red); border-color: rgba(163,38,56,.3); }
+.section--paper .module-marker, .section--warm .module-marker,
+.section--cream .module-marker, .section--pearl .module-marker {
+  color: var(--red); border-color: rgba(163,38,56,.3);
+}
 
 .lede { font-size: 1.15rem; color: var(--ink-soft); max-width: 62ch; }
 .section--dark .lede { color: rgba(247,244,236,.78); }
@@ -606,7 +629,10 @@ section { position: relative; }
 .btn--red { background: var(--red); color: #fff; box-shadow: var(--shadow-sm); }
 .btn--red:hover { background: var(--red-bright); transform: translateY(-2px); box-shadow: var(--shadow-md); }
 .btn--red:active { transform: translateY(0); }
-.btn--ghost { color: var(--gold-bright); border-color: var(--line-dark); }
+/* Transparent for the reason `.btn--quiet` gives at length: as a
+   <button> this takes the user agent's grey and its gold text lands on
+   it at under 2:1. */
+.btn--ghost { color: var(--gold-bright); border-color: var(--line-dark); background-color: transparent; }
 .btn--ghost:hover { border-color: var(--gold); background: rgba(231,201,122,.06); }
 /* Every other focusable control (.field inputs, .toggle) gets an
    explicit gold focus ring — .btn was relying entirely on the browser
@@ -700,9 +726,19 @@ section { position: relative; }
     grid-template-columns: minmax(min-content, 1fr) auto minmax(min-content, 1fr);
     column-gap: 20px;
   }
-  .seat { justify-self: start; }
-  .here { justify-self: center; }
-  .topbar__right { justify-self: end; }
+  /* PINNED TO THEIR COLUMNS, NOT PLACED BY FLOW.
+     `.here` is served hidden and revealed by js/worldclock.js once the
+     reader's own zone is known — and `[hidden]` is display:none, which
+     takes it OUT of the grid. With two items in a three-column grid,
+     auto-placement put the actions bay in the MIDDLE column, and the
+     reveal then threw it 424px to the right on every page load. That
+     was the largest layout shift left on the site.
+
+     Named columns fix it at the root: the bay is in column three
+     whether or not anything is in column two. */
+  .seat { grid-column: 1; justify-self: start; }
+  .here { grid-column: 2; justify-self: center; }
+  .topbar__right { grid-column: 3; justify-self: end; }
 }
 /* `minmax(min-content, 1fr)`, and the `min-content` half is the part
    that took a screenshot to find. Written `minmax(0, 1fr)` the two side
@@ -798,6 +834,19 @@ section { position: relative; }
   display: inline-flex; align-items: center; gap: .5em;
   font-variant-numeric: tabular-nums; letter-spacing: .02em;
   color: var(--gold-bright, #E7C97A);
+}
+/* THE READING IS RESERVED BEFORE IT ARRIVES.
+   Both clocks are served as an em dash and filled by js/worldclock.js
+   from the reader's own device — so the box grew from one character to
+   "10:47 AM" a few hundred milliseconds in, and everything beside it
+   moved. Eight tabular figures is the widest reading either format
+   produces; a 24-hour locale sits centred in the same box with a little
+   air, which costs nothing and moves nothing. */
+[data-clock-london], [data-clock-local] {
+  display: inline-block;
+  min-width: 7.4ch;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
 }
 .seat__clock .icon { width: 13px; height: 13px; opacity: .7; color: var(--gold-royal); }
 .seat__tz, .here__label {
@@ -2516,6 +2565,40 @@ a.lang__row:hover { background: rgba(199,162,74,.13); color: var(--gold-bright);
 .portal-shell h2 { font-size: 1.4rem; text-align: center; }
 .portal-shell .lede { text-align: center; margin: 0 auto 24px; font-size: .95rem; }
 
+/* A CREAM CARD ON A NAVY GROUND CARRIES ITS OWN INK.
+   `.portal-shell` sets `background: var(--paper)` and sits inside
+   `.section--dark`, which sets ivory text on everything under it. So
+   the heading was #fff on #FCFAF4 — 1.04:1 — the lede was ivory at .78
+   and the outline button was ivory on cream. Measured across all 186
+   routes, this was the worst contrast on the site, and it was on
+   /student-portal/, which is where the navigation and the footer send
+   every learner.
+
+   The card is a light surface. It takes the light palette, and says so
+   loudly enough that the dark section's rules cannot reach past it. */
+.section--dark .portal-shell,
+.section--deep .portal-shell { color: var(--ink); }
+.section--dark .portal-shell h1,
+.section--dark .portal-shell h2,
+.section--dark .portal-shell h3,
+.section--deep .portal-shell h2 { color: var(--ink); }
+.section--dark .portal-shell .lede,
+.section--deep .portal-shell .lede { color: var(--ink-soft); }
+.section--dark .portal-shell .form-note,
+.section--deep .portal-shell .form-note { color: var(--ink-soft); }
+.section--dark .portal-shell .module-marker,
+.section--deep .portal-shell .module-marker {
+  color: var(--red); border-color: rgba(163,38,56,.3);
+}
+.section--dark .portal-shell .btn--outline,
+.section--deep .portal-shell .btn--outline {
+  color: var(--royal); border-color: rgba(20,38,74,.35);
+}
+.section--dark .portal-shell .btn--outline:hover,
+.section--deep .portal-shell .btn--outline:hover {
+  color: var(--royal); border-color: var(--bronze); background: rgba(20,38,74,.04);
+}
+
 /* -------------------- Footer -------------------- */
 /* Footer navigation is the largest single source of small tap targets
    on the marketing site — fifteen per page, on every page, because they
@@ -3658,3 +3741,88 @@ ul.check-list--open li::before { content: '○'; font-weight: 400; color: rgba(2
 .labband .lab-eyebrow { color: rgba(247,244,236,.55); }
 .labband .lab-back { margin: 12px 0 0; }
 .labband .lab-back a { color: var(--gold-soft); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   HIGH CONTRAST MODE
+   ═══════════════════════════════════════════════════════════════════
+   Windows High Contrast — `forced-colors: active` — replaces every
+   author colour with the reader's own four, and REMOVES background
+   images, gradients and box-shadows outright. Everything this site
+   uses to say "this is a struck object" is one of those three.
+
+   Measured, not assumed: the whole site was rendered at 1440 in
+   forced-colors and every button, .btn and [role=button] on all 186
+   routes was asked whether it still had a border or an outline. Ten
+   did not, and a control with neither has no boundary at all — the
+   Verify submit read as the word "Verify" floating beside the field it
+   submits.
+
+   The rule for the fix is the one the mode itself implies: name the
+   SYSTEM colours, never a hex. ButtonBorder and CanvasText are
+   whatever the reader chose, and that is the point.
+
+   Nothing here changes a pixel outside High Contrast Mode.
+
+   EVERY SELECTOR IS DOUBLED, and that is load-bearing rather than a
+   typo. This file is first in the cascade and the page stylesheets
+   come after it, so a single class here loses on source order to the
+   `border: 0` that put the control in this list in the first place —
+   which is exactly what happened on the first attempt, and the Verify
+   submit came back from the probe still borderless. Doubling the class
+   raises specificity instead of relying on order, so one block in one
+   file governs eleven stylesheets. */
+@media (forced-colors: active) {
+
+  /* ── The ten borderless controls ──────────────────────────────── */
+  .sonics-toggle.sonics-toggle,
+  .utilrail__btn.utilrail__btn,
+  .accordion__q.accordion__q,
+  .vfy-submit.vfy-submit,
+  .acc-open.acc-open,
+  .cse-row__open.cse-row__open,
+  .desk-thread-row__open.desk-thread-row__open,
+  .eng-cell.eng-cell,
+  .flip__nav.flip__nav {
+    border: 1px solid ButtonBorder;
+  }
+
+  /* ── The struck shapes ─────────────────────────────────────────
+     A dome, a card, a plate and a chip are all drawn with a gradient
+     and a box-shadow ring, and High Contrast keeps neither. Without a
+     border the glyph inside a dome floats on the page and a card is
+     an unmarked run of text. */
+  .badge-dome.badge-dome,
+  .card.card,
+  .plate__frame.plate__frame,
+  .chip.chip,
+  .honour.honour,
+  .grad-award.grad-award,
+  .stf-item.stf-item,
+  .reg-entry.reg-entry,
+  .vfy-card.vfy-card {
+    border: 1px solid CanvasText;
+  }
+
+  /* ── Focus, which is the one thing that must never be subtle ──── */
+  :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  /* Decoration that carries no meaning and becomes noise when the
+     palette is down to four colours. The travelling light and the lit
+     rim are gradients; forced to a system colour they stop being light
+     and become a solid bar across the object they were orbiting.
+     Suppressed here, and ONLY here.
+
+     This is not the house rule about `::after` and `::before` being
+     spoken for. Nothing is taken: the pseudo-elements still belong to
+     .aurum and .edge-lit, and outside High Contrast Mode they are
+     untouched. */
+  .aurum.aurum::after,
+  .edge-lit.edge-lit::before,
+  .tilt__sheen.tilt__sheen,
+  .constellation.constellation {
+    display: none;
+  }
+}
