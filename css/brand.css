@@ -1035,6 +1035,29 @@ section { position: relative; }
    shadow all survive, and they are what made the treatment; the
    transparency was never the part doing the work. */
 .nav__menu.crystal { background: #0E1B33; }
+
+/* THE INDEX PANEL TAKES THE OPPOSITE GROUND.
+   The note above is the history of trying to make a DARK panel readable
+   against everything it might open over — 42%, then 93%, then solid. The
+   answer in the end was not a better navy. A navy sheet dropping out of a
+   navy masthead over a navy hero has nothing separating it from either,
+   and no opacity value fixes that; it is a value problem, not an alpha
+   problem.
+
+   So the index panel is ivory. It separates from the masthead above it
+   and from any ground it opens over, and it reads as what it is: a page,
+   not a popover. The blur and the glass go with the navy — a cream sheet
+   has no business being translucent. */
+.nav__menu--mega.crystal {
+  background: var(--warm-white);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  border: 0;
+  box-shadow:
+    0 1px 0 rgba(111, 80, 40, .10) inset,
+    0 26px 60px -18px rgba(10, 20, 40, .55),
+    0 2px 10px rgba(10, 20, 40, .22);
+}
+.nav__menu--mega.crystal::before { display: none; }
 [dir="rtl"] .nav__menu { left: auto; right: 0; transform-origin: top right; }
 .nav__item--has-menu:hover .nav__menu,
 .nav__item--has-menu:focus-within .nav__menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }

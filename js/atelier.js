@@ -326,40 +326,27 @@
   })();
 
   /* -------------------------------------------------------------------
-     5 · THE POINTER AURA
-     A gold ring that follows the cursor and opens over anything
-     interactive. The real cursor is never hidden — a custom cursor
-     that replaces the system one costs more in usability than it
-     returns in atmosphere.
+     5 · THE POINTER AURA — RETIRED.
+
+     A 26px gold ring followed the cursor and swelled to 52px over
+     anything interactive. It was inherited, and it was always a
+     flourish rather than an instrument: it told the reader nothing the
+     cursor was not already telling them.
+
+     Two things settled it. The Founder's review asked why the site
+     still reads as a template — and a decorative cursor is one of the
+     surest tells there is; no university, museum or press ships one.
+     And the masthead's navigation is now small capitals, so a 52px ring
+     centred on a 12px label drew a circle straight THROUGH the letters
+     of "THE COLLEGE" every time the pointer crossed it. It had been
+     harmless over 14px sans; against the new type it was damage.
+
+     Everything the aura was reaching for — that the surface answers the
+     hand — is done better and more quietly by the material layer: the
+     tilt, the sheen, the rim light, the contact sound. Those respond to
+     the ELEMENT being touched. A ring around the cursor responds only
+     to the cursor.
      ------------------------------------------------------------------- */
-  (function aura() {
-    if (!finePointer || !allowAmbient()) return;
-
-    const el = document.createElement('div');
-    el.className = 'aura';
-    el.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(el);
-
-    let x = -100, y = -100, live = false;
-    const INTERACTIVE = 'a, button, input, select, textarea, summary, [role="button"], .tilt';
-
-    function tick() {
-      x = lerp(x, pointer.x, .2);
-      y = lerp(y, pointer.y, .2);
-      el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0)';
-      if (Math.abs(x - pointer.x) < .3 && Math.abs(y - pointer.y) < .3) removeTick(tick);
-    }
-
-    window.addEventListener('pointermove', function (e) {
-      if (!live) { live = true; el.classList.add('is-live'); }
-      el.classList.toggle('is-over', Boolean(e.target.closest && e.target.closest(INTERACTIVE)));
-      addTick(tick);
-    }, { passive: true });
-
-    document.addEventListener('pointerleave', function () {
-      el.classList.remove('is-live');
-    });
-  })();
 
   /* -------------------------------------------------------------------
      6 · KINETIC GILT
