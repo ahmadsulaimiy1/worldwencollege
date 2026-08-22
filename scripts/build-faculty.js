@@ -194,6 +194,10 @@ const MANIFEST = path.join(ROOT, 'pages/manifest.json');
 const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
 const entries = Array.isArray(manifest) ? manifest : manifest.pages;
 const DESCRIPTIONS = {
+  // A meta description is a plain-text attribute, so no markup goes in
+  // it. In the English one the wrapper was inert anyway; in the Arabic
+  // one the direction still has to be stated, and the Unicode isolates
+  // U+2066/U+2069 do it without markup.
   faculty: 'The academic staff and tutors who deliver the IEFC programme at WEC, and the teaching standards they are appointed against.',
   'faculty-ar': 'أعضاء هيئة التدريس والمدرّسون الذين يقدّمون برنامج ⁦IEFC⁩ في الكلية، والمعايير التدريسية التي عُيّنوا وفقها.',
 };

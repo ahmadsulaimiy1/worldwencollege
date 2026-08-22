@@ -35,11 +35,13 @@
  * our faculty" page — /about/careers/ names the three posts the College
  * actually needs and what each unblocks, which is the honest version.
  *
- * The Teacher's Companion is described but not offered as a download.
- * The publication directory is excluded from the deploy surface (see
- * tests/deploy-surface.test.mjs), so a download link here would be a
- * link to a 404, and a page that offers a document the site does not
- * serve is worse than one that says how to ask for it.
+ * The Teacher's Companion was described here but not offered, and the
+ * reason was sound at the time: publication/ is excluded from the
+ * deploy surface (see tests/deploy-surface.test.mjs), so a download
+ * link would have been a link to a 404. Since the press catalogue began
+ * staging servable volumes into assets/downloads/, which IS deployed,
+ * the book is on the site and the page said otherwise. It now links to
+ * it, and DOWNLOAD below throws if the file is not where it says.
  */
 
 const fs = require('fs');
@@ -118,6 +120,29 @@ if (D.cpd !== 0) {
 }
 if (D.fields.length < 10) throw new Error(`Expected the full support field set, read ${D.fields.length}`);
 
+// ---------------------------------------------------------------------
+// THE COMPANION AS A FILE, MEASURED RATHER THAN DESCRIBED.
+//
+// This page told teachers to write in and ask for a book that is served
+// two directories away. The extent and the size are read from the file
+// itself so the page cannot describe a volume that is not there: if the
+// press build stops staging it, this throws instead of publishing a
+// link to a 404 — which is exactly the failure the old paragraph was
+// written to avoid, and the reason it is safe to stop avoiding it.
+// ---------------------------------------------------------------------
+const COMPANION_HREF = '/assets/downloads/iefc-level-i-teacher-s-companion.pdf';
+const COMPANION_FILE = path.join(ROOT, COMPANION_HREF.replace(/^\//, ''));
+if (!fs.existsSync(COMPANION_FILE)) {
+  throw new Error(`The Teaching pages link to ${COMPANION_HREF} and it is not staged. `
+    + 'Run the press build, or rewrite the availability section — do not publish the link.');
+}
+const COMPANION = (() => {
+  const buf = fs.readFileSync(COMPANION_FILE);
+  const pages = (buf.toString('latin1').match(/\/Type\s*\/Page(?![s])/g) || []).length;
+  if (!pages) throw new Error(`${COMPANION_HREF} has no countable pages — it is not a PDF.`);
+  return { pages, mb: (buf.length / (1024 * 1024)).toFixed(1) };
+})();
+
 const derivable = D.fields.filter((f) => f.derivable);
 const authored = D.fields.filter((f) => !f.derivable);
 
@@ -160,8 +185,12 @@ PAGES.hub = {
   slug: 'academics-teaching', output: 'academics/teaching/index.html', file: 'academics-teaching.html',
   contents: true, altHref: '/ar/academics/teaching/',
   title: 'Teaching Practice &mdash; Worldwide English College',
+  // Kept under 160 characters on purpose: past that, a search result
+  // cuts the sentence off mid-clause, and the manifest was being
+  // hand-truncated after the fact — an edit the next build silently
+  // undid. Written short at the source, it cannot drift.
   description: 'How WEC teaches: the method, how a lesson is designed, the support record a '
-    + 'teacher works from, the Companion, and how development and observation are meant to work.',
+    + "teacher works from, and the Teacher's Companion, free to download.",
   body: `${hero('Academics', 'How the College teaches.',
     'Every lesson in the programme is planned before it is taught, and every planned lesson '
     + 'carries a record of what a teacher will need at each point in it. This page describes '
@@ -364,13 +393,16 @@ ${card('Counted, not asserted', 'The figures in the front matter are measured', 
       <h2>How to obtain a copy.</h2>
     </div>
     <div class="callout">
-      <span class="callout__label">Not a download on this site</span>
-      <p>The Companion is a typeset volume produced by WEC Press and is not published for
-        download here. Teachers, reviewers and anyone assessing the College&rsquo;s academic work
-        can request a copy from
-        <a href="mailto:info@worldwencollege.co.uk?subject=Teacher%27s%20Companion">info@worldwencollege.co.uk</a>.
-        It is offered particularly to anyone willing to review it &mdash; every volume the
-        College has produced is currently unreviewed by anyone who did not write it.</p>
+      <span class="callout__label">Read it before you teach from it</span>
+      <p>The Companion is a typeset volume produced by WEC Press, and the whole of it is
+        here: <a href="${COMPANION_HREF}" download><strong>the Teacher&rsquo;s Companion,
+        Level I</strong></a> &mdash; ${COMPANION.pages}&nbsp;pages, ${COMPANION.mb}&nbsp;MB, PDF.
+        No account, no request, no form.</p>
+      <p>One thing to know before you open it: every volume the College has produced is
+        currently unreviewed by anyone who did not write it. If you teach and are willing to
+        say where the book is wrong, that is the most useful thing anyone can do with it, and
+        <a href="mailto:info@worldwencollege.co.uk?subject=Teacher%27s%20Companion">info@worldwencollege.co.uk</a>
+        reaches the editors who would have to act on it.</p>
     </div>
   </div>
 </section>
@@ -607,12 +639,15 @@ ${card('كل لوحة', 'موسومة بمصدرها', 'مشتق أو مُثبَ
 ${card('وسمٌ واحد غائب', 'المُشاهَد', 'الوسم الرابع لا يظهر في أي موضع من الكتاب، والتصدير يقول لماذا. دليلٌ يُسقط الفئة بصمت يدّعي نوعًا من السلطة لا يملكه.')}
     </div>
     <div class="callout">
-      <span class="callout__label">ليس تنزيلًا على هذا الموقع</span>
-      <p>الدليل المرافق مجلد منضَّد تنتجه مطبعة الكلية ولا يُنشر للتنزيل هنا. يستطيع المعلمون
-        والمراجعون وكل من يقيّم عمل الكلية الأكاديمي طلب نسخة عبر
-        <a href="mailto:info@worldwencollege.co.uk?subject=Teacher%27s%20Companion" dir="ltr">info@worldwencollege.co.uk</a>.
-        ويُعرض خاصةً على من يرغب في مراجعته — فكل مجلد أنتجته الكلية لم يراجعه بعدُ أحدٌ لم
-        يكتبه.</p>
+      <span class="callout__label">اقرأه قبل أن تُعلّم منه</span>
+      <p>الدليل المرافق مجلد منضَّد تنتجه مطبعة الكلية، وهو هنا كاملًا:
+        <a href="${COMPANION_HREF}" download><strong>الدليل المرافق للمعلم، المستوى الأول</strong></a>
+        — ${ltr(String(COMPANION.pages))} صفحة، ${ltr(COMPANION.mb)} ميغابايت، بصيغة PDF.
+        بلا حساب ولا طلب ولا استمارة.</p>
+      <p>وأمرٌ يُعرف قبل فتحه: كل مجلد أنتجته الكلية لم يراجعه بعدُ أحدٌ لم يكتبه. فإن كنت
+        تُعلّم وتقبل أن تقول أين أخطأ الكتاب، فذلك أنفع ما يُصنع به، و
+        <a href="mailto:info@worldwencollege.co.uk?subject=Teacher%27s%20Companion" dir="ltr">info@worldwencollege.co.uk</a>
+        يبلغ المحررين الذين عليهم أن يعملوا به.</p>
     </div>
   </div>
 </section>

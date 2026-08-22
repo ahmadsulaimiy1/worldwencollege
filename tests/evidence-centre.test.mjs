@@ -342,5 +342,53 @@ function freshEnv({ seeded = true } = {}) {
   check('An unknown reference is a clean NotFound', gone && gone.name === 'NotFoundError');
 }
 
+// ---------------------------------------------------------------------
+// THE REGISTER MUST NOT CALL AN ADOPTED DECISION UNADOPTED.
+//
+// Five evidence statements ended "Governance B3; not adopted." and
+// similar. They were accurate for months. On 14 August 2026 the
+// Executive adopted all twenty-five outstanding decisions, and from
+// that moment the register was telling a reviewer the College was
+// blocked on decisions it had already taken — the same shape of defect
+// as the pages that went on saying "proposed" after adoption, and
+// caught the same way: by reading the decisions register and requiring
+// the evidence register to agree with it.
+//
+// The summary card above the table said it too, and worse: "Drafted,
+// and waiting on a decision that has not been taken. These are not
+// missing documents." Nine of the fourteen rows underneath it begin
+// "No procedure exists", "No terms of reference exist", "The College
+// has no written constitution". The card contradicted its own table.
+{
+  const seed = readFileSync(path.join(ROOT, 'sql/seed-evidence-centre.sql'), 'utf8');
+  const gov = readFileSync(path.join(ROOT, 'docs/governance-decisions.md'), 'utf8');
+  const outstanding = (gov.match(/\*\*Decision:\*\*\s*☐\s*awaiting/g) || []).length;
+
+  // The binding: while nothing is outstanding, nothing in the evidence
+  // register may describe a decision as unadopted.
+  const stale = [...seed.matchAll(/[^']{0,90}not adopted[^']{0,40}/g)].map((m) => m[0].trim());
+  check(`No evidence statement calls a decision unadopted — ${outstanding} still outstanding`,
+    outstanding > 0 || stale.length === 0,
+    stale.slice(0, 3).join(' | '));
+
+  // Not a bare-word ban: the register is entitled to say a document has
+  // not been written, and must keep saying so. What it may not do is
+  // attribute that to a decision nobody took.
+  check('...and it still says plainly which documents do not exist',
+    (seed.match(/No procedure exists|no written constitution|No terms of reference exist|No risk register exists/g) || []).length >= 4);
+
+  const evidencePage = readFileSync(path.join(ROOT, 'pages/governance-evidence.html'), 'utf8');
+  check('The published page no longer calls the pending items drafted',
+    !/Drafted, and waiting on a decision that has not been taken/.test(evidencePage));
+  check('...and names the date the decisions were in fact taken',
+    /14 August 2026/.test(evidencePage));
+
+  // A sweep that only ever sees compliant text proves nothing.
+  check('...and these checks do catch the wording they exist for',
+    /[^']{0,90}not adopted[^']{0,40}/.test("'Governance B3; not adopted.'")
+    && /Drafted, and waiting on a decision that has not been taken/
+      .test('<p>Drafted, and waiting on a decision that has not been taken.</p>'));
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

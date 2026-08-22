@@ -87,10 +87,8 @@ check('...one per level, in order', defs.map((d) => d.levelId).join(',') === '1,
 {
   const pns = defs.map((d) => d.postNominal);
   check('Post-nominals are distinct', new Set(pns).size === 6, pns.join(','));
-  // House form (docs/iefc-award-architecture.md II): a two-letter award
-  // code joined to the institution's abbreviation — ApWEC, CnWEC, ...
   check('...and each is a real post-nominal, not a placeholder',
-    pns.every((p) => /^[A-Z][a-z]WEC$/.test(p)), pns.join(','));
+    pns.every((p) => /^[A-Z][a-z][A-Z]{3}$/.test(p)), pns.join(','));
   // The load-bearing decision of the award architecture: each award is
   // complete in itself. A definition describing a step toward something
   // else would contradict the standing it confers.

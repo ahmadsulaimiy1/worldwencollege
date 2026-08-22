@@ -16,6 +16,114 @@ things that had to be fixed on the way.
 
 ---
 
+## 18 August 2026 — broken by a rename, and put back
+
+**The domain served a stale build from 17 to 18 August, and the pipeline
+reported success throughout.** The cause and the cure are both recorded
+here because the cure was not the one this file first proposed.
+
+A session renamed the institution to Albalagh International Premium
+College and renamed the Cloudflare Pages project with it, `wec-lc` to
+`aipc`. The workflow's "Ensure the Pages project exists" step did what
+it says — found no project called `aipc`, created one, and Cloudflare
+gave it a new subdomain. The custom domain stayed where it was.
+
+    run 67, 16 Aug   published to https://a9449aaa.wec-lc.pages.dev
+                     live-domain proof silent — the domain matched
+
+    run 82, 18 Aug   published to https://86c0c461.aipc-7cb.pages.dev
+                     apex worldwencollege.co.uk       -> <none>
+                     deployment 86c0c461.aipc-7cb…    -> 96510daf50d7
+                     live domain www.worldwencollege… -> <none>
+
+The rename has since been reverted in full: Albalagh International
+Premium College is a **different college from Worldwide English
+College**, with different programmes, and does not belong in this
+repository at all. See § Albalagh is not this College, below.
+
+**So the fix was not to move the domain.** The Pages project, the D1
+database and both R2 buckets are named `wec-lc` again, which is where
+the domain had been pointing the whole time.
+
+**RECOVERED, confirmed 18 August 2026,** run 85, commit `c721408`:
+
+    Expecting build stamp: c7214087b858
+      apex worldwencollege.co.uk       -> c7214087b858
+      deployment f6eea172.wec-lc…      -> <none>
+      live domain www.worldwencollege… -> c7214087b858
+    notice: The live domain is serving this build (c7214087b858).
+
+Both hostnames carry the exact commit. Nothing had to be reattached in
+the dashboard; restoring the project name was the whole of it.
+
+One line there is worth not glossing: the per-deployment `pages.dev`
+URL read `<none>` while the domain matched — the inverse of the failure
+above. The most likely reading is that a fresh deployment hostname had
+not propagated in the nine seconds before it was fetched, while the
+custom domain, already warm on the project's production alias, served
+at once. It is recorded rather than ignored, because a check that
+reports a blank on the surface it is most sure about is worth watching.
+
+**Still outstanding, and it needs the dashboard:** delete the stray
+`aipc` Pages project, along with any `aipc` D1 database and `aipc-*` R2
+buckets created on 17–18 August. They belong to a different institution,
+and holding this College's learner recordings in a bucket named for
+another college is not a tidiness question.
+
+No data was at risk in either direction. The D1 binding is by
+`database_id` from a repository secret, not by the name in
+`wrangler.toml`, so renaming the database in the file never pointed the
+site at a different database.
+
+### Why the pipeline stayed green through it
+
+The proof step is deliberately non-fatal — "a publish that genuinely
+succeeded should not be reported as a failure because DNS is
+elsewhere", which is a defensible position and is why it has not been
+changed here. The cost is on record twice now: 13 August, when a faculty
+roster was announced as live over a build from weeks earlier, and 18
+August, when three days of work were described as live while the domain
+served none of it. A warning in a step summary is not a signal anybody
+sees. Whoever revisits this should decide between failing the job and
+routing the warning somewhere a person actually reads.
+
+---
+
+## Albalagh is not this College
+
+Recorded here because the confusion cost a domain outage and a
+repository-wide rename, and because the next person to read a commit
+from 17 August will otherwise draw the wrong conclusion from it.
+
+**Albalagh International Premium College (AIPC) and Worldwide English
+College are two different institutions.** Different colleges, different
+programmes. Neither is the other renamed, and no page of this site may
+describe one as the former name of the other.
+
+The rename of 17 August 2026 — commits `385d57a`, `40d692d`, `65d42e6` —
+was applied on the opposite premise, that this College had simply been
+renamed. It carried Worldwide English College's identity into AIPC
+wholesale: the IEFC and its six levels, the award post-nominals, the
+verification-code format, the Alumni Society code, the credential
+signing key, the register and receipt numbers, all sixteen published
+volumes, and the Cloudflare project, D1 database and R2 buckets. It also
+had `/contact/` telling readers that `worldwencollege.co.uk` was "the
+domain the College used under its former name" and that mail there "is
+read by the same people". None of that was true and all of it has been
+reverted.
+
+**What belongs to Worldwide English College**, and stays here: the IEFC
+— six levels, sixty modules, the certificate — and every volume of the
+press canon built over it.
+
+**What AIPC needs**, and does not have: its own repository, its own
+domain, and its own programmes. This repository holds none of them and
+should never hold them. Nothing in this tree should acquire an AIPC name
+again; `tests/published-claims.test.mjs` is the natural place to enforce
+that if it recurs.
+
+---
+
 ## RESOLVED: pushing now deploys
 
 **This section previously said the opposite, and the reversal is the

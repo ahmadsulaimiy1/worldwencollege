@@ -144,8 +144,9 @@ PAGES.pillar = {
   slug: 'admissions', output: 'admissions/index.html', file: 'admissions.html',
   contents: true,
   title: 'Admissions &mdash; Worldwide English College',
+  // Under 160 characters — see the note in scripts/build-teaching.js.
   description: 'The whole admissions decision in one place: whether you qualify, how to apply, '
-    + 'when you can start, and what applies to international applicants — visas included.',
+    + 'when you can start, and what applies to international applicants.',
   body: `<section class="section--dark section-pad">
   <div class="container">
     <span class="eyebrow">Admissions</span>

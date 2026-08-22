@@ -231,8 +231,24 @@ window.WEC_LC_data = (function () {
       return 'The College could not be reached. Check your connection and try again.';
     }
     if (status === 401) return 'Sign in to see this.';
-    if (status === 403) return 'This is not available on your account.';
-    if (status === 404) return fallback || 'That could not be found.';
+    // A refusal and a missing thing are the two statuses where the
+    // endpoint's own sentence is the useful one, and where the generic
+    // wording is actively misleading: "This is not available on your
+    // account" is what a staff member saw when the real reason was that
+    // they were trying to change THEIR OWN enrolment, which any other
+    // staff member could have done for them in a second. The admin page
+    // had already been fixed once for exactly this, with a comment
+    // saying so; routing it through here undid the fix without touching
+    // the page.
+    //
+    // apiMessage is only ever set when an endpoint deliberately wrote a
+    // sentence for a person to read — never HTTP's statusText — so
+    // preferring it here does not reopen the leak this function exists
+    // to close.
+    if (status === 403) {
+      return (err && err.apiMessage) || 'This is not available on your account.';
+    }
+    if (status === 404) return (err && err.apiMessage) || fallback || 'That could not be found.';
     if (status === 429) return 'That was tried a few times in a row. Wait a moment and try again.';
     if (status >= 500) return 'Something went wrong at our end. Please try again shortly.';
     return (err && err.apiMessage) || fallback || 'That did not work. Please try again.';

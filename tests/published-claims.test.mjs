@@ -468,5 +468,88 @@ for (const [label, file] of [['English', 'admissions-tuition.html'],
     `missing from Arabic: ${missingAr.join(', ') || 'none'}; missing from English: ${missingEn.join(', ') || 'none'}`);
 }
 
+// ---------------------------------------------------------------------
+// THE COLLEGE IS NOT ANOTHER COLLEGE.
+//
+// On 17 August 2026 this repository was renamed throughout to Albalagh
+// International Premium College, on the premise that Worldwide English
+// College had simply changed its name. It had not. They are two
+// different institutions with different programmes, and the rename
+// carried this College's identity into the other one wholesale — the
+// IEFC, the award post-nominals, the verification-code format, the
+// credential signing key, every published volume, and the Cloudflare
+// project the domain points at, which is how the site came to serve a
+// stale build for two days.
+//
+// /contact/ was left telling readers that worldwencollege.co.uk was
+// "the domain the College used under its former name" and that mail
+// there "is read by the same people". That is a claim about
+// institutional identity, and it was false — which puts it under the
+// same rule as every other claim this file exists to police.
+//
+// Reverted in full. This is the tripwire, because the rename was
+// mechanical and a mechanical thing can happen twice.
+{
+  // The Arabic branch is the College NAME, not the root. An early
+  // version matched البلاغ alone and fired on البلاغات — the ordinary
+  // word for "reports", in a sentence on the Arabic admissions page
+  // about reporting people who defraud applicants in the College's
+  // name. Sharing a root is not sharing an identity. Matched as
+  // "كلية البلاغ" so it means the institution and nothing else.
+  // Lowercase is not a stylistic variant here, it is where the damage
+  // was done: the Pages project, the D1 database and both R2 buckets
+  // are lowercase identifiers, and it was renaming THOSE that pointed
+  // the domain at a project it had never been attached to. An earlier
+  // version of this pattern matched only the uppercase form, and a
+  // deliberate `name = "aipc"` in wrangler.toml walked straight past it.
+  const OTHER = /\bAIPC\b|\baipc\b|aipc-|Albalagh|albalagh|كلية البلاغ/;
+  const hits = [];
+  for (const [file, body] of PUBLIC_PAGES) {
+    if (OTHER.test(body)) hits.push(file);
+  }
+  check(`No page names a different college — ${PUBLIC_PAGES.length} pages`,
+    hits.length === 0, hits.slice(0, 8).join(', '));
+
+  // Prose is not the only place it reached. The infrastructure names
+  // are what decide which Cloudflare project the domain resolves to,
+  // and getting those wrong is the failure that has no visible symptom
+  // until somebody types the address.
+  // pages/*.html is not the whole surface, and finding that out cost a
+  // second pass. Four Arabic titles sat in pages/manifest.json — which
+  // is not a .html file and so was not in PUBLIC_PAGES — and reached
+  // the <title> and og:title of the home page, the portal, /contact/
+  // and the 404 with the other college's name on them, while this
+  // check reported every page clean. The manifest carries titles and
+  // descriptions for pages whose body is elsewhere; it has to be read
+  // too, and so does what the build actually wrote.
+  const manifestSrc = readFileSync(path.join(ROOT, 'pages/manifest.json'), 'utf8');
+  check('...nor the page manifest, which carries titles the pages do not',
+    !OTHER.test(manifestSrc),
+    (manifestSrc.match(/[^"]*(?:AIPC|Albalagh|كلية البلاغ)[^"]*/g) || []).slice(0, 3).join(' | '));
+
+  const built = JSON.parse(manifestSrc)
+    .map((e) => e.output)
+    .filter((o) => { try { readFileSync(path.join(ROOT, o)); return true; } catch { return false; } })
+    .filter((o) => OTHER.test(readFileSync(path.join(ROOT, o), 'utf8')));
+  check(`...nor any page the build actually wrote — ${built.length} affected`,
+    built.length === 0, built.slice(0, 6).join(', '));
+
+  const infra = ['wrangler.toml', 'package.json', '.github/workflows/deploy-cloudflare.yml'];
+  const badInfra = infra.filter((f) => {
+    try { return OTHER.test(readFileSync(path.join(ROOT, f), 'utf8')); } catch { return false; }
+  });
+  check('...and neither does the deployment configuration', badInfra.length === 0,
+    badInfra.join(', '));
+
+  check('...and this check does catch the name it exists for',
+    OTHER.test('Albalagh International Premium College')
+    && OTHER.test('delivered by AIPC since 2024')
+    && OTHER.test('كلية البلاغ الدولية المتميّزة')
+    && OTHER.test('name = "aipc"')
+    && OTHER.test('wrangler r2 bucket create aipc-recordings')
+    && !OTHER.test('Worldwide English College, London Campus')
+    && !OTHER.test('إن ذهبت البلاغات سدى'));
+}
+
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

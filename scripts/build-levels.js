@@ -678,9 +678,13 @@ levels.forEach((lv, i) => {
     slug: `study-${SLUG[lv.roman]}`,
     output: `study/${SLUG[lv.roman]}/index.html`,
     title: `Level ${lv.roman}: ${lv.name} (${lv.cefr}) &mdash; Worldwide English College`,
+    // Under 160 characters — see the note in scripts/build-teaching.js.
+    // "II"/"III"/"IV"/"VI" are wider than "I"/"V", so the longer form
+    // this used to carry ("Modules, learning outcomes, ...") pushed
+    // four of the six levels over the limit.
     description: `Level ${lv.roman} of the IEFC: ${lv.modules.length} modules, ${lv.units} `
-      + `designed lessons over ${lv.duration_months} months, aligned to CEFR ${lv.cefr}. Modules, `
-      + 'learning outcomes, assessment, teaching methods and the award.',
+      + `designed lessons over ${lv.duration_months} months, aligned to CEFR ${lv.cefr} `
+      + '— outcomes, assessment, teaching methods and the award.',
     contentFile: `study-${SLUG[lv.roman]}.html`,
     lang: 'en', dir: 'ltr',
     // Ten sections and 1,300 words. scripts/build.js turns this into a

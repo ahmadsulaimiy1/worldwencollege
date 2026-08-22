@@ -1019,7 +1019,7 @@ PAGES.faq = {
 
       <div class="accordion__item">
         <button class="accordion__q"><span>ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية <span dir="ltr">(<span dir="ltr">IEFC</span>)</span>؟</span><span class="plus" aria-hidden="true">+</span></button>
-        <div class="accordion__a"><div class="accordion__a-inner">برنامج ⁦IEFC⁩ هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع <span dir="ltr">CEFR</span> (من <span dir="ltr">A1</span> إلى <span dir="ltr">C2</span>)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة <span dir="ltr">WEC</span> وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس، وكم يستغرق بالأشهر يعتمد على الساعات التي تستطيع منحها أسبوعيًا.</div></div>
+        <div class="accordion__a"><div class="accordion__a-inner">برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span> هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع <span dir="ltr">CEFR</span> (من <span dir="ltr">A1</span> إلى <span dir="ltr">C2</span>)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة <span dir="ltr">WEC</span> وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس، وكم يستغرق بالأشهر يعتمد على الساعات التي تستطيع منحها أسبوعيًا.</div></div>
       </div>
 
       <div class="accordion__item">
@@ -1157,8 +1157,8 @@ ${darkCard('س', 'إذن ما الذي أدفع مقابله؟', 'برنامج �
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية (⁦IEFC⁩)؟",
-      "acceptedAnswer": { "@type": "Answer", "text": "برنامج ⁦IEFC⁩ هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع <span dir="ltr">CEFR</span> (من A1 إلى C2)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة <span dir="ltr">WEC</span> وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس." }
+      "name": "ما هو برنامج الطلاقة الدولي في اللغة الإنجليزية (<span dir="ltr"><span dir="ltr">IEFC</span></span>)؟",
+      "acceptedAnswer": { "@type": "Answer", "text": "برنامج <span dir="ltr"><span dir="ltr">IEFC</span></span> هو البرنامج الرئيسي للكلية، ينقسم إلى ستة مستويات متوافقة مع <span dir="ltr">CEFR</span> (من A1 إلى C2)، كل مستوى يحمل عشر وحدات و20 رصيدًا من أرصدة <span dir="ltr">WEC</span> وزمنًا كليًا للمؤهل قدره 200 ساعة. والبرنامج كاملًا 120 رصيدًا و1,200 ساعة. والزمن الكلي للمؤهل رقم تصميم لا قياس." }
     },
     {
       "@type": "Question",
