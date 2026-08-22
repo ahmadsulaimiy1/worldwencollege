@@ -20,6 +20,7 @@
 // deleted and this file rewritten — or somebody has engineered around
 // the College's own stated position.
 import { readFileSync } from 'node:fs';
+import { DatabaseSync } from 'node:sqlite';
 import { makeD1 } from './d1-shim.mjs';
 import { ROOT, loadUrl } from './helpers.mjs';
 
@@ -168,6 +169,39 @@ function completeTheProgramme(e, { userId = 'usr_l', levelId = 1, modules = 3 } 
   const exam = audit.checks.find((c) => c.code === 'EXAM_PASSED');
   check('A stage with no examination reports cannot_check, not "passed"',
     exam.result === 'cannot_check' && /nothing to have passed/.test(exam.observed), exam.observed);
+}
+
+// --- The convention the exam check depends on -------------------------
+// checkOne() identifies the end-of-stage examination by an id
+// containing 'examquiz'. That is a naming convention, not a data model,
+// and it is a real weakness: if a level's examination were ever named
+// differently, the check would return cannot_check, the audit would
+// fail safe — and nobody could graduate from that level for a reason
+// invisible to everyone involved.
+//
+// Failing safe is the right default. Failing safe INVISIBLY is not. So
+// the convention the audit leans on is asserted here against the real
+// seeded curriculum, and if a future level breaks it this fails loudly
+// instead of quietly making that level ungraduatable.
+{
+  const seeded = new DatabaseSync(':memory:');
+  seeded.exec(schema);
+  let loaded = 0;
+  for (let n = 1; n <= 6; n++) {
+    try {
+      seeded.exec(readFileSync(`${ROOT}/sql/seed-curriculum-level-${n}.sql`, 'utf8'));
+      loaded += 1;
+    } catch { /* a level not yet authored is reported by the count below */ }
+  }
+  check(`All six levels of curriculum load — ${loaded}`, loaded === 6, loaded);
+
+  const rows = seeded.prepare(
+    `SELECT u.course_id AS course, COUNT(*) AS n
+       FROM learning_items i JOIN units u ON u.id = i.unit_id
+      WHERE i.id LIKE '%examquiz%' GROUP BY 1`).all();
+  check('Every level has exactly one identifiable stage examination', rows.length === 6
+    && rows.every((r) => r.n === 1),
+    rows.map((r) => `${r.course}:${r.n}`).join(', ') || 'none found');
 }
 
 // --- Refusals ---------------------------------------------------------
