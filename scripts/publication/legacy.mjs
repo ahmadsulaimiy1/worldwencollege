@@ -199,10 +199,21 @@ export function revisionHistory(artefact, { limit = 8 } = {}) {
     const out = execFileSync('git',
       ['log', '--follow', '--date=short', '--format=%ad%s', '--', artefact],
       { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
-    const rows = out.split('\n').filter(Boolean).map((line) => {
+    const rawRows = out.split('\n').filter(Boolean).map((line) => {
       const [date, subject] = line.split('');
       return { date, subject };
     });
+    // Regenerating this colophon is itself a commit that touches the
+    // artefact, so a run of consecutive commits with the same subject and
+    // no real content change between them would otherwise inflate "total"
+    // forever, once per regeneration. Collapse a run of identical
+    // subjects to its most recent occurrence; a genuine change in between
+    // still counts as its own revision either side of it.
+    const rows = [];
+    for (const r of rawRows) {
+      if (rows.length && rows[rows.length - 1].subject === r.subject) continue;
+      rows.push(r);
+    }
     if (!rows.length) {
       return { available: false, rows: [],
         why: 'The artefact is not yet in the source repository’s history.' };
