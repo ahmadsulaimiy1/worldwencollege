@@ -35,11 +35,23 @@ export async function onRequestGet({ request }) {
   }
   const code = parsed.code;
 
+  // THE TARGET IS THE SAME FOR EVERY READER, DELIBERATELY. A printed
+  // certificate carries one QR for the life of the award, and a code
+  // that resolved to a different address depending on who generated the
+  // image would be two credentials wearing one number. The check page
+  // offers its own editions; the code points at the canonical one.
   const target = `${url.origin}/verify.html?code=${encodeURIComponent(code)}`;
+
+  // The LABEL is what a screen reader announces, and that does belong to
+  // the reader. An Arabic graduate record used to hand an Arabic reader
+  // a figure announced in English.
+  const lang = url.searchParams.get('lang') === 'ar' ? 'ar' : 'en';
+  const label = lang === 'ar' ? `تحقّق من الشهادة ${code}` : `Verify award ${code}`;
+
   // Level Q — about a quarter of the code can be lost and still read.
   // A certificate gets folded, printed badly and photographed at an
   // angle, and the cost of the higher level is a slightly denser image.
-  const svg = toSvg(target, { level: 'Q', label: `Verify award ${code}` });
+  const svg = toSvg(target, { level: 'Q', label });
 
   return new Response(svg, {
     headers: {

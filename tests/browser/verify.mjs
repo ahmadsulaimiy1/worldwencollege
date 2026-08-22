@@ -100,9 +100,15 @@ async function verify(page, code) {
   // someone thought of; this fails the moment publicView starts
   // returning a field nobody approved, which is how the leak would
   // actually arrive (a `...a` spread in a refactor).
+  //
+  // `honourLabelAr` and the level's `nameAr` / `ordinalAr` are approved
+  // additions, not leaks: they are the same rank and the same level in
+  // the other language the College publishes them in, and without them
+  // /ar/verify.html prints "High Distinction" and "Upper Intermediate
+  // Programme" in the middle of an Arabic sentence.
   const ALLOWED = ['holderName', 'awardTitle', 'postNominal', 'level', 'cefr', 'honour',
-    'honourLabel', 'credits', 'tqtHours', 'citation', 'conferredOn', 'verificationCode',
-    'status', 'revokedAt', 'revokedReason', 'replacementCode', 'digest'];
+    'honourLabel', 'honourLabelAr', 'credits', 'tqtHours', 'citation', 'conferredOn',
+    'verificationCode', 'status', 'revokedAt', 'revokedReason', 'replacementCode', 'digest'];
   const payload = await page.evaluate(async (code) => {
     const r = await fetch('/api/verify/' + encodeURIComponent(code));
     return r.json();
@@ -111,7 +117,7 @@ async function verify(page, code) {
   check('The verification response carries only the fields the certificate asserts',
     extra.length === 0, `unapproved: ${extra.join(', ')}`);
   check('...and the level object exposes no identifier beyond the level itself',
-    Object.keys(payload.award.level).every((k) => ['id', 'roman', 'name'].includes(k)),
+    Object.keys(payload.award.level).every((k) => ['id', 'roman', 'ordinalAr', 'name', 'nameAr'].includes(k)),
     Object.keys(payload.award.level).join(', '));
   // usr_demo is the holder's real internal id in this fixture, so unlike
   // a made-up address this string genuinely exists and can genuinely escape.

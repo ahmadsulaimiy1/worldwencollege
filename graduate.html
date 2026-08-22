@@ -41,7 +41,7 @@
 <link rel="stylesheet" href="/css/pages.css?v=0e3b128d">
 <link rel="stylesheet" href="/css/pillar.css?v=661126ed">
 <link rel="stylesheet" href="/css/verify.css?v=70dc3ae4">
-<link rel="stylesheet" href="/css/graduate.css?v=948badfd">
+<link rel="stylesheet" href="/css/graduate.css?v=ce0eb0c1">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
@@ -1124,10 +1124,6 @@
     <p class="masthead__eyebrow" id="eyebrow">Graduate Record</p>
     <h1 id="name">&mdash;</h1>
     <p class="lede" id="headline"></p>
-    <!-- Stated where a reader forms their judgement, not in a footer.
-         A record that did not say how much of itself was shown would be
-         read as the whole record. -->
-    <p class="vfy-note" id="scopeNote">Loading this record&hellip;</p>
     <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
   </div>
 </section>
@@ -1136,7 +1132,25 @@
   <div class="container">
     <div class="vfy-wrap">
 
-      <section class="grad-state" id="state" aria-live="polite"></section>
+      <!-- HOW MUCH OF THE RECORD THIS IS.
+           Stated where a reader forms their judgement, not in a footer.
+           A record that did not say how much of itself was shown would
+           be read as the whole record.
+
+           IT LIVES HERE, WITH THE RECORD, AND THAT IS A LAYOUT DECISION
+           AS WELL AS AN EDITORIAL ONE. It used to sit in the masthead
+           and be filled in by js/graduate.js once the record arrived,
+           growing the masthead by two lines and pushing the whole page
+           down with it — a layout shift of 0.26 on the one page a
+           stranger opens. It qualifies the record, so it belongs beside
+           the record, where content is expected to arrive. -->
+      <p class="grad-scope" id="scopeNote"></p>
+
+      <!-- The waiting message is served, not scripted, so that this box
+           has its height at first paint and the page does not jump when
+           the answer lands. render() empties it the moment there is a
+           record to show. -->
+      <section class="grad-state" id="state" aria-live="polite"><strong>Loading this record&hellip;</strong></section>
 
       <section class="grad-section" id="secBiography" hidden>
         <h2>Academic biography</h2>
@@ -1615,6 +1629,6 @@
 <script src="/js/worldclock.js?v=99a644de" defer></script>
 <script src="/js/intake.js?v=5238c58f" defer></script>
 <script src="/js/sonics.js?v=13e51d64" defer></script>
-<script src="/js/graduate.js?v=2306bcb0"></script>
+<script src="/js/graduate.js?v=3840ce6c"></script>
 </body>
 </html>

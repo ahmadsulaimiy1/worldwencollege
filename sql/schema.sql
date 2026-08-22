@@ -1027,16 +1027,29 @@ CREATE TABLE competencies (
   sequence      INTEGER NOT NULL,
   name          TEXT NOT NULL,
   description   TEXT NOT NULL,
+  -- Adopted from /ar/about/, which is where the College already
+  -- publishes the framework in Arabic. See migration 022 and
+  -- tests/framework-arabic.test.mjs.
+  name_ar       TEXT,
+  description_ar TEXT,
   created_at    TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 
-INSERT INTO competencies (id, code, sequence, name, description) VALUES
-  ('cmp_clarity',   'CLARITY',   1, 'Clarity',   'Understood the first time, by the audience actually present'),
-  ('cmp_command',   'COMMAND',   2, 'Command',   'Controls the language rather than being carried by it'),
-  ('cmp_judgement', 'JUDGEMENT', 3, 'Judgement', 'Chooses register, channel and moment; knows what not to say'),
-  ('cmp_reason',    'REASON',    4, 'Reason',    'Constructs an argument, tests it, concedes what should be conceded'),
-  ('cmp_bearing',   'BEARING',   5, 'Bearing',   'Holds a room, a call, a difficult conversation'),
-  ('cmp_reach',     'REACH',     6, 'Reach',     'Communicates across cultures, and across the distance between expert and layperson');
+INSERT INTO competencies (id, code, sequence, name, description, name_ar, description_ar) VALUES
+  ('cmp_clarity',   'CLARITY',   1, 'Clarity',   'Understood the first time, by the audience actually present',
+   'الوضوح', 'يُفهَم من أول مرة، من الجمهور الحاضر فعلًا'),
+  ('cmp_command',   'COMMAND',   2, 'Command',   'Controls the language rather than being carried by it',
+   'التمكّن', 'يتحكم في اللغة بدل أن تحمله هي'),
+  ('cmp_judgement', 'JUDGEMENT', 3, 'Judgement', 'Chooses register, channel and moment; knows what not to say',
+   'الحصافة', 'يختار السجل والقناة واللحظة، ويعرف ما لا يُقال'),
+  ('cmp_reason',    'REASON',    4, 'Reason',    'Constructs an argument, tests it, concedes what should be conceded',
+   'الاستدلال', 'يبني حجة، ويختبرها، ويسلّم بما ينبغي التسليم به'),
+  ('cmp_bearing',   'BEARING',   5, 'Bearing',   'Holds a room, a call, a difficult conversation',
+   'الحضور', 'يمسك قاعةً، أو مكالمةً، أو محادثةً صعبة'),
+  ('cmp_reach',     'REACH',     6, 'Reach',     'Communicates across cultures, and across the distance between expert and layperson',
+   'البلوغ', 'يتواصل عبر الثقافات، وعبر المسافة بين المختص وغير المختص');
+
+CREATE INDEX IF NOT EXISTS idx_competencies_sequence ON competencies(sequence);
 
 -- Which competencies an assessment claims to assess. The framework's
 -- rule is counted over THIS table, so an unmapped curriculum reports as
@@ -1643,18 +1656,30 @@ CREATE TABLE IF NOT EXISTS language_skills (
   -- distinction that actually predicts difficulty, and a profile that
   -- groups them reads far better than four bars in a row.
   mode          TEXT NOT NULL CHECK (mode IN ('receptive','productive')),
-  description   TEXT NOT NULL
+  description   TEXT NOT NULL,
+  -- Adopted from /ar/students/assessment/, which is where the College
+  -- already publishes these four in Arabic. Nullable, and beside the
+  -- English rather than instead of it: an endpoint hands both back and
+  -- the page chooses. See sql/migrations/022-framework-arabic.sql, and
+  -- tests/framework-arabic.test.mjs, which fails the build if this
+  -- table and that page ever disagree.
+  name_ar       TEXT,
+  description_ar TEXT
 );
 
-INSERT OR IGNORE INTO language_skills (id, code, sequence, name, mode, description) VALUES
+INSERT OR IGNORE INTO language_skills (id, code, sequence, name, mode, description, name_ar, description_ar) VALUES
   ('skl_listening', 'LISTENING', 1, 'Listening', 'receptive',
-   'Understands speech at natural pace, including unfamiliar accents and imperfect conditions'),
+   'Understands speech at natural pace, including unfamiliar accents and imperfect conditions',
+   'الاستماع', 'فهم الكلام بسرعته الطبيعية، بما في ذلك اللهجات غير المألوفة والظروف غير المثالية'),
   ('skl_reading',   'READING',   2, 'Reading',   'receptive',
-   'Reads for argument and detail, not only for gist, across registers'),
+   'Reads for argument and detail, not only for gist, across registers',
+   'القراءة', 'القراءة للحجّة وللتفصيل، لا للفكرة العامة فقط، عبر مستويات لغوية مختلفة'),
   ('skl_speaking',  'SPEAKING',  3, 'Speaking',  'productive',
-   'Speaks with control of grammar, pronunciation and register, in real time'),
+   'Speaks with control of grammar, pronunciation and register, in real time',
+   'التحدّث', 'التحدّث بضبط للقواعد والنطق ومستوى اللغة، في الزمن الحقيقي'),
   ('skl_writing',   'WRITING',   4, 'Writing',   'productive',
-   'Writes to a purpose and an audience, and revises');
+   'Writes to a purpose and an audience, and revises',
+   'الكتابة', 'الكتابة لغرض ولقارئ، ثم المراجعة');
 
 -- ------------------------------------------------------------
 -- Which assessments evidence which skill — a reviewable claim
@@ -1837,6 +1862,11 @@ CREATE TABLE IF NOT EXISTS skill_descriptors (
   code          TEXT NOT NULL UNIQUE,
   name          TEXT NOT NULL UNIQUE,
   description   TEXT NOT NULL,
+  -- Written from the College's own English gloss, and published on no
+  -- page yet — because no descriptor can be reported until the Senate
+  -- sets the thresholds below. See migration 022.
+  name_ar       TEXT,
+  description_ar TEXT,
 
   -- The evidence threshold for this band, as a proportion of available
   -- marks on approved mapped assessments. NULL until the Senate sets it.
@@ -1848,17 +1878,22 @@ CREATE TABLE IF NOT EXISTS skill_descriptors (
   CHECK (threshold_min IS NULL OR (approved_by IS NOT NULL AND approved_at IS NOT NULL))
 );
 
-INSERT OR IGNORE INTO skill_descriptors (id, sequence, code, name, description) VALUES
+INSERT OR IGNORE INTO skill_descriptors (id, sequence, code, name, description, name_ar, description_ar) VALUES
   ('skd_emerging',      1, 'EMERGING',      'Emerging',
-   'Beginning to operate in the skill, with support and in familiar conditions.'),
+   'Beginning to operate in the skill, with support and in familiar conditions.',
+   'ناشئ', 'يبدأ العمل بالمهارة، بمساندة وفي ظروف مألوفة.'),
   ('skd_developing',    2, 'DEVELOPING',    'Developing',
-   'Operates independently in familiar conditions; still effortful in unfamiliar ones.'),
+   'Operates independently in familiar conditions; still effortful in unfamiliar ones.',
+   'نامٍ', 'يعمل مستقلًّا في الظروف المألوفة، ويجد المشقّة في غيرها.'),
   ('skd_proficient',    3, 'PROFICIENT',    'Proficient',
-   'Operates reliably across the range the level describes.'),
+   'Operates reliably across the range the level describes.',
+   'متمكّن', 'يعمل باطّراد عبر المدى الذي يصفه المستوى.'),
   ('skd_advanced',      4, 'ADVANCED',      'Advanced',
-   'Operates with control and range beyond what the level requires.'),
+   'Operates with control and range beyond what the level requires.',
+   'متقدّم', 'يعمل بضبطٍ ومدًى يجاوزان ما يطلبه المستوى.'),
   ('skd_distinguished', 5, 'DISTINGUISHED', 'Distinguished',
-   'Operates at a standard that would be recognised well outside the College.');
+   'Operates at a standard that would be recognised well outside the College.',
+   'متميّز', 'يعمل على مستوًى يُعترف به خارج الكلية.');
 
 -- ============================================================
 -- 4. BOARD OF ACADEMIC STANDARDS AND CURRICULUM EXCELLENCE

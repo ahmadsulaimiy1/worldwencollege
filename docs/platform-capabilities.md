@@ -371,6 +371,55 @@ the address — which is a third state between "has an interface" and
 
 35. **A level named in Arabic on every surface that names one.** `programme_levels` holds ONE name and it is English, so an Arabic learner reading their own page was told, mid-sentence, that they had paid for the "English Mastery Programme". `functions/_lib/academic/level-names.js` now holds the six published Arabic names — the same six `scripts/lib/arabic-kit.js` generates the level pages from, held to them by `tests/level-names.test.mjs` — and the payment surfaces and the statement of account carry `nameAr` beside `name`. **Every other endpoint that answers with a level name should do the same**: `/api/student/study-plan`, `/api/student/standing`, `/api/lms/units`, `/api/lms/unit`, `/api/student/timetable`, `/api/student/achievements` and the admin reports. That is deliberate work on each payload, not a sweep, and it is recorded here rather than left to be discovered by rendering an Arabic page.
 
+36. **A page whose SCRIPT speaks the edition it is served in.** Found on
+    22 August 2026 by rendering `/ar/graduate.html` — the public
+    credential an Arabic graduate hands to an employer. The page's
+    markup was Arabic and every line the script wrote beneath it was
+    English: *Loading this record…*, *Withdrawn*, *Not yet assessed*,
+    *Listening*, *Reading*, *Scan to verify*. The masthead was in one
+    language and the record in another, on the one page a stranger opens
+    to decide whether to believe a graduate.
+
+    **Closed for the graduate record.** `js/graduate.js` now holds both
+    languages, on the pattern `js/my-standing.js` and `js/staff-kit.js`
+    already used, and the platform hands both namings back rather than
+    letting the page translate a published fact:
+    `honourLabelAr` on every award (`HONOUR_LABEL_AR`, held to the five
+    headings on `/ar/students/awards/` by
+    `tests/honour-labels.test.mjs`), `levelNameAr` and `ordinalAr` on
+    every transcript entry, `labelAr` on every kind of distinction,
+    `noteAr` beside every composed note, and `name_ar` /
+    `description_ar` on `language_skills`, `competencies` and
+    `skill_descriptors` — adopted from the Arabic pages that already
+    publish them, and held to those pages by
+    `tests/framework-arabic.test.mjs` (migration 022). The QR is
+    announced in the reader's language while pointing at one canonical
+    address, because a printed certificate carries one code for life.
+    Bidirectional isolation went in at the same time: every fact on an
+    award line is a `<bdi>`, and anything the graduate wrote takes
+    `dir="auto"`, so an English sentence in an Arabic card no longer
+    lands its full stop at the wrong end.
+    `tests/browser/graduate.mjs` now opens BOTH editions and fails on any
+    English word the page itself is responsible for.
+
+    **Still open, in the order they matter.** Each is a scripted surface
+    whose Arabic edition is served in English today:
+
+    | Surface | Script | What an Arabic reader is shown in English |
+    |---|---|---|
+    | `/ar/verify.html` | `js/verify.js` | the standing band, the three verification layers, the summary, and the award definition — most of it composed server-side in `functions/_lib/registry/institutional.js` |
+    | `/ar/register.html` | `js/register.js` | the Graduate Register search and its results |
+    | `/ar/my-record.html` | `js/my-record.js` | the learner's own record |
+    | `/ar/my-programme.html` | `js/my-programme.js` | the study plan |
+    | `/ar/admissions/apply/` | `js/admissions-wizard.js` | the application wizard's own prompts |
+    | `/ar/listening-lab.html` | `js/listening-lab.js` | the listening laboratory, the largest of them |
+    | `/ar/student-portal/` | `js/portal-entry.js` | the portal's entry states |
+
+    The registry work above already reaches the first two: an Arabic
+    verification response now carries the Arabic rank and the Arabic
+    level name, so those pages need their own dictionary and nothing
+    more from the platform.
+
 
 ---
 

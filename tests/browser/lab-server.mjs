@@ -1190,8 +1190,13 @@ createServer(async (req, res) => {
       const parsed = registry.parseCode(url.searchParams.get('code') || '');
       if (!parsed.ok) { res.writeHead(400, { 'Content-Type': 'text/plain' }); return res.end('malformed'); }
       const target = `http://localhost:${process.env.LAB_PORT || 8787}/verify.html?code=${encodeURIComponent(parsed.code)}`;
+      // Mirrors functions/api/credentials/qr.js: one target for every
+      // reader, and a label in the reader's own language.
+      const qrLang = url.searchParams.get('lang') === 'ar' ? 'ar' : 'en';
+      const qrLabel = qrLang === 'ar'
+        ? `تحقّق من الشهادة ${parsed.code}` : `Verify award ${parsed.code}`;
       res.writeHead(200, { 'Content-Type': 'image/svg+xml; charset=utf-8' });
-      return res.end(qr.toSvg(target, { level: 'Q', label: `Verify award ${parsed.code}` }));
+      return res.end(qr.toSvg(target, { level: 'Q', label: qrLabel }));
     }
     if (url.pathname.startsWith('/api/graduate/') && req.method === 'GET') {
       const handle = decodeURIComponent(url.pathname.slice('/api/graduate/'.length));

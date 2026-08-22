@@ -45,6 +45,7 @@
 
 import { db, newId, nowIso, ValidationError, NotFoundError } from '../db.js';
 import { signCredential, verifyCredential } from './signing.js';
+import { LEVEL_NAMES_AR, LEVEL_ORDINALS_AR } from '../academic/level-names.js';
 
 // Crockford-style: no 0/O, no 1/I/L, no U (it turns words into
 // accidents). 30 symbols, 12 of them per code, so ~59 bits — not
@@ -60,6 +61,30 @@ export const HONOUR_LABEL = {
   distinction: 'Distinction',
   high_distinction: 'High Distinction',
   college_distinction: 'Distinction of the College',
+};
+
+/* THE SAME FIVE RANKS, IN THE WORDS THE COLLEGE ALREADY PUBLISHES.
+ *
+ * These are not a translation made here. They are the five headings on
+ * /ar/students/awards/, which is where an Arabic reader is sent to learn
+ * what a rank means — so an award that came back from the register
+ * calling itself anything else would be a second name for a published
+ * fact, and the reader would have no way to tell which one the College
+ * meant.
+ *
+ * `tests/honour-labels.test.mjs` reads that page and fails the build if
+ * the two ever stop agreeing.
+ *
+ * Handed back BESIDE `honourLabel`, never instead of it: one payload
+ * serves both editions and the page chooses, which is the same rule the
+ * level names follow in functions/_lib/academic/level-names.js.
+ */
+export const HONOUR_LABEL_AR = {
+  pass: 'ناجح',
+  merit: 'امتياز',
+  distinction: 'تميّز',
+  high_distinction: 'تميّز عالٍ',
+  college_distinction: 'تميّز الكلية',
 };
 
 // The modulus is PRIME, and that is the whole design.
@@ -454,10 +479,18 @@ function publicView(a, replacementCode = null) {
     holderName: a.holder_name,
     awardTitle: a.award_title,
     postNominal: a.post_nominal,
-    level: { id: a.level_id, roman: a.roman, name: a.levelName },
+    // Both namings, so the Arabic verification page can print an
+    // Arabic level rather than an English one mid-Arabic-sentence.
+    // Nothing here is a new fact about the holder: it is the same level,
+    // in the other language the College publishes it in.
+    level: {
+      id: a.level_id, roman: a.roman, ordinalAr: LEVEL_ORDINALS_AR[a.level_id] || null,
+      name: a.levelName, nameAr: LEVEL_NAMES_AR[a.level_id] || null,
+    },
     cefr: a.cefr,
     honour: a.honour,
     honourLabel: HONOUR_LABEL[a.honour] || a.honour,
+    honourLabelAr: HONOUR_LABEL_AR[a.honour] || null,
     credits: a.credits,
     tqtHours: a.tqt_hours,
     citation: a.citation,
@@ -569,7 +602,11 @@ export async function publicRegister(env, { levelId = null, q = null, limit = 10
     count: results.length,
     limit: capped,
     truncated: results.length === capped,
-    entries: results.map((r) => ({ ...r, honourLabel: HONOUR_LABEL[r.honour] || r.honour })),
+    entries: results.map((r) => ({
+      ...r,
+      honourLabel: HONOUR_LABEL[r.honour] || r.honour,
+      honourLabelAr: HONOUR_LABEL_AR[r.honour] || null,
+    })),
   };
 }
 

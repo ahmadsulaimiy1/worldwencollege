@@ -9,9 +9,6 @@
     <p class="masthead__eyebrow" id="eyebrow">سجل خرّيج</p>
     <h1 id="name">&mdash;</h1>
     <p class="lede" id="headline"></p>
-    <!-- يُذكر حيث يكوّن القارئ حكمه، لا في تذييل. فسجلٌّ لا يقول كم
-         أُظهر منه يُقرأ على أنه السجل كله. -->
-    <p class="vfy-note" id="scopeNote">جارٍ تحميل هذا السجل&hellip;</p>
     <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
   </div>
 </section>
@@ -20,7 +17,17 @@
   <div class="container">
     <div class="vfy-wrap">
 
-      <section class="grad-state" id="state" aria-live="polite"></section>
+      <!-- يُذكر حيث يكوّن القارئ حكمه، لا في تذييل. فسجلٌّ لا يقول كم
+           أُظهر منه يُقرأ على أنه السجل كله. وموضعه هنا — إلى جانب
+           السجل لا في الترويسة — قرارٌ في التخطيط أيضًا: كان يملأ في
+           الترويسة بعد وصول السجل فيزيدها سطرين ويدفع الصفحة كلها
+           أسفلها. -->
+      <p class="grad-scope" id="scopeNote"></p>
+
+      <!-- رسالة الانتظار مكتوبة في الصفحة لا يضعها النص البرمجي، حتى
+           يكون لهذا الصندوق ارتفاعه من أول رسم فلا تقفز الصفحة عند
+           وصول الجواب. -->
+      <section class="grad-state" id="state" aria-live="polite"><strong>جارٍ تحميل هذا السجل&hellip;</strong></section>
 
       <section class="grad-section" id="secBiography" hidden>
         <h2>سيرة أكاديمية</h2>
