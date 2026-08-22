@@ -2216,39 +2216,51 @@ body[data-section] {
   font-size: .84rem;
 }
 
+/* THE COMMISSION TOTAL  (was: the price tier)
+
+   This was, exactly, a software pricing card: a struck-through
+   "Separately ₦95,000" above a 1.9rem gold "₦78,000". The Founder read
+   the page as terrifying and without a breakdown, and he was reading it
+   correctly — those four figures are the largest, brightest numbers on
+   a page whose entire argument is that the College charges no tuition.
+   The typography contradicted the prose, and the retail device — a
+   crossed-out higher price beside a lower one — is a persuasion pattern
+   from commerce that has no business on an institution's schedule of
+   charges. It cheapens the thing it is trying to sell.
+
+   These are OPTIONAL BOUND OBJECTS. So the total is now a line in a
+   bindery's order book: the figure face at reading size, ruled above,
+   with the saving stated as a plain sentence rather than struck
+   through. Nothing here should out-shout the ₦0 at the head of the
+   page, which is the only number that decides anything. */
 .r-tier-card__sum {
-  border-top: 1px solid var(--gold-royal);
-  padding-top: 14px;
+  border-top: 1px solid rgba(199, 162, 74, .5);
+  padding-top: 13px;
   margin-bottom: 14px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
 .r-tier-card__was {
-  font-size: .78rem;
-  color: var(--slate);
-  text-decoration: line-through;
-  text-decoration-color: rgba(199, 162, 74, .6);
+  font-size: .74rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+  letter-spacing: .01em;
 }
 
 .r-tier-card__now {
-  font-family: var(--font-display);
-  font-size: 1.9rem;
-  line-height: 1.05;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  /* Struck in gold like every other figure that means something here. */
-  background-image: linear-gradient(150deg,
-    var(--gold-antique) 0%, var(--gold-rich) 40%, var(--bronze) 100%);
-  filter: drop-shadow(0 0 14px rgba(199, 162, 74, .22));
+  font-family: var(--font-figure);
+  font-size: 1.14rem;
+  line-height: 1.15;
+  font-weight: 600;
+  color: var(--bronze);
+  font-variant-numeric: lining-nums proportional-nums;
+  font-optical-sizing: auto;
+  background-image: none;
+  -webkit-text-fill-color: currentColor;
 }
-@supports (-webkit-background-clip: text) or (background-clip: text) {
-  .r-tier-card__now {
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-}
+
 
 .r-tier-card__alt { font-size: .8rem; color: var(--slate); }
 
@@ -3521,8 +3533,31 @@ body { background: var(--cream); }
 
 /* Arabic-Indic numerals take Amiri, which draws them. They also sit
    differently on the line — Arabic figures are shorter and rounder than
-   Didone lining figures — so the tracking correction is removed and the
-   size lifted a touch to match the optical weight of the Latin tree. */
+   Didone lining figures — so the tracking correction is removed.
+
+   THE SIZE IS NOT SET HERE, AND MUST NOT BE.
+
+   It used to be: this rule ended with a blanket
+   `font-size: clamp(2.4rem, 4.6vw, 3.15rem)` applied to `.r-fig` — a
+   ROLE class, not a component. Every figure in the Arabic tree was
+   therefore pinned to one size for ever, whatever the component around
+   it asked for, while the same figure in English scaled freely. The
+   Statement of Cost is what exposed it: ₦0 set at 9rem in English came
+   out at 3.15rem in Arabic, a third of the size, in a composition built
+   around it being the largest thing on the page.
+
+   That is the architecture the Founder identified — Arabic as a
+   correction applied after an English design, rather than a language the
+   system speaks natively. A language layer may adjust the FACE, the
+   WEIGHT, the TRACKING and the LEADING, because those are properties of
+   the script. Size is a property of the composition, and belongs to the
+   component in both languages or to neither.
+
+   Where an Arabic figure genuinely wants a different size — Amiri's
+   numerals are shorter than a Didone's lining figures, so they can want
+   a few per cent more to hold the same optical weight — that is stated
+   on the component, beside the size it is adjusting, where the next
+   person can see both at once. */
 [lang="ar"] .r-standing__fig,
 [lang="ar"] .r-tier-card__now,
 [lang="ar"] .r-tier-card__was,
@@ -3534,8 +3569,12 @@ body { background: var(--cream); }
   font-weight: 700;
   letter-spacing: 0;
   font-variation-settings: normal;
-  font-size: clamp(2.4rem, 4.6vw, 3.15rem);
 }
+
+/* The per-component optical lift, stated where the size it lifts is. */
+[lang="ar"] .r-standing__fig { font-size: clamp(2.44rem, 4.66vw, 3.18rem); }
+[lang="ar"] .stat-tile__value { font-size: 1.8rem; }
+[lang="ar"] .r-nil__amount { font-size: clamp(4.6rem, 11.6vw, 9.5rem); }
 
 /* The ledger keeps tabular figures, because that is what tabular is for:
    a column of hours or prices a reader compares down the page. */
@@ -3804,3 +3843,92 @@ body { background: var(--cream); }
    after each h1. */
 .page-hero .lede,
 .r-hero .r-hero__lede { color: var(--cerulean-pale); }
+
+/* ==================================================== THE STATEMENT OF COST
+
+   One figure, set larger than anything else on the schedule of charges,
+   and it is a nought.
+
+   The page always said the College charges no tuition — it said it in the
+   first paragraph, and said it well. But the biggest, brightest numbers
+   on it were ₦90,000 for an instrument of ijāzah and ₦78,000 for the
+   graduate's folio, both struck in gold at 1.9rem. So the typography
+   argued the opposite of the text, and a reader scanning rather than
+   reading took the typography's word for it. That is not a styling
+   fault; it is an argument losing to its own layout.
+
+   The remedy is hierarchy, not persuasion. The nought is given the size
+   the decision deserves, the optional objects are demoted to the reading
+   size of a bindery's order book, and the retail device that sat under
+   each of them — a crossed-out higher price beside a lower one — is
+   gone entirely. An institution does not discount. */
+.r-nil {
+  display: grid;
+  grid-template-columns: minmax(auto, .58fr) minmax(0, 1.9fr);
+  gap: clamp(24px, 3.6vw, 56px);
+  align-items: start;
+  padding: clamp(28px, 3.4vw, 46px) 0;
+  border-top: 2px solid var(--gold-royal);
+  border-bottom: 1px solid rgba(199, 162, 74, .34);
+}
+
+.r-nil__figure { display: flex; flex-direction: column; gap: 6px; }
+
+/* Proportional, not tabular. A single published figure is read as a word,
+   and this one is the whole argument of the page. */
+.r-nil__amount {
+  font-size: clamp(4.4rem, 11vw, 9rem);
+  line-height: .84;
+  font-weight: 600;
+  color: var(--bronze);
+  font-variant-numeric: lining-nums proportional-nums;
+  font-optical-sizing: auto;
+  /* The naira sign carries two crossbars that reach past the N; at this
+     size they close on the nought. A hair of tracking, not a space. */
+  letter-spacing: .028em;
+}
+
+.r-nil__unit {
+  font-family: var(--font-ceremonial);
+  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.r-nil__label {
+  font-family: var(--font-ceremonial);
+  font-size: .69rem; font-weight: 600; letter-spacing: .21em;
+  text-transform: uppercase; color: var(--bronze);
+  margin: 0 0 16px; padding-bottom: 12px;
+  border-bottom: 1px solid rgba(111, 80, 40, .28);
+}
+
+.r-nil__list { list-style: none; margin: 0 0 20px; padding: 0; }
+.r-nil__list li {
+  position: relative;
+  padding-inline-start: 22px; padding-block: 7px;
+  font-family: var(--font-display);
+  font-size: 1.02rem; line-height: 1.45; color: var(--ink);
+}
+/* A struck rule rather than a bullet: the mark a clerk makes against an
+   item that has been settled. */
+.r-nil__list li::before {
+  content: ''; position: absolute; inset-inline-start: 0; top: 1.02em;
+  width: 12px; height: 1px; background: var(--gold-royal);
+}
+
+.r-nil__note {
+  font-size: .89rem; line-height: 1.68; color: var(--ink-soft);
+  margin: 0; padding-top: 16px;
+  border-top: 1px solid rgba(111, 80, 40, .18);
+}
+.r-nil__note strong { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 820px) {
+  .r-nil { grid-template-columns: 1fr; gap: 22px; }
+  .r-nil__amount { font-size: clamp(3.6rem, 20vw, 6rem); }
+}
+
+/* Arabic sets its own numerals and needs no negative tracking — the
+   nought is drawn, not condensed. See css/arabic.css for the rule that
+   governs the face. */
+[dir="rtl"] .r-nil__amount { letter-spacing: 0; }
