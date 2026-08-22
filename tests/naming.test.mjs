@@ -99,6 +99,7 @@ function visibleText(fragment) {
     .replace(/<[^>]+>/g, ' ')
     .replace(/&mdash;|&ndash;/g, '-')
     .replace(/&nbsp;/g, ' ')
+    .replace(/&middot;/g, '·')
     .replace(/&rsquo;|&#8217;/g, '’')
     .replace(/&amp;/g, '&')
     .replace(/\s+/g, ' ')
@@ -189,6 +190,44 @@ check('the qualification-framework lead reads its award title from the record',
 check('no publication generator types a retired award title',
   RETIRED.every((t) => !blocks.includes(t)),
   RETIRED.filter((t) => blocks.includes(t)).join(', '));
+
+// ── 3b · The shared chrome, which is on every page ──────────────────
+// Scoping the page scan to <main> was right — it stops a page being
+// blamed for the header's vocabulary — but it left the header and footer
+// themselves unguarded, and they are the most-read text on the site.
+//
+// That gap was not theoretical. The Naming Audit rewrote the header's
+// fourteen labels and the audit's own guardrail then reported the site
+// clean while the footer still carried "The IEFC Programme" and "Level I
+// · A1" on all forty-six pages. A test whose scoping decision creates a
+// blind spot has to cover the blind spot somewhere else.
+//
+// The chrome is checked once, as its own unit, in both editions.
+for (const partial of ['partials/header.html', 'partials/footer.html',
+                       'partials/header.ar.html', 'partials/footer.ar.html']) {
+  const src = readFileSync(path.join(ROOT, partial), 'utf8');
+  const text = visibleText(src);
+  const bad = [];
+  for (const [term, full] of NAMES) {
+    if (!new RegExp(`\\b${term}\\b`).test(text)) continue;
+    if (text.includes(full) || abbrExplains(src, term, full)) continue;
+    bad.push(term);
+  }
+  check(`${partial} explains every acronym it uses`, bad.length === 0, bad.join(', '));
+}
+
+// And the chrome presents the six as stages, in both editions. The
+// English nav and footer said "Level I · A1"; the Arabic nav already said
+// "المستوى الأول · التأسيس" — the stage, named — which is why the Arabic
+// edition read better than the English one before this audit.
+const STAGE_WORDS = ['Foundation', 'Development', 'Application', 'Professional', 'Advanced', 'Mastery'];
+for (const partial of ['partials/header.html', 'partials/footer.html']) {
+  const text = visibleText(readFileSync(path.join(ROOT, partial), 'utf8'));
+  const missingStage = STAGE_WORDS.filter((w) => !text.includes(`${w} Stage`));
+  check(`${partial} names all six stages`, missingStage.length === 0, missingStage.join(', '));
+  const numbered = text.match(/\bLevel (?:I|II|III|IV|V|VI) · [ABC][12]\b/g) || [];
+  check(`${partial} does not label them by number alone`, numbered.length === 0, numbered.join(', '));
+}
 
 // ── 4 · The unpublished copy of the level names matches the record ───
 // scripts/publication/stage.mjs keeps its own list of the six level
