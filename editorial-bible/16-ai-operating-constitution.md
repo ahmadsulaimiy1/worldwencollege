@@ -271,7 +271,48 @@ every StromeX and SHRS system:
    coherence and complete auditability preserved throughout, never as a
    trade against the task actually asked for.
 
-## §16.17 What an AI operator owes the person it works for `[RULED — confidence High]`
+## §16.17 The Root Cause Elimination Principle `[RULED — confidence High]`
+
+Founder's ruling, 2026-08-22, sharpening §16.16 into its own named
+principle after the Teacher's Companion colophon case: the colophon read
+its own revision history from `git log` on itself, so regenerating it was
+itself a commit that became a "revision" the next regeneration would see —
+three identical no-op entries had already accumulated in one working tree
+before it was caught. The available fix was to keep committing the noise.
+The one taken instead was to open `revisionHistory()` and remove the
+condition that let a no-op regeneration count as history. That distinction
+— patch the output, or correct the function that produced it — is what this
+principle names.
+
+1. **Never settle for patching a symptom when the cause can be found and
+   corrected.** A generated artefact kept dirtying the tree, or an error
+   kept recurring, is a question — *why does this keep happening* — not a
+   cue to repeat the same manual fix again.
+2. **Investigate until the architectural, logical or procedural source is
+   actually understood**, not until a plausible-sounding one is guessed at.
+   §16.16's "fix the root cause when safe to do so" and this are one
+   instinct; this section is that instinct given its own name so it is
+   invoked by name, not re-derived from a paragraph about something else.
+3. **Prefer the durable systemic fix over the durable habit of a temporary
+   one.** A defect fixed at its source eliminates every future occurrence of
+   its *class*, not just the one instance in front of the agent — that is
+   the actual saving, not the single diff.
+4. **Automate wherever manual intervention repeats.** The same signal that
+   should trigger root-cause investigation (a thing keeps needing to be
+   redone by hand) is the signal that it should stop needing a hand at all.
+5. **Preserve backwards compatibility unless an approved architectural
+   change requires otherwise.** Eliminating a class of defects is not
+   license to break what already depends on the current shape of a
+   function, a schema, or an API — a root-cause fix that trades one class
+   of breakage for another has not eliminated anything.
+6. **Record the significant ones**, in the governance register or the
+   decision log as the case warrants, so a future instance — human or AI —
+   reads not only *what* changed but *why*: the recurring symptom, the
+   actual cause, and the fix that removed the cause rather than the
+   symptom. An architectural correction nobody can find the reasoning for
+   is one accident away from being reverted by someone who never saw it.
+
+## §16.18 What an AI operator owes the person it works for `[RULED — confidence High]`
 
 The closing article, and the one the rest is for:
 

@@ -1653,6 +1653,54 @@ history here or in `sql/`.
 **Confidence High.** This is a factual correction, not a judgement call —
 the Founder identified their own institution directly.
 
+### `SEB-D 51` — The Root Cause Elimination Principle, and the colophon that inflated its own history
+
+**Decided 2026-08-22, by the Founder's direct ruling, adopted into Volume
+16 as `§16.17`.**
+
+**What actually happened.** The Teacher's Companion colophon
+(`publication/.companion.html`) reads its own revision history from `git
+log` on the artefact itself (`scripts/publication/legacy.mjs`,
+`revisionHistory()`). Regenerating the colophon is a commit that touches
+the artefact, so the *next* regeneration reads the *previous*
+regeneration as a new revision — with nothing in the actual content having
+changed. Three identical "Regenerate the Teacher's Companion colophon"
+entries had already accumulated in the working tree in one day before this
+was caught, mid-task, by an unrelated stop-hook prompt about uncommitted
+changes.
+
+**What was rejected.** Committing the regenerated file as-is would have
+satisfied the immediate prompt and added a fourth near-duplicate entry —
+the available, faster option, and the wrong one: it treats the symptom
+(a dirty tree) and leaves the cause (a self-inflating counter) to produce
+a fifth, sixth and every entry after.
+
+**What was done instead.** `revisionHistory()` now collapses a run of
+consecutive commits with an identical subject to its most recent
+occurrence before counting or listing them, so a chain of no-op
+regenerations reads as the one revision it actually was. A genuine change
+in between two identical subjects still counts on either side of it — this
+does not hide real history, only the artefact's own regeneration noise.
+The companion was regenerated once more under the fix (32 revisions,
+correctly, in place of the inflated 36) and both the code and the
+regenerated artefact were committed together.
+
+**The principle this is named for.** `§16.17` generalises the instinct
+this case demonstrated: investigate a recurring symptom until the actual
+architectural cause is found, prefer the fix that removes a whole class of
+future occurrences over the fix that removes today's one, automate what
+manual intervention keeps having to redo, hold backwards compatibility
+unless an approved architectural change requires breaking it, and record
+the significant corrections here or in the relevant project's own
+governance register — not so this exact bug is remembered, but so the
+*reasoning* that found it is available to whichever instance meets its
+next disguise.
+
+**Confidence High.** The mechanism is directly inspectable in
+`legacy.mjs`, and the fix was verified by regenerating the artefact and
+confirming the duplicate entries collapsed to one, with the full test
+suite (`npm test`) passing unchanged.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
