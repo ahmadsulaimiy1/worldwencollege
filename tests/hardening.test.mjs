@@ -139,5 +139,84 @@ const check = (label, cond, detail) => {
     !excluded.some((e) => /well-known/.test(e)), excluded.join(', '));
 }
 
+// ---------------------------------------------------------------------
+// 4 · The credential surface an Arabic reader actually reaches
+// ---------------------------------------------------------------------
+// Audit 23's leading finding: /verify.html had no Arabic edition and no
+// language switcher, while 32 of the 33 Arabic pages linked into it
+// from their header. An Arabic reader — an HR officer in Riyadh, a
+// ministry caseworker, a registrar — was deposited on an English page
+// with no way back, at the one moment the language matters most.
+{
+  const AR = path.join(ROOT, 'ar/verify/index.html');
+  const EN = path.join(ROOT, 'verify.html');
+  check('An Arabic verification page exists', existsSync(AR));
+
+  const ar = existsSync(AR) ? readFileSync(AR, 'utf8') : '';
+  const en = readFileSync(EN, 'utf8');
+
+  check('...and is a genuine RTL document', /<html[^>]*lang="ar"[^>]*dir="rtl"/.test(ar));
+  check('...loading the RTL stylesheet', /css\/arabic\.css/.test(ar));
+
+  // One script, two string tables. A second copy of the logic is a
+  // second verification page, and two verification pages disagree the
+  // first time either is edited.
+  check('...sharing js/verify.js rather than duplicating it',
+    /src="\/js\/verify\.js"/.test(ar));
+  check('...and supplying only its sentences', /WEC_LC_VERIFY_I18N/.test(ar));
+
+  // Every key the script reads must be supplied or fall back. A missing
+  // key showing English is acceptable; a missing key showing nothing,
+  // on a page an employer is reading, is not.
+  const script = readFileSync(path.join(ROOT, 'js/verify.js'), 'utf8');
+  const enKeys = [...script.slice(script.indexOf('var EN = {'), script.indexOf('var T = ('))
+    .matchAll(/^\s{4}(\w+):/gm)].map((m) => m[1]);
+  check(`js/verify.js externalises its sentences — ${enKeys.length} keys`, enKeys.length >= 15);
+  const missing = enKeys.filter((k) => !new RegExp(`\\b${k}\\s*:`).test(ar));
+  check('...and the Arabic edition supplies every one of them',
+    missing.length === 0, missing.join(', '));
+  check('...with a fallback for any it did not', /hasOwnProperty\.call\(supplied/.test(script));
+
+  // Both directions, and neither pointing at itself. A language switch
+  // that returns you to the language you are already reading is worse
+  // than none — and the first version of this page did exactly that,
+  // because a bulk repoint of /verify.html across ar/ caught the new
+  // page's own English link.
+  check('The English page offers the Arabic edition', /href="\/ar\/verify\/"/.test(en));
+  check('The Arabic page offers the English edition', /href="\/verify\.html"/.test(ar));
+  check('...and neither switch points at its own page',
+    !/href="\/verify\.html"[^>]*lang="en"/.test(en) && !/href="\/ar\/verify\/"[^>]*lang="ar"/.test(ar));
+
+  // The header links on every Arabic page must reach the Arabic one.
+  const arPages = [];
+  const walk = (d) => {
+    for (const e of readdirSync(d, { withFileTypes: true })) {
+      const f = path.join(d, e.name);
+      if (e.isDirectory()) walk(f);
+      else if (e.name.endsWith('.html')) arPages.push(f);
+    }
+  };
+  walk(path.join(ROOT, 'ar'));
+  const wrongWay = arPages.filter((f) => {
+    if (f === AR) return false; // its language switch is meant to
+    return /href="\/verify\.html"/.test(readFileSync(f, 'utf8'));
+  });
+  check(`No Arabic page links into the English verifier — ${arPages.length} checked`,
+    wrongWay.length === 0, wrongWay.map((f) => path.relative(ROOT, f)).slice(0, 5).join(', '));
+
+  // Audit 06: an employer entering a code today gets "not found", which
+  // from where they sit is indistinguishable from a forged certificate.
+  // The page knows the real reason and never said it.
+  check('The English page says why a code will not be found',
+    /No award has yet been conferred/.test(en) && /will not be found/.test(en));
+  check('...and so does the Arabic page', /لم تُمنح أي شهادة بعد/.test(ar));
+
+  // And it says why the record itself stays in English, rather than
+  // leaving a reader to wonder — the same reasoning that stops the
+  // College inventing an Arabic title for an award it issues in English.
+  check('The Arabic page explains that the record is shown as issued',
+    /يُعرض السجل كما صدر/.test(ar));
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

@@ -46,11 +46,15 @@ a revoked credential is a system that launders revocations.
 
 No sign-in, no logging of the checker. Correct.
 
-**One thing I could not do.** The page is English only. My colleague who
-handles Gulf-national candidates works in Arabic, and there is no Arabic
-version of the verification page — although 32 of the 33 Arabic
-pages link to it. She would arrive at an English page from an
-Arabic site with no way back.
+**One thing I could not do — since fixed.** The page was English only.
+My colleague who handles Gulf-national candidates works in Arabic, and
+there was no Arabic version of the verification page, although every
+Arabic page but one linked to it. She would have arrived at an English
+page from an Arabic site with no way back.
+
+`/ar/verify/` now exists, and 1 of the 34 Arabic pages links to the
+English one — that page’s own language switch. The record itself is
+still shown as issued, in English, and the page explains why.
 
 **One thing I would want.** A QR code on the certificate that lands
 directly on the verified record. The College appears to have built QR
@@ -91,10 +95,12 @@ odd but defensible order.
 
 ## One thing I would fix today
 
-Put a line on the verification page saying that **no awards have yet been
-conferred**, so a code will not be found.
+~~Put a line on the verification page saying that no awards have yet
+been conferred, so a code will not be found.~~ **Done, in both
+editions.**
 
-At the moment the page invites me to enter a code and will tell me "not
-found" — which, from where I sit, is indistinguishable from a forged
-certificate. The College knows the true reason and does not say it on
-the one page where it changes my conclusion about a real person.
+The page invited me to enter a code and told me "not found" — which,
+from where I sit, is indistinguishable from a forged certificate. The
+College knew the true reason and did not say it on the one page where it
+changes my conclusion about a real person. It says it now, and the
+Arabic error message says it too.

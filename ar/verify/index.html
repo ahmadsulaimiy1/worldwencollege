@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>التحقّق من شهادة | الكلية العالمية للغة الإنجليزية</title>
+<meta name="description" content="تحقّق من شهادة صادرة عن الكلية العالمية للغة الإنجليزية. أدخل رمز التحقّق المطبوع على الشهادة لتأكيد المؤهل وحامله ومستواه وحالته الحالية.">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#14264A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,400..600&family=Cinzel:wght@500;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/brand.css">
+<link rel="stylesheet" href="/css/arabic.css">
+<link rel="stylesheet" href="/css/verify.css">
+<link rel="alternate" hreflang="en" href="https://worldwencollege.co.uk/verify.html">
+<link rel="alternate" hreflang="ar" href="https://worldwencollege.co.uk/ar/verify/">
+</head>
+<body class="vfy">
+
+<a class="skip-link" href="#main">تخطَّ إلى التحقّق</a>
+
+<header class="vfy-head">
+  <div class="vfy-head__wrap">
+    <a class="vfy-crest" href="/ar/">
+      <img src="/assets/images/favicon.svg" alt="" width="40" height="40" aria-hidden="true">
+      <span>الكلية العالمية للغة الإنجليزية<small>مقر لندن</small></span>
+    </a>
+    <h1>التحقّق من الشهادات</h1>
+    <p class="vfy-lede">كل شهادة تمنحها الكلية العالمية للغة الإنجليزية تحمل رمز تحقّق. أدخله أدناه لتأكيد المؤهل وحامله وحالته الحالية.</p>
+    <!-- Stated at the top rather than in a footer nobody reads. It is
+         the property that makes the portal usable, and saying it plainly
+         is also what stops anyone assuming we log who is checking. -->
+    <p class="vfy-note">بلا حساب. بلا تسجيل دخول. ولا نسجّل من يُجري التحقّق.</p>
+    <p class="vfy-note"><a href="/verify.html" lang="en" dir="ltr">English</a></p>
+  </div>
+</header>
+
+<main id="main">
+  <div class="vfy-wrap">
+
+    <form class="vfy-form" id="verifyForm" novalidate>
+      <label class="vfy-label" for="code">رمز التحقّق</label>
+      <div class="vfy-field">
+        <input id="code" name="code" type="text" inputmode="latin" autocomplete="off"
+               spellcheck="false" autocapitalize="characters"
+               placeholder="WEC-XXXX-XXXX-XXXXX"
+               aria-describedby="codeHelp codeError">
+        <button class="vfy-submit" type="submit">تحقّق</button>
+      </div>
+      <p class="vfy-help" id="codeHelp">مطبوع على الشهادة. لا يهمّ حجم الأحرف ولا الشرطات ولا المسافات.</p>
+      <p class="vfy-error" id="codeError" role="alert"></p>
+    </form>
+
+    <!-- The result. One card, three possible standings, and the standing
+         is never implied by the absence of something — a withdrawn award
+         says withdrawn, in words, with a date. -->
+    <section class="vfy-result" id="result" hidden aria-live="polite">
+      <div class="vfy-card" id="card">
+        <div class="vfy-card__band" id="band">
+          <span class="vfy-card__status" id="status">—</span>
+        </div>
+
+        <div class="vfy-card__body">
+          <p class="vfy-card__eyebrow">مُنحت هذه الشهادة إلى</p>
+          <p class="vfy-card__holder" id="holder">—</p>
+
+          <p class="vfy-card__award" id="awardTitle">—</p>
+          <p class="vfy-card__post" id="postNominal"></p>
+
+          <dl class="vfy-facts">
+            <div><dt>المستوى</dt><dd id="fLevel">—</dd></div>
+            <div><dt><span dir="ltr">CEFR</span></dt><dd id="fCefr" dir="ltr">—</dd></div>
+            <div><dt>المرتبة</dt><dd id="fHonour">—</dd></div>
+            <div><dt>أرصدة الكلية</dt><dd id="fCredits" dir="ltr">—</dd></div>
+            <div><dt>الزمن الكلي للمؤهل</dt><dd id="fTqt" dir="ltr">—</dd></div>
+            <div><dt>تاريخ المنح</dt><dd id="fDate">—</dd></div>
+          </dl>
+
+          <blockquote class="vfy-citation" id="citation" hidden></blockquote>
+
+          <div class="vfy-alert" id="alert" hidden></div>
+
+          <div class="vfy-seal">
+            <div class="vfy-seal__qr" id="qr" aria-hidden="true" hidden></div>
+            <div class="vfy-seal__meta">
+              <p class="vfy-seal__code" id="codeOut">—</p>
+              <p class="vfy-seal__digest">بصمة السجل <span id="digest" dir="ltr">—</span></p>
+              <p class="vfy-seal__link"><a id="permalink" href="#" dir="ltr">رابط التحقّق الدائم</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- THE PRINCIPLE OF INSTITUTIONAL VERIFICATION ---------------
+           Three independent layers, answered separately, because they
+           genuinely disagree. A certificate can be entirely authentic,
+           belong to exactly the person named on it, and still confer
+           nothing because the award was withdrawn. One verdict cannot
+           say that, and every way of collapsing it misleads somebody. -->
+      <section class="vfy-layers" id="layers" hidden>
+        <div class="vfy-layers__head">
+          <h2 id="summaryHeadline">—</h2>
+          <p id="summaryStatement"></p>
+        </div>
+
+        <div class="vfy-layer" id="layerIdentity">
+          <h3>صحّة الهوية <small>هل هذا هو الشخص الذي منحته الكلية الشهادة؟</small></h3>
+          <ul class="vfy-checks" id="checksIdentity"></ul>
+        </div>
+        <div class="vfy-layer" id="layerIntegrity">
+          <h3>سلامة الوثيقة <small>هل جرى تعديل هذه الوثيقة؟</small></h3>
+          <ul class="vfy-checks" id="checksIntegrity"></ul>
+        </div>
+        <div class="vfy-layer" id="layerStanding">
+          <h3>الوضع المؤسسي <small>ما حال هذه الشهادة اليوم؟</small></h3>
+          <ul class="vfy-checks" id="checksStanding"></ul>
+        </div>
+      </section>
+
+      <!-- What the qualification actually certifies, from the
+           institutional data model — the same text the certificate, the
+           profile and the API use. -->
+      <section class="vfy-meaning" id="meaning" hidden>
+        <h2>ما الذي يشهد به هذا المؤهل</h2>
+        <p class="vfy-meaning__title" id="mTitle">—</p>
+        <dl class="vfy-meaning__body">
+          <dt>المرحلة</dt><dd id="mStage">—</dd>
+          <dt>الصفة الممنوحة</dt><dd id="mStanding">—</dd>
+          <!-- The sentence a stranger checking a credential most needs, and
+               the one the Worldwide English Qualifications framework exists
+               to make true: what they are looking at is a whole
+               qualification, not a fragment of a programme the holder left
+               unfinished. Placed above the academic purpose because it is
+               the question actually being asked. -->
+          <dt>اكتمال المؤهل</dt><dd id="mExit">—</dd>
+          <dt>الغرض الأكاديمي</dt><dd id="mPurpose">—</dd>
+          <dt>حال الحامل عند المنح</dt><dd id="mProfile">—</dd>
+          <dt>ما يستطيع القيام به</dt><dd id="mOutcomes">—</dd>
+        </dl>
+      </section>
+
+      <p class="vfy-scope">
+        <strong>يُعرض السجل كما صدر.</strong> اسم الحامل واسم المؤهل وعبارات الكلية الأكاديمية تظهر بالإنجليزية، لأنها لغة الشهادة نفسها. ولا تترجم الكلية اسم مؤهل صادر عنها: فذلك ينشئ اسمًا ثانيًا للشهادة نفسها، وهو ما لا يخدم صاحب عمل يقارن ما بين يديه بما على الشاشة.
+      </p>
+
+      <p class="vfy-scope">
+        تؤكّد هذه الصفحة ما يسجّله سجل خريجي الكلية: المؤهل، وحامله كما هو مسمّى على الشهادة، وحالة المؤهل الحالية &mdash; ولا شيء غير ذلك. ولا تُنشر هنا الدرجات ولا التقدّم ولا بيانات الاتصال.
+      </p>
+    </section>
+
+    <section class="vfy-about">
+      <h2>عن هذا السجل</h2>
+      <div class="vfy-about__grid">
+        <div>
+          <h3>كل شهادة، لا الأعلى وحدها</h3>
+          <p>يسجّل السجل كل مؤهلات إطار مؤهلات الكلية العالمية للغة الإنجليزية، من <span dir="ltr">Essential Certificate in English Communication</span> إلى <span dir="ltr">Worldwide English Proficiency Certificate</span>. وكل واحد منها مؤهل كامل بذاته صادر عن الكلية، وقابل للتحقّق منه استقلالًا.</p>
+        </div>
+        <div>
+          <h3>الشهادات المسحوبة تبقى ظاهرة</h3>
+          <p>الشهادة المسحوبة أو المستبدَلة لا تُحذف من السجل أبدًا. بل تُذكر حالتها وتاريخها. أما تحقّق يفشل بلا تفسير فلا يخبرك بشيء.</p>
+        </div>
+        <div>
+          <h3>سجلات تكشف العبث</h3>
+          <p>يحمل كل قيد بصمة تعمية محسوبة على محتواه وعلى القيد الذي يسبقه. وأي تعديل بعد المنح يكسر هذا التسلسل ويصبح قابلًا للكشف. هذه سلسلة بصمات داخل سجل الكلية؛ وليست بلوك تشين، ولا نصفها بذلك.</p>
+        </div>
+        <div>
+          <h3>ما لم يكتمل بعد</h3>
+          <p><strong>لم تُمنح أي شهادة بعد.</strong> فلم يُعيَّن ممتحن خارجي، ولا يمكن للكلية أن تمنح شهادة قبل ذلك. ومعنى هذا عمليًا أن أي رمز يُدخَل اليوم لن يُعثر عليه &mdash; ليس لأن الشهادة مزوّرة، بل لأنه لا يوجد بعدُ ما يُتحقَّق منه. وقد فُتحت هذه البوابة قبل أول منحٍ لا بعده، حتى يكون التحقّق قائمًا منذ الشهادة الأولى.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="vfy-foot">
+  <div class="vfy-wrap">
+    <p>الكلية العالمية للغة الإنجليزية &middot; مقر لندن &mdash; سجل الخريجين</p>
+    <p><a href="/ar/">العودة إلى الكلية</a></p>
+  </div>
+</footer>
+
+<script>
+/* The Arabic edition supplies only the sentences this page writes. The
+   logic is js/verify.js, unchanged and shared — a second copy would be
+   a second verification page, and two verification pages disagree the
+   first time either is edited.
+
+   The record's own values are NOT here: an award title is the name of a
+   qualification, and a translated name is a second name. See the note
+   above the scope paragraph, which says so to the reader as well. */
+window.WEC_LC_VERIFY_I18N = {
+  standingValid: 'تحقَّقت الشهادة — سارية وفي وضع سليم',
+  standingRevoked: 'مسحوبة — لم تعد هذه الشهادة قائمة',
+  standingReplaced: 'مستبدَلة — صدرت شهادة مصحَّحة بدلًا منها',
+  revokedAlert: function (a, d) {
+    return 'سحبت الكلية العالمية للغة الإنجليزية هذه الشهادة بتاريخ ' + d + '.'
+      + (a.revokedReason ? ' والسبب المسجَّل: ' + a.revokedReason : '')
+      + ' ولا ينبغي الاعتماد عليها.';
+  },
+  replacedAlert: function (a, d) {
+    return 'استُبدلت هذه الشهادة بأخرى مصحَّحة' + (d ? ' بتاريخ ' + d : '') + '.'
+      + (a.replacementCode
+        ? ' والسجل الحالي هو ' + a.replacementCode + '.'
+        : ' والسجل الحالي محفوظ لدى الكلية.');
+  },
+  unrecordedDate: 'تاريخ غير مسجَّل',
+  /* Gregorian, in Arabic. A certificate carries a Gregorian date and a
+     verifier is comparing the screen with the paper; rendering a Hijri
+     date here would be a courtesy that makes the two disagree. */
+  dateLocale: 'ar-u-ca-gregory',
+  levelPrefix: 'المستوى ',
+  hours: ' ساعة',
+  notFound: 'تعذّر التحقّق من هذا الرمز. راجعه على الشهادة. ولا تُمنح الكلية أي شهادة بعد، فلا يوجد بعدُ رمز صحيح.',
+  enterCode: 'أدخل رمز التحقّق المطبوع على الشهادة.',
+  unreachable: 'تعذّر الوصول إلى السجل. الخلل من جانبنا — أعد المحاولة بعد قليل.',
+  stateVerified: 'تحقَّق',
+  stateFailed: 'لم يتحقّق',
+  stateNotApplicable: 'لا ينطبق',
+  stateUnavailable: 'تعذّر فحصه',
+  stateDevelopment: 'توقيع تطويري',
+  stageSuffix: ' — مرحلة ضمن إطار مؤهلات الكلية العالمية للغة الإنجليزية',
+  verifyPath: '/ar/verify/'
+};
+</script>
+<script src="/js/verify.js"></script>
+</body>
+</html>

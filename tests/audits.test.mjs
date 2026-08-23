@@ -147,7 +147,18 @@ function servedPages(dir = ROOT, out = []) {
 const all = servedPages();
 const en = all.filter((f) => !f.startsWith('ar/'));
 const ar = all.filter((f) => f.startsWith('ar/'));
-const orphans = en.filter((f) => !existsSync(path.join(ROOT, 'ar', f)));
+// An English page's Arabic counterpart is either the same path under
+// ar/ (about/index.html -> ar/about/index.html) or, for a root-level
+// file, a directory (verify.html -> ar/verify/index.html). The first
+// version of this only understood the first form, so publishing
+// ar/verify/index.html left verify.html still counted as orphaned —
+// the measurement would have reported the gap as open after it closed.
+function hasArabicCounterpart(rel) {
+  if (existsSync(path.join(ROOT, 'ar', rel))) return true;
+  const m = rel.match(/^([^/]+)\.html$/);
+  return !!m && existsSync(path.join(ROOT, 'ar', m[1], 'index.html'));
+}
+const orphans = en.filter((f) => !hasArabicCounterpart(f));
 
 // The lookaheads keep the totals apart from the counterpart counts:
 // "46 English pages" and "13 English pages with no Arabic counterpart"
@@ -163,12 +174,18 @@ everyMention('English pages with no Arabic counterpart',
 // English-only AND every Arabic page links to one of them.
 const CREDENTIAL = ['verify.html', 'register.html', 'graduate.html'];
 const stillOrphaned = CREDENTIAL.filter((f) => orphans.includes(f));
+check('The verification page now has an Arabic edition',
+  hasArabicCounterpart('verify.html'),
+  'Audit 23 §1 describes it as English-only');
 const arLinkingToVerify = ar.filter((f) =>
   /href="\/verify(\.html|\/)/.test(readFileSync(path.join(ROOT, f), 'utf8'))).length;
-check('The credential surfaces are still English-only',
-  stillOrphaned.length === 3,
+// Two of the three remain: the Graduate Register and the graduate
+// profile. Verification was the one an employer or a ministry actually
+// opens, and it is done.
+check('The remaining credential surfaces are still English-only',
+  stillOrphaned.length === 2 && !stillOrphaned.includes('verify.html'),
   stillOrphaned.length === 0
-    ? 'FIXED — rewrite Audit 23 §1, Audit 04 and Audit 06'
+    ? 'ALL FIXED — rewrite Audit 23 §1, Audit 04 and Audit 06'
     : `${stillOrphaned.join(', ')}`);
 everyMention('Arabic pages linking into a credential surface',
   /(\d+) of the \d+ Arabic\s*pages/g, arLinkingToVerify);

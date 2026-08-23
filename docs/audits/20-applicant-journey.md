@@ -152,13 +152,14 @@ closed.
 
 ## Stage 9 · Being verified afterwards
 
-**Hesitation 15 — the verification page does not say why a code will not
-be found.** An employer entering a code today gets "not found", which is
+**Hesitation 15 — the verification page did not say why a code will not
+be found. Fixed in both editions.** An employer entering a code today gets "not found", which is
 indistinguishable from a forged certificate. The page should say that no
 awards have yet been conferred.
 
-**Hesitation 16 — verification is English only.** 32 of the 33 Arabic
-pages link to it from their header. An Arabic reader is deposited on an
+**Hesitation 16 — verification was English only.** Every Arabic page but
+one linked to it from its header. `/ar/verify/` now exists; 1 of the 34
+Arabic pages links to the English edition, being its language switch. An Arabic reader is deposited on an
 English page with no way back, at the one moment the language matters
 most.
 

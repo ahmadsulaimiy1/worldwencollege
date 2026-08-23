@@ -11,8 +11,8 @@ assumed.
 A working note from an earlier pass put the English-only page count at
 "about 42". **That was wrong.** Measured:
 
-- **46 English pages, 33 Arabic pages.**
-- **13 English pages with no Arabic counterpart.**
+- **46 English pages, 34 Arabic pages.**
+- **12 English pages with no Arabic counterpart.**
 - **0 Arabic pages with no English counterpart.**
 
 And the 13 are not marketing. They are:
@@ -20,7 +20,7 @@ And the 13 are not marketing. They are:
 | Category | Pages |
 |---|---|
 | Signed-in product | `my-programme`, `my-record`, `student-portal/preview` (×2), `listening-lab`, `instructor-review`, `admin-enrolments`, `finance/preview` |
-| **Public credential surfaces** | **`verify.html`, `register.html`, `graduate.html`** |
+| **Public credential surfaces** | **`register.html`, `graduate.html`** — `verify.html` now has an Arabic edition; see below |
 | Internal | `docs/information-architecture.html`, `stromex/design-system/showcase` |
 
 **The public marketing site is fully bilingual.** What is English-only is
@@ -29,24 +29,36 @@ or a university actually uses.
 
 ---
 
-## Finding 1 — the Arabic edition stops exactly where it matters most
+## Finding 1 — the Arabic edition stopped exactly where it mattered most — FIXED
 
-`/verify/`, `/register/` and `/graduate/` have no Arabic edition **and no
-language switcher at all** — no `hreflang`, no link to an Arabic
-alternative, nothing.
+**As found.** `/verify/`, `/register/` and `/graduate/` had no Arabic
+edition **and no language switcher at all** — no `hreflang`, no link to
+an Arabic alternative, nothing. Meanwhile every Arabic page but one
+linked to `/verify.html` from its header.
 
-Meanwhile **32 of the 33 Arabic pages link to `/verify.html` from their
-header** — every one except the Arabic application page, which uses a
-different shell.
-
-So the journey is: an Arabic reader browses an Arabic site, clicks
+So the journey was: an Arabic reader browses an Arabic site, clicks
 "verify an award" in the Arabic navigation, and lands on an English-only
-page with no route back. That is the single most transactional act the
-College supports, performed by the reader least likely to be reading in
-English — an HR officer in Riyadh, a ministry caseworker, a registrar.
+page with no route back — the single most transactional act the College
+supports, performed by the reader least likely to be reading in English.
 
-This is the leading international-readiness finding and it is a build,
-not a decision.
+**Now.** `/ar/verify/` exists. Every Arabic page's header reaches it, and
+**1 of the 34 Arabic pages** still links to `/verify.html` — the Arabic
+verification page itself, whose language switch is meant to.
+
+It shares `js/verify.js` rather than duplicating it: the Arabic edition
+supplies a string table and nothing else, because two verification pages
+disagree the first time either is edited.
+
+**What is deliberately NOT translated**, and the page says so to the
+reader: the record itself. A holder's name, an award title and the
+College's academic statements are rendered as issued. An award title is
+the name of a qualification, and a translated name is a second name for
+the same award — the exact question Board Paper 03 puts to the Executive
+about level names.
+
+**Still outstanding:** the Graduate Register and the graduate profile
+remain English-only. Verification was the one an employer or a ministry
+actually opens.
 
 ---
 
@@ -166,9 +178,9 @@ placeless.**
 
 Three fixes, in order of impact per unit of effort:
 
-1. **Publish `/ar/verify/`.** One page. It is the destination of a link
-   from 32 of the 33 Arabic pages, and the only page a foreign employer
-   will ever load.
+1. ~~**Publish `/ar/verify/`.**~~ **Done.** It was the destination of a
+   header link on every Arabic page but one, and the only page a foreign
+   employer will ever load. `/ar/register/` and `/ar/graduate/` remain.
 2. **Register an entity and publish terms.** This is not an
    international-readiness item that happens to appear here; it is the
    binding constraint on every non-consumer relationship the College

@@ -25,32 +25,82 @@
   'use strict';
   var $ = function (s) { return document.querySelector(s); };
 
+  // ────────────────────────────────────────────────────────────────
+  // TWO EDITIONS, ONE SCRIPT
+  // ────────────────────────────────────────────────────────────────
+  // Every sentence this file writes lives here, so the Arabic edition
+  // is a string table rather than a second copy of the logic. A
+  // duplicated verification page is a verification page that disagrees
+  // with itself after the first change to either.
+  //
+  // A page supplies window.WEC_LC_VERIFY_I18N before loading this
+  // script; anything it omits falls back to the English below, so a
+  // missing translation shows English rather than nothing. On a page an
+  // employer is using to check a credential, a blank label is worse
+  // than one in the wrong language.
+  //
+  // What is NOT translated, deliberately: the record itself. The
+  // holder's name, the award title, the College's academic statements
+  // and the CEFR band are rendered as issued. An award title is the
+  // name of a qualification, and translating it would create a second
+  // name for the same award — which is the exact question Board Paper
+  // 03 puts to the Executive about level names. The Arabic page says so
+  // in words rather than leaving a reader to wonder.
+  var EN = {
+    standingValid: 'Verified — award in good standing',
+    standingRevoked: 'Withdrawn — this award is no longer held',
+    standingReplaced: 'Superseded — a corrected certificate has been issued',
+    revokedAlert: function (a, d) {
+      return 'This award was withdrawn by Worldwide English College on ' + d + '.'
+        + (a.revokedReason ? ' Reason recorded: ' + a.revokedReason : '')
+        + ' It should not be relied upon.';
+    },
+    replacedAlert: function (a, d) {
+      return 'This certificate has been replaced by a corrected one'
+        + (d ? ' on ' + d : '') + '.'
+        + (a.replacementCode
+          ? ' The current record is ' + a.replacementCode + '.'
+          : ' The College holds the current record.');
+    },
+    unrecordedDate: 'an unrecorded date',
+    dateLocale: 'en-GB',
+    levelPrefix: 'Level ',
+    hours: ' hours',
+    notFound: 'That code could not be verified. Check it against the certificate.',
+    enterCode: 'Enter the verification code printed on the certificate.',
+    unreachable: 'The Register could not be reached. This is a fault on our side — please try again shortly.',
+    stateVerified: 'Verified',
+    stateFailed: 'Not verified',
+    stateNotApplicable: 'Not applicable',
+    stateUnavailable: 'Could not be checked',
+    stateDevelopment: 'Development signature',
+    stageSuffix: ' Stage of the Worldwide English Qualifications framework',
+    verifyPath: '/verify.html',
+  };
+  var T = (function () {
+    var supplied = window.WEC_LC_VERIFY_I18N || {};
+    var out = {};
+    Object.keys(EN).forEach(function (k) {
+      out[k] = Object.prototype.hasOwnProperty.call(supplied, k) ? supplied[k] : EN[k];
+    });
+    return out;
+  })();
+
   var STANDING = {
     valid: {
       cls: 'is-valid',
-      label: 'Verified — award in good standing',
+      label: T.standingValid,
       alert: null,
     },
     revoked: {
       cls: 'is-revoked',
-      label: 'Withdrawn — this award is no longer held',
-      alert: function (a) {
-        return 'This award was withdrawn by Worldwide English College on '
-          + fmtDate(a.revokedAt) + '.'
-          + (a.revokedReason ? ' Reason recorded: ' + a.revokedReason : '')
-          + ' It should not be relied upon.';
-      },
+      label: T.standingRevoked,
+      alert: function (a) { return T.revokedAlert(a, fmtDate(a.revokedAt)); },
     },
     replaced: {
       cls: 'is-replaced',
-      label: 'Superseded — a corrected certificate has been issued',
-      alert: function (a) {
-        return 'This certificate has been replaced by a corrected one'
-          + (a.revokedAt ? ' on ' + fmtDate(a.revokedAt) : '') + '.'
-          + (a.replacementCode
-            ? ' The current record is ' + a.replacementCode + '.'
-            : ' The College holds the current record.');
-      },
+      label: T.standingReplaced,
+      alert: function (a) { return T.replacedAlert(a, a.revokedAt ? fmtDate(a.revokedAt) : ''); },
     },
   };
 
@@ -67,10 +117,10 @@
   }
 
   function fmtDate(iso) {
-    if (!iso) return 'an unrecorded date';
+    if (!iso) return T.unrecordedDate;
     var d = new Date(iso.length === 10 ? iso + 'T00:00:00Z' : iso);
     if (isNaN(d.getTime())) return iso;
-    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+    return d.toLocaleDateString(T.dateLocale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
   }
 
   function show(result) {
@@ -84,7 +134,7 @@
       // a blank card would imply there is one but that something failed.
       $('#result').hidden = true;
       $('#codeError').textContent = result.message
-        || 'That code could not be verified. Check it against the certificate.';
+        || T.notFound;
       return;
     }
 
@@ -96,11 +146,11 @@
     $('#awardTitle').textContent = a.awardTitle;
     $('#postNominal').textContent = a.postNominal || '';
 
-    $('#fLevel').textContent = 'Level ' + a.level.roman + ' — ' + a.level.name;
+    $('#fLevel').textContent = T.levelPrefix + a.level.roman + ' — ' + a.level.name;
     $('#fCefr').textContent = a.cefr;
     $('#fHonour').textContent = a.honourLabel;
     $('#fCredits').textContent = a.credits;
-    $('#fTqt').textContent = a.tqtHours + ' hours';
+    $('#fTqt').textContent = a.tqtHours + T.hours;
     $('#fDate').textContent = fmtDate(a.conferredOn);
 
     var cite = $('#citation');
@@ -123,7 +173,7 @@
     // who actually needs it.
     $('#digest').textContent = (a.digest || '').slice(0, 16) + '…';
 
-    var link = location.origin + '/verify.html?code=' + encodeURIComponent(a.verificationCode);
+    var link = location.origin + T.verifyPath + '?code=' + encodeURIComponent(a.verificationCode);
     $('#permalink').href = link;
     $('#permalink').textContent = link;
     drawQr($('#qr'), a.verificationCode);
@@ -173,7 +223,7 @@
     if (e) e.preventDefault();
     var raw = $('#code').value.trim();
     if (!raw) {
-      $('#codeError').textContent = 'Enter the verification code printed on the certificate.';
+      $('#codeError').textContent = T.enterCode;
       $('#code').focus();
       return;
     }
@@ -200,7 +250,7 @@
       })
       .catch(function () {
         $('#result').hidden = true;
-        $('#codeError').textContent = 'The Register could not be reached. This is a fault on our side — please try again shortly.';
+        $('#codeError').textContent = T.unreachable;
       })
       .then(function () { btn.removeAttribute('aria-busy'); });
   }
@@ -211,11 +261,11 @@
   // nothing; a verifier reading "identity verified, integrity verified,
   // standing WITHDRAWN" knows exactly what they are holding.
   var STATE_LABEL = {
-    verified: 'Verified',
-    failed: 'Not verified',
-    not_applicable: 'Not applicable',
-    unavailable: 'Could not be checked',
-    development: 'Development signature',
+    verified: T.stateVerified,
+    failed: T.stateFailed,
+    not_applicable: T.stateNotApplicable,
+    unavailable: T.stateUnavailable,
+    development: T.stateDevelopment,
   };
 
   function renderChecks(hostId, checks) {
@@ -239,6 +289,9 @@
     if (!d || !d.layers) { $('#layers').hidden = true; $('#meaning').hidden = true; return; }
 
     $('#summaryHeadline').textContent = d.summary.headline;
+    // Compared against the ENGLISH literal on purpose: this headline is
+    // issued by the API in English, so translating the comparison would
+    // make every Arabic verification render as a warning.
     $('#summaryHeadline').className = 'is-' + (d.summary.headline === 'Verified' ? 'ok' : 'warn');
     $('#summaryStatement').textContent = d.summary.statement;
     renderChecks('#checksIdentity', d.layers.identity);
@@ -250,7 +303,7 @@
       $('#mTitle').textContent = d.definition.officialTitle
         + ' (' + d.definition.postNominal + ' \u00B7 CEFR ' + d.definition.cefr + ')';
       $('#mStage').textContent = d.definition.stage
-        ? d.definition.stage + ' Stage of the Worldwide English Qualifications framework'
+        ? d.definition.stage + T.stageSuffix
         : '\u2014';
       $('#mStanding').textContent = d.definition.standing;
       $('#mExit').textContent = d.definition.exitStatement || '\u2014';

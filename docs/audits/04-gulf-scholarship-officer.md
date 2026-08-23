@@ -106,10 +106,15 @@ examination. It just has not sat it.
 ## One thing I could not check, and it matters
 
 I read Arabic. Our ministry's staff read Arabic. **The verification page
-has no Arabic edition** — and 32 of the 33 Arabic pages link to it
+had no Arabic edition** — and every Arabic page but one linked to it
 from the header.
 
 If we ever did list this College, the officer verifying a scholar's
-completion would be sent from an Arabic site to an English-only page
-with no way back. That is the single page where the language matters
-most, and it is the one page that has no Arabic.
+completion would have been sent from an Arabic site to an English-only
+page with no way back. That is the single page where the language
+matters most, and it was the one page that had no Arabic.
+
+**Since fixed.** `/ar/verify/` now exists, and 1 of the 34 Arabic pages
+links to the English edition — that page's own language switch. The
+Graduate Register remains English-only, which matters less: my officer
+verifies a named scholar against a code, not by browsing a roll.
