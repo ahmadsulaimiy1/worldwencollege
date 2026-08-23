@@ -135,6 +135,52 @@ const RULES = [
     denial: /\b(not|no|never|none|without|does not|is not|are not|nor|neither|once|until|would|no one|nobody)\b/i,
   },
   {
+    // ────────────────────────────────────────────────────────────
+    // WHY THIS RULE EXISTS
+    // ────────────────────────────────────────────────────────────
+    // The homepage carried, for months, the sentence "Accreditation
+    // candidacy is underway; its current stage ... published in full and
+    // kept current — see institutional status". No accrediting body had
+    // been approached. /about/#status listed accreditation under "In
+    // progress — to be published here as confirmed", and the evidence
+    // register held no accreditation item at all: the sentence cited as
+    // its own evidence a page that contradicted it.
+    //
+    // The accreditation rule above did not fire, because a PROCESS claim
+    // is not a STATUS claim. "We are accredited by X" is caught. "Our
+    // candidacy is underway" asserts a formal standing with an awarding
+    // or accrediting body just as firmly, and matches none of those
+    // patterns. That gap is what this rule closes.
+    name: 'progress toward an accreditation that has not been sought',
+    claim: new RegExp(
+      // "application" is NOT bare here. The admissions pages say
+      // "Everything below is what will be submitted" about an
+      // APPLICANT's application, which is not a claim about the College
+      // at all — the first draft of this rule flagged it twice.
+      String.raw`\b(?:accreditation|candidacy|candidate status)\b[^.;:!?]{0,60}\b(?:is |are )?(?:underway|in progress|submitted|lodged|pending|advancing|proceeding)\b`
+      + String.raw`|\bapplication\s+for\s+accreditation\b[^.;:!?]{0,60}\b(?:underway|in progress|submitted|lodged|pending)\b`
+      + String.raw`|\b(?:candidacy|candidate status)\s+(?:for|with)\b`
+      + String.raw`|\b(?:seeking|applying for|pursuing|in preparation for)\s+accreditation\b`
+      + String.raw`|\bour\s+(?:accreditation\s+)?(?:candidacy|application)\b`, 'i'),
+    denial: /\b(not|no|never|none|without|cannot|does not|is not|are not|has not|have not|nor|neither|would|until|before|not begun|not yet|no accrediting body|any claim|claims of)\b|previously said|previously claimed|previously stated|used to say|no longer says|neither was true|was not true|is corrected/i,
+  },
+  {
+    // The same sentence also said the College "operates under UK law
+    // with professional counsel retained". No solicitor is engaged;
+    // docs/master-roadmap.md costs that engagement as a future 2–4 hour
+    // scoping call. A retained adviser is a professional relationship
+    // somebody can be asked to name, and asserting one that does not
+    // exist is the same class of fabrication as an invented
+    // accreditation — it is simply cheaper to write.
+    name: 'a professional adviser the College does not retain',
+    claim: new RegExp(
+      String.raw`\b(?:counsel|solicitors?|barristers?|auditors?|accountants?|insurers?|advisers?|advisors?)\s+(?:(?:is|are|was|were|has been|have been|being)\s+)?(?:retained|engaged|appointed|instructed)\b`
+      + String.raw`|\b(?:retained|engaged|instructed)\s+(?:legal |professional |external )?(?:counsel|solicitors?|auditors?|advisers?|advisors?)\b`
+      + String.raw`|\bour\s+(?:solicitors?|auditors?|accountants?|insurers?|legal (?:team|counsel|advisers?))\b`
+      + String.raw`|\b(?:audited|insured|advised)\s+by\b`, 'i'),
+    denial: /\b(not|no|never|none|without|cannot|does not|is not|are not|has not|have not|nor|neither|would|until|before|needs|requires|should|any claim|claims of)\b|previously said|previously claimed|previously stated|used to say|no longer says|neither was true|was not true|is corrected/i,
+  },
+  {
     name: 'a testimonial presented as a real person',
     claim: /\b(said [A-Z][a-z]+ [A-Z][a-z]+|["\u201C][^"\u201D]{40,}["\u201D][,]? (said|says) [A-Z])\b/,
     denial: /\b(illustrative|example|sample|hypothetical|not a real|would read)\b/i,
@@ -195,6 +241,60 @@ const examinerFalse = examiner.filter((rel) => {
 });
 check('Wherever the External Examiner is mentioned, the page says none is appointed',
   examinerFalse.length === 0, examinerFalse.join(', '));
+
+// --- Accreditation: the site may not be ahead of the record ----------
+// The rules above catch a claim made in a sentence. This catches the
+// same claim made in a table cell, which is where it hid: the homepage's
+// pathway ledger marked ASIC, Accreditation UK, BAC, ISO 21001,
+// awarding-organisation partnership and university partnerships all as
+// "In preparation" while nothing had been prepared for any of them.
+//
+// It is driven by the record rather than by a word list, so it relaxes
+// on its own the day a real accreditation file exists: if the evidence
+// register gains an item for accreditation, this check stops applying
+// and the site becomes free to describe what that item shows.
+{
+  const { DatabaseSync } = await import('node:sqlite');
+  const adb = new DatabaseSync(':memory:');
+  adb.exec(readFileSync(path.join(ROOT, 'sql/schema.sql'), 'utf8'));
+  adb.exec(readFileSync(path.join(ROOT, 'sql/seed-evidence-centre.sql'), 'utf8'));
+  const accreditationEvidence = adb.prepare(
+    `SELECT COUNT(*) n FROM evidence_items
+       WHERE collection LIKE '%Accredit%' OR title LIKE '%accredit%'`).get().n;
+  adb.close();
+
+  check('the evidence register is readable for this check', true);
+
+  if (accreditationEvidence > 0) {
+    console.log(`SKIP the accreditation-position check — ${accreditationEvidence} evidence `
+      + 'item(s) now exist, so the site may describe them');
+  } else {
+    // Words that assert motion toward accreditation. "Not begun",
+    // "under long-term consideration" and the absence of a position are
+    // all fine: they claim nothing.
+    const MOTION = /\b(in preparation|underway|under way|in progress|submitted|lodged|pending|awaiting (?:a )?(?:decision|assessment|visit)|candidacy|candidate status|shortlisted|provisional(?:ly)? accredited)\b/i;
+    const SCHEMES = /\b(ASIC|BAC|British Accreditation Council|Accreditation UK|ISO ?21001|Ofqual|QAA|British Council)\b/;
+    const ahead = [];
+    for (const p of all) {
+      if (SUBJECT_PAGES.has(p.rel.split(path.sep)[0].replace(/\.html$/, ''))) continue;
+      for (const s2 of sentences(p.text)) {
+        if (!SCHEMES.test(s2) || !MOTION.test(s2)) continue;
+        if (/\b(not|no|never|none|has not|have not|nor|neither|until|before|would|previously|used to)\b/i.test(s2)) continue;
+        ahead.push(`${p.rel}: "${s2.slice(0, 130)}"`);
+      }
+    }
+    check('No page claims motion toward an accreditation scheme while the record holds nothing',
+      ahead.length === 0, `\n  ${ahead.join('\n  ')}`);
+
+    // Positive control. If visibleText() or sentences() broke, the check
+    // above would report zero and read as a clean site. The schemes ARE
+    // named on the homepage's pathway ledger; if they are not found at
+    // all, the scanner is broken, not the site.
+    const namesSchemes = all.filter((p) => SCHEMES.test(p.text)).length;
+    check('...and the scanner can see the pathway ledger at all', namesSchemes >= 2,
+      `${namesSchemes} page(s) name an accreditation scheme`);
+  }
+}
 
 console.log(`\n${pass} passed, ${fail} failed.`);
 process.exit(fail ? 1 : 0);

@@ -1005,3 +1005,90 @@ language-skill mapping and its descriptor thresholds.
 - This supersedes governance item A6d as the route to a competency
   framework: the blocker is no longer "somebody should map the
   curriculum" but "BASCE should be constituted and should map it".
+
+---
+
+---
+
+## F. Corrections to published claims
+
+Recorded here rather than in a commit message alone, because a
+correction that only exists in version control is a correction the
+Board never sees.
+
+### F1. The homepage claimed an accreditation candidacy that does not exist — CORRECTED 23 August 2026
+
+**What was published.** The homepage's institutional status note read:
+
+> "WEC delivers the IEFC online worldwide from a London administrative
+> headquarters, and operates under UK law with professional counsel
+> retained. Accreditation candidacy is underway; its current stage, and
+> the governance appointments and academic calendar supporting it, are
+> published in full and kept current — see institutional status and the
+> evidence record."
+
+**What is true.** No accrediting body has been approached and no
+application has been made. `/about/#status` lists "Formal accreditation
+and external quality-assurance affiliations" under *In progress — to be
+published here as confirmed*, alongside the registered office address
+and the academic calendar. The evidence register holds no accreditation
+item in any of its 45 rows. Five governance pages state that the College
+holds no accreditation.
+
+The sentence cited `/about/#status` as its own evidence, and that page
+contradicted it.
+
+**And no counsel is retained.** `docs/master-roadmap.md` costs engaging
+a UK solicitor as a future action — "a single scoping call with a UK
+solicitor experienced in EdTech/private education (2–4 hours)" — and
+states that "every item needs sign-off from a UK solicitor before you
+rely on it". A retained adviser is a professional relationship somebody
+can be asked to name.
+
+**Also corrected in the same pass.**
+
+- The homepage lede said "Sixty modules. Every one of them written and
+  published in full — you read the entire programme before you pay for
+  any of it." Measured against the record: 174 reading items exist
+  against a designed 720 lessons (120 per level across six levels).
+  `/about/#status` and the academics page both disclose the shortfall;
+  the homepage did not, and the homepage is where a prospective learner
+  meets the claim first.
+- The homepage's external-validation ledger marked six stages — ASIC,
+  Accreditation UK, BAC, ISO 21001, awarding-organisation partnership
+  and university partnerships — as *In preparation* with nothing
+  prepared for any of them, and closed with "Each stage is reported in
+  the evidence record as it moves, with the documents behind it" when
+  the evidence record holds no document for any of them. Positions now
+  read *Not begun*, and the note says so.
+- Both editions. The Arabic homepage carried the same four claims.
+
+**What was checked and found sound.** The faculty roster. Twenty staff
+are published from `docs/faculty-register.md`, attested by the College
+on 12 August 2026, with the provenance of every field recorded — and the
+page claims the College's attestation rather than independent
+verification, which is the correct and the defensible form. The
+Pathway section's own reasoning is also sound: publishing a route rather
+than a badge, with an explicit instruction that nothing in it may be
+restyled to resemble a granted mark. The defect was in its positions,
+not in its design.
+
+**Guardrails.** `tests/institutional-claims.test.mjs` gains two rules
+and one record-driven check:
+
+- a claim of *progress* toward accreditation — candidacy, application
+  underway, seeking accreditation — which the existing rule missed
+  because it tested for status ("accredited by") and not for process;
+- a claim of a retained professional adviser — counsel, solicitors,
+  auditors, insurers;
+- and, driven by the evidence register rather than a word list, a
+  refusal to let any page describe motion toward a named accreditation
+  scheme while the register holds no accreditation item. That check
+  relaxes on its own the day a real accreditation file exists.
+
+All four sabotage-verified.
+
+**Decision:** none required. This is the correction of false statements
+under the College's standing editorial rule, not a matter of judgement.
+It is recorded so the Board knows it happened and can see what the site
+said before.
