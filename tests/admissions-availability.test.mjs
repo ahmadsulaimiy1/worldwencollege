@@ -96,6 +96,56 @@ const req = (headers = {}) => new Request('https://wec.test/api/admissions/draft
 }
 
 // ---------------------------------------------------------------------
+// 2b · One key, not two that must agree
+// ---------------------------------------------------------------------
+// The live outage was two variables where one would do: the publishable
+// key was configured and CLERK_JWKS_URL was not, so the browser could
+// load Clerk and the server could not check what it produced. A Clerk
+// publishable key encodes the Frontend API host, so the server can
+// derive its own verification endpoint and the pair cannot drift.
+{
+  const { frontendApiFromPublishableKey, resolveJwksUrl } =
+    await import(loadUrl('functions/_lib/auth/clerk-adapter.js'));
+  const host = 'grand-mole-42.clerk.accounts.dev';
+  const pk = (prefix) => prefix + Buffer.from(`${host}$`).toString('base64');
+
+  check('A publishable key yields its Frontend API host',
+    frontendApiFromPublishableKey(pk('pk_test_')) === host,
+    frontendApiFromPublishableKey(pk('pk_test_')));
+  check('...for live keys as well as test keys',
+    frontendApiFromPublishableKey(pk('pk_live_')) === host);
+
+  // Every one of these must yield null rather than a guess. A derived
+  // JWKS URL is where session tokens are checked; pointing it somewhere
+  // unintended is worse than refusing to point it anywhere.
+  for (const junk of ['', 'pk_test_', 'notakey', 'pk_test_!!!not-base64!!!',
+    'pk_test_' + Buffer.from('not a host').toString('base64'),
+    'pk_test_' + Buffer.from('https://evil.example/path$').toString('base64'),
+    null, undefined, 42]) {
+    check(`A malformed key yields no host: ${JSON.stringify(junk)}`,
+      frontendApiFromPublishableKey(junk) === null, frontendApiFromPublishableKey(junk));
+  }
+
+  check('The JWKS URL is derived from the publishable key alone',
+    resolveJwksUrl({ CLERK_PUBLISHABLE_KEY: pk('pk_live_') }).url
+      === `https://${host}/.well-known/jwks.json`);
+  check('...reporting where it came from',
+    resolveJwksUrl({ CLERK_PUBLISHABLE_KEY: pk('pk_live_') }).source === 'CLERK_PUBLISHABLE_KEY');
+  check('An explicit CLERK_JWKS_URL still wins',
+    resolveJwksUrl({ CLERK_PUBLISHABLE_KEY: pk('pk_live_'),
+      CLERK_JWKS_URL: 'https://explicit.example/jwks' }).url === 'https://explicit.example/jwks',
+    'derivation overrode an operator\u2019s explicit setting');
+  check('With neither, nothing is invented', resolveJwksUrl({}).url === null);
+
+  // End to end: the publishable key alone must make the draft endpoint
+  // stop answering 503.
+  const env = { DB: makeD1(schema), CLERK_PUBLISHABLE_KEY: pk('pk_live_') };
+  const resp = await draftGet({ request: req(), env });
+  check('A deployment with only the publishable key is no longer misconfigured',
+    resp.status === 401, `${resp.status} — 401 means it got as far as needing a token`);
+}
+
+// ---------------------------------------------------------------------
 // 3 · The diagnostic endpoint
 // ---------------------------------------------------------------------
 {
@@ -106,6 +156,19 @@ const req = (headers = {}) => new Request('https://wec.test/api/admissions/draft
     body.blocking.includes('database') && body.blocking.includes('sessionVerification'),
     body.blocking.join(', '));
   check('...with a 503 so a monitor sees it without parsing', empty.status === 503, empty.status);
+
+  // The publishable key on its own is a ready deployment. This is the
+  // single assertion that says the outage cannot recur in the same
+  // shape: the thing that WAS set is now sufficient.
+  const derived = await healthGet({ env: {
+    DB: {}, CLERK_PUBLISHABLE_KEY: 'pk_live_' + Buffer.from('derived.clerk.accounts.dev$').toString('base64'),
+  } });
+  const derivedBody = await derived.json();
+  check('Health: the publishable key alone is enough', derivedBody.ready === true,
+    derivedBody.summary);
+  check('...and it says the endpoint was derived from it',
+    derivedBody.checks.sessionVerification.source === 'CLERK_PUBLISHABLE_KEY',
+    derivedBody.checks.sessionVerification.source);
 
   const ready = await healthGet({ env: {
     DB: {}, CLERK_JWKS_URL: 'https://real.clerk.accounts.dev/.well-known/jwks.json',
@@ -299,6 +362,22 @@ for (const page of ['admissions/apply/index.html', 'ar/admissions/apply/index.ht
 // misconfiguration is visible before an applicant finds it.
 {
   const wf = readFileSync(`${ROOT}/.github/workflows/deploy-cloudflare.yml`, 'utf8');
+  // It also CONFIGURES rather than only reporting. The gap was that the
+  // deploy knew the publishable key and the Functions did not.
+  check('The deploy pushes the publishable key to the Pages project',
+    /pages secret put/.test(wf) && /put CLERK_PUBLISHABLE_KEY/.test(wf));
+  // Anchored on the command itself, not on the step's NAME, and
+  // guarded against -1: the first version compared indexOf() results
+  // directly, so renaming the step made indexOf return -1, and -1 is
+  // less than everything. It passed while asserting nothing, and
+  // sabotage is the only reason that was found.
+  const configAt = wf.indexOf('put CLERK_PUBLISHABLE_KEY "$PK"');
+  const publishAt = wf.indexOf('- name: Publish');
+  check('...before publishing, since a deployment captures config at creation',
+    configAt > 0 && publishAt > 0 && configAt < publishAt,
+    `config at ${configAt}, publish at ${publishAt}`);
+  check('...and warns rather than failing when the token lacks Pages:Edit',
+    /Cloudflare Pages: Edit/.test(wf));
   check('The deploy probes /api/health/auth', /api\/health\/auth/.test(wf));
   check('...and warns loudly when the deployment cannot authenticate',
     /CANNOT SIGN ANYBODY IN/.test(wf));

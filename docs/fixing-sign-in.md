@@ -68,38 +68,62 @@ nothing in the system could tell them or us why.
 
 ## The settings
 
-### 1 · Cloudflare Pages → environment variables
+### 1 · GitHub → one secret, and the deploy does the rest
+
+**Settings → Secrets and variables → Actions → `CLERK_PUBLISHABLE_KEY`**
+= `pk_live_…` (or `pk_test_…`).
+
+That single value is now sufficient for both halves:
+
+- the deploy writes it into `js/auth-config.js`, so the **browser** can
+  load Clerk;
+- the deploy also pushes it to the **Pages project**, so the
+  **Functions** can verify what Clerk produces.
+
+A Clerk publishable key encodes the Frontend API host — everything after
+the last `_` is base64 of `<host>$`, which is how Clerk's own browser SDK
+finds where to load itself from. The server derives
+`https://<host>/.well-known/jwks.json` from it.
+
+**This is the fix for the outage, not a convenience.** Two variables that
+had to agree, one of which nobody set, is exactly what took admissions
+down: the publishable key was configured, `CLERK_JWKS_URL` was not, so
+sign-in worked and everything after it failed. One source of truth
+cannot disagree with itself.
+
+Add `CLERK_WEBHOOK_SECRET` (the `whsec_…` from Clerk → Webhooks) to the
+same place if you want profile changes to reconcile; the deploy pushes
+that too.
+
+### 2 · Cloudflare Pages → environment variables
+
+**You should not need to touch these.** The deploy sets them before it
+publishes, using the Cloudflare credentials it already holds. Set them by
+hand only if the deploy warns that it could not — which happens when
+`CLOUDFLARE_API_TOKEN` has *Cloudflare Pages: Deploy* but not
+*Cloudflare Pages: Edit*. A deploy-only token can publish files and
+cannot change project settings.
 
 **Workers & Pages → `wec-lc` → Settings → Environment variables →
-Production.** Add, then redeploy (variables apply to *new* deployments —
-setting one does not fix the deployment already live).
+Production**, then redeploy (variables apply to *new* deployments; setting
+one does not fix the deployment already live).
 
 | Variable | Value | Without it |
 |---|---|---|
-| `CLERK_JWKS_URL` | `https://<instance>.clerk.accounts.dev/.well-known/jwks.json` | **Nobody can be signed in.** Sign-in appears to succeed and every page then fails. |
+| `CLERK_PUBLISHABLE_KEY` | the same `pk_…` | **Nobody can be signed in**, unless `CLERK_JWKS_URL` is set instead. |
+| `CLERK_JWKS_URL` | `https://<instance>.clerk.accounts.dev/.well-known/jwks.json` | Optional. An explicit setting always wins over the derived one — set it only to point at a specific instance. |
 | `CLERK_WEBHOOK_SECRET` | the `whsec_…` from Clerk → Webhooks | Accounts still work — they are provisioned from the verified token — but Clerk profile changes never reconcile. |
 | `CLERK_AUTHORIZED_PARTIES` | `https://worldwencollege.co.uk` | Optional. Without it, any token signed by that Clerk instance is accepted, whichever application minted it. |
 
-Find the instance host by decoding the publishable key: everything after
-the last `_` is base64 of the Frontend API host. `js/clerk-loader.js`
-does exactly this in the browser, so the host is already public.
-
-### 2 · Cloudflare Pages → D1 binding
+### 3 · Cloudflare Pages → D1 binding
 
 **Settings → Functions → D1 database bindings.** Variable name `DB`,
 bound to the `wec-lc` database. Without it every endpoint answers 503.
 
-### 3 · GitHub → the publishable key
-
-**Settings → Secrets and variables → Actions.**
-`CLERK_PUBLISHABLE_KEY` = `pk_live_…` or `pk_test_…`.
-
-The deploy writes it into `js/auth-config.js`. Without it the site
-deploys as a design preview and the wizard says so — that is the
-"Sign-in is not switched on yet" state, which is a different and more
-honest failure than the one this document is about.
-
 ### 4 · Clerk → the session token
+
+**This is the one step nothing here can do for you.** It is a setting in
+Clerk's own dashboard, and no credential in this repository reaches it.
 
 **Clerk dashboard → Sessions → Customize session token.** Add the email
 claim:

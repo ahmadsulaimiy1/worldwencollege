@@ -29,6 +29,7 @@
 // once auth works cannot tell you why auth does not work.
 
 import { jsonResponse } from '../../_lib/db.js';
+import { resolveJwksUrl } from '../../_lib/auth/clerk-adapter.js';
 
 function jwksHost(url) {
   if (!url) return null;
@@ -44,13 +45,22 @@ export async function onRequestGet({ env }) {
     },
     // Session verification. Without it every authenticated request
     // fails, and the failure is permanent rather than transient.
-    sessionVerification: {
-      ok: !!env.CLERK_JWKS_URL,
-      detail: env.CLERK_JWKS_URL
-        ? `CLERK_JWKS_URL is set (${jwksHost(env.CLERK_JWKS_URL)}).`
-        : 'CLERK_JWKS_URL is not set. No session token can be verified, so every '
-          + 'signed-in page will fail after sign-in succeeds.',
-    },
+    //
+    // Reported with its SOURCE, because "configured" and "derived from
+    // the publishable key" are both fine and an operator debugging a
+    // wrong instance needs to know which one is in force.
+    sessionVerification: (() => {
+      const { url, source } = resolveJwksUrl(env);
+      return {
+        ok: !!url,
+        detail: url
+          ? `Session tokens are verified against ${jwksHost(url)}, resolved from ${source}.`
+          : 'Neither CLERK_PUBLISHABLE_KEY nor CLERK_JWKS_URL is set for the Functions. '
+            + 'No session token can be verified, so every signed-in page fails after '
+            + 'sign-in succeeds. Setting the publishable key alone is enough.',
+        source,
+      };
+    })(),
     // Account reconciliation. Its absence degrades rather than blocks:
     // requireUser() provisions from the verified token when the session
     // carries an email claim.

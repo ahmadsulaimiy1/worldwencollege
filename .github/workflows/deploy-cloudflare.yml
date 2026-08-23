@@ -398,6 +398,72 @@ jobs:
       # tests/deploy-surface.test.mjs now asserts the two lists match —
       # so the test's idea of "public" and the deploy's idea of "public"
       # cannot drift apart again.
+      # ─────────────────────────────────────────────────────────────
+      # TEACH THE FUNCTIONS WHAT THE BROWSER ALREADY KNOWS
+      # ─────────────────────────────────────────────────────────────
+      # The step above writes the publishable key into js/auth-config.js
+      # so the BROWSER can load Clerk. The Functions could not see it —
+      # they read Cloudflare Pages environment variables, which are set
+      # in the dashboard and which nobody had set.
+      #
+      # So sign-in worked and everything after it failed, for months,
+      # silently, and an applicant found it before we did.
+      #
+      # This closes that gap from the one place that already holds the
+      # key and already has Cloudflare credentials: the deploy. The
+      # publishable key is pushed to the Pages project, and the adapter
+      # derives its verification endpoint from it — one value, set once,
+      # instead of two that had to agree.
+      #
+      # A publishable key is not a secret (it ships in the source of
+      # every page). It is set with `secret put` because that is the
+      # non-interactive way to write a Pages environment variable, not
+      # because it needs hiding.
+      #
+      # BEFORE the publish, deliberately: a Pages deployment captures
+      # the project configuration at creation, so a variable set after
+      # it would not reach it.
+      #
+      # Non-fatal by design. If the API token lacks Pages:Edit, this
+      # warns and the deploy continues — and the health probe at the end
+      # of the job then reports the truth either way, which is the whole
+      # point of having it.
+      - name: Configure the Functions to verify sessions
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PK: ${{ secrets.CLERK_PUBLISHABLE_KEY || vars.CLERK_PUBLISHABLE_KEY }}
+          WEBHOOK: ${{ secrets.CLERK_WEBHOOK_SECRET }}
+          JWKS: ${{ secrets.CLERK_JWKS_URL || vars.CLERK_JWKS_URL }}
+          PARTIES: ${{ secrets.CLERK_AUTHORIZED_PARTIES || vars.CLERK_AUTHORIZED_PARTIES || 'https://worldwencollege.co.uk,https://www.worldwencollege.co.uk' }}
+        run: |
+          put () {
+            name="$1"; value="$2"
+            [ -z "$value" ] && { echo "  $name — not supplied, skipping"; return 0; }
+            if printf '%s' "$value" | npx wrangler pages secret put "$name" \
+                 --project-name=wec-lc >/dev/null 2>&1; then
+              echo "  $name — set on the Pages project"
+            else
+              echo "  $name — COULD NOT BE SET"
+              failed="$failed $name"
+            fi
+          }
+          failed=""
+          put CLERK_PUBLISHABLE_KEY "$PK"
+          put CLERK_WEBHOOK_SECRET "$WEBHOOK"
+          put CLERK_AUTHORIZED_PARTIES "$PARTIES"
+          # Only when explicitly supplied. Left unset, the adapter
+          # derives it from the publishable key, which is one fewer
+          # thing that can disagree with itself.
+          put CLERK_JWKS_URL "$JWKS"
+
+          if [ -z "$PK" ] && [ -z "$JWKS" ]; then
+            echo "::warning::Neither CLERK_PUBLISHABLE_KEY nor CLERK_JWKS_URL is available to this workflow, so the Functions cannot be configured to verify sessions. Add CLERK_PUBLISHABLE_KEY under Settings -> Secrets and variables -> Actions. Nobody will be able to sign in until then."
+          fi
+          if [ -n "$failed" ]; then
+            echo "::warning::Could not write these Pages environment variables:$failed. The CLOUDFLARE_API_TOKEN probably lacks the 'Cloudflare Pages: Edit' permission — a token with Deploy alone can publish files but not change project settings. Set them by hand in Workers & Pages -> wec-lc -> Settings -> Environment variables (Production), or reissue the token with Pages:Edit."
+          fi
+
       - name: Assemble the deploy surface
         run: |
           rm -rf .deploy && mkdir -p .deploy

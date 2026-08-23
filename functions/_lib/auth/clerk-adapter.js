@@ -18,6 +18,50 @@ const JWKS_TTL_MS = 10 * 60 * 1000;
 // Floor between rotation-triggered refetches. See findSigningKey().
 const JWKS_FORCE_MIN_INTERVAL_MS = 30 * 1000;
 
+// A Clerk publishable key ENCODES the Frontend API host: everything
+// after the last underscore is base64 of `<host>$`. Clerk's own browser
+// SDK does exactly this to find where to load itself from, and
+// js/clerk-loader.js has done it on this site since the beginning.
+//
+// It is reproduced here so the server can DERIVE its JWKS URL from the
+// same single key the browser already uses.
+//
+// This is not a convenience. Two variables that had to agree, one of
+// which nobody set, is what took admissions down: the publishable key
+// was configured and CLERK_JWKS_URL was not, so sign-in succeeded and
+// every request after it failed. One source of truth cannot disagree
+// with itself.
+export function frontendApiFromPublishableKey(key) {
+  if (typeof key !== 'string' || !key.includes('_')) return null;
+  const encoded = key.split('_').pop();
+  if (!encoded) return null;
+  let decoded;
+  try {
+    decoded = atob(encoded);
+  } catch {
+    return null;
+  }
+  const host = decoded.replace(/\$+$/, '').trim();
+  // A host, not a URL and not a path: anything else means the key was
+  // malformed or truncated, and guessing at it would point session
+  // verification somewhere unintended.
+  if (!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(host)) return null;
+  return host;
+}
+
+// Where this deployment verifies session tokens, and how it worked that
+// out. Explicit configuration always wins — an operator pointing at a
+// specific instance must not be silently overridden — and derivation is
+// the fallback that means one key is enough.
+export function resolveJwksUrl(env) {
+  if (env.CLERK_JWKS_URL) return { url: env.CLERK_JWKS_URL, source: 'CLERK_JWKS_URL' };
+  const host = frontendApiFromPublishableKey(env.CLERK_PUBLISHABLE_KEY);
+  if (host) {
+    return { url: `https://${host}/.well-known/jwks.json`, source: 'CLERK_PUBLISHABLE_KEY' };
+  }
+  return { url: null, source: null };
+}
+
 // Both failures here are ConfigError, not Error, and the distinction is
 // the whole reason the admissions wizard was undiagnosable: a bare
 // Error becomes a masked 500 "Something went wrong.", which the client
@@ -26,17 +70,20 @@ const JWKS_FORCE_MIN_INTERVAL_MS = 30 * 1000;
 // unreachable JWKS endpoint is helped by waiting for Clerk, and the
 // applicant should be told which.
 async function getJwks(env, { force = false } = {}) {
-  if (!env.CLERK_JWKS_URL) {
+  const { url } = resolveJwksUrl(env);
+  if (!url) {
     throw new ConfigError('Sign-in is not finished being set up on this deployment: '
-      + 'CLERK_JWKS_URL is not configured, so no session token can be verified. '
-      + 'See docs/auth-architecture.md and GET /api/health/auth.');
+      + 'no session token can be verified, because neither CLERK_PUBLISHABLE_KEY nor '
+      + 'CLERK_JWKS_URL is configured for the Functions. Setting the publishable key '
+      + 'alone is enough — the verification endpoint is derived from it. '
+      + 'See docs/fixing-sign-in.md and GET /api/health/auth.');
   }
   const fresh = Date.now() - jwksCache.fetchedAt < JWKS_TTL_MS;
   if (jwksCache.keys && fresh && !force) return jwksCache.keys;
 
   let resp;
   try {
-    resp = await fetch(env.CLERK_JWKS_URL);
+    resp = await fetch(url);
   } catch (cause) {
     throw new ConfigError('The authentication provider could not be reached to verify '
       + 'your session. This is an outage rather than a fault in your application.');
