@@ -312,7 +312,65 @@ principle names.
    symptom. An architectural correction nobody can find the reasoning for
    is one accident away from being reverted by someone who never saw it.
 
-## §16.18 What an AI operator owes the person it works for `[RULED — confidence High]`
+## §16.18 Institutional identifiers are a trust service, not a checker `[RULED — confidence High]`
+
+Founder's ruling, 2026-08-23, generalising the SHRS certificate-verification
+work (`§16.15`, `§16.17`, `docs/certificate-verification-slo.md` in the
+`sultan-` repository) to every identifier any StromeX or SHRS system issues:
+Certificate Reference Numbers, QR codes and verification URLs, Student IDs,
+Admission Numbers, Registration Numbers, Staff IDs, Employee Numbers,
+Transcript IDs, Diploma IDs, Batch IDs, Graduation IDs, Verification Tokens,
+Document IDs, Audit IDs, governance references, institutional record IDs,
+public verification links — and any future identifier a StromeX or SHRS
+system issues, named or not.
+
+Every such identifier shall:
+
+1. **Resolve correctly to its intended institutional record**, for as long
+   as that record exists.
+2. **Remain permanently valid unless intentionally revoked** — never
+   silently expire, break, or drift because of something that happened
+   elsewhere in the system.
+3. **Never become unusable because of software updates, database
+   migrations, key rotations, infrastructure changes, domain changes, or
+   platform evolution.** An identifier's validity is a property of the
+   record it names, not of the deployment currently running.
+4. **Return a clear, authoritative status on every lookup** — never a
+   silent failure, and never an ambiguous state a genuine holder could
+   read as an accusation.
+5. **Preserve complete auditability**: who issued it, when, under what
+   authority, and — where relevant — how its validity was later confirmed.
+6. **Support backward compatibility** across every future version of the
+   system that issued it.
+7. **Be protected against duplication, collision, corruption, orphaning, or
+   accidental reassignment** — by construction, not by convention. A
+   `COUNT(*)+1` pattern under concurrent writes is not collision-safe; a
+   live database sequence is (`stage_certificate_serial_seq`,
+   `student_identity_seq` are the worked examples — see `§16.17`'s SEB-D 51
+   companion incident and Governance Resolution Register 9.5/9.6 in the
+   `sultan-` repository for what happens when this is skipped).
+
+**The verification system is an institutional trust service, not a
+checker.** A checker answers "does this look right." A trust service
+answers, permanently and authoritatively, "is this real" — and when the
+honest answer requires nuance (a lost key, a migrated field, a renamed
+programme), it says so precisely rather than defaulting to either a false
+accusation or a silent pass. `functions/api/certificates/verify.js`'s
+four-outcome model (`verified` / `verified_institutional_recovery` /
+`revoked` / `invalid`) is the reference implementation of what this looks
+like in code; a new identifier system is not exempt from this obligation
+merely because it has not needed the recovery path yet.
+
+**Auditing existing identifier systems against this standard is standing
+work, not a one-time task.** Where a system is confirmed compliant, say so
+with the evidence, not the assertion. Where a gap is found — an
+un-atomic allocator, a lookup with no defined behaviour for a moved or
+renamed record, an identifier format with no documented permanence
+guarantee — record it in the relevant project's governance register with a
+priority, per `§16.17`'s Root Cause Elimination Principle, rather than
+leaving it undiscovered until it becomes the next incident.
+
+## §16.19 What an AI operator owes the person it works for `[RULED — confidence High]`
 
 The closing article, and the one the rest is for:
 
