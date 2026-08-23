@@ -43,8 +43,8 @@ body.app { background: var(--ivory); }
   transition: background var(--dur-fast) ease, color var(--dur-fast) ease, padding-left var(--dur-fast) var(--ease-premium);
 }
 .app-nav a .ic { width: 18px; text-align: center; opacity: .8; font-size: .95rem; }
-.app-nav a:hover { background: rgba(255,255,255,.06); color: #fff; padding-left: 16px; }
-.app-nav li.active a { background: rgba(199,162,74,.14); color: var(--gold-bright); }
+.app-nav a:hover { background: var(--veil); color: #fff; padding-left: 16px; }
+.app-nav li.active a { background: var(--wash-gold-2); color: var(--gold-bright); }
 /* A gold accent bar on the active item, scaling in from the centre —
    the sidebar's equivalent of the marketing cards' top accent line,
    so the "current location" reads instantly without relying on
@@ -58,7 +58,7 @@ body.app { background: var(--ivory); }
 [dir="rtl"] .app-nav li.active a::before { left: auto; right: 0; border-radius: 0 3px 3px 0; }
 .app-sidebar__foot { border-top: 1px solid var(--line-dark); padding-top: 14px; display: flex; flex-direction: column; gap: 2px; }
 .app-sidebar__foot a { color: rgba(247,244,236,.55); font-size: .82rem; padding: 8px 12px; border-radius: 6px; }
-.app-sidebar__foot a:hover { background: rgba(255,255,255,.05); color: rgba(247,244,236,.85); }
+.app-sidebar__foot a:hover { background: var(--veil); color: rgba(247,244,236,.85); }
 
 /* ---------------- Main column ---------------- */
 .app-main { flex: 1; min-width: 0; padding: 36px 40px 80px; }
@@ -83,7 +83,7 @@ body.app { background: var(--ivory); }
 .status-pill--progress::before { background: var(--status-progress); }
 .status-pill--critical { background: var(--status-critical-soft); color: var(--status-critical); }
 .status-pill--critical::before { background: var(--status-critical); }
-.status-pill--muted { background: rgba(20,38,74,.06); color: var(--ink-soft); }
+.status-pill--muted { background: rgba(20, 38, 74, .06); color: var(--ink-soft); }
 .status-pill--muted::before { background: var(--ink-soft); }
 
 /* ---------------- Stepper (programme progress) ---------------- */
@@ -134,7 +134,7 @@ body.app { background: var(--ivory); }
 .panel__head a:hover { color: var(--red-bright); }
 
 .class-row { display: flex; align-items: center; gap: 16px; padding: 13px 10px; margin: 0 -10px; border-radius: 6px; border-bottom: 1px solid var(--line); transition: background var(--dur-fast) ease; }
-.class-row:hover { background: rgba(199,162,74,.05); }
+.class-row:hover { background: var(--wash-gold); }
 .class-row:last-child { border-bottom: none; }
 .class-row__when { width: 92px; flex-shrink: 0; font-size: .78rem; color: var(--ink-soft); line-height: 1.3; }
 .class-row__when strong { display: block; color: var(--ink); font-family: var(--font-display); font-size: .95rem; }
@@ -146,12 +146,12 @@ body.app { background: var(--ivory); }
 .assign-table { width: 100%; border-collapse: collapse; font-size: .86rem; }
 .assign-table th { text-align: left; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; padding: 8px 10px; border-bottom: 1px solid var(--line); }
 .assign-table td { padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; transition: background var(--dur-fast) ease; }
-.assign-table tbody tr:hover td { background: rgba(199,162,74,.05); }
+.assign-table tbody tr:hover td { background: var(--wash-gold); }
 .assign-table tr:last-child td { border-bottom: none; }
 
 .mini-list { list-style: none; margin: 0; padding: 0; }
 .mini-list li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 10px; margin: 0 -10px; border-radius: 6px; border-bottom: 1px solid var(--line); font-size: .86rem; transition: background var(--dur-fast) ease; }
-.mini-list li:has(a:not(.disabled-link)):hover { background: rgba(199,162,74,.05); }
+.mini-list li:has(a:not(.disabled-link)):hover { background: var(--wash-gold); }
 .mini-list li:last-child { border-bottom: none; }
 /* Applies everywhere .disabled-link is used — sidebar nav placeholders,
    "View all"/"View schedule" panel links, Sign Out before a real
@@ -182,7 +182,7 @@ button.btn[disabled], a.btn[aria-disabled="true"] { opacity: .5; cursor: not-all
 .empty-state { text-align: center; padding: 40px 20px; color: var(--ink-soft); }
 .empty-state__icon {
   width: 44px; height: 44px; margin: 0 auto 14px; border-radius: 50%;
-  background: rgba(20,38,74,.06); display: flex; align-items: center; justify-content: center;
+  background: rgba(20, 38, 74, .06); display: flex; align-items: center; justify-content: center;
   font-size: 1.2rem; color: var(--ink-soft);
 }
 .empty-state h3 { font-size: .95rem; color: var(--ink); margin-bottom: 4px; }
@@ -209,10 +209,10 @@ button.btn[disabled], a.btn[aria-disabled="true"] { opacity: .5; cursor: not-all
 /* Generic shimmer placeholder for any async panel while real data
    loads — same shape family as stat tiles / panels / table rows, so
    loading states don't introduce a different visual rhythm. */
-.skeleton { position: relative; overflow: hidden; background: rgba(20,38,74,.08); border-radius: 6px; }
+.skeleton { position: relative; overflow: hidden; background: rgba(20, 38, 74, .08); border-radius: 6px; }
 .skeleton::after {
   content: ''; position: absolute; inset: 0; transform: translateX(-100%);
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .55), transparent);
   animation: skeleton-shimmer 1.4s ease-in-out infinite;
 }
 @keyframes skeleton-shimmer { 100% { transform: translateX(100%); } }

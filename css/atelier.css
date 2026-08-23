@@ -83,7 +83,7 @@
 .gold-live {
   background-image:
     radial-gradient(circle at var(--mx, 50%) var(--my, 50%),
-      rgba(255, 250, 235, .55), transparent 42%),
+      rgba(255, 252, 240, .55), transparent 42%),
     var(--gold-gradient);
   background-blend-mode: screen, normal;
 }
@@ -198,9 +198,9 @@
     rgba(212, 175, 55, .55) 68deg,
     transparent 82deg,
     transparent 220deg,
-    rgba(199, 162, 74, .40) 232deg,
-    rgba(242, 227, 192, .80) 240deg,
-    rgba(199, 162, 74, .40) 248deg,
+    rgba(199, 162, 74, .45) 232deg,
+    rgba(242, 227, 192, .8) 240deg,
+    rgba(199, 162, 74, .45) 248deg,
     transparent 260deg,
     transparent 360deg);
 }
@@ -229,10 +229,10 @@
   padding: 1px;
   background: linear-gradient(148deg,
     rgba(242, 227, 192, .62) 0%,
-    rgba(199, 162, 74, .26) 22%,
-    rgba(199, 162, 74, .07) 46%,
-    rgba(6, 13, 28, .30) 72%,
-    rgba(6, 13, 28, .62) 100%);
+    var(--wash-gold-4) 22%,
+    var(--wash-gold) 46%,
+    rgba(10, 20, 40, .3) 72%,
+    var(--scrim-deep) 100%);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
           mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
@@ -245,10 +245,10 @@
 .edge-lit--light::before {
   background: linear-gradient(148deg,
     rgba(255, 255, 255, .95) 0%,
-    rgba(199, 162, 74, .34) 24%,
-    rgba(121, 90, 50, .12) 52%,
-    rgba(74, 60, 40, .20) 76%,
-    rgba(52, 42, 30, .32) 100%);
+    rgba(199, 162, 74, .35) 24%,
+    rgba(111, 80, 40, .12) 52%,
+    rgba(74, 60, 40, .2) 76%,
+    rgba(52, 42, 30, .3) 100%);
 }
 [dir="rtl"] .edge-lit::before { transform: scaleX(-1); }
 
@@ -269,7 +269,7 @@
 }
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   .crystal {
-    background: rgba(14, 27, 51, .42);
+    background: rgba(14, 27, 51, .45);
     -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
     backdrop-filter: blur(var(--glass-blur)) saturate(150%);
   }
@@ -280,10 +280,10 @@
   content: ''; position: absolute; inset: 0; border-radius: inherit;
   pointer-events: none;
   background: linear-gradient(160deg,
-    rgba(255, 252, 240, .10) 0%,
+    rgba(255, 252, 240, .1) 0%,
     transparent 34%,
     transparent 66%,
-    rgba(199, 162, 74, .09) 100%);
+    var(--wash-gold) 100%);
 }
 .crystal--light {
   background: var(--glass-tint-light);
@@ -572,7 +572,7 @@
 .plate--photo .plate__frame > .plate__tone--warm {
   z-index: 3;
   background: radial-gradient(ellipse 80% 70% at 68% 22%,
-    rgba(212, 175, 55, .40), transparent 66%);
+    rgba(212, 175, 55, .4), transparent 66%);
   mix-blend-mode: soft-light;
 }
 @media (hover: hover) and (pointer: fine) {
@@ -859,14 +859,14 @@
   padding: clamp(30px, 3vw, 42px) clamp(26px, 2.6vw, 36px) clamp(28px, 3vw, 38px);
   border-radius: 0;
   background:
-    radial-gradient(ellipse 120% 80% at 90% 0%, rgba(199, 162, 74, .10), transparent 64%),
+    radial-gradient(ellipse 120% 80% at 90% 0%, var(--wash-gold-2), transparent 64%),
     var(--paper);
   border-inline-start: 1px solid rgba(111, 80, 40, .18);
   transition: background var(--pol-out) ease;
 }
 .nav__menu--mega a.mega__feature:hover {
   background:
-    radial-gradient(ellipse 120% 80% at 90% 0%, rgba(199, 162, 74, .18), transparent 64%),
+    radial-gradient(ellipse 120% 80% at 90% 0%, var(--wash-gold-3), transparent 64%),
     var(--paper);
 }
 /* Engraved, not filled: at 44px a stroked mark reads as an intaglio
@@ -923,7 +923,7 @@
   padding: .78em 1.2em; font-size: .8rem;
 }
 .btn--quiet .icon { width: 15px; height: 15px; color: var(--gold-royal); }
-.btn--quiet:hover { border-color: var(--gold-royal); color: #fff; background: rgba(199, 162, 74, .08); }
+.btn--quiet:hover { border-color: var(--gold-royal); color: #fff; background: var(--wash-gold); }
 @media (max-width: 1180px) { .btn--quiet { display: none; } }
 
 /* =========================================================
@@ -946,9 +946,9 @@
 .footer__keyline {
   height: 1px; border: 0; margin: 0;
   background: linear-gradient(90deg,
-    transparent, rgba(199, 162, 74, .16) 12%,
+    transparent, var(--wash-gold-3) 12%,
     var(--gold-rich) 50%,
-    rgba(199, 162, 74, .16) 88%, transparent);
+    var(--wash-gold-3) 88%, transparent);
 }
 
 /* =========================================================
