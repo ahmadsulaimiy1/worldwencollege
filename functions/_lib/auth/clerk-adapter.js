@@ -152,6 +152,30 @@ async function importJwk(jwk) {
   );
 }
 
+// Clerk's Backend API. One endpoint, one field, and the whole of the
+// dependency: GET /v1/users/{id} returns the user's email addresses.
+//
+// Reached with CLERK_SECRET_KEY, which is server-only and must never
+// appear in a response, a log line or a health check. Nothing here
+// returns it and tests/admissions-availability.test.mjs asserts that.
+const CLERK_API = 'https://api.clerk.com/v1';
+
+// Clerk returns every address the user has attached plus which one is
+// primary. We take the primary, and only if it is verified.
+//
+// An unverified address must not become a College account: `users.email`
+// is what a transcript, a certificate and every notification are
+// addressed to, and "somebody typed this into a form" is not the same
+// claim as "somebody proved they read mail there".
+function primaryVerifiedEmail(user) {
+  const list = Array.isArray(user && user.email_addresses) ? user.email_addresses : [];
+  if (!list.length) return null;
+  const primary = list.find((e) => e && e.id === user.primary_email_address_id) || list[0];
+  if (!primary || !primary.email_address) return null;
+  const verified = !!(primary.verification && primary.verification.status === 'verified');
+  return { email: primary.email_address, emailVerified: verified };
+}
+
 export const clerkAdapter = {
   async verifySessionToken(token, env) {
     if (!token) return null;
@@ -226,6 +250,27 @@ export const clerkAdapter = {
   //   signedContent = `${svix-id}.${svix-timestamp}.${rawBody}`
   //   expected = base64(HMAC-SHA256(secret bytes, signedContent))
   // compared against any value in the space-separated svix-signature header.
+  // Asked only when we hold no row for an already-verified session —
+  // once per learner, not once per request. See provider-interface.js.
+  async fetchIdentity(providerId, env) {
+    if (!env.CLERK_SECRET_KEY || !providerId) return null;
+    let resp;
+    try {
+      resp = await fetch(`${CLERK_API}/users/${encodeURIComponent(providerId)}`, {
+        headers: { Authorization: `Bearer ${env.CLERK_SECRET_KEY}` },
+      });
+    } catch {
+      // The provider is unreachable. Returning null lets the caller
+      // raise its own honest error rather than turning a network blip
+      // into a fabricated account.
+      return null;
+    }
+    if (!resp.ok) return null;
+    let user;
+    try { user = await resp.json(); } catch { return null; }
+    return primaryVerifiedEmail(user);
+  },
+
   async verifyWebhookSignature(request, rawBody, env) {
     if (!env.CLERK_WEBHOOK_SECRET) {
       throw new Error('CLERK_WEBHOOK_SECRET is not configured.');

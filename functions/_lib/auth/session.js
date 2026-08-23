@@ -91,14 +91,38 @@ export async function requireUser(request, env) {
     .first();
   if (user) return user;
 
-  if (!identity.email) {
+  // A SESSION TOKEN IS NOT A PROFILE.
+  //
+  // Clerk's default session token carries no email claim. That left two
+  // routes to an account — a dashboard setting somebody had to remember,
+  // and a webhook that might not have arrived — and when neither had
+  // happened, a learner signed in successfully and still had no account,
+  // with nothing they could do about it.
+  //
+  // So there is a third route, and it needs nobody to remember anything:
+  // ask the provider. We have a verified session; the provider knows the
+  // address; the only reason we did not have it was that we had never
+  // asked. This runs once per learner, on the provisioning path only.
+  let email = identity.email;
+  let emailVerified = identity.emailVerified;
+  if (!email && typeof provider.fetchIdentity === 'function') {
+    const fetched = await provider.fetchIdentity(identity.providerId, env);
+    if (fetched && fetched.email) {
+      email = fetched.email;
+      emailVerified = fetched.emailVerified;
+    }
+  }
+
+  if (!email) {
     throw new AccountProvisioningError('Your sign-in worked, but the College could not '
-      + 'finish setting up your account: the session carries no email address, and the '
-      + 'College will not invent one. Either the account setup that normally runs behind '
-      + 'the scenes (the sign-in webhook) has not reached us yet, or the sign-in service '
-      + 'is not configured to send an email claim. Both are on the College\u2019s side, '
-      + 'and signing in again will not change either. Write to Admissions and we will '
-      + 'take your application by email.');
+      + 'finish setting up your account: no email address could be established for it, '
+      + 'and the College will not invent one. All three routes were tried \u2014 the '
+      + 'session carries no email claim; the College could not ask the sign-in service '
+      + 'directly, which means a key it needs (CLERK_SECRET_KEY) is not configured or the '
+      + 'service could not be reached; and the sign-in webhook has not delivered your '
+      + 'account either. All three are on the College\u2019s side, and signing in again '
+      + 'will not change any of them. Write to Admissions and we will take your '
+      + 'application by email.');
   }
 
   // Provision, then re-read rather than construct the row in memory:
@@ -106,8 +130,8 @@ export async function requireUser(request, env) {
   // actually produced, and a concurrent webhook may have won the race.
   await upsertUserFromProviderEvent(env, {
     providerId: identity.providerId,
-    email: identity.email,
-    emailVerified: identity.emailVerified,
+    email,
+    emailVerified,
   });
   const created = await db(env)
     .prepare('SELECT * FROM users WHERE auth_provider = ? AND auth_provider_id = ?')

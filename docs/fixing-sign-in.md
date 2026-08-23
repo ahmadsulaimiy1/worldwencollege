@@ -91,9 +91,13 @@ down: the publishable key was configured, `CLERK_JWKS_URL` was not, so
 sign-in worked and everything after it failed. One source of truth
 cannot disagree with itself.
 
-Add `CLERK_WEBHOOK_SECRET` (the `whsec_…` from Clerk → Webhooks) to the
-same place if you want profile changes to reconcile; the deploy pushes
-that too.
+Add two more to the same place and the deploy pushes those too:
+
+- **`CLERK_SECRET_KEY`** (`sk_live_…`) — lets the College ask Clerk for a
+  first-time learner's email address, so no dashboard setting has to be
+  remembered. See §4.
+- **`CLERK_WEBHOOK_SECRET`** (the `whsec_…` from Clerk → Webhooks) — so
+  profile changes reconcile afterwards.
 
 ### 2 · Cloudflare Pages → environment variables
 
@@ -112,6 +116,7 @@ one does not fix the deployment already live).
 |---|---|---|
 | `CLERK_PUBLISHABLE_KEY` | the same `pk_…` | **Nobody can be signed in**, unless `CLERK_JWKS_URL` is set instead. |
 | `CLERK_JWKS_URL` | `https://<instance>.clerk.accounts.dev/.well-known/jwks.json` | Optional. An explicit setting always wins over the derived one — set it only to point at a specific instance. |
+| `CLERK_SECRET_KEY` | the `sk_live_…` from Clerk → API keys | A first-time learner gets an account only if the session token carries an email claim or the webhook already delivered them. |
 | `CLERK_WEBHOOK_SECRET` | the `whsec_…` from Clerk → Webhooks | Accounts still work — they are provisioned from the verified token — but Clerk profile changes never reconcile. |
 | `CLERK_AUTHORIZED_PARTIES` | `https://worldwencollege.co.uk` | Optional. Without it, any token signed by that Clerk instance is accepted, whichever application minted it. |
 
@@ -120,30 +125,49 @@ one does not fix the deployment already live).
 **Settings → Functions → D1 database bindings.** Variable name `DB`,
 bound to the `wec-lc` database. Without it every endpoint answers 503.
 
-### 4 · Clerk → the session token
+### 4 · Giving a first-time learner an account
 
-**This is the one step nothing here can do for you.** It is a setting in
-Clerk's own dashboard, and no credential in this repository reaches it.
+Clerk's default session token carries no email address. `users.email` is
+`NOT NULL` and an address must never be invented, so a learner can sign
+in perfectly and still have no account.
 
-**Clerk dashboard → Sessions → Customize session token.** Add the email
-claim:
+**There are three routes to an address, and any one is enough.** They are
+listed in the order they are tried:
 
-```json
-{ "email": "{{user.primary_email_address}}" }
-```
+1. **The session token carries it.** Clerk dashboard → Sessions →
+   Customize session token:
+   `{ "email": "{{user.primary_email_address}}" }`
+2. **The College asks Clerk directly.** With `CLERK_SECRET_KEY` set, the
+   Functions call `GET /v1/users/{id}` on the provisioning path — once
+   per learner, ever — and read the primary verified address.
+3. **The sign-in webhook already delivered them.** Best-effort and
+   retried, so it may or may not have arrived by first use.
 
-Clerk's default session token carries no email. `users.email` is
-`NOT NULL` and an email address must never be invented, so without this
-claim an applicant whose webhook has not yet arrived gets an explicit
-error instead of an account. With it, first sign-in provisions
-immediately and the webhook reconciles afterwards.
+**Route 2 is why this is no longer a dashboard errand.** It needs a key
+you already have from Clerk, added in the same place as the publishable
+key — Settings → Secrets and variables → Actions → `CLERK_SECRET_KEY` —
+and the deploy pushes it to the Pages project like the rest. Nobody has
+to remember a setting in a second console, which is exactly how the
+original outage happened.
 
-**This one produced a loop.** The error was a plain 401, which every
-client reads as "your session expired, sign in again" — so the applicant
-signs in again, Clerk succeeds again, the token still carries no email,
-and they arrive at the same message. Nothing they could do resolved it
-and the instruction they were given guaranteed they kept trying. It now
-has its own error class, its own message, and no sign-in button.
+Only the primary address is taken, and only when Clerk reports it
+verified. `users.email` is what a transcript, a certificate and every
+notification are addressed to, and "somebody typed this into a form" is
+not the same claim as "somebody proved they read mail there". If the
+provider cannot answer — no key, a 404, an outage, a user with no
+verified address — nothing is invented and the learner gets an honest
+error naming the missing key.
+
+`GET /api/health/auth` reports which of the three routes are open under
+`accountProvisioning`. It is not blocking: any one suffices.
+
+**This case once produced a loop.** The error was a plain 401, which
+every client reads as "your session expired, sign in again" — so the
+applicant signs in again, Clerk succeeds again, the token still carries
+no email, and they arrive at the same message. Nothing they could do
+resolved it and the instruction they were given guaranteed they kept
+trying. It now has its own error class, its own message, and no sign-in
+button.
 
 ---
 
@@ -163,8 +187,10 @@ has its own error class, its own message, and no sign-in button.
 - HTTP 404 — Pages Functions are not running on this project at all.
   Check that `functions/` reached the deploy surface.
 
-`accountWebhook` and `authorizedParties` report but never block: the
-first degrades reconciliation, the second is optional hardening.
+`accountProvisioning`, `accountWebhook` and `authorizedParties` report
+but never block. Provisioning has three routes and any one is enough;
+the webhook only degrades reconciliation; authorized parties is optional
+hardening.
 
 ---
 
@@ -176,7 +202,7 @@ first degrades reconciliation, the second is optional hardening.
 | Sign-in service unreachable | "We could not reach the sign-in service" — with what to check | Reload |
 | Token expired | "Your session has expired" | Sign in again |
 | Wrong account | "This account cannot open an application" | Sign in again |
-| Signed in, but no email claim | "Your account is not finished being set up" — and that signing in again will not change it | Write to Admissions |
+| Signed in, and no address obtainable by any of the three routes | "Your account is not finished being set up" — naming the missing key, and saying signing in again will not change it | Write to Admissions |
 | Deployment misconfigured | The deployment's own explanation, plus: this is not something you can fix by trying again | Write to Admissions, with a reference to quote |
 | Server error | "This is usually temporary" | Try again |
 

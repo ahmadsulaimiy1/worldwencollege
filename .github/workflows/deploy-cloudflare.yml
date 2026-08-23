@@ -434,6 +434,10 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           PK: ${{ secrets.CLERK_PUBLISHABLE_KEY || vars.CLERK_PUBLISHABLE_KEY }}
           WEBHOOK: ${{ secrets.CLERK_WEBHOOK_SECRET }}
+          # Server-only. It is what lets the Functions ask Clerk for a
+          # first-time learner's email address, which removes the need
+          # for anybody to remember a dashboard setting.
+          SECRET: ${{ secrets.CLERK_SECRET_KEY }}
           JWKS: ${{ secrets.CLERK_JWKS_URL || vars.CLERK_JWKS_URL }}
           PARTIES: ${{ secrets.CLERK_AUTHORIZED_PARTIES || vars.CLERK_AUTHORIZED_PARTIES || 'https://worldwencollege.co.uk,https://www.worldwencollege.co.uk' }}
         run: |
@@ -451,12 +455,16 @@ jobs:
           failed=""
           put CLERK_PUBLISHABLE_KEY "$PK"
           put CLERK_WEBHOOK_SECRET "$WEBHOOK"
+          put CLERK_SECRET_KEY "$SECRET"
           put CLERK_AUTHORIZED_PARTIES "$PARTIES"
           # Only when explicitly supplied. Left unset, the adapter
           # derives it from the publishable key, which is one fewer
           # thing that can disagree with itself.
           put CLERK_JWKS_URL "$JWKS"
 
+          if [ -z "$SECRET" ]; then
+            echo "::warning::No CLERK_SECRET_KEY is available to this workflow. A learner signing in for the first time can only be given an account if the Clerk session token carries an email claim, or the sign-in webhook has already delivered them. Adding CLERK_SECRET_KEY under Settings -> Secrets and variables -> Actions removes that dependency entirely — see docs/fixing-sign-in.md."
+          fi
           if [ -z "$PK" ] && [ -z "$JWKS" ]; then
             echo "::warning::Neither CLERK_PUBLISHABLE_KEY nor CLERK_JWKS_URL is available to this workflow, so the Functions cannot be configured to verify sessions. Add CLERK_PUBLISHABLE_KEY under Settings -> Secrets and variables -> Actions. Nobody will be able to sign in until then."
           fi

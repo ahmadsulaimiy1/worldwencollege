@@ -73,6 +73,24 @@ export async function onRequestGet({ env }) {
           + 'changes will not reconcile.',
       blocking: false,
     },
+    // Whether a first-time learner can be given an account.
+    //
+    // Clerk's DEFAULT session token carries no email claim, and
+    // users.email is NOT NULL because an address must never be
+    // invented. There are three routes to one, and this reports which
+    // are open. Not blocking: with the claim configured, or a webhook
+    // that has already arrived, provisioning works without the key.
+    accountProvisioning: {
+      ok: !!env.CLERK_SECRET_KEY,
+      detail: env.CLERK_SECRET_KEY
+        ? 'CLERK_SECRET_KEY is set, so a first-time learner is provisioned from the '
+          + 'provider directly. No session-token customisation is required.'
+        : 'CLERK_SECRET_KEY is not set. A first-time learner can still be provisioned if '
+          + 'the session token carries an email claim (Clerk > Sessions > Customize '
+          + 'session token) or the sign-in webhook has already delivered them. With none '
+          + 'of the three, sign-in succeeds and the learner has no account.',
+      blocking: false,
+    },
     // Optional hardening. Absence is a choice, not a fault.
     authorizedParties: {
       ok: true,

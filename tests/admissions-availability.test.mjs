@@ -190,6 +190,15 @@ const req = (headers = {}) => new Request('https://wec.test/api/admissions/draft
     nwBody.blocking.join(', '));
   check('...but is reported', nwBody.checks.accountWebhook.ok === false);
 
+  const provisioning = await healthGet({ env: {
+    DB: {}, CLERK_PUBLISHABLE_KEY: 'pk_live_' + Buffer.from('h.clerk.accounts.dev$').toString('base64'),
+    CLERK_SECRET_KEY: 'sk_live_x' } });
+  const pBody = await provisioning.json();
+  check('Health reports that first-time provisioning can complete',
+    pBody.checks.accountProvisioning.ok === true);
+  check('...without treating it as blocking, since two other routes exist',
+    pBody.checks.accountProvisioning.blocking === false);
+
   // It must never return a secret. Every value is a boolean or a
   // sentence we wrote.
   const secretish = await healthGet({ env: {
@@ -199,6 +208,9 @@ const req = (headers = {}) => new Request('https://wec.test/api/admissions/draft
   } });
   const text = await secretish.text();
   check('Health never returns a secret value', !text.includes('SUPERSECRETVALUE'));
+  const withKey = await healthGet({ env: { DB: {}, CLERK_SECRET_KEY: 'sk_live_NEVERPRINTTHIS',
+    CLERK_PUBLISHABLE_KEY: 'pk_live_' + Buffer.from('h.clerk.accounts.dev$').toString('base64') } });
+  check('...including the Clerk secret key', !(await withKey.text()).includes('NEVERPRINTTHIS'));
   check('...nor the full JWKS URL path', !text.includes('/.well-known/jwks.json'));
 }
 
@@ -294,12 +306,110 @@ const req = (headers = {}) => new Request('https://wec.test/api/admissions/draft
     body.error);
 
   const src = readFileSync(`${ROOT}/functions/_lib/auth/session.js`, 'utf8');
-  check('requireUser raises it for a session with no email claim',
-    /if \(!identity\.email\) \{[\s\S]{0,120}AccountProvisioningError/.test(src));
+  // Widened when the provider lookup was added: the guard is no longer
+  // "the token has no email claim" but "no email could be established
+  // from ANY route". The invariant is unchanged — nothing is invented —
+  // and it now covers one more way of arriving there.
+  check('requireUser raises it when no email can be established',
+    /if \(!email\) \{[\s\S]{0,160}AccountProvisioningError/.test(src));
   check('...and says signing in again will not help',
     /signing in again will \+?\s*'?\s*\+?\s*'?not change/.test(src.replace(/\s+/g, ' '))
       || /signing in again will not change/.test(src.replace(/'\s*\+\s*'/g, '').replace(/\s+/g, ' ')),
     'the message no longer rules out the sign-in loop');
+}
+
+// ---------------------------------------------------------------------
+// 4c · A session token is not a profile
+// ---------------------------------------------------------------------
+// Clerk's DEFAULT session token carries no email claim, and users.email
+// is NOT NULL because an address must never be invented. That left two
+// routes to an account — a dashboard setting somebody had to remember,
+// and a webhook that might not have arrived — so a learner could sign
+// in successfully and still have no account, with nothing they could do
+// about it.
+//
+// The third route asks the provider, which knew all along.
+{
+  const { clerkAdapter } = await import(loadUrl('functions/_lib/auth/clerk-adapter.js'));
+  const realFetch = globalThis.fetch;
+  const calls = [];
+  const stub = (status, body) => {
+    globalThis.fetch = async (url, init) => {
+      calls.push({ url: String(url), auth: init && init.headers && init.headers.Authorization });
+      return new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
+    };
+  };
+
+  const VERIFIED = {
+    id: 'user_1', primary_email_address_id: 'idn_2',
+    email_addresses: [
+      { id: 'idn_1', email_address: 'old@example.com', verification: { status: 'verified' } },
+      { id: 'idn_2', email_address: 'learner@example.com', verification: { status: 'verified' } },
+    ],
+  };
+
+  stub(200, VERIFIED);
+  let got = await clerkAdapter.fetchIdentity('user_1', { CLERK_SECRET_KEY: 'sk_test_x' });
+  check('fetchIdentity returns the PRIMARY address, not the first',
+    got && got.email === 'learner@example.com', got && got.email);
+  check('...marked verified', got && got.emailVerified === true);
+  check('...from the provider\u2019s user endpoint',
+    /\/v1\/users\/user_1$/.test(calls[0].url), calls[0].url);
+  check('...authenticated with the secret key',
+    calls[0].auth === 'Bearer sk_test_x');
+
+  // An unverified address must never become a College account.
+  // users.email is what a transcript, a certificate and every
+  // notification are addressed to, and "somebody typed this into a
+  // form" is not the same claim as "somebody proved they read mail
+  // there".
+  stub(200, { id: 'user_2', primary_email_address_id: 'idn_9',
+    email_addresses: [{ id: 'idn_9', email_address: 'unproven@example.com', verification: { status: 'unverified' } }] });
+  got = await clerkAdapter.fetchIdentity('user_2', { CLERK_SECRET_KEY: 'sk_test_x' });
+  check('An unverified address is returned as unverified, not as verified',
+    got && got.email === 'unproven@example.com' && got.emailVerified === false,
+    JSON.stringify(got));
+
+  // Every way the provider can fail to answer must yield null, never a
+  // guess. A fabricated account is worse than no account.
+  for (const [label, status, body] of [
+    ['a 404', 404, { errors: [] }],
+    ['a 500', 500, {}],
+    ['a user with no addresses', 200, { id: 'u', email_addresses: [] }],
+    ['a malformed body', 200, { id: 'u' }],
+  ]) {
+    stub(status, body);
+    const r = await clerkAdapter.fetchIdentity('user_x', { CLERK_SECRET_KEY: 'sk_test_x' });
+    check(`...and ${label} yields nothing rather than a guess`, r === null, JSON.stringify(r));
+  }
+
+  globalThis.fetch = async () => { throw new Error('network down'); };
+  check('...and an unreachable provider does not throw into the request',
+    (await clerkAdapter.fetchIdentity('user_x', { CLERK_SECRET_KEY: 'sk_test_x' })) === null);
+
+  // No key: it must not even try. A request per sign-in to an endpoint
+  // that cannot answer is an outbound amplifier with no upside.
+  let tried = false;
+  globalThis.fetch = async () => { tried = true; return new Response('{}', { status: 200 }); };
+  check('With no secret key it does not call the provider at all',
+    (await clerkAdapter.fetchIdentity('user_x', {})) === null && tried === false);
+
+  globalThis.fetch = realFetch;
+}
+
+// And end to end: a verified session with NO email claim now provisions.
+{
+  const { requireUser } = await import(loadUrl('functions/_lib/auth/session.js'));
+  const src = readFileSync(`${ROOT}/functions/_lib/auth/session.js`, 'utf8');
+  check('requireUser asks the provider when the token carries no email',
+    /fetchIdentity\(identity\.providerId, env\)/.test(src));
+  check('...only when the token has none, not on every request',
+    /if \(!email && typeof provider\.fetchIdentity/.test(src));
+  check('...and still refuses to invent one when nothing answers',
+    /AccountProvisioningError/.test(src) && /will not invent one/.test(src));
+  check('...telling the operator which key is missing',
+    /CLERK_SECRET_KEY/.test(src));
+  check('requireUser is still exported', typeof requireUser === 'function');
 }
 
 // ---------------------------------------------------------------------
@@ -346,12 +456,16 @@ for (const page of ['admissions/apply/index.html', 'ar/admissions/apply/index.ht
 {
   const doc = readFileSync(`${ROOT}/docs/fixing-sign-in.md`, 'utf8');
   for (const setting of ['CLERK_JWKS_URL', 'CLERK_WEBHOOK_SECRET',
-    'CLERK_AUTHORIZED_PARTIES', 'CLERK_PUBLISHABLE_KEY']) {
+    'CLERK_AUTHORIZED_PARTIES', 'CLERK_PUBLISHABLE_KEY', 'CLERK_SECRET_KEY']) {
     check(`docs/fixing-sign-in.md names ${setting}`, doc.includes(setting));
   }
   check('...and the D1 binding', /D1 database bindings|binding `DB`|D1 binding/.test(doc));
   check('...and the email claim Clerk does not send by default',
     /primary_email_address/.test(doc));
+  check('...and that it is one of THREE routes, not a required errand',
+    /three routes to an address, and any one is enough/i.test(doc.replace(/\s+/g, ' ')));
+  check('...and that only a verified address is accepted',
+    /only when Clerk reports it\s*verified/i.test(doc.replace(/\s+/g, ' ')));
   check('...and leads with the one-request check',
     doc.indexOf('/api/health/auth') < doc.indexOf('## What went wrong'));
   check('...and says a variable applies only to NEW deployments',

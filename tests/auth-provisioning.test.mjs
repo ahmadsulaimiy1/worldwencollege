@@ -103,8 +103,14 @@ async function attempt(label, fn) {
     err && err.httpStatus === 401, err && `${err.name} ${err.httpStatus}`);
   check('...distinguishably from an expired session',
     err && err.name === 'AccountProvisioningError', err && err.name);
-  check('...and says why, naming both possible causes',
-    err && /webhook/.test(err.message) && /email claim/.test(err.message), err && err.message);
+  // Three causes now, not two: the token's missing claim, the direct
+  // lookup, and the webhook. The lookup was added so a learner is not
+  // held hostage to a dashboard setting nobody remembered — and a
+  // message that names two of three sends somebody to check the wrong
+  // two.
+  check('...and says why, naming all three possible causes',
+    err && /webhook/.test(err.message) && /email claim/.test(err.message)
+      && /CLERK_SECRET_KEY/.test(err.message), err && err.message);
   check('...and does not tell the applicant to sign in again, which cannot help',
     err && /signing in again will not change/.test(err.message), err && err.message);
   const { results } = await env.DB.prepare('SELECT id FROM users').bind().all();
