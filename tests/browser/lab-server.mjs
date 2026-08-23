@@ -697,6 +697,60 @@ const reconciliationLib = await import(pathToFileURL(`${ROOT}/functions/_lib/rep
   }
 }
 
+// ── THE LEVEL EXAMINATION ───────────────────────────────────────────
+// The harness publishes a paper at Level II and puts one script in
+// front of the markers, because the three surfaces under test are all
+// empty without both. Nothing here bypasses the library: the paper is
+// authored and published through authorPaper()/publishPaper(), so the
+// three refusals a real paper has to clear are cleared here too.
+//
+// THE SITTING IS INSERTED DIRECTLY and that is deliberate. Entering a
+// candidate reads the ten-module gate through the real standing engine,
+// and no learner in this harness has ten complete modules at any level
+// — arranging one would be forty fixture rows testing arithmetic that
+// tests/level-examination.test.mjs already drives end to end. What the
+// browser test is for is the SCREENS, so the harness gives them a
+// script to draw.
+const examinations = await import(pathToFileURL(`${ROOT}/functions/_lib/academic/examinations.js`));
+const LAB_PAPER_LEVEL = 2;
+let LAB_SITTING = null;
+{
+  const draft = await examinations.authorPaper(env, {
+    actor: ADMIN_ACTOR,
+    levelId: LAB_PAPER_LEVEL,
+    title: 'Level II Examination — Elementary',
+    titleAr: 'امتحان المستوى الثاني — المبتدئ',
+    conditions: 'Open book. Three hours from the moment you open the paper. The spoken paper is closed: no script, no prompt read from a screen, and nobody else in the room.',
+    conditionsAr: 'كتاب مفتوح. ثلاث ساعات من لحظة فتح الورقة. الورقةُ الشفويةُ مغلقة: بلا نصٍّ مكتوب، وبلا قراءةٍ من شاشة، وبلا أحدٍ آخر في الغرفة.',
+    criteria: [
+      { code: 'LIS', name: 'Listening', nameAr: 'الاستماع', weight: 0.25, skillId: 'skl_listening',
+        descriptor: 'Follows an extended exchange at natural pace and identifies both the claim and the qualification on it.',
+        descriptorAr: 'يتابع حوارًا ممتدًّا بسرعته الطبيعية، ويميّز الدعوى والقيدَ الوارد عليها.' },
+      { code: 'REA', name: 'Reading', nameAr: 'القراءة', weight: 0.25, skillId: 'skl_reading',
+        descriptor: 'Reads for argument as well as detail, and distinguishes what a text asserts from what it assumes.',
+        descriptorAr: 'يقرأ للحجّة كما يقرأ للتفصيل، ويميّز ما يقرّره النصّ ممّا يفترضه.' },
+      { code: 'SPK', name: 'Speaking', nameAr: 'التحدّث', weight: 0.25, skillId: 'skl_speaking', spoken: true,
+        descriptor: 'Defends their own submission under questioning, in real time, with control of register.',
+        descriptorAr: 'يدافع عن عمله تحت الأسئلة، في الزمن الحقيقي، مع ضبطٍ لمستوى اللغة.' },
+      { code: 'WRI', name: 'Writing', nameAr: 'الكتابة', weight: 0.25, skillId: 'skl_writing',
+        descriptor: 'Writes to a stated purpose and a stated reader, and revises rather than restates.',
+        descriptorAr: 'يكتب لغرضٍ مصرَّحٍ به ولقارئٍ معلوم، ويراجع بدل أن يعيد.' },
+    ],
+  });
+  await examinations.publishPaper(env, { actor: ADMIN_ACTOR, paperId: draft.id });
+  const paper = await examinations.publishedPaperFor(env, LAB_PAPER_LEVEL);
+  LAB_SITTING = 'lex_lab_1';
+  sqlite.exec(`INSERT INTO level_examinations
+    (id, user_id, level_id, paper_id, attempt, counts_toward_resits,
+     window_opens_on, window_closes_on, sitting_reference, opened_at, due_at,
+     submitted_at, status, lateness, late_working_days, regulation_version)
+    VALUES ('${LAB_SITTING}','usr_demo',${LAB_PAPER_LEVEL},'${paper.id}',1,1,
+            '2026-08-10','2026-08-21','WEC-L2-20260810-1K7QM',
+            '2026-08-12T08:00:00.000Z','2026-08-12T11:00:00.000Z',
+            '2026-08-12T10:41:00.000Z','submitted','on_time',0,
+            '${examinations.PUBLISHED ? 'wec.academic_regulations@1.0.0' : 'wec.academic_regulations@1.0.0'}')`);
+}
+
 const recordings = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/recording-storage.js`));
 const { makeR2 } = await import(pathToFileURL(`${ROOT}/tests/r2-shim.mjs`));
 // The same in-memory R2 stand-in the unit tests use, so the browser
@@ -975,6 +1029,165 @@ createServer(async (req, res) => {
         ...(url.searchParams.get('level') ? { levelId: Number(url.searchParams.get('level')) } : {}),
       }));
     }
+    // ── THE LEVEL EXAMINATION ──────────────────────────────────────
+    // `examFail` rather than the `failWith` further down this handler:
+    // that one is declared below these routes and a const is not
+    // hoisted, so reaching for it here would throw before it ever
+    // reported anything.
+    const examFail = (err, fallback) => {
+      res.writeHead(err.httpStatus || fallback, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+    };
+    // The three surfaces, driven by the real library. The actors are
+    // fixed here the way every other route in this harness fixes them:
+    // usr_demo is the candidate, usr_tutor the first marker, usr_admin
+    // the second — which is also what makes the "a second reader is a
+    // second person" refusal reachable from a browser.
+    if (url.pathname === '/api/student/examination') {
+      const learner = { id: 'usr_demo', role: 'student' };
+      try {
+        if (req.method === 'GET') {
+          const language = url.searchParams.get('lang') === 'ar' ? 'ar' : 'en';
+          const papers = await examinations.papersPublished(env);
+          const enrolments = sqlite.prepare(
+            `SELECT e.level_id AS levelId, e.status, l.roman, l.name
+               FROM enrolments e JOIN programme_levels l ON l.id = e.level_id
+              WHERE e.user_id = 'usr_demo' ORDER BY e.level_id`).all();
+          return json(res, {
+            sittings: await examinations.sittingsFor(env, { userId: 'usr_demo' }),
+            levels: enrolments.map((e) => ({
+              levelId: e.levelId, roman: e.roman, name: e.name, enrolmentStatus: e.status,
+              paperPublished: Boolean(papers[e.levelId]),
+              note: papers[e.levelId] ? null : (language === 'ar'
+                ? 'لم تنشر الكلية بعد ورقة امتحان لهذا المستوى. لا شيء عليك فعله.'
+                : 'The College has not yet published an examination paper for this level. There is nothing outstanding with you.'),
+            })),
+            procedure: examinations.publishedProcedure(language),
+          });
+        }
+        const body = JSON.parse(await read(req) || '{}');
+        const action = url.searchParams.get('action') || body.action;
+        const sitting = action === 'open'
+          ? await examinations.openPaper(env, { user: learner, examinationId: body.examinationId })
+          : await examinations.submitPaper(env, { user: learner, examinationId: body.examinationId });
+        return json(res, { sitting, procedure: examinations.publishedProcedure('en') });
+      } catch (err) { return examFail(err, 400); }
+    }
+
+    if (url.pathname === '/api/staff/examinations') {
+      // WHICH MARKER THE HARNESS IS.
+      //
+      // The pages build their own URLs and carry no actor, exactly as
+      // they do in production where the actor is the session. So the
+      // harness takes one from a COOKIE the browser test sets on the
+      // context — the nearest thing to a session it has — and defaults
+      // to the tutor.
+      //
+      // It is a cookie rather than a query parameter for a reason that
+      // matters to what is being tested: a parameter would have to be
+      // threaded through every URL the page builds, which would mean
+      // editing the page for the test. The endpoint's refusal — a
+      // marker may not read the same script twice — is only reachable
+      // from a browser if two DIFFERENT people can drive the same
+      // unmodified screen.
+      const cookie = String(req.headers.cookie || '');
+      const asSecond = /(^|;\s*)lab_marker=second(;|$)/.test(cookie);
+      const marker = asSecond
+        ? { id: 'usr_admin', role: 'admin' }
+        : { id: 'usr_tutor', role: 'staff' };
+      try {
+        if (req.method === 'GET') {
+          if (url.searchParams.get('examinationId')) {
+            return json(res, await examinations.scriptForMarking(env, {
+              staff: marker,
+              examinationId: url.searchParams.get('examinationId'),
+              role: url.searchParams.get('role') || 'first',
+            }));
+          }
+          if (url.searchParams.get('userId')) {
+            return json(res, {
+              authorisation: { basis: 'lab' },
+              sittings: await examinations.sittingsFor(env, {
+                userId: url.searchParams.get('userId'),
+                levelId: url.searchParams.get('levelId') ? Number(url.searchParams.get('levelId')) : null,
+              }),
+              procedure: examinations.publishedProcedure('en'),
+            });
+          }
+          const queue = await examinations.markingQueue(env, {
+            staff: marker, role: url.searchParams.get('role') || 'first',
+          });
+          return json(res, { ...queue, procedure: examinations.publishedProcedure('en') });
+        }
+        const body = JSON.parse(await read(req) || '{}');
+        const action = url.searchParams.get('action') || body.action;
+        if (action === 'mark') {
+          return json(res, {
+            sitting: await examinations.recordMarks(env, {
+              actor: marker, examinationId: body.examinationId, role: body.role, marks: body.marks,
+            }),
+          });
+        }
+        if (action === 'settle') {
+          return json(res, {
+            sitting: await examinations.settleReconciliation(env, { actor: marker, ...body }),
+          });
+        }
+        if (action === 'spoken') {
+          return json(res, {
+            sitting: await examinations.recordSpokenPaper(env, {
+              actor: marker, examinationId: body.examinationId,
+              recordingId: body.recordingId || null, passed: body.passed,
+            }),
+          });
+        }
+        if (action === 'release') {
+          return json(res, {
+            sitting: await examinations.release(env, { actor: ADMIN_ACTOR, examinationId: body.examinationId }),
+          });
+        }
+        return examFail(Object.assign(new Error('That act is not wired in the harness.'), { httpStatus: 400 }), 400);
+      } catch (err) { return examFail(err, 400); }
+    }
+
+    if (url.pathname === '/api/admin/examination-papers') {
+      try {
+        if (req.method === 'GET') {
+          const papers = sqlite.prepare('SELECT * FROM examination_papers ORDER BY level_id, version DESC').all();
+          const criteria = sqlite.prepare(
+            `SELECT c.*, s.name AS skill_name, s.name_ar AS skill_name_ar
+               FROM examination_criteria c LEFT JOIN language_skills s ON s.id = c.skill_id
+              ORDER BY c.paper_id, c.sequence`).all();
+          const levels = sqlite.prepare('SELECT id, roman, name, cefr FROM programme_levels ORDER BY id').all();
+          const views = papers.map((p) => examinations.paperView(p, criteria.filter((c) => c.paper_id === p.id)));
+          return json(res, {
+            papers: views,
+            levels: levels.map((l) => {
+              const live = views.find((p) => p.levelId === l.id && p.status === 'published') || null;
+              return {
+                levelId: l.id, roman: l.roman, name: l.name, cefr: l.cefr,
+                published: live ? { paperId: live.id, version: live.version, rubricPublishedOn: live.rubricPublishedOn } : null,
+                drafts: views.filter((p) => p.levelId === l.id && p.status === 'draft').length,
+              };
+            }),
+            defaults: {
+              durationMinutes: examinations.DURATION_MINUTES,
+              spokenMinutes: examinations.SPOKEN_MINUTES,
+              windowWorkingDays: examinations.WINDOW_WORKING_DAYS,
+              floor: examinations.EXAMINATION_FLOOR,
+            },
+            instrument: examinations.PUBLISHED.conduct,
+          });
+        }
+        const body = JSON.parse(await read(req) || '{}');
+        const action = url.searchParams.get('action') || body.action;
+        if (action === 'publish') {
+          return json(res, { paper: await examinations.publishPaper(env, { actor: ADMIN_ACTOR, paperId: body.paperId }) });
+        }
+        return json(res, { paper: await examinations.authorPaper(env, { actor: ADMIN_ACTOR, ...body }) });
+      } catch (err) { return examFail(err, 400); }
+    }
+
     if (url.pathname === '/api/student/standing' && req.method === 'GET') {
       return json(res, await standingLib.computeLearnerStanding(env, 'usr_demo'));
     }

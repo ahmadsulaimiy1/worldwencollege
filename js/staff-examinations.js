@@ -351,8 +351,19 @@
           }),
         }),
       }).then(function () {
-        says.textContent = T.saved;
-        loadScript(script.examinationId);
+        // THE CONFIRMATION IS CARRIED INTO THE RE-RENDER.
+        //
+        // Recording a reading re-renders the script — the marker's own
+        // numbers are now on the record and belong on screen — and that
+        // re-render destroys every node inside [data-script], including
+        // the one this message was written into. Writing it to the
+        // page's state line instead does not work either: load() owns
+        // that line and clears it the moment the queue comes back. So
+        // the note travels INTO drawScript(), which renders it at the
+        // top of what replaces the form. A marker who presses the
+        // button and sees nothing change is a marker who presses it
+        // twice.
+        loadScript(script.examinationId, T.saved);
         load();
       }).catch(function (err) {
         submit.disabled = false;
@@ -567,12 +578,18 @@
     return box;
   }
 
-  function drawScript(script, sitting) {
+  function drawScript(script, sitting, note) {
     var host = $('[data-script]');
     host.textContent = '';
     $('#secScript').hidden = false;
     $('[data-script-head]').textContent = script.sittingReference;
     $('[data-script-close]').textContent = T.close;
+
+    if (note) {
+      var said = el('p', 'exm-said', note);
+      said.setAttribute('role', 'status');
+      host.appendChild(said);
+    }
 
     var facts = el('p', 'exm-facts');
     facts.appendChild(K.chip(T.level(K.ROMAN[script.levelId] || script.levelId)));
@@ -601,7 +618,7 @@
     $('#secScript').scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
 
-  function loadScript(examinationId) {
+  function loadScript(examinationId, note) {
     api('/api/staff/examinations?examinationId=' + encodeURIComponent(examinationId)
         + '&role=' + encodeURIComponent(state.role))
       .then(function (script) {
@@ -609,14 +626,14 @@
         // marked — until then there is nothing on it they may see, and
         // asking for it would be asking for numbers the endpoint is
         // right to withhold.
-        if (!script.alreadyMarked) { drawScript(script, null); return; }
+        if (!script.alreadyMarked) { drawScript(script, null, note); return; }
         api('/api/staff/examinations?userId=' + encodeURIComponent(script.candidate.id)
             + '&levelId=' + script.levelId)
           .then(function (payload) {
             var sitting = (payload.sittings || []).filter(function (s) { return s.id === examinationId; })[0] || null;
-            drawScript(script, sitting);
+            drawScript(script, sitting, note);
           })
-          .catch(function () { drawScript(script, null); });
+          .catch(function () { drawScript(script, null, note); });
       })
       .catch(function (err) { $('#state').textContent = K.trouble(err); });
   }

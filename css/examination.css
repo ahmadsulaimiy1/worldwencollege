@@ -444,3 +444,23 @@
   .exm-running__value { font-size: 1.6rem; }
   .exm-crit__mark input { width: 5.5rem; font-size: 1.15rem; }
 }
+
+/* ── WHAT THE PLATFORM JUST DID ──────────────────────────────────────
+   The confirmation after a reading is recorded. It is rendered INTO
+   the panel that replaces the form, because the act of recording
+   re-renders the script and would otherwise take its own confirmation
+   with it — see js/staff-examinations.js. Struck rather than a line of
+   grey text: a person has just made a judgement about somebody's
+   degree, and the acknowledgement should look like one. */
+.exm-said {
+  margin: 0;
+  padding: .9rem 1.2rem;
+  border-radius: 12px;
+  border-inline-start: 3px solid var(--emerald, #1E6A4F);
+  background: color-mix(in oklab, var(--emerald, #1E6A4F) 9%, transparent);
+  font: 600 .96rem/1.7 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 84%, transparent);
+}
+@media (forced-colors: active) {
+  .exm-said.exm-said { border: 1px solid CanvasText; }
+}

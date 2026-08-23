@@ -402,7 +402,15 @@ This is the map the next pass builds from.
       different authorities. Authoring and publishing are two acts so
       that `rubric_published_on` cannot be back-written.
 
-    Two faults the screens caught that the endpoints could not:
+    Driven end to end in a real browser by
+    `tests/browser/examination.mjs` — 45 checks. The one that matters
+    most is not an assertion about a payload: it opens the script AS
+    THE SECOND MARKER, reads the whole document, and fails if the first
+    marker's numbers appear anywhere in it. The endpoint's withholding
+    is only worth anything if the screen over it does not undo it, and
+    a browser is the only place that can be shown.
+
+    Three faults the screens caught that the endpoints could not:
 
     - `trouble()` in `js/staff-kit.js` fell back to `r.statusText`, so
       every one of the twelve staff consoles rendered the bare words
@@ -415,6 +423,16 @@ This is the map the next pass builds from.
       one sentence and five hundred pixels of nothing. The standing
       rules are true whether or not the platform answered; they are out
       of the form now and always visible.
+    - Recording a reading destroyed its own confirmation. The act
+      re-renders the script — the marker's numbers are now on the
+      record and belong on screen — and the re-render took the "your
+      reading is on the record" message with it. Writing it to the
+      page's state line instead did not work either: `load()` owns that
+      line and clears it when the queue returns. The note travels into
+      the re-render now. A marker who presses a button and sees nothing
+      change is a marker who presses it twice, and on this screen
+      pressing it twice is refused with `already_marked`, which reads
+      as the platform having lost the first press.
 
 ### And two the register had not listed
 
