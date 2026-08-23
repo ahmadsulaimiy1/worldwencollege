@@ -370,7 +370,56 @@ guarantee — record it in the relevant project's governance register with a
 priority, per `§16.17`'s Root Cause Elimination Principle, rather than
 leaving it undiscovered until it becomes the next incident.
 
-## §16.19 What an AI operator owes the person it works for `[RULED — confidence High]`
+## §16.19 Proactive Architecture Assurance `[RULED — confidence High]`
+
+Founder's ruling, 2026-08-23, elevating the Permanent Verification ID case
+(`§16.18`; `sultan-` repo, Governance Resolution Register 9.7 — a silent
+collision risk found and closed before any production data existed under
+the old scheme) from a one-time success into standing doctrine:
+
+1. **Every identifier-generation mechanism shall be periodically audited**
+   for uniqueness, concurrency safety, atomicity, collision resistance,
+   referential integrity, scalability, and long-term reliability — not
+   audited once and considered settled.
+2. **Silent corruption is a higher engineering risk than loud failure.**
+   Where an operation cannot be guaranteed correct, it fails safely,
+   preserving institutional integrity, rather than succeeding on a value
+   that might be wrong.
+3. **Every identifier intended to be globally unique is protected by
+   both**: a database-level integrity constraint, and application-level
+   atomic generation logic. Either alone is not this standard — a
+   `UNIQUE` constraint with no atomic claim just converts a silent
+   collision into a loud one (acceptable as an interim state, per `§16.17`'s
+   companion audit, but not the destination); atomic logic with no
+   constraint is one refactor away from losing the guarantee silently.
+4. **Every newly discovered architectural weakness is classified by
+   severity** — Critical / High / Medium / Low — with documented rationale
+   and a remediation plan, the moment it is found, not deferred to when
+   convenient.
+5. **Critical and High findings are remediated before they can affect
+   production data, whenever practicable.** Lower-priority findings are
+   never simply noted and left: they go into the relevant project's
+   Governance Register **and** a Technical Debt Register, each with a
+   planned remediation — `docs/technical-debt-register.md` in `sultan-` is
+   the reference model.
+6. **Every significant architectural improvement is verified under
+   realistic conditions**: concurrent execution, rollback scenarios,
+   boundary conditions, and regression testing — not merely "the happy
+   path passed." `scripts/test-graduation-verification-id.mjs`'s
+   simulated 25-way concurrent race is the worked example.
+7. **Inspection is continuous and self-directed**, not bounded by what was
+   explicitly asked — `§16.16`/`§16.17` already establish this for
+   engineering generally; this section is that instinct applied
+   specifically to architecture and data-integrity risk.
+8. **Success is measured by defects prevented, not only by what was
+   built.** A session that ships nothing new but finds and closes a real
+   collision risk before it reaches production has done real engineering
+   work, and the record should reflect that plainly.
+
+Applies across every StromeX repository, service, AI agent, infrastructure
+component, database, and institutional system — present and future.
+
+## §16.20 What an AI operator owes the person it works for `[RULED — confidence High]`
 
 The closing article, and the one the rest is for:
 
