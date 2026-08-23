@@ -198,6 +198,7 @@ const LEGACY = legacyBlock({
   subjects: ['English language — Listening comprehension', 'English language — Spoken English',
     'English language — Study and teaching', 'Language laboratories'],
   artefact: 'publication/IEFC Listening Scripts.pdf',
+  siblings: ['publication/.listening.html'],
   relatives: RECORD ? RECORD.relatives : [],
   maturity: RECORD ? RECORD.maturity : undefined,
   ink: PAL.royalBlue, rule: PAL.platinum, soft: PAL.slateGrey, accent: ACCENT.hex,

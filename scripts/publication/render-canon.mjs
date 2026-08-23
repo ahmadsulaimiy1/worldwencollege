@@ -113,6 +113,7 @@ const LEGACY = legacyBlock({
   subjects: ['Publishers and publishing — Catalogues', 'Educational publishing',
     'Library science — Collection development', 'Scholarly publishing'],
   artefact: 'publication/WEC Canon Index.pdf',
+  siblings: ['publication/.canon.html'],
   relatives: (ECO.find((r) => /Publishing Constitution/.test(r.name)) || {}).relatives || [],
   maturity: MATURITY.FIRST,
   ink: PAL.royalBlue, rule: PAL.platinum, soft: PAL.slateGrey, accent: ACCENT.hex,

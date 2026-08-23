@@ -193,24 +193,42 @@ export function maturityOf(row, { revisions = [], reviews = REVIEWS } = {}) {
  * history to read, and the publication says so rather than printing an
  * empty table that reads like a claim of never having been revised.
  */
-export function revisionHistory(artefact, { limit = 8 } = {}) {
+export function revisionHistory(artefact, { limit = 8, siblings = [] } = {}) {
   if (!artefact) return { available: false, why: 'This publication has no artefact yet.', rows: [] };
   try {
     const out = execFileSync('git',
-      ['log', '--follow', '--date=short', '--format=%ad%s', '--', artefact],
+      ['log', '--follow', '--date=short', '--format=%H%ad%s', '--', artefact],
       { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
     const rawRows = out.split('\n').filter(Boolean).map((line) => {
-      const [date, subject] = line.split('');
-      return { date, subject };
+      const [hash, date, subject] = line.split('');
+      return { hash, date, subject };
     });
-    // Regenerating this colophon is itself a commit that touches the
-    // artefact, so a run of consecutive commits with the same subject and
-    // no real content change between them would otherwise inflate "total"
-    // forever, once per regeneration. Collapse a run of identical
-    // subjects to its most recent occurrence; a genuine change in between
-    // still counts as its own revision either side of it.
+    // A commit that regenerates this artefact is itself a commit that
+    // touches it, so its own render-and-commit step would otherwise
+    // become a permanent, meaningless "revision" the moment the source
+    // content it was rendered FROM did not actually change. A commit
+    // counts as a real revision only if it touched something besides the
+    // artefact and its own declared build siblings (e.g. the PDF a
+    // colophon's HTML source renders into) — a pure self-regeneration,
+    // whatever it is committed as, is build hygiene, not history.
+    const knownOutputs = new Set([artefact, ...siblings]);
+    const isSelfRegeneration = (hash) => {
+      if (!hash) return false;
+      try {
+        const changed = execFileSync('git',
+          ['diff-tree', '--no-commit-id', '--name-only', '-r', hash],
+          { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
+          .split('\n').filter(Boolean);
+        return changed.length > 0 && changed.every((f) => knownOutputs.has(f));
+      } catch { return false; }
+    };
+    const deduped = rawRows.filter((r) => !isSelfRegeneration(r.hash));
+    // A run of consecutive commits with the same subject still collapses
+    // to its most recent occurrence — belt and suspenders for a
+    // regeneration committed under a subject this function was not told
+    // to recognise as one of its own outputs.
     const rows = [];
-    for (const r of rawRows) {
+    for (const r of deduped) {
       if (rows.length && rows[rows.length - 1].subject === r.subject) continue;
       rows.push(r);
     }
@@ -532,6 +550,11 @@ export function legacyBlock({
   id, title, subtitle, family, audience, subjects = [], pages, artefact,
   relatives = [], maturity = MATURITY.FIRST, ink = '#1F3E7C', rule = '#D8DCE3',
   soft = '#6B7280', accent = '#B4933E', panel = '#F6F1E4',
+  // The HTML source this PDF is rendered from (and any other build output
+  // committed alongside it in the same step) — passed through to
+  // revisionHistory() so a commit that only re-renders these, with no real
+  // source change, is not counted as a revision of the publication itself.
+  siblings = [],
 }) {
   const fam = familyOf(family);
   const cite = citation({
@@ -543,7 +566,7 @@ export function legacyBlock({
     title, subtitle, family, edition: id.editionName, year: id.year, pages: extent, audience,
     subjects, registrations: id.registrations,
   });
-  const hist = revisionHistory(artefact);
+  const hist = revisionHistory(artefact, { siblings });
   const means = MATURITY_MEANS.find(([m]) => m === maturity);
 
   // Definition lists, not tables. These are key–value pairs, and an

@@ -253,6 +253,7 @@ const LEGACY = legacyBlock({
   subjects: ['English language — Pronunciation', 'English language — Study and teaching',
     'Phonetics', 'English language — Spoken English'],
   artefact: 'publication/IEFC Pronunciation Handbook.pdf',
+  siblings: ['publication/.pronunciation.html'],
   relatives: RECORD ? RECORD.relatives : [],
   maturity: RECORD ? RECORD.maturity : undefined,
   ink: PAL.royalBlue, rule: PAL.platinum, soft: PAL.slateGrey, accent: ACCENT.hex,

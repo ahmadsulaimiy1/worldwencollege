@@ -200,6 +200,7 @@ const LEGACY = legacyBlock({
   subjects: ['English language — Ability testing', 'Educational tests and measurements',
     'Grading and marking (Students)', 'English language — Examinations'],
   artefact: 'publication/IEFC Assessment Handbook.pdf',
+  siblings: ['publication/.assessment.html'],
   relatives: RECORD ? RECORD.relatives : [],
   maturity: RECORD ? RECORD.maturity : undefined,
   ink: PAL.royalBlue, rule: PAL.platinum, soft: PAL.slateGrey, accent: ACCENT.hex,

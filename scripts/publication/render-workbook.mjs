@@ -296,6 +296,7 @@ const LEGACY = legacyBlock({
   subjects: ['English language — Textbooks for foreign speakers',
     'English language — Study and teaching', 'English language — Problems, exercises'],
   artefact: 'publication/IEFC Level I Student Workbook.pdf',
+  siblings: ['publication/.workbook.html'],
   relatives: [],
   ink: PAL.royalBlue, rule: PAL.platinum, soft: PAL.slateGrey, accent: ACCENT.hex,
   panel: PAL.softCream,

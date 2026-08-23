@@ -295,6 +295,7 @@ const LEGACY = legacyBlock({
     'English language — Study and teaching — Foreign speakers',
     'Language teachers — Handbooks, manuals, etc.'],
   artefact: "publication/IEFC Level I Teacher's Companion.pdf",
+  siblings: ['publication/.companion.html'],
   relatives: [],
   ink: PAL.royalBlue, rule: PAL.platinum, soft: PAL.slateGrey, accent: ACCENT.hex,
   panel: PAL.softCream,
