@@ -237,7 +237,9 @@
 
     // ── WHAT A HOLDER DOES WITH IT ───────────────────────────────────
     var acts = el('div', 'awd__acts');
-    var verify = el('a', 'btn btn--ghost', T.verify);
+    // .btn--outline, NOT .btn--ghost — the certificate is a light
+    // ground. See the note beside .btn--ghost in css/brand.css.
+    var verify = el('a', 'btn btn--outline', T.verify);
     verify.href = a.verifyPath;
     acts.appendChild(verify);
 

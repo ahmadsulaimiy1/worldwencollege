@@ -124,6 +124,18 @@ check('the harness holds a conferred award to draw', Boolean(award), JSON.string
   check('...and carries the code in its alternative text',
     qr && qr.alt.includes(award.verificationCode), qr && qr.alt);
 
+  // .btn--outline and never .btn--ghost. Ghost is a dark-ground
+  // control — css/brand.css now says so beside the rule — and it
+  // measures 1.54:1 on a paper card. The class is asserted rather than
+  // the contrast, because the contrast is measured by
+  // tests/browser/render-quality.mjs and asserting it twice in two
+  // instruments is how two instruments come to disagree.
+  check('the actions use the light-ground button, not the dark-ground one',
+    await page.evaluate(() => {
+      const b = document.querySelector('.awd__acts a');
+      return b.classList.contains('btn--outline') && !b.classList.contains('btn--ghost');
+    }));
+
   const verify = await page.getAttribute('.awd__acts a', 'href');
   check('the check link points at the public verification page for this code',
     verify === award.verifyPath, verify);

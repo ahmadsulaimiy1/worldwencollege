@@ -632,6 +632,17 @@ section { position: relative; }
 /* Transparent for the reason `.btn--quiet` gives at length: as a
    <button> this takes the user agent's grey and its gold text lands on
    it at under 2:1. */
+/* .btn--ghost IS A DARK-GROUND CONTROL, and nothing said so until a
+   render audit measured it at 1.54:1 on a paper card.
+
+   Its ink is --gold-bright, which is chosen to be readable on midnight
+   and oxford; on --paper or --warm-white it is barely a tint. On a
+   LIGHT ground the variant is `.btn--outline`, one line below, whose
+   ink is `inherit` and therefore takes the surrounding text colour.
+
+   The two look identical in the source and differ by a factor of four
+   in contrast, which is exactly the class of fault CLAUDE.md § 6 says
+   cannot be found by reasoning about CSS. */
 .btn--ghost { color: var(--gold-bright); border-color: var(--line-dark); background-color: transparent; }
 .btn--ghost:hover { border-color: var(--gold); background: rgba(231,201,122,.06); }
 /* Every other focusable control (.field inputs, .toggle) gets an

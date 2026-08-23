@@ -1238,6 +1238,95 @@ createServer(async (req, res) => {
       });
     }
 
+    // ── MY FILES ───────────────────────────────────────────────────
+    // The consolidating surface. It reads the same three libraries the
+    // owning pages read — the register, the document store and the
+    // finance ledger — so a shelf can never show a count the page it
+    // points at would contradict.
+    if (url.pathname === '/api/student/downloads' && req.method === 'GET') {
+      const ar = url.searchParams.get('lang') === 'ar';
+      const pick = (en, arabic) => (ar ? arabic : en);
+      const account = sqlite.prepare(
+        'SELECT preferred_name, email, created_at FROM users WHERE id = ?').get('usr_demo');
+      const enrolments = sqlite.prepare(
+        `SELECT e.level_id AS levelId, e.status, e.started_at AS startedAt,
+                e.completed_at AS completedAt, l.roman, l.name, l.cefr
+           FROM enrolments e JOIN programme_levels l ON l.id = e.level_id
+          WHERE e.user_id = 'usr_demo' ORDER BY e.level_id`).all();
+      const live = enrolments.find((e) => e.status === 'active') || null;
+      const history = await registry.awardHistory(env, { userId: 'usr_demo' });
+      const conferred = history.awards.filter((a) => a.status === 'conferred');
+      const heldName = conferred.length ? conferred[conferred.length - 1].holderName : null;
+      const docs = await documents.myDocuments(env, { userId: 'usr_demo' });
+      let fin = null;
+      try { fin = await finance.buildStudentFinance(env, 'usr_demo'); } catch (e) { fin = null; }
+      const payments = fin && Array.isArray(fin.payments) ? fin.payments : [];
+      return json(res, {
+        identity: {
+          name: account ? account.preferred_name : null,
+          nameOnAward: heldName,
+          nameDiffers: Boolean(heldName && account && heldName !== account.preferred_name),
+          email: account ? account.email : null,
+          heldSince: account ? account.created_at : null,
+          currentLevel: live
+            ? { levelId: live.levelId, roman: live.roman, name: live.name, cefr: live.cefr, startedAt: live.startedAt }
+            : null,
+          enrolments,
+          statement: ar
+            ? 'يُؤدَّى كلُّ تقييمٍ تحت الهويّة التي تحملها الكليةُ عنك منذ القبول، وهي الاسمُ الذي يُكتب على الشهادة.'
+            : 'Every assessment is sat under the identity the College holds from admission, and that is the name that goes on the award.',
+          source: pick('/students/examinations/#identity', '/ar/students/examinations/#identity'),
+          caveat: ar
+            ? 'هذه بطاقةُ الكلية عنك، لا وثيقةَ هويّةٍ حكومية، ولا تُغني عن أيّ منها.'
+            : 'This is the College\'s record of you. It is not a government identity document and does not stand in for one.',
+        },
+        shelves: [
+          {
+            id: 'certificates', count: conferred.length,
+            route: pick('/my-award.html', '/ar/my-award.html'),
+            items: conferred.map((a) => ({
+              title: a.awardTitle, subtitle: a.honourLabel, subtitleAr: a.honourLabelAr,
+              at: a.conferredOn, code: a.verificationCode,
+              href: pick(`/verify/${encodeURIComponent(a.verificationCode)}`,
+                `/ar/verify/${encodeURIComponent(a.verificationCode)}`),
+            })),
+          },
+          {
+            id: 'documents', count: (docs.documents || []).length,
+            route: pick('/my-record.html', '/ar/my-record.html'),
+            items: (docs.documents || []).map((d) => ({
+              title: d.documentType, subtitle: d.status, at: d.issuedAt,
+              code: d.verificationCode,
+              href: pick(`/verify/document/${encodeURIComponent(d.verificationCode)}`,
+                `/ar/verify/document/${encodeURIComponent(d.verificationCode)}`),
+            })),
+            issuable: ['transcript', 'diploma_supplement', 'verification_statement'],
+          },
+          {
+            id: 'finance', count: payments.length,
+            route: pick('/my-account.html', '/ar/my-account.html'),
+            items: payments.slice(0, 24).map((p) => ({
+            title: p.levelName ? `${p.kind} — ${p.levelName}` : p.kind,
+            titleAr: p.levelNameAr ? `${p.kind} — ${p.levelNameAr}` : null,
+            subtitle: p.status,
+            at: p.confirmedAt || p.createdAt,
+            code: p.receiptNumber || null,
+            href: null,
+            id: p.id,
+            reference: p.invoiceRef || null,
+          })),
+          receipts: payments.filter((p) => p.receiptNumber).length,
+            unavailable: fin === null,
+          },
+          {
+            id: 'library', count: null,
+            route: pick('/press/library/', '/ar/press/library/'),
+            items: [], enrolled: enrolments.some((e) => e.status !== 'withdrawn'),
+          },
+        ],
+      });
+    }
+
     if (url.pathname === '/api/student/standing' && req.method === 'GET') {
       return json(res, await standingLib.computeLearnerStanding(env, 'usr_demo'));
     }

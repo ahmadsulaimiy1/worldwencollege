@@ -309,7 +309,12 @@
                ceremonial object this College produces, so it takes SEAL
                rather than TAP and is in the list above; the QR square
                beside it is an image and stays silent. */
-            + '.awd__qr';
+            + '.awd__qr, '
+            /* MY FILES — css/downloads.css. The identity card and each
+               shelf are struck surfaces with lit rims; the items inside
+               a shelf are a list and stay silent, because a page where
+               every line of a list answered would be a toy. */
+            + '.dl-id, .dl-shelf';
 
   function voiceFor(el) {
     if (el.closest(CHIME)) return 'chime';

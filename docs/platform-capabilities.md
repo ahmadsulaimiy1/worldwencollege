@@ -152,6 +152,7 @@ wrong rule was published three ways.
 | **The learner's own certificates** — every conferral drawn as the certificate itself, with the award title, post-nominal, honour and citation exactly as the register denormalised them, the verification code, its QR, and the key that signed it (or the fact that none did) | `GET /api/student/awards` | learner | `awards`, `credential_signatures` r | **Yes** — `/my-award.html`, both editions |
 | The academic record, competencies, skills | `GET /api/student/profile`, `PATCH` | learner | `graduate_profiles`, `competency_marks`, `profile_sections` rw | **Yes** — `/my-record.html` |
 | Issued documents — transcript, supplement | `GET`,`POST /api/student/documents` | learner | `issued_documents` rw | **Yes** — `/my-record.html` |
+| **Everything the College has issued or licensed, from one address** — the identity the learner is held under (the name, since when, against which enrolments, with the published identity sentence and the plain statement that it is not a government document), and four shelves pointing at the pages that own certificates, issued documents, invoices and receipts, and the Library | `GET /api/student/downloads` | learner | `users`, `enrolments`, `awards`, `issued_documents`, the finance ledger — all r | **Yes** — `/my-downloads.html`, both editions |
 | Share a record slice with an employer | `GET`,`POST`,`DELETE /api/student/profile-shares` | learner | `profile_shares` rw | **Yes** — `/my-record.html` |
 
 **One of the two absences that blocked conferral is closed.**
