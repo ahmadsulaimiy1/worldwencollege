@@ -4177,3 +4177,38 @@ body { background: var(--cream); }
   font-size: .765rem; line-height: 1.55; color: var(--ink-soft);
   margin-top: 2px;
 }
+
+/* FACULTY V — THE ONE THAT DOES NOT ADMIT.
+
+   Five faculties will not sit in a 2×2, and the honest answer was not to
+   force five equal cards. Four of these admit students and one does not,
+   so the fifth spans the row and is drawn as an outline rather than a
+   solid: the layout says what the text says, which is that this one is
+   different in kind rather than merely fifth in order.
+
+   IT SETS NO COLOUR AND NO GROUND, and the first version's failure is why.
+   It painted a paper ground and light-ground text — and this grid sits on
+   the DARK section of the home page, where `.section--dark .r-fac-card`
+   (0,2,0) already sets a translucent dark face and beats a single-class
+   modifier. The ground stayed dark, the text turned bronze and slate on
+   top of it, and seven strings on each home page dropped to a contrast
+   of 1.66–2.41 against a requirement of 3 and 4.5. Caught by the sweep,
+   not by looking: on screen it read as "a paler card".
+
+   So the modifier now changes only what is safe in both grounds — the
+   span, the outline, the absence of lift — and every colour is left to
+   the light/dark rules that already govern the other four.
+
+   The Founder's rule made the fifth faculty necessary and the grid
+   followed it, which is the correct order: the academic structure
+   decides the interface, never the reverse. */
+.r-fac-card--pending {
+  grid-column: 1 / -1;
+  border-style: dashed;
+  border-color: rgba(199, 162, 74, .55);
+}
+.r-fac-card--pending:hover { transform: none; box-shadow: none; border-color: var(--gold-royal); }
+.r-fac-card--pending .r-fac-card__rom { opacity: .6; }
+/* The orbit runs on the four that are open. A travelling light on a faculty
+   that admits nobody would be an ornament arguing with its own caption. */
+.r-fac-card--pending::after { display: none; }
