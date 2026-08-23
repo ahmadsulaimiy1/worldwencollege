@@ -208,6 +208,18 @@ jobs:
             echo "Clerk publishable key applied to js/auth-config.js"
           fi
 
+      # A Clerk PRODUCTION instance serves its Frontend API from a domain
+      # of the College's own — clerk.worldwencollege.co.uk — which
+      # matches neither wildcard in the shipped policy. Report-only
+      # blocks nothing, so today that is a reporting gap; the moment the
+      # policy is enforced it would be a silent sign-in failure in
+      # production, which is precisely what the note in _headers warns
+      # about. Derived from the same key the Functions use.
+      - name: Name this deployment's Clerk host in the CSP
+        env:
+          CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY || vars.CLERK_PUBLISHABLE_KEY }}
+        run: node scripts/csp-clerk-host.mjs
+
       - name: Ensure the Pages project exists
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

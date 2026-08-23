@@ -109,6 +109,41 @@ const check = (label, cond, detail) => {
     enforcing.length ? 'an enforcing CSP was added without a live sign-in check' : undefined);
 }
 
+// The shipped wildcards cover a Clerk DEVELOPMENT instance. A production
+// one serves its Frontend API from a domain of the College's own, which
+// matches neither — so the deploy derives the real host from the
+// publishable key and names it. Without that, promoting the policy to
+// enforcing would break sign-in silently on the very instance it is
+// meant to protect.
+{
+  const { hostFromPublishableKey, withClerkHost } =
+    await import(new URL('../scripts/csp-clerk-host.mjs', import.meta.url).href);
+  const mk = (h) => 'pk_live_' + Buffer.from(`${h}$`).toString('base64');
+
+  check('The Clerk host is derived from the publishable key',
+    hostFromPublishableKey(mk('clerk.worldwencollege.co.uk')) === 'clerk.worldwencollege.co.uk');
+  check('...and a malformed key yields nothing rather than a guess',
+    hostFromPublishableKey('pk_live_!!!') === null
+      && hostFromPublishableKey(mk('not a host')) === null);
+
+  const headers = readFileSync(path.join(ROOT, '_headers'), 'utf8');
+  const patched = withClerkHost(headers, 'clerk.worldwencollege.co.uk');
+  const line = patched.split('\n').find((l) => /Content-Security-Policy-Report-Only:/.test(l)) || '';
+  check('It reaches script-src', /script-src [^;]*https:\/\/clerk\.worldwencollege\.co\.uk/.test(line));
+  check('...and connect-src', /connect-src [^;]*https:\/\/clerk\.worldwencollege\.co\.uk/.test(line));
+  // Widening default-src would grant the host every directive that
+  // inherits from it, including ones Clerk has no business in.
+  check('...and NOT default-src', /default-src 'self';/.test(line));
+  check('Applying it twice adds the host once',
+    withClerkHost(patched, 'clerk.worldwencollege.co.uk') === patched);
+  check('With no host the policy is left alone', withClerkHost(headers, null) === headers);
+
+  const wf = readFileSync(path.join(ROOT, '.github/workflows/deploy-cloudflare.yml'), 'utf8');
+  const at = wf.indexOf('node scripts/csp-clerk-host.mjs');
+  check('The deploy runs it', at > 0);
+  check('...before publishing', at > 0 && at < wf.indexOf('- name: Publish'));
+}
+
 // ---------------------------------------------------------------------
 // 3 · A researcher can reach somebody
 // ---------------------------------------------------------------------
