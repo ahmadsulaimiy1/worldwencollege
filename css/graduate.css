@@ -59,17 +59,9 @@
 }
 
 /* ---- State ----------------------------------------------------------- */
-.grad-state:empty { display: none; }
-.grad-state {
-  margin: 2.4rem 0;
-  padding: 2.2rem 1.4rem;
-  text-align: center;
-  border: 1px dashed rgba(20, 38, 74, .22);
-  border-radius: 12px;
-  color: var(--ink-soft, #4B5768);
-  line-height: 1.7;
-}
-.grad-state strong { display: block; color: var(--ink, #16202E); margin-bottom: .35rem; font-size: 1.05rem; }
+/* `.state-plate`, in css/brand.css, is the whole of this component —
+   the same plate the portal state line and the public register speak
+   from. Nothing here is specific to a shared record. */
 
 /* ---- Awards ---------------------------------------------------------- */
 .grad-awards { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }

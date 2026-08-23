@@ -148,11 +148,38 @@
     return li;
   }
 
-  function emptyNode(filtered) {
-    var p = el('p', 'reg-empty');
-    p.appendChild(el('strong', null, filtered ? T.noMatch : T.noneYet));
-    p.appendChild(document.createTextNode(filtered ? T.noMatchRest : T.noneYetRest));
+  /* THE PLATE THE REGISTER SPEAKS FROM.
+     `.state-plate` and the atelier classes are what every other surface
+     on this site that says something while nothing is on screen wears —
+     see css/brand.css. This one is public and it is what a visitor sees
+     before the first conferral, so it matters most here. */
+  function statePlate(head, rest) {
+    var p = el('p', 'reg-empty state-plate edge-lit edge-lit--light aurum');
+    p.appendChild(el('strong', null, head));
+    p.appendChild(document.createTextNode(rest));
     return p;
+  }
+
+  /* AND IT IS A SIBLING OF THE LIST, NOT A CHILD OF IT.
+     It used to be appended into the <ol>, where a <p> is not permitted
+     content: the register announced itself as a list of no items and
+     then carried, inside that list, a paragraph belonging to no item.
+     A sentence about a list belongs beside it — in the same aria-live
+     region, which is the <section> both of them sit in. */
+  function speak(node) {
+    var list = $('#list');
+    list.textContent = '';
+    list.hidden = true;
+    var old = $('#empty');
+    if (old) old.parentNode.removeChild(old);
+    node.id = 'empty';
+    list.parentNode.insertBefore(node, list.nextSibling);
+  }
+
+  function silence() {
+    var old = $('#empty');
+    if (old) old.parentNode.removeChild(old);
+    $('#list').hidden = false;
   }
 
   function render(data, filtered) {
@@ -162,11 +189,13 @@
 
     if (!entries.length) {
       $('#count').textContent = T.theRegister;
-      list.appendChild(emptyNode(filtered));
+      speak(statePlate(filtered ? T.noMatch : T.noneYet,
+        filtered ? T.noMatchRest : T.noneYetRest));
       $('#more').hidden = true;
       return;
     }
 
+    silence();
     $('#count').textContent = T.listed(entries.length);
     entries.forEach(function (e) { list.appendChild(entryNode(e)); });
 
@@ -195,12 +224,9 @@
       .then(function (r) { return r.json(); })
       .then(function (d) { render(d, filtered); })
       .catch(function () {
-        $('#list').textContent = '';
         $('#count').textContent = T.theRegister;
-        var p = el('p', 'reg-empty');
-        p.appendChild(el('strong', null, T.unreachable));
-        p.appendChild(document.createTextNode(T.unreachableRest));
-        $('#list').appendChild(p);
+        speak(statePlate(T.unreachable, T.unreachableRest));
+        $('#more').hidden = true;
       })
       .then(function () { $('#results').setAttribute('aria-busy', 'false'); });
   }

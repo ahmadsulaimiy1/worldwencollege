@@ -105,15 +105,7 @@
 /* The empty state is not a failure state. Until the first conferral this
    is what every visitor sees, so it has to read as a register that is
    waiting rather than as a page that is broken. */
-.reg-empty {
-  margin: 0;
-  padding: 2.2rem 1.4rem;
-  text-align: center;
-  border: 1px dashed rgba(20, 38, 74, .22);
-  border-radius: 12px;
-  color: var(--ink-soft, #5A6479);
-  line-height: 1.7;
-}
-.reg-empty strong { display: block; color: var(--ink, #14264A); margin-bottom: .3rem; font-size: 1.02rem; }
+/* It is `.state-plate` now — css/brand.css — struck rather than
+   dashed, which is what the paragraph above was always asking for. */
 
 .reg-more { margin: 1rem 0 0; font-size: .84rem; color: var(--ink-soft, #5A6479); }

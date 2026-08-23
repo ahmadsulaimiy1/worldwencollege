@@ -2369,6 +2369,107 @@ a.lang__row:hover { background: rgba(199,162,74,.13); color: var(--gold-bright);
 .table-scroll { overflow-x: auto; }
 
 /* -------------------- Stat row -------------------- */
+/* =========================================================
+   THE STATE PLATE
+   What the College says while nothing is on screen yet.
+   =========================================================
+
+   THREE SURFACES USED TO SAY IT FROM A DASHED GREY BOX, and a dashed
+   box is the register of an admin panel — the one thing §1 will not
+   have on a surface a reader meets first:
+
+     .rec-state   the state line on all twenty-five portal pages, in
+                  both editions: "Loading your record…", and then
+                  whatever went wrong.
+     .grad-state  the same line on the shared-record pages.
+     .reg-empty   the PUBLIC register before its first conferral. Its
+                  own stylesheet said this had to "read as a register
+                  that is waiting rather than as a page that is
+                  broken", and a dashed rectangle read as broken.
+
+   Those three names are still in the markup and carry no styles of
+   their own any more. They are kept deliberately: `.reg-empty` is what
+   tests/browser/register.mjs reads the sentence by, and an element
+   that three different pages give three different meanings to is
+   easier to find in a source file when it still says which one it is.
+
+   They are one component now, and it is struck: paper ground lit from
+   above, the relief of a raised plate, the College's own rosette
+   pressed into it, and the sentence set in the display face at a size
+   somebody is meant to read rather than dismiss.
+
+   THE RIM AND THE TRAVELLING POINT COME FROM THE ATELIER LAYER — the
+   markup wears `edge-lit edge-lit--light aurum` — so they are already
+   carved out for reduced motion and already mirrored for RTL, and both
+   pseudo-elements are therefore spoken for. That is why the rosette is
+   a background layer here and not a `::before`. CLAUDE.md §2.
+
+   `.reveal` is deliberately not among those classes. These are
+   aria-live regions: an element whose visibility waits on an
+   IntersectionObserver is an element that can fail to appear, and the
+   one line on the page that says what is happening must never be the
+   line that did not arrive.
+
+   IT STAYS SILENT. js/sonics.js listens on pointerdown and gives a
+   voice to surfaces a person operates; a paragraph explaining a
+   failure that chimed when somebody rested a thumb on it is the toy
+   §3 is guarding against. The exemption is recorded by name in
+   scripts/red-flag-audit.mjs rather than left as a hole.
+   ========================================================= */
+.state-plate {
+  position: relative;
+  margin: 2.6rem auto;
+  max-width: 30rem;
+  /* The head room is the mark's. */
+  padding: 5rem 2rem 2.6rem;
+  text-align: center;
+  border-radius: 16px;
+  color: var(--ink, #16202E);
+  font-family: var(--font-display, Georgia, 'Times New Roman', serif);
+  font-size: clamp(1.05rem, 1rem + .34vw, 1.28rem);
+  line-height: 1.7;
+  /* Slower than a card's. A plate that is telling you to wait should
+     not itself look hurried. */
+  --aurum-dur: 14s;
+  background:
+    /* #i-rosette from partials/icons.html — the same drawing the
+       mastheads are ruled with, struck faintly into the plate rather
+       than a second mark invented for one line. */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C7A24A' stroke-width='.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cg opacity='.66'%3E%3Ccircle cx='12' cy='8.6' r='5.4'/%3E%3Cpath d='M12 4.4 13.2 7l2.8.3-2.1 1.9.6 2.8L12 10.6l-2.5 1.4.6-2.8L8 7.3 10.8 7Z'/%3E%3Cpath d='M8.4 13.2 6.4 21l5.6-2.6L17.6 21l-2-7.8' stroke-width='.55' opacity='.78'/%3E%3Ccircle cx='12' cy='8.6' r='7.2' stroke-width='.55' opacity='.55'/%3E%3C/g%3E%3C/svg%3E")
+      no-repeat center 1.6rem / 56px 56px,
+    /* Light from above, as everywhere else on this site. */
+    radial-gradient(118% 86% at 50% 0%,
+      rgba(255, 255, 255, .96) 0%,
+      rgba(253, 251, 246, .84) 46%,
+      rgba(243, 238, 226, .92) 100%),
+    var(--paper, #FCFAF4);
+  box-shadow:
+    var(--relief-metal, inset 0 1px 2px rgba(255, 255, 255, .58), inset 0 -2px 3px rgba(90, 62, 20, .42)),
+    0 1px 1px rgba(20, 38, 74, .06),
+    0 18px 40px -22px rgba(20, 38, 74, .34);
+}
+/* THE SAME ELEMENT WAS 926px WIDE IN ENGLISH AND 736 IN ARABIC, and
+   the reason is one rule earlier in this file: `[dir="ltr"] p` sets a
+   70ch measure, which outranks a bare class and so reached the English
+   edition only. Matching the element as well as the class settles it
+   in both directions. Written as its own rule so the override stays
+   visible to whoever reads it next. */
+p.state-plate { max-width: 30rem; }
+
+/* The head, where a plate has one. */
+.state-plate strong {
+  display: block;
+  font-size: 1.1em;
+  margin-bottom: .35rem;
+  color: var(--ink, #16202E);
+}
+/* A plate with nothing struck on it is not a plate. */
+.state-plate:empty { display: none; }
+
+@media (max-width: 30rem) {
+  .state-plate { padding: 4.4rem 1.25rem 2.1rem; border-radius: 14px; }
+}
+
 .stat-row { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
 .stat-row__item { flex: 1 1 160px; padding: 26px 20px; text-align: center; border-right: 1px solid var(--line); }
 [dir="rtl"] .stat-row__item { border-right: none; border-left: 1px solid var(--line); }
@@ -2388,6 +2489,15 @@ a.lang__row:hover { background: rgba(199,162,74,.13); color: var(--gold-bright);
    arguably the second. Both are legitimate here, so both are styled. */
 .stat-row__item strong, .stat-row__item b {
   display: block; font-family: var(--font-display); font-size: 1.7rem; color: var(--red);
+  /* A HEADLINE FIGURE IS ONE TOKEN AND MUST NOT BREAK.
+     /ar/governance/ rendered BASCE's founding date as "2026-08-" on
+     one line and "04" on the next, because a hyphen is a legitimate
+     break opportunity and the Arabic display face sets the digits
+     wider than the Latin one — so the English cell fitted and the
+     Arabic cell did not. Every value this band carries is a single
+     token: a date, a reference, a fee, a count, a level code. None of
+     them mean anything in halves. */
+  white-space: nowrap;
 }
 .section--dark .stat-row__item strong, .section--deep .stat-row__item strong,
 .section--dark .stat-row__item b, .section--deep .stat-row__item b { color: var(--gold-bright); }

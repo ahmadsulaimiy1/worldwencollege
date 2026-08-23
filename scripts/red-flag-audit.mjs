@@ -960,7 +960,30 @@ function motion() {
       if (cls) struck.add(cls);
     }
   }
-  const silent = [...struck].filter((c) => !sonics.includes(`.${c}`));
+  /* THE SURFACES THAT ARE STRUCK AND MUST STAY SILENT, named rather
+     than quietly skipped — the same discipline the contrast exemption
+     in tests/browser/render-quality.mjs is written with.
+
+     §3 ranks a voice by ceremony and then draws the line: "Surfaces
+     with no relief stay silent. A site where everything makes a noise
+     is a toy, not a luxury." The line it does not draw, because it had
+     no occasion to, is the surface that HAS relief and still must not
+     speak: an element nobody operates. js/sonics.js listens on
+     pointerdown, so a selector listed there sounds when a reader
+     happens to press on it.
+
+     .rec-state is the state line on every portal page — an aria-live
+     paragraph that says "Loading your record…" and then says what
+     went wrong. It is struck, because it is the first thing a reader
+     meets and the house standard does not allow a dashed grey box
+     there. It is not a control, and a page that chimed because
+     somebody rested a thumb on the sentence explaining a failure
+     would be the toy §3 is guarding against.
+
+     Entries here are exemptions with a reason, and the list is short
+     on purpose. A new component belongs in TAP or SEAL. */
+  const VOICELESS = new Set(['rec-state', 'grad-state', 'state-plate']);
+  const silent = [...struck].filter((c) => !VOICELESS.has(c) && !sonics.includes(`.${c}`));
   if (silent.length) {
     flag('MINOR', 'js/sonics.js', `${silent.length} struck component(s) absent from the sonics register`,
       silent.slice(0, 8).join(', '),
