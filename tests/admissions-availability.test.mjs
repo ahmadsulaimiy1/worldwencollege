@@ -181,12 +181,25 @@ const req = (headers = {}) => new Request('https://wec.test/api/admissions/draft
   check('...and tells them what to do instead',
     /write to admissions/i.test(config.message), config.message);
 
+  // The loop this closes: a verified session the College cannot make an
+  // account for. As a plain 401 it read as "sign in again", which
+  // produces the same token with the same missing claim, forever.
+  const unprovisioned = classify({ status: 401, code: 'AccountProvisioningError',
+    message: 'Your sign-in worked, but the College could not finish setting up your account.' });
+  check('Unprovisioned account: is NOT reported as an expired session',
+    !/expired/i.test(unprovisioned.title), unprovisioned.title);
+  check('...and does not send the applicant round the sign-in loop',
+    unprovisioned.signIn !== true && unprovisioned.retry === false);
+  check('...and gives Admissions something to act on',
+    /account provisioning/i.test(unprovisioned.reference || ''), unprovisioned.reference);
+
   const server = classify({ status: 500 });
   check('500: is the one case that IS usually temporary',
     server.retry === true && /temporary/i.test(server.message), server.message);
 
   // Every branch must produce a title, a message and a defined action.
   const cases = [undefined, { offline: true }, { status: 401 }, { status: 403 },
+    { status: 401, code: 'AccountProvisioningError' },
     { status: 503, code: 'ConfigError' }, { status: 500 }, { status: 418 }];
   const bad = cases.filter((c) => {
     const r = classify(c);
@@ -199,6 +212,31 @@ const req = (headers = {}) => new Request('https://wec.test/api/admissions/draft
   // that they could not.
   check('No branch tells an offline applicant they signed in',
     !/signed in/i.test(classify({ offline: true }).message));
+}
+
+// ---------------------------------------------------------------------
+// 4b · The endpoint actually produces that distinct code
+// ---------------------------------------------------------------------
+// The classifier branch above is worth nothing if requireUser() still
+// raises a plain AuthError for this case — the client would never see
+// the code it branches on.
+{
+  const { AccountProvisioningError } = await import(loadUrl('functions/_lib/auth/session.js'));
+  const err = new AccountProvisioningError('no email claim');
+  check('AccountProvisioningError is a 401 with its own name',
+    err.httpStatus === 401 && err.name === 'AccountProvisioningError');
+  const resp = errorResponse(err);
+  const body = await resp.json();
+  check('...and reaches the client under that name', body.error === 'AccountProvisioningError',
+    body.error);
+
+  const src = readFileSync(`${ROOT}/functions/_lib/auth/session.js`, 'utf8');
+  check('requireUser raises it for a session with no email claim',
+    /if \(!identity\.email\) \{[\s\S]{0,120}AccountProvisioningError/.test(src));
+  check('...and says signing in again will not help',
+    /signing in again will \+?\s*'?\s*\+?\s*'?not change/.test(src.replace(/\s+/g, ' '))
+      || /signing in again will not change/.test(src.replace(/'\s*\+\s*'/g, '').replace(/\s+/g, ' ')),
+    'the message no longer rules out the sign-in loop');
 }
 
 // ---------------------------------------------------------------------

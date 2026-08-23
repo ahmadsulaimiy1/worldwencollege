@@ -114,6 +114,13 @@ claim an applicant whose webhook has not yet arrived gets an explicit
 error instead of an account. With it, first sign-in provisions
 immediately and the webhook reconciles afterwards.
 
+**This one produced a loop.** The error was a plain 401, which every
+client reads as "your session expired, sign in again" — so the applicant
+signs in again, Clerk succeeds again, the token still carries no email,
+and they arrive at the same message. Nothing they could do resolved it
+and the instruction they were given guaranteed they kept trying. It now
+has its own error class, its own message, and no sign-in button.
+
 ---
 
 ## Reading the health response
@@ -145,6 +152,7 @@ first degrades reconciliation, the second is optional hardening.
 | Sign-in service unreachable | "We could not reach the sign-in service" — with what to check | Reload |
 | Token expired | "Your session has expired" | Sign in again |
 | Wrong account | "This account cannot open an application" | Sign in again |
+| Signed in, but no email claim | "Your account is not finished being set up" — and that signing in again will not change it | Write to Admissions |
 | Deployment misconfigured | The deployment's own explanation, plus: this is not something you can fix by trying again | Write to Admissions, with a reference to quote |
 | Server error | "This is usually temporary" | Try again |
 

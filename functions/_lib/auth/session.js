@@ -18,6 +18,24 @@ export class AuthError extends Error {
   }
 }
 
+// A verified session belonging to somebody the College has no account
+// for, and cannot create one for, because the token carries no email
+// claim and `users.email` is NOT NULL.
+//
+// Its own class, and the reason is a loop. This used to be a plain
+// AuthError, which every client reads as "your session expired, sign in
+// again" — so the applicant signs in again, Clerk succeeds again, the
+// token still has no email claim, and they arrive at the same message.
+// Nothing they can do resolves it, and the instruction they are given
+// guarantees they keep trying. It is fixed in Clerk's dashboard, by us.
+export class AccountProvisioningError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'AccountProvisioningError';
+    this.httpStatus = 401;
+  }
+}
+
 export class AuthorizationError extends Error {
   constructor(message = 'You do not have permission to access this resource.') {
     super(message);
@@ -74,7 +92,13 @@ export async function requireUser(request, env) {
   if (user) return user;
 
   if (!identity.email) {
-    throw new AuthError('Session is valid but no local account exists yet — the auth webhook may not have processed this user, and the session token carries no email claim to create one from.');
+    throw new AccountProvisioningError('Your sign-in worked, but the College could not '
+      + 'finish setting up your account: the session carries no email address, and the '
+      + 'College will not invent one. Either the account setup that normally runs behind '
+      + 'the scenes (the sign-in webhook) has not reached us yet, or the sign-in service '
+      + 'is not configured to send an email claim. Both are on the College\u2019s side, '
+      + 'and signing in again will not change either. Write to Admissions and we will '
+      + 'take your application by email.');
   }
 
   // Provision, then re-read rather than construct the row in memory:

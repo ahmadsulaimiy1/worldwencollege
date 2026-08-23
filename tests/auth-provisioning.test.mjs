@@ -88,9 +88,25 @@ async function attempt(label, fn) {
   // token is customised, this is what every token looks like.
   const noEmail = await token({ sub: 'user_noemail' });
   const err = await throws(() => session.requireUser(req(noEmail), env));
-  check('A token with no email claim does NOT create a row', err && err.name === 'AuthError', err && err.name);
+  // Asserted on the invariants — it refuses, as an authentication
+  // failure, and explains both causes — rather than on the class NAME.
+  //
+  // The name changed for a reason worth keeping: this used to be a
+  // plain AuthError, which every client reads as "your session expired,
+  // sign in again". Signing in again produces the same token with the
+  // same missing claim, so the instruction guaranteed a loop the
+  // applicant could never leave. It is now its own class so a client
+  // can tell the two apart, and the two things this test actually
+  // protects — no fabricated row, and an honest explanation — are
+  // unchanged.
+  check('A token with no email claim does NOT create a row',
+    err && err.httpStatus === 401, err && `${err.name} ${err.httpStatus}`);
+  check('...distinguishably from an expired session',
+    err && err.name === 'AccountProvisioningError', err && err.name);
   check('...and says why, naming both possible causes',
     err && /webhook/.test(err.message) && /email claim/.test(err.message), err && err.message);
+  check('...and does not tell the applicant to sign in again, which cannot help',
+    err && /signing in again will not change/.test(err.message), err && err.message);
   const { results } = await env.DB.prepare('SELECT id FROM users').bind().all();
   check('...leaving no fabricated account behind', results.length === 0, results.length);
 }

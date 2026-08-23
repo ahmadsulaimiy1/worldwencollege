@@ -75,6 +75,20 @@
         retry: true,
       };
     }
+    // A verified session the College cannot make an account for. Told
+    // apart from an expired one deliberately: "sign in again" is the
+    // right instruction for an expired session and a guaranteed loop
+    // for this one, because signing in again produces the same token
+    // with the same missing claim.
+    if (err.code === 'AccountProvisioningError') {
+      return {
+        title: 'Your account is not finished being set up',
+        message: (err.message || 'The College could not finish setting up your account.')
+          + ' Nothing you have entered is lost.',
+        retry: false,
+        reference: 'Reference for Admissions: account provisioning, no email claim.',
+      };
+    }
     if (err.status === 401) {
       return {
         title: 'Your session has expired',
