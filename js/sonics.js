@@ -218,6 +218,11 @@
                answers — which reads as a fault rather than as
                restraint (CLAUDE.md §3). */
             + '.domain, .shelf__item, '
+            /* THE REGISTER OF INSTRUMENTS. Twenty-four struck cards,
+               each one a rule the College operates under. A register
+               where the objects are silent reads as a table that has
+               been styled, rather than as a shelf of instruments. */
+            + '.inst, '
             /* WEC Press — the publication pages. The tome is a struck
                object with six lit faces and the leaves of the flip are
                paper; both would be the only silent things on a page
