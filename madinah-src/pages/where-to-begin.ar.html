@@ -1,0 +1,233 @@
+<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">من أين تبدأ</span>
+    <h1>ستةُ أسئلةٍ وقراءة</h1>
+    <p class="lede">ليس اختبارًا، ولا يُحسب فيه شيء. أجب عمّا شئت منها، تُبيّن لك الكلية
+      أيَّ الطرق مفتوحٌ لك، ولمَ كلٌّ منها، وإلامَ يُفضي بعده. وحيث يمسُّ جوابُك حدًّا
+      &mdash; وتيرةً دون ما تشترطه اللوائح، أو كليةً لم تُفتح بعد &mdash; يُقال لك ذلك،
+      ولا يُلتفُّ عليه.</p>
+    <p class="lede"><strong>ولا يبرح ما تكتبه هنا متصفحك.</strong> لا يُرسل جوابٌ ولا
+      يُحفظ ولا يُحصى، ولا يُطلب حساب.</p>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="adviser-section" data-contents="الأسئلة">
+  <div class="container reveal">
+    <div class="adviser">
+      <form class="adviser__form" id="adviser">
+
+        <div class="field">
+          <label for="q-aim">لأيِّ شيءٍ جئت؟</label>
+          <select id="q-aim" name="aim">
+            <option value="">&mdash;</option>
+            <option value="quran-read">أن أقرأ القرآن قراءةً صحيحة</option>
+            <option value="quran-memorise">أن أحفظ القرآن</option>
+            <option value="arabic-use">أن أفهم العربية وأستعملها</option>
+            <option value="islamic-sciences">أن أدرس العلوم الإسلامية</option>
+            <option value="teach-lead">أن أُعلِّم أو أقود جماعة</option>
+            <option value="undecided">لم أستقرَّ بعد</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="q-level">عربيتُك اليوم</label>
+          <select id="q-level" name="level">
+            <option value="">&mdash;</option>
+            <option value="none">لا شيء</option>
+            <option value="letters">أعرف الحروف وأقرأ متعثِّرًا</option>
+            <option value="read-slow">أقرأ جهرًا ولا أفهم كثيرًا</option>
+            <option value="read-understand">أفهم أكثر ما أقرأ</option>
+            <option value="fluent">أقرأ وأكتب وأتكلم بيُسر</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="q-prior">هل درست قبل هذا؟</label>
+          <select id="q-prior" name="prior">
+            <option value="">&mdash;</option>
+            <option value="never">لم أدرس دراسةً نظامية</option>
+            <option value="madrasah">في مدرسةٍ بلا شهادة</option>
+            <option value="private">على شيخٍ خاصة</option>
+            <option value="institution">في مؤسسةٍ بشهادة</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="q-hours">كم ساعةً في الأسبوع تستطيعها حقًّا؟</label>
+          <select id="q-hours" name="hours">
+            <option value="">&mdash;</option>
+            <option value="under3">أقل من ثلاث</option>
+            <option value="3to5">من ثلاثٍ إلى خمس</option>
+            <option value="6to10">من ستٍّ إلى عشر</option>
+            <option value="over10">أكثر من عشر</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="q-purpose">شهادةٌ، أم لنفسك؟</label>
+          <select id="q-purpose" name="purpose">
+            <option value="">&mdash;</option>
+            <option value="qualification">شهادةٌ تُمتحن وتُقيَّد</option>
+            <option value="enrichment">لنفسي &mdash; لا أريد شهادة</option>
+            <option value="unsure">لم أحسم بعد</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="q-faculty">هل يجذبك شيءٌ بعينه؟</label>
+          <select id="q-faculty" name="faculty">
+            <option value="">&mdash;</option>
+            <option value="quran">الدراسات القرآنية</option>
+            <option value="arabic">اللغة العربية</option>
+            <option value="islamic">الدراسات الإسلامية</option>
+            <option value="dawah">الدعوة والقيادة المجتمعية</option>
+            <option value="professional">العربية المهنية</option>
+            <option value="advise">تختار الكلية عني</option>
+          </select>
+        </div>
+
+        <button type="button" class="btn btn--outline" data-adviser-reset>ابدأ من جديد</button>
+      </form>
+
+      <div class="adviser__reading">
+        <p class="adviser__reading-label">القراءة</p>
+        <p class="adviser__empty" id="adviser-empty">أجب عن ثلاثةٍ فأكثر تظهر ها هنا.
+          والطريق الأول هو الذي تبدأ بك الكلية منه عادةً، وما بعده مفتوحٌ لك أيضًا،
+          ولكلٍّ سببُه.</p>
+        <div id="adviser-result" hidden></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<template id="route-quran-foundation"><div class="adviser__route">
+  <p class="adviser__route-kicker">كلية الدراسات القرآنية &middot; شهادة &middot; فصلٌ واحد</p>
+  <h3><a href="/ar/faculties/quran/">التأسيس في القراءة القرآنية</a></h3>
+  <p class="adviser__why">لأن ما في هذه الكلية كلَّه مبنيٌّ على صحة القراءة، ومن بدأ فوق
+    هذا الموضع أنفق في الإصلاح أكثر ممّا كان ينفق لو بدأ منه.</p>
+  <p class="adviser__next"><strong>ثم:</strong> شهادةُ التلاوة والتصحيح، فدبلومُ التجويد،
+    ومنه إلى الحفظ أو الدبلوم العالي بالإجازة.</p>
+</div></template>
+
+<template id="route-quran-recitation"><div class="adviser__route">
+  <p class="adviser__route-kicker">كلية الدراسات القرآنية &middot; شهادة &middot; فصلٌ واحد</p>
+  <h3><a href="/ar/faculties/quran/">شهادة التلاوة والتصحيح</a></h3>
+  <p class="adviser__why">أنت تقرأ. وهذه تُصلح القراءة نفسها &mdash; المخارجَ والصفاتِ
+    والعيوبَ التي لا يسمعها القارئ من صوته &mdash; قبل أن يُبنى عليها شيء.</p>
+  <p class="adviser__next"><strong>ثم:</strong> دبلومُ التجويد، فالدبلوم العالي برواية
+    حفص، وفيه الإجازة.</p>
+</div></template>
+
+<template id="route-quran-memorisation"><div class="adviser__route">
+  <p class="adviser__route-kicker">كلية الدراسات القرآنية &middot; دبلوم &middot; ٤&ndash;٩ فصول</p>
+  <h3><a href="/ar/faculties/quran/">دبلوم حفظ القرآن الكريم</a></h3>
+  <p class="adviser__why">لأنك تقرأ، فالحفظُ عملُك الآن لا شيءٌ تستعدُّ له. والدبلوم
+    يُمتحن على ما <em>بقي</em> في الصدر على فتراتٍ، لا على ما مرَّ على اللسان مرة.</p>
+  <p class="adviser__next"><strong>ثم:</strong> الدبلوم العالي بالإجازة، ثم القراءات العشر.</p>
+</div></template>
+
+<template id="route-arabic-asol"><div class="adviser__route">
+  <p class="adviser__route-kicker">كلية اللغة العربية &middot; شهادة بثلاثة مستويات &middot; ثلاثة فصول</p>
+  <h3><a href="/ar/faculties/#arabic">العربية لغير الناطقين بها</a></h3>
+  <p class="adviser__why">البابُ المعتاد إلى اللسان لمن لم يملكه بعد. ثلاثةُ مستوياتٍ
+    متدرجة، كلٌّ منها يُمتحن، فمن وقف عند مستوًى خرج بشيءٍ يقرؤه المسجِّل.</p>
+  <p class="adviser__next"><strong>ثم:</strong> دبلومُ اللغة العربية، فالدبلوم العالي في
+    النحو والبلاغة.</p>
+</div></template>
+
+<template id="route-arabic-diploma"><div class="adviser__route">
+  <p class="adviser__route-kicker">كلية اللغة العربية &middot; دبلوم &middot; ستة فصول</p>
+  <h3><a href="/ar/faculties/#arabic">دبلوم اللغة العربية</a></h3>
+  <p class="adviser__why">أنت تفهم أكثر ما تقرأ، ومستوياتُ الشهادة تحبسك دون قدرك.
+    والدبلومُ هو الموضع الذي يكفُّ فيه النحو عن أن يكون قواعد ويصير طريقةً تُقرأ بها
+    النصوص.</p>
+  <p class="adviser__next"><strong>ثم:</strong> الدبلوم العالي في النحو والبلاغة &mdash;
+    أو العبورُ إلى الدراسات الإسلامية، وقد فتحتها لك العربية.</p>
+</div></template>
+
+<template id="route-islamic-foundations"><div class="adviser__route">
+  <p class="adviser__route-kicker">كلية الدراسات الإسلامية &middot; شهادة &middot; فصلٌ واحد</p>
+  <h3><a href="/ar/faculties/#islamic">شهادة التأسيس الشرعي</a></h3>
+  <p class="adviser__why">فصلٌ واحدٌ في العقيدة والفقه والسيرة &mdash; يكفي لتعرف أيَّها
+    تريد، قبل أن تُنفق فيه سنين.</p>
+  <p class="adviser__next"><strong>ثم:</strong> دبلومُ الدراسات الإسلامية، والدبلومان
+    العاليان في الفقه وأصوله، وفي الحديث وعلومه.</p>
+</div></template>
+
+<template id="route-islamic-diploma"><div class="adviser__route">
+  <p class="adviser__route-kicker">كلية الدراسات الإسلامية &middot; دبلوم &middot; أربعة فصول</p>
+  <h3><a href="/ar/faculties/#islamic">دبلوم الدراسات الإسلامية</a></h3>
+  <p class="adviser__why">عربيتُك تكفي لقراءة المصادر لا الحديثِ عنها، وعلى هذا الفرق
+    بُني الدبلوم.</p>
+  <p class="adviser__next"><strong>ثم:</strong> الدبلوم العالي في الفقه وأصوله، أو في
+    الحديث وعلومه.</p>
+</div></template>
+
+<template id="route-dawah-communication"><div class="adviser__route">
+  <p class="adviser__route-kicker">كلية الدعوة والقيادة المجتمعية &middot; دبلوم &middot; ثلاثة فصول</p>
+  <h3><a href="/ar/faculties/#dawah">دبلوم الاتصال الإسلامي بالإنجليزية</a></h3>
+  <p class="adviser__why">قيادةُ الجماعة في أكثرها أن تقول أمرًا صعبًا قولًا بيِّنًا لمن
+    لم يسألك عنه. وهذا فنٌّ له أدبُه، وهذا موضعُ تعليمه في الكلية.</p>
+  <p class="adviser__next"><strong>ثم:</strong> دبلومُ ترجمة النصوص الإسلامية، وهو أعلى
+    شرطًا في العربية.</p>
+</div></template>
+
+<template id="route-short-courses"><div class="adviser__route">
+  <p class="adviser__route-kicker">التعليم المستمر &middot; دون تسجيل</p>
+  <h3><a href="/ar/short-courses/">الدورات القصيرة</a></h3>
+  <p class="adviser__why">قلتَ إن هذا لنفسك لا لشهادة. والدوراتُ القصيرة مبنيةٌ لهذا
+    بعينه: تُدرَّس على المعيار نفسه، بغير ما يحفُّ البرنامجَ من إجراء.</p>
+  <p class="adviser__next"><strong>وإن بدا لك غيرُ ذلك:</strong> لم يضع منك شيء &mdash;
+    فالشهاداتُ والدبلومات تقبل على بيّنة ما تُحسنه، لا على ما سجَّلتَ فيه قبلُ.</p>
+</div></template>
+
+<template id="route-schedules"><div class="adviser__route">
+  <p class="adviser__route-kicker">كلية الدراسات القرآنية &middot; تُرسل مجانًا دون شرط</p>
+  <h3><a href="/ar/short-courses/#schedules">جداول الحفظ</a></h3>
+  <p class="adviser__why">أربعةُ جداولَ متدرجة، في كلٍّ منها المراجعاتُ الخمس من الأسبوع
+    الأول. تُرسل لمن طلبها بلا أجرٍ ولا تسجيلٍ في شيء &mdash; ولو لم يَنوِ التسجيل أصلًا.</p>
+  <p class="adviser__next"><strong>ثم:</strong> إن ثبتت الوتيرة، فدبلومُ الحفظ يمتحن ما
+    بناه الجدول.</p>
+</div></template>
+
+<template id="note-pace-below-minimum"><div class="adviser__note">
+  <p><strong>في أقلَّ من ثلاث ساعاتٍ أسبوعيًّا.</strong> تشترط اللوائح حدًّا أدنى من
+    الوتيرة المستمرة (<a href="/ar/regulations/#pace">اللائحة ٤</a>)، وما دونه ينقطع
+    القيدُ ولا يبطؤ فحسب. وليس هذا تثبيطًا: فالدوراتُ القصيرة وجداولُ الحفظ لا وتيرةَ
+    مشترطةً فيها البتة، وهي الموضع الصادق للبدء حتى يتَّسع الأسبوع.</p>
+</div></template>
+
+<template id="note-no-certificate-no-bar"><div class="adviser__note">
+  <p><strong>الدراسةُ بلا شهادةٍ ليست نقصًا هنا.</strong> القراءةُ في مدرسةٍ تُقوَّم
+    ببيّنتها &mdash; ماذا قرأت، وعلى من، وإلى أين &mdash; وقد تُمتحن إلى مستوًى أعلى من
+    مدخل القبول بكثير. فاذكر ذلك في طلبك؛ فإنما سُئلتَ عنه لأنه يُحسب لك.</p>
+</div></template>
+
+<template id="note-advanced-standing"><div class="adviser__note">
+  <p><strong>قد لا يلزمك أن تبدأ من الأول.</strong> تُنظر الشهادةُ من مؤسسةٍ أخرى في
+    الوضع المتقدم، وتُخبرك شؤونُ الطلاب أين تضعك قبل أن تسجِّل لا بعده.</p>
+</div></template>
+
+<template id="note-placed-by-examination"><div class="adviser__note">
+  <p><strong>في مستواك تمتحن الكليةُ ولا تفترض.</strong> يُحدَّد الموضعُ بما تُظهره، ولا
+    يُطلب من متمكِّنٍ أن يقعد فصلًا للمبتدئين ليُثبت تمكُّنه.</p>
+</div></template>
+
+<template id="note-enrichment"><div class="adviser__note">
+  <p><strong>ولا يُمنع عنك شيءٌ لأنك تدرس بغير شهادة.</strong> فالتدريسُ والامتحانُ
+    والسجلُّ الرقمي لا تكلِّف شيئًا في الحالين. وإنما تأخذ الكلية على الأعيان المصنوعة،
+    وليس منها شيءٌ لازم.</p>
+</div></template>
+
+<template id="note-pedagogy-not-open"><div class="adviser__note">
+  <p><strong>ودبلومُ إعداد معلم القرآن لا يقبل الآن.</strong> فقد انتقل إلى كلية العربية
+    المهنية والدراسات التخصصية، ولا عميدَ لها، فلا تقبل أحدًا. وإنما ذُكر ها هنا لأنك
+    سألت عن التعليم، وهو الطريق &mdash; لا لأنه متاح.</p>
+</div></template>
+
+<template id="note-professional-not-open"><div class="adviser__note">
+  <p><strong>وكليةُ العربية المهنية والدراسات التخصصية غير مفتوحة.</strong> لم يُعيَّن
+    لها عميد، ولا تَقبل الكليةُ في كليةٍ لا تقوم بها بعد. وهي
+    <a href="/ar/faculties/#professional">مذكورةٌ بحالها</a> لتعلم أنها آتية، لا ليُقال
+    لك إنها ها هنا.</p>
+</div></template>

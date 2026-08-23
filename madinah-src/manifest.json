@@ -39,6 +39,22 @@
     }
   },
   {
+    "slug": "where-to-begin",
+    "output": "where-to-begin/index.html",
+    "nav": "root",
+    "title": "Where to Begin — Al-Madinah International College",
+    "description": "Six questions and a reading: which routes into the College are open to you, why each, and what each leads to afterwards. Nothing is scored and nothing is sent.",
+    "contentFile": "where-to-begin.html",
+    "contents": true,
+    "scripts": [
+      "/js/madinah-adviser.js"
+    ],
+    "ar": {
+      "title": "من أين تبدأ — كلية المدينة العالمية",
+      "description": "ستةُ أسئلةٍ وقراءة: أيُّ الطرق إلى الكلية مفتوحٌ لك، ولمَ كلٌّ منها، وإلامَ يُفضي. لا درجةَ فيه ولا يُرسل منه شيء."
+    }
+  },
+  {
     "slug": "faculties-quran",
     "output": "faculties/quran/index.html",
     "nav": "faculties",

@@ -4212,3 +4212,104 @@ body { background: var(--cream); }
 /* The orbit runs on the four that are open. A travelling light on a faculty
    that admits nobody would be an ornament arguing with its own caption. */
 .r-fac-card--pending::after { display: none; }
+
+/* ======================================================== THE ADVISER
+
+   "Find Your Track" turns a catalogue into a diagnosis, which is the one
+   idea worth taking from the competitor set. What it does with that
+   diagnosis is a sales funnel: one answer, presented as a match.
+
+   This is built to be the opposite in three structural ways, and the
+   styling has to carry all three or the page will read as a quiz whatever
+   the words say:
+
+     · IT NEVER RETURNS ONE ANSWER. Routes are stacked, and only the first
+       is marked — quietly, by a gold rule, not by a badge or a score.
+     · IT SHOWS THE REASONING. Every route carries WHY it was named and
+       WHAT COMES NEXT, both at reading size rather than as fine print.
+     · IT CARRIES ITS OWN CAVEATS. The notes sit in the same column as the
+       recommendations, on the deeper ground, so a limit is as legible as
+       an invitation. */
+.adviser {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  gap: clamp(28px, 3.6vw, 60px);
+  align-items: start;
+}
+@media (max-width: 940px) { .adviser { grid-template-columns: 1fr; } }
+
+.adviser__form { display: flex; flex-direction: column; gap: 18px; }
+.adviser__form .field label {
+  font-family: var(--font-ceremonial);
+  font-size: .66rem; font-weight: 600; letter-spacing: .16em;
+  color: var(--ink-soft);
+}
+.adviser__form select {
+  border-radius: 2px; border-color: rgba(111, 80, 40, .3);
+  background: var(--warm-white);
+}
+.adviser__form select:focus-visible {
+  border-color: var(--bronze);
+  outline: 2px solid rgba(199, 162, 74, .45); outline-offset: 1px;
+}
+.adviser__form .btn { align-self: flex-start; margin-top: 6px; }
+
+.adviser__reading {
+  position: sticky; top: calc(var(--header-h, 120px) + 20px);
+  border-top: 2px solid var(--gold-royal);
+  padding-top: clamp(18px, 2vw, 26px);
+}
+@media (max-width: 940px) { .adviser__reading { position: static; } }
+
+.adviser__reading-label {
+  font-family: var(--font-ceremonial);
+  font-size: .655rem; font-weight: 600; letter-spacing: .21em;
+  text-transform: uppercase; color: var(--bronze); margin: 0 0 18px;
+}
+.adviser__empty {
+  font-size: .92rem; line-height: 1.68; color: var(--ink-soft); margin: 0;
+}
+
+.adviser__route {
+  padding: 0 0 clamp(20px, 2.4vw, 28px);
+  margin-bottom: clamp(20px, 2.4vw, 28px);
+  border-bottom: 1px solid rgba(111, 80, 40, .2);
+}
+.adviser__route:last-child { border-bottom: 0; margin-bottom: 0; }
+
+/* The first route is where the College would ordinarily begin this
+   reader. It is marked by a rule in the margin — the mark a tutor makes
+   beside a line — and by nothing else. No badge, no "best match", no
+   percentage: those are the furniture of a quiz. */
+.adviser__route--first {
+  padding-inline-start: 18px;
+  border-inline-start: 2px solid var(--gold-royal);
+}
+
+.adviser__route-kicker {
+  font-family: var(--font-body);
+  font-size: .655rem; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--ink-soft); margin: 0 0 8px;
+}
+.adviser__route h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.16rem, 1.6vw, 1.34rem); font-weight: 700;
+  line-height: 1.2; margin: 0 0 10px; color: var(--royal-blue);
+}
+.adviser__route h3 a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(199,162,74,.5); }
+.adviser__route h3 a:hover { color: var(--bronze); border-bottom-color: var(--bronze); }
+
+.adviser__why { font-size: .93rem; line-height: 1.66; color: var(--ink); margin: 0 0 10px; }
+.adviser__next { font-size: .87rem; line-height: 1.6; color: var(--ink-soft); margin: 0; }
+.adviser__next strong { color: var(--bronze); font-weight: 600; }
+
+/* A caveat is not a smaller recommendation. Same column, same measure,
+   on the deeper ground — so a limit reads as plainly as an invitation. */
+.adviser__note {
+  background: var(--paper);
+  border-inline-start: 2px solid var(--bronze);
+  padding: clamp(14px, 1.6vw, 20px) clamp(16px, 1.8vw, 22px);
+  margin: 0 0 16px;
+}
+.adviser__note p { margin: 0; font-size: .875rem; line-height: 1.64; color: var(--ink); }
+.adviser__note strong { color: var(--bronze); }

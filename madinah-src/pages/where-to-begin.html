@@ -1,0 +1,255 @@
+<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">Where to begin</span>
+    <h1>Six questions, and a reading</h1>
+    <p class="lede">Not a quiz, and nothing is scored. Answer as much as you care to and
+      the College will set out which routes are open to you, why each one, and what each
+      leads to afterwards. Where an answer touches a limit &mdash; a pace below what the
+      Regulations require, a faculty that is not yet open &mdash; it will say so rather
+      than route around it.</p>
+    <p class="lede"><strong>Nothing you type here leaves your browser.</strong> No answer
+      is sent, stored or counted, and no account is asked for.</p>
+  </div>
+</section>
+
+<section class="section--light section-pad" id="adviser-section" data-contents="The questions">
+  <div class="container reveal">
+    <div class="adviser">
+      <form class="adviser__form" id="adviser">
+
+        <div class="field">
+          <label for="q-aim">What did you come to do?</label>
+          <select id="q-aim" name="aim">
+            <option value="">&mdash;</option>
+            <option value="quran-read">Read the Qur&rsquo;ān correctly</option>
+            <option value="quran-memorise">Memorise the Qur&rsquo;ān</option>
+            <option value="arabic-use">Understand and use Arabic</option>
+            <option value="islamic-sciences">Study the Islamic sciences</option>
+            <option value="teach-lead">Teach, or lead a community</option>
+            <option value="undecided">I have not decided</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="q-level">Your Arabic, as it stands today</label>
+          <select id="q-level" name="level">
+            <option value="">&mdash;</option>
+            <option value="none">None at all</option>
+            <option value="letters">I know the letters; I read haltingly</option>
+            <option value="read-slow">I read aloud, but understand little</option>
+            <option value="read-understand">I understand most of what I read</option>
+            <option value="fluent">I read, write and speak with ease</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="q-prior">Have you studied before?</label>
+          <select id="q-prior" name="prior">
+            <option value="">&mdash;</option>
+            <option value="never">Never formally</option>
+            <option value="madrasah">At a madrasah, without a certificate</option>
+            <option value="private">Privately, with a teacher</option>
+            <option value="institution">At an institution, with a certificate</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="q-hours">Hours a week you can realistically give</label>
+          <select id="q-hours" name="hours">
+            <option value="">&mdash;</option>
+            <option value="under3">Fewer than 3</option>
+            <option value="3to5">3 to 5</option>
+            <option value="6to10">6 to 10</option>
+            <option value="over10">More than 10</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="q-purpose">A qualification, or for yourself?</label>
+          <select id="q-purpose" name="purpose">
+            <option value="">&mdash;</option>
+            <option value="qualification">A qualification, examined and recorded</option>
+            <option value="enrichment">For myself &mdash; no certificate needed</option>
+            <option value="unsure">I am not sure yet</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="q-faculty">Anything drawing you in particular?</label>
+          <select id="q-faculty" name="faculty">
+            <option value="">&mdash;</option>
+            <option value="quran">Qur&rsquo;ānic Studies</option>
+            <option value="arabic">Arabic Language</option>
+            <option value="islamic">Islamic Studies</option>
+            <option value="dawah">Da&rsquo;wah &amp; Community Leadership</option>
+            <option value="professional">Professional Arabic</option>
+            <option value="advise">Let the College advise</option>
+          </select>
+        </div>
+
+        <button type="button" class="btn btn--outline" data-adviser-reset>Start again</button>
+      </form>
+
+      <div class="adviser__reading">
+        <p class="adviser__reading-label">The reading</p>
+        <p class="adviser__empty" id="adviser-empty">Answer three or more and it will
+          appear here. The first route named is where the College would ordinarily begin
+          you; the others are open to you too, and the reason for each is given.</p>
+        <div id="adviser-result" hidden></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--  THE ROUTES, as data. The script decides which apply; every word a
+      reader sees is authored here, so the Arabic tree carries its own and
+      the reasoning is shared rather than translated.  -->
+
+<template id="route-quran-foundation"><div class="adviser__route">
+  <p class="adviser__route-kicker">Faculty of Qur&rsquo;ānic Studies &middot; Certificate &middot; 1 semester</p>
+  <h3><a href="/faculties/quran/">Foundation in Qur&rsquo;ānic Reading</a></h3>
+  <p class="adviser__why">Because everything else in this faculty rests on reading
+    correctly, and a student who begins above this point spends longer repairing than
+    they would have spent starting here.</p>
+  <p class="adviser__next"><strong>And then:</strong> the Certificate in Qur&rsquo;ānic
+    Recitation, the Diploma in Tajwīd and Recitation, and from there memorisation or the
+    Higher Diploma with <em>ijāzah</em>.</p>
+</div></template>
+
+<template id="route-quran-recitation"><div class="adviser__route">
+  <p class="adviser__route-kicker">Faculty of Qur&rsquo;ānic Studies &middot; Certificate &middot; 1 semester</p>
+  <h3><a href="/faculties/quran/">Certificate in Qur&rsquo;ānic Recitation</a></h3>
+  <p class="adviser__why">You already read. This corrects the reading itself &mdash;
+    articulation, the points of the letters, the faults a reader cannot hear in their own
+    voice &mdash; before anything is built on top of it.</p>
+  <p class="adviser__next"><strong>And then:</strong> the Diploma in Tajwīd and
+    Recitation, then the Higher Diploma in the narration of Ḥafṣ, which carries
+    <em>ijāzah</em>.</p>
+</div></template>
+
+<template id="route-quran-memorisation"><div class="adviser__route">
+  <p class="adviser__route-kicker">Faculty of Qur&rsquo;ānic Studies &middot; Diploma &middot; 4&ndash;9 semesters</p>
+  <h3><a href="/faculties/quran/">Diploma in Qur&rsquo;ānic Memorisation</a></h3>
+  <p class="adviser__why">Because you can already read, memorisation is the work in front
+    of you rather than a thing to prepare for. The Diploma is examined on what is
+    <em>retained</em> at intervals, not on what was once recited.</p>
+  <p class="adviser__next"><strong>And then:</strong> the Higher Diploma with
+    <em>ijāzah</em>, and in time the Ten Readings.</p>
+</div></template>
+
+<template id="route-arabic-asol"><div class="adviser__route">
+  <p class="adviser__route-kicker">Faculty of Arabic Language &middot; Certificate, three levels &middot; 3 semesters</p>
+  <h3><a href="/faculties/#arabic">Arabic for Speakers of Other Languages</a></h3>
+  <p class="adviser__why">The ordinary door into the language for someone who does not
+    yet hold it. Three graduated levels, each examined, so a student can stop at a level
+    and still hold something a registrar can read.</p>
+  <p class="adviser__next"><strong>And then:</strong> the Diploma in Arabic Language, and
+    the Higher Diploma in Grammar and Rhetoric.</p>
+</div></template>
+
+<template id="route-arabic-diploma"><div class="adviser__route">
+  <p class="adviser__route-kicker">Faculty of Arabic Language &middot; Diploma &middot; 6 semesters</p>
+  <h3><a href="/faculties/#arabic">Diploma in Arabic Language</a></h3>
+  <p class="adviser__why">You understand most of what you read, so the certificate levels
+    would hold you below your standing. The Diploma is where grammar stops being a set of
+    rules and starts being how the texts are read.</p>
+  <p class="adviser__next"><strong>And then:</strong> the Higher Diploma in Arabic Grammar
+    and Rhetoric &mdash; or across into Islamic Studies, which the Arabic now opens.</p>
+</div></template>
+
+<template id="route-islamic-foundations"><div class="adviser__route">
+  <p class="adviser__route-kicker">Faculty of Islamic Studies &middot; Certificate &middot; 1 semester</p>
+  <h3><a href="/faculties/#islamic">Certificate in Islamic Foundations</a></h3>
+  <p class="adviser__why">One semester across creed, jurisprudence and the life of the
+    Prophet &mdash; enough to know which of them you want, before committing years to
+    one.</p>
+  <p class="adviser__next"><strong>And then:</strong> the Diploma in Islamic Studies, and
+    the Higher Diplomas in Jurisprudence or in Ḥadīth.</p>
+</div></template>
+
+<template id="route-islamic-diploma"><div class="adviser__route">
+  <p class="adviser__route-kicker">Faculty of Islamic Studies &middot; Diploma &middot; 4 semesters</p>
+  <h3><a href="/faculties/#islamic">Diploma in Islamic Studies</a></h3>
+  <p class="adviser__why">Your Arabic is good enough to read the sources rather than
+    accounts of them, which is the difference the Diploma is built on.</p>
+  <p class="adviser__next"><strong>And then:</strong> the Higher Diploma in Jurisprudence
+    and its Principles, or in Ḥadīth and its Sciences.</p>
+</div></template>
+
+<template id="route-dawah-communication"><div class="adviser__route">
+  <p class="adviser__route-kicker">Faculty of Da&rsquo;wah &amp; Community Leadership &middot; Diploma &middot; 3 semesters</p>
+  <h3><a href="/faculties/#dawah">Diploma in Islamic Communication in English</a></h3>
+  <p class="adviser__why">Leading a community is largely a matter of saying a difficult
+    thing clearly to people who did not ask. That is a skill with a literature, and this
+    is where the College teaches it.</p>
+  <p class="adviser__next"><strong>And then:</strong> the Diploma in Translation of
+    Islamic Texts, which asks a higher standard of Arabic.</p>
+</div></template>
+
+<template id="route-short-courses"><div class="adviser__route">
+  <p class="adviser__route-kicker">Continuing Education &middot; no enrolment required</p>
+  <h3><a href="/short-courses/">The short courses</a></h3>
+  <p class="adviser__why">You said this is for yourself rather than for a certificate.
+    The short courses are built for exactly that: taught to the same standard, without
+    the apparatus of a programme around them.</p>
+  <p class="adviser__next"><strong>And then, if you change your mind:</strong> nothing is
+    lost &mdash; the certificates and diplomas admit on evidence of what you can do, not
+    on what you have previously enrolled in.</p>
+</div></template>
+
+<template id="route-schedules"><div class="adviser__route">
+  <p class="adviser__route-kicker">Faculty of Qur&rsquo;ānic Studies &middot; issued free, without condition</p>
+  <h3><a href="/short-courses/#schedules">The schedules of memorisation</a></h3>
+  <p class="adviser__why">Four graduated schedules, each carrying the Five Returns from
+    the first week. They are sent to anyone who asks, at no charge and without enrolling
+    in anything &mdash; including to someone who never intends to.</p>
+  <p class="adviser__next"><strong>And then:</strong> if the pace holds, the Diploma in
+    Qur&rsquo;ānic Memorisation examines what the schedule built.</p>
+</div></template>
+
+<template id="note-pace-below-minimum"><div class="adviser__note">
+  <p><strong>On fewer than three hours a week.</strong> The Regulations set a minimum
+    sustained pace (<a href="/regulations/#pace">Reg. 4</a>), and below it a programme
+    lapses rather than merely slows. That is not a discouragement: the short courses and
+    the memorisation schedules carry no pace requirement at all, and are the honest place
+    to begin until the week has more room in it.</p>
+</div></template>
+
+<template id="note-no-certificate-no-bar"><div class="adviser__note">
+  <p><strong>Study without a certificate is not a disadvantage here.</strong> Reading at
+    a madrasah is assessed on its own evidence &mdash; what you read, with whom, and how
+    far &mdash; and you may be examined into a level well above the entry point. Say so
+    in your application; it is asked for precisely because it counts.</p>
+</div></template>
+
+<template id="note-advanced-standing"><div class="adviser__note">
+  <p><strong>You may not have to start at the beginning.</strong> A certificate from
+    another institution is considered for advanced standing, and the Registry will tell
+    you where it places you before you enrol rather than after.</p>
+</div></template>
+
+<template id="note-placed-by-examination"><div class="adviser__note">
+  <p><strong>At your level the College would examine rather than assume.</strong> A
+    placement is set by what you demonstrate, and nobody fluent is asked to sit through a
+    beginner&rsquo;s semester to prove it.</p>
+</div></template>
+
+<template id="note-enrichment"><div class="adviser__note">
+  <p><strong>Nothing here is withheld from you for studying without a certificate.</strong>
+    The teaching, the examination and the digital record cost nothing either way. The only
+    charges the College makes are for physical objects, and none of them is required.</p>
+</div></template>
+
+<template id="note-pedagogy-not-open"><div class="adviser__note">
+  <p><strong>The Diploma in Qur&rsquo;ānic Pedagogy is not admitting.</strong> It has
+    moved to the Faculty of Professional Arabic &amp; Special Purpose Studies, which has
+    no Dean appointed and therefore opens to no one. It is named here because you asked
+    about teaching, and it would be the route &mdash; not because it is available.</p>
+</div></template>
+
+<template id="note-professional-not-open"><div class="adviser__note">
+  <p><strong>The Faculty of Professional Arabic &amp; Special Purpose Studies is not
+    open.</strong> No Dean has been appointed, and the College does not admit to a faculty
+    it cannot yet staff. It is <a href="/faculties/#professional">listed at that status</a>
+    so that you know it is coming rather than being told it is here.</p>
+</div></template>
