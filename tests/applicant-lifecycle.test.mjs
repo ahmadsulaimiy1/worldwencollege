@@ -268,7 +268,18 @@ const appRow = (env, id) => env.DB.prepare('SELECT * FROM applications WHERE id 
   check('...naming what is missing rather than only refusing',
     /no account|active enrolment/i.test(earlyBody.message), earlyBody.message);
 
-  // The account and the paid-for enrolment the payment path creates.
+  // The account and the enrolment written by hand, DELIBERATELY, and
+  // said plainly rather than described as something it is not: this
+  // file is about the admissions state machine, and quoting a price,
+  // signing a gateway webhook and issuing a receipt to reach the same
+  // row would test the money path here as well as where it belongs.
+  //
+  // It belongs in tests/acceptance-journey.test.mjs, which takes the
+  // whole path for real — priceCheckout → openPayment → a signed
+  // Stripe webhook → a receipt → confirmEnrolment — and asserts that
+  // the enrolment reaching this gate is the one the payment created.
+  // A shortcut with the long way round tested next door is a shortcut;
+  // one with nothing behind it is a hole.
   env.DB.prepare("UPDATE applications SET user_id = 'usr_student' WHERE id = ?").bind(id).run();
   env.DB.prepare(`INSERT INTO enrolments (id, user_id, application_id, level_id, status, started_at)
     VALUES ('enr_paid', 'usr_student', NULL, 2, 'active', '2026-09-10T00:00:00.000Z')`).bind().run();
