@@ -1,0 +1,116 @@
+<!--
+  الامتحانات — النسخة العربية.
+
+  المقابل العربيّ لـ pages/staff-examinations.html. الحُجَجُ التي بُنيت
+  عليها الصفحةُ مذكورةٌ هناك بتمامها، وهي قائمةٌ هنا بعينها: قارئان لا
+  يرى أحدهما الآخر، ومعيارٌ هو نفسُه استمارةُ التصحيح، وتَسامُحُ الثلاث
+  نقاطٍ مكتوبٌ على الشاشة قبل أن يُبلَغ لا بعده.
+
+  وكلُّ مُعرِّفٍ وسمةِ data هنا هي التي يخاطبها js/staff-examinations.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-nib"/></svg></p>
+    <p class="masthead__eyebrow">الهيئة الأكاديمية</p>
+    <h1>الامتحانات</h1>
+    <p class="lede">امتحان المستوى: أوراقٌ تنتظر قراءةً أولى، وأوراقٌ تنتظر قراءةً ثانية، والمُوافَقاتُ التي يجب أن تُسوَّى كتابةً قبل أن تصل أيٌّ منها إلى مترشّح.</p>
+    <nav class="rec-nav" aria-label="الهيئة الأكاديمية">
+      <a href="/ar/staff-desk.html">المكتب</a>
+      <a href="/ar/staff-marking.html">التصحيح</a>
+      <a href="/ar/staff-examinations.html" aria-current="page">الامتحانات</a>
+      <a href="/ar/staff-papers.html">أوراق الامتحان</a>
+      <a href="/ar/staff-learners.html">متعلّموك</a>
+      <a href="/ar/staff-hours.html">ساعاتك</a>
+      <a href="/ar/staff-notices.html">الإعلانات</a>
+      <a href="/ar/staff-cases.html">القضايا</a>
+      <a href="/ar/staff-admissions.html">القبول</a>
+      <a href="/ar/staff-enrolments.html">التسجيلات</a>
+      <a href="/ar/staff-finance.html">المالية</a>
+      <a href="/ar/staff-administration.html">الإدارة</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state" id="state" aria-live="polite">جارٍ تحميل طوابير الامتحان&hellip;</p>
+
+      <div class="stf-counts" id="secCounts" hidden>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="first">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-quill"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>بانتظار قراءةٍ أولى</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="second">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>بانتظار قراءةٍ ثانية</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+      </div>
+
+      <section class="acc-block reveal" id="secQueue" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg> <span data-queue-head>الأوراق المنتظِرة</span></h2>
+          <div class="desk-head__tools stf-filters">
+            <label for="qRole" data-role-label>القراءة</label>
+            <select id="qRole" data-role></select>
+          </div>
+        </div>
+
+        <p class="stf-basis" data-queue-basis></p>
+
+        <ul class="stf-queue" data-queue></ul>
+
+        <div class="stf-clear" data-queue-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <p class="stf-clear__head" data-queue-empty-head></p>
+          <p class="stf-clear__note" data-queue-empty-note></p>
+        </div>
+      </section>
+
+      <section class="acc-block reveal" id="secScript" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-nib"/></svg> <span data-script-head>الورقة</span></h2>
+          <button type="button" class="acc-open" data-script-close></button>
+        </div>
+
+        <div class="exm-script" data-script></div>
+      </section>
+
+      <section class="acc-block reveal" id="secRule">
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg> قارئان، ومعيارٌ منشورٌ واحد</h2>
+        </div>
+        <div class="grid grid--3">
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+            <h3>صحِّح المعيار، لا الانطباع</h3>
+            <p>يُصحَّح كلُّ معيارٍ على وصفه الخاصّ، وهو مطبوعٌ فوق الحقل الذي تُدخل فيه درجته. ولا حقلَ لدرجةٍ إجمالية تكتبها: الإجماليُّ حسابٌ مرجَّحٌ لما أدخلتَه، فلا يكون أبدًا رقمًا رُكِّبت المعاييرُ عليه بعد كتابته.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+            <h3>ثلاث نقاط، وحالتان قاطعتان</h3>
+            <p>إذا وقعت القراءتان في حدود ثلاث نقاط مئوية، ثبتت الأولى. وما تجاوز ذلك يُسوّيه المصحِّحان كتابةً. وأيُّ خلافٍ يعبر عتبةَ مرتبةِ شرفٍ أو حدَّ الخمسين بالمئة يُسوَّى مهما صغُر &mdash; فنقطةٌ على أيّ جانبٍ من الحدّ ليست بالأمر الهيّن على المترشّح. <a href="/ar/academics/tutor-handbook/#second-marking">معيار التصحيح</a>.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-quote"/></svg></span>
+            <h3>ولا شيء يُعلَن من يدٍ واحدة</h3>
+            <p>لا تصل الدرجةُ مترشِّحًا إلا إذا حمل كلُّ معيارٍ قراءتين، وسُوِّيت كلُّ مُوافَقةٍ كتابةً، وصحّح إنسانٌ الورقةَ الشفوية. وتبقى القراءتان الأصليتان في السجلّ مهما كانت النتيجة. <a href="/ar/students/examinations/">لائحة الامتحانات</a>.</p>
+          </article>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

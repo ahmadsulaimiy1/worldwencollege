@@ -141,10 +141,10 @@ wrong rule was published three ways.
 | Capability | Endpoint | Who | Reads / writes | Interface |
 |---|---|---|---|---|
 | **The whole academic standing** — module marks with resits and counting marks, level marks, the four skill marks, the honour, academic standing with its obligations and triggers, graduation conditions each marked met / not met / not instrumented, progression, and a credit-weighted GPA that is null (never 0.00) when nothing has been conferred | `GET /api/student/standing` | learner | `enrolments`, `awards`, `units`, `learning_items`, `quiz_attempts`, `assignment_submissions`, `assessment_skills`, `academic_standing_reviews`, `graduation_eligibility` — r; `academic_standing_reviews`, `graduation_eligibility` w | **Yes** — `/my-standing.html` (`js/my-standing.js`) |
-| **The level examination** — what the candidate is entered for, the sitting reference they read aloud, the window, the three-hour clock, the lateness band, the released mark and whether it is still provisional; and the whole published procedure in the reader's own language | `GET`,`POST /api/student/examination` | learner | `level_examinations`, `examination_papers`, `examination_criteria`, `examination_marks`, `examination_reconciliations` r; `level_examinations` w (open, submit) | — |
-| **The marking queue, and one script prepared for a marker** — first-marking and second-marking queues, oldest first, with the other reader's numbers WITHHELD until the marker's own are recorded | `GET /api/staff/examinations` | staff | same, r | — |
-| **Enter a candidate, record a reading, settle a reconciliation, mark the spoken paper, release, close moderation, set aside, void, lift a late cap** | `POST /api/staff/examinations` (`?action=`) | staff (+ teaching relation to enter) | same, w; `examination_events` w | — |
-| **Author an examination paper and its rubric, and publish it** — publishing is what stamps `rubric_published_on`, and it refuses a rubric whose weights do not sum to 1, one that measures fewer than four skills, or one with no spoken criterion | `GET`,`POST /api/admin/examination-papers` | admin | `examination_papers`, `examination_criteria` rw | — |
+| **The level examination** — what the candidate is entered for, the sitting reference they read aloud, the window, the three-hour clock, the lateness band, the released mark and whether it is still provisional; and the whole published procedure in the reader's own language | `GET`,`POST /api/student/examination` | learner | `level_examinations`, `examination_papers`, `examination_criteria`, `examination_marks`, `examination_reconciliations` r; `level_examinations` w (open, submit) | **Yes** — `/my-examination.html`, both editions |
+| **The marking queue, and one script prepared for a marker** — first-marking and second-marking queues, oldest first, with the other reader's numbers WITHHELD until the marker's own are recorded | `GET /api/staff/examinations` | staff | same, r | **Yes** — `/staff-examinations.html`, both editions |
+| **Enter a candidate, record a reading, settle a reconciliation, mark the spoken paper, release, close moderation, set aside, void, lift a late cap** | `POST /api/staff/examinations` (`?action=`) | staff (+ teaching relation to enter) | same, w; `examination_events` w | **Yes** — the same page |
+| **Author an examination paper and its rubric, and publish it** — publishing is what stamps `rubric_published_on`, and it refuses a rubric whose weights do not sum to 1, one that measures fewer than four skills, or one with no spoken criterion | `GET`,`POST /api/admin/examination-papers` | admin | `examination_papers`, `examination_criteria` rw | **Yes** — `/staff-papers.html`, both editions |
 | **The learner's own engagement record** — a week-by-week grid per module, every state carrying the evidence it was read from and the clause it satisfies, with the platform's own recomputed reading beside any staff override | `GET /api/student/attendance` | learner | `attendance_records`, `time_on_task`, `quiz_attempts`, `assignment_submissions`, `learner_recordings`, `unit_progress` r | **Yes** — `/my-engagement.html` |
 | A tutor's roster, or one learner's record in full | `GET /api/staff/attendance` | staff + teaching relation | same, r | **Yes** — `/staff-learners.html` |
 | Take a register | `POST /api/staff/attendance` | staff + teaching relation | `attendance_records` w | **Yes** — `/staff-learners.html` |
@@ -378,24 +378,43 @@ This is the map the next pass builds from.
 33. ~~**Set or refresh an exchange rate.**~~ **CLOSED 22 August 2026** — the same page, keeping pricing a currency and opening it at checkout as two separate acts, and printing what a live feed did NOT cover rather than a fabricated rate.
 34. ~~**Purge a recording past its retention date.**~~ **CLOSED 22 August 2026** — the same page, dry run first and always: the destroying button does not exist in the document until the dry run has been read.
 
-### The one capability with no interface today
+### The level examination
 
-35. **The level examination**, on all three sides of it — the
-    candidate's (`/api/student/examination`), the marker's
-    (`/api/staff/examinations`) and the administrator's
-    (`/api/admin/examination-papers`). Built, tested end to end, and
-    reachable only by an HTTP client.
+35. ~~**The level examination**, on all three sides of it.~~
+    **CLOSED 23 August 2026** — three surfaces, both editions.
 
-    It is listed here rather than quietly, because this document's own
-    rule is that an endpoint with no interface is a third state between
-    "has an interface" and "has none", and the two orphan routes below
-    are what taught it that. Three surfaces close it: a candidate's
-    sitting page carrying the published procedure, a marking screen that
-    shows the rubric and withholds the other reader, and a paper-setting
-    console. The endpoints were written first because the marking rule
-    the screens have to obey — a second reader who cannot see the first
-    mark — is a property of the data layer, and a screen cannot add it
-    to an endpoint that does not have it.
+    - **`/my-examination.html`** — the candidate's. The published
+      procedure is RENDERED from the endpoint's own figures rather than
+      linked, because the person reading it is having the worst day of
+      their year and sending them off to find the instrument is
+      answering the easy question. The three-hour clock counts down to
+      `dueAt`, an instant the server wrote; it is never recomputed in
+      the browser, so a device with a wrong clock cannot shorten
+      somebody's examination. There is no "enter for the examination"
+      button, because the instrument says entry has no form.
+    - **`/staff-examinations.html`** — the marker's. The rubric IS the
+      form: one number input per criterion with its published descriptor
+      above it, and no overall field at all, because a marker who can
+      type an overall can mark on impression and fit the criteria to it
+      afterwards. The running overall is an `<output>`.
+    - **`/staff-papers.html`** — the administrator's, behind
+      `requireAdmin`, because setting a rubric and marking to one are
+      different authorities. Authoring and publishing are two acts so
+      that `rubric_published_on` cannot be back-written.
+
+    Two faults the screens caught that the endpoints could not:
+
+    - `trouble()` in `js/staff-kit.js` fell back to `r.statusText`, so
+      every one of the twelve staff consoles rendered the bare words
+      **"Not Found"** as its state line whenever an endpoint 404ed. A
+      member of staff reading that has been told nothing they can act
+      on, in the register of a browser error page. Fixed in the kit, so
+      all twelve are corrected.
+    - `/staff-papers.html` hid its whole body until the papers loaded,
+      so a page that could not reach the platform rendered a masthead,
+      one sentence and five hundred pixels of nothing. The standing
+      rules are true whether or not the platform answered; they are out
+      of the form now and always visible.
 
 ### And two the register had not listed
 

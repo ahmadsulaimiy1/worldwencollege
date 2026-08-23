@@ -292,18 +292,42 @@ window.WEC_LC_staff = (function () {
     signedOut: 'لست مسجَّل الدخول. هذا المكتب لأعضاء الهيئة، وهو يقتضي جلسةً قائمة.',
     notStaff: 'حسابُك ليس من أعضاء الهيئة. وهذه الصفحات لهيئة التدريس والإدارة، ولا تُفتح بغير ذلك.',
     failed: 'تعذّر تحميل هذه الصفحة. الخلل عندنا؛ أعد المحاولة بعد قليل.',
+    missing: 'لم يعد هذا السجلّ موجودًا. ربّما حُذف أو نُقل بعد أن فُتحت هذه الصفحة؛ أعد تحميلها.',
   } : {
     signedOut: 'You are not signed in. This desk belongs to the College\'s staff and needs a live session.',
     notStaff: 'Your account is not a member of staff. These pages are for teaching and administrative staff and open for nobody else.',
     failed: 'This page could not be loaded. That is a fault at our end — try again shortly.',
+    missing: 'That record is no longer there. It may have been removed or moved since this page was opened — reload it.',
   };
+
+  /**
+   * The bare HTTP status texts, which are NOT sentences and must never
+   * reach a person.
+   *
+   * THE FAULT THIS CORRECTS, and it was invisible in the source and
+   * plain on screen: every console rendered the words "Not Found" as
+   * its state line whenever an endpoint 404ed, because errorResponse()
+   * has no `message` on those and `r.statusText` was the fallback. A
+   * member of staff reading "Not Found" under a masthead has been told
+   * nothing they can act on, and has been told it in the register of a
+   * browser error page rather than of this College.
+   */
+  var BARE = [
+    'Not Found', 'Forbidden', 'Unauthorized', 'Bad Request', 'Conflict',
+    'Internal Server Error', 'Service Unavailable', 'Bad Gateway',
+    'Gateway Timeout', 'Method Not Allowed', 'Unprocessable Entity',
+    'Too Many Requests', '',
+  ];
 
   /** The sentence for a failure, chosen by what actually failed. */
   function trouble(err) {
     if (!err) return T.failed;
     if (err.status === 401) return T.signedOut;
     if (err.status === 403) return T.notStaff;
-    return err.message || T.failed;
+    var said = String(err.message == null ? '' : err.message).trim();
+    // A bare status text is not a sentence. See BARE above.
+    if (BARE.indexOf(said) !== -1) return err.status === 404 ? T.missing : T.failed;
+    return said || T.failed;
   }
 
   /* ── BOOT ────────────────────────────────────────────────────────────

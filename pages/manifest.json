@@ -3182,5 +3182,165 @@
       "/css/governance.css",
       "/css/arabic.css"
     ]
+  },
+  {
+    "slug": "staff-examinations",
+    "output": "staff-examinations.html",
+    "title": "Examinations &mdash; Worldwide English College",
+    "description": "Level examination scripts waiting for a first reading and for a second, the reconciliations to be settled in writing, and the release that follows all of it.",
+    "contentFile": "staff-examinations.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-examinations.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css",
+      "/css/examination.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-examinations.js"
+    ]
+  },
+  {
+    "slug": "staff-examinations-ar",
+    "output": "ar/staff-examinations.html",
+    "title": "الامتحانات &mdash; كلّية ورلدوايد إنجلش",
+    "description": "أوراقُ امتحان المستوى المنتظِرةُ قراءةً أولى وقراءةً ثانية، والمُوافَقاتُ التي تُسوَّى كتابةً، والإعلانُ الذي يأتي بعد ذلك كلّه.",
+    "contentFile": "staff-examinations.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-examinations.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css",
+      "/css/examination.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-examinations.js"
+    ]
+  },
+  {
+    "slug": "staff-papers",
+    "output": "staff-papers.html",
+    "title": "Examination Papers &mdash; Worldwide English College",
+    "description": "The paper set at each level, the rubric it is marked against, and the dated act of publishing one.",
+    "contentFile": "staff-papers.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-papers.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css",
+      "/css/examination.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-papers.js"
+    ]
+  },
+  {
+    "slug": "staff-papers-ar",
+    "output": "ar/staff-papers.html",
+    "title": "أوراق الامتحان &mdash; كلّية ورلدوايد إنجلش",
+    "description": "الورقةُ الموضوعةُ في كلّ مستوى، والمعيارُ الذي تُصحَّح عليه، وفعلُ النشر المؤرَّخ.",
+    "contentFile": "staff-papers.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-papers.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css",
+      "/css/examination.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-papers.js"
+    ]
+  },
+  {
+    "slug": "my-examination",
+    "output": "my-examination.html",
+    "title": "My Examination &mdash; Worldwide English College",
+    "description": "What you are entered for, the sitting reference you read aloud, the window and the three-hour clock, and what the College does with the paper once you hand it in.",
+    "contentFile": "my-examination.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/my-examination.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/console.css",
+      "/css/examination.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/my-examination.js"
+    ]
+  },
+  {
+    "slug": "my-examination-ar",
+    "output": "ar/my-examination.html",
+    "title": "امتحاني — الكلية العالمية للغة الإنجليزية",
+    "description": "ما أنت مسجَّلٌ له، ومرجعُ الجلسة الذي تنطق به، والنافذةُ وساعاتُ الورقة الثلاث، وما تصنعه الكليةُ بها بعد التسليم.",
+    "contentFile": "my-examination.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/my-examination.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/console.css",
+      "/css/examination.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/my-examination.js"
+    ]
   }
 ]

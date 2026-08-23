@@ -291,7 +291,15 @@
                All of them are struck plates with a lit rim and a
                travelling light, so all of them answer the ear. The
                act inside them is sealed and is in the list above. */
-            + '.stf-count, .stf-item';
+            + '.stf-count, .stf-item, '
+            /* THE LEVEL EXAMINATION — css/examination.css. A criterion
+               being marked, the reconciliation card, the two closing
+               plates and the candidate's own clock are all struck
+               surfaces with lit rims. The running overall is NOT here:
+               it is an <output> the platform computes and nothing
+               strikes it, and a figure that made a sound every time a
+               marker typed a digit would be a toy. */
+            + '.exm-crit, .exm-rec, .exm-close, .exm-clock, .exm-withheld';
 
   function voiceFor(el) {
     if (el.closest(CHIME)) return 'chime';
