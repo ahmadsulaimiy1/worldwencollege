@@ -436,6 +436,46 @@ This is the map the next pass builds from.
       pressing it twice is refused with `already_marked`, which reads
       as the platform having lost the first press.
 
+### The twenty-four learner surfaces, and where each one is
+
+Audited 23 August 2026, against the built routes rather than against
+this document. Two were genuinely missing and are now built; the rest
+were already answered, and several are answered by a page whose name
+does not match the word in this list — which is why the audit was worth
+doing rather than assuming.
+
+| # | The capability | Where it is |
+|---:|---|---|
+| 1 | Dashboard | `/my-programme.html` — "where you are, and the next thing to open" |
+| 2 | Resume learning | the same page. The single largest control on it opens the next thing, and it is the first element in the source for that reason |
+| 3 | Grades | `/my-standing.html` — module marks with every attempt, the counting mark, and which one a resit capped |
+| 4 | GPA | the same page. Null rather than 0.00 where nothing is conferred, with the sentence saying why |
+| 5 | Attendance | `/my-engagement.html` — week by week, per module, with the evidence each state was read from |
+| 6 | Analytics | THREE surfaces, deliberately not a fourth. Listening progress and the pronunciation profile are on `/listening-lab.html`, where the recordings are; engagement over time is on `/my-engagement.html`; marks and standing are on `/my-standing.html`. A separate analytics page would duplicate all three and, with the College's present cohort, would chart two points |
+| 7 | Transcript | `/my-record.html` — issued, signed, verifiable, reissued free |
+| 8 | Certificates | **`/my-award.html`** — built 23 August 2026. Was the largest gap of the twenty-four: itemised at 5 per cent of every level fee and unreachable by the person who paid for it |
+| 9 | Achievements | `/my-standing.html` — the milestone register, with the measured shortfall on what is not held |
+| 10 | Tuition balance | `/my-account.html` |
+| 11 | Payments | the same page |
+| 12 | Invoices | the same page, opened in place |
+| 13 | Receipts | the same page. A receipt number where one was issued and nothing where none was — the two are one ledger read twice, never two ledgers |
+| 14 | Tutor messaging | `/my-desk.html` |
+| 15 | Announcements | the same page, with the receipt written on the act of opening |
+| 16 | Live classes | `/my-module.html` for the level's hours, `/my-week.html` for what is next |
+| 17 | Calendar | `/my-week.html`, in the account's own zone |
+| 18 | Tutorial booking | the same page |
+| 19 | Assignment submission | `/my-module.html` |
+| 20 | Competency progress | `/my-record.html` — attainment against the six competencies |
+| 21 | Study planner | `/my-programme.html`, driven by `GET /api/student/study-plan` |
+| 22 | Download centre | **`/my-downloads.html`** — built 23 August 2026 |
+| 23 | Digital ID | the identity card at the head of the same page. Not a licence and says so; what stands behind it is the signed verification statement, which `issued_documents` has always been able to issue |
+| 24 | Graduation tracker | `/my-standing.html` — every condition of the award, in two groups by whose work it is |
+
+Every one of them is in the learner navigation on all thirteen portal
+pages, in both editions. `scripts/link-census.mjs` reports zero orphans,
+which is the check that this table is not describing pages nobody can
+reach.
+
 ### And two the register had not listed
 
 Both were orphan routes — built, served, and reachable only by typing
