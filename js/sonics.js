@@ -157,6 +157,11 @@
                small, but the same kind of act as a medallion being
                struck, and js/bookcase.js plays `seal` on the way on and
                `tap` on the way off for exactly that reason. */
+            /* A learner's own certificate on /my-award.html. Conferral
+               is exactly what SEAL is for, and a page where the award
+               itself was the one silent struck object would read as a
+               fault. */
+            + '.awd, '
             + '.wax-seal, .cta__seal, .vessel, .medallion, .honour, .honour__wreath, '
             + '.matricula, .case__medallion, .brand__crest, .masthead__rule, .colophon__rule, '
             /* The warrant is a ruling with a seal on it, so it takes
@@ -299,7 +304,12 @@
                it is an <output> the platform computes and nothing
                strikes it, and a figure that made a sound every time a
                marker typed a digit would be a toy. */
-            + '.exm-crit, .exm-rec, .exm-close, .exm-clock, .exm-withheld';
+            + '.exm-crit, .exm-rec, .exm-close, .exm-clock, .exm-withheld, '
+            /* THE CERTIFICATE — css/award.css. A conferral is the most
+               ceremonial object this College produces, so it takes SEAL
+               rather than TAP and is in the list above; the QR square
+               beside it is an image and stays silent. */
+            + '.awd__qr';
 
   function voiceFor(el) {
     if (el.closest(CHIME)) return 'chime';

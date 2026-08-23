@@ -3342,5 +3342,61 @@
       "/js/staff-kit.js",
       "/js/my-examination.js"
     ]
+  },
+  {
+    "slug": "my-award",
+    "output": "my-award.html",
+    "title": "My Awards &mdash; Worldwide English College",
+    "description": "Every award the College has conferred on you, drawn as the certificate itself, with the verification code, the square and the signing key a stranger checks it by.",
+    "contentFile": "my-award.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/my-award.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/console.css",
+      "/css/award.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/my-award.js"
+    ]
+  },
+  {
+    "slug": "my-award-ar",
+    "output": "ar/my-award.html",
+    "title": "شهاداتي — الكلية العالمية للغة الإنجليزية",
+    "description": "كلُّ شهادةٍ منحتك إيّاها الكلية، مرسومةً بصورتها هي، ومعها رمزُ التحقّق والمربّعُ والمفتاحُ الذي وقّعها.",
+    "contentFile": "my-award.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/my-award.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/verify.css",
+      "/css/track.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/standing.css",
+      "/css/console.css",
+      "/css/award.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/my-award.js"
+    ]
   }
 ]

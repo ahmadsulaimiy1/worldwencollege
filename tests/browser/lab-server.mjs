@@ -1188,6 +1188,56 @@ createServer(async (req, res) => {
       } catch (err) { return examFail(err, 400); }
     }
 
+    // ── THE LEARNER'S OWN CERTIFICATES ─────────────────────────────
+    // Driven by the real awardHistory() against the real register, so
+    // the certificate the browser test photographs is composed from
+    // the same denormalised row a conferral in 2027 would be.
+    if (url.pathname === '/api/student/awards' && req.method === 'GET') {
+      const language = url.searchParams.get('lang') === 'ar' ? 'ar' : 'en';
+      const history = await registry.awardHistory(env, { userId: 'usr_demo' });
+      const awards = history.awards.map((a) => {
+        const row = sqlite.prepare(
+          `SELECT s.kid, s.mode, s.signed_at FROM credential_signatures s
+             JOIN awards aw ON aw.id = s.subject_id
+            WHERE s.subject_type = 'award' AND aw.verification_code = ?
+            ORDER BY s.signed_at DESC LIMIT 1`).get(a.verificationCode);
+        return {
+          ...a,
+          signature: row ? { kid: row.kid, mode: row.mode, signedAt: row.signed_at } : null,
+          verifyPath: `/verify/${encodeURIComponent(a.verificationCode)}`,
+          qrPath: `/api/credentials/qr?code=${encodeURIComponent(a.verificationCode)}`,
+        };
+      });
+      return json(res, {
+        awards,
+        highest: history.highest,
+        creditsTotal: history.creditsTotal,
+        tqtHoursTotal: history.tqtHoursTotal,
+        conferredBy: language === 'ar'
+          ? 'تُمنح شهادةُ المستوى حين تُستوفى شروطُ المستوى كلُّها ويُقيَّد المنحُ في السجلّ.'
+          : 'A level award is conferred when every condition of that level is met and the conferral is entered in the register.',
+        standingPath: language === 'ar' ? '/ar/my-standing.html' : '/my-standing.html',
+        terms: {
+          tuition: language === 'ar' ? '/ar/admissions/tuition/' : '/admissions/tuition/',
+          verify: language === 'ar' ? '/ar/verify/' : '/verify/',
+          register: language === 'ar' ? '/ar/students/awards/' : '/students/awards/',
+          statements: language === 'ar'
+            ? [
+              'الشهادةُ الرقميةُ هي الشهادةُ التي يفحصها التحقّق. وهي مشمولةٌ برسوم مستواك، ولا رسمَ عليها الآن ولا لاحقًا.',
+              'تُعاد إليك كلّما احتجتَها، مجّانًا، مدى الحياة.',
+              'ولأيّ أحدٍ أن يتحقّق منها دون حساب، ما بقيت الكلية.',
+              'أمّا النسخةُ المطبوعةُ على ورق القطن فخدمةٌ اختيارية لها رسمُها المنشور.',
+            ]
+            : [
+              'The digital certificate is the certificate verification checks. It is covered by your level fee; there is no charge for it now or later.',
+              'It is reissued whenever you need it, free, for life.',
+              'Anybody may check it without an account, for as long as the College exists.',
+              'A printed copy on cotton stock, signed and sealed, is an optional service with a published fee.',
+            ],
+        },
+      });
+    }
+
     if (url.pathname === '/api/student/standing' && req.method === 'GET') {
       return json(res, await standingLib.computeLearnerStanding(env, 'usr_demo'));
     }

@@ -70,6 +70,31 @@ const routes = [];
 })(ROOT);
 routes.sort();
 
+/* AN OPTIONAL FILTER, and why an instrument that measures everything
+   needs one.
+
+   The full walk is three passes over every built route, and at 192
+   routes that is upwards of ten minutes — long enough that the honest
+   description of this file became "the audit nobody runs while they are
+   working". A substring given on the command line narrows it:
+
+     node tests/browser/render-quality.mjs my-award
+
+   The filter narrows and never widens, the unfiltered run is still the
+   whole site, and the count is printed either way so a passing line can
+   never be mistaken for a full sweep it did not do. */
+const FILTER = process.argv.slice(2).filter((a) => !a.startsWith('-'));
+if (FILTER.length) {
+  const kept = routes.filter((r) => FILTER.some((f) => r.includes(f)));
+  routes.length = 0;
+  routes.push(...kept);
+  console.log(`Filtered to ${routes.length} route(s) by: ${FILTER.join(', ')}`);
+  if (!routes.length) {
+    console.log('No route matched. Nothing was measured.');
+    process.exit(1);
+  }
+}
+
 /* THE ONE MEASUREMENT THIS SUITE CANNOT MAKE.
    `.vista__caption` sits over an <img> and a `.vista__scrim`, and the
    walk below can only follow CSS backgrounds — an <img> is an element,

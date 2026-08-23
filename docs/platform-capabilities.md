@@ -149,6 +149,7 @@ wrong rule was published three ways.
 | A tutor's roster, or one learner's record in full | `GET /api/staff/attendance` | staff + teaching relation | same, r | **Yes** — `/staff-learners.html` |
 | Take a register | `POST /api/staff/attendance` | staff + teaching relation | `attendance_records` w | **Yes** — `/staff-learners.html` |
 | **Achievements** — the milestone register, what is earned with its evidence, what is not with the shortfall stated, what has been withdrawn, and what is not in force | `GET /api/student/achievements` | learner | `milestone_definitions`, `learner_milestones` rw | **Yes** — the same page |
+| **The learner's own certificates** — every conferral drawn as the certificate itself, with the award title, post-nominal, honour and citation exactly as the register denormalised them, the verification code, its QR, and the key that signed it (or the fact that none did) | `GET /api/student/awards` | learner | `awards`, `credential_signatures` r | **Yes** — `/my-award.html`, both editions |
 | The academic record, competencies, skills | `GET /api/student/profile`, `PATCH` | learner | `graduate_profiles`, `competency_marks`, `profile_sections` rw | **Yes** — `/my-record.html` |
 | Issued documents — transcript, supplement | `GET`,`POST /api/student/documents` | learner | `issued_documents` rw | **Yes** — `/my-record.html` |
 | Share a record slice with an employer | `GET`,`POST`,`DELETE /api/student/profile-shares` | learner | `profile_shares` rw | **Yes** — `/my-record.html` |
