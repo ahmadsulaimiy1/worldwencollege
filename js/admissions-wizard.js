@@ -26,6 +26,15 @@
 */
 (function () {
   'use strict';
+
+  // A JS-specified `behavior: 'smooth'` overrides CSS
+  // `scroll-behavior: auto`, so the reduced-motion carve-out in
+  // brand.css does NOT cover these calls. Checked here as well.
+  function scrollPref() {
+    return (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+      ? 'auto' : 'smooth';
+  }
+
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
@@ -265,7 +274,7 @@
     if (isReview) renderReview();
     if (stepKeys[index] === 'identity-document') renderKycDocs();
     updateStepper();
-    steps[index].scrollIntoView({ block: 'start', behavior: 'smooth' });
+    steps[index].scrollIntoView({ block: 'start', behavior: scrollPref() });
   }
 
   // The identity document is OPTIONAL and uploaded through its own

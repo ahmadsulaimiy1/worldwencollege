@@ -1,0 +1,29 @@
+# Worldwide English College — how to report a security problem.
+#
+# Published because the alternative to a researcher emailing us is a
+# researcher publishing. A College holding learner recordings, identity
+# documents and an academic record should be reachable by someone who
+# finds a flaw in it, without having to guess which inbox to use.
+
+Contact: mailto:info@worldwencollege.co.uk
+Preferred-Languages: en, ar
+Canonical: https://worldwencollege.co.uk/.well-known/security.txt
+
+# What we will do
+#
+# Acknowledge within five working days. Tell you what we found when we
+# have looked. Tell you when it is fixed, and say so publicly if it
+# affected anybody. The College publishes its own defects — see
+# /governance/decisions/ — and a reported one is not treated differently
+# from one we found ourselves.
+#
+# What we ask
+#
+# Do not access, modify or retain anybody else's personal data while
+# demonstrating a finding. The verification and register endpoints are
+# deliberately public and return real records; please test against your
+# own, or ask us for a test account rather than enumerating.
+#
+# There is no bounty programme. We would rather say so than imply one.
+
+Expires: 2027-08-23T00:00:00.000Z

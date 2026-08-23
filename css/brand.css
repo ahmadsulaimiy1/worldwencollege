@@ -2767,3 +2767,37 @@ ul.check-list li::before {
 [dir="rtl"] .roman,
 [dir="rtl"] .roman-caps,
 [dir="rtl"] .ledger__roman { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+
+/* =========================================================
+   REDUCED MOTION — THE SAFETY NET
+   ---------------------------------------------------------
+   The carve-outs above enumerate what the platform considers
+   non-essential motion, component by component. That is the
+   right way round and it has one failure mode: it depends on
+   whoever adds the next animation remembering to add the next
+   carve-out. An accessibility review could not confirm from
+   outside that the preference is honoured, and enumeration is
+   why — you cannot verify a list is complete by reading it.
+
+   So this is the floor beneath the list. It is not a
+   replacement for the carve-outs: they still say what the
+   platform means by non-essential motion, and they still
+   handle the cases where "no motion" needs a different
+   resting state (an element that animates INTO view must be
+   made visible, not merely made instant).
+
+   .01ms rather than 0: an animation with zero duration never
+   fires animationend, and js/motion.js removes the click-light
+   ring on exactly that event. Zero would leave a ring on the
+   page for every press, for the readers who asked for less
+   motion. Near-zero is instantaneous to a person and still a
+   real animation to the browser.
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,4 +1,13 @@
 (function () {
+
+  // A JS-specified `behavior: 'smooth'` overrides CSS
+  // `scroll-behavior: auto`, so the reduced-motion carve-out in
+  // brand.css does NOT cover these calls. Checked here as well.
+  function scrollPref() {
+    return (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+      ? 'auto' : 'smooth';
+  }
+
   // Footer year
   document.querySelectorAll('[data-year]').forEach(function (el) {
     el.textContent = new Date().getFullYear();
@@ -230,7 +239,7 @@
         .replace('{cefr}', level.cefr);
       resultText.textContent = text;
       resultBox.hidden = false;
-      resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      resultBox.scrollIntoView({ behavior: scrollPref(), block: 'nearest' });
 
       // Hand the result to the application form below (same page) and
       // persist it, so a level chosen here still shows up on the

@@ -69,3 +69,43 @@
   Permissions-Policy: microphone=(self), camera=(), geolocation=(), payment=(), usb=(), interest-cohort=()
   Cross-Origin-Opener-Policy: same-origin-allow-popups
   Strict-Transport-Security: max-age=31536000; includeSubDomains
+  # CSP, in report-only. See the note below.
+  Content-Security-Policy-Report-Only: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://*.clerk.accounts.dev https://*.clerk.com; connect-src 'self' https://*.clerk.accounts.dev https://*.clerk.com; worker-src 'self' blob:
+
+# ---------------------------------------------------------------------
+# WHY REPORT-ONLY, AND WHY IT IS HERE AT ALL
+#
+# The note above explains why no ENFORCING Content-Security-Policy is
+# set: Clerk's SDK loads from a Frontend API host derived at runtime
+# from the publishable key, so the correct script-src depends on which
+# Clerk instance is configured, and a wrong CSP does not fail a build or
+# a test — it fails one real learner trying to sign in, silently, in
+# production. That reasoning is sound and it still holds.
+#
+# It does not apply to report-only. `Content-Security-Policy-Report-Only`
+# cannot break a page by construction: the browser evaluates the policy,
+# reports what would have been blocked, and blocks nothing. So the
+# argument against shipping an enforcing policy without a live sign-in
+# check is not an argument against shipping this one — and without it,
+# any successful injection anywhere on the site executes with full
+# privileges, on a site that takes free-text input.
+#
+# The policy above is the intended ENFORCING policy, minus the things
+# only a live check can confirm. What it needs before the -Report-Only
+# suffix comes off:
+#
+#   1. Complete a real sign-in with this header live and confirm no
+#      Clerk origin is reported as blocked. The wildcards cover the
+#      documented hosts; a custom Frontend API domain (a College
+#      subdomain rather than *.clerk.accounts.dev) would not be.
+#   2. Remove 'unsafe-inline' from script-src. Several pages carry
+#      inline JSON-LD and small bootstraps; each needs a nonce or a
+#      hash first, and doing that badly is how a CSP breaks a page.
+#   3. Add report-to/report-uri once there is somewhere to send the
+#      reports. Without it the browser reports to the console only,
+#      which is enough for a developer with the page open and nothing
+#      at all for a learner in Lagos.
+#
+# Written down here rather than in an issue, because the last thing
+# omitted with a good reason was CLERK_JWKS_URL, and it stayed omitted
+# until an applicant found it.

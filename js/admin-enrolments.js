@@ -17,6 +17,15 @@
 */
 (function () {
   'use strict';
+
+  // A JS-specified `behavior: 'smooth'` overrides CSS
+  // `scroll-behavior: auto`, so the reduced-motion carve-out in
+  // brand.css does NOT cover these calls. Checked here as well.
+  function scrollPref() {
+    return (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+      ? 'auto' : 'smooth';
+  }
+
   var $ = function (s, r) { return (r || document).querySelector(s); };
 
   var LEVELS = [
@@ -125,7 +134,7 @@
       renderAccess(l);
       renderHistory(l.history, l.auditRecord);
       renderAppointments(l);
-      $('#learnerCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      $('#learnerCard').scrollIntoView({ behavior: scrollPref(), block: 'nearest' });
     }).catch(fail);
   }
 
