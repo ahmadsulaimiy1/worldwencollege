@@ -438,3 +438,66 @@ backend-only. Adding a committed frontend test suite (Playwright as a
 devDependency, scripts under e.g. `tests/e2e/`) is a reasonable next
 step, not done here to avoid taking on a large new dependency without
 that being asked for.
+
+---
+
+## The Level Examination
+
+The 60 per cent of every level mark. Six tables
+(`sql/migrations/023-level-examination.sql`), one library
+(`functions/_lib/academic/examinations.js`), and three routes. Every
+figure below is transcribed from `/students/examinations/` and
+`/academics/tutor-handbook/`, and `tests/level-examination.test.mjs`
+fails the build if a constant and the published sentence disagree.
+
+### `GET /api/student/examination`
+
+The candidate's own sittings, the levels they are enrolled at, and the
+whole published procedure in the reader's language (`?lang=ar`).
+
+A level with no published paper carries a `note` saying so — the
+College's outstanding work, never the candidate's.
+
+### `POST /api/student/examination?action=open|submit`
+
+`{ examinationId }`. Opening starts the three hours from that moment;
+reopening within the published sixty minutes resumes rather than
+restarting. Submitting decides and stores the lateness band.
+
+### `GET /api/staff/examinations`
+
+- no parameters → the first-marking queue, oldest first
+- `?role=second` → scripts with one reading and no second, excluding any
+  the caller read themselves
+- `?examinationId=` → one script prepared for a marker. **The other
+  reader's marks are withheld until the caller's own are recorded**, and
+  `withheld` says so in words rather than leaving an empty list to read
+  as a bug.
+- `?userId=` → one learner's sittings, behind the same teaching-relation
+  check every other staff read of a named learner passes through.
+
+### `POST /api/staff/examinations?action=…`
+
+| action | body | what it does |
+|---|---|---|
+| `enter` | `userId`, `levelId` | Enters a candidate. Refuses without ten complete modules, without a published paper, inside the fourteen-day resit interval, or past the two-resit allowance. Idempotent. |
+| `mark` | `examinationId`, `role`, `marks[]` | One marker's reading of EVERY criterion. Refuses a partial script, a second reading before a first, and the same person in two roles. A second reading opens any reconciliation the published triggers require. |
+| `settle` | `reconciliationId`, `settledMark`, `statement`, `how`, `thirdMarkerId` | Settles one reconciliation in writing. Where `how` is `third_marker`, the settled mark must be the third marker's. |
+| `spoken` | `examinationId`, `recordingId`, `passed` | The spoken paper. Refuses a recording belonging to another learner. |
+| `release` | `examinationId` | Refuses until every criterion carries two readings, every reconciliation is settled, and the spoken paper is marked. Releases provisional. |
+| `close_moderation` | `examinationId` | Clears `provisional`. Moves no mark. |
+| `set_aside` | `examinationId`, `reason`, `note` | `learner_election` twice a level, then the panel. Struck from the count of resits; the ordinal is not reused. |
+| `void` | `examinationId`, `reason`, `note` | One of the three published reasons and no other. |
+| `lift_cap` | `examinationId`, `reason` | `extension_granted` or `mitigation_upheld`. Lifts the cap; cannot raise a mark. |
+
+### `GET`, `POST /api/admin/examination-papers`
+
+`GET` returns every paper at every level including retired versions, and
+a per-level summary naming where nothing is published. `POST` authors a
+draft (`?action=author`) or publishes one (`?action=publish`).
+
+Publishing is the act that stamps `rubric_published_on`. It refuses a
+rubric whose weights do not sum to 1, one that measures fewer than the
+four language skills, and one with no criterion marked from the spoken
+paper — each of those would make a published gate unreadable for every
+candidate who sat it.

@@ -334,6 +334,17 @@ for (const f of files) {
   // whole `kyc_documents` table.
   db.exec(`DROP INDEX IF EXISTS idx_kyc_documents_user;
     DROP TABLE IF EXISTS kyc_documents;`);
+  // 023 adds six tables and no columns. CHILDREN FIRST again: the
+  // events, the marks and the reconciliations all point at
+  // level_examinations, which points at examination_papers, which the
+  // criteria also point at. Dropped in declaration order this fails on
+  // a constraint rather than on anything worth reading.
+  db.exec(`DROP TABLE IF EXISTS examination_events;
+    DROP TABLE IF EXISTS examination_reconciliations;
+    DROP TABLE IF EXISTS examination_marks;
+    DROP TABLE IF EXISTS level_examinations;
+    DROP TABLE IF EXISTS examination_criteria;
+    DROP TABLE IF EXISTS examination_papers;`);
   // 020 adds twenty-two tables and no columns, so dropping the tables is
   // the whole reversal — SQLite takes each table's indexes with it.
   // CHILDREN FIRST, and the order below is the foreign-key order rather

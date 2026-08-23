@@ -543,14 +543,23 @@ export function courseworkMean(moduleResults) {
  * A level mark — `level.formula`, 60 examination / 40 coursework.
  *
  * `examination` is `{ percentage, resat, criterionFloorMet,
- * skillFloorMet, spokenPaperPassed }` or null. TODAY IT IS ALWAYS NULL,
- * and that is a fact about the platform rather than about any learner:
- * no table records a level examination, its rubric criteria, its four
- * skill sub-marks or the spoken paper. The instrument records the same
- * absence at `conformance.level_mark`. This function therefore returns
- * a level mark of null with the reason named, and never a level mark
- * built from coursework alone — a coursework-only level mark would be
- * 40 per cent of a rule presented as the whole of it.
+ * skillFloorMet, spokenPaperPassed }` or null.
+ *
+ * IT WAS ALWAYS NULL until sql/migrations/023-level-examination.sql,
+ * and that was a fact about the platform rather than about any learner:
+ * no table recorded a level examination, its rubric criteria, its four
+ * skill sub-marks or the spoken paper, and the instrument recorded the
+ * same absence at `conformance.level_mark`. It is now supplied by
+ * examinationsForLearner() in functions/_lib/academic/examinations.js,
+ * from a RELEASED sitting only — a script that has been read twice with
+ * every reconciliation settled.
+ *
+ * Null remains a real and common answer: a level not yet sat, a paper
+ * the College has not published, a script still with its markers. This
+ * function therefore still returns a level mark of null with the reason
+ * named, and never a level mark built from coursework alone — a
+ * coursework-only level mark would be 40 per cent of a rule presented
+ * as the whole of it.
  */
 export function levelMark({ examination = null, modules = [] } = {}) {
   const coursework = courseworkMean(modules);

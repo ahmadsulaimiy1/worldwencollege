@@ -14,6 +14,12 @@
  *   "Can I start Level III?"   — completeLevel() opened it on staff
  *                                instruction and checked no gate
  *                                (conformance.level_mark).
+ *
+ * Three of those four were answered when this file was written. The
+ * first could not be, because a grade point average is built from level
+ * marks and a level mark is 60 per cent examination — and no table held
+ * an examination until migration 023. It does now, and every function
+ * here that returned null with the reason named returns the figure.
  *   "What is left before I     — no answer existed, and the honest one
  *    graduate?"                  is a list, never a boolean.
  *
@@ -51,13 +57,26 @@
  * · THE STAFF FLAG. `standing.trigger.staff_flag` requires a recorded
  *   reason. A reason is not a thing a query produces.
  *
- * · A FAILED LEVEL EXAMINATION. No table records a level examination at
- *   all. The trigger is reported as not instrumented rather than as
- *   "did not fire" — those read the same on a screen and mean opposite
- *   things about the College.
+ * · A FAILED LEVEL EXAMINATION — INSTRUMENTED since
+ *   sql/migrations/023-level-examination.sql, which built the table
+ *   this note used to record the absence of. What did NOT change is the
+ *   distinction: the trigger is reported as not instrumented, rather
+ *   than as "did not fire", for any level with no RELEASED sitting.
+ *   Those two read the same on a screen and mean opposite things about
+ *   a person, and only a mark that exists can rule a trigger out.
  */
 
 import { db, newId, nowIso, ValidationError } from '../db.js';
+// The 60 per cent half of every level mark. Until
+// sql/migrations/023-level-examination.sql there was no table behind
+// this and every function below returned null with the reason named;
+// examinationsForLearner() now supplies it, and the reason is kept for
+// the levels where it is still the true answer.
+// A STATIC import is safe in this direction: examinations.js imports
+// nothing that reaches back here. Its one call into progression.js —
+// the ten-module gate before a candidate is entered — is a DYNAMIC
+// import inside that function precisely so this edge stays one-way.
+import { examinationsForLearner, papersPublished } from './examinations.js';
 import {
   CREDIT,
   GRADE_SCALE,
@@ -149,6 +168,25 @@ async function readAcademicRecord(env, userId) {
          FROM graduation_eligibility WHERE user_id = ?`).bind(userId).all(),
   ]);
 
+  // Read AFTER the parallel block rather than inside it: it is several
+  // queries per sitting and most learners have none, so paying for it
+  // only where sittings exist costs nothing and saves the common case.
+  const [examinations, papers] = await Promise.all([
+    examinationsForLearner(env, userId),
+    papersPublished(env),
+  ]);
+  // Whether the College has set a paper at a level is true of the level
+  // and not of the learner, so it is folded in for EVERY level rather
+  // than only the ones this learner has sat. Without it, "no paper
+  // published" and "a paper published and not sat" are the same shape,
+  // and they are opposite statements about whose move it is.
+  for (const levelId of Object.keys(papers)) {
+    examinations[levelId] = examinations[levelId] || { sittings: [], released: null, paperPublished: null };
+  }
+  for (const [levelId, value] of Object.entries(examinations)) {
+    value.paperPublished = Boolean(papers[levelId]);
+  }
+
   return {
     levels: levels.results,
     enrolments: enrolments.results,
@@ -160,6 +198,10 @@ async function readAcademicRecord(env, userId) {
     mappings: mappings.results,
     reviews: reviews.results,
     eligibility: eligibility.results,
+    // Keyed by level. `released` is the result that counts; `sittings`
+    // is every attempt, so a page can say "entered, sitting open" as
+    // well as "marked 84".
+    examinations,
   };
 }
 
@@ -295,11 +337,13 @@ function levelModules(record, levelId) {
  * a bug — the mapping work is a precondition of the award rather than
  * an aspiration beside it.
  *
- * The examination sub-marks are null for the separate reason that no
- * examination is recorded anywhere, so even an approved mapping would
- * leave the 60 per cent half of `skill.formula` empty.
+ * The examination sub-marks come from the released sitting where there
+ * is one — `examination_criteria.skill_id` is what makes the quantity
+ * exist at all — and are null where there is not, which leaves the
+ * 60 per cent half of `skill.formula` empty and the state says which
+ * half is missing rather than reporting one absence for two causes.
  */
-function levelSkillMarks(record, levelId, modules) {
+function levelSkillMarks(record, levelId, modules, examination = null) {
   const markByItem = new Map();
   for (const m of modules) {
     if (m.quiz && Number.isFinite(m.quiz.countingMark) && m.quizItemId) markByItem.set(m.quizItemId, m.quiz.countingMark);
@@ -315,17 +359,27 @@ function levelSkillMarks(record, levelId, modules) {
       .map((m) => ({ mark: markByItem.get(m.itemId), weight: m.weight }))
       .filter((m) => Number.isFinite(m.mark));
     const cwMean = courseworkSkillMean(mapped);
-    const mark = skillMark({ examinationSubMark: null, courseworkMean: cwMean });
+    const examSub = examination && examination.skills && Number.isFinite(examination.skills[skillId])
+      ? examination.skills[skillId]
+      : null;
+    const mark = skillMark({ examinationSubMark: examSub, courseworkMean: cwMean });
     marks[skillId] = mark;
     detail[skillId] = {
       skillId,
       mark,
       approvedMappings: approved.length,
       courseworkMean: cwMean === null ? null : roundMark(cwMean),
-      examinationSubMark: null,
-      state: mark === null
-        ? (mapped.length ? 'examination_not_recorded' : 'no_approved_mapping')
-        : 'marked',
+      examinationSubMark: examSub,
+      // Two different absences, never flattened into one. A learner
+      // whose coursework carries no approved mapping and a learner
+      // waiting on an examination result are told different things,
+      // because they are in different positions and only one of them
+      // is waiting on the College's academic mapping work.
+      state: mark !== null
+        ? 'marked'
+        : (examSub === null && cwMean === null
+          ? (mapped.length ? 'examination_not_recorded' : 'no_approved_mapping')
+          : (examSub === null ? 'examination_not_recorded' : 'no_approved_mapping')),
     };
   }
   return { marks, detail };
@@ -417,7 +471,7 @@ export function gradePointAverage(record) {
  * it is taken — "so that a learner who was never reached cannot later be
  * described as one who declined help".
  */
-export function academicStandingFor(record, levelId, modules) {
+export function academicStandingFor(record, levelId, modules, examination = null) {
   const enrolment = record.enrolments.find((e) => e.levelId === levelId) || null;
 
   // Every attempt that fell below the pass mark, counted once each —
@@ -440,17 +494,31 @@ export function academicStandingFor(record, levelId, modules) {
       fired: failedAttempts >= UNDER_REVIEW_FAILED_ATTEMPTS,
       instrumented: true,
     },
-    {
-      id: 'standing.trigger.failed_examination',
-      label: 'A failed level examination',
-      threshold: 1,
-      observed: null,
-      fired: false,
-      // Reported as not instrumented rather than as "did not fire".
-      // On a screen those look identical and they mean opposite things.
-      instrumented: false,
-      note: 'No level examination is recorded by any table, so this trigger can neither fire nor be ruled out.',
-    },
+    // INSTRUMENTED SINCE sql/migrations/023-level-examination.sql, and
+    // the distinction the old comment drew is kept rather than
+    // discarded: a learner with NO released sitting is still reported
+    // as not instrumented rather than as "did not fire", because those
+    // look identical on a screen and mean opposite things. The trigger
+    // is only ever ruled out against a mark that exists.
+    (() => {
+      const released = examination && examination.released ? examination.released : null;
+      const failed = released && Number.isFinite(released.percentage)
+        ? released.percentage < SCALE.passMark
+        : null;
+      return {
+        id: 'standing.trigger.failed_examination',
+        label: 'A failed level examination',
+        threshold: SCALE.passMark,
+        observed: released && Number.isFinite(released.percentage) ? released.percentage : null,
+        fired: failed === true,
+        instrumented: failed !== null,
+        note: failed === null
+          ? 'No level examination result has been released at this level, so this trigger can neither fire nor be ruled out.'
+          : (failed
+            ? `The level examination was released at ${released.percentage}%, below the pass mark of ${SCALE.passMark}%.`
+            : `The level examination was released at ${released.percentage}%, at or above the pass mark.`),
+      };
+    })(),
     {
       id: 'standing.trigger.staff_flag',
       label: 'A review flagged by academic staff, with a recorded reason',
@@ -571,7 +639,7 @@ function condition(id, label, met, detail, owner = 'learner') {
  * examination the platform does not record has done everything asked of
  * them, and must not read a screen that implies otherwise.
  */
-export function levelConditions(record, levelId, modules, skills, mark, honour) {
+export function levelConditions(record, levelId, modules, skills, mark, honour, examination = null) {
   const complete = modules.filter((m) => m.state === 'marked' && m.complete).length;
   const expected = WEIGHTS.modulesPerLevel;
   const found = modules.length;
@@ -589,19 +657,7 @@ export function levelConditions(record, levelId, modules, skills, mark, honour) 
         : `${complete} of ${found} modules complete${found === expected ? '' : ` (the regulations expect ${expected})`}.`,
       found === expected ? 'learner' : 'college',
     ),
-    condition(
-      'level.gate.examination_overall',
-      LEVEL_GATES[1].label,
-      null,
-      'No level examination is recorded by any table, so this cannot yet be judged either way.',
-      'college',
-    ),
-    condition('level.gate.examination_criterion_floor', LEVEL_GATES[2].label, null,
-      'Recorded nowhere: the examination has no rubric criteria in the schema.', 'college'),
-    condition('level.gate.examination_skill_floor', LEVEL_GATES[3].label, null,
-      'Recorded nowhere: the examination has no skill sub-marks in the schema.', 'college'),
-    condition('level.gate.spoken_paper', LEVEL_GATES[4].label, null,
-      'Recorded nowhere: no table records a spoken paper being sat and marked.', 'college'),
+    ...examinationConditions(levelId, examination),
     condition(
       'level.gate.staff_confirmation',
       LEVEL_GATES[5].label,
@@ -613,20 +669,35 @@ export function levelConditions(record, levelId, modules, skills, mark, honour) 
         : 'There is no enrolment at this level.',
       'college',
     ),
+    // WHOSE OUTSTANDING WORK THIS IS DEPENDS ON WHY IT IS OUTSTANDING,
+    // and there are three cases rather than the two this used to draw.
+    //
+    //   · The level mark cannot be computed         -> college.
+    //   · It is computed and the learner fell short -> learner. Below
+    //     the pass mark, or a skill under the floor: their work.
+    //   · It is computed, it CLEARS the pass mark, and no honour can
+    //     be judged because the College holds no approved skill
+    //     mapping -> college.
+    //
+    // The third case was reported against the LEARNER until the
+    // examination made level marks computable at all, at which point a
+    // candidate with a level mark of 85.88 read that they had not met
+    // the Pass condition. They had. What is missing is academic
+    // mapping work nobody outside the College can do, and CLAUDE.md § 5
+    // is explicit that the platform's unfinished business must never be
+    // filed as a person's.
     condition(
       'honour.pass',
       `A level mark of at least ${SCALE.passMark}% with no skill below ${HONOURS[0].skillFloor}%`,
       Number.isFinite(mark.mark) ? Boolean(honour.honour) : null,
       Number.isFinite(mark.mark)
-        ? `Level mark ${mark.mark}%.`
+        ? (honour.honour
+          ? `Level mark ${mark.mark}%, classified ${honour.honour.name}.`
+          : (honour.reason === 'skill_mark_missing'
+            ? `Level mark ${mark.mark}%, which clears the pass mark. No honour can be classified until every skill carries a mark.`
+            : `Level mark ${mark.mark}%.`))
         : 'The level mark cannot be computed yet, so no honour can be judged.',
-      // Whose outstanding work this is depends on why it is
-      // outstanding. A level mark that exists and falls short is the
-      // learner's; a level mark that cannot be computed because no
-      // examination is recorded is the College's, and reporting it
-      // against the learner would put the platform's unfinished work on
-      // their record.
-      Number.isFinite(mark.mark) ? 'learner' : 'college',
+      Number.isFinite(mark.mark) && honour.reason !== 'skill_mark_missing' ? 'learner' : 'college',
     ),
     condition(
       'skill.null_blocks_conferral',
@@ -637,6 +708,102 @@ export function levelConditions(record, levelId, modules, skills, mark, honour) 
         : 'All four skills carry a mark.',
       'college',
     ),
+  ];
+}
+
+/**
+ * The four examination gates of `level_mark.gates`, read from the
+ * sitting where there is one.
+ *
+ * THE OWNER IS THE WHOLE POINT OF THIS FUNCTION, and it moves three
+ * times:
+ *
+ *   · no paper published at this level -> 'college'. The candidate has
+ *     nothing to sit. CLAUDE.md § 5 is explicit that the platform's
+ *     unfinished work must not be filed as a learner's outstanding
+ *     work, and "you have not passed an examination that does not
+ *     exist" is exactly that error.
+ *   · a paper published, nothing sat    -> 'learner'. Entry is by
+ *     finishing the teaching, and sitting it is theirs to do.
+ *   · sat, submitted, and with the two markers -> 'college'. The
+ *     candidate has done everything asked of them and is waiting on a
+ *     reading. A screen that showed this as their outstanding work
+ *     would be telling somebody to hurry up about the College's own
+ *     marking clock.
+ *
+ * `met` is null wherever the answer is genuinely not yet known, and
+ * false only where the gate was judged and missed. Those are different
+ * facts about a person and this file has never conflated them.
+ */
+function examinationConditions(levelId, examination) {
+  const released = examination && examination.released ? examination.released : null;
+  const sittings = (examination && examination.sittings) || [];
+  const paperPublished = examination ? examination.paperPublished === true : false;
+  const live = sittings.find((s) => !['released', 'set_aside', 'void'].includes(s.status)) || null;
+
+  // Whose move it is, in the three states above.
+  const owner = released ? 'learner' : (live ? 'college' : (paperPublished ? 'learner' : 'college'));
+
+  // One sentence describing where the examination has got to, used by
+  // every gate that has no answer yet — so a learner reads one
+  // explanation four times rather than four different guesses.
+  const where = released
+    ? null
+    : (live
+      ? {
+        entered: `Entered for the examination. The window closes on ${live.window.closesOn}.`,
+        open: 'The paper is open and the clock is running.',
+        submitted: 'Submitted, and with the College to mark.',
+        marking: 'With the markers. Every script is read twice before the mark is released.',
+        reconciliation: 'The two readings are being reconciled in writing before the mark is released.',
+      }[live.status] || `The sitting is "${live.status}".`
+      : (paperPublished
+        ? 'The examination for this level has not been sat.'
+        : 'The College has not yet published an examination paper for this level, so there is nothing to sit.'));
+
+  const gate = (id, label, met, detail) => condition(id, label, met, detail, met === true ? 'learner' : owner);
+
+  if (!released) {
+    return [
+      gate('level.gate.examination_overall', LEVEL_GATES[1].label, null, where),
+      gate('level.gate.examination_criterion_floor', LEVEL_GATES[2].label, null, where),
+      gate('level.gate.examination_skill_floor', LEVEL_GATES[3].label, null, where),
+      gate('level.gate.spoken_paper', LEVEL_GATES[4].label, null, where),
+    ];
+  }
+
+  const overall = Number.isFinite(released.percentage) ? released.percentage : null;
+  const provisional = released.provisional
+    ? ' The mark is provisional until moderation closes on the batch.'
+    : '';
+
+  return [
+    gate('level.gate.examination_overall', LEVEL_GATES[1].label,
+      overall === null ? null : overall >= SCALE.passMark,
+      overall === null
+        ? 'The examination is released but carries no mark, which is a fault in the record rather than a result.'
+        : `Examination ${overall}%${released.capped ? ', capped at the pass threshold for late submission' : ''}.${provisional}`),
+    gate('level.gate.examination_criterion_floor', LEVEL_GATES[2].label,
+      released.criterionFloorMet,
+      released.criterionFloorMet === null
+        ? 'Not every criterion carries a counted mark yet.'
+        : (released.criterionFloorMet
+          ? 'Every rubric criterion is at or above 50%.'
+          : 'At least one rubric criterion is below 50%.')),
+    gate('level.gate.examination_skill_floor', LEVEL_GATES[3].label,
+      released.skillFloorMet,
+      released.skillFloorMet === null
+        ? 'Not every one of the four skills carries an examination sub-mark.'
+        : (released.skillFloorMet
+          ? 'Every one of the four skill sub-marks is at or above 50%.'
+          : 'At least one of the four skill sub-marks is below 50%.')),
+    gate('level.gate.spoken_paper', LEVEL_GATES[4].label,
+      released.spokenPaperPassed,
+      released.spokenPaperPassed === null
+        ? 'The spoken paper has not been marked.'
+        : (released.spokenPaperPassed
+          ? 'The spoken paper was recorded and passed.'
+          : 'The spoken paper was recorded and not passed.')),
   ];
 }
 
@@ -652,8 +819,9 @@ export function levelConditions(record, levelId, modules, skills, mark, honour) 
  *   conditional  — everything the learner owes is met, and what remains
  *                  is a record the COLLEGE has not made. Nobody should
  *                  read "not eligible" for the platform's unfinished
- *                  work: today that is four examination gates and the
- *                  skill mappings, none of which any learner can act on.
+ *                  work — a script waiting on its second marker, a
+ *                  level with no published paper to sit, or the skill
+ *                  mappings, none of which any learner can act on.
  *   eligible     — every condition met.
  *   conferred    — the register holds the award, which is the Graduate
  *                  Register's act and not this file's.
@@ -760,14 +928,24 @@ export async function computeLearnerStanding(env, userId) {
   const levels = levelIds.map((levelId) => {
     const enrolment = record.enrolments.find((e) => e.levelId === levelId) || null;
     const modules = levelModules(record, levelId);
-    const skills = levelSkillMarks(record, levelId, modules);
-    const mark = levelMark({ examination: null, modules });
+    const examination = (record.examinations && record.examinations[levelId]) || null;
+    const released = examination && examination.released ? examination.released : null;
+    const skills = levelSkillMarks(record, levelId, modules, released);
+    // The 60 per cent, at last. `levelMark()` has always been written
+    // around this object and has always been handed null; where a
+    // sitting is released it is handed the sitting.
+    const mark = levelMark({
+      examination: released
+        ? { percentage: released.percentage, resat: released.resat }
+        : null,
+      modules,
+    });
     const honour = honourFor({
       levelMark: mark.mark,
       skillMarks: skills.marks,
       examinationResat: mark.examinationResat,
     });
-    const conditions = levelConditions(record, levelId, modules, skills, mark, honour);
+    const conditions = levelConditions(record, levelId, modules, skills, mark, honour, examination);
     const position = graduationPosition(record, levelId, conditions);
 
     const marked = modules.filter((m) => m.state === 'marked');
@@ -812,9 +990,19 @@ export async function computeLearnerStanding(env, userId) {
         completion: modules.length ? complete.length / modules.length : null,
       },
       levelMark: mark,
+      // Every attempt at this level, released or not, so a page can
+      // draw "entered, window closes Friday" as a state of its own
+      // rather than as the absence of a mark.
+      examination: examination
+        ? {
+          paperPublished: examination.paperPublished === true,
+          released: examination.released,
+          sittings: examination.sittings,
+        }
+        : { paperPublished: null, released: null, sittings: [] },
       skills: SKILL_IDS.map((id) => skills.detail[id]),
       honour,
-      standing: academicStandingFor(record, levelId, modules),
+      standing: academicStandingFor(record, levelId, modules, examination),
       graduation: position,
       progression: progressionPosition(record, levelId, position),
       creditsIfConferred: CREDIT.perLevel,

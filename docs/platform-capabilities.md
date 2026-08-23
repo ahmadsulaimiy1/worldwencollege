@@ -141,6 +141,10 @@ wrong rule was published three ways.
 | Capability | Endpoint | Who | Reads / writes | Interface |
 |---|---|---|---|---|
 | **The whole academic standing** — module marks with resits and counting marks, level marks, the four skill marks, the honour, academic standing with its obligations and triggers, graduation conditions each marked met / not met / not instrumented, progression, and a credit-weighted GPA that is null (never 0.00) when nothing has been conferred | `GET /api/student/standing` | learner | `enrolments`, `awards`, `units`, `learning_items`, `quiz_attempts`, `assignment_submissions`, `assessment_skills`, `academic_standing_reviews`, `graduation_eligibility` — r; `academic_standing_reviews`, `graduation_eligibility` w | **Yes** — `/my-standing.html` (`js/my-standing.js`) |
+| **The level examination** — what the candidate is entered for, the sitting reference they read aloud, the window, the three-hour clock, the lateness band, the released mark and whether it is still provisional; and the whole published procedure in the reader's own language | `GET`,`POST /api/student/examination` | learner | `level_examinations`, `examination_papers`, `examination_criteria`, `examination_marks`, `examination_reconciliations` r; `level_examinations` w (open, submit) | — |
+| **The marking queue, and one script prepared for a marker** — first-marking and second-marking queues, oldest first, with the other reader's numbers WITHHELD until the marker's own are recorded | `GET /api/staff/examinations` | staff | same, r | — |
+| **Enter a candidate, record a reading, settle a reconciliation, mark the spoken paper, release, close moderation, set aside, void, lift a late cap** | `POST /api/staff/examinations` (`?action=`) | staff (+ teaching relation to enter) | same, w; `examination_events` w | — |
+| **Author an examination paper and its rubric, and publish it** — publishing is what stamps `rubric_published_on`, and it refuses a rubric whose weights do not sum to 1, one that measures fewer than four skills, or one with no spoken criterion | `GET`,`POST /api/admin/examination-papers` | admin | `examination_papers`, `examination_criteria` rw | — |
 | **The learner's own engagement record** — a week-by-week grid per module, every state carrying the evidence it was read from and the clause it satisfies, with the platform's own recomputed reading beside any staff override | `GET /api/student/attendance` | learner | `attendance_records`, `time_on_task`, `quiz_attempts`, `assignment_submissions`, `learner_recordings`, `unit_progress` r | **Yes** — `/my-engagement.html` |
 | A tutor's roster, or one learner's record in full | `GET /api/staff/attendance` | staff + teaching relation | same, r | **Yes** — `/staff-learners.html` |
 | Take a register | `POST /api/staff/attendance` | staff + teaching relation | `attendance_records` w | **Yes** — `/staff-learners.html` |
@@ -149,13 +153,38 @@ wrong rule was published three ways.
 | Issued documents — transcript, supplement | `GET`,`POST /api/student/documents` | learner | `issued_documents` rw | **Yes** — `/my-record.html` |
 | Share a record slice with an employer | `GET`,`POST`,`DELETE /api/student/profile-shares` | learner | `profile_shares` rw | **Yes** — `/my-record.html` |
 
-**The two absences that block conferral, stated rather than worked
-around.** No table records a level examination, so `levelMark()` returns
-`examination_not_recorded` for every learner; and `assessment_skills`
-holds no approved rows, so every skill mark is null and
-`skill.null_blocks_conferral` refuses. The engine reports which of the
-two is in play rather than collapsing them into "not eligible". Both
-are schema requests, listed in § 10.
+**One of the two absences that blocked conferral is closed.**
+
+~~No table records a level examination.~~ **CLOSED 23 August 2026** —
+`sql/migrations/023-level-examination.sql` and
+`functions/_lib/academic/examinations.js`. Six tables: the versioned
+paper and its rubric, the sitting, a mark per criterion PER MARKER, the
+written reconciliation, and the trail. Every figure in the library is
+transcribed from `/students/examinations/` and
+`/academics/tutor-handbook/`, and `tests/level-examination.test.mjs`
+reads the BUILT HTML of both pages and fails the build if a constant and
+the sentence a learner reads ever disagree.
+
+The chain that was inert now runs end to end: a released sitting
+produces a level mark, an honour, a grade point and a graduation
+position. `tests/level-examination.test.mjs` drives a candidate from an
+empty database to a level mark of 85.88 through the real standing
+engine, and the second-marking rule is enforced rather than described —
+a second marker cannot see the first reading until their own is
+recorded, and nothing releases until every reconciliation is settled in
+writing.
+
+**What is still absent, and it is one thing rather than two.**
+`assessment_skills` holds no approved rows, so every LEVEL skill mark is
+null and `skill.null_blocks_conferral` refuses. That is academic mapping
+work, not a software task, and it is the College's rather than any
+learner's — `levelConditions()` was corrected the day level marks became
+computable, because a candidate with a level mark of 85.88 was being
+shown that they had not met the Pass condition. They had.
+
+The examination's OWN four skill sub-marks are a different quantity and
+they exist: they come from `examination_criteria.skill_id`, and
+`publishPaper()` refuses a paper that does not measure all four.
 
 ---
 
@@ -256,9 +285,9 @@ silently — in each case the payload says what is missing.
 
 | Gap | Consequence today | What closes it |
 |---|---|---|
-| **No table records a level examination** — no overall mark, no criterion sub-marks, no four skill sub-marks, no spoken paper, no resat flag | `levelMark()` is always `examination_not_recorded`; no honour can be computed; no GPA can grow; graduation reaches `conditional` and never `eligible` | A `level_examinations` table plus per-criterion and per-skill sub-mark rows |
+| ~~**No table records a level examination**~~ **CLOSED 23 August 2026** | Was: `levelMark()` always `examination_not_recorded`; no honour, no GPA, graduation never past `conditional`. Now: migration 023 builds the paper, its rubric, the sitting, a mark per criterion per marker, the written reconciliation and the trail | Done. What replaced it: **no paper is published at any level yet**, which is an academic act rather than a software one. `publishedPaperFor()` returns null and every caller reports `no_published_paper` by name; `levelConditions()` files that as the COLLEGE's outstanding work, never the candidate's |
 | **`assessment_skills` holds no approved rows** | Every level skill mark is null and `skill.null_blocks_conferral` refuses conferral for every learner | Academic mapping work, proposed and approved. Not a software task |
-| **Neither `quiz_attempts` nor `assignment_submissions` records an attempt ordinal** | The engine infers order from `submitted_at`, which is sound for "was this a resit" and unsound for enforcing the 14-day resit interval or the 365-day task refresh | An `attempt_ordinal` and a counting-attempt flag on both tables |
+| ~~**Neither `quiz_attempts` nor `assignment_submissions` records an attempt ordinal**~~ **CLOSED** by `sql/migrations/021-attempt-ordinals.sql` | Both tables carry `attempt`, assigned once at submission and never recomputed, with a unique index over (learner, item, attempt) | Done |
 | **`academic_standing_reviews` has no cleared / lifted column** | A flag can be raised and cannot be lifted at the same review point — `UNIQUE(user_id, level_id, review_point)` forbids two states | `cleared_at` / `cleared_by` / `cleared_reason`, or a `standing_events` table |
 | **`suspended_progression` can never be computed** | Its only published trigger is a misconduct matter, and `registrar_cases` excludes misconduct by design. A person records the band; the engine carries it forward and refuses to overwrite it | Believed correct as designed. Reported so the absence is deliberate |
 | **No assessment due date exists anywhere** | The timetable declares `assessment_due_dates` unreadable in its own payload rather than inventing deadlines | Probably an offset on `learning_items` (days from `enrolments.started_at`) plus an override table. An academic decision |
@@ -348,6 +377,25 @@ This is the map the next pass builds from.
 32. ~~**Inspect the signing keys.**~~ **CLOSED 22 August 2026** — the same page. **Rotation and revocation are deliberately NOT here and are not reachable over HTTP at all**: revoking a key invalidates every credential it ever signed. The page says that rather than offering a control that would 404.
 33. ~~**Set or refresh an exchange rate.**~~ **CLOSED 22 August 2026** — the same page, keeping pricing a currency and opening it at checkout as two separate acts, and printing what a live feed did NOT cover rather than a fabricated rate.
 34. ~~**Purge a recording past its retention date.**~~ **CLOSED 22 August 2026** — the same page, dry run first and always: the destroying button does not exist in the document until the dry run has been read.
+
+### The one capability with no interface today
+
+35. **The level examination**, on all three sides of it — the
+    candidate's (`/api/student/examination`), the marker's
+    (`/api/staff/examinations`) and the administrator's
+    (`/api/admin/examination-papers`). Built, tested end to end, and
+    reachable only by an HTTP client.
+
+    It is listed here rather than quietly, because this document's own
+    rule is that an endpoint with no interface is a third state between
+    "has an interface" and "has none", and the two orphan routes below
+    are what taught it that. Three surfaces close it: a candidate's
+    sitting page carrying the published procedure, a marking screen that
+    shows the rubric and withholds the other reader, and a paper-setting
+    console. The endpoints were written first because the marking rule
+    the screens have to obey — a second reader who cannot see the first
+    mark — is a property of the data layer, and a screen cannot add it
+    to an endpoint that does not have it.
 
 ### And two the register had not listed
 
