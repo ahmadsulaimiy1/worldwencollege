@@ -305,6 +305,11 @@
                strikes it, and a figure that made a sound every time a
                marker typed a digit would be a toy. */
             + '.exm-crit, .exm-rec, .exm-close, .exm-clock, .exm-withheld, '
+            /* A marker's own reliability — the divergence cases are
+               struck plates a tutor works through one at a time. The
+               four summary figures stay silent: they are context, not
+               objects. */
+            + '.agr-case, '
             /* THE CERTIFICATE — css/award.css. A conferral is the most
                ceremonial object this College produces, so it takes SEAL
                rather than TAP and is in the list above; the QR square

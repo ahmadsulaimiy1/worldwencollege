@@ -104,6 +104,25 @@
     released: function (m) { return 'أُعلنت عند ' + m + '٪، وهي مبدئية حتى تُغلق المراجعة.'; },
     outstanding: 'ما يمنع الإعلان',
     capped: 'مقيَّدة عند حدّ النجاح للتأخير',
+    agreementHead: 'موثوقيّتك أنت',
+    agreementNone: 'لم تُقرأ لك ورقةٌ مع قارئٍ ثانٍ في هذه المدّة، فلا رقمَ اتّفاقٍ بعد. ولا يعني ذلك صفرًا.',
+    agreementPct: 'الاتّفاق',
+    agreementPaired: 'معايير قُرئت مرّتين',
+    meanDiv: 'متوسّط الفارق',
+    bias: 'اتّجاه الفارق',
+    biasAbove: 'أعلى من قارئك الثاني',
+    biasBelow: 'أدنى من قارئك الثاني',
+    biasLevel: 'لا اتّجاهَ يُذكر',
+    diverged: 'الحالات التي اختلفتما فيها',
+    myMark: 'درجتك',
+    theirMark: 'درجة القارئ الآخر',
+    settledAt: 'استقرّت عند',
+    nearerMine: 'أقربُ إلى درجتك',
+    nearerTheirs: 'أقربُ إلى درجة القارئ الآخر',
+    nearerEqual: 'في المنتصف',
+    unsettled: 'لم تُسوَّ بعد',
+    bandCrossings: function (n) { return n + ' حالة عبَرت فيها القراءتان عتبةَ مرتبةِ شرف'; },
+    points: function (n) { return n + ' نقطة'; },
     nothing: '—',
   } : {
     loading: 'Loading the examination queues…',
@@ -161,6 +180,25 @@
     released: function (m) { return 'Released at ' + m + '%, provisional until moderation closes.'; },
     outstanding: 'What is holding the release',
     capped: 'Capped at the pass threshold for late submission',
+    agreementHead: 'Your own reliability',
+    agreementNone: 'No script of yours has been read alongside a second marker in this window, so there is no agreement figure yet. That is not the same as nought.',
+    agreementPct: 'Agreement',
+    agreementPaired: 'Criteria read twice',
+    meanDiv: 'Mean divergence',
+    bias: 'Direction',
+    biasAbove: 'above your second markers',
+    biasBelow: 'below your second markers',
+    biasLevel: 'no measurable direction',
+    diverged: 'The cases that diverged',
+    myMark: 'Your mark',
+    theirMark: 'The other reading',
+    settledAt: 'Settled at',
+    nearerMine: 'nearer your reading',
+    nearerTheirs: 'nearer the other reading',
+    nearerEqual: 'midway',
+    unsettled: 'not yet settled',
+    bandCrossings: function (n) { return n + ' case' + (n === 1 ? '' : 's') + ' where the two readings crossed an honours threshold'; },
+    points: function (n) { return n + ' points'; },
     nothing: '—',
   };
 
@@ -638,6 +676,102 @@
       .catch(function (err) { $('#state').textContent = K.trouble(err); });
   }
 
+  /* ── A MARKER'S OWN RELIABILITY ────────────────────────────────── */
+
+  /**
+   * The handbook's promise, rendered.
+   *
+   * THE SUMMARY IS NOT THE POINT. "A marker told only that a standard
+   * drifted can do nothing; one shown where and by how much corrects it
+   * in the next batch" — so the four figures are drawn small and the
+   * divergences are drawn as a list, one per case, with the criterion
+   * named and both marks on it.
+   *
+   * `bias` is set in words as well as a number, because "+2.4" needs a
+   * reader to remember which sign means what, and the whole value of
+   * the figure is that it can be acted on without thinking about it.
+   */
+  function drawAgreement(a) {
+    var host = $('[data-agreement]');
+    host.textContent = '';
+    $('[data-agreement-head]').textContent = T.agreementHead;
+    $('[data-agreement-basis]').textContent = a.undertaking + ' — ' + a.window.note;
+
+    if (!a.paired) {
+      // Null, never nought. See the endpoint: a marker who has been read
+      // alongside nobody has no agreement figure, and 0% would say they
+      // agreed with nobody.
+      host.appendChild(el('p', 'agr-none', T.agreementNone));
+      $('#secAgreement').hidden = false;
+      return;
+    }
+
+    var figures = el('div', 'agr-figures');
+    [
+      [T.agreementPct, a.agreement + '%'],
+      [T.agreementPaired, String(a.paired)],
+      [T.meanDiv, T.points(a.meanDivergence)],
+      [T.bias, (a.bias > 0 ? '+' : '') + a.bias + ' · '
+        + (Math.abs(a.bias) < 0.5 ? T.biasLevel : (a.bias > 0 ? T.biasAbove : T.biasBelow))],
+    ].forEach(function (pair) {
+      var f = el('div', 'agr-figure');
+      f.appendChild(el('p', 'agr-figure__label', pair[0]));
+      f.appendChild(el('p', 'agr-figure__value', pair[1]));
+      figures.appendChild(f);
+    });
+    host.appendChild(figures);
+
+    if (a.bandCrossings) {
+      host.appendChild(el('p', 'agr-bands', T.bandCrossings(a.bandCrossings)));
+    }
+
+    if (!a.divergences.length) return void ($('#secAgreement').hidden = false);
+
+    var head = el('h3', 'agr-diverged', T.diverged);
+    host.appendChild(head);
+
+    var list = el('ul', 'agr-list');
+    a.divergences.forEach(function (d) {
+      var li = el('li', 'agr-case');
+      var name = el('p', 'agr-case__name');
+      name.appendChild(document.createTextNode(
+        (AR && d.criterionNameAr ? d.criterionNameAr : d.criterionName) + ' · '));
+      var ref = el('code', null, d.sittingReference);
+      ref.setAttribute('dir', 'ltr');
+      name.appendChild(ref);
+      li.appendChild(name);
+
+      var marks = el('p', 'agr-case__marks');
+      marks.appendChild(K.chip(T.myMark + ' ' + d.myMark, 'good'));
+      marks.appendChild(K.chip(T.theirMark + ' ' + d.theirMark));
+      marks.appendChild(K.chip((d.gap > 0 ? '+' : '') + d.gap,
+        Math.abs(d.gap) > a.tolerancePoints ? 'warn' : null));
+      li.appendChild(marks);
+
+      var out = el('p', 'agr-case__settled');
+      if (d.settled) {
+        out.textContent = T.settledAt + ' ' + d.settled.mark + ' · '
+          + (d.settledNearer === 'mine' ? T.nearerMine
+            : (d.settledNearer === 'theirs' ? T.nearerTheirs : T.nearerEqual));
+      } else {
+        out.textContent = T.unsettled;
+        out.classList.add('agr-case__settled--open');
+      }
+      li.appendChild(out);
+      list.appendChild(li);
+    });
+    host.appendChild(list);
+    $('#secAgreement').hidden = false;
+  }
+
+  function loadAgreement() {
+    api('/api/staff/marker-agreement')
+      .then(drawAgreement)
+      // A reliability figure that failed to load must not take the
+      // marking queue down with it. The section simply stays hidden.
+      .catch(function () { $('#secAgreement').hidden = true; });
+  }
+
   /* ── LOAD ──────────────────────────────────────────────────────── */
 
   function load() {
@@ -663,5 +797,6 @@
       $('#secScript').hidden = true;
     });
     load();
+    loadAgreement();
   });
 })();

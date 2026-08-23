@@ -227,6 +227,32 @@ let firstMarks = null;
 }
 
 // ═══════════════════════════════════════════════════════════════════
+// 2b · THE ARABIC MARKING SCREEN
+// ═══════════════════════════════════════════════════════════════════
+{
+  // RUN HERE, and the position in this file is load-bearing. The
+  // script carries exactly one reading at this point, so it is in the
+  // second-marking queue; once the second reading is recorded below it
+  // is under reconciliation and in neither queue. The Arabic edition is
+  // driven through the same two controls an Arabic-reading marker would
+  // use rather than by opening the script by its id.
+  const { ctx, page } = await open('/ar/staff-examinations.html', { marker: 'second' });
+  await page.selectOption('[data-role]', 'second');
+  await page.waitForTimeout(900);
+  const queued = await page.$$('[data-queue] .stf-item');
+  check('the Arabic second-marking queue holds the once-read script',
+    queued.length === 1, String(queued.length));
+  await page.click('[data-queue] .acc-open');
+  await page.waitForSelector('.exm-crit', { timeout: 15000 });
+  const descriptors = (await page.textContent('[data-script]') || '');
+  check('the Arabic marking screen renders the rubric in Arabic',
+    ARABIC.test(descriptors), descriptors.slice(0, 90));
+  check('...and does not fall back to the English descriptors',
+    !/Follows an extended exchange/.test(descriptors));
+  await ctx.close();
+}
+
+// ═══════════════════════════════════════════════════════════════════
 // 3 · THE SECOND MARKER — THE RULE THE WHOLE SUBSYSTEM EXISTS FOR
 // ═══════════════════════════════════════════════════════════════════
 {
@@ -258,6 +284,60 @@ let firstMarks = null;
   check('...and the button says which reading this is',
     /second/i.test(submit), submit);
 
+  // RECORD THE SECOND READING, deliberately diverging on one criterion
+  // by more than the published tolerance. This is what gives the
+  // reliability section something to report and opens a reconciliation
+  // through the interface rather than through the library.
+  const ids = await page.$$eval('.exm-crit input[type="number"]', (ns) => ns.map((n) => n.id));
+  const secondValues = [76, 85, 83, 87];
+  for (let i = 0; i < ids.length; i++) await page.fill('#' + ids[i], String(secondValues[i]));
+  await page.click('.exm-form button[type="submit"]');
+  await page.waitForTimeout(1600);
+  const after = (await page.textContent('#secScript') || '');
+  check('the second reading lands, and a reconciliation is opened by the divergence',
+    /econcil/i.test(after), after.replace(/\s+/g, ' ').slice(0, 120));
+
+  await ctx.close();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 3b · A MARKER'S OWN RELIABILITY
+// ═══════════════════════════════════════════════════════════════════
+// /academics/tutor-handbook/ § VI is an undertaking to every member of
+// academic staff, and until the examination had a table there was
+// nothing to compute it from. The checks are about the half of the
+// promise a summary percentage would drop: "with the cases that
+// diverged".
+{
+  // The first marker, whose reading now has a second beside it.
+  const { ctx, page } = await open('/staff-examinations.html');
+
+  const section = await page.$('#secAgreement:not([hidden])');
+  check('a marker who has been read alongside another is shown their reliability',
+    section !== null);
+
+  const basis = (await page.textContent('[data-agreement-basis]') || '').trim();
+  check('...introduced by the published undertaking itself',
+    /shown the agreement between their own marks/.test(basis), basis.slice(0, 90));
+  check('...and by what the window actually is, rather than calling it a term',
+    /rolling window rather than a term/.test(basis));
+
+  await page.waitForSelector('.agr-figure__value', { timeout: 10000 });
+  const figures = await page.$$eval('.agr-figure__value', (ns) => ns.map((n) => n.textContent.trim()));
+  check('four figures are drawn: agreement, pairs, mean divergence and direction',
+    figures.length === 4, JSON.stringify(figures));
+
+  const payload = await (await fetch(`${BASE}/api/staff/marker-agreement`)).json();
+  check('the endpoint agrees with the screen about how many pairs there were',
+    figures[1] === String(payload.paired), `${figures[1]} vs ${payload.paired}`);
+  check('...and the direction is set in words as well as a number',
+    /above|below|no measurable direction/.test(figures[3]), figures[3]);
+
+  const cases = await page.$$('.agr-case');
+  check('every divergence the endpoint reports is drawn as its own case',
+    cases.length === payload.divergences.length,
+    `${cases.length} vs ${payload.divergences.length}`);
+
   await ctx.close();
 }
 
@@ -284,27 +364,6 @@ let firstMarks = null;
   }
   await ctx.close();
 }
-{
-  // By this point the script carries a first reading, so it is in the
-  // SECOND-marking queue and not the first. The Arabic edition is
-  // driven through the same two controls an Arabic-reading marker
-  // would use, rather than by opening the script by its id.
-  const { ctx, page } = await open('/ar/staff-examinations.html', { marker: 'second' });
-  await page.selectOption('[data-role]', 'second');
-  await page.waitForTimeout(900);
-  const queued = await page.$$('[data-queue] .stf-item');
-  check('the Arabic second-marking queue holds the once-read script',
-    queued.length === 1, String(queued.length));
-  await page.click('[data-queue] .acc-open');
-  await page.waitForSelector('.exm-crit', { timeout: 15000 });
-  const descriptors = (await page.textContent('[data-script]') || '');
-  check('the Arabic marking screen renders the rubric in Arabic',
-    ARABIC.test(descriptors), descriptors.slice(0, 90));
-  check('...and does not fall back to the English descriptors',
-    !/Follows an extended exchange/.test(descriptors));
-  await ctx.close();
-}
-
 // ═══════════════════════════════════════════════════════════════════
 // 5 · THE PAPER-SETTING CONSOLE
 // ═══════════════════════════════════════════════════════════════════

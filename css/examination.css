@@ -464,3 +464,103 @@
 @media (forced-colors: active) {
   .exm-said.exm-said { border: 1px solid CanvasText; }
 }
+
+/* ── A MARKER'S OWN RELIABILITY ──────────────────────────────────────
+   /academics/tutor-handbook/ § VI: "A marker told only that a standard
+   drifted can do nothing; one shown where and by how much corrects it
+   in the next batch."
+
+   That sentence is the whole layout brief. The four summary figures
+   are set SMALL and in a row — they are context, not the finding — and
+   the divergences are the body of the section, one case to a line with
+   both marks on it. A design that made the agreement percentage the
+   largest thing here would be a design that delivered the half of the
+   promise the handbook says is useless. */
+
+.agr { display: grid; gap: 1.2rem; }
+
+.agr-none {
+  margin: 0;
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  border-inline-start: 3px solid var(--gold, #C7A24A);
+  background: color-mix(in oklab, var(--gold, #C7A24A) 7%, transparent);
+  font: 400 .95rem/1.75 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 78%, transparent);
+}
+
+.agr-figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: .8rem;
+}
+.agr-figure {
+  padding: .9rem 1rem;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--pearl, #F1EDE3) 60%, transparent);
+  border: 1px solid color-mix(in oklab, var(--ink, #16202E) 10%, transparent);
+}
+.agr-figure__label {
+  margin: 0;
+  font: 600 .66rem/1.4 var(--font-body, Georgia, serif);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold-deep, #795A32);
+}
+[lang="ar"] .agr-figure__label { letter-spacing: normal; text-transform: none; font-size: .8rem; }
+.agr-figure__value {
+  margin: .2rem 0 0;
+  font: 600 1.06rem/1.4 var(--font-display, Georgia, serif);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink, #16202E);
+}
+
+.agr-bands {
+  margin: 0;
+  font: 400 .92rem/1.7 var(--font-body, Georgia, serif);
+  color: var(--gold-deep, #795A32);
+}
+
+.agr-diverged {
+  margin: 0;
+  font: 600 1.08rem/1.35 var(--font-display, Georgia, serif);
+  color: var(--ink, #16202E);
+}
+
+.agr-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+.agr-case {
+  padding: .9rem 1.1rem;
+  border-radius: 10px;
+  background: var(--paper, #FCFAF4);
+  border: 1px solid color-mix(in oklab, var(--ink, #16202E) 12%, transparent);
+  display: grid;
+  gap: .4rem;
+}
+.agr-case__name {
+  margin: 0;
+  font: 600 .98rem/1.45 var(--font-body, Georgia, serif);
+  color: var(--ink, #16202E);
+}
+.agr-case__name code {
+  font: 500 .84rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: color-mix(in oklab, var(--ink, #16202E) 66%, transparent);
+}
+.agr-case__marks { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; }
+.agr-case__settled {
+  margin: 0;
+  font: 400 .9rem/1.6 var(--font-body, Georgia, serif);
+  color: color-mix(in oklab, var(--ink, #16202E) 68%, transparent);
+}
+.agr-case__settled--open { color: var(--gold-deep, #795A32); font-weight: 600; }
+
+.section--dark .agr-case, .section--deep .agr-case,
+.section--dark .agr-figure, .section--deep .agr-figure {
+  background: color-mix(in oklab, var(--midnight, #0E1B33) 88%, transparent);
+  border-color: color-mix(in oklab, var(--gold, #C7A24A) 30%, transparent);
+}
+.section--dark .agr-case__name, .section--deep .agr-case__name,
+.section--dark .agr-figure__value, .section--deep .agr-figure__value { color: var(--pearl, #F1EDE3); }
+
+@media (forced-colors: active) {
+  .agr-case.agr-case, .agr-figure.agr-figure { border: 1px solid CanvasText; }
+}

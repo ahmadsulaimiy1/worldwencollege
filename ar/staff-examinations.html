@@ -43,7 +43,7 @@
 <link rel="stylesheet" href="/css/account.css?v=0fa02059">
 <link rel="stylesheet" href="/css/desk.css?v=8733261d">
 <link rel="stylesheet" href="/css/console.css?v=b075d277">
-<link rel="stylesheet" href="/css/examination.css?v=2bde9f36">
+<link rel="stylesheet" href="/css/examination.css?v=1614bcc5">
 <!-- LAST, and that ordering is load-bearing. Script-specific typography
      has to be able to override the general stylesheets, because those
      set tracking and leading tuned to Latin faces and Arabic inherits
@@ -1133,6 +1133,20 @@
         <div class="exm-script" data-script></div>
       </section>
 
+      <!-- موثوقيّتك أنت — يُنشر هذا في دليل المدرّس § VI تعهّدًا لكلّ
+           عضوٍ في الهيئة: «يُعرَض على المصحِّح كلَّ فصلٍ مدى اتّفاق
+           درجاته مع درجات المصحِّح الثاني، ومعها الحالاتُ التي اختلفا
+           فيها». وموضعُه هنا لا في صفحةٍ مستقلّة لأنّه عن تصحيح هذا
+           المصحِّح، ورقمُ موثوقيّةٍ يُضطرّ المدرّس أن يذهب إليه في مكانٍ
+           آخر رقمٌ يُقرأ مرّةً واحدة. -->
+      <section class="acc-block reveal" id="secAgreement" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg> <span data-agreement-head>موثوقيّتك أنت</span></h2>
+        </div>
+        <p class="stf-basis" data-agreement-basis></p>
+        <div class="agr" data-agreement></div>
+      </section>
+
       <section class="acc-block reveal" id="secRule">
         <div class="desk-head">
           <h2><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg> قارئان، ومعيارٌ منشورٌ واحد</h2>
@@ -1515,12 +1529,12 @@
 <script src="/js/atelier.js?v=989e1ca8" defer></script>
 <script src="/js/worldclock.js?v=99a644de" defer></script>
 <script src="/js/intake.js?v=5238c58f" defer></script>
-<script src="/js/sonics.js?v=ffb5cde2" defer></script>
+<script src="/js/sonics.js?v=64a04468" defer></script>
 <script src="/js/auth-config.js?v=55a73de7"></script>
 <script src="/js/clerk-loader.js?v=0d9cae5a"></script>
 <script src="/js/portal-guard.js?v=6ae6fb6c"></script>
 <script src="/js/api-auth.js?v=a45735fc"></script>
 <script src="/js/staff-kit.js?v=d7f148b2"></script>
-<script src="/js/staff-examinations.js?v=51ecd439"></script>
+<script src="/js/staff-examinations.js?v=ff29e117"></script>
 </body>
 </html>

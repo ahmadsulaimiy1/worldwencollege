@@ -144,6 +144,7 @@ wrong rule was published three ways.
 | **The level examination** — what the candidate is entered for, the sitting reference they read aloud, the window, the three-hour clock, the lateness band, the released mark and whether it is still provisional; and the whole published procedure in the reader's own language | `GET`,`POST /api/student/examination` | learner | `level_examinations`, `examination_papers`, `examination_criteria`, `examination_marks`, `examination_reconciliations` r; `level_examinations` w (open, submit) | **Yes** — `/my-examination.html`, both editions |
 | **The marking queue, and one script prepared for a marker** — first-marking and second-marking queues, oldest first, with the other reader's numbers WITHHELD until the marker's own are recorded | `GET /api/staff/examinations` | staff | same, r | **Yes** — `/staff-examinations.html`, both editions |
 | **Enter a candidate, record a reading, settle a reconciliation, mark the spoken paper, release, close moderation, set aside, void, lift a late cap** | `POST /api/staff/examinations` (`?action=`) | staff (+ teaching relation to enter) | same, w; `examination_events` w | **Yes** — the same page |
+| **A marker's own reliability** — their agreement with their second markers over a rolling window, the mean divergence, the DIRECTION of it, and every case that diverged with both marks, the criterion and what settled it | `GET /api/staff/marker-agreement` | staff (own id, from the session) | `examination_marks`, `examination_reconciliations` r | **Yes** — a section on `/staff-examinations.html`, both editions |
 | **Author an examination paper and its rubric, and publish it** — publishing is what stamps `rubric_published_on`, and it refuses a rubric whose weights do not sum to 1, one that measures fewer than four skills, or one with no spoken criterion | `GET`,`POST /api/admin/examination-papers` | admin | `examination_papers`, `examination_criteria` rw | **Yes** — `/staff-papers.html`, both editions |
 | **The learner's own engagement record** — a week-by-week grid per module, every state carrying the evidence it was read from and the clause it satisfies, with the platform's own recomputed reading beside any staff override | `GET /api/student/attendance` | learner | `attendance_records`, `time_on_task`, `quiz_attempts`, `assignment_submissions`, `learner_recordings`, `unit_progress` r | **Yes** — `/my-engagement.html` |
 | A tutor's roster, or one learner's record in full | `GET /api/staff/attendance` | staff + teaching relation | same, r | **Yes** — `/staff-learners.html` |
@@ -437,6 +438,30 @@ This is the map the next pass builds from.
       change is a marker who presses it twice, and on this screen
       pressing it twice is refused with `already_marked`, which reads
       as the platform having lost the first press.
+
+### Two W3 findings recorded rather than acted on
+
+**The applicant cannot supply a document after submitting.** Uploads
+happen in the admissions wizard, through
+`POST /api/admissions/document`, which is session-authenticated and
+scopes every read and delete to the caller. `/admissions/track/` — the
+page an applicant returns to — is REFERENCE-authenticated: the `app_`
+reference is the only key, and the endpoint's own header says so at
+length. Adding an upload there would widen a documented read credential
+into one that accepts files, and that is not a change to make on a
+build's own initiative. It is written here so the next pass decides it
+deliberately: either applicants sign in to supply documents after
+submission, or the reference gains write scope and the instrument says
+so.
+
+**Moderation still has no register.** The tutor handbook publishes a
+five-part weighted sample and the rule that a batch may be returned for
+re-marking while one learner's mark may not be moved alone. Migration
+023 deliberately did not build it — a `moderated` flag with nothing
+behind it is worse than none — and that ruling has not changed. What
+DID change is that the marker-agreement instrument above now exists, so
+the committee's view is the only part still missing rather than the
+whole apparatus.
 
 ### The twenty-four learner surfaces, and where each one is
 

@@ -106,6 +106,7 @@ const instVerify = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/i
 const distinctions = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/distinctions.js`));
 const documents = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/documents.js`));
 const conferralLib = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/conferral.js`));
+const agreementLib = await import(pathToFileURL(`${ROOT}/functions/_lib/academic/marker-agreement.js`));
 // Beats reaching the harness, so a browser test can assert the beacon
 // actually fires rather than that the file merely loads.
 const beats = [];
@@ -1332,6 +1333,21 @@ createServer(async (req, res) => {
     // The Registrar's act, driven by the real library against the real
     // register. The actor is fixed to the administrator, as every other
     // admin route in this harness fixes it.
+    // ── A MARKER'S OWN RELIABILITY ─────────────────────────────────
+    // The marker is the session everywhere in production; here it is
+    // the cookie the browser test sets, for the same reason the
+    // examination routes take it from there — the pages carry no actor.
+    if (url.pathname === '/api/staff/marker-agreement' && req.method === 'GET') {
+      const cookie = String(req.headers.cookie || '');
+      const who = /(^|;\s*)lab_marker=second(;|$)/.test(cookie) ? 'usr_admin' : 'usr_tutor';
+      try {
+        return json(res, await agreementLib.markerAgreement(env, { markerId: who }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 400, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
+    }
+
     if (url.pathname === '/api/admin/conferral') {
       try {
         if (req.method === 'GET') {
