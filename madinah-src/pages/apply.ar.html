@@ -1,0 +1,44 @@
+<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">القبول</span>
+    <h1>طلب الالتحاق</h1>
+    <p class="lede">عشرُ خطوات. تسأل الكلية ها هنا كثيرًا وتسأله مرةً واحدة: فما يُقيَّد
+      الآن هو الذي يُنقش على شهادةٍ بعد سنين، ولا تُعاد وثيقةٌ لأن اسمًا كُتب على عجل.</p>
+    <p class="lede"><strong>ويُحفظ على جهازك أولًا بأول</strong> &mdash; أغلق الصفحة ثم
+      عُد إليها في المتصفح نفسه تجدها حيث تركتها. ولا يُرسل منه شيءٌ في أيِّ لحظة، لا إلى
+      الكلية ولا إلى غيرها، حتى ترسله أنت في الخطوة الأخيرة.</p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="apply">
+
+      <nav class="apply__ledger" aria-label="الخطوات">
+        <p class="apply__ledger-label">الطلب</p>
+        <ol>
+{{APPLICATION_LEDGER}}
+        </ol>
+        <p class="apply__saved" data-apply-saved hidden></p>
+      </nav>
+
+      <form class="apply__form" id="apply-form" novalidate>
+{{APPLICATION_STEPS}}
+
+        <p class="form-status" id="apply-status" role="status" aria-live="polite" hidden></p>
+
+        <div class="apply__nav">
+          <button type="button" class="btn btn--outline" data-apply-back>السابق</button>
+          <button type="button" class="btn btn--gold" data-apply-next>التالي</button>
+          <button type="submit" class="btn btn--gold" data-apply-send hidden>إرسال إلى شؤون الطلاب</button>
+          <button type="button" class="btn btn--outline" data-apply-copy hidden>نسخ</button>
+          <button type="button" class="btn btn--outline" data-apply-print hidden>طباعة أو حفظ</button>
+        </div>
+
+        <p class="apply__discard"><button type="button" class="linklike" data-apply-clear>احذف
+          هذا الطلب وابدأ من جديد</button></p>
+      </form>
+
+    </div>
+  </div>
+</section>

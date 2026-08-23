@@ -1,0 +1,46 @@
+<section class="section--dark section-pad">
+  <div class="container">
+    <span class="eyebrow">Admission</span>
+    <h1>Application for Admission</h1>
+    <p class="lede">Ten steps. The College asks a great deal here, and asks it once: what
+      it records now is what will be engrossed on a certificate years from now, and an
+      instrument is not reissued because a name was entered casually.</p>
+    <p class="lede"><strong>It is saved on your own device as you go</strong> &mdash; close
+      the page and come back to it, on the same browser, and it will be where you left it.
+      Nothing is transmitted at any point, to the College or to anyone else, until you
+      send it yourself at the last step.</p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container reveal">
+    <div class="apply">
+
+      <nav class="apply__ledger" aria-label="Steps">
+        <p class="apply__ledger-label">The application</p>
+        <ol>
+{{APPLICATION_LEDGER}}
+        </ol>
+        <p class="apply__saved" data-apply-saved hidden></p>
+      </nav>
+
+      <form class="apply__form" id="apply-form" novalidate>
+{{APPLICATION_STEPS}}
+
+        <p class="form-status" id="apply-status" role="status" aria-live="polite" hidden></p>
+
+        <div class="apply__nav">
+          <button type="button" class="btn btn--outline" data-apply-back>Back</button>
+          <button type="button" class="btn btn--gold" data-apply-next>Continue</button>
+          <button type="submit" class="btn btn--gold" data-apply-send hidden>Send to the Registry</button>
+          <button type="button" class="btn btn--outline" data-apply-copy hidden>Copy</button>
+          <button type="button" class="btn btn--outline" data-apply-print hidden>Print or save</button>
+        </div>
+
+        <p class="apply__discard"><button type="button" class="linklike" data-apply-clear>Discard
+          this application and start again</button></p>
+      </form>
+
+    </div>
+  </div>
+</section>

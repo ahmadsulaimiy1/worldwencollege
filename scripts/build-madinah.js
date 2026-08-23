@@ -173,6 +173,166 @@ function focalFor(spec) {
   if (pair && +pair[1] <= 100 && +pair[2] <= 100) return pair[1] + '% ' + pair[2] + '%';
   throw new Error('PHOTO: unknown focal point "' + spec + '"');
 }
+// ---------------------------------------------------------------------
+// SELECT LISTS, BUILT IN RATHER THAN FETCHED
+//
+// The Founder's instruction on the application: a reader should SELECT
+// from what is relevant, not be told to type it. Two lists follow from
+// that — every country in the world, and the states of Nigeria — and both
+// are written into the markup at build time rather than fetched at
+// runtime. Three reasons, in order of weight:
+//
+//   · a form that needs a network request before it can be filled in is a
+//     form that fails on a bad connection, which is a great many of the
+//     students this College exists for;
+//   · it works with JavaScript disabled;
+//   · and the option list is then in the page a search engine and a
+//     screen reader both read, rather than assembled after the fact.
+//
+// THE COUNTRIES ARE NOT MY LIST. They are enumerated from ICU — every
+// ISO 3166-1 alpha-2 code the platform recognises, named in English and
+// in Arabic by the same authority — with the thirteen exceptionally
+// reserved and user-assigned codes removed, because the European Union
+// and Diego Garcia are not nationalities. 267 remain.
+// ---------------------------------------------------------------------
+const COUNTRIES = JSON.parse(fs.readFileSync(path.join(SRC, 'data', 'countries.json'), 'utf8'));
+const NG_STATES = JSON.parse(fs.readFileSync(path.join(SRC, 'data', 'nigeria-states.json'), 'utf8'));
+
+// ---------------------------------------------------------------------
+// THE APPLICATION, RENDERED FROM ONE SPEC INTO BOTH TREES
+//
+// Ten steps and fifty-six fields, authored once in
+// madinah-src/data/application.json with an `en` and an `ar` on every
+// label, hint and option. The two trees are GENERATED from it, which is
+// the only arrangement under which they cannot drift: a field added in
+// English is a field added in Arabic, and a label that has no Arabic is
+// a build-time failure rather than a page a reader meets in the wrong
+// language.
+//
+// The alternative — two hand-written forms — was tried on this site at
+// smaller scale and produced exactly what the grid audit later found:
+// an Arabic page missing a fallback the English one had, and two ledes
+// telling readers different things.
+// ---------------------------------------------------------------------
+const APPLICATION = JSON.parse(fs.readFileSync(path.join(SRC, 'data', 'application.json'), 'utf8'));
+
+const AR_DIGITS = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+function num(n, lang) {
+  return lang === 'ar' ? String(n).replace(/[0-9]/g, (d) => AR_DIGITS[+d]) : String(n);
+}
+
+function L(row, lang) { return lang === 'ar' ? (row.ar || row.en) : row.en; }
+
+function fieldHtml(f, lang) {
+  const label = L(f, lang);
+  const req = f.req ? ' <span class="apply__req" aria-hidden="true">*</span>' : '';
+  const reqAttr = f.req ? ' required' : '';
+  const ac = f.ac ? ' autocomplete="' + f.ac + '"' : '';
+  const hint = f.hint
+    ? '\n          <p class="form-note">' + (lang === 'ar' ? (f.hintAr || f.hint) : f.hint) + '</p>'
+    : '';
+  let control;
+  if (f.type === 'select') {
+    const opts = (f.opts || []).map((o) =>
+      '<option value="' + o.v + '">' + L(o, lang) + '</option>').join('\n            ');
+    control = '<select id="f-' + f.id + '" data-label="' + label + '"' + reqAttr + '>\n'
+      + '            <option value="">&mdash;</option>\n            ' + opts + '\n          </select>';
+  } else if (f.type === 'country') {
+    control = '<select id="f-' + f.id + '" data-label="' + label + '"' + reqAttr + ac + '>\n'
+      + '            <option value="">&mdash;</option>\n              {{COUNTRY_OPTIONS}}\n          </select>';
+  } else if (f.type === 'ngstate') {
+    control = '<select id="f-' + f.id + '" data-label="' + label + '"' + reqAttr + '>\n'
+      + '            <option value="">&mdash;</option>\n              {{NG_STATE_OPTIONS}}\n          </select>';
+  } else if (f.type === 'textarea') {
+    control = '<textarea id="f-' + f.id + '" data-label="' + label + '" rows="4"' + reqAttr + '></textarea>';
+  } else {
+    control = '<input id="f-' + f.id + '" data-label="' + label + '" type="' + f.type + '"' + reqAttr + ac + '>';
+  }
+  return '        <div class="field' + (f.full ? ' field--full' : '') + '">\n'
+    + '          <label for="f-' + f.id + '">' + label + req + '</label>\n'
+    + '          ' + control + hint + '\n        </div>';
+}
+
+function applicationHtml(lang) {
+  const steps = APPLICATION.steps;
+  const total = steps.length + 1;   // + declarations and review
+
+  const ledger = steps.map((st, i) =>
+    '        <li class="apply__ledger-row" data-ledger="' + st.id + '">'
+    + '<span class="apply__ledger-n">' + num(i + 1, lang) + '</span>'
+    + '<span class="apply__ledger-t">' + L(st, lang) + '</span></li>'
+  ).concat([
+    '        <li class="apply__ledger-row" data-ledger="declare">'
+    + '<span class="apply__ledger-n">' + num(total, lang) + '</span>'
+    + '<span class="apply__ledger-t">'
+    + (lang === 'ar' ? 'الإقرار والمراجعة' : 'Declarations and review')
+    + '</span></li>'
+  ]).join('\n');
+
+  const panels = steps.map((st, i) => {
+    const note = (lang === 'ar' ? st.noteAr : st.noteEn);
+    return '      <fieldset class="apply__step" data-step="' + st.id + '" hidden>\n'
+      + '        <legend class="apply__legend">'
+      + '<span class="apply__legend-n">' + (lang === 'ar' ? 'الخطوة ' : 'Step ') + num(i + 1, lang)
+      + (lang === 'ar' ? ' من ' : ' of ') + num(total, lang) + '</span>'
+      + '<span class="apply__legend-t">' + L(st, lang) + '</span></legend>\n'
+      + (note ? '        <p class="apply__note">' + note + '</p>\n' : '')
+      + '        <div class="form-grid">\n'
+      + st.fields.map((f) => fieldHtml(f, lang)).join('\n') + '\n'
+      + '        </div>\n      </fieldset>';
+  }).join('\n\n');
+
+  const t = lang === 'ar' ? {
+    legendN: 'الخطوة ' + num(total, lang) + ' من ' + num(total, lang),
+    legendT: 'الإقرار والمراجعة',
+    note: 'اقرأ ما حرَّرته كاملًا قبل إرساله. وهذا نصُّ ما يصل شؤون الطلاب، حرفًا بحرف.',
+    d1: 'أقرُّ بأن ما ذكرته في هذا الطلب صحيحٌ على حدِّ علمي، وأن الوثيقة التي ذكرتُها لي.',
+    d2: 'قرأتُ صفحة <a href="/ar/safeguarding/">حماية الطلاب وضوابط التدريس</a> وأقبل ما فيها.',
+    d3: 'أعلم أن الكلية لا تأخذ رسومًا دراسية، وأن ما يُدفع إنما هو ثمنُ أعيانٍ اختيارية.',
+    sig: 'التوقيع — اكتب اسمك كاملًا',
+    sheet: 'ما سيصل شؤون الطلاب',
+    empty: 'يُكتب الطلب ها هنا كلَّما تقدَّمت.',
+  } : {
+    legendN: 'Step ' + num(total, lang) + ' of ' + num(total, lang),
+    legendT: 'Declarations and review',
+    note: 'Read the whole of what you have written before it is sent. What follows is the text the Registry receives, character for character.',
+    d1: 'I declare that what I have entered is true to the best of my knowledge, and that the identity document I named is mine.',
+    d2: 'I have read <a href="/safeguarding/">Safeguarding &amp; Conduct of Teaching</a> and accept it.',
+    d3: 'I understand that the College charges no tuition, and that anything paid is the price of an optional object.',
+    sig: 'Signature &mdash; type your full name',
+    sheet: 'What the Registry will receive',
+    empty: 'The application is composed here as you go.',
+  };
+
+  const declare = '      <fieldset class="apply__step" data-step="declare" hidden>\n'
+    + '        <legend class="apply__legend"><span class="apply__legend-n">' + t.legendN + '</span>'
+    + '<span class="apply__legend-t">' + t.legendT + '</span></legend>\n'
+    + '        <p class="apply__note">' + t.note + '</p>\n'
+    + '        <div class="form-grid">\n'
+    + ['d-true', 'd-safeguarding', 'd-charges'].map((id, i) =>
+        '        <div class="field field--full apply__check">\n'
+        + '          <label for="f-' + id + '"><input id="f-' + id + '" type="checkbox" data-declaration required>'
+        + '<span>' + [t.d1, t.d2, t.d3][i] + '</span></label>\n        </div>').join('\n') + '\n'
+    + '        <div class="field field--full">\n'
+    + '          <label for="f-signature">' + t.sig + ' <span class="apply__req" aria-hidden="true">*</span></label>\n'
+    + '          <input id="f-signature" data-label="' + (lang === 'ar' ? 'التوقيع' : 'Signature') + '" type="text" required>\n'
+    + '        </div>\n        </div>\n'
+    + '        <div class="apply__sheet-wrap">\n'
+    + '          <p class="apply__sheet-label">' + t.sheet + '</p>\n'
+    + '          <pre class="apply__sheet" data-apply-preview>' + t.empty + '</pre>\n'
+    + '        </div>\n      </fieldset>';
+
+  return { ledger, panels: panels + '\n\n' + declare, total };
+}
+
+function optionsFrom(list, lang, valueKey) {
+  return list.map(function (row) {
+    const label = lang === 'ar' ? (row.ar || row.en) : row.en;
+    const value = valueKey ? row[valueKey] : row.en;
+    return '<option value="' + value + '">' + label + '</option>';
+  }).join('\n              ');
+}
+
 function fillPhotos(html) {
   return html.replace(/\{\{PHOTO:([a-z0-9-]+)\|([a-z0-9]+)(?:@([a-z0-9-]+))?\|([^}]*)\}\}/g,
     (m, name, ratio, focal, caption) => {
@@ -447,10 +607,21 @@ function build() {
         .join('') + (lang === 'ar' ? '\n<link rel="stylesheet" href="/css/arabic.css">' : ''),
     });
 
-    let content = fillPhotos(withContentsRail(
+    // Content data, filled in order: the application markup is generated
+    // first, and the option lists are then filled INSIDE it — the generated
+    // selects carry the same {{COUNTRY_OPTIONS}} token every hand-written
+    // one does, so there is one code path and not two.
+    const app = applicationHtml(lang);
+    const withOptions = (h) => h
+      .replace(/\{\{APPLICATION_LEDGER\}\}/g, app.ledger)
+      .replace(/\{\{APPLICATION_STEPS\}\}/g, app.panels)
+      .replace(/\{\{COUNTRY_OPTIONS\}\}/g, optionsFrom(COUNTRIES, lang, 'en'))
+      .replace(/\{\{NG_STATE_OPTIONS\}\}/g, optionsFrom(NG_STATES, lang, 'en'));
+
+    let content = withOptions(fillPhotos(withContentsRail(
       ornament(raiseMasthead(read(contentPath))),
       entry
-    ));
+    )));
 
     if (lang === 'ar') content = arLinks(content);
 

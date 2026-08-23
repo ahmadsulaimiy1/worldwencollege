@@ -1,0 +1,907 @@
+{
+ "steps": [
+  {
+   "id": "identity",
+   "en": "The applicant",
+   "ar": "الطالب",
+   "noteEn": "Names exactly as they appear on the identity document you name in the next step. The College engrosses certificates from this record, and a certificate is not reissued because a name was entered casually.",
+   "noteAr": "تُكتب الأسماء كما هي في وثيقة الهوية التي تذكرها في الخطوة التالية. فالكلية تنقش الشهادات من هذا القيد، ولا تُعاد شهادةٌ لأن اسمًا كُتب على عجل.",
+   "fields": [
+    {
+     "id": "given",
+     "en": "Given name",
+     "ar": "الاسم الأول",
+     "type": "text",
+     "req": true,
+     "ac": "given-name"
+    },
+    {
+     "id": "middle",
+     "en": "Middle name(s)",
+     "ar": "الاسم الأوسط",
+     "type": "text",
+     "ac": "additional-name"
+    },
+    {
+     "id": "family",
+     "en": "Family name",
+     "ar": "اسم العائلة",
+     "type": "text",
+     "req": true,
+     "ac": "family-name"
+    },
+    {
+     "id": "arabicname",
+     "en": "Name in Arabic script",
+     "ar": "الاسم بالحروف العربية",
+     "type": "text",
+     "hint": "As it should appear on an instrument of ijāzah.",
+     "hintAr": "كما يُكتب في سند الإجازة."
+    },
+    {
+     "id": "sex",
+     "en": "Sex",
+     "ar": "الجنس",
+     "type": "select",
+     "req": true,
+     "opts": [
+      {
+       "v": "Male",
+       "en": "Male",
+       "ar": "ذكر"
+      },
+      {
+       "v": "Female",
+       "en": "Female",
+       "ar": "أنثى"
+      }
+     ]
+    },
+    {
+     "id": "dob",
+     "en": "Date of birth",
+     "ar": "تاريخ الميلاد",
+     "type": "date",
+     "req": true,
+     "ac": "bday"
+    },
+    {
+     "id": "pobcountry",
+     "en": "Country of birth",
+     "ar": "بلد الميلاد",
+     "type": "country",
+     "req": true
+    },
+    {
+     "id": "pobplace",
+     "en": "Town or city of birth",
+     "ar": "مدينة الميلاد",
+     "type": "text"
+    },
+    {
+     "id": "nationality",
+     "en": "Nationality",
+     "ar": "الجنسية",
+     "type": "country",
+     "req": true
+    },
+    {
+     "id": "nationality2",
+     "en": "Second nationality, if any",
+     "ar": "جنسية أخرى إن وُجدت",
+     "type": "country"
+    },
+    {
+     "id": "marital",
+     "en": "Marital status",
+     "ar": "الحالة الاجتماعية",
+     "type": "select",
+     "opts": [
+      {
+       "v": "Single",
+       "en": "Single",
+       "ar": "أعزب"
+      },
+      {
+       "v": "Married",
+       "en": "Married",
+       "ar": "متزوج"
+      },
+      {
+       "v": "Widowed",
+       "en": "Widowed",
+       "ar": "أرمل"
+      },
+      {
+       "v": "Divorced",
+       "en": "Divorced",
+       "ar": "مطلق"
+      },
+      {
+       "v": "Prefer not to say",
+       "en": "Prefer not to say",
+       "ar": "أفضّل عدم الذكر"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "identification",
+   "en": "Proof of identity",
+   "ar": "إثبات الهوية",
+   "noteEn": "One document only, and the College does not ask you to upload it here — nothing on this page is transmitted. The Registry will request a scan by reply, over a channel you can see.",
+   "noteAr": "وثيقةٌ واحدة، ولا تطلب الكلية رفعها ها هنا؛ فليس في هذه الصفحة ما يُرسل. وتطلب شؤون الطلاب صورتَها في الرد، على قناةٍ تراها.",
+   "fields": [
+    {
+     "id": "idtype",
+     "en": "Type of document",
+     "ar": "نوع الوثيقة",
+     "type": "select",
+     "req": true,
+     "opts": [
+      {
+       "v": "International passport",
+       "en": "International passport",
+       "ar": "جواز سفر"
+      },
+      {
+       "v": "National identity card",
+       "en": "National identity card",
+       "ar": "بطاقة هوية وطنية"
+      },
+      {
+       "v": "National Identification Number (NIN)",
+       "en": "National Identification Number (NIN)",
+       "ar": "رقم الهوية الوطنية"
+      },
+      {
+       "v": "Driver's licence",
+       "en": "Driver's licence",
+       "ar": "رخصة قيادة"
+      },
+      {
+       "v": "Voter's card",
+       "en": "Voter's card",
+       "ar": "بطاقة ناخب"
+      },
+      {
+       "v": "Birth certificate",
+       "en": "Birth certificate",
+       "ar": "شهادة ميلاد"
+      },
+      {
+       "v": "Other",
+       "en": "Other",
+       "ar": "غير ذلك"
+      }
+     ]
+    },
+    {
+     "id": "idnumber",
+     "en": "Document number",
+     "ar": "رقم الوثيقة",
+     "type": "text",
+     "req": true
+    },
+    {
+     "id": "idcountry",
+     "en": "Country of issue",
+     "ar": "بلد الإصدار",
+     "type": "country",
+     "req": true
+    },
+    {
+     "id": "idissued",
+     "en": "Date of issue",
+     "ar": "تاريخ الإصدار",
+     "type": "date"
+    },
+    {
+     "id": "idexpiry",
+     "en": "Date of expiry",
+     "ar": "تاريخ الانتهاء",
+     "type": "date"
+    }
+   ]
+  },
+  {
+   "id": "contact",
+   "en": "Contact",
+   "ar": "الاتصال",
+   "noteEn": "Every decision of the Registry is sent in writing to the address below. Give one you will still hold in three years.",
+   "noteAr": "يُرسل كلُّ قرارٍ من شؤون الطلاب كتابةً إلى العنوان أدناه. فاذكر عنوانًا يبقى لك بعد ثلاث سنين.",
+   "fields": [
+    {
+     "id": "email",
+     "en": "Electronic mail",
+     "ar": "البريد الإلكتروني",
+     "type": "email",
+     "req": true,
+     "ac": "email"
+    },
+    {
+     "id": "email2",
+     "en": "Second address",
+     "ar": "بريدٌ آخر",
+     "type": "email"
+    },
+    {
+     "id": "phone",
+     "en": "Telephone, in international form",
+     "ar": "الهاتف بالصيغة الدولية",
+     "type": "tel",
+     "req": true,
+     "hint": "Beginning with the country code, for example +234 or +44.",
+     "hintAr": "يبدأ برمز الدولة، مثل ‎+234‎ أو ‎+44‎.",
+     "ac": "tel"
+    },
+    {
+     "id": "whatsapp",
+     "en": "WhatsApp, if different",
+     "ar": "واتساب إن اختلف",
+     "type": "tel"
+    },
+    {
+     "id": "contactpref",
+     "en": "Preferred means of reply",
+     "ar": "الوسيلة المفضّلة للرد",
+     "type": "select",
+     "opts": [
+      {
+       "v": "Electronic mail",
+       "en": "Electronic mail",
+       "ar": "البريد الإلكتروني"
+      },
+      {
+       "v": "WhatsApp",
+       "en": "WhatsApp",
+       "ar": "واتساب"
+      },
+      {
+       "v": "Telephone",
+       "en": "Telephone",
+       "ar": "الهاتف"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "residence",
+   "en": "Residence",
+   "ar": "محل الإقامة",
+   "noteEn": "Where you will study from. It sets your teaching section and the times of your live classes, and nothing else.",
+   "noteAr": "من أين ستدرس. يحدِّد ذلك شعبتَك ومواقيتَ حصصك المباشرة، ولا شيء غير ذلك.",
+   "fields": [
+    {
+     "id": "rescountry",
+     "en": "Country of residence",
+     "ar": "بلد الإقامة",
+     "type": "country",
+     "req": true,
+     "ac": "country-name"
+    },
+    {
+     "id": "resngstate",
+     "en": "State, if you reside in Nigeria",
+     "ar": "الولاية إن كنت في نيجيريا",
+     "type": "ngstate"
+    },
+    {
+     "id": "resstate",
+     "en": "State or province, elsewhere",
+     "ar": "الولاية أو المحافظة في غيرها",
+     "type": "text"
+    },
+    {
+     "id": "reslga",
+     "en": "Local Government Area",
+     "ar": "المجلس المحلي",
+     "type": "text",
+     "hint": "Nigerian applicants. The College holds no verified list of the 774 and will not print an unverified one, so this is written rather than chosen.",
+     "hintAr": "لمن يقيم في نيجيريا. ليس عند الكلية قائمةٌ موثَّقة بالـ٧٧٤، ولا تنشر غيرَ الموثَّق، فيُكتب هذا ولا يُختار."
+    },
+    {
+     "id": "rescity",
+     "en": "Town or city",
+     "ar": "المدينة",
+     "type": "text",
+     "req": true,
+     "ac": "address-level2"
+    },
+    {
+     "id": "resaddress",
+     "en": "Street address",
+     "ar": "العنوان",
+     "type": "text",
+     "full": true,
+     "ac": "street-address"
+    },
+    {
+     "id": "respostal",
+     "en": "Postal code",
+     "ar": "الرمز البريدي",
+     "type": "text",
+     "ac": "postal-code"
+    }
+   ]
+  },
+  {
+   "id": "kin",
+   "en": "Next of kin",
+   "ar": "أقرب الناس",
+   "noteEn": "One person the College may contact if it cannot reach you. If you are under eighteen this must be a parent or legal guardian, and the College writes to them before it admits you.",
+   "noteAr": "شخصٌ واحدٌ تتصل به الكلية إن لم تصل إليك. وإن كنت دون الثامنة عشرة فليكن والدًا أو وليًّا شرعيًّا، وتكاتبه الكلية قبل قبولك.",
+   "fields": [
+    {
+     "id": "kinname",
+     "en": "Full name",
+     "ar": "الاسم الكامل",
+     "type": "text",
+     "req": true
+    },
+    {
+     "id": "kinrel",
+     "en": "Relationship to you",
+     "ar": "صلته بك",
+     "type": "select",
+     "req": true,
+     "opts": [
+      {
+       "v": "Father",
+       "en": "Father",
+       "ar": "الأب"
+      },
+      {
+       "v": "Mother",
+       "en": "Mother",
+       "ar": "الأم"
+      },
+      {
+       "v": "Legal guardian",
+       "en": "Legal guardian",
+       "ar": "وليٌّ شرعي"
+      },
+      {
+       "v": "Spouse",
+       "en": "Spouse",
+       "ar": "الزوج أو الزوجة"
+      },
+      {
+       "v": "Brother or sister",
+       "en": "Brother or sister",
+       "ar": "أخ أو أخت"
+      },
+      {
+       "v": "Other relative",
+       "en": "Other relative",
+       "ar": "قريبٌ آخر"
+      }
+     ]
+    },
+    {
+     "id": "kinphone",
+     "en": "Telephone, in international form",
+     "ar": "الهاتف بالصيغة الدولية",
+     "type": "tel",
+     "req": true
+    },
+    {
+     "id": "kinemail",
+     "en": "Electronic mail",
+     "ar": "البريد الإلكتروني",
+     "type": "email"
+    },
+    {
+     "id": "kincountry",
+     "en": "Country",
+     "ar": "البلد",
+     "type": "country"
+    },
+    {
+     "id": "kincity",
+     "en": "Town or city",
+     "ar": "المدينة",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "id": "education",
+   "en": "Education",
+   "ar": "التعليم النظامي",
+   "noteEn": "Formal schooling only. Study at a madrasah belongs in the next step, and the absence of a certificate is not a bar here.",
+   "noteAr": "التعليم النظامي وحده. أمّا الدراسة في المدارس الشرعية فموضعها الخطوة التالية، وليس فقدُ الشهادة مانعًا هنا.",
+   "fields": [
+    {
+     "id": "edulevel",
+     "en": "Highest level completed",
+     "ar": "أعلى مرحلةٍ أتممتها",
+     "type": "select",
+     "req": true,
+     "opts": [
+      {
+       "v": "Primary",
+       "en": "Primary",
+       "ar": "الابتدائية"
+      },
+      {
+       "v": "Secondary",
+       "en": "Secondary",
+       "ar": "الثانوية"
+      },
+      {
+       "v": "Post-secondary certificate or diploma",
+       "en": "Post-secondary certificate or diploma",
+       "ar": "شهادةٌ أو دبلومٌ بعد الثانوية"
+      },
+      {
+       "v": "Bachelor's degree",
+       "en": "Bachelor's degree",
+       "ar": "بكالوريوس"
+      },
+      {
+       "v": "Master's degree",
+       "en": "Master's degree",
+       "ar": "ماجستير"
+      },
+      {
+       "v": "Doctorate",
+       "en": "Doctorate",
+       "ar": "دكتوراه"
+      },
+      {
+       "v": "None of these",
+       "en": "None of these",
+       "ar": "لا شيء من ذلك"
+      }
+     ]
+    },
+    {
+     "id": "eduinst",
+     "en": "Institution",
+     "ar": "المؤسسة",
+     "type": "text"
+    },
+    {
+     "id": "educountry",
+     "en": "Country of that institution",
+     "ar": "بلد المؤسسة",
+     "type": "country"
+    },
+    {
+     "id": "eduyear",
+     "en": "Year completed",
+     "ar": "سنة الإتمام",
+     "type": "text"
+    },
+    {
+     "id": "edufield",
+     "en": "Field of study",
+     "ar": "التخصص",
+     "type": "text"
+    },
+    {
+     "id": "englishlevel",
+     "en": "Your English",
+     "ar": "الإنجليزية عندك",
+     "type": "select",
+     "req": true,
+     "opts": [
+      {
+       "v": "None",
+       "en": "None",
+       "ar": "لا شيء"
+      },
+      {
+       "v": "Basic",
+       "en": "Basic",
+       "ar": "مبتدئ"
+      },
+      {
+       "v": "Good",
+       "en": "Good",
+       "ar": "جيد"
+      },
+      {
+       "v": "Fluent",
+       "en": "Fluent",
+       "ar": "طليق"
+      },
+      {
+       "v": "Native or near-native",
+       "en": "Native or near-native",
+       "ar": "كلغة أم أو قريبٌ منها"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "prior",
+   "en": "Prior Islamic study",
+   "ar": "الدراسة الشرعية السابقة",
+   "noteEn": "This is the part the College reads most closely. Say what you read and with whom; a candidate is placed on the evidence of this, not on a certificate.",
+   "noteAr": "هذا أدقُّ ما تقرؤه الكلية من الطلب. اذكر ما قرأتَ وعلى من؛ فإنما يُوضع الطالب ببيّنة هذا لا بشهادة.",
+   "fields": [
+    {
+     "id": "arabiclevel",
+     "en": "Your Arabic",
+     "ar": "العربية عندك",
+     "type": "select",
+     "req": true,
+     "opts": [
+      {
+       "v": "None at all",
+       "en": "None at all",
+       "ar": "لا شيء"
+      },
+      {
+       "v": "I know the letters; I read haltingly",
+       "en": "I know the letters; I read haltingly",
+       "ar": "أعرف الحروف وأقرأ متعثرًا"
+      },
+      {
+       "v": "I read aloud but understand little",
+       "en": "I read aloud but understand little",
+       "ar": "أقرأ جهرًا ولا أفهم كثيرًا"
+      },
+      {
+       "v": "I understand most of what I read",
+       "en": "I understand most of what I read",
+       "ar": "أفهم أكثر ما أقرأ"
+      },
+      {
+       "v": "I read, write and speak with ease",
+       "en": "I read, write and speak with ease",
+       "ar": "أقرأ وأكتب وأتكلم بيُسر"
+      }
+     ]
+    },
+    {
+     "id": "hifz",
+     "en": "Portion of the Qur'ān held",
+     "ar": "المحفوظ من القرآن",
+     "type": "select",
+     "opts": [
+      {
+       "v": "None",
+       "en": "None",
+       "ar": "لا شيء"
+      },
+      {
+       "v": "Some short sūrahs",
+       "en": "Some short sūrahs",
+       "ar": "سورٌ قصار"
+      },
+      {
+       "v": "One juz'",
+       "en": "One juz'",
+       "ar": "جزء"
+      },
+      {
+       "v": "Two to five ajzā'",
+       "en": "Two to five ajzā'",
+       "ar": "من جزأين إلى خمسة"
+      },
+      {
+       "v": "Six to fifteen ajzā'",
+       "en": "Six to fifteen ajzā'",
+       "ar": "من ستة إلى خمسة عشر"
+      },
+      {
+       "v": "Sixteen to twenty-nine ajzā'",
+       "en": "Sixteen to twenty-nine ajzā'",
+       "ar": "من ستة عشر إلى تسعة وعشرين"
+      },
+      {
+       "v": "The whole of it",
+       "en": "The whole of it",
+       "ar": "القرآن كله"
+      }
+     ]
+    },
+    {
+     "id": "riwayah",
+     "en": "Narration you read in",
+     "ar": "الرواية التي تقرأ بها",
+     "type": "select",
+     "opts": [
+      {
+       "v": "Ḥafṣ from ʿĀṣim",
+       "en": "Ḥafṣ from ʿĀṣim",
+       "ar": "حفص عن عاصم"
+      },
+      {
+       "v": "Warsh from Nāfiʿ",
+       "en": "Warsh from Nāfiʿ",
+       "ar": "ورش عن نافع"
+      },
+      {
+       "v": "Qālūn from Nāfiʿ",
+       "en": "Qālūn from Nāfiʿ",
+       "ar": "قالون عن نافع"
+      },
+      {
+       "v": "Al-Dūrī from Abū ʿAmr",
+       "en": "Al-Dūrī from Abū ʿAmr",
+       "ar": "الدوري عن أبي عمرو"
+      },
+      {
+       "v": "Another",
+       "en": "Another",
+       "ar": "غير ذلك"
+      },
+      {
+       "v": "I do not know",
+       "en": "I do not know",
+       "ar": "لا أعرف"
+      }
+     ]
+    },
+    {
+     "id": "priorwhere",
+     "en": "Where you studied, and with whom",
+     "ar": "أين درست وعلى من",
+     "type": "textarea",
+     "req": true,
+     "full": true,
+     "hint": "Name the school or the teacher. If it was at home, say so — it counts.",
+     "hintAr": "اذكر المدرسة أو الشيخ. وإن كان في البيت فقل ذلك — فهو محسوبٌ لك."
+    },
+    {
+     "id": "priortexts",
+     "en": "Texts you have read",
+     "ar": "المتون التي قرأتها",
+     "type": "textarea",
+     "full": true,
+     "hint": "For example: Tuḥfat al-Aṭfāl, al-Jazariyyah, al-Ājurrūmiyyah, ʿUmdat al-Aḥkām.",
+     "hintAr": "مثل: تحفة الأطفال، والجزرية، والآجرومية، وعمدة الأحكام."
+    },
+    {
+     "id": "ijazahheld",
+     "en": "Do you hold an ijāzah?",
+     "ar": "هل تحمل إجازة؟",
+     "type": "select",
+     "opts": [
+      {
+       "v": "No",
+       "en": "No",
+       "ar": "لا"
+      },
+      {
+       "v": "Yes, in a narration of the Qur'ān",
+       "en": "Yes, in a narration of the Qur'ān",
+       "ar": "نعم، في روايةٍ من روايات القرآن"
+      },
+      {
+       "v": "Yes, in a text of ḥadīth",
+       "en": "Yes, in a text of ḥadīth",
+       "ar": "نعم، في متنٍ من متون الحديث"
+      },
+      {
+       "v": "Yes, in something else",
+       "en": "Yes, in something else",
+       "ar": "نعم، في غير ذلك"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "programme",
+   "en": "The programme sought",
+   "ar": "البرنامج المطلوب",
+   "noteEn": "If you are not sure, leave the programme blank and ask the Registry to advise. Where to Begin will give you a reading in the meantime.",
+   "noteAr": "إن لم تستقرَّ فاترك البرنامج فارغًا واطلب مشورة شؤون الطلاب. وصفحةُ «من أين تبدأ» تعطيك قراءةً في الأثناء.",
+   "fields": [
+    {
+     "id": "faculty",
+     "en": "Faculty",
+     "ar": "الكلية",
+     "type": "select",
+     "req": true,
+     "opts": [
+      {
+       "v": "Qur'ānic Studies",
+       "en": "Qur'ānic Studies",
+       "ar": "الدراسات القرآنية"
+      },
+      {
+       "v": "Arabic Language",
+       "en": "Arabic Language",
+       "ar": "اللغة العربية"
+      },
+      {
+       "v": "Islamic Studies",
+       "en": "Islamic Studies",
+       "ar": "الدراسات الإسلامية"
+      },
+      {
+       "v": "Da'wah & Community Leadership",
+       "en": "Da'wah & Community Leadership",
+       "ar": "الدعوة والقيادة المجتمعية"
+      },
+      {
+       "v": "I should like the Registry to advise",
+       "en": "I should like the Registry to advise",
+       "ar": "أُحبّ أن تشير عليّ شؤون الطلاب"
+      }
+     ]
+    },
+    {
+     "id": "programme",
+     "en": "Programme",
+     "ar": "البرنامج",
+     "type": "text",
+     "hint": "Leave blank if you asked the Registry to advise.",
+     "hintAr": "اتركه فارغًا إن طلبت مشورة شؤون الطلاب."
+    },
+    {
+     "id": "mode",
+     "en": "Mode of study",
+     "ar": "نمط الدراسة",
+     "type": "select",
+     "req": true,
+     "opts": [
+      {
+       "v": "Group class (ḥalaqah)",
+       "en": "Group class (ḥalaqah)",
+       "ar": "حلقة جماعية"
+      },
+      {
+       "v": "Individual tuition",
+       "en": "Individual tuition",
+       "ar": "تدريسٌ فردي"
+      },
+      {
+       "v": "Ijāzah, one to one",
+       "en": "Ijāzah, one to one",
+       "ar": "إجازة، فردًا لفرد"
+      },
+      {
+       "v": "I do not know yet",
+       "en": "I do not know yet",
+       "ar": "لم أعرف بعد"
+      }
+     ]
+    },
+    {
+     "id": "language",
+     "en": "Language of instruction",
+     "ar": "لغة التدريس",
+     "type": "select",
+     "req": true,
+     "opts": [
+      {
+       "v": "Arabic",
+       "en": "Arabic",
+       "ar": "العربية"
+      },
+      {
+       "v": "English",
+       "en": "English",
+       "ar": "الإنجليزية"
+      },
+      {
+       "v": "Either",
+       "en": "Either",
+       "ar": "أيّهما"
+      }
+     ]
+    },
+    {
+     "id": "start",
+     "en": "Intended start",
+     "ar": "بداية الدراسة",
+     "type": "select",
+     "opts": [
+      {
+       "v": "The next semester",
+       "en": "The next semester",
+       "ar": "الفصل القادم"
+      },
+      {
+       "v": "Within the year",
+       "en": "Within the year",
+       "ar": "خلال العام"
+      },
+      {
+       "v": "I am enquiring only",
+       "en": "I am enquiring only",
+       "ar": "أستفسر فحسب"
+      }
+     ]
+    },
+    {
+     "id": "hours",
+     "en": "Hours a week you can give",
+     "ar": "الساعات الأسبوعية",
+     "type": "select",
+     "req": true,
+     "opts": [
+      {
+       "v": "Fewer than 3",
+       "en": "Fewer than 3",
+       "ar": "أقل من ثلاث"
+      },
+      {
+       "v": "3 to 5",
+       "en": "3 to 5",
+       "ar": "من ثلاثٍ إلى خمس"
+      },
+      {
+       "v": "6 to 10",
+       "en": "6 to 10",
+       "ar": "من ستٍّ إلى عشر"
+      },
+      {
+       "v": "More than 10",
+       "en": "More than 10",
+       "ar": "أكثر من عشر"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "funding",
+   "en": "Fees and funding",
+   "ar": "الرسوم والتمويل",
+   "noteEn": "The College charges no tuition, no examination fee, and nothing for the digital record. This step exists only for the physical instruments, which are optional — and asking for support does not weigh against an application.",
+   "noteAr": "لا تأخذ الكلية رسومًا دراسية ولا رسمَ امتحانٍ ولا شيئًا عن السجل الرقمي. وإنما هذه الخطوة للأعيان المصنوعة، وهي اختيارية — وطلبُ الدعم لا يُحسب على الطلب.",
+   "fields": [
+    {
+     "id": "funding",
+     "en": "How would instruments be paid for?",
+     "ar": "كيف تُدفع أثمانُ الوثائق؟",
+     "type": "select",
+     "opts": [
+      {
+       "v": "By me",
+       "en": "By me",
+       "ar": "أنا"
+      },
+      {
+       "v": "By a sponsor or family member",
+       "en": "By a sponsor or family member",
+       "ar": "كافلٌ أو أحدُ الأهل"
+      },
+      {
+       "v": "I am asking to be considered for support",
+       "en": "I am asking to be considered for support",
+       "ar": "أطلب النظر في دعم"
+      },
+      {
+       "v": "I do not intend to order any",
+       "en": "I do not intend to order any",
+       "ar": "لا أنوي طلب شيءٍ منها"
+      }
+     ]
+    },
+    {
+     "id": "sponsorname",
+     "en": "Sponsor's name, if any",
+     "ar": "اسم الكافل إن وُجد",
+     "type": "text"
+    },
+    {
+     "id": "sponsorrel",
+     "en": "Sponsor's relationship to you",
+     "ar": "صلة الكافل بك",
+     "type": "text"
+    },
+    {
+     "id": "supportwhy",
+     "en": "If asking for support, say briefly why",
+     "ar": "إن طلبت الدعم فاذكر سببه باختصار",
+     "type": "textarea",
+     "full": true,
+     "hint": "A sentence is enough. It is read by the Bursary and by nobody else.",
+     "hintAr": "تكفي جملة. تقرؤها الشؤون المالية ولا يقرؤها غيرها."
+    }
+   ]
+  }
+ ]
+}

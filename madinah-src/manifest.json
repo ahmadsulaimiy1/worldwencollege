@@ -168,10 +168,23 @@
     "ar": {
       "title": "القبول — كلية المدينة العالمية",
       "description": "إجراء القبول، وشروط الدخول لكل برنامج، وكيف تُقدَّم الطلبات إلى شؤون الطلاب."
-    },
+    }
+  },
+  {
+    "slug": "apply",
+    "output": "admissions/apply/index.html",
+    "nav": "root",
+    "title": "Application for Admission — Al-Madinah International College",
+    "description": "The College's application for admission: ten steps, saved on your own device as you go, and sent nowhere until you send it.",
+    "contentFile": "apply.html",
+    "contents": false,
     "scripts": [
       "/js/madinah-apply.js"
-    ]
+    ],
+    "ar": {
+      "title": "طلب الالتحاق — كلية المدينة العالمية",
+      "description": "طلبُ الالتحاق بالكلية: عشرُ خطواتٍ تُحفظ على جهازك أولًا بأول، ولا تُرسل إلى أحدٍ حتى ترسلها أنت."
+    }
   },
   {
     "slug": "calendar",

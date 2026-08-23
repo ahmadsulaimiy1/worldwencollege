@@ -1624,135 +1624,12 @@
       <p class="lede">تُستقبل الطلبات وتُقوَّم في شؤون الطلاب مباشرة، ويُصدر الإشعار في
         يومَي عمل.</p>
     </div>
-
-    <!--  نموذج الطلب — انظر التعليق في admissions.html و js/madinah-apply.js.
-           لا يُرسَل من هذه الصفحة شيء: يُحرَّر الطلب في جهاز صاحبه ثم
-           يُسلَّم إلى بريده أو حافظته أو طابعته.  -->
-      <div class="r-apply">
-        <form class="r-apply__form" id="apply-form" novalidate>
-
-          <fieldset class="r-apply__set">
-            <legend class="r-apply__legend">مُقدِّم الطلب</legend>
-            <div class="form-grid">
-              <div class="field field--full">
-                <label for="ap-name">الاسم الكامل <span class="r-apply__req" aria-hidden="true">*</span></label>
-                <input id="ap-name" data-label="الاسم الكامل" type="text" autocomplete="name" required>
-              </div>
-              <div class="field">
-                <label for="ap-country">بلد الإقامة <span class="r-apply__req" aria-hidden="true">*</span></label>
-                <input id="ap-country" data-label="بلد الإقامة" type="text" autocomplete="country-name" required>
-              </div>
-              <div class="field">
-                <label for="ap-city">المدينة <span class="r-apply__req" aria-hidden="true">*</span></label>
-                <input id="ap-city" data-label="المدينة" type="text" autocomplete="address-level2" required>
-              </div>
-              <div class="field">
-                <label for="ap-email">البريد الإلكتروني <span class="r-apply__req" aria-hidden="true">*</span></label>
-                <input id="ap-email" data-label="البريد الإلكتروني" type="email" autocomplete="email" required>
-              </div>
-              <div class="field">
-                <label for="ap-tel">الهاتف <span class="r-apply__opt">اختياري</span></label>
-                <input id="ap-tel" data-label="الهاتف" type="tel" autocomplete="tel">
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset class="r-apply__set">
-            <legend class="r-apply__legend">البرنامج المطلوب</legend>
-            <div class="form-grid">
-              <div class="field">
-                <label for="ap-faculty">الكلية <span class="r-apply__req" aria-hidden="true">*</span></label>
-                <select id="ap-faculty" data-label="الكلية" required>
-                  <option value="">&mdash;</option>
-                  <option>الدراسات القرآنية</option>
-                  <option>اللغة العربية</option>
-                  <option>الدراسات الإسلامية</option>
-                  <option>الدعوة والقيادة المجتمعية</option>
-                  <option>لم أقرِّر بعد</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="ap-prog">البرنامج <span class="r-apply__req" aria-hidden="true">*</span></label>
-                <input id="ap-prog" data-label="البرنامج" type="text" required
-                  placeholder="مثال: دبلوم حفظ القرآن الكريم">
-              </div>
-              <div class="field">
-                <label for="ap-lang">لغة التدريس <span class="r-apply__req" aria-hidden="true">*</span></label>
-                <select id="ap-lang" data-label="لغة التدريس" required>
-                  <option value="">&mdash;</option>
-                  <option>العربية</option>
-                  <option>الإنجليزية</option>
-                  <option>أيّهما</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="ap-hours">الساعات المتاحة أسبوعيًا <span class="r-apply__req" aria-hidden="true">*</span></label>
-                <select id="ap-hours" data-label="الساعات المتاحة أسبوعيًا" required>
-                  <option value="">&mdash;</option>
-                  <option>أقل من ٥</option>
-                  <option>من ٥ إلى ٩</option>
-                  <option>من ١٠ إلى ١٤</option>
-                  <option>١٥ فأكثر</option>
-                </select>
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset class="r-apply__set">
-            <legend class="r-apply__legend">الدراسة السابقة</legend>
-            <div class="form-grid">
-              <div class="field field--full">
-                <label for="ap-prior">أين درست، وعلى من، وفي أيِّ المتون
-                  <span class="r-apply__req" aria-hidden="true">*</span></label>
-                <textarea id="ap-prior" data-label="الدراسة السابقة" rows="4" required></textarea>
-                <p class="form-note">الدراسة في مدرسةٍ بلا شهادة تُقوَّم ببيّنتها هي. اذكر ما قرأت
-                  وعلى من &mdash; فذلك هو الذي يُمتحن فيه.</p>
-              </div>
-              <div class="field field--full">
-                <label for="ap-certs">الشهادات التي تحملها، ومن أصدرها
-                  <span class="r-apply__opt">اختياري</span></label>
-                <textarea id="ap-certs" data-label="الشهادات" rows="3"></textarea>
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset class="r-apply__set">
-            <legend class="r-apply__legend">ما سوى ذلك</legend>
-            <div class="form-grid">
-              <div class="field field--full r-apply__check">
-                <label for="ap-supported">
-                  <input id="ap-supported" data-label="يطلب مقعدًا مدعومًا" type="checkbox">
-                  <span>أطلب النظر في مقعدٍ مدعوم</span>
-                </label>
-                <p class="form-note">لا يُردُّ طالبٌ لعجزه عن أداء مبلغ، ولا يُحسب هذا الطلب عليه.
-                  انظر <a href="/ar/admissions/charges/#terms">الرسوم والتمويل</a>.</p>
-              </div>
-              <div class="field field--full">
-                <label for="ap-note">ما ينبغي أن تعلمه شؤون الطلاب
-                  <span class="r-apply__opt">اختياري</span></label>
-                <textarea id="ap-note" data-label="ملاحظة إلى شؤون الطلاب" rows="3"></textarea>
-                <p class="form-note">ومن ذلك أيُّ تيسيرٍ تحتاجه في التدريس أو الامتحان &mdash; انظر
-                  <a href="/ar/regulations/">اللوائح الأكاديمية</a>.</p>
-              </div>
-            </div>
-          </fieldset>
-
-          <p class="form-status" id="apply-status" role="status" aria-live="polite" hidden></p>
-
-          <div class="btn-row r-apply__actions">
-            <button type="submit" class="btn btn--gold">إرسال إلى شؤون الطلاب</button>
-            <button type="button" class="btn btn--outline" data-apply-copy>نسخ الطلب</button>
-            <button type="button" class="btn btn--outline" data-apply-print>طباعة أو حفظ</button>
-          </div>
-        </form>
-
-        <aside class="r-apply__preview" aria-labelledby="apply-preview-h">
-          <p class="r-apply__preview-label" id="apply-preview-h">ما سيصل إلى شؤون الطلاب</p>
-          <pre class="r-apply__sheet" data-apply-preview>املأ النموذج ليُكتب الطلب هنا كما سيصل إلى شؤون الطلاب.</pre>
-          <p class="r-apply__privacy">لا تُرسل هذه الصفحة شيئًا. يُحرَّر الطلب في متصفحك أنت، ولا
-            يبرح جهازك حتى ترسله &mdash; من بريدك، أو حافظتك، أو على ورق. لا يُحفظ هنا شيء ولا
-            يُنقل شيء.</p>
-        </aside>
+      <div class="r-plate r-plate--gilt">
+        <span class="r-plate__label">الطلب</span>
+        <p>عشرُ خطوات، تسأل الكلية فيها كثيرًا: الهوية، والإقامة، وأقربَ الناس، والدراسةَ
+          السابقة، وما تطلبه. ويُحفظ على جهازك أولًا بأول فيمكن تركه والعود إليه، ولا
+          يُرسل منه شيءٌ حتى ترسله في الخطوة الأخيرة.</p>
+        <p><a href="/ar/admissions/apply/" class="btn btn--gold">ابدأ الطلب</a></p>
       </div>
 
       <div class="r-plate r-stack--md">
@@ -2306,6 +2183,5 @@
 <script src="/js/madinah-atelier.js" defer></script>
 <script src="/js/madinah-dock.js" defer></script>
 <script src="/js/madinah-tactile.js" defer></script>
-<script src="/js/madinah-apply.js" defer></script>
 </body>
 </html>

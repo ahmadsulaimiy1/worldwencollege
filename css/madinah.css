@@ -4313,3 +4313,143 @@ body { background: var(--cream); }
 }
 .adviser__note p { margin: 0; font-size: .875rem; line-height: 1.64; color: var(--ink); }
 .adviser__note strong { color: var(--bronze); }
+
+/* ===================================================== THE APPLICATION
+
+   The Founder's judgement on the first version was 0.5 out of 10, and it
+   was fair. Fifteen fields on one screen, free text where a list was
+   obviously wanted, and no way to stop half way. What an embassy or a
+   bank form actually does is not merely ask MORE — it knows what it is
+   asking, offers the answer instead of demanding it be typed, and
+   survives being abandoned at step six.
+
+   The ledger on the left is the instrument that makes ten steps feel
+   like a document rather than a queue: every step is visible from every
+   other, numbered, and reachable. A progress bar would say how much is
+   left; a ledger says what the whole thing consists of, which is the
+   difference between being processed and being asked. */
+.apply {
+  display: grid;
+  grid-template-columns: minmax(0, 250px) minmax(0, 1fr);
+  gap: clamp(28px, 3.6vw, 64px);
+  align-items: start;
+}
+@media (max-width: 900px) { .apply { grid-template-columns: 1fr; } }
+
+.apply__ledger {
+  position: sticky; top: calc(var(--header-h, 120px) + 20px);
+  border-top: 2px solid var(--gold-royal); padding-top: 16px;
+}
+@media (max-width: 900px) { .apply__ledger { position: static; } }
+.apply__ledger-label {
+  font-family: var(--font-ceremonial);
+  font-size: .625rem; font-weight: 600; letter-spacing: .21em;
+  text-transform: uppercase; color: var(--bronze); margin: 0 0 14px;
+}
+.apply__ledger ol { list-style: none; margin: 0; padding: 0; counter-reset: none; }
+.apply__ledger-row {
+  display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: baseline;
+  padding: 9px 0; cursor: pointer;
+  border-bottom: 1px solid rgba(111, 80, 40, .14);
+  transition: color var(--pol-in) ease;
+}
+.apply__ledger-row:last-child { border-bottom: 0; }
+.apply__ledger-n {
+  font-family: var(--font-figure); font-size: .8rem; color: var(--ink-soft);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.apply__ledger-t { font-size: .855rem; line-height: 1.4; color: var(--ink-soft); }
+.apply__ledger-row:hover .apply__ledger-t { color: var(--bronze); }
+.apply__ledger-row.is-here .apply__ledger-t { color: var(--ink); font-weight: 600; }
+.apply__ledger-row.is-here .apply__ledger-n { color: var(--bronze); }
+/* A completed step is marked the way a clerk marks one: a rule through
+   the number, not a green tick. */
+.apply__ledger-row.is-done .apply__ledger-n { text-decoration: line-through; color: var(--gold-antique); }
+.apply__ledger-row:focus-visible { outline: 2px solid rgba(199,162,74,.5); outline-offset: 2px; }
+
+.apply__saved {
+  margin: 16px 0 0; padding-top: 12px;
+  border-top: 1px solid rgba(111, 80, 40, .18);
+  font-size: .72rem; line-height: 1.5; color: var(--ink-soft);
+}
+
+.apply__step { border: 0; padding: 0; margin: 0; }
+.apply__legend { display: block; width: 100%; margin-bottom: 6px; }
+.apply__legend-n {
+  display: block; font-family: var(--font-ceremonial);
+  font-size: .625rem; font-weight: 600; letter-spacing: .21em;
+  text-transform: uppercase; color: var(--bronze); margin-bottom: 6px;
+}
+.apply__legend-t {
+  display: block; font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem); font-weight: 700;
+  line-height: 1.15; color: var(--royal-blue);
+}
+.apply__note {
+  font-size: .89rem; line-height: 1.66; color: var(--ink-soft);
+  margin: 0 0 22px; padding-bottom: 18px;
+  border-bottom: 1px solid rgba(111, 80, 40, .2);
+  max-width: 62ch;
+}
+
+.apply .field label {
+  font-family: var(--font-ceremonial);
+  font-size: .645rem; font-weight: 600; letter-spacing: .15em; color: var(--ink-soft);
+}
+.apply .field input, .apply .field select, .apply .field textarea {
+  border-radius: 2px; border-color: rgba(111, 80, 40, .3); background: var(--warm-white);
+}
+.apply .field input:focus-visible, .apply .field select:focus-visible,
+.apply .field textarea:focus-visible {
+  border-color: var(--bronze); outline: 2px solid rgba(199,162,74,.45); outline-offset: 1px;
+}
+.apply .form-note { font-size: .755rem; line-height: 1.55; color: var(--ink-soft); margin-top: 2px; }
+.apply__req { color: var(--bronze); font-weight: 700; margin-inline-start: 2px; }
+
+.apply__check label {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-family: var(--font-body); font-size: .92rem; line-height: 1.55;
+  letter-spacing: 0; text-transform: none; font-weight: 400;
+  color: var(--ink); cursor: pointer;
+}
+.apply__check input { width: 18px; height: 18px; margin-top: 3px; flex-shrink: 0; accent-color: var(--bronze); }
+
+.apply__nav { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+
+.apply__sheet-wrap {
+  margin-top: 26px; background: var(--paper);
+  border: 1px solid rgba(111, 80, 40, .22); border-top: 2px solid var(--gold-royal);
+  padding: clamp(18px, 2vw, 26px);
+}
+.apply__sheet-label {
+  font-family: var(--font-ceremonial); font-size: .615rem; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--bronze);
+  margin: 0 0 12px; padding-bottom: 10px;
+  border-bottom: 1px solid rgba(111, 80, 40, .22);
+}
+.apply__sheet {
+  margin: 0; max-height: 44vh; overflow: auto;
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: .765rem; line-height: 1.62; color: var(--ink);
+  white-space: pre-wrap; word-break: break-word;
+  direction: ltr; text-align: start;
+}
+[dir="rtl"] .apply__sheet { direction: rtl; }
+
+.apply__discard { margin: 22px 0 0; font-size: .78rem; }
+.linklike {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  font: inherit; color: var(--ink-soft);
+  border-bottom: 1px solid rgba(111, 80, 40, .4);
+}
+.linklike:hover { color: var(--bronze); border-bottom-color: var(--bronze); }
+
+@media print {
+  .apply__ledger, .apply__form > .apply__step, .apply__nav, .apply__discard,
+  .site-header, .meridian, .r-dock, .site-footer, .apply__sheet-label { display: none !important; }
+  .apply { display: block; }
+  .apply__step[data-step="declare"] { display: block !important; }
+  .apply__step[data-step="declare"] .form-grid, .apply__legend { display: none !important; }
+  .apply__sheet-wrap { border: 0; padding: 0; }
+  .apply__sheet { max-height: none; overflow: visible; font-size: 10pt; color: #000; }
+}

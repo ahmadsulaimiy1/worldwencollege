@@ -918,6 +918,31 @@ section { position: relative; }
   border-top: 0; justify-content: flex-end;
 }
 .site-header.is-condensed .brand__name { font-size: 1rem; }
+
+/* THE CONDENSED RAIL HAS TO FIT, AND IT DID NOT.
+
+   At rest the masthead is two rows and the navigation has the whole
+   measure to itself. Condensed, all three groups share one row — and the
+   small capitals that make the nav read as a contents page are WIDER
+   than the sans they replaced: .17em of tracking across five labels
+   wanted 1339px inside an 1180px rail, so the document grew to 1389 and
+   the whole page scrolled sideways.
+
+   It appeared on one route only, because the header must be scrolled
+   before it condenses and only a long page does that on load. The route
+   audit found it at 1280; looking at the top of a short page never would.
+
+   Condensed, therefore, the nav gives back what it does not need: less
+   tracking, a shade less size, and a tighter gap. The letterform stays —
+   it is still Trajan small capitals — and only the air is spent. */
+/* A FIXED gap, not a viewport one. The rail is capped at --wrap, so a
+   gap in vw keeps growing after the container has stopped: at 1180 the
+   row fitted exactly and at 1440 it wanted 37px more than it had. */
+.site-header.is-condensed .nav { gap: 14px; }
+.site-header.is-condensed .nav__item > a {
+  font-size: .70rem;
+  letter-spacing: .085em;
+}
 .brand { display: flex; align-items: center; gap: 16px; color: #fff; min-height: 44px; }
 .brand__crest {
   width: 46px; height: 54px; flex-shrink: 0;
