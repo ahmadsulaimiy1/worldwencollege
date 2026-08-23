@@ -576,3 +576,70 @@ jobs:
               echo "3. **Caching -> Purge Everything.**"
             } >> "$GITHUB_STEP_SUMMARY"
           fi
+
+      # ─────────────────────────────────────────────────────────────
+      # CAN THIS DEPLOYMENT ACTUALLY SIGN ANYBODY IN?
+      # ─────────────────────────────────────────────────────────────
+      # The publish check above proves the FILES are live. It says
+      # nothing about whether the Functions behind them can verify a
+      # session, and for months they could not: CLERK_JWKS_URL was never
+      # set on the Pages project, so every signed-in page failed after
+      # sign-in succeeded. Nothing in this workflow noticed, because a
+      # static site serving correctly looks exactly the same either way.
+      #
+      # An applicant found it instead. /api/health/auth answers the
+      # question in one request, and this step asks it on every deploy.
+      #
+      # It warns rather than fails: the Pages environment variables are
+      # set in the Cloudflare dashboard, not here, so a red build would
+      # be blaming the wrong repository for the wrong thing. But it can
+      # never again be SILENT.
+      - name: Prove the deployment can authenticate
+        if: always() && steps.publish.outcome == 'success'
+        env:
+          DEPLOY_URL: ${{ steps.publish.outputs.url }}
+        run: |
+          probe () {
+            curl -s --max-time 25 -o /tmp/health.json -w '%{http_code}' "$1/api/health/auth" 2>/dev/null || echo 000
+          }
+          code=$(probe "https://www.worldwencollege.co.uk")
+          [ "$code" = "000" ] && code=$(probe "$DEPLOY_URL")
+          summary=$(sed -n 's/.*"summary":"\([^"]*\)".*/\1/p' /tmp/health.json 2>/dev/null)
+          blocking=$(sed -n 's/.*"blocking":\[\([^]]*\)\].*/\1/p' /tmp/health.json 2>/dev/null)
+          echo "  /api/health/auth -> HTTP $code"
+          echo "  $summary"
+
+          {
+            echo "### Can this deployment authenticate?"
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$code" = "200" ]; then
+            echo "::notice::Authentication prerequisites are configured on this deployment."
+            echo "Yes — session verification and the database binding are both configured." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$code" = "503" ]; then
+            echo "::warning::THIS DEPLOYMENT CANNOT SIGN ANYBODY IN. $summary Set the missing variables in Cloudflare Dashboard -> Workers & Pages -> wec-lc -> Settings -> Environment variables (Production), then redeploy. Until then, every applicant who signs in will be told their application could not be loaded."
+            {
+              echo "**No — this deployment cannot sign anybody in.**"
+              echo ""
+              echo "Missing: \`$blocking\`"
+              echo ""
+              echo "$summary"
+              echo ""
+              echo "Set these in **Workers & Pages -> wec-lc -> Settings -> Environment variables (Production)**:"
+              echo ""
+              echo "| Variable | Value |"
+              echo "|---|---|"
+              echo "| \`CLERK_JWKS_URL\` | \`https://<your-instance>.clerk.accounts.dev/.well-known/jwks.json\` |"
+              echo "| \`CLERK_WEBHOOK_SECRET\` | the \`whsec_...\` from Clerk -> Webhooks |"
+              echo "| \`CLERK_AUTHORIZED_PARTIES\` | \`https://worldwencollege.co.uk\` (optional, recommended) |"
+              echo ""
+              echo "and confirm the **D1 binding \`DB\`** is bound to the \`wec-lc\` database."
+            } >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$code" = "404" ]; then
+            echo "::warning::/api/health/auth returned 404 — Pages Functions may not be deployed on this project at all. Check that functions/ reached the deploy surface."
+            echo "\`/api/health/auth\` returned **404** — Pages Functions may not be running on this project." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::warning::Could not read /api/health/auth (HTTP $code). Authentication readiness is unknown for this deployment."
+            echo "Could not reach \`/api/health/auth\` (HTTP \`$code\`). Readiness unknown." >> "$GITHUB_STEP_SUMMARY"
+          fi

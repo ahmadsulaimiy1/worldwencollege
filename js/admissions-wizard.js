@@ -42,20 +42,154 @@
   var wizardShell = $('[data-wizard-shell]');
   var statusShell = $('[data-application-status]');
   var loadErrorShell = $('[data-wizard-load-error]');
+  var authUnreachableShell = $('[data-wizard-auth-unreachable]');
+
+  // ────────────────────────────────────────────────────────────────
+  // WHY A FAILURE IS CLASSIFIED RATHER THAN SUMMARISED
+  // ────────────────────────────────────────────────────────────────
+  // This page used to answer every load failure with one sentence:
+  // "this is usually temporary". For one of the failures it is: a
+  // stale token, a dropped connection. For the others it is false, and
+  // the falsehood is expensive.
+  //
+  // The live incident: an applicant signed in, /api/admissions/draft
+  // answered 503 because CLERK_JWTS were not configured on the
+  // deployment, and the page invited them to press "Try again" — an
+  // action that could not have succeeded on any attempt, ever. They
+  // pressed it, it failed, and neither they nor anyone reading their
+  // email could tell why.
+  //
+  // So each case gets its own sentence, its own action, and — where an
+  // operator needs it — a reference line the applicant can quote.
+  function classify(err) {
+    if (!err) {
+      return { title: 'Your application could not be loaded',
+        message: 'Something interrupted the request. Nothing you have entered is lost.',
+        retry: true };
+    }
+    if (err.offline || err.status === 0) {
+      return {
+        title: 'We could not reach the College',
+        message: 'Your device could not reach worldwencollege.co.uk. Nothing you have '
+          + 'entered is lost — check your connection and try again.',
+        retry: true,
+      };
+    }
+    if (err.status === 401) {
+      return {
+        title: 'Your session has expired',
+        message: 'Sessions are short for your security, and yours ended while this page was '
+          + 'open. Nothing you have entered is lost — sign in again and you will come back '
+          + 'to exactly the step you left.',
+        retry: false, signIn: true,
+      };
+    }
+    if (err.status === 403) {
+      return {
+        title: 'This account cannot open an application',
+        message: 'You are signed in, but this account is not an applicant account. If you '
+          + 'signed in with the wrong address, sign out and use the one you applied with.',
+        retry: false, signIn: true,
+      };
+    }
+    // 503 with a ConfigError is the deployment telling us, in its own
+    // words, that a prerequisite is missing. Retrying cannot help and
+    // the page must not pretend otherwise.
+    if (err.status === 503 || err.code === 'ConfigError') {
+      return {
+        title: 'The application system is not available',
+        message: (err.message || 'A part of the College\u2019s system this page depends on is '
+          + 'not available.') + ' This is not something you can fix by trying again, and it '
+          + 'is not a fault in your application. Write to Admissions and we will take your '
+          + 'application by email while it is put right.',
+        retry: false, reference: 'Reference for Admissions: draft-load ' + (err.code || 'unavailable') + ' 503.',
+      };
+    }
+    if (err.status >= 500) {
+      return {
+        title: 'Your application could not be loaded',
+        message: 'The College\u2019s system answered with an error. Nothing you have entered '
+          + 'is lost. This is usually temporary.',
+        retry: true,
+        reference: 'Reference for Admissions: draft-load error ' + err.status + '.',
+      };
+    }
+    return {
+      title: 'Your application could not be loaded',
+      message: (err.message || 'The request did not complete.') + ' Nothing you have entered is lost.',
+      retry: true,
+      reference: 'Reference for Admissions: draft-load ' + (err.status || 'unknown') + '.',
+    };
+  }
+
+  function showLoadError(err) {
+    var c = classify(err);
+    if (!loadErrorShell) return;
+    var titleEl = $('[data-wizard-error-title]', loadErrorShell);
+    var msgEl = $('[data-wizard-error-message]', loadErrorShell);
+    var retryEl = $('[data-wizard-reload]', loadErrorShell);
+    var signInEl = $('[data-wizard-signin]', loadErrorShell);
+    var refEl = $('[data-wizard-error-ref]', loadErrorShell);
+    if (titleEl) titleEl.textContent = c.title;
+    if (msgEl) msgEl.textContent = c.message;
+    if (retryEl) retryEl.hidden = !c.retry;
+    if (signInEl) signInEl.hidden = !c.signIn;
+    if (refEl) {
+      refEl.hidden = !c.reference;
+      refEl.textContent = c.reference || '';
+    }
+    loadErrorShell.hidden = false;
+  }
 
   var current = 0;
   var completedSteps = [];
+  // Kept so the "Sign in again" action can actually end the dead
+  // session rather than bouncing the applicant to a page that will put
+  // them straight back here with the same expired token.
+  var clerkInstance = null;
 
-  function api(path, opts) {
+  // One request, with the auth header attached.
+  //
+  // `retryOn401` exists because Clerk session tokens are short-lived —
+  // about a minute — and a token minted while the page was loading can
+  // already be stale by the time the request lands: a backgrounded tab,
+  // a slow network, a phone that slept between sign-in and the first
+  // fetch. That produced a hard "could not be loaded" for a session
+  // that was perfectly valid and one fresh token away from working.
+  //
+  // Exactly one retry. A second 401 after a freshly minted token means
+  // the session really is gone, and retrying a dead session in a loop
+  // is how a page hammers an auth provider.
+  function requestOnce(path, opts) {
     return window.WEC_LC_apiAuth.headers().then(function (headers) {
-      var init = opts || {};
-      init.headers = Object.assign({}, headers, init.headers || {});
+      var init = Object.assign({}, opts || {});
+      init.headers = Object.assign({}, headers, (opts && opts.headers) || {});
       return fetch(path, init);
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (body) {
-        if (!r.ok) throw Object.assign(new Error(body.message || r.statusText), { status: r.status, body: body });
+        if (!r.ok) {
+          throw Object.assign(new Error(body.message || r.statusText), {
+            status: r.status,
+            body: body,
+            code: body.error || null,
+          });
+        }
         return body;
       });
+    }, function (networkErr) {
+      // fetch() rejects only on a transport failure. Mark it, because
+      // "you are offline" and "the server refused you" need different
+      // sentences and the old code showed the same one for both.
+      throw Object.assign(networkErr || new Error('Network request failed.'), {
+        status: 0, offline: true,
+      });
+    });
+  }
+
+  function api(path, opts, retryOn401) {
+    return requestOnce(path, opts).catch(function (err) {
+      if (err.status !== 401 || retryOn401 === false) throw err;
+      return requestOnce(path, opts);
     });
   }
 
@@ -280,13 +414,13 @@
       // complete, or the review step if every data step already is.
       var resumeIndex = stepKeys.findIndex(function (k) { return k !== 'review' && completedSteps.indexOf(k) === -1; });
       showStep(resumeIndex === -1 ? steps.length - 1 : resumeIndex);
-    }).catch(function () {
+    }).catch(function (err) {
       // The wizard shell itself is never revealed on this path, so a
       // message written inside it (e.g. onto data-wizard-step-error)
       // would be invisible — a blank page behind a signed-in header.
       // This dedicated state is the one place a load failure is
-      // actually shown.
-      if (loadErrorShell) loadErrorShell.hidden = false;
+      // actually shown, and it now says WHICH failure.
+      showLoadError(err);
     });
 
     nextBtn.addEventListener('click', function () {
@@ -334,13 +468,29 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    var reloadBtn = $('[data-wizard-reload]');
-    if (reloadBtn) reloadBtn.addEventListener('click', function () { window.location.reload(); });
+    $$('[data-wizard-reload]').forEach(function (btn) {
+      btn.addEventListener('click', function () { window.location.reload(); });
+    });
+
+    // Sign out, then return here: the portal guard sees no session and
+    // sends the applicant to Clerk's sign-in with this page as the
+    // return URL, so they land back on the step they left. Following
+    // the href alone would keep the expired session and reproduce the
+    // failure one click later.
+    $$('[data-wizard-signin]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        if (!clerkInstance || !clerkInstance.signOut) return; // let the href do its work
+        e.preventDefault();
+        if (window.WEC_LC_apiAuth) window.WEC_LC_apiAuth.attach(null);
+        clerkInstance.signOut(function () { window.location.reload(); });
+      });
+    });
 
     var guarded = window.WEC_LC_guardPortal({
       signOutRedirect: '/admissions/',
       shellSelector: '.lab-body',
       onAuthenticated: function (clerk, done) {
+        clerkInstance = clerk;
         window.WEC_LC_apiAuth.attach(clerk);
         done();
         init();
@@ -349,7 +499,13 @@
       // script) — the gate is already gone by the time this fires, so
       // without a handler the page is just blank behind the header.
       onAuthUnavailable: function () {
-        if (loadErrorShell) loadErrorShell.hidden = false;
+        // The applicant is NOT signed in here — Clerk's SDK never
+        // loaded. This used to reveal the panel that opens "You signed
+        // in, but...", which was simply untrue and sent people looking
+        // for a problem with their application instead of their
+        // network.
+        if (authUnreachableShell) authUnreachableShell.hidden = false;
+        else showLoadError({ offline: true, status: 0 });
       },
     });
     // No Clerk key configured: the page cannot check a session at

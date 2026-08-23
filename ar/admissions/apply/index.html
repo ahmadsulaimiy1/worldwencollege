@@ -43,11 +43,27 @@
     <p><a class="btn btn--gold" href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">راسل إدارة القبول</a></p>
   </div>
 
+  <div data-wizard-auth-unreachable hidden>
+    <h2>تعذّر الوصول إلى خدمة تسجيل الدخول</h2>
+    <p class="lede">طلبك في أمان. لم يتمكّن هذا الجهاز من الاتصال بخدمة تسجيل الدخول &mdash; وغالبًا يكون السبب انقطاع الاتصال، أو نصًا برمجيًا محجوبًا، أو شبكة تُرشِّح الخدمات الخارجية.</p>
+    <ul class="check-list">
+      <li>تحقّق من اتصالك ثم أعد تحميل الصفحة.</li>
+      <li>إن كنت على شبكة عمل أو جامعة، جرّب اتصالًا عبر الهاتف.</li>
+      <li>إن كانت إضافة في المتصفح تحجب النصوص البرمجية، اسمح لهذه الصفحة ثم أعد التحميل.</li>
+    </ul>
+    <p><button type="button" class="btn btn--gold" data-wizard-reload>أعد تحميل الصفحة</button></p>
+    <p><a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">أو راسل إدارة القبول وسنتابع الأمر معك.</a></p>
+  </div>
+
   <div data-wizard-load-error hidden>
-    <h2>تعذّر تحميل طلبك</h2>
-    <p class="lede">سجّلت دخولك، لكن الطلب نفسه لم يُحمَّل &mdash; غالبًا ما يكون هذا عارضًا مؤقتًا. لا شيء مما أدخلته سابقًا قد ضاع.</p>
-    <p><button type="button" class="btn btn--gold" data-wizard-reload>حاول مرة أخرى</button></p>
+    <h2 data-wizard-error-title>تعذّر تحميل طلبك</h2>
+    <p class="lede" data-wizard-error-message>سجّلت دخولك، لكن الطلب نفسه لم يُحمَّل. لا شيء مما أدخلته سابقًا قد ضاع.</p>
+    <p data-wizard-error-actions>
+      <button type="button" class="btn btn--gold" data-wizard-reload>حاول مرة أخرى</button>
+      <a class="btn btn--outline" data-wizard-signin hidden href="/ar/admissions/">سجّل الدخول من جديد</a>
+    </p>
     <p><a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">لا يزال المشكل قائمًا؟ راسل إدارة القبول مباشرة.</a></p>
+    <p class="form-note" data-wizard-error-ref hidden></p>
   </div>
 
   <div data-wizard-shell hidden>

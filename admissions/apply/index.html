@@ -42,11 +42,41 @@
     <p><a class="btn btn--gold" href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">Write to Admissions</a></p>
   </div>
 
+  <!-- Clerk's own SDK could not be fetched at all: offline, a blocked
+       script, a corporate proxy. The applicant is NOT signed in in this
+       state, which is why it cannot share a panel with the one below —
+       telling somebody "you signed in, but..." when they did not is the
+       kind of small lie that makes every other message on the page
+       worth doubting. -->
+  <div data-wizard-auth-unreachable hidden>
+    <h2>We could not reach the sign-in service</h2>
+    <p class="lede">Your application is safe. The sign-in service could not be contacted from this device &mdash; usually a lost connection, a blocked script, or a network that filters third-party services.</p>
+    <ul class="check-list">
+      <li>Check your connection and reload the page.</li>
+      <li>If you are on an office or campus network, try a mobile connection.</li>
+      <li>If a browser extension blocks scripts, allow this page and reload.</li>
+    </ul>
+    <p><button type="button" class="btn btn--gold" data-wizard-reload>Reload the page</button></p>
+    <p><a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">Or write to Admissions and we will take it from there.</a></p>
+  </div>
+
+  <!-- Signed in, and the application still did not load. The REASON is
+       filled in from the classified error rather than assumed: this
+       panel used to say "this is usually temporary" for every failure,
+       including a deployment whose session verification was not
+       configured — where retrying could never work, and the applicant
+       was invited to keep doing it. -->
   <div data-wizard-load-error hidden>
-    <h2>Your application could not be loaded</h2>
-    <p class="lede">You signed in, but the application itself did not load &mdash; this is usually temporary. Nothing you have already entered is lost.</p>
-    <p><button type="button" class="btn btn--gold" data-wizard-reload>Try again</button></p>
+    <h2 data-wizard-error-title>Your application could not be loaded</h2>
+    <p class="lede" data-wizard-error-message>You signed in, but the application itself did not load. Nothing you have already entered is lost.</p>
+    <p data-wizard-error-actions>
+      <button type="button" class="btn btn--gold" data-wizard-reload>Try again</button>
+      <a class="btn btn--outline" data-wizard-signin hidden href="/admissions/">Sign in again</a>
+    </p>
     <p><a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">Still stuck? Write to Admissions directly.</a></p>
+    <!-- One line an applicant can quote in an email and an operator can
+         act on without asking them to reproduce it. -->
+    <p class="form-note" data-wizard-error-ref hidden></p>
   </div>
 
   <div data-wizard-shell hidden>

@@ -10,11 +10,29 @@ export function db(env) {
   return env.DB;
 }
 
+// A deployment prerequisite is missing: a binding, an environment
+// variable, an upstream the platform cannot reach.
+//
+// 503 rather than 500, and the message is disclosed rather than masked.
+// Both were wrong before and the cost was a real outage nobody could
+// diagnose: an applicant signed in, /api/admissions/draft answered 500
+// "Something went wrong.", and the wizard showed "Your application
+// could not be loaded — this is usually temporary". It was not
+// temporary. CLERK_JWKS_URL was unset, every retry would fail forever,
+// and neither the applicant nor the operator could tell that from any
+// message the system produced.
+//
+// Masking is right for an UNEXPECTED error, whose message may carry a
+// query fragment, a row value or a stack. A ConfigError's message is
+// written here, by us, and by construction names only which binding or
+// variable is absent. Disclosing "D1 binding \"DB\" is not configured"
+// tells an attacker nothing they could not learn by observing that
+// nothing works, and tells the operator everything.
 export class ConfigError extends Error {
   constructor(message) {
     super(message);
     this.name = 'ConfigError';
-    this.httpStatus = 500;
+    this.httpStatus = 503;
   }
 }
 
@@ -90,6 +108,12 @@ export function errorResponse(err) {
   const status = err.httpStatus || 500;
   const body = { error: err.name || 'InternalError', message: err.message };
   if (err.fields) body.fields = err.fields;
+  // A configuration fault is logged like an unexpected one — an
+  // operator should see it in the tail — but it is REPORTED, because a
+  // caller that cannot distinguish "misconfigured, retrying will never
+  // help" from "transient, try again" will tell the user to try again
+  // forever. See ConfigError above.
+  if (err.name === 'ConfigError') console.error(err);
   if (status === 500) {
     // Never leak internals of an unexpected error to the client.
     console.error(err);

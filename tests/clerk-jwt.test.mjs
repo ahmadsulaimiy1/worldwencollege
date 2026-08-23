@@ -265,8 +265,17 @@ const ENV = { CLERK_JWKS_URL: 'https://stub.clerk.accounts.dev/.well-known/jwks.
   const adapter2 = await freshAdapter();
   err = null;
   try { await adapter2.verifySessionToken(token, ENV); } catch (e) { err = e; }
+  // Asserted on the invariant — it THROWS, with a type the caller can
+  // branch on — rather than on the word "JWKS" appearing in the text.
+  // The message is read by an applicant, and the acronym was replaced
+  // with "its signing keys" for exactly that reason. A test that pins
+  // the wording of a human-facing sentence makes the sentence harder to
+  // improve than to leave wrong.
   check('An unreachable JWKS endpoint fails loudly rather than authenticating nobody quietly',
-    err && /JWKS/.test(err.message), err && err.message);
+    err instanceof Error && err.name === 'ConfigError',
+    err ? `${err.name}: ${err.message}` : 'did not throw');
+  check('...and says so in words an applicant can act on',
+    err && /signing keys|could not be reached/.test(err.message), err && err.message);
   jwksStatus = 200;
 }
 

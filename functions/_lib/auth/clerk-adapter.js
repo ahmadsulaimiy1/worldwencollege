@@ -11,22 +11,40 @@
 //   CLERK_JWKS_URL        e.g. https://<your-instance>.clerk.accounts.dev/.well-known/jwks.json
 //   CLERK_WEBHOOK_SECRET  the "whsec_..." signing secret from the Clerk dashboard
 
-import { timingSafeEqual } from '../db.js';
+import { timingSafeEqual, ConfigError } from '../db.js';
 
 let jwksCache = { keys: null, fetchedAt: 0, lastForcedAt: 0 };
 const JWKS_TTL_MS = 10 * 60 * 1000;
 // Floor between rotation-triggered refetches. See findSigningKey().
 const JWKS_FORCE_MIN_INTERVAL_MS = 30 * 1000;
 
+// Both failures here are ConfigError, not Error, and the distinction is
+// the whole reason the admissions wizard was undiagnosable: a bare
+// Error becomes a masked 500 "Something went wrong.", which the client
+// correctly reads as "unexpected — retry might help". Neither of these
+// is helped by retrying. An unset variable is helped by setting it; an
+// unreachable JWKS endpoint is helped by waiting for Clerk, and the
+// applicant should be told which.
 async function getJwks(env, { force = false } = {}) {
   if (!env.CLERK_JWKS_URL) {
-    throw new Error('CLERK_JWKS_URL is not configured.');
+    throw new ConfigError('Sign-in is not finished being set up on this deployment: '
+      + 'CLERK_JWKS_URL is not configured, so no session token can be verified. '
+      + 'See docs/auth-architecture.md and GET /api/health/auth.');
   }
   const fresh = Date.now() - jwksCache.fetchedAt < JWKS_TTL_MS;
   if (jwksCache.keys && fresh && !force) return jwksCache.keys;
 
-  const resp = await fetch(env.CLERK_JWKS_URL);
-  if (!resp.ok) throw new Error(`Failed to fetch Clerk JWKS: ${resp.status}`);
+  let resp;
+  try {
+    resp = await fetch(env.CLERK_JWKS_URL);
+  } catch (cause) {
+    throw new ConfigError('The authentication provider could not be reached to verify '
+      + 'your session. This is an outage rather than a fault in your application.');
+  }
+  if (!resp.ok) {
+    throw new ConfigError(`The authentication provider answered ${resp.status} when asked `
+      + 'for its signing keys, so no session can be verified right now.');
+  }
   const { keys } = await resp.json();
   jwksCache = { keys, fetchedAt: Date.now(), lastForcedAt: force ? Date.now() : jwksCache.lastForcedAt };
   return keys;
