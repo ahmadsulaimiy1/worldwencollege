@@ -161,7 +161,7 @@
                is exactly what SEAL is for, and a page where the award
                itself was the one silent struck object would read as a
                fault. */
-            + '.awd, '
+            + '.awd, .cnf-plate, '
             + '.wax-seal, .cta__seal, .vessel, .medallion, .honour, .honour__wreath, '
             + '.matricula, .case__medallion, .brand__crest, .masthead__rule, .colophon__rule, '
             /* The warrant is a ruling with a seal on it, so it takes
@@ -315,6 +315,10 @@
                a shelf are a list and stay silent, because a page where
                every line of a list answered would be a toy. */
             + '.dl-id, .dl-shelf';
+
+  /* THE CONFERRAL FACSIMILE takes SEAL and not TAP: it is the plate a
+     certificate is about to become, and the register ranks a conferral
+     above every other struck surface. It is in the SEAL list above. */
 
   function voiceFor(el) {
     if (el.closest(CHIME)) return 'chime';

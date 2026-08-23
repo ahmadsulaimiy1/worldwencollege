@@ -105,6 +105,7 @@ const qr = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/qr.js`));
 const instVerify = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/institutional-verification.js`));
 const distinctions = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/distinctions.js`));
 const documents = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/documents.js`));
+const conferralLib = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/conferral.js`));
 // Beats reaching the harness, so a browser test can assert the beacon
 // actually fires rather than that the file merely loads.
 const beats = [];
@@ -1325,6 +1326,36 @@ createServer(async (req, res) => {
           },
         ],
       });
+    }
+
+    // ── CONFERRAL ──────────────────────────────────────────────────
+    // The Registrar's act, driven by the real library against the real
+    // register. The actor is fixed to the administrator, as every other
+    // admin route in this harness fixes it.
+    if (url.pathname === '/api/admin/conferral') {
+      try {
+        if (req.method === 'GET') {
+          if (url.searchParams.get('userId')) {
+            return json(res, await conferralLib.conferralFor(env, {
+              userId: url.searchParams.get('userId'),
+              levelId: url.searchParams.get('levelId'),
+            }));
+          }
+          return json(res, await conferralLib.conferralQueue(env, {}));
+        }
+        const body = JSON.parse(await read(req) || '{}');
+        const action = url.searchParams.get('action') || body.action;
+        if (action === 'confer') {
+          return json(res, await conferralLib.confer(env, { actor: ADMIN_ACTOR, ...body }));
+        }
+        if (action === 'withdraw') {
+          return json(res, await conferralLib.withdraw(env, { actor: ADMIN_ACTOR, ...body }));
+        }
+        return json(res, await conferralLib.replace(env, { actor: ADMIN_ACTOR, ...body }));
+      } catch (err) {
+        res.writeHead(err.httpStatus || 400, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.name, message: err.message, fields: err.fields }));
+      }
     }
 
     if (url.pathname === '/api/student/standing' && req.method === 'GET') {

@@ -1,0 +1,182 @@
+<!--
+  CONFERRAL — the act the whole register was built for.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE FAULT THIS PAGE EXISTS TO CORRECT
+  ─────────────────────────────────────────────────────────────────────
+  `conferAward()` writes the chained, signed row that everything else in
+  this platform hangs from: /verify/ checks it, transcripts are composed
+  from it, the public roll lists it, and /my-award.html draws it as the
+  certificate the College sells at five per cent of every level fee.
+
+  Nothing in functions/api/ called it. The College could compute that a
+  learner had met every published condition of an award, could report
+  that position to them on Where I Stand, and had no way to confer it.
+  Every certificate page would have been empty for every real learner
+  for ever, and the chain that ends at a stranger typing a code into the
+  verification portal had no beginning.
+
+  ─────────────────────────────────────────────────────────────────────
+  THE MIDDLE COLUMN IS THE POINT OF THE SCREEN
+  ─────────────────────────────────────────────────────────────────────
+  Three groups: ready, waiting on the College, and held. A console that
+  listed only the ready ones would hide the people whose own work is
+  finished and whose award is held up by a record the College has not
+  made &mdash; and those are precisely the people an institution owes an
+  answer to. They are drawn beside the ready ones, with what is
+  outstanding and whose it is.
+
+  ─────────────────────────────────────────────────────────────────────
+  NOTHING ABOUT AN AWARD IS TYPED HERE
+  ─────────────────────────────────────────────────────────────────────
+  The title, the post-nominal, the CEFR band, the credits, the hours and
+  the honour are read from records &mdash; `award_definitions`, the
+  regulations, and the marks. `awards` stores them denormalised
+  precisely so that they can never be corrected in place, which means a
+  slip on this screen would be on somebody's certificate for ever.
+
+  The only things a person supplies are the citation, which is a
+  sentence about this graduate and cannot come from a table, and whether
+  the graduate consented to appear on the public roll. Everything that
+  will be written is shown BEFORE the act, not after it.
+
+  ─────────────────────────────────────────────────────────────────────
+  AND THERE IS NO OVERRIDE
+  ─────────────────────────────────────────────────────────────────────
+  A refusal quotes the outstanding conditions and offers no way past
+  them. If a condition is wrong the instrument is amended; the console
+  does not route around it.
+
+  Every id and data- attribute below is addressed by js/staff-conferral.js.
+-->
+<section class="page-hero masthead guilloche grain">
+  <canvas class="constellation" aria-hidden="true"></canvas>
+  <div class="container masthead__inner">
+    <p class="masthead__rule" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></p>
+    <p class="masthead__eyebrow">The Registrar</p>
+    <h1>Conferral</h1>
+    <p class="lede">Who may be conferred on, who is waiting on the College rather than on themselves, and who already holds an award &mdash; with the exact wording of every certificate shown before it is written.</p>
+    <nav class="rec-nav" aria-label="Academic staff">
+      <a href="/staff-desk.html">The Desk</a>
+      <a href="/staff-marking.html">Marking</a>
+      <a href="/staff-examinations.html">Examinations</a>
+      <a href="/staff-papers.html">Papers</a>
+      <a href="/staff-conferral.html" aria-current="page">Conferral</a>
+      <a href="/staff-learners.html">My Learners</a>
+      <a href="/staff-hours.html">My Hours</a>
+      <a href="/staff-notices.html">Notices</a>
+      <a href="/staff-cases.html">Cases</a>
+      <a href="/staff-admissions.html">Admissions</a>
+      <a href="/staff-enrolments.html">Enrolments</a>
+      <a href="/staff-finance.html">Finance</a>
+      <a href="/staff-administration.html">Administration</a>
+    </nav>
+    <p class="masthead__rule masthead__rule--foot" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-rosette"/></svg></p>
+  </div>
+</section>
+
+<section class="section--light section-pad">
+  <div class="container">
+    <div class="stf-shell">
+
+      <p class="rec-state" id="state" aria-live="polite">Loading the register&hellip;</p>
+
+      <!-- THE THREE COUNTS ---------------------------------------------- -->
+      <div class="stf-counts" id="secCounts" hidden>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="eligible">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Ready to confer</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="conditional">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Waiting on the College</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+        <div class="stf-count plate-dark card card--dark edge-lit aurum tilt gold-live reveal" data-tile="conferred">
+          <span class="tilt__sheen" aria-hidden="true"></span>
+          <span class="badge-dome badge-dome--dark badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg></span>
+          <p class="stf-count__num" data-count>&mdash;</p>
+          <p class="stf-count__label" data-label>Awards held</p>
+          <p class="stf-count__foot" data-foot></p>
+        </div>
+      </div>
+
+      <!-- READY ---------------------------------------------------------- -->
+      <section class="acc-block reveal" id="secEligible" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-laurel"/></svg> <span data-eligible-head>Ready to confer</span></h2>
+        </div>
+        <p class="stf-basis" data-basis></p>
+        <ul class="stf-queue" data-eligible></ul>
+        <div class="stf-clear" data-eligible-empty hidden>
+          <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <p class="stf-clear__head" data-eligible-empty-head></p>
+          <p class="stf-clear__note" data-eligible-empty-note></p>
+        </div>
+      </section>
+
+      <!-- WAITING ON THE COLLEGE ----------------------------------------- -->
+      <!-- Everybody whose own work is finished and whose award is held up
+           by a record the College has not made. See the head of this
+           file: a console that hid these would hide exactly the people
+           an institution owes an answer to. -->
+      <section class="acc-block reveal" id="secConditional" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-hourglass"/></svg> <span data-conditional-head>Waiting on the College</span></h2>
+        </div>
+        <p class="stf-basis" data-conditional-basis></p>
+        <ul class="stf-queue" data-conditional></ul>
+      </section>
+
+      <!-- HELD ------------------------------------------------------------ -->
+      <section class="acc-block reveal" id="secConferred" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-seal"/></svg> <span data-conferred-head>Awards held</span></h2>
+        </div>
+        <ul class="stf-queue" data-conferred></ul>
+      </section>
+
+      <!-- ONE CANDIDATE, IN FULL ------------------------------------------ -->
+      <section class="acc-block reveal" id="secCandidate" hidden>
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-nib"/></svg> <span data-candidate-head>The candidate</span></h2>
+          <button type="button" class="acc-open" data-candidate-close></button>
+        </div>
+        <div class="cnf-candidate" data-candidate></div>
+      </section>
+
+      <!-- WHAT A CONFERRAL IS ---------------------------------------------- -->
+      <section class="acc-block reveal" id="secRule">
+        <div class="desk-head">
+          <h2><svg class="icon" aria-hidden="true"><use href="#i-scales"/></svg> What conferring does</h2>
+        </div>
+        <div class="grid grid--3">
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg></span>
+            <h3>It writes a link in a chain</h3>
+            <p>Each conferral carries the digest of the one before it, so the register can be shown to be complete and unaltered from its first entry. A row cannot be quietly edited afterwards; it can only be withdrawn or replaced, and both are recorded.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
+            <h3>It is signed, and anybody can check it</h3>
+            <p>The award is signed with the College&rsquo;s current key at the moment it is conferred. From then on a stranger with the code can verify it at <a href="/verify.html">the verification portal</a>, without an account, for as long as the College exists.</p>
+          </article>
+          <article class="card tilt gold-live edge-lit edge-lit--light aurum aurum--hover reveal">
+            <span class="tilt__sheen" aria-hidden="true"></span>
+            <span class="badge-dome badge-dome--lg" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
+            <h3>And the wording is permanent</h3>
+            <p>The title, the post-nominal, the honour and the citation are stored on the award itself rather than looked up later, so a certificate conferred today still reads as it did on the day whatever the College renames afterwards. That is also why none of them is typed here.</p>
+          </article>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

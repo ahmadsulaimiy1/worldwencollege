@@ -128,6 +128,12 @@ const ROUTES = [
   { file: 'functions/api/admin/signing-keys.js', method: 'GET', minRole: 'admin',
     why: 'The key register and the signing audit. Administrator rather than staff: it is the record of what the institution has cryptographically asserted. Rotation and revocation are deliberately NOT exposed over HTTP at all.' },
 
+  // THE REGISTER'S OWN ACT.
+  { file: 'functions/api/admin/conferral.js', method: 'GET', minRole: 'admin',
+    why: 'The conferral queue \u2014 who may be conferred on, who is waiting on the College, and who already holds an award. It reads every learner\u2019s whole academic standing, which is not a teaching read.' },
+  { file: 'functions/api/admin/conferral.js', method: 'POST', minRole: 'admin',
+    why: 'Conferring, withdrawing and replacing an award. The College asserting permanently and to the world that a named person holds a qualification, or taking one back. Marking is a teaching act and is `requireStaff`; this is not.' },
+
   // The examination papers, and the date the marking claim rests on.
   { file: 'functions/api/admin/examination-papers.js', method: 'GET', minRole: 'admin',
     why: 'Every paper the College has set at every level, including retired versions and their retirement dates \u2014 the history an administrator decides from before publishing another.' },

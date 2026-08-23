@@ -3454,5 +3454,57 @@
       "/js/staff-kit.js",
       "/js/my-downloads.js"
     ]
+  },
+  {
+    "slug": "staff-conferral",
+    "output": "staff-conferral.html",
+    "title": "Conferral &mdash; Worldwide English College",
+    "description": "Who may be conferred on, who is waiting on the College rather than on themselves, and who already holds an award — with the exact wording of every certificate shown before it is written.",
+    "contentFile": "staff-conferral.html",
+    "lang": "en",
+    "dir": "ltr",
+    "altHref": "/ar/staff-conferral.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css",
+      "/css/conferral.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-conferral.js"
+    ]
+  },
+  {
+    "slug": "staff-conferral-ar",
+    "output": "ar/staff-conferral.html",
+    "title": "المنح &mdash; كلّية ورلدوايد إنجلش",
+    "description": "مَن يستحقّ المنح، ومَن ينتظر الكلية لا نفسه، ومَن يحمل شهادةً بالفعل — ونصُّ كلّ شهادةٍ معروضٌ قبل أن يُكتب.",
+    "contentFile": "staff-conferral.ar.html",
+    "lang": "ar",
+    "dir": "rtl",
+    "altHref": "/staff-conferral.html",
+    "extraCss": [
+      "/css/pillar.css",
+      "/css/my-record.css",
+      "/css/account.css",
+      "/css/desk.css",
+      "/css/console.css",
+      "/css/conferral.css"
+    ],
+    "scripts": [
+      "/js/auth-config.js",
+      "/js/clerk-loader.js",
+      "/js/portal-guard.js",
+      "/js/api-auth.js",
+      "/js/staff-kit.js",
+      "/js/staff-conferral.js"
+    ]
   }
 ]
