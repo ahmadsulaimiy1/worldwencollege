@@ -1701,6 +1701,22 @@ next disguise.
 confirming the duplicate entries collapsed to one, with the full test
 suite (`npm test`) passing unchanged.
 
+**Addendum, hours later, same day.** The adjacent-duplicate collapse above
+was not the actual invariant — it only caught two identical regeneration
+commits landing back to back. An autonomous health sweep's own routine
+housekeeping commit landed between two "Regenerate ..." commits, and the
+colophon picked up a *second*, non-adjacent duplicate entry within the
+same day, exactly as this section's own principle warns against: a
+symptom patched instead of a cause found. Corrected properly this time —
+`revisionHistory()` now takes a `siblings` list and excludes, entirely,
+any commit whose changed files are a subset of {artefact, ...siblings},
+regardless of adjacency. All six publications that call `legacyBlock()`
+(assessment, canon, companion, listening, pronunciation, workbook) carried
+this identical latent defect, not only the companion; all six are now
+protected and were regenerated to confirm. This is the example `§16.17`
+itself now cites for "eliminate a class of defects, not an isolated
+occurrence" — found twice in one day, closed properly the second time.
+
 ## Part C — Open, and owned by you
 
 These are `SEB §28.4`'s questions, restated here so the log is complete.
