@@ -705,14 +705,24 @@
        very top of the app rather than buried in page content. Compact
        by design: one line, no analogue face, so it costs the header
        almost nothing in height. js/worldclock.js fills all three
-       values; the numerals shown here are only the pre-script state. -->
+       values; the numerals shown here are only the pre-script state.
+
+       It used to be a bare icon and plain text on a flat strip — the
+       one piece of header chrome that never picked up the vessel/badge
+       material the quicknav tiles below it and the footer's own grid
+       are built from, so it read as an afterthought next to them. The
+       badge, the gold-pill tz tags and the hairline rules are that
+       same material at instrument-panel scale: still one line, still
+       costing the header almost nothing in height, but no longer the
+       one thing on the page still wearing plain text. -->
   <div class="headerclock grain" data-worldclock>
-    <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-    <span class="headerclock__times">
-      <span data-clock-london>13:36</span><span class="headerclock__tz">LON</span>
-      <span class="headerclock__sep">&middot;</span>
-      <span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span>
+    <span class="headerclock__badge"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+    <span class="headerclock__times tabular">
+      <span class="headerclock__reading"><span data-clock-london>13:36</span><span class="headerclock__tz">LON</span></span>
+      <span class="headerclock__rule" aria-hidden="true"></span>
+      <span class="headerclock__reading"><span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span></span>
     </span>
+    <span class="headerclock__rule headerclock__rule--edge" aria-hidden="true"></span>
     <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
   </div>
 

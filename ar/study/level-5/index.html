@@ -634,14 +634,22 @@
        حيث يحمل التصوير المرجعي سطر التاريخ والوقت، في أعلى التطبيق لا
        داخل محتوى الصفحة. مقتضبة عن قصد: سطر واحد بلا قرص تناظري، فلا
        تكلّف الترويسة شيئًا يُذكر من الارتفاع. js/worldclock.js يملأ
-       القيم الثلاث؛ الأرقام هنا هي حالة ما قبل تشغيل السكربت فقط. -->
+       القيم الثلاث؛ الأرقام هنا هي حالة ما قبل تشغيل السكربت فقط.
+
+       كانت أيقونة عارية ونصًا صِرفًا على شريط مسطّح — القطعة الوحيدة في
+       الترويسة التي لم تحمل معدن الـ"vessel/badge" الذي تُبنى منه بلاطات
+       التنقّل السريع تحتها وشبكة التذييل نفسها. الشارة والوسمان الذهبيان
+       والخطوط الفاصلة هنا هي المعدن نفسه بمقياس لوحة القيادة: سطر واحد
+       يظل يكلّف الترويسة القليل من الارتفاع، لكنه لم يعد الشيء الوحيد
+       على الصفحة الذي ما زال يلبس نصًّا صِرفًا. -->
   <div class="headerclock grain" data-worldclock>
-    <svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg>
-    <span class="headerclock__times" dir="ltr">
-      <span data-clock-london>13:36</span><span class="headerclock__tz">LON</span>
-      <span class="headerclock__sep">&middot;</span>
-      <span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span>
+    <span class="headerclock__badge"><svg class="icon" aria-hidden="true"><use href="#i-clocktower"/></svg></span>
+    <span class="headerclock__times tabular" dir="ltr">
+      <span class="headerclock__reading"><span data-clock-london>13:36</span><span class="headerclock__tz">LON</span></span>
+      <span class="headerclock__rule" aria-hidden="true"></span>
+      <span class="headerclock__reading"><span data-clock-local>13:36</span><span class="headerclock__tz">YOU</span></span>
     </span>
+    <span class="headerclock__rule headerclock__rule--edge" aria-hidden="true"></span>
     <span class="headerclock__date" data-clock-date>Sat, 15 Aug</span>
   </div>
 

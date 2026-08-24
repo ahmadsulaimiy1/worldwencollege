@@ -949,7 +949,21 @@ section { position: relative; }
    one line of chrome, sitewide, costing almost nothing in
    height, in the one place — above the strip — a reader
    actually glances for it.
-   ========================================================= */
+
+   It used to stop at "compact": a bare 14px icon and plain text,
+   no material at all, directly beneath a quicknav strip built
+   entirely from .vessel/.vessel__badge — the worked-metal tile
+   used everywhere else a shape needs presence. Sitting flat
+   under something struck and bevelled is what read as a
+   downgrade, not any one property of the strip itself. The fix
+   is the same material at instrument-panel scale: a small
+   struck badge in place of the bare icon, LON/YOU as gold-hairline
+   pills rather than loose caps, tabular figures so the numerals
+   don't shift the layout as they tick, and slender gold rules in
+   place of a plain middot. Still one line. Still mobile only.
+   Still costing the header almost nothing in height — the badge
+   is 22px, not the quicknav's 50–80px, because a strip a reader
+   glances at needs presence, not a second focal point. -->
 /* Polished ivory, not navy — the strip and the clock line above it are
    their own panel, set apart from the header bar it sits under (which
    stays navy) the way a printed programme insets a cream card into a
@@ -958,24 +972,63 @@ section { position: relative; }
 .headerclock { display: none; }
 @media (max-width: 860px) {
   .headerclock {
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 9px;
     position: relative; overflow: hidden;
     background: linear-gradient(180deg, var(--warm-white) 0%, var(--pearl) 100%);
-    border-top: 1px solid rgba(199,162,74,.4);
-    padding: 8px 20px;
+    border-top: 1px solid rgba(199,162,74,.45);
+    /* Lifts the panel off the navy bar above it rather than just
+       drawing a line under it — the same "seated, not stuck on"
+       logic as the vessel's own inset highlight, at a fraction of
+       the depth because this is a strip, not a tile. */
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 4px 10px -7px rgba(10,20,40,.4);
+    padding: 7px 20px;
     font-family: var(--font-body); font-size: .72rem; font-weight: 600;
     color: var(--ink);
   }
-  .headerclock .icon { width: 14px; height: 14px; color: var(--gold-antique); flex-shrink: 0; }
-  .headerclock__times { display: flex; align-items: baseline; gap: 5px; }
-  .headerclock__tz {
-    font-size: .58rem; font-weight: 700; letter-spacing: .06em;
-    color: var(--bronze); margin-inline-start: 1px;
+  /* The struck badge. Three layers, not the vessel's five — at 22px a
+     chamfer and a counter-rotating halo are invisible, just muddy; what
+     reads at this size is a genuine bevel (the two inset lines) and a
+     gold ring holding a dark, lit dome, which is the same "this is
+     metal, not a coloured circle" read the vessel badge makes at 10x
+     the size. */
+  .headerclock__badge {
+    display: flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+    background: radial-gradient(circle at 34% 26%, var(--sapphire) 0%, var(--navy) 58%, var(--oxford) 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.45),
+      inset 0 -1px 0 rgba(0,0,0,.55),
+      0 0 0 1px rgba(199,162,74,.6),
+      0 2px 5px -2px rgba(10,20,40,.55);
   }
-  .headerclock__sep { color: var(--bronze); }
+  .headerclock__badge .icon { width: 11px; height: 11px; color: var(--gold-soft); }
+  .headerclock__times { display: flex; align-items: baseline; gap: 3px; }
+  .headerclock__reading { display: inline-flex; align-items: baseline; gap: 3px; }
+  .headerclock__reading > span:first-child { font-weight: 700; letter-spacing: .01em; }
+  /* A tag, not loose caps — the same gold-hairline-on-tint the vessel
+     system uses for anything that names rather than acts. */
+  .headerclock__tz {
+    font-size: .54rem; font-weight: 700; letter-spacing: .06em;
+    color: var(--bronze); line-height: 1.5;
+    border: 1px solid rgba(199,162,74,.4); border-radius: 20px;
+    padding: 0 4px; background: rgba(199,162,74,.09);
+  }
+  /* A drawn line, not a character — &middot; sits on the text baseline
+     and reads as punctuation; a gold gradient rule reads as an
+     instrument-panel division, matching the hairlines the badge and
+     tags are already built from. */
+  .headerclock__rule {
+    width: 1px; align-self: stretch; flex-shrink: 0;
+    background: linear-gradient(180deg, transparent, rgba(199,162,74,.6) 50%, transparent);
+  }
+  /* The auto margin belongs on the rule, not the date: the flexible
+     space has to open BEFORE the divider so the rule and the date it
+     introduces stay a fixed 6px apart at the strip's edge, rather than
+     the gap landing between them. */
+  .headerclock__rule--edge { margin-inline-start: auto; margin-inline-end: 6px; }
   .headerclock__date {
-    margin-inline-start: auto; color: var(--slate);
-    font-size: .68rem; letter-spacing: .01em; flex-shrink: 0;
+    color: var(--slate);
+    font-size: .68rem; font-weight: 600; letter-spacing: .01em; flex-shrink: 0;
   }
 }
 
