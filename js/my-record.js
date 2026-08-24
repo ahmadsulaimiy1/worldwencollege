@@ -62,14 +62,17 @@
   // docs/dashboard-design-system.md): a heading plus a sentence, the
   // copy always supplied by the caller. Used here for every "there is
   // nothing to show, and here is why" moment — not signed in, or a
-  // real load failure.
+  // real load failure. h2, not the documented default h3: this box is
+  // the page's own top-level state, standing directly under the
+  // header's single h1 with no other h2 before it — h3 here would
+  // skip a level.
   function state(strong, rest) {
     var loading = $('#loading');
     if (loading) loading.hidden = true;
     var box = $('#state');
     box.textContent = '';
     box.hidden = false;
-    box.appendChild(el('h3', null, strong || ''));
+    box.appendChild(el('h2', null, strong || ''));
     box.appendChild(el('p', null, rest || ''));
   }
 

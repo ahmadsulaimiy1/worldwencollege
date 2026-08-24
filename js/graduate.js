@@ -54,11 +54,14 @@
   function show(id) { $(id).hidden = false; }
 
   // Canonical .empty-state shape (css/dashboard.css) — a heading plus a
-  // sentence, copy always supplied by the caller.
+  // sentence, copy always supplied by the caller. h2, not the
+  // documented default h3: this box is the page's own top-level
+  // state, standing directly under the single page h1 with no other
+  // h2 before it — h3 here would skip a level.
   function state(strongText, rest) {
     var box = $('#state');
     box.textContent = '';
-    box.appendChild(el('h3', null, strongText));
+    box.appendChild(el('h2', null, strongText));
     box.appendChild(el('p', null, rest));
   }
 
