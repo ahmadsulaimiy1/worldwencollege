@@ -40,6 +40,42 @@ export const CLERK_BROWSER_SDK_PATH = '/npm/@clerk/clerk-js@5/dist/clerk.browser
 // that a dead one answers the operator rather than hanging on them.
 const PROBE_TIMEOUT_MS = 5000;
 
+// What a status code from the Clerk host actually means, where it means
+// something specific.
+//
+// 530 is the one worth naming. It is Cloudflare's "Origin DNS error"
+// (1016): a DNS record for the hostname exists and points at
+// Cloudflare's proxy, and Cloudflare cannot resolve what sits behind
+// it. On a Clerk custom domain that is almost always one thing — the
+// CNAME was left PROXIED (orange cloud) when Clerk requires it DNS
+// only (grey cloud). A proxied record also answers with Cloudflare's
+// certificate rather than Clerk's, which the browser refuses.
+//
+// The generic advice — "check the publishable key belongs to the
+// instance you intend" — is actively wrong here. The key is fine. The
+// record is not, and sending an operator to re-copy a correct key
+// costs them the evening.
+function explainStatus(status, host) {
+  if (status === 530) {
+    return `HTTP 530 is Cloudflare's "Origin DNS error" (1016): a DNS record for ${host} `
+      + 'exists and points at Cloudflare, and Cloudflare cannot resolve what is behind it. '
+      + 'On a Clerk custom domain the usual cause is a CNAME left PROXIED (orange cloud) '
+      + 'where Clerk requires DNS only (grey cloud) \u2014 a proxied record also answers with '
+      + "Cloudflare's certificate instead of Clerk's, which the browser refuses. Fix it in "
+      + 'Cloudflare > DNS > Records: find the record for this hostname and switch its proxy '
+      + 'status to DNS only. The publishable key is not the problem.';
+  }
+  if (status === 404) {
+    return 'The host is serving, but not this path. Check that the publishable key belongs '
+      + 'to the instance you intend to use.';
+  }
+  if (status >= 500) {
+    return 'The instance is reachable but erroring. If this persists, check Clerk\u2019s status page.';
+  }
+  return 'The instance exists but is not serving this deployment. Check that the publishable '
+    + 'key belongs to the instance you intend to use.';
+}
+
 async function probe(url, headers) {
   try {
     const resp = await fetch(url, {
@@ -164,8 +200,7 @@ export async function onRequestGet({ env }) {
         return {
           ok: false,
           detail: `${host} answered HTTP ${jwksProbe.status} instead of 200 for its signing keys. `
-            + 'The instance exists but is not serving this deployment. Check that the '
-            + 'publishable key belongs to the instance you intend to use.',
+            + explainStatus(jwksProbe.status, host),
           host,
           status: jwksProbe.status,
         };
@@ -217,7 +252,8 @@ export async function onRequestGet({ env }) {
         return {
           ok: false,
           detail: `The browser would load Clerk from ${fapi}, and that request answers HTTP `
-            + `${sdkProbe.status}. No sign-in form can appear on any page.`,
+            + `${sdkProbe.status}. No sign-in form can appear on any page. `
+            + explainStatus(sdkProbe.status, fapi),
           url: sdkUrl,
           status: sdkProbe.status,
         };

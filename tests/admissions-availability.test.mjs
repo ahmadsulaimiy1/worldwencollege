@@ -360,6 +360,35 @@ const req = (headers = {}) => new Request('https://wec.test/api/admissions/draft
     nfBody.checks.providerReachable.detail);
   check('...naming the status it actually got',
     /HTTP 404/.test(nfBody.checks.providerReachable.detail));
+  check('...and, for a 404, that the key may name the wrong instance',
+    /publishable key belongs to the instance/.test(nfBody.checks.providerReachable.detail));
+
+  // The status the live deployment actually returned. 530 is
+  // Cloudflare's "Origin DNS error" (1016) and on a Clerk custom domain
+  // it means one thing: the CNAME is proxied where Clerk requires DNS
+  // only. The generic advice — re-check your publishable key — is
+  // actively wrong here, and costs an operator an evening.
+  reset();
+  provider.jwks = { status: 530 };
+  provider.sdk = { status: 530 };
+  const originDns = await healthGet({ env: { DB: {}, CLERK_PUBLISHABLE_KEY: LIVE } });
+  const oBody = await originDns.json();
+  check('Health: a 530 is named as Cloudflare\u2019s Origin DNS error',
+    /Origin DNS error/.test(oBody.checks.providerReachable.detail)
+      && /1016/.test(oBody.checks.providerReachable.detail),
+    oBody.checks.providerReachable.detail);
+  check('...pointing at a proxied record where Clerk needs DNS only',
+    /PROXIED \(orange cloud\)/.test(oBody.checks.providerReachable.detail)
+      && /DNS only \(grey cloud\)/.test(oBody.checks.providerReachable.detail));
+  check('...naming where to change it',
+    /Cloudflare > DNS > Records/.test(oBody.checks.providerReachable.detail));
+  check('...and saying explicitly that the key is not the problem',
+    /publishable key is not the problem/.test(oBody.checks.providerReachable.detail));
+  check('...on the browser side too, since that is what the visitor hits',
+    /Origin DNS error/.test(oBody.checks.browserSignIn.detail),
+    oBody.checks.browserSignIn.detail);
+  check('...and it does not also offer the wrong advice',
+    !/publishable key belongs to the instance/.test(oBody.checks.providerReachable.detail));
 
   // 200 with nothing in it verifies nothing, and is the one failure a
   // status-code check would call healthy.
@@ -701,6 +730,14 @@ for (const page of ['admissions/apply/index.html', 'ar/admissions/apply/index.ht
     check('...and that the symptom is no sign-in form at all',
       /no sign-in form appears on any page at all/.test(fix));
     check('...and the proxied-CNAME trap', /DNS only\*\* \(grey cloud\)/.test(fix));
+    check('...naming the 530 this deployment actually returned',
+      /HTTP 530 \u2014 the one this site actually hit/.test(fix)
+        && /Origin DNS error/.test(fix));
+    check('...with the click-by-click fix, not just the cause',
+      /Proxy status/.test(fix) && /Click the cloud so it turns grey/.test(fix)
+        && /DNS[^\n]*Records/.test(fix));
+    check('...and the other records that share the fault',
+      /clkmail/.test(fix) && /_domainkey/.test(fix));
     check('...and the immediate way out, with its cost stated',
       /development instance/.test(fix) && /rate-limited/.test(fix));
   }

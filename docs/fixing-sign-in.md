@@ -234,9 +234,46 @@ two `clk*._domainkey` subdomains are the usual set. Clerk verifies them
 itself once they resolve; nothing needs redeploying afterwards, though a
 redeploy is a quick way to make this endpoint say so.
 
+#### HTTP 530 — the one this site actually hit
+
+On 24 August 2026 the live deployment reported:
+
+```
+"providerReachable": { "ok": false, "status": 530 }
+"browserSignIn":     { "ok": false, "status": 530 }
+```
+
+Everything else was correct: production instance, matched
+`pk_live_`/`sk_live_` keys, D1 bound, authorized parties set. **530 is
+Cloudflare's "Origin DNS error" (1016)**: a DNS record for
+`clerk.worldwencollege.co.uk` exists and points at Cloudflare, and
+Cloudflare cannot resolve what is behind it.
+
 A CNAME on Cloudflare DNS must be **DNS only** (grey cloud), not
 proxied. A proxied record answers with Cloudflare's certificate rather
-than Clerk's and the browser refuses the script.
+than Clerk's and the browser refuses the script — and when the target
+behind it does not resolve, Cloudflare returns 530 instead.
+
+**The fix, in full:**
+
+1. Cloudflare dashboard → the `worldwencollege.co.uk` zone → **DNS →
+   Records**.
+2. Find the record whose name is `clerk`.
+3. Its **Proxy status** column will read *Proxied* with an orange cloud.
+   Click the cloud so it turns grey and reads **DNS only**. Save.
+4. Do the same for every other record Clerk asked for — `accounts`,
+   `clkmail`, and the two `clk*._domainkey` records. All of them are
+   DNS-only.
+5. If a record Clerk lists is missing entirely, add it exactly as Clerk
+   states it, DNS only.
+6. Clerk dashboard → **Domains** → verify. Clerk re-checks the records
+   itself; nothing needs redeploying, though a redeploy makes
+   `/api/health/auth` say so.
+
+Re-read `/api/health/auth` afterwards. `providerReachable` and
+`browserSignIn` both reporting `ok: true` is the proof — the first
+counts the signing keys it received, the second requests the exact
+`clerk.browser.js` URL the browser will.
 
 Switching the site back to the Clerk **development** instance —
 `pk_test_`/`sk_test_` keys, a `*.clerk.accounts.dev` Frontend API that
