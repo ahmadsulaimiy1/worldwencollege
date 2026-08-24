@@ -31,7 +31,12 @@
 import { db, NotFoundError, ValidationError, newId, nowIso } from '../db.js';
 import { AuthorizationError } from '../auth/session.js';
 
-export const ROLES = ['student', 'staff', 'admin'];
+// 'examiner' is deliberately its own tier, not a permission on top of
+// 'staff' — the post's independence (appointment-briefs.md: "no other
+// role at WEC") is the whole point, and a role list that let an examiner
+// also be staff would make that unenforceable in the one place it can
+// actually be checked.
+export const ROLES = ['student', 'staff', 'admin', 'examiner'];
 
 export async function setUserRole(env, { actor, userId, role, reason, authority = null }) {
   if (!actor || actor.role !== 'admin') {

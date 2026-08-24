@@ -43,7 +43,7 @@ CREATE TABLE users (
   auth_provider_id  TEXT NOT NULL,               -- Clerk user id (sub claim)
   email             TEXT NOT NULL,
   email_verified    INTEGER NOT NULL DEFAULT 0,  -- 0/1
-  role              TEXT NOT NULL DEFAULT 'student' CHECK (role IN ('student','staff','admin')),
+  role              TEXT NOT NULL DEFAULT 'student' CHECK (role IN ('student','staff','admin','examiner')),
   preferred_name    TEXT,
   preferred_language TEXT NOT NULL DEFAULT 'en' CHECK (preferred_language IN ('en','ar')),
   created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
@@ -850,6 +850,26 @@ CREATE TABLE award_verifications (
 );
 CREATE INDEX idx_award_verifications_time ON award_verifications(created_at);
 CREATE INDEX idx_award_verifications_award ON award_verifications(award_id);
+
+-- The pass list (migration 021) — the External Examiner's confirmation
+-- or decline, kept separate from the conferral it authorises. One row
+-- per decision, never overwritten: a learner declined then confirmed at
+-- a later sitting is a real history, not a correction. See that
+-- migration's own comment for governance C5, which is why this exists
+-- as its own record rather than a column on awards or enrolments.
+CREATE TABLE pass_list_entries (
+  id                TEXT PRIMARY KEY,
+  user_id           TEXT NOT NULL REFERENCES users(id),
+  level_id          INTEGER NOT NULL REFERENCES programme_levels(id),
+  examiner_id       TEXT NOT NULL REFERENCES users(id),
+  decision          TEXT NOT NULL CHECK (decision IN ('confirmed','declined')),
+  notes             TEXT,
+  superseded        INTEGER NOT NULL DEFAULT 0,
+  conferred_award_id TEXT REFERENCES awards(id),
+  created_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX idx_pass_list_entries_user ON pass_list_entries(user_id, level_id);
+CREATE INDEX idx_pass_list_entries_level ON pass_list_entries(level_id, superseded);
 
 -- Time on task — the measurement behind the College's measured-hours
 -- commitment (docs/academic-framework.md § I). One row per learner per

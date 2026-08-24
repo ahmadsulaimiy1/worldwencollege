@@ -50,6 +50,18 @@
       </div>
     </section>
 
+    <!-- Awaiting conferral: a real, confirmed pass-list entry from the
+         External Examiner (see examiner-review.html), executed here by
+         an administrator standing in for the Registrar office governance
+         C5 names — see functions/_lib/registry/pass-list.js. -->
+    <section class="lab-card" id="passListCard" hidden>
+      <div class="lab-card__head">
+        <h2 class="lab-card__title">Pass list — ready to confer</h2>
+        <span id="passListCount" style="font-size:.8rem;color:var(--ink-soft)"></span>
+      </div>
+      <div class="lab-card__body"><div id="passListBox"></div></div>
+    </section>
+
     <!-- The register. Administrator-only, and above the search on
          purpose: "who can see student records" is the question an
          institution is asked, and it should not require knowing whose

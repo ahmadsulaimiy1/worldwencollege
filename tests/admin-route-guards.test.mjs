@@ -128,6 +128,16 @@ const ROUTES = [
   { file: 'functions/api/admin/signing-keys.js', method: 'GET', minRole: 'admin',
     why: 'The key register and the signing audit. Administrator rather than staff: it is the record of what the institution has cryptographically asserted. Rotation and revocation are deliberately NOT exposed over HTTP at all.' },
 
+  // The pass list — conferral. The Examiner's confirmation is not a
+  // conferral; the write to the Graduate Register is a separate act,
+  // by a separate role, standing in for the Registrar office governance
+  // C5 names (docs/governance-decisions.md). Neither route is reachable
+  // by 'examiner' — that is the whole point of the separation.
+  { file: 'functions/api/admin/pass-list.js', method: 'GET', minRole: 'admin',
+    why: 'The Registrar-stand-in\'s own queue of confirmed, unconferred entries — not staff-level.' },
+  { file: 'functions/api/admin/confer.js', method: 'POST', minRole: 'admin',
+    why: 'The only route that writes to the Graduate Register. Governance C5: conferral is the Registrar\'s act, never the Examiner\'s own.' },
+
   // Institutional quality.
   { file: 'functions/api/admin/evidence/index.js', method: 'GET', minRole: 'staff',
     why: 'The Accreditation Evidence Centre. No personal data, and a quality register only administrators can read is one nobody acts on — the people who would close a gap need to see it.' },

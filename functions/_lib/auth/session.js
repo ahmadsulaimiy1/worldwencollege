@@ -140,6 +140,23 @@ export async function requireAdmin(request, env) {
   return assertAdminRole(user);
 }
 
+// The External Examiner, and only the External Examiner — deliberately
+// NOT staff-or-admin-or-examiner. appointment-briefs.md's condition on
+// the post is independence: "You must have no other role at WEC." An
+// endpoint an admin could also reach would make that unenforceable, so
+// this checks the one role exactly rather than a minimum access level.
+export function assertExaminerRole(user) {
+  if (user.role !== 'examiner') {
+    throw new AuthorizationError('External Examiner access required.');
+  }
+  return user;
+}
+
+export async function requireExaminer(request, env) {
+  const user = await requireUser(request, env);
+  return assertExaminerRole(user);
+}
+
 // Called from functions/api/auth/webhook-clerk.js on a verified
 // "user.created" / "user.updated" event — the only place a `users`
 // row is written from provider data.

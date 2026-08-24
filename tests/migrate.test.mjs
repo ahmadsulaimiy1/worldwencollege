@@ -338,6 +338,31 @@ for (const f of files) {
   // book's printed Document ID resolves to something.
   db.exec(`DROP INDEX IF EXISTS idx_editions_digest;
     DROP TABLE IF EXISTS editions;`);
+  // 021 adds 'examiner' to users.role's CHECK (a table rebuild, since
+  // SQLite cannot ALTER a CHECK constraint directly) and the whole
+  // `pass_list_entries` table. Undoing it means rebuilding `users` back
+  // to the narrower three-value CHECK — safe here because no row in
+  // this simulated pre-migration database can hold 'examiner' — and
+  // dropping the new table and its indexes.
+  db.exec(`DROP INDEX IF EXISTS idx_pass_list_entries_user;
+    DROP INDEX IF EXISTS idx_pass_list_entries_level;
+    DROP TABLE IF EXISTS pass_list_entries;
+    DROP INDEX IF EXISTS idx_users_email;
+    DROP INDEX IF EXISTS idx_users_role;
+    CREATE TABLE users_pre021 (
+      id TEXT PRIMARY KEY, auth_provider TEXT NOT NULL DEFAULT 'clerk',
+      auth_provider_id TEXT NOT NULL, email TEXT NOT NULL, email_verified INTEGER NOT NULL DEFAULT 0,
+      role TEXT NOT NULL DEFAULT 'student' CHECK (role IN ('student','staff','admin')),
+      preferred_name TEXT, preferred_language TEXT NOT NULL DEFAULT 'en' CHECK (preferred_language IN ('en','ar')),
+      created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+      updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+      UNIQUE(auth_provider, auth_provider_id)
+    );
+    INSERT INTO users_pre021 SELECT * FROM users;
+    DROP TABLE users;
+    ALTER TABLE users_pre021 RENAME TO users;
+    CREATE INDEX idx_users_email ON users(email);
+    CREATE INDEX idx_users_role ON users(role);`);
 
   db.exec('DROP TABLE schema_migrations');
 

@@ -47,6 +47,39 @@ sqlite.exec(`INSERT INTO enrolments (id,user_id,level_id,status,started_at) VALU
   if (units[1]) sqlite.exec(`INSERT INTO unit_progress (id,user_id,unit_id,status) VALUES ('uprg_p2','usr_prog','${units[1].id}','in_progress')`);
 }
 
+// A learner who has genuinely finished a level — every unit complete,
+// with real marks on every quiz and assignment — so tests/browser/
+// examiner-review.mjs has a real pass list to work against, and a real
+// External Examiner and administrator to work it. Marks are set at 85%
+// throughout: comfortably inside 'merit' (80% overall, no mark below
+// 70%) under the adopted B1/B2 thresholds, not a boundary value nobody
+// would actually see.
+sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_finisher','clerk','sub_finisher','finisher@example.com','student')`);
+sqlite.exec(`INSERT INTO users (id, auth_provider, auth_provider_id, email, role) VALUES ('usr_examiner','clerk','sub_examiner','examiner@example.com','examiner')`);
+sqlite.exec(`INSERT INTO enrolments (id,user_id,level_id,status,started_at) VALUES ('enr_finisher_1','usr_finisher',1,'active','2026-01-01T00:00:00.000Z')`);
+{
+  const items = sqlite.prepare(
+    `SELECT i.id, i.kind, u.id AS unitId FROM learning_items i
+       JOIN units u ON u.id = i.unit_id JOIN courses c ON c.id = u.course_id
+       WHERE c.level_id = 1 AND i.kind IN ('quiz','assignment')`,
+  ).all();
+  const seenUnits = new Set();
+  for (const item of items) {
+    if (!seenUnits.has(item.unitId)) {
+      seenUnits.add(item.unitId);
+      sqlite.exec(`INSERT INTO unit_progress (id,user_id,unit_id,status,completed_at)
+        VALUES ('uprg_fin_${item.unitId}','usr_finisher','${item.unitId}','completed','2026-03-01T00:00:00.000Z')`);
+    }
+    if (item.kind === 'quiz') {
+      sqlite.exec(`INSERT INTO quiz_attempts (id,learning_item_id,user_id,answers_json,score,submitted_at)
+        VALUES ('qat_fin_${item.id}','${item.id}','usr_finisher','[]',0.85,'2026-03-01T00:00:00.000Z')`);
+    } else {
+      sqlite.exec(`INSERT INTO assignment_submissions (id,learning_item_id,user_id,content,status,grade,graded_at,submitted_at)
+        VALUES ('asub_fin_${item.id}','${item.id}','usr_finisher','A real submission.','graded',0.85,'2026-03-02T00:00:00.000Z','2026-03-01T00:00:00.000Z')`);
+    }
+  }
+}
+
 const { makeD1 } = await import(pathToFileURL(`${ROOT}/tests/d1-shim.mjs`));
 const env = { DB: makeD1FromExisting() };
 function makeD1FromExisting() {
@@ -74,6 +107,7 @@ const adminEnrol = await import(pathToFileURL(`${ROOT}/functions/_lib/admin/enro
 const adminRoles = await import(pathToFileURL(`${ROOT}/functions/_lib/admin/roles.js`));
 const studyPlan = await import(pathToFileURL(`${ROOT}/functions/_lib/student/study-plan.js`));
 const dashboard = await import(pathToFileURL(`${ROOT}/functions/_lib/student/dashboard.js`));
+const passList = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/pass-list.js`));
 const timeOnTask = await import(pathToFileURL(`${ROOT}/functions/_lib/lms/time-on-task.js`));
 const registry = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/awards.js`));
 const profile = await import(pathToFileURL(`${ROOT}/functions/_lib/registry/profile.js`));
@@ -415,6 +449,51 @@ createServer(async (req, res) => {
     }
     if (url.pathname === '/api/student/dashboard' && req.method === 'GET') {
       return json(res, await dashboard.buildStudentDashboard(env, 'usr_demo'));
+    }
+    // The pass list — see tests/browser/examiner-review.mjs. Actor is
+    // the harness-fixed usr_examiner/usr_admin, the same convention the
+    // /api/admin/role routes just below already use, rather than
+    // reaching for real JWT auth here: the HTTP-layer role guard itself
+    // has its own fast unit coverage in tests/admin-route-guards.test.mjs
+    // — what this harness exercises is the real _lib logic and real
+    // seeded data end to end.
+    if (url.pathname === '/api/examiner/queue' && req.method === 'GET') {
+      return json(res, await passList.getQueue(env));
+    }
+    if (url.pathname === '/api/examiner/evidence' && req.method === 'GET') {
+      return json(res, await passList.evidenceFor(env, {
+        userId: url.searchParams.get('userId'), levelId: Number(url.searchParams.get('levelId')),
+      }));
+    }
+    if (url.pathname === '/api/examiner/decision' && req.method === 'POST') {
+      const body = JSON.parse(await read(req));
+      try {
+        return json(res, await passList.recordDecision(env, { examinerId: 'usr_examiner', ...body }), 201);
+      } catch (e) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: e.name, message: e.message }));
+      }
+    }
+    if (url.pathname === '/api/admin/pass-list' && req.method === 'GET') {
+      const { results } = await env.DB.prepare(
+        `SELECT p.id, p.user_id AS userId, p.level_id AS levelId, p.notes, p.created_at AS createdAt,
+                u.email, u.preferred_name AS preferredName, l.roman, l.name AS levelName, ex.email AS examinerEmail
+           FROM pass_list_entries p
+           JOIN users u ON u.id = p.user_id JOIN users ex ON ex.id = p.examiner_id
+           JOIN programme_levels l ON l.id = p.level_id
+          WHERE p.decision = 'confirmed' AND p.superseded = 0 AND p.conferred_award_id IS NULL
+          ORDER BY p.created_at ASC`,
+      ).bind().all();
+      return json(res, { count: results.length, entries: results });
+    }
+    if (url.pathname === '/api/admin/confer' && req.method === 'POST') {
+      const body = JSON.parse(await read(req));
+      try {
+        return json(res, await passList.confer(env, { entryId: body.entryId, actorId: 'usr_admin' }), 201);
+      } catch (e) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: e.name, message: e.message }));
+      }
     }
     if (url.pathname === '/api/admin/role' && req.method === 'GET') {
       const who = url.searchParams.get('userId');

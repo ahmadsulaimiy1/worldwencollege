@@ -68,7 +68,10 @@ window.WEC_LC_data = (function () {
     'registerAccount',
     // administration
     'adminRole', 'roleFor', 'adminEnrolment', 'learners', 'learner',
-    'revenueReport', 'reconciliationReport'
+    'revenueReport', 'reconciliationReport',
+    // examination
+    'examinerQueue', 'examinerEvidence', 'examinerDecision',
+    'passList', 'confer'
   ];
 
   // -------------------------------------------------------------------
@@ -218,7 +221,19 @@ window.WEC_LC_data = (function () {
       return request('/api/admin/enrolment', { method: 'POST', body: body });
     },
     revenueReport: function () { return request('/api/admin/reports/revenue'); },
-    reconciliationReport: function () { return request('/api/admin/reports/reconciliation'); }
+    reconciliationReport: function () { return request('/api/admin/reports/reconciliation'); },
+
+    examinerQueue: function () { return request('/api/examiner/queue'); },
+    examinerEvidence: function (userId, levelId) {
+      return request('/api/examiner/evidence?userId=' + seg(userId) + '&levelId=' + seg(levelId));
+    },
+    examinerDecision: function (body) {
+      return request('/api/examiner/decision', { method: 'POST', body: body });
+    },
+    passList: function () { return request('/api/admin/pass-list'); },
+    confer: function (body) {
+      return request('/api/admin/confer', { method: 'POST', body: body });
+    }
   };
 
   // -------------------------------------------------------------------

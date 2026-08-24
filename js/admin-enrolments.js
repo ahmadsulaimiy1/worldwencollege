@@ -83,7 +83,7 @@
       // not on every search, which would refetch an unchanged list each
       // time someone types a name. appoint() refreshes it explicitly,
       // because that is the one action that changes it.
-      if (!state.registerLoaded) { state.registerLoaded = true; renderRegister(); }
+      if (!state.registerLoaded) { state.registerLoaded = true; renderRegister(); renderPassList(); }
       $('#resultCount').textContent = res.count === 1 ? '1 learner' : res.count + ' learners';
       var box = $('#results');
       box.innerHTML = '';
@@ -227,6 +227,52 @@
       // correct and not an error to shout about — just no register.
       card.hidden = true;
     });
+  }
+
+  // The Registrar-stand-in's own queue: confirmed pass-list entries, not
+  // yet conferred. Administrator-only, loaded alongside the register —
+  // see functions/api/admin/pass-list.js's header comment for why this
+  // exists as its own list rather than a column on the learner record.
+  function renderPassList() {
+    var card = $('#passListCard');
+    if (!state.viewer || state.viewer.role !== 'admin') { card.hidden = true; return; }
+    return api('/api/admin/pass-list').then(function (res) {
+      var list = res.entries || [];
+      card.hidden = false;
+      $('#passListCount').textContent = list.length === 1 ? '1 entry' : list.length + ' entries';
+      var box = $('#passListBox');
+      box.innerHTML = '';
+      if (!list.length) {
+        box.textContent = 'Nothing is currently confirmed and awaiting conferral.';
+        box.style.color = 'var(--ink-soft)';
+        return;
+      }
+      box.style.color = '';
+      list.forEach(function (entry) {
+        var row = document.createElement('div');
+        row.style.cssText = 'display:flex;gap:.8rem;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid rgba(20,38,74,.08);flex-wrap:wrap';
+        var label = document.createElement('span');
+        label.innerHTML = '<strong>' + (entry.preferredName || entry.email) + '</strong> · Level ' + entry.roman + ' — ' + entry.levelName +
+          ' <span style="color:var(--ink-soft)">· confirmed by ' + entry.examinerEmail + '</span>';
+        row.appendChild(label);
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'tbtn tbtn--primary'; b.textContent = 'Confer';
+        b.addEventListener('click', function () { conferEntry(entry.id, b); });
+        row.appendChild(b);
+        box.appendChild(row);
+      });
+    }).catch(function () { card.hidden = true; });
+  }
+
+  function conferEntry(entryId, btn) {
+    if (!window.confirm('Confer this award? The Graduate Register cannot be quietly altered once this is written — only visibly revoked.')) return;
+    btn.disabled = true; btn.textContent = 'Conferring…';
+    api('/api/admin/confer', { method: 'POST', body: JSON.stringify({ entryId: entryId }) })
+      .then(function () { return renderPassList(); })
+      .catch(function (err) {
+        btn.disabled = false; btn.textContent = 'Confer';
+        $('#admError').textContent = window.WEC_LC_data.humanError(err, 'That award could not be conferred.');
+      });
   }
 
   function renderLevels(learner) {
