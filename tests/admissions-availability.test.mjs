@@ -497,6 +497,25 @@ for (const page of ['admissions/apply/index.html', 'ar/admissions/apply/index.ht
     /CANNOT SIGN ANYBODY IN/.test(wf));
   check('...without failing a build over settings held in Cloudflare',
     !/health\/auth[\s\S]{0,400}exit 1/.test(wf));
+
+  // WHICH instance is live. A Clerk development instance serves from
+  // *.clerk.accounts.dev and a production one from a domain of the
+  // College's own, and that decides whether pk_test_/sk_test_ or
+  // pk_live_/sk_live_ is the correct pair. A mismatched pair fails in
+  // a way that looks exactly like the outage this probe exists to
+  // catch, so the deploy states which it is rather than leaving it to
+  // be guessed.
+  check('The deploy reports which Clerk instance is live',
+    /clerk\.accounts\.dev\) instance=/.test(wf) && /PRODUCTION instance/.test(wf));
+  check('...and says which key pair that instance expects',
+    /pk_test_\/sk_test_/.test(wf) && /pk_live_\/sk_live_/.test(wf));
+
+  // The health detail is what that parse reads. If the sentence is
+  // reworded the parse silently yields nothing and the deploy stops
+  // reporting the instance — so the wording is pinned to the parse.
+  const health = readFileSync(`${ROOT}/functions/api/health/auth.js`, 'utf8');
+  check('...against wording the health endpoint actually emits',
+    /Session tokens are verified against \$\{jwksHost\(url\)\}/.test(health));
 }
 
 function fakeJwt() {
