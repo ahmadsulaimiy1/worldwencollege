@@ -51,13 +51,24 @@
   <div data-wizard-auth-unreachable hidden>
     <h2>We could not reach the sign-in service</h2>
     <p class="lede">Your application is safe. The sign-in service could not be contacted from this device &mdash; usually a lost connection, a blocked script, or a network that filters third-party services.</p>
-    <ul class="check-list">
+    <ul class="check-list" data-wizard-auth-yours>
       <li>Check your connection and reload the page.</li>
       <li>If you are on an office or campus network, try a mobile connection.</li>
       <li>If a browser extension blocks scripts, allow this page and reload.</li>
     </ul>
+    <!-- Everything above asks the applicant to look at their own device.
+         That is the right guess when the College cannot tell, and the
+         wrong thing to say when the College CAN tell and the fault is
+         its own — sending somebody to restart their router over an
+         unfinished DNS record at our end. /api/health/auth knows the
+         difference, so the page asks it before it apportions blame. -->
+    <div data-wizard-auth-ours hidden>
+      <p>This one is at our end, not yours. Our sign-in service is not answering, and nothing on your device or your network will change that.</p>
+      <p>Your application is safe and nothing you have entered is lost. We can see the fault and are working on it.</p>
+      <p><a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20%E2%80%94%20sign-in%20unavailable">Write to Admissions</a> if you would like us to confirm when it is back, or to continue your application another way.</p>
+    </div>
     <p><button type="button" class="btn btn--gold" data-wizard-reload>Reload the page</button></p>
-    <p><a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">Or write to Admissions and we will take it from there.</a></p>
+    <p data-wizard-auth-yours><a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">Or write to Admissions and we will take it from there.</a></p>
   </div>
 
   <!-- Signed in, and the application still did not load. The REASON is

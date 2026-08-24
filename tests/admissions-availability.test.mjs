@@ -613,12 +613,46 @@ for (const page of ['admissions/apply/index.html', 'ar/admissions/apply/index.ht
     /data-wizard-error-title/.test(html) && /data-wizard-error-message/.test(html));
   check(`${page} has a sign-in-again action`, /data-wizard-signin/.test(html));
   check(`${page} has a reference line for Admissions`, /data-wizard-error-ref/.test(html));
+  // The three things the panel tells an applicant to try are all about
+  // their own device. When the fault is the College's own — a Clerk
+  // instance whose domain is not answering — that advice sends somebody
+  // to restart their router over a DNS record at our end. Both wordings
+  // are authored in the page, so the Arabic version is a translation
+  // rather than English injected from a script.
+  check(`${page} carries a wording for when the fault is ours`,
+    /data-wizard-auth-ours/.test(html));
+  check(`${page} marks the device-side advice so it can be withdrawn`,
+    (html.match(/data-wizard-auth-yours/g) || []).length >= 2,
+    (html.match(/data-wizard-auth-yours/g) || []).length);
+  check(`${page} keeps the our-fault wording hidden until it is established`,
+    /data-wizard-auth-ours hidden/.test(html));
 }
 {
   const js = readFileSync(`${ROOT}/js/admissions-wizard.js`, 'utf8');
   const handler = js.slice(js.indexOf('onAuthUnavailable:'), js.indexOf('onAuthUnavailable:') + 700);
   check('onAuthUnavailable no longer reveals the "you signed in" panel',
     /authUnreachableShell/.test(handler) && !/loadErrorShell\.hidden = false/.test(handler));
+
+  // It asks whose fault it is rather than assuming the applicant's.
+  const whose = js.slice(js.indexOf('onAuthUnavailable:'), js.indexOf('onAuthUnavailable:') + 3000);
+  check('...and asks the health endpoint before blaming the applicant',
+    /fetch\('\/api\/health\/auth'/.test(whose));
+  check('...treating an unreachable provider or a missing form as ours',
+    /browserSignIn/.test(whose) && /providerReachable/.test(whose));
+  check('...withdrawing the device-side advice only then',
+    /data-wizard-auth-yours/.test(whose) && /data-wizard-auth-ours/.test(whose));
+  // If the health endpoint cannot be reached either, the applicant
+  // genuinely may be offline. A page that blames itself for the
+  // visitor's aeroplane mode is no more honest than the reverse.
+  check('...and leaving the panel alone when it cannot tell',
+    /catch\(function \(\) \{ \/\* leave the panel as authored \*\/ \}\)/.test(whose));
+  // No English in the script: the Arabic apply page must be a
+  // translation, not a second copy of this file. Comments stripped
+  // first — a scanner that flags the sentence explaining why the
+  // sentence is forbidden has caught itself twice on this codebase.
+  const whoseCode = whose.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+  check('...without putting either wording in the script',
+    !/not answering|at our end/i.test(whoseCode));
 }
 
 // ---------------------------------------------------------------------

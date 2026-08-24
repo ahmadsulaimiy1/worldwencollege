@@ -527,8 +527,43 @@
         // in, but...", which was simply untrue and sent people looking
         // for a problem with their application instead of their
         // network.
-        if (authUnreachableShell) authUnreachableShell.hidden = false;
-        else showLoadError({ offline: true, status: 0 });
+        if (!authUnreachableShell) { showLoadError({ offline: true, status: 0 }); return; }
+        authUnreachableShell.hidden = false;
+
+        // WHOSE FAULT IS IT?
+        //
+        // The panel above lists three things the applicant can try, and
+        // all three are about their own device. That is the honest
+        // guess when the College cannot tell the difference — and it is
+        // the wrong thing to say when it can. A Clerk instance whose
+        // domain is not answering produces exactly this state, and
+        // sending somebody to restart their router over a DNS record at
+        // our end wastes their evening and their trust.
+        //
+        // /api/health/auth contacts the provider and knows. It is
+        // unauthenticated by design, so it is reachable in precisely
+        // the state where nothing else is. If it cannot be reached
+        // either, the panel stays as it is: the applicant genuinely may
+        // be offline, and a page that blames itself for the visitor's
+        // aeroplane mode is no better than the reverse.
+        //
+        // No English lives here. Both wordings are authored in the page
+        // so the Arabic apply page is a translation rather than a
+        // second copy of this file.
+        fetch('/api/health/auth', { headers: { accept: 'application/json' } })
+          .then(function (r) { return r.json(); })
+          .then(function (h) {
+            var c = (h && h.checks) || {};
+            var ourFault = (c.browserSignIn && c.browserSignIn.ok === false)
+              || (c.providerReachable && c.providerReachable.ok === false);
+            if (!ourFault) return;
+            $$('[data-wizard-auth-yours]', authUnreachableShell).forEach(function (el) {
+              el.hidden = true;
+            });
+            var ours = $('[data-wizard-auth-ours]', authUnreachableShell);
+            if (ours) ours.hidden = false;
+          })
+          .catch(function () { /* leave the panel as authored */ });
       },
     });
     // No Clerk key configured: the page cannot check a session at

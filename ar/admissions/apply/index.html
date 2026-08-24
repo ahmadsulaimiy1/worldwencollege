@@ -46,13 +46,18 @@
   <div data-wizard-auth-unreachable hidden>
     <h2>تعذّر الوصول إلى خدمة تسجيل الدخول</h2>
     <p class="lede">طلبك في أمان. لم يتمكّن هذا الجهاز من الاتصال بخدمة تسجيل الدخول &mdash; وغالبًا يكون السبب انقطاع الاتصال، أو نصًا برمجيًا محجوبًا، أو شبكة تُرشِّح الخدمات الخارجية.</p>
-    <ul class="check-list">
+    <ul class="check-list" data-wizard-auth-yours>
       <li>تحقّق من اتصالك ثم أعد تحميل الصفحة.</li>
       <li>إن كنت على شبكة عمل أو جامعة، جرّب اتصالًا عبر الهاتف.</li>
       <li>إن كانت إضافة في المتصفح تحجب النصوص البرمجية، اسمح لهذه الصفحة ثم أعد التحميل.</li>
     </ul>
+    <div data-wizard-auth-ours hidden>
+      <p>هذا الخلل عندنا لا عندك. خدمة تسجيل الدخول لدينا لا تستجيب، ولن يغيّر ذلك شيءٌ في جهازك أو في شبكتك.</p>
+      <p>طلبك في أمان ولم يضع شيء مما أدخلته. نحن نرى الخلل ونعمل على إصلاحه.</p>
+      <p><a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application%20%E2%80%94%20sign-in%20unavailable">راسل إدارة القبول</a> إن أردت أن نُعلمك عند عودة الخدمة، أو لمتابعة طلبك بطريقة أخرى.</p>
+    </div>
     <p><button type="button" class="btn btn--gold" data-wizard-reload>أعد تحميل الصفحة</button></p>
-    <p><a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">أو راسل إدارة القبول وسنتابع الأمر معك.</a></p>
+    <p data-wizard-auth-yours><a href="mailto:info@worldwencollege.co.uk?subject=IEFC%20Application">أو راسل إدارة القبول وسنتابع الأمر معك.</a></p>
   </div>
 
   <div data-wizard-load-error hidden>
